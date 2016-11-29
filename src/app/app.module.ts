@@ -2,13 +2,16 @@ import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
+import { MdlModule } from 'angular2-mdl';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
-import { ApiService } from './shared';
-import { routing } from './app.routing';
+import { LoginFormComponent } from './login-form/login-form.component';
 
+import { ApiService, ApiRequestBuilderService, AlertService, StorageService, AuthService } from './shared';
+
+import { routing } from './app.routing';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
 @NgModule({
@@ -16,15 +19,21 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     BrowserModule,
     HttpModule,
     FormsModule,
-    routing
+    routing,
+    MdlModule
   ],
   declarations: [
     AppComponent,
     HomeComponent,
-    AboutComponent
+    AboutComponent,
+    LoginFormComponent
   ],
   providers: [
-    ApiService
+    ApiService,
+    ApiRequestBuilderService,
+    AlertService,
+    StorageService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })
