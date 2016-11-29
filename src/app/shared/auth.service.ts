@@ -1,6 +1,6 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { ApiRequestBuilderService } from '../shared/api-request-builder.service'
+import { ApiRequestBuilderService } from '../shared/api-request-builder.service';
 import { StorageService } from '../shared/storage.service';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/toPromise';
@@ -11,7 +11,7 @@ interface LoginResponse {
   loginresponse: {
     firstname: string,
     lastname: string
-  }
+  };
 }
 
 @Injectable()
