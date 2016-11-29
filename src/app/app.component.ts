@@ -7,6 +7,4 @@ import '../style/app.scss';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  constructor() {}
-}
+export class AppComponent {}

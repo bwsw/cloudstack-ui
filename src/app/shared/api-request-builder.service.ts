@@ -6,8 +6,6 @@ const apiUrl = '/client/api';
 @Injectable()
 export class ApiRequestBuilderService {
 
-  constructor() {}
-
   private buildRequest(requestParams: {}): string {
     let urlParams = new URLSearchParams();
     for (let key in requestParams) {

@@ -15,8 +15,8 @@ export class LoginFormComponent {
   private password: string;
 
   constructor(private auth: AuthService,
-              private alert: AlertService,
-              private router: Router) {
+    private alert: AlertService,
+    private router: Router) {
     this.username = '';
     this.password = '';
   }
