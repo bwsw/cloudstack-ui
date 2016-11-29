@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'my-home',
+  selector: 'cs-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
@@ -11,7 +11,7 @@ export class HomeComponent implements OnInit {
     // Do stuff
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     console.log('Hello Home');
   }
 

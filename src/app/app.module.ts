@@ -32,17 +32,20 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 })
 export class AppModule {
   constructor(public appRef: ApplicationRef) {}
-  hmrOnInit(store) {
+
+  public hmrOnInit(store) {
     console.log('HMR store', store);
   }
-  hmrOnDestroy(store) {
+
+  public hmrOnDestroy(store) {
     let cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
     // recreate elements
     store.disposeOldHosts = createNewHosts(cmpLocation);
     // remove styles
     removeNgStyles();
   }
-  hmrAfterDestroy(store) {
+
+  public hmrAfterDestroy(store) {
     // display new elements
     store.disposeOldHosts();
     delete store.disposeOldHosts;

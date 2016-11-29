@@ -19,13 +19,12 @@
     "label-undefined": true,
     "max-line-length": [
       true,
-      140
+      120
     ],
-    "member-access": false,
+    "member-access": true,
     "member-ordering": [
       true,
-      "static-before-instance",
-      "variables-before-functions"
+      { "order": "instance-sandwich"}
     ],
     "no-arg": true,
     "no-bitwise": true,
@@ -106,8 +105,8 @@
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true,
-    "directive-selector-prefix": [true, "my"],
-    "component-selector-prefix": [true, "my"],
-    "pipe-naming": [true, "camelCase", "my"]
+    "directive-selector-prefix": [true, "cs"],
+    "component-selector-prefix": [true, "cs"],
+    "pipe-naming": [true, "camelCase", "cs"]
   }
 }
