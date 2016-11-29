@@ -19,6 +19,10 @@ var isTestWatch = ENV === 'test-watch';
 var isTest = ENV === 'test' || isTestWatch;
 var isProd = ENV === 'build';
 
+// Constants
+var requestFrom = '/client/api';
+var requestTo = 'http://192.168.1.218:8080/client/api/'
+
 module.exports = function makeWebpackConfig() {
   /**
    * Config
@@ -39,7 +43,7 @@ module.exports = function makeWebpackConfig() {
     config.devtool = 'inline-source-map';
   }
   else {
-    config.devtool = 'eval';
+    config.devtool = 'eval-source-map';
   }
 
   /**
@@ -280,6 +284,12 @@ module.exports = function makeWebpackConfig() {
    * Reference: http://webpack.github.io/docs/webpack-dev-server.html
    */
   config.devServer = {
+    proxy: {
+      [requestFrom]: {
+        target: requestTo,
+        secure: false
+      }
+    },
     contentBase: './src/public',
     historyApiFallback: true,
     quiet: true,
