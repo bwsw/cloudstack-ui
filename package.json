@@ -8,6 +8,7 @@
     "clean-start": "npm run clean-install && npm start",
     "watch": "webpack --watch --progress --profile",
     "build": "rimraf dist && webpack --progress --profile --bail",
+    "build:aot": "rimraf dist && webpack --progress --profile --bail",
     "server": "webpack-dev-server --progress --profile --watch --port 8080",
     "webdriver-update": "webdriver-manager update",
     "webdriver-start": "webdriver-manager start",
@@ -40,8 +41,10 @@
     "zone.js": "^0.6.25"
   },
   "devDependencies": {
+    "@angular/compiler-cli": "^2.2.3",
     "@angularclass/hmr": "^1.0.1",
     "@angularclass/hmr-loader": "^3.0.2",
+    "@ngtools/webpack": "^1.1.6",
     "@types/core-js": "^0.9.0",
     "@types/jasmine": "^2.2.29",
     "@types/node": "^6.0.38",

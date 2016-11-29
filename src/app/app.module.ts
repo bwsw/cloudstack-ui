@@ -1,24 +1,33 @@
 import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule } from '@angular/http';
+import { HttpModule, Http } from '@angular/http';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from 'ng2-translate';
+import { RouterModule } from '@angular/router';
+import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { ApiService } from './shared';
-import { routing } from './app.routing';
+import { routes } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
+
+export function createTranslateLoader(http: Http) {
+  return new TranslateStaticLoader(http, './i18n', '.json');
+}
 
 @NgModule({
   imports: [
     BrowserModule,
     HttpModule,
     FormsModule,
-    TranslateModule.forRoot(),
-    routing
+    TranslateModule.forRoot({
+      provide: TranslateLoader,
+      useFactory: (createTranslateLoader),
+      deps: [Http]
+    }),
+    RouterModule.forRoot(routes)
   ],
   declarations: [
     AppComponent,
