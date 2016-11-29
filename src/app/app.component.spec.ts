@@ -4,12 +4,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { ApiService } from './shared';
 import { AppComponent } from './app.component';
+import { TranslateModule } from 'ng2-translate';
 
 describe('App', () => {
   // provide our implementations or mocks to the dependency injector
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [
+        RouterTestingModule,
+        TranslateModule.forRoot(),
+      ],
       declarations: [AppComponent],
       providers: [ApiService, provideRoutes([])]
     });
