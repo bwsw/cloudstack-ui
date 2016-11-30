@@ -1,3 +1,4 @@
 {
-  "HELLO_FROM": "Hello from"
+  "LOGIN": "Login",
+  "LOGOUT": "Logout"
 }

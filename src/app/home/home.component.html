@@ -5,8 +5,8 @@
       <mdl-layout-title>Title</mdl-layout-title>  -->
       <mdl-layout-spacer></mdl-layout-spacer>
       <nav class="mdl-navigation">
-        <a *ngIf="!loggedIn" class="mdl-navigation__link" [routerLink]="['login']">Login</a>
-        <a *ngIf="loggedIn" class="mdl-navigation__link disabled-link" (click)="logout()">Logout</a>
+        <a *ngIf="!loggedIn" class="mdl-navigation__link" [routerLink]="['login']">{{ 'LOGIN' | translate }}</a>
+        <a *ngIf="loggedIn" class="mdl-navigation__link disabled-link" (click)="logout()">{{ 'LOGOUT' | translate }}</a>
       </nav>
     </mdl-layout-header-row>
   </mdl-layout-header>
