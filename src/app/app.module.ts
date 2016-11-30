@@ -16,7 +16,8 @@ import {
   AlertService,
   StorageService,
   AuthService,
-  RootDiskSizeService } from './shared';
+  RootDiskSizeService
+} from './shared';
 
 import { routing } from './app.routing';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
