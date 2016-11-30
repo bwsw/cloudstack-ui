@@ -1,8 +1,9 @@
 // styles in src/style directory are applied to the whole page
-body {
-    background: #0147A7;
-    color: #fff;
+.demo-content {
+    padding: 12px;
 }
-a {
-    color: #03A9F4;
+
+.disabled-link {
+  cursor: pointer;
 }
+
