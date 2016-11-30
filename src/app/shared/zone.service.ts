@@ -17,7 +17,7 @@ export class ZoneService {
     private alert: AlertService
   ) { }
 
-  public getZoneList(available = true): Promise<Array<Zone>> {
+  public getList(available = true): Promise<Array<Zone>> {
     let params: any = {
       command: 'listZones',
       response: 'json'
@@ -31,14 +31,11 @@ export class ZoneService {
 
     return this.http.get(request)
       .toPromise()
-      .then(response => response.json())
-      .then(
-        response => response.listzonesresponse.zone,
-        error => {
-          if (error.status === 401) {
-            this.alert.alert('You are not logged in');
-          }
-         }
-      );
+      .then(response => response.json().listzonesresponse.zone as Array<Zone>)
+      .catch(error => {
+        if (error.status === 401) {
+          this.alert.alert('You are not logged in');
+        }
+      });
   }
 }
