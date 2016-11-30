@@ -9,9 +9,16 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { LoginFormComponent } from './login-form/login-form.component';
-import { ApiService, ApiRequestBuilderService, AlertService, StorageService, AuthService } from './shared';
-import { routing } from './app.routing';
 
+import {
+  ApiService,
+  ApiRequestBuilderService,
+  AlertService,
+  StorageService,
+  AuthService,
+  RootDiskSizeService } from './shared';
+
+import { routing } from './app.routing';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
 @NgModule({
@@ -34,7 +41,8 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     ApiRequestBuilderService,
     AlertService,
     {provide: 'IStorageService', useClass: StorageService},
-    AuthService
+    AuthService,
+    RootDiskSizeService
   ],
   bootstrap: [AppComponent]
 })
