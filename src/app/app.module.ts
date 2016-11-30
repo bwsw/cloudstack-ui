@@ -32,7 +32,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     ApiService,
     ApiRequestBuilderService,
     AlertService,
-    StorageService,
+    {provide: 'IStorageService', useClass: StorageService},
     AuthService
   ],
   bootstrap: [AppComponent]

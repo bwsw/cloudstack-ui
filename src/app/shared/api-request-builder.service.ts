@@ -9,7 +9,9 @@ export class ApiRequestBuilderService {
   private buildRequest(requestParams: {}): string {
     let urlParams = new URLSearchParams();
     for (let key in requestParams) {
-      urlParams.append(key, requestParams[key]);
+      if (requestParams.hasOwnProperty(key)) {
+        urlParams.append(key, requestParams[key]);
+      }
     }
     return urlParams.toString();
   }

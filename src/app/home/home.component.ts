@@ -18,7 +18,7 @@ export class HomeComponent {
   constructor (private auth: AuthService,
     private router: Router,
     private http: Http) {
-    this.title = this.auth.getName();
+    this.title = this.auth.name;
     this.loggedIn = this.auth.isLoggedIn();
 
     this.auth.loginObservable.subscribe(() => {
@@ -30,11 +30,11 @@ export class HomeComponent {
   }
 
   private updateAccount(): void {
-    this.title = this.auth.getName();
+    this.title = this.auth.name;
     this.loggedIn = this.auth.isLoggedIn();
   }
 
-  private logout(): void {
+  public logout(): void {
     this.auth.logout()
       .then(() => this.handleLogout())
       .catch(error => alert(error));

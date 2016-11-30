@@ -21,6 +21,10 @@ export class LoginFormComponent {
     this.password = '';
   }
 
+  public submit(): void {
+    this.login(this.username, this.password);
+  }
+
   private login(username: string, password: string): void {
     this.auth.login(username, password)
       .then(() => this.handleLogin())
@@ -33,9 +37,5 @@ export class LoginFormComponent {
 
   private handleError(error: string): void {
     this.alert.alert(error);
-  }
-
-  private submit(): void {
-    this.login(this.username, this.password);
   }
 }

@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { ApiRequestBuilderService } from '../shared/api-request-builder.service';
-import { StorageService } from '../shared/storage.service';
+import { IStorageService } from '../shared/storage.service';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/toPromise';
 
@@ -22,13 +22,31 @@ export class AuthService {
 
   private _headers: Headers;
 
-  constructor(private http: Http, private storage: StorageService, private requestBuilder: ApiRequestBuilderService) {
+  constructor(private http: Http,
+    @Inject('IStorageService') private storage: IStorageService,
+    private requestBuilder: ApiRequestBuilderService) {
     this.loginObservable = new Subject<string>();
     this.logoutObservable = new Subject<string>();
 
     this._headers = new Headers({
       'Content-Type': 'application/x-www-form-urlencoded'
     });
+  }
+
+  get name(): string {
+    let name = this.storage.read('name');
+    if (!name) {
+      return 'Unauthorized';
+    }
+    return name;
+  }
+
+  set name(name: string) {
+    if (!name) {
+      this.storage.remove('name');
+    } else {
+      this.storage.write('name', name);
+    }
   }
 
   public login(username: string, password: string): Promise<void> {
@@ -49,13 +67,6 @@ export class AuthService {
     return <String>this.storage.read('loggedIn') === 'true';
   }
 
-  public getName(): string {
-    let name = this.storage.read('name');
-    if (!name) {
-      return 'Unauthorized';
-    }
-    return name;
-  }
 
   private getLoginRequest(username: string, password: string): string {
     return this.requestBuilder.buildPOSTRequest({
@@ -84,21 +95,13 @@ export class AuthService {
 
   private setLoggedIn(response: LoginResponse): void {
     this.storage.write('loggedIn', 'true');
-    this.setName(response.loginresponse.firstname, response.loginresponse.lastname);
+    this.name = `${response.loginresponse.firstname} ${response.loginresponse.lastname}`;
     this.loginObservable.next('');
   }
 
   private setLoggedOut(): void {
     this.storage.write('loggedIn', 'false');
-    this.removeName();
+    this.name = '';
     this.logoutObservable.next('');
-  }
-
-  private setName(firstName: String, lastName: String): void {
-    this.storage.write('name', `${firstName} ${lastName}`);
-  }
-
-  private removeName(): void {
-    this.storage.remove('name');
   }
 }
