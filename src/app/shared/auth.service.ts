@@ -10,7 +10,8 @@ const apiUrl = '/client/api';
 interface LoginResponse {
   loginresponse: {
     firstname: string,
-    lastname: string
+    lastname: string,
+    [prop: string]: any
   };
 }
 
@@ -66,7 +67,6 @@ export class AuthService {
   public isLoggedIn(): boolean {
     return <String>this.storage.read('loggedIn') === 'true';
   }
-
 
   private getLoginRequest(username: string, password: string): string {
     return this.requestBuilder.buildPOSTRequest({

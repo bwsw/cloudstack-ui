@@ -5,7 +5,7 @@ import { AuthService } from '../shared/auth.service';
 import { AlertService } from '../shared/alert.service';
 
 @Component({
-  selector: 'my-login-form',
+  selector: 'cs-login-form',
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.scss'],
 })
