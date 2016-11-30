@@ -4,3 +4,4 @@ export * from './alert.service';
 export * from './auth.service';
 export * from './storage.service';
 export * from './root-disk-size.service';
+export * from './zone.service';
