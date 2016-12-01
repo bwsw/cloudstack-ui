@@ -19,11 +19,11 @@ export class NotificationService {
     this._timeout = timeout;
   }
 
-  showNotification(message: string): Promise<MdlSnackbarComponent> {
+  public showNotification(message: string): Promise<MdlSnackbarComponent> {
     return this.snackbar.showSnackbar({ message, timeout: this._timeout }).toPromise();
   }
 
-  showWarning(message: string, action: ISnackbarAction): Promise<MdlSnackbarComponent> {
+  public showWarning(message: string, action: ISnackbarAction): Promise<MdlSnackbarComponent> {
     return this.snackbar.showSnackbar({ message, action })
       .toPromise()
       .then(result => {
@@ -32,7 +32,7 @@ export class NotificationService {
       });
   }
 
-  showError(message: string, action: ISnackbarAction): Promise<MdlSnackbarComponent> {
+  public showError(message: string, action: ISnackbarAction): Promise<MdlSnackbarComponent> {
     return this.snackbar.showSnackbar({ message, action }).toPromise();
   }
 }
