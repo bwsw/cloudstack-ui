@@ -16,6 +16,7 @@ import {
   AlertService,
   StorageService,
   AuthService,
+  NotificationService,
   RootDiskSizeService
 } from './shared';
 
@@ -43,6 +44,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     AlertService,
     {provide: 'IStorageService', useClass: StorageService},
     AuthService,
+    NotificationService,
     RootDiskSizeService
   ],
   bootstrap: [AppComponent]
