@@ -5,7 +5,7 @@
       <mdl-layout-title>Title</mdl-layout-title>  -->
       <mdl-layout-spacer></mdl-layout-spacer>
       <nav class="mdl-navigation">
-        <a *ngIf="!loggedIn" class="mdl-navigation__link" [routerLink]="['login']">{{ 'LOGIN' | translate }}</a>
+        <a *ngIf="!loggedIn" class="mdl-navigation__link" routerLink="/login">{{ 'LOGIN' | translate }}</a>
         <a *ngIf="loggedIn" class="mdl-navigation__link disabled-link" (click)="logout()">{{ 'LOGOUT' | translate }}</a>
       </nav>
     </mdl-layout-header-row>
@@ -13,7 +13,7 @@
   <mdl-layout-drawer>
     <mdl-layout-title>{{title}}</mdl-layout-title>
     <nav class="mdl-navigation">
-      <a class="mdl-navigation__link" (click)="test()">Link</a>
+      <a class="mdl-navigation__link">Link</a>
     </nav>
   </mdl-layout-drawer>
   <mdl-layout-content class="demo-content">

@@ -3,7 +3,6 @@ import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../shared/auth.service';
-import { RootDiskSizeService } from '../shared/root-disk-size.service';
 
 @Component({
   selector: 'cs-home',
@@ -17,8 +16,7 @@ export class HomeComponent {
 
   constructor (private auth: AuthService,
     private router: Router,
-    private http: Http,
-    private root: RootDiskSizeService) {
+    private http: Http) {
     this.title = this.auth.name;
     this.loggedIn = this.auth.isLoggedIn();
 
@@ -43,9 +41,5 @@ export class HomeComponent {
 
   private handleLogout(): void {
     this.router.navigate(['/login']);
-  }
-
-  private test(): void {
-    this.root.getAvailableRootDiskSize().then().catch(e => alert(e));
   }
 }
