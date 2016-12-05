@@ -1,0 +1,45 @@
+{
+  "config": {
+    "isProd": "false"
+  },
+  "securityGroupTemplates": [
+    {
+      "name": "sg1",
+      "rules": [
+        {
+          "type": "ingress",
+          "protocol": "TCP",
+          "startPort": 1,
+          "endPort": 65535,
+          "CIDR": "0.0.0.0/16"
+        },
+        {
+          "type": "egress",
+          "protocol": "TCP",
+          "startPort": 1,
+          "endPort": 65535,
+          "CIDR": "0.0.0.0/16"
+        }
+      ]
+    },
+    {
+      "name": "sg2",
+      "rules": [
+        {
+          "type": "ingress",
+          "protocol": "UDP",
+          "startPort": 1,
+          "endPort": 65535,
+          "CIDR": "0.0.0.0/16"
+        },
+        {
+          "type": "egress",
+          "protocol": "UDP",
+          "startPort": 1,
+          "endPort": 65535,
+          "CIDR": "0.0.0.0/16"
+        }
+      ]
+    }
+  ]
+}
