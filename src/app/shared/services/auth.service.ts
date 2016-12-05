@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { ApiRequestBuilderService } from '../shared/api-request-builder.service';
-import { IStorageService } from '../shared/storage.service';
+import { ApiRequestBuilderService } from './api-request-builder.service';
+import { IStorageService } from './storage.service';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/toPromise';
 
