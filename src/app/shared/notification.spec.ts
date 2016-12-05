@@ -40,7 +40,7 @@ describe('Service: Notification service', () => {
     let fixture = TestBed.createComponent(MdlTestViewComponent);
     fixture.detectChanges();
 
-    let notification = ns.showNotification('test');
+    let notification = ns.message('test');
 
     fixture.detectChanges();
     notification.subscribe((mdlSnackbarComponent) => {
@@ -60,7 +60,7 @@ describe('Service: Notification service', () => {
     let fixture = TestBed.createComponent(MdlTestViewComponent);
     fixture.detectChanges();
 
-    let warning = ns.showWarning('test', {
+    let warning = ns.warning('test', {
       handler: () => {},
       text: 'test'
     });
@@ -82,7 +82,7 @@ describe('Service: Notification service', () => {
     let fixture = TestBed.createComponent(MdlTestViewComponent);
     fixture.detectChanges();
 
-    let p = ns.showWarning('test', {
+    let p = ns.warning('test', {
       handler: () => {},
       text: 'test'
     });
@@ -96,7 +96,7 @@ describe('Service: Notification service', () => {
     });
   }));
 
-  it('warning callback test', async(() => {
+  it('warning action handler is called on action button click', async(() => {
     let fixture = TestBed.createComponent(MdlTestViewComponent);
     fixture.detectChanges();
 
@@ -106,7 +106,7 @@ describe('Service: Notification service', () => {
       this.a = 1;
     };
 
-    let warning = ns.showError('test', {
+    let warning = ns.error('test', {
       handler: f.bind(test),
       text: 'test'
     });
@@ -128,7 +128,7 @@ describe('Service: Notification service', () => {
     let fixture = TestBed.createComponent(MdlTestViewComponent);
     fixture.detectChanges();
 
-    let err = ns.showError('test', {
+    let err = ns.error('test', {
       handler: () => {},
       text: 'test'
     });
