@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MdlSnackbarService, MdlSnackbarComponent } from 'angular2-mdl';
+import { Observable } from 'rxjs';
 
 interface ISnackbarAction {
   handler: () => void;
@@ -19,20 +20,22 @@ export class NotificationService {
     this._timeout = timeout;
   }
 
-  public showNotification(message: string): Promise<MdlSnackbarComponent> {
-    return this.snackbar.showSnackbar({ message, timeout: this._timeout }).toPromise();
+  public showNotification(message: string): Observable<MdlSnackbarComponent> {
+    return this.snackbar.showSnackbar({ message, timeout: this._timeout });
   }
 
-  public showWarning(message: string, action: ISnackbarAction): Promise<MdlSnackbarComponent> {
-    return this.snackbar.showSnackbar({ message, action })
-      .toPromise()
-      .then(result => {
-        setTimeout(() => result.hide(), this._timeout);
-        return result;
-      });
+  public showWarning(message: string, action: ISnackbarAction): Observable<MdlSnackbarComponent> {
+    let obs = this.snackbar.showSnackbar({ message, action });
+    obs.subscribe(result => {
+      setTimeout(() => {
+        result.hide();
+      }, this._timeout);
+      return result;
+    });
+    return obs;
   }
 
-  public showError(message: string, action: ISnackbarAction): Promise<MdlSnackbarComponent> {
-    return this.snackbar.showSnackbar({ message, action }).toPromise();
+  public showError(message: string, action: ISnackbarAction): Observable<MdlSnackbarComponent> {
+    return this.snackbar.showSnackbar({ message, action });
   }
 }

@@ -2,6 +2,7 @@ import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
 
@@ -14,6 +15,7 @@ import {
   ApiService,
   ApiRequestBuilderService,
   AlertService,
+  ConfigReaderService,
   StorageService,
   AuthService,
   NotificationService,
@@ -30,6 +32,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     FormsModule,
     TranslateModule.forRoot(),
     routing,
+    RouterModule,
     MdlModule
   ],
   declarations: [
@@ -44,6 +47,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     AlertService,
     {provide: 'IStorageService', useClass: StorageService},
     AuthService,
+    ConfigReaderService,
     NotificationService,
     RootDiskSizeService
   ],
