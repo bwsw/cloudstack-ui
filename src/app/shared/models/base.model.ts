@@ -1,20 +1,20 @@
-import { AvailableFieldsMetadataKey, CloudStackMetadataKey } from '../decorators/model-field.decorator';
+import { AVAILABLE_FIELDS_METADATA_KEY, CLOUDSTACK_METADATA_KEY } from '../decorators/model-field.decorator';
 
 export abstract class BaseModel {
-  constructor(params?) {
+  constructor(params?: {}) {
     if (params) {
       this.parse(params);
     }
   }
 
-  public serialize(params?) {
+  public serialize(params?: {}) {
     let obj = params || this;
     let model = {};
 
     let target = Object.getPrototypeOf(obj);
-    let availableNames = Reflect.getMetadata(AvailableFieldsMetadataKey, target) as Array<string>;
+    let availableNames = Reflect.getMetadata(AVAILABLE_FIELDS_METADATA_KEY, target) as Array<string>;
     availableNames.forEach(propName => {
-      let serverName = Reflect.getMetadata(CloudStackMetadataKey, target, propName);
+      let serverName = Reflect.getMetadata(CLOUDSTACK_METADATA_KEY, target, propName);
       if (!serverName) {
         return;
       }
@@ -26,7 +26,7 @@ export abstract class BaseModel {
 
       let serverVal = null;
       let propType = Reflect.getMetadata('design:type', target, propName);
-      let propTypeServerFields =  Reflect.getMetadata(AvailableFieldsMetadataKey, propType.prototype) as [string];
+      let propTypeServerFields =  Reflect.getMetadata(AVAILABLE_FIELDS_METADATA_KEY, propType.prototype) as [string];
       if (clientVal && propTypeServerFields) {
         serverVal = this.serialize(clientVal);
       } else {
@@ -38,16 +38,16 @@ export abstract class BaseModel {
     return model;
   }
 
-  protected parse(params) {
+  protected parse(params: {}) {
     const target = Object.getPrototypeOf(this);
 
-    const availableNames = Reflect.getMetadata(AvailableFieldsMetadataKey, target) as [string];
+    const availableNames = Reflect.getMetadata(AVAILABLE_FIELDS_METADATA_KEY, target) as [string];
     if (!availableNames) {
       return;
     }
 
     availableNames.forEach(propName => {
-      const serverName = Reflect.getMetadata(CloudStackMetadataKey, target, propName);
+      const serverName = Reflect.getMetadata(CLOUDSTACK_METADATA_KEY, target, propName);
       if (!serverName) {
         return;
       }
@@ -61,7 +61,7 @@ export abstract class BaseModel {
 
       const propType = Reflect.getMetadata('design:type', target, propName);
 
-      const propTypeServerFields =  Reflect.getMetadata(AvailableFieldsMetadataKey, propType.prototype) as [string];
+      const propTypeServerFields =  Reflect.getMetadata(AVAILABLE_FIELDS_METADATA_KEY, propType.prototype) as [string];
       if (propTypeServerFields) {
 
         clientVal = this.parse(serverVal);

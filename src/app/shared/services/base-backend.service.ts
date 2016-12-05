@@ -9,7 +9,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
   protected entity: string;
   protected entityModel: { new (params?): M; };
 
-  private apiUrl = '/client/api';
+  private API_URL = '/client/api';
 
   constructor(protected http: Http, protected alert: AlertService) { }
 
@@ -49,7 +49,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
     const command = 'list';
     const entity = this.entity.toLowerCase();
 
-    return this.http.get(this.apiUrl, { search: this.buildParams(command, params) })
+    return this.http.get(this.API_URL, { search: this.buildParams(command, params) })
       .toPromise()
       .then((res: Response) => {
         const responseString = `${command}${entity}sresponse`;
