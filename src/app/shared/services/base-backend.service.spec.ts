@@ -2,7 +2,6 @@ import { inject, TestBed, async, getTestBed } from '@angular/core/testing';
 
 import { BaseBackendService } from './base-backend.service';
 import { BaseModel } from '../models/base.model';
-import { ModelField } from '../decorators/model-field.decorator';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import {
@@ -31,10 +30,7 @@ describe('Base backend service', () => {
   ];
 
   class TestModel extends BaseModel {
-    @ModelField()
     public id: string;
-
-    @ModelField()
     public field1: string;
   }
 

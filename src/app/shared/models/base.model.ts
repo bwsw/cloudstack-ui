@@ -1,78 +1,50 @@
-import { AVAILABLE_FIELDS_METADATA_KEY, CLOUDSTACK_METADATA_KEY } from '../decorators/model-field.decorator';
-
 export abstract class BaseModel {
+  protected mapper: {};
+
   constructor(params?: {}) {
     if (params) {
       this.parse(params);
     }
   }
 
-  public serialize(params?: {}) {
-    let obj = params || this;
-    let model = {};
+  public set(key, val): void {
+    if (!this.mapper || this.mapper[key] === undefined) {
+      this[key] = val;
+      return;
+    }
 
-    let target = Object.getPrototypeOf(obj);
-    let availableNames = Reflect.getMetadata(AVAILABLE_FIELDS_METADATA_KEY, target) as Array<string>;
-    availableNames.forEach(propName => {
-      let serverName = Reflect.getMetadata(CLOUDSTACK_METADATA_KEY, target, propName);
-      if (!serverName) {
-        return;
-      }
+    this[this.mapper[key]] = val;
+  }
 
-      let clientVal = obj[propName];
-      if (clientVal === undefined) {
-        return;
-      }
+  public serialize() {
+    const model = {};
 
-      let serverVal = null;
-      let propType = Reflect.getMetadata('design:type', target, propName);
-      let propTypeServerFields =  Reflect.getMetadata(AVAILABLE_FIELDS_METADATA_KEY, propType.prototype) as [string];
-      if (clientVal && propTypeServerFields) {
-        serverVal = this.serialize(clientVal);
-      } else {
-        serverVal = clientVal;
+    const reverseMap = {};
+    for (let key in this.mapper) {
+      if (this.mapper.hasOwnProperty(key)) {
+        reverseMap[this.mapper[key]] = key;
       }
-      model[serverName] = serverVal;
-    });
+    }
+
+    for (let key in this) {
+      if (this.hasOwnProperty(key) && typeof key !== 'function') {
+        if (!reverseMap || reverseMap[key] === undefined) {
+          model[key] = this[key];
+          continue;
+        }
+
+        model[reverseMap[key]] = this[key];
+      }
+    }
 
     return model;
   }
 
   protected parse(params: {}) {
-    const target = Object.getPrototypeOf(this);
-
-    const availableNames = Reflect.getMetadata(AVAILABLE_FIELDS_METADATA_KEY, target) as [string];
-    if (!availableNames) {
-      return;
+    for (let key in params) {
+      if (params.hasOwnProperty(key)) {
+        this.set(key, params[key]);
+      }
     }
-
-    availableNames.forEach(propName => {
-      const serverName = Reflect.getMetadata(CLOUDSTACK_METADATA_KEY, target, propName);
-      if (!serverName) {
-        return;
-      }
-
-      const serverVal = params[serverName];
-      if (serverVal === undefined) {
-        return;
-      }
-
-      let clientVal = null;
-
-      const propType = Reflect.getMetadata('design:type', target, propName);
-
-      const propTypeServerFields =  Reflect.getMetadata(AVAILABLE_FIELDS_METADATA_KEY, propType.prototype) as [string];
-      if (propTypeServerFields) {
-
-        clientVal = this.parse(serverVal);
-      } else {
-
-        clientVal = serverVal;
-      }
-
-      this[propName] = clientVal;
-    });
-
-    return this;
   }
 }

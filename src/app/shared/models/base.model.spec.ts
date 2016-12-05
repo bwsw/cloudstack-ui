@@ -1,18 +1,17 @@
 import 'reflect-metadata';
 
 import { BaseModel } from './base.model';
-import { ModelField } from '../decorators/model-field.decorator';
+import { FieldsMapper } from '../decorators/field-mapper.decorator';
 
 
 describe('Base model', () => {
+  @FieldsMapper({
+    testfield1: 'field1',
+    testfield2: 'field2',
+  })
   class TestModel extends BaseModel {
-    @ModelField()
     public id: string;
-
-    @ModelField('testfield1')
     public field1: string;
-
-    @ModelField('testfield2')
     public field2: string;
   }
 
