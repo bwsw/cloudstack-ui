@@ -1,4 +1,4 @@
-import { Http, URLSearchParams, Response } from '@angular/http';
+import { Http, URLSearchParams, Response, Headers } from '@angular/http';
 import { BaseModel } from '../models/base.model';
 import { AlertService } from './alert.service';
 
@@ -43,6 +43,17 @@ export abstract class BaseBackendService<M extends BaseModel> {
 
     urlParams.set('response', 'json');
     return urlParams;
+  }
+
+  protected postRequest(command: string, params?: {}): Promise<any> {
+    const headers = new Headers({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    return this.http.post(this.API_URL, this.buildParams(command, params), { headers })
+      .toPromise()
+      .then((res: Response) => res.json())
+      .catch(err => this.handleError(err));
   }
 
   private fetchList(params?: {}): Promise<any> {
