@@ -42,8 +42,4 @@ export class HomeComponent {
   private handleLogout(): void {
     this.router.navigate(['/login']);
   }
-
-  private test(): void {
-    this.ns.warning('asd');
-  }
 }
