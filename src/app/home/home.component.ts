@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService, NotificationService } from '../shared';
-import { RootDiskSizeService } from '../shared/root-disk-size.service';
 
 @Component({
   selector: 'cs-home',
