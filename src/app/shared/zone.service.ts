@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { AlertService, ApiRequestBuilderService } from '.';
+import { ApiRequestBuilderService, NotificationService } from '.';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -14,7 +14,7 @@ export class ZoneService {
   constructor(
     private http: Http,
     private requestBuilder: ApiRequestBuilderService,
-    private alert: AlertService
+    private notification: NotificationService
   ) { }
 
   public get(id: string): Promise<Zone> {
@@ -58,11 +58,11 @@ export class ZoneService {
   private handleError(error: Response): void {
     switch (error.status) {
       case 401:
-        this.alert.alert('You are not logged in');
+        this.notification.message('You are not logged in');
         break;
 
       case 431:
-        this.alert.alert('Wrong arguments');
+        this.notification.message('Wrong arguments');
         break;
     }
   }

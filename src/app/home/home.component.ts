@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../shared/auth.service';
+import { AuthService, NotificationService } from '../shared';
+import { RootDiskSizeService } from '../shared/root-disk-size.service';
 
 @Component({
   selector: 'cs-home',
@@ -16,7 +16,7 @@ export class HomeComponent {
 
   constructor (private auth: AuthService,
     private router: Router,
-    private http: Http) {
+    private ns: NotificationService) {
     this.title = this.auth.name;
     this.loggedIn = this.auth.isLoggedIn();
 

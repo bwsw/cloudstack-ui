@@ -13,9 +13,9 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import {
   ApiService,
   ApiRequestBuilderService,
-  AlertService,
   StorageService,
   AuthService,
+  NotificationService,
   RootDiskSizeService
 } from './shared';
 
@@ -40,9 +40,9 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
   providers: [
     ApiService,
     ApiRequestBuilderService,
-    AlertService,
     {provide: 'IStorageService', useClass: StorageService},
     AuthService,
+    NotificationService,
     RootDiskSizeService
   ],
   bootstrap: [AppComponent]
