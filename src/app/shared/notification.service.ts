@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MdlSnackbarService, MdlSnackbarComponent } from 'angular2-mdl';
 import { Observable } from 'rxjs';
 
-interface ISnackbarAction {
+interface INotificationAction {
   handler: () => void;
   text: string;
 }
@@ -22,7 +22,7 @@ export class NotificationService {
 
   public warning(
     message: string,
-    action: ISnackbarAction = {
+    action: INotificationAction = {
       handler: () => {},
       text: 'OK'
     }): Observable<MdlSnackbarComponent> {
@@ -38,7 +38,7 @@ export class NotificationService {
 
   public error(
     message: string,
-    action: ISnackbarAction = {
+    action: INotificationAction = {
       handler: () => {},
       text: 'OK'
     }): Observable<MdlSnackbarComponent> {

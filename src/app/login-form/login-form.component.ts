@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../shared/auth.service';
-import { AlertService } from '../shared/alert.service';
+import { AuthService, NotificationService } from '../shared';
 
 @Component({
   selector: 'cs-login-form',
@@ -14,8 +13,9 @@ export class LoginFormComponent {
   private username: string;
   private password: string;
 
-  constructor(private auth: AuthService,
-    private alert: AlertService,
+  constructor(
+    private auth: AuthService,
+    private notification: NotificationService,
     private router: Router) {
     this.username = '';
     this.password = '';
@@ -36,6 +36,6 @@ export class LoginFormComponent {
   }
 
   private handleError(error: string): void {
-    this.alert.alert(error);
+    this.notification.message(error);
   }
 }
