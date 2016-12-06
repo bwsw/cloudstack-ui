@@ -274,8 +274,7 @@ module.exports = function makeWebpackConfig() {
       // Copy assets from the public folder
       // Reference: https://github.com/kevlened/copy-webpack-plugin
       new CopyWebpackPlugin([
-        {from: root('src/public'), ignore: ['config.json', 'config-prod.json']},
-        {from: root('src/public/config-prod.json'), to: root('dist/config.json')}
+        {from: root('src/public'), ignore: ['config-dev.json']},
       ])
     );
   }

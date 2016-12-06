@@ -15,7 +15,7 @@ import {
   ApiService,
   ApiRequestBuilderService,
   AlertService,
-  ConfigReaderService,
+  ConfigService,
   StorageService,
   AuthService,
   NotificationService,
@@ -47,7 +47,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     AlertService,
     {provide: 'IStorageService', useClass: StorageService},
     AuthService,
-    ConfigReaderService,
+    ConfigService,
     NotificationService,
     RootDiskSizeService
   ],

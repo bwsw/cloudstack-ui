@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../shared/auth.service';
-import { RootDiskSizeService } from '../shared/root-disk-size.service';
+import { AuthService, ConfigService, RootDiskSizeService } from '../shared';
 
 @Component({
   selector: 'cs-home',
@@ -18,7 +17,8 @@ export class HomeComponent {
   constructor (private auth: AuthService,
     private router: Router,
     private http: Http,
-    private root: RootDiskSizeService) {
+    private root: RootDiskSizeService,
+    private config: ConfigService) {
     this.title = this.auth.name;
     this.loggedIn = this.auth.isLoggedIn();
 
@@ -46,6 +46,6 @@ export class HomeComponent {
   }
 
   private test(): void {
-    this.root.getAvailableRootDiskSize().then().catch(e => alert(e));
+    this.config.get('securityGroupTemplates').then(response => alert(response[0].name));
   }
 }

@@ -1,7 +1,4 @@
 {
-  "config": {
-    "isProd": "true"
-  },
   "securityGroupTemplates": [
     {
       "name": "sg1",
