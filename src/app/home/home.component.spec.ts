@@ -8,12 +8,12 @@ import { HomeComponent } from '../home/home.component';
 import {
   AuthService,
   StorageService,
-  ApiRequestBuilderService
+  ApiRequestBuilderService,
 } from '../shared';
 
 import {
   MdlLayoutModule,
-  MdlRippleModule
+  MdlRippleModule,
 } from 'angular2-mdl';
 
 describe('Home Component', () => {

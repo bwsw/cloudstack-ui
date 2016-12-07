@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthService, NotificationService } from '../shared';
+import { AuthService } from '../shared';
 
 @Component({
   selector: 'cs-home',
@@ -14,8 +14,7 @@ export class HomeComponent {
   private loggedIn: boolean;
 
   constructor (private auth: AuthService,
-    private router: Router,
-    private ns: NotificationService) {
+    private router: Router) {
     this.title = this.auth.name;
     this.loggedIn = this.auth.isLoggedIn();
 
