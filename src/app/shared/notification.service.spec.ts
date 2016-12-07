@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NotificationService } from '.';
+import { NotificationService } from './notification.service';
 import { MdlSnackbaModule, MdlDialogOutletModule } from 'angular2-mdl';
 
 import {

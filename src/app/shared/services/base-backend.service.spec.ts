@@ -14,7 +14,7 @@ import {
   URLSearchParams
 } from '@angular/http';
 import { FormsModule } from '@angular/forms';
-import { AlertService } from './alert.service';
+import { NotificationService } from '../notification.service';
 
 describe('Base backend service', () => {
   let mockBackend: MockBackend;
@@ -39,8 +39,8 @@ describe('Base backend service', () => {
     entityModel: TestModel
   })
   class TestBackendService extends BaseBackendService<TestModel> {
-    constructor(http: Http, alert: AlertService) {
-      super(http, alert);
+    constructor(http: Http, notification: NotificationService) {
+      super(http, notification);
     }
   }
 
@@ -48,7 +48,7 @@ describe('Base backend service', () => {
     TestBed.configureTestingModule({
       providers: [
         TestBackendService,
-        AlertService,
+        NotificationService,
         MockBackend,
         BaseRequestOptions,
         {

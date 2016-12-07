@@ -16,10 +16,8 @@ import {
   AuthService,
 } from './shared/services';
 
-import {
-  NotificationService,
-  RootDiskSizeService
-} from './shared'
+import { NotificationService } from './shared/notification.service';
+import { RootDiskSizeService } from './shared/root-disk-size.service';
 
 import { routing } from './app.routing';
 

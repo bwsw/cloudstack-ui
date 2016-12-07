@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { AlertService } from '.';
+import { NotificationService } from '../notification.service';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -15,7 +15,7 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
   entityModel: Zone
 })
 export class ZoneService extends BaseBackendService<Zone> {
-  constructor(http: Http, alert: AlertService) {
-    super(http, alert);
+  constructor(http: Http, notification: NotificationService) {
+    super(http, notification);
   }
 }
