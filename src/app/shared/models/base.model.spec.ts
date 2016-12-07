@@ -10,7 +10,6 @@ describe('Base model', () => {
     testfield2: 'field2',
   })
   class TestModel extends BaseModel {
-    public id: string;
     public field1: string;
     public field2: string;
   }

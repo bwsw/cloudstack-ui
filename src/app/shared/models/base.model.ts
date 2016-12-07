@@ -1,19 +1,20 @@
-interface IMapper {
+interface IFieldMapper {
   [key: string]: string;
 }
 
 export abstract class BaseModel {
-  protected mapper: IMapper;
+
+  public id: string;
+  protected mapper: IFieldMapper;
 
   constructor(params?: {}) {
-    this.mapper = {};
     if (params) {
       this.parse(params);
     }
   }
 
   public set(key: string, val: string): void {
-    if (!this.mapper[key]) {
+    if (!this.mapper || !this.mapper[key]) {
       this[key] = val;
       return;
     }
@@ -23,8 +24,8 @@ export abstract class BaseModel {
 
   public serialize() {
     const model = {};
-
     const reverseMap = {};
+
     for (let key in this.mapper) {
       if (this.mapper.hasOwnProperty(key)) {
         reverseMap[this.mapper[key]] = key;
@@ -32,7 +33,7 @@ export abstract class BaseModel {
     }
 
     for (let key in this) {
-      if (this.hasOwnProperty(key) && typeof key !== 'function') {
+      if (this.hasOwnProperty(key) && typeof key !== 'function' && key !== 'mapper') {
         if (!reverseMap[key]) {
           model[key] = this[key];
           continue;
@@ -41,7 +42,6 @@ export abstract class BaseModel {
         model[reverseMap[key]] = this[key];
       }
     }
-
     return model;
   }
 
