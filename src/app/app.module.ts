@@ -2,6 +2,7 @@ import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
 

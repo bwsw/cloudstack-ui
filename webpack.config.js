@@ -19,9 +19,10 @@ var isTestWatch = ENV === 'test-watch';
 var isTest = ENV === 'test' || isTestWatch;
 var isProd = ENV === 'build';
 
-// Constants
-var requestFrom = '/client/api';
-var requestTo = 'http://192.168.1.218:8080/client/api/'
+//Proxy config
+var redirectFrom = '/client/api';
+var redirectTo = 'http://192.168.1.218:8080/client/api/';
+
 
 module.exports = function makeWebpackConfig() {
   /**
@@ -272,9 +273,9 @@ module.exports = function makeWebpackConfig() {
 
       // Copy assets from the public folder
       // Reference: https://github.com/kevlened/copy-webpack-plugin
-      new CopyWebpackPlugin([{
-        from: root('src/public')
-      }])
+      new CopyWebpackPlugin([
+        {from: root('src/public'), ignore: ['config-dev.json']},
+      ])
     );
   }
 
@@ -285,8 +286,8 @@ module.exports = function makeWebpackConfig() {
    */
   config.devServer = {
     proxy: {
-      [requestFrom]: {
-        target: requestTo,
+      [redirectFrom]: {
+        target: redirectTo,
         secure: false
       }
     },
