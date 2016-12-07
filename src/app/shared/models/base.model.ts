@@ -26,6 +26,10 @@ export abstract class BaseModel {
     const model = {};
     const reverseMap = {};
 
+    if (!this.mapper) {
+      return model;
+    }
+
     for (let key in this.mapper) {
       if (this.mapper.hasOwnProperty(key)) {
         reverseMap[this.mapper[key]] = key;
