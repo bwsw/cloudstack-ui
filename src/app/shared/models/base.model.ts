@@ -1,14 +1,19 @@
+interface IMapper {
+  [key: string]: string;
+}
+
 export abstract class BaseModel {
-  protected mapper: {};
+  protected mapper: IMapper;
 
   constructor(params?: {}) {
+    this.mapper = {};
     if (params) {
       this.parse(params);
     }
   }
 
-  public set(key, val): void {
-    if (!this.mapper || this.mapper[key] === undefined) {
+  public set(key: string, val: string): void {
+    if (!this.mapper[key]) {
       this[key] = val;
       return;
     }
@@ -28,7 +33,7 @@ export abstract class BaseModel {
 
     for (let key in this) {
       if (this.hasOwnProperty(key) && typeof key !== 'function') {
-        if (!reverseMap || reverseMap[key] === undefined) {
+        if (!reverseMap[key]) {
           model[key] = this[key];
           continue;
         }

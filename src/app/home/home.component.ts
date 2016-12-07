@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../shared/auth.service';
+import { AuthService } from '../shared';
 
 
 @Component({
@@ -14,10 +14,12 @@ export class HomeComponent {
 
   private title: string;
   private loggedIn: boolean;
+  private asd: {};
 
   constructor (private auth: AuthService,
     private router: Router,
     private http: Http) {
+    console.log(this.asd);
     this.title = this.auth.name;
     this.loggedIn = this.auth.isLoggedIn();
 

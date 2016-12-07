@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../shared/auth.service';
-import { AlertService } from '../shared/alert.service';
+import { AuthService } from '../shared';
+import { AlertService } from '../shared';
 
 @Component({
   selector: 'my-login-form',

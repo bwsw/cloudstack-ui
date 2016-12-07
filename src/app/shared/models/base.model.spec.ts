@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 
 import { BaseModel } from './base.model';
-import { FieldsMapper } from '../decorators/field-mapper.decorator';
+import { FieldMapper } from '../decorators/field-mapper.decorator';
 
 
 describe('Base model', () => {
-  @FieldsMapper({
+  @FieldMapper({
     testfield1: 'field1',
     testfield2: 'field2',
   })
