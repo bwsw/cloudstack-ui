@@ -4,12 +4,11 @@ import { AlertService } from './alert.service';
 
 import 'rxjs/add/operator/toPromise';
 
+const BACKEND_API_URL = '/client/api';
 
 export abstract class BaseBackendService<M extends BaseModel> {
   protected entity: string;
   protected entityModel: { new (params?): M; };
-
-  private API_URL = '/client/api';
 
   constructor(protected http: Http, protected alert: AlertService) { }
 
@@ -50,7 +49,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    return this.http.post(this.API_URL, this.buildParams(command, params), { headers })
+    return this.http.post(BACKEND_API_URL, this.buildParams(command, params), { headers })
       .toPromise()
       .then((res: Response) => res.json())
       .catch(err => this.handleError(err));
@@ -60,7 +59,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
     const command = 'list';
     const entity = this.entity.toLowerCase();
 
-    return this.http.get(this.API_URL, { search: this.buildParams(command, params) })
+    return this.http.get(BACKEND_API_URL, { search: this.buildParams(command, params) })
       .toPromise()
       .then((res: Response) => {
         const responseString = `${command}${entity}sresponse`;
