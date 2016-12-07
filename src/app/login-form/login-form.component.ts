@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthService, NotificationService } from '../shared';
+import { AuthService } from '../shared';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
   selector: 'cs-login-form',

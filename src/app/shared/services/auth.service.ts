@@ -1,37 +1,42 @@
 import { Inject, Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
-import { ApiRequestBuilderService } from '../shared/api-request-builder.service';
-import { IStorageService } from '../shared/storage.service';
+import { Http } from '@angular/http';
+import { IStorageService } from './storage.service';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/toPromise';
+import { BaseBackendService } from './base-backend.service';
+import { BaseModel } from '../models/base.model';
+import { NotificationService } from '../notification.service';
+import { BackendResource } from '../decorators/backend-resource.decorator';
 
-const apiUrl = '/client/api';
 
 interface LoginResponse {
   loginresponse: {
     firstname: string,
-    lastname: string,
-    [prop: string]: any
+    lastname: string
   };
 }
 
+
+class AuthStub extends BaseModel { }
+
 @Injectable()
-export class AuthService {
+@BackendResource({
+  entity: '',
+  entityModel: AuthStub
+})
+export class AuthService extends BaseBackendService<AuthStub> {
 
   public loginObservable: Subject<string>;
   public logoutObservable: Subject<string>;
 
-  private _headers: Headers;
-
-  constructor(private http: Http,
+    constructor(
+    http: Http,
+    notification: NotificationService,
     @Inject('IStorageService') private storage: IStorageService,
-    private requestBuilder: ApiRequestBuilderService) {
+  ) {
+    super(http, notification);
     this.loginObservable = new Subject<string>();
     this.logoutObservable = new Subject<string>();
-
-    this._headers = new Headers({
-      'Content-Type': 'application/x-www-form-urlencoded'
-    });
   }
 
   get name(): string {
@@ -51,38 +56,19 @@ export class AuthService {
   }
 
   public login(username: string, password: string): Promise<void> {
-    return this.http.post(apiUrl, this.getLoginRequest(username, password), { headers: this._headers })
-      .toPromise()
-      .then(response => this.setLoggedIn(response.json()))
+    return this.postRequest('login', { username, password })
+      .then(res => this.setLoggedIn(res))
       .catch(this.handleLoginError);
   }
 
   public logout(): Promise<void> {
-    return this.http.get(this.getLogoutRequest())
-      .toPromise()
+    return this.postRequest('logout')
       .then(response => this.setLoggedOut())
       .catch(this.handleLogoutError);
   }
 
   public isLoggedIn(): boolean {
     return <String>this.storage.read('loggedIn') === 'true';
-  }
-
-  private getLoginRequest(username: string, password: string): string {
-    return this.requestBuilder.buildPOSTRequest({
-      'command': 'login',
-      'username': username,
-      'password': password,
-      'domain': '/',
-      'response': 'json'
-    });
-  }
-
-  private getLogoutRequest(): string {
-    return this.requestBuilder.buildGETRequest({
-      'command': 'logout',
-      'response': 'json'
-    });
   }
 
   private handleLoginError(): Promise<void> {

@@ -7,9 +7,8 @@ import { HomeComponent } from '../home/home.component';
 
 import {
   AuthService,
-  StorageService,
-  ApiRequestBuilderService,
-} from '../shared';
+  StorageService
+} from '../shared/services';
 
 import {
   MdlLayoutModule,
@@ -29,7 +28,6 @@ describe('Home Component', () => {
         HomeComponent
       ],
       providers: [
-        ApiRequestBuilderService,
         AuthService,
         {provide: 'IStorageService', useClass: StorageService},
       ],

@@ -12,14 +12,17 @@ import { LoginFormComponent } from './login-form/login-form.component';
 
 import {
   ApiService,
-  ApiRequestBuilderService,
   StorageService,
   AuthService,
+} from './shared/services';
+
+import {
   NotificationService,
   RootDiskSizeService
-} from './shared';
+} from './shared'
 
 import { routing } from './app.routing';
+
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
 @NgModule({
@@ -39,11 +42,10 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
   ],
   providers: [
     ApiService,
-    ApiRequestBuilderService,
-    {provide: 'IStorageService', useClass: StorageService},
     AuthService,
     NotificationService,
-    RootDiskSizeService
+    RootDiskSizeService,
+    {provide: 'IStorageService', useClass: StorageService}
   ],
   bootstrap: [AppComponent]
 })

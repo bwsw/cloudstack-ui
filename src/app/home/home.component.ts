@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../shared';
+import { AuthService } from '../shared/services';
 
 @Component({
   selector: 'cs-home',
