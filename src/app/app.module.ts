@@ -9,7 +9,12 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { LoginFormComponent } from './login-form/login-form.component';
-import { ApiService, AlertService, StorageService, AuthService } from './shared';
+import { ApiService, AlertService, StorageService, AuthService } from './shared/services';
+
+// for testing purposes
+import { ServiceOfferingService } from './shared/services';
+//
+
 import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
@@ -33,7 +38,8 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     ApiService,
     AlertService,
     {provide: 'IStorageService', useClass: StorageService},
-    AuthService
+    AuthService,
+    ServiceOfferingService
   ],
   bootstrap: [AppComponent]
 })

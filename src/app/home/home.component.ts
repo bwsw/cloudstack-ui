@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 
 import { AuthService } from '../shared/services';
 
-
 @Component({
   selector: 'cs-home',
   templateUrl: './home.component.html',
