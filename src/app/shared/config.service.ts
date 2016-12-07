@@ -1,22 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { INetworkSecurityGroup } from './security-group/security-group.service';
 import 'rxjs/add/operator/toPromise';
 
 interface IConfig {
-  config: { isProd: string };
   securityGroupTemplates: Array<INetworkSecurityGroup>;
-}
-
-interface INetworkSecurityGroup {
-  name: string;
-  rules: Array<INetworkRule>;
-}
-
-interface INetworkRule {
-  type: string;
-  protocol: string;
-  firstPort: number;
-  lastPort: number;
 }
 
 @Injectable()
@@ -27,15 +15,21 @@ export class ConfigService {
   constructor(private http: Http) {}
 
   public load(reload = false): Promise<void> {
-    return this.http.get('/config-dev.json')
-      .toPromise()
-      .then(response => { this.config = response.json(); })
-      .catch(error => {
-        return this.http.get('/config-prod.json')
-          .toPromise()
-          .then(response => { this.config = response.json(); })
-          .catch(this.handleError);
-      });
+    if (reload || !this.config) {
+      return this.http.get('/config-dev.json')
+        .toPromise()
+        .then(response => { this.config = response.json(); })
+        .catch(error => {
+          if (error.status === 404) {
+            return this.http.get('/config-prod.json')
+              .toPromise()
+              .then(response => { this.config = response.json(); })
+              .catch(this.handleError);
+          }
+        }).catch(this.handleError);
+    } else {
+      Promise.resolve();
+    }
   }
 
   public get(key: string): Promise<any> {
