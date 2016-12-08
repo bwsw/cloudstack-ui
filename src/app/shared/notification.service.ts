@@ -7,8 +7,15 @@ interface INotificationAction {
   text: string;
 }
 
+export interface INotificationService {
+  timeout: number;
+  message(message: string): Observable<MdlSnackbarComponent>;
+  warning(message: string, action: INotificationAction): Observable<MdlSnackbarComponent>;
+  error(message: string, action: INotificationAction): Observable<MdlSnackbarComponent>;
+}
+
 @Injectable()
-export class NotificationService {
+export class NotificationService implements INotificationService {
 
   public timeout: number;
 
@@ -44,4 +51,21 @@ export class NotificationService {
     }): Observable<MdlSnackbarComponent> {
     return this.snackbar.showSnackbar({ message, action });
   }
+}
+
+export class MockNotificationService implements INotificationService {
+
+  public timeout: number;
+
+  public message(message: string): Observable<MdlSnackbarComponent> {
+    return new Observable<MdlSnackbarComponent>();
+  };
+
+  public warning(message: string, action: INotificationAction): Observable<MdlSnackbarComponent> {
+    return new Observable<MdlSnackbarComponent>();
+  };
+
+  public error(message: string, action: INotificationAction): Observable<MdlSnackbarComponent> {
+    return new Observable<MdlSnackbarComponent>();
+  };
 }

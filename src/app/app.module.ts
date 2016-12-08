@@ -41,7 +41,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
   providers: [
     ApiService,
     AuthService,
-    NotificationService,
+    {provide: 'INotificationService', useClass: NotificationService},
     RootDiskSizeService,
     {provide: 'IStorageService', useClass: StorageService}
   ],

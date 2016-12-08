@@ -1,6 +1,7 @@
 import { Http, URLSearchParams, Response, Headers } from '@angular/http';
 import { BaseModel } from '../models/base.model';
-import { NotificationService } from '../notification.service';
+import { INotificationService } from '../notification.service';
+import { Inject } from '@angular/core';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -10,7 +11,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
   protected entity: string;
   protected entityModel: { new (params?): M; };
 
-  constructor(protected http: Http, protected notification: NotificationService) { }
+  constructor(protected http: Http,
+    @Inject('INotificationService') protected notification: INotificationService) {}
 
   public get(id: string): Promise<M> {
     return this.fetchList({ id })

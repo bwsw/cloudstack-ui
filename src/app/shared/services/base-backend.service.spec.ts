@@ -1,4 +1,5 @@
 import { inject, TestBed, async, getTestBed } from '@angular/core/testing';
+import { Inject } from '@angular/core';
 
 import { BaseBackendService } from './base-backend.service';
 import { BaseModel } from '../models/base.model';
@@ -14,7 +15,7 @@ import {
   URLSearchParams
 } from '@angular/http';
 import { FormsModule } from '@angular/forms';
-import { NotificationService } from '../notification.service';
+import { MockNotificationService, INotificationService } from '../notification.service';
 
 describe('Base backend service', () => {
   let mockBackend: MockBackend;
@@ -39,7 +40,7 @@ describe('Base backend service', () => {
     entityModel: TestModel
   })
   class TestBackendService extends BaseBackendService<TestModel> {
-    constructor(http: Http, notification: NotificationService) {
+    constructor(http: Http, @Inject('INotificationService') notification: INotificationService) {
       super(http, notification);
     }
   }
@@ -48,7 +49,7 @@ describe('Base backend service', () => {
     TestBed.configureTestingModule({
       providers: [
         TestBackendService,
-        NotificationService,
+        {provide: 'INotificationService', useClass: MockNotificationService},
         MockBackend,
         BaseRequestOptions,
         {

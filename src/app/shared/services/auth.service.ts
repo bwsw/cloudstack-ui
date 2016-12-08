@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/toPromise';
 import { BaseBackendService } from './base-backend.service';
 import { BaseModel } from '../models/base.model';
-import { NotificationService } from '../notification.service';
+import { INotificationService } from '../notification.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 
 
@@ -31,7 +31,7 @@ export class AuthService extends BaseBackendService<AuthStub> {
 
     constructor(
     http: Http,
-    notification: NotificationService,
+    @Inject('INotificationService') protected notification: INotificationService,
     @Inject('IStorageService') private storage: IStorageService,
   ) {
     super(http, notification);

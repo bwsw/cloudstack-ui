@@ -10,6 +10,8 @@ import {
   StorageService
 } from '../shared/services';
 
+import { MockNotificationService } from '../shared/notification.service';
+
 import {
   MdlLayoutModule,
   MdlRippleModule,
@@ -30,6 +32,7 @@ describe('Home Component', () => {
       providers: [
         AuthService,
         {provide: 'IStorageService', useClass: StorageService},
+        {provide: 'INotificationService', useClass: MockNotificationService}
       ],
     });
   });

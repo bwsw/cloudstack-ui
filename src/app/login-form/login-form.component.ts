@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../shared';
-import { NotificationService } from '../shared/notification.service';
+import { INotificationService } from '../shared/notification.service';
 
 @Component({
   selector: 'cs-login-form',
@@ -16,7 +16,7 @@ export class LoginFormComponent {
 
   constructor(
     private auth: AuthService,
-    private notification: NotificationService,
+    @Inject('INotificationService') private notification: INotificationService,
     private router: Router) {
     this.username = '';
     this.password = '';
