@@ -16,7 +16,6 @@ interface LoginResponse {
   };
 }
 
-
 class AuthStub extends BaseModel { }
 
 @Injectable()
@@ -26,25 +25,20 @@ class AuthStub extends BaseModel { }
 })
 export class AuthService extends BaseBackendService<AuthStub> {
 
-  public loginObservable: Subject<string>;
-  public logoutObservable: Subject<string>;
+  public authObservable: Subject<string>;
 
     constructor(
-    http: Http,
-    @Inject('INotificationService') protected notification: INotificationService,
-    @Inject('IStorageService') private storage: IStorageService,
-  ) {
+      http: Http,
+      @Inject('INotificationService') protected notification: INotificationService,
+      @Inject('IStorageService') private storage: IStorageService
+    ) {
     super(http, notification);
-    this.loginObservable = new Subject<string>();
-    this.logoutObservable = new Subject<string>();
+    this.authObservable = new Subject<string>();
   }
 
   get name(): string {
     let name = this.storage.read('name');
-    if (!name) {
-      return 'Unauthorized';
-    }
-    return name;
+    return name ? name : '';
   }
 
   set name(name: string) {
@@ -57,37 +51,41 @@ export class AuthService extends BaseBackendService<AuthStub> {
 
   public login(username: string, password: string): Promise<void> {
     return this.postRequest('login', { username, password })
-      .then(res => this.setLoggedIn(res))
-      .catch(this.handleLoginError);
+      .then(res => { this.setLoggedIn(res); })
+      .catch(() => Promise.reject('Incorrect username or password.'));
   }
 
   public logout(): Promise<void> {
     return this.postRequest('logout')
       .then(response => this.setLoggedOut())
-      .catch(this.handleLogoutError);
+      .catch(() => Promise.reject('Unable to log out'));
   }
 
-  public isLoggedIn(): boolean {
-    return <String>this.storage.read('loggedIn') === 'true';
-  }
-
-  private handleLoginError(): Promise<void> {
-    return Promise.reject('Incorrect username or password.');
-  }
-
-  private handleLogoutError(): Promise<void> {
-    return Promise.reject('Unable to log out');
+  public isLoggedIn(): Promise<boolean> {
+    if (this.name) {
+      return this.http.get('/client/api')
+        .toPromise()
+        .then(response => true)
+        .catch(error => {
+          if (error.status === 400) {
+            return Promise.resolve(true);
+          } else {
+            return Promise.resolve(false);
+          }
+        });
+    } else {
+      this.setLoggedOut();
+      return Promise.resolve(false);
+    }
   }
 
   private setLoggedIn(response: LoginResponse): void {
-    this.storage.write('loggedIn', 'true');
     this.name = `${response.loginresponse.firstname} ${response.loginresponse.lastname}`;
-    this.loginObservable.next('');
+    this.authObservable.next('loggedIn');
   }
 
   private setLoggedOut(): void {
-    this.storage.write('loggedIn', 'false');
     this.name = '';
-    this.logoutObservable.next('');
+    this.authObservable.next('loggedOut');
   }
 }

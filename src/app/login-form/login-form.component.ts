@@ -13,6 +13,8 @@ export class LoginFormComponent {
 
   private username: string;
   private password: string;
+  private usernameRequired: boolean;
+  private passwordRequired: boolean;
 
   constructor(
     private auth: AuthService,
@@ -20,9 +22,11 @@ export class LoginFormComponent {
     private router: Router) {
     this.username = '';
     this.password = '';
+    this.usernameRequired = false;
+    this.passwordRequired = false;
   }
 
-  public submit(): void {
+  private onSubmit(): void {
     this.login(this.username, this.password);
   }
 
@@ -33,10 +37,15 @@ export class LoginFormComponent {
   }
 
   private handleLogin(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/client']);
   }
 
   private handleError(error: string): void {
+    this.usernameRequired = !this.username;
+    this.passwordRequired = !this.password;
+    if (this.usernameRequired || this.passwordRequired) {
+      return;
+    }
     this.notification.message(error);
   }
 }

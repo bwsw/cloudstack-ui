@@ -9,11 +9,14 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { LoginFormComponent } from './login-form/login-form.component';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import {
   ApiService,
   StorageService,
   AuthService,
+  AuthGuard,
+  LoginGuard
 } from './shared/services';
 
 import { NotificationService } from './shared/notification.service';
@@ -22,6 +25,7 @@ import { RootDiskSizeService } from './shared/root-disk-size.service';
 import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
+
 
 @NgModule({
   imports: [
@@ -40,13 +44,17 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
   ],
   providers: [
     ApiService,
+    AuthGuard,
+    LoginGuard,
     AuthService,
     {provide: 'INotificationService', useClass: NotificationService},
     RootDiskSizeService,
-    {provide: 'IStorageService', useClass: StorageService}
+    {provide: 'IStorageService', useClass: StorageService},
+    CookieService
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule {
   constructor(public appRef: ApplicationRef) {}
 
