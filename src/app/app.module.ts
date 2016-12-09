@@ -1,4 +1,4 @@
-import { NgModule, ApplicationRef } from '@angular/core';
+import { NgModule, ApplicationRef, Injector } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
@@ -22,6 +22,7 @@ import { RootDiskSizeService } from './shared/root-disk-size.service';
 import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
+import { ServiceLocator } from './shared/services/service-locator';
 
 @NgModule({
   imports: [
@@ -43,12 +44,14 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     AuthService,
     {provide: 'INotificationService', useClass: NotificationService},
     RootDiskSizeService,
-    {provide: 'IStorageService', useClass: StorageService}
+    {provide: 'IStorageService', useClass: StorageService},
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(public appRef: ApplicationRef) {}
+  constructor(public appRef: ApplicationRef, private injector: Injector) {
+    ServiceLocator.injector = this.injector;
+  }
 
   public hmrOnInit(store) {
     console.log('HMR store', store);
