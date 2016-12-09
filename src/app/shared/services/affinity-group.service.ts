@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { AffinityGroupModel } from '../models';
+import { AffinityGroup } from '../models';
 
 import { BackendResource } from '../decorators/backend-resource.decorator';
 
@@ -11,9 +11,9 @@ import { BaseBackendService } from './base-backend.service';
 @Injectable()
 @BackendResource({
   entity: 'AffinityGroup',
-  entityModel: AffinityGroupModel
+  entityModel: AffinityGroup
 })
-export class AffinityGroupService extends BaseBackendService<AffinityGroupModel> {
+export class AffinityGroupService extends BaseBackendService<AffinityGroup> {
   constructor(http: Http, notification: NotificationService) {
     super(http, notification);
   }
