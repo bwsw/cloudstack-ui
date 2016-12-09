@@ -13,8 +13,10 @@ export class HomeComponent {
   private title: string;
   private loggedIn: boolean;
 
-  constructor (private auth: AuthService,
-    private router: Router) {
+  constructor (
+    private auth: AuthService,
+    private router: Router
+  ) {
     this.title = this.auth.name;
     this.loggedIn = this.auth.isLoggedIn();
 

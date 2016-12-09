@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ConfigService } from '..';
+import { ConfigService } from '../config.service';
 
 export interface INetworkSecurityGroup {
   name: string;
