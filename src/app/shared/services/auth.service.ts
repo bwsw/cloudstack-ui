@@ -1,11 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { IStorageService } from './storage.service';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/toPromise';
 import { BaseBackendService } from './base-backend.service';
 import { BaseModel } from '../models/base.model';
-import { INotificationService } from '../notification.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 
 
@@ -29,12 +27,8 @@ export class AuthService extends BaseBackendService<AuthStub> {
   public loginObservable: Subject<string>;
   public logoutObservable: Subject<string>;
 
-    constructor(
-    http: Http,
-    @Inject('INotificationService') protected notification: INotificationService,
-    @Inject('IStorageService') private storage: IStorageService,
-  ) {
-    super(http, notification);
+  constructor(@Inject('IStorageService') private storage: IStorageService) {
+    super();
     this.loginObservable = new Subject<string>();
     this.logoutObservable = new Subject<string>();
   }

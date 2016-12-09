@@ -2,6 +2,7 @@ import { Http, URLSearchParams, Response, Headers } from '@angular/http';
 import { BaseModel } from '../models/base.model';
 import { INotificationService } from '../notification.service';
 import { Inject } from '@angular/core';
+import { ServiceLocator } from './service-locator';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -11,8 +12,15 @@ export abstract class BaseBackendService<M extends BaseModel> {
   protected entity: string;
   protected entityModel: { new (params?): M; };
 
-  constructor(protected http: Http,
-    @Inject('INotificationService') protected notification: INotificationService) {}
+  protected http: Http;
+
+  @Inject('INotificationService')
+  protected notification: INotificationService;
+
+  constructor() {
+    this.http = ServiceLocator.injector.get(Http);
+    this.notification = ServiceLocator.injector.get('INotificationService');
+  }
 
   public get(id: string): Promise<M> {
     return this.fetchList({ id })

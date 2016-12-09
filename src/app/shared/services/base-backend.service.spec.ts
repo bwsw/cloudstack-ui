@@ -1,5 +1,5 @@
 import { inject, TestBed, async, getTestBed } from '@angular/core/testing';
-import { Inject } from '@angular/core';
+import { Injector } from '@angular/core';
 
 import { BaseBackendService } from './base-backend.service';
 import { BaseModel } from '../models/base.model';
@@ -15,7 +15,8 @@ import {
   URLSearchParams
 } from '@angular/http';
 import { FormsModule } from '@angular/forms';
-import { MockNotificationService, INotificationService } from '../notification.service';
+import { MockNotificationService } from '../notification.service';
+import { ServiceLocator } from './service-locator';
 
 describe('Base backend service', () => {
   let mockBackend: MockBackend;
@@ -39,11 +40,7 @@ describe('Base backend service', () => {
     entity: 'Test',
     entityModel: TestModel
   })
-  class TestBackendService extends BaseBackendService<TestModel> {
-    constructor(http: Http, @Inject('INotificationService') notification: INotificationService) {
-      super(http, notification);
-    }
-  }
+  class TestBackendService extends BaseBackendService<TestModel> { }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -59,13 +56,17 @@ describe('Base backend service', () => {
             (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
               return new Http(backend, defaultOptions);
             },
-        }
+        },
+        Injector
       ],
       imports: [
         FormsModule,
         HttpModule
       ]
     });
+
+    ServiceLocator.injector = getTestBed().get(Injector);
+
     mockBackend = getTestBed().get(MockBackend);
     mockBackend.connections.subscribe((connection: MockConnection) => {
       const url = connection.request.url;
