@@ -3,11 +3,11 @@ import { FieldMapper } from '../shared/decorators';
 
 /* TODO
   1. nicService
-  2. volumesService
-  3. affinitygroup
-  4. need get OSType
-  5. securitygroup
-  6. secondaryip in INic
+  2. volumeService
+  3. affinityGroup
+  4. need to get OSType
+  5. securityGroup
+  6. secondaryIp in INic
 */
 
 
@@ -47,14 +47,21 @@ interface INic {
 })
 export class VirtualMachine extends BaseModel {
   public displayName: string;
+  // Status
   public state: string;
+  // Service Offering
   public serviceOfferingId: string;
   public serviceOfferingName: string;
+  // IP addresses
   public nic: Array<INic>;
+  // Security Group
   public securityGroup: Array<ISecurityGroup>;
+  // Affinity Group
   public affinityGroup: Array<IAffinityGroup>;
+  // Zone
   public zoneId: string;
   public zoneName: string;
+  // Template
   public templateId: string;
   public templateName: string;
   // statictic
