@@ -4,14 +4,14 @@ import { Http } from '@angular/http';
 import { NotificationService } from '../shared/notification.service';
 import { BaseBackendService } from '../shared/services';
 import { BackendResource } from '../shared/decorators';
-import { VmModel } from './vm.model';
+import { VirtualMachine } from './vm.model';
 
 @Injectable()
 @BackendResource({
   entity: 'VirtualMachine',
-  entityModel: VmModel
+  entityModel: VirtualMachine
 })
-export class VmService extends BaseBackendService<VmModel> {
+export class VmService extends BaseBackendService<VirtualMachine> {
   constructor(protected http: Http,
     protected notification: NotificationService) {
     super(http, notification);

@@ -18,7 +18,6 @@ import {
 
 import { NotificationService } from './shared/notification.service';
 import { RootDiskSizeService } from './shared/root-disk-size.service';
-import { VmService } from './vm';
 
 import { routing } from './app.routing';
 
@@ -44,8 +43,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     AuthService,
     {provide: 'INotificationService', useClass: NotificationService},
     RootDiskSizeService,
-    {provide: 'IStorageService', useClass: StorageService},
-    VmService
+    {provide: 'IStorageService', useClass: StorageService}
   ],
   bootstrap: [AppComponent]
 })

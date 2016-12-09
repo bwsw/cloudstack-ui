@@ -45,24 +45,24 @@ interface INic {
   diskioread: 'diskIoRead',
   diskiowrite: 'diskIoWrite'
 })
-export class VmModel extends BaseModel {
-  public displayname: string;
+export class VirtualMachine extends BaseModel {
+  public displayName: string;
   public state: string;
-  public serviceofferingid: string;
-  public serviceofferingname: string;
+  public serviceOfferingId: string;
+  public serviceOfferingName: string;
   public nic: Array<INic>;
-  public securitygroup: Array<ISecurityGroup>;
-  public affinitygroup: Array<IAffinityGroup>;
-  public zoneid: string;
-  public zonename: string;
-  public templateid: string;
-  public templatename: string;
+  public securityGroup: Array<ISecurityGroup>;
+  public affinityGroup: Array<IAffinityGroup>;
+  public zoneId: string;
+  public zoneName: string;
+  public templateId: string;
+  public templateName: string;
   // statictic
-  public cpuused: string;
-  public networkkbsread: number;
-  public networkkbswrite: number;
-  public diskkbsread: number;
-  public diskkbswrite: number;
-  public diskioread: number;
-  public diskiowrite: number;
+  public cpuUsed: string;
+  public networkKbsRead: number;
+  public networkKbsWrite: number;
+  public diskKbsRead: number;
+  public diskKbsWrite: number;
+  public diskIoRead: number;
+  public diskIoWrite: number;
 }
