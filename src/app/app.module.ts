@@ -9,14 +9,15 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { LoginFormComponent } from './login-form/login-form.component';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import {
   ApiService,
-  StorageService,
-  AuthService,
   AuthGuard,
-  LoginGuard
+  AuthService,
+  ErrorService,
+  LoginGuard,
+  StorageService,
+  ZoneService
 } from './shared/services';
 
 import { NotificationService } from './shared/notification.service';
@@ -37,20 +38,22 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     MdlModule
   ],
   declarations: [
+    AboutComponent,
     AppComponent,
     HomeComponent,
-    AboutComponent,
     LoginFormComponent
   ],
   providers: [
     ApiService,
     AuthGuard,
-    LoginGuard,
     AuthService,
+    ErrorService,
     {provide: 'INotificationService', useClass: NotificationService},
-    RootDiskSizeService,
     {provide: 'IStorageService', useClass: StorageService},
-    CookieService
+    LoginGuard,
+    NotificationService,
+    RootDiskSizeService,
+    ZoneService
   ],
   bootstrap: [AppComponent]
 })

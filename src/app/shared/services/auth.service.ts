@@ -3,9 +3,9 @@ import { Http } from '@angular/http';
 import { IStorageService } from './storage.service';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/toPromise';
-import { BaseBackendService } from './base-backend.service';
+import { BaseBackendService, BACKEND_API_URL } from './base-backend.service';
 import { BaseModel } from '../models/base.model';
-import { INotificationService } from '../notification.service';
+import { ErrorService } from './error.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 
 
@@ -28,12 +28,12 @@ export class AuthService extends BaseBackendService<AuthStub> {
   public authObservable: Subject<string>;
 
     constructor(
-      http: Http,
-      @Inject('INotificationService') protected notification: INotificationService,
-      @Inject('IStorageService') private storage: IStorageService
+      protected http: Http,
+      @Inject('IStorageService') protected storage: IStorageService,
+      protected error: ErrorService
     ) {
-    super(http, notification);
-    this.authObservable = new Subject<string>();
+      super(http, error);
+      this.authObservable = new Subject<string>();
   }
 
   get name(): string {
@@ -58,16 +58,16 @@ export class AuthService extends BaseBackendService<AuthStub> {
   public logout(): Promise<void> {
     return this.postRequest('logout')
       .then(response => this.setLoggedOut())
-      .catch(() => Promise.reject('Unable to log out'));
+      .catch(() => Promise.reject('Unable to log out.'));
   }
 
   public isLoggedIn(): Promise<boolean> {
     if (this.name) {
-      return this.http.get('/client/api')
+      return this.http.get(BACKEND_API_URL)
         .toPromise()
         .then(response => true)
-        .catch(error => {
-          if (error.status === 400) {
+        .catch(e => {
+          if (e.status === 400) {
             return Promise.resolve(true);
           } else {
             return Promise.resolve(false);

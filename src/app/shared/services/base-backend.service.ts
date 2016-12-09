@@ -1,18 +1,17 @@
 import { Http, URLSearchParams, Response, Headers } from '@angular/http';
 import { BaseModel } from '../models/base.model';
-import { INotificationService } from '../notification.service';
-import { Inject } from '@angular/core';
+import { ErrorService } from '.';
 
 import 'rxjs/add/operator/toPromise';
 
-const BACKEND_API_URL = '/client/api';
+export const BACKEND_API_URL = '/client/api';
 
 export abstract class BaseBackendService<M extends BaseModel> {
   protected entity: string;
   protected entityModel: { new (params?): M; };
 
   constructor(protected http: Http,
-    @Inject('INotificationService') protected notification: INotificationService) {}
+    protected error: ErrorService) {}
 
   public get(id: string): Promise<M> {
     return this.fetchList({ id })
@@ -54,7 +53,10 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return this.http.post(BACKEND_API_URL, this.buildParams(command, params), { headers })
       .toPromise()
       .then((res: Response) => res.json())
-      .catch(err => this.handleError(err));
+      .catch(error => {
+        this.error.emitError(error);
+        return Promise.reject(error);
+      } );
   }
 
   private fetchList(params?: {}): Promise<any> {
@@ -67,24 +69,9 @@ export abstract class BaseBackendService<M extends BaseModel> {
         const responseString = `${command}${entity}sresponse`;
         return res.json()[responseString][`${entity}`];
       })
-      .catch(error => this.handleError(error));
-  }
-
-  private handleError(error: Response): Promise<any> {
-    let message: string;
-    switch (error.status) {
-      case 401:
-        message = 'You are not logged in';
-        this.notification.message(message);
-        return Promise.reject(message);
-
-      case 431:
-        message = 'Wrong arguments';
-        this.notification.message(message);
-        return Promise.reject(message);
-
-      default:
-        return Promise.reject('Unknown error');
-    }
+      .catch(error => {
+        this.error.emitError(error);
+        return Promise.reject(error);
+      });
   }
 }

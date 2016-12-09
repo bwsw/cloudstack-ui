@@ -19,7 +19,8 @@ export class LoginFormComponent {
   constructor(
     private auth: AuthService,
     @Inject('INotificationService') private notification: INotificationService,
-    private router: Router) {
+    private router: Router
+  ) {
     this.username = '';
     this.password = '';
     this.usernameRequired = false;
@@ -43,9 +44,9 @@ export class LoginFormComponent {
   private handleError(error: string): void {
     this.usernameRequired = !this.username;
     this.passwordRequired = !this.password;
-    if (this.usernameRequired || this.passwordRequired) {
-      return;
+    let t = !this.usernameRequired && !this.passwordRequired;
+    if (!this.usernameRequired && !this.passwordRequired) {
+      this.notification.message(error);
     }
-    this.notification.message(error);
   }
 }
