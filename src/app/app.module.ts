@@ -14,6 +14,7 @@ import {
   ApiService,
   StorageService,
   AuthService,
+  ServiceLocator
 } from './shared/services';
 
 import { NotificationService } from './shared/notification.service';
@@ -22,7 +23,6 @@ import { RootDiskSizeService } from './shared/root-disk-size.service';
 import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
-import { ServiceLocator } from './shared/services/service-locator';
 
 @NgModule({
   imports: [
