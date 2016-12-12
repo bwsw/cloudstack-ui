@@ -1,9 +1,9 @@
 // This shows a different way of testing a component, check about for a simpler one
-import { TestBed } from '@angular/core/testing';
+import { TestBed, getTestBed } from '@angular/core/testing';
 import { TranslateModule } from 'ng2-translate';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { HomeComponent } from '../home/home.component';
+import { HomeComponent } from './home.component';
 
 import {
   AuthService,
@@ -16,6 +16,8 @@ import {
   MdlLayoutModule,
   MdlRippleModule,
 } from 'angular2-mdl';
+import { Injector } from '@angular/core';
+import { ServiceLocator } from '../shared/services/service-locator';
 
 describe('Home Component', () => {
   beforeEach(() => {
@@ -31,10 +33,13 @@ describe('Home Component', () => {
       ],
       providers: [
         AuthService,
+        Injector,
         {provide: 'IStorageService', useClass: StorageService},
         {provide: 'INotificationService', useClass: MockNotificationService}
       ],
     });
+
+    ServiceLocator.injector = getTestBed().get(Injector);
   });
 
   it('should ...', () => {

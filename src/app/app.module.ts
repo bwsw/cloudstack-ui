@@ -1,4 +1,4 @@
-import { NgModule, ApplicationRef } from '@angular/core';
+import { NgModule, ApplicationRef, Injector } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
@@ -14,7 +14,8 @@ import {
   ApiService,
   StorageService,
   AuthService,
-  ServiceOfferingService
+  ServiceOfferingService,
+  ServiceLocator
 } from './shared/services';
 
 import { NotificationService } from './shared/notification.service';
@@ -50,7 +51,9 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(public appRef: ApplicationRef) {}
+  constructor(public appRef: ApplicationRef, private injector: Injector) {
+    ServiceLocator.injector = this.injector;
+  }
 
   public hmrOnInit(store) {
     console.log('HMR store', store);
