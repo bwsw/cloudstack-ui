@@ -14,10 +14,10 @@ import {
   ApiService,
   StorageService,
   AuthService,
+  RootDiskSizeService
 } from './shared/services';
 
 import { NotificationService } from './shared/notification.service';
-import { RootDiskSizeService } from './shared/root-disk-size.service';
 
 import { routing } from './app.routing';
 
