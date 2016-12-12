@@ -11,7 +11,6 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
 
-
 import {
   ApiService,
   AuthGuard,
@@ -28,6 +27,7 @@ import { RootDiskSizeService } from './shared/root-disk-size.service';
 import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
+import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
 
 
 @NgModule({
@@ -51,12 +51,13 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     AuthGuard,
     AuthService,
     ErrorService,
-    {provide: 'INotificationService', useClass: NotificationService},
-    {provide: 'IStorageService', useClass: StorageService},
+    { provide: 'INotificationService', useClass: NotificationService },
+    { provide: 'IStorageService', useClass: StorageService },
     LoginGuard,
     NotificationService,
     RootDiskSizeService,
-    ZoneService
+    ZoneService,
+    { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true }
   ],
   bootstrap: [AppComponent]
 })

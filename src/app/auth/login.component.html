@@ -4,21 +4,23 @@
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
       <div class="mdl-dialog__content">
         <mdl-textfield
+          required
           type="text"
           label="Username"
           id="username"
           name="username"
           [(ngModel)]="username"
-          [required]="usernameRequired ? 'true' : null">
+          [class.ng-invalid]="!username.valid && !username.pristine">
         </mdl-textfield>
         <br/>
         <mdl-textfield
+          required
           type="password"
           label="Password"
           id="password"
           name="password"
           [(ngModel)]="password"
-          [required]="passwordRequired ? 'true' : null">
+          [class.ng-invalid]="!password.valid && !password.pristine">
         </mdl-textfield>
       </div>
       <div class="mdl-dialog__actions">
