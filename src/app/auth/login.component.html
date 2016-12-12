@@ -1,0 +1,30 @@
+<div class="flex-container">
+  <div class="login" mdl-shadow="2">
+    <h3 class="mdl-dialog__title">Login</h3>
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="mdl-dialog__content">
+        <mdl-textfield
+          type="text"
+          label="Username"
+          id="username"
+          name="username"
+          [(ngModel)]="username"
+          [required]="usernameRequired ? 'true' : null">
+        </mdl-textfield>
+        <br/>
+        <mdl-textfield
+          type="password"
+          label="Password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          [required]="passwordRequired ? 'true' : null">
+        </mdl-textfield>
+      </div>
+      <div class="mdl-dialog__actions">
+        <button mdl-button mdl-ripple type="submit">Login</button>
+      </div>
+    </form>
+  </div>
+</div>
+

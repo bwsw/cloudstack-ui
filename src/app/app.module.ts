@@ -5,10 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
 
+import { AboutComponent } from './about/about.component';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
-import { LoginFormComponent } from './login-form/login-form.component';
+import { LoginComponent } from './auth/login.component';
+import { LogoutComponent } from './auth/logout.component';
+
 
 import {
   ApiService,
@@ -41,7 +43,8 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     AboutComponent,
     AppComponent,
     HomeComponent,
-    LoginFormComponent
+    LoginComponent,
+    LogoutComponent
   ],
   providers: [
     ApiService,

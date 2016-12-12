@@ -54,7 +54,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
       .toPromise()
       .then((res: Response) => res.json())
       .catch(error => {
-        this.error.emitError(error);
+        this.error.next(error);
         return Promise.reject(error);
       } );
   }
@@ -70,7 +70,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
         return res.json()[responseString][`${entity}`];
       })
       .catch(error => {
-        this.error.emitError(error);
+        this.error.next(error);
         return Promise.reject(error);
       });
   }

@@ -5,11 +5,11 @@ import { AuthService } from '../shared';
 import { INotificationService } from '../shared/notification.service';
 
 @Component({
-  selector: 'cs-login-form',
-  templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.scss'],
+  selector: 'cs-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.scss'],
 })
-export class LoginFormComponent {
+export class LoginComponent {
 
   private username: string;
   private password: string;
@@ -44,7 +44,6 @@ export class LoginFormComponent {
   private handleError(error: string): void {
     this.usernameRequired = !this.username;
     this.passwordRequired = !this.password;
-    let t = !this.usernameRequired && !this.passwordRequired;
     if (!this.usernameRequired && !this.passwordRequired) {
       this.notification.message(error);
     }

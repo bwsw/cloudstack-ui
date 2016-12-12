@@ -25,7 +25,7 @@ class AuthStub extends BaseModel { }
 })
 export class AuthService extends BaseBackendService<AuthStub> {
 
-  public authObservable: Subject<string>;
+  public loggedIn: Subject<boolean>;
 
     constructor(
       protected http: Http,
@@ -33,15 +33,15 @@ export class AuthService extends BaseBackendService<AuthStub> {
       protected error: ErrorService
     ) {
       super(http, error);
-      this.authObservable = new Subject<string>();
+      this.loggedIn = new Subject<boolean>();
   }
 
-  get name(): string {
+  public get name(): string {
     let name = this.storage.read('name');
     return name ? name : '';
   }
 
-  set name(name: string) {
+  public set name(name: string) {
     if (!name) {
       this.storage.remove('name');
     } else {
@@ -51,7 +51,9 @@ export class AuthService extends BaseBackendService<AuthStub> {
 
   public login(username: string, password: string): Promise<void> {
     return this.postRequest('login', { username, password })
-      .then(res => { this.setLoggedIn(res); })
+      .then(response => {
+        this.setLoggedIn(`${response.loginresponse.firstname} ${response.loginresponse.lastname}`);
+      })
       .catch(() => Promise.reject('Incorrect username or password.'));
   }
 
@@ -70,22 +72,22 @@ export class AuthService extends BaseBackendService<AuthStub> {
           if (e.status === 400) {
             return Promise.resolve(true);
           } else {
+            this.setLoggedOut();
             return Promise.resolve(false);
           }
         });
     } else {
-      this.setLoggedOut();
       return Promise.resolve(false);
     }
   }
 
-  private setLoggedIn(response: LoginResponse): void {
-    this.name = `${response.loginresponse.firstname} ${response.loginresponse.lastname}`;
-    this.authObservable.next('loggedIn');
+  private setLoggedIn(name: string): void {
+    this.name = name;
+    this.loggedIn.next(true);
   }
 
   private setLoggedOut(): void {
     this.name = '';
-    this.authObservable.next('loggedOut');
+    this.loggedIn.next(false);
   }
 }

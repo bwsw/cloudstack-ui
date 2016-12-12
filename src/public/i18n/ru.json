@@ -1,4 +1,7 @@
 {
   "LOGIN": "Войти",
-  "LOGOUT": "Выйти"
+  "LOGOUT": "Выйти",
+  "NOT_LOGGED_IN": "Вы не вошли в систему",
+  "WRONG_ARGUMENTS": "Неверные параметры",
+  "UNEXPECTED_ERROR": "Неизвестная ошибка"
 }

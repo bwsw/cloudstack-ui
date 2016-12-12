@@ -2,7 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
-import { LoginFormComponent } from './login-form/login-form.component';
+import { LoginComponent } from './auth/login.component';
 
 import { AuthGuard, LoginGuard } from './shared/services';
 
@@ -17,18 +17,17 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [
       AuthGuard
-    ]
-  },
-  {
-    path: 'client/about',
-    component: AboutComponent,
-    canActivate: [
-      AuthGuard
+    ],
+    children: [
+      {
+        path: 'about',
+        component: AboutComponent,
+      }
     ]
   },
   {
     path: 'login',
-    component: LoginFormComponent,
+    component: LoginComponent,
     canActivate: [
       LoginGuard
     ]

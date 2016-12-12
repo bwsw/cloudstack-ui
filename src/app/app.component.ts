@@ -2,11 +2,14 @@ import { Component, Inject } from '@angular/core';
 import { Response } from '@angular/http';
 
 import { ApiService } from './shared';
+import { AuthService } from './shared/services';
+import { Router } from '@angular/router';
 import { TranslateService } from 'ng2-translate';
 import { ErrorService } from './shared/services/error.service';
 import { INotificationService } from './shared/notification.service';
 
 import '../style/app.scss';
+
 
 @Component({
   selector: 'cs-app',
@@ -15,31 +18,49 @@ import '../style/app.scss';
 })
 export class AppComponent {
   public url = 'https://github.com/preboot/angular2-webpack';
+  private loggedIn: boolean;
+  private title: string;
 
   constructor(
     private api: ApiService,
+    private auth: AuthService,
+    private router: Router,
     private translate: TranslateService,
     private error: ErrorService,
     @Inject('INotificationService') private notification: INotificationService
   ) {
     // Do something with api
+    this.title = this.auth.name;
     this.translate.setDefaultLang('en');
     this.translate.use('en');
-    this.error.errorObservable.subscribe(error => this.handleError(error));
+    this.error.subscribe(e => this.handleError(e));
+    this.auth.isLoggedIn().then(r => this.loggedIn = r);
+    this.auth.loggedIn.subscribe(loggedIn => {
+      this.updateAccount(loggedIn);
+    });
   }
 
-  private handleError(error: any): void {
-    if (error instanceof Response) {
-      switch (error.status) {
+  private updateAccount(loggedIn: boolean ): void {
+    this.loggedIn = loggedIn;
+    if (loggedIn) {
+      this.title = this.auth.name;
+    } else {
+      this.router.navigate(['/login']);
+    }
+  }
+
+  private handleError(e: any): void {
+    if (e instanceof Response) {
+      switch (e.status) {
         case 401:
-          this.notification.message('You are not logged in');
+          this.translate.get('NOT_LOGGED_IN').subscribe(result => this.notification.message(result));
           break;
         case 431:
-          this.notification.message('Wrong arguments');
+          this.translate.get('WRONG_ARGUMENTS').subscribe(result => this.notification.message(result));
           break;
       }
     } else {
-      this.notification.message('Unexpected error');
+      this.translate.get('UNEXPECTED_ERROR').subscribe(result => this.notification.message(result));
     }
   }
 }
