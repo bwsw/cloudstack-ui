@@ -10,5 +10,6 @@
   "VMSTATE": {
     "RUNNING": "Running",
     "STOPPED": "Stopped"
-  }
+  },
+  "INSTANCES": "Instances"
 }
