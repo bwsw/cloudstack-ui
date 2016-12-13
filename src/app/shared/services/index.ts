@@ -7,3 +7,4 @@ export * from './base-backend.service';
 export * from './service-locator';
 export * from './root-disk-size.service';
 export * from './affinity-group.service';
+export * from './template.service';
