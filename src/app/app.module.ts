@@ -11,7 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
 import { VmListComponent } from './vm/vm-list.component';
-import { VmComponent } from './vm/vm.component';
+import { VmListItemComponent } from './vm/vm-list-item.component';
 
 import {
   ApiService,
@@ -54,7 +54,7 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
     LoginComponent,
     LogoutComponent,
     VmListComponent,
-    VmComponent
+    VmListItemComponent
   ],
   providers: [
     ApiService,

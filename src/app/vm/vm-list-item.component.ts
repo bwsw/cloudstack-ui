@@ -4,9 +4,9 @@ import { VirtualMachine } from './vm.model';
 
 @Component({
   selector: 'cs-vm',
-  templateUrl: './vm.component.html',
-  styleUrls: ['./vm.component.scss']
+  templateUrl: './vm-list-item.component.html',
+  styleUrls: ['./vm-list-item.component.scss']
 })
-export class VmComponent {
+export class VmListItemComponent {
   @Input() public vm: VirtualMachine;
 }
