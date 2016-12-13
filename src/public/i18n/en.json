@@ -1,4 +1,11 @@
 {
   "LOGIN": "Login",
-  "LOGOUT": "Logout"
+  "LOGOUT": "Logout",
+  "CPU": "CPU",
+  "RAM": "RAM",
+  "DISKS": "DISKS",
+  "VMSTATE": {
+    "RUNNING": "Running",
+    "STOPPED": "Stopped"
+  }
 }

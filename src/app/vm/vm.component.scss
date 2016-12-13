@@ -1,0 +1,36 @@
+:host {
+  display: inline-flex;
+  margin: 15px;
+}
+
+.vm-state {
+  text-align: right;
+}
+
+table {
+  margin: 10px 0;
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+table td, table th {
+  border: 1px solid black;
+  border-top: 0;
+  border-bottom: 0;
+}
+table tr:first-child th {
+  border-top: 0;
+}
+table tr:last-child td {
+  border-bottom: 0;
+}
+table tr td:first-child,
+table tr th:first-child {
+  border-left: 0;
+}
+table tr td:last-child,
+table tr th:last-child {
+  border-right: 0;
+}

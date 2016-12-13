@@ -9,6 +9,8 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { LoginFormComponent } from './login-form/login-form.component';
+import { VmListComponent } from './vm/vm-list.component';
+import { VmComponent } from './vm/vm.component';
 
 import {
   ApiService,
@@ -16,14 +18,19 @@ import {
   AuthService,
   ServiceOfferingService,
   ServiceLocator,
-  RootDiskSizeService
+  RootDiskSizeService,
+  VolumeService,
+  OsTypeService
 } from './shared/services';
+
+import { VmService } from './vm/vm.service';
 
 import { NotificationService } from './shared/notification.service';
 
 import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
+
 
 @NgModule({
   imports: [
@@ -38,7 +45,9 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     AppComponent,
     HomeComponent,
     AboutComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    VmListComponent,
+    VmComponent
   ],
   providers: [
     ApiService,
@@ -46,6 +55,9 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     {provide: 'INotificationService', useClass: NotificationService},
     RootDiskSizeService,
     ServiceOfferingService,
+    VmService,
+    VolumeService,
+    OsTypeService,
     {provide: 'IStorageService', useClass: StorageService}
   ],
   bootstrap: [AppComponent]

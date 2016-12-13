@@ -13,10 +13,11 @@
   <mdl-layout-drawer>
     <mdl-layout-title>{{title}}</mdl-layout-title>
     <nav class="mdl-navigation">
-      <a class="mdl-navigation__link">Link</a>
+      <a class="mdl-navigation__link" routerLink="/about">About</a>
+      <a class="mdl-navigation__link" routerLink="/instances">Instances</a>
     </nav>
   </mdl-layout-drawer>
   <mdl-layout-content class="demo-content">
-<!--<router-outlet></router-outlet>-->
+    <router-outlet></router-outlet>
   </mdl-layout-content>
 </mdl-layout>
