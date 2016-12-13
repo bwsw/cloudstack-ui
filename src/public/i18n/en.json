@@ -3,5 +3,13 @@
   "LOGOUT": "Logout",
   "NOT_LOGGED_IN": "You are not logged in",
   "WRONG_ARGUMENTS": "Wrong arguments",
-  "UNEXPECTED_ERROR": "Unexpected error"
+  "UNEXPECTED_ERROR": "Unexpected error",
+  "CPU": "CPU",
+  "RAM": "RAM",
+  "DISKS": "DISKS",
+  "VMSTATE": {
+    "RUNNING": "Running",
+    "STOPPED": "Stopped"
+  },
+  "INSTANCES": "Instances"
 }
