@@ -15,7 +15,7 @@ import {
   URLSearchParams
 } from '@angular/http';
 import { FormsModule } from '@angular/forms';
-import { MockNotificationService } from '../notification.service';
+import { ErrorService } from '../services';
 import { ServiceLocator } from './service-locator';
 
 describe('Base backend service', () => {
@@ -46,7 +46,7 @@ describe('Base backend service', () => {
     TestBed.configureTestingModule({
       providers: [
         TestBackendService,
-        {provide: 'INotificationService', useClass: MockNotificationService},
+        ErrorService,
         MockBackend,
         BaseRequestOptions,
         {
