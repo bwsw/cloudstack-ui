@@ -10,11 +10,6 @@ import { VmListComponent } from './vm/vm-list.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/client',
-    pathMatch: 'full'
-  },
-  {
-    path: 'client',
     component: HomeComponent,
     canActivate: [
       AuthGuard
@@ -39,7 +34,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '/client',
+    redirectTo: '',
   }
 ];
 
