@@ -1,13 +1,13 @@
 import { BaseModel } from '../shared/models';
 import { FieldMapper } from '../shared/decorators';
+import { Volume } from '../shared/models/volume.model';
+import { OsType } from '../shared/models/os-type.model';
 
 /* TODO
   1. nicService
-  2. volumeService
-  3. affinityGroup
-  4. need to get OSType
-  5. securityGroup
-  6. secondaryIp in INic
+  2. affinityGroup
+  3. securityGroup
+  4. secondaryIp in INic
 */
 
 
@@ -37,6 +37,9 @@ interface INic {
   zonename: 'zoneName',
   templateid: 'templateId',
   templatename: 'templateName',
+  guestosid: 'guestOsId',
+  cpunumber: 'cpuNumber',
+  cpuspeed: 'cpuSpeed',
   cpuused: 'cpuUsed',
   networkkbsread: 'networkKbsRead',
   networkkbswrite: 'networkKbsWrite',
@@ -52,6 +55,10 @@ export class VirtualMachine extends BaseModel {
   // Service Offering
   public serviceOfferingId: string;
   public serviceOfferingName: string;
+  public cpuNumber: number;
+  public cpuSpeed: number;
+  public memory: number;
+  public volumes: Array<Volume>;
   // IP addresses
   public nic: Array<INic>;
   // Security Group
@@ -64,6 +71,8 @@ export class VirtualMachine extends BaseModel {
   // Template
   public templateId: string;
   public templateName: string;
+  public osType: OsType;
+  public guestOsId: string;
   // statictic
   public cpuUsed: string;
   public networkKbsRead: number;
@@ -72,4 +81,11 @@ export class VirtualMachine extends BaseModel {
   public diskKbsWrite: number;
   public diskIoRead: number;
   public diskIoWrite: number;
+
+  public getDisksSize() {
+    const sizeInBytes = this.volumes.reduce((acc: number, volume: Volume) => {
+      return acc + volume.size;
+    }, 0);
+    return sizeInBytes / Math.pow(2, 30);
+  }
 }

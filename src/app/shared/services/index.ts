@@ -6,3 +6,5 @@ export * from './zone.service';
 export * from './base-backend.service';
 export * from './service-locator';
 export * from './root-disk-size.service';
+export * from './volume.service';
+export * from './os-type.service';
