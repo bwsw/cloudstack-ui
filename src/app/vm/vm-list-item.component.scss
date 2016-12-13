@@ -3,6 +3,12 @@
   margin: 15px;
 }
 
+:host mdl-card-title > h2 {
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .vm-state {
   text-align: right;
 }

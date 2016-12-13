@@ -4,3 +4,6 @@
   cursor: pointer;
 }
 
+mdl-card > mdl-card-title + mdl-card-supporting-text {
+  padding-top: 0 !important;
+}
