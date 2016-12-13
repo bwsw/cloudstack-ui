@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
+import { VmListComponent } from './vm/vm-list.component';
+import { VmComponent } from './vm/vm.component';
 
 import {
   ApiService,
@@ -21,8 +23,12 @@ import {
   ZoneService,
   ServiceOfferingService,
   ServiceLocator,
-  RootDiskSizeService
+  RootDiskSizeService,
+  VolumeService,
+  OsTypeService
 } from './shared/services';
+
+import { VmService } from './vm/vm.service';
 
 import { NotificationService } from './shared/notification.service';
 
@@ -46,7 +52,9 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
     AppComponent,
     HomeComponent,
     LoginComponent,
-    LogoutComponent
+    LogoutComponent,
+    VmListComponent,
+    VmComponent
   ],
   providers: [
     ApiService,
@@ -61,6 +69,10 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
     ZoneService,
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
     ServiceOfferingService,
+    VmService,
+    VolumeService,
+    OsTypeService,
+    {provide: 'IStorageService', useClass: StorageService}
   ],
   bootstrap: [AppComponent]
 })
