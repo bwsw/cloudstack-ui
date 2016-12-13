@@ -5,15 +5,20 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
 
+import { AboutComponent } from './about/about.component';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
-import { LoginFormComponent } from './login-form/login-form.component';
+import { LoginComponent } from './auth/login.component';
+import { LogoutComponent } from './auth/logout.component';
 
 import {
   ApiService,
-  StorageService,
   AuthService,
+  AuthGuard,
+  ErrorService,
+  LoginGuard,
+  StorageService,
+  ZoneService,
   ServiceOfferingService,
   ServiceLocator,
   RootDiskSizeService
@@ -24,6 +29,8 @@ import { NotificationService } from './shared/notification.service';
 import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
+import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
+
 
 @NgModule({
   imports: [
@@ -35,18 +42,25 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     MdlModule
   ],
   declarations: [
+    AboutComponent,
     AppComponent,
     HomeComponent,
-    AboutComponent,
-    LoginFormComponent
+    LoginComponent,
+    LogoutComponent
   ],
   providers: [
     ApiService,
+    AuthGuard,
     AuthService,
-    {provide: 'INotificationService', useClass: NotificationService},
+    ErrorService,
+    { provide: 'INotificationService', useClass: NotificationService },
+    { provide: 'IStorageService', useClass: StorageService },
+    LoginGuard,
+    NotificationService,
     RootDiskSizeService,
+    ZoneService,
+    { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
     ServiceOfferingService,
-    {provide: 'IStorageService', useClass: StorageService}
   ],
   bootstrap: [AppComponent]
 })

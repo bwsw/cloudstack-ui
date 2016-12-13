@@ -14,5 +14,4 @@ export class AboutComponent implements OnInit {
   public ngOnInit() {
     console.log('Hello About');
   }
-
 }
