@@ -16,17 +16,18 @@ interface IJobDetails {
   jobresult: any;
 }
 
-const API_URL = '/client/api?command=listAsyncJobs&result=json';
+const API_URL = '/client/api?command=listAsyncJobs&response=json';
 
 @Injectable()
 export class JobService {
-  private jobs: Array<IJob>;
-  private doQuery: boolean;
+  private jobs: {};
+  private doPoll: boolean;
   private timerId: any;
   private pollingInterval: number;
 
   constructor(private http: Http) {
     this.pollingInterval = 2000;
+    this.jobs = {};
   }
 
   public addJob(id: string, type: string): Subject<IJob> {
@@ -36,30 +37,43 @@ export class JobService {
        status: 0,
        observable
     };
-    observable.subscribe(result => {
-      this.onJobStatusChange(result);
-    });
+    console.log(this.jobs);
     this.startPolling();
     return observable;
   }
 
   private startPolling() {
-    this.timerId = setInterval(this.queryJobs, this.pollingInterval);
+    this.timerId = setInterval(() => { this.queryJobs(); }, this.pollingInterval);
   }
 
-  public onJobStatusChange(result: any) {}
+  private stopPolling() {
+    clearInterval(this.timerId);
+  }
 
   private queryJobs(): void {
+    console.log('im working');
     for (let job in this.jobs) {
       this.http.get(API_URL)
         .toPromise()
-        .then(result => result.json().asyncjobs)
-        .then((result: Array<IJob>) => {
+        .then(result => result.json().listasyncjobsresponse.asyncjobs)
+        .then((result) => {
+          console.log(result);
+          let anyJobs = false;
           result.forEach((elem, index, array) => {
-            if (this.jobs[elem.jobid] && elem.jobstatus === 1) {
-              this.jobs[elem.jobid]
+            let id = elem.jobid;
+            if (elem.jobstatus === 0) {
+              anyJobs = true;
+            }
+            if (this.jobs[id] && elem.jobstatus === 1) {
+              console.log('job completed');
+              this.jobs[id].jobstatus = 1;
+              this.jobs[id].observable.next(elem);
+              delete this.jobs[id];
             }
           });
+          if (!anyJobs) {
+            this.stopPolling();
+          }
         });
     }
   }

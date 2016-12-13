@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../shared/services';
+import { AsyncQueryService } from '../shared/services/async-query.service';
 
 @Component({
   selector: 'cs-home',
@@ -15,7 +16,8 @@ export class HomeComponent {
 
   constructor (
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private asyncquery: AsyncQueryService
   ) {
     this.title = this.auth.name;
     this.loggedIn = this.auth.isLoggedIn();
@@ -41,5 +43,9 @@ export class HomeComponent {
 
   private handleLogout(): void {
     this.router.navigate(['/login']);
+  }
+
+  private test() {
+    this.asyncquery.startVM();
   }
 }
