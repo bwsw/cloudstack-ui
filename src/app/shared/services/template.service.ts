@@ -18,9 +18,20 @@ export class TemplateService extends BaseBackendService<Template> {
     super(http, notification);
   }
 
-  // public get(id: string, templatefilter: string): Promise<Template> {
-  //   return this.getList({templatefilter, id})[0];
-  // }
+  public get(id: string): Promise<Template> {
+    const templatefilter = 'featured';
+    return new Promise((resolve, reject) => {
+      this.getList({templatefilter, id})
+        .then(
+          data => {
+            resolve(data[0]);
+          },
+          error => {
+            reject(error);
+          }
+        );
+    });
+  }
 
   public getList(params: { templatefilter: string, [propName: string]: any }): Promise<Array<Template>> {
     return super.getList(params);
