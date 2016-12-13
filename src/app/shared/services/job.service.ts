@@ -4,7 +4,8 @@ import { Http } from '@angular/http';
 
 interface IJob {
   jobid: string;
-  status: number;
+  type: string;
+  jobstatus: number;
   observable: Subject<IJobDetails>;
 }
 
@@ -15,30 +16,51 @@ interface IJobDetails {
   jobresult: any;
 }
 
+const API_URL = '/client/api?command=listAsyncJobs&result=json';
+
 @Injectable()
 export class JobService {
-  private jobs: {};
+  private jobs: Array<IJob>;
   private doQuery: boolean;
+  private timerId: any;
+  private pollingInterval: number;
 
-  constructor(http: Http) {}
+  constructor(private http: Http) {
+    this.pollingInterval = 2000;
+  }
 
-  public addJob(id: string): Subject<IJob> {
-     let obs = new Subject<IJob>();
+  public addJob(id: string, type: string): Subject<IJob> {
+     let observable = new Subject<IJob>();
      this.jobs[id] = {
+       type,
        status: 0,
-       observable: obs
+       observable
     };
-    obs.subscribe(result => {
+    observable.subscribe(result => {
       this.onJobStatusChange(result);
     });
-    return obs;
+    this.startPolling();
+    return observable;
+  }
+
+  private startPolling() {
+    this.timerId = setInterval(this.queryJobs, this.pollingInterval);
   }
 
   public onJobStatusChange(result: any) {}
 
   private queryJobs(): void {
     for (let job in this.jobs) {
-      //... check jobs' statuses
+      this.http.get(API_URL)
+        .toPromise()
+        .then(result => result.json().asyncjobs)
+        .then((result: Array<IJob>) => {
+          result.forEach((elem, index, array) => {
+            if (this.jobs[elem.jobid] && elem.jobstatus === 1) {
+              this.jobs[elem.jobid]
+            }
+          });
+        });
     }
   }
 }
