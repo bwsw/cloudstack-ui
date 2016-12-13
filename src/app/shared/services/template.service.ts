@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 
 import { Template } from '../models';
 
 import { BackendResource } from '../decorators/backend-resource.decorator';
 
 import { BaseBackendService } from './base-backend.service';
-import { NotificationService } from '../notification.service';
 
 @Injectable()
 @BackendResource({
@@ -14,10 +12,6 @@ import { NotificationService } from '../notification.service';
   entityModel: Template
 })
 export class TemplateService extends BaseBackendService<Template> {
-  constructor(http: Http, notification: NotificationService) {
-    super(http, notification);
-  }
-
   public get(id: string): Promise<Template> {
     const templatefilter = 'featured';
     return this.getList({templatefilter, id})
