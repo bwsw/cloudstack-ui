@@ -18,7 +18,7 @@ import {
   ServiceLocator,
   RootDiskSizeService,
   AsyncQueryService,
-  JobService
+  AsyncJobService
 } from './shared/services';
 
 import { NotificationService } from './shared/notification.service';
@@ -50,7 +50,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     ServiceOfferingService,
     {provide: 'IStorageService', useClass: StorageService},
     AsyncQueryService,
-    JobService
+    AsyncJobService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,24 +1,52 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { Http } from '@angular/http';
-import { JobService } from '../services/job.service';
+import { Observable } from 'rxjs';
+import { Http, URLSearchParams } from '@angular/http';
+import { AsyncJobService } from '../services/async-job.service';
+import { AsyncJob } from '../models/async-job.model';
+import { BACKEND_API_URL } from './base-backend.service';
 
-const START_API_URL = '/client/api?command=startVirtualMachine&id=732607f3-3f8f-400c-9f14-ea9691c7f9a9&response=json';
-const STOP_API_URL = '/client/api?command=stopVirtualMachine&id=732607f3-3f8f-400c-9f14-ea9691c7f9a9&response=json';
+
+interface IStartVmResponse {
+  startvirtualmachineresponse: {
+    jobid: string;
+  };
+}
+
+interface IStopVmResponse {
+  stopvirtualmachineresponse: {
+    jobid: string;
+  };
+}
 
 @Injectable()
 export class AsyncQueryService {
   constructor(
     private http: Http,
-    private jobs: JobService
+    private jobs: AsyncJobService
   ) {}
 
-  public startVM() {
-    this.http.get(START_API_URL)
-      .toPromise()
-      .then(result => result.json()) //FIX HERE
-      .then(result => {
-        this.jobs.addJob(result.jobid, 'create').subscribe(result => console.log(result));
-      })
+  public startVm(id: string): Observable<AsyncJob> {
+    const urlParams = new URLSearchParams();
+
+    urlParams.append('command', 'startVirtualMachine');
+    urlParams.append('id', id);
+    urlParams.append('response', 'json');
+
+    return this.http.get(BACKEND_API_URL, { search: urlParams })
+      .map(result => result.json())
+      .map((result: IStartVmResponse) => result.startvirtualmachineresponse.jobid)
+      .switchMap(result => this.jobs.addJob(result));
+  }
+
+  public stopVm(id: string): Observable<AsyncJob> {
+    const urlParams = new URLSearchParams();
+    urlParams.append('command', 'stopVirtualMachine');
+    urlParams.append('id', id);
+    urlParams.append('response', 'json');
+
+    return this.http.get(BACKEND_API_URL, { search: urlParams })
+      .map(result => result.json())
+      .map((result: IStopVmResponse) => result.stopvirtualmachineresponse.jobid)
+      .switchMap(result => this.jobs.addJob(result));
   }
 }

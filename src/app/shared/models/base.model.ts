@@ -4,7 +4,7 @@ interface IFieldMapper {
 
 export abstract class BaseModel {
 
-  public id: string;
+// public id: string;
   protected mapper: IFieldMapper;
 
   constructor(params?: {}) {

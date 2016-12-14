@@ -6,7 +6,7 @@ import { ServiceLocator } from './service-locator';
 
 import 'rxjs/add/operator/toPromise';
 
-const BACKEND_API_URL = '/client/api';
+export const BACKEND_API_URL = '/client/api';
 
 export abstract class BaseBackendService<M extends BaseModel> {
   protected entity: string;
@@ -67,15 +67,15 @@ export abstract class BaseBackendService<M extends BaseModel> {
 
   private fetchList(params?: {}): Promise<any> {
     const command = 'list';
-    const entity = this.entity.toLowerCase();
+    let entity = this.entity.toLowerCase();
 
     return this.http.get(BACKEND_API_URL, { search: this.buildParams(command, params) })
       .toPromise()
       .then((res: Response) => {
         const responseString = `${command}${entity}sresponse`;
+        if (entity === 'asyncjob') { entity += 's'; }
         return res.json()[responseString][`${entity}`];
-      })
-      .catch(error => this.handleError(error));
+      });
   }
 
   private handleError(error: Response): Promise<any> {
