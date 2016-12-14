@@ -32,8 +32,9 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
   }
 
   public addJob(id: string): Subject<AsyncJob> {
-     let observable = new Subject<AsyncJob>();
-     this.jobObservables[id] = {
+    console.log('addjob');
+    let observable = new Subject<AsyncJob>();
+    this.jobObservables[id] = {
        jobStatus: 0,
        observable
     };
@@ -41,19 +42,20 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
     return observable;
   }
 
-  private startPolling() {
+  private startPolling(): void {
     this.timerId = setInterval(() => {
       this.queryJobs();
     }, this.pollingInterval);
   }
 
-  private stopPolling() {
+  private stopPolling(): void {
     clearInterval(this.timerId);
   }
 
   private queryJobs(): void {
     this.getList()
       .then((result) => {
+        console.log(result);
         let anyJobs = false;
         result.forEach((elem, index, array) => {
           let id = elem.jobId;
