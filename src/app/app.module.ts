@@ -4,6 +4,7 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
+import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 
 import { AboutComponent } from './about/about.component';
 import { AppComponent } from './app.component';
@@ -45,7 +46,8 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
     FormsModule,
     TranslateModule.forRoot(),
     routing,
-    MdlModule
+    MdlModule,
+    MdlPopoverModule
   ],
   declarations: [
     AboutComponent,
