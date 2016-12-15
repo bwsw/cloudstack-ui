@@ -1,0 +1,36 @@
+<button
+  mdl-button
+  (click)="popover.toggle($event); onToggle($event)"
+  mdl-button-type="icon"
+  style="overflow: visible;"
+>
+  <mdl-icon
+    *ngIf="jobsNotificationService.activeJobsCount"
+    mdl-badge="{{ jobsNotificationService.activeJobsCount }}"
+    mdl-badge-overlap
+  >
+    notifications
+  </mdl-icon>
+  <mdl-icon *ngIf="!jobsNotificationService.activeJobsCount">notifications</mdl-icon>
+</button>
+<mdl-popover #popover mdl-shadow="6" [style.width.px]="300" [style.right.px]="20">
+  <mdl-list style="line-height: 20px;">
+    <cs-notification-box-item
+      *ngFor="let notification of jobsNotificationService.notifications"
+      [notification]="notification"
+      (onClose)="close($event)"
+    >
+    </cs-notification-box-item>
+  </mdl-list>
+  <div class="actions">
+    <button
+      mdl-button
+      mdl-colored
+      mdl-ripple
+      (click)="removeAll()"
+    >
+      {{ 'CLEAR_ALL' | translate }}
+    </button>
+  </div>
+</mdl-popover>
+

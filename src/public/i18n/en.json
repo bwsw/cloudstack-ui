@@ -11,5 +11,6 @@
     "RUNNING": "Running",
     "STOPPED": "Stopped"
   },
-  "INSTANCES": "Instances"
+  "INSTANCES": "Instances",
+  "CLEAR_ALL": "Clear all"
 }
