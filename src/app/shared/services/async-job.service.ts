@@ -6,13 +6,8 @@ import { BaseBackendService } from './base-backend.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 
 
-interface IJobObservable {
-  jobStatus: number;
-  observable: Subject<AsyncJob>;
-}
-
 interface IJobObservables {
-  [id: string]: IJobObservable;
+  [id: string]: Subject<AsyncJob>;
 }
 
 @Injectable()
@@ -35,10 +30,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
 
   public addJob(id: string): Subject<AsyncJob> {
     let observable = new Subject<AsyncJob>();
-    this.jobObservables[id] = {
-       jobStatus: 0,
-       observable
-    };
+    this.jobObservables[id] = observable;
     if (!this.poll) {
       this.startPolling();
     }
@@ -66,8 +58,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
           anyJobs = true;
         }
         if (this.jobObservables[id] && elem.jobStatus === 1) {
-          this.jobObservables[id].jobStatus = 1;
-          this.jobObservables[id].observable.next(elem);
+          this.jobObservables[id].next(elem);
           delete this.jobObservables[id];
         }
       });
