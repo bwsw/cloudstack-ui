@@ -7,23 +7,20 @@ import {
   XHRBackend,
   HttpModule,
   Response,
-  ResponseOptions,
-  URLSearchParams
+  ResponseOptions
 } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { MockNotificationService } from '../notification.service';
 import { ServiceLocator } from './service-locator';
 import { AsyncJobService } from './async-job.service';
-import { AsyncQueryService } from './async-query.service';
 
-console.log(AsyncJobService);
 
 describe('Async job service', () => {
   let mockBackend: MockBackend;
   let jobQueries = 0;
   let asyncJobService: AsyncJobService;
 
-  const mockResponsePending = {
+  const mockResponse1 = {
     status: 200,
     body: {
       'listasyncjobsresponse': {
@@ -38,7 +35,7 @@ describe('Async job service', () => {
     }
   };
 
-  const mockResponseDone = {
+  const mockResponse2 = {
     status: 200,
     body: {
       'listasyncjobsresponse': {
@@ -58,7 +55,6 @@ describe('Async job service', () => {
     TestBed.configureTestingModule({
       providers: [
         AsyncJobService,
-        AsyncQueryService,
         { provide: 'INotificationService', useClass: MockNotificationService },
         MockBackend,
         BaseRequestOptions,
@@ -82,18 +78,15 @@ describe('Async job service', () => {
 
     mockBackend = getTestBed().get(MockBackend);
     mockBackend.connections.subscribe((connection: MockConnection) => {
-      const url = connection.request.url;
-      const params = new URLSearchParams(url.substr(url.indexOf('?') + 1));
-
       let options: ResponseOptions;
 
       if (jobQueries <= 2) {
-        options = new ResponseOptions(mockResponsePending);
+        options = new ResponseOptions(mockResponse1);
         jobQueries++;
         connection.mockRespond(new Response(options));
         return;
-      } else if (jobQueries > 2) {
-        options = new ResponseOptions(mockResponseDone);
+      } else {
+        options = new ResponseOptions(mockResponse2);
         jobQueries = 0;
         connection.mockRespond(new Response(options));
         return;
@@ -106,7 +99,6 @@ describe('Async job service', () => {
   })));
 
   it('job service polls server until a job is resolved', done => {
-    console.log(asyncJobService);
     asyncJobService.addJob('123').subscribe(result => {
       expect(result.jobStatus).toBe(1);
       done();

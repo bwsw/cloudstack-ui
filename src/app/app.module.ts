@@ -12,13 +12,12 @@ import { LoginFormComponent } from './login-form/login-form.component';
 
 import {
   ApiService,
+  AsyncJobService,
   StorageService,
   AuthService,
   ServiceOfferingService,
   ServiceLocator,
-  RootDiskSizeService,
-  AsyncQueryService,
-  AsyncJobService
+  RootDiskSizeService
 } from './shared/services';
 
 import { NotificationService } from './shared/notification.service';
@@ -26,6 +25,8 @@ import { NotificationService } from './shared/notification.service';
 import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
+
+import { VmService } from './vm/';
 
 @NgModule({
   imports: [
@@ -44,13 +45,13 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
   ],
   providers: [
     ApiService,
+    AsyncJobService,
     AuthService,
     {provide: 'INotificationService', useClass: NotificationService},
     RootDiskSizeService,
     ServiceOfferingService,
     {provide: 'IStorageService', useClass: StorageService},
-    AsyncQueryService,
-    AsyncJobService
+    VmService
   ],
   bootstrap: [AppComponent]
 })

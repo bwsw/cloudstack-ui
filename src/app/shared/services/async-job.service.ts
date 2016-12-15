@@ -21,9 +21,10 @@ interface IJobObservables {
   entityModel: AsyncJob
 })
 export class AsyncJobService extends BaseBackendService<AsyncJob> {
+
+  public pollingInterval: number;
   private jobObservables: IJobObservables;
   private timerId: any;
-  private pollingInterval: number;
 
   constructor() {
     super();
@@ -32,7 +33,6 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
   }
 
   public addJob(id: string): Subject<AsyncJob> {
-    console.log('addjob');
     let observable = new Subject<AsyncJob>();
     this.jobObservables[id] = {
        jobStatus: 0,
@@ -53,24 +53,22 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
   }
 
   private queryJobs(): void {
-    this.getList()
-      .then((result) => {
-        console.log(result);
-        let anyJobs = false;
-        result.forEach((elem, index, array) => {
-          let id = elem.jobId;
-          if (elem.jobStatus === 0) {
-            anyJobs = true;
-          }
-          if (this.jobObservables[id] && elem.jobStatus === 1) {
-            this.jobObservables[id].jobStatus = 1;
-            this.jobObservables[id].observable.next(elem);
-            delete this.jobObservables[id];
-          }
-        });
-        if (!anyJobs) {
-          this.stopPolling();
+    this.getList().then((result) => {
+      let anyJobs = false;
+      result.forEach((elem, index, array) => {
+        let id = elem.jobId;
+        if (elem.jobStatus === 0) {
+          anyJobs = true;
+        }
+        if (this.jobObservables[id] && elem.jobStatus === 1) {
+          this.jobObservables[id].jobStatus = 1;
+          this.jobObservables[id].observable.next(elem);
+          delete this.jobObservables[id];
         }
       });
+      if (!anyJobs) {
+        this.stopPolling();
+      }
+    });
   }
 }
