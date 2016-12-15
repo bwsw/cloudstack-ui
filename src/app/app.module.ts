@@ -13,12 +13,15 @@ import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
 import { VmListComponent } from './vm/vm-list.component';
 import { VmListItemComponent } from './vm/vm-list-item.component';
+import { NotificationBoxComponent } from './notification-box.component';
+import { NotificationBoxItemComponent } from './notification-box-item.component';
 
 import {
   ApiService,
   AuthService,
   AuthGuard,
   ErrorService,
+  JobsNotificationService,
   LoginGuard,
   StorageService,
   ZoneService,
@@ -56,13 +59,16 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
     LoginComponent,
     LogoutComponent,
     VmListComponent,
-    VmListItemComponent
+    VmListItemComponent,
+    NotificationBoxComponent,
+    NotificationBoxItemComponent
   ],
   providers: [
     ApiService,
     AuthGuard,
     AuthService,
     ErrorService,
+    JobsNotificationService,
     { provide: 'INotificationService', useClass: NotificationService },
     { provide: 'IStorageService', useClass: StorageService },
     LoginGuard,
