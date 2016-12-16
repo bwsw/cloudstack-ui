@@ -40,13 +40,14 @@ interface INic {
   guestosid: 'guestOsId',
   cpunumber: 'cpuNumber',
   cpuspeed: 'cpuSpeed',
+  jobid: 'jobId',
   cpuused: 'cpuUsed',
   networkkbsread: 'networkKbsRead',
   networkkbswrite: 'networkKbsWrite',
   diskkbsread: 'diskKbsRead',
   diskkbswrite: 'diskKbsWrite',
   diskioread: 'diskIoRead',
-  diskiowrite: 'diskIoWrite'
+  diskiowrite: 'diskIoWrite',
 })
 export class VirtualMachine extends BaseModel {
   public id: string;
@@ -74,7 +75,9 @@ export class VirtualMachine extends BaseModel {
   public templateName: string;
   public osType: OsType;
   public guestOsId: string;
-  // statictic
+  // CUSTOM
+  public pending: boolean;
+  // statictics
   public cpuUsed: string;
   public networkKbsRead: number;
   public networkKbsWrite: number;
