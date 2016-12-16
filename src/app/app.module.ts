@@ -7,7 +7,6 @@ import { MdlModule } from 'angular2-mdl';
 
 import { AboutComponent } from './about/about.component';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
 import { VmListComponent } from './vm/vm-list.component';
@@ -51,7 +50,6 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
   declarations: [
     AboutComponent,
     AppComponent,
-    HomeComponent,
     LoginComponent,
     LogoutComponent,
     VmListComponent,
