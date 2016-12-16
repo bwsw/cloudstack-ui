@@ -5,13 +5,13 @@
   style="overflow: visible;"
 >
   <mdl-icon
-    *ngIf="jobsNotificationService.activeJobsCount"
-    mdl-badge="{{ jobsNotificationService.activeJobsCount }}"
+    *ngIf="jobsNotificationService.pendingJobsCount"
+    mdl-badge="{{ jobsNotificationService.pendingJobsCount }}"
     mdl-badge-overlap
   >
     notifications
   </mdl-icon>
-  <mdl-icon *ngIf="!jobsNotificationService.activeJobsCount">notifications</mdl-icon>
+  <mdl-icon *ngIf="!jobsNotificationService.pendingJobsCount">notifications</mdl-icon>
 </button>
 <mdl-popover #popover mdl-shadow="6" [style.width.px]="300" [style.right.px]="20">
   <mdl-list style="line-height: 20px;">

@@ -1,22 +1,28 @@
+export const enum INotificationStatus {
+  Pending,
+  Finished,
+  Failed
+}
+
 export interface INotification {
   id: string;
   message?: string;
-  isActive?: boolean;
+  status?: INotificationStatus;
 }
 
 export class JobsNotificationService {
   public notifications: Array<INotification>;
   private lastId: number;
-  private _activeJobsCount: number;
+  private _pendingJobsCount: number;
 
   constructor() {
     this.notifications = [];
     this.lastId = 0;
-    this._activeJobsCount = 0;
+    this._pendingJobsCount = 0;
   }
 
-  public get activeJobsCount(): number {
-    return this._activeJobsCount;
+  public get pendingJobsCount(): number {
+    return this._pendingJobsCount;
   }
 
   public add(notification: INotification | string): void {
@@ -24,11 +30,11 @@ export class JobsNotificationService {
       const n: INotification = {
         id: '' + this.lastId++,
         message: notification,
-        isActive: true
+        status: INotificationStatus.Pending
       };
 
       this.notifications.unshift(n);
-      this._activeJobsCount++;
+      this._pendingJobsCount++;
 
       if (this.lastId >= Number.MAX_SAFE_INTEGER) {
         this.lastId = 0;
@@ -38,9 +44,9 @@ export class JobsNotificationService {
 
     const ind = this.notifications.findIndex((el: INotification) => el.id === notification.id);
     if (ind === -1) {
-      notification.isActive = true;
+      notification.status = INotificationStatus.Pending;
       this.notifications.unshift(notification);
-      this._activeJobsCount++;
+      this._pendingJobsCount++;
       return;
     }
 
@@ -53,7 +59,7 @@ export class JobsNotificationService {
       return;
     }
 
-    if (this.notifications[ind].isActive) {
+    if (this.notifications[ind].status === INotificationStatus.Pending) {
       return;
     }
 
@@ -61,17 +67,17 @@ export class JobsNotificationService {
   }
 
   public removeAll() {
-    this.notifications = this.notifications.filter((n: INotification) => n.isActive);
+    this.notifications = this.notifications.filter((n: INotification) => n.status === INotificationStatus.Pending);
   }
 
   public updateUnseenCount(): void {
-    let activeCount = 0;
+    let pendingCount = 0;
     this.notifications.forEach((n: INotification) => {
-      if (n.isActive) {
-        activeCount++;
+      if (n.status === INotificationStatus.Pending) {
+        pendingCount++;
       }
     });
 
-    this._activeJobsCount = activeCount;
+    this._pendingJobsCount = pendingCount;
   }
 }
