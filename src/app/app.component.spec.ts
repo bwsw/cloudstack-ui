@@ -6,10 +6,8 @@ import { ApiService } from './shared';
 import { AppComponent } from './app.component';
 import { TranslateModule } from 'ng2-translate';
 
-import {
-  MdlLayoutModule,
-  MdlRippleModule,
-} from 'angular2-mdl';
+import { MdlModule } from 'angular2-mdl';
+import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 
 import {
   AuthService,
@@ -22,6 +20,8 @@ import { MockNotificationService } from './shared/notification.service';
 import { Injector } from '@angular/core';
 import { ServiceLocator } from './shared/services/service-locator';
 import { LogoutComponent } from './auth/logout.component';
+import { NotificationBoxComponent } from './notification-box.component';
+import { NotificationBoxItemComponent } from './notification-box-item.component';
 
 describe('App', () => {
   // provide our implementations or mocks to the dependency injector
@@ -30,12 +30,14 @@ describe('App', () => {
       imports: [
         RouterTestingModule,
         TranslateModule.forRoot(),
-        MdlRippleModule,
-        MdlLayoutModule
+        MdlModule,
+        MdlPopoverModule
       ],
       declarations: [
         AppComponent,
-        LogoutComponent
+        LogoutComponent,
+        NotificationBoxComponent,
+        NotificationBoxItemComponent
       ],
       providers: [
         ApiService,
