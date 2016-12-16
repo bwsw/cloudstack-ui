@@ -27,7 +27,7 @@ export class LoginComponent {
     this.passwordRequired = false;
   }
 
-  private onSubmit(): void {
+  public onSubmit(): void {
     this.login(this.username, this.password);
   }
 

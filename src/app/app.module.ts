@@ -15,11 +15,12 @@ import { VmListItemComponent } from './vm/vm-list-item.component';
 
 import {
   ApiService,
+  AsyncJobService,
+  StorageService,
   AuthService,
   AuthGuard,
   ErrorService,
   LoginGuard,
-  StorageService,
   ZoneService,
   ServiceOfferingService,
   ServiceLocator,
@@ -59,6 +60,7 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
   providers: [
     ApiService,
     AuthGuard,
+    AsyncJobService,
     AuthService,
     ErrorService,
     { provide: 'INotificationService', useClass: NotificationService },
@@ -72,7 +74,8 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
     VmService,
     VolumeService,
     OsTypeService,
-    {provide: 'IStorageService', useClass: StorageService}
+    {provide: 'IStorageService', useClass: StorageService},
+    VmService
   ],
   bootstrap: [AppComponent]
 })

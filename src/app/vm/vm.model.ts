@@ -49,6 +49,7 @@ interface INic {
   diskiowrite: 'diskIoWrite'
 })
 export class VirtualMachine extends BaseModel {
+  public id: string;
   public displayName: string;
   // Status
   public state: string;

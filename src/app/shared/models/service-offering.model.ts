@@ -7,6 +7,7 @@ import { FieldMapper } from '../decorators/field-mapper.decorator';
   networkrate: 'networkRate'
 })
 export class ServiceOffering extends BaseModel {
+  public id: number;
   public name: string;
   public cpuNumber: string;
   public cpuSpeed: string;
