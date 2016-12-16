@@ -4,5 +4,5 @@
 docker run -v $(pwd):/workspace -w /workspace node npm i && npm test
 docker run -v $(pwd):/workspace -w /workspace node npm build
 
-#docker build -t cloudstack-nginx ./..
-#docker run -d -p 80:80 --rm --name cloudstack-nginx cloudstack-nginx
+docker build -t cloudstack-nginx ./..
+docker run -d -p 80:80 --rm --name cloudstack-nginx cloudstack-nginx
