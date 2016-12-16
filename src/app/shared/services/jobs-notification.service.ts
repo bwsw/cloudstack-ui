@@ -21,10 +21,6 @@ export class JobsNotificationService {
 
   public add(notification: INotification | string): void {
     if (typeof notification === 'string') {
-      if (this.lastId === Number.MAX_SAFE_INTEGER) {
-        this.lastId = 0;
-      }
-
       const n: INotification = {
         id: '' + this.lastId++,
         message: notification,
@@ -33,6 +29,10 @@ export class JobsNotificationService {
 
       this.notifications.unshift(n);
       this._activeJobsCount++;
+
+      if (this.lastId >= Number.MAX_SAFE_INTEGER) {
+        this.lastId = 0;
+      }
       return;
     }
 
@@ -50,6 +50,10 @@ export class JobsNotificationService {
   public remove(id: string): void {
     const ind = this.notifications.findIndex((el: INotification) => el.id === id);
     if (ind === -1 ) {
+      return;
+    }
+
+    if (this.notifications[ind].isActive) {
       return;
     }
 
