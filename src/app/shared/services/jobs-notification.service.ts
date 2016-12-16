@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 export const enum INotificationStatus {
   Pending,
   Finished,
@@ -10,6 +11,7 @@ export interface INotification {
   status?: INotificationStatus;
 }
 
+@Injectable()
 export class JobsNotificationService {
   public notifications: Array<INotification>;
   private lastId: number;
