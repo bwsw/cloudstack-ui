@@ -8,7 +8,6 @@ import { VirtualMachine } from './vm.model';
 import { AsyncJob } from '../shared/models/async-job.model';
 import { AsyncJobService } from '../shared/services/async-job.service';
 import { Http, URLSearchParams } from '@angular/http';
-import { MdlDialogService } from 'angular2-mdl';
 
 
 @Injectable()
@@ -20,8 +19,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   constructor(
     protected http: Http,
-    protected jobs: AsyncJobService,
-    private dialogService: MdlDialogService
+    protected jobs: AsyncJobService
   ) {
     super();
   }
