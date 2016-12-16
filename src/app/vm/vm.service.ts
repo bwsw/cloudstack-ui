@@ -8,6 +8,7 @@ import { VirtualMachine } from './vm.model';
 import { AsyncJob } from '../shared/models/async-job.model';
 import { AsyncJobService } from '../shared/services/async-job.service';
 import { Http, URLSearchParams } from '@angular/http';
+import { MdlDialogService } from 'angular2-mdl';
 
 
 @Injectable()
@@ -19,7 +20,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   constructor(
     protected http: Http,
-    protected jobs: AsyncJobService
+    protected jobs: AsyncJobService,
+    private dialogService: MdlDialogService
   ) {
     super();
   }
@@ -30,6 +32,10 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public stopVM(id: string): Observable<AsyncJob> {
     return this.command(id, 'stop');
+  }
+
+  public restartVM(id: string): Observable<AsyncJob> {
+    return this.command(id, 'restart');
   }
 
   private command(id: string, command: string): Observable<AsyncJob> {
@@ -45,7 +51,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       .switchMap(result => this.jobs.addJob(result))
       .map(result => {
         if (result.jobResultCode === 0) {
-          result.jobResult = new VirtualMachine(result.jobResult.virtualmachine);
+          result.jobResult = new this.entityModel(result.jobResult.virtualmachine);
         }
         return result;
       });

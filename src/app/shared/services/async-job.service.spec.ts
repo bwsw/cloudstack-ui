@@ -55,16 +55,15 @@ describe('Async job service', () => {
     TestBed.configureTestingModule({
       providers: [
         AsyncJobService,
-        { provide: 'INotificationService', useClass: MockNotificationService },
+        {provide: 'INotificationService', useClass: MockNotificationService},
         MockBackend,
         BaseRequestOptions,
         {
           provide: Http,
           deps: [MockBackend, BaseRequestOptions],
-          useFactory:
-            (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
-              return new Http(backend, defaultOptions);
-            },
+          useFactory: (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
+            return new Http(backend, defaultOptions);
+          },
         },
         Injector
       ],
@@ -101,6 +100,7 @@ describe('Async job service', () => {
   it('job service polls server until a job is resolved', done => {
     asyncJobService.addJob('123').subscribe(result => {
       expect(result.jobStatus).toBe(1);
+      expect(asyncJobService.queryJobs()).toBeFalsy();
       done();
     });
   }, 20000);
