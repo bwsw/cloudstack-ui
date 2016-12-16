@@ -4,5 +4,9 @@
   "NOT_LOGGED_IN": "Вы не вошли в систему",
   "WRONG_ARGUMENTS": "Неверные параметры",
   "UNEXPECTED_ERROR": "Неизвестная ошибка",
-  "INSTANCES": "Машины"
+  "INSTANCES": "Машины",
+  "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",
+  "YES": "Yes",
+  "NO": "No",
+  "NO_DONT_ASK": "No, don't ask"
 }
