@@ -21,8 +21,6 @@ import { Http, URLSearchParams } from '@angular/http';
 })
 export class VmService extends BaseBackendService<VirtualMachine> {
 
-  private pendingVms: {};
-
   constructor(
     private volumeService: VolumeService,
     private osTypesService: OsTypeService,

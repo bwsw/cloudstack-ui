@@ -29,7 +29,7 @@ export class VmListComponent implements OnInit {
     this.update();
   }
 
-  public update() {
+  public update(id?: string) {
     this.vmService.getList()
       .then(vmList => this.vmList = vmList);
   }

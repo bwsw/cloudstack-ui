@@ -67,6 +67,18 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
       this.queryJobs();
     }, this.pollingInterval);
     this.poll = true;
+    this.checkStatus();
+  }
+
+  private checkStatus() {
+    let n = 0;
+    let statusUpdateTimer = setInterval(() => {
+      this.queryJobs();
+      console.log(n);
+      if (++n > 4) {
+        clearInterval(statusUpdateTimer);
+      }
+    }, 500);
   }
 
   private stopPolling(): void {
