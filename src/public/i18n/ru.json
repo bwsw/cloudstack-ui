@@ -4,5 +4,6 @@
   "NOT_LOGGED_IN": "Вы не вошли в систему",
   "WRONG_ARGUMENTS": "Неверные параметры",
   "UNEXPECTED_ERROR": "Неизвестная ошибка",
-  "INSTANCES": "Машины"
+  "INSTANCES": "Машины",
+  "CLEAR_ALL": "Очистить"
 }

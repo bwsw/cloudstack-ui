@@ -1,0 +1,20 @@
+:host {
+  display: block;
+  line-height: 26px;
+}
+
+:host mdl-spinner {
+  margin-right: 16px;
+  width: 40px;
+  height: 40px;
+}
+
+:host mdl-icon.mdl-list__item-avatar {
+  background: transparent;
+  color: black;
+}
+
+:host mdl-icon.close {
+  float: right;
+  cursor: pointer;
+}

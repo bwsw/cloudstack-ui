@@ -5,6 +5,7 @@
     <mdl-layout-header-row>
       <mdl-layout-title *ngIf="!loggedIn">Cloudstack</mdl-layout-title>
       <mdl-layout-spacer></mdl-layout-spacer>
+      <cs-notification-box *ngIf="loggedIn"></cs-notification-box>
       <cs-logout *ngIf="loggedIn"></cs-logout>
     </mdl-layout-header-row>
   </mdl-layout-header>

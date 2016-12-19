@@ -4,6 +4,7 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
+import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 
 import { AboutComponent } from './about/about.component';
 import { AppComponent } from './app.component';
@@ -12,6 +13,8 @@ import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
 import { VmListComponent } from './vm/vm-list.component';
 import { VmListItemComponent } from './vm/vm-list-item.component';
+import { NotificationBoxComponent } from './notification-box.component';
+import { NotificationBoxItemComponent } from './notification-box-item.component';
 
 import {
   ApiService,
@@ -20,6 +23,7 @@ import {
   AuthService,
   AuthGuard,
   ErrorService,
+  JobsNotificationService,
   LoginGuard,
   ZoneService,
   ServiceOfferingService,
@@ -46,7 +50,8 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
     FormsModule,
     TranslateModule.forRoot(),
     routing,
-    MdlModule
+    MdlModule,
+    MdlPopoverModule
   ],
   declarations: [
     AboutComponent,
@@ -55,7 +60,9 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
     LoginComponent,
     LogoutComponent,
     VmListComponent,
-    VmListItemComponent
+    VmListItemComponent,
+    NotificationBoxComponent,
+    NotificationBoxItemComponent
   ],
   providers: [
     ApiService,
@@ -63,6 +70,7 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
     AsyncJobService,
     AuthService,
     ErrorService,
+    JobsNotificationService,
     { provide: 'INotificationService', useClass: NotificationService },
     { provide: 'IStorageService', useClass: StorageService },
     LoginGuard,
