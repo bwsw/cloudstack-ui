@@ -5,5 +5,9 @@
   "WRONG_ARGUMENTS": "Неверные параметры",
   "UNEXPECTED_ERROR": "Неизвестная ошибка",
   "INSTANCES": "Машины",
-  "CLEAR_ALL": "Очистить"
+  "CLEAR_ALL": "Очистить",
+  "WOULD_YOU_LIKE_TO_CREATE_VM": "Хотите создать виртуальную машину?",
+  "YES": "Да",
+  "NO": "Нет",
+  "NO_DONT_ASK": "Нет, больше не спрашивать"
 }

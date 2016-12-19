@@ -38,7 +38,7 @@ export class LoginComponent {
   }
 
   private handleLogin(): void {
-    this.router.navigate(['/client']);
+    this.router.navigate(['']);
   }
 
   private handleError(error: string): void {
