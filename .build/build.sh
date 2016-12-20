@@ -14,4 +14,11 @@ docker rm $ID
 echo Dist was builded
 
 docker build -t cloudstack-nginx ./..;
+
+NGINXID=$(docker ps -aqf "name=cloudstack-nginx")
+if [[ -n $NGINXID ]]; then
+  docker stop $NGINXID;
+fi
 docker run -d -p 80:80 --name cloudstack-nginx cloudstack-nginx;
+echo Nginx was started
+
