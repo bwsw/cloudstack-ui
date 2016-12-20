@@ -9,12 +9,24 @@
   "DISKS": "DISKS",
   "VMSTATE": {
     "RUNNING": "Running",
-    "STOPPED": "Stopped"
+    "STOPPED": "Stopped",
+    "STARTING": "Starting",
+    "STOPPING": "Stopping"
   },
   "INSTANCES": "Instances",
-  "CLEAR_ALL": "Clear all",
-  "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",
+  "CONFIRM_VM_START": "Are you sure you want to start this virtual machine?",
+  "CONFIRM_VM_STOP": "Are you sure you want to stop this virtual machine?",
+  "CONFIRM_VM_REBOOT": "Are you sure you want to reboot this virtual machine?",
+  "CONFIRM_VM_RESTORE": "Are you sure you want to restore this virtual machine?",
+  "CONFIRM_VM_DESTROY": "Are you sure you want to destroy this virtual machine?",
   "YES": "Yes",
   "NO": "No",
+  "START": "Start",
+  "STOP": "Stop",
+  "REBOOT": "Reboot",
+  "RESTORE": "Restore",
+  "DESTROY": "Destroy",
+  "CLEAR_ALL": "Clear all",
+  "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",
   "NO_DONT_ASK": "No, don't ask"
 }

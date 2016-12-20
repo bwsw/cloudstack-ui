@@ -7,7 +7,7 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
 
 
 interface IJobObservables {
-  [id: string]: Subject<AsyncJob>;
+  [id: string]: Subject<AsyncJob | void>;
 }
 
 @Injectable()
@@ -24,7 +24,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
 
   constructor() {
     super();
-    this.pollingInterval = 2000;
+    this.pollingInterval = 5000;
     this.jobObservables = {};
   }
 
@@ -45,12 +45,14 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
       let anyJobs = false;
       result.forEach((elem, index, array) => {
         let id = elem.jobId;
-        if (elem.jobStatus === 0) {
-          anyJobs = true;
-        }
-        if (this.jobObservables[id] && elem.jobStatus === 1) {
-          this.jobObservables[id].next(elem);
-          delete this.jobObservables[id];
+        if (this.jobObservables[id]) {
+          if (elem.jobStatus === 0) {
+            anyJobs = true;
+            this.jobObservables[id].next();
+          } else {
+            this.jobObservables[id].next(elem);
+            delete this.jobObservables[id];
+          }
         }
       });
       if (!anyJobs) {
@@ -65,6 +67,18 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
       this.queryJobs();
     }, this.pollingInterval);
     this.poll = true;
+    this.checkStatus();
+  }
+
+  private checkStatus() {
+    let n = 0;
+    let statusUpdateTimer = setInterval(() => {
+      this.queryJobs();
+      console.log(n);
+      if (++n > 4) {
+        clearInterval(statusUpdateTimer);
+      }
+    }, 500);
   }
 
   private stopPolling(): void {

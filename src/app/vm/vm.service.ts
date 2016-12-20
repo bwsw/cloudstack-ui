@@ -20,6 +20,7 @@ import { Http, URLSearchParams } from '@angular/http';
   entityModel: VirtualMachine
 })
 export class VmService extends BaseBackendService<VirtualMachine> {
+
   constructor(
     private volumeService: VolumeService,
     private osTypesService: OsTypeService,
@@ -37,6 +38,17 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return this.command(id, 'stop');
   }
 
+  public rebootVM(id: string): Observable<AsyncJob> {
+    return this.command(id, 'reboot');
+  }
+
+  public restoreVM(id: string, templateId: string): Observable<AsyncJob> {
+    return this.command(id, 'restore', { templateId });
+  }
+
+  public destroyVM(id: string): Observable<AsyncJob> {
+    return this.command(id, 'destroy');
+  }
 
   public get(id: string): Promise<VirtualMachine> {
     const volumesRequest = this.volumeService.getList();
@@ -70,19 +82,37 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
-  private command(id: string, command: string): Observable<AsyncJob> {
+  private command(id: string, command: string, params?: {}): Observable<AsyncJob> {
     const urlParams = new URLSearchParams();
 
     urlParams.append('command', command + 'VirtualMachine');
-    urlParams.append('id', id);
     urlParams.append('response', 'json');
+    if (command === 'restore') {
+      urlParams.append('virtualmachineid', id);
+    } else {
+      urlParams.append('id', id);
+    }
+
+    for (let p in params) {
+      if (params.hasOwnProperty(p)) {
+        urlParams.append(p, params[p]);
+      }
+    }
 
     return this.http.get(BACKEND_API_URL, { search: urlParams })
       .map(result => result.json())
-      .map(result => result[command + 'virtualmachineresponse'].jobid)
+      .map(result => {
+        let fix;
+        if (command === 'restore') {
+          fix = 'vm';
+        } else {
+          fix = 'virtualmachine';
+        }
+        return result[command + fix + 'response'].jobid;
+      })
       .switchMap(result => this.jobs.addJob(result))
       .map(result => {
-        if (result.jobResultCode === 0) {
+        if (result && result.jobResultCode === 0) {
           result.jobResult = new this.entityModel(result.jobResult.virtualmachine);
         }
         return result;
