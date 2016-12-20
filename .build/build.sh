@@ -13,7 +13,7 @@ docker wait $ID
 docker rm $ID
 echo Dist was builded
 
-docker build -t cloudstack-nginx ./..;
+docker build -t cloudstack-nginx --file $(pwd)/Dockerfile $(pwd);
 
 NGINXID=$(docker ps -aqf "name=cloudstack-nginx")
 if [[ -n $NGINXID ]]; then
