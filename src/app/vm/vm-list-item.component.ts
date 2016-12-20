@@ -16,20 +16,23 @@ export class VmListItemComponent {
     this.onVmAction.emit({
       id: this.vm.id,
       action: 'start',
+      vm: this.vm
     });
   }
 
   public stop() {
     this.onVmAction.emit({
       id: this.vm.id,
-      action: 'stop'
+      action: 'stop',
+      vm: this.vm
     });
   }
 
   public reboot() {
     this.onVmAction.emit({
       id: this.vm.id,
-      action: 'reboot'
+      action: 'reboot',
+      vm: this.vm
     });
   }
 
@@ -37,14 +40,16 @@ export class VmListItemComponent {
     this.onVmAction.emit({
       id: this.vm.id,
       action: 'restore',
-      templateId: this.vm.templateId
+      vm: this.vm,
+      templateId: this.vm.templateId,
     });
   }
 
   public destroy() {
     this.onVmAction.emit({
       id: this.vm.id,
-      action: 'destroy'
+      action: 'destroy',
+      vm: this.vm
     });
   }
 }

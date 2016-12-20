@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { INotification } from './shared/services/jobs-notification.service';
+import { INotification, INotificationStatus } from './shared/services/jobs-notification.service';
 
 @Component({
   selector: 'cs-notification-box-item',
@@ -7,8 +7,11 @@ import { INotification } from './shared/services/jobs-notification.service';
   styleUrls: ['./notification-box-item.component.scss']
 })
 export class NotificationBoxItemComponent {
-  @Output() public onClose = new EventEmitter<string>();
   @Input() private notification: INotification;
+
+  @Output() public onClose = new EventEmitter<string>();
+
+  public notificationStatus = INotificationStatus;
 
   public remove() {
     this.onClose.emit(this.notification.id);

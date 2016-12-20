@@ -5,11 +5,17 @@ import { VirtualMachine } from './vm.model';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 import { IStorageService } from '../shared/services/storage.service';
+import {
+  JobsNotificationService,
+  INotification,
+  INotificationStatus
+} from '../shared/services/jobs-notification.service';
 
 
 interface IVmAction {
   id: string;
   action: string;
+  vm: VirtualMachine;
   templateId?: string;
 }
 
@@ -25,6 +31,7 @@ export class VmListComponent implements OnInit {
     private dialogService: MdlDialogService,
     private translateService: TranslateService,
     @Inject('IStorageService') protected storageService: IStorageService,
+    private jobsNotificationService: JobsNotificationService
   ) { }
 
   public ngOnInit() {
@@ -51,9 +58,20 @@ export class VmListComponent implements OnInit {
       });
   }
 
-  public update() {
-    this.vmService.getList()
-      .then(vmList => this.vmList = vmList);
+  public update(liteUpdate: boolean) {
+    if (liteUpdate) {
+      this.vmService.getList(true)
+        .then(vmList => {
+          vmList.forEach((vm) => {
+            this.vmList.find((thisvm) => {
+              return vm.id === thisvm.id;
+            }).state = vm.state;
+          });
+        });
+    } else {
+      this.vmService.getList()
+        .then(vmList => this.vmList = vmList);
+    }
   }
 
   private showDialog(translations): void {
@@ -91,10 +109,19 @@ export class VmListComponent implements OnInit {
           this.dialogService.confirm(strs.CONFIRM_VM_START, strs.NO, strs.YES)
             .toPromise() // hack to fix incorrect component behavior
             .then(r => {
+              e.vm.state = 'Starting';
+              let id = this.jobsNotificationService.add('Starting a VM');
               this.vmService.startVM(e.id)
                 .subscribe(res => {
-                  this.update();
+                  this.update(true);
+                  this.jobsNotificationService.add({
+                    id,
+                    message: 'VM has started',
+                    status: INotificationStatus.Finished
+                  });
+                  console.log('2nd:' + id);
                 });
+
             })
             .catch(() => {});
         });
@@ -104,10 +131,18 @@ export class VmListComponent implements OnInit {
           this.dialogService.confirm(strs.CONFIRM_VM_STOP, strs.NO, strs.YES)
             .toPromise()
             .then(r => {
+              let id = this.jobsNotificationService.add('Stopping a VM');
               this.vmService.stopVM(e.id)
                 .subscribe(res => {
-                  this.update();
+                  this.update(true);
+                  this.jobsNotificationService.add({
+                    id,
+                    message: 'VM has been stopped',
+                    status: INotificationStatus.Finished
+                  });
+
                 });
+              e.vm.state = 'Stopping';
             })
             .catch(() => {});
         });
@@ -117,9 +152,16 @@ export class VmListComponent implements OnInit {
           this.dialogService.confirm(strs.CONFIRM_VM_RESTART, strs.NO, strs.YES)
             .toPromise()
             .then(r => {
+              e.vm.state = 'Rebooting';
+              let id = this.jobsNotificationService.add('Rebooting a VM');
               this.vmService.rebootVM(e.id)
                 .subscribe(res => {
-                  this.update();
+                  this.update(true);
+                  this.jobsNotificationService.add({
+                    id,
+                    message: 'VM has been rebooted',
+                    status: INotificationStatus.Finished
+                  });
                 });
             })
             .catch(() => {});
@@ -130,9 +172,16 @@ export class VmListComponent implements OnInit {
           this.dialogService.confirm(strs.CONFIRM_VM_RESTORE, strs.NO, strs.YES)
             .toPromise()
             .then(r => {
+              e.vm.state = 'Restoring';
+              let id = this.jobsNotificationService.add('Restoring a VM');
               this.vmService.restoreVM(e.id, e.templateId)
                 .subscribe(res => {
-                  this.update();
+                  this.update(false);
+                  this.jobsNotificationService.add({
+                    id,
+                    message: 'VM has been restored',
+                    status: INotificationStatus.Finished
+                  });
                 });
             })
             .catch(() => {});
@@ -143,9 +192,16 @@ export class VmListComponent implements OnInit {
           this.dialogService.confirm(strs.CONFIRM_VM_DESTROY, strs.NO, strs.YES)
             .toPromise()
             .then(r => {
+              e.vm.state = 'Destroying';
+              let id = this.jobsNotificationService.add('Destroying a VM');
               this.vmService.destroyVM(e.id)
                 .subscribe(res => {
-                  this.update();
+                  this.update(false);
+                  this.jobsNotificationService.add({
+                    id,
+                    message: 'VM has been destroyed',
+                    status: INotificationStatus.Finished
+                  });
                 });
             })
             .catch(() => {});

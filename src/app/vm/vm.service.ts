@@ -67,8 +67,13 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
   }
 
-  public getList(params?: {}): Promise<Array<VirtualMachine>> {
+  public getList(lite = false, params?: {}): Promise<Array<VirtualMachine>> {
     const vmsRequest = super.getList();
+
+    if (lite) {
+      return vmsRequest;
+    }
+
     const volumesRequest = this.volumeService.getList();
     const osTypesRequest = this.osTypesService.getList();
 
