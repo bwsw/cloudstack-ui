@@ -2,10 +2,10 @@
 
 # Run node container to install dependencies, test and build app
 npm install;
-echo \n******Dependencies was installed******\n
+echo ******Dependencies was installed******
 
 npm run build
-echo \n******Dist was builded******\n
+echo ******Dist was builded******
 
 docker build -t cloudstack-nginx --file $(pwd)/Dockerfile $(pwd);
 
