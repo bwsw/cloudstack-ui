@@ -24,7 +24,7 @@
   <mdl-card-actions mdl-card-border>
     <button
       (click)="start()"
-      [disabled]="vm.state !== 'Running' && vm.state !== 'Stopped'"
+      [disabled]="!vm.canApply"
       [mdl-tooltip]="'START' | translate"
       mdl-tooltip-position="top"
       mdl-button mdl-button-type="icon"
@@ -33,7 +33,7 @@
     </button>
     <button
       (click)="stop()"
-      [disabled]="vm.state !== 'Running' && vm.state !== 'Stopped'"
+      [disabled]="!vm.canApply"
       [mdl-tooltip]="'STOP' | translate"
       mdl-tooltip-position="top"
       mdl-button
@@ -43,7 +43,7 @@
     </button>
     <button
       (click)="reboot()"
-      [disabled]="vm.state !== 'Running' && vm.state !== 'Stopped'"
+      [disabled]="!vm.canApply"
       [mdl-tooltip]="'REBOOT' | translate"
       mdl-tooltip-position="top"
       mdl-button
@@ -53,7 +53,7 @@
     </button>
     <button
       (click)="restore()"
-      [disabled]="vm.state !== 'Running' && vm.state !== 'Stopped'"
+      [disabled]="!vm.canApply"
       [mdl-tooltip]="'RESTORE' | translate"
       mdl-tooltip-position="top"
       mdl-button
@@ -63,7 +63,7 @@
     </button>
     <button
       (click)="destroy()"
-      [disabled]="vm.state !== 'Running' && vm.state !== 'Stopped'"
+      [disabled]="!vm.canApply"
       [mdl-tooltip]="'DESTROY' | translate"
       mdl-tooltip-position="top"
       mdl-button

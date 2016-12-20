@@ -92,4 +92,8 @@ export class VirtualMachine extends BaseModel {
     }, 0);
     return sizeInBytes / Math.pow(2, 30);
   }
+
+  public get canApply() {
+    return this.state === 'Running' || this.state === 'Stopped';
+  }
 }
