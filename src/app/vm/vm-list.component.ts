@@ -7,9 +7,9 @@ import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 
 interface IVmAction {
-  id: string,
-  action: string
-  templateId?: string
+  id: string;
+  action: string;
+  templateId?: string;
 }
 
 @Component({
