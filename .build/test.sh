@@ -12,6 +12,7 @@ docker build -t cloudstack-nginx --file $(pwd)/Dockerfile $(pwd);
 NGINXID=$(docker ps -aqf "name=cloudstack-nginx")
 if [[ -n $NGINXID ]]; then
   docker stop $NGINXID;
+  docker rm $NGINXID;
 fi
 
 echo Starting Nginx
