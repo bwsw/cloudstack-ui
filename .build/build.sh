@@ -5,11 +5,13 @@ docker run --name node-install -v $(pwd):/workspace -w /workspace node npm i;
 ID=$(docker ps -aqf "name=node-install")
 docker wait $ID
 docker rm $ID
+echo Dependencies was installed
 
-docker run --name node-build -v $(pwd):/workspace -w /workspace node npm build;
+docker run --name node-build -v $(pwd):/workspace -w /workspace node npm run build;
 ID=$(docker ps -aqf "name=node-build")
 docker wait $ID
 docker rm $ID
+echo Dist was builded
 
 docker build -t cloudstack-nginx ./..;
 docker run -d -p 80:80 --name cloudstack-nginx cloudstack-nginx;
