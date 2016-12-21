@@ -7,7 +7,6 @@ import { TranslateService } from 'ng2-translate';
 import { IStorageService } from '../shared/services/storage.service';
 import {
   JobsNotificationService,
-  INotification,
   INotificationStatus
 } from '../shared/services/jobs-notification.service';
 
@@ -119,9 +118,7 @@ export class VmListComponent implements OnInit {
                     message: 'VM has started',
                     status: INotificationStatus.Finished
                   });
-                  console.log('2nd:' + id);
                 });
-
             })
             .catch(() => {});
         });

@@ -7,9 +7,9 @@ import { INotification, INotificationStatus } from './shared/services/jobs-notif
   styleUrls: ['./notification-box-item.component.scss']
 })
 export class NotificationBoxItemComponent {
-  @Input() private notification: INotification;
 
   @Output() public onClose = new EventEmitter<string>();
+  @Input() private notification: INotification;
 
   public notificationStatus = INotificationStatus;
 
