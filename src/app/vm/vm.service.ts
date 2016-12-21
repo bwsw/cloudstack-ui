@@ -12,6 +12,8 @@ import { OsType } from '../shared/models/os-type.model';
 import { AsyncJob } from '../shared/models/async-job.model';
 import { AsyncJobService } from '../shared/services/async-job.service';
 import { Http, URLSearchParams } from '@angular/http';
+import { ServiceOfferingService } from '../shared/services/service-offering.service';
+import { ServiceOffering } from '../shared/models/service-offering.model';
 
 
 @Injectable()
@@ -24,6 +26,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   constructor(
     private volumeService: VolumeService,
     private osTypesService: OsTypeService,
+    private serviceOfferingService: ServiceOfferingService,
     protected http: Http,
     protected jobs: AsyncJobService
   ) {
@@ -59,10 +62,12 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         vm.volumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
 
         const osTypeRequest = this.osTypesService.get(vm.guestOsId);
-        return Promise.all([Promise.resolve(vm), osTypeRequest]);
+        const serviceOfferingRequest = this.serviceOfferingService.get(vm.serviceOfferingId);
+        return Promise.all([Promise.resolve(vm), osTypeRequest, serviceOfferingRequest]);
       })
-      .then(([vm, osType]) => {
+      .then(([vm, osType, serviceOffering]) => {
         vm.osType = osType;
+        vm.serviceOffering = serviceOffering;
         return vm;
       });
   }
@@ -71,12 +76,21 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     const vmsRequest = super.getList();
     const volumesRequest = this.volumeService.getList();
     const osTypesRequest = this.osTypesService.getList();
+    const serviceOfferingsRequest = this.serviceOfferingService.getList();
 
-    return Promise.all([vmsRequest, volumesRequest, osTypesRequest])
-      .then(([vms, volumes, osTypes]) => {
+    return Promise.all([
+      vmsRequest,
+      volumesRequest,
+      osTypesRequest,
+      serviceOfferingsRequest
+    ])
+      .then(([vms, volumes, osTypes, serviceOfferings]) => {
         vms.forEach((vm: VirtualMachine) => {
           vm.volumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
           vm.osType = osTypes.find((osType: OsType) => osType.id === vm.guestOsId);
+          vm.serviceOffering = serviceOfferings.find((serviceOffering: ServiceOffering) => {
+            return serviceOffering.id === vm.serviceOfferingId;
+          });
         });
         return vms;
     });

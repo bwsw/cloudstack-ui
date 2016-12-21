@@ -2,6 +2,7 @@ import { BaseModel } from '../shared/models';
 import { FieldMapper } from '../shared/decorators';
 import { Volume } from '../shared/models/volume.model';
 import { OsType } from '../shared/models/os-type.model';
+import { ServiceOffering } from '../shared/models/service-offering.model';
 
 /* TODO
   1. nicService
@@ -55,6 +56,7 @@ export class VirtualMachine extends BaseModel {
   // Status
   public state: string;
   // Service Offering
+  public serviceOffering: ServiceOffering;
   public serviceOfferingId: string;
   public serviceOfferingName: string;
   public cpuNumber: number;
