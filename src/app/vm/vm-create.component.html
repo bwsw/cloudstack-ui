@@ -34,44 +34,62 @@
     <!--</mdl-select>-->
   <h5>Service offering</h5>
   <div style="padding-bottom: 40px">
-    <select>
-      <option>SO1</option>
-      <option>SO2</option>
-      <option>SO3</option>
-    </select>
+    <mdl-select>
+      <mdl-option [value]="1">SO2</mdl-option>
+      <mdl-option [value]="2">SO3</mdl-option>
+    </mdl-select>
   </div>
   <h5>Zone</h5>
   <div style="padding-bottom: 40px">
-    <select>
-      <option>Z1</option>
-      <option>Z2</option>
-      <option>Z3</option>
-    </select>
+    <mdl-select [(ngModel)]="zone">
+      <mdl-option *ngFor="let z of zones" [value]="z.id" >{{z.name}}</mdl-option>
+    </mdl-select>
   </div>
-  <h5 style="padding-bottom: 24px">Root disk size</h5>
-  <div style="width:300px; padding-bottom: 40px">
+  <div style="position:relative; width:300px">
+    <h5 style="padding-bottom: 24px; display: inline-block">Root disk size</h5>
+    <h5 style="display:inline-block; position:absolute; right:0px;">{{rootDiskSize ? rootDiskSize + ' GB' : 'Auto'}}</h5>
+  </div>
+  <div style="width:348px; position: relative; left:-24px; padding-bottom: 40px">
     <mdl-slider
       id="rootDiskSize"
       name="rootDiskSize"
       [(ngModel)]="rootDiskSize"
-      [mdl-tooltip]="tt1"
       mdl-tooltip-position="top"
       min="0"
-      max="50"
-      value="1"
-    ></mdl-slider>
-    <mdl-tooltip  #tt1="mdlTooltip">{{rootDiskSize ? rootDiskSize + ' GB' : 'Auto'}}</mdl-tooltip>
+      max="50">
+    </mdl-slider>
+    <!--<mdl-tooltip  #tt1="mdlTooltip">{{rootDiskSize ? rootDiskSize + ' GB' : 'Auto'}}</mdl-tooltip>-->
   </div>
   <h5>Affinity groups</h5>
   <div style="padding-bottom: 40px">
-    <select>
-      <option>stub</option>
-      <option>stub</option>
-      <option>stub</option>
-    </select>
+    <mdl-select>
+      <mdl-option [value]="0">stub</mdl-option>
+      <mdl-option [value]="1">stub</mdl-option>
+      <mdl-option [value]="2">stub</mdl-option>
+    </mdl-select>
   </div>
-  <div style="width:300px">
+  <div style="position: relative; width:300px; padding-bottom: 40px">
     <h5 style="display:inline-block">Network group</h5>
-    <button mdl-button mdl-ripple style="display:inline-block;">Create</button>
+    <button mdl-button mdl-ripple style="margin-top: 16px; display:inline-block; position:absolute; right: 0">Create</button>
+    <div>Based on security group 1, security group 2, etc.</div>
   </div>
+  <h5>Keyboard layout</h5>
+  <div style="padding-bottom: 40px">
+    <mdl-select>
+      <mdl-option>stub</mdl-option>
+      <mdl-option>stub</mdl-option>
+      <mdl-option>stub</mdl-option>
+    </mdl-select>
+  </div>
+  <h5>SSH keypair</h5>
+  <div style="padding-bottom: 40px">
+    <mdl-select>
+      <mdl-option [value]="0">stub</mdl-option>
+      <mdl-option [value]="1">stub</mdl-option>
+      <mdl-option [value]="2">stub</mdl-option>
+    </mdl-select>
+  </div>
+  <mdl-checkbox [(ngModel)]="doStartVm">
+    Start VM
+  </mdl-checkbox>
 </div>
