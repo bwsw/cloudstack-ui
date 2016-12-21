@@ -28,7 +28,6 @@ export class JobsNotificationService {
   }
 
   public add(notification: INotification | string): string {
-    console.log(notification);
     if (typeof notification === 'string') {
       const n: INotification = {
         id: '' + this.lastId++,
@@ -52,7 +51,6 @@ export class JobsNotificationService {
       this._pendingJobsCount++;
       return;
     }
-    console.log(this.notifications);
     Object.assign(this.notifications[ind], notification);
   }
 
