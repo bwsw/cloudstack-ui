@@ -11,7 +11,10 @@
     "RUNNING": "Running",
     "STOPPED": "Stopped",
     "STARTING": "Starting",
-    "STOPPING": "Stopping"
+    "STOPPING": "Stopping",
+    "REBOOTING": "Rebooting",
+    "RESTORING": "Restoring",
+    "DESTROYING": "Destroying"
   },
   "INSTANCES": "Instances",
   "CONFIRM_VM_START": "Are you sure you want to start this virtual machine?",
@@ -28,5 +31,15 @@
   "DESTROY": "Destroy",
   "CLEAR_ALL": "Clear all",
   "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",
-  "NO_DONT_ASK": "No, don't ask"
+  "NO_DONT_ASK": "No, don't ask me",
+  "STARTING_A_VM": "Starting a VM",
+  "STOPPING_A_VM": "Stopping a VM",
+  "REBOOTING_A_VM": "Rebooting a VM",
+  "RESTORING_A_VM": "Restoring a VM",
+  "DESTROYING_A_VM": "Destroying a VM",
+  "VM_HAS_STARTED": "VM has started",
+  "VM_HAS_BEEN_STOPPED": "VM has been stopped",
+  "VM_HAS_BEEN_REBOOTED": "VM has been rebooted",
+  "VM_HAS_BEEN_RESTORED": "VM has been restored",
+  "VM_HAS BEEN_DESTROYED": "VM has been destroyed"
 }
