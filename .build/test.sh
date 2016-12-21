@@ -1,0 +1,2 @@
+echo $API_BACKEND_URL
+echo $DEPLOY_PORT
