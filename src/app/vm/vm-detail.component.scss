@@ -1,0 +1,44 @@
+:host {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transition: transform 0.3s;
+  overflow: auto;
+  background: #fafafa;
+  padding: 10px 5px;
+  z-index: 5;
+}
+
+:host.open {
+  transform: translateX(0);
+}
+
+h4 {
+  margin: 0 5px;
+}
+
+mdl-card {
+  min-height: initial;
+  margin: 5px;
+}
+
+button {
+  transition: transform 0.3s;
+}
+
+button.open {
+  transform: rotate(180deg);
+}
+
+table.statistics td:nth-child(2n),
+table.service-offering td:nth-child(2n) {
+  text-align: right;
+  padding-left: 10px;
+}
+
+table.volumes td:nth-child(2n) {
+  padding-left: 15px;
+}
+
+
