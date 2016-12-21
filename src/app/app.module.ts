@@ -12,6 +12,7 @@ import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
 import { VmListComponent } from './vm/vm-list.component';
 import { VmListItemComponent } from './vm/vm-list-item.component';
+import { VmDetailComponent } from './vm/vm-detail.component';
 import { NotificationBoxComponent } from './notification-box.component';
 import { NotificationBoxItemComponent } from './notification-box-item.component';
 
@@ -58,6 +59,7 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
     LoginComponent,
     LogoutComponent,
     VmListComponent,
+    VmDetailComponent,
     VmListItemComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent

@@ -15,10 +15,13 @@ interface IVmAction {
 
 @Component({
   selector: 'cs-vm-list',
-  templateUrl: './vm-list.component.html'
+  templateUrl: './vm-list.component.html',
+  styleUrls: ['./vm-list.component.scss']
 })
 export class VmListComponent implements OnInit {
   private vmList: Array<VirtualMachine>;
+  private selectedVm: VirtualMachine;
+  private isDetailOpen: boolean;
 
   constructor (
     private vmService: VmService,
@@ -54,34 +57,6 @@ export class VmListComponent implements OnInit {
   public update() {
     this.vmService.getList()
       .then(vmList => this.vmList = vmList);
-  }
-
-  private showDialog(translations): void {
-    this.dialogService.showDialog({
-      message: translations['WOULD_YOU_LIKE_TO_CREATE_VM'],
-      actions: [
-        {
-          handler: () => {
-            console.log('show vm create dialog'); // temporary
-          },
-          text: translations['YES']
-        },
-        {
-          handler: () => { },
-          text: translations['NO']
-        },
-        {
-          handler: () => {
-            this.storageService.write('askToCreateVm', 'false');
-          },
-          text: translations['NO_DONT_ASK']
-        }
-      ],
-      fullWidthAction: true,
-      isModal: true,
-      clickOutsideToClose: true,
-      styles: { 'width': '320px' }
-    });
   }
 
   public onVmAction(e: IVmAction) {
@@ -152,5 +127,42 @@ export class VmListComponent implements OnInit {
         });
         break;
     }
+  }
+
+  public showDetail(vm: VirtualMachine) {
+    this.isDetailOpen = true;
+    this.selectedVm = vm;
+  }
+
+  public hideDetail() {
+    this.isDetailOpen = false;
+  }
+
+  private showDialog(translations): void {
+    this.dialogService.showDialog({
+      message: translations['WOULD_YOU_LIKE_TO_CREATE_VM'],
+      actions: [
+        {
+          handler: () => {
+            console.log('show vm create dialog'); // temporary
+          },
+          text: translations['YES']
+        },
+        {
+          handler: () => { },
+          text: translations['NO']
+        },
+        {
+          handler: () => {
+            this.storageService.write('askToCreateVm', 'false');
+          },
+          text: translations['NO_DONT_ASK']
+        }
+      ],
+      fullWidthAction: true,
+      isModal: true,
+      clickOutsideToClose: true,
+      styles: { 'width': '320px' }
+    });
   }
 }
