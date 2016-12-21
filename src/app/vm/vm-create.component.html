@@ -1,0 +1,77 @@
+<div class="container">
+  <div>
+    <mdl-textfield
+      type="text"
+      label="Name"
+      id="name"
+      name="name"
+      [(ngModel)]="name">
+    </mdl-textfield>
+  </div>
+  <div>
+    <mdl-textfield
+      type="text"
+      label="Description"
+      id="description"
+      name="description"
+      [(ngModel)]="description">
+    </mdl-textfield>
+  </div>
+  <div>
+    <mdl-textfield
+      [disabled]="true"
+      type="text"
+      label="Template stub"
+      id="template"
+      name="template"
+      [(ngModel)]="template">
+    </mdl-textfield>
+  </div>
+    <!--<mdl-select [(ngModel)]="serviceOffering">-->
+      <!--<mdl-option [value]="1">1</mdl-option>-->
+      <!--<mdl-option [value]="2">2</mdl-option>-->
+      <!--<mdl-option [value]="3">3</mdl-option>-->
+    <!--</mdl-select>-->
+  <h5>Service offering</h5>
+  <div style="padding-bottom: 40px">
+    <select>
+      <option>SO1</option>
+      <option>SO2</option>
+      <option>SO3</option>
+    </select>
+  </div>
+  <h5>Zone</h5>
+  <div style="padding-bottom: 40px">
+    <select>
+      <option>Z1</option>
+      <option>Z2</option>
+      <option>Z3</option>
+    </select>
+  </div>
+  <h5 style="padding-bottom: 24px">Root disk size</h5>
+  <div style="width:300px; padding-bottom: 40px">
+    <mdl-slider
+      id="rootDiskSize"
+      name="rootDiskSize"
+      [(ngModel)]="rootDiskSize"
+      [mdl-tooltip]="tt1"
+      mdl-tooltip-position="top"
+      min="0"
+      max="50"
+      value="1"
+    ></mdl-slider>
+    <mdl-tooltip  #tt1="mdlTooltip">{{rootDiskSize ? rootDiskSize + ' GB' : 'Auto'}}</mdl-tooltip>
+  </div>
+  <h5>Affinity groups</h5>
+  <div style="padding-bottom: 40px">
+    <select>
+      <option>stub</option>
+      <option>stub</option>
+      <option>stub</option>
+    </select>
+  </div>
+  <div style="width:300px">
+    <h5 style="display:inline-block">Network group</h5>
+    <button mdl-button mdl-ripple style="display:inline-block;">Create</button>
+  </div>
+</div>

@@ -10,6 +10,7 @@ import { AboutComponent } from './about/about.component';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
+import { VmCreateComponent } from './vm/vm-create.component';
 import { VmListComponent } from './vm/vm-list.component';
 import { VmListItemComponent } from './vm/vm-list-item.component';
 import { NotificationBoxComponent } from './notification-box.component';
@@ -40,6 +41,7 @@ import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
+import { MdlSelectModule } from "@angular2-mdl-ext/select";
 
 
 @NgModule({
@@ -50,13 +52,15 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
     TranslateModule.forRoot(),
     routing,
     MdlModule,
-    MdlPopoverModule
-  ],
+    MdlPopoverModule,
+    MdlSelectModule
+],
   declarations: [
     AboutComponent,
     AppComponent,
     LoginComponent,
     LogoutComponent,
+    VmCreateComponent,
     VmListComponent,
     VmListItemComponent,
     NotificationBoxComponent,

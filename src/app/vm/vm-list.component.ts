@@ -56,34 +56,6 @@ export class VmListComponent implements OnInit {
       .then(vmList => this.vmList = vmList);
   }
 
-  private showDialog(translations): void {
-    this.dialogService.showDialog({
-      message: translations['WOULD_YOU_LIKE_TO_CREATE_VM'],
-      actions: [
-        {
-          handler: () => {
-            console.log('show vm create dialog'); // temporary
-          },
-          text: translations['YES']
-        },
-        {
-          handler: () => { },
-          text: translations['NO']
-        },
-        {
-          handler: () => {
-            this.storageService.write('askToCreateVm', 'false');
-          },
-          text: translations['NO_DONT_ASK']
-        }
-      ],
-      fullWidthAction: true,
-      isModal: true,
-      clickOutsideToClose: true,
-      styles: { 'width': '320px' }
-    });
-  }
-
   public onVmAction(e: IVmAction) {
     switch (e.action) {
       case 'start':
@@ -152,5 +124,33 @@ export class VmListComponent implements OnInit {
         });
         break;
     }
+  }
+
+  private showDialog(translations): void {
+    this.dialogService.showDialog({
+      message: translations['WOULD_YOU_LIKE_TO_CREATE_VM'],
+      actions: [
+        {
+          handler: () => {
+            console.log('show vm create dialog'); // temporary
+          },
+          text: translations['YES']
+        },
+        {
+          handler: () => { },
+          text: translations['NO']
+        },
+        {
+          handler: () => {
+            this.storageService.write('askToCreateVm', 'false');
+          },
+          text: translations['NO_DONT_ASK']
+        }
+      ],
+      fullWidthAction: true,
+      isModal: true,
+      clickOutsideToClose: true,
+      styles: { 'width': '320px' }
+    });
   }
 }
