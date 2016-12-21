@@ -41,6 +41,7 @@ import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
+import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
     VmDetailComponent,
     VmListItemComponent,
     NotificationBoxComponent,
-    NotificationBoxItemComponent
+    NotificationBoxItemComponent,
+    DivByPowerOfTwoPipe
   ],
   providers: [
     ApiService,

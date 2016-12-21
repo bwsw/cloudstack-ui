@@ -18,7 +18,7 @@
         <tr><td>Description</td><td>{{ vm.serviceOffering.displaytext }}</td></tr>
         <tr><td>CPU cores</td><td>{{ vm.serviceOffering.cpuNumber }}</td></tr>
         <tr><td>CPU (MHz)</td><td>{{ vm.serviceOffering.cpuSpeed }}</td></tr>
-        <tr><td>Memory (GB)</td><td>{{ vm.serviceOffering.memory }}</td></tr>
+        <tr><td>Memory (GB)</td><td>{{ vm.serviceOffering.memory | divByPowerOfTwo:10:2 }}</td></tr>
         <tr><td>Storage type</td><td>{{ vm.serviceOffering.storagetype }}</td></tr>
         <tr><td>Provisioning type</td><td>{{ vm.serviceOffering.provisioningtype }}</td></tr>
         <!--<tr><td *ngIf="expandServiceOffering">shown when expanded</td></tr>-->
@@ -57,7 +57,7 @@
       <table class="volumes">
         <tr *ngFor="let volume of vm.volumes">
           <td>{{ volume.name }}</td>
-          <td> {{ volume.size }} Bytes</td>
+          <td>{{ volume.size | divByPowerOfTwo:30:2 }} GB</td>
           <td>
             <button mdl-button>Take snapshot</button>
           </td>
@@ -123,105 +123,4 @@
     </mdl-card-supporting-text>
   </mdl-card>
 </div>
-<div *ngIf="vmList && vm">
-  <mdl-card class="vm-card" mdl-shadow="2">
-    <mdl-card-title>
-      <h2 mdl-card-title-text>Status</h2>
-    </mdl-card-title>
-    <mdl-card-supporting-text>
-      <div>{{ vm.state }}</div>
-    </mdl-card-supporting-text>
-  </mdl-card>
-  <mdl-card class="vm-card" mdl-shadow="2">
-    <mdl-card-title>
-      <h2 mdl-card-title-text>Service offering</h2>
-    </mdl-card-title>
-    <mdl-card-supporting-text>
-      <div>Name {{ vm.serviceOffering.name }}</div>
-      <div>Description {{ vm.serviceOffering.displaytext }}</div>
-      <div>CPU cores {{ vm.serviceOffering.cpuNumber }}</div>
-      <div>CPU (MHz) {{ vm.serviceOffering.cpuSpeed }}</div>
-      <div>Memory (GB) {{ vm.serviceOffering.memory }}</div>
-      <div>Storage type {{ vm.serviceOffering.storagetype }}</div>
-      <div>Provisioning type {{ vm.serviceOffering.provisioningtype }}</div>
-    </mdl-card-supporting-text>
-  </mdl-card>
-  <mdl-card class="vm-card" mdl-shadow="2">
-    <mdl-card-title>
-      <h2 mdl-card-title-text>IP addresses</h2>
-    </mdl-card-title>
-    <mdl-card-supporting-text>
-      <div *ngFor="let nic of vm.nic">
-        {{ nic.ipaddress }}
-        <div *ngFor="let ip of nic.secondaryip">
-          {{ ip }}
-        </div>
-      </div>
-    </mdl-card-supporting-text>
-  </mdl-card>
-  <mdl-card class="vm-card" mdl-shadow="2">
-    <mdl-card-title>
-      <h2 mdl-card-title-text>Volumes</h2>
-    </mdl-card-title>
-    <mdl-card-supporting-text>
-      <div *ngFor="let volume of vm.volumes">
-        <div>{{ volume.name }} {{ volume.size }} Bytes </div>
-      </div>
-    </mdl-card-supporting-text>
-  </mdl-card>
-  <mdl-card class="vm-card" mdl-shadow="2">
-    <mdl-card-title>
-      <h2 mdl-card-title-text>Security group</h2>
-    </mdl-card-title>
-    <mdl-card-supporting-text>
-      <div>{{ vm.securityGroup[0].name }}</div>
-    </mdl-card-supporting-text>
-  </mdl-card>
-  <mdl-card class="vm-card" mdl-shadow="2">
-    <mdl-card-title>
-      <h2 mdl-card-title-text>Affinity group</h2>
-    </mdl-card-title>
-    <mdl-card-supporting-text>
-      <div *ngFor="let affinityGroup of vm.affinityGroup">{{ vm.affinityGroup }}</div>
-      <div *ngIf="!vm.affinityGroup.length">No affinity groups</div>
-    </mdl-card-supporting-text>
-  </mdl-card>
-  <mdl-card class="vm-card" mdl-shadow="2">
-    <mdl-card-title>
-      <h2 mdl-card-title-text>Zone</h2>
-    </mdl-card-title>
-    <mdl-card-supporting-text>
-      <div>{{ vm.zoneName }}</div>
-    </mdl-card-supporting-text>
-  </mdl-card>
-  <mdl-card class="vm-card" mdl-shadow="2">
-    <mdl-card-title>
-      <h2 mdl-card-title-text>OS type</h2>
-    </mdl-card-title>
-    <mdl-card-supporting-text>
-      <div>{{ vm.osType.description }}</div>
-    </mdl-card-supporting-text>
-  </mdl-card>
-  <mdl-card class="vm-card" mdl-shadow="2">
-    <mdl-card-title>
-      <h2 mdl-card-title-text>Template</h2>
-    </mdl-card-title>
-    <mdl-card-supporting-text>
-      <div>{{ vm.templateName }}</div>
-    </mdl-card-supporting-text>
-  </mdl-card>
-  <mdl-card class="vm-card" mdl-shadow="2">
-    <mdl-card-title>
-      <h2 mdl-card-title-text>Statistics</h2>
-    </mdl-card-title>
-    <mdl-card-supporting-text>
-      <div>CPU Utilized {{ vm.cpuUsed }}</div>
-      <div>Network read {{ vm.networkKbsRead }} KB</div>
-      <div>Network write {{ vm.networkKbsWrite }} KB</div>
-      <div>Disk read {{ vm.diskKbsRead }} KB</div>
-      <div>Disk write {{ vm.diskKbsWrite }} KB</div>
-      <div>Disk read (IO) {{ vm.diskIoRead }}</div>
-      <div>Disk write (IO) {{ vm.diskIoWrite }}</div>
-    </mdl-card-supporting-text>
-  </mdl-card>
-</div>
+
