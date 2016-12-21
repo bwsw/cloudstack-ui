@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
 import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
+import { MdlSelectModule } from '@angular2-mdl-ext/select';
 
 import { AboutComponent } from './about/about.component';
 import { AppComponent } from './app.component';
@@ -14,6 +15,7 @@ import { VmListComponent } from './vm/vm-list.component';
 import { VmListItemComponent } from './vm/vm-list-item.component';
 import { NotificationBoxComponent } from './notification-box.component';
 import { NotificationBoxItemComponent } from './notification-box-item.component';
+import { TemplateInputComponent } from './vm/creation/template-input.component';
 
 import {
   ApiService,
@@ -50,7 +52,8 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
     TranslateModule.forRoot(),
     routing,
     MdlModule,
-    MdlPopoverModule
+    MdlPopoverModule,
+    MdlSelectModule
   ],
   declarations: [
     AboutComponent,
@@ -60,6 +63,7 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
     VmListComponent,
     VmListItemComponent,
     NotificationBoxComponent,
+    TemplateInputComponent,
     NotificationBoxItemComponent
   ],
   providers: [
