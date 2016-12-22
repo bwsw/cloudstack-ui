@@ -10,10 +10,13 @@ import {
   INotificationStatus
 } from '../shared/services/jobs-notification.service';
 
+import { IVmAction } from './vm.model';
+import { JobStreamService } from "../shared/services/job-stream.service";
+import { AsyncVmJob } from '../shared/models/async-job.model';
 
-interface IVmAction {
+interface IVmActionEvent {
   id: string;
-  action: string;
+  action: IVmAction;
   vm: VirtualMachine;
   templateId?: string;
 }
@@ -30,7 +33,8 @@ export class VmListComponent implements OnInit {
     private dialogService: MdlDialogService,
     private translateService: TranslateService,
     @Inject('IStorageService') protected storageService: IStorageService,
-    private jobsNotificationService: JobsNotificationService
+    private jobsNotificationService: JobsNotificationService,
+    private jobStream: JobStreamService
   ) { }
 
   public ngOnInit() {
@@ -55,159 +59,38 @@ export class VmListComponent implements OnInit {
           this.showDialog(translations);
         });
       });
+    this.jobStream.subscribe((job: AsyncVmJob) => {
+      if (job.jobResult.state === 'Destroyed') {
+        this.vmList.splice(this.vmList.findIndex(vm => vm.id === job.jobResult.id), 1);
+      }
+    });
   }
 
-  public update(liteUpdate: boolean) {
-    if (liteUpdate) {
-      this.vmService.getList(true)
-        .then(vmList => {
-          vmList.forEach((vm) => {
-            this.vmList.find((thisvm) => {
-              return vm.id === thisvm.id;
-            }).state = vm.state;
-          });
-        });
-    } else {
-      this.vmService.getList()
-        .then(vmList => this.vmList = vmList);
-    }
-  }
-
-  public onVmAction(e: IVmAction) {
-    switch (e.action) {
-      case 'start':
-        this.translateService.get([
-          'CONFIRM_VM_START',
-          'NO',
-          'YES',
-          'STARTING_A_VM',
-          'STARTING',
-          'VM_HAS_STARTED'
-        ]).subscribe(strs => {
-          this.dialogService.confirm(strs.CONFIRM_VM_START, strs.NO, strs.YES)
-            .toPromise() // hack to fix incorrect component behavior
-            .then(r => {
-              e.vm.state = 'Starting';
-              let id = this.jobsNotificationService.add(strs.STARTING_A_VM);
-              this.vmService.startVM(e.id)
-                .subscribe(res => {
-                  this.update(true);
-                  this.jobsNotificationService.add({
-                    id,
-                    message: strs.VM_HAS_STARTED,
-                    status: INotificationStatus.Finished
-                  });
-                });
-            })
-            .catch(() => {});
-        });
-        break;
-      case 'stop':
-        this.translateService.get([
-          'CONFIRM_VM_STOP',
-          'NO',
-          'YES',
-          'STOPPING_A_VM',
-          'VM_HAS_BEEN_STOPPED'
-        ]).subscribe(strs => {
-          this.dialogService.confirm(strs.CONFIRM_VM_STOP, strs.NO, strs.YES)
-            .toPromise()
-            .then(r => {
-              e.vm.state = 'Stopping';
-              let id = this.jobsNotificationService.add(strs.STOPPING_A_VM);
-              this.vmService.stopVM(e.id)
-                .subscribe(res => {
-                  this.update(true);
-                  this.jobsNotificationService.add({
-                    id,
-                    message: strs.VM_HAS_BEEN_STOPPED,
-                    status: INotificationStatus.Finished
-                  });
-
-                });
-            })
-            .catch(() => {});
-        });
-        break;
-      case 'reboot':
-        this.translateService.get([
-          'CONFIRM_VM_REBOOT',
-          'NO',
-          'YES',
-          'REBOOTING_A_VM',
-          'VM_HAS_BEEN_REBOOTED'
-        ]).subscribe(strs => {
-          this.dialogService.confirm(strs.CONFIRM_VM_REBOOT, strs.NO, strs.YES)
-            .toPromise()
-            .then(r => {
-              e.vm.state = 'Rebooting';
-              let id = this.jobsNotificationService.add(strs.REBOOTING_A_VM);
-              this.vmService.rebootVM(e.id)
-                .subscribe(res => {
-                  this.update(true);
-                  this.jobsNotificationService.add({
-                    id,
-                    message: strs.VM_HAS_BEEN_REBOOTED,
-                    status: INotificationStatus.Finished
-                  });
-                });
-            })
-            .catch(() => {});
-        });
-        break;
-      case 'restore':
-        this.translateService.get([
-          'CONFIRM_VM_RESTORE',
-          'NO',
-          'YES',
-          'RESTORING_A_VM',
-          'VM_HAS_BEEN_RESTORED'
-        ]).subscribe(strs => {
-          this.dialogService.confirm(strs.CONFIRM_VM_RESTORE, strs.NO, strs.YES)
-            .toPromise()
-            .then(r => {
-              e.vm.state = 'Restoring';
-              let id = this.jobsNotificationService.add(strs.RESTORING_A_VM);
-              this.vmService.restoreVM(e.id, e.templateId)
-                .subscribe(res => {
-                  this.update(false);
-                  this.jobsNotificationService.add({
-                    id,
-                    message: strs.VM_HAS_BEEN_RESTORED,
-                    status: INotificationStatus.Finished
-                  });
-                });
-            })
-            .catch(() => {});
-        });
-        break;
-      case 'destroy':
-        this.translateService.get([
-          'CONFIRM_VM_DESTROY',
-          'NO',
-          'YES',
-          'DESTROYING_A_VM',
-          'VM_HAS_BEEN_DESTROYED'
-        ]).subscribe(strs => {
-          this.dialogService.confirm(strs.CONFIRM_VM_DESTROY, strs.NO, strs.YES)
-            .toPromise()
-            .then(r => {
-              e.vm.state = 'Destroying';
-              let id = this.jobsNotificationService.add(strs.DESTROYING_A_VM);
-              this.vmService.destroyVM(e.id)
-                .subscribe(res => {
-                  this.update(false);
-                  this.jobsNotificationService.add({
-                    id,
-                    message: strs.VM_HAS_BEEN_DESTROYED,
-                    status: INotificationStatus.Finished
-                  });
-                });
-            })
-            .catch(() => {});
-        });
-        break;
-    }
+  public onVmAction(e: IVmActionEvent) {
+    console.log(e);
+    this.translateService.get([
+      'YES',
+      'NO',
+      e.action.confirmMessage,
+      e.action.progressMessage,
+      e.action.successMessage
+    ]).subscribe(strs => {
+      this.dialogService.confirm(strs[e.action.confirmMessage], strs.NO, strs.YES)
+        .toPromise()
+        .then(r => {
+          e.vm.state = e.action.vmStateOnAction;
+          let id = this.jobsNotificationService.add(strs[e.action.progressMessage]);
+          this.vmService.command(e.vm.id, e.action.nameLower)
+            .subscribe(result => {
+              this.jobsNotificationService.add({
+                id,
+                message: strs[e.action.successMessage],
+                status: INotificationStatus.Finished
+              });
+            }
+          );
+        })
+    });
   }
 
   private showDialog(translations): void {

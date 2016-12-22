@@ -1,5 +1,14 @@
 import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators/field-mapper.decorator';
+import { VirtualMachine } from "../../vm/vm.model";
+
+
+export interface AsyncVmJob {
+  jobId: string;
+  jobStatus: number;
+  jobResultCode: number;
+  jobResult: VirtualMachine;
+}
 
 @FieldMapper({
   jobid: 'jobId',

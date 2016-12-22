@@ -6,6 +6,7 @@ export * from './auth.service';
 export * from './base-backend.service';
 export * from './error.service';
 export * from './jobs-notification.service';
+export * from './job-stream.service';
 export * from './login-guard.service';
 export * from './os-type.service';
 export * from './root-disk-size.service';

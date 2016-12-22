@@ -7,39 +7,45 @@
   "CPU": "CPU",
   "RAM": "RAM",
   "DISKS": "DISKS",
-  "VMSTATE": {
-    "RUNNING": "Running",
-    "STOPPED": "Stopped",
-    "STARTING": "Starting",
-    "STOPPING": "Stopping",
-    "REBOOTING": "Rebooting",
-    "RESTORING": "Restoring",
-    "DESTROYING": "Destroying"
-  },
   "INSTANCES": "Instances",
+
+  "RUNNING": "Running",
+  "STOPPED": "Stopped",
+
+  "START_IN_PROGRESS": "Starting",
+  "STOP_IN_PROGRESS": "Stopping",
+  "REBOOT_IN_PROGRESS": "Rebooting",
+  "RESTORE_IN_PROGRESS": "Restoring",
+  "DESTROY_IN_PROGRESS": "Destroying",
+
+  "VM_START_IN_PROGRESS": "Starting a VM",
+  "VM_STOP_IN_PROGRESS": "Stopping a VM",
+  "VM_REBOOT_IN_PROGRESS": "Rebooting a VM",
+  "VM_RESTORE_IN_PROGRESS": "Restoring a VM",
+  "VM_DESTROY_IN_PROGRESS": "Destroying a VM",
+
   "CONFIRM_VM_START": "Are you sure you want to start this virtual machine?",
   "CONFIRM_VM_STOP": "Are you sure you want to stop this virtual machine?",
   "CONFIRM_VM_REBOOT": "Are you sure you want to reboot this virtual machine?",
   "CONFIRM_VM_RESTORE": "Are you sure you want to restore this virtual machine?",
   "CONFIRM_VM_DESTROY": "Are you sure you want to destroy this virtual machine?",
+
   "YES": "Yes",
   "NO": "No",
+  "NO_DONT_ASK": "No, don't ask me",
+
   "START": "Start",
   "STOP": "Stop",
   "REBOOT": "Reboot",
   "RESTORE": "Restore",
   "DESTROY": "Destroy",
+
   "CLEAR_ALL": "Clear all",
   "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",
-  "NO_DONT_ASK": "No, don't ask me",
-  "STARTING_A_VM": "Starting a VM",
-  "STOPPING_A_VM": "Stopping a VM",
-  "REBOOTING_A_VM": "Rebooting a VM",
-  "RESTORING_A_VM": "Restoring a VM",
-  "DESTROYING_A_VM": "Destroying a VM",
-  "VM_HAS_STARTED": "VM has started",
-  "VM_HAS_BEEN_STOPPED": "VM has been stopped",
-  "VM_HAS_BEEN_REBOOTED": "VM has been rebooted",
-  "VM_HAS_BEEN_RESTORED": "VM has been restored",
-  "VM_HAS BEEN_DESTROYED": "VM has been destroyed"
+
+  "START_DONE": "VM has started",
+  "STOP_DONE": "VM has been stopped",
+  "REBOOT_DONE": "VM has been rebooted",
+  "RESTORE_DONE": "VM has been restored",
+  "DESTROY_DONE": "VM has been destroyed"
 }

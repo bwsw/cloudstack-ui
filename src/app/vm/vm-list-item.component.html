@@ -4,7 +4,7 @@
   </mdl-card-title>
   <mdl-card-supporting-text>
     <div>{{ vm.nic[0].ipaddress }}</div>
-    <div class="vm-state">{{ 'VMSTATE.' + vm.state.toUpperCase() | translate }}</div>
+    <div class="vm-state">{{ vm.state.toUpperCase() | translate }}</div>
     <table style="width: 100%; text-align: center;">
       <thead>
       <tr>
@@ -23,53 +23,15 @@
   </mdl-card-supporting-text>
   <mdl-card-actions mdl-card-border>
     <button
-      (click)="start()"
-      [disabled]="!vm.canApply"
-      [mdl-tooltip]="'START' | translate"
-      mdl-tooltip-position="top"
-      mdl-button mdl-button-type="icon"
-      mdl-ripple>
-      <mdl-icon >play_arrow</mdl-icon>
-    </button>
-    <button
-      (click)="stop()"
-      [disabled]="!vm.canApply"
-      [mdl-tooltip]="'STOP' | translate"
+      *ngFor="let a of actionsInfo"
+      (click)="action(a.nameLower)"
+      [disabled]="!vm.canApply(a.nameLower)"
+      [mdl-tooltip]="a.nameCaps | translate"
       mdl-tooltip-position="top"
       mdl-button
       mdl-button-type="icon"
       mdl-ripple>
-      <mdl-icon >stop</mdl-icon>
-    </button>
-    <button
-      (click)="reboot()"
-      [disabled]="!vm.canApply"
-      [mdl-tooltip]="'REBOOT' | translate"
-      mdl-tooltip-position="top"
-      mdl-button
-      mdl-button-type="icon"
-      mdl-ripple>
-      <mdl-icon >replay</mdl-icon>
-    </button>
-    <button
-      (click)="restore()"
-      [disabled]="!vm.canApply"
-      [mdl-tooltip]="'RESTORE' | translate"
-      mdl-tooltip-position="top"
-      mdl-button
-      mdl-button-type="icon"
-      mdl-ripple>
-      <mdl-icon >settings_backup_restore</mdl-icon>
-    </button>
-    <button
-      (click)="destroy()"
-      [disabled]="!vm.canApply"
-      [mdl-tooltip]="'DESTROY' | translate"
-      mdl-tooltip-position="top"
-      mdl-button
-      mdl-button-type="icon"
-      mdl-ripple>
-      <mdl-icon >close</mdl-icon>
+      <mdl-icon>{{a.mdlIcon}}</mdl-icon>
     </button>
   </mdl-card-actions>
 </mdl-card>

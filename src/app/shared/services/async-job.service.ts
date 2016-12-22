@@ -41,12 +41,12 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
     if (!this.poll) {
       return false;
     }
-    this.getList().then((result) => {
+    this.getList().then(result => {
       let anyJobs = false;
-      result.forEach((elem, index, array) => {
+      result.forEach(elem => {
         let id = elem.jobId;
         if (this.jobObservables[id]) {
-          if (elem.jobStatus === 0) {
+          if (elem.jobStatus === 0) { // if the job is completed successfully
             anyJobs = true;
           } else {
             this.jobObservables[id].next(elem);

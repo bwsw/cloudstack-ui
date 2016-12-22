@@ -1,6 +1,8 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
-import { VirtualMachine } from './vm.model';
+import { VirtualMachine, IVmAction } from './vm.model';
+import { JobStreamService } from '../shared/services/job-stream.service';
+import { AsyncVmJob } from '../shared/models/async-job.model';
 
 
 @Component({
@@ -8,48 +10,35 @@ import { VirtualMachine } from './vm.model';
   templateUrl: './vm-list-item.component.html',
   styleUrls: ['./vm-list-item.component.scss']
 })
-export class VmListItemComponent {
+export class VmListItemComponent implements OnInit {
   @Input() public vm: VirtualMachine;
   @Output() public onVmAction = new EventEmitter();
 
-  public start() {
-    this.onVmAction.emit({
-      id: this.vm.id,
-      action: 'start',
-      vm: this.vm
+  public actionsInfo: Array<IVmAction>;
+
+  constructor(private jobStreamService: JobStreamService) {
+    this.jobStreamService.subscribe((job: AsyncVmJob) => {
+      if (job.jobResult.id === this.vm.id) {
+        this.vm.state = job.jobResult.state;
+      }
     });
   }
 
-  public stop() {
-    this.onVmAction.emit({
-      id: this.vm.id,
-      action: 'stop',
-      vm: this.vm
-    });
+  ngOnInit() {
+    this.actionsInfo = this.vm.actions.map(a => this.vm.getActionInfo(a));
   }
 
-  public reboot() {
-    this.onVmAction.emit({
+  public action(act: string) {
+    let e = {
       id: this.vm.id,
-      action: 'reboot',
+      action: this.actionsInfo.find(a => a.nameLower === act),
       vm: this.vm
-    });
-  }
+    };
 
-  public restore() {
-    this.onVmAction.emit({
-      id: this.vm.id,
-      action: 'restore',
-      vm: this.vm,
-      templateId: this.vm.templateId,
-    });
-  }
+    if (act === 'restore') {
+      e['templateId'] = this.vm.templateId;
+    }
 
-  public destroy() {
-    this.onVmAction.emit({
-      id: this.vm.id,
-      action: 'destroy',
-      vm: this.vm
-    });
+    this.onVmAction.emit(e);
   }
 }

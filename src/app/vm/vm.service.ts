@@ -12,6 +12,7 @@ import { OsType } from '../shared/models/os-type.model';
 import { AsyncJob } from '../shared/models/async-job.model';
 import { AsyncJobService } from '../shared/services/async-job.service';
 import { Http, URLSearchParams } from '@angular/http';
+import { JobStreamService } from "../shared/services/job-stream.service";
 
 
 @Injectable()
@@ -24,30 +25,11 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   constructor(
     private volumeService: VolumeService,
     private osTypesService: OsTypeService,
+    private jobStreamService: JobStreamService,
     protected http: Http,
     protected jobs: AsyncJobService
   ) {
     super();
-  }
-
-  public startVM(id: string): Observable<AsyncJob> {
-    return this.command(id, 'start');
-  }
-
-  public stopVM(id: string): Observable<AsyncJob> {
-    return this.command(id, 'stop');
-  }
-
-  public rebootVM(id: string): Observable<AsyncJob> {
-    return this.command(id, 'reboot');
-  }
-
-  public restoreVM(id: string, templateId: string): Observable<AsyncJob> {
-    return this.command(id, 'restore', { templateId });
-  }
-
-  public destroyVM(id: string): Observable<AsyncJob> {
-    return this.command(id, 'destroy');
   }
 
   public get(id: string): Promise<VirtualMachine> {
@@ -87,7 +69,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
-  private command(id: string, command: string, params?: {}): Observable<AsyncJob> {
+  public command(id: string, command: string, params?: {}): Observable<AsyncJob> {
     const urlParams = new URLSearchParams();
 
     urlParams.append('command', command + 'VirtualMachine');
@@ -103,7 +85,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         urlParams.append(p, params[p]);
       }
     }
-
     return this.http.get(BACKEND_API_URL, { search: urlParams })
       .map(result => result.json())
       .map(result => {
@@ -120,6 +101,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         if (result && result.jobResultCode === 0) {
           result.jobResult = new this.entityModel(result.jobResult.virtualmachine);
         }
+        this.jobStreamService.next(result);
         return result;
       });
   }
