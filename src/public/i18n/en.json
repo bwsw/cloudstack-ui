@@ -28,5 +28,10 @@
   "DESTROY": "Destroy",
   "CLEAR_ALL": "Clear all",
   "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",
-  "NO_DONT_ASK": "No, don't ask"
+  "NO_DONT_ASK": "No, don't ask",
+
+  "KB_US": "Standard (US) keyboard",
+  "KB_UK": "UK keyboard",
+  "KB_JP": "Japanese keyboard",
+  "KB_SC": "Simplified Chinese keyboard"
 }

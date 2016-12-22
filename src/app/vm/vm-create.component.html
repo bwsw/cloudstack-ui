@@ -34,9 +34,8 @@
     <!--</mdl-select>-->
   <h5>Service offering</h5>
   <div style="padding-bottom: 40px">
-    <mdl-select>
-      <mdl-option [value]="1">SO2</mdl-option>
-      <mdl-option [value]="2">SO3</mdl-option>
+    <mdl-select [(ngModel)]="serviceOffering">
+      <mdl-option *ngFor="let so of serviceOfferings" [value]="so.id" >{{so.name}}</mdl-option>
     </mdl-select>
   </div>
   <h5>Zone</h5>
@@ -51,12 +50,14 @@
   </div>
   <div style="width:348px; position: relative; left:-24px; padding-bottom: 40px">
     <mdl-slider
+      max="{{rootDiskSizeLimit || 1}}"
       id="rootDiskSize"
       name="rootDiskSize"
+      value="0"
       [(ngModel)]="rootDiskSize"
       mdl-tooltip-position="top"
       min="0"
-      max="50">
+    >
     </mdl-slider>
     <!--<mdl-tooltip  #tt1="mdlTooltip">{{rootDiskSize ? rootDiskSize + ' GB' : 'Auto'}}</mdl-tooltip>-->
   </div>

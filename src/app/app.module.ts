@@ -28,6 +28,7 @@ import {
   ZoneService,
   ServiceOfferingService,
   ServiceLocator,
+  ResourceLimitService,
   RootDiskSizeService,
   VolumeService,
   OsTypeService
@@ -77,6 +78,7 @@ import { MdlSelectModule } from "@angular2-mdl-ext/select";
     { provide: 'IStorageService', useClass: StorageService },
     LoginGuard,
     NotificationService,
+    ResourceLimitService,
     RootDiskSizeService,
     ZoneService,
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },

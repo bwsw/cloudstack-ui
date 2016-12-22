@@ -8,6 +8,7 @@ export * from './error.service';
 export * from './jobs-notification.service';
 export * from './login-guard.service';
 export * from './os-type.service';
+export * from './resource-limit.service';
 export * from './root-disk-size.service';
 export * from './service-locator';
 export * from './service-offering.service';
