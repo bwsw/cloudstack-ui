@@ -9,5 +9,27 @@
   "WOULD_YOU_LIKE_TO_CREATE_VM": "Хотите создать виртуальную машину?",
   "YES": "Да",
   "NO": "Нет",
-  "NO_DONT_ASK": "Нет, больше не спрашивать"
+  "NO_DONT_ASK": "Нет, больше не спрашивать",
+  "SERVICE_OFFERING": {
+    "name": "Имя",
+    "cpuNumber": "Ядра CPU",
+    "cpuSpeed": "CPU (МГц)",
+    "memory": "Память (ГБ)",
+    "displayText": "Описание",
+    "storageType": "Тип хранилища",
+    "provisioningType": "Provisioning type",
+    "offerHa": "Повышенная отказоустойчивость",
+    "networkRate": "Скорость сети",
+    "minIops": "Мин. IOPS",
+    "maxIops": "Максю IOPS",
+    "limitCpu": "CPU cap",
+    "isVolatile": "Volatile",
+    "hypervisorsnapshotreserve": "Hypervisor Snapshot Reserve",
+    "diskBytesReadRate": "Скорость чтения диска (BPS)",
+    "diskBytesWriteRate": "Скорость записи диска (BPS)",
+    "diskIopsReadRate": "Скорость чтения диска (IOPS)",
+    "diskIopsWriteRate": "Скорость записи диска(IOPS)",
+    "deploymentplanner": "Deployment planner",
+    "domain": "Домен"
+  }
 }

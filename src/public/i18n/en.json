@@ -28,5 +28,27 @@
   "DESTROY": "Destroy",
   "CLEAR_ALL": "Clear all",
   "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",
-  "NO_DONT_ASK": "No, don't ask"
+  "NO_DONT_ASK": "No, don't ask",
+  "SERVICE_OFFERING": {
+    "name": "Name",
+    "cpuNumber": "CPU cores",
+    "cpuSpeed": "CPU (Mhz)",
+    "memory": "Memory (GB)",
+    "displayText": "Description",
+    "storageType": "Storage type",
+    "provisioningType": "Provisioning type",
+    "offerHa": "High availability",
+    "networkRate": "Network rate",
+    "minIops": "Min IOPS",
+    "maxIops": "Max IOPS",
+    "limitCpu": "CPU cap",
+    "isVolatile": "Volatile",
+    "hypervisorsnapshotreserve": "Hypervisor Snapshot Reserve",
+    "diskBytesReadRate": "Disk read rate (BPS)",
+    "diskBytesWriteRate": "Disk write rate (BPS)",
+    "diskIopsReadRate": "Disk read rate (IOPS)",
+    "diskIopsWriteRate": "Disk write rate (IOPS)",
+    "deploymentplanner": "Deployment planner",
+    "domain": "Ddomain"
+  }
 }
