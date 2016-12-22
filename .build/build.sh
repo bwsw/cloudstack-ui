@@ -10,16 +10,20 @@ echo ******Dist was builded******
 # Build docker image
 docker build -t cloudstack-nginx --file $(pwd)/Dockerfile $(pwd);
 
+# Genetate container name unique for port
+CONTAINER_NAME=cloudstack-nginx
+CONTAINER_NAME=$CONTAINER_NAME-$DEPLOY_PORT
+
 # Check if nginx is running and then stop it
-NGINXID=$(docker ps -aqf "name=cloudstack-nginx")
-if [[ -n $NGINXID ]]; then
-  docker stop $NGINXID;
-  docker rm $NGINXID;
+NGINX_ID=$(docker ps -aqf "name=$CONTAINER_NAME")
+if [[ -n $NGINX_ID ]]; then
+  docker stop $NGINX_ID;
+  docker rm $NGINX_ID;
 fi
 
 # Starting server
 echo ******Starting Nginx******
-docker run -d -p 80:80 --name cloudstack-nginx cloudstack-nginx;
+docker run -e "API_BACKEND_URL=$API_BACKEND_URL" -e "DEPLOY_PORT=$DEPLOY_PORT" -d -p $DEPLOY_PORT:80 --name $CONTAINER_NAME cloudstack-nginx;
 
 
 
