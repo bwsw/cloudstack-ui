@@ -13,16 +13,22 @@
       <h2 mdl-card-title-text>Service offering</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
-      <table class="service-offering">
-        <tr><td>Name</td><td>{{ vm.serviceOffering.name }}</td></tr>
-        <tr><td>Description</td><td>{{ vm.serviceOffering.displaytext }}</td></tr>
-        <tr><td>CPU cores</td><td>{{ vm.serviceOffering.cpuNumber }}</td></tr>
-        <tr><td>CPU (MHz)</td><td>{{ vm.serviceOffering.cpuSpeed }}</td></tr>
-        <tr><td>Memory (GB)</td><td>{{ vm.serviceOffering.memory | divByPowerOfTwo:10:2 }}</td></tr>
-        <tr><td>Storage type</td><td>{{ vm.serviceOffering.storagetype }}</td></tr>
-        <tr><td>Provisioning type</td><td>{{ vm.serviceOffering.provisioningtype }}</td></tr>
-        <!--<tr><td *ngIf="expandServiceOffering">shown when expanded</td></tr>-->
-      </table>
+      <div class="grid service-offering">
+        <div>Name</div>
+        <div>{{ vm.serviceOffering.name }}</div>
+        <div>Description</div>
+        <div>{{ vm.serviceOffering.displaytext }}</div>
+        <div>CPU cores</div>
+        <div>{{ vm.serviceOffering.cpuNumber }}</div>
+        <div>CPU (MHz)</div>
+        <div>{{ vm.serviceOffering.cpuSpeed }}</div>
+        <div>Memory (GB)</div>
+        <div>{{ vm.serviceOffering.memory | divByPowerOfTwo:10:2 }}</div>
+        <div>Storage type</div>
+        <div>{{ vm.serviceOffering.storagetype }}</div>
+        <div>Provisioning type</div>
+        <div>{{ vm.serviceOffering.provisioningtype }}</div>
+      </div>
     </mdl-card-supporting-text>
     <mdl-card-actions mdl-card-border style="text-align: right;">
       <button
@@ -54,15 +60,20 @@
       <h2 mdl-card-title-text>Volumes</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
-      <table class="volumes">
-        <tr *ngFor="let volume of vm.volumes">
-          <td>{{ volume.name }}</td>
-          <td>{{ volume.size | divByPowerOfTwo:30:2 }} GB</td>
-          <td>
-            <button mdl-button>Take snapshot</button>
-          </td>
-        </tr>
-      </table>
+      <div class="grid volumes" *ngFor="let volume of vm.volumes">
+        <div>{{ volume.name }}</div>
+        <div>{{ volume.size | divByPowerOfTwo:30:2 }} GB</div>
+        <div>
+          <button
+            [mdl-tooltip]="'Take snapshot'"
+            mdl-tooltip-position="top"
+            mdl-button
+            mdl-button-type="icon"
+          >
+            <mdl-icon >camera_alt</mdl-icon>
+          </button>
+        </div>
+      </div>
     </mdl-card-supporting-text>
   </mdl-card>
   <mdl-card class="vm-card" mdl-shadow="2">
@@ -111,15 +122,22 @@
       <h2 mdl-card-title-text>Statistics</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
-      <table class="statistics">
-        <tr><td>CPU Utilized</td><td>{{ vm.cpuUsed }}</td></tr>
-        <tr><td>Network read</td><td>{{ vm.networkKbsRead }} KB</td></tr>
-        <tr><td>Network write</td><td> {{ vm.networkKbsWrite }} KB</td></tr>
-        <tr><td>Disk read</td><td> {{ vm.diskKbsRead }} KB</td></tr>
-        <tr><td>Disk write</td><td> {{ vm.diskKbsWrite }} KB</td></tr>
-        <tr><td>Disk read (IO)</td><td> {{ vm.diskIoRead }}</td></tr>
-        <tr><td>Disk write (IO)</td><td> {{ vm.diskIoWrite }}</td></tr>
-      </table>
+      <div class="grid statistics">
+        <div>CPU Utilized</div>
+        <div>{{ vm.cpuUsed }}</div>
+        <div>Network read</div>
+        <div>{{ vm.networkKbsRead }} KB</div>
+        <div>Network write</div>
+        <div>{{ vm.networkKbsWrite }} KB</div>
+        <div>Disk read</div>
+        <div>{{ vm.diskKbsRead }} KB</div>
+        <div>Disk write</div>
+        <div>{{ vm.diskKbsWrite }} KB</div>
+        <div>Disk read (IO)</div>
+        <div>{{ vm.diskIoRead }}</div>
+        <div>Disk write (IO)</div>
+        <div>{{ vm.diskIoWrite }}</div>
+      </div>
     </mdl-card-supporting-text>
   </mdl-card>
 </div>
