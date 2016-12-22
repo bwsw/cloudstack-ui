@@ -29,7 +29,19 @@
   "CLEAR_ALL": "Clear all",
   "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",
   "NO_DONT_ASK": "No, don't ask",
-  "SERVICE_OFFERING": {
+  "STATUS": "Status",
+  "SERVICE_OFFERING": "Service offering",
+  "IP_ADDRESSES": "IP addresses",
+  "VOLUMES": "Volumes",
+  "SECURITY_GROUP": "Security Group",
+  "AFFINITY_GROUP": "Affinity Group",
+  "ZONE": "Zone",
+  "OS_TYPE": "OS type",
+  "TEMPLATE": "Template",
+  "STATISTICS": "Statistics",
+  "TAKE_SNAPSHOT": "Take snapshot",
+  "NO_AFFINITY_GROUP": "No affinity group",
+  "SERVICE_OFFERING_FIELDS": {
     "name": "Name",
     "cpuNumber": "CPU cores",
     "cpuSpeed": "CPU (Mhz)",
@@ -49,6 +61,6 @@
     "diskIopsReadRate": "Disk read rate (IOPS)",
     "diskIopsWriteRate": "Disk write rate (IOPS)",
     "deploymentplanner": "Deployment planner",
-    "domain": "Ddomain"
+    "domain": "Domain"
   }
 }

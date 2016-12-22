@@ -2,7 +2,7 @@
   <h4>{{ vm.displayName }}</h4>
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
-      <h2 mdl-card-title-text>Status</h2>
+      <h2 mdl-card-title-text>{{ 'STATUS' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
       <div>{{ vm.state }}</div>
@@ -10,12 +10,12 @@
   </mdl-card>
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
-      <h2 mdl-card-title-text>Service offering</h2>
+      <h2 mdl-card-title-text>{{ 'SERVICE_OFFERING' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
       <div class="grid service-offering" [class.open]="expandServiceOffering">
         <div class="row" *ngFor="let field of vm.serviceOffering._list">
-          <div>{{ ('SERVICE_OFFERING.' + field.key) | translate }}</div>
+          <div>{{ ('SERVICE_OFFERING_FIELDS.' + field.key) | translate }}</div>
           <div>{{ field.value }}</div>
         </div>
       </div>
@@ -34,7 +34,7 @@
   </mdl-card>
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
-      <h2 mdl-card-title-text>IP addresses</h2>
+      <h2 mdl-card-title-text>{{ 'IP_ADDRESSES' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
       <div *ngFor="let nic of vm.nic">
@@ -47,7 +47,7 @@
   </mdl-card>
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
-      <h2 mdl-card-title-text>Volumes</h2>
+      <h2 mdl-card-title-text>{{ 'VOLUMES' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
       <div class="grid volumes">
@@ -56,7 +56,7 @@
           <div>{{ volume.size | divByPowerOfTwo:30:2 }} GB</div>
           <div>
             <button
-              [mdl-tooltip]="'Take snapshot'"
+              [mdl-tooltip]="'TAKE_SNAPSHOT' | translate "
               mdl-tooltip-position="top"
               mdl-button
               mdl-button-type="icon"
@@ -70,7 +70,7 @@
   </mdl-card>
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
-      <h2 mdl-card-title-text>Security group</h2>
+      <h2 mdl-card-title-text>{{ 'SECURITY_GROUP' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
       <div>{{ vm.securityGroup[0].name }}</div>
@@ -78,16 +78,16 @@
   </mdl-card>
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
-      <h2 mdl-card-title-text>Affinity group</h2>
+      <h2 mdl-card-title-text>{{ 'AFFINITY_GROUP' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
       <div *ngFor="let affinityGroup of vm.affinityGroup">{{ vm.affinityGroup }}</div>
-      <div *ngIf="!vm.affinityGroup.length">No affinity groups</div>
+      <div *ngIf="!vm.affinityGroup.length">{{ 'NO_AFFINITY_GROUP' | translate }}</div>
     </mdl-card-supporting-text>
   </mdl-card>
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
-      <h2 mdl-card-title-text>Zone</h2>
+      <h2 mdl-card-title-text>{{ 'ZONE' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
       <div>{{ vm.zoneName }}</div>
@@ -95,7 +95,7 @@
   </mdl-card>
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
-      <h2 mdl-card-title-text>OS type</h2>
+      <h2 mdl-card-title-text>{{ 'OS_TYPE' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
       <div>{{ vm.osType.description }}</div>
@@ -103,7 +103,7 @@
   </mdl-card>
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
-      <h2 mdl-card-title-text>Template</h2>
+      <h2 mdl-card-title-text>{{ 'TEMPLATE' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
       <div>{{ vm.templateName }}</div>
@@ -111,7 +111,7 @@
   </mdl-card>
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
-      <h2 mdl-card-title-text>Statistics</h2>
+      <h2 mdl-card-title-text>{{ 'STATISTICS' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
       <div class="grid statistics">
