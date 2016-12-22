@@ -67,7 +67,6 @@ export class VmListComponent implements OnInit {
   }
 
   public onVmAction(e: IVmActionEvent) {
-    console.log(e);
     this.translateService.get([
       'YES',
       'NO',
