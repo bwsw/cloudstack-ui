@@ -12,7 +12,7 @@ import { OsType } from '../shared/models/os-type.model';
 import { AsyncJob } from '../shared/models/async-job.model';
 import { AsyncJobService } from '../shared/services/async-job.service';
 import { Http, URLSearchParams } from '@angular/http';
-import { JobStreamService } from "../shared/services/job-stream.service";
+import { JobStreamService } from '../shared/services/job-stream.service';
 
 
 @Injectable()

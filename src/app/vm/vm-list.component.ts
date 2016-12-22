@@ -11,7 +11,7 @@ import {
 } from '../shared/services/jobs-notification.service';
 
 import { IVmAction } from './vm.model';
-import { JobStreamService } from "../shared/services/job-stream.service";
+import { JobStreamService } from '../shared/services/job-stream.service';
 import { AsyncVmJob } from '../shared/models/async-job.model';
 
 interface IVmActionEvent {
@@ -88,7 +88,7 @@ export class VmListComponent implements OnInit {
               });
             }
           );
-        })
+        });
     });
   }
 

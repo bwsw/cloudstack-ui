@@ -146,7 +146,7 @@ export class VirtualMachine extends BaseModel {
       confirmMessage,
       progressMessage,
       successMessage
-    }
+    };
   }
 
   public getDisksSize() {

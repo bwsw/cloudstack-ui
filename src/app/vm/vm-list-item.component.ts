@@ -24,7 +24,7 @@ export class VmListItemComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.actionsInfo = this.vm.actions.map(a => this.vm.getActionInfo(a));
   }
 
