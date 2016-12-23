@@ -47,6 +47,10 @@ export abstract class BaseModel {
     return model;
   }
 
+  public get keys(): Array<string> {
+    return Object.keys(this);
+  }
+
   protected parse(params: {}) {
     for (let key in params) {
       if (params.hasOwnProperty(key)) {
