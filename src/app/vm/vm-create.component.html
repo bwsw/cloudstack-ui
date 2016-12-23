@@ -76,10 +76,8 @@
   </div>
   <h5>Keyboard layout</h5>
   <div style="padding-bottom: 40px">
-    <mdl-select>
-      <mdl-option>stub</mdl-option>
-      <mdl-option>stub</mdl-option>
-      <mdl-option>stub</mdl-option>
+    <mdl-select [(ngModel)]="keyboard">
+      <mdl-option *ngFor="let k of keyboards" [value]="k" >{{ ('KB_' + k.toUpperCase()) | translate }}</mdl-option>
     </mdl-select>
   </div>
   <h5>SSH keypair</h5>

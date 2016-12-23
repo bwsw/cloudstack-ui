@@ -8,6 +8,9 @@ import { ServiceOfferingService } from '../shared/services/service-offering.serv
 import { ServiceOffering } from '../shared/models/service-offering.model';
 import { RootDiskSizeService } from "../shared/services/root-disk-size.service";
 
+
+const keyboards = ['us', 'uk', 'jp', 'sc'];
+
 @Component({
   selector: 'cs-vm-create',
   templateUrl: './vm-create.component.html',
@@ -21,6 +24,9 @@ export class VmCreateComponent implements OnInit {
   public serviceOfferings: Array<ServiceOffering>;
   public serviceOffering: number;
   public rootDiskSizeLimit: number;
+  public keyboard: string;
+
+  public keyboards = ['us', 'uk', 'jp', 'sc'];
 
   constructor (
     private vmService: VmService,
@@ -30,6 +36,7 @@ export class VmCreateComponent implements OnInit {
     private rootDiskSizeService: RootDiskSizeService
   ) {
     this.rootDiskSize = 0;
+    this.keyboard = 'us';
     this.zoneService.getList().then(result => {
       this.zones = result;
       this.zone = result[0].id;
