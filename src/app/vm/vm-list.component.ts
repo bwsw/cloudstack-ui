@@ -11,8 +11,8 @@ import {
 } from '../shared/services/jobs-notification.service';
 
 import { IVmAction } from './vm.model';
-import { JobStreamService } from '../shared/services/job-stream.service';
-import { AsyncVmJob } from '../shared/models/async-job.model';
+import { IAsyncJob } from '../shared/models/async-job.model';
+import { AsyncJobService } from '../shared/services/async-job.service';
 
 interface IVmActionEvent {
   id: string;
@@ -34,7 +34,7 @@ export class VmListComponent implements OnInit {
     private translateService: TranslateService,
     @Inject('IStorageService') protected storageService: IStorageService,
     private jobsNotificationService: JobsNotificationService,
-    private jobStream: JobStreamService
+    private asyncJobService: AsyncJobService
   ) { }
 
   public ngOnInit() {
@@ -59,7 +59,8 @@ export class VmListComponent implements OnInit {
           this.showDialog(translations);
         });
       });
-    this.jobStream.subscribe((job: AsyncVmJob) => {
+    console.log(this.asyncJobService.event);
+    this.asyncJobService.event.subscribe((job: IAsyncJob<VirtualMachine>) => {
       if (job.jobResult.state === 'Destroyed') {
         this.vmList.splice(this.vmList.findIndex(vm => vm.id === job.jobResult.id), 1);
       }

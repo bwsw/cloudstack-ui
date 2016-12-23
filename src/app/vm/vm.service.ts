@@ -12,7 +12,6 @@ import { OsType } from '../shared/models/os-type.model';
 import { AsyncJob } from '../shared/models/async-job.model';
 import { AsyncJobService } from '../shared/services/async-job.service';
 import { Http, URLSearchParams } from '@angular/http';
-import { JobStreamService } from '../shared/services/job-stream.service';
 
 
 @Injectable()
@@ -25,7 +24,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   constructor(
     private volumeService: VolumeService,
     private osTypesService: OsTypeService,
-    private jobStreamService: JobStreamService,
     protected http: Http,
     protected jobs: AsyncJobService
   ) {
@@ -101,7 +99,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         if (result && result.jobResultCode === 0) {
           result.jobResult = new this.entityModel(result.jobResult.virtualmachine);
         }
-        this.jobStreamService.next(result);
+        this.jobs.event.next(result);
         return result;
       });
   }

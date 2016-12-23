@@ -108,7 +108,7 @@ export class VirtualMachine extends BaseModel {
     ];
   }
 
-  public getActionInfo(action: string): IVmAction  {
+  public getAction(action: string): IVmAction  {
     let name = action.charAt(0).toUpperCase() + action.slice(1);
     let nameLower = action;
     let nameCaps = action.toUpperCase();

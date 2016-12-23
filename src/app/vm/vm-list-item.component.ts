@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
 import { VirtualMachine, IVmAction } from './vm.model';
-import { JobStreamService } from '../shared/services/job-stream.service';
-import { AsyncVmJob } from '../shared/models/async-job.model';
+import { AsyncJobService } from '../shared/services/async-job.service';
+import { IAsyncJob } from '../shared/models/async-job.model';
 
 
 @Component({
@@ -14,24 +14,23 @@ export class VmListItemComponent implements OnInit {
   @Input() public vm: VirtualMachine;
   @Output() public onVmAction = new EventEmitter();
 
-  public actionsInfo: Array<IVmAction>;
+  public actions: Array<IVmAction>;
 
-  constructor(private jobStreamService: JobStreamService) {
-    this.jobStreamService.subscribe((job: AsyncVmJob) => {
+  constructor(private asyncJobService: AsyncJobService) {}
+
+  public ngOnInit() {
+    this.actions = this.vm.actions.map(a => this.vm.getAction(a));
+    this.asyncJobService.event.subscribe((job: IAsyncJob<VirtualMachine>) => {
       if (job.jobResult.id === this.vm.id) {
         this.vm.state = job.jobResult.state;
       }
     });
   }
 
-  public ngOnInit() {
-    this.actionsInfo = this.vm.actions.map(a => this.vm.getActionInfo(a));
-  }
-
-  public action(act: string) {
+  public getAction(act: string) {
     let e = {
       id: this.vm.id,
-      action: this.actionsInfo.find(a => a.nameLower === act),
+      action: this.actions.find(a => a.nameLower === act),
       vm: this.vm
     };
 

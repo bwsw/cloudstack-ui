@@ -1,13 +1,12 @@
 import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators/field-mapper.decorator';
-import { VirtualMachine } from '../../vm/vm.model';
 
 
-export interface AsyncVmJob {
+export interface IAsyncJob<T> {
   jobId: string;
   jobStatus: number;
   jobResultCode: number;
-  jobResult: VirtualMachine;
+  jobResult: T;
 }
 
 @FieldMapper({
@@ -16,7 +15,7 @@ export interface AsyncVmJob {
   jobresultcode: 'jobResultCode',
   jobresult: 'jobResult'
 })
-export class AsyncJob extends BaseModel {
+export class AsyncJob extends BaseModel implements IAsyncJob<any> {
   public jobId: string;
   public jobStatus: number;
   public jobResultCode: number;

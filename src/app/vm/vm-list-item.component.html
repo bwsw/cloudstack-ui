@@ -23,8 +23,8 @@
   </mdl-card-supporting-text>
   <mdl-card-actions mdl-card-border>
     <button
-      *ngFor="let a of actionsInfo"
-      (click)="action(a.nameLower)"
+      *ngFor="let a of actions"
+      (click)="getAction(a.nameLower)"
       [disabled]="!vm.canApply(a.nameLower)"
       [mdl-tooltip]="a.nameCaps | translate"
       mdl-tooltip-position="top"

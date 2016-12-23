@@ -17,6 +17,7 @@ interface IJobObservables {
 })
 export class AsyncJobService extends BaseBackendService<AsyncJob> {
 
+  public event: Subject<AsyncJob>;
   public pollingInterval: number;
   public poll: boolean;
   private jobObservables: IJobObservables;
