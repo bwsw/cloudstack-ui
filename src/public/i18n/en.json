@@ -41,6 +41,15 @@
   "STATISTICS": "Statistics",
   "TAKE_SNAPSHOT": "Take snapshot",
   "NO_AFFINITY_GROUP": "No affinity group",
+  "STATISTICS_FIELDS": {
+    "CPU_UTILIZED": "CPU utilized",
+    "NETWORK_READ": "Network read",
+    "NETWORK_WRITE": "Network write",
+    "DISK_READ": "Disk read",
+    "DISK_WRITE": "Disk write",
+    "DISK_READ_IO": "Disk read (IO)",
+    "DISK_WRITE_IO": "Disk write (IO)"
+  },
   "SERVICE_OFFERING_FIELDS": {
     "name": "Name",
     "cpuNumber": "CPU cores",
