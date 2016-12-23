@@ -48,7 +48,7 @@ export abstract class BaseModel {
   }
 
   public get keys(): Array<string> {
-    return Object.keys(this);
+    return Object.keys(this).filter((key: string) => !key.startsWith('_'));
   }
 
   protected parse(params: {}) {
