@@ -5,17 +5,17 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
 import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
-import { MdlSelectModule } from '@angular2-mdl-ext/select';
 
 import { AboutComponent } from './about/about.component';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
+import { VmCreationTemplateComponent } from './vm/vm-creation-template/vm-creation-template.component';
+import { VmCreationTemplateListElementComponent } from './vm/vm-creation-template/vm-creation-template-list-element.component';
 import { VmListComponent } from './vm/vm-list.component';
 import { VmListItemComponent } from './vm/vm-list-item.component';
 import { NotificationBoxComponent } from './notification-box.component';
 import { NotificationBoxItemComponent } from './notification-box-item.component';
-import { TemplateInputComponent } from './vm/creation/template-input.component';
 
 import {
   ApiService,
@@ -29,6 +29,7 @@ import {
   ZoneService,
   ServiceOfferingService,
   ServiceLocator,
+  TemplateService,
   RootDiskSizeService,
   VolumeService,
   OsTypeService
@@ -52,18 +53,18 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
     TranslateModule.forRoot(),
     routing,
     MdlModule,
-    MdlPopoverModule,
-    MdlSelectModule
+    MdlPopoverModule
   ],
   declarations: [
     AboutComponent,
     AppComponent,
     LoginComponent,
     LogoutComponent,
+    VmCreationTemplateComponent,
+    VmCreationTemplateListElementComponent,
     VmListComponent,
     VmListItemComponent,
     NotificationBoxComponent,
-    TemplateInputComponent,
     NotificationBoxItemComponent
   ],
   providers: [
@@ -81,6 +82,7 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
     ZoneService,
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
     ServiceOfferingService,
+    TemplateService,
     VmService,
     VolumeService,
     OsTypeService,

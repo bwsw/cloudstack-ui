@@ -1,0 +1,29 @@
+<mdl-tabs mdl-ripple mdl-tab-active-index="0" (mdl-tab-active-changed)="tabChanged($event)">
+    <mdl-tab-panel mdl-tab-panel-title="Featured">
+      <mdl-list>
+        <cs-vm-creation-template-list-element *ngFor="let template of featuredTemplates | async" [template]="template"></cs-vm-creation-template-list-element>
+      </mdl-list>
+    </mdl-tab-panel>
+
+    <mdl-tab-panel mdl-tab-panel-title="Community">
+       <mdl-list>
+        <cs-vm-creation-template-list-element></cs-vm-creation-template-list-element>
+        <cs-vm-creation-template-list-element></cs-vm-creation-template-list-element>
+      </mdl-list>
+    </mdl-tab-panel>
+
+    <mdl-tab-panel mdl-tab-panel-title="My templates">
+       <mdl-list>
+        <cs-vm-creation-template-list-element></cs-vm-creation-template-list-element>
+        <cs-vm-creation-template-list-element></cs-vm-creation-template-list-element>
+      </mdl-list>
+    </mdl-tab-panel>
+
+    <mdl-tab-panel mdl-tab-panel-title="Shared">
+      <mdl-list>
+        <cs-vm-creation-template-list-element></cs-vm-creation-template-list-element>
+      </mdl-list>
+    </mdl-tab-panel>
+</mdl-tabs>
+
+
