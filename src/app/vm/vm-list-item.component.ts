@@ -11,29 +11,39 @@ import { VirtualMachine } from './vm.model';
 export class VmListItemComponent {
   @Input() public vm: VirtualMachine;
   @Output() public onVmAction = new EventEmitter();
+  @Output() public onClick = new EventEmitter();
 
-  public start() {
+  public handleClick(e: MouseEvent) {
+    e.stopPropagation();
+    this.onClick.emit(this.vm);
+  }
+
+  public start(e: MouseEvent) {
+    e.stopPropagation();
     this.onVmAction.emit({
       id: this.vm.id,
       action: 'start',
     });
   }
 
-  public stop() {
+  public stop(e: MouseEvent) {
+    e.stopPropagation();
     this.onVmAction.emit({
       id: this.vm.id,
       action: 'stop'
     });
   }
 
-  public reboot() {
+  public reboot(e: MouseEvent) {
+    e.stopPropagation();
     this.onVmAction.emit({
       id: this.vm.id,
       action: 'reboot'
     });
   }
 
-  public restore() {
+  public restore(e: MouseEvent) {
+    e.stopPropagation();
     this.onVmAction.emit({
       id: this.vm.id,
       action: 'restore',
@@ -41,7 +51,8 @@ export class VmListItemComponent {
     });
   }
 
-  public destroy() {
+  public destroy(e: MouseEvent) {
+    e.stopPropagation();
     this.onVmAction.emit({
       id: this.vm.id,
       action: 'destroy'

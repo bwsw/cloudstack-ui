@@ -1,4 +1,4 @@
-<mdl-card class="vm-card" mdl-shadow="2">
+<mdl-card class="vm-card" mdl-shadow="2" (click)="handleClick($event)">
   <mdl-card-title>
     <h2 mdl-card-title-text [mdl-tooltip]="vm.displayName">{{ vm.displayName }}</h2>
   </mdl-card-title>
@@ -15,15 +15,15 @@
       </thead>
       <tr>
         <td>{{ vm.cpuNumber + 'x' + vm.cpuSpeed }}</td>
-        <td>{{ (vm.memory / 1024).toPrecision(2) }} GB</td>
-        <td>{{ vm.getDisksSize().toPrecision(3) }} GB</td>
+        <td>{{ vm.memory | divByPowerOfTwo:10:2 }} GB</td>
+        <td>{{ vm.getDisksSize().toFixed(2) }} GB</td>
       </tr>
     </table>
     <div>OS {{ vm.osType.description }}</div>
   </mdl-card-supporting-text>
   <mdl-card-actions mdl-card-border>
     <button
-      (click)="start()"
+      (click)="start($event)"
       [disabled]="!vm.canApply"
       [mdl-tooltip]="'START' | translate"
       mdl-tooltip-position="top"
@@ -32,7 +32,7 @@
       <mdl-icon >play_arrow</mdl-icon>
     </button>
     <button
-      (click)="stop()"
+      (click)="stop($event)"
       [disabled]="!vm.canApply"
       [mdl-tooltip]="'STOP' | translate"
       mdl-tooltip-position="top"
@@ -42,7 +42,7 @@
       <mdl-icon >stop</mdl-icon>
     </button>
     <button
-      (click)="reboot()"
+      (click)="reboot($event)"
       [disabled]="!vm.canApply"
       [mdl-tooltip]="'REBOOT' | translate"
       mdl-tooltip-position="top"
@@ -52,7 +52,7 @@
       <mdl-icon >replay</mdl-icon>
     </button>
     <button
-      (click)="restore()"
+      (click)="restore($event)"
       [disabled]="!vm.canApply"
       [mdl-tooltip]="'RESTORE' | translate"
       mdl-tooltip-position="top"
@@ -62,7 +62,7 @@
       <mdl-icon >settings_backup_restore</mdl-icon>
     </button>
     <button
-      (click)="destroy()"
+      (click)="destroy($event)"
       [disabled]="!vm.canApply"
       [mdl-tooltip]="'DESTROY' | translate"
       mdl-tooltip-position="top"

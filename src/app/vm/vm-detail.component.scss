@@ -1,0 +1,74 @@
+$line-height: 22px;
+
+:host {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transition: transform 0.3s;
+  overflow: auto;
+  background: #fafafa;
+  padding: 10px 5px;
+  z-index: 5;
+}
+
+:host.open {
+  transform: translateX(0);
+}
+
+h4 {
+  margin: 0 5px;
+}
+
+mdl-card {
+  min-height: initial;
+  margin: 5px;
+}
+
+.grid {
+  margin: 5px auto;
+
+  .row {
+    display: flex;
+    flex-flow: row wrap;
+
+    & > div {
+      width: 50%;
+      padding: 2px;
+    }
+  }
+}
+
+.grid.service-offering {
+  overflow: hidden;
+  height: 5 * $line-height;
+
+  &.open {
+    height: auto;
+  }
+}
+
+.grid.volumes .row > div {
+  width: 33%;
+}
+
+.service-offering .row > div:nth-child(2n),
+.statistics .row > div:nth-child(2n),
+.volumes .row > div:nth-child(2n),
+.volumes .row > div:nth-child(3n)
+{
+  text-align: right;
+}
+
+.volumes .row > div:nth-child(3n) {
+  position: relative;
+  top: -7px;
+}
+
+button {
+  transition: transform 0.3s;
+}
+
+button.open {
+  transform: rotate(180deg);
+}

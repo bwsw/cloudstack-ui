@@ -1,6 +1,10 @@
 // styles in src/style directory are applied to the whole page
 @import '~@angular2-mdl-ext/popover/popover';
 
+* {
+  box-sizing: border-box;
+}
+
 .disabled-link {
   cursor: pointer;
 }
