@@ -14,9 +14,19 @@
     </mdl-card-title>
     <mdl-card-supporting-text>
       <div class="grid service-offering" [class.open]="expandServiceOffering">
-        <div class="row" *ngFor="let field of vm.serviceOffering._list">
-          <div>{{ ('SERVICE_OFFERING_FIELDS.' + field.key) | translate }}</div>
-          <div>{{ field.value }}</div>
+        <div class="row" *ngFor="let key of vm.serviceOffering.keys">
+          <template [ngIf]="key !== 'id' && key !== 'created'">
+            <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
+            <div [ngSwitch]="vm.serviceOffering[key]">
+              <div *ngSwitchCase="true">{{ 'YES' | translate }}</div>
+              <div *ngSwitchCase="false">{{ 'NO' | translate }}</div>
+              <div *ngSwitchDefault>{{ vm.serviceOffering[key] }}</div>
+            </div>
+          </template>
+          <template [ngIf]="key === 'created'">
+            <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
+            <div>{{ vm.serviceOffering[key] | date }}</div>
+          </template>
         </div>
       </div>
     </mdl-card-supporting-text>

@@ -64,12 +64,16 @@
     "maxIops": "Max IOPS",
     "limitCpu": "CPU cap",
     "isVolatile": "Volatile",
-    "hypervisorsnapshotreserve": "Hypervisor Snapshot Reserve",
+    "hypervisorSnapshotReserve": "Hypervisor Snapshot Reserve",
     "diskBytesReadRate": "Disk read rate (BPS)",
     "diskBytesWriteRate": "Disk write rate (BPS)",
     "diskIopsReadRate": "Disk read rate (IOPS)",
     "diskIopsWriteRate": "Disk write rate (IOPS)",
-    "deploymentplanner": "Deployment planner",
-    "domain": "Domain"
+    "deploymentPlanner": "Deployment planner",
+    "domain": "Domain",
+    "created": "Created",
+    "isSystem": "System",
+    "defaultUse": "Default",
+    "isCustomized": "Customized"
   }
 }
