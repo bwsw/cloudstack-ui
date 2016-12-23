@@ -27,6 +27,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
     super();
     this.pollingInterval = 5000;
     this.jobObservables = {};
+    this.event = new Subject<AsyncJob>();
   }
 
   public addJob(id: string): Subject<AsyncJob> {

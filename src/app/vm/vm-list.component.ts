@@ -59,7 +59,6 @@ export class VmListComponent implements OnInit {
           this.showDialog(translations);
         });
       });
-    console.log(this.asyncJobService.event);
     this.asyncJobService.event.subscribe((job: IAsyncJob<VirtualMachine>) => {
       if (job.jobResult.state === 'Destroyed') {
         this.vmList.splice(this.vmList.findIndex(vm => vm.id === job.jobResult.id), 1);
