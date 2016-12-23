@@ -17,6 +17,7 @@ import { NotificationBoxComponent } from './notification-box.component';
 import { NotificationBoxItemComponent } from './notification-box-item.component';
 
 import {
+  AffinityGroupService,
   ApiService,
   AsyncJobService,
   StorageService,
@@ -68,6 +69,7 @@ import { MdlSelectModule } from "@angular2-mdl-ext/select";
     NotificationBoxItemComponent
   ],
   providers: [
+    AffinityGroupService,
     ApiService,
     AuthGuard,
     AsyncJobService,

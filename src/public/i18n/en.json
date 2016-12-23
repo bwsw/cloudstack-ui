@@ -33,5 +33,7 @@
   "KB_US": "Standard (US) keyboard",
   "KB_UK": "UK keyboard",
   "KB_JP": "Japanese keyboard",
-  "KB_SC": "Simplified Chinese keyboard"
+  "KB_SC": "Simplified Chinese keyboard",
+
+  "NO_AFFINITY_GROUP": "No group"
 }

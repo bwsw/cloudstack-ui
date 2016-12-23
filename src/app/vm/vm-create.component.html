@@ -63,10 +63,9 @@
   </div>
   <h5>Affinity groups</h5>
   <div style="padding-bottom: 40px">
-    <mdl-select>
-      <mdl-option [value]="0">stub</mdl-option>
-      <mdl-option [value]="1">stub</mdl-option>
-      <mdl-option [value]="2">stub</mdl-option>
+    <mdl-select [(ngModel)]="affinityGroup">
+      <mdl-option [value]="-1">{{'NO_AFFINITY_GROUP' | translate}}</mdl-option>
+      <mdl-option *ngFor="let ag of affinityGroups" [value]="ag.id" >{{ag.name}}</mdl-option>
     </mdl-select>
   </div>
   <div style="position: relative; width:300px; padding-bottom: 40px">
