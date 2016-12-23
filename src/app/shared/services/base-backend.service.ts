@@ -26,7 +26,12 @@ export abstract class BaseBackendService<M extends BaseModel> {
 
   public getList(params?: {}): Promise<Array<M>> {
     return this.fetchList(params)
-      .then(res => res.map(m => this.prepareModel(m)) as Array<M>);
+      .then(res => {
+        if (!res) {
+          return [];
+        }
+        return res.map(m => this.prepareModel(m)) as Array<M>;
+      });
   }
 
   protected prepareModel(res): M {
