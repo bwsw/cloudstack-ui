@@ -3,6 +3,10 @@
 @import '~@angular2-mdl-ext/popover/popover';
 @import '~@angular2-mdl-ext/select/select';
 
+* {
+  box-sizing: border-box;
+}
+
 .disabled-link {
   cursor: pointer;
 }

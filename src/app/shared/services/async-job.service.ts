@@ -17,6 +17,7 @@ interface IJobObservables {
 })
 export class AsyncJobService extends BaseBackendService<AsyncJob> {
 
+  public event: Subject<AsyncJob>;
   public pollingInterval: number;
   public poll: boolean;
   private jobObservables: IJobObservables;
@@ -26,6 +27,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
     super();
     this.pollingInterval = 5000;
     this.jobObservables = {};
+    this.event = new Subject<AsyncJob>();
   }
 
   public addJob(id: string): Subject<AsyncJob> {
@@ -41,14 +43,13 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
     if (!this.poll) {
       return false;
     }
-    this.getList().then((result) => {
+    this.getList().then(result => {
       let anyJobs = false;
-      result.forEach((elem, index, array) => {
+      result.forEach(elem => {
         let id = elem.jobId;
         if (this.jobObservables[id]) {
-          if (elem.jobStatus === 0) {
+          if (elem.jobStatus === 0) { // if the job is completed successfully
             anyJobs = true;
-            this.jobObservables[id].next();
           } else {
             this.jobObservables[id].next(elem);
             delete this.jobObservables[id];
@@ -67,18 +68,6 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
       this.queryJobs();
     }, this.pollingInterval);
     this.poll = true;
-    this.checkStatus();
-  }
-
-  private checkStatus() {
-    let n = 0;
-    let statusUpdateTimer = setInterval(() => {
-      this.queryJobs();
-      console.log(n);
-      if (++n > 4) {
-        clearInterval(statusUpdateTimer);
-      }
-    }, 500);
   }
 
   private stopPolling(): void {

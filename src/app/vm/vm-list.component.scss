@@ -1,3 +1,26 @@
+$vm-detail-width: 365px;
+
+:host {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.vm-list {
+  height: 100%;
+  overflow: auto;
+  transition: margin 0.3s;
+
+  &.open {
+    margin-right: $vm-detail-width;
+  }
+}
+
+cs-vm-detail {
+  width: $vm-detail-width;
+  transform: translateX($vm-detail-width);
+}
+
 .fab {
   position: fixed;
   right: 32px;

@@ -13,6 +13,7 @@ import { LogoutComponent } from './auth/logout.component';
 import { VmCreateComponent } from './vm/vm-create.component';
 import { VmListComponent } from './vm/vm-list.component';
 import { VmListItemComponent } from './vm/vm-list-item.component';
+import { VmDetailComponent } from './vm/vm-detail.component';
 import { NotificationBoxComponent } from './notification-box.component';
 import { NotificationBoxItemComponent } from './notification-box-item.component';
 
@@ -45,6 +46,7 @@ import { routing } from './app.routing';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
 import { MdlSelectModule } from "@angular2-mdl-ext/select";
+import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
 
 
 @NgModule({
@@ -65,9 +67,11 @@ import { MdlSelectModule } from "@angular2-mdl-ext/select";
     LogoutComponent,
     VmCreateComponent,
     VmListComponent,
+    VmDetailComponent,
     VmListItemComponent,
     NotificationBoxComponent,
-    NotificationBoxItemComponent
+    NotificationBoxItemComponent,
+    DivByPowerOfTwoPipe
   ],
   providers: [
     AffinityGroupService,

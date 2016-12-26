@@ -1,8 +1,8 @@
 <mdl-list-item>
   <mdl-list-item-primary-content>
-    <mdl-icon *ngIf="!notification.isActive" mdl-list-item-avatar>done</mdl-icon>
-    <mdl-spinner *ngIf="notification.isActive" mdl-list-item-avatar single-color active></mdl-spinner>
+    <mdl-icon *ngIf="notification.status === notificationStatus.Finished" mdl-list-item-avatar>done</mdl-icon>
+    <mdl-spinner *ngIf="notification.status === notificationStatus.Pending" mdl-list-item-avatar single-color active></mdl-spinner>
     <span>{{ notification.message }}</span>
   </mdl-list-item-primary-content>
-  <mdl-icon class="close" *ngIf="!notification.isActive" (click)="remove()">close</mdl-icon>
+  <mdl-icon class="close" *ngIf="notification.status !== notificationStatus.Pending" (click)="remove()">close</mdl-icon>
 </mdl-list-item>
