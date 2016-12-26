@@ -12,6 +12,7 @@ export * from './resource-limit.service';
 export * from './root-disk-size.service';
 export * from './service-locator';
 export * from './service-offering.service';
+export * from './SSHKeyPair.service';
 export * from './storage.service';
 export * from './template.service';
 export * from './volume.service';

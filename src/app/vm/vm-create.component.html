@@ -76,15 +76,13 @@
   <h5>Keyboard layout</h5>
   <div style="padding-bottom: 40px">
     <mdl-select [(ngModel)]="keyboard">
-      <mdl-option *ngFor="let k of keyboards" [value]="k" >{{ ('KB_' + k.toUpperCase()) | translate }}</mdl-option>
+      <mdl-option *ngFor="let k of keyboards" [value]="k">{{ ('KB_' + k.toUpperCase()) | translate }}</mdl-option>
     </mdl-select>
   </div>
   <h5>SSH keypair</h5>
   <div style="padding-bottom: 40px">
-    <mdl-select>
-      <mdl-option [value]="0">stub</mdl-option>
-      <mdl-option [value]="1">stub</mdl-option>
-      <mdl-option [value]="2">stub</mdl-option>
+    <mdl-select [(ngModel)]="ssh">
+      <mdl-option *ngFor="let k of sshKeyPairs" [value]="k.name">{{k.name}}</mdl-option>
     </mdl-select>
   </div>
   <mdl-checkbox [(ngModel)]="doStartVm">
