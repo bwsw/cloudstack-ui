@@ -1,17 +1,20 @@
 {
   "securityGroupTemplates": [
     {
+      "id": "638b4169-61e6-4150-92fd-bfc3e2298ec1",
       "name": "sg1",
-      "rules": [
+      "ingressRules": [
         {
-          "type": "ingress",
+          "ruleId": "9552c7e9-9421-4a16-8a09-00a6bab4aa5a",
           "protocol": "TCP",
           "startPort": 1,
           "endPort": 65535,
           "CIDR": "0.0.0.0/16"
-        },
+        }
+      ],
+      "egressRules": [
         {
-          "type": "egress",
+          "ruleId": "dcaeefe0-0014-4431-b21d-db2e66f9162d",
           "protocol": "TCP",
           "startPort": 1,
           "endPort": 65535,
@@ -20,17 +23,20 @@
       ]
     },
     {
+      "id": "c0030e6e-b8ca-4105-85b7-377c87be95b1",
       "name": "sg2",
-      "rules": [
+      "ingressRules": [
         {
-          "type": "ingress",
+          "ruleId": "9552c7e9-9421-4a16-8a09-00a6bab4aa5a",
           "protocol": "UDP",
           "startPort": 1,
           "endPort": 65535,
           "CIDR": "0.0.0.0/16"
-        },
+        }
+      ],
+      "egressRules": [
         {
-          "type": "egress",
+          "ruleId": "dcaeefe0-0014-4431-b21d-db2e66f9162d",
           "protocol": "UDP",
           "startPort": 1,
           "endPort": 65535,
