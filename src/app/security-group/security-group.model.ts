@@ -7,7 +7,7 @@ import { FieldMapper } from '../shared/decorators/field-mapper.decorator';
   startport: 'startPort',
   endport: 'endPort',
   icmpcode: 'icmpCode',
-  icmpType: 'icmpType',
+  icmptype: 'icmpType',
 })
 export class NetworkRule extends BaseModel {
   public ruleId: string;
