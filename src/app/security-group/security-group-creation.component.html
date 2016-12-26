@@ -1,0 +1,101 @@
+<div class="list-builder">
+  <div class="left-list">
+    <h5>All groups</h5>
+    <mdl-list>
+      <mdl-list-item
+        *ngFor="let secuityGroup of items[0]; let i=index"
+        [class.active]="selectedColumnIndex === 0 && selectedGroupIndex === i"
+        (click)="selectGroup(i, true)"
+        mdl-ripple
+      >
+        <mdl-list-item-primary-content>
+          {{ secuityGroup.name }}
+        </mdl-list-item-primary-content>
+      </mdl-list-item>
+    </mdl-list>
+  </div>
+  <div class="buttons-container">
+    <button
+      mdl-button
+      mdl-button-type="icon"
+      (click)="move(false)"
+      disabled="{{ selectedColumnIndex !== 0 }}"
+    >
+      <mdl-icon>navigate_next</mdl-icon>
+    </button>
+    <button
+      mdl-button
+      mdl-button-type="icon"
+      (click)="move(true)"
+      disabled="{{ selectedColumnIndex !== 1 }}"
+    >
+      <mdl-icon>navigate_before</mdl-icon>
+    </button>
+  </div>
+  <div class="right-list">
+    <h5>Selected groups</h5>
+    <mdl-list>
+      <mdl-list-item
+        *ngFor="let secuityGroup of items[1]; let i=index"
+        [class.active]="selectedColumnIndex === 1 && selectedGroupIndex === i"
+        (click)="selectGroup(i, false)"
+        mdl-ripple
+      >
+        <mdl-list-item-primary-content>
+          {{ secuityGroup.name }}
+        </mdl-list-item-primary-content>
+      </mdl-list-item>
+    </mdl-list>
+  </div>
+</div>
+<div class="rules-list">
+  <h5>VM network group rules</h5>
+  <mdl-list>
+    <template ngFor let-securityGroup [ngForOf]="items[1]">
+      <mdl-list-item *ngFor="let rule of securityGroup.ingressRules">
+        <mdl-list-item-primary-content>
+          Ingress
+          {{ rule.CIDR }}
+          {{ rule.protocol.toUpperCase() }}
+          <template [ngIf]="rule.protocol === 'icmp'">
+            {{ rule.icmpCode }}
+            {{ rule.icmpType }}
+          </template>
+          <template [ngIf]="rule.protocol !== 'icmp'">
+            {{ rule.startPort }}
+            {{ rule.endPort }}
+          </template>
+        </mdl-list-item-primary-content>
+        <mdl-list-item-secondary-action>
+          <mdl-checkbox mdl-ripple></mdl-checkbox>
+        </mdl-list-item-secondary-action>
+      </mdl-list-item>
+      <mdl-list-item *ngFor="let rule of securityGroup.egressRules">
+        <mdl-list-item-primary-content>
+          Egress
+          {{ rule.CIDR }}
+          {{ rule.protocol.toUpperCase() }}
+          <template [ngIf]="rule.protocol === 'icmp'">
+            {{ rule.icmpCode }}
+            {{ rule.icmpType }}
+          </template>
+          <template [ngIf]="rule.protocol !== 'icmp'">
+            {{ rule.startPort }}
+            {{ rule.endPort }}
+          </template>
+        </mdl-list-item-primary-content>
+        <mdl-list-item-secondary-action>
+          <mdl-checkbox mdl-ripple></mdl-checkbox>
+        </mdl-list-item-secondary-action>
+      </mdl-list-item>
+    </template>
+  </mdl-list>
+</div>
+<div style="text-align: right;">
+  <button mdl-button>
+    Cancel
+  </button>
+  <button mdl-button>
+    Save
+  </button>
+</div>

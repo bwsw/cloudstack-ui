@@ -18,7 +18,7 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
   public getTemplates(): Promise<Array<SecurityGroup>> {
     return this.configService.get('securityGroupTemplates')
       .then(groups => {
-        for (let i = 0; i< groups.length; i++) {
+        for (let i = 0; i < groups.length; i++) {
           groups[i] = new SecurityGroup(groups[i]);
         }
         return groups;
