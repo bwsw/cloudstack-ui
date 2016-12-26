@@ -85,7 +85,13 @@
       <mdl-option *ngFor="let k of sshKeyPairs" [value]="k.name">{{k.name}}</mdl-option>
     </mdl-select>
   </div>
-  <mdl-checkbox [(ngModel)]="doStartVm">
-    Start VM
-  </mdl-checkbox>
+  <div>
+    <mdl-checkbox [(ngModel)]="doStartVm">
+      Start VM
+    </mdl-checkbox>
+  </div>
+  <div>
+    <button mdl-button mdl-ripple style="margin-top: 16px; display:inline-block; right: 0">Cancel</button>
+    <button (click)="deployVm()" mdl-button mdl-ripple style="margin-top: 16px; display:inline-block;">Create</button>
+  </div>
 </div>

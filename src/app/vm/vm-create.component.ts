@@ -100,12 +100,20 @@ export class VmCreateComponent extends BaseBackendService<VmCreateStub> {
           'zoneid': this.zone,
         };
 
-        this.name ? params['name'] = this.name : 0;
-        this.description ? params['description'] = this.description : 0;
-        this.affinityGroup === -1 ? params['affinitygroupid'] = this.affinityGroup : 0;
-        // this.
+        if (this.name) params['name'] = this.name;
+        if (this.description) params['description'] = this.description;
+        if (this.affinityGroup === -1) params['affinitygroupid'] = this.affinityGroup;
+        if (this.rootDiskSize) params['rootdisksize'] = this.rootDiskSize;
+        if (!this.doStartVm) params['startvm'] = 'false';
+        params['securitygroupids'] = 'c5ffdfe0-7de4-4373-bd55-128e434c81d1';
+        params['keyboard'] = this.keyboard;
+        params['keypair'] = this.ssh;
 
-        // this.http.get(BACKEND_API_URL, { search: this.buildParams('deployVirtualMachine', params) }
+        this.http.get(BACKEND_API_URL, { search: this.buildParams('deployVirtualMachine', params) })
+          .toPromise()
+          .then(result => {
+            console.log(result);
+          });
       });
   }
 }
