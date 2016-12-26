@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { INetworkSecurityGroup } from './security-group/security-group.service';
+import { INetworkSecurityGroup } from '../security-group/security-group.service';
 import 'rxjs/add/operator/toPromise';
 
 interface IConfig {
