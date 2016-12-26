@@ -91,7 +91,7 @@
       <h2 mdl-card-title-text>{{ 'AFFINITY_GROUP' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
-      <div *ngFor="let affinityGroup of vm.affinityGroup">{{ vm.affinityGroup }}</div>
+      <div *ngFor="let affinityGroup of vm.affinityGroup">{{ affinityGroup.name }}</div>
       <div *ngIf="!vm.affinityGroup.length">{{ 'NO_AFFINITY_GROUP' | translate }}</div>
     </mdl-card-supporting-text>
   </mdl-card>
