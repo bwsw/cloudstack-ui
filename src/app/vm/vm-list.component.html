@@ -1,3 +1,33 @@
 <div class="vm-list">
   <cs-vm-list-item (onVmAction)="onVmAction($event)" *ngFor="let vm of vmList" [vm]="vm"></cs-vm-list-item>
 </div>
+<div class="fab">
+  <button
+    #vmCreateButton
+    id="vmCreateButton"
+    name="vmCreateButton"
+    mdl-button
+    mdl-button-type="fab"
+    mdl-colored="accent"
+    (click)="vmCreateDialog.show()"
+  >
+    <mdl-icon>add</mdl-icon>
+  </button>
+</div>
+<mdl-dialog
+  #vmCreateDialog
+  [mdl-dialog-config]="{
+    openFrom: vmCreateButton,
+    clickOutsideToClose: true,
+    styles: {'width': '780px'},
+    isModal: true,
+    enterTransitionDuration: 400,
+    leaveTransitionDuration: 400
+  }"
+>
+  <cs-vm-create #vmCreateForm></cs-vm-create>
+  <div class="mdl-dialog__actions">
+    <button mdl-button (click)="deployVm(); vmCreateDialog.close();" mdl-ripple>Save</button>
+    <button mdl-button (click)="vmCreateDialog.close()" mdl-ripple>Cancel</button>
+  </div>
+</mdl-dialog>

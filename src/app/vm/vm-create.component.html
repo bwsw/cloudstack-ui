@@ -1,97 +1,92 @@
-<div class="container">
-  <div>
-    <mdl-textfield
-      type="text"
-      label="Name"
-      id="name"
-      name="name"
-      [(ngModel)]="name">
-    </mdl-textfield>
+<div class="container" style="display: flex; padding-bottom: 1px">
+  <div class="left-column" style="padding:0px 16px 1px 8px">
+    <div>
+      <mdl-textfield
+        type="text"
+        label="Name"
+        id="name"
+        name="name"
+        [(ngModel)]="name">
+      </mdl-textfield>
+    </div>
+    <div>
+      <mdl-textfield
+        type="text"
+        label="Description"
+        id="description"
+        name="description"
+        [(ngModel)]="description">
+      </mdl-textfield>
+    </div>
+    <div>
+      <mdl-textfield
+        [disabled]="true"
+        type="text"
+        label="Template stub"
+        id="template"
+        name="template"
+        [(ngModel)]="template">
+      </mdl-textfield>
+    </div>
+    <h5>Service offering</h5>
+    <div>
+      <mdl-select [(ngModel)]="serviceOffering">
+        <mdl-option *ngFor="let so of serviceOfferings" [value]="so.id" >{{so.name}}</mdl-option>
+      </mdl-select>
+    </div>
+    <h5>Zone</h5>
+    <div>
+      <mdl-select [(ngModel)]="zone">
+        <mdl-option *ngFor="let z of zones" [value]="z.id" >{{z.name}}</mdl-option>
+      </mdl-select>
+    </div>
+    <div style="position:relative; width:300px">
+      <h5 style="padding-bottom: 24px; display: inline-block">Root disk size</h5>
+      <h5 style="display:inline-block; position:absolute; right:0px;">{{rootDiskSize ? rootDiskSize + ' GB' : 'Auto'}}</h5>
+    </div>
+    <div style="width:348px; position: relative; left:-24px">
+      <mdl-slider
+        max="{{rootDiskSizeLimit || 1}}"
+        id="rootDiskSize"
+        name="rootDiskSize"
+        value="0"
+        [(ngModel)]="rootDiskSize"
+        mdl-tooltip-position="top"
+        min="0"
+      >
+      </mdl-slider>
+      <!--<mdl-tooltip  #tt1="mdlTooltip">{{rootDiskSize ? rootDiskSize + ' GB' : 'Auto'}}</mdl-tooltip>-->
+    </div>
   </div>
-  <div>
-    <mdl-textfield
-      type="text"
-      label="Description"
-      id="description"
-      name="description"
-      [(ngModel)]="description">
-    </mdl-textfield>
-  </div>
-  <div>
-    <mdl-textfield
-      [disabled]="true"
-      type="text"
-      label="Template stub"
-      id="template"
-      name="template"
-      [(ngModel)]="template">
-    </mdl-textfield>
-  </div>
-    <!--<mdl-select [(ngModel)]="serviceOffering">-->
-      <!--<mdl-option [value]="1">1</mdl-option>-->
-      <!--<mdl-option [value]="2">2</mdl-option>-->
-      <!--<mdl-option [value]="3">3</mdl-option>-->
-    <!--</mdl-select>-->
-  <h5>Service offering</h5>
-  <div style="padding-bottom: 40px">
-    <mdl-select [(ngModel)]="serviceOffering">
-      <mdl-option *ngFor="let so of serviceOfferings" [value]="so.id" >{{so.name}}</mdl-option>
-    </mdl-select>
-  </div>
-  <h5>Zone</h5>
-  <div style="padding-bottom: 40px">
-    <mdl-select [(ngModel)]="zone">
-      <mdl-option *ngFor="let z of zones" [value]="z.id" >{{z.name}}</mdl-option>
-    </mdl-select>
-  </div>
-  <div style="position:relative; width:300px">
-    <h5 style="padding-bottom: 24px; display: inline-block">Root disk size</h5>
-    <h5 style="display:inline-block; position:absolute; right:0px;">{{rootDiskSize ? rootDiskSize + ' GB' : 'Auto'}}</h5>
-  </div>
-  <div style="width:348px; position: relative; left:-24px; padding-bottom: 40px">
-    <mdl-slider
-      max="{{rootDiskSizeLimit || 1}}"
-      id="rootDiskSize"
-      name="rootDiskSize"
-      value="0"
-      [(ngModel)]="rootDiskSize"
-      mdl-tooltip-position="top"
-      min="0"
-    >
-    </mdl-slider>
-    <!--<mdl-tooltip  #tt1="mdlTooltip">{{rootDiskSize ? rootDiskSize + ' GB' : 'Auto'}}</mdl-tooltip>-->
-  </div>
-  <h5>Affinity groups</h5>
-  <div style="padding-bottom: 40px">
-    <mdl-select [(ngModel)]="affinityGroup">
-      <mdl-option [value]="-1">{{'NO_AFFINITY_GROUP' | translate}}</mdl-option>
-      <mdl-option *ngFor="let ag of affinityGroups" [value]="ag.id" >{{ag.name}}</mdl-option>
-    </mdl-select>
-  </div>
-  <div style="position: relative; width:300px; padding-bottom: 40px">
-    <h5 style="display:inline-block">Network group</h5>
-    <button mdl-button mdl-ripple style="margin-top: 16px; display:inline-block; position:absolute; right: 0">Create</button>
-    <div>Based on security group 1, security group 2, etc.</div>
-  </div>
-  <h5>Keyboard layout</h5>
-  <div style="padding-bottom: 40px">
-    <mdl-select [(ngModel)]="keyboard">
-      <mdl-option *ngFor="let k of keyboards" [value]="k">{{ ('KB_' + k.toUpperCase()) | translate }}</mdl-option>
-    </mdl-select>
-  </div>
-  <h5>SSH keypair</h5>
-  <div style="padding-bottom: 40px">
-    <mdl-select [(ngModel)]="ssh">
-      <mdl-option *ngFor="let k of sshKeyPairs" [value]="k.name">{{k.name}}</mdl-option>
-    </mdl-select>
-  </div>
-  <div>
-    <mdl-checkbox [(ngModel)]="doStartVm">
-      Start VM
-    </mdl-checkbox>
-  </div>
-  <div>
-    <button mdl-button mdl-ripple style="margin-top: 16px; display:inline-block; right: 0">Cancel</button>
-    <button (click)="deployVm()" mdl-button mdl-ripple style="margin-top: 16px; display:inline-block;">Create</button>
+  <div class="right-column" style="margin-left:70px; padding-right: 30px">
+    <h5>Affinity groups</h5>
+    <div>
+      <mdl-select [(ngModel)]="affinityGroup">
+        <mdl-option [value]="-1">{{'NO_AFFINITY_GROUP' | translate}}</mdl-option>
+        <mdl-option *ngFor="let ag of affinityGroups" [value]="ag.id" >{{ag.name}}</mdl-option>
+      </mdl-select>
+    </div>
+    <div style="position: relative; width:300px">
+      <h5 style="display:inline-block">Network group</h5>
+      <button mdl-button mdl-ripple style="margin-top: 16px; display:inline-block; position:absolute; right: 0">Create</button>
+      <div class="network-security-info">Based on security group 1, security group 2, etc.</div>
+    </div>
+    <h5>Keyboard layout</h5>
+    <div>
+      <mdl-select [(ngModel)]="keyboard">
+        <mdl-option *ngFor="let k of keyboards" [value]="k">{{ ('KB_' + k.toUpperCase()) | translate }}</mdl-option>
+      </mdl-select>
+    </div>
+    <h5>SSH keypair</h5>
+    <div>
+      <mdl-select [(ngModel)]="ssh">
+        <mdl-option *ngFor="let k of sshKeyPairs" [value]="k.name">{{k.name}}</mdl-option>
+      </mdl-select>
+    </div>
+    <div class="start-vm-checkbox">
+      <mdl-checkbox [(ngModel)]="doStartVm">
+        Start VM
+      </mdl-checkbox>
+    </div>
   </div>
 </div>

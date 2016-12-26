@@ -1,10 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 
 import { VmService } from './vm.service';
 import { VirtualMachine } from './vm.model';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 import { IStorageService } from '../shared/services/storage.service';
+import { VmCreateComponent } from "./vm-create.component";
 
 
 interface IVmAction {
@@ -15,9 +16,13 @@ interface IVmAction {
 
 @Component({
   selector: 'cs-vm-list',
-  templateUrl: './vm-list.component.html'
+  templateUrl: './vm-list.component.html',
+  styleUrls: ['./vm-list.component.scss']
 })
 export class VmListComponent implements OnInit {
+  @ViewChild(VmCreateComponent)
+
+  private vmCreationForm: VmCreateComponent;
   private vmList: Array<VirtualMachine>;
 
   constructor (
@@ -124,6 +129,11 @@ export class VmListComponent implements OnInit {
         });
         break;
     }
+  }
+
+  public deployVm() {
+    this.vmCreationForm.deployVm()
+      .then(result => console.log(result));
   }
 
   private showDialog(translations): void {

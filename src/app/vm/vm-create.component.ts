@@ -14,6 +14,7 @@ import { AffinityGroup } from '../shared/models/affinity-group.model';
 import { SSHKeyPairService } from '../shared/services/SSHKeyPair.service';
 import { MdlDialogService } from "angular2-mdl";
 import { BaseModel } from "../shared/models/base.model";
+import { URLSearchParams } from "@angular/http";
 
 class VmCreateStub extends BaseModel { }
 
@@ -41,16 +42,14 @@ export class VmCreateComponent extends BaseBackendService<VmCreateStub> {
 
   public keyboards = ['us', 'uk', 'jp', 'sc'];
 
-  constructor (
-    private vmService: VmService,
-    private translateService: TranslateService,
-    private zoneService: ZoneService,
-    private serviceOfferingService: ServiceOfferingService,
-    private rootDiskSizeService: RootDiskSizeService,
-    private affinityGroupService: AffinityGroupService,
-    private sshService: SSHKeyPairService,
-    private dialogService: MdlDialogService
-  ) {
+  constructor(private vmService: VmService,
+              private translateService: TranslateService,
+              private zoneService: ZoneService,
+              private serviceOfferingService: ServiceOfferingService,
+              private rootDiskSizeService: RootDiskSizeService,
+              private affinityGroupService: AffinityGroupService,
+              private sshService: SSHKeyPairService,
+              private dialogService: MdlDialogService) {
     super();
     this.doStartVm = true;
     this.rootDiskSize = 0;
@@ -90,46 +89,32 @@ export class VmCreateComponent extends BaseBackendService<VmCreateStub> {
     });
   }
 
-  public deployVm() {
-    this.dialogService.confirm('Would you like a mug of coffee?', 'No', 'Yes')
-      .toPromise()
-      .then(result => {
-        let params = {
-          'serviceofferingid': this.serviceOffering,
-          'templateid': '166e45c1-5ca7-45a0-9111-73e39953f05f',
-          'zoneid': this.zone,
-        };
+  public deployVm(): Promise<any> {
+    let params = {
+      'serviceofferingid': this.serviceOffering,
+      'templateid': '166e45c1-5ca7-45a0-9111-73e39953f05f',
+      'zoneid': this.zone,
+      'response': 'json'
+    };
 
-        if (this.name) params['name'] = this.name;
-        if (this.description) params['description'] = this.description;
-        if (this.affinityGroup === -1) params['affinitygroupid'] = this.affinityGroup;
-        if (this.rootDiskSize) params['rootdisksize'] = this.rootDiskSize;
-        if (!this.doStartVm) params['startvm'] = 'false';
-        params['securitygroupids'] = 'c5ffdfe0-7de4-4373-bd55-128e434c81d1';
-        params['keyboard'] = this.keyboard;
-        params['keypair'] = this.ssh;
+    if (this.name) params['name'] = this.name;
+    if (this.description) params['description'] = this.description;
+    if (this.affinityGroup !== -1) params['affinitygroupid'] = this.affinityGroup;
+    if (this.rootDiskSize) params['rootdisksize'] = this.rootDiskSize;
+    if (!this.doStartVm) params['startvm'] = 'false';
+    params['securitygroupids'] = 'c5ffdfe0-7de4-4373-bd55-128e434c81d1';
+    params['keyboard'] = this.keyboard;
+    params['keypair'] = this.ssh;
 
-        this.http.get(BACKEND_API_URL, { search: this.buildParams('deployVirtualMachine', params) })
-          .toPromise()
-          .then(result => {
-            console.log(result);
-          });
-      });
+    const urlParams = new URLSearchParams();
+    urlParams.append('command', 'deployVirtualMachine');
+
+    for (let key in params) {
+      if (params.hasOwnProperty(key)) {
+        urlParams.set(key, params[key]);
+      }
+    }
+
+    return this.http.get(BACKEND_API_URL, {search: urlParams}).toPromise();
   }
 }
-
-
-// return this.http.get(BACKEND_API_URL, { search: this.buildParams(command, params) })
-//   .toPromise()
-//   .then((res: Response) => {
-//     const responseString = `${command}${entity}sresponse`;
-//     if (entity === 'asyncjob') {
-//       entity += 's';
-//     }
-//     return res.json()[responseString][`${entity}`];
-//   })
-//   .catch(error => {
-//     this.error.next(error);
-//     return Promise.reject(error);
-//   });
-
