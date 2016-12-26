@@ -1,24 +1,27 @@
 import { Injectable } from '@angular/core';
 import { ConfigService } from '../shared/config.service';
-
-export interface INetworkSecurityGroup {
-  name: string;
-  rules: Array<INetworkRule>;
-}
-
-export interface INetworkRule {
-  type: string;
-  protocol: string;
-  firstPort: number;
-  lastPort: number;
-}
+import { SecurityGroup } from './security-group.model';
+import { BaseBackendService } from '../shared/services/base-backend.service';
+import { BackendResource } from '../shared/decorators/backend-resource.decorator';
 
 @Injectable()
-export class SecurityGroupService {
+@BackendResource({
+  entity: 'SecurityGroup',
+  entityModel: SecurityGroup
+})
+export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
 
-  constructor(private config: ConfigService) {}
+  constructor(private configService: ConfigService) {
+    super();
+  }
 
-  public getTemplates(): Promise<Array<INetworkSecurityGroup>> {
-    return this.config.get('securityGroupTemplates');
+  public getTemplates(): Promise<Array<SecurityGroup>> {
+    return this.configService.get('securityGroupTemplates')
+      .then(groups => {
+        for (let i = 0; i< groups.length; i++) {
+          groups[i] = new SecurityGroup(groups[i]);
+        }
+        return groups;
+      });
   }
 }
