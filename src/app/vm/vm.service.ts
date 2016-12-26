@@ -81,14 +81,14 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
-  public command(id: string, command: string, params?: {}): Observable<AsyncJob> {
+  public command(command: string, id?: string, params?: {}): Observable<AsyncJob> {
     const urlParams = new URLSearchParams();
 
     urlParams.append('command', command + 'VirtualMachine');
     urlParams.append('response', 'json');
     if (command === 'restore') {
       urlParams.append('virtualmachineid', id);
-    } else {
+    } else if (command !== 'deploy') {
       urlParams.append('id', id);
     }
 

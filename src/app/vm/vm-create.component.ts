@@ -31,7 +31,7 @@ export class VmCreateComponent extends BaseBackendService<VmCreateStub> {
   public zones: Array<Zone>;
   public zone: number;
   public serviceOfferings: Array<ServiceOffering>;
-  public serviceOffering: number;
+  public serviceOffering: string;
   public rootDiskSizeLimit: number;
   public keyboard: string;
   public affinityGroups: Array<AffinityGroup>;

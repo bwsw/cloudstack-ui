@@ -75,7 +75,19 @@ export class VmListComponent implements OnInit {
 
   public deployVm() {
     this.vmCreationForm.deployVm()
-      .then(result => console.log(result));
+      .then(result => {
+        this.vmService.get(result.id)
+          .then(result => {
+            this.vmList.push(result);
+            let id = this.jobsNotificationService.add('Deploying a VM');
+            this.jobsNotificationService.add({
+              id,
+              message: 'VM has been deployed',
+              status: INotificationStatus.Finished
+            });
+          });
+        this.asyncJobService.addJob(result.jobid);
+      });
   }
 
   public onVmAction(e: IVmActionEvent) {
@@ -91,7 +103,7 @@ export class VmListComponent implements OnInit {
         .then(r => {
           e.vm.state = e.action.vmStateOnAction;
           let id = this.jobsNotificationService.add(strs[e.action.progressMessage]);
-          this.vmService.command(e.vm.id, e.action.nameLower)
+          this.vmService.command(e.action.nameLower, e.vm.id)
             .subscribe(result => {
               this.jobsNotificationService.add({
                 id,

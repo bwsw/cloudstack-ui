@@ -32,7 +32,6 @@
   "DESTROY_DONE": "VM has been destroyed",
   "YES": "Yes",
   "NO": "No",
-  "NO_DONT_ASK": "No, don't ask me",
   "START": "Start",
   "STOP": "Stop",
   "REBOOT": "Reboot",
@@ -47,7 +46,6 @@
   "KB_JP": "Japanese keyboard",
   "KB_SC": "Simplified Chinese keyboard",
 
-  "NO_AFFINITY_GROUP": "No group"
   "STATUS": "Status",
   "SERVICE_OFFERING": "Service offering",
   "IP_ADDRESSES": "IP addresses",
