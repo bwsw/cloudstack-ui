@@ -33,26 +33,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     super();
   }
 
-  public startVM(id: string): Observable<AsyncJob> {
-    return this.command(id, 'start');
-  }
-
-  public stopVM(id: string): Observable<AsyncJob> {
-    return this.command(id, 'stop');
-  }
-
-  public rebootVM(id: string): Observable<AsyncJob> {
-    return this.command(id, 'reboot');
-  }
-
-  public restoreVM(id: string, templateId: string): Observable<AsyncJob> {
-    return this.command(id, 'restore', { templateId });
-  }
-
-  public destroyVM(id: string): Observable<AsyncJob> {
-    return this.command(id, 'destroy');
-  }
-
   public get(id: string): Promise<VirtualMachine> {
     const volumesRequest = this.volumeService.getList();
     const vmRequest = super.get(id);
@@ -72,8 +52,13 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
   }
 
-  public getList(params?: {}): Promise<Array<VirtualMachine>> {
+  public getList(lite = false, params?: {}): Promise<Array<VirtualMachine>> {
     const vmsRequest = super.getList();
+
+    if (lite) {
+      return vmsRequest;
+    }
+
     const volumesRequest = this.volumeService.getList();
     const osTypesRequest = this.osTypesService.getList();
     const serviceOfferingsRequest = this.serviceOfferingService.getList();
@@ -96,7 +81,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
-  private command(id: string, command: string, params?: {}): Observable<AsyncJob> {
+  public command(id: string, command: string, params?: {}): Observable<AsyncJob> {
     const urlParams = new URLSearchParams();
 
     urlParams.append('command', command + 'VirtualMachine');
@@ -112,7 +97,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         urlParams.append(p, params[p]);
       }
     }
-
     return this.http.get(BACKEND_API_URL, { search: urlParams })
       .map(result => result.json())
       .map(result => {
@@ -129,6 +113,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         if (result && result.jobResultCode === 0) {
           result.jobResult = new this.entityModel(result.jobResult.virtualmachine);
         }
+        this.jobs.event.next(result);
         return result;
       });
   }

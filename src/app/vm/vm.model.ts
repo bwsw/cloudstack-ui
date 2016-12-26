@@ -28,6 +28,18 @@ interface INic {
   secondaryip: any;
 }
 
+export interface IVmAction {
+  name: string;
+  nameLower: string;
+  nameCaps: string;
+  vmStateOnAction: string;
+  vmActionCompleted: string;
+  mdlIcon: string;
+  confirmMessage: string;
+  progressMessage: string;
+  successMessage: string;
+}
+
 @FieldMapper({
   displayname: 'displayName',
   serviceofferingid: 'serviceOfferingId',
@@ -88,6 +100,57 @@ export class VirtualMachine extends BaseModel {
   public diskIoRead: number;
   public diskIoWrite: number;
 
+  public get actions(): Array<string> {
+    return [
+      'start',
+      'stop',
+      'reboot',
+      'restore',
+      'destroy'
+    ];
+  }
+
+  public getAction(action: string): IVmAction  {
+    let name = action.charAt(0).toUpperCase() + action.slice(1);
+    let nameLower = action;
+    let nameCaps = action.toUpperCase();
+    let vmStateOnAction = nameCaps + '_IN_PROGRESS';
+    let vmActionCompleted = nameCaps + '_DONE';
+    let mdlIcon = '';
+    let confirmMessage = 'CONFIRM_VM_' + nameCaps;
+    let progressMessage = 'VM_' + nameCaps + '_IN_PROGRESS';
+    let successMessage = nameCaps + '_DONE';
+
+    switch (action) {
+      case 'start':
+        mdlIcon = 'play_arrow';
+        break;
+      case 'stop':
+        mdlIcon = 'stop';
+        break;
+      case 'reboot':
+        mdlIcon = 'replay';
+        break;
+      case 'restore':
+        mdlIcon = 'settings_backup_restore';
+        break;
+      case 'destroy':
+        mdlIcon = 'close';
+        break;
+    }
+    return {
+      name,
+      nameLower,
+      nameCaps,
+      vmStateOnAction,
+      vmActionCompleted,
+      mdlIcon,
+      confirmMessage,
+      progressMessage,
+      successMessage
+    };
+  }
+
   public getDisksSize() {
     const sizeInBytes = this.volumes.reduce((acc: number, volume: Volume) => {
       return acc + volume.size;
@@ -95,7 +158,7 @@ export class VirtualMachine extends BaseModel {
     return sizeInBytes / Math.pow(2, 30);
   }
 
-  public get canApply() {
+  public canApply(command: string) {
     return this.state === 'Running' || this.state === 'Stopped';
   }
 }

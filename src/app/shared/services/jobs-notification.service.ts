@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-export const enum INotificationStatus {
+export enum INotificationStatus {
   Pending,
   Finished,
   Failed
@@ -27,7 +27,7 @@ export class JobsNotificationService {
     return this._pendingJobsCount;
   }
 
-  public add(notification: INotification | string): void {
+  public add(notification: INotification | string): string {
     if (typeof notification === 'string') {
       const n: INotification = {
         id: '' + this.lastId++,
@@ -41,7 +41,7 @@ export class JobsNotificationService {
       if (this.lastId >= Number.MAX_SAFE_INTEGER) {
         this.lastId = 0;
       }
-      return;
+      return '' + (this.lastId - 1);
     }
 
     const ind = this.notifications.findIndex((el: INotification) => el.id === notification.id);
@@ -49,10 +49,10 @@ export class JobsNotificationService {
       notification.status = INotificationStatus.Pending;
       this.notifications.unshift(notification);
       this._pendingJobsCount++;
-      return;
+      return notification.id;
     }
-
     Object.assign(this.notifications[ind], notification);
+    return notification.id;
   }
 
   public remove(id: string): void {

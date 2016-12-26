@@ -4,6 +4,10 @@
   cursor: pointer;
 }
 
+mdl-card-supporting-text {
+  width: 100%;
+}
+
 :host mdl-card-title > h2 {
   display: block;
   text-overflow: ellipsis;

@@ -5,11 +5,19 @@ import { VirtualMachine } from './vm.model';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 import { IStorageService } from '../shared/services/storage.service';
+import {
+  JobsNotificationService,
+  INotificationStatus
+} from '../shared/services/jobs-notification.service';
 
+import { IVmAction } from './vm.model';
+import { IAsyncJob } from '../shared/models/async-job.model';
+import { AsyncJobService } from '../shared/services/async-job.service';
 
-interface IVmAction {
+interface IVmActionEvent {
   id: string;
-  action: string;
+  action: IVmAction;
+  vm: VirtualMachine;
   templateId?: string;
 }
 
@@ -28,6 +36,8 @@ export class VmListComponent implements OnInit {
     private dialogService: MdlDialogService,
     private translateService: TranslateService,
     @Inject('IStorageService') protected storageService: IStorageService,
+    private jobsNotificationService: JobsNotificationService,
+    private asyncJobService: AsyncJobService
   ) { }
 
   public ngOnInit() {
@@ -52,81 +62,37 @@ export class VmListComponent implements OnInit {
           this.showDialog(translations);
         });
       });
+    this.asyncJobService.event.subscribe((job: IAsyncJob<VirtualMachine>) => {
+      if (job.jobResult.state === 'Destroyed') {
+        this.vmList.splice(this.vmList.findIndex(vm => vm.id === job.jobResult.id), 1);
+      }
+    });
   }
 
-  public update() {
-    this.vmService.getList()
-      .then(vmList => this.vmList = vmList);
-  }
-
-  public onVmAction(e: IVmAction) {
-    switch (e.action) {
-      case 'start':
-        this.translateService.get(['CONFIRM_VM_START', 'NO', 'YES']).subscribe(strs => {
-          this.dialogService.confirm(strs.CONFIRM_VM_START, strs.NO, strs.YES)
-            .toPromise() // hack to fix incorrect component behavior
-            .then(r => {
-              this.vmService.startVM(e.id)
-                .subscribe(res => {
-                  this.update();
-                });
-            })
-            .catch(() => {});
+  public onVmAction(e: IVmActionEvent) {
+    this.translateService.get([
+      'YES',
+      'NO',
+      e.action.confirmMessage,
+      e.action.progressMessage,
+      e.action.successMessage
+    ]).subscribe(strs => {
+      this.dialogService.confirm(strs[e.action.confirmMessage], strs.NO, strs.YES)
+        .toPromise()
+        .then(r => {
+          e.vm.state = e.action.vmStateOnAction;
+          let id = this.jobsNotificationService.add(strs[e.action.progressMessage]);
+          this.vmService.command(e.vm.id, e.action.nameLower)
+            .subscribe(result => {
+              this.jobsNotificationService.add({
+                id,
+                message: strs[e.action.successMessage],
+                status: INotificationStatus.Finished
+              });
+            }
+          );
         });
-        break;
-      case 'stop':
-        this.translateService.get(['CONFIRM_VM_STOP', 'NO', 'YES']).subscribe(strs => {
-          this.dialogService.confirm(strs.CONFIRM_VM_STOP, strs.NO, strs.YES)
-            .toPromise()
-            .then(r => {
-              this.vmService.stopVM(e.id)
-                .subscribe(res => {
-                  this.update();
-                });
-            })
-            .catch(() => {});
-        });
-        break;
-      case 'reboot':
-        this.translateService.get(['CONFIRM_VM_REBOOT', 'NO', 'YES']).subscribe(strs => {
-          this.dialogService.confirm(strs.CONFIRM_VM_RESTART, strs.NO, strs.YES)
-            .toPromise()
-            .then(r => {
-              this.vmService.rebootVM(e.id)
-                .subscribe(res => {
-                  this.update();
-                });
-            })
-            .catch(() => {});
-        });
-        break;
-      case 'restore':
-        this.translateService.get(['CONFIRM_VM_RESTORE', 'NO', 'YES']).subscribe(strs => {
-          this.dialogService.confirm(strs.CONFIRM_VM_RESTORE, strs.NO, strs.YES)
-            .toPromise()
-            .then(r => {
-              this.vmService.restoreVM(e.id, e.templateId)
-                .subscribe(res => {
-                  this.update();
-                });
-            })
-            .catch(() => {});
-        });
-        break;
-      case 'destroy':
-        this.translateService.get(['CONFIRM_VM_DESTROY', 'NO', 'YES']).subscribe(strs => {
-          this.dialogService.confirm(strs.CONFIRM_VM_DESTROY, strs.NO, strs.YES)
-            .toPromise()
-            .then(r => {
-              this.vmService.destroyVM(e.id)
-                .subscribe(res => {
-                  this.update();
-                });
-            })
-            .catch(() => {});
-        });
-        break;
-    }
+    });
   }
 
   public showDetail(vm: VirtualMachine) {
