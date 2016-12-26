@@ -6,7 +6,7 @@ export enum INotificationStatus {
 }
 
 export interface INotification {
-  id?: string;
+  id: string;
   message?: string;
   status?: INotificationStatus;
 }
@@ -49,9 +49,10 @@ export class JobsNotificationService {
       notification.status = INotificationStatus.Pending;
       this.notifications.unshift(notification);
       this._pendingJobsCount++;
-      return;
+      return notification.id;
     }
     Object.assign(this.notifications[ind], notification);
+    return notification.id;
   }
 
   public remove(id: string): void {
