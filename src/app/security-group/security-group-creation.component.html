@@ -51,44 +51,42 @@
 <div class="rules-list">
   <h5>{{ 'NETWORK_RULES' | translate }}</h5>
   <mdl-list>
-    <template ngFor let-securityGroup [ngForOf]="items[1]">
-      <mdl-list-item *ngFor="let rule of securityGroup.ingressRules">
-        <mdl-list-item-primary-content>
-          Ingress
-          {{ rule.CIDR }}
-          {{ rule.protocol.toUpperCase() }}
-          <template [ngIf]="rule.protocol === 'icmp'">
-            {{ rule.icmpCode }}
-            {{ rule.icmpType }}
-          </template>
-          <template [ngIf]="rule.protocol !== 'icmp'">
-            {{ rule.startPort }}
-            {{ rule.endPort }}
-          </template>
-        </mdl-list-item-primary-content>
-        <mdl-list-item-secondary-action>
-          <mdl-checkbox mdl-ripple></mdl-checkbox>
-        </mdl-list-item-secondary-action>
-      </mdl-list-item>
-      <mdl-list-item *ngFor="let rule of securityGroup.egressRules">
-        <mdl-list-item-primary-content>
-          Egress
-          {{ rule.CIDR }}
-          {{ rule.protocol.toUpperCase() }}
-          <template [ngIf]="rule.protocol === 'icmp'">
-            {{ rule.icmpCode }}
-            {{ rule.icmpType }}
-          </template>
-          <template [ngIf]="rule.protocol !== 'icmp'">
-            {{ rule.startPort }}
-            {{ rule.endPort }}
-          </template>
-        </mdl-list-item-primary-content>
-        <mdl-list-item-secondary-action>
-          <mdl-checkbox mdl-ripple></mdl-checkbox>
-        </mdl-list-item-secondary-action>
-      </mdl-list-item>
-    </template>
+    <mdl-list-item *ngFor="let item of selectedRules[0]">
+      <mdl-list-item-primary-content>
+        Ingress
+        {{ item.rule.CIDR }}
+        {{ item.rule.protocol.toUpperCase() }}
+        <template [ngIf]="item.rule.protocol === 'icmp'">
+          {{ item.rule.icmpCode }}
+          {{ item.rule.icmpType }}
+        </template>
+        <template [ngIf]="item.rule.protocol !== 'icmp'">
+          {{ item.rule.startPort }}
+          {{ item.rule.endPort }}
+        </template>
+      </mdl-list-item-primary-content>
+      <mdl-list-item-secondary-action>
+        <mdl-checkbox mdl-ripple (change)="onCheckBoxChange()" [(ngModel)]="item.checked"></mdl-checkbox>
+      </mdl-list-item-secondary-action>
+    </mdl-list-item>
+    <mdl-list-item *ngFor="let item of selectedRules[1]">
+      <mdl-list-item-primary-content>
+        Egress
+        {{ item.rule.CIDR }}
+        {{ item.rule.protocol.toUpperCase() }}
+        <template [ngIf]="item.rule.protocol === 'icmp'">
+          {{ item.rule.icmpCode }}
+          {{ item.rule.icmpType }}
+        </template>
+        <template [ngIf]="item.rule.protocol !== 'icmp'">
+          {{ item.rule.startPort }}
+          {{ item.rule.endPort }}
+        </template>
+      </mdl-list-item-primary-content>
+      <mdl-list-item-secondary-action>
+        <mdl-checkbox mdl-ripple (change)="onCheckBoxChange()" [(ngModel)]="item.checked"></mdl-checkbox>
+      </mdl-list-item-secondary-action>
+    </mdl-list-item>
   </mdl-list>
 </div>
 <div style="text-align: right;">

@@ -1,5 +1,6 @@
 import { NgModule }      from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
 
@@ -9,6 +10,7 @@ import { SecurityGroupCreationComponent } from './security-group-creation.compon
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     TranslateModule,
     MdlModule
   ],
