@@ -75,5 +75,10 @@
     "isSystem": "System",
     "defaultUse": "Default",
     "isCustomized": "Customized"
-  }
+  },
+  "ALL_GROUPS": "All groups",
+  "SELECTED_GROUPS": "Selected groups",
+  "NETWORK_RULES": "Network rules",
+  "CANCEL": "Cancel",
+  "SAVE": "Save"
 }

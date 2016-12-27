@@ -1,6 +1,6 @@
 <div class="list-builder">
   <div class="left-list">
-    <h5>All groups</h5>
+    <h5>{{ 'ALL_GROUPS' | translate }}</h5>
     <mdl-list>
       <mdl-list-item
         *ngFor="let secuityGroup of items[0]; let i=index"
@@ -33,7 +33,7 @@
     </button>
   </div>
   <div class="right-list">
-    <h5>Selected groups</h5>
+    <h5>{{ 'SELECTED_GROUPS' | translate }}</h5>
     <mdl-list>
       <mdl-list-item
         *ngFor="let secuityGroup of items[1]; let i=index"
@@ -49,7 +49,7 @@
   </div>
 </div>
 <div class="rules-list">
-  <h5>VM network group rules</h5>
+  <h5>{{ 'NETWORK_RULES' | translate }}</h5>
   <mdl-list>
     <template ngFor let-securityGroup [ngForOf]="items[1]">
       <mdl-list-item *ngFor="let rule of securityGroup.ingressRules">
@@ -93,9 +93,9 @@
 </div>
 <div style="text-align: right;">
   <button mdl-button>
-    Cancel
+    {{ 'CANCEL' | translate }}
   </button>
-  <button mdl-button>
-    Save
+  <button mdl-button (click)="save()">
+    {{ 'SAVE' | translate }}
   </button>
 </div>

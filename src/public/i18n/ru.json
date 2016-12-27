@@ -56,5 +56,10 @@
     "isSystem": "Системная",
     "defaultUse": "По умолчанию",
     "isCustomized": "Настраиваемая"
-  }
+  },
+  "ALL_GROUPS": "Все группы",
+  "SELECTED_GROUPS": "Выбранные группы",
+  "NETWORK_RULES": "Правила сети",
+  "CANCEL": "Отмена",
+  "SAVE": "Сохранить"
 }
