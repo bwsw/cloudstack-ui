@@ -43,6 +43,9 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
 import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
 
+import { ConfigService } from './shared/config.service';
+import { SecurityGroupModule } from './security-group/security-group.module';
+
 
 @NgModule({
   imports: [
@@ -52,7 +55,8 @@ import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
     TranslateModule.forRoot(),
     routing,
     MdlModule,
-    MdlPopoverModule
+    MdlPopoverModule,
+    SecurityGroupModule
   ],
   declarations: [
     AboutComponent,
@@ -71,6 +75,7 @@ import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
     AuthGuard,
     AsyncJobService,
     AuthService,
+    ConfigService,
     ErrorService,
     JobsNotificationService,
     { provide: 'INotificationService', useClass: NotificationService },
