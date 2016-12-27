@@ -5,7 +5,7 @@ import { VirtualMachine } from './vm.model';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 import { IStorageService } from '../shared/services/storage.service';
-import { VmCreateComponent } from "./vm-create.component";
+import { VmCreateComponent } from './vm-create.component';
 import {
   JobsNotificationService,
   INotificationStatus
@@ -74,19 +74,26 @@ export class VmListComponent implements OnInit {
   }
 
   public deployVm() {
-    this.vmCreationForm.deployVm()
-      .then(result => {
-        this.vmService.get(result.id)
-          .then(result => {
-            this.vmList.push(result);
-            let id = this.jobsNotificationService.add('Deploying a VM');
-            this.jobsNotificationService.add({
-              id,
-              message: 'VM has been deployed',
-              status: INotificationStatus.Finished
-            });
+    this.translateService.get([
+      'VM_DEPLOY_IN_PROGRESS',
+      'DEPLOY_DONE'])
+      .subscribe(strs => {
+        let id = this.jobsNotificationService.add(strs.VM_DEPLOY_IN_PROGRESS);
+        this.vmService.getDeployJob(this.vmCreationForm.deployVm)
+          .subscribe(result => {
+            this.vmService.get(result.id)
+              .then(r => {
+                this.vmList.push(r);
+              });
+            this.vmService.checkDeploy(result.jobid)
+              .subscribe(() => {
+                this.jobsNotificationService.add({
+                  id,
+                  message: strs.DEPLOY_DONE,
+                  status: INotificationStatus.Finished
+                });
+              });
           });
-        this.asyncJobService.addJob(result.jobid);
       });
   }
 

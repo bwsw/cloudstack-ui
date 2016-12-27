@@ -1,8 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-
-import { BACKEND_API_URL, BaseBackendService } from '../shared/services/base-backend.service';
-import { VmService } from './vm.service';
-import { TranslateService } from 'ng2-translate';
+import { Component } from '@angular/core';
+import { BaseBackendService } from '../shared/services/base-backend.service';
 import { ZoneService } from '../shared/services/zone.service';
 import { Zone } from '../shared/models/zone.model';
 import { SSHKeyPair } from '../shared/models/SSHKeyPair.model';
@@ -12,9 +9,8 @@ import { RootDiskSizeService } from '../shared/services/root-disk-size.service';
 import { AffinityGroupService } from '../shared/services/affinity-group.service';
 import { AffinityGroup } from '../shared/models/affinity-group.model';
 import { SSHKeyPairService } from '../shared/services/SSHKeyPair.service';
-import { MdlDialogService } from "angular2-mdl";
-import { BaseModel } from "../shared/models/base.model";
-import { URLSearchParams } from "@angular/http";
+import { BaseModel } from '../shared/models/base.model';
+
 
 class VmCreateStub extends BaseModel { }
 
@@ -42,19 +38,22 @@ export class VmCreateComponent extends BaseBackendService<VmCreateStub> {
 
   public keyboards = ['us', 'uk', 'jp', 'sc'];
 
-  constructor(private vmService: VmService,
-              private translateService: TranslateService,
-              private zoneService: ZoneService,
-              private serviceOfferingService: ServiceOfferingService,
-              private rootDiskSizeService: RootDiskSizeService,
-              private affinityGroupService: AffinityGroupService,
-              private sshService: SSHKeyPairService,
-              private dialogService: MdlDialogService) {
+  constructor(
+    private zoneService: ZoneService,
+    private serviceOfferingService: ServiceOfferingService,
+    private rootDiskSizeService: RootDiskSizeService,
+    private affinityGroupService: AffinityGroupService,
+    private sshService: SSHKeyPairService
+  ) {
     super();
+    this.refresh();
+  }
+
+  public refresh(): void {
     this.doStartVm = true;
-    this.rootDiskSize = 0;
+    this.rootDiskSize = 9;
     this.ssh = '';
-    this.affinityGroup = -1;
+    this.affinityGroup = -1; // not selected
     this.keyboard = 'us';
     this.zoneService.getList().then(result => {
       if (result) {
@@ -79,7 +78,6 @@ export class VmCreateComponent extends BaseBackendService<VmCreateStub> {
       this.affinityGroups = result ? result : [];
     });
     this.sshService.getList().then(result => {
-      console.log(result);
       if (result) {
         this.sshKeyPairs = result;
         this.ssh = result[0].name;
@@ -89,32 +87,25 @@ export class VmCreateComponent extends BaseBackendService<VmCreateStub> {
     });
   }
 
-  public deployVm(): Promise<any> {
+  public get deployVm(): {} {
     let params = {
       'serviceofferingid': this.serviceOffering,
-      'templateid': '166e45c1-5ca7-45a0-9111-73e39953f05f',
+      'templateid': '166e45c1-5ca7-45a0-9111-73e39953f05f', // temp
       'zoneid': this.zone,
       'response': 'json'
     };
 
-    if (this.name) params['name'] = this.name;
-    if (this.description) params['description'] = this.description;
-    if (this.affinityGroup !== -1) params['affinitygroupid'] = this.affinityGroup;
-    if (this.rootDiskSize) params['rootdisksize'] = this.rootDiskSize;
-    if (!this.doStartVm) params['startvm'] = 'false';
-    params['securitygroupids'] = 'c5ffdfe0-7de4-4373-bd55-128e434c81d1';
+    if (this.name) { params['name'] = this.name; }
+    if (this.description) { params['description'] = this.description; }
+    if (this.affinityGroup !== -1) { params['affinitygroupid'] = this.affinityGroup; }
+    if (this.rootDiskSize >= 10) { params['rootdisksize'] = this.rootDiskSize; } // 10GB is temporary. need to employ
+                                                                                 // the resource service to get min size
+                                                                                 // or something
+    if (!this.doStartVm) { params['startvm'] = 'false'; }
+    params['securitygroupids'] = 'c5ffdfe0-7de4-4373-bd55-128e434c81d1'; // temp
     params['keyboard'] = this.keyboard;
     params['keypair'] = this.ssh;
 
-    const urlParams = new URLSearchParams();
-    urlParams.append('command', 'deployVirtualMachine');
-
-    for (let key in params) {
-      if (params.hasOwnProperty(key)) {
-        urlParams.set(key, params[key]);
-      }
-    }
-
-    return this.http.get(BACKEND_API_URL, {search: urlParams}).toPromise();
+    return params;
   }
 }

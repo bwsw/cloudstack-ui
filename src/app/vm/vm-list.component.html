@@ -27,6 +27,8 @@
 </div>
 <mdl-dialog
   #vmCreateDialog
+  id="vmCreateDialog"
+  name="vmCreateDialog"
   [mdl-dialog-config]="{
     openFrom: vmCreateButton,
     clickOutsideToClose: true,
@@ -38,7 +40,7 @@
 >
   <cs-vm-create #vmCreateForm></cs-vm-create>
   <div class="mdl-dialog__actions">
-    <button mdl-button (click)="deployVm(); vmCreateDialog.close();" mdl-ripple>Save</button>
-    <button mdl-button (click)="vmCreateDialog.close()" mdl-ripple>Cancel</button>
+    <button mdl-button (click)="deployVm(); vmCreateDialog.close();" mdl-ripple>{{ 'CONFIRM' | translate }}</button>
+    <button mdl-button (click)="vmCreateDialog.close()" mdl-ripple>{{ 'CANCEL' | translate }}</button>
   </div>
 </mdl-dialog>

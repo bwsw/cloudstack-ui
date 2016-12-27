@@ -3,7 +3,7 @@
     <div>
       <mdl-textfield
         type="text"
-        label="Name"
+        label="{{ 'VM_CREATION_FORM.NAME' | translate }}"
         id="name"
         name="name"
         [(ngModel)]="name">
@@ -12,7 +12,7 @@
     <div>
       <mdl-textfield
         type="text"
-        label="Description"
+        label="{{ 'VM_CREATION_FORM.DESCRIPTION' | translate }}"
         id="description"
         name="description"
         [(ngModel)]="description">
@@ -22,44 +22,44 @@
       <mdl-textfield
         [disabled]="true"
         type="text"
-        label="Template stub"
+        label="{{ 'VM_CREATION_FORM.TEMPLATE' | translate }}"
         id="template"
         name="template"
         [(ngModel)]="template">
       </mdl-textfield>
     </div>
-    <h5>Service offering</h5>
+    <h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>
     <div>
       <mdl-select [(ngModel)]="serviceOffering">
         <mdl-option *ngFor="let so of serviceOfferings" [value]="so.id" >{{so.name}}</mdl-option>
       </mdl-select>
     </div>
-    <h5>Zone</h5>
+    <h5>{{ 'VM_CREATION_FORM.ZONE' | translate }}</h5>
     <div>
       <mdl-select [(ngModel)]="zone">
         <mdl-option *ngFor="let z of zones" [value]="z.id" >{{z.name}}</mdl-option>
       </mdl-select>
     </div>
     <div style="position:relative; width:300px">
-      <h5 style="padding-bottom: 24px; display: inline-block">Root disk size</h5>
-      <h5 style="display:inline-block; position:absolute; right:0px;">{{rootDiskSize ? rootDiskSize + ' GB' : 'Auto'}}</h5>
+      <h5 style="padding-bottom: 24px; display: inline-block">{{ 'VM_CREATION_FORM.ROOT_DISK_SIZE' | translate }}</h5>
+      <h5 style="display:inline-block; position:absolute; right:0px;">{{rootDiskSize >= 10 ? rootDiskSize + ' GB' : 'Auto'}}</h5>
     </div>
     <div style="width:348px; position: relative; left:-24px">
       <mdl-slider
-        max="{{rootDiskSizeLimit || 1}}"
+        max="{{rootDiskSizeLimit || 10}}"
         id="rootDiskSize"
         name="rootDiskSize"
-        value="0"
+        value="9"
         [(ngModel)]="rootDiskSize"
         mdl-tooltip-position="top"
-        min="0"
+        min="9"
       >
       </mdl-slider>
       <!--<mdl-tooltip  #tt1="mdlTooltip">{{rootDiskSize ? rootDiskSize + ' GB' : 'Auto'}}</mdl-tooltip>-->
     </div>
   </div>
   <div class="right-column" style="margin-left:57px; padding-right: 30px">
-    <h5>Affinity groups</h5>
+    <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
     <div>
       <mdl-select [(ngModel)]="affinityGroup">
         <mdl-option [value]="-1">{{'NO_AFFINITY_GROUP' | translate}}</mdl-option>
@@ -67,17 +67,18 @@
       </mdl-select>
     </div>
     <div style="position: relative; width:300px">
-      <h5 style="display:inline-block">Network group</h5>
+      <h5 style="display:inline-block">{{ 'VM_CREATION_FORM.SECURITY_GROUPS' | translate }}</h5>
       <button mdl-button mdl-ripple style="margin-top: 16px; display:inline-block; position:absolute; right: 0">Create</button>
+      <!-- vvv placeholder for security group templates vvv -->
       <div class="network-security-info">Based on security group 1, security group 2, etc.</div>
     </div>
-    <h5>Keyboard layout</h5>
+    <h5>{{ 'VM_CREATION_FORM.KEYBOARD_LAYOUT' | translate }}</h5>
     <div>
       <mdl-select [(ngModel)]="keyboard">
         <mdl-option *ngFor="let k of keyboards" [value]="k">{{ ('KB_' + k.toUpperCase()) | translate }}</mdl-option>
       </mdl-select>
     </div>
-    <h5>SSH keypair</h5>
+    <h5>{{ 'VM_CREATION_FORM.SSH_KEYPAIR' | translate }}</h5>
     <div>
       <mdl-select [(ngModel)]="ssh">
         <mdl-option *ngFor="let k of sshKeyPairs" [value]="k.name">{{k.name}}</mdl-option>
@@ -85,7 +86,7 @@
     </div>
     <div class="start-vm-checkbox">
       <mdl-checkbox [(ngModel)]="doStartVm">
-        Start VM
+        {{ 'VM_CREATION_FORM.START_VM' | translate }}
       </mdl-checkbox>
     </div>
   </div>

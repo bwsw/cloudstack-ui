@@ -45,7 +45,7 @@ import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
-import { MdlSelectModule } from "@angular2-mdl-ext/select";
+import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
 
 

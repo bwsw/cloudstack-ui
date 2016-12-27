@@ -20,6 +20,7 @@
   "VM_REBOOT_IN_PROGRESS": "Rebooting a VM",
   "VM_RESTORE_IN_PROGRESS": "Restoring a VM",
   "VM_DESTROY_IN_PROGRESS": "Destroying a VM",
+  "VM_DEPLOY_IN_PROGRESS": "Deploying a VM",
   "CONFIRM_VM_START": "Are you sure you want to start this virtual machine?",
   "CONFIRM_VM_STOP": "Are you sure you want to stop this virtual machine?",
   "CONFIRM_VM_REBOOT": "Are you sure you want to reboot this virtual machine?",
@@ -30,8 +31,11 @@
   "REBOOT_DONE": "VM has been rebooted",
   "RESTORE_DONE": "VM has been restored",
   "DESTROY_DONE": "VM has been destroyed",
+  "DEPLOY_DONE": "VM has been deployed",
   "YES": "Yes",
   "NO": "No",
+  "CONFIRM": "Confirm",
+  "CANCEL": "Cancel",
   "START": "Start",
   "STOP": "Stop",
   "REBOOT": "Reboot",
@@ -92,5 +96,19 @@
     "isSystem": "System",
     "defaultUse": "Default",
     "isCustomized": "Customized"
+  },
+  "VM_CREATION_FORM": {
+    "NAME": "Name",
+    "DESCRIPTION": "Description",
+    "TEMPLATE": "Template",
+    "SERVICE_OFFERING": "Service offering",
+    "ZONE": "Zone",
+    "ROOT_DISK_SIZE": "Root disk size",
+    "AFFINITY_GROUPS": "Affinity groups",
+    "SECURITY_GROUPS": "Security groups",
+    "CREATE_SECURITY": "Create",
+    "KEYBOARD_LAYOUT": "Keyboard layout",
+    "SSH_KEYPAIR": "SSH keypair",
+    "START_VM": "Start VM"
   }
 }

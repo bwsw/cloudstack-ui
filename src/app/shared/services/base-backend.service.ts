@@ -53,7 +53,6 @@ export abstract class BaseBackendService<M extends BaseModel> {
     }
 
     urlParams.set('response', 'json');
-    console.log(urlParams);
     return urlParams;
   }
 
