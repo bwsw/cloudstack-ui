@@ -24,6 +24,7 @@ export class VmListItemComponent implements OnInit {
     this.asyncJobService.event.subscribe((job: IAsyncJob<VirtualMachine>) => {
       if (job.jobResult.id === this.vm.id) {
         this.vm.state = job.jobResult.state;
+        this.vm.nic[0] = job.jobResult.nic[0];
       }
     });
   }

@@ -76,13 +76,15 @@ export class VmListComponent implements OnInit {
   public deployVm() {
     this.translateService.get([
       'VM_DEPLOY_IN_PROGRESS',
-      'DEPLOY_DONE'])
-      .subscribe(strs => {
+      'DEPLOY_DONE',
+      'DEPLOY_IN_PROGRESS'
+    ]).subscribe(strs => {
         let id = this.jobsNotificationService.add(strs.VM_DEPLOY_IN_PROGRESS);
         this.vmService.getDeployJob(this.vmCreationForm.deployVm)
           .subscribe(result => {
             this.vmService.get(result.id)
               .then(r => {
+                r.state = 'Deploying';
                 this.vmList.push(r);
               });
             this.vmService.checkDeploy(result.jobid)
