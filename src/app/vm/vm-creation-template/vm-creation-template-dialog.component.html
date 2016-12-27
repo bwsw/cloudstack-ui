@@ -1,0 +1,33 @@
+<div class="wrapper" *ngIf="loaded">
+  <div class="title"><h4>Templates</h4></div>
+
+  <mdl-tabs mdl-ripple  [mdl-tab-active-index]="0" *ngIf="templates.length > 1">
+      <mdl-tab-panel [mdl-tab-panel-title]="templateSet.name" *ngFor="let templateSet of templates">
+        <mdl-list>
+          <cs-vm-creation-template-dialog-list-element
+            *ngFor="let template of templateSet.templates"
+            [template]="template"
+            (selected)="onSelect($event)"
+          ></cs-vm-creation-template-dialog-list-element>
+        </mdl-list>
+      </mdl-tab-panel>
+  </mdl-tabs>
+
+  <mdl-list *ngIf="templates.length == 1">
+    <cs-vm-creation-template-dialog-list-element
+      *ngFor="let template of singleTemplateProvider"
+      [template]="template"
+      (selected)="onSelect($event)"
+    ></cs-vm-creation-template-dialog-list-element>
+  </mdl-list>
+
+  <div class="no-templates" *ngIf="templates.length == 0">
+    <h5>You don't have any templates</h5>
+  </div>
+
+  <button
+    mdl-button
+    mdl-colored="primary"
+    (click)="onOk()"
+  >Ok</button>
+</div>

@@ -1,0 +1,17 @@
+<mdl-list-item lines="2" *ngIf="template">
+  <mdl-list-item-primary-content>
+    <span>{{template.name}}</span>
+    <mdl-list-item-sub-title>
+      Description: {{template.displayText}}
+    </mdl-list-item-sub-title>
+  </mdl-list-item-primary-content>
+  <mdl-list-item-secondary-content>
+    <mdl-radio
+      name="template-radio1"
+      [value]="template.id"
+      [(ngModel)]="radioOption"
+      (click)="onSelect()"
+      mdl-ripple
+    ></mdl-radio>
+  </mdl-list-item-secondary-content>
+</mdl-list-item>

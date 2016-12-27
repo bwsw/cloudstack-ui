@@ -11,7 +11,8 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
 import { VmCreationTemplateComponent } from './vm/vm-creation-template/vm-creation-template.component';
-import { VmCreationTemplateListElementComponent } from './vm/vm-creation-template/vm-creation-template-list-element.component';
+import { VmCreationTemplateDialogComponent } from './vm/vm-creation-template/vm-creation-template-dialog.component';
+import { VmCreationTemplateDialogListElementComponent } from './vm/vm-creation-template/vm-creation-template-dialog-list-element.component';
 import { VmListComponent } from './vm/vm-list.component';
 import { VmListItemComponent } from './vm/vm-list-item.component';
 import { NotificationBoxComponent } from './notification-box.component';
@@ -61,11 +62,16 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
     LoginComponent,
     LogoutComponent,
     VmCreationTemplateComponent,
-    VmCreationTemplateListElementComponent,
+    VmCreationTemplateDialogComponent,
+    VmCreationTemplateDialogListElementComponent,
     VmListComponent,
     VmListItemComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent
+  ],
+  entryComponents: [
+    VmCreationTemplateDialogComponent,
+    VmCreationTemplateDialogListElementComponent
   ],
   providers: [
     ApiService,

@@ -1,40 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { TemplateService } from '../../shared/services';
-import { Template } from '../../shared/models';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
+import { VmCreationTemplateDialogComponent } from './vm-creation-template-dialog.component';
+import { PRESELECTED_TEMPLATE_TOKEN } from './injector-token';
 
 @Component({
   selector: 'cs-vm-creation-template',
-  templateUrl: './vm-creation-template.component.html',
-  styleUrls: ['./vm-creation-template.component.scss']
+  templateUrl: 'vm-creation-template.component.html'
 })
-export class VmCreationTemplateComponent implements OnInit {
-  private featuredTemplates: Promise<Array<Template>>; // here async draw
-  private communityTemplates: Array<Template>;
-  private selfExecutableTemplates: Array<Template>;
-  private sharedExecutableTemplates: Array<Template>;
+export class VmCreationTemplateComponent {
+  @Input() public preSelected: string;
+  @Output() public selected: EventEmitter<string>;
 
-  private radioOption: any;
-  private templateFilterValues: Array<string>;
-
-  constructor(private templateService: TemplateService) {
-    this.templateFilterValues = new Array<string>();
-    this.templateFilterValues.push('featured', 'community', 'selfexecutable', 'sharedexecutable');
+  constructor(private dialogService: MdlDialogService) {
+    this.selected = new EventEmitter<string>();
   }
 
-  public ngOnInit() {
-    this.featuredTemplates = this.templateService.getList({templatefilter: 'featured'});
-    // this.templateService.getList({templatefilter: 'community'})
-    //   .then(data => this.communityTemplates = data);
-    // this.templateService.getList({templatefilter: 'selfexecutable'})
-    //   .then(data => this.selfExecutableTemplates = data);
-    // this.templateService.getList({templatefilter: 'sharedexecutable'})
-    //   .then(data => this.sharedExecutableTemplates = data);
-  }
+  private onClick () {
+    let pDialog = this.dialogService.showCustomDialog({
+      component: VmCreationTemplateDialogComponent,
+      providers: [{provide: PRESELECTED_TEMPLATE_TOKEN, useValue: this.preSelected}],
+      isModal: true,
+      styles: {'width': '528px', 'padding': '0.9em' }, // 500 - width of component; ~ 14*2 - left and right paddings
 
-  private tabChanged(event: {index: number}) {
-    console.log(event);
+    });
+    pDialog.subscribe( (dialogReference: MdlDialogReference) => {
+      console.log('dialog visible', dialogReference);
+      let a = dialogReference.onHide();
+      a.subscribe(d => console.log(d));
+    });
   }
-
 }
-
-
