@@ -9,8 +9,8 @@ import { AffinityGroupService } from '../shared/services/affinity-group.service'
 import { AffinityGroup } from '../shared/models/affinity-group.model';
 import { SSHKeyPairService } from '../shared/services/SSHKeyPair.service';
 import { MdlDialogComponent } from 'angular2-mdl';
-import { VmService } from "./vm.service";
-import { TranslateService } from "ng2-translate";
+import { VmService } from './vm.service';
+import { TranslateService } from 'ng2-translate';
 
 import {
   JobsNotificationService,
@@ -26,7 +26,7 @@ import {
 export class VmCreateComponent {
 
   @ViewChild(MdlDialogComponent) public vmCreateDialog: MdlDialogComponent;
-  @Output() onCreated: EventEmitter<any> = new EventEmitter();
+  @Output() public onCreated: EventEmitter<any> = new EventEmitter();
 
   public name: string;
   public description: string;
@@ -100,6 +100,33 @@ export class VmCreateComponent {
   }
 
   public deployVm(): void {
+    let params = this.vmCreateParams;
+    this.translateService.get([
+      'VM_DEPLOY_IN_PROGRESS',
+      'DEPLOY_DONE',
+      'DEPLOY_IN_PROGRESS'
+    ]).subscribe(strs => {
+      let id = this.jobsNotificationService.add(strs.VM_DEPLOY_IN_PROGRESS);
+      this.vmService.deploy(params)
+        .subscribe(result => {
+          this.vmService.get(result.id)
+            .then(r => {
+              r.state = 'Deploying';
+              this.onCreated.next(r);
+            });
+          this.vmService.checkDeploy(result.jobid)
+            .subscribe(() => {
+              this.jobsNotificationService.add({
+                id,
+                message: strs.DEPLOY_DONE,
+                status: INotificationStatus.Finished
+              });
+            });
+        });
+    });
+  }
+
+  private get vmCreateParams(): {} {
     let params = {
       'serviceofferingid': this.serviceOfferingId,
       'templateid': '166e45c1-5ca7-45a0-9111-73e39953f05f', // temp
@@ -118,29 +145,6 @@ export class VmCreateComponent {
     params['keyboard'] = this.keyboard;
     params['keypair'] = this.sshId;
 
-    this.translateService.get([
-      'VM_DEPLOY_IN_PROGRESS',
-      'DEPLOY_DONE',
-      'DEPLOY_IN_PROGRESS'
-    ]).subscribe(strs => {
-      let id = this.jobsNotificationService.add(strs.VM_DEPLOY_IN_PROGRESS);
-
-      this.vmService.deploy(params)
-        .subscribe(result => {
-          this.vmService.get(result.id)
-            .then(r => {
-              r.state = 'Deploying';
-              this.onCreated.next(r);
-            });
-          this.vmService.checkDeploy(result.jobid)
-            .subscribe(() => {
-              this.jobsNotificationService.add({
-                id,
-                message: strs.DEPLOY_DONE,
-                status: INotificationStatus.Finished
-              });
-            });
-        });
-    });
+    return params;
   }
 }

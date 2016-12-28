@@ -31,7 +31,6 @@ export class VmListComponent implements OnInit {
 
   @ViewChild(VmCreateComponent) private vmCreationForm: VmCreateComponent;
 
-
   private vmList: Array<VirtualMachine>;
   private selectedVm: VirtualMachine;
   private isDetailOpen: boolean;
