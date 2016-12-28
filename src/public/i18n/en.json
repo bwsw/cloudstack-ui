@@ -52,6 +52,7 @@
   "STATISTICS": "Statistics",
   "TAKE_SNAPSHOT": "Take snapshot",
   "NO_AFFINITY_GROUP": "No affinity group",
+  "IP_NA": "IP N/A",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "CPU utilized",
     "NETWORK_READ": "Network read",
