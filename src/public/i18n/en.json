@@ -87,5 +87,12 @@
     "isSystem": "System",
     "defaultUse": "Default",
     "isCustomized": "Customized"
-  }
+  },
+  "ALL_GROUPS": "All templates",
+  "SELECTED_GROUPS": "Selected templates",
+  "NETWORK_RULES": "Network rules",
+  "CANCEL": "Cancel",
+  "SAVE": "Save",
+  "CREATE": "Create",
+  "EDIT": "Edit"
 }
