@@ -18,6 +18,7 @@ import { SecurityGroupCreationComponent } from './security-group-creation.compon
     SecurityGroupCreationComponent
   ],
   declarations: [ SecurityGroupCreationComponent ],
-  providers: [ SecurityGroupService ]
+  providers: [ SecurityGroupService ],
+  entryComponents: [ SecurityGroupCreationComponent ]
 })
 export class SecurityGroupModule { }

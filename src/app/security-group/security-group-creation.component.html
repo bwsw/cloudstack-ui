@@ -66,7 +66,7 @@
         </template>
       </mdl-list-item-primary-content>
       <mdl-list-item-secondary-action>
-        <mdl-checkbox mdl-ripple (change)="onCheckBoxChange()" [(ngModel)]="item.checked"></mdl-checkbox>
+        <mdl-checkbox mdl-ripple [(ngModel)]="item.checked"></mdl-checkbox>
       </mdl-list-item-secondary-action>
     </mdl-list-item>
     <mdl-list-item *ngFor="let item of selectedRules[1]">
@@ -84,16 +84,16 @@
         </template>
       </mdl-list-item-primary-content>
       <mdl-list-item-secondary-action>
-        <mdl-checkbox mdl-ripple (change)="onCheckBoxChange()" [(ngModel)]="item.checked"></mdl-checkbox>
+        <mdl-checkbox mdl-ripple [(ngModel)]="item.checked"></mdl-checkbox>
       </mdl-list-item-secondary-action>
     </mdl-list-item>
   </mdl-list>
 </div>
 <div style="text-align: right;">
-  <button mdl-button>
+  <button mdl-button (click)="onCancel()">
     {{ 'CANCEL' | translate }}
   </button>
-  <button mdl-button (click)="save()">
+  <button mdl-button (click)="onSave()">
     {{ 'SAVE' | translate }}
   </button>
 </div>

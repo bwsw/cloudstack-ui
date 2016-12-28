@@ -1,14 +1,15 @@
-import { Component, OnInit, Output, EventEmitter, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { SecurityGroupService } from './security-group.service';
 import { SecurityGroup, NetworkRule } from './security-group.model';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MdlDialogReference } from 'angular2-mdl';
 
 interface RuleListItem {
   rule: NetworkRule;
   checked: boolean;
 }
 
-export interface IRules { // defines what should be passed to ngModel
+export interface IRules { // defines what should be passed to inputRules
+  templates?: Array<string>; // array of security groups ids
   ingress: Array<NetworkRule>;
   egress: Array<NetworkRule>;
 }
@@ -17,25 +18,18 @@ export interface IRules { // defines what should be passed to ngModel
   selector: 'cs-security-group-creation',
   templateUrl: './security-group-creation.component.html',
   styleUrls: ['./security-group-creation.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SecurityGroupCreationComponent),
-      multi: true
-    }
-  ]
 })
-export class SecurityGroupCreationComponent implements OnInit, ControlValueAccessor {
-  public _rules: IRules;
-
-  @Output() public onSave = new EventEmitter();
-
+export class SecurityGroupCreationComponent implements OnInit {
   private items: Array<Array<SecurityGroup>>;
   private selectedGroupIndex: number;
   private selectedColumnIndex: number;
   private selectedRules: Array<Array<RuleListItem>>;
 
-  constructor(private securityGroupService: SecurityGroupService) {
+  constructor(
+    private dialog: MdlDialogReference,
+    private securityGroupService: SecurityGroupService,
+    @Inject('rules') private inputRules: IRules
+  ) {
     this.items = [[], []];
     this.selectedRules = [[], []];
   }
@@ -47,40 +41,14 @@ export class SecurityGroupCreationComponent implements OnInit, ControlValueAcces
     Promise.all([securityGroupTemplates, accountSecurityGroups])
       .then(([templates, groups]) => {
         this.items[0] = templates.concat(groups);
+
+        this.initRulesList();
       });
   }
-
-  public propagateChange: any = () => {};
-
-  @Input()
-  public get rules() {
-    return this._rules;
-  }
-
-  public set rules(value) {
-    this._rules = value;
-    this.propagateChange(value);
-  }
-
-  public writeValue(value) {
-    if (value) {
-      this.rules = value;
-    }
-  }
-
-  public registerOnChange(fn) {
-    this.propagateChange = fn;
-  }
-
-  public registerOnTouched() { }
 
   public selectGroup(index: number, left: boolean) {
     this.selectedGroupIndex = index;
     this.selectedColumnIndex = left ? 0 : 1;
-  }
-
-  public onCheckBoxChange() {
-    this.updateRules();
   }
 
   public move(left: boolean) {
@@ -94,17 +62,11 @@ export class SecurityGroupCreationComponent implements OnInit, ControlValueAcces
     if (!left) {
       const group = this.items[0][this.selectedGroupIndex];
       for (let i = 0; i < group.ingressRules.length; i++) {
-        this.selectedRules[0].push({
-          rule: group.ingressRules[i],
-          checked: false
-        });
+        this.pushIngressRule(group.ingressRules[i], true);
       }
 
       for (let i = 0; i < group.egressRules.length; i++) {
-        this.selectedRules[1].push({
-          rule: group.egressRules[i],
-          checked: false
-        });
+        this.pushEgressRule(group.egressRules[i], true);
       }
     } else {
       const group = this.items[1][this.selectedGroupIndex];
@@ -122,8 +84,6 @@ export class SecurityGroupCreationComponent implements OnInit, ControlValueAcces
       this.selectedRules[1].splice(startIndex, group.egressRules.length);
     }
 
-    this.updateRules();
-
     this.items[moveToIndex].push(this.items[moveFromIndex][this.selectedGroupIndex]);
     this.items[moveFromIndex].splice(this.selectedGroupIndex, 1);
 
@@ -131,14 +91,66 @@ export class SecurityGroupCreationComponent implements OnInit, ControlValueAcces
     this.selectedColumnIndex = -1;
   }
 
-  public save() {
-    this.onSave.emit();
-  }
-
-  private updateRules() {
-    this.rules = {
+  public onSave() {
+    this.dialog.hide({
+      templates: this.items[1].map(item => item.id),
       ingress: this.selectedRules[0].filter(rule => rule.checked).map(item => item.rule),
       egress: this.selectedRules[1].filter(rule => rule.checked).map(item => item.rule),
-    };
+    });
+  }
+
+  public onCancel() {
+    this.dialog.hide(this.inputRules);
+  }
+
+  private initRulesList() {
+    if (!this.inputRules) {
+      return;
+    }
+
+    if (!this.inputRules.templates || !this.inputRules.templates.length) {
+      return;
+    }
+
+    for (let i = 0; i < this.items[0].length; i++) {
+      const ind = this.inputRules.templates.findIndex(template => template === this.items[0][i].id);
+      if (ind === -1) {
+        continue;
+      }
+
+      this.items[1].unshift(this.items[0][i]);
+      this.items[0].splice(i, 1);
+    }
+
+    for (let i = 0; i < this.items[1].length; i++) {
+      const group = this.items[1][i];
+      for (let j = 0; j < group.ingressRules.length; j++) {
+        const ind = this.inputRules.ingress.findIndex(rule => {
+          return rule.ruleId === group.ingressRules[j].ruleId
+        });
+        this.pushIngressRule(group.ingressRules[j], ind !== -1);
+      }
+
+      for (let j = 0; j < group.egressRules.length; j++) {
+        const ind = this.inputRules.egress.findIndex(rule => {
+          return rule.ruleId === group.egressRules[j].ruleId
+        });
+        this.pushEgressRule(group.egressRules[j], ind !== -1);
+      }
+    }
+  }
+
+  private pushIngressRule(rule, checked) {
+    this.selectedRules[0].push({
+      rule,
+      checked
+    });
+  }
+
+  private pushEgressRule(rule, checked) {
+    this.selectedRules[1].push({
+      rule,
+      checked
+    });
   }
 }
