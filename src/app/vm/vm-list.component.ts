@@ -28,9 +28,10 @@ interface IVmActionEvent {
   styleUrls: ['./vm-list.component.scss']
 })
 export class VmListComponent implements OnInit {
-  @ViewChild(VmCreateComponent)
 
-  private vmCreationForm: VmCreateComponent;
+  @ViewChild(VmCreateComponent) private vmCreationForm: VmCreateComponent;
+
+
   private vmList: Array<VirtualMachine>;
   private selectedVm: VirtualMachine;
   private isDetailOpen: boolean;
@@ -73,32 +74,6 @@ export class VmListComponent implements OnInit {
     });
   }
 
-  public deployVm() {
-    this.translateService.get([
-      'VM_DEPLOY_IN_PROGRESS',
-      'DEPLOY_DONE',
-      'DEPLOY_IN_PROGRESS'
-    ]).subscribe(strs => {
-        let id = this.jobsNotificationService.add(strs.VM_DEPLOY_IN_PROGRESS);
-        this.vmService.getDeployJob(this.vmCreationForm.deployVm)
-          .subscribe(result => {
-            this.vmService.get(result.id)
-              .then(r => {
-                r.state = 'Deploying';
-                this.vmList.push(r);
-              });
-            this.vmService.checkDeploy(result.jobid)
-              .subscribe(() => {
-                this.jobsNotificationService.add({
-                  id,
-                  message: strs.DEPLOY_DONE,
-                  status: INotificationStatus.Finished
-                });
-              });
-          });
-      });
-  }
-
   public onVmAction(e: IVmActionEvent) {
     this.translateService.get([
       'YES',
@@ -123,6 +98,10 @@ export class VmListComponent implements OnInit {
           );
         });
     });
+  }
+
+  public onVmCreated(e) {
+    this.vmList.push(e);
   }
 
   public showDetail(vm: VirtualMachine) {

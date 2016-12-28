@@ -81,7 +81,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
-  public getDeployJob(params: {}) {
+  public deploy(params: {}) {
     const urlParams = new URLSearchParams();
     urlParams.append('command', 'deployVirtualMachine');
 

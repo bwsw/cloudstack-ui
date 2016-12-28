@@ -20,27 +20,9 @@
     mdl-button
     mdl-button-type="fab"
     mdl-colored="accent"
-    (click)="vmCreateDialog.show()"
+    (click)="vmCreationForm.show()"
   >
     <mdl-icon>add</mdl-icon>
   </button>
 </div>
-<mdl-dialog
-  #vmCreateDialog
-  id="vmCreateDialog"
-  name="vmCreateDialog"
-  [mdl-dialog-config]="{
-    openFrom: vmCreateButton,
-    clickOutsideToClose: true,
-    styles: {'width': '780px'},
-    isModal: true,
-    enterTransitionDuration: 400,
-    leaveTransitionDuration: 400
-  }"
->
-  <cs-vm-create #vmCreateForm></cs-vm-create>
-  <div class="mdl-dialog__actions">
-    <button mdl-button (click)="deployVm(); vmCreateDialog.close();" mdl-ripple>{{ 'CONFIRM' | translate }}</button>
-    <button mdl-button (click)="vmCreateDialog.close()" mdl-ripple>{{ 'CANCEL' | translate }}</button>
-  </div>
-</mdl-dialog>
+<cs-vm-create (onCreated)="onVmCreated($event)"></cs-vm-create>

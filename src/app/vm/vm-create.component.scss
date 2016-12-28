@@ -1,6 +1,6 @@
 .container {
-  padding: 15px;
-  display: inline-block;
+  padding: 15px 15px 1px 15px;
+  display: flex;
 }
 
 h5 {
@@ -14,4 +14,57 @@ h5 {
 
 .start-vm-checkbox {
   margin-top: 20px;
+}
+
+.left-column {
+  padding:0px 16px 1px 0px;
+}
+
+.root-disk-size {
+  position:relative;
+  width: 300px;
+}
+
+.root-disk-size-header {
+  padding-bottom: 24px;
+  display: inline-block;
+}
+
+.root-disk-size-limit {
+  display:inline-block;
+  position:absolute;
+  right: 0px;
+}
+
+.root-disk-size-slider {
+  width: 348px;
+  position: relative;
+  left: -24px;
+}
+
+.right-column {
+  margin-left: 57px;
+  padding-right: 30px;
+}
+
+.security-groups {
+  position: relative;
+  width: 300px;
+}
+
+.security-groups-header {
+  display: inline-block;
+}
+
+.security-group-create-button {
+  margin-top: 16px;
+  margin-right: 16px;
+  display:inline-block;
+  position:absolute;
+  right: 0;
+}
+
+.form-title {
+  margin: 20px 0 0 16px;
+  font-weight: bold;
 }
