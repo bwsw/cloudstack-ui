@@ -9,6 +9,7 @@ import { ErrorService } from './shared/services/error.service';
 import { INotificationService } from './shared/notification.service';
 
 import '../style/app.scss';
+import { ResourceUsageService } from './shared/services/resource-usage.service';
 
 
 @Component({
@@ -27,7 +28,8 @@ export class AppComponent {
     private router: Router,
     private translate: TranslateService,
     private error: ErrorService,
-    @Inject('INotificationService') private notification: INotificationService
+    @Inject('INotificationService') private notification: INotificationService,
+    private resourceUsageService: ResourceUsageService
   ) {
     // Do something with api
     this.title = this.auth.name;
@@ -62,5 +64,9 @@ export class AppComponent {
     } else {
       this.translate.get('UNEXPECTED_ERROR').subscribe(result => this.notification.message(result));
     }
+  }
+
+  public test() {
+    this.resourceUsageService.getResourceUsage().then(result => console.log(result));
   }
 }
