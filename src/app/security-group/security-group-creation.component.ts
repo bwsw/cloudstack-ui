@@ -9,7 +9,7 @@ interface RuleListItem {
 }
 
 export interface IRules { // defines what should be passed to inputRules
-  templates?: Array<string>; // array of security groups ids
+  templates?: Array<SecurityGroup>; // array of security groups ids
   ingress: Array<NetworkRule>;
   egress: Array<NetworkRule>;
 }
@@ -93,7 +93,7 @@ export class SecurityGroupCreationComponent implements OnInit {
 
   public onSave() {
     this.dialog.hide({
-      templates: this.items[1].map(item => item.id),
+      templates: this.items[1],
       ingress: this.selectedRules[0].filter(rule => rule.checked).map(item => item.rule),
       egress: this.selectedRules[1].filter(rule => rule.checked).map(item => item.rule),
     });
@@ -112,28 +112,29 @@ export class SecurityGroupCreationComponent implements OnInit {
       return;
     }
 
-    for (let i = 0; i < this.items[0].length; i++) {
-      const ind = this.inputRules.templates.findIndex(template => template === this.items[0][i].id);
+    for (let i = 0; i < this.inputRules.templates.length; i++) {
+      const ind = this.items[0].findIndex(template => template.id === this.inputRules.templates[i].id);
+
       if (ind === -1) {
         continue;
       }
 
-      this.items[1].unshift(this.items[0][i]);
-      this.items[0].splice(i, 1);
+      this.items[1].push(this.items[0][ind]);
+      this.items[0].splice(ind, 1);
     }
 
     for (let i = 0; i < this.items[1].length; i++) {
       const group = this.items[1][i];
       for (let j = 0; j < group.ingressRules.length; j++) {
         const ind = this.inputRules.ingress.findIndex(rule => {
-          return rule.ruleId === group.ingressRules[j].ruleId
+          return rule.ruleId === group.ingressRules[j].ruleId;
         });
         this.pushIngressRule(group.ingressRules[j], ind !== -1);
       }
 
       for (let j = 0; j < group.egressRules.length; j++) {
         const ind = this.inputRules.egress.findIndex(rule => {
-          return rule.ruleId === group.egressRules[j].ruleId
+          return rule.ruleId === group.egressRules[j].ruleId;
         });
         this.pushEgressRule(group.egressRules[j], ind !== -1);
       }
