@@ -76,9 +76,11 @@
     "defaultUse": "Default",
     "isCustomized": "Customized"
   },
-  "ALL_GROUPS": "All groups",
-  "SELECTED_GROUPS": "Selected groups",
+  "ALL_GROUPS": "All templates",
+  "SELECTED_GROUPS": "Selected templates",
   "NETWORK_RULES": "Network rules",
   "CANCEL": "Cancel",
-  "SAVE": "Save"
+  "SAVE": "Save",
+  "CREATE": "Create",
+  "EDIT": "Edit"
 }

@@ -1,4 +1,4 @@
-import { NgModule }      from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from 'ng2-translate';
@@ -6,6 +6,7 @@ import { MdlModule } from 'angular2-mdl';
 
 import { SecurityGroupService } from './security-group.service';
 import { SecurityGroupCreationComponent } from './security-group-creation.component';
+import { SecurityGroupRulesManagerComponent } from './security-group-rules-manager.component';
 
 @NgModule({
   imports: [
@@ -15,9 +16,13 @@ import { SecurityGroupCreationComponent } from './security-group-creation.compon
     MdlModule
   ],
   exports: [
-    SecurityGroupCreationComponent
+    SecurityGroupCreationComponent,
+    SecurityGroupRulesManagerComponent
   ],
-  declarations: [ SecurityGroupCreationComponent ],
+  declarations: [
+    SecurityGroupCreationComponent,
+    SecurityGroupRulesManagerComponent
+  ],
   providers: [ SecurityGroupService ],
   entryComponents: [ SecurityGroupCreationComponent ]
 })

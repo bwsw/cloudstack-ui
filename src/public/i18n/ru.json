@@ -57,9 +57,11 @@
     "defaultUse": "По умолчанию",
     "isCustomized": "Настраиваемая"
   },
-  "ALL_GROUPS": "Все группы",
-  "SELECTED_GROUPS": "Выбранные группы",
+  "ALL_GROUPS": "Все шаблоны",
+  "SELECTED_GROUPS": "Выбранные шаблоны",
   "NETWORK_RULES": "Правила сети",
   "CANCEL": "Отмена",
-  "SAVE": "Сохранить"
+  "SAVE": "Сохранить",
+  "CREATE": "Создать",
+  "EDIT": "Редактировать"
 }
