@@ -5,6 +5,7 @@
   "WRONG_ARGUMENTS": "Неверные параметры",
   "UNEXPECTED_ERROR": "Неизвестная ошибка",
   "INSTANCES": "Машины",
+  "SECURITY_GROUP_TEMPLATES": "Шаблоны групп безопасности",
   "CLEAR_ALL": "Очистить",
   "WOULD_YOU_LIKE_TO_CREATE_VM": "Хотите создать виртуальную машину?",
   "YES": "Да",
@@ -63,5 +64,8 @@
   "CANCEL": "Отмена",
   "SAVE": "Сохранить",
   "CREATE": "Создать",
-  "EDIT": "Редактировать"
+  "EDIT": "Редактировать",
+  "DELETE": "Удалить",
+  "DOMAIN": "Домен",
+  "ACCOUNT": "Аккаунт"
 }
