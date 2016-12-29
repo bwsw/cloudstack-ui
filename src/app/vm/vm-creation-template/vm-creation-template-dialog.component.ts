@@ -41,12 +41,6 @@ export class VmCreationTemplateDialogComponent implements OnInit {
             continue;
           }
           // Trying to find TemplateOblect for this type of templates
-          // for (let i = 0; i < this.templates.length; i++) {
-          //   if (this.templates[i].templateFilter === filter) {
-          //     this.templates[i].templates = templatesObjects[filter];
-          //     break;
-          //   }
-          // }
           const index = this.templates.findIndex((template) => template.templateFilter === filter);
           if (index !== -1) {
             this.templates[index].templates = templatesObjects[filter];
