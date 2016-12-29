@@ -1,32 +1,55 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
+import { Component, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { MdlDialogService } from 'angular2-mdl';
 import { VmCreationTemplateDialogComponent } from './vm-creation-template-dialog.component';
 import { PRESELECTED_TEMPLATE_TOKEN } from './injector-token';
+import { Template } from '../../shared/models';
+
 
 @Component({
   selector: 'cs-vm-creation-template',
   templateUrl: 'vm-creation-template.component.html'
 })
-export class VmCreationTemplateComponent {
-  @Input() public preSelected: string;
-  @Output() public selected: EventEmitter<string>;
+export class VmCreationTemplateComponent implements OnInit, OnChanges {
+  @Input() public selectedIn: Template;
+  @Output() public selectedOut: EventEmitter<Template>;
+  private displayTemplateName: string;
 
   constructor(private dialogService: MdlDialogService) {
-    this.selected = new EventEmitter<string>();
+    this.selectedOut = new EventEmitter<Template>();
   }
 
-  private onClick () {
-    let pDialog = this.dialogService.showCustomDialog({
-      component: VmCreationTemplateDialogComponent,
-      providers: [{provide: PRESELECTED_TEMPLATE_TOKEN, useValue: this.preSelected}],
-      isModal: true,
-      styles: {'width': '528px', 'padding': '0.9em' }, // 500 - width of component; ~ 14*2 - left and right paddings
+  public ngOnInit(): void {
+    console.log(this.selectedIn);
+    if (this.selectedIn) {
+      this.displayTemplateName = this.selectedIn.name;
+    }
+  }
 
+  public ngOnChanges(changes: SimpleChanges) {
+    for (let propName in changes) {
+      if (changes.hasOwnProperty(propName)) {
+        if (propName === 'selectedIn') {
+          let currentValue = changes[propName].currentValue;
+          if (currentValue) {
+            this.selectedIn = currentValue;
+            this.displayTemplateName = this.selectedIn.name;
+          }
+        }
+      }
+    }
+  }
+
+  public onClick(): void {
+    let templateDialog = this.dialogService.showCustomDialog({
+      component: VmCreationTemplateDialogComponent,
+      providers: [{provide: PRESELECTED_TEMPLATE_TOKEN, useValue: this.selectedIn}],
+      isModal: true,
+      styles: {'width': '568px', 'padding': '0.9em' }
     });
-    pDialog.subscribe( (dialogReference: MdlDialogReference) => {
-      console.log('dialog visible', dialogReference);
-      let a = dialogReference.onHide();
-      a.subscribe(d => console.log(d));
-    });
+    templateDialog.switchMap(res => res.onHide())
+      .subscribe((data: any) => {
+        this.selectedOut.emit(data);
+        this.displayTemplateName = data.name;
+      });
   }
 }

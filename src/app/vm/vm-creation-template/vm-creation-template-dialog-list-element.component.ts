@@ -7,16 +7,15 @@ import { Template } from '../../shared/models';
   styleUrls: ['vm-creation-template-dialog-list-element.component.scss']
 })
 export class VmCreationTemplateDialogListElementComponent {
+  @Input() public radioOption: Template;
   @Input() public template: Template;
-  @Output() public selected: EventEmitter<string>;
-
-  @Input() public radioOption: string;
+  @Output() public selected: EventEmitter<Template>;
 
   constructor() {
-    this.selected = new EventEmitter<string>();
+    this.selected = new EventEmitter<Template>();
   }
 
-  private onSelect() {
+  public onSelect(): void {
     this.selected.emit(this.radioOption);
   }
 }

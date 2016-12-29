@@ -11,54 +11,76 @@ import { PRESELECTED_TEMPLATE_TOKEN } from './injector-token';
   styleUrls: ['./vm-creation-template-dialog.component.scss']
 })
 export class VmCreationTemplateDialogComponent implements OnInit {
+  private activeTab: number;
   private loaded: boolean;
+  private selectedTemplate: Template;
   private templates: Array<TemplateObject>;
-  private selectedId: string;
+
 
   constructor(
-    @Inject(PRESELECTED_TEMPLATE_TOKEN) preselectedTemplate: string,
+    @Inject(PRESELECTED_TEMPLATE_TOKEN) private preselectedTemplate: Template,
     private dialog: MdlDialogReference,
     private templateService: TemplateService,
     private ref: ChangeDetectorRef
   ) {
     this.loaded = false;
+    this.selectedTemplate = this.preselectedTemplate;
 
     this.templates = new Array<TemplateObject>();
     this.templates.push(new TemplateObject('Featured', 'featured'));
+    this.templates.push(new TemplateObject('My Templates', 'selfexecutable'));
     this.templates.push(new TemplateObject('Community', 'community'));
-    this.templates.push(new TemplateObject('My templates', 'selfexecutable'));
     this.templates.push(new TemplateObject('Shared', 'sharedexecutable'));
   }
 
-  public ngOnInit() {
-    let templatePromises = [];
-    for (let obj of this.templates) {
-      templatePromises.push(this.templateService.getList({templatefilter: obj.templateFilter}));
-    }
-
-    Promise.all(templatePromises)
-      .then(data => {
-        data.forEach((templateSet, i) => {
-          this.templates[i].templates = templateSet;
-        });
+  public ngOnInit(): void {
+    this.templateService.getGroupedTemplates()
+      .then(templatesObjects => {
+        for (let filter in templatesObjects) {
+          if (templatesObjects.hasOwnProperty(filter)) {
+            // Trying to find TemplateOblect for this type of templates
+            for (let i = 0; i < this.templates.length; i++) {
+              if (this.templates[i].templateFilter === filter) {
+                this.templates[i].templates = templatesObjects[filter];
+                break;
+              }
+            }
+          }
+        }
         this.loaded = true;
         this.removeEmptyTemplateObjects();
+        this.chooseActiveTab();
         this.ref.detectChanges();
       });
   }
 
-  private removeEmptyTemplateObjects() {
+  public onSelect(id: Template): void {
+    this.selectedTemplate = id;
+  }
+
+  public onOk(): void {
+    this.dialog.hide(this.selectedTemplate);
+  }
+
+  public onCancel(): void {
+    this.dialog.hide(this.preselectedTemplate);
+  }
+
+  private removeEmptyTemplateObjects(): void {
     this.templates = this.templates.filter((templateObject) => {
       return templateObject.templates.length > 0;
     });
   }
 
-  private onSelect(id: string) {
-    this.selectedId = id;
-  }
-
-  private onOk() {
-    this.dialog.hide(this.selectedId);
+  private chooseActiveTab(): void {
+    for (let i = 0; i < this.templates.length; i++) {
+      for (let template of this.templates[i].templates) {
+        if (template.id === this.preselectedTemplate.id) {
+          this.activeTab = i;
+          return;
+        }
+      }
+    }
   }
 }
 
