@@ -7,11 +7,19 @@ import { ResourceType } from '../models/resource-limit.model';
 
 
 @Injectable()
-export class RootDiskSizeService {
+export class DiskStorageService {
   constructor(private resourceLimits: ResourceLimitService, private volume: VolumeService) {}
 
-  public getAvailableRootDiskSize(): Promise<number> {
-    let limitRequest = this.resourceLimits.getList({ 'resourcetype': ResourceType.PrimaryStorage })
+  public getAvailablePrimaryStorage(): Promise<number> {
+    return this.getAvailableStorage(ResourceType.PrimaryStorage);
+  }
+
+  public getAvailableSecondaryStorage(): Promise<number> {
+    return this.getAvailableStorage(ResourceType.SecondaryStorage);
+  }
+
+  private getAvailableStorage(resourceType: number): Promise<number> {
+    let limitRequest = this.resourceLimits.getList({ 'resourcetype': resourceType })
       .then(res => res[0].max);
 
     let volumeRequest = this.volume.getList()

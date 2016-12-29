@@ -28,7 +28,10 @@ import {
   ZoneService,
   ServiceOfferingService,
   ServiceLocator,
-  RootDiskSizeService,
+  SnapshotService,
+  ResourceLimitService,
+  ResourceUsageService,
+  DiskStorageService,
   VolumeService,
   OsTypeService
 } from './shared/services';
@@ -77,7 +80,10 @@ import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
     { provide: 'IStorageService', useClass: StorageService },
     LoginGuard,
     NotificationService,
-    RootDiskSizeService,
+    ResourceLimitService,
+    ResourceUsageService,
+    DiskStorageService,
+    SnapshotService,
     ZoneService,
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
     ServiceOfferingService,
