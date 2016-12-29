@@ -1,0 +1,23 @@
+@import '~angular2-mdl/scss/_variables';
+
+:host {
+  margin: 10px;
+  display: inline-flex;
+}
+
+.description,
+.domain,
+.account {
+  height: 20px;
+  margin-bottom: 10px;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.labels {
+  height: 2 * $chip-height + 6;
+  overflow: hidden;
+}
+
