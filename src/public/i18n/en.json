@@ -23,10 +23,19 @@
   "NO": "No",
   "START": "Start",
   "STOP": "Stop",
+  "SELECT": "Select",
+  "TEMPLATES": "Templates",
+  "OK": "Ok",
+  "CANCEL": "Cancel",
   "REBOOT": "Reboot",
   "RESTORE": "Restore",
   "DESTROY": "Destroy",
   "CLEAR_ALL": "Clear all",
   "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",
-  "NO_DONT_ASK": "No, don't ask"
+  "NO_DONT_ASK": "No, don't ask",
+  "VM_CREATION_TEMPLATE": {
+    "OS_TEMPLATE": "OS template",
+    "YOU_DONT_HAVE_TEMPLATES": "You don't have any templates"
+  },
+  "DESCRIPTION": "Description"
 }

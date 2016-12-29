@@ -1,5 +1,5 @@
 <div *ngIf="loaded">
-  <h3 class="mdl-dialog__title">Templates</h3>
+  <h3 class="mdl-dialog__title">{{ 'TEMPLATES' | translate }}</h3>
   <div class="mdl-dialog__content">
 
     <mdl-tabs
@@ -32,7 +32,7 @@
     </mdl-list>
 
     <div *ngIf="templates.length == 0"  class="no-templates">
-      <h5>You don't have any templates</h5>
+      <h5>{{ 'VM_CREATION_TEMPLATE.YOU_DONT_HAVE_TEMPLATES' | translate }}</h5>
     </div>
 
   </div>
@@ -42,12 +42,12 @@
       mdl-button
       mdl-colored="primary"
       (click)="onOk()"
-    >Ok</button>
+    >{{ 'OK' | translate }}</button>
 
     <button
       mdl-button
       mdl-colored="primary"
       (click)="onCancel()"
-    >Cancel</button>
+    >{{ 'CANCEL' | translate }}</button>
   </div>
 </div>
