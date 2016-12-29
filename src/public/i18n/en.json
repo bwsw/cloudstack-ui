@@ -35,6 +35,10 @@
   "NO_DONT_ASK": "No, don't ask me",
   "START": "Start",
   "STOP": "Stop",
+  "SELECT": "Select",
+  "TEMPLATES": "Templates",
+  "OK": "Ok",
+  "CANCEL": "Cancel",
   "REBOOT": "Reboot",
   "RESTORE": "Restore",
   "DESTROY": "Destroy",
@@ -91,8 +95,12 @@
   "ALL_GROUPS": "All templates",
   "SELECTED_GROUPS": "Selected templates",
   "NETWORK_RULES": "Network rules",
-  "CANCEL": "Cancel",
   "SAVE": "Save",
   "CREATE": "Create",
-  "EDIT": "Edit"
+  "EDIT": "Edit",
+  "VM_CREATION_TEMPLATE": {
+    "OS_TEMPLATE": "OS template",
+    "YOU_DONT_HAVE_TEMPLATES": "You don't have any templates"
+  },
+  "DESCRIPTION": "Description"
 }

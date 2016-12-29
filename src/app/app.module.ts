@@ -10,6 +10,9 @@ import { AboutComponent } from './about/about.component';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
+import { VmCreationTemplateComponent } from './vm/vm-creation-template/vm-creation-template.component';
+import { VmCreationTemplateDialogComponent } from './vm/vm-creation-template/vm-creation-template-dialog.component';
+import { VmCreationTemplateDialogListElementComponent } from './vm/vm-creation-template/vm-creation-template-dialog-list-element.component';
 import { VmListComponent } from './vm/vm-list.component';
 import { VmListItemComponent } from './vm/vm-list-item.component';
 import { VmDetailComponent } from './vm/vm-detail.component';
@@ -28,6 +31,7 @@ import {
   ZoneService,
   ServiceOfferingService,
   ServiceLocator,
+  TemplateService,
   RootDiskSizeService,
   VolumeService,
   OsTypeService
@@ -63,12 +67,19 @@ import { SecurityGroupModule } from './security-group/security-group.module';
     AppComponent,
     LoginComponent,
     LogoutComponent,
+    VmCreationTemplateComponent,
+    VmCreationTemplateDialogComponent,
+    VmCreationTemplateDialogListElementComponent,
     VmListComponent,
     VmDetailComponent,
     VmListItemComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     DivByPowerOfTwoPipe
+  ],
+  entryComponents: [
+    VmCreationTemplateDialogComponent,
+    VmCreationTemplateDialogListElementComponent
   ],
   providers: [
     ApiService,
@@ -86,6 +97,7 @@ import { SecurityGroupModule } from './security-group/security-group.module';
     ZoneService,
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
     ServiceOfferingService,
+    TemplateService,
     VmService,
     VolumeService,
     OsTypeService,
