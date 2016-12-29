@@ -19,7 +19,6 @@ export class VmCreationTemplateComponent implements OnInit, OnChanges {
   }
 
   public ngOnInit(): void {
-    console.log(this.selectedIn);
     if (this.selectedIn) {
       this.displayTemplateName = this.selectedIn.name;
     }
@@ -27,14 +26,16 @@ export class VmCreationTemplateComponent implements OnInit, OnChanges {
 
   public ngOnChanges(changes: SimpleChanges) {
     for (let propName in changes) {
-      if (changes.hasOwnProperty(propName)) {
-        if (propName === 'selectedIn') {
-          let currentValue = changes[propName].currentValue;
-          if (currentValue) {
-            this.selectedIn = currentValue;
-            this.displayTemplateName = this.selectedIn.name;
-          }
-        }
+      if (!changes.hasOwnProperty(propName)) {
+        continue;
+      }
+      if (propName !== 'selectedIn') {
+        continue;
+      }
+      let currentValue = changes[propName].currentValue;
+      if (currentValue) {
+        this.selectedIn = currentValue;
+        this.displayTemplateName = this.selectedIn.name;
       }
     }
   }
