@@ -12,5 +12,9 @@
   "NO_DONT_ASK": "Нет, больше не спрашивать",
   "SELECT": "Выбрать",
   "TEMPLATES": "Шаблоны",
-  "DESCRIPTION": "Описание"
+  "DESCRIPTION": "Описание",
+  "VM_CREATION_TEMPLATE": {
+    "OS_TEMPLATE": "ОС шаблон",
+    "YOU_DONT_HAVE_TEMPLATES": "Шаблоны не созданны"
+  }
 }
