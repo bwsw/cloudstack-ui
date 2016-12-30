@@ -1,0 +1,36 @@
+<div>
+  <h3 class="mdl-dialog__title">Create new template</h3>
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <div class="mdl-dialog__content">
+      <mdl-textfield
+        type="text"
+        label="Name"
+        name="name"
+        floating-label
+        autofocus
+        required
+        [(ngModel)]="name"
+      >
+      </mdl-textfield>
+      <br/>
+      <mdl-textfield
+        type="text"
+        label="Description"
+        name="description"
+        floating-label
+        required
+        [(ngModel)]="description"
+      >
+      </mdl-textfield>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button
+        mdl-button
+        mdl-ripple
+        type="submit"
+      >
+        Create
+      </button>
+    </div>
+  </form>
+</div>
