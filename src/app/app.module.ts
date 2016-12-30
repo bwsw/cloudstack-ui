@@ -45,6 +45,7 @@ import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
 
 import { ConfigService } from './shared/config.service';
 import { SecurityGroupModule } from './security-group/security-group.module';
+import { TagService } from './shared/services/tag.service';
 
 
 @NgModule({
@@ -89,6 +90,7 @@ import { SecurityGroupModule } from './security-group/security-group.module';
     VmService,
     VolumeService,
     OsTypeService,
+    TagService,
     {provide: 'IStorageService', useClass: StorageService},
     VmService
   ],

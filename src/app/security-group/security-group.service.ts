@@ -3,6 +3,7 @@ import { ConfigService } from '../shared/config.service';
 import { SecurityGroup } from './security-group.model';
 import { BaseBackendService } from '../shared/services/base-backend.service';
 import { BackendResource } from '../shared/decorators/backend-resource.decorator';
+import { TagService } from '../shared/services/tag.service';
 
 @Injectable()
 @BackendResource({
@@ -10,8 +11,10 @@ import { BackendResource } from '../shared/decorators/backend-resource.decorator
   entityModel: SecurityGroup
 })
 export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
-
-  constructor(private configService: ConfigService) {
+  constructor(
+    private configService: ConfigService,
+    private tagService: TagService
+  ) {
     super();
   }
 
@@ -22,6 +25,19 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
           groups[i] = new SecurityGroup(groups[i]);
         }
         return groups;
+      });
+  }
+
+  public createTemplate(data: any) {
+    this.create(data)
+      .then(res => {
+        const id = res.id;
+        return this.tagService.create({
+          resourceIds: id,
+          resourceType: this.entity,
+          'tags[0].key': 'template',
+          'tags[0].value': 'true'
+        });
       });
   }
 }

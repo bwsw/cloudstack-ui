@@ -1,6 +1,6 @@
 <div>
   <h3 class="mdl-dialog__title">Create new template</h3>
-  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+  <form (ngSubmit)="onSubmit($event)" #loginForm="ngForm">
     <div class="mdl-dialog__content">
       <mdl-textfield
         type="text"

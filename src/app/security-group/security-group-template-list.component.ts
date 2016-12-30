@@ -42,5 +42,14 @@ export class SecurityGroupTemplateListComponent implements OnInit {
       enterTransitionDuration: 400,
       leaveTransitionDuration: 400
     });
+
+    this.dialogObservable.switchMap(res => res.onHide())
+      .subscribe((data: any) => {
+        this.createSecurityGroupTemplate(data);
+      });
+  }
+
+  public createSecurityGroupTemplate(data) {
+    this.securityGroupService.createTemplate(data);
   }
 }
