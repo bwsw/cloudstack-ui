@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 
 import { VmService } from './vm.service';
 import { VirtualMachine } from './vm.model';
@@ -13,6 +13,7 @@ import {
 import { IVmAction } from './vm.model';
 import { IAsyncJob } from '../shared/models/async-job.model';
 import { AsyncJobService } from '../shared/services/async-job.service';
+import { VmStatisticsComponent } from './vm-statistics.component';
 
 interface IVmActionEvent {
   id: string;
@@ -27,6 +28,9 @@ interface IVmActionEvent {
   styleUrls: ['./vm-list.component.scss']
 })
 export class VmListComponent implements OnInit {
+
+  @ViewChild(VmStatisticsComponent) public vmStats: VmStatisticsComponent;
+
   private vmList: Array<VirtualMachine>;
   private selectedVm: VirtualMachine;
   private isDetailOpen: boolean;
@@ -65,6 +69,7 @@ export class VmListComponent implements OnInit {
     this.asyncJobService.event.subscribe((job: IAsyncJob<VirtualMachine>) => {
       if (job.jobResult.state === 'Destroyed') {
         this.vmList.splice(this.vmList.findIndex(vm => vm.id === job.jobResult.id), 1);
+        this.vmStats.updateStats();
       }
     });
   }

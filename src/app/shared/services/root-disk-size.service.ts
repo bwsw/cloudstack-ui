@@ -18,22 +18,34 @@ export class DiskStorageService {
     return this.getAvailableStorage(ResourceType.SecondaryStorage);
   }
 
+  public getConsumedPrimaryStorage(): Promise<number> {
+    return this.getConsumedStorage(ResourceType.PrimaryStorage);
+  }
+
+  public getConsumedSecondaryStorage(): Promise<number> {
+    return this.getConsumedStorage(ResourceType.SecondaryStorage);
+  }
+
   private getAvailableStorage(resourceType: number): Promise<number> {
     let limitRequest = this.resourceLimits.getList({ 'resourcetype': resourceType })
       .then(res => res[0].max);
 
-    let volumeRequest = this.volume.getList()
+    let consumedStorageRequest = this.getConsumedStorage(resourceType);
+
+    return Promise.all([limitRequest, consumedStorageRequest])
+      .then(values => {
+        let space = Math.floor(values[0] / Math.pow(2, 30)) - values[1];
+          return space > 0 ? space : 0;
+        })
+      .catch(error => Promise.reject(error));
+  }
+
+  private getConsumedStorage(resourceType: number): Promise<number> {
+    return this.volume.getList()
       .then(res => {
         return res.reduce((accum: number, current: Volume) => {
-          return accum + +current.size;
+          return Math.floor(accum + +current.size / Math.pow(2, 30));
         }, 0);
       });
-
-    return Promise.all([limitRequest, volumeRequest])
-      .then(values => {
-        let space = values[0] * Math.pow(2, 30) - values[1];
-        return space > 0 ? Math.floor(space / Math.pow(2, 30)) : 0;
-      })
-      .catch(error => Promise.reject(error));
   }
 }

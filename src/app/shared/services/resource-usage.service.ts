@@ -2,18 +2,17 @@ import { Injectable } from '@angular/core';
 
 import 'rxjs/add/operator/toPromise';
 
-import { BaseModel } from '../models/';
 import { ResourceLimitService } from './resource-limit.service';
 import { VmService } from '../../vm/vm.service';
 import { VirtualMachine } from '../../vm/';
 import { VolumeService } from './volume.service';
 import { Volume } from '../models/volume.model';
-import { SnapshotService } from "./snapshot.service";
-import { Snapshot } from "../models/snapshot.model";
-import { DiskStorageService } from "./root-disk-size.service";
+import { SnapshotService } from './snapshot.service';
+import { Snapshot } from '../models/snapshot.model';
+import { DiskStorageService } from './root-disk-size.service';
 
 
-class ResourcesData {
+export class ResourcesData {
   public instances: number = 0;        // +
   public ips: number = 0;              // +
   public volumes: number = 0;          // +
@@ -28,9 +27,20 @@ class ResourcesData {
   public secondaryStorage: number = 0; // +
 }
 
-interface IResourceStats {
-  consumed: ResourcesData;
-  max: ResourcesData;
+export class ResourceStats {
+  public available: ResourcesData;
+  public consumed: ResourcesData;
+  public max: ResourcesData;
+
+  constructor(
+    available?: ResourcesData,
+    consumed?: ResourcesData,
+    max?: ResourcesData
+  ) {
+    this.available = available || new ResourcesData();
+    this.consumed = consumed || new ResourcesData();
+    this.max = max || new ResourcesData();
+  }
 }
 
 @Injectable()
@@ -43,18 +53,7 @@ export class ResourceUsageService {
     private diskStorageService: DiskStorageService
   ) {}
 
-  public getAvailableResources(max: ResourcesData, consumed: ResourcesData): ResourcesData {
-    let availableResources = new ResourcesData();
-    for (let prop in max) {
-      if (max.hasOwnProperty(prop)) {
-        console.log(prop);
-        availableResources[prop] = max[prop] - consumed[prop];
-      }
-    }
-    return availableResources;
-  }
-
-  public getResourceUsage(): any {
+  public getResourceUsage(): Promise<ResourceStats> {
     let consumedResources = new ResourcesData();
     let maxResources = new ResourcesData();
 
@@ -68,7 +67,6 @@ export class ResourceUsageService {
           consumedResources.cpus += value.cpuNumber;
           consumedResources.memory += value.memory;
         });
-        console.log(consumedResources);
       }));
 
     promiseArray.push(this.volumeService.getList()
@@ -81,28 +79,38 @@ export class ResourceUsageService {
         consumedResources.snapshots = snapshots.length;
       }));
 
-    promiseArray.push(this.diskStorageService.getAvailablePrimaryStorage()
+    promiseArray.push(this.diskStorageService.getConsumedPrimaryStorage()
       .then(result => consumedResources.primaryStorage = result));
-    promiseArray.push(this.diskStorageService.getAvailableSecondaryStorage()
+    promiseArray.push(this.diskStorageService.getConsumedSecondaryStorage()
       .then(result => consumedResources.secondaryStorage = result));
 
     return Promise.all(promiseArray)
-      .then(result => {
+      .then(() => {
         return this.resourceLimitService.getList().then(result => {
-          maxResources.instances = result[0].max;           // add mapper to resource limit service
-          maxResources.ips = result[1].max;                 // and remove this
-          maxResources.volumes = result[2].max;             // stuff
+          maxResources.instances = result[0].max; // add mapper to resource limit service
+          maxResources.ips = result[1].max;
+          maxResources.volumes = result[2].max;
           maxResources.snapshots = result[3].max;
           maxResources.cpus = result[8].max;
           maxResources.memory = result[9].max;
           maxResources.primaryStorage = result[10].max;
           maxResources.secondaryStorage = result[11].max;
-          return {
-            available: this.getAvailableResources(maxResources, consumedResources),
-            consumed: consumedResources,
-            max: maxResources
-          }
+          return new ResourceStats(
+            this.getAvailableResources(maxResources, consumedResources),
+            consumedResources,
+            maxResources
+          );
         });
       });
+  }
+
+  private getAvailableResources(max: ResourcesData, consumed: ResourcesData): ResourcesData {
+    let availableResources = new ResourcesData();
+    for (let prop in max) {
+      if (max.hasOwnProperty(prop)) {
+        availableResources[prop] = max[prop] - consumed[prop];
+      }
+    }
+    return availableResources;
   }
 }

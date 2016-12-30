@@ -65,8 +65,4 @@ export class AppComponent {
       this.translate.get('UNEXPECTED_ERROR').subscribe(result => this.notification.message(result));
     }
   }
-
-  public test() {
-    this.resourceUsageService.getResourceUsage().then(result => console.log(result));
-  }
 }

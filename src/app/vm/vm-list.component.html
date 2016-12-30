@@ -1,4 +1,7 @@
 <div class="vm-list" [class.open]="isDetailOpen">
+  <!--<h3 class="vm-list-header">Statistics</h3>-->
+  <cs-vm-statistics></cs-vm-statistics>
+  <!--<h3 class="vm-list-header">Virtual Machines</h3>-->
   <cs-vm-list-item
     *ngFor="let vm of vmList"
     [vm]="vm"

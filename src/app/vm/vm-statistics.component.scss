@@ -1,0 +1,52 @@
+$vm-detail-width: 365px;
+
+.stat-card-mdl {
+  display: inline-flex;
+  margin: 15px;
+  min-height: 156px;
+}
+
+.progress {
+  margin-left: 16px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 8px;
+}
+
+.progress-title {
+  padding-bottom: 16px;
+}
+
+.single-bar {
+  margin-top: 24px;
+}
+
+.bar {
+  padding-bottom: 4px;
+  display: inline-block;
+}
+
+.second-bar {
+  margin-top: 20px;
+}
+
+.stat-list {
+  font-size: 0; // hack to remove extra space between stat cards
+  overflow: auto;
+  transition: margin 0.3s;
+  background: #dedede;
+  &.open {
+    margin-right: $vm-detail-width;
+  }
+}
+
+.stat-values {
+  position: absolute;
+  padding-right: 16px;
+  right: 0;
+  display: inline-block;
+}
+
+.stat-card-wrapper {
+  display: inline-block;
+}

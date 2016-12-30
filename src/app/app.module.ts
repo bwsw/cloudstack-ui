@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
 import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
+import { MdProgressCircleModule } from '@angular2-material/progress-circle';
 
 import { AboutComponent } from './about/about.component';
 import { AppComponent } from './app.component';
@@ -12,6 +13,7 @@ import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
 import { VmListComponent } from './vm/vm-list.component';
 import { VmListItemComponent } from './vm/vm-list-item.component';
+import { VmStatisticsComponent } from './vm/vm-statistics.component';
 import { VmDetailComponent } from './vm/vm-detail.component';
 import { NotificationBoxComponent } from './notification-box.component';
 import { NotificationBoxItemComponent } from './notification-box-item.component';
@@ -55,7 +57,8 @@ import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
     TranslateModule.forRoot(),
     routing,
     MdlModule,
-    MdlPopoverModule
+    MdlPopoverModule,
+    MdProgressCircleModule
   ],
   declarations: [
     AboutComponent,
@@ -65,6 +68,7 @@ import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
     VmListComponent,
     VmDetailComponent,
     VmListItemComponent,
+    VmStatisticsComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     DivByPowerOfTwoPipe
