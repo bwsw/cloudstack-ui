@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Subject, Observable } from 'rxjs';
+
 export enum INotificationStatus {
   Pending,
   Finished,
@@ -16,15 +18,21 @@ export class JobsNotificationService {
   public notifications: Array<INotification>;
   private lastId: number;
   private _pendingJobsCount: number;
+  private _unseenJobs: Subject<number>;
 
   constructor() {
     this.notifications = [];
     this.lastId = 0;
     this._pendingJobsCount = 0;
+    this._unseenJobs = new Subject<number>();
   }
 
   public get pendingJobsCount(): number {
     return this._pendingJobsCount;
+  }
+
+  public get unseenJobs(): Observable<number> {
+    return this._unseenJobs.asObservable();
   }
 
   public add(notification: INotification | string): string {
@@ -37,6 +45,7 @@ export class JobsNotificationService {
 
       this.notifications.unshift(n);
       this._pendingJobsCount++;
+      this._unseenJobs.next(1);
 
       if (this.lastId >= Number.MAX_SAFE_INTEGER) {
         this.lastId = 0;
@@ -49,9 +58,11 @@ export class JobsNotificationService {
       notification.status = INotificationStatus.Pending;
       this.notifications.unshift(notification);
       this._pendingJobsCount++;
+      this._unseenJobs.next(1);
       return notification.id;
     }
     Object.assign(this.notifications[ind], notification);
+    this.updateUnseenCount();
     return notification.id;
   }
 
