@@ -159,6 +159,28 @@ export class VirtualMachine extends BaseModel {
   }
 
   public canApply(command: string) {
-    return this.state === 'Running' || this.state === 'Stopped';
+    const state = this.state;
+
+    if (state !== 'Running' && state !== 'Stopped') {
+      return false;
+    }
+
+    let decision = true;
+
+    switch (command) {
+      case 'start':
+        if (state === 'Running') {
+          decision = false;
+        }
+        break;
+      case 'stop':
+      case 'reboot':
+        if (state === 'Stopped') {
+          decision = false;
+        }
+        break;
+    }
+
+    return decision;
   }
 }
