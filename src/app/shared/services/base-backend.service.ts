@@ -34,6 +34,25 @@ export abstract class BaseBackendService<M extends BaseModel> {
       });
   }
 
+  public create(params?: {}): Promise<M> {
+    const command = 'create';
+    let entity = this.entity.toLowerCase();
+    return this.http.post(BACKEND_API_URL, this.buildParams(command, params))
+      .toPromise()
+      .then((res: Response) => {
+        const response = res.json()[`${command}${entity}response`];
+        if (entity === 'tag') {
+          return response;
+        }
+
+        return this.prepareModel(response[entity]);
+      })
+      .catch(error => {
+        this.error.next(error);
+        return Promise.reject(error);
+      });
+  }
+
   protected prepareModel(res): M {
     return new this.entityModel(res);
   }
@@ -41,7 +60,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
   protected buildParams(command: string, params?: {}): URLSearchParams {
     const urlParams = new URLSearchParams();
     let apiCommand = `${command}${this.entity}`;
-    if (command === 'list') {
+    if (command === 'list' || this.entity === 'Tag') {
       apiCommand += 's';
     }
     urlParams.append('command', apiCommand);
