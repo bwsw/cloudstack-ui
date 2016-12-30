@@ -38,14 +38,6 @@ export class SecurityGroup extends BaseModel {
   public egressRules: Array<NetworkRule>;
   public tags: Array<ITag>;
 
-  public get labels() {
-    return this._labels;
-  }
-
-  public set labels(value) {
-    this._labels = value;
-  }
-
   private _labels: Array<string>;
 
   constructor(params?: {}) {
@@ -73,6 +65,14 @@ export class SecurityGroup extends BaseModel {
       this.tags.splice(i, 1);
       break;
     }
+  }
+
+  public get labels() {
+    return this._labels;
+  }
+
+  public set labels(value) {
+    this._labels = value;
   }
 
   public serialize() {
