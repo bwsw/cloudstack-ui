@@ -1,0 +1,14 @@
+<cs-security-group-template-list-item
+  *ngFor="let group of securityGroupList"
+  [securityGroupTemplate]="group"
+>
+</cs-security-group-template-list-item>
+<div class="fab">
+  <button
+    mdl-button
+    mdl-button-type="fab"
+    mdl-colored="accent"
+  >
+    <mdl-icon>add</mdl-icon>
+  </button>
+</div>

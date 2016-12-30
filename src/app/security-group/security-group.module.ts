@@ -7,6 +7,8 @@ import { MdlModule } from 'angular2-mdl';
 import { SecurityGroupService } from './security-group.service';
 import { SecurityGroupCreationComponent } from './security-group-creation.component';
 import { SecurityGroupRulesManagerComponent } from './security-group-rules-manager.component';
+import { SecurityGroupTemplateListComponent } from './security-group-template-list.component';
+import { SecurityGroupTemplateListItemComponent } from './security-group-template-list-item.component';
 
 @NgModule({
   imports: [
@@ -17,11 +19,14 @@ import { SecurityGroupRulesManagerComponent } from './security-group-rules-manag
   ],
   exports: [
     SecurityGroupCreationComponent,
-    SecurityGroupRulesManagerComponent
+    SecurityGroupRulesManagerComponent,
+    SecurityGroupTemplateListComponent
   ],
   declarations: [
     SecurityGroupCreationComponent,
-    SecurityGroupRulesManagerComponent
+    SecurityGroupRulesManagerComponent,
+    SecurityGroupTemplateListComponent,
+    SecurityGroupTemplateListItemComponent
   ],
   providers: [ SecurityGroupService ],
   entryComponents: [ SecurityGroupCreationComponent ]

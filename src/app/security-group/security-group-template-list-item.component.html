@@ -1,0 +1,31 @@
+<mdl-card class="custom-card" mdl-shadow="2">
+  <mdl-card-title>
+    <h2 mdl-card-title-text>{{ securityGroupTemplate.name }}</h2>
+  </mdl-card-title>
+  <mdl-card-supporting-text>
+    <div class="description">{{ securityGroupTemplate.description }}</div>
+    <table style="width: 100%; text-align: center;">
+      <thead>
+      <tr>
+        <th>{{ 'DOMAIN' | translate }}</th>
+        <th>{{ 'ACCOUNT' | translate }}</th>
+      </tr>
+      </thead>
+      <tr>
+        <td>{{ securityGroupTemplate.domain }}</td>
+        <td>{{ securityGroupTemplate.account }}</td>
+      </tr>
+    </table>
+    <div class="labels">
+      <mdl-chip
+        *ngFor="let label of securityGroupTemplate.labels"
+        mdl-action-icon="cancel"
+        mdl-label="{{ label }}"
+      >
+      </mdl-chip>
+    </div>
+  </mdl-card-supporting-text>
+  <mdl-card-actions>
+    <button mdl-button>{{ 'DELETE' | translate }}</button>
+  </mdl-card-actions>
+</mdl-card>
