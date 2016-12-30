@@ -68,3 +68,16 @@ h5 {
   margin: 20px 0 0 16px;
   font-weight: bold;
 }
+
+.security-group-select {
+  position: absolute;
+  right: 0;
+  display: inline-block;
+  text-align: right;
+  margin-top: 16px;
+}
+
+.security-group-wrapper {
+  position: relative;
+  margin-bottom: 50px;
+}

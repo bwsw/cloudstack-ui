@@ -16,6 +16,8 @@ import {
   JobsNotificationService,
   INotificationStatus
 } from '../shared/services/jobs-notification.service';
+import { TemplateService } from '../shared/services/template.service';
+import { NotificationService } from '../shared/notification.service';
 
 
 @Component({
@@ -53,14 +55,22 @@ export class VmCreateComponent {
     private sshService: SSHKeyPairService,
     private vmService: VmService,
     private jobsNotificationService: JobsNotificationService,
-    private translateService: TranslateService
+    private templateService: TemplateService,
+    private translateService: TranslateService,
+    private notificationService: NotificationService
   ) {
     this.updateVmCreateData();
   }
 
   public show(): void {
-    this.updateVmCreateData();
-    this.vmCreateDialog.show();
+    this.templateService.getDefault().then(result => {
+      this.updateVmCreateData();
+      this.vmCreateDialog.show();
+    }).catch(() => {
+      this.translateService.get(['UNABLE_TO_RECEIVE_TEMPLATES']).subscribe(strs => {
+        this.notificationService.error(strs.UNABLE_TO_RECEIVE_TEMPLATES);
+      });
+    });
   }
 
   public hide(): void {
@@ -124,6 +134,11 @@ export class VmCreateComponent {
             });
         });
     });
+  }
+
+  public onVmCreationSubmit(e: any): void {
+    this.deployVm();
+    this.vmCreateDialog.close();
   }
 
   private get vmCreateParams(): {} {

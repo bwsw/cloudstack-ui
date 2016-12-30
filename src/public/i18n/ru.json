@@ -56,5 +56,19 @@
     "isSystem": "Системная",
     "defaultUse": "По умолчанию",
     "isCustomized": "Настраиваемая"
+  },
+  "ALL_GROUPS": "Все шаблоны",
+  "SELECTED_GROUPS": "Выбранные шаблоны",
+  "NETWORK_RULES": "Правила сети",
+  "CANCEL": "Отмена",
+  "SAVE": "Сохранить",
+  "CREATE": "Создать",
+  "EDIT": "Редактировать",
+  "SELECT": "Выбрать",
+  "TEMPLATES": "Шаблоны",
+  "DESCRIPTION": "Описание",
+  "VM_CREATION_TEMPLATE": {
+    "OS_TEMPLATE": "ОС шаблон",
+    "YOU_DONT_HAVE_TEMPLATES": "Шаблоны не созданны"
   }
 }

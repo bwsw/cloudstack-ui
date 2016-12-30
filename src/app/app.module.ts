@@ -11,6 +11,11 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
 import { VmCreateComponent } from './vm/vm-create.component';
+import { VmCreationTemplateComponent } from './vm/vm-creation-template/vm-creation-template.component';
+import { VmCreationTemplateDialogComponent } from './vm/vm-creation-template/vm-creation-template-dialog.component';
+import {
+  VmCreationTemplateDialogListElementComponent
+} from './vm/vm-creation-template/vm-creation-template-dialog-list-element.component';
 import { VmListComponent } from './vm/vm-list.component';
 import { VmListItemComponent } from './vm/vm-list-item.component';
 import { VmDetailComponent } from './vm/vm-detail.component';
@@ -32,6 +37,7 @@ import {
   ServiceLocator,
   SSHKeyPairService,
   ResourceLimitService,
+  TemplateService,
   RootDiskSizeService,
   VolumeService,
   OsTypeService
@@ -48,6 +54,9 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
 
+import { ConfigService } from './shared/config.service';
+import { SecurityGroupModule } from './security-group/security-group.module';
+
 
 @NgModule({
   imports: [
@@ -58,14 +67,18 @@ import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
     routing,
     MdlModule,
     MdlPopoverModule,
-    MdlSelectModule
-],
+    MdlSelectModule,
+    SecurityGroupModule
+  ],
   declarations: [
     AboutComponent,
     AppComponent,
     LoginComponent,
     LogoutComponent,
     VmCreateComponent,
+    VmCreationTemplateComponent,
+    VmCreationTemplateDialogComponent,
+    VmCreationTemplateDialogListElementComponent,
     VmListComponent,
     VmDetailComponent,
     VmListItemComponent,
@@ -73,12 +86,17 @@ import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
     NotificationBoxItemComponent,
     DivByPowerOfTwoPipe
   ],
+  entryComponents: [
+    VmCreationTemplateDialogComponent,
+    VmCreationTemplateDialogListElementComponent
+  ],
   providers: [
     AffinityGroupService,
     ApiService,
     AuthGuard,
     AsyncJobService,
     AuthService,
+    ConfigService,
     ErrorService,
     JobsNotificationService,
     { provide: 'INotificationService', useClass: NotificationService },
@@ -91,6 +109,7 @@ import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
     ZoneService,
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
     ServiceOfferingService,
+    TemplateService,
     VmService,
     VolumeService,
     OsTypeService,

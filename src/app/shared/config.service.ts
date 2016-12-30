@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { INetworkSecurityGroup } from './security-group/security-group.service';
+import { SecurityGroup } from '../security-group/security-group.model';
 import 'rxjs/add/operator/toPromise';
 
 interface IConfig {
-  securityGroupTemplates: Array<INetworkSecurityGroup>;
+  securityGroupTemplates: Array<SecurityGroup>;
 }
 
 @Injectable()
