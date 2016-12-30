@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
 import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
-import { MdProgressCircleModule } from '@angular2-material/progress-circle';
 
 import { AboutComponent } from './about/about.component';
 import { AppComponent } from './app.component';
@@ -35,7 +34,8 @@ import {
   ResourceUsageService,
   DiskStorageService,
   VolumeService,
-  OsTypeService
+  OsTypeService,
+  IsoService
 } from './shared/services';
 
 import { VmService } from './vm/vm.service';
@@ -47,6 +47,7 @@ import { routing } from './app.routing';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
 import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
+import { TemplateService } from "./shared/services/template.service";
 
 
 @NgModule({
@@ -57,8 +58,7 @@ import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
     TranslateModule.forRoot(),
     routing,
     MdlModule,
-    MdlPopoverModule,
-    MdProgressCircleModule
+    MdlPopoverModule
   ],
   declarations: [
     AboutComponent,
@@ -95,7 +95,9 @@ import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
     VolumeService,
     OsTypeService,
     {provide: 'IStorageService', useClass: StorageService},
-    VmService
+    VmService,
+    IsoService,
+    TemplateService
   ],
   bootstrap: [AppComponent]
 })

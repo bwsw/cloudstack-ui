@@ -9,7 +9,8 @@
         <div class="stat-values">{{ resourceUsage.consumed.instances + '/' + resourceUsage.max.instances
           + ' ('
           + (resourceUsage.consumed.instances / resourceUsage.max.instances * 100 || 0).toFixed(0)
-          + '%)'}}</div>
+          + '%)'}}
+        </div>
         <div>
           <mdl-progress
             [progress]="resourceUsage.consumed.instances / resourceUsage.max.instances * 100">
@@ -96,10 +97,12 @@
           </mdl-progress>
         </div>
         <div class="bar second-bar">{{ "SECONDARY_(STORAGE)" | translate }}</div>
-        <div class="stat-values second-bar">
+        <div mdl-tooltip='{{"CUSTOM_TEMPLATES_NOT_INCLUDED" | translate}}' class="stat-values second-bar">
           {{ resourceUsage.consumed.secondaryStorage
           + '/' + resourceUsage.max.secondaryStorage + ' ' + ('GB' | translate)
-          + ' ('
+          }}
+          <span class="footnote">*</span>
+          {{ ' ('
           + (resourceUsage.consumed.secondaryStorage / resourceUsage.max.secondaryStorage * 100 || 0).toFixed(0)
           + '%)'}}
         </div>

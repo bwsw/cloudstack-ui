@@ -97,5 +97,6 @@
     "isSystem": "System",
     "defaultUse": "Default",
     "isCustomized": "Customized"
-  }
+  },
+  "CUSTOM_TEMPLATES_NOT_INCLUDED": "Templates not included"
 }

@@ -9,22 +9,32 @@ import { VolumeService } from './volume.service';
 import { Volume } from '../models/volume.model';
 import { SnapshotService } from './snapshot.service';
 import { Snapshot } from '../models/snapshot.model';
-import { DiskStorageService } from './root-disk-size.service';
+import { DiskStorageService } from './disk-storage.service';
+import { ResourceType, ResourceLimit } from '../models/resource-limit.model';
 
 
 export class ResourcesData {
-  public instances: number = 0;        // +
-  public ips: number = 0;              // +
-  public volumes: number = 0;          // +
-  public snapshots: number = 0;        // +
-// public templates: number = 0;        // unnecessary
-// public projects: number = 0;         // unnecessary
-// public networks: number = 0;         // unnecessary
-// public vpcs: number = 0;             // unnecessary
-  public cpus: number = 0;             // +
-  public memory: number = 0;           // +
-  public primaryStorage: number = 0;   // +
-  public secondaryStorage: number = 0; // +
+  public instances: number = 0;
+  public ips: number = 0;
+  public volumes: number = 0;
+  public snapshots: number = 0;
+  public cpus: number = 0;
+  public memory: number = 0;
+  public primaryStorage: number = 0;
+  public secondaryStorage: number = 0;
+
+  constructor(resources?: Array<ResourceLimit>) {
+    if (resources) {
+      this.instances = resources[ResourceType.Instance].max;
+      this.ips = resources[ResourceType.IP].max;
+      this.volumes = resources[ResourceType.Volume].max;
+      this.snapshots = resources[ResourceType.Snapshot].max;
+      this.cpus = resources[ResourceType.CPU].max;
+      this.memory = resources[ResourceType.Memory].max;
+      this.primaryStorage = resources[ResourceType.PrimaryStorage].max;
+      this.secondaryStorage = resources[ResourceType.SecondaryStorage].max;
+    }
+  }
 }
 
 export class ResourceStats {
@@ -55,7 +65,7 @@ export class ResourceUsageService {
 
   public getResourceUsage(): Promise<ResourceStats> {
     let consumedResources = new ResourcesData();
-    let maxResources = new ResourcesData();
+    let maxResources;
 
     let promiseArray = [];
 
@@ -81,20 +91,14 @@ export class ResourceUsageService {
 
     promiseArray.push(this.diskStorageService.getConsumedPrimaryStorage()
       .then(result => consumedResources.primaryStorage = result));
+
     promiseArray.push(this.diskStorageService.getConsumedSecondaryStorage()
       .then(result => consumedResources.secondaryStorage = result));
 
     return Promise.all(promiseArray)
       .then(() => {
         return this.resourceLimitService.getList().then(result => {
-          maxResources.instances = result[0].max; // add mapper to resource limit service
-          maxResources.ips = result[1].max;
-          maxResources.volumes = result[2].max;
-          maxResources.snapshots = result[3].max;
-          maxResources.cpus = result[8].max;
-          maxResources.memory = result[9].max;
-          maxResources.primaryStorage = result[10].max;
-          maxResources.secondaryStorage = result[11].max;
+          maxResources = new ResourcesData(result);
           return new ResourceStats(
             this.getAvailableResources(maxResources, consumedResources),
             consumedResources,

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ResourceUsageService, ResourceStats } from '../shared/services/resource-usage.service';
 
 
@@ -7,12 +7,15 @@ import { ResourceUsageService, ResourceStats } from '../shared/services/resource
   templateUrl: './vm-statistics.component.html',
   styleUrls: ['./vm-statistics.component.scss']
 })
-export class VmStatisticsComponent {
+export class VmStatisticsComponent implements OnInit {
 
   public resourceUsage: ResourceStats;
 
   constructor(private resourceUsageService: ResourceUsageService) {
     this.resourceUsage = new ResourceStats();
+  }
+
+  public ngOnInit() {
     this.updateStats();
   }
 

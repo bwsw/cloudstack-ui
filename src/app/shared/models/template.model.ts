@@ -17,5 +17,6 @@ export class Template extends BaseModel {
   public displayText: string;
   public osTypeId: string;
   public osTypeName: string;
+  public size: number;
   public tags: Array<ITag>;
 }
