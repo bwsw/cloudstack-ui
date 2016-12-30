@@ -91,7 +91,8 @@ export class VmListComponent implements OnInit {
               });
             }
           );
-        });
+        })
+        .catch(err => {});
     });
   }
 
