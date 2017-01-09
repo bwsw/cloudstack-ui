@@ -32,12 +32,13 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
     return this.create(data)
       .then(res => {
         const id = res.id;
-        return this.tagService.create({
+        this.tagService.create({
           resourceIds: id,
           resourceType: this.entity,
           'tags[0].key': 'template',
           'tags[0].value': 'true'
         });
+        return res;
       });
   }
 }

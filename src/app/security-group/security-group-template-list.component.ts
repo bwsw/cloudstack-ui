@@ -53,6 +53,7 @@ export class SecurityGroupTemplateListComponent implements OnInit {
   }
 
   public createSecurityGroupTemplate(data) {
-    this.securityGroupService.createTemplate(data);
+    this.securityGroupService.createTemplate(data)
+      .then(res => this.securityGroupList.push(res));
   }
 }
