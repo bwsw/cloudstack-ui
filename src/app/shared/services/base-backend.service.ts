@@ -37,19 +37,15 @@ export abstract class BaseBackendService<M extends BaseModel> {
   public create(params?: {}): Promise<M> {
     const command = 'create';
     let entity = this.entity.toLowerCase();
-    return this.http.post(BACKEND_API_URL, this.buildParams(command, params))
-      .toPromise()
-      .then((res: Response) => {
-        const response = res.json()[`${command}${entity}response`];
+    return this.postRequest(command, params)
+      .then(res => {
+        const response = res[`${command}${entity}response`];
+
         if (entity === 'tag') {
           return response;
         }
 
         return this.prepareModel(response[entity]);
-      })
-      .catch(error => {
-        this.error.next(error);
-        return Promise.reject(error);
       });
   }
 
@@ -86,7 +82,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
       .catch(error => {
         this.error.next(error);
         return Promise.reject(error);
-      } );
+      });
   }
 
   private fetchList(params?: {}): Promise<any> {
