@@ -29,7 +29,7 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
   }
 
   public createTemplate(data: any) {
-    this.create(data)
+    return this.create(data)
       .then(res => {
         const id = res.id;
         return this.tagService.create({

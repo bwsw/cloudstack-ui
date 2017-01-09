@@ -45,6 +45,9 @@ export class SecurityGroupTemplateListComponent implements OnInit {
 
     this.dialogObservable.switchMap(res => res.onHide())
       .subscribe((data: any) => {
+        if (!data) {
+          return;
+        }
         this.createSecurityGroupTemplate(data);
       });
   }
