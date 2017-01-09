@@ -6,10 +6,11 @@
       </mdl-card-title>
       <mdl-card-supporting-text class="progress single-bar">
         <div class="bar">{{ 'DEPLOYED' | translate }}</div>
-        <div class="stat-values">{{ resourceUsage.consumed.instances + '/' + resourceUsage.max.instances
+        <div class="stat-values">
+          {{ resourceUsage.consumed.instances + '/' + resourceUsage.max.instances
           + ' ('
           + (resourceUsage.consumed.instances / resourceUsage.max.instances * 100 || 0).toFixed(0)
-          + '%)'}}
+          + '%)' }}
         </div>
         <div>
           <mdl-progress
@@ -28,17 +29,17 @@
           {{ resourceUsage.consumed.cpus + '/' + resourceUsage.max.cpus
           + ' ('
           + (resourceUsage.consumed.cpus / resourceUsage.max.cpus * 100 || 0).toFixed(0)
-          + '%)'}}
+          + '%)' }}
         </div>
         <div>
           <mdl-progress [progress]="resourceUsage.consumed.cpus / resourceUsage.max.cpus * 100"></mdl-progress>
         </div>
         <div class="bar second-bar">{{ "RAM" | translate }}</div>
         <div class="stat-values second-bar">
-          {{(resourceUsage.consumed.memory / 1024).toFixed(1)
-          + '/' + (resourceUsage.max.memory/1024).toFixed(1) + ' ' + ('GB' | translate)
+          {{ (resourceUsage.consumed.memory | divByPowerOfTwo:10:1)
+          + '/' + (resourceUsage.max.memory | divByPowerOfTwo:10:1) + ' ' + ('GB' | translate)
           + ' (' + (resourceUsage.consumed.memory / resourceUsage.max.memory * 100 || 0).toFixed(0)
-          + '%)'}}
+          + '%)' }}
         </div>
         <div>
           <mdl-progress
@@ -59,7 +60,7 @@
           {{ resourceUsage.consumed.volumes + '/' + resourceUsage.max.volumes
           + ' ('
           + (resourceUsage.consumed.volumes / resourceUsage.max.volumes * 100 || 0).toFixed(0)
-          + '%)'}}
+          + '%)' }}
         </div>
         <div>
           <mdl-progress [progress]="resourceUsage.consumed.volumes / resourceUsage.max.volumes * 100"></mdl-progress>
@@ -69,7 +70,7 @@
           {{ resourceUsage.consumed.snapshots + '/' + resourceUsage.max.snapshots
           + ' ('
           + (resourceUsage.consumed.snapshots / resourceUsage.max.snapshots * 100 || 0).toFixed(0)
-          + '%)'}}
+          + '%)' }}
         </div>
         <div>
           <mdl-progress
@@ -89,7 +90,7 @@
           {{ resourceUsage.consumed.primaryStorage + '/' + resourceUsage.max.primaryStorage + ' ' + ('GB' | translate)
           + ' ('
           + (resourceUsage.consumed.primaryStorage / resourceUsage.max.primaryStorage * 100 || 0).toFixed(0)
-          + '%)'}}
+          + '%)' }}
         </div>
         <div>
           <mdl-progress
@@ -99,12 +100,11 @@
         <div class="bar second-bar">{{ "SECONDARY_(STORAGE)" | translate }}</div>
         <div mdl-tooltip='{{"CUSTOM_TEMPLATES_NOT_INCLUDED" | translate}}' class="stat-values second-bar">
           {{ resourceUsage.consumed.secondaryStorage
-          + '/' + resourceUsage.max.secondaryStorage + ' ' + ('GB' | translate)
-          }}
+          + '/' + resourceUsage.max.secondaryStorage + ' ' + ('GB' | translate) }}
           <span class="footnote">*</span>
           {{ ' ('
           + (resourceUsage.consumed.secondaryStorage / resourceUsage.max.secondaryStorage * 100 || 0).toFixed(0)
-          + '%)'}}
+          + '%)' }}
         </div>
         <div>
           <mdl-progress

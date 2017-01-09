@@ -37,20 +37,15 @@ export class DiskStorageService {
   public getConsumedSecondaryStorage(): Promise<number> {
     return Promise.all([
       this.snapshotService.getList(),
-      // this.templateService.getList({ templatefilter: 'self'}),
       this.isoService.getList({ isofilter: 'self'})
     ]).then(result => {
       let consumedSecondaryStorage = 0;
       result[0].forEach(element => {
         consumedSecondaryStorage += element.physicalSize;
       });
-      // result[1].forEach(element => { // cloudstack doesn't allow non-admins to get template size
-      //   consumedSecondaryStorage += element.size;
-      // });
       result[1].forEach(element => {
         consumedSecondaryStorage += element.size;
       });
-      console.log(consumedSecondaryStorage);
       return Math.floor(consumedSecondaryStorage / Math.pow(2, 30));
     })
   }

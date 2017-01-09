@@ -47,7 +47,7 @@ import { routing } from './app.routing';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
 import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
-import { TemplateService } from "./shared/services/template.service";
+import { TemplateService } from './shared/services/template.service';
 
 
 @NgModule({
