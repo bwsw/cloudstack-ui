@@ -37,7 +37,7 @@ class VmCreationData {
 
   constructor() {
     this.vm = new VirtualMachine({
-      keyPair: '',
+      keyPair: ''
     });
     this.affinityGroupId = '';
     this.rootDiskSize = MIN_ROOT_DISK_SIZE - 1; // minimum allowed size minus 1 equals auto (min slider value)
@@ -81,7 +81,7 @@ export class VmCreateComponent {
       this.vmCreateDialog.show();
     }).catch(() => {
       this.translateService.get(['UNABLE_TO_RECEIVE_TEMPLATES']).subscribe(strs => {
-        this.notificationService.error(strs.UNABLE_TO_RECEIVE_TEMPLATES);
+        this.notificationService.error(strs['UNABLE_TO_RECEIVE_TEMPLATES']);
       });
     });
   }
@@ -99,11 +99,9 @@ export class VmCreateComponent {
   public deployVm(): void {
     let params = this.vmCreateParams;
     this.translateService.get([
-      'VM_DEPLOY_IN_PROGRESS',
-      'DEPLOY_DONE',
-      'DEPLOY_IN_PROGRESS'
+      'VM_DEPLOY_IN_PROGRESS'
     ]).subscribe(strs => {
-      let id = this.jobsNotificationService.add(strs.VM_DEPLOY_IN_PROGRESS);
+      let id = this.jobsNotificationService.add(strs['VM_DEPLOY_IN_PROGRESS']);
       this.vmService.deploy(params)
         .subscribe(result => {
           this.vmService.get(result.id)
@@ -123,7 +121,7 @@ export class VmCreateComponent {
     ]).subscribe(str => {
       this.jobsNotificationService.add({
         id: notificationId,
-        message: str.DEPLOY_DONE,
+        message: str['DEPLOY_DONE'],
         status: INotificationStatus.Finished
       });
     });
@@ -135,16 +133,16 @@ export class VmCreateComponent {
   }
 
   private getVmCreateData(): Promise<VmCreationData> {
-
     let vmCreationData = new VmCreationData();
 
-    let p1 = this.zoneService.getList();
-    let p2 = this.serviceOfferingService.getList();
-    let p3 = this.rootDiskSizeService.getAvailableRootDiskSize();
-    let p4 = this.affinityGroupService.getList();
-    let p5 = this.sshService.getList();
+    const p = [];
+    p.push(this.zoneService.getList());
+    p.push(this.serviceOfferingService.getList());
+    p.push(this.rootDiskSizeService.getAvailableRootDiskSize());
+    p.push(this.affinityGroupService.getList());
+    p.push(this.sshService.getList());
 
-    return Promise.all([p1, p2, p3, p4, p5]).then(result => {
+    return Promise.all(p).then(result => {
       vmCreationData.zones = result[0];
       vmCreationData.serviceOfferings = result[1];
       vmCreationData.rootDiskSizeLimit = result[2];
