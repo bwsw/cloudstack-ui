@@ -1,6 +1,16 @@
 // styles in src/style directory are applied to the whole page
 @import '~@angular2-mdl-ext/popover/popover';
 
+@import "~angular2-mdl/scss/color-definitions";
+
+$color-primary: $palette-blue-700;
+$color-primary-dark: $palette-blue-700;
+$color-accent: $palette-amber-A200;
+$color-primary-contrast: $color-dark-contrast;
+$color-accent-contrast: $color-dark-contrast;
+
+@import '~angular2-mdl/scss/material-design-lite';
+
 * {
   box-sizing: border-box;
 }

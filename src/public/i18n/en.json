@@ -58,6 +58,15 @@
   "TAKE_SNAPSHOT": "Take snapshot",
   "NO_AFFINITY_GROUP": "No affinity group",
   "IP_NA": "IP N/A",
+  "VMS": "Virtual machines",
+  "DEPLOYED": "Deployed",
+  "COMPUTATIONAL_RESOURCES": "Computational resources",
+  "CPUS": "CPUs",
+  "SNAPSHOTS": "Snapshots",
+  "STORAGE": "Storage",
+  "PRIMARY_(STORAGE)": "Primary",
+  "SECONDARY_(STORAGE)": "Secondary",
+  "GB": "GB",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "CPU utilized",
     "NETWORK_READ": "Network read",
@@ -106,5 +115,6 @@
     "OS_TEMPLATE": "OS template",
     "YOU_DONT_HAVE_TEMPLATES": "You don't have any templates"
   },
-  "DESCRIPTION": "Description"
+  "DESCRIPTION": "Description",
+  "CUSTOM_TEMPLATES_NOT_INCLUDED": "Templates not included"
 }

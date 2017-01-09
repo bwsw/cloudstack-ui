@@ -15,6 +15,7 @@ import { VmCreationTemplateDialogComponent } from './vm/vm-creation-template/vm-
 import { VmCreationTemplateDialogListElementComponent } from './vm/vm-creation-template/vm-creation-template-dialog-list-element.component';
 import { VmListComponent } from './vm/vm-list.component';
 import { VmListItemComponent } from './vm/vm-list-item.component';
+import { VmStatisticsComponent } from './vm/vm-statistics.component';
 import { VmDetailComponent } from './vm/vm-detail.component';
 import { NotificationBoxComponent } from './notification-box.component';
 import { NotificationBoxItemComponent } from './notification-box-item.component';
@@ -32,9 +33,13 @@ import {
   ServiceOfferingService,
   ServiceLocator,
   TemplateService,
-  RootDiskSizeService,
+  SnapshotService,
+  ResourceLimitService,
+  ResourceUsageService,
+  DiskStorageService,
   VolumeService,
-  OsTypeService
+  OsTypeService,
+  IsoService
 } from './shared/services';
 
 import { VmService } from './vm/vm.service';
@@ -46,7 +51,6 @@ import { routing } from './app.routing';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
 import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
-
 import { ConfigService } from './shared/config.service';
 import { SecurityGroupModule } from './security-group/security-group.module';
 
@@ -73,6 +77,7 @@ import { SecurityGroupModule } from './security-group/security-group.module';
     VmListComponent,
     VmDetailComponent,
     VmListItemComponent,
+    VmStatisticsComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     DivByPowerOfTwoPipe
@@ -88,21 +93,24 @@ import { SecurityGroupModule } from './security-group/security-group.module';
     AuthService,
     ConfigService,
     ErrorService,
+    IsoService,
     JobsNotificationService,
     { provide: 'INotificationService', useClass: NotificationService },
     { provide: 'IStorageService', useClass: StorageService },
     LoginGuard,
     NotificationService,
-    RootDiskSizeService,
+    ResourceLimitService,
+    ResourceUsageService,
+    DiskStorageService,
+    SnapshotService,
     ZoneService,
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
     ServiceOfferingService,
-    TemplateService,
-    VmService,
     VolumeService,
     OsTypeService,
     {provide: 'IStorageService', useClass: StorageService},
-    VmService
+    TemplateService,
+    VmService,
   ],
   bootstrap: [AppComponent]
 })
