@@ -118,7 +118,7 @@ export class VmListComponent implements OnInit {
       actions: [
         {
           handler: () => {
-            console.log('show vm create dialog'); // temporary
+            this.vmCreationForm.show();
           },
           text: translations['YES']
         },
