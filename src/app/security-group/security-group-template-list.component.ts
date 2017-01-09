@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
+import { TranslateService } from 'ng2-translate';
 
 import { SecurityGroupService } from './security-group.service';
 import { SecurityGroup } from './security-group.model';
@@ -17,7 +18,8 @@ export class SecurityGroupTemplateListComponent implements OnInit {
 
   constructor(
     private securityGroupService: SecurityGroupService,
-    private dialogService: MdlDialogService
+    private dialogService: MdlDialogService,
+    private translate: TranslateService
   ) { }
 
   public ngOnInit() {
@@ -58,16 +60,25 @@ export class SecurityGroupTemplateListComponent implements OnInit {
   }
 
   public deleteSecurityGroupTemplate(id) {
-    this.dialogService.confirm('Are you sure you want to delete sg template?')
-      .toPromise()
-      .then(() => {
-        return this.securityGroupService.deleteTemplate(id);
-      })
-      .then(res => {
-        if (res && res.success === 'true') {
-          this.securityGroupList = this.securityGroupList.filter(sg => sg.id !== id);
-        }
-      })
-      .catch(() => {});
+    this.translate.get([
+      'YES',
+      'NO',
+      'CONFIRM_DELETE_TEMPLATE'
+    ]).subscribe(translations => {
+      this.dialogService.confirm(
+        translations['CONFIRM_DELETE_TEMPLATE'],
+        translations['NO'],
+        translations['YES']
+      ).toPromise()
+        .then(() => {
+          return this.securityGroupService.deleteTemplate(id);
+        })
+        .then(res => {
+          if (res && res.success === 'true') {
+            this.securityGroupList = this.securityGroupList.filter(sg => sg.id !== id);
+          }
+        })
+        .catch(() => {});
+    });
   }
 }
