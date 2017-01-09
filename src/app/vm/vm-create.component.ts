@@ -10,15 +10,42 @@ import { AffinityGroup } from '../shared/models/affinity-group.model';
 import { SSHKeyPairService } from '../shared/services/SSHKeyPair.service';
 import { MdlDialogComponent } from 'angular2-mdl';
 import { VmService } from './vm.service';
+import { VirtualMachine, MIN_ROOT_DISK_SIZE } from './vm.model';
 import { TranslateService } from 'ng2-translate';
 
 import {
   JobsNotificationService,
   INotificationStatus
 } from '../shared/services/jobs-notification.service';
+
 import { TemplateService } from '../shared/services/template.service';
 import { NotificationService } from '../shared/notification.service';
 
+class VmCreationData {
+  public vm: VirtualMachine;
+  public affinityGroups: Array<AffinityGroup>;
+  public serviceOfferings: Array<ServiceOffering>;
+  public sshKeyPairs: Array<SSHKeyPair>;
+  public zones: Array<Zone>;
+
+  public affinityGroupId: string;
+  public doStartVm: boolean;
+  public keyboard: string;
+  public keyPair: string;
+  public rootDiskSize: number;
+  public rootDiskSizeLimit: number;
+
+  constructor() {
+    this.vm = new VirtualMachine({
+      keyPair: '',
+    });
+    this.affinityGroupId = '';
+    this.rootDiskSize = MIN_ROOT_DISK_SIZE - 1; // minimum allowed size minus 1 equals auto (min slider value)
+    this.rootDiskSizeLimit = 0;
+    this.doStartVm = true;
+    this.keyboard = 'us';
+  }
+}
 
 @Component({
   selector: 'cs-vm-create',
@@ -30,21 +57,7 @@ export class VmCreateComponent {
   @ViewChild(MdlDialogComponent) public vmCreateDialog: MdlDialogComponent;
   @Output() public onCreated: EventEmitter<any> = new EventEmitter();
 
-  public name: string;
-  public description: string;
-  public rootDiskSize: number;
-  public zones: Array<Zone>;
-  public zoneId: string;
-  public serviceOfferings: Array<ServiceOffering>;
-  public serviceOfferingId: string;
-  public rootDiskSizeLimit: number;
-  public keyboard: string;
-  public affinityGroups: Array<AffinityGroup>;
-  public affinityGroupId: number;
-  public sshKeyPairs: Array<SSHKeyPair>;
-  public sshId: string;
-  public doStartVm: boolean;
-
+  public vmCreationData: VmCreationData;
   public keyboards = ['us', 'uk', 'jp', 'sc'];
 
   constructor(
@@ -59,12 +72,12 @@ export class VmCreateComponent {
     private translateService: TranslateService,
     private notificationService: NotificationService
   ) {
-    this.updateVmCreateData();
+    this.vmCreationData = new VmCreationData();
   }
 
   public show(): void {
     this.templateService.getDefault().then(result => {
-      this.updateVmCreateData();
+      this.resetVmCreateData();
       this.vmCreateDialog.show();
     }).catch(() => {
       this.translateService.get(['UNABLE_TO_RECEIVE_TEMPLATES']).subscribe(strs => {
@@ -77,35 +90,9 @@ export class VmCreateComponent {
     this.vmCreateDialog.close();
   }
 
-  public updateVmCreateData(): void {
-    this.doStartVm = true;
-    this.rootDiskSize = 9;
-    this.sshId = '';
-    this.affinityGroupId = -1; // not selected
-    this.keyboard = 'us';
-    this.zoneService.getList().then(result => {
-      this.zones = result;
-      if (result.length) {
-        this.zoneId = result[0].id;
-      }
-    });
-    this.serviceOfferingService.getList().then(result => {
-      this.serviceOfferings = result;
-      if (result.length) {
-        this.serviceOfferingId = result[0].id;
-      }
-    });
-    this.rootDiskSizeService.getAvailableRootDiskSize().then(result => {
-      this.rootDiskSizeLimit = result;
-    });
-    this.affinityGroupService.getList().then(result => {
-      this.affinityGroups = result;
-    });
-    this.sshService.getList().then(result => {
-      this.sshKeyPairs = result;
-      if (result.length) {
-        this.sshId = result[0].name;
-      }
+  public resetVmCreateData(): void {
+    this.getVmCreateData().then(result => {
+      this.vmCreationData = result;
     });
   }
 
@@ -125,40 +112,80 @@ export class VmCreateComponent {
               this.onCreated.next(r);
             });
           this.vmService.checkDeploy(result.jobid)
-            .subscribe(() => {
-              this.jobsNotificationService.add({
-                id,
-                message: strs.DEPLOY_DONE,
-                status: INotificationStatus.Finished
-              });
-            });
+            .subscribe(() => this.notifyOnDeployDone(id));
         });
+    });
+  }
+
+  public notifyOnDeployDone(notificationId: string) {
+    this.translateService.get([
+      'DEPLOY_DONE'
+    ]).subscribe(str => {
+      this.jobsNotificationService.add({
+        id: notificationId,
+        message: str.DEPLOY_DONE,
+        status: INotificationStatus.Finished
+      });
     });
   }
 
   public onVmCreationSubmit(e: any): void {
     this.deployVm();
-    this.vmCreateDialog.close();
+    this.hide();
+  }
+
+  private getVmCreateData(): Promise<VmCreationData> {
+
+    let vmCreationData = new VmCreationData();
+
+    let p1 = this.zoneService.getList();
+    let p2 = this.serviceOfferingService.getList();
+    let p3 = this.rootDiskSizeService.getAvailableRootDiskSize();
+    let p4 = this.affinityGroupService.getList();
+    let p5 = this.sshService.getList();
+
+    return Promise.all([p1, p2, p3, p4, p5]).then(result => {
+      vmCreationData.zones = result[0];
+      vmCreationData.serviceOfferings = result[1];
+      vmCreationData.rootDiskSizeLimit = result[2];
+      vmCreationData.affinityGroups = result[3];
+      vmCreationData.sshKeyPairs = result[4];
+      if (result[0].length) {
+        vmCreationData.vm.zoneId = result[0][0].id;
+      }
+      if (result[1].length) {
+        vmCreationData.vm.serviceOfferingId = result[1][0].id;
+      }
+      if (result[4].length) {
+        vmCreationData.vm.keyPair = result[4][0].name;
+      }
+      return vmCreationData;
+    });
   }
 
   private get vmCreateParams(): {} {
     let params = {
-      'serviceofferingid': this.serviceOfferingId,
+      'serviceofferingid': this.vmCreationData.vm.serviceOfferingId,
       'templateid': '166e45c1-5ca7-45a0-9111-73e39953f05f', // temp
-      'zoneid': this.zoneId,
+      'zoneid': this.vmCreationData.vm.zoneId,
       'response': 'json'
     };
 
-    if (this.name) { params['name'] = this.name; }
-    if (this.description) { params['description'] = this.description; }
-    if (this.affinityGroupId !== -1) { params['affinitygroupid'] = this.affinityGroupId; }
-    if (this.rootDiskSize >= 10) { params['rootdisksize'] = this.rootDiskSize; } // 10GB is temporary. need to employ
-                                                                                 // the resource service to get min size
-                                                                                 // or something
-    if (!this.doStartVm) { params['startvm'] = 'false'; }
+    if (this.vmCreationData.vm.displayName) {
+      params['name'] = this.vmCreationData.vm.displayName;
+    }
+    if (this.vmCreationData.affinityGroupId) {
+      params['affinitygroupids'] = this.vmCreationData.affinityGroupId;
+    }
+    if (this.vmCreationData.rootDiskSize >= 10) {
+      params['rootdisksize'] = this.vmCreationData.rootDiskSize;
+    }
+    if (!this.vmCreationData.doStartVm) {
+      params['startvm'] = 'false';
+    }
     params['securitygroupids'] = 'c5ffdfe0-7de4-4373-bd55-128e434c81d1'; // temp
-    params['keyboard'] = this.keyboard;
-    params['keypair'] = this.sshId;
+    params['keyboard'] = this.vmCreationData.keyboard;
+    params['keypair'] = this.vmCreationData.keyPair;
 
     return params;
   }

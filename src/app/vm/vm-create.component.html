@@ -20,18 +20,18 @@
             label="{{ 'VM_CREATION_FORM.NAME' | translate }}"
             id="name"
             name="name"
-            [(ngModel)]="name">
+            [(ngModel)]="vmCreationData.vm.displayName">
           </mdl-textfield>
         </div>
-        <div>
-          <mdl-textfield
-            type="text"
-            label="{{ 'VM_CREATION_FORM.DESCRIPTION' | translate }}"
-            id="description"
-            name="description"
-            [(ngModel)]="description">
-          </mdl-textfield>
-        </div>
+        <!--<div>-->
+          <!--<mdl-textfield-->
+            <!--type="text"-->
+            <!--label="{{ 'VM_CREATION_FORM.DESCRIPTION' | translate }}"-->
+            <!--id="description"-->
+            <!--name="description"-->
+            <!--[(ngModel)]="description">-->
+          <!--</mdl-textfield>-->
+        <!--</div>-->
         <div>
           <mdl-textfield
             [disabled]="true"
@@ -45,34 +45,43 @@
         <h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>
         <div>
           <mdl-select
-            [(ngModel)]="serviceOfferingId"
+            [(ngModel)]="vmCreationData.vm.serviceOfferingId"
             id="serviceOffering"
             name="serviceOffering"
           >
-            <mdl-option *ngFor="let so of serviceOfferings" [value]="so.id" >{{so.name}}</mdl-option>
+            <mdl-option
+              *ngFor="let so of vmCreationData.serviceOfferings"
+              [value]="so.id"
+            >
+              {{ so.name }}
+            </mdl-option>
           </mdl-select>
         </div>
         <h5>{{ 'VM_CREATION_FORM.ZONE' | translate }}</h5>
         <div>
           <mdl-select
-            [(ngModel)]="zoneId"
+            [(ngModel)]="vmCreationData.vm.zoneId"
             id="zone"
             name="zone"
           >
-            <mdl-option *ngFor="let z of zones" [value]="z.id" >{{z.name}}</mdl-option>
+            <mdl-option *ngFor="let z of vmCreationData.zones" [value]="z.id" >
+              {{ z.name }}
+            </mdl-option>
           </mdl-select>
         </div>
         <div class="root-disk-size">
           <h5 class="root-disk-size-header">{{ 'VM_CREATION_FORM.ROOT_DISK_SIZE' | translate }}</h5>
-          <h5 class="root-disk-size-limit">{{rootDiskSize >= 10 ? rootDiskSize + ' GB' : 'Auto'}}</h5>
+          <h5 class="root-disk-size-limit">
+            {{ vmCreationData.rootDiskSize >= 10 ? vmCreationData.rootDiskSize + ' GB' : 'Auto' }}
+          </h5>
         </div>
         <div class="root-disk-size-slider">
           <mdl-slider
-            max="{{rootDiskSizeLimit || 10}}"
+            max="{{ vmCreationData.rootDiskSizeLimit || 10 }}"
             id="rootDiskSize"
             name="rootDiskSize"
             value="9"
-            [(ngModel)]="rootDiskSize"
+            [(ngModel)]="vmCreationData.rootDiskSize"
             mdl-tooltip-position="top"
             min="9"
           >
@@ -83,12 +92,17 @@
         <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
         <div>
           <mdl-select
-            [(ngModel)]="affinityGroupId"
+            [(ngModel)]="vmCreationData.affinityGroupId"
             id="affinityGroup"
             name="affinityGroup"
           >
-            <mdl-option [value]="-1">{{'NO_AFFINITY_GROUP' | translate}}</mdl-option>
-            <mdl-option *ngFor="let ag of affinityGroups" [value]="ag.id" >{{ag.name}}</mdl-option>
+            <mdl-option [value]="''">{{ 'NO_AFFINITY_GROUP' | translate }}</mdl-option>
+            <mdl-option
+              *ngFor="let ag of vmCreationData.affinityGroups"
+              [value]="ag.id"
+            >
+              {{ ag.name }}
+            </mdl-option>
           </mdl-select>
         </div>
         <div class="security-group-wrapper">
@@ -100,9 +114,14 @@
           <mdl-select
             id="keyboard"
             name="keyboard"
-            [(ngModel)]="keyboard"
+            [(ngModel)]="vmCreationData.keyboard"
           >
-            <mdl-option *ngFor="let k of keyboards" [value]="k">{{ ('KB_' + k.toUpperCase()) | translate }}</mdl-option>
+            <mdl-option
+              *ngFor="let k of keyboards"
+              [value]="k"
+            >
+              {{ ('KB_' + k.toUpperCase()) | translate }}
+            </mdl-option>
           </mdl-select>
         </div>
         <h5>{{ 'VM_CREATION_FORM.SSH_KEYPAIR' | translate }}</h5>
@@ -110,16 +129,21 @@
           <mdl-select
             id="ssh"
             name="ssh"
-            [(ngModel)]="sshId"
+            [(ngModel)]="vmCreationData.vm.keyPair"
           >
-            <mdl-option *ngFor="let k of sshKeyPairs" [value]="k.name">{{k.name}}</mdl-option>
+            <mdl-option
+              *ngFor="let k of vmCreationData.sshKeyPairs"
+              [value]="k.name"
+            >
+              {{ k.name }}
+            </mdl-option>
           </mdl-select>
         </div>
         <div class="start-vm-checkbox">
           <mdl-checkbox
             id="startVm"
             name="startVm"
-            [(ngModel)]="doStartVm"
+            [(ngModel)]="vmCreationData.doStartVm"
           >
             {{ 'VM_CREATION_FORM.START_VM' | translate }}
           </mdl-checkbox>
@@ -135,7 +159,7 @@
       <button
         type="button"
         mdl-button
-        (click)="vmCreateDialog.close()"
+        (click)="hide()"
         mdl-ripple
       >
         {{ 'CANCEL' | translate }}

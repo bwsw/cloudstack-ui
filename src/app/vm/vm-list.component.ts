@@ -29,7 +29,7 @@ interface IVmActionEvent {
 })
 export class VmListComponent implements OnInit {
 
-  @ViewChild(VmCreateComponent) private vmCreationForm: VmCreateComponent;
+  @ViewChild(VmCreateComponent) public vmCreationForm: VmCreateComponent;
 
   private vmList: Array<VirtualMachine>;
   private selectedVm: VirtualMachine;
