@@ -7,7 +7,8 @@
 
 .description,
 .domain,
-.account {
+.account,
+.labels {
   height: 20px;
   margin-bottom: 10px;
 
@@ -16,8 +17,14 @@
   text-overflow: ellipsis;
 }
 
-.labels {
-  height: 2 * $chip-height + 6;
-  overflow: hidden;
-}
+.wrapper {
+  display: flex;
 
+  & > div:first-child {
+    flex: 1;
+  }
+
+  & > div:last-child {
+    flex: 2;
+  }
+}
