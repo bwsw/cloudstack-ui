@@ -67,7 +67,7 @@ export class SecurityGroupRulesManagerComponent implements OnInit, ControlValueA
       component: SecurityGroupCreationComponent,
       providers: [SecurityGroupService, { provide: 'rules', useValue: this.savedRules }],
       isModal: true,
-      styles: { 'width': '550px' },
+      styles: { 'width': '800px' },
       clickOutsideToClose: true,
       enterTransitionDuration: 400,
       leaveTransitionDuration: 400
@@ -96,3 +96,4 @@ export class SecurityGroupRulesManagerComponent implements OnInit, ControlValueA
     this.rules = temp;
   }
 }
+

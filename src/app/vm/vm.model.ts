@@ -11,6 +11,7 @@ import { ServiceOffering } from '../shared/models/service-offering.model';
   4. secondaryIp in INic
 */
 
+export const MIN_ROOT_DISK_SIZE = 10;
 
 interface IAffinityGroup {
   id: string;
@@ -61,6 +62,7 @@ export interface IVmAction {
   diskkbswrite: 'diskKbsWrite',
   diskioread: 'diskIoRead',
   diskiowrite: 'diskIoWrite',
+  keypair: 'keyPair'
 })
 export class VirtualMachine extends BaseModel {
   public id: string;
@@ -99,6 +101,8 @@ export class VirtualMachine extends BaseModel {
   public diskKbsWrite: number;
   public diskIoRead: number;
   public diskIoWrite: number;
+  // misc
+  public keyPair: string;
 
   public get actions(): Array<string> {
     return [

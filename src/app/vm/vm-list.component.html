@@ -13,3 +13,14 @@
   [isOpen]="isDetailOpen"
 >
 </cs-vm-detail>
+<div class="fab">
+  <button
+    mdl-button
+    mdl-button-type="fab"
+    mdl-colored="accent"
+    (click)="vmCreationForm.show()"
+  >
+    <mdl-icon>add</mdl-icon>
+  </button>
+</div>
+<cs-vm-create (onCreated)="onVmCreated($event)"></cs-vm-create>

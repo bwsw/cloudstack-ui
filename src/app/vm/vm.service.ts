@@ -81,14 +81,39 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
-  public command(id: string, command: string, params?: {}): Observable<AsyncJob> {
+  public deploy(params: {}) {
+    const urlParams = new URLSearchParams();
+    urlParams.append('command', 'deployVirtualMachine');
+
+    for (let key in params) {
+      if (params.hasOwnProperty(key)) {
+        urlParams.set(key, params[key]);
+      }
+    }
+
+    return this.http.get(BACKEND_API_URL, {search: urlParams})
+      .map(result => result.json().deployvirtualmachineresponse);
+  }
+
+  public checkDeploy(jobId: string) {
+    return this.jobs.addJob(jobId)
+      .map(result => {
+        if (result && result.jobResultCode === 0) {
+          result.jobResult = new this.entityModel(result.jobResult.virtualmachine);
+        }
+        this.jobs.event.next(result);
+        return result;
+      });
+  }
+
+  public command(command: string, id?: string, params?: {}): Observable<AsyncJob> {
     const urlParams = new URLSearchParams();
 
     urlParams.append('command', command + 'VirtualMachine');
     urlParams.append('response', 'json');
     if (command === 'restore') {
       urlParams.append('virtualmachineid', id);
-    } else {
+    } else if (command !== 'deploy') {
       urlParams.append('id', id);
     }
 

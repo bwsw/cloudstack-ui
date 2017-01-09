@@ -1,6 +1,6 @@
 import { BaseModel } from './base.model';
 
-export class Zone extends BaseModel {
-  public id: string;
+
+export class SSHKeyPair extends BaseModel {
   public name: string;
 }

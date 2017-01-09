@@ -20,3 +20,9 @@ cs-vm-detail {
   width: $vm-detail-width;
   transform: translateX($vm-detail-width);
 }
+
+.fab {
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+}

@@ -75,6 +75,7 @@ export class TemplateService extends BaseBackendService<Template> {
             }
           }
         }
+        return Promise.reject(0);
       });
   }
 }

@@ -10,9 +10,12 @@ import { AboutComponent } from './about/about.component';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
+import { VmCreateComponent } from './vm/vm-create.component';
 import { VmCreationTemplateComponent } from './vm/vm-creation-template/vm-creation-template.component';
 import { VmCreationTemplateDialogComponent } from './vm/vm-creation-template/vm-creation-template-dialog.component';
-import { VmCreationTemplateDialogListElementComponent } from './vm/vm-creation-template/vm-creation-template-dialog-list-element.component';
+import {
+  VmCreationTemplateDialogListElementComponent
+} from './vm/vm-creation-template/vm-creation-template-dialog-list-element.component';
 import { VmListComponent } from './vm/vm-list.component';
 import { VmListItemComponent } from './vm/vm-list-item.component';
 import { VmStatisticsComponent } from './vm/vm-statistics.component';
@@ -21,6 +24,7 @@ import { NotificationBoxComponent } from './notification-box.component';
 import { NotificationBoxItemComponent } from './notification-box-item.component';
 
 import {
+  AffinityGroupService,
   ApiService,
   AsyncJobService,
   StorageService,
@@ -32,6 +36,7 @@ import {
   ZoneService,
   ServiceOfferingService,
   ServiceLocator,
+  SSHKeyPairService,
   TemplateService,
   SnapshotService,
   ResourceLimitService,
@@ -50,6 +55,7 @@ import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
+import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
 import { ConfigService } from './shared/config.service';
 import { SecurityGroupModule } from './security-group/security-group.module';
@@ -64,6 +70,7 @@ import { SecurityGroupModule } from './security-group/security-group.module';
     routing,
     MdlModule,
     MdlPopoverModule,
+    MdlSelectModule,
     SecurityGroupModule
   ],
   declarations: [
@@ -71,6 +78,7 @@ import { SecurityGroupModule } from './security-group/security-group.module';
     AppComponent,
     LoginComponent,
     LogoutComponent,
+    VmCreateComponent,
     VmCreationTemplateComponent,
     VmCreationTemplateDialogComponent,
     VmCreationTemplateDialogListElementComponent,
@@ -87,6 +95,7 @@ import { SecurityGroupModule } from './security-group/security-group.module';
     VmCreationTemplateDialogListElementComponent
   ],
   providers: [
+    AffinityGroupService,
     ApiService,
     AuthGuard,
     AsyncJobService,
@@ -103,6 +112,7 @@ import { SecurityGroupModule } from './security-group/security-group.module';
     ResourceUsageService,
     DiskStorageService,
     SnapshotService,
+    SSHKeyPairService,
     ZoneService,
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
     ServiceOfferingService,

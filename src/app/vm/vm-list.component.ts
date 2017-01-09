@@ -5,6 +5,7 @@ import { VirtualMachine } from './vm.model';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 import { IStorageService } from '../shared/services/storage.service';
+import { VmCreateComponent } from './vm-create.component';
 import {
   JobsNotificationService,
   INotificationStatus
@@ -30,6 +31,7 @@ interface IVmActionEvent {
 export class VmListComponent implements OnInit {
 
   @ViewChild(VmStatisticsComponent) public vmStats: VmStatisticsComponent;
+  @ViewChild(VmCreateComponent) public vmCreationForm: VmCreateComponent;
 
   private vmList: Array<VirtualMachine>;
   private selectedVm: VirtualMachine;
@@ -87,7 +89,7 @@ export class VmListComponent implements OnInit {
         .then(r => {
           e.vm.state = e.action.vmStateOnAction;
           let id = this.jobsNotificationService.add(strs[e.action.progressMessage]);
-          this.vmService.command(e.vm.id, e.action.nameLower)
+          this.vmService.command(e.action.nameLower, e.vm.id)
             .subscribe(result => {
               this.jobsNotificationService.add({
                 id,
@@ -98,6 +100,10 @@ export class VmListComponent implements OnInit {
           );
         });
     });
+  }
+
+  public onVmCreated(e) {
+    this.vmList.push(e);
   }
 
   public showDetail(vm: VirtualMachine) {
@@ -115,7 +121,7 @@ export class VmListComponent implements OnInit {
       actions: [
         {
           handler: () => {
-            console.log('show vm create dialog'); // temporary
+            this.vmCreationForm.show();
           },
           text: translations['YES']
         },

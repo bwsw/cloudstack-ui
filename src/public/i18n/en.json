@@ -11,40 +11,64 @@
   "SECURITY_GROUP_TEMPLATES": "Security Group Templates",
   "RUNNING": "Running",
   "STOPPED": "Stopped",
+
+  "STARTING": "Starting",
+  "STOPPING": "Stopping",
+  "REBOOTING": "Rebooting",
+  "RESTORING": "Restoring",
+  "DESTROYING": "Destroying",
+  "DEPLOYING": "Deploying",
+
   "START_IN_PROGRESS": "Starting",
   "STOP_IN_PROGRESS": "Stopping",
   "REBOOT_IN_PROGRESS": "Rebooting",
   "RESTORE_IN_PROGRESS": "Restoring",
   "DESTROY_IN_PROGRESS": "Destroying",
+  "DEPLOY_IN_PROGRESS": "Deploying",
+
   "VM_START_IN_PROGRESS": "Starting a VM",
   "VM_STOP_IN_PROGRESS": "Stopping a VM",
   "VM_REBOOT_IN_PROGRESS": "Rebooting a VM",
   "VM_RESTORE_IN_PROGRESS": "Restoring a VM",
   "VM_DESTROY_IN_PROGRESS": "Destroying a VM",
+  "VM_DEPLOY_IN_PROGRESS": "Deploying a VM",
+
   "CONFIRM_VM_START": "Are you sure you want to start this virtual machine?",
   "CONFIRM_VM_STOP": "Are you sure you want to stop this virtual machine?",
   "CONFIRM_VM_REBOOT": "Are you sure you want to reboot this virtual machine?",
   "CONFIRM_VM_RESTORE": "Are you sure you want to restore this virtual machine?",
   "CONFIRM_VM_DESTROY": "Are you sure you want to destroy this virtual machine?",
+
   "START_DONE": "VM has started",
   "STOP_DONE": "VM has been stopped",
   "REBOOT_DONE": "VM has been rebooted",
   "RESTORE_DONE": "VM has been restored",
   "DESTROY_DONE": "VM has been destroyed",
+  "DEPLOY_DONE": "VM has been deployed",
+
   "YES": "Yes",
   "NO": "No",
-  "NO_DONT_ASK": "No, don't ask me",
+  "CONFIRM": "Confirm",
+  "CANCEL": "Cancel",
+
   "START": "Start",
   "STOP": "Stop",
   "SELECT": "Select",
+
   "TEMPLATES": "Templates",
-  "OK": "Ok",
-  "CANCEL": "Cancel",
+
   "REBOOT": "Reboot",
   "RESTORE": "Restore",
   "DESTROY": "Destroy",
   "CLEAR_ALL": "Clear all",
   "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",
+  "NO_DONT_ASK": "No, don't ask",
+
+  "KB_US": "Standard (US) keyboard",
+  "KB_UK": "UK keyboard",
+  "KB_JP": "Japanese keyboard",
+  "KB_SC": "Simplified Chinese keyboard",
+
   "STATUS": "Status",
   "SERVICE_OFFERING": "Service offering",
   "IP_ADDRESSES": "IP addresses",
@@ -102,6 +126,22 @@
     "defaultUse": "Default",
     "isCustomized": "Customized"
   },
+
+  "VM_CREATION_FORM": {
+    "NAME": "Name",
+    "DESCRIPTION": "Description",
+    "TEMPLATE": "Template",
+    "SERVICE_OFFERING": "Service offering",
+    "ZONE": "Zone",
+    "ROOT_DISK_SIZE": "Root disk size",
+    "AFFINITY_GROUPS": "Affinity groups",
+    "SECURITY_GROUPS": "Security groups",
+    "CREATE_SECURITY": "Create",
+    "KEYBOARD_LAYOUT": "Keyboard layout",
+    "SSH_KEYPAIR": "SSH keypair",
+    "START_VM": "Start VM"
+  },
+
   "ALL_GROUPS": "All templates",
   "SELECTED_GROUPS": "Selected templates",
   "NETWORK_RULES": "Network rules",
@@ -115,6 +155,8 @@
     "OS_TEMPLATE": "OS template",
     "YOU_DONT_HAVE_TEMPLATES": "You don't have any templates"
   },
+
+  "UNABLE_TO_RECEIVE_TEMPLATES": "Unable to receive templates",
   "DESCRIPTION": "Description",
   "CUSTOM_TEMPLATES_NOT_INCLUDED": "Templates not included"
 }
