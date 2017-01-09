@@ -4,8 +4,8 @@ import { ResourceLimitService } from './resource-limit.service';
 import { VolumeService } from './volume.service';
 import { Volume } from '../models/volume.model';
 import { ResourceType } from '../models/resource-limit.model';
-import { SnapshotService } from "./snapshot.service";
-import { IsoService } from "./iso.service";
+import { SnapshotService } from './snapshot.service';
+import { IsoService } from './iso.service';
 
 
 @Injectable()
@@ -47,7 +47,7 @@ export class DiskStorageService {
         consumedSecondaryStorage += element.size;
       });
       return Math.floor(consumedSecondaryStorage / Math.pow(2, 30));
-    })
+    });
   }
 
   private getConsumedStorage(resourceType: ResourceType): Promise<number> {
