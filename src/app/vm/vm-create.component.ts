@@ -2,7 +2,6 @@ import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ZoneService } from '../shared/services/zone.service';
 import { Zone } from '../shared/models/zone.model';
 import { SSHKeyPair } from '../shared/models/SSHKeyPair.model';
-import { ServiceOfferingService } from '../shared/services/service-offering.service';
 import { ServiceOffering } from '../shared/models/service-offering.model';
 import { AffinityGroupService } from '../shared/services/affinity-group.service';
 import { AffinityGroup } from '../shared/models/affinity-group.model';
@@ -20,6 +19,7 @@ import {
 import { TemplateService } from '../shared/services/template.service';
 import { NotificationService } from '../shared/notification.service';
 import { DiskStorageService } from '../shared/services/disk-storage.service';
+import { ServiceOfferingFilterService } from '../shared/services/service-offering-filter.service';
 
 class VmCreationData {
   public vm: VirtualMachine;
@@ -62,7 +62,7 @@ export class VmCreateComponent {
 
   constructor(
     private zoneService: ZoneService,
-    private serviceOfferingService: ServiceOfferingService,
+    private serviceOfferingFilterService: ServiceOfferingFilterService,
     private diskStorageService: DiskStorageService,
     private affinityGroupService: AffinityGroupService,
     private sshService: SSHKeyPairService,
@@ -76,9 +76,15 @@ export class VmCreateComponent {
   }
 
   public show(): void {
-    this.templateService.getDefault().then(result => {
-      this.resetVmCreateData();
-      this.vmCreateDialog.show();
+    this.templateService.getDefault().then(() => {
+      this.serviceOfferingFilterService.getAvailable().then(serviceOfferings => {
+        this.resetVmCreateData();
+        this.vmCreateDialog.show();
+      }).catch(() => {
+        this.translateService.get(['INSUFFICIENT_RESOURCES']).subscribe(strs => {
+          this.notificationService.error(strs['INSUFFICIENT_RESOURCES']);
+        });
+      });
     }).catch(() => {
       this.translateService.get(['UNABLE_TO_RECEIVE_TEMPLATES']).subscribe(strs => {
         this.notificationService.error(strs['UNABLE_TO_RECEIVE_TEMPLATES']);
@@ -137,7 +143,7 @@ export class VmCreateComponent {
 
     const p = [];
     p.push(this.zoneService.getList());
-    p.push(this.serviceOfferingService.getList());
+    p.push(this.serviceOfferingFilterService.getAvailable());
     p.push(this.diskStorageService.getAvailablePrimaryStorage());
     p.push(this.affinityGroupService.getList());
     p.push(this.sshService.getList());

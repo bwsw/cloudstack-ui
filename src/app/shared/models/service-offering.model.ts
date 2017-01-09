@@ -1,6 +1,7 @@
 import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators/field-mapper.decorator';
 
+
 @FieldMapper({
   cpunumber: 'cpuNumber',
   cpuspeed: 'cpuSpeed',
@@ -20,9 +21,9 @@ import { FieldMapper } from '../decorators/field-mapper.decorator';
 export class ServiceOffering extends BaseModel {
   public id: string;
   public name: string;
-  public cpuNumber: string;
-  public cpuSpeed: string;
-  public memory: string;
+  public cpuNumber: number;
+  public cpuSpeed: number;
+  public memory: number;
   public networkRate: string;
   public displayText: string;
   public storageType: string;
