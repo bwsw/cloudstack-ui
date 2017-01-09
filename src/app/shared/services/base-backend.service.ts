@@ -49,6 +49,13 @@ export abstract class BaseBackendService<M extends BaseModel> {
       });
   }
 
+  public remove(params?: {}): Promise<any> {
+    const command = 'delete';
+    let entity = this.entity.toLowerCase();
+    return this.postRequest(command, params)
+      .then(res => res[`${command}${entity}response`]);
+  }
+
   protected prepareModel(res): M {
     return new this.entityModel(res);
   }

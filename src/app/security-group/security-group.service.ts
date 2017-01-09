@@ -41,4 +41,8 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
         return res;
       });
   }
+
+  public deleteTemplate(id: string) {
+    return this.remove({ id });
+  }
 }

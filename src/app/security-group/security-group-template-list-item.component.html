@@ -26,6 +26,6 @@
     </div>
   </mdl-card-supporting-text>
   <mdl-card-actions>
-    <button mdl-button>{{ 'DELETE' | translate }}</button>
+    <button mdl-button (click)="onDelete.emit(securityGroupTemplate.id)">{{ 'DELETE' | translate }}</button>
   </mdl-card-actions>
 </mdl-card>

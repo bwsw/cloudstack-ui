@@ -56,4 +56,18 @@ export class SecurityGroupTemplateListComponent implements OnInit {
     this.securityGroupService.createTemplate(data)
       .then(res => this.securityGroupList.push(res));
   }
+
+  public deleteSecurityGroupTemplate(id) {
+    this.dialogService.confirm('Are you sure you want to delete sg template?')
+      .toPromise()
+      .then(() => {
+        return this.securityGroupService.deleteTemplate(id);
+      })
+      .then(res => {
+        if (res && res.success === 'true') {
+          this.securityGroupList = this.securityGroupList.filter(sg => sg.id !== id);
+        }
+      })
+      .catch(() => {});
+  }
 }
