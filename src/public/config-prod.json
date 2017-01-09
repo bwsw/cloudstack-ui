@@ -1,7 +1,7 @@
 {
   "securityGroupTemplates": [
     {
-      "id": "638b4169-61e6-4150-92fd-bfc3e2298ec1",
+      "id": "template1",
       "name": "sg1",
       "ingressRules": [
         {
@@ -23,7 +23,7 @@
       ]
     },
     {
-      "id": "c0030e6e-b8ca-4105-85b7-377c87be95b1",
+      "id": "template2",
       "name": "sg2",
       "ingressRules": [
         {
