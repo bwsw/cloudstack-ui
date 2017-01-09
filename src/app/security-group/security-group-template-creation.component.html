@@ -24,6 +24,16 @@
         [style.width]="'100%'"
       >
       </mdl-textfield>
+      <br/>
+      <mdl-textfield
+        type="text"
+        label="Labels"
+        name="labels"
+        floating-label
+        [(ngModel)]="labels"
+        [style.width]="'100%'"
+      >
+      </mdl-textfield>
     </div>
     <div class="mdl-dialog__actions">
       <button
@@ -32,6 +42,14 @@
         type="submit"
       >
         Create
+      </button>
+      <button
+        mdl-button
+        mdl-ripple
+        type="button"
+        (click)="dialog.hide()"
+      >
+        Cancel
       </button>
     </div>
   </form>
