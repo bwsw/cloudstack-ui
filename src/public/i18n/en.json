@@ -56,8 +56,6 @@
   "DEPLOYED": "Deployed",
   "COMPUTATIONAL_RESOURCES": "Computational resources",
   "CPUS": "CPUs",
-  "RAM": "RAM",
-  "VOLUMES": "Volumes",
   "SNAPSHOTS": "Snapshots",
   "STORAGE": "Storage",
   "PRIMARY_(STORAGE)": "Primary",
