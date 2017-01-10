@@ -49,15 +49,16 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
           .then(tagJob => {
             return this.asyncJobService.addJob(tagJob.jobid)
               .map(result => {
-                let res: any = {};
+                let jobResult: any = {};
                 if (result && result.jobResultCode === 0) {
-                  res.success = result.jobResult.success;
-                  res.tag = { key: 'labels', value: data.labels };
+                  jobResult.success = result.jobResult.success;
+                  jobResult.tag = { key: 'labels', value: data.labels };
                 } else {
-                  res.success = false;
+                  jobResult.success = false;
                 }
-                this.asyncJobService.event.next(res);
-                return res;
+                result.jobResult = jobResult;
+                this.asyncJobService.event.next(result);
+                return result;
               });
           });
         return Promise.all([res, tagPromise]);

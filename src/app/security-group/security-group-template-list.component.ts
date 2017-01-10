@@ -58,10 +58,10 @@ export class SecurityGroupTemplateListComponent implements OnInit {
     this.securityGroupService.createTemplate(data)
       .then(([template, tagObservable]) => {
         tagObservable.subscribe(res => {
-          if (!res || !res.success) {
+          if (!res || !res.jobResult.success) {
             return;
           }
-          template.labels = [res.tag.value];
+          template.labels = [res.jobResult.tag.value];
           this.securityGroupList.push(template);
         });
       });
