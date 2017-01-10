@@ -38,7 +38,7 @@ export class SecurityGroup extends BaseModel {
   public egressRules: Array<NetworkRule>;
   public tags: Array<ITag>;
 
-  private _labels: Array<string>;
+  private _labels: string;
 
   constructor(params?: {}) {
     super(params);
@@ -61,7 +61,7 @@ export class SecurityGroup extends BaseModel {
         continue;
       }
 
-      this.labels = this.tags[i].value.split(';');
+      this.labels = this.tags[i].value.replace(/,(\S)/gi, ', $1');
       this.tags.splice(i, 1);
       break;
     }
@@ -78,7 +78,7 @@ export class SecurityGroup extends BaseModel {
   public serialize() {
     const model: any = super.serialize();
 
-    model.tags.push(this.labels.join(';'));
+    model.tags.push(this.labels);
     return model;
   }
 }
