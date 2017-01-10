@@ -21,6 +21,7 @@ import { NotificationService } from '../shared/notification.service';
 import { DiskStorageService } from '../shared/services/disk-storage.service';
 import { ServiceOfferingFilterService } from '../shared/services/service-offering-filter.service';
 import { ResourceUsageService } from '../shared/services/resource-usage.service';
+import { Template } from '../shared/models/template.model';
 
 class VmCreationData {
   public vm: VirtualMachine;
@@ -146,6 +147,10 @@ export class VmCreateComponent {
     this.hide();
   }
 
+  public onTemplateChange(t: Template): void {
+    this.vmCreationData.vm.template = t;
+  }
+
   private getVmCreateData(): Promise<VmCreationData> {
     let vmCreationData = new VmCreationData();
 
@@ -181,8 +186,10 @@ export class VmCreateComponent {
   private get vmCreateParams(): {} {
     let params = {
       'serviceofferingid': this.vmCreationData.vm.serviceOfferingId,
-      'templateid': '166e45c1-5ca7-45a0-9111-73e39953f05f', // temp
+      'templateid': this.vmCreationData.vm.template.id,
       'zoneid': this.vmCreationData.vm.zoneId,
+      'keypair': this.vmCreationData.keyPair,
+      'keyboard': this.vmCreationData.keyboard,
       'response': 'json'
     };
 
@@ -199,9 +206,6 @@ export class VmCreateComponent {
       params['startvm'] = 'false';
     }
     params['securitygroupids'] = 'c5ffdfe0-7de4-4373-bd55-128e434c81d1'; // temp
-    params['keyboard'] = this.vmCreationData.keyboard;
-    params['keypair'] = this.vmCreationData.keyPair;
-
     return params;
   }
 }
