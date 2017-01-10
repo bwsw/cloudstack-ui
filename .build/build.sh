@@ -8,7 +8,7 @@ npm run build
 echo ******Dist was builded******
 
 # Build docker image
-docker build -t cloudstack-nginx ..
+docker build -t cloudstack-nginx --file=Dockerfile ..
 
 # Check if DEPLOY_PORT wasn't set
 if [ -z "$DEPLOY_PORT" ]; then
