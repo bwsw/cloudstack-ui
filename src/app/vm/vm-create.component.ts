@@ -79,13 +79,15 @@ export class VmCreateComponent {
 
   public show(): void {
     this.templateService.getDefault().then(() => {
-      this.resourceUsageService.getResourceUsage().then(result => {
-        if (result.available.primaryStorage > MIN_ROOT_DISK_SIZE && result.available.instances) {
-          this.resetVmCreateData();
-          this.vmCreateDialog.show();
-        } else {
-          throw Error();
-        }
+      this.serviceOfferingFilterService.getAvailable().then(() => {
+        this.resourceUsageService.getResourceUsage().then(result => {
+          if (result.available.primaryStorage > MIN_ROOT_DISK_SIZE && result.available.instances) {
+            this.resetVmCreateData();
+            this.vmCreateDialog.show();
+          } else {
+            throw Error();
+          }
+        });
       }).catch(() => {
         this.translateService.get(['INSUFFICIENT_RESOURCES']).subscribe(strs => {
           this.notificationService.error(strs['INSUFFICIENT_RESOURCES']);
