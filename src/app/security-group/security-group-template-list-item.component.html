@@ -3,29 +3,46 @@
     <h2 mdl-card-title-text>{{ securityGroupTemplate.name }}</h2>
   </mdl-card-title>
   <mdl-card-supporting-text>
-    <div class="description">{{ securityGroupTemplate.description }}</div>
-    <table style="width: 100%; text-align: center;">
-      <thead>
-      <tr>
-        <th>{{ 'DOMAIN' | translate }}</th>
-        <th>{{ 'ACCOUNT' | translate }}</th>
-      </tr>
-      </thead>
-      <tr>
-        <td>{{ securityGroupTemplate.domain }}</td>
-        <td>{{ securityGroupTemplate.account }}</td>
-      </tr>
-    </table>
-    <div class="labels">
-      <mdl-chip
-        *ngFor="let label of securityGroupTemplate.labels"
-        mdl-action-icon="cancel"
-        mdl-label="{{ label }}"
-      >
-      </mdl-chip>
+    <div class="wrapper">
+      <div>
+        <div class="description">Description: </div>
+        <div class="domain">Domain: </div>
+        <div class="labels">Labels: </div>
+      </div>
+      <div>
+        <div class="description">
+          <span
+            *ngIf="securityGroupTemplate.description"
+            [mdl-tooltip]="securityGroupTemplate.description"
+          >
+            {{ securityGroupTemplate.description }}
+          </span>
+        </div>
+        <div class="domain">
+          <span
+            *ngIf="securityGroupTemplate.domain"
+            [mdl-tooltip]="securityGroupTemplate.domain"
+          >
+            {{ securityGroupTemplate.domain }}
+          </span>
+        </div>
+        <div class="labels">
+          <span
+            *ngIf="securityGroupTemplate.labels"
+            [mdl-tooltip]="securityGroupTemplate.labels"
+          >
+            {{ securityGroupTemplate.labels }}
+          </span>
+        </div>
+      </div>
     </div>
   </mdl-card-supporting-text>
   <mdl-card-actions>
-    <button mdl-button>{{ 'DELETE' | translate }}</button>
+    <button
+      mdl-button
+      disabled="{{ securityGroupTemplate.id.startsWith('template') }}"
+    >
+      {{ 'DELETE' | translate }}
+    </button>
   </mdl-card-actions>
 </mdl-card>
