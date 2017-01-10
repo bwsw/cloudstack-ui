@@ -56,7 +56,15 @@ export class SecurityGroupTemplateListComponent implements OnInit {
 
   public createSecurityGroupTemplate(data) {
     this.securityGroupService.createTemplate(data)
-      .then(res => this.securityGroupList.push(res));
+      .then(([template, tagObservable]) => {
+        tagObservable.subscribe(res => {
+          if (!res || !res.success) {
+            return;
+          }
+          template.labels = [res.tag.value];
+          this.securityGroupList.push(template);
+        });
+      });
   }
 
   public deleteSecurityGroupTemplate(id) {

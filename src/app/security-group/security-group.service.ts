@@ -4,6 +4,7 @@ import { SecurityGroup } from './security-group.model';
 import { BaseBackendService } from '../shared/services/base-backend.service';
 import { BackendResource } from '../shared/decorators/backend-resource.decorator';
 import { TagService } from '../shared/services/tag.service';
+import { AsyncJobService } from '../shared/services/async-job.service';
 
 @Injectable()
 @BackendResource({
@@ -13,7 +14,8 @@ import { TagService } from '../shared/services/tag.service';
 export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
   constructor(
     private configService: ConfigService,
-    private tagService: TagService
+    private tagService: TagService,
+    private asyncJobService: AsyncJobService
   ) {
     super();
   }
@@ -32,13 +34,33 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
     return this.create(data)
       .then(res => {
         const id = res.id;
-        this.tagService.create({
+        const params = {
           resourceIds: id,
           resourceType: this.entity,
           'tags[0].key': 'template',
-          'tags[0].value': 'true'
-        });
-        return res;
+          'tags[0].value': 'true',
+        };
+
+        if (data.labels) {
+          params['tags[1].key'] = 'labels';
+          params['tags[1].value'] = data.labels;
+        }
+        const tagPromise = this.tagService.create(params)
+          .then(tagJob => {
+            return this.asyncJobService.addJob(tagJob.jobid)
+              .map(result => {
+                let res: any = {};
+                if (result && result.jobResultCode === 0) {
+                  res.success = result.jobResult.success;
+                  res.tag = { key: 'labels', value: data.labels };
+                } else {
+                  res.success = false;
+                }
+                this.asyncJobService.event.next(res);
+                return res;
+              });
+          });
+        return Promise.all([res, tagPromise]);
       });
   }
 

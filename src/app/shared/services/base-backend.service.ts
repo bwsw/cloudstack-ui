@@ -34,18 +34,18 @@ export abstract class BaseBackendService<M extends BaseModel> {
       });
   }
 
-  public create(params?: {}): Promise<M> {
+  public create(params?: {}): Promise<any> {
     const command = 'create';
     let entity = this.entity.toLowerCase();
     return this.postRequest(command, params)
       .then(res => {
-        const response = res[`${command}${entity}response`];
+        const ent = entity === 'tag' ? entity + 's' : entity;
+        const response = res[`${command}${ent}response`];
 
         if (entity === 'tag') {
           return response;
         }
-
-        return this.prepareModel(response[entity]);
+        return this.prepareModel(response[ent]);
       });
   }
 
