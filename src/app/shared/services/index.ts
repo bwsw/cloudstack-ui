@@ -15,6 +15,7 @@ export * from './resource-usage.service';
 export * from './disk-storage.service';
 export * from './service-locator';
 export * from './service-offering.service';
+export * from './service-offering-filter.service';
 export * from './SSHKeyPair.service';
 export * from './snapshot.service';
 export * from './storage.service';

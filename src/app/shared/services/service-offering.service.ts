@@ -12,4 +12,4 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
   entity: 'ServiceOffering',
   entityModel: ServiceOffering
 })
-export class ServiceOfferingService extends BaseBackendService<ServiceOffering> { }
+export class ServiceOfferingService extends BaseBackendService<ServiceOffering> {}

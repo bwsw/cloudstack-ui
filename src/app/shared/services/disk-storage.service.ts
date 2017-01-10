@@ -66,9 +66,8 @@ export class DiskStorageService {
 
     return Promise.all([limitRequest, consumedStorageRequest])
       .then(values => {
-        let space = Math.floor(values[0] / Math.pow(2, 30)) - values[1];
-          return space > 0 ? space : 0;
-        })
-      .catch(error => Promise.reject(error));
+        let space = values[0] - values[1];
+        return space > 0 ? space : 0;
+      }).catch(error => Promise.reject(error));
   }
 }
