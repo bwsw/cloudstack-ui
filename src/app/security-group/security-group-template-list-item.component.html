@@ -1,0 +1,48 @@
+<mdl-card class="custom-card" mdl-shadow="2">
+  <mdl-card-title>
+    <h2 mdl-card-title-text>{{ securityGroupTemplate.name }}</h2>
+  </mdl-card-title>
+  <mdl-card-supporting-text>
+    <div class="wrapper">
+      <div>
+        <div class="description">Description: </div>
+        <div class="domain">Domain: </div>
+        <div class="labels">Labels: </div>
+      </div>
+      <div>
+        <div class="description">
+          <span
+            *ngIf="securityGroupTemplate.description"
+            [mdl-tooltip]="securityGroupTemplate.description"
+          >
+            {{ securityGroupTemplate.description }}
+          </span>
+        </div>
+        <div class="domain">
+          <span
+            *ngIf="securityGroupTemplate.domain"
+            [mdl-tooltip]="securityGroupTemplate.domain"
+          >
+            {{ securityGroupTemplate.domain }}
+          </span>
+        </div>
+        <div class="labels">
+          <span
+            *ngIf="securityGroupTemplate.labels"
+            [mdl-tooltip]="securityGroupTemplate.labels"
+          >
+            {{ securityGroupTemplate.labels }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </mdl-card-supporting-text>
+  <mdl-card-actions>
+    <button
+      mdl-button
+      disabled="{{ securityGroupTemplate.id.startsWith('template') }}"
+    >
+      {{ 'DELETE' | translate }}
+    </button>
+  </mdl-card-actions>
+</mdl-card>

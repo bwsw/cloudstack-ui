@@ -1,0 +1,39 @@
+$list-height: 250px;
+
+:host {
+  display: block;
+  padding: 5px;
+}
+
+.list-builder {
+  display: flex;
+}
+
+.left-list,
+.right-list {
+  flex: 1;
+}
+
+.left-list > mdl-list,
+.right-list > mdl-list,
+.rules-list > mdl-list {
+  height: $list-height;
+  overflow: auto;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  border-radius: 3px;
+}
+
+.rules-list {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+mdl-list-item.active {
+  background-color: rgba(0, 0, 0, 0.14);
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

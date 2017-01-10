@@ -1,3 +1,26 @@
-<div class="vm-list">
-  <cs-vm-list-item (onVmAction)="onVmAction($event)" *ngFor="let vm of vmList" [vm]="vm"></cs-vm-list-item>
+<div class="vm-list" [class.open]="isDetailOpen">
+  <cs-vm-statistics></cs-vm-statistics>
+  <cs-vm-list-item
+    *ngFor="let vm of vmList"
+    [vm]="vm"
+    (onVmAction)="onVmAction($event)"
+    (onClick)="showDetail($event)"
+  ></cs-vm-list-item>
 </div>
+<cs-vm-detail
+  [vm]="selectedVm"
+  (onClickOutside)="hideDetail()"
+  [isOpen]="isDetailOpen"
+>
+</cs-vm-detail>
+<div class="fab">
+  <button
+    mdl-button
+    mdl-button-type="fab"
+    mdl-colored="accent"
+    (click)="vmCreationForm.show()"
+  >
+    <mdl-icon>add</mdl-icon>
+  </button>
+</div>
+<cs-vm-create (onCreated)="onVmCreated($event)"></cs-vm-create>

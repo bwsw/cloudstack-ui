@@ -3,9 +3,7 @@ interface IFieldMapper {
 }
 
 export abstract class BaseModel {
-
-// public id: string;
-  protected mapper: IFieldMapper;
+  protected _mapper: IFieldMapper;
 
   constructor(params?: {}) {
     if (params) {
@@ -14,30 +12,30 @@ export abstract class BaseModel {
   }
 
   public set(key: string, val: string): void {
-    if (!this.mapper || !this.mapper[key]) {
+    if (!this._mapper || !this._mapper[key]) {
       this[key] = val;
       return;
     }
 
-    this[this.mapper[key]] = val;
+    this[this._mapper[key]] = val;
   }
 
   public serialize() {
     const model = {};
     const reverseMap = {};
 
-    if (!this.mapper) {
+    if (!this._mapper) {
       return model;
     }
 
-    for (let key in this.mapper) {
-      if (this.mapper.hasOwnProperty(key)) {
-        reverseMap[this.mapper[key]] = key;
+    for (let key in this._mapper) {
+      if (this._mapper.hasOwnProperty(key)) {
+        reverseMap[this._mapper[key]] = key;
       }
     }
 
     for (let key in this) {
-      if (this.hasOwnProperty(key) && typeof key !== 'function' && key !== 'mapper') {
+      if (this.hasOwnProperty(key) && typeof key !== 'function' && !key.startsWith('_')) {
         if (!reverseMap[key]) {
           model[key] = this[key];
           continue;
@@ -47,6 +45,10 @@ export abstract class BaseModel {
       }
     }
     return model;
+  }
+
+  public get keys(): Array<string> {
+    return Object.keys(this).filter((key: string) => !key.startsWith('_'));
   }
 
   protected parse(params: {}) {

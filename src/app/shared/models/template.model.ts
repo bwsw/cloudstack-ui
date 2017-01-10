@@ -12,10 +12,11 @@ export interface ITag {
   ostypename: 'osTypeName'
 })
 export class Template extends BaseModel {
-  public id: number;
+  public id: string;
   public name: string;
   public displayText: string;
   public osTypeId: string;
   public osTypeName: string;
+  public size: number;
   public tags: Array<ITag>;
 }

@@ -10,12 +10,21 @@ import { AboutComponent } from './about/about.component';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
+import { VmCreateComponent } from './vm/vm-create.component';
+import { VmCreationTemplateComponent } from './vm/vm-creation-template/vm-creation-template.component';
+import { VmCreationTemplateDialogComponent } from './vm/vm-creation-template/vm-creation-template-dialog.component';
+import {
+  VmCreationTemplateDialogListElementComponent
+} from './vm/vm-creation-template/vm-creation-template-dialog-list-element.component';
 import { VmListComponent } from './vm/vm-list.component';
 import { VmListItemComponent } from './vm/vm-list-item.component';
+import { VmStatisticsComponent } from './vm/vm-statistics.component';
+import { VmDetailComponent } from './vm/vm-detail.component';
 import { NotificationBoxComponent } from './notification-box.component';
 import { NotificationBoxItemComponent } from './notification-box-item.component';
 
 import {
+  AffinityGroupService,
   ApiService,
   AsyncJobService,
   StorageService,
@@ -27,9 +36,15 @@ import {
   ZoneService,
   ServiceOfferingService,
   ServiceLocator,
-  RootDiskSizeService,
+  SSHKeyPairService,
+  TemplateService,
+  SnapshotService,
+  ResourceLimitService,
+  ResourceUsageService,
+  DiskStorageService,
   VolumeService,
-  OsTypeService
+  OsTypeService,
+  IsoService
 } from './shared/services';
 
 import { VmService } from './vm/vm.service';
@@ -40,6 +55,10 @@ import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
+import { MdlSelectModule } from '@angular2-mdl-ext/select';
+import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
+import { ConfigService } from './shared/config.service';
+import { SecurityGroupModule } from './security-group/security-group.module';
 
 
 @NgModule({
@@ -50,38 +69,58 @@ import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
     TranslateModule.forRoot(),
     routing,
     MdlModule,
-    MdlPopoverModule
+    MdlPopoverModule,
+    MdlSelectModule,
+    SecurityGroupModule
   ],
   declarations: [
     AboutComponent,
     AppComponent,
     LoginComponent,
     LogoutComponent,
+    VmCreateComponent,
+    VmCreationTemplateComponent,
+    VmCreationTemplateDialogComponent,
+    VmCreationTemplateDialogListElementComponent,
     VmListComponent,
+    VmDetailComponent,
     VmListItemComponent,
+    VmStatisticsComponent,
     NotificationBoxComponent,
-    NotificationBoxItemComponent
+    NotificationBoxItemComponent,
+    DivByPowerOfTwoPipe
+  ],
+  entryComponents: [
+    VmCreationTemplateDialogComponent,
+    VmCreationTemplateDialogListElementComponent
   ],
   providers: [
+    AffinityGroupService,
     ApiService,
     AuthGuard,
     AsyncJobService,
     AuthService,
+    ConfigService,
     ErrorService,
+    IsoService,
     JobsNotificationService,
     { provide: 'INotificationService', useClass: NotificationService },
     { provide: 'IStorageService', useClass: StorageService },
     LoginGuard,
     NotificationService,
-    RootDiskSizeService,
+    ResourceLimitService,
+    ResourceUsageService,
+    DiskStorageService,
+    SnapshotService,
+    SSHKeyPairService,
     ZoneService,
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
     ServiceOfferingService,
-    VmService,
     VolumeService,
     OsTypeService,
     {provide: 'IStorageService', useClass: StorageService},
-    VmService
+    TemplateService,
+    VmService,
   ],
   bootstrap: [AppComponent]
 })

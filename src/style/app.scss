@@ -1,5 +1,21 @@
 // styles in src/style directory are applied to the whole page
+
 @import '~@angular2-mdl-ext/popover/popover';
+@import '~@angular2-mdl-ext/select/select';
+
+@import "~angular2-mdl/scss/color-definitions";
+
+$color-primary: $palette-blue-700;
+$color-primary-dark: $palette-blue-700;
+$color-accent: $palette-amber-A200;
+$color-primary-contrast: $color-dark-contrast;
+$color-accent-contrast: $color-dark-contrast;
+
+@import '~angular2-mdl/scss/material-design-lite';
+
+* {
+  box-sizing: border-box;
+}
 
 .disabled-link {
   cursor: pointer;
@@ -8,3 +24,51 @@
 mdl-card > mdl-card-title + mdl-card-supporting-text {
   padding-top: 0 !important;
 }
+
+mdl-card.custom-card {
+  & mdl-card-supporting-text {
+    width: 100%;
+  }
+
+  & mdl-card-actions {
+    border-top: 1px solid rgba(0,0,0,.1);
+  }
+
+  & mdl-card-title > h2 {
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  & table {
+    margin: 10px 0;
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  & table td, table th {
+    border: 1px solid black;
+    border-top: 0;
+    border-bottom: 0;
+  }
+
+  & table tr:first-child th {
+    border-top: 0;
+  }
+  & table tr:last-child td {
+    border-bottom: 0;
+  }
+
+  & table tr td:first-child,
+  & table tr th:first-child {
+    border-left: 0;
+  }
+  & table tr td:last-child,
+  & table tr th:last-child {
+    border-right: 0;
+  }
+}
+
+

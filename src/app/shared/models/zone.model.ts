@@ -1,6 +1,6 @@
 import { BaseModel } from './base.model';
 
 export class Zone extends BaseModel {
-  public id: number;
+  public id: string;
   public name: string;
 }

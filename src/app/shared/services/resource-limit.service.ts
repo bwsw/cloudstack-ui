@@ -12,6 +12,3 @@ import { ResourceLimit } from '../models/resource-limit.model';
   entityModel: ResourceLimit
 })
 export class ResourceLimitService extends BaseBackendService<ResourceLimit> { }
-
-
-
