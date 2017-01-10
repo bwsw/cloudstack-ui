@@ -30,13 +30,6 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'create',
-    component: VmCreateComponent,
-    canActivate: [
-      AuthGuard
-    ]
-  },
-  {
     path: '**',
     redirectTo: '/instances',
   }
