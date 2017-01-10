@@ -104,6 +104,7 @@ export class VmListComponent implements OnInit {
 
   public onVmCreated(e) {
     this.vmList.push(e);
+    this.vmStats.updateStats();
   }
 
   public showDetail(vm: VirtualMachine) {

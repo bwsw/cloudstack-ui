@@ -20,6 +20,7 @@ import { TemplateService } from '../shared/services/template.service';
 import { NotificationService } from '../shared/notification.service';
 import { DiskStorageService } from '../shared/services/disk-storage.service';
 import { ServiceOfferingFilterService } from '../shared/services/service-offering-filter.service';
+import { ResourceUsageService } from '../shared/services/resource-usage.service';
 
 class VmCreationData {
   public vm: VirtualMachine;
@@ -70,16 +71,21 @@ export class VmCreateComponent {
     private jobsNotificationService: JobsNotificationService,
     private templateService: TemplateService,
     private translateService: TranslateService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private resourceUsageService: ResourceUsageService
   ) {
     this.vmCreationData = new VmCreationData();
   }
 
   public show(): void {
     this.templateService.getDefault().then(() => {
-      this.serviceOfferingFilterService.getAvailable().then(serviceOfferings => {
-        this.resetVmCreateData();
-        this.vmCreateDialog.show();
+      this.resourceUsageService.getResourceUsage().then(result => {
+        if (result.available.primaryStorage > MIN_ROOT_DISK_SIZE && result.available.instances) {
+          this.resetVmCreateData();
+          this.vmCreateDialog.show();
+        } else {
+          throw Error();
+        }
       }).catch(() => {
         this.translateService.get(['INSUFFICIENT_RESOURCES']).subscribe(strs => {
           this.notificationService.error(strs['INSUFFICIENT_RESOURCES']);

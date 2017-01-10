@@ -158,5 +158,6 @@
 
   "UNABLE_TO_RECEIVE_TEMPLATES": "Unable to receive templates",
   "DESCRIPTION": "Description",
-  "CUSTOM_TEMPLATES_NOT_INCLUDED": "Templates not included"
+  "CUSTOM_TEMPLATES_NOT_INCLUDED": "Templates not included",
+  "INSUFFICIENT_RESOURCES": "Insufficien resources"
 }
