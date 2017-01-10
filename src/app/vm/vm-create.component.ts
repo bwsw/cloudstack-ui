@@ -72,7 +72,7 @@ export class VmCreateComponent {
     private templateService: TemplateService,
     private translateService: TranslateService,
     private notificationService: NotificationService,
-    private resourceUsageService: ResourceUsageService
+    private resourceUsageService: ResourceUsageService,
   ) {
     this.vmCreationData = new VmCreationData();
   }
@@ -155,6 +155,7 @@ export class VmCreateComponent {
     p.push(this.diskStorageService.getAvailablePrimaryStorage());
     p.push(this.affinityGroupService.getList());
     p.push(this.sshService.getList());
+    p.push(this.templateService.getDefault());
 
     return Promise.all(p).then(result => {
       vmCreationData.zones = result[0];
@@ -162,6 +163,8 @@ export class VmCreateComponent {
       vmCreationData.rootDiskSizeLimit = result[2];
       vmCreationData.affinityGroups = result[3];
       vmCreationData.sshKeyPairs = result[4];
+      vmCreationData.vm.template = result[5];
+
       if (result[0].length) {
         vmCreationData.vm.zoneId = result[0][0].id;
       }

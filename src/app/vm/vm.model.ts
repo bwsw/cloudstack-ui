@@ -3,6 +3,7 @@ import { FieldMapper } from '../shared/decorators';
 import { Volume } from '../shared/models/volume.model';
 import { OsType } from '../shared/models/os-type.model';
 import { ServiceOffering } from '../shared/models/service-offering.model';
+import { Template } from '../shared/models/template.model';
 
 /* TODO
   1. nicService
@@ -87,6 +88,7 @@ export class VirtualMachine extends BaseModel {
   public zoneId: string;
   public zoneName: string;
   // Template
+  public template: Template;
   public templateId: string;
   public templateName: string;
   public osType: OsType;
