@@ -13,7 +13,7 @@ import { Template } from '../shared/models/template.model';
 */
 
 export const MIN_ROOT_DISK_SIZE = 10;
-export const MAX_ROOT_DISK_SIZE_ADMIN = 1000;
+export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
 
 interface IAffinityGroup {
   id: string;
