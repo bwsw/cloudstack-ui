@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard, LoginGuard } from './shared/services';
 import { LoginComponent } from './auth/login.component';
 
-import { VmCreateComponent } from './vm/vm-create.component';
 import { VmListComponent } from './vm/vm-list.component';
 import { SecurityGroupTemplateListComponent } from './security-group/security-group-template-list.component';
 

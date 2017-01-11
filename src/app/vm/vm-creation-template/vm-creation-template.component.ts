@@ -7,7 +7,8 @@ import { Template } from '../../shared/models';
 
 @Component({
   selector: 'cs-vm-creation-template',
-  templateUrl: 'vm-creation-template.component.html'
+  templateUrl: 'vm-creation-template.component.html',
+  styleUrls: ['./vm-creation-template.component.scss']
 })
 export class VmCreationTemplateComponent implements OnInit, OnChanges {
   @Input() public selectedIn: Template;
