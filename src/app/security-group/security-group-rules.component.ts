@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { SecurityGroupService } from './security-group.service';
-import { SecurityGroup } from './security-group.model';
+import { SecurityGroup, NetworkRule } from './security-group.model';
+import { AsyncJobService } from '../shared/services/async-job.service';
 
 @Component({
   selector: 'cs-security-group-rules',
@@ -18,12 +19,16 @@ export class SecurityGroupRulesComponent {
   public endPort: number;
   public cidr: string;
 
-  constructor(private securityGroupService: SecurityGroupService) {
+  constructor(
+    private securityGroupService: SecurityGroupService,
+    private asyncJobService: AsyncJobService
+  ) {
     this.protocol = 'TCP';
     this.type = 'Ingress';
   }
 
   public addRule() {
+    const type = this.type;
     const params: any = {
       securitygroupid: this.securityGroup.id,
       protocol: this.protocol.toLowerCase(),
@@ -37,7 +42,50 @@ export class SecurityGroupRulesComponent {
       params.icmptype = this.icmpType;
       params.icmpcode = this.icmpCode;
     }
-    this.securityGroupService.addRule(this.type, params)
-      .then(res => console.log(res));
+    this.securityGroupService.addRule(type, params)
+      .then(jobId => {
+        this.asyncJobService.addJob(jobId)
+          .filter(result => result && result.jobResultCode === 0)
+          .map(result => {
+            this.asyncJobService.event.next(result);
+            return result;
+          })
+          .subscribe(res => {
+            const jobResult = res.jobResult;
+
+            const ruleRaw = jobResult.securitygroup[type.toLowerCase() + 'rule'][0];
+            const rule = new NetworkRule(ruleRaw);
+            this.securityGroup[`${type.toLowerCase()}Rules`].push(rule);
+          });
+      });
+
+  }
+
+  public removeRule(type, id) {
+    this.securityGroupService.removeRule(type, { id })
+      .then(jobId => {
+        this.asyncJobService.addJob(jobId)
+          .filter(result => result && result.jobResultCode === 0)
+          .map(result => {
+            this.asyncJobService.event.next(result);
+            return result;
+          })
+          .subscribe(res => {
+            if (!res.jobResult.success) {
+              return; // TODO error handling
+            }
+
+            const rules = this.securityGroup[`${type.toLowerCase()}Rules`];
+            const ind = rules.findIndex(rule => {
+              return rule.id = id;
+            });
+
+            if (ind === -1) {
+              return;
+            }
+
+            rules.splice(ind, 1);
+          });
+      });
   }
 }

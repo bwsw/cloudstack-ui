@@ -107,7 +107,7 @@
       </template>
       <td>{{ rule.CIDR }}</td>
       <td>
-        <button mdl-button mdl-button-type="icon" [mdl-tooltip]="'Remove'">
+        <button mdl-button mdl-button-type="icon" [mdl-tooltip]="'Remove'" (click)="removeRule('Ingress', rule.ruleId)">
           <mdl-icon>close</mdl-icon>
         </button>
       </td>
@@ -125,7 +125,7 @@
       </template>
       <td>{{ rule.CIDR }}</td>
       <td>
-        <button mdl-button mdl-button-type="icon" [mdl-tooltip]="'Remove'">
+        <button mdl-button mdl-button-type="icon" [mdl-tooltip]="'Remove'" (click)="removeRule('Egress', rule.ruleId)">
           <mdl-icon>close</mdl-icon>
         </button>
       </td>
