@@ -86,9 +86,7 @@ export class VmCreateComponent {
             this.resetVmCreateData();
             this.vmCreateDialog.show();
           } else {
-            this.translateService.get(['INSUFFICIENT_RESOURCES']).subscribe(strs => {
-              this.notificationService.error(strs['INSUFFICIENT_RESOURCES']);
-            });
+            throw Error();
           }
         });
       }).catch(() => {
@@ -125,7 +123,7 @@ export class VmCreateComponent {
             .then(r => {
               r.state = 'Deploying';
               this.onCreated.next(r);
-            }).catch(() => {console.log(1)});
+            });
           this.vmService.checkDeploy(result.jobid)
             .subscribe(() => this.notifyOnDeployDone(id));
         });
