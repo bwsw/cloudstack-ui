@@ -16,7 +16,6 @@ interface IJobObservables {
   entityModel: AsyncJob
 })
 export class AsyncJobService extends BaseBackendService<AsyncJob> {
-
   public event: Subject<AsyncJob>;
   public pollingInterval: number;
   public immediatePollingInterval: number;
@@ -64,6 +63,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
   }
 
   private startPolling(): void {
+    clearInterval(this.timerId);
     setTimeout(() => {
       this.queryJobs();
       this.timerId = setInterval(() => this.queryJobs(), this.pollingInterval);
