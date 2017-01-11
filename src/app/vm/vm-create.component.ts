@@ -123,7 +123,7 @@ export class VmCreateComponent {
             .then(r => {
               r.state = 'Deploying';
               this.onCreated.next(r);
-            });
+            }).catch(() => {console.log(1)});
           this.vmService.checkDeploy(result.jobid)
             .subscribe(() => this.notifyOnDeployDone(id));
         });
