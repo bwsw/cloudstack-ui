@@ -8,7 +8,7 @@ import { AffinityGroup } from '../shared/models/affinity-group.model';
 import { SSHKeyPairService } from '../shared/services/SSHKeyPair.service';
 import { MdlDialogComponent } from 'angular2-mdl';
 import { VmService } from './vm.service';
-import { VirtualMachine, MIN_ROOT_DISK_SIZE } from './vm.model';
+import { VirtualMachine, MIN_ROOT_DISK_SIZE, MAX_ROOT_DISK_SIZE_ADMIN } from './vm.model';
 import { TranslateService } from 'ng2-translate';
 
 import {
@@ -176,6 +176,10 @@ export class VmCreateComponent {
       if (result[1].length) {
         vmCreationData.vm.serviceOfferingId = result[1][0].id;
       }
+      if (result[2] === -1) {
+        vmCreationData.rootDiskSizeLimit = MAX_ROOT_DISK_SIZE_ADMIN;
+      }
+
       if (result[4].length) {
         vmCreationData.vm.keyPair = result[4][0].name;
       }
@@ -205,7 +209,7 @@ export class VmCreateComponent {
     if (!this.vmCreationData.doStartVm) {
       params['startvm'] = 'false';
     }
-    params['securitygroupids'] = 'c5ffdfe0-7de4-4373-bd55-128e434c81d1'; // temp
+//    params['securitygroupids'] = 'c5ffdfe0-7de4-4373-bd55-128e434c81d1'; // temp
     return params;
   }
 }

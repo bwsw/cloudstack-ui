@@ -112,7 +112,11 @@ export class ResourceUsageService {
     let availableResources = new ResourcesData();
     for (let prop in max) {
       if (max.hasOwnProperty(prop)) {
-        availableResources[prop] = max[prop] - consumed[prop];
+        if (max[prop] === -1) {
+          availableResources[prop] = Number.MAX_SAFE_INTEGER;
+        } else {
+          availableResources[prop] = max[prop] - consumed[prop];
+        }
       }
     }
     return availableResources;
