@@ -20,7 +20,11 @@
             label="{{ 'VM_CREATION_FORM.NAME' | translate }}"
             id="name"
             name="name"
-            [(ngModel)]="vmCreationData.vm.displayName">
+            pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]{0,1}$"
+            #vmname="ngModel"
+            [(ngModel)]="vmCreationData.vm.displayName"
+            [class.is-invalid]="!vmname.valid"
+          >
           </mdl-textfield>
         </div>
 
@@ -143,6 +147,7 @@
     </div>
     <div class="mdl-dialog__actions">
       <button
+        [disabled]="!vmCreateForm.valid"
         type="submit"
         mdl-button
         mdl-ripple>{{ 'CONFIRM' | translate }}

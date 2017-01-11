@@ -7,10 +7,12 @@
           required
           type="text"
           label="Username"
-          id="username"
+          id="username1"
           name="username"
+          #user="ngModel"
           [(ngModel)]="username"
-          [class.ng-invalid]="!username.valid && !username.pristine">
+          [class.is-invalid]="!username && !user.pristine">
+          >
         </mdl-textfield>
         <br/>
         <mdl-textfield
@@ -19,12 +21,20 @@
           label="Password"
           id="password"
           name="password"
+          #pass="ngModel"
           [(ngModel)]="password"
-          [class.ng-invalid]="!password.valid && !password.pristine">
+          [class.is-invalid]="!password && !pass.pristine">
         </mdl-textfield>
       </div>
       <div class="mdl-dialog__actions">
-        <button mdl-button mdl-ripple type="submit">Login</button>
+        <button
+          mdl-button
+          mdl-ripple
+          type="submit"
+          [disabled]="!loginForm.valid"
+        >
+          Login
+        </button>
       </div>
     </form>
   </div>
