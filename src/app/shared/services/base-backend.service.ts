@@ -40,9 +40,14 @@ export abstract class BaseBackendService<M extends BaseModel> {
 
   protected buildParams(command: string, params?: {}): URLSearchParams {
     const urlParams = new URLSearchParams();
-    let apiCommand = `${command}${this.entity}`;
-    if (command === 'list') {
+    const cmd = command.split(';');
+    let apiCommand = `${cmd[0]}${this.entity}`;
+
+    if (cmd[0] === 'list') {
       apiCommand += 's';
+    }
+    if (cmd.length === 2) {
+      apiCommand += cmd[1];
     }
     urlParams.append('command', apiCommand);
 
