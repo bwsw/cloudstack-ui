@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { Http } from '@angular/http';
 import { SecurityGroup } from '../security-group/security-group.model';
 import 'rxjs/add/operator/toPromise';
@@ -16,17 +16,11 @@ export class ConfigService {
 
   public load(reload = false): Promise<void> {
     if (reload || !this.config) {
-      return this.http.get('/config-dev.json')
+      const url = `/config-${isDevMode() ? 'dev' : 'prod'}.json`;
+      return this.http.get(url)
         .toPromise()
         .then(response => { this.config = response.json(); })
-        .catch(error => {
-          if (error.status === 404) {
-            return this.http.get('/config-prod.json')
-              .toPromise()
-              .then(response => { this.config = response.json(); })
-              .catch(this.handleError);
-          }
-        }).catch(this.handleError);
+        .catch(this.handleError);
     } else {
       Promise.resolve();
     }
