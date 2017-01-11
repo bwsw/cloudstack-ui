@@ -93,7 +93,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
     return this.http.get(BACKEND_API_URL, {search: urlParams})
       .map(result => result.json().deployvirtualmachineresponse);
-  }
+    }
 
   public checkDeploy(jobId: string) {
     return this.jobs.addJob(jobId)

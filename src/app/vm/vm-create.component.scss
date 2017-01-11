@@ -52,11 +52,11 @@ h5 {
   width: 300px;
 }
 
-.security-groups-header {
+.dialog-select-header {
   display: inline-block;
 }
 
-.security-group-create-button {
+.dialog-select-create-button {
   margin-top: 16px;
   margin-right: 16px;
   display:inline-block;
@@ -69,15 +69,19 @@ h5 {
   font-weight: bold;
 }
 
-.security-group-select {
+.dialog-select-select {
   position: absolute;
-  right: 0;
+  right: -8px;
   display: inline-block;
   text-align: right;
   margin-top: 16px;
 }
 
-.security-group-wrapper {
+.dialog-select-wrapper {
   position: relative;
-  margin-bottom: 50px;
+  margin-bottom: 60px;
+}
+
+.template-select {
+  margin-right: 48px;
 }

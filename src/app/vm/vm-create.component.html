@@ -20,19 +20,23 @@
             label="{{ 'VM_CREATION_FORM.NAME' | translate }}"
             id="name"
             name="name"
-            [(ngModel)]="vmCreationData.vm.displayName">
+            pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]{0,1}$"
+            #vmname="ngModel"
+            [(ngModel)]="vmCreationData.vm.displayName"
+            [class.is-invalid]="!vmname.valid"
+          >
           </mdl-textfield>
         </div>
-        <div>
-          <mdl-textfield
-            [disabled]="true"
-            type="text"
-            label="{{ 'VM_CREATION_FORM.TEMPLATE' | translate }}"
-            id="template"
-            name="template"
-            [(ngModel)]="template">
-          </mdl-textfield>
+
+        <div class="dialog-select-wrapper">
+          <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.TEMPLATE' | translate }}</h5>
+        <cs-vm-creation-template
+          [selectedIn]="vmCreationData.vm.template"
+          class="dialog-select-select template-select"
+          (selectedOut)="onTemplateChange($event)"
+        ></cs-vm-creation-template>
         </div>
+      
         <h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>
         <div>
           <mdl-select
@@ -96,9 +100,9 @@
             </mdl-option>
           </mdl-select>
         </div>
-        <div class="security-group-wrapper">
-          <h5 class="security-groups-header">{{ 'VM_CREATION_FORM.SECURITY_GROUPS' | translate }}</h5>
-          <cs-security-group-rules-manager class="security-group-select"></cs-security-group-rules-manager>
+        <div class="dialog-select-wrapper">
+          <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.SECURITY_GROUPS' | translate }}</h5>
+          <cs-security-group-rules-manager class="dialog-select-select"></cs-security-group-rules-manager>
         </div>
         <h5>{{ 'VM_CREATION_FORM.KEYBOARD_LAYOUT' | translate }}</h5>
         <div>
@@ -143,6 +147,7 @@
     </div>
     <div class="mdl-dialog__actions">
       <button
+        [disabled]="!vmCreateForm.valid"
         type="submit"
         mdl-button
         mdl-ripple>{{ 'CONFIRM' | translate }}

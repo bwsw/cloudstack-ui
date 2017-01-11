@@ -20,6 +20,7 @@ export const enum ResourceType {
   resourcetype: 'resourceType'
 })
 export class ResourceLimit extends BaseModel {
-  public id: number;
+  public id: string;
   public max: number;
+  public resourceType: ResourceType;
 }

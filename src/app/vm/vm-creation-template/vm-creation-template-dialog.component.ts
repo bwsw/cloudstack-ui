@@ -16,7 +16,6 @@ export class VmCreationTemplateDialogComponent implements OnInit {
   private selectedTemplate: Template;
   private templates: Array<TemplateObject>;
 
-
   constructor(
     @Inject(PRESELECTED_TEMPLATE_TOKEN) private preselectedTemplate: Template,
     private dialog: MdlDialogReference,
@@ -34,6 +33,7 @@ export class VmCreationTemplateDialogComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.activeTab = -1;
     this.templateService.getGroupedTemplates()
       .then(templatesObjects => {
         for (let filter in templatesObjects) {

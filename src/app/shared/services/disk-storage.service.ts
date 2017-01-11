@@ -19,6 +19,7 @@ export class DiskStorageService {
 
   public getAvailablePrimaryStorage(): Promise<number> {
     return this.getAvailableStorage(ResourceType.PrimaryStorage);
+
   }
 
   public getAvailableSecondaryStorage(): Promise<number> {
@@ -66,6 +67,9 @@ export class DiskStorageService {
 
     return Promise.all([limitRequest, consumedStorageRequest])
       .then(values => {
+        if (values[0] === -1) {
+          return -1;
+        }
         let space = values[0] - values[1];
         return space > 0 ? space : 0;
       }).catch(error => Promise.reject(error));
