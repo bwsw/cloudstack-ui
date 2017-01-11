@@ -85,7 +85,9 @@ export class VmCreateComponent {
             this.resetVmCreateData();
             this.vmCreateDialog.show();
           } else {
-            throw Error();
+            this.translateService.get(['INSUFFICIENT_RESOURCES']).subscribe(strs => {
+              this.notificationService.error(strs['INSUFFICIENT_RESOURCES']);
+            });
           }
         });
       }).catch(() => {
