@@ -1,0 +1,135 @@
+<div style="margin: 10px; overflow: auto;">
+  <table class="mdl-data-table" style="width: 100%;">
+    <thead>
+    <tr>
+      <th>Type</th>
+      <th>Protocol</th>
+      <template [ngIf]="protocol !== 'ICMP'">
+        <th>Start port</th>
+        <th>End port</th>
+      </template>
+      <template [ngIf]="protocol === 'ICMP'">
+        <th>ICMP type</th>
+        <th>ICMP code</th>
+      </template>
+      <th>CIDR</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>
+        <select name="type" [(ngModel)]="type">
+          <option value="Ingress">Ingress</option>
+          <option value="Egress">Egress</option>
+        </select>
+      </td>
+      <td>
+        <select name="protocol" [(ngModel)]="protocol">
+          <option value="TCP">TCP</option>
+          <option value="UDP">UDP</option>
+          <option value="ICMP">ICMP</option>
+        </select>
+      </td>
+      <td>
+        <mdl-textfield
+          *ngIf="protocol === 'ICMP'"
+          name="icmpType"
+          type="number"
+          label="ICMP type"
+          min="0"
+          error-msg="Enter valid type"
+          [(ngModel)]="icmpType"
+          floating-label
+        ></mdl-textfield>
+        <mdl-textfield
+          *ngIf="protocol !== 'ICMP'"
+          name="startPort"
+          type="number"
+          label="Start Port"
+          min="0"
+          max="65536"
+          error-msg="Enter valid port"
+          [(ngModel)]="startPort"
+          floating-label
+        ></mdl-textfield>
+      </td>
+      <td>
+        <mdl-textfield
+          *ngIf="protocol === 'ICMP'"
+          name="icmpCode"
+          type="number"
+          label="ICMP code"
+          min="0"
+          error-msg="Enter valid code"
+          [(ngModel)]="icmpCode"
+          floating-label
+        ></mdl-textfield>
+        <mdl-textfield
+          *ngIf="protocol !== 'ICMP'"
+          name="endPort"
+          type="number"
+          label="End Port"
+          min="0"
+          max="65536"
+          error-msg="Enter valid port"
+          [(ngModel)]="endPort"
+          floating-label
+        ></mdl-textfield>
+      </td>
+      <td>
+        <mdl-textfield
+          type="text"
+          label="CIDR"
+          pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$"
+          error-msg="Enter valid CIDR"
+          [(ngModel)]="cidr"
+          floating-label
+        >
+        </mdl-textfield>
+      </td>
+      <td>
+        <button mdl-button mdl-button-type="icon" [mdl-tooltip]="'Create'" (click)="addRule()">
+          <mdl-icon>add</mdl-icon>
+        </button>
+      </td>
+    </tr>
+    <tr *ngFor="let rule of securityGroup?.ingressRules">
+      <td>Ingress</td>
+      <td>{{ rule.protocol }}</td>
+      <template [ngIf]="protocol === 'ICMP'">
+        <td>{{ rule.icmpType }}</td>
+        <td>{{ rule.icmpCode }}</td>
+      </template>
+      <template [ngIf]="protocol !== 'ICMP'">
+        <td>{{ rule.startPort }}</td>
+        <td>{{ rule.endPort }}</td>
+      </template>
+      <td>{{ rule.CIDR }}</td>
+      <td>
+        <button mdl-button mdl-button-type="icon" [mdl-tooltip]="'Remove'">
+          <mdl-icon>close</mdl-icon>
+        </button>
+      </td>
+    </tr>
+    <tr *ngFor="let rule of securityGroup?.egressRules">
+      <td>Egress</td>
+      <td>{{ rule.protocol }}</td>
+      <template [ngIf]="protocol === 'ICMP'">
+        <td>{{ rule.icmpType }}</td>
+        <td>{{ rule.icmpCode }}</td>
+      </template>
+      <template [ngIf]="protocol !== 'ICMP'">
+        <td>{{ rule.startPort }}</td>
+        <td>{{ rule.endPort }}</td>
+      </template>
+      <td>{{ rule.CIDR }}</td>
+      <td>
+        <button mdl-button mdl-button-type="icon" [mdl-tooltip]="'Remove'">
+          <mdl-icon>close</mdl-icon>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

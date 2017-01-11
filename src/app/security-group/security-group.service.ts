@@ -24,4 +24,8 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
         return groups;
       });
   }
+
+  public addRule(type: 'Ingress'|'Egress', data) {
+    return this.postRequest(`authorize;${type}`, data);
+  }
 }

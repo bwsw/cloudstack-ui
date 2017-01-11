@@ -9,6 +9,7 @@ import { SecurityGroupCreationComponent } from './security-group-creation.compon
 import { SecurityGroupRulesManagerComponent } from './security-group-rules-manager.component';
 import { SecurityGroupTemplateListComponent } from './security-group-template-list.component';
 import { SecurityGroupTemplateListItemComponent } from './security-group-template-list-item.component';
+import { SecurityGroupRulesComponent } from './security-group-rules.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { SecurityGroupTemplateListItemComponent } from './security-group-templat
     SecurityGroupCreationComponent,
     SecurityGroupRulesManagerComponent,
     SecurityGroupTemplateListComponent,
-    SecurityGroupTemplateListItemComponent
+    SecurityGroupTemplateListItemComponent,
+    SecurityGroupRulesComponent
   ],
   providers: [ SecurityGroupService ],
   entryComponents: [ SecurityGroupCreationComponent ]
