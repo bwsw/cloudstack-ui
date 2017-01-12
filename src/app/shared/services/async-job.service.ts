@@ -39,7 +39,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
     return observable;
   }
 
-  public queryJobs(): boolean {
+  private queryJobs(): boolean {
     if (!this.poll) {
       return false;
     }

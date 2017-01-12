@@ -74,6 +74,11 @@ export class VmListComponent implements OnInit {
         this.vmStats.updateStats();
       }
     });
+    this.vmService.resubscribe().then(activeJobs => { console.log(activeJobs);
+      activeJobs.forEach(job => {
+        console.log(job.cmd);
+      });
+    })
   }
 
   public onVmAction(e: IVmActionEvent) {

@@ -126,7 +126,7 @@ export class VmCreateComponent {
               r.state = 'Deploying';
               this.onCreated.next(r);
             });
-          this.vmService.checkDeploy(result.jobid)
+          this.vmService.checkCommand(result.jobid)
             .subscribe(() => this.notifyOnDeployDone(id));
         });
     });

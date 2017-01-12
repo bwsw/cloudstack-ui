@@ -93,9 +93,9 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
     return this.http.get(BACKEND_API_URL, {search: urlParams})
       .map(result => result.json().deployvirtualmachineresponse);
-    }
+  }
 
-  public checkDeploy(jobId: string) {
+  public checkCommand(jobId: string) {
     return this.jobs.addJob(jobId)
       .map(result => {
         if (result && result.jobResultCode === 0) {
@@ -104,6 +104,16 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         this.jobs.event.next(result);
         return result;
       });
+  }
+
+  public resubscribe(): Promise<Array<AsyncJob>> {
+    return this.jobs.getList().then(jobs => {
+      let filteredJobs = jobs.filter(job => !job.jobStatus);
+      filteredJobs.forEach(job => {
+        this.checkCommand(job.jobId);    
+      });
+      return filteredJobs;
+    });
   }
 
   public command(command: string, id?: string, params?: {}): Observable<AsyncJob> {
