@@ -41,6 +41,7 @@
     <button
       mdl-button
       disabled="{{ securityGroupTemplate.id.startsWith('template') }}"
+      (click)="onDelete.emit(securityGroupTemplate.id)"
     >
       {{ 'DELETE' | translate }}
     </button>

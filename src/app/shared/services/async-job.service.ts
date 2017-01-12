@@ -16,16 +16,17 @@ interface IJobObservables {
   entityModel: AsyncJob
 })
 export class AsyncJobService extends BaseBackendService<AsyncJob> {
-
   public event: Subject<AsyncJob>;
   public pollingInterval: number;
+  public immediatePollingInterval: number;
   public poll: boolean;
   private jobObservables: IJobObservables;
   private timerId: any;
 
   constructor() {
     super();
-    this.pollingInterval = 5000;
+    this.pollingInterval = 2000;
+    this.immediatePollingInterval = 100;
     this.jobObservables = {};
     this.event = new Subject<AsyncJob>();
   }
@@ -33,9 +34,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
   public addJob(id: string): Subject<AsyncJob> {
     let observable = new Subject<AsyncJob>();
     this.jobObservables[id] = observable;
-    if (!this.poll) {
-      this.startPolling();
-    }
+    this.startPolling();
     return observable;
   }
 
@@ -64,9 +63,11 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
   }
 
   private startPolling(): void {
-    this.timerId = setInterval(() => {
+    clearInterval(this.timerId);
+    setTimeout(() => {
       this.queryJobs();
-    }, this.pollingInterval);
+      this.timerId = setInterval(() => this.queryJobs(), this.pollingInterval);
+    }, this.immediatePollingInterval);
     this.poll = true;
   }
 

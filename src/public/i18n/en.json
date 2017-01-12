@@ -38,7 +38,7 @@
   "CONFIRM_VM_REBOOT": "Are you sure you want to reboot this virtual machine?",
   "CONFIRM_VM_RESTORE": "Are you sure you want to restore this virtual machine?",
   "CONFIRM_VM_DESTROY": "Are you sure you want to destroy this virtual machine?",
-
+  "CONFIRM_DELETE_TEMPLATE": "Are you sure you want to delete this template?",
   "START_DONE": "VM has started",
   "STOP_DONE": "VM has been stopped",
   "REBOOT_DONE": "VM has been rebooted",

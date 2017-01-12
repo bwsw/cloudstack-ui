@@ -5,6 +5,7 @@
   "WRONG_ARGUMENTS": "Неверные параметры",
   "UNEXPECTED_ERROR": "Неизвестная ошибка",
   "INSTANCES": "Машины",
+  "CONFIRM_DELETE_TEMPLATE": "Вы уверены, что хотите удалить этот шаблон?",
   "SECURITY_GROUP_TEMPLATES": "Шаблоны групп безопасности",
   "CLEAR_ALL": "Очистить",
   "WOULD_YOU_LIKE_TO_CREATE_VM": "Хотите создать виртуальную машину?",

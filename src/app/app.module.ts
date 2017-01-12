@@ -60,6 +60,7 @@ import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
 import { ConfigService } from './shared/config.service';
 import { SecurityGroupModule } from './security-group/security-group.module';
+import { TagService } from './shared/services/tag.service';
 
 
 @NgModule({
@@ -120,6 +121,7 @@ import { SecurityGroupModule } from './security-group/security-group.module';
     ServiceOfferingService,
     VolumeService,
     OsTypeService,
+    TagService,
     {provide: 'IStorageService', useClass: StorageService},
     TemplateService,
     VmService,
