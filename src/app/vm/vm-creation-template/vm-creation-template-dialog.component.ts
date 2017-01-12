@@ -24,7 +24,6 @@ export class VmCreationTemplateDialogComponent implements OnInit {
   ) {
     this.loaded = false;
     this.selectedTemplate = this.preselectedTemplate;
-
     this.templates = new Array<TemplateObject>();
     this.templates.push(new TemplateObject('Featured', 'featured'));
     this.templates.push(new TemplateObject('My Templates', 'selfexecutable'));
@@ -82,7 +81,6 @@ export class VmCreationTemplateDialogComponent implements OnInit {
     }
   }
 }
-
 
 class TemplateObject {
   public name;

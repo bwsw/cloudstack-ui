@@ -3,6 +3,7 @@ import { MdlDialogService } from 'angular2-mdl';
 import { VmCreationTemplateDialogComponent } from './vm-creation-template-dialog.component';
 import { PRESELECTED_TEMPLATE_TOKEN } from './injector-token';
 import { Template } from '../../shared/models';
+import { TemplateService } from '../../shared/services/template.service';
 
 
 @Component({
@@ -15,13 +16,21 @@ export class VmCreationTemplateComponent implements OnInit, OnChanges {
   @Output() public selectedOut: EventEmitter<Template>;
   private displayTemplateName: string;
 
-  constructor(private dialogService: MdlDialogService) {
+  constructor(
+    private dialogService: MdlDialogService,
+    private templateService: TemplateService
+  ) {
     this.selectedOut = new EventEmitter<Template>();
   }
 
   public ngOnInit(): void {
     if (this.selectedIn) {
       this.displayTemplateName = this.selectedIn.name;
+    } else {
+      this.templateService.getDefault().then(template => {
+        this.selectedIn = template;
+        this.displayTemplateName = this.selectedIn.name;
+      });
     }
   }
 
