@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { SecurityGroup } from './security-group.model';
 
 @Component({
@@ -8,4 +8,5 @@ import { SecurityGroup } from './security-group.model';
 })
 export class SecurityGroupTemplateListItemComponent {
   @Input() public securityGroupTemplate: SecurityGroup;
+  @Output() public onClick = new EventEmitter();
 }

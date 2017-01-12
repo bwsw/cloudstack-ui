@@ -1,16 +1,15 @@
-import { Component, Input } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { SecurityGroupService } from './security-group.service';
 import { SecurityGroup, NetworkRule } from './security-group.model';
 import { AsyncJobService } from '../shared/services/async-job.service';
+import { MdlDialogReference } from 'angular2-mdl';
 
 @Component({
   selector: 'cs-security-group-rules',
   templateUrl: './security-group-rules.component.html',
-  styleUrls: ['./security-group-rules.component.html']
+  styleUrls: ['./security-group-rules.component.scss']
 })
 export class SecurityGroupRulesComponent {
-  @Input() public securityGroup: SecurityGroup;
-
   public type: 'Ingress'|'Egress';
   public protocol: 'TCP'|'UDP'|'ICMP';
   public startPort: number; // TODO validation
@@ -20,11 +19,17 @@ export class SecurityGroupRulesComponent {
   public cidr: string;
 
   constructor(
+    private dialog: MdlDialogReference,
     private securityGroupService: SecurityGroupService,
-    private asyncJobService: AsyncJobService
+    private asyncJobService: AsyncJobService,
+    @Inject('securityGroup') public securityGroup: SecurityGroup
   ) {
     this.protocol = 'TCP';
     this.type = 'Ingress';
+  }
+
+  public onHide() {
+    this.dialog.hide();
   }
 
   public addRule() {
@@ -77,7 +82,7 @@ export class SecurityGroupRulesComponent {
 
             const rules = this.securityGroup[`${type.toLowerCase()}Rules`];
             const ind = rules.findIndex(rule => {
-              return rule.id = id;
+              return rule.ruleId === id;
             });
 
             if (ind === -1) {

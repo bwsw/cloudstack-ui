@@ -31,6 +31,9 @@ import { SecurityGroupRulesComponent } from './security-group-rules.component';
     SecurityGroupRulesComponent
   ],
   providers: [ SecurityGroupService ],
-  entryComponents: [ SecurityGroupCreationComponent ]
+  entryComponents: [
+    SecurityGroupCreationComponent,
+    SecurityGroupRulesComponent
+  ]
 })
 export class SecurityGroupModule { }

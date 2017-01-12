@@ -1,0 +1,17 @@
+mdl-textfield {
+  width: 100px;
+
+  /deep/ .mdl-textfield__input,
+  /deep/ .mdl-textfield__label {
+    text-align: right;
+  }
+
+  &.cidr {
+    width: 150px;
+  }
+}
+
+.mdl-dialog__content {
+  overflow-y: auto;
+  max-height: 550px;
+}
