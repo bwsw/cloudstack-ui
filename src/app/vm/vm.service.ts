@@ -106,13 +106,14 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
   }
 
-  public resubscribe(): Promise<Array<AsyncJob>> {
+  public resubscribe(): Promise<Array<Subject>> {
     return this.jobs.getList().then(jobs => {
       let filteredJobs = jobs.filter(job => !job.jobStatus);
+      let observables = [];
       filteredJobs.forEach(job => {
-        this.checkCommand(job.jobId);    
+        observables.push(this.checkCommand(job.jobId));    
       });
-      return filteredJobs;
+      return observables;
     });
   }
 

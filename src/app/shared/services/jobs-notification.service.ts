@@ -55,7 +55,8 @@ export class JobsNotificationService {
 
     const ind = this.notifications.findIndex((el: INotification) => el.id === notification.id);
     if (ind === -1) {
-      notification.status = INotificationStatus.Pending;
+      // vvv relies on Pending being 0 (1st field in enum) vvv
+      notification.status = notification.status || INotificationStatus.Pending;
       this.notifications.unshift(notification);
       this._pendingJobsCount++;
       this._unseenJobs.next(1);
