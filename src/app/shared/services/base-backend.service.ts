@@ -34,6 +34,28 @@ export abstract class BaseBackendService<M extends BaseModel> {
       });
   }
 
+  public create(params?: {}): Promise<any> {
+    const command = 'create';
+    let entity = this.entity.toLowerCase();
+    return this.postRequest(command, params)
+      .then(res => {
+        const ent = entity === 'tag' ? entity + 's' : entity;
+        const response = res[`${command}${ent}response`];
+
+        if (entity === 'tag') {
+          return response;
+        }
+        return this.prepareModel(response[ent]);
+      });
+  }
+
+  public remove(params?: {}): Promise<any> {
+    const command = 'delete';
+    let entity = this.entity.toLowerCase();
+    return this.postRequest(command, params)
+      .then(res => res[`${command}${entity}response`]);
+  }
+
   protected prepareModel(res): M {
     return new this.entityModel(res);
   }
@@ -41,7 +63,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
   protected buildParams(command: string, params?: {}): URLSearchParams {
     const urlParams = new URLSearchParams();
     let apiCommand = `${command}${this.entity}`;
-    if (command === 'list') {
+    if (command === 'list' || this.entity === 'Tag') {
       apiCommand += 's';
     }
     urlParams.append('command', apiCommand);
@@ -67,7 +89,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
       .catch(error => {
         this.error.next(error);
         return Promise.reject(error);
-      } );
+      });
   }
 
   private fetchList(params?: {}): Promise<any> {
