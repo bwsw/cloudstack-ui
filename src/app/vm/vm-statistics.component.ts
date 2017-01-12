@@ -22,7 +22,6 @@ export class VmStatisticsComponent implements OnInit {
   public updateStats(): void {
     this.resourceUsageService.getResourceUsage().then(result => {
       this.resourceUsage = result;
-      console.log(result);
     });
   }
 }
