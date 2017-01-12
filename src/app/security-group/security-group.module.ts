@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
+import { MdlSelectModule } from '@angular2-mdl-ext/select';
 
 import { SecurityGroupService } from './security-group.service';
 import { SecurityGroupCreationComponent } from './security-group-creation.component';
@@ -16,7 +17,8 @@ import { SecurityGroupRulesComponent } from './security-group-rules.component';
     CommonModule,
     FormsModule,
     TranslateModule,
-    MdlModule
+    MdlModule,
+    MdlSelectModule
   ],
   exports: [
     SecurityGroupCreationComponent,

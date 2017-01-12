@@ -36,7 +36,7 @@ export class SecurityGroupTemplateListComponent implements OnInit {
       component: SecurityGroupRulesComponent,
       providers: [SecurityGroupService, AsyncJobService, { provide: 'securityGroup', useValue: group }],
       isModal: true,
-      styles: { 'width': '820px', 'padding': '12.8px' },
+      styles: { 'width': '830px', 'padding': '12.8px' },
       enterTransitionDuration: 400,
       leaveTransitionDuration: 400
     });

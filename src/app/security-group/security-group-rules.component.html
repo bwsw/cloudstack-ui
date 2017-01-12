@@ -21,17 +21,17 @@
       <tbody>
       <tr>
         <td>
-          <select name="type" [(ngModel)]="type">
-            <option value="Ingress">Ingress</option>
-            <option value="Egress">Egress</option>
-          </select>
+          <mdl-select [(ngModel)]="type">
+            <mdl-option [value]="'Ingress'">Ingress</mdl-option>
+            <mdl-option [value]="'Egress'">Egress</mdl-option>
+          </mdl-select>
         </td>
         <td>
-          <select name="protocol" [(ngModel)]="protocol">
-            <option value="TCP">TCP</option>
-            <option value="UDP">UDP</option>
-            <option value="ICMP">ICMP</option>
-          </select>
+          <mdl-select [(ngModel)]="protocol">
+            <mdl-option [value]="'TCP'">TCP</mdl-option>
+            <mdl-option [value]="'UDP'">UDP</mdl-option>
+            <mdl-option [value]="'ICMP'">ICMP</mdl-option>
+          </mdl-select>
         </td>
         <td>
           <mdl-textfield

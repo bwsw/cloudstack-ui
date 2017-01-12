@@ -1,6 +1,4 @@
 mdl-textfield {
-  width: 100px;
-
   /deep/ .mdl-textfield__input,
   /deep/ .mdl-textfield__label {
     text-align: right;
@@ -14,4 +12,8 @@ mdl-textfield {
 .mdl-dialog__content {
   overflow-y: auto;
   max-height: 550px;
+}
+
+/deep/ .mdl-textfield {
+   width: 90px;
 }
