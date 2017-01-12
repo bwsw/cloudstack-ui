@@ -32,6 +32,7 @@
           <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.TEMPLATE' | translate }}</h5>
         <cs-vm-creation-template
           class="dialog-select-select template-select"
+          [selectedIn]="vmCreationData.vm.template"
           (selectedOut)="onTemplateChange($event)"
         ></cs-vm-creation-template>
         </div>
