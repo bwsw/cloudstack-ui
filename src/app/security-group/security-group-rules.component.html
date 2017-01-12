@@ -92,7 +92,13 @@
           </mdl-textfield>
         </td>
         <td>
-          <button mdl-button mdl-button-type="icon" [mdl-tooltip]="'Create'" (click)="addRule()">
+          <button
+            mdl-button
+            mdl-button-type="icon"
+            [mdl-tooltip]="'Create'"
+            (click)="addRule()"
+            disabled="{{ securityGroup.id.startsWith('template') }}"
+          >
             <mdl-icon>add</mdl-icon>
           </button>
         </td>
@@ -110,7 +116,13 @@
         </template>
         <td>{{ rule.CIDR }}</td>
         <td>
-          <button mdl-button mdl-button-type="icon" [mdl-tooltip]="'Remove'" (click)="removeRule('Ingress', rule.ruleId)">
+          <button
+            mdl-button
+            mdl-button-type="icon"
+            [mdl-tooltip]="'Remove'"
+            (click)="removeRule('Ingress', rule.ruleId)"
+            disabled="{{ securityGroup.id.startsWith('template') }}"
+          >
             <mdl-icon>close</mdl-icon>
           </button>
         </td>
@@ -128,7 +140,13 @@
         </template>
         <td>{{ rule.CIDR }}</td>
         <td>
-          <button mdl-button mdl-button-type="icon" [mdl-tooltip]="'Remove'" (click)="removeRule('Egress', rule.ruleId)">
+          <button
+            mdl-button
+            mdl-button-type="icon"
+            [mdl-tooltip]="'Remove'"
+            (click)="removeRule('Egress', rule.ruleId)"
+            disabled="{{ securityGroup.id.startsWith('template') }}"
+          >
             <mdl-icon>close</mdl-icon>
           </button>
         </td>
