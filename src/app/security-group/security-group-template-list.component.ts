@@ -9,8 +9,7 @@ import { SecurityGroupTemplateCreationComponent } from './security-group-templat
 
 @Component({
   selector: 'cs-security-group-template-list',
-  templateUrl: './security-group-template-list.component.html',
-  styleUrls: ['./security-group-template-list.component.scss']
+  templateUrl: './security-group-template-list.component.html'
 })
 export class SecurityGroupTemplateListComponent implements OnInit {
   private securityGroupList: Array<SecurityGroup>;
