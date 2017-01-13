@@ -36,7 +36,10 @@ export class SecurityGroupCreationComponent implements OnInit {
 
   public ngOnInit() {
     const securityGroupTemplates = this.securityGroupService.getTemplates();
-    const accountSecurityGroups = this.securityGroupService.getList();
+    const accountSecurityGroups = this.securityGroupService.getList({
+      'tags[0].key': 'template',
+      'tags[0].value': 'true'
+    });
 
     Promise.all([securityGroupTemplates, accountSecurityGroups])
       .then(([templates, groups]) => {
