@@ -5,6 +5,8 @@ import { BaseBackendService } from '../shared/services/base-backend.service';
 import { BackendResource } from '../shared/decorators/backend-resource.decorator';
 import { TagService } from '../shared/services/tag.service';
 import { AsyncJobService } from '../shared/services/async-job.service';
+import { NetworkRule } from './security-group.model';
+
 
 @Injectable()
 @BackendResource({
@@ -67,5 +69,42 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
 
   public deleteTemplate(id: string) {
     return this.remove({ id });
+  }
+
+  public createWithRules(
+    params: {},
+    ingressRules: Array<NetworkRule>,
+    egressRules: Array<NetworkRule>
+  ): Promise<SecurityGroup> {
+    return this.create(params).then((securityGroup: SecurityGroup) => {
+      const addRule = (type, rule) => {
+        rule['securitygroupid'] = securityGroup.id;
+        rule['cidrlist'] = rule.CIDR;
+        rule.protocol = rule.protocol.toLowerCase();
+        delete rule.CIDR;
+        this.addRule(type, rule.serialize());
+      };
+      ingressRules.forEach(rule => addRule('Ingress', rule));
+      egressRules.forEach(rule => addRule('Egress', rule));
+      return securityGroup;
+    });
+  }
+
+  public addRule(type: 'Ingress'|'Egress', data) {
+    return this.postRequest(`authorize;${type}`, data)
+      .then(res => {
+        const response = res[`authorize${this.entity.toLowerCase()}${type.toLowerCase()}response`];
+
+        return response.jobid;
+      });
+  }
+
+  public removeRule(type: 'Ingress'|'Egress', data) {
+    return this.postRequest(`revoke;${type}`, data)
+      .then(res => {
+        const response = res[`revoke${this.entity.toLowerCase()}${type.toLowerCase()}response`];
+
+        return response.jobid;
+      });
   }
 }

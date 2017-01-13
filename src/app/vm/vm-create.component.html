@@ -102,7 +102,11 @@
         </div>
         <div class="dialog-select-wrapper">
           <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.SECURITY_GROUPS' | translate }}</h5>
-          <cs-security-group-rules-manager class="dialog-select-select"></cs-security-group-rules-manager>
+          <cs-security-group-rules-manager
+            name="sgm"
+            class="dialog-select-select"
+            [(ngModel)]="securityRules"
+          ></cs-security-group-rules-manager>
         </div>
         <h5>{{ 'VM_CREATION_FORM.KEYBOARD_LAYOUT' | translate }}</h5>
         <div>

@@ -22,6 +22,9 @@ import { DiskStorageService } from '../shared/services/disk-storage.service';
 import { ServiceOfferingFilterService } from '../shared/services/service-offering-filter.service';
 import { ResourceUsageService } from '../shared/services/resource-usage.service';
 import { Template } from '../shared/models/template.model';
+import { SecurityGroupService } from '../security-group/security-group.service';
+import * as UUID from 'uuid';
+
 
 class VmCreationData {
   public vm: VirtualMachine;
@@ -61,6 +64,7 @@ export class VmCreateComponent {
 
   public vmCreationData: VmCreationData;
   public keyboards = ['us', 'uk', 'jp', 'sc'];
+  public securityRules;
 
   constructor(
     private zoneService: ZoneService,
@@ -74,6 +78,7 @@ export class VmCreateComponent {
     private translateService: TranslateService,
     private notificationService: NotificationService,
     private resourceUsageService: ResourceUsageService,
+    private securityGroupService: SecurityGroupService
   ) {
     this.vmCreationData = new VmCreationData();
   }
@@ -114,21 +119,18 @@ export class VmCreateComponent {
   }
 
   public deployVm(): void {
-    let params = this.vmCreateParams;
-    this.translateService.get([
-      'VM_DEPLOY_IN_PROGRESS'
-    ]).subscribe(strs => {
-      let id = this.jobsNotificationService.add(strs['VM_DEPLOY_IN_PROGRESS']);
-      this.vmService.deploy(params)
-        .subscribe(result => {
-          this.vmService.get(result.id)
-            .then(r => {
-              r.state = 'Deploying';
-              this.onCreated.next(r);
-            });
-          this.vmService.checkDeploy(result.jobid)
-            .subscribe(() => this.notifyOnDeployDone(id));
-        });
+    let params: any = this.vmCreateParams;
+    if (!params.ingress && !params.egress) {
+      this._deploy(params);
+      return;
+    }
+    this.securityGroupService.createWithRules(
+      { name: UUID.v4() },
+      params.ingress || [],
+      params.egress || []
+    ).then(securityGroup => {
+      params['securitygroupids'] = securityGroup.id;
+      this._deploy(params);
     });
   }
 
@@ -153,6 +155,24 @@ export class VmCreateComponent {
     this.vmCreationData.vm.template = t;
   }
 
+  private _deploy(params: {}): void {
+    this.translateService.get([
+      'VM_DEPLOY_IN_PROGRESS'
+    ]).subscribe(strs => {
+      let id = this.jobsNotificationService.add(strs['VM_DEPLOY_IN_PROGRESS']);
+      this.vmService.deploy(params)
+        .subscribe(result => {
+          this.vmService.get(result.id)
+            .then(r => {
+              r.state = 'Deploying';
+              this.onCreated.next(r);
+            });
+          this.vmService.checkDeploy(result.jobid)
+            .subscribe(() => this.notifyOnDeployDone(id));
+        });
+    });
+  }
+
   private getVmCreateData(): Promise<VmCreationData> {
     let vmCreationData = new VmCreationData();
 
@@ -170,7 +190,6 @@ export class VmCreateComponent {
       vmCreationData.rootDiskSizeLimit = result[2];
       vmCreationData.affinityGroups = result[3];
       vmCreationData.sshKeyPairs = result[4];
-      vmCreationData.vm.template = result[5];
 
       if (result[0].length) {
         vmCreationData.vm.zoneId = result[0][0].id;
@@ -185,6 +204,7 @@ export class VmCreateComponent {
       if (result[4].length) {
         vmCreationData.vm.keyPair = result[4][0].name;
       }
+      vmCreationData.vm.template = result[5];
       return vmCreationData;
     });
   }
@@ -211,7 +231,12 @@ export class VmCreateComponent {
     if (!this.vmCreationData.doStartVm) {
       params['startvm'] = 'false';
     }
-//    params['securitygroupids'] = 'c5ffdfe0-7de4-4373-bd55-128e434c81d1'; // temp
+    if (this.securityRules.ingress) {
+      params['ingress'] = this.securityRules.ingress;
+    }
+    if (this.securityRules.egress) {
+      params['egress'] = this.securityRules.egress;
+    }
     return params;
   }
 }
