@@ -9,7 +9,7 @@ import { ResourceUsageService, ResourceStats } from '../shared/services/resource
 })
 export class VmStatisticsComponent implements OnInit {
   public resourceUsage: ResourceStats;
-  public isOpen = true;
+  public isOpen = false;
 
   constructor(private resourceUsageService: ResourceUsageService) {
     this.resourceUsage = new ResourceStats();
