@@ -124,10 +124,6 @@ export class VirtualMachine extends BaseModel {
     return sizeInBytes / Math.pow(2, 30);
   }
 
-  public canApply(command: string) {
-    return this.state === 'Running' || this.state === 'Stopped';
-  }
-
   public static getAction(action: string): IVmAction  {
     let name = action.charAt(0).toUpperCase() + action.slice(1);
     let nameLower = action;
@@ -167,5 +163,22 @@ export class VirtualMachine extends BaseModel {
       progressMessage,
       successMessage
     };
+  }
+
+  public canApply(command: string) {
+    const state = this.state;
+
+    if (state !== 'Running' && state !== 'Stopped') {
+      return false;
+    }
+
+    switch (command) {
+      case 'start': return state !== 'Running';
+      case 'stop':
+      case 'reboot':
+        return state !== 'Stopped';
+    }
+
+    return true;
   }
 }

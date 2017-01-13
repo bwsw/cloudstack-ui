@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "uuid": "registry:npm/uuid#3.0.1+20161206160008"
+  }
+}
