@@ -15,6 +15,8 @@ import { IVmAction } from './vm.model';
 import { IAsyncJob } from '../shared/models/async-job.model';
 import { AsyncJobService } from '../shared/services/async-job.service';
 import { VmStatisticsComponent } from './vm-statistics.component';
+import * as UUID from 'uuid';
+
 
 interface IVmActionEvent {
   id: string;
@@ -69,13 +71,33 @@ export class VmListComponent implements OnInit {
         });
       });
     this.asyncJobService.event.subscribe((job: IAsyncJob<any>) => {
-      if (job.jobResult.state === 'Destroyed') {
+      if (job.jobResult && job.jobResult.state === 'Destroyed') {
         this.vmList.splice(this.vmList.findIndex(vm => vm.id === job.jobResult.id), 1);
         if (this.selectedVm.id === job.jobResult.id) {
           this.isDetailOpen = false;
         }
         this.vmStats.updateStats();
       }
+    });
+    this.vmService.resubscribe().then(observables => {
+      observables.forEach(observable => {
+        observable.subscribe(job => {
+          const action = VirtualMachine.getAction(job.cmd);
+          this.translateService.get([
+            'YES',
+            'NO',
+            action.confirmMessage,
+            action.progressMessage,
+            action.successMessage
+          ]).subscribe(strs => {
+            this.jobsNotificationService.add({
+              id: UUID.v4(),
+              message: strs[action.successMessage],
+              status: INotificationStatus.Finished
+            });
+          });
+        });
+      });
     });
   }
 
@@ -90,7 +112,9 @@ export class VmListComponent implements OnInit {
       this.dialogService.confirm(strs[e.action.confirmMessage], strs.NO, strs.YES)
         .toPromise()
         .then(r => {
-          e.vm.state = e.action.vmStateOnAction;
+          if (e.vm) {
+            e.vm.state = e.action.vmStateOnAction;
+          }
           let id = this.jobsNotificationService.add(strs[e.action.progressMessage]);
           this.vmService.command(e.action.nameLower, e.vm.id)
             .subscribe(result => {

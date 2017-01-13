@@ -10,7 +10,7 @@ import { INotificationService } from './shared/notification.service';
 
 import '../style/app.scss';
 import { ResourceUsageService } from './shared/services/resource-usage.service';
-
+import { AsyncJobService } from './shared/services/async-job.service';
 
 @Component({
   selector: 'cs-app',
@@ -29,7 +29,8 @@ export class AppComponent {
     private translate: TranslateService,
     private error: ErrorService,
     @Inject('INotificationService') private notification: INotificationService,
-    private resourceUsageService: ResourceUsageService
+    private resourceUsageService: ResourceUsageService,
+    private asyncJobService: AsyncJobService
   ) {
     // Do something with api
     this.title = this.auth.name;

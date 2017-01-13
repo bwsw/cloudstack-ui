@@ -20,9 +20,9 @@ export class VmListItemComponent implements OnInit {
   constructor(private asyncJobService: AsyncJobService) {}
 
   public ngOnInit() {
-    this.actions = this.vm.actions.map(a => this.vm.getAction(a));
+    this.actions = this.vm.actions.map(a => VirtualMachine.getAction(a));
     this.asyncJobService.event.subscribe((job: IAsyncJob<VirtualMachine>) => {
-      if (job.jobResult.id === this.vm.id) {
+      if (job.jobResult && job.jobResult.id === this.vm.id) {
         this.vm.state = job.jobResult.state;
         this.vm.nic[0] = job.jobResult.nic[0];
       }

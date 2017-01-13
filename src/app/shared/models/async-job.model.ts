@@ -20,4 +20,18 @@ export class AsyncJob extends BaseModel implements IAsyncJob<any> {
   public jobStatus: number;
   public jobResultCode: number;
   public jobResult: any;
+  public cmd: string;
+
+  constructor(params) {
+    super(params);
+    this.mapCmd();
+  }
+
+  public mapCmd(): void {
+    const regex = /^org\.apache\.cloudstack\.api\.command\.user\.vm\.(\w*)VMCmd$/;
+    const matches = this.cmd.match(regex);
+    if (matches) {
+      this.cmd = matches[1].toLowerCase();
+    }
+  }
 }

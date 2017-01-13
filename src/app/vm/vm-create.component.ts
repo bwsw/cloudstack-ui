@@ -167,7 +167,7 @@ export class VmCreateComponent {
               r.state = 'Deploying';
               this.onCreated.next(r);
             });
-          this.vmService.checkDeploy(result.jobid)
+          this.vmService.checkCommand(result.jobid)
             .subscribe(() => this.notifyOnDeployDone(id));
         });
     });
@@ -190,7 +190,7 @@ export class VmCreateComponent {
       vmCreationData.rootDiskSizeLimit = result[2];
       vmCreationData.affinityGroups = result[3];
       vmCreationData.sshKeyPairs = result[4];
-
+      vmCreationData.vm.template = result[5];
       if (result[0].length) {
         vmCreationData.vm.zoneId = result[0][0].id;
       }
@@ -204,7 +204,6 @@ export class VmCreateComponent {
       if (result[4].length) {
         vmCreationData.vm.keyPair = result[4][0].name;
       }
-      vmCreationData.vm.template = result[5];
       return vmCreationData;
     });
   }
