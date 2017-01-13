@@ -117,6 +117,17 @@ export class VirtualMachine extends BaseModel {
     ];
   }
 
+  public getDisksSize() {
+    const sizeInBytes = this.volumes.reduce((acc: number, volume: Volume) => {
+      return acc + volume.size;
+    }, 0);
+    return sizeInBytes / Math.pow(2, 30);
+  }
+
+  public canApply(command: string) {
+    return this.state === 'Running' || this.state === 'Stopped';
+  }
+
   public static getAction(action: string): IVmAction  {
     let name = action.charAt(0).toUpperCase() + action.slice(1);
     let nameLower = action;
@@ -156,16 +167,5 @@ export class VirtualMachine extends BaseModel {
       progressMessage,
       successMessage
     };
-  }
-
-  public getDisksSize() {
-    const sizeInBytes = this.volumes.reduce((acc: number, volume: Volume) => {
-      return acc + volume.size;
-    }, 0);
-    return sizeInBytes / Math.pow(2, 30);
-  }
-
-  public canApply(command: string) {
-    return this.state === 'Running' || this.state === 'Stopped';
   }
 }

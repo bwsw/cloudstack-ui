@@ -43,10 +43,6 @@ export class AppComponent {
     });
   }
 
-  public test(): void {
-    this.asyncJobService.checkCurrentJobs();
-  }
-
   private updateAccount(loggedIn: boolean ): void {
     this.loggedIn = loggedIn;
     if (loggedIn) {

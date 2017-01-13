@@ -92,10 +92,10 @@ export class VmListComponent implements OnInit {
               message: strs[action.successMessage],
               status: INotificationStatus.Finished
             });
-          });       
+          });
         });
       });
-    })
+    });
   }
 
   public onVmAction(e: IVmActionEvent) {
