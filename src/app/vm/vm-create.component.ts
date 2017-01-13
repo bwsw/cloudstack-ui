@@ -120,18 +120,18 @@ export class VmCreateComponent {
 
   public deployVm(): void {
     let params: any = this.vmCreateParams;
-    if (params.ingress || params.egress) {
-      this.securityGroupService.createWithRules(
-        { name: UUID.v4() },
-        params.ingress || [],
-        params.egress || []
-      ).then(securityGroup => {
-        params['securitygroupids'] = securityGroup.id;
-        this._deploy(params);
-      });
-    } else {
+    if (!params.ingress && !params.egress) {
       this._deploy(params);
+      return;
     }
+    this.securityGroupService.createWithRules(
+      { name: UUID.v4() },
+      params.ingress || [],
+      params.egress || []
+    ).then(securityGroup => {
+      params['securitygroupids'] = securityGroup.id;
+      this._deploy(params);
+    });
   }
 
   public notifyOnDeployDone(notificationId: string) {

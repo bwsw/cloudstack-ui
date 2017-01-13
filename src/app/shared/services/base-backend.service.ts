@@ -94,7 +94,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
       .catch(error => {
         this.error.next(error);
         return Promise.reject(error);
-      } );
+      });
   }
 
   private fetchList(params?: {}): Promise<any> {

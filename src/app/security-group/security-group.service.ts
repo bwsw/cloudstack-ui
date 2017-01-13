@@ -12,7 +12,6 @@ import { NetworkRule } from '../security-group/security-group.model';
   entityModel: SecurityGroup
 })
 export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
-
   constructor(private configService: ConfigService) {
     super();
   }
