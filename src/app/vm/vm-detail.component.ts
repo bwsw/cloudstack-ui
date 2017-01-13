@@ -26,7 +26,7 @@ export class VmDetailComponent {
   @HostListener('document:click', ['$event'])
   public onDocumentClick(event: MouseEvent) {
     const target = event.target;
-    if (!target || !this.isOpen ) {
+    if (!target || !this.isOpen || (<Element>event.target).tagName.toLowerCase() === 'span') { // fix!
       return;
     }
 

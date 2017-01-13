@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ResourceUsageService, ResourceStats } from '../shared/services/resource-usage.service';
 
 
@@ -8,8 +8,8 @@ import { ResourceUsageService, ResourceStats } from '../shared/services/resource
   styleUrls: ['./vm-statistics.component.scss']
 })
 export class VmStatisticsComponent implements OnInit {
-
   public resourceUsage: ResourceStats;
+  public isOpen = true;
 
   constructor(private resourceUsageService: ResourceUsageService) {
     this.resourceUsage = new ResourceStats();
@@ -17,6 +17,10 @@ export class VmStatisticsComponent implements OnInit {
 
   public ngOnInit() {
     this.updateStats();
+  }
+
+  public handleCollapse(e: any): void {
+    this.isOpen = !this.isOpen;
   }
 
   public updateStats(): void {

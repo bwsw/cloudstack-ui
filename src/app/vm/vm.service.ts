@@ -108,7 +108,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public resubscribe(): Promise<Array<Observable<AsyncJob>>> {
     return this.jobs.getList().then(jobs => {
-      let filteredJobs = jobs.filter(job => !job.jobStatus && job.cmd.indexOf('Work') !== -1);
+      let filteredJobs = jobs.filter(job => !job.jobStatus && job.cmd.indexOf('Work') === -1);
       let observables = [];
       filteredJobs.forEach(job => {
         observables.push(this.checkCommand(job.jobId));
