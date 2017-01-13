@@ -71,6 +71,11 @@ mdl-card.custom-card {
   }
 }
 
+.mdl-dialog {
+  max-height: 100%;
+  overflow: auto;
+}
+
 .fab {
   position: fixed;
   right: 32px;
