@@ -165,22 +165,13 @@ export class VirtualMachine extends BaseModel {
       return false;
     }
 
-    let decision = true;
-
     switch (command) {
-      case 'start':
-        if (state === 'Running') {
-          decision = false;
-        }
-        break;
+      case 'start': return state !== 'Running';
       case 'stop':
       case 'reboot':
-        if (state === 'Stopped') {
-          decision = false;
-        }
-        break;
+        return state !== 'Stopped';
     }
 
-    return decision;
+    return true;
   }
 }
