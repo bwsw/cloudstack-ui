@@ -1,5 +1,5 @@
-<div>
-  <h3 class="mdl-dialog__title">Create new template</h3>
+<div class="security-group-template-form">
+  <h4 class="form-title">Create new template</h4>
   <form (ngSubmit)="onSubmit($event)" #loginForm="ngForm">
     <div class="mdl-dialog__content">
       <mdl-textfield
@@ -37,6 +37,7 @@
     </div>
     <div class="mdl-dialog__actions">
       <button
+        mdl-colored="primary"
         mdl-button
         mdl-ripple
         type="submit"
@@ -44,6 +45,7 @@
         Create
       </button>
       <button
+        mdl-colored="primary"
         mdl-button
         mdl-ripple
         type="button"

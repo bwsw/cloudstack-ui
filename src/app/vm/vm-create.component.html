@@ -151,12 +151,14 @@
     </div>
     <div class="mdl-dialog__actions">
       <button
+        mdl-colored="primary"
         [disabled]="!vmCreateForm.valid"
         type="submit"
         mdl-button
         mdl-ripple>{{ 'CONFIRM' | translate }}
       </button>
       <button
+        mdl-colored="primary"
         type="button"
         mdl-button
         (click)="hide()"
