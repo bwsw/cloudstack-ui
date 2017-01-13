@@ -32,6 +32,14 @@ mdl-list-item.active {
   background-color: rgba(0, 0, 0, 0.14);
 }
 
+:host mdl-list-item-primary-content {
+  display: block;
+  width: 305px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .buttons-container {
   display: flex;
   flex-direction: column;
