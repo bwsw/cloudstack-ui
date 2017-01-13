@@ -147,6 +147,7 @@ export class VmCreateComponent {
   }
 
   public onVmCreationSubmit(e: any): void {
+    e.preventDefault();
     this.deployVm();
     this.hide();
   }
@@ -230,10 +231,10 @@ export class VmCreateComponent {
     if (!this.vmCreationData.doStartVm) {
       params['startvm'] = 'false';
     }
-    if (this.securityRules.ingress) {
+    if (this.securityRules && this.securityRules.ingress) {
       params['ingress'] = this.securityRules.ingress;
     }
-    if (this.securityRules.egress) {
+    if (this.securityRules && this.securityRules.egress) {
       params['egress'] = this.securityRules.egress;
     }
     return params;
