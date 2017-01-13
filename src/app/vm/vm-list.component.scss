@@ -13,6 +13,10 @@ $vm-detail-width: 365px;
 
   &.open {
     margin-right: $vm-detail-width;
+
+    & ~ .fab {
+      margin-right: $vm-detail-width;
+    }
   }
 }
 
