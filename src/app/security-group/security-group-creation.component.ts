@@ -8,10 +8,16 @@ interface RuleListItem {
   checked: boolean;
 }
 
-export interface IRules { // defines what should be passed to inputRules
+export class Rules { // defines what should be passed to inputRules
   templates?: Array<SecurityGroup>; // array of security groups ids
   ingress: Array<NetworkRule>;
   egress: Array<NetworkRule>;
+
+  constructor() {
+    this.ingress = [];
+    this.egress = [];
+    this.templates = [];
+  }
 }
 
 @Component({
@@ -28,10 +34,11 @@ export class SecurityGroupCreationComponent implements OnInit {
   constructor(
     private dialog: MdlDialogReference,
     private securityGroupService: SecurityGroupService,
-    @Inject('rules') private inputRules: IRules
+    @Inject('rules') private inputRules: Rules
   ) {
     this.items = [[], []];
     this.selectedRules = [[], []];
+    console.log(this);
   }
 
   public ngOnInit() {
@@ -107,11 +114,7 @@ export class SecurityGroupCreationComponent implements OnInit {
   }
 
   private initRulesList() {
-    if (!this.inputRules) {
-      return;
-    }
-
-    if (!this.inputRules.templates || !this.inputRules.templates.length) {
+    if (!this.inputRules || !this.inputRules.templates.length) {
       return;
     }
 

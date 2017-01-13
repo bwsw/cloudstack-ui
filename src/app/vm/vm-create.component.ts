@@ -24,6 +24,7 @@ import { ResourceUsageService } from '../shared/services/resource-usage.service'
 import { Template } from '../shared/models/template.model';
 import { SecurityGroupService } from '../security-group/security-group.service';
 import * as UUID from 'uuid';
+import { Rules } from '../security-group/security-group-creation.component';
 
 
 class VmCreationData {
@@ -64,7 +65,7 @@ export class VmCreateComponent {
 
   public vmCreationData: VmCreationData;
   public keyboards = ['us', 'uk', 'jp', 'sc'];
-  public securityRules;
+  public securityRules: Rules;
 
   constructor(
     private zoneService: ZoneService,
@@ -109,6 +110,7 @@ export class VmCreateComponent {
   }
 
   public hide(): void {
+    this.securityRules = new Rules();
     this.vmCreateDialog.close();
   }
 

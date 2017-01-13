@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
-import { SecurityGroupCreationComponent, IRules } from './security-group-creation.component';
+import { SecurityGroupCreationComponent, Rules } from './security-group-creation.component';
 import { SecurityGroupService } from './security-group.service';
 import { Observable } from 'rxjs';
 
@@ -19,17 +19,13 @@ import { Observable } from 'rxjs';
 })
 export class SecurityGroupRulesManagerComponent implements OnInit, ControlValueAccessor {
   @Input() public mode: 'create' | 'edit';
-  public savedRules: IRules;
+  public savedRules: Rules;
 
   private _rules;
   private dialogObservable: Observable<MdlDialogReference>;
 
   constructor(private dialogService: MdlDialogService) {
-    this.savedRules = {
-      templates: [],
-      ingress: [],
-      egress: []
-    };
+    this.savedRules = new Rules();
   }
 
   public ngOnInit() {
@@ -53,6 +49,7 @@ export class SecurityGroupRulesManagerComponent implements OnInit, ControlValueA
   public writeValue(value) {
     if (value) {
       this.rules = value;
+      this.savedRules = this.rules;
     }
   }
 
