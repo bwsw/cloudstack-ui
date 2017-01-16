@@ -84,7 +84,6 @@
         <button
           mdl-button
           mdl-button-type="icon"
-          [mdl-tooltip]="'Create'"
           (click)="addRule()"
           disabled="{{ securityGroup.id.startsWith('template') }}"
         >
@@ -108,7 +107,6 @@
         <button
           mdl-button
           mdl-button-type="icon"
-          [mdl-tooltip]="'Remove'"
           (click)="removeRule('Ingress', rule.ruleId)"
           disabled="{{ securityGroup.id.startsWith('template') }}"
         >
@@ -132,7 +130,6 @@
         <button
           mdl-button
           mdl-button-type="icon"
-          [mdl-tooltip]="'Remove'"
           (click)="removeRule('Egress', rule.ruleId)"
           disabled="{{ securityGroup.id.startsWith('template') }}"
         >
