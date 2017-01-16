@@ -37,7 +37,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
   public create(params?: {}): Promise<any> {
     const command = 'create';
     let entity = this.entity.toLowerCase();
-    return this.postRequest(command, params)
+    return this.getRequest(command, params)
       .then(res => {
         const ent = entity === 'tag' ? entity + 's' : entity;
         const response = res[`${command}${ent}response`];
@@ -81,6 +81,16 @@ export abstract class BaseBackendService<M extends BaseModel> {
 
     urlParams.set('response', 'json');
     return urlParams;
+  }
+
+  protected getRequest(command: string, params?: {}): Promise<any> {
+    return this.http.get(BACKEND_API_URL, { search: this.buildParams(command, params) })
+        .toPromise()
+        .then((res: Response) => res.json())
+        .catch(error => {
+          this.error.next(error);
+          return Promise.reject(error);
+        });
   }
 
   protected postRequest(command: string, params?: {}): Promise<any> {
