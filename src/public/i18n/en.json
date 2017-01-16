@@ -159,5 +159,19 @@
   "UNABLE_TO_RECEIVE_TEMPLATES": "Unable to receive templates",
   "DESCRIPTION": "Description",
   "CUSTOM_TEMPLATES_NOT_INCLUDED": "Templates not included",
-  "INSUFFICIENT_RESOURCES": "Insufficient resources"
+  "INSUFFICIENT_RESOURCES": "Insufficient resources",
+  "EDIT_RULES": "Edit rules",
+  "CLOSE": "Close",
+  "TYPE": "Type",
+  "PROTOCOL": "Protocol",
+  "START_PORT": "Start port",
+  "END_PORT": "End port",
+  "INGRESS": "Ingress",
+  "EGRESS": "Egress",
+  "ICMP_TYPE": "ICMP type",
+  "ICMP_CODE": "ICMP code",
+  "ENTER_VALID_PORT": "Enter a valid port",
+  "ENTER_VALID_TYPE": "Enter a valid type",
+  "ENTER_VALID_CODE": "Enter a valid code",
+  "ENTER_VALID_CIDR": "Enter a valid CIDR"
 }

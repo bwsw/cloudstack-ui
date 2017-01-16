@@ -12,8 +12,16 @@ mdl-textfield {
 .mdl-dialog__content {
   overflow-y: auto;
   max-height: 550px;
+
+  table {
+    width: 100%;
+  }
 }
 
 /deep/ .mdl-textfield {
-   width: 90px;
+   width: 85px;
+}
+
+mdl-select.type /deep/ .mdl-textfield {
+  width: 120px;
 }

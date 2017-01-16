@@ -74,5 +74,19 @@
   },
   "DELETE": "Удалить",
   "DOMAIN": "Домен",
-  "ACCOUNT": "Аккаунт"
+  "ACCOUNT": "Аккаунт",
+  "EDIT_RULES": "Редактировать правила",
+  "CLOSE": "Закрыть",
+  "TYPE": "Тип",
+  "PROTOCOL": "Протокол",
+  "START_PORT": "Начальный порт",
+  "END_PORT": "Конечный порт",
+  "INGRESS": "Входящее",
+  "EGRESS": "Исходящее",
+  "ICMP_TYPE": "Тип ICMP",
+  "ICMP_CODE": "Код ICMP",
+  "ENTER_VALID_PORT": "Введите корректный порт",
+  "ENTER_VALID_TYPE": "Введите корректный тип",
+  "ENTER_VALID_CODE": "Введите корректный код",
+  "ENTER_VALID_CIDR": "Введите корректный CIDR"
 }
