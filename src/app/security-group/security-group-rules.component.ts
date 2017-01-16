@@ -61,6 +61,9 @@ export class SecurityGroupRulesComponent {
             const ruleRaw = jobResult.securitygroup[type.toLowerCase() + 'rule'][0];
             const rule = new NetworkRule(ruleRaw);
             this.securityGroup[`${type.toLowerCase()}Rules`].push(rule);
+
+            this.cidr = '';
+            this.startPort = this.endPort = this.icmpCode = this.icmpType = null;
           });
       });
 
