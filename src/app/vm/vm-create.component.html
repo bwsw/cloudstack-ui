@@ -66,9 +66,20 @@
         </div>
         <div class="root-disk-size">
           <h5 class="root-disk-size-header">{{ 'VM_CREATION_FORM.ROOT_DISK_SIZE' | translate }}</h5>
-          <h5 class="root-disk-size-limit">
-            {{ vmCreationData.rootDiskSize >= 10 ? vmCreationData.rootDiskSize + ' GB' : 'Auto' }}
-          </h5>
+          <div class="root-disk-size-il">
+            <mdl-textfield
+              [class.is-invalid]="!rootDiskSize.valid"
+              class="root-disk-input"
+              #rootDiskSize="ngModel"
+              name="rds"
+              type="number"
+              min="10"
+              max={{vmCreationData.rootDiskSizeLimit}}
+              step="1"
+              [(ngModel)]="vmCreationData.rootDiskSize"
+            ></mdl-textfield>
+            <div class="root-disk-label">{{ 'GB' | translate }}</div>
+          </div>
         </div>
         <div class="root-disk-size-slider">
           <mdl-slider

@@ -1,5 +1,5 @@
 .container {
-  padding: 15px 15px 0px 15px;
+  padding: 15px 15px 0 15px;
   display: flex;
 }
 
@@ -83,4 +83,24 @@ h5 {
 
 .template-select {
   margin-right: 48px;
+}
+
+.root-disk-input {
+  /deep/ .mdl-textfield__input {
+    text-align: center;
+    font-size: 20px;
+  }
+  width: 50px;
+  display: inline-block;
+}
+
+.root-disk-label {
+  display: inline-block;
+  font-size: 20px;
+}
+
+.root-disk-size-il {
+  display: inline-block;
+  position: absolute;
+  right: 0;
 }
