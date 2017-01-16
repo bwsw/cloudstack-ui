@@ -69,7 +69,7 @@ export class SecurityGroupRulesComponent {
 
   }
 
-  public removeRule(type, id) {
+  public removeRule({ type, id }) {
     this.securityGroupService.removeRule(type, { id })
       .then(jobId => {
         this.asyncJobService.addJob(jobId)

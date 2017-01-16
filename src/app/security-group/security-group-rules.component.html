@@ -91,52 +91,22 @@
         </button>
       </td>
     </tr>
-    <tr *ngFor="let rule of securityGroup?.ingressRules">
-      <td>{{ 'INGRESS' | translate }}</td>
-      <td>{{ rule.protocol.toUpperCase() }}</td>
-      <template [ngIf]="rule.protocol.toUpperCase() === 'ICMP'">
-        <td>{{ rule.icmpType }}</td>
-        <td>{{ rule.icmpCode }}</td>
-      </template>
-      <template [ngIf]="rule.protocol.toUpperCase() !== 'ICMP'">
-        <td>{{ rule.startPort }}</td>
-        <td>{{ rule.endPort }}</td>
-      </template>
-      <td>{{ rule.CIDR }}</td>
-      <td>
-        <button
-          mdl-button
-          mdl-button-type="icon"
-          (click)="removeRule('Ingress', rule.ruleId)"
-          disabled="{{ securityGroup.id.startsWith('template') }}"
-        >
-          <mdl-icon>close</mdl-icon>
-        </button>
-      </td>
-    </tr>
-    <tr *ngFor="let rule of securityGroup?.egressRules">
-      <td>{{ 'EGRESS' | translate }}</td>
-      <td>{{ rule.protocol.toUpperCase() }}</td>
-      <template [ngIf]="rule.protocol.toUpperCase() === 'ICMP'">
-        <td>{{ rule.icmpType }}</td>
-        <td>{{ rule.icmpCode }}</td>
-      </template>
-      <template [ngIf]="rule.protocol.toUpperCase() !== 'ICMP'">
-        <td>{{ rule.startPort }}</td>
-        <td>{{ rule.endPort }}</td>
-      </template>
-      <td>{{ rule.CIDR }}</td>
-      <td>
-        <button
-          mdl-button
-          mdl-button-type="icon"
-          (click)="removeRule('Egress', rule.ruleId)"
-          disabled="{{ securityGroup.id.startsWith('template') }}"
-        >
-          <mdl-icon>close</mdl-icon>
-        </button>
-      </td>
-    </tr>
+    <cs-security-group-rule
+      *ngFor="let rule of securityGroup?.ingressRules"
+      [type]="'Ingress'"
+      [rule]="rule"
+      [canRemove]="!securityGroup.id.startsWith('template')"
+      (onRemove)="removeRule($event)"
+    >
+    </cs-security-group-rule>
+    <cs-security-group-rule
+      *ngFor="let rule of securityGroup?.egressRules"
+      [type]="'Egress'"
+      [rule]="rule"
+      [canRemove]="!securityGroup.id.startsWith('template')"
+      (onRemove)="removeRule($event)"
+    >
+    </cs-security-group-rule>
     </tbody>
   </table>
 </div>

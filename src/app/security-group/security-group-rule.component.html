@@ -1,0 +1,21 @@
+<td>{{ type.toUpperCase() | translate }}</td>
+<td>{{ rule.protocol.toUpperCase() }}</td>
+<template [ngIf]="rule.protocol.toUpperCase() === 'ICMP'">
+  <td>{{ rule.icmpType }}</td>
+  <td>{{ rule.icmpCode }}</td>
+</template>
+<template [ngIf]="rule.protocol.toUpperCase() !== 'ICMP'">
+  <td>{{ rule.startPort }}</td>
+  <td>{{ rule.endPort }}</td>
+</template>
+<td>{{ rule.CIDR }}</td>
+<td>
+  <button
+    mdl-button
+    mdl-button-type="icon"
+    (click)="onRemove.emit({ type: type, id: rule.ruleId })"
+    disabled="{{ !canRemove }}"
+  >
+    <mdl-icon>close</mdl-icon>
+  </button>
+</td>
