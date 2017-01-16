@@ -91,6 +91,7 @@
   "PRIMARY_(STORAGE)": "Primary",
   "SECONDARY_(STORAGE)": "Secondary",
   "GB": "GB",
+  "GHZ": "GHz",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "CPU utilized",
     "NETWORK_READ": "Network read",
