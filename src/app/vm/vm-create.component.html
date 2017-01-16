@@ -73,23 +73,27 @@
               #rootDiskSize="ngModel"
               name="rds"
               type="number"
-              min="10"
-              max={{vmCreationData.rootDiskSizeLimit}}
               step="1"
-              [(ngModel)]="vmCreationData.rootDiskSize"
+              min="{{ vmCreationData.rootDiskSizeMin }}"
+              max="{{ vmCreationData.rootDiskSizeLimit || vmCreationData.rootDiskSizeMin }}"
+              [ngModel]="vmCreationData.rootDiskSize"
+              (blur)="onDiskBlur($event)"
+              (ngModelChange)="onDiskChange($event)"
             ></mdl-textfield>
             <div class="root-disk-label">{{ 'GB' | translate }}</div>
           </div>
         </div>
         <div class="root-disk-size-slider">
           <mdl-slider
-            max="{{ vmCreationData.rootDiskSizeLimit || 10 }}"
+            min="{{ vmCreationData.rootDiskSizeMin || 0 }}"
+            max="{{ vmCreationData.rootDiskSizeLimit || 100 }}"
             id="rootDiskSize"
             name="rootDiskSize"
-            value="9"
-            [(ngModel)]="vmCreationData.rootDiskSize"
+            value="{{ 0 }}"
+            [ngModel]="vmCreationData.rootDiskSize > vmCreationData.rootDiskSizeMin
+              ? vmCreationData.rootDiskSize : vmCreationData.rootDiskSizeMin"
+            (ngModelChange)="onDiskChange($event)"
             mdl-tooltip-position="top"
-            min="9"
           >
           </mdl-slider>
         </div>
@@ -98,7 +102,7 @@
         <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
         <div>
           <mdl-select
-            [(ngModel)]="vmCreationData.affinityGroupId"
+            [ngModel]="vmCreationData.affinityGroupId"
             id="affinityGroup"
             name="affinityGroup"
           >

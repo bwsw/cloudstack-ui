@@ -1,4 +1,4 @@
-import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { ZoneService } from '../shared/services/zone.service';
 import { Zone } from '../shared/models/zone.model';
 import { SSHKeyPair } from '../shared/models/SSHKeyPair.model';
@@ -39,6 +39,7 @@ class VmCreationData {
   public keyboard: string;
   public keyPair: string;
   public rootDiskSize: number;
+  public rootDiskSizeMin: number;
   public rootDiskSizeLimit: number;
 
   constructor() {
@@ -46,7 +47,8 @@ class VmCreationData {
       keyPair: ''
     });
     this.affinityGroupId = '';
-    this.rootDiskSize = MIN_ROOT_DISK_SIZE - 1; // minimum allowed size minus 1 equals auto (min slider value)
+    this.rootDiskSize = MIN_ROOT_DISK_SIZE; // minimum allowed size minus 1 equals auto (min slider value)
+    this.rootDiskSizeMin = MIN_ROOT_DISK_SIZE;
     this.rootDiskSizeLimit = 0;
     this.doStartVm = true;
     this.keyboard = 'us';
@@ -79,7 +81,8 @@ export class VmCreateComponent {
     private translateService: TranslateService,
     private notificationService: NotificationService,
     private resourceUsageService: ResourceUsageService,
-    private securityGroupService: SecurityGroupService
+    private securityGroupService: SecurityGroupService,
+    private ref: ChangeDetectorRef
   ) {
     this.vmCreationData = new VmCreationData();
   }
@@ -88,7 +91,7 @@ export class VmCreateComponent {
     this.templateService.getDefault().then(() => {
       this.serviceOfferingFilterService.getAvailable().then(() => {
         this.resourceUsageService.getResourceUsage().then(result => {
-          if (result.available.primaryStorage > MIN_ROOT_DISK_SIZE && result.available.instances) {
+          if (result.available.primaryStorage > this.vmCreationData.rootDiskSizeMin && result.available.instances) {
             this.resetVmCreateData();
             this.vmCreateDialog.show();
           } else {
@@ -156,6 +159,23 @@ export class VmCreateComponent {
 
   public onTemplateChange(t: Template): void {
     this.vmCreationData.vm.template = t;
+  }
+
+  public onDiskChange(e: number): void {
+    if (e > this.vmCreationData.rootDiskSizeLimit) {
+      this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSizeLimit + 1;
+      setTimeout(() => this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSizeLimit);
+      return;
+    }
+    this.vmCreationData.rootDiskSize = e;
+  }
+
+  public onDiskBlur(e: any): void {
+    if (+e.currentTarget.value < this.vmCreationData.rootDiskSizeMin) {
+      this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSize + 1;
+      setTimeout(() => this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSizeMin);
+      return;
+    }
   }
 
   private _deploy(params: {}): void {
