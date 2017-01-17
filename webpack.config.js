@@ -19,14 +19,14 @@ var isTestWatch = ENV === 'test-watch';
 var isTest = ENV === 'test' || isTestWatch;
 var isProd = ENV === 'build';
 
-var { API_BACKEND_URL } = process.env;
-if (!API_BACKEND_URL) {
-  throw new Error('Environment variable API_BACKEND_URL is required');
+var { BACKEND_API_URL } = process.env;
+if (!BACKEND_API_URL) {
+  throw new Error('Environment variable BACKEND_API_URL is required');
 }
 
 //Proxy config
 var redirectFrom = '/client/api';
-var redirectTo = API_BACKEND_URL;
+var redirectTo = BACKEND_API_URL;
 
 
 module.exports = function makeWebpackConfig() {
