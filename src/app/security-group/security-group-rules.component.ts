@@ -3,6 +3,7 @@ import { SecurityGroupService } from './security-group.service';
 import { SecurityGroup, NetworkRule, NetworkRuleType } from './security-group.model';
 import { AsyncJobService } from '../shared/services/async-job.service';
 import { MdlDialogReference } from 'angular2-mdl';
+import { ErrorService } from '../shared/services/error.service';
 
 @Component({
   selector: 'cs-security-group-rules',
@@ -24,6 +25,7 @@ export class SecurityGroupRulesComponent {
     public dialog: MdlDialogReference,
     private securityGroupService: SecurityGroupService,
     private asyncJobService: AsyncJobService,
+    private errorService: ErrorService,
     @Inject('securityGroup') public securityGroup: SecurityGroup
   ) {
     this.protocol = 'TCP';
@@ -52,8 +54,13 @@ export class SecurityGroupRulesComponent {
     this.securityGroupService.addRule(type, params)
       .then(jobId => {
         this.asyncJobService.addJob(jobId)
-          .filter(result => result && result.jobResultCode === 0)
           .subscribe(res => {
+            const status = res.jobStatus;
+            if (status === 2) {
+              this.adding = false;
+              this.errorService.next('Failed to add rule');
+              return;
+            }
             const jobResult = res.jobResult;
 
             const ruleRaw = jobResult.securitygroup[type.toLowerCase() + 'rule'][0];
@@ -65,7 +72,6 @@ export class SecurityGroupRulesComponent {
             this.adding = false;
           });
       });
-
   }
 
   public removeRule({ type, id }) {
@@ -74,8 +80,9 @@ export class SecurityGroupRulesComponent {
         this.asyncJobService.addJob(jobId)
           .filter(result => result && result.jobResultCode === 0)
           .subscribe(res => {
-            if (!res.jobResult.success) {
-              return; // TODO error handling
+            if (res.jobResult.success === false) {
+              this.errorService.next('Failed to delete rule');
+              return;
             }
 
             const rules = this.securityGroup[`${type.toLowerCase()}Rules`];
