@@ -87,10 +87,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return this.http.get(BACKEND_API_URL, { search: this.buildParams(command, params) })
         .toPromise()
         .then((res: Response) => res.json())
-        .catch(error => {
-          this.error.next(error);
-          return Promise.reject(error);
-        });
+        .catch(error => this.handleError(error));
   }
 
   protected postRequest(command: string, params?: {}): Promise<any> {
@@ -101,10 +98,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return this.http.post(BACKEND_API_URL, this.buildParams(command, params), { headers })
       .toPromise()
       .then((res: Response) => res.json())
-      .catch(error => {
-        this.error.next(error);
-        return Promise.reject(error);
-      });
+      .catch(error => this.handleError(error));
   }
 
   private fetchList(params?: {}): Promise<any> {
@@ -120,9 +114,11 @@ export abstract class BaseBackendService<M extends BaseModel> {
         }
         return res.json()[responseString][`${entity}`];
       })
-      .catch(error => {
-        this.error.next(error);
-        return Promise.reject(error);
-      });
+      .catch(error => this.handleError(error));
+  }
+
+  private handleError(error): Promise<any> {
+    this.error.next(error);
+    return Promise.reject(error);
   }
 }
