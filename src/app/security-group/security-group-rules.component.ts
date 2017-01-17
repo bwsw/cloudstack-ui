@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { SecurityGroupService } from './security-group.service';
-import { SecurityGroup, NetworkRule } from './security-group.model';
+import { SecurityGroup, NetworkRule, NetworkRuleType } from './security-group.model';
 import { AsyncJobService } from '../shared/services/async-job.service';
 import { MdlDialogReference } from 'angular2-mdl';
 
@@ -10,7 +10,7 @@ import { MdlDialogReference } from 'angular2-mdl';
   styleUrls: ['./security-group-rules.component.scss']
 })
 export class SecurityGroupRulesComponent {
-  public type: 'Ingress'|'Egress';
+  public type: NetworkRuleType;
   public protocol: 'TCP'|'UDP'|'ICMP';
   public startPort: number; // TODO validation
   public icmpType: number;
@@ -19,17 +19,13 @@ export class SecurityGroupRulesComponent {
   public cidr: string;
 
   constructor(
-    private dialog: MdlDialogReference,
+    public dialog: MdlDialogReference,
     private securityGroupService: SecurityGroupService,
     private asyncJobService: AsyncJobService,
     @Inject('securityGroup') public securityGroup: SecurityGroup
   ) {
     this.protocol = 'TCP';
     this.type = 'Ingress';
-  }
-
-  public onHide() {
-    this.dialog.hide();
   }
 
   public addRule() {
@@ -40,21 +36,18 @@ export class SecurityGroupRulesComponent {
       cidrlist: this.cidr
     };
 
-    if (this.protocol === 'TCP' || this.protocol === 'UDP') {
-      params.startport = this.startPort;
-      params.endport = this.endPort;
-    } else {
+    if (this.protocol === 'ICMP') {
       params.icmptype = this.icmpType;
       params.icmpcode = this.icmpCode;
+    } else {
+      params.startport = this.startPort;
+      params.endport = this.endPort;
     }
+
     this.securityGroupService.addRule(type, params)
       .then(jobId => {
         this.asyncJobService.addJob(jobId)
           .filter(result => result && result.jobResultCode === 0)
-          .map(result => {
-            this.asyncJobService.event.next(result);
-            return result;
-          })
           .subscribe(res => {
             const jobResult = res.jobResult;
 
@@ -74,10 +67,6 @@ export class SecurityGroupRulesComponent {
       .then(jobId => {
         this.asyncJobService.addJob(jobId)
           .filter(result => result && result.jobResultCode === 0)
-          .map(result => {
-            this.asyncJobService.event.next(result);
-            return result;
-          })
           .subscribe(res => {
             if (!res.jobResult.success) {
               return; // TODO error handling

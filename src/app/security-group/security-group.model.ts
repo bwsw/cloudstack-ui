@@ -1,6 +1,8 @@
 import { BaseModel } from '../shared/models/base.model';
 import { FieldMapper } from '../shared/decorators/field-mapper.decorator';
 
+export type NetworkRuleType = 'Ingress' | 'Egress';
+
 @FieldMapper({
   ruleid: 'ruleId',
   cidr: 'CIDR',

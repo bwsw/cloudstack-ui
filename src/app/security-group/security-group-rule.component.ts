@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
-import { NetworkRule } from './security-group.model';
+import { NetworkRule, NetworkRuleType } from './security-group.model';
 
 @Component({
   selector: 'cs-security-group-rule',
@@ -8,7 +8,7 @@ import { NetworkRule } from './security-group.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SecurityGroupRuleComponent {
-  @Input() public type: 'Ingress'|'Egress';
+  @Input() public type: NetworkRuleType;
   @Input() public rule: NetworkRule;
   @Input() public canRemove: boolean;
 
