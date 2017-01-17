@@ -39,6 +39,7 @@ class VmCreationData {
   public keyboard: string;
   public keyPair: string;
   public rootDiskSize: number;
+  public rootDiskSizeMin: number;
   public rootDiskSizeLimit: number;
 
   constructor() {
@@ -46,7 +47,8 @@ class VmCreationData {
       keyPair: ''
     });
     this.affinityGroupId = '';
-    this.rootDiskSize = MIN_ROOT_DISK_SIZE - 1; // minimum allowed size minus 1 equals auto (min slider value)
+    this.rootDiskSize = MIN_ROOT_DISK_SIZE;
+    this.rootDiskSizeMin = MIN_ROOT_DISK_SIZE;
     this.rootDiskSizeLimit = 0;
     this.doStartVm = true;
     this.keyboard = 'us';
@@ -88,7 +90,7 @@ export class VmCreateComponent {
     this.templateService.getDefault().then(() => {
       this.serviceOfferingFilterService.getAvailable().then(() => {
         this.resourceUsageService.getResourceUsage().then(result => {
-          if (result.available.primaryStorage > MIN_ROOT_DISK_SIZE && result.available.instances) {
+          if (result.available.primaryStorage > this.vmCreationData.rootDiskSizeMin && result.available.instances) {
             this.resetVmCreateData();
             this.vmCreateDialog.show();
           } else {
@@ -156,6 +158,24 @@ export class VmCreateComponent {
 
   public onTemplateChange(t: Template): void {
     this.vmCreationData.vm.template = t;
+  }
+
+  public onDiskChange(e: number): void {
+    if (e > this.vmCreationData.rootDiskSizeLimit) {
+      this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSizeLimit + 1;
+      // setTimeout is used to force rerendering
+      setTimeout(() => this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSizeLimit);
+      return;
+    }
+    this.vmCreationData.rootDiskSize = e;
+  }
+
+  public onDiskBlur(e: any): void {
+    if (e.currentTarget.value < this.vmCreationData.rootDiskSizeMin) {
+      this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSize + 1;
+      // setTimeout is used to force rerendering
+      setTimeout(() => this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSizeMin);
+    }
   }
 
   private _deploy(params: {}): void {
