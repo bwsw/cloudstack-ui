@@ -25,3 +25,8 @@ mdl-textfield {
 mdl-select.type /deep/ .mdl-textfield {
   width: 120px;
 }
+
+/deep/ mdl-spinner {
+  position: relative;
+  top: 2px;
+}

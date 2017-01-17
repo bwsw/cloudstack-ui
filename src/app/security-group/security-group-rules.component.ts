@@ -18,6 +18,8 @@ export class SecurityGroupRulesComponent {
   public endPort: number;
   public cidr: string;
 
+  public adding: boolean;
+
   constructor(
     public dialog: MdlDialogReference,
     private securityGroupService: SecurityGroupService,
@@ -26,6 +28,7 @@ export class SecurityGroupRulesComponent {
   ) {
     this.protocol = 'TCP';
     this.type = 'Ingress';
+    this.adding = false;
   }
 
   public addRule() {
@@ -44,6 +47,8 @@ export class SecurityGroupRulesComponent {
       params.endport = this.endPort;
     }
 
+    this.adding = true;
+
     this.securityGroupService.addRule(type, params)
       .then(jobId => {
         this.asyncJobService.addJob(jobId)
@@ -57,6 +62,7 @@ export class SecurityGroupRulesComponent {
 
             this.cidr = '';
             this.startPort = this.endPort = this.icmpCode = this.icmpType = null;
+            this.adding = false;
           });
       });
 

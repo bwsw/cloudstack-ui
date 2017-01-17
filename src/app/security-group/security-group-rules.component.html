@@ -85,9 +85,10 @@
           mdl-button
           mdl-button-type="icon"
           (click)="addRule()"
-          disabled="{{ securityGroup.id.startsWith('template') }}"
+          disabled="{{ securityGroup.id.startsWith('template') || adding }}"
         >
-          <mdl-icon>add</mdl-icon>
+          <mdl-icon *ngIf="!adding">add</mdl-icon>
+          <mdl-spinner single-color active *ngIf="adding"></mdl-spinner>
         </button>
       </td>
     </tr>

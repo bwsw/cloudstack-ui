@@ -13,9 +13,10 @@
   <button
     mdl-button
     mdl-button-type="icon"
-    (click)="onRemove.emit({ type: type, id: rule.ruleId })"
-    disabled="{{ !canRemove }}"
+    (click)="handleRemoveClicked()"
+    disabled="{{ !canRemove || deleting }}"
   >
-    <mdl-icon>close</mdl-icon>
+    <mdl-icon *ngIf="!deleting">close</mdl-icon>
+    <mdl-spinner single-color active *ngIf="deleting"></mdl-spinner>
   </button>
 </td>
