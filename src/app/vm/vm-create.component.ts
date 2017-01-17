@@ -1,4 +1,4 @@
-import { Component, ViewChild, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ZoneService } from '../shared/services/zone.service';
 import { Zone } from '../shared/models/zone.model';
 import { SSHKeyPair } from '../shared/models/SSHKeyPair.model';
@@ -47,7 +47,7 @@ class VmCreationData {
       keyPair: ''
     });
     this.affinityGroupId = '';
-    this.rootDiskSize = MIN_ROOT_DISK_SIZE; // minimum allowed size minus 1 equals auto (min slider value)
+    this.rootDiskSize = MIN_ROOT_DISK_SIZE;
     this.rootDiskSizeMin = MIN_ROOT_DISK_SIZE;
     this.rootDiskSizeLimit = 0;
     this.doStartVm = true;
@@ -81,8 +81,7 @@ export class VmCreateComponent {
     private translateService: TranslateService,
     private notificationService: NotificationService,
     private resourceUsageService: ResourceUsageService,
-    private securityGroupService: SecurityGroupService,
-    private ref: ChangeDetectorRef
+    private securityGroupService: SecurityGroupService
   ) {
     this.vmCreationData = new VmCreationData();
   }
@@ -164,6 +163,7 @@ export class VmCreateComponent {
   public onDiskChange(e: number): void {
     if (e > this.vmCreationData.rootDiskSizeLimit) {
       this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSizeLimit + 1;
+      // setTimeout is used to force rerendering
       setTimeout(() => this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSizeLimit);
       return;
     }
@@ -171,10 +171,10 @@ export class VmCreateComponent {
   }
 
   public onDiskBlur(e: any): void {
-    if (+e.currentTarget.value < this.vmCreationData.rootDiskSizeMin) {
+    if (e.currentTarget.value < this.vmCreationData.rootDiskSizeMin) {
       this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSize + 1;
+      // setTimeout is used to force rerendering
       setTimeout(() => this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSizeMin);
-      return;
     }
   }
 

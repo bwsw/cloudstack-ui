@@ -75,7 +75,7 @@
               type="number"
               step="1"
               min="{{ vmCreationData.rootDiskSizeMin }}"
-              max="{{ vmCreationData.rootDiskSizeLimit || vmCreationData.rootDiskSizeMin }}"
+              max="{{ vmCreationData.rootDiskSizeLimit }}"
               [ngModel]="vmCreationData.rootDiskSize"
               (blur)="onDiskBlur($event)"
               (ngModelChange)="onDiskChange($event)"
@@ -86,10 +86,10 @@
         <div class="root-disk-size-slider">
           <mdl-slider
             min="{{ vmCreationData.rootDiskSizeMin || 0 }}"
-            max="{{ vmCreationData.rootDiskSizeLimit || 100 }}"
+            max="{{ vmCreationData.rootDiskSizeLimit || 0 }}"
             id="rootDiskSize"
             name="rootDiskSize"
-            value="{{ 0 }}"
+            value="0"
             [ngModel]="vmCreationData.rootDiskSize > vmCreationData.rootDiskSizeMin
               ? vmCreationData.rootDiskSize : vmCreationData.rootDiskSizeMin"
             (ngModelChange)="onDiskChange($event)"

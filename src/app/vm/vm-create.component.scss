@@ -25,23 +25,6 @@ h5 {
   width: 300px;
 }
 
-.root-disk-size-header {
-  padding-bottom: 24px;
-  display: inline-block;
-}
-
-.root-disk-size-limit {
-  display:inline-block;
-  position:absolute;
-  right: 0px;
-}
-
-.root-disk-size-slider {
-  width: 348px;
-  position: relative;
-  left: -24px;
-}
-
 .right-column {
   margin-left: 57px;
   padding-right: 30px;
@@ -83,6 +66,23 @@ h5 {
 
 .template-select {
   margin-right: 48px;
+}
+
+.root-disk-size-header {
+  padding-bottom: 24px;
+  display: inline-block;
+}
+
+.root-disk-size-limit {
+  display:inline-block;
+  position:absolute;
+  right: 0px;
+}
+
+.root-disk-size-slider {
+  width: 348px;
+  position: relative;
+  left: -24px;
 }
 
 .root-disk-input {
