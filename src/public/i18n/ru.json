@@ -75,5 +75,27 @@
   },
   "DELETE": "Удалить",
   "DOMAIN": "Домен",
-  "ACCOUNT": "Аккаунт"
+  "ACCOUNT": "Аккаунт",
+
+  "IP": "IP",
+  "NIC": "NIC",
+  "NETWORK_INTERFACE_CONTROLLER": "Сетевая карта",
+  "NETWORK_INTERFACE_CONTROLLER_FIELDS": {
+    "broadcastUri":  "Broadcast URI",
+    "gateway": "Шлюз",
+    "ip6Address": "IPv6 адрес",
+    "ip6Cidr": "IPv6 CIDR",
+    "ip6Gateway": "IPv6 шлюз",
+    "ipAddress": "IP",
+    "isDefault": "По умолчанию",
+    "isolationUri": "Isolation URI",
+    "macAddress": "MAC адрес",
+    "netmask": "Маска подсети",
+    "networkName": "Имя сети",
+    "nsxLogicalSwitch": "NSX Logical Switch",
+    "nsxLogicalSwitchPort": "NSX Logical Switch Port",
+    "secondaryIp": "Дополнительный IP",
+    "trafficType": "Тип трафика",
+    "type": "Тип"
+  }
 }
