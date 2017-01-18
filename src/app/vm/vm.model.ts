@@ -95,6 +95,18 @@ export class VirtualMachine extends BaseModel {
   // misc
   public keyPair: string;
 
+  constructor(params?: {}) {
+    super(params);
+
+    if (!this.nic || !this.nic.length) {
+      this.nic = [];
+    }
+
+    for (let i = 0; i < this.nic.length; i++) {
+      this.nic[i] = new NetworkInterfaceController(this.nic[i]);
+    }
+  }
+
   public get actions(): Array<string> {
     return [
       'start',
