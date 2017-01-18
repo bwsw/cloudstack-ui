@@ -1,9 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { SecurityGroupService } from './security-group.service';
-import { SecurityGroup, NetworkRule, NetworkRuleType } from './security-group.model';
-import { AsyncJobService } from '../shared/services/async-job.service';
+import { SecurityGroup, NetworkRuleType } from './security-group.model';
 import { MdlDialogReference } from 'angular2-mdl';
-import { ErrorService } from '../shared/services/error.service';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
   selector: 'cs-security-group-rules',
@@ -24,8 +23,7 @@ export class SecurityGroupRulesComponent {
   constructor(
     public dialog: MdlDialogReference,
     private securityGroupService: SecurityGroupService,
-    private asyncJobService: AsyncJobService,
-    private errorService: ErrorService,
+    private notificationService: NotificationService,
     @Inject('securityGroup') public securityGroup: SecurityGroup
   ) {
     this.protocol = 'TCP';
@@ -52,50 +50,30 @@ export class SecurityGroupRulesComponent {
     this.adding = true;
 
     this.securityGroupService.addRule(type, params)
-      .then(jobId => {
-        this.asyncJobService.addJob(jobId)
-          .subscribe(res => {
-            const status = res.jobStatus;
-            if (status === 2) {
-              this.adding = false;
-              this.errorService.next('Failed to add rule');
-              return;
-            }
-            const jobResult = res.jobResult;
-
-            const ruleRaw = jobResult.securitygroup[type.toLowerCase() + 'rule'][0];
-            const rule = new NetworkRule(ruleRaw);
-            this.securityGroup[`${type.toLowerCase()}Rules`].push(rule);
-
-            this.cidr = '';
-            this.startPort = this.endPort = this.icmpCode = this.icmpType = null;
-            this.adding = false;
-          });
-      });
+      .then(rule => {
+        this.securityGroup[`${type.toLowerCase()}Rules`].push(rule);
+        this.cidr = '';
+        this.startPort = this.endPort = this.icmpCode = this.icmpType = null;
+      })
+      .catch(() => {
+        this.notificationService.message('Failed to add rule');
+      })
+      .then(() => this.adding = false);
   }
 
   public removeRule({ type, id }) {
     this.securityGroupService.removeRule(type, { id })
-      .then(jobId => {
-        this.asyncJobService.addJob(jobId)
-          .filter(result => result && result.jobResultCode === 0)
-          .subscribe(res => {
-            if (res.jobResult.success === false) {
-              this.errorService.next('Failed to delete rule');
-              return;
-            }
+      .then(() => {
+        const rules = this.securityGroup[`${type.toLowerCase()}Rules`];
+        const ind = rules.findIndex(rule => rule.ruleId === id);
+        if (ind === -1) {
+          return;
+        }
 
-            const rules = this.securityGroup[`${type.toLowerCase()}Rules`];
-            const ind = rules.findIndex(rule => {
-              return rule.ruleId === id;
-            });
-
-            if (ind === -1) {
-              return;
-            }
-
-            rules.splice(ind, 1);
-          });
+        rules.splice(ind, 1);
+      })
+      .catch(() => {
+        this.notificationService.message('Failed to delete rule');
       });
   }
 }
