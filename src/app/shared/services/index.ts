@@ -1,5 +1,4 @@
 export * from './affinity-group.service';
-export * from './api.service';
 export * from './async-job.service';
 export * from './auth-guard.service';
 export * from './auth.service';

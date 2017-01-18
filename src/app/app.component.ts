@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { Response } from '@angular/http';
 
-import { ApiService } from './shared';
 import { AuthService } from './shared/services';
 import { Router } from '@angular/router';
 import { TranslateService } from 'ng2-translate';
@@ -9,8 +8,6 @@ import { ErrorService } from './shared/services/error.service';
 import { INotificationService } from './shared/notification.service';
 
 import '../style/app.scss';
-import { ResourceUsageService } from './shared/services/resource-usage.service';
-import { AsyncJobService } from './shared/services/async-job.service';
 
 @Component({
   selector: 'cs-app',
@@ -18,21 +15,16 @@ import { AsyncJobService } from './shared/services/async-job.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  public url = 'https://github.com/preboot/angular2-webpack';
   private loggedIn: boolean;
   private title: string;
 
   constructor(
-    private api: ApiService,
     private auth: AuthService,
     private router: Router,
     private translate: TranslateService,
     private error: ErrorService,
-    @Inject('INotificationService') private notification: INotificationService,
-    private resourceUsageService: ResourceUsageService,
-    private asyncJobService: AsyncJobService
+    @Inject('INotificationService') private notification: INotificationService
   ) {
-    // Do something with api
     this.title = this.auth.name;
     this.translate.setDefaultLang('en');
     this.translate.use('en');

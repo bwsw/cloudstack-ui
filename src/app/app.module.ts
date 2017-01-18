@@ -6,7 +6,6 @@ import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
 import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 
-import { AboutComponent } from './about/about.component';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
@@ -25,7 +24,6 @@ import { NotificationBoxItemComponent } from './notification-box-item.component'
 
 import {
   AffinityGroupService,
-  ApiService,
   AsyncJobService,
   StorageService,
   AuthService,
@@ -76,7 +74,6 @@ import { TagService } from './shared/services/tag.service';
     SecurityGroupModule
   ],
   declarations: [
-    AboutComponent,
     AppComponent,
     LoginComponent,
     LogoutComponent,
@@ -98,7 +95,6 @@ import { TagService } from './shared/services/tag.service';
   ],
   providers: [
     AffinityGroupService,
-    ApiService,
     AuthGuard,
     AsyncJobService,
     AuthService,
