@@ -37,16 +37,16 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
           const jobId = response.jobid;
 
           this.asyncJobService.addJob(jobId)
-            .subscribe(res => {
-              if (res.jobStatus === 2) {
-                reject(res);
+            .subscribe(jobResult => {
+              if (jobResult.jobStatus === 2) {
+                reject(jobResult);
                 return;
               }
-              const ruleRaw = res.jobResult.securitygroup[type.toLowerCase() + 'rule'][0];
+              const ruleRaw = jobResult.jobResult.securitygroup[type.toLowerCase() + 'rule'][0];
               const rule = new NetworkRule(ruleRaw);
               resolve(rule);
             });
-        })
+        });
     });
   }
 
@@ -59,15 +59,15 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
           const jobId = response.jobid;
 
           this.asyncJobService.addJob(jobId)
-            .subscribe(res => {
-              if (res.jobStatus === 2 || res.jobResult && !res.jobResult.success) {
-                reject(res);
+            .subscribe(jobResult => {
+              if (jobResult.jobStatus === 2 || jobResult.jobResult && !jobResult.jobResult.success) {
+                reject(jobResult);
                 return;
               }
 
               resolve();
             });
-        })
+        });
     });
   }
 }

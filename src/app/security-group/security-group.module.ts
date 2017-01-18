@@ -12,6 +12,8 @@ import { SecurityGroupTemplateListComponent } from './security-group-template-li
 import { SecurityGroupTemplateListItemComponent } from './security-group-template-list-item.component';
 import { SecurityGroupRulesComponent } from './security-group-rules.component';
 import { SecurityGroupRuleComponent } from './security-group-rule.component';
+import { MaxValueValidatorDirective } from '../shared/directives/max-value.directive';
+import { MinValueValidatorDirective } from '../shared/directives/min-value.directive';
 
 @NgModule({
   imports: [
@@ -32,7 +34,9 @@ import { SecurityGroupRuleComponent } from './security-group-rule.component';
     SecurityGroupTemplateListComponent,
     SecurityGroupTemplateListItemComponent,
     SecurityGroupRulesComponent,
-    SecurityGroupRuleComponent
+    SecurityGroupRuleComponent,
+    MaxValueValidatorDirective,
+    MinValueValidatorDirective
   ],
   providers: [ SecurityGroupService ],
   entryComponents: [

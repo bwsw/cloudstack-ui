@@ -1,115 +1,131 @@
 <h3 class="mdl-dialog__title">{{ 'EDIT_RULES' | translate }}</h3>
 <div class="mdl-dialog__content">
-  <table class="mdl-data-table">
-    <thead>
-    <tr>
-      <th>{{ 'TYPE' | translate }}</th>
-      <th>{{ 'PROTOCOL' | translate }}</th>
-      <template [ngIf]="protocol !== 'ICMP'">
-        <th>{{ 'START_PORT' | translate }}</th>
-        <th>{{ 'END_PORT' | translate }}</th>
-      </template>
-      <template [ngIf]="protocol === 'ICMP'">
-        <th>{{ 'ICMP_TYPE' | translate }}</th>
-        <th>{{ 'ICMP_CODE' | translate }}</th>
-      </template>
-      <th>CIDR</th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td>
-        <mdl-select class="type" [(ngModel)]="type">
-          <mdl-option [value]="'Ingress'">{{ 'INGRESS' | translate }}</mdl-option>
-          <mdl-option [value]="'Egress'">{{ 'EGRESS' | translate }}</mdl-option>
-        </mdl-select>
-      </td>
-      <td>
-        <mdl-select [(ngModel)]="protocol">
-          <mdl-option [value]="'TCP'">TCP</mdl-option>
-          <mdl-option [value]="'UDP'">UDP</mdl-option>
-          <mdl-option [value]="'ICMP'">ICMP</mdl-option>
-        </mdl-select>
-      </td>
-      <td>
-        <mdl-textfield
-          *ngIf="protocol === 'ICMP'"
-          name="icmpType"
-          type="number"
-          min="0"
-          error-msg="{{ 'ENTER_VALID_TYPE' | translate }}"
-          [(ngModel)]="icmpType"
-        ></mdl-textfield>
-        <mdl-textfield
-          *ngIf="protocol !== 'ICMP'"
-          name="startPort"
-          type="number"
-          min="0"
-          max="65536"
-          error-msg="{{ 'ENTER_VALID_PORT' | translate }}"
-          [(ngModel)]="startPort"
-        ></mdl-textfield>
-      </td>
-      <td>
-        <mdl-textfield
-          *ngIf="protocol === 'ICMP'"
-          name="icmpCode"
-          type="number"
-          min="0"
-          error-msg="{{ 'ENTER_VALID_CODE' | translate }}"
-          [(ngModel)]="icmpCode"
-        ></mdl-textfield>
-        <mdl-textfield
-          *ngIf="protocol !== 'ICMP'"
-          name="endPort"
-          type="number"
-          min="0"
-          max="65536"
-          error-msg="{{ 'ENTER_VALID_PORT' | translate }}"
-          [(ngModel)]="endPort"
-        ></mdl-textfield>
-      </td>
-      <td>
-        <mdl-textfield
-          class="cidr"
-          type="text"
-          pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$"
-          error-msg="{{ 'ENTER_VALID_CIDR' | translate }}"
-          [(ngModel)]="cidr"
-        >
-        </mdl-textfield>
-      </td>
-      <td>
-        <button
-          mdl-button
-          mdl-button-type="icon"
-          (click)="addRule()"
-          disabled="{{ securityGroup.id.startsWith('template') || adding }}"
-        >
-          <mdl-icon *ngIf="!adding">add</mdl-icon>
-          <mdl-spinner single-color active *ngIf="adding"></mdl-spinner>
-        </button>
-      </td>
-    </tr>
-    <cs-security-group-rule
-      *ngFor="let rule of securityGroup?.ingressRules"
-      [type]="'Ingress'"
-      [rule]="rule"
-      [canRemove]="!securityGroup.id.startsWith('template')"
-      (onRemove)="removeRule($event)"
-    >
-    </cs-security-group-rule>
-    <cs-security-group-rule
-      *ngFor="let rule of securityGroup?.egressRules"
-      [type]="'Egress'"
-      [rule]="rule"
-      [canRemove]="!securityGroup.id.startsWith('template')"
-      (onRemove)="removeRule($event)"
-    >
-    </cs-security-group-rule>
-    </tbody>
-  </table>
+  <form #rulesForm="ngForm">
+    <table class="mdl-data-table">
+      <thead>
+      <tr>
+        <th>{{ 'TYPE' | translate }}</th>
+        <th>{{ 'PROTOCOL' | translate }}</th>
+        <template [ngIf]="protocol !== 'ICMP'">
+          <th>{{ 'START_PORT' | translate }}</th>
+          <th>{{ 'END_PORT' | translate }}</th>
+        </template>
+        <template [ngIf]="protocol === 'ICMP'">
+          <th>{{ 'ICMP_TYPE' | translate }}</th>
+          <th>{{ 'ICMP_CODE' | translate }}</th>
+        </template>
+        <th>CIDR</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>
+          <mdl-select class="type" [(ngModel)]="type" name="type">
+            <mdl-option [value]="'Ingress'">{{ 'INGRESS' | translate }}</mdl-option>
+            <mdl-option [value]="'Egress'">{{ 'EGRESS' | translate }}</mdl-option>
+          </mdl-select>
+        </td>
+        <td>
+          <mdl-select [(ngModel)]="protocol" name="protocol">
+            <mdl-option [value]="'TCP'">TCP</mdl-option>
+            <mdl-option [value]="'UDP'">UDP</mdl-option>
+            <mdl-option [value]="'ICMP'">ICMP</mdl-option>
+          </mdl-select>
+        </td>
+        <td>
+          <mdl-textfield
+            *ngIf="protocol === 'ICMP'"
+            [class.is-invalid]="icmpTypeField.invalid && !icmpTypeField.pristine"
+            name="icmpType"
+            type="number"
+            minValue="0"
+            error-msg="{{ 'ENTER_VALID_TYPE' | translate }}"
+            required
+            [(ngModel)]="icmpType"
+            #icmpTypeField="ngModel"
+          ></mdl-textfield>
+          <mdl-textfield
+            *ngIf="protocol !== 'ICMP'"
+            [class.is-invalid]="startPortField.invalid && !startPortField.pristine"
+            name="startPort"
+            type="number"
+            minValue="0"
+            maxValue="65536"
+            error-msg="{{ 'ENTER_VALID_PORT' | translate }}"
+            required
+            [(ngModel)]="startPort"
+            #startPortField="ngModel"
+          ></mdl-textfield>
+        </td>
+        <td>
+          <mdl-textfield
+            *ngIf="protocol === 'ICMP'"
+            name="icmpCode"
+            type="number"
+            minValue="0"
+            error-msg="{{ 'ENTER_VALID_CODE' | translate }}"
+            required
+            [(ngModel)]="icmpCode"
+          ></mdl-textfield>
+          <mdl-textfield
+            *ngIf="protocol !== 'ICMP'"
+            [class.is-invalid]="endPortField.invalid && !endPortField.pristine"
+            name="endPort"
+            type="number"
+            minValue="0"
+            maxValue="65536"
+            error-msg="{{ 'ENTER_VALID_PORT' | translate }}"
+            required
+            [(ngModel)]="endPort"
+            #endPortField="ngModel"
+          ></mdl-textfield>
+        </td>
+        <td>
+          <mdl-textfield
+            class="cidr"
+            [class.is-invalid]="cidrField.invalid && !cidrField.pristine"
+            name="cidr"
+            type="text"
+            pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$"
+            error-msg="{{ 'ENTER_VALID_CIDR' | translate }}"
+            required
+            [(ngModel)]="cidr"
+            #cidrField="ngModel"
+          >
+          </mdl-textfield>
+        </td>
+        <td>
+          <button
+            mdl-button
+            mdl-button-type="icon"
+            (click)="addRule()"
+            disabled="{{ securityGroup.id.startsWith('template') || adding || rulesForm.form.invalid }}"
+          >
+            <mdl-icon *ngIf="!adding">add</mdl-icon>
+            <mdl-spinner single-color active *ngIf="adding"></mdl-spinner>
+          </button>
+        </td>
+      </tr>
+      <cs-security-group-rule
+        *ngFor="let rule of securityGroup?.ingressRules"
+        [type]="'Ingress'"
+        [rule]="rule"
+        [canRemove]="!securityGroup.id.startsWith('template')"
+        (onRemove)="removeRule($event)"
+      >
+      </cs-security-group-rule>
+      <cs-security-group-rule
+        *ngFor="let rule of securityGroup?.egressRules"
+        [type]="'Egress'"
+        [rule]="rule"
+        [canRemove]="!securityGroup.id.startsWith('template')"
+        (onRemove)="removeRule($event)"
+      >
+      </cs-security-group-rule>
+      </tbody>
+    </table>
+  </form>
 </div>
 <div class="mdl-dialog__actions">
   <button mdl-button mdl-ripple (click)="dialog.hide()">{{ 'CLOSE' | translate }}</button>
