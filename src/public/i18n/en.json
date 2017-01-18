@@ -173,5 +173,7 @@
   "ENTER_VALID_PORT": "Enter a valid port",
   "ENTER_VALID_TYPE": "Enter a valid type",
   "ENTER_VALID_CODE": "Enter a valid code",
-  "ENTER_VALID_CIDR": "Enter a valid CIDR"
+  "ENTER_VALID_CIDR": "Enter a valid CIDR",
+  "FAILED_TO_ADD_RULE": "Failed to add the rule",
+  "FAILED_TO_REMOVE_RULE": "Failed to remove the rule"
 }

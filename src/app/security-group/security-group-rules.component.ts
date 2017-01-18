@@ -3,6 +3,7 @@ import { SecurityGroupService } from './security-group.service';
 import { SecurityGroup, NetworkRuleType } from './security-group.model';
 import { MdlDialogReference } from 'angular2-mdl';
 import { NotificationService } from '../shared/notification.service';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'cs-security-group-rules',
@@ -24,7 +25,8 @@ export class SecurityGroupRulesComponent {
     public dialog: MdlDialogReference,
     private securityGroupService: SecurityGroupService,
     private notificationService: NotificationService,
-    @Inject('securityGroup') public securityGroup: SecurityGroup
+    @Inject('securityGroup') public securityGroup: SecurityGroup,
+    private translateService: TranslateService
   ) {
     this.protocol = 'TCP';
     this.type = 'Ingress';
@@ -56,7 +58,9 @@ export class SecurityGroupRulesComponent {
         this.startPort = this.endPort = this.icmpCode = this.icmpType = null;
       })
       .catch(() => {
-        this.notificationService.message('Failed to add rule');
+        this.translateService.get(['FAILED_TO_ADD_RULE']).subscribe((translations) => {
+          this.notificationService.message(translations['FAILED_TO_ADD_RULE']);
+        });
       })
       .then(() => this.adding = false);
   }
@@ -73,7 +77,9 @@ export class SecurityGroupRulesComponent {
         rules.splice(ind, 1);
       })
       .catch(() => {
-        this.notificationService.message('Failed to delete rule');
+        this.translateService.get(['FAILED_TO_REMOVE_RULE']).subscribe((translations) => {
+          this.notificationService.message(translations['FAILED_TO_REMOVE_RULE']);
+        });
       });
   }
 }

@@ -88,5 +88,7 @@
   "ENTER_VALID_PORT": "Введите корректный порт",
   "ENTER_VALID_TYPE": "Введите корректный тип",
   "ENTER_VALID_CODE": "Введите корректный код",
-  "ENTER_VALID_CIDR": "Введите корректный CIDR"
+  "ENTER_VALID_CIDR": "Введите корректный CIDR",
+  "FAILED_TO_ADD_RULE": "Не удалось добавить правило",
+  "FAILED_TO_REMOVE_RULE": "Не удалось удалить правило"
 }
