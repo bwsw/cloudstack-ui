@@ -48,14 +48,11 @@
 
   "YES": "Yes",
   "NO": "No",
-  "CONFIRM": "Confirm",
   "CANCEL": "Cancel",
 
   "START": "Start",
   "STOP": "Stop",
   "SELECT": "Select",
-
-  "TEMPLATES": "Templates",
 
   "REBOOT": "Reboot",
   "RESTORE": "Restore",
@@ -64,10 +61,15 @@
   "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",
   "NO_DONT_ASK": "No, don't ask",
 
+  "TEMPLATES": "Templates",
+
   "KB_US": "Standard (US) keyboard",
   "KB_UK": "UK keyboard",
   "KB_JP": "Japanese keyboard",
   "KB_SC": "Simplified Chinese keyboard",
+
+  "INGRESS": "Ingress",
+  "EGRESS": "Egress",
 
   "STATUS": "Status",
   "SERVICE_OFFERING": "Service offering",
@@ -143,6 +145,7 @@
     "START_VM": "Start VM"
   },
 
+  "CREATE_NEW_TEMPLATE": "Create new template",
   "ALL_GROUPS": "All templates",
   "SELECTED_GROUPS": "Selected templates",
   "NETWORK_RULES": "Network rules",
@@ -158,7 +161,9 @@
   },
 
   "UNABLE_TO_RECEIVE_TEMPLATES": "Unable to receive templates",
+  "NAME": "Name",
   "DESCRIPTION": "Description",
+  "LABELS": "Labels",
   "CUSTOM_TEMPLATES_NOT_INCLUDED": "Templates not included",
   "INSUFFICIENT_RESOURCES": "Insufficient resources"
 }
