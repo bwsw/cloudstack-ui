@@ -165,5 +165,6 @@
   "DESCRIPTION": "Описание",
   "LABELS": "Метки",
   "CUSTOM_TEMPLATES_NOT_INCLUDED": "Нет шаблонов",
-  "INSUFFICIENT_RESOURCES": "Недостаточно ресурсов"
+  "INSUFFICIENT_RESOURCES": "Недостаточно ресурсов",
+  "BASED_ON": "основан на"
 }

@@ -165,5 +165,6 @@
   "DESCRIPTION": "Description",
   "LABELS": "Labels",
   "CUSTOM_TEMPLATES_NOT_INCLUDED": "Templates not included",
-  "INSUFFICIENT_RESOURCES": "Insufficient resources"
+  "INSUFFICIENT_RESOURCES": "Insufficient resources",
+  "BASED_ON": "based on"
 }
