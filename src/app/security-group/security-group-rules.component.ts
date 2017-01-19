@@ -1,4 +1,5 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { SecurityGroupService } from './security-group.service';
 import { SecurityGroup, NetworkRuleType } from './security-group.model';
 import { MdlDialogReference } from 'angular2-mdl';
@@ -11,9 +12,10 @@ import { TranslateService } from 'ng2-translate';
   styleUrls: ['./security-group-rules.component.scss']
 })
 export class SecurityGroupRulesComponent {
+  @ViewChild('rulesForm') public rulesForm: NgForm;
   public type: NetworkRuleType;
   public protocol: 'TCP'|'UDP'|'ICMP';
-  public startPort: number; // TODO validation
+  public startPort: number;
   public icmpType: number;
   public icmpCode: number;
   public endPort: number;
@@ -56,6 +58,7 @@ export class SecurityGroupRulesComponent {
         this.securityGroup[`${type.toLowerCase()}Rules`].push(rule);
         this.cidr = '';
         this.startPort = this.endPort = this.icmpCode = this.icmpType = null;
+        this.rulesForm.form.reset();
       })
       .catch(() => {
         this.translateService.get(['FAILED_TO_ADD_RULE']).subscribe((translations) => {
