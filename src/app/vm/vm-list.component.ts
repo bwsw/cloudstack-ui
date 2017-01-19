@@ -110,13 +110,13 @@ export class VmListComponent implements OnInit {
       e.action.successMessage
     ]).subscribe(strs => {
       this.dialogService.confirm(strs[e.action.confirmMessage], strs.NO, strs.YES)
-        .subscribe(r => {
+        .subscribe(() => {
           if (e.vm) {
             e.vm.state = e.action.vmStateOnAction;
           }
           let id = this.jobsNotificationService.add(strs[e.action.progressMessage]);
           this.vmService.command(e.action.nameLower, e.vm.id)
-            .subscribe(result => {
+            .subscribe(() => {
               this.jobsNotificationService.add({
                 id,
                 message: strs[e.action.successMessage],
