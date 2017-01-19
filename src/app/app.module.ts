@@ -3,8 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from 'ng2-translate';
-import { MdlModule } from 'angular2-mdl';
+import { MdlModule, DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
 import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
+import { MdlSelectModule } from '@angular2-mdl-ext/select';
+import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login.component';
@@ -21,44 +23,11 @@ import { VmStatisticsComponent } from './vm/vm-statistics.component';
 import { VmDetailComponent } from './vm/vm-detail.component';
 import { NotificationBoxComponent } from './notification-box.component';
 import { NotificationBoxItemComponent } from './notification-box-item.component';
-
-import {
-  AffinityGroupService,
-  AsyncJobService,
-  StorageService,
-  AuthService,
-  AuthGuard,
-  ErrorService,
-  JobsNotificationService,
-  LoginGuard,
-  ZoneService,
-  ServiceOfferingService,
-  ServiceOfferingFilterService,
-  ServiceLocator,
-  SSHKeyPairService,
-  TemplateService,
-  SnapshotService,
-  ResourceLimitService,
-  ResourceUsageService,
-  DiskStorageService,
-  VolumeService,
-  OsTypeService,
-  IsoService
-} from './shared/services';
-
+import { ServiceLocator } from './shared/services';
 import { VmService } from './vm/vm.service';
-
-import { NotificationService } from './shared/services/notification.service';
-
 import { routing } from './app.routing';
-
-import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
-import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
-import { MdlSelectModule } from '@angular2-mdl-ext/select';
-import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
-import { ConfigService } from './shared/services/config.service';
 import { SecurityGroupModule } from './security-group/security-group.module';
-import { TagService } from './shared/services/tag.service';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -71,7 +40,8 @@ import { TagService } from './shared/services/tag.service';
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
-    SecurityGroupModule
+    SecurityGroupModule,
+    SharedModule
   ],
   declarations: [
     AppComponent,
@@ -87,39 +57,13 @@ import { TagService } from './shared/services/tag.service';
     VmStatisticsComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
-    DivByPowerOfTwoPipe
   ],
   entryComponents: [
     VmCreationTemplateDialogComponent,
     VmCreationTemplateDialogListElementComponent
   ],
   providers: [
-    AffinityGroupService,
-    AuthGuard,
-    AsyncJobService,
-    AuthService,
-    ConfigService,
-    DiskStorageService,
-    ErrorService,
-    IsoService,
-    JobsNotificationService,
-    { provide: 'INotificationService', useClass: NotificationService },
-    { provide: 'IStorageService', useClass: StorageService },
-    LoginGuard,
-    NotificationService,
-    ResourceLimitService,
-    ResourceUsageService,
-    ServiceOfferingFilterService,
-    SnapshotService,
-    SSHKeyPairService,
-    ZoneService,
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
-    ServiceOfferingService,
-    VolumeService,
-    OsTypeService,
-    TagService,
-    {provide: 'IStorageService', useClass: StorageService},
-    TemplateService,
     VmService,
   ],
   bootstrap: [AppComponent]
