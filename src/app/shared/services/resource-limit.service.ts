@@ -14,6 +14,7 @@ import { ResourceLimit } from '../models/resource-limit.model';
 })
 export class ResourceLimitService extends BaseBackendService<ResourceLimit> {
   public getList(params?: {}): Promise<Array<ResourceLimit>> {
-    return super.getList(params).then(result => result.sort((a, b) => a.resourceType - b.resourceType));
+    return super.getList(params)
+      .then(result => result.sort((a, b) => a.resourceType - b.resourceType));
   }
 }

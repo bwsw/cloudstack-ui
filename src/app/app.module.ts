@@ -48,7 +48,7 @@ import {
 
 import { VmService } from './vm/vm.service';
 
-import { NotificationService } from './shared/notification.service';
+import { NotificationService } from './shared/services/notification.service';
 
 import { routing } from './app.routing';
 
@@ -56,7 +56,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
-import { ConfigService } from './shared/config.service';
+import { ConfigService } from './shared/services/config.service';
 import { SecurityGroupModule } from './security-group/security-group.module';
 import { TagService } from './shared/services/tag.service';
 

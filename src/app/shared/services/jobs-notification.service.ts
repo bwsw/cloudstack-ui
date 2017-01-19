@@ -69,7 +69,7 @@ export class JobsNotificationService {
 
   public remove(id: string): void {
     const ind = this.notifications.findIndex((el: INotification) => el.id === id);
-    if (ind === -1 ) {
+    if (ind === -1) {
       return;
     }
 

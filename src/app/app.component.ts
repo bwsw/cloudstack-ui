@@ -5,7 +5,7 @@ import { AuthService } from './shared/services';
 import { Router } from '@angular/router';
 import { TranslateService } from 'ng2-translate';
 import { ErrorService } from './shared/services/error.service';
-import { INotificationService } from './shared/notification.service';
+import { INotificationService } from './shared/services/notification.service';
 
 import '../style/app.scss';
 
@@ -35,7 +35,7 @@ export class AppComponent {
     });
   }
 
-  private updateAccount(loggedIn: boolean ): void {
+  private updateAccount(loggedIn: boolean): void {
     this.loggedIn = loggedIn;
     if (loggedIn) {
       this.title = this.auth.name;

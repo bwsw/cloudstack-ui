@@ -16,7 +16,6 @@ export interface INotificationService {
 
 @Injectable()
 export class NotificationService implements INotificationService {
-
   public timeout: number;
 
   constructor(private snackbar: MdlSnackbarService) {
@@ -54,7 +53,6 @@ export class NotificationService implements INotificationService {
 }
 
 export class MockNotificationService implements INotificationService {
-
   public timeout: number;
 
   public message(message: string): Observable<MdlSnackbarComponent> {

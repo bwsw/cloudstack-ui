@@ -1,6 +1,6 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { Http } from '@angular/http';
-import { SecurityGroup } from '../security-group/security-group.model';
+import { SecurityGroup } from '../../security-group/security-group.model';
 import 'rxjs/add/operator/toPromise';
 
 interface IConfig {
@@ -9,20 +9,19 @@ interface IConfig {
 
 @Injectable()
 export class ConfigService {
-
   private config: IConfig;
 
-  constructor(private http: Http) {}
+  constructor(private http: Http) { }
 
   public load(reload = false): Promise<void> {
     if (reload || !this.config) {
       const url = `/config-${isDevMode() ? 'dev' : 'prod'}.json`;
       return this.http.get(url)
         .toPromise()
-        .then(response => { this.config = response.json(); })
+        .then(response => this.config = response.json())
         .catch(this.handleError);
     } else {
-      Promise.resolve();
+      return Promise.resolve();
     }
   }
 
@@ -34,7 +33,7 @@ export class ConfigService {
     }
   }
 
-  private handleError(e) {
+  private handleError() {
     return Promise.reject('Unable to access config file');
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ConfigService } from '../shared/config.service';
+import { ConfigService } from '../shared/services/config.service';
 import { SecurityGroup } from './security-group.model';
 import { BaseBackendService } from '../shared/services/base-backend.service';
 import { BackendResource } from '../shared/decorators/backend-resource.decorator';
