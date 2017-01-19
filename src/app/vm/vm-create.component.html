@@ -1,7 +1,4 @@
 <mdl-dialog
-  #vmCreateDialog
-  id="vmCreateDialog"
-  name="vmCreateDialog"
   [mdl-dialog-config]="{
     clickOutsideToClose: true,
     styles: {'width': '780px'},
@@ -18,7 +15,6 @@
           <mdl-textfield
             type="text"
             label="{{ 'VM_CREATION_FORM.NAME' | translate }}"
-            id="name"
             name="name"
             pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]{0,1}$"
             #vmname="ngModel"
@@ -41,7 +37,6 @@
         <div>
           <mdl-select
             [(ngModel)]="vmCreationData.vm.serviceOfferingId"
-            id="serviceOffering"
             name="serviceOffering"
           >
             <mdl-option
@@ -56,7 +51,6 @@
         <div>
           <mdl-select
             [(ngModel)]="vmCreationData.vm.zoneId"
-            id="zone"
             name="zone"
           >
             <mdl-option *ngFor="let z of vmCreationData.zones" [value]="z.id" >
@@ -87,7 +81,6 @@
           <mdl-slider
             min="{{ vmCreationData.rootDiskSizeMin || 0 }}"
             max="{{ vmCreationData.rootDiskSizeLimit || 0 }}"
-            id="rootDiskSize"
             name="rootDiskSize"
             value="0"
             [ngModel]="vmCreationData.rootDiskSize > vmCreationData.rootDiskSizeMin
@@ -103,7 +96,6 @@
         <div>
           <mdl-select
             [ngModel]="vmCreationData.affinityGroupId"
-            id="affinityGroup"
             name="affinityGroup"
           >
             <mdl-option [value]="''">{{ 'NO_AFFINITY_GROUP' | translate }}</mdl-option>
@@ -126,7 +118,6 @@
         <h5>{{ 'VM_CREATION_FORM.KEYBOARD_LAYOUT' | translate }}</h5>
         <div>
           <mdl-select
-            id="keyboard"
             name="keyboard"
             [(ngModel)]="vmCreationData.keyboard"
           >
@@ -141,7 +132,6 @@
         <h5>{{ 'VM_CREATION_FORM.SSH_KEYPAIR' | translate }}</h5>
         <div>
           <mdl-select
-            id="ssh"
             name="ssh"
             [(ngModel)]="vmCreationData.vm.keyPair"
           >
@@ -155,7 +145,6 @@
         </div>
         <div class="start-vm-checkbox">
           <mdl-checkbox
-            id="startVm"
             name="startVm"
             [(ngModel)]="vmCreationData.doStartVm"
           >

@@ -61,7 +61,6 @@ class VmCreationData {
   styleUrls: ['./vm-create.component.scss']
 })
 export class VmCreateComponent {
-
   @ViewChild(MdlDialogComponent) public vmCreateDialog: MdlDialogComponent;
   @Output() public onCreated: EventEmitter<any> = new EventEmitter();
 
