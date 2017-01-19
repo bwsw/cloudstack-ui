@@ -3,6 +3,12 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { VirtualMachine, IVmAction } from './vm.model';
 import { AsyncJobService } from '../shared/services/async-job.service';
 import { IAsyncJob } from '../shared/models/async-job.model';
+import { MdlDialogService } from 'angular2-mdl';
+import {
+  PasswordDialogComponent,
+  PasswordDialogModel,
+  VM_PASSWORD_TOKEN,
+} from '../vm/password-dialog';
 
 
 @Component({
@@ -17,7 +23,10 @@ export class VmListItemComponent implements OnInit {
 
   public actions: Array<IVmAction>;
 
-  constructor(private asyncJobService: AsyncJobService) {}
+  constructor(
+    private asyncJobService: AsyncJobService,
+    private dialogService: MdlDialogService
+  ) {}
 
   public ngOnInit() {
     this.actions = this.vm.actions.map(a => VirtualMachine.getAction(a));
@@ -25,6 +34,8 @@ export class VmListItemComponent implements OnInit {
       if (job.jobResult && job.jobResult.id === this.vm.id) {
         this.vm.state = job.jobResult.state;
         this.vm.nic[0] = job.jobResult.nic[0];
+        console.log(job.jobResult);
+        this.showPasswordDialog(job.jobResult.displayName, job.jobResult.password);
       }
     });
   }
@@ -47,5 +58,17 @@ export class VmListItemComponent implements OnInit {
     }
 
     this.onVmAction.emit(e);
+  }
+
+  private showPasswordDialog(vmName: string, vmPassword: string): void {
+    this.dialogService.showCustomDialog({
+      component: PasswordDialogComponent,
+      providers: [{
+        provide: VM_PASSWORD_TOKEN,
+        useValue: new PasswordDialogModel(vmName, vmPassword)
+      }],
+      isModal: true,
+      styles: {'width': '350px'}
+    });
   }
 }

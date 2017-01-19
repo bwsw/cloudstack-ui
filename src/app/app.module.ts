@@ -10,6 +10,7 @@ import { AboutComponent } from './about/about.component';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
+import { PasswordDialogComponent } from './vm/password-dialog';
 import { VmCreateComponent } from './vm/vm-create.component';
 import { VmCreationTemplateComponent } from './vm/vm-creation-template/vm-creation-template.component';
 import { VmCreationTemplateDialogComponent } from './vm/vm-creation-template/vm-creation-template-dialog.component';
@@ -81,6 +82,7 @@ import { TagService } from './shared/services/tag.service';
     AppComponent,
     LoginComponent,
     LogoutComponent,
+    PasswordDialogComponent,
     VmCreateComponent,
     VmCreationTemplateComponent,
     VmCreationTemplateDialogComponent,
@@ -95,6 +97,7 @@ import { TagService } from './shared/services/tag.service';
     ViewValuePipe
   ],
   entryComponents: [
+    PasswordDialogComponent,
     VmCreationTemplateDialogComponent,
     VmCreationTemplateDialogListElementComponent
   ],

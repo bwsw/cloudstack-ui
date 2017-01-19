@@ -94,6 +94,7 @@ export class VirtualMachine extends BaseModel {
   public diskIoWrite: number;
   // misc
   public keyPair: string;
+  public password: string;
 
   constructor(params?: {}) {
     super(params);
