@@ -102,7 +102,7 @@
             mdl-button
             mdl-button-type="icon"
             (click)="addRule()"
-            disabled="{{ securityGroup.id.startsWith('template') || adding || rulesForm.form.invalid }}"
+            disabled="{{ securityGroup.isPredefinedTemplate() || adding || rulesForm.form.invalid }}"
           >
             <mdl-icon *ngIf="!adding">add</mdl-icon>
             <mdl-spinner single-color active *ngIf="adding"></mdl-spinner>
@@ -113,7 +113,7 @@
         *ngFor="let rule of securityGroup?.ingressRules"
         [type]="'Ingress'"
         [rule]="rule"
-        [canRemove]="!securityGroup.id.startsWith('template')"
+        [canRemove]="!securityGroup.isPredefinedTemplate()"
         (onRemove)="removeRule($event)"
       >
       </cs-security-group-rule>
@@ -121,7 +121,7 @@
         *ngFor="let rule of securityGroup?.egressRules"
         [type]="'Egress'"
         [rule]="rule"
-        [canRemove]="!securityGroup.id.startsWith('template')"
+        [canRemove]="!securityGroup.isPredefinedTemplate()"
         (onRemove)="removeRule($event)"
       >
       </cs-security-group-rule>
