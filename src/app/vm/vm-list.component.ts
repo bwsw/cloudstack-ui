@@ -110,8 +110,7 @@ export class VmListComponent implements OnInit {
       e.action.successMessage
     ]).subscribe(strs => {
       this.dialogService.confirm(strs[e.action.confirmMessage], strs.NO, strs.YES)
-        .toPromise()
-        .then(r => {
+        .subscribe(r => {
           if (e.vm) {
             e.vm.state = e.action.vmStateOnAction;
           }
@@ -125,8 +124,9 @@ export class VmListComponent implements OnInit {
               });
             }
           );
-        })
-        .catch(err => {});
+        },
+        // handle error comes from cancel button
+        () => {});
     });
   }
 
