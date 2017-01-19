@@ -76,16 +76,15 @@ export class SecurityGroupTemplateListComponent implements OnInit {
         translations['CONFIRM_DELETE_TEMPLATE'],
         translations['NO'],
         translations['YES']
-      ).toPromise()
-        .then(() => {
-          return this.securityGroupService.deleteTemplate(id);
-        })
-        .then(res => {
-          if (res && res.success === 'true') {
-            this.securityGroupList = this.securityGroupList.filter(sg => sg.id !== id);
-          }
-        })
-        .catch(() => {});
+      ).subscribe(() => {
+          this.securityGroupService.deleteTemplate(id).then(res => {
+            if (res && res.success === 'true') {
+              this.securityGroupList = this.securityGroupList.filter(sg => sg.id !== id);
+            }
+          });
+        },
+        // handle error comes from cancel button
+        () => {});
     });
   }
 }
