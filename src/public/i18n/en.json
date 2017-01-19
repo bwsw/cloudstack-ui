@@ -157,6 +157,29 @@
     "YOU_DONT_HAVE_TEMPLATES": "You don't have any templates"
   },
 
+
+  "IP": "IP",
+  "NIC": "NIC",
+  "NETWORK_INTERFACE_CONTROLLER": "Network interface controller",
+  "NETWORK_INTERFACE_CONTROLLER_FIELDS": {
+    "broadcastUri":  "Broadcast URI",
+    "gateway": "Gateway",
+    "ip6Address": "IPv6 address",
+    "ip6Cidr": "IPv6 CIDR",
+    "ip6Gateway": "IPv6 gateway",
+    "ipAddress": "IP",
+    "isDefault": "Default",
+    "isolationUri": "Isolation URI",
+    "macAddress": "MAC address",
+    "netmask": "Netmask",
+    "networkName": "Network name",
+    "nsxLogicalSwitch": "NSX Logical Switch",
+    "nsxLogicalSwitchPort": "NSX Logical Switch Port",
+    "secondaryIp": "Secondary IP",
+    "trafficType": "Traffic Type",
+    "type": "Type"
+  },
+
   "UNABLE_TO_RECEIVE_TEMPLATES": "Unable to receive templates",
   "DESCRIPTION": "Description",
   "CUSTOM_TEMPLATES_NOT_INCLUDED": "Templates not included",

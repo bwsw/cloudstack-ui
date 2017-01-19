@@ -72,3 +72,13 @@ button {
 button.open {
   transform: rotate(180deg);
 }
+
+.collapsed-panel .row,
+.expanded-panel .row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nic-name {
+  font-weight: bolder;
+}
