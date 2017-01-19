@@ -19,11 +19,7 @@
         <div class="row" *ngFor="let key of vm.serviceOffering.keys">
           <template [ngIf]="key !== 'id' && key !== 'created'">
             <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
-            <div [ngSwitch]="vm.serviceOffering[key]">
-              <div *ngSwitchCase="true">{{ 'YES' | translate }}</div>
-              <div *ngSwitchCase="false">{{ 'NO' | translate }}</div>
-              <div *ngSwitchDefault>{{ vm.serviceOffering[key] }}</div>
-            </div>
+            <div>{{ vm.serviceOffering[key] | viewValue }}</div>
           </template>
           <template [ngIf]="key === 'created'">
             <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
@@ -50,7 +46,7 @@
       <h2 mdl-card-title-text>{{ 'NETWORK_INTERFACE_CONTROLLER' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
-      <div class="collapsed-panel" *ngIf="!expandNetworkInterfaceController">
+      <div class="collapsed-panel" *ngIf="!expandNIC">
         <div class="row" *ngFor="let nic of vm.nic; let i = index">
           <div>
             {{ 'NIC' | translate }} {{i+1}}
@@ -60,7 +56,7 @@
           </div>
         </div>
       </div>
-      <div class="expanded-panel" *ngIf="expandNetworkInterfaceController">
+      <div class="expanded-panel" *ngIf="expandNIC">
         <div *ngFor="let nic of vm.nic; let i = index">
           <div class="nic-name">{{ 'NIC' | translate }} {{i+1}}</div>
           <div *ngFor="let key of nic.keys; let i = index">
@@ -69,11 +65,7 @@
                   key !== 'deviceid' && key !== 'virtualMachineId' && key !== 'secondaryIp'"
             >
               <div>{{ 'NETWORK_INTERFACE_CONTROLLER_FIELDS.' + key | translate }}</div>
-              <div [ngSwitch]="nic[key]">
-                <div *ngSwitchCase="true">{{ 'YES' | translate }}</div>
-                <div *ngSwitchCase="false">{{ 'NO' | translate }}</div>
-                <div *ngSwitchDefault>{{ nic[key] }}</div>
-              </div>
+              <div>{{ nic[key] | viewValue }}</div>
             </div>
             <div *ngIf="key === 'secondaryIp' && nic[key].length > 0">
               <div class="row">
@@ -92,8 +84,8 @@
         mdl-button
         mdl-ripple
         mdl-button-type="icon"
-        (click)="toggleNetworkInterfaceController()"
-        [class.open]="expandNetworkInterfaceController"
+        (click)="toggleNIC()"
+        [class.open]="expandNIC"
       >
         <mdl-icon>keyboard_arrow_down</mdl-icon>
       </button>

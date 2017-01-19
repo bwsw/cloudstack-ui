@@ -73,11 +73,7 @@ button.open {
   transform: rotate(180deg);
 }
 
-.collapsed-panel .row {
-  display: flex;
-  justify-content: space-between;
-}
-
+.collapsed-panel .row,
 .expanded-panel .row {
   display: flex;
   justify-content: space-between;

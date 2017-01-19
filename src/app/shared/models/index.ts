@@ -4,4 +4,4 @@ export * from './SSHKeyPair.model';
 export * from './template.model';
 export * from './iso.model';
 export * from './snapshot.model';
-export * from './network-interface-controller.model';
+export * from './nic.model';

@@ -19,7 +19,7 @@ import { FieldMapper } from '../decorators/field-mapper.decorator';
   traffictype: 'trafficType',
   virtualmachineid: 'virtualMachineId'
 })
-export class NetworkInterfaceController extends BaseModel {
+export class NIC extends BaseModel {
   public id: string;
   public broadcastUri: string;
   public deviceId: string;

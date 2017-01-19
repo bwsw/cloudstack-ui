@@ -1,7 +1,7 @@
 import { BaseModel } from '../shared/models';
 import { FieldMapper } from '../shared/decorators';
 import { Volume } from '../shared/models/volume.model';
-import { NetworkInterfaceController } from '../shared/models';
+import { NIC } from '../shared/models';
 import { OsType } from '../shared/models/os-type.model';
 import { ServiceOffering } from '../shared/models/service-offering.model';
 import { Template } from '../shared/models/template.model';
@@ -68,7 +68,7 @@ export class VirtualMachine extends BaseModel {
   public memory: number;
   public volumes: Array<Volume>;
   // IP addresses
-  public nic: Array<NetworkInterfaceController>;
+  public nic: Array<NIC>;
   // Security Group
   public securityGroup: Array<ISecurityGroup>;
   // Affinity Group
@@ -103,7 +103,7 @@ export class VirtualMachine extends BaseModel {
     }
 
     for (let i = 0; i < this.nic.length; i++) {
-      this.nic[i] = new NetworkInterfaceController(this.nic[i]);
+      this.nic[i] = new NIC(this.nic[i]);
     }
   }
 

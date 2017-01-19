@@ -58,6 +58,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { DivByPowerOfTwoPipe } from './shared/pipes/div-by-power-of-two.pipe';
+import { ViewValuePipe } from './shared/pipes/view-value.pipe';
 import { ConfigService } from './shared/config.service';
 import { SecurityGroupModule } from './security-group/security-group.module';
 import { TagService } from './shared/services/tag.service';
@@ -90,7 +91,8 @@ import { TagService } from './shared/services/tag.service';
     VmStatisticsComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
-    DivByPowerOfTwoPipe
+    DivByPowerOfTwoPipe,
+    ViewValuePipe
   ],
   entryComponents: [
     VmCreationTemplateDialogComponent,
