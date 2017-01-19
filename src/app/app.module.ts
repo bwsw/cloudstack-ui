@@ -11,23 +11,14 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
-import { VmCreateComponent } from './vm/vm-create.component';
-import { VmCreationTemplateComponent } from './vm/vm-creation-template/vm-creation-template.component';
-import { VmCreationTemplateDialogComponent } from './vm/vm-creation-template/vm-creation-template-dialog.component';
-import {
-  VmCreationTemplateDialogListElementComponent
-} from './vm/vm-creation-template/vm-creation-template-dialog-list-element.component';
-import { VmListComponent } from './vm/vm-list.component';
-import { VmListItemComponent } from './vm/vm-list-item.component';
-import { VmStatisticsComponent } from './vm/vm-statistics.component';
-import { VmDetailComponent } from './vm/vm-detail.component';
+
 import { NotificationBoxComponent } from './notification-box.component';
 import { NotificationBoxItemComponent } from './notification-box-item.component';
 import { ServiceLocator } from './shared/services';
-import { VmService } from './vm/vm.service';
 import { routing } from './app.routing';
 import { SecurityGroupModule } from './security-group/security-group.module';
 import { SharedModule } from './shared/shared.module';
+import { VmModule } from './vm/vm.module';
 
 
 @NgModule({
@@ -41,30 +32,18 @@ import { SharedModule } from './shared/shared.module';
     MdlPopoverModule,
     MdlSelectModule,
     SecurityGroupModule,
+    VmModule,
     SharedModule
   ],
   declarations: [
     AppComponent,
     LoginComponent,
     LogoutComponent,
-    VmCreateComponent,
-    VmCreationTemplateComponent,
-    VmCreationTemplateDialogComponent,
-    VmCreationTemplateDialogListElementComponent,
-    VmListComponent,
-    VmDetailComponent,
-    VmListItemComponent,
-    VmStatisticsComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
   ],
-  entryComponents: [
-    VmCreationTemplateDialogComponent,
-    VmCreationTemplateDialogListElementComponent
-  ],
   providers: [
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
-    VmService,
   ],
   bootstrap: [AppComponent]
 })
