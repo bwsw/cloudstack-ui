@@ -24,7 +24,7 @@ export class VmDetailComponent {
   constructor(private elementRef: ElementRef) { }
 
   @HostListener('document:click', ['$event'])
-  public onDocumentClick(event: MouseEvent) {
+  public onDocumentClick(event: MouseEvent): void {
     const target = event.target;
     if (!target || !this.isOpen || (<Element>event.target).tagName.toLowerCase() === 'span') { // fix!
       return;
@@ -37,7 +37,7 @@ export class VmDetailComponent {
     }
   }
 
-  public toggleServiceOffering() {
+  public toggleServiceOffering(): void {
     this.expandServiceOffering = !this.expandServiceOffering;
   }
 }

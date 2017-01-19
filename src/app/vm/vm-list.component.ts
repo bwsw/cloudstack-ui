@@ -48,7 +48,7 @@ export class VmListComponent implements OnInit {
     private asyncJobService: AsyncJobService
   ) { }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.vmService.getList()
       .then(vmList => {
         this.vmList = vmList;
@@ -101,7 +101,7 @@ export class VmListComponent implements OnInit {
     });
   }
 
-  public onVmAction(e: IVmActionEvent) {
+  public onVmAction(e: IVmActionEvent): void {
     this.translateService.get([
       'YES',
       'NO',
@@ -111,13 +111,13 @@ export class VmListComponent implements OnInit {
     ]).subscribe(strs => {
       this.dialogService.confirm(strs[e.action.confirmMessage], strs.NO, strs.YES)
         .toPromise()
-        .then(r => {
+        .then(() => {
           if (e.vm) {
             e.vm.state = e.action.vmStateOnAction;
           }
           let id = this.jobsNotificationService.add(strs[e.action.progressMessage]);
           this.vmService.command(e.action.nameLower, e.vm.id)
-            .subscribe(result => {
+            .subscribe(() => {
               this.jobsNotificationService.add({
                 id,
                 message: strs[e.action.successMessage],
@@ -126,21 +126,21 @@ export class VmListComponent implements OnInit {
             }
           );
         })
-        .catch(err => {});
+        .catch(() => {});
     });
   }
 
-  public onVmCreated(e) {
+  public onVmCreated(e): void {
     this.vmList.push(e);
     this.vmStats.updateStats();
   }
 
-  public showDetail(vm: VirtualMachine) {
+  public showDetail(vm: VirtualMachine): void {
     this.isDetailOpen = true;
     this.selectedVm = vm;
   }
 
-  public hideDetail() {
+  public hideDetail(): void {
     this.isDetailOpen = false;
   }
 

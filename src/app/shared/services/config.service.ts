@@ -33,7 +33,7 @@ export class ConfigService {
     }
   }
 
-  private handleError() {
+  private handleError(): Promise<any> {
     return Promise.reject('Unable to access config file');
   }
 }

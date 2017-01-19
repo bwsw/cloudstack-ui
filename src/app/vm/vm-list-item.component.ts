@@ -19,7 +19,7 @@ export class VmListItemComponent implements OnInit {
 
   constructor(private asyncJobService: AsyncJobService) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.actions = this.vm.actions.map(a => VirtualMachine.getAction(a));
     this.asyncJobService.event.subscribe((job: IAsyncJob<VirtualMachine>) => {
       if (job.jobResult && job.jobResult.id === this.vm.id) {
@@ -29,12 +29,12 @@ export class VmListItemComponent implements OnInit {
     });
   }
 
-  public handleClick(e: MouseEvent) {
+  public handleClick(e: MouseEvent): void {
     e.stopPropagation();
     this.onClick.emit(this.vm);
   }
 
-  public getAction(event: MouseEvent, act: string) {
+  public getAction(event: MouseEvent, act: string): void {
     event.stopPropagation();
     let e = {
       id: this.vm.id,

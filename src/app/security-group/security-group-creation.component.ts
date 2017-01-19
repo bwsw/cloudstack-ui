@@ -40,7 +40,7 @@ export class SecurityGroupCreationComponent implements OnInit {
     this.selectedRules = [[], []];
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     const securityGroupTemplates = this.securityGroupService.getTemplates();
     const accountSecurityGroups = this.securityGroupService.getList({
       'tags[0].key': 'template',
@@ -55,12 +55,12 @@ export class SecurityGroupCreationComponent implements OnInit {
       });
   }
 
-  public selectGroup(index: number, left: boolean) {
+  public selectGroup(index: number, left: boolean): void {
     this.selectedGroupIndex = index;
     this.selectedColumnIndex = left ? 0 : 1;
   }
 
-  public move(left: boolean) {
+  public move(left: boolean): void {
     if (this.selectedGroupIndex === -1) {
       return;
     }
@@ -100,7 +100,7 @@ export class SecurityGroupCreationComponent implements OnInit {
     this.selectedColumnIndex = -1;
   }
 
-  public onSave() {
+  public onSave(): void {
     this.dialog.hide({
       templates: this.items[1],
       ingress: this.selectedRules[0].filter(rule => rule.checked).map(item => item.rule),
@@ -108,11 +108,11 @@ export class SecurityGroupCreationComponent implements OnInit {
     });
   }
 
-  public onCancel() {
+  public onCancel(): void {
     this.dialog.hide(this.inputRules);
   }
 
-  private initRulesList() {
+  private initRulesList(): void {
     if (!this.inputRules || !this.inputRules.templates.length) {
       return;
     }
@@ -146,14 +146,14 @@ export class SecurityGroupCreationComponent implements OnInit {
     }
   }
 
-  private pushIngressRule(rule, checked) {
+  private pushIngressRule(rule, checked): void {
     this.selectedRules[0].push({
       rule,
       checked
     });
   }
 
-  private pushEgressRule(rule, checked) {
+  private pushEgressRule(rule, checked): void {
     this.selectedRules[1].push({
       rule,
       checked

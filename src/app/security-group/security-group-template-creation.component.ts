@@ -17,7 +17,7 @@ export class SecurityGroupTemplateCreationComponent {
     this.labels = '';
   }
 
-  public onSubmit(e: Event) {
+  public onSubmit(e: Event): void {
     e.preventDefault();
     this.dialog.hide({
       name: this.name,

@@ -21,7 +21,7 @@ export class SecurityGroupTemplateListComponent implements OnInit {
     private translate: TranslateService
   ) { }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     const securityGroupTemplates = this.securityGroupService.getTemplates();
     const accountSecurityGroups = this.securityGroupService.getList({
       'tags[0].key': 'template',
@@ -34,7 +34,7 @@ export class SecurityGroupTemplateListComponent implements OnInit {
       });
   }
 
-  public showCreationDialog() {
+  public showCreationDialog(): void {
     this.dialogObservable = this.dialogService.showCustomDialog({
       component: SecurityGroupTemplateCreationComponent,
       isModal: true,
@@ -53,7 +53,7 @@ export class SecurityGroupTemplateListComponent implements OnInit {
       });
   }
 
-  public createSecurityGroupTemplate(data) {
+  public createSecurityGroupTemplate(data): void {
     this.securityGroupService.createTemplate(data)
       .then(([template, tagObservable]) => {
         tagObservable.subscribe(res => {
@@ -66,7 +66,7 @@ export class SecurityGroupTemplateListComponent implements OnInit {
       });
   }
 
-  public deleteSecurityGroupTemplate(id) {
+  public deleteSecurityGroupTemplate(id): void {
     this.translate.get([
       'YES',
       'NO',

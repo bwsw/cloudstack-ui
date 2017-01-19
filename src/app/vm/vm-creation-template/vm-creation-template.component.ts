@@ -34,7 +34,7 @@ export class VmCreationTemplateComponent implements OnInit, OnChanges {
     }
   }
 
-  public ngOnChanges(changes: SimpleChanges) {
+  public ngOnChanges(changes: SimpleChanges): void {
     for (let propName in changes) {
       if (!changes.hasOwnProperty(propName)) {
         continue;

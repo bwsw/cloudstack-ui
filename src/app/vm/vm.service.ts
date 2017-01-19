@@ -81,7 +81,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
-  public deploy(params: {}) {
+  public deploy(params: {}): Observable<any> {
     const urlParams = new URLSearchParams();
     urlParams.append('command', 'deployVirtualMachine');
 
@@ -95,7 +95,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       .map(result => result.json().deployvirtualmachineresponse);
   }
 
-  public checkCommand(jobId: string) {
+  public checkCommand(jobId: string): Observable<any> {
     return this.jobs.addJob(jobId)
       .map(result => {
         if (result && result.jobResultCode === 0 && result.jobResult) {

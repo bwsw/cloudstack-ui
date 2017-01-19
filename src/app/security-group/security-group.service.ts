@@ -32,7 +32,7 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
       });
   }
 
-  public createTemplate(data: any) {
+  public createTemplate(data: any): Promise<any> {
     return this.create(data)
       .then(res => {
         const id = res.id;
@@ -67,7 +67,7 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
       });
   }
 
-  public deleteTemplate(id: string) {
+  public deleteTemplate(id: string): Promise<any> {
     return this.remove({ id });
   }
 
@@ -90,7 +90,7 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
     });
   }
 
-  public addRule(type: 'Ingress'|'Egress', data) {
+  public addRule(type: 'Ingress'|'Egress', data): Promise<string> {
     return this.postRequest(`authorize;${type}`, data)
       .then(res => {
         const response = res[`authorize${this.entity.toLowerCase()}${type.toLowerCase()}response`];
@@ -99,7 +99,7 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
       });
   }
 
-  public removeRule(type: 'Ingress'|'Egress', data) {
+  public removeRule(type: 'Ingress'|'Egress', data): Promise<string> {
     return this.postRequest(`revoke;${type}`, data)
       .then(res => {
         const response = res[`revoke${this.entity.toLowerCase()}${type.toLowerCase()}response`];

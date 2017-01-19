@@ -80,7 +80,7 @@ export class JobsNotificationService {
     this.notifications.splice(ind, 1);
   }
 
-  public removeAll() {
+  public removeAll(): void {
     this.notifications = this.notifications.filter((n: INotification) => n.status === INotificationStatus.Pending);
   }
 

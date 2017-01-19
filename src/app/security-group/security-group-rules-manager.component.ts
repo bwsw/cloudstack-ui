@@ -28,7 +28,7 @@ export class SecurityGroupRulesManagerComponent implements OnInit, ControlValueA
     this.savedRules = new Rules();
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     if (!this.mode) {
       this.mode = 'create';
     }
@@ -46,20 +46,20 @@ export class SecurityGroupRulesManagerComponent implements OnInit, ControlValueA
     this.propagateChange(value);
   }
 
-  public writeValue(value) {
+  public writeValue(value): void {
     if (value) {
       this.rules = value;
       this.savedRules = this.rules;
     }
   }
 
-  public registerOnChange(fn) {
+  public registerOnChange(fn): void {
     this.propagateChange = fn;
   }
 
   public registerOnTouched() { }
 
-  public showDialog() {
+  public showDialog(): void {
     this.dialogObservable = this.dialogService.showCustomDialog({
       component: SecurityGroupCreationComponent,
       providers: [SecurityGroupService, { provide: 'rules', useValue: this.savedRules }],
@@ -77,11 +77,11 @@ export class SecurityGroupRulesManagerComponent implements OnInit, ControlValueA
       });
   }
 
-  private onDialogHide(data?) {
+  private onDialogHide(data?): void {
     this.updateRules(data);
   }
 
-  private updateRules(rules?) {
+  private updateRules(rules?): void {
     if (!rules) {
       return;
     }

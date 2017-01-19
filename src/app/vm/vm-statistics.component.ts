@@ -15,11 +15,11 @@ export class VmStatisticsComponent implements OnInit {
     this.resourceUsage = new ResourceStats();
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.updateStats();
   }
 
-  public handleCollapse(e: any): void {
+  public handleCollapse(): void {
     this.isOpen = !this.isOpen;
   }
 
