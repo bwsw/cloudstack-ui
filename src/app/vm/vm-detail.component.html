@@ -39,6 +39,16 @@
         <mdl-icon>keyboard_arrow_down</mdl-icon>
       </button>
     </mdl-card-actions>
+    <mdl-card-menu>
+      <button
+        mdl-button
+        mdl-button-type="icon"
+        mdl-ripple
+        (click)="changeServiceOffering()"
+      >
+        <mdl-icon>replay</mdl-icon>
+      </button>
+    </mdl-card-menu>
   </mdl-card>
 
   <mdl-card class="vm-card" mdl-shadow="2">
@@ -199,5 +209,12 @@
       </div>
     </mdl-card-supporting-text>
   </mdl-card>
+
+  <!-- for testing purposes -->
+  <cs-service-offering-selector
+    [(ngModel)]="serviceOfferingSelected"
+  ></cs-service-offering-selector>
+  <!-- for testing purposes -->
+  {{ serviceOfferingSelected }}
 </div>
 

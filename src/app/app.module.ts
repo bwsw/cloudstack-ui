@@ -62,6 +62,7 @@ import { ViewValuePipe } from './shared/pipes/view-value.pipe';
 import { ConfigService } from './shared/config.service';
 import { SecurityGroupModule } from './security-group/security-group.module';
 import { TagService } from './shared/services/tag.service';
+import { ServiceOfferingSelectorComponent } from './service-offering/service-offering-selector.component';
 
 
 @NgModule({
@@ -81,6 +82,7 @@ import { TagService } from './shared/services/tag.service';
     AppComponent,
     LoginComponent,
     LogoutComponent,
+    ServiceOfferingSelectorComponent,
     VmCreateComponent,
     VmCreationTemplateComponent,
     VmCreationTemplateDialogComponent,
