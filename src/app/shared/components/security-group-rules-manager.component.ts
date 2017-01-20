@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
-import { SecurityGroupCreationComponent, Rules } from './security-group-creation.component';
-import { SecurityGroupService } from './security-group.service';
+import { SecurityGroupCreationComponent, Rules } from '../../security-group/security-group-creation.component';
+import { SecurityGroupService } from '../services/';
 import { Observable } from 'rxjs';
 
 @Component({

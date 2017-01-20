@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Http, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs';
 
 import { BaseBackendService, BACKEND_API_URL } from '../shared/services';
@@ -11,7 +12,6 @@ import { OsType } from '../shared/models/os-type.model';
 
 import { AsyncJob } from '../shared/models/async-job.model';
 import { AsyncJobService } from '../shared/services/async-job.service';
-import { Http, URLSearchParams } from '@angular/http';
 import { ServiceOfferingService } from '../shared/services/service-offering.service';
 import { ServiceOffering } from '../shared/models/service-offering.model';
 
@@ -22,7 +22,6 @@ import { ServiceOffering } from '../shared/models/service-offering.model';
   entityModel: VirtualMachine
 })
 export class VmService extends BaseBackendService<VirtualMachine> {
-
   constructor(
     private volumeService: VolumeService,
     private osTypesService: OsTypeService,

@@ -16,7 +16,6 @@ import { VmCreationTemplateDialogComponent } from './vm-creation-template/vm-cre
 import {
   VmCreationTemplateDialogListElementComponent
 } from './vm-creation-template/vm-creation-template-dialog-list-element.component';
-import { SecurityGroupModule } from '../security-group/security-group.module';
 import { SharedModule } from '../shared/shared.module';
 
 
@@ -27,7 +26,6 @@ import { SharedModule } from '../shared/shared.module';
     TranslateModule,
     MdlModule,
     MdlSelectModule,
-    SecurityGroupModule,
     SharedModule
   ],
   declarations: [

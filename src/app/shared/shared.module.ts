@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from 'ng2-translate';
 
 import { DivByPowerOfTwoPipe } from './pipes/div-by-power-of-two.pipe';
 import {
@@ -16,6 +18,7 @@ import {
   OsTypeService,
   ResourceLimitService,
   ResourceUsageService,
+  SecurityGroupService,
   ServiceOfferingFilterService,
   ServiceOfferingService,
   SnapshotService,
@@ -26,11 +29,20 @@ import {
   VolumeService,
   ZoneService
 } from './services';
+import { SecurityGroupRulesManagerComponent } from './components/security-group-rules-manager.component';
 
 
 @NgModule({
-  exports: [ DivByPowerOfTwoPipe ],
+  imports: [
+    CommonModule,
+    TranslateModule
+  ],
+  exports: [
+    SecurityGroupRulesManagerComponent,
+    DivByPowerOfTwoPipe
+  ],
   declarations: [
+    SecurityGroupRulesManagerComponent,
     DivByPowerOfTwoPipe
   ],
   providers: [
@@ -49,6 +61,7 @@ import {
     ResourceLimitService,
     ResourceUsageService,
     SSHKeyPairService,
+    SecurityGroupService,
     ServiceOfferingFilterService,
     ServiceOfferingService,
     SnapshotService,

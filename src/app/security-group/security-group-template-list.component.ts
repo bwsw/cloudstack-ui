@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 
-import { SecurityGroupService } from './security-group.service';
+import { SecurityGroupService } from '../shared/services/';
 import { SecurityGroup } from './security-group.model';
 import { SecurityGroupTemplateCreationComponent } from './security-group-template-creation.component';
 

@@ -22,7 +22,7 @@ import { DiskStorageService } from '../shared/services/disk-storage.service';
 import { ServiceOfferingFilterService } from '../shared/services/service-offering-filter.service';
 import { ResourceUsageService } from '../shared/services/resource-usage.service';
 import { Template } from '../shared/models/template.model';
-import { SecurityGroupService } from '../security-group/security-group.service';
+import { SecurityGroupService } from '../shared/services/';
 import * as UUID from 'uuid';
 import { Rules } from '../security-group/security-group-creation.component';
 

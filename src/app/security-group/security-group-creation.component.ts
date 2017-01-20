@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { SecurityGroupService } from './security-group.service';
+import { SecurityGroupService } from '../shared/services/';
 import { SecurityGroup, NetworkRule } from './security-group.model';
 import { MdlDialogReference } from 'angular2-mdl';
 

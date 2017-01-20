@@ -4,9 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
 
-import { SecurityGroupService } from './security-group.service';
 import { SecurityGroupCreationComponent } from './security-group-creation.component';
-import { SecurityGroupRulesManagerComponent } from './security-group-rules-manager.component';
 import { SecurityGroupTemplateListComponent } from './security-group-template-list.component';
 import { SecurityGroupTemplateListItemComponent } from './security-group-template-list-item.component';
 import { SecurityGroupTemplateCreationComponent } from './security-group-template-creation.component';
@@ -20,17 +18,14 @@ import { SecurityGroupTemplateCreationComponent } from './security-group-templat
   ],
   exports: [
     SecurityGroupCreationComponent,
-    SecurityGroupRulesManagerComponent,
     SecurityGroupTemplateListComponent
   ],
   declarations: [
     SecurityGroupCreationComponent,
-    SecurityGroupRulesManagerComponent,
     SecurityGroupTemplateListComponent,
     SecurityGroupTemplateListItemComponent,
     SecurityGroupTemplateCreationComponent
   ],
-  providers: [ SecurityGroupService ],
   entryComponents: [
     SecurityGroupCreationComponent,
     SecurityGroupTemplateCreationComponent

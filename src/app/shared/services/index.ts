@@ -14,6 +14,7 @@ export * from './os-type.service';
 export * from './resource-limit.service';
 export * from './resource-limit.service';
 export * from './resource-usage.service';
+export * from './security-group.service';
 export * from './service-locator';
 export * from './service-offering-filter.service';
 export * from './service-offering.service';
