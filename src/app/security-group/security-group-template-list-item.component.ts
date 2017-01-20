@@ -8,5 +8,6 @@ import { SecurityGroup } from './security-group.model';
 })
 export class SecurityGroupTemplateListItemComponent {
   @Input() public securityGroupTemplate: SecurityGroup;
+  @Output() public onClick = new EventEmitter();
   @Output() public onDelete = new EventEmitter();
 }

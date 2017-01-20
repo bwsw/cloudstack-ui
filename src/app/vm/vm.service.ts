@@ -108,7 +108,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public resubscribe(): Promise<Array<Observable<AsyncJob>>> {
     return this.jobs.getList().then(jobs => {
-      let filteredJobs = jobs.filter(job => !job.jobStatus && (/^org\.apache\.cloudstack\.api\.command\.user\.vm\.(\w*)VMCmd$/).test(job.cmd));
+      const cmdRegex = /^org\.apache\.cloudstack\.api\.command\.user\.vm\.(\w*)VMCmd$/;
+      let filteredJobs = jobs.filter(job => !job.jobStatus && cmdRegex.test(job.cmd));
       let observables = [];
       filteredJobs.forEach(job => {
         observables.push(this.checkCommand(job.jobId));
