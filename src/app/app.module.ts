@@ -16,7 +16,7 @@ import { NotificationBoxComponent } from './notification-box.component';
 import { NotificationBoxItemComponent } from './notification-box-item.component';
 import { ServiceLocator } from './shared/services';
 import { routing } from './app.routing';
-import { SecurityGroupModule } from './security-group/security-group.module';
+import { SecurityGroupModule } from './security-group/sg.module';
 import { SharedModule } from './shared/shared.module';
 import { VmModule } from './vm/vm.module';
 

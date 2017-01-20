@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ConfigService } from './config.service';
-import { SecurityGroup } from '../../security-group/security-group.model';
+import { SecurityGroup } from '../../security-group/sg.model';
 import { BaseBackendService } from './base-backend.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { TagService } from './tag.service';
 import { AsyncJobService } from './async-job.service';
-import { NetworkRule } from '../../security-group/security-group.model';
+import { NetworkRule } from '../../security-group/sg.model';
 
 
 @Injectable()

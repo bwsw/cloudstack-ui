@@ -1,12 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { SecurityGroup } from './security-group.model';
+import { SecurityGroup } from '../sg.model';
 
 @Component({
   selector: 'cs-security-group-template-list-item',
-  templateUrl: './security-group-template-list-item.component.html',
-  styleUrls: ['./security-group-template-list-item.component.scss']
+  templateUrl: 'sg-template-list-item.component.html',
+  styleUrls: ['sg-template-list-item.component.scss']
 })
-export class SecurityGroupTemplateListItemComponent {
+export class SgTemplateListItemComponent {
   @Input() public securityGroupTemplate: SecurityGroup;
   @Output() public onDelete = new EventEmitter();
 }

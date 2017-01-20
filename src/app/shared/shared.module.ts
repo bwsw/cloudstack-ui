@@ -29,7 +29,7 @@ import {
   VolumeService,
   ZoneService
 } from './services';
-import { SecurityGroupRulesManagerComponent } from './components/security-group-rules-manager.component';
+import { SgRulesManagerComponent } from './components/sg-rules-manager.component';
 
 
 @NgModule({
@@ -38,11 +38,11 @@ import { SecurityGroupRulesManagerComponent } from './components/security-group-
     TranslateModule
   ],
   exports: [
-    SecurityGroupRulesManagerComponent,
+    SgRulesManagerComponent,
     DivByPowerOfTwoPipe
   ],
   declarations: [
-    SecurityGroupRulesManagerComponent,
+    SgRulesManagerComponent,
     DivByPowerOfTwoPipe
   ],
   providers: [

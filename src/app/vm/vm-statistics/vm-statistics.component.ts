@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ResourceUsageService, ResourceStats } from '../shared/services/resource-usage.service';
+import { ResourceUsageService, ResourceStats } from '../../shared/services/resource-usage.service';
 
 
 @Component({
   selector: 'cs-vm-statistics',
-  templateUrl: './vm-statistics.component.html',
-  styleUrls: ['./vm-statistics.component.scss']
+  templateUrl: 'vm-statistics.component.html',
+  styleUrls: ['vm-statistics.component.scss']
 })
 export class VmStatisticsComponent implements OnInit {
   public resourceUsage: ResourceStats;

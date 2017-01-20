@@ -1,20 +1,20 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 
-import { VmService } from './vm.service';
-import { VirtualMachine } from './vm.model';
+import { VmService } from '../vm.service';
+import { VirtualMachine } from '../vm.model';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
-import { IStorageService } from '../shared/services/storage.service';
-import { VmCreateComponent } from './vm-create.component';
+import { IStorageService } from '../../shared/services/storage.service';
+import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import {
   JobsNotificationService,
   INotificationStatus
-} from '../shared/services/jobs-notification.service';
+} from '../../shared/services/jobs-notification.service';
 
-import { IVmAction } from './vm.model';
-import { IAsyncJob } from '../shared/models/async-job.model';
-import { AsyncJobService } from '../shared/services/async-job.service';
-import { VmStatisticsComponent } from './vm-statistics.component';
+import { IVmAction } from '../vm.model';
+import { IAsyncJob } from '../../shared/models/async-job.model';
+import { AsyncJobService } from '../../shared/services/async-job.service';
+import { VmStatisticsComponent } from '../vm-statistics/vm-statistics.component';
 import * as UUID from 'uuid';
 
 
@@ -27,13 +27,12 @@ interface IVmActionEvent {
 
 @Component({
   selector: 'cs-vm-list',
-  templateUrl: './vm-list.component.html',
-  styleUrls: ['./vm-list.component.scss']
+  templateUrl: 'vm-list.component.html',
+  styleUrls: ['vm-list.component.scss']
 })
 export class VmListComponent implements OnInit {
-
   @ViewChild(VmStatisticsComponent) public vmStats: VmStatisticsComponent;
-  @ViewChild(VmCreateComponent) public vmCreationForm: VmCreateComponent;
+  @ViewChild(VmCreationComponent) public vmCreationForm: VmCreationComponent;
 
   private vmList: Array<VirtualMachine>;
   private selectedVm: VirtualMachine;

@@ -1,7 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { SecurityGroupService } from '../shared/services/';
-import { SecurityGroup, NetworkRule } from './security-group.model';
 import { MdlDialogReference } from 'angular2-mdl';
+
+import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { SecurityGroup, NetworkRule } from '../sg.model';
 
 interface RuleListItem {
   rule: NetworkRule;
@@ -9,9 +10,9 @@ interface RuleListItem {
 }
 
 export class Rules { // defines what should be passed to inputRules
-  templates?: Array<SecurityGroup>; // array of security groups ids
-  ingress: Array<NetworkRule>;
-  egress: Array<NetworkRule>;
+  public templates?: Array<SecurityGroup>; // array of security groups ids
+  public ingress: Array<NetworkRule>;
+  public egress: Array<NetworkRule>;
 
   constructor() {
     this.ingress = [];
@@ -22,10 +23,10 @@ export class Rules { // defines what should be passed to inputRules
 
 @Component({
   selector: 'cs-security-group-creation',
-  templateUrl: './security-group-creation.component.html',
-  styleUrls: ['./security-group-creation.component.scss'],
+  templateUrl: 'sg-creation.component.html',
+  styleUrls: ['sg-creation.component.scss'],
 })
-export class SecurityGroupCreationComponent implements OnInit {
+export class SgCreationComponent implements OnInit {
   private items: Array<Array<SecurityGroup>>;
   private selectedGroupIndex: number;
   private selectedColumnIndex: number;

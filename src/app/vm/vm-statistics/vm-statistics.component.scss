@@ -8,8 +8,8 @@ $vm-detail-width: 365px;
 
 .progress {
   margin-left: 16px;
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-left: 0;
+  padding-right: 0;
   padding-top: 8px;
 }
 
@@ -60,7 +60,7 @@ button.closed {
 }
 
 div.closed {
-  height: 0px;
+  height: 0;
   transition: margin 0.3s;
   overflow: hidden;
 }

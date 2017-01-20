@@ -1,16 +1,16 @@
 import { Component, OnInit, ChangeDetectorRef, Inject } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
-import { TemplateService } from '../../shared/services';
-import { Template } from '../../shared/models';
+import { TemplateService } from '../../../shared/services';
+import { Template } from '../../../shared/models';
 import { PRESELECTED_TEMPLATE_TOKEN } from './injector-token';
 
 
 @Component({
   selector: 'cs-vm-creation-template-dialog',
-  templateUrl: './vm-creation-template-dialog.component.html',
-  styleUrls: ['./vm-creation-template-dialog.component.scss']
+  templateUrl: 'vm-template-dialog.component.html',
+  styleUrls: ['vm-template-dialog.component.scss']
 })
-export class VmCreationTemplateDialogComponent implements OnInit {
+export class VmTemplateDialogComponent implements OnInit {
   private activeTab: number;
   private loaded: boolean;
   private selectedTemplate: Template;

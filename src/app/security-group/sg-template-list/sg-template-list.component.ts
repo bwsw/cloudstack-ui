@@ -3,15 +3,15 @@ import { Observable } from 'rxjs';
 import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 
-import { SecurityGroupService } from '../shared/services/';
-import { SecurityGroup } from './security-group.model';
-import { SecurityGroupTemplateCreationComponent } from './security-group-template-creation.component';
+import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { SecurityGroup } from '../sg.model';
+import { SgTemplateCreationComponent } from '../sg-template-creation/sg-template-creation.component';
 
 @Component({
   selector: 'cs-security-group-template-list',
-  templateUrl: './security-group-template-list.component.html'
+  templateUrl: 'sg-template-list.component.html'
 })
-export class SecurityGroupTemplateListComponent implements OnInit {
+export class SgTemplateListComponent implements OnInit {
   private securityGroupList: Array<SecurityGroup>;
   private dialogObservable: Observable<MdlDialogReference>;
 
@@ -36,7 +36,7 @@ export class SecurityGroupTemplateListComponent implements OnInit {
 
   public showCreationDialog(): void {
     this.dialogObservable = this.dialogService.showCustomDialog({
-      component: SecurityGroupTemplateCreationComponent,
+      component: SgTemplateCreationComponent,
       isModal: true,
       styles: { 'width': '450px' },
       clickOutsideToClose: true,

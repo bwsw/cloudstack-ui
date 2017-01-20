@@ -1,14 +1,14 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
-import { VirtualMachine, IVmAction } from './vm.model';
-import { AsyncJobService } from '../shared/services/async-job.service';
-import { IAsyncJob } from '../shared/models/async-job.model';
+import { VirtualMachine, IVmAction } from '../vm.model';
+import { AsyncJobService } from '../../shared/services/async-job.service';
+import { IAsyncJob } from '../../shared/models/async-job.model';
 
 
 @Component({
   selector: 'cs-vm-list-item',
-  templateUrl: './vm-list-item.component.html',
-  styleUrls: ['./vm-list-item.component.scss']
+  templateUrl: 'vm-list-item.component.html',
+  styleUrls: ['vm-list-item.component.scss']
 })
 export class VmListItemComponent implements OnInit {
   @Input() public vm: VirtualMachine;

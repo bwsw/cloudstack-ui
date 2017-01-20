@@ -1,30 +1,31 @@
 import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
-import { ZoneService } from '../shared/services/zone.service';
-import { Zone } from '../shared/models/zone.model';
-import { SSHKeyPair } from '../shared/models/SSHKeyPair.model';
-import { ServiceOffering } from '../shared/models/service-offering.model';
-import { AffinityGroupService } from '../shared/services/affinity-group.service';
-import { AffinityGroup } from '../shared/models/affinity-group.model';
-import { SSHKeyPairService } from '../shared/services/SSHKeyPair.service';
-import { MdlDialogComponent } from 'angular2-mdl';
-import { VmService } from './vm.service';
-import { VirtualMachine, MIN_ROOT_DISK_SIZE, MAX_ROOT_DISK_SIZE_ADMIN } from './vm.model';
 import { TranslateService } from 'ng2-translate';
+import * as UUID from 'uuid';
+
+import { ZoneService } from '../../shared/services/zone.service';
+import { Zone } from '../../shared/models/zone.model';
+import { SSHKeyPair } from '../../shared/models/SSHKeyPair.model';
+import { ServiceOffering } from '../../shared/models/service-offering.model';
+import { AffinityGroupService } from '../../shared/services/affinity-group.service';
+import { AffinityGroup } from '../../shared/models/affinity-group.model';
+import { SSHKeyPairService } from '../../shared/services/SSHKeyPair.service';
+import { MdlDialogComponent } from 'angular2-mdl';
+import { VmService } from '../vm.service';
+import { VirtualMachine, MIN_ROOT_DISK_SIZE, MAX_ROOT_DISK_SIZE_ADMIN } from '../vm.model';
 
 import {
   JobsNotificationService,
   INotificationStatus
-} from '../shared/services/jobs-notification.service';
+} from '../../shared/services/jobs-notification.service';
 
-import { TemplateService } from '../shared/services/template.service';
-import { NotificationService } from '../shared/services/notification.service';
-import { DiskStorageService } from '../shared/services/disk-storage.service';
-import { ServiceOfferingFilterService } from '../shared/services/service-offering-filter.service';
-import { ResourceUsageService } from '../shared/services/resource-usage.service';
-import { Template } from '../shared/models/template.model';
-import { SecurityGroupService } from '../shared/services/';
-import * as UUID from 'uuid';
-import { Rules } from '../security-group/security-group-creation.component';
+import { TemplateService } from '../../shared/services/template.service';
+import { NotificationService } from '../../shared/services/notification.service';
+import { DiskStorageService } from '../../shared/services/disk-storage.service';
+import { ServiceOfferingFilterService } from '../../shared/services/service-offering-filter.service';
+import { ResourceUsageService } from '../../shared/services/resource-usage.service';
+import { Template } from '../../shared/models/template.model';
+import { Rules } from '../../security-group/sg-creation/sg-creation.component';
+import { SecurityGroupService } from '../../shared/services/security-group.service';
 
 
 class VmCreationData {
@@ -57,10 +58,10 @@ class VmCreationData {
 
 @Component({
   selector: 'cs-vm-create',
-  templateUrl: './vm-create.component.html',
-  styleUrls: ['./vm-create.component.scss']
+  templateUrl: 'vm-creation.component.html',
+  styleUrls: ['vm-creation.component.scss']
 })
-export class VmCreateComponent {
+export class VmCreationComponent {
   @ViewChild(MdlDialogComponent) public vmCreateDialog: MdlDialogComponent;
   @Output() public onCreated: EventEmitter<any> = new EventEmitter();
 

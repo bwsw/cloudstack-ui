@@ -7,12 +7,12 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { VirtualMachine } from './vm.model';
+import { VirtualMachine } from '../vm.model';
 
 @Component({
   selector: 'cs-vm-detail',
-  templateUrl: './vm-detail.component.html',
-  styleUrls: ['./vm-detail.component.scss']
+  templateUrl: 'vm-detail.component.html',
+  styleUrls: ['vm-detail.component.scss']
 })
 export class VmDetailComponent {
   @Output() public onClickOutside = new EventEmitter();

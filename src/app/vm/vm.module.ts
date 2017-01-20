@@ -5,17 +5,17 @@ import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 
-import { VmCreateComponent } from './vm-create.component';
-import { VmListComponent } from './vm-list.component';
-import { VmListItemComponent } from './vm-list-item.component';
-import { VmDetailComponent } from './vm-detail.component';
-import { VmStatisticsComponent } from './vm-statistics.component';
+import { VmCreationComponent } from './vm-creation/vm-creation.component';
+import { VmListComponent } from './vm-list/vm-list.component';
+import { VmListItemComponent } from './vm-list/vm-list-item.component';
+import { VmDetailComponent } from './vm-list/vm-detail.component';
+import { VmStatisticsComponent } from './vm-statistics/vm-statistics.component';
 import { VmService } from './vm.service';
-import { VmCreationTemplateComponent } from './vm-creation-template/vm-creation-template.component';
-import { VmCreationTemplateDialogComponent } from './vm-creation-template/vm-creation-template-dialog.component';
+import { VmTemplateComponent } from './vm-creation/vm-creation-template/vm-template.component';
+import { VmTemplateDialogComponent } from './vm-creation/vm-creation-template/vm-template-dialog.component';
 import {
-  VmCreationTemplateDialogListElementComponent
-} from './vm-creation-template/vm-creation-template-dialog-list-element.component';
+  VmTemplateDialogItemComponent
+} from './vm-creation/vm-creation-template/vm-template-dialog-item.component';
 import { SharedModule } from '../shared/shared.module';
 
 
@@ -30,18 +30,18 @@ import { SharedModule } from '../shared/shared.module';
   ],
   declarations: [
     VmListComponent,
-    VmCreateComponent,
+    VmCreationComponent,
     VmListItemComponent,
     VmDetailComponent,
     VmStatisticsComponent,
-    VmCreationTemplateComponent,
-    VmCreationTemplateDialogComponent,
-    VmCreationTemplateDialogListElementComponent,
+    VmTemplateComponent,
+    VmTemplateDialogComponent,
+    VmTemplateDialogItemComponent,
   ],
   providers: [ VmService ],
   entryComponents: [
-    VmCreationTemplateDialogComponent,
-    VmCreationTemplateDialogListElementComponent
+    VmTemplateDialogComponent,
+    VmTemplateDialogItemComponent
   ]
 })
 export class VmModule { }

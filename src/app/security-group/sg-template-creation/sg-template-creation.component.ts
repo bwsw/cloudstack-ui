@@ -3,10 +3,10 @@ import { MdlDialogReference } from 'angular2-mdl';
 
 @Component({
   selector: 'cs-security-group-template-creation',
-  templateUrl: './security-group-template-creation.component.html',
-  styleUrls: ['./security-group-template-creation.component.scss']
+  templateUrl: 'sg-template-creation.component.html',
+  styleUrls: ['sg-template-creation.component.scss']
 })
-export class SecurityGroupTemplateCreationComponent {
+export class SgTemplateCreationComponent {
   private name: string;
   private description: string;
   private labels: string;

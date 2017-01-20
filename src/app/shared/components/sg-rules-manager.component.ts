@@ -1,23 +1,23 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
-import { SecurityGroupCreationComponent, Rules } from '../../security-group/security-group-creation.component';
+import { SgCreationComponent, Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { SecurityGroupService } from '../services/';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cs-security-group-rules-manager',
-  templateUrl: './security-group-rules-manager.component.html',
-  styleUrls: ['./security-group-rules-manager.component.scss'],
+  templateUrl: 'sg-rules-manager.component.html',
+  styleUrls: ['sg-rules-manager.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SecurityGroupRulesManagerComponent),
+      useExisting: forwardRef(() => SgRulesManagerComponent),
       multi: true
     }
   ]
 })
-export class SecurityGroupRulesManagerComponent implements OnInit, ControlValueAccessor {
+export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
   @Input() public mode: 'create' | 'edit';
   public savedRules: Rules;
 
@@ -61,7 +61,7 @@ export class SecurityGroupRulesManagerComponent implements OnInit, ControlValueA
 
   public showDialog(): void {
     this.dialogObservable = this.dialogService.showCustomDialog({
-      component: SecurityGroupCreationComponent,
+      component: SgCreationComponent,
       providers: [SecurityGroupService, { provide: 'rules', useValue: this.savedRules }],
       isModal: true,
       styles: { 'width': '800px' },
