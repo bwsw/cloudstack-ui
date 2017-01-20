@@ -5,13 +5,12 @@ import {
   HostBinding,
   HostListener,
   Input,
-  Output, OnInit
+  Output
 } from '@angular/core';
 import { VirtualMachine } from './vm.model';
 import { ServiceOfferingService } from '../shared/services/service-offering.service';
-import { ServiceOffering } from '../shared/models/service-offering.model';
-import { ServiceOfferingSelectorComponent } from '../service-offering/service-offering-selector.component';
-import { MdlDialogComponent, MdlDialogService } from 'angular2-mdl';
+import { MdlDialogService } from 'angular2-mdl';
+import { ServiceOfferingDialogComponent } from '../service-offering/service-offering-dialog.component';
 
 @Component({
   selector: 'cs-vm-detail',
@@ -28,7 +27,6 @@ export class VmDetailComponent {
 
   constructor(
     private elementRef: ElementRef,
-    private serviceOfferingService: ServiceOfferingService,
     private dialogService: MdlDialogService
   ) {
     this.expandNIC = false;
@@ -58,12 +56,17 @@ export class VmDetailComponent {
 
   public changeServiceOffering() {
     this.dialogService.showCustomDialog({
-      component: ServiceOfferingSelectorComponent,
+      component: ServiceOfferingDialogComponent,
+      providers: [{ provide: 'virtualMachineId', useValue: this.vm.id }],
       isModal: true,
-      styles: { 'width': '400px' },
+      styles: {
+        'overflow': 'visible',
+        'width': '400px'
+      },
       clickOutsideToClose: true,
       enterTransitionDuration: 400,
       leaveTransitionDuration: 400
     });
   }
 }
+

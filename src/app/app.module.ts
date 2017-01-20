@@ -62,6 +62,7 @@ import { ViewValuePipe } from './shared/pipes/view-value.pipe';
 import { ConfigService } from './shared/config.service';
 import { SecurityGroupModule } from './security-group/security-group.module';
 import { TagService } from './shared/services/tag.service';
+import { ServiceOfferingDialogComponent } from './service-offering/service-offering-dialog.component';
 import { ServiceOfferingSelectorComponent } from './service-offering/service-offering-selector.component';
 
 
@@ -82,6 +83,7 @@ import { ServiceOfferingSelectorComponent } from './service-offering/service-off
     AppComponent,
     LoginComponent,
     LogoutComponent,
+    ServiceOfferingDialogComponent,
     ServiceOfferingSelectorComponent,
     VmCreateComponent,
     VmCreationTemplateComponent,
@@ -97,6 +99,8 @@ import { ServiceOfferingSelectorComponent } from './service-offering/service-off
     ViewValuePipe
   ],
   entryComponents: [
+    ServiceOfferingSelectorComponent,
+    ServiceOfferingDialogComponent,
     VmCreationTemplateDialogComponent,
     VmCreationTemplateDialogListElementComponent
   ],

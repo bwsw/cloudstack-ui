@@ -3,7 +3,6 @@ import { ServiceOfferingService } from '../shared/services/service-offering.serv
 import { ServiceOfferingFilterService } from '../shared/services/service-offering-filter.service';
 import { ServiceOffering } from '../shared/models/service-offering.model';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { SecurityGroupRulesManagerComponent } from '../security-group/security-group-rules-manager.component';
 
 
 @Component({
@@ -31,7 +30,6 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor, O
   public set serviceOffering(value) {
     this._serviceOffering = value;
     this.propagateChange(value);
-    console.log(value);
   }
 
   public writeValue(value) {
