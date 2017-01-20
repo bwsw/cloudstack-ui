@@ -57,7 +57,7 @@ export class VmDetailComponent {
   public changeServiceOffering() {
     this.dialogService.showCustomDialog({
       component: ServiceOfferingDialogComponent,
-      providers: [{ provide: 'virtualMachineId', useValue: this.vm.id }],
+      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
       isModal: true,
       styles: {
         'overflow': 'visible',

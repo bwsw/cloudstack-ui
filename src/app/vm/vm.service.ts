@@ -117,6 +117,18 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
+  public changeServiceOffering(serviceOfferingId: string, id: string): Observable<VirtualMachine> {
+    const urlParams = new URLSearchParams();
+
+    urlParams.append('command', 'changeServiceForVirtualMachine');
+    urlParams.append('response', 'json');
+    urlParams.append('id', id);
+    urlParams.append('serviceofferingid', serviceOfferingId);
+
+    return this.http.get(BACKEND_API_URL, { search: urlParams })
+      .map(result => result.json().virtualmachine);
+  }
+
   public command(command: string, id?: string, params?: {}): Observable<AsyncJob> {
     const urlParams = new URLSearchParams();
 
