@@ -41,6 +41,7 @@
     </mdl-card-actions>
     <mdl-card-menu>
       <button
+        [disabled]="!vm.canApply('changeOffering')"
         mdl-button
         mdl-button-type="icon"
         mdl-ripple

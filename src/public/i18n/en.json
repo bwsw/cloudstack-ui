@@ -186,5 +186,8 @@
   "INSUFFICIENT_RESOURCES": "Insufficient resources",
 
   "CHOOSE_SERVICE_OFFERING": "Choose service offering",
-  "CHANGE": "Change"
+  "CHANGE": "Change",
+
+  "OFFERING_CHANGED": "Offering changed",
+  "OFFERING_CHANGE_FAILED": "Offering change failed"
 }

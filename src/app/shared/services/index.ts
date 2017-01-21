@@ -20,5 +20,6 @@ export * from './SSHKeyPair.service';
 export * from './snapshot.service';
 export * from './storage.service';
 export * from './template.service';
+export * from './vm-update.service';
 export * from './volume.service';
 export * from './zone.service';

@@ -136,6 +136,8 @@ export class VirtualMachine extends BaseModel {
       case 'stop':
       case 'reboot':
         return state !== 'Stopped';
+      case 'changeOffering':
+        return state === 'Stopped';
     }
 
     return true;

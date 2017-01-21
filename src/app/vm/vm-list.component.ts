@@ -16,7 +16,13 @@ import { IAsyncJob } from '../shared/models/async-job.model';
 import { AsyncJobService } from '../shared/services/async-job.service';
 import { VmStatisticsComponent } from './vm-statistics.component';
 import * as UUID from 'uuid';
+import { VmUpdateService } from '../shared/services/vm-update.service';
 
+
+interface IVmPair {
+  vm1: VirtualMachine;
+  vm2?: VirtualMachine;
+}
 
 interface IVmActionEvent {
   id: string;
@@ -45,7 +51,8 @@ export class VmListComponent implements OnInit {
     private translateService: TranslateService,
     @Inject('IStorageService') protected storageService: IStorageService,
     private jobsNotificationService: JobsNotificationService,
-    private asyncJobService: AsyncJobService
+    private asyncJobService: AsyncJobService,
+    private vmUpdateService: VmUpdateService
   ) { }
 
   public ngOnInit() {
@@ -97,6 +104,16 @@ export class VmListComponent implements OnInit {
             });
           });
         });
+      });
+    });
+    this.vmUpdateService.subscribe(updatedVm => {
+      this.vmList.forEach((vm, index, array) => {
+        if (vm.id === updatedVm.id) {
+          this.vmService.get(updatedVm.id).then(result => {
+            array[index] = result;
+          });
+          this.vmStats.updateStats();
+        }
       });
     });
   }

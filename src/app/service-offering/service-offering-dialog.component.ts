@@ -4,6 +4,10 @@ import { VirtualMachine } from '../vm/vm.model';
 import { VmService } from '../vm/vm.service';
 import { JobsNotificationService, INotificationStatus } from '../shared/services/jobs-notification.service';
 import * as UUID from 'uuid';
+import { VmUpdateService } from '../shared/services/vm-update.service';
+import { ErrorService } from '../shared/services/error.service';
+import { NotificationService } from '../shared/notification.service';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'cs-service-offering-dialog',
@@ -17,7 +21,10 @@ export class ServiceOfferingDialogComponent {
     private dialog: MdlDialogReference,
     @Inject('virtualMachine') private virtualMachine: VirtualMachine,
     private vmService: VmService,
-    private jobNotificationService: JobsNotificationService
+    private jobNotificationService: JobsNotificationService,
+    private notificationService: NotificationService,
+    private vmUpdateService: VmUpdateService,
+    private translateService: TranslateService
   ) {}
 
   public onChange() {
@@ -30,13 +37,28 @@ export class ServiceOfferingDialogComponent {
   }
 
   private changeServiceOffering(serviceOfferingId: string, virtualMachine: VirtualMachine) {
-    this.vmService.changeServiceOffering(this.serviceOfferingId, this.virtualMachine.id)
-      .subscribe(result => {
-      this.jobNotificationService.add({
-        id: UUID.v4(),
-        message: 'Offering changed',
-        status: INotificationStatus.Finished
-      });
+    this.translateService.get([
+      'OFFERING_CHANGED',
+      'OFFERING_CHANGE_FAILED',
+      'UNEXPECTED_ERROR'
+    ]).subscribe(strs => {
+      if (this.virtualMachine.serviceOfferingId === this.serviceOfferingId) { return }
+      this.vmService.changeServiceOffering(this.serviceOfferingId, this.virtualMachine.id)
+        .subscribe(result => {
+          this.jobNotificationService.add({
+            id: UUID.v4(),
+            message: strs['OFFERING_CHANGED'],
+            status: INotificationStatus.Finished
+          });
+          this.vmUpdateService.next(result);
+        }, error => {
+          this.jobNotificationService.add({
+            id: UUID.v4(),
+            message: strs['OFFERING_CHANGE_FAILED'],
+            status: INotificationStatus.Failed
+          });
+          this.notificationService.error(strs['UNEXPECTED_ERROR']);
+        });
     });
   }
 }
