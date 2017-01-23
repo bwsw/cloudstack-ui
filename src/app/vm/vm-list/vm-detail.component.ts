@@ -40,11 +40,19 @@ export class VmDetailComponent {
     }
   }
 
-  public toggleNIC() {
+  public toggleNIC(): void {
     this.expandNIC = !this.expandNIC;
   }
 
   public toggleServiceOffering(): void {
     this.expandServiceOffering = !this.expandServiceOffering;
+  }
+
+  public openConsole(): void {
+    window.open(
+      `/client/console?cmd=access&vm=${this.vm.id}`,
+      this.vm.displayName,
+      'resizable=0,width=820,height=640'
+    );
   }
 }
