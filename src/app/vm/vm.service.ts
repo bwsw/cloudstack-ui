@@ -35,6 +35,10 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     this.vmUpdateObservable = new Subject<VirtualMachine>();
   }
 
+  public updateVmInfo(vm: VirtualMachine): void {
+    this.vmUpdateObservable.next(vm);
+  }
+
   public get(id: string): Promise<VirtualMachine> {
     const volumesRequest = this.volumeService.getList();
     const vmRequest = super.get(id);

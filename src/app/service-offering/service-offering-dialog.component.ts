@@ -48,7 +48,7 @@ export class ServiceOfferingDialogComponent {
             message: strs['OFFERING_CHANGED'],
             status: INotificationStatus.Finished
           });
-          this.vmService.vmUpdateObservable.next(result);
+          this.vmService.updateVmInfo(result);
         }, () => {
           this.jobNotificationService.add({
             message: strs['OFFERING_CHANGE_FAILED'],
