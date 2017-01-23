@@ -40,7 +40,7 @@
   <mdl-card-actions>
     <button
       mdl-button
-      disabled="{{ securityGroupTemplate.id.startsWith('template') }}"
+      disabled="{{ securityGroupTemplate.isPredefinedTemplate() }}"
       (click)="$event.stopPropagation(); onDelete.emit(securityGroupTemplate.id)"
     >
       {{ 'DELETE' | translate }}
