@@ -15,11 +15,6 @@ interface IAffinityGroup {
   name: string;
 }
 
-interface ISecurityGroup {
-  id: string;
-  name: string;
-}
-
 export interface IVmAction {
   name: string;
   nameLower: string;
@@ -71,7 +66,7 @@ export class VirtualMachine extends BaseModel {
   // IP addresses
   public nic: Array<NIC>;
   // Security Group
-  public securityGroup: Array<ISecurityGroup>;
+  public securityGroup: Array<SecurityGroup>;
   // Affinity Group
   public affinityGroup: Array<IAffinityGroup>;
   // Zone
