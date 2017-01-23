@@ -6,6 +6,8 @@ import { TranslateService } from 'ng2-translate';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { SecurityGroup } from '../sg.model';
 import { SgTemplateCreationComponent } from '../sg-template-creation/sg-template-creation.component';
+import { SgRulesComponent } from '../sg-rules/sg-rules.component';
+import { AsyncJobService } from '../../shared/services/async-job.service';
 
 @Component({
   selector: 'cs-security-group-template-list',
@@ -34,25 +36,6 @@ export class SgTemplateListComponent implements OnInit {
       });
   }
 
-  public showCreationDialog(): void {
-    this.dialogObservable = this.dialogService.showCustomDialog({
-      component: SgTemplateCreationComponent,
-      isModal: true,
-      styles: { 'width': '450px' },
-      clickOutsideToClose: true,
-      enterTransitionDuration: 400,
-      leaveTransitionDuration: 400
-    });
-
-    this.dialogObservable.switchMap(res => res.onHide())
-      .subscribe((data: any) => {
-        if (!data) {
-          return;
-        }
-        this.createSecurityGroupTemplate(data);
-      });
-  }
-
   public createSecurityGroupTemplate(data): void {
     this.securityGroupService.createTemplate(data)
       .then(([template, tagObservable]) => {
@@ -76,16 +59,46 @@ export class SgTemplateListComponent implements OnInit {
         translations['CONFIRM_DELETE_TEMPLATE'],
         translations['NO'],
         translations['YES']
-      ).toPromise()
-        .then(() => {
-          return this.securityGroupService.deleteTemplate(id);
-        })
-        .then(res => {
-          if (res && res.success === 'true') {
-            this.securityGroupList = this.securityGroupList.filter(sg => sg.id !== id);
-          }
-        })
-        .catch(() => {});
+      ).subscribe(() => {
+          this.securityGroupService.deleteTemplate(id).then(res => {
+            if (res && res.success === 'true') {
+              this.securityGroupList = this.securityGroupList.filter(sg => sg.id !== id);
+            }
+          });
+        },
+        // handle error comes from cancel button
+        () => {});
+    });
+  }
+
+  public showCreationDialog(): void {
+    this.dialogObservable = this.dialogService.showCustomDialog({
+      component: SgTemplateCreationComponent,
+      isModal: true,
+      styles: { 'width': '450px' },
+      clickOutsideToClose: true,
+      enterTransitionDuration: 400,
+      leaveTransitionDuration: 400
+    });
+
+    this.dialogObservable.switchMap(res => res.onHide())
+      .subscribe((data: any) => {
+        if (!data) {
+          return;
+        }
+        this.createSecurityGroupTemplate(data);
+      });
+  }
+
+
+  public showRulesDialog(group: SecurityGroup) {
+    this.dialogService.showCustomDialog({
+      component: SgRulesComponent,
+      providers: [SecurityGroupService, AsyncJobService, { provide: 'securityGroup', useValue: group }],
+      isModal: true,
+      styles: { 'width': '880px', 'padding': '12.8px' },
+      enterTransitionDuration: 400,
+      leaveTransitionDuration: 400
     });
   }
 }

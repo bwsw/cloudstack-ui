@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ConfigService } from './config.service';
-import { SecurityGroup } from '../../security-group/sg.model';
+import { SecurityGroup, NetworkRuleType } from '../../security-group/sg.model';
 import { BaseBackendService } from './base-backend.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { TagService } from './tag.service';
@@ -90,21 +90,46 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
     });
   }
 
-  public addRule(type: 'Ingress'|'Egress', data): Promise<string> {
-    return this.postRequest(`authorize;${type}`, data)
-      .then(res => {
-        const response = res[`authorize${this.entity.toLowerCase()}${type.toLowerCase()}response`];
+  public addRule(type: NetworkRuleType, data): Promise<string> {
+    const command = 'authorize';
+    return new Promise((resolve, reject) => {
+      this.postRequest(`${command};${type}`, data)
+        .then(res => {
+          const response = res[`${command}${this.entity.toLowerCase()}${type.toLowerCase()}response`];
+          const jobId = response.jobid;
 
-        return response.jobid;
-      });
+          this.asyncJobService.addJob(jobId)
+            .subscribe(jobResult => {
+              if (jobResult.jobStatus === 2) {
+                reject(jobResult);
+                return;
+              }
+              const ruleRaw = jobResult.jobResult.securitygroup[type.toLowerCase() + 'rule'][0];
+              const rule = new NetworkRule(ruleRaw);
+              resolve(rule);
+            });
+        });
+    });
   }
 
-  public removeRule(type: 'Ingress'|'Egress', data): Promise<string> {
-    return this.postRequest(`revoke;${type}`, data)
-      .then(res => {
-        const response = res[`revoke${this.entity.toLowerCase()}${type.toLowerCase()}response`];
+  public removeRule(type: NetworkRuleType, data): Promise<string> {
+    const command = 'revoke';
+    return new Promise((resolve, reject) => {
+      this.postRequest(`${command};${type}`, data)
+        .then(res => {
+          const response = res[`${command}${this.entity.toLowerCase()}${type.toLowerCase()}response`];
+          const jobId = response.jobid;
 
-        return response.jobid;
-      });
+          this.asyncJobService.addJob(jobId)
+            .subscribe(jobResult => {
+              if (jobResult.jobStatus === 2 || jobResult.jobResult && !jobResult.jobResult.success) {
+                reject(jobResult);
+                return;
+              }
+
+              resolve();
+            });
+        });
+    });
   }
 }

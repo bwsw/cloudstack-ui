@@ -1,16 +1,10 @@
 import { BaseModel } from '../shared/models';
 import { FieldMapper } from '../shared/decorators';
 import { Volume } from '../shared/models/volume.model';
+import { NIC } from '../shared/models';
 import { OsType } from '../shared/models/os-type.model';
 import { ServiceOffering } from '../shared/models/service-offering.model';
 import { Template } from '../shared/models/template.model';
-
-/* TODO
-  1. nicService
-  2. affinityGroup
-  3. securityGroup
-  4. secondaryIp in INic
-*/
 
 export const MIN_ROOT_DISK_SIZE = 10;
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
@@ -23,12 +17,6 @@ interface IAffinityGroup {
 interface ISecurityGroup {
   id: string;
   name: string;
-}
-
-interface INic {
-  id: string;
-  ipaddress: string;
-  secondaryip: any;
 }
 
 export interface IVmAction {
@@ -80,7 +68,7 @@ export class VirtualMachine extends BaseModel {
   public memory: number;
   public volumes: Array<Volume>;
   // IP addresses
-  public nic: Array<INic>;
+  public nic: Array<NIC>;
   // Security Group
   public securityGroup: Array<ISecurityGroup>;
   // Affinity Group
@@ -106,6 +94,18 @@ export class VirtualMachine extends BaseModel {
   public diskIoWrite: number;
   // misc
   public keyPair: string;
+
+  constructor(params?: {}) {
+    super(params);
+
+    if (!this.nic || !this.nic.length) {
+      this.nic = [];
+    }
+
+    for (let i = 0; i < this.nic.length; i++) {
+      this.nic[i] = new NIC(this.nic[i]);
+    }
+  }
 
   public get actions(): Array<string> {
     return [

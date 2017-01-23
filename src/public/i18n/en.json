@@ -68,9 +68,6 @@
   "KB_JP": "Japanese keyboard",
   "KB_SC": "Simplified Chinese keyboard",
 
-  "INGRESS": "Ingress",
-  "EGRESS": "Egress",
-
   "STATUS": "Status",
   "SERVICE_OFFERING": "Service offering",
   "IP_ADDRESSES": "IP addresses",
@@ -166,5 +163,44 @@
   "LABELS": "Labels",
   "CUSTOM_TEMPLATES_NOT_INCLUDED": "Templates not included",
   "INSUFFICIENT_RESOURCES": "Insufficient resources",
-  "BASED_ON": "based on"
+  "BASED_ON": "based on",
+
+  "IP": "IP",
+  "NIC": "NIC",
+  "NETWORK_INTERFACE_CONTROLLER": "Network interface controller",
+  "NETWORK_INTERFACE_CONTROLLER_FIELDS": {
+    "broadcastUri":  "Broadcast URI",
+    "gateway": "Gateway",
+    "ip6Address": "IPv6 address",
+    "ip6Cidr": "IPv6 CIDR",
+    "ip6Gateway": "IPv6 gateway",
+    "ipAddress": "IP",
+    "isDefault": "Default",
+    "isolationUri": "Isolation URI",
+    "macAddress": "MAC address",
+    "netmask": "Netmask",
+    "networkName": "Network name",
+    "nsxLogicalSwitch": "NSX Logical Switch",
+    "nsxLogicalSwitchPort": "NSX Logical Switch Port",
+    "secondaryIp": "Secondary IP",
+    "trafficType": "Traffic Type",
+    "type": "Type"
+  },
+
+  "EDIT_RULES": "Edit rules",
+  "CLOSE": "Close",
+  "TYPE": "Type",
+  "PROTOCOL": "Protocol",
+  "START_PORT": "Start port",
+  "END_PORT": "End port",
+  "INGRESS": "Ingress",
+  "EGRESS": "Egress",
+  "ICMP_TYPE": "ICMP type",
+  "ICMP_CODE": "ICMP code",
+  "ENTER_VALID_PORT": "Enter a valid port",
+  "ENTER_VALID_TYPE": "Enter a valid type",
+  "ENTER_VALID_CODE": "Enter a valid code",
+  "ENTER_VALID_CIDR": "Enter a valid CIDR",
+  "FAILED_TO_ADD_RULE": "Failed to add the rule",
+  "FAILED_TO_REMOVE_RULE": "Failed to remove the rule"
 }

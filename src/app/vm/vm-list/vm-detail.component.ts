@@ -18,10 +18,13 @@ export class VmDetailComponent {
   @Output() public onClickOutside = new EventEmitter();
   @Input() public vm: VirtualMachine;
   @Input() @HostBinding('class.open') private isOpen;
+  private expandNIC: boolean;
   private expandServiceOffering: boolean;
 
 
-  constructor(private elementRef: ElementRef) { }
+  constructor(private elementRef: ElementRef) {
+    this.expandNIC = false;
+  }
 
   @HostListener('document:click', ['$event'])
   public onDocumentClick(event: MouseEvent): void {
@@ -35,6 +38,10 @@ export class VmDetailComponent {
     if (isOutside) {
       this.onClickOutside.emit();
     }
+  }
+
+  public toggleNIC() {
+    this.expandNIC = !this.expandNIC;
   }
 
   public toggleServiceOffering(): void {

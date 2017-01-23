@@ -68,9 +68,6 @@
   "KB_JP": "Japanese keyboard",
   "KB_SC": "Simplified Chinese keyboard",
 
-  "INGRESS": "Входящее",
-  "EGRESS": "Исходящее",
-
   "STATUS": "Статус",
   "SERVICE_OFFERING": "Услуги служб",
   "IP_ADDRESSES": "IP адреса",
@@ -166,5 +163,44 @@
   "LABELS": "Метки",
   "CUSTOM_TEMPLATES_NOT_INCLUDED": "Нет шаблонов",
   "INSUFFICIENT_RESOURCES": "Недостаточно ресурсов",
-  "BASED_ON": "основан на"
+  "BASED_ON": "основан на",
+
+  "IP": "IP",
+  "NIC": "NIC",
+  "NETWORK_INTERFACE_CONTROLLER": "Сетевая карта",
+  "NETWORK_INTERFACE_CONTROLLER_FIELDS": {
+    "broadcastUri":  "Broadcast URI",
+    "gateway": "Шлюз",
+    "ip6Address": "IPv6 адрес",
+    "ip6Cidr": "IPv6 CIDR",
+    "ip6Gateway": "IPv6 шлюз",
+    "ipAddress": "IP",
+    "isDefault": "По умолчанию",
+    "isolationUri": "Isolation URI",
+    "macAddress": "MAC адрес",
+    "netmask": "Маска подсети",
+    "networkName": "Имя сети",
+    "nsxLogicalSwitch": "NSX Logical Switch",
+    "nsxLogicalSwitchPort": "NSX Logical Switch Port",
+    "secondaryIp": "Дополнительный IP",
+    "trafficType": "Тип трафика",
+    "type": "Тип"
+  },
+
+  "EDIT_RULES": "Редактировать правила",
+  "CLOSE": "Закрыть",
+  "TYPE": "Тип",
+  "PROTOCOL": "Протокол",
+  "START_PORT": "Начальный порт",
+  "END_PORT": "Конечный порт",
+  "INGRESS": "Входящее",
+  "EGRESS": "Исходящее",
+  "ICMP_TYPE": "Тип ICMP",
+  "ICMP_CODE": "Код ICMP",
+  "ENTER_VALID_PORT": "Введите корректный порт",
+  "ENTER_VALID_TYPE": "Введите корректный тип",
+  "ENTER_VALID_CODE": "Введите корректный код",
+  "ENTER_VALID_CIDR": "Введите корректный CIDR",
+  "FAILED_TO_ADD_RULE": "Не удалось добавить правило",
+  "FAILED_TO_REMOVE_RULE": "Не удалось удалить правило"
 }

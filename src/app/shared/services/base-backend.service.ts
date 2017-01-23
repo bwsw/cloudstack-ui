@@ -65,7 +65,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
     const cmd = command.split(';');
     let apiCommand = `${cmd[0]}${this.entity}`;
 
-    if (command === 'list' || this.entity === 'Tag') {
+    if (cmd[0] === 'list' || this.entity === 'Tag') {
       apiCommand += 's';
     }
     if (cmd.length === 2) {

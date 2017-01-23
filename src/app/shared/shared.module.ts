@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from 'ng2-translate';
 
 import { DivByPowerOfTwoPipe } from './pipes/div-by-power-of-two.pipe';
+import { ViewValuePipe } from './pipes/view-value.pipe';
 import {
   AffinityGroupService,
   AsyncJobService,
@@ -39,11 +40,13 @@ import { SgRulesManagerComponent } from './components/sg-rules-manager.component
   ],
   exports: [
     SgRulesManagerComponent,
-    DivByPowerOfTwoPipe
+    DivByPowerOfTwoPipe,
+    ViewValuePipe
   ],
   declarations: [
     SgRulesManagerComponent,
-    DivByPowerOfTwoPipe
+    DivByPowerOfTwoPipe,
+    ViewValuePipe
   ],
   providers: [
     AffinityGroupService,
