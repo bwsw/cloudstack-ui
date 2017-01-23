@@ -88,9 +88,9 @@ export class VmCreateComponent {
   }
 
   public show(): void {
-    this.templateService.getDefault().then(() => {
-      this.serviceOfferingFilterService.getAvailable().then(() => {
-        this.resourceUsageService.getResourceUsage().then(result => {
+    this.templateService.getDefault().subscribe(() => {
+      this.serviceOfferingFilterService.getAvailable().subscribe(() => {
+        this.resourceUsageService.getResourceUsage().subscribe(result => {
           if (result.available.primaryStorage > this.vmCreationData.rootDiskSizeMin && result.available.instances) {
             this.resetVmCreateData();
             this.vmCreateDialog.show();
@@ -100,12 +100,11 @@ export class VmCreateComponent {
             });
           }
         });
-      }).catch(() => {
+      }, () => {
         this.translateService.get(['INSUFFICIENT_RESOURCES']).subscribe(strs => {
           this.notificationService.error(strs['INSUFFICIENT_RESOURCES']);
         });
-      });
-    }).catch(() => {
+      })}, () => {
       this.translateService.get(['UNABLE_TO_RECEIVE_TEMPLATES']).subscribe(strs => {
         this.notificationService.error(strs['UNABLE_TO_RECEIVE_TEMPLATES']);
       });
@@ -118,7 +117,7 @@ export class VmCreateComponent {
   }
 
   public resetVmCreateData(): void {
-    this.getVmCreateData().map(result => {
+    this.getVmCreateData().subscribe(result => {
       this.vmCreationData = result;
     });
   }
@@ -133,7 +132,7 @@ export class VmCreateComponent {
       { name: UUID.v4() },
       params.ingress || [],
       params.egress || []
-    ).then(securityGroup => {
+    ).subscribe(securityGroup => {
       params['securitygroupids'] = securityGroup.id;
       this._deploy(params);
     });
@@ -187,7 +186,7 @@ export class VmCreateComponent {
       this.vmService.deploy(params)
         .subscribe(result => {
           this.vmService.get(result.id)
-            .map(r => {
+            .subscribe(r => {
               r.state = 'Deploying';
               this.onCreated.next(r);
             });

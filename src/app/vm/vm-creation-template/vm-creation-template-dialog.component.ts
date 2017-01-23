@@ -34,7 +34,7 @@ export class VmCreationTemplateDialogComponent implements OnInit {
   public ngOnInit(): void {
     this.activeTab = -1;
     this.templateService.getGroupedTemplates()
-      .then(templatesObjects => {
+      .subscribe(templatesObjects => {
         for (let filter in templatesObjects) {
           if (!templatesObjects.hasOwnProperty(filter)) {
             continue;

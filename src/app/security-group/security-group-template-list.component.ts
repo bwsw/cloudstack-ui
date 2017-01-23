@@ -30,23 +30,25 @@ export class SecurityGroupTemplateListComponent implements OnInit {
       'tags[0].value': 'true'
     });
 
-    Promise.all([securityGroupTemplates, accountSecurityGroups])
-      .then(([templates, groups]) => {
+    Observable.forkJoin([securityGroupTemplates, accountSecurityGroups])
+      .subscribe(([templates, groups]) => {
         this.securityGroupList = templates.concat(groups);
       });
   }
 
   public createSecurityGroupTemplate(data) {
     this.securityGroupService.createTemplate(data)
-      .then(([template, tagObservable]) => {
-        tagObservable.subscribe(res => {
-          if (!res || !res.jobResult.success) {
-            return;
-          }
-          template.labels = [res.jobResult.tag.value];
-          this.securityGroupList.push(template);
-        });
-      });
+      .subscribe(([tagObservable]) => {
+        console.log(11111);
+        debugger;
+        // tagObservable.subscribe(res => {
+        //   if (!res || !res.jobResult.success) {
+        //     return;
+        //   }
+        //   template.labels = [res.jobResult.tag.value];
+        //   this.securityGroupList.push(template);
+        // });
+    });
   }
 
   public deleteSecurityGroupTemplate(id) {
@@ -60,10 +62,11 @@ export class SecurityGroupTemplateListComponent implements OnInit {
         translations['NO'],
         translations['YES']
       ).subscribe(() => {
-          this.securityGroupService.deleteTemplate(id).then(res => {
-            if (res && res.success === 'true') {
-              this.securityGroupList = this.securityGroupList.filter(sg => sg.id !== id);
-            }
+          this.securityGroupService.deleteTemplate(id)
+            .subscribe(res => {
+              if (res && res.success === 'true') {
+                this.securityGroupList = this.securityGroupList.filter(sg => sg.id !== id);
+              }
           });
         },
         // handle error comes from cancel button

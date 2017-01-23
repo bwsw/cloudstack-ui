@@ -5,6 +5,7 @@ import { BaseBackendService } from '../shared/services/base-backend.service';
 import { BackendResource } from '../shared/decorators/backend-resource.decorator';
 import { TagService } from '../shared/services/tag.service';
 import { AsyncJobService } from '../shared/services/async-job.service';
+import { Observable } from 'rxjs';
 
 
 @Injectable()
@@ -21,9 +22,9 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
     super();
   }
 
-  public getTemplates(): Promise<Array<SecurityGroup>> {
+  public getTemplates(): Observable<Array<SecurityGroup>> {
     return this.configService.get('securityGroupTemplates')
-      .then(groups => {
+      .map(groups => {
         for (let i = 0; i < groups.length; i++) {
           groups[i] = new SecurityGroup(groups[i]);
         }
@@ -31,9 +32,10 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
       });
   }
 
-  public createTemplate(data: any) {
+  public createTemplate(data: any): Observable<any> {
     return this.create(data)
-      .then(res => {
+      .switchMap(res => {
+        debugger;
         const id = res.id;
         const params = {
           resourceIds: id,
@@ -46,10 +48,12 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
           params['tags[1].key'] = 'labels';
           params['tags[1].value'] = data.labels;
         }
-        const tagPromise = this.tagService.create(params)
-          .then(tagJob => {
+        const tagObservable = this.tagService.create(params)
+          .switchMap(tagJob => {
+            debugger;
             return this.asyncJobService.addJob(tagJob.jobid)
               .map(result => {
+                debugger;
                 let jobResult: any = {};
                 if (result && result.jobResultCode === 0) {
                   jobResult.success = result.jobResult.success;
@@ -62,7 +66,7 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
                 return result;
               });
           });
-        return Promise.all([res, tagPromise]);
+        return Observable.forkJoin([tagObservable]);
       });
   }
 
@@ -74,14 +78,15 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
     params: {},
     ingressRules: Array<NetworkRule>,
     egressRules: Array<NetworkRule>
-  ): Promise<SecurityGroup> {
-    return this.create(params).then((securityGroup: SecurityGroup) => {
-      const addRule = (type, rule) => {
-        rule['securitygroupid'] = securityGroup.id;
-        rule['cidrlist'] = rule.CIDR;
-        rule.protocol = rule.protocol.toLowerCase();
-        delete rule.CIDR;
-        this.addRule(type, rule.serialize());
+  ): Observable<SecurityGroup> {
+    return this.create(params)
+      .map((securityGroup: SecurityGroup) => {
+        const addRule = (type, rule) => {
+          rule['securitygroupid'] = securityGroup.id;
+          rule['cidrlist'] = rule.CIDR;
+          rule.protocol = rule.protocol.toLowerCase();
+          delete rule.CIDR;
+          this.addRule(type, rule.serialize());
       };
       ingressRules.forEach(rule => addRule('Ingress', rule));
       egressRules.forEach(rule => addRule('Egress', rule));
@@ -89,46 +94,37 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
     });
   }
 
-  public addRule(type: NetworkRuleType, data) {
+  public addRule(type: NetworkRuleType, data): Observable<NetworkRule> {
     const command = 'authorize';
-    return new Promise((resolve, reject) => {
-      this.postRequest(`${command};${type}`, data)
-        .then(res => {
-          const response = res[`${command}${this.entity.toLowerCase()}${type.toLowerCase()}response`];
-          const jobId = response.jobid;
-
-          this.asyncJobService.addJob(jobId)
-            .subscribe(jobResult => {
-              if (jobResult.jobStatus === 2) {
-                reject(jobResult);
-                return;
-              }
-              const ruleRaw = jobResult.jobResult.securitygroup[type.toLowerCase() + 'rule'][0];
-              const rule = new NetworkRule(ruleRaw);
-              resolve(rule);
-            });
+    return this.postRequest(`${command};${type}`, data)
+      .switchMap(res => {
+        return this.asyncJobService.addJob(
+          res[`${command}${this.entity.toLowerCase()}${type.toLowerCase()}response`].jobid
+        ).map(jobResult => {
+          if (jobResult.jobStatus === 2) {
+            return Observable.throw(jobResult);
+          }
+          const ruleRaw = jobResult.jobResult.securitygroup[type.toLowerCase() + 'rule'][0];
+          const rule = new NetworkRule(ruleRaw);
+          return rule;
         });
-    });
+      });
   }
 
   public removeRule(type: NetworkRuleType, data) {
     const command = 'revoke';
-    return new Promise((resolve, reject) => {
-      this.postRequest(`${command};${type}`, data)
-        .then(res => {
-          const response = res[`${command}${this.entity.toLowerCase()}${type.toLowerCase()}response`];
-          const jobId = response.jobid;
+    return this.postRequest(`${command};${type}`, data)
+      .map(res => {
+        const response = res[`${command}${this.entity.toLowerCase()}${type.toLowerCase()}response`];
+        const jobId = response.jobid;
 
-          this.asyncJobService.addJob(jobId)
-            .subscribe(jobResult => {
-              if (jobResult.jobStatus === 2 || jobResult.jobResult && !jobResult.jobResult.success) {
-                reject(jobResult);
-                return;
-              }
-
-              resolve();
-            });
-        });
-    });
+        this.asyncJobService.addJob(jobId)
+          .subscribe(jobResult => {
+            if (jobResult.jobStatus === 2 || jobResult.jobResult && !jobResult.jobResult.success) {
+              return Observable.throw(jobResult);
+            }
+            return Observable.of();
+          });
+      });
   }
 }

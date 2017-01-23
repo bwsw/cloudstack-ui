@@ -5,6 +5,7 @@ import { Iso } from '../models';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 
 import { BaseBackendService } from './base-backend.service';
+import { Observable } from 'rxjs';
 
 @Injectable()
 @BackendResource({
@@ -12,14 +13,18 @@ import { BaseBackendService } from './base-backend.service';
   entityModel: Iso
 })
 export class IsoService extends BaseBackendService<Iso> {
-  public get(id: string): Promise<Iso> {
+  public get(id: string): Observable<Iso> {
     const isofilter = 'featured';
     return this.getList({isofilter, id})
-      .then(data => data[0])
-      .catch(error => Promise.reject(error));
+      .map(data => data[0])
+      .catch(error => Observable.throw(error));
   }
 
-  public getList(params: { isofilter: string, [propName: string]: any }): Promise<Array<Iso>> {
-    return super.getList(params);
+  public getList(
+    params: {
+      isofilter: string,
+      [propName: string]: any
+    }): Observable<Array<Iso>> {
+    return <Observable<Array<Iso>>>super.getList(params);
   }
 }

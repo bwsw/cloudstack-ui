@@ -50,7 +50,7 @@ export class VmListComponent implements OnInit {
 
   public ngOnInit() {
     this.vmService.getList()
-      .then(vmList => {
+      .subscribe(vmList => {
         this.vmList = vmList;
 
         if (this.vmList.length) {
@@ -79,7 +79,7 @@ export class VmListComponent implements OnInit {
         this.vmStats.updateStats();
       }
     });
-    this.vmService.resubscribe().then(observables => {
+    this.vmService.resubscribe().subscribe(observables => {
       observables.forEach(observable => {
         observable.subscribe(job => {
           const action = VirtualMachine.getAction(job.cmd);

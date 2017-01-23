@@ -37,17 +37,23 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     const volumesRequest = this.volumeService.getList();
     const vmRequest = super.get(id);
 
-    return Observable.forkJoin([vmRequest, volumesRequest])
-      .switchMap(([vm, volumes]) => {
+    return Observable.forkJoin([
+      vmRequest,
+      volumesRequest
+    ]).map(result => {
+        let vm = result[0];
+        let volumes = result[1];
         vm.volumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
 
         const osTypeRequest = this.osTypesService.get(vm.guestOsId);
         const serviceOfferingRequest = this.serviceOfferingService.get(vm.serviceOfferingId);
-        return Observable.forkJoin([Observable.of(vm), osTypeRequest, serviceOfferingRequest]);
-      })
-      .switchMap(([vm, osType, serviceOffering]) => {
-        vm.osType = osType;
-        vm.serviceOffering = serviceOffering;
+
+        return [Observable.of(vm), osTypeRequest, serviceOfferingRequest];
+    }).switchMap(result => Observable.forkJoin(result))
+      .map(result => {
+        let vm = result[0];
+        vm.osType = result[1];
+        vm.serviceOffering = result[2];
         return vm;
       });
   }
@@ -56,7 +62,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     const vmsRequest = super.getList();
 
     if (lite) {
-      return vmsRequest;
+      return <Observable<Array<VirtualMachine>>>vmsRequest;
     }
 
     const volumesRequest = this.volumeService.getList();

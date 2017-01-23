@@ -4,6 +4,7 @@ import { AuthService } from '../shared/services';
 import { Router } from '@angular/router';
 import { TranslateService } from 'ng2-translate';
 import { ErrorService } from '../shared/services/error.service';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -25,7 +26,11 @@ export class LogoutComponent {
 
   public logout(): void {
     this.auth.logout()
-      .then(() => this.router.navigate(['/login']))
-      .catch(error => this.error.next(error));
+      .subscribe(() => {
+        this.router.navigate(['/login'])
+      }, error => {
+          this.error.next(error);
+          return Observable.throw(error);
+      });
   }
 }

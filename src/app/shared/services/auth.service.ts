@@ -7,6 +7,7 @@ import { BaseBackendService, BACKEND_API_URL } from './base-backend.service';
 import { BaseModel } from '../models/base.model';
 import { ErrorService } from './error.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
+import { Observable } from 'rxjs';
 
 
 interface LoginResponse {
@@ -49,35 +50,34 @@ export class AuthService extends BaseBackendService<AuthStub> {
     }
   }
 
-  public login(username: string, password: string): Promise<void> {
+  public login(username: string, password: string): Observable<void> {
     return this.postRequest('login', { username, password })
-      .then(response => {
+      .map(response => {
         this.setLoggedIn(`${response.loginresponse.firstname} ${response.loginresponse.lastname}`);
       })
-      .catch(() => Promise.reject('Incorrect username or password.'));
+      .catch(() => Observable.throw('Incorrect username or password.'));
   }
 
-  public logout(): Promise<void> {
+  public logout(): Observable<void> {
     return this.postRequest('logout')
-      .then(response => this.setLoggedOut())
-      .catch(() => Promise.reject('Unable to log out.'));
+      .map(response => this.setLoggedOut())
+      .catch(() => Observable.throw('Unable to log out.'));
   }
 
-  public isLoggedIn(): Promise<boolean> {
+  public isLoggedIn(): Observable<boolean> {
     if (this.name) {
       return this.http.get(BACKEND_API_URL)
-        .toPromise()
-        .then(response => true)
+        .map(response => true)
         .catch(e => {
           if (e.status === 400) {
-            return Promise.resolve(true);
+            return Observable.of(true);
           } else {
             this.setLoggedOut();
-            return Promise.resolve(false);
+            return Observable.of(false);
           }
         });
     } else {
-      return Promise.resolve(false);
+      return Observable.of(false);
     }
   }
 

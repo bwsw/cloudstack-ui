@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { SecurityGroupService } from './security-group.service';
 import { SecurityGroup, NetworkRule } from './security-group.model';
 import { MdlDialogReference } from 'angular2-mdl';
+import { Observable } from 'rxjs';
 
 interface RuleListItem {
   rule: NetworkRule;
@@ -48,8 +49,8 @@ export class SecurityGroupCreationComponent implements OnInit {
       'tags[0].value': 'true'
     });
 
-    Promise.all([securityGroupTemplates, accountSecurityGroups])
-      .then(([templates, groups]) => {
+    Observable.forkJoin([securityGroupTemplates, accountSecurityGroups])
+      .map(([templates, groups]) => {
         this.items[0] = templates.concat(groups);
 
         this.initRulesList();

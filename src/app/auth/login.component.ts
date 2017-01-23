@@ -1,8 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { AuthService } from '../shared';
 import { INotificationService } from '../shared/notification.service';
+
+import 'rxjs/Rx';
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'cs-login',
@@ -33,8 +36,12 @@ export class LoginComponent {
 
   private login(username: string, password: string): void {
     this.auth.login(username, password)
-      .then(() => this.handleLogin())
-      .catch(error => this.handleError(error));
+      .subscribe(() => {
+        this.handleLogin()
+    }, error => {
+      this.handleError(error);
+      return Observable.throw(error);
+    });
   }
 
   private handleLogin(): void {

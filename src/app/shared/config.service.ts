@@ -15,7 +15,7 @@ export class ConfigService {
 
   constructor(private http: Http) {}
 
-  public load(reload = false): Observable<void> {
+  public load(reload = false): Observable<any> {
     if (reload || !this.config) {
       const url = `/config-${isDevMode() ? 'dev' : 'prod'}.json`;
       return this.http.get(url)
@@ -24,7 +24,7 @@ export class ConfigService {
         })
         .catch(this.handleError);
     } else {
-      Observable.of();
+      return Observable.of();
     }
   }
 
