@@ -59,12 +59,13 @@ export class SecurityGroupRulesComponent {
         this.cidr = '';
         this.startPort = this.endPort = this.icmpCode = this.icmpType = null;
         this.rulesForm.form.reset();
+        this.adding = false;
       }, () => {
         this.translateService.get(['FAILED_TO_ADD_RULE']).subscribe((translations) => {
           this.notificationService.message(translations['FAILED_TO_ADD_RULE']);
+          this.adding = false;
+
         });
-      }, () => {
-        this.adding = false;
       });
   }
 
@@ -76,7 +77,6 @@ export class SecurityGroupRulesComponent {
         if (ind === -1) {
           return;
         }
-
         rules.splice(ind, 1);
       }, () => {
         this.translateService.get(['FAILED_TO_REMOVE_RULE']).subscribe((translations) => {

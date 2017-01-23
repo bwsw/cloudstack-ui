@@ -38,17 +38,13 @@ export class SecurityGroupTemplateListComponent implements OnInit {
 
   public createSecurityGroupTemplate(data) {
     this.securityGroupService.createTemplate(data)
-      .subscribe(([tagObservable]) => {
-        console.log(11111);
-        debugger;
-        // tagObservable.subscribe(res => {
-        //   if (!res || !res.jobResult.success) {
-        //     return;
-        //   }
-        //   template.labels = [res.jobResult.tag.value];
-        //   this.securityGroupList.push(template);
-        // });
-    });
+      .subscribe(([template, tagJob]) => {
+        if (!tagJob || !tagJob.jobResult.success) {
+          return;
+        }
+        template.labels = [tagJob.jobResult.tag.value];
+        this.securityGroupList.push(template);
+      });
   }
 
   public deleteSecurityGroupTemplate(id) {

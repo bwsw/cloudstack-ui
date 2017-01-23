@@ -18,7 +18,7 @@ mdl-textfield {
   }
 }
 
-/deep/ .mdl-textfield {
+:host /deep/ .mdl-textfield {
    width: 85px;
 }
 
@@ -26,7 +26,7 @@ mdl-select.type /deep/ .mdl-textfield {
   width: 120px;
 }
 
-/deep/ mdl-spinner {
+:host /deep/ mdl-spinner {
   position: relative;
   top: 2px;
 }

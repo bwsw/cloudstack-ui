@@ -21,14 +21,16 @@ export class ConfigService {
       return this.http.get(url)
         .map(response => {
           this.config = response.json();
-        })
-        .catch(this.handleError);
+        }, error => {
+          this.handleError(error);
+        });
     } else {
       return Observable.of();
     }
   }
 
   public get(key: string): Observable<any> {
+    debugger;
     if (this.config) {
       return Observable.of(this.config[key]);
     } else {

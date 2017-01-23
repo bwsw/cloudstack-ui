@@ -50,7 +50,7 @@ export class SecurityGroupCreationComponent implements OnInit {
     });
 
     Observable.forkJoin([securityGroupTemplates, accountSecurityGroups])
-      .map(([templates, groups]) => {
+      .subscribe(([templates, groups]) => {
         this.items[0] = templates.concat(groups);
 
         this.initRulesList();

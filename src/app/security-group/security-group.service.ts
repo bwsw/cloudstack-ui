@@ -33,9 +33,11 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
   }
 
   public createTemplate(data: any): Observable<any> {
+    let template;
     return this.create(data)
       .switchMap(res => {
-        debugger;
+        template = res;
+
         const id = res.id;
         const params = {
           resourceIds: id,
@@ -48,25 +50,26 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
           params['tags[1].key'] = 'labels';
           params['tags[1].value'] = data.labels;
         }
-        const tagObservable = this.tagService.create(params)
-          .switchMap(tagJob => {
-            debugger;
-            return this.asyncJobService.addJob(tagJob.jobid)
-              .map(result => {
-                debugger;
-                let jobResult: any = {};
-                if (result && result.jobResultCode === 0) {
-                  jobResult.success = result.jobResult.success;
-                  jobResult.tag = { key: 'labels', value: data.labels };
-                } else {
-                  jobResult.success = false;
-                }
-                result.jobResult = jobResult;
-                this.asyncJobService.event.next(result);
-                return result;
-              });
-          });
-        return Observable.forkJoin([tagObservable]);
+
+        return this.tagService.create(params);
+      })
+      .switchMap(tagJob => {
+        return this.asyncJobService.addJob(tagJob.jobid);
+      })
+      .switchMap(result => {
+        let jobResult: any = {};
+        if (result && result.jobResultCode === 0) {
+          jobResult.success = result.jobResult.success;
+          jobResult.tag = { key: 'labels', value: data.labels };
+        } else {
+          jobResult.success = false;
+        }
+        result.jobResult = jobResult;
+        this.asyncJobService.event.next(result);
+        return Observable.forkJoin([
+          Observable.of(template),
+          Observable.of(result)
+        ]);
       });
   }
 
