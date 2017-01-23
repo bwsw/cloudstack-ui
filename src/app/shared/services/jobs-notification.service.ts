@@ -69,7 +69,7 @@ export class JobsNotificationService {
 
   public remove(id: string): void {
     const ind = this.notifications.findIndex((el: INotification) => el.id === id);
-    if (ind === -1 ) {
+    if (ind === -1) {
       return;
     }
 
@@ -80,7 +80,7 @@ export class JobsNotificationService {
     this.notifications.splice(ind, 1);
   }
 
-  public removeAll() {
+  public removeAll(): void {
     this.notifications = this.notifications.filter((n: INotification) => n.status === INotificationStatus.Pending);
   }
 

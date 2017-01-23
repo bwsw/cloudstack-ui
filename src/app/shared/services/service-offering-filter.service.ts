@@ -6,11 +6,10 @@ import { ServiceOfferingService } from './service-offering.service';
 
 @Injectable()
 export class ServiceOfferingFilterService {
-
   constructor(
     private resourceUsageService: ResourceUsageService,
     private serviceOfferingService: ServiceOfferingService
-  ) {}
+  ) { }
 
   public getAvailable(): Promise<Array<ServiceOffering>> {
     return Promise.all([

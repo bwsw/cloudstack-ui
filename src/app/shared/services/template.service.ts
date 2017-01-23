@@ -49,7 +49,7 @@ export class TemplateService extends BaseBackendService<Template> {
       _params = params;
     }
 
-    let templatePromises = new Array<any>();
+    let templatePromises = [];
     for (let filter of localTemplateFilters) {
       _params['templatefilter'] = filter;
       templatePromises.push(this.getList(_params as  { templatefilter: string, [propName: string]: any }));

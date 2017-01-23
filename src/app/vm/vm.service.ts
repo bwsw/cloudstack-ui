@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Http, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs';
 
 import { BaseBackendService, BACKEND_API_URL } from '../shared/services';
@@ -11,7 +12,6 @@ import { OsType } from '../shared/models/os-type.model';
 
 import { AsyncJob } from '../shared/models/async-job.model';
 import { AsyncJobService } from '../shared/services/async-job.service';
-import { Http, URLSearchParams } from '@angular/http';
 import { ServiceOfferingService } from '../shared/services/service-offering.service';
 import { ServiceOffering } from '../shared/models/service-offering.model';
 
@@ -22,7 +22,6 @@ import { ServiceOffering } from '../shared/models/service-offering.model';
   entityModel: VirtualMachine
 })
 export class VmService extends BaseBackendService<VirtualMachine> {
-
   constructor(
     private volumeService: VolumeService,
     private osTypesService: OsTypeService,
@@ -81,7 +80,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
-  public deploy(params: {}) {
+  public deploy(params: {}): Observable<any> {
     const urlParams = new URLSearchParams();
     urlParams.append('command', 'deployVirtualMachine');
 
@@ -95,7 +94,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       .map(result => result.json().deployvirtualmachineresponse);
   }
 
-  public checkCommand(jobId: string) {
+  public checkCommand(jobId: string): Observable<any> {
     return this.jobs.addJob(jobId)
       .map(result => {
         if (result && result.jobResultCode === 0 && result.jobResult) {
@@ -108,8 +107,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public resubscribe(): Promise<Array<Observable<AsyncJob>>> {
     return this.jobs.getList().then(jobs => {
-      const cmdRegex = /^org\.apache\.cloudstack\.api\.command\.user\.vm\.(\w*)VMCmd$/;
-      let filteredJobs = jobs.filter(job => !job.jobStatus && cmdRegex.test(job.cmd));
+      const cmdRegEx = /^org\.apache\.cloudstack\.api\.command\.user\.vm\.(\w*)VMCmd$/;
+      let filteredJobs = jobs.filter(job => !job.jobStatus && cmdRegEx.test(job.cmd));
       let observables = [];
       filteredJobs.forEach(job => {
         observables.push(this.checkCommand(job.jobId));

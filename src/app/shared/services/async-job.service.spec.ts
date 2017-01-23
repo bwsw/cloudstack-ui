@@ -10,7 +10,7 @@ import {
   ResponseOptions
 } from '@angular/http';
 import { FormsModule } from '@angular/forms';
-import { MockNotificationService } from '../notification.service';
+import { MockNotificationService } from './notification.service';
 import { ServiceLocator } from './service-locator';
 import { AsyncJobService } from './async-job.service';
 import { ErrorService } from '.';

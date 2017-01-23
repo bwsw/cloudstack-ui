@@ -48,14 +48,11 @@
 
   "YES": "Yes",
   "NO": "No",
-  "CONFIRM": "Confirm",
   "CANCEL": "Cancel",
 
   "START": "Start",
   "STOP": "Stop",
   "SELECT": "Select",
-
-  "TEMPLATES": "Templates",
 
   "REBOOT": "Reboot",
   "RESTORE": "Restore",
@@ -63,6 +60,8 @@
   "CLEAR_ALL": "Clear all",
   "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",
   "NO_DONT_ASK": "No, don't ask",
+
+  "TEMPLATES": "Templates",
 
   "KB_US": "Standard (US) keyboard",
   "KB_UK": "UK keyboard",
@@ -143,6 +142,7 @@
     "START_VM": "Start VM"
   },
 
+  "CREATE_NEW_TEMPLATE": "Create new template",
   "ALL_GROUPS": "All templates",
   "SELECTED_GROUPS": "Selected templates",
   "NETWORK_RULES": "Network rules",
@@ -157,6 +157,13 @@
     "YOU_DONT_HAVE_TEMPLATES": "You don't have any templates"
   },
 
+  "UNABLE_TO_RECEIVE_TEMPLATES": "Unable to receive templates",
+  "NAME": "Name",
+  "DESCRIPTION": "Description",
+  "LABELS": "Labels",
+  "CUSTOM_TEMPLATES_NOT_INCLUDED": "Templates not included",
+  "INSUFFICIENT_RESOURCES": "Insufficient resources",
+  "BASED_ON": "based on",
 
   "IP": "IP",
   "NIC": "NIC",
@@ -180,10 +187,6 @@
     "type": "Type"
   },
 
-  "UNABLE_TO_RECEIVE_TEMPLATES": "Unable to receive templates",
-  "DESCRIPTION": "Description",
-  "CUSTOM_TEMPLATES_NOT_INCLUDED": "Templates not included",
-  "INSUFFICIENT_RESOURCES": "Insufficient resources",
   "EDIT_RULES": "Edit rules",
   "CLOSE": "Close",
   "TYPE": "Type",

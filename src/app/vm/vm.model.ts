@@ -117,14 +117,14 @@ export class VirtualMachine extends BaseModel {
     ];
   }
 
-  public getDisksSize() {
+  public getDisksSize(): number {
     const sizeInBytes = this.volumes.reduce((acc: number, volume: Volume) => {
       return acc + volume.size;
     }, 0);
     return sizeInBytes / Math.pow(2, 30);
   }
 
-  public canApply(command: string) {
+  public canApply(command: string): boolean {
     const state = this.state;
 
     if (state !== 'Running' && state !== 'Stopped') {
