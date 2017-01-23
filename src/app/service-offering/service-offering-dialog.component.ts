@@ -3,11 +3,10 @@ import { MdlDialogReference } from 'angular2-mdl';
 import { VirtualMachine } from '../vm/vm.model';
 import { VmService } from '../vm/vm.service';
 import { JobsNotificationService, INotificationStatus } from '../shared/services/jobs-notification.service';
-import * as UUID from 'uuid';
 import { VmUpdateService } from '../shared/services/vm-update.service';
-import { ErrorService } from '../shared/services/error.service';
 import { NotificationService } from '../shared/notification.service';
 import { TranslateService } from 'ng2-translate';
+
 
 @Component({
   selector: 'cs-service-offering-dialog',
@@ -42,18 +41,18 @@ export class ServiceOfferingDialogComponent {
       'OFFERING_CHANGE_FAILED',
       'UNEXPECTED_ERROR'
     ]).subscribe(strs => {
-      if (this.virtualMachine.serviceOfferingId === this.serviceOfferingId) { return }
-      this.vmService.changeServiceOffering(this.serviceOfferingId, this.virtualMachine.id)
+      if (virtualMachine.serviceOfferingId === serviceOfferingId) {
+        return;
+      }
+      this.vmService.changeServiceOffering(serviceOfferingId, virtualMachine.id)
         .subscribe(result => {
           this.jobNotificationService.add({
-            id: UUID.v4(),
             message: strs['OFFERING_CHANGED'],
             status: INotificationStatus.Finished
           });
           this.vmUpdateService.next(result);
-        }, error => {
+        }, () => {
           this.jobNotificationService.add({
-            id: UUID.v4(),
             message: strs['OFFERING_CHANGE_FAILED'],
             status: INotificationStatus.Failed
           });

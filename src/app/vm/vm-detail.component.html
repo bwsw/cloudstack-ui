@@ -41,11 +41,24 @@
     </mdl-card-actions>
     <mdl-card-menu>
       <button
-        [disabled]="!vm.canApply('changeOffering')"
+        *ngIf="vm.canApply('changeOffering')"
         mdl-button
         mdl-button-type="icon"
         mdl-ripple
+        mdl-tooltip-position="bottom"
+        [mdl-tooltip]="'CHANGE_SERVICE_OFFERING' | translate"
         (click)="changeServiceOffering()"
+      >
+        <mdl-icon>replay</mdl-icon>
+      </button>
+      <button
+        *ngIf="!vm.canApply('changeOffering')"
+        [disabled]="true"
+        mdl-button
+        mdl-button-type="icon"
+        mdl-ripple
+        mdl-tooltip-position="bottom"
+        [mdl-tooltip]="'SO_CHANGE_DISABLED' | translate"
       >
         <mdl-icon>replay</mdl-icon>
       </button>

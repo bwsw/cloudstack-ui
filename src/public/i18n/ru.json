@@ -99,6 +99,12 @@
     "type": "Тип"
   },
 
+  "CHOOSE_SERVICE_OFFERING": "Выберите предложение",
+  "OFFERING_CHANGED": "Предложение изменилось",
+  "OFFERING_CHANGE_FAILED": "Предложение не изменилось",
+  "CHANGE_SERVICE_OFFERING": "Изменить предложение",
+  "SO_CHANGE_DISABLED": "Необходимо остановить машину",
+
   "EDIT_RULES": "Редактировать правила",
   "CLOSE": "Закрыть",
   "TYPE": "Тип",

@@ -54,6 +54,7 @@
   "START": "Start",
   "STOP": "Stop",
   "SELECT": "Select",
+  "CHANGE": "Change",
 
   "TEMPLATES": "Templates",
 
@@ -157,7 +158,6 @@
     "YOU_DONT_HAVE_TEMPLATES": "You don't have any templates"
   },
 
-
   "IP": "IP",
   "NIC": "NIC",
   "NETWORK_INTERFACE_CONTROLLER": "Network interface controller",
@@ -186,10 +186,10 @@
   "INSUFFICIENT_RESOURCES": "Insufficient resources",
 
   "CHOOSE_SERVICE_OFFERING": "Choose service offering",
-  "CHANGE": "Change",
-
   "OFFERING_CHANGED": "Offering changed",
   "OFFERING_CHANGE_FAILED": "Offering change failed",
+  "CHANGE_SERVICE_OFFERING": "Change service offering",
+  "SO_CHANGE_DISABLED": "The virtual machine needs to be stopped",
 
   "EDIT_RULES": "Edit rules",
   "CLOSE": "Close",

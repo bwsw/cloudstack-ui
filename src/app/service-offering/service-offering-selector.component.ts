@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
-import { ServiceOfferingService } from '../shared/services/service-offering.service';
 import { ServiceOfferingFilterService } from '../shared/services/service-offering-filter.service';
 import { ServiceOffering } from '../shared/models/service-offering.model';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -8,7 +7,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 @Component({
   selector: 'cs-service-offering-selector',
   templateUrl: './service-offering-selector.component.html',
-  styleUrls: ['./service-offering-selector.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -20,6 +18,10 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class ServiceOfferingSelectorComponent implements ControlValueAccessor, OnInit {
   public serviceOfferings: Array<ServiceOffering>;
   private _serviceOffering: string;
+
+  constructor(
+    private serviceOfferingFilterService: ServiceOfferingFilterService
+  ) {}
 
   public propagateChange: any = () => {};
 
@@ -44,12 +46,8 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor, O
 
   public registerOnTouched() { }
 
-  constructor(
-    private serviceOfferingService: ServiceOfferingService,
-    private serviceOfferingFilterService: ServiceOfferingFilterService
-  ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.serviceOfferingFilterService.getAvailable().then(availableOfferings => {
       this.serviceOfferings = availableOfferings;
       if (this.serviceOfferings.length) {

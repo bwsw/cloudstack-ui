@@ -36,22 +36,11 @@
           (selectedOut)="onTemplateChange($event)"
         ></cs-vm-creation-template>
         </div>
-
         <h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>
-        <div>
-          <mdl-select
-            [(ngModel)]="vmCreationData.vm.serviceOfferingId"
-            id="serviceOffering"
-            name="serviceOffering"
-          >
-            <mdl-option
-              *ngFor="let so of vmCreationData.serviceOfferings"
-              [value]="so.id"
-            >
-              {{ so.name }}
-            </mdl-option>
-          </mdl-select>
-        </div>
+        <cs-service-offering-selector
+          name="serviceOffering"
+          [(ngModel)]="vmCreationData.vm.serviceOfferingId"
+        ></cs-service-offering-selector>
         <h5>{{ 'VM_CREATION_FORM.ZONE' | translate }}</h5>
         <div>
           <mdl-select

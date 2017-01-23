@@ -8,7 +8,6 @@ import {
   Output
 } from '@angular/core';
 import { VirtualMachine } from './vm.model';
-import { ServiceOfferingService } from '../shared/services/service-offering.service';
 import { MdlDialogService } from 'angular2-mdl';
 import { ServiceOfferingDialogComponent } from '../service-offering/service-offering-dialog.component';
 
@@ -23,7 +22,6 @@ export class VmDetailComponent {
   @Input() @HostBinding('class.open') private isOpen;
   private expandNIC: boolean;
   private expandServiceOffering: boolean;
-  private serviceOfferingSelected: string;
 
   constructor(
     private elementRef: ElementRef,
