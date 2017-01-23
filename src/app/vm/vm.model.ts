@@ -5,6 +5,7 @@ import { NIC } from '../shared/models';
 import { OsType } from '../shared/models/os-type.model';
 import { ServiceOffering } from '../shared/models/service-offering.model';
 import { Template } from '../shared/models/template.model';
+import { SecurityGroup } from '../security-group/sg.model';
 
 export const MIN_ROOT_DISK_SIZE = 10;
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
@@ -102,8 +103,16 @@ export class VirtualMachine extends BaseModel {
       this.nic = [];
     }
 
+    if (!this.securityGroup || !this.securityGroup.length) {
+      this.securityGroup = [];
+    }
+
     for (let i = 0; i < this.nic.length; i++) {
       this.nic[i] = new NIC(this.nic[i]);
+    }
+
+    for (let i = 0; i < this.securityGroup.length; i++) {
+      this.securityGroup[i] = new SecurityGroup(this.securityGroup[i]);
     }
   }
 
