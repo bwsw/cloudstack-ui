@@ -38,7 +38,6 @@ export class SecurityGroupCreationComponent implements OnInit {
   ) {
     this.items = [[], []];
     this.selectedRules = [[], []];
-    console.log(this);
   }
 
   public ngOnInit() {

@@ -68,7 +68,6 @@ export class JobsNotificationService {
     }
     Object.assign(this.notifications[ind], notification);
     this.updateUnseenCount();
-    console.log(this);
     return notification.id;
   }
 

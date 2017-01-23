@@ -19,11 +19,6 @@ import * as UUID from 'uuid';
 import { VmUpdateService } from '../shared/services/vm-update.service';
 
 
-interface IVmPair {
-  vm1: VirtualMachine;
-  vm2?: VirtualMachine;
-}
-
 interface IVmActionEvent {
   id: string;
   action: IVmAction;

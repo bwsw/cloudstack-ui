@@ -11,6 +11,7 @@ import { VirtualMachine } from './vm.model';
 import { MdlDialogService } from 'angular2-mdl';
 import { ServiceOfferingDialogComponent } from '../service-offering/service-offering-dialog.component';
 
+
 @Component({
   selector: 'cs-vm-detail',
   templateUrl: './vm-detail.component.html',
@@ -58,7 +59,7 @@ export class VmDetailComponent {
       providers: [{ provide: 'virtualMachine', useValue: this.vm }],
       isModal: true,
       styles: {
-        'overflow': 'visible',
+        'overflow': 'visible', // so that the dialog window doesn't cut the SO dropdown
         'width': '400px'
       },
       clickOutsideToClose: true,
