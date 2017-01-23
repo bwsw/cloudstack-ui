@@ -97,5 +97,12 @@
     "secondaryIp": "Дополнительный IP",
     "trafficType": "Тип трафика",
     "type": "Тип"
-  }
+  },
+
+  "RESETPASSWORDFOR_IN_PROGRESS": "Сброс пароля",
+  "VM_RESETPASSWORDFOR_IN_PROGRESS": "Сброс пароля",
+  "CONFIRM_VM_RESETPASSWORDFOR": "Вы уверенны, что хотите сбросить пароль?<br>Если ваша виртуальная машина запущена, то она будет перезагружена.",
+  "RESETPASSWORDFOR_DONE": "Пароль сброшен",
+  "RESETPASSWORDFOR": "Сбросить пароль",
+  "PASSWORD_DIALOG_MESSAGE": "Пароль для машины {{ vmName }} был сброшен в {{ vmPassword }}"
 }
