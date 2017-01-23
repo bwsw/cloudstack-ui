@@ -87,7 +87,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
   }
 
-  public deploy(params: {}) {
+  public deploy(params: {}): Observable<any> {
     const urlParams = new URLSearchParams();
     urlParams.append('command', 'deployVirtualMachine');
 
@@ -101,7 +101,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       .map(result => result.json().deployvirtualmachineresponse);
   }
 
-  public checkCommand(jobId: string) {
+  public checkCommand(jobId: string): Observable<any> {
     return this.jobs.addJob(jobId)
       .map(result => {
         if (result && result.jobResultCode === 0 && result.jobResult) {
@@ -114,7 +114,11 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public resubscribe(): Promise<Array<Observable<AsyncJob>>> {
     return this.jobs.getList().then(jobs => {
+      // when a command is executed, two jobs are initiated
+      // one has type of "Cmd", another one is "Work"
+      // we need only one so we take "Cmd" and filter any other out
       const cmdRegex = /^org\.apache\.cloudstack\.api\.command\.user\.vm\.(\w*)VMCmd$/;
+
       let filteredJobs = jobs.filter(job => !job.jobStatus && cmdRegex.test(job.cmd));
       let observables = [];
       filteredJobs.forEach(job => {
