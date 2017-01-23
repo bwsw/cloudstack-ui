@@ -16,7 +16,6 @@ import { IAsyncJob } from '../shared/models/async-job.model';
 import { AsyncJobService } from '../shared/services/async-job.service';
 import { VmStatisticsComponent } from './vm-statistics.component';
 import * as UUID from 'uuid';
-import { VmUpdateService } from '../shared/services/vm-update.service';
 
 
 interface IVmActionEvent {
@@ -46,8 +45,7 @@ export class VmListComponent implements OnInit {
     private translateService: TranslateService,
     @Inject('IStorageService') protected storageService: IStorageService,
     private jobsNotificationService: JobsNotificationService,
-    private asyncJobService: AsyncJobService,
-    private vmUpdateService: VmUpdateService
+    private asyncJobService: AsyncJobService
   ) { }
 
   public ngOnInit() {
@@ -101,7 +99,7 @@ export class VmListComponent implements OnInit {
         });
       });
     });
-    this.vmUpdateService.subscribe(updatedVm => {
+    this.vmService.vmUpdateObservable.subscribe(updatedVm => {
       this.vmList.forEach((vm, index, array) => {
         if (vm.id === updatedVm.id) {
           this.vmService.get(updatedVm.id).then(result => {

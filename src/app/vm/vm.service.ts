@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { BaseBackendService, BACKEND_API_URL } from '../shared/services';
 import { BackendResource } from '../shared/decorators';
@@ -22,6 +22,7 @@ import { ServiceOffering } from '../shared/models/service-offering.model';
   entityModel: VirtualMachine
 })
 export class VmService extends BaseBackendService<VirtualMachine> {
+  public vmUpdateObservable: Subject<VirtualMachine>;
 
   constructor(
     private volumeService: VolumeService,
@@ -31,6 +32,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     protected jobs: AsyncJobService
   ) {
     super();
+    this.vmUpdateObservable = new Subject<VirtualMachine>();
   }
 
   public get(id: string): Promise<VirtualMachine> {

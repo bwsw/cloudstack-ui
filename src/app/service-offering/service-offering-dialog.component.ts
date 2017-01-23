@@ -3,7 +3,6 @@ import { MdlDialogReference } from 'angular2-mdl';
 import { VirtualMachine } from '../vm/vm.model';
 import { VmService } from '../vm/vm.service';
 import { JobsNotificationService, INotificationStatus } from '../shared/services/jobs-notification.service';
-import { VmUpdateService } from '../shared/services/vm-update.service';
 import { NotificationService } from '../shared/notification.service';
 import { TranslateService } from 'ng2-translate';
 
@@ -22,7 +21,6 @@ export class ServiceOfferingDialogComponent {
     private vmService: VmService,
     private jobNotificationService: JobsNotificationService,
     private notificationService: NotificationService,
-    private vmUpdateService: VmUpdateService,
     private translateService: TranslateService
   ) {}
 
@@ -50,7 +48,7 @@ export class ServiceOfferingDialogComponent {
             message: strs['OFFERING_CHANGED'],
             status: INotificationStatus.Finished
           });
-          this.vmUpdateService.next(result);
+          this.vmService.vmUpdateObservable.next(result);
         }, () => {
           this.jobNotificationService.add({
             message: strs['OFFERING_CHANGE_FAILED'],

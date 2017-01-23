@@ -64,7 +64,6 @@ import { SecurityGroupModule } from './security-group/security-group.module';
 import { TagService } from './shared/services/tag.service';
 import { ServiceOfferingDialogComponent } from './service-offering/service-offering-dialog.component';
 import { ServiceOfferingSelectorComponent } from './service-offering/service-offering-selector.component';
-import { VmUpdateService } from './shared/services/vm-update.service';
 
 
 @NgModule({
@@ -133,8 +132,7 @@ import { VmUpdateService } from './shared/services/vm-update.service';
     TagService,
     {provide: 'IStorageService', useClass: StorageService},
     TemplateService,
-    VmService,
-    VmUpdateService
+    VmService
   ],
   bootstrap: [AppComponent]
 })
