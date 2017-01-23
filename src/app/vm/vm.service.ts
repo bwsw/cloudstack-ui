@@ -33,26 +33,26 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     super();
   }
 
-  public get(id: string): Promise<VirtualMachine> {
+  public get(id: string): Observable<VirtualMachine> {
     const volumesRequest = this.volumeService.getList();
     const vmRequest = super.get(id);
 
-    return Promise.all([vmRequest, volumesRequest])
-      .then(([vm, volumes]) => {
+    return Observable.forkJoin([vmRequest, volumesRequest])
+      .switchMap(([vm, volumes]) => {
         vm.volumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
 
         const osTypeRequest = this.osTypesService.get(vm.guestOsId);
         const serviceOfferingRequest = this.serviceOfferingService.get(vm.serviceOfferingId);
-        return Promise.all([Promise.resolve(vm), osTypeRequest, serviceOfferingRequest]);
+        return Observable.forkJoin([Observable.of(vm), osTypeRequest, serviceOfferingRequest]);
       })
-      .then(([vm, osType, serviceOffering]) => {
+      .switchMap(([vm, osType, serviceOffering]) => {
         vm.osType = osType;
         vm.serviceOffering = serviceOffering;
         return vm;
       });
   }
 
-  public getList(lite = false, params?: {}): Promise<Array<VirtualMachine>> {
+  public getList(lite = false, params?: {}): Observable<Array<VirtualMachine>> {
     const vmsRequest = super.getList();
 
     if (lite) {
@@ -63,13 +63,13 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     const osTypesRequest = this.osTypesService.getList();
     const serviceOfferingsRequest = this.serviceOfferingService.getList();
 
-    return Promise.all([
+    return Observable.forkJoin([
       vmsRequest,
       volumesRequest,
       osTypesRequest,
       serviceOfferingsRequest
     ])
-      .then(([vms, volumes, osTypes, serviceOfferings]) => {
+      .map(([vms, volumes, osTypes, serviceOfferings]) => {
         vms.forEach((vm: VirtualMachine) => {
           vm.volumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
           vm.osType = osTypes.find((osType: OsType) => osType.id === vm.guestOsId);
@@ -106,8 +106,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
   }
 
-  public resubscribe(): Promise<Array<Observable<AsyncJob>>> {
-    return this.jobs.getList().then(jobs => {
+  public resubscribe(): Observable<Array<Observable<AsyncJob>>> {
+    return this.jobs.getList().map(jobs => {
       const cmdRegex = /^org\.apache\.cloudstack\.api\.command\.user\.vm\.(\w*)VMCmd$/;
       let filteredJobs = jobs.filter(job => !job.jobStatus && cmdRegex.test(job.cmd));
       let observables = [];

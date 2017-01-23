@@ -4,6 +4,7 @@ import { ErrorService } from '.';
 import { ServiceLocator } from './service-locator';
 
 import 'rxjs/add/operator/toPromise';
+import { Observable } from 'rxjs';
 
 export const BACKEND_API_URL = '/client/api';
 
@@ -19,14 +20,14 @@ export abstract class BaseBackendService<M extends BaseModel> {
     this.error = ServiceLocator.injector.get(ErrorService);
   }
 
-  public get(id: string): Promise<M> {
+  public get(id: string): Observable<M> {
     return this.fetchList({ id })
-      .then(res => this.prepareModel(res[0]) as M);
+      .map(res => this.prepareModel(res[0]) as M);
   }
 
-  public getList(params?: {}): Promise<Array<M>> {
+  public getList(params?: {}): Observable<Array<M>> {
     return this.fetchList(params)
-      .then(res => {
+      .map(res => {
         if (!res) {
           return [];
         }
@@ -34,11 +35,11 @@ export abstract class BaseBackendService<M extends BaseModel> {
       });
   }
 
-  public create(params?: {}): Promise<any> {
+  public create(params?: {}): Observable<any> {
     const command = 'create';
     let entity = this.entity.toLowerCase();
     return this.getRequest(command, params)
-      .then(res => {
+      .map(res => {
         const ent = entity === 'tag' ? entity + 's' : entity;
         const response = res[`${command}${ent}response`];
 
@@ -49,11 +50,11 @@ export abstract class BaseBackendService<M extends BaseModel> {
       });
   }
 
-  public remove(params?: {}): Promise<any> {
+  public remove(params?: {}): Observable<any> {
     const command = 'delete';
     let entity = this.entity.toLowerCase();
     return this.postRequest(command, params)
-      .then(res => res[`${command}${entity}response`]);
+      .map(res => res[`${command}${entity}response`]);
   }
 
   protected prepareModel(res): M {
@@ -83,31 +84,28 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return urlParams;
   }
 
-  protected getRequest(command: string, params?: {}): Promise<any> {
+  protected getRequest(command: string, params?: {}): Observable<any> {
     return this.http.get(BACKEND_API_URL, { search: this.buildParams(command, params) })
-        .toPromise()
-        .then((res: Response) => res.json())
-        .catch(error => this.handleError(error));
+      .map((res: Response) => res.json())
+      .catch(error => this.handleError(error));
   }
 
-  protected postRequest(command: string, params?: {}): Promise<any> {
+  protected postRequest(command: string, params?: {}): Observable<any> {
     const headers = new Headers({
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
     return this.http.post(BACKEND_API_URL, this.buildParams(command, params), { headers })
-      .toPromise()
-      .then((res: Response) => res.json())
+      .map((res: Response) => res.json())
       .catch(error => this.handleError(error));
   }
 
-  private fetchList(params?: {}): Promise<any> {
+  private fetchList(params?: {}): Observable<any> {
     const command = 'list';
     let entity = this.entity.toLowerCase();
 
     return this.http.get(BACKEND_API_URL, { search: this.buildParams(command, params) })
-      .toPromise()
-      .then((res: Response) => {
+      .map((res: Response) => {
         const responseString = `${command}${entity}sresponse`;
         if (entity === 'asyncjob') {
           entity += 's';
@@ -117,8 +115,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
       .catch(error => this.handleError(error));
   }
 
-  private handleError(error): Promise<any> {
+  private handleError(error): Observable<any> {
     this.error.next(error);
-    return Promise.reject(error);
+    return Observable.throw(error);
   }
 }

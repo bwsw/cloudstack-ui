@@ -25,6 +25,7 @@ import { Template } from '../shared/models/template.model';
 import { SecurityGroupService } from '../security-group/security-group.service';
 import * as UUID from 'uuid';
 import { Rules } from '../security-group/security-group-creation.component';
+import { Observable } from 'rxjs';
 
 
 class VmCreationData {
@@ -117,7 +118,7 @@ export class VmCreateComponent {
   }
 
   public resetVmCreateData(): void {
-    this.getVmCreateData().then(result => {
+    this.getVmCreateData().map(result => {
       this.vmCreationData = result;
     });
   }
@@ -186,7 +187,7 @@ export class VmCreateComponent {
       this.vmService.deploy(params)
         .subscribe(result => {
           this.vmService.get(result.id)
-            .then(r => {
+            .map(r => {
               r.state = 'Deploying';
               this.onCreated.next(r);
             });
@@ -196,18 +197,17 @@ export class VmCreateComponent {
     });
   }
 
-  private getVmCreateData(): Promise<VmCreationData> {
+  private getVmCreateData(): Observable<VmCreationData> {
     let vmCreationData = new VmCreationData();
 
-    const p = [];
-    p.push(this.zoneService.getList());
-    p.push(this.serviceOfferingFilterService.getAvailable());
-    p.push(this.diskStorageService.getAvailablePrimaryStorage());
-    p.push(this.affinityGroupService.getList());
-    p.push(this.sshService.getList());
-    p.push(this.templateService.getDefault());
-
-    return Promise.all(p).then(result => {
+    return Observable.forkJoin([
+      this.zoneService.getList(),
+      this.serviceOfferingFilterService.getAvailable(),
+      this.diskStorageService.getAvailablePrimaryStorage(),
+      this.affinityGroupService.getList(),
+      this.sshService.getList(),
+      this.templateService.getDefault()
+    ]).map(result => {
       vmCreationData.zones = result[0];
       vmCreationData.serviceOfferings = result[1];
       vmCreationData.rootDiskSizeLimit = result[2];
