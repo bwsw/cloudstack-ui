@@ -189,5 +189,22 @@
   "CHANGE": "Change",
 
   "OFFERING_CHANGED": "Offering changed",
-  "OFFERING_CHANGE_FAILED": "Offering change failed"
+  "OFFERING_CHANGE_FAILED": "Offering change failed",
+
+  "EDIT_RULES": "Edit rules",
+  "CLOSE": "Close",
+  "TYPE": "Type",
+  "PROTOCOL": "Protocol",
+  "START_PORT": "Start port",
+  "END_PORT": "End port",
+  "INGRESS": "Ingress",
+  "EGRESS": "Egress",
+  "ICMP_TYPE": "ICMP type",
+  "ICMP_CODE": "ICMP code",
+  "ENTER_VALID_PORT": "Enter a valid port",
+  "ENTER_VALID_TYPE": "Enter a valid type",
+  "ENTER_VALID_CODE": "Enter a valid code",
+  "ENTER_VALID_CIDR": "Enter a valid CIDR",
+  "FAILED_TO_ADD_RULE": "Failed to add the rule",
+  "FAILED_TO_REMOVE_RULE": "Failed to remove the rule"
 }

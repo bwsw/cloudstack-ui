@@ -9,9 +9,9 @@ interface RuleListItem {
 }
 
 export class Rules { // defines what should be passed to inputRules
-  templates?: Array<SecurityGroup>; // array of security groups ids
-  ingress: Array<NetworkRule>;
-  egress: Array<NetworkRule>;
+  public templates?: Array<SecurityGroup>; // array of security groups ids
+  public ingress: Array<NetworkRule>;
+  public egress: Array<NetworkRule>;
 
   constructor() {
     this.ingress = [];

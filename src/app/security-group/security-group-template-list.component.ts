@@ -5,6 +5,8 @@ import { TranslateService } from 'ng2-translate';
 
 import { SecurityGroupService } from './security-group.service';
 import { SecurityGroup } from './security-group.model';
+import { SecurityGroupRulesComponent } from './security-group-rules.component';
+import { AsyncJobService } from '../shared/services/async-job.service';
 import { SecurityGroupTemplateCreationComponent } from './security-group-template-creation.component';
 
 @Component({
@@ -31,25 +33,6 @@ export class SecurityGroupTemplateListComponent implements OnInit {
     Promise.all([securityGroupTemplates, accountSecurityGroups])
       .then(([templates, groups]) => {
         this.securityGroupList = templates.concat(groups);
-      });
-  }
-
-  public showCreationDialog() {
-    this.dialogObservable = this.dialogService.showCustomDialog({
-      component: SecurityGroupTemplateCreationComponent,
-      isModal: true,
-      styles: { 'width': '450px' },
-      clickOutsideToClose: true,
-      enterTransitionDuration: 400,
-      leaveTransitionDuration: 400
-    });
-
-    this.dialogObservable.switchMap(res => res.onHide())
-      .subscribe((data: any) => {
-        if (!data) {
-          return;
-        }
-        this.createSecurityGroupTemplate(data);
       });
   }
 
@@ -85,6 +68,36 @@ export class SecurityGroupTemplateListComponent implements OnInit {
         },
         // handle error comes from cancel button
         () => {});
+    });
+  }
+
+  public showCreationDialog() {
+    this.dialogObservable = this.dialogService.showCustomDialog({
+      component: SecurityGroupTemplateCreationComponent,
+      isModal: true,
+      styles: { 'width': '450px' },
+      clickOutsideToClose: true,
+      enterTransitionDuration: 400,
+      leaveTransitionDuration: 400
+    });
+
+    this.dialogObservable.switchMap(res => res.onHide())
+      .subscribe((data: any) => {
+        if (!data) {
+          return;
+        }
+        this.createSecurityGroupTemplate(data);
+      });
+  }
+
+  public showRulesDialog(group: SecurityGroup) {
+    this.dialogService.showCustomDialog({
+      component: SecurityGroupRulesComponent,
+      providers: [SecurityGroupService, AsyncJobService, { provide: 'securityGroup', useValue: group }],
+      isModal: true,
+      styles: { 'width': '880px', 'padding': '12.8px' },
+      enterTransitionDuration: 400,
+      leaveTransitionDuration: 400
     });
   }
 }
