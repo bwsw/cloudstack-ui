@@ -8,7 +8,7 @@ export enum INotificationStatus {
 }
 
 export interface INotification {
-  id: string;
+  id?: string;
   message?: string;
   status?: INotificationStatus;
 }
@@ -38,7 +38,7 @@ export class JobsNotificationService {
   public add(notification: INotification | string): string {
     if (typeof notification === 'string') {
       const n: INotification = {
-        id: '' + this.lastId++,
+        id: (this.lastId++).toString(),
         message: notification,
         status: INotificationStatus.Pending
       };
@@ -50,7 +50,11 @@ export class JobsNotificationService {
       if (this.lastId >= Number.MAX_SAFE_INTEGER) {
         this.lastId = 0;
       }
-      return '' + (this.lastId - 1);
+      return (this.lastId - 1).toString();
+    }
+
+    if (!notification.id) {
+      notification.id = (this.lastId).toString();
     }
 
     const ind = this.notifications.findIndex((el: INotification) => el.id === notification.id);

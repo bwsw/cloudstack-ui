@@ -98,6 +98,16 @@ export class VmListComponent implements OnInit {
         });
       });
     });
+    this.vmService.vmUpdateObservable.subscribe(updatedVm => {
+      this.vmList.forEach((vm, index, array) => {
+        if (vm.id === updatedVm.id) {
+          this.vmService.get(updatedVm.id).then(result => {
+            array[index] = result;
+          });
+          this.vmStats.updateStats();
+        }
+      });
+    });
   }
 
   public onVmAction(e: IVmActionEvent): void {

@@ -8,6 +8,9 @@ import {
   Output
 } from '@angular/core';
 import { VirtualMachine } from '../vm.model';
+import { MdlDialogService } from 'angular2-mdl';
+import { ServiceOfferingDialogComponent } from '../../service-offering/service-offering-dialog.component';
+
 
 @Component({
   selector: 'cs-vm-detail',
@@ -21,8 +24,10 @@ export class VmDetailComponent {
   private expandNIC: boolean;
   private expandServiceOffering: boolean;
 
-
-  constructor(private elementRef: ElementRef) {
+  constructor(
+    private elementRef: ElementRef,
+    private dialogService: MdlDialogService
+  ) {
     this.expandNIC = false;
   }
 
@@ -46,5 +51,20 @@ export class VmDetailComponent {
 
   public toggleServiceOffering(): void {
     this.expandServiceOffering = !this.expandServiceOffering;
+  }
+
+  public changeServiceOffering() {
+    this.dialogService.showCustomDialog({
+      component: ServiceOfferingDialogComponent,
+      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
+      isModal: true,
+      styles: {
+        'overflow': 'visible', // so that the dialog window doesn't cut the SO dropdown
+        'width': '400px'
+      },
+      clickOutsideToClose: true,
+      enterTransitionDuration: 400,
+      leaveTransitionDuration: 400
+    });
   }
 }

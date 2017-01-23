@@ -53,6 +53,7 @@
   "START": "Start",
   "STOP": "Stop",
   "SELECT": "Select",
+  "CHANGE": "Change",
 
   "REBOOT": "Reboot",
   "RESTORE": "Restore",
@@ -186,6 +187,12 @@
     "trafficType": "Traffic Type",
     "type": "Type"
   },
+
+  "CHOOSE_SERVICE_OFFERING": "Choose service offering",
+  "OFFERING_CHANGED": "Offering changed",
+  "OFFERING_CHANGE_FAILED": "Offering change failed",
+  "CHANGE_SERVICE_OFFERING": "Change service offering",
+  "SO_CHANGE_DISABLED": "The virtual machine needs to be stopped",
 
   "EDIT_RULES": "Edit rules",
   "CLOSE": "Close",
