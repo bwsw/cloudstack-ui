@@ -34,8 +34,9 @@ export class VmListItemComponent implements OnInit {
       if (job.jobResult && job.jobResult.id === this.vm.id) {
         this.vm.state = job.jobResult.state;
         this.vm.nic[0] = job.jobResult.nic[0];
-        console.log(job.jobResult);
-        this.showPasswordDialog(job.jobResult.displayName, job.jobResult.password);
+        if (job.jobResult.password) {
+          this.showPasswordDialog(job.jobResult.displayName, job.jobResult.password);
+        }
       }
     });
   }
