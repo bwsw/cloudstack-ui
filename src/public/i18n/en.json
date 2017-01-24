@@ -25,6 +25,7 @@
   "RESTORE_IN_PROGRESS": "Restoring",
   "DESTROY_IN_PROGRESS": "Destroying",
   "DEPLOY_IN_PROGRESS": "Deploying",
+  "RESETPASSWORDFOR_IN_PROGRESS": "Resetting password",
 
   "VM_START_IN_PROGRESS": "Starting a VM",
   "VM_STOP_IN_PROGRESS": "Stopping a VM",
@@ -32,6 +33,7 @@
   "VM_RESTORE_IN_PROGRESS": "Restoring a VM",
   "VM_DESTROY_IN_PROGRESS": "Destroying a VM",
   "VM_DEPLOY_IN_PROGRESS": "Deploying a VM",
+  "VM_RESETPASSWORDFOR_IN_PROGRESS": "Resetting VM password",
 
   "CONFIRM_VM_START": "Are you sure you want to start this virtual machine?",
   "CONFIRM_VM_STOP": "Are you sure you want to stop this virtual machine?",
@@ -39,12 +41,14 @@
   "CONFIRM_VM_RESTORE": "Are you sure you want to restore this virtual machine?",
   "CONFIRM_VM_DESTROY": "Are you sure you want to destroy this virtual machine?",
   "CONFIRM_DELETE_TEMPLATE": "Are you sure you want to delete this template?",
+  "CONFIRM_VM_RESETPASSWORDFOR": "Are you sure you want to reset password?<br>If your Virtual Machine is running it will be rebooted.",
   "START_DONE": "VM has started",
   "STOP_DONE": "VM has been stopped",
   "REBOOT_DONE": "VM has been rebooted",
   "RESTORE_DONE": "VM has been restored",
   "DESTROY_DONE": "VM has been destroyed",
   "DEPLOY_DONE": "VM has been deployed",
+  "RESETPASSWORDFOR_DONE": "Password has been resetted",
 
   "YES": "Yes",
   "NO": "No",
@@ -58,9 +62,12 @@
   "REBOOT": "Reboot",
   "RESTORE": "Restore",
   "DESTROY": "Destroy",
+  "RESETPASSWORDFOR": "Reset password",
   "CLEAR_ALL": "Clear all",
   "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",
   "NO_DONT_ASK": "No, don't ask",
+  "PASSWORD_DIALOG_MESSAGE": "Password for {{ vmName }} is {{ vmPassword }}",
+  "TEST": "test {{value}}",
 
   "TEMPLATES": "Templates",
   "CONSOLE": "Console",

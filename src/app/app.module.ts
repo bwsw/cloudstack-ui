@@ -11,7 +11,6 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
-
 import { NotificationBoxComponent } from './notification-box.component';
 import { NotificationBoxItemComponent } from './notification-box-item.component';
 import { ServiceLocator } from './shared/services';

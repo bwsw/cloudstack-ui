@@ -17,6 +17,7 @@ interface IAffinityGroup {
 
 export interface IVmAction {
   name: string;
+  commandName: string;
   nameLower: string;
   nameCaps: string;
   vmStateOnAction: string;
@@ -90,6 +91,7 @@ export class VirtualMachine extends BaseModel {
   public diskIoWrite: number;
   // misc
   public keyPair: string;
+  public password: string;
 
   constructor(params?: {}) {
     super(params);
@@ -117,7 +119,8 @@ export class VirtualMachine extends BaseModel {
       'stop',
       'reboot',
       'restore',
-      'destroy'
+      'destroy',
+      'resetPasswordFor' // name forced by API and action implementation
     ];
   }
 
@@ -149,7 +152,8 @@ export class VirtualMachine extends BaseModel {
 
   public static getAction(action: string): IVmAction  {
     let name = action.charAt(0).toUpperCase() + action.slice(1);
-    let nameLower = action;
+    let commandName = action;
+    let nameLower = action.toLowerCase();
     let nameCaps = action.toUpperCase();
     let vmStateOnAction = nameCaps + '_IN_PROGRESS';
     let vmActionCompleted = nameCaps + '_DONE';
@@ -157,7 +161,6 @@ export class VirtualMachine extends BaseModel {
     let confirmMessage = 'CONFIRM_VM_' + nameCaps;
     let progressMessage = 'VM_' + nameCaps + '_IN_PROGRESS';
     let successMessage = nameCaps + '_DONE';
-
     switch (action) {
       case 'start':
         mdlIcon = 'play_arrow';
@@ -174,9 +177,13 @@ export class VirtualMachine extends BaseModel {
       case 'destroy':
         mdlIcon = 'close';
         break;
+      case 'resetPasswordFor':
+        mdlIcon = 'vpn_key';
+        break;
     }
     return {
       name,
+      commandName,
       nameLower,
       nameCaps,
       vmStateOnAction,

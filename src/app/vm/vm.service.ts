@@ -172,6 +172,9 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         let fix;
         if (command === 'restore') {
           fix = 'vm';
+        } else if (command === 'resetPasswordFor') {
+          command = command.toLowerCase();
+          fix = 'virtualmachine';
         } else {
           fix = 'virtualmachine';
         }

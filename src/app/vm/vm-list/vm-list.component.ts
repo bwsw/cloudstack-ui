@@ -114,29 +114,17 @@ export class VmListComponent implements OnInit {
     this.translateService.get([
       'YES',
       'NO',
-      e.action.confirmMessage,
-      e.action.progressMessage,
-      e.action.successMessage
-    ]).subscribe(strs => {
-      this.dialogService.confirm(strs[e.action.confirmMessage], strs.NO, strs.YES)
-        .subscribe(() => {
-          if (e.vm) {
-            e.vm.state = e.action.vmStateOnAction;
-          }
-          let id = this.jobsNotificationService.add(strs[e.action.progressMessage]);
-          this.vmService.command(e.action.nameLower, e.vm.id)
-            .subscribe(() => {
-              this.jobsNotificationService.add({
-                id,
-                message: strs[e.action.successMessage],
-                status: INotificationStatus.Finished
-              });
-            }
-          );
-        },
-        // handle error comes from cancel button
-        () => {});
-    });
+      e.action.confirmMessage
+    ]).flatMap((strs) => {
+      return this.dialogService.confirm(strs[e.action.confirmMessage], strs.NO, strs.YES);
+    }).subscribe(() => {
+      if (e.action.commandName !== 'resetPasswordFor') {
+        this.singleActionCommand(e);
+      } else {
+        this.resetPasswordAction(e);
+      }
+    },
+    () => {});
   }
 
   public onVmCreated(e): void {
@@ -179,5 +167,54 @@ export class VmListComponent implements OnInit {
       clickOutsideToClose: true,
       styles: { 'width': '320px' }
     });
+  }
+
+
+  private singleActionCommand(e: IVmActionEvent): Promise<any> {
+    return new Promise((resolve) => {
+      let id;
+      let strs;
+      this.translateService.get([
+        e.action.progressMessage,
+        e.action.successMessage
+      ]).flatMap((res) => {
+        strs = res;
+        id = this.jobsNotificationService.add(strs[e.action.progressMessage]);
+        if (e.vm) {
+          e.vm.state = e.action.vmStateOnAction;
+        }
+        return this.vmService.command(e.action.commandName, e.vm.id);
+      }).subscribe(() => {
+        this.jobsNotificationService.add({
+          id,
+          message: strs[e.action.successMessage],
+          status: INotificationStatus.Finished
+        });
+        resolve();
+      });
+    });
+  }
+
+  private resetPasswordAction(e: IVmActionEvent) {
+    if (e.vm.state === 'Stopped') {
+      this.singleActionCommand(e);
+    } else {
+      let stop: IVmActionEvent = {
+        id: e.id,
+        action: VirtualMachine.getAction('stop'),
+        vm: e.vm,
+        templateId: e.templateId
+      };
+      let start: IVmActionEvent = {
+        id: e.id,
+        action: VirtualMachine.getAction('start'),
+        vm: e.vm,
+        templateId: e.templateId
+      };
+
+      this.singleActionCommand(stop)
+        .then(() => this.singleActionCommand(e))
+        .then(() => this.singleActionCommand(start));
+    }
   }
 }
