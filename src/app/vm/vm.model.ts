@@ -5,16 +5,12 @@ import { NIC } from '../shared/models';
 import { OsType } from '../shared/models/os-type.model';
 import { ServiceOffering } from '../shared/models/service-offering.model';
 import { Template } from '../shared/models/template.model';
+import { SecurityGroup } from '../security-group/sg.model';
 
 export const MIN_ROOT_DISK_SIZE = 10;
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
 
 interface IAffinityGroup {
-  id: string;
-  name: string;
-}
-
-interface ISecurityGroup {
   id: string;
   name: string;
 }
@@ -71,7 +67,7 @@ export class VirtualMachine extends BaseModel {
   // IP addresses
   public nic: Array<NIC>;
   // Security Group
-  public securityGroup: Array<ISecurityGroup>;
+  public securityGroup: Array<SecurityGroup>;
   // Affinity Group
   public affinityGroup: Array<IAffinityGroup>;
   // Zone
@@ -104,8 +100,16 @@ export class VirtualMachine extends BaseModel {
       this.nic = [];
     }
 
+    if (!this.securityGroup || !this.securityGroup.length) {
+      this.securityGroup = [];
+    }
+
     for (let i = 0; i < this.nic.length; i++) {
       this.nic[i] = new NIC(this.nic[i]);
+    }
+
+    for (let i = 0; i < this.securityGroup.length; i++) {
+      this.securityGroup[i] = new SecurityGroup(this.securityGroup[i]);
     }
   }
 
@@ -120,14 +124,14 @@ export class VirtualMachine extends BaseModel {
     ];
   }
 
-  public getDisksSize() {
+  public getDisksSize(): number {
     const sizeInBytes = this.volumes.reduce((acc: number, volume: Volume) => {
       return acc + volume.size;
     }, 0);
     return sizeInBytes / Math.pow(2, 30);
   }
 
-  public canApply(command: string) {
+  public canApply(command: string): boolean {
     const state = this.state;
 
     if (state !== 'Running' && state !== 'Stopped') {

@@ -19,7 +19,6 @@ export class DiskStorageService {
 
   public getAvailablePrimaryStorage(): Promise<number> {
     return this.getAvailableStorage(ResourceType.PrimaryStorage);
-
   }
 
   public getAvailableSecondaryStorage(): Promise<number> {

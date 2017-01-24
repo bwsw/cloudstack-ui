@@ -20,7 +20,7 @@ export class NotificationBoxComponent implements OnInit  {
       this.unseenCount = 0;
     }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.popover.hide = () => {
       this.popover.isVisible = false;
       this.jobsNotificationService.updateUnseenCount();
@@ -35,13 +35,13 @@ export class NotificationBoxComponent implements OnInit  {
       });
   }
 
-  public onToggle(e: Event) {
+  public onToggle(): void {
     if (this.popover.isVisible) {
       this.unseenCount = this.jobsNotificationService.pendingJobsCount;
     }
   }
 
-  public close(id: string) {
+  public close(id: string): void {
     const pendingJobsCount = this.jobsNotificationService.pendingJobsCount;
     const notificationsCount = this.jobsNotificationService.notifications.length;
     if (pendingJobsCount === 0 && notificationsCount === 1) {
@@ -54,7 +54,7 @@ export class NotificationBoxComponent implements OnInit  {
     setTimeout(() => this.jobsNotificationService.remove(id));
   }
 
-  public removeAll() {
+  public removeAll(): void {
     this.jobsNotificationService.removeAll();
     this.popover.hide();
   }

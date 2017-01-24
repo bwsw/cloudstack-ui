@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { IStorageService } from './storage.service';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/toPromise';
@@ -9,13 +8,6 @@ import { ErrorService } from './error.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 
 
-interface LoginResponse {
-  loginresponse: {
-    firstname: string,
-    lastname: string
-  };
-}
-
 class AuthStub extends BaseModel { }
 
 @Injectable()
@@ -24,16 +16,14 @@ class AuthStub extends BaseModel { }
   entityModel: AuthStub
 })
 export class AuthService extends BaseBackendService<AuthStub> {
-
   public loggedIn: Subject<boolean>;
 
-    constructor(
-      protected http: Http,
-      @Inject('IStorageService') protected storage: IStorageService,
-      protected error: ErrorService
-    ) {
-      super();
-      this.loggedIn = new Subject<boolean>();
+  constructor(
+    @Inject('IStorageService') protected storage: IStorageService,
+    protected error: ErrorService
+  ) {
+    super();
+    this.loggedIn = new Subject<boolean>();
   }
 
   public get name(): string {

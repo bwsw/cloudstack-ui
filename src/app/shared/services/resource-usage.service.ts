@@ -72,7 +72,7 @@ export class ResourceUsageService {
     promiseArray.push(this.vmService.getList()
       .then((vms: Array<VirtualMachine>) => {
         consumedResources.instances = vms.length;
-        vms.forEach((value, index, array) => {
+        vms.forEach(value => {
           consumedResources.ips += value.nic.length;
           consumedResources.cpus += value.cpuNumber;
           consumedResources.memory += value.memory;

@@ -1,0 +1,63 @@
+<div class="security-group-template-form">
+  <h4 class="form-title">{{ 'CREATE_NEW_TEMPLATE' | translate }}</h4>
+  <form (ngSubmit)="onSubmit($event)" #templateCreationForm="ngForm">
+    <div class="mdl-dialog__content">
+      <mdl-textfield
+        type="text"
+        label="{{ 'NAME' | translate }}"
+        name="name"
+        floating-label
+        autofocus
+        required
+        [(ngModel)]="name"
+        #nameField="ngModel"
+        [class.is-invalid]="nameField.invalid && !nameField.pristine"
+        [style.width]="'100%'"
+      >
+      </mdl-textfield>
+      <br/>
+      <mdl-textfield
+        type="text"
+        label="{{ 'DESCRIPTION' | translate }}"
+        name="description"
+        floating-label
+        required
+        [(ngModel)]="description"
+        #descriptionField="ngModel"
+        [class.is-invalid]="descriptionField.invalid && !descriptionField.pristine"
+        [style.width]="'100%'"
+      >
+      </mdl-textfield>
+      <br/>
+      <mdl-textfield
+        type="text"
+        label="{{ 'LABELS' | translate }}"
+        name="labels"
+        floating-label
+        [(ngModel)]="labels"
+        [style.width]="'100%'"
+      >
+      </mdl-textfield>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button
+        mdl-colored="primary"
+        mdl-button
+        mdl-ripple
+        type="submit"
+        [disabled]="!templateCreationForm.valid"
+      >
+        {{ 'CREATE' | translate }}
+      </button>
+      <button
+        mdl-colored="primary"
+        mdl-button
+        mdl-ripple
+        type="button"
+        (click)="dialog.hide()"
+      >
+        {{ 'CANCEL' | translate }}
+      </button>
+    </div>
+  </form>
+</div>

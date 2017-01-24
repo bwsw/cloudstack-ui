@@ -52,14 +52,11 @@
 
   "YES": "Yes",
   "NO": "No",
-  "CONFIRM": "Confirm",
   "CANCEL": "Cancel",
 
   "START": "Start",
   "STOP": "Stop",
   "SELECT": "Select",
-
-  "TEMPLATES": "Templates",
 
   "REBOOT": "Reboot",
   "RESTORE": "Restore",
@@ -70,6 +67,9 @@
   "NO_DONT_ASK": "No, don't ask",
   "PASSWORD_DIALOG_MESSAGE": "Password for {{ vmName }} is {{ vmPassword }}",
   "TEST": "test {{value}}",
+
+  "TEMPLATES": "Templates",
+  "CONSOLE": "Console",
 
   "KB_US": "Standard (US) keyboard",
   "KB_UK": "UK keyboard",
@@ -150,6 +150,7 @@
     "START_VM": "Start VM"
   },
 
+  "CREATE_NEW_TEMPLATE": "Create new template",
   "ALL_GROUPS": "All templates",
   "SELECTED_GROUPS": "Selected templates",
   "NETWORK_RULES": "Network rules",
@@ -164,6 +165,13 @@
     "YOU_DONT_HAVE_TEMPLATES": "You don't have any templates"
   },
 
+  "UNABLE_TO_RECEIVE_TEMPLATES": "Unable to receive templates",
+  "NAME": "Name",
+  "DESCRIPTION": "Description",
+  "LABELS": "Labels",
+  "CUSTOM_TEMPLATES_NOT_INCLUDED": "Templates not included",
+  "INSUFFICIENT_RESOURCES": "Insufficient resources",
+  "BASED_ON": "based on",
 
   "IP": "IP",
   "NIC": "NIC",
@@ -187,8 +195,20 @@
     "type": "Type"
   },
 
-  "UNABLE_TO_RECEIVE_TEMPLATES": "Unable to receive templates",
-  "DESCRIPTION": "Description",
-  "CUSTOM_TEMPLATES_NOT_INCLUDED": "Templates not included",
-  "INSUFFICIENT_RESOURCES": "Insufficient resources"
+  "EDIT_RULES": "Edit rules",
+  "CLOSE": "Close",
+  "TYPE": "Type",
+  "PROTOCOL": "Protocol",
+  "START_PORT": "Start port",
+  "END_PORT": "End port",
+  "INGRESS": "Ingress",
+  "EGRESS": "Egress",
+  "ICMP_TYPE": "ICMP type",
+  "ICMP_CODE": "ICMP code",
+  "ENTER_VALID_PORT": "Enter a valid port",
+  "ENTER_VALID_TYPE": "Enter a valid type",
+  "ENTER_VALID_CODE": "Enter a valid code",
+  "ENTER_VALID_CIDR": "Enter a valid CIDR",
+  "FAILED_TO_ADD_RULE": "Failed to add the rule",
+  "FAILED_TO_REMOVE_RULE": "Failed to remove the rule"
 }
