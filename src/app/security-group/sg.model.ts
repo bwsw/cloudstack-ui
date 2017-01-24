@@ -28,7 +28,8 @@ interface ITag {
 
 @FieldMapper({
   ingressrule: 'ingressRules',
-  egressrule: 'egressRules'
+  egressrule: 'egressRules',
+  virtualmachineids: 'virtualMachineIds'
 })
 export class SecurityGroup extends BaseModel {
   public id: string;
@@ -38,6 +39,7 @@ export class SecurityGroup extends BaseModel {
   public domain: string;
   public ingressRules: Array<NetworkRule>;
   public egressRules: Array<NetworkRule>;
+  public virtualMachineIds: Array<string>;
   public tags: Array<ITag>;
 
   private _labels: string;

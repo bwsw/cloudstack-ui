@@ -25,7 +25,7 @@ import { ServiceOfferingFilterService } from '../../shared/services/service-offe
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 import { Template } from '../../shared/models/template.model';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
-import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { SecurityGroupService, GROUP_PREFIX } from '../../shared/services/security-group.service';
 
 
 class VmCreationData {
@@ -129,7 +129,7 @@ export class VmCreationComponent {
       return;
     }
     this.securityGroupService.createWithRules(
-      { name: UUID.v4() },
+      { name: UUID.v4() + GROUP_PREFIX },
       params.ingress || [],
       params.egress || []
     ).then(securityGroup => {
