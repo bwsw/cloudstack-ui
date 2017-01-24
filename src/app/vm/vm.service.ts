@@ -45,7 +45,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
     return Promise.all([vmRequest, volumesRequest])
       .then(([vm, volumes]) => {
-        vm.volumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
+        (vm as VirtualMachine).volumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
 
         const osTypeRequest = this.osTypesService.get(vm.guestOsId);
         const serviceOfferingRequest = this.serviceOfferingService.get(vm.serviceOfferingId);
@@ -62,7 +62,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     const vmsRequest = super.getList();
 
     if (lite) {
-      return vmsRequest;
+      return <Promise<Array<VirtualMachine>>>vmsRequest;
     }
 
     const volumesRequest = this.volumeService.getList();

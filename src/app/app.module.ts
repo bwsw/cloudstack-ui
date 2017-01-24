@@ -17,8 +17,7 @@ import { NotificationBoxItemComponent } from './notification-box-item.component'
 import { ServiceLocator } from './shared/services';
 import { routing } from './app.routing';
 import { SecurityGroupModule } from './security-group/sg.module';
-import { ServiceOfferingSelectorComponent } from './service-offering/service-offering-selector.component';
-import { ServiceOfferingDialogComponent } from './service-offering/service-offering-dialog.component';
+import { ServiceOfferingModule } from './service-offering/service-offering.module';
 import { SharedModule } from './shared/shared.module';
 import { VmModule } from './vm/vm.module';
 
@@ -34,6 +33,7 @@ import { VmModule } from './vm/vm.module';
     MdlPopoverModule,
     MdlSelectModule,
     SecurityGroupModule,
+    ServiceOfferingModule,
     VmModule,
     SharedModule
   ],
@@ -42,11 +42,7 @@ import { VmModule } from './vm/vm.module';
     LoginComponent,
     LogoutComponent,
     NotificationBoxComponent,
-    NotificationBoxItemComponent,
-  ],
-  entryComponents: [
-    ServiceOfferingSelectorComponent,
-    ServiceOfferingDialogComponent
+    NotificationBoxItemComponent
   ],
   providers: [
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },

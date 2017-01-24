@@ -3,7 +3,7 @@ import { MdlDialogReference } from 'angular2-mdl';
 import { VirtualMachine } from '../vm/vm.model';
 import { VmService } from '../vm/vm.service';
 import { JobsNotificationService, INotificationStatus } from '../shared/services/jobs-notification.service';
-import { NotificationService } from '../shared/notification.service';
+import { NotificationService } from '../shared/services/notification.service';
 import { TranslateService } from 'ng2-translate';
 
 

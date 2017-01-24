@@ -5,6 +5,7 @@ import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 
+import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmListComponent } from './vm-list/vm-list.component';
 import { VmListItemComponent } from './vm-list/vm-list-item.component';
@@ -23,6 +24,7 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     FormsModule,
+    ServiceOfferingModule,
     TranslateModule,
     MdlModule,
     MdlSelectModule,
