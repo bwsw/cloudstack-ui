@@ -7,7 +7,11 @@ import {
   Input,
   Output
 } from '@angular/core';
+import { MdlDialogService } from 'angular2-mdl';
+
 import { VirtualMachine } from '../vm.model';
+import { SecurityGroup } from '../../security-group/sg.model';
+import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
 
 @Component({
   selector: 'cs-vm-detail',
@@ -21,8 +25,10 @@ export class VmDetailComponent {
   private expandNIC: boolean;
   private expandServiceOffering: boolean;
 
-
-  constructor(private elementRef: ElementRef) {
+  constructor(
+    private elementRef: ElementRef,
+    private dialogService: MdlDialogService
+  ) {
     this.expandNIC = false;
   }
 
@@ -46,5 +52,16 @@ export class VmDetailComponent {
 
   public toggleServiceOffering(): void {
     this.expandServiceOffering = !this.expandServiceOffering;
+  }
+
+  public showRulesDialog(securityGroup: SecurityGroup) {
+    this.dialogService.showCustomDialog({
+      component: SgRulesComponent,
+      providers: [{ provide: 'securityGroup', useValue: securityGroup }],
+      isModal: true,
+      styles: { 'width': '880px' },
+      enterTransitionDuration: 400,
+      leaveTransitionDuration: 400
+    });
   }
 }

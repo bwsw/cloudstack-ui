@@ -118,11 +118,28 @@
 
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
-      <h2 mdl-card-title-text>{{ 'SECURITY_GROUP' | translate }}</h2>
+      <h2 mdl-card-title-text>{{ 'NETWORK_RULES' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
-      <div>{{ vm.securityGroup[0].name }}</div>
+      <div class="grid security-group">
+        <div class="row">
+          <div>{{ 'INGRESS' | translate }}</div>
+          <div>{{ vm.securityGroup[0].ingressRules.length }}</div>
+        </div>
+        <div class="row">
+          <div>{{ 'EGRESS' | translate}}</div>
+          <div>{{ vm.securityGroup[0].egressRules.length }}</div>
+        </div>
+      </div>
     </mdl-card-supporting-text>
+    <mdl-card-actions mdl-card-border>
+      <button
+        mdl-button
+        (click)="showRulesDialog(vm.securityGroup[0])"
+      >
+        {{ 'EDIT_RULES' | translate }}
+      </button>
+    </mdl-card-actions>
   </mdl-card>
 
   <mdl-card class="vm-card" mdl-shadow="2">
