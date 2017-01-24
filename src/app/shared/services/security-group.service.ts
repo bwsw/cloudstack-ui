@@ -104,31 +104,30 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
       .switchMap(res => {
         return this.asyncJobService.addJob(
           res[`${command}${this.entity.toLowerCase()}${type.toLowerCase()}response`].jobid
-        ).map(jobResult => {
-          if (jobResult.jobStatus === 2) {
-            return Observable.throw(jobResult);
-          }
-          const ruleRaw = jobResult.jobResult.securitygroup[type.toLowerCase() + 'rule'][0];
-          const rule = new NetworkRule(ruleRaw);
-          return rule;
-        });
+        )})
+      .switchMap(jobResult => {
+        if (jobResult.jobStatus === 2) {
+          return Observable.throw(jobResult);
+        }
+        const ruleRaw = jobResult.jobResult.securitygroup[type.toLowerCase() + 'rule'][0];
+        const rule = new NetworkRule(ruleRaw);
+        return Observable.of(rule);
       });
   }
 
   public removeRule(type: NetworkRuleType, data) {
     const command = 'revoke';
     return this.postRequest(`${command};${type}`, data)
-      .map(res => {
+      .switchMap(res => {
         const response = res[`${command}${this.entity.toLowerCase()}${type.toLowerCase()}response`];
         const jobId = response.jobid;
-
-        this.asyncJobService.addJob(jobId)
-          .subscribe(jobResult => {
-            if (jobResult.jobStatus === 2 || jobResult.jobResult && !jobResult.jobResult.success) {
-              return Observable.throw(jobResult);
-            }
-            return Observable.of();
-          });
+        return this.asyncJobService.addJob(jobId)
+      })
+      .switchMap(jobResult => {
+        if (jobResult.jobStatus === 2 || jobResult.jobResult && !jobResult.jobResult.success) {
+          return Observable.throw(jobResult);
+        }
+        return Observable.of(null);
       });
   }
 }

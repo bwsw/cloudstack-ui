@@ -24,7 +24,7 @@ export class ConfigService {
           this.handleError(error);
         });
     } else {
-      return Observable.of();
+      return Observable.of(null);
     }
   }
 
