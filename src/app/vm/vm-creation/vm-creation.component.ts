@@ -124,10 +124,6 @@ export class VmCreationComponent {
 
   public deployVm(): void {
     let params: any = this.vmCreateParams;
-    if (!params.ingress && !params.egress) {
-      this._deploy(params);
-      return;
-    }
     this.securityGroupService.createWithRules(
       { name: UUID.v4() },
       params.ingress || [],
