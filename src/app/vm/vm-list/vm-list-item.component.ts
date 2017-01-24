@@ -3,12 +3,7 @@ import { VirtualMachine, IVmAction } from '../vm.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { IAsyncJob } from '../../shared/models/async-job.model';
 import { MdlDialogService } from 'angular2-mdl';
-import {
-  PasswordDialogComponent,
-  PasswordDialogModel,
-  VM_PASSWORD_TOKEN,
-} from '../password-dialog';
-
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'cs-vm-list-item',
@@ -24,7 +19,8 @@ export class VmListItemComponent implements OnInit {
 
   constructor(
     private asyncJobService: AsyncJobService,
-    private dialogService: MdlDialogService
+    private dialogService: MdlDialogService,
+    private translateService: TranslateService
   ) {}
 
   public ngOnInit(): void {
@@ -34,7 +30,14 @@ export class VmListItemComponent implements OnInit {
         this.vm.state = job.jobResult.state;
         this.vm.nic[0] = job.jobResult.nic[0];
         if (job.jobResult.password) {
-          this.showPasswordDialog(job.jobResult.displayName, job.jobResult.password);
+          this.translateService.get('PASSWORD_DIALOG_MESSAGE',
+            {
+              vmName: job.jobResult.displayName,
+              vmPassword: job.jobResult.password
+            })
+            .subscribe((res: string) => {
+              this.dialogService.alert(res);
+          });
         }
       }
     });
@@ -58,17 +61,5 @@ export class VmListItemComponent implements OnInit {
     }
 
     this.onVmAction.emit(e);
-  }
-
-  private showPasswordDialog(vmName: string, vmPassword: string): void {
-    this.dialogService.showCustomDialog({
-      component: PasswordDialogComponent,
-      providers: [{
-        provide: VM_PASSWORD_TOKEN,
-        useValue: new PasswordDialogModel(vmName, vmPassword)
-      }],
-      isModal: true,
-      styles: {'width': '350px'}
-    });
   }
 }
