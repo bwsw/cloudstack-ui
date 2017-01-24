@@ -22,7 +22,7 @@
     "docs": "typedoc --options typedoc.json src/app/app.component.ts",
     "start": "npm run server",
     "start:hmr": "npm run server -- --hot",
-    "postinstall": "typings install && npm run webdriver-update"
+    "postinstall": "npm run webdriver-update"
   },
   "dependencies": {
     "@angular/common": "2.4.2",
@@ -50,6 +50,7 @@
     "@types/jasmine": "^2.2.29",
     "@types/node": "^6.0.38",
     "@types/selenium-webdriver": "2.53.33",
+    "@types/uuid": "^2.0.29",
     "angular2-template-loader": "^0.6.0",
     "autoprefixer": "^6.3.2",
     "awesome-typescript-loader": "^2.2.4",
@@ -87,7 +88,6 @@
     "tslint-loader": "^2.1.0",
     "typedoc": "^0.5.1",
     "typescript": "2.0.10",
-    "typings": "2.1.0",
     "url-loader": "^0.5.6",
     "webpack": "2.1.0-beta.25",
     "webpack-dev-server": "2.1.0-beta.9"
