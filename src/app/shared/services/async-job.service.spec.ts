@@ -12,7 +12,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { MockNotificationService } from './notification.service';
 import { ServiceLocator } from './service-locator';
-import { AsyncJobService } from './async-job.service';
+import { AsyncJobService } from './';
 import { ErrorService } from '.';
 
 describe('Async job service', () => {
@@ -101,7 +101,7 @@ describe('Async job service', () => {
   // it('job service polls server until a job is resolved', done => {
   //   asyncJobService.addJob('123').subscribe(result => {
   //     expect(result.jobStatus).toBe(1);
-  //     expect(asyncJobService.queryJobs()).toBeFalsy();
+  //     // expect(asyncJobService.queryJobs()).toBeFalsy();
   //     done();
   //   });
   // }, 20000);

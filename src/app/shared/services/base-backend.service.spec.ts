@@ -1,7 +1,7 @@
 import { inject, TestBed, async, getTestBed } from '@angular/core/testing';
 import { Injector } from '@angular/core';
 
-import { BaseBackendService } from './base-backend.service';
+import { BaseBackendService } from './';
 import { BaseModel } from '../models/base.model';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { MockBackend, MockConnection } from '@angular/http/testing';
