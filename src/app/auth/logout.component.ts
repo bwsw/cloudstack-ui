@@ -7,8 +7,7 @@ import { ErrorService } from '../shared/services/error.service';
 
 @Component({
   selector: 'cs-logout',
-  templateUrl: './logout.component.html',
-  styleUrls: ['./logout.scss'],
+  templateUrl: './logout.component.html'
 })
 export class LogoutComponent {
   constructor(

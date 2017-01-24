@@ -42,7 +42,8 @@ export class AuthService extends BaseBackendService<AuthStub> {
   public login(username: string, password: string): Promise<void> {
     return this.postRequest('login', { username, password })
       .then(response => {
-        this.setLoggedIn(`${response.loginresponse.firstname} ${response.loginresponse.lastname}`);
+        let res = response.loginresponse;
+        this.setLoggedIn(`${res.firstname} ${res.lastname}`);
       })
       .catch(() => Promise.reject('Incorrect username or password.'));
   }

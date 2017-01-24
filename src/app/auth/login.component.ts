@@ -7,14 +7,11 @@ import { INotificationService } from '../shared/services/notification.service';
 @Component({
   selector: 'cs-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.scss'],
+  styleUrls: ['login.component.scss'],
 })
 export class LoginComponent {
-
   private username: string;
   private password: string;
-  private usernameRequired: boolean;
-  private passwordRequired: boolean;
 
   constructor(
     private auth: AuthService,
@@ -23,8 +20,6 @@ export class LoginComponent {
   ) {
     this.username = '';
     this.password = '';
-    this.usernameRequired = false;
-    this.passwordRequired = false;
   }
 
   public onSubmit(): void {
@@ -42,10 +37,6 @@ export class LoginComponent {
   }
 
   private handleError(error: string): void {
-    this.usernameRequired = !this.username;
-    this.passwordRequired = !this.password;
-    if (!this.usernameRequired && !this.passwordRequired) {
-      this.notification.message(error);
-    }
+    this.notification.message(error);
   }
 }
