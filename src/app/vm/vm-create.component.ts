@@ -104,7 +104,8 @@ export class VmCreateComponent {
         this.translateService.get(['INSUFFICIENT_RESOURCES']).subscribe(strs => {
           this.notificationService.error(strs['INSUFFICIENT_RESOURCES']);
         });
-      })}, () => {
+      });
+    }, () => {
       this.translateService.get(['UNABLE_TO_RECEIVE_TEMPLATES']).subscribe(strs => {
         this.notificationService.error(strs['UNABLE_TO_RECEIVE_TEMPLATES']);
       });

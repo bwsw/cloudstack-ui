@@ -27,7 +27,7 @@ export class LogoutComponent {
   public logout(): void {
     this.auth.logout()
       .subscribe(() => {
-        this.router.navigate(['/login'])
+        this.router.navigate(['/login']);
       }, error => {
           this.error.next(error);
           return Observable.throw(error);

@@ -37,7 +37,7 @@ export class LoginComponent {
   private login(username: string, password: string): void {
     this.auth.login(username, password)
       .subscribe(() => {
-        this.handleLogin()
+        this.handleLogin();
     }, error => {
       this.handleError(error);
       return Observable.throw(error);

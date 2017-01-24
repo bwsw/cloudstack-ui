@@ -30,7 +30,6 @@ export class ConfigService {
   }
 
   public get(key: string): Observable<any> {
-    debugger;
     if (this.config) {
       return Observable.of(this.config[key]);
     } else {

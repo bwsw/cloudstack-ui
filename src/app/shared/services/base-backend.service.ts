@@ -91,7 +91,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
       return res.json();
     }, error => {
       console.log('qwe');
-      this.handleError(error)
+      this.handleError(error);
     });
   }
 
