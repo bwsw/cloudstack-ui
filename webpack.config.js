@@ -19,15 +19,16 @@ var isTestWatch = ENV === 'test-watch';
 var isTest = ENV === 'test' || isTestWatch;
 var isProd = ENV === 'build';
 
-var { BACKEND_API_URL } = process.env;
+var BACKEND_API_URL = process.env.BACKEND_API_URL;
 if (!BACKEND_API_URL) {
   throw new Error('Environment variable BACKEND_API_URL is required');
 }
 
 //Proxy config
-var redirectFrom = '/client/api';
-var redirectTo = BACKEND_API_URL;
-
+var leadingSlash = BACKEND_API_URL[BACKEND_API_URL.length -1] === '/';
+var redirectTo =  leadingSlash ? BACKEND_API_URL.substr(0, BACKEND_API_URL.length - 1) : BACKEND_API_URL;
+var apiUrl = '/client/api';
+var consoleUrl = '/client/console';
 
 module.exports = function makeWebpackConfig() {
   /**
@@ -290,17 +291,24 @@ module.exports = function makeWebpackConfig() {
    * Reference: http://webpack.github.io/docs/webpack-dev-server.html
    */
   config.devServer = {
-    proxy: {
-      [redirectFrom]: {
-        target: redirectTo,
-        secure: false
-      }
-    },
+    proxy: { },
     contentBase: './src/public',
     historyApiFallback: true,
     quiet: true,
     stats: 'minimal' // none (or false), errors-only, minimal, normal (or true) and verbose
   };
+
+  config.devServer.proxy[apiUrl] = {
+    target: redirectTo + apiUrl,
+    secure: false
+  };
+
+  config.devServer.proxy[consoleUrl] = {
+    target: redirectTo + consoleUrl,
+    pathRewrite: { }
+  };
+
+  config.devServer.proxy[consoleUrl].pathRewrite["^" + consoleUrl] = "";
 
   return config;
 }();

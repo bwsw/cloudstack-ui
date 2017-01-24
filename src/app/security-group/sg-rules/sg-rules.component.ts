@@ -1,5 +1,6 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild, HostListener, ViewChildren, QueryList } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MdlSelectComponent } from '@angular2-mdl-ext/select';
 import { MdlDialogReference } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 
@@ -14,6 +15,8 @@ import { NotificationService } from '../../shared/services';
 })
 export class SgRulesComponent {
   @ViewChild('rulesForm') public rulesForm: NgForm;
+  @ViewChildren(MdlSelectComponent) public selectComponentList: QueryList<MdlSelectComponent>;
+
   public type: NetworkRuleType;
   public protocol: 'TCP'|'UDP'|'ICMP';
   public startPort: number;
@@ -85,5 +88,15 @@ export class SgRulesComponent {
           this.notificationService.message(translations['FAILED_TO_REMOVE_RULE']);
         });
       });
+  }
+
+  @HostListener('click', ['$event'])
+  public onClick(e) {
+    e.stopPropagation();
+    // we need to stop propagation to prevent vmDetail from closing,
+    // but mdl-popover in mdl-select is listening to document click to decide
+    // when it should close (https://git.io/vM7FJ)
+    // stopPropagation prevents it, so here we close it
+    this.selectComponentList.forEach(mdlSelect => mdlSelect.close(e));
   }
 }
