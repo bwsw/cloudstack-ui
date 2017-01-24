@@ -6,6 +6,8 @@ import {
   inject,
   TestBed,
   async,
+  fakeAsync,
+  tick
 } from '@angular/core/testing';
 
 @Component({
@@ -16,8 +18,8 @@ import {
 class MdlTestViewComponent {}
 
 describe('Service: Notification service', () => {
-
   let ns: NotificationService;
+  // let fixture: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -29,6 +31,7 @@ describe('Service: Notification service', () => {
         NotificationService,
       ]
     });
+    // fixture = TestBed.createComponent(MdlTestViewComponent);
   }));
 
   beforeEach(async(inject([NotificationService], (service: NotificationService) => {
@@ -43,17 +46,22 @@ describe('Service: Notification service', () => {
     let notification = ns.message('test');
 
     fixture.detectChanges();
-    notification.subscribe((mdlSnackbarComponent) => {
+    notification.subscribe(fakeAsync((mdlSnackbarComponent) => {
       console.log('snackbar appeared');
       expect(mdlSnackbarComponent.isActive()).toBe(true);
       expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar').length).toBe(1);
       expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar')[0].textContent).toContain('test');
+      // jasmine.clock().tick(3500);
+      // expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar').length).toBe(0);
+      // expect(mdlSnackbarComponent.isActive()).toBe(false); 
       setTimeout(() => {
         console.log('waiting');
         expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar').length).toBe(0);
         expect(mdlSnackbarComponent.isActive()).toBe(false);
       }, 3500);
-    });
+      tick(3500);
+    }));
+
   }));
 
   it('warning appears onscreen and disappears after ~3seconds', async(() => {
