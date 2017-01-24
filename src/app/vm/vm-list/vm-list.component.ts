@@ -15,7 +15,6 @@ import { IVmAction } from '../vm.model';
 import { IAsyncJob } from '../../shared/models/async-job.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { VmStatisticsComponent } from '../vm-statistics/vm-statistics.component';
-import * as UUID from 'uuid';
 
 
 interface IVmActionEvent {
@@ -90,7 +89,6 @@ export class VmListComponent implements OnInit {
             action.successMessage
           ]).subscribe(strs => {
             this.jobsNotificationService.add({
-              id: UUID.v4(),
               message: strs[action.successMessage],
               status: INotificationStatus.Finished
             });

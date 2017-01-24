@@ -1,6 +1,5 @@
 import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
 import { TranslateService } from 'ng2-translate';
-import * as UUID from 'uuid';
 
 import { ZoneService } from '../../shared/services/zone.service';
 import { Zone } from '../../shared/models/zone.model';
@@ -26,6 +25,7 @@ import { ResourceUsageService } from '../../shared/services/resource-usage.servi
 import { Template } from '../../shared/models/template.model';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { UtilsService } from '../../shared/services/utils.service';
 
 
 class VmCreationData {
@@ -81,7 +81,8 @@ export class VmCreationComponent {
     private translateService: TranslateService,
     private notificationService: NotificationService,
     private resourceUsageService: ResourceUsageService,
-    private securityGroupService: SecurityGroupService
+    private securityGroupService: SecurityGroupService,
+    private utils: UtilsService
   ) {
     this.vmCreationData = new VmCreationData();
   }
@@ -129,7 +130,9 @@ export class VmCreationComponent {
       return;
     }
     this.securityGroupService.createWithRules(
-      { name: UUID.v4() },
+      {
+        name: this.utils.getUniqueId()
+      },
       params.ingress || [],
       params.egress || []
     ).then(securityGroup => {
