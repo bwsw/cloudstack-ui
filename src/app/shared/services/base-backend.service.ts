@@ -83,14 +83,11 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   protected getRequest(command: string, params?: {}): Observable<any> {
-    console.log('1111');
     return this.http.get(BACKEND_API_URL, {
       search: this.buildParams(command, params)
     }).map((res: Response) => {
-      console.log('asd');
       return res.json();
     }, error => {
-      console.log('qwe');
       this.handleError(error);
     });
   }

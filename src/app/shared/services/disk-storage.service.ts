@@ -22,7 +22,6 @@ export class DiskStorageService {
 
   public getAvailablePrimaryStorage(): Observable<number> {
     return this.getAvailableStorage(ResourceType.PrimaryStorage);
-
   }
 
   public getConsumedPrimaryStorage(): Observable<number> {

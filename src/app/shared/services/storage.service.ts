@@ -8,7 +8,6 @@ export interface IStorageService {
 
 @Injectable()
 export class StorageService implements IStorageService {
-
   public write(key: string, value: string): void {
     localStorage.setItem(key, value);
   }

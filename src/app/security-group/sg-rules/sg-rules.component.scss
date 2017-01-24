@@ -1,0 +1,32 @@
+mdl-textfield {
+  /deep/ .mdl-textfield__input,
+  /deep/ .mdl-textfield__label {
+    text-align: right;
+  }
+
+  &.cidr {
+    width: 150px;
+  }
+}
+
+.mdl-dialog__content {
+  overflow-y: auto;
+  max-height: 550px;
+
+  table {
+    width: 100%;
+  }
+}
+
+:host /deep/ .mdl-textfield {
+   width: 85px;
+}
+
+:host mdl-select.type /deep/ .mdl-textfield {
+  width: 120px;
+}
+
+:host /deep/ mdl-spinner {
+  position: relative;
+  top: 2px;
+}

@@ -7,11 +7,10 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class ServiceOfferingFilterService {
-
   constructor(
     private resourceUsageService: ResourceUsageService,
     private serviceOfferingService: ServiceOfferingService
-  ) {}
+  ) { }
 
   public getAvailable(): Observable<Array<ServiceOffering>> {
     return Observable.forkJoin([

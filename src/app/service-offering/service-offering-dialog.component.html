@@ -1,0 +1,17 @@
+<h3 class="mdl-dialog__title">
+  {{ "CHOOSE_SERVICE_OFFERING" | translate }}
+</h3>
+<div class="mdl-dialog__content">
+  <cs-service-offering-selector
+    class="service-offering-selector"
+    [(ngModel)]="serviceOfferingId"
+  ></cs-service-offering-selector>
+</div>
+<div class="mdl-dialog__actions">
+  <button mdl-button (click)="onChange()" mdl-colored="primary">
+    {{ 'CHANGE' | translate }}
+  </button>
+  <button mdl-button (click)="onCancel()" mdl-colored="primary">
+    {{ 'CANCEL' | translate }}
+  </button>
+</div>

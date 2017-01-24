@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
 })
 export class ResourceLimitService extends BaseBackendService<ResourceLimit> {
   public getList(params?: {}): Observable<Array<ResourceLimit>> {
-    return super.getList(params).map(result => result.sort((a, b) => a.resourceType - b.resourceType));
+    return super.getList(params)
+      .map(result => result.sort((a, b) => a.resourceType - b.resourceType));
   }
 }

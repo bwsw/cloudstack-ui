@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Http, URLSearchParams } from '@angular/http';
+import { Observable, Subject } from 'rxjs';
 
 import { BaseBackendService, BACKEND_API_URL } from '../shared/services';
 import { BackendResource } from '../shared/decorators';
@@ -11,7 +12,7 @@ import { OsType } from '../shared/models/os-type.model';
 
 import { AsyncJob } from '../shared/models/async-job.model';
 import { AsyncJobService } from '../shared/services/async-job.service';
-import { Http, URLSearchParams } from '@angular/http';
+import { SecurityGroupService } from '../shared/services/security-group.service';
 import { ServiceOfferingService } from '../shared/services/service-offering.service';
 import { ServiceOffering } from '../shared/models/service-offering.model';
 
@@ -22,15 +23,22 @@ import { ServiceOffering } from '../shared/models/service-offering.model';
   entityModel: VirtualMachine
 })
 export class VmService extends BaseBackendService<VirtualMachine> {
+  public vmUpdateObservable: Subject<VirtualMachine>;
 
   constructor(
     private volumeService: VolumeService,
     private osTypesService: OsTypeService,
     private serviceOfferingService: ServiceOfferingService,
+    private securityGroupService: SecurityGroupService,
     protected http: Http,
     protected jobs: AsyncJobService
   ) {
     super();
+    this.vmUpdateObservable = new Subject<VirtualMachine>();
+  }
+
+  public updateVmInfo(vm: VirtualMachine): void {
+    this.vmUpdateObservable.next(vm);
   }
 
   public get(id: string): Observable<VirtualMachine> {
@@ -68,26 +76,31 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     const volumesRequest = this.volumeService.getList();
     const osTypesRequest = this.osTypesService.getList();
     const serviceOfferingsRequest = this.serviceOfferingService.getList();
+    const securityGroupsRequest = this.securityGroupService.getList();
 
     return Observable.forkJoin([
       vmsRequest,
       volumesRequest,
       osTypesRequest,
-      serviceOfferingsRequest
+      serviceOfferingsRequest,
+      securityGroupsRequest
     ])
-      .map(([vms, volumes, osTypes, serviceOfferings]) => {
+      .map(([vms, volumes, osTypes, serviceOfferings, securityGroups]) => {
         vms.forEach((vm: VirtualMachine) => {
           vm.volumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
           vm.osType = osTypes.find((osType: OsType) => osType.id === vm.guestOsId);
           vm.serviceOffering = serviceOfferings.find((serviceOffering: ServiceOffering) => {
             return serviceOffering.id === vm.serviceOfferingId;
           });
+          vm.securityGroup.forEach((group, index) => {
+            vm.securityGroup[index] = securityGroups.find(sg => sg.id === group.id);
+          });
         });
         return vms;
-    });
+      });
   }
 
-  public deploy(params: {}) {
+  public deploy(params: {}): Observable<any> {
     const urlParams = new URLSearchParams();
     urlParams.append('command', 'deployVirtualMachine');
 
@@ -101,7 +114,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       .map(result => result.json().deployvirtualmachineresponse);
   }
 
-  public checkCommand(jobId: string) {
+  public checkCommand(jobId: string): Observable<any> {
     return this.jobs.addJob(jobId)
       .map(result => {
         if (result && result.jobResultCode === 0 && result.jobResult) {
@@ -121,6 +134,21 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
       return observables;
     });
+  }
+
+  public changeServiceOffering(serviceOfferingId: string, id: string): Observable<VirtualMachine> {
+    const urlParams = new URLSearchParams();
+    const command = 'changeServiceForVirtualMachine';
+
+    urlParams.append('command', command);
+    urlParams.append('response', 'json');
+    urlParams.append('id', id);
+    urlParams.append('serviceofferingid', serviceOfferingId);
+
+    return this.http.get(BACKEND_API_URL, { search: urlParams })
+      .map(result => {
+        return new this.entityModel(result.json()[command.toLowerCase() + 'response'].virtualmachine);
+      });
   }
 
   public command(command: string, id?: string, params?: {}): Observable<AsyncJob> {

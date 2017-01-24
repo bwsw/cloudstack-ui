@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../shared';
-import { INotificationService } from '../shared/notification.service';
+import { INotificationService } from '../shared/services/notification.service';
 
 import 'rxjs/Rx';
 import { Observable } from 'rxjs';
