@@ -18,6 +18,7 @@
       >
         <mdl-icon>computer</mdl-icon>
       </button>
+
     </mdl-card-actions>
   </mdl-card>
 
@@ -144,6 +145,15 @@
               mdl-button-type="icon"
             >
               <mdl-icon>camera_alt</mdl-icon>
+            </button>
+            <button
+              mdl-button
+              mdl-button-type="icon"
+              (click)="showVolumeResizeDialog()"
+              [mdl-tooltip]="'Resize'| translate"
+              mdl-tooltip-position="top"
+            >
+              <mdl-icon>photo_size_select_small</mdl-icon>
             </button>
           </div>
         </div>

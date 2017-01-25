@@ -7,12 +7,16 @@ import {
   Input,
   Output
 } from '@angular/core';
-
+import { Observable } from 'rxjs/Rx';
 import { MdlDialogService } from 'angular2-mdl';
+
 import { SecurityGroup } from '../../security-group/sg.model';
 import { ServiceOfferingDialogComponent } from '../../service-offering/service-offering-dialog.component';
 import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
 import { VirtualMachine } from '../vm.model';
+import { VolumeResizeComponent } from './volume-resize.component';
+import { JobsNotificationService, INotificationStatus } from '../../shared/services/jobs-notification.service';
+import { Volume } from '../../shared/models/volume.model';
 
 
 @Component({
@@ -29,7 +33,8 @@ export class VmDetailComponent {
 
   constructor(
     private elementRef: ElementRef,
-    private dialogService: MdlDialogService
+    private dialogService: MdlDialogService,
+    private jobNotificationService: JobsNotificationService
   ) {
     this.expandNIC = false;
   }
@@ -56,7 +61,7 @@ export class VmDetailComponent {
     this.expandServiceOffering = !this.expandServiceOffering;
   }
 
-  public showRulesDialog(securityGroup: SecurityGroup) {
+  public showRulesDialog(securityGroup: SecurityGroup): void {
     this.dialogService.showCustomDialog({
       component: SgRulesComponent,
       providers: [{ provide: 'securityGroup', useValue: securityGroup }],
@@ -65,6 +70,58 @@ export class VmDetailComponent {
       enterTransitionDuration: 400,
       leaveTransitionDuration: 400
     });
+  }
+
+  public showVolumeResizeDialog(): void {
+    let notificationId: string;
+
+    this.dialogService.showCustomDialog({
+      component: VolumeResizeComponent,
+      providers: [{ provide: 'volume', useValue: this.vm.volumes[0] }],
+      isModal: true,
+      styles: { 'width': '300px' },
+      enterTransitionDuration: 400,
+      leaveTransitionDuration: 400
+    })
+      .switchMap(res => res.onHide())
+      .switchMap((data: any) => {
+        if (data) {
+          notificationId = this.jobNotificationService.add('Resizing volume');
+          return data;
+        }
+        return Observable.of(undefined);
+      })
+      .subscribe((data: any) => {
+        if (!data) {
+          return;
+        }
+        this.vm.volumes[0].size = (data as Volume).size;
+
+        this.jobNotificationService.add({
+          id: notificationId,
+          message: 'Volume has been resized',
+          status: INotificationStatus.Finished
+        });
+      },
+        error => {
+          let message = '';
+
+          if (error.errortext.startsWith('Going from')) {
+            message = 'New size is lower than the current, you need to shrink the volume';
+          } else if (error.errortext.startsWith('Maximum number of')) {
+            message = 'Primary storage capacity exceeded';
+          } else {
+            message = error.errortext;
+          }
+
+          this.jobNotificationService.add({
+            id: notificationId,
+            message: 'Volume resize failed',
+            status: INotificationStatus.Failed
+          });
+          this.dialogService.alert(message);
+        }
+      );
   }
 
   public openConsole(): void {

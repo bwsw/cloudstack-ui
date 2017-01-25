@@ -1,0 +1,35 @@
+<h3 class="mdl-dialog__title">Resize disk</h3>
+<div class="mdl-dialog__content">
+  <form (ngSubmit)="resizeVolume()" #volumeResizeForm="ngForm">
+    <mdl-textfield
+      [class.is-invalid]="newSizeField.invalid && !newSizeField.pristine"
+      type="number"
+      label="New size"
+      [(ngModel)]="newSize"
+      #newSizeField="ngModel"
+      required
+      name="new-size"
+      floating-label
+      autofocus
+    ></mdl-textfield>
+    <mdl-checkbox
+      [(ngModel)]="shrink"
+      name="shrink"
+      [disabled]="+newSize >= (volume.size | divByPowerOfTwo:30)"
+    >
+      Shrink
+    </mdl-checkbox>
+  </form>
+</div>
+<div class="mdl-dialog__actions">
+  <button
+    mdl-button
+    mdl-colored="primary"
+    mdl-ripple
+    (click)="resizeVolume()"
+    [disabled]="volumeResizeForm.invalid"
+  >
+    Resize
+  </button>
+  <button mdl-button mdl-ripple (click)="dialog.hide()">Cancel</button>
+</div>
