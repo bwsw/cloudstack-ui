@@ -9,6 +9,7 @@
   "DISKS": "DISKS",
   "INSTANCES": "Instances",
   "SECURITY_GROUP_TEMPLATES": "Security Group Templates",
+  "SECURITY_TEMPLATES": "Security templates",
   "RUNNING": "Running",
   "STOPPED": "Stopped",
 

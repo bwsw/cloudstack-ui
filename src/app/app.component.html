@@ -19,14 +19,16 @@
         class="mdl-navigation__link"
         routerLink="/instances"
       >
-        {{ 'INSTANCES' | translate }}
+        <mdl-icon>cloud</mdl-icon>
+        {{ 'VMS' | translate }}
       </a>
       <a
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link"
         routerLink="/sg-templates"
       >
-        {{ 'SECURITY_GROUP_TEMPLATES' | translate }}
+        <mdl-icon>security</mdl-icon>
+        {{ 'SECURITY_TEMPLATES' | translate }}
       </a>
     </nav>
   </mdl-layout-drawer>
