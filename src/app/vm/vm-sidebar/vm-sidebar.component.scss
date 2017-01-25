@@ -1,10 +1,13 @@
 $line-height: 22px;
+$sidebar-width: 365px;
 
 :host {
   height: 100%;
   position: absolute;
   top: 0;
-  right: 0;
+  right: -($sidebar-width);
+  width: $sidebar-width;
+  box-sizing: border-box;
   transition: right 0.3s;
   overflow: auto;
   background: #fafafa;
@@ -65,13 +68,8 @@ $line-height: 22px;
   width: 340px;
 }
 
-
 :host /deep/ .collapsed-panel .row,
 :host /deep/ .expanded-panel .row {
   display: flex;
   justify-content: space-between;
-}
-
-.width-fix {
-  width: 340px;
 }
