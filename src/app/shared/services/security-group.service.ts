@@ -108,7 +108,8 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
     return this.postRequest(`${command};${type}`, data)
       .switchMap(res => {
         return this.asyncJobService.addJob(
-          res[`${command}${this.entity.toLowerCase()}${type.toLowerCase()}response`].jobid);
+          res[`${command}${this.entity.toLowerCase()}${type.toLowerCase()}response`].jobid
+        );
       })
       .switchMap(jobResult => {
         if (jobResult.jobStatus === 2) {

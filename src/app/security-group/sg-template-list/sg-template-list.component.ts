@@ -56,13 +56,11 @@ export class SgTemplateListComponent implements OnInit {
           translations['YES']
         );
       })
-      .subscribe(() => {
-        this.securityGroupService.deleteTemplate(id)
-          .subscribe(res => {
-            if (res && res.success === 'true') {
-              this.securityGroupList = this.securityGroupList.filter(sg => sg.id !== id);
-            }
-          });
+      .switchMap(() => this.securityGroupService.deleteTemplate(id))
+      .subscribe(res => {
+          if (res && res.success === 'true') {
+            this.securityGroupList = this.securityGroupList.filter(sg => sg.id !== id);
+          }
         },
         // handle errors from cancel button
         () => {}
