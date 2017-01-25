@@ -75,10 +75,7 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
         }
         template.labels = [result.jobResult.tag.value];
 
-        return Observable.forkJoin([
-          Observable.of(template),
-          Observable.of(result)
-        ]);
+        return Observable.of(template);
       });
   }
 
@@ -111,8 +108,8 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
     return this.postRequest(`${command};${type}`, data)
       .switchMap(res => {
         return this.asyncJobService.addJob(
-          res[`${command}${this.entity.toLowerCase()}${type.toLowerCase()}response`].jobid
-        )})
+          res[`${command}${this.entity.toLowerCase()}${type.toLowerCase()}response`].jobid);
+      })
       .switchMap(jobResult => {
         if (jobResult.jobStatus === 2) {
           return Observable.throw(jobResult);
@@ -129,7 +126,7 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
       .switchMap(res => {
         const response = res[`${command}${this.entity.toLowerCase()}${type.toLowerCase()}response`];
         const jobId = response.jobid;
-        return this.asyncJobService.addJob(jobId)
+        return this.asyncJobService.addJob(jobId);
       })
       .switchMap(jobResult => {
         if (jobResult.jobStatus === 2 || jobResult.jobResult && !jobResult.jobResult.success) {

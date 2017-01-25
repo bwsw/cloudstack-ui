@@ -49,7 +49,10 @@ export class AuthService extends BaseBackendService<AuthStub> {
   public logout(): Observable<void> {
     return this.postRequest('logout')
       .map(response => this.setLoggedOut())
-      .catch(() => Observable.throw('Unable to log out.'));
+      .catch(error => {
+        this.error.send(error);
+        return Observable.throw('Unable to log out.');
+      });
   }
 
   public isLoggedIn(): Observable<boolean> {

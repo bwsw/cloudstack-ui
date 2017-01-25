@@ -2,7 +2,6 @@ import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../shared';
 import { INotificationService } from '../shared/services/notification.service';
-import { Observable } from 'rxjs/Rx';
 
 
 @Component({
@@ -36,9 +35,9 @@ export class LoginComponent {
     this.auth.login(username, password)
       .subscribe(() => {
         this.handleLogin();
-    }, error => {
-      this.handleError(error);
-    });
+      }, error => {
+        this.handleError(error);
+      });
   }
 
   private handleLogin(): void {

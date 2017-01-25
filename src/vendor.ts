@@ -7,5 +7,5 @@ import '@angular/forms';
 import '@angular/http';
 import '@angular/router';
 
-import 'rxjs/Rx';
+import 'rxjs';
 import '@angularclass/hmr';

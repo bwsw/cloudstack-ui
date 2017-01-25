@@ -38,7 +38,7 @@ export class SgTemplateListComponent implements OnInit {
 
   public createSecurityGroupTemplate(data): void {
     this.securityGroupService.createTemplate(data)
-      .subscribe(([template, tagJob]) => {
+      .subscribe(template => {
         this.securityGroupList.push(template);
       });
   }
@@ -48,22 +48,25 @@ export class SgTemplateListComponent implements OnInit {
       'YES',
       'NO',
       'CONFIRM_DELETE_TEMPLATE'
-    ]).subscribe(translations => {
-      this.dialogService.confirm(
-        translations['CONFIRM_DELETE_TEMPLATE'],
-        translations['NO'],
-        translations['YES']
-      ).subscribe(() => {
-          this.securityGroupService.deleteTemplate(id)
-            .subscribe(res => {
-              if (res && res.success === 'true') {
-                this.securityGroupList = this.securityGroupList.filter(sg => sg.id !== id);
-              }
+    ])
+      .switchMap(translations => {
+        return this.dialogService.confirm(
+          translations['CONFIRM_DELETE_TEMPLATE'],
+          translations['NO'],
+          translations['YES']
+        );
+      })
+      .subscribe(() => {
+        this.securityGroupService.deleteTemplate(id)
+          .subscribe(res => {
+            if (res && res.success === 'true') {
+              this.securityGroupList = this.securityGroupList.filter(sg => sg.id !== id);
+            }
           });
         },
-        // handle error comes from cancel button
-        () => {});
-    });
+        // handle errors from cancel button
+        () => {}
+      );
   }
 
   public showCreationDialog(): void {

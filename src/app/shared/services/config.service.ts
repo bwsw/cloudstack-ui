@@ -20,7 +20,7 @@ export class ConfigService {
         .map(response => {
           this.config = response.json();
         })
-        .catch(error => this.handleError());
+        .catch(() => this.handleError());
     } else {
       return Observable.of(null);
     }
