@@ -48,7 +48,7 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor, O
 
 
   public ngOnInit(): void {
-    this.serviceOfferingFilterService.getAvailable().then(availableOfferings => {
+    this.serviceOfferingFilterService.getAvailable().subscribe(availableOfferings => {
       this.serviceOfferings = availableOfferings;
       if (this.serviceOfferings.length) {
         this.serviceOffering = this.serviceOfferings[0].id;

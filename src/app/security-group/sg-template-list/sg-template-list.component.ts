@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 
@@ -30,22 +30,16 @@ export class SgTemplateListComponent implements OnInit {
       'tags[0].value': 'true'
     });
 
-    Promise.all([securityGroupTemplates, accountSecurityGroups])
-      .then(([templates, groups]) => {
+    Observable.forkJoin([securityGroupTemplates, accountSecurityGroups])
+      .subscribe(([templates, groups]) => {
         this.securityGroupList = templates.concat(groups);
       });
   }
 
   public createSecurityGroupTemplate(data): void {
     this.securityGroupService.createTemplate(data)
-      .then(([template, tagObservable]) => {
-        tagObservable.subscribe(res => {
-          if (!res || !res.jobResult.success) {
-            return;
-          }
-          template.labels = [res.jobResult.tag.value];
-          this.securityGroupList.push(template);
-        });
+      .subscribe(template => {
+        this.securityGroupList.push(template);
       });
   }
 
@@ -54,21 +48,23 @@ export class SgTemplateListComponent implements OnInit {
       'YES',
       'NO',
       'CONFIRM_DELETE_TEMPLATE'
-    ]).subscribe(translations => {
-      this.dialogService.confirm(
-        translations['CONFIRM_DELETE_TEMPLATE'],
-        translations['NO'],
-        translations['YES']
-      ).subscribe(() => {
-          this.securityGroupService.deleteTemplate(id).then(res => {
-            if (res && res.success === 'true') {
-              this.securityGroupList = this.securityGroupList.filter(sg => sg.id !== id);
-            }
-          });
+    ])
+      .switchMap(translations => {
+        return this.dialogService.confirm(
+          translations['CONFIRM_DELETE_TEMPLATE'],
+          translations['NO'],
+          translations['YES']
+        );
+      })
+      .switchMap(() => this.securityGroupService.deleteTemplate(id))
+      .subscribe(res => {
+          if (res && res.success === 'true') {
+            this.securityGroupList = this.securityGroupList.filter(sg => sg.id !== id);
+          }
         },
-        // handle error comes from cancel button
-        () => {});
-    });
+        // handle errors from cancel button
+        () => {}
+      );
   }
 
   public showCreationDialog(): void {
@@ -89,7 +85,6 @@ export class SgTemplateListComponent implements OnInit {
         this.createSecurityGroupTemplate(data);
       });
   }
-
 
   public showRulesDialog(group: SecurityGroup) {
     this.dialogService.showCustomDialog({

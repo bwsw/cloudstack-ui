@@ -102,7 +102,7 @@ describe('Base backend service', () => {
 
   it('should get model list', async(inject([TestBackendService], (testService) => {
     testService.getList()
-      .then((res: Array<TestModel>) => {
+      .subscribe((res: Array<TestModel>) => {
         expect(res.length).toBe(test.length);
 
         res.forEach((testModel: TestModel, ind: number) => {
@@ -115,7 +115,7 @@ describe('Base backend service', () => {
 
   it('should get model by id', async(inject([TestBackendService], (testService) => {
     testService.get(test[1].id)
-      .then((res: TestModel) => {
+      .subscribe((res: TestModel) => {
         expect(res instanceof TestModel).toBeTruthy();
         expect(res.id).toBe(test[1].id);
         expect(res.field1).toBe(test[1].field1);

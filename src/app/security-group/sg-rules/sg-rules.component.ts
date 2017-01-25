@@ -58,32 +58,31 @@ export class SgRulesComponent {
     this.adding = true;
 
     this.securityGroupService.addRule(type, params)
-      .then(rule => {
+      .subscribe(rule => {
         this.securityGroup[`${type.toLowerCase()}Rules`].push(rule);
         this.cidr = '';
         this.startPort = this.endPort = this.icmpCode = this.icmpType = null;
         this.rulesForm.form.reset();
-      })
-      .catch(() => {
+        this.adding = false;
+      }, () => {
         this.translateService.get(['FAILED_TO_ADD_RULE']).subscribe((translations) => {
           this.notificationService.message(translations['FAILED_TO_ADD_RULE']);
+          this.adding = false;
+
         });
-      })
-      .then(() => this.adding = false);
+      });
   }
 
   public removeRule({ type, id }) {
     this.securityGroupService.removeRule(type, { id })
-      .then(() => {
+      .subscribe(() => {
         const rules = this.securityGroup[`${type.toLowerCase()}Rules`];
         const ind = rules.findIndex(rule => rule.ruleId === id);
         if (ind === -1) {
           return;
         }
-
         rules.splice(ind, 1);
-      })
-      .catch(() => {
+      }, () => {
         this.translateService.get(['FAILED_TO_REMOVE_RULE']).subscribe((translations) => {
           this.notificationService.message(translations['FAILED_TO_REMOVE_RULE']);
         });

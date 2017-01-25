@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs/Rx';
 
 import { AsyncJob } from '../models/async-job.model';
 import { BaseBackendService } from './base-backend.service';
@@ -31,7 +31,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
     this.event = new Subject<AsyncJob>();
   }
 
-  public addJob(id: string): Subject<AsyncJob> {
+  public addJob(id: string): Observable<AsyncJob> {
     let observable = new Subject<AsyncJob>();
     this.jobObservables[id] = observable;
     this.startPolling();
@@ -42,7 +42,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
     if (!this.poll) {
       return false;
     }
-    this.getList().then(result => {
+    this.getList().subscribe(result => {
       let anyJobs = false;
       result.forEach(elem => {
         let id = elem.jobId;

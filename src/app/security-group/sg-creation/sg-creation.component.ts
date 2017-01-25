@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
+import { Observable } from 'rxjs/Rx';
 
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { SecurityGroup, NetworkRule } from '../sg.model';
@@ -48,8 +49,8 @@ export class SgCreationComponent implements OnInit {
       'tags[0].value': 'true'
     });
 
-    Promise.all([securityGroupTemplates, accountSecurityGroups])
-      .then(([templates, groups]) => {
+    Observable.forkJoin([securityGroupTemplates, accountSecurityGroups])
+      .subscribe(([templates, groups]) => {
         this.items[0] = templates.concat(groups);
 
         this.initRulesList();
