@@ -17,6 +17,7 @@ import { VirtualMachine } from '../vm.model';
 import { VolumeResizeComponent } from './volume-resize.component';
 import { JobsNotificationService, INotificationStatus } from '../../shared/services/jobs-notification.service';
 import { Volume } from '../../shared/models/volume.model';
+import { TranslateService } from 'ng2-translate';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class VmDetailComponent {
   constructor(
     private elementRef: ElementRef,
     private dialogService: MdlDialogService,
+    private translateService: TranslateService,
     private jobNotificationService: JobsNotificationService
   ) {
     this.expandNIC = false;
@@ -74,19 +76,30 @@ export class VmDetailComponent {
 
   public showVolumeResizeDialog(): void {
     let notificationId: string;
+    let translations;
 
-    this.dialogService.showCustomDialog({
-      component: VolumeResizeComponent,
-      providers: [{ provide: 'volume', useValue: this.vm.volumes[0] }],
-      isModal: true,
-      styles: { 'width': '300px' },
-      enterTransitionDuration: 400,
-      leaveTransitionDuration: 400
-    })
+    this.translateService.get([
+      'VOLUME_RESIZING',
+      'VOLUME_RESIZED',
+      'VOLUME_RESIZE_FAILED',
+      'VOLUME_NEWSIZE_LOWER',
+      'VOLUME_PRIMARY_STORAGE_EXCEEDED'
+    ])
+      .switchMap(res => {
+        translations = res;
+        return this.dialogService.showCustomDialog({
+          component: VolumeResizeComponent,
+          providers: [{ provide: 'volume', useValue: this.vm.volumes[0] }],
+          isModal: true,
+          styles: { 'width': '400px' },
+          enterTransitionDuration: 400,
+          leaveTransitionDuration: 400
+        });
+      })
       .switchMap(res => res.onHide())
       .switchMap((data: any) => {
         if (data) {
-          notificationId = this.jobNotificationService.add('Resizing volume');
+          notificationId = this.jobNotificationService.add(translations['VOLUME_RESIZING']);
           return data;
         }
         return Observable.of(undefined);
@@ -99,24 +112,27 @@ export class VmDetailComponent {
 
         this.jobNotificationService.add({
           id: notificationId,
-          message: 'Volume has been resized',
+          message: translations['VOLUME_RESIZED'],
           status: INotificationStatus.Finished
         });
       },
         error => {
           let message = '';
 
+          // can't rely on error codes, native ui just prints errortext
           if (error.errortext.startsWith('Going from')) {
-            message = 'New size is lower than the current, you need to shrink the volume';
+            message = translations['VOLUME_NEWSIZE_LOWER'];
           } else if (error.errortext.startsWith('Maximum number of')) {
-            message = 'Primary storage capacity exceeded';
+            message = translations['VOLUME_PRIMARY_STORAGE_EXCEEDED'];
           } else {
+            // don't know what errors may occur,
+            // so print errortext like native ui
             message = error.errortext;
           }
 
           this.jobNotificationService.add({
             id: notificationId,
-            message: 'Volume resize failed',
+            message: translations['VOLUME_RESIZE_FAILED'],
             status: INotificationStatus.Failed
           });
           this.dialogService.alert(message);

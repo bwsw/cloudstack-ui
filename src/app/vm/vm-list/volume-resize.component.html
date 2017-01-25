@@ -1,10 +1,10 @@
-<h3 class="mdl-dialog__title">Resize disk</h3>
+<h3 class="mdl-dialog__title">{{ 'VOLUME_RESIZE_VOLUME' | translate }}</h3>
 <div class="mdl-dialog__content">
   <form (ngSubmit)="resizeVolume()" #volumeResizeForm="ngForm">
     <mdl-textfield
       [class.is-invalid]="newSizeField.invalid && !newSizeField.pristine"
       type="number"
-      label="New size"
+      label="{{ 'VOLUME_NEW_SIZE' | translate }}"
       [(ngModel)]="newSize"
       #newSizeField="ngModel"
       required
@@ -17,7 +17,7 @@
       name="shrink"
       [disabled]="+newSize >= (volume.size | divByPowerOfTwo:30)"
     >
-      Shrink
+      {{ 'VOLUME_SHRINK' | translate }}
     </mdl-checkbox>
   </form>
 </div>
@@ -29,7 +29,7 @@
     (click)="resizeVolume()"
     [disabled]="volumeResizeForm.invalid"
   >
-    Resize
+    {{ 'VOLUME_RESIZE' | translate }}
   </button>
-  <button mdl-button mdl-ripple (click)="dialog.hide()">Cancel</button>
+  <button mdl-button mdl-ripple (click)="dialog.hide()">{{ 'CANCEL' | translate }}</button>
 </div>

@@ -5,7 +5,8 @@ import { VolumeService } from '../../shared/services/volume.service';
 
 @Component({
   selector: 'cs-volume-resize',
-  templateUrl: 'volume-resize.component.html'
+  templateUrl: 'volume-resize.component.html',
+  styles: [':host mdl-textfield { width: 100% }']
 })
 export class VolumeResizeComponent {
   public newSize: string;
