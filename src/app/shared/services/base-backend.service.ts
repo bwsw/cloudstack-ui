@@ -55,6 +55,10 @@ export abstract class BaseBackendService<M extends BaseModel> {
       .map(res => res[`${command}${entity}response`]);
   }
 
+  public createAsync(params?: {}): Observable<any> {
+    return this.getRequest('create', params);
+  }
+
   protected prepareModel(res): M {
     return new this.entityModel(res);
   }

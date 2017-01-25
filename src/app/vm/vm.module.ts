@@ -3,9 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
+import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
+import { SnapshotModule } from '../snapshot/snapshot.module';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmListComponent } from './vm-list/vm-list.component';
 import { VmListItemComponent } from './vm-list/vm-list-item.component';
@@ -27,7 +29,9 @@ import { SharedModule } from '../shared/shared.module';
     ServiceOfferingModule,
     TranslateModule,
     MdlModule,
+    MdlPopoverModule,
     MdlSelectModule,
+    SnapshotModule,
     SharedModule
   ],
   declarations: [
@@ -40,7 +44,9 @@ import { SharedModule } from '../shared/shared.module';
     VmTemplateDialogComponent,
     VmTemplateDialogItemComponent,
   ],
-  providers: [ VmService ],
+  providers: [
+    VmService
+  ],
   entryComponents: [
     VmTemplateDialogComponent,
     VmTemplateDialogItemComponent

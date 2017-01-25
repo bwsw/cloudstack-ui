@@ -13,6 +13,7 @@ import { SecurityGroup } from '../../security-group/sg.model';
 import { ServiceOfferingDialogComponent } from '../../service-offering/service-offering-dialog.component';
 import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
 import { VirtualMachine } from '../vm.model';
+import { SnapshotCreationComponent } from '../../snapshot/snapshot-creation.component';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class VmDetailComponent {
   @Input() public vm: VirtualMachine;
   @Input() @HostBinding('class.open') private isOpen;
   private expandNIC: boolean;
+  private expandStorage: boolean;
   private expandServiceOffering: boolean;
 
   constructor(
@@ -32,6 +34,8 @@ export class VmDetailComponent {
     private dialogService: MdlDialogService
   ) {
     this.expandNIC = false;
+    this.expandStorage = false;
+    this.expandServiceOffering = false;
   }
 
   @HostListener('document:click', ['$event'])
@@ -50,6 +54,10 @@ export class VmDetailComponent {
 
   public toggleNIC(): void {
     this.expandNIC = !this.expandNIC;
+  }
+
+  public toggleStorage() {
+    this.expandStorage = !this.expandStorage;
   }
 
   public toggleServiceOffering(): void {
@@ -84,6 +92,18 @@ export class VmDetailComponent {
         'overflow': 'visible', // so that the dialog window doesn't cut the SO dropdown
         'width': '400px'
       },
+      clickOutsideToClose: true,
+      enterTransitionDuration: 400,
+      leaveTransitionDuration: 400
+    });
+  }
+
+  public takeSnapshot(volumeId: string): void {
+    this.dialogService.showCustomDialog({
+      component: SnapshotCreationComponent,
+      providers: [{ provide: 'volumeId', useValue: volumeId }],
+      isModal: true,
+      styles: { 'width': '400px' },
       clickOutsideToClose: true,
       enterTransitionDuration: 400,
       leaveTransitionDuration: 400
