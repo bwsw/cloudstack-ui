@@ -217,5 +217,15 @@
   "ENTER_VALID_CODE": "Enter a valid code",
   "ENTER_VALID_CIDR": "Enter a valid CIDR",
   "FAILED_TO_ADD_RULE": "Failed to add the rule",
-  "FAILED_TO_REMOVE_RULE": "Failed to remove the rule"
+  "FAILED_TO_REMOVE_RULE": "Failed to remove the rule",
+
+  "VOLUME_RESIZE": "Resize",
+  "VOLUME_RESIZING": "Resizing volume",
+  "VOLUME_RESIZED": "Volume has been resized",
+  "VOLUME_RESIZE_FAILED": "Volume resize failed",
+  "VOLUME_NEWSIZE_LOWER": "New size is lower than the current, you need to shrink the volume",
+  "VOLUME_PRIMARY_STORAGE_EXCEEDED": "Primary storage capacity exceeded",
+  "VOLUME_RESIZE_VOLUME": "Resize volume",
+  "VOLUME_SHRINK": "SHRINK",
+  "VOLUME_NEW_SIZE": "New size"
 }

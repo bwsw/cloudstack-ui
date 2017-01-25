@@ -215,5 +215,15 @@
   "ENTER_VALID_CODE": "Введите корректный код",
   "ENTER_VALID_CIDR": "Введите корректный CIDR",
   "FAILED_TO_ADD_RULE": "Не удалось добавить правило",
-  "FAILED_TO_REMOVE_RULE": "Не удалось удалить правило"
+  "FAILED_TO_REMOVE_RULE": "Не удалось удалить правило",
+
+  "VOLUME_RESIZE": "Изменить размер",
+  "VOLUME_RESIZING": "Изменение размера диска",
+  "VOLUME_RESIZED": "Размер диска изменен",
+  "VOLUME_RESIZE_FAILED": "Изменение размера диска не удалось",
+  "VOLUME_NEWSIZE_LOWER": "Новый размер меньше текущего, необходимо сжать диск",
+  "VOLUME_PRIMARY_STORAGE_EXCEEDED": "Лимит основного хранилища превышен",
+  "VOLUME_RESIZE_VOLUME": "Изменить размер диска",
+  "VOLUME_SHRINK": "Сжать",
+  "VOLUME_NEW_SIZE": "Новый размер"
 }
