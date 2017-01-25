@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MdlSnackbarService, MdlSnackbarComponent } from 'angular2-mdl';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 interface INotificationAction {
   handler: () => void;

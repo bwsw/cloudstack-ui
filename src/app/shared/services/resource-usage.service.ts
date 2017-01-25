@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core';
-
-import 'rxjs/add/operator/toPromise';
-
 import { ResourceLimitService } from './resource-limit.service';
 import { VmService } from '../../vm/vm.service';
 import { VirtualMachine } from '../../vm/';
@@ -11,6 +8,7 @@ import { SnapshotService } from './snapshot.service';
 import { Snapshot } from '../models/snapshot.model';
 import { DiskStorageService } from './disk-storage.service';
 import { ResourceType, ResourceLimit } from '../models/resource-limit.model';
+import { Observable } from 'rxjs/Rx';
 
 
 export class ResourcesData {
@@ -63,14 +61,14 @@ export class ResourceUsageService {
     private diskStorageService: DiskStorageService
   ) {}
 
-  public getResourceUsage(): Promise<ResourceStats> {
+  public getResourceUsage(): Observable<ResourceStats> {
     let consumedResources = new ResourcesData();
     let maxResources;
 
     let promiseArray = [];
 
     promiseArray.push(this.vmService.getList()
-      .then((vms: Array<VirtualMachine>) => {
+      .map((vms: Array<VirtualMachine>) => {
         consumedResources.instances = vms.length;
         vms.forEach(value => {
           consumedResources.ips += value.nic.length;
@@ -80,31 +78,32 @@ export class ResourceUsageService {
       }));
 
     promiseArray.push(this.volumeService.getList()
-      .then((volumes: Array<Volume>) => {
+      .map((volumes: Array<Volume>) => {
         consumedResources.volumes = volumes.length;
       }));
 
     promiseArray.push(this.snapshotService.getList()
-      .then((snapshots: Array<Snapshot>) => {
+      .map((snapshots: Array<Snapshot>) => {
         consumedResources.snapshots = snapshots.length;
       }));
 
     promiseArray.push(this.diskStorageService.getConsumedPrimaryStorage()
-      .then(result => consumedResources.primaryStorage = result));
+      .map(result => consumedResources.primaryStorage = result));
 
     promiseArray.push(this.diskStorageService.getConsumedSecondaryStorage()
-      .then(result => consumedResources.secondaryStorage = result));
+      .map(result => consumedResources.secondaryStorage = result));
 
-    return Promise.all(promiseArray)
-      .then(() => {
-        return this.resourceLimitService.getList().then(result => {
-          maxResources = new ResourcesData(result);
-          return new ResourceStats(
-            this.getAvailableResources(maxResources, consumedResources),
-            consumedResources,
-            maxResources
-          );
-        });
+    return Observable.forkJoin(promiseArray)
+      .switchMap(() => {
+        return this.resourceLimitService.getList()
+          .map(result => {
+            maxResources = new ResourcesData(result);
+            return new ResourceStats(
+              this.getAvailableResources(maxResources, consumedResources),
+              consumedResources,
+              maxResources
+            );
+          });
       });
   }
 

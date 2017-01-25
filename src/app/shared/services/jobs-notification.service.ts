@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable } from 'rxjs/Rx';
 
 export enum INotificationStatus {
   Pending,

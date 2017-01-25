@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Template } from '../models';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { BaseBackendService } from './base-backend.service';
+import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 @BackendResource({
@@ -22,24 +23,24 @@ export class TemplateService extends BaseBackendService<Template> {
     return this._templateFilters;
   }
 
-  public get(id: string): Promise<Template> {
+  public get(id: string): Observable<Template> {
     const templatefilter = 'featured';
     return this.getList({templatefilter, id})
-      .then(data => data[0])
-      .catch(error => Promise.reject(error));
+      .map(data => data[0])
+      .catch(error => Observable.throw(error));
   }
 
-  public getList(params: { templatefilter: string, [propName: string]: any }): Promise<Array<Template>> {
+  public getList(params: { templatefilter: string, [propName: string]: any }): Observable<Array<Template>> {
     if (this.templates.hasOwnProperty(params.templatefilter)) {
-      return Promise.resolve(this.templates[params.templatefilter]);
+      return Observable.of(this.templates[params.templatefilter]);
     }
 
     let filter = params.templatefilter;
     return super.getList(params)
-      .then(data => this.templates[filter] = data);
+      .map(data => this.templates[filter] = data);
   }
 
-  public getGroupedTemplates(params?: {}, templatefilters?: Array<string>): Promise<Object> {
+  public getGroupedTemplates(params?: {}, templatefilters?: Array<string>): Observable<Object> {
     let _params = {};
     let localTemplateFilters = this._templateFilters;
     if (templatefilters) {
@@ -55,8 +56,8 @@ export class TemplateService extends BaseBackendService<Template> {
       templatePromises.push(this.getList(_params as  { templatefilter: string, [propName: string]: any }));
     }
 
-    return Promise.all(templatePromises)
-      .then(data => {
+    return Observable.forkJoin(templatePromises)
+      .map(data => {
         let obj = {};
         data.forEach((templateSet, i) => {
           obj[localTemplateFilters[i]] = templateSet;
@@ -65,9 +66,9 @@ export class TemplateService extends BaseBackendService<Template> {
       });
   }
 
-  public getDefault(): Promise<Template> {
+  public getDefault(): Observable<Template> {
     return this.getGroupedTemplates()
-      .then(data => {
+      .map(data => {
         for (let filter of this._templateFilters) {
           if (data.hasOwnProperty(filter)) {
             if (data[filter].length > 0) {
@@ -75,7 +76,7 @@ export class TemplateService extends BaseBackendService<Template> {
             }
           }
         }
-        return Promise.reject(0);
-      });
+      })
+      .catch(() => Observable.throw(0));
   }
 }

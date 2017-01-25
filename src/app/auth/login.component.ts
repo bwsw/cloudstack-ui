@@ -1,8 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { AuthService } from '../shared';
 import { INotificationService } from '../shared/services/notification.service';
+import { SecurityGroupService } from '../shared/services/security-group.service';
+
 
 @Component({
   selector: 'cs-login',
@@ -19,7 +20,8 @@ export class LoginComponent {
   constructor(
     private auth: AuthService,
     @Inject('INotificationService') private notification: INotificationService,
-    private router: Router
+    private router: Router,
+    private securityGroupService: SecurityGroupService
   ) {
     this.username = '';
     this.password = '';
@@ -33,11 +35,15 @@ export class LoginComponent {
 
   private login(username: string, password: string): void {
     this.auth.login(username, password)
-      .then(() => this.handleLogin())
-      .catch(error => this.handleError(error));
+      .subscribe(() => {
+        this.handleLogin();
+      }, error => {
+        this.handleError(error);
+      });
   }
 
   private handleLogin(): void {
+    this.securityGroupService.removeEmptyGroups();
     this.router.navigate(['']);
   }
 

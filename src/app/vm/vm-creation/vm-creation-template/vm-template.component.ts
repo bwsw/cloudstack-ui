@@ -27,7 +27,7 @@ export class VmTemplateComponent implements OnInit, OnChanges {
     if (this.selectedIn) {
       this.displayTemplateName = this.selectedIn.name;
     } else {
-      this.templateService.getDefault().then(template => {
+      this.templateService.getDefault().subscribe(template => {
         this.selectedIn = template;
         this.displayTemplateName = this.selectedIn.name;
       });

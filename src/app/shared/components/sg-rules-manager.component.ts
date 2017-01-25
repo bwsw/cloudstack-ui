@@ -3,7 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
 import { SgCreationComponent, Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { SecurityGroupService } from '../services/';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'cs-security-group-rules-manager',

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from 'ng2-translate';
 import { ErrorService } from './shared/services/error.service';
 import { INotificationService } from './shared/services/notification.service';
+import { MdlLayoutComponent } from 'angular2-mdl';
 
 import '../style/app.scss';
 
@@ -29,10 +30,14 @@ export class AppComponent {
     this.translate.setDefaultLang('en');
     this.translate.use('en');
     this.error.subscribe(e => this.handleError(e));
-    this.auth.isLoggedIn().then(r => this.loggedIn = r);
+    this.auth.isLoggedIn().subscribe(r => this.loggedIn = r);
     this.auth.loggedIn.subscribe(loggedIn => {
       this.updateAccount(loggedIn);
     });
+  }
+
+  public componentSelected(mainLayout: MdlLayoutComponent) {
+    mainLayout.closeDrawerOnSmallScreens();
   }
 
   private updateAccount(loggedIn: boolean): void {
