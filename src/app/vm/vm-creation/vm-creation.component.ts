@@ -25,7 +25,7 @@ import { ServiceOfferingFilterService } from '../../shared/services/service-offe
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 import { Template } from '../../shared/models/template.model';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
-import { SecurityGroupService, GROUP_PREFIX } from '../../shared/services/security-group.service';
+import { SecurityGroupService, GROUP_POSTFIX } from '../../shared/services/security-group.service';
 import { Observable } from 'rxjs/Rx';
 
 
@@ -126,7 +126,7 @@ export class VmCreationComponent {
   public deployVm(): void {
     let params: any = this.vmCreateParams;
     this.securityGroupService.createWithRules(
-      { name: UUID.v4() + GROUP_PREFIX },
+      { name: UUID.v4() + GROUP_POSTFIX },
       params.ingress || [],
       params.egress || []
     ).subscribe(securityGroup => {

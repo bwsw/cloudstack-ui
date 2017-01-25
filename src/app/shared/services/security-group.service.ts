@@ -8,7 +8,7 @@ import { AsyncJobService } from './async-job.service';
 import { NetworkRule } from '../../security-group/sg.model';
 import { Observable } from 'rxjs/Rx';
 
-export const GROUP_PREFIX = '-cs-sg';
+export const GROUP_POSTFIX = '-cs-sg';
 
 @Injectable()
 @BackendResource({
@@ -84,11 +84,11 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
     return this.remove({ id });
   }
 
-  public removeEmptyGroups() {
+  public removeEmptyGroups(): void {
     this.getList()
-      .then((groups: Array<SecurityGroup>) => {
+      .subscribe((groups: Array<SecurityGroup>) => {
         const uuidV4RegexRaw = '[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}';
-        const regex = new RegExp(`^${uuidV4RegexRaw}${GROUP_PREFIX}$`, 'i');
+        const regex = new RegExp(`^${uuidV4RegexRaw}${GROUP_POSTFIX}$`, 'i');
         groups.forEach(group => {
           if (!regex.test(group.name)) {
             return;
