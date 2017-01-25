@@ -12,8 +12,8 @@ import { VirtualMachine } from '../vm.model';
 
 @Component({
   selector: 'cs-vm-detail',
-  templateUrl: 'vm-sidebar.component.html',
-  styleUrls: ['vm-sidebar.component.scss']
+  templateUrl: 'vm-detail.component.html',
+  styleUrls: ['vm-detail.component.scss']
 })
 export class VmDetailComponent {
   @Input() public vm: VirtualMachine;

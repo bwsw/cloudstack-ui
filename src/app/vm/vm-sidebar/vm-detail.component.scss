@@ -1,44 +1,5 @@
 $line-height: 22px;
 
-:host {
-  height: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
-  transition: right 0.3s;
-  overflow: auto;
-  background: #fafafa;
-  padding: 10px 5px;
-  z-index: 5;
-}
-
-:host.open {
-  right: 0;
-}
-
-h4 {
-  margin: 0 5px;
-}
-
-mdl-card {
-  min-height: initial;
-  margin: 5px;
-}
-
-.grid {
-  margin: 5px auto;
-
-  .row {
-    display: flex;
-    flex-flow: row wrap;
-
-    & > div {
-      width: 50%;
-      padding: 2px;
-    }
-  }
-}
-
 .grid.service-offering {
   overflow: hidden;
   height: 5 * $line-height;
@@ -48,100 +9,10 @@ mdl-card {
   }
 }
 
-.grid.snapshots {
-  overflow: hidden;
-  max-height: 6 * $line-height;
-
-  &.open {
-    max-height: none;
-    height: auto;
-  }
-}
-
-.grid.volumes .row > div {
-  width: 50%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
 .service-offering .row > div:nth-child(2n),
-.statistics .row > div:nth-child(2n),
-.volumes .row > div:nth-child(3n)
+.statistics .row > div:nth-child(2n)
 {
   text-align: right;
-}
-
-button {
-  transition: transform 0.3s;
-}
-
-button.open {
-  transform: rotate(180deg);
-}
-
-/deep/ .mdl-tabs__tab-bar {
-  & > div {
-    width: 50%;
-  }
-  .mdl-tabs__tab {
-    width: 100%;
-  }
-  width: 340px;
-}
-
-mdl-card-supporting-text {
-  width: 100%
-}
-
-.details-header {
-  width: 340px;
-}
-
-.disk-size {
-  padding-bottom: 8px;
-}
-
-.snapshot-name {
-  width: 34% !important;
-}
-
-.snapshot-date {
-  text-align: center;
-  width: 18% !important;
-}
-
-.snapshot-state {
-  text-align: right;
-  width: 28% !important;
-}
-
-.disk-actions-popover {
-  right: 50px;
-  width: 170px !important;
-}
-
-.button-18px {
-  min-width: 24px;
-  height: 24px;
-  width: 24px;
-}
-
-.icon-18px {
-  font-size: 18px;
-}
-
-.snapshot-buttons {
-  position: relative;
-  width: 20% !important;
-  top: -2px;
-  padding-left: 4px;
-}
-
-.collapsed-panel .row,
-.expanded-panel .row {
-  display: flex;
-  justify-content: space-between;
 }
 
 .nic-name {

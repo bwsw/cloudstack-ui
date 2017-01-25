@@ -1,0 +1,106 @@
+<div *ngIf="vm">
+  <mdl-card *ngFor="let volume of vm.volumes" class="vm-card" mdl-shadow="2">
+    <mdl-card-title>
+      <h2 mdl-card-title-text>{{ volume.name }}</h2>
+    </mdl-card-title>
+    <mdl-card-supporting-text>
+      <div class="disk-size">{{ (volume.size | divByPowerOfTwo:30:2) + ' ' + ('GB' | translate) }}</div>
+      <div class="grid volumes snapshots" [class.open]="expandStorage">
+        <div class="row" *ngFor="let snapshot of volume.snapshots">
+          <div
+            class="snapshot-name"
+            [mdl-tooltip]="snapshot.name"
+            mdl-tooltip-position="top"
+          >
+            {{ snapshot.name }}
+          </div>
+          <div class="snapshot-date">{{ snapshot.created | date:'MMM d' }}</div>
+          <div class="snapshot-state">{{ 'SNAPSHOT.' + snapshot.state.toUpperCase() | translate }}</div>
+          <div class="snapshot-buttons">
+            <button
+              class="button-18px snapshot-button"
+              [mdl-tooltip]="'SNAPSHOT_SCHEDULE_BUTTON' | translate "
+              mdl-tooltip-position="top"
+              mdl-button
+              mdl-button-type="icon"
+            >
+              <mdl-icon class="icon-18px">replay</mdl-icon>
+            </button>
+            <button
+              class="button-18px snapshot-button"
+              [mdl-tooltip]="'RESIZE_DISK_BUTTON' | translate "
+              mdl-tooltip-position="top"
+              mdl-button
+              mdl-button-type="icon"
+            >
+              <mdl-icon class="icon-18px">close</mdl-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </mdl-card-supporting-text>
+    <mdl-card-menu>
+      <button
+        mdl-button
+        (click)="myPopover.toggle($event)"
+        mdl-button-type="icon"
+        mdl-ripple>
+        <mdl-icon>more_vert</mdl-icon>
+      </button>
+    </mdl-card-menu>
+    <mdl-card-actions *ngIf="volume.snapshots.length > 5" mdl-card-border style="text-align: right;">
+      <button
+        mdl-button
+        mdl-ripple
+        mdl-button-type="icon"
+        (click)="toggleStorage()"
+        [class.open]="expandStorage"
+      >
+        <mdl-icon>keyboard_arrow_down</mdl-icon>
+      </button>
+    </mdl-card-actions>
+    <mdl-popover
+      class="disk-actions-popover"
+      #myPopover
+      [hide-on-click]="true"
+      [style.width.px]="300"
+    >
+      <div mdl-shadow="6" style="padding: 1rem;">
+        <button
+          [mdl-tooltip]="'CREATE_TEMPLATE_BUTTON' | translate "
+          mdl-tooltip-position="bottom"
+          mdl-button
+          mdl-button-type="icon"
+          class="button-18px"
+        >
+          <mdl-icon class="icon-18px">add</mdl-icon>
+        </button>
+        <button
+          [mdl-tooltip]="'TAKE_SNAPSHOT_BUTTON' | translate "
+          mdl-tooltip-position="bottom"
+          mdl-button
+          mdl-button-type="icon"
+          (click)="takeSnapshot(volume.id)"
+        >
+          <mdl-icon >camera_alt</mdl-icon>
+        </button>
+        <button
+          [mdl-tooltip]="'SNAPSHOT_SCHEDULE_BUTTON' | translate "
+          mdl-tooltip-position="bottom"
+          mdl-button
+          mdl-button-type="icon"
+        >
+          <mdl-icon >schedule</mdl-icon>
+        </button>
+        <button
+          [mdl-tooltip]="'RESIZE_DISK_BUTTON' | translate "
+          mdl-tooltip-position="bottom"
+          mdl-button
+          mdl-button-type="icon"
+        >
+          <mdl-icon >photo_size_select_small</mdl-icon>
+        </button>
+      </div>
+    </mdl-popover>
+  </mdl-card>
+</div>

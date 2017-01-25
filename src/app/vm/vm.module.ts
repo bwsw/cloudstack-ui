@@ -8,6 +8,7 @@ import { MdlSelectModule } from '@angular2-mdl-ext/select';
 
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { SnapshotModule } from '../snapshot/snapshot.module';
+import { StorageDetailComponent } from './vm-sidebar/storage-detail.component';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmDetailComponent } from './vm-sidebar/vm-detail.component';
 import { VmListComponent } from './vm-list/vm-list.component';
@@ -36,6 +37,7 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule
   ],
   declarations: [
+    StorageDetailComponent,
     VmListComponent,
     VmCreationComponent,
     VmListItemComponent,
