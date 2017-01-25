@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject } from 'rxjs/Rx';
 
 @Injectable()
 export class ErrorService extends Subject<any> {
@@ -12,5 +12,9 @@ export class ErrorService extends Subject<any> {
       return response[r[0]].cserrorcode;
     }
     return 0;
+  }
+
+  public send(error: any): void {
+    this.next(error);
   }
 }

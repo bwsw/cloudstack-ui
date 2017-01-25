@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
-
-import 'rxjs/add/operator/toPromise';
-
 import { BaseBackendService } from './base-backend.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { ResourceLimit } from '../models/resource-limit.model';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 
 @Injectable()

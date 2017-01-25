@@ -2,7 +2,7 @@ import { Http, URLSearchParams, Response, Headers } from '@angular/http';
 import { BaseModel } from '../models/base.model';
 import { ErrorService } from '.';
 import { ServiceLocator } from './service-locator';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 export const BACKEND_API_URL = '/client/api';
 
@@ -85,11 +85,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
   protected getRequest(command: string, params?: {}): Observable<any> {
     return this.http.get(BACKEND_API_URL, {
       search: this.buildParams(command, params)
-    }).map((res: Response) => {
-      return res.json();
-    }, error => {
-      this.handleError(error);
-    });
+    }).map((res: Response) => res.json())
+      .catch(error => this.handleError(error));
   }
 
   protected postRequest(command: string, params?: {}): Observable<any> {
@@ -118,7 +115,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   private handleError(error): Observable<any> {
-    this.error.next(error);
+    this.error.send(error);
     return Observable.throw(error);
   }
 }

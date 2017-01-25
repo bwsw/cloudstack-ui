@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
 import { JobsNotificationService } from './shared/services/jobs-notification.service';
 import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'cs-notification-box',

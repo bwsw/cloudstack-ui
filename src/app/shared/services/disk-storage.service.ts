@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/toPromise';
 import { ResourceLimitService } from './resource-limit.service';
 import { VolumeService } from './volume.service';
 import { Volume } from '../models/volume.model';
 import { ResourceType } from '../models/resource-limit.model';
 import { SnapshotService } from './snapshot.service';
 import { IsoService } from './iso.service';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 import { Snapshot } from '../models/snapshot.model';
 import { Iso } from '../models/iso.model';
 
@@ -70,6 +69,7 @@ export class DiskStorageService {
         }
         let space = values[0] - values[1];
         return space > 0 ? space : 0;
-      }, error => Observable.throw(error));
+      })
+      .catch(error => Observable.throw(error));
   }
 }

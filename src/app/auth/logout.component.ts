@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../shared/services';
 import { Router } from '@angular/router';
 import { ErrorService } from '../shared/services/error.service';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 
 @Component({
@@ -23,8 +23,7 @@ export class LogoutComponent {
       .subscribe(() => {
         this.router.navigate(['/login']);
       }, error => {
-          this.error.next(error);
-          return Observable.throw(error);
+        this.error.send(error);
       });
   }
 }

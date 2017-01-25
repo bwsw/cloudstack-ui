@@ -1,12 +1,10 @@
 import { Inject, Injectable } from '@angular/core';
 import { IStorageService } from './storage.service';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/toPromise';
 import { BaseBackendService, BACKEND_API_URL } from './base-backend.service';
 import { BaseModel } from '../models/base.model';
 import { ErrorService } from './error.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs/Rx';
 
 
 class AuthStub extends BaseModel { }

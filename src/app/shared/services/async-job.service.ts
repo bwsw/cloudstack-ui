@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable } from 'rxjs/Rx';
 
 import { AsyncJob } from '../models/async-job.model';
 import { BaseBackendService } from './base-backend.service';

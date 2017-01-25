@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core';
-
-import 'rxjs/add/operator/toPromise';
-
 import { ResourceLimitService } from './resource-limit.service';
 import { VmService } from '../../vm/vm.service';
 import { VirtualMachine } from '../../vm/';
@@ -11,7 +8,7 @@ import { SnapshotService } from './snapshot.service';
 import { Snapshot } from '../models/snapshot.model';
 import { DiskStorageService } from './disk-storage.service';
 import { ResourceType, ResourceLimit } from '../models/resource-limit.model';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 
 export class ResourcesData {

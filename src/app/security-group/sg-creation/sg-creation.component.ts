@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { SecurityGroup, NetworkRule } from '../sg.model';

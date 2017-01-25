@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ServiceOffering } from '../models/service-offering.model';
 import { ResourceUsageService } from './resource-usage.service';
 import { ServiceOfferingService } from './service-offering.service';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 
 @Injectable()

@@ -6,7 +6,7 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
 import { TagService } from './tag.service';
 import { AsyncJobService } from './async-job.service';
 import { NetworkRule } from '../../security-group/sg.model';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 
 @Injectable()
@@ -59,14 +59,22 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
       })
       .switchMap(result => {
         let jobResult: any = {};
+
         if (result && result.jobResultCode === 0) {
           jobResult.success = result.jobResult.success;
           jobResult.tag = { key: 'labels', value: data.labels };
         } else {
           jobResult.success = false;
         }
+
         result.jobResult = jobResult;
         this.asyncJobService.event.next(result);
+
+        if (!result || !result.jobResult.success) {
+          return Observable.throw(result.jobResult);
+        }
+        template.labels = [result.jobResult.tag.value];
+
         return Observable.forkJoin([
           Observable.of(template),
           Observable.of(result)

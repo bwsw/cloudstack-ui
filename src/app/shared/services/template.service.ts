@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Template } from '../models';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { BaseBackendService } from './base-backend.service';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 @BackendResource({
@@ -76,7 +76,7 @@ export class TemplateService extends BaseBackendService<Template> {
             }
           }
         }
-        return Observable.throw(0);
-      });
+      })
+      .catch(() => Observable.throw(0));
   }
 }

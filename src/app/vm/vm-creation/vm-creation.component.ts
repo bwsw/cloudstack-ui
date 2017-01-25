@@ -26,7 +26,7 @@ import { ResourceUsageService } from '../../shared/services/resource-usage.servi
 import { Template } from '../../shared/models/template.model';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 
 class VmCreationData {

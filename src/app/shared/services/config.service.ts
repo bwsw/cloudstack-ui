@@ -1,8 +1,7 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { Http } from '@angular/http';
 import { SecurityGroup } from '../../security-group/sg.model';
-import 'rxjs/add/operator/toPromise';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 interface IConfig {
   securityGroupTemplates: Array<SecurityGroup>;
@@ -20,9 +19,8 @@ export class ConfigService {
       return this.http.get(url)
         .map(response => {
           this.config = response.json();
-        }, error => {
-          this.handleError(error);
-        });
+        })
+        .catch(error => this.handleError());
     } else {
       return Observable.of(null);
     }
@@ -36,7 +34,7 @@ export class ConfigService {
     }
   }
 
-  private handleError(e): Observable<any> {
+  private handleError(): Observable<any> {
     return Observable.throw('Unable to access config file');
   }
 }

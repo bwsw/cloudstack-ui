@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 
@@ -39,10 +39,6 @@ export class SgTemplateListComponent implements OnInit {
   public createSecurityGroupTemplate(data): void {
     this.securityGroupService.createTemplate(data)
       .subscribe(([template, tagJob]) => {
-        if (!tagJob || !tagJob.jobResult.success) {
-          return;
-        }
-        template.labels = [tagJob.jobResult.tag.value];
         this.securityGroupList.push(template);
       });
   }
@@ -88,7 +84,6 @@ export class SgTemplateListComponent implements OnInit {
         this.createSecurityGroupTemplate(data);
       });
   }
-
 
   public showRulesDialog(group: SecurityGroup) {
     this.dialogService.showCustomDialog({
