@@ -38,7 +38,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
     return observable;
   }
 
-  private queryJobs(): boolean {
+  public queryJobs(): boolean {
     if (!this.poll) {
       return false;
     }
@@ -58,8 +58,8 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
       if (!anyJobs) {
         this.stopPolling();
       }
-      return this.poll;
     });
+    return true;
   }
 
   private startPolling(): void {
