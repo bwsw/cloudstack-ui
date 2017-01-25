@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs/Rx';
+import { UtilsService } from './utils.service';
 
 export enum INotificationStatus {
   Pending,
@@ -16,13 +17,11 @@ export interface INotification {
 @Injectable()
 export class JobsNotificationService {
   public notifications: Array<INotification>;
-  private lastId: number;
   private _pendingJobsCount: number;
   private _unseenJobs: Subject<number>;
 
-  constructor() {
+  constructor(private utilsService: UtilsService) {
     this.notifications = [];
-    this.lastId = 0;
     this._pendingJobsCount = 0;
     this._unseenJobs = new Subject<number>();
   }
@@ -37,8 +36,9 @@ export class JobsNotificationService {
 
   public add(notification: INotification | string): string {
     if (typeof notification === 'string') {
+      const id = this.utilsService.getUniqueId();
       const n: INotification = {
-        id: (this.lastId++).toString(),
+        id,
         message: notification,
         status: INotificationStatus.Pending
       };
@@ -47,14 +47,11 @@ export class JobsNotificationService {
       this._pendingJobsCount++;
       this._unseenJobs.next(1);
 
-      if (this.lastId >= Number.MAX_SAFE_INTEGER) {
-        this.lastId = 0;
-      }
-      return (this.lastId - 1).toString();
+      return id;
     }
 
     if (!notification.id) {
-      notification.id = (this.lastId).toString();
+      notification.id = this.utilsService.getUniqueId();
     }
 
     const ind = this.notifications.findIndex((el: INotification) => el.id === notification.id);
