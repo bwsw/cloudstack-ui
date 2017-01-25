@@ -18,15 +18,19 @@ var ENV = process.env.npm_lifecycle_event;
 var isTestWatch = ENV === 'test-watch';
 var isTest = ENV === 'test' || isTestWatch;
 var isProd = ENV === 'build';
+var isDev = !isTest && !isProd;
 
 var BACKEND_API_URL = process.env.BACKEND_API_URL;
-if (!BACKEND_API_URL && !isTest) {
+if (!BACKEND_API_URL && isDev) {
   throw new Error('Environment variable BACKEND_API_URL is required');
 }
 
 //Proxy config
-var leadingSlash = BACKEND_API_URL[BACKEND_API_URL.length -1] === '/';
-var redirectTo =  leadingSlash ? BACKEND_API_URL.substr(0, BACKEND_API_URL.length - 1) : BACKEND_API_URL;
+var redirectTo;
+if (isDev) {
+  var leadingSlash = BACKEND_API_URL[BACKEND_API_URL.length -1] === '/';
+  redirectTo =  leadingSlash ? BACKEND_API_URL.substr(0, BACKEND_API_URL.length - 1) : BACKEND_API_URL;
+}
 var apiUrl = '/client/api';
 var consoleUrl = '/client/console';
 
@@ -298,17 +302,19 @@ module.exports = function makeWebpackConfig() {
     stats: 'minimal' // none (or false), errors-only, minimal, normal (or true) and verbose
   };
 
-  config.devServer.proxy[apiUrl] = {
-    target: redirectTo + apiUrl,
-    secure: false
-  };
+  if (isDev) {
+    config.devServer.proxy[apiUrl] = {
+      target: redirectTo + apiUrl,
+      secure: false
+    };
 
-  config.devServer.proxy[consoleUrl] = {
-    target: redirectTo + consoleUrl,
-    pathRewrite: { }
-  };
+    config.devServer.proxy[consoleUrl] = {
+      target: redirectTo + consoleUrl,
+      pathRewrite: { }
+    };
 
-  config.devServer.proxy[consoleUrl].pathRewrite["^" + consoleUrl] = "";
+    config.devServer.proxy[consoleUrl].pathRewrite["^" + consoleUrl] = "";
+  }
 
   return config;
 }();
