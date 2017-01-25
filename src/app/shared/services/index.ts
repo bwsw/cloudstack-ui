@@ -1,8 +1,9 @@
+export * from './base-backend.service';
+
 export * from './affinity-group.service';
 export * from './async-job.service';
 export * from './auth-guard.service';
 export * from './auth.service';
-export * from './base-backend.service';
 export * from './config.service';
 export * from './disk-storage.service';
 export * from './error.service';

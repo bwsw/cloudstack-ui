@@ -20,7 +20,7 @@ var isTest = ENV === 'test' || isTestWatch;
 var isProd = ENV === 'build';
 
 var BACKEND_API_URL = process.env.BACKEND_API_URL;
-if (!BACKEND_API_URL) {
+if (!BACKEND_API_URL && !isTest) {
   throw new Error('Environment variable BACKEND_API_URL is required');
 }
 
