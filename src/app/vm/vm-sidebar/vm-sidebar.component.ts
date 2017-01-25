@@ -18,10 +18,10 @@ import { SnapshotCreationComponent } from '../../snapshot/snapshot-creation.comp
 
 @Component({
   selector: 'cs-vm-detail',
-  templateUrl: 'vm-detail.component.html',
-  styleUrls: ['vm-detail.component.scss']
+  templateUrl: 'vm-sidebar.component.html',
+  styleUrls: ['vm-sidebar.component.scss']
 })
-export class VmDetailComponent {
+export class VmSidebarComponent {
   @Output() public onClickOutside = new EventEmitter();
   @Input() public vm: VirtualMachine;
   @Input() @HostBinding('class.open') private isOpen;

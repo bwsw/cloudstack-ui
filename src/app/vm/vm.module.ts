@@ -9,9 +9,10 @@ import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { SnapshotModule } from '../snapshot/snapshot.module';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
+import { VmDetailComponent } from './vm-sidebar/vm-detail.component';
 import { VmListComponent } from './vm-list/vm-list.component';
 import { VmListItemComponent } from './vm-list/vm-list-item.component';
-import { VmDetailComponent } from './vm-list/vm-detail.component';
+import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmStatisticsComponent } from './vm-statistics/vm-statistics.component';
 import { VmService } from './vm.service';
 import { VmTemplateComponent } from './vm-creation/vm-creation-template/vm-template.component';
@@ -39,6 +40,7 @@ import { SharedModule } from '../shared/shared.module';
     VmCreationComponent,
     VmListItemComponent,
     VmDetailComponent,
+    VmSidebarComponent,
     VmStatisticsComponent,
     VmTemplateComponent,
     VmTemplateDialogComponent,

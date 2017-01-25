@@ -35,6 +35,11 @@
   "VM_DEPLOY_IN_PROGRESS": "Deploying a VM",
   "VM_RESETPASSWORDFOR_IN_PROGRESS": "Resetting VM password",
 
+  "SNAPSHOT_IN_PROGRESS": "Taking a snapshot",
+  "SNAPSHOT_DONE": "Snapshot taken",
+  "SNAPSHOT_FAILED": "Snapshot failed",
+  "VOLUME_BUSY": "Volume is busy",
+
   "CONFIRM_VM_START": "Are you sure you want to start this virtual machine?",
   "CONFIRM_VM_STOP": "Are you sure you want to stop this virtual machine?",
   "CONFIRM_VM_REBOOT": "Are you sure you want to reboot this virtual machine?",
@@ -171,7 +176,6 @@
   "DESCRIPTION": "Description",
   "LABELS": "Labels",
   "CUSTOM_TEMPLATES_NOT_INCLUDED": "Templates not included",
-  "INSUFFICIENT_RESOURCES": "Insufficient resources",
   "BASED_ON": "based on",
 
   "IP": "IP",
@@ -217,5 +221,18 @@
   "ENTER_VALID_CODE": "Enter a valid code",
   "ENTER_VALID_CIDR": "Enter a valid CIDR",
   "FAILED_TO_ADD_RULE": "Failed to add the rule",
-  "FAILED_TO_REMOVE_RULE": "Failed to remove the rule"
+  "FAILED_TO_REMOVE_RULE": "Failed to remove the rule",
+  "INSUFFICIENT_RESOURCES": "Insufficient resources",
+
+  "SNAPSHOT" : {
+    "BACKEDUP": "Backed up",
+    "CREATING": "Creating",
+    "BACKINGUP": "Backing up",
+    "ALLOCATED": "Allocated"
+  },
+
+  "CREATE_TEMPLATE_BUTTON": "Create a template",
+  "TAKE_SNAPSHOT_BUTTON": "Take a snapshot",
+  "SNAPSHOT_SCHEDULE_BUTTON": "Set up snapshot schedule",
+  "RESIZE_DISK_BUTTON": "Resize the disk"
 }
