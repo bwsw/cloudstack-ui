@@ -98,16 +98,13 @@ describe('Async job service', () => {
     asyncJobService = service;
   })));
 
-  // it('job service polls server until a job is resolved', done => {
-  //   asyncJobService.addJob('123').subscribe(result => {
-  //     expect(result.jobStatus).toBe(1);
-  //     // expect(asyncJobService.queryJobs()).toBeFalsy();
-  //     done();
-  //   });
-  // }, 20000);
-
-  it('t1', () => {
-    expect(5).toBe(5);
-  });
+  // coz queryJobs is private method
+  xit('job service polls server until a job is resolved', done => {
+    asyncJobService.addJob('123').subscribe(result => {
+      expect(result.jobStatus).toBe(1);
+       expect(asyncJobService.queryJobs()).toBeFalsy();
+      done();
+    });
+  }, 20000);
 });
 

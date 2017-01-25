@@ -39,8 +39,6 @@ describe('Service: Notification service', () => {
 
   it('notification appears onscreen and disappears after ~3seconds', fakeAsync(() => {
     let fixture = TestBed.createComponent(MdlTestViewComponent);
-    fixture.detectChanges();
-
     let notification = ns.message('test');
 
     fixture.detectChanges();
@@ -55,8 +53,9 @@ describe('Service: Notification service', () => {
 
       expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar').length).toBe(0);
       expect(mdlSnackbarComponent.isActive()).toBe(false);
+
     });
-    tick(1000);
+    tick(1000); // wait for subscribe
   }));
 
   it('warning appears onscreen and disappears after ~3seconds', fakeAsync(() => {
@@ -79,7 +78,7 @@ describe('Service: Notification service', () => {
       fixture.detectChanges();
       expect(mdlSnackbarComponent.isActive()).toBe(false);
     });
-    tick(1000);
+    tick(1000); // wait for subscribe
   }));
 
   it('warning disappears immediately after action', async(() => {
@@ -126,7 +125,7 @@ describe('Service: Notification service', () => {
       fixture.detectChanges();
       expect(test.a).toBe(1);
     });
-    tick(1000);
+    tick(1000); // wait for subscribe
   }));
 
   it('error appears onscreen and doesn\'t disappear until clicked', fakeAsync(() => {
@@ -147,7 +146,7 @@ describe('Service: Notification service', () => {
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar').length).toBe(1);
     });
-    tick(1000);
+    tick(1000); // wait for subscribe
   }));
 });
 
