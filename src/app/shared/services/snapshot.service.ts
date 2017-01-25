@@ -20,7 +20,7 @@ export class SnapshotService extends BaseBackendService<Snapshot> {
     super();
   }
 
-  public createSnapshot(volumeId: string, name?: string): Observable<string> {
+  public createSnapshot(volumeId: string, name?: string): Observable<AsyncJob> {
     let params = {};
 
     if (name) {
@@ -28,13 +28,9 @@ export class SnapshotService extends BaseBackendService<Snapshot> {
     } else {
       params = { volumeid: volumeId };
     }
-
-    return this.createAsync(params)
-      .map(result => result.createsnapshotresponse.jobid);
-  }
-
-  public checkSnapshot(jobId: string): Observable<AsyncJob> {
-    return this.asyncJobService.addJob(jobId)
+    return this.getRequest('create', params)
+      .map(result => result.createsnapshotresponse.jobid)
+      .switchMap(jobId => this.asyncJobService.addJob(jobId))
       .map(result => {
         if (result && result.jobResultCode === 0 && result.jobResult) {
           result.jobResult = new this.entityModel(result.jobResult.snapshot);
