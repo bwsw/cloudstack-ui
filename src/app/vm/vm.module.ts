@@ -22,7 +22,7 @@ import {
   VmTemplateDialogItemComponent
 } from './vm-creation/vm-creation-template/vm-template-dialog-item.component';
 import { SharedModule } from '../shared/shared.module';
-import { VolumeResizeComponent } from './vm-list/volume-resize.component';
+import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 
 
 @NgModule({

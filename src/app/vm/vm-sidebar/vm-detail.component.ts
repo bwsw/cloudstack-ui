@@ -2,16 +2,11 @@ import {
   Component,
   Input
 } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
 import { MdlDialogService } from 'angular2-mdl';
 import { SecurityGroup } from '../../security-group/sg.model';
 import { ServiceOfferingDialogComponent } from '../../service-offering/service-offering-dialog.component';
 import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
 import { VirtualMachine } from '../vm.model';
-import { VolumeResizeComponent } from './volume-resize.component';
-import { JobsNotificationService, INotificationStatus } from '../../shared/services/jobs-notification.service';
-import { Volume } from '../../shared/models/volume.model';
-import { TranslateService } from 'ng2-translate';
 
 
 @Component({
@@ -25,9 +20,7 @@ export class VmDetailComponent {
   private expandServiceOffering: boolean;
 
   constructor(
-    private dialogService: MdlDialogService,
-    private translateService: TranslateService,
-    private jobNotificationService: JobsNotificationService
+    private dialogService: MdlDialogService
   ) {
     this.expandNIC = false;
     this.expandServiceOffering = false;
@@ -50,72 +43,6 @@ export class VmDetailComponent {
       enterTransitionDuration: 400,
       leaveTransitionDuration: 400
     });
-  }
-
-  public showVolumeResizeDialog(): void {
-    let notificationId: string;
-    let translations;
-
-    this.translateService.get([
-      'VOLUME_RESIZING',
-      'VOLUME_RESIZED',
-      'VOLUME_RESIZE_FAILED',
-      'VOLUME_NEWSIZE_LOWER',
-      'VOLUME_PRIMARY_STORAGE_EXCEEDED'
-    ])
-      .switchMap(res => {
-        translations = res;
-        return this.dialogService.showCustomDialog({
-          component: VolumeResizeComponent,
-          providers: [{ provide: 'volume', useValue: this.vm.volumes[0] }],
-          isModal: true,
-          styles: { 'width': '400px' },
-          enterTransitionDuration: 400,
-          leaveTransitionDuration: 400
-        });
-      })
-      .switchMap(res => res.onHide())
-      .switchMap((data: any) => {
-        if (data) {
-          notificationId = this.jobNotificationService.add(translations['VOLUME_RESIZING']);
-          return data;
-        }
-        return Observable.of(undefined);
-      })
-      .subscribe((data: any) => {
-        if (!data) {
-          return;
-        }
-        this.vm.volumes[0].size = (data as Volume).size;
-
-        this.jobNotificationService.add({
-          id: notificationId,
-          message: translations['VOLUME_RESIZED'],
-          status: INotificationStatus.Finished
-        });
-      },
-        error => {
-          let message = '';
-
-          // can't rely on error codes, native ui just prints errortext
-          if (error.errortext.startsWith('Going from')) {
-            message = translations['VOLUME_NEWSIZE_LOWER'];
-          } else if (error.errortext.startsWith('Maximum number of')) {
-            message = translations['VOLUME_PRIMARY_STORAGE_EXCEEDED'];
-          } else {
-            // don't know what errors may occur,
-            // so print errortext like native ui
-            message = error.errortext;
-          }
-
-          this.jobNotificationService.add({
-            id: notificationId,
-            message: translations['VOLUME_RESIZE_FAILED'],
-            status: INotificationStatus.Failed
-          });
-          this.dialogService.alert(message);
-        }
-      );
   }
 
   public openConsole(): void {

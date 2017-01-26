@@ -93,10 +93,11 @@
           <mdl-icon >schedule</mdl-icon>
         </button>
         <button
-          [mdl-tooltip]="'RESIZE_DISK_BUTTON' | translate "
-          mdl-tooltip-position="bottom"
           mdl-button
           mdl-button-type="icon"
+          (click)="showVolumeResizeDialog()"
+          [mdl-tooltip]="'VOLUME_RESIZE' | translate"
+          mdl-tooltip-position="bottom"
         >
           <mdl-icon >photo_size_select_small</mdl-icon>
         </button>
