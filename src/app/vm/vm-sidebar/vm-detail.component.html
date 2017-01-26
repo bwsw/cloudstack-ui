@@ -17,6 +17,7 @@
       >
         <mdl-icon>computer</mdl-icon>
       </button>
+
     </mdl-card-actions>
   </mdl-card>
   <mdl-card class="vm-card" mdl-shadow="2">
@@ -94,8 +95,8 @@
           <div class="nic-name">{{ 'NIC' | translate }} {{i+1}}</div>
           <div *ngFor="let key of nic.keys; let i = index">
             <div class="row"
-                 *ngIf="key !== 'id' && key !== 'networkId' &&
-                          key !== 'deviceid' && key !== 'virtualMachineId' && key !== 'secondaryIp'"
+              *ngIf="key !== 'id' && key !== 'networkId' &&
+                  key !== 'deviceid' && key !== 'virtualMachineId' && key !== 'secondaryIp'"
             >
               <div>{{ 'NETWORK_INTERFACE_CONTROLLER_FIELDS.' + key | translate }}</div>
               <div>{{ nic[key] | viewValue }}</div>

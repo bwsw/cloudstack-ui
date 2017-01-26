@@ -32,6 +32,9 @@ export class AsyncJob extends BaseModel implements IAsyncJob<any> {
 
   public mapCmd(): void {
     const regex = /^org\.apache\.cloudstack\.api\.command\.user\.vm\.(\w*)Cmd$/;
+    if (!this.cmd) {
+      this.cmd = '';
+    }
     const matches = this.cmd.match(regex);
     if (matches) {
       this.cmd = matches[1].toLowerCase();

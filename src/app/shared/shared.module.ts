@@ -28,6 +28,7 @@ import {
   StorageService,
   TagService,
   TemplateService,
+  UtilsService,
   VolumeService,
   ZoneService
 } from './services';
@@ -72,6 +73,7 @@ import { SgRulesManagerComponent } from './components/sg-rules-manager.component
     StatsUpdateService,
     TagService,
     TemplateService,
+    UtilsService,
     VolumeService,
     ZoneService,
     { provide: 'INotificationService', useClass: NotificationService },

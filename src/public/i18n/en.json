@@ -239,5 +239,15 @@
   "REVERT_TO_SNAPSHOT": "Revert disk to this snapshot",
 
   "VM_VIEW": "VM View",
-  "STORAGE_VIEW": "Storage View"
+  "STORAGE_VIEW": "Storage View",
+
+  "VOLUME_RESIZE": "Resize",
+  "VOLUME_RESIZING": "Resizing volume",
+  "VOLUME_RESIZED": "Volume has been resized",
+  "VOLUME_RESIZE_FAILED": "Volume resize failed",
+  "VOLUME_NEWSIZE_LOWER": "New size is lower than the current, you need to shrink the volume",
+  "VOLUME_PRIMARY_STORAGE_EXCEEDED": "Primary storage capacity exceeded",
+  "VOLUME_RESIZE_VOLUME": "Resize volume",
+  "VOLUME_SHRINK": "Shrink",
+  "VOLUME_NEW_SIZE": "New size"
 }

@@ -6,7 +6,7 @@ import { Snapshot } from './snapshot.model';
   virtualmachineid: 'virtualMachineId'
 })
 export class Volume extends BaseModel {
-  public id: number;
+  public id: string;
   public name: string;
   public size: number;
   public virtualMachineId: string;

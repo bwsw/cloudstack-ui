@@ -22,6 +22,7 @@ import {
   VmTemplateDialogItemComponent
 } from './vm-creation/vm-creation-template/vm-template-dialog-item.component';
 import { SharedModule } from '../shared/shared.module';
+import { VolumeResizeComponent } from './vm-list/volume-resize.component';
 
 
 @NgModule({
@@ -47,13 +48,15 @@ import { SharedModule } from '../shared/shared.module';
     VmTemplateComponent,
     VmTemplateDialogComponent,
     VmTemplateDialogItemComponent,
+    VolumeResizeComponent
   ],
   providers: [
     VmService
   ],
   entryComponents: [
     VmTemplateDialogComponent,
-    VmTemplateDialogItemComponent
+    VmTemplateDialogItemComponent,
+    VolumeResizeComponent
   ]
 })
 export class VmModule { }

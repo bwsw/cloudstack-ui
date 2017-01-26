@@ -1,4 +1,4 @@
-import { inject, TestBed, async, getTestBed } from '@angular/core/testing';
+import { inject, TestBed, async, getTestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Injector } from '@angular/core';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import {
@@ -12,8 +12,9 @@ import {
 import { FormsModule } from '@angular/forms';
 import { MockNotificationService } from './notification.service';
 import { ServiceLocator } from './service-locator';
-import { AsyncJobService } from './async-job.service';
+import { AsyncJobService } from './';
 import { ErrorService } from '.';
+
 
 describe('Async job service', () => {
   let mockBackend: MockBackend;
@@ -98,12 +99,17 @@ describe('Async job service', () => {
     asyncJobService = service;
   })));
 
-  it('job service polls server until a job is resolved', done => {
+  it('job service polls server until a job is resolved', fakeAsync(() => {
+    let job;
     asyncJobService.addJob('123').subscribe(result => {
-      expect(result.jobStatus).toBe(1);
-      expect(asyncJobService.queryJobs()).toBeFalsy();
-      done();
+      job = result;
     });
-  }, 20000);
+    tick(1000);
+    expect(job).toBeFalsy();
+    expect(asyncJobService.queryJobs()).toBeTruthy();
+    tick(20000);
+    expect(job).toBeTruthy();
+    expect(asyncJobService.queryJobs()).toBeFalsy();
+  }));
 });
 

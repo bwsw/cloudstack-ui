@@ -99,7 +99,6 @@ export class VmListComponent implements OnInit {
             action.successMessage
           ]).subscribe(strs => {
             this.jobsNotificationService.add({
-              id: UUID.v4(),
               message: strs[action.successMessage],
               status: INotificationStatus.Finished
             });
