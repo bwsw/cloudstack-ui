@@ -32,20 +32,30 @@ import {
   ZoneService
 } from './services';
 import { SgRulesManagerComponent } from './components/sg-rules-manager.component';
+import { NotificationBoxComponent } from './components/notification-box.component';
+import { NotificationBoxItemComponent } from './components/notification-box-item.component';
+import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
+import { MdlModule } from 'angular2-mdl';
 
 
 @NgModule({
   imports: [
     CommonModule,
-    TranslateModule
+    TranslateModule,
+    MdlModule,
+    MdlPopoverModule
   ],
   exports: [
     SgRulesManagerComponent,
+    NotificationBoxComponent,
+    NotificationBoxItemComponent,
     DivByPowerOfTwoPipe,
     ViewValuePipe
   ],
   declarations: [
     SgRulesManagerComponent,
+    NotificationBoxComponent,
+    NotificationBoxItemComponent,
     DivByPowerOfTwoPipe,
     ViewValuePipe
   ],
