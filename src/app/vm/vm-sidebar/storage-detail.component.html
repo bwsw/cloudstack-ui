@@ -48,7 +48,7 @@
         <mdl-icon>more_vert</mdl-icon>
       </button>
     </mdl-card-menu>
-    <mdl-card-actions *ngIf="volume.snapshots.length > 5" mdl-card-border style="text-align: right;">
+    <mdl-card-actions *ngIf="volume.snapshots.length > 5" mdl-card-border>
       <button
         mdl-button
         mdl-ripple
@@ -65,7 +65,7 @@
       [hide-on-click]="true"
       [style.width.px]="300"
     >
-      <div mdl-shadow="6" style="padding: 1rem;">
+      <div mdl-shadow="6" class="volume-actions">
         <button
           [mdl-tooltip]="'CREATE_TEMPLATE_BUTTON' | translate "
           mdl-tooltip-position="bottom"
