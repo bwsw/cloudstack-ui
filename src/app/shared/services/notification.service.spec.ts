@@ -6,6 +6,8 @@ import {
   inject,
   TestBed,
   async,
+  fakeAsync,
+  tick
 } from '@angular/core/testing';
 
 @Component({
@@ -16,7 +18,6 @@ import {
 class MdlTestViewComponent {}
 
 describe('Service: Notification service', () => {
-
   let ns: NotificationService;
 
   beforeEach(async(() => {
@@ -36,27 +37,28 @@ describe('Service: Notification service', () => {
     }))
   );
 
-  it('notification appears onscreen and disappears after ~3seconds', async(() => {
+  it('notification appears onscreen and disappears after ~3seconds', fakeAsync(() => {
     let fixture = TestBed.createComponent(MdlTestViewComponent);
-    fixture.detectChanges();
-
     let notification = ns.message('test');
 
     fixture.detectChanges();
     notification.subscribe((mdlSnackbarComponent) => {
-      console.log('snackbar appeared');
+      // snackbar appeared'
       expect(mdlSnackbarComponent.isActive()).toBe(true);
       expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar').length).toBe(1);
       expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar')[0].textContent).toContain('test');
-      setTimeout(() => {
-        console.log('waiting');
-        expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar').length).toBe(0);
-        expect(mdlSnackbarComponent.isActive()).toBe(false);
-      }, 3500);
+
+      tick(3500);
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar').length).toBe(0);
+      expect(mdlSnackbarComponent.isActive()).toBe(false);
+
     });
+    tick(1000); // wait for subscribe
   }));
 
-  it('warning appears onscreen and disappears after ~3seconds', async(() => {
+  it('warning appears onscreen and disappears after ~3seconds', fakeAsync(() => {
     let fixture = TestBed.createComponent(MdlTestViewComponent);
     fixture.detectChanges();
 
@@ -67,15 +69,16 @@ describe('Service: Notification service', () => {
 
     fixture.detectChanges();
     warning.subscribe((mdlSnackbarComponent) => {
-      console.log('snackbar appeared');
+      // snackbar appeared
       expect(mdlSnackbarComponent.isActive()).toBe(true);
       expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar').length).toBe(1);
       expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar')[0].textContent).toContain('test');
-      setTimeout(() => {
-        console.log('waiting');
-        expect(mdlSnackbarComponent.isActive()).toBe(false);
-      }, 3500);
+
+      tick(3500);
+      fixture.detectChanges();
+      expect(mdlSnackbarComponent.isActive()).toBe(false);
     });
+    tick(1000); // wait for subscribe
   }));
 
   it('warning disappears immediately after action', async(() => {
@@ -89,14 +92,14 @@ describe('Service: Notification service', () => {
 
     fixture.detectChanges();
     p.subscribe( (mdlSnackbarComponent) => {
-      console.log('snackbar appeared, proceed');
+      // snackbar appeared, proceed
       expect(mdlSnackbarComponent.isActive()).toBe(true);
       fixture.nativeElement.querySelectorAll('button')[0].click();
       expect(mdlSnackbarComponent.isActive()).toBe(false);
     });
   }));
 
-  it('warning action handler is called on action button click', async(() => {
+  it('warning action handler is called on action button click', fakeAsync(() => {
     let fixture = TestBed.createComponent(MdlTestViewComponent);
     fixture.detectChanges();
 
@@ -114,17 +117,18 @@ describe('Service: Notification service', () => {
     fixture.detectChanges();
 
     warning.subscribe((MdlSnackbarComponent) => {
-      console.log('snackbar appeared');
+      // snackbar appeared
       MdlSnackbarComponent.onClick.call(MdlSnackbarComponent);
       expect(MdlSnackbarComponent.isActive()).toBe(false);
-      setTimeout(() => {
-        console.log('waiting');
-        expect(test.a).toBe(1);
-      }, 1000);
+
+      tick(1000);
+      fixture.detectChanges();
+      expect(test.a).toBe(1);
     });
+    tick(1000); // wait for subscribe
   }));
 
-  it('error appears onscreen and doesn\'t disappear until clicked', async(() => {
+  it('error appears onscreen and doesn\'t disappear until clicked', fakeAsync(() => {
     let fixture = TestBed.createComponent(MdlTestViewComponent);
     fixture.detectChanges();
 
@@ -135,13 +139,14 @@ describe('Service: Notification service', () => {
 
     fixture.detectChanges();
     err.subscribe((mdlSnackbarComponent) => {
-      console.log('snackbar appeared');
+      // snackbar appeared
       expect(mdlSnackbarComponent.isActive()).toBe(true);
-      setTimeout(() => {
-        console.log('waiting');
-        expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar').length).toBe(1);
-      }, 3500);
+
+      tick(3500);
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar').length).toBe(1);
     });
+    tick(1000); // wait for subscribe
   }));
 });
 

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs/Rx';
 
 import { AsyncJob } from '../models/async-job.model';
 import { BaseBackendService } from './base-backend.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
+import { AuthService } from './auth.service';
 
 
 interface IJobObservables {
@@ -23,26 +24,33 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
   private jobObservables: IJobObservables;
   private timerId: any;
 
-  constructor() {
+  constructor(
+    private authService: AuthService
+  ) {
     super();
     this.pollingInterval = 2000;
     this.immediatePollingInterval = 100;
     this.jobObservables = {};
     this.event = new Subject<AsyncJob>();
+    this.authService.loggedIn.subscribe(loggedIn => {
+      if (!loggedIn) {
+        this.stopPolling();
+      }
+    });
   }
 
-  public addJob(id: string): Subject<AsyncJob> {
+  public addJob(id: string): Observable<AsyncJob> {
     let observable = new Subject<AsyncJob>();
     this.jobObservables[id] = observable;
     this.startPolling();
     return observable;
   }
 
-  private queryJobs(): boolean {
+  public queryJobs(): boolean {
     if (!this.poll) {
       return false;
     }
-    this.getList().then(result => {
+    this.getList().subscribe(result => {
       let anyJobs = false;
       result.forEach(elem => {
         let id = elem.jobId;
@@ -58,8 +66,8 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
       if (!anyJobs) {
         this.stopPolling();
       }
-      return this.poll;
     });
+    return true;
   }
 
   private startPolling(): void {

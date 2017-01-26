@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ServiceOffering } from '../models/service-offering.model';
 import { ResourceUsageService } from './resource-usage.service';
 import { ServiceOfferingService } from './service-offering.service';
+import { Observable } from 'rxjs/Rx';
 
 
 @Injectable()
@@ -11,11 +12,11 @@ export class ServiceOfferingFilterService {
     private serviceOfferingService: ServiceOfferingService
   ) { }
 
-  public getAvailable(): Promise<Array<ServiceOffering>> {
-    return Promise.all([
+  public getAvailable(): Observable<Array<ServiceOffering>> {
+    return Observable.forkJoin([
       this.serviceOfferingService.getList(),
       this.resourceUsageService.getResourceUsage()
-    ]).then(([serviceOfferings, resourceUsage]) => {
+    ]).map(([serviceOfferings, resourceUsage]) => {
       let sos = serviceOfferings.filter(elem => {
         return resourceUsage.available.cpus >= elem.cpuNumber &&
           resourceUsage.available.memory >= elem.memory;

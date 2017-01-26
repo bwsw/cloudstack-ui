@@ -1,6 +1,5 @@
 import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
 import { TranslateService } from 'ng2-translate';
-import * as UUID from 'uuid';
 
 import { ZoneService } from '../../shared/services/zone.service';
 import { Zone } from '../../shared/models/zone.model';
@@ -25,7 +24,9 @@ import { ServiceOfferingFilterService } from '../../shared/services/service-offe
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 import { Template } from '../../shared/models/template.model';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
-import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { SecurityGroupService, GROUP_POSTFIX } from '../../shared/services/security-group.service';
+import { UtilsService } from '../../shared/services/utils.service';
+import { Observable } from 'rxjs/Rx';
 
 
 class VmCreationData {
@@ -81,15 +82,16 @@ export class VmCreationComponent {
     private translateService: TranslateService,
     private notificationService: NotificationService,
     private resourceUsageService: ResourceUsageService,
-    private securityGroupService: SecurityGroupService
+    private securityGroupService: SecurityGroupService,
+    private utils: UtilsService
   ) {
     this.vmCreationData = new VmCreationData();
   }
 
   public show(): void {
-    this.templateService.getDefault().then(() => {
-      this.serviceOfferingFilterService.getAvailable().then(() => {
-        this.resourceUsageService.getResourceUsage().then(result => {
+    this.templateService.getDefault().subscribe(() => {
+      this.serviceOfferingFilterService.getAvailable().subscribe(() => {
+        this.resourceUsageService.getResourceUsage().subscribe(result => {
           if (result.available.primaryStorage > this.vmCreationData.rootDiskSizeMin && result.available.instances) {
             this.resetVmCreateData();
             this.vmCreateDialog.show();
@@ -99,12 +101,12 @@ export class VmCreationComponent {
             });
           }
         });
-      }).catch(() => {
+      }, () => {
         this.translateService.get(['INSUFFICIENT_RESOURCES']).subscribe(strs => {
           this.notificationService.error(strs['INSUFFICIENT_RESOURCES']);
         });
       });
-    }).catch(() => {
+    }, () => {
       this.translateService.get(['UNABLE_TO_RECEIVE_TEMPLATES']).subscribe(strs => {
         this.notificationService.error(strs['UNABLE_TO_RECEIVE_TEMPLATES']);
       });
@@ -117,7 +119,7 @@ export class VmCreationComponent {
   }
 
   public resetVmCreateData(): void {
-    this.getVmCreateData().then(result => {
+    this.getVmCreateData().subscribe(result => {
       this.vmCreationData = result;
     });
   }
@@ -125,10 +127,12 @@ export class VmCreationComponent {
   public deployVm(): void {
     let params: any = this.vmCreateParams;
     this.securityGroupService.createWithRules(
-      { name: UUID.v4() },
+      {
+        name: this.utils.getUniqueId() + GROUP_POSTFIX
+      },
       params.ingress || [],
       params.egress || []
-    ).then(securityGroup => {
+    ).subscribe(securityGroup => {
       params['securitygroupids'] = securityGroup.id;
       this._deploy(params);
     });
@@ -182,7 +186,7 @@ export class VmCreationComponent {
       this.vmService.deploy(params)
         .subscribe(result => {
           this.vmService.get(result.id)
-            .then(r => {
+            .subscribe(r => {
               r.state = 'Deploying';
               this.onCreated.next(r);
             });
@@ -192,18 +196,17 @@ export class VmCreationComponent {
     });
   }
 
-  private getVmCreateData(): Promise<VmCreationData> {
+  private getVmCreateData(): Observable<VmCreationData> {
     let vmCreationData = new VmCreationData();
 
-    const p = [];
-    p.push(this.zoneService.getList());
-    p.push(this.serviceOfferingFilterService.getAvailable());
-    p.push(this.diskStorageService.getAvailablePrimaryStorage());
-    p.push(this.affinityGroupService.getList());
-    p.push(this.sshService.getList());
-    p.push(this.templateService.getDefault());
-
-    return Promise.all(p).then(result => {
+    return Observable.forkJoin([
+      this.zoneService.getList(),
+      this.serviceOfferingFilterService.getAvailable(),
+      this.diskStorageService.getAvailablePrimaryStorage(),
+      this.affinityGroupService.getList(),
+      this.sshService.getList(),
+      this.templateService.getDefault()
+    ]).map(result => {
       vmCreationData.zones = result[0];
       vmCreationData.serviceOfferings = result[1];
       vmCreationData.rootDiskSizeLimit = result[2];

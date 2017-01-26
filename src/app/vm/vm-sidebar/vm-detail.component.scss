@@ -1,0 +1,23 @@
+$line-height: 22px;
+
+.grid.service-offering {
+  overflow: hidden;
+  height: 5 * $line-height;
+
+  &.open {
+    height: auto;
+  }
+}
+
+.security-group .row > div:nth-child(2n),
+.service-offering .row > div:nth-child(2n),
+.statistics .row > div:nth-child(2n),
+.volumes .row > div:nth-child(2n),
+.volumes .row > div:nth-child(3n)
+{
+  text-align: right;
+}
+
+.nic-name {
+  font-weight: bolder;
+}

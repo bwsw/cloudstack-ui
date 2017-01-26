@@ -22,9 +22,5 @@ $vm-detail-width: 365px;
 
 cs-vm-detail {
   width: $vm-detail-width;
-  transform: translateX($vm-detail-width);
-}
-
-.vm-pair {
-  display: inline-block;
+  right: -$vm-detail-width;
 }

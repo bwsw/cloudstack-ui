@@ -33,7 +33,11 @@
   "VM_RESTORE_IN_PROGRESS": "Restoring a VM",
   "VM_DESTROY_IN_PROGRESS": "Destroying a VM",
   "VM_DEPLOY_IN_PROGRESS": "Deploying a VM",
-  "VM_RESETPASSWORDFOR_IN_PROGRESS": "Resetting VM password",
+
+  "SNAPSHOT_IN_PROGRESS": "Taking a snapshot",
+  "SNAPSHOT_DONE": "Snapshot taken",
+  "SNAPSHOT_FAILED": "Snapshot failed",
+  "VOLUME_BUSY": "Volume is busy",
 
   "CONFIRM_VM_START": "Are you sure you want to start this virtual machine?",
   "CONFIRM_VM_STOP": "Are you sure you want to stop this virtual machine?",
@@ -48,7 +52,6 @@
   "RESTORE_DONE": "VM has been restored",
   "DESTROY_DONE": "VM has been destroyed",
   "DEPLOY_DONE": "VM has been deployed",
-  "RESETPASSWORDFOR_DONE": "Password has been resetted",
 
   "YES": "Yes",
   "NO": "No",
@@ -66,8 +69,8 @@
   "CLEAR_ALL": "Clear all",
   "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",
   "NO_DONT_ASK": "No, don't ask",
-  "PASSWORD_DIALOG_MESSAGE": "Password for {{ vmName }} is {{ vmPassword }}",
-  "TEST": "test {{value}}",
+
+  "INSUFFICIENT_RESOURCES": "Insufficient resources",
 
   "TEMPLATES": "Templates",
   "CONSOLE": "Console",
@@ -171,7 +174,6 @@
   "DESCRIPTION": "Description",
   "LABELS": "Labels",
   "CUSTOM_TEMPLATES_NOT_INCLUDED": "Templates not included",
-  "INSUFFICIENT_RESOURCES": "Insufficient resources",
   "BASED_ON": "based on",
 
   "IP": "IP",
@@ -196,6 +198,10 @@
     "type": "Type"
   },
 
+  "VM_RESETPASSWORDFOR_IN_PROGRESS": "Resetting VM password",
+  "RESETPASSWORDFOR_DONE": "Password has been reset",
+  "PASSWORD_DIALOG_MESSAGE": "Password for {{ vmName }} has been reset to {{ vmPassword }}",
+
   "CHOOSE_SERVICE_OFFERING": "Choose service offering",
   "OFFERING_CHANGED": "Offering changed",
   "OFFERING_CHANGE_FAILED": "Offering change failed",
@@ -217,5 +223,31 @@
   "ENTER_VALID_CODE": "Enter a valid code",
   "ENTER_VALID_CIDR": "Enter a valid CIDR",
   "FAILED_TO_ADD_RULE": "Failed to add the rule",
-  "FAILED_TO_REMOVE_RULE": "Failed to remove the rule"
+  "FAILED_TO_REMOVE_RULE": "Failed to remove the rule",
+
+  "SNAPSHOT" : {
+    "BACKEDUP": "Backed up",
+    "CREATING": "Creating",
+    "BACKINGUP": "Backing up",
+    "ALLOCATED": "Allocated"
+  },
+
+  "CREATE_TEMPLATE_BUTTON": "Create a template",
+  "TAKE_SNAPSHOT_BUTTON": "Take a snapshot",
+  "SNAPSHOT_SCHEDULE_BUTTON": "Set up snapshot schedule",
+  "RESIZE_DISK_BUTTON": "Resize the disk",
+  "REVERT_TO_SNAPSHOT": "Revert disk to this snapshot",
+
+  "VM_VIEW": "VM View",
+  "STORAGE_VIEW": "Storage View",
+
+  "VOLUME_RESIZE": "Resize",
+  "VOLUME_RESIZING": "Resizing volume",
+  "VOLUME_RESIZED": "Volume has been resized",
+  "VOLUME_RESIZE_FAILED": "Volume resize failed",
+  "VOLUME_NEWSIZE_LOWER": "New size is lower than the current, you need to shrink the volume",
+  "VOLUME_PRIMARY_STORAGE_EXCEEDED": "Primary storage capacity exceeded",
+  "VOLUME_RESIZE_VOLUME": "Resize volume",
+  "VOLUME_SHRINK": "Shrink",
+  "VOLUME_NEW_SIZE": "New size"
 }

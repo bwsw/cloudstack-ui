@@ -24,9 +24,11 @@ import {
   ServiceOfferingService,
   SnapshotService,
   SSHKeyPairService,
+  StatsUpdateService,
   StorageService,
   TagService,
   TemplateService,
+  UtilsService,
   VolumeService,
   ZoneService
 } from './services';
@@ -68,8 +70,10 @@ import { SgRulesManagerComponent } from './components/sg-rules-manager.component
     ServiceOfferingFilterService,
     ServiceOfferingService,
     SnapshotService,
+    StatsUpdateService,
     TagService,
     TemplateService,
+    UtilsService,
     VolumeService,
     ZoneService,
     { provide: 'INotificationService', useClass: NotificationService },

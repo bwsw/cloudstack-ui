@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/toPromise';
 import { ResourceLimitService } from './resource-limit.service';
 import { VolumeService } from './volume.service';
 import { Volume } from '../models/volume.model';
 import { ResourceType } from '../models/resource-limit.model';
 import { SnapshotService } from './snapshot.service';
 import { IsoService } from './iso.service';
+import { Observable } from 'rxjs/Rx';
+import { Snapshot } from '../models/snapshot.model';
+import { Iso } from '../models/iso.model';
 
 
 @Injectable()
@@ -17,40 +19,36 @@ export class DiskStorageService {
     private isoService: IsoService,
   ) {}
 
-  public getAvailablePrimaryStorage(): Promise<number> {
+  public getAvailablePrimaryStorage(): Observable<number> {
     return this.getAvailableStorage(ResourceType.PrimaryStorage);
   }
 
-  public getAvailableSecondaryStorage(): Promise<number> {
-    return this.getAvailableStorage(ResourceType.SecondaryStorage);
-  }
-
-  public getConsumedPrimaryStorage(): Promise<number> {
+  public getConsumedPrimaryStorage(): Observable<number> {
     return this.volume.getList()
-      .then(res => {
+      .map(res => {
         return res.reduce((accum: number, current: Volume) => {
           return Math.floor(accum + +current.size / Math.pow(2, 30));
         }, 0);
       });
   }
 
-  public getConsumedSecondaryStorage(): Promise<number> {
-    return Promise.all([
+  public getConsumedSecondaryStorage(): Observable<number> {
+    return Observable.forkJoin([
       this.snapshotService.getList(),
       this.isoService.getList({ isofilter: 'self'})
-    ]).then(result => {
+    ]).map((result: Array<any>) => {
       let consumedSecondaryStorage = 0;
-      result[0].forEach(element => {
-        consumedSecondaryStorage += element.physicalSize;
+      result[0].forEach((snapshot: Snapshot) => {
+        consumedSecondaryStorage += snapshot.physicalSize;
       });
-      result[1].forEach(element => {
-        consumedSecondaryStorage += element.size;
+      result[1].forEach((iso: Iso) => {
+        consumedSecondaryStorage += iso.size;
       });
       return Math.floor(consumedSecondaryStorage / Math.pow(2, 30));
     });
   }
 
-  private getConsumedStorage(resourceType: ResourceType): Promise<number> {
+  private getConsumedStorage(resourceType: ResourceType): Observable<number> {
     if (resourceType === ResourceType.PrimaryStorage) {
       return this.getConsumedPrimaryStorage();
     } else {
@@ -58,19 +56,20 @@ export class DiskStorageService {
     }
   }
 
-  private getAvailableStorage(resourceType: ResourceType): Promise<number> {
+  private getAvailableStorage(resourceType: ResourceType): Observable<number> {
     let limitRequest = this.resourceLimits.getList({ 'resourcetype': resourceType })
-      .then(res => res[0].max);
+      .map(res => res[0].max);
 
     let consumedStorageRequest = this.getConsumedStorage(resourceType);
 
-    return Promise.all([limitRequest, consumedStorageRequest])
-      .then(values => {
+    return Observable.forkJoin([limitRequest, consumedStorageRequest])
+      .map(values => {
         if (values[0] === -1) {
           return -1;
         }
         let space = values[0] - values[1];
         return space > 0 ? space : 0;
-      }).catch(error => Promise.reject(error));
+      })
+      .catch(error => Observable.throw(error));
   }
 }

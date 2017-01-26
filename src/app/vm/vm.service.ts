@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams } from '@angular/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs/Rx';
 
 import { BaseBackendService, BACKEND_API_URL } from '../shared/services';
 import { BackendResource } from '../shared/decorators';
@@ -12,9 +12,9 @@ import { OsType } from '../shared/models/os-type.model';
 
 import { AsyncJob } from '../shared/models/async-job.model';
 import { AsyncJobService } from '../shared/services/async-job.service';
+import { SecurityGroupService } from '../shared/services/security-group.service';
 import { ServiceOfferingService } from '../shared/services/service-offering.service';
 import { ServiceOffering } from '../shared/models/service-offering.model';
-import { SecurityGroupService } from '../shared/services/security-group.service';
 
 
 @Injectable()
@@ -41,30 +41,36 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     this.vmUpdateObservable.next(vm);
   }
 
-  public get(id: string): Promise<VirtualMachine> {
+  public get(id: string): Observable<VirtualMachine> {
     const volumesRequest = this.volumeService.getList();
     const vmRequest = super.get(id);
 
-    return Promise.all([vmRequest, volumesRequest])
-      .then(([vm, volumes]) => {
-        (vm as VirtualMachine).volumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
+    return Observable.forkJoin([
+      vmRequest,
+      volumesRequest
+    ]).map(result => {
+        let vm = result[0];
+        let volumes = result[1];
+        vm.volumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
 
         const osTypeRequest = this.osTypesService.get(vm.guestOsId);
         const serviceOfferingRequest = this.serviceOfferingService.get(vm.serviceOfferingId);
-        return Promise.all([Promise.resolve(vm), osTypeRequest, serviceOfferingRequest]);
-      })
-      .then(([vm, osType, serviceOffering]) => {
-        vm.osType = osType;
-        vm.serviceOffering = serviceOffering;
+
+        return [Observable.of(vm), osTypeRequest, serviceOfferingRequest];
+    }).switchMap(result => Observable.forkJoin(result))
+      .map(result => {
+        let vm = result[0];
+        vm.osType = result[1];
+        vm.serviceOffering = result[2];
         return vm;
       });
   }
 
-  public getList(lite = false, params?: {}): Promise<Array<VirtualMachine>> {
+  public getList(lite = false, params?: {}): Observable<Array<VirtualMachine>> {
     const vmsRequest = super.getList();
 
     if (lite) {
-      return <Promise<Array<VirtualMachine>>>vmsRequest;
+      return <Observable<Array<VirtualMachine>>>vmsRequest;
     }
 
     const volumesRequest = this.volumeService.getList();
@@ -72,14 +78,14 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     const serviceOfferingsRequest = this.serviceOfferingService.getList();
     const securityGroupsRequest = this.securityGroupService.getList();
 
-    return Promise.all([
+    return Observable.forkJoin([
       vmsRequest,
       volumesRequest,
       osTypesRequest,
       serviceOfferingsRequest,
       securityGroupsRequest
     ])
-      .then(([vms, volumes, osTypes, serviceOfferings, securityGroups]) => {
+      .map(([vms, volumes, osTypes, serviceOfferings, securityGroups]) => {
         vms.forEach((vm: VirtualMachine) => {
           vm.volumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
           vm.osType = osTypes.find((osType: OsType) => osType.id === vm.guestOsId);
@@ -119,14 +125,9 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
   }
 
-  public resubscribe(): Promise<Array<Observable<AsyncJob>>> {
-    return this.jobs.getList().then(jobs => {
-      // when a command is executed, two jobs are initiated
-      // one has type of "Cmd", another one is "Work"
-      // we need only one so we take "Cmd" and filter any other out
-      const cmdRegex = /^org\.apache\.cloudstack\.api\.command\.user\.vm\.(\w*)VMCmd$/;
-
-      let filteredJobs = jobs.filter(job => !job.jobStatus && cmdRegex.test(job.cmd));
+  public resubscribe(): Observable<Array<Observable<AsyncJob>>> {
+    return this.jobs.getList().map(jobs => {
+      let filteredJobs = jobs.filter(job => !job.jobStatus && job.cmd);
       let observables = [];
       filteredJobs.forEach(job => {
         observables.push(this.checkCommand(job.jobId));
@@ -190,3 +191,4 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
   }
 }
+

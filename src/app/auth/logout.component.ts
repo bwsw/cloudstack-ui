@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 import { AuthService } from '../shared/services';
 import { Router } from '@angular/router';
-import { ErrorService } from '../shared/services/error.service';
 
 
 @Component({
@@ -12,13 +11,13 @@ import { ErrorService } from '../shared/services/error.service';
 export class LogoutComponent {
   constructor(
     private auth: AuthService,
-    private router: Router,
-    private error: ErrorService
+    private router: Router
   ) { }
 
   public logout(): void {
     this.auth.logout()
-      .then(() => this.router.navigate(['/login']))
-      .catch(error => this.error.next(error));
+      .subscribe(() => {
+        this.router.navigate(['/login']);
+      });
   }
 }

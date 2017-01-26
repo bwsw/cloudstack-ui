@@ -1,7 +1,7 @@
 import { inject, TestBed, async, getTestBed } from '@angular/core/testing';
 import { Injector } from '@angular/core';
 
-import { BaseBackendService } from './base-backend.service';
+import { BaseBackendService } from './';
 import { BaseModel } from '../models/base.model';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { MockBackend, MockConnection } from '@angular/http/testing';
@@ -102,7 +102,7 @@ describe('Base backend service', () => {
 
   it('should get model list', async(inject([TestBackendService], (testService) => {
     testService.getList()
-      .then((res: Array<TestModel>) => {
+      .subscribe((res: Array<TestModel>) => {
         expect(res.length).toBe(test.length);
 
         res.forEach((testModel: TestModel, ind: number) => {
@@ -115,7 +115,7 @@ describe('Base backend service', () => {
 
   it('should get model by id', async(inject([TestBackendService], (testService) => {
     testService.get(test[1].id)
-      .then((res: TestModel) => {
+      .subscribe((res: TestModel) => {
         expect(res instanceof TestModel).toBeTruthy();
         expect(res.id).toBe(test[1].id);
         expect(res.field1).toBe(test[1].field1);

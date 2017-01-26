@@ -1,0 +1,24 @@
+<div *ngIf="vm">
+  <h4 class="details-header">{{ vm.displayName }}</h4>
+  <mdl-tabs mdl-ripple mdl-tab-active-index="0">
+
+    <mdl-tab-panel>
+      <mdl-tab-panel-title>
+        <span>{{ 'VM_VIEW' | translate }}</span>
+      </mdl-tab-panel-title>
+      <mdl-tab-panel-content>
+        <cs-vm-detail [vm]="vm"></cs-vm-detail>
+      </mdl-tab-panel-content>
+    </mdl-tab-panel>
+
+    <mdl-tab-panel>
+      <mdl-tab-panel-title>
+        <span>{{ 'STORAGE_VIEW' | translate }}</span>
+      </mdl-tab-panel-title>
+      <mdl-tab-panel-content>
+        <cs-storage-detail [vm]="vm"></cs-storage-detail>
+      </mdl-tab-panel-content>
+    </mdl-tab-panel>
+
+  </mdl-tabs>
+</div>

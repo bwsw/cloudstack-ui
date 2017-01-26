@@ -7,19 +7,22 @@ export interface IAsyncJob<T> {
   jobStatus: number;
   jobResultCode: number;
   jobResult: T;
+  jobInstanceType: string;
 }
 
 @FieldMapper({
   jobid: 'jobId',
   jobstatus: 'jobStatus',
   jobresultcode: 'jobResultCode',
-  jobresult: 'jobResult'
+  jobresult: 'jobResult',
+  jobinstancetype: 'jobInstanceType'
 })
 export class AsyncJob extends BaseModel implements IAsyncJob<any> {
   public jobId: string;
   public jobStatus: number;
   public jobResultCode: number;
   public jobResult: any;
+  public jobInstanceType: string;
   public cmd: string;
 
   constructor(params) {
@@ -28,10 +31,18 @@ export class AsyncJob extends BaseModel implements IAsyncJob<any> {
   }
 
   public mapCmd(): void {
-    const regex = /^org\.apache\.cloudstack\.api\.command\.user\.vm\.(\w*)VMCmd$/;
+    // when a command is executed, two jobs are initiated
+    // one has type of "Cmd", another one is "Work"
+    // we need only one so we take "Cmd" and filter any others out
+    const regex = /^org\.apache\.cloudstack\.api\.command\.user\.vm\.(\w*)Cmd$/;
+    if (!this.cmd) {
+      this.cmd = '';
+    }
     const matches = this.cmd.match(regex);
     if (matches) {
       this.cmd = matches[1].toLowerCase();
+    } else {
+      this.cmd = '';
     }
   }
 }
