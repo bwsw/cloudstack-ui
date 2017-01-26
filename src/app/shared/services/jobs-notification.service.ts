@@ -64,7 +64,7 @@ export class JobsNotificationService {
       return notification.id;
     }
     Object.assign(this.notifications[ind], notification);
-    this.updateUnseenCount();
+    this._pendingJobsCount--;
     return notification.id;
   }
 
@@ -83,16 +83,5 @@ export class JobsNotificationService {
 
   public removeAll(): void {
     this.notifications = this.notifications.filter((n: INotification) => n.status === INotificationStatus.Pending);
-  }
-
-  public updateUnseenCount(): void {
-    let pendingCount = 0;
-    this.notifications.forEach((n: INotification) => {
-      if (n.status === INotificationStatus.Pending) {
-        pendingCount++;
-      }
-    });
-
-    this._pendingJobsCount = pendingCount;
   }
 }

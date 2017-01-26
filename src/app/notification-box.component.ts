@@ -16,14 +16,14 @@ export class NotificationBoxComponent implements OnInit  {
 
   constructor(
     private jobsNotificationService: JobsNotificationService,
-    private changeDetectorRef: ChangeDetectorRef) {
+    private changeDetectorRef: ChangeDetectorRef
+  ) {
       this.unseenCount = 0;
     }
 
   public ngOnInit(): void {
     this.popover.hide = () => {
       this.popover.isVisible = false;
-      this.jobsNotificationService.updateUnseenCount();
       this.unseenCount = this.jobsNotificationService.pendingJobsCount;
       this.changeDetectorRef.markForCheck();
     };
