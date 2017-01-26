@@ -27,8 +27,8 @@ export class AppComponent {
     @Inject('INotificationService') private notification: INotificationService
   ) {
     this.title = this.auth.name;
-    this.translate.setDefaultLang('ru');
-    this.translate.use('ru');
+    this.translate.setDefaultLang('en');
+    this.translate.use('en');
     this.error.subscribe(e => this.handleError(e));
     this.auth.isLoggedIn().subscribe(r => this.loggedIn = r);
     this.auth.loggedIn.subscribe(loggedIn => {
