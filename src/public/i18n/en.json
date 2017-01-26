@@ -226,6 +226,6 @@
   "VOLUME_NEWSIZE_LOWER": "New size is lower than the current, you need to shrink the volume",
   "VOLUME_PRIMARY_STORAGE_EXCEEDED": "Primary storage capacity exceeded",
   "VOLUME_RESIZE_VOLUME": "Resize volume",
-  "VOLUME_SHRINK": "SHRINK",
+  "VOLUME_SHRINK": "Shrink",
   "VOLUME_NEW_SIZE": "New size"
 }
