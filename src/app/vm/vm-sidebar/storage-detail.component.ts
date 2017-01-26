@@ -2,15 +2,15 @@ import {
   Component,
   Input,
 } from '@angular/core';
-
 import { MdlDialogService } from 'angular2-mdl';
+import { Observable } from 'rxjs/Rx';
+import { TranslateService } from 'ng2-translate';
+
 import { VirtualMachine } from '../vm.model';
 import { SnapshotCreationComponent } from '../../snapshot/snapshot-creation.component';
-import { TranslateService } from 'ng2-translate';
 import { JobsNotificationService, INotificationStatus } from '../../shared/services/jobs-notification.service';
 import { StatsUpdateService } from '../../shared/services/stats-update.service';
 import { VolumeResizeComponent } from './volume-resize.component';
-import { Observable } from 'rxjs/Rx';
 import { Volume } from '../../shared/models/volume.model';
 
 

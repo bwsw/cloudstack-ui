@@ -9,7 +9,7 @@ import { StatsUpdateService } from '../shared/services/stats-update.service';
 
 
 @Component({
-  selector: 'cs-snapsot-creation',
+  selector: 'cs-snapshot-creation',
   templateUrl: 'snapshot-creation.component.html',
   styleUrls: ['snapshot-creation.component.scss'],
 })
@@ -51,7 +51,7 @@ export class SnapshotCreationComponent {
       .switchMap(strings => {
         translatedStrings = strings;
         notificationId = this.jobsNotificationService.add(translatedStrings['SNAPSHOT_IN_PROGRESS']);
-        return this.snapshotService.createSnapshot(this.volumeId, this.name);
+        return this.snapshotService.createSnapshot(volumeId, name);
       })
       .subscribe(() => {
         this.statsUpdateService.next();
