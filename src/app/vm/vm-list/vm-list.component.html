@@ -7,12 +7,12 @@
     (onClick)="showDetail($event)"
   ></cs-vm-list-item>
 </div>
-<cs-vm-detail
+<cs-vm-sidebar
   [vm]="selectedVm"
   (onClickOutside)="hideDetail()"
   [isOpen]="isDetailOpen"
 >
-</cs-vm-detail>
+</cs-vm-sidebar>
 <div class="fab">
   <button
     mdl-button

@@ -25,6 +25,7 @@
   "RESTORE_IN_PROGRESS": "Переустановка",
   "DESTROY_IN_PROGRESS": "Уничтожение",
   "DEPLOY_IN_PROGRESS": "Развертывание",
+  "RESETPASSWORDFOR_IN_PROGRESS": "Сброс пароля",
 
   "VM_START_IN_PROGRESS": "Запуск ВМ",
   "VM_STOP_IN_PROGRESS": "Остановка ВМ",
@@ -33,12 +34,18 @@
   "VM_DESTROY_IN_PROGRESS": "Уничтожение ВМ",
   "VM_DEPLOY_IN_PROGRESS": "Развертывание ВМ",
 
+  "SNAPSHOT_IN_PROGRESS": "Создается снимок",
+  "SNAPSHOT_DONE": "Снимок создан",
+  "SNAPSHOT_FAILED": "Не удалось создать снимок",
+  "VOLUME_BUSY": "Диск занят",
+
   "CONFIRM_VM_START": "Вы уверены, что вы хотите запустить виртуальную машину?",
   "CONFIRM_VM_STOP": "Вы уверены, что вы хотите остановить виртуальную машину?",
   "CONFIRM_VM_REBOOT": "Вы уверены, что вы хотите перезапустить виртуальную машину?",
   "CONFIRM_VM_RESTORE": "Вы уверены, что вы хотите переустановить виртуальную машину?",
   "CONFIRM_VM_DESTROY": "Вы уверены, что вы хотите уничтожить виртуальную машину?",
   "CONFIRM_DELETE_TEMPLATE": "Вы уверены, что хотите удалить этот шаблон?",
+  "CONFIRM_VM_RESETPASSWORDFOR": "Вы уверены, что хотите сбросить пароль?<br>Если ваша виртуальная машина запущена, то она будет перезагружена.",
   "START_DONE": "ВМ была запущена",
   "STOP_DONE": "ВМ была остановлена",
   "REBOOT_DONE": "ВМ была перезапущена",
@@ -53,13 +60,17 @@
   "START": "Запустить",
   "STOP": "Остановить",
   "SELECT": "Выбрать",
+  "CHANGE": "Изменить",
 
   "REBOOT": "Перезапустить",
   "RESTORE": "Переустановить",
   "DESTROY": "Уничтожить",
+  "RESETPASSWORDFOR": "Сбросить пароль",
   "CLEAR_ALL": "Очистить",
   "WOULD_YOU_LIKE_TO_CREATE_VM": "Хотите создать виртуальную машину?",
   "NO_DONT_ASK": "Нет, больше не спрашивать",
+
+  "INSUFFICIENT_RESOURCES": "Недостаточно ресурсов",
 
   "TEMPLATES": "Шаблоны",
   "CONSOLE": "Консоль",
@@ -80,7 +91,7 @@
   "TEMPLATE": "Шаблон",
   "STATISTICS": "Статистика",
   "TAKE_SNAPSHOT": "Сделать снимок",
-  "NO_AFFINITY_GROUP": "Нет аффинитетный групп",
+  "NO_AFFINITY_GROUP": "Нет аффинитетных групп",
   "IP_NA": "IP недоступен",
   "VMS": "Вирутальные машины",
   "DEPLOYED": "Развернута",
@@ -163,7 +174,6 @@
   "DESCRIPTION": "Описание",
   "LABELS": "Метки",
   "CUSTOM_TEMPLATES_NOT_INCLUDED": "Нет шаблонов",
-  "INSUFFICIENT_RESOURCES": "Недостаточно ресурсов",
   "BASED_ON": "основан на",
 
   "IP": "IP",
@@ -188,18 +198,16 @@
     "type": "Тип"
   },
 
+  "VM_RESETPASSWORDFOR_IN_PROGRESS": "Сброс пароля",
+  "RESETPASSWORDFOR_DONE": "Пароль сброшен",
+  "PASSWORD_DIALOG_MESSAGE": "Пароль для машины {{ vmName }} был сброшен в {{ vmPassword }}",
+
   "CHOOSE_SERVICE_OFFERING": "Выберите предложение",
   "OFFERING_CHANGED": "Предложение изменилось",
   "OFFERING_CHANGE_FAILED": "Предложение не изменилось",
   "CHANGE_SERVICE_OFFERING": "Изменить предложение",
   "SO_CHANGE_DISABLED": "Необходимо остановить машину",
 
-  "RESETPASSWORDFOR_IN_PROGRESS": "Сброс пароля",
-  "VM_RESETPASSWORDFOR_IN_PROGRESS": "Сброс пароля",
-  "CONFIRM_VM_RESETPASSWORDFOR": "Вы уверенны, что хотите сбросить пароль?<br>Если ваша виртуальная машина запущена, то она будет перезагружена.",
-  "RESETPASSWORDFOR_DONE": "Пароль сброшен",
-  "RESETPASSWORDFOR": "Сбросить пароль",
-  "PASSWORD_DIALOG_MESSAGE": "Пароль для машины {{ vmName }} был сброшен в {{ vmPassword }}",
   "EDIT_RULES": "Редактировать правила",
   "CLOSE": "Закрыть",
   "TYPE": "Тип",
@@ -216,6 +224,22 @@
   "ENTER_VALID_CIDR": "Введите корректный CIDR",
   "FAILED_TO_ADD_RULE": "Не удалось добавить правило",
   "FAILED_TO_REMOVE_RULE": "Не удалось удалить правило",
+
+  "SNAPSHOT" : {
+    "BACKEDUP": "Backed up",
+    "CREATING": "Создается",
+    "BACKINGUP": "Backing up",
+    "ALLOCATED": "Allocated"
+  },
+
+  "CREATE_TEMPLATE_BUTTON": "Создать шаблон",
+  "TAKE_SNAPSHOT_BUTTON": "Создать снимок",
+  "SNAPSHOT_SCHEDULE_BUTTON": "Настроить создание снимков",
+  "RESIZE_DISK_BUTTON": "Изменить размер диска",
+  "REVERT_TO_SNAPSHOT": "Восстановить диск к снимку",
+
+  "VM_VIEW": "Машина",
+  "STORAGE_VIEW": "Диски",
 
   "VOLUME_RESIZE": "Изменить размер",
   "VOLUME_RESIZING": "Изменение размера диска",

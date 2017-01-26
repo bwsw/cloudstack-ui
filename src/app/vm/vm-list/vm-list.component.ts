@@ -15,6 +15,7 @@ import { IVmAction } from '../vm.model';
 import { IAsyncJob } from '../../shared/models/async-job.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { VmStatisticsComponent } from '../vm-statistics/vm-statistics.component';
+import { StatsUpdateService } from '../../shared/services/stats-update.service';
 
 
 interface IVmActionEvent {
@@ -43,7 +44,8 @@ export class VmListComponent implements OnInit {
     private translateService: TranslateService,
     @Inject('IStorageService') protected storageService: IStorageService,
     private jobsNotificationService: JobsNotificationService,
-    private asyncJobService: AsyncJobService
+    private asyncJobService: AsyncJobService,
+    private statsUpdateService: StatsUpdateService
   ) { }
 
   public ngOnInit(): void {
@@ -68,13 +70,20 @@ export class VmListComponent implements OnInit {
           this.showDialog(translations);
         });
       });
+    this.statsUpdateService.subscribe(() => this.updateStats());
     this.asyncJobService.event.subscribe((job: IAsyncJob<any>) => {
-      if (job.jobResult && job.jobResult.state === 'Destroyed') {
+      if (job.jobResult && job.jobInstanceType === 'VirtualMachine' && job.jobResult.state === 'Destroyed') {
         this.vmList.splice(this.vmList.findIndex(vm => vm.id === job.jobResult.id), 1);
         if (this.selectedVm && this.selectedVm.id === job.jobResult.id) {
           this.isDetailOpen = false;
         }
-        this.vmStats.updateStats();
+        this.updateStats();
+      }
+      if (job.jobResult && job.jobInstanceType === 'Snapshot') {
+        this.vmList.forEach((vm, index, array) => {
+          let vol = vm.volumes.findIndex(volume => volume.id === job.jobResult.volumeId);
+          if (vol !== -1) { array[index].volumes[vol].snapshots.unshift(job.jobResult); }
+        });
       }
     });
     this.vmService.resubscribe().subscribe(observables => {
@@ -102,10 +111,14 @@ export class VmListComponent implements OnInit {
           this.vmService.get(updatedVm.id).subscribe(result => {
             array[index] = result;
           });
-          this.vmStats.updateStats();
+          this.updateStats();
         }
       });
     });
+  }
+
+  public updateStats(): void {
+    this.vmStats.updateStats();
   }
 
   public onVmAction(e: IVmActionEvent): void {
@@ -127,7 +140,7 @@ export class VmListComponent implements OnInit {
 
   public onVmCreated(e): void {
     this.vmList.push(e);
-    this.vmStats.updateStats();
+    this.updateStats();
   }
 
   public showDetail(vm: VirtualMachine): void {

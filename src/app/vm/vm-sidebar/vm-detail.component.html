@@ -1,5 +1,4 @@
 <div *ngIf="vm">
-  <h4>{{ vm.displayName }}</h4>
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
       <h2 mdl-card-title-text>{{ 'STATUS' | translate }}</h2>
@@ -21,7 +20,6 @@
 
     </mdl-card-actions>
   </mdl-card>
-
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
       <h2 mdl-card-title-text>{{ 'SERVICE_OFFERING' | translate }}</h2>
@@ -130,39 +128,6 @@
 
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
-      <h2 mdl-card-title-text>{{ 'VOLUMES' | translate }}</h2>
-    </mdl-card-title>
-    <mdl-card-supporting-text>
-      <div class="grid volumes">
-        <div class="row" *ngFor="let volume of vm.volumes">
-          <div>{{ volume.name }}</div>
-          <div>{{ volume.size | divByPowerOfTwo:30:2 }} GB</div>
-          <div>
-            <button
-              [mdl-tooltip]="'TAKE_SNAPSHOT' | translate"
-              mdl-tooltip-position="top"
-              mdl-button
-              mdl-button-type="icon"
-            >
-              <mdl-icon>camera_alt</mdl-icon>
-            </button>
-            <button
-              mdl-button
-              mdl-button-type="icon"
-              (click)="showVolumeResizeDialog()"
-              [mdl-tooltip]="'VOLUME_RESIZE' | translate"
-              mdl-tooltip-position="top"
-            >
-              <mdl-icon>photo_size_select_small</mdl-icon>
-            </button>
-          </div>
-        </div>
-      </div>
-    </mdl-card-supporting-text>
-  </mdl-card>
-
-  <mdl-card class="vm-card" mdl-shadow="2">
-    <mdl-card-title>
       <h2 mdl-card-title-text>{{ 'NETWORK_RULES' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
@@ -262,4 +227,3 @@
     </mdl-card-supporting-text>
   </mdl-card>
 </div>
-
