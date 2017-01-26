@@ -31,6 +31,9 @@ export class AsyncJob extends BaseModel implements IAsyncJob<any> {
   }
 
   public mapCmd(): void {
+    // when a command is executed, two jobs are initiated
+    // one has type of "Cmd", another one is "Work"
+    // we need only one so we take "Cmd" and filter any others out
     const regex = /^org\.apache\.cloudstack\.api\.command\.user\.vm\.(\w*)Cmd$/;
     if (!this.cmd) {
       this.cmd = '';
