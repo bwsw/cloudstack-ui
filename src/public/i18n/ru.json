@@ -9,6 +9,7 @@
   "DISKS": "Диски",
   "INSTANCES": "Машины",
   "SECURITY_GROUP_TEMPLATES": "Шаблоны групп безопасности",
+  "SECURITY_TEMPLATES": "Шаблоны<br>групп безопасности",
   "RUNNING": "Запущена",
   "STOPPED": "Остановлена",
 
@@ -82,7 +83,7 @@
   "TAKE_SNAPSHOT": "Сделать снимок",
   "NO_AFFINITY_GROUP": "Нет аффинитетный групп",
   "IP_NA": "IP недоступен",
-  "VMS": "Вирутальные машины",
+  "VMS": "Виртуальные машины",
   "DEPLOYED": "Развернута",
   "COMPUTATIONAL_RESOURCES": "Вычислительные ресурсы",
   "CPUS": "CPU",
@@ -227,5 +228,5 @@
   "VOLUME_SHRINK": "Сжать",
   "VOLUME_NEW_SIZE": "Новый размер",
 
-  "SECURITY_TEMPLATES": "Шаблоны безопасности"
+  "VM_NAVBAR": "Виртуальные<br>машины"
 }

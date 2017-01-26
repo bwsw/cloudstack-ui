@@ -9,7 +9,7 @@
   "DISKS": "DISKS",
   "INSTANCES": "Instances",
   "SECURITY_GROUP_TEMPLATES": "Security Group Templates",
-  "SECURITY_TEMPLATES": "Security templates",
+  "SECURITY_TEMPLATES": "Security group<br>templates",
   "RUNNING": "Running",
   "STOPPED": "Stopped",
 
@@ -228,5 +228,7 @@
   "VOLUME_PRIMARY_STORAGE_EXCEEDED": "Primary storage capacity exceeded",
   "VOLUME_RESIZE_VOLUME": "Resize volume",
   "VOLUME_SHRINK": "SHRINK",
-  "VOLUME_NEW_SIZE": "New size"
+  "VOLUME_NEW_SIZE": "New size",
+
+  "VM_NAVBAR": "Virtual machines"
 }

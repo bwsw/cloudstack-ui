@@ -33,3 +33,21 @@ footer {
 .mdl-navigation__link mdl-icon {
   padding-right: 10px;
 }
+
+.link-container {
+  padding-left: 30px !important;
+  padding-right: 30px !important;
+}
+
+.link-container::before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+
+.link-element {
+  display: inline-block;
+  vertical-align: middle;
+}
+
