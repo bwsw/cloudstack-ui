@@ -48,7 +48,11 @@
         <mdl-icon>more_vert</mdl-icon>
       </button>
     </mdl-card-menu>
-    <mdl-card-actions *ngIf="volume.snapshots.length > 5" mdl-card-border>
+    <mdl-card-actions
+      *ngIf="volume.snapshots.length > 5"
+      mdl-card-border
+      class="popover-actions"
+    >
       <button
         mdl-button
         mdl-ripple
