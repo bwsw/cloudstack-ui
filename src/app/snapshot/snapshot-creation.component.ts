@@ -10,8 +10,7 @@ import { StatsUpdateService } from '../shared/services/stats-update.service';
 
 @Component({
   selector: 'cs-snapshot-creation',
-  templateUrl: 'snapshot-creation.component.html',
-  styleUrls: ['snapshot-creation.component.scss'],
+  templateUrl: 'snapshot-creation.component.html'
 })
 export class SnapshotCreationComponent {
   public name: string;
