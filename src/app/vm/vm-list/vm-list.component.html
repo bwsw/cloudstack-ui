@@ -3,7 +3,7 @@
   <cs-vm-list-item
     *ngFor="let vm of vmList"
     [vm]="vm"
-    (onVmAction)="onVmAction($event)"
+    (onVmAction)="vmAction($event)"
     (onClick)="showDetail($event)"
   ></cs-vm-list-item>
 </div>

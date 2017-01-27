@@ -56,7 +56,10 @@ export class VmDetailComponent {
   public changeServiceOffering() {
     this.dialogService.showCustomDialog({
       component: ServiceOfferingDialogComponent,
-      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
+      providers: [{
+        provide: 'virtualMachine',
+        useValue: this.vm
+      }],
       isModal: true,
       styles: {
         'overflow': 'visible', // so that the dialog window doesn't cut the SO dropdown

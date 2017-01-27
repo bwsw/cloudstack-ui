@@ -249,5 +249,8 @@
   "VOLUME_PRIMARY_STORAGE_EXCEEDED": "Primary storage capacity exceeded",
   "VOLUME_RESIZE_VOLUME": "Resize volume",
   "VOLUME_SHRINK": "Shrink",
-  "VOLUME_NEW_SIZE": "New size"
+  "VOLUME_NEW_SIZE": "New size",
+
+  "VM_WILL_BE_REBOOTED": "Virtual machine will be rebooted",
+  "THIS_IS_YOU_CURRENT_OFFERING": "This is your current offering"
 }
