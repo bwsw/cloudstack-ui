@@ -9,10 +9,10 @@ $line-height: 22px;
   }
 }
 
+.nic .row > div:nth-child(2n),
 .security-group .row > div:nth-child(2n),
 .service-offering .row > div:nth-child(2n),
-.statistics .row > div:nth-child(2n),
-.nic .row > div:nth-child(2n)
+.statistics .row > div:nth-child(2n)
 {
   text-align: right;
 }
