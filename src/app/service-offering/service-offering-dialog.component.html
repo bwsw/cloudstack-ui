@@ -8,9 +8,10 @@
   ></cs-service-offering-selector>
   <div
     class="message"
-    *ngIf="virtualMachine"
+    *ngIf="virtualMachine && serviceOfferingId"
   >
     <div
+      class="warning"
       *ngIf="virtualMachine.state !== 'Stopped' && serviceOfferingId !== virtualMachine.serviceOfferingId"
     >{{ "VM_WILL_BE_REBOOTED" | translate }}</div>
     <div

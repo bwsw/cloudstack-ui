@@ -117,10 +117,6 @@ export class VmListComponent implements OnInit {
     this.vmService.vmAction(e);
   }
 
-  public singleActionCommand(e: IVmActionEvent): Promise<any> {
-    return this.vmService.singleActionCommand(e);
-  }
-
   public resetPasswordAction(e: IVmActionEvent) {
     this.vmService.resetPassword(e);
   }
