@@ -12,12 +12,12 @@ $line-height: 22px;
 .security-group .row > div:nth-child(2n),
 .service-offering .row > div:nth-child(2n),
 .statistics .row > div:nth-child(2n),
-.volumes .row > div:nth-child(2n),
-.volumes .row > div:nth-child(3n)
+.nic .row > div:nth-child(2n)
 {
   text-align: right;
 }
 
 .nic-name {
   font-weight: bolder;
+  padding: 2px;
 }
