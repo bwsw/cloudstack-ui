@@ -249,5 +249,8 @@
   "VOLUME_PRIMARY_STORAGE_EXCEEDED": "Лимит основного хранилища превышен",
   "VOLUME_RESIZE_VOLUME": "Изменить размер диска",
   "VOLUME_SHRINK": "Сжать",
-  "VOLUME_NEW_SIZE": "Новый размер"
+  "VOLUME_NEW_SIZE": "Новый размер",
+
+  "VM_WILL_BE_REBOOTED": "Машина будет перезагружена",
+  "THIS_IS_YOU_CURRENT_OFFERING": "Это Ваше текущее предложение"
 }

@@ -17,9 +17,9 @@
       >
         <mdl-icon>computer</mdl-icon>
       </button>
-
     </mdl-card-actions>
   </mdl-card>
+
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
       <h2 mdl-card-title-text>{{ 'SERVICE_OFFERING' | translate }}</h2>
@@ -38,40 +38,26 @@
         </div>
       </div>
     </mdl-card-supporting-text>
-    <mdl-card-actions mdl-card-border style="text-align: right;">
-      <button
-        mdl-button
-        mdl-ripple
-        mdl-button-type="icon"
-        (click)="toggleServiceOffering()"
-        [class.open]="expandServiceOffering"
-      >
-        <mdl-icon>keyboard_arrow_down</mdl-icon>
-      </button>
+    <mdl-card-actions mdl-card-border>
+      <div class="change-offering-button">
+        <button
+          mdl-button
+          (click)="changeServiceOffering()"
+        >{{ 'CHANGE' | translate }}</button>
+      </div>
+      <div class="expand-button">
+        <button
+          mdl-button
+          mdl-ripple
+          mdl-button-type="icon"
+          (click)="toggleServiceOffering()"
+          [class.open]="expandServiceOffering"
+        >
+          <mdl-icon>keyboard_arrow_down</mdl-icon>
+        </button>
+      </div>
     </mdl-card-actions>
     <mdl-card-menu>
-      <button
-        *ngIf="vm.canApply('changeOffering')"
-        mdl-button
-        mdl-button-type="icon"
-        mdl-ripple
-        mdl-tooltip-position="bottom"
-        [mdl-tooltip]="'CHANGE_SERVICE_OFFERING' | translate"
-        (click)="changeServiceOffering()"
-      >
-        <mdl-icon>replay</mdl-icon>
-      </button>
-      <button
-        *ngIf="!vm.canApply('changeOffering')"
-        [disabled]="true"
-        mdl-button
-        mdl-button-type="icon"
-        mdl-ripple
-        mdl-tooltip-position="bottom"
-        [mdl-tooltip]="'SO_CHANGE_DISABLED' | translate"
-      >
-        <mdl-icon>replay</mdl-icon>
-      </button>
     </mdl-card-menu>
   </mdl-card>
 

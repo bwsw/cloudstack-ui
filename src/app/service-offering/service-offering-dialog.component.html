@@ -6,9 +6,26 @@
     class="service-offering-selector"
     [(ngModel)]="serviceOfferingId"
   ></cs-service-offering-selector>
+  <div
+    class="message"
+    *ngIf="virtualMachine && serviceOfferingId"
+  >
+    <div
+      class="warning"
+      *ngIf="virtualMachine.state !== 'Stopped' && serviceOfferingId !== virtualMachine.serviceOfferingId"
+    >{{ "VM_WILL_BE_REBOOTED" | translate }}</div>
+    <div
+      *ngIf="serviceOfferingId === virtualMachine.serviceOfferingId"
+    >{{ "THIS_IS_YOU_CURRENT_OFFERING" | translate }}</div>
+  </div>
 </div>
 <div class="mdl-dialog__actions">
-  <button mdl-button (click)="onChange()" mdl-colored="primary">
+  <button
+    mdl-button
+    (click)="onChange()"
+    mdl-colored="primary"
+    [disabled]="serviceOfferingId === virtualMachine.serviceOfferingId"
+  >
     {{ 'CHANGE' | translate }}
   </button>
   <button mdl-button (click)="onCancel()" mdl-colored="primary">
