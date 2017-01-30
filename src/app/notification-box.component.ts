@@ -55,7 +55,7 @@ export class NotificationBoxComponent implements OnInit  {
   }
 
   public removeAll(): void {
-    this.jobsNotificationService.removeAll();
+    this.jobsNotificationService.removeCompleted();
     this.popover.hide();
   }
 }

@@ -7,8 +7,10 @@ import { TranslateService } from 'ng2-translate';
 import { ErrorService } from './shared/services/error.service';
 import { INotificationService } from './shared/services/notification.service';
 import { MdlLayoutComponent } from 'angular2-mdl';
+import { JobsNotificationService } from './shared/services/jobs-notification.service';
 
 import '../style/app.scss';
+
 
 @Component({
   selector: 'cs-app',
@@ -24,7 +26,8 @@ export class AppComponent implements OnInit {
     private router: Router,
     private translate: TranslateService,
     private error: ErrorService,
-    @Inject('INotificationService') private notification: INotificationService
+    @Inject('INotificationService') private notification: INotificationService,
+    private jobsNotificationService: JobsNotificationService
   ) {
     this.title = this.auth.name;
     this.translate.setDefaultLang('en');
@@ -53,6 +56,7 @@ export class AppComponent implements OnInit {
     } else {
       this.router.navigate(['/login']);
     }
+    this.jobsNotificationService.removeAll();
   }
 
   private handleError(e: any): void {
@@ -60,6 +64,7 @@ export class AppComponent implements OnInit {
       switch (e.status) {
         case 401:
           this.translate.get('NOT_LOGGED_IN').subscribe(result => this.notification.message(result));
+          this.auth.setLoggedOut();
           break;
         case 431:
           this.translate.get('WRONG_ARGUMENTS').subscribe(result => this.notification.message(result));

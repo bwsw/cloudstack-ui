@@ -57,7 +57,7 @@ describe('Jobs notification service', () => {
     jobsNotificationService.add({ id: '0', status: INotificationStatus.Finished });
     jobsNotificationService.add({ id: '1', status: INotificationStatus.Finished });
 
-    jobsNotificationService.removeAll();
+    jobsNotificationService.removeCompleted();
 
     expect(jobsNotificationService.notifications.length).toBe(1);
     expect(jobsNotificationService.notifications[0].message).toBe('another one');

@@ -73,12 +73,12 @@ export class AuthService extends BaseBackendService<AuthStub> {
     }
   }
 
-  private setLoggedIn(name: string): void {
+  public setLoggedIn(name: string): void {
     this.name = name;
     this.loggedIn.next(true);
   }
 
-  private setLoggedOut(): void {
+  public setLoggedOut(): void {
     this.name = '';
     this.loggedIn.next(false);
   }

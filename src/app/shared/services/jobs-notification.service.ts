@@ -84,8 +84,12 @@ export class JobsNotificationService {
     this.notifications.splice(ind, 1);
   }
 
-  public removeAll(): void {
+  public removeCompleted(): void {
     this.notifications = this.notifications.filter((n: INotification) => n.status === INotificationStatus.Pending);
+  }
+
+  public removeAll(): void {
+    this.notifications = [];
   }
 
   public updateUnseenCount(): void {
