@@ -300,7 +300,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       'UNEXPECTED_ERROR'
     ]).switchMap(strs => {
       translatedStrings = strs;
-      return this.getRequest(command, params)
+      return this.getRequest(command, params);
     })
       .map(result => {
         return new this.entityModel(result[command.toLowerCase() + 'response'].virtualmachine);
