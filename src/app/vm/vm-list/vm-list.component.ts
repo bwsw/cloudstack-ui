@@ -25,6 +25,8 @@ interface IVmActionEvent {
   templateId?: string;
 }
 
+const askToCreateVm = 'askToCreateVm';
+
 @Component({
   selector: 'cs-vm-list',
   templateUrl: 'vm-list.component.html',
@@ -57,7 +59,7 @@ export class VmListComponent implements OnInit {
           return;
         }
 
-        if (this.storageService.read('askToCreateVm') === 'false') {
+        if (this.storageService.read(askToCreateVm) === 'false') {
           return;
         }
 
@@ -168,7 +170,7 @@ export class VmListComponent implements OnInit {
         },
         {
           handler: () => {
-            this.storageService.write('askToCreateVm', 'false');
+            this.storageService.write(askToCreateVm, 'false');
           },
           text: translations['NO_DONT_ASK']
         }

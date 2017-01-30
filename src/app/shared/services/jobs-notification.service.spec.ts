@@ -1,10 +1,14 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { JobsNotificationService, INotificationStatus } from './jobs-notification.service';
+import { UtilsService } from './utils.service';
 
 describe('Jobs notification service', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      providers: [ JobsNotificationService ],
+      providers: [
+        UtilsService,
+        JobsNotificationService
+      ],
       imports: []
     });
   }));
@@ -18,10 +22,6 @@ describe('Jobs notification service', () => {
     expect(jobsNotificationService.notifications.length).toBe(2);
     expect(jobsNotificationService.notifications[0].id).toBe('123');
     expect(jobsNotificationService.notifications[0].message).toBe('another job');
-
-    jobsNotificationService.lastId = Number.MAX_SAFE_INTEGER - 1;
-    jobsNotificationService.add('job');
-    expect(jobsNotificationService.lastId).toBe(0);
   }));
 
   it('should modify existing notification', inject([JobsNotificationService], jobsNotificationService => {
@@ -50,12 +50,12 @@ describe('Jobs notification service', () => {
   }));
 
   it('should remove all finished jobs', inject([JobsNotificationService], jobsNotificationService => {
-    jobsNotificationService.add('new job');
-    jobsNotificationService.add('another job');
+    const id1 = jobsNotificationService.add('new job');
+    const id2 = jobsNotificationService.add('another job');
     jobsNotificationService.add('another one');
 
-    jobsNotificationService.add({ id: '0', status: INotificationStatus.Finished });
-    jobsNotificationService.add({ id: '1', status: INotificationStatus.Finished });
+    jobsNotificationService.add({ id: id1, status: INotificationStatus.Finished });
+    jobsNotificationService.add({ id: id2, status: INotificationStatus.Finished });
 
     jobsNotificationService.removeCompleted();
 
