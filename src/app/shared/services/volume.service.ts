@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 import { Volume } from '../models/volume.model';
-import { BaseBackendService, BACKEND_API_URL } from './base-backend.service';
+import { BaseBackendService } from './base-backend.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { SnapshotService } from './snapshot.service';
 import { Snapshot } from '../models/snapshot.model';

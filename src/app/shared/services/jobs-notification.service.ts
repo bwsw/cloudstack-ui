@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs/Rx';
 import { UtilsService } from './utils.service';
-import { AuthService } from './auth.service';
 
 export enum INotificationStatus {
   Pending,
@@ -62,8 +61,11 @@ export class JobsNotificationService {
       // vvv relies on Pending being 0 (1st field in enum) vvv
       notification.status = notification.status || INotificationStatus.Pending;
       this.notifications.unshift(notification);
-      this._pendingJobsCount++;
+      if (notification.status === INotificationStatus.Pending) {
+        this._pendingJobsCount++;
+      }
       this._unseenJobs.next(1);
+
       return notification.id;
     }
     Object.assign(this.notifications[ind], notification);

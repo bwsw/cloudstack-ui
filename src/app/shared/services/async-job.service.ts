@@ -35,6 +35,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
     this.authService.loggedIn.subscribe(loggedIn => {
       if (!loggedIn) {
         this.stopPolling();
+        this.jobObservables = {};
       }
     });
   }

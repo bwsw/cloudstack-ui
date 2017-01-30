@@ -41,8 +41,16 @@ export class AsyncJob extends BaseModel implements IAsyncJob<any> {
     const matches = this.cmd.match(regex);
     if (matches) {
       this.cmd = matches[1].toLowerCase();
+      this.formatCommand();
     } else {
       this.cmd = '';
+    }
+  }
+
+  private formatCommand() {
+    let indexOfVmSubstr = this.cmd.indexOf('vm');
+    if (indexOfVmSubstr !== -1) {
+      this.cmd = this.cmd.substring(0, this.cmd.length - 2);
     }
   }
 }

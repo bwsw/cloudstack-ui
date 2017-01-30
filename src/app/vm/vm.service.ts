@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http, URLSearchParams } from '@angular/http';
+import { Http } from '@angular/http';
 import { Observable, Subject } from 'rxjs/Rx';
 
-import { BaseBackendService, BACKEND_API_URL } from '../shared/services';
+import { BaseBackendService } from '../shared/services';
 import { BackendResource } from '../shared/decorators';
 import { VirtualMachine, IVmAction } from './vm.model';
 
@@ -129,7 +129,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public checkCommand(jobId: string): Observable<any> {
-    let job = this.jobs.addJob(jobId)
+    return this.jobs.addJob(jobId)
       .map(result => {
         if (result && result.jobResultCode === 0 && result.jobResult) {
           result.jobResult = new this.entityModel(result.jobResult.virtualmachine);
@@ -137,8 +137,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         this.jobs.event.next(result);
         return result;
       });
-    job.subscribe();
-    return job;
   }
 
   public resubscribe(): Observable<Array<Observable<AsyncJob>>> {
@@ -150,18 +148,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
       return observables;
     });
-  }
-
-  public changeServiceOffering(serviceOfferingId: string, id: string): Observable<VirtualMachine> {
-    const command = 'changeServiceFor';
-    let params = {};
-    params['id'] = id;
-    params['serviceofferingid'] = serviceOfferingId;
-
-    return this.getRequest(command, params)
-      .map(result => {
-        return new this.entityModel(result['changeserviceforvirtualmachineresponse'].virtualmachine);
-      });
   }
 
   public command(command: string, id?: string, params?: {}): Observable<AsyncJob> {
@@ -223,12 +209,13 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         e.vm.state = e.action.vmStateOnAction;
       }
       return this.command(e.action.commandName, e.vm.id);
-    }).map(() => {
+    }).map(job => {
       this.jobsNotificationService.add({
         id,
         message: strs[e.action.successMessage],
         status: INotificationStatus.Finished
       });
+      return job;
     });
   }
 
@@ -251,6 +238,18 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
       this.singleActionCommand(stop)
         .switchMap(() => this.singleActionCommand(e))
+        .map(job => {
+          if (job && job.jobResult && job.jobResult.password) {
+            this.translateService.get('PASSWORD_DIALOG_MESSAGE',
+              {
+                vmName: job.jobResult.displayName,
+                vmPassword: job.jobResult.password
+              })
+              .subscribe((res: string) => {
+                this.dialogService.alert(res);
+              });
+          }
+        })
         .switchMap(() => this.singleActionCommand(start))
         .subscribe();
     }
