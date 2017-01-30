@@ -12,8 +12,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { MockNotificationService } from './notification.service';
 import { ServiceLocator } from './service-locator';
-import { AsyncJobService } from './';
-import { ErrorService } from '.';
+import { AsyncJobService, AuthService, ErrorService, StorageService } from './';
 
 
 describe('Async job service', () => {
@@ -56,8 +55,10 @@ describe('Async job service', () => {
     TestBed.configureTestingModule({
       providers: [
         AsyncJobService,
+        AuthService,
         ErrorService,
         {provide: 'INotificationService', useClass: MockNotificationService},
+        {provide: 'IStorageService', useClass: StorageService},
         MockBackend,
         BaseRequestOptions,
         {
