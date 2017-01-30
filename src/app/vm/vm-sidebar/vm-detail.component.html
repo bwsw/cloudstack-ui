@@ -80,7 +80,7 @@
       <h2 mdl-card-title-text>{{ 'NETWORK_INTERFACE_CONTROLLER' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
-      <div class="collapsed-panel" *ngIf="!expandNIC">
+      <div class="collapsed-panel grid nic" *ngIf="!expandNIC">
         <div class="row" *ngFor="let nic of vm.nic; let i = index">
           <div>
             {{ 'NIC' | translate }} {{i+1}}
@@ -90,7 +90,7 @@
           </div>
         </div>
       </div>
-      <div class="expanded-panel" *ngIf="expandNIC">
+      <div class="expanded-panel grid nic" *ngIf="expandNIC">
         <div *ngFor="let nic of vm.nic; let i = index">
           <div class="nic-name">{{ 'NIC' | translate }} {{i+1}}</div>
           <div *ngFor="let key of nic.keys; let i = index">
