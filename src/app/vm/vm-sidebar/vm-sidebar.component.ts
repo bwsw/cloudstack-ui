@@ -28,7 +28,7 @@ export class VmSidebarComponent {
   @HostListener('document:click', ['$event'])
   public onDocumentClick(event: MouseEvent): void {
     const target = event.target;
-    if (!target || !this.isOpen || (<Element>event.target).tagName.toLowerCase() === 'span') { // fix!
+    if (!target || !this.isOpen) {
       return;
     }
 
