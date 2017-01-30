@@ -27,8 +27,7 @@ export class VolumeService extends BaseBackendService<Volume> {
   public resize(id: string, params: { size: number, shrinkok: boolean, [propName: string]: any }) {
     params['id'] = id;
 
-    return this.http.get(BACKEND_API_URL, { search: this.buildParams('resize', params) })
-      .map((response: Response) => response.json())
+    return this.getRequest('resize', params)
       .flatMap((res: any) => {
         const responseKey = `resize${this.entity.toLowerCase()}response`;
         return this.asyncJobService.addJob(res[responseKey].jobid);

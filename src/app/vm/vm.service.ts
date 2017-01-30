@@ -101,17 +101,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public deploy(params: {}): Observable<any> {
-    const urlParams = new URLSearchParams();
-    urlParams.append('command', 'deployVirtualMachine');
-
-    for (let key in params) {
-      if (params.hasOwnProperty(key)) {
-        urlParams.set(key, params[key]);
-      }
-    }
-
-    return this.http.get(BACKEND_API_URL, {search: urlParams})
-      .map(result => result.json().deployvirtualmachineresponse);
+    return this.getRequest('deploy', params)
+      .map(result => result['deployvirtualmachineresponse']);
   }
 
   public checkCommand(jobId: string): Observable<any> {
@@ -137,38 +128,27 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public changeServiceOffering(serviceOfferingId: string, id: string): Observable<VirtualMachine> {
-    const urlParams = new URLSearchParams();
-    const command = 'changeServiceForVirtualMachine';
+    const command = 'changeServiceFor';
+    let params = {};
+    params['id'] = id;
+    params['serviceofferingid'] = serviceOfferingId;
 
-    urlParams.append('command', command);
-    urlParams.append('response', 'json');
-    urlParams.append('id', id);
-    urlParams.append('serviceofferingid', serviceOfferingId);
-
-    return this.http.get(BACKEND_API_URL, { search: urlParams })
+    return this.getRequest(command, params)
       .map(result => {
-        return new this.entityModel(result.json()[command.toLowerCase() + 'response'].virtualmachine);
+        return new this.entityModel(result['changeserviceforvirtualmachineresponse'].virtualmachine);
       });
   }
 
   public command(command: string, id?: string, params?: {}): Observable<AsyncJob> {
-    const urlParams = new URLSearchParams();
+    let updatedParams = params ? params : {};
 
-    urlParams.append('command', command + 'VirtualMachine');
-    urlParams.append('response', 'json');
     if (command === 'restore') {
-      urlParams.append('virtualmachineid', id);
+      updatedParams['virtualmachineid'] = id;
     } else if (command !== 'deploy') {
-      urlParams.append('id', id);
+      updatedParams['id'] = id;
     }
 
-    for (let p in params) {
-      if (params.hasOwnProperty(p)) {
-        urlParams.append(p, params[p]);
-      }
-    }
-    return this.http.get(BACKEND_API_URL, { search: urlParams })
-      .map(result => result.json())
+    return this.getRequest(command, updatedParams)
       .map(result => {
         let fix;
         if (command === 'restore') {

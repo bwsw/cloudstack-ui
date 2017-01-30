@@ -103,13 +103,13 @@ export abstract class BaseBackendService<M extends BaseModel> {
     const command = 'list';
     let entity = this.entity.toLowerCase();
 
-    return this.http.get(BACKEND_API_URL, { search: this.buildParams(command, params) })
+    return this.getRequest(command, params)
       .map((res: Response) => {
         const responseString = `${command}${entity}sresponse`;
         if (entity === 'asyncjob') {
           entity += 's';
         }
-        return res.json()[responseString][`${entity}`];
+        return res[responseString][`${entity}`];
       })
       .catch(error => this.handleError(error));
   }

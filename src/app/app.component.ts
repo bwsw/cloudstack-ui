@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Response } from '@angular/http';
 
 import { AuthService } from './shared/services';
@@ -15,7 +15,7 @@ import '../style/app.scss';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   private loggedIn: boolean;
   private title: string;
 
@@ -38,6 +38,12 @@ export class AppComponent {
 
   public componentSelected(mainLayout: MdlLayoutComponent) {
     mainLayout.closeDrawerOnSmallScreens();
+  }
+
+  public ngOnInit(): void {
+    if (!this.auth.isLoggedIn()) {
+      this.updateAccount(false);
+    }
   }
 
   private updateAccount(loggedIn: boolean): void {

@@ -9,28 +9,19 @@ import { SgTemplateListComponent } from './security-group/sg-template-list/sg-te
 const routes: Routes = [
   {
     path: 'login',
-    component: LoginComponent,
-    canActivate: [
-      LoginGuard
-    ]
+    component: LoginComponent
   },
   {
     path: 'sg-templates',
-    component: SgTemplateListComponent,
-    canActivate: [
-      AuthGuard
-    ]
+    component: SgTemplateListComponent
   },
   {
     path: 'instances',
-    component: VmListComponent,
-    canActivate: [
-      AuthGuard
-    ]
+    component: VmListComponent
   },
   {
     path: '**',
-    redirectTo: '/instances',
+    redirectTo: '/instances'
   }
 ];
 
