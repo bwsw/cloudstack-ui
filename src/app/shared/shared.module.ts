@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
+import { MdlModule } from 'angular2-mdl';
 import { TranslateModule } from 'ng2-translate';
 
 import { DivByPowerOfTwoPipe } from './pipes/div-by-power-of-two.pipe';
@@ -33,20 +35,28 @@ import {
   ZoneService
 } from './services';
 import { SgRulesManagerComponent } from './components/sg-rules-manager.component';
+import { NotificationBoxComponent } from './components/notification-box.component';
+import { NotificationBoxItemComponent } from './components/notification-box-item.component';
 
 
 @NgModule({
   imports: [
     CommonModule,
-    TranslateModule
+    TranslateModule,
+    MdlModule,
+    MdlPopoverModule
   ],
   exports: [
     SgRulesManagerComponent,
+    NotificationBoxComponent,
+    NotificationBoxItemComponent,
     DivByPowerOfTwoPipe,
     ViewValuePipe
   ],
   declarations: [
     SgRulesManagerComponent,
+    NotificationBoxComponent,
+    NotificationBoxItemComponent,
     DivByPowerOfTwoPipe,
     ViewValuePipe
   ],

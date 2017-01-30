@@ -1,12 +1,12 @@
 import { Component, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
-import { JobsNotificationService } from './shared/services/jobs-notification.service';
+import { JobsNotificationService } from '../services/jobs-notification.service';
 import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
 import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'cs-notification-box',
-  templateUrl: './notification-box.component.html',
-  styleUrls: ['./notification-box.component.scss']
+  templateUrl: 'notification-box.component.html',
+  styleUrls: ['notification-box.component.scss']
 })
 export class NotificationBoxComponent implements OnInit  {
   @ViewChild(MdlPopoverComponent)
@@ -16,14 +16,14 @@ export class NotificationBoxComponent implements OnInit  {
 
   constructor(
     private jobsNotificationService: JobsNotificationService,
-    private changeDetectorRef: ChangeDetectorRef) {
+    private changeDetectorRef: ChangeDetectorRef
+  ) {
       this.unseenCount = 0;
     }
 
   public ngOnInit(): void {
     this.popover.hide = () => {
       this.popover.isVisible = false;
-      this.jobsNotificationService.updateUnseenCount();
       this.unseenCount = this.jobsNotificationService.pendingJobsCount;
       this.changeDetectorRef.markForCheck();
     };

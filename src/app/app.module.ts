@@ -11,8 +11,6 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
-import { NotificationBoxComponent } from './notification-box.component';
-import { NotificationBoxItemComponent } from './notification-box-item.component';
 import { ServiceLocator } from './shared/services';
 import { routing } from './app.routing';
 import { SecurityGroupModule } from './security-group/sg.module';
@@ -40,8 +38,6 @@ import { VmModule } from './vm/vm.module';
     AppComponent,
     LoginComponent,
     LogoutComponent,
-    NotificationBoxComponent,
-    NotificationBoxItemComponent
   ],
   providers: [
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
