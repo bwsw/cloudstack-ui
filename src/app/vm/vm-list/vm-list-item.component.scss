@@ -4,6 +4,14 @@
   cursor: pointer;
 }
 
+.vm-card {
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
 .vm-state {
   text-align: right;
+}
+
+.selected {
+  transform: scale(1.05);
 }

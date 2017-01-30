@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { VirtualMachine, IVmAction } from '../vm.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { IAsyncJob } from '../../shared/models/async-job.model';
@@ -10,18 +10,22 @@ import { TranslateService } from 'ng2-translate';
   templateUrl: 'vm-list-item.component.html',
   styleUrls: ['vm-list-item.component.scss']
 })
-export class VmListItemComponent implements OnInit {
+export class VmListItemComponent implements OnInit, OnChanges {
   @Input() public vm: VirtualMachine;
+  @Input() public isSelected: boolean;
   @Output() public onVmAction = new EventEmitter();
   @Output() public onClick = new EventEmitter();
 
   public actions: Array<IVmAction>;
+  public cardShadow: number;
 
   constructor(
     private asyncJobService: AsyncJobService,
     private dialogService: MdlDialogService,
     private translateService: TranslateService
-  ) {}
+  ) {
+    this.cardShadow = 2;
+  }
 
   public ngOnInit(): void {
     this.actions = this.vm.actions.map(a => VirtualMachine.getAction(a));
@@ -61,5 +65,14 @@ export class VmListItemComponent implements OnInit {
     }
 
     this.onVmAction.emit(e);
+  }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    for (let propName in changes) {
+      if (changes.hasOwnProperty(propName) && propName === 'isSelected') {
+        this.isSelected = changes[propName].currentValue;
+        this.cardShadow = this.isSelected ? 8 : 2;
+      }
+    }
   }
 }
