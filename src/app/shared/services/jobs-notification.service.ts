@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs/Rx';
 import { UtilsService } from './utils.service';
+import { AuthService } from './auth.service';
 
 export enum INotificationStatus {
   Pending,
@@ -20,7 +21,9 @@ export class JobsNotificationService {
   private _pendingJobsCount: number;
   private _unseenJobs: Subject<number>;
 
-  constructor(private utilsService: UtilsService) {
+  constructor(
+    private utilsService: UtilsService
+  ) {
     this.notifications = [];
     this._pendingJobsCount = 0;
     this._unseenJobs = new Subject<number>();
@@ -81,7 +84,13 @@ export class JobsNotificationService {
     this.notifications.splice(ind, 1);
   }
 
-  public removeAll(): void {
+  public removeCompleted(): void {
     this.notifications = this.notifications.filter((n: INotification) => n.status === INotificationStatus.Pending);
+    this._pendingJobsCount = this.notifications.length;
+  }
+
+  public removeAll(): void {
+    this.notifications = [];
+    this._pendingJobsCount = 0;
   }
 }

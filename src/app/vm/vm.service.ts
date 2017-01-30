@@ -106,7 +106,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public checkCommand(jobId: string): Observable<any> {
-    return this.jobs.addJob(jobId)
+    let job = this.jobs.addJob(jobId)
       .map(result => {
         if (result && result.jobResultCode === 0 && result.jobResult) {
           result.jobResult = new this.entityModel(result.jobResult.virtualmachine);
@@ -114,6 +114,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         this.jobs.event.next(result);
         return result;
       });
+    job.subscribe();
+    return job;
   }
 
   public resubscribe(): Observable<Array<Observable<AsyncJob>>> {

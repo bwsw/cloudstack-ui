@@ -91,6 +91,7 @@ export class VmListComponent implements OnInit {
     this.vmService.resubscribe().subscribe(observables => {
       observables.forEach(observable => {
         observable.subscribe(job => {
+          debugger;
           const action = VirtualMachine.getAction(job.cmd);
           this.translateService.get([
             'YES',

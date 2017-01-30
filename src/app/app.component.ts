@@ -72,7 +72,7 @@ export class AppComponent implements OnInit {
     } else {
       this.router.navigate(['/login']);
     }
-    this.jobsNotificationService.removeAll();
+    this.jobsNotificationService.removeCompleted();
   }
 
   private handleError(e: any): void {

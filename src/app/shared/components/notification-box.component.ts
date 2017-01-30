@@ -2,6 +2,7 @@ import { Component, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
 import { JobsNotificationService } from '../services/jobs-notification.service';
 import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
 import { Observable } from 'rxjs/Rx';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'cs-notification-box',
@@ -15,10 +16,14 @@ export class NotificationBoxComponent implements OnInit  {
   private unseenCountStream: Observable<number>;
 
   constructor(
+    private authService: AuthService,
     private jobsNotificationService: JobsNotificationService,
     private changeDetectorRef: ChangeDetectorRef
   ) {
       this.unseenCount = 0;
+      this.authService.loggedIn.subscribe(() => {
+        this.removeAll();
+      });
     }
 
   public ngOnInit(): void {
@@ -54,8 +59,15 @@ export class NotificationBoxComponent implements OnInit  {
     setTimeout(() => this.jobsNotificationService.remove(id));
   }
 
-  public removeAll(): void {
+  public removeCompleted(): void {
     this.jobsNotificationService.removeCompleted();
+    this.unseenCount = 0;
+    this.popover.hide();
+  }
+
+  public removeAll(): void {
+    this.jobsNotificationService.removeAll();
+    this.unseenCount = 0;
     this.popover.hide();
   }
 }
