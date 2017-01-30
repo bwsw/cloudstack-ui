@@ -1,4 +1,13 @@
-import { Component, Inject, ViewChild, HostListener, ViewChildren, QueryList } from '@angular/core';
+import {
+  Component,
+  Inject,
+  ViewChild,
+  HostListener,
+  ViewChildren,
+  QueryList,
+  OnInit,
+  ElementRef
+} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MdlSelectComponent } from '@angular2-mdl-ext/select';
 import { MdlDialogReference } from 'angular2-mdl';
@@ -13,7 +22,7 @@ import { NotificationService } from '../../shared/services';
   templateUrl: 'sg-rules.component.html',
   styleUrls: ['sg-rules.component.scss']
 })
-export class SgRulesComponent {
+export class SgRulesComponent implements OnInit {
   @ViewChild('rulesForm') public rulesForm: NgForm;
   @ViewChildren(MdlSelectComponent) public selectComponentList: QueryList<MdlSelectComponent>;
 
@@ -32,11 +41,16 @@ export class SgRulesComponent {
     private securityGroupService: SecurityGroupService,
     private notificationService: NotificationService,
     @Inject('securityGroup') public securityGroup: SecurityGroup,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private elementRef: ElementRef
   ) {
     this.protocol = 'TCP';
     this.type = 'Ingress';
     this.adding = false;
+  }
+
+  public ngOnInit() {
+    this.setPadding();
   }
 
   public addRule() {
@@ -62,8 +76,9 @@ export class SgRulesComponent {
         this.securityGroup[`${type.toLowerCase()}Rules`].push(rule);
         this.cidr = '';
         this.startPort = this.endPort = this.icmpCode = this.icmpType = null;
-        this.rulesForm.form.reset();
+        this.resetForm(this.type, this.protocol);
         this.adding = false;
+        this.setPadding();
       }, () => {
         this.translateService.get(['FAILED_TO_ADD_RULE']).subscribe((translations) => {
           this.notificationService.message(translations['FAILED_TO_ADD_RULE']);
@@ -82,6 +97,7 @@ export class SgRulesComponent {
           return;
         }
         rules.splice(ind, 1);
+        this.setPadding();
       }, () => {
         this.translateService.get(['FAILED_TO_REMOVE_RULE']).subscribe((translations) => {
           this.notificationService.message(translations['FAILED_TO_REMOVE_RULE']);
@@ -97,5 +113,24 @@ export class SgRulesComponent {
     // when it should close (https://git.io/vM7FJ)
     // stopPropagation prevents it, so here we close it
     this.selectComponentList.forEach(mdlSelect => mdlSelect.close(e));
+  }
+
+  public setPadding() {
+    // this code is fixed blur problem
+    let rulesCount = this.securityGroup.ingressRules.length + this.securityGroup.egressRules.length;
+    let parentNode = this.elementRef.nativeElement.parentNode as HTMLElement;
+    if (rulesCount % 2) {
+      parentNode.style.padding = '11.8px';
+    } else {
+      parentNode.style.padding = '11.7px';
+    }
+  }
+
+  private resetForm(type: NetworkRuleType, protocol: 'TCP'|'UDP'|'ICMP') {
+    this.rulesForm.form.reset();
+    setTimeout(() => {
+      this.protocol = protocol;
+      this.type = type;
+    });
   }
 }
