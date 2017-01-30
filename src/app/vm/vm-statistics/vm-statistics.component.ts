@@ -3,7 +3,7 @@ import { ResourceUsageService, ResourceStats } from '../../shared/services/resou
 import { IStorageService } from '../../shared/services/storage.service';
 
 
-const localStorageKey = 'showStatistics';
+const showStatistics = 'showStatistics';
 
 @Component({
   selector: 'cs-vm-statistics',
@@ -23,14 +23,14 @@ export class VmStatisticsComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    const showStatistics = this.storageService.read(localStorageKey);
+    const shouldShowStatistics = this.storageService.read(showStatistics);
     // no such key in the local storage, just show the stats
-    if (!showStatistics) {
+    if (!shouldShowStatistics) {
       this.updateStats();
       return;
     }
 
-    this.isOpen = showStatistics === 'true';
+    this.isOpen = shouldShowStatistics === 'true';
     if (this.isOpen) {
       this.wasOpened = true;
       this.updateStats();
@@ -45,7 +45,7 @@ export class VmStatisticsComponent implements OnInit {
       this.updateStats();
     }
 
-    this.storageService.write(localStorageKey, this.isOpen.toString());
+    this.storageService.write(showStatistics, this.isOpen.toString());
   }
 
   public updateStats(): void {

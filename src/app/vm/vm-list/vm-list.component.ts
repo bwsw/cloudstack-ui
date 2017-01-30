@@ -25,7 +25,7 @@ interface IVmActionEvent {
   templateId?: string;
 }
 
-const localStorageKey = 'askToCreateVm';
+const askToCreateVm = 'askToCreateVm';
 
 @Component({
   selector: 'cs-vm-list',
@@ -59,7 +59,7 @@ export class VmListComponent implements OnInit {
           return;
         }
 
-        if (this.storageService.read(localStorageKey) === 'false') {
+        if (this.storageService.read(askToCreateVm) === 'false') {
           return;
         }
 
@@ -170,7 +170,7 @@ export class VmListComponent implements OnInit {
         },
         {
           handler: () => {
-            this.storageService.write(localStorageKey, 'false');
+            this.storageService.write(askToCreateVm, 'false');
           },
           text: translations['NO_DONT_ASK']
         }
