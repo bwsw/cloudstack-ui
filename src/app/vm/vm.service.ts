@@ -178,14 +178,11 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return this.http.get(BACKEND_API_URL, { search: urlParams })
       .map(result => result.json())
       .map(result => {
-        let fix;
+        let fix = 'virtualmachine';
         if (command === 'restore') {
           fix = 'vm';
-        } else {
-          fix = 'virtualmachine';
-          if (command === 'resetPasswordFor') {
-            command = command.toLowerCase();
-          }
+        } else if (command === 'resetPasswordFor') {
+          command = command.toLowerCase();
         }
         return result[command + fix + 'response'].jobid;
       })
