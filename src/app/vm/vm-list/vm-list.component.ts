@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 
-import { VmService } from '../vm.service';
+import { VmService, IVmActionEvent } from '../vm.service';
 import { VirtualMachine } from '../vm.model';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
@@ -11,21 +11,13 @@ import {
   INotificationStatus
 } from '../../shared/services/jobs-notification.service';
 
-import { IVmAction } from '../vm.model';
 import { IAsyncJob } from '../../shared/models/async-job.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { VmStatisticsComponent } from '../vm-statistics/vm-statistics.component';
 import { StatsUpdateService } from '../../shared/services/stats-update.service';
 
-
-interface IVmActionEvent {
-  id: string;
-  action: IVmAction;
-  vm: VirtualMachine;
-  templateId?: string;
-}
-
 const askToCreateVm = 'askToCreateVm';
+
 
 @Component({
   selector: 'cs-vm-list',
@@ -124,21 +116,12 @@ export class VmListComponent implements OnInit {
     this.vmStats.updateStats();
   }
 
-  public onVmAction(e: IVmActionEvent): void {
-    this.translateService.get([
-      'YES',
-      'NO',
-      e.action.confirmMessage
-    ]).flatMap((strs) => {
-      return this.dialogService.confirm(strs[e.action.confirmMessage], strs.NO, strs.YES);
-    }).subscribe(() => {
-      if (e.action.commandName !== 'resetPasswordFor') {
-        this.singleActionCommand(e);
-      } else {
-        this.resetPasswordAction(e);
-      }
-    },
-    () => {});
+  public vmAction(e: IVmActionEvent): void {
+    this.vmService.vmAction(e);
+  }
+
+  public resetPasswordAction(e: IVmActionEvent) {
+    this.vmService.resetPassword(e);
   }
 
   public onVmCreated(e): void {
@@ -181,54 +164,5 @@ export class VmListComponent implements OnInit {
       clickOutsideToClose: true,
       styles: { 'width': '320px' }
     });
-  }
-
-
-  private singleActionCommand(e: IVmActionEvent): Promise<any> {
-    return new Promise((resolve) => {
-      let id;
-      let strs;
-      this.translateService.get([
-        e.action.progressMessage,
-        e.action.successMessage
-      ]).flatMap((res) => {
-        strs = res;
-        id = this.jobsNotificationService.add(strs[e.action.progressMessage]);
-        if (e.vm) {
-          e.vm.state = e.action.vmStateOnAction;
-        }
-        return this.vmService.command(e.action.commandName, e.vm.id);
-      }).subscribe(() => {
-        this.jobsNotificationService.add({
-          id,
-          message: strs[e.action.successMessage],
-          status: INotificationStatus.Finished
-        });
-        resolve();
-      });
-    });
-  }
-
-  private resetPasswordAction(e: IVmActionEvent) {
-    if (e.vm.state === 'Stopped') {
-      this.singleActionCommand(e);
-    } else {
-      let stop: IVmActionEvent = {
-        id: e.id,
-        action: VirtualMachine.getAction('stop'),
-        vm: e.vm,
-        templateId: e.templateId
-      };
-      let start: IVmActionEvent = {
-        id: e.id,
-        action: VirtualMachine.getAction('start'),
-        vm: e.vm,
-        templateId: e.templateId
-      };
-
-      this.singleActionCommand(stop)
-        .then(() => this.singleActionCommand(e))
-        .then(() => this.singleActionCommand(start));
-    }
   }
 }

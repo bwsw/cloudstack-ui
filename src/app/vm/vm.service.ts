@@ -4,18 +4,37 @@ import { Observable, Subject } from 'rxjs/Rx';
 
 import { BaseBackendService, BACKEND_API_URL } from '../shared/services';
 import { BackendResource } from '../shared/decorators';
-import { VirtualMachine } from './vm.model';
-import { VolumeService } from '../shared/services/volume.service';
-import { Volume } from '../shared/models/volume.model';
-import { OsTypeService } from '../shared/services/os-type.service';
-import { OsType } from '../shared/models/os-type.model';
+import { VirtualMachine, IVmAction } from './vm.model';
 
-import { AsyncJob } from '../shared/models/async-job.model';
-import { AsyncJobService } from '../shared/services/async-job.service';
+import { TranslateService } from 'ng2-translate';
+import { MdlDialogService } from 'angular2-mdl';
+
+import {
+  AsyncJob,
+  OsType,
+  ServiceOffering,
+  Volume
+} from '../shared/models/';
+
+import {
+  AsyncJobService,
+  NotificationService,
+  OsTypeService
+} from '../shared/services';
+
+import { INotificationStatus, JobsNotificationService } from '../shared/services/jobs-notification.service';
+
 import { SecurityGroupService } from '../shared/services/security-group.service';
 import { ServiceOfferingService } from '../shared/services/service-offering.service';
-import { ServiceOffering } from '../shared/models/service-offering.model';
+import { VolumeService } from '../shared/services/volume.service';
 
+
+export interface IVmActionEvent {
+  id: string;
+  action: IVmAction;
+  vm: VirtualMachine;
+  templateId?: string;
+}
 
 @Injectable()
 @BackendResource({
@@ -30,6 +49,10 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     private osTypesService: OsTypeService,
     private serviceOfferingService: ServiceOfferingService,
     private securityGroupService: SecurityGroupService,
+    private translateService: TranslateService,
+    private dialogService: MdlDialogService,
+    private jobsNotificationService: JobsNotificationService,
+    private notificationService: NotificationService,
     protected http: Http,
     protected jobs: AsyncJobService
   ) {
@@ -152,14 +175,11 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
     return this.getRequest(command, updatedParams)
       .map(result => {
-        let fix;
+        let fix = 'virtualmachine';
         if (command === 'restore') {
           fix = 'vm';
         } else if (command === 'resetPasswordFor') {
           command = command.toLowerCase();
-          fix = 'virtualmachine';
-        } else {
-          fix = 'virtualmachine';
         }
         return result[command + fix + 'response'].jobid;
       })
@@ -170,6 +190,127 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         }
         this.jobs.event.next(result);
         return result;
+      });
+  }
+
+  public vmAction(e: IVmActionEvent): void {
+    this.translateService.get([
+      'YES',
+      'NO',
+      e.action.confirmMessage
+    ]).switchMap((strs) => {
+      return this.dialogService.confirm(strs[e.action.confirmMessage], strs.NO, strs.YES);
+    }).subscribe(() => {
+        if (e.action.commandName !== 'resetPasswordFor') {
+          this.singleActionCommand(e).subscribe();
+        } else {
+          this.resetPassword(e);
+        }
+      },
+      () => {});
+  }
+
+  public singleActionCommand(e: IVmActionEvent): Observable<any> {
+    let id;
+    let strs;
+    return this.translateService.get([
+      e.action.progressMessage,
+      e.action.successMessage
+    ]).switchMap((res) => {
+      strs = res;
+      id = this.jobsNotificationService.add(strs[e.action.progressMessage]);
+      if (e.vm) {
+        e.vm.state = e.action.vmStateOnAction;
+      }
+      return this.command(e.action.commandName, e.vm.id);
+    }).map(() => {
+      this.jobsNotificationService.add({
+        id,
+        message: strs[e.action.successMessage],
+        status: INotificationStatus.Finished
+      });
+    });
+  }
+
+  public resetPassword(e: IVmActionEvent): void {
+    if (e.vm.state === 'Stopped') {
+      this.singleActionCommand(e).subscribe();
+    } else {
+      let stop: IVmActionEvent = {
+        id: e.id,
+        action: VirtualMachine.getAction('stop'),
+        vm: e.vm,
+        templateId: e.templateId
+      };
+      let start: IVmActionEvent = {
+        id: e.id,
+        action: VirtualMachine.getAction('start'),
+        vm: e.vm,
+        templateId: e.templateId
+      };
+
+      this.singleActionCommand(stop)
+        .switchMap(() => this.singleActionCommand(e))
+        .switchMap(() => this.singleActionCommand(start))
+        .subscribe();
+    }
+  }
+
+  public changeServiceOffering(serviceOfferingId: string, virtualMachine: VirtualMachine): void {
+    if (virtualMachine.serviceOfferingId === serviceOfferingId) {
+      return;
+    }
+    if (virtualMachine.state === 'Stopped') {
+      this._changeServiceOffering(serviceOfferingId, virtualMachine).subscribe();
+    } else {
+      this.singleActionCommand({
+        id: virtualMachine.id,
+        action: VirtualMachine.getAction('stop'),
+        vm: virtualMachine
+      }).switchMap(() => {
+        return this._changeServiceOffering(serviceOfferingId, virtualMachine);
+      }).subscribe(() => {
+        this.singleActionCommand({
+          id: virtualMachine.id,
+          action: VirtualMachine.getAction('start'),
+          vm: virtualMachine
+        }).subscribe();
+      });
+    }
+  }
+
+  private _changeServiceOffering(serviceOfferingId: string, virtualMachine: VirtualMachine): Observable<void> {
+    const command = 'changeServiceForVirtualMachine';
+    let params = {};
+    let translatedStrings = [];
+
+    params['command'] = command;
+    params['id'] = virtualMachine.id;
+    params['serviceofferingid'] = serviceOfferingId;
+
+    return this.translateService.get([
+      'OFFERING_CHANGED',
+      'OFFERING_CHANGE_FAILED',
+      'UNEXPECTED_ERROR'
+    ]).switchMap(strs => {
+      translatedStrings = strs;
+      return this.getRequest(command, params);
+    })
+      .map(result => {
+        return new this.entityModel(result[command.toLowerCase() + 'response'].virtualmachine);
+      })
+      .map(result => {
+        this.jobsNotificationService.add({
+          message: translatedStrings['OFFERING_CHANGED'],
+          status: INotificationStatus.Finished
+        });
+        this.updateVmInfo(result);
+      }, () => {
+        this.jobsNotificationService.add({
+          message: translatedStrings['OFFERING_CHANGE_FAILED'],
+          status: INotificationStatus.Failed
+        });
+        this.notificationService.error(translatedStrings['UNEXPECTED_ERROR']);
       });
   }
 }
