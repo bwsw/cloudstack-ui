@@ -37,7 +37,8 @@ export class VmStatisticsComponent implements OnInit {
     }
   }
 
-  public handleCollapse(): void {
+  public handleCollapse(e: Event): void {
+    e.stopPropagation();
     this.isOpen = !this.isOpen;
 
     if (this.isOpen && !this.wasOpened) {
