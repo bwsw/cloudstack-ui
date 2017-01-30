@@ -9,7 +9,6 @@
   "DISKS": "Диски",
   "INSTANCES": "Машины",
   "SECURITY_GROUP_TEMPLATES": "Шаблоны групп безопасности",
-  "SECURITY_TEMPLATES": "Шаблоны<br>групп безопасности",
   "RUNNING": "Запущена",
   "STOPPED": "Остановлена",
 
@@ -228,5 +227,6 @@
   "VOLUME_SHRINK": "Сжать",
   "VOLUME_NEW_SIZE": "Новый размер",
 
-  "VM_NAVBAR": "Виртуальные<br>машины"
+  "VM_NAVBAR": "Виртуальные<br>машины",
+  "SG_TEMPLATES_NAVBAR": "Шаблоны<br>групп безопасности"
 }

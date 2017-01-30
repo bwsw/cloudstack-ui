@@ -9,7 +9,6 @@
   "DISKS": "DISKS",
   "INSTANCES": "Instances",
   "SECURITY_GROUP_TEMPLATES": "Security Group Templates",
-  "SECURITY_TEMPLATES": "Security group<br>templates",
   "RUNNING": "Running",
   "STOPPED": "Stopped",
 
@@ -230,5 +229,6 @@
   "VOLUME_SHRINK": "SHRINK",
   "VOLUME_NEW_SIZE": "New size",
 
-  "VM_NAVBAR": "Virtual machines"
+  "VM_NAVBAR": "Virtual machines",
+  "SG_TEMPLATES_NAVBAR": "Security group<br>templates"
 }
