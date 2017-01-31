@@ -154,7 +154,7 @@
   },
 
   "CREATE_NEW_TEMPLATE": "Создать новый шаблон",
-  "TEMPLATE_CREATED": "Шаблон {{ name }} успешно создан",
+  "TEMPLATE_CREATED"git : "Шаблон {{ name }} успешно создан",
   "ALL_GROUPS": "Все шаблоны",
   "SELECTED_GROUPS": "Выбранные шаблоны",
   "NETWORK_RULES": "Правила сети",
