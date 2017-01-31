@@ -2,11 +2,11 @@ import { Component, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
 import { JobsNotificationService } from '../services/jobs-notification.service';
 import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
 import { Observable } from 'rxjs/Rx';
-import { AuthService } from '../services/auth.service';
+
 
 @Component({
   selector: 'cs-notification-box',
-  templateUrl: 'notification-box.component.html',
+  templateUrl: 'notigitfication-box.component.html',
   styleUrls: ['notification-box.component.scss']
 })
 export class NotificationBoxComponent implements OnInit  {
@@ -16,7 +16,6 @@ export class NotificationBoxComponent implements OnInit  {
   private unseenCountStream: Observable<number>;
 
   constructor(
-    private authService: AuthService,
     private jobsNotificationService: JobsNotificationService,
     private changeDetectorRef: ChangeDetectorRef
   ) {
