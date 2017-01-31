@@ -63,7 +63,8 @@ export class VmDetailComponent {
       isModal: true,
       styles: {
         'overflow': 'visible', // so that the dialog window doesn't cut the SO dropdown
-        'width': '400px'
+        'width': '400px',
+        'padding': '11.7px'
       },
       clickOutsideToClose: true,
       enterTransitionDuration: 400,
