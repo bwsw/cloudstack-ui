@@ -17,15 +17,12 @@ export class VmListItemComponent implements OnInit, OnChanges {
   @Output() public onClick = new EventEmitter();
 
   public actions: Array<IVmAction>;
-  public cardShadow: number;
 
   constructor(
     private asyncJobService: AsyncJobService,
     private dialogService: MdlDialogService,
     private translateService: TranslateService
-  ) {
-    this.cardShadow = 2;
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.actions = this.vm.actions.map(a => VirtualMachine.getAction(a));
@@ -71,7 +68,6 @@ export class VmListItemComponent implements OnInit, OnChanges {
     for (let propName in changes) {
       if (changes.hasOwnProperty(propName) && propName === 'isSelected') {
         this.isSelected = changes[propName].currentValue;
-        this.cardShadow = this.isSelected ? 8 : 2;
       }
     }
   }
