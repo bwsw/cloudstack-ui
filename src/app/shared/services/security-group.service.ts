@@ -80,8 +80,8 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
       });
   }
 
-  public deleteTemplate(id: string): Observable<any> {
-    return this.remove({ id });
+  public deleteTemplate(securityGroup: SecurityGroup): Observable<any> {
+    return this.remove({ id: securityGroup.id });
   }
 
   public removeEmptyGroups(): void {

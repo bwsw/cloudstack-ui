@@ -20,7 +20,7 @@ export class NotificationBoxComponent implements OnInit  {
     private changeDetectorRef: ChangeDetectorRef
   ) {
       this.unseenCount = 0;
-    }
+  }
 
   public ngOnInit(): void {
     this.popover.hide = () => {

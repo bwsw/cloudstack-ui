@@ -155,6 +155,7 @@
 
   "CREATE_NEW_TEMPLATE": "Create new template",
   "TEMPLATE_CREATED": "Template {{ name }} created successfully",
+  "TEMPLATE_DELETED": "Template {{ name }} deleted successfully",
   "ALL_GROUPS": "All templates",
   "SELECTED_GROUPS": "Selected templates",
   "NETWORK_RULES": "Network rules",

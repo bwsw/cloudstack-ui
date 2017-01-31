@@ -51,23 +51,29 @@ export class SgTemplateListComponent implements OnInit {
       });
   }
 
-  public deleteSecurityGroupTemplate(id): void {
+  public deleteSecurityGroupTemplate(securityGroup: SecurityGroup): void {
+    let translatedStrings = [];
     this.translate.get([
       'YES',
       'NO',
-      'CONFIRM_DELETE_TEMPLATE'
-    ])
-      .switchMap(translations => {
+      'CONFIRM_DELETE_TEMPLATE',
+      'TEMPLATE_DELETED'
+    ], {
+        name: securityGroup.name
+    })
+      .switchMap(strs => {
+        translatedStrings = strs;
         return this.dialogService.confirm(
-          translations['CONFIRM_DELETE_TEMPLATE'],
-          translations['NO'],
-          translations['YES']
+          translatedStrings['CONFIRM_DELETE_TEMPLATE'],
+          translatedStrings['NO'],
+          translatedStrings['YES']
         );
       })
-      .switchMap(() => this.securityGroupService.deleteTemplate(id))
+      .switchMap(() => this.securityGroupService.deleteTemplate(securityGroup))
       .subscribe(res => {
           if (res && res.success === 'true') {
-            this.securityGroupList = this.securityGroupList.filter(sg => sg.id !== id);
+            this.securityGroupList = this.securityGroupList.filter(sg => sg.id !== securityGroup.id);
+            this.notificationService.message(translatedStrings['TEMPLATE_DELETED']);
           }
         },
         // handle errors from cancel button
