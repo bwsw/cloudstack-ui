@@ -21,9 +21,6 @@ export class NotificationBoxComponent implements OnInit  {
     private changeDetectorRef: ChangeDetectorRef
   ) {
       this.unseenCount = 0;
-      this.authService.loggedIn.subscribe(() => {
-        this.removeAll();
-      });
     }
 
   public ngOnInit(): void {

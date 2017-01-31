@@ -32,12 +32,6 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
     this.immediatePollingInterval = 100;
     this.jobObservables = {};
     this.event = new Subject<AsyncJob>();
-    this.authService.loggedIn.subscribe(loggedIn => {
-      if (!loggedIn) {
-        this.stopPolling();
-        this.jobObservables = {};
-      }
-    });
   }
 
   public addJob(id: string): Observable<AsyncJob> {

@@ -71,6 +71,7 @@ export class AppComponent implements OnInit {
       this.title = this.auth.name;
     } else {
       this.router.navigate(['/login']);
+      location.reload();
     }
     this.jobsNotificationService.removeCompleted();
   }
