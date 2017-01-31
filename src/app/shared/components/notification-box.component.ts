@@ -19,7 +19,7 @@ export class NotificationBoxComponent implements OnInit  {
     private jobsNotificationService: JobsNotificationService,
     private changeDetectorRef: ChangeDetectorRef
   ) {
-      this.unseenCount = 0;
+    this.unseenCount = 0;
   }
 
   public ngOnInit(): void {

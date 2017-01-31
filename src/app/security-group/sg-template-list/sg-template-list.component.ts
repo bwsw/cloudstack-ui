@@ -43,7 +43,7 @@ export class SgTemplateListComponent implements OnInit {
     this.translate.get('TEMPLATE_CREATED', { name: data.name })
       .switchMap(str => {
         translatedString = str;
-        return this.securityGroupService.createTemplate(data)
+        return this.securityGroupService.createTemplate(data);
       })
       .subscribe(template => {
         this.securityGroupList.push(template);
