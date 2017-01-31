@@ -70,19 +70,27 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       vmRequest,
       volumesRequest
     ]).map(result => {
-        let vm = result[0];
-        let volumes = result[1];
-        vm.volumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
+      let vm = result[0];
+      let volumes = result[1];
+      vm.volumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
 
-        const osTypeRequest = this.osTypesService.get(vm.guestOsId);
-        const serviceOfferingRequest = this.serviceOfferingService.get(vm.serviceOfferingId);
+      const osTypeRequest = this.osTypesService.get(vm.guestOsId);
+      const serviceOfferingRequest = this.serviceOfferingService.get(vm.serviceOfferingId);
+      const securityGroupRequest = this.securityGroupService.get(vm.securityGroup[0].id);
 
-        return [Observable.of(vm), osTypeRequest, serviceOfferingRequest];
-    }).switchMap(result => Observable.forkJoin(result))
+      return [
+        Observable.of(vm),
+        osTypeRequest,
+        serviceOfferingRequest,
+        securityGroupRequest
+      ];
+    })
+      .switchMap(result => Observable.forkJoin(result))
       .map(result => {
         let vm = result[0];
         vm.osType = result[1];
         vm.serviceOffering = result[2];
+        vm.securityGroup[0] = result[3];
         return vm;
       });
   }
