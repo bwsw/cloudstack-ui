@@ -3,7 +3,9 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnInit
+  OnInit,
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
 import { VirtualMachine, IVmAction } from '../vm.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
@@ -16,8 +18,9 @@ import { TranslateService } from 'ng2-translate';
   templateUrl: 'vm-list-item.component.html',
   styleUrls: ['vm-list-item.component.scss']
 })
-export class VmListItemComponent implements OnInit {
+export class VmListItemComponent implements OnInit, OnChanges {
   @Input() public vm: VirtualMachine;
+  @Input() public isSelected: boolean;
   @Output() public onVmAction = new EventEmitter();
   @Output() public onClick = new EventEmitter();
 
@@ -67,5 +70,13 @@ export class VmListItemComponent implements OnInit {
     }
 
     this.onVmAction.emit(e);
+  }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    for (let propName in changes) {
+      if (changes.hasOwnProperty(propName) && propName === 'isSelected') {
+        this.isSelected = changes[propName].currentValue;
+      }
+    }
   }
 }

@@ -1,4 +1,8 @@
-<mdl-card class="vm-card custom-card" mdl-shadow="2" (click)="handleClick($event)">
+<mdl-card class="vm-card custom-card"
+  mdl-shadow="2"
+  [class.selected]="isSelected"
+  (click)="handleClick($event)"
+>
   <mdl-card-title>
     <h2 mdl-card-title-text [mdl-tooltip]="vm.displayName">{{ vm.displayName }}</h2>
   </mdl-card-title>
