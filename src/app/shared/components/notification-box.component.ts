@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'cs-notification-box',
-  templateUrl: 'notigitfication-box.component.html',
+  templateUrl: 'notification-box.component.html',
   styleUrls: ['notification-box.component.scss']
 })
 export class NotificationBoxComponent implements OnInit  {
