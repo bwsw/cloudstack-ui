@@ -27,12 +27,24 @@ export class VmSidebarComponent {
 
   @HostListener('document:click', ['$event'])
   public onDocumentClick(event: MouseEvent): void {
-    const target = event.target;
-    if (!target || !this.isOpen) {
+    const originalTarget = event.target;
+    // used to stop propagation when mdl dialogs are clicked
+    // so that vm sidebar stays open.
+    let target = (event.target as Element);
+
+    do {
+      if (target.tagName.toLowerCase() === 'mdl-dialog-host-component') {
+        return;
+      }
+      target = (target.parentNode as Element);
+    } while (target.parentNode);
+
+    if (!originalTarget || !this.isOpen) {
       return;
     }
 
-    const isOutside = !this.elementRef.nativeElement.contains(target);
+    // close vm sidebar if clicked outside of it
+    const isOutside = !this.elementRef.nativeElement.contains(originalTarget);
 
     if (isOutside) {
       this.onClickOutside.emit();

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, HostListener } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Response } from '@angular/http';
 
 import { AuthService } from './shared/services';
@@ -7,7 +7,6 @@ import { TranslateService } from 'ng2-translate';
 import { ErrorService } from './shared/services/error.service';
 import { INotificationService } from './shared/services/notification.service';
 import { MdlLayoutComponent } from 'angular2-mdl';
-import { JobsNotificationService } from './shared/services/jobs-notification.service';
 
 import '../style/app.scss';
 
@@ -26,8 +25,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private translate: TranslateService,
     private error: ErrorService,
-    @Inject('INotificationService') private notification: INotificationService,
-    private jobsNotificationService: JobsNotificationService
+    @Inject('INotificationService') private notification: INotificationService
   ) {
     this.title = this.auth.name;
     this.translate.setDefaultLang('en');
@@ -49,22 +47,6 @@ export class AppComponent implements OnInit {
     }
   }
 
-  @HostListener('document:click', ['$event'])
-  public onDocumentClick(e: MouseEvent) {
-    // used to stop propagation when mdl dialogs are clicked
-    // so that vm sidebar stays open.
-    let target = (e.target as Element);
-
-    do {
-      if (target.tagName.toLowerCase() === 'mdl-dialog-host-component') {
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        return;
-      }
-      target = (target.parentNode as Element);
-    } while (target.parentNode);
-  }
-
   private updateAccount(loggedIn: boolean): void {
     this.loggedIn = loggedIn;
     if (loggedIn) {
@@ -73,7 +55,6 @@ export class AppComponent implements OnInit {
       this.router.navigate(['/login'])
         .then(() => location.reload());
     }
-    this.jobsNotificationService.removeCompleted();
   }
 
   private handleError(e: any): void {

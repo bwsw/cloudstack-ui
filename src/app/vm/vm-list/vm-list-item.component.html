@@ -1,10 +1,22 @@
-<mdl-card class="vm-card custom-card" mdl-shadow="2" (click)="handleClick($event)">
+<mdl-card class="vm-card custom-card"
+  mdl-shadow="2"
+  [class.selected]="isSelected"
+  (click)="handleClick($event)"
+>
   <mdl-card-title>
     <h2 mdl-card-title-text [mdl-tooltip]="vm.displayName">{{ vm.displayName }}</h2>
   </mdl-card-title>
   <mdl-card-supporting-text>
-    <div>{{ vm.nic[0].ipAddress ? vm.nic[0].ipAddress : ("IP_NA" | translate) }}</div>
-    <div class="vm-state">{{ vm.state.toUpperCase() | translate }}</div>
+    <div class="vm-ip-address">{{ vm.nic[0].ipAddress ? vm.nic[0].ipAddress : ("IP_NA" | translate) }}</div>
+    <div class="vm-state">
+      {{ vm.state.toUpperCase() | translate }}
+      <div class="state-icon"
+        [class.running]= "vm.state === 'Running'"
+        [class.stopped]= "vm.state === 'Stopped'"
+        [class.in-progress]="vm.state !== 'Running' && vm.state !== 'Stopped'"
+      >
+      </div>
+    </div>
     <table style="width: 100%; text-align: center;">
       <thead>
       <tr>

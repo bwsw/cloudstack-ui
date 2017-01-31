@@ -4,6 +4,39 @@
   cursor: pointer;
 }
 
+.vm-ip-address {
+  display: inline-block;
+}
+
+.vm-card {
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
 .vm-state {
-  text-align: right;
+  float: right;
+}
+
+.state-icon {
+  display: inline-block;
+  border-radius: 50%;
+	width: 10px;
+	height: 10px;
+  margin-left: 5px;
+}
+
+.running {
+  background-color: #388E3C;
+}
+
+.in-progress {
+  background-color: #FFA726;
+}
+
+.stopped {
+  background-color: #B71C1C;
+}
+
+.selected {
+  transform: scale(1.03);
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
 }

@@ -1,4 +1,12 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import { VirtualMachine, IVmAction } from '../vm.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { IAsyncJob } from '../../shared/models/async-job.model';
@@ -9,8 +17,9 @@ import { IAsyncJob } from '../../shared/models/async-job.model';
   templateUrl: 'vm-list-item.component.html',
   styleUrls: ['vm-list-item.component.scss']
 })
-export class VmListItemComponent implements OnInit {
+export class VmListItemComponent implements OnInit, OnChanges {
   @Input() public vm: VirtualMachine;
+  @Input() public isSelected: boolean;
   @Output() public onVmAction = new EventEmitter();
   @Output() public onClick = new EventEmitter();
 
@@ -48,5 +57,13 @@ export class VmListItemComponent implements OnInit {
     }
 
     this.onVmAction.emit(e);
+  }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    for (let propName in changes) {
+      if (changes.hasOwnProperty(propName) && propName === 'isSelected') {
+        this.isSelected = changes[propName].currentValue;
+      }
+    }
   }
 }
