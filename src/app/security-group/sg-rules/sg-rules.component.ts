@@ -76,7 +76,7 @@ export class SgRulesComponent implements OnInit {
         this.securityGroup[`${type.toLowerCase()}Rules`].push(rule);
         this.cidr = '';
         this.startPort = this.endPort = this.icmpCode = this.icmpType = null;
-        this.resetForm(this.type, this.protocol);
+        this.resetForm();
         this.adding = false;
         this.setPadding();
       }, () => {
@@ -115,8 +115,11 @@ export class SgRulesComponent implements OnInit {
     this.selectComponentList.forEach(mdlSelect => mdlSelect.close(e));
   }
 
+  /*
+  *   This code is fixed blur dialog window caused
+  *   https://bugs.chromium.org/p/chromium/issues/detail?id=521364
+  */
   public setPadding() {
-    // this code is fixed blur problem
     let rulesCount = this.securityGroup.ingressRules.length + this.securityGroup.egressRules.length;
     let parentNode = this.elementRef.nativeElement.parentNode as HTMLElement;
     if (rulesCount % 2) {
@@ -126,11 +129,13 @@ export class SgRulesComponent implements OnInit {
     }
   }
 
-  private resetForm(type: NetworkRuleType, protocol: 'TCP'|'UDP'|'ICMP') {
-    this.rulesForm.form.reset();
-    setTimeout(() => {
-      this.protocol = protocol;
-      this.type = type;
+  private resetForm() {
+    let controlNames = ['icmpType', 'startPort', 'icmpCode', 'endPort', 'cidr'];
+    controlNames.forEach((key) => {
+      let control = this.rulesForm.controls[key];
+      if (control) {
+        control.reset();
+      }
     });
   }
 }
