@@ -31,13 +31,14 @@
       <br/>
       <mdl-textfield
         type="text"
-        label="{{ 'LABELS' | translate }}"
+        label="{{ 'LABELS' | translate }}*"
         name="labels"
         floating-label
         [(ngModel)]="labels"
         [style.width]="'100%'"
       >
       </mdl-textfield>
+      {{ 'SEPARATE_MULTILINE_LABELS' | translate }}
     </div>
     <div class="mdl-dialog__actions">
       <button
