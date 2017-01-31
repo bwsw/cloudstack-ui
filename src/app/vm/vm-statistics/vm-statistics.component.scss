@@ -55,7 +55,12 @@ $vm-detail-width: 365px;
   color: red;
 }
 
-button.closed {
+.toggle {
+  position: relative;
+  top: -1px;
+}
+
+.toggle.closed {
   transform: rotate(180deg);
 }
 
