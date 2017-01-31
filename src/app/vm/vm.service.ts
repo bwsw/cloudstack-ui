@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { Observable, Subject } from 'rxjs/Rx';
 
 import { BaseBackendService } from '../shared/services';
@@ -53,7 +52,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     private dialogService: MdlDialogService,
     private jobsNotificationService: JobsNotificationService,
     private notificationService: NotificationService,
-    protected http: Http,
     protected jobs: AsyncJobService
   ) {
     super();
