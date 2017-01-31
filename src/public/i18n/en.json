@@ -7,7 +7,6 @@
   "CPU": "CPU",
   "RAM": "RAM",
   "DISKS": "DISKS",
-  "INSTANCES": "Instances",
   "SECURITY_GROUP_TEMPLATES": "Security Group Templates",
   "RUNNING": "Running",
   "STOPPED": "Stopped",

@@ -7,7 +7,6 @@
   "CPU": "CPU",
   "RAM": "RAM",
   "DISKS": "Диски",
-  "INSTANCES": "Машины",
   "SECURITY_GROUP_TEMPLATES": "Шаблоны групп безопасности",
   "RUNNING": "Запущена",
   "STOPPED": "Остановлена",
