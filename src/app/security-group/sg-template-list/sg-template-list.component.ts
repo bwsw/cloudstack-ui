@@ -8,6 +8,7 @@ import { SecurityGroup } from '../sg.model';
 import { SgTemplateCreationComponent } from '../sg-template-creation/sg-template-creation.component';
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
 import { AsyncJobService } from '../../shared/services/async-job.service';
+import { NotificationService } from '../../shared/services/notification.service';
 
 @Component({
   selector: 'cs-security-group-template-list',
@@ -20,7 +21,8 @@ export class SgTemplateListComponent implements OnInit {
   constructor(
     private securityGroupService: SecurityGroupService,
     private dialogService: MdlDialogService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private notificationService: NotificationService
   ) { }
 
   public ngOnInit(): void {
@@ -37,9 +39,15 @@ export class SgTemplateListComponent implements OnInit {
   }
 
   public createSecurityGroupTemplate(data): void {
-    this.securityGroupService.createTemplate(data)
+    let translatedString = '';
+    this.translate.get('TEMPLATE_CREATED', { name: data.name })
+      .switchMap(str => {
+        translatedString = str;
+        return this.securityGroupService.createTemplate(data)
+      })
       .subscribe(template => {
         this.securityGroupList.push(template);
+        this.notificationService.message(translatedString);
       });
   }
 
