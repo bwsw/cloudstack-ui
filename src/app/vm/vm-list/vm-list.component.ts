@@ -1,4 +1,9 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component,
+  OnInit,
+  Inject,
+  ViewChild,
+  HostBinding
+} from '@angular/core';
 
 import { VmService, IVmActionEvent } from '../vm.service';
 import { VirtualMachine } from '../vm.model';
@@ -27,6 +32,7 @@ const askToCreateVm = 'askToCreateVm';
 export class VmListComponent implements OnInit {
   @ViewChild(VmStatisticsComponent) public vmStats: VmStatisticsComponent;
   @ViewChild(VmCreationComponent) public vmCreationForm: VmCreationComponent;
+  @HostBinding('class.mdl-color--grey-100') public backgroundColorClass = true;
 
   private vmList: Array<VirtualMachine>;
   private selectedVm: VirtualMachine;
