@@ -11,7 +11,7 @@
       <cs-logout *ngIf="loggedIn"></cs-logout>
     </mdl-layout-header-row>
   </mdl-layout-header>
-  <mdl-layout-drawer *ngIf="loggedIn">
+  <mdl-layout-drawer *ngIf="loggedIn" class="mdl-color--grey-50">
     <mdl-layout-title>{{ title }}</mdl-layout-title>
     <nav class="mdl-navigation">
       <a
@@ -32,7 +32,7 @@
       </a>
     </nav>
   </mdl-layout-drawer>
-  <mdl-layout-content class="demo-content">
+  <mdl-layout-content class="mdl-color--grey-100 ">
     <router-outlet></router-outlet>
   </mdl-layout-content>
 </mdl-layout>
