@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
 import { JobsNotificationService } from '../services/jobs-notification.service';
 import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
 import { Observable } from 'rxjs/Rx';
@@ -20,6 +20,11 @@ export class NotificationBoxComponent implements OnInit  {
     private changeDetectorRef: ChangeDetectorRef
   ) {
     this.unseenCount = 0;
+  }
+
+  @HostListener('click', ['$event'])
+  public onClick(event: MouseEvent): void {
+    event.stopPropagation();
   }
 
   public ngOnInit(): void {
