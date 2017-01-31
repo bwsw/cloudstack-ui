@@ -83,12 +83,12 @@
       </div>
       <div class="right-column">
         <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
-        <div>
+        <div *ngIf="noAffinityGroupTranslation">
           <mdl-select
             [ngModel]="vmCreationData.affinityGroupId"
             name="affinityGroup"
           >
-            <mdl-option [value]="''">{{ 'NO_AFFINITY_GROUP' | translate }}</mdl-option>
+            <mdl-option [value]="''">{{ noAffinityGroupTranslation }}</mdl-option>
             <mdl-option
               *ngFor="let ag of vmCreationData.affinityGroups"
               [value]="ag.id"
@@ -106,7 +106,7 @@
           ></cs-security-group-rules-manager>
         </div>
         <h5>{{ 'VM_CREATION_FORM.KEYBOARD_LAYOUT' | translate }}</h5>
-        <div>
+        <div *ngIf="keyboardTranslations">
           <mdl-select
             name="keyboard"
             [(ngModel)]="vmCreationData.keyboard"
@@ -115,7 +115,7 @@
               *ngFor="let k of keyboards"
               [value]="k"
             >
-              {{ ('KB_' + k.toUpperCase()) | translate }}
+              {{ keyboardTranslations[k] }}
             </mdl-option>
           </mdl-select>
         </div>
