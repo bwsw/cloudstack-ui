@@ -9,9 +9,11 @@ $sidebar-width: 365px;
   width: $sidebar-width;
   box-sizing: border-box;
   transition: right 0.3s;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   background: #fafafa;
   padding: 10px 5px;
+  border-left: 1px solid #E0E0E0;
   z-index: 5;
 }
 
