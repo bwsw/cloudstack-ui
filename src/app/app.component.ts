@@ -1,4 +1,4 @@
-import { Component, Inject, HostListener } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Response } from '@angular/http';
 
 import { AuthService } from './shared/services';
@@ -38,22 +38,6 @@ export class AppComponent {
 
   public componentSelected(mainLayout: MdlLayoutComponent) {
     mainLayout.closeDrawerOnSmallScreens();
-  }
-
-  @HostListener('document:click', ['$event'])
-  public onDocumentClick(e: MouseEvent) {
-    // used to stop propagation when mdl dialogs are clicked
-    // so that vm sidebar stays open.
-    let target = (e.target as Element);
-
-    do {
-      if (target.tagName.toLowerCase() === 'mdl-dialog-host-component') {
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        return;
-      }
-      target = (target.parentNode as Element);
-    } while (target.parentNode);
   }
 
   private updateAccount(loggedIn: boolean): void {
