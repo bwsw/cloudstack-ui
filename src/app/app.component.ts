@@ -70,8 +70,8 @@ export class AppComponent implements OnInit {
     if (loggedIn) {
       this.title = this.auth.name;
     } else {
-      this.router.navigate(['/login']);
-      location.reload();
+      this.router.navigate(['/login'])
+        .then(() => location.reload());
     }
     this.jobsNotificationService.removeCompleted();
   }
