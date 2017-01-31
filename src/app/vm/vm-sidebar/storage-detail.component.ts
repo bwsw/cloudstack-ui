@@ -53,7 +53,10 @@ export class StorageDetailComponent {
           component: VolumeResizeComponent,
           providers: [{ provide: 'volume', useValue: this.vm.volumes[0] }],
           isModal: true,
-          styles: { 'width': '400px' },
+          styles: {
+            'width': '400px',
+            'padding': '11.5px'
+           },
           enterTransitionDuration: 400,
           leaveTransitionDuration: 400
         });
@@ -109,7 +112,10 @@ export class StorageDetailComponent {
       component: SnapshotCreationComponent,
       providers: [{ provide: 'volumeId', useValue: volumeId }],
       isModal: true,
-      styles: { 'width': '400px' },
+      styles: {
+        'width': '400px',
+        'padding': '11.3px'
+      },
       clickOutsideToClose: true,
       enterTransitionDuration: 400,
       leaveTransitionDuration: 400
