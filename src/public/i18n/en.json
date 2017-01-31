@@ -7,7 +7,6 @@
   "CPU": "CPU",
   "RAM": "RAM",
   "DISKS": "DISKS",
-  "INSTANCES": "Instances",
   "SECURITY_GROUP_TEMPLATES": "Security Group Templates",
   "RUNNING": "Running",
   "STOPPED": "Stopped",
@@ -252,5 +251,8 @@
   "VOLUME_NEW_SIZE": "New size",
 
   "VM_WILL_BE_REBOOTED": "Virtual machine will be rebooted",
-  "THIS_IS_YOU_CURRENT_OFFERING": "This is your current offering"
+  "THIS_IS_YOU_CURRENT_OFFERING": "This is your current offering",
+
+  "VM_NAVBAR": "Virtual machines",
+  "SG_TEMPLATES_NAVBAR": "Security group<br>templates"
 }

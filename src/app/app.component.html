@@ -16,17 +16,19 @@
     <nav class="mdl-navigation">
       <a
         (click)="componentSelected(mainLayout)"
-        class="mdl-navigation__link"
+        class="mdl-navigation__link link-container"
         routerLink="/instances"
       >
-        {{ 'INSTANCES' | translate }}
+        <mdl-icon class="link-element">cloud</mdl-icon>
+        <div class="link-element" [innerHTML]="'VM_NAVBAR' | translate"></div>
       </a>
       <a
         (click)="componentSelected(mainLayout)"
-        class="mdl-navigation__link"
+        class="mdl-navigation__link link-container"
         routerLink="/sg-templates"
       >
-        {{ 'SECURITY_GROUP_TEMPLATES' | translate }}
+        <mdl-icon class="link-element">security</mdl-icon>
+        <div class="link-element" [innerHTML]="'SG_TEMPLATES_NAVBAR' | translate"></div>
       </a>
     </nav>
   </mdl-layout-drawer>
