@@ -115,12 +115,14 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
           rule['cidrlist'] = rule.CIDR;
           rule.protocol = rule.protocol.toLowerCase();
           delete rule.CIDR;
-          this.addRule(type, rule.serialize());
-      };
-      ingressRules.forEach(rule => addRule('Ingress', rule));
-      egressRules.forEach(rule => addRule('Egress', rule));
-      return securityGroup;
-    });
+          this.addRule(type, rule.serialize()).subscribe();
+        };
+        ingressRules.forEach(rule => addRule('Ingress', rule));
+        egressRules.forEach(rule => addRule('Egress', rule));
+        securityGroup.ingressRules = ingressRules;
+        securityGroup.egressRules = egressRules;
+        return securityGroup;
+      });
   }
 
   public addRule(type: NetworkRuleType, data): Observable<NetworkRule> {
