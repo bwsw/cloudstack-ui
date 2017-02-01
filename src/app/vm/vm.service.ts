@@ -261,7 +261,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       this.singleActionCommand(stop)
         .switchMap(() => this.singleActionCommand(e))
         .map((job: AsyncJob) => {
-           if (job && job.jobResult && job.jobResult.password) {
+          if (job && job.jobResult && job.jobResult.password) {
              showDialog(job.jobResult.displayName, job.jobResult.password);
            }
         })
