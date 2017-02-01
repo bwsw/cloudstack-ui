@@ -16,7 +16,9 @@ export class SgRuleComponent {
 
   public deleting: boolean = false;
 
-  public handleRemoveClicked() {
+  public handleRemoveClicked(e: Event): void {
+    e.stopPropagation();
+
     this.deleting = true;
     this.onRemove.emit({ type: this.type, id: this.rule.ruleId });
   }

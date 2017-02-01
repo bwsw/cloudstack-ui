@@ -48,7 +48,9 @@ export class SgRulesComponent implements OnInit {
     this.setPadding();
   }
 
-  public addRule() {
+  public addRule(e: Event) {
+    e.stopPropagation();
+
     const type = this.type;
     const params: any = {
       securitygroupid: this.securityGroup.id,
