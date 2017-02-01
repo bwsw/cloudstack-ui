@@ -20,6 +20,7 @@ import { IAsyncJob } from '../../shared/models/async-job.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { VmStatisticsComponent } from '../vm-statistics/vm-statistics.component';
 import { StatsUpdateService } from '../../shared/services/stats-update.service';
+import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 
 const askToCreateVm = 'askToCreateVm';
 
@@ -45,7 +46,8 @@ export class VmListComponent implements OnInit {
     @Inject('IStorageService') protected storageService: IStorageService,
     private jobsNotificationService: JobsNotificationService,
     private asyncJobService: AsyncJobService,
-    private statsUpdateService: StatsUpdateService
+    private statsUpdateService: StatsUpdateService,
+    private serviceOfferingService: ServiceOfferingService
   ) { }
 
   public ngOnInit(): void {
@@ -108,9 +110,14 @@ export class VmListComponent implements OnInit {
     this.vmService.vmUpdateObservable.subscribe(updatedVm => {
       this.vmList.forEach((vm, index, array) => {
         if (vm.id === updatedVm.id) {
-          this.vmService.get(updatedVm.id).subscribe(result => {
-            array[index] = result;
-          });
+          this.serviceOfferingService.get(updatedVm.serviceOfferingId)
+            .subscribe(serviceOffering => {
+              array[index].cpuSpeed = updatedVm.cpuSpeed;
+              array[index].memory = updatedVm.memory;
+              array[index].cpuNumber = updatedVm.cpuNumber;
+              array[index].serviceOffering = serviceOffering;
+              array[index].serviceOfferingId = updatedVm.serviceOfferingId;
+            });
           this.updateStats();
         }
       });
