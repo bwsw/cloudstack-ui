@@ -8,7 +8,7 @@ import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { AffinityGroupService } from '../../shared/services/affinity-group.service';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { SSHKeyPairService } from '../../shared/services/SSHKeyPair.service';
-import { MdlDialogComponent } from 'angular2-mdl';
+import { MdlDialogComponent, MdlDialogService } from 'angular2-mdl';
 import { VmService } from '../vm.service';
 import { VirtualMachine, MIN_ROOT_DISK_SIZE, MAX_ROOT_DISK_SIZE_ADMIN } from '../vm.model';
 
@@ -85,7 +85,8 @@ export class VmCreationComponent {
     private notificationService: NotificationService,
     private resourceUsageService: ResourceUsageService,
     private securityGroupService: SecurityGroupService,
-    private utils: UtilsService
+    private utils: UtilsService,
+    private dialogService: MdlDialogService
   ) {
     this.vmCreationData = new VmCreationData();
 
@@ -209,7 +210,19 @@ export class VmCreationComponent {
             this.onCreated.next(r);
           });
         this.vmService.checkCommand(result.jobid)
-          .subscribe(() => this.notifyOnDeployDone(notificationId));
+          .subscribe(job => {
+            this.notifyOnDeployDone(notificationId);
+            if (job.jobResult.password) {
+              this.translateService.get('PASSWORD_DIALOG_MESSAGE',
+                {
+                  vmName: job.jobResult.displayName,
+                  vmPassword: job.jobResult.password
+                })
+                .subscribe((res: string) => {
+                  this.dialogService.alert(res);
+                });
+            }
+          });
       });
   }
 

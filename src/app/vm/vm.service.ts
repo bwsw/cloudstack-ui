@@ -131,7 +131,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public deploy(params: {}): Observable<any> {
     return this.getRequest('deploy', params)
-      .map(result => result['deployvirtualmachineresponse']);
+      .map(result => result['deployvirtualmachineresponse'])
   }
 
   public checkCommand(jobId: string): Observable<any> {
@@ -240,6 +240,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     if (e.vm.state === 'Stopped') {
       this.singleActionCommand(e)
       .subscribe((job: AsyncJob) => {
+        console.log(job);
         if (job && job.jobResult && job.jobResult.password) {
           showDialog(job.jobResult.displayName, job.jobResult.password);
         }
@@ -261,7 +262,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       this.singleActionCommand(stop)
         .switchMap(() => this.singleActionCommand(e))
         .map((job: AsyncJob) => {
-           if (job && job.jobResult && job.jobResult.password) {
+          console.log(job);
+          if (job && job.jobResult && job.jobResult.password) {
              showDialog(job.jobResult.displayName, job.jobResult.password);
            }
         })
