@@ -257,7 +257,5 @@
   "THIS_IS_YOU_CURRENT_OFFERING": "This is your current offering",
 
   "VM_NAVBAR": "Virtual machines",
-  "SG_TEMPLATES_NAVBAR": "Security group<br>templates",
-
-  "EMPTY": ""
+  "SG_TEMPLATES_NAVBAR": "Security group<br>templates"
 }
