@@ -69,7 +69,7 @@ export class VmCreationComponent {
   public vmCreationData: VmCreationData;
   public keyboards = ['us', 'uk', 'jp', 'sc'];
   public noAffinityGroupTranslation: string;
-  public keyboardTranslations: {};
+  public keyboardTranslations: Object;
   public securityRules: Rules;
 
   constructor(
