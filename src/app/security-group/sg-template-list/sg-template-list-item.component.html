@@ -1,4 +1,4 @@
-<mdl-card class="custom-card" mdl-shadow="2" (click)="onClick.emit()">
+<mdl-card class="custom-card" mdl-shadow="2">
   <mdl-card-title>
     <h2 mdl-card-title-text>{{ securityGroupTemplate.name }}</h2>
   </mdl-card-title>
@@ -38,6 +38,13 @@
     </div>
   </mdl-card-supporting-text>
   <mdl-card-actions>
+    <button
+      mdl-button
+      disabled="{{ securityGroupTemplate.isPredefinedTemplate() }}"
+      (click)="onClick.emit()"
+    >
+      {{ 'EDIT' | translate }}
+    </button>
     <button
       mdl-button
       disabled="{{ securityGroupTemplate.isPredefinedTemplate() }}"
