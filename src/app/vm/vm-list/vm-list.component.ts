@@ -108,18 +108,19 @@ export class VmListComponent implements OnInit {
       });
     });
     this.vmService.vmUpdateObservable.subscribe(updatedVm => {
-      this.vmList.forEach((vm, index, array) => {
-        if (vm.id === updatedVm.id) {
-          this.serviceOfferingService.get(updatedVm.serviceOfferingId)
-            .subscribe(serviceOffering => {
-              array[index].cpuSpeed = updatedVm.cpuSpeed;
-              array[index].memory = updatedVm.memory;
-              array[index].cpuNumber = updatedVm.cpuNumber;
-              array[index].serviceOffering = serviceOffering;
-              array[index].serviceOfferingId = updatedVm.serviceOfferingId;
-            });
-          this.updateStats();
+      this.vmList.forEach((vm, index, vmList) => {
+        if (vm.id !== updatedVm.id) {
+          return;
         }
+        this.serviceOfferingService.get(updatedVm.serviceOfferingId)
+          .subscribe(serviceOffering => {
+            vmList[index].cpuSpeed = updatedVm.cpuSpeed;
+            vmList[index].memory = updatedVm.memory;
+            vmList[index].cpuNumber = updatedVm.cpuNumber;
+            vmList[index].serviceOffering = serviceOffering;
+            vmList[index].serviceOfferingId = updatedVm.serviceOfferingId;
+          });
+        this.updateStats();
       });
     });
   }

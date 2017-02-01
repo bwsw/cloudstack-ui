@@ -7,7 +7,6 @@ import { SecurityGroup } from '../../security-group/sg.model';
 import { ServiceOfferingDialogComponent } from '../../service-offering/service-offering-dialog.component';
 import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
 import { VirtualMachine } from '../vm.model';
-import { VmService } from '../vm.service';
 
 
 @Component({
@@ -20,10 +19,7 @@ export class VmDetailComponent {
   private expandNIC: boolean;
   private expandServiceOffering: boolean;
 
-  constructor(
-    private dialogService: MdlDialogService,
-    private vmService: VmService
-  ) {
+  constructor(private dialogService: MdlDialogService) {
     this.expandNIC = false;
     this.expandServiceOffering = false;
   }
