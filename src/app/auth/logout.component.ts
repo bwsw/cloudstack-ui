@@ -6,7 +6,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'cs-logout',
-  templateUrl: './logout.component.html'
+  templateUrl: './logout.component.html',
+  styleUrls: ['logout.component.scss'],
 })
 export class LogoutComponent {
   constructor(
