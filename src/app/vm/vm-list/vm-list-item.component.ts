@@ -10,6 +10,8 @@ import {
 import { VirtualMachine, IVmAction } from '../vm.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { IAsyncJob } from '../../shared/models/async-job.model';
+import { MdlDialogService } from 'angular2-mdl';
+import { TranslateService } from 'ng2-translate';
 
 
 @Component({
@@ -26,7 +28,9 @@ export class VmListItemComponent implements OnInit, OnChanges {
   public actions: Array<IVmAction>;
 
   constructor(
-    private asyncJobService: AsyncJobService
+    private asyncJobService: AsyncJobService,
+    private dialogService: MdlDialogService,
+    private translateService: TranslateService
   ) {}
 
   public ngOnInit(): void {
@@ -35,6 +39,16 @@ export class VmListItemComponent implements OnInit, OnChanges {
       if (job.jobResult && job.jobResult.id === this.vm.id) {
         this.vm.state = job.jobResult.state;
         this.vm.nic[0] = job.jobResult.nic[0];
+        if (job.jobResult.password) {
+          this.translateService.get('PASSWORD_DIALOG_MESSAGE',
+            {
+              vmName: job.jobResult.displayName,
+              vmPassword: job.jobResult.password
+            })
+            .subscribe((res: string) => {
+              this.dialogService.alert(res);
+            });
+        }
       }
     });
   }

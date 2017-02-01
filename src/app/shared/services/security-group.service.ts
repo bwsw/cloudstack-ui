@@ -113,6 +113,9 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
       .switchMap((securityGroup: SecurityGroup) => {
         sg = securityGroup;
 
+        if (!ingressRules.length && !egressRules.length) {
+          return Observable.of(null);
+        }
         const addRuleRequests = [];
         const addRule = (type, rule) => {
           const r = new NetworkRule(Object.assign({}, rule));
