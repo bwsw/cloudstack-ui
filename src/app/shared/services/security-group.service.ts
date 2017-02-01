@@ -108,20 +108,27 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
     ingressRules: Array<NetworkRule>,
     egressRules: Array<NetworkRule>
   ): Observable<SecurityGroup> {
+    let sg: SecurityGroup;
     return this.create(params)
-      .map((securityGroup: SecurityGroup) => {
+      .switchMap((securityGroup: SecurityGroup) => {
+        sg = securityGroup;
+
+        const addRuleRequests = [];
         const addRule = (type, rule) => {
-          rule['securitygroupid'] = securityGroup.id;
-          rule['cidrlist'] = rule.CIDR;
-          rule.protocol = rule.protocol.toLowerCase();
-          delete rule.CIDR;
-          this.addRule(type, rule.serialize()).subscribe();
+          const r = new NetworkRule(Object.assign({}, rule));
+          r['securitygroupid'] = securityGroup.id;
+          r['cidrlist'] = r.CIDR;
+          r.protocol = r.protocol.toLowerCase();
+          delete r.CIDR;
+          addRuleRequests.push(this.addRule(type, r.serialize()));
         };
         ingressRules.forEach(rule => addRule('Ingress', rule));
         egressRules.forEach(rule => addRule('Egress', rule));
-        securityGroup.ingressRules = ingressRules;
-        securityGroup.egressRules = egressRules;
-        return securityGroup;
+
+        return Observable.forkJoin(addRuleRequests);
+      })
+      .map(() => {
+        return sg;
       });
   }
 

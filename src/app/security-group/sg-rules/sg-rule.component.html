@@ -13,7 +13,7 @@
   <button
     mdl-button
     mdl-button-type="icon"
-    (click)="handleRemoveClicked()"
+    (click)="handleRemoveClicked($event)"
     disabled="{{ !canRemove || deleting }}"
     [hidden]="!canRemove"
   >

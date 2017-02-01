@@ -101,7 +101,7 @@
           <button
             mdl-button
             mdl-button-type="icon"
-            (click)="addRule()"
+            (click)="addRule($event)"
             disabled="{{ securityGroup.isPredefinedTemplate() || adding || rulesForm.form.invalid }}"
           >
             <mdl-icon *ngIf="!adding">add</mdl-icon>

@@ -141,15 +141,22 @@ export class VmCreationComponent {
 
   public deployVm(): void {
     let params: any = this.vmCreateParams;
-    this.securityGroupService.createWithRules(
-      {
-        name: this.utils.getUniqueId() + GROUP_POSTFIX
-      },
-      params.ingress || [],
-      params.egress || []
-    ).subscribe(securityGroup => {
+    let id;
+    this.translateService.get([
+      'VM_DEPLOY_IN_PROGRESS'
+    ]).switchMap(strs => {
+      id = this.jobsNotificationService.add(strs['VM_DEPLOY_IN_PROGRESS']);
+      return this.securityGroupService.createWithRules(
+        {
+          name: this.utils.getUniqueId() + GROUP_POSTFIX
+        },
+        params.ingress || [],
+        params.egress || []
+      );
+    })
+    .subscribe(securityGroup => {
       params['securitygroupids'] = securityGroup.id;
-      this._deploy(params);
+      this._deploy(params, id);
     });
   }
 
@@ -193,22 +200,17 @@ export class VmCreationComponent {
     }
   }
 
-  private _deploy(params: {}): void {
-    this.translateService.get([
-      'VM_DEPLOY_IN_PROGRESS'
-    ]).subscribe(strs => {
-      let id = this.jobsNotificationService.add(strs['VM_DEPLOY_IN_PROGRESS']);
-      this.vmService.deploy(params)
-        .subscribe(result => {
-          this.vmService.get(result.id)
-            .subscribe(r => {
-              r.state = 'Deploying';
-              this.onCreated.next(r);
-            });
-          this.vmService.checkCommand(result.jobid)
-            .subscribe(() => this.notifyOnDeployDone(id));
-        });
-    });
+  private _deploy(params: {}, notificationId): void {
+    this.vmService.deploy(params)
+      .subscribe(result => {
+        this.vmService.get(result.id)
+          .subscribe(r => {
+            r.state = 'Deploying';
+            this.onCreated.next(r);
+          });
+        this.vmService.checkCommand(result.jobid)
+          .subscribe(() => this.notifyOnDeployDone(notificationId));
+      });
   }
 
   private getVmCreateData(): Observable<VmCreationData> {

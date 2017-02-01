@@ -33,11 +33,16 @@ export class VmSidebarComponent {
     let target = (event.target as Element);
 
     do {
-      if (target.tagName.toLowerCase() === 'mdl-dialog-host-component') {
+      const tagName = target.tagName.toLowerCase();
+      if (tagName === 'mdl-dialog-host-component') {
         return;
       }
+
+      if (tagName === 'body') {
+        break;
+      }
       target = (target.parentNode as Element);
-    } while (target.parentNode);
+    } while (target);
 
     if (!originalTarget || !this.isOpen) {
       return;
