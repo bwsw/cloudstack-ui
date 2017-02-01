@@ -54,6 +54,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
             anyJobs = true;
           } else {
             this.jobObservables[id].next(elem);
+            this.jobObservables[id].complete();
             delete this.jobObservables[id];
           }
         }
