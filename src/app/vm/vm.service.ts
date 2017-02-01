@@ -226,8 +226,24 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public resetPassword(e: IVmActionEvent): void {
+    let showDialog = (displayName: string, password: string) => {
+      this.translateService.get('PASSWORD_DIALOG_MESSAGE',
+        {
+          vmName: displayName,
+          vmPassword: password
+        })
+        .subscribe((res: string) => {
+          this.dialogService.alert(res);
+        });
+    };
+
     if (e.vm.state === 'Stopped') {
-      this.singleActionCommand(e).subscribe();
+      this.singleActionCommand(e)
+      .subscribe((job: AsyncJob) => {
+        if (job && job.jobResult && job.jobResult.password) {
+          showDialog(job.jobResult.displayName, job.jobResult.password);
+        }
+      });
     } else {
       let stop: IVmActionEvent = {
         id: e.id,
@@ -244,17 +260,10 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
       this.singleActionCommand(stop)
         .switchMap(() => this.singleActionCommand(e))
-        .map(job => {
-          if (job && job.jobResult && job.jobResult.password) {
-            this.translateService.get('PASSWORD_DIALOG_MESSAGE',
-              {
-                vmName: job.jobResult.displayName,
-                vmPassword: job.jobResult.password
-              })
-              .subscribe((res: string) => {
-                this.dialogService.alert(res);
-              });
-          }
+        .map((job: AsyncJob) => {
+           if (job && job.jobResult && job.jobResult.password) {
+             showDialog(job.jobResult.displayName, job.jobResult.password);
+           }
         })
         .switchMap(() => this.singleActionCommand(start))
         .subscribe();
