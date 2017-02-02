@@ -4,7 +4,7 @@
   (click)="handleClick($event)"
 >
   <mdl-card-title>
-    <h2 mdl-card-title-text [mdl-tooltip]="vm.displayName">{{ vm.displayName }}</h2>
+    <h2 mdl-card-title-text [mdl-tooltip]="vm.zoneName + '/' + vm.displayName">{{ vm.zoneName + '/' + vm.displayName }}</h2>
   </mdl-card-title>
   <mdl-card-supporting-text>
     <div class="vm-ip-address">{{ vm.nic[0].ipAddress ? vm.nic[0].ipAddress : ("IP_NA" | translate) }}</div>
