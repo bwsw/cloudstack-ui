@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 import { MdlModule } from 'angular2-mdl';
 import { TranslateModule } from 'ng2-translate';
@@ -37,11 +38,13 @@ import {
 import { SgRulesManagerComponent } from './components/sg-rules-manager.component';
 import { NotificationBoxComponent } from './components/notification-box.component';
 import { NotificationBoxItemComponent } from './components/notification-box-item.component';
+import { VolumeSizeComponent } from './components/volume-size-control.component';
 
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     TranslateModule,
     MdlModule,
     MdlPopoverModule
@@ -50,6 +53,7 @@ import { NotificationBoxItemComponent } from './components/notification-box-item
     SgRulesManagerComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
+    VolumeSizeComponent,
     DivByPowerOfTwoPipe,
     ViewValuePipe
   ],
@@ -57,6 +61,7 @@ import { NotificationBoxItemComponent } from './components/notification-box-item
     SgRulesManagerComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
+    VolumeSizeComponent,
     DivByPowerOfTwoPipe,
     ViewValuePipe
   ],

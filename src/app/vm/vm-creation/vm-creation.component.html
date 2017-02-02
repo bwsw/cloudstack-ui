@@ -48,38 +48,12 @@
             </mdl-option>
           </mdl-select>
         </div>
-        <div class="root-disk-size">
-          <h5 class="root-disk-size-header">{{ 'VM_CREATION_FORM.ROOT_DISK_SIZE' | translate }}</h5>
-          <div class="root-disk-size-il">
-            <mdl-textfield
-              [class.is-invalid]="!rootDiskSize.valid"
-              class="root-disk-input"
-              #rootDiskSize="ngModel"
-              name="rds"
-              type="number"
-              step="1"
-              min="{{ vmCreationData.rootDiskSizeMin }}"
-              max="{{ vmCreationData.rootDiskSizeLimit }}"
-              [ngModel]="vmCreationData.rootDiskSize"
-              (blur)="onDiskBlur($event)"
-              (ngModelChange)="onDiskChange($event)"
-            ></mdl-textfield>
-            <div class="root-disk-label">{{ 'GB' | translate }}</div>
-          </div>
-        </div>
-        <div class="root-disk-size-slider">
-          <mdl-slider
-            min="{{ vmCreationData.rootDiskSizeMin || 0 }}"
-            max="{{ vmCreationData.rootDiskSizeLimit || 0 }}"
-            name="rootDiskSize"
-            value="0"
-            [ngModel]="vmCreationData.rootDiskSize > vmCreationData.rootDiskSizeMin
-              ? vmCreationData.rootDiskSize : vmCreationData.rootDiskSizeMin"
-            (ngModelChange)="onDiskChange($event)"
-            mdl-tooltip-position="top"
-          >
-          </mdl-slider>
-        </div>
+        <cs-volume-size-control
+          [min]="vmCreationData.rootDiskSizeMin"
+          [max]="vmCreationData.rootDiskSizeLimit"
+          name="rds"
+          [(ngModel)]="vmCreationData.rootDiskSize"
+        ></cs-volume-size-control>
       </div>
       <div class="right-column">
         <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
