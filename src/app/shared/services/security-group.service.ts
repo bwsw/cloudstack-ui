@@ -98,7 +98,7 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
             return;
           }
 
-          this.remove({ id: group.id });
+          this.remove({ id: group.id }).toPromise();
         });
       });
   }
