@@ -51,6 +51,7 @@
     "@types/node": "^6.0.38",
     "@types/selenium-webdriver": "2.53.33",
     "@types/uuid": "^2.0.29",
+    "@types/lodash": "ts2.0",
     "angular2-template-loader": "^0.6.0",
     "autoprefixer": "^6.3.2",
     "awesome-typescript-loader": "^2.2.4",
