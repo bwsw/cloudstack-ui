@@ -27,24 +27,27 @@
           </mdl-select>
         </td>
         <td>
-          <mdl-select [(ngModel)]="protocol" name="protocol">
+          <mdl-select [(ngModel)]="protocol" name="protocol" (change)="changeSize()">
             <mdl-option [value]="'TCP'">TCP</mdl-option>
             <mdl-option [value]="'UDP'">UDP</mdl-option>
             <mdl-option [value]="'ICMP'">ICMP</mdl-option>
           </mdl-select>
         </td>
         <td>
-          <mdl-textfield
+          <mdl-select
             *ngIf="protocol === 'ICMP'"
-            [class.is-invalid]="icmpTypeField.touched && icmpTypeField.invalid"
-            name="icmpType"
-            type="number"
-            minValue="0"
-            error-msg="{{ 'ENTER_VALID_TYPE' | translate }}"
-            required
+            class="icmp"
             [(ngModel)]="icmpType"
-            #icmpTypeField="ngModel"
-          ></mdl-textfield>
+            (change)="changeSelectedIcmp()"
+            name="icmpTypeSelect"
+          >
+            <mdl-option
+              *ngFor="let icmpType of icmpTypes"
+              [value]="icmpType.type"
+            >
+              <div><div>{{ icmpType.type + ':' }}</div><div class="icmp-description"> {{ icmpType.name }}</div></div>
+            </mdl-option>
+          </mdl-select>
           <mdl-textfield
             *ngIf="protocol !== 'ICMP'"
             [class.is-invalid]="startPortField.touched && startPortField.invalid"
@@ -59,17 +62,21 @@
           ></mdl-textfield>
         </td>
         <td>
-          <mdl-textfield
-            [class.is-invalid]="icmpCodeField.touched && icmpCodeField.invalid"
+          <mdl-select
             *ngIf="protocol === 'ICMP'"
-            name="icmpCode"
-            type="number"
-            minValue="0"
-            error-msg="{{ 'ENTER_VALID_CODE' | translate }}"
-            required
+            class="icmp"
             [(ngModel)]="icmpCode"
-            #icmpCodeField="ngModel"
-          ></mdl-textfield>
+            name="icmpCodeSelect"
+          >
+            <div *ngIf="icmpCodes">
+              <mdl-option
+                *ngFor="let icmpCode of icmpCodes"
+                [value]="icmpCode.code"
+              >
+                <div><div>{{ icmpCode.code + ':' }}</div><div class="icmp-description"> {{ icmpCode.name }}</div></div>
+              </mdl-option>
+            </div>
+          </mdl-select>
           <mdl-textfield
             *ngIf="protocol !== 'ICMP'"
             [class.is-invalid]="endPortField.touched && endPortField.invalid"
@@ -94,6 +101,7 @@
             required
             [(ngModel)]="cidr"
             #cidrField="ngModel"
+            (click)="onCidrClick()"
           >
           </mdl-textfield>
         </td>

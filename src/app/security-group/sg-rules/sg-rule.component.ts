@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
 import { NetworkRule, NetworkRuleType } from '../sg.model';
 
+
 @Component({
   selector: 'cs-security-group-rule',
   templateUrl: 'sg-rule.component.html',

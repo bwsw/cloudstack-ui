@@ -13,6 +13,20 @@ import { SecurityGroupService } from '../../shared/services';
 import { SecurityGroup, NetworkRuleType } from '../sg.model';
 import { NotificationService } from '../../shared/services';
 
+const icmpTypes = require('../icmp-codes.json');
+
+interface IIcmpCode {
+  code: number;
+  name: string;
+}
+
+interface IIcmpType {
+  type: number;
+  name: string;
+  codes: Array<IIcmpCode>;
+}
+
+
 @Component({
   selector: 'cs-security-group-rules',
   templateUrl: 'sg-rules.component.html',
@@ -31,6 +45,9 @@ export class SgRulesComponent implements OnInit {
 
   public adding: boolean;
 
+  private icmpTypes: Array<IIcmpType>;
+  private icmpCodes: Array<IIcmpCode>;
+
   constructor(
     public dialog: MdlDialogReference,
     private securityGroupService: SecurityGroupService,
@@ -39,9 +56,13 @@ export class SgRulesComponent implements OnInit {
     private translateService: TranslateService,
     private elementRef: ElementRef
   ) {
+    this.cidr = '0.0.0.0/0';
     this.protocol = 'TCP';
     this.type = 'Ingress';
+
     this.adding = false;
+
+    this.icmpTypes = icmpTypes;
   }
 
   public ngOnInit() {
@@ -71,8 +92,6 @@ export class SgRulesComponent implements OnInit {
     this.securityGroupService.addRule(type, params)
       .subscribe(rule => {
         this.securityGroup[`${type.toLowerCase()}Rules`].push(rule);
-        this.cidr = '';
-        this.startPort = this.endPort = this.icmpCode = this.icmpType = null;
         this.resetForm();
         this.adding = false;
         this.setPadding();
@@ -83,6 +102,12 @@ export class SgRulesComponent implements OnInit {
 
         });
       });
+  }
+
+  public onCidrClick() {
+    if (!this.cidr) {
+      this.cidr = '0.0.0.0/0';
+    }
   }
 
   public removeRule({ type, id }) {
@@ -116,8 +141,27 @@ export class SgRulesComponent implements OnInit {
     }
   }
 
+  public changeSize() {
+    let parentNode = this.elementRef.nativeElement.parentNode as HTMLElement;
+    if (this.protocol === 'ICMP') {
+      parentNode.style.width = '1100px';
+    } else {
+      parentNode.style.width = '880px';
+    }
+  }
+
+  public changeSelectedIcmp(): void {
+    this.icmpCodes = this.icmpTypes.find(type => type.type === this.icmpType).codes;
+    this.icmpCode = null;
+    setTimeout(() => {
+      this.icmpCode = 0;
+    }, 0);
+  }
+
   private resetForm() {
-    let controlNames = ['icmpType', 'startPort', 'icmpCode', 'endPort', 'cidr'];
+    // reset controls' state. instead of just setting ngModel bound variables to empty string
+    // we reset controls to reset the validity state of inputs
+    let controlNames = ['icmpTypeSelect', 'icmpCodeSelect', 'startPort', 'endPort'];
     controlNames.forEach((key) => {
       let control = this.rulesForm.controls[key];
       if (control) {

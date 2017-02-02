@@ -26,7 +26,27 @@ mdl-textfield {
   width: 120px;
 }
 
+:host mdl-select.icmp /deep/ .mdl-textfield {
+  width: 200px;
+  text-align: left;
+  white-space: normal;
+}
+
 :host /deep/ mdl-spinner {
   position: relative;
   top: 2px;
+}
+
+:host mdl-select.icmp /deep/ .mdl-list__item-primary-content {
+  display: block;
+}
+
+:host cs-security-group-rule:nth-child(3) {
+  max-width: 200px;
+  overflow: hidden;
+}
+
+.icmp-description {
+  padding-top: 2px;
+  font-size: 8pt;
 }
