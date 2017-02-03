@@ -11,6 +11,8 @@ import { SgTemplateListItemComponent } from './sg-template-list/sg-template-list
 import { SgTemplateCreationComponent } from './sg-template-creation/sg-template-creation.component';
 import { SgRulesComponent } from './sg-rules/sg-rules.component';
 import { SgRuleComponent } from './sg-rules/sg-rule.component';
+import { MaxValueValidatorDirective } from '../shared/directives/max-value.directive';
+import { MinValueValidatorDirective } from '../shared/directives/min-value.directive';
 
 @NgModule({
   imports: [
@@ -30,7 +32,9 @@ import { SgRuleComponent } from './sg-rules/sg-rule.component';
     SgTemplateListItemComponent,
     SgTemplateCreationComponent,
     SgRulesComponent,
-    SgRuleComponent
+    SgRuleComponent,
+    MaxValueValidatorDirective,
+    MinValueValidatorDirective
   ],
   entryComponents: [
     SgCreationComponent,
