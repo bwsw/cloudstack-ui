@@ -1,2 +1,2 @@
-export * from './vm.service';
-export * from './vm.model';
+export * from './shared/vm.service';
+export * from './shared/vm.model';

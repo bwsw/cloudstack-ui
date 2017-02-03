@@ -5,8 +5,8 @@ import { Component,
   HostBinding
 } from '@angular/core';
 
-import { VmService, IVmActionEvent } from '../vm.service';
-import { VirtualMachine } from '../vm.model';
+import { VmService, IVmActionEvent } from '../shared/vm.service';
+import { VirtualMachine } from '../shared/vm.model';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 import { IStorageService } from '../../shared/services/storage.service';

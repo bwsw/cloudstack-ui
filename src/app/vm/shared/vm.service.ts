@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
 
-import { BaseBackendService } from '../shared/services';
-import { BackendResource } from '../shared/decorators';
+import { BaseBackendService } from '../../shared/services';
+import { BackendResource } from '../../shared/decorators';
 import { VirtualMachine, IVmAction } from './vm.model';
 
 import { TranslateService } from 'ng2-translate';
@@ -13,19 +13,19 @@ import {
   OsType,
   ServiceOffering,
   Volume
-} from '../shared/models/';
+} from '../../shared/models';
 
 import {
   AsyncJobService,
   NotificationService,
   OsTypeService
-} from '../shared/services';
+} from '../../shared/services';
 
-import { INotificationStatus, JobsNotificationService } from '../shared/services/jobs-notification.service';
+import { INotificationStatus, JobsNotificationService } from '../../shared/services/jobs-notification.service';
 
-import { SecurityGroupService } from '../shared/services/security-group.service';
-import { ServiceOfferingService } from '../shared/services/service-offering.service';
-import { VolumeService } from '../shared/services/volume.service';
+import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { ServiceOfferingService } from '../../shared/services/service-offering.service';
+import { VolumeService } from '../../shared/services/volume.service';
 
 
 export interface IVmActionEvent {

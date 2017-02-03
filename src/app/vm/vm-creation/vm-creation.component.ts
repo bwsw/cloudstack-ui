@@ -9,8 +9,8 @@ import { AffinityGroupService } from '../../shared/services/affinity-group.servi
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { SSHKeyPairService } from '../../shared/services/SSHKeyPair.service';
 import { MdlDialogComponent, MdlDialogService } from 'angular2-mdl';
-import { VmService } from '../vm.service';
-import { VirtualMachine, MIN_ROOT_DISK_SIZE, MAX_ROOT_DISK_SIZE_ADMIN } from '../vm.model';
+import { VmService } from '../shared/vm.service';
+import { VirtualMachine, MIN_ROOT_DISK_SIZE, MAX_ROOT_DISK_SIZE_ADMIN } from '../shared/vm.model';
 
 import {
   JobsNotificationService,

@@ -8,12 +8,12 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => VolumeSizeComponent),
+      useExisting: forwardRef(() => VolumeSizeControlComponent),
       multi: true
     }
   ]
 })
-export class VolumeSizeComponent implements OnInit, ControlValueAccessor {
+export class VolumeSizeControlComponent implements OnInit, ControlValueAccessor {
   @Input() public min: number;
   @Input() public max: number;
 

@@ -1,11 +1,11 @@
-import { BaseModel } from '../shared/models';
-import { FieldMapper } from '../shared/decorators';
-import { Volume } from '../shared/models/volume.model';
-import { NIC } from '../shared/models';
-import { OsType } from '../shared/models/os-type.model';
-import { ServiceOffering } from '../shared/models/service-offering.model';
-import { Template } from '../shared/models/template.model';
-import { SecurityGroup } from '../security-group/sg.model';
+import { BaseModel } from '../../shared/models/base.model';
+import { FieldMapper } from '../../shared/decorators/field-mapper.decorator';
+import { Volume } from '../../shared/models/volume.model';
+import { NIC } from '../../shared/models/nic.model';
+import { OsType } from '../../shared/models/os-type.model';
+import { ServiceOffering } from '../../shared/models/service-offering.model';
+import { Template } from '../../shared/models/template.model';
+import { SecurityGroup } from '../../security-group/sg.model';
 
 export const MIN_ROOT_DISK_SIZE = 10;
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;

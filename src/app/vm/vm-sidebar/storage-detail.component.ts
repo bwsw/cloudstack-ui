@@ -6,7 +6,7 @@ import { MdlDialogService } from 'angular2-mdl';
 import { Observable } from 'rxjs/Rx';
 import { TranslateService } from 'ng2-translate';
 
-import { VirtualMachine } from '../vm.model';
+import { VirtualMachine } from '../shared/vm.model';
 import { SnapshotCreationComponent } from '../../snapshot/snapshot-creation.component';
 import { JobsNotificationService, INotificationStatus } from '../../shared/services/jobs-notification.service';
 import { StatsUpdateService } from '../../shared/services/stats-update.service';
