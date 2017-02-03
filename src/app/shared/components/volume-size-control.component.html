@@ -1,8 +1,8 @@
-<div class="root-volume-size">
+<div class="volume-size">
   <h5>{{ 'VM_CREATION_FORM.ROOT_DISK_SIZE' | translate }}</h5>
   <div>
     <mdl-textfield
-      class="root-volume-input"
+      class="volume-input"
       type="number"
       step="1"
       min="{{ min }}"
@@ -11,7 +11,7 @@
       (ngModelChange)="onVolumeChange($event)"
       (blur)="onBlur($event)"
     ></mdl-textfield>
-    <div class="root-volume-label">{{ 'GB' | translate }}</div>
+    <div class="volume-label">{{ 'GB' | translate }}</div>
   </div>
 </div>
 <mdl-slider
