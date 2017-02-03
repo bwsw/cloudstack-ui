@@ -23,7 +23,7 @@ export class VolumeService extends BaseBackendService<Volume> {
     super();
   }
 
-  public resize(id: string, params: { size: number, shrinkok: boolean, [propName: string]: any }) {
+  public resize(id: string, params: { size: number, [propName: string]: any }) {
     params['id'] = id;
 
     return this.getRequest('resize', params)

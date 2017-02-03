@@ -183,24 +183,6 @@ export class VmCreationComponent {
     this.vmCreationData.vm.template = t;
   }
 
-  public onDiskChange(e: number): void {
-    if (e > this.vmCreationData.rootDiskSizeLimit) {
-      this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSizeLimit + 1;
-      // setTimeout is used to force rerendering
-      setTimeout(() => this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSizeLimit);
-      return;
-    }
-    this.vmCreationData.rootDiskSize = e;
-  }
-
-  public onDiskBlur(e: any): void {
-    if (e.currentTarget.value < this.vmCreationData.rootDiskSizeMin) {
-      this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSize + 1;
-      // setTimeout is used to force rerendering
-      setTimeout(() => this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSizeMin);
-    }
-  }
-
   private _deploy(params: {}, notificationId): void {
     this.vmService.deploy(params)
       .subscribe(result => {
