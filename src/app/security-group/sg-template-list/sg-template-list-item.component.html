@@ -40,10 +40,9 @@
   <mdl-card-actions>
     <button
       mdl-button
-      disabled="{{ securityGroupTemplate.isPredefinedTemplate() }}"
       (click)="onClick.emit()"
     >
-      {{ 'EDIT' | translate }}
+      {{ securityGroupTemplate.isPredefinedTemplate() ? 'VIEW' : 'EDIT' | translate }}
     </button>
     <button
       mdl-button

@@ -68,11 +68,13 @@
             [(ngModel)]="icmpCode"
             name="icmpCodeSelect"
           >
-            <div *ngIf="icmpCodes">
+            <div *ngIf="selectedIcmpTypeCodes">
               <mdl-option
-                *ngFor="let icmpCode of icmpCodes"
+                *ngFor="let icmpCode of selectedIcmpTypeCodes"
                 [value]="icmpCode.code"
               >
+                <!-- if we indent, the option text doesn't appear in the select box correctly -->
+                <!-- because indents are displayed as extra spaces -->
                 <div><div>{{ icmpCode.code + ':' }}</div><div class="icmp-description"> {{ icmpCode.name }}</div></div>
               </mdl-option>
             </div>

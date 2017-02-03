@@ -46,7 +46,7 @@ export class SgRulesComponent implements OnInit {
   public adding: boolean;
 
   private icmpTypes: Array<IIcmpType>;
-  private icmpCodes: Array<IIcmpCode>;
+  private selectedIcmpTypeCodes: Array<IIcmpCode>;
 
   constructor(
     public dialog: MdlDialogReference,
@@ -133,29 +133,36 @@ export class SgRulesComponent implements OnInit {
   */
   public setPadding() {
     let rulesCount = this.securityGroup.ingressRules.length + this.securityGroup.egressRules.length;
-    let parentNode = this.elementRef.nativeElement.parentNode as HTMLElement;
+    let dialogElement = this.getDialogElement();
     if (rulesCount % 2) {
-      parentNode.style.padding = '11.8px';
+      dialogElement.classList.add('blur-fix-odd');
+      dialogElement.classList.remove('blur-fix-even');
     } else {
-      parentNode.style.padding = '11.7px';
+      dialogElement.classList.add('blur-fix-even');
+      dialogElement.classList.remove('blur-fix-odd');
     }
   }
 
-  public changeSize() {
-    let parentNode = this.elementRef.nativeElement.parentNode as HTMLElement;
+  public changeSize(): void {
+    let dialogElement = this.getDialogElement();
     if (this.protocol === 'ICMP') {
-      parentNode.style.width = '1100px';
+      dialogElement.classList.add('wide');
     } else {
-      parentNode.style.width = '880px';
+      dialogElement.classList.remove('wide');
     }
   }
 
   public changeSelectedIcmp(): void {
-    this.icmpCodes = this.icmpTypes.find(type => type.type === this.icmpType).codes;
+    this.selectedIcmpTypeCodes = this.icmpTypes.find(type => type.type === this.icmpType).codes;
     this.icmpCode = null;
+    // setTimeout force updates the icmp code selection component
     setTimeout(() => {
       this.icmpCode = 0;
     }, 0);
+  }
+
+  private getDialogElement(): HTMLElement {
+    return this.elementRef.nativeElement.parentNode as HTMLElement;
   }
 
   private resetForm() {

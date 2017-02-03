@@ -50,3 +50,19 @@ mdl-textfield {
   padding-top: 2px;
   font-size: 8pt;
 }
+
+/deep/ .wide {
+  width: 1100px !important;
+}
+
+// the form becomes blurry when in has certain sizes
+// this is a Chromium bug that manifests itself in Ubuntu and Windows and is related to css transforms
+// we apply one of these classes to the form depending on the number of rules
+// to manipulate the width and fix the blurriness
+/deep/ .blur-fix-even {
+  padding: 11.7px !important;
+}
+
+/deep/ .blur-fix-odd {
+  padding: 11.8px !important;
+ }
