@@ -212,16 +212,14 @@ export class VmCreationComponent {
         this.vmService.checkCommand(result.jobid)
           .subscribe(job => {
             this.notifyOnDeployDone(notificationId);
-            if (job.jobResult.password) {
-              this.translateService.get('PASSWORD_DIALOG_MESSAGE',
-                {
-                  vmName: job.jobResult.displayName,
-                  vmPassword: job.jobResult.password
-                })
-                .subscribe((res: string) => {
-                  this.dialogService.alert(res);
-                });
-            }
+            this.translateService.get('PASSWORD_DIALOG_MESSAGE',
+              {
+                vmName: job.jobResult.displayName,
+                vmPassword: job.jobResult.password
+              })
+              .subscribe((res: string) => {
+                this.dialogService.alert(res);
+              });
           });
       });
   }
