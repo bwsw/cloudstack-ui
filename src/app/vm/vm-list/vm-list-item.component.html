@@ -6,9 +6,9 @@
   <mdl-card-title>
     <h2
       mdl-card-title-text
-      [mdl-tooltip]="'[' + vm.zoneName + ']/' + vm.displayName"
+      [mdl-tooltip]="vm.nameWithZone"
     >
-      {{ '[' + vm.zoneName + ']/' + vm.displayName }}
+      {{ vm.nameWithZone }}
     </h2>
   </mdl-card-title>
   <mdl-card-supporting-text>
