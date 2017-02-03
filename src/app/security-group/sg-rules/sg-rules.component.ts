@@ -65,11 +65,11 @@ export class SgRulesComponent implements OnInit {
     this.icmpTypes = icmpTypes;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.setPadding();
   }
 
-  public addRule(e: Event) {
+  public addRule(e: Event): void {
     e.stopPropagation();
 
     const type = this.type;
@@ -104,13 +104,13 @@ export class SgRulesComponent implements OnInit {
       });
   }
 
-  public onCidrClick() {
+  public onCidrClick(): void {
     if (!this.cidr) {
       this.cidr = '0.0.0.0/0';
     }
   }
 
-  public removeRule({ type, id }) {
+  public removeRule({ type, id }): void {
     this.securityGroupService.removeRule(type, { id })
       .subscribe(() => {
         const rules = this.securityGroup[`${type.toLowerCase()}Rules`];
@@ -131,7 +131,7 @@ export class SgRulesComponent implements OnInit {
   *   This code is fixed blur dialog window caused
   *   https://bugs.chromium.org/p/chromium/issues/detail?id=521364
   */
-  public setPadding() {
+  public setPadding(): void {
     let rulesCount = this.securityGroup.ingressRules.length + this.securityGroup.egressRules.length;
     let dialogElement = this.getDialogElement();
     if (rulesCount % 2) {
@@ -165,7 +165,7 @@ export class SgRulesComponent implements OnInit {
     return this.elementRef.nativeElement.parentNode as HTMLElement;
   }
 
-  private resetForm() {
+  private resetForm(): void {
     // reset controls' state. instead of just setting ngModel bound variables to empty string
     // we reset controls to reset the validity state of inputs
     let controlNames = ['icmpTypeSelect', 'icmpCodeSelect', 'startPort', 'endPort'];

@@ -60,6 +60,7 @@
   "STOP": "Stop",
   "SELECT": "Select",
   "CHANGE": "Change",
+  "VIEW": "View",
 
   "REBOOT": "Reboot",
   "RESTORE": "Restore",
