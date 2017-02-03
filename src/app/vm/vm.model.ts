@@ -124,6 +124,10 @@ export class VirtualMachine extends BaseModel {
     ];
   }
 
+  public get nameWithZone(): string {
+    return `[${this.zoneName}]/${this.displayName}`;
+  }
+
   public getDisksSize(): number {
     const sizeInBytes = this.volumes.reduce((acc: number, volume: Volume) => {
       return acc + volume.size;
