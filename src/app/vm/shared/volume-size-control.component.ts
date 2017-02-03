@@ -16,6 +16,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class VolumeSizeControlComponent implements OnInit, ControlValueAccessor {
   @Input() public min: number;
   @Input() public max: number;
+  @Input() public label: string;
 
   private _size: number;
 

@@ -4,6 +4,7 @@
     <cs-volume-size-control
       [min]="volume.size | divByPowerOfTwo:30"
       [max]="maxSize"
+      [label]="'VOLUME_NEW_SIZE' | translate"
       [(ngModel)]="newSize"
       name="new-size"
     ></cs-volume-size-control>
