@@ -125,7 +125,7 @@ export class VirtualMachine extends BaseModel {
   }
 
   public get nameWithZone(): string {
-    return `[${this.zoneName}]/${this.displayName}`;
+    return `${this.zoneName} / ${this.displayName}`;
   }
 
   public getDisksSize(): number {
