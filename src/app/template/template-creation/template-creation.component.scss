@@ -1,0 +1,12 @@
+:host /deep/ .mdl-dialog__content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-column {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 300px;
+}

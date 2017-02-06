@@ -1,0 +1,96 @@
+<div class="security-group-template-form">
+  <h3 class="mdl-dialog__title">{{ 'NEW_TEMPLATE' | translate }}</h3>
+  <form (ngSubmit)="onCreate($event)" #templateCreationForm="ngForm">
+    <div class="mdl-dialog__content">
+
+      <div class="flex-column">
+        <mdl-textfield
+          type="text"
+          label="{{ 'NAME' | translate }}"
+          name="name"
+          floating-label
+          autofocus
+          required
+          [(ngModel)]="name"
+          #nameField="ngModel"
+          [class.is-invalid]="nameField.invalid && !nameField.pristine"
+        >
+        </mdl-textfield>
+
+        <mdl-textfield
+          type="text"
+          label="{{ 'DESCRIPTION' | translate }}"
+          name="description"
+          floating-label
+          required
+          [(ngModel)]="description"
+          #descriptionField="ngModel"
+          [class.is-invalid]="descriptionField.invalid && !descriptionField.pristine"
+        >
+        </mdl-textfield>
+
+        <mdl-textfield
+          type="url"
+          label="{{ 'URL' | translate }}"
+          name="url"
+          floating-label
+          required
+          [(ngModel)]="url"
+        >
+        </mdl-textfield>
+
+      </div>
+
+      <div class="flex-column">
+        <h5>{{ 'ZONE' | translate }}</h5>
+        <mdl-select
+          [(ngModel)]="zoneId"
+          id="serviceOffering"
+          name="serviceOffering"
+        >
+          <mdl-option
+            *ngFor="let zone of zones"
+            [value]="zone.id"
+          >
+            {{ zone.name }}
+          </mdl-option>
+        </mdl-select>
+
+        <h5>{{ 'OS_TYPE' | translate }}</h5>
+        <mdl-select
+          [(ngModel)]="osTypeId"
+          id="osType"
+          name="osType"
+        >
+          <mdl-option
+            *ngFor="let osType of osTypes"
+            [value]="osType.id"
+          >
+            {{ osType.description }}
+          </mdl-option>
+        </mdl-select>
+      </div>
+
+    </div>
+    <div class="mdl-dialog__actions">
+      <button
+        mdl-colored="primary"
+        mdl-button
+        mdl-ripple
+        type="submit"
+        [disabled]="!templateCreationForm.valid"
+      >
+        {{ 'CREATE' | translate }}
+      </button>
+      <button
+        mdl-colored="primary"
+        mdl-button
+        mdl-ripple
+        type="button"
+        (click)="onCancel()"
+      >
+        {{ 'CANCEL' | translate }}
+      </button>
+    </div>
+  </form>
+</div>
