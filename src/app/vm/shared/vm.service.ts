@@ -117,6 +117,19 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       .map(([vms, volumes, osTypes, serviceOfferings, securityGroups]) => {
         vms.forEach((vm: VirtualMachine) => {
           vm.volumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
+
+          vm.volumes.sort((a, b) => {
+            const aIsRoot = a.name.startsWith('ROOT');
+            const bIsRoot = b.name.startsWith('ROOT');
+            if (aIsRoot && !bIsRoot) {
+              return -1;
+            }
+            if (!aIsRoot && bIsRoot) {
+              return 1;
+            }
+            return 0;
+          });
+
           vm.osType = osTypes.find((osType: OsType) => osType.id === vm.guestOsId);
           vm.serviceOffering = serviceOfferings.find((serviceOffering: ServiceOffering) => {
             return serviceOffering.id === vm.serviceOfferingId;

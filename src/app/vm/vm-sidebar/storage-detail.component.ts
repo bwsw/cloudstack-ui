@@ -36,7 +36,7 @@ export class StorageDetailComponent {
     this.expandStorage = !this.expandStorage;
   }
 
-  public showVolumeResizeDialog(): void {
+  public showVolumeResizeDialog(volume: Volume): void {
     let notificationId: string;
     let translations;
 
@@ -51,7 +51,7 @@ export class StorageDetailComponent {
         translations = res;
         return this.dialogService.showCustomDialog({
           component: VolumeResizeComponent,
-          providers: [{ provide: 'volume', useValue: this.vm.volumes[0] }],
+          providers: [{ provide: 'volume', useValue: volume }],
           isModal: true,
           styles: {
             'width': '400px',
@@ -73,7 +73,7 @@ export class StorageDetailComponent {
           if (!data) {
             return;
           }
-          this.vm.volumes[0].size = (data as Volume).size;
+          volume.size = (data as Volume).size;
 
           this.jobNotificationService.add({
             id: notificationId,
