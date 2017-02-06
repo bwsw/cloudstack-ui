@@ -2,8 +2,7 @@ import { Component, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChange
 import { MdlDialogService } from 'angular2-mdl';
 import { VmTemplateDialogComponent } from './vm-template-dialog.component';
 import { PRESELECTED_TEMPLATE_TOKEN } from './injector-token';
-import { Template } from '../../../template/shared';
-import { TemplateService } from '../../../template/shared/';
+import { Template, TemplateService } from '../../../template/shared';
 
 
 @Component({

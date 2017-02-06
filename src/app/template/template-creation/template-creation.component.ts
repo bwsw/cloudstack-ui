@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'template-creation',
+  selector: 'cs-template-creation',
   templateUrl: 'template-creation.component.html'
 })
 export class TemplateCreationComponent {

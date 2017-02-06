@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 
 import { BackendResource } from '../../shared/decorators/backend-resource.decorator';
 import { BaseBackendService } from '../../shared/services/base-backend.service';
-import { Observable } from 'rxjs/Rx';
 
-import { Iso } from '../.';
+import { Iso } from './iso.model';
 
 
 @Injectable()

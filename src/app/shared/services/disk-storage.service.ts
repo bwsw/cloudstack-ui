@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+
 import { ResourceLimitService } from './resource-limit.service';
 import { VolumeService } from './volume.service';
-import { Volume } from '../models/volume.model';
-import { ResourceType } from '../models/resource-limit.model';
+import { Volume } from '../models';
 import { SnapshotService } from './snapshot.service';
-import { IsoService } from '../../template/shared/iso.service';
-import { Observable } from 'rxjs/Rx';
-import { Snapshot } from '../models/snapshot.model';
-import { Iso } from '../../template/shared/';
+import { Iso, IsoService } from '../../template/shared';
+import { ResourceType, Snapshot } from '../models';
 
 
 @Injectable()

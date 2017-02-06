@@ -2,9 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SharedModule } from '../shared/shared.module';
-import { IsoService } from "./shared/iso.service";
-import { TemplateService } from "./shared/template.service";
-import { TemplateListComponent } from "./template-list/template-list.component";
+import { IsoService, TemplateService } from './shared';
+import { TemplateListComponent } from './template-list/template-list.component';
 
 
 @NgModule({
