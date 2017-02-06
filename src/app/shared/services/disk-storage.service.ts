@@ -4,10 +4,10 @@ import { VolumeService } from './volume.service';
 import { Volume } from '../models/volume.model';
 import { ResourceType } from '../models/resource-limit.model';
 import { SnapshotService } from './snapshot.service';
-import { IsoService } from './iso.service';
+import { IsoService } from '../../template/shared/iso.service';
 import { Observable } from 'rxjs/Rx';
 import { Snapshot } from '../models/snapshot.model';
-import { Iso } from '../models/iso.model';
+import { Iso } from '../../template/shared/';
 
 
 @Injectable()

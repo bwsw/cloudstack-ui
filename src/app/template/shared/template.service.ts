@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Template } from '../models';
-import { BackendResource } from '../decorators/backend-resource.decorator';
-import { BaseBackendService } from './base-backend.service';
+import { Template } from '../.';
+import { BackendResource } from '../../shared/decorators/backend-resource.decorator';
+import { BaseBackendService } from '../../shared/services/base-backend.service';
 import { Observable } from 'rxjs/Rx';
+
 
 @Injectable()
 @BackendResource({

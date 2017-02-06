@@ -1,10 +1,11 @@
-import { BaseModel } from './base.model';
-import { FieldMapper } from '../decorators';
+import { BaseModel } from '../../shared/models/base.model';
+import { FieldMapper } from '../../shared/decorators/';
 
 export interface ITag {
   key: string;
   value: string;
 }
+
 
 @FieldMapper({
   displaytext: 'displayText',

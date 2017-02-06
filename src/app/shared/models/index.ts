@@ -4,8 +4,6 @@ export * from './async-job.model';
 export * from './os-type.model';
 export * from './service-offering.model';
 export * from './SSHKeyPair.model';
-export * from './template.model';
-export * from './iso.model';
 export * from './snapshot.model';
 export * from './nic.model';
 export * from './volume.model';

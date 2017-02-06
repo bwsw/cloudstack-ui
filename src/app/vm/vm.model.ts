@@ -4,7 +4,7 @@ import { Volume } from '../shared/models/volume.model';
 import { NIC } from '../shared/models';
 import { OsType } from '../shared/models/os-type.model';
 import { ServiceOffering } from '../shared/models/service-offering.model';
-import { Template } from '../shared/models/template.model';
+import { Template } from '../template/shared/template.model';
 import { SecurityGroup } from '../security-group/sg.model';
 
 export const MIN_ROOT_DISK_SIZE = 10;

@@ -17,12 +17,12 @@ import {
   INotificationStatus
 } from '../../shared/services/jobs-notification.service';
 
-import { TemplateService } from '../../shared/services/template.service';
+import { TemplateService } from '../../template/shared/template.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { DiskStorageService } from '../../shared/services/disk-storage.service';
 import { ServiceOfferingFilterService } from '../../shared/services/service-offering-filter.service';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
-import { Template } from '../../shared/models/template.model';
+import { Template } from '../../template/shared/template.model';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { SecurityGroupService, GROUP_POSTFIX } from '../../shared/services/security-group.service';
 import { UtilsService } from '../../shared/services/utils.service';
