@@ -11,4 +11,5 @@ export class Volume extends BaseModel {
   public size: number;
   public virtualMachineId: string;
   public snapshots: Array<Snapshot>;
+  public type: string;
 }

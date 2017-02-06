@@ -118,9 +118,9 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         vms.forEach((vm: VirtualMachine) => {
           vm.volumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
 
-          vm.volumes.sort((a, b) => {
-            const aIsRoot = a.name.startsWith('ROOT');
-            const bIsRoot = b.name.startsWith('ROOT');
+          vm.volumes.sort((a: Volume, b) => {
+            const aIsRoot = a.type === 'ROOT';
+            const bIsRoot = b.type === 'ROOT';
             if (aIsRoot && !bIsRoot) {
               return -1;
             }
