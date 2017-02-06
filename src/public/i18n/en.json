@@ -262,5 +262,8 @@
 
   "NEW_TEMPLATE": "New template",
   "TEMPLATES_ISO": "Templates and ISOs",
-  "URL": "URL"
+  "URL": "URL",
+  "ISO_REGISTER_IN_PROGRESS": "Registering an ISO",
+  "ISO_REGISTER_DONE": "ISO registered",
+  "ISO_REGISTER_FAILED": "ISO failed"
 }

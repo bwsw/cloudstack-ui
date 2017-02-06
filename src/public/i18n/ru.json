@@ -262,5 +262,8 @@
 
   "NEW_TEMPLATE": "Новый шаблон",
   "TEMPLATES_ISO": "Шаблоны и ISO файлы",
-  "URL": "URL"
+  "URL": "URL",
+  "ISO_REGISTER_IN_PROGRESS": "Регистрация ISO",
+  "ISO_REGISTER_DONE": "ISO зарегистрирован",
+  "ISO_REGISTER_FAILED": "ISO не добавлен"
 }

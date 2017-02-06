@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 
-import { IsoService } from '../shared';
+import { Iso, IsoService } from '../shared';
 import { OsType, Zone } from '../../shared/models';
 import { ZoneService } from '../../shared/services';
 import { OsTypeService } from '../../shared/services/os-type.service';
@@ -14,10 +14,10 @@ import { OsTypeService } from '../../shared/services/os-type.service';
 })
 export class TemplateCreationComponent {
   public name: string;
-  public description: string;
+  public displayText: string;
+  public osTypeId: string;
   public url: string;
   public zoneId: string;
-  public osTypeId: string;
 
   public osTypes: Array<OsType>;
   public zones: Array<Zone>;
@@ -27,7 +27,9 @@ export class TemplateCreationComponent {
     private isoService: IsoService,
     private osTypeService: OsTypeService,
     private zoneService: ZoneService
-  ) { }
+  ) {
+    this.url = 'http://nl.alpinelinux.org/alpine/v3.5/releases/x86/alpine-standard-3.5.1-x86.iso';
+  }
 
   public ngOnInit(): void {
     this.osTypes = [];
@@ -51,6 +53,12 @@ export class TemplateCreationComponent {
   }
 
   public onCreate(): void {
-    this.dialog.hide();
+    let registerObservable = this.isoService.register(new Iso({
+      name: this.name,
+      displayText: this.displayText,
+      osTypeId: this.osTypeId,
+      zoneId: this.zoneId
+    }), this.url);
+    this.dialog.hide(registerObservable);
   }
 }

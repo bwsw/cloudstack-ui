@@ -5,11 +5,11 @@ import { BackendResource } from '../../shared/decorators/backend-resource.decora
 import { BaseBackendService } from '../../shared/services/base-backend.service';
 import { Iso } from './iso.model';
 
+
 interface IsoRequestParams {
   isofilter: string;
   [propName: string]: any;
 }
-
 
 @Injectable()
 @BackendResource({
@@ -26,5 +26,17 @@ export class IsoService extends BaseBackendService<Iso> {
 
   public getList(params: IsoRequestParams): Observable<Array<Iso>> {
     return <Observable<Array<Iso>>>super.getList(params);
+  }
+
+  public register(iso: Iso, url: string) {
+    let params = {};
+    params['displaytext'] = iso.displayText;
+    params['name'] = iso.name;
+    params['ostypeid'] = iso.osTypeId;
+    params['zoneid'] = iso.zoneId;
+    params['url'] = url;
+
+    return this.getRequest('register', params)
+      .map(result => new Iso(result['registerisoresponse'].iso[0]));
   }
 }

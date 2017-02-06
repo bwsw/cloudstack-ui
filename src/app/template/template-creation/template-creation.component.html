@@ -23,7 +23,7 @@
           name="description"
           floating-label
           required
-          [(ngModel)]="description"
+          [(ngModel)]="displayText"
           #descriptionField="ngModel"
           [class.is-invalid]="descriptionField.invalid && !descriptionField.pristine"
         >
@@ -36,6 +36,8 @@
           floating-label
           required
           [(ngModel)]="url"
+          #urlField="ngModel"
+          [class.is-invalid]="urlField.invalid && !urlField.pristine"
         >
         </mdl-textfield>
 

@@ -9,7 +9,8 @@ import { FieldMapper } from '../../shared/decorators/';
   ispublic: 'isPublic',
   isready: 'isReady',
   ostypeid: 'osTypeId',
-  ostypename: 'osTypeName'
+  ostypename: 'osTypeName',
+  zoneid: 'zoneId'
 })
 export class Iso extends BaseModel {
   public id: string;
@@ -24,4 +25,5 @@ export class Iso extends BaseModel {
   public name: string;
   public status: string;
   public size: number;
+  public zoneId: string;
 }
