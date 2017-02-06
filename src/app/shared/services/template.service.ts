@@ -1,8 +1,14 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+
 import { Template } from '../models';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { BaseBackendService } from './base-backend.service';
-import { Observable } from 'rxjs/Rx';
+
+interface TemplateRequestParams {
+  templatefilter: string;
+  [propName: string]: any;
+}
 
 @Injectable()
 @BackendResource({
@@ -23,14 +29,14 @@ export class TemplateService extends BaseBackendService<Template> {
     return this._templateFilters;
   }
 
-  public get(id: string): Observable<Template> {
-    const templatefilter = 'featured';
-    return this.getList({templatefilter, id})
+  public get(id: string, params?: TemplateRequestParams): Observable<Template> {
+    const templatefilter = params.templatefilter ? params.templatefilter : 'featured';
+    return this.getList({ templatefilter, id })
       .map(data => data[0])
       .catch(error => Observable.throw(error));
   }
 
-  public getList(params: { templatefilter: string, [propName: string]: any }): Observable<Array<Template>> {
+  public getList(params: TemplateRequestParams): Observable<Array<Template>> {
     if (this.templates.hasOwnProperty(params.templatefilter)) {
       return Observable.of(this.templates[params.templatefilter]);
     }
@@ -50,13 +56,13 @@ export class TemplateService extends BaseBackendService<Template> {
       _params = params;
     }
 
-    let templatePromises = [];
+    let templateObservables = [];
     for (let filter of localTemplateFilters) {
       _params['templatefilter'] = filter;
-      templatePromises.push(this.getList(_params as  { templatefilter: string, [propName: string]: any }));
+      templateObservables.push(this.getList(_params as TemplateRequestParams));
     }
 
-    return Observable.forkJoin(templatePromises)
+    return Observable.forkJoin(templateObservables)
       .map(data => {
         let obj = {};
         data.forEach((templateSet, i) => {

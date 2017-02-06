@@ -8,15 +8,27 @@ export interface ITag {
 
 @FieldMapper({
   displaytext: 'displayText',
+  isextractable: 'isExtractable',
+  isfeatured: 'isFeatured',
+  ispublic: 'isPublic',
+  isready: 'isReady',
   ostypeid: 'osTypeId',
-  ostypename: 'osTypeName'
+  ostypename: 'osTypeName',
+  templatetype: 'type'
 })
 export class Template extends BaseModel {
   public id: string;
+  public format: string;
   public name: string;
   public displayText: string;
+  public isExtractable: boolean;
+  public isFeatured: boolean;
+  public isPublic: boolean;
+  public isReady: boolean;
   public osTypeId: string;
   public osTypeName: string;
   public size: number;
+  public status: string;
   public tags: Array<ITag>;
+  public type: string;
 }
