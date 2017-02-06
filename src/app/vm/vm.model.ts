@@ -1,11 +1,15 @@
-import { BaseModel } from '../shared/models';
 import { FieldMapper } from '../shared/decorators';
-import { Volume } from '../shared/models/volume.model';
-import { NIC } from '../shared/models';
-import { OsType } from '../shared/models/os-type.model';
-import { ServiceOffering } from '../shared/models/service-offering.model';
-import { Template } from '../shared/models/template.model';
+
+import {
+  BaseModel,
+  NIC,
+  OsType,
+  ServiceOffering,
+  Volume
+} from '../shared/models';
 import { SecurityGroup } from '../security-group/sg.model';
+import { Template } from '../template/shared';
+
 
 export const MIN_ROOT_DISK_SIZE = 10;
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;

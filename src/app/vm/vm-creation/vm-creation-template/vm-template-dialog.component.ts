@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, Inject } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
-import { TemplateService } from '../../../shared/services';
-import { Template } from '../../../shared/models';
+import { Template, TemplateService } from '../../../template/shared';
 import { PRESELECTED_TEMPLATE_TOKEN } from './injector-token';
 
 

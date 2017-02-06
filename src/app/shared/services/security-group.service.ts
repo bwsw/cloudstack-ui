@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+
 import { ConfigService } from './config.service';
 import { SecurityGroup, NetworkRuleType } from '../../security-group/sg.model';
 import { BaseBackendService } from './base-backend.service';
@@ -6,7 +8,6 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
 import { TagService } from './tag.service';
 import { AsyncJobService } from './async-job.service';
 import { NetworkRule } from '../../security-group/sg.model';
-import { Observable } from 'rxjs/Rx';
 
 export const GROUP_POSTFIX = '-cs-sg';
 

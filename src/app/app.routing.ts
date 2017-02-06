@@ -1,9 +1,9 @@
 import { RouterModule, Routes } from '@angular/router';
 
 import { LoginComponent } from './auth/login.component';
-
-import { VmListComponent } from './vm/vm-list/vm-list.component';
 import { SgTemplateListComponent } from './security-group/sg-template-list/sg-template-list.component';
+import { TemplateListComponent } from './template/template-list/template-list.component';
+import { VmListComponent } from './vm/vm-list/vm-list.component';
 
 const routes: Routes = [
   {
@@ -17,6 +17,10 @@ const routes: Routes = [
   {
     path: 'instances',
     component: VmListComponent
+  },
+  {
+    path: 'templates',
+    component: TemplateListComponent
   },
   {
     path: '**',

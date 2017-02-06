@@ -1,5 +1,10 @@
-import { BaseModel } from './base.model';
-import { FieldMapper } from '../decorators';
+import { BaseModel } from '../../shared/models/base.model';
+import { FieldMapper } from '../../shared/decorators/';
+
+export interface ITag {
+  key: string;
+  value: string;
+}
 
 
 @FieldMapper({
@@ -9,11 +14,13 @@ import { FieldMapper } from '../decorators';
   ispublic: 'isPublic',
   isready: 'isReady',
   ostypeid: 'osTypeId',
-  ostypename: 'osTypeName'
+  ostypename: 'osTypeName',
+  templatetype: 'type'
 })
-export class Iso extends BaseModel {
+export class Template extends BaseModel {
   public id: string;
-  public bootable: boolean;
+  public format: string;
+  public name: string;
   public displayText: string;
   public isExtractable: boolean;
   public isFeatured: boolean;
@@ -21,7 +28,8 @@ export class Iso extends BaseModel {
   public isReady: boolean;
   public osTypeId: string;
   public osTypeName: string;
-  public name: string;
-  public status: string;
   public size: number;
+  public status: string;
+  public tags: Array<ITag>;
+  public type: string;
 }

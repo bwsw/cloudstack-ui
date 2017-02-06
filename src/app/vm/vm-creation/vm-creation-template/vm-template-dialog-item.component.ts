@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Template } from '../../../shared/models';
+import { Template } from '../../../template/shared/';
 
 @Component({
   selector: 'cs-vm-creation-template-dialog-list-element',

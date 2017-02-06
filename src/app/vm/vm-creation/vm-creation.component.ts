@@ -1,32 +1,34 @@
 import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
+import { MdlDialogComponent, MdlDialogService } from 'angular2-mdl';
+import { Observable } from 'rxjs/Rx';
 import { TranslateService } from 'ng2-translate';
 
-import { ZoneService } from '../../shared/services/zone.service';
-import { Zone } from '../../shared/models/zone.model';
-import { SSHKeyPair } from '../../shared/models/SSHKeyPair.model';
-import { ServiceOffering } from '../../shared/models/service-offering.model';
-import { AffinityGroupService } from '../../shared/services/affinity-group.service';
-import { AffinityGroup } from '../../shared/models/affinity-group.model';
-import { SSHKeyPairService } from '../../shared/services/SSHKeyPair.service';
-import { MdlDialogComponent, MdlDialogService } from 'angular2-mdl';
-import { VmService } from '../vm.service';
 import { VirtualMachine, MIN_ROOT_DISK_SIZE, MAX_ROOT_DISK_SIZE_ADMIN } from '../vm.model';
+import {
+  AffinityGroup,
+  ServiceOffering,
+  SSHKeyPair,
+  Zone
+} from '../../shared/models';
 
 import {
+  AffinityGroupService,
+  SSHKeyPairService,
+  DiskStorageService,
+  GROUP_POSTFIX,
+  INotificationStatus,
   JobsNotificationService,
-  INotificationStatus
-} from '../../shared/services/jobs-notification.service';
+  NotificationService,
+  ResourceUsageService,
+  SecurityGroupService,
+  ServiceOfferingFilterService,
+  UtilsService,
+  ZoneService
+} from '../../shared/services';
+import { VmService } from '../vm.service';
+import { Template, TemplateService } from '../../template/shared';
 
-import { TemplateService } from '../../shared/services/template.service';
-import { NotificationService } from '../../shared/services/notification.service';
-import { DiskStorageService } from '../../shared/services/disk-storage.service';
-import { ServiceOfferingFilterService } from '../../shared/services/service-offering-filter.service';
-import { ResourceUsageService } from '../../shared/services/resource-usage.service';
-import { Template } from '../../shared/models/template.model';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
-import { SecurityGroupService, GROUP_POSTFIX } from '../../shared/services/security-group.service';
-import { UtilsService } from '../../shared/services/utils.service';
-import { Observable } from 'rxjs/Rx';
 
 
 class VmCreationData {

@@ -16,7 +16,8 @@ import { routing } from './app.routing';
 import { SecurityGroupModule } from './security-group/sg.module';
 import { ServiceOfferingModule } from './service-offering/service-offering.module';
 import { SharedModule } from './shared/shared.module';
-import { VmModule } from './vm/vm.module';
+import { TemplateModule } from './template';
+import { VmModule } from './vm';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { VmModule } from './vm/vm.module';
     MdlSelectModule,
     SecurityGroupModule,
     ServiceOfferingModule,
+    TemplateModule,
     VmModule,
     SharedModule
   ],

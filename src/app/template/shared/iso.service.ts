@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
-import { Iso } from '../models';
-import { BackendResource } from '../decorators/backend-resource.decorator';
-import { BaseBackendService } from './base-backend.service';
+import { BackendResource } from '../../shared/decorators/backend-resource.decorator';
+import { BaseBackendService } from '../../shared/services/base-backend.service';
+import { Iso } from './iso.model';
 
 interface IsoRequestParams {
   isofilter: string;
   [propName: string]: any;
 }
+
 
 @Injectable()
 @BackendResource({
