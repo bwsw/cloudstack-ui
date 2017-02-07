@@ -9,12 +9,16 @@ import { FieldMapper } from '../../shared/decorators/';
   ispublic: 'isPublic',
   isready: 'isReady',
   ostypeid: 'osTypeId',
-  ostypename: 'osTypeName'
+  ostypename: 'osTypeName',
+  zoneid: 'zoneId'
 })
-export class Iso extends BaseModel {
+export class Iso extends BaseModel { // todo: superclass (iso, template)
   public id: string;
   public bootable: boolean;
+  public created: string;
+  public crossZones: boolean;
   public displayText: string;
+  public domain: string;
   public isExtractable: boolean;
   public isFeatured: boolean;
   public isPublic: boolean;
@@ -24,4 +28,5 @@ export class Iso extends BaseModel {
   public name: string;
   public status: string;
   public size: number;
+  public zoneId: string;
 }

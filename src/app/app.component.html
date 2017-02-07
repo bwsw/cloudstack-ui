@@ -14,6 +14,7 @@
   <mdl-layout-drawer *ngIf="loggedIn" class="mdl-color--grey-50">
     <mdl-layout-title>{{ title }}</mdl-layout-title>
     <nav class="mdl-navigation">
+
       <a
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
@@ -22,6 +23,7 @@
         <mdl-icon class="link-element">cloud</mdl-icon>
         <div class="link-element" [innerHTML]="'VM_NAVBAR' | translate"></div>
       </a>
+
       <a
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
@@ -30,6 +32,16 @@
         <mdl-icon class="link-element">security</mdl-icon>
         <div class="link-element" [innerHTML]="'SG_TEMPLATES_NAVBAR' | translate"></div>
       </a>
+
+      <a
+        (click)="componentSelected(mainLayout)"
+        class="mdl-navigation__link link-container"
+        routerLink="/templates"
+      >
+        <mdl-icon class="link-element">panorama_fish_eye</mdl-icon> <!-- todo: find a disk icon -->
+        <div class="link-element" [innerHTML]="'TEMPLATES_ISO' | translate"></div>
+      </a>
+
     </nav>
   </mdl-layout-drawer>
   <mdl-layout-content class="mdl-color--grey-100">

@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Rx';
   templateUrl: 'notification-box.component.html',
   styleUrls: ['notification-box.component.scss']
 })
-export class NotificationBoxComponent implements OnInit  {
+export class NotificationBoxComponent implements OnInit {
   @ViewChild(MdlPopoverComponent)
   private popover: MdlPopoverComponent;
   private unseenCount: number;

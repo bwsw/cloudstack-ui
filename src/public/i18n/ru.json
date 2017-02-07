@@ -258,5 +258,23 @@
   "THIS_IS_YOU_CURRENT_OFFERING": "Это Ваше текущее предложение",
 
   "VM_NAVBAR": "Виртуальные<br>машины",
-  "SG_TEMPLATES_NAVBAR": "Шаблоны<br>групп безопасности"
+  "SG_TEMPLATES_NAVBAR": "Шаблоны<br>групп безопасности",
+
+  "NEW_TEMPLATE": "Новый шаблон",
+  "TEMPLATES_ISO": "Шаблоны и ISO файлы",
+  "URL": "URL",
+  "ISO_REGISTER_IN_PROGRESS": "Регистрация ISO",
+  "ISO_REGISTER_DONE": "ISO зарегистрирован",
+  "ISO_REGISTER_FAILED": "ISO не добавлен",
+  "INVALID_URL": "Неподдерживаемый URL (только http or https)",
+  "CREATED_MASC": "Создан",
+  "SIZE": "Размер",
+  "EXTRACTABLE": "Извлекаемый",
+  "PUBLIC": "Публичный",
+  "RECOMMENDED": "Рекоммендуемый",
+  "CROSS_ZONES": "Общий для зон",
+  "DETAILS": "Подробности",
+  "HYPERVISOR": "Гипервизор",
+  "USER_HYPERVISOR": "Пользовательский",
+  "BUILTIN_HYPERVISOR": "Встроенный"
 }

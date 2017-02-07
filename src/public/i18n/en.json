@@ -258,5 +258,23 @@
   "THIS_IS_YOU_CURRENT_OFFERING": "This is your current offering",
 
   "VM_NAVBAR": "Virtual machines",
-  "SG_TEMPLATES_NAVBAR": "Security group<br>templates"
+  "SG_TEMPLATES_NAVBAR": "Security group<br>templates",
+
+  "NEW_TEMPLATE": "New template",
+  "TEMPLATES_ISO": "Templates and ISOs",
+  "URL": "URL",
+  "ISO_REGISTER_IN_PROGRESS": "Registering an ISO",
+  "ISO_REGISTER_DONE": "ISO registered",
+  "ISO_REGISTER_FAILED": "ISO failed",
+  "INVALID_URL": "Invalid URL (only http or https)",
+  "CREATED_MASC": "Created",
+  "SIZE": "Size",
+  "EXTRACTABLE": "Extractable",
+  "PUBLIC": "Public",
+  "RECOMMENDED": "Recommended",
+  "CROSS_ZONES": "Cross Zones",
+  "DETAILS": "Details",
+  "HYPERVISOR": "Hypervisor",
+  "USER_TEMPLATE_TYPE": "User",
+  "BUILTIN_TEMPLATE_TYPE": "Built-in"
 }
