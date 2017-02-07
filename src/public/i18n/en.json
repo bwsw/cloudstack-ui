@@ -265,5 +265,6 @@
   "URL": "URL",
   "ISO_REGISTER_IN_PROGRESS": "Registering an ISO",
   "ISO_REGISTER_DONE": "ISO registered",
-  "ISO_REGISTER_FAILED": "ISO failed"
+  "ISO_REGISTER_FAILED": "ISO failed",
+  "INVALID_URL": "Invalid URL (only http or https)"
 }

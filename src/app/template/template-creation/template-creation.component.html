@@ -35,6 +35,8 @@
           name="url"
           floating-label
           required
+          pattern="^(http|https):\/\/.*$"
+          error-msg="{{ 'INVALID_URL' | translate }}"
           [(ngModel)]="url"
           #urlField="ngModel"
           [class.is-invalid]="urlField.invalid && !urlField.pristine"
