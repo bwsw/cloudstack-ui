@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ResourceLimitService } from './resource-limit.service';
-import { VmService } from '../../vm/vm.service';
+import { VmService } from '../../vm/shared/vm.service';
 import { VirtualMachine } from '../../vm/';
 import { VolumeService } from './volume.service';
 import { Volume } from '../models/volume.model';

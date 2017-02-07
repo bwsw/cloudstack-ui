@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
-import { VirtualMachine } from '../vm/vm.model';
-import { VmService } from '../vm/vm.service';
+import { VirtualMachine } from '../vm/shared/vm.model';
+import { VmService } from '../vm/shared/vm.service';
 
 
 @Component({
