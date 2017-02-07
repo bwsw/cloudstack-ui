@@ -12,15 +12,40 @@ import { OsType, OsFamily } from '../models/os-type.model';
   entityModel: OsType
 })
 export class OsTypeService extends BaseBackendService<OsType> {
+  private osTypes: Array<OsType>;
+  private requestObservable: Observable<Array<OsType>>;
+
+  public get(id: string): Observable<OsType> {
+    if (this.osTypes) {
+      const osType = this.osTypes.find(osType => {
+        return osType.id === id;
+      });
+
+      return Observable.of(osType);
+    }
+
+    return super.get(id);
+  }
+
   public getList(params?: {}): Observable<Array<OsType>> {
-    return super.getList(params)
+    if (this.osTypes) {
+      return Observable.of(this.osTypes);
+    }
+
+    if (this.requestObservable) {
+      return this.requestObservable;
+    }
+
+    this.requestObservable = super.getList(params)
       .map(osTypes => {
         osTypes.forEach(osType => {
           osType.osFamily = this.mapOsFamily(osType.description);
         });
 
+        this.osTypes = osTypes;
         return osTypes;
       });
+    return this.requestObservable;
   }
 
   private mapOsFamily(osName): OsFamily {
