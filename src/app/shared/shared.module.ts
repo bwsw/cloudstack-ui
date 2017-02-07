@@ -33,6 +33,7 @@ import {
   ZoneService
 } from './services';
 import { SgRulesManagerComponent } from './components/sg-rules-manager.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { NotificationBoxComponent } from './components/notification-box.component';
 import { NotificationBoxItemComponent } from './components/notification-box-item.component';
 
@@ -46,6 +47,7 @@ import { NotificationBoxItemComponent } from './components/notification-box-item
   ],
   exports: [
     SgRulesManagerComponent,
+    SidebarComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     DivByPowerOfTwoPipe,
@@ -53,6 +55,7 @@ import { NotificationBoxItemComponent } from './components/notification-box-item
   ],
   declarations: [
     SgRulesManagerComponent,
+    SidebarComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     DivByPowerOfTwoPipe,
