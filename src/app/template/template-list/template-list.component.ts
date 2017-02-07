@@ -15,6 +15,11 @@ import { TemplateCreationComponent } from '../template-creation/template-creatio
   styleUrls: ['template-list.component.scss']
 })
 export class TemplateListComponent {
+  public showIso: boolean = false;
+  public query: string;
+  public selectedOsFamily: string;
+  public selectedFilter: string;
+
   constructor(
     private dialogService: MdlDialogService,
     private isoService: IsoService,

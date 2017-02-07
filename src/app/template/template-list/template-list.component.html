@@ -1,3 +1,32 @@
+<div class="template-list">
+  <mdl-card class="options">
+    <div class="template-iso-switch">
+      <span class="mdl-switch__label">Templates</span>
+      <mdl-switch [(ngModel)]="showIso" mdl-ripple>ISO</mdl-switch>
+    </div>
+
+    <mdl-select
+      class="os-type-select"
+      [(ngModel)]="selectedOsFamily"
+      multiple="true"
+      placeholder="OS Type"
+    >
+    </mdl-select>
+
+    <mdl-select
+      class="filter-select"
+      [(ngModel)]="selectedFilter"
+      multiple="true"
+      placeholder="Type"
+    >
+    </mdl-select>
+  </mdl-card>
+  <p class="search-bar">
+    <mdl-icon>search</mdl-icon>
+    <mdl-textfield type="text" [(ngModel)]="query"></mdl-textfield>
+  </p>
+</div>
+
 <div class="fab">
   <button
     mdl-button
