@@ -1,4 +1,4 @@
-import { BaseModel } from '../../shared/models/base.model';
+import { BaseModel, OsType } from '../../shared/models';
 import { FieldMapper } from '../../shared/decorators/';
 
 export interface ITag {
@@ -28,6 +28,7 @@ export class Template extends BaseModel {
   public isReady: boolean;
   public osTypeId: string;
   public osTypeName: string;
+  public osType: OsType;
   public size: number;
   public status: string;
   public tags: Array<ITag>;
