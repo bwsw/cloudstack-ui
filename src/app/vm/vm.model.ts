@@ -53,7 +53,8 @@ export interface IVmAction {
   diskkbswrite: 'diskKbsWrite',
   diskioread: 'diskIoRead',
   diskiowrite: 'diskIoWrite',
-  keypair: 'keyPair'
+  keypair: 'keyPair',
+  isoid: 'isoId'
 })
 export class VirtualMachine extends BaseModel {
   public id: string;
@@ -81,6 +82,7 @@ export class VirtualMachine extends BaseModel {
   public template: Template;
   public templateId: string;
   public templateName: string;
+  public isoId: string;
   public osType: OsType;
   public guestOsId: string;
   // CUSTOM

@@ -20,7 +20,7 @@ export class TemplateListComponent {
     private isoService: IsoService,
     private jobNotificationService: JobsNotificationService,
     private translateService: TranslateService,
-    private notificationService: NotificationService,
+    private notificationService: NotificationService
   ) {}
 
   public showCreationDialog(): void {
@@ -76,5 +76,45 @@ export class TemplateListComponent {
         // add iso to list
         return result;
       });
+  }
+
+  public deleteIso(iso: Iso): void { // todo: refactor out into a single function
+    let translatedStrings;
+    let notificationId;
+
+    this.translateService.get([
+      'DELETE_ISO_IN_PROGRESS',
+      'DELETE_ISO_DONE',
+      'DELETE_ISO_FAILED',
+      'DELETE_ISO_VMS_IN_USE'
+    ])
+      .switchMap(strs => {
+        translatedStrings = strs;
+        notificationId = this.jobNotificationService.add(translatedStrings['DELETE_ISO_IN_PROGRESS']);
+        return this.isoService.delete(iso);
+      })
+      .subscribe(() => {
+        this.jobNotificationService.add({
+          id: notificationId,
+          message: translatedStrings['DELETE_ISO_DONE'],
+          status: INotificationStatus.Finished
+        });
+      }, error => {
+        if (error.type === 'vmsInUse') {
+          this.dialogService.alert(translatedStrings['DELETE_ISO_VMS_IN_USE']);
+        }
+        this.jobNotificationService.add({
+          id: notificationId,
+          message: translatedStrings['DELETE_ISO_FAILED'],
+          status: INotificationStatus.Failed
+        });
+      });
+  }
+
+  public test() {
+    this.isoService.get('e69f8d10-dc92-43ef-b338-d59453cbb35c')
+      .subscribe(iso => {
+        this.deleteIso(iso);
+      })
   }
 }

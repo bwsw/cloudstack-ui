@@ -266,5 +266,9 @@
   "ISO_REGISTER_IN_PROGRESS": "Регистрация ISO",
   "ISO_REGISTER_DONE": "ISO зарегистрирован",
   "ISO_REGISTER_FAILED": "ISO не добавлен",
-  "INVALID_URL": "Неподдерживаемый URL (только http or https)"
+  "INVALID_URL": "Неподдерживаемый URL (только http or https)",
+
+  "DELETE_ISO_IN_PROGRESS": "Удаление ISO",
+  "DELETE_ISO_DONE": "ISO удален",
+  "DELETE_ISO_FAILED": "Не удалось удалить ISO"
 }
