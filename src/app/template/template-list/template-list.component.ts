@@ -4,10 +4,9 @@ import { Observable } from 'rxjs';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 
-import { Iso } from '../shared';
-import { INotificationStatus, JobsNotificationService } from '../../shared/services';
+import { Iso, IsoService } from '../shared';
+import { INotificationStatus, JobsNotificationService, NotificationService } from '../../shared/services';
 import { TemplateCreationComponent } from '../template-creation/template-creation.component';
-import { NotificationService } from '../../shared/services/notification.service';
 
 
 @Component({
@@ -16,27 +15,34 @@ import { NotificationService } from '../../shared/services/notification.service'
   styleUrls: ['template-list.component.scss']
 })
 export class TemplateListComponent {
-  private dialogObservable: Observable<any>;
-
   constructor(
     private dialogService: MdlDialogService,
+    private isoService: IsoService,
     private jobNotificationService: JobsNotificationService,
     private translateService: TranslateService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
   ) {}
 
   public showCreationDialog(): void {
-    let translatedStrings;
-    let notificationId;
-
-    this.dialogObservable = this.dialogService.showCustomDialog({
+    this.dialogService.showCustomDialog({
       component: TemplateCreationComponent,
       isModal: true,
       styles: { 'width': '720px', 'overflow': 'visible' },
       clickOutsideToClose: true,
       enterTransitionDuration: 400,
       leaveTransitionDuration: 400
-    });
+    })
+      .switchMap(res => res.onHide())
+      .subscribe(isoData => {
+        if (isoData) {
+          this.createIso(isoData);
+        }
+      });
+  }
+
+  public createIso(isoData): void {
+    let translatedStrings;
+    let notificationId;
 
     this.translateService.get([
       'ISO_REGISTER_IN_PROGRESS',
@@ -45,13 +51,8 @@ export class TemplateListComponent {
     ])
       .switchMap(strs => {
         translatedStrings = strs;
-        return this.dialogObservable;
-      })
-      .switchMap(res => res.onHide())
-      .switchMap((registerObservable: any) => {
-        if (!registerObservable) { return; }
         notificationId = this.jobNotificationService.add(translatedStrings['ISO_REGISTER_IN_PROGRESS']);
-        return this.addIso(registerObservable);
+        return this.addIso(isoData);
       })
       .subscribe(() => {
         this.jobNotificationService.add({
@@ -69,10 +70,11 @@ export class TemplateListComponent {
       });
   }
 
-  public addIso(registerObservable: Observable<any>): Observable<Iso> {
-    return registerObservable.map(result => {
-      // add iso to list
-      return result;
-    });
+  public addIso(isoCreationData: any): Observable<Iso> {
+    return this.isoService.register(new Iso(isoCreationData), isoCreationData.url)
+      .map(result => {
+        // add iso to list
+        return result;
+      });
   }
 }
