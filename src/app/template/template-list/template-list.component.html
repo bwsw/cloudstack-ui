@@ -2,29 +2,50 @@
   <mdl-card class="options">
     <div class="template-iso-switch">
       <span class="mdl-switch__label">Templates</span>
-      <mdl-switch [(ngModel)]="showIso" mdl-ripple>ISO</mdl-switch>
+      <mdl-switch [(ngModel)]="showIso" (ngModelChange)="switchDisplayMode()">ISO</mdl-switch>
     </div>
 
     <mdl-select
       class="os-type-select"
-      [(ngModel)]="selectedOsFamily"
+      [(ngModel)]="selectedOsFamilies"
       multiple="true"
-      placeholder="OS Type"
+      placeholder="OS Family"
     >
+      <mdl-option
+        *ngFor="let family of osFamilies"
+        [value]="family"
+      >
+        {{ family }}
+      </mdl-option>
     </mdl-select>
 
     <mdl-select
       class="filter-select"
-      [(ngModel)]="selectedFilter"
+      [(ngModel)]="selectedFilters"
       multiple="true"
       placeholder="Type"
     >
+      <mdl-option
+        *ngFor="let filter of filters"
+        [value]="filter"
+      >
+        {{ filter }}
+      </mdl-option>
     </mdl-select>
   </mdl-card>
   <p class="search-bar">
     <mdl-icon>search</mdl-icon>
     <mdl-textfield type="text" [(ngModel)]="query"></mdl-textfield>
   </p>
+
+  <mdl-list>
+    <mdl-list-item lines="2" *ngFor="let template of (showIso ? isoList : templateList)">
+      <mdl-list-item-primary-content>
+        <span>{{ template.name }}</span>
+        <mdl-list-item-sub-title>{{ template.displayText }}</mdl-list-item-sub-title>
+      </mdl-list-item-primary-content>
+    </mdl-list-item>
+  </mdl-list>
 </div>
 
 <div class="fab">

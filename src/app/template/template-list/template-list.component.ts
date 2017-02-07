@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 
-import { Iso, IsoService } from '../shared';
+import { Iso, IsoService, TemplateService } from '../shared';
 import { INotificationStatus, JobsNotificationService, NotificationService } from '../../shared/services';
 import { TemplateCreationComponent } from '../template-creation/template-creation.component';
+import { Template } from '../shared/template.model';
 
 
 @Component({
@@ -14,19 +15,46 @@ import { TemplateCreationComponent } from '../template-creation/template-creatio
   templateUrl: 'template-list.component.html',
   styleUrls: ['template-list.component.scss']
 })
-export class TemplateListComponent {
+export class TemplateListComponent implements OnInit {
   public showIso: boolean = false;
   public query: string;
-  public selectedOsFamily: string;
-  public selectedFilter: string;
+  public selectedOsFamilies: Array<string>;
+  public selectedFilters: Array<string>;
+
+  public templateList: Array<Template>;
+  public isoList: Array<Iso>;
+
+  public osFamilies = [
+    'Linux',
+    'Windows',
+    'Mac OS',
+    'Other'
+  ];
+
+  public filters = [
+    'Featured',
+    'My'
+  ];
 
   constructor(
     private dialogService: MdlDialogService,
     private isoService: IsoService,
     private jobNotificationService: JobsNotificationService,
     private translateService: TranslateService,
+    private templateService: TemplateService,
     private notificationService: NotificationService,
-  ) {}
+  ) { }
+
+  public ngOnInit(): void {
+    this.selectedOsFamilies = this.osFamilies.concat();
+    this.selectedFilters = this.filters.concat();
+
+    this.fetchData();
+  }
+
+  public switchDisplayMode(): void {
+    this.fetchData();
+  }
 
   public showCreationDialog(): void {
     this.dialogService.showCustomDialog({
@@ -81,5 +109,23 @@ export class TemplateListComponent {
         // add iso to list
         return result;
       });
+  }
+
+  private fetchData(): void {
+    if (!this.showIso) {
+      this.templateService.getGroupedTemplates()
+        .subscribe(templates => {
+          let t = [];
+          for (let filter in templates) {
+            if (templates.hasOwnProperty(filter)) {
+              t = t.concat(templates[filter]);
+            }
+          }
+          this.templateList = t;
+        });
+    } else {
+      this.isoService.getList({ isofilter: 'featured' })
+        .subscribe(isos => this.isoList = isos);
+    }
   }
 }
