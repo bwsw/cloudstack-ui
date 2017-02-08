@@ -113,7 +113,8 @@ export class TemplateListComponent implements OnInit {
 
   private fetchData(): void {
     if (!this.showIso) {
-      this.templateService.getGroupedTemplates()
+      this.templateList = [];
+      this.templateService.getGroupedTemplates({}, ['featured', 'self'])
         .subscribe(templates => {
           let t = [];
           for (let filter in templates) {
@@ -124,6 +125,7 @@ export class TemplateListComponent implements OnInit {
           this.templateList = t;
         });
     } else {
+      this.isoList = [];
       this.isoService.getList({ isofilter: 'featured' })
         .subscribe(isos => this.isoList = isos);
     }

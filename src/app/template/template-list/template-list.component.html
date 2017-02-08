@@ -41,6 +41,30 @@
   <mdl-list>
     <mdl-list-item lines="2" *ngFor="let template of (showIso ? isoList : templateList)">
       <mdl-list-item-primary-content>
+        <mdl-icon class="os-icon" mdl-list-item-avatar [ngSwitch]="template.osType.osFamily">
+          <template [ngSwitchCase]="'Linux'">
+            <img
+              src="/img/os/linux.png"
+              width="40"
+              height="40"
+            >
+          </template>
+          <template [ngSwitchCase]="'Windows'">
+            <img
+              src="/img/os/windows.png"
+              width="40"
+              height="40"
+            >
+          </template>
+          <template [ngSwitchCase]="'Mac OS'">
+            <img
+              src="/img/os/osx.png"
+              width="40"
+              height="40"
+            >
+          </template>
+          <template ngSwitchDefault>help</template>
+        </mdl-icon>
         <span>{{ template.name }}</span>
         <mdl-list-item-sub-title>{{ template.displayText }}</mdl-list-item-sub-title>
       </mdl-list-item-primary-content>
