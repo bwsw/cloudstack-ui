@@ -87,7 +87,7 @@ export class TemplateListComponent {
       });
   }
 
-  public deleteIso(iso: Iso): void { // todo: refactor out into a single function
+  public delete(iso: Iso): void {
     let translatedStrings;
     let notificationId;
 
@@ -141,13 +141,6 @@ export class TemplateListComponent {
             status: INotificationStatus.Failed
           });
         }
-      });
-  }
-
-  public test() {
-    this.isoService.get('fbeb730d-a9f6-4f87-b152-bca1853f905e')
-      .subscribe(iso => {
-        this.deleteIso(iso);
       });
   }
 }

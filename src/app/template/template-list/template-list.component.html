@@ -1,9 +1,9 @@
-<input type="button" (click)="test()">
 <div class="template-list" [class.open]="isDetailOpen"></div>
 <cs-template-sidebar
   [isOpen]="isDetailOpen"
   [template]="selectedTemplate"
   (onClickOutside)="hideDetail()"
+  (deleteTemplate)="delete($event)"
 ></cs-template-sidebar>
 <div class="fab">
   <button

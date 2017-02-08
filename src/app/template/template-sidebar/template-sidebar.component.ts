@@ -11,4 +11,9 @@ export class TemplateSidebarComponent {
   @Input() public isOpen: boolean;
   @Input() public template: Template | Iso;
   @Output() public onClickOutside = new EventEmitter();
+  @Output() public deleteTemplate = new EventEmitter();
+
+  public delete(): void {
+    this.deleteTemplate.next(this.template);
+  }
 }

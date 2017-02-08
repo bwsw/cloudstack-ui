@@ -19,6 +19,14 @@
           </div>
         </div>
       </mdl-card-supporting-text>
+      <mdl-card-actions mdl-card-border>
+        <button
+          mdl-button
+          (click)="delete()"
+        >
+          {{ 'DELETE' | translate }}
+        </button>
+      </mdl-card-actions>
     </mdl-card>
     <mdl-card mdl-shadow="2">
       <mdl-card-title>
