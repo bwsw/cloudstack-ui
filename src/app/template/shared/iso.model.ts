@@ -14,6 +14,7 @@ import { FieldMapper } from '../../shared/decorators/';
 })
 export class Iso extends BaseModel { // todo: superclass (iso, template)
   public id: string;
+  public account: string;
   public bootable: boolean;
   public created: string;
   public crossZones: boolean;

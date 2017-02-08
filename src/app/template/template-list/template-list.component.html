@@ -1,11 +1,89 @@
-<div class="template-list" [class.open]="isDetailOpen"></div>
+<div class="template-list" [class.open]="isDetailOpen">
+  <mdl-card class="options">
+    <div class="template-iso-switch">
+      <span class="mdl-switch__label">{{ 'TEMPLATES' | translate }}</span>
+      <mdl-switch [(ngModel)]="showIso" (ngModelChange)="switchDisplayMode()">ISO</mdl-switch>
+    </div>
+
+    <mdl-select
+      class="os-type-select"
+      [(ngModel)]="selectedOsFamilies"
+      multiple="true"
+      placeholder="{{ 'OS_FAMILY' | translate }}"
+    >
+      <mdl-option
+        *ngFor="let family of osFamilies"
+        [value]="family"
+      >
+        {{ family }}
+      </mdl-option>
+    </mdl-select>
+    <div *ngIf="filterTranslations">
+      <mdl-select
+        class="filter-select"
+        [(ngModel)]="selectedFilters"
+        multiple="true"
+        placeholder="{{ 'TYPE' | translate }}"
+      >
+        <mdl-option
+          *ngFor="let filter of filters"
+          [value]="filter"
+        >
+          {{ filterTranslations[filter] }}
+        </mdl-option>
+      </mdl-select>
+    </div>
+  </mdl-card>
+  <p class="search-bar">
+    <mdl-icon>search</mdl-icon>
+    <mdl-textfield type="text" [(ngModel)]="query"></mdl-textfield>
+  </p>
+
+  <mdl-list>
+    <mdl-list-item
+      lines="2"
+      *ngFor="let template of (showIso ? isoList : templateList)"
+      (click)="$event.stopPropagation(); selectTemplate(template)"
+    >
+      <mdl-list-item-primary-content>
+        <mdl-icon class="os-icon" mdl-list-item-avatar [ngSwitch]="template.osType.osFamily">
+          <template [ngSwitchCase]="'Linux'">
+            <img
+              src="/img/os/linux.png"
+              width="40"
+              height="40"
+            >
+          </template>
+          <template [ngSwitchCase]="'Windows'">
+            <img
+              src="/img/os/windows.png"
+              width="40"
+              height="40"
+            >
+          </template>
+          <template [ngSwitchCase]="'Mac OS'">
+            <img
+              src="/img/os/osx.png"
+              width="40"
+              height="40"
+            >
+          </template>
+          <template ngSwitchDefault>help</template>
+        </mdl-icon>
+        <span>{{ template.name }}</span>
+        <mdl-list-item-sub-title>{{ template.displayText }}</mdl-list-item-sub-title>
+      </mdl-list-item-primary-content>
+    </mdl-list-item>
+  </mdl-list>
+</div>
+
 <cs-template-sidebar
   [isOpen]="isDetailOpen"
   [template]="selectedTemplate"
   (onClickOutside)="hideDetail()"
   (deleteTemplate)="delete($event)"
 ></cs-template-sidebar>
-<div class="fab">
+<div class="fab" [class.open]="isDetailOpen">
   <button
     mdl-button
     mdl-button-type="fab"

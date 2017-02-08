@@ -19,6 +19,7 @@ export interface ITag {
 })
 export class Template extends BaseModel { // todo: superclass (iso, template)
   public id: string;
+  public account: string;
   public format: string;
   public name: string;
   public created: string;

@@ -8,7 +8,6 @@ import { MdlSelectModule } from '@angular2-mdl-ext/select';
 
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { SnapshotModule } from '../snapshot/snapshot.module';
-import { SidebarComponent } from '../shared/components/sidebar/sidebar.component';
 import { StorageDetailComponent } from './vm-sidebar/storage-detail.component';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmDetailComponent } from './vm-sidebar/vm-detail.component';

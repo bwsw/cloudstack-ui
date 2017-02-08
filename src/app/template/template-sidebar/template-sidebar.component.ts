@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Iso, Template } from '../shared';
+import { AuthService } from '../../shared';
 
 
 @Component({
@@ -12,6 +13,14 @@ export class TemplateSidebarComponent {
   @Input() public template: Template | Iso;
   @Output() public onClickOutside = new EventEmitter();
   @Output() public deleteTemplate = new EventEmitter();
+
+  constructor(
+    private authService: AuthService
+  ) {}
+
+  public get self(): boolean {
+    return this.authService.name === this.template.account;
+  }
 
   public delete(): void {
     this.deleteTemplate.next(this.template);
