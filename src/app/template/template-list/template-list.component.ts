@@ -114,6 +114,7 @@ export class TemplateListComponent implements OnInit {
   private fetchData(): void {
     if (!this.showIso) {
       this.templateList = [];
+      // stub
       this.templateService.getGroupedTemplates({}, ['featured', 'self'])
         .subscribe(templates => {
           let t = [];
@@ -126,8 +127,12 @@ export class TemplateListComponent implements OnInit {
         });
     } else {
       this.isoList = [];
-      this.isoService.getList({ isofilter: 'featured' })
-        .subscribe(isos => this.isoList = isos);
+      // stub
+      Observable.forkJoin([
+        this.isoService.getList({ isofilter: 'featured' }),
+        this.isoService.getList({ isofilter: 'self' }),
+      ])
+        .subscribe(([featuredIsos, selfIsos]) => this.isoList = featuredIsos.concat(selfIsos));
     }
   }
 }
