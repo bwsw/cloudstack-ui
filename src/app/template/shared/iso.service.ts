@@ -52,6 +52,14 @@ export class IsoService extends BaseBackendService<Iso> {
       });
   }
 
+  public addOsTypeData(iso: Iso): Observable<Iso> {
+    return this.osTypeService.getList()
+      .map(osTypes => {
+        iso.osType = osTypes.find(osType => osType.id === iso.osTypeId);
+        return iso;
+      });
+  }
+
   public register(iso: Iso, url: string) {
     let params = {};
     params['displaytext'] = iso.displayText;

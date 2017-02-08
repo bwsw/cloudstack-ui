@@ -113,7 +113,8 @@ export class TemplateListComponent implements OnInit {
         notificationId = this.jobNotificationService.add(translatedStrings['ISO_REGISTER_IN_PROGRESS']);
         return this.addIso(isoData);
       })
-      .subscribe(() => {
+      .subscribe(iso => {
+        this.addIsoToList(iso);
         this.jobNotificationService.add({
           id: notificationId,
           message: translatedStrings['ISO_REGISTER_DONE'],
@@ -130,11 +131,7 @@ export class TemplateListComponent implements OnInit {
   }
 
   public addIso(isoCreationData: any): Observable<Iso> {
-    return this.isoService.register(new Iso(isoCreationData), isoCreationData.url)
-      .map(result => {
-        // add iso to list
-        return result;
-      });
+    return this.isoService.register(new Iso(isoCreationData), isoCreationData.url);
   }
 
   public delete(iso: Iso): void {
@@ -168,6 +165,7 @@ export class TemplateListComponent implements OnInit {
         }
       })
       .subscribe(() => {
+        this.removeIsoFromList(iso);
         this.jobNotificationService.add({
           id: notificationId,
           message: translatedStrings['DELETE_ISO_DONE'],
@@ -192,6 +190,19 @@ export class TemplateListComponent implements OnInit {
           });
         }
       });
+  }
+
+  private addIsoToList(iso: Iso): void {
+    this.isoService.addOsTypeData(iso)
+      .subscribe(iso => this.isoList.push(iso));
+  }
+
+  private removeIsoFromList(iso: Iso): void {
+    this.isoList = this.isoList.filter(listIso => iso.id !== listIso.id);
+    if (iso.id === this.selectedTemplate.id) {
+      this.selectedTemplate = null;
+      this.isDetailOpen = false;
+    }
   }
 
   public selectTemplate(template: Template | Iso): void {

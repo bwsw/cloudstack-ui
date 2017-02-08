@@ -19,7 +19,7 @@ export class TemplateSidebarComponent {
   ) {}
 
   public get self(): boolean {
-    return this.authService.name === this.template.account;
+    return this.authService.username === this.template.account;
   }
 
   public delete(): void {
