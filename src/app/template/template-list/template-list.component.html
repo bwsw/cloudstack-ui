@@ -1,7 +1,7 @@
 <div class="template-list">
   <mdl-card class="options">
     <div class="template-iso-switch">
-      <span class="mdl-switch__label">Templates</span>
+      <span class="mdl-switch__label">{{ 'TEMPLATES' | translate }}</span>
       <mdl-switch [(ngModel)]="showIso" (ngModelChange)="switchDisplayMode()">ISO</mdl-switch>
     </div>
 
@@ -9,7 +9,7 @@
       class="os-type-select"
       [(ngModel)]="selectedOsFamilies"
       multiple="true"
-      placeholder="OS Family"
+      placeholder="{{ 'OS_FAMILY' | translate }}"
     >
       <mdl-option
         *ngFor="let family of osFamilies"
@@ -18,20 +18,21 @@
         {{ family }}
       </mdl-option>
     </mdl-select>
-
-    <mdl-select
-      class="filter-select"
-      [(ngModel)]="selectedFilters"
-      multiple="true"
-      placeholder="Type"
-    >
-      <mdl-option
-        *ngFor="let filter of filters"
-        [value]="filter"
+    <div *ngIf="filterTranslations">
+      <mdl-select
+        class="filter-select"
+        [(ngModel)]="selectedFilters"
+        multiple="true"
+        placeholder="{{ 'TYPE' | translate }}"
       >
-        {{ filter }}
-      </mdl-option>
-    </mdl-select>
+        <mdl-option
+          *ngFor="let filter of filters"
+          [value]="filter"
+        >
+          {{ filterTranslations[filter] }}
+        </mdl-option>
+      </mdl-select>
+    </div>
   </mdl-card>
   <p class="search-bar">
     <mdl-icon>search</mdl-icon>

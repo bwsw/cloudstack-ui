@@ -8,6 +8,7 @@ import { Iso, IsoService, TemplateService } from '../shared';
 import { INotificationStatus, JobsNotificationService, NotificationService } from '../../shared/services';
 import { TemplateCreationComponent } from '../template-creation/template-creation.component';
 import { Template } from '../shared/template.model';
+import { OsFamily } from '../../shared/models/os-type.model';
 
 
 @Component({
@@ -18,13 +19,13 @@ import { Template } from '../shared/template.model';
 export class TemplateListComponent implements OnInit {
   public showIso: boolean = false;
   public query: string;
-  public selectedOsFamilies: Array<string>;
+  public selectedOsFamilies: Array<OsFamily>;
   public selectedFilters: Array<string>;
 
   public templateList: Array<Template>;
   public isoList: Array<Iso>;
 
-  public osFamilies = [
+  public osFamilies: Array<OsFamily> = [
     'Linux',
     'Windows',
     'Mac OS',
@@ -32,9 +33,11 @@ export class TemplateListComponent implements OnInit {
   ];
 
   public filters = [
-    'Featured',
-    'My'
+    'featured',
+    'self'
   ];
+
+  public filterTranslations: {};
 
   constructor(
     private dialogService: MdlDialogService,
@@ -50,6 +53,16 @@ export class TemplateListComponent implements OnInit {
     this.selectedFilters = this.filters.concat();
 
     this.fetchData();
+    this.translateService.get(
+      this.filters.map(filter => `TEMPLATE_${filter.toUpperCase()}`)
+    )
+      .subscribe(translations => {
+        const strs = {};
+        this.filters.forEach(filter => {
+          strs[filter] = translations[`TEMPLATE_${filter.toUpperCase()}`];
+        });
+        this.filterTranslations = strs;
+      });
   }
 
   public switchDisplayMode(): void {

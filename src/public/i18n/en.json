@@ -266,5 +266,10 @@
   "ISO_REGISTER_IN_PROGRESS": "Registering an ISO",
   "ISO_REGISTER_DONE": "ISO registered",
   "ISO_REGISTER_FAILED": "ISO failed",
-  "INVALID_URL": "Invalid URL (only http or https)"
+  "INVALID_URL": "Invalid URL (only http or https)",
+
+  "OS_FAMILY": "OS Family",
+  "TEMPLATE_FEATURED": "Featured",
+  "TEMPLATE_SELF": "My",
+  "TEMPLATE_SELFEXECUTABLE": "My"
 }

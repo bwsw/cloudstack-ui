@@ -1,3 +1,5 @@
+$select-width: 195px;
+
 :host {
   display: block;
 }
@@ -21,13 +23,13 @@
 
 .os-type-select {
   display: inline-block;
-  width: 180px;
+  width: $select-width;
   margin: 0 20px;
 }
 
 .filter-select {
   display: inline-block;
-  width: 180px;
+  width: $select-width;
   margin: 0 20px;
 }
 

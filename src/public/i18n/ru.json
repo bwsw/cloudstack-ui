@@ -266,5 +266,10 @@
   "ISO_REGISTER_IN_PROGRESS": "Регистрация ISO",
   "ISO_REGISTER_DONE": "ISO зарегистрирован",
   "ISO_REGISTER_FAILED": "ISO не добавлен",
-  "INVALID_URL": "Неподдерживаемый URL (только http or https)"
+  "INVALID_URL": "Неподдерживаемый URL (только http or https)",
+
+  "OS_FAMILY": "Семейство ОС",
+  "TEMPLATE_FEATURED": "Рекомендованные",
+  "TEMPLATE_SELF": "Мои",
+  "TEMPLATE_SELFEXECUTABLE": "Мои"
 }
