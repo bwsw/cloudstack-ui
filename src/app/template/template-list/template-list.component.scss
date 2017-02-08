@@ -1,4 +1,5 @@
 $template-detail-width: 366px;
+$select-width: 195px;
 
 :host {
   position: absolute;
@@ -27,4 +28,47 @@ cs-template-detail {
 
 cs-template-sidebar {
   width: $template-detail-width;
+}
+
+.options {
+  flex-direction: row;
+  width: 100%;
+  min-height: 0;
+  border-bottom: 1px solid #dedede;
+  overflow: visible;
+}
+
+.template-iso-switch {
+  display: inline-flex;
+  align-items: center;
+
+  mdl-switch {
+    margin: 0 40px;
+  }
+}
+
+.os-type-select {
+  display: inline-block;
+  width: $select-width;
+  margin: 0 20px;
+}
+
+.filter-select {
+  display: inline-block;
+  width: $select-width;
+  margin: 0 20px;
+}
+
+.search-bar {
+  margin: 0;
+  padding: 0 15px;
+
+  mdl-icon {
+    vertical-align: middle;
+  }
+}
+
+.os-icon {
+  color: black;
+  background: transparent;
 }

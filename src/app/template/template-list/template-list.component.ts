@@ -1,10 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 
-import { Iso, IsoService, Template } from '../shared';
+import {
+  Iso,
+  IsoService,
+  Template,
+  TemplateService,
+ } from '../shared';
+import { OsFamily } from '../../shared/models/os-type.model';
 import { INotificationStatus, JobsNotificationService, NotificationService } from '../../shared/services';
 import { TemplateCreationComponent } from '../template-creation/template-creation.component';
 
@@ -14,20 +20,64 @@ import { TemplateCreationComponent } from '../template-creation/template-creatio
   templateUrl: 'template-list.component.html',
   styleUrls: ['template-list.component.scss']
 })
-export class TemplateListComponent {
+export class TemplateListComponent implements OnInit {
   public isDetailOpen: boolean;
   public selectedTemplate: Template | Iso;
+
+  public showIso: boolean = false;
+  public query: string;
+  public selectedOsFamilies: Array<OsFamily>;
+  public selectedFilters: Array<string>;
+
+  public templateList: Array<Template>;
+  public isoList: Array<Iso>;
+
+  public osFamilies: Array<OsFamily> = [
+    'Linux',
+    'Windows',
+    'Mac OS',
+    'Other'
+  ];
+
+  public filters = [
+    'featured',
+    'self'
+  ];
+
+  public filterTranslations: {};
 
   constructor(
     private dialogService: MdlDialogService,
     private isoService: IsoService,
     private jobNotificationService: JobsNotificationService,
     private translateService: TranslateService,
+    private templateService: TemplateService,
     private notificationService: NotificationService,
   ) { }
 
+  public ngOnInit(): void {
+    this.selectedOsFamilies = this.osFamilies.concat();
+    this.selectedFilters = this.filters.concat();
+
+    this.fetchData();
+    this.translateService.get(
+      this.filters.map(filter => `TEMPLATE_${filter.toUpperCase()}`)
+    )
+      .subscribe(translations => {
+        const strs = {};
+        this.filters.forEach(filter => {
+          strs[filter] = translations[`TEMPLATE_${filter.toUpperCase()}`];
+        });
+        this.filterTranslations = strs;
+      });
+  }
+
   public hideDetail(): void {
     this.isDetailOpen = !this.isDetailOpen;
+  }
+
+  public switchDisplayMode(): void {
+    this.fetchData();
   }
 
   public showCreationDialog(): void {
@@ -83,5 +133,35 @@ export class TemplateListComponent {
         // add iso to list
         return result;
       });
+  }
+
+  public selectTemplate(template: Template | Iso): void {
+    this.selectedTemplate = template;
+    this.isDetailOpen = true;
+  }
+
+  private fetchData(): void {
+    if (!this.showIso) {
+      this.templateList = [];
+      // stub
+      this.templateService.getGroupedTemplates({}, ['featured', 'self'])
+        .subscribe(templates => {
+          let t = [];
+          for (let filter in templates) {
+            if (templates.hasOwnProperty(filter)) {
+              t = t.concat(templates[filter]);
+            }
+          }
+          this.templateList = t;
+        });
+    } else {
+      this.isoList = [];
+      // stub
+      Observable.forkJoin([
+        this.isoService.getList({ isofilter: 'featured' }),
+        this.isoService.getList({ isofilter: 'self' }),
+      ])
+        .subscribe(([featuredIsos, selfIsos]) => this.isoList = featuredIsos.concat(selfIsos));
+    }
   }
 }
