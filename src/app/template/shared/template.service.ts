@@ -30,7 +30,7 @@ export class TemplateService extends BaseBackendService<Template> {
   }
 
   public get(id: string, params?: TemplateRequestParams): Observable<Template> {
-    const templatefilter = params.templatefilter ? params.templatefilter : 'featured';
+    const templatefilter = params && params.templatefilter ? params.templatefilter : 'featured';
     return this.getList({ templatefilter, id })
       .map(data => data[0])
       .catch(error => Observable.throw(error));

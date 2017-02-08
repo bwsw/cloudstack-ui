@@ -1,3 +1,9 @@
+<div class="template-list" [class.open]="isDetailOpen"></div>
+<cs-template-sidebar
+  [isOpen]="isDetailOpen"
+  [template]="selectedTemplate"
+  (onClickOutside)="hideDetail()"
+></cs-template-sidebar>
 <div class="fab">
   <button
     mdl-button

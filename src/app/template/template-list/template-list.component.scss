@@ -1,0 +1,30 @@
+$template-detail-width: 366px;
+
+:host {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.template-list {
+  height: 100%;
+  overflow: auto;
+  transition: margin 0.3s;
+
+  &.open {
+    margin-right: $template-detail-width;
+
+    & ~ .fab {
+      margin-right: $template-detail-width;
+    }
+  }
+}
+
+cs-template-detail {
+  width: $template-detail-width;
+  right: -$template-detail-width;
+}
+
+cs-template-sidebar {
+  width: $template-detail-width;
+}

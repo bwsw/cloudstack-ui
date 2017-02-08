@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 
-import { Iso, IsoService } from '../shared';
+import { Iso, IsoService, Template } from '../shared';
 import { INotificationStatus, JobsNotificationService, NotificationService } from '../../shared/services';
 import { TemplateCreationComponent } from '../template-creation/template-creation.component';
 
@@ -15,13 +15,20 @@ import { TemplateCreationComponent } from '../template-creation/template-creatio
   styleUrls: ['template-list.component.scss']
 })
 export class TemplateListComponent {
+  public isDetailOpen: boolean;
+  public selectedTemplate: Template | Iso;
+
   constructor(
     private dialogService: MdlDialogService,
     private isoService: IsoService,
     private jobNotificationService: JobsNotificationService,
     private translateService: TranslateService,
     private notificationService: NotificationService,
-  ) {}
+  ) { }
+
+  public hideDetail(): void {
+    this.isDetailOpen = !this.isDetailOpen;
+  }
 
   public showCreationDialog(): void {
     this.dialogService.showCustomDialog({

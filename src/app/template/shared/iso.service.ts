@@ -18,7 +18,7 @@ interface IsoRequestParams {
 })
 export class IsoService extends BaseBackendService<Iso> {
   public get(id: string, params?: IsoRequestParams): Observable<Iso> {
-    const isofilter = params.isofilter ? params.isofilter : 'featured';
+    const isofilter = params && params.isofilter ? params.isofilter : 'featured';
     return this.getList({ isofilter, id })
       .map(data => data[0])
       .catch(error => Observable.throw(error));
