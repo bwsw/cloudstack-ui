@@ -36,13 +36,17 @@
   </mdl-card>
   <p class="search-bar">
     <mdl-icon>search</mdl-icon>
-    <mdl-textfield type="text" [(ngModel)]="query"></mdl-textfield>
+    <mdl-textfield
+      type="text"
+      [(ngModel)]="query"
+      (input)="search($event)"
+    ></mdl-textfield>
   </p>
 
   <mdl-list>
     <mdl-list-item
       lines="2"
-      *ngFor="let template of (showIso ? isoList : templateList)"
+      *ngFor="let template of visibleTemplateList"
       (click)="$event.stopPropagation(); selectTemplate(template)"
     >
       <mdl-list-item-primary-content>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
@@ -29,8 +29,8 @@ export class TemplateListComponent implements OnInit {
   public selectedOsFamilies: Array<OsFamily>;
   public selectedFilters: Array<string>;
 
-  public templateList: Array<Template>;
-  public isoList: Array<Iso>;
+  public templateList: Array<Template | Iso>;
+  public visibleTemplateList: Array<Template | Iso>;
 
   public osFamilies: Array<OsFamily> = [
     'Linux',
@@ -45,6 +45,8 @@ export class TemplateListComponent implements OnInit {
   ];
 
   public filterTranslations: {};
+
+  private queryStream = new Subject<string>();
 
   constructor(
     private dialogService: MdlDialogService,
@@ -69,6 +71,13 @@ export class TemplateListComponent implements OnInit {
           strs[filter] = translations[`TEMPLATE_${filter.toUpperCase()}`];
         });
         this.filterTranslations = strs;
+      });
+
+    this.queryStream
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe(query => {
+        this.filterList(query);
       });
   }
 
@@ -140,6 +149,22 @@ export class TemplateListComponent implements OnInit {
     this.isDetailOpen = true;
   }
 
+  public search(e: KeyboardEvent): void {
+    this.queryStream.next((e.target as HTMLInputElement).value);
+  }
+
+  private filterList(query): void {
+    if (!query) {
+      this.visibleTemplateList = this.templateList;
+      return;
+    }
+    const queryLower = query.toLowerCase();
+    this.visibleTemplateList = this.templateList.filter(template => {
+      return template.name.toLowerCase().includes(queryLower) ||
+        template.displayText.toLowerCase().includes(queryLower);
+    });
+  }
+
   private fetchData(): void {
     if (!this.showIso) {
       this.templateList = [];
@@ -153,15 +178,19 @@ export class TemplateListComponent implements OnInit {
             }
           }
           this.templateList = t;
+          this.visibleTemplateList = this.templateList;
         });
     } else {
-      this.isoList = [];
+      this.templateList = [];
       // stub
       Observable.forkJoin([
         this.isoService.getList({ isofilter: 'featured' }),
         this.isoService.getList({ isofilter: 'self' }),
       ])
-        .subscribe(([featuredIsos, selfIsos]) => this.isoList = featuredIsos.concat(selfIsos));
+        .subscribe(([featuredIsos, selfIsos]) => {
+          this.templateList = featuredIsos.concat(selfIsos);
+          this.visibleTemplateList = this.templateList;
+        });
     }
   }
 }
