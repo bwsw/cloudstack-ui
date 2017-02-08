@@ -1,4 +1,4 @@
-<div class="template-list">
+<div class="template-list" [class.open]="isDetailOpen">
   <mdl-card class="options">
     <div class="template-iso-switch">
       <span class="mdl-switch__label">{{ 'TEMPLATES' | translate }}</span>
@@ -82,7 +82,7 @@
   [template]="selectedTemplate"
   (onClickOutside)="hideDetail()"
 ></cs-template-sidebar>
-<div class="fab">
+<div class="fab" [class.open]="isDetailOpen">
   <button
     mdl-button
     mdl-button-type="fab"
