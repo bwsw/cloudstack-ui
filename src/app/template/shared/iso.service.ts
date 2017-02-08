@@ -5,7 +5,6 @@ import { BackendResource } from '../../shared/decorators/backend-resource.decora
 import { BaseBackendService } from '../../shared/services/base-backend.service';
 import { Iso } from './iso.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
-import { VmService } from '../../vm';
 
 
 interface IsoRequestParams {
@@ -20,8 +19,7 @@ interface IsoRequestParams {
 })
 export class IsoService extends BaseBackendService<Iso> {
   constructor(
-    private asyncJobService: AsyncJobService,
-    private vmService: VmService
+    private asyncJobService: AsyncJobService
   ) {
     super();
   }
@@ -50,20 +48,10 @@ export class IsoService extends BaseBackendService<Iso> {
   }
 
   public delete(iso: Iso): Observable<any> { // todo: circular deps
-    return this.vmService.getList()
-      .switchMap(vmList => {
-        let filteredVms = vmList.filter(vm => vm.isoId === iso.id);
-        if (filteredVms.length) {
-          return Observable.throw({
-            type: 'vmsInUse',
-            vms: filteredVms
-          });
-        }
-        return this.getRequest('delete', {
-          id: iso.id,
-          zoneid: iso.zoneId
-        });
-      })
+    return this.getRequest('delete', {
+      id: iso.id,
+      zoneid: iso.zoneId
+    })
       .switchMap(response => {
         return this.asyncJobService.addJob(response['deleteisoresponse'].jobid);
       })

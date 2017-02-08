@@ -272,5 +272,5 @@
   "DELETE_ISO_DONE": "ISO deleted",
   "DELETE_ISO_FAILED": "Failed to delete an ISO",
 
-  "DELETE_ISO_VMS_IN_USE": "Unable to delete the ISO as it's used by the following VMS {{ vms }}"
+  "DELETE_ISO_VMS_IN_USE": "Unable to delete the ISO as it's used by the following VMs:<br>{{ vms }}"
 }

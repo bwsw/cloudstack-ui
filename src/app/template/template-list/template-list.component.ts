@@ -7,6 +7,7 @@ import { TranslateService } from 'ng2-translate';
 import { Iso, IsoService } from '../shared';
 import { INotificationStatus, JobsNotificationService, NotificationService } from '../../shared/services';
 import { TemplateCreationComponent } from '../template-creation/template-creation.component';
+import { VmService } from '../../vm/vm.service';
 
 
 @Component({
@@ -20,7 +21,8 @@ export class TemplateListComponent {
     private isoService: IsoService,
     private jobNotificationService: JobsNotificationService,
     private translateService: TranslateService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private vmService: VmService
   ) {}
 
   public showCreationDialog(): void {
@@ -86,12 +88,27 @@ export class TemplateListComponent {
       'DELETE_ISO_IN_PROGRESS',
       'DELETE_ISO_DONE',
       'DELETE_ISO_FAILED',
-      'DELETE_ISO_VMS_IN_USE'
+      'DELETE_ISO_CONFIRM'
     ])
-      .switchMap(strs => {
+      .map(strs => {
         translatedStrings = strs;
-        notificationId = this.jobNotificationService.add(translatedStrings['DELETE_ISO_IN_PROGRESS']);
-        return this.isoService.delete(iso);
+      })
+      .switchMap(() => {
+        return this.dialogService.confirm(translatedStrings['DELETE_ISO_CONFIRM']);
+      })
+      .switchMap(() => {
+        return this.vmService.getListOfVmsThatUseIso(iso);
+      })
+      .switchMap(vmList => {
+        if (vmList.length) {
+          return Observable.throw({
+            type: 'vmsInUse',
+            vms: vmList
+          });
+        } else {
+          notificationId = this.jobNotificationService.add(translatedStrings['DELETE_ISO_IN_PROGRESS']);
+          return this.isoService.delete(iso);
+        }
       })
       .subscribe(() => {
         this.jobNotificationService.add({
@@ -100,21 +117,30 @@ export class TemplateListComponent {
           status: INotificationStatus.Finished
         });
       }, error => {
-        if (error.type === 'vmsInUse') {
-          this.dialogService.alert(translatedStrings['DELETE_ISO_VMS_IN_USE']);
+        if (!error) {
+          return;
         }
-        this.jobNotificationService.add({
-          id: notificationId,
-          message: translatedStrings['DELETE_ISO_FAILED'],
-          status: INotificationStatus.Failed
-        });
+        if (error.type === 'vmsInUse') {
+          let listOfUsedVms = error.vms.map(vm => vm.name).join(', ');
+          this.translateService.get('DELETE_ISO_VMS_IN_USE', {
+            vms: listOfUsedVms
+          }).subscribe(str => {
+            this.dialogService.alert(str);
+          });
+        } else {
+          this.jobNotificationService.add({
+            id: notificationId,
+            message: translatedStrings['DELETE_ISO_FAILED'],
+            status: INotificationStatus.Failed
+          });
+        }
       });
   }
 
   public test() {
-    this.isoService.get('e69f8d10-dc92-43ef-b338-d59453cbb35c')
+    this.isoService.get('fbeb730d-a9f6-4f87-b152-bca1853f905e')
       .subscribe(iso => {
         this.deleteIso(iso);
-      })
+      });
   }
 }

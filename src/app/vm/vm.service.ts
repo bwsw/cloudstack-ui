@@ -26,6 +26,7 @@ import { INotificationStatus, JobsNotificationService } from '../shared/services
 import { SecurityGroupService } from '../shared/services/security-group.service';
 import { ServiceOfferingService } from '../shared/services/service-offering.service';
 import { VolumeService } from '../shared/services/volume.service';
+import { Iso } from '../template/shared/iso.model';
 
 
 export interface IVmActionEvent {
@@ -326,6 +327,11 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         });
         this.notificationService.error(translatedStrings['UNEXPECTED_ERROR']);
       });
+  }
+
+  public getListOfVmsThatUseIso(iso: Iso): Observable<Array<VirtualMachine>> {
+    return this.getList()
+      .map(vmList => vmList.filter(vm => vm.isoId === iso.id));
   }
 }
 
