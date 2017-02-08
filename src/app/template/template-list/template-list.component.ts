@@ -178,7 +178,7 @@ export class TemplateListComponent implements OnInit {
             }
           }
           this.templateList = t;
-          this.visibleTemplateList = this.templateList;
+          this.filterList(this.query);
         });
     } else {
       this.templateList = [];
@@ -189,7 +189,7 @@ export class TemplateListComponent implements OnInit {
       ])
         .subscribe(([featuredIsos, selfIsos]) => {
           this.templateList = featuredIsos.concat(selfIsos);
-          this.visibleTemplateList = this.templateList;
+          this.filterList(this.query);
         });
     }
   }
