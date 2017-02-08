@@ -5,6 +5,7 @@ import { BackendResource } from '../../shared/decorators/backend-resource.decora
 import { BaseBackendService } from '../../shared/services/base-backend.service';
 import { Iso } from './iso.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
+import { OsTypeService } from '../../shared/services/os-type.service';
 
 
 interface IsoRequestParams {
@@ -19,20 +20,36 @@ interface IsoRequestParams {
 })
 export class IsoService extends BaseBackendService<Iso> {
   constructor(
-    private asyncJobService: AsyncJobService
+    private asyncJobService: AsyncJobService,
+    private osTypeService: OsTypeService
   ) {
     super();
   }
 
   public get(id: string, params?: IsoRequestParams): Observable<Iso> {
     const isofilter = params && params.isofilter ? params.isofilter : 'featured';
-    return this.getList({ isofilter, id })
-      .map(data => data[0])
+    return Observable.forkJoin([
+      this.getList({ isofilter, id }),
+      this.osTypeService.getList()
+    ])
+      .map(([isos, osTypes]) => {
+        isos[0].osType = osTypes.find(osType => osType.id === isos[0].osTypeId);
+        return isos[0];
+      })
       .catch(error => Observable.throw(error));
   }
 
   public getList(params: IsoRequestParams): Observable<Array<Iso>> {
-    return <Observable<Array<Iso>>>super.getList(params);
+    return Observable.forkJoin([
+      super.getList(params),
+      this.osTypeService.getList()
+    ])
+      .map(([isos, osTypes]) => {
+        isos.forEach(iso => {
+          iso.osType = osTypes.find(osType => osType.id === iso.osTypeId);
+        });
+        return isos;
+      });
   }
 
   public register(iso: Iso, url: string) {
@@ -47,7 +64,7 @@ export class IsoService extends BaseBackendService<Iso> {
       .map(result => new Iso(result['registerisoresponse'].iso[0]));
   }
 
-  public delete(iso: Iso): Observable<any> { // todo: circular deps
+  public delete(iso: Iso): Observable<any> {
     return this.getRequest('delete', {
       id: iso.id,
       zoneid: iso.zoneId

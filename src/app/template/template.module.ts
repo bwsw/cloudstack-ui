@@ -8,6 +8,7 @@ import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { SharedModule } from '../shared/shared.module';
 import { IsoService, TemplateService } from './shared';
 import { TemplateListComponent } from './template-list/template-list.component';
+import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
 import { TemplateCreationComponent } from './template-creation/template-creation.component';
 
 
@@ -22,7 +23,8 @@ import { TemplateCreationComponent } from './template-creation/template-creation
   ],
   declarations: [
     TemplateCreationComponent,
-    TemplateListComponent
+    TemplateListComponent,
+    TemplateSidebarComponent
   ],
   providers: [
     IsoService,

@@ -7,11 +7,9 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
-import { VirtualMachine, IVmAction } from '../vm.model';
+import { VirtualMachine, IVmAction } from '../shared/vm.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { IAsyncJob } from '../../shared/models/async-job.model';
-import { MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
 
 
 @Component({
@@ -28,9 +26,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
   public actions: Array<IVmAction>;
 
   constructor(
-    private asyncJobService: AsyncJobService,
-    private dialogService: MdlDialogService,
-    private translateService: TranslateService
+    private asyncJobService: AsyncJobService
   ) {}
 
   public ngOnInit(): void {

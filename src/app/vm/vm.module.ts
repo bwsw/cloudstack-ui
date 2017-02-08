@@ -8,6 +8,7 @@ import { MdlSelectModule } from '@angular2-mdl-ext/select';
 
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { SnapshotModule } from '../snapshot/snapshot.module';
+import { SidebarComponent } from '../shared/components/sidebar/sidebar.component';
 import { StorageDetailComponent } from './vm-sidebar/storage-detail.component';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmDetailComponent } from './vm-sidebar/vm-detail.component';
@@ -15,7 +16,7 @@ import { VmListComponent } from './vm-list/vm-list.component';
 import { VmListItemComponent } from './vm-list/vm-list-item.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmStatisticsComponent } from './vm-statistics/vm-statistics.component';
-import { VmService } from './vm.service';
+import { VmService } from './shared/vm.service';
 import { VmTemplateComponent } from './vm-creation/vm-creation-template/vm-template.component';
 import { VmTemplateDialogComponent } from './vm-creation/vm-creation-template/vm-template-dialog.component';
 import {
@@ -23,6 +24,7 @@ import {
 } from './vm-creation/vm-creation-template/vm-template-dialog-item.component';
 import { SharedModule } from '../shared/shared.module';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
+import { VolumeSizeControlComponent } from './shared/volume-size-control.component';
 
 
 @NgModule({
@@ -48,7 +50,8 @@ import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
     VmTemplateComponent,
     VmTemplateDialogComponent,
     VmTemplateDialogItemComponent,
-    VolumeResizeComponent
+    VolumeResizeComponent,
+    VolumeSizeControlComponent
   ],
   providers: [
     VmService

@@ -6,7 +6,7 @@ import { MdlDialogService } from 'angular2-mdl';
 import { SecurityGroup } from '../../security-group/sg.model';
 import { ServiceOfferingDialogComponent } from '../../service-offering/service-offering-dialog.component';
 import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
-import { VirtualMachine } from '../vm.model';
+import { VirtualMachine } from '../shared/vm.model';
 
 
 @Component({

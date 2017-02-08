@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
 
-import { BaseBackendService } from '../shared/services';
-import { BackendResource } from '../shared/decorators';
+import { BaseBackendService } from '../../shared/services';
+import { BackendResource } from '../../shared/decorators';
 import { VirtualMachine, IVmAction } from './vm.model';
 
 import { TranslateService } from 'ng2-translate';
@@ -13,20 +13,20 @@ import {
   OsType,
   ServiceOffering,
   Volume
-} from '../shared/models/';
+} from '../../shared/models';
 
 import {
   AsyncJobService,
   NotificationService,
   OsTypeService
-} from '../shared/services';
+} from '../../shared/services';
 
-import { INotificationStatus, JobsNotificationService } from '../shared/services/jobs-notification.service';
+import { INotificationStatus, JobsNotificationService } from '../../shared/services/jobs-notification.service';
 
-import { SecurityGroupService } from '../shared/services/security-group.service';
-import { ServiceOfferingService } from '../shared/services/service-offering.service';
-import { VolumeService } from '../shared/services/volume.service';
-import { Iso } from '../template/shared/iso.model';
+import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { ServiceOfferingService } from '../../shared/services/service-offering.service';
+import { VolumeService } from '../../shared/services/volume.service';
+import { Iso } from '../../template/shared/iso.model';
 
 
 export interface IVmActionEvent {
@@ -118,6 +118,19 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       .map(([vms, volumes, osTypes, serviceOfferings, securityGroups]) => {
         vms.forEach((vm: VirtualMachine) => {
           vm.volumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
+
+          vm.volumes.sort((a: Volume, b) => {
+            const aIsRoot = a.type === 'ROOT';
+            const bIsRoot = b.type === 'ROOT';
+            if (aIsRoot && !bIsRoot) {
+              return -1;
+            }
+            if (!aIsRoot && bIsRoot) {
+              return 1;
+            }
+            return 0;
+          });
+
           vm.osType = osTypes.find((osType: OsType) => osType.id === vm.guestOsId);
           vm.serviceOffering = serviceOfferings.find((serviceOffering: ServiceOffering) => {
             return serviceOffering.id === vm.serviceOfferingId;

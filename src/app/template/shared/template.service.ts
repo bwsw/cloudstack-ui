@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 import { BackendResource } from '../../shared/decorators/backend-resource.decorator';
-import { BaseBackendService } from '../../shared/services/base-backend.service';
+import { BaseBackendService } from '../../shared/services';
+import { OsTypeService } from '../../shared/services/os-type.service';
 import { Template } from './template.model';
 
 interface TemplateRequestParams {
@@ -19,7 +20,7 @@ export class TemplateService extends BaseBackendService<Template> {
   private templates: Object;
   private _templateFilters: Array<string>;
 
-  constructor () {
+  constructor (private osTypeService: OsTypeService) {
     super();
     this.templates = {};
     this._templateFilters = ['featured', 'selfexecutable', 'community', 'sharedexecutable'];
@@ -30,9 +31,15 @@ export class TemplateService extends BaseBackendService<Template> {
   }
 
   public get(id: string, params?: TemplateRequestParams): Observable<Template> {
-    const templatefilter = params.templatefilter ? params.templatefilter : 'featured';
-    return this.getList({ templatefilter, id })
-      .map(data => data[0])
+    const templatefilter = params && params.templatefilter ? params.templatefilter : 'featured';
+    return Observable.forkJoin([
+      this.getList({ templatefilter, id }),
+      this.osTypeService.getList()
+    ])
+      .map(([templates, osTypes]) => {
+        templates[0].osType = osTypes.find(osType => osType.id === templates[0].osTypeId);
+        return templates[0];
+      })
       .catch(error => Observable.throw(error));
   }
 
@@ -42,8 +49,17 @@ export class TemplateService extends BaseBackendService<Template> {
     }
 
     let filter = params.templatefilter;
-    return super.getList(params)
-      .map(data => this.templates[filter] = data);
+    return Observable.forkJoin([
+      super.getList(params),
+      this.osTypeService.getList()
+    ])
+      .map(([data, osTypes]) => {
+        data.forEach(template => {
+          template.osType = osTypes.find(osType => osType.id === template.osTypeId);
+        });
+        this.templates[filter] = data;
+        return data;
+      });
   }
 
   public getGroupedTemplates(params?: {}, templatefilters?: Array<string>): Observable<Object> {

@@ -3,7 +3,8 @@ import { MdlDialogComponent, MdlDialogService } from 'angular2-mdl';
 import { Observable } from 'rxjs/Rx';
 import { TranslateService } from 'ng2-translate';
 
-import { VirtualMachine, MIN_ROOT_DISK_SIZE, MAX_ROOT_DISK_SIZE_ADMIN } from '../vm.model';
+import { VirtualMachine, MIN_ROOT_DISK_SIZE, MAX_ROOT_DISK_SIZE_ADMIN } from '../shared/vm.model';
+
 import {
   AffinityGroup,
   ServiceOffering,
@@ -25,7 +26,7 @@ import {
   UtilsService,
   ZoneService
 } from '../../shared/services';
-import { VmService } from '../vm.service';
+import { VmService } from '../shared/vm.service';
 import { Template, TemplateService } from '../../template/shared';
 
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
@@ -183,24 +184,6 @@ export class VmCreationComponent {
 
   public onTemplateChange(t: Template): void {
     this.vmCreationData.vm.template = t;
-  }
-
-  public onDiskChange(e: number): void {
-    if (e > this.vmCreationData.rootDiskSizeLimit) {
-      this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSizeLimit + 1;
-      // setTimeout is used to force rerendering
-      setTimeout(() => this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSizeLimit);
-      return;
-    }
-    this.vmCreationData.rootDiskSize = e;
-  }
-
-  public onDiskBlur(e: any): void {
-    if (e.currentTarget.value < this.vmCreationData.rootDiskSizeMin) {
-      this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSize + 1;
-      // setTimeout is used to force rerendering
-      setTimeout(() => this.vmCreationData.rootDiskSize = this.vmCreationData.rootDiskSizeMin);
-    }
   }
 
   private _deploy(params: {}, notificationId): void {

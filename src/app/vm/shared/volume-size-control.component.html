@@ -1,0 +1,26 @@
+<div class="volume-size">
+  <h5 *ngIf="!label">{{ 'VM_CREATION_FORM.ROOT_DISK_SIZE' | translate }}</h5>
+  <h5 *ngIf="label">{{ label }}</h5>
+  <div>
+    <mdl-textfield
+      class="volume-input"
+      type="number"
+      step="1"
+      min="{{ min }}"
+      max="{{ max }}"
+      [ngModel]="size"
+      (ngModelChange)="onVolumeChange($event)"
+      (blur)="onBlur($event)"
+    ></mdl-textfield>
+    <div class="volume-label">{{ 'GB' | translate }}</div>
+  </div>
+</div>
+<mdl-slider
+  min="{{ min || 0 }}"
+  max="{{ max || 0 }}"
+  value="0"
+  mdl-tooltip-position="top"
+  [ngModel]="size > min ? size : min"
+  (ngModelChange)="onVolumeChange($event)"
+>
+</mdl-slider>

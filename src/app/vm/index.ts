@@ -1,4 +1,4 @@
 export * from './vm.module';
 
-export * from './vm.model';
-export * from './vm.service';
+export * from './shared/vm.model';
+export * from './shared/vm.service';

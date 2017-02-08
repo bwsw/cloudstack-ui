@@ -1,4 +1,4 @@
-import { FieldMapper } from '../shared/decorators';
+import { FieldMapper } from '../../shared/decorators';
 
 import {
   BaseModel,
@@ -6,9 +6,9 @@ import {
   OsType,
   ServiceOffering,
   Volume
-} from '../shared/models';
-import { SecurityGroup } from '../security-group/sg.model';
-import { Template } from '../template/shared';
+} from '../../shared/models';
+import { SecurityGroup } from '../../security-group/sg.model';
+import { Template } from '../../template/shared';
 
 
 export const MIN_ROOT_DISK_SIZE = 10;

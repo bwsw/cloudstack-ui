@@ -267,10 +267,19 @@
   "ISO_REGISTER_DONE": "ISO registered",
   "ISO_REGISTER_FAILED": "ISO failed",
   "INVALID_URL": "Invalid URL (only http or https)",
+  "CREATED_MASC": "Created",
+  "SIZE": "Size",
+  "EXTRACTABLE": "Extractable",
+  "PUBLIC": "Public",
+  "RECOMMENDED": "Recommended",
+  "CROSS_ZONES": "Cross Zones",
+  "DETAILS": "Details",
+  "HYPERVISOR": "Hypervisor",
+  "USER_TEMPLATE_TYPE": "User",
+  "BUILTIN_TEMPLATE_TYPE": "Built-in"
 
   "DELETE_ISO_IN_PROGRESS": " Deleting an ISO",
   "DELETE_ISO_DONE": "ISO deleted",
   "DELETE_ISO_FAILED": "Failed to delete an ISO",
-
   "DELETE_ISO_VMS_IN_USE": "Unable to delete the ISO as it's used by the following VMs:<br>{{ vms }}"
 }

@@ -1,24 +1,13 @@
 <h3 class="mdl-dialog__title">{{ 'VOLUME_RESIZE_VOLUME' | translate }}</h3>
 <div class="mdl-dialog__content">
   <form (ngSubmit)="resizeVolume()" #volumeResizeForm="ngForm">
-    <mdl-textfield
-      [class.is-invalid]="newSizeField.invalid && !newSizeField.pristine"
-      type="number"
-      label="{{ 'VOLUME_NEW_SIZE' | translate }}"
+    <cs-volume-size-control
+      [min]="volume.size | divByPowerOfTwo:30"
+      [max]="maxSize"
+      [label]="'VOLUME_NEW_SIZE' | translate"
       [(ngModel)]="newSize"
-      #newSizeField="ngModel"
-      required
       name="new-size"
-      floating-label
-      autofocus
-    ></mdl-textfield>
-    <mdl-checkbox
-      [(ngModel)]="shrink"
-      name="shrink"
-      [disabled]="+newSize >= (volume.size | divByPowerOfTwo:30)"
-    >
-      {{ 'VOLUME_SHRINK' | translate }}
-    </mdl-checkbox>
+    ></cs-volume-size-control>
   </form>
 </div>
 <div class="mdl-dialog__actions">
