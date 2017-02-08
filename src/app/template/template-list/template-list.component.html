@@ -8,6 +8,7 @@
     <mdl-select
       class="os-type-select"
       [(ngModel)]="selectedOsFamilies"
+      (ngModelChange)="updateFilters()"
       multiple="true"
       placeholder="{{ 'OS_FAMILY' | translate }}"
     >
@@ -22,6 +23,7 @@
       <mdl-select
         class="filter-select"
         [(ngModel)]="selectedFilters"
+        (ngModelChange)="updateFilters()"
         multiple="true"
         placeholder="{{ 'TYPE' | translate }}"
       >
@@ -76,7 +78,6 @@
     </mdl-list-item>
   </mdl-list>
 </div>
-
 <cs-template-sidebar
   [isOpen]="isDetailOpen"
   [template]="selectedTemplate"

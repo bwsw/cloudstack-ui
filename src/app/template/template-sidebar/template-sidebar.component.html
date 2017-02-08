@@ -17,9 +17,13 @@
             <div>{{ 'OS' | translate }}</div>
             <div>{{ template.osTypeName }}</div>
           </div>
+          <div *ngIf="!template.isReady" class="row">
+            <div>{{ 'READY' | translate}}</div>
+            <div>{{ 'NO' | translate }}</div>
+          </div>
         </div>
       </mdl-card-supporting-text>
-      <mdl-card-actions mdl-card-border *ngIf="self">
+      <mdl-card-actions mdl-card-border *ngIf="isSelf">
         <button
           mdl-button
           (click)="delete()"

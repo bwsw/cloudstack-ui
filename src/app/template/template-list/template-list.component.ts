@@ -210,28 +210,47 @@ export class TemplateListComponent implements OnInit {
     this.isDetailOpen = true;
   }
 
+  public updateFilters(): void {
+    this.fetchData();
+  }
+
   private fetchData(): void {
     if (!this.showIso) {
-      this.templateList = [];
-      // stub
-      this.templateService.getGroupedTemplates({}, ['featured', 'self'])
-        .subscribe(templates => {
-          let t = [];
-          for (let filter in templates) {
-            if (templates.hasOwnProperty(filter)) {
-              t = t.concat(templates[filter]);
-            }
-          }
-          this.templateList = t;
-        });
+      this.fetchTemplates();
     } else {
-      this.isoList = [];
-      // stub
-      Observable.forkJoin([
-        this.isoService.getList({ isofilter: 'featured' }),
-        this.isoService.getList({ isofilter: 'self' }),
-      ])
-        .subscribe(([featuredIsos, selfIsos]) => this.isoList = featuredIsos.concat(selfIsos));
+      this.fetchIsos();
     }
+  }
+
+  private fetchTemplates(): void {
+    this.templateList = [];
+    // stub
+    this.templateService.getGroupedTemplates({}, this.selectedFilters)
+      .subscribe(templates => {
+        let t: Array<Template> = [];
+        for (let filter in templates) {
+          if (templates.hasOwnProperty(filter)) {
+            t = t.concat(templates[filter]);
+          }
+        }
+        t = t.filter(template => this.selectedOsFamilies.includes(template.osType.osFamily));
+        this.templateList = t;
+      });
+  }
+
+  private fetchIsos(): void { // todo: remove
+    this.isoList = [];
+    // stub
+    Observable.forkJoin([
+      this.isoService.getList({ isofilter: 'featured' }),
+      this.isoService.getList({ isofilter: 'self' })
+    ])
+      .subscribe(([featuredIsos, selfIsos]) => {
+        let t = [];
+        if (this.selectedFilters.includes('featured')) { t = t.concat(featuredIsos); }
+        if (this.selectedFilters.includes('self')) { t = t.concat(selfIsos); }
+        t = t.filter(iso => this.selectedOsFamilies.includes(iso.osType.osFamily));
+        this.isoList = t;
+      });
   }
 }

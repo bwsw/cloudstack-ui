@@ -282,10 +282,13 @@
   "TEMPLATE_FEATURED": "Рекомендованные",
   "TEMPLATE_SELF": "Мои",
   "TEMPLATE_SELFEXECUTABLE": "Мои",
+  "TEMPLATE_ALL": "Все",
 
   "DELETE_ISO_IN_PROGRESS": "Удаление ISO",
   "DELETE_ISO_DONE": "ISO удален",
   "DELETE_ISO_FAILED": "Не удалось удалить ISO",
   "DELETE_ISO_VMS_IN_USE": "Невозможно удалить ISO файл, так как он используется слудющими машинами:<br>{{ vms }}",
-  "DELETE_ISO_CONFIRM": "Вы уверены, что хотите удалить этот ISO файл?"
+  "DELETE_ISO_CONFIRM": "Вы уверены, что хотите удалить этот ISO файл?",
+
+  "READY": "Готов"
 }

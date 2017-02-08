@@ -18,7 +18,7 @@ export class TemplateSidebarComponent {
     private authService: AuthService
   ) {}
 
-  public get self(): boolean {
+  public get isSelf(): boolean {
     return this.authService.username === this.template.account;
   }
 

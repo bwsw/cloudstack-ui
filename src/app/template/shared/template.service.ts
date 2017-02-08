@@ -66,6 +66,9 @@ export class TemplateService extends BaseBackendService<Template> {
     let _params = {};
     let localTemplateFilters = this._templateFilters;
     if (templatefilters) {
+      if (templatefilters.includes('all')) {
+        templatefilters = ['featured', 'self', 'selfexecutable', 'sharedexecutable', 'executable', 'community'];
+      }
       localTemplateFilters = templatefilters;
     }
     if (params) {
