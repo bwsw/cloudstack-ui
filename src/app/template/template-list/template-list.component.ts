@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
@@ -14,6 +14,7 @@ import { OsFamily } from '../../shared/models/os-type.model';
 import { INotificationStatus, JobsNotificationService, NotificationService } from '../../shared/services';
 import { TemplateCreationComponent } from '../template-creation/template-creation.component';
 import { VmService } from '../../vm/shared/vm.service';
+import { AuthService } from '../../shared/services/auth.service';
 
 
 @Component({
@@ -30,8 +31,8 @@ export class TemplateListComponent implements OnInit {
   public selectedOsFamilies: Array<OsFamily>;
   public selectedFilters: Array<string>;
 
-  public templateList: Array<Template>;
-  public isoList: Array<Iso>;
+  public templateList: Array<Template | Iso>;
+  public visibleTemplateList: Array<Template | Iso>;
 
   public osFamilies: Array<OsFamily> = [
     'Linux',
@@ -47,6 +48,8 @@ export class TemplateListComponent implements OnInit {
 
   public filterTranslations: {};
 
+  private queryStream = new Subject<string>();
+
   constructor(
     private dialogService: MdlDialogService,
     private isoService: IsoService,
@@ -54,7 +57,8 @@ export class TemplateListComponent implements OnInit {
     private translateService: TranslateService,
     private templateService: TemplateService,
     private notificationService: NotificationService,
-    private vmService: VmService
+    private vmService: VmService,
+    private authService: AuthService
   ) {}
 
   public ngOnInit(): void {
@@ -71,6 +75,13 @@ export class TemplateListComponent implements OnInit {
           strs[filter] = translations[`TEMPLATE_${filter.toUpperCase()}`];
         });
         this.filterTranslations = strs;
+      });
+
+    this.queryStream
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe(query => {
+        this.filterList(query);
       });
   }
 
@@ -194,11 +205,11 @@ export class TemplateListComponent implements OnInit {
 
   private addIsoToList(iso: Iso): void {
     this.isoService.addOsTypeData(iso)
-      .subscribe(iso => this.isoList.push(iso));
+      .subscribe(iso => this.templateList.push(iso));
   }
 
   private removeIsoFromList(iso: Iso): void {
-    this.isoList = this.isoList.filter(listIso => iso.id !== listIso.id);
+    this.templateList = this.templateList.filter(listIso => iso.id !== listIso.id);
     if (iso.id === this.selectedTemplate.id) {
       this.selectedTemplate = null;
       this.isDetailOpen = false;
@@ -210,47 +221,61 @@ export class TemplateListComponent implements OnInit {
     this.isDetailOpen = true;
   }
 
-  public updateFilters(): void {
-    this.fetchData();
+  public search(e: KeyboardEvent): void {
+    this.queryStream.next((e.target as HTMLInputElement).value);
+  }
+
+  public updateFilteredResuls(query?): void {
+
+  }
+
+  public update(): Array<Template | Iso> {
+    return this.templateList
+      .filter(template => {
+        let featuredFilter = this.selectedFilters.includes('featured') || !template.isFeatured;
+        let selfFilter = this.selectedFilters.includes('self') || !(template.account === this.authService.username);
+        let osFilter = this.selectedOsFamilies.includes(template.osType.osFamily);
+        return featuredFilter && selfFilter && osFilter;
+      })
+  }
+
+  private filterList(query): Array<Template | Iso> {
+    if (!query) {
+      return this.templateList;
+    }
+    const queryLower = query.toLowerCase();
+    return this.templateList.filter(template => {
+      return template.name.toLowerCase().includes(queryLower) ||
+        template.displayText.toLowerCase().includes(queryLower);
+    });
   }
 
   private fetchData(): void {
     if (!this.showIso) {
-      this.fetchTemplates();
-    } else {
-      this.fetchIsos();
-    }
-  }
-
-  private fetchTemplates(): void {
-    this.templateList = [];
-    // stub
-    this.templateService.getGroupedTemplates({}, this.selectedFilters)
-      .subscribe(templates => {
-        let t: Array<Template> = [];
-        for (let filter in templates) {
-          if (templates.hasOwnProperty(filter)) {
-            t = t.concat(templates[filter]);
+      this.templateList = [];
+      // stub
+      this.templateService.getGroupedTemplates({}, ['featured', 'self'])
+        .subscribe(templates => {
+          let t = [];
+          for (let filter in templates) {
+            if (templates.hasOwnProperty(filter)) {
+              t = t.concat(templates[filter]);
+            }
           }
-        }
-        t = t.filter(template => this.selectedOsFamilies.includes(template.osType.osFamily));
-        this.templateList = t;
-      });
-  }
-
-  private fetchIsos(): void { // todo: remove
-    this.isoList = [];
-    // stub
-    Observable.forkJoin([
-      this.isoService.getList({ isofilter: 'featured' }),
-      this.isoService.getList({ isofilter: 'self' })
-    ])
-      .subscribe(([featuredIsos, selfIsos]) => {
-        let t = [];
-        if (this.selectedFilters.includes('featured')) { t = t.concat(featuredIsos); }
-        if (this.selectedFilters.includes('self')) { t = t.concat(selfIsos); }
-        t = t.filter(iso => this.selectedOsFamilies.includes(iso.osType.osFamily));
-        this.isoList = t;
-      });
+          this.templateList = t;
+          this.filterList(this.query);
+        });
+    } else {
+      this.templateList = [];
+      // stub
+      Observable.forkJoin([
+        this.isoService.getList({ isofilter: 'featured' }),
+        this.isoService.getList({ isofilter: 'self' }),
+      ])
+        .subscribe(([featuredIsos, selfIsos]) => {
+          this.templateList = featuredIsos.concat(selfIsos);
+          this.filterList(this.query);
+        });
+    }
   }
 }
