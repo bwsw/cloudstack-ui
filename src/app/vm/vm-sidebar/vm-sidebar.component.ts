@@ -5,7 +5,7 @@ import {
   EventEmitter
 } from '@angular/core';
 
-import { VirtualMachine } from '../vm.model';
+import { VirtualMachine } from '../shared/vm.model';
 
 
 @Component({

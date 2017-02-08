@@ -1,4 +1,4 @@
-import { BaseModel } from '../../shared/models/base.model';
+import { BaseModel, OsType } from '../../shared/models';
 import { FieldMapper } from '../../shared/decorators/';
 
 
@@ -25,6 +25,7 @@ export class Iso extends BaseModel { // todo: superclass (iso, template)
   public isReady: boolean;
   public osTypeId: string;
   public osTypeName: string;
+  public osType: OsType;
   public name: string;
   public status: string;
   public size: number;

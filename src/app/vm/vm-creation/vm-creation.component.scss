@@ -1,6 +1,7 @@
 .container {
   padding: 15px 15px 0 15px;
   display: flex;
+  justify-content: space-between;
 }
 
 h5 {
@@ -16,18 +17,14 @@ h5 {
   margin-top: 20px;
 }
 
-.left-column {
-  padding:0 16px 1px 0;
+.left-column,
+.right-column {
+  width: 300px;
 }
 
 .root-disk-size {
   position:relative;
   width: 300px;
-}
-
-.right-column {
-  margin-left: 57px;
-  padding-right: 30px;
 }
 
 .security-groups {
@@ -58,45 +55,4 @@ h5 {
 .dialog-select-wrapper {
   position: relative;
   margin-bottom: 60px;
-}
-
-.template-select {
-  margin-right: 48px;
-}
-
-.root-disk-size-header {
-  padding-bottom: 24px;
-  display: inline-block;
-}
-
-.root-disk-size-limit {
-  display:inline-block;
-  position:absolute;
-  right: 0px;
-}
-
-.root-disk-size-slider {
-  width: 348px;
-  position: relative;
-  left: -24px;
-}
-
-.root-disk-input {
-  /deep/ .mdl-textfield__input {
-    text-align: center;
-    font-size: 20px;
-  }
-  width: 50px;
-  display: inline-block;
-}
-
-.root-disk-label {
-  display: inline-block;
-  font-size: 20px;
-}
-
-.root-disk-size-il {
-  display: inline-block;
-  position: absolute;
-  right: 0;
 }

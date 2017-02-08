@@ -1,0 +1,30 @@
+.volume-size {
+  display: flex;
+  justify-content: space-between;
+}
+
+.volume-size-limit {
+  display:inline-block;
+  position:absolute;
+  right: 0;
+}
+
+.volume-input {
+  /deep/ .mdl-textfield__input {
+    text-align: center;
+    font-size: 20px;
+  }
+  width: 50px;
+  display: inline-block;
+}
+
+.volume-label {
+  display: inline-block;
+  font-size: 20px;
+}
+
+.volume-size-il {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+}
