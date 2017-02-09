@@ -1,6 +1,5 @@
 import { BaseModel, OsType } from '../../shared/models';
 import { FieldMapper } from '../../shared/decorators/';
-import { AuthService } from '../../shared/services';
 
 
 @FieldMapper({

@@ -284,6 +284,11 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     }
   }
 
+  public getListOfVmsThatUseIso(iso: Iso): Observable<Array<VirtualMachine>> {
+    return this.getList()
+      .map(vmList => vmList.filter(vm => vm.isoId === iso.id));
+  }
+
   public changeServiceOffering(serviceOfferingId: string, virtualMachine: VirtualMachine): void {
     if (virtualMachine.serviceOfferingId === serviceOfferingId) {
       return;
@@ -340,11 +345,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         });
         this.notificationService.error(translatedStrings['UNEXPECTED_ERROR']);
       });
-  }
-
-  public getListOfVmsThatUseIso(iso: Iso): Observable<Array<VirtualMachine>> {
-    return this.getList()
-      .map(vmList => vmList.filter(vm => vm.isoId === iso.id));
   }
 }
 

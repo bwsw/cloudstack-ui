@@ -81,7 +81,7 @@ export class TemplateListComponent implements OnInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe(query => {
-        this.updateFilteredResuls(query);
+        this.filterResults(query);
       });
   }
 
@@ -203,19 +203,6 @@ export class TemplateListComponent implements OnInit {
       });
   }
 
-  private addIsoToList(iso: Iso): void {
-    this.isoService.addOsTypeData(iso)
-      .subscribe(iso => this.templateList.push(iso));
-  }
-
-  private removeIsoFromList(iso: Iso): void {
-    this.templateList = this.templateList.filter(listIso => iso.id !== listIso.id);
-    if (iso.id === this.selectedTemplate.id) {
-      this.selectedTemplate = null;
-      this.isDetailOpen = false;
-    }
-  }
-
   public selectTemplate(template: Template | Iso): void {
     this.selectedTemplate = template;
     this.isDetailOpen = true;
@@ -225,24 +212,41 @@ export class TemplateListComponent implements OnInit {
     this.queryStream.next((e.target as HTMLInputElement).value);
   }
 
-  public updateFilteredResuls(query?): void {
+  public filterResults(query?: string): void {
     if (!query) {
       query = this.query;
     }
     this.visibleTemplateList = this.filterBySearch(query, this.filterByCategories(this.templateList));
   }
 
-  public filterByCategories(templateList): Array<Template | Iso> {
+  private addIsoToList(iso: Iso): void {
+    this.isoService.addOsTypeData(iso)
+      .subscribe(isoWithOs => {
+        this.templateList.push(isoWithOs);
+        this.filterResults();
+      });
+  }
+
+  private removeIsoFromList(iso: Iso): void {
+    this.templateList = this.templateList.filter(listIso => iso.id !== listIso.id);
+    this.filterResults();
+    if (iso.id === this.selectedTemplate.id) {
+      this.selectedTemplate = null;
+      this.isDetailOpen = false;
+    }
+  }
+
+  private filterByCategories(templateList: Array<Template | Iso>): Array<Template | Iso> {
     return templateList
       .filter(template => {
         let featuredFilter = this.selectedFilters.includes('featured') || !template.isFeatured;
         let selfFilter = this.selectedFilters.includes('self') || !(template.account === this.authService.username);
         let osFilter = this.selectedOsFamilies.includes(template.osType.osFamily);
         return featuredFilter && selfFilter && osFilter;
-      })
+      });
   }
 
-  private filterBySearch(query, templateList): Array<Template | Iso> {
+  private filterBySearch(query: string, templateList: Array<Template | Iso>): Array<Template | Iso> {
     if (!query) {
       return templateList;
     }
@@ -256,7 +260,6 @@ export class TemplateListComponent implements OnInit {
   private fetchData(): void {
     if (!this.showIso) {
       this.templateList = [];
-      // stub
       this.templateService.getGroupedTemplates({}, ['featured', 'self'])
         .subscribe(templates => {
           let t = [];
@@ -266,18 +269,17 @@ export class TemplateListComponent implements OnInit {
             }
           }
           this.templateList = t;
-          this.updateFilteredResuls(this.query);
+          this.filterResults(this.query);
         });
     } else {
       this.templateList = [];
-      // stub
       Observable.forkJoin([
         this.isoService.getList({ isofilter: 'featured' }),
         this.isoService.getList({ isofilter: 'self' }),
       ])
         .subscribe(([featuredIsos, selfIsos]) => {
           this.templateList = featuredIsos.concat(selfIsos);
-          this.updateFilteredResuls(this.query);
+          this.filterResults(this.query);
         });
     }
   }

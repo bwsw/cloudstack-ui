@@ -8,7 +8,7 @@
     <mdl-select
       class="os-type-select"
       [(ngModel)]="selectedOsFamilies"
-      (ngModelChange)="updateFilteredResuls()"
+      (ngModelChange)="filterResults()"
       multiple="true"
       placeholder="{{ 'OS_FAMILY' | translate }}"
     >
@@ -23,7 +23,7 @@
       <mdl-select
         class="filter-select"
         [(ngModel)]="selectedFilters"
-        (ngModelChange)="updateFilteredResuls()"
+        (ngModelChange)="filterResults()"
         multiple="true"
         placeholder="{{ 'TYPE' | translate }}"
       >
@@ -82,7 +82,7 @@
     </mdl-list-item>
   </mdl-list>
   <div
-    *ngIf="!visibleTemplateList || !visibleTemplateList.length"
+    *ngIf="!visibleTemplateList?.length"
     class="no-results"
   >
     {{ 'NO_RESULTS' | translate }}
