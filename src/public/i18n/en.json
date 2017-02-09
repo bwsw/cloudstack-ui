@@ -293,5 +293,11 @@
   "READY": "Ready",
   "NO_RESULTS": "No results",
   "ATTACH": "Attach",
-  "DETACH": "Detach"
+  "DETACH": "Detach",
+  "CONFIRM_ISO_DETACH": "Are you sure you want ot detach this ISO?",
+  "ISO": "ISO",
+  "NO_MEDIUM": "No medium attached",
+  "ISO_DETACH_IN_PROGRESS": "Detaching an ISO",
+  "ISO_DETACH_DONE": "ISO has been detached",
+  "ISO_DETACH_FAILED": "Failed to detach an ISO"
 }
