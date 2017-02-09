@@ -10,6 +10,7 @@ import { IsoService, TemplateService } from './shared';
 import { TemplateListComponent } from './template-list/template-list.component';
 import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
 import { TemplateCreationComponent } from './template-creation/template-creation.component';
+import { IsoAttachmentComponent } from './iso-attachment/iso-attachment.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { TemplateCreationComponent } from './template-creation/template-creation
     SharedModule
   ],
   declarations: [
+    IsoAttachmentComponent,
     TemplateCreationComponent,
     TemplateListComponent,
     TemplateSidebarComponent
@@ -31,6 +33,7 @@ import { TemplateCreationComponent } from './template-creation/template-creation
     TemplateService
   ],
   entryComponents: [
+    IsoAttachmentComponent,
     TemplateCreationComponent
   ]
 })

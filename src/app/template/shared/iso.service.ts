@@ -87,4 +87,20 @@ export class IsoService extends BaseBackendService<Iso> {
         return Observable.of(null);
       });
   }
+
+  public detach(id: string): Observable<any> {
+    return this.getRequest('detach', {
+      virtualmachineid: id
+    })
+      .switchMap(response => {
+        return this.asyncJobService.addJob(response['detachisoresponse'].jobid);
+      })
+      .switchMap(jobResult => {
+        if (jobResult.jobStatus === 2) {
+          return Observable.throw(jobResult);
+        }
+        return Observable.of(null);
+      });
+  }
+
 }

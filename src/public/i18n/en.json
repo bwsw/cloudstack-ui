@@ -291,5 +291,7 @@
   "DELETE_ISO_CONFIRM": "Are you sure you want to delete this ISO?",
 
   "READY": "Ready",
-  "NO_RESULTS": "No results"
+  "NO_RESULTS": "No results",
+  "ATTACH": "Attach",
+  "DETACH": "Detach"
 }
