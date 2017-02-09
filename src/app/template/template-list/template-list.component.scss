@@ -8,6 +8,8 @@ $select-width: 195px;
 }
 
 .template-list {
+  display: flex;
+  flex-direction: column;
   height: 100%;
   overflow: auto;
   transition: margin 0.3s;
@@ -31,10 +33,9 @@ cs-template-sidebar {
 }
 
 .options {
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: block;
   width: 100%;
-  min-height: 0;
+  min-height: initial;
   border-bottom: 1px solid #dedede;
   overflow: visible;
 }
@@ -61,13 +62,29 @@ cs-template-sidebar {
   margin: 0 20px;
 }
 
+.filter-select-container {
+  display: inline-block;
+}
+
 .search-bar {
+  max-width: 100%;
+  white-space: nowrap;
   margin: 0;
   padding: 0 15px;
 
   mdl-icon {
     vertical-align: middle;
   }
+
+  /deep/ mdl-textfield {
+    max-width: 300px;
+    width: 100%;
+  }
+}
+
+mdl-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
 }
 
 .os-icon {
