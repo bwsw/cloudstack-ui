@@ -76,8 +76,10 @@
           </template>
           <template ngSwitchDefault>help</template>
         </mdl-icon>
-        <span>{{ template.name }}</span>
-        <mdl-list-item-sub-title>{{ template.displayText }}</mdl-list-item-sub-title>
+        <span [innerHTML]="template.name | highlight:query"></span>
+        <mdl-list-item-sub-title
+          [innerHTML]="template.displayText | highlight:query"
+        ></mdl-list-item-sub-title>
       </mdl-list-item-primary-content>
     </mdl-list-item>
   </mdl-list>
