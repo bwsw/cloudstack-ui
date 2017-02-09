@@ -15,6 +15,7 @@ import { INotificationStatus, JobsNotificationService, NotificationService } fro
 import { TemplateCreationComponent } from '../template-creation/template-creation.component';
 import { VmService } from '../../vm/shared/vm.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { StorageService } from '../../shared/services/storage.service';
 
 
 @Component({
@@ -58,7 +59,8 @@ export class TemplateListComponent implements OnInit {
     private templateService: TemplateService,
     private notificationService: NotificationService,
     private vmService: VmService,
-    private authService: AuthService
+    private authService: AuthService,
+    private storageService: StorageService
   ) {}
 
   public ngOnInit(): void {
@@ -83,6 +85,9 @@ export class TemplateListComponent implements OnInit {
       .subscribe(query => {
         this.filterResults(query);
       });
+
+    this.showIso = this.storageService.read('templateDisplayMode') === 'iso';
+    this.switchDisplayMode();
   }
 
   public hideDetail(): void {
@@ -91,6 +96,7 @@ export class TemplateListComponent implements OnInit {
 
   public switchDisplayMode(): void {
     this.fetchData();
+    this.storageService.write('templateDisplayMode', this.showIso ? 'iso' : 'template');
   }
 
   public showCreationDialog(): void {

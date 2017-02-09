@@ -81,6 +81,7 @@ import { NotificationBoxItemComponent } from './components/notification-box-item
     ServiceOfferingService,
     SnapshotService,
     StatsUpdateService,
+    StorageService,
     TagService,
     UtilsService,
     VolumeService,
