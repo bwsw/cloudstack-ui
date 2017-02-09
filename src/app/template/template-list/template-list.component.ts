@@ -80,7 +80,6 @@ export class TemplateListComponent implements OnInit {
       });
 
     this.queryStream
-      .debounceTime(300)
       .distinctUntilChanged()
       .subscribe(query => {
         this.filterResults(query);

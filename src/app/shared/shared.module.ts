@@ -36,6 +36,7 @@ import { SgRulesManagerComponent } from './components/sg-rules-manager.component
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { NotificationBoxComponent } from './components/notification-box.component';
 import { NotificationBoxItemComponent } from './components/notification-box-item.component';
+import { HighLightPipe } from './pipes/highlight.pipe';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { NotificationBoxItemComponent } from './components/notification-box-item
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     DivByPowerOfTwoPipe,
-    ViewValuePipe
+    ViewValuePipe,
+    HighLightPipe
   ],
   declarations: [
     SgRulesManagerComponent,
@@ -59,7 +61,8 @@ import { NotificationBoxItemComponent } from './components/notification-box-item
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     DivByPowerOfTwoPipe,
-    ViewValuePipe
+    ViewValuePipe,
+    HighLightPipe
   ],
   providers: [
     AffinityGroupService,
