@@ -45,6 +45,12 @@
     ></mdl-textfield>
   </p>
 
+  <div
+    *ngIf="!visibleTemplateList?.length"
+    class="no-results"
+  >
+    {{ 'NO_RESULTS' | translate }}
+  </div>
   <mdl-list>
     <mdl-list-item
       lines="2"
@@ -83,12 +89,6 @@
       </mdl-list-item-primary-content>
     </mdl-list-item>
   </mdl-list>
-  <div
-    *ngIf="!visibleTemplateList?.length"
-    class="no-results"
-  >
-    {{ 'NO_RESULTS' | translate }}
-  </div>
 </div>
 <cs-template-sidebar
   [isOpen]="isDetailOpen"
