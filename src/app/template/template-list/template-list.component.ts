@@ -10,7 +10,7 @@ import {
   Template,
   TemplateService,
  } from '../shared';
-import { OsFamily } from '../../shared/models/os-type.model';
+import { OsFamily, OsType } from '../../shared/models/os-type.model';
 import { INotificationStatus, JobsNotificationService, NotificationService } from '../../shared/services';
 import { TemplateCreationComponent } from '../template-creation/template-creation.component';
 import { VmService } from '../../vm/shared/vm.service';
@@ -97,15 +97,18 @@ export class TemplateListComponent implements OnInit {
       component: TemplateCreationComponent,
       isModal: true,
       styles: { 'width': '720px', 'overflow': 'visible' },
+      providers: [{ provide: 'mode', useValue: this.showIso ? 'Iso' : 'Template' }],
       clickOutsideToClose: true,
       enterTransitionDuration: 400,
       leaveTransitionDuration: 400
     })
       .switchMap(res => res.onHide())
       .subscribe(isoData => {
-        if (isoData) {
-          this.createIso(isoData);
+        if (!isoData) {
+          return;
         }
+
+        this.createIso(isoData);
       });
   }
 
@@ -118,13 +121,13 @@ export class TemplateListComponent implements OnInit {
       'ISO_REGISTER_DONE',
       'ISO_REGISTER_FAILED'
     ])
-      .switchMap(strs => {
+      .switchMap<Array<string>, Iso | Template>(strs => {
         translatedStrings = strs;
         notificationId = this.jobNotificationService.add(translatedStrings['ISO_REGISTER_IN_PROGRESS']);
-        return this.addIso(isoData);
+        return this.showIso ? this.addIso(isoData): this.addTemplate(isoData);
       })
-      .subscribe(iso => {
-        this.addIsoToList(iso);
+      .subscribe((template: Template | Iso) => {
+        this.addTemplateToList(template);
         this.jobNotificationService.add({
           id: notificationId,
           message: translatedStrings['ISO_REGISTER_DONE'],
@@ -142,6 +145,10 @@ export class TemplateListComponent implements OnInit {
 
   public addIso(isoCreationData: any): Observable<Iso> {
     return this.isoService.register(new Iso(isoCreationData), isoCreationData.url);
+  }
+
+  public addTemplate(templateCreationData: any) : Observable<Template> {
+    return this.templateService.register(templateCreationData, templateCreationData.url);
   }
 
   public delete(iso: Iso): void {
@@ -218,8 +225,17 @@ export class TemplateListComponent implements OnInit {
     this.visibleTemplateList = this.filterBySearch(query, this.filterByCategories(this.templateList));
   }
 
-  private addIsoToList(iso: Iso): void {
-    this.isoService.addOsTypeData(iso)
+  private addTemplateToList(template: Template | Iso): void {
+    if (template instanceof Template) {
+      // stub, fix asap
+      template.osType = new OsType();
+      template.osType.osFamily = 'Other';
+
+      this.templateList.push(template);
+      this.filterResults();
+      return;
+    }
+    this.isoService.addOsTypeData(template)
       .subscribe(isoWithOs => {
         this.templateList.push(isoWithOs);
         this.filterResults();

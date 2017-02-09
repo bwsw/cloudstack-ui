@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 
 import { OsType, Zone } from '../../shared/models';
@@ -24,7 +24,8 @@ export class TemplateCreationComponent implements OnInit {
   constructor(
     private dialog: MdlDialogReference,
     private osTypeService: OsTypeService,
-    private zoneService: ZoneService
+    private zoneService: ZoneService,
+    @Inject('mode') private mode: 'Template' | 'Iso'
   ) { }
 
   public ngOnInit(): void {

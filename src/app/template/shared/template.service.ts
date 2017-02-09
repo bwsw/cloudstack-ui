@@ -62,6 +62,17 @@ export class TemplateService extends BaseBackendService<Template> {
       });
   }
 
+  public register(params: {}, url: string): Observable<Template> {
+    // stub
+    params['url'] = url;
+    params['hypervisor'] = 'KVM';
+    params['format'] = 'QCOW2';
+    params['requireshvm'] = true;
+
+    return this.getRequest('register', params)
+      .map(result => new Template(result['registertemplateresponse'].template[0]));
+  }
+
   public getGroupedTemplates(params?: {}, templatefilters?: Array<string>): Observable<Object> {
     let _params = {};
     let localTemplateFilters = this._templateFilters;
