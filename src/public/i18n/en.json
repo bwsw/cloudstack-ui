@@ -290,5 +290,6 @@
   "DELETE_ISO_VMS_IN_USE": "Unable to delete the ISO as it's used by the following VMs:<br>{{ vms }}",
   "DELETE_ISO_CONFIRM": "Are you sure you want to delete this ISO?",
 
-  "READY": "Ready"
+  "READY": "Ready",
+  "NO_RESULTS": "No results"
 }

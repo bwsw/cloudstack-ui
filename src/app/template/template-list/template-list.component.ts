@@ -81,7 +81,7 @@ export class TemplateListComponent implements OnInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe(query => {
-        this.filterList(query);
+        this.updateFilteredResuls(query);
       });
   }
 
@@ -226,11 +226,14 @@ export class TemplateListComponent implements OnInit {
   }
 
   public updateFilteredResuls(query?): void {
-
+    if (!query) {
+      query = this.query;
+    }
+    this.visibleTemplateList = this.filterBySearch(query, this.filterByCategories(this.templateList));
   }
 
-  public update(): Array<Template | Iso> {
-    return this.templateList
+  public filterByCategories(templateList): Array<Template | Iso> {
+    return templateList
       .filter(template => {
         let featuredFilter = this.selectedFilters.includes('featured') || !template.isFeatured;
         let selfFilter = this.selectedFilters.includes('self') || !(template.account === this.authService.username);
@@ -239,12 +242,12 @@ export class TemplateListComponent implements OnInit {
       })
   }
 
-  private filterList(query): Array<Template | Iso> {
+  private filterBySearch(query, templateList): Array<Template | Iso> {
     if (!query) {
-      return this.templateList;
+      return templateList;
     }
     const queryLower = query.toLowerCase();
-    return this.templateList.filter(template => {
+    return templateList.filter(template => {
       return template.name.toLowerCase().includes(queryLower) ||
         template.displayText.toLowerCase().includes(queryLower);
     });
@@ -263,7 +266,7 @@ export class TemplateListComponent implements OnInit {
             }
           }
           this.templateList = t;
-          this.filterList(this.query);
+          this.updateFilteredResuls(this.query);
         });
     } else {
       this.templateList = [];
@@ -274,7 +277,7 @@ export class TemplateListComponent implements OnInit {
       ])
         .subscribe(([featuredIsos, selfIsos]) => {
           this.templateList = featuredIsos.concat(selfIsos);
-          this.filterList(this.query);
+          this.updateFilteredResuls(this.query);
         });
     }
   }
