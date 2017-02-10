@@ -150,41 +150,51 @@ export class TemplateListComponent implements OnInit {
     return this.isoService.register(new Iso(isoCreationData), isoCreationData.url);
   }
 
-  public delete(iso: Iso): void {
+  public delete(template: Template | Iso): void {
     let translatedStrings;
     let notificationId;
+    const currentMode = this.showIso ? 'ISO' : 'TEMPLATE';
 
     this.translateService.get([
       'DELETE_ISO_IN_PROGRESS',
       'DELETE_ISO_DONE',
       'DELETE_ISO_FAILED',
-      'DELETE_ISO_CONFIRM'
+      'DELETE_ISO_CONFIRM',
+      'DELETE_TEMPLATE_IN_PROGRESS',
+      'DELETE_TEMPLATE_DONE',
+      'DELETE_TEMPLATE_FAILED',
+      'DELETE_TEMPLATE_CONFIRM'
     ])
-      .map(strs => {
+      .switchMap((strs) => {
         translatedStrings = strs;
+        return this.dialogService.confirm(translatedStrings[`DELETE_${currentMode}_CONFIRM`]);
       })
       .switchMap(() => {
-        return this.dialogService.confirm(translatedStrings['DELETE_ISO_CONFIRM']);
-      })
-      .switchMap(() => {
-        return this.vmService.getListOfVmsThatUseIso(iso);
-      })
-      .switchMap(vmList => {
-        if (vmList.length) {
-          return Observable.throw({
-            type: 'vmsInUse',
-            vms: vmList
-          });
-        } else {
-          notificationId = this.jobNotificationService.add(translatedStrings['DELETE_ISO_IN_PROGRESS']);
-          return this.isoService.delete(iso);
+        if (template instanceof Template) {
+          notificationId = this.jobNotificationService.add(
+            translatedStrings['DELETE_TEMPLATE_IN_PROGRESS']
+          );
+          return this.templateService.delete(template);
         }
+        return this.vmService.getListOfVmsThatUseIso(template)
+          .map(vmList => {
+            if (vmList.length) {
+              return Observable.throw({
+                type: 'vmsInUse',
+                vms: vmList
+              });
+            }
+            notificationId = this.jobNotificationService.add(
+              translatedStrings['DELETE_ISO_IN_PROGRESS']
+            );
+            return this.isoService.delete(template);
+          });
       })
       .subscribe(() => {
-        this.removeIsoFromList(iso);
+        this.removeTemplateFromList(template);
         this.jobNotificationService.add({
           id: notificationId,
-          message: translatedStrings['DELETE_ISO_DONE'],
+          message: translatedStrings[`DELETE_${currentMode}_DONE`],
           status: INotificationStatus.Finished
         });
       }, error => {
@@ -201,7 +211,7 @@ export class TemplateListComponent implements OnInit {
         } else {
           this.jobNotificationService.add({
             id: notificationId,
-            message: translatedStrings['DELETE_ISO_FAILED'],
+            message: translatedStrings[`DELETE_${currentMode}_FAILED`],
             status: INotificationStatus.Failed
           });
         }
@@ -232,10 +242,10 @@ export class TemplateListComponent implements OnInit {
       });
   }
 
-  private removeIsoFromList(iso: Iso): void {
-    this.templateList = this.templateList.filter(listIso => iso.id !== listIso.id);
+  private removeTemplateFromList(template: Template | Iso): void {
+    this.templateList = this.templateList.filter(listTemplate => template.id !== listTemplate.id);
     this.filterResults();
-    if (iso.id === this.selectedTemplate.id) {
+    if (template.id === this.selectedTemplate.id) {
       this.selectedTemplate = null;
       this.isDetailOpen = false;
     }

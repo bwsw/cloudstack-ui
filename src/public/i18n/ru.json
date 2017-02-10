@@ -290,6 +290,11 @@
   "DELETE_ISO_VMS_IN_USE": "Невозможно удалить ISO файл, так как он используется слудющими машинами:<br>{{ vms }}",
   "DELETE_ISO_CONFIRM": "Вы уверены, что хотите удалить этот ISO файл?",
 
+  "DELETE_TEMPLATE_IN_PROGRESS": "Удаление шаблона",
+  "DELETE_TEMPLATE_DONE": "Шаблон удален",
+  "DELETE_TEMPLATE_FAILED": "Не удалось удалить шаблон",
+  "DELETE_TEMPLATE_CONFIRM": "Вы уверены, что хотите удалить этот шаблон?",
+
   "READY": "Готов",
   "NO_RESULTS": "Поиск не дал результатов"
 }
