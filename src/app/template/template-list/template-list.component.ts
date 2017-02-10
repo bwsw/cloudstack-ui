@@ -96,7 +96,7 @@ export class TemplateListComponent implements OnInit {
     this.dialogService.showCustomDialog({
       component: TemplateCreationComponent,
       isModal: true,
-      styles: { 'width': '720px', 'overflow': 'visible' },
+      styles: { 'width': '720px', 'overflow': 'visible', padding: '11.7px' },
       providers: [{ provide: 'mode', useValue: this.showIso ? 'Iso' : 'Template' }],
       clickOutsideToClose: true,
       enterTransitionDuration: 400,

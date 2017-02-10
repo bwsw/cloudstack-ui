@@ -40,13 +40,7 @@
         >
         </mdl-textfield>
         <mdl-checkbox
-          name="extractable"
-          [(ngModel)]="extractable"
-          *ngIf="mode === 'Template'"
-        >
-          {{ 'TEMPLATE_EXTRACTABLE' | translate }}
-        </mdl-checkbox>
-        <mdl-checkbox
+          class="password-enabled-checkbox"
           name="pass"
           [(ngModel)]="passwordEnabled"
           *ngIf="mode === 'Template'"
@@ -54,6 +48,7 @@
           {{ 'TEMPLATE_PASSWORD_ENABLED' | translate }}
         </mdl-checkbox>
         <mdl-checkbox
+          class="dynscal-checkbox"
           name="dynscal"
           [(ngModel)]="dynamicallyScalable"
           *ngIf="mode === 'Template'"

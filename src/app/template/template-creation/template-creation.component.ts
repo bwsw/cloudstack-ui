@@ -18,7 +18,6 @@ export class TemplateCreationComponent implements OnInit {
   public url: string;
   public zoneId: string;
 
-  public extractable: boolean;
   public passwordEnabled: boolean;
   public dynamicallyScalable: boolean;
 
@@ -33,6 +32,8 @@ export class TemplateCreationComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
+    this.passwordEnabled = this.dynamicallyScalable = false;
+
     this.osTypes = [];
     this.zones = [];
     this.osTypeService
@@ -63,9 +64,8 @@ export class TemplateCreationComponent implements OnInit {
     };
 
     if (this.mode === 'Template') {
-      params['extractable'] = this.extractable;
-      params['passwordenabled'] = this.extractable;
-      params['isdynamicallyscalable'] = this.extractable;
+      params['passwordenabled'] = this.passwordEnabled;
+      params['isdynamicallyscalable'] = this.dynamicallyScalable;
     }
     this.dialog.hide(params);
   }
