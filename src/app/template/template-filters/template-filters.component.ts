@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { StorageService } from '../../shared/services/storage.service';
 import { TranslateService } from 'ng2-translate';
 
+
 @Component({
   selector: 'cs-template-filters',
   templateUrl: 'template-filters.component.html',

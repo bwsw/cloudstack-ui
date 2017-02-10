@@ -209,11 +209,6 @@ export class TemplateListComponent implements OnInit {
     this.isDetailOpen = true;
   }
 
-  public ngOnChanges(): void {
-    // this.filterResults(this.query);
-    this.fetchData();
-  }
-
   private filterResults(filters: any): void {
     this.selectedOsFamilies = filters.selectedOsFamilies;
     this.selectedFilters = filters.selectedFilters;
@@ -265,7 +260,15 @@ export class TemplateListComponent implements OnInit {
       this.templateList = [];
       this.templateService.getGroupedTemplates({}, ['featured', 'self'])
         .subscribe(templates => {
-          this.templateList = <Array<Template>>templates;
+          debugger;
+          let t = [];
+          for (let filter in templates) {
+            if (templates.hasOwnProperty(filter)) {
+              t = t.concat(templates[filter]);
+            }
+          }
+          this.templateList = t;
+          this.visibleTemplateList = this.templateList;
         });
     } else {
       this.templateList = [];
@@ -275,6 +278,7 @@ export class TemplateListComponent implements OnInit {
       ])
         .subscribe(([featuredIsos, selfIsos]) => {
           this.templateList = featuredIsos.concat(selfIsos);
+          this.visibleTemplateList = this.templateList;
         });
     }
   }

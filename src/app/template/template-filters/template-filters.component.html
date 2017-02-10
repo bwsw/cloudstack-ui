@@ -6,7 +6,7 @@
 
   <mdl-select
     class="os-type-select"
-    [ngModel]="selectedOsFamilies"
+    [(ngModel)]="selectedOsFamilies"
     (ngModelChange)="updateFilters()"
     multiple="true"
     placeholder="{{ 'OS_FAMILY' | translate }}"
@@ -21,7 +21,7 @@
   <div *ngIf="filterTranslations" class="filter-select-container">
     <mdl-select
       class="filter-select"
-      [ngModel]="selectedFilters"
+      [(ngModel)]="selectedFilters"
       (ngModelChange)="updateFilters()"
       multiple="true"
       placeholder="{{ 'TYPE' | translate }}"
@@ -30,7 +30,7 @@
         *ngFor="let f of categoryFilters"
         [value]="f"
       >
-        {{ filterTranslations[filter] }}
+        {{ filterTranslations[f] }}
       </mdl-option>
     </mdl-select>
   </div>
@@ -40,5 +40,6 @@
   <mdl-textfield
     type="text"
     [(ngModel)]="query"
+    (ngModelChange)="updateFilters()"
   ></mdl-textfield>
 </p>
