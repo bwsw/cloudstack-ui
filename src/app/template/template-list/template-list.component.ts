@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
 import { MdlDialogService } from 'angular2-mdl';
@@ -18,6 +18,11 @@ import { AuthService } from '../../shared/services/auth.service';
 import { StorageService } from '../../shared/services/storage.service';
 import { ServiceLocator } from '../../shared/services/service-locator';
 
+interface IFilters {
+  selectedOsFamilies: Array<OsFamily>,
+  selectedFilters: Array<string>
+}
+
 
 @Component({
   selector: 'cs-template-list',
@@ -28,27 +33,16 @@ export class TemplateListComponent implements OnInit {
   public isDetailOpen: boolean;
   public selectedTemplate: Template | Iso;
 
-  public showIso: boolean = false;
-  public query: string;
-  public selectedOsFamilies: Array<OsFamily>;
-  public selectedFilters: Array<string>;
+  public showIso: boolean;
+
+  public filters: IFilters = { selectedOsFamilies: ['Linux'], selectedFilters: ['Featured'] };
 
   public templateList: Array<Template | Iso>;
   public visibleTemplateList: Array<Template | Iso>;
 
-  public osFamilies: Array<OsFamily> = [
-    'Linux',
-    'Windows',
-    'Mac OS',
-    'Other'
-  ];
-
-  public filters = [
-    'featured',
-    'self'
-  ];
-
   public filterTranslations: {};
+
+  public query: string;
 
   protected dialogService: MdlDialogService;
   protected isoService: IsoService;
@@ -59,8 +53,6 @@ export class TemplateListComponent implements OnInit {
   protected vmService: VmService;
   protected authService: AuthService;
   protected storageService: StorageService;
-
-  private queryStream = new Subject<string>();
 
   constructor() {
     this.dialogService = ServiceLocator.injector.get(MdlDialogService);
@@ -75,39 +67,37 @@ export class TemplateListComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.selectedOsFamilies = this.osFamilies.concat();
-    this.selectedFilters = this.filters.concat();
-
     this.fetchData();
-    this.translateService.get(
-      this.filters.map(filter => `TEMPLATE_${filter.toUpperCase()}`)
-    )
-      .subscribe(translations => {
-        const strs = {};
-        this.filters.forEach(filter => {
-          strs[filter] = translations[`TEMPLATE_${filter.toUpperCase()}`];
-        });
-        this.filterTranslations = strs;
-      });
+    console.log(this.filters);
+    // this.translateService.get(
+    //   this.filters.map(filter => `TEMPLATE_${filter.toUpperCase()}`)
+    // )
+    //   .subscribe(translations => {
+    //     const strs = {};
+    //     this.filters.forEach(filter => {
+    //       strs[filter] = translations[`TEMPLATE_${filter.toUpperCase()}`];
+    //     });
+    //     this.filterTranslations = strs;
+    //   });
 
-    this.queryStream
-      .distinctUntilChanged()
-      .subscribe(query => {
-        this.filterResults(query);
-      });
+    // this.queryStream
+    //   .distinctUntilChanged()
+    //   .subscribe(query => {
+    //     this.filterResults(query);
+    //   });
 
-    this.showIso = this.storageService.read('templateDisplayMode') === 'iso';
-    this.switchDisplayMode();
+    // this.showIso = this.storageService.read('templateDisplayMode') === 'iso';
+    // this.switchDisplayMode();
   }
 
   public hideDetail(): void {
     this.isDetailOpen = !this.isDetailOpen;
   }
 
-  public switchDisplayMode(): void {
-    this.fetchData();
-    this.storageService.write('templateDisplayMode', this.showIso ? 'iso' : 'template');
-  }
+  // public switchDisplayMode(): void {
+  //   this.fetchData();
+  //   // this.storageService.write('templateDisplayMode', this.showIso ? 'iso' : 'template'); // move to filters
+  // }
 
   public showCreationDialog(): void {
     this.dialogService.showCustomDialog({
@@ -141,7 +131,7 @@ export class TemplateListComponent implements OnInit {
         return this.addIso(isoData);
       })
       .subscribe(iso => {
-        this.addIsoToList(iso);
+        // this.addIsoToList(iso);
         this.jobNotificationService.add({
           id: notificationId,
           message: translatedStrings['ISO_REGISTER_DONE'],
@@ -192,7 +182,7 @@ export class TemplateListComponent implements OnInit {
         }
       })
       .subscribe(() => {
-        this.removeIsoFromList(iso);
+        // this.removeIsoFromList(iso);
         this.jobNotificationService.add({
           id: notificationId,
           message: translatedStrings['DELETE_ISO_DONE'],
@@ -224,40 +214,40 @@ export class TemplateListComponent implements OnInit {
     this.isDetailOpen = true;
   }
 
-  public search(e: KeyboardEvent): void {
-    this.queryStream.next((e.target as HTMLInputElement).value);
+  public ngOnChanges(): void {
+    // this.filterResults(this.query);
+    console.log(this.filters);
   }
 
-  public filterResults(query?: string): void {
-    if (!query) {
-      query = this.query;
-    }
+  private filterResults(query?: string): void {
     this.visibleTemplateList = this.filterBySearch(query, this.filterByCategories(this.templateList));
   }
 
-  private addIsoToList(iso: Iso): void {
-    this.isoService.addOsTypeData(iso)
-      .subscribe(isoWithOs => {
-        this.templateList.push(isoWithOs);
-        this.filterResults();
-      });
-  }
-
-  private removeIsoFromList(iso: Iso): void {
-    this.templateList = this.templateList.filter(listIso => iso.id !== listIso.id);
-    this.filterResults();
-    if (iso.id === this.selectedTemplate.id) {
-      this.selectedTemplate = null;
-      this.isDetailOpen = false;
-    }
-  }
+  // private addIsoToList(iso: Iso): void {
+  //   this.isoService.addOsTypeData(iso)
+  //     .subscribe(isoWithOs => {
+  //       this.templateList.push(isoWithOs);
+  //       this.filterResults();
+  //     });
+  // }
+  //
+  // private removeIsoFromList(iso: Iso): void {
+  //   this.templateList = this.templateList.filter(listIso => iso.id !== listIso.id);
+  //   this.filterResults();
+  //   if (iso.id === this.selectedTemplate.id) {
+  //     this.selectedTemplate = null;
+  //     this.isDetailOpen = false;
+  //   }
+  // }
 
   private filterByCategories(templateList: Array<Template | Iso>): Array<Template | Iso> {
+    debugger;
     return templateList
       .filter(template => {
-        let featuredFilter = this.selectedFilters.includes('featured') || !template.isFeatured;
-        let selfFilter = this.selectedFilters.includes('self') || !(template.account === this.authService.username);
-        let osFilter = this.selectedOsFamilies.includes(template.osType.osFamily);
+        let featuredFilter = this.filters.selectedFilters.includes('featured') || !template.isFeatured;
+        let selfFilter = this.filters.selectedFilters.includes('self') ||
+          !(template.account === this.authService.username);
+        let osFilter = this.filters.selectedOsFamilies.includes(template.osType.osFamily);
         return featuredFilter && selfFilter && osFilter;
       });
   }
@@ -274,6 +264,7 @@ export class TemplateListComponent implements OnInit {
   }
 
   private fetchData(): void {
+    console.log(this.filters);
     if (!this.showIso) {
       this.templateList = [];
       this.templateService.getGroupedTemplates({}, ['featured', 'self'])

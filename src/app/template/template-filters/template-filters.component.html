@@ -1,0 +1,42 @@
+<mdl-card class="options">
+  <div class="template-iso-switch">
+    <span class="mdl-switch__label">{{ 'TEMPLATES' | translate }}</span>
+    <mdl-switch [(ngModel)]="showIso">{{ 'ISO' | translate }}</mdl-switch>
+  </div>
+
+  <mdl-select
+    class="os-type-select"
+    [(ngModel)]="selectedOsFamilies"
+    multiple="true"
+    placeholder="{{ 'OS_FAMILY' | translate }}"
+  >
+    <mdl-option
+      *ngFor="let family of osFamilies"
+      [value]="family"
+    >
+      {{ family }}
+    </mdl-option>
+  </mdl-select>
+  <div *ngIf="filterTranslations" class="filter-select-container">
+    <mdl-select
+      class="filter-select"
+      [(ngModel)]="selectedFilters"
+      multiple="true"
+      placeholder="{{ 'TYPE' | translate }}"
+    >
+      <mdl-option
+        *ngFor="let filter of filters"
+        [value]="filter"
+      >
+        {{ filterTranslations[filter] }}
+      </mdl-option>
+    </mdl-select>
+  </div>
+</mdl-card>
+<p class="search-bar">
+  <mdl-icon>search</mdl-icon>
+  <mdl-textfield
+    type="text"
+    [(ngModel)]="query"
+  ></mdl-textfield>
+</p>

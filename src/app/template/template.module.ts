@@ -8,8 +8,9 @@ import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { SharedModule } from '../shared/shared.module';
 import { IsoService, TemplateService } from './shared';
 import { TemplateListComponent } from './template-list/template-list.component';
-import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
 import { TemplateCreationComponent } from './template-creation/template-creation.component';
+import { TemplateFiltersComponent } from './template-filters/template-filters.component';
+import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
 import { IsoAttachmentComponent } from './iso-attachment/iso-attachment.component';
 
 
@@ -25,6 +26,7 @@ import { IsoAttachmentComponent } from './iso-attachment/iso-attachment.componen
   declarations: [
     IsoAttachmentComponent,
     TemplateCreationComponent,
+    TemplateFiltersComponent,
     TemplateListComponent,
     TemplateSidebarComponent
   ],

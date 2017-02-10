@@ -1,50 +1,53 @@
+<cs-template-filters
+  (queries)="query"
+  [(ngModel)]="filters"
+></cs-template-filters>
 <div class="template-list" [class.open]="isDetailOpen">
-  <mdl-card class="options">
-    <div class="template-iso-switch">
-      <span class="mdl-switch__label">{{ 'TEMPLATES' | translate }}</span>
-      <mdl-switch [(ngModel)]="showIso" (ngModelChange)="switchDisplayMode()">ISO</mdl-switch>
-    </div>
+  <!--<mdl-card class="options">-->
+    <!--<div class="template-iso-switch">-->
+      <!--<span class="mdl-switch__label">{{ 'TEMPLATES' | translate }}</span>-->
+      <!--<mdl-switch [(ngModel)]="showIso" (ngModelChange)="switchDisplayMode()">ISO</mdl-switch>-->
+    <!--</div>-->
 
-    <mdl-select
-      class="os-type-select"
-      [(ngModel)]="selectedOsFamilies"
-      (ngModelChange)="filterResults()"
-      multiple="true"
-      placeholder="{{ 'OS_FAMILY' | translate }}"
-    >
-      <mdl-option
-        *ngFor="let family of osFamilies"
-        [value]="family"
-      >
-        {{ family }}
-      </mdl-option>
-    </mdl-select>
-    <div *ngIf="filterTranslations" class="filter-select-container">
-      <mdl-select
-        class="filter-select"
-        [(ngModel)]="selectedFilters"
-        (ngModelChange)="filterResults()"
-        multiple="true"
-        placeholder="{{ 'TYPE' | translate }}"
-      >
-        <mdl-option
-          *ngFor="let filter of filters"
-          [value]="filter"
-        >
-          {{ filterTranslations[filter] }}
-        </mdl-option>
-      </mdl-select>
-    </div>
-  </mdl-card>
-  <p class="search-bar">
-    <mdl-icon>search</mdl-icon>
-    <mdl-textfield
-      type="text"
-      [(ngModel)]="query"
-      (input)="search($event)"
-    ></mdl-textfield>
-  </p>
-
+    <!--<mdl-select-->
+      <!--class="os-type-select"-->
+      <!--[(ngModel)]="selectedOsFamilies"-->
+      <!--(ngModelChange)="filterResults()"-->
+      <!--multiple="true"-->
+      <!--placeholder="{{ 'OS_FAMILY' | translate }}"-->
+    <!--&gt;-->
+      <!--<mdl-option-->
+        <!--*ngFor="let family of osFamilies"-->
+        <!--[value]="family"-->
+      <!--&gt;-->
+        <!--{{ family }}-->
+      <!--</mdl-option>-->
+    <!--</mdl-select>-->
+    <!--<div *ngIf="filterTranslations" class="filter-select-container">-->
+      <!--<mdl-select-->
+        <!--class="filter-select"-->
+        <!--[(ngModel)]="selectedFilters"-->
+        <!--(ngModelChange)="filterResults()"-->
+        <!--multiple="true"-->
+        <!--placeholder="{{ 'TYPE' | translate }}"-->
+      <!--&gt;-->
+        <!--<mdl-option-->
+          <!--*ngFor="let filter of filters"-->
+          <!--[value]="filter"-->
+        <!--&gt;-->
+          <!--{{ filterTranslations[filter] }}-->
+        <!--</mdl-option>-->
+      <!--</mdl-select>-->
+    <!--</div>-->
+  <!--</mdl-card>-->
+  <!--<p class="search-bar">-->
+    <!--<mdl-icon>search</mdl-icon>-->
+    <!--<mdl-textfield-->
+      <!--type="text"-->
+      <!--[(ngModel)]="query"-->
+      <!--(input)="search($event)"-->
+    <!--&gt;</mdl-textfield>-->
+  <!--</p>-->
   <div
     *ngIf="!visibleTemplateList?.length"
     class="no-results"
