@@ -261,6 +261,7 @@
   "SG_TEMPLATES_NAVBAR": "Шаблоны<br>групп безопасности",
 
   "NEW_TEMPLATE": "Регистрация нового шаблона",
+  "NEW_ISO": "Регистрация нового ISO",
   "TEMPLATES_ISO": "Шаблоны и ISO файлы",
   "URL": "URL",
   "ISO_REGISTER_IN_PROGRESS": "Регистрация ISO",
@@ -283,6 +284,9 @@
   "TEMPLATE_SELF": "Мои",
   "TEMPLATE_SELFEXECUTABLE": "Мои",
   "TEMPLATE_ALL": "Все",
+  "TEMPLATE_EXTRACTABLE": "Извлекаемый",
+  "TEMPLATE_PASSWORD_ENABLED": "Пароль включен",
+  "TEMPLATE_DYNAMICALLY_SCALABLE": "Динамическое масштабирование",
 
   "DELETE_ISO_IN_PROGRESS": "Удаление ISO",
   "DELETE_ISO_DONE": "ISO удален",

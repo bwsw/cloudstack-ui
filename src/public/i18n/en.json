@@ -261,6 +261,7 @@
   "SG_TEMPLATES_NAVBAR": "Security group<br>templates",
 
   "NEW_TEMPLATE": "Register a new template",
+  "NEW_ISO": "Register a new ISO",
   "TEMPLATES_ISO": "Templates and ISOs",
   "URL": "URL",
   "ISO_REGISTER_IN_PROGRESS": "Registering an ISO",
@@ -283,6 +284,9 @@
   "TEMPLATE_SELF": "My",
   "TEMPLATE_SELFEXECUTABLE": "My",
   "TEMPLATE_ALL": "All",
+  "TEMPLATE_EXTRACTABLE": "Extractable",
+  "TEMPLATE_PASSWORD_ENABLED": "Password enabled",
+  "TEMPLATE_DYNAMICALLY_SCALABLE": "Dynamically scalable",
 
   "DELETE_ISO_IN_PROGRESS": " Deleting an ISO",
   "DELETE_ISO_DONE": "ISO deleted",

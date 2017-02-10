@@ -1,5 +1,5 @@
 <div class="security-group-template-form">
-  <h3 class="mdl-dialog__title">{{ 'NEW_TEMPLATE' | translate }}</h3>
+  <h3 class="mdl-dialog__title">{{ 'NEW_'+ mode.toUpperCase() | translate }}</h3>
   <form (ngSubmit)="onCreate($event)" #templateCreationForm="ngForm">
     <div class="mdl-dialog__content">
       <div class="flex-column">
@@ -44,21 +44,21 @@
           [(ngModel)]="extractable"
           *ngIf="mode === 'Template'"
         >
-          Extractable
+          {{ 'TEMPLATE_EXTRACTABLE' | translate }}
         </mdl-checkbox>
         <mdl-checkbox
           name="pass"
           [(ngModel)]="passwordEnabled"
           *ngIf="mode === 'Template'"
         >
-          Password enabled
+          {{ 'TEMPLATE_PASSWORD_ENABLED' | translate }}
         </mdl-checkbox>
         <mdl-checkbox
           name="dynscal"
           [(ngModel)]="dynamicallyScalable"
           *ngIf="mode === 'Template'"
         >
-          Dynamically Scalable
+          {{ 'TEMPLATE_DYNAMICALLY_SCALABLE' | translate }}
         </mdl-checkbox>
       </div>
       <div class="flex-column">
