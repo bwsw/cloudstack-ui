@@ -1,7 +1,7 @@
 <div class="dialog">
   <h3 class="mdl-dialog__title">{{ 'ATTACH_AN_ISO' | translate }}</h3>
   <div class="mdl-dialog__content">
-    <div class="template-list" [class.open]="isDetailOpen">
+    <div class="template-list">
       <mdl-card class="options">
         <mdl-select
           class="os-type-select"
@@ -101,7 +101,7 @@
       mdl-button
       mdl-colored="primary"
       mdl-ripple
-      (click)="attachIso()"
+      (click)="onAttach()"
       [disabled]="!selectedIso"
     >
       {{ 'ATTACH' | translate }}
@@ -109,7 +109,7 @@
     <button
       mdl-button
       mdl-ripple
-      (click)="dialog.hide()"
+      (click)="onCancel()"
     >
       {{ 'CANCEL' | translate }}
     </button>

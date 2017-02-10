@@ -300,5 +300,9 @@
   "ISO_DETACH_IN_PROGRESS": "Открепление ISO диска",
   "ISO_DETACH_DONE": "ISO диск откреплен",
   "ISO_DETACH_FAILED": "Не удалось открепить ISO диск",
-  "ATTACH_AN_ISO": "Прикрепление ISO файла"
+  "ATTACH_AN_ISO": "Прикрепление ISO файла",
+  "ISO_ATTACH_IN_PROGRESS": "Прикрепление ISO файла",
+  "ISO_ATTACH_DONE": "ISO файл прикреплен",
+  "ISO_ATTACH_FAILED": "Не удалось прикрепить ISO файл"
+
 }

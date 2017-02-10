@@ -14,7 +14,7 @@ import { StatsUpdateService } from '../../shared/services/stats-update.service';
 import { VolumeResizeComponent } from './volume-resize.component';
 import { Volume } from '../../shared/models/volume.model';
 import { Iso, IsoService } from '../../template/shared';
-import { VmService } from '../shared/vm.service';
+import { NotificationService } from '../../shared/services/notification.service';
 
 
 @Component({
@@ -33,7 +33,8 @@ export class StorageDetailComponent implements OnChanges {
     private jobNotificationService: JobsNotificationService,
     private statsUpdateService: StatsUpdateService,
     private isoService: IsoService,
-    private vmService: VmService
+    private notificationService: NotificationService
+
   ) {
     this.expandStorage = false;
   }
@@ -140,7 +141,7 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   public attachIsoDialog(): void {
-    this.dialogService.showCustomDialog({
+    let dialogObservable = this.dialogService.showCustomDialog({
       component: IsoAttachmentComponent,
       providers: [],
       isModal: true,
@@ -152,6 +153,15 @@ export class StorageDetailComponent implements OnChanges {
       enterTransitionDuration: 400,
       leaveTransitionDuration: 400
     });
+
+    dialogObservable
+      .switchMap(res => res.onHide())
+      .subscribe((iso: Iso) => {
+        if (!iso) {
+          return;
+        }
+        this.attachIso(iso);
+      });
   }
 
   public detachIsoDialog(): void {
@@ -164,8 +174,36 @@ export class StorageDetailComponent implements OnChanges {
       }, () => {});
   }
 
-  public attachIso(): any {
-    //
+  public attachIso(iso: Iso): any {
+    let translations;
+    let notificationId;
+
+    this.translateService.get([
+      'ISO_ATTACH_IN_PROGRESS',
+      'ISO_ATTACH_DONE',
+      'ISO_ATTACH_FAILED'
+    ])
+      .switchMap(strs => {
+        translations = strs;
+        notificationId = this.jobNotificationService.add(translations['ISO_ATTACH_IN_PROGRESS']);
+        return this.isoService.attach(this.vm.id, iso);
+      })
+      .subscribe((attachedIso: Iso) => {
+        this.iso = attachedIso;
+        this.jobNotificationService.add({
+          id: notificationId,
+          message: translations['ISO_ATTACH_DONE'],
+          status: INotificationStatus.Finished
+        });
+      }, error => {
+        this.iso = null;
+        this.notificationService.error(error);
+        this.jobNotificationService.add({
+          id: notificationId,
+          message: translations['ISO_ATTACH_FAILED'],
+          status: INotificationStatus.Failed
+        });
+      });
   }
 
   public detachIso(): any {
