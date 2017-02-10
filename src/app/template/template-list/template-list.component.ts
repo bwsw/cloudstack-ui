@@ -91,6 +91,7 @@ export class TemplateListComponent implements OnInit {
 
   public hideDetail(): void {
     this.isDetailOpen = !this.isDetailOpen;
+    this.selectedTemplate = null;
   }
 
   public switchDisplayMode(): void {
