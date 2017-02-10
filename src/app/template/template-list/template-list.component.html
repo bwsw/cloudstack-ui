@@ -56,6 +56,7 @@
       <mdl-list-item
         lines="2"
         (click)="$event.stopPropagation(); selectTemplate(template)"
+        [class.selected-template]="selectedTemplate?.id === template.id"
       >
         <mdl-list-item-primary-content>
           <mdl-icon class="os-icon" mdl-list-item-avatar [ngSwitch]="template.osType.osFamily">

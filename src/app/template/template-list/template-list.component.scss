@@ -103,4 +103,9 @@ mdl-list {
 
 mdl-list-item {
   display: inline-block;
+  cursor: pointer;
+}
+
+.selected-template span {
+  font-weight: bold;
 }
