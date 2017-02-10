@@ -10,6 +10,7 @@ import { IsoService, TemplateService } from './shared';
 import { TemplateListComponent } from './template-list/template-list.component';
 import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
 import { TemplateCreationComponent } from './template-creation/template-creation.component';
+import { VmModule } from '../vm/vm.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { TemplateCreationComponent } from './template-creation/template-creation
     TranslateModule,
     MdlModule,
     MdlSelectModule,
+    VmModule,
     SharedModule
   ],
   declarations: [

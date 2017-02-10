@@ -37,6 +37,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { NotificationBoxComponent } from './components/notification-box.component';
 import { NotificationBoxItemComponent } from './components/notification-box-item.component';
 import { HighLightPipe } from './pipes/highlight.pipe';
+import { VmStatisticsComponent } from './components/vm-statistics/vm-statistics.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { HighLightPipe } from './pipes/highlight.pipe';
     SidebarComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
+    VmStatisticsComponent,
     DivByPowerOfTwoPipe,
     ViewValuePipe,
     HighLightPipe
@@ -60,6 +62,7 @@ import { HighLightPipe } from './pipes/highlight.pipe';
     SidebarComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
+    VmStatisticsComponent,
     DivByPowerOfTwoPipe,
     ViewValuePipe,
     HighLightPipe

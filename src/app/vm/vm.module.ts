@@ -14,7 +14,6 @@ import { VmDetailComponent } from './vm-sidebar/vm-detail.component';
 import { VmListComponent } from './vm-list/vm-list.component';
 import { VmListItemComponent } from './vm-list/vm-list-item.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
-import { VmStatisticsComponent } from './vm-statistics/vm-statistics.component';
 import { VmService } from './shared/vm.service';
 import { VmTemplateComponent } from './vm-creation/vm-creation-template/vm-template.component';
 import { VmTemplateDialogComponent } from './vm-creation/vm-creation-template/vm-template-dialog.component';
@@ -45,7 +44,6 @@ import { VolumeSizeControlComponent } from './shared/volume-size-control.compone
     VmListItemComponent,
     VmDetailComponent,
     VmSidebarComponent,
-    VmStatisticsComponent,
     VmTemplateComponent,
     VmTemplateDialogComponent,
     VmTemplateDialogItemComponent,
