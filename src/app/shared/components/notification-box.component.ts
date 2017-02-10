@@ -12,7 +12,7 @@ import { Observable } from 'rxjs/Rx';
 export class NotificationBoxComponent implements OnInit {
   @ViewChild(MdlPopoverComponent)
   private popover: MdlPopoverComponent;
-  private unseenCount: number;
+  public unseenCount: number;
   private unseenCountStream: Observable<number>;
 
   constructor(

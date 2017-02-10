@@ -15,7 +15,7 @@ export class SgRuleComponent {
 
   @Output() public onRemove = new EventEmitter();
 
-  public deleting: boolean = false;
+  public deleting = false;
 
   public handleRemoveClicked(e: Event): void {
     e.stopPropagation();

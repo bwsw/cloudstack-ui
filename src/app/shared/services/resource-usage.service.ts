@@ -12,14 +12,14 @@ import { Observable } from 'rxjs/Rx';
 
 
 export class ResourcesData {
-  public instances: number = 0;
-  public ips: number = 0;
-  public volumes: number = 0;
-  public snapshots: number = 0;
-  public cpus: number = 0;
-  public memory: number = 0;
-  public primaryStorage: number = 0;
-  public secondaryStorage: number = 0;
+  public instances = 0;
+  public ips = 0;
+  public volumes = 0;
+  public snapshots = 0;
+  public cpus = 0;
+  public memory = 0;
+  public primaryStorage = 0;
+  public secondaryStorage = 0;
 
   constructor(resources?: Array<ResourceLimit>) {
     if (resources) {

@@ -27,7 +27,7 @@ export class TemplateListComponent implements OnInit {
   public isDetailOpen: boolean;
   public selectedTemplate: Template | Iso;
 
-  public showIso: boolean = false;
+  public showIso = false;
   public query: string;
   public selectedOsFamilies: Array<OsFamily>;
   public selectedFilters: Array<string>;

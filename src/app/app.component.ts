@@ -17,8 +17,8 @@ import '../style/app.scss';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  private loggedIn: boolean;
-  private title: string;
+  public loggedIn: boolean;
+  public title: string;
 
   constructor(
     private auth: AuthService,

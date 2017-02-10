@@ -21,7 +21,7 @@ import { Volume } from '../../shared/models/volume.model';
 })
 export class StorageDetailComponent {
   @Input() public vm: VirtualMachine;
-  private expandStorage: boolean;
+  public expandStorage: boolean;
 
   constructor(
     private dialogService: MdlDialogService,

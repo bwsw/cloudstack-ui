@@ -45,7 +45,7 @@ export class SgRulesComponent implements OnInit {
 
   public adding: boolean;
 
-  private icmpTypes: Array<IIcmpType>;
+  public icmpTypes: Array<IIcmpType>;
   private selectedIcmpTypeCodes: Array<IIcmpCode>;
 
   constructor(

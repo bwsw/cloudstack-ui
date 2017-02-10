@@ -7,9 +7,9 @@ import { MdlDialogReference } from 'angular2-mdl';
   styleUrls: ['sg-template-creation.component.scss']
 })
 export class SgTemplateCreationComponent {
-  private name: string;
-  private description: string;
-  private labels: string;
+  public name: string;
+  public description: string;
+  public labels: string;
 
   constructor(private dialog: MdlDialogReference) {
     this.name = '';

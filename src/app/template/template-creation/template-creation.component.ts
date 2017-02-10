@@ -28,7 +28,7 @@ export class TemplateCreationComponent implements OnInit {
     private dialog: MdlDialogReference,
     private osTypeService: OsTypeService,
     private zoneService: ZoneService,
-    @Inject('mode') private mode: 'Template' | 'Iso'
+    @Inject('mode') public mode: 'Template' | 'Iso'
   ) { }
 
   public ngOnInit(): void {

@@ -35,9 +35,9 @@ export class VmListComponent implements OnInit {
   @ViewChild(VmCreationComponent) public vmCreationForm: VmCreationComponent;
   @HostBinding('class.mdl-color--grey-100') public backgroundColorClass = true;
 
+  public isDetailOpen: boolean;
+  public selectedVm: VirtualMachine;
   private vmList: Array<VirtualMachine>;
-  private selectedVm: VirtualMachine;
-  private isDetailOpen: boolean;
 
   constructor (
     private vmService: VmService,

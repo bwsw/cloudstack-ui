@@ -14,7 +14,7 @@ export class VolumeResizeComponent implements OnInit {
   public maxSize: number;
 
   constructor(
-    private dialog: MdlDialogReference,
+    public dialog: MdlDialogReference,
     @Inject('volume') public volume: Volume,
     private volumeService: VolumeService,
     private diskStorageService: DiskStorageService
