@@ -39,6 +39,27 @@
           [class.is-invalid]="urlField.invalid && !urlField.pristine"
         >
         </mdl-textfield>
+        <mdl-checkbox
+          name="extractable"
+          [(ngModel)]="extractable"
+          *ngIf="mode === 'Template'"
+        >
+          Extractable
+        </mdl-checkbox>
+        <mdl-checkbox
+          name="pass"
+          [(ngModel)]="passwordEnabled"
+          *ngIf="mode === 'Template'"
+        >
+          Password enabled
+        </mdl-checkbox>
+        <mdl-checkbox
+          name="dynscal"
+          [(ngModel)]="dynamicallyScalable"
+          *ngIf="mode === 'Template'"
+        >
+          Dynamically Scalable
+        </mdl-checkbox>
       </div>
       <div class="flex-column">
         <h5>{{ 'ZONE' | translate }}</h5>

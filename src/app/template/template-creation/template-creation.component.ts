@@ -18,6 +18,10 @@ export class TemplateCreationComponent implements OnInit {
   public url: string;
   public zoneId: string;
 
+  public extractable: boolean;
+  public passwordEnabled: boolean;
+  public dynamicallyScalable: boolean;
+
   public osTypes: Array<OsType>;
   public zones: Array<Zone>;
 
@@ -50,12 +54,19 @@ export class TemplateCreationComponent implements OnInit {
   }
 
   public onCreate(): void {
-    this.dialog.hide({
+    const params = {
       name: this.name,
       displayText: this.displayText,
       osTypeId: this.osTypeId,
       url: this.url,
       zoneId: this.zoneId
-    });
+    };
+
+    if (this.mode === 'Template') {
+      params['extractable'] = this.extractable;
+      params['passwordenabled'] = this.extractable;
+      params['isdynamicallyscalable'] = this.extractable;
+    }
+    this.dialog.hide(params);
   }
 }

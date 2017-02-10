@@ -62,6 +62,14 @@ export class TemplateService extends BaseBackendService<Template> {
       });
   }
 
+  public addOsTypeData(template: Template): Observable<Template> {
+    return this.osTypeService.getList()
+      .map(osTypes => {
+        template.osType = osTypes.find(osType => osType.id === template.osTypeId);
+        return template;
+      });
+  }
+
   public register(params: {}, url: string): Observable<Template> {
     // stub
     params['url'] = url;
