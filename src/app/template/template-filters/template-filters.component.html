@@ -6,7 +6,8 @@
 
   <mdl-select
     class="os-type-select"
-    [(ngModel)]="selectedOsFamilies"
+    [ngModel]="selectedOsFamilies"
+    (ngModelChange)="updateFilters()"
     multiple="true"
     placeholder="{{ 'OS_FAMILY' | translate }}"
   >
@@ -20,13 +21,14 @@
   <div *ngIf="filterTranslations" class="filter-select-container">
     <mdl-select
       class="filter-select"
-      [(ngModel)]="selectedFilters"
+      [ngModel]="selectedFilters"
+      (ngModelChange)="updateFilters()"
       multiple="true"
       placeholder="{{ 'TYPE' | translate }}"
     >
       <mdl-option
-        *ngFor="let filter of filters"
-        [value]="filter"
+        *ngFor="let f of categoryFilters"
+        [value]="f"
       >
         {{ filterTranslations[filter] }}
       </mdl-option>

@@ -1,6 +1,6 @@
 <cs-template-filters
-  (queries)="query"
-  [(ngModel)]="filters"
+  (queries)="filterResults($event)"
+  (filters)="filterResults($event)"
 ></cs-template-filters>
 <div class="template-list" [class.open]="isDetailOpen">
   <!--<mdl-card class="options">-->

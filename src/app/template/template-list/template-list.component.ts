@@ -18,11 +18,6 @@ import { AuthService } from '../../shared/services/auth.service';
 import { StorageService } from '../../shared/services/storage.service';
 import { ServiceLocator } from '../../shared/services/service-locator';
 
-interface IFilters {
-  selectedOsFamilies: Array<OsFamily>,
-  selectedFilters: Array<string>
-}
-
 
 @Component({
   selector: 'cs-template-list',
@@ -35,14 +30,14 @@ export class TemplateListComponent implements OnInit {
 
   public showIso: boolean;
 
-  public filters: IFilters = { selectedOsFamilies: ['Linux'], selectedFilters: ['Featured'] };
+  public selectedOsFamilies: Array<OsFamily>;
+  public selectedFilters: Array<string>;
+  public query: string;
 
   public templateList: Array<Template | Iso>;
   public visibleTemplateList: Array<Template | Iso>;
 
   public filterTranslations: {};
-
-  public query: string;
 
   protected dialogService: MdlDialogService;
   protected isoService: IsoService;
@@ -67,8 +62,8 @@ export class TemplateListComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    debugger;
     this.fetchData();
-    console.log(this.filters);
     // this.translateService.get(
     //   this.filters.map(filter => `TEMPLATE_${filter.toUpperCase()}`)
     // )
@@ -216,11 +211,14 @@ export class TemplateListComponent implements OnInit {
 
   public ngOnChanges(): void {
     // this.filterResults(this.query);
-    console.log(this.filters);
+    this.fetchData();
   }
 
-  private filterResults(query?: string): void {
-    this.visibleTemplateList = this.filterBySearch(query, this.filterByCategories(this.templateList));
+  private filterResults(filters: any): void {
+    this.selectedOsFamilies = filters.selectedOsFamilies;
+    this.selectedFilters = filters.selectedFilters;
+    this.query = filters.query;
+    this.visibleTemplateList = this.filterBySearch(this.filterByCategories(this.templateList));
   }
 
   // private addIsoToList(iso: Iso): void {
@@ -241,22 +239,21 @@ export class TemplateListComponent implements OnInit {
   // }
 
   private filterByCategories(templateList: Array<Template | Iso>): Array<Template | Iso> {
-    debugger;
     return templateList
       .filter(template => {
-        let featuredFilter = this.filters.selectedFilters.includes('featured') || !template.isFeatured;
-        let selfFilter = this.filters.selectedFilters.includes('self') ||
+        let featuredFilter = this.selectedFilters.includes('featured') || !template.isFeatured;
+        let selfFilter = this.selectedFilters.includes('self') ||
           !(template.account === this.authService.username);
-        let osFilter = this.filters.selectedOsFamilies.includes(template.osType.osFamily);
+        let osFilter = this.selectedOsFamilies.includes(template.osType.osFamily);
         return featuredFilter && selfFilter && osFilter;
       });
   }
 
-  private filterBySearch(query: string, templateList: Array<Template | Iso>): Array<Template | Iso> {
-    if (!query) {
+  private filterBySearch(templateList: Array<Template | Iso>): Array<Template | Iso> {
+    if (!this.query) {
       return templateList;
     }
-    const queryLower = query.toLowerCase();
+    const queryLower = this.query.toLowerCase();
     return templateList.filter(template => {
       return template.name.toLowerCase().includes(queryLower) ||
         template.displayText.toLowerCase().includes(queryLower);
@@ -264,19 +261,11 @@ export class TemplateListComponent implements OnInit {
   }
 
   private fetchData(): void {
-    console.log(this.filters);
     if (!this.showIso) {
       this.templateList = [];
       this.templateService.getGroupedTemplates({}, ['featured', 'self'])
         .subscribe(templates => {
-          let t = [];
-          for (let filter in templates) {
-            if (templates.hasOwnProperty(filter)) {
-              t = t.concat(templates[filter]);
-            }
-          }
-          this.templateList = t;
-          this.filterResults(this.query);
+          this.templateList = <Array<Template>>templates;
         });
     } else {
       this.templateList = [];
@@ -286,7 +275,6 @@ export class TemplateListComponent implements OnInit {
       ])
         .subscribe(([featuredIsos, selfIsos]) => {
           this.templateList = featuredIsos.concat(selfIsos);
-          this.filterResults(this.query);
         });
     }
   }
