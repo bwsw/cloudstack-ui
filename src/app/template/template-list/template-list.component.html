@@ -96,7 +96,7 @@
   [isOpen]="isDetailOpen"
   [template]="selectedTemplate"
   (onClickOutside)="hideDetail()"
-  (deleteTemplate)="delete($event)"
+  (deleteTemplate)="deleteTemplate($event)"
 ></cs-template-sidebar>
 <div class="fab" [class.open]="isDetailOpen">
   <button

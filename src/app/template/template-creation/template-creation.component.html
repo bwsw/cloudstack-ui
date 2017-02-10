@@ -1,5 +1,5 @@
 <div class="security-group-template-form">
-  <h3 class="mdl-dialog__title">{{ 'NEW_TEMPLATE' | translate }}</h3>
+  <h3 class="mdl-dialog__title">{{ 'NEW_'+ mode.toUpperCase() | translate }}</h3>
   <form (ngSubmit)="onCreate($event)" #templateCreationForm="ngForm">
     <div class="mdl-dialog__content">
       <div class="flex-column">
@@ -39,6 +39,22 @@
           [class.is-invalid]="urlField.invalid && !urlField.pristine"
         >
         </mdl-textfield>
+        <mdl-checkbox
+          class="password-enabled-checkbox"
+          name="pass"
+          [(ngModel)]="passwordEnabled"
+          *ngIf="mode === 'Template'"
+        >
+          {{ 'TEMPLATE_PASSWORD_ENABLED' | translate }}
+        </mdl-checkbox>
+        <mdl-checkbox
+          class="dynscal-checkbox"
+          name="dynscal"
+          [(ngModel)]="dynamicallyScalable"
+          *ngIf="mode === 'Template'"
+        >
+          {{ 'TEMPLATE_DYNAMICALLY_SCALABLE' | translate }}
+        </mdl-checkbox>
       </div>
       <div class="flex-column">
         <h5>{{ 'ZONE' | translate }}</h5>

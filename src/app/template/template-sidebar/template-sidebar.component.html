@@ -54,6 +54,14 @@
             <div>{{ 'RECOMMENDED' | translate }}</div>
             <div>{{ template.isFeatured | viewValue }}</div>
           </div>
+          <div class="row" *ngIf="template.isPasswordEnabled !== undefined">
+            <div>{{ 'TEMPLATE_PASSWORD_ENABLED' | translate }}</div>
+            <div>{{ template.isPasswordEnabled | viewValue }}</div>
+          </div>
+          <div class="row" *ngIf="template.isDynamicallyScalable !== undefined">
+            <div>{{ 'TEMPLATE_DYNAMICALLY_SCALABLE' | translate }}</div>
+            <div>{{ template.isDynamicallyScalable | viewValue }}</div>
+          </div>
           <div class="row">
             <div>{{ 'CROSS_ZONES' | translate }}</div>
             <div>{{ template.crossZones | viewValue }}</div>
