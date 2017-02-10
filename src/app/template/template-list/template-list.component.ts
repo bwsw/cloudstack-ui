@@ -15,6 +15,8 @@ import { INotificationStatus, JobsNotificationService, NotificationService } fro
 import { TemplateCreationComponent } from '../template-creation/template-creation.component';
 import { VmService } from '../../vm/shared/vm.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { StorageService } from '../../shared/services/storage.service';
+import { ServiceLocator } from '../../shared/services/service-locator';
 
 
 @Component({
@@ -48,18 +50,29 @@ export class TemplateListComponent implements OnInit {
 
   public filterTranslations: {};
 
+  protected dialogService: MdlDialogService;
+  protected isoService: IsoService;
+  protected jobNotificationService: JobsNotificationService;
+  protected translateService: TranslateService;
+  protected templateService: TemplateService;
+  protected notificationService: NotificationService;
+  protected vmService: VmService;
+  protected authService: AuthService;
+  protected storageService: StorageService;
+
   private queryStream = new Subject<string>();
 
-  constructor(
-    private dialogService: MdlDialogService,
-    private isoService: IsoService,
-    private jobNotificationService: JobsNotificationService,
-    private translateService: TranslateService,
-    private templateService: TemplateService,
-    private notificationService: NotificationService,
-    private vmService: VmService,
-    private authService: AuthService
-  ) {}
+  constructor() {
+    this.dialogService = ServiceLocator.injector.get(MdlDialogService);
+    this.isoService = ServiceLocator.injector.get(IsoService);
+    this.jobNotificationService = ServiceLocator.injector.get(JobsNotificationService);
+    this.translateService = ServiceLocator.injector.get(TranslateService);
+    this.templateService = ServiceLocator.injector.get(TemplateService);
+    this.notificationService = ServiceLocator.injector.get(NotificationService);
+    this.vmService = ServiceLocator.injector.get(VmService);
+    this.authService = ServiceLocator.injector.get(AuthService);
+    this.storageService = ServiceLocator.injector.get(StorageService);
+  }
 
   public ngOnInit(): void {
     this.selectedOsFamilies = this.osFamilies.concat();
@@ -78,11 +91,13 @@ export class TemplateListComponent implements OnInit {
       });
 
     this.queryStream
-      .debounceTime(300)
       .distinctUntilChanged()
       .subscribe(query => {
         this.filterResults(query);
       });
+
+    this.showIso = this.storageService.read('templateDisplayMode') === 'iso';
+    this.switchDisplayMode();
   }
 
   public hideDetail(): void {
@@ -91,6 +106,7 @@ export class TemplateListComponent implements OnInit {
 
   public switchDisplayMode(): void {
     this.fetchData();
+    this.storageService.write('templateDisplayMode', this.showIso ? 'iso' : 'template');
   }
 
   public showCreationDialog(): void {

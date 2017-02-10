@@ -19,7 +19,7 @@
         {{ family }}
       </mdl-option>
     </mdl-select>
-    <div *ngIf="filterTranslations">
+    <div *ngIf="filterTranslations" class="filter-select-container">
       <mdl-select
         class="filter-select"
         [(ngModel)]="selectedFilters"
@@ -45,6 +45,12 @@
     ></mdl-textfield>
   </p>
 
+  <div
+    *ngIf="!visibleTemplateList?.length"
+    class="no-results"
+  >
+    {{ 'NO_RESULTS' | translate }}
+  </div>
   <mdl-list>
     <mdl-list-item
       lines="2"
@@ -76,17 +82,13 @@
           </template>
           <template ngSwitchDefault>help</template>
         </mdl-icon>
-        <span>{{ template.name }}</span>
-        <mdl-list-item-sub-title>{{ template.displayText }}</mdl-list-item-sub-title>
+        <span [innerHTML]="template.name | highlight:query"></span>
+        <mdl-list-item-sub-title
+          [innerHTML]="template.displayText | highlight:query"
+        ></mdl-list-item-sub-title>
       </mdl-list-item-primary-content>
     </mdl-list-item>
   </mdl-list>
-  <div
-    *ngIf="!visibleTemplateList?.length"
-    class="no-results"
-  >
-    {{ 'NO_RESULTS' | translate }}
-  </div>
 </div>
 <cs-template-sidebar
   [isOpen]="isDetailOpen"

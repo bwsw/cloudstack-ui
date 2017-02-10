@@ -299,5 +299,6 @@
   "NO_MEDIUM": "Диск не прикреплен",
   "ISO_DETACH_IN_PROGRESS": "Открепление ISO диска",
   "ISO_DETACH_DONE": "ISO диск откреплен",
-  "ISO_DETACH_FAILED": "Не удалось открепить ISO диск"
+  "ISO_DETACH_FAILED": "Не удалось открепить ISO диск",
+  "ATTACH_AN_ISO": "Прикрепление ISO файла"
 }

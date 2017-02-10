@@ -299,5 +299,6 @@
   "NO_MEDIUM": "No medium attached",
   "ISO_DETACH_IN_PROGRESS": "Detaching an ISO",
   "ISO_DETACH_DONE": "ISO has been detached",
-  "ISO_DETACH_FAILED": "Failed to detach an ISO"
+  "ISO_DETACH_FAILED": "Failed to detach an ISO",
+  "ATTACH_AN_ISO": "Attach an ISO"
 }

@@ -144,6 +144,10 @@ export class StorageDetailComponent implements OnChanges {
       component: IsoAttachmentComponent,
       providers: [],
       isModal: true,
+      styles: {
+        'width': '720px',
+        'height': '660px'
+      },
       clickOutsideToClose: true,
       enterTransitionDuration: 400,
       leaveTransitionDuration: 400
@@ -155,7 +159,7 @@ export class StorageDetailComponent implements OnChanges {
       .switchMap(str => {
         return this.dialogService.confirm(str);
       })
-      .subscribe(result => {
+      .subscribe(() => {
         this.detachIso();
       }, () => {});
   }
@@ -191,7 +195,7 @@ export class StorageDetailComponent implements OnChanges {
           id: notificationId,
           message: translations['ISO_DETACH_FAILED'],
           status: INotificationStatus.Failed
-        })
+        });
       });
   }
 }

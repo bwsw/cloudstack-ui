@@ -1,1 +1,117 @@
-<cs-template-list></cs-template-list>
+<div class="dialog">
+  <h3 class="mdl-dialog__title">{{ 'ATTACH_AN_ISO' | translate }}</h3>
+  <div class="mdl-dialog__content">
+    <div class="template-list" [class.open]="isDetailOpen">
+      <mdl-card class="options">
+        <mdl-select
+          class="os-type-select"
+          [(ngModel)]="selectedOsFamilies"
+          (ngModelChange)="filterResults()"
+          multiple="true"
+          placeholder="{{ 'OS_FAMILY' | translate }}"
+        >
+          <mdl-option
+            *ngFor="let family of osFamilies"
+            [value]="family"
+          >
+            {{ family }}
+          </mdl-option>
+        </mdl-select>
+        <div *ngIf="filterTranslations" class="filter-select-container">
+          <mdl-select
+            class="filter-select"
+            [(ngModel)]="selectedFilters"
+            (ngModelChange)="filterResults()"
+            multiple="true"
+            placeholder="{{ 'TYPE' | translate }}"
+          >
+            <mdl-option
+              *ngFor="let filter of filters"
+              [value]="filter"
+            >
+              {{ filterTranslations[filter] }}
+            </mdl-option>
+          </mdl-select>
+        </div>
+      </mdl-card>
+      <p class="search-bar">
+        <mdl-icon>search</mdl-icon>
+        <mdl-textfield
+          type="text"
+          [(ngModel)]="query"
+          (input)="search($event)"
+        ></mdl-textfield>
+      </p>
+
+      <div
+        *ngIf="!visibleTemplateList?.length"
+        class="no-results"
+      >
+        {{ 'NO_RESULTS' | translate }}
+      </div>
+      <mdl-list>
+        <mdl-list-item
+          lines="2"
+          *ngFor="let template of visibleTemplateList"
+        >
+          <mdl-list-item-primary-content>
+            <mdl-icon class="os-icon" mdl-list-item-avatar [ngSwitch]="template.osType.osFamily">
+              <template [ngSwitchCase]="'Linux'">
+                <img
+                  src="/img/os/linux.png"
+                  width="40"
+                  height="40"
+                >
+              </template>
+              <template [ngSwitchCase]="'Windows'">
+                <img
+                  src="/img/os/windows.png"
+                  width="40"
+                  height="40"
+                >
+              </template>
+              <template [ngSwitchCase]="'Mac OS'">
+                <img
+                  src="/img/os/osx.png"
+                  width="40"
+                  height="40"
+                >
+              </template>
+              <template ngSwitchDefault>help</template>
+            </mdl-icon>
+            <span [innerHTML]="template.name | highlight:query"></span>
+            <mdl-list-item-sub-title
+              [innerHTML]="template.displayText | highlight:query"
+            ></mdl-list-item-sub-title>
+          </mdl-list-item-primary-content>
+          <mdl-list-item-secondary-action>
+            <mdl-radio
+              name="radio"
+              [value]="template"
+              [(ngModel)]="selectedIso"
+              mdl-ripple
+            ></mdl-radio>
+          </mdl-list-item-secondary-action>
+        </mdl-list-item>
+      </mdl-list>
+    </div>
+  </div>
+  <div class="mdl-dialog__actions">
+    <button
+      mdl-button
+      mdl-colored="primary"
+      mdl-ripple
+      (click)="attachIso()"
+      [disabled]="!selectedIso"
+    >
+      {{ 'ATTACH' | translate }}
+    </button>
+    <button
+      mdl-button
+      mdl-ripple
+      (click)="dialog.hide()"
+    >
+      {{ 'CANCEL' | translate }}
+    </button>
+  </div>
+</div>
