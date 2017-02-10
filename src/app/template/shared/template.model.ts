@@ -9,12 +9,14 @@ export interface ITag {
 
 @FieldMapper({
   displaytext: 'displayText',
+  isdynamicallyscalable: 'isDynamicallyScalable',
   isextractable: 'isExtractable',
   isfeatured: 'isFeatured',
   ispublic: 'isPublic',
   isready: 'isReady',
   ostypeid: 'osTypeId',
   ostypename: 'osTypeName',
+  passwordenabled: 'isPasswordEnabled',
   templatetype: 'type'
 })
 export class Template extends BaseModel { // todo: superclass (iso, template)
@@ -27,8 +29,10 @@ export class Template extends BaseModel { // todo: superclass (iso, template)
   public displayText: string;
   public domain: string;
   public hypervisor: string;
+  public isDynamicallyScalable: boolean;
   public isExtractable: boolean;
   public isFeatured: boolean;
+  public isPasswordEnabled: boolean;
   public isPublic: boolean;
   public isReady: boolean;
   public osTypeId: string;

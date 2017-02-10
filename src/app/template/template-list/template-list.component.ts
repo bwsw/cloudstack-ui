@@ -108,36 +108,43 @@ export class TemplateListComponent implements OnInit {
           return;
         }
 
-        this.createIso(params);
+        this.createTemplate(params);
       });
   }
 
-  public createIso(params): void {
+  public createTemplate(params): void {
     let translatedStrings;
     let notificationId;
+
+    let currentMode = this.showIso ? 'ISO' : 'TEMPLATE';
 
     this.translateService.get([
       'ISO_REGISTER_IN_PROGRESS',
       'ISO_REGISTER_DONE',
-      'ISO_REGISTER_FAILED'
+      'ISO_REGISTER_FAILED',
+      'TEMPLATE_REGISTER_IN_PROGRESS',
+      'TEMPLATE_REGISTER_DONE',
+      'TEMPLATE_REGISTER_FAILED'
     ])
       .switchMap<Array<string>, Template | Iso>(strs => {
         translatedStrings = strs;
-        notificationId = this.jobNotificationService.add(translatedStrings['ISO_REGISTER_IN_PROGRESS']);
+        notificationId = this.jobNotificationService.add(
+          translatedStrings[`${currentMode}_REGISTER_IN_PROGRESS`]
+        );
         return this.showIso ? this.addIso(params) : this.addTemplate(params);
       })
       .subscribe((template: Template | Iso) => {
         this.addTemplateToList(template);
         this.jobNotificationService.add({
           id: notificationId,
-          message: translatedStrings['ISO_REGISTER_DONE'],
+          message: translatedStrings[`${currentMode}_REGISTER_DONE`],
           status: INotificationStatus.Finished
         });
       }, error => {
         this.notificationService.error(error.json()['registerisoresponse']['errortext']);
         this.jobNotificationService.add({
           id: notificationId,
-          message: translatedStrings['ISO_REGISTER_FAILED'],
+          message: translatedStrings[`${currentMode}_REGISTER_FAILED`],
           status: INotificationStatus.Failed
         });
       });
