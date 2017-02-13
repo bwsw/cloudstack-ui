@@ -197,11 +197,16 @@ export class VmCreationComponent {
         this.vmService.checkCommand(result.jobid)
           .subscribe(job => {
             this.notifyOnDeployDone(notificationId);
-            this.translateService.get('PASSWORD_DIALOG_MESSAGE',
+            if (!job.jobResult.password) {
+              return;
+            }
+            this.translateService.get(
+              'PASSWORD_DIALOG_MESSAGE',
               {
                 vmName: job.jobResult.displayName,
                 vmPassword: job.jobResult.password
-              })
+              }
+            )
               .subscribe((res: string) => {
                 this.dialogService.alert(res);
               });
