@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, forwardRef } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, forwardRef, Input } from '@angular/core';
 import { OsFamily } from '../../shared/models/os-type.model';
 import { Subject } from 'rxjs';
 import { StorageService } from '../../shared/services/storage.service';
@@ -11,11 +11,14 @@ import { TranslateService } from 'ng2-translate';
   styleUrls: ['template-filters.component.scss']
 })
 export class TemplateFiltersComponent implements OnInit {
+  @Input() public showIsoSwitch = true;
+  @Input() public showDelimiter = true;
+  @Input() public showIso: boolean = false;
+
   @Output() public queries = new EventEmitter();
   @Output() public displayMode = new EventEmitter();
   @Output() public filters = new EventEmitter();
 
-  public showIso: boolean = false;
   public query: string;
   public selectedOsFamilies: Array<OsFamily>;
   public selectedFilters: Array<string>;
@@ -79,7 +82,8 @@ export class TemplateFiltersComponent implements OnInit {
   }
 
   private updateDisplayMode(): void {
-    this.displayMode.emit(this.showIso);
-    this.storageService.write('templateDisplayMode', this.showIso ? 'iso' : 'template');
+    let mode = this.showIso ? 'iso' : 'template';
+    this.displayMode.emit(mode);
+    this.storageService.write('templateDisplayMode', mode);
   }
 }

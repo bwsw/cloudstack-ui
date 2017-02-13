@@ -4,7 +4,6 @@ $select-width: 195px;
   display: block;
   width: 100%;
   min-height: initial;
-  border-bottom: 1px solid #dedede;
   overflow: visible;
 }
 
@@ -48,4 +47,8 @@ $select-width: 195px;
     max-width: 300px;
     width: 100%;
   }
+}
+
+.delimiter {
+  border-bottom: 1px solid #dedede;
 }

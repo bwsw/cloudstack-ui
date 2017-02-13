@@ -1,7 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { TemplateListComponent } from '../template-list/template-list.component';
+import { TemplatePageComponent } from '../template-page/template-page.component';
 import { Iso } from '../shared/iso.model';
-import { MdlDialogReference } from 'angular2-mdl';
+import { MdlDialogReference, MdlDialogService } from 'angular2-mdl';
+import { IsoService } from '../shared/iso.service';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
+import { TranslateService } from 'ng2-translate';
+import { TemplateService } from '../shared/template.service';
+import { NotificationService } from '../../shared/services/notification.service';
+import { VmService } from '../../vm/shared/vm.service';
+import { AuthService } from '../../shared/services/auth.service';
+import { StorageService } from '../../shared/services/storage.service';
 
 
 @Component({
@@ -9,10 +17,10 @@ import { MdlDialogReference } from 'angular2-mdl';
   templateUrl: 'iso-attachment.component.html',
   styleUrls: ['iso-attachment.component.scss']
 })
-export class IsoAttachmentComponent extends TemplateListComponent implements OnInit {
+export class IsoAttachmentComponent extends TemplatePageComponent implements OnInit {
   public selectedIso: Iso;
 
-  constructor(public dialog: MdlDialogReference) {
+  constructor(private dialog: MdlDialogReference) {
     super();
   }
 

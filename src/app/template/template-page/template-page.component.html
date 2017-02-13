@@ -1,0 +1,37 @@
+<div
+  class="filters"
+  [class.open]="isDetailOpen"
+>
+  <cs-template-filters
+    (queries)="filterResults($event)"
+    (filters)="filterResults($event)"
+    (displayMode)="updateDisplayMode($event)"
+    [showIso]="showIso"
+  ></cs-template-filters>
+</div>
+<div
+  class="template-list"
+  [class.open]="isDetailOpen"
+>
+  <cs-template-list
+    (selectedTemplate)="selectTemplate($event)"
+    [templateList]="visibleTemplateList"
+    [query]="query"
+  ></cs-template-list>
+</div>
+<cs-template-sidebar
+  [isOpen]="isDetailOpen"
+  [template]="selectedTemplate"
+  (onClickOutside)="hideDetail()"
+  (deleteTemplate)="delete($event)"
+></cs-template-sidebar>
+<div class="fab" [class.open]="isDetailOpen">
+  <button
+    mdl-button
+    mdl-button-type="fab"
+    mdl-colored="accent"
+    (click)="showCreationDialog()"
+  >
+    <mdl-icon>add</mdl-icon>
+  </button>
+</div>

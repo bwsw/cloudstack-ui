@@ -1,0 +1,54 @@
+$template-detail-width: 366px;
+$select-width: 195px;
+
+:host {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.filters {
+  transition: margin 0.3s;
+  &.open {
+    margin-right: $template-detail-width;
+  }
+ }
+
+.template-list {
+  transition: margin 0.3s;
+  &.open {
+    margin-right: $template-detail-width;
+
+    & ~ .fab {
+      margin-right: $template-detail-width;
+    }
+  }
+}
+
+cs-template-detail {
+  width: $template-detail-width;
+  right: -$template-detail-width;
+}
+
+cs-template-sidebar {
+  width: $template-detail-width;
+}
+//
+//mdl-list {
+//  flex: 1 1 auto;
+//  overflow-y: auto;
+//}
+//
+//.os-icon {
+//  color: black;
+//  background: transparent;
+//}
+//
+//.no-results {
+//  padding: 16px;
+//  font-size: 16px;
+//}
+//
+//:host /deep/ .highlight {
+//  background: #ffeb3b;
+//}

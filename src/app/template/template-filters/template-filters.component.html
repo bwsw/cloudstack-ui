@@ -1,7 +1,16 @@
-<mdl-card class="options">
-  <div class="template-iso-switch">
+<mdl-card
+  class="options"
+  [class.delimiter]="showDelimiter"
+>
+  <div
+    class="template-iso-switch"
+    *ngIf="showIsoSwitch"
+  >
     <span class="mdl-switch__label">{{ 'TEMPLATES' | translate }}</span>
-    <mdl-switch [(ngModel)]="showIso">{{ 'ISO' | translate }}</mdl-switch>
+    <mdl-switch
+      [(ngModel)]="showIso"
+      (click)="updateDisplayMode()"
+    >{{ 'ISO' | translate }}</mdl-switch>
   </div>
 
   <mdl-select
