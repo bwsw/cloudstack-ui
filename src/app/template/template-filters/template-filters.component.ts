@@ -14,7 +14,7 @@ import { OsFamily, StorageService } from '../../shared';
 export class TemplateFiltersComponent implements OnInit {
   @Input() public showIsoSwitch = true;
   @Input() public showDelimiter = true;
-  @Input() public showIso: boolean = false;
+  @Input() public showIso: boolean;
 
   @Output() public queries = new EventEmitter();
   @Output() public displayMode = new EventEmitter();

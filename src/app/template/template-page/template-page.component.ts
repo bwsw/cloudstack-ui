@@ -177,6 +177,33 @@ export class TemplatePageComponent implements OnInit {
     this.isDetailOpen = true;
   }
 
+  protected fetchData(mode: string): void {
+    if (mode === 'template') {
+      this.templateList = [];
+      this.templateService.getGroupedTemplates({}, ['featured', 'self'])
+        .subscribe(templates => {
+          let t = [];
+          for (let filter in templates) {
+            if (templates.hasOwnProperty(filter)) {
+              t = t.concat(templates[filter]);
+            }
+          }
+          this.templateList = t;
+          this.visibleTemplateList = this.templateList;
+        });
+    } else {
+      this.templateList = [];
+      Observable.forkJoin([
+        this.isoService.getList({ isofilter: 'featured' }),
+        this.isoService.getList({ isofilter: 'self' }),
+      ])
+        .subscribe(([featuredIsos, selfIsos]) => {
+          this.templateList = (featuredIsos as Array<Iso>).concat(selfIsos as Array<Iso>);
+          this.visibleTemplateList = this.templateList;
+        });
+    }
+  }
+
   private filterResults(filters?: any): void {
     if (filters) {
       this.selectedOsFamilies = filters.selectedOsFamilies;
@@ -225,30 +252,4 @@ export class TemplatePageComponent implements OnInit {
     });
   }
 
-  private fetchData(mode: string): void {
-    if (mode === 'template') {
-      this.templateList = [];
-      this.templateService.getGroupedTemplates({}, ['featured', 'self'])
-        .subscribe(templates => {
-          let t = [];
-          for (let filter in templates) {
-            if (templates.hasOwnProperty(filter)) {
-              t = t.concat(templates[filter]);
-            }
-          }
-          this.templateList = t;
-          this.visibleTemplateList = this.templateList;
-        });
-    } else {
-      this.templateList = [];
-      Observable.forkJoin([
-        this.isoService.getList({ isofilter: 'featured' }),
-        this.isoService.getList({ isofilter: 'self' }),
-      ])
-        .subscribe(([featuredIsos, selfIsos]) => {
-          this.templateList = (featuredIsos as Array<Iso>).concat(selfIsos as Array<Iso>);
-          this.visibleTemplateList = this.templateList;
-        });
-    }
-  }
 }

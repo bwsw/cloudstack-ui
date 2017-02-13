@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 
-import { Iso } from '../shared/iso.model';
+import { Iso } from '../shared';
 import { TemplatePageComponent } from '../template-page/template-page.component';
 
 
@@ -12,6 +12,7 @@ import { TemplatePageComponent } from '../template-page/template-page.component'
 })
 export class IsoAttachmentComponent extends TemplatePageComponent implements OnInit {
   public selectedIso: Iso;
+  public visibleTemplateList: Array<Iso> = [];
 
   constructor(private dialog: MdlDialogReference) {
     super();
@@ -22,8 +23,7 @@ export class IsoAttachmentComponent extends TemplatePageComponent implements OnI
   }
 
   public ngOnInit(): void {
-    super.ngOnInit();
-    this.showIso = true;
+    this.updateDisplayMode('iso');
   }
 
   public onAttach(): void {

@@ -8,8 +8,6 @@
       <cs-template-filters
         (queries)="filterResults($event)"
         (filters)="filterResults($event)"
-        (displayMode)="updateDisplayMode($event)"
-        [showIso]="true"
         [showIsoSwitch]="false"
         [showDelimiter]="false"
       ></cs-template-filters>
@@ -19,13 +17,13 @@
       [class.open]="isDetailOpen"
     >
       <cs-template-list
-        [selectedTemplate]="selectedIso"
         (selectedTemplateChange)="selectIso($event)"
         [templateList]="visibleTemplateList"
         [query]="query"
         [radio]="true"
       ></cs-template-list>
     </div>
+  </div>
   <div class="mdl-dialog__actions">
     <button
       mdl-button
