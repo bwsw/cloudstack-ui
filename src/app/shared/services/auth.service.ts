@@ -62,7 +62,7 @@ export class AuthService extends BaseBackendService<AuthStub> {
 
   public logout(): Observable<void> {
     return this.postRequest('logout')
-      .map(response => this.setLoggedOut())
+      .map(() => this.setLoggedOut())
       .catch(error => {
         this.error.send(error);
         return Observable.throw('Unable to log out.');
@@ -72,7 +72,7 @@ export class AuthService extends BaseBackendService<AuthStub> {
   public isLoggedIn(): Observable<boolean> {
     if (this.name) {
       return this.http.get(BACKEND_API_URL)
-        .map(response => true)
+        .map(() => true)
         .catch(e => {
           if (e.status === 400) {
             return Observable.of(true);

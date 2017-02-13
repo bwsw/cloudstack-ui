@@ -46,7 +46,7 @@ export class SgRulesComponent implements OnInit {
   public adding: boolean;
 
   public icmpTypes: Array<IIcmpType>;
-  private selectedIcmpTypeCodes: Array<IIcmpCode>;
+  public selectedIcmpTypeCodes: Array<IIcmpCode>;
 
   constructor(
     public dialog: MdlDialogReference,

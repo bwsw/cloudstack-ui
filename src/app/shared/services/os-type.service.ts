@@ -17,11 +17,7 @@ export class OsTypeService extends BaseBackendService<OsType> {
 
   public get(id: string): Observable<OsType> {
     if (this.osTypes) {
-      const osType = this.osTypes.find(osType => {
-        return osType.id === id;
-      });
-
-      return Observable.of(osType);
+      return Observable.of(this.osTypes.find(osType => osType.id === id));
     }
 
     return super.get(id);

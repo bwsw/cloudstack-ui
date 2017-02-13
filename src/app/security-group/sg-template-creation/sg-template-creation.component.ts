@@ -11,7 +11,7 @@ export class SgTemplateCreationComponent {
   public description: string;
   public labels: string;
 
-  constructor(private dialog: MdlDialogReference) {
+  constructor(public dialog: MdlDialogReference) {
     this.name = '';
     this.description = '';
     this.labels = '';

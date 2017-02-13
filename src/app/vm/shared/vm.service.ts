@@ -97,7 +97,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public getList(lite = false, params?: {}): Observable<Array<VirtualMachine>> {
-    const vmsRequest = super.getList();
+    const vmsRequest = super.getList(params);
 
     if (lite) {
       return <Observable<Array<VirtualMachine>>>vmsRequest;

@@ -55,15 +55,15 @@ export class NotificationService implements INotificationService {
 export class MockNotificationService implements INotificationService {
   public timeout: number;
 
-  public message(message: string): Observable<MdlSnackbarComponent> {
+  public message(_message: string): Observable<MdlSnackbarComponent> {
     return new Observable<MdlSnackbarComponent>();
   };
 
-  public warning(message: string, action: INotificationAction): Observable<MdlSnackbarComponent> {
+  public warning(_message: string, _action: INotificationAction): Observable<MdlSnackbarComponent> {
     return new Observable<MdlSnackbarComponent>();
   };
 
-  public error(message: string, action: INotificationAction): Observable<MdlSnackbarComponent> {
+  public error(_message: string, _action: INotificationAction): Observable<MdlSnackbarComponent> {
     return new Observable<MdlSnackbarComponent>();
   };
 }
