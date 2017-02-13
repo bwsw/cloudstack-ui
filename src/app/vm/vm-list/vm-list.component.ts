@@ -18,7 +18,7 @@ import {
 
 import { IAsyncJob } from '../../shared/models/async-job.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
-import { VmStatisticsComponent } from '../vm-statistics/vm-statistics.component';
+import { VmStatisticsComponent } from '../../shared/components/vm-statistics/vm-statistics.component';
 import { StatsUpdateService } from '../../shared/services/stats-update.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 

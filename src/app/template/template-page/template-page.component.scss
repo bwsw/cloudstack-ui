@@ -7,12 +7,12 @@ $select-width: 195px;
   width: 100%;
 }
 
-.filters {
+.margin-right {
   transition: margin 0.3s;
   &.open {
     margin-right: $template-detail-width;
   }
- }
+}
 
 .template-list {
   transition: margin 0.3s;

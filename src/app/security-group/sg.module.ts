@@ -13,6 +13,8 @@ import { SgRulesComponent } from './sg-rules/sg-rules.component';
 import { SgRuleComponent } from './sg-rules/sg-rule.component';
 import { MaxValueValidatorDirective } from '../shared/directives/max-value.directive';
 import { MinValueValidatorDirective } from '../shared/directives/min-value.directive';
+import { SharedModule } from '../shared/shared.module';
+
 
 @NgModule({
   imports: [
@@ -20,7 +22,8 @@ import { MinValueValidatorDirective } from '../shared/directives/min-value.direc
     FormsModule,
     TranslateModule,
     MdlModule,
-    MdlSelectModule
+    MdlSelectModule,
+    SharedModule
   ],
   exports: [
     SgCreationComponent,

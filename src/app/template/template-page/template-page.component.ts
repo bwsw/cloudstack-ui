@@ -48,7 +48,7 @@ export class TemplatePageComponent implements OnInit {
   protected storageService = ServiceLocator.injector.get(StorageService);
 
   public ngOnInit(): void {
-    let mode = this.storageService.read('showIso');
+    let mode = this.storageService.read('showIso') === 'iso' ? 'iso' : 'template';
     this.showIso = mode === 'iso';
     this.fetchData(mode);
   }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { ResourceUsageService, ResourceStats } from '../../shared/services/resource-usage.service';
-import { IStorageService } from '../../shared/services/storage.service';
+import { ResourceUsageService, ResourceStats } from '../../services/resource-usage.service';
+import { IStorageService } from '../../services/storage.service';
 
 
 const showStatistics = 'showStatistics';

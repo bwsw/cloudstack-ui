@@ -14,7 +14,6 @@ import { VmDetailComponent } from './vm-sidebar/vm-detail.component';
 import { VmListComponent } from './vm-list/vm-list.component';
 import { VmListItemComponent } from './vm-list/vm-list-item.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
-import { VmStatisticsComponent } from './vm-statistics/vm-statistics.component';
 import { VmService } from './shared/vm.service';
 import { VmTemplateComponent } from './vm-creation/vm-creation-template/vm-template.component';
 import { VmTemplateDialogComponent } from './vm-creation/vm-creation-template/vm-template-dialog.component';
@@ -25,7 +24,6 @@ import { SharedModule } from '../shared/shared.module';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 import { VolumeSizeControlComponent } from './shared/volume-size-control.component';
 import { TemplateModule } from '../template/template.module';
-
 
 @NgModule({
   imports: [
@@ -47,7 +45,6 @@ import { TemplateModule } from '../template/template.module';
     VmListItemComponent,
     VmDetailComponent,
     VmSidebarComponent,
-    VmStatisticsComponent,
     VmTemplateComponent,
     VmTemplateDialogComponent,
     VmTemplateDialogItemComponent,
