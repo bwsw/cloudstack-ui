@@ -106,4 +106,35 @@
       </div>
     </mdl-popover>
   </mdl-card>
+
+  <mdl-card *ngIf="iso" mdl-shadow="2">
+    <mdl-card-title>
+      <h2 mdl-card-title-text>ISO</h2>
+    </mdl-card-title>
+    <mdl-card-supporting-text>{{ iso.name }}</mdl-card-supporting-text>
+    <mdl-card-actions mdl-card-border>
+      <button
+        mdl-button
+        mdl-ripple
+        (click)="detachIsoDialog()"
+      >
+        {{ 'DETACH' | translate }}
+      </button>
+    </mdl-card-actions>
+  </mdl-card>
+  <mdl-card *ngIf="!iso" mdl-shadow="2">
+    <mdl-card-title>
+      <h2 mdl-card-title-text>ISO</h2>
+    </mdl-card-title>
+    <mdl-card-supporting-text>{{ 'NO_MEDIUM' | translate }}</mdl-card-supporting-text>
+    <mdl-card-actions mdl-card-border>
+      <button
+        mdl-button
+        mdl-ripple
+        (click)="attachIsoDialog()"
+      >
+        {{ 'ATTACH' | translate }}
+      </button>
+    </mdl-card-actions>
+  </mdl-card>
 </div>

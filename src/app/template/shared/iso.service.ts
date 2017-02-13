@@ -87,4 +87,36 @@ export class IsoService extends BaseBackendService<Iso> {
         return Observable.of(null);
       });
   }
+
+  public attach(vmId: string, iso: Iso): Observable<Iso> {
+    return this.getRequest('attach', {
+      virtualmachineid: vmId,
+      id: iso.id
+    })
+      .switchMap(response => {
+        return this.asyncJobService.addJob(response['attachisoresponse'].jobid);
+      })
+      .switchMap(jobResult => {
+        if (jobResult.jobStatus === 2) {
+          return Observable.throw(jobResult.jobResult.errortext);
+        }
+        return Observable.of(iso);
+      });
+  }
+
+  public detach(id: string): Observable<any> {
+    return this.getRequest('detach', {
+      virtualmachineid: id
+    })
+      .switchMap(response => {
+        return this.asyncJobService.addJob(response['detachisoresponse'].jobid);
+      })
+      .switchMap(jobResult => {
+        if (jobResult.jobStatus === 2) {
+          return Observable.throw(jobResult.jobResult.errortext);
+        }
+        return Observable.of(null);
+      });
+  }
+
 }

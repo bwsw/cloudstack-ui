@@ -1,85 +1,8 @@
-$template-detail-width: 366px;
-$select-width: 195px;
-
-:host {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-}
-
 .template-list {
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: auto;
-  transition: margin 0.3s;
-
-  &.open {
-    margin-right: $template-detail-width;
-
-    & ~ .fab {
-      margin-right: $template-detail-width;
-    }
-  }
-}
-
-cs-template-detail {
-  width: $template-detail-width;
-  right: -$template-detail-width;
-}
-
-cs-template-sidebar {
-  width: $template-detail-width;
-}
-
-.options {
-  display: block;
-  width: 100%;
-  min-height: initial;
-  border-bottom: 1px solid #dedede;
-  overflow: visible;
-}
-
-.template-iso-switch {
-  display: inline-flex;
-  align-items: center;
-  min-height: 67px;
-
-  mdl-switch {
-    margin: 0 40px;
-  }
-}
-
-.os-type-select {
-  display: inline-block;
-  width: $select-width;
-  margin: 0 20px;
-}
-
-.filter-select {
-  display: inline-block;
-  width: $select-width;
-  margin: 0 20px;
-}
-
-.filter-select-container {
-  display: inline-block;
-}
-
-.search-bar {
-  max-width: 100%;
-  white-space: nowrap;
-  margin: 0;
-  padding: 0 15px;
-
-  mdl-icon {
-    vertical-align: middle;
-  }
-
-  /deep/ mdl-textfield {
-    max-width: 300px;
-    width: 100%;
-  }
 }
 
 mdl-list {
@@ -102,10 +25,13 @@ mdl-list {
 }
 
 mdl-list-item {
-  display: inline-block;
   cursor: pointer;
 }
 
 .selected-template span {
   font-weight: bold;
+}
+
+.inline-block {
+  display: inline-block;
 }

@@ -24,6 +24,7 @@ import {
 import { SharedModule } from '../shared/shared.module';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 import { VolumeSizeControlComponent } from './shared/volume-size-control.component';
+import { TemplateModule } from '../template/template.module';
 
 
 @NgModule({
@@ -31,11 +32,12 @@ import { VolumeSizeControlComponent } from './shared/volume-size-control.compone
     CommonModule,
     FormsModule,
     ServiceOfferingModule,
-    TranslateModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
     SnapshotModule,
+    TemplateModule,
+    TranslateModule,
     SharedModule
   ],
   declarations: [

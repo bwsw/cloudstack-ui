@@ -1,17 +1,20 @@
 import {
   Component,
-  Input,
+  Input, OnChanges
 } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
 import { Observable } from 'rxjs/Rx';
 import { TranslateService } from 'ng2-translate';
 
 import { VirtualMachine } from '../shared/vm.model';
+import { IsoAttachmentComponent } from '../../template/iso-attachment/iso-attachment.component';
 import { SnapshotCreationComponent } from '../../snapshot/snapshot-creation.component';
 import { JobsNotificationService, INotificationStatus } from '../../shared/services/jobs-notification.service';
 import { StatsUpdateService } from '../../shared/services/stats-update.service';
 import { VolumeResizeComponent } from './volume-resize.component';
 import { Volume } from '../../shared/models/volume.model';
+import { Iso, IsoService } from '../../template/shared';
+import { NotificationService } from '../../shared/services/notification.service';
 
 
 @Component({
@@ -19,17 +22,32 @@ import { Volume } from '../../shared/models/volume.model';
   templateUrl: 'storage-detail.component.html',
   styleUrls: ['storage-detail.component.scss']
 })
-export class StorageDetailComponent {
+export class StorageDetailComponent implements OnChanges {
   @Input() public vm: VirtualMachine;
+  public iso: Iso;
   private expandStorage: boolean;
 
   constructor(
     private dialogService: MdlDialogService,
     private translateService: TranslateService,
     private jobNotificationService: JobsNotificationService,
-    private statsUpdateService: StatsUpdateService
+    private statsUpdateService: StatsUpdateService,
+    private isoService: IsoService,
+    private notificationService: NotificationService
+
   ) {
     this.expandStorage = false;
+  }
+
+  public ngOnChanges(): void {
+    if (this.vm.isoId) {
+      this.isoService.get(this.vm.isoId)
+        .subscribe(iso => {
+          this.iso = iso;
+        });
+    } else {
+      this.iso = null;
+    }
   }
 
   public toggleStorage() {
@@ -56,7 +74,7 @@ export class StorageDetailComponent {
           styles: {
             'width': '400px',
             'padding': '11.5px'
-           },
+          },
           enterTransitionDuration: 400,
           leaveTransitionDuration: 400
         });
@@ -120,5 +138,102 @@ export class StorageDetailComponent {
       enterTransitionDuration: 400,
       leaveTransitionDuration: 400
     });
+  }
+
+  public attachIsoDialog(): void {
+    let dialogObservable = this.dialogService.showCustomDialog({
+      component: IsoAttachmentComponent,
+      providers: [],
+      isModal: true,
+      styles: {
+        'width': '720px',
+        'height': '660px'
+      },
+      clickOutsideToClose: true,
+      enterTransitionDuration: 400,
+      leaveTransitionDuration: 400
+    });
+
+    dialogObservable
+      .switchMap(res => res.onHide())
+      .subscribe((iso: Iso) => {
+        if (!iso) {
+          return;
+        }
+        this.attachIso(iso);
+      });
+  }
+
+  public detachIsoDialog(): void {
+    this.translateService.get('CONFIRM_ISO_DETACH')
+      .switchMap(str => {
+        return this.dialogService.confirm(str);
+      })
+      .subscribe(() => {
+        this.detachIso();
+      }, () => {});
+  }
+
+  public attachIso(iso: Iso): any {
+    let translations;
+    let notificationId;
+
+    this.translateService.get([
+      'ISO_ATTACH_IN_PROGRESS',
+      'ISO_ATTACH_DONE',
+      'ISO_ATTACH_FAILED'
+    ])
+      .switchMap(strs => {
+        translations = strs;
+        notificationId = this.jobNotificationService.add(translations['ISO_ATTACH_IN_PROGRESS']);
+        return this.isoService.attach(this.vm.id, iso);
+      })
+      .subscribe((attachedIso: Iso) => {
+        this.iso = attachedIso;
+        this.jobNotificationService.add({
+          id: notificationId,
+          message: translations['ISO_ATTACH_DONE'],
+          status: INotificationStatus.Finished
+        });
+      }, error => {
+        this.iso = null;
+        this.notificationService.error(error);
+        this.jobNotificationService.add({
+          id: notificationId,
+          message: translations['ISO_ATTACH_FAILED'],
+          status: INotificationStatus.Failed
+        });
+      });
+  }
+
+  public detachIso(): any {
+    let translations;
+    let notificationId;
+
+    this.translateService.get([
+      'ISO_DETACH_IN_PROGRESS',
+      'ISO_DETACH_DONE',
+      'ISO_DETACH_FAILED'
+    ])
+      .switchMap(strs => {
+        translations = strs;
+        notificationId = this.jobNotificationService.add(translations['ISO_DETACH_IN_PROGRESS']);
+        return this.isoService.detach(this.vm.id);
+      })
+      .subscribe(() => {
+        this.iso = null;
+        this.jobNotificationService.add({
+          id: notificationId,
+          message: translations['ISO_DETACH_DONE'],
+          status: INotificationStatus.Finished
+        });
+      }, () => {
+        this.iso = null;
+        this.jobNotificationService.add({
+          id: notificationId,
+          message: translations['ISO_DETACH_FAILED'],
+          status: INotificationStatus.Failed
+        });
+      });
   }
 }
