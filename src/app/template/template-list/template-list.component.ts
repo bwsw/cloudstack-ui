@@ -13,7 +13,7 @@ export class TemplateListComponent {
   @Input() public query: string;
   @Output() public selectedTemplate = new EventEmitter();
 
-  private _selectedTemplate: Template | Iso;
+  public _selectedTemplate: Template | Iso;
 
   public selectTemplate(template: Template | Iso): void {
     this.selectedTemplate.emit(template);

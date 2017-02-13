@@ -225,7 +225,7 @@ export class TemplatePageComponent implements OnInit {
   }
 
   private fetchData(mode: string): void {
-    if (mode == 'template') {
+    if (mode === 'template') {
       this.templateList = [];
       this.templateService.getGroupedTemplates({}, ['featured', 'self'])
         .subscribe(templates => {

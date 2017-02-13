@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 
-import { OsType, Zone } from '../../shared/models';
-import { ZoneService } from '../../shared/services';
-import { OsTypeService } from '../../shared/services/os-type.service';
+import { OsType, OsTypeService, Zone, ZoneService } from '../../shared';
 
 
 @Component({

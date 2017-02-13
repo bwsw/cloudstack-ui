@@ -1,8 +1,9 @@
-import { Component, OnInit, EventEmitter, Output, forwardRef, Input } from '@angular/core';
-import { OsFamily } from '../../shared/models/os-type.model';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { Subject } from 'rxjs';
-import { StorageService } from '../../shared/services/storage.service';
+
 import { TranslateService } from 'ng2-translate';
+
+import { OsFamily, StorageService } from '../../shared';
 
 
 @Component({

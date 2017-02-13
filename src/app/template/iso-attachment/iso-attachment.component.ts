@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { TemplatePageComponent } from '../template-page/template-page.component';
+import { MdlDialogReference } from 'angular2-mdl';
+
 import { Iso } from '../shared/iso.model';
-import { MdlDialogReference, MdlDialogService } from 'angular2-mdl';
+import { TemplatePageComponent } from '../template-page/template-page.component';
 
 
 @Component({
