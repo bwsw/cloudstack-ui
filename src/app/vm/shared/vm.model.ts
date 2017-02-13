@@ -148,6 +148,12 @@ export class VirtualMachine extends BaseModel {
       return false;
     }
 
+    // if a vm has no ip address, it can't be reached
+    // so reset password fails
+    if (command === 'resetpasswordfor' && !this.nic[0].ipAddress) {
+      return false;
+    }
+
     switch (command) {
       case 'start': return state !== 'Running';
       case 'stop':

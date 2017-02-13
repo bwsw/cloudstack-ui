@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { BackendResource } from '../../shared/decorators/backend-resource.decorator';
 import { BaseBackendService } from '../../shared/services';
+import { AsyncJobService } from '../../shared/services/async-job.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { Template } from './template.model';
 
@@ -20,7 +21,10 @@ export class TemplateService extends BaseBackendService<Template> {
   private templates: Object;
   private _templateFilters: Array<string>;
 
-  constructor (private osTypeService: OsTypeService) {
+  constructor (
+    private osTypeService: OsTypeService,
+    private asyncJobService: AsyncJobService
+  ) {
     super();
     this.templates = {};
     this._templateFilters = ['featured', 'selfexecutable', 'community', 'sharedexecutable'];
@@ -62,6 +66,25 @@ export class TemplateService extends BaseBackendService<Template> {
       });
   }
 
+  public addOsTypeData(template: Template): Observable<Template> {
+    return this.osTypeService.getList()
+      .map(osTypes => {
+        template.osType = osTypes.find(osType => osType.id === template.osTypeId);
+        return template;
+      });
+  }
+
+  public register(params: {}, url: string): Observable<Template> {
+    // stub
+    params['url'] = url;
+    params['hypervisor'] = 'KVM';
+    params['format'] = 'QCOW2';
+    params['requireshvm'] = true;
+
+    return this.getRequest('register', params)
+      .map(result => new Template(result['registertemplateresponse'].template[0]));
+  }
+
   public getGroupedTemplates(params?: {}, templatefilters?: Array<string>): Observable<Object> {
     let _params = {};
     let localTemplateFilters = this._templateFilters;
@@ -88,6 +111,22 @@ export class TemplateService extends BaseBackendService<Template> {
           obj[localTemplateFilters[i]] = templateSet;
         });
         return obj;
+      });
+  }
+
+  public delete(template: Template): Observable<any> {
+    return this.getRequest('delete', {
+      id: template.id,
+      zoneid: template.zoneId
+    })
+      .switchMap(response => {
+        return this.asyncJobService.addJob(response['deletetemplateresponse'].jobid);
+      })
+      .switchMap(jobResult => {
+        if (jobResult.jobStatus === 2 || jobResult.jobResult && !jobResult.jobResult.success) {
+          return Observable.throw(jobResult);
+        }
+        return Observable.of(null);
       });
   }
 
