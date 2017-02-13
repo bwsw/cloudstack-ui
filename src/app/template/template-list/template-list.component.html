@@ -43,6 +43,7 @@
       </mdl-list-item-primary-content>
       <mdl-list-item-secondary-action>
         <mdl-radio
+          *ngIf="radio"
           name="radio"
           [value]="template"
           [(ngModel)]="_selectedTemplate"
