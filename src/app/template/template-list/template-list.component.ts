@@ -8,9 +8,12 @@ import { Iso } from '../shared/iso.model';
   styleUrls: ['template-list.component.scss']
 })
 export class TemplateListComponent {
+  @Input() public radio = false;
   @Input() public templateList: Array<Template | Iso>;
   @Input() public query: string;
   @Output() public selectedTemplate = new EventEmitter();
+
+  private _selectedTemplate: Template | Iso;
 
   public selectTemplate(template: Template | Iso): void {
     this.selectedTemplate.emit(template);

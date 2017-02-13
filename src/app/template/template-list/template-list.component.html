@@ -41,6 +41,14 @@
           [innerHTML]="template.displayText | highlight:query"
         ></mdl-list-item-sub-title>
       </mdl-list-item-primary-content>
+      <mdl-list-item-secondary-action>
+        <mdl-radio
+          name="radio"
+          [value]="template"
+          [(ngModel)]="_selectedTemplate"
+          mdl-ripple
+        ></mdl-radio>
+      </mdl-list-item-secondary-action>
     </mdl-list-item>
   </mdl-list>
 </div>

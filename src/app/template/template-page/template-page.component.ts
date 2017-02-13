@@ -114,7 +114,6 @@ export class TemplatePageComponent implements OnInit {
   }
 
   public delete(iso: Iso): void {
-    console.log(iso);
     let translatedStrings;
     let notificationId;
 
