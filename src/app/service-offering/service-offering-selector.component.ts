@@ -25,7 +25,7 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor, O
 
   public propagateChange: any = () => {};
 
-  @Input() public get serviceOffering() {
+  @Input() public get serviceOffering(): string {
     return this._serviceOffering;
   }
 
@@ -34,17 +34,17 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor, O
     this.propagateChange(value);
   }
 
-  public writeValue(value) {
+  public writeValue(value): void {
     if (value) {
       this.serviceOffering = value;
     }
   }
 
-  public registerOnChange(fn) {
+  public registerOnChange(fn): void {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched() { }
+  public registerOnTouched(): void { }
 
 
   public ngOnInit(): void {

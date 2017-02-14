@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  public componentSelected(mainLayout: MdlLayoutComponent) {
+  public componentSelected(mainLayout: MdlLayoutComponent): void {
     mainLayout.closeDrawerOnSmallScreens();
   }
 

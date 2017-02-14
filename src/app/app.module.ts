@@ -51,11 +51,11 @@ export class AppModule {
     ServiceLocator.injector = this.injector;
   }
 
-  public hmrOnInit(store) {
+  public hmrOnInit(store): void {
     console.log('HMR store', store);
   }
 
-  public hmrOnDestroy(store) {
+  public hmrOnDestroy(store): void {
     let cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
     // recreate elements
     store.disposeOldHosts = createNewHosts(cmpLocation);
@@ -63,7 +63,7 @@ export class AppModule {
     removeNgStyles();
   }
 
-  public hmrAfterDestroy(store) {
+  public hmrAfterDestroy(store): void {
     // display new elements
     store.disposeOldHosts();
     delete store.disposeOldHosts;

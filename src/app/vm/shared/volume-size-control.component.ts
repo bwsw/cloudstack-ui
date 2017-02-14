@@ -33,7 +33,7 @@ export class VolumeSizeControlComponent implements OnInit, ControlValueAccessor 
   public propagateChange: any = () => {};
 
   @Input()
-  public get size() {
+  public get size(): number {
     return this._size;
   }
 
@@ -52,7 +52,7 @@ export class VolumeSizeControlComponent implements OnInit, ControlValueAccessor 
     this.propagateChange = fn;
   }
 
-  public registerOnTouched() { }
+  public registerOnTouched(): void { }
 
   public onVolumeChange(newValue: number): void {
     if (newValue > this.max) {

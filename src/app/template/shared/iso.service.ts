@@ -60,7 +60,7 @@ export class IsoService extends BaseBackendService<Iso> {
       });
   }
 
-  public register(iso: Iso, url: string) {
+  public register(iso: Iso, url: string): Observable<Iso> {
     let params = {};
     params['displaytext'] = iso.displayText;
     params['name'] = iso.name;

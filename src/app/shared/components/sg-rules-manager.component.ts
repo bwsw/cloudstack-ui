@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
+import { Observable } from 'rxjs/Rx';
+
 import { SgCreationComponent, Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { SecurityGroupService } from '../services/';
-import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'cs-security-group-rules-manager',
@@ -21,7 +22,7 @@ export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
   @Input() public mode: 'create' | 'edit';
   public savedRules: Rules;
 
-  private _rules;
+  private _rules: Rules;
   private dialogObservable: Observable<MdlDialogReference>;
 
   constructor(private dialogService: MdlDialogService) {
@@ -37,7 +38,7 @@ export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
   public propagateChange: any = () => {};
 
   @Input()
-  public get rules() {
+  public get rules(): Rules {
     return this._rules;
   }
 
@@ -57,7 +58,7 @@ export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched() { }
+  public registerOnTouched(): void { }
 
   public showDialog(): void {
     this.dialogObservable = this.dialogService.showCustomDialog({

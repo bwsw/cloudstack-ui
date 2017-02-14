@@ -105,7 +105,7 @@ describe('Service: Notification service', () => {
 
     let test = { a: 0 };
 
-    let f = function() {
+    let f = function(): void {
       this.a = 1;
     };
 

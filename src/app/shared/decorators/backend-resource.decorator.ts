@@ -4,7 +4,7 @@ interface EntityDecoratorData<M> {
 }
 
 export function BackendResource<T>(data: EntityDecoratorData<T>): ClassDecorator {
-  return function (target: Function) {
+  return function (target: Function): typeof target {
     target.prototype.entity = data.entity;
     target.prototype.entityModel = data.entityModel;
 

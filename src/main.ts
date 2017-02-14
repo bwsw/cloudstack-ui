@@ -7,6 +7,7 @@ if (process.env.ENV === 'build') {
   enableProdMode();
 }
 
+// tslint:disable-next-line
 export function main() {
   return platformBrowserDynamic().bootstrapModule(AppModule);
 }

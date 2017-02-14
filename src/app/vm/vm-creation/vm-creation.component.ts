@@ -164,7 +164,7 @@ export class VmCreationComponent {
     });
   }
 
-  public notifyOnDeployDone(notificationId: string) {
+  public notifyOnDeployDone(notificationId: string): void {
     this.translateService.get([
       'DEPLOY_DONE'
     ]).subscribe(str => {

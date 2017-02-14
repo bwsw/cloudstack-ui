@@ -51,7 +51,7 @@ export class VmDetailComponent {
     );
   }
 
-  public changeServiceOffering() {
+  public changeServiceOffering(): void {
     this.dialogService.showCustomDialog({
       component: ServiceOfferingDialogComponent,
       providers: [{

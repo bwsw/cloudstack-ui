@@ -18,7 +18,7 @@ export class MinValueValidatorDirective implements OnInit, Validator {
     this.validator = maxMinValidator(this.minValue, false);
   }
 
-  public validate(c: FormControl) {
+  public validate(c: FormControl): { [key: string]: any; } {
     return this.validator(c);
   }
 }
