@@ -10,7 +10,7 @@ export class NotificationBoxItemComponent {
   public notificationStatus = INotificationStatus;
 
   @Output() public onClose = new EventEmitter<string>();
-  @Input() private notification: INotification;
+  @Input() public notification: INotification;
 
   public remove(): void {
     this.onClose.emit(this.notification.id);

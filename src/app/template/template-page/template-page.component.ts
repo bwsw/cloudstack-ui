@@ -177,6 +177,15 @@ export class TemplatePageComponent implements OnInit {
     this.isDetailOpen = true;
   }
 
+  public filterResults(filters?: any): void {
+    if (filters) {
+      this.selectedOsFamilies = filters.selectedOsFamilies;
+      this.selectedFilters = filters.selectedFilters;
+      this.query = filters.query;
+    }
+    this.visibleTemplateList = this.filterBySearch(this.filterByCategories(this.templateList));
+  }
+
   protected fetchData(mode: string): void {
     if (mode === 'template') {
       this.templateList = [];
@@ -202,15 +211,6 @@ export class TemplatePageComponent implements OnInit {
           this.visibleTemplateList = this.templateList;
         });
     }
-  }
-
-  private filterResults(filters?: any): void {
-    if (filters) {
-      this.selectedOsFamilies = filters.selectedOsFamilies;
-      this.selectedFilters = filters.selectedFilters;
-      this.query = filters.query;
-    }
-    this.visibleTemplateList = this.filterBySearch(this.filterByCategories(this.templateList));
   }
 
   private addIsoToList(iso: Iso): void {

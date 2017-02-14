@@ -13,7 +13,7 @@ import { Template, TemplateService } from '../../../template/shared';
 export class VmTemplateComponent implements OnInit, OnChanges {
   @Input() public selectedIn: Template;
   @Output() public selectedOut: EventEmitter<Template>;
-  private displayTemplateName: string;
+  public displayTemplateName: string;
 
   constructor(
     private dialogService: MdlDialogService,

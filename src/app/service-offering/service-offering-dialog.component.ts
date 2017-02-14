@@ -13,8 +13,8 @@ export class ServiceOfferingDialogComponent {
   public serviceOfferingId: string;
 
   constructor(
-    private dialog: MdlDialogReference,
-    @Inject('virtualMachine') private virtualMachine: VirtualMachine,
+    public dialog: MdlDialogReference,
+    @Inject('virtualMachine') public virtualMachine: VirtualMachine,
     private vmService: VmService
   ) {}
 

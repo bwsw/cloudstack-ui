@@ -11,8 +11,8 @@ import { SecurityGroupService } from '../shared/services/security-group.service'
   styleUrls: ['login.component.scss'],
 })
 export class LoginComponent {
-  private username: string;
-  private password: string;
+  public username: string;
+  public password: string;
 
   constructor(
     private auth: AuthService,

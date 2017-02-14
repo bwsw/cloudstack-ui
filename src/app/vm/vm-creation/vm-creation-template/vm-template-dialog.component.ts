@@ -10,13 +10,14 @@ import { PRESELECTED_TEMPLATE_TOKEN } from './injector-token';
   styleUrls: ['vm-template-dialog.component.scss']
 })
 export class VmTemplateDialogComponent implements OnInit {
-  private activeTab: number;
-  private loaded: boolean;
+  public activeTab: number;
+  public loaded: boolean;
+  public templates: Array<TemplateObject>;
+
   private selectedTemplate: Template;
-  private templates: Array<TemplateObject>;
 
   constructor(
-    @Inject(PRESELECTED_TEMPLATE_TOKEN) private preselectedTemplate: Template,
+    @Inject(PRESELECTED_TEMPLATE_TOKEN) public preselectedTemplate: Template,
     private dialog: MdlDialogReference,
     private templateService: TemplateService,
     private ref: ChangeDetectorRef

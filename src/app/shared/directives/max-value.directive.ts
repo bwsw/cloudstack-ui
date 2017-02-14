@@ -1,5 +1,5 @@
 import { Validators, Validator, NG_VALIDATORS, FormControl } from '@angular/forms';
-import { Directive, Attribute } from '@angular/core';
+import { Directive, Input, OnInit } from '@angular/core';
 import { maxMinValidator } from './max-min-validator';
 
 
@@ -10,10 +10,11 @@ import { maxMinValidator } from './max-min-validator';
     { provide: NG_VALIDATORS, useExisting: MaxValueValidatorDirective, multi: true }
   ]
 })
-export class MaxValueValidatorDirective implements Validator {
+export class MaxValueValidatorDirective implements OnInit, Validator {
+  @Input() public maxValue: string;
   private validator = Validators.nullValidator;
 
-  constructor(@Attribute('maxValue') public maxValue: string) {
+  public ngOnInit(): void {
     this.validator = maxMinValidator(this.maxValue, true);
   }
 

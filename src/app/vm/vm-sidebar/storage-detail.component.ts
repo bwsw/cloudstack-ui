@@ -1,6 +1,7 @@
 import {
   Component,
-  Input, OnChanges
+  Input,
+  OnChanges
 } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
 import { Observable } from 'rxjs/Rx';
@@ -25,7 +26,7 @@ import { NotificationService } from '../../shared/services/notification.service'
 export class StorageDetailComponent implements OnChanges {
   @Input() public vm: VirtualMachine;
   public iso: Iso;
-  private expandStorage: boolean;
+  public expandStorage: boolean;
 
   constructor(
     private dialogService: MdlDialogService,

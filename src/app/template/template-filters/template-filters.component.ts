@@ -82,7 +82,7 @@ export class TemplateFiltersComponent implements OnInit {
     this.queryStream.next((e.target as HTMLInputElement).value);
   }
 
-  private updateDisplayMode(): void {
+  public updateDisplayMode(): void {
     let mode = this.showIso ? 'iso' : 'template';
     this.displayMode.emit(mode);
     this.storageService.write('templateDisplayMode', mode);

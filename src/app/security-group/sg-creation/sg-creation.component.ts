@@ -28,10 +28,10 @@ export class Rules { // defines what should be passed to inputRules
   styleUrls: ['sg-creation.component.scss'],
 })
 export class SgCreationComponent implements OnInit {
-  private items: Array<Array<SecurityGroup>>;
-  private selectedGroupIndex: number;
-  private selectedColumnIndex: number;
-  private selectedRules: Array<Array<RuleListItem>>;
+  public items: Array<Array<SecurityGroup>>;
+  public selectedGroupIndex: number;
+  public selectedColumnIndex: number;
+  public selectedRules: Array<Array<RuleListItem>>;
 
   constructor(
     private dialog: MdlDialogReference,

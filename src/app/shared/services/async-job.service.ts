@@ -4,7 +4,6 @@ import { Subject, Observable } from 'rxjs/Rx';
 import { AsyncJob } from '../models/async-job.model';
 import { BaseBackendService } from './base-backend.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
-import { AuthService } from './auth.service';
 
 
 interface IJobObservables {
@@ -24,9 +23,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
   private jobObservables: IJobObservables;
   private timerId: any;
 
-  constructor(
-    private authService: AuthService
-  ) {
+  constructor() {
     super();
     this.pollingInterval = 2000;
     this.immediatePollingInterval = 100;
