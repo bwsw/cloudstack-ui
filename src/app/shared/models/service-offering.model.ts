@@ -38,6 +38,6 @@ export class ServiceOffering extends BaseModel {
   public diskBytesWriteRate: number;
   public diskIopsReadRate: number;
   public diskIopsWriteRate: number;
-  public deploymentplanner: string;
+  public deploymentPlanner: string;
   public domain: string;
 }

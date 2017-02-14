@@ -170,29 +170,28 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
-  public command(command: string, id?: string, params?: {}): Observable<AsyncJob> {
+  public command(command: string, id: string, params?: {}): Observable<AsyncJob> {
     let updatedParams = params ? params : {};
 
     if (command === 'restore') {
-      updatedParams['virtualmachineid'] = id;
+      updatedParams['virtualMachineId'] = id;
     } else if (command !== 'deploy') {
       updatedParams['id'] = id;
     }
 
     return this.getRequest(command, updatedParams)
       .map(result => {
-        let fix = 'virtualmachine';
+        let fix = 'virtualMachine';
         if (command === 'restore') {
           fix = 'vm';
-        } else if (command === 'resetPasswordFor') {
-          command = command.toLowerCase();
         }
-        return result[command + fix + 'response'].jobid;
+
+        return result[`${command}${fix}response`.toLowerCase()].jobid;
       })
       .switchMap(result => this.jobs.addJob(result))
       .map(result => {
         if (result && result.jobResultCode === 0) {
-          result.jobResult = new this.entityModel(result.jobResult.virtualmachine);
+          result.jobResult = this.prepareModel(result.jobResult.virtualmachine);
         }
         this.jobs.event.next(result);
         return result;
@@ -319,7 +318,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
     params['command'] = command;
     params['id'] = virtualMachine.id;
-    params['serviceofferingid'] = serviceOfferingId;
+    params['serviceOfferingId'] = serviceOfferingId;
 
     return this.translateService.get([
       'OFFERING_CHANGED',

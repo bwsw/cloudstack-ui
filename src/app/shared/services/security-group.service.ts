@@ -120,8 +120,8 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
         const addRuleRequests = [];
         const addRule = (type, rule) => {
           const r = new NetworkRule(Object.assign({}, rule));
-          r['securitygroupid'] = securityGroup.id;
-          r['cidrlist'] = r.CIDR;
+          r['securityGroupId'] = securityGroup.id;
+          r['cidrList'] = r.CIDR;
           r.protocol = r.protocol.toLowerCase();
           delete r.CIDR;
           addRuleRequests.push(this.addRule(type, r.serialize()));

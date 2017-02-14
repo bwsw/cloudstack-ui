@@ -21,7 +21,7 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor, O
 
   constructor(
     private serviceOfferingFilterService: ServiceOfferingFilterService
-  ) {}
+  ) { }
 
   public propagateChange: any = () => {};
 

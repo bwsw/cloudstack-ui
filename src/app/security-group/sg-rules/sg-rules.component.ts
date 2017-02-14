@@ -74,9 +74,9 @@ export class SgRulesComponent implements OnInit {
 
     const type = this.type;
     const params: any = {
-      securitygroupid: this.securityGroup.id,
+      securityGroupId: this.securityGroup.id,
       protocol: this.protocol.toLowerCase(),
-      cidrlist: this.cidr
+      cidrList: this.cidr
     };
 
     if (this.protocol === 'ICMP') {

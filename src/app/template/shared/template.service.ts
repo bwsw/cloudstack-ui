@@ -8,7 +8,7 @@ import { OsTypeService } from '../../shared/services/os-type.service';
 import { Template } from './template.model';
 
 interface TemplateRequestParams {
-  templatefilter: string;
+  templateFilter: string;
   [propName: string]: any;
 }
 
@@ -35,9 +35,9 @@ export class TemplateService extends BaseBackendService<Template> {
   }
 
   public get(id: string, params?: TemplateRequestParams): Observable<Template> {
-    const templatefilter = params && params.templatefilter ? params.templatefilter : 'featured';
+    const templateFilter = params && params.templateFilter ? params.templateFilter : 'featured';
     return Observable.forkJoin([
-      this.getList({ templatefilter, id }),
+      this.getList({ templateFilter, id }),
       this.osTypeService.getList()
     ])
       .map(([templates, osTypes]) => {
@@ -48,11 +48,11 @@ export class TemplateService extends BaseBackendService<Template> {
   }
 
   public getList(params: TemplateRequestParams): Observable<Array<Template>> {
-    if (this.templates.hasOwnProperty(params.templatefilter)) {
-      return Observable.of(this.templates[params.templatefilter]);
+    if (this.templates.hasOwnProperty(params.templateFilter)) {
+      return Observable.of(this.templates[params.templateFilter]);
     }
 
-    let filter = params.templatefilter;
+    let filter = params.templateFilter;
     return Observable.forkJoin([
       super.getList(params),
       this.osTypeService.getList()
@@ -79,20 +79,20 @@ export class TemplateService extends BaseBackendService<Template> {
     params['url'] = url;
     params['hypervisor'] = 'KVM';
     params['format'] = 'QCOW2';
-    params['requireshvm'] = true;
+    params['requiresHvm'] = true;
 
     return this.getRequest('register', params)
       .map(result => new Template(result['registertemplateresponse'].template[0]));
   }
 
-  public getGroupedTemplates(params?: {}, templatefilters?: Array<string>): Observable<Object> {
+  public getGroupedTemplates(params?: {}, templateFilters?: Array<string>): Observable<Object> {
     let _params = {};
     let localTemplateFilters = this._templateFilters;
-    if (templatefilters) {
-      if (templatefilters.includes('all')) {
-        templatefilters = ['featured', 'self', 'selfexecutable', 'sharedexecutable', 'executable', 'community'];
+    if (templateFilters) {
+      if (templateFilters.includes('all')) {
+        templateFilters = ['featured', 'self', 'selfexecutable', 'sharedexecutable', 'executable', 'community'];
       }
-      localTemplateFilters = templatefilters;
+      localTemplateFilters = templateFilters;
     }
     if (params) {
       _params = params;
@@ -100,7 +100,7 @@ export class TemplateService extends BaseBackendService<Template> {
 
     let templateObservables = [];
     for (let filter of localTemplateFilters) {
-      _params['templatefilter'] = filter;
+      _params['templateFilter'] = filter;
       templateObservables.push(this.getList(_params as TemplateRequestParams));
     }
 
@@ -117,7 +117,7 @@ export class TemplateService extends BaseBackendService<Template> {
   public delete(template: Template): Observable<any> {
     return this.getRequest('delete', {
       id: template.id,
-      zoneid: template.zoneId
+      zoneId: template.zoneId
     })
       .switchMap(response => {
         return this.asyncJobService.addJob(response['deletetemplateresponse'].jobid);

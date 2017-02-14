@@ -87,7 +87,7 @@ export class VirtualMachine extends BaseModel {
   public guestOsId: string;
   // CUSTOM
   public pending: boolean;
-  // statictics
+  // statistics
   public cpuUsed: string;
   public networkKbsRead: number;
   public networkKbsWrite: number;

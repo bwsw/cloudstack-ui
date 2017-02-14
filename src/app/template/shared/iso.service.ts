@@ -9,7 +9,7 @@ import { OsTypeService } from '../../shared/services/os-type.service';
 
 
 interface IsoRequestParams {
-  isofilter: string;
+  isoFilter: string;
   [propName: string]: any;
 }
 
@@ -27,9 +27,9 @@ export class IsoService extends BaseBackendService<Iso> {
   }
 
   public get(id: string, params?: IsoRequestParams): Observable<Iso> {
-    const isofilter = params && params.isofilter ? params.isofilter : 'featured';
+    const isoFilter = params && params.isoFilter ? params.isoFilter : 'featured';
     return Observable.forkJoin([
-      this.getList({ isofilter, id }),
+      this.getList({ isoFilter, id }),
       this.osTypeService.getList()
     ])
       .map(([isos, osTypes]) => {
@@ -62,10 +62,10 @@ export class IsoService extends BaseBackendService<Iso> {
 
   public register(iso: Iso, url: string) {
     let params = {};
-    params['displaytext'] = iso.displayText;
+    params['displayText'] = iso.displayText;
     params['name'] = iso.name;
-    params['ostypeid'] = iso.osTypeId;
-    params['zoneid'] = iso.zoneId;
+    params['osTypeId'] = iso.osTypeId;
+    params['zoneId'] = iso.zoneId;
     params['url'] = url;
 
     return this.getRequest('register', params)
@@ -75,7 +75,7 @@ export class IsoService extends BaseBackendService<Iso> {
   public delete(iso: Iso): Observable<any> {
     return this.getRequest('delete', {
       id: iso.id,
-      zoneid: iso.zoneId
+      zoneId: iso.zoneId
     })
       .switchMap(response => {
         return this.asyncJobService.addJob(response['deleteisoresponse'].jobid);
@@ -90,7 +90,7 @@ export class IsoService extends BaseBackendService<Iso> {
 
   public attach(vmId: string, iso: Iso): Observable<Iso> {
     return this.getRequest('attach', {
-      virtualmachineid: vmId,
+      virtualMachineId: vmId,
       id: iso.id
     })
       .switchMap(response => {
@@ -106,7 +106,7 @@ export class IsoService extends BaseBackendService<Iso> {
 
   public detach(id: string): Observable<any> {
     return this.getRequest('detach', {
-      virtualmachineid: id
+      virtualMachineId: id
     })
       .switchMap(response => {
         return this.asyncJobService.addJob(response['detachisoresponse'].jobid);
@@ -118,5 +118,4 @@ export class IsoService extends BaseBackendService<Iso> {
         return Observable.of(null);
       });
   }
-
 }

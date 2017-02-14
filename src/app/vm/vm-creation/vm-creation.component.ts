@@ -159,7 +159,7 @@ export class VmCreationComponent {
       );
     })
     .subscribe(securityGroup => {
-      params['securitygroupids'] = securityGroup.id;
+      params['securityGroupIds'] = securityGroup.id;
       this._deploy(params, id);
     });
   }
@@ -250,10 +250,10 @@ export class VmCreationComponent {
 
   private get vmCreateParams(): {} {
     let params = {
-      'serviceofferingid': this.vmCreationData.vm.serviceOfferingId,
-      'templateid': this.vmCreationData.vm.template.id,
-      'zoneid': this.vmCreationData.vm.zoneId,
-      'keypair': this.vmCreationData.keyPair,
+      'serviceOfferingId': this.vmCreationData.vm.serviceOfferingId,
+      'templateId': this.vmCreationData.vm.template.id,
+      'zoneId': this.vmCreationData.vm.zoneId,
+      'keyPair': this.vmCreationData.keyPair,
       'keyboard': this.vmCreationData.keyboard,
       'response': 'json'
     };
@@ -262,13 +262,13 @@ export class VmCreationComponent {
       params['name'] = this.vmCreationData.vm.displayName;
     }
     if (this.vmCreationData.affinityGroupId) {
-      params['affinitygroupids'] = this.vmCreationData.affinityGroupId;
+      params['affinityGroupIds'] = this.vmCreationData.affinityGroupId;
     }
     if (this.vmCreationData.rootDiskSize >= 10) {
-      params['rootdisksize'] = this.vmCreationData.rootDiskSize;
+      params['rootDiskSize'] = this.vmCreationData.rootDiskSize;
     }
     if (!this.vmCreationData.doStartVm) {
-      params['startvm'] = 'false';
+      params['startVm'] = 'false';
     }
     if (this.securityRules && this.securityRules.ingress) {
       params['ingress'] = this.securityRules.ingress;
