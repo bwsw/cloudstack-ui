@@ -22,5 +22,3 @@ export class MinValueValidatorDirective implements OnInit, Validator {
     return this.validator(c);
   }
 }
-
-

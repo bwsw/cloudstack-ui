@@ -35,7 +35,9 @@
       "timeEnd",
       "trace"
     ],
+    "no-consecutive-blank-lines": [true, 2],
     "no-construct": true,
+    "no-console": [true, "log", "error"],
     "no-debugger": true,
     "no-duplicate-variable": true,
     "no-empty": false,

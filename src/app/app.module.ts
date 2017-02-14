@@ -52,6 +52,7 @@ export class AppModule {
   }
 
   public hmrOnInit(store): void {
+    // tslint:disable-next-line
     console.log('HMR store', store);
   }
 
