@@ -212,6 +212,7 @@
   "SO_CHANGE_DISABLED": "The virtual machine needs to be stopped",
 
   "EDIT_RULES": "Edit rules",
+  "TEMPLATE_RULES": "Template rules",
   "CLOSE": "Close",
   "TYPE": "Type",
   "PROTOCOL": "Protocol",

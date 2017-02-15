@@ -1,4 +1,6 @@
-<h3 class="mdl-dialog__title">{{ 'EDIT_RULES' | translate }}</h3>
+<h3 class="mdl-dialog__title">
+  {{ (securityGroup.isPredefinedTemplate() ? 'TEMPLATE_RULES' : 'EDIT_RULES') | translate }}
+</h3>
 <div class="mdl-dialog__content">
   <form #rulesForm="ngForm">
     <table class="mdl-data-table">
@@ -19,7 +21,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
+      <tr *ngIf="!securityGroup.isPredefinedTemplate()">
         <td>
           <mdl-select class="type" [(ngModel)]="type" name="type">
             <mdl-option [value]="'Ingress'">{{ 'INGRESS' | translate }}</mdl-option>
