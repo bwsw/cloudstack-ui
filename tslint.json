@@ -3,6 +3,8 @@
     "node_modules/codelyzer"
   ],
   "rules": {
+    "align": [true, "parameters", "statements"],
+    "array-type": [true, "generic"],
     "class-name": true,
     "comment-format": [
       true,
@@ -29,6 +31,7 @@
     "no-bitwise": true,
     "no-console": [
       true,
+      "log",
       "debug",
       "info",
       "time",
@@ -37,7 +40,6 @@
     ],
     "no-consecutive-blank-lines": [true, 2],
     "no-construct": true,
-    "no-console": [true, "log", "error"],
     "no-debugger": true,
     "no-duplicate-variable": true,
     "no-empty": false,
@@ -91,6 +93,7 @@
       "check-branch",
       "check-decl",
       "check-operator",
+      "check-module",
       "check-separator",
       "check-type"
     ],
