@@ -51,6 +51,7 @@
   "RESTORE_DONE": "VM has been restored",
   "DESTROY_DONE": "VM has been destroyed",
   "DEPLOY_DONE": "VM has been deployed",
+  "DEPLOY_FAILED": "Failed to deploy a VM",
 
   "YES": "Yes",
   "NO": "No",
