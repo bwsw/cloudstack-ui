@@ -9,6 +9,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
+var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 /**
  * Env
@@ -28,7 +29,7 @@ if (!BACKEND_API_URL && isDev) {
 //Proxy config
 var redirectTo;
 if (isDev) {
-  var leadingSlash = BACKEND_API_URL[BACKEND_API_URL.length -1] === '/';
+  var leadingSlash = BACKEND_API_URL[BACKEND_API_URL.length - 1] === '/';
   redirectTo =  leadingSlash ? BACKEND_API_URL.substr(0, BACKEND_API_URL.length - 1) : BACKEND_API_URL;
 }
 var apiUrl = '/client/api';
@@ -285,7 +286,14 @@ module.exports = function makeWebpackConfig() {
       // Reference: https://github.com/kevlened/copy-webpack-plugin
       new CopyWebpackPlugin([
         {from: root('src/public'), ignore: ['config-dev.json']},
-      ])
+      ]),
+
+      new OptimizeCssAssetsPlugin({
+        assetNameRegExp: /\.css$/g,
+        cssProcessor: require('cssnano'),
+        cssProcessorOptions: { discardComments: {removeAll: true } },
+        canPrint: true
+      })
     );
   }
 

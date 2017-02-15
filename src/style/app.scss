@@ -1,4 +1,5 @@
 // styles in src/style directory are applied to the whole page
+@import '~angular2-mdl/scss/material-design-lite';
 
 @import '~@angular2-mdl-ext/popover/popover';
 @import '~@angular2-mdl-ext/select/select';
@@ -10,7 +11,6 @@ $color-accent: $palette-amber-A200;
 $color-primary-contrast: $color-dark-contrast;
 $color-accent-contrast: $color-dark-contrast;
 
-@import '~angular2-mdl/scss/material-design-lite';
 
 * {
   box-sizing: border-box;
