@@ -1,28 +1,13 @@
 <div class="dialog">
   <h3 class="mdl-dialog__title">{{ 'ATTACH_AN_ISO' | translate }}</h3>
   <div class="mdl-dialog__content">
-    <div
-      class="filters"
-      [class.open]="isDetailOpen"
-    >
-      <cs-template-filters
-        (queries)="filterResults($event)"
-        (filters)="filterResults($event)"
-        [showIsoSwitch]="false"
-        [showDelimiter]="false"
-      ></cs-template-filters>
-    </div>
-    <div
-      class="template-list"
-      [class.open]="isDetailOpen"
-    >
-      <cs-template-list
-        (selectedTemplateChange)="selectIso($event)"
-        [templateList]="visibleTemplateList"
-        [query]="query"
-        [radio]="true"
-      ></cs-template-list>
-    </div>
+    <cs-template-filter-list
+      [viewMode]="'iso'"
+      [showDelimiter]="false"
+      [showIsoSwitch]="false"
+      [showRadio]="true"
+      [(selectedTemplate)]="selectedIso"
+    ></cs-template-filter-list>
   </div>
   <div class="mdl-dialog__actions">
     <button

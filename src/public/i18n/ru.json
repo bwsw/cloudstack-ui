@@ -315,6 +315,7 @@
   "ATTACH_AN_ISO": "Прикрепление ISO файла",
   "ISO_ATTACH_IN_PROGRESS": "Прикрепление ISO файла",
   "ISO_ATTACH_DONE": "ISO файл прикреплен",
-  "ISO_ATTACH_FAILED": "Не удалось прикрепить ISO файл"
+  "ISO_ATTACH_FAILED": "Не удалось прикрепить ISO файл",
 
+  "DISK_OFFERING": "Дисковая услуга"
 }

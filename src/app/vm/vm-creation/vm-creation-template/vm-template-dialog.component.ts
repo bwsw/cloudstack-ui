@@ -1,7 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
-import { Template, TemplateService } from '../../../template/shared';
+import { Template } from '../../../template/shared';
 import { PRESELECTED_TEMPLATE_TOKEN } from './injector-token';
+import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
+import { Iso } from '../../../template/shared/iso.model';
 
 
 @Component({
@@ -9,51 +11,23 @@ import { PRESELECTED_TEMPLATE_TOKEN } from './injector-token';
   templateUrl: 'vm-template-dialog.component.html',
   styleUrls: ['vm-template-dialog.component.scss']
 })
-export class VmTemplateDialogComponent implements OnInit {
-  public activeTab: number;
-  public loaded: boolean;
-  public templates: Array<TemplateObject>;
-
-  private selectedTemplate: Template;
+export class VmTemplateDialogComponent extends TemplateFilterListComponent {
+  public _selectedTemplate: Template | Iso;
 
   constructor(
     @Inject(PRESELECTED_TEMPLATE_TOKEN) public preselectedTemplate: Template,
     private dialog: MdlDialogReference,
-    private templateService: TemplateService,
-    private ref: ChangeDetectorRef
   ) {
-    this.loaded = false;
-    this.selectedTemplate = this.preselectedTemplate;
-    this.templates = new Array<TemplateObject>();
-    this.templates.push(new TemplateObject('Featured', 'featured'));
-    this.templates.push(new TemplateObject('My Templates', 'selfexecutable'));
-    this.templates.push(new TemplateObject('Community', 'community'));
-    this.templates.push(new TemplateObject('Shared', 'sharedexecutable'));
+    super();
+    this.selectedTemplate = preselectedTemplate;
   }
 
-  public ngOnInit(): void {
-    this.activeTab = -1;
-    this.templateService.getGroupedTemplates()
-      .subscribe(templatesObjects => {
-        for (let filter in templatesObjects) {
-          if (!templatesObjects.hasOwnProperty(filter)) {
-            continue;
-          }
-          // Trying to find TemplateOblect for this type of templates
-          const index = this.templates.findIndex((template) => template.templateFilter === filter);
-          if (index !== -1) {
-            this.templates[index].templates = templatesObjects[filter];
-          }
-        }
-        this.loaded = true;
-        this.removeEmptyTemplateObjects();
-        this.chooseActiveTab();
-        this.ref.detectChanges();
-      });
+  public get selectedTemplate(): Template | Iso {
+    return this._selectedTemplate;
   }
 
-  public onSelect(id: Template): void {
-    this.selectedTemplate = id;
+  public set selectedTemplate(template: Template | Iso) {
+    this._selectedTemplate = template;
   }
 
   public onOk(): void {
@@ -63,33 +37,4 @@ export class VmTemplateDialogComponent implements OnInit {
   public onCancel(): void {
     this.dialog.hide(this.preselectedTemplate);
   }
-
-  private removeEmptyTemplateObjects(): void {
-    this.templates = this.templates.filter((templateObject) => {
-      return templateObject.templates.length > 0;
-    });
-  }
-
-  private chooseActiveTab(): void {
-    for (let i = 0; i < this.templates.length; i++) {
-      for (let template of this.templates[i].templates) {
-        if (template.id === this.preselectedTemplate.id) {
-          this.activeTab = i;
-          return;
-        }
-      }
-    }
-  }
 }
-
-class TemplateObject {
-  public name;
-  public templateFilter: string;
-  public templates: Array<Template>;
-
-  constructor (name: string, templateFilter: string) {
-    this.name = name;
-    this.templateFilter = templateFilter;
-  }
-}
-

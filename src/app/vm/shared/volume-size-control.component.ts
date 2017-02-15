@@ -18,7 +18,7 @@ export class VolumeSizeControlComponent implements OnInit, ControlValueAccessor 
   @Input() public max: number;
   @Input() public label: string;
 
-  private _size: number;
+  public _size: number;
 
   public ngOnInit(): void {
     if (this.min == null) {
@@ -38,8 +38,8 @@ export class VolumeSizeControlComponent implements OnInit, ControlValueAccessor 
   }
 
   public set size(value) {
-    this._size = value;
-    this.propagateChange(value);
+    this._size = this.floor(value);
+    this.propagateChange(this._size);
   }
 
   public writeValue(value): void {
@@ -64,6 +64,10 @@ export class VolumeSizeControlComponent implements OnInit, ControlValueAccessor 
     this.size = newValue;
   }
 
+  public onVolumeChangeExp(newValue: number): void {
+    this.onVolumeChange(Math.exp(newValue));
+  }
+
   public onBlur(e: Event): void {
     if (+(e.currentTarget as HTMLInputElement).value < this.min) {
       this.size = this.size + 1;
@@ -71,5 +75,13 @@ export class VolumeSizeControlComponent implements OnInit, ControlValueAccessor 
       // setTimeout is used to force rerendering
       setTimeout(() => this.size = this.min);
     }
+  }
+
+  public log(value: number): number {
+    return Math.log(value);
+  }
+
+  public floor(value: number): number {
+    return Math.floor(value);
   }
 }

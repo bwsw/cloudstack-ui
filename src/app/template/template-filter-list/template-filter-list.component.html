@@ -1,0 +1,19 @@
+<div class="options">
+  <cs-template-filters
+    (queries)="filterResults($event)"
+    (filters)="filterResults($event)"
+    (displayMode)="changeViewMode($event)"
+    [showIso]="showIso"
+    [showIsoSwitch]="showIsoSwitch"
+    [showDelimiter]="showDelimiter"
+  ></cs-template-filters>
+</div>
+<div class="template-list">
+  <cs-template-list
+    [selectedTemplate]="selectedTemplate"
+    (selectedTemplateChange)="selectTemplate($event)"
+    [templateList]="visibleTemplateList"
+    [query]="query"
+    [radio]="showRadio"
+  ></cs-template-list>
+</div>

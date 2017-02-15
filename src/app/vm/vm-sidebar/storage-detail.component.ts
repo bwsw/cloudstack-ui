@@ -148,7 +148,7 @@ export class StorageDetailComponent implements OnChanges {
       isModal: true,
       styles: {
         'width': '720px',
-        'height': '660px'
+        'height': '680px'
       },
       clickOutsideToClose: true,
       enterTransitionDuration: 400,

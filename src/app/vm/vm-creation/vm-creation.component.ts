@@ -30,6 +30,8 @@ import { VmService } from '../shared/vm.service';
 import { Template, TemplateService } from '../../template/shared';
 
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
+import { DiskOffering } from '../../shared/models/disk-offering.model';
+import { Iso } from '../../template/shared/iso.model';
 
 
 class VmCreationData {
@@ -75,6 +77,9 @@ export class VmCreationComponent {
   public keyboardTranslations: Object;
   public securityRules: Rules;
 
+  public showRootDiskResize = false;
+  private selectedDiskOffering: DiskOffering;
+
   constructor(
     private zoneService: ZoneService,
     private serviceOfferingFilterService: ServiceOfferingFilterService,
@@ -105,6 +110,15 @@ export class VmCreationComponent {
         this.keyboards.forEach(kb => keyboardTranslations[kb] = strs['KB_' + kb.toUpperCase()]);
         this.keyboardTranslations = keyboardTranslations;
       });
+  }
+
+  public updateDiskOffering(offering: DiskOffering) {
+    if (offering.isCustomized) {
+      this.showRootDiskResize = true;
+    } else {
+      this.showRootDiskResize = false;
+    }
+    this.selectedDiskOffering = offering;
   }
 
   public show(): void {
@@ -144,12 +158,12 @@ export class VmCreationComponent {
   }
 
   public deployVm(): void {
+    let notificationId: string;
     let params: any = this.vmCreateParams;
-    let id;
     this.translateService.get([
       'VM_DEPLOY_IN_PROGRESS'
     ]).switchMap(strs => {
-      id = this.jobsNotificationService.add(strs['VM_DEPLOY_IN_PROGRESS']);
+      notificationId = this.jobsNotificationService.add(strs['VM_DEPLOY_IN_PROGRESS']);
       return this.securityGroupService.createWithRules(
         {
           name: this.utils.getUniqueId() + GROUP_POSTFIX
@@ -158,10 +172,15 @@ export class VmCreationComponent {
         params.egress || []
       );
     })
-    .subscribe(securityGroup => {
-      params['securitygroupids'] = securityGroup.id;
-      this._deploy(params, id);
-    });
+      .subscribe(
+        securityGroup => {
+          params['securitygroupids'] = securityGroup.id;
+          this._deploy(params, notificationId);
+        },
+        () => {
+          this.notifyOnDeployFailed(notificationId);
+        }
+      );
   }
 
   public notifyOnDeployDone(notificationId: string) {
@@ -176,42 +195,66 @@ export class VmCreationComponent {
     });
   }
 
+  public notifyOnDeployFailed(notificationId: string) {
+    this.translateService.get([
+      'DEPLOY_FAILED'
+    ]).subscribe(str => {
+      this.jobsNotificationService.add({
+        id: notificationId,
+        message: str['DEPLOY_FAILED'],
+        status: INotificationStatus.Failed
+      });
+    });
+  }
+
   public onVmCreationSubmit(e: any): void {
     e.preventDefault();
     this.deployVm();
     this.hide();
   }
 
-  public onTemplateChange(t: Template): void {
+  public onTemplateChange(t: Template | Iso): void {
     this.vmCreationData.vm.template = t;
   }
 
   private _deploy(params: {}, notificationId): void {
     this.vmService.deploy(params)
-      .subscribe(result => {
-        this.vmService.get(result.id)
-          .subscribe(r => {
-            r.state = 'Deploying';
-            this.onCreated.next(r);
-          });
-        this.vmService.checkCommand(result.jobid)
-          .subscribe(job => {
-            this.notifyOnDeployDone(notificationId);
-            if (!job.jobResult.password) {
-              return;
-            }
-            this.translateService.get(
-              'PASSWORD_DIALOG_MESSAGE',
-              {
-                vmName: job.jobResult.displayName,
-                vmPassword: job.jobResult.password
-              }
-            )
-              .subscribe((res: string) => {
-                this.dialogService.alert(res);
+      .subscribe(
+        result => {
+          this.vmService.get(result.id)
+            .subscribe(
+              r => {
+                r.state = 'Deploying';
+                this.onCreated.next(r);
               });
-          });
-      });
+          this.vmService.checkCommand(result.jobid)
+            .subscribe(
+              job => {
+                this.notifyOnDeployDone(notificationId);
+                if (!job.jobResult.password) {
+                  return;
+                }
+                this.translateService.get(
+                  'PASSWORD_DIALOG_MESSAGE',
+                  {
+                    vmName: job.jobResult.displayName,
+                    vmPassword: job.jobResult.password
+                  }
+                )
+                  .subscribe(
+                    (res: string) => {
+                      this.dialogService.alert(res);
+                    });
+              },
+              () => {
+                this.notifyOnDeployFailed(notificationId);
+              }
+            );
+        },
+        () => {
+          this.notifyOnDeployFailed(notificationId);
+        }
+      );
   }
 
   private getVmCreateData(): Observable<VmCreationData> {
@@ -264,8 +307,12 @@ export class VmCreationComponent {
     if (this.vmCreationData.affinityGroupId) {
       params['affinitygroupids'] = this.vmCreationData.affinityGroupId;
     }
-    if (this.vmCreationData.rootDiskSize >= 10) {
-      params['rootdisksize'] = this.vmCreationData.rootDiskSize;
+    if (this.selectedDiskOffering) {
+      params['diskofferingid'] = this.selectedDiskOffering.id;
+      params['hypervisor'] = 'KVM';
+    }
+    if (this.showRootDiskResize && this.vmCreationData.rootDiskSize >= 10) {
+      params['size'] = this.vmCreationData.rootDiskSize;
     }
     if (!this.vmCreationData.doStartVm) {
       params['startvm'] = 'false';
@@ -276,6 +323,7 @@ export class VmCreationComponent {
     if (this.securityRules && this.securityRules.egress) {
       params['egress'] = this.securityRules.egress;
     }
+
     return params;
   }
 }

@@ -8,7 +8,7 @@
       step="1"
       min="{{ min }}"
       max="{{ max }}"
-      [ngModel]="size"
+      [ngModel]="floor(size)"
       (ngModelChange)="onVolumeChange($event)"
       (blur)="onBlur($event)"
     ></mdl-textfield>
@@ -16,11 +16,11 @@
   </div>
 </div>
 <mdl-slider
-  min="{{ min || 0 }}"
-  max="{{ max || 0 }}"
+  min="{{ log(min) || 0 }}"
+  max="{{ log(max) || 0 }}"
   value="0"
+  step="0.0001"
   mdl-tooltip-position="top"
-  [ngModel]="size > min ? size : min"
-  (ngModelChange)="onVolumeChange($event)"
->
-</mdl-slider>
+  [ngModel]="_size > min ? log(_size) : log(min)"
+  (ngModelChange)="onVolumeChangeExp($event)"
+></mdl-slider>
