@@ -24,7 +24,7 @@ export class VmTemplateDialogComponent implements OnInit {
   ) {
     this.loaded = false;
     this.selectedTemplate = this.preselectedTemplate;
-    this.templates = new Array<TemplateObject>();
+    this.templates = [];
     this.templates.push(new TemplateObject('Featured', 'featured'));
     this.templates.push(new TemplateObject('My Templates', 'selfexecutable'));
     this.templates.push(new TemplateObject('Community', 'community'));
@@ -39,7 +39,7 @@ export class VmTemplateDialogComponent implements OnInit {
           if (!templatesObjects.hasOwnProperty(filter)) {
             continue;
           }
-          // Trying to find TemplateOblect for this type of templates
+          // Trying to find TemplateObject for this type of templates
           const index = this.templates.findIndex((template) => template.templateFilter === filter);
           if (index !== -1) {
             this.templates[index].templates = templatesObjects[filter];

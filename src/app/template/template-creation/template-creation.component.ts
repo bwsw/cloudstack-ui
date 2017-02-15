@@ -62,8 +62,8 @@ export class TemplateCreationComponent implements OnInit {
     };
 
     if (this.mode === 'Template') {
-      params['passwordenabled'] = this.passwordEnabled;
-      params['isdynamicallyscalable'] = this.dynamicallyScalable;
+      params['passwordEnabled'] = this.passwordEnabled;
+      params['isDynamicallyScalable'] = this.dynamicallyScalable;
     }
     this.dialog.hide(params);
   }

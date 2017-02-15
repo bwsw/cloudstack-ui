@@ -24,9 +24,9 @@ export class SnapshotService extends BaseBackendService<Snapshot> {
     let params = {};
 
     if (name) {
-      params = { volumeid: volumeId, name };
+      params = { volumeId: volumeId, name };
     } else {
-      params = { volumeid: volumeId };
+      params = { volumeId: volumeId };
     }
     return this.getRequest('create', params)
       .map(result => result.createsnapshotresponse.jobid)
@@ -42,7 +42,7 @@ export class SnapshotService extends BaseBackendService<Snapshot> {
 
   public getList(volumeId?: string): Observable<Array<Snapshot>> {
     if (volumeId) {
-      return super.getList({ volumeid: volumeId });
+      return super.getList({ volumeId: volumeId });
     }
     return super.getList();
   }

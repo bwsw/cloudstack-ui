@@ -39,5 +39,5 @@ export class NIC extends BaseModel {
   public secondaryIp: any;
   public trafficType: string;
   public type: string;
-  public virtualmachineId: string;
+  public virtualMachineId: string;
 }

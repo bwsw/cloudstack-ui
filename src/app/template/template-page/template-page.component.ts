@@ -203,8 +203,8 @@ export class TemplatePageComponent implements OnInit {
     } else {
       this.templateList = [];
       Observable.forkJoin([
-        this.isoService.getList({ isofilter: 'featured' }),
-        this.isoService.getList({ isofilter: 'self' }),
+        this.isoService.getList({ isoFilter: 'featured' }),
+        this.isoService.getList({ isoFilter: 'self' }),
       ])
         .subscribe(([featuredIsos, selfIsos]) => {
           this.templateList = (featuredIsos as Array<Iso>).concat(selfIsos as Array<Iso>);
@@ -251,5 +251,4 @@ export class TemplatePageComponent implements OnInit {
         template.displayText.toLowerCase().includes(queryLower);
     });
   }
-
 }

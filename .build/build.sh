@@ -5,7 +5,7 @@ npm install;
 echo ******Dependencies was installed******
 
 npm run build
-echo ******Dist was builded******
+echo ******Dist was built******
 
 # Build docker image
 docker build -t cloudstack-nginx --file=Dockerfile ..
@@ -15,7 +15,7 @@ if [ -z "$DEPLOY_PORT" ]; then
   export DEPLOY_PORT="80";
 fi
 
-# Genetate container name unique for port
+# Generate container name unique for port
 CONTAINER_NAME=cloudstack-nginx
 CONTAINER_NAME=$CONTAINER_NAME-$DEPLOY_PORT
 

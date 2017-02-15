@@ -34,7 +34,7 @@ export class DiskStorageService {
   public getConsumedSecondaryStorage(): Observable<number> {
     return Observable.forkJoin([
       this.snapshotService.getList(),
-      this.isoService.getList({ isofilter: 'self' })
+      this.isoService.getList({ isoFilter: 'self' })
     ]).map((result: Array<any>) => {
       let consumedSecondaryStorage = 0;
       result[0].forEach((snapshot: Snapshot) => {
@@ -56,7 +56,7 @@ export class DiskStorageService {
   }
 
   private getAvailableStorage(resourceType: ResourceType): Observable<number> {
-    let limitRequest = this.resourceLimits.getList({ 'resourcetype': resourceType })
+    let limitRequest = this.resourceLimits.getList({ resourceType })
       .map(res => res[0].max);
 
     let consumedStorageRequest = this.getConsumedStorage(resourceType);

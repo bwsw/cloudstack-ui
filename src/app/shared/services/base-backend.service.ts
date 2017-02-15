@@ -74,7 +74,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
 
     for (let key in params) {
       if (params.hasOwnProperty(key)) {
-        urlParams.set(key, params[key]);
+        urlParams.set(key.toLowerCase(), params[key]);
       }
     }
 
