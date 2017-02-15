@@ -100,7 +100,7 @@ export class SgTemplateListComponent implements OnInit {
       });
   }
 
-  public showRulesDialog(group: SecurityGroup) {
+  public showRulesDialog(group: SecurityGroup): void {
     this.dialogService.showCustomDialog({
       component: SgRulesComponent,
       providers: [SecurityGroupService, AsyncJobService, { provide: 'securityGroup', useValue: group }],

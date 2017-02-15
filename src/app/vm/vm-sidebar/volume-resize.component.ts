@@ -28,7 +28,7 @@ export class VolumeResizeComponent implements OnInit {
       .subscribe((limit: number) => this.maxSize = limit);
   }
 
-  public resizeVolume() {
+  public resizeVolume(): void {
     const volumeResizeObservable = this.volumeService.resize(this.volume.id, {
       size: this.newSize
     });
@@ -37,7 +37,7 @@ export class VolumeResizeComponent implements OnInit {
   }
 
   @HostListener('click', ['$event'])
-  public onClick(e: Event) {
+  public onClick(e: Event): void {
     e.stopPropagation();
   }
 }

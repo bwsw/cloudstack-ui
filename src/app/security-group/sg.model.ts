@@ -75,7 +75,7 @@ export class SecurityGroup extends BaseModel {
     return this.id.startsWith('template');
   }
 
-  public get labels() {
+  public get labels(): string {
     return this._labels;
   }
 
@@ -83,7 +83,7 @@ export class SecurityGroup extends BaseModel {
     this._labels = value;
   }
 
-  public serialize() {
+  public serialize(): any {
     const model: any = super.serialize();
 
     model.tags.push(this.labels);

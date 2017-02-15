@@ -154,7 +154,7 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
       });
   }
 
-  public removeRule(type: NetworkRuleType, data) {
+  public removeRule(type: NetworkRuleType, data): Observable<null> {
     const command = 'revoke';
     return this.postRequest(`${command};${type}`, data)
       .switchMap(res => {

@@ -47,7 +47,7 @@ export class AsyncJob extends BaseModel implements IAsyncJob<any> {
     }
   }
 
-  private formatCommand() {
+  private formatCommand(): void {
     let indexOfVmSubstr = this.cmd.indexOf('vm');
     if (indexOfVmSubstr !== -1) {
       this.cmd = this.cmd.substring(0, this.cmd.length - 2);

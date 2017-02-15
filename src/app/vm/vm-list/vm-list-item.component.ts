@@ -59,7 +59,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
     this.onVmAction.emit(e);
   }
 
-  public ngOnChanges(changes: SimpleChanges) {
+  public ngOnChanges(changes: SimpleChanges): void {
     for (let propName in changes) {
       if (changes.hasOwnProperty(propName) && propName === 'isSelected') {
         this.isSelected = changes[propName].currentValue;

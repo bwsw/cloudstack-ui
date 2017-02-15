@@ -51,7 +51,7 @@ export class StorageDetailComponent implements OnChanges {
     }
   }
 
-  public toggleStorage() {
+  public toggleStorage(): void {
     this.expandStorage = !this.expandStorage;
   }
 

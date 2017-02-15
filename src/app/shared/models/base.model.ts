@@ -20,7 +20,7 @@ export abstract class BaseModel {
     this[this._mapper[key]] = val;
   }
 
-  public serialize() {
+  public serialize(): any {
     const model = {};
     const reverseMap = {};
 
@@ -51,7 +51,7 @@ export abstract class BaseModel {
     return Object.keys(this).filter((key: string) => !key.startsWith('_'));
   }
 
-  protected parse(params: {}) {
+  protected parse(params: {}): void {
     for (let key in params) {
       if (params.hasOwnProperty(key)) {
         this.set(key, params[key]);
