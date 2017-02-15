@@ -1,5 +1,5 @@
-import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
-import { MdlDialogComponent, MdlDialogService } from 'angular2-mdl';
+import { Component, ViewChild, Output, EventEmitter, OnInit } from '@angular/core';
+import { MdlDialogComponent, MdlDialogService, MdlDialogReference } from 'angular2-mdl';
 import { Observable } from 'rxjs/Rx';
 import { TranslateService } from 'ng2-translate';
 
@@ -65,7 +65,7 @@ class VmCreationData {
   templateUrl: 'vm-creation.component.html',
   styleUrls: ['vm-creation.component.scss']
 })
-export class VmCreationComponent {
+export class VmCreationComponent implements OnInit {
   @ViewChild(MdlDialogComponent) public vmCreateDialog: MdlDialogComponent;
   @Output() public onCreated: EventEmitter<any> = new EventEmitter();
 
@@ -89,7 +89,8 @@ export class VmCreationComponent {
     private resourceUsageService: ResourceUsageService,
     private securityGroupService: SecurityGroupService,
     private utils: UtilsService,
-    private dialogService: MdlDialogService
+    private dialogService: MdlDialogService,
+    private dialog: MdlDialogReference
   ) {
     this.vmCreationData = new VmCreationData();
 
@@ -105,6 +106,10 @@ export class VmCreationComponent {
         this.keyboards.forEach(kb => keyboardTranslations[kb] = strs['KB_' + kb.toUpperCase()]);
         this.keyboardTranslations = keyboardTranslations;
       });
+  }
+
+  public ngOnInit(): void {
+    this.resetVmCreateData();
   }
 
   public show(): void {
@@ -132,21 +137,27 @@ export class VmCreationComponent {
     });
   }
 
-  public hide(): void {
-    this.securityRules = new Rules();
-    this.vmCreateDialog.close();
+  public onVmCreationSubmit(e: any): void {
+    e.preventDefault();
+    this.deployVm();
+    this.dialog.hide();
+  }
+
+  public onCancel(): void {
+    this.dialog.hide();
   }
 
   public resetVmCreateData(): void {
     this.getVmCreateData().subscribe(result => {
       this.vmCreationData = result;
+      console.log(this.vmCreationData.vm.serviceOfferingId);
     });
   }
 
-  public deployVm(): void {
+  public deployVm(): Observable<void> {
     let params: any = this.vmCreateParams;
     let id;
-    this.translateService.get([
+    return this.translateService.get([
       'VM_DEPLOY_IN_PROGRESS'
     ]).switchMap(strs => {
       id = this.jobsNotificationService.add(strs['VM_DEPLOY_IN_PROGRESS']);
@@ -158,7 +169,7 @@ export class VmCreationComponent {
         params.egress || []
       );
     })
-    .subscribe(securityGroup => {
+    .map(securityGroup => {
       params['securitygroupids'] = securityGroup.id;
       this._deploy(params, id);
     });
@@ -176,14 +187,12 @@ export class VmCreationComponent {
     });
   }
 
-  public onVmCreationSubmit(e: any): void {
-    e.preventDefault();
-    this.deployVm();
-    this.hide();
-  }
-
   public onTemplateChange(t: Template): void {
     this.vmCreationData.vm.template = t;
+  }
+
+  public setServiceOffering(offering: string): void {
+    this.vmCreationData.vm.serviceOfferingId = offering;
   }
 
   private _deploy(params: {}, notificationId): void {

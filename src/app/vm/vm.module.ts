@@ -55,6 +55,7 @@ import { TemplateModule } from '../template/template.module';
     VmService
   ],
   entryComponents: [
+    VmCreationComponent,
     VmTemplateDialogComponent,
     VmTemplateDialogItemComponent,
     VolumeResizeComponent

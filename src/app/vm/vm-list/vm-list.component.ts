@@ -147,6 +147,21 @@ export class VmListComponent implements OnInit {
     this.isDetailOpen = false;
   }
 
+  public showVmCreationDialog(): void {
+    this.dialogService.showCustomDialog({
+      component: VmCreationComponent,
+      isModal: true,
+      styles: {'width': '780px'},
+      clickOutsideToClose: true,
+      enterTransitionDuration: 400,
+      leaveTransitionDuration: 400
+    })
+      .switchMap(res => res.onHide())
+      .subscribe(() => {
+        // this.onDialogHide(data);
+      });
+  }
+
   private showDialog(translations): void {
     this.dialogService.showDialog({
       message: translations['WOULD_YOU_LIKE_TO_CREATE_VM'],

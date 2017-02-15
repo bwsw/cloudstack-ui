@@ -1,141 +1,131 @@
-<mdl-dialog
-  [mdl-dialog-config]="{
-    clickOutsideToClose: true,
-    styles: {'width': '780px'},
-    isModal: true,
-    enterTransitionDuration: 400,
-    leaveTransitionDuration: 400
-  }"
->
-  <h3 class="mdl-dialog__title">New virtual machine</h3>
-  <form #vmCreateForm="ngForm" (ngSubmit)="onVmCreationSubmit($event)">
-    <div class="container">
-      <div class="left-column">
-        <div>
-          <mdl-textfield
-            type="text"
-            label="{{ 'VM_CREATION_FORM.NAME' | translate }}"
-            name="name"
-            pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]{0,1}$"
-            #vmname="ngModel"
-            [(ngModel)]="vmCreationData.vm.displayName"
-            [class.is-invalid]="!vmname.valid"
-          >
-          </mdl-textfield>
-        </div>
+<h3 class="mdl-dialog__title">New virtual machine</h3>
+<form #vmCreateForm="ngForm" (ngSubmit)="onVmCreationSubmit($event)">
+  <div class="container">
+    <div class="left-column">
+      <div>
+        <mdl-textfield
+          type="text"
+          label="{{ 'VM_CREATION_FORM.NAME' | translate }}"
+          name="name"
+          pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]{0,1}$"
+          #vmname="ngModel"
+          [(ngModel)]="vmCreationData.vm.displayName"
+          [class.is-invalid]="!vmname.valid"
+        >
+        </mdl-textfield>
+      </div>
 
-        <div class="dialog-select-wrapper">
-          <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.TEMPLATE' | translate }}</h5>
-        <cs-vm-creation-template
-          class="dialog-select-select template-select"
-          [selectedIn]="vmCreationData.vm.template"
-          (selectedOut)="onTemplateChange($event)"
-        ></cs-vm-creation-template>
-        </div>
+      <div class="dialog-select-wrapper">
+        <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.TEMPLATE' | translate }}</h5>
+      <cs-vm-creation-template
+        class="dialog-select-select template-select"
+        [selectedIn]="vmCreationData.vm.template"
+        (selectedOut)="onTemplateChange($event)"
+      ></cs-vm-creation-template>
+      </div>
+      <div>
         <h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>
         <cs-service-offering-selector
           name="serviceOffering"
-          [(ngModel)]="vmCreationData.vm.serviceOfferingId"
+          (ngModelChange)="setServiceOffering($event)"
         ></cs-service-offering-selector>
-        <h5>{{ 'VM_CREATION_FORM.ZONE' | translate }}</h5>
-        <div>
-          <mdl-select
-            [(ngModel)]="vmCreationData.vm.zoneId"
-            name="zone"
-          >
-            <mdl-option *ngFor="let z of vmCreationData.zones" [value]="z.id" >
-              {{ z.name }}
-            </mdl-option>
-          </mdl-select>
-        </div>
-        <cs-volume-size-control
-          [min]="vmCreationData.rootDiskSizeMin"
-          [max]="vmCreationData.rootDiskSizeLimit"
-          name="rds"
-          [(ngModel)]="vmCreationData.rootDiskSize"
-        ></cs-volume-size-control>
       </div>
-      <div class="right-column">
-        <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
-        <div *ngIf="noAffinityGroupTranslation">
-          <mdl-select
-            [ngModel]="vmCreationData.affinityGroupId"
-            name="affinityGroup"
+      <h5>{{ 'VM_CREATION_FORM.ZONE' | translate }}</h5>
+      <div>
+        <mdl-select
+          [(ngModel)]="vmCreationData.vm.zoneId"
+          name="zone"
+        >
+          <mdl-option *ngFor="let z of vmCreationData.zones" [value]="z.id" >
+            {{ z.name }}
+          </mdl-option>
+        </mdl-select>
+      </div>
+      <cs-volume-size-control
+        [min]="vmCreationData.rootDiskSizeMin"
+        [max]="vmCreationData.rootDiskSizeLimit"
+        name="rds"
+        [(ngModel)]="vmCreationData.rootDiskSize"
+      ></cs-volume-size-control>
+    </div>
+    <div class="right-column">
+      <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
+      <div *ngIf="noAffinityGroupTranslation">
+        <mdl-select
+          [ngModel]="vmCreationData.affinityGroupId"
+          name="affinityGroup"
+        >
+          <mdl-option [value]="''">{{ noAffinityGroupTranslation }}</mdl-option>
+          <mdl-option
+            *ngFor="let ag of vmCreationData.affinityGroups"
+            [value]="ag.id"
           >
-            <mdl-option [value]="''">{{ noAffinityGroupTranslation }}</mdl-option>
-            <mdl-option
-              *ngFor="let ag of vmCreationData.affinityGroups"
-              [value]="ag.id"
-            >
-              {{ ag.name }}
-            </mdl-option>
-          </mdl-select>
-        </div>
-        <div class="dialog-select-wrapper">
-          <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.SECURITY_GROUPS' | translate }}</h5>
-          <cs-security-group-rules-manager
-            name="sgm"
-            class="dialog-select-select"
-            [(ngModel)]="securityRules"
-          ></cs-security-group-rules-manager>
-        </div>
-        <h5>{{ 'VM_CREATION_FORM.KEYBOARD_LAYOUT' | translate }}</h5>
-        <div *ngIf="keyboardTranslations">
-          <mdl-select
-            name="keyboard"
-            [(ngModel)]="vmCreationData.keyboard"
+            {{ ag.name }}
+          </mdl-option>
+        </mdl-select>
+      </div>
+      <div class="dialog-select-wrapper">
+        <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.SECURITY_GROUPS' | translate }}</h5>
+        <cs-security-group-rules-manager
+          name="sgm"
+          class="dialog-select-select"
+          [(ngModel)]="securityRules"
+        ></cs-security-group-rules-manager>
+      </div>
+      <h5>{{ 'VM_CREATION_FORM.KEYBOARD_LAYOUT' | translate }}</h5>
+      <div *ngIf="keyboardTranslations">
+        <mdl-select
+          name="keyboard"
+          [(ngModel)]="vmCreationData.keyboard"
+        >
+          <mdl-option
+            *ngFor="let k of keyboards"
+            [value]="k"
           >
-            <mdl-option
-              *ngFor="let k of keyboards"
-              [value]="k"
-            >
-              {{ keyboardTranslations[k] }}
-            </mdl-option>
-          </mdl-select>
-        </div>
-        <h5>{{ 'VM_CREATION_FORM.SSH_KEYPAIR' | translate }}</h5>
-        <div>
-          <mdl-select
-            name="ssh"
-            [(ngModel)]="vmCreationData.vm.keyPair"
+            {{ keyboardTranslations[k] }}
+          </mdl-option>
+        </mdl-select>
+      </div>
+      <h5>{{ 'VM_CREATION_FORM.SSH_KEYPAIR' | translate }}</h5>
+      <div>
+        <mdl-select
+          name="ssh"
+          [(ngModel)]="vmCreationData.vm.keyPair"
+        >
+          <mdl-option
+            *ngFor="let k of vmCreationData.sshKeyPairs"
+            [value]="k.name"
           >
-            <mdl-option
-              *ngFor="let k of vmCreationData.sshKeyPairs"
-              [value]="k.name"
-            >
-              {{ k.name }}
-            </mdl-option>
-          </mdl-select>
-        </div>
-        <div class="start-vm-checkbox">
-          <mdl-checkbox
-            name="startVm"
-            [(ngModel)]="vmCreationData.doStartVm"
-          >
-            {{ 'VM_CREATION_FORM.START_VM' | translate }}
-          </mdl-checkbox>
-        </div>
+            {{ k.name }}
+          </mdl-option>
+        </mdl-select>
+      </div>
+      <div class="start-vm-checkbox">
+        <mdl-checkbox
+          name="startVm"
+          [(ngModel)]="vmCreationData.doStartVm"
+        >
+          {{ 'VM_CREATION_FORM.START_VM' | translate }}
+        </mdl-checkbox>
       </div>
     </div>
-    <div class="mdl-dialog__actions">
-      <button
-        mdl-colored="primary"
-        [disabled]="!vmCreateForm.valid"
-        type="submit"
-        mdl-button
-        mdl-ripple>{{ 'CREATE' | translate }}
-      </button>
-      <button
-        mdl-colored="primary"
-        type="button"
-        mdl-button
-        (click)="hide()"
-        mdl-ripple
-      >
-        {{ 'CANCEL' | translate }}
-      </button>
-    </div>
-  </form>
-</mdl-dialog>
-
-
+  </div>
+  <div class="mdl-dialog__actions">
+    <button
+      mdl-colored="primary"
+      [disabled]="!vmCreateForm.valid"
+      type="submit"
+      mdl-button
+      mdl-ripple>{{ 'CREATE' | translate }}
+    </button>
+    <button
+      mdl-colored="primary"
+      type="button"
+      mdl-button
+      (click)="onCancel()"
+      mdl-ripple
+    >
+      {{ 'CANCEL' | translate }}
+    </button>
+  </div>
+</form>
