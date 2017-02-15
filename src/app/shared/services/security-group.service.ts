@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { ConfigService } from './config.service';
 import { SecurityGroup, NetworkRuleType } from '../../security-group/sg.model';
-import { BaseBackendService } from './base-backend.service';
+import { BaseBackendCachedService } from '.';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { TagService } from './tag.service';
 import { AsyncJobService } from './async-job.service';
@@ -16,7 +16,7 @@ export const GROUP_POSTFIX = '-cs-sg';
   entity: 'SecurityGroup',
   entityModel: SecurityGroup
 })
-export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
+export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup> {
   constructor(
     private configService: ConfigService,
     private tagService: TagService,

@@ -99,7 +99,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
       .catch(error => this.handleError(error));
   }
 
-  private fetchList(params?: {}): Observable<any> {
+  protected fetchList(params?: {}): Observable<any> {
     const command = 'list';
     let entity = this.entity.toLowerCase();
 

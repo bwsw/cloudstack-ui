@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 import { BackendResource } from '../../shared/decorators/backend-resource.decorator';
-import { BaseBackendService } from '../../shared/services/base-backend.service';
+import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
 import { Iso } from './iso.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
@@ -18,7 +18,7 @@ interface IsoRequestParams {
   entity: 'Iso',
   entityModel: Iso
 })
-export class IsoService extends BaseBackendService<Iso> {
+export class IsoService extends BaseBackendCachedService<Iso> {
   constructor(
     private asyncJobService: AsyncJobService,
     private osTypeService: OsTypeService
@@ -61,6 +61,7 @@ export class IsoService extends BaseBackendService<Iso> {
   }
 
   public register(iso: Iso, url: string) {
+    this.invalidateCache();
     let params = {};
     params['displaytext'] = iso.displayText;
     params['name'] = iso.name;
@@ -72,7 +73,8 @@ export class IsoService extends BaseBackendService<Iso> {
       .map(result => new Iso(result['registerisoresponse'].iso[0]));
   }
 
-  public delete(iso: Iso): Observable<any> {
+  public remove(iso: Iso): Observable<any> {
+    this.invalidateCache();
     return this.getRequest('delete', {
       id: iso.id,
       zoneid: iso.zoneId
@@ -118,5 +120,4 @@ export class IsoService extends BaseBackendService<Iso> {
         return Observable.of(null);
       });
   }
-
 }

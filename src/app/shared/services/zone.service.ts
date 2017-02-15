@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Zone } from '../models/zone.model';
-import { BaseBackendService } from './base-backend.service';
+import { BaseBackendCachedService } from './base-backend-cached.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 
 
@@ -9,4 +9,4 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
   entity: 'Zone',
   entityModel: Zone
 })
-export class ZoneService extends BaseBackendService<Zone> { }
+export class ZoneService extends BaseBackendCachedService<Zone> { }

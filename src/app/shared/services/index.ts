@@ -1,4 +1,5 @@
 export * from './base-backend.service';
+export * from './base-backend-cached.service';
 
 export * from './affinity-group.service';
 export * from './async-job.service';

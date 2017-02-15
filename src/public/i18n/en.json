@@ -51,6 +51,7 @@
   "RESTORE_DONE": "VM has been restored",
   "DESTROY_DONE": "VM has been destroyed",
   "DEPLOY_DONE": "VM has been deployed",
+  "DEPLOY_FAILED": "Failed to deploy a VM",
 
   "YES": "Yes",
   "NO": "No",
@@ -315,5 +316,7 @@
   "ATTACH_AN_ISO": "Attaching an ISO",
   "ISO_ATTACH_IN_PROGRESS": "Attaching an ISO",
   "ISO_ATTACH_DONE": "ISO has been attached",
-  "ISO_ATTACH_FAILED": "Failed to attach an ISO"
+  "ISO_ATTACH_FAILED": "Failed to attach an ISO",
+
+  "DISK_OFFERING": "Disk offering"
 }

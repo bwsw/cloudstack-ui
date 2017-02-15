@@ -141,7 +141,7 @@ export class TemplatePageComponent implements OnInit {
           });
         } else {
           notificationId = this.jobNotificationService.add(translatedStrings['DELETE_ISO_IN_PROGRESS']);
-          return this.isoService.delete(iso);
+          return this.isoService.remove(iso);
         }
       })
       .subscribe(() => {

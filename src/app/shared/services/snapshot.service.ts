@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Snapshot } from '../models/snapshot.model';
-import { BaseBackendService } from './base-backend.service';
+import { BaseBackendCachedService } from '.';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { AsyncJobService } from './async-job.service';
 import { Observable } from 'rxjs';
@@ -13,7 +13,7 @@ import { AsyncJob } from '../models/async-job.model';
   entity: 'Snapshot',
   entityModel: Snapshot
 })
-export class SnapshotService extends BaseBackendService<Snapshot> {
+export class SnapshotService extends BaseBackendCachedService<Snapshot> {
   constructor(
     private asyncJobService: AsyncJobService
   ) {
@@ -21,8 +21,8 @@ export class SnapshotService extends BaseBackendService<Snapshot> {
   }
 
   public createSnapshot(volumeId: string, name?: string): Observable<AsyncJob> {
+    this.invalidateCache();
     let params = {};
-
     if (name) {
       params = { volumeid: volumeId, name };
     } else {
