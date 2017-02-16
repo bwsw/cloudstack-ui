@@ -5,8 +5,8 @@ import * as _ from 'lodash';
 
 
 interface ICache<M> {
-  params: {},
-  result: Array<M>
+  params: {};
+  result: Array<M>;
 }
 
 export abstract class BaseBackendCachedService<M extends BaseModel> extends BaseBackendService<M> {

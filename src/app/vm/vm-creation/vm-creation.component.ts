@@ -139,8 +139,7 @@ export class VmCreationComponent implements OnInit {
 
   public onVmCreationSubmit(e: any): void {
     e.preventDefault();
-    this.deployVm();
-    this.dialog.hide();
+    this.dialog.hide(this.deployVm());
   }
 
   public onCancel(): void {
@@ -150,29 +149,59 @@ export class VmCreationComponent implements OnInit {
   public resetVmCreateData(): void {
     this.getVmCreateData().subscribe(result => {
       this.vmCreationData = result;
-      console.log(this.vmCreationData.vm.serviceOfferingId);
     });
   }
 
-  public deployVm(): Observable<void> {
+  public deployVm(): Observable<VirtualMachine> {
     let params: any = this.vmCreateParams;
-    let id;
-    return this.translateService.get([
+    let notificationId: string;
+
+    this.translateService.get([
       'VM_DEPLOY_IN_PROGRESS'
-    ]).switchMap(strs => {
-      id = this.jobsNotificationService.add(strs['VM_DEPLOY_IN_PROGRESS']);
-      return this.securityGroupService.createWithRules(
-        {
-          name: this.utils.getUniqueId() + GROUP_POSTFIX
-        },
-        params.ingress || [],
-        params.egress || []
-      );
-    })
-    .map(securityGroup => {
-      params['securitygroupids'] = securityGroup.id;
-      this._deploy(params, id);
-    });
+    ])
+      .subscribe(strs => {
+        notificationId = this.jobsNotificationService.add(strs['VM_DEPLOY_IN_PROGRESS']);
+      });
+
+    let observable = this.securityGroupService.createWithRules(
+      { name: this.utils.getUniqueId() + GROUP_POSTFIX },
+      params.ingress || [],
+      params.egress || []
+    )
+      .switchMap(securityGroup => {
+        params['securitygroupids'] = securityGroup.id;
+        return this.vmService.deploy(params);
+      })
+      .publish();
+
+    observable.connect();
+
+    observable
+      .switchMap(deployResponse => {
+        return this.vmService.checkCommand(deployResponse.jobid)
+      })
+      .subscribe(job => {
+        this.notifyOnDeployDone(notificationId);
+        if (!job.jobResult.password) { return; }
+        this.showPassword(job.jobResult.displayName, job.jobResult.password);
+      });
+
+    return observable
+      .switchMap(deployResponse => this.vmService.get(deployResponse.id))
+      .map(vm => {
+        vm.state = 'Deploying';
+        return vm;
+      });
+  }
+
+  public showPassword(vmName: string, vmPassword: string): void {
+    this.translateService.get(
+      'PASSWORD_DIALOG_MESSAGE',
+      { vmName, vmPassword }
+    )
+      .subscribe((passwordMessage: string) => {
+        this.dialogService.alert(passwordMessage);
+      });
   }
 
   public notifyOnDeployDone(notificationId: string) {
@@ -193,34 +222,6 @@ export class VmCreationComponent implements OnInit {
 
   public setServiceOffering(offering: string): void {
     this.vmCreationData.vm.serviceOfferingId = offering;
-  }
-
-  private _deploy(params: {}, notificationId): void {
-    this.vmService.deploy(params)
-      .subscribe(result => {
-        this.vmService.get(result.id)
-          .subscribe(r => {
-            r.state = 'Deploying';
-            this.onCreated.next(r);
-          });
-        this.vmService.checkCommand(result.jobid)
-          .subscribe(job => {
-            this.notifyOnDeployDone(notificationId);
-            if (!job.jobResult.password) {
-              return;
-            }
-            this.translateService.get(
-              'PASSWORD_DIALOG_MESSAGE',
-              {
-                vmName: job.jobResult.displayName,
-                vmPassword: job.jobResult.password
-              }
-            )
-              .subscribe((res: string) => {
-                this.dialogService.alert(res);
-              });
-          });
-      });
   }
 
   private getVmCreateData(): Observable<VmCreationData> {

@@ -4,6 +4,7 @@ import { Component,
   ViewChild,
   HostBinding
 } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { VmService, IVmActionEvent } from '../shared/vm.service';
 import { VirtualMachine } from '../shared/vm.model';
@@ -12,8 +13,8 @@ import { TranslateService } from 'ng2-translate';
 import { IStorageService } from '../../shared/services/storage.service';
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import {
-  JobsNotificationService,
-  INotificationStatus
+JobsNotificationService,
+INotificationStatus
 } from '../../shared/services/jobs-notification.service';
 
 import { IAsyncJob } from '../../shared/models/async-job.model';
@@ -51,78 +52,13 @@ export class VmListComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.vmService.getList()
-      .subscribe(vmList => {
-        this.vmList = vmList;
-
-        if (this.vmList.length) {
-          return;
-        }
-
-        if (this.storageService.read(askToCreateVm) === 'false') {
-          return;
-        }
-
-        this.translateService.get([
-          'YES',
-          'NO',
-          'NO_DONT_ASK',
-          'WOULD_YOU_LIKE_TO_CREATE_VM'
-        ]).subscribe(translations => {
-          this.showDialog(translations);
-        });
-      });
-    this.statsUpdateService.subscribe(() => this.updateStats());
-    this.asyncJobService.event.subscribe((job: IAsyncJob<any>) => {
-      if (job.jobResult && job.jobInstanceType === 'VirtualMachine' && job.jobResult.state === 'Destroyed') {
-        this.vmList.splice(this.vmList.findIndex(vm => vm.id === job.jobResult.id), 1);
-        if (this.selectedVm && this.selectedVm.id === job.jobResult.id) {
-          this.isDetailOpen = false;
-        }
-        this.updateStats();
-      }
-      if (job.jobResult && job.jobInstanceType === 'Snapshot') {
-        this.vmList.forEach((vm, index, array) => {
-          let vol = vm.volumes.findIndex(volume => volume.id === job.jobResult.volumeId);
-          if (vol !== -1) { array[index].volumes[vol].snapshots.unshift(job.jobResult); }
-        });
-      }
-    });
-    this.vmService.resubscribe().subscribe(observables => {
-      observables.forEach(observable => {
-        observable.subscribe(job => {
-          const action = VirtualMachine.getAction(job.cmd);
-          this.translateService.get([
-            'YES',
-            'NO',
-            action.confirmMessage,
-            action.progressMessage,
-            action.successMessage
-          ]).subscribe(strs => {
-            this.jobsNotificationService.add({
-              message: strs[action.successMessage],
-              status: INotificationStatus.Finished
-            });
-          });
-        });
-      });
-    });
-    this.vmService.vmUpdateObservable.subscribe(updatedVm => {
-      this.vmList.forEach((vm, index, vmList) => {
-        if (vm.id !== updatedVm.id) {
-          return;
-        }
-        this.serviceOfferingService.get(updatedVm.serviceOfferingId)
-          .subscribe(serviceOffering => {
-            vmList[index].cpuSpeed = updatedVm.cpuSpeed;
-            vmList[index].memory = updatedVm.memory;
-            vmList[index].cpuNumber = updatedVm.cpuNumber;
-            vmList[index].serviceOffering = serviceOffering;
-            vmList[index].serviceOfferingId = updatedVm.serviceOfferingId;
-          });
-        this.updateStats();
-      });
-    });
+    this.getVmList();
+    this.resubscribeToJobs();
+    this.subscribeToStatsUpdates();
+    this.subscribeToVmUpdates();
+    this.subscribeToVmDestroyed();
+    this.subscribeToSnapshotAdded();
+    this.subscribeToVmDestroyed();
   }
 
   public updateStats(): void {
@@ -133,8 +69,8 @@ export class VmListComponent implements OnInit {
     this.vmService.vmAction(e);
   }
 
-  public onVmCreated(e): void {
-    this.vmList.push(e);
+  public onVmCreated(vm: VirtualMachine): void {
+    this.vmList.push(vm);
     this.updateStats();
   }
 
@@ -157,36 +93,129 @@ export class VmListComponent implements OnInit {
       leaveTransitionDuration: 400
     })
       .switchMap(res => res.onHide())
-      .subscribe(() => {
-        // this.onDialogHide(data);
+      .switchMap((res: Observable<VirtualMachine>) => {
+        return res;
+      })
+      .subscribe((vm: VirtualMachine) => {
+        this.onVmCreated(vm);
       });
   }
 
-  private showDialog(translations): void {
-    this.dialogService.showDialog({
-      message: translations['WOULD_YOU_LIKE_TO_CREATE_VM'],
-      actions: [
-        {
-          handler: () => {
-            this.vmCreationForm.show();
-          },
-          text: translations['YES']
-        },
-        {
-          handler: () => { },
-          text: translations['NO']
-        },
-        {
-          handler: () => {
-            this.storageService.write(askToCreateVm, 'false');
-          },
-          text: translations['NO_DONT_ASK']
+  private getVmList(): void {
+    this.vmService.getList()
+      .subscribe(vmList => {
+        this.vmList = vmList;
+        if (!this.vmList.length) {
+          this.showSuggestionDialog();
         }
-      ],
-      fullWidthAction: true,
-      isModal: true,
-      clickOutsideToClose: true,
-      styles: { 'width': '320px' }
+      });
+  }
+
+  private subscribeToStatsUpdates(): void {
+    this.statsUpdateService.subscribe(() => {
+      this.updateStats();
+    });
+  }
+
+  private subscribeToVmUpdates(): void {
+    this.vmService.vmUpdateObservable
+      .subscribe(updatedVm => {
+        this.vmList.forEach((vm, index, vmList) => {
+          if (vm.id !== updatedVm.id) { return; }
+          this.updateStats();
+          this.serviceOfferingService.get(updatedVm.serviceOfferingId)
+            .subscribe(serviceOffering => {
+              vmList[index].cpuSpeed = updatedVm.cpuSpeed;
+              vmList[index].memory = updatedVm.memory;
+              vmList[index].cpuNumber = updatedVm.cpuNumber;
+              vmList[index].serviceOffering = serviceOffering;
+              vmList[index].serviceOfferingId = updatedVm.serviceOfferingId;
+            });
+        });
+      });
+  }
+
+  private resubscribeToJobs(): void {
+    this.vmService.resubscribe()
+      .subscribe(observables => {
+        observables.forEach(observable => {
+          observable.subscribe(job => {
+            const action = VirtualMachine.getAction(job.cmd);
+            this.translateService.get([
+              'YES',
+              'NO',
+              action.confirmMessage,
+              action.progressMessage,
+              action.successMessage
+            ]).subscribe(strs => {
+              this.jobsNotificationService.add({
+                message: strs[action.successMessage],
+                status: INotificationStatus.Finished
+              });
+            });
+          });
+        });
+      });
+  }
+
+  private subscribeToVmDestroyed(): void {
+    this.asyncJobService.event.subscribe((job: IAsyncJob<any>) => {
+      if (job.jobResult && job.jobInstanceType === 'VirtualMachine' && job.jobResult.state === 'Destroyed') {
+        this.vmList = this.vmList.filter(vm => vm.id !== job.jobResult.id);
+        if (this.selectedVm && this.selectedVm.id === job.jobResult.id) {
+          this.isDetailOpen = false;
+        }
+        this.updateStats();
+      }
+    });
+  }
+
+  private subscribeToSnapshotAdded(): void {
+    this.asyncJobService.event.subscribe((job: IAsyncJob<any>) => {
+      if (job.jobResult && job.jobInstanceType === 'Snapshot') {
+        this.vmList.forEach((vm, index, array) => {
+          let vol = vm.volumes.findIndex(volume => volume.id === job.jobResult.volumeId);
+          if (vol !== -1) { array[index].volumes[vol].snapshots.unshift(job.jobResult); }
+        });
+      }
+    });
+  }
+
+  private showSuggestionDialog(): void {
+    if (this.storageService.read(askToCreateVm) === 'false') {
+      return;
+    }
+    this.translateService.get([
+      'YES',
+      'NO',
+      'NO_DONT_ASK',
+      'WOULD_YOU_LIKE_TO_CREATE_VM'
+    ]).subscribe(translations => {
+      this.dialogService.showDialog({
+        message: translations['WOULD_YOU_LIKE_TO_CREATE_VM'],
+        actions: [
+          {
+            handler: () => {
+              this.vmCreationForm.show();
+            },
+            text: translations['YES']
+          },
+          {
+            handler: () => { },
+            text: translations['NO']
+          },
+          {
+            handler: () => {
+              this.storageService.write(askToCreateVm, 'false');
+            },
+            text: translations['NO_DONT_ASK']
+          }
+        ],
+        fullWidthAction: true,
+        isModal: true,
+        clickOutsideToClose: true,
+        styles: { 'width': '320px' }
+      });
     });
   }
 }
