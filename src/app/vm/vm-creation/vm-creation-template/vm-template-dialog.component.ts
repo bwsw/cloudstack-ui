@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 import { Template } from '../../../template/shared';
 import { PRESELECTED_TEMPLATE_TOKEN } from './injector-token';
@@ -11,7 +11,7 @@ import { Iso } from '../../../template/shared/iso.model';
   templateUrl: 'vm-template-dialog.component.html',
   styleUrls: ['vm-template-dialog.component.scss']
 })
-export class VmTemplateDialogComponent extends TemplateFilterListComponent {
+export class VmTemplateDialogComponent extends TemplateFilterListComponent implements OnInit {
   public _selectedTemplate: Template | Iso;
 
   constructor(
@@ -19,7 +19,10 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent {
     private dialog: MdlDialogReference,
   ) {
     super();
-    this.selectedTemplate = preselectedTemplate;
+  }
+
+  public ngOnInit(): void {
+    this.selectedTemplate = this.preselectedTemplate;
   }
 
   public get selectedTemplate(): Template | Iso {

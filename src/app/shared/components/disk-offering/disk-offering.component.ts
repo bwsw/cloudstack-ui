@@ -21,9 +21,11 @@ export class DiskOfferingComponent implements OnInit {
   public ngOnInit(): void {
     this.diskOfferingService.getList()
       .subscribe(result => {
-        this.diskOfferingList = result;
-        this.selectedDiskOffering = result[0];
-        this.updateDiskOffering(this.selectedDiskOffering);
+        if (result.length) {
+          this.diskOfferingList = result;
+          this.selectedDiskOffering = result[0];
+          this.updateDiskOffering(this.selectedDiskOffering);
+        }
       });
   }
 }

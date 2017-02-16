@@ -318,5 +318,6 @@
   "ISO_ATTACH_DONE": "ISO файл прикреплен",
   "ISO_ATTACH_FAILED": "Не удалось прикрепить ISO файл",
 
-  "DISK_OFFERING": "Дисковая услуга"
+  "DISK_OFFERING": "Дисковая услуга",
+  "INSTALLATION_SOURCE": "Источник установки"
 }
