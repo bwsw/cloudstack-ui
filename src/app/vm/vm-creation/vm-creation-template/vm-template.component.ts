@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
+import { Template, TemplateService } from '../../../template/shared';
 import { VmTemplateDialogComponent } from './vm-template-dialog.component';
 import { PRESELECTED_TEMPLATE_TOKEN } from './injector-token';
-import { Template, TemplateService } from '../../../template/shared';
 
 
 @Component({
@@ -54,8 +54,15 @@ export class VmTemplateComponent implements OnInit, OnChanges {
       component: VmTemplateDialogComponent,
       providers: [{provide: PRESELECTED_TEMPLATE_TOKEN, useValue: this.selectedIn}],
       isModal: true,
-      styles: {'width': '568px', 'padding': '0.9em' }
+      styles: {
+        'width': '750px',
+        'height': '680px'
+      },
+      clickOutsideToClose: true,
+      enterTransitionDuration: 400,
+      leaveTransitionDuration: 400
     });
+
     templateDialog.switchMap(res => res.onHide())
       .subscribe((data: any) => {
         this.selectedOut.emit(data);

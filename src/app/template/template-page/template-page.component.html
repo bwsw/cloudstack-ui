@@ -2,34 +2,14 @@
   class="margin-right"
   [class.open]="isDetailOpen"
 >
-  <cs-vm-statistics></cs-vm-statistics>
-</div>
-<div
-  class="margin-right"
-  [class.open]="isDetailOpen"
->
-  <cs-template-filters
-    (queries)="filterResults($event)"
-    (filters)="filterResults($event)"
-    (displayMode)="updateDisplayMode($event)"
-    [showIso]="showIso"
-  ></cs-template-filters>
-</div>
-<div
-  class="template-list"
-  [class.open]="isDetailOpen"
->
-  <cs-template-list
-    [selectedTemplate]="selectedTemplate"
-    (selectedTemplateChange)="selectTemplate($event)"
-    [templateList]="visibleTemplateList"
-    [query]="query"
-    [radio]="false"
-  ></cs-template-list>
+  <cs-template-filter-list
+    [(selectedTemplate)]="selectedTemplate"
+    [(viewMode)]="viewMode"
+  ></cs-template-filter-list>
 </div>
 <cs-template-sidebar
   [isOpen]="isDetailOpen"
-  [template]="selectedTemplate"
+  [template]="_selectedTemplate"
   (onClickOutside)="hideDetail()"
   (deleteTemplate)="delete($event)"
 ></cs-template-sidebar>

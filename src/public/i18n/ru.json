@@ -51,6 +51,7 @@
   "RESTORE_DONE": "ВМ была переустановлена",
   "DESTROY_DONE": "ВМ была уничтожена",
   "DEPLOY_DONE": "ВМ была развернута",
+  "DEPLOY_FAILED": "Не удалось развернуть ВМ",
 
   "YES": "Да",
   "NO": "Нет",
@@ -145,7 +146,7 @@
     "TEMPLATE": "Шаблон",
     "SERVICE_OFFERING": "Вычислительное предложение",
     "ZONE": "Зона",
-    "ROOT_DISK_SIZE": "Размер основого диска",
+    "DISK_SIZE": "Размер диска",
     "AFFINITY_GROUPS": "Аффинитетные группы",
     "SECURITY_GROUPS": "Группы безопасности",
     "CREATE_SECURITY": "Создать",
@@ -316,6 +317,8 @@
   "ATTACH_AN_ISO": "Прикрепление ISO файла",
   "ISO_ATTACH_IN_PROGRESS": "Прикрепление ISO файла",
   "ISO_ATTACH_DONE": "ISO файл прикреплен",
-  "ISO_ATTACH_FAILED": "Не удалось прикрепить ISO файл"
+  "ISO_ATTACH_FAILED": "Не удалось прикрепить ISO файл",
 
+  "DISK_OFFERING": "Дисковая услуга",
+  "INSTALLATION_SOURCE": "Источник установки"
 }
