@@ -7,6 +7,9 @@ Since we run a Cloudstack managed public cloud for 3 years (actually we run CS 4
 
 ## Implementation Details
 
+* Designed compatible with Apache Cloudstack 4.9 and wasn't tested with previous versions of CS
+* Powered by Angular 2 and Google Material Design
+
 ## Features Supported
 
 ## Features Unsupported
