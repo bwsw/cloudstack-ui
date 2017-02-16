@@ -39,11 +39,11 @@ export class VolumeSizeControlComponent implements OnInit, ControlValueAccessor 
 
   public set size(value) {
     this._size = Math.floor(value);
-    this.propagateChange(this._size);
+    this.propagateChange(this.size);
   }
 
   public get sliderValue(): number {
-    return this.size > this.min ? this.log(this.size) : this.sliderMinValue;
+    return this.size > this.min ? Math.log(this.size) : this.sliderMinValue;
   }
 
   public get sliderMinValue(): number {
