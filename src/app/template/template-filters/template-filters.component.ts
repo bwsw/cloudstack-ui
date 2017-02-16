@@ -14,7 +14,7 @@ import { OsFamily, StorageService } from '../../shared';
 export class TemplateFiltersComponent implements OnInit {
   @Input() public showIsoSwitch = true;
   @Input() public showDelimiter = true;
-  @Input() public showIso: boolean;
+  @Input() public showIso;
 
   @Output() public queries = new EventEmitter();
   @Output() public displayMode = new EventEmitter();
@@ -55,9 +55,6 @@ export class TemplateFiltersComponent implements OnInit {
         this.queries.emit(query);
       });
 
-    this.showIso = this.storageService.read('templateDisplayMode') === 'iso';
-    this.updateDisplayMode();
-
     this.translateService.get(
       this.categoryFilters.map(filter => `TEMPLATE_${filter.toUpperCase()}`)
     )
@@ -68,6 +65,8 @@ export class TemplateFiltersComponent implements OnInit {
         });
         this.filterTranslations = strs;
       });
+
+    this.displayMode.emit(this.showIso ? 'iso' : 'template');
   }
 
   public updateFilters(): void {

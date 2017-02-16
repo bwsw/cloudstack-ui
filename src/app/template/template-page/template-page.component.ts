@@ -39,7 +39,7 @@ export class TemplatePageComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.viewMode = this.storageService.read('showIso');
+    this.viewMode = this.storageService.read('templateDisplayMode');
   }
 
   public get selectedTemplate(): Template | Iso {

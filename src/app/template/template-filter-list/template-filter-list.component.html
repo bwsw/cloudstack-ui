@@ -3,7 +3,7 @@
   (queries)="filterResults($event)"
   (filters)="filterResults($event)"
   (displayMode)="changeViewMode($event)"
-  [showIso]="showIso"
+  [showIso]="viewMode === 'iso'"
   [showIsoSwitch]="showIsoSwitch"
   [showDelimiter]="showDelimiter"
 ></cs-template-filters>
