@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from 'ng2-translate';
-import { MdlModule, DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
+import { MdlModule, DISABLE_NATIVE_VALIDITY_CHECKING, MdlDialogService } from 'angular2-mdl';
 import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
@@ -18,6 +18,7 @@ import { ServiceOfferingModule } from './service-offering/service-offering.modul
 import { SharedModule } from './shared/shared.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
+import { CustomDialogService } from './shared/services/custom-dialog.service';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import { VmModule } from './vm';
   ],
   providers: [
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
+    { provide: MdlDialogService, useClass: CustomDialogService }
   ],
   bootstrap: [AppComponent]
 })
