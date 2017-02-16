@@ -38,7 +38,7 @@ export class VolumeSizeControlComponent implements OnInit, ControlValueAccessor 
   }
 
   public set size(value) {
-    this._size = this.floor(value);
+    this._size = Math.floor(value);
     this.propagateChange(this._size);
   }
 
@@ -47,11 +47,11 @@ export class VolumeSizeControlComponent implements OnInit, ControlValueAccessor 
   }
 
   public get sliderMinValue(): number {
-    return this.log(this.min);
+    return Math.log(this.min);
   }
 
   public get sliderMaxValue(): number {
-    return this.log(this.max);
+    return Math.log(this.max);
   }
 
   public writeValue(value): void {
@@ -87,13 +87,5 @@ export class VolumeSizeControlComponent implements OnInit, ControlValueAccessor 
       // setTimeout is used to force rerendering
       setTimeout(() => this.size = this.min);
     }
-  }
-
-  private log(value: number): number {
-    return Math.log(value);
-  }
-
-  private floor(value: number): number {
-    return Math.floor(value);
   }
 }
