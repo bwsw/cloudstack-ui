@@ -19,40 +19,40 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   public get(id: string): Observable<M> {
-    return this.fetchList({ id })
-      .map(res => this.prepareModel(res[0]) as M);
+    return this.getList({ id })
+      .map(res => res[0] as M);
   }
 
   public getList(params?: {}): Observable<Array<M>> {
-    return this.fetchList(params)
-      .map(res => {
-        if (!res) {
+    return this.sendCommand('list', params)
+      .map(response => {
+        let entity = this.entity.toLowerCase();
+        if (entity === 'asyncjob') { // only if list?
+          entity += 's';
+        }
+
+        const result = response[entity];
+        if (!result) {
           return [];
         }
-        return res.map(m => this.prepareModel(m)) as Array<M>;
+        return result.map(m => this.prepareModel(m)) as Array<M>;
       });
   }
 
   public create(params?: {}): Observable<any> {
-    const command = 'create';
-    let entity = this.entity.toLowerCase();
-    return this.getRequest(command, params)
-      .map(res => {
-        const ent = entity === 'tag' ? entity + 's' : entity;
-        const response = res[`${command}${ent}response`];
-
+    return this.sendCommand('create', params)
+      .map(response => {
+        let entity = this.entity.toLowerCase();
         if (entity === 'tag') {
           return response;
         }
-        return this.prepareModel(response[ent]);
+
+        return this.prepareModel(response[entity] as M);
       });
   }
 
   public remove(params?: {}): Observable<any> {
-    const command = 'delete';
-    let entity = this.entity.toLowerCase();
-    return this.postRequest(command, params)
-      .map(res => res[`${command}${entity}response`]);
+    return this.sendCommand('delete', params);
   }
 
   protected prepareModel(res): M {
@@ -99,17 +99,24 @@ export abstract class BaseBackendService<M extends BaseModel> {
       .catch(error => this.handleError(error));
   }
 
-  private fetchList(params?: {}): Observable<any> {
-    const command = 'list';
-    let entity = this.entity.toLowerCase();
-
+  protected sendCommand(command: string, params?: {}): Observable<any> {
     return this.getRequest(command, params)
-      .map((res: Response) => {
-        const responseString = `${command}${entity}sresponse`;
-        if (entity === 'asyncjob') {
-          entity += 's';
+      .map(res => {
+        let entity = this.entity.toLowerCase();
+        let [cmd, postfix] = command.split(';');
+        if (!postfix) {
+          postfix = '';
         }
-        return res[responseString][`${entity}`];
+        let fix = (cmd === 'list' || entity === 'tag') ? 's' : '';
+
+        if (command === 'restore') {
+          entity = 'vm';
+          fix = '';
+        }
+
+        const responseString = `${cmd}${entity}${fix}${postfix}response`.toLowerCase();
+
+        return res[responseString];
       })
       .catch(error => this.handleError(error));
   }
