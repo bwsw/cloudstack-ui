@@ -28,9 +28,8 @@ export class SnapshotService extends BaseBackendService<Snapshot> {
     } else {
       params = { volumeId: volumeId };
     }
-    return this.getRequest('create', params)
-      .map(result => result.createsnapshotresponse.jobid)
-      .switchMap(jobId => this.asyncJobService.addJob(jobId))
+    return this.sendCommand('create', params)
+      .switchMap(job => this.asyncJobService.addJob(job.jobid))
       .map(result => {
         if (result && result.jobResultCode === 0 && result.jobResult) {
           result.jobResult = new this.entityModel(result.jobResult.snapshot);

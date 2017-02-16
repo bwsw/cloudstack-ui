@@ -23,24 +23,6 @@ export class VolumeService extends BaseBackendService<Volume> {
     super();
   }
 
-  public resize(id: string, params: { size: number, [propName: string]: any }): Observable<Volume> {
-    params['id'] = id;
-
-    return this.getRequest('resize', params)
-      .flatMap((res: any) => {
-        const responseKey = `resize${this.entity.toLowerCase()}response`;
-        return this.asyncJobService.addJob(res[responseKey].jobid);
-      })
-      .flatMap((asyncJob: AsyncJob) => {
-        const jobResult = asyncJob.jobResult;
-        if (asyncJob.jobStatus === 2) {
-          return Observable.throw(jobResult);
-        }
-
-        return Observable.of(this.prepareModel(jobResult.volume));
-      });
-  }
-
   public get(id: string): Observable<Volume> {
     const snapshotsRequest = this.snapshotService.getList(id);
     const volumeRequest = super.get(id);
@@ -62,6 +44,21 @@ export class VolumeService extends BaseBackendService<Volume> {
           volume.snapshots = snapshots.filter((snapshot: Snapshot) => snapshot.volumeId === volume.id);
         });
         return volumes;
+      });
+  }
+
+  public resize(id: string, params: { size: number, [propName: string]: any }): Observable<Volume> {
+    params['id'] = id;
+
+    return this.sendCommand('resize', params)
+      .flatMap((job: any) => this.asyncJobService.addJob(job.jobid))
+      .flatMap((asyncJob: AsyncJob) => {
+        const jobResult = asyncJob.jobResult;
+        if (asyncJob.jobStatus === 2) {
+          return Observable.throw(jobResult);
+        }
+
+        return Observable.of(this.prepareModel(jobResult.volume));
       });
   }
 }

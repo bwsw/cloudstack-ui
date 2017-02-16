@@ -144,6 +144,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public deploy(params: {}): Observable<any> {
+    // todo change to sendCommand
     return this.getRequest('deploy', params)
       .map(result => result['deployvirtualmachineresponse']);
   }
@@ -179,16 +180,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       updatedParams['id'] = id;
     }
 
-    return this.getRequest(command, updatedParams)
-      .map(result => {
-        let fix = 'virtualMachine';
-        if (command === 'restore') {
-          fix = 'vm';
-        }
-
-        return result[`${command}${fix}response`.toLowerCase()].jobid;
-      })
-      .switchMap(result => this.jobs.addJob(result))
+    return this.sendCommand(command, updatedParams)
+      .switchMap(job => this.jobs.addJob(job.jobid))
       .map(result => {
         if (result && result.jobResultCode === 0) {
           result.jobResult = this.prepareModel(result.jobResult.virtualmachine);
@@ -312,11 +305,10 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   private _changeServiceOffering(serviceOfferingId: string, virtualMachine: VirtualMachine): Observable<void> {
-    const command = 'changeServiceForVirtualMachine';
+    const command = 'changeServiceFor';
     let params = {};
     let translatedStrings = [];
 
-    params['command'] = command;
     params['id'] = virtualMachine.id;
     params['serviceOfferingId'] = serviceOfferingId;
 
@@ -326,11 +318,9 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       'UNEXPECTED_ERROR'
     ]).switchMap(strs => {
       translatedStrings = strs;
-      return this.getRequest(command, params);
+      return this.sendCommand(command, params);
     })
-      .map(result => {
-        return new this.entityModel(result[command.toLowerCase() + 'response'].virtualmachine);
-      })
+      .map(result => this.prepareModel(result['virtualmachine']))
       .map(result => {
         this.jobsNotificationService.add({
           message: translatedStrings['OFFERING_CHANGED'],

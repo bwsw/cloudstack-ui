@@ -138,12 +138,8 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
 
   public addRule(type: NetworkRuleType, data): Observable<NetworkRule> {
     const command = 'authorize';
-    return this.postRequest(`${command};${type}`, data)
-      .switchMap(res => {
-        return this.asyncJobService.addJob(
-          res[`${command}${this.entity.toLowerCase()}${type.toLowerCase()}response`].jobid
-        );
-      })
+    return this.sendCommand(`${command};${type}`, data)
+      .switchMap(job => this.asyncJobService.addJob(job.jobid))
       .switchMap(jobResult => {
         if (jobResult.jobStatus === 2) {
           return Observable.throw(jobResult);
@@ -156,12 +152,8 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
 
   public removeRule(type: NetworkRuleType, data): Observable<null> {
     const command = 'revoke';
-    return this.postRequest(`${command};${type}`, data)
-      .switchMap(res => {
-        const response = res[`${command}${this.entity.toLowerCase()}${type.toLowerCase()}response`];
-        const jobId = response.jobid;
-        return this.asyncJobService.addJob(jobId);
-      })
+    return this.sendCommand(`${command};${type}`, data)
+      .switchMap(job => this.asyncJobService.addJob(job.jobid))
       .switchMap(jobResult => {
         if (jobResult.jobStatus === 2 || jobResult.jobResult && !jobResult.jobResult.success) {
           return Observable.throw(jobResult);
