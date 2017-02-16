@@ -96,6 +96,7 @@
   "IP_NA": "IP N/A",
   "VMS": "Virtual machines",
   "DEPLOYED": "Deployed",
+  "DEPLOYED_STATS": "Deployed",
   "COMPUTATIONAL_RESOURCES": "Computational resources",
   "CPUS": "CPUs",
   "SNAPSHOTS": "Snapshots",

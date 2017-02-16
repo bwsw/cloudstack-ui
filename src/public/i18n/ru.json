@@ -96,6 +96,7 @@
   "IP_NA": "IP недоступен",
   "VMS": "Виртуальные машины",
   "DEPLOYED": "Развернута",
+  "DEPLOYED_STATS": "Всего развернуто",
   "COMPUTATIONAL_RESOURCES": "Вычислительные ресурсы",
   "CPUS": "CPU",
   "SNAPSHOTS": "Снимки",
