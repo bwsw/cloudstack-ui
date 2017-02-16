@@ -43,7 +43,7 @@ export class StorageDetailComponent implements OnChanges {
   public ngOnChanges(): void {
     if (this.vm.isoId) {
       this.isoService.get(this.vm.isoId)
-        .subscribe(iso => {
+        .subscribe((iso: Iso) => {
           this.iso = iso;
         });
     } else {

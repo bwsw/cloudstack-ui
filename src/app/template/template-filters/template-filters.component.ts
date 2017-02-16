@@ -55,7 +55,7 @@ export class TemplateFiltersComponent implements OnInit {
         this.queries.emit(query);
       });
 
-    this.showIso = this.storageService.read('templateDisplayMode') === 'iso';
+    this.showIso = this.storageService.read('templateDisplayMode') === 'Iso';
     this.updateDisplayMode();
 
     this.translateService.get(
@@ -83,7 +83,7 @@ export class TemplateFiltersComponent implements OnInit {
   }
 
   public updateDisplayMode(): void {
-    let mode = this.showIso ? 'iso' : 'template';
+    let mode = this.showIso ? 'Iso' : 'Template';
     this.displayMode.emit(mode);
     this.storageService.write('templateDisplayMode', mode);
   }

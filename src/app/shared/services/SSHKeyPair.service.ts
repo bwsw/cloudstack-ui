@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { SSHKeyPair } from '../models/SSHKeyPair.model';
+import { SSHKeyPair } from '../models/ssh-keypair.model';
 import { BaseBackendService } from './base-backend.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 

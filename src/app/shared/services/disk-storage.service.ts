@@ -34,7 +34,7 @@ export class DiskStorageService {
   public getConsumedSecondaryStorage(): Observable<number> {
     return Observable.forkJoin([
       this.snapshotService.getList(),
-      this.isoService.getList({ isoFilter: 'self' })
+      this.isoService.getList({ filter: 'self' })
     ]).map((result: Array<any>) => {
       let consumedSecondaryStorage = 0;
       result[0].forEach((snapshot: Snapshot) => {

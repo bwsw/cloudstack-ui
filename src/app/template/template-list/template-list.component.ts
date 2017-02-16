@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Template } from '../shared/template.model';
-import { Iso } from '../shared/iso.model';
+import { BaseTemplateModel } from '../shared/base-template.model';
+
 
 @Component({
   selector: 'cs-template-list',
@@ -9,12 +9,12 @@ import { Iso } from '../shared/iso.model';
 })
 export class TemplateListComponent {
   @Input() public radio = false;
-  @Input() public templateList: Array<Template | Iso>;
+  @Input() public templateList: Array<BaseTemplateModel>;
   @Input() public query: string;
-  @Input() public selectedTemplate: Template | Iso;
+  @Input() public selectedTemplate: BaseTemplateModel;
   @Output() public selectedTemplateChange = new EventEmitter();
 
-  public selectTemplate(template: Template | Iso): void {
+  public selectTemplate(template: BaseTemplateModel): void {
     this.selectedTemplateChange.emit(template);
     this.selectedTemplate = template;
   }

@@ -62,7 +62,7 @@ export class TemplateFilterListComponent implements OnInit {
   }
 
   private fetchData(mode: string): void {
-    if (mode === 'template') {
+    if (mode === 'Template') {
       this.templateList = [];
       this.templateService.getGroupedTemplates({}, ['featured', 'self'])
         .subscribe(templates => {
@@ -78,8 +78,8 @@ export class TemplateFilterListComponent implements OnInit {
     } else {
       this.templateList = [];
       Observable.forkJoin([
-        this.isoService.getList({ isofilter: 'featured' }),
-        this.isoService.getList({ isofilter: 'self' }),
+        this.isoService.getList({ filter: 'featured' }),
+        this.isoService.getList({ filter: 'self' }),
       ])
         .subscribe(([featuredIsos, selfIsos]) => {
           this.templateList = (featuredIsos as Array<Iso>).concat(selfIsos as Array<Iso>);
