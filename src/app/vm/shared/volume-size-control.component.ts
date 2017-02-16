@@ -42,6 +42,18 @@ export class VolumeSizeControlComponent implements OnInit, ControlValueAccessor 
     this.propagateChange(this._size);
   }
 
+  public get sliderValue(): number {
+    return this.size > this.min ? this.log(this.size) : this.sliderMinValue;
+  }
+
+  public get sliderMinValue(): number {
+    return this.log(this.min);
+  }
+
+  public get sliderMaxValue(): number {
+    return this.log(this.max);
+  }
+
   public writeValue(value): void {
     if (value) {
       this.size = value;
@@ -77,11 +89,11 @@ export class VolumeSizeControlComponent implements OnInit, ControlValueAccessor 
     }
   }
 
-  public log(value: number): number {
+  private log(value: number): number {
     return Math.log(value);
   }
 
-  public floor(value: number): number {
+  private floor(value: number): number {
     return Math.floor(value);
   }
 }

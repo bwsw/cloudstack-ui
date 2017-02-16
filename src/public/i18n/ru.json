@@ -146,7 +146,7 @@
     "TEMPLATE": "Шаблон",
     "SERVICE_OFFERING": "Вычислительное предложение",
     "ZONE": "Зона",
-    "ROOT_DISK_SIZE": "Размер основого диска",
+    "DISK_SIZE": "Размер диска",
     "AFFINITY_GROUPS": "Аффинитетные группы",
     "SECURITY_GROUPS": "Группы безопасности",
     "CREATE_SECURITY": "Создать",

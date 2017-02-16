@@ -146,7 +146,7 @@
     "TEMPLATE": "Template",
     "SERVICE_OFFERING": "Service offering",
     "ZONE": "Zone",
-    "ROOT_DISK_SIZE": "Root disk size",
+    "DISK_SIZE": "Disk size",
     "AFFINITY_GROUPS": "Affinity groups",
     "SECURITY_GROUPS": "Security groups",
     "CREATE_SECURITY": "Create",
