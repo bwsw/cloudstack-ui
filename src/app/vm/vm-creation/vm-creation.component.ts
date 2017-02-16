@@ -112,13 +112,12 @@ export class VmCreationComponent implements OnInit {
     this.resetVmCreateData();
   }
 
+  // todo
   public show(): void {
     this.templateService.getDefault().subscribe(() => {
       this.serviceOfferingFilterService.getAvailable().subscribe(() => {
         this.resourceUsageService.getResourceUsage().subscribe(result => {
           if (result.available.primaryStorage > this.vmCreationData.rootDiskSizeMin && result.available.instances) {
-            this.resetVmCreateData();
-            this.vmCreateDialog.show();
           } else {
             this.translateService.get(['INSUFFICIENT_RESOURCES']).subscribe(strs => {
               this.notificationService.error(strs['INSUFFICIENT_RESOURCES']);
@@ -143,7 +142,7 @@ export class VmCreationComponent implements OnInit {
   }
 
   public onCancel(): void {
-    this.dialog.hide();
+    this.dialog.hide(Observable.of());
   }
 
   public resetVmCreateData(): void {
@@ -177,9 +176,7 @@ export class VmCreationComponent implements OnInit {
     observable.connect();
 
     observable
-      .switchMap(deployResponse => {
-        return this.vmService.checkCommand(deployResponse.jobid)
-      })
+      .switchMap(deployResponse => this.vmService.checkCommand(deployResponse.jobid))
       .subscribe(job => {
         this.notifyOnDeployDone(notificationId);
         if (!job.jobResult.password) { return; }

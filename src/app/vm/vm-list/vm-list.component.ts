@@ -4,7 +4,6 @@ import { Component,
   ViewChild,
   HostBinding
 } from '@angular/core';
-import { Observable } from 'rxjs';
 
 import { VmService, IVmActionEvent } from '../shared/vm.service';
 import { VirtualMachine } from '../shared/vm.model';
@@ -93,11 +92,11 @@ export class VmListComponent implements OnInit {
       leaveTransitionDuration: 400
     })
       .switchMap(res => res.onHide())
-      .switchMap((res: Observable<VirtualMachine>) => {
-        return res;
-      })
+      .switchMap(res => res)
       .subscribe((vm: VirtualMachine) => {
-        this.onVmCreated(vm);
+        if (vm) {
+          this.onVmCreated(vm);
+        }
       });
   }
 
@@ -196,7 +195,7 @@ export class VmListComponent implements OnInit {
         actions: [
           {
             handler: () => {
-              this.vmCreationForm.show();
+              this.showVmCreationDialog();
             },
             text: translations['YES']
           },
