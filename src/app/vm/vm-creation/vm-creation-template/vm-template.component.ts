@@ -50,13 +50,12 @@ export class VmTemplateComponent implements OnInit, OnChanges {
   }
 
   public onClick(): void {
-    let templateDialog = this.dialogService.showCustomDialog({
+    this.dialogService.showCustomDialog({
       component: VmTemplateDialogComponent,
-      providers: [{provide: PRESELECTED_TEMPLATE_TOKEN, useValue: this.selectedIn}],
-      isModal: true,
-      styles: {'width': '568px', 'padding': '0.9em' }
-    });
-    templateDialog.switchMap(res => res.onHide())
+      classes: 'vm-template-dialog',
+      providers: [{ provide: PRESELECTED_TEMPLATE_TOKEN, useValue: this.selectedIn }],
+    })
+      .switchMap(res => res.onHide())
       .subscribe((data: any) => {
         this.selectedOut.emit(data);
         this.displayTemplateName = data.name;

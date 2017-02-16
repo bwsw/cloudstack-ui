@@ -70,14 +70,8 @@ export class StorageDetailComponent implements OnChanges {
         translations = res;
         return this.dialogService.showCustomDialog({
           component: VolumeResizeComponent,
-          providers: [{ provide: 'volume', useValue: volume }],
-          isModal: true,
-          styles: {
-            'width': '400px',
-            'padding': '11.5px'
-          },
-          enterTransitionDuration: 400,
-          leaveTransitionDuration: 400
+          classes: 'volume-resize-dialog',
+          providers: [{ provide: 'volume', useValue: volume }]
         });
       })
       .switchMap(res => res.onHide())
@@ -129,33 +123,16 @@ export class StorageDetailComponent implements OnChanges {
   public takeSnapshot(volumeId: string): void {
     this.dialogService.showCustomDialog({
       component: SnapshotCreationComponent,
+      classes: 'snapshot-creation-dialog',
       providers: [{ provide: 'volumeId', useValue: volumeId }],
-      isModal: true,
-      styles: {
-        'width': '400px',
-        'padding': '11.3px'
-      },
-      clickOutsideToClose: true,
-      enterTransitionDuration: 400,
-      leaveTransitionDuration: 400
     });
   }
 
   public attachIsoDialog(): void {
-    let dialogObservable = this.dialogService.showCustomDialog({
+    this.dialogService.showCustomDialog({
       component: IsoAttachmentComponent,
-      providers: [],
-      isModal: true,
-      styles: {
-        'width': '720px',
-        'height': '660px'
-      },
-      clickOutsideToClose: true,
-      enterTransitionDuration: 400,
-      leaveTransitionDuration: 400
-    });
-
-    dialogObservable
+      classes: 'iso-attachment-dialog',
+    })
       .switchMap(res => res.onHide())
       .subscribe((iso: Iso) => {
         if (!iso) {
