@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Iso, Template } from '../shared';
 import { AuthService } from '../../shared';
+import { BaseTemplateModel } from '../shared/base-template.model';
 
 
 @Component({
@@ -10,7 +10,7 @@ import { AuthService } from '../../shared';
 })
 export class TemplateSidebarComponent {
   @Input() public isOpen: boolean;
-  @Input() public template: Template | Iso;
+  @Input() public template: BaseTemplateModel;
   @Output() public onClickOutside = new EventEmitter();
   @Output() public deleteTemplate = new EventEmitter();
 

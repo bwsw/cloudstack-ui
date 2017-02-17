@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
+import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { MdlModule } from 'angular2-mdl';
 import { TranslateModule } from 'ng2-translate';
 
@@ -12,6 +13,7 @@ import {
   AuthGuard,
   AuthService,
   ConfigService,
+  DiskOfferingService,
   DiskStorageService,
   ErrorService,
   JobsNotificationService,
@@ -38,6 +40,7 @@ import { NotificationBoxComponent } from './components/notification-box.componen
 import { NotificationBoxItemComponent } from './components/notification-box-item.component';
 import { HighLightPipe } from './pipes/highlight.pipe';
 import { VmStatisticsComponent } from './components/vm-statistics/vm-statistics.component';
+import { DiskOfferingComponent } from './components/disk-offering/disk-offering.component';
 
 
 @NgModule({
@@ -45,23 +48,26 @@ import { VmStatisticsComponent } from './components/vm-statistics/vm-statistics.
     CommonModule,
     TranslateModule,
     MdlModule,
-    MdlPopoverModule
+    MdlPopoverModule,
+    MdlSelectModule
   ],
   exports: [
-    SgRulesManagerComponent,
-    SidebarComponent,
+    DiskOfferingComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
+    SgRulesManagerComponent,
+    SidebarComponent,
     VmStatisticsComponent,
     DivByPowerOfTwoPipe,
-    ViewValuePipe,
-    HighLightPipe
+    HighLightPipe,
+    ViewValuePipe
   ],
   declarations: [
-    SgRulesManagerComponent,
-    SidebarComponent,
+    DiskOfferingComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
+    SgRulesManagerComponent,
+    SidebarComponent,
     VmStatisticsComponent,
     DivByPowerOfTwoPipe,
     ViewValuePipe,
@@ -73,6 +79,7 @@ import { VmStatisticsComponent } from './components/vm-statistics/vm-statistics.
     AuthGuard,
     AuthService,
     ConfigService,
+    DiskOfferingService,
     DiskStorageService,
     ErrorService,
     JobsNotificationService,

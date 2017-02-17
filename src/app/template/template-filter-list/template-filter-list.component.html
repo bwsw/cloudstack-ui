@@ -1,0 +1,17 @@
+<cs-template-filters
+  class="options"
+  (queries)="filterResults($event)"
+  (filters)="filterResults($event)"
+  (displayMode)="changeViewMode($event)"
+  [showIso]="viewMode === 'iso'"
+  [showIsoSwitch]="showIsoSwitch"
+  [showDelimiter]="showDelimiter"
+></cs-template-filters>
+<cs-template-list
+  class="template-list"
+  [selectedTemplate]="selectedTemplate"
+  (selectedTemplateChange)="selectTemplate($event)"
+  [templateList]="visibleTemplateList"
+  [query]="query"
+  [radio]="showRadio"
+></cs-template-list>

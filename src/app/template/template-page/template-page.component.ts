@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { MdlDialogService } from 'angular2-mdl';
@@ -7,16 +7,15 @@ import { TranslateService } from 'ng2-translate';
 import {
   Iso,
   IsoService,
-  Template,
-  TemplateService,
- } from '../shared';
-import { OsFamily } from '../../shared/models/os-type.model';
+  TemplateService
+} from '../shared';
 import { INotificationStatus, JobsNotificationService, NotificationService } from '../../shared/services';
 import { TemplateCreationComponent } from '../template-creation/template-creation.component';
 import { VmService } from '../../vm/shared/vm.service';
-import { AuthService } from '../../shared/services/auth.service';
 import { StorageService } from '../../shared/services/storage.service';
-import { ServiceLocator } from '../../shared/services/service-locator';
+import { TemplateFilterListComponent } from '../template-filter-list/template-filter-list.component';
+import { BaseTemplateModel } from '../shared/base-template.model';
+import { Template } from '../shared/template.model';
 
 
 @Component({
@@ -26,129 +25,149 @@ import { ServiceLocator } from '../../shared/services/service-locator';
 })
 export class TemplatePageComponent implements OnInit {
   public isDetailOpen: boolean;
-  public selectedTemplate: Template | Iso;
+  public _viewMode: string;
+  public _selectedTemplate: BaseTemplateModel;
 
-  public showIso: boolean;
+  @ViewChild(TemplateFilterListComponent) private filterList;
 
-  public selectedOsFamilies: Array<OsFamily>;
-  public selectedFilters: Array<string>;
-  public query: string;
-
-  public templateList: Array<Template | Iso>;
-  public visibleTemplateList: Array<Template | Iso>;
-
-  protected dialogService = ServiceLocator.injector.get(MdlDialogService);
-  protected isoService = ServiceLocator.injector.get(IsoService);
-  protected jobNotificationService = ServiceLocator.injector.get(JobsNotificationService);
-  protected translateService = ServiceLocator.injector.get(TranslateService);
-  protected templateService = ServiceLocator.injector.get(TemplateService);
-  protected notificationService = ServiceLocator.injector.get(NotificationService);
-  protected vmService = ServiceLocator.injector.get(VmService);
-  protected authService = ServiceLocator.injector.get(AuthService);
-  protected storageService = ServiceLocator.injector.get(StorageService);
+  constructor(
+    private dialogService: MdlDialogService,
+    private storageService: StorageService,
+    private isoService: IsoService,
+    private jobNotificationService: JobsNotificationService,
+    private translateService: TranslateService,
+    private templateService: TemplateService,
+    private notificationService: NotificationService,
+    private vmService: VmService
+  ) {}
 
   public ngOnInit(): void {
-    let mode = this.storageService.read('showIso') === 'iso' ? 'iso' : 'template';
-    this.showIso = mode === 'iso';
-    this.fetchData(mode);
+    this.viewMode = this.storageService.read('templateDisplayMode');
+  }
+
+  public get selectedTemplate(): BaseTemplateModel {
+    return this._selectedTemplate;
+  }
+
+  public set selectedTemplate(template: BaseTemplateModel) {
+    this._selectedTemplate = template;
+    this.isDetailOpen = true;
+  }
+
+  public get viewMode(): string {
+    return this._viewMode;
+  }
+
+  public set viewMode(mode: string) {
+    this._viewMode = mode;
   }
 
   public hideDetail(): void {
     this.isDetailOpen = !this.isDetailOpen;
-    this.selectedTemplate = null;
-  }
-
-  public updateDisplayMode(mode: string): void {
-    this.fetchData(mode);
+    this._selectedTemplate = null;
   }
 
   public showCreationDialog(): void {
     this.dialogService.showCustomDialog({
       component: TemplateCreationComponent,
-      isModal: true,
-      styles: { 'width': '720px', 'overflow': 'visible' },
-      clickOutsideToClose: true,
-      enterTransitionDuration: 400,
-      leaveTransitionDuration: 400
+      classes: 'template-creation-dialog',
+      providers: [{ provide: 'mode', useValue: this.viewMode }]
     })
       .switchMap(res => res.onHide())
       .subscribe(isoData => {
         if (isoData) {
-          this.createIso(isoData);
+          this.createTemplate(isoData);
         }
       });
   }
 
-  public createIso(isoData): void {
+  public createTemplate(templateData): void {
     let translatedStrings;
     let notificationId;
+
+    let currentMode = this.viewMode === 'Iso' ? 'ISO' : 'TEMPLATE';
 
     this.translateService.get([
       'ISO_REGISTER_IN_PROGRESS',
       'ISO_REGISTER_DONE',
-      'ISO_REGISTER_FAILED'
+      'ISO_REGISTER_FAILED',
+      'TEMPLATE_REGISTER_IN_PROGRESS',
+      'TEMPLATE_REGISTER_DONE',
+      'TEMPLATE_REGISTER_FAILED'
     ])
       .switchMap(strs => {
         translatedStrings = strs;
-        notificationId = this.jobNotificationService.add(translatedStrings['ISO_REGISTER_IN_PROGRESS']);
-        return this.addIso(isoData);
+        notificationId = this.jobNotificationService.add(
+          translatedStrings[`${currentMode}_REGISTER_IN_PROGRESS`]
+        );
+        if (currentMode === 'ISO') {
+          return this.isoService.register(templateData);
+        }
+        return this.templateService.register(templateData);
       })
-      .subscribe(iso => {
-        this.addIsoToList(iso);
+      .subscribe(() => {
+        this.filterList.updateList();
         this.jobNotificationService.add({
           id: notificationId,
-          message: translatedStrings['ISO_REGISTER_DONE'],
+          message: translatedStrings[`${currentMode}_REGISTER_DONE`],
           status: INotificationStatus.Finished
         });
       }, error => {
         this.notificationService.error(error.json()['registerisoresponse']['errortext']);
         this.jobNotificationService.add({
           id: notificationId,
-          message: translatedStrings['ISO_REGISTER_FAILED'],
+          message: translatedStrings[`${currentMode}_REGISTER_FAILED`],
           status: INotificationStatus.Failed
         });
       });
   }
 
-  public addIso(isoCreationData: any): Observable<Iso> {
-    return this.isoService.register(new Iso(isoCreationData), isoCreationData.url);
-  }
-
-  public delete(iso: Iso): void {
+  public removeTemplate(template: BaseTemplateModel): void {
     let translatedStrings;
     let notificationId;
+
+    let currentMode = this.viewMode === 'Iso' ? 'ISO' : 'TEMPLATE';
 
     this.translateService.get([
       'DELETE_ISO_IN_PROGRESS',
       'DELETE_ISO_DONE',
       'DELETE_ISO_FAILED',
-      'DELETE_ISO_CONFIRM'
+      'DELETE_ISO_CONFIRM',
+      'DELETE_TEMPLATE_IN_PROGRESS',
+      'DELETE_TEMPLATE_DONE',
+      'DELETE_TEMPLATE_FAILED',
+      'DELETE_TEMPLATE_CONFIRM'
     ])
-      .map(strs => {
+      .switchMap(strs => {
         translatedStrings = strs;
+        return this.dialogService.confirm(translatedStrings[`DELETE_${currentMode}_CONFIRM`]);
       })
       .switchMap(() => {
-        return this.dialogService.confirm(translatedStrings['DELETE_ISO_CONFIRM']);
-      })
-      .switchMap(() => {
-        return this.vmService.getListOfVmsThatUseIso(iso);
-      })
-      .switchMap(vmList => {
-        if (vmList.length) {
-          return Observable.throw({
-            type: 'vmsInUse',
-            vms: vmList
-          });
-        } else {
-          notificationId = this.jobNotificationService.add(translatedStrings['DELETE_ISO_IN_PROGRESS']);
-          return this.isoService.delete(iso);
+        if (template instanceof Template) {
+          notificationId = this.jobNotificationService.add(
+            translatedStrings['DELETE_TEMPLATE_IN_PROGRESS']
+          );
+          return this.templateService.remove(template);
         }
+        return this.vmService.getListOfVmsThatUseIso(template as Iso)
+          .switchMap(vmList => {
+            if (vmList.length) {
+              return Observable.throw({
+                type: 'vmsInUse',
+                vms: vmList
+              });
+            }
+            notificationId = this.jobNotificationService.add(
+              translatedStrings['DELETE_ISO_IN_PROGRESS']
+            );
+            return this.isoService.remove(template);
+          });
       })
       .subscribe(() => {
-        this.removeIsoFromList(iso);
+        this.filterList.updateList();
         this.jobNotificationService.add({
           id: notificationId,
-          message: translatedStrings['DELETE_ISO_DONE'],
+          message: translatedStrings[`DELETE_${currentMode}_DONE`],
           status: INotificationStatus.Finished
         });
       }, error => {
@@ -165,90 +184,10 @@ export class TemplatePageComponent implements OnInit {
         } else {
           this.jobNotificationService.add({
             id: notificationId,
-            message: translatedStrings['DELETE_ISO_FAILED'],
+            message: translatedStrings[`DELETE_${currentMode}_FAILED`],
             status: INotificationStatus.Failed
           });
         }
       });
-  }
-
-  public selectTemplate(template: Template | Iso): void {
-    this.selectedTemplate = template;
-    this.isDetailOpen = true;
-  }
-
-  public filterResults(filters?: any): void {
-    if (filters) {
-      this.selectedOsFamilies = filters.selectedOsFamilies;
-      this.selectedFilters = filters.selectedFilters;
-      this.query = filters.query;
-    }
-    this.visibleTemplateList = this.filterBySearch(this.filterByCategories(this.templateList));
-  }
-
-  protected fetchData(mode: string): void {
-    if (mode === 'template') {
-      this.templateList = [];
-      this.templateService.getGroupedTemplates({}, ['featured', 'self'])
-        .subscribe(templates => {
-          let t = [];
-          for (let filter in templates) {
-            if (templates.hasOwnProperty(filter)) {
-              t = t.concat(templates[filter]);
-            }
-          }
-          this.templateList = t;
-          this.visibleTemplateList = this.templateList;
-        });
-    } else {
-      this.templateList = [];
-      Observable.forkJoin([
-        this.isoService.getList({ isoFilter: 'featured' }),
-        this.isoService.getList({ isoFilter: 'self' }),
-      ])
-        .subscribe(([featuredIsos, selfIsos]) => {
-          this.templateList = (featuredIsos as Array<Iso>).concat(selfIsos as Array<Iso>);
-          this.visibleTemplateList = this.templateList;
-        });
-    }
-  }
-
-  private addIsoToList(iso: Iso): void {
-    this.isoService.addOsTypeData(iso)
-      .subscribe(isoWithOs => {
-        this.templateList.push(isoWithOs);
-        this.filterResults();
-      });
-  }
-
-  private removeIsoFromList(iso: Iso): void {
-    this.templateList = this.templateList.filter(listIso => iso.id !== listIso.id);
-    this.filterResults();
-    if (iso.id === this.selectedTemplate.id) {
-      this.selectedTemplate = null;
-      this.isDetailOpen = false;
-    }
-  }
-
-  private filterByCategories(templateList: Array<Template | Iso>): Array<Template | Iso> {
-    return templateList
-      .filter(template => {
-        let featuredFilter = this.selectedFilters.includes('featured') || !template.isFeatured;
-        let selfFilter = this.selectedFilters.includes('self') ||
-          !(template.account === this.authService.username);
-        let osFilter = this.selectedOsFamilies.includes(template.osType.osFamily);
-        return featuredFilter && selfFilter && osFilter;
-      });
-  }
-
-  private filterBySearch(templateList: Array<Template | Iso>): Array<Template | Iso> {
-    if (!this.query) {
-      return templateList;
-    }
-    const queryLower = this.query.toLowerCase();
-    return templateList.filter(template => {
-      return template.name.toLowerCase().includes(queryLower) ||
-        template.displayText.toLowerCase().includes(queryLower);
-    });
   }
 }

@@ -1,7 +1,7 @@
 <mdl-dialog
   [mdl-dialog-config]="{
     clickOutsideToClose: true,
-    styles: {'width': '780px'},
+    styles: {'width': '780px', 'overflow': 'visible'},
     isModal: true,
     enterTransitionDuration: 400,
     leaveTransitionDuration: 400
@@ -48,12 +48,22 @@
             </mdl-option>
           </mdl-select>
         </div>
+
+        <div>
+          <h5>{{ 'DISK_OFFERING' | translate }}</h5>
+          <cs-disk-offering
+            (offeringUpdated)="updateDiskOffering($event)"
+          ></cs-disk-offering>
+        </div>
+
         <cs-volume-size-control
+          *ngIf="showRootDiskResize"
           [min]="vmCreationData.rootDiskSizeMin"
           [max]="vmCreationData.rootDiskSizeLimit"
           name="rds"
           [(ngModel)]="vmCreationData.rootDiskSize"
         ></cs-volume-size-control>
+
       </div>
       <div class="right-column">
         <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>

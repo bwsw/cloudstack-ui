@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
+import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { SecurityGroup } from '../sg.model';
 import { SgTemplateCreationComponent } from '../sg-template-creation/sg-template-creation.component';
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
-import { AsyncJobService } from '../../shared/services/async-job.service';
 import { NotificationService } from '../../shared/services/notification.service';
 
 @Component({
@@ -16,7 +15,6 @@ import { NotificationService } from '../../shared/services/notification.service'
 })
 export class SgTemplateListComponent implements OnInit {
   private securityGroupList: Array<SecurityGroup>;
-  private dialogObservable: Observable<MdlDialogReference>;
 
   constructor(
     private securityGroupService: SecurityGroupService,
@@ -82,16 +80,11 @@ export class SgTemplateListComponent implements OnInit {
   }
 
   public showCreationDialog(): void {
-    this.dialogObservable = this.dialogService.showCustomDialog({
+    this.dialogService.showCustomDialog({
       component: SgTemplateCreationComponent,
-      isModal: true,
-      styles: { 'width': '450px' },
-      clickOutsideToClose: true,
-      enterTransitionDuration: 400,
-      leaveTransitionDuration: 400
-    });
-
-    this.dialogObservable.switchMap(res => res.onHide())
+      classes: 'sg-template-creation-dialog'
+    })
+      .switchMap(res => res.onHide())
       .subscribe((data: any) => {
         if (!data) {
           return;
@@ -103,11 +96,8 @@ export class SgTemplateListComponent implements OnInit {
   public showRulesDialog(group: SecurityGroup): void {
     this.dialogService.showCustomDialog({
       component: SgRulesComponent,
-      providers: [SecurityGroupService, AsyncJobService, { provide: 'securityGroup', useValue: group }],
-      isModal: true,
-      styles: { 'width': '880px', 'padding': '12.8px' },
-      enterTransitionDuration: 400,
-      leaveTransitionDuration: 400
+      classes: 'sg-rules-dialog',
+      providers: [{ provide: 'securityGroup', useValue: group }],
     });
   }
 }

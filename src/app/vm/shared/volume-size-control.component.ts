@@ -18,7 +18,7 @@ export class VolumeSizeControlComponent implements OnInit, ControlValueAccessor 
   @Input() public max: number;
   @Input() public label: string;
 
-  private _size: number;
+  public _size: number;
 
   public ngOnInit(): void {
     if (this.min == null) {
@@ -38,8 +38,20 @@ export class VolumeSizeControlComponent implements OnInit, ControlValueAccessor 
   }
 
   public set size(value) {
-    this._size = value;
-    this.propagateChange(value);
+    this._size = Math.floor(value);
+    this.propagateChange(this.size);
+  }
+
+  public get sliderValue(): number {
+    return this.size > this.min ? Math.log(this.size) : this.sliderMinValue;
+  }
+
+  public get sliderMinValue(): number {
+    return Math.log(this.min);
+  }
+
+  public get sliderMaxValue(): number {
+    return Math.log(this.max);
   }
 
   public writeValue(value): void {
@@ -62,6 +74,10 @@ export class VolumeSizeControlComponent implements OnInit, ControlValueAccessor 
       return;
     }
     this.size = newValue;
+  }
+
+  public onVolumeChangeExp(newValue: number): void {
+    this.onVolumeChange(Math.exp(newValue));
   }
 
   public onBlur(e: Event): void {

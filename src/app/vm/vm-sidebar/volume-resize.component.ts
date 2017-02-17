@@ -7,7 +7,7 @@ import { DiskStorageService, VolumeService } from '../../shared/services';
 @Component({
   selector: 'cs-volume-resize',
   templateUrl: 'volume-resize.component.html',
-  styles: [':host mdl-textfield { width: 100% }']
+  styleUrls: ['volume-resize.component.scss']
 })
 export class VolumeResizeComponent implements OnInit {
   public newSize: number;

@@ -9,9 +9,10 @@ import { SharedModule } from '../shared/shared.module';
 import { IsoService, TemplateService } from './shared';
 import { TemplatePageComponent } from './template-page/template-page.component';
 import { TemplateCreationComponent } from './template-creation/template-creation.component';
-import { TemplateFiltersComponent } from './template-filters/template-filters.component';
 import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
 import { IsoAttachmentComponent } from './iso-attachment/iso-attachment.component';
+import { TemplateFilterListComponent } from './template-filter-list/template-filter-list.component';
+import { TemplateFiltersComponent } from './template-filters/template-filters.component';
 import { TemplateListComponent } from './template-list/template-list.component';
 
 
@@ -29,8 +30,12 @@ import { TemplateListComponent } from './template-list/template-list.component';
     TemplateCreationComponent,
     TemplateFiltersComponent,
     TemplateListComponent,
+    TemplateFilterListComponent,
     TemplatePageComponent,
     TemplateSidebarComponent
+  ],
+  exports: [
+    TemplateFilterListComponent
   ],
   providers: [
     IsoService,

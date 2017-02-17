@@ -14,15 +14,8 @@ $select-width: 195px;
   }
 }
 
-.template-list {
-  transition: margin 0.3s;
-  &.open {
-    margin-right: $template-detail-width;
-
-    & ~ .fab {
-      margin-right: $template-detail-width;
-    }
-  }
+.fab.open {
+  margin-right: $template-detail-width;
 }
 
 cs-template-detail {

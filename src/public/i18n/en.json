@@ -51,6 +51,7 @@
   "RESTORE_DONE": "VM has been restored",
   "DESTROY_DONE": "VM has been destroyed",
   "DEPLOY_DONE": "VM has been deployed",
+  "DEPLOY_FAILED": "Failed to deploy a VM",
 
   "YES": "Yes",
   "NO": "No",
@@ -95,6 +96,7 @@
   "IP_NA": "IP N/A",
   "VMS": "Virtual machines",
   "DEPLOYED": "Deployed",
+  "DEPLOYED_STATS": "Deployed",
   "COMPUTATIONAL_RESOURCES": "Computational resources",
   "CPUS": "CPUs",
   "SNAPSHOTS": "Snapshots",
@@ -145,7 +147,7 @@
     "TEMPLATE": "Template",
     "SERVICE_OFFERING": "Service offering",
     "ZONE": "Zone",
-    "ROOT_DISK_SIZE": "Root disk size",
+    "DISK_SIZE": "Disk size",
     "AFFINITY_GROUPS": "Affinity groups",
     "SECURITY_GROUPS": "Security groups",
     "CREATE_SECURITY": "Create",
@@ -316,5 +318,8 @@
   "ATTACH_AN_ISO": "Attaching an ISO",
   "ISO_ATTACH_IN_PROGRESS": "Attaching an ISO",
   "ISO_ATTACH_DONE": "ISO has been attached",
-  "ISO_ATTACH_FAILED": "Failed to attach an ISO"
+  "ISO_ATTACH_FAILED": "Failed to attach an ISO",
+
+  "DISK_OFFERING": "Disk offering",
+  "INSTALLATION_SOURCE": "Installation source"
 }

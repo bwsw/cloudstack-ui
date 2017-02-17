@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
+import { Template, TemplateService } from '../../../template/shared';
 import { VmTemplateDialogComponent } from './vm-template-dialog.component';
 import { PRESELECTED_TEMPLATE_TOKEN } from './injector-token';
-import { Template, TemplateService } from '../../../template/shared';
 
 
 @Component({
@@ -26,7 +26,7 @@ export class VmTemplateComponent implements OnInit, OnChanges {
     if (this.selectedIn) {
       this.displayTemplateName = this.selectedIn.name;
     } else {
-      this.templateService.getDefault().subscribe(template => {
+      this.templateService.getDefault().subscribe((template: Template) => {
         this.selectedIn = template;
         this.displayTemplateName = this.selectedIn.name;
       });
@@ -50,13 +50,12 @@ export class VmTemplateComponent implements OnInit, OnChanges {
   }
 
   public onClick(): void {
-    let templateDialog = this.dialogService.showCustomDialog({
+    this.dialogService.showCustomDialog({
       component: VmTemplateDialogComponent,
-      providers: [{provide: PRESELECTED_TEMPLATE_TOKEN, useValue: this.selectedIn}],
-      isModal: true,
-      styles: {'width': '568px', 'padding': '0.9em' }
-    });
-    templateDialog.switchMap(res => res.onHide())
+      classes: 'vm-template-dialog',
+      providers: [{ provide: PRESELECTED_TEMPLATE_TOKEN, useValue: this.selectedIn }],
+    })
+      .switchMap(res => res.onHide())
       .subscribe((data: any) => {
         this.selectedOut.emit(data);
         this.displayTemplateName = data.name;

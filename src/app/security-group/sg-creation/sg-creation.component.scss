@@ -1,5 +1,9 @@
 $list-height: 187px;
 
+/deep/ .sg-creation-dialog {
+  width: 800px;
+}
+
 :host {
   display: block;
   padding: 5px;

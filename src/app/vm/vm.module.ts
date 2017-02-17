@@ -17,13 +17,11 @@ import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmService } from './shared/vm.service';
 import { VmTemplateComponent } from './vm-creation/vm-creation-template/vm-template.component';
 import { VmTemplateDialogComponent } from './vm-creation/vm-creation-template/vm-template-dialog.component';
-import {
-  VmTemplateDialogItemComponent
-} from './vm-creation/vm-creation-template/vm-template-dialog-item.component';
 import { SharedModule } from '../shared/shared.module';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 import { VolumeSizeControlComponent } from './shared/volume-size-control.component';
 import { TemplateModule } from '../template/template.module';
+
 
 @NgModule({
   imports: [
@@ -47,7 +45,6 @@ import { TemplateModule } from '../template/template.module';
     VmSidebarComponent,
     VmTemplateComponent,
     VmTemplateDialogComponent,
-    VmTemplateDialogItemComponent,
     VolumeResizeComponent,
     VolumeSizeControlComponent
   ],
@@ -56,7 +53,6 @@ import { TemplateModule } from '../template/template.module';
   ],
   entryComponents: [
     VmTemplateDialogComponent,
-    VmTemplateDialogItemComponent,
     VolumeResizeComponent
   ]
 })

@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-
-import { SSHKeyPair } from '../models/ssh-keypair.model';
 import { BaseBackendService } from './base-backend.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
+import { DiskOffering } from '../models/disk-offering.model';
 
 
 @Injectable()
 @BackendResource({
-  entity: 'SSHKeyPair',
-  entityModel: SSHKeyPair
+  entity: 'DiskOffering',
+  entityModel: DiskOffering
 })
-export class SSHKeyPairService extends BaseBackendService<SSHKeyPair> { }
-
+export class DiskOfferingService extends BaseBackendService<DiskOffering> {}
