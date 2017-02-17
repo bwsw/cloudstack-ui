@@ -1,11 +1,11 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
-import { Iso } from '../template/shared/iso.model';
+import { Iso } from '../../../template/shared/iso.model';
 
 
 @Component({
   selector: 'cs-iso',
-  templateUrl: 'iso.component.html',
-  styleUrls: ['iso.component.scss']
+  templateUrl: 'iso-attachment.component.html',
+  styleUrls: ['iso-attachment.component.scss']
 })
 export class IsoComponent {
   @Input() public iso: Iso;

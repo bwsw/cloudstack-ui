@@ -1,5 +1,7 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { Snapshot } from '../../shared/models/snapshot.model';
+
+import { Snapshot } from '../../../../../shared/models/snapshot.model';
+
 
 @Component({
   selector: 'cs-snapshot',

@@ -6,12 +6,12 @@ import {
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 
-import { VirtualMachine } from '../shared/vm.model';
-import { IsoAttachmentComponent } from '../../template/iso-attachment/iso-attachment.component';
-import { JobsNotificationService, INotificationStatus } from '../../shared/services/jobs-notification.service';
-import { Iso, IsoService } from '../../template/shared';
-import { NotificationService } from '../../shared/services/notification.service';
-import { IsoEvent } from '../../iso/iso.component';
+import { VirtualMachine } from '../../shared/vm.model';
+import { IsoAttachmentComponent } from '../../../template/iso-attachment/iso-attachment.component';
+import { JobsNotificationService, INotificationStatus } from '../../../shared/services/jobs-notification.service';
+import { Iso, IsoService } from '../../../template/shared';
+import { NotificationService } from '../../../shared/services/notification.service';
+import { IsoEvent } from './iso-attachment.component';
 
 
 @Component({
@@ -49,91 +49,6 @@ export class StorageDetailComponent implements OnChanges {
   public toggleStorage(): void {
     this.expandStorage = !this.expandStorage;
   }
-
-  // public showVolumeResizeDialog(volume: Volume): void {
-  //   let notificationId: string;
-  //   let translations;
-  //
-  //   this.translateService.get([
-  //     'VOLUME_RESIZING',
-  //     'VOLUME_RESIZED',
-  //     'VOLUME_RESIZE_FAILED',
-  //     'VOLUME_NEWSIZE_LOWER',
-  //     'VOLUME_PRIMARY_STORAGE_EXCEEDED'
-  //   ])
-  //     .switchMap(res => {
-  //       translations = res;
-  //       return this.dialogService.showCustomDialog({
-  //         component: VolumeResizeComponent,
-  //         classes: 'volume-resize-dialog',
-  //         providers: [{ provide: 'volume', useValue: volume }]
-  //       });
-  //     })
-  //     .switchMap(res => res.onHide())
-  //     .switchMap((data: any) => {
-  //       if (data) {
-  //         notificationId = this.jobNotificationService.add(translations['VOLUME_RESIZING']);
-  //         return data;
-  //       }
-  //       return Observable.of(undefined);
-  //     })
-  //     .subscribe((data: any) => {
-  //         if (!data) {
-  //           return;
-  //         }
-  //         volume.size = (data as Volume).size;
-  //
-  //         this.jobNotificationService.add({
-  //           id: notificationId,
-  //           message: translations['VOLUME_RESIZED'],
-  //           status: INotificationStatus.Finished
-  //         });
-  //
-  //         this.statsUpdateService.next();
-  //       },
-  //       error => {
-  //         let message = '';
-  //
-  //         // can't rely on error codes, native ui just prints errortext
-  //         if (error.errortext.startsWith('Going from')) {
-  //           message = translations['VOLUME_NEWSIZE_LOWER'];
-  //         } else if (error.errortext.startsWith('Maximum number of')) {
-  //           message = translations['VOLUME_PRIMARY_STORAGE_EXCEEDED'];
-  //         } else {
-  //           // don't know what errors may occur,
-  //           // so print errortext like native ui
-  //           message = error.errortext;
-  //         }
-  //
-  //         this.jobNotificationService.add({
-  //           id: notificationId,
-  //           message: translations['VOLUME_RESIZE_FAILED'],
-  //           status: INotificationStatus.Failed
-  //         });
-  //         this.dialogService.alert(message);
-  //       }
-  //     );
-  // }
-
-  // public takeSnapshot(volumeId: string): void {
-  //   this.dialogService.showCustomDialog({
-  //     component: SnapshotCreationComponent,
-  //     classes: 'snapshot-creation-dialog',
-  //     providers: [{ provide: 'volumeId', useValue: volumeId }],
-  //   });
-  // }
-
-  // // todo: move to volume component
-  // public deleteSnapshotDialog(snapshot: Snapshot): void {
-  //   this.translateService.get('CONFIRM_SNAPSHOT_DELETE')
-  //     .switchMap(str => {
-  //       return this.dialogService.confirm(str);
-  //     })
-  //     .subscribe(
-  //       () => this.deleteSnapshot(snapshot),
-  //       () => {}
-  //     );
-  // }
 
   public handleIsoAction(event: IsoEvent): void {
     if (event === IsoEvent.isoAttach) {

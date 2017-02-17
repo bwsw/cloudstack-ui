@@ -6,10 +6,9 @@ import { MdlModule } from 'angular2-mdl';
 import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 
-import { IsoModule } from '../iso/iso.module';
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { SharedModule } from '../shared/shared.module';
-import { StorageDetailComponent } from './vm-sidebar/storage-detail.component';
+import { StorageDetailComponent } from './vm-sidebar/storage-detail/storage-detail.component';
 import { TemplateModule } from '../template/template.module';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmDetailComponent } from './vm-sidebar/vm-detail.component';
@@ -21,22 +20,25 @@ import { VmTemplateComponent } from './vm-creation/vm-creation-template/vm-templ
 import { VmTemplateDialogComponent } from './vm-creation/vm-creation-template/vm-template-dialog.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 import { VolumeSizeControlComponent } from './shared/volume-size-control.component';
-import { VolumeModule } from '../volume/volume.module';
+import { IsoComponent } from './vm-sidebar/storage-detail/iso-attachment.component';
+import { VolumeComponent } from './vm-sidebar/storage-detail/volume/volume.component';
+import { SnapshotComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshot.component';
+import {
+  SnapshotCreationComponent
+} from './vm-sidebar/storage-detail/volume/snapshot-creation/snapshot-creation.component';
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    IsoModule,
     ServiceOfferingModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
     SharedModule,
     TemplateModule,
-    TranslateModule,
-    VolumeModule
+    TranslateModule
   ],
   declarations: [
     StorageDetailComponent,
@@ -48,14 +50,19 @@ import { VolumeModule } from '../volume/volume.module';
     VmTemplateComponent,
     VmTemplateDialogComponent,
     VolumeResizeComponent,
-    VolumeSizeControlComponent
+    VolumeSizeControlComponent,
+    IsoComponent,
+    VolumeComponent,
+    SnapshotComponent,
+    SnapshotCreationComponent
   ],
   providers: [
     VmService
   ],
   entryComponents: [
     VmTemplateDialogComponent,
-    VolumeResizeComponent
+    VolumeResizeComponent,
+    SnapshotCreationComponent
   ]
 })
 export class VmModule { }

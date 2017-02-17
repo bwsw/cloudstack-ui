@@ -1,11 +1,15 @@
 import { Component, Inject } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
-import { SnapshotService } from '../../shared/services/snapshot.service';
-import { JobsNotificationService, INotificationStatus } from '../../shared/services/jobs-notification.service';
-import { NotificationService } from '../../shared/services/notification.service';
-import { ErrorService } from '../../shared/services/error.service';
 import { TranslateService } from 'ng2-translate';
-import { StatsUpdateService } from '../../shared/services/stats-update.service';
+
+import {
+  ErrorService,
+  INotificationStatus,
+  JobsNotificationService,
+  NotificationService,
+  SnapshotService,
+  StatsUpdateService
+} from '../../../../../shared/services';
 
 
 @Component({

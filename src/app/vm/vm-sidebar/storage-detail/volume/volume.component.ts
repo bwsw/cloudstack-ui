@@ -1,15 +1,21 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Volume } from '../shared/models/volume.model';
-import { TranslateService } from 'ng2-translate';
 import { MdlDialogService } from 'angular2-mdl';
-import { JobsNotificationService, INotificationStatus } from '../shared/services/jobs-notification.service';
-import { VolumeResizeComponent } from '../vm/vm-sidebar/volume-resize.component';
+import { TranslateService } from 'ng2-translate';
 import { Observable } from 'rxjs';
-import { StatsUpdateService } from '../shared/services/stats-update.service';
+
 import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
-import { Snapshot } from '../shared/models/snapshot.model';
-import { SnapshotService } from '../shared/services/snapshot.service';
-import { NotificationService } from '../shared/services/notification.service';
+import { VolumeResizeComponent } from '../../volume-resize.component';
+
+import {
+  INotificationStatus,
+  JobsNotificationService,
+  NotificationService,
+  SnapshotService,
+  StatsUpdateService
+} from '../../../../shared/services';
+
+import { Volume, Snapshot } from '../../../../shared/models';
+
 
 @Component({
   selector: 'cs-volume',
@@ -27,6 +33,7 @@ export class VolumeComponent implements OnInit {
     private snapshotService: SnapshotService,
     private notificationService: NotificationService
   ) { }
+
   public ngOnInit(): void { }
 
   public showVolumeResizeDialog(volume: Volume): void {
