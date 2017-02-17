@@ -4,18 +4,14 @@ import {
   OnChanges
 } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
-import { Observable } from 'rxjs/Rx';
 import { TranslateService } from 'ng2-translate';
 
 import { VirtualMachine } from '../shared/vm.model';
 import { IsoAttachmentComponent } from '../../template/iso-attachment/iso-attachment.component';
-import { SnapshotCreationComponent } from '../../snapshot/snapshot-creation.component';
 import { JobsNotificationService, INotificationStatus } from '../../shared/services/jobs-notification.service';
-import { StatsUpdateService } from '../../shared/services/stats-update.service';
-import { VolumeResizeComponent } from './volume-resize.component';
-import { Volume } from '../../shared/models/volume.model';
 import { Iso, IsoService } from '../../template/shared';
 import { NotificationService } from '../../shared/services/notification.service';
+import { IsoEvent } from '../../iso/iso.component';
 
 
 @Component({
@@ -32,7 +28,6 @@ export class StorageDetailComponent implements OnChanges {
     private dialogService: MdlDialogService,
     private translateService: TranslateService,
     private jobNotificationService: JobsNotificationService,
-    private statsUpdateService: StatsUpdateService,
     private isoService: IsoService,
     private notificationService: NotificationService
 
@@ -55,80 +50,101 @@ export class StorageDetailComponent implements OnChanges {
     this.expandStorage = !this.expandStorage;
   }
 
-  public showVolumeResizeDialog(volume: Volume): void {
-    let notificationId: string;
-    let translations;
+  // public showVolumeResizeDialog(volume: Volume): void {
+  //   let notificationId: string;
+  //   let translations;
+  //
+  //   this.translateService.get([
+  //     'VOLUME_RESIZING',
+  //     'VOLUME_RESIZED',
+  //     'VOLUME_RESIZE_FAILED',
+  //     'VOLUME_NEWSIZE_LOWER',
+  //     'VOLUME_PRIMARY_STORAGE_EXCEEDED'
+  //   ])
+  //     .switchMap(res => {
+  //       translations = res;
+  //       return this.dialogService.showCustomDialog({
+  //         component: VolumeResizeComponent,
+  //         classes: 'volume-resize-dialog',
+  //         providers: [{ provide: 'volume', useValue: volume }]
+  //       });
+  //     })
+  //     .switchMap(res => res.onHide())
+  //     .switchMap((data: any) => {
+  //       if (data) {
+  //         notificationId = this.jobNotificationService.add(translations['VOLUME_RESIZING']);
+  //         return data;
+  //       }
+  //       return Observable.of(undefined);
+  //     })
+  //     .subscribe((data: any) => {
+  //         if (!data) {
+  //           return;
+  //         }
+  //         volume.size = (data as Volume).size;
+  //
+  //         this.jobNotificationService.add({
+  //           id: notificationId,
+  //           message: translations['VOLUME_RESIZED'],
+  //           status: INotificationStatus.Finished
+  //         });
+  //
+  //         this.statsUpdateService.next();
+  //       },
+  //       error => {
+  //         let message = '';
+  //
+  //         // can't rely on error codes, native ui just prints errortext
+  //         if (error.errortext.startsWith('Going from')) {
+  //           message = translations['VOLUME_NEWSIZE_LOWER'];
+  //         } else if (error.errortext.startsWith('Maximum number of')) {
+  //           message = translations['VOLUME_PRIMARY_STORAGE_EXCEEDED'];
+  //         } else {
+  //           // don't know what errors may occur,
+  //           // so print errortext like native ui
+  //           message = error.errortext;
+  //         }
+  //
+  //         this.jobNotificationService.add({
+  //           id: notificationId,
+  //           message: translations['VOLUME_RESIZE_FAILED'],
+  //           status: INotificationStatus.Failed
+  //         });
+  //         this.dialogService.alert(message);
+  //       }
+  //     );
+  // }
 
-    this.translateService.get([
-      'VOLUME_RESIZING',
-      'VOLUME_RESIZED',
-      'VOLUME_RESIZE_FAILED',
-      'VOLUME_NEWSIZE_LOWER',
-      'VOLUME_PRIMARY_STORAGE_EXCEEDED'
-    ])
-      .switchMap(res => {
-        translations = res;
-        return this.dialogService.showCustomDialog({
-          component: VolumeResizeComponent,
-          classes: 'volume-resize-dialog',
-          providers: [{ provide: 'volume', useValue: volume }]
-        });
-      })
-      .switchMap(res => res.onHide())
-      .switchMap((data: any) => {
-        if (data) {
-          notificationId = this.jobNotificationService.add(translations['VOLUME_RESIZING']);
-          return data;
-        }
-        return Observable.of(undefined);
-      })
-      .subscribe((data: any) => {
-          if (!data) {
-            return;
-          }
-          volume.size = (data as Volume).size;
+  // public takeSnapshot(volumeId: string): void {
+  //   this.dialogService.showCustomDialog({
+  //     component: SnapshotCreationComponent,
+  //     classes: 'snapshot-creation-dialog',
+  //     providers: [{ provide: 'volumeId', useValue: volumeId }],
+  //   });
+  // }
 
-          this.jobNotificationService.add({
-            id: notificationId,
-            message: translations['VOLUME_RESIZED'],
-            status: INotificationStatus.Finished
-          });
+  // // todo: move to volume component
+  // public deleteSnapshotDialog(snapshot: Snapshot): void {
+  //   this.translateService.get('CONFIRM_SNAPSHOT_DELETE')
+  //     .switchMap(str => {
+  //       return this.dialogService.confirm(str);
+  //     })
+  //     .subscribe(
+  //       () => this.deleteSnapshot(snapshot),
+  //       () => {}
+  //     );
+  // }
 
-          this.statsUpdateService.next();
-        },
-        error => {
-          let message = '';
-
-          // can't rely on error codes, native ui just prints errortext
-          if (error.errortext.startsWith('Going from')) {
-            message = translations['VOLUME_NEWSIZE_LOWER'];
-          } else if (error.errortext.startsWith('Maximum number of')) {
-            message = translations['VOLUME_PRIMARY_STORAGE_EXCEEDED'];
-          } else {
-            // don't know what errors may occur,
-            // so print errortext like native ui
-            message = error.errortext;
-          }
-
-          this.jobNotificationService.add({
-            id: notificationId,
-            message: translations['VOLUME_RESIZE_FAILED'],
-            status: INotificationStatus.Failed
-          });
-          this.dialogService.alert(message);
-        }
-      );
+  public handleIsoAction(event: IsoEvent): void {
+    if (event === IsoEvent.isoAttach) {
+      return this.attachIsoDialog();
+    }
+    if (event === IsoEvent.isoDetach) {
+      return this.detachIsoDialog();
+    }
   }
 
-  public takeSnapshot(volumeId: string): void {
-    this.dialogService.showCustomDialog({
-      component: SnapshotCreationComponent,
-      classes: 'snapshot-creation-dialog',
-      providers: [{ provide: 'volumeId', useValue: volumeId }],
-    });
-  }
-
-  public attachIsoDialog(): void {
+  private attachIsoDialog(): void {
     this.dialogService.showCustomDialog({
       component: IsoAttachmentComponent,
       classes: 'iso-attachment-dialog',
@@ -142,17 +158,18 @@ export class StorageDetailComponent implements OnChanges {
       });
   }
 
-  public detachIsoDialog(): void {
+  private detachIsoDialog(): void {
     this.translateService.get('CONFIRM_ISO_DETACH')
       .switchMap(str => {
         return this.dialogService.confirm(str);
       })
-      .subscribe(() => {
-        this.detachIso();
-      }, () => {});
+      .subscribe(
+        () => this.detachIso(),
+        () => {}
+      );
   }
 
-  public attachIso(iso: Iso): any {
+  private attachIso(iso: Iso): void {
     let translations;
     let notificationId;
 
@@ -166,25 +183,27 @@ export class StorageDetailComponent implements OnChanges {
         notificationId = this.jobNotificationService.add(translations['ISO_ATTACH_IN_PROGRESS']);
         return this.isoService.attach(this.vm.id, iso);
       })
-      .subscribe((attachedIso: Iso) => {
-        this.iso = attachedIso;
-        this.jobNotificationService.add({
-          id: notificationId,
-          message: translations['ISO_ATTACH_DONE'],
-          status: INotificationStatus.Finished
+      .subscribe(
+        (attachedIso: Iso) => {
+          this.iso = attachedIso;
+          this.jobNotificationService.add({
+            id: notificationId,
+            message: translations['ISO_ATTACH_DONE'],
+            status: INotificationStatus.Finished
+          });
+        },
+        error => {
+          this.iso = null;
+          this.notificationService.error(error);
+          this.jobNotificationService.add({
+            id: notificationId,
+            message: translations['ISO_ATTACH_FAILED'],
+            status: INotificationStatus.Failed
+          });
         });
-      }, error => {
-        this.iso = null;
-        this.notificationService.error(error);
-        this.jobNotificationService.add({
-          id: notificationId,
-          message: translations['ISO_ATTACH_FAILED'],
-          status: INotificationStatus.Failed
-        });
-      });
   }
 
-  public detachIso(): any {
+  private detachIso(): void {
     let translations;
     let notificationId;
 

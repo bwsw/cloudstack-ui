@@ -20,7 +20,7 @@ export class SnapshotService extends BaseBackendService<Snapshot> {
     super();
   }
 
-  public createSnapshot(volumeId: string, name?: string): Observable<AsyncJob> {
+  public create(volumeId: string, name?: string): Observable<AsyncJob> {
     let params = {};
 
     if (name) {
@@ -37,6 +37,19 @@ export class SnapshotService extends BaseBackendService<Snapshot> {
         }
         this.asyncJobService.event.next(result);
         return result;
+      });
+  }
+
+  public remove(id: string): Observable<any> {
+    return this.getRequest('delete', { id })
+      .switchMap(response => {
+        return this.asyncJobService.addJob(response['deletesnapshotresponse'].jobid);
+      })
+      .switchMap(jobResult => {
+        if (jobResult.jobStatus === 2) {
+          return Observable.throw(jobResult.jobResult.errortext);
+        }
+        return Observable.of(null);
       });
   }
 

@@ -55,9 +55,6 @@ export class TemplateFiltersComponent implements OnInit {
         this.queries.emit(query);
       });
 
-    this.showIso = this.storageService.read('templateDisplayMode') === 'Iso';
-    this.updateDisplayMode();
-
     this.translateService.get(
       this.categoryFilters.map(filter => `TEMPLATE_${filter.toUpperCase()}`)
     )
@@ -68,8 +65,6 @@ export class TemplateFiltersComponent implements OnInit {
         });
         this.filterTranslations = strs;
       });
-
-    this.displayMode.emit(this.showIso ? 'Iso' : 'Template');
   }
 
   public updateFilters(): void {

@@ -1,30 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
-import { MdlSelectModule } from '@angular2-mdl-ext/select';
-import { SnapshotCreationComponent } from './snapshot-creation.component';
 import { SharedModule } from '../shared/shared.module';
+import { IsoComponent } from './iso.component';
 
 
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
     TranslateModule,
     MdlModule,
-    MdlSelectModule,
     SharedModule
   ],
   exports: [
-    SnapshotCreationComponent
+    IsoComponent
   ],
   declarations: [
-    SnapshotCreationComponent
-  ],
-  entryComponents: [
-    SnapshotCreationComponent
+    IsoComponent
   ]
 })
-export class SnapshotModule { }
+export class IsoModule { }

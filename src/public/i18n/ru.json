@@ -235,7 +235,8 @@
     "BACKEDUP": "Backed up",
     "CREATING": "Создается",
     "BACKINGUP": "Backing up",
-    "ALLOCATED": "Allocated"
+    "ALLOCATED": "Allocated",
+    "ERROR": "Ошибка"
   },
 
   "CREATE_TEMPLATE_BUTTON": "Создать шаблон",
@@ -321,5 +322,10 @@
   "ISO_ATTACH_FAILED": "Не удалось прикрепить ISO файл",
 
   "DISK_OFFERING": "Дисковая услуга",
-  "INSTALLATION_SOURCE": "Источник установки"
+  "INSTALLATION_SOURCE": "Источник установки",
+
+  "CONFIRM_SNAPSHOT_DELETE": "Вы действительно хотите удалить этот снимок?",
+  "SNAPSHOT_DELETE_IN_PROGRESS": "Снимок удаляется",
+  "SNAPSHOT_DELETE_DONE": "Снимок удален",
+  "SNAPSHOT_DELETE_FAILED": "Не удалось удалить снимок"
 }

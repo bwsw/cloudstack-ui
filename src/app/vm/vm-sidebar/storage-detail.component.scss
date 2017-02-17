@@ -1,61 +1,7 @@
 $line-height: 22px;
 
-.grid.snapshots {
-  overflow: hidden;
-  max-height: 6 * $line-height;
-
-  &.open {
-    max-height: none;
-    height: auto;
-  }
-}
-
 .grid.volumes .row > div {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-
-.disk-size {
-  padding-bottom: 8px;
-}
-
-.snapshot-name {
-  width: 34% !important;
-}
-
-.snapshot-date {
-  text-align: center;
-  width: 18% !important;
-}
-
-.snapshot-state {
-  text-align: right;
-  width: 28% !important;
-}
-
-.disk-actions-popover {
-  right: 50px;
-  width: 170px !important;
-}
-
-.button-18px {
-  min-width: 24px;
-  height: 24px;
-  width: 24px;
-}
-
-.icon-18px {
-  font-size: 18px;
-}
-
-.snapshot-buttons {
-  position: relative;
-  width: 20% !important;
-  top: -2px;
-  padding-left: 4px;
-}
-
-.volume-actions {
-  padding: 1rem;
 }
