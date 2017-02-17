@@ -1,10 +1,9 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
-import { Observable } from 'rxjs/Rx';
+import { MdlDialogService } from 'angular2-mdl';
 
 import { SgCreationComponent, Rules } from '../../security-group/sg-creation/sg-creation.component';
-import { SecurityGroupService } from '../services/';
+
 
 @Component({
   selector: 'cs-security-group-rules-manager',
@@ -23,7 +22,6 @@ export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
   public savedRules: Rules;
 
   private _rules: Rules;
-  private dialogObservable: Observable<MdlDialogReference>;
 
   constructor(private dialogService: MdlDialogService) {
     this.savedRules = new Rules();
@@ -61,17 +59,11 @@ export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
   public registerOnTouched(): void { }
 
   public showDialog(): void {
-    this.dialogObservable = this.dialogService.showCustomDialog({
+    this.dialogService.showCustomDialog({
       component: SgCreationComponent,
-      providers: [SecurityGroupService, { provide: 'rules', useValue: this.savedRules }],
-      isModal: true,
-      styles: { 'width': '800px' },
-      clickOutsideToClose: true,
-      enterTransitionDuration: 400,
-      leaveTransitionDuration: 400
-    });
-
-    this.dialogObservable
+      classes: 'sg-creation-dialog',
+      providers: [{ provide: 'rules', useValue: this.savedRules }]
+    })
       .switchMap(res => res.onHide())
       .subscribe((data: any) => {
         this.onDialogHide(data);

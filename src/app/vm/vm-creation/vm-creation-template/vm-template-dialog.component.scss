@@ -1,5 +1,10 @@
 $select-width: 195px;
 
+/deep/ .vm-template-dialog {
+  width: 568px;
+  padding: 0.9em;
+}
+
 .dialog, .mdl-dialog__content {
   display: flex;
   flex-direction: column;
@@ -51,6 +56,10 @@ $select-width: 195px;
     max-width: 300px;
     width: 100%;
   }
+}
+
+mdl-radio, mdl-checkbox, mdl-switch {
+  display: inline;
 }
 
 mdl-list {

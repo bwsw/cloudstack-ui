@@ -70,12 +70,8 @@ export class TemplatePageComponent implements OnInit {
   public showCreationDialog(): void {
     this.dialogService.showCustomDialog({
       component: TemplateCreationComponent,
-      isModal: true,
-      providers: [{ provide: 'mode', useValue: this.viewMode }],
-      styles: { 'width': '720px', 'overflow': 'visible' },
-      clickOutsideToClose: true,
-      enterTransitionDuration: 400,
-      leaveTransitionDuration: 400
+      classes: 'template-creation-dialog',
+      providers: [{ provide: 'mode', useValue: this.viewMode }]
     })
       .switchMap(res => res.onHide())
       .subscribe(isoData => {

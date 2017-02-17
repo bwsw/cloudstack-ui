@@ -36,10 +36,7 @@ export class VmDetailComponent {
     this.dialogService.showCustomDialog({
       component: SgRulesComponent,
       providers: [{ provide: 'securityGroup', useValue: securityGroup }],
-      isModal: true,
       styles: { 'width': '880px' },
-      enterTransitionDuration: 400,
-      leaveTransitionDuration: 400
     });
   }
 
@@ -54,19 +51,8 @@ export class VmDetailComponent {
   public changeServiceOffering(): void {
     this.dialogService.showCustomDialog({
       component: ServiceOfferingDialogComponent,
-      providers: [{
-        provide: 'virtualMachine',
-        useValue: this.vm
-      }],
-      isModal: true,
-      styles: {
-        'overflow': 'visible', // so that the dialog window doesn't cut the SO dropdown
-        'width': '400px',
-        'padding': '11.7px'
-      },
-      clickOutsideToClose: true,
-      enterTransitionDuration: 400,
-      leaveTransitionDuration: 400
+      classes: 'service-offering-dialog',
+      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
     });
   }
 }
