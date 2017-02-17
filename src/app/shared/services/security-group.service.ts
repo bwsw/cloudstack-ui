@@ -36,6 +36,7 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
   }
 
   public createTemplate(data: any): Observable<any> {
+    this.invalidateCache();
     let template;
     return this.create(data)
       .switchMap(res => {
@@ -82,10 +83,12 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
   }
 
   public deleteTemplate(id: string): Observable<any> {
+    this.invalidateCache();
     return this.remove({ id });
   }
 
   public removeEmptyGroups(): void {
+    this.invalidateCache();
     this.getList()
       .subscribe((groups: Array<SecurityGroup>) => {
         const uuidV4RegexRaw = '[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}';
@@ -109,6 +112,7 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
     ingressRules: Array<NetworkRule>,
     egressRules: Array<NetworkRule>
   ): Observable<SecurityGroup> {
+    this.invalidateCache();
     let sg: SecurityGroup;
     return this.create(params)
       .switchMap((securityGroup: SecurityGroup) => {
@@ -137,6 +141,7 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
   }
 
   public addRule(type: NetworkRuleType, data): Observable<NetworkRule> {
+    this.invalidateCache();
     const command = 'authorize';
     return this.postRequest(`${command};${type}`, data)
       .switchMap(res => {
@@ -155,6 +160,7 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
   }
 
   public removeRule(type: NetworkRuleType, data) {
+    this.invalidateCache();
     const command = 'revoke';
     return this.postRequest(`${command};${type}`, data)
       .switchMap(res => {
