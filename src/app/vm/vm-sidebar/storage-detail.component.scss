@@ -1,8 +1,8 @@
-$line-height: 22px;
+@import '../../../style/__variables';
 
 .grid.snapshots {
   overflow: hidden;
-  max-height: 6 * $line-height;
+  max-height: 6 * $sidebar-card-line-height;
 
   &.open {
     max-height: none;

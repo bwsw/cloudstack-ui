@@ -1,4 +1,4 @@
-$vm-detail-width: 365px;
+@import '../../../../style/__variables.scss';
 
 .stat-card-mdl {
   display: inline-flex;
@@ -36,7 +36,7 @@ $vm-detail-width: 365px;
   transition: margin 0.3s;
 
   &.open {
-    margin-right: $vm-detail-width;
+    margin-right: $sidebar-width;
   }
 }
 

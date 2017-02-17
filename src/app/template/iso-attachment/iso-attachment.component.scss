@@ -1,4 +1,4 @@
-$select-width: 195px;
+@import '../../../style/__variables.scss';
 
 /deep/ .iso-attachment-dialog {
   width: 720px;
@@ -28,13 +28,13 @@ $select-width: 195px;
 
 .os-type-select {
   display: inline-block;
-  width: $select-width;
+  width: $template-filter-select-width;
   margin: 0 20px;
 }
 
 .filter-select {
   display: inline-block;
-  width: $select-width;
+  width: $template-filter-select-width;
   margin: 0 20px;
 }
 

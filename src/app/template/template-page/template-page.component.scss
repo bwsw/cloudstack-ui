@@ -1,5 +1,5 @@
-$template-detail-width: 366px;
-$select-width: 195px;
+@import '../../../style/__variables';
+$template-detail-width: $sidebar-width + 1;
 
 :host {
   position: absolute;

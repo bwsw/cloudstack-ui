@@ -1,4 +1,5 @@
-$vm-detail-width: 366px;
+@import '../../../style/__variables';
+$vm-detail-width: $sidebar-width + 1;
 
 :host {
   position: absolute;
