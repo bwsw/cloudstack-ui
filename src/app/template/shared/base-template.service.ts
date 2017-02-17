@@ -54,20 +54,18 @@ export abstract class BaseTemplateService extends BaseBackendService<BaseTemplat
   }
 
   public register(params: RegisterTemplateBaseParams): Observable<BaseTemplateModel> {
-    return this.getRequest('register', params)
+    return this.sendCommand('register', params)
       .map(result => (
-        this.prepareModel(result[`register${this.entity}response`.toLowerCase()][this.entity.toLowerCase()][0])
+        this.prepareModel(result[this.entity.toLowerCase()][0])
       ));
   }
 
   public remove(template: BaseTemplateModel): Observable<any> {
-    return this.getRequest('delete', {
+    return this.sendCommand('delete', {
       id: template.id,
       zoneId: template.zoneId
     })
-      .switchMap(response => {
-        return this.asyncJobService.addJob(response[`delete${this.entity}response`.toLowerCase()].jobid);
-      })
+      .switchMap(job => this.asyncJobService.addJob(job.jobid))
       .switchMap(jobResult => {
         if (jobResult.jobStatus === 2 || jobResult.jobResult && !jobResult.jobResult.success) {
           return Observable.throw(jobResult);

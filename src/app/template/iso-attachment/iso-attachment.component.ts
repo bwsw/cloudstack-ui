@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 
-import { TemplateFilterListComponent } from '../template-filter-list/template-filter-list.component';
 import { Iso } from '../shared';
 
 
@@ -10,13 +9,11 @@ import { Iso } from '../shared';
   templateUrl: 'iso-attachment.component.html',
   styleUrls: ['iso-attachment.component.scss']
 })
-export class IsoAttachmentComponent extends TemplateFilterListComponent {
+export class IsoAttachmentComponent {
   public selectedIso: Iso;
   public showIso = true;
 
-  constructor(private dialog: MdlDialogReference) {
-    super();
-  }
+  constructor(private dialog: MdlDialogReference) { }
 
   public onAttach(): void {
     this.dialog.hide(this.selectedIso);

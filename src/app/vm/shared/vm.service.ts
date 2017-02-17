@@ -144,9 +144,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public deploy(params: {}): Observable<any> {
-    // todo change to sendCommand
-    return this.getRequest('deploy', params)
-      .map(result => result['deployvirtualmachineresponse']);
+    return this.sendCommand('deploy', params);
   }
 
   public checkCommand(jobId: string): Observable<any> {

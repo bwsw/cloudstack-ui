@@ -13,13 +13,11 @@ import { BaseTemplateService } from './base-template.service';
 })
 export class IsoService extends BaseTemplateService {
   public attach(vmId: string, iso: Iso): Observable<Iso> {
-    return this.getRequest('attach', {
+    return this.sendCommand('attach', {
       virtualMachineId: vmId,
       id: iso.id
     })
-      .switchMap(response => {
-        return this.asyncJobService.addJob(response['attachisoresponse'].jobid);
-      })
+      .switchMap(job => this.asyncJobService.addJob(job.jobid))
       .switchMap(jobResult => {
         if (jobResult.jobStatus === 2) {
           return Observable.throw(jobResult.jobResult.errortext);
@@ -29,12 +27,8 @@ export class IsoService extends BaseTemplateService {
   }
 
   public detach(id: string): Observable<any> {
-    return this.getRequest('detach', {
-      virtualMachineId: id
-    })
-      .switchMap(response => {
-        return this.asyncJobService.addJob(response['detachisoresponse'].jobid);
-      })
+    return this.sendCommand('detach', { virtualMachineId: id })
+      .switchMap(job => this.asyncJobService.addJob(job.jobid))
       .switchMap(jobResult => {
         if (jobResult.jobStatus === 2) {
           return Observable.throw(jobResult.jobResult.errortext);
