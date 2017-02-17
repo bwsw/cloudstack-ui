@@ -1,0 +1,16 @@
+<div *ngIf="policy === Policy.Hourly">
+
+</div>
+<div *ngIf="policy === Policy.Daily">
+  asd2
+</div>
+<div *ngIf="policy === Policy.Weekly">
+  asd3
+</div>
+<div *ngIf="policy === Policy.Monthly">
+  asd4
+</div>
+
+<mdl-select [(ngModel)]="currentPolicy.timeZone">
+  <mdl-option *ngFor="let tz of timeZones" [value]="">{{ tz }}</mdl-option>
+</mdl-select>
