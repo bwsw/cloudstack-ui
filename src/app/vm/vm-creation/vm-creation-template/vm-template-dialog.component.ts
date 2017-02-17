@@ -1,9 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
+
 import { Template } from '../../../template/shared';
 import { PRESELECTED_TEMPLATE_TOKEN } from './injector-token';
 import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
-import { Iso } from '../../../template/shared/iso.model';
+import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { Iso } from '../../../template/shared/iso.model';
   styleUrls: ['vm-template-dialog.component.scss']
 })
 export class VmTemplateDialogComponent extends TemplateFilterListComponent implements OnInit {
-  public _selectedTemplate: Template | Iso;
+  public _selectedTemplate: BaseTemplateModel;
 
   constructor(
     @Inject(PRESELECTED_TEMPLATE_TOKEN) public preselectedTemplate: Template,
@@ -25,11 +26,11 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
     this.selectedTemplate = this.preselectedTemplate;
   }
 
-  public get selectedTemplate(): Template | Iso {
+  public get selectedTemplate(): BaseTemplateModel {
     return this._selectedTemplate;
   }
 
-  public set selectedTemplate(template: Template | Iso) {
+  public set selectedTemplate(template: BaseTemplateModel) {
     this._selectedTemplate = template;
   }
 

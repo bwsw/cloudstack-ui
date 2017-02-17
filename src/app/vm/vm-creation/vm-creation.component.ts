@@ -27,11 +27,11 @@ import {
   ZoneService
 } from '../../shared/services';
 import { VmService } from '../shared/vm.service';
-import { Template, TemplateService } from '../../template/shared';
+import { TemplateService } from '../../template/shared';
 
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
-import { Iso } from '../../template/shared/iso.model';
+import { BaseTemplateModel } from '../../template/shared/base-template.model';
 
 
 class VmCreationData {
@@ -113,11 +113,7 @@ export class VmCreationComponent {
   }
 
   public updateDiskOffering(offering: DiskOffering): void {
-    if (offering.isCustomized) {
-      this.showRootDiskResize = true;
-    } else {
-      this.showRootDiskResize = false;
-    }
+    this.showRootDiskResize = offering.isCustomized;
     this.selectedDiskOffering = offering;
   }
 
@@ -213,7 +209,7 @@ export class VmCreationComponent {
     this.hide();
   }
 
-  public onTemplateChange(t: Template | Iso): void {
+  public onTemplateChange(t: BaseTemplateModel): void {
     this.vmCreationData.vm.template = t;
   }
 

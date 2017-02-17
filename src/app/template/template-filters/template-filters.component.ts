@@ -68,6 +68,8 @@ export class TemplateFiltersComponent implements OnInit {
         });
         this.filterTranslations = strs;
       });
+
+    this.displayMode.emit(this.showIso ? 'Iso' : 'Template');
   }
 
   public updateFilters(): void {

@@ -8,8 +8,7 @@ import {
   Volume
 } from '../../shared/models';
 import { SecurityGroup } from '../../security-group/sg.model';
-import { Template } from '../../template/shared';
-import { Iso } from '../../template/shared/iso.model';
+import { BaseTemplateModel } from '../../template/shared/base-template.model';
 
 
 export const MIN_ROOT_DISK_SIZE = 10;
@@ -80,7 +79,7 @@ export class VirtualMachine extends BaseModel {
   public zoneId: string;
   public zoneName: string;
   // Template
-  public template: Template | Iso;
+  public template: BaseTemplateModel;
   public templateId: string;
   public templateName: string;
   public isoId: string;

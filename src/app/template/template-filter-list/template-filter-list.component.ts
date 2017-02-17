@@ -1,5 +1,4 @@
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
-import { Template } from '../shared/template.model';
 import { Iso } from '../shared/iso.model';
 import { Observable } from 'rxjs';
 import { OsFamily } from '../../shared/models/os-type.model';
@@ -7,6 +6,7 @@ import { TemplateService } from '../shared/template.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { IsoService } from '../shared/iso.service';
 import { ServiceLocator } from '../../shared/services/service-locator';
+import { BaseTemplateModel } from '../shared/base-template.model';
 
 
 @Component({
@@ -15,7 +15,7 @@ import { ServiceLocator } from '../../shared/services/service-locator';
   styleUrls: ['template-filter-list.component.scss']
 })
 export class TemplateFilterListComponent implements OnInit {
-  @Input() public selectedTemplate: Template | Iso;
+  @Input() public selectedTemplate: BaseTemplateModel;
   @Input() public showDelimiter = true;
   @Input() public showIsoSwitch = true;
   @Input() public showRadio = false;
@@ -26,8 +26,8 @@ export class TemplateFilterListComponent implements OnInit {
   public query: string;
   public selectedFilters: Array<string>;
   public selectedOsFamilies: Array<OsFamily>;
-  public templateList: Array<Template | Iso>;
-  public visibleTemplateList: Array<Template | Iso>;
+  public templateList: Array<BaseTemplateModel>;
+  public visibleTemplateList: Array<BaseTemplateModel>;
 
   protected templateService = ServiceLocator.injector.get(TemplateService);
   protected authService = ServiceLocator.injector.get(AuthService);
@@ -47,7 +47,7 @@ export class TemplateFilterListComponent implements OnInit {
     this.fetchData(this.viewMode);
   }
 
-  public selectTemplate(template: Template | Iso): void {
+  public selectTemplate(template: BaseTemplateModel): void {
     this.selectedTemplate = template;
     this.selectedTemplateChange.emit(this.selectedTemplate);
   }
@@ -88,7 +88,7 @@ export class TemplateFilterListComponent implements OnInit {
     }
   }
 
-  private filterByCategories(templateList: Array<Template | Iso>): Array<Template | Iso> {
+  private filterByCategories(templateList: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
     return templateList
       .filter(template => {
         let featuredFilter = this.selectedFilters.includes('featured') || !template.isFeatured;
@@ -99,7 +99,7 @@ export class TemplateFilterListComponent implements OnInit {
       });
   }
 
-  private filterBySearch(templateList: Array<Template | Iso>): Array<Template | Iso> {
+  private filterBySearch(templateList: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
     if (!this.query) {
       return templateList;
     }
