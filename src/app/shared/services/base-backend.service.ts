@@ -61,16 +61,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
 
   protected buildParams(command: string, params?: {}): URLSearchParams {
     const urlParams = new URLSearchParams();
-    const cmd = command.split(';');
-    let apiCommand = `${cmd[0]}${this.entity}`;
-
-    if (cmd[0] === 'list' || this.entity === 'Tag') {
-      apiCommand += 's';
-    }
-    if (cmd.length === 2) {
-      apiCommand += cmd[1];
-    }
-    urlParams.append('command', apiCommand);
+    urlParams.append('command', this.getRequestCommand(command));
 
     for (let key in params) {
       if (params.hasOwnProperty(key)) {
@@ -101,24 +92,40 @@ export abstract class BaseBackendService<M extends BaseModel> {
 
   protected sendCommand(command: string, params?: {}): Observable<any> {
     return this.getRequest(command, params)
-      .map(res => {
-        let entity = this.entity.toLowerCase();
-        let [cmd, postfix] = command.split(';');
-        if (!postfix) {
-          postfix = '';
-        }
-        let fix = (cmd === 'list' || entity === 'tag') ? 's' : '';
-
-        if (command === 'restore') {
-          entity = 'vm';
-          fix = '';
-        }
-
-        const responseString = `${cmd}${entity}${fix}${postfix}response`.toLowerCase();
-
-        return res[responseString];
-      })
+      .map(res => res[this.getResponseString(command)])
       .catch(error => this.handleError(error));
+  }
+
+  private getRequestCommand(command: string): string {
+    const cmd = command.split(';');
+    let apiCommand = `${cmd[0]}${this.entity}`;
+
+    // fixing API's inconsistent behavior regarding commands
+    if (cmd[0] === 'list' || this.entity === 'Tag') {
+      apiCommand += 's';
+    }
+    if (cmd.length === 2) {
+      apiCommand += cmd[1];
+    }
+
+    return apiCommand;
+  }
+
+  private getResponseString(command: string): string {
+    let entity = this.entity.toLowerCase();
+    let [cmd, postfix] = command.split(';');
+    if (!postfix) {
+      postfix = '';
+    }
+
+    // fixing API's inconsistent behavior regarding response strings
+    let fix = (cmd === 'list' || entity === 'tag') ? 's' : '';
+    if (command === 'restore') {
+      entity = 'vm';
+      fix = '';
+    }
+
+    return `${cmd}${entity}${fix}${postfix}response`.toLowerCase();
   }
 
   private handleError(error): Observable<any> {
