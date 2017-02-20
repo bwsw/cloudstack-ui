@@ -7,7 +7,7 @@ import { Iso } from '../shared';
 @Component({
   selector: 'cs-iso-attachment',
   templateUrl: 'iso-attachment.component.html',
-  styleUrls: ['iso-attachment.component.scss']
+  styleUrls: ['iso-attachment.component.scss', '../../shared/styles/iso-dialog.scss']
 })
 export class IsoAttachmentComponent {
   public selectedIso: Iso;
