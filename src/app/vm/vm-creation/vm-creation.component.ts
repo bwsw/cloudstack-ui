@@ -32,6 +32,7 @@ import { TemplateService } from '../../template/shared';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { BaseTemplateModel } from '../../template/shared/base-template.model';
+import { AuthService } from '../../shared/services/auth.service';
 
 
 class VmCreationData {
@@ -81,6 +82,7 @@ export class VmCreationComponent implements OnInit {
   private selectedDiskOffering: DiskOffering;
 
   constructor(
+    private auth: AuthService,
     private zoneService: ZoneService,
     private serviceOfferingFilterService: ServiceOfferingFilterService,
     private diskStorageService: DiskStorageService,
@@ -115,6 +117,7 @@ export class VmCreationComponent implements OnInit {
 
   public ngOnInit(): void {
     this.resetVmCreateData();
+    this.setDefaultVmName();
   }
 
   public updateDiskOffering(offering: DiskOffering): void {
@@ -246,6 +249,25 @@ export class VmCreationComponent implements OnInit {
 
   public setServiceOffering(offering: string): void {
     this.vmCreationData.vm.serviceOfferingId = offering;
+  }
+
+  private setDefaultVmName(): void {
+    const regex = /vm-.*-(\d+)/;
+    this.vmService.getList()
+      .subscribe((vmList) => {
+        let max = 0;
+        vmList.forEach(vm => {
+          const match = vm.displayName.match(regex);
+
+          if (match && +match[1] > max) {
+            max = +match[1];
+          }
+        });
+
+        if (!this.vmCreationData.vm.displayName) {
+          setTimeout(() => this.vmCreationData.vm.displayName = `vm-${this.auth.username}-${++max}`);
+        }
+      });
   }
 
   private getVmCreateData(): Observable<VmCreationData> {
