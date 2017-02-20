@@ -7,8 +7,9 @@ import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
-import { SnapshotModule } from '../snapshot/snapshot.module';
-import { StorageDetailComponent } from './vm-sidebar/storage-detail.component';
+import { SharedModule } from '../shared/shared.module';
+import { StorageDetailComponent } from './vm-sidebar/storage-detail/storage-detail.component';
+import { TemplateModule } from '../template/template.module';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmDetailComponent } from './vm-sidebar/vm-detail.component';
 import { VmListComponent } from './vm-list/vm-list.component';
@@ -17,10 +18,14 @@ import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmService } from './shared/vm.service';
 import { VmTemplateComponent } from './vm-creation/vm-creation-template/vm-template.component';
 import { VmTemplateDialogComponent } from './vm-creation/vm-creation-template/vm-template-dialog.component';
-import { SharedModule } from '../shared/shared.module';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 import { VolumeSizeControlComponent } from './shared/volume-size-control.component';
-import { TemplateModule } from '../template/template.module';
+import { IsoComponent } from './vm-sidebar/storage-detail/iso-attachment.component';
+import { VolumeComponent } from './vm-sidebar/storage-detail/volume/volume.component';
+import { SnapshotComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshot.component';
+import {
+  SnapshotCreationComponent
+} from './vm-sidebar/storage-detail/volume/snapshot-creation/snapshot-creation.component';
 
 
 @NgModule({
@@ -31,10 +36,9 @@ import { TemplateModule } from '../template/template.module';
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
-    SnapshotModule,
+    SharedModule,
     TemplateModule,
-    TranslateModule,
-    SharedModule
+    TranslateModule
   ],
   declarations: [
     StorageDetailComponent,
@@ -46,14 +50,19 @@ import { TemplateModule } from '../template/template.module';
     VmTemplateComponent,
     VmTemplateDialogComponent,
     VolumeResizeComponent,
-    VolumeSizeControlComponent
+    VolumeSizeControlComponent,
+    IsoComponent,
+    VolumeComponent,
+    SnapshotComponent,
+    SnapshotCreationComponent
   ],
   providers: [
     VmService
   ],
   entryComponents: [
     VmTemplateDialogComponent,
-    VolumeResizeComponent
+    VolumeResizeComponent,
+    SnapshotCreationComponent
   ]
 })
 export class VmModule { }

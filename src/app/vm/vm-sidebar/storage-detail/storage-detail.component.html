@@ -1,0 +1,11 @@
+<div *ngIf="vm">
+  <cs-volume
+    *ngFor="let volume of vm.volumes"
+    [volume]="volume"
+  >
+  </cs-volume>
+  <cs-iso
+    [iso]="iso"
+    (onIsoAction)="handleIsoAction($event)"
+  ></cs-iso>
+</div>

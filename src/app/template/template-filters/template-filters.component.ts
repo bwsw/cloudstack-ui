@@ -65,7 +65,6 @@ export class TemplateFiltersComponent implements OnInit {
         });
         this.filterTranslations = strs;
       });
-
   }
 
   public updateFilters(): void {

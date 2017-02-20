@@ -45,15 +45,15 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   public vmUpdateObservable: Subject<VirtualMachine>;
 
   constructor(
-    private volumeService: VolumeService,
+    protected jobs: AsyncJobService,
+    private dialogService: MdlDialogService,
+    private jobsNotificationService: JobsNotificationService,
+    private notificationService: NotificationService,
     private osTypesService: OsTypeService,
     private serviceOfferingService: ServiceOfferingService,
     private securityGroupService: SecurityGroupService,
     private translateService: TranslateService,
-    private dialogService: MdlDialogService,
-    private jobsNotificationService: JobsNotificationService,
-    private notificationService: NotificationService,
-    protected jobs: AsyncJobService
+    private volumeService: VolumeService,
   ) {
     super();
     this.vmUpdateObservable = new Subject<VirtualMachine>();
