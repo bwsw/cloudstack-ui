@@ -19,9 +19,7 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor, O
   public serviceOfferings: Array<ServiceOffering>;
   private _serviceOffering: string;
 
-  constructor(
-    private serviceOfferingFilterService: ServiceOfferingFilterService
-  ) { }
+  constructor(private serviceOfferingFilterService: ServiceOfferingFilterService) { }
 
   public propagateChange: any = () => {};
 
@@ -45,7 +43,6 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor, O
   }
 
   public registerOnTouched(): void { }
-
 
   public ngOnInit(): void {
     this.serviceOfferingFilterService.getAvailable().subscribe(availableOfferings => {

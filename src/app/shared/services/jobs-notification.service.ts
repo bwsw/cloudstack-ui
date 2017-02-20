@@ -20,9 +20,7 @@ export class JobsNotificationService {
   private _pendingJobsCount: number;
   private _unseenJobs: Subject<number>;
 
-  constructor(
-    private utilsService: UtilsService
-  ) {
+  constructor(private utilsService: UtilsService) {
     this.notifications = [];
     this._pendingJobsCount = 0;
     this._unseenJobs = new Subject<number>();

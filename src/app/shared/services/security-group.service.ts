@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { ConfigService } from './config.service';
 import { SecurityGroup, NetworkRuleType } from '../../security-group/sg.model';
-import { BaseBackendService } from './base-backend.service';
+import { BaseBackendCachedService } from '.';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { TagService } from './tag.service';
 import { AsyncJobService } from './async-job.service';
@@ -16,7 +16,7 @@ export const GROUP_POSTFIX = '-cs-sg';
   entity: 'SecurityGroup',
   entityModel: SecurityGroup
 })
-export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
+export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup> {
   constructor(
     private configService: ConfigService,
     private tagService: TagService,
@@ -36,6 +36,7 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
   }
 
   public createTemplate(data: any): Observable<any> {
+    this.invalidateCache();
     let template;
     return this.create(data)
       .switchMap(res => {
@@ -82,10 +83,12 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
   }
 
   public deleteTemplate(id: string): Observable<any> {
+    this.invalidateCache();
     return this.remove({ id });
   }
 
   public removeEmptyGroups(): void {
+    this.invalidateCache();
     this.getList()
       .subscribe((groups: Array<SecurityGroup>) => {
         const uuidV4RegexRaw = '[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}';
@@ -109,6 +112,7 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
     ingressRules: Array<NetworkRule>,
     egressRules: Array<NetworkRule>
   ): Observable<SecurityGroup> {
+    this.invalidateCache();
     let sg: SecurityGroup;
     return this.create(params)
       .switchMap((securityGroup: SecurityGroup) => {
@@ -137,6 +141,7 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
   }
 
   public addRule(type: NetworkRuleType, data): Observable<NetworkRule> {
+    this.invalidateCache();
     const command = 'authorize';
     return this.sendCommand(`${command};${type}`, data)
       .switchMap(job => this.asyncJobService.addJob(job.jobid))
@@ -151,6 +156,7 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
   }
 
   public removeRule(type: NetworkRuleType, data): Observable<null> {
+    this.invalidateCache();
     const command = 'revoke';
     return this.sendCommand(`${command};${type}`, data)
       .switchMap(job => this.asyncJobService.addJob(job.jobid))

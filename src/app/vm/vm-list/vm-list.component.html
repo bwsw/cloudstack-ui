@@ -20,9 +20,8 @@
     mdl-button
     mdl-button-type="fab"
     mdl-colored="accent"
-    (click)="vmCreationForm.show()"
+    (click)="showVmCreationDialog()"
   >
     <mdl-icon>add</mdl-icon>
   </button>
 </div>
-<cs-vm-create (onCreated)="onVmCreated($event)"></cs-vm-create>

@@ -1,43 +1,36 @@
-<mdl-dialog
-  [mdl-dialog-config]="{
-    clickOutsideToClose: true,
-    styles: {'width': '780px', 'overflow': 'visible'},
-    isModal: true,
-    enterTransitionDuration: 400,
-    leaveTransitionDuration: 400
-  }"
->
-  <h3 class="mdl-dialog__title">New virtual machine</h3>
-  <form #vmCreateForm="ngForm" (ngSubmit)="onVmCreationSubmit($event)">
-    <div class="container">
-      <div class="left-column">
-        <div>
-          <mdl-textfield
-            type="text"
-            label="{{ 'VM_CREATION_FORM.NAME' | translate }}"
-            name="name"
-            pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]{0,1}$"
-            #vmname="ngModel"
-            [(ngModel)]="vmCreationData.vm.displayName"
-            [class.is-invalid]="!vmname.valid"
-          >
-          </mdl-textfield>
-        </div>
+<h3 class="mdl-dialog__title">New virtual machine</h3>
+<form #vmCreateForm="ngForm" (ngSubmit)="onVmCreationSubmit($event)">
+  <div class="container">
+    <div class="left-column">
+      <div>
+        <mdl-textfield
+          type="text"
+          label="{{ 'VM_CREATION_FORM.NAME' | translate }}"
+          name="name"
+          pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]{0,1}$"
+          #vmname="ngModel"
+          [(ngModel)]="vmCreationData.vm.displayName"
+          [class.is-invalid]="!vmname.valid"
+        >
+        </mdl-textfield>
+      </div>
 
-        <div class="dialog-select-wrapper">
-          <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.TEMPLATE' | translate }}</h5>
-        <cs-vm-creation-template
-          class="dialog-select-select template-select"
-          [selectedIn]="vmCreationData.vm.template"
-          (selectedOut)="onTemplateChange($event)"
-        ></cs-vm-creation-template>
-        </div>
+      <div class="dialog-select-wrapper">
+        <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.TEMPLATE' | translate }}</h5>
+      <cs-vm-creation-template
+        class="dialog-select-select template-select"
+        [selectedIn]="vmCreationData.vm.template"
+        (selectedOut)="onTemplateChange($event)"
+      ></cs-vm-creation-template>
+      </div>
+      <div>
         <h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>
         <cs-service-offering-selector
           name="serviceOffering"
-          [(ngModel)]="vmCreationData.vm.serviceOfferingId"
+          (ngModelChange)="setServiceOffering($event)"
         ></cs-service-offering-selector>
-        <h5>{{ 'VM_CREATION_FORM.ZONE' | translate }}</h5>
+        </div>
+      <h5>{{ 'VM_CREATION_FORM.ZONE' | translate }}</h5>
         <div>
           <mdl-select
             [(ngModel)]="vmCreationData.vm.zoneId"
@@ -48,22 +41,17 @@
             </mdl-option>
           </mdl-select>
         </div>
-
-        <div>
+  <div>
           <h5>{{ 'DISK_OFFERING' | translate }}</h5>
           <cs-disk-offering
             (offeringUpdated)="updateDiskOffering($event)"
           ></cs-disk-offering>
-        </div>
-
-        <cs-volume-size-control
-          *ngIf="showRootDiskResize"
-          [min]="vmCreationData.rootDiskSizeMin"
+        </div>      <cs-volume-size-control
+          *ngIf="showRootDiskResize"[min]="vmCreationData.rootDiskSizeMin"
           [max]="vmCreationData.rootDiskSizeLimit"
           name="rds"
           [(ngModel)]="vmCreationData.rootDiskSize"
         ></cs-volume-size-control>
-
       </div>
       <div class="right-column">
         <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
@@ -139,13 +127,12 @@
         mdl-colored="primary"
         type="button"
         mdl-button
-        (click)="hide()"
+        (click)="onCancel()"
         mdl-ripple
       >
         {{ 'CANCEL' | translate }}
       </button>
     </div>
   </form>
-</mdl-dialog>
 
 

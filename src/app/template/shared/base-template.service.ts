@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { BaseTemplateModel } from './base-template.model';
-import { AsyncJobService, BaseBackendService } from '../../shared/services';
+import { AsyncJobService, BaseBackendCachedService } from '../../shared/services';
 import { OsTypeService } from '../../shared/services/os-type.service';
+
 
 export interface RequestParams {
   filter: string;
@@ -19,7 +20,7 @@ export interface RegisterTemplateBaseParams {
 }
 
 @Injectable()
-export abstract class BaseTemplateService extends BaseBackendService<BaseTemplateModel> {
+export abstract class BaseTemplateService extends BaseBackendCachedService<BaseTemplateModel> {
   private _templateFilters: Array<string>;
 
   constructor(
@@ -54,6 +55,7 @@ export abstract class BaseTemplateService extends BaseBackendService<BaseTemplat
   }
 
   public register(params: RegisterTemplateBaseParams): Observable<BaseTemplateModel> {
+    this.invalidateCache();
     return this.sendCommand('register', params)
       .map(result => (
         this.prepareModel(result[this.entity.toLowerCase()][0])
@@ -61,6 +63,7 @@ export abstract class BaseTemplateService extends BaseBackendService<BaseTemplat
   }
 
   public remove(template: BaseTemplateModel): Observable<any> {
+    this.invalidateCache();
     return this.sendCommand('delete', {
       id: template.id,
       zoneId: template.zoneId

@@ -1,5 +1,5 @@
-import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
-import { MdlDialogComponent, MdlDialogService } from 'angular2-mdl';
+import { Component, ViewChild, Output, EventEmitter, OnInit } from '@angular/core';
+import { MdlDialogComponent, MdlDialogService, MdlDialogReference } from 'angular2-mdl';
 import { Observable } from 'rxjs/Rx';
 import { TranslateService } from 'ng2-translate';
 
@@ -67,7 +67,7 @@ class VmCreationData {
   templateUrl: 'vm-creation.component.html',
   styleUrls: ['vm-creation.component.scss']
 })
-export class VmCreationComponent {
+export class VmCreationComponent implements OnInit {
   @ViewChild(MdlDialogComponent) public vmCreateDialog: MdlDialogComponent;
   @Output() public onCreated: EventEmitter<any> = new EventEmitter();
 
@@ -94,6 +94,7 @@ export class VmCreationComponent {
     private resourceUsageService: ResourceUsageService,
     private securityGroupService: SecurityGroupService,
     private utils: UtilsService,
+    private dialog: MdlDialogReference,
     private dialogService: MdlDialogService
   ) {
     this.vmCreationData = new VmCreationData();
@@ -112,18 +113,21 @@ export class VmCreationComponent {
       });
   }
 
+  public ngOnInit(): void {
+    this.resetVmCreateData();
+  }
+
   public updateDiskOffering(offering: DiskOffering): void {
     this.showRootDiskResize = offering.isCustomized;
     this.selectedDiskOffering = offering;
   }
 
+  // todo
   public show(): void {
     this.templateService.getDefault().subscribe(() => {
       this.serviceOfferingFilterService.getAvailable().subscribe(() => {
         this.resourceUsageService.getResourceUsage().subscribe(result => {
           if (result.available.primaryStorage > this.vmCreationData.rootDiskSizeMin && result.available.instances) {
-            this.resetVmCreateData();
-            this.vmCreateDialog.show();
           } else {
             this.translateService.get(['INSUFFICIENT_RESOURCES']).subscribe(strs => {
               this.notificationService.error(strs['INSUFFICIENT_RESOURCES']);
@@ -142,9 +146,13 @@ export class VmCreationComponent {
     });
   }
 
-  public hide(): void {
-    this.securityRules = new Rules();
-    this.vmCreateDialog.close();
+  public onVmCreationSubmit(e: any): void {
+    e.preventDefault();
+    this.dialog.hide(this.deployVm());
+  }
+
+  public onCancel(): void {
+    this.dialog.hide(Observable.of());
   }
 
   public resetVmCreateData(): void {
@@ -153,30 +161,59 @@ export class VmCreationComponent {
     });
   }
 
-  public deployVm(): void {
+  public deployVm(): Observable<VirtualMachine> {
     let notificationId: string;
     let params: any = this.vmCreateParams;
     this.translateService.get([
       'VM_DEPLOY_IN_PROGRESS'
-    ]).switchMap(strs => {
-      notificationId = this.jobsNotificationService.add(strs['VM_DEPLOY_IN_PROGRESS']);
-      return this.securityGroupService.createWithRules(
-        {
-          name: this.utils.getUniqueId() + GROUP_POSTFIX
-        },
-        params.ingress || [],
-        params.egress || []
-      );
-    })
+    ])
+      .subscribe(strs => {
+        notificationId = this.jobsNotificationService.add(strs['VM_DEPLOY_IN_PROGRESS']);
+      });
+
+    let observable = this.securityGroupService.createWithRules(
+      { name: this.utils.getUniqueId() + GROUP_POSTFIX },
+      params.ingress || [],
+      params.egress || []
+    )
+      .switchMap(securityGroup => {
+        params['securityGroupIds'] = securityGroup.id;
+        return this.vmService.deploy(params);
+      })
+      .publish();
+
+    observable.connect();
+
+    observable
+      .switchMap(deployResponse => this.vmService.checkCommand(deployResponse.jobid))
       .subscribe(
-        securityGroup => {
-          params['securityGroupIds'] = securityGroup.id;
-          this._deploy(params, notificationId);
+        job => {
+          this.notifyOnDeployDone(notificationId);
+          if (!job.jobResult.password) { return; }
+          this.showPassword(job.jobResult.displayName, job.jobResult.password);
+          this.vmService.updateVmInfo(job.jobResult);
         },
         () => {
           this.notifyOnDeployFailed(notificationId);
         }
       );
+
+    return observable
+      .switchMap(deployResponse => this.vmService.get(deployResponse.id))
+      .map(vm => {
+        vm.state = 'Deploying';
+        return vm;
+      });
+  }
+
+  public showPassword(vmName: string, vmPassword: string): void {
+    this.translateService.get(
+      'PASSWORD_DIALOG_MESSAGE',
+      { vmName, vmPassword }
+    )
+      .subscribe((passwordMessage: string) => {
+        this.dialogService.alert(passwordMessage);
+      });
   }
 
   public notifyOnDeployDone(notificationId: string): void {
@@ -203,54 +240,12 @@ export class VmCreationComponent {
     });
   }
 
-  public onVmCreationSubmit(e: any): void {
-    e.preventDefault();
-    this.deployVm();
-    this.hide();
-  }
-
   public onTemplateChange(t: BaseTemplateModel): void {
     this.vmCreationData.vm.template = t;
   }
 
-  private _deploy(params: {}, notificationId): void {
-    this.vmService.deploy(params)
-      .subscribe(
-        result => {
-          this.vmService.get(result.id)
-            .subscribe(
-              r => {
-                r.state = 'Deploying';
-                this.onCreated.next(r);
-              });
-          this.vmService.checkCommand(result.jobid)
-            .subscribe(
-              job => {
-                this.notifyOnDeployDone(notificationId);
-                if (!job.jobResult.password) {
-                  return;
-                }
-                this.translateService.get(
-                  'PASSWORD_DIALOG_MESSAGE',
-                  {
-                    vmName: job.jobResult.displayName,
-                    vmPassword: job.jobResult.password
-                  }
-                )
-                  .subscribe(
-                    (res: string) => {
-                      this.dialogService.alert(res);
-                    });
-              },
-              () => {
-                this.notifyOnDeployFailed(notificationId);
-              }
-            );
-        },
-        () => {
-          this.notifyOnDeployFailed(notificationId);
-        }
-      );
+  public setServiceOffering(offering: string): void {
+    this.vmCreationData.vm.serviceOfferingId = offering;
   }
 
   private getVmCreateData(): Observable<VmCreationData> {

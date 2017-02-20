@@ -78,8 +78,8 @@ export class TemplateFilterListComponent implements OnInit {
     } else {
       this.templateList = [];
       Observable.forkJoin([
-        this.isoService.getList({ filter: 'featured' }),
-        this.isoService.getList({ filter: 'self' }),
+        this.isoService.getList({filter: 'featured'}),
+        this.isoService.getList({filter: 'self'}),
       ])
         .subscribe(([featuredIsos, selfIsos]) => {
           this.templateList = (featuredIsos as Array<Iso>).concat(selfIsos as Array<Iso>);

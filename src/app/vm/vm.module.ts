@@ -60,6 +60,7 @@ import {
     VmService
   ],
   entryComponents: [
+    VmCreationComponent,
     VmTemplateDialogComponent,
     VolumeResizeComponent,
     SnapshotCreationComponent
