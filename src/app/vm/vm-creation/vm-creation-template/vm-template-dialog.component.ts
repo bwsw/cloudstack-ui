@@ -10,7 +10,7 @@ import { BaseTemplateModel } from '../../../template/shared/base-template.model'
 @Component({
   selector: 'cs-vm-creation-template-dialog',
   templateUrl: 'vm-template-dialog.component.html',
-  styleUrls: ['vm-template-dialog.component.scss']
+  styleUrls: ['vm-template-dialog.component.scss', '../../../shared/styles/iso-dialog.scss']
 })
 export class VmTemplateDialogComponent extends TemplateFilterListComponent implements OnInit {
   public _selectedTemplate: BaseTemplateModel;
