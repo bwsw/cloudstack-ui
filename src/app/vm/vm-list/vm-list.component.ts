@@ -12,8 +12,8 @@ import { TranslateService } from 'ng2-translate';
 import { IStorageService } from '../../shared/services/storage.service';
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import {
-JobsNotificationService,
-INotificationStatus
+  JobsNotificationService,
+  INotificationStatus
 } from '../../shared/services/jobs-notification.service';
 
 import { IAsyncJob } from '../../shared/models/async-job.model';
@@ -146,12 +146,13 @@ export class VmListComponent implements OnInit {
               action.confirmMessage,
               action.progressMessage,
               action.successMessage
-            ]).subscribe(strs => {
-              this.jobsNotificationService.add({
-                message: strs[action.successMessage],
-                status: INotificationStatus.Finished
+            ])
+              .subscribe(strs => {
+                this.jobsNotificationService.add({
+                  message: strs[action.successMessage],
+                  status: INotificationStatus.Finished
+                });
               });
-            });
           });
         });
       });
