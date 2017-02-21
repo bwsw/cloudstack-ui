@@ -50,6 +50,6 @@ export class VolumeService extends BaseBackendService<Volume> {
     params['id'] = id;
 
     return this.sendCommand('resize', params)
-      .switchMap(job => this.asyncJobService.registerAsyncJob(job, this.entity, this.entityModel));
+      .switchMap(job => this.asyncJobService.register(job, this.entity, this.entityModel));
   }
 }

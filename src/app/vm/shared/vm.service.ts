@@ -45,7 +45,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   public vmUpdateObservable = new Subject<VirtualMachine>();
 
   constructor(
-    protected asyncJobService: AsyncJobService,
+    private asyncJobService: AsyncJobService,
     private dialogService: MdlDialogService,
     private jobsNotificationService: JobsNotificationService,
     private notificationService: NotificationService,
@@ -65,10 +65,12 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   public get(id: string): Observable<VirtualMachine> {
     return Observable.forkJoin([
       super.get(id),
-      this.volumeService.getList()
+      this.volumeService.getList({
+        virtualMachineId: id
+      })
     ])
       .switchMap(([vm, volumes]) => {
-        vm = this.addVolumes(vm, volumes);
+        vm.volumes = this.sortVolumes(volumes);
 
         return Observable.forkJoin([
           Observable.of(vm),
@@ -86,7 +88,10 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
   }
 
-  public getList(params?: {}): Observable<Array<VirtualMachine>> {
+  public getList(params?: {}, lite = false): Observable<Array<VirtualMachine>> {
+    if (lite) {
+      return super.getList(params);
+    }
     return Observable.forkJoin([
       super.getList(params),
       this.volumeService.getList(),
@@ -106,10 +111,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
   }
 
-  public getLiteList(params?: {}): Observable<Array<VirtualMachine>> {
-    return super.getList(params);
-  }
-
   public deploy(params: {}): Observable<any> {
     return this.sendCommand('deploy', params);
   }
@@ -119,7 +120,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       let filteredJobs = jobs.filter(job => !job.jobStatus && job.cmd);
       let observables = [];
       filteredJobs.forEach(job => {
-        observables.push(this.asyncJobService.registerAsyncJob(job.jobId, this.entity, this.entityModel));
+        observables.push(this.registerVmJob(job));
       });
       return observables;
     });
@@ -160,7 +161,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
           e.vm.state = e.action.vmStateOnAction;
         }
         return this.sendCommand(e.action.commandName, this.buildCommandParams(e.vm.id, e.action.commandName))
-          .switchMap(job => this.asyncJobService.registerAsyncJob(job.jobid, this.entity, this.entityModel));
+          .switchMap(job => this.registerVmJob(job));
       })
       .map(job => {
         this.jobsNotificationService.add({
@@ -215,8 +216,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     }
   }
 
-  public registerVmJob(job: AsyncJob): Observable<any> {
-    return this.asyncJobService.registerAsyncJob(job, this.entity, this.entityModel);
+  public registerVmJob(job: any): Observable<any> {
+    return this.asyncJobService.register(job, this.entity, this.entityModel);
   }
 
   public getListOfVmsThatUseIso(iso: Iso): Observable<Array<VirtualMachine>> {
@@ -291,9 +292,13 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   private addVolumes(vm: VirtualMachine, volumes: Array<Volume>): VirtualMachine {
-    vm.volumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
+    let filteredVolumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
+    vm.volumes = this.sortVolumes(filteredVolumes);
+    return vm;
+  }
 
-    vm.volumes.sort((a: Volume, b) => {
+  private sortVolumes(volumes: Array<Volume>): Array<Volume> {
+    return volumes.sort((a: Volume, b) => {
       const aIsRoot = a.type === 'ROOT';
       const bIsRoot = b.type === 'ROOT';
       if (aIsRoot && !bIsRoot) {
@@ -304,8 +309,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       }
       return 0;
     });
-
-    return vm;
   }
 
   private addOsType(vm: VirtualMachine, osTypes: Array<OsType>): VirtualMachine {

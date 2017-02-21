@@ -63,12 +63,10 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
     return true;
   }
 
-  public registerAsyncJob(job: any, entity: string, entityModel: any): Observable<any> {
-    if (job.jobId) {
-      job = job.jobId;
-    }
-    if (job.jobid) {
-      job = job.jobid;
+  public register(job: any, entity: string, entityModel: any): Observable<any> {
+    let jobId = job.jobId || job.jobid || job;
+    if (typeof jobId !== 'string') {
+      throw new Error('Unsupported job format');
     }
     return this.addJob(job)
       .map(result => {
