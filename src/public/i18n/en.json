@@ -173,6 +173,8 @@
     "YOU_DONT_HAVE_TEMPLATES": "You don't have any templates"
   },
 
+  "THIS_NAME_IS_TAKEN": "this name is taken",
+  "THE_NAME_IS_TAKEN": "The name {{name}} is taken",
   "UNABLE_TO_RECEIVE_TEMPLATES": "Unable to receive templates",
   "NAME": "Name",
   "DESCRIPTION": "Description",
@@ -266,6 +268,7 @@
 
   "NEW_TEMPLATE": "Register a new template",
   "NEW_ISO": "Register a new ISO",
+  "NEW_VM": "New virtual machine",
   "TEMPLATES_ISO": "Templates and ISOs",
   "URL": "URL",
   "ISO_REGISTER_IN_PROGRESS": "Registering an ISO",

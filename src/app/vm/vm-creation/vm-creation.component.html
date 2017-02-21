@@ -1,4 +1,4 @@
-<h3 class="mdl-dialog__title">New virtual machine</h3>
+<h3 class="mdl-dialog__title" translate>NEW_VM</h3>
 <form #vmCreateForm="ngForm" (ngSubmit)="onVmCreationSubmit($event)">
   <div class="container">
     <div class="left-column">
@@ -8,7 +8,7 @@
           [label]="'VM_CREATION_FORM.NAME' | translate"
           name="name"
           pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]{0,1}$"
-          [error-msg]="takenName ? 'this name is taken' : ''"
+          [error-msg]="(takenName ? 'THIS_NAME_IS_TAKEN' : '') | translate"
           #vmname="ngModel"
           [(ngModel)]="vmCreationData.vm.displayName"
           [class.is-invalid]="!vmname.valid || (vmCreationData.vm.displayName === takenName)"

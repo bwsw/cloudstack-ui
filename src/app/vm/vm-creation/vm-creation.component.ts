@@ -204,7 +204,12 @@ export class VmCreationComponent implements OnInit {
           const response = err.json()[`deployvirtualmachineresponse`];
           if (response && response.cserrorcode === 4350) {
             this.takenName = this.vmCreationData.vm.displayName;
-            this.dialogService.alert(`Vm name ${this.vmCreationData.vm.displayName} is taken`);
+            this.translateService.get(
+              'THE_NAME_IS_TAKEN',
+              { name: this.vmCreationData.vm.displayName }
+            )
+              .subscribe(str => this.dialogService.alert(str));
+
             return;
           }
 
