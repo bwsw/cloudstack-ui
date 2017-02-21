@@ -23,6 +23,9 @@ Since we run a Cloudstack managed public cloud for 3 years (actually we run CS 4
 
 ## Features Unsupported
 
+* Advanced Zones
+* Other hypervisors than KVM are not tested
+
 ## Roadmap
 
 ## Project Team
