@@ -21,6 +21,7 @@ Since we run a Cloudstack managed public cloud for 3 years (actually we run CS 4
 * Root and Data disks management
 * Affinity groups management
 * VM groups
+* Frontend Themes, Custom VM colors
 
 ## Features Unsupported
 
