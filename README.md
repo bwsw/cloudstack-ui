@@ -29,6 +29,8 @@ So, what is supported:
 
 ## Features Unsupported
 
+We intensively use features like projects in our own Cloudstack cloud to manage resources dedicated to project groups, etc. but generic users don't need them, so we don't support next features yet:
+
 * Advanced Zones
 * Other hypervisors than KVM are not tested
 * Projects
