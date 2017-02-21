@@ -144,7 +144,7 @@
   "VM_CREATION_FORM": {
     "NAME": "Имя",
     "DESCRIPTION": "Описание",
-    "TEMPLATE": "Шаблон",
+    "INSTALLATION_SOURCE": "Источник установки",
     "SERVICE_OFFERING": "Вычислительное предложение",
     "ZONE": "Зона",
     "DISK_SIZE": "Размер диска",

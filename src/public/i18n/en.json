@@ -144,7 +144,7 @@
   "VM_CREATION_FORM": {
     "NAME": "Name",
     "DESCRIPTION": "Description",
-    "TEMPLATE": "Template",
+    "INSTALLATION_SOURCE": "Installation source",
     "SERVICE_OFFERING": "Service offering",
     "ZONE": "Zone",
     "DISK_SIZE": "Disk size",

@@ -48,8 +48,11 @@ export class VmTemplateComponent implements OnInit, OnChanges {
     })
       .switchMap(res => res.onHide())
       .subscribe((data: any) => {
+        if (!data) {
+          return;
+        }
         this.selectedOut.emit(data);
         this.displayTemplateName = data.name;
-      });
+      }, () => {});
   }
 }

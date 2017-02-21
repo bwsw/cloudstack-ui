@@ -9,6 +9,7 @@ import { INotificationService } from './shared/services/notification.service';
 import { MdlLayoutComponent } from 'angular2-mdl';
 
 import '../style/app.scss';
+import { StorageService } from './shared/services/storage.service';
 
 
 @Component({
@@ -25,11 +26,12 @@ export class AppComponent implements OnInit {
     private router: Router,
     private translate: TranslateService,
     private error: ErrorService,
-    @Inject('INotificationService') private notification: INotificationService
+    @Inject('INotificationService') private notification: INotificationService,
+    private storage: StorageService
   ) {
     this.title = this.auth.name;
-    this.translate.setDefaultLang('en');
-    this.translate.use('en');
+    // this.translate.setDefaultLang('en');
+    // this.translate.use('en');
     this.error.subscribe(e => this.handleError(e));
     this.auth.isLoggedIn().subscribe(r => this.loggedIn = r);
     this.auth.loggedIn.subscribe(loggedIn => {
@@ -45,6 +47,29 @@ export class AppComponent implements OnInit {
     if (!this.auth.isLoggedIn()) {
       this.updateAccount(false);
     }
+    this.setLanguage();
+  }
+
+  // todo: remove
+  public changeLanguage(): void {
+    let lang = this.storage.read('lang');
+    if (lang === 'ru') {
+      this.storage.write('lang', 'en');
+    }
+    if (lang === 'en') {
+      this.storage.write('lang', 'ru');
+    }
+    this.setLanguage();
+  }
+
+  public setLanguage(): void {
+    let lang = this.storage.read('lang');
+    if (!lang) {
+      this.storage.write('lang', 'en');
+      this.translate.use('en');
+      return;
+    }
+    this.translate.use(lang);
   }
 
   private updateAccount(loggedIn: boolean): void {

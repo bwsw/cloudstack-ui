@@ -5,6 +5,7 @@ import { Template } from '../../../template/shared';
 import { PRESELECTED_TEMPLATE_TOKEN } from './injector-token';
 import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
+import { Iso } from '../../../template/shared/iso.model';
 
 
 @Component({
@@ -24,6 +25,15 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
 
   public ngOnInit(): void {
     this.selectedTemplate = this.preselectedTemplate;
+  }
+
+  public get typeOfSelectedSource(): 'Iso' | 'Template' {
+    if (this.selectedTemplate instanceof Iso) {
+      return 'Iso';
+    }
+    if (this.selectedTemplate instanceof Template) {
+      return 'Template';
+    }
   }
 
   public get selectedTemplate(): BaseTemplateModel {
