@@ -12,8 +12,14 @@ Since we run a Cloudstack managed public cloud for 3 years (actually we run CS 4
 
 ## Features Supported
 
-* Basic Cloudstack Zone with Virtual Router
-* Security Groups
+* Basic Cloudstack zones with virtual router
+* Security groups
+* KVM Hypervisor
+* Security group templates
+* Multiple zones
+* Virtual machine standard operations supported by Apache Cloudstack
+* Root and Data disks management
+* Affinity groups management
 
 ## Features Unsupported
 
