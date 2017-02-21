@@ -12,6 +12,9 @@ Since we run a Cloudstack managed public cloud for 3 years (actually we run CS 4
 
 ## Features Supported
 
+* Basic Cloudstack Zone with Virtual Router
+* Security Groups
+
 ## Features Unsupported
 
 ## Roadmap
