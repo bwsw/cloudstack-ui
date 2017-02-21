@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 import { Observable } from 'rxjs';
@@ -24,6 +24,7 @@ import { Volume, Snapshot } from '../../../../shared/models';
 })
 export class VolumeComponent implements OnInit {
   @Input() public volume: Volume;
+  @Output() public onDetach = new EventEmitter();
 
   constructor(
     private translateService: TranslateService,
@@ -35,6 +36,20 @@ export class VolumeComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void { }
+
+  public get volumeType(): 'Data' | 'Root' {
+    if (this.volume.type === 'ROOT') {
+      return 'Root';
+    }
+    if (this.volume.type === 'DATADISK') {
+      return 'Data';
+    }
+    throw new Error('Unrecognized volume type');
+  }
+
+  public detach(): void {
+    this.onDetach.emit(this.volume);
+  }
 
   public showVolumeResizeDialog(volume: Volume): void {
     let notificationId: string;

@@ -80,4 +80,16 @@
       </button>
     </div>
   </mdl-popover>
+  <mdl-card-actions
+    *ngIf="volumeType === 'Data'"
+    mdl-card-border
+  >
+    <button
+      mdl-button
+      mdl-ripple
+      (click)="detach()"
+    >
+      {{ 'DETACH' | translate }}
+    </button>
+  </mdl-card-actions>
 </mdl-card>

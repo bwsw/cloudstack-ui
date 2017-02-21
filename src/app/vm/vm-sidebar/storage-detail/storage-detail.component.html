@@ -2,6 +2,7 @@
   <cs-volume
     *ngFor="let volume of vm.volumes"
     [volume]="volume"
+    (onDetach)="handleDataDiskDetach($event)"
   >
   </cs-volume>
   <cs-iso
