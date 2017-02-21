@@ -56,8 +56,8 @@ Currently project is supported by
 
 <table>
 <tr>
-<td>[Bitworks Software](https://bitworks.software/)</td>
-<td>![Bitworks](https://raw.githubusercontent.com/bwsw/bwsw.github.io/master/15047882.png)</td>
+<td><a href="https://bitworks.software/">Bitworks Software</a></td>
+<td><img src="https://raw.githubusercontent.com/bwsw/bwsw.github.io/master/15047882.png" /></td>
 </table>
 
 
