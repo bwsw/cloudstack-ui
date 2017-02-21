@@ -65,6 +65,8 @@ To do a contribution, just contact us with next e-mail: info@bw-sw.com
 
 ## License
 
+It's released under Apache 2.0 license.
+
 # Documentation
 
 ## Deployment
