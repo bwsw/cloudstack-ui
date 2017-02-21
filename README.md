@@ -59,7 +59,7 @@ Currently project is supported by [Bitworks Software](https://bitworks.software/
 You can contribute to development of the project in various ways:
 
 1. Share the information about the project with other people, try to install the UI and share your opinion with us and your fellows.
-2. Propose useful feature which makes life of user easier and more straightforward. Ideas are always welcome. 
+2. Propose useful feature. Ideas are always welcome. 
 3. Deploy it somewhere and inform us about success story and we will share it in adopters section.
 4. Fix bugs and send us PR.
 5. Implement a feature from Roadmap or just do something which is new.
