@@ -59,7 +59,7 @@ You can contribute to development of the project in various ways:
 4. Fix bugs and send us PR.
 5. Implement a feature from Roadmap or just do something which is new.
 6. Support the development of specific functions which is important to you and may be shared.
-7. Hire us for frontend or backend development for custom software. Take a look at our website to know where we can be useful: [Bitworks Software](https://bitworks.software/) 
+7. Hire us for frontend or backend development for custom software. Take a look at our [website](https://bitworks.software/) to know where we can be useful. Take a loot at our presentation to know more about us.
 
 To do a contribution, just contact us with next e-mail: info@bw-sw.com
 
