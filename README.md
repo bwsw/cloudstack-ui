@@ -27,6 +27,7 @@ So, what is supported:
 * VM groups
 * Frontend Themes, Custom VM colors
 * Localization support
+* Branding support
 
 ## Features Unsupported
 
