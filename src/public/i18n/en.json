@@ -173,7 +173,7 @@
     "YOU_DONT_HAVE_TEMPLATES": "You don't have any templates"
   },
 
-  "THIS_NAME_IS_TAKEN": "this name is taken",
+  "THIS_NAME_IS_TAKEN": "This name is taken",
   "THE_NAME_IS_TAKEN": "The name {{name}} is taken",
   "UNABLE_TO_RECEIVE_TEMPLATES": "Unable to receive templates",
   "NAME": "Name",

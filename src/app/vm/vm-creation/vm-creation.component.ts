@@ -260,14 +260,15 @@ export class VmCreationComponent implements OnInit {
 
   private setDefaultVmName(): void {
     const regex = /vm-.*-(\d+)/;
+
     this.vmService.getList({}, true)
-      .subscribe((vmList) => {
+      .subscribe(vmList => {
         let max = 0;
         vmList.forEach(vm => {
-          const match = vm.displayName.match(regex);
+          const match = +vm.displayName.match(regex);
 
-          if (match && +match[1] > max) {
-            max = +match[1];
+          if (match && match[1] > max) {
+            max = match[1];
           }
         });
 

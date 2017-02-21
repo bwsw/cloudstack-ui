@@ -173,7 +173,7 @@
     "YOU_DONT_HAVE_TEMPLATES": "Шаблоны не созданны"
   },
 
-  "THIS_NAME_IS_TAKEN": "это имя занято",
+  "THIS_NAME_IS_TAKEN": "Это имя занято",
   "THE_NAME_IS_TAKEN": "Имя {{name}} уже занято",
   "UNABLE_TO_RECEIVE_TEMPLATES": "Неудалось получить шаблоны",
   "NAME": "Имя",
