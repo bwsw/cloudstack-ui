@@ -59,6 +59,8 @@ export class StorageDetailComponent implements OnChanges {
     }
   }
 
+  public handleDataDiskDetach(): void { }
+
   private attachIsoDialog(): void {
     this.dialogService.showCustomDialog({
       component: IsoAttachmentComponent,
