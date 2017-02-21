@@ -12,6 +12,10 @@ Since we run a Cloudstack managed public cloud for 3 years (actually we run CS 4
 
 ## Features Supported
 
+Since we designed the product from the perspective of well-known use cases which are common to our public cloud deployment we implemented only ones which are 100% required and covers most of use cases. May be in another deployment there are other requirements, but it's open source product indeed. 
+
+So, what is supported:
+
 * Basic Cloudstack zones with virtual router
 * Security groups
 * KVM Hypervisor
@@ -35,6 +39,8 @@ Since we run a Cloudstack managed public cloud for 3 years (actually we run CS 4
 ## Project Team
 
 ## Project Sponsors
+
+Currently proj
 
 ## How to Contribute
 
