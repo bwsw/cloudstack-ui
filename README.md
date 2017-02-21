@@ -52,14 +52,9 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 
 ## Project Sponsors
 
-Currently project is supported by 
+Currently project is supported by [Bitworks Software](https://bitworks.software/).
 
-<table>
-<tr>
-<td><a href="https://bitworks.software/">Bitworks Software</a></td>
-<td><img src="https://raw.githubusercontent.com/bwsw/bwsw.github.io/master/15047882.png" /></td>
-</table>
-
+![Bitworks Software](https://raw.githubusercontent.com/bwsw/bwsw.github.io/master/15047882.png)
 
 ## How to Contribute
 
