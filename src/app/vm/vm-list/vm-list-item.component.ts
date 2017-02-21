@@ -47,7 +47,6 @@ export class VmListItemComponent implements OnInit, OnChanges {
   public getAction(event: MouseEvent, act: string): void {
     event.stopPropagation();
     let e = {
-      id: this.vm.id,
       action: this.actions.find(a => a.nameLower === act),
       vm: this.vm
     };

@@ -27,10 +27,10 @@ import { SecurityGroupService } from '../../shared/services/security-group.servi
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { Iso } from '../../template/shared/iso.model';
+import { SecurityGroup } from '../../security-group/sg.model';
 
 
 export interface IVmActionEvent {
-  id: string;
   action: IVmAction;
   vm: VirtualMachine;
   templateId?: string;
@@ -42,10 +42,10 @@ export interface IVmActionEvent {
   entityModel: VirtualMachine
 })
 export class VmService extends BaseBackendService<VirtualMachine> {
-  public vmUpdateObservable: Subject<VirtualMachine>;
+  public vmUpdateObservable = new Subject<VirtualMachine>();
 
   constructor(
-    protected jobs: AsyncJobService,
+    private asyncJobService: AsyncJobService,
     private dialogService: MdlDialogService,
     private jobsNotificationService: JobsNotificationService,
     private notificationService: NotificationService,
@@ -56,7 +56,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     private volumeService: VolumeService,
   ) {
     super();
-    this.vmUpdateObservable = new Subject<VirtualMachine>();
   }
 
   public updateVmInfo(vm: VirtualMachine): void {
@@ -64,82 +63,51 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public get(id: string): Observable<VirtualMachine> {
-    const volumesRequest = this.volumeService.getList();
-    const vmRequest = super.get(id);
-
     return Observable.forkJoin([
-      vmRequest,
-      volumesRequest
-    ]).map(result => {
-      let vm = result[0];
-      let volumes = result[1];
-      vm.volumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
+      super.get(id),
+      this.volumeService.getList({
+        virtualMachineId: id
+      })
+    ])
+      .switchMap(([vm, volumes]) => {
+        vm.volumes = this.sortVolumes(volumes);
 
-      const osTypeRequest = this.osTypesService.get(vm.guestOsId);
-      const serviceOfferingRequest = this.serviceOfferingService.get(vm.serviceOfferingId);
-      const securityGroupRequest = this.securityGroupService.get(vm.securityGroup[0].id);
-
-      return [
-        Observable.of(vm),
-        osTypeRequest,
-        serviceOfferingRequest,
-        securityGroupRequest
-      ];
-    })
-      .switchMap(result => Observable.forkJoin(result))
-      .map(result => {
-        let vm = result[0];
-        vm.osType = result[1];
-        vm.serviceOffering = result[2];
-        vm.securityGroup[0] = result[3];
+        return Observable.forkJoin([
+          Observable.of(vm),
+          this.osTypesService.get(vm.guestOsId),
+          this.serviceOfferingService.get(vm.serviceOfferingId),
+          this.securityGroupService.get(vm.securityGroup[0].id)
+        ]);
+      })
+      .map(([virtualMachine, osType, serviceOffering, securityGroup]) => {
+        let vm = virtualMachine;
+        vm.osType = osType;
+        vm.serviceOffering = serviceOffering;
+        vm.securityGroup[0] = securityGroup;
         return vm;
       });
   }
 
   public getList(params?: {}, lite = false): Observable<Array<VirtualMachine>> {
-    const vmsRequest = super.getList(params);
-
     if (lite) {
-      return <Observable<Array<VirtualMachine>>>vmsRequest;
+      return super.getList(params);
     }
-
-    const volumesRequest = this.volumeService.getList();
-    const osTypesRequest = this.osTypesService.getList();
-    const serviceOfferingsRequest = this.serviceOfferingService.getList();
-    const securityGroupsRequest = this.securityGroupService.getList();
-
     return Observable.forkJoin([
-      vmsRequest,
-      volumesRequest,
-      osTypesRequest,
-      serviceOfferingsRequest,
-      securityGroupsRequest
+      super.getList(params),
+      this.volumeService.getList(),
+      this.osTypesService.getList(),
+      this.serviceOfferingService.getList(),
+      this.securityGroupService.getList()
     ])
-      .map(([vms, volumes, osTypes, serviceOfferings, securityGroups]) => {
-        vms.forEach((vm: VirtualMachine) => {
-          vm.volumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
-
-          vm.volumes.sort((a: Volume, b) => {
-            const aIsRoot = a.type === 'ROOT';
-            const bIsRoot = b.type === 'ROOT';
-            if (aIsRoot && !bIsRoot) {
-              return -1;
-            }
-            if (!aIsRoot && bIsRoot) {
-              return 1;
-            }
-            return 0;
-          });
-
-          vm.osType = osTypes.find((osType: OsType) => osType.id === vm.guestOsId);
-          vm.serviceOffering = serviceOfferings.find((serviceOffering: ServiceOffering) => {
-            return serviceOffering.id === vm.serviceOfferingId;
-          });
-          vm.securityGroup.forEach((group, index) => {
-            vm.securityGroup[index] = securityGroups.find(sg => sg.id === group.id);
-          });
+      .map(([vmList, volumes, osTypes, serviceOfferings, securityGroups]) => {
+        vmList.forEach((currentVm, index, vms) => {
+          currentVm = this.addVolumes(currentVm, volumes);
+          currentVm = this.addOsType(currentVm, osTypes);
+          currentVm = this.addServiceOffering(currentVm, serviceOfferings);
+          currentVm = this.addSecurityGroups(currentVm, securityGroups);
+          vms[index] = currentVm;
         });
-        return vms;
+        return vmList;
       });
   }
 
@@ -147,46 +115,15 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return this.sendCommand('deploy', params);
   }
 
-  public checkCommand(jobId: string): Observable<any> {
-    return this.jobs.addJob(jobId)
-      .map(result => {
-        if (result && result.jobResultCode === 0 && result.jobResult) {
-          result.jobResult = new this.entityModel(result.jobResult.virtualmachine);
-        }
-        this.jobs.event.next(result);
-        return result;
-      });
-  }
-
   public resubscribe(): Observable<Array<Observable<AsyncJob>>> {
-    return this.jobs.getList().map(jobs => {
+    return this.asyncJobService.getList().map(jobs => {
       let filteredJobs = jobs.filter(job => !job.jobStatus && job.cmd);
       let observables = [];
       filteredJobs.forEach(job => {
-        observables.push(this.checkCommand(job.jobId));
+        observables.push(this.registerVmJob(job));
       });
       return observables;
     });
-  }
-
-  public command(command: string, id: string, params?: {}): Observable<AsyncJob> {
-    let updatedParams = params ? params : {};
-
-    if (command === 'restore') {
-      updatedParams['virtualMachineId'] = id;
-    } else if (command !== 'deploy') {
-      updatedParams['id'] = id;
-    }
-
-    return this.sendCommand(command, updatedParams)
-      .switchMap(job => this.jobs.addJob(job.jobid))
-      .map(result => {
-        if (result && result.jobResultCode === 0) {
-          result.jobResult = this.prepareModel(result.jobResult.virtualmachine);
-        }
-        this.jobs.event.next(result);
-        return result;
-      });
   }
 
   public vmAction(e: IVmActionEvent): void {
@@ -194,39 +131,46 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       'YES',
       'NO',
       e.action.confirmMessage
-    ]).switchMap((strs) => {
-      return this.dialogService.confirm(strs[e.action.confirmMessage], strs.NO, strs.YES);
-    }).subscribe(() => {
-        if (e.action.commandName !== 'resetPasswordFor') {
-          this.singleActionCommand(e).subscribe();
-        } else {
-          this.resetPassword(e);
-        }
-      },
-      () => {});
+    ])
+      .switchMap((strs) => {
+        return this.dialogService.confirm(strs[e.action.confirmMessage], strs.NO, strs.YES);
+      })
+      .subscribe(
+        () => {
+          if (e.action.commandName !== 'resetPasswordFor') {
+            this.command(e).subscribe();
+          } else {
+            this.resetPassword(e);
+          }
+        },
+        () => {}
+      );
   }
 
-  public singleActionCommand(e: IVmActionEvent): Observable<any> {
-    let id;
+  public command(e: IVmActionEvent): Observable<any> {
+    let notificationId;
     let strs;
     return this.translateService.get([
       e.action.progressMessage,
       e.action.successMessage
-    ]).switchMap((res) => {
-      strs = res;
-      id = this.jobsNotificationService.add(strs[e.action.progressMessage]);
-      if (e.vm) {
-        e.vm.state = e.action.vmStateOnAction;
-      }
-      return this.command(e.action.commandName, e.vm.id);
-    }).map(job => {
-      this.jobsNotificationService.add({
-        id,
-        message: strs[e.action.successMessage],
-        status: INotificationStatus.Finished
+    ])
+      .switchMap(res => {
+        strs = res;
+        notificationId = this.jobsNotificationService.add(strs[e.action.progressMessage]);
+        if (e.vm) {
+          e.vm.state = e.action.vmStateOnAction;
+        }
+        return this.sendCommand(e.action.commandName, this.buildCommandParams(e.vm.id, e.action.commandName))
+          .switchMap(job => this.registerVmJob(job));
+      })
+      .map(job => {
+        this.jobsNotificationService.add({
+          id: notificationId,
+          message: strs[e.action.successMessage],
+          status: INotificationStatus.Finished
+        });
+        return job;
       });
-      return job;
-    });
   }
 
   public resetPassword(e: IVmActionEvent): void {
@@ -242,36 +186,38 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     };
 
     if (e.vm.state === 'Stopped') {
-      this.singleActionCommand(e)
-      .subscribe((job: AsyncJob) => {
-        if (job && job.jobResult && job.jobResult.password) {
-          showDialog(job.jobResult.displayName, job.jobResult.password);
-        }
-      });
+      this.command(e)
+        .subscribe((job: AsyncJob) => {
+          if (job && job.jobResult && job.jobResult.password) {
+            showDialog(job.jobResult.displayName, job.jobResult.password);
+          }
+        });
     } else {
       let stop: IVmActionEvent = {
-        id: e.id,
         action: VirtualMachine.getAction('stop'),
         vm: e.vm,
         templateId: e.templateId
       };
       let start: IVmActionEvent = {
-        id: e.id,
         action: VirtualMachine.getAction('start'),
         vm: e.vm,
         templateId: e.templateId
       };
 
-      this.singleActionCommand(stop)
-        .switchMap(() => this.singleActionCommand(e))
+      this.command(stop)
+        .switchMap(() => this.command(e))
         .map((job: AsyncJob) => {
           if (job && job.jobResult && job.jobResult.password) {
-             showDialog(job.jobResult.displayName, job.jobResult.password);
-           }
+            showDialog(job.jobResult.displayName, job.jobResult.password);
+          }
         })
-        .switchMap(() => this.singleActionCommand(start))
+        .switchMap(() => this.command(start))
         .subscribe();
     }
+  }
+
+  public registerVmJob(job: any): Observable<any> {
+    return this.asyncJobService.register(job, this.entity, this.entityModel);
   }
 
   public getListOfVmsThatUseIso(iso: Iso): Observable<Array<VirtualMachine>> {
@@ -283,23 +229,24 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     if (virtualMachine.serviceOfferingId === serviceOfferingId) {
       return;
     }
+
     if (virtualMachine.state === 'Stopped') {
       this._changeServiceOffering(serviceOfferingId, virtualMachine).subscribe();
-    } else {
-      this.singleActionCommand({
-        id: virtualMachine.id,
-        action: VirtualMachine.getAction('stop'),
-        vm: virtualMachine
-      }).switchMap(() => {
+      return;
+    }
+    this.command({
+      action: VirtualMachine.getAction('stop'),
+      vm: virtualMachine
+    })
+      .switchMap(() => {
         return this._changeServiceOffering(serviceOfferingId, virtualMachine);
-      }).subscribe(() => {
-        this.singleActionCommand({
-          id: virtualMachine.id,
+      })
+      .subscribe(() => {
+        this.command({
           action: VirtualMachine.getAction('start'),
           vm: virtualMachine
         }).subscribe();
       });
-    }
   }
 
   private _changeServiceOffering(serviceOfferingId: string, virtualMachine: VirtualMachine): Observable<void> {
@@ -332,5 +279,54 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         });
         this.notificationService.error(translatedStrings['UNEXPECTED_ERROR']);
       });
+  }
+
+  private buildCommandParams(id: string, commandName: string): any {
+    let params = {};
+    if (commandName === 'restore') {
+      params['virtualMachineId'] = id;
+    } else if (commandName !== 'deploy') {
+      params['id'] = id;
+    }
+    return params;
+  }
+
+  private addVolumes(vm: VirtualMachine, volumes: Array<Volume>): VirtualMachine {
+    let filteredVolumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
+    vm.volumes = this.sortVolumes(filteredVolumes);
+    return vm;
+  }
+
+  private sortVolumes(volumes: Array<Volume>): Array<Volume> {
+    return volumes.sort((a: Volume, b) => {
+      const aIsRoot = a.type === 'ROOT';
+      const bIsRoot = b.type === 'ROOT';
+      if (aIsRoot && !bIsRoot) {
+        return -1;
+      }
+      if (!aIsRoot && bIsRoot) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+
+  private addOsType(vm: VirtualMachine, osTypes: Array<OsType>): VirtualMachine {
+    vm.osType = osTypes.find((osType: OsType) => osType.id === vm.guestOsId);
+    return vm;
+  }
+
+  private addServiceOffering(vm: VirtualMachine, offerings: Array<ServiceOffering>): VirtualMachine {
+    vm.serviceOffering = offerings.find((serviceOffering: ServiceOffering) => {
+      return serviceOffering.id === vm.serviceOfferingId;
+    });
+    return vm;
+  }
+
+  private addSecurityGroups(vm: VirtualMachine, groups: Array<SecurityGroup>): VirtualMachine {
+    vm.securityGroup.forEach((group, index) => {
+      vm.securityGroup[index] = groups.find(sg => sg.id === group.id);
+    });
+    return vm;
   }
 }

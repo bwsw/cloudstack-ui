@@ -15,8 +15,8 @@ import { BaseTemplateService, RegisterTemplateBaseParams } from './base-template
 })
 export class TemplateService extends BaseTemplateService {
   constructor (
-    protected osTypeService: OsTypeService,
-    protected asyncJobService: AsyncJobService
+    protected asyncJobService: AsyncJobService,
+    protected osTypeService: OsTypeService
   ) {
     super(asyncJobService, osTypeService);
   }

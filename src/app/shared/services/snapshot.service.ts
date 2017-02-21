@@ -14,9 +14,7 @@ import { AsyncJob } from '../models/async-job.model';
   entityModel: Snapshot
 })
 export class SnapshotService extends BaseBackendCachedService<Snapshot> {
-  constructor(
-    private asyncJobService: AsyncJobService
-  ) {
+  constructor(private asyncJobService: AsyncJobService) {
     super();
   }
 
@@ -31,14 +29,7 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
     }
 
     return this.sendCommand('create', params)
-      .switchMap(job => this.asyncJobService.addJob(job.jobid))
-      .map(result => {
-        if (result && result.jobResultCode === 0 && result.jobResult) {
-          result.jobResult = new this.entityModel(result.jobResult.snapshot);
-        }
-        this.asyncJobService.event.next(result);
-        return result;
-      });
+      .switchMap(job => this.asyncJobService.register(job, this.entity, this.entityModel));
   }
 
   public remove(id: string): Observable<any> {

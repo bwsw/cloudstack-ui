@@ -185,7 +185,7 @@ export class VmCreationComponent implements OnInit {
     observable.connect();
 
     observable
-      .switchMap(deployResponse => this.vmService.checkCommand(deployResponse.jobid))
+      .switchMap(deployResponse => this.vmService.registerVmJob(deployResponse))
       .subscribe(
         job => {
           this.notifyOnDeployDone(notificationId);

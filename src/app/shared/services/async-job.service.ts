@@ -63,6 +63,28 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
     return true;
   }
 
+  public register(job: any, entity: string, entityModel: any): Observable<any> {
+    let jobId = job.jobId || job.jobid || job;
+    if (typeof jobId !== 'string') {
+      throw new Error('Unsupported job format');
+    }
+    return this.addJob(job)
+      .map(result => {
+        let entityResponse = result.jobResult[entity.toLowerCase()];
+
+        if (result && result.jobResultCode === 0 && entityResponse) {
+          result.jobResult = this.prepareModel(result.jobResult[entity.toLowerCase()], entityModel);
+        }
+
+        if (result.jobStatus === 2) {
+          return Observable.throw(result);
+        }
+
+        this.event.next(result);
+        return result;
+      });
+  }
+
   private startPolling(): void {
     clearInterval(this.timerId);
     setTimeout(() => {

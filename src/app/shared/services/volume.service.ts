@@ -7,7 +7,6 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
 import { SnapshotService } from './snapshot.service';
 import { Snapshot } from '../models/snapshot.model';
 import { AsyncJobService } from './async-job.service';
-import { AsyncJob } from '../models/async-job.model';
 
 
 @Injectable()
@@ -17,8 +16,8 @@ import { AsyncJob } from '../models/async-job.model';
 })
 export class VolumeService extends BaseBackendService<Volume> {
   constructor(
-    private snapshotService: SnapshotService,
-    private asyncJobService: AsyncJobService
+    private asyncJobService: AsyncJobService,
+    private snapshotService: SnapshotService
   ) {
     super();
   }
@@ -51,14 +50,6 @@ export class VolumeService extends BaseBackendService<Volume> {
     params['id'] = id;
 
     return this.sendCommand('resize', params)
-      .flatMap((job: any) => this.asyncJobService.addJob(job.jobid))
-      .flatMap((asyncJob: AsyncJob) => {
-        const jobResult = asyncJob.jobResult;
-        if (asyncJob.jobStatus === 2) {
-          return Observable.throw(jobResult);
-        }
-
-        return Observable.of(this.prepareModel(jobResult.volume));
-      });
+      .switchMap(job => this.asyncJobService.register(job, this.entity, this.entityModel));
   }
 }
