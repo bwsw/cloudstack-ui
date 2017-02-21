@@ -27,6 +27,7 @@ So, what is supported:
 * Root and Data disks management
 * Affinity groups management
 * VM groups
+* SSH keys
 * Frontend Themes, Custom VM colors
 * Localization support
 * Branding support
