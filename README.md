@@ -47,9 +47,6 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 
 ## Screenshots
 
-## Project Team
-
-
 ## Project Sponsors
 
 Currently project is supported by [Bitworks Software](https://bitworks.software/).
