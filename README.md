@@ -26,6 +26,7 @@ So, what is supported:
 * Affinity groups management
 * VM groups
 * Frontend Themes, Custom VM colors
+* Localization support
 
 ## Features Unsupported
 
