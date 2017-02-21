@@ -3,7 +3,7 @@ Cloudstack UI is a project which purpose is to develop easy to use, light and us
 
 ## Project Story
 
-Since we run a Cloudstack managed public cloud for 3 years (actually we run CS 4.3 cloud) we found that average users which are familiar to Digital Ocean, Amazon AWS and other VPS management systems feel uncomfortable with Cloudstack UI and tend to make operational mistakes. That's why we decided to implement cool and neat end-user facing UI which covers regular activities which are important to project administrators.
+Since we run a Cloudstack managed public cloud for 3 years (actually we still run CS 4.3 cloud in production) we found that average users which are familiar to Digital Ocean, Amazon AWS and other VPS management systems feel uncomfortable with Cloudstack UI and tend to make operational mistakes. That's why we decided to implement cool and neat end-user facing UI which covers regular activities which are important to project administrators.
 
 The project is developed by Bitworks Software Frontend Division during educational marathon which purpose was to incorporate new team members and show them our standard development instruments for frontend development.
 
