@@ -40,6 +40,10 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 * Projects
 * Domains
 
+## Current To Do's
+
+* Responsive interface for smart devices
+
 ## Screenshots
 
 ## Project Team
