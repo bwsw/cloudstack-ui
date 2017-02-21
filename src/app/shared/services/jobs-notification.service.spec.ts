@@ -49,7 +49,7 @@ describe('Jobs notification service', () => {
     expect(jobsNotificationService.notifications[0].message).toBe('another job');
   }));
 
-  it('should remove all finished jobs', inject([JobsNotificationService], jobsNotificationService => {
+  it('should remove all finished asyncJobService', inject([JobsNotificationService], jobsNotificationService => {
     const id1 = jobsNotificationService.add('new job');
     const id2 = jobsNotificationService.add('another job');
     jobsNotificationService.add('another one');

@@ -18,9 +18,9 @@ export const GROUP_POSTFIX = '-cs-sg';
 })
 export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup> {
   constructor(
+    protected asyncJobService: AsyncJobService,
     private configService: ConfigService,
-    private tagService: TagService,
-    private asyncJobService: AsyncJobService
+    private tagService: TagService
   ) {
     super();
   }

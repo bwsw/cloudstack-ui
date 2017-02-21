@@ -4,18 +4,19 @@ import { ErrorService } from '.';
 import { ServiceLocator } from './service-locator';
 import { Observable } from 'rxjs/Rx';
 
+
 export const BACKEND_API_URL = '/client/api';
 
 export abstract class BaseBackendService<M extends BaseModel> {
   protected entity: string;
   protected entityModel: { new (params?): M; };
 
-  protected http: Http;
   protected error: ErrorService;
+  protected http: Http;
 
   constructor() {
-    this.http = ServiceLocator.injector.get(Http);
     this.error = ServiceLocator.injector.get(ErrorService);
+    this.http = ServiceLocator.injector.get(Http);
   }
 
   public get(id: string): Observable<M> {
@@ -55,7 +56,10 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return this.sendCommand('delete', params);
   }
 
-  protected prepareModel(res): M {
+  protected prepareModel(res, entityModel?): M {
+    if (entityModel) {
+      return new entityModel(res);
+    }
     return new this.entityModel(res);
   }
 
@@ -89,6 +93,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
       .map((res: Response) => res.json())
       .catch(error => this.handleError(error));
   }
+
+  // todo: check if it works for tags, delete etc.
 
   protected sendCommand(command: string, params?: {}): Observable<any> {
     return this.getRequest(command, params)
