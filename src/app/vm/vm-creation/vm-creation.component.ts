@@ -78,6 +78,8 @@ export class VmCreationComponent implements OnInit {
   public keyboardTranslations: Object;
   public securityRules: Rules;
 
+  public takenName: string;
+
   public showRootDiskResize = false;
   private selectedDiskOffering: DiskOffering;
 
@@ -165,8 +167,6 @@ export class VmCreationComponent implements OnInit {
 
     let notificationId: string;
     let params: any = this.vmCreateParams;
-    this.translateService.get('VM_DEPLOY_IN_PROGRESS')
-      .subscribe(str => notificationId = this.jobsNotificationService.add(str));
 
     this.securityGroupService.createWithRules(
       { name: this.utils.getUniqueId() + GROUP_POSTFIX },
@@ -178,6 +178,9 @@ export class VmCreationComponent implements OnInit {
         return this.vmService.deploy(params);
       })
       .switchMap(deployResponse => {
+        this.translateService.get('VM_DEPLOY_IN_PROGRESS')
+          .subscribe(str => notificationId = this.jobsNotificationService.add(str));
+
         this.vmService.get(deployResponse.id)
           .subscribe(vm => {
             vm.state = 'Deploying';
@@ -200,6 +203,7 @@ export class VmCreationComponent implements OnInit {
         (err) => {
           const response = err.json()[`deployvirtualmachineresponse`];
           if (response && response.cserrorcode === 4350) {
+            this.takenName = this.vmCreationData.vm.displayName;
             this.dialogService.alert(`Vm name ${this.vmCreationData.vm.displayName} is taken`);
             return;
           }
