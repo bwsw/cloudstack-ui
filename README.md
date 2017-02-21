@@ -20,11 +20,14 @@ Since we run a Cloudstack managed public cloud for 3 years (actually we run CS 4
 * Virtual machine standard operations supported by Apache Cloudstack
 * Root and Data disks management
 * Affinity groups management
+* VM groups
 
 ## Features Unsupported
 
 * Advanced Zones
 * Other hypervisors than KVM are not tested
+* Projects
+* Domains
 
 ## Roadmap
 
