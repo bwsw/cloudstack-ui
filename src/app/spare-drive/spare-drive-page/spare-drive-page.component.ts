@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { VolumeService } from '../../shared/services/volume.service';
 import { Volume } from '../../shared/models/volume.model';
+import { DiskOfferingService } from '../../shared/services/disk-offering.service';
+import { DiskOffering } from '../../shared/models/disk-offering.model';
 
 
 @Component({
@@ -13,12 +15,26 @@ export class SpareDrivePageComponent implements OnInit {
   public volumes: Array<Volume>;
   public _selectedVolume: Volume;
 
-  constructor(private volumeService: VolumeService) {}
+  constructor(
+    private diskOfferingService: DiskOfferingService,
+    private volumeService: VolumeService
+  ) {}
 
   public ngOnInit(): void {
-    this.volumeService.getList()
+    let diskOfferings: Array<DiskOffering>;
+    this.diskOfferingService.getList()
+      .map(offerings => diskOfferings = offerings)
+      .switchMap(offerings => {
+        diskOfferings = offerings;
+        return this.volumeService.getList();
+      })
       .subscribe(volumes => {
-        this.volumes = volumes.filter(volume => !volume.virtualMachineId);
+        this.volumes = volumes
+          .filter(volume => !volume.virtualMachineId && volume.type === 'DATADISK')
+          .map(volume => {
+            volume.diskOffering = diskOfferings.find(offering => offering.id === volume.diskOfferingId);
+            return volume;
+          });
       });
   }
 

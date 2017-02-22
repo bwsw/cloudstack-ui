@@ -13,4 +13,10 @@ export class VolumeItemComponent {
   public handleClick(): void {
     this.onClick.emit(this.volume);
   }
+
+  public attach(): void {}
+
+  public resize(): void {}
+
+  public remove(): void {}
 }
