@@ -41,6 +41,15 @@
         <span class="link-element disc-icon"></span>
         <div class="link-element" [innerHTML]="'TEMPLATES_ISO' | translate"></div>
       </a>
+
+      <a
+        (click)="componentSelected(mainLayout)"
+        class="mdl-navigation__link link-container"
+        routerLink="/events"
+      >
+        <mdl-icon>event_note</mdl-icon>
+        <div class="link-element" [innerHTML]="'Events' | translate"></div>
+      </a>
       <!-- todo: temporary, remove -->
       <a
         (click)="changeLanguage()"
