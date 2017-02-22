@@ -32,7 +32,7 @@ So, what is supported:
 * Localization support
 * Branding support
 
-## Features Unsupported
+## Features Yet Unsupported
 
 We intensively use features like projects in our own Cloudstack cloud to manage resources dedicated to project groups, etc. but generic users don't need them, so we don't support next features yet:
 
