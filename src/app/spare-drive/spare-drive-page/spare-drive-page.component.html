@@ -4,6 +4,7 @@
 >
   <cs-volume-list
     [volumes]="volumes"
+    [selectedVolume]="selectedVolume"
     (onVolumeSelected)="selectVolume($event)"
     [class.margin-right]="isDetailOpen"
   ></cs-volume-list>

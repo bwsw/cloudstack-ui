@@ -7,6 +7,7 @@ import { Volume } from '../../shared/models/volume.model';
   styleUrls: ['volume-item.component.scss']
 })
 export class VolumeItemComponent {
+  @Input() public isSelected: boolean;
   @Input() public volume: Volume;
   @Output() public onClick = new EventEmitter();
 

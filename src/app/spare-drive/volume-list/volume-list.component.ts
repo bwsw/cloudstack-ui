@@ -8,9 +8,11 @@ import { Volume } from '../../shared/models/volume.model';
 })
 export class VolumeListComponent {
   @Input() public volumes: Array<Volume>;
+  @Input() public selectedVolume: Volume;
   @Output() public onVolumeSelected = new EventEmitter();
 
   public selectVolume(volume: Volume): void {
-    this.onVolumeSelected.emit(volume);
+    this.selectedVolume = volume;
+    this.onVolumeSelected.emit(this.selectedVolume);
   }
 }

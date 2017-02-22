@@ -2,6 +2,7 @@
   class="custom-card spare-drive-card"
   mdl-shadow="2"
   (click)="$event.stopPropagation(); handleClick()"
+  [class.selected]="isSelected"
 >
   <mdl-card-title>
     <h2
