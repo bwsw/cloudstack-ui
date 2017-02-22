@@ -1,0 +1,23 @@
+@import '../../../style/__variables.scss';
+$spare-drives-detail-width: $sidebar-width + 1;
+
+:host {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.margin-right {
+  transition: margin 0.3s;
+  &.open {
+    margin-right: $spare-drives-detail-width;
+  }
+}
+
+.fab.open {
+  margin-right: $spare-drives-detail-width;
+}
+
+cs-template-sidebar {
+  width: $spare-drives-detail-width;
+}

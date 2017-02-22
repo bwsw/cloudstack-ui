@@ -1,0 +1,8 @@
+<cs-sidebar
+  [isOpen]="isOpen"
+  (onClickOutside)="onClickOutside.next()"
+>
+  <div *ngIf="template">
+    <div>{{ template.id }}</div>
+  </div>
+</cs-sidebar>

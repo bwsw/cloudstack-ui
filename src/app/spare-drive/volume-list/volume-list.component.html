@@ -1,0 +1,6 @@
+<div *ngIf="volumes">
+  <cs-volume-item
+    *ngFor="let volume of volumes" [volume]="volume"
+    (onClick)="selectVolume(volume)"
+  ></cs-volume-item>
+</div>

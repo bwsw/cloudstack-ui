@@ -1,0 +1,39 @@
+// sg template item copypasta, move to app.scc
+:host {
+  display: inline-flex;
+  margin: 15px;
+  cursor: pointer;
+}
+
+.row {
+  height: 20px;
+  margin-bottom: 10px;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.wrapper {
+  display: flex;
+
+  & > div:first-child {
+    flex: 1;
+  }
+
+  & > div:last-child {
+    flex: 2;
+
+    & span {
+      display: block;
+      width: 215px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+.spare-drive-card {
+  min-height: 0;
+}
