@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MdlSelectModule } from '@angular2-mdl-ext/select';
+import { MdlModule } from 'angular2-mdl';
+import { TranslateModule } from 'ng2-translate';
 
 import { EventListComponent } from './event-list.component';
-import { CommonModule } from '@angular/common';
-import { MdlModule } from 'angular2-mdl';
 import { SharedModule } from '../shared/shared.module';
-import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { EventService } from './event.service';
 
 @NgModule({
@@ -12,7 +13,8 @@ import { EventService } from './event.service';
     CommonModule,
     MdlModule,
     MdlSelectModule,
-    SharedModule
+    SharedModule,
+    TranslateModule
   ],
   declarations: [EventListComponent],
   providers: [EventService]

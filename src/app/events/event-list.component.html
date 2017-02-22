@@ -2,11 +2,11 @@
   <mdl-spinner *ngIf="loading" single-color active></mdl-spinner>
 </div>
 <div class="table-header">
-  <h5>Events</h5>
+  <h5 translate>EVENTS</h5>
 </div>
 <mdl-table
   *ngIf="!loading && events?.length"
   mdl-shadow="2"
   [table-model]="tableModel"
 ></mdl-table>
-<span *ngIf="!loading && !events?.length">No events for the selected date</span>
+<span *ngIf="!loading && !events?.length" translate>NO_EVENTS</span>
