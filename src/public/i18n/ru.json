@@ -173,6 +173,8 @@
     "YOU_DONT_HAVE_TEMPLATES": "Шаблоны не созданны"
   },
 
+  "THIS_NAME_IS_TAKEN": "Это имя занято",
+  "THE_NAME_IS_TAKEN": "Имя {{name}} уже занято",
   "UNABLE_TO_RECEIVE_TEMPLATES": "Неудалось получить шаблоны",
   "NAME": "Имя",
   "DESCRIPTION": "Описание",
@@ -266,6 +268,7 @@
 
   "NEW_TEMPLATE": "Регистрация нового шаблона",
   "NEW_ISO": "Регистрация нового ISO",
+  "NEW_VM": "Новая виртуальная машина",
   "TEMPLATES_ISO": "Шаблоны<br>и ISO файлы",
   "URL": "URL",
   "ISO_REGISTER_IN_PROGRESS": "Регистрация ISO",

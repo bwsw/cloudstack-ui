@@ -68,7 +68,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
     if (typeof jobId !== 'string') {
       throw new Error('Unsupported job format');
     }
-    return this.addJob(job)
+    return this.addJob(jobId)
       .map(result => {
         let entityResponse = result.jobResult[entity.toLowerCase()];
 

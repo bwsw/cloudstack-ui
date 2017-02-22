@@ -1,6 +1,6 @@
 import { Component, ViewChild, Output, EventEmitter, OnInit } from '@angular/core';
 import { MdlDialogComponent, MdlDialogService, MdlDialogReference } from 'angular2-mdl';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs/Rx';
 import { TranslateService } from 'ng2-translate';
 
 import { VirtualMachine, MIN_ROOT_DISK_SIZE, MAX_ROOT_DISK_SIZE_ADMIN } from '../shared/vm.model';
@@ -32,6 +32,7 @@ import { TemplateService } from '../../template/shared';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { BaseTemplateModel } from '../../template/shared/base-template.model';
+import { AuthService } from '../../shared/services/auth.service';
 
 
 class VmCreationData {
@@ -77,10 +78,13 @@ export class VmCreationComponent implements OnInit {
   public keyboardTranslations: Object;
   public securityRules: Rules;
 
+  public takenName: string;
+
   public showRootDiskResize = false;
   private selectedDiskOffering: DiskOffering;
 
   constructor(
+    private auth: AuthService,
     private zoneService: ZoneService,
     private serviceOfferingFilterService: ServiceOfferingFilterService,
     private diskStorageService: DiskStorageService,
@@ -115,6 +119,7 @@ export class VmCreationComponent implements OnInit {
 
   public ngOnInit(): void {
     this.resetVmCreateData();
+    this.setDefaultVmName();
   }
 
   public updateDiskOffering(offering: DiskOffering): void {
@@ -129,26 +134,23 @@ export class VmCreationComponent implements OnInit {
         this.resourceUsageService.getResourceUsage().subscribe(result => {
           if (result.available.primaryStorage > this.vmCreationData.rootDiskSizeMin && result.available.instances) {
           } else {
-            this.translateService.get(['INSUFFICIENT_RESOURCES']).subscribe(strs => {
-              this.notificationService.error(strs['INSUFFICIENT_RESOURCES']);
-            });
+            this.translateService.get('INSUFFICIENT_RESOURCES')
+              .subscribe(str => this.notificationService.error(str));
           }
         });
       }, () => {
-        this.translateService.get(['INSUFFICIENT_RESOURCES']).subscribe(strs => {
-          this.notificationService.error(strs['INSUFFICIENT_RESOURCES']);
-        });
+        this.translateService.get('INSUFFICIENT_RESOURCES')
+          .subscribe(str => this.notificationService.error(str));
       });
     }, () => {
-      this.translateService.get(['UNABLE_TO_RECEIVE_TEMPLATES']).subscribe(strs => {
-        this.notificationService.error(strs['UNABLE_TO_RECEIVE_TEMPLATES']);
-      });
+      this.translateService.get('UNABLE_TO_RECEIVE_TEMPLATES')
+        .subscribe(str => this.notificationService.error(str));
     });
   }
 
   public onVmCreationSubmit(e: any): void {
     e.preventDefault();
-    this.dialog.hide(this.deployVm());
+    this.deployVm();
   }
 
   public onCancel(): void {
@@ -156,22 +158,17 @@ export class VmCreationComponent implements OnInit {
   }
 
   public resetVmCreateData(): void {
-    this.getVmCreateData().subscribe(result => {
-      this.vmCreationData = result;
-    });
+    this.getVmCreateData()
+      .subscribe(result => this.vmCreationData = result);
   }
 
-  public deployVm(): Observable<VirtualMachine> {
+  public deployVm(): void {
+    let deployObservable = new Subject();
+
     let notificationId: string;
     let params: any = this.vmCreateParams;
-    this.translateService.get([
-      'VM_DEPLOY_IN_PROGRESS'
-    ])
-      .subscribe(strs => {
-        notificationId = this.jobsNotificationService.add(strs['VM_DEPLOY_IN_PROGRESS']);
-      });
 
-    let observable = this.securityGroupService.createWithRules(
+    this.securityGroupService.createWithRules(
       { name: this.utils.getUniqueId() + GROUP_POSTFIX },
       params.ingress || [],
       params.egress || []
@@ -180,30 +177,45 @@ export class VmCreationComponent implements OnInit {
         params['securityGroupIds'] = securityGroup.id;
         return this.vmService.deploy(params);
       })
-      .publish();
+      .switchMap(deployResponse => {
+        this.translateService.get('VM_DEPLOY_IN_PROGRESS')
+          .subscribe(str => notificationId = this.jobsNotificationService.add(str));
 
-    observable.connect();
+        this.vmService.get(deployResponse.id)
+          .subscribe(vm => {
+            vm.state = 'Deploying';
+            deployObservable.next(vm);
+            deployObservable.complete();
+          });
 
-    observable
-      .switchMap(deployResponse => this.vmService.registerVmJob(deployResponse))
+        this.dialog.hide(deployObservable);
+        return this.vmService.registerVmJob(deployResponse);
+      })
       .subscribe(
         job => {
           this.notifyOnDeployDone(notificationId);
-          if (!job.jobResult.password) { return; }
+          if (!job.jobResult.password) {
+            return;
+          }
           this.showPassword(job.jobResult.displayName, job.jobResult.password);
           this.vmService.updateVmInfo(job.jobResult);
         },
-        () => {
+        (err) => {
+          const response = err.json()[`deployvirtualmachineresponse`];
+          if (response && response.cserrorcode === 4350) {
+            this.takenName = this.vmCreationData.vm.displayName;
+            this.translateService.get(
+              'THE_NAME_IS_TAKEN',
+              { name: this.vmCreationData.vm.displayName }
+            )
+              .subscribe(str => this.dialogService.alert(str));
+
+            return;
+          }
+
           this.notifyOnDeployFailed(notificationId);
         }
       );
-
-    return observable
-      .switchMap(deployResponse => this.vmService.get(deployResponse.id))
-      .map(vm => {
-        vm.state = 'Deploying';
-        return vm;
-      });
   }
 
   public showPassword(vmName: string, vmPassword: string): void {
@@ -217,25 +229,23 @@ export class VmCreationComponent implements OnInit {
   }
 
   public notifyOnDeployDone(notificationId: string): void {
-    this.translateService.get([
-      'DEPLOY_DONE'
-    ]).subscribe(str => {
-      this.jobsNotificationService.add({
-        id: notificationId,
-        message: str['DEPLOY_DONE'],
-        status: INotificationStatus.Finished
-      });
+    this.translateService.get('DEPLOY_DONE')
+      .subscribe(str => {
+        this.jobsNotificationService.add({
+          id: notificationId,
+          message: str,
+          status: INotificationStatus.Finished
+        });
     });
   }
 
   public notifyOnDeployFailed(notificationId: string): void {
-    this.translateService.get([
-      'DEPLOY_FAILED'
-    ]).subscribe(str => {
-      this.jobsNotificationService.add({
-        id: notificationId,
-        message: str['DEPLOY_FAILED'],
-        status: INotificationStatus.Failed
+    this.translateService.get('DEPLOY_FAILED')
+      .subscribe(str => {
+        this.jobsNotificationService.add({
+          id: notificationId,
+          message: str,
+          status: INotificationStatus.Failed
       });
     });
   }
@@ -246,6 +256,26 @@ export class VmCreationComponent implements OnInit {
 
   public setServiceOffering(offering: string): void {
     this.vmCreationData.vm.serviceOfferingId = offering;
+  }
+
+  private setDefaultVmName(): void {
+    const regex = /vm-.*-(\d+)/;
+
+    this.vmService.getList({}, true)
+      .subscribe(vmList => {
+        let max = 0;
+        vmList.forEach(vm => {
+          const match = vm.displayName.match(regex);
+
+          if (match && +match[1] > max) {
+            max = +match[1];
+          }
+        });
+
+        if (!this.vmCreationData.vm.displayName) {
+          setTimeout(() => this.vmCreationData.vm.displayName = `vm-${this.auth.username}-${++max}`);
+        }
+      });
   }
 
   private getVmCreateData(): Observable<VmCreationData> {
