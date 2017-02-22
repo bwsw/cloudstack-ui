@@ -86,7 +86,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
   }
 
   public getGroupedTemplates(params?: {}, filters?: Array<string>): Observable<Object> {
-    let _params = {};
+    let _params = params || {};
     let localFilters = this._templateFilters;
     if (filters) {
       if (filters.includes('all')) {
@@ -101,14 +101,11 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       }
       localFilters = filters;
     }
-    if (params) {
-      _params = params;
-    }
 
     let templateObservables = [];
     for (let filter of localFilters) {
-      _params['filter'] = filter;
-      templateObservables.push(this.getList(_params as RequestParams));
+      const requestParams = Object.assign({}, _params, { filter });
+      templateObservables.push(this.getList(requestParams as RequestParams));
     }
 
     return Observable.forkJoin(templateObservables)
