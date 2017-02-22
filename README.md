@@ -28,9 +28,8 @@ So, what is supported:
 * Affinity groups management
 * VM groups
 * SSH keys
-* Frontend Themes, Custom VM colors
 * Localization support
-* Branding support
+
 
 ## Features Yet Unsupported
 
@@ -44,6 +43,8 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 ## Current To Do's
 
 * Responsive interface for smart devices
+* Branding support
+* Frontend Themes, Custom VM colors
 
 ## Screenshots
 
