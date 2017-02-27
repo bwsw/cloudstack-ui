@@ -41,11 +41,14 @@ import { NotificationBoxItemComponent } from './components/notification-box-item
 import { HighLightPipe } from './pipes/highlight.pipe';
 import { VmStatisticsComponent } from './components/vm-statistics/vm-statistics.component';
 import { DiskOfferingComponent } from './components/disk-offering/disk-offering.component';
+import { VolumeSizeControlComponent } from './components/volume-size-control/volume-size-control.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     TranslateModule,
     MdlModule,
     MdlPopoverModule,
@@ -58,6 +61,7 @@ import { DiskOfferingComponent } from './components/disk-offering/disk-offering.
     SgRulesManagerComponent,
     SidebarComponent,
     VmStatisticsComponent,
+    VolumeSizeControlComponent,
     DivByPowerOfTwoPipe,
     HighLightPipe,
     ViewValuePipe
@@ -69,6 +73,7 @@ import { DiskOfferingComponent } from './components/disk-offering/disk-offering.
     SgRulesManagerComponent,
     SidebarComponent,
     VmStatisticsComponent,
+    VolumeSizeControlComponent,
     DivByPowerOfTwoPipe,
     ViewValuePipe,
     HighLightPipe

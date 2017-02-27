@@ -360,5 +360,13 @@
   "DISK_OFFERING_STORAGE_TYPE": {
     "SHARED": "Общее",
     "LOCAL": "Локальное"
-  }
+  },
+
+  "VOLUME_CREATION_FORM": {
+    "NEW_VOLUME": "New volume"
+  },
+
+  "VOLUME_CREATE_IN_PROGRESS": "Диск создается",
+  "VOLUME_CREATE_DONE": "Диск создан",
+  "VOLUME_CREATE_FAILED": "Не удалось создать диск"
 }

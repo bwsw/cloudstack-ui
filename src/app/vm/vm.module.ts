@@ -19,7 +19,6 @@ import { VmService } from './shared/vm.service';
 import { VmTemplateComponent } from './vm-creation/vm-creation-template/vm-template.component';
 import { VmTemplateDialogComponent } from './vm-creation/vm-creation-template/vm-template-dialog.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
-import { VolumeSizeControlComponent } from './shared/volume-size-control.component';
 import { IsoComponent } from './vm-sidebar/storage-detail/iso-attachment.component';
 import { VolumeComponent } from './vm-sidebar/storage-detail/volume/volume.component';
 import { SnapshotComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshot.component';
@@ -50,7 +49,6 @@ import {
     VmTemplateComponent,
     VmTemplateDialogComponent,
     VolumeResizeComponent,
-    VolumeSizeControlComponent,
     IsoComponent,
     VolumeComponent,
     SnapshotComponent,

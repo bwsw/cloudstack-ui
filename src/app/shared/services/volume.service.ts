@@ -62,6 +62,7 @@ export class VolumeService extends BaseBackendService<Volume> {
 
   public create(data: VolumeCreationData): Observable<Volume> {
     return this.sendCommand('create', data)
-      .switchMap(job => this.asyncJobService.register(job.jobid, this.entity, this.entityModel));
+      .switchMap(job => this.asyncJobService.register(job.jobid, this.entity, this.entityModel))
+      .map(job => job.jobResult);
   }
 }

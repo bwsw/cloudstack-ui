@@ -360,5 +360,13 @@
   "DISK_OFFERING_STORAGE_TYPE": {
     "SHARED": "Shared",
     "LOCAL": "Local"
-  }
+  },
+
+  "VOLUME_CREATION_FORM": {
+    "NEW_VOLUME": "New volume"
+  },
+
+  "VOLUME_CREATE_IN_PROGRESS": "Volume is being created",
+  "VOLUME_CREATE_DONE": "Volume has been created",
+  "VOLUME_CREATE_FAILED": "Failed to create a volume"
 }
