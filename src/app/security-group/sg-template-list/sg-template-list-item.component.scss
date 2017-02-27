@@ -15,26 +15,6 @@
   text-overflow: ellipsis;
 }
 
-.wrapper {
-  display: flex;
-
-  & > div:first-child {
-    flex: 1;
-  }
-
-  & > div:last-child {
-    flex: 2;
-
-    & span {
-      display: block;
-      width: 215px;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-  }
-}
-
 /deep/ mdl-simple-tooltip div {
   overflow: hidden;
   white-space: nowrap;

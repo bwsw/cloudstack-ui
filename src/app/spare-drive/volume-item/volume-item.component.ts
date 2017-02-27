@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, HostBinding } from '@angular/core';
 import { Volume } from '../../shared/models/volume.model';
 
 @Component({
@@ -10,6 +10,7 @@ export class VolumeItemComponent {
   @Input() public isSelected: boolean;
   @Input() public volume: Volume;
   @Output() public onClick = new EventEmitter();
+  @HostBinding('class.grid') public grid = true;
 
   public handleClick(): void {
     this.onClick.emit(this.volume);

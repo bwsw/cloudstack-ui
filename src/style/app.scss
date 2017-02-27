@@ -86,3 +86,41 @@ mdl-card.custom-card {
   font-size: 24px;
   font-weight: bold;
 }
+
+.card-wrapper {
+  display: flex;
+
+  & > div:first-child {
+    flex: 1;
+  }
+
+  & > div:last-child {
+    flex: 2;
+
+    & span {
+      display: block;
+      width: 215px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+.grid {
+  margin: 5px auto;
+
+  .row {
+    display: flex;
+    flex-flow: row wrap;
+
+    & > div {
+      width: 50%;
+      padding: 2px;
+    }
+
+    & > div:nth-child(2n) {
+      text-align: right;
+    }
+  }
+}
