@@ -35,7 +35,7 @@
     "@angular/router": "3.4.2",
     "@angular2-mdl-ext/popover": "0.5.0",
     "@angular2-mdl-ext/select": "0.8.2",
-    "angular2-mdl": "2.13.0",
+    "angular2-mdl": "2.13.2",
     "core-js": "^2.4.1",
     "ng2-translate": "5.0.0",
     "reflect-metadata": "^0.1.3",

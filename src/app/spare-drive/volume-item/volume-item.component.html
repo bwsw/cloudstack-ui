@@ -1,0 +1,63 @@
+<mdl-card
+  class="custom-card spare-drive-card"
+  mdl-shadow="2"
+  (click)="$event.stopPropagation(); handleClick()"
+  [class.card-selected]="isSelected"
+>
+  <mdl-card-title>
+    <h2
+      mdl-card-title-text
+      [mdl-tooltip]="volume.nameWithZone"
+    >
+      {{ volume.nameWithZone }}
+    </h2>
+  </mdl-card-title>
+  <mdl-card-supporting-text>
+    <div class="card-wrapper">
+      <div>
+        <div class="row">{{ 'STATE' | translate }}: </div>
+        <div class="row">{{ 'SIZE' | translate }}: </div>
+      </div>
+      <div>
+        <div class="row">
+          <span>{{ ('SPARE_DRIVE_STATE.' + volume.state.toUpperCase()) | translate }}</span>
+        </div>
+        <div class="row">
+          <span>{{ (volume.size | divByPowerOfTwo:30:2) }} {{ ('GB' | translate) }}</span>
+        </div>
+      </div>
+    </div>
+  </mdl-card-supporting-text>
+  <mdl-card-actions mdl-card-border>
+    <button
+      [mdl-tooltip]="'ATTACH' | translate"
+      mdl-tooltip-position="top"
+      mdl-button
+      mdl-button-type="icon"
+      mdl-ripple
+      (click)="$event.stopPropagation(); attach()"
+    >
+      <mdl-icon>attach_file</mdl-icon>
+    </button>
+    <button
+      [mdl-tooltip]="'RESIZE' | translate"
+      mdl-tooltip-position="top"
+      mdl-button
+      mdl-button-type="icon"
+      mdl-ripple
+      (click)="$event.stopPropagation(); resize()"
+    >
+      <mdl-icon>photo_size_select_small</mdl-icon>
+    </button>
+    <button
+      [mdl-tooltip]="'DELETE' | translate"
+      mdl-tooltip-position="top"
+      mdl-button
+      mdl-button-type="icon"
+      mdl-ripple
+      (click)="$event.stopPropagation(); remove()"
+    >
+      <mdl-icon>close</mdl-icon>
+    </button>
+  </mdl-card-actions>
+</mdl-card>

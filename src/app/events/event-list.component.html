@@ -1,0 +1,10 @@
+<div class="spinner">
+  <mdl-spinner *ngIf="loading" single-color active></mdl-spinner>
+</div>
+<h5 translate>EVENTS</h5>
+<mdl-table
+  *ngIf="!loading && events?.length"
+  mdl-shadow="2"
+  [table-model]="tableModel"
+></mdl-table>
+<span *ngIf="!loading && !events?.length" translate>NO_EVENTS</span>

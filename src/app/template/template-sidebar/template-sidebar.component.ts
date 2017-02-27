@@ -5,8 +5,7 @@ import { BaseTemplateModel } from '../shared/base-template.model';
 
 @Component({
   selector: 'cs-template-sidebar',
-  templateUrl: 'template-sidebar.component.html',
-  styleUrls: ['template-sidebar.component.scss']
+  templateUrl: 'template-sidebar.component.html'
 })
 export class TemplateSidebarComponent {
   @Input() public isOpen: boolean;
@@ -22,7 +21,7 @@ export class TemplateSidebarComponent {
     return this.authService.username === this.template.account;
   }
 
-  public delete(): void {
+  public remove(): void {
     this.deleteTemplate.next(this.template);
   }
 }

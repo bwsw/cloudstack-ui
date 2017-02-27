@@ -19,6 +19,8 @@ import { SharedModule } from './shared/shared.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
 import { CustomDialogService } from './shared/services/custom-dialog.service';
+import { EventsModule } from './events/events.module';
+import { SpareDriveModule } from './spare-drive/spare-drive.module';
 
 
 @NgModule({
@@ -28,11 +30,13 @@ import { CustomDialogService } from './shared/services/custom-dialog.service';
     FormsModule,
     TranslateModule.forRoot(),
     routing,
+    EventsModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
     SecurityGroupModule,
     ServiceOfferingModule,
+    SpareDriveModule,
     TemplateModule,
     VmModule,
     SharedModule

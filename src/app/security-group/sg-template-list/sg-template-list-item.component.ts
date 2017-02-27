@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { SecurityGroup } from '../sg.model';
 
 @Component({
@@ -10,4 +10,5 @@ export class SgTemplateListItemComponent {
   @Input() public securityGroupTemplate: SecurityGroup;
   @Output() public onClick = new EventEmitter();
   @Output() public onDelete = new EventEmitter();
+  @HostBinding('class.grid') public grid = true;
 }

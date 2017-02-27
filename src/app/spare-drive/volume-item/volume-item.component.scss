@@ -1,0 +1,18 @@
+:host {
+  display: inline-flex;
+  margin: 15px;
+  cursor: pointer;
+}
+
+.row {
+  height: 20px;
+  margin-bottom: 10px;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.spare-drive-card {
+  min-height: 0;
+}
