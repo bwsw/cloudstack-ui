@@ -24,6 +24,11 @@ mdl-card > mdl-card-title + mdl-card-supporting-text {
   padding-top: 0 !important;
 }
 
+mdl-card .mdl-card__title-text,
+.details-header {
+  font-size: 18px;
+}
+
 mdl-card.custom-card {
   & mdl-card-supporting-text {
     width: 100%;
