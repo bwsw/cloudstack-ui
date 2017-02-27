@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
-import { JobsNotificationService } from '../services/jobs-notification.service';
+import { JobsNotificationService } from '../../services/jobs-notification.service';
 import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
 import { Observable } from 'rxjs/Rx';
 
