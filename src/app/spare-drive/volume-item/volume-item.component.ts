@@ -10,6 +10,7 @@ export class VolumeItemComponent {
   @Input() public isSelected: boolean;
   @Input() public volume: Volume;
   @Output() public onClick = new EventEmitter();
+  @Output() public onDelete = new EventEmitter();
   @HostBinding('class.grid') public grid = true;
 
   public handleClick(): void {
@@ -20,5 +21,7 @@ export class VolumeItemComponent {
 
   public resize(): void {}
 
-  public remove(): void {}
+  public remove(): void {
+    this.onDelete.next(this.volume);
+  }
 }

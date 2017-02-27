@@ -52,4 +52,14 @@ export class VolumeService extends BaseBackendService<Volume> {
     return this.sendCommand('resize', params)
       .switchMap(job => this.asyncJobService.register(job, this.entity, this.entityModel));
   }
+
+  public remove(id: string): Observable<null> {
+    return super.remove({ id })
+      .map(response => {
+        if (response['success'] === 'true') {
+          return Observable.of(null);
+        }
+        return Observable.throw(response);
+      });
+  }
 }
