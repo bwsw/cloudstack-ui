@@ -338,7 +338,8 @@
 
   "SPARE_DRIVES_NAVBAR": "Свободные диски",
   "SPARE_DRIVE_STATE": {
-    "ALLOCATED": "Аллоцирован"
+    "ALLOCATED": "Аллоцирован",
+    "READY": "Готов"
   },
   "STATE": "Состояние",
   "SPARE_DRIVE_DETAILS": {
@@ -360,5 +361,11 @@
   "DISK_OFFERING_STORAGE_TYPE": {
     "SHARED": "Общее",
     "LOCAL": "Локальное"
-  }
+  },
+
+  "CONFIRM_VOLUME_DETACH": "Вы уверены, что хотите открепить этот диск?",
+  "VOLUME_DETACH_IN_PROGRESS": "Открепление диска",
+  "VOLUME_DETACH_DONE": "Диск успешно откреплен",
+  "VOLUME_DETACH_FAILED": "Не удалось открепить диск"
+
 }
