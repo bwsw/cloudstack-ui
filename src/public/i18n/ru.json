@@ -330,5 +330,9 @@
   "CONFIRM_SNAPSHOT_DELETE": "Вы действительно хотите удалить этот снимок?",
   "SNAPSHOT_DELETE_IN_PROGRESS": "Снимок удаляется",
   "SNAPSHOT_DELETE_DONE": "Снимок удален",
-  "SNAPSHOT_DELETE_FAILED": "Не удалось удалить снимок"
+  "SNAPSHOT_DELETE_FAILED": "Не удалось удалить снимок",
+
+  "EVENTS": "События",
+  "NO_EVENTS": "Нет событий на выбранной дате",
+  "LEVEL": "Уровень"
 }

@@ -330,5 +330,9 @@
   "CONFIRM_SNAPSHOT_DELETE": "Are you sure you want to delete this snapshot?",
   "SNAPSHOT_DELETE_IN_PROGRESS": "Deleting a snapshot",
   "SNAPSHOT_DELETE_DONE": "Snapshot deleted successfully",
-  "SNAPSHOT_DELETE_FAILED": "Failed to delete a snapshot"
+  "SNAPSHOT_DELETE_FAILED": "Failed to delete a snapshot",
+
+  "EVENTS": "Events",
+  "NO_EVENTS": "No events for the selected date",
+  "LEVEL": "Level"
 }

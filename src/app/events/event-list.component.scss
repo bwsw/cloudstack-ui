@@ -1,0 +1,17 @@
+:host {
+  display: block;
+  padding: 15px;
+}
+
+mdl-table /deep/ table.mdl-data-table {
+  width: 100%;
+}
+
+.spinner {
+  text-align: center;
+
+  mdl-spinner {
+    width: 40px;
+    height: 40px;
+  }
+}
