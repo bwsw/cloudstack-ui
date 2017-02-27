@@ -20,6 +20,7 @@ import { TemplateModule } from './template';
 import { VmModule } from './vm';
 import { CustomDialogService } from './shared/services/custom-dialog.service';
 import { EventsModule } from './events/events.module';
+import { SpareDriveModule } from './spare-drive/spare-drive.module';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { EventsModule } from './events/events.module';
     MdlSelectModule,
     SecurityGroupModule,
     ServiceOfferingModule,
+    SpareDriveModule,
     TemplateModule,
     VmModule,
     SharedModule

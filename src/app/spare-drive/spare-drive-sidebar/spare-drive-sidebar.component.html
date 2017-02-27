@@ -1,0 +1,69 @@
+<cs-sidebar
+  [isOpen]="isOpen"
+  (onClickOutside)="onClickOutside.next()"
+>
+  <div *ngIf="volume">
+    <mdl-card mdl-shadow="2">
+      <mdl-card-title>
+        <h2 mdl-card-title-text>{{ volume.nameWithZone }}</h2>
+      </mdl-card-title>
+      <mdl-card-supporting-text>
+        <div class="grid grid-right">
+          <div class="row" *ngIf="volume.size">
+            <div>{{ 'SIZE' | translate }}</div>
+            <div>{{ (volume.size | divByPowerOfTwo:30:2) }} {{ ('GB' | translate) }}</div>
+          </div>
+          <div class="row" *ngIf="volume.created">
+            <div>{{ 'SPARE_DRIVE_DETAILS.CREATED' | translate }}</div>
+            <div>{{ volume.created | date:'MMM d' }}</div>
+          </div>
+          <div class="row"  *ngIf="volume.storageType">
+            <div>{{ 'SPARE_DRIVE_DETAILS.STORAGE_TYPE' | translate }}</div>
+            <div>{{ ('DISK_OFFERING_STORAGE_TYPE.' + volume.storageType.toUpperCase()) | translate }}</div>
+          </div>
+        </div>
+      </mdl-card-supporting-text>
+    </mdl-card>
+    <mdl-card mdl-shadow="2" *ngIf="volume.diskOffering">
+      <mdl-card-title>
+        <h2 mdl-card-title-text>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING_TITLE' | translate }}</h2>
+      </mdl-card-title>
+      <mdl-card-supporting-text>
+        <div class="grid grid-right">
+          <div class="row" *ngIf="volume.diskOffering.name">
+            <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.NAME' | translate }}</div>
+            <div>{{ volume.diskOffering.name }}</div>
+          </div>
+          <div class="row" *ngIf="volume.diskOffering.displayText">
+            <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.DESCRIPTION' | translate }}</div>
+            <div>{{ volume.diskOffering.displayText }}</div>
+          </div>
+          <div class="row" *ngIf="volume.diskOffering.minIops">
+            <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.MINIOPS' | translate }}</div>
+            <div>{{ volume.diskOffering.minIops }}</div>
+          </div>
+          <div class="row" *ngIf="volume.diskOffering.maxIops">
+            <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.MAXIOPS' | translate }}</div>
+            <div>{{ volume.diskOffering.maxIops }}</div>
+          </div>
+          <div class="row" *ngIf="volume.diskOffering.diskBytesReadRate">
+            <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.BYTES_READ_RATE' | translate }}</div>
+            <div>{{ volume.diskOffering.diskBytesReadRate }}</div>
+          </div>
+          <div class="row" *ngIf="volume.diskOffering.diskBytesWriteRate">
+            <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.BYTES_WRITE_RATE' | translate }}</div>
+            <div>{{ volume.diskOffering.diskBytesWriteRate }}</div>
+          </div>
+          <div class="row" *ngIf="volume.diskOffering.diskIopsReadRate">
+            <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.IOPS_READ_RATE' | translate }}</div>
+            <div>{{ volume.diskOffering.diskIopsReadRate }}</div>
+          </div>
+          <div class="row" *ngIf="volume.diskOffering.diskIopsWriteRate">
+            <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.IOPS_WRITE_RATE' | translate }}</div>
+            <div>{{ volume.diskOffering.diskBytesWriteRate }}</div>
+          </div>
+        </div>
+      </mdl-card-supporting-text>
+    </mdl-card>
+  </div>
+</cs-sidebar>

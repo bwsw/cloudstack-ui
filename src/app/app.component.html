@@ -45,6 +45,15 @@
       <a
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
+        routerLink="/spare-drives"
+      >
+        <mdl-icon class="link-element">dns</mdl-icon>
+        <div class="link-element" [innerHTML]="'SPARE_DRIVES_NAVBAR' | translate"></div>
+      </a>
+
+      <a
+        (click)="componentSelected(mainLayout)"
+        class="mdl-navigation__link link-container"
         routerLink="/events"
       >
         <mdl-icon>event_note</mdl-icon>

@@ -334,5 +334,31 @@
 
   "EVENTS": "События",
   "NO_EVENTS": "Нет событий на выбранной дате",
-  "LEVEL": "Уровень"
+  "LEVEL": "Уровень",
+
+  "SPARE_DRIVES_NAVBAR": "Свободные диски",
+  "SPARE_DRIVE_STATE": {
+    "ALLOCATED": "Аллоцирован"
+  },
+  "STATE": "Состояние",
+  "SPARE_DRIVE_DETAILS": {
+    "DISK_OFFERING_TITLE": "Дисковая услуга",
+    "STORAGE_TYPE": "Тип хранилища",
+    "CREATED": "Создан",
+    "DISK_OFFERING": {
+      "NAME": "Название",
+      "DESCRIPTION": "Описание",
+      "MINIOPS": "Минимальное кол-во IO/сек",
+      "MAXIOPS": "Максимальное кол-во IO/сек",
+      "BYTES_READ_RATE": "Скорость чтения (байт/сек)",
+      "BYTES_WRITE_RATE": "Скорость записи (байт/сек)",
+      "IOPS_READ_RATE": "Скорость чтения (IO/сек)",
+      "IOPS_WRITE_RATE": "Скорость записи (IO/сек)"
+    }
+  },
+  "RESIZE": "Изменить размер",
+  "DISK_OFFERING_STORAGE_TYPE": {
+    "SHARED": "Общее",
+    "LOCAL": "Локальное"
+  }
 }

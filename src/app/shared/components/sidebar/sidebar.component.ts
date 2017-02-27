@@ -18,9 +18,7 @@ export class SidebarComponent {
   @Output() public onClickOutside = new EventEmitter();
   @Input() @HostBinding('class.open') private isOpen;
 
-  constructor(
-    private elementRef: ElementRef
-  ) { }
+  constructor(private elementRef: ElementRef) { }
 
   @HostListener('document:click', ['$event'])
   public onDocumentClick(event: MouseEvent): void {

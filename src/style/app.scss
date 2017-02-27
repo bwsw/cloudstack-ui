@@ -91,3 +91,47 @@ mdl-card.custom-card {
   font-size: 24px;
   font-weight: bold;
 }
+
+.card-wrapper {
+  display: flex;
+
+  & > div:first-child {
+    flex: 1;
+  }
+
+  & > div:last-child {
+    flex: 2;
+
+    & span {
+      display: block;
+      width: 215px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+.grid {
+  margin: 5px auto;
+
+  .row {
+    display: flex;
+    flex-flow: row wrap;
+
+    & > div {
+      width: 50%;
+      padding: 2px;
+    }
+
+    & > div:nth-child(2n) {
+      text-align: right;
+    }
+  }
+}
+
+.card-selected {
+  transform: scale(1.03);
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.25s, box-shadow 0.25s;
+}

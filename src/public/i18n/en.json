@@ -334,5 +334,31 @@
 
   "EVENTS": "Events",
   "NO_EVENTS": "No events for the selected date",
-  "LEVEL": "Level"
+  "LEVEL": "Level",
+
+  "SPARE_DRIVES_NAVBAR": "Spare drives",
+  "SPARE_DRIVE_STATE": {
+    "ALLOCATED": "Allocated"
+  },
+  "STATE": "State",
+  "SPARE_DRIVE_DETAILS": {
+    "DISK_OFFERING_TITLE": "Disk offering",
+    "STORAGE_TYPE": "Storage type",
+    "CREATED": "Created",
+    "DISK_OFFERING": {
+      "NAME": "Name",
+      "DESCRIPTION": "Description",
+      "MINIOPS": "Min IOPS",
+      "MAXIOPS": "Max IOPS",
+      "BYTES_READ_RATE": "Read rate (BPS)",
+      "BYTES_WRITE_RATE": "Write rate (BPS)",
+      "IOPS_READ_RATE": "Read rate (IOPS)",
+      "IOPS_WRITE_RATE": "Write rate (IOPS)"
+    }
+  },
+  "RESIZE": "Resize",
+  "DISK_OFFERING_STORAGE_TYPE": {
+    "SHARED": "Shared",
+    "LOCAL": "Local"
+  }
 }
