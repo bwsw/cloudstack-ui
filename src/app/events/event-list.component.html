@@ -1,9 +1,7 @@
 <div class="spinner">
   <mdl-spinner *ngIf="loading" single-color active></mdl-spinner>
 </div>
-<div class="table-header">
-  <h5 translate>EVENTS</h5>
-</div>
+<h5 translate>EVENTS</h5>
 <mdl-table
   *ngIf="!loading && events?.length"
   mdl-shadow="2"

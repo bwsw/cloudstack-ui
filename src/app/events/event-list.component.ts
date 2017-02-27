@@ -31,7 +31,8 @@ export class EventListComponent implements OnInit {
 
     this.loading = true;
     this.eventService.getList({
-      startDate: currentDate, endDate: currentDate // only current date for now
+      startDate: currentDate,
+      endDate: currentDate // only current date for now
     })
       .subscribe(events => {
         this.loading = false;
