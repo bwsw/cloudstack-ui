@@ -56,6 +56,11 @@ mdl-textfield {
   font-size: 8pt;
 }
 
+.add-rule-button,
+/deep/ .delete-rule-button {
+  color: black;
+}
+
 /deep/ .wide {
   width: 1100px !important;
 }
