@@ -2,7 +2,10 @@ import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators/field-mapper.decorator';
 import { Snapshot } from './snapshot.model';
 import { DiskOffering } from './disk-offering.model';
+import { ZoneName } from '../decorators/zone-name.decorator';
 
+
+@ZoneName()
 @FieldMapper({
   diskofferingid: 'diskOfferingId',
   diskofferingname: 'diskOfferingName',

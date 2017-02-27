@@ -9,6 +9,7 @@ import {
 } from '../../shared/models';
 import { SecurityGroup } from '../../security-group/sg.model';
 import { BaseTemplateModel } from '../../template/shared/base-template.model';
+import { ZoneName } from '../../shared/decorators/zone-name.decorator';
 
 
 export const MIN_ROOT_DISK_SIZE = 10;
@@ -32,6 +33,7 @@ export interface IVmAction {
   successMessage: string;
 }
 
+@ZoneName()
 @FieldMapper({
   displayname: 'displayName',
   serviceofferingid: 'serviceOfferingId',
@@ -128,10 +130,6 @@ export class VirtualMachine extends BaseModel {
       'destroy',
       'resetPasswordFor' // name forced by API and action implementation
     ];
-  }
-
-  public get nameWithZone(): string {
-    return `${this.zoneName} / ${this.displayName}`;
   }
 
   public getDisksSize(): number {

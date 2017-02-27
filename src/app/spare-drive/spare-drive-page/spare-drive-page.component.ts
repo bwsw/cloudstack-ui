@@ -22,15 +22,16 @@ export class SpareDrivePageComponent implements OnInit {
 
   public ngOnInit(): void {
     let diskOfferings: Array<DiskOffering>;
-    this.diskOfferingService.getList()
-      .map(offerings => diskOfferings = offerings)
+    this.diskOfferingService.getList({
+      type: 'DATADISK'
+    })
       .switchMap(offerings => {
         diskOfferings = offerings;
         return this.volumeService.getList();
       })
       .subscribe(volumes => {
         this.volumes = volumes
-          .filter(volume => !volume.virtualMachineId && volume.type === 'DATADISK')
+          .filter(volume => !volume.virtualMachineId)
           .map(volume => {
             volume.diskOffering = diskOfferings.find(offering => offering.id === volume.diskOfferingId);
             return volume;

@@ -2,14 +2,14 @@
   class="custom-card spare-drive-card"
   mdl-shadow="2"
   (click)="$event.stopPropagation(); handleClick()"
-  [class.selected]="isSelected"
+  [class.card-selected]="isSelected"
 >
   <mdl-card-title>
     <h2
       mdl-card-title-text
-      [mdl-tooltip]="volume.zoneName + ' / ' + volume.name"
+      [mdl-tooltip]="volume.nameWithZone"
     >
-      {{ volume.zoneName + ' / ' + volume.name }}
+      {{ volume.nameWithZone }}
     </h2>
   </mdl-card-title>
   <mdl-card-supporting-text>
