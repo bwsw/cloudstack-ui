@@ -1,0 +1,12 @@
+@import '../../../../style/__variables';
+
+.fab {
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+  z-index: 99;
+}
+
+:host.open .fab {
+  margin-right: $sidebar-width;
+}

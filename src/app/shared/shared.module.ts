@@ -41,6 +41,7 @@ import { NotificationBoxItemComponent } from './components/notification-box-item
 import { HighLightPipe } from './pipes/highlight.pipe';
 import { VmStatisticsComponent } from './components/vm-statistics/vm-statistics.component';
 import { DiskOfferingComponent } from './components/disk-offering/disk-offering.component';
+import { FabComponent } from './components/fab/fab.component';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { DiskOfferingComponent } from './components/disk-offering/disk-offering.
   ],
   exports: [
     DiskOfferingComponent,
+    FabComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     SgRulesManagerComponent,
@@ -64,6 +66,7 @@ import { DiskOfferingComponent } from './components/disk-offering/disk-offering.
   ],
   declarations: [
     DiskOfferingComponent,
+    FabComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     SgRulesManagerComponent,
