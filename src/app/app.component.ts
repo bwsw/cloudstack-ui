@@ -10,6 +10,8 @@ import { MdlLayoutComponent } from 'angular2-mdl';
 
 import '../style/app.scss';
 import { StorageService } from './shared/services/storage.service';
+import { VolumeService } from './shared/services/volume.service';
+import { JobsNotificationService, INotificationStatus } from './shared/services/jobs-notification.service';
 
 
 @Component({
@@ -27,7 +29,10 @@ export class AppComponent implements OnInit {
     private translate: TranslateService,
     private error: ErrorService,
     @Inject('INotificationService') private notification: INotificationService,
-    private storage: StorageService
+    private storage: StorageService,
+
+    private volumeService: VolumeService,
+    private jobNotificationService: JobsNotificationService
   ) {
     this.title = this.auth.name;
     // this.translate.setDefaultLang('en');
@@ -96,5 +101,31 @@ export class AppComponent implements OnInit {
     } else {
       this.translate.get('UNEXPECTED_ERROR').subscribe(result => this.notification.message(result));
     }
+  }
+
+  public test() {
+    let notificationId = this.jobNotificationService.add('creating a spare volume');
+    this.volumeService.create({
+      name: 'test' + (Math.floor(Math.random() * 1000)).toString(),
+      zoneId: '031a55bb-5d6b-4336-ab93-d5dead28a887',
+      diskOfferingId: 'f26bce86-c32a-4792-8697-5d69307205d7',
+    })
+      .subscribe(
+        volume => {
+          console.log(volume);
+          this.jobNotificationService.add({
+            id: notificationId,
+            message: 'completed',
+            status: INotificationStatus.Finished
+          });
+        },
+        error => {
+          console.log(error);
+          this.jobNotificationService.add({
+            id: notificationId,
+            message: 'completed',
+            status: INotificationStatus.Finished
+          });
+        });
   }
 }

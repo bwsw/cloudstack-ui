@@ -9,6 +9,13 @@ import { Snapshot } from '../models/snapshot.model';
 import { AsyncJobService } from './async-job.service';
 
 
+interface VolumeCreationData {
+  name: string;
+  zoneId: string;
+  diskOfferingId: string;
+  size?: number;
+}
+
 @Injectable()
 @BackendResource({
   entity: 'Volume',
@@ -51,5 +58,10 @@ export class VolumeService extends BaseBackendService<Volume> {
 
     return this.sendCommand('resize', params)
       .switchMap(job => this.asyncJobService.register(job, this.entity, this.entityModel));
+  }
+
+  public create(data: VolumeCreationData): Observable<Volume> {
+    return this.sendCommand('create', data)
+      .switchMap(job => this.asyncJobService.register(job.jobid, this.entity, this.entityModel));
   }
 }
