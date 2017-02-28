@@ -1,12 +1,18 @@
 import {
   Component,
-  Input
+  Input, OnInit
 } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
 import { SecurityGroup } from '../../security-group/sg.model';
 import { ServiceOfferingDialogComponent } from '../../service-offering/service-offering-dialog.component';
 import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
 import { VirtualMachine } from '../shared/vm.model';
+import { VmService } from '../shared/vm.service';
+import { TagService } from '../../shared/services/tag.service';
+import { NotificationService } from '../../shared/services/notification.service';
+import { TranslateService } from 'ng2-translate';
+import { Tag } from '../../shared/models/tag.model';
+import { AsyncJobService } from '../../shared/services/async-job.service';
 
 
 @Component({
@@ -14,15 +20,68 @@ import { VirtualMachine } from '../shared/vm.model';
   templateUrl: 'vm-detail.component.html',
   styleUrls: ['vm-detail.component.scss']
 })
-export class VmDetailComponent {
+export class VmDetailComponent implements OnInit {
   @Input() public vm: VirtualMachine;
   public color: string;
   private expandNIC: boolean;
   private expandServiceOffering: boolean;
 
-  constructor(private dialogService: MdlDialogService) {
+  constructor(
+    private asyncJobService: AsyncJobService,
+    private dialogService: MdlDialogService,
+    private notificationService: NotificationService,
+    private tagService: TagService,
+    private translateService: TranslateService,
+    private vmService: VmService
+  ) {
     this.expandNIC = false;
     this.expandServiceOffering = false;
+  }
+
+  public ngOnChanges(): void {
+    this.updateColor();
+  }
+
+  public ngOnInit(): void {
+    this.updateColor();
+  }
+
+  public changeColor(color: string): void {
+    let oldTag = this.vm.tags.find(tag => tag.key === 'color');
+
+    let createObs = this.tagService.create({
+      resourceIds: this.vm.id,
+      resourceType: 'UserVm',
+      'tags[0].key': 'color',
+      'tags[0].value': color,
+    })
+      .map(
+        () => this.vm.tags.push(new Tag({
+          resourceId: this.vm.id,
+          resourceType: 'UserVm',
+          key: 'color',
+          value: color
+        })),
+        () => this.translateService.get('UNEXPECTED_ERROR').subscribe(str => this.notificationService.error(str))
+      );
+
+    let removeObs = this.tagService.remove({
+      resourceIds: this.vm.id,
+      resourceType: 'UserVm',
+      'tags[0].key': 'color',
+      'tags[0].value': oldTag.value
+    })
+      .switchMap(job => this.asyncJobService.register(job, '', ''))
+      .map(() => this.vm.tags.filter(tag => tag.key !== oldTag.key));
+
+    if (oldTag) {
+      removeObs.subscribe(
+        () => createObs.subscribe(),
+        () => this.translateService.get('UNEXPECTED_ERROR').subscribe(str => this.notificationService.error(str))
+      );
+    } else {
+      createObs.subscribe();
+    }
   }
 
   public toggleNIC(): void {
@@ -47,5 +106,10 @@ export class VmDetailComponent {
       classes: 'service-offering-dialog',
       providers: [{ provide: 'virtualMachine', useValue: this.vm }],
     });
+  }
+
+  private updateColor(): void {
+    this.color = this.vmService.getColor(this.vm);
+    console.log('updated');
   }
 }

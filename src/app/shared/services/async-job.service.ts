@@ -75,7 +75,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
         if (result && result.jobResultCode === 0 && entityResponse) {
           result.jobResult = this.prepareModel(result.jobResult[entity.toLowerCase()], entityModel);
         }
-
+        debugger;
         if (result.jobStatus === 2) {
           return Observable.throw(result);
         }

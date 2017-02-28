@@ -1,7 +1,10 @@
 <div *ngIf="vm">
   <div>
     <h2 class="details-header color-header">Color</h2>
-    <cs-color-picker></cs-color-picker>
+    <cs-color-picker
+      [color]="color"
+      (onColorChanged)="changeColor($event)"
+    ></cs-color-picker>
   </div>
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>

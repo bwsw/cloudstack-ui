@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ConfigService } from '../../services/config.service';
+
 
 @Component({
   selector: 'cs-color-picker',
@@ -7,10 +8,16 @@ import { ConfigService } from '../../services/config.service';
   styleUrls: ['color-picker.component.scss']
 })
 export class ColorPickerComponent implements OnInit {
-  public color = '#ffffff';
+  @Input() public color = '#ffffff';
+  @Output() public onColorChanged = new EventEmitter();
   public colors: Array<string>;
 
   constructor(private configService: ConfigService) {}
+
+  public updateColor(color: string): void {
+    this.color = color;
+    this.onColorChanged.emit(this.color);
+  }
 
   public ngOnInit(): void {
     this.configService.get('colors')

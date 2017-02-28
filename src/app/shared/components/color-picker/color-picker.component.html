@@ -1,6 +1,7 @@
 <mdl-select
   *ngIf="colors"
   [(ngModel)]="color"
+  (change)="updateColor($event)"
   [style.background-color]="color"
 >
   <mdl-option
