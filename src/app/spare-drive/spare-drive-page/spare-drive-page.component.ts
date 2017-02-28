@@ -144,7 +144,6 @@ export class SpareDrivePageComponent implements OnInit {
       .subscribe(
         volume => {
           this.volumes = this.volumes.filter(v => v.id !== volume.id);
-          this.volumeService.onVolumeAttached.next(volume);
           this.jobsNotificationService.add({
             id: notificationId,
             message: translatedStrings['VOLUME_ATTACH_DONE'],
