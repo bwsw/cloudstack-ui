@@ -7,6 +7,7 @@ import {
   Input,
   Output
 } from '@angular/core';
+import { MdlDialogService } from 'angular2-mdl';
 
 
 @Component({
@@ -18,26 +19,38 @@ export class SidebarComponent {
   @Output() public onClickOutside = new EventEmitter();
   @Input() @HostBinding('class.open') private isOpen;
 
-  constructor(private elementRef: ElementRef) { }
+  private dialogsOpen: boolean; // true if any mdl dialog is open
+  private dialogWasOpen: boolean; // true if last dialog was closed
+
+  constructor(
+    private elementRef: ElementRef,
+    private dialogService: MdlDialogService
+  ) {
+    this.dialogService.onDialogsOpenChanged
+      .subscribe(dialogsOpen => {
+        this.dialogsOpen = dialogsOpen;
+        if (dialogsOpen) {
+          this.dialogWasOpen = true;
+        }
+      });
+  }
 
   @HostListener('document:click', ['$event'])
   public onDocumentClick(event: MouseEvent): void {
     const originalTarget = event.target;
     // used to stop propagation when mdl dialogs are clicked
     // so that vm sidebar stays open.
-    let target = (event.target as Element);
 
-    do {
-      const tagName = target.tagName.toLowerCase();
-      if (tagName === 'mdl-dialog-host-component') {
-        return;
-      }
+    if (this.dialogsOpen) {
+      return;
+    }
 
-      if (tagName === 'body') {
-        break;
-      }
-      target = (target.parentNode as Element);
-    } while (target);
+    // this is needed because this method handles click after
+    // the last dialog is closed and dialogsOpen is already false
+    if (!this.dialogsOpen && this.dialogWasOpen) {
+      this.dialogWasOpen = false;
+      return;
+    }
 
     if (!originalTarget || !this.isOpen) {
       return;
