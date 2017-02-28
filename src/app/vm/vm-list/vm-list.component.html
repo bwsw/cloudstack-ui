@@ -15,13 +15,7 @@
   [isOpen]="isDetailOpen"
 >
 </cs-vm-sidebar>
-<div class="fab">
-  <button
-    mdl-button
-    mdl-button-type="fab"
-    mdl-colored="accent"
-    (click)="showVmCreationDialog()"
-  >
-    <mdl-icon>add</mdl-icon>
-  </button>
-</div>
+<cs-fab
+  [open]="isDetailOpen"
+  (click)="showVmCreationDialog()"
+></cs-fab>
