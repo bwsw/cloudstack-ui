@@ -45,6 +45,7 @@ import { DiskOfferingComponent } from './components/disk-offering/disk-offering.
 import { VolumeSizeControlComponent } from './components/volume-size-control/volume-size-control.component';
 import { FormsModule } from '@angular/forms';
 import { FabComponent } from './components/fab/fab.component';
+import { ColorPickerComponent } from './components/color-picker/color-picker.component';
 
 
 @NgModule({
@@ -57,6 +58,7 @@ import { FabComponent } from './components/fab/fab.component';
     MdlSelectModule
   ],
   exports: [
+    ColorPickerComponent,
     DiskOfferingComponent,
     FabComponent,
     NotificationBoxComponent,
@@ -70,6 +72,7 @@ import { FabComponent } from './components/fab/fab.component';
     ViewValuePipe
   ],
   declarations: [
+    ColorPickerComponent,
     DiskOfferingComponent,
     FabComponent,
     NotificationBoxComponent,

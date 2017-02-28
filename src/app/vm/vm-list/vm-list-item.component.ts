@@ -25,9 +25,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
 
   public actions: Array<IVmAction>;
 
-  constructor(
-    private asyncJobService: AsyncJobService
-  ) {}
+  constructor(private asyncJobService: AsyncJobService) {}
 
   public ngOnInit(): void {
     this.actions = this.vm.actions.map(a => VirtualMachine.getAction(a));

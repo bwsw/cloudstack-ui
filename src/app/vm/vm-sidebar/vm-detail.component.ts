@@ -16,6 +16,7 @@ import { VirtualMachine } from '../shared/vm.model';
 })
 export class VmDetailComponent {
   @Input() public vm: VirtualMachine;
+  public color: string;
   private expandNIC: boolean;
   private expandServiceOffering: boolean;
 

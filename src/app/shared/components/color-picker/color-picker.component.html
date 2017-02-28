@@ -1,0 +1,12 @@
+<mdl-select
+  *ngIf="colors"
+  [(ngModel)]="color"
+  [style.background-color]="color"
+>
+  <mdl-option
+    *ngFor="let c of colors"
+    [value]="c"
+    [style.background-color]="c"
+  ></mdl-option>
+</mdl-select>
+
