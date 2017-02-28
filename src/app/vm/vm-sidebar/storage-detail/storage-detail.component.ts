@@ -62,14 +62,12 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   public showVolumeDetachDialog(volume: Volume): void {
-    let translatedStrings;
     this.translateService.get([
       'CONFIRM_VOLUME_DETACH',
       'YES',
       'NO'
     ])
-      .switchMap(strs => {
-        translatedStrings = strs;
+      .switchMap(translatedStrings => {
         return this.dialogService.confirm(
           translatedStrings['CONFIRM_VOLUME_DETACH'],
           translatedStrings['NO'],
