@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs/Rx';
 
 import { Volume } from '../models/volume.model';
 import { BaseBackendService } from './base-backend.service';
@@ -16,12 +16,19 @@ interface VolumeCreationData {
   size?: number;
 }
 
+export interface VolumeAttachmentData {
+  id: string;
+  virtualMachineId: string;
+}
+
 @Injectable()
 @BackendResource({
   entity: 'Volume',
   entityModel: Volume
 })
 export class VolumeService extends BaseBackendService<Volume> {
+  public onVolumeAttached = new Subject<Volume>();
+
   constructor(
     private asyncJobService: AsyncJobService,
     private snapshotService: SnapshotService
@@ -62,6 +69,12 @@ export class VolumeService extends BaseBackendService<Volume> {
 
   public create(data: VolumeCreationData): Observable<Volume> {
     return this.sendCommand('create', data)
+      .switchMap(job => this.asyncJobService.register(job.jobid, this.entity, this.entityModel))
+      .map(job => job.jobResult);
+  }
+
+  public attach(data: VolumeAttachmentData): Observable<Volume> {
+    return this.sendCommand('attach', data)
       .switchMap(job => this.asyncJobService.register(job.jobid, this.entity, this.entityModel))
       .map(job => job.jobResult);
   }

@@ -6,6 +6,7 @@
     [volumes]="volumes"
     [selectedVolume]="selectedVolume"
     (onVolumeSelected)="selectVolume($event)"
+    (onVolumeAttached)="attach($event)"
     [class.margin-right]="isDetailOpen"
   ></cs-volume-list>
 </div>

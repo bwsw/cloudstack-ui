@@ -368,5 +368,13 @@
 
   "VOLUME_CREATE_IN_PROGRESS": "Volume is being created",
   "VOLUME_CREATE_DONE": "Volume has been created",
-  "VOLUME_CREATE_FAILED": "Failed to create a volume"
+  "VOLUME_CREATE_FAILED": "Failed to create a volume",
+
+  "VOLUME_ATTACHMENT_CHOOSE": "Choose a virtual machine",
+  "VOLUME_ATTACHMENT_NO_VMS": "No virtual machines",
+  "VOLUME_ATTACHMENT_YOU_NEED_TO_CREATE": "You need to create a virtual machine first",
+
+  "VOLUME_ATTACH_DONE": "Volume has been attached",
+  "VOLUME_ATTACH_FAILED": "Failed to attach a volume",
+  "VOLUME_ATTACH_IN_PROGRESS": "Attaching a volume"
 }

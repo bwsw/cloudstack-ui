@@ -16,3 +16,9 @@
 .spare-drive-card {
   min-height: 0;
 }
+
+/deep/ .volume-attachment-dialog {
+  width: 380px;
+  overflow: visible;
+  padding-bottom: 15px; //blur fix
+}

@@ -12,6 +12,8 @@ import { JobsNotificationService, INotificationStatus } from '../../../shared/se
 import { Iso, IsoService } from '../../../template/shared';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { IsoEvent } from './iso-attachment.component';
+import { VolumeService } from '../../../shared/services/volume.service';
+import { Volume } from '../../../shared/models/volume.model';
 
 
 @Component({
@@ -29,8 +31,8 @@ export class StorageDetailComponent implements OnChanges {
     private translateService: TranslateService,
     private jobNotificationService: JobsNotificationService,
     private isoService: IsoService,
-    private notificationService: NotificationService
-
+    private notificationService: NotificationService,
+    private volumeService: VolumeService
   ) {
     this.expandStorage = false;
   }
@@ -44,6 +46,15 @@ export class StorageDetailComponent implements OnChanges {
     } else {
       this.iso = null;
     }
+    this.subscribeToVolumeAttachments();
+  }
+
+  public subscribeToVolumeAttachments(): void {
+    this.volumeService.onVolumeAttached.subscribe((volume: Volume) => {
+      if (volume.virtualMachineId === this.vm.id) {
+        this.vm.volumes.push(volume);
+      }
+    });
   }
 
   public toggleStorage(): void {

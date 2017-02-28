@@ -1,7 +1,9 @@
 <div *ngIf="volumes">
   <cs-volume-item
-    *ngFor="let volume of volumes" [volume]="volume"
-    (onClick)="selectVolume(volume)"
+    *ngFor="let volume of volumes"
+    [volume]="volume"
     [isSelected]="volume.id === selectedVolume?.id"
+    (onClick)="selectVolume(volume)"
+    (onVolumeAttached)="attach($event)"
   ></cs-volume-item>
 </div>
