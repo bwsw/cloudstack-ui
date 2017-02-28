@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-// import { MdlDialogReference } from 'angular2-mdl';
 import { Zone } from '../../shared/models/zone.model';
 import { ZoneService } from '../../shared/services/zone.service';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
