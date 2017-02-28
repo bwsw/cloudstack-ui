@@ -366,7 +366,7 @@
   "CONFIRM_VOLUME_DETACH": "Are you sure you want to detach this volume?",
   "VOLUME_DETACH_IN_PROGRESS": "Volume is being detached",
   "VOLUME_DETACH_DONE": "Volume has been detached",
-  "VOLUME_DETACH_FAILED": "Failed to detach a volume"
+  "VOLUME_DETACH_FAILED": "Failed to detach a volume",
 
   "VOLUME_CREATION_FORM": {
     "NEW_VOLUME": "New volume"

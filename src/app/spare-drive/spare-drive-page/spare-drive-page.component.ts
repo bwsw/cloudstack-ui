@@ -108,7 +108,7 @@ export class SpareDrivePageComponent implements OnInit {
               .subscribe(diskOffering => {
                 volume.diskOffering = diskOffering;
                 this.volumes.push(volume);
-              })
+              });
           }
           this.jobsNotificationService.add({
             id: notificationId,

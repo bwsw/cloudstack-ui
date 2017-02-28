@@ -100,7 +100,7 @@ export class StorageDetailComponent implements OnChanges {
             id: notificationId,
             message: translatedStrings['VOLUME_DETACH_DONE'],
             status: INotificationStatus.Finished
-          })
+          });
         },
         error => {
           this.notificationService.error(error.json().detachvolumeresponse.errortext);
