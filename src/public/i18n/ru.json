@@ -67,6 +67,7 @@
   "RESTORE": "Переустановить",
   "DESTROY": "Уничтожить",
   "RESETPASSWORDFOR": "Сбросить пароль",
+  "CURRENT_OPERATIONS": "Текущие операции",
   "CLEAR_ALL": "Очистить",
   "WOULD_YOU_LIKE_TO_CREATE_VM": "Хотите создать виртуальную машину?",
   "NO_DONT_ASK": "Нет, больше не спрашивать",
@@ -90,6 +91,7 @@
   "ZONE": "Зона",
   "OS_TYPE": "Тип ОС",
   "TEMPLATE": "Шаблон",
+  "RESOURCE_USAGE": "Использование ресурсов",
   "STATISTICS": "Статистика",
   "TAKE_SNAPSHOT": "Сделать снимок",
   "NO_AFFINITY_GROUP": "Нет аффинитетных групп",
@@ -161,7 +163,7 @@
   "TEMPLATE_DELETED": "Шаблон {{ name }} успешно удален",
   "ALL_GROUPS": "Все шаблоны",
   "SELECTED_GROUPS": "Выбранные шаблоны",
-  "NETWORK_RULES": "Правила сети",
+  "FIREWALL_RULES": "Правила брандмауэра",
   "SAVE": "Сохранить",
   "CREATE": "Создать",
   "EDIT": "Редактировать",
@@ -185,7 +187,7 @@
 
   "IP": "IP",
   "NIC": "NIC",
-  "NETWORK_INTERFACE_CONTROLLER": "Сетевая карта",
+  "NETWORK_CONFIGURATION": "Конфигурация сети",
   "NETWORK_INTERFACE_CONTROLLER_FIELDS": {
     "broadcastUri":  "Broadcast URI",
     "gateway": "Шлюз",
