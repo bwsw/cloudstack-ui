@@ -65,4 +65,9 @@ export class VolumeService extends BaseBackendService<Volume> {
       .switchMap(job => this.asyncJobService.register(job.jobid, this.entity, this.entityModel))
       .map(job => job.jobResult);
   }
+
+  public detach(id: string): Observable<null> {
+    return this.sendCommand('detach', { id })
+      .switchMap(job => this.asyncJobService.register(job, this.entity, this.entityModel));
+  }
 }

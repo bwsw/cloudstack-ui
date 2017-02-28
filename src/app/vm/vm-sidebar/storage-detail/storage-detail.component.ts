@@ -12,6 +12,8 @@ import { JobsNotificationService, INotificationStatus } from '../../../shared/se
 import { Iso, IsoService } from '../../../template/shared';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { IsoEvent } from './iso-attachment.component';
+import { Volume } from '../../../shared/models/volume.model';
+import { VolumeService } from '../../../shared/services/volume.service';
 
 
 @Component({
@@ -29,8 +31,8 @@ export class StorageDetailComponent implements OnChanges {
     private translateService: TranslateService,
     private jobNotificationService: JobsNotificationService,
     private isoService: IsoService,
-    private notificationService: NotificationService
-
+    private notificationService: NotificationService,
+    private volumeService: VolumeService
   ) {
     this.expandStorage = false;
   }
@@ -59,7 +61,57 @@ export class StorageDetailComponent implements OnChanges {
     }
   }
 
-  public handleDataDiskDetach(): void { }
+  public showVolumeDetachDialog(volume: Volume): void {
+    this.translateService.get([
+      'CONFIRM_VOLUME_DETACH',
+      'YES',
+      'NO'
+    ])
+      .switchMap(translatedStrings => {
+        return this.dialogService.confirm(
+          translatedStrings['CONFIRM_VOLUME_DETACH'],
+          translatedStrings['NO'],
+          translatedStrings['YES']
+        );
+      })
+      .onErrorResumeNext()
+      .subscribe(() => this.detachVolume(volume));
+  }
+
+  private detachVolume(volume: Volume): void {
+    let notificationId;
+    let translatedStrings;
+    this.translateService.get([
+      'VOLUME_DETACH_IN_PROGRESS',
+      'VOLUME_DETACH_DONE',
+      'VOLUME_DETACH_FAILED'
+    ])
+      .switchMap(strs => {
+        translatedStrings = strs;
+        notificationId = this.jobNotificationService.add(translatedStrings['VOLUME_DETACH_IN_PROGRESS']);
+        return this.volumeService.detach(volume.id);
+      })
+      .subscribe(
+        () => {
+          this.vm.volumes = this.vm.volumes.filter(vmVolume => {
+            return volume.id !== vmVolume.id;
+          });
+          this.jobNotificationService.add({
+            id: notificationId,
+            message: translatedStrings['VOLUME_DETACH_DONE'],
+            status: INotificationStatus.Finished
+          })
+        },
+        error => {
+          this.notificationService.error(error.json().detachvolumeresponse.errortext);
+          this.jobNotificationService.add({
+            id: notificationId,
+            message: translatedStrings['VOLUME_DETACH_FAILED'],
+            status: INotificationStatus.Failed
+          });
+        }
+      );
+  }
 
   private attachIsoDialog(): void {
     this.dialogService.showCustomDialog({
