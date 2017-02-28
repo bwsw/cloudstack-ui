@@ -11,6 +11,7 @@ import { VolumeListComponent } from './volume-list/volume-list.component';
 import { VolumeItemComponent } from './volume-item/volume-item.component';
 import { SpareDriveSidebarComponent } from './spare-drive-sidebar/spare-drive-sidebar.component';
 import { VolumeCreationComponent } from './volume-creation/volume-creation.component';
+import { VolumeAttachmentComponent } from './volume-attachment/volume-attachment.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { VolumeCreationComponent } from './volume-creation/volume-creation.compo
   declarations: [
     SpareDrivePageComponent,
     SpareDriveSidebarComponent,
+    VolumeAttachmentComponent,
     VolumeCreationComponent,
     VolumeItemComponent,
     VolumeListComponent
@@ -33,6 +35,7 @@ import { VolumeCreationComponent } from './volume-creation/volume-creation.compo
     SpareDrivePageComponent
   ],
   entryComponents: [
+    VolumeAttachmentComponent,
     VolumeCreationComponent
   ]
 })

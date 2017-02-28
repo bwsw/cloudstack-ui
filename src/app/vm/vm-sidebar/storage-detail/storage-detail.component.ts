@@ -46,6 +46,15 @@ export class StorageDetailComponent implements OnChanges {
     } else {
       this.iso = null;
     }
+    this.subscribeToVolumeAttachments();
+  }
+
+  public subscribeToVolumeAttachments(): void {
+    this.volumeService.onVolumeAttached.subscribe((volume: Volume) => {
+      if (volume.virtualMachineId === this.vm.id) {
+        this.vm.volumes.push(volume);
+      }
+    });
   }
 
   public toggleStorage(): void {

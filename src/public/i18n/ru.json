@@ -378,5 +378,13 @@
 
   "VOLUME_CREATE_IN_PROGRESS": "Диск создается",
   "VOLUME_CREATE_DONE": "Диск создан",
-  "VOLUME_CREATE_FAILED": "Не удалось создать диск"
+  "VOLUME_CREATE_FAILED": "Не удалось создать диск",
+
+  "VOLUME_ATTACHMENT_CHOOSE": "Выберите машину",
+  "VOLUME_ATTACHMENT_NO_VMS": "Нет машин",
+  "VOLUME_ATTACHMENT_YOU_NEED_TO_CREATE": "Сперва Вам необходимо создать виртуальную машину",
+
+  "VOLUME_ATTACH_DONE": "Диск прикреплен",
+  "VOLUME_ATTACH_FAILED": "Не удалось прикрепить диск",
+  "VOLUME_ATTACH_IN_PROGRESS": "Диск прикрепляется"
 }

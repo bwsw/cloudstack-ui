@@ -1,0 +1,42 @@
+<h3 *ngIf="virtualMachineId" class="mdl-dialog__title">{{ 'VOLUME_ATTACHMENT_CHOOSE' | translate }}</h3>
+<h3 *ngIf="!virtualMachineId" class="mdl-dialog__title">{{ 'VOLUME_ATTACHMENT_NO_VMS' | translate }}</h3>
+<form (ngSubmit)="attach($event)" #volumeAttachmentForm="ngForm">
+  <div class="mdl-dialog__content">
+    <div >
+      <mdl-select
+        *ngIf="virtualMachineId"
+        [(ngModel)]="virtualMachineId"
+        id="vm"
+        name="vm"
+      >
+        <mdl-option
+          *ngFor="let vm of virtualMachines"
+          [value]="vm.id"
+        >
+          {{ vm.name }}
+        </mdl-option>
+      </mdl-select>
+    </div>
+    <div *ngIf="!virtualMachineId">{{ 'VOLUME_ATTACHMENT_YOU_NEED_TO_CREATE' | translate }}</div>
+  </div>
+  <div class="mdl-dialog__actions">
+    <button
+      *ngIf="virtualMachines"
+      mdl-colored="primary"
+      mdl-button
+      mdl-ripple
+      type="submit"
+    >
+      {{ 'ATTACH' | translate }}
+    </button>
+    <button
+      mdl-colored="primary"
+      mdl-button
+      mdl-ripple
+      type="button"
+      (click)="onCancel()"
+    >
+      {{ 'CANCEL' | translate }}
+    </button>
+  </div>
+</form>

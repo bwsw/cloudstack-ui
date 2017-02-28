@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VolumeService } from '../../shared/services/volume.service';
+import { VolumeService, VolumeAttachmentData } from '../../shared/services/volume.service';
 import { Volume } from '../../shared/models/volume.model';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
@@ -181,5 +181,37 @@ export class SpareDrivePageComponent implements OnInit {
           });
         }
       );
+  }
+
+  public attach(data: VolumeAttachmentData): void {
+    let notificationId;
+    let translatedStrings;
+    this.translateService.get([
+      'VOLUME_ATTACH_IN_PROGRESS',
+      'VOLUME_ATTACH_DONE',
+      'VOLUME_ATTACH_FAILED'
+    ])
+      .switchMap(strs => {
+        translatedStrings = strs;
+        notificationId = this.jobsNotificationService.add(translatedStrings['VOLUME_ATTACH_IN_PROGRESS']);
+        return this.volumeService.attach(data);
+      })
+      .subscribe(
+        volume => {
+          this.volumes = this.volumes.filter(v => v.id !== volume.id);
+          this.jobsNotificationService.add({
+            id: notificationId,
+            message: translatedStrings['VOLUME_ATTACH_DONE'],
+            status: INotificationStatus.Finished
+          });
+        },
+        error => {
+          this.notificationService.error(error.json().attachvolumeresponse.errortext);
+          this.jobsNotificationService.add({
+            id: notificationId,
+            message: translatedStrings['VOLUME_ATTACH_FAILED'],
+            status: INotificationStatus.Failed
+          });
+        });
   }
 }
