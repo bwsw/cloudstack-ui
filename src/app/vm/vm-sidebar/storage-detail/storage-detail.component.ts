@@ -74,10 +74,8 @@ export class StorageDetailComponent implements OnChanges {
           translatedStrings['YES']
         );
       })
-      .subscribe(
-        () => this.detachVolume(volume),
-        () => {}
-      );
+      .onErrorResumeNext()
+      .subscribe(() => this.detachVolume(volume));
   }
 
   private detachVolume(volume: Volume): void {
