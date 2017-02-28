@@ -27,7 +27,7 @@ export class VolumeCreationComponent implements OnInit {
   constructor(
     private dialog: MdlDialogReference,
     private diskOfferingService: DiskOfferingService,
-    private resourseUsageService: ResourceUsageService,
+    private resourceUsageService: ResourceUsageService,
     private zoneService: ZoneService
   ) {}
 
@@ -49,6 +49,10 @@ export class VolumeCreationComponent implements OnInit {
     }
 
     this.dialog.hide(params);
+  }
+
+  public onCancel(): void {
+    this.dialog.hide();
   }
 
   public updateDiskOffering(offering: DiskOffering): void {
@@ -77,11 +81,11 @@ export class VolumeCreationComponent implements OnInit {
   }
 
   private getSizeLimits(): void {
-    this.resourseUsageService.getResourceUsage()
-      .subscribe(resourseUsage => {
+    this.resourceUsageService.getResourceUsage()
+      .subscribe(resourceUsage => {
         this.minSize = 1;
         this.size = this.minSize;
-        this.maxSize = resourseUsage.available.primaryStorage;
+        this.maxSize = resourceUsage.available.primaryStorage;
       });
   }
 }
