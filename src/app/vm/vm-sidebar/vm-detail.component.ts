@@ -40,14 +40,6 @@ export class VmDetailComponent {
     });
   }
 
-  public openConsole(): void {
-    window.open(
-      `/client/console?cmd=access&vm=${this.vm.id}`,
-      this.vm.displayName,
-      'resizable=0,width=820,height=640'
-    );
-  }
-
   public changeServiceOffering(): void {
     this.dialogService.showCustomDialog({
       component: ServiceOfferingDialogComponent,

@@ -1,27 +1,6 @@
 <div *ngIf="vm">
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
-      <h2 mdl-card-title-text>{{ 'STATUS' | translate }}</h2>
-    </mdl-card-title>
-    <mdl-card-supporting-text>
-      <div>{{ vm.state.toUpperCase() | translate }}</div>
-    </mdl-card-supporting-text>
-    <mdl-card-actions mdl-card-border>
-      <button
-        mdl-button
-        mdl-button-type="icon"
-        (click)="openConsole()"
-        [disabled]="vm.state !== 'Running'"
-        [mdl-tooltip]="'CONSOLE'| translate"
-        mdl-tooltip-position="top"
-      >
-        <mdl-icon>computer</mdl-icon>
-      </button>
-    </mdl-card-actions>
-  </mdl-card>
-
-  <mdl-card class="vm-card" mdl-shadow="2">
-    <mdl-card-title>
       <h2 mdl-card-title-text>{{ 'SERVICE_OFFERING' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
@@ -63,7 +42,7 @@
 
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
-      <h2 mdl-card-title-text>{{ 'NETWORK_INTERFACE_CONTROLLER' | translate }}</h2>
+      <h2 mdl-card-title-text>{{ 'NETWORK_CONFIGURATION' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
       <div class="collapsed-panel grid nic" *ngIf="!expandNIC">
@@ -114,7 +93,7 @@
 
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
-      <h2 mdl-card-title-text>{{ 'NETWORK_RULES' | translate }}</h2>
+      <h2 mdl-card-title-text>{{ 'FIREWALL_RULES' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
       <div class="grid security-group">
@@ -145,15 +124,6 @@
     <mdl-card-supporting-text>
       <div *ngFor="let affinityGroup of vm.affinityGroup">{{ affinityGroup.name }}</div>
       <div *ngIf="!vm.affinityGroup.length">{{ 'NO_AFFINITY_GROUP' | translate }}</div>
-    </mdl-card-supporting-text>
-  </mdl-card>
-
-  <mdl-card class="vm-card" mdl-shadow="2">
-    <mdl-card-title>
-      <h2 mdl-card-title-text>{{ 'OS_TYPE' | translate }}</h2>
-    </mdl-card-title>
-    <mdl-card-supporting-text>
-      <div>{{ vm.osType.description }}</div>
     </mdl-card-supporting-text>
   </mdl-card>
 

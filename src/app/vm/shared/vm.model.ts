@@ -128,7 +128,8 @@ export class VirtualMachine extends BaseModel {
       'reboot',
       'restore',
       'destroy',
-      'resetPasswordFor' // name forced by API and action implementation
+      'resetPasswordFor', // name forced by API and action implementation,
+      'console'
     ];
   }
 
@@ -156,6 +157,7 @@ export class VirtualMachine extends BaseModel {
       case 'start': return state !== 'Running';
       case 'stop':
       case 'reboot':
+      case 'console':
         return state !== 'Stopped';
       case 'changeOffering':
         return state === 'Stopped';
@@ -193,6 +195,9 @@ export class VirtualMachine extends BaseModel {
         break;
       case 'resetPasswordFor':
         mdlIcon = 'vpn_key';
+        break;
+      case 'console':
+        mdlIcon = 'computer';
         break;
     }
     return {

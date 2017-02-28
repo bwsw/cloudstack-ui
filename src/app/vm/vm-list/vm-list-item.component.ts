@@ -44,8 +44,21 @@ export class VmListItemComponent implements OnInit, OnChanges {
     this.onClick.emit(this.vm);
   }
 
+  public openConsole(): void {
+    window.open(
+      `/client/console?cmd=access&vm=${this.vm.id}`,
+      this.vm.displayName,
+      'resizable=0,width=820,height=640'
+    );
+  }
+
   public getAction(event: MouseEvent, act: string): void {
     event.stopPropagation();
+    if (act === 'console') {
+      this.openConsole();
+      return;
+    }
+
     let e = {
       action: this.actions.find(a => a.nameLower === act),
       vm: this.vm

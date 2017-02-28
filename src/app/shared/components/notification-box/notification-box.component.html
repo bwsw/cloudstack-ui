@@ -14,6 +14,9 @@
   <mdl-icon *ngIf="!unseenCount">notifications</mdl-icon>
 </button>
 <mdl-popover #popover mdl-shadow="6" [style.width.px]="300" [style.right.px]="20">
+  <div class="mdl-card__title">
+    <h2 class="mdl-card__title-text">{{ 'CURRENT_OPERATIONS' | translate }}</h2>
+  </div>
   <mdl-list style="line-height: 20px;">
     <cs-notification-box-item
       *ngFor="let notification of jobsNotificationService.notifications"

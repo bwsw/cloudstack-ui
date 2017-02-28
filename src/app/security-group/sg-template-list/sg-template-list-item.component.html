@@ -7,7 +7,6 @@
       <div>
         <div class="description">{{ 'DESCRIPTION' | translate }}: </div>
         <div class="domain">{{ 'DOMAIN' | translate }}: </div>
-        <div class="labels">{{ 'LABELS' | translate }}: </div>
       </div>
       <div>
         <div class="description">
@@ -24,14 +23,6 @@
             [mdl-tooltip]="securityGroupTemplate.domain"
           >
             {{ securityGroupTemplate.domain }}
-          </span>
-        </div>
-        <div class="labels">
-          <span
-            *ngIf="securityGroupTemplate.labels"
-            [mdl-tooltip]="securityGroupTemplate.labels"
-          >
-            {{ securityGroupTemplate.labels }}
           </span>
         </div>
       </div>
