@@ -10,9 +10,14 @@ export class VolumeListComponent {
   @Input() public volumes: Array<Volume>;
   @Input() public selectedVolume: Volume;
   @Output() public onVolumeSelected = new EventEmitter();
+  @Output() public onDelete = new EventEmitter();
 
   public selectVolume(volume: Volume): void {
     this.selectedVolume = volume;
     this.onVolumeSelected.emit(this.selectedVolume);
+  }
+
+  public remove(volume: Volume): void {
+    this.onDelete.emit(volume);
   }
 }

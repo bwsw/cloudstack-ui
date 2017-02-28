@@ -3,6 +3,10 @@ import { VolumeService } from '../../shared/services/volume.service';
 import { Volume } from '../../shared/models/volume.model';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
+import { TranslateService } from 'ng2-translate';
+import { MdlDialogService } from 'angular2-mdl';
+import { JobsNotificationService, INotificationStatus } from '../../shared/services/jobs-notification.service';
+import { NotificationService } from '../../shared/services/notification.service';
 import { MdlDialogService } from 'angular2-mdl';
 import { VolumeCreationComponent } from '../volume-creation/volume-creation.component';
 import { NotificationService } from '../../shared/services/notification.service';
@@ -71,6 +75,61 @@ export class SpareDrivePageComponent implements OnInit {
   public hideDetail(): void {
     this.isDetailOpen = !this.isDetailOpen;
     this._selectedVolume = null;
+  }
+
+  public showRemoveDialog(volume: Volume): void {
+    this.translateService.get([
+      'YES',
+      'NO',
+      'CONFIRM_DELETE_VOLUME',
+      'VOLUME_DELETE_DONE',
+      'VOLUME_DELETE_FAILED'
+    ])
+      .switchMap(translatedStrings => {
+        return this.dialogService.confirm(
+          translatedStrings['CONFIRM_DELETE_VOLUME'],
+          translatedStrings['NO'],
+          translatedStrings['YES']
+        );
+      })
+      .onErrorResumeNext()
+      .subscribe(() => this.remove(volume));
+  }
+
+  public remove(volume: Volume): void {
+    let notificationId;
+    let translatedStrings;
+    this.translateService.get([
+      'VOLUME_DELETE_DONE',
+      'VOLUME_DELETE_FAILED'
+    ])
+      .switchMap(strs => {
+        translatedStrings = strs;
+        return this.volumeService.remove(volume.id);
+      })
+      .subscribe(
+        () => {
+          this.volumes = this.volumes.filter(listVolume => {
+            return listVolume.id !== volume.id;
+          });
+          if (this.selectedVolume && this.selectedVolume.id === volume.id) {
+            this.isDetailOpen = false;
+          }
+          this.jobsNotificationService.add({
+            id: notificationId,
+            message: translatedStrings['VOLUME_DELETE_DONE'],
+            status: INotificationStatus.Finished
+          });
+        },
+        error => {
+          this.notificationService.error(error);
+          this.jobsNotificationService.add({
+            id: notificationId,
+            message: translatedStrings['VOLUME_DELETE_FAILED'],
+            status: INotificationStatus.Failed
+          });
+        }
+      );
   }
 
   public showCreationDialog(): void {

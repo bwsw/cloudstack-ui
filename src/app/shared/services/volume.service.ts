@@ -60,6 +60,16 @@ export class VolumeService extends BaseBackendService<Volume> {
       .switchMap(job => this.asyncJobService.register(job, this.entity, this.entityModel));
   }
 
+  public remove(id: string): Observable<null> {
+    return super.remove({ id })
+      .map(response => {
+        if (response['success'] === 'true') {
+          return Observable.of(null);
+        }
+        return Observable.throw(response);
+      });
+  }
+
   public create(data: VolumeCreationData): Observable<Volume> {
     return this.sendCommand('create', data)
       .switchMap(job => this.asyncJobService.register(job.jobid, this.entity, this.entityModel))

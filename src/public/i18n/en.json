@@ -363,6 +363,10 @@
     "LOCAL": "Local"
   },
 
+  "CONFIRM_DELETE_VOLUME": "Are you sure you want to delete this volume?",
+  "VOLUME_DELETE_DONE": "Volume has been deleted",
+  "VOLUME_DELETE_FAILED": "Failed to delete a volume",
+
   "CONFIRM_VOLUME_DETACH": "Are you sure you want to detach this volume?",
   "VOLUME_DETACH_IN_PROGRESS": "Volume is being detached",
   "VOLUME_DETACH_DONE": "Volume has been detached",

@@ -3,5 +3,6 @@
     *ngFor="let volume of volumes" [volume]="volume"
     (onClick)="selectVolume(volume)"
     [isSelected]="volume.id === selectedVolume?.id"
+    (onDelete)="remove($event)"
   ></cs-volume-item>
 </div>
