@@ -81,6 +81,7 @@ export class VmCreationComponent implements OnInit {
   public takenName: string;
 
   public showRootDiskResize = false;
+  public showSecurityGroups = true;
   private selectedDiskOffering: DiskOffering;
 
   constructor(
@@ -256,6 +257,17 @@ export class VmCreationComponent implements OnInit {
 
   public setServiceOffering(offering: string): void {
     this.vmCreationData.vm.serviceOfferingId = offering;
+  }
+
+  public get zoneId(): string {
+    return this.vmCreationData.vm.zoneId;
+  }
+
+  public set zoneId(id: string) {
+    this.vmCreationData.vm.zoneId = id;
+    if (this.vmCreationData && this.vmCreationData.zones) {
+      this.showSecurityGroups = this.vmCreationData.zones.find(zone => zone.id === id).securityGroupsEnabled;
+    }
   }
 
   private setDefaultVmName(): void {

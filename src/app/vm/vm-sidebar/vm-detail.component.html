@@ -112,7 +112,11 @@
     </mdl-card-actions>
   </mdl-card>
 
-  <mdl-card class="vm-card" mdl-shadow="2">
+  <mdl-card
+    *ngIf="!disableSecurityGroup"
+    class="vm-card"
+    mdl-shadow="2"
+  >
     <mdl-card-title>
       <h2 mdl-card-title-text>{{ 'NETWORK_RULES' | translate }}</h2>
     </mdl-card-title>

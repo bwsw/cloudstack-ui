@@ -10,6 +10,7 @@ import { MdlLayoutComponent } from 'angular2-mdl';
 
 import '../style/app.scss';
 import { StorageService } from './shared/services/storage.service';
+import { ZoneService } from './shared/services/zone.service';
 
 
 @Component({
@@ -20,6 +21,7 @@ import { StorageService } from './shared/services/storage.service';
 export class AppComponent implements OnInit {
   public loggedIn: boolean;
   public title: string;
+  public disableSecurityGroups = false;
 
   constructor(
     private auth: AuthService,
@@ -28,6 +30,7 @@ export class AppComponent implements OnInit {
     private error: ErrorService,
     @Inject('INotificationService') private notification: INotificationService,
     private storage: StorageService,
+    private zoneService: ZoneService
   ) {
     this.title = this.auth.name;
     // this.translate.setDefaultLang('en');
@@ -48,6 +51,8 @@ export class AppComponent implements OnInit {
       this.updateAccount(false);
     }
     this.setLanguage();
+    this.zoneService.areAllZonesBasic()
+      .subscribe(basic => this.disableSecurityGroups = basic);
   }
 
   // todo: remove
