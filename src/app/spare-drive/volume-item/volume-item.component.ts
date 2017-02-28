@@ -37,7 +37,7 @@ export class VolumeItemComponent {
           id: this.volume.id,
           virtualMachineId: data
         });
-      })
+      });
   }
 
   public resize(): void {}

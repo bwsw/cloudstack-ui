@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Zone } from '../../shared/models/zone.model';
 import { ZoneService } from '../../shared/services/zone.service';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
@@ -12,7 +12,7 @@ import { MdlDialogReference } from 'angular2-mdl';
   templateUrl: 'volume-creation.component.html',
   styleUrls: ['volume-creation.component.scss']
 })
-export class VolumeCreationComponent {
+export class VolumeCreationComponent implements OnInit {
   public name: string;
   public zoneId: string;
   public zones: Array<Zone>;
@@ -51,7 +51,7 @@ export class VolumeCreationComponent {
     this.dialog.hide(params);
   }
 
-  public updateDiskOffering(offering: DiskOffering) {
+  public updateDiskOffering(offering: DiskOffering): void {
     this.diskOfferingId = offering.id;
     this.showResizeSlider = offering.isCustomized;
   }

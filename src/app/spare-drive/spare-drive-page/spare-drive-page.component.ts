@@ -108,7 +108,7 @@ export class SpareDrivePageComponent implements OnInit {
               .subscribe(diskOffering => {
                 volume.diskOffering = diskOffering;
                 this.volumes.push(volume);
-              })
+              });
           }
           this.jobsNotificationService.add({
             id: notificationId,
@@ -157,7 +157,7 @@ export class SpareDrivePageComponent implements OnInit {
             id: notificationId,
             message: translatedStrings['VOLUME_ATTACH_FAILED'],
             status: INotificationStatus.Failed
-          })
+          });
         });
   }
 }

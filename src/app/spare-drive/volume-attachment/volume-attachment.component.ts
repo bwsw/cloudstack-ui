@@ -6,17 +6,16 @@ import { MdlDialogReference } from 'angular2-mdl';
 
 @Component({
   selector: 'cs-volume-attachment',
-  templateUrl: 'volume-attachment.component.html',
-  styleUrls: ['volume-attachment.component.scss']
+  templateUrl: 'volume-attachment.component.html'
 })
 export class VolumeAttachmentComponent implements OnInit {
+  public virtualMachineId: string;
+  public virtualMachines: Array<VirtualMachine>;
+
   constructor(
     private dialog: MdlDialogReference,
     private vmService: VmService
   ) {}
-
-  public virtualMachineId: string;
-  public virtualMachines: Array<VirtualMachine>;
 
   public ngOnInit(): void {
     this.vmService.getList()
