@@ -264,7 +264,7 @@
   "THIS_IS_YOU_CURRENT_OFFERING": "Это Ваше текущее предложение",
 
   "VM_NAVBAR": "Виртуальные<br>машины",
-  "SG_TEMPLATES_NAVBAR": "Шаблоны<br>групп безопасности",
+  "FIREWALL": "Брандмауер",
 
   "NEW_TEMPLATE": "Регистрация нового шаблона",
   "NEW_ISO": "Регистрация нового ISO",
