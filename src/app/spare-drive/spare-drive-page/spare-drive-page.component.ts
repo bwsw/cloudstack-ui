@@ -66,7 +66,6 @@ export class SpareDrivePageComponent implements OnInit {
   }
 
   public showRemoveDialog(volume: Volume): void {
-    let translatedStrings;
     this.translateService.get([
       'YES',
       'NO',
@@ -74,17 +73,15 @@ export class SpareDrivePageComponent implements OnInit {
       'VOLUME_DELETE_DONE',
       'VOLUME_DELETE_FAILED'
     ])
-      .switchMap(strs => {
-        translatedStrings = strs;
+      .switchMap(translatedStrings => {
         return this.dialogService.confirm(
           translatedStrings['CONFIRM_DELETE_VOLUME'],
           translatedStrings['NO'],
           translatedStrings['YES']
         );
       })
-      .subscribe(() => {
-        this.remove(volume);
-      }, () => {});
+      .onErrorResumeNext()
+      .subscribe(() => this.remove(volume));
   }
 
   public remove(volume: Volume): void {
