@@ -7,11 +7,7 @@ import { TranslateService } from 'ng2-translate';
 import { MdlDialogService } from 'angular2-mdl';
 import { JobsNotificationService, INotificationStatus } from '../../shared/services/jobs-notification.service';
 import { NotificationService } from '../../shared/services/notification.service';
-import { MdlDialogService } from 'angular2-mdl';
 import { VolumeCreationComponent } from '../volume-creation/volume-creation.component';
-import { NotificationService } from '../../shared/services/notification.service';
-import { JobsNotificationService, INotificationStatus } from '../../shared/services/jobs-notification.service';
-import { TranslateService } from 'ng2-translate';
 
 
 export interface VolumeCreationData {
