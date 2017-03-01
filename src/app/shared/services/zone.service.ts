@@ -11,21 +11,17 @@ import { Observable } from 'rxjs';
   entityModel: Zone
 })
 export class ZoneService extends BaseBackendCachedService<Zone> {
-  private basic: boolean;
-
-  constructor() {
-    super();
-  }
+  // a basic zone is a zone that doesn't support security groups
+  private allZonesAreBasic: boolean;
 
   public areAllZonesBasic(): Observable<boolean> {
-    if (typeof this.basic === 'undefined') {
+    if (this.allZonesAreBasic === undefined) {
       return this.getList()
         .map(zoneList => {
-          this.basic = zoneList.every(zone => !zone.securityGroupsEnabled);
-          return this.basic;
+          this.allZonesAreBasic = zoneList.every(zone => !zone.securityGroupsEnabled);
+          return this.allZonesAreBasic;
         });
-    } else {
-      return Observable.of(this.basic);
     }
+    return Observable.of(this.allZonesAreBasic);
   }
 }

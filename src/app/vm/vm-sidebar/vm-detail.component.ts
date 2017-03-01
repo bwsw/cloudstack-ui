@@ -1,6 +1,7 @@
 import {
   Component,
-  Input, OnInit
+  Input,
+  OnInit
 } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
 import { SecurityGroup } from '../../security-group/sg.model';
