@@ -19,6 +19,7 @@
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/instances"
+        routerLinkActive="link-active"
       >
         <mdl-icon class="link-element">cloud</mdl-icon>
         <div class="link-element" [innerHTML]="'VM_NAVBAR' | translate"></div>
@@ -28,6 +29,7 @@
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/sg-templates"
+        routerLinkActive="link-active"
       >
         <mdl-icon class="link-element">security</mdl-icon>
         <div class="link-element" [innerHTML]="'SG_TEMPLATES_NAVBAR' | translate"></div>
@@ -37,6 +39,7 @@
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/templates"
+        routerLinkActive="link-active"
       >
         <span class="link-element disc-icon"></span>
         <div class="link-element" [innerHTML]="'TEMPLATES_ISO' | translate"></div>
@@ -46,6 +49,7 @@
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/spare-drives"
+        routerLinkActive="link-active"
       >
         <mdl-icon class="link-element">dns</mdl-icon>
         <div class="link-element" [innerHTML]="'SPARE_DRIVES_NAVBAR' | translate"></div>
@@ -55,6 +59,7 @@
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/events"
+        routerLinkActive="link-active"
       >
         <mdl-icon>event_note</mdl-icon>
         <div class="link-element" [innerHTML]="'EVENTS' | translate"></div>
@@ -64,6 +69,7 @@
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/settings"
+        routerLinkActive="link-active"
       >
         <mdl-icon>settings</mdl-icon>
         <div class="link-element" [innerHTML]="'SETTINGS' | translate"></div>
