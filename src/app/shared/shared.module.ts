@@ -45,6 +45,9 @@ import { DiskOfferingComponent } from './components/disk-offering/disk-offering.
 import { VolumeSizeControlComponent } from './components/volume-size-control/volume-size-control.component';
 import { FormsModule } from '@angular/forms';
 import { FabComponent } from './components/fab/fab.component';
+import { DatePickerComponent } from './components/date-picker/date-picker.component';
+import { DatePickerDialogComponent } from './components/date-picker/date-picker-dialog.component';
+import { CalendarComponent } from './components/date-picker/calendar.component';
 
 
 @NgModule({
@@ -65,9 +68,13 @@ import { FabComponent } from './components/fab/fab.component';
     SidebarComponent,
     VmStatisticsComponent,
     VolumeSizeControlComponent,
+    DatePickerComponent,
     DivByPowerOfTwoPipe,
     HighLightPipe,
     ViewValuePipe
+  ],
+  entryComponents: [
+    DatePickerDialogComponent
   ],
   declarations: [
     DiskOfferingComponent,
@@ -78,6 +85,9 @@ import { FabComponent } from './components/fab/fab.component';
     SidebarComponent,
     VmStatisticsComponent,
     VolumeSizeControlComponent,
+    DatePickerComponent,
+    DatePickerDialogComponent,
+    CalendarComponent,
     DivByPowerOfTwoPipe,
     ViewValuePipe,
     HighLightPipe

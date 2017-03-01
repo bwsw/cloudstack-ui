@@ -1,0 +1,118 @@
+.date-display {
+  width: 100%;
+  height: auto;
+  float: none;
+  font-weight: 700;
+  display: inline-block;
+  color: white;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.month-day {
+  display: block;
+  font-size: 36px;
+  line-height: 36px;
+  height: 38px;
+  opacity: 1;
+  width: 100%;
+  font-weight: 500;
+}
+
+.month-day-title {
+  width: 100%;
+  display: block;
+}
+
+.calendar {
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-container {
+  display: flex;
+  align-content: space-between;
+  justify-content: space-between;
+  flex-direction: column;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 0 8px;
+}
+
+.calendar-toolbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: inherit;
+  height: 48px;
+
+  align-items: center;
+}
+
+.title-div {
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  width: 100%;
+}
+
+.title-text {
+  height: inherit;
+  padding-top: 12px;
+}
+
+.year {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 16px;
+  height: 16px;
+  opacity: 0.7;
+  margin: 0 0 10px;
+}
+
+.week-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-weight: 500;
+  height: 20px;
+  line-height: 15px;
+  opacity: 0.5;
+  text-align: center;
+}
+
+.week-title-day {
+  width: 42px;
+}
+
+.week {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 34px;
+  margin-bottom: 2px;
+}
+
+.calendar-month {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  font-weight: 400;
+  height: 228px;
+  line-height: 2;
+  position: relative;
+  text-align: center;
+  -moz-padding-start: 0;
+}
+
+.label {
+  font-weight: 400;
+  position: relative;
+  cursor: pointer;
+
+  box-sizing: border-box;
+  font-weight: 400;
+  padding: 4px 0;
+  position: relative;
+  -webkit-tap-highlight-color: rgba(0,0,0,0); // Remove mobile color flashing (deprecated)
+  width: 42px;
+}

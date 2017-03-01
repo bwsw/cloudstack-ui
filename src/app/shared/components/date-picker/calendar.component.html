@@ -1,0 +1,35 @@
+<div class="date-display mdl-color--primary">
+  <div class="year">
+    <div class="year-title">{{ year }}</div>
+  </div>
+  <div class="month-day">
+    <div class="month-day-title">
+      {{ dateTime }}
+    </div>
+  </div>
+</div>
+<div class="calendar">
+  <div class="calendar-container">
+    <div class="calendar-toolbar">
+      <mdl-icon>keyboard_arrow_left</mdl-icon>
+      <div class="title-div">{{ dateTimeFormatted }}</div>
+      <mdl-icon>keyboard_arrow_right</mdl-icon>
+    </div>
+    <div class="week-title">
+      <span class="week-title-day" *ngFor="let day of weekTitles">
+        {{ day }}
+      </span>
+    </div>
+    <div class="calendar-month">
+      <div class="week" *ngFor="let week of weekElements">
+        <span
+          class="label"
+          *ngFor="let day of week"
+          (click)="setSelectedDate($event, day)"
+        >
+          {{ getDay(day) }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
