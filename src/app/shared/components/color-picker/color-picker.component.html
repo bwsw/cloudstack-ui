@@ -2,12 +2,11 @@
   *ngIf="colors"
   [(ngModel)]="color"
   (change)="updateColor($event)"
-  [style.background-color]="color"
+  [style.background-color]="color.value"
 >
   <mdl-option
     *ngFor="let c of colors"
     [value]="c"
-    [style.background-color]="c"
+    [style.background-color]="c.value"
   ></mdl-option>
 </mdl-select>
-

@@ -4,6 +4,7 @@ import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { SettingsComponent } from './settings.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { SettingsComponent } from './settings.component';
     CommonModule,
     TranslateModule,
     MdlModule,
-    MdlSelectModule
+    MdlSelectModule,
+    SharedModule
   ],
   exports: [
     SettingsComponent

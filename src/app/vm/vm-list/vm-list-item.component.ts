@@ -11,6 +11,7 @@ import { VirtualMachine, IVmAction } from '../shared/vm.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { IAsyncJob } from '../../shared/models/async-job.model';
 import { VmService } from '../shared/vm.service';
+import { Color } from '../../shared/models/color.model';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
   @Output() public onClick = new EventEmitter();
 
   public actions: Array<IVmAction>;
-  public color: string;
+  public color: Color;
 
   constructor(
     private asyncJobService: AsyncJobService,

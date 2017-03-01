@@ -16,6 +16,7 @@ import { ServiceOfferingDialogComponent } from '../../service-offering/service-o
 import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
 import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
+import { Color } from '../../shared/models/color.model';
 
 
 @Component({
@@ -25,7 +26,7 @@ import { VmService } from '../shared/vm.service';
 })
 export class VmDetailComponent implements OnInit, OnChanges {
   @Input() public vm: VirtualMachine;
-  public color: string;
+  public color: Color;
   private expandNIC: boolean;
   private expandServiceOffering: boolean;
 
@@ -47,21 +48,21 @@ export class VmDetailComponent implements OnInit, OnChanges {
     this.updateColor();
   }
 
-  public changeColor(color: string): void {
+  public changeColor(color: Color): void {
     let oldTag = this.vm.tags.find(tag => tag.key === 'color');
 
     let createObs = this.tagService.create({
       resourceIds: this.vm.id,
       resourceType: 'UserVm',
       'tags[0].key': 'color',
-      'tags[0].value': color,
+      'tags[0].value': color.value,
     })
       .map(() => {
         this.vm.tags.push(new Tag({
           resourceId: this.vm.id,
           resourceType: 'UserVm',
           key: 'color',
-          value: color
+          value: color.value
         }));
         this.vmService.updateVmInfo(this.vm);
       });

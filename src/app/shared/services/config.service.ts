@@ -13,7 +13,15 @@ export class ConfigService {
 
   constructor(private http: Http) { }
 
-  public load(reload = false): Observable<any> {
+  public get(key: string): Observable<any> {
+    if (this.config) {
+      return Observable.of(this.config[key]);
+    } else {
+      return this.load().map(() => this.config[key]);
+    }
+  }
+
+  private load(reload = false): Observable<any> {
     if (reload || !this.config) {
       const url = `/config-${isDevMode() ? 'dev' : 'prod'}.json`;
       return this.http.get(url)
@@ -23,14 +31,6 @@ export class ConfigService {
         .catch(() => this.handleError());
     } else {
       return Observable.of(null);
-    }
-  }
-
-  public get(key: string): Observable<any> {
-    if (this.config) {
-      return Observable.of(this.config[key]);
-    } else {
-      return this.load().map(() => this.config[key]);
     }
   }
 

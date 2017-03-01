@@ -13,4 +13,23 @@
       >Русский</mdl-option>
     </mdl-select>
   </div>
+  <div>
+    <h4>{{ 'PALETTE' | translate }}</h4>
+    <div>
+      <cs-color-picker
+        *ngIf="primaryColor"
+        [color]="primaryColor"
+        [colors]="primaryColors"
+        (onColorChanged)="updatePrimaryColor($event)"
+      ></cs-color-picker>
+    </div>
+    <div>
+      <cs-color-picker
+        *ngIf="accentColor"
+        [color]="accentColor"
+        [colors]="accentColors"
+        (onColorChanged)="updateAccentColor($event)"
+      ></cs-color-picker>
+    </div>
+  </div>
 </div>

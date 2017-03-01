@@ -10,6 +10,7 @@ import { LanguageService } from './shared/services/language.service';
 import { MdlLayoutComponent } from 'angular2-mdl';
 
 import '../style/app.scss';
+import { StyleService } from './shared/services/style.service';
 
 
 @Component({
@@ -19,6 +20,7 @@ import '../style/app.scss';
 })
 export class AppComponent implements OnInit {
   public loggedIn: boolean;
+  public stylesLoaded = false;
   public title: string;
 
   constructor(
@@ -28,6 +30,7 @@ export class AppComponent implements OnInit {
     private error: ErrorService,
     private languageService: LanguageService,
     @Inject('INotificationService') private notification: INotificationService,
+    private styleService: StyleService
   ) {
     this.title = this.auth.name;
     this.error.subscribe(e => this.handleError(e));
@@ -46,8 +49,8 @@ export class AppComponent implements OnInit {
       this.updateAccount(false);
     }
     this.languageService.applyLanguage();
+    this.styleService.loadPalette();
   }
-
 
   private updateAccount(loggedIn: boolean): void {
     this.loggedIn = loggedIn;

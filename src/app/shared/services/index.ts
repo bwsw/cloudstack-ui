@@ -25,6 +25,7 @@ export * from './snapshot.service';
 export * from './SSHKeyPair.service';
 export * from './stats-update.service';
 export * from './storage.service';
+export * from './style.service';
 export * from './tag.service';
 export * from './utils.service';
 export * from './volume.service';

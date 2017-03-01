@@ -47,6 +47,7 @@ import { FormsModule } from '@angular/forms';
 import { FabComponent } from './components/fab/fab.component';
 import { ColorPickerComponent } from './components/color-picker/color-picker.component';
 import { LanguageService } from './services/language.service';
+import { StyleService } from './services/style.service';
 
 
 @NgModule({
@@ -109,6 +110,7 @@ import { LanguageService } from './services/language.service';
     SnapshotService,
     StatsUpdateService,
     StorageService,
+    StyleService,
     TagService,
     UtilsService,
     VolumeService,
