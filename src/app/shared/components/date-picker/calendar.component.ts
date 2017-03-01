@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import {
-  getFirstDayOfMonth,
-  localizedWeekday,
-  getWeekArray,
   addMonths,
-  isEqualDate
+  dateTimeFormat as DateTimeFormat,
+  getFirstDayOfMonth,
+  getWeekArray,
+  isEqualDate,
+  localizedWeekday
 } from './dateUtils';
-import { dateTimeFormat as DateTimeFormat } from './dateUtils';
 
 
 const daysArray = [

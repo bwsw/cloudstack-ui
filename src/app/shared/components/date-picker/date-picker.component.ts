@@ -13,10 +13,11 @@ export class DatePickerComponent {
 
   constructor(private dialogService: MdlDialogService) { }
 
-  public onFocus(_e: Event): void {
+  public onFocus(e: Event): void {
     if (this.isDialogOpen) {
       return;
     }
+    (e.target as HTMLInputElement).blur();
 
     this.isDialogOpen = true;
     this.dialogService.showCustomDialog({
