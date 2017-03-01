@@ -82,7 +82,6 @@ export class VmDetailComponent implements OnInit, OnChanges {
       })
       .switchMap(() => createObs)
       .subscribe();
-    return;
   }
 
   public toggleNIC(): void {
