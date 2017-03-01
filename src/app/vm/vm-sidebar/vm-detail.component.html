@@ -1,4 +1,11 @@
 <div *ngIf="vm">
+  <div>
+    <h2 class="details-header color-header">{{ 'COLOR' | translate }}</h2>
+    <cs-color-picker
+      [color]="color"
+      (onColorChanged)="changeColor($event)"
+    ></cs-color-picker>
+  </div>
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
       <h2 mdl-card-title-text>{{ 'SERVICE_OFFERING' | translate }}</h2>

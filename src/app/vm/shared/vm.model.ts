@@ -10,6 +10,7 @@ import {
 import { SecurityGroup } from '../../security-group/sg.model';
 import { BaseTemplateModel } from '../../template/shared/base-template.model';
 import { ZoneName } from '../../shared/decorators/zone-name.decorator';
+import { Tag } from '../../shared/models/tag.model';
 
 
 export const MIN_ROOT_DISK_SIZE = 10;
@@ -100,6 +101,7 @@ export class VirtualMachine extends BaseModel {
   // misc
   public keyPair: string;
   public password: string;
+  public tags: Array<Tag>;
 
   constructor(params?: {}) {
     super(params);

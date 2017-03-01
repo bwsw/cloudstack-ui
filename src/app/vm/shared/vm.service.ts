@@ -249,6 +249,15 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
   }
 
+  public getColor(vm: VirtualMachine): string {
+    if (vm.tags) {
+      let colorTag = vm.tags.find(tag => tag.key === 'color');
+      if (colorTag) {
+        return colorTag.value;
+      }
+    }
+    return '';
+  }
   private _changeServiceOffering(serviceOfferingId: string, virtualMachine: VirtualMachine): Observable<void> {
     const command = 'changeServiceFor';
     let params = {};
