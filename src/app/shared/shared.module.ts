@@ -45,6 +45,7 @@ import { DiskOfferingComponent } from './components/disk-offering/disk-offering.
 import { VolumeSizeControlComponent } from './components/volume-size-control/volume-size-control.component';
 import { FormsModule } from '@angular/forms';
 import { FabComponent } from './components/fab/fab.component';
+import { LanguageService } from './services/language.service';
 
 
 @NgModule({
@@ -92,6 +93,7 @@ import { FabComponent } from './components/fab/fab.component';
     DiskStorageService,
     ErrorService,
     JobsNotificationService,
+    LanguageService,
     LoginGuard,
     NotificationService,
     OsTypeService,

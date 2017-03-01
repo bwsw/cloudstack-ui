@@ -10,6 +10,7 @@ export * from './disk-offering.service';
 export * from './disk-storage.service';
 export * from './error.service';
 export * from './jobs-notification.service';
+export * from './language.service';
 export * from './login-guard.service';
 export * from './notification.service';
 export * from './os-type.service';

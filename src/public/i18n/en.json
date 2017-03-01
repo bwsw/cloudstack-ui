@@ -388,5 +388,8 @@
 
   "VOLUME_ATTACH_DONE": "Volume has been attached",
   "VOLUME_ATTACH_FAILED": "Failed to attach a volume",
-  "VOLUME_ATTACH_IN_PROGRESS": "Attaching a volume"
+  "VOLUME_ATTACH_IN_PROGRESS": "Attaching a volume",
+
+  "SETTINGS": "Settings",
+  "LANGUAGE": "Language"
 }

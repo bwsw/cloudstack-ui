@@ -70,11 +70,6 @@ div.closed {
   overflow: hidden;
 }
 
-.stat-header {
-  margin: 0;
-  padding: 15px 15px 0 15px;
-}
-
 .stat-section {
   width: 100%;
   min-height: 0;
@@ -83,4 +78,9 @@ div.closed {
 
 .stat-collapse {
   text-align: right;
+}
+
+.stat-header {
+  margin: 0;
+  padding: 15px 15px 0 15px;
 }
