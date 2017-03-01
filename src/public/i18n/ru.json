@@ -391,5 +391,6 @@
   "VOLUME_ATTACH_IN_PROGRESS": "Диск прикрепляется",
 
   "SETTINGS": "Настройки",
-  "LANGUAGE": "Язык"
+  "LANGUAGE": "Язык",
+  "COLOR": "Цвет"
 }

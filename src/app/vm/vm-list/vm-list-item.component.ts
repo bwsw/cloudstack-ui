@@ -10,6 +10,7 @@ import {
 import { VirtualMachine, IVmAction } from '../shared/vm.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { IAsyncJob } from '../../shared/models/async-job.model';
+import { VmService } from '../shared/vm.service';
 
 
 @Component({
@@ -24,18 +25,24 @@ export class VmListItemComponent implements OnInit, OnChanges {
   @Output() public onClick = new EventEmitter();
 
   public actions: Array<IVmAction>;
+  public color: string;
 
   constructor(
-    private asyncJobService: AsyncJobService
+    private asyncJobService: AsyncJobService,
+    private vmService: VmService
   ) {}
 
   public ngOnInit(): void {
+    this.updateColor();
     this.actions = this.vm.actions.map(a => VirtualMachine.getAction(a));
     this.asyncJobService.event.subscribe((job: IAsyncJob<VirtualMachine>) => {
       if (job.jobResult && job.jobResult.id === this.vm.id) {
         this.vm.state = job.jobResult.state;
         this.vm.nic[0] = job.jobResult.nic[0];
       }
+    });
+    this.vmService.vmUpdateObservable.subscribe(() => {
+      this.updateColor();
     });
   }
 
@@ -77,5 +84,9 @@ export class VmListItemComponent implements OnInit, OnChanges {
         this.isSelected = changes[propName].currentValue;
       }
     }
+  }
+
+  private updateColor(): void {
+    this.color = this.vmService.getColor(this.vm);
   }
 }

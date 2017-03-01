@@ -391,5 +391,6 @@
   "VOLUME_ATTACH_IN_PROGRESS": "Attaching a volume",
 
   "SETTINGS": "Settings",
-  "LANGUAGE": "Language"
+  "LANGUAGE": "Language",
+  "COLOR": "Color"
 }
