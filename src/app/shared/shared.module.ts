@@ -48,6 +48,8 @@ import { FabComponent } from './components/fab/fab.component';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
 import { DatePickerDialogComponent } from './components/date-picker/date-picker-dialog.component';
 import { CalendarComponent } from './components/date-picker/calendar.component';
+import { CalendarMonthComponent } from './components/date-picker/calendar-month.component';
+import { DateDisplayComponent } from './components/date-picker/date-display.component';
 
 
 @NgModule({
@@ -88,6 +90,8 @@ import { CalendarComponent } from './components/date-picker/calendar.component';
     DatePickerComponent,
     DatePickerDialogComponent,
     CalendarComponent,
+    CalendarMonthComponent,
+    DateDisplayComponent,
     DivByPowerOfTwoPipe,
     ViewValuePipe,
     HighLightPipe

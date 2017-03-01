@@ -1,13 +1,4 @@
-<div class="date-display mdl-color--primary">
-  <div class="year">
-    <div class="year-title">{{ year }}</div>
-  </div>
-  <div class="month-day">
-    <div class="month-day-title">
-      {{ dateTime }}
-    </div>
-  </div>
-</div>
+<cs-date-display [selectedDate]="selectedDate"></cs-date-display>
 <div class="calendar">
   <div class="calendar-container">
     <div class="calendar-toolbar">
@@ -32,26 +23,11 @@
         {{ day }}
       </span>
     </div>
-    <div class="calendar-month">
-      <div class="week" *ngFor="let week of weekElements">
-        <div
-          class="day"
-          [class.none]="!day"
-          *ngFor="let day of week"
-          (click)="setSelectedDate($event, day)"
-        >
-          <ng-container *ngIf="day">
-            <div
-              class="button-state mdl-color--primary"
-              [class.selected]="isSameDate(day)"
-            ></div>
-            <span class="label">
-              {{ getDay(day) }}
-            </span>
-          </ng-container>
-          <span class="label" *ngIf="!day"></span>
-        </div>
-      </div>
-    </div>
+    <cs-calendar-month
+      [locale]="locale"
+      [displayDate]="displayDate"
+      [selectedDate]="selectedDate"
+      (dateSelected)="onDateSelected($event)"
+    ></cs-calendar-month>
   </div>
 </div>

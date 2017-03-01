@@ -4,8 +4,6 @@ import {
   addMonths,
   dateTimeFormat as DateTimeFormat,
   getFirstDayOfMonth,
-  getWeekArray,
-  isEqualDate,
   localizedWeekday
 } from './dateUtils';
 
@@ -37,20 +35,6 @@ export class CalendarComponent implements OnInit {
     this.selectedDate = this.initialDate;
   }
 
-  public get year(): string {
-    return new DateTimeFormat(this.locale, {
-      year: 'numeric',
-    }).format(this.selectedDate);
-  }
-
-  public get dateTime(): string {
-    return new DateTimeFormat(this.locale, {
-      month: 'short',
-      weekday: 'short',
-      day: '2-digit',
-    }).format(this.selectedDate);
-  }
-
   public get dateTimeFormatted(): string {
     return new DateTimeFormat(this.locale, {
       month: 'long',
@@ -64,42 +48,12 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  public get weekElements(): Array<Array<Date>> {
-    return getWeekArray(this.displayDate, 0);
-  }
-
-  public getDay(date): string|null {
-    if (!date) {
-      return null;
-    }
-    return new DateTimeFormat(this.locale, {
-      day: 'numeric',
-    }).format(date);
-  }
-
-  public setSelectedDate(_e: Event, day: Date): void {
-    const newDisplayDate = getFirstDayOfMonth(day);
-    if (newDisplayDate !== this.displayDate) {
-      this.setDisplayDate(newDisplayDate, day);
-    }
-  }
-
-  public isSameDate(date): boolean {
-    return isEqualDate(this.selectedDate, date);
-  }
-
   public onMonthChange(shift: number): void {
     this.displayDate = addMonths(this.displayDate, shift);
   }
 
-  private setDisplayDate(date, newSelectedDate): void {
-    const newDisplayDate = getFirstDayOfMonth(date);
-
-    if (newDisplayDate !== this.displayDate) {
-      this.displayDate = newDisplayDate;
-      this.selectedDate = newSelectedDate || this.selectedDate;
-
-      this.dateSelected.emit(this.selectedDate);
-    }
+  public onDateSelected(newDate: Date): void {
+    this.selectedDate = newDate;
+    this.dateSelected.emit(newDate);
   }
 }
