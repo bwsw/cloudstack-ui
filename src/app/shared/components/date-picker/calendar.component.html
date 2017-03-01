@@ -11,9 +11,9 @@
 <div class="calendar">
   <div class="calendar-container">
     <div class="calendar-toolbar">
-      <mdl-icon>keyboard_arrow_left</mdl-icon>
+      <mdl-icon (click)="onMonthChange(-1)">keyboard_arrow_left</mdl-icon>
       <div class="title-div">{{ dateTimeFormatted }}</div>
-      <mdl-icon>keyboard_arrow_right</mdl-icon>
+      <mdl-icon (click)="onMonthChange(1)">keyboard_arrow_right</mdl-icon>
     </div>
     <div class="week-title">
       <span class="week-title-day" *ngFor="let day of weekTitles">
