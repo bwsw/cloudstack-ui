@@ -11,9 +11,21 @@
 <div class="calendar">
   <div class="calendar-container">
     <div class="calendar-toolbar">
-      <mdl-icon (click)="onMonthChange(-1)">keyboard_arrow_left</mdl-icon>
+      <button
+        mdl-button
+        mdl-button-type="icon"
+        (click)="onMonthChange(-1)"
+      >
+        <mdl-icon>keyboard_arrow_left</mdl-icon>
+      </button>
       <div class="title-div">{{ dateTimeFormatted }}</div>
-      <mdl-icon (click)="onMonthChange(1)">keyboard_arrow_right</mdl-icon>
+      <button
+        mdl-button
+        mdl-button-type="icon"
+        (click)="onMonthChange(1)"
+      >
+        <mdl-icon>keyboard_arrow_right</mdl-icon>
+      </button>
     </div>
     <div class="week-title">
       <span class="week-title-day" *ngFor="let day of weekTitles">
@@ -22,13 +34,23 @@
     </div>
     <div class="calendar-month">
       <div class="week" *ngFor="let week of weekElements">
-        <span
-          class="label"
+        <div
+          class="day"
+          [class.none]="!day"
           *ngFor="let day of week"
           (click)="setSelectedDate($event, day)"
         >
-          {{ getDay(day) }}
-        </span>
+          <ng-container *ngIf="day">
+            <div
+              class="button-state mdl-color--primary"
+              [class.selected]="isSameDate(day)"
+            ></div>
+            <span class="label">
+              {{ getDay(day) }}
+            </span>
+          </ng-container>
+          <span class="label" *ngIf="!day"></span>
+        </div>
       </div>
     </div>
   </div>

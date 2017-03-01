@@ -88,6 +88,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  position: relative;
   height: 34px;
   margin-bottom: 2px;
 }
@@ -104,6 +105,40 @@
   -moz-padding-start: 0;
 }
 
+.day {
+  border: 10px;
+  box-sizing: border-box;
+  display: inline-block;
+  font-family: Roboto, sans-serif;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  cursor: pointer;
+  text-decoration: none;
+  margin: 0;
+  padding: 4px 0;
+  outline: none;
+  font-size: inherit;
+  font-weight: 400;
+  position: relative;
+  z-index: 1;
+  width: 42px;
+  background: none;
+
+  &.none {
+    cursor: auto;
+  }
+
+  &:hover {
+    .button-state {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+
+    .label {
+      color: white;
+    }
+  }
+}
+
 .label {
   font-weight: 400;
   position: relative;
@@ -116,3 +151,25 @@
   -webkit-tap-highlight-color: rgba(0,0,0,0); // Remove mobile color flashing (deprecated)
   width: 42px;
 }
+
+.button-state {
+  border-radius: 50%;
+  height: 34px;
+  left: 4px;
+  position: absolute;
+  top: 0;
+  width: 34px;
+  transform: scale(0);
+  opacity: 0;
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+
+  &.selected {
+    transform: scale(1);
+    opacity: 1 !important;
+  }
+
+  &.selected + .label {
+    color: white;
+  }
+}
+

@@ -1,6 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { getFirstDayOfMonth, localizedWeekday, getWeekArray, addMonths } from './dateUtils';
+import {
+  getFirstDayOfMonth,
+  localizedWeekday,
+  getWeekArray,
+  addMonths,
+  isEqualDate
+} from './dateUtils';
 import { dateTimeFormat as DateTimeFormat } from './dateUtils';
 
 
@@ -76,6 +82,10 @@ export class CalendarComponent implements OnInit {
     if (newDisplayDate !== this.displayDate) {
       this.setDisplayDate(newDisplayDate, day);
     }
+  }
+
+  public isSameDate(date): boolean {
+    return isEqualDate(this.selectedDate, date);
   }
 
   public onMonthChange(shift: number): void {
