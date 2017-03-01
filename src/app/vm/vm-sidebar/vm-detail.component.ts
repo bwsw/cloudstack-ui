@@ -9,8 +9,6 @@ import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.compone
 import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { TagService } from '../../shared/services/tag.service';
-import { NotificationService } from '../../shared/services/notification.service';
-import { TranslateService } from 'ng2-translate';
 import { Tag } from '../../shared/models/tag.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 
@@ -29,9 +27,7 @@ export class VmDetailComponent implements OnInit {
   constructor(
     private asyncJobService: AsyncJobService,
     private dialogService: MdlDialogService,
-    private notificationService: NotificationService,
     private tagService: TagService,
-    private translateService: TranslateService,
     private vmService: VmService
   ) {
     this.expandNIC = false;
@@ -56,32 +52,33 @@ export class VmDetailComponent implements OnInit {
       'tags[0].value': color,
     })
       .map(
-        () => this.vm.tags.push(new Tag({
-          resourceId: this.vm.id,
-          resourceType: 'UserVm',
-          key: 'color',
-          value: color
-        })),
-        () => this.translateService.get('UNEXPECTED_ERROR').subscribe(str => this.notificationService.error(str))
+        () => {
+          this.vm.tags.push(new Tag({
+            resourceId: this.vm.id,
+            resourceType: 'UserVm',
+            key: 'color',
+            value: color
+          }));
+          this.vmService.updateVmInfo(this.vm);
+        }
       );
-
-    let removeObs = this.tagService.remove({
-      resourceIds: this.vm.id,
-      resourceType: 'UserVm',
-      'tags[0].key': 'color',
-      'tags[0].value': oldTag.value
-    })
-      .switchMap(job => this.asyncJobService.register(job, '', ''))
-      .map(() => this.vm.tags.filter(tag => tag.key !== oldTag.key));
 
     if (oldTag) {
-      removeObs.subscribe(
-        () => createObs.subscribe(),
-        () => this.translateService.get('UNEXPECTED_ERROR').subscribe(str => this.notificationService.error(str))
-      );
-    } else {
-      createObs.subscribe();
+      this.tagService.remove({
+        resourceIds: this.vm.id,
+        resourceType: 'UserVm',
+        'tags[0].key': 'color',
+        'tags[0].value': oldTag.value || ''
+      })
+        .switchMap(job => this.asyncJobService.register(job))
+        .map(() => {
+          this.vm.tags = this.vm.tags.filter(tag => tag.key !== oldTag.key);
+        })
+        .switchMap(() => createObs)
+        .subscribe();
+      return;
     }
+    createObs.subscribe();
   }
 
   public toggleNIC(): void {
@@ -110,6 +107,5 @@ export class VmDetailComponent implements OnInit {
 
   private updateColor(): void {
     this.color = this.vmService.getColor(this.vm);
-    console.log('updated');
   }
 }

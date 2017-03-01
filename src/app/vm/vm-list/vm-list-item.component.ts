@@ -41,6 +41,9 @@ export class VmListItemComponent implements OnInit, OnChanges {
         this.vm.nic[0] = job.jobResult.nic[0];
       }
     });
+    this.vmService.vmUpdateObservable.subscribe(() => {
+      this.updateColor();
+    });
   }
 
   public handleClick(e: MouseEvent): void {
@@ -76,7 +79,6 @@ export class VmListItemComponent implements OnInit, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     for (let propName in changes) {
       if (changes.hasOwnProperty(propName) && propName === 'isSelected') {
         this.isSelected = changes[propName].currentValue;
