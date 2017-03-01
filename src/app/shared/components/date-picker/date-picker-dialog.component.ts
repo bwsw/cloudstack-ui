@@ -18,10 +18,12 @@ export class DatePickerDialogComponent {
     this.selectedDate = date;
   }
 
-  public hide(): void {
+  public hide(setDate = true): void {
+    if (!setDate || !this.selectedDate) {
+      this.dialog.hide();
+    }
     if (this.selectedDate) {
       this.dialog.hide(this.selectedDate);
     }
-    this.dialog.hide(this.initialDate);
   }
 }

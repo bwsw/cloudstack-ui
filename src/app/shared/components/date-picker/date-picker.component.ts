@@ -28,7 +28,9 @@ export class DatePickerComponent {
       .onErrorResumeNext()
       .subscribe((date: Date) => {
         this.isDialogOpen = false;
-        this.date = date;
+        if (date) {
+          this.date = date;
+        }
       });
   }
 }
