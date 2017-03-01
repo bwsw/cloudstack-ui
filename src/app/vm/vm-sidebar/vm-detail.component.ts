@@ -1,16 +1,21 @@
 import {
   Component,
-  Input, OnInit
+  Input,
+  OnChanges,
+  OnInit
 } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
+
+import {
+  AsyncJobService,
+  Tag,
+  TagService
+} from '../../shared';
 import { SecurityGroup } from '../../security-group/sg.model';
 import { ServiceOfferingDialogComponent } from '../../service-offering/service-offering-dialog.component';
 import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
 import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
-import { TagService } from '../../shared/services/tag.service';
-import { Tag } from '../../shared/models/tag.model';
-import { AsyncJobService } from '../../shared/services/async-job.service';
 
 
 @Component({
@@ -18,7 +23,7 @@ import { AsyncJobService } from '../../shared/services/async-job.service';
   templateUrl: 'vm-detail.component.html',
   styleUrls: ['vm-detail.component.scss']
 })
-export class VmDetailComponent implements OnInit {
+export class VmDetailComponent implements OnInit, OnChanges {
   @Input() public vm: VirtualMachine;
   public color: string;
   private expandNIC: boolean;
@@ -51,34 +56,33 @@ export class VmDetailComponent implements OnInit {
       'tags[0].key': 'color',
       'tags[0].value': color,
     })
-      .map(
-        () => {
-          this.vm.tags.push(new Tag({
-            resourceId: this.vm.id,
-            resourceType: 'UserVm',
-            key: 'color',
-            value: color
-          }));
-          this.vmService.updateVmInfo(this.vm);
-        }
-      );
+      .map(() => {
+        this.vm.tags.push(new Tag({
+          resourceId: this.vm.id,
+          resourceType: 'UserVm',
+          key: 'color',
+          value: color
+        }));
+        this.vmService.updateVmInfo(this.vm);
+      });
 
-    if (oldTag) {
-      this.tagService.remove({
-        resourceIds: this.vm.id,
-        resourceType: 'UserVm',
-        'tags[0].key': 'color',
-        'tags[0].value': oldTag.value || ''
-      })
-        .switchMap(job => this.asyncJobService.register(job))
-        .map(() => {
-          this.vm.tags = this.vm.tags.filter(tag => tag.key !== oldTag.key);
-        })
-        .switchMap(() => createObs)
-        .subscribe();
+    if (!oldTag) {
+      createObs.subscribe();
       return;
     }
-    createObs.subscribe();
+    this.tagService.remove({
+      resourceIds: this.vm.id,
+      resourceType: 'UserVm',
+      'tags[0].key': 'color',
+      'tags[0].value': oldTag.value || ''
+    })
+      .switchMap(job => this.asyncJobService.register(job))
+      .map(() => {
+        this.vm.tags = this.vm.tags.filter(tag => tag.key !== oldTag.key);
+      })
+      .switchMap(() => createObs)
+      .subscribe();
+    return;
   }
 
   public toggleNIC(): void {

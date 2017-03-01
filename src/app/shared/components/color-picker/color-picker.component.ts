@@ -20,7 +20,7 @@ export class ColorPickerComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.configService.get('colors')
+    this.configService.get('vmColors')
       .subscribe(colors => this.colors = colors);
   }
 }

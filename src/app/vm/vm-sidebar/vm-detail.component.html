@@ -1,6 +1,6 @@
 <div *ngIf="vm">
   <div>
-    <h2 class="details-header color-header">Color</h2>
+    <h2 class="details-header color-header">{{ "COLOR" | translate }}</h2>
     <cs-color-picker
       [color]="color"
       (onColorChanged)="changeColor($event)"

@@ -388,5 +388,7 @@
 
   "VOLUME_ATTACH_DONE": "Диск прикреплен",
   "VOLUME_ATTACH_FAILED": "Не удалось прикрепить диск",
-  "VOLUME_ATTACH_IN_PROGRESS": "Диск прикрепляется"
+  "VOLUME_ATTACH_IN_PROGRESS": "Диск прикрепляется",
+
+  "COLOR": "Цвет"
 }
