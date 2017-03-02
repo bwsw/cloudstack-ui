@@ -1,7 +1,7 @@
 <mdl-textfield
   #textField
-  placeholder="select a date"
-  (focus)="$event.target.blur(); onFocus($event)"
-  [(ngModel)]="date"
+  placeholder="Select a date"
+  (focus)="onFocus($event)"
+  [(ngModel)]="displayDate"
 >
 </mdl-textfield>
