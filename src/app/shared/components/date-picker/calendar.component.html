@@ -1,6 +1,11 @@
-<cs-date-display [selectedDate]="selectedDate"></cs-date-display>
+<cs-date-display
+  [selectedDate]="selectedDate"
+  [showMonth]="displayMonth"
+  (yearClick)="displayMonth = false"
+  (monthClick)="displayMonth = true"
+></cs-date-display>
 <div class="calendar">
-  <div class="calendar-container">
+  <div class="calendar-container" *ngIf="displayMonth">
     <div class="calendar-toolbar">
       <button
         mdl-button
@@ -30,4 +35,12 @@
       (dateSelected)="onDateSelected($event)"
     ></cs-calendar-month>
   </div>
+  <cs-calendar-year
+    *ngIf="!displayMonth"
+    [locale]="locale"
+    [selectedDate]="selectedDate"
+    [minDate]="minDate"
+    [maxDate]="maxDate"
+    (yearSelected)="onYearSelected($event)"
+  ></cs-calendar-year>
 </div>

@@ -14,14 +14,13 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CalendarMonthComponent {
-  @Input() locale: string;
-  @Input() displayDate: Date;
-  @Input() selectedDate: Date;
+  @Input() public locale: string;
+  @Input() public displayDate: Date;
+  @Input() public selectedDate: Date;
 
-  @Output() dateSelected = new EventEmitter<Date>();
+  @Output() public dateSelected = new EventEmitter<Date>();
 
   public get weekElements(): Array<Array<Date>> {
-    console.log('weekElements');
     return getWeekArray(this.displayDate, 0);
   }
 

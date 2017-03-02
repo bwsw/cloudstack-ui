@@ -50,6 +50,7 @@ import { DatePickerDialogComponent } from './components/date-picker/date-picker-
 import { CalendarComponent } from './components/date-picker/calendar.component';
 import { CalendarMonthComponent } from './components/date-picker/calendar-month.component';
 import { DateDisplayComponent } from './components/date-picker/date-display.component';
+import { CalendarYearComponent } from './components/date-picker/calendar-year.component';
 
 
 @NgModule({
@@ -91,6 +92,7 @@ import { DateDisplayComponent } from './components/date-picker/date-display.comp
     DatePickerDialogComponent,
     CalendarComponent,
     CalendarMonthComponent,
+    CalendarYearComponent,
     DateDisplayComponent,
     DivByPowerOfTwoPipe,
     ViewValuePipe,

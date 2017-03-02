@@ -14,9 +14,11 @@
   font-size: 36px;
   line-height: 36px;
   height: 38px;
-  opacity: 1;
+  opacity: 0.7;
   width: 100%;
   font-weight: 500;
+
+  cursor: pointer;
 }
 
 .month-day-title {
@@ -31,4 +33,11 @@
   height: 16px;
   opacity: 0.7;
   margin: 0 0 10px;
+
+  cursor: pointer;
+}
+
+.month-day.selected,
+.year.selected {
+  opacity: 1;
 }

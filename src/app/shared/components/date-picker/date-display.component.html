@@ -1,8 +1,8 @@
 <div class="date-display mdl-color--primary">
-  <div class="year">
+  <div class="year" (click)="yearClick.emit()" [class.selected]="!showMonth">
     <div class="year-title">{{ year }}</div>
   </div>
-  <div class="month-day">
+  <div class="month-day" (click)="monthClick.emit()" [class.selected]="showMonth">
     <div class="month-day-title">
       {{ dateTime }}
     </div>

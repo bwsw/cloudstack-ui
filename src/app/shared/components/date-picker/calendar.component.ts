@@ -2,9 +2,11 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import {
   addMonths,
+  addYears,
+  cloneDate,
   dateTimeFormat as DateTimeFormat,
   getFirstDayOfMonth,
-  localizedWeekday
+  localizedWeekday,
 } from './dateUtils';
 
 
@@ -19,12 +21,16 @@ const daysArray = [
 })
 export class CalendarComponent implements OnInit {
   @Input() public initialDate: Date;
+  @Input() public minDate: Date = addYears(new Date(), -100);
+  @Input() public maxDate: Date = addYears(new Date(), 100);
   @Output() public dateSelected = new EventEmitter<Date>();
 
   public displayDate: Date;
   public selectedDate: Date;
 
-  private locale;
+  public displayMonth = true;
+
+  public locale;
 
   constructor() {
     this.locale = 'en-US';
@@ -55,5 +61,15 @@ export class CalendarComponent implements OnInit {
   public onDateSelected(newDate: Date): void {
     this.selectedDate = newDate;
     this.dateSelected.emit(newDate);
+  }
+
+  public onYearSelected(year: number): void {
+    const date = cloneDate(this.selectedDate);
+    date.setFullYear(year);
+
+    this.displayMonth = true;
+    this.selectedDate = date;
+    this.displayDate = date;
+    this.dateSelected.emit(date);
   }
 }

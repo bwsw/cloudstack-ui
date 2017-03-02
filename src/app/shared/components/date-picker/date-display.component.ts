@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 
 import {
   dateTimeFormat as DateTimeFormat
@@ -13,6 +13,10 @@ import {
 export class DateDisplayComponent {
   @Input() public locale: string;
   @Input() public selectedDate: Date;
+  @Input() public showMonth = true;
+
+  @Output() public monthClick = new EventEmitter();
+  @Output() public yearClick = new EventEmitter();
 
   public get year(): string {
     return new DateTimeFormat(this.locale, {
