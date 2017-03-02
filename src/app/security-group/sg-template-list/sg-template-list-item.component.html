@@ -53,11 +53,11 @@
       </mdl-icon>
     </button>
     <button
+      *ngIf="!securityGroupTemplate.isPredefinedTemplate()"
       mdl-button
       mdl-button-type="icon"
       mdl-tooltip-position="top"
       [mdl-tooltip]="'DELETE' | translate"
-      [disabled]="securityGroupTemplate.isPredefinedTemplate()"
       (click)="$event.stopPropagation(); onDelete.emit(securityGroupTemplate)"
     >
       <mdl-icon>delete</mdl-icon>
