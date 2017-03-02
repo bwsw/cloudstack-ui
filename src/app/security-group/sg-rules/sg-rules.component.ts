@@ -13,19 +13,6 @@ import { SecurityGroupService } from '../../shared/services';
 import { SecurityGroup, NetworkRuleType } from '../sg.model';
 import { NotificationService } from '../../shared/services';
 
-const icmpTypes = require('../icmp-codes.json');
-
-interface IIcmpCode {
-  code: number;
-  name: string;
-}
-
-interface IIcmpType {
-  type: number;
-  name: string;
-  codes: Array<IIcmpCode>;
-}
-
 
 @Component({
   selector: 'cs-security-group-rules',
@@ -45,9 +32,6 @@ export class SgRulesComponent implements OnInit {
 
   public adding: boolean;
 
-  public icmpTypes: Array<IIcmpType>;
-  public selectedIcmpTypeCodes: Array<IIcmpCode>;
-
   constructor(
     public dialog: MdlDialogReference,
     private securityGroupService: SecurityGroupService,
@@ -59,10 +43,10 @@ export class SgRulesComponent implements OnInit {
     this.cidr = '0.0.0.0/0';
     this.protocol = 'TCP';
     this.type = 'Ingress';
+    this.icmpCode = -1;
+    this.icmpType = -1;
 
     this.adding = false;
-
-    this.icmpTypes = icmpTypes;
   }
 
   public ngOnInit(): void {
@@ -104,6 +88,18 @@ export class SgRulesComponent implements OnInit {
       });
   }
 
+  public onIcmpTypeClick(): void {
+    if (!this.icmpType) {
+      this.icmpType = -1;
+    }
+  }
+
+  public onIcmpCodeClick(): void {
+    if (!this.icmpCode) {
+      this.icmpCode = -1;
+    }
+  }
+
   public onCidrClick(): void {
     if (!this.cidr) {
       this.cidr = '0.0.0.0/0';
@@ -128,9 +124,9 @@ export class SgRulesComponent implements OnInit {
   }
 
   /*
-  *   This code is fixed blur dialog window caused
-  *   https://bugs.chromium.org/p/chromium/issues/detail?id=521364
-  */
+   *   This code is fixed blur dialog window caused
+   *   https://bugs.chromium.org/p/chromium/issues/detail?id=521364
+   */
   public setPadding(): void {
     let rulesCount = this.securityGroup.ingressRules.length + this.securityGroup.egressRules.length;
     let dialogElement = this.getDialogElement();
@@ -141,24 +137,6 @@ export class SgRulesComponent implements OnInit {
       dialogElement.classList.add('blur-fix-even');
       dialogElement.classList.remove('blur-fix-odd');
     }
-  }
-
-  public changeSize(): void {
-    let dialogElement = this.getDialogElement();
-    if (this.protocol === 'ICMP') {
-      dialogElement.classList.add('wide');
-    } else {
-      dialogElement.classList.remove('wide');
-    }
-  }
-
-  public changeSelectedIcmp(): void {
-    this.selectedIcmpTypeCodes = this.icmpTypes.find(type => type.type === this.icmpType).codes;
-    this.icmpCode = null;
-    // setTimeout force updates the icmp code selection component
-    setTimeout(() => {
-      this.icmpCode = 0;
-    }, 0);
   }
 
   private getDialogElement(): HTMLElement {

@@ -29,27 +29,27 @@
           </mdl-select>
         </td>
         <td>
-          <mdl-select [(ngModel)]="protocol" name="protocol" (change)="changeSize()">
+          <mdl-select [(ngModel)]="protocol" name="protocol">
             <mdl-option [value]="'TCP'">TCP</mdl-option>
             <mdl-option [value]="'UDP'">UDP</mdl-option>
             <mdl-option [value]="'ICMP'">ICMP</mdl-option>
           </mdl-select>
         </td>
         <td>
-          <mdl-select
+          <mdl-textfield
             *ngIf="protocol === 'ICMP'"
-            class="icmp"
+            [class.is-invalid]="icmpTypeField.touched && icmpTypeField.invalid"
+            name="icmpType"
+            type="number"
+            minValue="-1"
+            error-msg="{{ 'ENTER_VALID_TYPE' | translate }}"
+            [label]="icmpType === -1 ? 'any' : ''"
+            floating-label
+            required
             [(ngModel)]="icmpType"
-            (change)="changeSelectedIcmp()"
-            name="icmpTypeSelect"
-          >
-            <mdl-option
-              *ngFor="let icmpType of icmpTypes"
-              [value]="icmpType.type"
-            >
-              <div><div>{{ icmpType.type + ':' }}</div><div class="icmp-description"> {{ icmpType.name }}</div></div>
-            </mdl-option>
-          </mdl-select>
+            #icmpTypeField="ngModel"
+            (click)="onIcmpTypeClick()"
+          ></mdl-textfield>
           <mdl-textfield
             *ngIf="protocol !== 'ICMP'"
             [class.is-invalid]="startPortField.touched && startPortField.invalid"
@@ -64,23 +64,20 @@
           ></mdl-textfield>
         </td>
         <td>
-          <mdl-select
+          <mdl-textfield
+            [class.is-invalid]="icmpCodeField.touched && icmpCodeField.invalid"
             *ngIf="protocol === 'ICMP'"
-            class="icmp"
+            name="icmpCode"
+            type="number"
+            minValue="-1"
+            [label]="icmpCode === -1 ? 'any' : ''"
+            floating-label
+            error-msg="{{ 'ENTER_VALID_CODE' | translate }}"
+            required
             [(ngModel)]="icmpCode"
-            name="icmpCodeSelect"
-          >
-            <div *ngIf="selectedIcmpTypeCodes">
-              <mdl-option
-                *ngFor="let icmpCode of selectedIcmpTypeCodes"
-                [value]="icmpCode.code"
-              >
-                <!-- if we indent, the option text doesn't appear in the select box correctly -->
-                <!-- because indents are displayed as extra spaces -->
-                <div><div>{{ icmpCode.code + ':' }}</div><div class="icmp-description"> {{ icmpCode.name }}</div></div>
-              </mdl-option>
-            </div>
-          </mdl-select>
+            #icmpCodeField="ngModel"
+            (click)="onIcmpCodeClick()"
+          ></mdl-textfield>
           <mdl-textfield
             *ngIf="protocol !== 'ICMP'"
             [class.is-invalid]="endPortField.touched && endPortField.invalid"
