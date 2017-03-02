@@ -46,6 +46,8 @@ import { VolumeSizeControlComponent } from './components/volume-size-control/vol
 import { FormsModule } from '@angular/forms';
 import { FabComponent } from './components/fab/fab.component';
 import { ColorPickerComponent } from './components/color-picker/color-picker.component';
+import { MdlAutocompleteTestComponent } from './autocomplete/mdl-autocomplete-test.component';
+import { MdlAutocompleteComponent } from './autocomplete/mdl-autocomplete.component';
 
 
 @NgModule({
@@ -58,6 +60,7 @@ import { ColorPickerComponent } from './components/color-picker/color-picker.com
     MdlSelectModule
   ],
   exports: [
+    MdlAutocompleteTestComponent,
     ColorPickerComponent,
     DiskOfferingComponent,
     FabComponent,
@@ -72,6 +75,8 @@ import { ColorPickerComponent } from './components/color-picker/color-picker.com
     ViewValuePipe
   ],
   declarations: [
+    MdlAutocompleteComponent,
+    MdlAutocompleteTestComponent,
     ColorPickerComponent,
     DiskOfferingComponent,
     FabComponent,

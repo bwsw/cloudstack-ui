@@ -6,8 +6,14 @@ import { TemplatePageComponent } from './template/template-page/template-page.co
 import { VmListComponent } from './vm/vm-list/vm-list.component';
 import { EventListComponent } from './events/event-list.component';
 import { SpareDrivePageComponent } from './spare-drive/spare-drive-page/spare-drive-page.component';
+import { MdlAutocompleteTestComponent } from './shared/autocomplete/mdl-autocomplete-test.component';
+
 
 const routes: Routes = [
+  {
+    path: '**',
+    component: MdlAutocompleteTestComponent
+  },
   {
     path: 'login',
     component: LoginComponent
