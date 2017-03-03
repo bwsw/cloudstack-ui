@@ -1,11 +1,11 @@
 <div
   class="mdl-textfield is-upgraded"
-  [class.is-focused]="popoverComponent.isVisible || focused"
+  [class.is-focused]="popover.isVisible || focused"
   [class.is-disabled]="disabled"
   [class.is-dirty]="text != null && text.length > 0">
   <span
     [attr.tabindex]="!disabled ? 0 : null"
-    (focus)="open($event);addFocus();"
+    (focus)="open($event); addFocus();"
     (blur)="removeFocus()">
     <!-- don't want click to also trigger focus -->
   </span>
