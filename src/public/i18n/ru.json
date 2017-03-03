@@ -1,4 +1,6 @@
 {
+  "USERNAME": "Имя пользователя",
+  "PASSWORD": "Пароль",
   "LOGIN": "Войти",
   "LOGOUT": "Выйти",
   "NOT_LOGGED_IN": "Вы не вошли в систему",
@@ -38,11 +40,11 @@
   "SNAPSHOT_FAILED": "Не удалось создать снимок",
   "VOLUME_BUSY": "Диск занят",
 
-  "CONFIRM_VM_START": "Вы уверены, что вы хотите запустить виртуальную машину?",
-  "CONFIRM_VM_STOP": "Вы уверены, что вы хотите остановить виртуальную машину?",
-  "CONFIRM_VM_REBOOT": "Вы уверены, что вы хотите перезапустить виртуальную машину?",
-  "CONFIRM_VM_RESTORE": "Вы уверены, что вы хотите переустановить виртуальную машину?",
-  "CONFIRM_VM_DESTROY": "Вы уверены, что вы хотите уничтожить виртуальную машину?",
+  "CONFIRM_VM_START": "Вы уверены, что хотите запустить виртуальную машину?",
+  "CONFIRM_VM_STOP": "Вы уверены, что хотите остановить виртуальную машину?",
+  "CONFIRM_VM_REBOOT": "Вы уверены, что хотите перезапустить виртуальную машину?",
+  "CONFIRM_VM_RESTORE": "Вы уверены, что хотите переустановить виртуальную машину?",
+  "CONFIRM_VM_DESTROY": "Вы уверены, что хотите уничтожить виртуальную машину?",
   "CONFIRM_DELETE_TEMPLATE": "Вы уверены, что хотите удалить этот шаблон?",
   "CONFIRM_VM_RESETPASSWORDFOR": "Вы уверены, что хотите сбросить пароль?<br>Если ваша виртуальная машина запущена, то она будет перезагружена.",
   "START_DONE": "ВМ была запущена",
@@ -67,6 +69,7 @@
   "RESTORE": "Переустановить",
   "DESTROY": "Уничтожить",
   "RESETPASSWORDFOR": "Сбросить пароль",
+  "CURRENT_OPERATIONS": "Текущие операции",
   "CLEAR_ALL": "Очистить",
   "WOULD_YOU_LIKE_TO_CREATE_VM": "Хотите создать виртуальную машину?",
   "NO_DONT_ASK": "Нет, больше не спрашивать",
@@ -90,6 +93,7 @@
   "ZONE": "Зона",
   "OS_TYPE": "Тип ОС",
   "TEMPLATE": "Шаблон",
+  "RESOURCE_USAGE": "Использование ресурсов",
   "STATISTICS": "Статистика",
   "TAKE_SNAPSHOT": "Сделать снимок",
   "NO_AFFINITY_GROUP": "Нет аффинитетных групп",
@@ -161,7 +165,7 @@
   "TEMPLATE_DELETED": "Шаблон {{ name }} успешно удален",
   "ALL_GROUPS": "Все шаблоны",
   "SELECTED_GROUPS": "Выбранные шаблоны",
-  "NETWORK_RULES": "Правила сети",
+  "FIREWALL_RULES": "Правила брандмауэра",
   "SAVE": "Сохранить",
   "CREATE": "Создать",
   "EDIT": "Редактировать",
@@ -185,7 +189,7 @@
 
   "IP": "IP",
   "NIC": "NIC",
-  "NETWORK_INTERFACE_CONTROLLER": "Сетевая карта",
+  "NETWORK_CONFIGURATION": "Конфигурация сети",
   "NETWORK_INTERFACE_CONTROLLER_FIELDS": {
     "broadcastUri":  "Broadcast URI",
     "gateway": "Шлюз",
@@ -226,10 +230,11 @@
   "EGRESS": "Исходящее",
   "ICMP_TYPE": "Тип ICMP",
   "ICMP_CODE": "Код ICMP",
-  "ENTER_VALID_PORT": "Введите корректный порт",
-  "ENTER_VALID_TYPE": "Введите корректный тип",
-  "ENTER_VALID_CODE": "Введите корректный код",
-  "ENTER_VALID_CIDR": "Введите корректный CIDR",
+  "ICMP_ANY": "Все",
+  "ENTER_VALID_PORT": "Некорректный порт",
+  "ENTER_VALID_TYPE": "Некорректный тип",
+  "ENTER_VALID_CODE": "Некорректный код",
+  "ENTER_VALID_CIDR": "Некорректный CIDR",
   "FAILED_TO_ADD_RULE": "Не удалось добавить правило",
   "FAILED_TO_REMOVE_RULE": "Не удалось удалить правило",
 
@@ -264,7 +269,7 @@
   "THIS_IS_YOU_CURRENT_OFFERING": "Это Ваше текущее предложение",
 
   "VM_NAVBAR": "Виртуальные<br>машины",
-  "SG_TEMPLATES_NAVBAR": "Шаблоны<br>групп безопасности",
+  "FIREWALL": "Брандмауэр",
 
   "NEW_TEMPLATE": "Регистрация нового шаблона",
   "NEW_ISO": "Регистрация нового ISO",
@@ -338,7 +343,8 @@
 
   "SPARE_DRIVES_NAVBAR": "Свободные диски",
   "SPARE_DRIVE_STATE": {
-    "ALLOCATED": "Аллоцирован"
+    "ALLOCATED": "Аллоцирован",
+    "READY": "Готов"
   },
   "STATE": "Состояние",
   "SPARE_DRIVE_DETAILS": {
@@ -360,5 +366,35 @@
   "DISK_OFFERING_STORAGE_TYPE": {
     "SHARED": "Общее",
     "LOCAL": "Локальное"
-  }
+  },
+
+  "CONFIRM_DELETE_VOLUME": "Вы уверены, что хотите удалить этот диск?",
+  "VOLUME_DELETE_DONE": "Диск успешно удален",
+  "VOLUME_DELETE_FAILED": "Не удалось удалить диск",
+
+  "CONFIRM_VOLUME_DETACH": "Вы уверены, что хотите открепить этот диск?",
+  "VOLUME_DETACH_IN_PROGRESS": "Открепление диска",
+  "VOLUME_DETACH_DONE": "Диск успешно откреплен",
+  "VOLUME_DETACH_FAILED": "Не удалось открепить диск",
+
+  "VOLUME_CREATION_FORM": {
+    "NEW_VOLUME": "New volume"
+  },
+
+  "VOLUME_CREATE_IN_PROGRESS": "Диск создается",
+  "VOLUME_CREATE_DONE": "Диск создан",
+  "VOLUME_CREATE_FAILED": "Не удалось создать диск",
+
+  "VOLUME_ATTACHMENT_CHOOSE": "Выберите машину",
+  "VOLUME_ATTACHMENT_NO_VMS": "Нет машин",
+  "VOLUME_ATTACHMENT_YOU_NEED_TO_CREATE": "Сперва Вам необходимо создать виртуальную машину",
+
+  "VOLUME_ATTACH_DONE": "Диск прикреплен",
+  "VOLUME_ATTACH_FAILED": "Не удалось прикрепить диск",
+  "VOLUME_ATTACH_IN_PROGRESS": "Диск прикрепляется",
+
+  "SETTINGS": "Настройки",
+  "LANGUAGE": "Язык",
+  "COLOR": "Цвет",
+  "PALETTE": "Палитра"
 }

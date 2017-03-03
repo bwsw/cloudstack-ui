@@ -1,4 +1,6 @@
 {
+  "USERNAME": "Username",
+  "PASSWORD": "Password",
   "LOGIN": "Login",
   "LOGOUT": "Logout",
   "NOT_LOGGED_IN": "You are not logged in",
@@ -21,7 +23,7 @@
   "START_IN_PROGRESS": "Starting",
   "STOP_IN_PROGRESS": "Stopping",
   "REBOOT_IN_PROGRESS": "Rebooting",
-  "RESTORE_IN_PROGRESS": "Restoring",
+  "RESTORE_IN_PROGRESS": "Reinstalling",
   "DESTROY_IN_PROGRESS": "Destroying",
   "DEPLOY_IN_PROGRESS": "Deploying",
   "RESETPASSWORDFOR_IN_PROGRESS": "Resetting password",
@@ -29,7 +31,7 @@
   "VM_START_IN_PROGRESS": "Starting a VM",
   "VM_STOP_IN_PROGRESS": "Stopping a VM",
   "VM_REBOOT_IN_PROGRESS": "Rebooting a VM",
-  "VM_RESTORE_IN_PROGRESS": "Restoring a VM",
+  "VM_RESTORE_IN_PROGRESS": "Reinstalling a VM",
   "VM_DESTROY_IN_PROGRESS": "Destroying a VM",
   "VM_DEPLOY_IN_PROGRESS": "Deploying a VM",
 
@@ -41,14 +43,14 @@
   "CONFIRM_VM_START": "Are you sure you want to start this virtual machine?",
   "CONFIRM_VM_STOP": "Are you sure you want to stop this virtual machine?",
   "CONFIRM_VM_REBOOT": "Are you sure you want to reboot this virtual machine?",
-  "CONFIRM_VM_RESTORE": "Are you sure you want to restore this virtual machine?",
+  "CONFIRM_VM_RESTORE": "Are you sure you want to reinstall this virtual machine?",
   "CONFIRM_VM_DESTROY": "Are you sure you want to destroy this virtual machine?",
   "CONFIRM_DELETE_TEMPLATE": "Are you sure you want to delete this template?",
   "CONFIRM_VM_RESETPASSWORDFOR": "Are you sure you want to reset password?<br>If your Virtual Machine is running it will be rebooted.",
   "START_DONE": "VM has started",
   "STOP_DONE": "VM has been stopped",
   "REBOOT_DONE": "VM has been rebooted",
-  "RESTORE_DONE": "VM has been restored",
+  "RESTORE_DONE": "VM has been reinstalled",
   "DESTROY_DONE": "VM has been destroyed",
   "DEPLOY_DONE": "VM has been deployed",
   "DEPLOY_FAILED": "Failed to deploy a VM",
@@ -64,9 +66,10 @@
   "VIEW": "View",
 
   "REBOOT": "Reboot",
-  "RESTORE": "Restore",
+  "RESTORE": "Reinstall",
   "DESTROY": "Destroy",
   "RESETPASSWORDFOR": "Reset password",
+  "CURRENT_OPERATIONS": "Current operations",
   "CLEAR_ALL": "Clear all",
   "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",
   "NO_DONT_ASK": "No, don't ask",
@@ -90,6 +93,7 @@
   "ZONE": "Zone",
   "OS_TYPE": "OS type",
   "TEMPLATE": "Template",
+  "RESOURCE_USAGE": "Resource usage",
   "STATISTICS": "Statistics",
   "TAKE_SNAPSHOT": "Take snapshot",
   "NO_AFFINITY_GROUP": "No affinity group",
@@ -161,7 +165,7 @@
   "TEMPLATE_DELETED": "Template {{ name }} deleted successfully",
   "ALL_GROUPS": "All templates",
   "SELECTED_GROUPS": "Selected templates",
-  "NETWORK_RULES": "Network rules",
+  "FIREWALL_RULES": "Firewall rules",
   "SAVE": "Save",
   "CREATE": "Create",
   "EDIT": "Edit",
@@ -185,7 +189,7 @@
 
   "IP": "IP",
   "NIC": "NIC",
-  "NETWORK_INTERFACE_CONTROLLER": "Network interface controller",
+  "NETWORK_CONFIGURATION": "Network configuration",
   "NETWORK_INTERFACE_CONTROLLER_FIELDS": {
     "broadcastUri":  "Broadcast URI",
     "gateway": "Gateway",
@@ -226,6 +230,7 @@
   "EGRESS": "Egress",
   "ICMP_TYPE": "ICMP type",
   "ICMP_CODE": "ICMP code",
+  "ICMP_ANY": "Any",
   "ENTER_VALID_PORT": "Enter a valid port",
   "ENTER_VALID_TYPE": "Enter a valid type",
   "ENTER_VALID_CODE": "Enter a valid code",
@@ -264,7 +269,7 @@
   "THIS_IS_YOU_CURRENT_OFFERING": "This is your current offering",
 
   "VM_NAVBAR": "Virtual machines",
-  "SG_TEMPLATES_NAVBAR": "Security group<br>templates",
+  "FIREWALL": "Firewall",
 
   "NEW_TEMPLATE": "Register a new template",
   "NEW_ISO": "Register a new ISO",
@@ -338,7 +343,8 @@
 
   "SPARE_DRIVES_NAVBAR": "Spare drives",
   "SPARE_DRIVE_STATE": {
-    "ALLOCATED": "Allocated"
+    "ALLOCATED": "Allocated",
+    "READY": "Ready"
   },
   "STATE": "State",
   "SPARE_DRIVE_DETAILS": {
@@ -360,5 +366,35 @@
   "DISK_OFFERING_STORAGE_TYPE": {
     "SHARED": "Shared",
     "LOCAL": "Local"
-  }
+  },
+
+  "CONFIRM_DELETE_VOLUME": "Are you sure you want to delete this volume?",
+  "VOLUME_DELETE_DONE": "Volume has been deleted",
+  "VOLUME_DELETE_FAILED": "Failed to delete a volume",
+
+  "CONFIRM_VOLUME_DETACH": "Are you sure you want to detach this volume?",
+  "VOLUME_DETACH_IN_PROGRESS": "Volume is being detached",
+  "VOLUME_DETACH_DONE": "Volume has been detached",
+  "VOLUME_DETACH_FAILED": "Failed to detach a volume",
+
+  "VOLUME_CREATION_FORM": {
+    "NEW_VOLUME": "New volume"
+  },
+
+  "VOLUME_CREATE_IN_PROGRESS": "Volume is being created",
+  "VOLUME_CREATE_DONE": "Volume has been created",
+  "VOLUME_CREATE_FAILED": "Failed to create a volume",
+
+  "VOLUME_ATTACHMENT_CHOOSE": "Choose a virtual machine",
+  "VOLUME_ATTACHMENT_NO_VMS": "No virtual machines",
+  "VOLUME_ATTACHMENT_YOU_NEED_TO_CREATE": "You need to create a virtual machine first",
+
+  "VOLUME_ATTACH_DONE": "Volume has been attached",
+  "VOLUME_ATTACH_FAILED": "Failed to attach a volume",
+  "VOLUME_ATTACH_IN_PROGRESS": "Attaching a volume",
+
+  "SETTINGS": "Settings",
+  "LANGUAGE": "Language",
+  "COLOR": "Color",
+  "PALETTE": "Palette"
 }

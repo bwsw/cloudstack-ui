@@ -1,0 +1,14 @@
+<mdl-textfield
+  #textField
+  placeholder="Select a date"
+  (focus)="onFocus($event)"
+  [(ngModel)]="displayDate"
+>
+</mdl-textfield>
+<button
+  mdl-button
+  mdl-button-type="icon"
+  (click)="onFocus($event)"
+>
+  <mdl-icon>date_range</mdl-icon>
+</button>

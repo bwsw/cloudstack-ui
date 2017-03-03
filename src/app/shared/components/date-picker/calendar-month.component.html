@@ -1,0 +1,21 @@
+<div class="calendar-month">
+  <div class="week" *ngFor="let week of weekElements">
+    <div
+      class="day"
+      [class.none]="!day"
+      *ngFor="let day of week"
+      (click)="setSelectedDate($event, day)"
+    >
+      <ng-container *ngIf="day">
+        <div
+          class="button-state mdl-color--primary"
+          [class.selected]="isSameDate(day)"
+        ></div>
+        <span class="label">
+          {{ getDay(day) }}
+        </span>
+      </ng-container>
+      <span class="label" *ngIf="!day"></span>
+    </div>
+  </div>
+</div>

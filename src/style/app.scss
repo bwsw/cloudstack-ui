@@ -6,12 +6,6 @@
 
 @import "~angular2-mdl/scss/color-definitions";
 
-$color-primary-dark: $palette-blue-700;
-$color-accent: $palette-amber-A200;
-$color-primary-contrast: $color-dark-contrast;
-$color-accent-contrast: $color-dark-contrast;
-
-
 * {
   box-sizing: border-box;
 }
@@ -27,6 +21,7 @@ mdl-card > mdl-card-title + mdl-card-supporting-text {
 mdl-card .mdl-card__title-text,
 .details-header {
   font-size: 18px;
+  width: 100%;
 }
 
 mdl-card.custom-card {
@@ -80,16 +75,9 @@ mdl-card.custom-card {
   overflow: auto;
 }
 
-.fab {
-  position: fixed;
-  right: 32px;
-  bottom: 32px;
-  z-index: 99;
-}
-
 .mdl-dialog__title {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 24px !important;
+  font-weight: bold !important;
 }
 
 .card-wrapper {
@@ -134,4 +122,17 @@ mdl-card.custom-card {
   transform: scale(1.03);
   box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
   transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.padding {
+  padding: 15px;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.margin-bottom {
+  margin-top: 0;
+  margin-bottom: 15px;
 }

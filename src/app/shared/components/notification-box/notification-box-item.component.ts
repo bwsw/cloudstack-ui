@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { INotification, INotificationStatus } from '../services/jobs-notification.service';
+import { INotification, INotificationStatus } from '../../services/jobs-notification.service';
 
 @Component({
   selector: 'cs-notification-box-item',

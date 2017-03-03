@@ -6,10 +6,12 @@ import { Router } from '@angular/router';
 import { TranslateService } from 'ng2-translate';
 import { ErrorService } from './shared/services/error.service';
 import { INotificationService } from './shared/services/notification.service';
+import { LanguageService } from './shared/services/language.service';
 import { MdlLayoutComponent } from 'angular2-mdl';
 
 import '../style/app.scss';
-import { StorageService } from './shared/services/storage.service';
+import { StyleService } from './shared/services/style.service';
+import { ZoneService } from './shared/services/zone.service';
 
 
 @Component({
@@ -20,22 +22,27 @@ import { StorageService } from './shared/services/storage.service';
 export class AppComponent implements OnInit {
   public loggedIn: boolean;
   public title: string;
+  public disableSecurityGroups = false;
 
   constructor(
     private auth: AuthService,
     private router: Router,
     private translate: TranslateService,
     private error: ErrorService,
+    private languageService: LanguageService,
     @Inject('INotificationService') private notification: INotificationService,
-    private storage: StorageService
+    private styleService: StyleService,
+    private zoneService: ZoneService
   ) {
     this.title = this.auth.name;
-    // this.translate.setDefaultLang('en');
-    // this.translate.use('en');
     this.error.subscribe(e => this.handleError(e));
-    this.auth.isLoggedIn().subscribe(r => this.loggedIn = r);
+    this.auth.isLoggedIn().subscribe();
     this.auth.loggedIn.subscribe(loggedIn => {
       this.updateAccount(loggedIn);
+      if (loggedIn) {
+        this.zoneService.areAllZonesBasic()
+          .subscribe(basic => this.disableSecurityGroups = basic);
+      }
     });
   }
 
@@ -47,29 +54,8 @@ export class AppComponent implements OnInit {
     if (!this.auth.isLoggedIn()) {
       this.updateAccount(false);
     }
-    this.setLanguage();
-  }
-
-  // todo: remove
-  public changeLanguage(): void {
-    let lang = this.storage.read('lang');
-    if (lang === 'ru') {
-      this.storage.write('lang', 'en');
-    }
-    if (lang === 'en') {
-      this.storage.write('lang', 'ru');
-    }
-    this.setLanguage();
-  }
-
-  public setLanguage(): void {
-    let lang = this.storage.read('lang');
-    if (!lang) {
-      this.storage.write('lang', 'en');
-      this.translate.use('en');
-      return;
-    }
-    this.translate.use(lang);
+    this.languageService.applyLanguage();
+    this.styleService.loadPalette();
   }
 
   private updateAccount(loggedIn: boolean): void {

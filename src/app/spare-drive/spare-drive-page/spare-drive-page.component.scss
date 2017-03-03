@@ -21,3 +21,8 @@ $spare-drives-detail-width: $sidebar-width + 1;
 cs-template-sidebar {
   width: $spare-drives-detail-width;
 }
+
+/deep/ .volume-creation-dialog {
+  width: 380px;
+  overflow: visible;
+}

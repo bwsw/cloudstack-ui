@@ -1,0 +1,26 @@
+:host mdl-select {
+  font-size: 24px;
+  width: 330px;
+}
+
+:host /deep/ .mdl-textfield__input {
+  padding: 0;
+}
+
+:host /deep/ .mdl-textfield {
+  width: 330px;
+}
+
+:host /deep/ .mdl-list__item {
+  background-color: inherit;
+}
+
+:host /deep/ .mdl-select .mdl-list__item:hover {
+  background-color: inherit !important;
+  border: 1px solid rgba(0,0,0,0.3);
+}
+
+:host /deep/ .mdl-select .mdl-list__item.is-active {
+  background-color: inherit;
+  border: 1px solid rgba(0,0,0,0.3);
+}

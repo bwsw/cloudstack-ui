@@ -1,12 +1,12 @@
 <div class="flex-container">
   <div class="login mdl-color--white" mdl-shadow="2">
-    <h3 class="mdl-dialog__title">Login</h3>
+    <h4 class="mdl-dialog__title">{{ 'LOGIN' | translate }}</h4>
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
       <div class="mdl-dialog__content">
         <mdl-textfield
           required
           type="text"
-          label="Username"
+          [label]="'USERNAME' | translate "
           name="username"
           #user="ngModel"
           [(ngModel)]="username"
@@ -17,7 +17,7 @@
         <mdl-textfield
           required
           type="password"
-          label="Password"
+          [label]="'PASSWORD' | translate"
           name="password"
           #pass="ngModel"
           [(ngModel)]="password"
@@ -32,9 +32,7 @@
           mdl-ripple
           type="submit"
           [disabled]="!loginForm.valid"
-        >
-          Login
-        </button>
+        >{{ 'LOGIN' | translate }}</button>
       </div>
     </form>
   </div>

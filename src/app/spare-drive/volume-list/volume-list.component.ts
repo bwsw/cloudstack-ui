@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Volume } from '../../shared/models/volume.model';
+import { VolumeAttachmentData } from '../../shared/services/volume.service';
+
 
 @Component({
   selector: 'cs-volume-list',
@@ -10,9 +12,19 @@ export class VolumeListComponent {
   @Input() public volumes: Array<Volume>;
   @Input() public selectedVolume: Volume;
   @Output() public onVolumeSelected = new EventEmitter();
+  @Output() public onDelete = new EventEmitter();
+  @Output() public onVolumeAttached = new EventEmitter();
 
   public selectVolume(volume: Volume): void {
     this.selectedVolume = volume;
     this.onVolumeSelected.emit(this.selectedVolume);
+  }
+
+  public remove(volume: Volume): void {
+    this.onDelete.emit(volume);
+  }
+
+  public attach(data: VolumeAttachmentData): void {
+    this.onVolumeAttached.emit(data);
   }
 }

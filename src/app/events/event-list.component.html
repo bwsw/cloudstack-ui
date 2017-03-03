@@ -15,6 +15,7 @@
 <div class="spinner">
   <mdl-spinner *ngIf="loading" single-color active></mdl-spinner>
 </div>
+<h4 class="margin-bottom">{{ 'EVENTS' | translate }}</h4>
 <mdl-table
   *ngIf="!loading && events?.length"
   mdl-shadow="2"

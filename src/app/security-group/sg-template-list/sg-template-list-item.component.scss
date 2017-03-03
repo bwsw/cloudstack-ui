@@ -15,8 +15,11 @@
   text-overflow: ellipsis;
 }
 
-/deep/ mdl-simple-tooltip div {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+:host /deep/ mdl-simple-tooltip div {
+  white-space: normal;
+  word-break: break-all;
+}
+
+.custom-card {
+  min-height: 182px;
 }

@@ -28,6 +28,7 @@ import { ServiceOfferingService } from '../../shared/services/service-offering.s
 import { VolumeService } from '../../shared/services/volume.service';
 import { Iso } from '../../template/shared/iso.model';
 import { SecurityGroup } from '../../security-group/sg.model';
+import { Color } from '../../shared/models/color.model';
 
 
 export interface IVmActionEvent {
@@ -247,6 +248,16 @@ export class VmService extends BaseBackendService<VirtualMachine> {
           vm: virtualMachine
         }).subscribe();
       });
+  }
+
+  public getColor(vm: VirtualMachine): Color {
+    if (vm.tags) {
+      let colorTag = vm.tags.find(tag => tag.key === 'color');
+      if (colorTag) {
+        return new Color(colorTag.value, colorTag.value);
+      }
+    }
+    return new Color('white', '#FFFFFF');
   }
 
   private _changeServiceOffering(serviceOfferingId: string, virtualMachine: VirtualMachine): Observable<void> {

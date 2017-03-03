@@ -10,6 +10,7 @@ import {
 import { SecurityGroup } from '../../security-group/sg.model';
 import { BaseTemplateModel } from '../../template/shared/base-template.model';
 import { ZoneName } from '../../shared/decorators/zone-name.decorator';
+import { Tag } from '../../shared/models/tag.model';
 
 
 export const MIN_ROOT_DISK_SIZE = 10;
@@ -100,6 +101,7 @@ export class VirtualMachine extends BaseModel {
   // misc
   public keyPair: string;
   public password: string;
+  public tags: Array<Tag>;
 
   constructor(params?: {}) {
     super(params);
@@ -128,7 +130,8 @@ export class VirtualMachine extends BaseModel {
       'reboot',
       'restore',
       'destroy',
-      'resetPasswordFor' // name forced by API and action implementation
+      'resetPasswordFor', // name forced by API and action implementation,
+      'console'
     ];
   }
 
@@ -156,6 +159,7 @@ export class VirtualMachine extends BaseModel {
       case 'start': return state !== 'Running';
       case 'stop':
       case 'reboot':
+      case 'console':
         return state !== 'Stopped';
       case 'changeOffering':
         return state === 'Stopped';
@@ -193,6 +197,9 @@ export class VirtualMachine extends BaseModel {
         break;
       case 'resetPasswordFor':
         mdlIcon = 'vpn_key';
+        break;
+      case 'console':
+        mdlIcon = 'computer';
         break;
     }
     return {

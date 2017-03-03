@@ -14,10 +14,6 @@ $vm-detail-width: $sidebar-width + 1;
 
   &.open {
     margin-right: $vm-detail-width;
-
-    & ~ .fab {
-      margin-right: $vm-detail-width;
-    }
   }
 }
 

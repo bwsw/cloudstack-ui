@@ -10,6 +10,8 @@ import { SpareDrivePageComponent } from './spare-drive-page/spare-drive-page.com
 import { VolumeListComponent } from './volume-list/volume-list.component';
 import { VolumeItemComponent } from './volume-item/volume-item.component';
 import { SpareDriveSidebarComponent } from './spare-drive-sidebar/spare-drive-sidebar.component';
+import { VolumeCreationComponent } from './volume-creation/volume-creation.component';
+import { VolumeAttachmentComponent } from './volume-attachment/volume-attachment.component';
 
 
 @NgModule({
@@ -24,13 +26,17 @@ import { SpareDriveSidebarComponent } from './spare-drive-sidebar/spare-drive-si
   declarations: [
     SpareDrivePageComponent,
     SpareDriveSidebarComponent,
+    VolumeAttachmentComponent,
+    VolumeCreationComponent,
     VolumeItemComponent,
     VolumeListComponent
   ],
   exports: [
     SpareDrivePageComponent
   ],
-  providers: [],
-  entryComponents: []
+  entryComponents: [
+    VolumeAttachmentComponent,
+    VolumeCreationComponent
+  ]
 })
 export class SpareDriveModule { }

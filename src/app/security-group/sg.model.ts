@@ -42,8 +42,6 @@ export class SecurityGroup extends BaseModel {
   public virtualMachineIds: Array<string>;
   public tags: Array<ITag>;
 
-  private _labels: string;
-
   constructor(params?: {}) {
     super(params);
 
@@ -54,39 +52,9 @@ export class SecurityGroup extends BaseModel {
     for (let i = 0; i < this.egressRules.length; i++) {
       this.egressRules[i] = new NetworkRule(this.egressRules[i]);
     }
-
-    if (!this.tags) {
-      return;
-    }
-
-    for (let i = 0; i < this.tags.length; i++) {
-      const key = this.tags[i].key;
-      if (key !== 'labels') {
-        continue;
-      }
-
-      this.labels = this.tags[i].value.replace(/,(\S)/gi, ', $1');
-      this.tags.splice(i, 1);
-      break;
-    }
   }
 
   public isPredefinedTemplate(): boolean {
     return this.id.startsWith('template');
-  }
-
-  public get labels(): string {
-    return this._labels;
-  }
-
-  public set labels(value) {
-    this._labels = value;
-  }
-
-  public serialize(): any {
-    const model: any = super.serialize();
-
-    model.tags.push(this.labels);
-    return model;
   }
 }

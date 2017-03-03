@@ -7,7 +7,6 @@
       <div>
         <div class="description">{{ 'DESCRIPTION' | translate }}: </div>
         <div class="domain">{{ 'DOMAIN' | translate }}: </div>
-        <div class="labels">{{ 'LABELS' | translate }}: </div>
       </div>
       <div>
         <div class="description">
@@ -26,30 +25,33 @@
             {{ securityGroupTemplate.domain }}
           </span>
         </div>
-        <div class="labels">
-          <span
-            *ngIf="securityGroupTemplate.labels"
-            [mdl-tooltip]="securityGroupTemplate.labels"
-          >
-            {{ securityGroupTemplate.labels }}
-          </span>
-        </div>
       </div>
     </div>
   </mdl-card-supporting-text>
   <mdl-card-actions>
     <button
       mdl-button
+      mdl-button-type="icon"
+      mdl-tooltip-position="top"
+      [mdl-tooltip]="(securityGroupTemplate.isPredefinedTemplate() ? 'VIEW' : 'EDIT') | translate"
       (click)="onClick.emit()"
     >
-      {{ securityGroupTemplate.isPredefinedTemplate() ? 'VIEW' : 'EDIT' | translate }}
+      <mdl-icon *ngIf="securityGroupTemplate.isPredefinedTemplate()">
+        visibility
+      </mdl-icon>
+      <mdl-icon *ngIf="!securityGroupTemplate.isPredefinedTemplate()">
+        edit
+      </mdl-icon>
     </button>
     <button
+      *ngIf="!securityGroupTemplate.isPredefinedTemplate()"
       mdl-button
-      disabled="{{ securityGroupTemplate.isPredefinedTemplate() }}"
+      mdl-button-type="icon"
+      mdl-tooltip-position="top"
+      [mdl-tooltip]="'DELETE' | translate"
       (click)="$event.stopPropagation(); onDelete.emit(securityGroupTemplate)"
     >
-      {{ 'DELETE' | translate }}
+      <mdl-icon>delete</mdl-icon>
     </button>
   </mdl-card-actions>
 </mdl-card>

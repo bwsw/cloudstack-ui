@@ -6,6 +6,8 @@
     [volumes]="volumes"
     [selectedVolume]="selectedVolume"
     (onVolumeSelected)="selectVolume($event)"
+    (onDelete)="showRemoveDialog($event)"
+    (onVolumeAttached)="attach($event)"
     [class.margin-right]="isDetailOpen"
   ></cs-volume-list>
 </div>
@@ -14,13 +16,7 @@
   [volume]="selectedVolume"
   (onClickOutside)="hideDetail()"
 ></cs-spare-drive-sidebar>
-<div class="fab" [class.open]="isDetailOpen">
-  <button
-    mdl-button
-    mdl-button-type="fab"
-    mdl-colored="accent"
-    (click)="showCreationDialog()"
-  >
-    <mdl-icon>add</mdl-icon>
-  </button>
-</div>
+<cs-fab
+  [open]="isDetailOpen"
+  (click)="showCreationDialog()"
+></cs-fab>

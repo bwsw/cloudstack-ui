@@ -19,24 +19,28 @@
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/instances"
+        routerLinkActive="link-active"
       >
         <mdl-icon class="link-element">cloud</mdl-icon>
         <div class="link-element" [innerHTML]="'VM_NAVBAR' | translate"></div>
       </a>
 
       <a
+        *ngIf="!disableSecurityGroups"
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/sg-templates"
+        routerLinkActive="link-active"
       >
         <mdl-icon class="link-element">security</mdl-icon>
-        <div class="link-element" [innerHTML]="'SG_TEMPLATES_NAVBAR' | translate"></div>
+        <div class="link-element" [innerHTML]="'FIREWALL' | translate"></div>
       </a>
 
       <a
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/templates"
+        routerLinkActive="link-active"
       >
         <span class="link-element disc-icon"></span>
         <div class="link-element" [innerHTML]="'TEMPLATES_ISO' | translate"></div>
@@ -46,6 +50,7 @@
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/spare-drives"
+        routerLinkActive="link-active"
       >
         <mdl-icon class="link-element">dns</mdl-icon>
         <div class="link-element" [innerHTML]="'SPARE_DRIVES_NAVBAR' | translate"></div>
@@ -55,20 +60,21 @@
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/events"
+        routerLinkActive="link-active"
       >
         <mdl-icon>event_note</mdl-icon>
         <div class="link-element" [innerHTML]="'EVENTS' | translate"></div>
       </a>
-      <!-- todo: temporary, remove -->
-      <a
-        (click)="changeLanguage()"
-        class="mdl-navigation__link link-container"
-        style="position: absolute; bottom: 0"
-        routerLink="#"
-      >
-        <div class="link-element">Change language</div>
-      </a>
 
+      <a
+        (click)="componentSelected(mainLayout)"
+        class="mdl-navigation__link link-container"
+        routerLink="/settings"
+        routerLinkActive="link-active"
+      >
+        <mdl-icon>settings</mdl-icon>
+        <div class="link-element" [innerHTML]="'SETTINGS' | translate"></div>
+      </a>
     </nav>
   </mdl-layout-drawer>
   <mdl-layout-content class="mdl-color--grey-100">

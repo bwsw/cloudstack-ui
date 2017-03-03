@@ -1,0 +1,46 @@
+<cs-date-display
+  [selectedDate]="selectedDate"
+  [showMonth]="displayMonth"
+  (yearClick)="displayMonth = false"
+  (monthClick)="displayMonth = true"
+></cs-date-display>
+<div class="calendar">
+  <div class="calendar-container" *ngIf="displayMonth">
+    <div class="calendar-toolbar">
+      <button
+        mdl-button
+        mdl-button-type="icon"
+        (click)="onMonthChange(-1)"
+      >
+        <mdl-icon>keyboard_arrow_left</mdl-icon>
+      </button>
+      <div class="title-div">{{ dateTimeFormatted }}</div>
+      <button
+        mdl-button
+        mdl-button-type="icon"
+        (click)="onMonthChange(1)"
+      >
+        <mdl-icon>keyboard_arrow_right</mdl-icon>
+      </button>
+    </div>
+    <div class="week-title">
+      <span class="week-title-day" *ngFor="let day of weekTitles">
+        {{ day }}
+      </span>
+    </div>
+    <cs-calendar-month
+      [locale]="locale"
+      [displayDate]="displayDate"
+      [selectedDate]="selectedDate"
+      (dateSelected)="onDateSelected($event)"
+    ></cs-calendar-month>
+  </div>
+  <cs-calendar-year
+    *ngIf="!displayMonth"
+    [locale]="locale"
+    [selectedDate]="selectedDate"
+    [minDate]="minDate"
+    [maxDate]="maxDate"
+    (yearSelected)="onYearSelected($event)"
+  ></cs-calendar-year>
+</div>

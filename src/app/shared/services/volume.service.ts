@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs/Rx';
 
 import { Volume } from '../models/volume.model';
 import { BaseBackendService } from './base-backend.service';
@@ -9,12 +9,26 @@ import { Snapshot } from '../models/snapshot.model';
 import { AsyncJobService } from './async-job.service';
 
 
+interface VolumeCreationData {
+  name: string;
+  zoneId: string;
+  diskOfferingId: string;
+  size?: number;
+}
+
+export interface VolumeAttachmentData {
+  id: string;
+  virtualMachineId: string;
+}
+
 @Injectable()
 @BackendResource({
   entity: 'Volume',
   entityModel: Volume
 })
 export class VolumeService extends BaseBackendService<Volume> {
+  public onVolumeAttached = new Subject<Volume>();
+
   constructor(
     private asyncJobService: AsyncJobService,
     private snapshotService: SnapshotService
@@ -51,5 +65,35 @@ export class VolumeService extends BaseBackendService<Volume> {
 
     return this.sendCommand('resize', params)
       .switchMap(job => this.asyncJobService.register(job, this.entity, this.entityModel));
+  }
+
+  public remove(id: string): Observable<null> {
+    return super.remove({ id })
+      .map(response => {
+        if (response['success'] === 'true') {
+          return Observable.of(null);
+        }
+        return Observable.throw(response);
+      });
+  }
+
+  public create(data: VolumeCreationData): Observable<Volume> {
+    return this.sendCommand('create', data)
+      .switchMap(job => this.asyncJobService.register(job.jobid, this.entity, this.entityModel))
+      .map(job => job.jobResult);
+  }
+
+  public detach(id: string): Observable<null> {
+    return this.sendCommand('detach', { id })
+      .switchMap(job => this.asyncJobService.register(job, this.entity, this.entityModel));
+  }
+
+  public attach(data: VolumeAttachmentData): Observable<Volume> {
+    return this.sendCommand('attach', data)
+      .switchMap(job => this.asyncJobService.register(job.jobid, this.entity, this.entityModel))
+      .map(job => {
+        this.onVolumeAttached.next(job.jobResult);
+        return job.jobResult;
+      });
   }
 }
