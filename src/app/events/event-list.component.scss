@@ -3,7 +3,11 @@
   padding: 15px;
 }
 
-mdl-table /deep/ table.mdl-data-table {
+:host mdl-select /deep/ .mdl-textfield {
+  width: 200px;
+}
+
+:host mdl-table /deep/ table.mdl-data-table {
   width: 100%;
 }
 

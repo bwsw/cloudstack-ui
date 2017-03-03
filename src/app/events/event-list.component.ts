@@ -18,6 +18,8 @@ export class EventListComponent implements OnInit {
 
   public events: Array<Event>;
 
+  public date;
+
   public selectedLevels: Array<string>;
   public levels = [
     'INFO',
@@ -38,26 +40,28 @@ export class EventListComponent implements OnInit {
     this.translate.get(['DESCRIPTION', 'LEVEL', 'TYPE'])
       .subscribe(translations => this.initTableModel(translations));
 
-    this.filterByLevel(this.selectedLevels);
+    this.filterEvents();
   }
 
-  public filterByLevel(levels: Array<string>): void {
+  public filterEvents(): void {
     // yyyy-MM-dd
-    const currentDate = (new Date()).toISOString().substring(0, 10);
     const params = {
-      startDate: currentDate,
-      endDate: currentDate // only current date for now
+      startDate: this.date,
+      endDate: this.date
     };
 
-    if (!levels.length) {
+    const selectedLevels = this.selectedLevels;
+
+    if (!selectedLevels.length) {
       this.events = [];
       return;
     }
 
     this.loading = true;
 
-    if (levels.length !== 1 && levels.length !== this.levels.length) {
-      const obs = levels.map(level => this.eventService.getList(Object.assign({}, params, { level })));
+    if (selectedLevels.length !== 1 && selectedLevels.length !== this.levels.length) {
+      const obs = selectedLevels
+        .map(level => this.eventService.getList(Object.assign({}, params, { level })));
 
       Observable.forkJoin(obs)
         .subscribe(results => {
@@ -67,8 +71,8 @@ export class EventListComponent implements OnInit {
       return;
     }
 
-    if (levels.length === 1) {
-      params['level'] = levels[0];
+    if (selectedLevels.length === 1) {
+      params['level'] = this.selectedLevels[0];
     }
 
     this.eventService.getList(params)
@@ -90,6 +94,6 @@ export class EventListComponent implements OnInit {
   }
 
   private createTableModel(): void {
-    this.tableModel.data = this.events.map(event => Object.assign({}, event, {selected: false}));
+    this.tableModel.data = this.events.map(event => Object.assign({}, event, { selected: false }));
   }
 }

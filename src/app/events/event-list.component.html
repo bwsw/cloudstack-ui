@@ -1,6 +1,10 @@
+<cs-date-picker
+  [(ngModel)]="date"
+  (ngModelChange)="filterEvents()"
+></cs-date-picker>
 <mdl-select
   [(ngModel)]="selectedLevels"
-  (ngModelChange)="filterByLevel($event)"
+  (ngModelChange)="filterEvents()"
   multiple="true"
   placeholder="Levels"
 >
@@ -15,7 +19,6 @@
 <div class="spinner">
   <mdl-spinner *ngIf="loading" single-color active></mdl-spinner>
 </div>
-<h4 class="margin-bottom">{{ 'EVENTS' | translate }}</h4>
 <mdl-table
   *ngIf="!loading && events?.length"
   mdl-shadow="2"
