@@ -31,16 +31,27 @@
   <mdl-card-actions>
     <button
       mdl-button
+      mdl-button-type="icon"
+      mdl-tooltip-position="top"
+      [mdl-tooltip]="(securityGroupTemplate.isPredefinedTemplate() ? 'VIEW' : 'EDIT') | translate"
       (click)="onClick.emit()"
     >
-      {{ securityGroupTemplate.isPredefinedTemplate() ? 'VIEW' : 'EDIT' | translate }}
+      <mdl-icon *ngIf="securityGroupTemplate.isPredefinedTemplate()">
+        visibility
+      </mdl-icon>
+      <mdl-icon *ngIf="!securityGroupTemplate.isPredefinedTemplate()">
+        edit
+      </mdl-icon>
     </button>
     <button
+      *ngIf="!securityGroupTemplate.isPredefinedTemplate()"
       mdl-button
-      disabled="{{ securityGroupTemplate.isPredefinedTemplate() }}"
+      mdl-button-type="icon"
+      mdl-tooltip-position="top"
+      [mdl-tooltip]="'DELETE' | translate"
       (click)="$event.stopPropagation(); onDelete.emit(securityGroupTemplate)"
     >
-      {{ 'DELETE' | translate }}
+      <mdl-icon>delete</mdl-icon>
     </button>
   </mdl-card-actions>
 </mdl-card>

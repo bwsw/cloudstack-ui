@@ -2,8 +2,8 @@
   "securityGroupTemplates": [
     {
       "id": "template1",
-      "name": "TCP ",
-      "description": "Default Template",
+      "name": "TCP Permit All",
+      "description": "Permits all TPC traffic",
       "ingressRules": [
         {
           "ruleId": "9552c7e9-9421-4a16-8a09-00a6bab4aa5a",
@@ -25,8 +25,8 @@
     },
     {
       "id": "template2",
-      "name": "UDP",
-      "description": "Default Template",
+      "name": "UDP Permit All",
+      "description": "Permits all UDP traffic",
       "ingressRules": [
         {
           "ruleId": "871aa876-a9cd-4a14-b5d6-1eed4078ee20",
@@ -42,6 +42,29 @@
           "protocol": "UDP",
           "startPort": 1,
           "endPort": 65535,
+          "CIDR": "0.0.0.0/16"
+        }
+      ]
+    },
+    {
+      "id": "template2",
+      "name": "ICMP Permit All",
+      "description": "Permits all ICMP traffic",
+      "ingressRules": [
+        {
+          "ruleId": "e1826579-d4b2-415b-833f-24f0c4094074",
+          "icmpCode": -1,
+          "icmpType": -1,
+          "protocol": "ICMP",
+          "CIDR": "0.0.0.0/16"
+        }
+      ],
+      "egressRules": [
+        {
+          "ruleId": "d0a0125a-b719-424b-80d3-41a695fa1219",
+          "icmpCode": -1,
+          "icmpType": -1,
+          "protocol": "ICMP",
           "CIDR": "0.0.0.0/16"
         }
       ]

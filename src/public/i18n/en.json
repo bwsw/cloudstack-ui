@@ -269,7 +269,7 @@
   "THIS_IS_YOU_CURRENT_OFFERING": "This is your current offering",
 
   "VM_NAVBAR": "Virtual machines",
-  "SG_TEMPLATES_NAVBAR": "Security group<br>templates",
+  "FIREWALL": "Firewall",
 
   "NEW_TEMPLATE": "Register a new template",
   "NEW_ISO": "Register a new ISO",
