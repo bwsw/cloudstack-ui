@@ -3,7 +3,7 @@
     <h2 class="details-header color-header">{{ 'COLOR' | translate }}</h2>
     <cs-color-picker
       class="color-picker"
-      [color]="color"
+      [selectedColor]="color"
       (onColorChanged)="changeColor($event)"
     ></cs-color-picker>
   </div>
@@ -99,7 +99,11 @@
     </mdl-card-actions>
   </mdl-card>
 
-  <mdl-card class="vm-card" mdl-shadow="2">
+  <mdl-card
+    *ngIf="!disableSecurityGroup"
+    class="vm-card"
+    mdl-shadow="2"
+  >
     <mdl-card-title>
       <h2 mdl-card-title-text>{{ 'FIREWALL_RULES' | translate }}</h2>
     </mdl-card-title>

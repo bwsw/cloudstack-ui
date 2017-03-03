@@ -21,10 +21,12 @@ export class StyleService {
 
     this.configService.get('themeColors')
       .subscribe(themeColors => {
-        let primaryColor = themeColors.find(color => color.name === this.storageService.read('primaryColor'));
-        let accentColor = themeColors.find(color => color.name === this.storageService.read('accentColor'));
-        primaryColor = primaryColor || STANDARD_PRIMARY;
-        accentColor = accentColor || STANDARD_ACCENT;
+        let primaryColorName = this.storageService.read('primaryColor');
+        let accentColorName = this.storageService.read('accentColor');
+
+        let primaryColor = themeColors.find(color => color.name === primaryColorName)  || STANDARD_PRIMARY;
+        let accentColor = themeColors.find(color => color.name === accentColorName) || STANDARD_ACCENT;
+
         this.updatePalette(primaryColor, accentColor);
       });
   }

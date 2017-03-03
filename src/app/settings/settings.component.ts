@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { LanguageService } from '../shared/services/language.service';
-import { StyleService } from '../shared/services/style.service';
-import { ConfigService } from '../shared/services/config.service';
-import { Color } from '../shared/models/color.model';
-import { StorageService } from '../shared/services/storage.service';
+
+import {
+  Color,
+  ConfigService,
+  LanguageService,
+  StorageService,
+  StyleService
+} from '../shared';
 
 
 @Component({
@@ -55,9 +58,12 @@ export class SettingsComponent implements OnInit {
   private loadColors(): void {
     this.configService.get('themeColors')
       .subscribe(themeColors => {
+        let primaryColorName = this.storageService.read('primaryColor');
+        let accentColorName = this.storageService.read('accentColor');
+
         this.primaryColors = themeColors;
-        this.primaryColor = themeColors.find(color => color.name === this.storageService.read('primaryColor'));
-        this.accentColor = this.accentColors.find(color => color.name === this.storageService.read('accentColor'));
+        this.primaryColor = themeColors.find(color => color.name === primaryColorName);
+        this.accentColor = this.accentColors.find(color => color.name === accentColorName);
       });
   }
 

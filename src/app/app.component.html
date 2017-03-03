@@ -26,6 +26,7 @@
       </a>
 
       <a
+        *ngIf="!disableSecurityGroups"
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/sg-templates"

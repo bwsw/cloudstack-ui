@@ -4,6 +4,7 @@ import {
   OnChanges,
   OnInit
 } from '@angular/core';
+
 import { MdlDialogService } from 'angular2-mdl';
 
 import {
@@ -11,12 +12,14 @@ import {
   Tag,
   TagService
 } from '../../shared';
+
 import { SecurityGroup } from '../../security-group/sg.model';
 import { ServiceOfferingDialogComponent } from '../../service-offering/service-offering-dialog.component';
 import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
 import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { Color } from '../../shared/models/color.model';
+import { ZoneService } from '../../shared/services/zone.service';
 
 
 @Component({
@@ -27,6 +30,7 @@ import { Color } from '../../shared/models/color.model';
 export class VmDetailComponent implements OnInit, OnChanges {
   @Input() public vm: VirtualMachine;
   public color: Color;
+  public disableSecurityGroup = false;
   private expandNIC: boolean;
   private expandServiceOffering: boolean;
 
@@ -34,7 +38,8 @@ export class VmDetailComponent implements OnInit, OnChanges {
     private asyncJobService: AsyncJobService,
     private dialogService: MdlDialogService,
     private tagService: TagService,
-    private vmService: VmService
+    private vmService: VmService,
+    private zoneService: ZoneService
   ) {
     this.expandNIC = false;
     this.expandServiceOffering = false;
@@ -46,6 +51,8 @@ export class VmDetailComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     this.updateColor();
+    this.zoneService.get(this.vm.zoneId)
+      .subscribe(zone => this.disableSecurityGroup = !zone.securityGroupsEnabled);
   }
 
   public changeColor(color: Color): void {

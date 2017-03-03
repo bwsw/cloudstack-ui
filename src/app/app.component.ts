@@ -11,6 +11,7 @@ import { MdlLayoutComponent } from 'angular2-mdl';
 
 import '../style/app.scss';
 import { StyleService } from './shared/services/style.service';
+import { ZoneService } from './shared/services/zone.service';
 
 
 @Component({
@@ -20,8 +21,8 @@ import { StyleService } from './shared/services/style.service';
 })
 export class AppComponent implements OnInit {
   public loggedIn: boolean;
-  public stylesLoaded = false;
   public title: string;
+  public disableSecurityGroups = false;
 
   constructor(
     private auth: AuthService,
@@ -30,7 +31,8 @@ export class AppComponent implements OnInit {
     private error: ErrorService,
     private languageService: LanguageService,
     @Inject('INotificationService') private notification: INotificationService,
-    private styleService: StyleService
+    private styleService: StyleService,
+    private zoneService: ZoneService
   ) {
     this.title = this.auth.name;
     this.error.subscribe(e => this.handleError(e));
@@ -50,6 +52,8 @@ export class AppComponent implements OnInit {
     }
     this.languageService.applyLanguage();
     this.styleService.loadPalette();
+    this.zoneService.areAllZonesBasic()
+      .subscribe(basic => this.disableSecurityGroups = basic);
   }
 
   private updateAccount(loggedIn: boolean): void {

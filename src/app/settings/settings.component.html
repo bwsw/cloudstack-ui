@@ -5,12 +5,8 @@
       [(ngModel)]="language"
       (change)="changeLanguage($event)"
     >
-      <mdl-option
-        [value]="'en'"
-      >English</mdl-option>
-      <mdl-option
-        [value]="'ru'"
-      >Русский</mdl-option>
+      <mdl-option [value]="'en'">English</mdl-option>
+      <mdl-option [value]="'ru'">Русский</mdl-option>
     </mdl-select>
   </div>
   <div>
@@ -18,16 +14,16 @@
     <div>
       <cs-color-picker
         *ngIf="primaryColor"
-        [color]="primaryColor"
-        [colors]="primaryColors"
+        [selectedColor]="primaryColor"
+        [colorList]="primaryColors"
         (onColorChanged)="updatePrimaryColor($event)"
       ></cs-color-picker>
     </div>
     <div>
       <cs-color-picker
         *ngIf="accentColor"
-        [color]="accentColor"
-        [colors]="accentColors"
+        [selectedColor]="accentColor"
+        [colorList]="accentColors"
         (onColorChanged)="updateAccentColor($event)"
       ></cs-color-picker>
     </div>

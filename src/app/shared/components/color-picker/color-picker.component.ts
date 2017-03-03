@@ -9,22 +9,22 @@ import { Color } from '../../models/color.model';
   styleUrls: ['color-picker.component.scss']
 })
 export class ColorPickerComponent implements OnInit {
-  @Input() public color;
-  @Input() public colors: Array<Color>;
+  @Input() public selectedColor;
+  @Input() public colorList: Array<Color>;
   @Output() public onColorChanged = new EventEmitter();
 
   constructor(private configService: ConfigService) {
-    this.color = new Color('white', '#FFFFFF');
+    this.selectedColor = new Color('white', '#FFFFFF');
   }
 
   public updateColor(color: Color): void {
-    this.color = color;
-    this.onColorChanged.emit(this.color);
+    this.selectedColor = color;
+    this.onColorChanged.emit(this.selectedColor);
   }
 
   public ngOnInit(): void {
-    if (!this.colors) {
-      this.configService.get('vmColors').subscribe(colors => this.colors = colors);
+    if (!this.colorList) {
+      this.configService.get('vmColors').subscribe(colors => this.colorList = colors);
     }
   }
 }
