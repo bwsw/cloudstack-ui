@@ -60,7 +60,9 @@ export class TemplateFilterListComponent implements OnInit {
       this.query = filters.query;
     }
     this.visibleTemplateList = this.filterBySearch(this.filterByCategories(this.templateList));
-    this.visibleTemplateList = this.visibleTemplateList.filter(template => template.zoneId === this.zoneId);
+    if (this.zoneId) {
+      this.visibleTemplateList = this.visibleTemplateList.filter(template => template.zoneId === this.zoneId);
+    }
   }
 
   private fetchData(mode: string): void {
