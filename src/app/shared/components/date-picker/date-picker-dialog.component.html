@@ -1,0 +1,7 @@
+<div>
+  <cs-calendar [initialDate]="initialDate" (dateSelected)="setSelectedDate($event)"></cs-calendar>
+  <div class="mdl-dialog__actions">
+    <button mdl-button (click)="hide()" mdl-ripple>Ok</button>
+    <button mdl-button (click)="hide(false)" mdl-ripple>Cancel</button>
+  </div>
+</div>

@@ -6,9 +6,12 @@ import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { MdlModule } from 'angular2-mdl';
 import { TranslateModule } from 'ng2-translate';
 
-import { DivByPowerOfTwoPipe } from './pipes/div-by-power-of-two.pipe';
-import { HighLightPipe } from './pipes/highlight.pipe';
-import { ViewValuePipe } from './pipes/view-value.pipe';
+
+import {
+  DivByPowerOfTwoPipe,
+  HighLightPipe,
+  ViewValuePipe
+} from './pipes';
 
 import {
   AffinityGroupService,
@@ -40,28 +43,36 @@ import {
   ZoneService
 } from './services';
 
-import { ColorPickerComponent } from './components/color-picker/color-picker.component';
-import { DiskOfferingComponent } from './components/disk-offering/disk-offering.component';
-import { FabComponent } from './components/fab/fab.component';
-import { NotificationBoxComponent } from './components/notification-box/notification-box.component';
-import { NotificationBoxItemComponent } from './components/notification-box/notification-box-item.component';
-import { SgRulesManagerComponent } from './components/sg-rules-manager.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { VmStatisticsComponent } from './components/vm-statistics/vm-statistics.component';
-import { VolumeSizeControlComponent } from './components/volume-size-control/volume-size-control.component';
-
+import {
+  CalendarComponent,
+  CalendarMonthComponent,
+  CalendarYearComponent,
+  ColorPickerComponent,
+  DateDisplayComponent,
+  DatePickerComponent,
+  DatePickerDialogComponent,
+  DiskOfferingComponent,
+  FabComponent,
+  NotificationBoxComponent,
+  NotificationBoxItemComponent,
+  SgRulesManagerComponent,
+  SidebarComponent,
+  VmStatisticsComponent,
+  VolumeSizeControlComponent
+} from './components';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    TranslateModule,
     MdlModule,
     MdlPopoverModule,
-    MdlSelectModule
+    MdlSelectModule,
+    TranslateModule
   ],
   exports: [
     ColorPickerComponent,
+    DatePickerComponent,
     DiskOfferingComponent,
     FabComponent,
     NotificationBoxComponent,
@@ -74,8 +85,17 @@ import { VolumeSizeControlComponent } from './components/volume-size-control/vol
     HighLightPipe,
     ViewValuePipe
   ],
+  entryComponents: [
+    DatePickerDialogComponent
+  ],
   declarations: [
+    CalendarComponent,
+    CalendarMonthComponent,
+    CalendarYearComponent,
     ColorPickerComponent,
+    DateDisplayComponent,
+    DatePickerComponent,
+    DatePickerDialogComponent,
     DiskOfferingComponent,
     FabComponent,
     NotificationBoxComponent,
@@ -104,11 +124,11 @@ import { VolumeSizeControlComponent } from './components/volume-size-control/vol
     OsTypeService,
     ResourceLimitService,
     ResourceUsageService,
-    SSHKeyPairService,
     SecurityGroupService,
     ServiceOfferingFilterService,
     ServiceOfferingService,
     SnapshotService,
+    SSHKeyPairService,
     StatsUpdateService,
     StorageService,
     StyleService,

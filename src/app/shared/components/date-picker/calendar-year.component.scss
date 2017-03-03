@@ -1,0 +1,49 @@
+.calendar-year-container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 276px;
+  margin-top: 10px;
+  overflow: hidden;
+  width: 310px;
+}
+
+.calendar-year {
+  height: inherit;
+  line-height: 35px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  position: relative;
+}
+
+.calendar-year-child {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100%;
+}
+
+.year-button {
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+  font-size: 14px;
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+  line-height: inherit;
+  -webkit-tap-highlight-color: rgba(0,0,0,0); // Remove mobile color flashing (deprecated)
+
+  .label {
+    align-self: center;
+    font-size: 17px;
+    font-weight: 400;
+    position: relative;
+    top: -1;
+
+    &.selected {
+      font-weight: bold;
+      font-size: 26px;
+    }
+  }
+}
