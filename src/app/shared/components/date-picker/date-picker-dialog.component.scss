@@ -2,3 +2,7 @@
   width: 310px;
   padding: 0;
 }
+
+:host /deep/ .mdl-dialog__actions {
+  padding-top: 0;
+}

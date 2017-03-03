@@ -6,6 +6,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  Renderer,
   ViewChild
 } from '@angular/core';
 
@@ -31,7 +32,10 @@ export class CalendarYearComponent implements AfterViewInit {
   @ViewChild('calendarYearElement') private calendarYearElement;
   @ViewChild('selectedYearElement') private selectedYearElement;
 
-  constructor(private cdr: ChangeDetectorRef) { }
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private renderer: Renderer
+  ) { }
 
   public ngAfterViewInit(): void {
     this.scrollIntoSelectedYear();
@@ -65,11 +69,14 @@ export class CalendarYearComponent implements AfterViewInit {
       return;
     }
 
-    const containerHeight = this.calendarYearElement.nativeElement.clientHeight;
-    const selectedYearNodeHeight = this.selectedYearElement.nativeElement.clientHeight || 32;
-    const selectedYearNodeOffsetTop = this.selectedYearElement.nativeElement.parentNode.offsetTop;
+    const calendarYear = this.calendarYearElement.nativeElement;
+    const selectedYear = this.selectedYearElement.nativeElement;
+
+    const containerHeight = calendarYear.clientHeight;
+    const selectedYearNodeHeight = selectedYear.clientHeight || 32;
+    const selectedYearNodeOffsetTop = selectedYear.parentNode.offsetTop;
 
     const scrollYOffset = (selectedYearNodeOffsetTop + selectedYearNodeHeight / 2) - containerHeight / 2;
-    this.calendarYearElement.nativeElement.scrollTop = scrollYOffset;
+    this.renderer.setElementProperty(calendarYear, 'scrollTop', scrollYOffset);
   }
 }

@@ -3,11 +3,20 @@
   flex-direction: column;
   justify-content: flex-start;
   font-weight: 400;
-  height: 212px;
+  height: 218px;
   line-height: 2;
   position: relative;
   text-align: center;
   -moz-padding-start: 0;
+}
+
+.week {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  position: relative;
+  height: 34px;
+  margin-bottom: 2px;
 }
 
 .day {
