@@ -1,5 +1,8 @@
 :host {
   display: block;
+}
+
+.event-list {
   padding: 15px;
 }
 
@@ -9,6 +12,11 @@
 
 :host mdl-table /deep/ table.mdl-data-table {
   width: 100%;
+}
+
+cs-date-picker,
+mdl-select {
+  margin: 0 15px;
 }
 
 .spinner {
