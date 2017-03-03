@@ -37,4 +37,9 @@
 
 .color-picker {
   margin: 5px;
+  width: 330px;
+}
+
+:host /deep/ .mdl-textfield {
+  width: 330px;
 }

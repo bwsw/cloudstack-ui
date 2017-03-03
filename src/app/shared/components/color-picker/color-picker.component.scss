@@ -1,14 +1,9 @@
 :host mdl-select {
   font-size: 24px;
-  width: 330px;
 }
 
 :host /deep/ .mdl-textfield__input {
   padding: 0;
-}
-
-:host /deep/ .mdl-textfield {
-  width: 330px;
 }
 
 :host /deep/ .mdl-list__item {
