@@ -26,13 +26,11 @@ export class AuthService extends BaseBackendService<AuthStub> {
   }
 
   public get name(): string {
-    let name = this.storage.read('name');
-    return name ? name : '';
+    return this.storage.read('name') || '';
   }
 
   public get username(): string {
-    let username = this.storage.read('username');
-    return username ? username : '';
+    return this.storage.read('username') || '';
   }
 
   public set name(name: string) {
