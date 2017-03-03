@@ -43,7 +43,7 @@
             type="number"
             minValue="-1"
             error-msg="{{ 'ENTER_VALID_TYPE' | translate }}"
-            [label]="icmpType === -1 ? 'any' : ''"
+            [label]="(icmpType === -1 ? 'ICMP_ANY' : '') | translate"
             floating-label
             required
             [(ngModel)]="icmpType"
@@ -70,7 +70,7 @@
             name="icmpCode"
             type="number"
             minValue="-1"
-            [label]="icmpCode === -1 ? 'any' : ''"
+            [label]="(icmpCode === -1 ? 'ICMP_ANY' : '') | translate"
             floating-label
             error-msg="{{ 'ENTER_VALID_CODE' | translate }}"
             required
