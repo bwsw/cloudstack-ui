@@ -4,8 +4,8 @@ import { Color } from '../models/color.model';
 import { ConfigService } from './config.service';
 
 
-const STANDARD_PRIMARY = { name: 'light_blue', value: '#03A9F4' };
-const STANDARD_ACCENT = { name: 'teal', value: '#009688' };
+const STANDARD_PRIMARY = { name: 'indigo', value: '#3F51B5' };
+const STANDARD_ACCENT = { name: 'pink', value: '#FF4081' };
 
 @Injectable()
 export class StyleService {

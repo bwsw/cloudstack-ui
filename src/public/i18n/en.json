@@ -1,4 +1,6 @@
 {
+  "USERNAME": "Username",
+  "PASSWORD": "Password",
   "LOGIN": "Login",
   "LOGOUT": "Logout",
   "NOT_LOGGED_IN": "You are not logged in",

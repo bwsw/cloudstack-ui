@@ -94,6 +94,7 @@ export class AuthService extends BaseBackendService<AuthStub> {
 
   public setLoggedOut(): void {
     this.name = '';
+    this.username = '';
     this.loggedIn.next(false);
   }
 }

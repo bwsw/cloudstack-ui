@@ -36,9 +36,13 @@ export class AppComponent implements OnInit {
   ) {
     this.title = this.auth.name;
     this.error.subscribe(e => this.handleError(e));
-    this.auth.isLoggedIn().subscribe(r => this.loggedIn = r);
+    this.auth.isLoggedIn().subscribe();
     this.auth.loggedIn.subscribe(loggedIn => {
       this.updateAccount(loggedIn);
+      if (loggedIn) {
+        this.zoneService.areAllZonesBasic()
+          .subscribe(basic => this.disableSecurityGroups = basic);
+      }
     });
   }
 
@@ -52,8 +56,6 @@ export class AppComponent implements OnInit {
     }
     this.languageService.applyLanguage();
     this.styleService.loadPalette();
-    this.zoneService.areAllZonesBasic()
-      .subscribe(basic => this.disableSecurityGroups = basic);
   }
 
   private updateAccount(loggedIn: boolean): void {
