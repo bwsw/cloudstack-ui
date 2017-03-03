@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 
 import { Template } from '../../../template/shared';
-import { PRESELECTED_TEMPLATE_TOKEN } from './injector-token';
+import { PRESELECTED_TEMPLATE_TOKEN, ZONE } from './injector-token';
 import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { Iso } from '../../../template/shared/iso.model';
@@ -18,7 +18,8 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
 
   constructor(
     @Inject(PRESELECTED_TEMPLATE_TOKEN) public preselectedTemplate: Template,
-    private dialog: MdlDialogReference,
+    @Inject(ZONE) public zoneId: string,
+    private dialog: MdlDialogReference
   ) {
     super();
   }
