@@ -33,11 +33,14 @@ import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { BaseTemplateModel } from '../../template/shared/base-template.model';
 import { AuthService } from '../../shared/services/auth.service';
+import { InstanceGroup } from '../../shared/models/instance-group.model';
+import { InstanceGroupService } from '../../shared/services/instance-group.service';
 
 
 class VmCreationData {
   public vm: VirtualMachine;
   public affinityGroups: Array<AffinityGroup>;
+  public instanceGroups: Array<InstanceGroup>;
   public serviceOfferings: Array<ServiceOffering>;
   public sshKeyPairs: Array<SSHKeyPair>;
   public zones: Array<Zone>;
@@ -84,22 +87,23 @@ export class VmCreationComponent implements OnInit {
   private selectedDiskOffering: DiskOffering;
 
   constructor(
-    private auth: AuthService,
-    private zoneService: ZoneService,
-    private serviceOfferingFilterService: ServiceOfferingFilterService,
-    private diskStorageService: DiskStorageService,
     private affinityGroupService: AffinityGroupService,
-    private sshService: SSHKeyPairService,
-    private vmService: VmService,
+    private auth: AuthService,
+    private dialog: MdlDialogReference,
+    private dialogService: MdlDialogService,
+    private diskStorageService: DiskStorageService,
+    private instanceGroupService: InstanceGroupService,
     private jobsNotificationService: JobsNotificationService,
-    private templateService: TemplateService,
-    private translateService: TranslateService,
     private notificationService: NotificationService,
     private resourceUsageService: ResourceUsageService,
     private securityGroupService: SecurityGroupService,
+    private serviceOfferingFilterService: ServiceOfferingFilterService,
+    private sshService: SSHKeyPairService,
+    private templateService: TemplateService,
+    private translateService: TranslateService,
     private utils: UtilsService,
-    private dialog: MdlDialogReference,
-    private dialogService: MdlDialogService
+    private vmService: VmService,
+    private zoneService: ZoneService
   ) {
     this.vmCreationData = new VmCreationData();
 
@@ -236,7 +240,7 @@ export class VmCreationComponent implements OnInit {
           message: str,
           status: INotificationStatus.Finished
         });
-    });
+      });
   }
 
   public notifyOnDeployFailed(notificationId: string): void {
@@ -246,8 +250,8 @@ export class VmCreationComponent implements OnInit {
           id: notificationId,
           message: str,
           status: INotificationStatus.Failed
+        });
       });
-    });
   }
 
   public onTemplateChange(t: BaseTemplateModel): void {
@@ -287,29 +291,32 @@ export class VmCreationComponent implements OnInit {
       this.diskStorageService.getAvailablePrimaryStorage(),
       this.affinityGroupService.getList(),
       this.sshService.getList(),
-      this.templateService.getDefault()
-    ]).map(result => {
-      vmCreationData.zones = result[0];
-      vmCreationData.serviceOfferings = result[1];
-      vmCreationData.rootDiskSizeLimit = result[2];
-      vmCreationData.affinityGroups = result[3];
-      vmCreationData.sshKeyPairs = result[4];
-      vmCreationData.vm.template = result[5];
-      if (result[0].length) {
-        vmCreationData.vm.zoneId = result[0][0].id;
-      }
-      if (result[1].length) {
-        vmCreationData.vm.serviceOfferingId = result[1][0].id;
-      }
-      if (result[2] === -1) {
-        vmCreationData.rootDiskSizeLimit = MAX_ROOT_DISK_SIZE_ADMIN;
-      }
+      this.templateService.getDefault(),
+      this.instanceGroupService.getList()
+    ])
+      .map(result => {
+        vmCreationData.zones = result[0];
+        vmCreationData.serviceOfferings = result[1];
+        vmCreationData.rootDiskSizeLimit = result[2];
+        vmCreationData.affinityGroups = result[3];
+        vmCreationData.sshKeyPairs = result[4];
+        vmCreationData.vm.template = result[5];
+        vmCreationData.instanceGroups = result[6].map(group => group.name);
+        if (result[0].length) {
+          vmCreationData.vm.zoneId = result[0][0].id;
+        }
+        if (result[1].length) {
+          vmCreationData.vm.serviceOfferingId = result[1][0].id;
+        }
+        if (result[2] === -1) {
+          vmCreationData.rootDiskSizeLimit = MAX_ROOT_DISK_SIZE_ADMIN;
+        }
 
-      if (result[4].length) {
-        vmCreationData.vm.keyPair = result[4][0].name;
-      }
-      return vmCreationData;
-    });
+        if (result[4].length) {
+          vmCreationData.vm.keyPair = result[4][0].name;
+        }
+        return vmCreationData;
+      });
   }
 
   private get vmCreateParams(): {} {
@@ -343,6 +350,9 @@ export class VmCreationComponent implements OnInit {
     }
     if (this.securityRules && this.securityRules.egress) {
       params['egress'] = this.securityRules.egress;
+    }
+    if (this.vmCreationData.vm.group) {
+      params['group'] = this.vmCreationData.vm.group;
     }
     return params;
   }

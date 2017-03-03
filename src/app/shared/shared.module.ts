@@ -46,8 +46,7 @@ import { VolumeSizeControlComponent } from './components/volume-size-control/vol
 import { FormsModule } from '@angular/forms';
 import { FabComponent } from './components/fab/fab.component';
 import { ColorPickerComponent } from './components/color-picker/color-picker.component';
-import { MdlAutocompleteTestComponent } from './autocomplete/mdl-autocomplete-test.component';
-import { MdlAutocompleteComponent } from './autocomplete/mdl-autocomplete.component';
+import { InstanceGroupService } from './services/instance-group.service';
 
 
 @NgModule({
@@ -60,7 +59,6 @@ import { MdlAutocompleteComponent } from './autocomplete/mdl-autocomplete.compon
     MdlSelectModule
   ],
   exports: [
-    MdlAutocompleteTestComponent,
     ColorPickerComponent,
     DiskOfferingComponent,
     FabComponent,
@@ -75,8 +73,6 @@ import { MdlAutocompleteComponent } from './autocomplete/mdl-autocomplete.compon
     ViewValuePipe
   ],
   declarations: [
-    MdlAutocompleteComponent,
-    MdlAutocompleteTestComponent,
     ColorPickerComponent,
     DiskOfferingComponent,
     FabComponent,
@@ -87,8 +83,8 @@ import { MdlAutocompleteComponent } from './autocomplete/mdl-autocomplete.compon
     VmStatisticsComponent,
     VolumeSizeControlComponent,
     DivByPowerOfTwoPipe,
+    HighLightPipe,
     ViewValuePipe,
-    HighLightPipe
   ],
   providers: [
     AffinityGroupService,
@@ -99,6 +95,7 @@ import { MdlAutocompleteComponent } from './autocomplete/mdl-autocomplete.compon
     DiskOfferingService,
     DiskStorageService,
     ErrorService,
+    InstanceGroupService,
     JobsNotificationService,
     LoginGuard,
     NotificationService,

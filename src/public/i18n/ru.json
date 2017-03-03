@@ -150,6 +150,7 @@
     "SERVICE_OFFERING": "Вычислительное предложение",
     "ZONE": "Зона",
     "DISK_SIZE": "Размер диска",
+    "GROUP": "Группа",
     "AFFINITY_GROUPS": "Аффинитетные группы",
     "SECURITY_GROUPS": "Группы безопасности",
     "CREATE_SECURITY": "Создать",

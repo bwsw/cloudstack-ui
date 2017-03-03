@@ -99,6 +99,7 @@ export class VirtualMachine extends BaseModel {
   public diskIoRead: number;
   public diskIoWrite: number;
   // misc
+  public group: string;
   public keyPair: string;
   public password: string;
   public tags: Array<Tag>;

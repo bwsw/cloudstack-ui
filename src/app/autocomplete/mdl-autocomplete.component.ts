@@ -9,20 +9,26 @@ import {
   Output,
   ViewChild,
   ViewEncapsulation,
-  HostListener, QueryList, ViewChildren
+  HostListener,
+  QueryList,
+  ViewChildren,
+  HostBinding,
+  AfterViewInit,
+  OnInit,
+  OnChanges
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MdlOptionComponent } from '@angular2-mdl-ext/select';
+import { MdlOptionComponent, MdlSelectModule } from '@angular2-mdl-ext/select';
 import { MdlPopoverComponent, MdlPopoverModule } from '@angular2-mdl-ext/popover';
 
-function toBoolean (value:any): boolean {
-  return value != null && `${value}` !== 'false';
+function toBoolean (value: any): boolean {
+  return value !== null && `${value}` !== 'false';
 }
 
-function randomId() {
-  const S4 = () => (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-  return (S4()+S4());
+function randomId(): string {
+  const S4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+  return (S4() + S4());
 }
 
 const MDL_SELECT_VALUE_ACCESSOR: any = {
@@ -32,43 +38,50 @@ const MDL_SELECT_VALUE_ACCESSOR: any = {
 };
 
 @Component({
-  selector: 'mdl-autocomplete',
-  host: {
-    '[class.mdl-select]': 'true',
-    '[class.mdl-select--floating-label]': 'isFloatingLabel',
-    '[class.has-placeholder]': 'placeholder'
-  },
+  selector: 'cs-autocomplete',
   templateUrl: 'mdl-autocomplete.component.html',
   styleUrls: ['mdl-autocomplete.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [MDL_SELECT_VALUE_ACCESSOR]
 })
-export class MdlAutocompleteComponent implements ControlValueAccessor {
+export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnChanges {
+  @HostBinding('class.mdl-select') public mdlSelectClass = true;
+  @HostBinding('class.mdl-select--floating-label') public mdlSelectFloatingLabel = this.isFloatingLabel;
+  @HostBinding('class.has-placeholder') public hasPlaceholder = this.placeholder;
   @Input() public ngModel: any;
-  @Input() public disabled: boolean = false;
-  @Input() public label: string = '';
-  @Input('floating-label')
-  @Input() public placeholder: string = '';
-  @Input() options: Array<string> = [];
-  @Output() private change: EventEmitter<any> = new EventEmitter(true);
-  @ViewChild(MdlPopoverComponent) public popover: MdlPopoverComponent;
-  @ViewChildren(MdlOptionComponent) public optionComponents: QueryList<MdlOptionComponent>;
+  @Input() public disabled = false;
+  @Input() public label = '';
+  @Input() public placeholder = '';
+  @Input() public options: Array<string> = [];
+  @Output() public change: EventEmitter<any> = new EventEmitter(true);
 
+
+  @ViewChild(MdlPopoverComponent) public popover: MdlPopoverComponent;
+
+  public focused = false;
+  public text = '';
+  public textFieldId: string;
   public visibleOptions: Array<string>;
-  private _isFloatingLabel: boolean = false;
-  private textFieldId: string;
-  private text: string = '';
+
+  @ViewChildren(MdlOptionComponent) private optionComponents: QueryList<MdlOptionComponent>;
+
+  private _isFloatingLabel = false;
   private onChange: any = Function.prototype;
   private onTouched: any = Function.prototype;
-  private focused: boolean = false;
+
+  @Input('floating-label')
+  public get isFloatingLabel(): boolean {
+    return this._isFloatingLabel;
+  }
 
   constructor(private changeDetectionRef: ChangeDetectorRef) {
     this.textFieldId = `mdl-textfield-${randomId()}`;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.popover.hide = () => {
       this.popoverVisible = false;
+      this.popover.isVisible = false;
       this.onSelect(this.getNewValueOnLeave());
       for (let i = 0; i < this.visibleOptions.length; i++) {
         if (this.ngModel === this.visibleOptions[i]) {
@@ -80,16 +93,12 @@ export class MdlAutocompleteComponent implements ControlValueAccessor {
     };
   }
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.renderValue();
   }
 
   public ngOnChanges(): void {
     this.renderValue();
-  }
-
-  public get isFloatingLabel() {
-    return this._isFloatingLabel;
   }
 
   public set isFloatingLabel(value) {
@@ -99,15 +108,15 @@ export class MdlAutocompleteComponent implements ControlValueAccessor {
   @HostListener('document:keydown', ['$event'])
   public onKeyDown($event: KeyboardEvent): void {
     if (!this.disabled && this.popover.isVisible) {
-      let closeKeys: Array<string> = ["Escape", "Tab", "Enter"];
+      let closeKeys: Array<string> = ['Escape', 'Tab', 'Enter'];
       let closeKeyCodes: Array<Number> = [13, 27, 9];
-      if (closeKeyCodes.indexOf($event.keyCode) != -1 || ($event.key && closeKeys.indexOf($event.key) != -1)) {
+      if (closeKeyCodes.indexOf($event.keyCode) !== -1 || ($event.key && closeKeys.indexOf($event.key) !== -1)) {
         this.popover.hide();
         this.onSelect(this.getNewValueOnEnter());
       } else {
-        if ($event.keyCode == 38 || ($event.key && $event.key == "ArrowUp")) {
+        if ($event.keyCode === 38 || ($event.key && $event.key === 'ArrowUp')) {
           this.onArrowUp($event);
-        } else if ($event.keyCode == 40 || ($event.key && $event.key == "ArrowDown")) {
+        } else if ($event.keyCode === 40 || ($event.key && $event.key === 'ArrowDown')) {
           this.onArrowDown($event);
         }
       }
@@ -123,9 +132,12 @@ export class MdlAutocompleteComponent implements ControlValueAccessor {
       this.popoverVisible = false;
       return;
     }
-    this.popoverVisible = true;
-    if (!reload) { return; }
-    this.onSelect(this.getNewValueOnFilterChange());
+
+    if (this.popover.isVisible) {
+      this.popoverVisible = true;
+      if (!reload) { return; }
+      this.onSelect(this.getNewValueOnFilterChange());
+    }
   }
 
   private set popoverVisible(visible: boolean) {
@@ -145,38 +157,28 @@ export class MdlAutocompleteComponent implements ControlValueAccessor {
     this.focused = false;
   }
 
-  private onArrowUp($event: KeyboardEvent) {
-    if (!this.visibleOptions.length) {
-      return;
+  public toggle($event: Event): void {
+    if (!this.disabled) {
+      this.popover.toggle($event);
+      $event.stopPropagation();
     }
-
-    const selectedOptionIndex = this.visibleOptions.findIndex(option => option === this.ngModel);
-
-    if (selectedOptionIndex !== -1 && selectedOptionIndex) {
-      this.onSelect(this.visibleOptions[selectedOptionIndex - 1]);
-    } else {
-      this.onSelect(this.visibleOptions[this.visibleOptions.length - 1]);
-    }
-
-    $event.preventDefault();
+    this.filterResults(this.text, false);
   }
 
-  private onArrowDown($event: KeyboardEvent) {
-    if (!this.visibleOptions.length) {
-      return;
+  public open($event: Event): void {
+    if (!this.disabled && !this.popover.isVisible) {
+      this.popover.show($event);
     }
-
-    const selectedOptionIndex = this.visibleOptions.findIndex(option => option === this.ngModel);
-
-    if (selectedOptionIndex !== -1 && selectedOptionIndex + 1 < this.visibleOptions.length) {
-      this.onSelect(this.visibleOptions[selectedOptionIndex + 1]);
-    } else {
-      this.onSelect(this.visibleOptions[0]);
-    }
-    $event.preventDefault();
   }
 
-  public reset(resetValue: boolean = true) {
+  public close(): void {
+    if (!this.disabled && this.popover.isVisible) {
+      this.popover.hide();
+    }
+    this.onSelect(this.getNewValueOnLeave());
+  }
+
+  public reset(resetValue = true): void {
     if (resetValue && this.ngModel) {
       this.ngModel = '';
       this.onChange(this.ngModel);
@@ -185,39 +187,31 @@ export class MdlAutocompleteComponent implements ControlValueAccessor {
     }
   }
 
-  private renderValue() {
-    this.text = this.ngModel;
-    this.changeDetectionRef.detectChanges();
+  public writeValue(value: any): void {
+    this.ngModel = value;
+    this.onChange(this.ngModel);
+    this.renderValue();
   }
 
-  public toggle($event: Event) {
-    if (!this.disabled) {
-      this.popover.toggle($event);
-      $event.stopPropagation();
-    }
-    this.filterResults(this.text, false);
+  public registerOnChange(fn: (value: any) => void): void {
+    this.onChange = fn;
   }
 
-  public open($event: Event) {
-    if (!this.disabled && !this.popover.isVisible) {
-      this.popover.show($event);
-    }
+  public registerOnTouched(fn: () => {}): void {
+    this.onTouched = fn;
   }
 
-  public close() {
-    if (!this.disabled && this.popover.isVisible) {
-      this.popover.hide();
-    }
-    this.onSelect(this.getNewValueOnLeave());
+  public setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
   }
 
-  private onSelect(value: any) {
+  public onSelect(value: any): void {
     let popover: any = this.popover.elementRef.nativeElement;
-    let list: any = popover.querySelector(".mdl-list");
+    let list: any = popover.querySelector('.mdl-list');
     let option: any = null;
 
     this.optionComponents.forEach(o => {
-      if (o.value == value) {
+      if (o.value === value) {
         option = o.contentWrapper.nativeElement;
       }
     });
@@ -239,32 +233,50 @@ export class MdlAutocompleteComponent implements ControlValueAccessor {
     }
   }
 
-  public writeValue(value: any): void {
-    this.ngModel = value;
-    this.onChange(this.ngModel);
-    this.renderValue();
+  private onArrowUp($event: KeyboardEvent): void {
+    if (!this.visibleOptions.length) {
+      return;
+    }
+
+    const selectedOptionIndex = this.visibleOptions.findIndex(option => option === this.ngModel);
+
+    if (selectedOptionIndex !== -1 && selectedOptionIndex) {
+      this.onSelect(this.visibleOptions[selectedOptionIndex - 1]);
+    } else {
+      this.onSelect(this.visibleOptions[this.visibleOptions.length - 1]);
+    }
+
+    $event.preventDefault();
   }
 
-  public registerOnChange(fn: (value: any) => void) {
-    this.onChange = fn;
+  private onArrowDown($event: KeyboardEvent): void {
+    if (!this.visibleOptions.length) {
+      return;
+    }
+
+    const selectedOptionIndex = this.visibleOptions.findIndex(option => option === this.ngModel);
+
+    if (selectedOptionIndex !== -1 && selectedOptionIndex + 1 < this.visibleOptions.length) {
+      this.onSelect(this.visibleOptions[selectedOptionIndex + 1]);
+    } else {
+      this.onSelect(this.visibleOptions[0]);
+    }
+    $event.preventDefault();
   }
 
-  public registerOnTouched(fn: () => {}): void {
-    this.onTouched = fn;
+  private renderValue(): void {
+    this.text = this.ngModel;
+    this.changeDetectionRef.detectChanges();
   }
 
-  public setDisabledState(isDisabled: boolean) {
-    this.disabled = isDisabled;
-  }
-
-  public getNewValueOnFilterChange(): string {
+  private getNewValueOnFilterChange(): string {
     if (!this.visibleOptions.length) {
       return this.text;
     }
     return this.visibleOptions[0];
   }
 
-  public getNewValueOnEnter(): string {
+  private getNewValueOnEnter(): string {
     if (!this.visibleOptions.length) {
       return this.text;
     }
@@ -276,8 +288,7 @@ export class MdlAutocompleteComponent implements ControlValueAccessor {
     return this.visibleOptions[0];
   }
 
-  public getNewValueOnLeave(): string {
-    // let opt: Array<MdlOptionComponent> = this.options.toArray();
+  private getNewValueOnLeave(): string {
     for (let i = 0; i < this.visibleOptions.length; i++) {
       if (this.text === this.visibleOptions[i] && this.ngModel === this.visibleOptions[i]) {
         return this.visibleOptions[i];
@@ -290,22 +301,22 @@ export class MdlAutocompleteComponent implements ControlValueAccessor {
 @NgModule({
   imports: [
     CommonModule,
-    MdlPopoverModule
+    FormsModule,
+    MdlPopoverModule,
+    MdlSelectModule
   ],
   exports: [
     MdlAutocompleteComponent,
-    MdlOptionComponent
   ],
   declarations: [
-    MdlAutocompleteComponent,
-    MdlOptionComponent
+    MdlAutocompleteComponent
   ],
   providers: [
     MDL_SELECT_VALUE_ACCESSOR
   ]
 })
 export class MdlAutocompleteModule {
-  static forRoot(): ModuleWithProviders {
+  public static forRoot(): ModuleWithProviders {
     return {
       ngModule: MdlAutocompleteModule,
       providers: []
