@@ -161,6 +161,8 @@
     "START_VM": "Запустить ВМ"
   },
 
+  "CREATING_SG": "Создание группы безопасности",
+
   "CREATE_NEW_TEMPLATE": "Создать новый шаблон",
   "TEMPLATE_CREATED": "Шаблон {{ name }} успешно создан",
   "TEMPLATE_DELETED": "Шаблон {{ name }} успешно удален",

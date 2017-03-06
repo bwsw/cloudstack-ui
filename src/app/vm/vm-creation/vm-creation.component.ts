@@ -82,6 +82,7 @@ export class VmCreationComponent implements OnInit {
   public securityRules: Rules;
 
   public takenName: string;
+  public sgCreationInProgress = false;
 
   public showRootDiskResize = false;
   public showSecurityGroups = true;
@@ -172,6 +173,7 @@ export class VmCreationComponent implements OnInit {
 
     let notificationId: string;
     let params: any = this.vmCreateParams;
+    this.sgCreationInProgress = true;
 
     this.securityGroupService.createWithRules(
       { name: this.utils.getUniqueId() + GROUP_POSTFIX },
@@ -193,6 +195,7 @@ export class VmCreationComponent implements OnInit {
             deployObservable.complete();
           });
 
+        this.sgCreationInProgress = false;
         this.dialog.hide(deployObservable);
         return this.vmService.registerVmJob(deployResponse);
       })
@@ -206,6 +209,7 @@ export class VmCreationComponent implements OnInit {
           this.vmService.updateVmInfo(job.jobResult);
         },
         err => {
+          this.sgCreationInProgress = false;
           const response = err.json()[`deployvirtualmachineresponse`];
           if (response && response.cserrorcode === 4350) {
             this.takenName = this.vmCreationData.vm.displayName;
