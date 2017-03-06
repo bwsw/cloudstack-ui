@@ -1,5 +1,6 @@
 <div class="vm-list" [class.open]="isDetailOpen">
   <cs-vm-statistics></cs-vm-statistics>
+  <cs-vm-filter></cs-vm-filter>
   <cs-vm-list-item
     *ngFor="let vm of vmList"
     [vm]="vm"

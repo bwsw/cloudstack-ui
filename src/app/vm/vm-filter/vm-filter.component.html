@@ -1,0 +1,9 @@
+<mdl-card class="options-panel delimiter">
+  <mdl-select style="margin:0 20px" [(ngModel)]="countryCodes" multiple="true" placeholder="Select countries">
+    <mdl-option mdl-ripple *ngFor="let c of countries" [value]="c.code">{{c.name}}</mdl-option>
+  </mdl-select>
+  <mdl-select style="margin:0 20px" [(ngModel)]="countryCodes" multiple="true" placeholder="Select countries">
+    <mdl-option mdl-ripple *ngFor="let c of countries" [value]="c.code">{{c.name}}</mdl-option>
+  </mdl-select>
+  <mdl-checkbox style="width:0" [(ngModel)]="checkbox2"></mdl-checkbox>Colors
+</mdl-card>
