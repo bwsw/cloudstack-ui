@@ -132,14 +132,14 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
   }
 
   private distinctIds(templates: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
-    let ids = [];
-    let elems = [];
+    let ids = {};
+    let result = [];
     for (let i = 0; i < templates.length; i++) {
-      if (!ids.includes(templates[i].id)) {
-        ids.push(templates[i].id);
-        elems.push(templates[i]);
+      if (!ids[templates[i].id]) {
+        ids[templates[i].id] = true;
+        result.push(templates[i]);
       }
     }
-    return elems;
+    return result;
   }
 }
