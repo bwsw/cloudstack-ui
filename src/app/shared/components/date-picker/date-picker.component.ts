@@ -22,18 +22,20 @@ import {
   ]
 })
 export class DatePickerComponent implements ControlValueAccessor {
-  @Input() okLabel: string = 'Ok';
-  @Input() cancelLabel: string = 'Cancel';
+  @Input() public okLabel = 'Ok';
+  @Input() public cancelLabel = 'Cancel';
+  @Input() public firstDayOfWeek = 1;
+  @Input() public formatDate: Function;
+  @Input() public DateTimeFormat = DateTimeFormat;
+  @Input() public locale = 'en';
 
   public _displayDate: string;
-
-  public locale;
 
   public date: Date = new Date();
   private isDialogOpen = false;
 
   constructor(private dialogService: MdlDialogService) {
-    this.displayDate = this.formatDate();
+    this.displayDate = this._formatDate();
   }
 
   public propagateChange: any = () => {};
@@ -53,7 +55,7 @@ export class DatePickerComponent implements ControlValueAccessor {
     if (value) {
       this.displayDate = value;
     } else {
-      this.displayDate = this.formatDate();
+      this.displayDate = this._formatDate();
     }
   }
 
@@ -76,7 +78,10 @@ export class DatePickerComponent implements ControlValueAccessor {
       providers: [
         { provide: 'Date', useValue: this.date },
         { provide: 'okLabel', useValue: this.okLabel },
-        { provide: 'cancelLabel', useValue: this.cancelLabel }
+        { provide: 'cancelLabel', useValue: this.cancelLabel },
+        { provide: 'firstDayOfWeek', useValue: this.firstDayOfWeek },
+        { provide: 'DateTimeFormat', useValue: this.DateTimeFormat },
+        { provide: 'locale', useValue: this.locale }
       ]
     })
       .switchMap(res => res.onHide())
@@ -85,14 +90,17 @@ export class DatePickerComponent implements ControlValueAccessor {
         this.isDialogOpen = false;
         if (date) {
           this.date = date;
-          this.displayDate = this.formatDate();
+          this.displayDate = this._formatDate();
         }
       });
   }
 
-  private formatDate(): string {
+  private _formatDate(): string {
+    if (this.formatDate) {
+      return this.formatDate(this.date);
+    }
     if (this.locale) {
-      return new DateTimeFormat(this.locale, {
+      return new this.DateTimeFormat(this.locale, {
         day: 'numeric',
         month: 'numeric',
         year: 'numeric',

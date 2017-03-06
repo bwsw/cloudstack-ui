@@ -13,7 +13,10 @@ export class DatePickerDialogComponent {
     private dialog: MdlDialogReference,
     @Inject('Date') public initialDate: Date,
     @Inject('okLabel') public okLabel: string,
-    @Inject('cancelLabel') public cancelLabel: string
+    @Inject('cancelLabel') public cancelLabel: string,
+    @Inject('firstDayOfWeek') public firstDayOfWeek: string,
+    @Inject('DateTimeFormat') public DateTimeFormat,
+    @Inject('locale') public locale
   ) { }
 
   public setSelectedDate(date: Date): void {

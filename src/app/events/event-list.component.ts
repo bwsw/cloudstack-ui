@@ -5,6 +5,7 @@ import { TranslateService } from 'ng2-translate';
 import { EventService } from './event.service';
 import { Event } from './event.model';
 import { Observable } from 'rxjs';
+import { dateTimeFormat, formatIso } from '../shared/components/date-picker/dateUtils';
 
 
 @Component({
@@ -20,6 +21,10 @@ export class EventListComponent implements OnInit {
 
   public date;
 
+  public formatDate = formatIso;
+  public dateTimeFormat;
+  public locale;
+
   public selectedLevels: Array<string>;
   public levels = [
     'INFO',
@@ -29,9 +34,16 @@ export class EventListComponent implements OnInit {
 
   constructor(
     private eventService: EventService,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {
     this.selectedLevels = this.levels.concat();
+
+    this.locale = this.translate.currentLang;
+    if (this.translate.currentLang === 'en') {
+      this.dateTimeFormat = dateTimeFormat;
+    } else {
+      this.dateTimeFormat = Intl.DateTimeFormat;
+    }
 
     this.updateEvents = this.updateEvents.bind(this);
   }
