@@ -9,6 +9,15 @@ import {
 } from './dateUtils';
 
 
+interface DatePickerConfig {
+  okLabel?: string;
+  cancelLabel?: string;
+  date?: Date;
+  DateTimeFormat?: Function;
+  firstDayOfWeek?: number;
+  locale?: string;
+}
+
 @Component({
   selector: 'cs-date-picker',
   templateUrl: 'date-picker.component.html',
@@ -72,16 +81,20 @@ export class DatePickerComponent implements ControlValueAccessor {
     (e.target as HTMLInputElement).blur();
 
     this.isDialogOpen = true;
+
+    const config: DatePickerConfig = {
+      date: this.date,
+      okLabel: this.okLabel,
+      cancelLabel: this.cancelLabel,
+      firstDayOfWeek: this.firstDayOfWeek,
+      DateTimeFormat: this.DateTimeFormat,
+      locale: this.locale
+    };
     this.dialogService.showCustomDialog({
       component: DatePickerDialogComponent,
       classes: 'date-picker-dialog',
       providers: [
-        { provide: 'Date', useValue: this.date },
-        { provide: 'okLabel', useValue: this.okLabel },
-        { provide: 'cancelLabel', useValue: this.cancelLabel },
-        { provide: 'firstDayOfWeek', useValue: this.firstDayOfWeek },
-        { provide: 'DateTimeFormat', useValue: this.DateTimeFormat },
-        { provide: 'locale', useValue: this.locale }
+        { provide: 'datePickerConfig', useValue: config }
       ]
     })
       .switchMap(res => res.onHide())
