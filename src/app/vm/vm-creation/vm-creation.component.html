@@ -16,11 +16,26 @@
         </mdl-textfield>
       </div>
 
+      <div>
+        <h5>{{ 'VM_CREATION_FORM.ZONE' | translate }}</h5>
+        <div>
+          <mdl-select
+            [(ngModel)]="zoneId"
+            name="zone"
+          >
+            <mdl-option *ngFor="let z of vmCreationData.zones" [value]="z.id" >
+              {{ z.name }}
+            </mdl-option>
+          </mdl-select>
+        </div>
+      </div>
+
       <div class="dialog-select-wrapper">
         <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.INSTALLATION_SOURCE' | translate }}</h5>
         <cs-vm-creation-template
           class="dialog-select-select template-select"
           [selectedIn]="vmCreationData.vm.template"
+          [zoneId]="zoneId"
           (selectedOut)="onTemplateChange($event)"
         ></cs-vm-creation-template>
       </div>
@@ -30,17 +45,6 @@
           name="serviceOffering"
           (ngModelChange)="setServiceOffering($event)"
         ></cs-service-offering-selector>
-      </div>
-      <h5>{{ 'VM_CREATION_FORM.ZONE' | translate }}</h5>
-      <div>
-        <mdl-select
-          [(ngModel)]="zoneId"
-          name="zone"
-        >
-          <mdl-option *ngFor="let z of vmCreationData.zones" [value]="z.id" >
-            {{ z.name }}
-          </mdl-option>
-        </mdl-select>
       </div>
       <div>
         <h5>{{ 'DISK_OFFERING' | translate }}</h5>
@@ -140,3 +144,4 @@
     </button>
   </div>
 </form>
+

@@ -20,6 +20,7 @@ export class TemplateFilterListComponent implements OnInit {
   @Input() public showIsoSwitch = true;
   @Input() public showRadio = false;
   @Input() public viewMode: string;
+  @Input() public zoneId: string;
   @Output() public selectedTemplateChange = new EventEmitter();
   @Output() public viewModeChange = new EventEmitter();
 
@@ -59,6 +60,9 @@ export class TemplateFilterListComponent implements OnInit {
       this.query = filters.query;
     }
     this.visibleTemplateList = this.filterBySearch(this.filterByCategories(this.templateList));
+    if (this.zoneId) {
+      this.visibleTemplateList = this.visibleTemplateList.filter(template => template.zoneId === this.zoneId);
+    }
   }
 
   private fetchData(mode: string): void {

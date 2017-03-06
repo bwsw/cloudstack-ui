@@ -201,7 +201,7 @@ export class VmCreationComponent implements OnInit {
           this.showPassword(job.jobResult.displayName, job.jobResult.password);
           this.vmService.updateVmInfo(job.jobResult);
         },
-        (err) => {
+        err => {
           const response = err.json()[`deployvirtualmachineresponse`];
           if (response && response.cserrorcode === 4350) {
             this.takenName = this.vmCreationData.vm.displayName;

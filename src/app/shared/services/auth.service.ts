@@ -26,13 +26,11 @@ export class AuthService extends BaseBackendService<AuthStub> {
   }
 
   public get name(): string {
-    let name = this.storage.read('name');
-    return name ? name : '';
+    return this.storage.read('name') || '';
   }
 
   public get username(): string {
-    let username = this.storage.read('username');
-    return username ? username : '';
+    return this.storage.read('username') || '';
   }
 
   public set name(name: string) {
@@ -69,21 +67,24 @@ export class AuthService extends BaseBackendService<AuthStub> {
       });
   }
 
-  public isLoggedIn(): Observable<boolean> {
-    if (this.name) {
-      return this.http.get(BACKEND_API_URL)
-        .map(() => true)
-        .catch(e => {
+  public checkLoggedIn(): void {
+    if (!this.name) {
+      this.loggedIn.next(false);
+      return;
+    }
+
+    this.http.get(BACKEND_API_URL)
+      .subscribe(
+        () => {},
+        e => {
           if (e.status === 400) {
-            return Observable.of(true);
+            this.loggedIn.next(true);
           } else {
             this.setLoggedOut();
-            return Observable.of(false);
+            this.loggedIn.next(false);
           }
-        });
-    } else {
-      return Observable.of(false);
-    }
+        }
+      );
   }
 
   public setLoggedIn(username: string, name: string): void {
