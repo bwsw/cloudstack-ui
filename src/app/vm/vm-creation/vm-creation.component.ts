@@ -14,27 +14,27 @@ import {
 
 import {
   AffinityGroupService,
-  SSHKeyPairService,
+  AuthService,
+  DiskOffering,
   DiskStorageService,
   GROUP_POSTFIX,
   INotificationStatus,
+  InstanceGroup,
+  InstanceGroupService,
   JobsNotificationService,
   NotificationService,
   ResourceUsageService,
   SecurityGroupService,
   ServiceOfferingFilterService,
+  SSHKeyPairService,
   UtilsService,
   ZoneService
-} from '../../shared/services';
-import { VmService } from '../shared/vm.service';
-import { TemplateService } from '../../template/shared';
+} from '../../shared';
 
-import { Rules } from '../../security-group/sg-creation/sg-creation.component';
-import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { BaseTemplateModel } from '../../template/shared/base-template.model';
-import { AuthService } from '../../shared/services/auth.service';
-import { InstanceGroup } from '../../shared/models/instance-group.model';
-import { InstanceGroupService } from '../../shared/services/instance-group.service';
+import { Rules } from '../../security-group/sg-creation/sg-creation.component';
+import { TemplateService } from '../../template/shared';
+import { VmService } from '../shared/vm.service';
 
 
 class VmCreationData {

@@ -38,7 +38,8 @@ const MDL_SELECT_VALUE_ACCESSOR: any = {
 };
 
 @Component({
-  selector: 'cs-autocomplete',
+  // tslint:disable-next-line
+  selector: 'mdl-autocomplete',
   templateUrl: 'mdl-autocomplete.component.html',
   styleUrls: ['mdl-autocomplete.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -54,7 +55,6 @@ export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, A
   @Input() public placeholder = '';
   @Input() public options: Array<string> = [];
   @Output() public change: EventEmitter<any> = new EventEmitter(true);
-
 
   @ViewChild(MdlPopoverComponent) public popover: MdlPopoverComponent;
 

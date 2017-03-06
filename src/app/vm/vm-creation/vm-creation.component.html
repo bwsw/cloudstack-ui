@@ -60,7 +60,7 @@
 
       <h5>{{ 'VM_CREATION_FORM.GROUP' | translate }}</h5>
       <div *ngIf="vmCreationData.instanceGroups">
-        <cs-autocomplete [options]="vmCreationData.instanceGroups"></cs-autocomplete>
+        <mdl-autocomplete [options]="vmCreationData.instanceGroups"></mdl-autocomplete>
       </div>
 
       <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
@@ -132,7 +132,8 @@
       mdl-button
       (click)="onVmCreationSubmit($event)"
       mdl-ripple
-    >{{ 'CREATE' | translate }}
+    >
+      {{ 'CREATE' | translate }}
     </button>
     <button
       mdl-colored="primary"
