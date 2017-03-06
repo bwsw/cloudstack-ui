@@ -1,12 +1,5 @@
 @import '../../../style/__variables.scss';
 
-.options {
-  display: block;
-  width: 100%;
-  min-height: initial;
-  overflow: visible;
-}
-
 .template-iso-switch {
   display: inline-flex;
   align-items: center;
@@ -47,8 +40,4 @@
     max-width: 300px;
     width: 100%;
   }
-}
-
-.delimiter {
-  border-bottom: 1px solid #dedede;
 }

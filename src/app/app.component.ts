@@ -35,7 +35,6 @@ export class AppComponent implements OnInit {
     private zoneService: ZoneService
   ) {
     this.title = this.auth.name;
-    this.error.subscribe(e => this.handleError(e));
   }
 
   public componentSelected(mainLayout: MdlLayoutComponent): void {
@@ -43,7 +42,11 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.auth.checkLoggedIn();
+    this.languageService.applyLanguage();
+    this.styleService.loadPalette();
+
+    this.error.subscribe(e => this.handleError(e));
+    this.auth.isLoggedIn().subscribe(r => this.loggedIn = r);
     this.auth.loggedIn.subscribe(loggedIn => {
       this.updateAccount(loggedIn);
       if (loggedIn) {
@@ -51,10 +54,6 @@ export class AppComponent implements OnInit {
           .subscribe(basic => this.disableSecurityGroups = basic);
       }
     });
-
-    this.error.subscribe(e => this.handleError(e));
-    this.languageService.applyLanguage();
-    this.styleService.loadPalette();
   }
 
   private updateAccount(loggedIn: boolean): void {

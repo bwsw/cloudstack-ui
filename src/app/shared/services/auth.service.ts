@@ -67,24 +67,21 @@ export class AuthService extends BaseBackendService<AuthStub> {
       });
   }
 
-  public checkLoggedIn(): void {
-    if (!this.name) {
-      this.loggedIn.next(false);
-      return;
-    }
-
-    this.http.get(BACKEND_API_URL)
-      .subscribe(
-        () => {},
-        e => {
+  public isLoggedIn(): Observable<boolean> {
+    if (this.name) {
+      return this.http.get(BACKEND_API_URL)
+        .map(() => true)
+        .catch(e => {
           if (e.status === 400) {
-            this.loggedIn.next(true);
+            return Observable.of(true);
           } else {
             this.setLoggedOut();
-            this.loggedIn.next(false);
+            return Observable.of(false);
           }
-        }
-      );
+        });
+    } else {
+      return Observable.of(false);
+    }
   }
 
   public setLoggedIn(username: string, name: string): void {
