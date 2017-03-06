@@ -47,6 +47,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       this.osTypeService.getList()
     ])
       .map(([templates, osTypes]) => {
+        templates = this.distinctIds(templates);
         templates.forEach(template => {
           template.osType = osTypes.find(osType => osType.id === template.osTypeId);
         });
@@ -128,5 +129,17 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
         }
       })
       .catch(() => Observable.throw(0));
+  }
+
+  private distinctIds(templates: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
+    let ids = [];
+    let elems = [];
+    for (let i = 0; i < templates.length; i++) {
+      if (!ids.includes(templates[i].id)) {
+        ids.push(templates[i].id);
+        elems.push(templates[i]);
+      }
+    }
+    return elems;
   }
 }
