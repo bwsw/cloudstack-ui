@@ -7,6 +7,18 @@ import { Event } from './event.model';
 import { Observable } from 'rxjs';
 import { dateTimeFormat, formatIso } from '../shared/components/date-picker/dateUtils';
 
+let DateTimeFormat;
+const areIntlLocalesSupported = require('intl-locales-supported');
+
+if (areIntlLocalesSupported(['ru'])) {
+  DateTimeFormat = Intl.DateTimeFormat;
+} else {
+  const IntlPolyfill = require('intl');
+  DateTimeFormat = IntlPolyfill.DateTimeFormat;
+  // puts this in the bundle,
+  // todo dynamic import
+  require('intl/locale-data/jsonp/ru.js');
+}
 
 @Component({
   selector: 'cs-event-list',
