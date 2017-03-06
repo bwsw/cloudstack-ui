@@ -152,6 +152,7 @@
     "SERVICE_OFFERING": "Service offering",
     "ZONE": "Zone",
     "DISK_SIZE": "Disk size",
+    "GROUP": "Group",
     "AFFINITY_GROUPS": "Affinity groups",
     "SECURITY_GROUPS": "Security groups",
     "CREATE_SECURITY": "Create",

@@ -6,7 +6,6 @@ import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { MdlModule } from 'angular2-mdl';
 import { TranslateModule } from 'ng2-translate';
 
-
 import {
   DivByPowerOfTwoPipe,
   HighLightPipe,
@@ -22,6 +21,7 @@ import {
   DiskOfferingService,
   DiskStorageService,
   ErrorService,
+  InstanceGroupService,
   JobsNotificationService,
   LanguageService,
   LoginGuard,
@@ -105,8 +105,8 @@ import {
     VmStatisticsComponent,
     VolumeSizeControlComponent,
     DivByPowerOfTwoPipe,
+    HighLightPipe,
     ViewValuePipe,
-    HighLightPipe
   ],
   providers: [
     AffinityGroupService,
@@ -117,6 +117,7 @@ import {
     DiskOfferingService,
     DiskStorageService,
     ErrorService,
+    InstanceGroupService,
     JobsNotificationService,
     LanguageService,
     LoginGuard,

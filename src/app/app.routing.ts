@@ -8,6 +8,7 @@ import { EventListComponent } from './events/event-list.component';
 import { SpareDrivePageComponent } from './spare-drive/spare-drive-page/spare-drive-page.component';
 import { SettingsComponent } from './settings/settings.component';
 
+
 const routes: Routes = [
   {
     path: 'login',

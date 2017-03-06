@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from 'ng2-translate';
+import { MdlAutocompleteModule } from '../autocomplete/mdl-autocomplete.component';
 import { MdlModule } from 'angular2-mdl';
 import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
@@ -32,6 +33,7 @@ import {
     CommonModule,
     FormsModule,
     ServiceOfferingModule,
+    MdlAutocompleteModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,

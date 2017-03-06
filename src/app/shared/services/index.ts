@@ -9,6 +9,7 @@ export * from './config.service';
 export * from './disk-offering.service';
 export * from './disk-storage.service';
 export * from './error.service';
+export * from './instance-group.service';
 export * from './jobs-notification.service';
 export * from './language.service';
 export * from './login-guard.service';

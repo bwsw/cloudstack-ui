@@ -1,5 +1,5 @@
 <h3 class="mdl-dialog__title" translate>NEW_VM</h3>
-<form #vmCreateForm="ngForm" (ngSubmit)="onVmCreationSubmit($event)">
+<form #vmCreateForm="ngForm">
   <div class="container">
     <div class="left-column">
       <div>
@@ -61,6 +61,12 @@
       ></cs-volume-size-control>
     </div>
     <div class="right-column">
+
+      <h5>{{ 'VM_CREATION_FORM.GROUP' | translate }}</h5>
+      <div *ngIf="vmCreationData.instanceGroups">
+        <mdl-autocomplete [options]="vmCreationData.instanceGroups"></mdl-autocomplete>
+      </div>
+
       <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
       <div *ngIf="noAffinityGroupTranslation">
         <mdl-select
@@ -129,9 +135,12 @@
     <button
       mdl-colored="primary"
       [disabled]="!vmCreateForm.valid || (vmCreationData.vm.displayName === takenName)"
-      type="submit"
+      type="button"
       mdl-button
-      mdl-ripple>{{ 'CREATE' | translate }}
+      (click)="onVmCreationSubmit($event)"
+      mdl-ripple
+    >
+      {{ 'CREATE' | translate }}
     </button>
     <button
       mdl-colored="primary"
