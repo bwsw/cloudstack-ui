@@ -22,6 +22,9 @@ import {
   ]
 })
 export class DatePickerComponent implements ControlValueAccessor {
+  @Input() okLabel: string = 'Ok';
+  @Input() cancelLabel: string = 'Cancel';
+
   public _displayDate: string;
 
   public locale;
@@ -70,7 +73,11 @@ export class DatePickerComponent implements ControlValueAccessor {
     this.dialogService.showCustomDialog({
       component: DatePickerDialogComponent,
       classes: 'date-picker-dialog',
-      providers: [{ provide: 'Date', useValue: this.date }]
+      providers: [
+        { provide: 'Date', useValue: this.date },
+        { provide: 'okLabel', useValue: this.okLabel },
+        { provide: 'cancelLabel', useValue: this.cancelLabel }
+      ]
     })
       .switchMap(res => res.onHide())
       .onErrorResumeNext()

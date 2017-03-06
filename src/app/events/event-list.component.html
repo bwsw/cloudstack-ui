@@ -1,5 +1,7 @@
 <mdl-card class="options-panel delimiter">
   <cs-date-picker
+    [okLabel]="'OK' | translate "
+    [cancelLabel]="'CANCEL' | translate"
     [(ngModel)]="date"
     (ngModelChange)="filterEvents()"
   ></cs-date-picker>

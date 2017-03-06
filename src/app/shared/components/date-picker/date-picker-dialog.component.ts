@@ -11,7 +11,9 @@ export class DatePickerDialogComponent {
 
   constructor(
     private dialog: MdlDialogReference,
-    @Inject('Date') public initialDate: Date
+    @Inject('Date') public initialDate: Date,
+    @Inject('okLabel') public okLabel: string,
+    @Inject('cancelLabel') public cancelLabel: string
   ) { }
 
   public setSelectedDate(date: Date): void {
