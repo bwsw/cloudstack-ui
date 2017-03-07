@@ -397,5 +397,8 @@
   "SETTINGS": "Настройки",
   "LANGUAGE": "Язык",
   "COLOR": "Цвет",
-  "PALETTE": "Палитра"
+  "GROUP_BY_COLORS": "Группировать по цветам",
+  "PALETTE": "Палитра",
+  "SELECT_GROUPS": "Выбор групп",
+  "SELECT_ZONES": "Выбор зон"
 }

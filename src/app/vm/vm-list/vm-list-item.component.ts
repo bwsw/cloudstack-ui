@@ -31,11 +31,12 @@ export class VmListItemComponent implements OnInit, OnChanges {
   constructor(
     private asyncJobService: AsyncJobService,
     private vmService: VmService
-  ) {}
+  ) { }
 
   public ngOnInit(): void {
     this.updateColor();
-    this.actions = this.vm.actions.map(a => VirtualMachine.getAction(a));
+
+    this.actions = VirtualMachine.actions;
     this.asyncJobService.event.subscribe((job: IAsyncJob<VirtualMachine>) => {
       if (job.jobResult && job.jobResult.id === this.vm.id) {
         this.vm.state = job.jobResult.state;

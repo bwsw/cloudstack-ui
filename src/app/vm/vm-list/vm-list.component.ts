@@ -21,9 +21,19 @@ import { AsyncJobService } from '../../shared/services/async-job.service';
 import { VmStatisticsComponent } from '../../shared/components/vm-statistics/vm-statistics.component';
 import { StatsUpdateService } from '../../shared/services/stats-update.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
+import { VmFilter } from '../vm-filter/vm-filter.component';
+import { VmListSection } from './vm-list-section/vm-list-section.component';
+import { VmListSubsection } from './vm-list-subsection/vm-list-subsection.component';
+import { Zone } from '../../shared';
+import { InstanceGroup } from '../../shared/models/instance-group.model';
+
+
+export const enum SectionType {
+  zone,
+  group
+}
 
 const askToCreateVm = 'askToCreateVm';
-
 
 @Component({
   selector: 'cs-vm-list',
@@ -37,7 +47,14 @@ export class VmListComponent implements OnInit {
 
   public isDetailOpen: boolean;
   public selectedVm: VirtualMachine;
-  private vmList: Array<VirtualMachine>;
+  public vmList: Array<VirtualMachine>;
+
+  public showSections: boolean;
+  public showSubsections: boolean;
+  public groupByColors: boolean;
+
+  public sections: Array<VmListSection> = [];
+  public subsections: Array<VmListSubsection> = [];
 
   constructor (
     private vmService: VmService,
@@ -58,6 +75,30 @@ export class VmListComponent implements OnInit {
     this.subscribeToVmDestroyed();
     this.subscribeToSnapshotAdded();
     this.subscribeToVmDestroyed();
+  }
+
+  public updateFilters(filterData: VmFilter): void {
+    if (!this.vmList) {
+      return;
+    }
+
+    let sectionKey = this.getFilterKey(filterData.mode);
+    let subsectionKey = this.getFilterKey(this.getSubsectionType(filterData.mode));
+
+    this.showSections = !!filterData[sectionKey].length;
+    this.showSubsections = !!filterData[subsectionKey].length;
+    this.groupByColors = filterData.doFilterByColor;
+
+    this.sections = [];
+    this.subsections = [];
+
+    if (this.showSections) {
+      this.updateSections(filterData);
+    }
+
+    if (!this.showSections && this.showSubsections) {
+      this.updateSubsections(filterData);
+    }
   }
 
   public updateStats(): void {
@@ -213,5 +254,72 @@ export class VmListComponent implements OnInit {
         styles: { 'width': '320px' }
       });
     });
+  }
+
+  private filterVmsByGroup(vmList: Array<VirtualMachine>, group: InstanceGroup): Array<VirtualMachine> {
+    return vmList.filter(vm => vm.group === group.name);
+  }
+
+  private filterVmsByZone(vmList: Array<VirtualMachine>, zone: Zone): Array<VirtualMachine> {
+    return vmList.filter(vm => vm.zoneId === zone.id);
+  }
+
+  private getFilterKey(sectionType: SectionType): string {
+    if (sectionType === SectionType.group) {
+      return 'selectedGroups';
+    }
+    if (sectionType === SectionType.zone) {
+      return 'selectedZones';
+    }
+  }
+
+  private getSubsectionType(sectionType: SectionType): SectionType {
+    if (sectionType === SectionType.group) {
+      return SectionType.zone;
+    }
+    if (sectionType === SectionType.zone) {
+      return SectionType.group;
+    }
+  }
+
+
+  private updateSections(filterData: VmFilter): void {
+    let filterDataKey = this.getFilterKey(filterData.mode);
+
+    this.sections = filterData[filterDataKey]
+      .map((elem): VmListSection => {
+        let vmList = filterData.mode === SectionType.group ?
+          this.filterVmsByGroup(this.vmList, elem) :
+          this.filterVmsByZone(this.vmList, elem);
+
+        let subsectionList = this.getSubsectionList(vmList, filterData);
+
+        if (this.showSubsections) {
+          return { name: elem.name, subsectionList };
+        }
+        return { name: elem.name, vmList };
+      });
+  }
+
+  private updateSubsections(filterData: VmFilter): void {
+    this.subsections = this.getSubsectionList(this.vmList, filterData);
+  }
+
+  private getSubsectionList(
+    vmList: Array<VirtualMachine>,
+    filterData: VmFilter
+  ): Array<VmListSubsection> {
+    let subsectionType = this.getSubsectionType(filterData.mode);
+    let filterDataKey = this.getFilterKey(subsectionType);
+
+    return filterData[filterDataKey]
+      .map(elem => {
+        return {
+          name: elem.name,
+          vmList: subsectionType === SectionType.group ?
+            this.filterVmsByGroup(vmList, elem) :
+            this.filterVmsByZone(vmList, elem)
+        };
+      });
   }
 }

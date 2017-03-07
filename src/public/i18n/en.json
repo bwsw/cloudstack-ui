@@ -397,5 +397,8 @@
   "SETTINGS": "Settings",
   "LANGUAGE": "Language",
   "COLOR": "Color",
-  "PALETTE": "Palette"
+  "GROUP_BY_COLORS": "Group by colors",
+  "PALETTE": "Palette",
+  "SELECT_GROUPS": "Select groups",
+  "SELECT_ZONES": "Select zones"
 }

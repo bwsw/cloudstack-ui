@@ -5,6 +5,8 @@
 @import '~@angular2-mdl-ext/select/select';
 
 @import "~angular2-mdl/scss/color-definitions";
+@import '__variables.scss';
+
 
 * {
   box-sizing: border-box;
@@ -146,4 +148,15 @@ mdl-card.custom-card {
 .margin-bottom {
   margin-top: 0;
   margin-bottom: 15px;
+}
+
+.filter-select {
+  display: inline-block;
+  width: $template-filter-select-width;
+  margin: 0 20px;
+}
+
+.section-header {
+  margin: 0;
+  padding: 15px 15px 0 15px;
 }

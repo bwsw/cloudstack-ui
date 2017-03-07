@@ -2,6 +2,11 @@
   display: inline-flex;
   margin: 15px;
   cursor: pointer;
+  z-index: -1;
+
+  & mdl-card {
+    z-index: 0;
+  }
 }
 
 .vm-ip-address {
