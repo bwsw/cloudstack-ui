@@ -27,7 +27,6 @@ So, what is supported:
 * Root and Data disks management
 * Affinity groups management
 * VM groups
-* SSH keys
 * Localization support
 
 
@@ -47,6 +46,8 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 * Frontend Themes, Custom VM colors
 * Zone offering restrictions
 * Sophisticated layout for Zones, Groups, Colors filtering
+* SSH keys management
+
 
 ## Screenshots
 
