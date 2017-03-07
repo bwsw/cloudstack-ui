@@ -27,7 +27,8 @@ export class VolumeItemComponent {
   public attach(): void {
     this.dialogService.showCustomDialog({
       component: VolumeAttachmentComponent,
-      classes: 'volume-attachment-dialog'
+      classes: 'volume-attachment-dialog',
+      providers: [{ provide: 'zoneId', useValue: this.volume.zoneId }]
     })
       .switchMap(res => res.onHide())
       .subscribe((data: string) => {

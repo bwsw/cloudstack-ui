@@ -12,6 +12,7 @@ import { ZoneName } from '../decorators/zone-name.decorator';
   provisioningtype: 'provisioningType',
   storagetype: 'storageType',
   virtualmachineid: 'virtualMachineId',
+  zoneid: 'zoneId',
   zonename: 'zoneName'
 })
 export class Volume extends BaseModel {
@@ -28,5 +29,6 @@ export class Volume extends BaseModel {
   public snapshots: Array<Snapshot>;
   public storageType: string;
   public type: string;
+  public zoneId: string;
   public zoneName: string;
 }
