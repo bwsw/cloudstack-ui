@@ -21,7 +21,10 @@ import { Template } from '../shared/template.model';
 @Component({
   selector: 'cs-template-page',
   templateUrl: 'template-page.component.html',
-  styleUrls: ['template-page.component.scss']
+  styleUrls: ['template-page.component.scss'],
+  host: {
+    '[class.detail-list-container]': 'true'
+  }
 })
 export class TemplatePageComponent implements OnInit {
   public isDetailOpen: boolean;

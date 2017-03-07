@@ -152,3 +152,15 @@ mdl-simple-tooltip div {
   margin-top: 0;
   margin-bottom: 15px;
 }
+
+
+.detail-list-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+
+  .detail-list {
+    height: 100%;
+    overflow: auto;
+  }
+}

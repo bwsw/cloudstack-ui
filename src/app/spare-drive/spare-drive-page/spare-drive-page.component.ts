@@ -20,7 +20,10 @@ export interface VolumeCreationData {
 @Component({
   selector: 'cs-spare-drive-page',
   templateUrl: 'spare-drive-page.component.html',
-  styleUrls: ['spare-drive-page.component.scss']
+  styleUrls: ['spare-drive-page.component.scss'],
+  host: {
+    '[class.detail-list-container]': 'true'
+  }
 })
 export class SpareDrivePageComponent implements OnInit {
   public isDetailOpen: boolean;

@@ -28,7 +28,10 @@ const askToCreateVm = 'askToCreateVm';
 @Component({
   selector: 'cs-vm-list',
   templateUrl: 'vm-list.component.html',
-  styleUrls: ['vm-list.component.scss']
+  styleUrls: ['vm-list.component.scss'],
+  host: {
+    '[class.detail-list-container]': 'true'
+  }
 })
 export class VmListComponent implements OnInit {
   @ViewChild(VmStatisticsComponent) public vmStats: VmStatisticsComponent;
