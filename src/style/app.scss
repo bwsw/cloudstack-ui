@@ -80,6 +80,11 @@ mdl-card.custom-card {
   font-weight: bold !important;
 }
 
+mdl-simple-tooltip div {
+  white-space: normal;
+  word-break: break-all;
+}
+
 .card-wrapper {
   display: flex;
 

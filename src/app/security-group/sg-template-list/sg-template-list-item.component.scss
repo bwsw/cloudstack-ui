@@ -15,11 +15,6 @@
   text-overflow: ellipsis;
 }
 
-:host /deep/ mdl-simple-tooltip div {
-  white-space: normal;
-  word-break: break-all;
-}
-
 .custom-card {
   min-height: 182px;
 }
