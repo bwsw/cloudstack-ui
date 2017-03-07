@@ -42,7 +42,7 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 ## Current To Do's
 
 * Responsive interface for smart devices
-* Branding support
+* Branding support (default theme colors, logos)
 * Zone offerings restrictions (which means that not all service offerings may be compatible with a zone)
 * Sophisticated layout management for Zones, Groups, Colors filtering
 * SSH keys management
