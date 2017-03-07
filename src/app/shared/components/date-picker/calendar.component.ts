@@ -4,7 +4,6 @@ import {
   addMonths,
   addYears,
   cloneDate,
-  dateTimeFormat as DateTimeFormat,
   getFirstDayOfMonth,
   localizedWeekday,
 } from './dateUtils';
@@ -21,8 +20,12 @@ const daysArray = [
 })
 export class CalendarComponent implements OnInit {
   @Input() public initialDate: Date;
+  @Input() public firstDayOfWeek: number;
   @Input() public minDate: Date = addYears(new Date(), -100);
   @Input() public maxDate: Date = addYears(new Date(), 100);
+  @Input() public locale;
+  @Input() public DateTimeFormat;
+
   @Output() public dateSelected = new EventEmitter<Date>();
 
   public displayDate: Date;
@@ -30,11 +33,6 @@ export class CalendarComponent implements OnInit {
 
   public displayMonth = true;
 
-  public locale;
-
-  constructor() {
-    this.locale = 'en-US';
-  }
 
   public ngOnInit(): void {
     this.displayDate = getFirstDayOfMonth(this.initialDate);
@@ -42,7 +40,7 @@ export class CalendarComponent implements OnInit {
   }
 
   public get dateTimeFormatted(): string {
-    return new DateTimeFormat(this.locale, {
+    return new this.DateTimeFormat(this.locale, {
       month: 'long',
       year: 'numeric',
     }).format(this.displayDate);
@@ -50,7 +48,7 @@ export class CalendarComponent implements OnInit {
 
   public get weekTitles(): Array<string> {
     return daysArray.map((_event, i) => {
-      return localizedWeekday(DateTimeFormat, this.locale, i, 0);
+      return localizedWeekday(this.DateTimeFormat, this.locale, i, this.firstDayOfWeek);
     });
   }
 

@@ -11,7 +11,7 @@ export class DatePickerDialogComponent {
 
   constructor(
     private dialog: MdlDialogReference,
-    @Inject('Date') public initialDate: Date
+    @Inject('datePickerConfig') public config
   ) { }
 
   public setSelectedDate(date: Date): void {

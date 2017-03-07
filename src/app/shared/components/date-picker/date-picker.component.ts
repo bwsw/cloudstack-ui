@@ -9,6 +9,15 @@ import {
 } from './dateUtils';
 
 
+interface DatePickerConfig {
+  okLabel?: string;
+  cancelLabel?: string;
+  date?: Date;
+  DateTimeFormat?: Function;
+  firstDayOfWeek?: number;
+  locale?: string;
+}
+
 @Component({
   selector: 'cs-date-picker',
   templateUrl: 'date-picker.component.html',
@@ -22,15 +31,20 @@ import {
   ]
 })
 export class DatePickerComponent implements ControlValueAccessor {
-  public _displayDate: string;
+  @Input() public okLabel = 'Ok';
+  @Input() public cancelLabel = 'Cancel';
+  @Input() public firstDayOfWeek = 1;
+  @Input() public formatDate: Function;
+  @Input() public DateTimeFormat = DateTimeFormat;
+  @Input() public locale = 'en';
 
-  public locale;
+  public _displayDate: string;
 
   public date: Date = new Date();
   private isDialogOpen = false;
 
   constructor(private dialogService: MdlDialogService) {
-    this.displayDate = this.formatDate();
+    this.displayDate = this._formatDate();
   }
 
   public propagateChange: any = () => {};
@@ -50,7 +64,7 @@ export class DatePickerComponent implements ControlValueAccessor {
     if (value) {
       this.displayDate = value;
     } else {
-      this.displayDate = this.formatDate();
+      this.displayDate = this._formatDate();
     }
   }
 
@@ -67,10 +81,21 @@ export class DatePickerComponent implements ControlValueAccessor {
     (e.target as HTMLInputElement).blur();
 
     this.isDialogOpen = true;
+
+    const config: DatePickerConfig = {
+      date: this.date,
+      okLabel: this.okLabel,
+      cancelLabel: this.cancelLabel,
+      firstDayOfWeek: this.firstDayOfWeek,
+      DateTimeFormat: this.DateTimeFormat,
+      locale: this.locale
+    };
     this.dialogService.showCustomDialog({
       component: DatePickerDialogComponent,
       classes: 'date-picker-dialog',
-      providers: [{ provide: 'Date', useValue: this.date }]
+      providers: [
+        { provide: 'datePickerConfig', useValue: config }
+      ]
     })
       .switchMap(res => res.onHide())
       .onErrorResumeNext()
@@ -78,14 +103,17 @@ export class DatePickerComponent implements ControlValueAccessor {
         this.isDialogOpen = false;
         if (date) {
           this.date = date;
-          this.displayDate = this.formatDate();
+          this.displayDate = this._formatDate();
         }
       });
   }
 
-  private formatDate(): string {
+  private _formatDate(): string {
+    if (this.formatDate) {
+      return this.formatDate(this.date);
+    }
     if (this.locale) {
-      return new DateTimeFormat(this.locale, {
+      return new this.DateTimeFormat(this.locale, {
         day: 'numeric',
         month: 'numeric',
         year: 'numeric',

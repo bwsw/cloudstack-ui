@@ -3,7 +3,7 @@ import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter, } from
 import {
   getWeekArray,
   isEqualDate,
-  dateTimeFormat as DateTimeFormat, getFirstDayOfMonth
+  getFirstDayOfMonth
 } from './dateUtils';
 
 
@@ -15,20 +15,22 @@ import {
 })
 export class CalendarMonthComponent {
   @Input() public locale: string;
+  @Input() public firstDayOfWeek: number;
   @Input() public displayDate: Date;
   @Input() public selectedDate: Date;
+  @Input() public DateTimeFormat;
 
   @Output() public dateSelected = new EventEmitter<Date>();
 
   public get weekElements(): Array<Array<Date>> {
-    return getWeekArray(this.displayDate, 0);
+    return getWeekArray(this.displayDate, this.firstDayOfWeek);
   }
 
   public getDay(date): string|null {
     if (!date) {
       return null;
     }
-    return new DateTimeFormat(this.locale, {
+    return new this.DateTimeFormat(this.locale, {
       day: 'numeric',
     }).format(date);
   }

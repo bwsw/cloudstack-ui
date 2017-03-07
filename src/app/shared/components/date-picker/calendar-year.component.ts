@@ -12,7 +12,6 @@ import {
 
 import {
   cloneDate,
-  dateTimeFormat as DateTimeFormat
 } from './dateUtils';
 
 
@@ -27,6 +26,8 @@ export class CalendarYearComponent implements AfterViewInit {
   @Input() public maxDate: Date;
   @Input() public selectedDate: Date;
   @Input() public locale: string;
+  @Input() public DateTimeFormat;
+
   @Output() public yearSelected = new EventEmitter<number>();
 
   @ViewChild('calendarYearElement') private calendarYearElement;
@@ -50,7 +51,7 @@ export class CalendarYearComponent implements AfterViewInit {
 
     for (let year = minYear; year <= maxYear; year++) {
       dateCheck.setFullYear(year);
-      const yearFormatted = new DateTimeFormat(this.locale, {
+      const yearFormatted = new this.DateTimeFormat(this.locale, {
         year: 'numeric',
       }).format(dateCheck);
 

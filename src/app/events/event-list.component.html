@@ -1,5 +1,11 @@
 <mdl-card class="options-panel delimiter">
   <cs-date-picker
+    [okLabel]="'OK' | translate"
+    [locale]="locale"
+    [formatDate]="formatDate"
+    [firstDayOfWeek]="locale === 'en' ? 0 : 1"
+    [DateTimeFormat]="dateTimeFormat"
+    [cancelLabel]="'CANCEL' | translate"
     [(ngModel)]="date"
     (ngModelChange)="filterEvents()"
   ></cs-date-picker>
