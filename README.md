@@ -46,7 +46,7 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 * Branding support
 * Frontend Themes, Custom VM colors
 * Zone offering restrictions
-* Advanced Zones, Groups, Colors filtering and layout
+* Sophisticated layout for Zones, Groups, Colors filtering
 
 ## Screenshots
 
