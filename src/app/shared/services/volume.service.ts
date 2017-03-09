@@ -99,7 +99,7 @@ export class VolumeService extends BaseBackendService<Volume> {
       });
   }
 
-  public markForDeletion(id: string) {
+  public markForDeletion(id: string): Observable<any> {
     return this.tagsService.create({
       resourceIds: id,
       resourceType: this.entity,
@@ -107,5 +107,15 @@ export class VolumeService extends BaseBackendService<Volume> {
       'tags[0].value': 'true',
     })
       .switchMap(tagJob => this.asyncJobService.addJob(tagJob.jobid));
+  }
+
+  public removeMarkedVolumes(): void {
+    this.getList({
+      'tags[0].key': 'toBeDeleted',
+      'tags[0].value': 'true'
+    })
+      .subscribe(volumes => {
+        volumes.forEach(volume => this.remove(volume.id).subscribe());
+      });
   }
 }

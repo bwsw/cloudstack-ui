@@ -1,8 +1,12 @@
 import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../shared';
-import { INotificationService } from '../shared/services/notification.service';
-import { SecurityGroupService } from '../shared/services/security-group.service';
+
+import {
+  AuthService,
+  INotificationService,
+  SecurityGroupService,
+  VolumeService
+} from '../shared';
 
 
 @Component({
@@ -18,7 +22,8 @@ export class LoginComponent {
     private auth: AuthService,
     @Inject('INotificationService') private notification: INotificationService,
     private router: Router,
-    private securityGroupService: SecurityGroupService
+    private securityGroupService: SecurityGroupService,
+    private volumeService: VolumeService
   ) {
     this.username = '';
     this.password = '';
@@ -39,6 +44,7 @@ export class LoginComponent {
 
   private handleLogin(): void {
     this.securityGroupService.removeEmptyGroups();
+    this.volumeService.removeMarkedVolumes();
     this.router.navigate(['']);
   }
 
