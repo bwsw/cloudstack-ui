@@ -107,7 +107,8 @@ export class EventListComponent implements OnInit {
     this.tableModel = new MdlDefaultTableModel([
       { key: 'description', name: translations['DESCRIPTION'] },
       { key: 'level', name: translations['LEVEL'] },
-      { key: 'type', name: translations['TYPE'] }
+      { key: 'type', name: translations['TYPE'] },
+      { key: 'time', name: 'Time' }
     ]);
   }
 
@@ -118,6 +119,16 @@ export class EventListComponent implements OnInit {
   }
 
   private createTableModel(): void {
-    this.tableModel.data = this.events.map(event => Object.assign({}, event, { selected: false }));
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      timeZoneName: 'short'
+    };
+    const dateTimeFormat = new DateTimeFormat(this.locale, options);
+    this.tableModel.data = this.events.map(event => Object.assign({}, event, {
+      selected: false,
+      time: dateTimeFormat.format(new Date(event.created))
+    }));
   }
 }
