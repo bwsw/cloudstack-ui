@@ -74,6 +74,9 @@ export class VmListComponent implements OnInit {
   }
 
   public showDetail(vm: VirtualMachine): void {
+    if (vm.state === 'Error') {
+      return;
+    }
     this.isDetailOpen = true;
     this.selectedVm = vm;
   }
@@ -156,7 +159,12 @@ export class VmListComponent implements OnInit {
 
   private subscribeToVmDestroyed(): void {
     this.asyncJobService.event.subscribe((job: IAsyncJob<any>) => {
-      if (job.jobResult && job.jobInstanceType === 'VirtualMachine' && job.jobResult.state === 'Destroyed') {
+      if (!job.jobResult) {
+        return;
+      }
+
+      const state = job.jobResult.state;
+      if (job.jobInstanceType === 'VirtualMachine' && (state === 'Destroyed' || state === 'Expunging')) {
         this.vmList = this.vmList.filter(vm => vm.id !== job.jobResult.id);
         if (this.selectedVm && this.selectedVm.id === job.jobResult.id) {
           this.isDetailOpen = false;

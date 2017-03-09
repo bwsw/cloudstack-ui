@@ -19,6 +19,7 @@
   "RESTORING": "Restoring",
   "DESTROYING": "Destroying",
   "DEPLOYING": "Deploying",
+  "ERROR": "Error",
 
   "START_IN_PROGRESS": "Starting",
   "STOP_IN_PROGRESS": "Stopping",
