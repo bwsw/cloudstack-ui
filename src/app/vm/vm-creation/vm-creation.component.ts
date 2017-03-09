@@ -274,6 +274,10 @@ export class VmCreationComponent implements OnInit {
     }
   }
 
+  public setGroup(group: string): void {
+    this.vmCreationData.vm.group = group;
+  }
+
   private setDefaultVmName(): void {
     const regex = /vm-.*-(\d+)/;
 

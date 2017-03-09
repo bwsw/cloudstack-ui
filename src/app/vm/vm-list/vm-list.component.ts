@@ -46,15 +46,20 @@ export class VmListComponent implements OnInit {
   @HostBinding('class.mdl-color--grey-100') public backgroundColorClass = true;
 
   public isDetailOpen: boolean;
-  public selectedVm: VirtualMachine;
-  public vmList: Array<VirtualMachine>;
 
-  public showSections: boolean;
-  public showSubsections: boolean;
-  public groupByColors: boolean;
+  public groupByColors = false;
+
+  public selectedVm: VirtualMachine;
+
+  public filterData: VmFilter;
+
+  public showSections = false;
+  public showSubsections = false;
 
   public sections: Array<VmListSection> = [];
   public subsections: Array<VmListSubsection> = [];
+
+  private vmList: Array<VirtualMachine>;
 
   constructor (
     private vmService: VmService,
@@ -77,10 +82,21 @@ export class VmListComponent implements OnInit {
     this.subscribeToVmDestroyed();
   }
 
-  public updateFilters(filterData: VmFilter): void {
+  public updateFilters(filterData?: VmFilter): void {
     if (!this.vmList) {
       return;
     }
+    if (!filterData && !this.filterData) {
+      return;
+    }
+    if (!filterData) {
+      filterData = this.filterData;
+    }
+    if (!this.filterData) {
+      this.filterData = filterData;
+    }
+
+    this.filterData = filterData;
 
     let sectionKey = this.getFilterKey(filterData.mode);
     let subsectionKey = this.getFilterKey(this.getSubsectionType(filterData.mode));
@@ -88,9 +104,14 @@ export class VmListComponent implements OnInit {
     this.showSections = !!filterData[sectionKey].length;
     this.showSubsections = !!filterData[subsectionKey].length;
     this.groupByColors = filterData.doFilterByColor;
-
     this.sections = [];
     this.subsections = [];
+
+    if (filterData.doFilterByColor) {
+      this.vmList = this.sortByColor(this.vmList);
+    } else {
+      this.vmList = this.sortByDate(this.vmList);
+    }
 
     if (this.showSections) {
       this.updateSections(filterData);
@@ -111,6 +132,7 @@ export class VmListComponent implements OnInit {
 
   public onVmCreated(vm: VirtualMachine): void {
     this.vmList.push(vm);
+    this.updateFilters();
     this.updateStats();
   }
 
@@ -168,6 +190,7 @@ export class VmListComponent implements OnInit {
               vmList[index].serviceOfferingId = updatedVm.serviceOfferingId;
             });
         });
+        this.updateFilters();
       });
   }
 
@@ -202,6 +225,7 @@ export class VmListComponent implements OnInit {
         if (this.selectedVm && this.selectedVm.id === job.jobResult.id) {
           this.isDetailOpen = false;
         }
+        this.updateFilters();
         this.updateStats();
       }
     });
@@ -264,6 +288,36 @@ export class VmListComponent implements OnInit {
     return vmList.filter(vm => vm.zoneId === zone.id);
   }
 
+  private sortByColor(vmList: Array<VirtualMachine>): Array<VirtualMachine> {
+    return vmList.sort((vmA, vmB) => {
+      let vmAColor = this.vmService.getColor(vmA).value;
+      let vmBColor = this.vmService.getColor(vmB).value;
+
+      if (vmAColor < vmBColor) {
+        return -1;
+      }
+      if (vmAColor > vmBColor) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+
+  private sortByDate(vmList: Array<VirtualMachine>): Array<VirtualMachine> {
+    return vmList.sort((vmA, vmB) => {
+      let vmACreated = vmA.created;
+      let vmBCreated = vmB.created;
+
+      if (vmACreated > vmBCreated) {
+        return 1;
+      }
+      if (vmACreated < vmBCreated) {
+        return -1;
+      }
+      return 0;
+    });
+  }
+
   private getFilterKey(sectionType: SectionType): string {
     if (sectionType === SectionType.group) {
       return 'selectedGroups';
@@ -281,7 +335,6 @@ export class VmListComponent implements OnInit {
       return SectionType.group;
     }
   }
-
 
   private updateSections(filterData: VmFilter): void {
     let filterDataKey = this.getFilterKey(filterData.mode);

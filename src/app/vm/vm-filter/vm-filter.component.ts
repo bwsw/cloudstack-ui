@@ -44,6 +44,21 @@ export class VmFilterComponent {
     });
   }
 
+  public updateColor(doFilterByColor: boolean): void {
+    this.doFilterByColor = doFilterByColor;
+    this.update();
+  }
+
+  public updateGroups(selectedGroups: Array<InstanceGroup>): void {
+    this.selectedGroups = selectedGroups;
+    this.update();
+  }
+
+  public updateZones(selectedZones: Array<Zone>): void {
+    this.selectedZones = selectedZones;
+    this.update();
+  }
+
   public changeMode(): void {
     if (this.mode === SectionType.group) {
       this.mode = SectionType.zone;
