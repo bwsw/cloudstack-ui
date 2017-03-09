@@ -27,7 +27,7 @@
       mdl-ripple
       type="submit"
     >
-      {{ 'ATTACH' | translate }}
+      {{ (virtualMachineId ? 'ATTACH' : 'OK') | translate }}
     </button>
     <button
       mdl-colored="primary"
