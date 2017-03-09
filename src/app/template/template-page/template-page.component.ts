@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, HostBinding } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { MdlDialogService } from 'angular2-mdl';
@@ -21,16 +21,14 @@ import { Template } from '../shared/template.model';
 @Component({
   selector: 'cs-template-page',
   templateUrl: 'template-page.component.html',
-  styleUrls: ['template-page.component.scss'],
-  host: {
-    '[class.detail-list-container]': 'true'
-  }
+  styleUrls: ['template-page.component.scss']
 })
 export class TemplatePageComponent implements OnInit {
   public isDetailOpen: boolean;
   public _viewMode: string;
   public _selectedTemplate: BaseTemplateModel;
 
+  @HostBinding('class.detail-list-container') public detailListContainer = true;
   @ViewChild(TemplateFilterListComponent) private filterList;
 
   constructor(

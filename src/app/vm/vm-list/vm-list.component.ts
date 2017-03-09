@@ -28,15 +28,13 @@ const askToCreateVm = 'askToCreateVm';
 @Component({
   selector: 'cs-vm-list',
   templateUrl: 'vm-list.component.html',
-  styleUrls: ['vm-list.component.scss'],
-  host: {
-    '[class.detail-list-container]': 'true'
-  }
+  styleUrls: ['vm-list.component.scss']
 })
 export class VmListComponent implements OnInit {
   @ViewChild(VmStatisticsComponent) public vmStats: VmStatisticsComponent;
   @ViewChild(VmCreationComponent) public vmCreationForm: VmCreationComponent;
   @HostBinding('class.mdl-color--grey-100') public backgroundColorClass = true;
+  @HostBinding('class.detail-list-container') public detailListContainer = true;
 
   public isDetailOpen: boolean;
   public selectedVm: VirtualMachine;
