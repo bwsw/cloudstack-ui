@@ -7,6 +7,7 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
 import { SnapshotService } from './snapshot.service';
 import { Snapshot } from '../models/snapshot.model';
 import { AsyncJobService } from './async-job.service';
+import { TagService } from './tag.service';
 
 
 interface VolumeCreationData {
@@ -31,7 +32,8 @@ export class VolumeService extends BaseBackendService<Volume> {
 
   constructor(
     private asyncJobService: AsyncJobService,
-    private snapshotService: SnapshotService
+    private snapshotService: SnapshotService,
+    private tagsService: TagService
   ) {
     super();
   }
@@ -95,5 +97,15 @@ export class VolumeService extends BaseBackendService<Volume> {
         this.onVolumeAttached.next(job.jobResult);
         return job.jobResult;
       });
+  }
+
+  public markForDeletion(id: string) {
+    return this.tagsService.create({
+      resourceIds: id,
+      resourceType: this.entity,
+      'tags[0].key': 'toBeDeleted',
+      'tags[0].value': 'true',
+    })
+      .switchMap(tagJob => this.asyncJobService.addJob(tagJob.jobid));
   }
 }

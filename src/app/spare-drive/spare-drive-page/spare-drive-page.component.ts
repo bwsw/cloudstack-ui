@@ -49,7 +49,7 @@ export class SpareDrivePageComponent implements OnInit {
       })
       .subscribe(volumes => {
         this.volumes = volumes
-          .filter(volume => !volume.virtualMachineId)
+          .filter(volume => !volume.virtualMachineId && !volume.tags.find((tag) => tag.key === 'toBeDeleted'))
           .map(volume => {
             volume.diskOffering = diskOfferings.find(offering => offering.id === volume.diskOfferingId);
             return volume;

@@ -128,24 +128,15 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public vmAction(e: IVmActionEvent): void {
-    this.translateService.get([
-      'YES',
-      'NO',
-      e.action.confirmMessage
-    ])
-      .switchMap((strs) => {
-        return this.dialogService.confirm(strs[e.action.confirmMessage], strs.NO, strs.YES);
-      })
-      .subscribe(
-        () => {
-          if (e.action.commandName !== 'resetPasswordFor') {
-            this.command(e).subscribe();
-          } else {
-            this.resetPassword(e);
-          }
-        },
-        () => {}
-      );
+    switch (e.action.commandName) {
+      case 'resetPasswordFor': return this.resetPassword(e);
+      case 'destroy': return this.destroy(e);
+    }
+    if (e.action.commandName !== 'resetPasswordFor') {
+      this.command(e).subscribe();
+    } else {
+      this.resetPassword(e);
+    }
   }
 
   public command(e: IVmActionEvent): Observable<any> {
@@ -171,6 +162,17 @@ export class VmService extends BaseBackendService<VirtualMachine> {
           status: INotificationStatus.Finished
         });
         return job;
+      });
+  }
+
+  public destroy(e: IVmActionEvent): void {
+    this.command(e)
+      .subscribe((job: AsyncJob) => {
+        if (job && job.jobResult && job.jobResult.state === 'Destroyed') {
+          e.vm.volumes
+            .filter(volume => volume.type === 'DATADISK')
+            .forEach((volume) => this.volumeService.markForDeletion(volume.id).subscribe());
+        }
       });
   }
 
