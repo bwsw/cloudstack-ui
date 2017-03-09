@@ -38,10 +38,8 @@ export class SpareDrivePageComponent implements OnInit {
 
   public ngOnInit(): void {
     let diskOfferings: Array<DiskOffering>;
-    this.diskOfferingService.getList({
-      type: 'DATADISK'
-    })
-      .switchMap(offerings => {
+    this.diskOfferingService.getList({ type: 'DATADISK' })
+      .switchMap((offerings: Array<DiskOffering>) => {
         diskOfferings = offerings;
         return this.volumeService.getList();
       })
@@ -160,7 +158,7 @@ export class SpareDrivePageComponent implements OnInit {
         volume => {
           if (volume.id) {
             this.diskOfferingService.get(volume.diskOfferingId)
-              .subscribe(diskOffering => {
+              .subscribe((diskOffering: DiskOffering) => {
                 volume.diskOffering = diskOffering;
                 this.volumes.push(volume);
               });

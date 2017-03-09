@@ -42,13 +42,16 @@
       <div>
         <h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>
         <cs-service-offering-selector
-          name="serviceOffering"
+          *ngIf="zoneId"
+          [zoneId]="zoneId"
           (ngModelChange)="setServiceOffering($event)"
         ></cs-service-offering-selector>
       </div>
       <div>
         <h5>{{ 'DISK_OFFERING' | translate }}</h5>
         <cs-disk-offering
+          *ngIf="zoneId"
+          [zoneId]="zoneId"
           (offeringUpdated)="updateDiskOffering($event)"
         ></cs-disk-offering>
       </div>

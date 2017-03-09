@@ -30,8 +30,8 @@ import {
   ResourceLimitService,
   ResourceUsageService,
   SecurityGroupService,
-  ServiceOfferingFilterService,
   ServiceOfferingService,
+  ServiceOfferingFilterService,
   SnapshotService,
   SSHKeyPairService,
   StatsUpdateService,
@@ -60,6 +60,7 @@ import {
   VmStatisticsComponent,
   VolumeSizeControlComponent
 } from './components';
+
 
 @NgModule({
   imports: [
@@ -126,8 +127,8 @@ import {
     ResourceLimitService,
     ResourceUsageService,
     SecurityGroupService,
-    ServiceOfferingFilterService,
     ServiceOfferingService,
+    ServiceOfferingFilterService,
     SnapshotService,
     SSHKeyPairService,
     StatsUpdateService,
