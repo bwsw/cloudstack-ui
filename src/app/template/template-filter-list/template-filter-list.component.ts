@@ -25,10 +25,10 @@ export class TemplateFilterListComponent implements OnInit {
   @Output() public viewModeChange = new EventEmitter();
 
   public query: string;
-  public selectedFilters: Array<string>;
-  public selectedOsFamilies: Array<OsFamily>;
-  public templateList: Array<BaseTemplateModel>;
-  public visibleTemplateList: Array<BaseTemplateModel>;
+  public selectedFilters: Array<string> = [];
+  public selectedOsFamilies: Array<OsFamily> = [];
+  public templateList: Array<BaseTemplateModel> = [];
+  public visibleTemplateList: Array<BaseTemplateModel> = [];
 
   protected templateService = ServiceLocator.injector.get(TemplateService);
   protected authService = ServiceLocator.injector.get(AuthService);
@@ -45,7 +45,10 @@ export class TemplateFilterListComponent implements OnInit {
   }
 
   public updateList(): void {
-    this.fetchData(this.viewMode);
+    this.fetchData(this.viewMode)
+      .subscribe(() => {
+        this.filterResults();
+      });
   }
 
   public selectTemplate(template: BaseTemplateModel): void {
@@ -54,6 +57,10 @@ export class TemplateFilterListComponent implements OnInit {
   }
 
   public filterResults(filters?: any): void {
+    if (!this.templateList) {
+      return;
+    }
+
     if (filters) {
       this.selectedOsFamilies = filters.selectedOsFamilies;
       this.selectedFilters = filters.selectedFilters;
@@ -61,15 +68,16 @@ export class TemplateFilterListComponent implements OnInit {
     }
     this.visibleTemplateList = this.filterBySearch(this.filterByCategories(this.templateList));
     if (this.zoneId) {
-      this.visibleTemplateList = this.visibleTemplateList.filter(template => template.zoneId === this.zoneId);
+      this.visibleTemplateList = this.visibleTemplateList
+        .filter(template => template.zoneId === this.zoneId || template.crossZones);
     }
   }
 
-  private fetchData(mode: string): void {
+  private fetchData(mode: string): Observable<any> {
     if (mode === 'Template') {
       this.templateList = [];
-      this.templateService.getGroupedTemplates({}, ['featured', 'self'])
-        .subscribe(templates => {
+      return this.templateService.getGroupedTemplates({}, ['featured', 'self'])
+        .map(templates => {
           let t = [];
           for (let filter in templates) {
             if (templates.hasOwnProperty(filter)) {
@@ -81,11 +89,11 @@ export class TemplateFilterListComponent implements OnInit {
         });
     } else {
       this.templateList = [];
-      Observable.forkJoin([
+      return Observable.forkJoin([
         this.isoService.getList({filter: 'featured'}),
         this.isoService.getList({filter: 'self'}),
       ])
-        .subscribe(([featuredIsos, selfIsos]) => {
+        .map(([featuredIsos, selfIsos]) => {
           this.templateList = (featuredIsos as Array<Iso>).concat(selfIsos as Array<Iso>);
           this.visibleTemplateList = this.templateList;
         });
