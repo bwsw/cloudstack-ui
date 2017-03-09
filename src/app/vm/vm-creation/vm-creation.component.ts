@@ -125,7 +125,6 @@ export class VmCreationComponent implements OnInit {
 
   public ngOnInit(): void {
     this.resetVmCreateData();
-    this.setDefaultVmName();
   }
 
   public updateDiskOffering(offering: DiskOffering): void {
@@ -164,8 +163,16 @@ export class VmCreationComponent implements OnInit {
   }
 
   public resetVmCreateData(): void {
-    this.getVmCreateData()
-      .subscribe(result => this.vmCreationData = result);
+    Observable.forkJoin([
+      this.getVmCreateData(),
+      this.getDefaultVmName()
+    ])
+      .subscribe(([creationData, defaultName]) => {
+        this.vmCreationData = creationData;
+        if (!this.vmCreationData.vm.displayName) {
+          setTimeout(() => this.vmCreationData.vm.displayName = defaultName);
+        }
+      });
   }
 
   public deployVm(): void {
@@ -278,11 +285,11 @@ export class VmCreationComponent implements OnInit {
     }
   }
 
-  private setDefaultVmName(): void {
+  private getDefaultVmName(): Observable<string> {
     const regex = /vm-.*-(\d+)/;
 
-    this.vmService.getList({}, true)
-      .subscribe(vmList => {
+    return this.vmService.getList({}, true)
+      .map(vmList => {
         let max = 0;
         vmList.forEach(vm => {
           const match = vm.displayName.match(regex);
@@ -292,9 +299,7 @@ export class VmCreationComponent implements OnInit {
           }
         });
 
-        if (!this.vmCreationData.vm.displayName) {
-          setTimeout(() => this.vmCreationData.vm.displayName = `vm-${this.auth.username}-${++max}`);
-        }
+        return `vm-${this.auth.username}-${++max}`;
       });
   }
 
