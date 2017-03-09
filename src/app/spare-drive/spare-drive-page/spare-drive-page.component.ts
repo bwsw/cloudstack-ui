@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { VolumeService, VolumeAttachmentData } from '../../shared/services/volume.service';
 import { Volume } from '../../shared/models/volume.model';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
@@ -20,12 +20,14 @@ export interface VolumeCreationData {
 @Component({
   selector: 'cs-spare-drive-page',
   templateUrl: 'spare-drive-page.component.html',
-  styleUrls: ['spare-drive-page.component.scss']
+  styleUrls: ['spare-drive-page.component.scss'],
 })
 export class SpareDrivePageComponent implements OnInit {
   public isDetailOpen: boolean;
   public volumes: Array<Volume>;
   public _selectedVolume: Volume;
+
+  @HostBinding('class.detail-list-container') public detailListContainer = true;
 
   constructor(
     private dialogService: MdlDialogService,

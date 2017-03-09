@@ -1,12 +1,6 @@
 @import '../../../style/__variables';
 $template-detail-width: $sidebar-width + 1;
 
-:host {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-}
-
 .margin-right {
   transition: margin 0.3s;
   &.open {

@@ -1,15 +1,7 @@
 @import '../../../style/__variables';
 $vm-detail-width: $sidebar-width + 1;
 
-:host {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-}
-
 .vm-list {
-  height: 100%;
-  overflow: auto;
   transition: margin 0.3s;
 
   &.open {

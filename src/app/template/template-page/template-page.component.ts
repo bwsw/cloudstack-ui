@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, HostBinding } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { MdlDialogService } from 'angular2-mdl';
@@ -28,6 +28,7 @@ export class TemplatePageComponent implements OnInit {
   public _viewMode: string;
   public _selectedTemplate: BaseTemplateModel;
 
+  @HostBinding('class.detail-list-container') public detailListContainer = true;
   @ViewChild(TemplateFilterListComponent) private filterList;
 
   constructor(
