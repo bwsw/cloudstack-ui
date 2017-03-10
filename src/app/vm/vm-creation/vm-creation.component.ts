@@ -139,7 +139,6 @@ export class VmCreationComponent implements OnInit {
   // todo
   public show(): void {
     this.templateService.getDefault().subscribe(() => {
-      //zone Id
       this.serviceOfferingFilterService.getAvailable({ zoneId: this.zoneId })
         .subscribe(() => {
           this.resourceUsageService.getResourceUsage().subscribe(result => {
