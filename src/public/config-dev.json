@@ -209,5 +209,35 @@
       "value": "#607D8B",
       "primaryOnly": true
     }
-  ]
+  ],
+  "customOfferingRestrictions": {
+    "031a55bb-5d6b-4336-ab93-d5dead28a887": {
+      "cpuNumber": {
+        "min": 1,
+        "max": 8
+      },
+      "cpuSpeed": {
+        "min": 1000,
+        "max": 3000
+      },
+      "memory": {
+        "min": 0.5,
+        "max": 8
+      }
+    },
+    "3fcdb37c-1c0b-4728-b62f-970c765c3fbc": {
+      "cpuNumber": {
+        "min": 1,
+        "max": 4
+      },
+      "cpuSpeed": {
+        "min": 1000,
+        "max": 2000
+      },
+      "memory": {
+        "min": 1,
+        "max": 8
+      }
+    }
+  }
 }

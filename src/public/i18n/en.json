@@ -400,5 +400,7 @@
   "SETTINGS": "Settings",
   "LANGUAGE": "Language",
   "COLOR": "Color",
-  "PALETTE": "Palette"
+  "PALETTE": "Palette",
+
+  "CUSTOM_SERVICE_OFFERING": "Custom offering"
 }

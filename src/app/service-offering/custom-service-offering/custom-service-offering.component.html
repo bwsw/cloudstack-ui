@@ -1,0 +1,55 @@
+<h3 class="mdl-dialog__title">{{ 'CUSTOM_SERVICE_OFFERING' | translate }}</h3>
+<form (ngSubmit)="onSubmit($event)" #templateCreationForm="ngForm">
+  <div class="mdl-dialog__content">
+    <mdl-textfield
+      *ngIf="offering"
+      name="cpuNumber"
+      type="number"
+      label="Number..."
+      [min]="restrictions.cpuNumber.min"
+      [max]="restrictions.cpuNumber.max"
+      step="1"
+      error-msg="Input is not a number!"
+      [(ngModel)]="offering.cpuNumber"
+      floating-label
+    ></mdl-textfield>
+
+    <mdl-slider
+      *ngIf="offering"
+      name="cpuSpeed"
+      [min]="restrictions.cpuSpeed.min"
+      [max]="restrictions.cpuSpeed.max"
+      [step]="100"
+      [(ngModel)]="offering.cpuSpeed"
+    ></mdl-slider>
+
+    <mdl-slider
+      *ngIf="offering"
+      name="memory"
+      [min]="restrictions.memory.min"
+      [max]="restrictions.memory.max"
+      [step]="0.5"
+      [(ngModel)]="offering.memory"
+    ></mdl-slider>
+  </div>
+  <div class="mdl-dialog__actions">
+    <button
+      mdl-colored="primary"
+      mdl-button
+      mdl-ripple
+      type="submit"
+      [disabled]="!templateCreationForm.valid"
+    >
+      {{ 'CONFIRM' | translate }}
+    </button>
+    <button
+      mdl-colored="primary"
+      mdl-button
+      mdl-ripple
+      type="button"
+      (click)="onCancel()"
+    >
+      {{ 'CANCEL' | translate }}
+    </button>
+  </div>
+</form>

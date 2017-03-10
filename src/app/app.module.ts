@@ -22,6 +22,7 @@ import { CustomDialogService } from './shared/services/custom-dialog.service';
 import { EventsModule } from './events/events.module';
 import { SpareDriveModule } from './spare-drive/spare-drive.module';
 import { SettingsModule } from './settings/settings.module';
+import { TestComponent } from './test-component/test.component';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { SettingsModule } from './settings/settings.module';
     AppComponent,
     LoginComponent,
     LogoutComponent,
+    TestComponent
   ],
   providers: [
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },

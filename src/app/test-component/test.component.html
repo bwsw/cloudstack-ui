@@ -1,0 +1,11 @@
+<mdl-select
+  [ngModel]="selectedValue"
+  (change)="changeValue($event)"
+>
+  <mdl-option [value]="1">1</mdl-option>
+  <mdl-option [value]="2">2</mdl-option>
+  <mdl-option [value]="3">3</mdl-option>
+  <mdl-option [value]="4">4</mdl-option>
+  <mdl-option [value]="5">5</mdl-option>
+</mdl-select>
+{{selectedValue}}

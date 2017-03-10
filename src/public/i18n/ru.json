@@ -400,5 +400,7 @@
   "SETTINGS": "Настройки",
   "LANGUAGE": "Язык",
   "COLOR": "Цвет",
-  "PALETTE": "Палитра"
+  "PALETTE": "Палитра",
+
+  "CUSTOM_SERVICE_OFFERING": "Настраиваемое предложение"
 }

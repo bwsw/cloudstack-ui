@@ -4,8 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
-import { ServiceOfferingDialogComponent } from './service-offering-dialog.component';
-import { ServiceOfferingSelectorComponent } from './service-offering-selector.component';
+import { ServiceOfferingDialogComponent } from './service-offering-dialog/service-offering-dialog.component';
+import { ServiceOfferingSelectorComponent } from './service-offering-selector/service-offering-selector.component';
+import { CustomServiceOfferingComponent } from './custom-service-offering/custom-service-offering.component';
 
 @NgModule({
   imports: [
@@ -16,14 +17,17 @@ import { ServiceOfferingSelectorComponent } from './service-offering-selector.co
     MdlSelectModule
   ],
   exports: [
+    CustomServiceOfferingComponent,
     ServiceOfferingDialogComponent,
     ServiceOfferingSelectorComponent
   ],
   declarations: [
+    CustomServiceOfferingComponent,
     ServiceOfferingDialogComponent,
     ServiceOfferingSelectorComponent
   ],
   entryComponents: [
+    CustomServiceOfferingComponent,
     ServiceOfferingDialogComponent,
     ServiceOfferingSelectorComponent
   ]
