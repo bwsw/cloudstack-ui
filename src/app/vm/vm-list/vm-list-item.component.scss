@@ -4,6 +4,10 @@
   cursor: pointer;
 }
 
+mdl-card.error {
+  cursor: auto;
+}
+
 .vm-ip-address {
   display: inline-block;
 }
@@ -28,6 +32,7 @@
   background-color: #FFA726;
 }
 
-.stopped {
+.stopped,
+.error {
   background-color: #B71C1C;
 }

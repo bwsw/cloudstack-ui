@@ -146,6 +146,10 @@ export class VirtualMachine extends BaseModel {
   public canApply(command: string): boolean {
     const state = this.state;
 
+    if (state === 'Error' && command === 'destroy') {
+      return true;
+    }
+
     if (state !== 'Running' && state !== 'Stopped') {
       return false;
     }

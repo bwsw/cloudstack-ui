@@ -1,6 +1,8 @@
-<mdl-card class="custom-card"
+<mdl-card
+  class="custom-card"
   mdl-shadow="2"
   [class.card-selected]="isSelected"
+  [class.error]="vm.state === 'Error'"
   (click)="handleClick($event)"
   [style.background-color]="color.value"
 >
@@ -16,9 +18,11 @@
     <div class="vm-ip-address">{{ vm.nic[0].ipAddress ? vm.nic[0].ipAddress : ("IP_NA" | translate) }}</div>
     <div class="vm-state">
       {{ vm.state.toUpperCase() | translate }}
-      <div class="state-icon"
-        [class.running]= "vm.state === 'Running'"
-        [class.stopped]= "vm.state === 'Stopped'"
+      <div
+        class="state-icon"
+        [class.running]="vm.state === 'Running'"
+        [class.stopped]="vm.state === 'Stopped'"
+        [class.error]="vm.state === 'Error'"
         [class.in-progress]="vm.state !== 'Running' && vm.state !== 'Stopped'"
       >
       </div>
