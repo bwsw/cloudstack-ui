@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ServiceOffering } from '../models/service-offering.model';
-import { BaseBackendCachedService } from '.';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { Observable } from 'rxjs';
 import { ConfigService } from './config.service';
 import { DiskOffering } from '../models/disk-offering.model';
 import { BaseModel } from '../models/base.model';
+import { BaseBackendService } from './base-backend.service';
 
 
 export interface OfferingAvailability {
@@ -21,7 +21,7 @@ export interface OfferingAvailability {
   entity: 'ServiceOffering',
   entityModel: ServiceOffering
 })
-export abstract class OfferingService<T extends BaseModel> extends BaseBackendCachedService<BaseModel> {
+export abstract class OfferingService<T extends BaseModel> extends BaseBackendService<BaseModel> {
   constructor(protected configService: ConfigService) {
     super();
   }
@@ -46,9 +46,12 @@ export abstract class OfferingService<T extends BaseModel> extends BaseBackendCa
       super.getList(params)
     ])
       .map(([offeringAvailability, list]) => {
+        if (!offeringAvailability.filterOfferings) {
+          return list;
+        }
         return list.filter(offering => {
           return this.isOfferingAvailableInZone(offering, offeringAvailability, zoneId);
-        });;
+        });
       });
   }
 

@@ -46,10 +46,8 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor, O
   public registerOnTouched(): void { }
 
   public ngOnChanges(): void {
-    debugger;
     this.serviceOfferingFilterService.getAvailable({ zoneId: this.zoneId })
       .subscribe(availableOfferings => {
-        //???
         this.serviceOfferings = availableOfferings;
         if (this.serviceOfferings.length) {
           this.serviceOffering = this.serviceOfferings[0].id;

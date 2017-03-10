@@ -1,4 +1,4 @@
-import { Component, ViewChild, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MdlDialogComponent, MdlDialogService, MdlDialogReference } from 'angular2-mdl';
 import { Observable, Subject } from 'rxjs/Rx';
 import { TranslateService } from 'ng2-translate';
@@ -92,6 +92,7 @@ export class VmCreationComponent implements OnInit {
   constructor(
     private affinityGroupService: AffinityGroupService,
     private auth: AuthService,
+    private changeDetectorRef: ChangeDetectorRef,
     private dialog: MdlDialogReference,
     private dialogService: MdlDialogService,
     private diskOfferingService: DiskOfferingService,
@@ -139,18 +140,19 @@ export class VmCreationComponent implements OnInit {
   public show(): void {
     this.templateService.getDefault().subscribe(() => {
       //zone Id
-      this.serviceOfferingFilterService.getAvailable(this.zoneId).subscribe(() => {
-        this.resourceUsageService.getResourceUsage().subscribe(result => {
-          if (result.available.primaryStorage > this.vmCreationData.rootDiskSizeMin && result.available.instances) {
-          } else {
-            this.translateService.get('INSUFFICIENT_RESOURCES')
-              .subscribe(str => this.notificationService.error(str));
-          }
+      this.serviceOfferingFilterService.getAvailable({ zoneId: this.zoneId })
+        .subscribe(() => {
+          this.resourceUsageService.getResourceUsage().subscribe(result => {
+            if (result.available.primaryStorage > this.vmCreationData.rootDiskSizeMin && result.available.instances) {
+            } else {
+              this.translateService.get('INSUFFICIENT_RESOURCES')
+                .subscribe(str => this.notificationService.error(str));
+            }
+          });
+        }, () => {
+          this.translateService.get('INSUFFICIENT_RESOURCES')
+            .subscribe(str => this.notificationService.error(str));
         });
-      }, () => {
-        this.translateService.get('INSUFFICIENT_RESOURCES')
-          .subscribe(str => this.notificationService.error(str));
-      });
     }, () => {
       this.translateService.get('UNABLE_TO_RECEIVE_TEMPLATES')
         .subscribe(str => this.notificationService.error(str));
@@ -273,15 +275,17 @@ export class VmCreationComponent implements OnInit {
 
   public set zoneId(id: string) {
     this.vmCreationData.vm.zoneId = id;
+    this.changeDetectorRef.detectChanges();
     if (this.vmCreationData && this.vmCreationData.zones) {
-      this.showSecurityGroups = this.vmCreationData.zones.find(zone => zone.id === id).securityGroupsEnabled;
-      this.serviceOfferingFilterService.getAvailable(id)
-        .subscribe(serviceOfferings => {
+      this.showSecurityGroups = !this.vmCreationData.zones.find(zone => zone.id === id).networkTypeIsBasic;
+      Observable.forkJoin([
+        this.serviceOfferingFilterService.getAvailable({ zoneId: id }),
+        this.diskOfferingService.getList({ zoneId: id })
+      ])
+        .map(([serviceOfferings, diskOfferings]) => {
           this.vmCreationData.serviceOfferings = serviceOfferings;
-        });
-      this.diskOfferingService.getList({ zoneId: id })
-        .subscribe(diskOfferings => {
           this.vmCreationData.diskOfferings = diskOfferings;
+          this.changeDetectorRef.detectChanges();
         });
     }
   }
@@ -342,6 +346,7 @@ export class VmCreationComponent implements OnInit {
         if (sshKeyPairs.length) {
           vmCreationData.vm.keyPair = sshKeyPairs[0].name;
         }
+        this.changeDetectorRef.detectChanges();
         return vmCreationData;
       });
   }
