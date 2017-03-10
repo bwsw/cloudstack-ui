@@ -9,11 +9,11 @@
         [subsectionName]="subsection.name"
       >
         <cs-vm-list-item
-        *ngFor="let vm of subsection.vmList"
-        [vm]="vm"
-        [isSelected]="selectedVm === vm && isDetailOpen"
-        (onVmAction)="vmAction($event)"
-        (onClick)="showDetail($event)"
+          *ngFor="let vm of subsection.vmList"
+          [vm]="vm"
+          [isSelected]="selectedVm === vm && isDetailOpen"
+          (onVmAction)="vmAction($event)"
+          (onClick)="showDetail($event)"
         ></cs-vm-list-item>
       </cs-vm-list-subsection>
     </ng-container>
@@ -32,11 +32,11 @@
               [subsectionName]="subsection.name"
             >
               <cs-vm-list-item
-              *ngFor="let vm of subsection.vmList"
-              [vm]="vm"
-              [isSelected]="selectedVm === vm && isDetailOpen"
-              (onVmAction)="vmAction($event)"
-              (onClick)="showDetail($event)"
+                *ngFor="let vm of subsection.vmList"
+                [vm]="vm"
+                [isSelected]="selectedVm === vm && isDetailOpen"
+                (onVmAction)="vmAction($event)"
+                (onClick)="showDetail($event)"
               ></cs-vm-list-item>
             </cs-vm-list-subsection>
           </ng-container>
@@ -63,6 +63,8 @@
       (onClick)="showDetail($event)"
     ></cs-vm-list-item>
   </ng-container>
+
+  <cs-no-results *ngIf="anyFilteringResults"></cs-no-results>
 </div>
 
 <cs-vm-sidebar

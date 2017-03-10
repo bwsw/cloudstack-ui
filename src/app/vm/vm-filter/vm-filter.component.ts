@@ -1,8 +1,17 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { ZoneService } from '../../shared/services/zone.service';
-import { InstanceGroupService } from '../../shared/services/instance-group.service';
-import { InstanceGroup } from '../../shared/models/instance-group.model';
-import { Zone } from '../../shared/models/zone.model';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output
+} from '@angular/core';
+
+import {
+  InstanceGroup,
+  InstanceGroupService,
+  Zone,
+  ZoneService
+} from '../../shared';
+
 import { SectionType } from '../vm-list/vm-list.component';
 
 
@@ -18,7 +27,7 @@ export interface VmFilter {
   templateUrl: 'vm-filter.component.html',
   styleUrls: ['vm-filter.component.scss']
 })
-export class VmFilterComponent {
+export class VmFilterComponent implements OnInit {
   @Output() public updateFilters = new EventEmitter<VmFilter>();
   public doFilterByColor = false;
   public selectedGroups: Array<InstanceGroup> = [];
@@ -30,7 +39,9 @@ export class VmFilterComponent {
   constructor(
     private instanceGroupService: InstanceGroupService,
     private zoneService: ZoneService
-  ) {
+  ) {}
+
+  public ngOnInit(): void {
     this.instanceGroupService.getList().subscribe(groupList => this.groups = groupList);
     this.zoneService.getList().subscribe(zoneList => this.zones = zoneList);
   }

@@ -9,23 +9,23 @@ import { VmService, IVmActionEvent } from '../shared/vm.service';
 import { VirtualMachine } from '../shared/vm.model';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
-import { IStorageService } from '../../shared/services/storage.service';
-import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import {
+  AsyncJobService,
+  IAsyncJob,
+  INotificationStatus,
+  IStorageService,
+  InstanceGroup,
   JobsNotificationService,
-  INotificationStatus
-} from '../../shared/services/jobs-notification.service';
+  ServiceOfferingService,
+  StatsUpdateService,
+  Zone
+} from '../../shared';
 
-import { IAsyncJob } from '../../shared/models/async-job.model';
-import { AsyncJobService } from '../../shared/services/async-job.service';
-import { VmStatisticsComponent } from '../../shared/components/vm-statistics/vm-statistics.component';
-import { StatsUpdateService } from '../../shared/services/stats-update.service';
-import { ServiceOfferingService } from '../../shared/services/service-offering.service';
+import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import { VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListSection } from './vm-list-section/vm-list-section.component';
 import { VmListSubsection } from './vm-list-subsection/vm-list-subsection.component';
-import { Zone } from '../../shared';
-import { InstanceGroup } from '../../shared/models/instance-group.model';
+import { VmStatisticsComponent } from '../../shared/components/vm-statistics/vm-statistics.component';
 
 
 export const enum SectionType {
@@ -80,6 +80,26 @@ export class VmListComponent implements OnInit {
     this.subscribeToVmDestroyed();
     this.subscribeToSnapshotAdded();
     this.subscribeToVmDestroyed();
+  }
+
+  public get anyFilteringResults(): boolean {
+    return (this.showSections && !this.sectionsLength) ||
+      (!this.showSections && this.showSubsections && !this.subsectionsLength);
+  }
+
+  public get sectionsLength(): number {
+    return this.sections.reduce((acc, section) => {
+      if (section.vmList) {
+        return acc + section.vmList.length;
+      }
+      if (section.subsectionList) {
+        return acc + this.getSubsectionListLength(section.subsectionList);
+      }
+    }, 0);
+  }
+
+  public get subsectionsLength(): number {
+    return this.getSubsectionListLength(this.subsections);
   }
 
   public updateFilters(filterData?: VmFilter): void {
@@ -374,5 +394,11 @@ export class VmListComponent implements OnInit {
             this.filterVmsByZone(vmList, elem)
         };
       });
+  }
+
+  private getSubsectionListLength(subsectionList: Array<VmListSubsection>): number {
+    return subsectionList.reduce((acc, subsection) => {
+      return acc + subsection.vmList.length;
+    }, 0);
   }
 }

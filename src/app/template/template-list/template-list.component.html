@@ -1,10 +1,5 @@
 <div class="template-list" [class.open]="isDetailOpen">
-  <div
-    *ngIf="!templateList?.length"
-    class="no-results"
-  >
-    {{ 'NO_RESULTS' | translate }}
-  </div>
+  <cs-no-results *ngIf="!templateList?.length"></cs-no-results>
   <mdl-list>
     <div *ngFor="let template of templateList">
       <mdl-list-item

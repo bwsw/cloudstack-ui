@@ -1,4 +1,11 @@
-import { Component, Input, ContentChildren, QueryList } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ContentChildren,
+  Input,
+  QueryList,
+} from '@angular/core';
+
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmListSubsection, VmListSubsectionComponent } from '../vm-list-subsection/vm-list-subsection.component';
 import { VmListItemComponent } from '../vm-list-item.component';
@@ -13,7 +20,8 @@ export interface VmListSection {
 @Component({
   selector: 'cs-vm-list-section',
   templateUrl: 'vm-list-section.component.html',
-  styleUrls: ['vm-list-section.component.scss']
+  styleUrls: ['vm-list-section.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VmListSectionComponent {
   @Input() public sectionName: string;

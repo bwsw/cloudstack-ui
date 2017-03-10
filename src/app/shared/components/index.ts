@@ -2,6 +2,7 @@ export * from './color-picker/color-picker.component';
 export * from './date-picker';
 export * from './disk-offering/disk-offering.component';
 export * from './fab/fab.component';
+export * from './no-results/no-results.component';
 export * from './notification-box';
 export * from './sidebar';
 export * from './sg-rules-manager.component';
