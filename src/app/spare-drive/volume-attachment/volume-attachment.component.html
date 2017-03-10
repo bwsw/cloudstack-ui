@@ -30,6 +30,7 @@
       {{ (virtualMachineId ? 'ATTACH' : 'OK') | translate }}
     </button>
     <button
+      *ngIf="virtualMachineId"
       mdl-colored="primary"
       mdl-button
       mdl-ripple
