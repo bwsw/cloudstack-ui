@@ -47,6 +47,7 @@
   "CONFIRM_VM_DESTROY": "Are you sure you want to destroy this virtual machine?",
   "CONFIRM_DELETE_TEMPLATE": "Are you sure you want to delete this template?",
   "CONFIRM_VM_RESETPASSWORDFOR": "Are you sure you want to reset password?<br>If your Virtual Machine is running it will be rebooted.",
+  "CONFIRM_VM_DELETE_DRIVES": "Delete this VM's data drives?",
   "START_DONE": "VM has started",
   "STOP_DONE": "VM has been stopped",
   "REBOOT_DONE": "VM has been rebooted",

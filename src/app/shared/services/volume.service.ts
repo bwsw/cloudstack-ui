@@ -22,6 +22,9 @@ export interface VolumeAttachmentData {
   virtualMachineId: string;
 }
 
+export const deletionMark = 'toBeDeleted';
+
+
 @Injectable()
 @BackendResource({
   entity: 'Volume',
@@ -103,7 +106,7 @@ export class VolumeService extends BaseBackendService<Volume> {
     return this.tagsService.create({
       resourceIds: id,
       resourceType: this.entity,
-      'tags[0].key': 'toBeDeleted',
+      'tags[0].key': deletionMark,
       'tags[0].value': 'true',
     })
       .switchMap(tagJob => this.asyncJobService.addJob(tagJob.jobid));
@@ -111,11 +114,13 @@ export class VolumeService extends BaseBackendService<Volume> {
 
   public removeMarkedVolumes(): void {
     this.getList({
-      'tags[0].key': 'toBeDeleted',
+      'tags[0].key': deletionMark,
       'tags[0].value': 'true'
     })
       .subscribe(volumes => {
-        volumes.forEach(volume => this.remove(volume.id).subscribe());
+        volumes
+          .filter(volume => !volume.virtualMachineId)
+          .forEach(volume => this.remove(volume.id).subscribe());
       });
   }
 }

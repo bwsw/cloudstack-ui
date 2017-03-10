@@ -1,12 +1,19 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
-import { VolumeService, VolumeAttachmentData } from '../../shared/services/volume.service';
-import { Volume } from '../../shared/models/volume.model';
-import { DiskOfferingService } from '../../shared/services/disk-offering.service';
-import { DiskOffering } from '../../shared/models/disk-offering.model';
-import { TranslateService } from 'ng2-translate';
 import { MdlDialogService } from 'angular2-mdl';
-import { JobsNotificationService, INotificationStatus } from '../../shared/services/jobs-notification.service';
-import { NotificationService } from '../../shared/services/notification.service';
+import { TranslateService } from 'ng2-translate';
+
+import {
+  deletionMark,
+  DiskOffering,
+  DiskOfferingService,
+  INotificationStatus,
+  JobsNotificationService,
+  NotificationService,
+  Volume,
+  VolumeAttachmentData,
+  VolumeService
+} from '../../shared';
+
 import { VolumeCreationComponent } from '../volume-creation/volume-creation.component';
 
 
@@ -49,7 +56,7 @@ export class SpareDrivePageComponent implements OnInit {
       })
       .subscribe(volumes => {
         this.volumes = volumes
-          .filter(volume => !volume.virtualMachineId && !volume.tags.find((tag) => tag.key === 'toBeDeleted'))
+          .filter(volume => !volume.virtualMachineId && !volume.tags.find((tag) => tag.key === deletionMark))
           .map(volume => {
             volume.diskOffering = diskOfferings.find(offering => offering.id === volume.diskOfferingId);
             return volume;
