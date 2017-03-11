@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
+import { MdlDialogService } from 'angular2-mdl';
+import { TranslateService } from 'ng2-translate';
 import { Observable, Subject } from 'rxjs/Rx';
 
-import { BaseBackendService } from '../../shared/services';
 import { BackendResource } from '../../shared/decorators';
-import { VirtualMachine, IVmAction } from './vm.model';
-
-import { TranslateService } from 'ng2-translate';
-import { MdlDialogService } from 'angular2-mdl';
 
 import {
   AsyncJob,
+  Color,
   OsType,
   ServiceOffering,
   Volume
@@ -17,18 +15,21 @@ import {
 
 import {
   AsyncJobService,
+  BaseBackendService,
+  INotificationStatus,
+  JobsNotificationService,
   NotificationService,
-  OsTypeService
 } from '../../shared/services';
 
-import { INotificationStatus, JobsNotificationService } from '../../shared/services/jobs-notification.service';
-
+import { OsTypeService } from '../../shared/services/os-type.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { VolumeService } from '../../shared/services/volume.service';
+import { ServiceOfferingService } from '../../shared/services/service-offering.service';
+
+
 import { Iso } from '../../template/shared/iso.model';
 import { SecurityGroup } from '../../security-group/sg.model';
-import { Color } from '../../shared/models/color.model';
+import { VirtualMachine, IVmAction } from './vm.model';
 
 
 export interface IVmActionEvent {
@@ -128,24 +129,15 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public vmAction(e: IVmActionEvent): void {
-    this.translateService.get([
-      'YES',
-      'NO',
-      e.action.confirmMessage
-    ])
-      .switchMap((strs) => {
-        return this.dialogService.confirm(strs[e.action.confirmMessage], strs.NO, strs.YES);
-      })
-      .subscribe(
-        () => {
-          if (e.action.commandName !== 'resetPasswordFor') {
-            this.command(e).subscribe();
-          } else {
-            this.resetPassword(e);
-          }
-        },
-        () => {}
-      );
+    switch (e.action.commandName) {
+      case 'resetPasswordFor': return this.resetPassword(e);
+      case 'destroy': return this.destroy(e);
+    }
+    if (e.action.commandName !== 'resetPasswordFor') {
+      this.command(e).subscribe();
+    } else {
+      this.resetPassword(e);
+    }
   }
 
   public command(e: IVmActionEvent): Observable<any> {
@@ -172,6 +164,31 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         });
         return job;
       });
+  }
+
+  public destroy(e: IVmActionEvent): void {
+    this.translateService.get(['CONFIRM_VM_DELETE_DRIVES', 'NO', 'YES'])
+      .switchMap(strs => {
+        return this.dialogService.confirm(
+          strs['CONFIRM_VM_DELETE_DRIVES'],
+          strs['NO'],
+          strs['YES']
+        );
+      })
+      .subscribe(
+        () => {
+          this.command(e).subscribe((job: AsyncJob) => {
+            if (job && job.jobResult && job.jobResult.state === 'Destroyed') {
+              e.vm.volumes
+                .filter(volume => volume.type === 'DATADISK')
+                .forEach(volume => this.volumeService.markForDeletion(volume.id).subscribe());
+            }
+          });
+        },
+        () => {
+          this.command(e).subscribe();
+        }
+      );
   }
 
   public resetPassword(e: IVmActionEvent): void {

@@ -3,6 +3,7 @@ import { FieldMapper } from '../decorators/field-mapper.decorator';
 import { Snapshot } from './snapshot.model';
 import { DiskOffering } from './disk-offering.model';
 import { ZoneName } from '../decorators/zone-name.decorator';
+import { Tag } from './tag.model';
 
 
 @ZoneName()
@@ -27,6 +28,7 @@ export class Volume extends BaseModel {
   public provisioningType: string;
   public snapshots: Array<Snapshot>;
   public storageType: string;
+  public tags: Array<Tag>;
   public type: string;
   public zoneName: string;
 }

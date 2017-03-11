@@ -7,6 +7,7 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
 import { SnapshotService } from './snapshot.service';
 import { Snapshot } from '../models/snapshot.model';
 import { AsyncJobService } from './async-job.service';
+import { TagService } from './tag.service';
 
 
 interface VolumeCreationData {
@@ -21,6 +22,9 @@ export interface VolumeAttachmentData {
   virtualMachineId: string;
 }
 
+export const deletionMark = 'toBeDeleted';
+
+
 @Injectable()
 @BackendResource({
   entity: 'Volume',
@@ -31,7 +35,8 @@ export class VolumeService extends BaseBackendService<Volume> {
 
   constructor(
     private asyncJobService: AsyncJobService,
-    private snapshotService: SnapshotService
+    private snapshotService: SnapshotService,
+    private tagsService: TagService
   ) {
     super();
   }
@@ -94,6 +99,28 @@ export class VolumeService extends BaseBackendService<Volume> {
       .map(job => {
         this.onVolumeAttached.next(job.jobResult);
         return job.jobResult;
+      });
+  }
+
+  public markForDeletion(id: string): Observable<any> {
+    return this.tagsService.create({
+      resourceIds: id,
+      resourceType: this.entity,
+      'tags[0].key': deletionMark,
+      'tags[0].value': 'true',
+    })
+      .switchMap(tagJob => this.asyncJobService.addJob(tagJob.jobid));
+  }
+
+  public removeMarkedVolumes(): void {
+    this.getList({
+      'tags[0].key': deletionMark,
+      'tags[0].value': 'true'
+    })
+      .subscribe(volumes => {
+        volumes
+          .filter(volume => !volume.virtualMachineId)
+          .forEach(volume => this.remove(volume.id).subscribe());
       });
   }
 }

@@ -66,7 +66,16 @@ export class VmListComponent implements OnInit {
   }
 
   public vmAction(e: IVmActionEvent): void {
-    this.vmService.vmAction(e);
+    this.translateService.get([
+      'YES',
+      'NO',
+      e.action.confirmMessage
+    ])
+      .switchMap((strs) => {
+        return this.dialogService.confirm(strs[e.action.confirmMessage], strs.NO, strs.YES);
+      })
+      .onErrorResumeNext()
+      .subscribe(() => this.vmService.vmAction(e));
   }
 
   public onVmCreated(vm: VirtualMachine): void {
