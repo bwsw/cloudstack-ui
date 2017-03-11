@@ -1,12 +1,15 @@
 <div class="detail-list vm-list" [class.open]="isDetailOpen">
   <cs-vm-statistics></cs-vm-statistics>
-  <cs-vm-list-item
-    *ngFor="let vm of vmList"
-    [vm]="vm"
-    [isSelected]="selectedVm === vm && isDetailOpen"
-    (onVmAction)="vmAction($event)"
-    (onClick)="showDetail($event)"
-  ></cs-vm-list-item>
+  <ng-container *loading="!vmList">
+    <cs-vm-list-item
+      *ngFor="let vm of vmList"
+      [vm]="vm"
+      [isSelected]="selectedVm === vm && isDetailOpen"
+      (onVmAction)="vmAction($event)"
+      (onClick)="showDetail($event)"
+    ></cs-vm-list-item>
+
+  </ng-container>
 </div>
 <cs-vm-sidebar
   class="mdl-color--grey-100"

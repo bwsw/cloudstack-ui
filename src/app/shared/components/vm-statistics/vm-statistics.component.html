@@ -18,7 +18,7 @@
         <mdl-card-title class="progress-title">
           <h2 mdl-card-title-text>{{ 'VMS' | translate }}</h2>
         </mdl-card-title>
-        <mdl-card-supporting-text class="progress single-bar">
+        <mdl-card-supporting-text class="progress single-bar" *loading="fetching">
           <div class="bar">{{ 'DEPLOYED_STATS' | translate }}</div>
           <div class="stat-values">
             {{ resourceUsage.consumed.instances + (resourceUsage.max.instances !== -1 ? ('/' + resourceUsage.max.instances)
@@ -37,7 +37,7 @@
         <mdl-card-title class="progress-title">
           <h2 mdl-card-title-text>{{ 'COMPUTATIONAL_RESOURCES' | translate }}</h2>
         </mdl-card-title>
-        <mdl-card-supporting-text class="progress">
+        <mdl-card-supporting-text class="progress" *loading="fetching">
           <div class="bar">{{ 'CPUS' | translate }}</div>
           <div class="stat-values">
             {{ resourceUsage.consumed.cpus + (resourceUsage.max.cpus !== -1 ? ('/' + resourceUsage.max.cpus)
@@ -68,7 +68,7 @@
         <mdl-card-title class="progress-title">
           <h2 mdl-card-title-text>{{ 'VOLUMES' | translate }}</h2>
         </mdl-card-title>
-        <mdl-card-supporting-text class="progress">
+        <mdl-card-supporting-text class="progress" *loading="fetching">
           <div class="bar">{{ 'VOLUMES' | translate }}</div>
           <div class="stat-values">
             {{ resourceUsage.consumed.volumes + (resourceUsage.max.volumes !== -1 ? '/' + resourceUsage.max.volumes
@@ -98,7 +98,7 @@
         <mdl-card-title class="progress-title">
           <h2 mdl-card-title-text>{{ 'STORAGE' | translate }}</h2>
         </mdl-card-title>
-        <mdl-card-supporting-text class="progress">
+        <mdl-card-supporting-text class="progress" *loading="fetching">
           <div class="bar">{{ 'PRIMARY_(STORAGE)' | translate }}</div>
           <div class="stat-values">
             {{ resourceUsage.consumed.primaryStorage + (resourceUsage.max.primaryStorage !== -1

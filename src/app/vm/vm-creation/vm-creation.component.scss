@@ -4,7 +4,17 @@
 }
 
 .vm-creation-container {
+  position: relative;
   padding: 1em;
+  min-height: 500px;
+
+  /deep/ cs-loader {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
 
 .overlay {

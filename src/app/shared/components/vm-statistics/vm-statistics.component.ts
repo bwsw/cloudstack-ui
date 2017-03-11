@@ -11,6 +11,7 @@ const showStatistics = 'showStatistics';
   styleUrls: ['vm-statistics.component.scss']
 })
 export class VmStatisticsComponent implements OnInit {
+  public fetching = false;
   public resourceUsage: ResourceStats;
   public isOpen = true;
   private wasOpened = false;
@@ -50,9 +51,13 @@ export class VmStatisticsComponent implements OnInit {
   }
 
   public updateStats(): void {
+    this.fetching = true;
     this.resourceUsageService.getResourceUsage()
       .subscribe(result => {
-        this.resourceUsage = result;
+        // to keep progress bar animation
+        setTimeout(() => this.resourceUsage = result);
+
+        this.fetching = false;
       });
   }
 }
