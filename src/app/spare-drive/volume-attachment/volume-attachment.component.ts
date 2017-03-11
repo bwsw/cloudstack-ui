@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 import { VmService } from '../../vm/shared/vm.service';
 import { MdlDialogReference } from 'angular2-mdl';
@@ -14,11 +14,12 @@ export class VolumeAttachmentComponent implements OnInit {
 
   constructor(
     private dialog: MdlDialogReference,
-    private vmService: VmService
+    private vmService: VmService,
+    @Inject('zoneId') private zoneId: string
   ) {}
 
   public ngOnInit(): void {
-    this.vmService.getList()
+    this.vmService.getList({ zoneId: this.zoneId })
       .subscribe(vmList => {
         this.virtualMachines = vmList;
         if (this.virtualMachines.length) {

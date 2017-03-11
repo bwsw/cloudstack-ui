@@ -13,6 +13,7 @@ import { Tag } from './tag.model';
   provisioningtype: 'provisioningType',
   storagetype: 'storageType',
   virtualmachineid: 'virtualMachineId',
+  zoneid: 'zoneId',
   zonename: 'zoneName'
 })
 export class Volume extends BaseModel {
@@ -30,5 +31,6 @@ export class Volume extends BaseModel {
   public storageType: string;
   public tags: Array<Tag>;
   public type: string;
+  public zoneId: string;
   public zoneName: string;
 }
