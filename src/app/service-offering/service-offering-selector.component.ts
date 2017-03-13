@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef, OnChanges } from '@angular/core';
+import { Component, Input, forwardRef, OnChanges, SimpleChanges } from '@angular/core';
 import { ServiceOfferingFilterService } from '../shared/services/service-offering-filter.service';
 import { ServiceOffering } from '../shared/models/service-offering.model';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -45,7 +45,10 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor, O
 
   public registerOnTouched(): void { }
 
-  public ngOnChanges(): void {
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (!changes['zoneId']) {
+      return;
+    }
     this.serviceOfferingFilterService.getAvailable({ zoneId: this.zoneId })
       .subscribe(availableOfferings => {
         this.serviceOfferings = availableOfferings;

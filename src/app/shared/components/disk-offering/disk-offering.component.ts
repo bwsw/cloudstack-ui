@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DiskOffering, DiskOfferingService } from '../..';
 
 @Component({
@@ -19,7 +19,10 @@ export class DiskOfferingComponent implements OnChanges {
     this.offeringUpdated.emit(offering);
   }
 
-  public ngOnChanges(): void {
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (!changes['zoneId']) {
+      return;
+    }
     this.diskOfferingService.getList({ zoneId: this.zoneId })
       .subscribe((result: Array<DiskOffering>) => {
         if (result.length) {
