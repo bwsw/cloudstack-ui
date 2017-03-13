@@ -86,10 +86,12 @@
   >
     <button
       mdl-button
-      mdl-ripple
+      mdl-button-type="icon"
+      mdl-tooltip-position="top"
+      [mdl-tooltip]="'DETACH' | translate"
       (click)="detach()"
     >
-      {{ 'DETACH' | translate }}
+      <mdl-icon>remove</mdl-icon>
     </button>
   </mdl-card-actions>
 </mdl-card>

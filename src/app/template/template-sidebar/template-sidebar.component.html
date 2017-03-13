@@ -26,9 +26,10 @@
       <mdl-card-actions mdl-card-border *ngIf="isSelf">
         <button
           mdl-button
+          mdl-button-type="icon"
           (click)="remove()"
         >
-          {{ 'DELETE' | translate }}
+          <mdl-icon>delete</mdl-icon>
         </button>
       </mdl-card-actions>
     </mdl-card>

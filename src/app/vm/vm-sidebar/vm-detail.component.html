@@ -29,8 +29,11 @@
       <div class="change-offering-button">
         <button
           mdl-button
+          mdl-button-type="icon"
           (click)="changeServiceOffering()"
-        >{{ 'CHANGE' | translate }}</button>
+        >
+          <mdl-icon>edit</mdl-icon>
+        </button>
       </div>
       <div class="expand-button">
         <button
@@ -122,9 +125,10 @@
     <mdl-card-actions mdl-card-border>
       <button
         mdl-button
+        mdl-button-type="icon"
         (click)="showRulesDialog(vm.securityGroup[0])"
       >
-        {{ 'EDIT' | translate }}
+        <mdl-icon>edit</mdl-icon>
       </button>
     </mdl-card-actions>
   </mdl-card>

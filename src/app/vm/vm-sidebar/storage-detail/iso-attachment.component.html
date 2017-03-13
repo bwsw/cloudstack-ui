@@ -6,10 +6,12 @@
   <mdl-card-actions mdl-card-border>
     <button
       mdl-button
-      mdl-ripple
+      mdl-button-type="icon"
+      mdl-tooltip-position="top"
+      [mdl-tooltip]="'DETACH' | translate"
       (click)="detachIso()"
     >
-      {{ 'DETACH' | translate }}
+      <mdl-icon>remove</mdl-icon>
     </button>
   </mdl-card-actions>
 </mdl-card>
@@ -22,10 +24,12 @@
   <mdl-card-actions mdl-card-border>
     <button
       mdl-button
-      mdl-ripple
+      mdl-button-type="icon"
+      mdl-tooltip-position="top"
+      [mdl-tooltip]="'ATTACH' | translate"
       (click)="attachIso()"
     >
-      {{ 'ATTACH' | translate }}
+      <mdl-icon>add</mdl-icon>
     </button>
   </mdl-card-actions>
 </mdl-card>
