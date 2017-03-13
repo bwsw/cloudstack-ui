@@ -13,7 +13,6 @@ import { ZoneName } from '../../shared/decorators/zone-name.decorator';
 import { Tag } from '../../shared/models/tag.model';
 
 
-export const MIN_ROOT_DISK_SIZE = 10;
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
 
 interface IAffinityGroup {

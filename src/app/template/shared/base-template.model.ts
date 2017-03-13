@@ -33,6 +33,7 @@ export class BaseTemplateModel extends BaseModel {
   public osTypeId: string;
   public osTypeName: string;
   public osType: OsType;
+  public size: number;
   public tags: Array<Tag>;
   public zoneId: string;
   public zoneName: string;

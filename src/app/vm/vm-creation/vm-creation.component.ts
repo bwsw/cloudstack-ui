@@ -3,7 +3,7 @@ import { MdlDialogComponent, MdlDialogService, MdlDialogReference } from 'angula
 import { Observable, Subject } from 'rxjs/Rx';
 import { TranslateService } from 'ng2-translate';
 
-import { VirtualMachine, MIN_ROOT_DISK_SIZE, MAX_ROOT_DISK_SIZE_ADMIN } from '../shared/vm.model';
+import { VirtualMachine, MAX_ROOT_DISK_SIZE_ADMIN } from '../shared/vm.model';
 
 import {
   AffinityGroup,
@@ -35,6 +35,7 @@ import { BaseTemplateModel } from '../../template/shared/base-template.model';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { TemplateService } from '../../template/shared';
 import { VmService } from '../shared/vm.service';
+import { Template } from '../../template/shared/template.model';
 
 
 class VmCreationData {
@@ -58,8 +59,8 @@ class VmCreationData {
       keyPair: ''
     });
     this.affinityGroupId = '';
-    this.rootDiskSize = MIN_ROOT_DISK_SIZE;
-    this.rootDiskSizeMin = MIN_ROOT_DISK_SIZE;
+    this.rootDiskSize = 1;
+    this.rootDiskSizeMin = 1;
     this.rootDiskSizeLimit = 0;
     this.doStartVm = true;
     this.keyboard = 'us';
@@ -172,7 +173,9 @@ export class VmCreationComponent implements OnInit {
     ])
       .subscribe(([creationData, defaultName]) => {
         this.vmCreationData = creationData;
+        this.setMinDiskSize();
         this.fetching = false;
+
         if (!this.vmCreationData.vm.displayName) {
           setTimeout(() => this.vmCreationData.vm.displayName = defaultName);
         }
@@ -272,6 +275,8 @@ export class VmCreationComponent implements OnInit {
 
   public onTemplateChange(t: BaseTemplateModel): void {
     this.vmCreationData.vm.template = t;
+
+    this.setMinDiskSize(t);
   }
 
   public setServiceOffering(offering: string): void {
@@ -346,6 +351,22 @@ export class VmCreationComponent implements OnInit {
         }
         return vmCreationData;
       });
+  }
+
+  private setMinDiskSize(template?: BaseTemplateModel) {
+    const t = template || this.vmCreationData.vm.template;
+    if (!t) {
+      throw new Error('Template was not passed to set disk size');
+    }
+
+    if (t instanceof Template) {
+      const newSize = t.size / Math.pow(2, 30);
+      this.vmCreationData.rootDiskSizeMin = newSize;
+      this.vmCreationData.rootDiskSize = newSize;
+    } else {
+      this.vmCreationData.rootDiskSizeMin = 1;
+      this.vmCreationData.rootDiskSize = 1;
+    }
   }
 
   private get vmCreateParams(): {} {
