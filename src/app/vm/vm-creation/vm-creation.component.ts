@@ -362,9 +362,10 @@ export class VmCreationComponent implements OnInit {
     if (t instanceof Template) {
       const newSize = t.size / Math.pow(2, 30);
       this.vmCreationData.rootDiskSizeMin = newSize;
-      this.vmCreationData.rootDiskSize = Math.max(newSize, this.vmCreationData.rootDiskSize);
+      this.vmCreationData.rootDiskSize = newSize;
     } else {
       this.vmCreationData.rootDiskSizeMin = 1;
+      this.vmCreationData.rootDiskSize = 1;
     }
   }
 
