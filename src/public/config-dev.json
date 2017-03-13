@@ -71,129 +71,43 @@
     }
   ],
   "vmColors": [
-    {
-      "value": "#FFEBEE"
-    },
-    {
-      "value": "#FCE4EC"
-    },
-    {
-      "value": "#F3E5F5"
-    },
-    {
-      "value": "#EDE7F6"
-    },
-    {
-      "value": "#E8EAF6"
-    },
-    {
-      "value": "#E3F2FD"
-    },
-    {
-      "value": "#E1F5FE"
-    },
-    {
-      "value": "#E0F7FA"
-    },
-    {
-      "value": "#E0F2F1"
-    },
-    {
-      "value": "#E8F5E9"
-    },
-    {
-      "value": "#F1F8E9"
-    },
-    {
-      "value": "#F9FBE7"
-    },
-    {
-      "value": "#FFFDE7"
-    },
-    {
-      "value": "#FFF8E1"
-    },
-    {
-      "value": "#FFF3E0"
-    },
-    {
-      "value": "#FBE9E7"
-    },
-    {
-      "value": "#EFEBE9"
-    },
-    {
-      "value": "#FFFFFF"
-    },
-    {
-      "value": "#ECEFF1"
-    }
+    { "value": "#FFEBEE" },
+    { "value": "#FCE4EC" },
+    { "value": "#F3E5F5" },
+    { "value": "#EDE7F6" },
+    { "value": "#E8EAF6" },
+    { "value": "#E3F2FD" },
+    { "value": "#E1F5FE" },
+    { "value": "#E0F7FA" },
+    { "value": "#E0F2F1" },
+    { "value": "#E8F5E9" },
+    { "value": "#F1F8E9" },
+    { "value": "#F9FBE7" },
+    { "value": "#FFFDE7" },
+    { "value": "#FFF8E1" },
+    { "value": "#FFF3E0" },
+    { "value": "#FBE9E7" },
+    { "value": "#EFEBE9" },
+    { "value": "#FFFFFF" },
+    { "value": "#ECEFF1" }
   ],
   "themeColors": [
-    {
-      "name": "red",
-      "value": "#F44336"
-    },
-    {
-      "name": "pink",
-      "value": "#E91E63"
-    },
-    {
-      "name": "purple",
-      "value": "#9C27B0"
-    },
-    {
-      "name": "deep_purple",
-      "value": "#673AB7"
-    },
-    {
-      "name": "indigo",
-      "value": "#3F51B5"
-    },
-    {
-      "name": "blue",
-      "value": "#2196F3"
-    },
-    {
-      "name": "light_blue",
-      "value": "#03A9F4"
-    },
-    {
-      "name": "cyan",
-      "value": "#00BCD4"
-    },
-    {
-      "name": "teal",
-      "value": "#009688"
-    },
-    {
-      "name": "green",
-      "value": "#4CAF50"
-    },
-    {
-      "name": "light_green",
-      "value": "#8BC34A"
-    },
-    {
-      "name": "lime",
-      "value": "#CDDC39"
-    },
-    {
-      "name": "yellow",
-      "value": "#FFEB3B"
-    },
-    {
-      "name": "amber",
-      "value": "#FFC107"
-    },
-    {
-      "name": "orange",
-      "value": "#FF9800"
-    },
-    {
-      "name": "deep_orange",
-      "value": "#FF5722"
-    },
+    { "name": "red", "value": "#F44336" },
+    { "name": "pink", "value": "#E91E63" },
+    { "name": "purple", "value": "#9C27B0" },
+    { "name": "deep_purple", "value": "#673AB7" },
+    { "name": "indigo", "value": "#3F51B5" },
+    { "name": "blue", "value": "#2196F3" },
+    { "name": "light_blue", "value": "#03A9F4" },
+    { "name": "cyan", "value": "#00BCD4" },
+    { "name": "teal", "value": "#009688" },
+    { "name": "green", "value": "#4CAF50" },
+    { "name": "light_green", "value": "#8BC34A" },
+    { "name": "lime", "value": "#CDDC39" },
+    { "name": "yellow", "value": "#FFEB3B" },
+    { "name": "amber", "value": "#FFC107" },
+    { "name": "orange", "value": "#FF9800" },
+    { "name": "deep_orange", "value": "#FF5722" },
     {
       "name": "brown",
       "value": "#795548",
@@ -209,5 +123,28 @@
       "value": "#607D8B",
       "primaryOnly": true
     }
-  ]
+  ],
+  "offeringAvailability": {
+    "filterOfferings": true,
+    "031a55bb-5d6b-4336-ab93-d5dead28a887": {
+      "serviceOfferings": [
+        "4fbec0f2-e03a-4135-8f0e-a13abca3c2e2",
+        "89fa6342-d64a-4ba4-a410-ce309ea948df",
+        "d0e8ce1c-5112-4fe0-95ac-29b39551ff16"
+      ],
+      "diskOfferings": [
+        "b785e23e-5159-4968-ba6e-3ddb9fa1d58e"
+      ]
+    },
+    "3fcdb37c-1c0b-4728-b62f-970c765c3fbc": {
+      "serviceOfferings": [
+        "9b6c8c2c-7a4f-4bf3-9944-619cc239fdd3",
+        "206f4b51-48b5-4173-84d5-167bebd21dd2",
+        "d0e8ce1c-5112-4fe0-95ac-29b39551ff16"
+      ],
+      "diskOfferings": [
+        "f26bce86-c32a-4792-8697-5d69307205d7"
+      ]
+    }
+  }
 }

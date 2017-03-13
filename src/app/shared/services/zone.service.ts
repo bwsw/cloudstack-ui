@@ -18,7 +18,7 @@ export class ZoneService extends BaseBackendCachedService<Zone> {
     if (this.allZonesAreBasic === undefined) {
       return this.getList()
         .map(zoneList => {
-          this.allZonesAreBasic = zoneList.every(zone => !zone.securityGroupsEnabled);
+          this.allZonesAreBasic = zoneList.every(zone => zone.networkTypeIsBasic);
           return this.allZonesAreBasic;
         });
     }

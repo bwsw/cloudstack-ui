@@ -30,8 +30,8 @@ import {
   ResourceLimitService,
   ResourceUsageService,
   SecurityGroupService,
-  ServiceOfferingFilterService,
   ServiceOfferingService,
+  ServiceOfferingFilterService,
   SnapshotService,
   SSHKeyPairService,
   StatsUpdateService,
@@ -63,6 +63,7 @@ import {
 } from './components';
 import { LoadingDirective } from './directives/loading.directive';
 import { LoaderComponent } from './components/loader.component';
+
 
 @NgModule({
   imports: [
@@ -135,8 +136,8 @@ import { LoaderComponent } from './components/loader.component';
     ResourceLimitService,
     ResourceUsageService,
     SecurityGroupService,
-    ServiceOfferingFilterService,
     ServiceOfferingService,
+    ServiceOfferingFilterService,
     SnapshotService,
     SSHKeyPairService,
     StatsUpdateService,

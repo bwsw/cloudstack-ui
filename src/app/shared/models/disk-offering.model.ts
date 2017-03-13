@@ -11,7 +11,6 @@ import { FieldMapper } from '../decorators/field-mapper.decorator';
 })
 export class DiskOffering extends BaseModel {
   public id: string;
-  public name: string;
   public displayText: string;
   public diskSize: number;
   public minIops: number;

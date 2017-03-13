@@ -52,7 +52,7 @@ export class VmDetailComponent implements OnInit, OnChanges {
   public ngOnInit(): void {
     this.updateColor();
     this.zoneService.get(this.vm.zoneId)
-      .subscribe(zone => this.disableSecurityGroup = !zone.securityGroupsEnabled);
+      .subscribe(zone => this.disableSecurityGroup = zone.networkTypeIsBasic);
   }
 
   public changeColor(color: Color): void {
