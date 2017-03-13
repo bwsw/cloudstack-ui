@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ServiceOffering } from '../models/service-offering.model';
-import { BackendResource } from '../decorators/backend-resource.decorator';
 import { Observable } from 'rxjs';
 import { ConfigService } from './config.service';
 import { DiskOffering } from '../models/disk-offering.model';
@@ -9,7 +8,7 @@ import { BaseBackendService } from './base-backend.service';
 
 
 export interface OfferingAvailability {
-  [propName: string]: {
+  [zoneId: string]: {
     filterOfferings: boolean;
     diskOfferings: Array<string>;
     serviceOfferings: Array<string>;
@@ -17,10 +16,6 @@ export interface OfferingAvailability {
 }
 
 @Injectable()
-@BackendResource({
-  entity: 'ServiceOffering',
-  entityModel: ServiceOffering
-})
 export abstract class OfferingService<T extends BaseModel> extends BaseBackendService<BaseModel> {
   constructor(protected configService: ConfigService) {
     super();
