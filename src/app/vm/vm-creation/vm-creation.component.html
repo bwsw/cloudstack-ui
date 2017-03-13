@@ -46,19 +46,10 @@
             (selectedOut)="onTemplateChange($event)"
           ></cs-vm-creation-template>
         </div>
-        <div>
-          <h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>
-          <cs-service-offering-selector
-            *ngIf="zoneId"
-            [zoneId]="zoneId"
-            name="serviceOffering"
-            [ngModel]="vmCreationData.vm.serviceOfferingId"
-            (ngModelChange)="setServiceOffering($event)"
-          ></cs-service-offering-selector>
-        </div>
         <div *ngIf="!templateSelected">
           <h5>{{ 'DISK_OFFERING' | translate }}</h5>
-          <cs-disk-offering *ngIf="zoneId"
+          <cs-disk-offering
+            *ngIf="zoneId"
             [zoneId]="zoneId"
             (offeringUpdated)="updateDiskOffering($event)"
           ></cs-disk-offering>
@@ -70,6 +61,16 @@
           name="rds"
           [(ngModel)]="vmCreationData.rootDiskSize"
         ></cs-volume-size-control>
+        <div>
+          <h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>
+          <cs-service-offering-selector
+            *ngIf="zoneId"
+            [zoneId]="zoneId"
+            name="serviceOffering"
+            [ngModel]="vmCreationData.vm.serviceOfferingId"
+            (ngModelChange)="setServiceOffering($event)"
+          ></cs-service-offering-selector>
+        </div>
       </div>
       <div class="right-column">
 
