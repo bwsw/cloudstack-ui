@@ -23,19 +23,17 @@ export class LoadingDirective {
   ) { }
 
   @Input() set loading(condition: boolean) {
+    this.viewContainer.clear();
+
     if (!condition && !this.hasView) {
-      this.viewContainer.clear();
       this.viewContainer.createEmbeddedView(this.templateRef);
       this.hasView = true;
-    } else if (condition && !this.hasView) {
-      this.viewContainer.clear();
-
+    } else if (condition) {
+      this.hasView = false;
       let cFactory = this.componentFactoryResolver.resolveComponentFactory(LoaderComponent);
       let cRef: ComponentRef<LoaderComponent> = this.viewContainer.createComponent(cFactory);
 
       this.loaderComponent = <LoaderComponent> cRef.instance;
-    } else {
-      this.hasView = true;
     }
   }
 }
