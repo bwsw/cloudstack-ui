@@ -61,6 +61,8 @@ import {
   VmStatisticsComponent,
   VolumeSizeControlComponent
 } from './components';
+import { LoadingDirective } from './directives/loading.directive';
+import { LoaderComponent } from './components/loader.component';
 
 @NgModule({
   imports: [
@@ -85,10 +87,12 @@ import {
     VolumeSizeControlComponent,
     DivByPowerOfTwoPipe,
     HighLightPipe,
-    ViewValuePipe
+    ViewValuePipe,
+    LoadingDirective
   ],
   entryComponents: [
-    DatePickerDialogComponent
+    DatePickerDialogComponent,
+    LoaderComponent
   ],
   declarations: [
     CalendarComponent,
@@ -110,6 +114,8 @@ import {
     DivByPowerOfTwoPipe,
     HighLightPipe,
     ViewValuePipe,
+    LoadingDirective,
+    LoaderComponent
   ],
   providers: [
     AffinityGroupService,

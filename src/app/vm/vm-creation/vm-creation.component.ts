@@ -75,6 +75,8 @@ export class VmCreationComponent implements OnInit {
   @ViewChild(MdlDialogComponent) public vmCreateDialog: MdlDialogComponent;
   @Output() public onCreated: EventEmitter<any> = new EventEmitter();
 
+  public fetching = false;
+
   public vmCreationData: VmCreationData;
   public keyboards = ['us', 'uk', 'jp', 'sc'];
   public noAffinityGroupTranslation: string;
@@ -163,12 +165,14 @@ export class VmCreationComponent implements OnInit {
   }
 
   public resetVmCreateData(): void {
+    this.fetching = true;
     Observable.forkJoin([
       this.getVmCreateData(),
       this.getDefaultVmName()
     ])
       .subscribe(([creationData, defaultName]) => {
         this.vmCreationData = creationData;
+        this.fetching = false;
         if (!this.vmCreationData.vm.displayName) {
           setTimeout(() => this.vmCreationData.vm.displayName = defaultName);
         }

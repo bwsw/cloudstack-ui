@@ -1,9 +1,11 @@
 <cs-vm-statistics></cs-vm-statistics>
-<cs-security-group-template-list-item
-  *ngFor="let group of securityGroupList"
-  [securityGroupTemplate]="group"
-  (onClick)="showRulesDialog(group)"
-  (onDelete)="deleteSecurityGroupTemplate($event)"
->
-</cs-security-group-template-list-item>
+<ng-container *loading="!securityGroupList">
+  <cs-security-group-template-list-item
+    *ngFor="let group of securityGroupList"
+    [securityGroupTemplate]="group"
+    (onClick)="showRulesDialog(group)"
+    (onDelete)="deleteSecurityGroupTemplate($event)"
+  >
+  </cs-security-group-template-list-item>
+</ng-container>
 <cs-fab (click)="showCreationDialog()"></cs-fab>

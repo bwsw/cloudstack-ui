@@ -8,6 +8,7 @@
   [showDelimiter]="showDelimiter"
 ></cs-template-filters>
 <cs-template-list
+  *loading="fetching"
   class="template-list"
   [selectedTemplate]="selectedTemplate"
   (selectedTemplateChange)="selectTemplate($event)"

@@ -24,6 +24,7 @@ export class TemplateFilterListComponent implements OnInit {
   @Output() public selectedTemplateChange = new EventEmitter();
   @Output() public viewModeChange = new EventEmitter();
 
+  public fetching = false;
   public query: string;
   public selectedFilters: Array<string> = [];
   public selectedOsFamilies: Array<OsFamily> = [];
@@ -74,6 +75,7 @@ export class TemplateFilterListComponent implements OnInit {
   }
 
   private fetchData(mode: string): Observable<any> {
+    this.fetching = true;
     if (mode === 'Template') {
       this.templateList = [];
       return this.templateService.getGroupedTemplates({}, ['featured', 'self'])
@@ -86,6 +88,7 @@ export class TemplateFilterListComponent implements OnInit {
           }
           this.templateList = t;
           this.visibleTemplateList = this.templateList;
+          this.fetching = false;
         });
     } else {
       this.templateList = [];
@@ -96,6 +99,7 @@ export class TemplateFilterListComponent implements OnInit {
         .map(([featuredIsos, selfIsos]) => {
           this.templateList = (featuredIsos as Array<Iso>).concat(selfIsos as Array<Iso>);
           this.visibleTemplateList = this.templateList;
+          this.fetching = false;
         });
     }
   }

@@ -3,6 +3,7 @@
   [class.open]="isDetailOpen"
 >
   <cs-volume-list
+    *loading="!volumes"
     [volumes]="volumes"
     [selectedVolume]="selectedVolume"
     (onVolumeSelected)="selectVolume($event)"

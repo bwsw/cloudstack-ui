@@ -25,13 +25,12 @@
 </mdl-card>
 <div class="event-list">
   <h5 translate>EVENTS</h5>
-  <div class="spinner">
-    <mdl-spinner *ngIf="loading" single-color active></mdl-spinner>
-  </div>
-  <mdl-table
-    *ngIf="!loading && events?.length"
-    mdl-shadow="2"
-    [table-model]="tableModel"
-  ></mdl-table>
-  <span *ngIf="!loading && !events?.length" translate>NO_EVENTS</span>
+  <ng-container *loading="loading">
+    <mdl-table
+      *ngIf="events?.length"
+      mdl-shadow="2"
+      [table-model]="tableModel"
+    ></mdl-table>
+    <span *ngIf="!events?.length" translate>NO_EVENTS</span>
+  </ng-container>
 </div>
