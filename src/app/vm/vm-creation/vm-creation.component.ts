@@ -309,6 +309,10 @@ export class VmCreationComponent implements OnInit {
     }
   }
 
+  public get templateSelected(): boolean {
+    return this.vmCreationData.vm.template instanceof Template;
+  }
+
   public setGroup(group: string): void {
     this.vmCreationData.vm.group = group;
   }
@@ -404,12 +408,13 @@ export class VmCreationComponent implements OnInit {
     if (this.vmCreationData.affinityGroupId) {
       params['affinityGroupIds'] = this.vmCreationData.affinityGroupId;
     }
-    if (this.selectedDiskOffering) {
+    if (this.selectedDiskOffering && !this.templateSelected) {
       params['diskofferingid'] = this.selectedDiskOffering.id;
       params['hypervisor'] = 'KVM';
     }
-    if (this.showRootDiskResize && this.vmCreationData.rootDiskSize >= 10) {
-      params['size'] = this.vmCreationData.rootDiskSize;
+    if (this.showRootDiskResize) {
+      const key = this.templateSelected ? 'rootDiskSize' : 'size';
+      params[key] = this.vmCreationData.rootDiskSize;
     }
     if (!this.vmCreationData.doStartVm) {
       params['startVm'] = 'false';

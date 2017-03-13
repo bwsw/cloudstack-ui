@@ -51,10 +51,12 @@
           <cs-service-offering-selector
             *ngIf="zoneId"
             [zoneId]="zoneId"
+            name="serviceOffering"
+            [ngModel]="vmCreationData.vm.serviceOfferingId"
             (ngModelChange)="setServiceOffering($event)"
           ></cs-service-offering-selector>
         </div>
-        <div>
+        <div *ngIf="!templateSelected">
           <h5>{{ 'DISK_OFFERING' | translate }}</h5>
           <cs-disk-offering *ngIf="zoneId"
             [zoneId]="zoneId"
@@ -62,7 +64,7 @@
           ></cs-disk-offering>
         </div>
         <cs-volume-size-control
-          *ngIf="showRootDiskResize"
+          *ngIf="templateSelected || showRootDiskResize"
           [min]="vmCreationData.rootDiskSizeMin"
           [max]="vmCreationData.rootDiskSizeLimit"
           name="rds"
@@ -73,7 +75,10 @@
 
         <h5>{{ 'VM_CREATION_FORM.GROUP' | translate }}</h5>
         <div *ngIf="vmCreationData.instanceGroups">
-          <mdl-autocomplete [options]="vmCreationData.instanceGroups"(change)="setGroup($event)"></mdl-autocomplete>
+          <mdl-autocomplete
+            [options]="vmCreationData.instanceGroups"
+            (change)="setGroup($event)"
+          ></mdl-autocomplete>
         </div>
 
         <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
