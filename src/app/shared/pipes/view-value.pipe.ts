@@ -1,18 +1,25 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { Observable } from 'rxjs';
+import { TranslateService } from 'ng2-translate';
 
 /*
  * Return Yes/No instead of true/false or passed value
-*/
+ */
 @Pipe({
   // tslint:disable-next-line
   name: 'viewValue'
 })
 export class ViewValuePipe implements PipeTransform {
-  public transform(value: any): any {
-    switch (value) {
-      case true: return 'Yes';
-      case false: return 'No';
-      default: return value;
-    }
+  constructor(private translateService: TranslateService) {}
+
+  public transform(value: any): Observable<string> {
+    return this.translateService.get(['YES', 'NO'])
+      .map(strings => {
+        switch (value) {
+          case true: return strings['YES'];
+          case false: return strings['NO'];
+          default: return value;
+        }
+      });
   }
 }

@@ -16,7 +16,7 @@
         <div class="row" *ngFor="let key of vm.serviceOffering.keys">
           <template [ngIf]="key !== 'id' && key !== 'created'">
             <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
-            <div>{{ vm.serviceOffering[key] | viewValue }}</div>
+            <div>{{ vm.serviceOffering[key] | viewValue | async }}</div>
           </template>
           <template [ngIf]="key === 'created'">
             <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
@@ -72,7 +72,7 @@
                   key !== 'deviceid' && key !== 'virtualMachineId' && key !== 'secondaryIp'"
             >
               <div>{{ 'NETWORK_INTERFACE_CONTROLLER_FIELDS.' + key | translate }}</div>
-              <div>{{ nic[key] | viewValue }}</div>
+              <div>{{ nic[key] | viewValue | async }}</div>
             </div>
             <div *ngIf="key === 'secondaryIp' && nic[key].length > 0">
               <div class="row">
