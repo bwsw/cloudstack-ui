@@ -60,6 +60,16 @@ export interface IVmAction {
   isoid: 'isoId'
 })
 export class VirtualMachine extends BaseModel {
+  public static actions = [
+    'start',
+    'stop',
+    'reboot',
+    'restore',
+    'destroy',
+    'resetPasswordFor', // name forced by API and action implementation,
+    'console'
+  ].map(a => VirtualMachine.getAction(a));
+
   public id: string;
   public displayName: string;
   // Status
@@ -99,6 +109,7 @@ export class VirtualMachine extends BaseModel {
   public diskIoRead: number;
   public diskIoWrite: number;
   // misc
+  public created: string;
   public group: string;
   public keyPair: string;
   public password: string;
@@ -122,18 +133,6 @@ export class VirtualMachine extends BaseModel {
     for (let i = 0; i < this.securityGroup.length; i++) {
       this.securityGroup[i] = new SecurityGroup(this.securityGroup[i]);
     }
-  }
-
-  public get actions(): Array<string> {
-    return [
-      'start',
-      'stop',
-      'reboot',
-      'restore',
-      'destroy',
-      'resetPasswordFor', // name forced by API and action implementation,
-      'console'
-    ];
   }
 
   public getDisksSize(): number {

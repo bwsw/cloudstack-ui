@@ -9,21 +9,31 @@ import { VmService, IVmActionEvent } from '../shared/vm.service';
 import { VirtualMachine } from '../shared/vm.model';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
-import { IStorageService } from '../../shared/services/storage.service';
-import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import {
+  AsyncJobService,
+  IAsyncJob,
+  INotificationStatus,
+  IStorageService,
+  InstanceGroup,
   JobsNotificationService,
-  INotificationStatus
-} from '../../shared/services/jobs-notification.service';
+  ServiceOfferingService,
+  StatsUpdateService,
+  Zone
+} from '../../shared';
 
-import { IAsyncJob } from '../../shared/models/async-job.model';
-import { AsyncJobService } from '../../shared/services/async-job.service';
+import { VmCreationComponent } from '../vm-creation/vm-creation.component';
+import { VmFilter } from '../vm-filter/vm-filter.component';
+import { VmListSection } from './vm-list-section/vm-list-section.component';
+import { VmListSubsection } from './vm-list-subsection/vm-list-subsection.component';
 import { VmStatisticsComponent } from '../../shared/components/vm-statistics/vm-statistics.component';
-import { StatsUpdateService } from '../../shared/services/stats-update.service';
-import { ServiceOfferingService } from '../../shared/services/service-offering.service';
+
+
+export const enum SectionType {
+  zone,
+  group
+}
 
 const askToCreateVm = 'askToCreateVm';
-
 
 @Component({
   selector: 'cs-vm-list',
@@ -37,7 +47,19 @@ export class VmListComponent implements OnInit {
   @HostBinding('class.detail-list-container') public detailListContainer = true;
 
   public isDetailOpen: boolean;
+
+  public groupByColors = false;
+
   public selectedVm: VirtualMachine;
+
+  public filterData: VmFilter;
+
+  public showSections = false;
+  public showSubsections = false;
+
+  public sections: Array<VmListSection> = [];
+  public subsections: Array<VmListSubsection> = [];
+
   private vmList: Array<VirtualMachine>;
 
   constructor (
@@ -61,6 +83,66 @@ export class VmListComponent implements OnInit {
     this.subscribeToVmDestroyed();
   }
 
+  public get anyFilteringResults(): boolean {
+    return (this.showSections && !this.sectionsLength) ||
+      (!this.showSections && this.showSubsections && !this.subsectionsLength);
+  }
+
+  public get sectionsLength(): number {
+    return this.sections.reduce((acc, section) => {
+      if (section.vmList) {
+        return acc + section.vmList.length;
+      }
+      if (section.subsectionList) {
+        return acc + this.getSubsectionListLength(section.subsectionList);
+      }
+    }, 0);
+  }
+
+  public get subsectionsLength(): number {
+    return this.getSubsectionListLength(this.subsections);
+  }
+
+  public updateFilters(filterData?: VmFilter): void {
+    if (!this.vmList) {
+      return;
+    }
+    if (!filterData && !this.filterData) {
+      return;
+    }
+    if (!filterData) {
+      filterData = this.filterData;
+    }
+    if (!this.filterData) {
+      this.filterData = filterData;
+    }
+
+    this.filterData = filterData;
+
+    let sectionKey = this.getFilterKey(filterData.mode);
+    let subsectionKey = this.getFilterKey(this.getSubsectionType(filterData.mode));
+
+    this.showSections = !!filterData[sectionKey].length;
+    this.showSubsections = !!filterData[subsectionKey].length;
+    this.groupByColors = filterData.doFilterByColor;
+    this.sections = [];
+    this.subsections = [];
+
+    if (filterData.doFilterByColor) {
+      this.vmList = this.sortByColor(this.vmList);
+    } else {
+      this.vmList = this.sortByDate(this.vmList);
+    }
+
+    if (this.showSections) {
+      this.updateSections(filterData);
+    }
+
+    if (!this.showSections && this.showSubsections) {
+      this.updateSubsections(filterData);
+    }
+  }
+
   public updateStats(): void {
     this.vmStats.updateStats();
   }
@@ -80,6 +162,7 @@ export class VmListComponent implements OnInit {
 
   public onVmCreated(vm: VirtualMachine): void {
     this.vmList.push(vm);
+    this.updateFilters();
     this.updateStats();
   }
 
@@ -141,6 +224,7 @@ export class VmListComponent implements OnInit {
               vmList[index].serviceOfferingId = updatedVm.serviceOfferingId;
             });
         });
+        this.updateFilters();
       });
   }
 
@@ -180,6 +264,7 @@ export class VmListComponent implements OnInit {
         if (this.selectedVm && this.selectedVm.id === job.jobResult.id) {
           this.isDetailOpen = false;
         }
+        this.updateFilters();
         this.updateStats();
       }
     });
@@ -232,5 +317,107 @@ export class VmListComponent implements OnInit {
         styles: { 'width': '320px' }
       });
     });
+  }
+
+  private filterVmsByGroup(vmList: Array<VirtualMachine>, group: InstanceGroup): Array<VirtualMachine> {
+    return vmList.filter(vm => vm.group === group.name);
+  }
+
+  private filterVmsByZone(vmList: Array<VirtualMachine>, zone: Zone): Array<VirtualMachine> {
+    return vmList.filter(vm => vm.zoneId === zone.id);
+  }
+
+  private sortByColor(vmList: Array<VirtualMachine>): Array<VirtualMachine> {
+    return vmList.sort((vmA, vmB) => {
+      let vmAColor = this.vmService.getColor(vmA).value;
+      let vmBColor = this.vmService.getColor(vmB).value;
+
+      if (vmAColor < vmBColor) {
+        return -1;
+      }
+      if (vmAColor > vmBColor) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+
+  private sortByDate(vmList: Array<VirtualMachine>): Array<VirtualMachine> {
+    return vmList.sort((vmA, vmB) => {
+      let vmACreated = vmA.created;
+      let vmBCreated = vmB.created;
+
+      if (vmACreated > vmBCreated) {
+        return 1;
+      }
+      if (vmACreated < vmBCreated) {
+        return -1;
+      }
+      return 0;
+    });
+  }
+
+  private getFilterKey(sectionType: SectionType): string {
+    if (sectionType === SectionType.group) {
+      return 'selectedGroups';
+    }
+    if (sectionType === SectionType.zone) {
+      return 'selectedZones';
+    }
+  }
+
+  private getSubsectionType(sectionType: SectionType): SectionType {
+    if (sectionType === SectionType.group) {
+      return SectionType.zone;
+    }
+    if (sectionType === SectionType.zone) {
+      return SectionType.group;
+    }
+  }
+
+  private updateSections(filterData: VmFilter): void {
+    let filterDataKey = this.getFilterKey(filterData.mode);
+
+    this.sections = filterData[filterDataKey]
+      .map((elem): VmListSection => {
+        let vmList = filterData.mode === SectionType.group ?
+          this.filterVmsByGroup(this.vmList, elem) :
+          this.filterVmsByZone(this.vmList, elem);
+
+        let subsectionList = this.getSubsectionList(vmList, filterData);
+
+        if (this.showSubsections) {
+          return { name: elem.name, subsectionList };
+        }
+        return { name: elem.name, vmList };
+      });
+  }
+
+  private updateSubsections(filterData: VmFilter): void {
+    this.subsections = this.getSubsectionList(this.vmList, filterData);
+  }
+
+  private getSubsectionList(
+    vmList: Array<VirtualMachine>,
+    filterData: VmFilter
+  ): Array<VmListSubsection> {
+    let subsectionType = this.getSubsectionType(filterData.mode);
+    let filterDataKey = this.getFilterKey(subsectionType);
+
+    return filterData[filterDataKey]
+      .map(elem => {
+        return {
+          name: elem.name,
+          vmList: subsectionType === SectionType.group ?
+            this.filterVmsByGroup(vmList, elem) :
+            this.filterVmsByZone(vmList, elem)
+        };
+      });
+  }
+
+  private getSubsectionListLength(subsectionList: Array<VmListSubsection>): number {
+    return subsectionList.reduce((acc, subsection) => {
+      return acc + subsection.vmList.length;
+    }, 0);
   }
 }

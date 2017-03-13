@@ -1,20 +1,78 @@
 <div class="detail-list vm-list" [class.open]="isDetailOpen">
   <cs-vm-statistics></cs-vm-statistics>
-  <cs-vm-list-item
-    *ngFor="let vm of vmList"
-    [vm]="vm"
-    [isSelected]="selectedVm === vm && isDetailOpen"
-    (onVmAction)="vmAction($event)"
-    (onClick)="showDetail($event)"
-  ></cs-vm-list-item>
+  <cs-vm-filter (updateFilters)="updateFilters($event)"></cs-vm-filter>
+
+  <ng-container *ngIf="showSubsections && !showSections">
+    <ng-container *ngFor="let subsection of subsections">
+      <cs-vm-list-subsection
+        *ngIf="subsection.vmList.length"
+        [subsectionName]="subsection.name"
+      >
+        <cs-vm-list-item
+          *ngFor="let vm of subsection.vmList"
+          [vm]="vm"
+          [isSelected]="selectedVm === vm && isDetailOpen"
+          (onVmAction)="vmAction($event)"
+          (onClick)="showDetail($event)"
+        ></cs-vm-list-item>
+      </cs-vm-list-subsection>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="showSections">
+    <ng-container *ngFor="let section of sections">
+      <cs-vm-list-section
+        *ngIf="section.subsectionList?.length || section.vmList?.length"
+        [sectionName]="section.name"
+      >
+        <ng-container *ngIf="showSubsections">
+          <ng-container *ngFor="let subsection of section.subsectionList">
+            <cs-vm-list-subsection
+              *ngIf="subsection.vmList.length"
+              [subsectionName]="subsection.name"
+            >
+              <cs-vm-list-item
+                *ngFor="let vm of subsection.vmList"
+                [vm]="vm"
+                [isSelected]="selectedVm === vm && isDetailOpen"
+                (onVmAction)="vmAction($event)"
+                (onClick)="showDetail($event)"
+              ></cs-vm-list-item>
+            </cs-vm-list-subsection>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="!showSubsections">
+          <cs-vm-list-item
+            *ngFor="let vm of section.vmList"
+            [vm]="vm"
+            [isSelected]="selectedVm === vm && isDetailOpen"
+            (onVmAction)="vmAction($event)"
+            (onClick)="showDetail($event)"
+          ></cs-vm-list-item>
+        </ng-container>
+      </cs-vm-list-section>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="!showSections && !showSubsections">
+    <cs-vm-list-item
+      *ngFor="let vm of vmList"
+      [vm]="vm"
+      [isSelected]="selectedVm === vm && isDetailOpen"
+      (onVmAction)="vmAction($event)"
+      (onClick)="showDetail($event)"
+    ></cs-vm-list-item>
+  </ng-container>
+
+  <cs-no-results *ngIf="anyFilteringResults"></cs-no-results>
 </div>
+
 <cs-vm-sidebar
   class="mdl-color--grey-100"
   [vm]="selectedVm"
   (onClickOutside)="hideDetail()"
   [isOpen]="isDetailOpen"
->
-</cs-vm-sidebar>
+></cs-vm-sidebar>
 <cs-fab
   [open]="isDetailOpen"
   (click)="showVmCreationDialog()"

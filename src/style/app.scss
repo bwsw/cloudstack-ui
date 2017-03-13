@@ -5,6 +5,8 @@
 @import '~@angular2-mdl-ext/select/select';
 
 @import "~angular2-mdl/scss/color-definitions";
+@import '__variables.scss';
+
 
 * {
   box-sizing: border-box;
@@ -70,6 +72,17 @@ mdl-card.custom-card {
   }
 }
 
+.options-panel {
+  display: block !important;
+  width: 100% !important;
+  min-height: initial !important;
+  overflow: visible !important;
+
+  &.delimiter {
+    border-bottom: 1px solid #dedede;
+  }
+}
+
 .mdl-dialog {
   max-height: 100% !important;
   overflow: auto !important;
@@ -127,17 +140,6 @@ mdl-simple-tooltip div {
   }
 }
 
-.options-panel {
-  display: block !important;
-  width: 100% !important;
-  min-height: initial !important;
-  overflow: visible !important;
-
-  &.delimiter {
-    border-bottom: 1px solid #dedede;
-  }
-}
-
 .card-selected {
   transform: scale(1.03);
   box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
@@ -157,6 +159,16 @@ mdl-simple-tooltip div {
   margin-bottom: 15px;
 }
 
+.filter-select {
+  display: inline-block;
+  width: $template-filter-select-width;
+  margin: 0 20px;
+}
+
+.section-header {
+  margin: 0;
+  padding: 15px 15px 0 15px;
+}
 
 .detail-list-container {
   position: absolute;

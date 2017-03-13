@@ -26,6 +26,9 @@ import { SnapshotComponent } from './vm-sidebar/storage-detail/volume/snapshot/s
 import {
   SnapshotCreationComponent
 } from './vm-sidebar/storage-detail/volume/snapshot-creation/snapshot-creation.component';
+import { VmFilterComponent } from './vm-filter/vm-filter.component';
+import { VmListSectionComponent } from './vm-list/vm-list-section/vm-list-section.component';
+import { VmListSubsectionComponent } from './vm-list/vm-list-subsection/vm-list-subsection.component';
 
 
 @NgModule({
@@ -47,9 +50,12 @@ import {
     VmCreationComponent,
     VmListItemComponent,
     VmDetailComponent,
+    VmFilterComponent,
     VmSidebarComponent,
     VmTemplateComponent,
     VmTemplateDialogComponent,
+    VmListSectionComponent,
+    VmListSubsectionComponent,
     VolumeResizeComponent,
     IsoComponent,
     VolumeComponent,

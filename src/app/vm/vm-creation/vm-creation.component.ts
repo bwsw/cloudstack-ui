@@ -285,6 +285,10 @@ export class VmCreationComponent implements OnInit {
     }
   }
 
+  public setGroup(group: string): void {
+    this.vmCreationData.vm.group = group;
+  }
+
   private getDefaultVmName(): Observable<string> {
     const regex = /vm-.*-(\d+)/;
 
