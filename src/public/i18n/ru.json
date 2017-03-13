@@ -274,12 +274,12 @@
   "THIS_IS_YOU_CURRENT_OFFERING": "Это Ваше текущее предложение",
 
   "VM_NAVBAR": "Виртуальные<br>машины",
-  "FIREWALL": "Брандмауэр",
+  "FIREWALL": "Шаблоны<br>брандмауэра",
 
   "NEW_TEMPLATE": "Регистрация нового шаблона",
   "NEW_ISO": "Регистрация нового ISO",
   "NEW_VM": "Новая виртуальная машина",
-  "TEMPLATES_ISO": "Шаблоны<br>и ISO файлы",
+  "IMAGES": "Образы",
   "URL": "URL",
   "ISO_REGISTER_IN_PROGRESS": "Регистрация ISO",
   "ISO_REGISTER_DONE": "ISO зарегистрирован",
@@ -342,6 +342,7 @@
   "SNAPSHOT_DELETE_DONE": "Снимок удален",
   "SNAPSHOT_DELETE_FAILED": "Не удалось удалить снимок",
 
+  "ACTIVITY_LOG": "Журнал событий",
   "EVENTS": "События",
   "NO_EVENTS": "Нет событий на выбранной дате",
   "LEVEL": "Уровень",

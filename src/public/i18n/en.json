@@ -274,12 +274,12 @@
   "THIS_IS_YOU_CURRENT_OFFERING": "This is your current offering",
 
   "VM_NAVBAR": "Virtual machines",
-  "FIREWALL": "Firewall",
+  "FIREWALL": "Firewall Templates",
 
   "NEW_TEMPLATE": "Register a new template",
   "NEW_ISO": "Register a new ISO",
   "NEW_VM": "New virtual machine",
-  "TEMPLATES_ISO": "Templates and ISOs",
+  "IMAGES": "Images",
   "URL": "URL",
   "ISO_REGISTER_IN_PROGRESS": "Registering an ISO",
   "ISO_REGISTER_DONE": "ISO registered",
@@ -342,6 +342,7 @@
   "SNAPSHOT_DELETE_DONE": "Snapshot deleted successfully",
   "SNAPSHOT_DELETE_FAILED": "Failed to delete a snapshot",
 
+  "ACTIVITY_LOG": "Activity log",
   "EVENTS": "Events",
   "NO_EVENTS": "No events for the selected date",
   "LEVEL": "Level",

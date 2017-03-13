@@ -26,14 +26,13 @@
       </a>
 
       <a
-        *ngIf="!disableSecurityGroups"
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
-        routerLink="/sg-templates"
+        routerLink="/spare-drives"
         routerLinkActive="link-active"
       >
-        <mdl-icon class="link-element">security</mdl-icon>
-        <div class="link-element" [innerHTML]="'FIREWALL' | translate"></div>
+        <mdl-icon class="link-element">dns</mdl-icon>
+        <div class="link-element" [innerHTML]="'SPARE_DRIVES_NAVBAR' | translate"></div>
       </a>
 
       <a
@@ -47,13 +46,14 @@
       </a>
 
       <a
+        *ngIf="!disableSecurityGroups"
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
-        routerLink="/spare-drives"
+        routerLink="/sg-templates"
         routerLinkActive="link-active"
       >
-        <mdl-icon class="link-element">dns</mdl-icon>
-        <div class="link-element" [innerHTML]="'SPARE_DRIVES_NAVBAR' | translate"></div>
+        <mdl-icon class="link-element">security</mdl-icon>
+        <div class="link-element" [innerHTML]="'FIREWALL' | translate"></div>
       </a>
 
       <a
@@ -63,7 +63,7 @@
         routerLinkActive="link-active"
       >
         <mdl-icon>event_note</mdl-icon>
-        <div class="link-element" [innerHTML]="'EVENTS' | translate"></div>
+        <div class="link-element" [innerHTML]="'ACTIVITY_LOG' | translate"></div>
       </a>
 
       <a
