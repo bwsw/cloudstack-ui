@@ -7,14 +7,9 @@ import { VmListComponent } from './vm/vm-list/vm-list.component';
 import { EventListComponent } from './events/event-list.component';
 import { SpareDrivePageComponent } from './spare-drive/spare-drive-page/spare-drive-page.component';
 import { SettingsComponent } from './settings/settings.component';
-import { TestComponent } from './test-component/test.component';
 
 
 const routes: Routes = [
-  {
-    path: '**',
-    component: TestComponent
-  },
   {
     path: 'login',
     component: LoginComponent

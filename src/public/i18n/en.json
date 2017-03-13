@@ -402,5 +402,7 @@
   "COLOR": "Color",
   "PALETTE": "Palette",
 
-  "CUSTOM_SERVICE_OFFERING": "Custom offering"
+  "CUSTOM_SERVICE_OFFERING": "Custom offering",
+  "CUSTOM_SERVICE_OFFERING_CPU": "CPU",
+  "CUSTOM_SERVICE_OFFERING_MEMORY": "Memory"
 }

@@ -1,14 +1,11 @@
-<div>
-  <mdl-select
-    [(ngModel)]="serviceOffering"
-    id="serviceOffering"
-    name="serviceOffering"
+<mdl-select
+  [ngModel]="serviceOffering"
+  (change)="changeValue($event)"
+>
+  <mdl-option
+    *ngFor="let so of serviceOfferings"
+    [value]="so"
   >
-    <mdl-option
-      *ngFor="let so of serviceOfferings"
-      [value]="so.id"
-    >
-      {{ so.name }}
-    </mdl-option>
-  </mdl-select>
-</div>
+    {{ so.name }}
+  </mdl-option>
+</mdl-select>

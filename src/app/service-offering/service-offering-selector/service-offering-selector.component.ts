@@ -1,55 +1,72 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter, Output, Input } from '@angular/core';
 import { ServiceOfferingFilterService } from '../../shared/services/service-offering-filter.service';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MdlSelectComponent } from '@angular2-mdl-ext/select';
+import { CustomServiceOfferingComponent } from '../custom-service-offering/custom-service-offering.component';
+import { MdlDialogService } from 'angular2-mdl';
 
 
 @Component({
   selector: 'cs-service-offering-selector',
-  templateUrl: 'service-offering-selector.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ServiceOfferingSelectorComponent),
-      multi: true
-    }
-  ]
+  templateUrl: 'service-offering-selector.component.html'
 })
-export class ServiceOfferingSelectorComponent implements ControlValueAccessor, OnInit {
+export class ServiceOfferingSelectorComponent implements OnInit {
+  @Input() public zoneId: string;
+  @Output() public offeringChanged = new EventEmitter();
+  @ViewChild(MdlSelectComponent) public selectComponent: MdlSelectComponent;
   public serviceOfferings: Array<ServiceOffering>;
-  private _serviceOffering: string;
+  private _serviceOffering: ServiceOffering;
 
-  constructor(private serviceOfferingFilterService: ServiceOfferingFilterService) { }
+  constructor(
+    private dialogService: MdlDialogService,
+    private serviceOfferingFilterService: ServiceOfferingFilterService
+  ) { }
 
   public propagateChange: any = () => {};
 
-  @Input() public get serviceOffering(): string {
+  public get serviceOffering(): ServiceOffering {
     return this._serviceOffering;
   }
 
   public set serviceOffering(value) {
     this._serviceOffering = value;
-    this.propagateChange(value);
+    this.offeringChanged.emit(this.serviceOffering);
   }
-
-  public writeValue(value): void {
-    if (value) {
-      this.serviceOffering = value;
-    }
-  }
-
-  public registerOnChange(fn): void {
-    this.propagateChange = fn;
-  }
-
-  public registerOnTouched(): void { }
 
   public ngOnInit(): void {
-    this.serviceOfferingFilterService.getAvailable().subscribe(availableOfferings => {
-      this.serviceOfferings = availableOfferings;
-      if (this.serviceOfferings.length) {
-        this.serviceOffering = this.serviceOfferings[0].id;
-      }
-    });
+    if (this.zoneId == null) {
+      throw new Error('Attribute \zoneId\' is required');
+    }
+
+    this.serviceOfferingFilterService.getAvailable()
+      .subscribe(availableOfferings => {
+        this.serviceOfferings = availableOfferings;
+        if (this.serviceOfferings.length) {
+          this.serviceOffering = this.serviceOfferings[0];
+        }
+      });
+  }
+
+  public changeValue(newValue: ServiceOffering): void {
+    if (newValue.isCustomized) {
+      this.dialogService.showCustomDialog({
+        component: CustomServiceOfferingComponent,
+        classes: 'custom-offering-dialog',
+        providers: [{ provide: 'zoneId', useValue: this.zoneId }]
+      })
+        .switchMap(res => res.onHide())
+        .subscribe(result => {
+          if (result) {
+            newValue.cpuNumber = result.cpuNumber;
+            newValue.cpuSpeed = result.cpuSpeed;
+            newValue.memory = result.memory;
+            this.serviceOffering = newValue;
+          } else {
+            this.selectComponent.writeValue(this.serviceOffering);
+          }
+        });
+    } else {
+      this.serviceOffering = newValue;
+    }
   }
 }

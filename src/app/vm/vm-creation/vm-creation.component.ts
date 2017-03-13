@@ -35,6 +35,9 @@ import { BaseTemplateModel } from '../../template/shared/base-template.model';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { TemplateService } from '../../template/shared';
 import { VmService } from '../shared/vm.service';
+import {
+  CustomServiceOffering
+} from '../../service-offering/custom-service-offering/custom-service-offering.component';
 
 
 class VmCreationData {
@@ -44,6 +47,7 @@ class VmCreationData {
   public serviceOfferings: Array<ServiceOffering>;
   public sshKeyPairs: Array<SSHKeyPair>;
   public zones: Array<Zone>;
+  public customServiceOffering: CustomServiceOffering;
 
   public affinityGroupId: string;
   public doStartVm: boolean;
@@ -270,8 +274,17 @@ export class VmCreationComponent implements OnInit {
     this.vmCreationData.vm.template = t;
   }
 
-  public setServiceOffering(offering: string): void {
-    this.vmCreationData.vm.serviceOfferingId = offering;
+  public setServiceOffering(offering: ServiceOffering): void {
+    this.vmCreationData.vm.serviceOfferingId = offering.id;
+    if (offering.isCustomized) {
+      this.vmCreationData.customServiceOffering = new CustomServiceOffering(
+        offering.cpuNumber,
+        offering.cpuSpeed,
+        offering.memory
+      );
+    } else {
+      this.vmCreationData.customServiceOffering = null;
+    }
   }
 
   public get zoneId(): string {
@@ -349,6 +362,16 @@ export class VmCreationComponent implements OnInit {
       'keyboard': this.vmCreationData.keyboard,
       'response': 'json'
     };
+
+    if (this.vmCreationData.customServiceOffering) {
+      let details = [];
+      details.push({
+        cpuNumber: this.vmCreationData.customServiceOffering.cpuNumber,
+        cpuSpeed: this.vmCreationData.customServiceOffering.cpuSpeed,
+        memory: this.vmCreationData.customServiceOffering.memory
+      });
+      params['details'] = details;
+    }
 
     if (this.vmCreationData.vm.displayName) {
       params['name'] = this.vmCreationData.vm.displayName;

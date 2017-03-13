@@ -1,13 +1,13 @@
 <h3 class="mdl-dialog__title">{{ 'VOLUME_RESIZE_VOLUME' | translate }}</h3>
 <div class="mdl-dialog__content">
   <form (ngSubmit)="resizeVolume()" #volumeResizeForm="ngForm">
-    <cs-volume-size-control
+    <cs-slider
       [min]="volume.size | divByPowerOfTwo:30"
       [max]="maxSize"
       [label]="'VOLUME_NEW_SIZE' | translate"
       [(ngModel)]="newSize"
       name="new-size"
-    ></cs-volume-size-control>
+    ></cs-slider>
   </form>
 </div>
 <div class="mdl-dialog__actions">

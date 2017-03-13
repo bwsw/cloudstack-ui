@@ -4,7 +4,7 @@
 <div class="mdl-dialog__content">
   <cs-service-offering-selector
     class="service-offering-selector"
-    [(ngModel)]="serviceOfferingId"
+    [(ngModel)]="serviceOffering"
   ></cs-service-offering-selector>
   <div
     class="message"
@@ -12,10 +12,10 @@
   >
     <div
       class="warning"
-      *ngIf="virtualMachine.state !== 'Stopped' && serviceOfferingId !== virtualMachine.serviceOfferingId"
+      *ngIf="virtualMachine.state !== 'Stopped' && serviceOffering?.id !== virtualMachine.serviceOfferingId"
     >{{ "VM_WILL_BE_REBOOTED" | translate }}</div>
     <div
-      *ngIf="serviceOfferingId === virtualMachine.serviceOfferingId"
+      *ngIf="serviceOffering?.id === virtualMachine.serviceOfferingId"
     >{{ "THIS_IS_YOU_CURRENT_OFFERING" | translate }}</div>
   </div>
 </div>
@@ -24,7 +24,7 @@
     mdl-button
     (click)="onChange()"
     mdl-colored="primary"
-    [disabled]="serviceOfferingId === virtualMachine.serviceOfferingId"
+    [disabled]="serviceOffering?.id === virtualMachine.serviceOfferingId"
   >
     {{ 'CHANGE' | translate }}
   </button>

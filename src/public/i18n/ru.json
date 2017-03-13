@@ -402,5 +402,6 @@
   "COLOR": "Цвет",
   "PALETTE": "Палитра",
 
-  "CUSTOM_SERVICE_OFFERING": "Настраиваемое предложение"
+  "CUSTOM_SERVICE_OFFERING": "Настраиваемое предложение",
+  "CUSTOM_SERVICE_OFFERING_MEMORY": "Память"
 }

@@ -37,12 +37,13 @@
           ></cs-disk-offering>
         </div>
         <div *ngIf="showResizeSlider && minSize && maxSize">
-          <cs-volume-size-control
+          <cs-slider
             [min]="minSize"
             [max]="maxSize"
+            [units]="'GB' | translate"
             name="diskSize"
             [(ngModel)]="size"
-          ></cs-volume-size-control>
+          ></cs-slider>
         </div>
       </div>
     </div>

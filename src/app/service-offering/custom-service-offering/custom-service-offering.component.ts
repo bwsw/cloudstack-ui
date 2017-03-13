@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 import { ConfigService } from '../../shared/services/config.service';
 
 
-class CustomServiceOffering {
+export class CustomServiceOffering {
   constructor(
     public cpuNumber: number,
     public cpuSpeed: number,
@@ -15,15 +15,15 @@ interface CustomOfferingRestrictions {
   cpuNumber: {
     min: number;
     max: number;
-  },
+  };
   cpuSpeed: {
     min: number;
     max: number;
-  },
+  };
   memory: {
     min: number;
     max: number;
-  }
+  };
 }
 
 @Component({
@@ -34,15 +34,18 @@ interface CustomOfferingRestrictions {
 export class CustomServiceOfferingComponent implements OnInit {
   public offering: CustomServiceOffering;
   public restrictions: CustomOfferingRestrictions;
-  public zoneId = "3fcdb37c-1c0b-4728-b62f-970c765c3fbc";
 
   constructor(
+    @Inject('zoneId') public zoneId: string,
     public dialog: MdlDialogReference,
     private configService: ConfigService
   ) {}
 
   public ngOnInit(): void {
-    debugger;
+    if (this.zoneId == null) {
+      throw new Error('Attribute \zoneId\' is required');
+    }
+
     this.configService.get('customOfferingRestrictions')
       .subscribe((restrictions: CustomOfferingRestrictions) => {
         this.restrictions = restrictions[this.zoneId];
@@ -55,7 +58,7 @@ export class CustomServiceOfferingComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    this.dialog.hide(this.restrictions);
+    this.dialog.hide(this.offering);
   }
 
   public onCancel(): void {

@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 import { VmService } from '../../vm/shared/vm.service';
+import { ServiceOffering } from '../../shared/models/service-offering.model';
 
 
 @Component({
@@ -10,7 +11,7 @@ import { VmService } from '../../vm/shared/vm.service';
   styleUrls: ['service-offering-dialog.component.scss'],
 })
 export class ServiceOfferingDialogComponent {
-  public serviceOfferingId: string;
+  public serviceOffering: ServiceOffering;
 
   constructor(
     public dialog: MdlDialogReference,
@@ -19,7 +20,7 @@ export class ServiceOfferingDialogComponent {
   ) {}
 
   public onChange(): void {
-    this.vmService.changeServiceOffering(this.serviceOfferingId, this.virtualMachine);
+    this.vmService.changeServiceOffering(this.serviceOffering, this.virtualMachine);
     this.dialog.hide();
   }
 

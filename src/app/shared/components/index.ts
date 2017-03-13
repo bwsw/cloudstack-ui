@@ -6,4 +6,4 @@ export * from './notification-box';
 export * from './sidebar';
 export * from './sg-rules-manager.component';
 export * from './vm-statistics/vm-statistics.component';
-export * from './volume-size-control/volume-size-control.component';
+export * from './slider/slider.component';

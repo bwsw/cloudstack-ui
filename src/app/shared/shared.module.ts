@@ -58,8 +58,9 @@ import {
   SgRulesManagerComponent,
   SidebarComponent,
   VmStatisticsComponent,
-  VolumeSizeControlComponent
+  SliderComponent
 } from './components';
+
 
 @NgModule({
   imports: [
@@ -80,7 +81,7 @@ import {
     SgRulesManagerComponent,
     SidebarComponent,
     VmStatisticsComponent,
-    VolumeSizeControlComponent,
+    SliderComponent,
     DivByPowerOfTwoPipe,
     HighLightPipe,
     ViewValuePipe
@@ -103,7 +104,7 @@ import {
     SgRulesManagerComponent,
     SidebarComponent,
     VmStatisticsComponent,
-    VolumeSizeControlComponent,
+    SliderComponent,
     DivByPowerOfTwoPipe,
     HighLightPipe,
     ViewValuePipe,

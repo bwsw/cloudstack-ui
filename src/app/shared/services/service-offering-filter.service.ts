@@ -16,15 +16,19 @@ export class ServiceOfferingFilterService {
     return Observable.forkJoin([
       this.serviceOfferingService.getList(),
       this.resourceUsageService.getResourceUsage()
-    ]).map(([serviceOfferings, resourceUsage]) => {
-      let sos = serviceOfferings.filter(elem => {
-        return resourceUsage.available.cpus >= elem.cpuNumber &&
-          resourceUsage.available.memory >= elem.memory;
+    ])
+      .map(([serviceOfferings, resourceUsage]) => {
+        let sos = serviceOfferings.filter(elem => {
+          if (elem.isCustomized) {
+            return true;
+          }
+          return resourceUsage.available.cpus >= elem.cpuNumber &&
+            resourceUsage.available.memory >= elem.memory;
+        });
+        if (sos.length) {
+          return sos;
+        }
+        throw new Error('No available service offerings');
       });
-      if (sos.length) {
-        return sos;
-      }
-      throw new Error();
-    });
   }
 }

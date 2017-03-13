@@ -68,9 +68,23 @@ export abstract class BaseBackendService<M extends BaseModel> {
     urlParams.append('command', this.getRequestCommand(command));
 
     for (let key in params) {
-      if (params.hasOwnProperty(key)) {
-        urlParams.set(key.toLowerCase(), params[key]);
+      if (!params.hasOwnProperty(key)) {
+        continue;
       }
+
+      if (Array.isArray(params[key])) {
+        let result = this.breakParamsArray(params, key);
+        for (let param in result) {
+          if (!result.hasOwnProperty(param)) {
+            continue;
+          }
+
+          urlParams.set(param, result[param]);
+        }
+        continue;
+      }
+
+      urlParams.set(key.toLowerCase(), params[key]);
     }
 
     urlParams.set('response', 'json');
@@ -80,7 +94,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
   protected getRequest(command: string, params?: {}): Observable<any> {
     return this.http.get(BACKEND_API_URL, {
       search: this.buildParams(command, params)
-    }).map((res: Response) => res.json())
+    })
+      .map((res: Response) => res.json())
       .catch(error => this.handleError(error));
   }
 
@@ -100,6 +115,24 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return this.getRequest(command, params)
       .map(res => res[this.getResponseString(command)])
       .catch(error => this.handleError(error));
+  }
+
+  private breakParamsArray(params: {}, arrayName: string): any {
+    let array = params[arrayName];
+    let result = {};
+
+    array.forEach((elem, index) => {
+      for (let property in elem) {
+        if (!elem.hasOwnProperty(property)) {
+          continue;
+        }
+
+        let indexString = `${arrayName}[${index}].${property}`;
+        result[indexString] = elem[property];
+      }
+    });
+
+    return result;
   }
 
   private getRequestCommand(command: string): string {

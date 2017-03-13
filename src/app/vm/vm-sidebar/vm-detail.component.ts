@@ -14,7 +14,9 @@ import {
 } from '../../shared';
 
 import { SecurityGroup } from '../../security-group/sg.model';
-import { ServiceOfferingDialogComponent } from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
+import {
+  ServiceOfferingDialogComponent
+} from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
 import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
 import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
