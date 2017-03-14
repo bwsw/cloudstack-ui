@@ -26,6 +26,26 @@
       </a>
 
       <a
+        (click)="componentSelected(mainLayout)"
+        class="mdl-navigation__link link-container"
+        routerLink="/spare-drives"
+        routerLinkActive="link-active"
+      >
+        <mdl-icon class="link-element">dns</mdl-icon>
+        <div class="link-element" [innerHTML]="'SPARE_DRIVES_NAVBAR' | translate"></div>
+      </a>
+
+      <a
+        (click)="componentSelected(mainLayout)"
+        class="mdl-navigation__link link-container"
+        routerLink="/templates"
+        routerLinkActive="link-active"
+      >
+        <span class="link-element disc-icon"></span>
+        <div class="link-element" [innerHTML]="'IMAGES' | translate"></div>
+      </a>
+
+      <a
         *ngIf="!disableSecurityGroups"
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
@@ -39,31 +59,11 @@
       <a
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
-        routerLink="/templates"
-        routerLinkActive="link-active"
-      >
-        <span class="link-element disc-icon"></span>
-        <div class="link-element" [innerHTML]="'TEMPLATES_ISO' | translate"></div>
-      </a>
-
-      <a
-        (click)="componentSelected(mainLayout)"
-        class="mdl-navigation__link link-container"
-        routerLink="/spare-drives"
-        routerLinkActive="link-active"
-      >
-        <mdl-icon class="link-element">dns</mdl-icon>
-        <div class="link-element" [innerHTML]="'SPARE_DRIVES_NAVBAR' | translate"></div>
-      </a>
-
-      <a
-        (click)="componentSelected(mainLayout)"
-        class="mdl-navigation__link link-container"
         routerLink="/events"
         routerLinkActive="link-active"
       >
         <mdl-icon>event_note</mdl-icon>
-        <div class="link-element" [innerHTML]="'EVENTS' | translate"></div>
+        <div class="link-element" [innerHTML]="'ACTIVITY_LOG' | translate"></div>
       </a>
 
       <a
