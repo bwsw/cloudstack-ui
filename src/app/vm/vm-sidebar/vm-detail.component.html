@@ -114,11 +114,11 @@
       <div class="grid security-group">
         <div class="row">
           <div>{{ 'INGRESS' | translate }}</div>
-          <div>{{ vm.securityGroup[0].ingressRules.length }}</div>
+          <div>{{ vm.securityGroup[0]?.ingressRules.length }}</div>
         </div>
         <div class="row">
           <div>{{ 'EGRESS' | translate}}</div>
-          <div>{{ vm.securityGroup[0].egressRules.length }}</div>
+          <div>{{ vm.securityGroup[0]?.egressRules.length }}</div>
         </div>
       </div>
     </mdl-card-supporting-text>
