@@ -6,7 +6,7 @@
 mdl-textfield {
   /deep/ .mdl-textfield__input,
   /deep/ .mdl-textfield__label {
-    text-align: right;
+    text-align: left;
   }
 
   &.cidr {

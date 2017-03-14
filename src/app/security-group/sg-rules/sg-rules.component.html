@@ -6,7 +6,7 @@
     <table class="mdl-data-table">
       <thead>
       <tr>
-        <th>{{ 'TYPE' | translate }}</th>
+        <th class="mdl-data-table__cell--non-numeric">{{ 'TYPE' | translate }}</th>
         <th>{{ 'PROTOCOL' | translate }}</th>
         <template [ngIf]="protocol !== 'ICMP'">
           <th>{{ 'START_PORT' | translate }}</th>
@@ -16,13 +16,13 @@
           <th>{{ 'ICMP_TYPE' | translate }}</th>
           <th>{{ 'ICMP_CODE' | translate }}</th>
         </template>
-        <th>CIDR</th>
+        <th class="mdl-data-table__cell--non-numeric">CIDR</th>
         <th></th>
       </tr>
       </thead>
       <tbody>
       <tr *ngIf="!securityGroup.isPredefinedTemplate()">
-        <td>
+        <td class="mdl-data-table__cell--non-numeric">
           <mdl-select class="type" [(ngModel)]="type" name="type">
             <mdl-option [value]="'Ingress'">{{ 'INGRESS' | translate }}</mdl-option>
             <mdl-option [value]="'Egress'">{{ 'EGRESS' | translate }}</mdl-option>

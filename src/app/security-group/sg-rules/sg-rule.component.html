@@ -1,4 +1,4 @@
-<td>{{ type.toUpperCase() | translate }}</td>
+<td class="mdl-data-table__cell--non-numeric">{{ type.toUpperCase() | translate }}</td>
 <td>{{ rule.protocol.toUpperCase() }}</td>
 <template [ngIf]="rule.protocol.toUpperCase() === 'ICMP'">
   <td>{{ rule.icmpType }}</td>
@@ -8,7 +8,7 @@
   <td>{{ rule.startPort }}</td>
   <td>{{ rule.endPort }}</td>
 </template>
-<td>{{ rule.CIDR }}</td>
+<td class="mdl-data-table__cell--non-numeric">{{ rule.CIDR }}</td>
 <td>
   <button
     class="delete-rule-button"
