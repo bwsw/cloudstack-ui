@@ -10,7 +10,7 @@
           "protocol": "TCP",
           "startPort": 1,
           "endPort": 65535,
-          "CIDR": "0.0.0.0/16"
+          "CIDR": "0.0.0.0/0"
         }
       ],
       "egressRules": [
@@ -19,7 +19,7 @@
           "protocol": "TCP",
           "startPort": 1,
           "endPort": 65535,
-          "CIDR": "0.0.0.0/16"
+          "CIDR": "0.0.0.0/0"
         }
       ]
     },
@@ -33,7 +33,7 @@
           "protocol": "UDP",
           "startPort": 1,
           "endPort": 65535,
-          "CIDR": "0.0.0.0/16"
+          "CIDR": "0.0.0.0/0"
         }
       ],
       "egressRules": [
@@ -42,7 +42,7 @@
           "protocol": "UDP",
           "startPort": 1,
           "endPort": 65535,
-          "CIDR": "0.0.0.0/16"
+          "CIDR": "0.0.0.0/0"
         }
       ]
     },
@@ -56,7 +56,7 @@
           "icmpCode": -1,
           "icmpType": -1,
           "protocol": "ICMP",
-          "CIDR": "0.0.0.0/16"
+          "CIDR": "0.0.0.0/0"
         }
       ],
       "egressRules": [
@@ -65,7 +65,7 @@
           "icmpCode": -1,
           "icmpType": -1,
           "protocol": "ICMP",
-          "CIDR": "0.0.0.0/16"
+          "CIDR": "0.0.0.0/0"
         }
       ]
     }
