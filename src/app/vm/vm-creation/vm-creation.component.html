@@ -37,6 +37,16 @@
           </div>
         </div>
 
+        <div>
+          <h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>
+          <cs-service-offering-selector
+            *ngIf="zoneId"
+            [zoneId]="zoneId"
+            name="serviceOffering"
+            [ngModel]="vmCreationData.vm.serviceOfferingId"
+            (ngModelChange)="setServiceOffering($event)"
+          ></cs-service-offering-selector>
+        </div>
         <div class="dialog-select-wrapper">
           <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.INSTALLATION_SOURCE' | translate }}</h5>
           <cs-vm-creation-template
@@ -46,23 +56,16 @@
             (selectedOut)="onTemplateChange($event)"
           ></cs-vm-creation-template>
         </div>
-        <div>
-          <h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>
-          <cs-service-offering-selector
-            *ngIf="zoneId"
-            [zoneId]="zoneId"
-            (ngModelChange)="setServiceOffering($event)"
-          ></cs-service-offering-selector>
-        </div>
-        <div>
+        <div *ngIf="!templateSelected">
           <h5>{{ 'DISK_OFFERING' | translate }}</h5>
-          <cs-disk-offering *ngIf="zoneId"
+          <cs-disk-offering
+            *ngIf="zoneId"
             [zoneId]="zoneId"
             (offeringUpdated)="updateDiskOffering($event)"
           ></cs-disk-offering>
         </div>
         <cs-volume-size-control
-          *ngIf="showRootDiskResize"
+          *ngIf="templateSelected || showRootDiskResize"
           [min]="vmCreationData.rootDiskSizeMin"
           [max]="vmCreationData.rootDiskSizeLimit"
           name="rds"
@@ -73,7 +76,10 @@
 
         <h5>{{ 'VM_CREATION_FORM.GROUP' | translate }}</h5>
         <div *ngIf="vmCreationData.instanceGroups">
-          <mdl-autocomplete [options]="vmCreationData.instanceGroups"(change)="setGroup($event)"></mdl-autocomplete>
+          <mdl-autocomplete
+            [options]="vmCreationData.instanceGroups"
+            (change)="setGroup($event)"
+          ></mdl-autocomplete>
         </div>
 
         <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
