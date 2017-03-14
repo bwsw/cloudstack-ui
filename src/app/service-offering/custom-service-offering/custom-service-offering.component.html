@@ -1,5 +1,5 @@
 <h3 class="mdl-dialog__title">{{ 'CUSTOM_SERVICE_OFFERING' | translate }}</h3>
-<form (ngSubmit)="onSubmit($event)" #templateCreationForm="ngForm">
+<form (ngSubmit)="onSubmit($event)" #customOfferingForm="ngForm">
   <div class="mdl-dialog__content">
     <h5>{{ 'SERVICE_OFFERING_FIELDS.cpuNumber' | translate }}</h5>
     <mdl-textfield
@@ -34,7 +34,7 @@
       [max]="restrictions.memory.max"
       [(ngModel)]="offering.memory"
       [isLogarithmic]="false"
-      [units]="'GB' | translate"
+      [units]="'MB' | translate"
     ></cs-slider>
   </div>
   <div class="mdl-dialog__actions">
@@ -43,7 +43,7 @@
       mdl-button
       mdl-ripple
       type="submit"
-      [disabled]="!templateCreationForm.valid"
+      [disabled]="!customOfferingForm.valid"
     >
       {{ 'CONFIRM' | translate }}
     </button>

@@ -109,6 +109,7 @@
   "PRIMARY_(STORAGE)": "Основное",
   "SECONDARY_(STORAGE)": "Дополнительное",
   "GB": "GB",
+  "MB": "MB",
   "GHZ": "ГГц",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "Загружено CPU",

@@ -72,19 +72,18 @@ export abstract class BaseBackendService<M extends BaseModel> {
         continue;
       }
 
-      if (Array.isArray(params[key])) {
-        let result = this.breakParamsArray(params, key);
-        for (let param in result) {
-          if (!result.hasOwnProperty(param)) {
-            continue;
-          }
-
-          urlParams.set(param, result[param]);
-        }
+      if (!Array.isArray(params[key])) {
+        urlParams.set(key.toLowerCase(), params[key]);
         continue;
       }
 
-      urlParams.set(key.toLowerCase(), params[key]);
+      let result = this.breakParamsArray(params, key);
+      for (let param in result) {
+        if (!result.hasOwnProperty(param)) {
+          continue;
+        }
+        urlParams.set(param, result[param]);
+      }
     }
 
     urlParams.set('response', 'json');

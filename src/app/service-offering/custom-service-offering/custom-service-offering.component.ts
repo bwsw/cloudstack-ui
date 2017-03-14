@@ -43,12 +43,16 @@ export class CustomServiceOfferingComponent implements OnInit {
 
   public ngOnInit(): void {
     if (this.zoneId == null) {
-      throw new Error('Attribute \zoneId\' is required');
+      throw new Error('Attribute \'zoneId\' is required');
     }
 
     this.configService.get('customOfferingRestrictions')
       .subscribe((restrictions: CustomOfferingRestrictions) => {
-        this.restrictions = restrictions[this.zoneId];
+        try {
+          this.restrictions = restrictions[this.zoneId];
+        } catch (e) {
+          throw new Error('Custom offering settings must be specified. Contact your administrator.');
+        }
         this.offering = new CustomServiceOffering(
           this.restrictions.cpuNumber.min,
           this.restrictions.cpuSpeed.min,

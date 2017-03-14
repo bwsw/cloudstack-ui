@@ -21,5 +21,5 @@
   step="0.0001"
   mdl-tooltip-position="top"
   [ngModel]="sliderValue"
-  (ngModelChange)="isLogarithmic ? onVolumeChangeExp($event) : onVolumeChange($event)"
+  (ngModelChange)="handleSliderChange($event)"
 ></mdl-slider>

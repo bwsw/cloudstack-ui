@@ -66,6 +66,10 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
     return this.max;
   }
 
+  public handleSliderChange(event: number): void {
+    this.isLogarithmic ? this.onVolumeChangeExp(event) : this.onVolumeChange(event);
+  }
+
   public writeValue(value): void {
     if (value) {
       this.size = value;

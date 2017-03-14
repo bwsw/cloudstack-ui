@@ -364,13 +364,11 @@ export class VmCreationComponent implements OnInit {
     };
 
     if (this.vmCreationData.customServiceOffering) {
-      let details = [];
-      details.push({
+      params['details'] = [{
         cpuNumber: this.vmCreationData.customServiceOffering.cpuNumber,
         cpuSpeed: this.vmCreationData.customServiceOffering.cpuSpeed,
         memory: this.vmCreationData.customServiceOffering.memory
-      });
-      params['details'] = details;
+      }];
     }
 
     if (this.vmCreationData.vm.displayName) {

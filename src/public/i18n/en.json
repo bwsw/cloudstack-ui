@@ -109,6 +109,7 @@
   "PRIMARY_(STORAGE)": "Primary",
   "SECONDARY_(STORAGE)": "Secondary",
   "GB": "GB",
+  "MB": "MB",
   "GHZ": "GHz",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "CPU utilized",
