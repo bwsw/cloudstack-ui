@@ -1,5 +1,4 @@
-import { Component, Input, forwardRef, OnChanges, SimpleChanges, OnInit } from '@angular/core';
-import { ServiceOfferingFilterService } from '../shared/services/service-offering-filter.service';
+import { Component, Input, forwardRef, SimpleChanges } from '@angular/core';
 import { ServiceOffering } from '../shared/models/service-offering.model';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -15,16 +14,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     }
   ]
 })
-export class ServiceOfferingSelectorComponent implements ControlValueAccessor, OnChanges, OnInit {
-  @Input() public zoneId: string;
-  public serviceOfferings: Array<ServiceOffering>;
+export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
+  @Input() public serviceOfferings: Array<ServiceOffering>;
   private _serviceOffering: string;
-
-  constructor(private serviceOfferingFilterService: ServiceOfferingFilterService) { }
-
-  public ngOnInit(): void {
-    this.fetchData({ zoneId: this.zoneId });
-  }
 
   public propagateChange: any = () => {};
 
@@ -50,22 +42,16 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor, O
   public registerOnTouched(): void { }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (!('zoneId' in changes)) {
-      return;
+    if ('serviceOfferings' in changes) {
+      const offerings = changes['serviceOfferings'].currentValue;
+      if (!offerings) {
+        return;
+      }
+      if (offerings.length) {
+        this.serviceOffering = offerings[0].id;
+      } else {
+        this.serviceOffering = null;
+      }
     }
-    const change = changes['zoneId'];
-    if (change.currentValue !== change.previousValue) {
-      this.fetchData({ zoneId: this.zoneId });
-    }
-  }
-
-  private fetchData(params?: {}): void {
-    this.serviceOfferingFilterService.getAvailable(params)
-      .subscribe(availableOfferings => {
-        this.serviceOfferings = availableOfferings;
-        if (this.serviceOfferings.length) {
-          this.serviceOffering = this.serviceOfferings[0].id;
-        }
-      });
   }
 }

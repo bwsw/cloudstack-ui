@@ -50,7 +50,9 @@
           <h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>
           <cs-service-offering-selector
             *ngIf="zoneId"
-            [zoneId]="zoneId"
+            name="serviceOffering"
+            [serviceOfferings]="vmCreationData.serviceOfferings"
+            [ngModel]="vmCreationData.vm.serviceOfferingId"
             (ngModelChange)="setServiceOffering($event)"
           ></cs-service-offering-selector>
         </div>
