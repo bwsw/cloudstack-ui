@@ -4,6 +4,7 @@
 <div class="mdl-dialog__content">
   <cs-service-offering-selector
     class="service-offering-selector"
+    [zoneId]="virtualMachine.zoneId"
     [(ngModel)]="serviceOfferingId"
   ></cs-service-offering-selector>
   <div

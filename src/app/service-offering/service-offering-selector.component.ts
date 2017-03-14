@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, forwardRef, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { ServiceOfferingFilterService } from '../shared/services/service-offering-filter.service';
 import { ServiceOffering } from '../shared/models/service-offering.model';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -15,12 +15,16 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     }
   ]
 })
-export class ServiceOfferingSelectorComponent implements ControlValueAccessor, OnChanges {
+export class ServiceOfferingSelectorComponent implements ControlValueAccessor, OnChanges, OnInit {
   @Input() public zoneId: string;
   public serviceOfferings: Array<ServiceOffering>;
   private _serviceOffering: string;
 
   constructor(private serviceOfferingFilterService: ServiceOfferingFilterService) { }
+
+  public ngOnInit(): void {
+    this.fetchData({ zoneId: this.zoneId });
+  }
 
   public propagateChange: any = () => {};
 
@@ -46,10 +50,17 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor, O
   public registerOnTouched(): void { }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (!changes['zoneId']) {
+    if (!('zoneId' in changes)) {
       return;
     }
-    this.serviceOfferingFilterService.getAvailable({ zoneId: this.zoneId })
+    const change = changes['zoneId'];
+    if (change.currentValue !== change.previousValue) {
+      this.fetchData({ zoneId: this.zoneId });
+    }
+  }
+
+  private fetchData(params?: {}): void {
+    this.serviceOfferingFilterService.getAvailable(params)
       .subscribe(availableOfferings => {
         this.serviceOfferings = availableOfferings;
         if (this.serviceOfferings.length) {

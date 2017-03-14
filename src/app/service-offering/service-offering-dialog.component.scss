@@ -1,5 +1,5 @@
 /deep/ .service-offering-dialog {
-  overflow: visible; /* so that the dialog window doesn't cut the SO dropdown */
+  overflow: visible !important; /* so that the dialog window doesn't cut the SO dropdown */
   width: 400px;
   padding: 11.7px;
 }
