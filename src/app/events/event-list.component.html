@@ -11,7 +11,7 @@
   ></cs-date-picker>
   <mdl-select
     [(ngModel)]="selectedLevels"
-    (ngModelChange)="filterEvents()"
+    (change)="filterEvents()"
     multiple="true"
     placeholder="Levels"
   >
