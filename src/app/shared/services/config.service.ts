@@ -13,11 +13,27 @@ export class ConfigService {
 
   constructor(private http: Http) { }
 
-  public get(key: string): Observable<any> {
-    if (this.config) {
-      return Observable.of(this.config[key]);
+  public get(key: string | Array<string>): Observable<any> {
+    if (Array.isArray(key)) {
+      // if (this.config) {
+      //   let result = [];
+      //
+      //   for (let k in this.config) {
+      //     if ((this.config as Object).hasOwnProperty(k)) {
+      //       result.push(this.config[k]);
+      //     }
+      //   }
+      //
+      //   return Observable.of(result);
+      // } else {
+      //   return this.load().map(() => this.config[key]);
+      // }
     } else {
-      return this.load().map(() => this.config[key]);
+      if (this.config) {
+        return Observable.of(this.config[key]);
+      } else {
+        return this.load().map(() => this.config[key]);
+      }
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Response } from '@angular/http';
 
 import { AuthService } from './shared/services';
@@ -12,6 +12,8 @@ import { MdlLayoutComponent } from 'angular2-mdl';
 import '../style/app.scss';
 import { StyleService } from './shared/services/style.service';
 import { ZoneService } from './shared/services/zone.service';
+import { Color } from './shared/models/color.model';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
 
 @Component({
@@ -20,12 +22,16 @@ import { ZoneService } from './shared/services/zone.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  @ViewChild('settingsLink') public settingsLink: ElementRef;
   public loggedIn: boolean;
   public title: string;
   public disableSecurityGroups = false;
 
+  public themeColor: Color;
+
   constructor(
     private auth: AuthService,
+    private domSanitizer: DomSanitizer,
     private router: Router,
     private translate: TranslateService,
     private error: ErrorService,
@@ -54,6 +60,37 @@ export class AppComponent implements OnInit {
           .subscribe(basic => this.disableSecurityGroups = basic);
       }
     });
+  }
+
+  public ngAfterViewInit(): void {
+    this.styleService.paletteUpdates.subscribe(color => {
+      this.themeColor = color;
+      if (this.settingsLink) {
+        if (this.isLightTheme) {
+          this.settingsLink.nativeElement.classList.remove('link-active-dark', 'link-hover-dark');
+        } else {
+          this.settingsLink.nativeElement.classList.remove('link-active-light', 'link-hover-dark');
+        }
+      }
+    });
+  }
+
+  public get drawerStyles(): SafeStyle {
+    return this.domSanitizer.bypassSecurityTrustStyle(
+      `background-color: ${this.themeColor.value} !important;
+       color: ${this.themeColor.textColor} !important`,
+    );
+  }
+
+  public get linkActiveStyle(): string {
+    return this.isLightTheme ? 'link-active-light' : 'link-active-dark';
+  }
+
+  private get isLightTheme(): boolean {
+    if (!this.themeColor) {
+      return false;
+    }
+    return this.themeColor.textColor === '#FFFFFF';
   }
 
   private updateAccount(loggedIn: boolean): void {
