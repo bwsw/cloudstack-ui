@@ -1,10 +1,10 @@
 <h3 class="mdl-dialog__title">
   {{ "CHOOSE_SERVICE_OFFERING" | translate }}
 </h3>
-<div class="mdl-dialog__content">
+<div class="mdl-dialog__content" *loading="!serviceOfferings">
   <cs-service-offering-selector
     class="service-offering-selector"
-    [zoneId]="virtualMachine.zoneId"
+    [serviceOfferings]="serviceOfferings"
     [(ngModel)]="serviceOfferingId"
   ></cs-service-offering-selector>
   <div

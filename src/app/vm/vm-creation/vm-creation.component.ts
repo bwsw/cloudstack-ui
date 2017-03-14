@@ -293,15 +293,25 @@ export class VmCreationComponent implements OnInit {
   }
 
   public set zoneId(id: string) {
+    if (this.zoneId === id) {
+      return;
+    }
     this.vmCreationData.vm.zoneId = id;
     this.changeDetectorRef.detectChanges();
     if (this.vmCreationData && this.vmCreationData.zones) {
       this.showSecurityGroups = !this.vmCreationData.zones.find(zone => zone.id === id).networkTypeIsBasic;
+
+      this.vmCreationData.serviceOfferings = [];
+      this.vmCreationData.vm.serviceOfferingId = null;
+      this.vmCreationData.diskOfferings = [];
+      this.selectedDiskOffering = null;
+      this.changeDetectorRef.detectChanges();
+
       Observable.forkJoin([
         this.serviceOfferingFilterService.getAvailable({ zoneId: id }),
         this.diskOfferingService.getList({ zoneId: id })
       ])
-        .map(([serviceOfferings, diskOfferings]) => {
+        .subscribe(([serviceOfferings, diskOfferings]) => {
           this.vmCreationData.serviceOfferings = serviceOfferings;
           this.vmCreationData.diskOfferings = diskOfferings;
           this.changeDetectorRef.detectChanges();
@@ -349,7 +359,9 @@ export class VmCreationComponent implements OnInit {
           this.affinityGroupService.getList(),
           this.sshService.getList(),
           this.templateService.getDefault(),
-          this.instanceGroupService.getList()
+          this.instanceGroupService.getList(),
+          this.serviceOfferingFilterService.getAvailable({ zoneId: this.zoneId }),
+          this.diskOfferingService.getList({ zoneId: this.zoneId })
         ]);
       })
       .map(([
@@ -357,13 +369,17 @@ export class VmCreationComponent implements OnInit {
         affinityGroups,
         sshKeyPairs,
         template,
-        instanceGroups
+        instanceGroups,
+        serviceOfferings,
+        diskOfferings
       ]) => {
         vmCreationData.rootDiskSizeLimit = rootDiskSizeLimit;
         vmCreationData.affinityGroups = affinityGroups;
         vmCreationData.sshKeyPairs = sshKeyPairs;
         vmCreationData.vm.template = template;
         vmCreationData.instanceGroups = instanceGroups.map(group => group.name);
+        vmCreationData.serviceOfferings = serviceOfferings;
+        vmCreationData.diskOfferings = diskOfferings;
 
         if (rootDiskSizeLimit === -1) {
           vmCreationData.rootDiskSizeLimit = MAX_ROOT_DISK_SIZE_ADMIN;

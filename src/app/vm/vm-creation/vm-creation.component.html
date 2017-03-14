@@ -41,12 +41,13 @@
           <h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>
           <cs-service-offering-selector
             *ngIf="zoneId"
-            [zoneId]="zoneId"
             name="serviceOffering"
+            [serviceOfferings]="vmCreationData.serviceOfferings"
             [ngModel]="vmCreationData.vm.serviceOfferingId"
             (ngModelChange)="setServiceOffering($event)"
           ></cs-service-offering-selector>
         </div>
+
         <div class="dialog-select-wrapper">
           <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.INSTALLATION_SOURCE' | translate }}</h5>
           <cs-vm-creation-template
@@ -56,6 +57,7 @@
             (selectedOut)="onTemplateChange($event)"
           ></cs-vm-creation-template>
         </div>
+
         <div *ngIf="!templateSelected">
           <h5>{{ 'DISK_OFFERING' | translate }}</h5>
           <cs-disk-offering
