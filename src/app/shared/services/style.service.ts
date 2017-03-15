@@ -5,9 +5,6 @@ import { ConfigService } from './config.service';
 import { Subject } from 'rxjs';
 
 
-const STANDARD_PRIMARY = { name: 'indigo', value: '#3F51B5' };
-const STANDARD_ACCENT = { name: 'pink', value: '#FF4081' };
-
 @Injectable()
 export class StyleService {
   public styleElement: HTMLLinkElement;
@@ -21,13 +18,16 @@ export class StyleService {
   public loadPalette(): void {
     this.initStyleSheet();
 
-    this.configService.get('themeColors')
-      .subscribe(themeColors => {
-        let primaryColorName = this.storageService.read('primaryColor');
-        let accentColorName = this.storageService.read('accentColor');
+    this.configService.get([
+      'themeColors',
+      'defaultTheme'
+    ])
+      .subscribe(([themeColors, defaultTheme]) => {
+        let primaryColorName = this.storageService.read('primaryColor') || defaultTheme.primaryColor;
+        let accentColorName = this.storageService.read('accentColor')  || defaultTheme.accentColor;
 
-        let primaryColor = themeColors.find(color => color.name === primaryColorName)  || STANDARD_PRIMARY;
-        let accentColor = themeColors.find(color => color.name === accentColorName) || STANDARD_ACCENT;
+        let primaryColor = themeColors.find(color => color.name === primaryColorName);
+        let accentColor = themeColors.find(color => color.name === accentColorName);
 
         this.updatePalette(primaryColor, accentColor);
       });

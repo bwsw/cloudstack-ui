@@ -7,6 +7,7 @@ import { VmListComponent } from './vm/vm-list/vm-list.component';
 import { EventListComponent } from './events/event-list.component';
 import { SpareDrivePageComponent } from './spare-drive/spare-drive-page/spare-drive-page.component';
 import { SettingsComponent } from './settings/settings.component';
+import { AuthGuard } from './shared/services/auth-guard.service';
 
 
 const routes: Routes = [
@@ -36,7 +37,8 @@ const routes: Routes = [
   },
   {
     path: 'settings',
-    component: SettingsComponent
+    component: SettingsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: '**',
