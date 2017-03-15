@@ -2,7 +2,8 @@ import {
   Component,
   Input,
   OnChanges,
-  OnInit
+  OnInit,
+  SimpleChanges
 } from '@angular/core';
 
 import { MdlDialogService } from 'angular2-mdl';
@@ -45,14 +46,17 @@ export class VmDetailComponent implements OnInit, OnChanges {
     this.expandServiceOffering = false;
   }
 
-  public ngOnChanges(): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     this.updateColor();
+
+    if ('vm' in changes) {
+      this.checkSecurityGroupDisabled();
+    }
   }
 
   public ngOnInit(): void {
     this.updateColor();
-    this.zoneService.get(this.vm.zoneId)
-      .subscribe(zone => this.disableSecurityGroup = zone.networkTypeIsBasic);
+    this.checkSecurityGroupDisabled();
   }
 
   public changeColor(color: Color): void {
@@ -118,5 +122,10 @@ export class VmDetailComponent implements OnInit, OnChanges {
 
   private updateColor(): void {
     this.color = this.vmService.getColor(this.vm);
+  }
+
+  private checkSecurityGroupDisabled(): void {
+    this.zoneService.get(this.vm.zoneId)
+      .subscribe(zone => this.disableSecurityGroup = zone.networkTypeIsBasic);
   }
 }
