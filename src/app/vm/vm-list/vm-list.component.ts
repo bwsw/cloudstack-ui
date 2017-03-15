@@ -21,6 +21,8 @@ import {
   Zone
 } from '../../shared';
 
+import { ListService } from '../../shared/components/list/list.service';
+
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import { VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListSection } from './vm-list-section/vm-list-section.component';
@@ -38,7 +40,8 @@ const askToCreateVm = 'askToCreateVm';
 @Component({
   selector: 'cs-vm-list',
   templateUrl: 'vm-list.component.html',
-  styleUrls: ['vm-list.component.scss']
+  styleUrls: ['vm-list.component.scss'],
+  providers: [ListService]
 })
 export class VmListComponent implements OnInit {
   @ViewChild(VmStatisticsComponent) public vmStats: VmStatisticsComponent;
@@ -63,6 +66,7 @@ export class VmListComponent implements OnInit {
   private vmList: Array<VirtualMachine>;
 
   constructor (
+    private listService: ListService,
     private vmService: VmService,
     private dialogService: MdlDialogService,
     private translateService: TranslateService,
@@ -81,6 +85,7 @@ export class VmListComponent implements OnInit {
     this.subscribeToVmDestroyed();
     this.subscribeToSnapshotAdded();
     this.subscribeToVmDestroyed();
+    this.subscribeToVmCreationDialog();
   }
 
   public get anyFilteringResults(): boolean {
@@ -279,6 +284,10 @@ export class VmListComponent implements OnInit {
         });
       }
     });
+  }
+
+  private subscribeToVmCreationDialog(): void {
+    this.listService.onAction.subscribe(() => this.showVmCreationDialog());
   }
 
   private showSuggestionDialog(): void {
