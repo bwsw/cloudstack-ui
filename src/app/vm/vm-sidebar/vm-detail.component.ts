@@ -9,7 +9,6 @@ import {
 import { MdlDialogService } from 'angular2-mdl';
 
 import {
-  AsyncJobService,
   Tag,
   TagService
 } from '../../shared';
@@ -36,7 +35,6 @@ export class VmDetailComponent implements OnInit, OnChanges {
   private expandServiceOffering: boolean;
 
   constructor(
-    private asyncJobService: AsyncJobService,
     private dialogService: MdlDialogService,
     private tagService: TagService,
     private vmService: VmService,
@@ -88,7 +86,6 @@ export class VmDetailComponent implements OnInit, OnChanges {
       'tags[0].key': 'color',
       'tags[0].value': oldTag.value || ''
     })
-      .switchMap(job => this.asyncJobService.register(job))
       .map(() => {
         this.vm.tags = this.vm.tags.filter(tag => tag.key !== oldTag.key);
       })

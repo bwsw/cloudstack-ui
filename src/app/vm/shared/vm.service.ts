@@ -117,7 +117,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return this.sendCommand('deploy', params);
   }
 
-  public resubscribe(): Observable<Array<Observable<AsyncJob>>> {
+  public resubscribe(): Observable<Array<Observable<AsyncJob<VirtualMachine>>>> {
     return this.asyncJobService.getList().map(jobs => {
       let filteredJobs = jobs.filter(job => !job.jobStatus && job.cmd);
       let observables = [];
@@ -177,7 +177,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       })
       .subscribe(
         () => {
-          this.command(e).subscribe((job: AsyncJob) => {
+          this.command(e).subscribe((job: AsyncJob<VirtualMachine>) => {
             if (job && job.jobResult && job.jobResult.state === 'Destroyed') {
               e.vm.volumes
                 .filter(volume => volume.type === 'DATADISK')
@@ -205,7 +205,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
     if (e.vm.state === 'Stopped') {
       this.command(e)
-        .subscribe((job: AsyncJob) => {
+        .subscribe((job: AsyncJob<VirtualMachine>) => {
           if (job && job.jobResult && job.jobResult.password) {
             showDialog(job.jobResult.displayName, job.jobResult.password);
           }
@@ -224,7 +224,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
       this.command(stop)
         .switchMap(() => this.command(e))
-        .map((job: AsyncJob) => {
+        .map((job: AsyncJob<VirtualMachine>) => {
           if (job && job.jobResult && job.jobResult.password) {
             showDialog(job.jobResult.displayName, job.jobResult.password);
           }
@@ -235,7 +235,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public registerVmJob(job: any): Observable<any> {
-    return this.asyncJobService.register(job, this.entity, this.entityModel);
+    return this.asyncJobService.queryJob(job, this.entity, this.entityModel);
   }
 
   public getListOfVmsThatUseIso(iso: Iso): Observable<Array<VirtualMachine>> {

@@ -18,7 +18,7 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
     super();
   }
 
-  public create(volumeId: string, name?: string): Observable<AsyncJob> {
+  public create(volumeId: string, name?: string): Observable<AsyncJob<Snapshot>> {
     this.invalidateCache();
     let params = {};
 
@@ -29,18 +29,12 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
     }
 
     return this.sendCommand('create', params)
-      .switchMap(job => this.asyncJobService.register(job, this.entity, this.entityModel));
+      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel));
   }
 
   public remove(id: string): Observable<any> {
     return this.sendCommand('delete', { id })
-      .switchMap(job => this.asyncJobService.addJob(job.jobid))
-      .switchMap(jobResult => {
-        if (jobResult.jobStatus === 2) {
-          return Observable.throw(jobResult.jobResult.errortext);
-        }
-        return Observable.of(null);
-      });
+      .switchMap(job => this.asyncJobService.queryJob(job.jobid));
   }
 
   public getList(volumeId?: string): Observable<Array<Snapshot>> {

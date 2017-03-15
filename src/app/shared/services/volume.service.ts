@@ -69,8 +69,7 @@ export class VolumeService extends BaseBackendService<Volume> {
     params['id'] = id;
 
     return this.sendCommand('resize', params)
-      .switchMap(job => this.asyncJobService.register(job, this.entity, this.entityModel))
-      .map(job => job.jobResult);
+      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel));
   }
 
   public remove(id: string): Observable<null> {
@@ -85,21 +84,20 @@ export class VolumeService extends BaseBackendService<Volume> {
 
   public create(data: VolumeCreationData): Observable<Volume> {
     return this.sendCommand('create', data)
-      .switchMap(job => this.asyncJobService.register(job.jobid, this.entity, this.entityModel))
-      .map(job => job.jobResult);
+      .switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel));
   }
 
   public detach(id: string): Observable<null> {
     return this.sendCommand('detach', { id })
-      .switchMap(job => this.asyncJobService.register(job, this.entity, this.entityModel));
+      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel));
   }
 
   public attach(data: VolumeAttachmentData): Observable<Volume> {
     return this.sendCommand('attach', data)
-      .switchMap(job => this.asyncJobService.register(job.jobid, this.entity, this.entityModel))
-      .map(job => {
-        this.onVolumeAttached.next(job.jobResult);
-        return job.jobResult;
+      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
+      .map(jobResult => {
+        this.onVolumeAttached.next(jobResult); // todo
+        return jobResult;
       });
   }
 
@@ -109,8 +107,7 @@ export class VolumeService extends BaseBackendService<Volume> {
       resourceType: this.entity,
       'tags[0].key': deletionMark,
       'tags[0].value': 'true',
-    })
-      .switchMap(tagJob => this.asyncJobService.addJob(tagJob.jobid));
+    });
   }
 
   public removeMarkedVolumes(): void {
