@@ -291,7 +291,10 @@ module.exports = function makeWebpackConfig() {
       new OptimizeCssAssetsPlugin({
         assetNameRegExp: /\.css$/g,
         cssProcessor: require('cssnano'),
-        cssProcessorOptions: { discardComments: {removeAll: true } },
+        cssProcessorOptions: {
+          discardComments: {removeAll: true },
+          safe: true
+        },
         canPrint: true
       })
     );
