@@ -1,11 +1,13 @@
-<cs-template-filter-list
-  [(selectedTemplate)]="selectedTemplate"
-  [(viewMode)]="viewMode"
-  cs-list
-></cs-template-filter-list>
+<cs-list>
+  <cs-template-filter-list
+    [(selectedTemplate)]="selectedTemplate"
+    [(viewMode)]="viewMode"
+    cs-list
+  ></cs-template-filter-list>
 
-<cs-template-sidebar
-  [template]="selectedTemplate"
-  (deleteTemplate)="removeTemplate($event)"
-  cs-sidebar
-></cs-template-sidebar>
+  <cs-template-sidebar
+    [template]="selectedTemplate"
+    (deleteTemplate)="removeTemplate($event)"
+    cs-sidebar
+  ></cs-template-sidebar>
+</cs-list>

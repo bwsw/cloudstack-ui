@@ -33,7 +33,7 @@ export interface VolumeCreationData {
 })
 export class SpareDrivePageComponent implements OnInit {
   public volumes: Array<Volume>;
-  public _selectedVolume: Volume;
+  public selectedVolume: Volume;
 
   @HostBinding('class.detail-list-container') public detailListContainer = true;
 
@@ -73,20 +73,6 @@ export class SpareDrivePageComponent implements OnInit {
     });
   }
 
-  public get selectedVolume(): Volume {
-    return this._selectedVolume;
-  }
-
-  public set selectedVolume(volume: Volume) {
-    this._selectedVolume = volume;
-    // this.isDetailOpen = true;
-  }
-
-  public hideDetail(): void {
-    // this.isDetailOpen = !this.isDetailOpen;
-    this._selectedVolume = null;
-  }
-
   public showRemoveDialog(volume: Volume): void {
     this.translateService.get([
       'YES',
@@ -123,7 +109,7 @@ export class SpareDrivePageComponent implements OnInit {
             return listVolume.id !== volume.id;
           });
           if (this.selectedVolume && this.selectedVolume.id === volume.id) {
-            // this.isDetailOpen = false;
+            this.listService.onDeselected.next();
           }
           this.jobsNotificationService.add({
             id: notificationId,
