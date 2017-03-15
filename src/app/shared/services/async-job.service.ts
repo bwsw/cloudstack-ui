@@ -7,7 +7,13 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
 
 
 interface IJobObservables {
-  [id: string]: Subject<AsyncJob | void>;
+  [id: string]: Subject<AsyncJob<any> | void>;
+}
+
+const enum JobStatus {
+  InProgress,
+  Completed,
+  Failed
 }
 
 @Injectable()
@@ -15,8 +21,8 @@ interface IJobObservables {
   entity: 'AsyncJob',
   entityModel: AsyncJob
 })
-export class AsyncJobService extends BaseBackendService<AsyncJob> {
-  public event: Subject<AsyncJob>;
+export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
+  public event: Subject<AsyncJob<any>>;
   public pollingInterval: number;
   public immediatePollingInterval: number;
   public poll: boolean;
@@ -28,11 +34,11 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
     this.pollingInterval = 2000;
     this.immediatePollingInterval = 100;
     this.jobObservables = {};
-    this.event = new Subject<AsyncJob>();
+    this.event = new Subject<AsyncJob<any>>();
   }
 
-  public addJob(id: string): Observable<AsyncJob> {
-    let observable = new Subject<AsyncJob>();
+  public addJob(id: string): Observable<AsyncJob<any>> {
+    let observable = new Subject<AsyncJob<any>>();
     this.jobObservables[id] = observable;
     this.startPolling();
     return observable;
@@ -64,10 +70,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
   }
 
   public register(job: any, entity = '', entityModel: any = null): Observable<any> {
-    let jobId = job.jobId || job.jobid || job;
-    if (typeof jobId !== 'string') {
-      throw new Error('Unsupported job format');
-    }
+    let jobId = this.getJobId(job);
     return this.addJob(jobId)
       .map(result => {
         let entityResponse = result.jobResult[entity.toLowerCase()];
@@ -85,6 +88,33 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
       });
   }
 
+  public queryJob(job: any, entity = '', entityModel: any = null): Observable<typeof entityModel> {
+    const jobId = this.getJobId(job);
+    let obs = new Subject<AsyncJob<typeof entityModel>>();
+
+    let interval = setInterval(() => {
+      this.sendCommand('query;Result', { jobId })
+        .map(res => new AsyncJob<typeof entityModel>(res))
+        .subscribe((asyncJob) => {
+          switch (asyncJob.jobStatus) {
+            case JobStatus.InProgress: return;
+            case JobStatus.Completed: {
+              obs.next(this.getResult(asyncJob, entity, entityModel));
+            } break;
+            case JobStatus.Failed: {
+              obs.error(asyncJob.jobResult);
+              break;
+            }
+          }
+
+          clearInterval(interval);
+          obs.complete();
+          this.event.next(asyncJob);
+        });
+    }, this.pollingInterval);
+    return obs;
+  }
+
   private startPolling(): void {
     clearInterval(this.timerId);
     setTimeout(() => {
@@ -97,5 +127,33 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
   private stopPolling(): void {
     clearInterval(this.timerId);
     this.poll = false;
+  }
+
+  private getJobId(job: any): string {
+    const jobId = job.jobId || job.jobid || job;
+    if (typeof jobId !== 'string') {
+      throw new Error('Unsupported job format');
+    }
+    return jobId;
+  }
+
+  private getResult(
+    asyncJob: AsyncJob<typeof entityModel>,
+    entity = '',
+    entityModel: any = null
+  ): any {
+    if (asyncJob.jobResult && asyncJob.jobResult.success) {
+      return asyncJob.jobResult;
+    }
+
+    const hasEntity = asyncJob.jobInstanceType || asyncJob.jobResultType;
+    let result;
+    if (hasEntity) {
+      result = this.prepareModel(asyncJob.jobResult[entity.toLowerCase()], entityModel);
+      asyncJob.jobResult = result;
+    } else {
+      result = asyncJob;
+    }
+    return result;
   }
 }
