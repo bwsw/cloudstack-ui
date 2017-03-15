@@ -60,7 +60,7 @@
         <cs-vm-list-item
           *ngFor="let vm of vmList"
           [vm]="vm"
-          [isSelected]="selectedVm === vm && isDetailOpen"
+          [isSelected]="selectedVm?.id === vm?.id"
           (onVmAction)="vmAction($event)"
           (onClick)="showDetail($event)"
         ></cs-vm-list-item>

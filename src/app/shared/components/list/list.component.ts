@@ -16,10 +16,12 @@ export class ListComponent implements AfterViewInit {
     this.listService.onSelected.subscribe(() => {
       this.isOpen = true;
     });
+    this.listService.onDeselected.subscribe(() => {
+      this.isOpen = false;
+    });
   }
 
   public onDetailsHide(): void {
-    this.isOpen = false;
     this.listService.onDeselected.next();
   }
 

@@ -85,6 +85,7 @@ export class VmListComponent implements OnInit {
     this.subscribeToSnapshotAdded();
     this.subscribeToVmDestroyed();
     this.subscribeToVmCreationDialog();
+    this.subscribeToVmDeselected();
   }
 
   public get anyFilteringResults(): boolean {
@@ -174,12 +175,8 @@ export class VmListComponent implements OnInit {
     if (vm.state === 'Error') {
       return;
     }
-    this.isDetailOpen = true;
     this.selectedVm = vm;
-  }
-
-  public hideDetail(): void {
-    this.isDetailOpen = false;
+    this.listService.onSelected.next();
   }
 
   public showVmCreationDialog(): void {
@@ -211,6 +208,10 @@ export class VmListComponent implements OnInit {
     this.statsUpdateService.subscribe(() => {
       this.updateStats();
     });
+  }
+
+  private subscribeToVmDeselected(): void {
+    this.listService.onDeselected.subscribe(() => this.selectedVm = null);
   }
 
   private subscribeToVmUpdates(): void {
@@ -266,7 +267,7 @@ export class VmListComponent implements OnInit {
       if (job.jobInstanceType === 'VirtualMachine' && (state === 'Destroyed' || state === 'Expunging')) {
         this.vmList = this.vmList.filter(vm => vm.id !== job.jobResult.id);
         if (this.selectedVm && this.selectedVm.id === job.jobResult.id) {
-          this.isDetailOpen = false;
+          this.listService.onDeselected.next();
         }
         this.updateFilters();
         this.updateStats();
