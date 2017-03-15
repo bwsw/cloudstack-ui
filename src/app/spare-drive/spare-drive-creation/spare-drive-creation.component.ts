@@ -9,8 +9,7 @@ import { MdlDialogReference } from 'angular2-mdl';
 
 @Component({
   selector: 'cs-spare-drive-creation',
-  templateUrl: 'spare-drive-creation.component.html',
-  styleUrls: ['spare-drive-creation.component.scss']
+  templateUrl: 'spare-drive-creation.component.html'
 })
 export class SpareDriveCreationComponent implements OnInit {
   public name: string;

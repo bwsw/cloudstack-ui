@@ -24,7 +24,6 @@ import { Template } from '../shared/template.model';
 @Component({
   selector: 'cs-template-page',
   templateUrl: 'template-page.component.html',
-  styleUrls: ['template-page.component.scss'],
   providers: [ListService]
 })
 export class TemplatePageComponent implements OnInit {
@@ -91,21 +90,23 @@ export class TemplatePageComponent implements OnInit {
         }
         return this.templateService.register(templateData);
       })
-      .subscribe(() => {
-        this.filterList.updateList();
-        this.jobNotificationService.add({
-          id: notificationId,
-          message: translatedStrings[`${currentMode}_REGISTER_DONE`],
-          status: INotificationStatus.Finished
+      .subscribe(
+        () => {
+          this.filterList.updateList();
+          this.jobNotificationService.add({
+            id: notificationId,
+            message: translatedStrings[`${currentMode}_REGISTER_DONE`],
+            status: INotificationStatus.Finished
+          });
+        },
+        error => {
+          this.notificationService.error(error.json()['registerisoresponse']['errortext']);
+          this.jobNotificationService.add({
+            id: notificationId,
+            message: translatedStrings[`${currentMode}_REGISTER_FAILED`],
+            status: INotificationStatus.Failed
+          });
         });
-      }, error => {
-        this.notificationService.error(error.json()['registerisoresponse']['errortext']);
-        this.jobNotificationService.add({
-          id: notificationId,
-          message: translatedStrings[`${currentMode}_REGISTER_FAILED`],
-          status: INotificationStatus.Failed
-        });
-      });
   }
 
   public removeTemplate(template: BaseTemplateModel): void {

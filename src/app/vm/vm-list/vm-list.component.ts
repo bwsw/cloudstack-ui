@@ -40,7 +40,6 @@ const askToCreateVm = 'askToCreateVm';
 @Component({
   selector: 'cs-vm-list',
   templateUrl: 'vm-list.component.html',
-  styleUrls: ['vm-list.component.scss'],
   providers: [ListService]
 })
 export class VmListComponent implements OnInit {

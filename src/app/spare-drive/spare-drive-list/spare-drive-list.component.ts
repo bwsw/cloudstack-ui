@@ -6,8 +6,7 @@ import { ListService } from '../../shared/components/list/list.service';
 
 @Component({
   selector: 'cs-spare-drive-list',
-  templateUrl: 'spare-drive-list.component.html',
-  styleUrls: ['spare-drive-list.component.scss']
+  templateUrl: 'spare-drive-list.component.html'
 })
 export class SpareDriveListComponent implements OnInit {
   @Input() public volumes: Array<Volume>;
