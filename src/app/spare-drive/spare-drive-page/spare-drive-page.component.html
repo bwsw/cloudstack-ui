@@ -1,23 +1,15 @@
-<div
-  class="detail-list margin-right"
-  [class.open]="isDetailOpen"
->
-  <cs-volume-list
+<cs-list>
+  <cs-spare-drive-list
     *loading="!volumes"
     [volumes]="volumes"
-    [selectedVolume]="selectedVolume"
-    (onVolumeSelected)="selectVolume($event)"
+    (onSelected)="selectVolume($event)"
     (onDelete)="showRemoveDialog($event)"
     (onVolumeAttached)="attach($event)"
-    [class.margin-right]="isDetailOpen"
-  ></cs-volume-list>
-</div>
-<cs-spare-drive-sidebar
-  [isOpen]="isDetailOpen"
-  [volume]="selectedVolume"
-  (onClickOutside)="hideDetail()"
-></cs-spare-drive-sidebar>
-<cs-fab
-  [open]="isDetailOpen"
-  (click)="showCreationDialog()"
-></cs-fab>
+    cs-list
+  ></cs-spare-drive-list>
+
+  <cs-spare-drive-sidebar
+    [volume]="selectedVolume"
+    cs-sidebar
+  ></cs-spare-drive-sidebar>
+</cs-list>

@@ -1,21 +1,3 @@
-@import '../../../style/__variables.scss';
-$spare-drives-detail-width: $sidebar-width + 1;
-
-.margin-right {
-  transition: margin 0.3s;
-  &.open {
-    margin-right: $spare-drives-detail-width;
-  }
-}
-
-.fab.open {
-  margin-right: $spare-drives-detail-width;
-}
-
-cs-template-sidebar {
-  width: $spare-drives-detail-width;
-}
-
-/deep/ .volume-creation-dialog {
+/deep/ .spare-drive-creation-dialog {
   width: 380px;
 }

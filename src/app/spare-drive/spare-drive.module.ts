@@ -7,11 +7,11 @@ import { MdlSelectModule } from '@angular2-mdl-ext/select';
 
 import { SharedModule } from '../shared/shared.module';
 import { SpareDrivePageComponent } from './spare-drive-page/spare-drive-page.component';
-import { VolumeListComponent } from './volume-list/volume-list.component';
-import { VolumeItemComponent } from './volume-item/volume-item.component';
+import { SpareDriveListComponent } from './spare-drive-list/spare-drive-list.component';
+import { SpareDriveItemComponent } from './spare-drive-item/spare-drive-item.component';
 import { SpareDriveSidebarComponent } from './spare-drive-sidebar/spare-drive-sidebar.component';
-import { VolumeCreationComponent } from './volume-creation/volume-creation.component';
-import { VolumeAttachmentComponent } from './volume-attachment/volume-attachment.component';
+import { SpareDriveCreationComponent } from './spare-drive-creation/spare-drive-creation.component';
+import { SpareDriveAttachmentComponent } from './spare-drive-attachment/spare-drive-attachment.component';
 
 
 @NgModule({
@@ -26,17 +26,17 @@ import { VolumeAttachmentComponent } from './volume-attachment/volume-attachment
   declarations: [
     SpareDrivePageComponent,
     SpareDriveSidebarComponent,
-    VolumeAttachmentComponent,
-    VolumeCreationComponent,
-    VolumeItemComponent,
-    VolumeListComponent
+    SpareDriveAttachmentComponent,
+    SpareDriveCreationComponent,
+    SpareDriveItemComponent,
+    SpareDriveListComponent
   ],
   exports: [
     SpareDrivePageComponent
   ],
   entryComponents: [
-    VolumeAttachmentComponent,
-    VolumeCreationComponent
+    SpareDriveAttachmentComponent,
+    SpareDriveCreationComponent
   ]
 })
 export class SpareDriveModule { }

@@ -1,16 +1,16 @@
 import { Component, Input, EventEmitter, Output, HostBinding } from '@angular/core';
 import { Volume } from '../../shared/models/volume.model';
 import { MdlDialogService } from 'angular2-mdl';
-import { VolumeAttachmentComponent } from '../volume-attachment/volume-attachment.component';
+import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
 import { VolumeAttachmentData } from '../../shared/services/volume.service';
 
 
 @Component({
-  selector: 'cs-volume-item',
-  templateUrl: 'volume-item.component.html',
-  styleUrls: ['volume-item.component.scss']
+  selector: 'cs-spare-drive-item',
+  templateUrl: 'spare-drive-item.component.html',
+  styleUrls: ['spare-drive-item.component.scss']
 })
-export class VolumeItemComponent {
+export class SpareDriveItemComponent {
   @Input() public isSelected: boolean;
   @Input() public volume: Volume;
   @Output() public onClick = new EventEmitter();
@@ -26,8 +26,8 @@ export class VolumeItemComponent {
 
   public attach(): void {
     this.dialogService.showCustomDialog({
-      component: VolumeAttachmentComponent,
-      classes: 'volume-attachment-dialog',
+      component: SpareDriveAttachmentComponent,
+      classes: 'spare-drive-attachment-dialog',
       providers: [{ provide: 'zoneId', useValue: this.volume.zoneId }]
     })
       .switchMap(res => res.onHide())

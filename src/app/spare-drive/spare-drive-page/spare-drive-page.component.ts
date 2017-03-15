@@ -14,7 +14,8 @@ import {
   VolumeService
 } from '../../shared';
 
-import { VolumeCreationComponent } from '../volume-creation/volume-creation.component';
+import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
+import { ListService } from '../../shared/components/list/list.service';
 
 
 export interface VolumeCreationData {
@@ -28,9 +29,9 @@ export interface VolumeCreationData {
   selector: 'cs-spare-drive-page',
   templateUrl: 'spare-drive-page.component.html',
   styleUrls: ['spare-drive-page.component.scss'],
+  providers: [ListService]
 })
 export class SpareDrivePageComponent implements OnInit {
-  public isDetailOpen: boolean;
   public volumes: Array<Volume>;
   public _selectedVolume: Volume;
 
@@ -41,12 +42,14 @@ export class SpareDrivePageComponent implements OnInit {
     private diskOfferingService: DiskOfferingService,
     private jobsNotificationService: JobsNotificationService,
     private notificationService: NotificationService,
+    private listService: ListService,
     private translateService: TranslateService,
     private volumeService: VolumeService
   ) {}
 
   public ngOnInit(): void {
     let diskOfferings: Array<DiskOffering>;
+
     this.diskOfferingService.getList({ type: 'DATADISK' })
       .switchMap((offerings: Array<DiskOffering>) => {
         diskOfferings = offerings;
@@ -60,10 +63,14 @@ export class SpareDrivePageComponent implements OnInit {
             return volume;
           });
       });
-  }
 
-  public selectVolume(volume: Volume): void {
-    this.selectedVolume = volume;
+    this.listService.onSelected.subscribe((volume: Volume) => {
+      this.selectedVolume = volume;
+    });
+
+    this.listService.onAction.subscribe(() => {
+      this.showCreationDialog();
+    });
   }
 
   public get selectedVolume(): Volume {
@@ -72,11 +79,11 @@ export class SpareDrivePageComponent implements OnInit {
 
   public set selectedVolume(volume: Volume) {
     this._selectedVolume = volume;
-    this.isDetailOpen = true;
+    // this.isDetailOpen = true;
   }
 
   public hideDetail(): void {
-    this.isDetailOpen = !this.isDetailOpen;
+    // this.isDetailOpen = !this.isDetailOpen;
     this._selectedVolume = null;
   }
 
@@ -116,7 +123,7 @@ export class SpareDrivePageComponent implements OnInit {
             return listVolume.id !== volume.id;
           });
           if (this.selectedVolume && this.selectedVolume.id === volume.id) {
-            this.isDetailOpen = false;
+            // this.isDetailOpen = false;
           }
           this.jobsNotificationService.add({
             id: notificationId,
@@ -137,8 +144,8 @@ export class SpareDrivePageComponent implements OnInit {
 
   public showCreationDialog(): void {
     this.dialogService.showCustomDialog({
-      component: VolumeCreationComponent,
-      classes: 'volume-creation-dialog'
+      component: SpareDriveCreationComponent,
+      classes: 'spare-drive-creation-dialog'
     })
       .switchMap(res => res.onHide())
       .subscribe((data: any) => {
