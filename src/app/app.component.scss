@@ -86,3 +86,26 @@ a {
 mdl-layout-drawer {
   border: none;
 }
+
+.license {
+  width: 100%;
+  font-size: 12px;
+  padding: 5px;
+  line-height: 1;
+  text-align: center;
+  flex: 1;
+  align-self: flex-end;
+}
+
+.license-container {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  min-height: 40px;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}

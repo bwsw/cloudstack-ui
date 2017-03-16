@@ -13,7 +13,7 @@
   </mdl-layout-header>
   <mdl-layout-drawer
     *ngIf="loggedIn"
-    class="mdl-color--grey-50"
+    class="mdl-color--grey-50 flex-container"
     [attr.style]="drawerStyles"
   >
     <mdl-layout-title>{{ title }}</mdl-layout-title>
@@ -93,6 +93,11 @@
         <div class="link-element" [innerHTML]="'SETTINGS' | translate"></div>
       </a>
     </nav>
+
+    <div class="license-container">
+      <div class="license" [innerHTML]="'LICENSE' | translate"></div>
+    </div>
+
   </mdl-layout-drawer>
   <mdl-layout-content class="mdl-color--grey-100">
     <router-outlet></router-outlet>
