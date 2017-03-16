@@ -76,10 +76,16 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public get drawerStyles(): SafeStyle {
-    return this.domSanitizer.bypassSecurityTrustStyle(
-      `background-color: ${this.themeColor.value} !important;
-       color: ${this.themeColor.textColor} !important`,
-    );
+    let styleString;
+
+    if (!this.themeColor) {
+      styleString = `background-color: #fafafa !important; color: #757575 !important`;
+    } else {
+      styleString = `background-color: ${this.themeColor.value} !important;
+        color: ${this.themeColor.textColor} !important`;
+    }
+
+    return this.domSanitizer.bypassSecurityTrustStyle(styleString);
   }
 
   public get linkActiveStyle(): string {
@@ -88,7 +94,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public get isLightTheme(): boolean {
     if (!this.themeColor) {
-      return false;
+      return true;
     }
     return this.themeColor.textColor === '#FFFFFF';
   }
