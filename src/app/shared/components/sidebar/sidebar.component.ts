@@ -19,7 +19,7 @@ export class SidebarComponent {
   @Output() public onClickOutside = new EventEmitter();
   @Input() @HostBinding('class.open') private isOpen;
 
-  private dialogsOpen: boolean; // true if any mdl dialog is isOpen
+  private dialogsOpen: boolean; // true if any mdl dialog is open
   private dialogWasOpen: boolean; // true if last dialog was closed
 
   constructor(
@@ -39,7 +39,7 @@ export class SidebarComponent {
   public onDocumentClick(event: MouseEvent): void {
     const originalTarget = event.target;
     // used to stop propagation when mdl dialogs are clicked
-    // so that vm sidebar stays isOpen.
+    // so that vm sidebar stays open.
 
     if (this.dialogsOpen) {
       return;
