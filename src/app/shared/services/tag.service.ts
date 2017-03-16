@@ -17,11 +17,11 @@ export class TagService extends BaseBackendService<Tag> {
 
   public create(params?: {}): Observable<any> {
     return super.create(params)
-      .map(tagJob => this.asyncJob.queryJob(tagJob.jobid));
+      .switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid));
   }
 
   public remove(params?: {}): Observable<any> {
     return super.remove(params)
-      .map(tagJob => this.asyncJob.queryJob(tagJob.jobid));
+      .switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid));
   }
 }

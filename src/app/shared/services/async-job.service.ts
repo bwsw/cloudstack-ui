@@ -69,25 +69,6 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     return true;
   }
 
-  public register(job: any, entity = '', entityModel: any = null): Observable<any> {
-    let jobId = this.getJobId(job);
-    return this.addJob(jobId)
-      .map(result => {
-        let entityResponse = result.result[entity.toLowerCase()];
-
-        if (result && result.resultCode === 0 && entityResponse) {
-          result.result = this.prepareModel(result.result[entity.toLowerCase()], entityModel);
-        }
-
-        if (result.status === 2) {
-          return Observable.throw(result);
-        }
-
-        this.event.next(result);
-        return result;
-      });
-  }
-
   public queryJob(job: any, entity = '', entityModel: any = null): Observable<typeof entityModel> {
     const jobId = this.getJobId(job);
     let obs = new Subject<AsyncJob<typeof entityModel>>();
