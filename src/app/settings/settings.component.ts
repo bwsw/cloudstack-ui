@@ -33,12 +33,27 @@ export class SettingsComponent implements OnInit {
     this.loadColors();
   }
 
+  public get accentColors(): Array<Color> {
+    return this.primaryColors.filter(color => color.name !== this.primaryColor.name && !color.primaryOnly);
+  }
+
+  private get firstAvailableAccentColor(): Color {
+    try {
+      return this.primaryColor !== this.accentColors[0] ? this.accentColors[0] : this.accentColors[1];
+    } catch (e) {
+      throw new Error('Incorrect color configuration');
+    }
+  }
+
   public changeLanguage(lang: string): void {
     this.languageService.setLanguage(lang);
   }
 
   public updatePrimaryColor(color: Color): void {
     this.primaryColor = color;
+    if (this.primaryColor.value === this.accentColor.value) {
+      this.accentColor = this.firstAvailableAccentColor;
+    }
     this.updatePalette();
   }
 
@@ -49,10 +64,6 @@ export class SettingsComponent implements OnInit {
 
   public updatePalette(): void {
     this.styleService.updatePalette(this.primaryColor, this.accentColor);
-  }
-
-  public get accentColors(): Array<Color> {
-    return this.primaryColors.filter(color => color.name !== this.primaryColor.name && !color.primaryOnly);
   }
 
   private loadColors(): void {

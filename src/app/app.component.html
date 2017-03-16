@@ -11,7 +11,11 @@
       <cs-logout *ngIf="loggedIn"></cs-logout>
     </mdl-layout-header-row>
   </mdl-layout-header>
-  <mdl-layout-drawer *ngIf="loggedIn" class="mdl-color--grey-50">
+  <mdl-layout-drawer
+    *ngIf="loggedIn"
+    class="mdl-color--grey-50"
+    [attr.style]="drawerStyles"
+  >
     <mdl-layout-title>{{ title }}</mdl-layout-title>
     <nav class="mdl-navigation">
 
@@ -19,7 +23,9 @@
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/instances"
-        routerLinkActive="link-active"
+        [class.link-hover-light]="isLightTheme"
+        [class.link-hover-dark]="!isLightTheme"
+        [routerLinkActive]="linkActiveStyle"
       >
         <mdl-icon class="link-element">cloud</mdl-icon>
         <div class="link-element" [innerHTML]="'VM_NAVBAR' | translate"></div>
@@ -29,7 +35,9 @@
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/spare-drives"
-        routerLinkActive="link-active"
+        [class.link-hover-light]="isLightTheme"
+        [class.link-hover-dark]="!isLightTheme"
+        [routerLinkActive]="linkActiveStyle"
       >
         <mdl-icon class="link-element">dns</mdl-icon>
         <div class="link-element" [innerHTML]="'SPARE_DRIVES_NAVBAR' | translate"></div>
@@ -39,7 +47,9 @@
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/templates"
-        routerLinkActive="link-active"
+        [class.link-hover-light]="isLightTheme"
+        [class.link-hover-dark]="!isLightTheme"
+        [routerLinkActive]="linkActiveStyle"
       >
         <span class="link-element disc-icon"></span>
         <div class="link-element" [innerHTML]="'IMAGES' | translate"></div>
@@ -50,7 +60,9 @@
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/sg-templates"
-        routerLinkActive="link-active"
+        [class.link-hover-light]="isLightTheme"
+        [class.link-hover-dark]="!isLightTheme"
+        [routerLinkActive]="linkActiveStyle"
       >
         <mdl-icon class="link-element">security</mdl-icon>
         <div class="link-element" [innerHTML]="'FIREWALL' | translate"></div>
@@ -60,17 +72,22 @@
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/events"
-        routerLinkActive="link-active"
+        [class.link-hover-light]="isLightTheme"
+        [class.link-hover-dark]="!isLightTheme"
+        [routerLinkActive]="linkActiveStyle"
       >
         <mdl-icon>event_note</mdl-icon>
         <div class="link-element" [innerHTML]="'ACTIVITY_LOG' | translate"></div>
       </a>
 
       <a
+        #settingsLink
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/settings"
-        routerLinkActive="link-active"
+        [class.link-hover-light]="isLightTheme"
+        [class.link-hover-dark]="!isLightTheme"
+        [routerLinkActive]="linkActiveStyle"
       >
         <mdl-icon>settings</mdl-icon>
         <div class="link-element" [innerHTML]="'SETTINGS' | translate"></div>

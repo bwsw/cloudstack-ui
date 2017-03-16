@@ -59,6 +59,30 @@ footer {
   border-radius: 50%;
 }
 
-.link-active {
-  background-color: #e0e0e0;
+.link-active-light {
+  background-color: #757575;
+}
+
+.link-hover-light:hover {
+  background-color: #757575 !important;
+}
+
+.link-active-dark {
+  background-color: #E0E0E0;
+}
+
+.link-hover-dark:hover {
+  background-color: #E0E0E0 !important;
+}
+
+a {
+  color: inherit !important;
+}
+
+:host /deep/ .link-element {
+  border-color: inherit;
+}
+
+mdl-layout-drawer {
+  border: none;
 }

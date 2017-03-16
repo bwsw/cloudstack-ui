@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 import { Color } from '../models/color.model';
 import { ConfigService } from './config.service';
+import { Subject } from 'rxjs';
 
 
 const STANDARD_PRIMARY = { name: 'indigo', value: '#3F51B5' };
@@ -10,6 +11,7 @@ const STANDARD_ACCENT = { name: 'pink', value: '#FF4081' };
 @Injectable()
 export class StyleService {
   public styleElement: HTMLLinkElement;
+  public paletteUpdates = new Subject<Color>();
 
   constructor(
     private configService: ConfigService,
@@ -35,6 +37,7 @@ export class StyleService {
     this.styleElement.href = `https://code.getmdl.io/1.3.0/material.${primaryColor.name}-${accentColor.name}.min.css`;
     this.storageService.write('primaryColor', primaryColor.name);
     this.storageService.write('accentColor', accentColor.name);
+    this.paletteUpdates.next(primaryColor);
   }
 
   private initStyleSheet(): void {
