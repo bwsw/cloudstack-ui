@@ -33,6 +33,8 @@
         <div>
           <h5>{{ 'DISK_OFFERING' | translate }}</h5>
           <cs-disk-offering
+            *ngIf="zoneId"
+            [zoneId]="zoneId"
             (offeringUpdated)="updateDiskOffering($event)"
           ></cs-disk-offering>
         </div>

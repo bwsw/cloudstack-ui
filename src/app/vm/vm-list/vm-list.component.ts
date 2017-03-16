@@ -21,6 +21,8 @@ import {
   Zone
 } from '../../shared';
 
+import { ListService } from '../../shared/components/list/list.service';
+
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import { VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListSection } from './vm-list-section/vm-list-section.component';
@@ -38,7 +40,7 @@ const askToCreateVm = 'askToCreateVm';
 @Component({
   selector: 'cs-vm-list',
   templateUrl: 'vm-list.component.html',
-  styleUrls: ['vm-list.component.scss']
+  providers: [ListService]
 })
 export class VmListComponent implements OnInit {
   @ViewChild(VmStatisticsComponent) public vmStats: VmStatisticsComponent;
@@ -63,6 +65,7 @@ export class VmListComponent implements OnInit {
   private vmList: Array<VirtualMachine>;
 
   constructor (
+    private listService: ListService,
     private vmService: VmService,
     private dialogService: MdlDialogService,
     private translateService: TranslateService,
@@ -81,6 +84,8 @@ export class VmListComponent implements OnInit {
     this.subscribeToVmDestroyed();
     this.subscribeToSnapshotAdded();
     this.subscribeToVmDestroyed();
+    this.subscribeToVmCreationDialog();
+    this.subscribeToVmDeselected();
   }
 
   public get anyFilteringResults(): boolean {
@@ -170,12 +175,8 @@ export class VmListComponent implements OnInit {
     if (vm.state === 'Error') {
       return;
     }
-    this.isDetailOpen = true;
     this.selectedVm = vm;
-  }
-
-  public hideDetail(): void {
-    this.isDetailOpen = false;
+    this.listService.onSelected.next();
   }
 
   public showVmCreationDialog(): void {
@@ -207,6 +208,10 @@ export class VmListComponent implements OnInit {
     this.statsUpdateService.subscribe(() => {
       this.updateStats();
     });
+  }
+
+  private subscribeToVmDeselected(): void {
+    this.listService.onDeselected.subscribe(() => this.selectedVm = null);
   }
 
   private subscribeToVmUpdates(): void {
@@ -262,7 +267,7 @@ export class VmListComponent implements OnInit {
       if (job.jobInstanceType === 'VirtualMachine' && (state === 'Destroyed' || state === 'Expunging')) {
         this.vmList = this.vmList.filter(vm => vm.id !== job.jobResult.id);
         if (this.selectedVm && this.selectedVm.id === job.jobResult.id) {
-          this.isDetailOpen = false;
+          this.listService.onDeselected.next();
         }
         this.updateFilters();
         this.updateStats();
@@ -279,6 +284,10 @@ export class VmListComponent implements OnInit {
         });
       }
     });
+  }
+
+  private subscribeToVmCreationDialog(): void {
+    this.listService.onAction.subscribe(() => this.showVmCreationDialog());
   }
 
   private showSuggestionDialog(): void {

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 import { Volume } from '../../shared/models/volume.model';
 
 
@@ -7,8 +7,6 @@ import { Volume } from '../../shared/models/volume.model';
   templateUrl: 'spare-drive-sidebar.component.html'
 })
 export class SpareDriveSidebarComponent {
-  @Input() public isOpen: boolean;
   @Input() public volume: Volume;
-  @Output() public onClickOutside = new EventEmitter();
   @HostBinding('class.grid') public grid = true;
 }

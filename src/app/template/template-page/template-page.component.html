@@ -1,19 +1,13 @@
-<div
-  class="detail-list margin-right"
-  [class.open]="isDetailOpen"
->
+<cs-list>
   <cs-template-filter-list
     [(selectedTemplate)]="selectedTemplate"
     [(viewMode)]="viewMode"
+    cs-list
   ></cs-template-filter-list>
-</div>
-<cs-template-sidebar
-  [isOpen]="isDetailOpen"
-  [template]="_selectedTemplate"
-  (onClickOutside)="hideDetail()"
-  (deleteTemplate)="removeTemplate($event)"
-></cs-template-sidebar>
-<cs-fab
-  [open]="isDetailOpen"
-  (click)="showCreationDialog()"
-></cs-fab>
+
+  <cs-template-sidebar
+    [template]="selectedTemplate"
+    (deleteTemplate)="removeTemplate($event)"
+    cs-sidebar
+  ></cs-template-sidebar>
+</cs-list>

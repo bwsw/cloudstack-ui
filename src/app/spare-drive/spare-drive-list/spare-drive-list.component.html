@@ -1,10 +1,12 @@
-<div *ngIf="volumes">
-  <cs-volume-item
+<ng-container
+  *ngIf="volumes"
+>
+  <cs-spare-drive-item
     *ngFor="let volume of volumes"
     [volume]="volume"
     [isSelected]="volume.id === selectedVolume?.id"
     (onClick)="selectVolume(volume)"
     (onVolumeAttached)="attach($event)"
     (onDelete)="remove($event)"
-  ></cs-volume-item>
-</div>
+  ></cs-spare-drive-item>
+</ng-container>

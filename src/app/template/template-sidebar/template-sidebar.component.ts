@@ -8,9 +8,7 @@ import { BaseTemplateModel } from '../shared/base-template.model';
   templateUrl: 'template-sidebar.component.html'
 })
 export class TemplateSidebarComponent {
-  @Input() public isOpen: boolean;
   @Input() public template: BaseTemplateModel;
-  @Output() public onClickOutside = new EventEmitter();
   @Output() public deleteTemplate = new EventEmitter();
 
   constructor(

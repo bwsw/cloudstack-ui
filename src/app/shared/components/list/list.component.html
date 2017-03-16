@@ -1,0 +1,18 @@
+<div
+  class="detail-list margin-right"
+  [class.open]="isOpen"
+>
+  <ng-content select="[cs-list]"></ng-content>
+</div>
+
+<cs-sidebar
+  [isOpen]="isOpen"
+  (onClickOutside)="onDetailsHide()"
+>
+  <ng-content select="[cs-sidebar]"></ng-content>
+</cs-sidebar>
+
+<cs-fab
+  [isOpen]="isOpen"
+  (click)="onAction()"
+></cs-fab>

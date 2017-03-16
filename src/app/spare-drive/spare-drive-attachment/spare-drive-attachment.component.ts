@@ -5,10 +5,10 @@ import { MdlDialogReference } from 'angular2-mdl';
 
 
 @Component({
-  selector: 'cs-volume-attachment',
-  templateUrl: 'volume-attachment.component.html'
+  selector: 'cs-spare-drive-attachment',
+  templateUrl: 'spare-drive-attachment.component.html'
 })
-export class VolumeAttachmentComponent implements OnInit {
+export class SpareDriveAttachmentComponent implements OnInit {
   public virtualMachineId: string;
   public virtualMachines: Array<VirtualMachine>;
 

@@ -6,7 +6,7 @@ import { Component, HostBinding, Input, Output, EventEmitter } from '@angular/co
   styleUrls: ['fab.component.scss']
 })
 export class FabComponent {
-  @Input() @HostBinding('class.open') public open: boolean;
+  @Input() @HostBinding('class.open') public isOpen: boolean;
   @Output() public click = new EventEmitter<Event>();
 
   public onClick(e: Event): void {

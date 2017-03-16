@@ -8,11 +8,10 @@ import { MdlDialogReference } from 'angular2-mdl';
 
 
 @Component({
-  selector: 'cs-volume-creation',
-  templateUrl: 'volume-creation.component.html',
-  styleUrls: ['volume-creation.component.scss']
+  selector: 'cs-spare-drive-creation',
+  templateUrl: 'spare-drive-creation.component.html'
 })
-export class VolumeCreationComponent implements OnInit {
+export class SpareDriveCreationComponent implements OnInit {
   public name: string;
   public zoneId: string;
   public zones: Array<Zone>;

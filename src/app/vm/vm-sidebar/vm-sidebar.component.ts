@@ -1,9 +1,4 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { VirtualMachine } from '../shared/vm.model';
 
@@ -14,6 +9,4 @@ import { VirtualMachine } from '../shared/vm.model';
 })
 export class VmSidebarComponent {
   @Input() public vm: VirtualMachine;
-  @Input() public isOpen: boolean;
-  @Output() public onClickOutside = new EventEmitter();
 }

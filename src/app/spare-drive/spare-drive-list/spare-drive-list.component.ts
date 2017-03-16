@@ -1,23 +1,31 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Volume } from '../../shared/models/volume.model';
 import { VolumeAttachmentData } from '../../shared/services/volume.service';
+import { ListService } from '../../shared/components/list/list.service';
 
 
 @Component({
-  selector: 'cs-volume-list',
-  templateUrl: 'volume-list.component.html',
-  styleUrls: ['volume-list.component.scss']
+  selector: 'cs-spare-drive-list',
+  templateUrl: 'spare-drive-list.component.html'
 })
-export class VolumeListComponent {
+export class SpareDriveListComponent implements OnInit {
   @Input() public volumes: Array<Volume>;
   @Input() public selectedVolume: Volume;
-  @Output() public onVolumeSelected = new EventEmitter();
+  @Output() public onSelected = new EventEmitter();
   @Output() public onDelete = new EventEmitter();
   @Output() public onVolumeAttached = new EventEmitter();
 
+  constructor(private listService: ListService) {}
+
+  public ngOnInit(): void {
+    this.listService.onDeselected.subscribe(() => {
+      this.selectedVolume = null;
+    });
+  }
+
   public selectVolume(volume: Volume): void {
     this.selectedVolume = volume;
-    this.onVolumeSelected.emit(this.selectedVolume);
+    this.listService.onSelected.next(volume);
   }
 
   public remove(volume: Volume): void {

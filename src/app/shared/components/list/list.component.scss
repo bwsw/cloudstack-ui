@@ -1,0 +1,22 @@
+@import '../../../../style/__variables.scss';
+
+.margin-right {
+  transition: margin 0.3s;
+
+  &.open {
+    margin-right: $sidebar-width + 1;
+  }
+}
+
+.fab.open {
+  margin-right: $sidebar-width + 1;
+}
+
+cs-sidebar {
+  width: $sidebar-width + 1;
+}
+
+.detail-list {
+  height: 100%;
+  overflow: auto;
+}

@@ -9,6 +9,9 @@ import {
   IsoService,
   TemplateService
 } from '../shared';
+
+import { ListService } from '../../shared/components/list/list.service';
+
 import { INotificationStatus, JobsNotificationService, NotificationService } from '../../shared/services';
 import { TemplateCreationComponent } from '../template-creation/template-creation.component';
 import { VmService } from '../../vm/shared/vm.service';
@@ -21,12 +24,11 @@ import { Template } from '../shared/template.model';
 @Component({
   selector: 'cs-template-page',
   templateUrl: 'template-page.component.html',
-  styleUrls: ['template-page.component.scss']
+  providers: [ListService]
 })
 export class TemplatePageComponent implements OnInit {
-  public isDetailOpen: boolean;
-  public _viewMode: string;
-  public _selectedTemplate: BaseTemplateModel;
+  public viewMode: string;
+  public selectedTemplate: BaseTemplateModel;
 
   @HostBinding('class.detail-list-container') public detailListContainer = true;
   @ViewChild(TemplateFilterListComponent) private filterList;
@@ -36,6 +38,7 @@ export class TemplatePageComponent implements OnInit {
     private storageService: StorageService,
     private isoService: IsoService,
     private jobNotificationService: JobsNotificationService,
+    private listService: ListService,
     private translateService: TranslateService,
     private templateService: TemplateService,
     private notificationService: NotificationService,
@@ -44,28 +47,9 @@ export class TemplatePageComponent implements OnInit {
 
   public ngOnInit(): void {
     this.viewMode = this.storageService.read('templateDisplayMode') || 'Template';
-  }
-
-  public get selectedTemplate(): BaseTemplateModel {
-    return this._selectedTemplate;
-  }
-
-  public set selectedTemplate(template: BaseTemplateModel) {
-    this._selectedTemplate = template;
-    this.isDetailOpen = true;
-  }
-
-  public get viewMode(): string {
-    return this._viewMode;
-  }
-
-  public set viewMode(mode: string) {
-    this._viewMode = mode;
-  }
-
-  public hideDetail(): void {
-    this.isDetailOpen = !this.isDetailOpen;
-    this._selectedTemplate = null;
+    this.listService.onAction.subscribe(() => this.showCreationDialog());
+    this.listService.onSelected.subscribe((template: Template) => this.selectedTemplate = template);
+    this.listService.onDeselected.subscribe(() => this.selectedTemplate = null);
   }
 
   public showCreationDialog(): void {
@@ -106,21 +90,23 @@ export class TemplatePageComponent implements OnInit {
         }
         return this.templateService.register(templateData);
       })
-      .subscribe(() => {
-        this.filterList.updateList();
-        this.jobNotificationService.add({
-          id: notificationId,
-          message: translatedStrings[`${currentMode}_REGISTER_DONE`],
-          status: INotificationStatus.Finished
+      .subscribe(
+        () => {
+          this.filterList.updateList();
+          this.jobNotificationService.add({
+            id: notificationId,
+            message: translatedStrings[`${currentMode}_REGISTER_DONE`],
+            status: INotificationStatus.Finished
+          });
+        },
+        error => {
+          this.notificationService.error(error.json()['registerisoresponse']['errortext']);
+          this.jobNotificationService.add({
+            id: notificationId,
+            message: translatedStrings[`${currentMode}_REGISTER_FAILED`],
+            status: INotificationStatus.Failed
+          });
         });
-      }, error => {
-        this.notificationService.error(error.json()['registerisoresponse']['errortext']);
-        this.jobNotificationService.add({
-          id: notificationId,
-          message: translatedStrings[`${currentMode}_REGISTER_FAILED`],
-          status: INotificationStatus.Failed
-        });
-      });
   }
 
   public removeTemplate(template: BaseTemplateModel): void {
