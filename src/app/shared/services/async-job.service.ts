@@ -71,29 +71,44 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
 
   public queryJob(job: any, entity = '', entityModel: any = null): Observable<typeof entityModel> {
     const jobId = this.getJobId(job);
-    let obs = new Subject<AsyncJob<typeof entityModel>>();
+    let jobSubject = new Subject<AsyncJob<typeof entityModel>>();
 
-    let interval = setInterval(() => {
-      this.sendCommand('query;Result', { jobId })
-        .map(res => new AsyncJob<typeof entityModel>(res))
-        .subscribe((asyncJob) => {
-          switch (asyncJob.status) {
-            case JobStatus.InProgress: return;
-            case JobStatus.Completed: {
-              obs.next(this.getResult(asyncJob, entity, entityModel));
-            } break;
-            case JobStatus.Failed: {
-              obs.error(asyncJob.result);
-              break;
-            }
+    setTimeout(() => {
+      this._queryJob(jobId, jobSubject, entity, entityModel);
+      let interval = setInterval(() => {
+        this._queryJob(jobId, jobSubject, entity, entityModel, interval);
+      }, this.pollingInterval);
+    }, this.immediatePollingInterval);
+    return jobSubject;
+  }
+
+  private _queryJob(
+    jobId: string,
+    jobSubject: Subject<AsyncJob<any>>,
+    entity: string,
+    entityModel: any,
+    interval?: any
+  ): void {
+    this.sendCommand('query;Result', { jobId })
+      .map(res => new AsyncJob<typeof entityModel>(res))
+      .subscribe((asyncJob) => {
+        switch (asyncJob.status) {
+          case JobStatus.InProgress: return;
+          case JobStatus.Completed: {
+            jobSubject.next(this.getResult(asyncJob, entity, entityModel));
+          } break;
+          case JobStatus.Failed: {
+            jobSubject.error(asyncJob.result);
+            break;
           }
+        }
 
+        if (interval) {
           clearInterval(interval);
-          obs.complete();
-          this.event.next(asyncJob);
-        });
-    }, this.pollingInterval);
-    return obs;
+        }
+        jobSubject.complete();
+        this.event.next(asyncJob);
+      });
   }
 
   private startPolling(): void {
