@@ -404,5 +404,6 @@
   "PALETTE": "Палитра",
 
   "CUSTOM_SERVICE_OFFERING": "Настраиваемое предложение",
-  "CUSTOM_SERVICE_OFFERING_MEMORY": "Память"
+  "CUSTOM_SERVICE_OFFERING_MEMORY": "Память",
+  "CONFIRM": "Принять"
 }

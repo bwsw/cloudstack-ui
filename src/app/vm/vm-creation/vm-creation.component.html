@@ -52,6 +52,7 @@
             *ngIf="vmCreationData.vm.zoneId"
             name="serviceOffering"
             [zoneId]="vmCreationData.vm.zoneId"
+            [offering]="vmCreationData.customServiceOffering"
             (offeringChanged)="setServiceOffering($event)"
           ></cs-service-offering-selector>
         </div>
@@ -68,6 +69,7 @@
           [label]="'VM_CREATION_FORM.DISK_SIZE' | translate"
           name="rds"
           [(ngModel)]="vmCreationData.rootDiskSize"
+          [units]="'GB' | translate"
         ></cs-slider>
       </div>
       <div class="right-column">

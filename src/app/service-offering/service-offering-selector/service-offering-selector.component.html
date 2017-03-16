@@ -9,3 +9,4 @@
     {{ so.name }}
   </mdl-option>
 </mdl-select>
+<div class="custom-offering-info" *ngIf="serviceOffering?.isCustomized">{{ customOfferingData | async }}</div>

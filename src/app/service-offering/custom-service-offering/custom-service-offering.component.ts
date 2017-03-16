@@ -36,6 +36,7 @@ export class CustomServiceOfferingComponent implements OnInit {
   public restrictions: CustomOfferingRestrictions;
 
   constructor(
+    @Inject('offering') public preexistingOffering: CustomServiceOffering,
     @Inject('zoneId') public zoneId: string,
     public dialog: MdlDialogReference,
     private configService: ConfigService
@@ -59,6 +60,10 @@ export class CustomServiceOfferingComponent implements OnInit {
           this.restrictions.memory.min
         );
       });
+
+    if (this.preexistingOffering) {
+      this.offering = this.preexistingOffering;
+    }
   }
 
   public onSubmit(): void {
