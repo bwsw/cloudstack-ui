@@ -23,7 +23,7 @@
           <span>{{ ('SPARE_DRIVE_STATE.' + volume.state.toUpperCase()) | translate }}</span>
         </div>
         <div class="row">
-          <span>{{ (volume.size | divByPowerOfTwo:30:2) }} {{ ('GB' | translate) }}</span>
+          <span>{{ (volume.size | division:2:30:2) }} {{ ('GB' | translate) }}</span>
         </div>
       </div>
     </div>

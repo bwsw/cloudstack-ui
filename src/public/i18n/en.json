@@ -362,10 +362,10 @@
       "DESCRIPTION": "Description",
       "MINIOPS": "Min IOPS",
       "MAXIOPS": "Max IOPS",
-      "BYTES_READ_RATE": "Read rate (BPS)",
-      "BYTES_WRITE_RATE": "Write rate (BPS)",
-      "IOPS_READ_RATE": "Read rate (IOPS)",
-      "IOPS_WRITE_RATE": "Write rate (IOPS)"
+      "BYTES_READ_RATE": "Read rate (MB/s)",
+      "BYTES_WRITE_RATE": "Write rate (MB/s)",
+      "IOPS_READ_RATE": "Read rate (IO/s)",
+      "IOPS_WRITE_RATE": "Write rate (IO/s)"
     }
   },
   "RESIZE": "Resize",

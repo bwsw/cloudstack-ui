@@ -41,7 +41,7 @@
         <div class="grid grid-right">
           <div class="row" *ngIf="template.size">
             <div>{{ 'SIZE' | translate }}</div>
-            <div>{{ template.size | divByPowerOfTwo:30:2 }} {{ 'GB' | translate }}</div>
+            <div>{{ template.size | division:2:30:2 }} {{ 'GB' | translate }}</div>
           </div>
           <div class="row">
             <div>{{ 'EXTRACTABLE' | translate }}</div>

@@ -3,7 +3,7 @@
     <h2 mdl-card-title-text>{{ volume.name }}</h2>
   </mdl-card-title>
   <mdl-card-supporting-text>
-    <div class="disk-size">{{ (volume.size | divByPowerOfTwo:30:2) + ' ' + ('GB' | translate) }}</div>
+    <div class="disk-size">{{ (volume.size | division:2:30:2) + ' ' + ('GB' | translate) }}</div>
     <div class="grid volumes snapshots" [class.open]="expandStorage">
 
       <cs-snapshot

@@ -2,7 +2,7 @@
 <div class="mdl-dialog__content">
   <form (ngSubmit)="resizeVolume()" #volumeResizeForm="ngForm">
     <cs-volume-size-control
-      [min]="volume.size | divByPowerOfTwo:30"
+      [min]="volume.size | division:2:30"
       [max]="maxSize"
       [label]="'VOLUME_NEW_SIZE' | translate"
       [(ngModel)]="newSize"

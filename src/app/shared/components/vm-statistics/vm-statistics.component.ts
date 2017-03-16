@@ -1,6 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ResourceUsageService, ResourceStats } from '../../services/resource-usage.service';
 import { IStorageService } from '../../services/storage.service';
+import { Observable } from 'rxjs';
+import { TranslateService } from 'ng2-translate';
+import { UtilsService } from '../../services/utils.service';
 
 
 const showStatistics = 'showStatistics';
@@ -18,6 +21,8 @@ export class VmStatisticsComponent implements OnInit {
 
   constructor(
     private resourceUsageService: ResourceUsageService,
+    private translateService: TranslateService,
+    private utilsService: UtilsService,
     @Inject('IStorageService') protected storageService: IStorageService,
   ) {
     this.resourceUsage = new ResourceStats();
@@ -38,6 +43,90 @@ export class VmStatisticsComponent implements OnInit {
     }
   }
 
+  public getPercents(consumed: number, max: number): string {
+    return this.getProgress(consumed, max).toFixed(0);
+  }
+
+  public getStatsString(consumed: number, max: number, units?: string): string {
+    if (max === -1) {
+      return `${consumed} ${units || ''}`;
+    } else {
+      return `${consumed}/${max} ${units || ''} (${this.getPercents(consumed, max)}%)`;
+    }
+  }
+
+  public get instances(): string {
+    return this.getStatsString(this.resourceUsage.consumed.instances, this.resourceUsage.max.instances);
+  }
+
+  public get cpus(): string {
+    return this.getStatsString(this.resourceUsage.consumed.cpus, this.resourceUsage.max.cpus);
+  }
+
+  public get memory(): Observable<string> {
+    const consumed = this.utilsService.divide(this.resourceUsage.consumed.memory, 2, '10');
+    const max = this.utilsService.divide(this.resourceUsage.max.memory, 2, '10');
+
+    return this.translateService.get('GB')
+      .map(gb => {
+        return this.getStatsString(consumed as number, max as number, gb);
+      });
+  }
+
+  public get volumes(): string {
+    return this.getStatsString(this.resourceUsage.consumed.volumes, this.resourceUsage.max.volumes);
+  }
+
+  public get snapshots(): string {
+    return this.getStatsString(this.resourceUsage.consumed.snapshots, this.resourceUsage.max.snapshots);
+  }
+
+  public get primaryStorage(): Observable<string> {
+    return this.translateService.get('GB')
+      .map(gb => this.getStatsString(
+        this.resourceUsage.consumed.primaryStorage,
+        this.resourceUsage.max.primaryStorage,
+        gb
+      ));
+  }
+
+  public get secondaryStorage(): Observable<string> {
+    return this.translateService.get('GB')
+      .map(gb => this.getStatsString(
+        this.resourceUsage.consumed.secondaryStorage,
+        this.resourceUsage.max.secondaryStorage,
+        gb
+      ));
+  }
+
+  public get progressForInstances(): number {
+    return this.getProgress(this.resourceUsage.consumed.instances, this.resourceUsage.max.instances);
+  }
+
+  public get progressForCpus(): number {
+    return this.getProgress(this.resourceUsage.consumed.cpus, this.resourceUsage.max.cpus);
+  }
+
+  public get progressForMemory(): number {
+    return this.getProgress(this.resourceUsage.consumed.memory, this.resourceUsage.max.memory);
+  }
+
+  public get progressForVolumes(): number {
+    return this.getProgress(this.resourceUsage.consumed.volumes, this.resourceUsage.max.volumes);
+  }
+
+  public get progressForSnapshots(): number {
+    return this.getProgress(this.resourceUsage.consumed.snapshots, this.resourceUsage.max.snapshots);
+  }
+
+  public get progressForPrimaryStorage(): number {
+    return this.getProgress(this.resourceUsage.consumed.primaryStorage, this.resourceUsage.max.primaryStorage);
+  }
+
+  public get progressForSecondaryStorage(): number {
+    return this.getProgress(this.resourceUsage.consumed.secondaryStorage, this.resourceUsage.max.secondaryStorage);
+  }
+
   public handleCollapse(e: Event): void {
     e.stopPropagation();
     this.isOpen = !this.isOpen;
@@ -56,8 +145,11 @@ export class VmStatisticsComponent implements OnInit {
       .subscribe(result => {
         // to keep progress bar animation
         setTimeout(() => this.resourceUsage = result);
-
         this.fetching = false;
       });
+  }
+
+  private getProgress(consumed: number, max: number): number {
+    return (consumed / max * 100) || 0;
   }
 }

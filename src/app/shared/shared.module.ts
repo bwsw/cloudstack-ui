@@ -7,7 +7,7 @@ import { MdlModule } from 'angular2-mdl';
 import { TranslateModule } from 'ng2-translate';
 
 import {
-  DivByPowerOfTwoPipe,
+  DivisionPipe,
   HighLightPipe,
   ViewValuePipe
 } from './pipes';
@@ -86,7 +86,7 @@ import { LoaderComponent } from './components/loader.component';
     SidebarComponent,
     VmStatisticsComponent,
     VolumeSizeControlComponent,
-    DivByPowerOfTwoPipe,
+    DivisionPipe,
     HighLightPipe,
     ViewValuePipe,
     LoadingDirective
@@ -112,7 +112,7 @@ import { LoaderComponent } from './components/loader.component';
     SidebarComponent,
     VmStatisticsComponent,
     VolumeSizeControlComponent,
-    DivByPowerOfTwoPipe,
+    DivisionPipe,
     HighLightPipe,
     ViewValuePipe,
     LoadingDirective,

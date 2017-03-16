@@ -43,7 +43,7 @@ export class ResourceStats {
   constructor(
     available?: ResourcesData,
     consumed?: ResourcesData,
-    max?: ResourcesData
+    max?: ResourcesData,
   ) {
     this.available = available || new ResourcesData();
     this.consumed = consumed || new ResourcesData();

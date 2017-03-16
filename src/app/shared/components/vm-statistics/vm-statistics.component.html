@@ -21,14 +21,11 @@
         <mdl-card-supporting-text class="progress single-bar" *loading="fetching">
           <div class="bar">{{ 'DEPLOYED_STATS' | translate }}</div>
           <div class="stat-values">
-            {{ resourceUsage.consumed.instances + (resourceUsage.max.instances !== -1 ? ('/' + resourceUsage.max.instances)
-            + ' ('
-            + (resourceUsage.consumed.instances / resourceUsage.max.instances * 100 || 0).toFixed(0)
-            + '%)' : 0) }}
+            {{ instances }}
           </div>
           <div>
             <mdl-progress
-              [progress]="resourceUsage.consumed.instances / resourceUsage.max.instances * 100">
+              [progress]="progressForInstances">
             </mdl-progress>
           </div>
         </mdl-card-supporting-text>
@@ -40,24 +37,18 @@
         <mdl-card-supporting-text class="progress" *loading="fetching">
           <div class="bar">{{ 'CPUS' | translate }}</div>
           <div class="stat-values">
-            {{ resourceUsage.consumed.cpus + (resourceUsage.max.cpus !== -1 ? ('/' + resourceUsage.max.cpus)
-            + ' ('
-            + (resourceUsage.consumed.cpus / resourceUsage.max.cpus * 100 || 0).toFixed(0)
-            + '%)' : 0) }}
+            {{ cpus }}
           </div>
           <div>
-            <mdl-progress [progress]="resourceUsage.consumed.cpus / resourceUsage.max.cpus * 100"></mdl-progress>
+            <mdl-progress [progress]="progressForCpus"></mdl-progress>
           </div>
           <div class="bar second-bar">{{ 'RAM' | translate }}</div>
           <div class="stat-values second-bar">
-            {{ (resourceUsage.consumed.memory | divByPowerOfTwo:10:1) + (resourceUsage.max.memory !== -1
-            ? '/' + (resourceUsage.max.memory | divByPowerOfTwo:10:1) + ' ' + ('GB' | translate)
-            + ' (' + (resourceUsage.consumed.memory / resourceUsage.max.memory * 100 || 0).toFixed(0)
-            + '%)' : ' ' + ('GB' | translate)) }}
+            {{ memory | async }}
           </div>
           <div>
             <mdl-progress
-              [progress]="resourceUsage.consumed.memory / resourceUsage.max.memory * 100">
+              [progress]="progressForMemory">
             </mdl-progress>
           </div>
         </mdl-card-supporting-text>
@@ -71,24 +62,20 @@
         <mdl-card-supporting-text class="progress" *loading="fetching">
           <div class="bar">{{ 'VOLUMES' | translate }}</div>
           <div class="stat-values">
-            {{ resourceUsage.consumed.volumes + (resourceUsage.max.volumes !== -1 ? '/' + resourceUsage.max.volumes
-            + ' ('
-            + (resourceUsage.consumed.volumes / resourceUsage.max.volumes * 100 || 0).toFixed(0)
-            + '%)' : '') }}
-          </div>
-          <div>
-            <mdl-progress [progress]="resourceUsage.consumed.volumes / resourceUsage.max.volumes * 100"></mdl-progress>
-          </div>
-          <div class="bar second-bar">{{ 'SNAPSHOTS' | translate }}</div>
-          <div class="stat-values second-bar">
-            {{ resourceUsage.consumed.snapshots + (resourceUsage.max.volumes !== -1 ? '/' + resourceUsage.max.snapshots
-            + ' ('
-            + (resourceUsage.consumed.snapshots / resourceUsage.max.snapshots * 100 || 0).toFixed(0)
-            + '%)' : 0) }}
+            {{ volumes }}
           </div>
           <div>
             <mdl-progress
-              [progress]="resourceUsage.consumed.snapshots / resourceUsage.max.snapshots * 100">
+              [progress]="progressForVolumes"
+            ></mdl-progress>
+          </div>
+          <div class="bar second-bar">{{ 'SNAPSHOTS' | translate }}</div>
+          <div class="stat-values second-bar">
+            {{ snapshots }}
+          </div>
+          <div>
+            <mdl-progress
+              [progress]="progressForSnapshots">
             </mdl-progress>
           </div>
         </mdl-card-supporting-text>
@@ -101,15 +88,11 @@
         <mdl-card-supporting-text class="progress" *loading="fetching">
           <div class="bar">{{ 'PRIMARY_(STORAGE)' | translate }}</div>
           <div class="stat-values">
-            {{ resourceUsage.consumed.primaryStorage + (resourceUsage.max.primaryStorage !== -1
-            ? '/' + resourceUsage.max.primaryStorage + ' ' + ('GB' | translate)
-            + ' ('
-            + (resourceUsage.consumed.primaryStorage / resourceUsage.max.primaryStorage * 100 || 0).toFixed(0)
-            + '%)' : ' ' + ('GB' | translate)) }}
+            {{ primaryStorage | async }}
           </div>
           <div>
             <mdl-progress
-              [progress]="resourceUsage.consumed.primaryStorage / resourceUsage.max.primaryStorage * 100">
+              [progress]="progressForPrimaryStorage">
             </mdl-progress>
           </div>
           <div class="bar second-bar">{{ 'SECONDARY_(STORAGE)' | translate }}</div>
@@ -118,16 +101,11 @@
             mdl-tooltip-position="top"
             class="stat-values second-bar"
           >
-            {{ resourceUsage.consumed.secondaryStorage + (resourceUsage.max.secondaryStorage !== -1
-            ? '/' + resourceUsage.max.secondaryStorage + ' ' + ('GB' | translate) : '') }}
-            <span class="footnote">*</span>
-            {{ (resourceUsage.max.secondaryStorage !== -1 ? ' ('
-            + (resourceUsage.consumed.secondaryStorage / resourceUsage.max.secondaryStorage * 100 || 0).toFixed(0)
-            + '%)' : ' ' + ('GB' | translate)) }}
+            {{ secondaryStorage | async }}
           </div>
           <div>
             <mdl-progress
-              [progress]="resourceUsage.consumed.secondaryStorage / resourceUsage.max.secondaryStorage * 100">
+              [progress]="progressForSecondaryStorage">
             </mdl-progress>
           </div>
         </mdl-card-supporting-text>
