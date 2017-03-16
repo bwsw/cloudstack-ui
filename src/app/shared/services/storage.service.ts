@@ -12,8 +12,9 @@ export class StorageService implements IStorageService {
     localStorage.setItem(key, value);
   }
 
-  public read(key: string): string {
-    return localStorage.getItem(key);
+  public read(key: string): string | undefined {
+    let result = localStorage.getItem(key);
+    return result !== 'undefined' ? result : undefined;
   }
 
   public remove(key: string): void {

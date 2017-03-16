@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Response } from '@angular/http';
 
 import { AuthService } from './shared/services';
@@ -21,7 +21,7 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild('settingsLink') public settingsLink: ElementRef;
   public loggedIn: boolean;
   public title: string;
@@ -86,7 +86,7 @@ export class AppComponent implements OnInit {
     return this.isLightTheme ? 'link-active-light' : 'link-active-dark';
   }
 
-  private get isLightTheme(): boolean {
+  public get isLightTheme(): boolean {
     if (!this.themeColor) {
       return false;
     }

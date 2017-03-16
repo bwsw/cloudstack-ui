@@ -3,6 +3,6 @@ export class Color {
     public name = '',
     public value: string,
     public primaryOnly = false,
-    public textColor = "#FFFFFF"
+    public textColor = '#FFFFFF'
   ) { }
 }

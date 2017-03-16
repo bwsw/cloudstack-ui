@@ -191,6 +191,10 @@
       "primaryOnly": true
     }
   ],
+  "defaultTheme": {
+    "primaryColor": "teal",
+    "accentColor": "lime"
+  },
   "offeringAvailability": {
     "031a55bb-5d6b-4336-ab93-d5dead28a887": {
       "serviceOfferings": [

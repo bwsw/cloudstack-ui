@@ -88,44 +88,115 @@
     { "value": "#FFF3E0" },
     { "value": "#FBE9E7" },
     { "value": "#EFEBE9" },
-    { "value": "#FAFAFA" },
+    { "value": "#FFFFFF" },
     { "value": "#ECEFF1" }
   ],
   "themeColors": [
-    { "name": "red", "value": "#F44336" },
-    { "name": "pink", "value": "#E91E63" },
-    { "name": "purple", "value": "#9C27B0" },
-    { "name": "deep_purple", "value": "#673AB7" },
-    { "name": "indigo", "value": "#3F51B5" },
-    { "name": "blue", "value": "#2196F3" },
-    { "name": "light_blue", "value": "#03A9F4" },
-    { "name": "cyan", "value": "#00BCD4" },
-    { "name": "teal", "value": "#009688" },
-    { "name": "green", "value": "#4CAF50" },
-    { "name": "light_green", "value": "#8BC34A" },
-    { "name": "lime", "value": "#CDDC39" },
-    { "name": "yellow", "value": "#FFEB3B" },
-    { "name": "amber", "value": "#FFC107" },
-    { "name": "orange", "value": "#FF9800" },
-    { "name": "deep_orange", "value": "#FF5722" },
+    {
+      "name": "red",
+      "value": "#F44336",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "name": "pink",
+      "value": "#E91E63",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "name": "purple",
+      "value": "#9C27B0",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "name": "deep_purple",
+      "value": "#673AB7",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "name": "indigo",
+      "value": "#3F51B5",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "name": "blue",
+      "value": "#2196F3",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "name": "light_blue",
+      "value": "#03A9F4",
+      "textColor": "#666666"
+    },
+    {
+      "name": "cyan",
+      "value": "#00BCD4",
+      "textColor": "#666666"
+    },
+    {
+      "name": "teal",
+      "value": "#009688",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "name": "green",
+      "value": "#4CAF50",
+      "textColor": "#666666"
+    },
+    {
+      "name": "light_green",
+      "value": "#8BC34A",
+      "textColor": "#666666"
+    },
+    {
+      "name": "lime",
+      "value": "#CDDC39",
+      "textColor": "#666666"
+    },
+    {
+      "name": "yellow",
+      "value": "#FFEB3B",
+      "textColor": "#666666"
+    },
+    {
+      "name": "amber",
+      "value": "#FFC107",
+      "textColor": "#666666"
+    },
+    {
+      "name": "orange",
+      "value": "#FF9800",
+      "textColor": "#666666"
+    },
+    {
+      "name": "deep_orange",
+      "value": "#FF5722",
+      "textColor": "#FFFFFF"
+    },
     {
       "name": "brown",
       "value": "#795548",
+      "textColor": "#FFFFFF",
       "primaryOnly": true
     },
     {
       "name": "grey",
       "value": "#9E9E9E",
+      "textColor": "#666666",
       "primaryOnly": true
     },
     {
       "name": "blue_grey",
       "value": "#607D8B",
+      "textColor": "#FFFFFF",
       "primaryOnly": true
     }
   ],
+  "defaultTheme": {
+    "primaryColor": "teal",
+    "accentColor": "lime"
+  },
   "offeringAvailability": {
-    "filterOfferings": false,
+    "filterOfferings": true,
     "031a55bb-5d6b-4336-ab93-d5dead28a887": {
       "serviceOfferings": [
         "4fbec0f2-e03a-4135-8f0e-a13abca3c2e2",
