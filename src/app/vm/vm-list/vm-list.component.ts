@@ -254,14 +254,14 @@ export class VmListComponent implements OnInit {
 
   private subscribeToVmDestroyed(): void {
     this.asyncJobService.event.subscribe((job: AsyncJob<any>) => {
-      if (!job.jobResult) {
+      if (!job.result) {
         return;
       }
 
-      const state = job.jobResult.state;
-      if (job.jobInstanceType === 'VirtualMachine' && (state === 'Destroyed' || state === 'Expunging')) {
-        this.vmList = this.vmList.filter(vm => vm.id !== job.jobResult.id);
-        if (this.selectedVm && this.selectedVm.id === job.jobResult.id) {
+      const state = job.result.state;
+      if (job.instanceType === 'VirtualMachine' && (state === 'Destroyed' || state === 'Expunging')) {
+        this.vmList = this.vmList.filter(vm => vm.id !== job.result.id);
+        if (this.selectedVm && this.selectedVm.id === job.result.id) {
           this.isDetailOpen = false;
         }
         this.updateFilters();
@@ -272,10 +272,10 @@ export class VmListComponent implements OnInit {
 
   private subscribeToSnapshotAdded(): void {
     this.asyncJobService.event.subscribe((job: AsyncJob<any>) => {
-      if (job.jobResult && job.jobInstanceType === 'Snapshot') {
+      if (job.result && job.instanceType === 'Snapshot') {
         this.vmList.forEach((vm, index, array) => {
-          let vol = vm.volumes.findIndex(volume => volume.id === job.jobResult.volumeId);
-          if (vol !== -1) { array[index].volumes[vol].snapshots.unshift(job.jobResult); }
+          let vol = vm.volumes.findIndex(volume => volume.id === job.result.volumeId);
+          if (vol !== -1) { array[index].volumes[vol].snapshots.unshift(job.result); }
         });
       }
     });

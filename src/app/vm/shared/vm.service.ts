@@ -119,7 +119,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public resubscribe(): Observable<Array<Observable<AsyncJob<VirtualMachine>>>> {
     return this.asyncJobService.getList().map(jobs => {
-      let filteredJobs = jobs.filter(job => !job.jobStatus && job.cmd);
+      let filteredJobs = jobs.filter(job => !job.status && job.cmd);
       let observables = [];
       filteredJobs.forEach(job => {
         observables.push(this.registerVmJob(job));
@@ -178,7 +178,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       .subscribe(
         () => {
           this.command(e).subscribe((job: AsyncJob<VirtualMachine>) => {
-            if (job && job.jobResult && job.jobResult.state === 'Destroyed') {
+            if (job && job.result && job.result.state === 'Destroyed') {
               e.vm.volumes
                 .filter(volume => volume.type === 'DATADISK')
                 .forEach(volume => this.volumeService.markForDeletion(volume.id).subscribe());
@@ -205,9 +205,9 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
     if (e.vm.state === 'Stopped') {
       this.command(e)
-        .subscribe((job: AsyncJob<VirtualMachine>) => {
-          if (job && job.jobResult && job.jobResult.password) {
-            showDialog(job.jobResult.displayName, job.jobResult.password);
+        .subscribe((vm: VirtualMachine) => {
+          if (vm && vm.password) {
+            showDialog(vm.displayName, vm.password);
           }
         });
     } else {
@@ -224,9 +224,9 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
       this.command(stop)
         .switchMap(() => this.command(e))
-        .map((job: AsyncJob<VirtualMachine>) => {
-          if (job && job.jobResult && job.jobResult.password) {
-            showDialog(job.jobResult.displayName, job.jobResult.password);
+        .map((vm: VirtualMachine) => {
+          if (vm && vm.password) {
+            showDialog(vm.displayName, vm.password);
           }
         })
         .switchMap(() => this.command(start))

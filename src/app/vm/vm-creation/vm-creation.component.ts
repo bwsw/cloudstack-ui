@@ -221,11 +221,11 @@ export class VmCreationComponent implements OnInit {
       .subscribe(
         job => {
           this.notifyOnDeployDone(notificationId);
-          if (!job.jobResult.password) {
+          if (!job.result.password) {
             return;
           }
-          this.showPassword(job.jobResult.displayName, job.jobResult.password);
-          this.vmService.updateVmInfo(job.jobResult);
+          this.showPassword(job.result.displayName, job.result.password);
+          this.vmService.updateVmInfo(job.result);
         },
         err => {
           this.sgCreationInProgress = false;

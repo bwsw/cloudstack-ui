@@ -3,20 +3,20 @@ import { FieldMapper } from '../decorators/field-mapper.decorator';
 
 
 @FieldMapper({
-  jobid: 'jobId',
-  jobstatus: 'jobStatus',
-  jobresultcode: 'jobResultCode',
-  jobresult: 'jobResult',
-  jobinstancetype: 'jobInstanceType',
-  jobresulttype: 'jobResultType'
+  jobid: 'id',
+  jobstatus: 'status',
+  jobresultcode: 'resultCode',
+  jobresult: 'result',
+  jobinstancetype: 'instanceType',
+  jobresulttype: 'resultType'
 })
 export class AsyncJob<T> extends BaseModel {
-  public jobId: string;
-  public jobStatus: number;
-  public jobResultCode: number;
-  public jobResult: T;
-  public jobInstanceType: string;
-  public jobResultType: string;
+  public id: string;
+  public status: number;
+  public resultCode: number;
+  public result: T;
+  public instanceType: string;
+  public resultType: string;
   public cmd: string;
 
   constructor(params) {

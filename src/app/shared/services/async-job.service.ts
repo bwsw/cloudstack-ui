@@ -51,9 +51,9 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     this.getList().subscribe(result => {
       let anyJobs = false;
       result.forEach(elem => {
-        let id = elem.jobId;
+        let id = elem.id;
         if (this.jobObservables[id]) {
-          if (elem.jobStatus === 0) { // if the job is completed successfully
+          if (elem.status === 0) { // if the job is completed successfully
             anyJobs = true;
           } else {
             this.jobObservables[id].next(elem);
@@ -73,13 +73,13 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     let jobId = this.getJobId(job);
     return this.addJob(jobId)
       .map(result => {
-        let entityResponse = result.jobResult[entity.toLowerCase()];
+        let entityResponse = result.result[entity.toLowerCase()];
 
-        if (result && result.jobResultCode === 0 && entityResponse) {
-          result.jobResult = this.prepareModel(result.jobResult[entity.toLowerCase()], entityModel);
+        if (result && result.resultCode === 0 && entityResponse) {
+          result.result = this.prepareModel(result.result[entity.toLowerCase()], entityModel);
         }
 
-        if (result.jobStatus === 2) {
+        if (result.status === 2) {
           return Observable.throw(result);
         }
 
@@ -96,13 +96,13 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
       this.sendCommand('query;Result', { jobId })
         .map(res => new AsyncJob<typeof entityModel>(res))
         .subscribe((asyncJob) => {
-          switch (asyncJob.jobStatus) {
+          switch (asyncJob.status) {
             case JobStatus.InProgress: return;
             case JobStatus.Completed: {
               obs.next(this.getResult(asyncJob, entity, entityModel));
             } break;
             case JobStatus.Failed: {
-              obs.error(asyncJob.jobResult);
+              obs.error(asyncJob.result);
               break;
             }
           }
@@ -130,7 +130,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
   }
 
   private getJobId(job: any): string {
-    const jobId = job.jobId || job.jobid || job;
+    const jobId = job.id || job.jobid || job;
     if (typeof jobId !== 'string') {
       throw new Error('Unsupported job format');
     }
@@ -142,15 +142,16 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     entity = '',
     entityModel: any = null
   ): any {
-    if (asyncJob.jobResult && asyncJob.jobResult.success) {
-      return asyncJob.jobResult;
+    // when response is just success: true/false
+    if (asyncJob.result && asyncJob.result.success) {
+      return asyncJob.result;
     }
 
-    const hasEntity = asyncJob.jobInstanceType || asyncJob.jobResultType;
+    const hasEntity = asyncJob.instanceType || asyncJob.resultType;
     let result;
     if (hasEntity) {
-      result = this.prepareModel(asyncJob.jobResult[entity.toLowerCase()], entityModel);
-      asyncJob.jobResult = result;
+      result = this.prepareModel(asyncJob.result[entity.toLowerCase()], entityModel);
+      asyncJob.result = result;
     } else {
       result = asyncJob;
     }
