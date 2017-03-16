@@ -71,7 +71,7 @@
   "RESTORE": "Reinstall",
   "DESTROY": "Destroy",
   "RESETPASSWORDFOR": "Reset password",
-  "CURRENT_OPERATIONS": "Current operations",
+  "CURRENT_OPERATIONS": "Pending operations",
   "CLEAR_ALL": "Clear all",
   "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",
   "NO_DONT_ASK": "No, don't ask",

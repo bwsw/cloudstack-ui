@@ -13,7 +13,7 @@ import { OsFamily, StorageService } from '../../shared';
 })
 export class TemplateFiltersComponent implements OnInit {
   @Input() public showIsoSwitch = true;
-  @Input() public showDelimiter = true;
+  @Input() public showDelimiter = false;
   @Input() public showIso: boolean;
 
   @Output() public queries = new EventEmitter();

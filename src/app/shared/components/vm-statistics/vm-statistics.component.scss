@@ -72,10 +72,17 @@ div.closed {
 
 .stat-section {
   width: 100%;
-  min-height: 0;
-  border-bottom: 1px solid #dedede;
 }
 
 .stat-collapse {
   text-align: right;
+}
+
+.stat-header {
+  margin: 0;
+  padding: 18px 15px 0 15px;
+}
+
+:host /deep/ mdl-card-actions {
+  padding: 0;
 }

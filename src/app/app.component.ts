@@ -93,6 +93,13 @@ export class AppComponent implements OnInit, AfterViewInit {
     return this.themeColor.textColor === '#FFFFFF';
   }
 
+  public logout(): void {
+    this.auth.logout()
+      .subscribe(() => {
+        this.router.navigate(['/login']);
+      });
+  }
+
   private updateAccount(loggedIn: boolean): void {
     this.loggedIn = loggedIn;
     if (loggedIn) {

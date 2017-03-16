@@ -59,6 +59,7 @@ import {
   NotificationBoxItemComponent,
   SgRulesManagerComponent,
   SidebarComponent,
+  TopBarComponent,
   VmStatisticsComponent,
   VolumeSizeControlComponent
 } from './components';
@@ -87,6 +88,7 @@ import { LoaderComponent } from './components/loader.component';
     NotificationBoxItemComponent,
     SgRulesManagerComponent,
     SidebarComponent,
+    TopBarComponent,
     VmStatisticsComponent,
     VolumeSizeControlComponent,
     DivisionPipe,
@@ -114,6 +116,7 @@ import { LoaderComponent } from './components/loader.component';
     NotificationBoxItemComponent,
     SgRulesManagerComponent,
     SidebarComponent,
+    TopBarComponent,
     VmStatisticsComponent,
     VolumeSizeControlComponent,
     DivisionPipe,
