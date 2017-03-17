@@ -8,12 +8,14 @@ import { EventListComponent } from './events/event-list.component';
 import { SpareDrivePageComponent } from './spare-drive/spare-drive-page/spare-drive-page.component';
 import { SettingsComponent } from './settings/settings.component';
 import { AuthGuard } from './shared/services/auth-guard.service';
+import { LoginGuard } from './shared/services/login-guard.service';
 
 
 const routes: Routes = [
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [LoginGuard]
   },
   {
     path: 'sg-templates',
