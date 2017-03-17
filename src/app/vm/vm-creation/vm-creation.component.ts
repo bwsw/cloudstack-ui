@@ -19,7 +19,6 @@ import {
   DiskOfferingService,
   DiskStorageService,
   GROUP_POSTFIX,
-  INotificationStatus,
   InstanceGroup,
   InstanceGroupService,
   JobsNotificationService,
@@ -256,18 +255,16 @@ export class VmCreationComponent implements OnInit {
   }
 
   public notifyOnDeployDone(notificationId: string): void {
-    this.jobsNotificationService.add({
+    this.jobsNotificationService.finish({
       id: notificationId,
-      message: 'DEPLOY_DONE',
-      status: INotificationStatus.Finished
+      message: 'DEPLOY_DONE'
     });
   }
 
   public notifyOnDeployFailed(notificationId: string): void {
-    this.jobsNotificationService.add({
+    this.jobsNotificationService.fail({
       id: notificationId,
-      message: 'DEPLOY_FAILED',
-      status: INotificationStatus.Failed
+      message: 'DEPLOY_FAILED'
     });
   }
 

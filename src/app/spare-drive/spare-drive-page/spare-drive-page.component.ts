@@ -6,7 +6,6 @@ import {
   deletionMark,
   DiskOffering,
   DiskOfferingService,
-  INotificationStatus,
   JobsNotificationService,
   NotificationService,
   Volume,
@@ -102,17 +101,11 @@ export class SpareDrivePageComponent implements OnInit {
           if (this.selectedVolume && this.selectedVolume.id === volume.id) {
             this.listService.onDeselected.next();
           }
-          this.jobsNotificationService.add({
-            message: 'VOLUME_DELETE_DONE',
-            status: INotificationStatus.Finished
-          });
+          this.jobsNotificationService.finish({ message: 'VOLUME_DELETE_DONE' });
         },
         error => {
           this.notificationService.error(error);
-          this.jobsNotificationService.add({
-            message: 'VOLUME_DELETE_FAILED',
-            status: INotificationStatus.Failed
-          });
+          this.jobsNotificationService.fail({ message: 'VOLUME_DELETE_FAILED' });
         }
       );
   }
@@ -143,19 +136,17 @@ export class SpareDrivePageComponent implements OnInit {
                 this.volumes.push(volume);
               });
           }
-          this.jobsNotificationService.add({
+          this.jobsNotificationService.finish({
             id: notificationId,
             message: 'VOLUME_CREATE_DONE',
-            status: INotificationStatus.Finished
           });
         },
         error => {
           // todo: CS-3168
           this.notificationService.error(error.json().createvolumeresponse.errortext);
-          this.jobsNotificationService.add({
+          this.jobsNotificationService.fail({
             id: notificationId,
             message: 'VOLUME_CREATE_FAILED',
-            status: INotificationStatus.Failed
           });
         }
       );
@@ -167,18 +158,16 @@ export class SpareDrivePageComponent implements OnInit {
       .subscribe(
         volume => {
           this.volumes = this.volumes.filter(v => v.id !== volume.id);
-          this.jobsNotificationService.add({
+          this.jobsNotificationService.finish({
             id: notificationId,
             message: 'VOLUME_ATTACH_DONE',
-            status: INotificationStatus.Finished
           });
         },
         error => {
           this.notificationService.error(error.json().attachvolumeresponse.errortext);
-          this.jobsNotificationService.add({
+          this.jobsNotificationService.fail({
             id: notificationId,
             message: 'VOLUME_ATTACH_FAILED',
-            status: INotificationStatus.Failed
           });
         });
   }

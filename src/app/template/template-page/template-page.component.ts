@@ -12,7 +12,7 @@ import {
 
 import { ListService } from '../../shared/components/list/list.service';
 
-import { INotificationStatus, JobsNotificationService, NotificationService } from '../../shared/services';
+import { JobsNotificationService, NotificationService } from '../../shared/services';
 import { TemplateCreationComponent } from '../template-creation/template-creation.component';
 import { VmService } from '../../vm/shared/vm.service';
 import { StorageService } from '../../shared/services/storage.service';
@@ -79,18 +79,16 @@ export class TemplatePageComponent implements OnInit {
     obs .subscribe(
       () => {
         this.filterList.updateList();
-        this.jobNotificationService.add({
+        this.jobNotificationService.finish({
           id: notificationId,
           message: `${currentMode}_REGISTER_DONE`,
-          status: INotificationStatus.Finished
         });
       },
       error => {
         this.notificationService.error(error.json()['registerisoresponse']['errortext']);
-        this.jobNotificationService.add({
+        this.jobNotificationService.fail({
           id: notificationId,
           message: `${currentMode}_REGISTER_FAILED`,
-          status: INotificationStatus.Failed
         });
       });
   }
@@ -119,10 +117,9 @@ export class TemplatePageComponent implements OnInit {
       })
       .subscribe(() => {
         this.filterList.updateList();
-        this.jobNotificationService.add({
+        this.jobNotificationService.finish({
           id: notificationId,
           message: `DELETE_${currentMode}_DONE`,
-          status: INotificationStatus.Finished
         });
       }, error => {
         if (!error) {
@@ -136,10 +133,9 @@ export class TemplatePageComponent implements OnInit {
             this.dialogService.alert(str);
           });
         } else {
-          this.jobNotificationService.add({
+          this.jobNotificationService.fail({
             id: notificationId,
             message: `DELETE_${currentMode}_FAILED`,
-            status: INotificationStatus.Failed
           });
         }
       });

@@ -12,7 +12,6 @@ import { TranslateService } from 'ng2-translate';
 import {
   AsyncJobService,
   IAsyncJob,
-  INotificationStatus,
   IStorageService,
   InstanceGroup,
   JobsNotificationService,
@@ -239,10 +238,7 @@ export class VmListComponent implements OnInit {
         observables.forEach(observable => {
           observable.subscribe(job => {
             const action = VirtualMachine.getAction(job.cmd);
-            this.jobsNotificationService.add({
-              message: action.successMessage,
-              status: INotificationStatus.Finished
-            });
+            this.jobsNotificationService.finish({ message: action.successMessage });
           });
         });
       });

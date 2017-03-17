@@ -6,7 +6,6 @@ import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation
 import { VolumeResizeComponent } from '../../volume-resize.component';
 
 import {
-  INotificationStatus,
   JobsNotificationService,
   NotificationService,
   SnapshotService,
@@ -71,10 +70,9 @@ export class VolumeComponent implements OnInit {
           }
           volume.size = (data as Volume).size;
 
-          this.jobNotificationService.add({
+          this.jobNotificationService.finish({
             id: notificationId,
-            message: 'VOLUME_RESIZED',
-            status: INotificationStatus.Finished
+            message: 'VOLUME_RESIZED'
           });
 
           this.statsUpdateService.next();
@@ -93,10 +91,9 @@ export class VolumeComponent implements OnInit {
             message = error.errortext;
           }
 
-          this.jobNotificationService.add({
+          this.jobNotificationService.fail({
             id: notificationId,
-            message: 'VOLUME_RESIZE_FAILED',
-            status: INotificationStatus.Failed
+            message: 'VOLUME_RESIZE_FAILED'
           });
           this.dialogService.alert(message);
         }
@@ -121,18 +118,16 @@ export class VolumeComponent implements OnInit {
       .subscribe(
         () => {
           this.removeSnapshotFromVolume(snapshot);
-          this.jobNotificationService.add({
+          this.jobNotificationService.finish({
             id: notificationId,
-            message: 'SNAPSHOT_DELETE_DONE',
-            status: INotificationStatus.Finished
+            message: 'SNAPSHOT_DELETE_DONE'
           });
         },
         error => {
           this.notificationService.error(error);
-          this.jobNotificationService.add({
+          this.jobNotificationService.fail({
             id: notificationId,
-            message: 'SNAPSHOT_DELETE_FAILED',
-            status: INotificationStatus.Failed
+            message: 'SNAPSHOT_DELETE_FAILED'
           });
         }
       );

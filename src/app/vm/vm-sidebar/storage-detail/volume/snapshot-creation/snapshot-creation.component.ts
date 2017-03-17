@@ -4,7 +4,6 @@ import { MdlDialogReference } from 'angular2-mdl';
 
 import {
   ErrorService,
-  INotificationStatus,
   JobsNotificationService,
   NotificationService,
   SnapshotService,
@@ -46,16 +45,14 @@ export class SnapshotCreationComponent {
     this.snapshotService.create(volumeId, name)
       .subscribe(() => {
         this.statsUpdateService.next();
-        this.jobsNotificationService.add({
+        this.jobsNotificationService.finish({
           id: notificationId,
-          message: 'SNAPSHOT_DONE',
-          status: INotificationStatus.Finished
+          message: 'SNAPSHOT_DONE'
         });
       }, e => {
-        this.jobsNotificationService.add({
+        this.jobsNotificationService.fail({
           id: notificationId,
-          message: 'SNAPSHOT_FAILED',
-          status: INotificationStatus.Failed
+          message: 'SNAPSHOT_FAILED'
         });
         let error = this.errorService.parseCsError(e);
         if (error === 4350) { this.notificationService.error('VOLUME_BUSY'); }

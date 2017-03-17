@@ -16,7 +16,6 @@ import {
 import {
   AsyncJobService,
   BaseBackendService,
-  INotificationStatus,
   JobsNotificationService,
   NotificationService,
 } from '../../shared/services';
@@ -148,10 +147,9 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return this.sendCommand(e.action.commandName, this.buildCommandParams(e.vm.id, e.action.commandName))
       .switchMap(job => this.registerVmJob(job))
       .map(job => {
-        this.jobsNotificationService.add({
+        this.jobsNotificationService.finish({
           id: notificationId,
-          message: e.action.successMessage,
-          status: INotificationStatus.Finished
+          message: e.action.successMessage
         });
         return job;
       });
@@ -278,16 +276,10 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return this.sendCommand(command, params)
       .map(result => this.prepareModel(result['virtualmachine']))
       .map(result => {
-        this.jobsNotificationService.add({
-          message: 'OFFERING_CHANGED',
-          status: INotificationStatus.Finished
-        });
+        this.jobsNotificationService.finish({ message: 'OFFERING_CHANGED' });
         this.updateVmInfo(result);
       }, () => {
-        this.jobsNotificationService.add({
-          message: 'OFFERING_CHANGE_FAILED',
-          status: INotificationStatus.Failed
-        });
+        this.jobsNotificationService.fail({ message: 'OFFERING_CHANGE_FAILED' });
         this.notificationService.error('UNEXPECTED_ERROR');
       });
   }
