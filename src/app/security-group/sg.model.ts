@@ -41,6 +41,7 @@ export class SecurityGroup extends BaseModel {
   public egressRules: Array<NetworkRule>;
   public virtualMachineIds: Array<string>;
   public tags: Array<ITag>;
+  public preselected: boolean;
 
   constructor(params?: {}) {
     super(params);
