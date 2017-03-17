@@ -408,5 +408,6 @@
   "SELECT_ZONES": "Select zones",
   "NETWORK_RULES": "Network rules",
 
-  "LICENSE": "© Bitworks Software, Ltd.<br>Released under Apache v2.0 license"
+  "LICENSE": "© Bitworks Software, Ltd.<br>Released under Apache v2.0 license",
+  "WELCOME": "Welcome, {{ name }}"
 }

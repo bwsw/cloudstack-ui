@@ -16,7 +16,13 @@
     class="mdl-color--grey-50 flex-container"
     [attr.style]="drawerStyles"
   >
-    <mdl-layout-title>{{ title }}</mdl-layout-title>
+    <mdl-layout-title>
+      <img class="logo" [src]="logoSource">
+      <div class="title-header">
+        <mdl-icon class="link-element">person</mdl-icon>
+        <div class="link-element">{{ 'WELCOME' | translate:{ name: title } }}</div>
+      </div>
+    </mdl-layout-title>
     <nav class="mdl-navigation">
 
       <a

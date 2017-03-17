@@ -5,6 +5,7 @@
   z-index: -1;
 
   & mdl-card {
+    min-height: 0;
     z-index: 0;
   }
 }
@@ -40,4 +41,10 @@ mdl-card.error {
 .stopped,
 .error {
   background-color: #B71C1C;
+}
+
+.vm-popover {
+  top: 0;
+  right: 50px;
+  width: 252px !important;
 }
