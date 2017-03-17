@@ -20,7 +20,7 @@
         close
       </mdl-icon>
     </ng-container>
-    <span>{{ notification.message }}</span>
+    <span>{{ notification.message | translate }}</span>
   </mdl-list-item-primary-content>
   <mdl-icon class="close" *ngIf="notification.status !== notificationStatus.Pending" (click)="remove()">close</mdl-icon>
 </mdl-list-item>

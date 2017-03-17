@@ -88,18 +88,8 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private detachVolume(volume: Volume): void {
-    let notificationId;
-    let translatedStrings;
-    this.translateService.get([
-      'VOLUME_DETACH_IN_PROGRESS',
-      'VOLUME_DETACH_DONE',
-      'VOLUME_DETACH_FAILED'
-    ])
-      .switchMap(strs => {
-        translatedStrings = strs;
-        notificationId = this.jobNotificationService.add(translatedStrings['VOLUME_DETACH_IN_PROGRESS']);
-        return this.volumeService.detach(volume.id);
-      })
+    let notificationId = this.jobNotificationService.add('VOLUME_DETACH_IN_PROGRESS');
+    this.volumeService.detach(volume.id)
       .subscribe(
         () => {
           this.vm.volumes = this.vm.volumes.filter(vmVolume => {
@@ -107,7 +97,7 @@ export class StorageDetailComponent implements OnChanges {
           });
           this.jobNotificationService.add({
             id: notificationId,
-            message: translatedStrings['VOLUME_DETACH_DONE'],
+            message: 'VOLUME_DETACH_DONE',
             status: INotificationStatus.Finished
           });
         },
@@ -115,7 +105,7 @@ export class StorageDetailComponent implements OnChanges {
           this.notificationService.error(error.json().detachvolumeresponse.errortext);
           this.jobNotificationService.add({
             id: notificationId,
-            message: translatedStrings['VOLUME_DETACH_FAILED'],
+            message: 'VOLUME_DETACH_FAILED',
             status: INotificationStatus.Failed
           });
         }
@@ -148,25 +138,14 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private attachIso(iso: Iso): void {
-    let translations;
-    let notificationId;
-
-    this.translateService.get([
-      'ISO_ATTACH_IN_PROGRESS',
-      'ISO_ATTACH_DONE',
-      'ISO_ATTACH_FAILED'
-    ])
-      .switchMap(strs => {
-        translations = strs;
-        notificationId = this.jobNotificationService.add(translations['ISO_ATTACH_IN_PROGRESS']);
-        return this.isoService.attach(this.vm.id, iso);
-      })
+    let notificationId = this.jobNotificationService.add('ISO_ATTACH_IN_PROGRESS');
+    this.isoService.attach(this.vm.id, iso)
       .subscribe(
         (attachedIso: Iso) => {
           this.iso = attachedIso;
           this.jobNotificationService.add({
             id: notificationId,
-            message: translations['ISO_ATTACH_DONE'],
+            message: 'ISO_ATTACH_DONE',
             status: INotificationStatus.Finished
           });
         },
@@ -175,38 +154,28 @@ export class StorageDetailComponent implements OnChanges {
           this.notificationService.error(error);
           this.jobNotificationService.add({
             id: notificationId,
-            message: translations['ISO_ATTACH_FAILED'],
+            message: 'ISO_ATTACH_FAILED',
             status: INotificationStatus.Failed
           });
         });
   }
 
   private detachIso(): void {
-    let translations;
-    let notificationId;
+    let notificationId = this.jobNotificationService.add('ISO_DETACH_IN_PROGRESS');
 
-    this.translateService.get([
-      'ISO_DETACH_IN_PROGRESS',
-      'ISO_DETACH_DONE',
-      'ISO_DETACH_FAILED'
-    ])
-      .switchMap(strs => {
-        translations = strs;
-        notificationId = this.jobNotificationService.add(translations['ISO_DETACH_IN_PROGRESS']);
-        return this.isoService.detach(this.vm.id);
-      })
+    this.isoService.detach(this.vm.id)
       .subscribe(() => {
         this.iso = null;
         this.jobNotificationService.add({
           id: notificationId,
-          message: translations['ISO_DETACH_DONE'],
+          message: 'ISO_DETACH_DONE',
           status: INotificationStatus.Finished
         });
       }, () => {
         this.iso = null;
         this.jobNotificationService.add({
           id: notificationId,
-          message: translations['ISO_DETACH_FAILED'],
+          message: 'ISO_DETACH_FAILED',
           status: INotificationStatus.Failed
         });
       });

@@ -93,16 +93,7 @@ export class SpareDrivePageComponent implements OnInit {
   }
 
   public remove(volume: Volume): void {
-    let notificationId;
-    let translatedStrings;
-    this.translateService.get([
-      'VOLUME_DELETE_DONE',
-      'VOLUME_DELETE_FAILED'
-    ])
-      .switchMap(strs => {
-        translatedStrings = strs;
-        return this.volumeService.remove(volume.id);
-      })
+    this.volumeService.remove(volume.id)
       .subscribe(
         () => {
           this.volumes = this.volumes.filter(listVolume => {
@@ -112,16 +103,14 @@ export class SpareDrivePageComponent implements OnInit {
             this.listService.onDeselected.next();
           }
           this.jobsNotificationService.add({
-            id: notificationId,
-            message: translatedStrings['VOLUME_DELETE_DONE'],
+            message: 'VOLUME_DELETE_DONE',
             status: INotificationStatus.Finished
           });
         },
         error => {
           this.notificationService.error(error);
           this.jobsNotificationService.add({
-            id: notificationId,
-            message: translatedStrings['VOLUME_DELETE_FAILED'],
+            message: 'VOLUME_DELETE_FAILED',
             status: INotificationStatus.Failed
           });
         }
@@ -143,19 +132,8 @@ export class SpareDrivePageComponent implements OnInit {
   }
 
   public createVolume(volumeCreationData: VolumeCreationData): void {
-    let notificationId;
-    let translatedStrings;
-
-    this.translateService.get([
-      'VOLUME_CREATE_IN_PROGRESS',
-      'VOLUME_CREATE_DONE',
-      'VOLUME_CREATE_FAILED'
-    ])
-      .switchMap(strs => {
-        translatedStrings = strs;
-        notificationId = this.jobsNotificationService.add(translatedStrings['VOLUME_CREATE_IN_PROGRESS']);
-        return this.volumeService.create(volumeCreationData);
-      })
+    let notificationId = this.jobsNotificationService.add('VOLUME_CREATE_IN_PROGRESS');
+    this.volumeService.create(volumeCreationData)
       .subscribe(
         volume => {
           if (volume.id) {
@@ -167,7 +145,7 @@ export class SpareDrivePageComponent implements OnInit {
           }
           this.jobsNotificationService.add({
             id: notificationId,
-            message: translatedStrings['VOLUME_CREATE_DONE'],
+            message: 'VOLUME_CREATE_DONE',
             status: INotificationStatus.Finished
           });
         },
@@ -176,7 +154,7 @@ export class SpareDrivePageComponent implements OnInit {
           this.notificationService.error(error.json().createvolumeresponse.errortext);
           this.jobsNotificationService.add({
             id: notificationId,
-            message: translatedStrings['VOLUME_CREATE_FAILED'],
+            message: 'VOLUME_CREATE_FAILED',
             status: INotificationStatus.Failed
           });
         }
@@ -184,24 +162,14 @@ export class SpareDrivePageComponent implements OnInit {
   }
 
   public attach(data: VolumeAttachmentData): void {
-    let notificationId;
-    let translatedStrings;
-    this.translateService.get([
-      'VOLUME_ATTACH_IN_PROGRESS',
-      'VOLUME_ATTACH_DONE',
-      'VOLUME_ATTACH_FAILED'
-    ])
-      .switchMap(strs => {
-        translatedStrings = strs;
-        notificationId = this.jobsNotificationService.add(translatedStrings['VOLUME_ATTACH_IN_PROGRESS']);
-        return this.volumeService.attach(data);
-      })
+    let notificationId = this.jobsNotificationService.add('VOLUME_ATTACH_IN_PROGRESS');
+    this.volumeService.attach(data)
       .subscribe(
         volume => {
           this.volumes = this.volumes.filter(v => v.id !== volume.id);
           this.jobsNotificationService.add({
             id: notificationId,
-            message: translatedStrings['VOLUME_ATTACH_DONE'],
+            message: 'VOLUME_ATTACH_DONE',
             status: INotificationStatus.Finished
           });
         },
@@ -209,7 +177,7 @@ export class SpareDrivePageComponent implements OnInit {
           this.notificationService.error(error.json().attachvolumeresponse.errortext);
           this.jobsNotificationService.add({
             id: notificationId,
-            message: translatedStrings['VOLUME_ATTACH_FAILED'],
+            message: 'VOLUME_ATTACH_FAILED',
             status: INotificationStatus.Failed
           });
         });

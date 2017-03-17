@@ -204,8 +204,7 @@ export class VmCreationComponent implements OnInit {
         return this.vmService.deploy(params);
       })
       .switchMap(deployResponse => {
-        this.translateService.get('VM_DEPLOY_IN_PROGRESS')
-          .subscribe(str => notificationId = this.jobsNotificationService.add(str));
+        notificationId = this.jobsNotificationService.add('VM_DEPLOY_IN_PROGRESS');
 
         this.vmService.get(deployResponse.id)
           .subscribe(vm => {
@@ -257,25 +256,19 @@ export class VmCreationComponent implements OnInit {
   }
 
   public notifyOnDeployDone(notificationId: string): void {
-    this.translateService.get('DEPLOY_DONE')
-      .subscribe(str => {
-        this.jobsNotificationService.add({
-          id: notificationId,
-          message: str,
-          status: INotificationStatus.Finished
-        });
-      });
+    this.jobsNotificationService.add({
+      id: notificationId,
+      message: 'DEPLOY_DONE',
+      status: INotificationStatus.Finished
+    });
   }
 
   public notifyOnDeployFailed(notificationId: string): void {
-    this.translateService.get('DEPLOY_FAILED')
-      .subscribe(str => {
-        this.jobsNotificationService.add({
-          id: notificationId,
-          message: str,
-          status: INotificationStatus.Failed
-        });
-      });
+    this.jobsNotificationService.add({
+      id: notificationId,
+      message: 'DEPLOY_FAILED',
+      status: INotificationStatus.Failed
+    });
   }
 
   public onTemplateChange(t: BaseTemplateModel): void {

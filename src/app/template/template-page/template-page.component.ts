@@ -67,73 +67,42 @@ export class TemplatePageComponent implements OnInit {
   }
 
   public createTemplate(templateData): void {
-    let translatedStrings;
-    let notificationId;
-
     let currentMode = this.viewMode === 'Iso' ? 'ISO' : 'TEMPLATE';
+    let notificationId = this.jobNotificationService.add(`${currentMode}_REGISTER_IN_PROGRESS`);
 
-    this.translateService.get([
-      'ISO_REGISTER_IN_PROGRESS',
-      'ISO_REGISTER_DONE',
-      'ISO_REGISTER_FAILED',
-      'TEMPLATE_REGISTER_IN_PROGRESS',
-      'TEMPLATE_REGISTER_DONE',
-      'TEMPLATE_REGISTER_FAILED'
-    ])
-      .switchMap(strs => {
-        translatedStrings = strs;
-        notificationId = this.jobNotificationService.add(
-          translatedStrings[`${currentMode}_REGISTER_IN_PROGRESS`]
-        );
-        if (currentMode === 'ISO') {
-          return this.isoService.register(templateData);
-        }
-        return this.templateService.register(templateData);
-      })
-      .subscribe(
-        () => {
-          this.filterList.updateList();
-          this.jobNotificationService.add({
-            id: notificationId,
-            message: translatedStrings[`${currentMode}_REGISTER_DONE`],
-            status: INotificationStatus.Finished
-          });
-        },
-        error => {
-          this.notificationService.error(error.json()['registerisoresponse']['errortext']);
-          this.jobNotificationService.add({
-            id: notificationId,
-            message: translatedStrings[`${currentMode}_REGISTER_FAILED`],
-            status: INotificationStatus.Failed
-          });
+    let obs;
+    if (currentMode === 'ISO') {
+      obs =  this.isoService.register(templateData);
+    } else {
+      obs = this.templateService.register(templateData);
+    }
+    obs .subscribe(
+      () => {
+        this.filterList.updateList();
+        this.jobNotificationService.add({
+          id: notificationId,
+          message: `${currentMode}_REGISTER_DONE`,
+          status: INotificationStatus.Finished
         });
+      },
+      error => {
+        this.notificationService.error(error.json()['registerisoresponse']['errortext']);
+        this.jobNotificationService.add({
+          id: notificationId,
+          message: `${currentMode}_REGISTER_FAILED`,
+          status: INotificationStatus.Failed
+        });
+      });
   }
 
   public removeTemplate(template: BaseTemplateModel): void {
-    let translatedStrings;
+    let currentMode = this.viewMode === 'Iso' ? 'ISO' : 'TEMPLATE';
     let notificationId;
 
-    let currentMode = this.viewMode === 'Iso' ? 'ISO' : 'TEMPLATE';
-
-    this.translateService.get([
-      'DELETE_ISO_IN_PROGRESS',
-      'DELETE_ISO_DONE',
-      'DELETE_ISO_FAILED',
-      'DELETE_ISO_CONFIRM',
-      'DELETE_TEMPLATE_IN_PROGRESS',
-      'DELETE_TEMPLATE_DONE',
-      'DELETE_TEMPLATE_FAILED',
-      'DELETE_TEMPLATE_CONFIRM'
-    ])
-      .switchMap(strs => {
-        translatedStrings = strs;
-        return this.dialogService.confirm(translatedStrings[`DELETE_${currentMode}_CONFIRM`]);
-      })
+    this.dialogService.confirm(`DELETE_${currentMode}_CONFIRM`)
       .switchMap(() => {
         if (template instanceof Template) {
-          notificationId = this.jobNotificationService.add(
-            translatedStrings['DELETE_TEMPLATE_IN_PROGRESS']
-          );
+          notificationId = this.jobNotificationService.add('DELETE_TEMPLATE_IN_PROGRESS');
           return this.templateService.remove(template);
         }
         return this.vmService.getListOfVmsThatUseIso(template as Iso)
@@ -144,9 +113,7 @@ export class TemplatePageComponent implements OnInit {
                 vms: vmList
               });
             }
-            notificationId = this.jobNotificationService.add(
-              translatedStrings['DELETE_ISO_IN_PROGRESS']
-            );
+            notificationId = this.jobNotificationService.add('DELETE_ISO_IN_PROGRESS');
             return this.isoService.remove(template);
           });
       })
@@ -154,7 +121,7 @@ export class TemplatePageComponent implements OnInit {
         this.filterList.updateList();
         this.jobNotificationService.add({
           id: notificationId,
-          message: translatedStrings[`DELETE_${currentMode}_DONE`],
+          message: `DELETE_${currentMode}_DONE`,
           status: INotificationStatus.Finished
         });
       }, error => {
@@ -171,7 +138,7 @@ export class TemplatePageComponent implements OnInit {
         } else {
           this.jobNotificationService.add({
             id: notificationId,
-            message: translatedStrings[`DELETE_${currentMode}_FAILED`],
+            message: `DELETE_${currentMode}_FAILED`,
             status: INotificationStatus.Failed
           });
         }

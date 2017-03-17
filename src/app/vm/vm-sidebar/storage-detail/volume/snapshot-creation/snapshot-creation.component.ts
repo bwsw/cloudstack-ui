@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
+
 
 import {
   ErrorService,
@@ -26,7 +26,6 @@ export class SnapshotCreationComponent {
     private jobsNotificationService: JobsNotificationService,
     private notificationService: NotificationService,
     private errorService: ErrorService,
-    private translateService: TranslateService,
     private statsUpdateService: StatsUpdateService,
     @Inject('volumeId') private volumeId: string
   ) {
@@ -43,36 +42,24 @@ export class SnapshotCreationComponent {
   }
 
   public takeSnapshot(volumeId: string, name: string): void {
-    let notificationId = '';
-    let translatedStrings = [];
-    this.translateService.get([
-      'SNAPSHOT_IN_PROGRESS',
-      'SNAPSHOT_DONE',
-      'SNAPSHOT_FAILED',
-      'VOLUME_BUSY',
-      'INSUFFICIENT_RESOURCES'
-    ])
-      .switchMap(strings => {
-        translatedStrings = strings;
-        notificationId = this.jobsNotificationService.add(translatedStrings['SNAPSHOT_IN_PROGRESS']);
-        return this.snapshotService.create(volumeId, name);
-      })
+    let notificationId = this.jobsNotificationService.add('SNAPSHOT_IN_PROGRESS');
+    this.snapshotService.create(volumeId, name)
       .subscribe(() => {
         this.statsUpdateService.next();
         this.jobsNotificationService.add({
           id: notificationId,
-          message: translatedStrings['SNAPSHOT_DONE'],
+          message: 'SNAPSHOT_DONE',
           status: INotificationStatus.Finished
         });
       }, e => {
         this.jobsNotificationService.add({
           id: notificationId,
-          message: translatedStrings['SNAPSHOT_FAILED'],
+          message: 'SNAPSHOT_FAILED',
           status: INotificationStatus.Failed
         });
         let error = this.errorService.parseCsError(e);
-        if (error === 4350) { this.notificationService.error(translatedStrings['VOLUME_BUSY']); }
-        if (error === 4370) { this.notificationService.error(translatedStrings['INSUFFICIENT_RESOURCES']); }
+        if (error === 4350) { this.notificationService.error('VOLUME_BUSY'); }
+        if (error === 4370) { this.notificationService.error('INSUFFICIENT_RESOURCES'); }
       });
   }
 }

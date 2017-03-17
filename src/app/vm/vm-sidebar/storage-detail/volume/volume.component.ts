@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
 import { Observable } from 'rxjs';
 
 import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
@@ -27,7 +26,6 @@ export class VolumeComponent implements OnInit {
   @Output() public onDetach = new EventEmitter();
 
   constructor(
-    private translateService: TranslateService,
     private dialogService: MdlDialogService,
     private jobNotificationService: JobsNotificationService,
     private statsUpdateService: StatsUpdateService,
@@ -53,27 +51,16 @@ export class VolumeComponent implements OnInit {
 
   public showVolumeResizeDialog(volume: Volume): void {
     let notificationId: string;
-    let translations;
 
-    this.translateService.get([
-      'VOLUME_RESIZING',
-      'VOLUME_RESIZED',
-      'VOLUME_RESIZE_FAILED',
-      'VOLUME_NEWSIZE_LOWER',
-      'VOLUME_PRIMARY_STORAGE_EXCEEDED'
-    ])
-      .switchMap(res => {
-        translations = res;
-        return this.dialogService.showCustomDialog({
-          component: VolumeResizeComponent,
-          classes: 'volume-resize-dialog',
-          providers: [{ provide: 'volume', useValue: volume }]
-        });
-      })
+    this.dialogService.showCustomDialog({
+      component: VolumeResizeComponent,
+      classes: 'volume-resize-dialog',
+      providers: [{ provide: 'volume', useValue: volume }]
+    })
       .switchMap(res => res.onHide())
       .switchMap((data: any) => {
         if (data) {
-          notificationId = this.jobNotificationService.add(translations['VOLUME_RESIZING']);
+          notificationId = this.jobNotificationService.add('VOLUME_RESIZING');
           return data;
         }
         return Observable.of(undefined);
@@ -86,7 +73,7 @@ export class VolumeComponent implements OnInit {
 
           this.jobNotificationService.add({
             id: notificationId,
-            message: translations['VOLUME_RESIZED'],
+            message: 'VOLUME_RESIZED',
             status: INotificationStatus.Finished
           });
 
@@ -97,9 +84,9 @@ export class VolumeComponent implements OnInit {
 
           // can't rely on error codes, native ui just prints errortext
           if (error.errortext.startsWith('Going from')) {
-            message = translations['VOLUME_NEWSIZE_LOWER'];
+            message = 'VOLUME_NEWSIZE_LOWER';
           } else if (error.errortext.startsWith('Maximum number of')) {
-            message = translations['VOLUME_PRIMARY_STORAGE_EXCEEDED'];
+            message = 'VOLUME_PRIMARY_STORAGE_EXCEEDED';
           } else {
             // don't know what errors may occur,
             // so print errortext like native ui
@@ -108,7 +95,7 @@ export class VolumeComponent implements OnInit {
 
           this.jobNotificationService.add({
             id: notificationId,
-            message: translations['VOLUME_RESIZE_FAILED'],
+            message: 'VOLUME_RESIZE_FAILED',
             status: INotificationStatus.Failed
           });
           this.dialogService.alert(message);
@@ -126,20 +113,9 @@ export class VolumeComponent implements OnInit {
 
   public handleSnapshotDelete(snapshot: Snapshot): void {
     let notificationId: string;
-    let translations;
-
-    this.translateService.get([
-      'CONFIRM_SNAPSHOT_DELETE',
-      'SNAPSHOT_DELETE_IN_PROGRESS',
-      'SNAPSHOT_DELETE_DONE',
-      'SNAPSHOT_DELETE_FAILED'
-    ])
-      .switchMap(strs => {
-        translations = strs;
-        return this.dialogService.confirm(strs['CONFIRM_SNAPSHOT_DELETE']);
-      })
+    this.dialogService.confirm('CONFIRM_SNAPSHOT_DELETE')
       .switchMap(() => {
-        notificationId = this.jobNotificationService.add(translations['SNAPSHOT_DELETE_IN_PROGRESS']);
+        notificationId = this.jobNotificationService.add('SNAPSHOT_DELETE_IN_PROGRESS');
         return this.snapshotService.remove(snapshot.id);
       })
       .subscribe(
@@ -147,7 +123,7 @@ export class VolumeComponent implements OnInit {
           this.removeSnapshotFromVolume(snapshot);
           this.jobNotificationService.add({
             id: notificationId,
-            message: translations['SNAPSHOT_DELETE_DONE'],
+            message: 'SNAPSHOT_DELETE_DONE',
             status: INotificationStatus.Finished
           });
         },
@@ -155,7 +131,7 @@ export class VolumeComponent implements OnInit {
           this.notificationService.error(error);
           this.jobNotificationService.add({
             id: notificationId,
-            message: translations['SNAPSHOT_DELETE_FAILED'],
+            message: 'SNAPSHOT_DELETE_FAILED',
             status: INotificationStatus.Failed
           });
         }
