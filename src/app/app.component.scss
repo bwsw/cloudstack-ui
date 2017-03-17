@@ -109,3 +109,19 @@ mdl-layout-drawer {
   flex-direction: column;
   min-height: 100vh;
 }
+
+.logo {
+  padding: 20px;
+  width: 100%;
+}
+
+mdl-layout-title {
+  padding-left: 0 !important;
+}
+
+.title-header {
+  line-height: 1;
+  padding-bottom: 20px;
+  text-align: center;
+  font-size: 14px;
+}

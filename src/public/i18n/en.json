@@ -407,5 +407,6 @@
   "SELECT_GROUPS": "Select groups",
   "SELECT_ZONES": "Select zones",
 
-  "LICENSE": "© Bitworks Software, Ltd.<br>Released under Apache v2.0 license"
+  "LICENSE": "© Bitworks Software, Ltd.<br>Released under Apache v2.0 license",
+  "WELCOME": "Welcome, {{ name }}"
 }
