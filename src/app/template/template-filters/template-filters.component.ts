@@ -15,6 +15,7 @@ export class TemplateFiltersComponent implements OnInit {
   @Input() public showIsoSwitch = true;
   @Input() public showDelimiter = false;
   @Input() public showIso: boolean;
+  @Input() public dialogMode = false;
 
   @Output() public queries = new EventEmitter();
   @Output() public displayMode = new EventEmitter();
