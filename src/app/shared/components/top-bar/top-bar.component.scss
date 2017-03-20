@@ -2,17 +2,18 @@
   display: flex;
   background-color: white;
   border-bottom: 1px solid #dedede;
-  min-height: 64px;
 }
 
 .top-bar-content {
   flex: 1 1 100%;
   min-width: 0;
+  min-height: 67px;
 }
 
 .top-bar-notifications {
   flex: 0 0 40px;
   margin: 16px;
+  height: 40px;
 }
 
 .drawer-button {
