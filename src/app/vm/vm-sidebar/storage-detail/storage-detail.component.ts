@@ -8,7 +8,7 @@ import { TranslateService } from 'ng2-translate';
 
 import { VirtualMachine } from '../../shared/vm.model';
 import { IsoAttachmentComponent } from '../../../template/iso-attachment/iso-attachment.component';
-import { JobsNotificationService, INotificationStatus } from '../../../shared/services/jobs-notification.service';
+import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { Iso, IsoService } from '../../../template/shared';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { IsoEvent } from './iso-attachment.component';
@@ -88,35 +88,23 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private detachVolume(volume: Volume): void {
-    let notificationId;
-    let translatedStrings;
-    this.translateService.get([
-      'VOLUME_DETACH_IN_PROGRESS',
-      'VOLUME_DETACH_DONE',
-      'VOLUME_DETACH_FAILED'
-    ])
-      .switchMap(strs => {
-        translatedStrings = strs;
-        notificationId = this.jobNotificationService.add(translatedStrings['VOLUME_DETACH_IN_PROGRESS']);
-        return this.volumeService.detach(volume.id);
-      })
+    let notificationId = this.jobNotificationService.add('VOLUME_DETACH_IN_PROGRESS');
+    this.volumeService.detach(volume.id)
       .subscribe(
         () => {
           this.vm.volumes = this.vm.volumes.filter(vmVolume => {
             return volume.id !== vmVolume.id;
           });
-          this.jobNotificationService.add({
+          this.jobNotificationService.finish({
             id: notificationId,
-            message: translatedStrings['VOLUME_DETACH_DONE'],
-            status: INotificationStatus.Finished
+            message: 'VOLUME_DETACH_DONE'
           });
         },
         error => {
           this.notificationService.error(error.json().detachvolumeresponse.errortext);
-          this.jobNotificationService.add({
+          this.jobNotificationService.fail({
             id: notificationId,
-            message: translatedStrings['VOLUME_DETACH_FAILED'],
-            status: INotificationStatus.Failed
+            message: 'VOLUME_DETACH_FAILED'
           });
         }
       );
@@ -148,66 +136,41 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private attachIso(iso: Iso): void {
-    let translations;
-    let notificationId;
-
-    this.translateService.get([
-      'ISO_ATTACH_IN_PROGRESS',
-      'ISO_ATTACH_DONE',
-      'ISO_ATTACH_FAILED'
-    ])
-      .switchMap(strs => {
-        translations = strs;
-        notificationId = this.jobNotificationService.add(translations['ISO_ATTACH_IN_PROGRESS']);
-        return this.isoService.attach(this.vm.id, iso);
-      })
+    let notificationId = this.jobNotificationService.add('ISO_ATTACH_IN_PROGRESS');
+    this.isoService.attach(this.vm.id, iso)
       .subscribe(
         (attachedIso: Iso) => {
           this.iso = attachedIso;
-          this.jobNotificationService.add({
+          this.jobNotificationService.finish({
             id: notificationId,
-            message: translations['ISO_ATTACH_DONE'],
-            status: INotificationStatus.Finished
+            message: 'ISO_ATTACH_DONE'
           });
         },
         error => {
           this.iso = null;
           this.notificationService.error(error);
-          this.jobNotificationService.add({
+          this.jobNotificationService.fail({
             id: notificationId,
-            message: translations['ISO_ATTACH_FAILED'],
-            status: INotificationStatus.Failed
+            message: 'ISO_ATTACH_FAILED'
           });
         });
   }
 
   private detachIso(): void {
-    let translations;
-    let notificationId;
+    let notificationId = this.jobNotificationService.add('ISO_DETACH_IN_PROGRESS');
 
-    this.translateService.get([
-      'ISO_DETACH_IN_PROGRESS',
-      'ISO_DETACH_DONE',
-      'ISO_DETACH_FAILED'
-    ])
-      .switchMap(strs => {
-        translations = strs;
-        notificationId = this.jobNotificationService.add(translations['ISO_DETACH_IN_PROGRESS']);
-        return this.isoService.detach(this.vm.id);
-      })
+    this.isoService.detach(this.vm.id)
       .subscribe(() => {
         this.iso = null;
-        this.jobNotificationService.add({
+        this.jobNotificationService.finish({
           id: notificationId,
-          message: translations['ISO_DETACH_DONE'],
-          status: INotificationStatus.Finished
+          message: 'ISO_DETACH_DONE'
         });
       }, () => {
         this.iso = null;
-        this.jobNotificationService.add({
+        this.jobNotificationService.fail({
           id: notificationId,
-          message: translations['ISO_DETACH_FAILED'],
-          status: INotificationStatus.Failed
+          message: 'ISO_DETACH_FAILED'
         });
       });
   }

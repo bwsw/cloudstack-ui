@@ -16,7 +16,7 @@ export class NotificationBoxComponent implements OnInit {
   private unseenCountStream: Observable<number>;
 
   constructor(
-    private jobsNotificationService: JobsNotificationService,
+    public jobsNotificationService: JobsNotificationService,
     private changeDetectorRef: ChangeDetectorRef
   ) {
     this.unseenCount = 0;
@@ -62,12 +62,6 @@ export class NotificationBoxComponent implements OnInit {
 
   public removeCompleted(): void {
     this.jobsNotificationService.removeCompleted();
-    this.unseenCount = 0;
-    this.popover.hide();
-  }
-
-  public removeAll(): void {
-    this.jobsNotificationService.removeAll();
     this.unseenCount = 0;
     this.popover.hide();
   }

@@ -34,6 +34,20 @@ describe('Jobs notification service', () => {
     expect(jobsNotificationService.notifications[0].status).toBe(INotificationStatus.Finished);
   }));
 
+  it('should update the status to "finished"', inject([JobsNotificationService], jobsNotifications => {
+    const id = jobsNotifications.add('new job');
+
+    jobsNotifications.finish({ id });
+    expect(jobsNotifications.notifications[0].status).toBe(INotificationStatus.Finished);
+  }));
+
+  it('should update the status to "failed"', inject([JobsNotificationService], jobsNotifications => {
+    const id = jobsNotifications.add('new job');
+
+    jobsNotifications.fail({ id });
+    expect(jobsNotifications.notifications[0].status).toBe(INotificationStatus.Failed);
+  }));
+
   it('should remove notification by id', inject([JobsNotificationService], jobsNotificationService => {
     jobsNotificationService.add({ id: '0', message: 'new job'});
     jobsNotificationService.add({ id: '1', message: 'another job'});

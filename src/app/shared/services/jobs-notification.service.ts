@@ -71,6 +71,22 @@ export class JobsNotificationService {
     return notification.id;
   }
 
+  public finish(notification: INotification): string {
+    return this.add({
+      id: notification.id,
+      message: notification.message,
+      status: INotificationStatus.Finished
+    });
+  }
+
+  public fail(notification: INotification): string {
+    return this.add({
+      id: notification.id,
+      message: notification.message,
+      status: INotificationStatus.Failed
+    });
+  }
+
   public remove(id: string): void {
     const ind = this.notifications.findIndex((el: INotification) => el.id === id);
     if (ind === -1) {

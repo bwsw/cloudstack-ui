@@ -16,7 +16,6 @@ import {
 import {
   AsyncJobService,
   BaseBackendService,
-  INotificationStatus,
   JobsNotificationService,
   NotificationService,
 } from '../../shared/services';
@@ -141,26 +140,16 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public command(e: IVmActionEvent): Observable<any> {
-    let notificationId;
-    let strs;
-    return this.translateService.get([
-      e.action.progressMessage,
-      e.action.successMessage
-    ])
-      .switchMap(res => {
-        strs = res;
-        notificationId = this.jobsNotificationService.add(strs[e.action.progressMessage]);
-        if (e.vm) {
-          e.vm.state = e.action.vmStateOnAction;
-        }
-        return this.sendCommand(e.action.commandName, this.buildCommandParams(e.vm.id, e.action.commandName))
-          .switchMap(job => this.registerVmJob(job));
-      })
+    let notificationId = this.jobsNotificationService.add(e.action.progressMessage);
+    if (e.vm) {
+      e.vm.state = e.action.vmStateOnAction;
+    }
+    return this.sendCommand(e.action.commandName, this.buildCommandParams(e.vm.id, e.action.commandName))
+      .switchMap(job => this.registerVmJob(job))
       .map(job => {
-        this.jobsNotificationService.add({
+        this.jobsNotificationService.finish({
           id: notificationId,
-          message: strs[e.action.successMessage],
-          status: INotificationStatus.Finished
+          message: e.action.successMessage
         });
         return job;
       });
@@ -280,32 +269,18 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   private _changeServiceOffering(serviceOfferingId: string, virtualMachine: VirtualMachine): Observable<void> {
     const command = 'changeServiceFor';
     let params = {};
-    let translatedStrings = [];
 
     params['id'] = virtualMachine.id;
     params['serviceOfferingId'] = serviceOfferingId;
 
-    return this.translateService.get([
-      'OFFERING_CHANGED',
-      'OFFERING_CHANGE_FAILED',
-      'UNEXPECTED_ERROR'
-    ]).switchMap(strs => {
-      translatedStrings = strs;
-      return this.sendCommand(command, params);
-    })
+    return this.sendCommand(command, params)
       .map(result => this.prepareModel(result['virtualmachine']))
       .map(result => {
-        this.jobsNotificationService.add({
-          message: translatedStrings['OFFERING_CHANGED'],
-          status: INotificationStatus.Finished
-        });
+        this.jobsNotificationService.finish({ message: 'OFFERING_CHANGED' });
         this.updateVmInfo(result);
       }, () => {
-        this.jobsNotificationService.add({
-          message: translatedStrings['OFFERING_CHANGE_FAILED'],
-          status: INotificationStatus.Failed
-        });
-        this.notificationService.error(translatedStrings['UNEXPECTED_ERROR']);
+        this.jobsNotificationService.fail({ message: 'OFFERING_CHANGE_FAILED' });
+        this.notificationService.error('UNEXPECTED_ERROR');
       });
   }
 

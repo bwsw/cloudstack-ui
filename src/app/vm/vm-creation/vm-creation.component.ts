@@ -19,7 +19,6 @@ import {
   DiskOfferingService,
   DiskStorageService,
   GROUP_POSTFIX,
-  INotificationStatus,
   InstanceGroup,
   InstanceGroupService,
   JobsNotificationService,
@@ -204,8 +203,7 @@ export class VmCreationComponent implements OnInit {
         return this.vmService.deploy(params);
       })
       .switchMap(deployResponse => {
-        this.translateService.get('VM_DEPLOY_IN_PROGRESS')
-          .subscribe(str => notificationId = this.jobsNotificationService.add(str));
+        notificationId = this.jobsNotificationService.add('VM_DEPLOY_IN_PROGRESS');
 
         this.vmService.get(deployResponse.id)
           .subscribe(vm => {
@@ -257,25 +255,17 @@ export class VmCreationComponent implements OnInit {
   }
 
   public notifyOnDeployDone(notificationId: string): void {
-    this.translateService.get('DEPLOY_DONE')
-      .subscribe(str => {
-        this.jobsNotificationService.add({
-          id: notificationId,
-          message: str,
-          status: INotificationStatus.Finished
-        });
-      });
+    this.jobsNotificationService.finish({
+      id: notificationId,
+      message: 'DEPLOY_DONE'
+    });
   }
 
   public notifyOnDeployFailed(notificationId: string): void {
-    this.translateService.get('DEPLOY_FAILED')
-      .subscribe(str => {
-        this.jobsNotificationService.add({
-          id: notificationId,
-          message: str,
-          status: INotificationStatus.Failed
-        });
-      });
+    this.jobsNotificationService.fail({
+      id: notificationId,
+      message: 'DEPLOY_FAILED'
+    });
   }
 
   public onTemplateChange(t: BaseTemplateModel): void {
