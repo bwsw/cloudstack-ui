@@ -25,7 +25,8 @@
 }
 
 :host /deep/ mdl-card {
-  min-height: initial;
+  min-height: 0;
+  width: auto;
   margin: 5px;
 }
 
@@ -58,7 +59,6 @@
   .mdl-tabs__tab {
     width: 100%;
   }
-  width: 340px;
 }
 
 :host /deep/ mdl-card-supporting-text {
