@@ -400,10 +400,10 @@
   "VOLUME_ATTACH_IN_PROGRESS": "Attaching a volume",
 
   "SETTINGS": "Settings",
-  "LANGUAGE": "Language",
+  "LANGUAGE": "Interface Language",
   "COLOR": "Color",
   "GROUP_BY_COLORS": "Group by colors",
-  "PALETTE": "Palette",
+  "PALETTE": "Interface Theme Colors",
   "SELECT_GROUPS": "Select groups",
   "SELECT_ZONES": "Select zones",
   "NETWORK_RULES": "Network rules",

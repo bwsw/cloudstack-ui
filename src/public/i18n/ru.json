@@ -400,10 +400,10 @@
   "VOLUME_ATTACH_IN_PROGRESS": "Диск прикрепляется",
 
   "SETTINGS": "Настройки",
-  "LANGUAGE": "Язык",
+  "LANGUAGE": "Язык Интерфейса",
   "COLOR": "Цвет",
   "GROUP_BY_COLORS": "Группировать по цветам",
-  "PALETTE": "Палитра",
+  "PALETTE": "Цвета темы интерфейса",
   "SELECT_GROUPS": "Выбор групп",
   "SELECT_ZONES": "Выбор зон",
   "NETWORK_RULES": "Сетевые правила",
