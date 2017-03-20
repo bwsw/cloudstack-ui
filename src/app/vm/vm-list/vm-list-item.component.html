@@ -53,7 +53,7 @@
     </button>
   </mdl-card-menu>
   <mdl-popover
-    class="vm-popover"
+    class="card-popover vm-popover"
     #myPopover
     [hide-on-click]="true"
     [style.width.px]="300"
@@ -64,7 +64,7 @@
         (click)="getAction($event, a.nameLower)"
         [disabled]="!vm.canApply(a.nameLower)"
         [mdl-tooltip]="a.nameCaps | translate"
-        mdl-tooltip-position="top"
+        mdl-tooltip-position="bottom"
         mdl-button
         mdl-button-type="icon"
         mdl-ripple

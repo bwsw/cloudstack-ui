@@ -1,30 +1,28 @@
 <cs-top-bar>
   <mdl-card class="options-panel top-bar-height">
-    <cs-date-picker
-      [okLabel]="'OK' | translate"
-      [locale]="locale"
-      [formatDate]="formatDate"
-      [firstDayOfWeek]="locale === 'en' ? 0 : 1"
-      [DateTimeFormat]="dateTimeFormat"
-      [cancelLabel]="'CANCEL' | translate"
-      [(ngModel)]="date"
-      (ngModelChange)="filterEvents()"
-    ></cs-date-picker>
-    <mdl-select
-      [(ngModel)]="selectedLevels"
-      (change)="filterEvents()"
-      multiple="true"
-      placeholder="Levels"
+  <cs-date-picker
+    [okLabel]="'OK' | translate"
+    [locale]="locale"
+    [firstDayOfWeek]="locale === 'en' ? 0 : 1"
+    [DateTimeFormat]="dateTimeFormat"
+    [cancelLabel]="'CANCEL' | translate"
+    [(ngModel)]="date"
+    (ngModelChange)="filterEvents($event)"
+  ></cs-date-picker>
+  <mdl-select
+    [(ngModel)]="selectedLevels"
+    (change)="filterEvents()"
+    multiple="true"
+    placeholder="Levels"
+  >
+    <mdl-option
+      *ngFor="let level of levels"
+      [value]="level"
     >
-      <mdl-option
-        *ngFor="let level of levels"
-        [value]="level"
-      >
-        {{ level }}
-      </mdl-option>
-    </mdl-select>
-  </mdl-card>
-</cs-top-bar>
+      {{ level }}
+    </mdl-option>
+  </mdl-select>
+</mdl-card></cs-top-bar>
 <div class="event-list">
   <h5 translate>ACTIVITY_LOG</h5>
   <ng-container *loading="loading">

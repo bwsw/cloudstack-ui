@@ -1,12 +1,14 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import {
+  Component,
+  forwardRef,
+  Input,
+  AfterViewInit
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { MdlDialogService } from 'angular2-mdl';
 
 import { DatePickerDialogComponent } from './date-picker-dialog.component';
-import {
-  dateTimeFormat as DateTimeFormat,
-  formatIso
-} from './dateUtils';
+import { dateTimeFormat as DateTimeFormat, formatIso } from './dateUtils';
 
 
 interface DatePickerConfig {
@@ -30,41 +32,42 @@ interface DatePickerConfig {
     }
   ]
 })
-export class DatePickerComponent implements ControlValueAccessor {
+export class DatePickerComponent implements ControlValueAccessor, AfterViewInit {
   @Input() public okLabel = 'Ok';
   @Input() public cancelLabel = 'Cancel';
   @Input() public firstDayOfWeek = 1;
-  @Input() public formatDate: Function;
   @Input() public DateTimeFormat = DateTimeFormat;
   @Input() public locale = 'en';
 
-  public _displayDate: string;
+  public displayDate: string;
 
-  public date: Date = new Date();
+  public _date: Date = new Date();
   private isDialogOpen = false;
 
-  constructor(private dialogService: MdlDialogService) {
-    this.displayDate = this._formatDate();
+  constructor(private dialogService: MdlDialogService) {}
+
+  public ngAfterViewInit(): void {
+    this.date = new Date();
   }
 
   public propagateChange: any = () => {};
 
   @Input()
-  public get displayDate(): string {
-    return this._displayDate;
+  public get date(): Date {
+    return this._date;
   }
 
-  public set displayDate(newDate) {
-    this._displayDate = newDate;
+  public set date(newDate) {
+    this._date = newDate;
 
-    this.propagateChange(this.displayDate);
+    this.displayDate = this._formatDate();
+
+    this.propagateChange(this.date);
   }
 
   public writeValue(value): void {
     if (value) {
-      this.displayDate = value;
-    } else {
-      this.displayDate = this._formatDate();
+      this.date = value;
     }
   }
 
@@ -103,15 +106,11 @@ export class DatePickerComponent implements ControlValueAccessor {
         this.isDialogOpen = false;
         if (date) {
           this.date = date;
-          this.displayDate = this._formatDate();
         }
       });
   }
 
   private _formatDate(): string {
-    if (this.formatDate) {
-      return this.formatDate(this.date);
-    }
     if (this.locale) {
       return new this.DateTimeFormat(this.locale, {
         day: 'numeric',

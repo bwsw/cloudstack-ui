@@ -51,9 +51,11 @@ export class EventListComponent implements OnInit {
     this.selectedLevels = this.levels.concat();
 
     this.locale = this.translate.currentLang;
+
     if (this.translate.currentLang === 'en') {
       this.dateTimeFormat = dateTimeFormat;
-    } else {
+    }
+    if (this.translate.currentLang === 'ru') {
       this.dateTimeFormat = Intl.DateTimeFormat;
     }
 
@@ -63,19 +65,15 @@ export class EventListComponent implements OnInit {
   public ngOnInit(): void {
     this.translate.get(['DESCRIPTION', 'LEVEL', 'TYPE'])
       .subscribe(translations => this.initTableModel(translations));
-
-    this.filterEvents();
   }
 
-  public filterEvents(): void {
-    if (!this.date) {
-      return;
-    }
+  public filterEvents(date: Date): void {
+    this.date = date;
 
     // yyyy-MM-dd
     const params = {
-      startDate: this.date,
-      endDate: this.date
+      startDate: formatIso(this.date),
+      endDate: formatIso(this.date)
     };
 
     const selectedLevels = this.selectedLevels;

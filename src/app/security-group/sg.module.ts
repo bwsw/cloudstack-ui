@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from 'ng2-translate';
 import { MdlModule } from 'angular2-mdl';
+import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 
 import { SgCreationComponent } from './sg-creation/sg-creation.component';
@@ -22,6 +23,7 @@ import { SharedModule } from '../shared/shared.module';
     FormsModule,
     TranslateModule,
     MdlModule,
+    MdlPopoverModule,
     MdlSelectModule,
     SharedModule
   ],

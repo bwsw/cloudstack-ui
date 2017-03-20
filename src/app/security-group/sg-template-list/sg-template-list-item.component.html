@@ -28,30 +28,48 @@
       </div>
     </div>
   </mdl-card-supporting-text>
-  <mdl-card-actions>
+  <mdl-card-menu>
     <button
       mdl-button
+      (click)="$event.stopPropagation(); myPopover.toggle($event)"
       mdl-button-type="icon"
-      mdl-tooltip-position="top"
-      [mdl-tooltip]="(securityGroupTemplate.isPredefinedTemplate() ? 'VIEW' : 'EDIT') | translate"
-      (click)="onClick.emit()"
-    >
-      <mdl-icon *ngIf="securityGroupTemplate.isPredefinedTemplate()">
-        visibility
-      </mdl-icon>
-      <mdl-icon *ngIf="!securityGroupTemplate.isPredefinedTemplate()">
-        edit
-      </mdl-icon>
+      mdl-ripple>
+      <mdl-icon>more_vert</mdl-icon>
     </button>
-    <button
-      *ngIf="!securityGroupTemplate.isPredefinedTemplate()"
-      mdl-button
-      mdl-button-type="icon"
-      mdl-tooltip-position="top"
-      [mdl-tooltip]="'DELETE' | translate"
-      (click)="$event.stopPropagation(); onDelete.emit(securityGroupTemplate)"
-    >
-      <mdl-icon>delete</mdl-icon>
-    </button>
-  </mdl-card-actions>
+  </mdl-card-menu>
+  <mdl-popover
+    class="card-popover"
+    [class.predefined-sg-popover]="securityGroupTemplate.isPredefinedTemplate()"
+    [class.sg-popover]="!securityGroupTemplate.isPredefinedTemplate()"
+    #myPopover
+    [hide-on-click]="true"
+    [style.width.px]="300"
+  >
+    <div mdl-shadow="6" class="popover-actions">
+      <button
+        mdl-button
+        mdl-button-type="icon"
+        mdl-tooltip-position="bottom"
+        [mdl-tooltip]="(securityGroupTemplate.isPredefinedTemplate() ? 'VIEW' : 'EDIT') | translate"
+        (click)="onClick.emit()"
+      >
+        <mdl-icon *ngIf="securityGroupTemplate.isPredefinedTemplate()">
+          visibility
+        </mdl-icon>
+        <mdl-icon *ngIf="!securityGroupTemplate.isPredefinedTemplate()">
+          edit
+        </mdl-icon>
+      </button>
+      <button
+        *ngIf="!securityGroupTemplate.isPredefinedTemplate()"
+        mdl-button
+        mdl-button-type="icon"
+        mdl-tooltip-position="bottom"
+        [mdl-tooltip]="'DELETE' | translate"
+        (click)="$event.stopPropagation(); onDelete.emit(securityGroupTemplate)"
+      >
+        <mdl-icon>delete</mdl-icon>
+      </button>
+    </div>
+  </mdl-popover>
 </mdl-card>
