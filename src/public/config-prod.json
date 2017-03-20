@@ -214,11 +214,11 @@
     "031a55bb-5d6b-4336-ab93-d5dead28a887": {
       "cpuNumber": {
         "min": 1,
-        "max": 8
+        "max": 4
       },
       "cpuSpeed": {
         "min": 1000,
-        "max": 3000
+        "max": 2000
       },
       "memory": {
         "min": 32,

@@ -124,7 +124,7 @@
     "name": "Name",
     "cpuNumber": "CPU cores",
     "cpuSpeed": "CPU (Mhz)",
-    "memory": "Memory (GB)",
+    "memory": "Memory (MB)",
     "displayText": "Description",
     "storageType": "Storage type",
     "provisioningType": "Provisioning type",
@@ -406,5 +406,10 @@
   "CUSTOM_SERVICE_OFFERING": "Custom offering",
   "CUSTOM_SERVICE_OFFERING_CPU": "CPU",
   "CUSTOM_SERVICE_OFFERING_MEMORY": "Memory",
-  "CONFIRM": "Confirm"
+  "CONFIRM": "Confirm",
+
+  "BETWEEN": "Between {{ lowerLimit }} and {{ upperLimit }}",
+  "UP_TO": "Up to {{ upperLimit }}",
+  "FROM": "From {{ lowerLimit }}",
+  "INCORRECT_FORMAT": "Incorrect format"
 }

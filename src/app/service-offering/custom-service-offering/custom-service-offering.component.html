@@ -3,40 +3,62 @@
   <div class="mdl-dialog__content">
     <h5>{{ 'SERVICE_OFFERING_FIELDS.cpuNumber' | translate }}</h5>
     <mdl-textfield
-      *ngIf="offering"
+      *ngIf="offering && restrictions"
       class="numeric-up-down"
       name="cpuNumber"
       type="number"
       [min]="restrictions.cpuNumber.min"
       [max]="restrictions.cpuNumber.max"
+      [minValue]="restrictions.cpuNumber.min"
+      [maxValue]="restrictions.cpuNumber.max"
       step="1"
-      error-msg="Input is not a number!"
+      error-msg="{{ errorMessage(restrictions.cpuNumber.min, restrictions.cpuNumber.max) | async }}"
       [(ngModel)]="offering.cpuNumber"
       floating-label
       required
+      #cpuNumberField="ngModel"
+      [class.is-invalid]="cpuNumberField.touched && cpuNumberField.invalid"
     ></mdl-textfield>
 
-    <cs-slider
-      *ngIf="offering"
+    {{ restrictions | json }}
+
+    <h5>{{ 'SERVICE_OFFERING_FIELDS.cpuSpeed' | translate }}</h5>
+    <mdl-textfield
+      *ngIf="offering && restrictions"
+      class="numeric-up-down"
       name="cpuSpeed"
-      [label]="'CPU' | translate"
+      type="number"
       [min]="restrictions.cpuSpeed.min"
       [max]="restrictions.cpuSpeed.max"
+      [minValue]="restrictions.cpuSpeed.min"
+      [maxValue]="restrictions.cpuSpeed.max"
+      step="1"
+      error-msg="{{ errorMessage(restrictions.cpuSpeed.min, restrictions.cpuSpeed.max) | async }}"
       [(ngModel)]="offering.cpuSpeed"
-      [isLogarithmic]="false"
-      [units]="'MHZ' | translate"
-    ></cs-slider>
+      floating-label
+      required
+      #cpuSpeedField="ngModel"
+      [class.is-invalid]="cpuSpeedField.touched && cpuSpeedField.invalid"
+    ></mdl-textfield>
 
-    <cs-slider
-      *ngIf="offering"
+    <h5>{{ 'SERVICE_OFFERING_FIELDS.memory' | translate }}</h5>
+    <mdl-textfield
+      *ngIf="offering && restrictions"
+      class="numeric-up-down"
       name="memory"
-      [label]="'CUSTOM_SERVICE_OFFERING_MEMORY' | translate"
+      type="number"
       [min]="restrictions.memory.min"
       [max]="restrictions.memory.max"
+      [minValue]="restrictions.memory.min"
+      [maxValue]="restrictions.memory.max"
+      step="1"
+      error-msg="{{ errorMessage(restrictions.memory.min, restrictions.memory.max) | async }}"
       [(ngModel)]="offering.memory"
-      [isLogarithmic]="false"
-      [units]="'MB' | translate"
-    ></cs-slider>
+      floating-label
+      required
+      #memoryField="ngModel"
+      [class.is-invalid]="memoryField.touched && memoryField.invalid"
+    ></mdl-textfield>
   </div>
   <div class="mdl-dialog__actions">
     <button

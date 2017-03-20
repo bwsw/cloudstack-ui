@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 import { ConfigService } from '../../shared/services/config.service';
+import { Observable } from 'rxjs';
+import { TranslateService } from 'ng2-translate';
 
 
 export class CustomServiceOffering {
@@ -11,19 +13,55 @@ export class CustomServiceOffering {
   ) {}
 }
 
-interface CustomOfferingRestrictions {
-  cpuNumber: {
+class CustomOfferingRestrictions {
+  public cpuNumber: {
     min: number;
     max: number;
   };
-  cpuSpeed: {
+  public cpuSpeed: {
     min: number;
     max: number;
   };
-  memory: {
+  public memory: {
     min: number;
     max: number;
   };
+
+  constructor(restrictions: any) {
+    this.cpuNumber = {
+      min: 0,
+      max: Number.POSITIVE_INFINITY
+    };
+
+    this.cpuSpeed = {
+      min: 0,
+      max: Number.POSITIVE_INFINITY
+    };
+
+    this.memory = {
+      min: 0,
+      max: Number.POSITIVE_INFINITY
+    };
+
+    if (restrictions && restrictions.cpuNumber && restrictions.cpuNumber.min) {
+      this.cpuNumber.min = restrictions.cpuNumber.min;
+    }
+    if (restrictions && restrictions.cpuNumber && restrictions.cpuNumber.max) {
+      this.cpuNumber.max = restrictions.cpuNumber.max;
+    }
+    if (restrictions && restrictions.cpuSpeed && restrictions.cpuSpeed.min) {
+      this.cpuSpeed.min = restrictions.cpuSpeed.min;
+    }
+    if (restrictions && restrictions.cpuSpeed && restrictions.cpuSpeed.max) {
+      this.cpuSpeed.max = restrictions.cpuSpeed.max;
+    }
+    if (restrictions && restrictions.memory && restrictions.memory.min) {
+      this.memory.min = restrictions.memory.min;
+    }
+    if (restrictions && restrictions.memory && restrictions.memory.max) {
+      this.memory.max = restrictions.memory.max;
+    }
+  }
 }
 
 @Component({
@@ -39,7 +77,8 @@ export class CustomServiceOfferingComponent implements OnInit {
     @Inject('offering') public preexistingOffering: CustomServiceOffering,
     @Inject('zoneId') public zoneId: string,
     public dialog: MdlDialogReference,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private translateService: TranslateService
   ) {}
 
   public ngOnInit(): void {
@@ -50,7 +89,7 @@ export class CustomServiceOfferingComponent implements OnInit {
     this.configService.get('customOfferingRestrictions')
       .subscribe((restrictions: CustomOfferingRestrictions) => {
         try {
-          this.restrictions = restrictions[this.zoneId];
+          this.restrictions = new CustomOfferingRestrictions(restrictions[this.zoneId]);
         } catch (e) {
           throw new Error('Custom offering settings must be specified. Contact your administrator.');
         }
@@ -63,6 +102,21 @@ export class CustomServiceOfferingComponent implements OnInit {
 
     if (this.preexistingOffering) {
       this.offering = this.preexistingOffering;
+    }
+  }
+
+  public errorMessage(lowerLimit: any, upperLimit: any): Observable<string> {
+    if (Number.isInteger(lowerLimit) && Number.isInteger(upperLimit)) {
+      return this.translateService.get('BETWEEN', { lowerLimit, upperLimit });
+    }
+    if (!Number.isInteger(lowerLimit) && Number.isInteger(upperLimit)) {
+      return this.translateService.get('UP_TO', { upperLimit });
+    }
+    if (Number.isInteger(lowerLimit) && !Number.isInteger(upperLimit)) {
+      return this.translateService.get('FROM', { lowerLimit });
+    }
+    if (Number.isNaN(lowerLimit) && !Number.isInteger(upperLimit)) {
+      return this.translateService.get('INCORRECT_FORMAT');
     }
   }
 

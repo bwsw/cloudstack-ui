@@ -124,7 +124,7 @@
     "name": "Имя",
     "cpuNumber": "Ядра CPU",
     "cpuSpeed": "CPU (МГц)",
-    "memory": "Память (ГБ)",
+    "memory": "Память (МБ)",
     "displayText": "Описание",
     "storageType": "Тип хранилища",
     "provisioningType": "Provisioning type",
@@ -404,6 +404,12 @@
   "PALETTE": "Палитра",
 
   "CUSTOM_SERVICE_OFFERING": "Настраиваемое предложение",
+  "CUSTOM_SERVICE_OFFERING_CPU": "CPU",
   "CUSTOM_SERVICE_OFFERING_MEMORY": "Память",
-  "CONFIRM": "Принять"
+  "CONFIRM": "Принять",
+
+  "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}",
+  "UP_TO": "До {{ upperLimit }}",
+  "FROM": "От {{ lowerLimit }}",
+  "INCORRECT_FORMAT": "Неверный формат"
 }

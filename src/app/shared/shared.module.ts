@@ -60,6 +60,8 @@ import {
   VmStatisticsComponent,
   SliderComponent
 } from './components';
+import { MaxValueValidatorDirective } from './directives/max-value.directive';
+import { MinValueValidatorDirective } from './directives/min-value.directive';
 
 
 @NgModule({
@@ -76,6 +78,8 @@ import {
     DatePickerComponent,
     DiskOfferingComponent,
     FabComponent,
+    MaxValueValidatorDirective,
+    MinValueValidatorDirective,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     SgRulesManagerComponent,
@@ -99,6 +103,8 @@ import {
     DatePickerDialogComponent,
     DiskOfferingComponent,
     FabComponent,
+    MaxValueValidatorDirective,
+    MinValueValidatorDirective,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     SgRulesManagerComponent,
