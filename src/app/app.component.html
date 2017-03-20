@@ -1,6 +1,7 @@
 <mdl-layout
   [mdl-layout-fixed-drawer]="loggedIn ? true : null"
   #mainLayout="mdlLayout"
+  mdl-layout-no-drawer-button
 >
   <mdl-layout-drawer
     *ngIf="loggedIn"
