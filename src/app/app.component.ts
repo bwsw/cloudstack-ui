@@ -1,4 +1,11 @@
-import { Component, Inject, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  AfterViewInit
+} from '@angular/core';
 import { Response } from '@angular/http';
 
 import { AuthService } from './shared/services';
@@ -7,6 +14,7 @@ import { TranslateService } from 'ng2-translate';
 import { ErrorService } from './shared/services/error.service';
 import { INotificationService } from './shared/services/notification.service';
 import { LanguageService } from './shared/services/language.service';
+import { LayoutService } from './shared/services/layout.service';
 import { MdlLayoutComponent } from 'angular2-mdl';
 
 import '../style/app.scss';
@@ -23,6 +31,7 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 })
 export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild('settingsLink') public settingsLink: ElementRef;
+  @ViewChild(MdlLayoutComponent) public layoutComponent: MdlLayoutComponent;
   public loggedIn: boolean;
   public title: string;
   public disableSecurityGroups = false;
@@ -36,6 +45,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private translate: TranslateService,
     private error: ErrorService,
     private languageService: LanguageService,
+    private layoutService: LayoutService,
     @Inject('INotificationService') private notification: INotificationService,
     private styleService: StyleService,
     private zoneService: ZoneService
@@ -60,6 +70,10 @@ export class AppComponent implements OnInit, AfterViewInit {
           .subscribe(basic => this.disableSecurityGroups = basic);
       }
     });
+
+    this.layoutService.drawerToggled.subscribe(() => {
+      this.layoutComponent.toggleDrawer();
+    });
   }
 
   public ngAfterViewInit(): void {
@@ -78,7 +92,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   public get drawerStyles(): SafeStyle {
     let styleString;
 
-    if (!this.themeColor) {
+    if (!this.themeColor || !this.themeColor.value) {
       styleString = `background-color: #fafafa !important; color: #757575 !important`;
     } else {
       styleString = `background-color: ${this.themeColor.value} !important;
@@ -101,6 +115,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public get logoSource(): string {
     return `/img/cloudstack_logo_${ this.isLightTheme ? 'light' : 'dark' }.png`;
+  }
+
+  public logout(): void {
+    this.auth.logout()
+      .subscribe(() => {
+        this.router.navigate(['/login']);
+      });
   }
 
   private updateAccount(loggedIn: boolean): void {

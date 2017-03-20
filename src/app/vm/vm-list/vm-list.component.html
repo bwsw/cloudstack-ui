@@ -1,6 +1,8 @@
 <cs-list>
   <ng-container cs-list>
-    <cs-vm-statistics></cs-vm-statistics>
+    <cs-top-bar>
+      <cs-vm-statistics></cs-vm-statistics>
+    </cs-top-bar>
     <cs-vm-filter (updateFilters)="updateFilters($event)"></cs-vm-filter>
 
     <ng-container *loading="!vmList">

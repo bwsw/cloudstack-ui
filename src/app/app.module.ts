@@ -10,7 +10,6 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login.component';
-import { LogoutComponent } from './auth/logout.component';
 import { ServiceLocator } from './shared/services';
 import { routing } from './app.routing';
 import { SecurityGroupModule } from './security-group/sg.module';
@@ -45,8 +44,7 @@ import { SettingsModule } from './settings/settings.module';
   ],
   declarations: [
     AppComponent,
-    LoginComponent,
-    LogoutComponent,
+    LoginComponent
   ],
   providers: [
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },

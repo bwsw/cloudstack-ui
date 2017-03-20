@@ -1,49 +1,50 @@
-<mdl-card
-  class="options-panel"
-  [class.delimiter]="showDelimiter"
->
-  <div
-    class="template-iso-switch"
-    *ngIf="showIsoSwitch"
+<cs-top-bar>
+  <mdl-card
+    class="options-panel top-bar-height"
   >
-    <span class="mdl-switch__label">{{ 'TEMPLATES' | translate }}</span>
-    <mdl-switch
-      [(ngModel)]="showIso"
-      (click)="updateDisplayMode()"
-    >{{ 'ISO' | translate }}</mdl-switch>
-  </div>
-
-  <mdl-select
-    class="os-type-select"
-    [(ngModel)]="selectedOsFamilies"
-    (ngModelChange)="updateFilters()"
-    multiple="true"
-    placeholder="{{ 'OS_FAMILY' | translate }}"
-  >
-    <mdl-option
-      *ngFor="let family of osFamilies"
-      [value]="family"
+    <div
+      class="template-iso-switch"
+      *ngIf="showIsoSwitch"
     >
-      {{ family }}
-    </mdl-option>
-  </mdl-select>
-  <div *ngIf="filterTranslations" class="filter-select-container">
+      <span class="mdl-switch__label">{{ 'TEMPLATES' | translate }}</span>
+      <mdl-switch
+        [(ngModel)]="showIso"
+        (click)="updateDisplayMode()"
+      >{{ 'ISO' | translate }}</mdl-switch>
+    </div>
+
     <mdl-select
-      class="filter-select"
-      [(ngModel)]="selectedFilters"
+      class="os-type-select"
+      [(ngModel)]="selectedOsFamilies"
       (ngModelChange)="updateFilters()"
       multiple="true"
-      placeholder="{{ 'TYPE' | translate }}"
+      placeholder="{{ 'OS_FAMILY' | translate }}"
     >
       <mdl-option
-        *ngFor="let f of categoryFilters"
-        [value]="f"
+        *ngFor="let family of osFamilies"
+        [value]="family"
       >
-        {{ filterTranslations[f] }}
+        {{ family }}
       </mdl-option>
     </mdl-select>
-  </div>
-</mdl-card>
+    <div *ngIf="filterTranslations" class="filter-select-container">
+      <mdl-select
+        class="filter-select"
+        [(ngModel)]="selectedFilters"
+        (ngModelChange)="updateFilters()"
+        multiple="true"
+        placeholder="{{ 'TYPE' | translate }}"
+      >
+        <mdl-option
+          *ngFor="let f of categoryFilters"
+          [value]="f"
+        >
+          {{ filterTranslations[f] }}
+        </mdl-option>
+      </mdl-select>
+    </div>
+  </mdl-card>
+</cs-top-bar>
 <p class="search-bar">
   <mdl-icon>search</mdl-icon>
   <mdl-textfield

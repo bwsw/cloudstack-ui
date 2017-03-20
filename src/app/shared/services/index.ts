@@ -12,6 +12,7 @@ export * from './error.service';
 export * from './instance-group.service';
 export * from './jobs-notification.service';
 export * from './language.service';
+export * from './layout.service';
 export * from './login-guard.service';
 export * from './notification.service';
 export * from './os-type.service';
