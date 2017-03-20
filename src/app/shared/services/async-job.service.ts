@@ -76,6 +76,10 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     setTimeout(() => {
       this._queryJob(jobId, jobSubject, entity, entityModel);
       let interval = setInterval(() => {
+        if (jobSubject.isStopped) {
+          clearInterval(interval);
+          return;
+        }
         this._queryJob(jobId, jobSubject, entity, entityModel, interval);
       }, this.pollingInterval);
     }, this.immediatePollingInterval);
@@ -126,7 +130,13 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
   }
 
   private getJobId(job: any): string {
-    const jobId = job.id || job.jobid || job;
+    let jobId;
+    if (job instanceof AsyncJob) {
+      jobId = job.id;
+    } else {
+      jobId = job.jobid || job;
+    }
+
     if (typeof jobId !== 'string') {
       throw new Error('Unsupported job format');
     }
