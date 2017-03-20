@@ -1,22 +1,18 @@
 <mdl-layout
-  mdl-layout-fixed-header
-  [mdl-layout-fixed-drawer] = "loggedIn ? true : null"
+  [mdl-layout-fixed-drawer]="loggedIn ? true : null"
   #mainLayout="mdlLayout"
+  mdl-layout-no-drawer-button
 >
-  <mdl-layout-header>
-    <mdl-layout-header-row>
-      <mdl-layout-title *ngIf="!loggedIn">Cloudstack</mdl-layout-title>
-      <mdl-layout-spacer></mdl-layout-spacer>
-      <cs-notification-box *ngIf="loggedIn"></cs-notification-box>
-      <cs-logout *ngIf="loggedIn"></cs-logout>
-    </mdl-layout-header-row>
-  </mdl-layout-header>
   <mdl-layout-drawer
     *ngIf="loggedIn"
     class="mdl-color--grey-50 flex-container"
     [attr.style]="drawerStyles"
+    [class.drawer-open]="isDrawerOpen"
   >
-    <mdl-icon class="hide-button">keyboard_arrow_left</mdl-icon>
+    <mdl-icon
+      (click)="toggleDrawer()"
+      class="hide-button"
+    >keyboard_arrow_left</mdl-icon>
     <mdl-layout-title>
       <img class="logo" [src]="logoSource">
       <div class="title-header">
@@ -99,6 +95,17 @@
         <mdl-icon>settings</mdl-icon>
         <div class="link-element" [innerHTML]="'SETTINGS' | translate"></div>
       </a>
+      <a
+        (click)="componentSelected(mainLayout); logout()"
+        class="mdl-navigation__link link-container"
+        routerLink="#"
+        [class.link-hover-light]="isLightTheme"
+        [class.link-hover-dark]="!isLightTheme"
+        [routerLinkActive]="linkActiveStyle"
+      >
+        <mdl-icon>exit_to_app</mdl-icon>
+        <div class="link-element" [innerHTML]="'LOGOUT' | translate"></div>
+      </a>
     </nav>
 
     <div class="license-container">
@@ -106,7 +113,10 @@
     </div>
 
   </mdl-layout-drawer>
-  <mdl-layout-content class="mdl-color--grey-100">
+  <mdl-layout-content
+    class="mdl-color--grey-100"
+    [class.content-margin]="isDrawerOpen"
+  >
     <router-outlet></router-outlet>
   </mdl-layout-content>
 </mdl-layout>

@@ -135,3 +135,11 @@ mdl-layout-title {
   font-size: 24px;
   cursor: pointer;
 }
+
+.drawer-open {
+  transform: translateX(0) !important;
+}
+
+.content-margin {
+  margin-left: 240px !important;
+}

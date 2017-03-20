@@ -181,10 +181,13 @@ mdl-simple-tooltip div {
 }
 
 .mdl-layout--fixed-drawer>.mdl-layout__drawer {
-  transform: translateX(0);
+  transform: translateX(-240px) !important;
 }
 
 .mdl-layout--fixed-drawer>.mdl-layout__content {
-  margin-left: 240px !important;
+  margin-left: 0 !important;
 }
 
+.mdl-layout__drawer-button {
+  margin-top: 6px !important;
+}
