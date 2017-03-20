@@ -11,7 +11,9 @@
 }
 
 .top-bar-notifications {
-  flex: 0 0 40px;
+  position: absolute;
+  right: 16px;
+  z-index: 1;
   margin: 16px;
   height: 40px;
 }
