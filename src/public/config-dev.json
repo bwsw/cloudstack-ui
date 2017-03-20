@@ -4,6 +4,7 @@
       "id": "template1",
       "name": "TCP Permit All",
       "description": "Permits all TPC traffic",
+      "preselected": true,
       "ingressRules": [
         {
           "ruleId": "9552c7e9-9421-4a16-8a09-00a6bab4aa5a",
@@ -27,6 +28,7 @@
       "id": "template2",
       "name": "UDP Permit All",
       "description": "Permits all UDP traffic",
+      "preselected": true,
       "ingressRules": [
         {
           "ruleId": "871aa876-a9cd-4a14-b5d6-1eed4078ee20",
@@ -50,6 +52,7 @@
       "id": "template2",
       "name": "ICMP Permit All",
       "description": "Permits all ICMP traffic",
+      "preselected": true,
       "ingressRules": [
         {
           "ruleId": "e1826579-d4b2-415b-833f-24f0c4094074",

@@ -13,10 +13,17 @@
   </mdl-layout-header>
   <mdl-layout-drawer
     *ngIf="loggedIn"
-    class="mdl-color--grey-50"
+    class="mdl-color--grey-50 flex-container"
     [attr.style]="drawerStyles"
   >
-    <mdl-layout-title>{{ title }}</mdl-layout-title>
+    <mdl-icon class="hide-button">keyboard_arrow_left</mdl-icon>
+    <mdl-layout-title>
+      <img class="logo" [src]="logoSource">
+      <div class="title-header">
+        <mdl-icon class="link-element">person</mdl-icon>
+        <div class="link-element">{{ 'WELCOME' | translate:{ name: title } }}</div>
+      </div>
+    </mdl-layout-title>
     <nav class="mdl-navigation">
 
       <a
@@ -93,6 +100,11 @@
         <div class="link-element" [innerHTML]="'SETTINGS' | translate"></div>
       </a>
     </nav>
+
+    <div class="license-container">
+      <div class="license" [innerHTML]="'LICENSE' | translate"></div>
+    </div>
+
   </mdl-layout-drawer>
   <mdl-layout-content class="mdl-color--grey-100">
     <router-outlet></router-outlet>

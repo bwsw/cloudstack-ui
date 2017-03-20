@@ -175,3 +175,16 @@ mdl-simple-tooltip div {
   height: 100%;
   width: 100%;
 }
+
+.popover-actions {
+  padding: 1rem;
+}
+
+.mdl-layout--fixed-drawer>.mdl-layout__drawer {
+  transform: translateX(0);
+}
+
+.mdl-layout--fixed-drawer>.mdl-layout__content {
+  margin-left: 240px !important;
+}
+

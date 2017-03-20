@@ -156,7 +156,7 @@
     "DISK_SIZE": "Disk size",
     "GROUP": "Group",
     "AFFINITY_GROUPS": "Affinity groups",
-    "SECURITY_GROUPS": "Security groups",
+    "SECURITY_GROUPS": "Firewall rules",
     "CREATE_SECURITY": "Create",
     "KEYBOARD_LAYOUT": "Keyboard layout",
     "SSH_KEYPAIR": "SSH keypair",
@@ -405,5 +405,9 @@
   "GROUP_BY_COLORS": "Group by colors",
   "PALETTE": "Palette",
   "SELECT_GROUPS": "Select groups",
-  "SELECT_ZONES": "Select zones"
+  "SELECT_ZONES": "Select zones",
+  "NETWORK_RULES": "Network rules",
+
+  "LICENSE": "© Bitworks Software, Ltd.<br>Released under Apache v2.0 license",
+  "WELCOME": "Welcome, {{ name }}"
 }

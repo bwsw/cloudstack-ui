@@ -5,20 +5,28 @@ import { Observable } from 'rxjs/Rx';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { SecurityGroup, NetworkRule } from '../sg.model';
 
+
 interface RuleListItem {
   rule: NetworkRule;
   checked: boolean;
 }
 
 export class Rules { // defines what should be passed to inputRules
-  public templates?: Array<SecurityGroup>; // array of security groups ids
-  public ingress: Array<NetworkRule>;
-  public egress: Array<NetworkRule>;
+  constructor(
+    public templates?: Array<SecurityGroup>,
+    public ingress?: Array<NetworkRule>,
+    public egress?: Array<NetworkRule>
+  ) {
+    this.ingress = ingress || [];
+    this.egress = egress || [];
+    this.templates = templates || [];
+  }
 
-  constructor() {
-    this.ingress = [];
-    this.egress = [];
-    this.templates = [];
+  public static createWithAllRulesSelected(securityGroups: Array<SecurityGroup>): Rules {
+    let ingress = securityGroups.reduce((acc, securityGroup) => acc.concat(securityGroup.ingressRules), []);
+    let egress = securityGroups.reduce((acc, securityGroup) => acc.concat(securityGroup.egressRules), []);
+
+    return new Rules(securityGroups, ingress, egress);
   }
 }
 

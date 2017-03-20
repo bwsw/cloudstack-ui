@@ -405,5 +405,9 @@
   "GROUP_BY_COLORS": "Группировать по цветам",
   "PALETTE": "Палитра",
   "SELECT_GROUPS": "Выбор групп",
-  "SELECT_ZONES": "Выбор зон"
+  "SELECT_ZONES": "Выбор зон",
+  "NETWORK_RULES": "Сетевые правила",
+
+  "LICENSE": "© Bitworks Software, Ltd.<br>Released under Apache v2.0 license",
+  "WELCOME": "Здравствуйте, {{ name }}"
 }

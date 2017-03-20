@@ -43,18 +43,34 @@
     </table>
     <div>OS {{ vm.osType.description }}</div>
   </mdl-card-supporting-text>
-  <mdl-card-actions mdl-card-border>
+  <mdl-card-menu>
     <button
-      *ngFor="let a of actions"
-      (click)="getAction($event, a.nameLower)"
-      [disabled]="!vm.canApply(a.nameLower)"
-      [mdl-tooltip]="a.nameCaps | translate"
-      mdl-tooltip-position="top"
       mdl-button
+      (click)="$event.stopPropagation(); myPopover.toggle($event)"
       mdl-button-type="icon"
-      mdl-ripple
-    >
-      <mdl-icon>{{ a.mdlIcon }}</mdl-icon>
+      mdl-ripple>
+      <mdl-icon>more_vert</mdl-icon>
     </button>
-  </mdl-card-actions>
+  </mdl-card-menu>
+  <mdl-popover
+    class="vm-popover"
+    #myPopover
+    [hide-on-click]="true"
+    [style.width.px]="300"
+  >
+    <div mdl-shadow="6" class="popover-actions">
+      <button
+        *ngFor="let a of actions"
+        (click)="getAction($event, a.nameLower)"
+        [disabled]="!vm.canApply(a.nameLower)"
+        [mdl-tooltip]="a.nameCaps | translate"
+        mdl-tooltip-position="top"
+        mdl-button
+        mdl-button-type="icon"
+        mdl-ripple
+      >
+        <mdl-icon>{{ a.mdlIcon }}</mdl-icon>
+      </button>
+    </div>
+  </mdl-popover>
 </mdl-card>

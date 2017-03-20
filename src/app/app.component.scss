@@ -86,3 +86,52 @@ a {
 mdl-layout-drawer {
   border: none;
 }
+
+.license {
+  width: 100%;
+  font-size: 12px;
+  padding: 5px;
+  line-height: 1;
+  text-align: center;
+  flex: 1;
+  align-self: flex-end;
+}
+
+.license-container {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  min-height: 40px;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.logo {
+  padding: 20px;
+  width: 100%;
+}
+
+mdl-layout-title {
+  padding-left: 0 !important;
+}
+
+.title-header {
+  line-height: 1;
+  padding-bottom: 20px;
+  text-align: center;
+  font-size: 14px;
+  word-break: break-all;
+}
+
+.hide-button {
+  display: inline-block;
+  height: 20px;
+  margin: 20px 0 0 20px;
+  width: 20px;
+  font-size: 24px;
+  cursor: pointer;
+}

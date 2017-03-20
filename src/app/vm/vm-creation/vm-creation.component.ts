@@ -351,7 +351,8 @@ export class VmCreationComponent implements OnInit {
           this.templateService.getDefault(),
           this.instanceGroupService.getList(),
           this.serviceOfferingFilterService.getAvailable({ zoneId: this.zoneId }),
-          this.diskOfferingService.getList({ zoneId: this.zoneId })
+          this.diskOfferingService.getList({ zoneId: this.zoneId }),
+          this.securityGroupService.getTemplates()
         ]);
       })
       .map(([
@@ -361,7 +362,8 @@ export class VmCreationComponent implements OnInit {
         template,
         instanceGroups,
         serviceOfferings,
-        diskOfferings
+        diskOfferings,
+        securityGroupTemplates
       ]) => {
         vmCreationData.rootDiskSizeLimit = rootDiskSizeLimit;
         vmCreationData.affinityGroups = affinityGroups;
@@ -370,6 +372,9 @@ export class VmCreationComponent implements OnInit {
         vmCreationData.instanceGroups = instanceGroups.map(group => group.name);
         vmCreationData.serviceOfferings = serviceOfferings;
         vmCreationData.diskOfferings = diskOfferings;
+
+        let preselectedSecurityGroups = securityGroupTemplates.filter(securityGroup => securityGroup.preselected);
+        this.securityRules = Rules.createWithAllRulesSelected(preselectedSecurityGroups);
 
         if (rootDiskSizeLimit === -1) {
           vmCreationData.rootDiskSizeLimit = MAX_ROOT_DISK_SIZE_ADMIN;
