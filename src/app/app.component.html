@@ -115,7 +115,7 @@
   </mdl-layout-drawer>
   <mdl-layout-content
     class="mdl-color--grey-100"
-    [class.content-margin]="isDrawerOpen"
+    [class.content-margin]="isDrawerOpen && loggedIn"
   >
     <router-outlet></router-outlet>
   </mdl-layout-content>
