@@ -12,4 +12,8 @@ export class TopBarComponent {
   public toggleDrawer(): void {
     this.layoutService.drawerToggled.next();
   }
+
+  public get isDrawerOpen(): boolean {
+    return this.layoutService.drawerOpen;
+  }
 }

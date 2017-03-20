@@ -1,5 +1,6 @@
 <div class="top-bar">
   <div
+    *ngIf="!isDrawerOpen"
     class="drawer-button"
     (click)="toggleDrawer()"
   >

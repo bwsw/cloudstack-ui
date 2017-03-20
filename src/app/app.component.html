@@ -7,7 +7,12 @@
     *ngIf="loggedIn"
     class="mdl-color--grey-50 flex-container"
     [attr.style]="drawerStyles"
+    [class.drawer-open]="isDrawerOpen"
   >
+    <mdl-icon
+      (click)="toggleDrawer()"
+      class="hide-button"
+    >keyboard_arrow_left</mdl-icon>
     <mdl-layout-title>
       <img class="logo" [src]="logoSource">
       <div class="title-header">
@@ -108,7 +113,10 @@
     </div>
 
   </mdl-layout-drawer>
-  <mdl-layout-content class="mdl-color--grey-100">
+  <mdl-layout-content
+    class="mdl-color--grey-100"
+    [class.content-margin]="isDrawerOpen"
+  >
     <router-outlet></router-outlet>
   </mdl-layout-content>
 </mdl-layout>

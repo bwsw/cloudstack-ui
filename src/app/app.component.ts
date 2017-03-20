@@ -72,7 +72,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
     this.layoutService.drawerToggled.subscribe(() => {
-      this.layoutComponent.toggleDrawer();
+      this.toggleDrawer();
     });
   }
 
@@ -113,8 +113,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     return this.themeColor.textColor === '#FFFFFF';
   }
 
-  public get logoSource(): string {
-    return `/img/cloudstack_logo_${ this.isLightTheme ? 'light' : 'dark' }.png`;
+  public get isDrawerOpen(): boolean {
+    return this.layoutService.drawerOpen;
+  }
+
+  public toggleDrawer(): void {
+    this.layoutService.toggleDrawer();
   }
 
   public logout(): void {
@@ -122,6 +126,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       .subscribe(() => {
         this.router.navigate(['/login']);
       });
+  }
+
+  public get logoSource(): string {
+    return `/img/cloudstack_logo_${ this.isLightTheme ? 'light' : 'dark' }.png`;
   }
 
   private updateAccount(loggedIn: boolean): void {

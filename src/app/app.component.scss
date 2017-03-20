@@ -126,3 +126,20 @@ mdl-layout-title {
   font-size: 14px;
   word-break: break-all;
 }
+
+.hide-button {
+  display: inline-block;
+  height: 20px;
+  margin: 20px 0 0 20px;
+  width: 20px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.drawer-open {
+  transform: translateX(0) !important;
+}
+
+.content-margin {
+  margin-left: 240px !important;
+}
