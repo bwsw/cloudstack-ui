@@ -408,5 +408,6 @@
   "NETWORK_RULES": "Сетевые правила",
 
   "LICENSE": "© Bitworks Software, Ltd.<br>Released under Apache v2.0 license",
-  "WELCOME": "Здравствуйте, {{ name }}"
+  "WELCOME": "Здравствуйте, {{ name }}",
+  "ACTIVITY_LOG": "Журнал событий"
 }
