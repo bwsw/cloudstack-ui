@@ -86,18 +86,10 @@
 
         <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
         <div *ngIf="noAffinityGroupTranslation">
-          <mdl-select
-            [ngModel]="vmCreationData.affinityGroupId"
-            name="affinityGroup"
-          >
-            <mdl-option [value]="''">{{ noAffinityGroupTranslation }}</mdl-option>
-            <mdl-option
-              *ngFor="let ag of vmCreationData.affinityGroups"
-              [value]="ag.id"
-            >
-              {{ ag.name }}
-            </mdl-option>
-          </mdl-select>
+          <mdl-autocomplete
+            [options]="vmCreationData.affinityGroupNames"
+            (change)="affinityGroupChange($event)"
+          ></mdl-autocomplete>
         </div>
         <div
           *ngIf="showSecurityGroups"

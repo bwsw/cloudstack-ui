@@ -1,5 +1,5 @@
-import { Component, ViewChild, Output, EventEmitter, OnInit, ChangeDetectorRef } from '@angular/core';
-import { MdlDialogComponent, MdlDialogService, MdlDialogReference } from 'angular2-mdl';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
 import { Observable, Subject } from 'rxjs/Rx';
 import { TranslateService } from 'ng2-translate';
 
@@ -41,6 +41,7 @@ import { Template } from '../../template/shared/template.model';
 class VmCreationData {
   public vm: VirtualMachine;
   public affinityGroups: Array<AffinityGroup>;
+  public affinityGroupNames: Array<string>;
   public instanceGroups: Array<InstanceGroup>;
   public serviceOfferings: Array<ServiceOffering>;
   public diskOfferings: Array<DiskOffering>;
@@ -48,6 +49,7 @@ class VmCreationData {
   public zones: Array<Zone>;
 
   public affinityGroupId: string;
+  public affinityGroupName: string;
   public doStartVm: boolean;
   public keyboard: string;
   public keyPair: string;
@@ -74,9 +76,6 @@ class VmCreationData {
   styleUrls: ['vm-creation.component.scss']
 })
 export class VmCreationComponent implements OnInit {
-  @ViewChild(MdlDialogComponent) public vmCreateDialog: MdlDialogComponent;
-  @Output() public onCreated: EventEmitter<any> = new EventEmitter();
-
   public fetching = false;
 
   public vmCreationData: VmCreationData;
@@ -91,6 +90,7 @@ export class VmCreationComponent implements OnInit {
   public showRootDiskResize = false;
   public showSecurityGroups = true;
   private selectedDiskOffering: DiskOffering;
+  private shouldCreateAffinityGroup = false;
 
   constructor(
     private affinityGroupService: AffinityGroupService,
@@ -317,6 +317,10 @@ export class VmCreationComponent implements OnInit {
     this.vmCreationData.vm.group = group;
   }
 
+  public affinityGroupChange($event) {
+    this.vmCreationData.affinityGroupName = $event;
+  }
+
   private getDefaultVmName(): Observable<string> {
     const regex = /vm-.*-(\d+)/;
 
@@ -367,6 +371,7 @@ export class VmCreationComponent implements OnInit {
       ]) => {
         vmCreationData.rootDiskSizeLimit = rootDiskSizeLimit;
         vmCreationData.affinityGroups = affinityGroups;
+        vmCreationData.affinityGroupNames = affinityGroups.map(ag => ag.name);
         vmCreationData.sshKeyPairs = sshKeyPairs;
         vmCreationData.vm.template = template;
         vmCreationData.instanceGroups = instanceGroups.map(group => group.name);
@@ -416,8 +421,14 @@ export class VmCreationComponent implements OnInit {
     if (this.vmCreationData.vm.displayName) {
       params['name'] = this.vmCreationData.vm.displayName;
     }
-    if (this.vmCreationData.affinityGroupId) {
-      params['affinityGroupIds'] = this.vmCreationData.affinityGroupId;
+    let name = this.vmCreationData.affinityGroupName;
+    if (name) {
+      const ag = this.vmCreationData.affinityGroups.find(ag => ag.name === name);
+      if (ag) {
+        params['affinityGroupNames'] = ag.name;
+      } else {
+        this.shouldCreateAffinityGroup = true;
+      }
     }
     if (this.selectedDiskOffering && !this.templateSelected) {
       params['diskofferingid'] = this.selectedDiskOffering.id;
