@@ -13,6 +13,7 @@ import {
 } from '../../../../shared/services';
 
 import { Volume, Snapshot } from '../../../../shared/models';
+import { VolumeService } from '../../../../shared/services/volume.service';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class VolumeComponent implements OnInit {
     private jobNotificationService: JobsNotificationService,
     private statsUpdateService: StatsUpdateService,
     private snapshotService: SnapshotService,
+    private volumeService: VolumeService,
     private notificationService: NotificationService
   ) { }
 
@@ -57,18 +59,18 @@ export class VolumeComponent implements OnInit {
       providers: [{ provide: 'volume', useValue: volume }]
     })
       .switchMap(res => res.onHide())
-      .switchMap((data: any) => {
-        if (data) {
+      .switchMap((newSize: any) => {
+        if (newSize != null) {
           notificationId = this.jobNotificationService.add('VOLUME_RESIZING');
-          return data;
+          return this.volumeService.resize(volume.id, { size: newSize });
         }
         return Observable.of(undefined);
       })
-      .subscribe((data: any) => {
-          if (!data) {
+      .subscribe((newVolume: any) => {
+          if (!newVolume) {
             return;
           }
-          volume.size = (data as Volume).size;
+          volume.size = (newVolume as Volume).size;
 
           this.jobNotificationService.finish({
             id: notificationId,
