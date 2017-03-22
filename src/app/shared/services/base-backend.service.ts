@@ -25,7 +25,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   public getList(params?: {}): Observable<Array<M>> {
-    return this.sendCommand('list', params)
+    return this.sendCommand('list;s', params)
       .map(response => {
         let entity = this.entity.toLowerCase();
         if (entity === 'asyncjob') { // only if list?
@@ -107,7 +107,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
     let apiCommand = `${cmd[0]}${this.entity}`;
 
     // fixing API's inconsistent behavior regarding commands
-    if (cmd[0] === 'list' || this.entity === 'Tag') {
+    if (this.entity === 'Tag') {
       apiCommand += 's';
     }
     if (cmd.length === 2) {
@@ -125,7 +125,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
     }
 
     // fixing API's inconsistent behavior regarding response strings
-    let fix = (cmd === 'list' || entity === 'tag') ? 's' : '';
+    let fix = (entity === 'tag') ? 's' : '';
     if (command === 'restore') {
       entity = 'vm';
       fix = '';
