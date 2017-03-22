@@ -342,7 +342,6 @@
   "SNAPSHOT_DELETE_DONE": "Снимок удален",
   "SNAPSHOT_DELETE_FAILED": "Не удалось удалить снимок",
 
-  "ACTIVITY_LOG": "Журнал событий",
   "EVENTS": "События",
   "NO_EVENTS": "Нет событий на выбранной дате",
   "LEVEL": "Уровень",
