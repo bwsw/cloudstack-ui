@@ -189,7 +189,8 @@ export class SpareDrivePageComponent implements OnInit {
           this.volumes[volumeInd] = newVolume;
         },
         (error) => {
-          this.dialogService.alert(error.message);
+          this.translateService.get(error.message)
+            .subscribe(str => this.dialogService.alert(str));
         }
       );
   }
