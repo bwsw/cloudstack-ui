@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Volume } from '../../shared/models/volume.model';
 import { VolumeAttachmentData } from '../../shared/services/volume.service';
 import { ListService } from '../../shared/components/list/list.service';
+import { VolumeResizeData } from '../spare-drive-page/spare-drive-page.component';
 
 
 @Component({
@@ -14,6 +15,7 @@ export class SpareDriveListComponent implements OnInit {
   @Output() public onSelected = new EventEmitter();
   @Output() public onDelete = new EventEmitter();
   @Output() public onVolumeAttached = new EventEmitter();
+  @Output() public onResize = new EventEmitter();
 
   constructor(private listService: ListService) {}
 
@@ -30,6 +32,10 @@ export class SpareDriveListComponent implements OnInit {
 
   public remove(volume: Volume): void {
     this.onDelete.emit(volume);
+  }
+
+  public resize(data: VolumeResizeData): void {
+    this.onResize.emit(data);
   }
 
   public attach(data: VolumeAttachmentData): void {

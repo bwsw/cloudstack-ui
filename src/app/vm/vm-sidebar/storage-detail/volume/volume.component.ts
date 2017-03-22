@@ -80,24 +80,11 @@ export class VolumeComponent implements OnInit {
           this.statsUpdateService.next();
         },
         error => {
-          let message = '';
-
-          // can't rely on error codes, native ui just prints errortext
-          if (error.errortext.startsWith('Going from')) {
-            message = 'VOLUME_NEWSIZE_LOWER';
-          } else if (error.errortext.startsWith('Maximum number of')) {
-            message = 'VOLUME_PRIMARY_STORAGE_EXCEEDED';
-          } else {
-            // don't know what errors may occur,
-            // so print errortext like native ui
-            message = error.errortext;
-          }
-
           this.jobNotificationService.fail({
             id: notificationId,
             message: 'VOLUME_RESIZE_FAILED'
           });
-          this.dialogService.alert(message);
+          this.dialogService.alert(error.message);
         }
       );
   }

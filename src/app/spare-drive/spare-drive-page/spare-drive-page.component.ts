@@ -24,6 +24,11 @@ export interface VolumeCreationData {
   size?: number;
 }
 
+export interface VolumeResizeData {
+  id: string;
+  size: number;
+}
+
 @Component({
   selector: 'cs-spare-drive-page',
   templateUrl: 'spare-drive-page.component.html',
@@ -170,5 +175,22 @@ export class SpareDrivePageComponent implements OnInit {
             message: 'VOLUME_ATTACH_FAILED',
           });
         });
+  }
+
+  public resize(data: VolumeResizeData): void {
+    this.volumeService.resize(data.id, { size: data.size })
+      .subscribe(
+        (newVolume: Volume) => {
+          const volumeInd = this.volumes.findIndex(volume => volume.id === newVolume.id);
+          if (volumeInd === -1) {
+            return;
+          }
+
+          this.volumes[volumeInd] = newVolume;
+        },
+        (error) => {
+          this.dialogService.alert(error.message);
+        }
+      );
   }
 }

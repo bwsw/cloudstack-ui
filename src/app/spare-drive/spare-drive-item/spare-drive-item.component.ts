@@ -3,6 +3,7 @@ import { Volume } from '../../shared/models/volume.model';
 import { MdlDialogService } from 'angular2-mdl';
 import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
 import { VolumeAttachmentData } from '../../shared/services/volume.service';
+import { VolumeResizeComponent } from '../../vm/vm-sidebar/volume-resize.component';
 
 
 @Component({
@@ -16,6 +17,8 @@ export class SpareDriveItemComponent {
   @Output() public onClick = new EventEmitter();
   @Output() public onVolumeAttached = new EventEmitter<VolumeAttachmentData>();
   @Output() public onDelete = new EventEmitter();
+  @Output() public onResize = new EventEmitter();
+
   @HostBinding('class.grid') public grid = true;
 
   constructor(private dialogService: MdlDialogService) {}
@@ -42,7 +45,23 @@ export class SpareDriveItemComponent {
       });
   }
 
-  public resize(): void {}
+  public resize(): void {
+    this.dialogService.showCustomDialog({
+      component: VolumeResizeComponent,
+      classes: 'volume-resize-dialog',
+      providers: [{ provide: 'volume', useValue: this.volume }]
+    })
+      .switchMap(res => res.onHide())
+      .subscribe((newSize: any) => {
+        if (newSize != null) {
+          const data = {
+            id: this.volume.id,
+            size: newSize
+          };
+          this.onResize.next(data);
+        }
+      });
+  }
 
   public remove(): void {
     this.onDelete.next(this.volume);

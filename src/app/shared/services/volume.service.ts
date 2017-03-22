@@ -69,7 +69,24 @@ export class VolumeService extends BaseBackendService<Volume> {
     params['id'] = id;
 
     return this.sendCommand('resize', params)
-      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel));
+      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
+      .catch((error) => {
+        let message = '';
+
+        // can't rely on error codes, native ui just prints errortext
+        if (error.errortext.startsWith('Going from')) {
+          message = 'VOLUME_NEWSIZE_LOWER';
+        } else if (error.errortext.startsWith('Maximum number of')) {
+          message = 'VOLUME_PRIMARY_STORAGE_EXCEEDED';
+        } else {
+          // don't know what errors may occur,
+          // so print errortext like native ui
+          message = error.errortext;
+        }
+
+        error.message = message;
+        return Observable.throw(error);
+      });
   }
 
   public remove(id: string): Observable<null> {
