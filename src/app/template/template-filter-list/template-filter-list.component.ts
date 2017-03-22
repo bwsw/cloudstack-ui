@@ -15,6 +15,7 @@ import { BaseTemplateModel } from '../shared/base-template.model';
   styleUrls: ['template-filter-list.component.scss']
 })
 export class TemplateFilterListComponent implements OnInit {
+  @Input() public dialogMode = false;
   @Input() public selectedTemplate: BaseTemplateModel;
   @Input() public showDelimiter = true;
   @Input() public showIsoSwitch = true;

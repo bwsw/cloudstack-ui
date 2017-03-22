@@ -1,4 +1,4 @@
-import { Component, Input, Optional } from '@angular/core';
+import { Component, Input, Optional, EventEmitter, Output } from '@angular/core';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { ListService } from '../../shared/components/list/list.service';
 
@@ -13,6 +13,7 @@ export class TemplateListComponent {
   @Input() public templateList: Array<BaseTemplateModel>;
   @Input() public query: string;
   @Input() public selectedTemplate: BaseTemplateModel;
+  @Output() public selectedTemplateChange = new EventEmitter();
 
   constructor(@Optional() private listService: ListService) {}
 
@@ -21,5 +22,6 @@ export class TemplateListComponent {
       this.listService.onSelected.next(template);
     }
     this.selectedTemplate = template;
+    this.selectedTemplateChange.emit(this.selectedTemplate);
   }
 }
