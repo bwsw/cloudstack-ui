@@ -25,6 +25,7 @@ So, what is supported:
 * Multiple zones
 * Virtual machine standard operations supported by Apache Cloudstack
 * Root and Data disks management
+* Ad-hoc and periodical snapshots for disks
 * Affinity groups management
 * VM groups
 * Localization support
@@ -42,11 +43,8 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 ## Current To Do's
 
 * Responsive interface for smart devices
-* Branding support (default theme colors, logos)
-* Zone offerings restrictions (which means that not all service offerings may be compatible with a zone)
-* Sophisticated layout management for Zones, Groups, Colors filtering
 * SSH keys management
-
+* VM metrics a.k.a. Pulse plugin
 
 ## Screenshots
 
