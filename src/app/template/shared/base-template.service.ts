@@ -69,13 +69,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       id: template.id,
       zoneId: template.zoneId
     })
-      .switchMap(job => this.asyncJobService.addJob(job.jobid))
-      .switchMap(jobResult => {
-        if (jobResult.jobStatus === 2 || jobResult.jobResult && !jobResult.jobResult.success) {
-          return Observable.throw(jobResult);
-        }
-        return Observable.of(null);
-      });
+      .switchMap(job => this.asyncJobService.queryJob(job.jobid));
   }
 
   public addOsTypeData(template: BaseTemplateModel): Observable<BaseTemplateModel> {

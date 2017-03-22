@@ -11,7 +11,6 @@ import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 import {
   AsyncJobService,
-  IAsyncJob,
   IStorageService,
   InstanceGroup,
   JobsNotificationService,
@@ -27,6 +26,7 @@ import { VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListSection } from './vm-list-section/vm-list-section.component';
 import { VmListSubsection } from './vm-list-subsection/vm-list-subsection.component';
 import { VmStatisticsComponent } from '../../shared/components/vm-statistics/vm-statistics.component';
+import { AsyncJob } from '../../shared/models/async-job.model';
 
 
 export const enum SectionType {
@@ -245,15 +245,15 @@ export class VmListComponent implements OnInit {
   }
 
   private subscribeToVmDestroyed(): void {
-    this.asyncJobService.event.subscribe((job: IAsyncJob<any>) => {
-      if (!job.jobResult) {
+    this.asyncJobService.event.subscribe((job: AsyncJob<any>) => {
+      if (!job.result) {
         return;
       }
 
-      const state = job.jobResult.state;
-      if (job.jobInstanceType === 'VirtualMachine' && (state === 'Destroyed' || state === 'Expunging')) {
-        this.vmList = this.vmList.filter(vm => vm.id !== job.jobResult.id);
-        if (this.selectedVm && this.selectedVm.id === job.jobResult.id) {
+      const state = job.result.state;
+      if (job.instanceType === 'VirtualMachine' && (state === 'Destroyed' || state === 'Expunging')) {
+        this.vmList = this.vmList.filter(vm => vm.id !== job.result.id);
+        if (this.selectedVm && this.selectedVm.id === job.result.id) {
           this.listService.onDeselected.next();
         }
         this.updateFilters();
@@ -263,11 +263,11 @@ export class VmListComponent implements OnInit {
   }
 
   private subscribeToSnapshotAdded(): void {
-    this.asyncJobService.event.subscribe((job: IAsyncJob<any>) => {
-      if (job.jobResult && job.jobInstanceType === 'Snapshot') {
+    this.asyncJobService.event.subscribe((job: AsyncJob<any>) => {
+      if (job.result && job.instanceType === 'Snapshot') {
         this.vmList.forEach((vm, index, array) => {
-          let vol = vm.volumes.findIndex(volume => volume.id === job.jobResult.volumeId);
-          if (vol !== -1) { array[index].volumes[vol].snapshots.unshift(job.jobResult); }
+          let vol = vm.volumes.findIndex(volume => volume.id === job.result.volumeId);
+          if (vol !== -1) { array[index].volumes[vol].snapshots.unshift(job.result); }
         });
       }
     });

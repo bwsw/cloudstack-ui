@@ -2,27 +2,21 @@ import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators/field-mapper.decorator';
 
 
-export interface IAsyncJob<T> {
-  jobId: string;
-  jobStatus: number;
-  jobResultCode: number;
-  jobResult: T;
-  jobInstanceType: string;
-}
-
 @FieldMapper({
-  jobid: 'jobId',
-  jobstatus: 'jobStatus',
-  jobresultcode: 'jobResultCode',
-  jobresult: 'jobResult',
-  jobinstancetype: 'jobInstanceType'
+  jobid: 'id',
+  jobstatus: 'status',
+  jobresultcode: 'resultCode',
+  jobresult: 'result',
+  jobinstancetype: 'instanceType',
+  jobresulttype: 'resultType'
 })
-export class AsyncJob extends BaseModel implements IAsyncJob<any> {
-  public jobId: string;
-  public jobStatus: number;
-  public jobResultCode: number;
-  public jobResult: any;
-  public jobInstanceType: string;
+export class AsyncJob<T> extends BaseModel {
+  public id: string;
+  public status: number;
+  public resultCode: number;
+  public result: T;
+  public instanceType: string;
+  public resultType: string;
   public cmd: string;
 
   constructor(params) {

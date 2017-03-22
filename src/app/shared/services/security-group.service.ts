@@ -50,36 +50,9 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
           'tags[0].value': 'true',
         };
 
-        if (data.labels) {
-          params['tags[1].key'] = 'labels';
-          params['tags[1].value'] = data.labels;
-        }
-
         return this.tagService.create(params);
       })
-      .switchMap(tagJob => {
-        return this.asyncJobService.addJob(tagJob.jobid);
-      })
-      .switchMap(result => {
-        let jobResult: any = {};
-
-        if (result && result.jobResultCode === 0) {
-          jobResult.success = result.jobResult.success;
-          jobResult.tag = { key: 'labels', value: data.labels };
-        } else {
-          jobResult.success = false;
-        }
-
-        result.jobResult = jobResult;
-        this.asyncJobService.event.next(result);
-
-        if (!result || !result.jobResult.success) {
-          return Observable.throw(result.jobResult);
-        }
-        template.labels = [result.jobResult.tag.value];
-
-        return Observable.of(template);
-      });
+      .map(() => template);
   }
 
   public deleteTemplate(id: string): Observable<any> {
@@ -144,13 +117,9 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
     this.invalidateCache();
     const command = 'authorize';
     return this.sendCommand(`${command};${type}`, data)
-      .switchMap(job => this.asyncJobService.addJob(job.jobid))
-      .switchMap(jobResult => {
-        if (jobResult.jobStatus === 2) {
-          return Observable.throw(jobResult);
-        }
-        const ruleRaw = jobResult.jobResult.securitygroup[type.toLowerCase() + 'rule'][0];
-        const rule = new NetworkRule(ruleRaw);
+      .switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel))
+      .switchMap(securityGroup => {
+        const rule = securityGroup[`${type.toLowerCase()}Rules`][0];
         return Observable.of(rule);
       });
   }
@@ -159,12 +128,6 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
     this.invalidateCache();
     const command = 'revoke';
     return this.sendCommand(`${command};${type}`, data)
-      .switchMap(job => this.asyncJobService.addJob(job.jobid))
-      .switchMap(jobResult => {
-        if (jobResult.jobStatus === 2 || jobResult.jobResult && !jobResult.jobResult.success) {
-          return Observable.throw(jobResult);
-        }
-        return Observable.of(null);
-      });
+      .switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel));
   }
 }

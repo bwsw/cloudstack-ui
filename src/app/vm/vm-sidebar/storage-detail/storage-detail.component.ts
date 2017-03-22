@@ -148,7 +148,7 @@ export class StorageDetailComponent implements OnChanges {
         },
         error => {
           this.iso = null;
-          this.notificationService.error(error);
+          this.notificationService.error(error.errortext);
           this.jobNotificationService.fail({
             id: notificationId,
             message: 'ISO_ATTACH_FAILED'

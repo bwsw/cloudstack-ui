@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { VirtualMachine, IVmAction } from '../shared/vm.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
-import { IAsyncJob } from '../../shared/models/async-job.model';
+import { AsyncJob } from '../../shared/models/async-job.model';
 import { VmService } from '../shared/vm.service';
 import { Color } from '../../shared/models/color.model';
 
@@ -37,10 +37,10 @@ export class VmListItemComponent implements OnInit, OnChanges {
     this.updateColor();
 
     this.actions = VirtualMachine.actions;
-    this.asyncJobService.event.subscribe((job: IAsyncJob<VirtualMachine>) => {
-      if (job.jobResult && job.jobResult.id === this.vm.id) {
-        this.vm.state = job.jobResult.state;
-        this.vm.nic[0] = job.jobResult.nic[0];
+    this.asyncJobService.event.subscribe((job: AsyncJob<any>) => {
+      if (job.result && job.result.id === this.vm.id) {
+        this.vm.state = job.result.state;
+        this.vm.nic[0] = job.result.nic[0];
       }
     });
     this.vmService.vmUpdateObservable.subscribe(() => {

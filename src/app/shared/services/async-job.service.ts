@@ -7,7 +7,13 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
 
 
 interface IJobObservables {
-  [id: string]: Subject<AsyncJob | void>;
+  [id: string]: Subject<AsyncJob<any> | void>;
+}
+
+const enum JobStatus {
+  InProgress,
+  Completed,
+  Failed
 }
 
 @Injectable()
@@ -15,8 +21,8 @@ interface IJobObservables {
   entity: 'AsyncJob',
   entityModel: AsyncJob
 })
-export class AsyncJobService extends BaseBackendService<AsyncJob> {
-  public event: Subject<AsyncJob>;
+export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
+  public event: Subject<AsyncJob<any>>;
   public pollingInterval: number;
   public immediatePollingInterval: number;
   public poll: boolean;
@@ -28,11 +34,11 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
     this.pollingInterval = 2000;
     this.immediatePollingInterval = 100;
     this.jobObservables = {};
-    this.event = new Subject<AsyncJob>();
+    this.event = new Subject<AsyncJob<any>>();
   }
 
-  public addJob(id: string): Observable<AsyncJob> {
-    let observable = new Subject<AsyncJob>();
+  public addJob(id: string): Observable<AsyncJob<any>> {
+    let observable = new Subject<AsyncJob<any>>();
     this.jobObservables[id] = observable;
     this.startPolling();
     return observable;
@@ -45,9 +51,9 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
     this.getList().subscribe(result => {
       let anyJobs = false;
       result.forEach(elem => {
-        let id = elem.jobId;
+        let id = elem.id;
         if (this.jobObservables[id]) {
-          if (elem.jobStatus === 0) { // if the job is completed successfully
+          if (elem.status === 0) { // if the job is completed successfully
             anyJobs = true;
           } else {
             this.jobObservables[id].next(elem);
@@ -63,25 +69,49 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
     return true;
   }
 
-  public register(job: any, entity = '', entityModel: any = null): Observable<any> {
-    let jobId = job.jobId || job.jobid || job;
-    if (typeof jobId !== 'string') {
-      throw new Error('Unsupported job format');
-    }
-    return this.addJob(jobId)
-      .map(result => {
-        let entityResponse = result.jobResult[entity.toLowerCase()];
+  public queryJob(job: any, entity = '', entityModel: any = null): Observable<typeof entityModel> {
+    const jobId = this.getJobId(job);
+    let jobSubject = new Subject<AsyncJob<typeof entityModel>>();
 
-        if (result && result.jobResultCode === 0 && entityResponse) {
-          result.jobResult = this.prepareModel(result.jobResult[entity.toLowerCase()], entityModel);
+    setTimeout(() => {
+      this._queryJob(jobId, jobSubject, entity, entityModel);
+      let interval = setInterval(() => {
+        if (jobSubject.isStopped) {
+          clearInterval(interval);
+          return;
+        }
+        this._queryJob(jobId, jobSubject, entity, entityModel, interval);
+      }, this.pollingInterval);
+    }, this.immediatePollingInterval);
+    return jobSubject;
+  }
+
+  private _queryJob(
+    jobId: string,
+    jobSubject: Subject<AsyncJob<any>>,
+    entity: string,
+    entityModel: any,
+    interval?: any
+  ): void {
+    this.sendCommand('query;Result', { jobId })
+      .map(res => new AsyncJob<typeof entityModel>(res))
+      .subscribe((asyncJob) => {
+        switch (asyncJob.status) {
+          case JobStatus.InProgress: return;
+          case JobStatus.Completed: {
+            jobSubject.next(this.getResult(asyncJob, entity, entityModel));
+          } break;
+          case JobStatus.Failed: {
+            jobSubject.error(asyncJob.result);
+            break;
+          }
         }
 
-        if (result.jobStatus === 2) {
-          return Observable.throw(result);
+        if (interval) {
+          clearInterval(interval);
         }
-
-        this.event.next(result);
-        return result;
+        jobSubject.complete();
+        this.event.next(asyncJob);
       });
   }
 
@@ -97,5 +127,40 @@ export class AsyncJobService extends BaseBackendService<AsyncJob> {
   private stopPolling(): void {
     clearInterval(this.timerId);
     this.poll = false;
+  }
+
+  private getJobId(job: any): string {
+    let jobId;
+    if (job instanceof AsyncJob) {
+      jobId = job.id;
+    } else {
+      jobId = job.jobid || job;
+    }
+
+    if (typeof jobId !== 'string') {
+      throw new Error('Unsupported job format');
+    }
+    return jobId;
+  }
+
+  private getResult(
+    asyncJob: AsyncJob<typeof entityModel>,
+    entity = '',
+    entityModel: any = null
+  ): any {
+    // when response is just success: true/false
+    if (asyncJob.result && asyncJob.result.success) {
+      return asyncJob.result;
+    }
+
+    const hasEntity = asyncJob.instanceType || asyncJob.resultType;
+    let result;
+    if (hasEntity) {
+      result = this.prepareModel(asyncJob.result[entity.toLowerCase()], entityModel);
+      asyncJob.result = result;
+    } else {
+      result = asyncJob;
+    }
+    return result;
   }
 }

@@ -17,23 +17,12 @@ export class IsoService extends BaseTemplateService {
       virtualMachineId: vmId,
       id: iso.id
     })
-      .switchMap(job => this.asyncJobService.addJob(job.jobid))
-      .switchMap(jobResult => {
-        if (jobResult.jobStatus === 2) {
-          return Observable.throw(jobResult.jobResult.errortext);
-        }
-        return Observable.of(iso);
-      });
+      .switchMap(job => this.asyncJobService.queryJob(job.jobid))
+      .map(() => iso);
   }
 
   public detach(id: string): Observable<any> {
     return this.sendCommand('detach', { virtualMachineId: id })
-      .switchMap(job => this.asyncJobService.addJob(job.jobid))
-      .switchMap(jobResult => {
-        if (jobResult.jobStatus === 2) {
-          return Observable.throw(jobResult.jobResult.errortext);
-        }
-        return Observable.of(null);
-      });
+      .switchMap(job => this.asyncJobService.queryJob(job.jobid));
   }
 }
