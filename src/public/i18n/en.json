@@ -320,6 +320,16 @@
   "ISO_ATTACH_DONE": "ISO has been attached",
   "ISO_ATTACH_FAILED": "Failed to attach an ISO",
 
+  "BETWEEN": "Between {{ lowerLimit }} and {{ upperLimit }}",
+  "UP_TO": "Up to {{ upperLimit }}",
+  "FROM": "From {{ lowerLimit }}",
+  "INCORRECT_FORMAT": "Incorrect format",
+
   "DISK_OFFERING": "Disk offering",
-  "INSTALLATION_SOURCE": "Installation source"
+  "INSTALLATION_SOURCE": "Installation source",
+  "TIME": "Time",
+  "STORE_SNAPSHOTS": "Number of stored snapshots",
+  "MINUTE": "Minute",
+  "AM_PM_FORMAT": "AM/PM",
+  "24_HOURS_FORMAT": "24-hour clock"
 }

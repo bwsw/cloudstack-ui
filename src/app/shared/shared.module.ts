@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { MdlModule } from 'angular2-mdl';
@@ -34,6 +35,7 @@ import {
   VolumeService,
   ZoneService
 } from './services';
+
 import { SgRulesManagerComponent } from './components/sg-rules-manager.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { NotificationBoxComponent } from './components/notification-box.component';
@@ -41,11 +43,15 @@ import { NotificationBoxItemComponent } from './components/notification-box-item
 import { HighLightPipe } from './pipes/highlight.pipe';
 import { VmStatisticsComponent } from './components/vm-statistics/vm-statistics.component';
 import { DiskOfferingComponent } from './components/disk-offering/disk-offering.component';
+import { MinValueValidatorDirective } from './directives/min-value.directive';
+import { MaxValueValidatorDirective } from './directives/max-value.directive';
+import { TimePickerComponent } from './components/time-picker/time-picker.component';
 
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     TranslateModule,
     MdlModule,
     MdlPopoverModule,
@@ -53,10 +59,13 @@ import { DiskOfferingComponent } from './components/disk-offering/disk-offering.
   ],
   exports: [
     DiskOfferingComponent,
+    MaxValueValidatorDirective,
+    MinValueValidatorDirective,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     SgRulesManagerComponent,
     SidebarComponent,
+    TimePickerComponent,
     VmStatisticsComponent,
     DivByPowerOfTwoPipe,
     HighLightPipe,
@@ -64,10 +73,13 @@ import { DiskOfferingComponent } from './components/disk-offering/disk-offering.
   ],
   declarations: [
     DiskOfferingComponent,
+    MaxValueValidatorDirective,
+    MinValueValidatorDirective,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     SgRulesManagerComponent,
     SidebarComponent,
+    TimePickerComponent,
     VmStatisticsComponent,
     DivByPowerOfTwoPipe,
     ViewValuePipe,

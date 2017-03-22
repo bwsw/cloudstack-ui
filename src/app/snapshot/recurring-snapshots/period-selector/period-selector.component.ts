@@ -1,14 +1,23 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input, OnInit,
+  Output,
+  EventEmitter
+} from '@angular/core';
+
 import {
   AbstractPolicy,
   HourlyPolicy,
   DailyPolicy,
   WeeklyPolicy,
   MonthlyPolicy,
-  RecurringSnapshotPolicy
+  RecurringSnapshotPolicy, Timezone
 } from '../recurring-snapshots.component';
 
-const timeZones = require('timezones.json');
+import { ConfigService } from '../../../shared/services/config.service';
+import { Observable } from 'rxjs';
+import { TranslateService } from 'ng2-translate';
+
 
 @Component({
   selector: 'period-selector',
@@ -20,15 +29,41 @@ export class PeriodSelectorComponent implements OnInit {
   @Output() public onPolicyChange = new EventEmitter<AbstractPolicy>();
 
   public currentPolicy: AbstractPolicy;
-
-  // todo: make it load on demand a'la config service
-  public timeZones: any;
   public Policy = RecurringSnapshotPolicy;
 
+  public timezone: Timezone;
+  public timezones: Array<Timezone>;
+
+  public time: string;
+
+  public maxSnapshotsPerInterval = 8; // investigate if this is configurable
+
+  constructor(
+    private configService: ConfigService,
+    private translateService: TranslateService
+  ) {
+    this.configService.get('timezones')
+      .subscribe(timezones => {
+        this.timezones = timezones;
+      });
+  }
 
   public ngOnInit(): void {
-    this.timeZones = Object.keys(timeZones);
     this.currentPolicy = this.convertEnumPolicyToClass(this.policy);
+  }
+
+  public get minutesErrorMessage(): Observable<string> {
+    return this.translateService.get('BETWEEN', {
+      lowerLimit: 0,
+      upperLimit: 59
+    });
+  }
+
+  public get storedSnapshotsErrorMesssage(): Observable<string> {
+    return this.translateService.get('BETWEEN', {
+      lowerLimit: 1,
+      upperLimit: this.maxSnapshotsPerInterval
+    });
   }
 
   private convertEnumPolicyToClass(enumPolicy: RecurringSnapshotPolicy): AbstractPolicy {

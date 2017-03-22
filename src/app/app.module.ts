@@ -19,6 +19,7 @@ import { SharedModule } from './shared/shared.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
 import { CustomDialogService } from './shared/services/custom-dialog.service';
+import { SnapshotModule } from './snapshot/snapshot.module';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { CustomDialogService } from './shared/services/custom-dialog.service';
     MdlSelectModule,
     SecurityGroupModule,
     ServiceOfferingModule,
+    SnapshotModule,
     TemplateModule,
     VmModule,
     SharedModule
@@ -40,7 +42,7 @@ import { CustomDialogService } from './shared/services/custom-dialog.service';
   declarations: [
     AppComponent,
     LoginComponent,
-    LogoutComponent,
+    LogoutComponent
   ],
   providers: [
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },

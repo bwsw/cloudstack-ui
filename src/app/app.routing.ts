@@ -28,6 +28,10 @@ const routes: Routes = [
     component: RecurringSnapshotsComponent
   },
   {
+    path: 'test',
+    component: RecurringSnapshotsComponent
+  },
+  {
     path: '**',
     redirectTo: '/instances'
   }

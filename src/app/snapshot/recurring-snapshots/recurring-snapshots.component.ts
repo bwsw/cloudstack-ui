@@ -48,6 +48,11 @@ export class MonthlyPolicy extends DailyPolicy {
   public dayOfMonth: number;
 }
 
+export interface Timezone {
+  geo: string;
+  zone: string;
+}
+
 interface Time {
   hours: number;
   minutes: number;

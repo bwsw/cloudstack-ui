@@ -1,0 +1,22 @@
+<mdl-textfield
+  type="number"
+  name="minute"
+  autofocus
+  required
+  [(ngModel)]="minute"
+  min="0"
+  minValue="0"
+  max="59"
+  maxValue="59"
+  #minute="ngModel"
+  error-msg="{{ minutesErrorMessage | async }}"
+  [class.is-invalid]="minute.invalid && !minute.pristine"
+></mdl-textfield>
+
+<mdl-select
+  *ngIf="format"
+  [(ngModel)]="format"
+>
+  <mdl-option [value]="12">{{ 'AM_PM_FORMAT' | translate }}</mdl-option>
+  <mdl-option [value]="24">{{ '24_HOURS_FORMAT' | translate }}</mdl-option>
+</mdl-select>

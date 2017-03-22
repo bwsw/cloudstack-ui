@@ -320,6 +320,16 @@
   "ISO_ATTACH_DONE": "ISO файл прикреплен",
   "ISO_ATTACH_FAILED": "Не удалось прикрепить ISO файл",
 
+  "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}",
+  "UP_TO": "До {{ upperLimit }}",
+  "FROM": "От {{ lowerLimit }}",
+  "INCORRECT_FORMAT": "Неверный формат",
+
   "DISK_OFFERING": "Дисковая услуга",
-  "INSTALLATION_SOURCE": "Источник установки"
+  "INSTALLATION_SOURCE": "Источник установки",
+  "TIME": "Время",
+  "STORE_SNAPSHOTS": "Количество хранимых снимков",
+  "MINUTE": "Минута",
+  "AM_PM_FORMAT": "AM/PM",
+  "24_HOURS_FORMAT": "24-часовой формат"
 }
