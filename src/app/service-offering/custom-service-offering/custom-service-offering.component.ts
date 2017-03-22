@@ -13,19 +13,15 @@ export class CustomServiceOffering {
   ) {}
 }
 
+interface CustomOfferingRestriction {
+  min: number;
+  max: number;
+}
+
 class CustomOfferingRestrictions {
-  public cpuNumber: {
-    min: number;
-    max: number;
-  };
-  public cpuSpeed: {
-    min: number;
-    max: number;
-  };
-  public memory: {
-    min: number;
-    max: number;
-  };
+  public cpuNumber: CustomOfferingRestriction;
+  public cpuSpeed: CustomOfferingRestriction;
+  public memory: CustomOfferingRestriction;
 
   constructor(restrictions: any) {
     this.cpuNumber = {
@@ -43,22 +39,26 @@ class CustomOfferingRestrictions {
       max: Number.POSITIVE_INFINITY
     };
 
-    if (restrictions && restrictions.cpuNumber && restrictions.cpuNumber.min) {
+    if (!restrictions) {
+      return;
+    }
+
+    if (restrictions.cpuNumber && restrictions.cpuNumber.min) {
       this.cpuNumber.min = restrictions.cpuNumber.min;
     }
-    if (restrictions && restrictions.cpuNumber && restrictions.cpuNumber.max) {
+    if (restrictions.cpuNumber && restrictions.cpuNumber.max) {
       this.cpuNumber.max = restrictions.cpuNumber.max;
     }
-    if (restrictions && restrictions.cpuSpeed && restrictions.cpuSpeed.min) {
+    if (restrictions.cpuSpeed && restrictions.cpuSpeed.min) {
       this.cpuSpeed.min = restrictions.cpuSpeed.min;
     }
-    if (restrictions && restrictions.cpuSpeed && restrictions.cpuSpeed.max) {
+    if (restrictions.cpuSpeed && restrictions.cpuSpeed.max) {
       this.cpuSpeed.max = restrictions.cpuSpeed.max;
     }
-    if (restrictions && restrictions.memory && restrictions.memory.min) {
+    if (restrictions.memory && restrictions.memory.min) {
       this.memory.min = restrictions.memory.min;
     }
-    if (restrictions && restrictions.memory && restrictions.memory.max) {
+    if (restrictions.memory && restrictions.memory.max) {
       this.memory.max = restrictions.memory.max;
     }
   }

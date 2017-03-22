@@ -20,8 +20,6 @@
       [class.is-invalid]="cpuNumberField.touched && cpuNumberField.invalid"
     ></mdl-textfield>
 
-    {{ restrictions | json }}
-
     <h5>{{ 'SERVICE_OFFERING_FIELDS.cpuSpeed' | translate }}</h5>
     <mdl-textfield
       *ngIf="offering && restrictions"
