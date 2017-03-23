@@ -45,8 +45,8 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 * Responsive interface for smart devices
 * SSH keys management
 * VM metrics a.k.a. Pulse plugin
-* VM expenses a.k.a. Accounting Plugin
-* VM applications a.k.a. Roller Plugin
+* VM expenses like resource utilization stats, traffic, IO stats a.k.a. Accounting Plugin
+* Applications a.k.a. Roller Plugin
 
 ## Screenshots
 
