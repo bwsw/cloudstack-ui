@@ -15,6 +15,7 @@ import {
 
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
 import { ListService } from '../../shared/components/list/list.service';
+import { VolumeResizeData } from '../../shared/services/volume.service';
 
 
 export interface VolumeCreationData {
@@ -170,5 +171,23 @@ export class SpareDrivePageComponent implements OnInit {
             message: 'VOLUME_ATTACH_FAILED',
           });
         });
+  }
+
+  public resize(data: VolumeResizeData): void {
+    this.volumeService.resize(data)
+      .subscribe(
+        (newVolume: Volume) => {
+          const volumeInd = this.volumes.findIndex(volume => volume.id === newVolume.id);
+          if (volumeInd === -1) {
+            return;
+          }
+
+          this.volumes[volumeInd] = newVolume;
+        },
+        (error) => {
+          this.translateService.get(error.message)
+            .subscribe(str => this.dialogService.alert(str));
+        }
+      );
   }
 }

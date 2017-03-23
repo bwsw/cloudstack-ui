@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
+import { TranslateService } from 'ng2-translate';
 import { Observable } from 'rxjs';
 
 import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
@@ -13,6 +14,7 @@ import {
 } from '../../../../shared/services';
 
 import { Volume, Snapshot } from '../../../../shared/models';
+import { VolumeService } from '../../../../shared/services/volume.service';
 
 
 @Component({
@@ -29,7 +31,9 @@ export class VolumeComponent implements OnInit {
     private jobNotificationService: JobsNotificationService,
     private statsUpdateService: StatsUpdateService,
     private snapshotService: SnapshotService,
-    private notificationService: NotificationService
+    private volumeService: VolumeService,
+    private notificationService: NotificationService,
+    private translateService: TranslateService
   ) { }
 
   public ngOnInit(): void { }
@@ -57,18 +61,18 @@ export class VolumeComponent implements OnInit {
       providers: [{ provide: 'volume', useValue: volume }]
     })
       .switchMap(res => res.onHide())
-      .switchMap((data: any) => {
-        if (data) {
+      .switchMap((newSize: any) => {
+        if (newSize != null) {
           notificationId = this.jobNotificationService.add('VOLUME_RESIZING');
-          return data;
+          return this.volumeService.resize({ id: volume.id, size: newSize });
         }
         return Observable.of(undefined);
       })
-      .subscribe((data: any) => {
-          if (!data) {
+      .subscribe((newVolume: Volume) => {
+          if (!newVolume) {
             return;
           }
-          volume.size = (data as Volume).size;
+          volume.size = newVolume.size;
 
           this.jobNotificationService.finish({
             id: notificationId,
@@ -78,24 +82,12 @@ export class VolumeComponent implements OnInit {
           this.statsUpdateService.next();
         },
         error => {
-          let message = '';
-
-          // can't rely on error codes, native ui just prints errortext
-          if (error.errortext.startsWith('Going from')) {
-            message = 'VOLUME_NEWSIZE_LOWER';
-          } else if (error.errortext.startsWith('Maximum number of')) {
-            message = 'VOLUME_PRIMARY_STORAGE_EXCEEDED';
-          } else {
-            // don't know what errors may occur,
-            // so print errortext like native ui
-            message = error.errortext;
-          }
-
           this.jobNotificationService.fail({
             id: notificationId,
             message: 'VOLUME_RESIZE_FAILED'
           });
-          this.dialogService.alert(message);
+          this.translateService.get(error.message)
+            .subscribe(str => this.dialogService.alert(str));
         }
       );
   }
