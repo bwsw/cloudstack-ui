@@ -84,6 +84,18 @@
       </a>
 
       <a
+        (click)="componentSelected(mainLayout)"
+        class="mdl-navigation__link link-container"
+        routerLink="/ssh-keys"
+        [class.link-hover-light]="isLightTheme"
+        [class.link-hover-dark]="!isLightTheme"
+        [routerLinkActive]="linkActiveStyle"
+      >
+        <mdl-icon>vpn_key</mdl-icon>
+        <div class="link-element" [innerHTML]="'SSH_KEYS' | translate"></div>
+      </a>
+
+      <a
         #settingsLink
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
@@ -95,6 +107,7 @@
         <mdl-icon>settings</mdl-icon>
         <div class="link-element" [innerHTML]="'SETTINGS' | translate"></div>
       </a>
+
       <a
         (click)="componentSelected(mainLayout); logout()"
         class="mdl-navigation__link link-container"

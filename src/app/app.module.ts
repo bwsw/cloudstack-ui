@@ -21,6 +21,7 @@ import { CustomDialogService } from './shared/services/custom-dialog.service';
 import { EventsModule } from './events/events.module';
 import { SpareDriveModule } from './spare-drive/spare-drive.module';
 import { SettingsModule } from './settings/settings.module';
+import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { SettingsModule } from './settings/settings.module';
     ServiceOfferingModule,
     SettingsModule,
     SpareDriveModule,
+    SshKeysModule,
     TemplateModule,
     VmModule,
     SharedModule
