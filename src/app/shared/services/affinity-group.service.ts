@@ -24,13 +24,13 @@ export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup
     super();
   }
 
-  public getTypes(params?: {}) {
+  public getTypes(params?: {}): Observable<Array<{ type: string }>> {
     return this.sendCommand('list;Types', params)
       .map(result => result[`affinityGroupType`] || []);
   }
 
   public create(params: AffinityGroupCreationData): Observable<AffinityGroup> {
     return super.create(params)
-      .switchMap(job => this.asyncJob.queryJob(job, this.entity, this.entityModel));
+      .switchMap(job => this.asyncJob.queryJob(job.jobid, this.entity, this.entityModel));
   }
 }

@@ -44,7 +44,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return this.sendCommand('create', params)
       .map(response => {
         let entity = this.entity.toLowerCase();
-        if (entity === 'tag') {
+        if (entity === 'tag' || entity === 'affinitygroup') {
           return response;
         }
 

@@ -1,7 +1,8 @@
 <div class="overlay" *ngIf="sgCreationInProgress">
   <div class="message">
-    <p>{{ 'CREATING_SG' | translate }}</p>
-    <mdl-progress [indeterminate]="sgCreationInProgress"></mdl-progress>
+    <p *ngIf="sgCreationInProgress">{{ 'CREATING_SG' | translate }}</p>
+    <p *ngIf="agCreationInProgress">{{ 'CREATING_AG' | translate }}</p>
+    <mdl-progress [indeterminate]="sgCreationInProgress || agCreationInProgress"></mdl-progress>
   </div>
 </div>
 <div class="vm-creation-container">

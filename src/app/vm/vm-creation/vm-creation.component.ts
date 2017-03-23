@@ -42,6 +42,7 @@ class VmCreationData {
   public vm: VirtualMachine;
   public affinityGroups: Array<AffinityGroup>;
   public affinityGroupNames: Array<string>;
+  public affinityGroupTypes: Array<{ type: string }>;
   public instanceGroups: Array<InstanceGroup>;
   public serviceOfferings: Array<ServiceOffering>;
   public diskOfferings: Array<DiskOffering>;
@@ -86,6 +87,7 @@ export class VmCreationComponent implements OnInit {
 
   public takenName: string;
   public sgCreationInProgress = false;
+  public agCreationInProgress = false;
 
   public showRootDiskResize = false;
   public showSecurityGroups = true;
@@ -200,6 +202,20 @@ export class VmCreationComponent implements OnInit {
     )
       .switchMap(securityGroup => {
         params['securityGroupIds'] = securityGroup.id;
+        this.sgCreationInProgress = false;
+        if (this.shouldCreateAffinityGroup) {
+          this.agCreationInProgress = true;
+          return this.affinityGroupService.create({
+            name: this.vmCreationData.affinityGroupName,
+            type: this.vmCreationData.affinityGroupTypes[0].type
+          })
+            .switchMap(affinityGroup => {
+              this.vmCreationData.affinityGroups.push(affinityGroup);
+              params['affinityGroupNames'] = affinityGroup.name;
+              this.agCreationInProgress = false;
+              return this.vmService.deploy(params);
+            });
+        }
         return this.vmService.deploy(params);
       })
       .switchMap(deployResponse => {
@@ -212,18 +228,17 @@ export class VmCreationComponent implements OnInit {
             deployObservable.complete();
           });
 
-        this.sgCreationInProgress = false;
         this.dialog.hide(deployObservable);
         return this.vmService.registerVmJob(deployResponse);
       })
       .subscribe(
-        job => {
+        vm => {
           this.notifyOnDeployDone(notificationId);
-          if (!job.result.password) {
+          if (!vm.password) {
             return;
           }
-          this.showPassword(job.result.displayName, job.result.password);
-          this.vmService.updateVmInfo(job.result);
+          this.showPassword(vm.displayName, vm.password);
+          this.vmService.updateVmInfo(vm);
         },
         err => {
           this.sgCreationInProgress = false;
@@ -317,8 +332,8 @@ export class VmCreationComponent implements OnInit {
     this.vmCreationData.vm.group = group;
   }
 
-  public affinityGroupChange($event) {
-    this.vmCreationData.affinityGroupName = $event;
+  public affinityGroupChange(name): void {
+    this.vmCreationData.affinityGroupName = name;
   }
 
   private getDefaultVmName(): Observable<string> {
@@ -351,6 +366,7 @@ export class VmCreationComponent implements OnInit {
         return Observable.forkJoin([
           this.diskStorageService.getAvailablePrimaryStorage(),
           this.affinityGroupService.getList(),
+          this.affinityGroupService.getTypes(),
           this.sshService.getList(),
           this.templateService.getDefault(),
           this.instanceGroupService.getList(),
@@ -362,6 +378,7 @@ export class VmCreationComponent implements OnInit {
       .map(([
         rootDiskSizeLimit,
         affinityGroups,
+        affinityGroupTypes,
         sshKeyPairs,
         template,
         instanceGroups,
@@ -371,6 +388,7 @@ export class VmCreationComponent implements OnInit {
       ]) => {
         vmCreationData.rootDiskSizeLimit = rootDiskSizeLimit;
         vmCreationData.affinityGroups = affinityGroups;
+        vmCreationData.affinityGroupTypes = affinityGroupTypes;
         vmCreationData.affinityGroupNames = affinityGroups.map(ag => ag.name);
         vmCreationData.sshKeyPairs = sshKeyPairs;
         vmCreationData.vm.template = template;
@@ -421,11 +439,12 @@ export class VmCreationComponent implements OnInit {
     if (this.vmCreationData.vm.displayName) {
       params['name'] = this.vmCreationData.vm.displayName;
     }
+    this.shouldCreateAffinityGroup = false;
     let name = this.vmCreationData.affinityGroupName;
     if (name) {
-      const ag = this.vmCreationData.affinityGroups.find(ag => ag.name === name);
-      if (ag) {
-        params['affinityGroupNames'] = ag.name;
+      const affinityGroup = this.vmCreationData.affinityGroups.find(ag => ag.name === name);
+      if (affinityGroup) {
+        params['affinityGroupNames'] = affinityGroup.name;
       } else {
         this.shouldCreateAffinityGroup = true;
       }
