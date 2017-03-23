@@ -30,6 +30,7 @@ So, what is supported:
 * VM groups
 * Localization support
 * Frontend Themes, Custom VM colors
+* Custom and Fixed service and disk offerings
 
 ## Features Yet Unsupported
 
