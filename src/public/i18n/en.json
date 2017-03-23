@@ -110,6 +110,7 @@
   "PRIMARY_(STORAGE)": "Primary",
   "SECONDARY_(STORAGE)": "Secondary",
   "GB": "GB",
+  "MB": "MB",
   "GHZ": "GHz",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "CPU utilized",
@@ -124,7 +125,7 @@
     "name": "Name",
     "cpuNumber": "CPU cores",
     "cpuSpeed": "CPU (Mhz)",
-    "memory": "Memory (GB)",
+    "memory": "Memory (MB)",
     "displayText": "Description",
     "storageType": "Storage type",
     "provisioningType": "Provisioning type",
@@ -409,5 +410,15 @@
 
   "LICENSE": "© Bitworks Software, Ltd.<br>Released under Apache v2.0 license",
   "WELCOME": "Welcome, {{ name }}",
-  "ACTIVITY_LOG": "Activity log"
+  "ACTIVITY_LOG": "Activity log",
+
+  "CUSTOM_SERVICE_OFFERING": "Custom offering",
+  "CUSTOM_SERVICE_OFFERING_CPU": "CPU",
+  "CUSTOM_SERVICE_OFFERING_MEMORY": "Memory",
+  "CONFIRM": "Confirm",
+
+  "BETWEEN": "Between {{ lowerLimit }} and {{ upperLimit }}",
+  "UP_TO": "Up to {{ upperLimit }}",
+  "FROM": "From {{ lowerLimit }}",
+  "INCORRECT_FORMAT": "Incorrect format"
 }

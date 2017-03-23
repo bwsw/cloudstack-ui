@@ -37,14 +37,14 @@
           </div>
         </div>
 
-        <div>
+        <div *ngIf="zoneId && vmCreationData.serviceOfferings">
           <h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>
           <cs-service-offering-selector
-            *ngIf="zoneId"
             name="serviceOffering"
             [serviceOfferings]="vmCreationData.serviceOfferings"
-            [ngModel]="vmCreationData.vm.serviceOfferingId"
-            (ngModelChange)="setServiceOffering($event)"
+            [zoneId]="vmCreationData.vm.zoneId"
+            [offering]="vmCreationData.customServiceOffering"
+            (offeringChanged)="setServiceOffering($event)"
           ></cs-service-offering-selector>
         </div>
 
@@ -66,13 +66,15 @@
             (offeringUpdated)="updateDiskOffering($event)"
           ></cs-disk-offering>
         </div>
-        <cs-volume-size-control
+        <cs-slider
           *ngIf="templateSelected || showRootDiskResize"
           [min]="vmCreationData.rootDiskSizeMin"
           [max]="vmCreationData.rootDiskSizeLimit"
+          [label]="'VM_CREATION_FORM.DISK_SIZE' | translate"
           name="rds"
           [(ngModel)]="vmCreationData.rootDiskSize"
-        ></cs-volume-size-control>
+          [units]="'GB' | translate"
+        ></cs-slider>
       </div>
       <div class="right-column">
 

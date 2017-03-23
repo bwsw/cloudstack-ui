@@ -199,25 +199,60 @@
     "accentColor": "lime"
   },
   "offeringAvailability": {
+    "filterOfferings": true,
     "031a55bb-5d6b-4336-ab93-d5dead28a887": {
       "serviceOfferings": [
         "4fbec0f2-e03a-4135-8f0e-a13abca3c2e2",
         "89fa6342-d64a-4ba4-a410-ce309ea948df",
-        "d0e8ce1c-5112-4fe0-95ac-29b39551ff16"
+        "d0e8ce1c-5112-4fe0-95ac-29b39551ff16",
+        "3890f81e-62aa-4a50-971a-f066223d623d"
       ],
       "diskOfferings": [
-        "b785e23e-5159-4968-ba6e-3ddb9fa1d58e"
+        "b785e23e-5159-4968-ba6e-3ddb9fa1d58e",
+        "f26bce86-c32a-4792-8697-5d69307205d7",
+        "6d135a79-cf3b-4eae-86c5-89884255c90d"
       ]
     },
     "3fcdb37c-1c0b-4728-b62f-970c765c3fbc": {
       "serviceOfferings": [
         "9b6c8c2c-7a4f-4bf3-9944-619cc239fdd3",
-        "206f4b51-48b5-4173-84d5-167bebd21dd2",
-        "d0e8ce1c-5112-4fe0-95ac-29b39551ff16"
+        "206f4b51-48b5-4173-84d5-167bebd21dd2"
       ],
       "diskOfferings": [
-        "f26bce86-c32a-4792-8697-5d69307205d7"
+        "b785e23e-5159-4968-ba6e-3ddb9fa1d58e",
+        "f26bce86-c32a-4792-8697-5d69307205d7",
+        "6d135a79-cf3b-4eae-86c5-89884255c90d"
       ]
+    }
+  },
+  "customOfferingRestrictions": {
+    "031a55bb-5d6b-4336-ab93-d5dead28a887": {
+      "cpuNumber": {
+        "min": 1,
+        "max": 4
+      },
+      "cpuSpeed": {
+        "min": 1000,
+        "max": 2000
+      },
+      "memory": {
+        "min": 32,
+        "max": 8192
+      }
+    },
+    "3fcdb37c-1c0b-4728-b62f-970c765c3fbc": {
+      "cpuNumber": {
+        "min": 1,
+        "max": 4
+      },
+      "cpuSpeed": {
+        "min": 1000,
+        "max": 2000
+      },
+      "memory": {
+        "min": 32,
+        "max": 8192
+      }
     }
   }
 }

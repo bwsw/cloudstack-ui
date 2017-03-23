@@ -35,6 +35,9 @@ import { BaseTemplateModel } from '../../template/shared/base-template.model';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { TemplateService } from '../../template/shared';
 import { VmService } from '../shared/vm.service';
+import {
+  CustomServiceOffering
+} from '../../service-offering/custom-service-offering/custom-service-offering.component';
 import { Template } from '../../template/shared/template.model';
 
 
@@ -46,6 +49,7 @@ class VmCreationData {
   public diskOfferings: Array<DiskOffering>;
   public sshKeyPairs: Array<SSHKeyPair>;
   public zones: Array<Zone>;
+  public customServiceOffering: CustomServiceOffering;
 
   public affinityGroupId: string;
   public doStartVm: boolean;
@@ -177,11 +181,14 @@ export class VmCreationComponent implements OnInit {
     ])
       .subscribe(([creationData, defaultName]) => {
         this.vmCreationData = creationData;
+        this.zoneId = this.vmCreationData.vm.zoneId;
+
         this.setMinDiskSize();
         this.fetching = false;
 
         if (!this.vmCreationData.vm.displayName) {
           setTimeout(() => this.vmCreationData.vm.displayName = defaultName);
+          this.changeDetectorRef.detectChanges();
         }
       });
   }
@@ -274,8 +281,17 @@ export class VmCreationComponent implements OnInit {
     this.setMinDiskSize(t);
   }
 
-  public setServiceOffering(offering: string): void {
-    this.vmCreationData.vm.serviceOfferingId = offering;
+  public setServiceOffering(offering: ServiceOffering): void {
+    this.vmCreationData.vm.serviceOfferingId = offering.id;
+    if (offering.isCustomized) {
+      this.vmCreationData.customServiceOffering = new CustomServiceOffering(
+        offering.cpuNumber,
+        offering.cpuSpeed,
+        offering.memory
+      );
+    } else {
+      this.vmCreationData.customServiceOffering = null;
+    }
   }
 
   public get zoneId(): string {
@@ -283,11 +299,10 @@ export class VmCreationComponent implements OnInit {
   }
 
   public set zoneId(id: string) {
-    if (this.zoneId === id) {
-      return;
-    }
     this.vmCreationData.vm.zoneId = id;
+    this.vmCreationData.customServiceOffering = undefined;
     this.changeDetectorRef.detectChanges();
+
     if (this.vmCreationData && this.vmCreationData.zones) {
       this.showSecurityGroups = !this.vmCreationData.zones.find(zone => zone.id === id).networkTypeIsBasic;
 
@@ -341,17 +356,15 @@ export class VmCreationComponent implements OnInit {
     return this.zoneService.getList()
       .switchMap(zoneList => {
         vmCreationData.zones = zoneList;
-        if (zoneList.length) {
-          vmCreationData.vm.zoneId = zoneList[0].id;
-        }
+        vmCreationData.vm.zoneId = zoneList[0].id;
+
         return Observable.forkJoin([
           this.diskStorageService.getAvailablePrimaryStorage(),
           this.affinityGroupService.getList(),
           this.sshService.getList(),
           this.templateService.getDefault(),
           this.instanceGroupService.getList(),
-          this.serviceOfferingFilterService.getAvailable({ zoneId: this.zoneId }),
-          this.diskOfferingService.getList({ zoneId: this.zoneId }),
+          this.diskOfferingService.getList({ zoneId: vmCreationData.vm.zoneId }),
           this.securityGroupService.getTemplates()
         ]);
       })
@@ -361,7 +374,6 @@ export class VmCreationComponent implements OnInit {
         sshKeyPairs,
         template,
         instanceGroups,
-        serviceOfferings,
         diskOfferings,
         securityGroupTemplates
       ]) => {
@@ -370,7 +382,6 @@ export class VmCreationComponent implements OnInit {
         vmCreationData.sshKeyPairs = sshKeyPairs;
         vmCreationData.vm.template = template;
         vmCreationData.instanceGroups = instanceGroups.map(group => group.name);
-        vmCreationData.serviceOfferings = serviceOfferings;
         vmCreationData.diskOfferings = diskOfferings;
 
         let preselectedSecurityGroups = securityGroupTemplates.filter(securityGroup => securityGroup.preselected);
@@ -412,6 +423,14 @@ export class VmCreationComponent implements OnInit {
       'keyboard': this.vmCreationData.keyboard,
       'response': 'json'
     };
+
+    if (this.vmCreationData.customServiceOffering) {
+      params['details'] = [{
+        cpuNumber: this.vmCreationData.customServiceOffering.cpuNumber,
+        cpuSpeed: this.vmCreationData.customServiceOffering.cpuSpeed,
+        memory: this.vmCreationData.customServiceOffering.memory
+      }];
+    }
 
     if (this.vmCreationData.vm.displayName) {
       params['name'] = this.vmCreationData.vm.displayName;

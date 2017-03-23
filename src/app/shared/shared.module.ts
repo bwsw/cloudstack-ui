@@ -62,8 +62,12 @@ import {
   SidebarComponent,
   TopBarComponent,
   VmStatisticsComponent,
-  VolumeSizeControlComponent
+  SliderComponent
 } from './components';
+
+import { MaxValueValidatorDirective } from './directives/max-value.directive';
+import { MinValueValidatorDirective } from './directives/min-value.directive';
+
 import { LoadingDirective } from './directives/loading.directive';
 import { LoaderComponent } from './components/loader.component';
 
@@ -80,19 +84,20 @@ import { LoaderComponent } from './components/loader.component';
   exports: [
     ColorPickerComponent,
     DatePickerComponent,
-    ListComponent,
     DiskOfferingComponent,
     FabComponent,
     ListComponent,
     NoResultsComponent,
+    MaxValueValidatorDirective,
+    MinValueValidatorDirective,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     SgRulesManagerComponent,
     SidebarComponent,
     TopBarComponent,
     VmStatisticsComponent,
-    VolumeSizeControlComponent,
     DivisionPipe,
+    SliderComponent,
     HighLightPipe,
     ViewValuePipe,
     LoadingDirective
@@ -113,14 +118,16 @@ import { LoaderComponent } from './components/loader.component';
     FabComponent,
     ListComponent,
     NoResultsComponent,
+    MaxValueValidatorDirective,
+    MinValueValidatorDirective,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     SgRulesManagerComponent,
     SidebarComponent,
     TopBarComponent,
     VmStatisticsComponent,
-    VolumeSizeControlComponent,
     DivisionPipe,
+    SliderComponent,
     HighLightPipe,
     ViewValuePipe,
     LoadingDirective,

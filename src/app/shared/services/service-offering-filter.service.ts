@@ -19,13 +19,27 @@ export class ServiceOfferingFilterService {
     ])
       .map(([serviceOfferings, resourceUsage]) => {
         let sos = serviceOfferings.filter(elem => {
+          if (elem.isCustomized) {
+            return true;
+          }
           return resourceUsage.available.cpus >= elem.cpuNumber &&
             resourceUsage.available.memory >= elem.memory;
-        });
+        })
+          .sort((a: ServiceOffering, b: ServiceOffering) => {
+            if (!a.isCustomized && b.isCustomized) {
+              return -1;
+            }
+            if (a.isCustomized && !b.isCustomized) {
+              return 1;
+            }
+            return 0;
+          });
+
         if (sos.length) {
           return sos;
         }
-        throw new Error();
+
+        throw new Error('No available service offerings');
       });
   }
 }

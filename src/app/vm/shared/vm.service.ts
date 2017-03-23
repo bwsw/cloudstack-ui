@@ -232,13 +232,13 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       .map(vmList => vmList.filter(vm => vm.isoId === iso.id));
   }
 
-  public changeServiceOffering(serviceOfferingId: string, virtualMachine: VirtualMachine): void {
-    if (virtualMachine.serviceOfferingId === serviceOfferingId) {
+  public changeServiceOffering(serviceOffering: ServiceOffering, virtualMachine: VirtualMachine): void {
+    if (virtualMachine.serviceOfferingId === serviceOffering.id) {
       return;
     }
 
     if (virtualMachine.state === 'Stopped') {
-      this._changeServiceOffering(serviceOfferingId, virtualMachine).subscribe();
+      this._changeServiceOffering(serviceOffering.id, virtualMachine).subscribe();
       return;
     }
     this.command({
@@ -246,7 +246,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       vm: virtualMachine
     })
       .switchMap(() => {
-        return this._changeServiceOffering(serviceOfferingId, virtualMachine);
+        return this._changeServiceOffering(serviceOffering.id, virtualMachine);
       })
       .subscribe(() => {
         this.command({

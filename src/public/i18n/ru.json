@@ -110,6 +110,7 @@
   "PRIMARY_(STORAGE)": "Основное",
   "SECONDARY_(STORAGE)": "Дополнительное",
   "GB": "GB",
+  "MB": "MB",
   "GHZ": "ГГц",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "Загружено CPU",
@@ -124,7 +125,7 @@
     "name": "Имя",
     "cpuNumber": "Ядра CPU",
     "cpuSpeed": "CPU (МГц)",
-    "memory": "Память (ГБ)",
+    "memory": "Память (МБ)",
     "displayText": "Описание",
     "storageType": "Тип хранилища",
     "provisioningType": "Provisioning type",
@@ -409,5 +410,15 @@
 
   "LICENSE": "© Bitworks Software, Ltd.<br>Released under Apache v2.0 license",
   "WELCOME": "Здравствуйте, {{ name }}",
-  "ACTIVITY_LOG": "Журнал событий"
+  "ACTIVITY_LOG": "Журнал событий",
+
+  "CUSTOM_SERVICE_OFFERING": "Настраиваемое предложение",
+  "CUSTOM_SERVICE_OFFERING_CPU": "CPU",
+  "CUSTOM_SERVICE_OFFERING_MEMORY": "Память",
+  "CONFIRM": "Принять",
+
+  "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}",
+  "UP_TO": "До {{ upperLimit }}",
+  "FROM": "От {{ lowerLimit }}",
+  "INCORRECT_FORMAT": "Неверный формат"
 }

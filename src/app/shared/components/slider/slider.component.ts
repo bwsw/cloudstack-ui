@@ -1,22 +1,25 @@
 import { Component, Input, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
+
 @Component({
-  selector: 'cs-volume-size-control',
-  templateUrl: 'volume-size-control.component.html',
-  styleUrls: ['volume-size-control.component.scss'],
+  selector: 'cs-slider',
+  templateUrl: 'slider.component.html',
+  styleUrls: ['slider.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => VolumeSizeControlComponent),
+      useExisting: forwardRef(() => SliderComponent),
       multi: true
     }
   ]
 })
-export class VolumeSizeControlComponent implements OnInit, ControlValueAccessor {
+export class SliderComponent implements OnInit, ControlValueAccessor {
+  @Input() public isLogarithmic = true;
+  @Input() public label: string;
   @Input() public min: number;
   @Input() public max: number;
-  @Input() public label: string;
+  @Input() public units: string;
 
   public _size: number;
 
@@ -43,15 +46,28 @@ export class VolumeSizeControlComponent implements OnInit, ControlValueAccessor 
   }
 
   public get sliderValue(): number {
-    return this.size > this.min ? Math.log(this.size) : this.sliderMinValue;
+    if (this.isLogarithmic) {
+      return this.size > this.min ? Math.log(this.size) : this.sliderMinValue;
+    }
+    return this.size > this.min ? this.size : this.sliderMinValue;
   }
 
   public get sliderMinValue(): number {
-    return Math.log(this.min);
+    if (this.isLogarithmic) {
+      return Math.log(this.min);
+    }
+    return this.min;
   }
 
   public get sliderMaxValue(): number {
-    return Math.log(this.max);
+    if (this.isLogarithmic) {
+      return Math.log(this.max);
+    }
+    return this.max;
+  }
+
+  public handleSliderChange(event: number): void {
+    this.isLogarithmic ? this.onVolumeChangeExp(event) : this.onVolumeChange(event);
   }
 
   public writeValue(value): void {
