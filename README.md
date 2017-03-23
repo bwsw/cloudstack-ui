@@ -37,14 +37,16 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 
 * Advanced Zones
 * Other hypervisors than KVM are not tested
-* Projects
 * Domains
 
 ## Current To Do's
 
+* Projects
 * Responsive interface for smart devices
 * SSH keys management
 * VM metrics a.k.a. Pulse plugin
+* VM expenses a.k.a. Accounting Plugin
+* VM applications a.k.a. Roller Plugin
 
 ## Screenshots
 
