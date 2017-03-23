@@ -22,6 +22,11 @@ export interface VolumeAttachmentData {
   virtualMachineId: string;
 }
 
+export interface VolumeResizeData {
+  id: string;
+  size: number;
+}
+
 export const deletionMark = 'toBeDeleted';
 
 
@@ -65,22 +70,28 @@ export class VolumeService extends BaseBackendService<Volume> {
       });
   }
 
-  public resize(id: string, params: { size: number, [propName: string]: any }): Observable<Volume> {
-    params['id'] = id;
-
+  public resize(params: VolumeResizeData): Observable<Volume> {
     return this.sendCommand('resize', params)
       .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
       .catch((error) => {
         let message = '';
 
+        const errorMap = {
+          'Going from': 'VOLUME_NEWSIZE_LOWER',
+          'Maximum number of': 'VOLUME_PRIMARY_STORAGE_EXCEEDED',
+        };
+
         // can't rely on error codes, native ui just prints errortext
-        if (error.errortext.startsWith('Going from')) {
-          message = 'VOLUME_NEWSIZE_LOWER';
-        } else if (error.errortext.startsWith('Maximum number of')) {
-          message = 'VOLUME_PRIMARY_STORAGE_EXCEEDED';
-        } else {
-          // don't know what errors may occur,
-          // so print errortext like native ui
+        for (let key in errorMap) {
+          if (error.errortext.startsWith(key)) {
+            message = errorMap[key];
+            break;
+          }
+        }
+
+        // don't know what errors may occur,
+        // so print errortext like native ui
+        if (!message) {
           message = error.errortext;
         }
 

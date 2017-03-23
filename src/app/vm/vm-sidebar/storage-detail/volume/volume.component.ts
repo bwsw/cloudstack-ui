@@ -64,15 +64,15 @@ export class VolumeComponent implements OnInit {
       .switchMap((newSize: any) => {
         if (newSize != null) {
           notificationId = this.jobNotificationService.add('VOLUME_RESIZING');
-          return this.volumeService.resize(volume.id, { size: newSize });
+          return this.volumeService.resize({ id: volume.id, size: newSize });
         }
         return Observable.of(undefined);
       })
-      .subscribe((newVolume: any) => {
+      .subscribe((newVolume: Volume) => {
           if (!newVolume) {
             return;
           }
-          volume.size = (newVolume as Volume).size;
+          volume.size = newVolume.size;
 
           this.jobNotificationService.finish({
             id: notificationId,

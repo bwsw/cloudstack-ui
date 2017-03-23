@@ -15,6 +15,7 @@ import {
 
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
 import { ListService } from '../../shared/components/list/list.service';
+import { VolumeResizeData } from '../../shared/services/volume.service';
 
 
 export interface VolumeCreationData {
@@ -22,11 +23,6 @@ export interface VolumeCreationData {
   zoneId: string;
   diskOfferingId: string;
   size?: number;
-}
-
-export interface VolumeResizeData {
-  id: string;
-  size: number;
 }
 
 @Component({
@@ -178,7 +174,7 @@ export class SpareDrivePageComponent implements OnInit {
   }
 
   public resize(data: VolumeResizeData): void {
-    this.volumeService.resize(data.id, { size: data.size })
+    this.volumeService.resize(data)
       .subscribe(
         (newVolume: Volume) => {
           const volumeInd = this.volumes.findIndex(volume => volume.id === newVolume.id);
