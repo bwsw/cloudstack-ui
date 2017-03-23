@@ -41,7 +41,6 @@ export abstract class OfferingService<T extends BaseModel> extends BaseBackendSe
       super.getList(params)
     ])
       .map(([offeringAvailability, list]) => {
-        debugger;
         if (!offeringAvailability.filterOfferings) {
           return list;
         }
