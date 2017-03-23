@@ -182,7 +182,7 @@ export class VmListComponent implements OnInit {
     this.dialogService.showCustomDialog({
       component: VmCreationComponent,
       clickOutsideToClose: false,
-      styles: {'width': '780px', 'padding': '0'},
+      styles: {'width': '755px', 'padding': '0'},
     })
       .switchMap(res => res.onHide())
       .switchMap(res => res)
