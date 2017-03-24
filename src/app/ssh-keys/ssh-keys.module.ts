@@ -5,6 +5,7 @@ import { MdlModule } from 'angular2-mdl';
 import { SshKeyListComponent } from './ssh-key-list.component';
 import { SharedModule } from '../shared/shared.module';
 import { SshKeysPageComponent } from './ssh-keys-page.component';
+import { SshKeyListItemComponent } from './ssh-key-list-item.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { SshKeysPageComponent } from './ssh-keys-page.component';
   exports: [SshKeysPageComponent],
   declarations: [
     SshKeyListComponent,
+    SshKeyListItemComponent,
     SshKeysPageComponent
   ],
 })

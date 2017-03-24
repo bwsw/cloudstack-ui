@@ -421,5 +421,7 @@
   "BETWEEN": "Between {{ lowerLimit }} and {{ upperLimit }}",
   "UP_TO": "Up to {{ upperLimit }}",
   "FROM": "From {{ lowerLimit }}",
-  "INCORRECT_FORMAT": "Incorrect format"
+  "INCORRECT_FORMAT": "Incorrect format",
+  "REMOVE_THIS_KEY": "Are you sure you want to remove this key?",
+  "KEY_REMOVAL_FAILED": "Key removal failed"
 }
