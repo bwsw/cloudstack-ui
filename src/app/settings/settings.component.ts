@@ -7,6 +7,10 @@ import {
   StorageService,
   StyleService
 } from '../shared';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UserService } from '../shared/services/user.service';
+import { AuthService } from '../shared/services/auth.service';
+import { NotificationService } from '../shared/services/notification.service';
 
 
 @Component({
@@ -15,22 +19,28 @@ import {
   styleUrls: ['settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-  public primaryColor: Color;
   public accentColor: Color;
   public language: string;
-
+  public primaryColor: Color;
   public primaryColors: Array<Color>;
 
+  public passwordUpdateForm: FormGroup;
+
   constructor(
+    private authService: AuthService,
     private configService: ConfigService,
+    private formBuilder: FormBuilder,
     private languageService: LanguageService,
+    private notificationService: NotificationService,
     private storageService: StorageService,
-    private styleService: StyleService
+    private styleService: StyleService,
+    private userService: UserService
 ) { }
 
   public ngOnInit(): void {
     this.language = this.languageService.getLanguage();
     this.loadColors();
+    this.buildForm();
   }
 
   public get accentColors(): Array<Color> {
@@ -66,6 +76,19 @@ export class SettingsComponent implements OnInit {
     this.styleService.updatePalette(this.primaryColor, this.accentColor);
   }
 
+  public updatePassword(): void {
+    this.passwordUpdateForm.reset();
+    this.userService.updatePassword(this.password, this.authService.userId)
+      .subscribe(
+        () => {},
+        error => this.notificationService.error(error.json()['updateuserresponse'].errortext)
+      );
+  }
+
+  private get password(): string {
+    return this.passwordUpdateForm.controls['password'].value;
+  }
+
   private loadColors(): void {
     this.configService.get('themeColors')
       .subscribe(themeColors => {
@@ -78,4 +101,15 @@ export class SettingsComponent implements OnInit {
       });
   }
 
+  private buildForm(): void {
+    this.passwordUpdateForm = this.formBuilder.group({
+      password: ['', Validators.required],
+      passwordRepeat: ['', Validators.required]
+    }, { validator: this.passwordsNotEqual });
+  }
+
+  private passwordsNotEqual(formGroup: FormGroup): { passwordsNotEqual: true } | null {
+    let valid = formGroup.controls['password'].value === formGroup.controls['passwordRepeat'].value;
+    return valid ? null : { passwordsNotEqual: true };
+  }
 }

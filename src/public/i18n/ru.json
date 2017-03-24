@@ -420,5 +420,9 @@
   "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}",
   "UP_TO": "До {{ upperLimit }}",
   "FROM": "От {{ lowerLimit }}",
-  "INCORRECT_FORMAT": "Неверный формат"
+  "INCORRECT_FORMAT": "Неверный формат",
+
+  "CHANGE_PASSWORD": "Изменение пароля",
+  "NEW_PASSWORD": "Новый пароль",
+  "REPEAT_PASSWORD": "Повторите пароль"
 }
