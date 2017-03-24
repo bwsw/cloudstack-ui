@@ -400,6 +400,7 @@
   "VOLUME_ATTACH_IN_PROGRESS": "Диск прикрепляется",
 
   "SETTINGS": "Настройки",
+  "SSH_KEYS": "SSH ключи",
   "LANGUAGE": "Язык Интерфейса",
   "COLOR": "Цвет",
   "GROUP_BY_COLORS": "Группировать по цветам",

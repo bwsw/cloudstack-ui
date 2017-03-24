@@ -400,6 +400,7 @@
   "VOLUME_ATTACH_IN_PROGRESS": "Attaching a volume",
 
   "SETTINGS": "Settings",
+  "SSH_KEYS": "SSH keys",
   "LANGUAGE": "Interface Language",
   "COLOR": "Color",
   "GROUP_BY_COLORS": "Group by colors",

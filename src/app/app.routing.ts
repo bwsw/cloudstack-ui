@@ -9,6 +9,7 @@ import { SpareDrivePageComponent } from './spare-drive/spare-drive-page/spare-dr
 import { SettingsComponent } from './settings/settings.component';
 import { AuthGuard } from './shared/services/auth-guard.service';
 import { LoginGuard } from './shared/services/login-guard.service';
+import { SshKeysPageComponent } from './ssh-keys/ssh-keys-page.component';
 
 
 const routes: Routes = [
@@ -40,6 +41,11 @@ const routes: Routes = [
   {
     path: 'settings',
     component: SettingsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'ssh-keys',
+    component: SshKeysPageComponent,
     canActivate: [AuthGuard]
   },
   {
