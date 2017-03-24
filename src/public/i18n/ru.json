@@ -401,6 +401,7 @@
 
   "SETTINGS": "Настройки",
   "SSH_KEYS": "SSH ключи",
+  "PUBLIC_KEY": "Открытый ключ",
   "LANGUAGE": "Язык Интерфейса",
   "COLOR": "Цвет",
   "GROUP_BY_COLORS": "Группировать по цветам",
@@ -421,5 +422,10 @@
   "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}",
   "UP_TO": "До {{ upperLimit }}",
   "FROM": "От {{ lowerLimit }}",
-  "INCORRECT_FORMAT": "Неверный формат"
+  "INCORRECT_FORMAT": "Неверный формат",
+
+  "CREATE_SSH_KEY": "Создать SSH ключ",
+  "AUTO_GENERATED": "автогенерируемый",
+  "KEYPAIR_ALREADY_EXISTS": "SSH ключ с таким именем уже существует",
+  "INVALID_PUBLIC_KEY": "Неправильный открытый ключ"
 }

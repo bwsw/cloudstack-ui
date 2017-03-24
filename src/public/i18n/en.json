@@ -401,6 +401,7 @@
 
   "SETTINGS": "Settings",
   "SSH_KEYS": "SSH keys",
+  "PUBLIC_KEY": "Public key",
   "LANGUAGE": "Interface Language",
   "COLOR": "Color",
   "GROUP_BY_COLORS": "Group by colors",
@@ -421,5 +422,10 @@
   "BETWEEN": "Between {{ lowerLimit }} and {{ upperLimit }}",
   "UP_TO": "Up to {{ upperLimit }}",
   "FROM": "From {{ lowerLimit }}",
-  "INCORRECT_FORMAT": "Incorrect format"
+  "INCORRECT_FORMAT": "Incorrect format",
+
+  "CREATE_SSH_KEY": "Create SSH key",
+  "AUTO_GENERATED": "auto generated",
+  "KEYPAIR_ALREADY_EXISTS": "SSH key with this name already exists",
+  "INVALID_PUBLIC_KEY": "Invalid public key"
 }
