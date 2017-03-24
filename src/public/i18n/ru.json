@@ -256,7 +256,7 @@
   "TAKE_SNAPSHOT_BUTTON": "Создать снимок",
   "SNAPSHOT_SCHEDULE_BUTTON": "Настроить создание снимков",
   "RESIZE_DISK_BUTTON": "Изменить размер диска",
-  "REVERT_TO_SNAPSHOT": "Восстановить диск к снимку",
+  "REVERT_TO_SNAPSHOT": "Восстановить диск",
 
   "VM_VIEW": "Машина",
   "STORAGE_VIEW": "Диски",
@@ -420,5 +420,9 @@
   "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}",
   "UP_TO": "До {{ upperLimit }}",
   "FROM": "От {{ lowerLimit }}",
-  "INCORRECT_FORMAT": "Неверный формат"
+  "INCORRECT_FORMAT": "Неверный формат",
+
+  "TEMPLATE_CREATION_DONE": "Шаблон создан",
+  "TEMPLATE_CREATION_FAILED": "Не удалось создать шаблон",
+  "TEMPLATE_CREATION_IN_PROGRESS": "Создание шаблона"
 }

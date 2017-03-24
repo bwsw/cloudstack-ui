@@ -54,3 +54,5 @@ __build__/**
 .idea/
 *.swp
 .vscode
+
+/src/app/**/*.js

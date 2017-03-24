@@ -420,5 +420,9 @@
   "BETWEEN": "Between {{ lowerLimit }} and {{ upperLimit }}",
   "UP_TO": "Up to {{ upperLimit }}",
   "FROM": "From {{ lowerLimit }}",
-  "INCORRECT_FORMAT": "Incorrect format"
+  "INCORRECT_FORMAT": "Incorrect format",
+
+  "TEMPLATE_CREATION_DONE": "Template created",
+  "TEMPLATE_CREATION_FAILED": "Failed to create a template",
+  "TEMPLATE_CREATION_IN_PROGRESS": "Creating a template"
 }

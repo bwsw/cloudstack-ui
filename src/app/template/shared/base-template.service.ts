@@ -15,8 +15,8 @@ export interface RegisterTemplateBaseParams {
   displayText: string;
   name: string;
   osTypeId: string;
-  url: string;
-  zoneId: string;
+  url?: string;
+  zoneId?: string;
 }
 
 @Injectable()
@@ -58,9 +58,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
   public register(params: RegisterTemplateBaseParams): Observable<BaseTemplateModel> {
     this.invalidateCache();
     return this.sendCommand('register', params)
-      .map(result => (
-        this.prepareModel(result[this.entity.toLowerCase()][0])
-      ));
+      .map(result => this.prepareModel(result[this.entity.toLowerCase()][0]));
   }
 
   public remove(template: BaseTemplateModel): Observable<any> {

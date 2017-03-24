@@ -1,10 +1,10 @@
-:host /deep/ .mdl-dialog__content {
-  display: flex;
-  justify-content: space-between;
-}
-
 /deep/ .template-creation-dialog {
   width: 720px;
+}
+
+/deep/ .template-creation-dialog-snapshot {
+  width: 376px;
+  padding: 14.5px; // blur
 }
 
 .flex-column {
@@ -13,6 +13,11 @@
   flex-direction: column;
   justify-content: center;
   max-width: 300px;
+}
+
+.flex-dialog-content {
+  display: flex;
+  justify-content: space-between;
 }
 
 .password-enabled-checkbox {
