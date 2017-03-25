@@ -57,9 +57,15 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 ## Screenshots
 
 #### Login view
+
+Just simple login screen. Nothing specially new. But it has nice preloader which can be used to brand it for specific company. By default it shows Apache Cloudstack banner.
+
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/loginView.png" target="_blank">![Login screen](./screens/loginView_mini.png)</a>
 
 #### Activity log view
+
+It's simplified view for account activities. It allows choosing the date and levels and see all of them. It's close to the same screen in ACS native UI but we believe that an user is interested in events of specific date and scrolling huge event log back to find something is not productive. Sometimes HelpDesk service just wants to show user that something had happened at specific date and thus the interface allows finding information easier.  
+
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/activityLog.png" target="_blank">![Activity Log screen](./screens/activityLog_mini.png)</a>
 
 
