@@ -102,7 +102,11 @@ export class VolumeComponent implements OnInit {
 
   public handleSnapshotDelete(snapshot: Snapshot): void {
     let notificationId: string;
-    this.dialogService.confirm('CONFIRM_SNAPSHOT_DELETE')
+
+    this.translateService.get('CONFIRM_SNAPSHOT_DELETE')
+      .switchMap(str => {
+        return this.dialogService.confirm(str)
+      })
       .switchMap(() => {
         notificationId = this.jobNotificationService.add('SNAPSHOT_DELETE_IN_PROGRESS');
         return this.snapshotService.remove(snapshot.id);
