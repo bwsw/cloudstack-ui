@@ -56,7 +56,7 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 
 ## Screenshots
 
-![Login Screen](./screens/activityLog_mini.png)
+[![Activity Log](./screens/activityLog_mini.png)](./screens/activityLog.png)
 
 ## Project Sponsors
 
