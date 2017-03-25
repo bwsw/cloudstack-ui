@@ -72,13 +72,16 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 * Projects
 * Responsive interface for smart devices
 * API keys management
+* A lot of small improevements which affect greatly on user experience
 
 ## Long Term To Do's
 
-* VM metrics a.k.a. Pulse Plugin
-* VM expenses like resource utilization stats, traffic, IO stats a.k.a. Accounting Plugin
-* Applications a.k.a. Roller Plugin
-* Web SSH a.k.a. ShellInABox Plugin
+* Plugins
+   * VM metrics a.k.a. Pulse 
+   * VM expenses like resource utilization stats, traffic, IO stats a.k.a. Accounting
+   * Web SSH a.k.a. ShellInABox
+   * Applications a.k.a. Roller
+
 
 ## Screenshots & Features descriptions
 
