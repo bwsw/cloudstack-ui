@@ -66,6 +66,10 @@ Just simple login screen. Nothing specially new. But it has nice preloader which
 
 This screen was rethinked very greatly. First of all, we implemented "one step" approach everywhere and also we did it work without moving from view to view like ACS native interface works. Thus, all actions on VM instances are managed from the same screen. Also, the interface allows to view several zones immediately, group virtual machines by zones, by logical groups (e.g. Databases, WWW) and by colors. We added an facility to brush virtual machine with specific color to make it look unique and meaingful to user from a certain perspective. Also we moved most of VM information to the sidebar which now has two tabs - the firtst one is for general view and virtual-machine related activities (like security groups, additional ips) and the second one is for virtual machine storage management (disks, snapshots and ISO).
 
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/vmView1.png" target="_blank">![Virtual Machine View screen 1](./screens/vmView1_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/vmView12.png" target="_blank">![Virtual Machine View screen 2](./screens/vmView2_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/vmView3.png" target="_blank">![Virtual Machine View screen 3](./screens/vmView3_mini.png)</a>
+
 #### Activity log view
 
 It's simplified view for account activities. It allows choosing the date and levels and see all of them. It's close to the same screen in ACS native UI but we believe that an user is interested in events of specific date and scrolling huge event log back to find something is not productive. Sometimes HelpDesk service just wants to show user that something had happened at specific date and thus the interface allows finding information easier.  
