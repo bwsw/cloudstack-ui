@@ -1,3 +1,29 @@
+Table of Contents
+=================
+
+   * [Cloudstack UI](#cloudstack-ui)
+      * [Project Story](#project-story)
+      * [Implementation Details](#implementation-details)
+      * [Features Supported](#features-supported)
+      * [Features Yet Unsupported](#features-yet-unsupported)
+      * [Current To Do's](#current-to-dos)
+      * [Long Term To Do's](#long-term-to-dos)
+      * [Screenshots &amp; Features descriptions](#screenshots--features-descriptions)
+            * [Login view](#login-view)
+            * [Virtual machines view](#virtual-machines-view)
+            * [New virtual machine form](#new-virtual-machine-form)
+            * [Resource usage bar](#resource-usage-bar)
+            * [Templates &amp; ISOs view](#templates--isos-view)
+            * [Firewall Templates View](#firewall-templates-view)
+            * [Spare Drives View](#spare-drives-view)
+            * [Activity log view](#activity-log-view)
+      * [Project Sponsors](#project-sponsors)
+      * [How to Contribute](#how-to-contribute)
+      * [License](#license)
+   * [Documentation](#documentation)
+      * [Deployment](#deployment)
+      * [Configuration Options](#configuration-options)
+
 # Cloudstack UI
 Cloudstack UI is a project which purpose is to develop easy to use, light and user friendly frontend interface for Apache Cloudstack virtualization management system. Cloudstack itself is great product which is used widely but it's frontend is developed for administrators, not for end users. Some of behaviours are not transparent and not natural to average user and require quite long adaptation. Another reasons to develop are connected with lack of functions like virtual machine statistics & charting, sophisticated resource accounting and application management. This are in our long-term TODO list.
 
