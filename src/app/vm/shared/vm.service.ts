@@ -156,28 +156,18 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public destroy(e: IVmActionEvent): void {
-    this.translateService.get(['CONFIRM_VM_DELETE_DRIVES', 'NO', 'YES'])
-      .switchMap(strs => {
-        return this.dialogService.confirm(
-          strs['CONFIRM_VM_DELETE_DRIVES'],
-          strs['NO'],
-          strs['YES']
-        );
-      })
-      .subscribe(
-        () => {
-          this.command(e).subscribe((job: AsyncJob<VirtualMachine>) => {
-            if (job && job.result && job.result.state === 'Destroyed') {
-              e.vm.volumes
-                .filter(volume => volume.type === 'DATADISK')
-                .forEach(volume => this.volumeService.markForDeletion(volume.id).subscribe());
-            }
-          });
-        },
-        () => {
-          this.command(e).subscribe();
-        }
-      );
+    this.destroyVolumeDeleteConfirmDialog(e.vm).subscribe(
+      () => {
+        this.command(e).subscribe((job: AsyncJob<VirtualMachine>) => {
+          if (job && job.result && job.result.state === 'Destroyed') {
+            e.vm.volumes
+              .filter(volume => volume.type === 'DATADISK')
+              .forEach(volume => this.volumeService.markForDeletion(volume.id).subscribe());
+          }
+        });
+      },
+      () => this.command(e).subscribe()
+    );
   }
 
   public resetPassword(e: IVmActionEvent): void {
@@ -281,6 +271,21 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       }, () => {
         this.jobsNotificationService.fail({ message: 'OFFERING_CHANGE_FAILED' });
         this.notificationService.error('UNEXPECTED_ERROR');
+      });
+  }
+
+  private destroyVolumeDeleteConfirmDialog(vm: VirtualMachine): any {
+    if (vm.volumes.length === 1) {
+      return Observable.of(false);
+    }
+
+    return this.translateService.get(['CONFIRM_VM_DELETE_DRIVES', 'NO', 'YES'])
+      .switchMap(strs => {
+        return this.dialogService.confirm(
+          strs['CONFIRM_VM_DELETE_DRIVES'],
+          strs['NO'],
+          strs['YES']
+        );
       });
   }
 
