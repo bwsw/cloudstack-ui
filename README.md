@@ -54,7 +54,7 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 * VM expenses like resource utilization stats, traffic, IO stats a.k.a. Accounting Plugin
 * Applications a.k.a. Roller Plugin
 
-## Screenshots & Feature description
+## Screenshots & Features descriptions
 
 #### Login view
 
