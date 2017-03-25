@@ -68,9 +68,10 @@ export class EventListComponent implements OnInit {
   }
 
   public filterEvents(date: Date): void {
-    this.date = date;
+    if (date) {
+      this.date = date;
+    }
 
-    // yyyy-MM-dd
     const params = {
       startDate: formatIso(this.date),
       endDate: formatIso(this.date)
