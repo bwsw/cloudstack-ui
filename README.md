@@ -25,7 +25,7 @@ Table of Contents
       * [Configuration Options](#configuration-options)
 
 # Cloudstack UI
-Cloudstack UI is a project which purpose is to develop easy to use, light and user friendly frontend interface for Apache Cloudstack virtualization management system. Cloudstack itself is great product which is used widely but it's frontend is developed for administrators, not for end users. Some of behaviours are not transparent and not natural to average user and require quite long adaptation. Another reasons to develop are connected with lack of functions like virtual machine statistics & charting, sophisticated resource accounting and application management. This are in our long-term TODO list.
+Cloudstack UI is a project which purpose is to develop easy to use, light and user friendly frontend interface for [Apache Cloudstack](http://cloudstack.apache.org/) virtualization management system. Apache Cloudstack itself is great product which is used very widely but its frontend is developed for administrators (from our point of view), not for end cloud users. Some of behaviours are not straight forward and unnatural to average user and require quite long adaptation. Another reasons to develop are connected with lack of functions like virtual machine statistics & charting, sophisticated resource accounting and application management. This are in our long-term TODO list.
 
 ## Project Story
 
