@@ -8,6 +8,7 @@ Table of Contents
       * [Features Yet Unsupported](#features-yet-unsupported)
       * [Current To Do's](#current-to-dos)
       * [Long Term To Do's](#long-term-to-dos)
+      * [Far Away To Do's](#far-away-to-dos)
       * [Screenshots and Features descriptions](#screenshots--features-descriptions)
          * [Login view](#login-view)
          * [Virtual machines view](#virtual-machines-view)
