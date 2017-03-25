@@ -52,6 +52,7 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 * VM metrics a.k.a. Pulse Plugin
 * VM expenses like resource utilization stats, traffic, IO stats a.k.a. Accounting Plugin
 * Applications a.k.a. Roller Plugin
+* Web SSH a.k.a. ShellInABox Plugin
 
 ## Screenshots & Features descriptions
 
