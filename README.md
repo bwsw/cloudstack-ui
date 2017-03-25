@@ -74,27 +74,33 @@ From the perspective of the system behaviour we changed it sometimes, e.g. when 
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/vmView1.png" target="_blank">![Virtual Machine View screen 1](./screens/vmView1_mini.png)</a>&nbsp;&nbsp;
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/vmView2.png" target="_blank">![Virtual Machine View screen 2](./screens/vmView2_mini.png)</a>&nbsp;&nbsp;
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/vmView3.png" target="_blank">![Virtual Machine View screen 3](./screens/vmView3_mini.png)</a>&nbsp;&nbsp;
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/vmView3.png" target="_blank">![Virtual Machine View screen 3](./screens/vmView3_mini.png)</a>
 
 #### New virtual machine form
 
 We changed new virtual machine screen a lot. Now it's one step and it allows select everything from one screen without additional steps and so on. We believe it's much better to regular user than the one which is used in native UI. It also generates meaningful VM name from username like `vm-<username>-<counter>`. Other important thing is that the form immediately checks that user has required amount of resources to create the virtual machine and thus it doesn't allow him to launch creation of impossible things which will fail for sure.
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVMView.png" target="_blank">![New Virtual Machine View](./screens/newVMView_mini.png)</a>&nbsp;&nbsp;
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVMView.png" target="_blank">![New Virtual Machine View](./screens/newVMView_mini.png)</a>
+
+#### Resource usage bar
+
+We also decided to place resource usage bar on the same virtual machine view screen. It can be collapsed or displayed. You also can see that the interface is in chocolate and blue colors. It's because we allow to change the theme instantly in settings area. Material Design allows doing it natively, default theme colors can be specified in configuration json file.
+
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/resourceUsageBar.png" target="_blank">![New Virtual Machine View](./screens/resourceUsageBar_mini.png)</a>
 
 #### Templates & ISOs view
 
 We changed templates and ISOs view to make it more obvious and neat to use. Also, user can switch required OS family to filter out unnecessary images. Also, here is the same concept of single view without moving between screens is applied. Additional things are displayed in the sidebar.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/templatesISOsView.png" target="_blank">![Templates & ISOs view](./screens/templatesISOsView_mini.png)</a>&nbsp;&nbsp;
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/templatesISOsView2.png" target="_blank">![Templates & ISOs view 2](./screens/templatesISOsView2_mini.png)</a>&nbsp;&nbsp;
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/templatesISOsView2.png" target="_blank">![Templates & ISOs view 2](./screens/templatesISOsView2_mini.png)</a>
 
 #### Firewall Templates View
 
 So, here is a somekind controversial thing here. Actually, we don't think security group concept is quite clear for an average user. There is a reason. The user can not change security group for virtual machine, but he or she can change the rules inside of security group, as a result those changes affect all the virtual machines which share the same group. From out experience it's not what average user expects. We tried to change it to make it work in better way, so we created a concept "Firewall rules template" which is a preset which can be system default or developed by user and those presets (many) can be used to specify for newly created virtual machine. Upon creation the system creates new security group for every virtual machine which is initially filled with all the rules from specified presets. Next, when the user changes the rules for specific virtual machine they don't affect other machines. So, basically the interface doesn't allow to share a single security group between several virtual machines. Every virtual machine always gets unique security group which is built from presets specified when the virtual machine were created. Also, system administrators can specify default presents during the interface deploy in json configuration file, now we have "TCP Permit All", "UDP Permit All", "ICMP Permit All" presets which just pass all the traffic because we would like the user who doesn't read manuals and doesn't mention the details still gets his virtual machines accessible.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/firewallTemplatesView.png" target="_blank">![Firewall templates view](./screens/firewallTemplatesView_mini.png)</a>&nbsp;&nbsp;
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/firewallTemplatesView2.png" target="_blank">![Firewall templates view 2](./screens/firewallTemplatesView2_mini.png)</a>&nbsp;&nbsp;
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/firewallTemplatesView2.png" target="_blank">![Firewall templates view 2](./screens/firewallTemplatesView2_mini.png)</a>
 
 #### Activity log view
 
