@@ -56,7 +56,7 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 
 ## Screenshots
 
-[![Activity Log](./screens/activityLog_mini.png)](https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/activityLog.png)
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/activityLog.png" target="_blank">![Activity Log](./screens/activityLog_mini.png)</a>
 
 ## Project Sponsors
 
