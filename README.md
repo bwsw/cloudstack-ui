@@ -56,7 +56,7 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 
 ## Screenshots
 
-![Login screen](./screens/login.png =250x)
+<img src="./screens/login.png" alt="Drawing" style="width: 200px;"/>
 
 ## Project Sponsors
 
