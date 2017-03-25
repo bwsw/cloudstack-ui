@@ -25,7 +25,6 @@ import { SecurityGroupService } from '../../shared/services/security-group.servi
 import { VolumeService } from '../../shared/services/volume.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 
-
 import { Iso } from '../../template/shared/iso.model';
 import { SecurityGroup } from '../../security-group/sg.model';
 import { VirtualMachine, IVmAction } from './vm.model';
@@ -238,7 +237,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     }
 
     if (virtualMachine.state === 'Stopped') {
-      this._changeServiceOffering(serviceOffering.id, virtualMachine).subscribe();
+      this.changeOffering(serviceOffering, virtualMachine).subscribe();
       return;
     }
     this.command({
@@ -246,7 +245,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       vm: virtualMachine
     })
       .switchMap(() => {
-        return this._changeServiceOffering(serviceOffering.id, virtualMachine);
+        return this.changeOffering(serviceOffering, virtualMachine);
       })
       .subscribe(() => {
         this.command({
@@ -266,14 +265,21 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return new Color('white', '#FFFFFF');
   }
 
-  private _changeServiceOffering(serviceOfferingId: string, virtualMachine: VirtualMachine): Observable<void> {
-    const command = 'changeServiceFor';
+  private changeOffering(serviceOffering: ServiceOffering, virtualMachine: VirtualMachine): Observable<void> {
     let params = {};
 
     params['id'] = virtualMachine.id;
-    params['serviceOfferingId'] = serviceOfferingId;
+    params['serviceOfferingId'] = serviceOffering.id;
 
-    return this.sendCommand(command, params)
+    if (serviceOffering.isCustomized) {
+      params['details'] = [{
+        cpuNumber: serviceOffering.cpuNumber,
+        cpuSpeed: serviceOffering.cpuSpeed,
+        memory: serviceOffering.memory
+      }];
+    }
+
+    return this.sendCommand('changeServiceFor', params)
       .map(result => this.prepareModel(result['virtualmachine']))
       .map(result => {
         this.jobsNotificationService.finish({ message: 'OFFERING_CHANGED' });

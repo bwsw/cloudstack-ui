@@ -31,7 +31,6 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges {
 
   private _serviceOffering: ServiceOffering;
 
-
   constructor(
     private dialogService: MdlDialogService,
     private translateService: TranslateService

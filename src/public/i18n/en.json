@@ -421,5 +421,6 @@
   "BETWEEN": "Between {{ lowerLimit }} and {{ upperLimit }}",
   "UP_TO": "Up to {{ upperLimit }}",
   "FROM": "From {{ lowerLimit }}",
-  "INCORRECT_FORMAT": "Incorrect format"
+  "INCORRECT_FORMAT": "Incorrect format",
+  "NO_AVAILABLE_OFFERINGS": "No available offerings"
 }

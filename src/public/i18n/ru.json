@@ -421,5 +421,6 @@
   "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}",
   "UP_TO": "До {{ upperLimit }}",
   "FROM": "От {{ lowerLimit }}",
-  "INCORRECT_FORMAT": "Неверный формат"
+  "INCORRECT_FORMAT": "Неверный формат",
+  "NO_AVAILABLE_OFFERINGS": "Нет доступных предложений"
 }
