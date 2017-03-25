@@ -2,6 +2,10 @@
   class="detail-list margin-right"
   [class.open]="isOpen"
 >
+  <ng-content select="[cs-panels]"></ng-content>
+
+  <div class="card-list"><ng-content #cardList select="[cs-card-list]"></ng-content></div>
+
   <ng-content select="[cs-list]"></ng-content>
 </div>
 

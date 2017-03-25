@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, Optional } from '@angular/core';
 import { ListService } from './list.service';
 
 
@@ -10,15 +10,17 @@ import { ListService } from './list.service';
 export class ListComponent implements AfterViewInit {
   public isOpen: boolean;
 
-  constructor(public listService: ListService) {}
+  constructor(@Optional() public listService: ListService) {}
 
   public ngAfterViewInit(): void {
-    this.listService.onSelected.subscribe(() => {
-      this.isOpen = true;
-    });
-    this.listService.onDeselected.subscribe(() => {
-      this.isOpen = false;
-    });
+    if (this.listService) {
+      this.listService.onSelected.subscribe(() => {
+        this.isOpen = true;
+      });
+      this.listService.onDeselected.subscribe(() => {
+        this.isOpen = false;
+      });
+    }
   }
 
   public onDetailsHide(): void {
