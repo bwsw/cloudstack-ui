@@ -76,6 +76,12 @@ From the perspective of the system behaviour we changed it sometimes, e.g. when 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/vmView2.png" target="_blank">![Virtual Machine View screen 2](./screens/vmView2_mini.png)</a>&nbsp;&nbsp;
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/vmView3.png" target="_blank">![Virtual Machine View screen 3](./screens/vmView3_mini.png)</a>&nbsp;&nbsp;
 
+#### New virtual machine form
+
+We changed new virtual machine screen a lot. Now it's one step and it allows select everything from one screen without additional steps and so on. We believe it's much better to regular user than the one which is used in native UI.
+
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVMView.png" target="_blank">![New Virtual Machine View](./screens/newVMView_mini.png)</a>&nbsp;&nbsp;
+
 #### Activity log view
 
 It's simplified view for account activities. It allows choosing the date and levels and see all of them. It's close to the same screen in ACS native UI but we believe that an user is interested in events of specific date and scrolling huge event log back to find something is not productive. Sometimes HelpDesk service just wants to show user that something had happened at specific date and thus the interface allows finding information easier.  
