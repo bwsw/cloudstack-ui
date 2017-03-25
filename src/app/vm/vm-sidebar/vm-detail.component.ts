@@ -22,6 +22,7 @@ import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { Color } from '../../shared/models/color.model';
 import { ZoneService } from '../../shared/services/zone.service';
+import { TranslateService } from 'ng2-translate';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class VmDetailComponent implements OnInit, OnChanges {
   constructor(
     private dialogService: MdlDialogService,
     private tagService: TagService,
+    private translateService: TranslateService,
     private vmService: VmService,
     private zoneService: ZoneService
   ) {
@@ -111,12 +113,30 @@ export class VmDetailComponent implements OnInit, OnChanges {
     });
   }
 
+  public confirmAddSecondaryIp(vm: VirtualMachine): void {
+    this.translateService.get('ARE_YOU_SURE_ADD_SECONDARY_IP')
+      .switchMap(str => this.dialogService.confirm(str))
+      .onErrorResumeNext()
+      .subscribe(() => this.addSecondaryIp(vm));
+  }
+
   public changeServiceOffering(): void {
     this.dialogService.showCustomDialog({
       component: ServiceOfferingDialogComponent,
       classes: 'service-offering-dialog',
       providers: [{ provide: 'virtualMachine', useValue: this.vm }],
     });
+  }
+
+  private addSecondaryIp(vm: VirtualMachine): void {
+    this.vmService.addIpToNic(vm.nic[0].id)
+      .subscribe(
+        res => {
+          const ip = res.result.nicsecondaryip;
+          vm.nic[0].secondaryIp.push(ip);
+        },
+        err => this.dialogService.alert(err.errortext)
+      );
   }
 
   private updateColor(): void {

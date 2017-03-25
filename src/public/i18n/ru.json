@@ -421,5 +421,7 @@
   "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}",
   "UP_TO": "До {{ upperLimit }}",
   "FROM": "От {{ lowerLimit }}",
-  "INCORRECT_FORMAT": "Неверный формат"
+  "INCORRECT_FORMAT": "Неверный формат",
+
+  "ARE_YOU_SURE_ADD_SECONDARY_IP": "Вы уверены, что хотите добавить дополнительный IP?"
 }

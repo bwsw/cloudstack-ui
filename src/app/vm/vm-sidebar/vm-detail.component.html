@@ -81,7 +81,7 @@
               <div class="row">
                 <div>{{ 'NETWORK_INTERFACE_CONTROLLER_FIELDS.' + key | translate }}</div>
                 <div>
-                  <div *ngFor="let ip of nic.secondaryIp">{{nic.secondaryIp[0]}}</div>
+                  <div *ngFor="let ip of nic.secondaryIp">{{ip.ipaddress}}</div>
                 </div>
               </div>
             </div>
@@ -90,6 +90,14 @@
       </div>
     </mdl-card-supporting-text>
     <mdl-card-actions mdl-card-border style="text-align: right;">
+      <button
+        mdl-button
+        mdl-button-type="icon"
+        class="add-secondary-ip-button"
+        (click)="confirmAddSecondaryIp(vm)"
+      >
+        <mdl-icon>add</mdl-icon>
+      </button>
       <button
         mdl-button
         mdl-ripple
