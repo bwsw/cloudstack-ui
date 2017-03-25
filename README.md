@@ -82,6 +82,13 @@ We changed new virtual machine screen a lot. Now it's one step and it allows sel
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVMView.png" target="_blank">![New Virtual Machine View](./screens/newVMView_mini.png)</a>&nbsp;&nbsp;
 
+#### Templates & ISOs view
+
+We changed templates and ISOs view to make it more obvious and neat to use. Also, user can switch required OS family to filter out unnecessary images. Also, here is the same concept of single view without moving between screens is applied. Additional things are displayed in the sidebar.
+
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/templatesISOsView.png" target="_blank">![Templates & ISOs view](./screens/templatesISOsView_mini.png)</a>&nbsp;&nbsp;
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/templatesISOsView2.png" target="_blank">![Templates & ISOs view 2](./screens/templatesISOsView2_mini.png)</a>&nbsp;&nbsp;
+
 #### Activity log view
 
 It's simplified view for account activities. It allows choosing the date and levels and see all of them. It's close to the same screen in ACS native UI but we believe that an user is interested in events of specific date and scrolling huge event log back to find something is not productive. Sometimes HelpDesk service just wants to show user that something had happened at specific date and thus the interface allows finding information easier.  
