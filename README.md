@@ -43,9 +43,7 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 
 * Projects
 * Responsive interface for smart devices
-* SSH keys management
 * API keys management
-* Password management
 
 ## Long Term To Do's
 
