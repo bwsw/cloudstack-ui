@@ -56,8 +56,13 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 
 ## Screenshots
 
+#### Login view
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/loginView.png" target="_blank">![Login screen](./screens/loginView_mini.png)</a>
+
 #### Activity log view
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/activityLog.png" target="_blank">![Activity Log](./screens/activityLog_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/activityLog.png" target="_blank">![Activity Log screen](./screens/activityLog_mini.png)</a>
+
+
 
 ## Project Sponsors
 
