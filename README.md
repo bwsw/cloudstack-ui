@@ -73,7 +73,7 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 * Projects
 * Responsive interface for smart devices
 * API keys management
-* A lot of small improevements which affect greatly on user experience
+* A lot of small improvements which affect greatly on user experience
 
 ## Long Term To Do's
 
