@@ -79,8 +79,10 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 * Plugins
    * VM metrics a.k.a. Pulse 
    * Resource utilization stats, traffic, IO stats, CS entities stats a.k.a. Accounting
-   * Web SSH a.k.a. ShellInABox (may be consider guacamole)
-   * Web RDP (ChromeRDP or guacamole)
+   * Web SSH/RDP (guacamole)
+
+## Far away To Do's
+* Plugins
    * Applications a.k.a. Roller (Docker swarm or Ansible, tbd)
 
 
