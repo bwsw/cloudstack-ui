@@ -7,26 +7,26 @@
   [style.background-color]="color.value"
 >
   <mdl-card-title>
+    <div
+      class="state-icon"
+      [class.running]="vm.state === 'Running'"
+      [class.stopped]="vm.state === 'Stopped'"
+      [class.error]="vm.state === 'Error'"
+      [class.in-progress]="vm.state !== 'Running' && vm.state !== 'Stopped'"
+      [mdl-tooltip]="vm.state.toUpperCase() | translate"
+      mdl-tooltip-position="right"
+    >
+    </div>
     <h2
       mdl-card-title-text
-      [mdl-tooltip]="vm.nameWithZone"
+      [mdl-tooltip]="vm.name"
     >
-      {{ vm.nameWithZone }}
+      {{ vm.name }}
     </h2>
   </mdl-card-title>
   <mdl-card-supporting-text>
+    <div class="os-type">OS {{ vm.osType.description }}</div>
     <div class="vm-ip-address">{{ vm.nic[0].ipAddress ? vm.nic[0].ipAddress : ("IP_NA" | translate) }}</div>
-    <div class="vm-state">
-      {{ vm.state.toUpperCase() | translate }}
-      <div
-        class="state-icon"
-        [class.running]="vm.state === 'Running'"
-        [class.stopped]="vm.state === 'Stopped'"
-        [class.error]="vm.state === 'Error'"
-        [class.in-progress]="vm.state !== 'Running' && vm.state !== 'Stopped'"
-      >
-      </div>
-    </div>
     <table style="width: 100%; text-align: center;">
       <thead>
       <tr>
@@ -41,7 +41,6 @@
         <td>{{ vm.getDisksSize().toFixed(2) }} {{ 'GB' | translate }}</td>
       </tr>
     </table>
-    <div>OS {{ vm.osType.description }}</div>
   </mdl-card-supporting-text>
   <mdl-card-menu>
     <button

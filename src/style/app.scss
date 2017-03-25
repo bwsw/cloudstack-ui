@@ -26,6 +26,11 @@ mdl-card .mdl-card__title-text,
   width: 100%;
 }
 
+mdl-card mdl-card-menu {
+  top: 5px !important;
+  right: 5px !important;
+}
+
 mdl-card.custom-card {
   & mdl-card-supporting-text {
     width: 100%;
@@ -42,7 +47,7 @@ mdl-card.custom-card {
   }
 
   & table {
-    margin: 10px 0;
+    margin-top: 10px;
     width: 100%;
     text-align: center;
     border-collapse: collapse;
@@ -141,9 +146,10 @@ mdl-simple-tooltip div {
 }
 
 .card-selected {
-  transform: scale(1.03);
-  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
-  transition: transform 0.25s, box-shadow 0.25s;
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12),
+              0 5px 5px -3px rgba(0, 0, 0, 0.2) !important;
+  transition: 0.25s, box-shadow 0.25s;
 }
 
 .padding {
