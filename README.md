@@ -38,7 +38,6 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 
 * Advanced Zones
 * Other hypervisors than KVM are not tested
-* Domains
 
 ## Current To Do's
 
