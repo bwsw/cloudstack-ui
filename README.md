@@ -64,7 +64,13 @@ Just simple login screen. Nothing specially new. But it has nice preloader which
 
 #### Virtual machines view
 
-This screen was rethinked very greatly. First of all, we implemented "one step" approach everywhere and also we did it work without moving from view to view like ACS native interface works. Thus, all actions on VM instances are managed from the same screen. Also, the interface allows to view several zones immediately, group virtual machines by zones, by logical groups (e.g. Databases, WWW) and by colors. We added an facility to brush virtual machine with specific color to make it look unique and meaingful to user from a certain perspective. Also we moved most of VM information to the sidebar which now has two tabs - the firtst one is for general view and virtual-machine related activities (like security groups, additional ips) and the second one is for virtual machine storage management (disks, snapshots and ISO).
+This screen was rethinked very greatly. First of all, we implemented "one step" approach everywhere and also we did it work without moving from view to view like ACS native interface works. Thus, all actions on VM instances are managed from the same screen. Also, the interface allows to view several zones immediately, group virtual machines by zones, by logical groups (e.g. Databases, WWW) and by colors. 
+
+We added an facility to brush virtual machine with specific color to make it look unique and meaingful to user from a certain perspective.
+
+Also we moved most of VM information to the sidebar which now has two tabs - the first one is for general view and virtual-machine related activities (like security groups, additional ips) and the second one is for virtual machine storage management (disks, snapshots and ISO).
+
+From the perspective of the system behaviour we changed it sometimes, e.g. when user wants to change service offering for running VM the interface says that VM will be stopped and started and it doesn't bother the user to do it separately. So we changed disconnected action sequences to connected ones.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/vmView1.png" target="_blank">![Virtual Machine View screen 1](./screens/vmView1_mini.png)</a>
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/vmView2.png" target="_blank">![Virtual Machine View screen 2](./screens/vmView2_mini.png)</a>
