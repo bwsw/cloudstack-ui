@@ -31,6 +31,8 @@ So, what is supported:
 * Localization support
 * Frontend Themes, Custom VM colors
 * Custom and Fixed service and disk offerings
+* Password management
+* SSH keys management
 
 ## Features Yet Unsupported
 
