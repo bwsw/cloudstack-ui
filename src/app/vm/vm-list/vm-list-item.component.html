@@ -36,7 +36,7 @@
       </tr>
       </thead>
       <tr>
-        <td>{{ vm.cpuNumber + 'x' + vm.cpuSpeed }} {{ 'GHZ' | translate }}</td>
+        <td>{{ vm.cpuNumber + 'x' + vm.cpuSpeed }} {{ 'MHZ' | translate }}</td>
         <td>{{ vm.memory | division:2:10:2 }} {{ 'GB' | translate }}</td>
         <td>{{ vm.getDisksSize().toFixed(2) }} {{ 'GB' | translate }}</td>
       </tr>

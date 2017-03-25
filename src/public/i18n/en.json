@@ -112,6 +112,7 @@
   "GB": "GB",
   "MB": "MB",
   "GHZ": "GHz",
+  "MHZ": "MHz",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "CPU utilized",
     "NETWORK_READ": "Network read",
@@ -124,7 +125,7 @@
   "SERVICE_OFFERING_FIELDS": {
     "name": "Name",
     "cpuNumber": "CPU cores",
-    "cpuSpeed": "CPU (Mhz)",
+    "cpuSpeed": "CPU (MHz)",
     "memory": "Memory (MB)",
     "displayText": "Description",
     "storageType": "Storage type",

@@ -112,6 +112,7 @@
   "GB": "GB",
   "MB": "MB",
   "GHZ": "ГГц",
+  "MHZ": "МГц",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "Загружено CPU",
     "NETWORK_READ": "Прочитанно через сеть",
