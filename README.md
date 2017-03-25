@@ -56,6 +56,8 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 
 ## Screenshots
 
+![Login screen](https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/login.png =150px)
+
 ## Project Sponsors
 
 Currently project is supported by [Bitworks Software](https://bitworks.software/).
