@@ -102,6 +102,14 @@ So, here is a somekind controversial thing here. Actually, we don't think securi
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/firewallTemplatesView.png" target="_blank">![Firewall templates view](./screens/firewallTemplatesView_mini.png)</a>&nbsp;&nbsp;
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/firewallTemplatesView2.png" target="_blank">![Firewall templates view 2](./screens/firewallTemplatesView2_mini.png)</a>
 
+#### Spare Drives View
+
+This panel displays only drives which are detached from virtual machines. Original ACS UI has "Storage" zone where user can see all the drives, but we don't think the average user needs such a function. Current ACS releases allow resizing of root volumes, so less and less users require more than one drive. But, some deployments can have different storage offerings, so it's still important to allow user working with additional drives, but we found in native ACS UI that users often forget about additional drives and they assume that they will be removed when the virtual machine is removed, so they don't expect in 99% that they can be reused. So we did it work in that way. All drives can be automatically removed on virtual machine removal. Drives that are attached are not displayed in "Spare drives" list, drives that are detached are displayed there. Also, we don't allow user to create additional disks on virtual machine creation because it leads to confusion when the virtual machine is created from template, an user doesn't realize that he or she adds "additional" drive and it's not a root one.
+
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView_mini.png)</a>&nbsp;
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView2.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView2_mini.png)</a>
+
+
 #### Activity log view
 
 It's simplified view for account activities. It allows choosing the date and levels and see all of them. It's close to the same screen in ACS native UI but we believe that an user is interested in events of specific date and scrolling huge event log back to find something is not productive. Sometimes HelpDesk service just wants to show user that something had happened at specific date and thus the interface allows finding information easier.  
