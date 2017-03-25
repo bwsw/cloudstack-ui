@@ -68,6 +68,11 @@ export class TemplateFiltersComponent implements OnInit {
       });
   }
 
+  public setMode(mode: number): void {
+    this.showIso = mode === 1;
+    this.updateDisplayMode();
+  }
+
   public updateFilters(): void {
     this.filters.emit({
       selectedOsFamilies: this.selectedOsFamilies,
