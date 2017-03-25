@@ -37,7 +37,7 @@ The project is developed by Bitworks Software Frontend Division during education
 ## Implementation Details
 
 * Designed compatible with [Apache Cloudstack](http://cloudstack.apache.org/) 4.9 and wasn't tested with previous versions of CS
-* Powered by Angular 2 and [Google Material Design Lite](https://getmdl.io/)
+* Powered by [Angular 2](https://angular.io/) and [Google Material Design Lite](https://getmdl.io/)
 
 ## Features Supported
 
