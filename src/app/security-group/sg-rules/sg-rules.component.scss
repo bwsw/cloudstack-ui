@@ -52,4 +52,12 @@ mdl-textfield {
 
 /deep/ .blur-fix-odd {
   padding: 11.8px !important;
- }
+}
+
+:host /deep/ .mdl-data-table th {
+  text-align: left;
+}
+
+:host /deep/ .mdl-data-table td {
+  text-align: left;
+}
