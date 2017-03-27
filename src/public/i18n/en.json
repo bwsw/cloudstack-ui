@@ -427,5 +427,10 @@
   "CREATE_SSH_KEY": "Create SSH key",
   "AUTO_GENERATED": "auto generated",
   "KEYPAIR_ALREADY_EXISTS": "SSH key with this name already exists",
-  "INVALID_PUBLIC_KEY": "Invalid public key"
+  "INVALID_PUBLIC_KEY": "Invalid public key",
+
+  "SAVE_THIS_KEY": "Please, save this private key as it will not be kept",
+  "COPY": "Copy",
+  "COPY_SUCCESS": "Copied successfully",
+  "COPY_FAIL": "Failed to copy to clipboard"
 }

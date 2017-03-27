@@ -3,8 +3,9 @@ import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 
 import { SSHKeyPair } from '../shared/models/ssh-keypair.model';
-import { SSHKeyPairService } from '../shared/services/ssh-keypair.service';
-import { SShKeyCreationDialogComponent } from './ssh-key-creation-dialog.component';
+import { SshKeyCreationData, SSHKeyPairService } from '../shared/services/ssh-keypair.service';
+import { SShKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creation-dialog.component';
+import { SshPrivateKeyDialogComponent } from './ssh-key-creation/ssh-private-key-dialog.component';
 
 
 @Component({
@@ -35,7 +36,7 @@ export class SshKeysPageComponent implements OnInit {
       .subscribe(data => this.createSshKey(data));
   }
 
-  private createSshKey(data) {
+  private createSshKey(data: SshKeyCreationData): void {
     if (!data) {
       return;
     }
@@ -53,14 +54,9 @@ export class SshKeysPageComponent implements OnInit {
   }
 
   private showPrivateKey(privateKey: string): void {
-    this.dialogService.showDialog({
-      message: privateKey,
-      actions: [{
-        handler: () => { },
-        text: 'Ok' ,
-        isClosingAction: true
-      }],
-      isModal: true,
+    this.dialogService.showCustomDialog({
+      component: SshPrivateKeyDialogComponent,
+      providers: [{ provide: 'privateKey', useValue: privateKey }],
       styles: { width: '400px', 'word-break': 'break-all' }
     });
   }
@@ -83,6 +79,6 @@ export class SshKeysPageComponent implements OnInit {
     }
 
     this.translateService.get(message)
-      .subscribe((message) => this.dialogService.alert(message));
+      .subscribe((msg) => this.dialogService.alert(msg));
   }
 }

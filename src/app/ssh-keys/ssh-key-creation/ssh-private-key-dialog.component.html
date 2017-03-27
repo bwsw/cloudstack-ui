@@ -1,0 +1,35 @@
+<div>
+  <div class="mdl-dialog__content" [style.padding-bottom.px]="0">
+    <p>{{ 'SAVE_THIS_KEY' | translate }}</p>
+    <mdl-textfield
+      type="text"
+      [(ngModel)]="privateKey"
+      autofocus
+      rows="12"
+      maxrows="12"
+      readonly
+      [style.width.%]="100"
+    ></mdl-textfield>
+  </div>
+  <div class="mdl-dialog__actions">
+    <button
+      mdl-button
+      mdl-colored="primary"
+      mdl-ripple
+      (click)="dialog.hide()"
+    >
+      Ok
+    </button>
+    <button
+      mdl-button
+      mdl-colored="primary"
+      mdl-ripple
+      ngxClipboard
+      [cbContent]="privateKey"
+      (cbOnSuccess)="onCopySuccess()"
+      (cbOnError)="onCopyFail()"
+    >
+      {{ 'COPY' | translate }}
+    </button>
+  </div>
+</div>
