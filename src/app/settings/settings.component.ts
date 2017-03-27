@@ -78,7 +78,7 @@ export class SettingsComponent implements OnInit {
 
   public updatePassword(): void {
     this.passwordUpdateForm.reset();
-    this.userService.updatePassword(this.password, this.authService.userId)
+    this.userService.updatePassword(this.authService.userId, this.password)
       .subscribe(
         () => {},
         error => this.notificationService.error(error.json()['updateuserresponse'].errortext)

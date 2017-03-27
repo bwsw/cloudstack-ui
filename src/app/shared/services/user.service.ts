@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
   entityModel: User
 })
 export class UserService extends BaseBackendService<User> {
-  public updatePassword(password: string, id: string): Observable<any> {
+  public updatePassword(id: string, password: string): Observable<any> {
     return this.postRequest('update', { id, password });
   }
 }
