@@ -422,5 +422,7 @@
   "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}",
   "UP_TO": "До {{ upperLimit }}",
   "FROM": "От {{ lowerLimit }}",
-  "INCORRECT_FORMAT": "Неверный формат"
+  "INCORRECT_FORMAT": "Неверный формат",
+  "REMOVE_THIS_KEY": "Вы уверены, что хотите удалить этот ключ?",
+  "KEY_REMOVAL_FAILED": "Не удалось удалить ключ"
 }

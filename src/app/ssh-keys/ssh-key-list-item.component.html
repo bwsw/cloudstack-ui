@@ -1,0 +1,17 @@
+<mdl-list-item lines="2">
+  <mdl-list-item-primary-content>
+    <mdl-icon mdl-list-item-avatar>vpn_key</mdl-icon>
+    <span>{{ key.name }}</span>
+    <mdl-list-item-sub-title>{{ key.fingerPrint }}</mdl-list-item-sub-title>
+  </mdl-list-item-primary-content>
+  <mdl-list-item-secondary-content>
+    <button
+      mdl-button
+      mdl-button-type="icon"
+      (click)="onRemoveClicked()"
+    >
+      <mdl-icon *ngIf="!key.loading">clear</mdl-icon>
+      <mdl-spinner single-color active *ngIf="key.loading"></mdl-spinner>
+    </button>
+  </mdl-list-item-secondary-content>
+</mdl-list-item>
