@@ -23,7 +23,7 @@ interface DatePickerConfig {
 @Component({
   selector: 'cs-date-picker',
   templateUrl: 'date-picker.component.html',
-  styles: [':host /deep/ mdl-textfield { width: 150px; }'],
+  styles: [':host /deep/ mdl-textfield { width: 100px; }'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
