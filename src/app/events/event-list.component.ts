@@ -67,11 +67,7 @@ export class EventListComponent implements OnInit {
       .subscribe(translations => this.initTableModel(translations));
   }
 
-  public filterEvents(date: Date): void {
-    if (date) {
-      this.date = date;
-    }
-
+  public filterEvents(): void {
     const params = {
       startDate: formatIso(this.date),
       endDate: formatIso(this.date)
