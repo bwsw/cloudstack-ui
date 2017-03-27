@@ -1,23 +1,10 @@
-import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators/field-mapper.decorator';
+import { Offering } from './offering.model';
 
 
 @FieldMapper({
   disksize: 'diskSize',
-  displaytext: 'displayText',
-  iscustomized: 'isCustomized',
-  miniops: 'minIops',
-  maxIops: 'maxIops'
 })
-export class DiskOffering extends BaseModel {
-  public id: string;
-  public displayText: string;
+export class DiskOffering extends Offering {
   public diskSize: number;
-  public minIops: number;
-  public maxIops: number;
-  public diskBytesReadRate: number;
-  public diskBytesWriteRate: number;
-  public diskIopsReadRate: number;
-  public diskIopsWriteRate: number;
-  public isCustomized: boolean;
 }
