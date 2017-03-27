@@ -1,7 +1,7 @@
 {
   "securityGroupTemplates": [
     {
-      "id": "template1",
+      "id": "templateTCP",
       "name": "TCP Permit All",
       "description": "Permits all TPC traffic",
       "preselected": true,
@@ -25,7 +25,7 @@
       ]
     },
     {
-      "id": "template2",
+      "id": "templateUDP",
       "name": "UDP Permit All",
       "description": "Permits all UDP traffic",
       "preselected": true,
@@ -49,7 +49,7 @@
       ]
     },
     {
-      "id": "template3",
+      "id": "templateICMP",
       "name": "ICMP Permit All",
       "description": "Permits all ICMP traffic",
       "preselected": true,

@@ -13,6 +13,7 @@ import { SgTemplateCreationComponent } from './sg-template-creation/sg-template-
 import { SgRulesComponent } from './sg-rules/sg-rules.component';
 import { SgRuleComponent } from './sg-rules/sg-rule.component';
 import { SharedModule } from '../shared/shared.module';
+import { SgCreationRuleComponent } from './sg-creation/sg-creation-rule.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { SharedModule } from '../shared/shared.module';
   ],
   declarations: [
     SgCreationComponent,
+    SgCreationRuleComponent,
     SgTemplateListComponent,
     SgTemplateListItemComponent,
     SgTemplateCreationComponent,
