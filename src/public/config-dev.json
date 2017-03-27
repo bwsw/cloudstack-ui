@@ -49,7 +49,7 @@
       ]
     },
     {
-      "id": "template2",
+      "id": "template3",
       "name": "ICMP Permit All",
       "description": "Permits all ICMP traffic",
       "preselected": true,

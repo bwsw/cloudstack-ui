@@ -1,16 +1,14 @@
 <cs-list>
-  <ng-container cs-list>
-    <cs-top-bar></cs-top-bar>
-    <cs-spare-drive-list
-      *loading="!volumes"
-      [volumes]="volumes"
-      (onSelected)="selectVolume($event)"
-      (onDelete)="showRemoveDialog($event)"
-      (onVolumeAttached)="attach($event)"
-      (onResize)="resize($event)"
-    ></cs-spare-drive-list>
-  </ng-container>
-
+  <cs-top-bar cs-panels></cs-top-bar>
+  <cs-spare-drive-list
+    *loading="!volumes"
+    [volumes]="volumes"
+    (onSelected)="selectVolume($event)"
+    (onDelete)="showRemoveDialog($event)"
+    (onVolumeAttached)="attach($event)"
+    (onResize)="resize($event)"
+    cs-card-list
+  ></cs-spare-drive-list>
   <cs-spare-drive-sidebar
     [volume]="selectedVolume"
     cs-sidebar
