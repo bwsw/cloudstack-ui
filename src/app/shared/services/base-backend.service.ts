@@ -63,9 +63,9 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return new this.entityModel(res);
   }
 
-  protected buildParams(command: string, params?: {}): URLSearchParams {
+  protected buildParams(command: string, params?: {}, entity?: string): URLSearchParams {
     const urlParams = new URLSearchParams();
-    urlParams.append('command', this.getRequestCommand(command));
+    urlParams.append('command', this.getRequestCommand(command, entity));
 
     for (let key in params) {
       if (!params.hasOwnProperty(key)) {
@@ -90,9 +90,9 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return urlParams;
   }
 
-  protected getRequest(command: string, params?: {}): Observable<any> {
+  protected getRequest(command: string, params?: {}, entity?: string): Observable<any> {
     return this.http.get(BACKEND_API_URL, {
-      search: this.buildParams(command, params)
+      search: this.buildParams(command, params, entity)
     })
       .map((res: Response) => res.json())
       .catch(error => this.handleError(error));
@@ -108,11 +108,9 @@ export abstract class BaseBackendService<M extends BaseModel> {
       .catch(error => this.handleError(error));
   }
 
-  // todo: check if it works for tags, delete etc.
-
-  protected sendCommand(command: string, params?: {}): Observable<any> {
-    return this.getRequest(command, params)
-      .map(res => res[this.getResponseString(command)])
+  protected sendCommand(command: string, params?: {}, entity?: string): Observable<any> {
+    return this.getRequest(command, params, entity)
+      .map(res => this.getResponse(res))
       .catch(error => this.handleError(error));
   }
 
@@ -134,12 +132,13 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return result;
   }
 
-  private getRequestCommand(command: string): string {
+  private getRequestCommand(command: string, entity?: string): string {
     const cmd = command.split(';');
-    let apiCommand = `${cmd[0]}${this.entity}`;
+    const ent = entity || this.entity;
+    let apiCommand = `${cmd[0]}${ent}`;
 
     // fixing API's inconsistent behavior regarding commands
-    if (cmd[0] === 'list' || this.entity === 'Tag') {
+    if (cmd[0] === 'list' || ent === 'Tag') {
       apiCommand += 's';
     }
     if (cmd.length === 2) {
@@ -149,24 +148,23 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return apiCommand;
   }
 
-  private getResponseString(command: string): string {
-    let entity = this.entity.toLowerCase();
-    let [cmd, postfix] = command.split(';');
-    if (!postfix) {
-      postfix = '';
+  private getResponse(result: any): any {
+    const responseKeys = Object.keys(result);
+    if (responseKeys.length !== 1) {
+      throw new Error('wrong response');
     }
 
-    // fixing API's inconsistent behavior regarding response strings
-    let fix = (cmd === 'list' || entity === 'tag') ? 's' : '';
-    if (command === 'restore') {
-      entity = 'vm';
-      fix = '';
-    }
-
-    return `${cmd}${entity}${fix}${postfix}response`.toLowerCase();
+    return result[responseKeys[0]];
   }
 
-  private handleError(error): Observable<any> {
+  private handleError(response): Observable<any> {
+    let error;
+    try {
+      error = this.getResponse(response.json());
+    } catch (e) {
+      error = response;
+    }
+
     this.error.send(error);
     return Observable.throw(error);
   }

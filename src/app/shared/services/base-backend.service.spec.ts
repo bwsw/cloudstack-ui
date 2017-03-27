@@ -14,7 +14,6 @@ import {
   ResponseOptions,
   URLSearchParams
 } from '@angular/http';
-import { FormsModule } from '@angular/forms';
 import { ErrorService } from '../services';
 import { ServiceLocator } from './service-locator';
 
@@ -30,6 +29,11 @@ describe('Base backend service', () => {
       field1: 'rand2'
     },
   ];
+
+  class MockError extends Response implements Error {
+    name: string;
+    message: string;
+  }
 
   class TestModel extends BaseModel {
     public id: string;
@@ -60,7 +64,6 @@ describe('Base backend service', () => {
         Injector
       ],
       imports: [
-        FormsModule,
         HttpModule
       ]
     });
@@ -71,6 +74,23 @@ describe('Base backend service', () => {
     mockBackend.connections.subscribe((connection: MockConnection) => {
       const url = connection.request.url;
       const params = new URLSearchParams(url.substr(url.indexOf('?') + 1));
+
+      if (params.has('error')) {
+        const response = {
+          status: 431,
+          body: {
+            'mockerrorresponse': {
+              'cserrorcode': 4350,
+              'errorcode': 431,
+              'errortext': 'The vm with hostName test already exists in the network domain: cs1cloud.internal; network=Ntwk[204|Guest|6]',
+              'uuidList': []
+            }
+          }
+        };
+        const options = new ResponseOptions(response);
+        connection.mockError(new MockError(options));
+        return;
+      }
 
       const mockResponse = {
         status: 200,
@@ -126,6 +146,18 @@ describe('Base backend service', () => {
     expect(() => {
       testService.get('unknown-id');
     }).toThrow();
+  })));
+
+  it('should parse an error', async(inject([TestBackendService], (testService) => {
+    testService.getRequest('test', { error: true })
+      .subscribe(
+        () => {},
+        error => {
+          expect(error).toBeDefined();
+          expect(error.errorcode).toBeDefined();
+          expect(error.errortext).toBeDefined();
+        }
+      );
   })));
 });
 

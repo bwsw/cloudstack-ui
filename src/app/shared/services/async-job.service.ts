@@ -102,7 +102,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
             jobSubject.next(this.getResult(asyncJob, entity, entityModel));
           } break;
           case JobStatus.Failed: {
-            jobSubject.error(asyncJob.result);
+            jobSubject.error({ error: asyncJob.result });
             break;
           }
         }
@@ -155,7 +155,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
 
     const hasEntity = asyncJob.instanceType || asyncJob.resultType;
     let result;
-    if (hasEntity) {
+    if (hasEntity && (entity && entityModel)) {
       result = this.prepareModel(asyncJob.result[entity.toLowerCase()], entityModel);
       asyncJob.result = result;
     } else {

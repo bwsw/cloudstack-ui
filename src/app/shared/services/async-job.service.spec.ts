@@ -7,12 +7,11 @@ import {
   XHRBackend,
   HttpModule,
   Response,
-  ResponseOptions
+  ResponseOptions,
+  URLSearchParams
 } from '@angular/http';
-import { FormsModule } from '@angular/forms';
-import { MockNotificationService } from './notification.service';
 import { ServiceLocator } from './service-locator';
-import { AsyncJobService, AuthService, ErrorService, StorageService } from './';
+import { AsyncJobService, ErrorService } from './';
 
 
 describe('Async job service', () => {
@@ -51,14 +50,26 @@ describe('Async job service', () => {
     }
   };
 
+  const queryFailedJobResponse = {
+    status: 200,
+    body: {
+      "queryasyncjobresultresponse": {
+        "jobid": "06d1c912-1273-404f-96d9-7a89ccef4d51",
+        "jobresult": {
+          "errorcode": 530,
+          "errortext": "Failed to authorize security group ingress rule(s)"
+        },
+        "jobresultcode": 530,
+        "jobstatus": 2,
+      }
+    }
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
         AsyncJobService,
-        AuthService,
         ErrorService,
-        {provide: 'INotificationService', useClass: MockNotificationService},
-        {provide: 'IStorageService', useClass: StorageService},
         MockBackend,
         BaseRequestOptions,
         {
@@ -71,7 +82,6 @@ describe('Async job service', () => {
         Injector
       ],
       imports: [
-        FormsModule,
         HttpModule
       ]
     });
@@ -80,6 +90,12 @@ describe('Async job service', () => {
 
     mockBackend = getTestBed().get(MockBackend);
     mockBackend.connections.subscribe((connection: MockConnection) => {
+      const url = connection.request.url;
+      const params = new URLSearchParams(url.substr(url.indexOf('?') + 1));
+      if (params.has('queryJob')) {
+        connection.mockError((new Response(new ResponseOptions(queryFailedJobResponse))) as any);
+      }
+
       let options: ResponseOptions;
 
       if (jobQueries <= 2) {
@@ -111,6 +127,20 @@ describe('Async job service', () => {
     tick(20000);
     expect(job).toBeTruthy();
     expect(asyncJobService.queryJobs()).toBeFalsy();
+  }));
+
+  it('should parse failed job correctly', fakeAsync(() => {
+    const job = { jobid: '1' };
+    asyncJobService.queryJob(job)
+      .subscribe(
+        () => {},
+        (error) => {
+          expect(error).toBeDefined();
+          expect(error.errorcode).toBeDefined();
+          expect(error.errortext).toBeDefined();
+        }
+      );
+    tick(3000);
   }));
 });
 
