@@ -26,6 +26,9 @@ export class TemplateFiltersComponent implements OnInit {
   public selectedFilters: Array<string>;
   public filterTranslations: {};
 
+  private templateTabIndex = 0;
+  private isoTabIndex = 1;
+
   public osFamilies: Array<OsFamily> = [
     'Linux',
     'Windows',
@@ -68,8 +71,12 @@ export class TemplateFiltersComponent implements OnInit {
       });
   }
 
-  public setMode(mode: number): void {
-    this.showIso = mode === 1;
+  public get templateSwitchPosition(): number {
+    return this.showIso ? this.isoTabIndex : this.templateTabIndex;
+  }
+
+  public setMode(index: number): void {
+    this.showIso = index === this.isoTabIndex;
     this.updateDisplayMode();
   }
 

@@ -5,7 +5,7 @@
     <mdl-tabs
       class="template-iso-switch"
       mdl-ripple
-      [mdl-tab-active-index]="showIso ? 1 : 0"
+      [mdl-tab-active-index]="templateSwitchPosition"
       (mdl-tab-active-changed)="setMode($event.index)"
       *ngIf="showIsoSwitch"
     >
@@ -62,7 +62,7 @@
   <mdl-tabs
     class="template-iso-switch"
     mdl-ripple
-    [mdl-tab-active-index]="showIso ? 1 : 0"
+    [mdl-tab-active-index]="templateSwitchPosition"
     (mdl-tab-active-changed)="setMode($event.index)"
     *ngIf="showIsoSwitch"
   >
