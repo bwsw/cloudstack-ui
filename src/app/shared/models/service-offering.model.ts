@@ -40,4 +40,8 @@ export class ServiceOffering extends BaseModel {
   public diskIopsWriteRate: number;
   public deploymentPlanner: string;
   public domain: string;
+
+  public get isLocal(): boolean {
+    return this.storageType === 'local';
+  }
 }
