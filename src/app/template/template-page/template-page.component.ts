@@ -97,7 +97,8 @@ export class TemplatePageComponent implements OnInit {
     let currentMode = this.viewMode === 'Iso' ? 'ISO' : 'TEMPLATE';
     let notificationId;
 
-    this.dialogService.confirm(`DELETE_${currentMode}_CONFIRM`)
+    this.translateService.get(`DELETE_${currentMode}_CONFIRM`)
+      .switchMap(str => this.dialogService.confirm(str))
       .switchMap(() => {
         if (template instanceof Template) {
           notificationId = this.jobNotificationService.add('DELETE_TEMPLATE_IN_PROGRESS');
@@ -117,6 +118,11 @@ export class TemplatePageComponent implements OnInit {
       })
       .subscribe(() => {
         this.filterList.updateList();
+
+        if (this.selectedTemplate && this.selectedTemplate.id === template.id) {
+          this.listService.onDeselected.next();
+        }
+
         this.jobNotificationService.finish({
           id: notificationId,
           message: `DELETE_${currentMode}_DONE`,

@@ -4,21 +4,18 @@
 <div class="mdl-dialog__content" *loading="!serviceOfferings">
   <cs-service-offering-selector
     class="service-offering-selector"
+    (offeringChanged)="updateOffering($event)"
     [serviceOfferings]="serviceOfferings"
     [zoneId]="virtualMachine.zoneId"
+    *ngIf="serviceOfferings?.length"
   ></cs-service-offering-selector>
   <div
-    class="message"
-    *ngIf="virtualMachine && serviceOfferingId"
-  >
-    <div
-      class="warning"
-      *ngIf="virtualMachine.state !== 'Stopped' && serviceOffering?.id !== virtualMachine.serviceOfferingId"
-    >{{ "VM_WILL_BE_REBOOTED" | translate }}</div>
-    <div
-      *ngIf="serviceOffering?.id === virtualMachine.serviceOfferingId"
-    >{{ "THIS_IS_YOU_CURRENT_OFFERING" | translate }}</div>
-  </div>
+    class="message warning"
+    *ngIf="virtualMachine?.state !== 'Stopped' && serviceOffering?.id !== virtualMachine.serviceOfferingId"
+  >{{ "VM_WILL_BE_REBOOTED" | translate }}</div>
+  <div
+    *ngIf="!serviceOfferings?.length"
+  >{{ "NO_AVAILABLE_OFFERINGS" | translate }}</div>
 </div>
 <div class="mdl-dialog__actions">
   <button
@@ -26,6 +23,7 @@
     (click)="onChange()"
     mdl-colored="primary"
     [disabled]="serviceOffering?.id === virtualMachine.serviceOfferingId"
+    *ngIf="serviceOfferings?.length"
   >
     {{ 'CHANGE' | translate }}
   </button>

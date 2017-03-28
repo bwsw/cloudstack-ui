@@ -424,5 +424,6 @@
   "FROM": "From {{ lowerLimit }}",
   "INCORRECT_FORMAT": "Incorrect format",
   "REMOVE_THIS_KEY": "Are you sure you want to remove this key?",
-  "KEY_REMOVAL_FAILED": "Key removal failed"
+  "KEY_REMOVAL_FAILED": "Key removal failed",
+  "NO_AVAILABLE_OFFERINGS": "No available offerings"
 }
