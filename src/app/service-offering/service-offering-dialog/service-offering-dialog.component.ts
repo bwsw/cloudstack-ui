@@ -4,6 +4,7 @@ import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { VmService } from '../../vm/shared/vm.service';
 import { ServiceOfferingFilterService } from '../../shared/services/service-offering-filter.service';
 import { VirtualMachine } from '../../vm/shared/vm.model';
+import { ZoneService } from '../../shared/services/zone.service';
 
 
 @Component({
@@ -19,11 +20,18 @@ export class ServiceOfferingDialogComponent implements OnInit {
     public dialog: MdlDialogReference,
     @Inject('virtualMachine') public virtualMachine: VirtualMachine,
     private vmService: VmService,
-    private serviceOfferingService: ServiceOfferingFilterService
+    private serviceOfferingService: ServiceOfferingFilterService,
+    private zoneService: ZoneService
   ) { }
 
   public ngOnInit(): void {
-    this.fetchData({ zoneId: this.virtualMachine.zoneId });
+    this.zoneService.get(this.virtualMachine.zoneId)
+      .subscribe(zone => {
+        this.fetchData({
+          zoneId: zone.id,
+          local: zone.localStorageEnabled
+        });
+      });
   }
 
   public onChange(): void {

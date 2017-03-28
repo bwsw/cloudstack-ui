@@ -1,6 +1,10 @@
 import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators/field-mapper.decorator';
 
+export const StorageTypes = {
+  local: 'local',
+  shared: 'shared'
+};
 
 @FieldMapper({
   cpunumber: 'cpuNumber',
@@ -40,4 +44,8 @@ export class ServiceOffering extends BaseModel {
   public diskIopsWriteRate: number;
   public deploymentPlanner: string;
   public domain: string;
+
+  public get isLocal(): boolean {
+    return this.storageType === StorageTypes.local;
+  }
 }
