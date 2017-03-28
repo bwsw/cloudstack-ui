@@ -111,7 +111,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
   protected sendCommand(command: string, params?: {}, entity?: string): Observable<any> {
     return this.getRequest(command, params, entity)
       .map(res => this.getResponse(res))
-      .catch(error => this.handleError(error));
+      .catch(error => this.handleCommandError(error));
   }
 
   private breakParamsArray(params: {}, arrayName: string): any {
@@ -148,7 +148,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return apiCommand;
   }
 
-  private getResponse(result: any): any {
+  protected getResponse(result: any): any {
     const responseKeys = Object.keys(result);
     if (responseKeys.length !== 1) {
       throw new Error('wrong response');
@@ -158,14 +158,11 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   private handleError(response): Observable<any> {
-    let error;
-    try {
-      error = this.getResponse(response.json());
-    } catch (e) {
-      error = response;
-    }
-
-    this.error.send(error);
+    let error = response.json();
     return Observable.throw(error);
+  }
+
+  private handleCommandError(error): Observable<any> {
+    return Observable.throw(this.getResponse(error));
   }
 }

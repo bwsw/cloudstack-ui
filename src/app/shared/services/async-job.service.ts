@@ -102,7 +102,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
             jobSubject.next(this.getResult(asyncJob, entity, entityModel));
           } break;
           case JobStatus.Failed: {
-            jobSubject.error({ error: asyncJob.result });
+            jobSubject.error(this.getResponse({ error: asyncJob.result }));
             break;
           }
         }

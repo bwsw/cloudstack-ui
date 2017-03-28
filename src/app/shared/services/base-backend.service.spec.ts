@@ -149,7 +149,7 @@ describe('Base backend service', () => {
   })));
 
   it('should parse an error', async(inject([TestBackendService], (testService) => {
-    testService.getRequest('test', { error: true })
+    testService.sendCommand('test', { error: true })
       .subscribe(
         () => {},
         error => {

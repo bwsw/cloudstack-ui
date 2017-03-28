@@ -92,8 +92,9 @@ describe('Async job service', () => {
     mockBackend.connections.subscribe((connection: MockConnection) => {
       const url = connection.request.url;
       const params = new URLSearchParams(url.substr(url.indexOf('?') + 1));
-      if (params.has('queryJob')) {
-        connection.mockError((new Response(new ResponseOptions(queryFailedJobResponse))) as any);
+      if (params.has('command') && params.get('command') === 'queryAsyncJobResult') {
+        connection.mockRespond(new Response(new ResponseOptions(queryFailedJobResponse)));
+        return;
       }
 
       let options: ResponseOptions;
