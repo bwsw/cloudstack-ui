@@ -10,6 +10,18 @@
   }
 }
 
+.custom-card .mdl-card__title {
+  padding-bottom: 5px;
+}
+
+.custom-card .mdl-card__title-text {
+  width: 90%;
+}
+
+.os-type {
+  margin-bottom: 5px;
+}
+
 mdl-card.error {
   cursor: auto;
 }
@@ -27,7 +39,7 @@ mdl-card.error {
   border-radius: 50%;
   width: 10px;
   height: 10px;
-  margin-left: 5px;
+  margin-right: 8px;
 }
 
 .running {
