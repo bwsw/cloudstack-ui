@@ -431,5 +431,9 @@
   "CHANGE_PASSWORD": "Change password",
   "NEW_PASSWORD": "New password",
   "REPEAT_PASSWORD": "Repeat password",
-  "UPDATE": "Update"
+  "UPDATE": "Update",
+
+  "TEMPLATE_CREATION_DONE": "Template created",
+  "TEMPLATE_CREATION_FAILED": "Failed to create a template",
+  "TEMPLATE_CREATION_IN_PROGRESS": "Creating a template"
 }

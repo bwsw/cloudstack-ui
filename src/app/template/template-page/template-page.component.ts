@@ -55,7 +55,7 @@ export class TemplatePageComponent implements OnInit {
   public showCreationDialog(): void {
     this.dialogService.showCustomDialog({
       component: TemplateCreationComponent,
-      classes: 'template-creation-dialog',
+      classes: 'template-creation-dialog dialog-overflow-visible',
       providers: [{ provide: 'mode', useValue: this.viewMode }]
     })
       .switchMap(res => res.onHide())
@@ -76,7 +76,7 @@ export class TemplatePageComponent implements OnInit {
     } else {
       obs = this.templateService.register(templateData);
     }
-    obs .subscribe(
+    obs.subscribe(
       () => {
         this.filterList.updateList();
         this.jobNotificationService.finish({

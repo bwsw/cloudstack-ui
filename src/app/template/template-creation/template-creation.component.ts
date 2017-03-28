@@ -1,7 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 
 import { OsType, OsTypeService, Zone, ZoneService } from '../../shared';
+import { Snapshot } from '../../shared/models/snapshot.model';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class TemplateCreationComponent implements OnInit {
     private dialog: MdlDialogReference,
     private osTypeService: OsTypeService,
     private zoneService: ZoneService,
+    @Optional() @Inject('snapshot') public snapshot: Snapshot,
     @Inject('mode') public mode: 'Template' | 'Iso'
   ) { }
 
@@ -33,19 +35,22 @@ export class TemplateCreationComponent implements OnInit {
     this.passwordEnabled = this.dynamicallyScalable = false;
 
     this.osTypes = [];
-    this.zones = [];
     this.osTypeService
       .getList()
       .subscribe(osTypes => {
         this.osTypes = osTypes;
         this.osTypeId = this.osTypes[0].id;
       });
-    this.zoneService
-      .getList()
-      .subscribe(zones => {
-        this.zones = zones;
-        this.zoneId = this.zones[0].id;
-      });
+
+    if (!this.snapshot) {
+      this.zones = [];
+      this.zoneService
+        .getList()
+        .subscribe(zones => {
+          this.zones = zones;
+          this.zoneId = this.zones[0].id;
+        });
+    }
   }
 
   public onCancel(): void {
@@ -57,14 +62,20 @@ export class TemplateCreationComponent implements OnInit {
       name: this.name,
       displayText: this.displayText,
       osTypeId: this.osTypeId,
-      url: this.url,
-      zoneId: this.zoneId
     };
 
-    if (this.mode === 'Template') {
-      params['passwordEnabled'] = this.passwordEnabled;
-      params['isDynamicallyScalable'] = this.dynamicallyScalable;
+    if (!this.snapshot) {
+      params['url'] = this.url;
+      params['zoneId'] = this.zoneId;
+
+      if (this.mode === 'Template') {
+        params['passwordEnabled'] = this.passwordEnabled;
+        params['isDynamicallyScalable'] = this.dynamicallyScalable;
+      }
+    } else {
+      params['snapshotId'] = this.snapshot.id;
     }
+
     this.dialog.hide(params);
   }
 }
