@@ -184,7 +184,7 @@
   },
 
   "THIS_NAME_IS_TAKEN": "Это имя занято",
-  "THE_NAME_IS_TAKEN": "Имя {{name}} уже занято",
+  "THE_NAME_IS_TAKEN": "Имя {{val1}} уже занято",
   "UNABLE_TO_RECEIVE_TEMPLATES": "Неудалось получить шаблоны",
   "NAME": "Имя",
   "DESCRIPTION": "Описание",

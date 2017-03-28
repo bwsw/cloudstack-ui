@@ -16,6 +16,10 @@ export class ErrorService extends Subject<any> {
     {
       regex: 'Maximum number of resources of type \'primary_storage\'.*',
       translation: 'VOLUME_PRIMARY_STORAGE_EXCEEDED'
+    },
+    {
+      regex: 'The vm with hostName (.*) already exists.*',
+      translation: 'THE_NAME_IS_TAKEN'
     }
   ];
 
@@ -40,6 +44,12 @@ export class ErrorService extends Subject<any> {
       error.message = error.errortext;
     } else {
       error.message = err.translation;
+
+      const params = (new RegExp(err.regex)).exec(error.errortext);
+      params.shift();
+      const translationParams = {};
+      params.forEach((val, index) => translationParams[`val${index + 1}`] = val);
+      error.params = translationParams;
     }
 
     return error;

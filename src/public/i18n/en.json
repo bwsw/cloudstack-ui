@@ -184,7 +184,7 @@
   },
 
   "THIS_NAME_IS_TAKEN": "This name is taken",
-  "THE_NAME_IS_TAKEN": "The name {{name}} is taken",
+  "THE_NAME_IS_TAKEN": "The name {{val1}} is taken",
   "UNABLE_TO_RECEIVE_TEMPLATES": "Unable to receive templates",
   "NAME": "Name",
   "DESCRIPTION": "Description",
