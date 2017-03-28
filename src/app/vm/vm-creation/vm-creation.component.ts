@@ -44,7 +44,7 @@ import { Template } from '../../template/shared/template.model';
 class VmCreationData {
   public vm: VirtualMachine;
   public affinityGroups: Array<AffinityGroup>;
-  public instanceGroups: Array<InstanceGroup>;
+  public instanceGroups: Array<string>;
   public serviceOfferings: Array<ServiceOffering>;
   public diskOfferings: Array<DiskOffering>;
   public sshKeyPairs: Array<SSHKeyPair>;
@@ -223,12 +223,23 @@ export class VmCreationComponent implements OnInit {
         this.dialog.hide(deployObservable);
         return this.vmService.registerVmJob(deployResponse);
       })
+      .switchMap(vm => {
+        if (this.vmCreationData.vm.instanceGroup) {
+          return this.instanceGroupService.add(vm, this.vmCreationData.vm.instanceGroup);
+        }
+        return Observable.of(null);
+      })
       .subscribe(
         vm => {
+          if (vm.instanceGroup) {
+            this.instanceGroupService.groupsUpdates.next();
+          }
+
           this.notifyOnDeployDone(notificationId);
           if (!vm.password) {
             return;
           }
+
           this.showPassword(vm.displayName, vm.password);
           this.vmService.updateVmInfo(vm);
         },
@@ -328,8 +339,8 @@ export class VmCreationComponent implements OnInit {
     return this.vmCreationData.vm.template instanceof Template;
   }
 
-  public setGroup(group: string): void {
-    this.vmCreationData.vm.group = group;
+  public setGroup(groupName: string): void {
+    this.vmCreationData.vm.instanceGroup = new InstanceGroup(groupName);
   }
 
   private getDefaultVmName(): Observable<string> {
@@ -363,7 +374,7 @@ export class VmCreationComponent implements OnInit {
           this.affinityGroupService.getList(),
           this.sshService.getList(),
           this.templateService.getDefault(),
-          this.instanceGroupService.getList(),
+          this.vmService.getInstanceGroupList(),
           this.diskOfferingService.getList({ zoneId: vmCreationData.vm.zoneId }),
           this.securityGroupService.getTemplates()
         ]);
@@ -454,9 +465,6 @@ export class VmCreationComponent implements OnInit {
     }
     if (this.securityRules && this.securityRules.egress) {
       params['egress'] = this.securityRules.egress;
-    }
-    if (this.vmCreationData.vm.group) {
-      params['group'] = this.vmCreationData.vm.group;
     }
     return params;
   }

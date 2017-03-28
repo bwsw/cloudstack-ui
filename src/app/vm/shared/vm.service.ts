@@ -28,6 +28,7 @@ import { ServiceOfferingService } from '../../shared/services/service-offering.s
 import { Iso } from '../../template/shared/iso.model';
 import { SecurityGroup } from '../../security-group/sg.model';
 import { VirtualMachine, IVmAction } from './vm.model';
+import { InstanceGroup } from '../../shared/models/instance-group.model';
 
 
 export interface IVmActionEvent {
@@ -109,6 +110,19 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         });
         return vmList;
       });
+  }
+
+  public getInstanceGroupList(): Observable<Array<InstanceGroup>> {
+    return this.getList()
+      .map(vmList => vmList.reduce((groups, vm) => {
+        let group = vm.tags.find(tag => tag.key === 'group');
+
+        if (!group || !group.value || groups.find(g => g.name === group.value)) {
+          return groups;
+        } else {
+          return groups.concat(new InstanceGroup(group.value));
+        }
+      }, []));
   }
 
   public deploy(params: {}): Observable<any> {

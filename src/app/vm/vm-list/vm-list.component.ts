@@ -12,7 +12,6 @@ import { TranslateService } from 'ng2-translate';
 import {
   AsyncJobService,
   IStorageService,
-  InstanceGroup,
   JobsNotificationService,
   ServiceOfferingService,
   StatsUpdateService,
@@ -27,6 +26,7 @@ import { VmListSection } from './vm-list-section/vm-list-section.component';
 import { VmListSubsection } from './vm-list-subsection/vm-list-subsection.component';
 import { VmStatisticsComponent } from '../../shared/components/vm-statistics/vm-statistics.component';
 import { AsyncJob } from '../../shared/models/async-job.model';
+import { InstanceGroup } from '../../shared/models/instance-group.model';
 
 
 export const enum SectionType {
@@ -226,6 +226,8 @@ export class VmListComponent implements OnInit {
               vmList[index].cpuNumber = updatedVm.cpuNumber;
               vmList[index].serviceOffering = serviceOffering;
               vmList[index].serviceOfferingId = updatedVm.serviceOfferingId;
+              vmList[index].instanceGroup = updatedVm.instanceGroup;
+              vmList[index].tags = updatedVm.tags;
             });
         });
         this.updateFilters();
@@ -316,7 +318,7 @@ export class VmListComponent implements OnInit {
   }
 
   private filterVmsByGroup(vmList: Array<VirtualMachine>, group: InstanceGroup): Array<VirtualMachine> {
-    return vmList.filter(vm => vm.group === group.name);
+    return vmList.filter(vm => vm.instanceGroup && vm.instanceGroup.name === group.name);
   }
 
   private filterVmsByZone(vmList: Array<VirtualMachine>, zone: Zone): Array<VirtualMachine> {

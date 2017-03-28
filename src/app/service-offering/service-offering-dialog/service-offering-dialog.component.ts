@@ -35,18 +35,10 @@ export class ServiceOfferingDialogComponent implements OnInit {
     this.dialog.hide();
   }
 
-  public updateOffering(offering: ServiceOffering): void {
-    this.serviceOffering = offering;
-  }
-
   private fetchData(params?: {}): void {
     this.serviceOfferingService.getAvailable(params)
       .subscribe(availableOfferings => {
-        this.serviceOfferings = availableOfferings
-          .filter(offering => offering.id !== this.virtualMachine.serviceOfferingId);
-        if (this.serviceOfferings.length) {
-          this.serviceOffering = this.serviceOfferings[0];
-        }
+        this.serviceOfferings = availableOfferings;
       });
   }
 }

@@ -49,17 +49,18 @@ export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, A
   @HostBinding('class.mdl-select') public mdlSelectClass = true;
   @HostBinding('class.mdl-select--floating-label') public mdlSelectFloatingLabel = this.isFloatingLabel;
   @HostBinding('class.has-placeholder') public hasPlaceholder = this.placeholder;
-  @Input() public ngModel: any;
+
   @Input() public disabled = false;
   @Input() public label = '';
   @Input() public placeholder = '';
   @Input() public options: Array<string> = [];
-  @Output() public change: EventEmitter<any> = new EventEmitter(true);
+  @Input() public text = '';
+
+  @Output() public change = new EventEmitter();
 
   @ViewChild(MdlPopoverComponent) public popover: MdlPopoverComponent;
-
+  public ngModel: any;
   public focused = false;
-  public text = '';
   public textFieldId: string;
   public visibleOptions: Array<string>;
 
@@ -79,6 +80,10 @@ export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, A
   }
 
   public ngOnInit(): void {
+    if (!this.options) {
+      throw new Error('Attribute \'options\' is required');
+    }
+
     this.popover.hide = () => {
       this.popoverVisible = false;
       this.popover.isVisible = false;
@@ -178,15 +183,6 @@ export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, A
     this.onSelect(this.getNewValueOnLeave());
   }
 
-  public reset(resetValue = true): void {
-    if (resetValue && this.ngModel) {
-      this.ngModel = '';
-      this.onChange(this.ngModel);
-      this.change.emit(this.ngModel);
-      this.renderValue();
-    }
-  }
-
   public writeValue(value: any): void {
     this.ngModel = value;
     this.onChange(this.ngModel);
@@ -224,6 +220,7 @@ export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, A
     }
 
     this.writeValue(value);
+
     this.change.emit(this.ngModel);
 
     if (this.optionComponents) {

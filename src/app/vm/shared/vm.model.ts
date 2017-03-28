@@ -11,6 +11,7 @@ import { SecurityGroup } from '../../security-group/sg.model';
 import { BaseTemplateModel } from '../../template/shared/base-template.model';
 import { ZoneName } from '../../shared/decorators/zone-name.decorator';
 import { Tag } from '../../shared/models/tag.model';
+import { InstanceGroup } from '../../shared/models/instance-group.model';
 
 
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
@@ -109,10 +110,10 @@ export class VirtualMachine extends BaseModel {
   public diskIoWrite: number;
   // misc
   public created: string;
-  public group: string;
   public keyPair: string;
   public password: string;
   public tags: Array<Tag>;
+  public instanceGroup: InstanceGroup;
 
   constructor(params?: {}) {
     super(params);
@@ -131,6 +132,11 @@ export class VirtualMachine extends BaseModel {
 
     for (let i = 0; i < this.securityGroup.length; i++) {
       this.securityGroup[i] = new SecurityGroup(this.securityGroup[i]);
+    }
+
+    if (this.tags) {
+      let group = this.tags.find(tag => tag.key === 'group');
+      this.instanceGroup = group ? new InstanceGroup(group.value) : undefined;
     }
   }
 

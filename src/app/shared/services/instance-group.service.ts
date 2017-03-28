@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
-import { BackendResource } from '../decorators/backend-resource.decorator';
+import { Observable, Subject } from 'rxjs';
+import { VirtualMachine } from '../../vm/shared/vm.model';
+import { TagService } from './tag.service';
 import { InstanceGroup } from '../models/instance-group.model';
-import { BaseBackendService } from './base-backend.service';
-import { Observable } from 'rxjs';
 
 @Injectable()
-@BackendResource({
-  entity: 'InstanceGroup',
-  entityModel: InstanceGroup
-})
-export class InstanceGroupService extends BaseBackendService<InstanceGroup> {
-  public create(name: string): Observable<InstanceGroup> {
-    return this.sendCommand('create', { name });
+export class InstanceGroupService {
+  public groupsUpdates: Subject<void>;
+
+  constructor(private tagService: TagService) {
+    this.groupsUpdates = new Subject<void>();
+  }
+
+  public add(vm: VirtualMachine, group: InstanceGroup): Observable<VirtualMachine> {
+    vm.instanceGroup = group;
+    this.groupsUpdates.next();
+    return this.tagService.update(vm, 'UserVm', 'group', group.name);
   }
 }

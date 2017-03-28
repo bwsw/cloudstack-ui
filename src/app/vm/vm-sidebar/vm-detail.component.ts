@@ -1,18 +1,12 @@
 import {
   Component,
   Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges
+  OnChanges
 } from '@angular/core';
 
 import { MdlDialogService } from 'angular2-mdl';
 
-import {
-  Tag,
-  TagService
-} from '../../shared';
-
+import { TagService } from '../../shared';
 import { SecurityGroup } from '../../security-group/sg.model';
 import {
   ServiceOfferingDialogComponent
@@ -22,6 +16,8 @@ import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { Color } from '../../shared/models/color.model';
 import { ZoneService } from '../../shared/services/zone.service';
+import { InstanceGroupService } from '../../shared/services/instance-group.service';
+import { InstanceGroup } from '../../shared/models/instance-group.model';
 
 
 @Component({
@@ -29,15 +25,18 @@ import { ZoneService } from '../../shared/services/zone.service';
   templateUrl: 'vm-detail.component.html',
   styleUrls: ['vm-detail.component.scss']
 })
-export class VmDetailComponent implements OnInit, OnChanges {
+export class VmDetailComponent implements OnChanges {
   @Input() public vm: VirtualMachine;
   public color: Color;
   public disableSecurityGroup = false;
+  public groupName: string;
+  public groupNames: Array<string>;
   private expandNIC: boolean;
   private expandServiceOffering: boolean;
 
   constructor(
     private dialogService: MdlDialogService,
+    private instanceGroupService: InstanceGroupService,
     private tagService: TagService,
     private vmService: VmService,
     private zoneService: ZoneService
@@ -46,53 +45,30 @@ export class VmDetailComponent implements OnInit, OnChanges {
     this.expandServiceOffering = false;
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
-    this.updateColor();
-
-    if ('vm' in changes) {
-      this.checkSecurityGroupDisabled();
-    }
+  public ngOnChanges(): void {
+    this.update();
   }
 
-  public ngOnInit(): void {
-    this.updateColor();
-    this.checkSecurityGroupDisabled();
+  public get doShowChangeGroupButton(): boolean {
+    return this.groupName && (!this.vm.instanceGroup || this.vm.instanceGroup.name !== this.groupName);
+  }
+
+  public changeGroup(): void {
+    let instanceGroup = new InstanceGroup(this.groupName);
+    this.instanceGroupService.add(this.vm, instanceGroup)
+      .subscribe(vm => {
+        this.instanceGroupService.groupsUpdates.next();
+        this.vmService.updateVmInfo(vm);
+        this.updateGroups();
+      });
   }
 
   public changeColor(color: Color): void {
-    let oldTag = this.vm.tags.find(tag => tag.key === 'color');
-
-    let createObs = this.tagService.create({
-      resourceIds: this.vm.id,
-      resourceType: 'UserVm',
-      'tags[0].key': 'color',
-      'tags[0].value': color.value,
-    })
-      .map(() => {
-        this.vm.tags.push(new Tag({
-          resourceId: this.vm.id,
-          resourceType: 'UserVm',
-          key: 'color',
-          value: color.value
-        }));
+    this.tagService.update(this.vm, 'UserVm', 'color', color.value)
+      .subscribe(vm => {
+        this.vm = vm;
         this.vmService.updateVmInfo(this.vm);
       });
-
-    if (!oldTag) {
-      createObs.subscribe();
-      return;
-    }
-    this.tagService.remove({
-      resourceIds: this.vm.id,
-      resourceType: 'UserVm',
-      'tags[0].key': 'color',
-      'tags[0].value': oldTag.value || ''
-    })
-      .map(() => {
-        this.vm.tags = this.vm.tags.filter(tag => tag.key !== oldTag.key);
-      })
-      .switchMap(() => createObs)
-      .subscribe();
   }
 
   public toggleNIC(): void {
@@ -119,8 +95,25 @@ export class VmDetailComponent implements OnInit, OnChanges {
     });
   }
 
+  private update(): void {
+    this.updateColor();
+    this.updateGroups();
+    this.checkSecurityGroupDisabled();
+    if (this.vm.instanceGroup) {
+      this.groupName = this.vm.instanceGroup.name;
+    } else {
+      this.groupName = undefined;
+    }
+  }
+
   private updateColor(): void {
     this.color = this.vmService.getColor(this.vm);
+  }
+
+  private updateGroups(): void {
+    this.vmService.getInstanceGroupList().subscribe(groups => {
+      this.groupNames = groups.map(group => group.name);
+    });
   }
 
   private checkSecurityGroupDisabled(): void {

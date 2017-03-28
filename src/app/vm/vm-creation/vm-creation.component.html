@@ -81,6 +81,7 @@
         <h5>{{ 'VM_CREATION_FORM.GROUP' | translate }}</h5>
         <div *ngIf="vmCreationData.instanceGroups">
           <mdl-autocomplete
+            *ngIf="vmCreationData.instanceGroups"
             [options]="vmCreationData.instanceGroups"
             (change)="setGroup($event)"
           ></mdl-autocomplete>

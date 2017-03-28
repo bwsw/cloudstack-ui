@@ -5,14 +5,12 @@ import {
   Output
 } from '@angular/core';
 
-import {
-  InstanceGroup,
-  InstanceGroupService,
-  Zone,
-  ZoneService
-} from '../../shared';
+import { Zone, ZoneService } from '../../shared';
 
 import { SectionType } from '../vm-list/vm-list.component';
+import { VmService } from '../shared/vm.service';
+import { InstanceGroup } from '../../shared/models/instance-group.model';
+import { InstanceGroupService } from '../../shared/services/instance-group.service';
 
 
 export interface VmFilter {
@@ -38,12 +36,23 @@ export class VmFilterComponent implements OnInit {
 
   constructor(
     private instanceGroupService: InstanceGroupService,
+    private vmService: VmService,
     private zoneService: ZoneService
   ) {}
 
   public ngOnInit(): void {
-    this.instanceGroupService.getList().subscribe(groupList => this.groups = groupList);
+    this.loadGroups();
     this.zoneService.getList().subscribe(zoneList => this.zones = zoneList);
+    this.instanceGroupService.groupsUpdates.subscribe(() => this.loadGroups());
+  }
+
+  public loadGroups(): void {
+    this.vmService.getInstanceGroupList().subscribe(groupList => {
+      this.groups = groupList;
+      this.selectedGroups = this.selectedGroups.filter(selectedGroup => {
+        return groupList.includes(selectedGroup);
+      });
+    });
   }
 
   public update(): void {

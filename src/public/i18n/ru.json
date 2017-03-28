@@ -414,6 +414,9 @@
 
   "LICENSE": "© Bitworks Software, Ltd.<br>Released under Apache v2.0 license",
   "WELCOME": "Здравствуйте, {{ name }}",
+
+  "ASSIGN": "Присвоить",
+  "GROUP": "Группа",
   "ACTIVITY_LOG": "Журнал событий",
 
   "CUSTOM_SERVICE_OFFERING": "Настраиваемое предложение",
