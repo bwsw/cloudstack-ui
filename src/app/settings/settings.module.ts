@@ -5,15 +5,18 @@ import { MdlModule } from 'angular2-mdl';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { SettingsComponent } from './settings.component';
 import { SharedModule } from '../shared/shared.module';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     TranslateModule,
     MdlModule,
     MdlSelectModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
   ],
   exports: [
     SettingsComponent

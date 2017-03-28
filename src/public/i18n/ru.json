@@ -427,5 +427,9 @@
   "KEY_REMOVAL_FAILED": "Не удалось удалить ключ",
   "NO_AVAILABLE_OFFERINGS": "Нет доступных предложений",
   "SYSTEM_SECURITY_GROUPS": "Системные",
-  "CUSTOM_SECURITY_GROUPS": "Пользовательские"
+  "CUSTOM_SECURITY_GROUPS": "Пользовательские",
+  "CHANGE_PASSWORD": "Изменение пароля",
+  "NEW_PASSWORD": "Новый пароль",
+  "REPEAT_PASSWORD": "Повторите пароль",
+  "UPDATE": "Обновить"
 }

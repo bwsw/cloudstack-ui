@@ -2,6 +2,7 @@ interface IFieldMapper {
   [key: string]: string;
 }
 
+
 export abstract class BaseModel {
   protected _mapper: IFieldMapper;
 
@@ -59,3 +60,5 @@ export abstract class BaseModel {
     }
   }
 }
+
+export class BaseModelStub extends BaseModel { }

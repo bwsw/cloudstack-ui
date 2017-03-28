@@ -427,5 +427,9 @@
   "KEY_REMOVAL_FAILED": "Key removal failed",
   "NO_AVAILABLE_OFFERINGS": "No available offerings",
   "SYSTEM_SECURITY_GROUPS": "System",
-  "CUSTOM_SECURITY_GROUPS": "Custom"
+  "CUSTOM_SECURITY_GROUPS": "Custom",
+  "CHANGE_PASSWORD": "Change password",
+  "NEW_PASSWORD": "New password",
+  "REPEAT_PASSWORD": "Repeat password",
+  "UPDATE": "Update"
 }

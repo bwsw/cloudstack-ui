@@ -70,6 +70,7 @@ import { MinValueValidatorDirective } from './directives/min-value.directive';
 
 import { LoadingDirective } from './directives/loading.directive';
 import { LoaderComponent } from './components/loader.component';
+import { UserService } from './services/user.service';
 
 
 @NgModule({
@@ -160,6 +161,7 @@ import { LoaderComponent } from './components/loader.component';
     StorageService,
     StyleService,
     TagService,
+    UserService,
     UtilsService,
     VolumeService,
     ZoneService,
