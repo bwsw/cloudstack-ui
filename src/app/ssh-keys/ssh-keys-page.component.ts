@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
+import { TranslateService } from 'ng2-translate';
 
 import { SSHKeyPair } from '../shared/models/ssh-keypair.model';
-import { SSHKeyPairService } from '../shared/services/SSHKeyPair.service';
-import { TranslateService } from 'ng2-translate';
+import { SshKeyCreationData, SSHKeyPairService } from '../shared/services/ssh-keypair.service';
+import { SShKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creation-dialog.component';
+import { SshPrivateKeyDialogComponent } from './ssh-key-creation/ssh-private-key-dialog.component';
 
 
 @Component({
@@ -25,9 +27,64 @@ export class SshKeysPageComponent implements OnInit {
       .subscribe(keyList => this.sshKeyList = keyList);
   }
 
+  public showCreationDialog(): void {
+    this.dialogService.showCustomDialog({
+      component: SShKeyCreationDialogComponent,
+      styles: { width: '400px' }
+    })
+      .switchMap(res => res.onHide())
+      .subscribe(data => this.createSshKey(data));
+  }
+
   public removeKey(name: string): void {
     this.translateService.get(['REMOVE_THIS_KEY', 'YES', 'NO', 'KEY_REMOVAL_FAILED'])
       .subscribe(translations => this.showRemovalDialog(name, translations));
+  }
+
+  private createSshKey(data: SshKeyCreationData): void {
+    if (!data) {
+      return;
+    }
+
+    const keyCreationObs = data.publicKey ? this.sshKeyService.register(data) : this.sshKeyService.create(data);
+    keyCreationObs.subscribe(
+      (sshKey: SSHKeyPair) => {
+        this.sshKeyList = this.sshKeyList.concat(sshKey);
+        if (sshKey.privateKey) {
+          this.showPrivateKey(sshKey.privateKey);
+        }
+      },
+      (error) => this.handleError(error)
+    );
+  }
+
+  private showPrivateKey(privateKey: string): void {
+    this.dialogService.showCustomDialog({
+      component: SshPrivateKeyDialogComponent,
+      providers: [{ provide: 'privateKey', useValue: privateKey }],
+      styles: { width: '400px', 'word-break': 'break-all' }
+    });
+  }
+
+  private handleError(error): void {
+    const errorMap = {
+      'A key pair with name': 'KEYPAIR_ALREADY_EXISTS',
+      'Public key is invalid': 'INVALID_PUBLIC_KEY'
+    };
+
+    let message;
+    for (let key in errorMap) {
+      if (error.errortext.startsWith(key)) {
+        message = errorMap[key];
+        break;
+      }
+    }
+    if (!message) {
+      message = error.errortext;
+    }
+
+    this.translateService.get(message)
+      .subscribe((msg) => this.dialogService.alert(msg));
   }
 
   private showRemovalDialog(name: string, translations: Array<string>): void {

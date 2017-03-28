@@ -59,6 +59,7 @@
 
   "YES": "Yes",
   "NO": "No",
+  "OK": "Ok",
   "CANCEL": "Cancel",
 
   "START": "Start",
@@ -402,6 +403,7 @@
 
   "SETTINGS": "Settings",
   "SSH_KEYS": "SSH keys",
+  "PUBLIC_KEY": "Public key",
   "LANGUAGE": "Interface Language",
   "COLOR": "Color",
   "GROUP_BY_COLORS": "Group by colors",
@@ -435,5 +437,15 @@
 
   "TEMPLATE_CREATION_DONE": "Template created",
   "TEMPLATE_CREATION_FAILED": "Failed to create a template",
-  "TEMPLATE_CREATION_IN_PROGRESS": "Creating a template"
+  "TEMPLATE_CREATION_IN_PROGRESS": "Creating a template",
+
+  "CREATE_SSH_KEY": "Create SSH key",
+  "AUTO_GENERATED": "auto generated",
+  "KEYPAIR_ALREADY_EXISTS": "SSH key with this name already exists",
+  "INVALID_PUBLIC_KEY": "Invalid public key",
+
+  "SAVE_THIS_KEY": "Please, save this private key as it will not be kept",
+  "COPY": "Copy",
+  "COPY_SUCCESS": "Copied successfully",
+  "COPY_FAIL": "Failed to copy to clipboard"
 }

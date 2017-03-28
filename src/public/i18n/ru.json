@@ -59,6 +59,7 @@
 
   "YES": "Да",
   "NO": "Нет",
+  "OK": "Ок",
   "CANCEL": "Отмена",
 
   "START": "Запустить",
@@ -402,6 +403,7 @@
 
   "SETTINGS": "Настройки",
   "SSH_KEYS": "SSH ключи",
+  "PUBLIC_KEY": "Открытый ключ",
   "LANGUAGE": "Язык Интерфейса",
   "COLOR": "Цвет",
   "GROUP_BY_COLORS": "Группировать по цветам",
@@ -435,5 +437,15 @@
 
   "TEMPLATE_CREATION_DONE": "Шаблон создан",
   "TEMPLATE_CREATION_FAILED": "Не удалось создать шаблон",
-  "TEMPLATE_CREATION_IN_PROGRESS": "Создание шаблона"
+  "TEMPLATE_CREATION_IN_PROGRESS": "Создание шаблона",
+
+  "CREATE_SSH_KEY": "Создать SSH ключ",
+  "AUTO_GENERATED": "автогенерируемый",
+  "KEYPAIR_ALREADY_EXISTS": "SSH ключ с таким именем уже существует",
+  "INVALID_PUBLIC_KEY": "Неправильный открытый ключ",
+
+  "SAVE_THIS_KEY": "Пожалуйста, скопируйте этот ключ, так как он не будет сохранен",
+  "COPY": "Копировать",
+  "COPY_SUCCESS": "Успешно скопировано",
+  "COPY_FAIL": "Ошибка при копировании"
 }

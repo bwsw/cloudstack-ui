@@ -24,7 +24,7 @@ export * from './service-locator';
 export * from './service-offering.service';
 export * from './service-offering-filter.service';
 export * from './snapshot.service';
-export * from './SSHKeyPair.service';
+export * from './ssh-keypair.service';
 export * from './stats-update.service';
 export * from './storage.service';
 export * from './style.service';

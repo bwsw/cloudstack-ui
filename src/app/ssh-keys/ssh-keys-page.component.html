@@ -4,4 +4,4 @@
   [keys]="sshKeyList"
   (onRemove)="removeKey($event)"
 ></cs-ssh-key-list>
-<cs-fab></cs-fab>
+<cs-fab (click)="showCreationDialog()"></cs-fab>
