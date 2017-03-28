@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-
-import { ConfigService } from './config.service';
-import { SecurityGroup, NetworkRuleType } from '../../security-group/sg.model';
-import { BaseBackendCachedService } from '.';
 import { BackendResource } from '../decorators/backend-resource.decorator';
+
+import {
+  AsyncJobService,
+  BaseBackendCachedService,
+  ConfigService
+} from '../services';
+import {
+  NetworkProtocol,
+  NetworkRule,
+  NetworkRuleType,
+  NetworkRuleTypes,
+  SecurityGroup
+} from '../../security-group/sg.model';
 import { TagService } from './tag.service';
-import { AsyncJobService } from './async-job.service';
-import { NetworkRule } from '../../security-group/sg.model';
+
 
 export const GROUP_POSTFIX = '-cs-sg';
 
@@ -86,6 +94,9 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
     egressRules: Array<NetworkRule>
   ): Observable<SecurityGroup> {
     this.invalidateCache();
+    ingressRules = this.removeDuplicateRules(ingressRules);
+    egressRules = this.removeDuplicateRules(egressRules);
+
     let sg: SecurityGroup;
     return this.create(params)
       .switchMap((securityGroup: SecurityGroup) => {
@@ -99,12 +110,12 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
           const r = new NetworkRule(Object.assign({}, rule));
           r['securityGroupId'] = securityGroup.id;
           r['cidrList'] = r.CIDR;
-          r.protocol = r.protocol.toLowerCase();
+          r.protocol = r.protocol.toLowerCase() as NetworkProtocol;
           delete r.CIDR;
           addRuleRequests.push(this.addRule(type, r.serialize()));
         };
-        ingressRules.forEach(rule => addRule('Ingress', rule));
-        egressRules.forEach(rule => addRule('Egress', rule));
+        ingressRules.forEach(rule => addRule(NetworkRuleTypes.Ingress, rule));
+        egressRules.forEach(rule => addRule(NetworkRuleTypes.Egress, rule));
 
         return Observable.forkJoin(addRuleRequests);
       })
@@ -129,5 +140,12 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
     const command = 'revoke';
     return this.sendCommand(`${command};${type}`, data)
       .switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel));
+  }
+
+  private removeDuplicateRules(rules: Array<NetworkRule>): Array<NetworkRule> {
+    return rules.reduce((acc: Array<NetworkRule>, rule: NetworkRule) => {
+      let unique = !acc.some(resultRule => rule.isEqual(resultRule));
+      return unique ? acc.concat(rule) : acc;
+    }, []);
   }
 }

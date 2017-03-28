@@ -8,11 +8,11 @@
       <tr>
         <th class="mdl-data-table__cell--non-numeric">{{ 'TYPE' | translate }}</th>
         <th>{{ 'PROTOCOL' | translate }}</th>
-        <template [ngIf]="protocol !== 'ICMP'">
+        <template [ngIf]="protocol !== NetworkProtocols.ICMP">
           <th>{{ 'START_PORT' | translate }}</th>
           <th>{{ 'END_PORT' | translate }}</th>
         </template>
-        <template [ngIf]="protocol === 'ICMP'">
+        <template [ngIf]="protocol === NetworkProtocols.ICMP">
           <th>{{ 'ICMP_TYPE' | translate }}</th>
           <th>{{ 'ICMP_CODE' | translate }}</th>
         </template>
@@ -24,20 +24,20 @@
       <tr *ngIf="!securityGroup.isPredefinedTemplate">
         <td class="mdl-data-table__cell--non-numeric">
           <mdl-select class="type" [(ngModel)]="type" name="type">
-            <mdl-option [value]="'Ingress'">{{ 'INGRESS' | translate }}</mdl-option>
-            <mdl-option [value]="'Egress'">{{ 'EGRESS' | translate }}</mdl-option>
+            <mdl-option [value]="NetworkRuleTypes.Ingress">{{ 'INGRESS' | translate }}</mdl-option>
+            <mdl-option [value]="NetworkRuleTypes.Egress">{{ 'EGRESS' | translate }}</mdl-option>
           </mdl-select>
         </td>
         <td>
           <mdl-select [(ngModel)]="protocol" name="protocol">
-            <mdl-option [value]="'TCP'">TCP</mdl-option>
-            <mdl-option [value]="'UDP'">UDP</mdl-option>
-            <mdl-option [value]="'ICMP'">ICMP</mdl-option>
+            <mdl-option [value]="NetworkProtocols.TCP">TCP</mdl-option>
+            <mdl-option [value]="NetworkProtocols.UDP">UDP</mdl-option>
+            <mdl-option [value]="NetworkProtocols.ICMP">ICMP</mdl-option>
           </mdl-select>
         </td>
         <td>
           <mdl-textfield
-            *ngIf="protocol === 'ICMP'"
+            *ngIf="protocol === NetworkProtocols.ICMP"
             [class.is-invalid]="icmpTypeField.touched && icmpTypeField.invalid"
             name="icmpType"
             type="number"
@@ -51,7 +51,7 @@
             (click)="onIcmpTypeClick()"
           ></mdl-textfield>
           <mdl-textfield
-            *ngIf="protocol !== 'ICMP'"
+            *ngIf="protocol !== NetworkProtocols.ICMP"
             [class.is-invalid]="startPortField.touched && startPortField.invalid"
             name="startPort"
             type="number"
@@ -66,7 +66,7 @@
         <td>
           <mdl-textfield
             [class.is-invalid]="icmpCodeField.touched && icmpCodeField.invalid"
-            *ngIf="protocol === 'ICMP'"
+            *ngIf="protocol === NetworkProtocols.ICMP"
             name="icmpCode"
             type="number"
             minValue="-1"
@@ -79,7 +79,7 @@
             (click)="onIcmpCodeClick()"
           ></mdl-textfield>
           <mdl-textfield
-            *ngIf="protocol !== 'ICMP'"
+            *ngIf="protocol !== NetworkProtocols.ICMP"
             [class.is-invalid]="endPortField.touched && endPortField.invalid"
             name="endPort"
             type="number"
@@ -120,7 +120,7 @@
       </tr>
       <cs-security-group-rule
         *ngFor="let rule of securityGroup?.ingressRules"
-        [type]="'Ingress'"
+        [type]="NetworkRuleTypes.Ingress"
         [rule]="rule"
         [canRemove]="!securityGroup.isPredefinedTemplate"
         (onRemove)="removeRule($event)"
@@ -128,7 +128,7 @@
       </cs-security-group-rule>
       <cs-security-group-rule
         *ngFor="let rule of securityGroup?.egressRules"
-        [type]="'Egress'"
+        [type]="NetworkRuleTypes.Egress"
         [rule]="rule"
         [canRemove]="!securityGroup.isPredefinedTemplate"
         (onRemove)="removeRule($event)"

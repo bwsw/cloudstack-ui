@@ -3,11 +3,11 @@
     {{ type.toUpperCase() | translate }}
     {{ item.rule.CIDR }}
     {{ item.rule.protocol.toUpperCase() }}
-    <ng-container *ngIf="item.rule.protocol.toLowerCase() === 'icmp'">
+    <ng-container *ngIf="item.rule.protocol === NetworkProtocols.ICMP">
       {{ item.rule.icmpCode }}
       {{ item.rule.icmpType }}
     </ng-container>
-    <ng-container *ngIf="item.rule.protocol.toLowerCase() !== 'icmp'">
+    <ng-container *ngIf="item.rule.protocol !== NetworkProtocols.ICMP">
       {{ item.rule.startPort }}
       {{ item.rule.endPort }}
     </ng-container>

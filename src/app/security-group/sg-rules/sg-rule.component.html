@@ -1,10 +1,10 @@
 <td class="mdl-data-table__cell--non-numeric">{{ type.toUpperCase() | translate }}</td>
 <td>{{ rule.protocol.toUpperCase() }}</td>
-<template [ngIf]="rule.protocol.toUpperCase() === 'ICMP'">
+<template [ngIf]="rule.protocol === NetworkProtocols.ICMP">
   <td>{{ rule.icmpType }}</td>
   <td>{{ rule.icmpCode }}</td>
 </template>
-<template [ngIf]="rule.protocol.toUpperCase() !== 'ICMP'">
+<template [ngIf]="rule.protocol !== NetworkProtocols.ICMP">
   <td>{{ rule.startPort }}</td>
   <td>{{ rule.endPort }}</td>
 </template>
