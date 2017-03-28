@@ -2,6 +2,26 @@ import { FieldMapper } from '../decorators/field-mapper.decorator';
 import { Offering } from './offering.model';
 
 
+export const ServiceOfferingFields = {
+  id: 'id',
+  cpuNumber: 'cpuNumber',
+  cpuSpeed: 'cpuSpeed',
+  created: 'created',
+  memory: 'memory',
+  networkRate: 'networkRate',
+  offerHa: 'oferHa',
+  limitCpu: 'limitCpu',
+  isVolatile: 'isVolatile',
+  isSystem: 'isSystem',
+  defaultUse: 'defaultUse',
+  deploymentPlanner: 'deploymentPlanner',
+  domain: 'domain',
+  diskBytesReadRate: 'diskBytesReadRate',
+  diskBytesWriteRate: 'diskBytesWriteRate',
+  diskIopsReadRate: 'diskIopsReadRate',
+  diskIopsWriteRate: 'diskIopsWriteRate'
+};
+
 @FieldMapper({
   cpunumber: 'cpuNumber',
   cpuspeed: 'cpuSpeed',

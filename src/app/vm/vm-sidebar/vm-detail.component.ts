@@ -22,6 +22,7 @@ import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { Color } from '../../shared/models/color.model';
 import { ZoneService } from '../../shared/services/zone.service';
+import { ServiceOfferingFields } from '../../shared/models/service-offering.model';
 
 
 @Component({
@@ -33,6 +34,9 @@ export class VmDetailComponent implements OnInit, OnChanges {
   @Input() public vm: VirtualMachine;
   public color: Color;
   public disableSecurityGroup = false;
+
+  public ServiceOfferingFields = ServiceOfferingFields;
+
   private expandNIC: boolean;
   private expandServiceOffering: boolean;
 
@@ -57,6 +61,22 @@ export class VmDetailComponent implements OnInit, OnChanges {
   public ngOnInit(): void {
     this.updateColor();
     this.checkSecurityGroupDisabled();
+  }
+
+  public isNotFormattedField(key: string): boolean {
+    return key !== ServiceOfferingFields.id &&
+      key !== ServiceOfferingFields.created &&
+      key !== ServiceOfferingFields.diskBytesReadRate &&
+      key !== ServiceOfferingFields.diskBytesWriteRate;
+  }
+
+  public isDateField(key: string): boolean {
+    return key === ServiceOfferingFields.created;
+  }
+
+  public isDiskStatsField(key: string): boolean {
+    return key === ServiceOfferingFields.diskBytesReadRate ||
+      key === ServiceOfferingFields.diskBytesWriteRate;
   }
 
   public changeColor(color: Color): void {
