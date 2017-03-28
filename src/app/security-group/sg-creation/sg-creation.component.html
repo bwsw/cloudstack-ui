@@ -56,12 +56,12 @@
       <cs-sg-creation-rule
         *ngFor="let item of selectedRules[0]"
         [item]="item"
-        [type]="'INGRESS'"
+        [type]="NetworkRuleTypes.Ingress"
       ></cs-sg-creation-rule>
       <cs-sg-creation-rule
         *ngFor="let item of selectedRules[1]"
         [item]="item"
-        [type]="'EGRESS'"
+        [type]="NetworkRuleTypes.Egress"
       ></cs-sg-creation-rule>
     </mdl-list>
   </div>

@@ -206,3 +206,12 @@ mdl-simple-tooltip div {
 .dialog-overflow-visible {
   overflow: visible !important;
 }
+
+.card-list-container > * {
+  margin-top: 15px;
+  margin-left: 15px;
+}
+
+.card-list-container:last-child {
+  margin-bottom: 15px;
+}

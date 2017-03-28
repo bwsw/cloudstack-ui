@@ -1,5 +1,6 @@
-<ng-container
+<div
   *ngIf="volumes"
+  class="card-list-container"
 >
   <cs-spare-drive-item
     *ngFor="let volume of volumes"
@@ -10,4 +11,4 @@
     (onDelete)="remove($event)"
     (onResize)="resize($event)"
   ></cs-spare-drive-item>
-</ng-container>
+</div>

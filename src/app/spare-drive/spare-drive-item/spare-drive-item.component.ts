@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, HostBinding } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { Volume } from '../../shared/models/volume.model';
 import { MdlDialogService } from 'angular2-mdl';
 import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
@@ -18,8 +18,6 @@ export class SpareDriveItemComponent {
   @Output() public onVolumeAttached = new EventEmitter<VolumeAttachmentData>();
   @Output() public onDelete = new EventEmitter();
   @Output() public onResize = new EventEmitter();
-
-  @HostBinding('class.grid') public grid = true;
 
   constructor(private dialogService: MdlDialogService) {}
 

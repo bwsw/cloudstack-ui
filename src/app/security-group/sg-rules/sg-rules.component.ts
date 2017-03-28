@@ -10,7 +10,7 @@ import { MdlDialogReference } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 
 import { SecurityGroupService } from '../../shared/services';
-import { SecurityGroup, NetworkRuleType } from '../sg.model';
+import { SecurityGroup, NetworkRuleType, NetworkRuleTypes, NetworkProtocol, NetworkProtocols } from '../sg.model';
 import { NotificationService } from '../../shared/services';
 
 
@@ -23,7 +23,7 @@ export class SgRulesComponent implements OnInit {
   @ViewChild('rulesForm') public rulesForm: NgForm;
 
   public type: NetworkRuleType;
-  public protocol: 'TCP'|'UDP'|'ICMP';
+  public protocol: NetworkProtocol;
   public startPort: number;
   public icmpType: number;
   public icmpCode: number;
@@ -31,6 +31,9 @@ export class SgRulesComponent implements OnInit {
   public cidr: string;
 
   public adding: boolean;
+
+  public NetworkProtocols = NetworkProtocols;
+  public NetworkRuleTypes = NetworkRuleTypes;
 
   constructor(
     public dialog: MdlDialogReference,
@@ -41,8 +44,8 @@ export class SgRulesComponent implements OnInit {
     private elementRef: ElementRef
   ) {
     this.cidr = '0.0.0.0/0';
-    this.protocol = 'TCP';
-    this.type = 'Ingress';
+    this.protocol = NetworkProtocols.TCP;
+    this.type = NetworkRuleTypes.Ingress;
     this.icmpCode = -1;
     this.icmpType = -1;
 
@@ -63,7 +66,7 @@ export class SgRulesComponent implements OnInit {
       cidrList: this.cidr
     };
 
-    if (this.protocol === 'ICMP') {
+    if (this.protocol === NetworkProtocols.ICMP) {
       params.icmptype = this.icmpType;
       params.icmpcode = this.icmpCode;
     } else {

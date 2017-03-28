@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { NetworkProtocols } from '../sg.model';
 
 
 @Component({
@@ -8,4 +9,6 @@ import { Component, Input } from '@angular/core';
 export class SgCreationRuleComponent {
   @Input() public item;
   @Input() public type: string;
+
+  public NetworkProtocols = NetworkProtocols;
 }
