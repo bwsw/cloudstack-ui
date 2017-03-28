@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class ServiceOfferingService extends OfferingService<ServiceOffering> {
   public getList(params?: any): Observable<Array<ServiceOffering>> {
-    if (!params || !params.zoneId) {
+    if (!params || !params.zoneId || !params.local) {
       return super.getList(params);
     }
 
