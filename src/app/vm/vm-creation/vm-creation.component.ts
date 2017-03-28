@@ -92,7 +92,6 @@ export class VmCreationComponent implements OnInit {
   public showRootDiskResize = false;
   public showSecurityGroups = true;
   private selectedDiskOffering: DiskOffering;
-  private shouldCreateAffinityGroup = false;
 
   constructor(
     private affinityGroupService: AffinityGroupService,
@@ -195,6 +194,15 @@ export class VmCreationComponent implements OnInit {
     let params: any = this.vmCreateParams;
     this.sgCreationInProgress = true;
 
+    let shouldCreateAffinityGroup = false;
+    let affinityGroupName = params['affinityGroupNames'];
+    if (affinityGroupName) {
+      const ind = this.vmCreationData.affinityGroups.findIndex(ag => ag.name === affinityGroupName);
+      if (ind === -1) {
+        shouldCreateAffinityGroup = true;
+      }
+    }
+
     this.securityGroupService.createWithRules(
       { name: this.utils.getUniqueId() + GROUP_POSTFIX },
       params.ingress || [],
@@ -203,7 +211,7 @@ export class VmCreationComponent implements OnInit {
       .switchMap(securityGroup => {
         params['securityGroupIds'] = securityGroup.id;
         this.sgCreationInProgress = false;
-        if (this.shouldCreateAffinityGroup) {
+        if (shouldCreateAffinityGroup) {
           this.agCreationInProgress = true;
           return this.affinityGroupService.create({
             name: this.vmCreationData.affinityGroupName,
@@ -242,6 +250,7 @@ export class VmCreationComponent implements OnInit {
         },
         err => {
           this.sgCreationInProgress = false;
+          this.agCreationInProgress = false;
           const response = err.json()[`deployvirtualmachineresponse`];
           if (response && response.cserrorcode === 4350) {
             this.takenName = this.vmCreationData.vm.displayName;
@@ -439,16 +448,11 @@ export class VmCreationComponent implements OnInit {
     if (this.vmCreationData.vm.displayName) {
       params['name'] = this.vmCreationData.vm.displayName;
     }
-    this.shouldCreateAffinityGroup = false;
-    let name = this.vmCreationData.affinityGroupName;
-    if (name) {
-      const affinityGroup = this.vmCreationData.affinityGroups.find(ag => ag.name === name);
-      if (affinityGroup) {
-        params['affinityGroupNames'] = affinityGroup.name;
-      } else {
-        this.shouldCreateAffinityGroup = true;
-      }
+    const affinityGroupName = this.vmCreationData.affinityGroupName;
+    if (affinityGroupName) {
+      params['affinityGroupNames'] = affinityGroupName;
     }
+
     if (this.selectedDiskOffering && !this.templateSelected) {
       params['diskofferingid'] = this.selectedDiskOffering.id;
       params['hypervisor'] = 'KVM';
