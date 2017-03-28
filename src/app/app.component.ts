@@ -62,8 +62,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.styleService.loadPalette();
 
     this.error.subscribe(e => this.handleError(e));
-    this.auth.isLoggedIn().subscribe(r => this.loggedIn = r);
     this.auth.loggedIn.subscribe(loggedIn => {
+      this.loggedIn = loggedIn;
       this.updateAccount(loggedIn);
       if (loggedIn) {
         this.zoneService.areAllZonesBasic()
@@ -133,12 +133,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   private updateAccount(loggedIn: boolean): void {
-    this.loggedIn = loggedIn;
     if (loggedIn) {
       this.title = this.auth.name;
-    } else {
-      this.router.navigate(['/login'])
-        .then(() => location.reload());
     }
   }
 

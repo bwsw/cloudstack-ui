@@ -8,6 +8,7 @@ import {
   VolumeService
 } from '../shared';
 import { AffinityGroupService } from '../shared/services/affinity-group.service';
+import { AsyncJobService } from '../shared/services/async-job.service';
 
 
 @Component({
@@ -24,11 +25,13 @@ export class LoginComponent {
     private affinityGroupService: AffinityGroupService,
     @Inject('INotificationService') private notification: INotificationService,
     private router: Router,
+    private asyncJobService: AsyncJobService,
     private securityGroupService: SecurityGroupService,
     private volumeService: VolumeService
   ) {
     this.username = '';
     this.password = '';
+    this.asyncJobService.completeAllJobs();
   }
 
   public onSubmit(): void {
