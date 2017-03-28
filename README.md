@@ -111,7 +111,7 @@ From the perspective of the system behaviour we changed it sometimes, e.g. when 
 
 #### New virtual machine form
 
-We changed new virtual machine screen a lot. Now it's one step and it allows select everything from one screen without additional steps and so on. We believe it's much better to regular user than the one which is used in native UI. It also generates meaningful VM name from username like `vm-<username>-<counter>`. Other important thing is that the form immediately checks that user has required amount of resources to create the virtual machine and thus it doesn't allow him to launch creation of impossible things which will fail for sure.
+We changed new virtual machine form a lot. Now it's one step and it allows select everything from one screen without additional steps and so on. We believe it's much better to regular user than the one which is used in native UI. It also generates meaningful VM name from username like `vm-<username>-<counter>`. Other important thing is that the form immediately checks that user has required amount of resources to create the virtual machine and thus it doesn't allow him to launch creation of impossible things which will fail for sure.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVMView.png" target="_blank">![New Virtual Machine View](./screens/newVMView_mini.png)</a>
 
