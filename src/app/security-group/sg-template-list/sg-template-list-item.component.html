@@ -4,43 +4,41 @@
   </mdl-card-title>
   <mdl-card-supporting-text>
     <div class="card-wrapper">
-      <div>
-        <div class="description">{{ 'DESCRIPTION' | translate }}: </div>
-        <div class="domain">{{ 'DOMAIN' | translate }}: </div>
-      </div>
-      <div>
-        <div class="description">
-          <span
-            *ngIf="securityGroupTemplate.description"
-            [mdl-tooltip]="securityGroupTemplate.description"
-          >
-            {{ securityGroupTemplate.description }}
-          </span>
-        </div>
-        <div class="domain">
-          <span
-            *ngIf="securityGroupTemplate.domain"
-            [mdl-tooltip]="securityGroupTemplate.domain"
-          >
-            {{ securityGroupTemplate.domain }}
-          </span>
-        </div>
+      <div class="description">{{ 'DESCRIPTION' | translate }}: </div>
+      <div class="description">
+        <span
+          *ngIf="securityGroupTemplate.description"
+          [mdl-tooltip]="securityGroupTemplate.description"
+          mdl-tooltip-position="top"
+        >
+          {{ securityGroupTemplate.description }}
+        </span>
       </div>
     </div>
   </mdl-card-supporting-text>
   <mdl-card-menu>
     <button
+      *ngIf="!securityGroupTemplate.isPredefinedTemplate"
       mdl-button
       (click)="$event.stopPropagation(); myPopover.toggle($event)"
       mdl-button-type="icon"
+      mdl-tooltip-position="bottom"
       mdl-ripple>
       <mdl-icon>more_vert</mdl-icon>
     </button>
+    <button
+      *ngIf="securityGroupTemplate.isPredefinedTemplate"
+      mdl-button
+      mdl-button-type="icon"
+      mdl-tooltip-position="bottom"
+      [mdl-tooltip]="'VIEW' | translate"
+      (click)="onClick.emit()"
+    >
+      <mdl-icon>visibility</mdl-icon>
+    </button>
   </mdl-card-menu>
   <mdl-popover
-    class="card-popover"
-    [class.predefined-sg-popover]="securityGroupTemplate.isPredefinedTemplate()"
-    [class.sg-popover]="!securityGroupTemplate.isPredefinedTemplate()"
+    class="card-popover sg-popover"
     #myPopover
     [hide-on-click]="true"
     [style.width.px]="300"
@@ -50,18 +48,12 @@
         mdl-button
         mdl-button-type="icon"
         mdl-tooltip-position="bottom"
-        [mdl-tooltip]="(securityGroupTemplate.isPredefinedTemplate() ? 'VIEW' : 'EDIT') | translate"
+        [mdl-tooltip]="'EDIT' | translate"
         (click)="onClick.emit()"
       >
-        <mdl-icon *ngIf="securityGroupTemplate.isPredefinedTemplate()">
-          visibility
-        </mdl-icon>
-        <mdl-icon *ngIf="!securityGroupTemplate.isPredefinedTemplate()">
-          edit
-        </mdl-icon>
+        <mdl-icon>edit</mdl-icon>
       </button>
       <button
-        *ngIf="!securityGroupTemplate.isPredefinedTemplate()"
         mdl-button
         mdl-button-type="icon"
         mdl-tooltip-position="bottom"

@@ -1,5 +1,5 @@
 <h3 class="mdl-dialog__title">
-  {{ (securityGroup.isPredefinedTemplate() ? 'TEMPLATE_RULES' : 'EDIT_RULES') | translate }}
+  {{ (securityGroup.isPredefinedTemplate ? 'TEMPLATE_RULES' : 'EDIT_RULES') | translate }}
 </h3>
 <div class="mdl-dialog__content">
   <form #rulesForm="ngForm">
@@ -21,7 +21,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngIf="!securityGroup.isPredefinedTemplate()">
+      <tr *ngIf="!securityGroup.isPredefinedTemplate">
         <td class="mdl-data-table__cell--non-numeric">
           <mdl-select class="type" [(ngModel)]="type" name="type">
             <mdl-option [value]="'Ingress'">{{ 'INGRESS' | translate }}</mdl-option>
@@ -112,7 +112,7 @@
             mdl-button
             mdl-button-type="icon"
             (click)="addRule($event)"
-            disabled="{{ securityGroup.isPredefinedTemplate() || adding || rulesForm.form.invalid }}"
+            disabled="{{ securityGroup.isPredefinedTemplate || adding || rulesForm.form.invalid }}"
           >
             <mdl-icon *ngIf="!adding">add</mdl-icon>
             <mdl-spinner single-color active *ngIf="adding"></mdl-spinner>
@@ -123,7 +123,7 @@
         *ngFor="let rule of securityGroup?.ingressRules"
         [type]="'Ingress'"
         [rule]="rule"
-        [canRemove]="!securityGroup.isPredefinedTemplate()"
+        [canRemove]="!securityGroup.isPredefinedTemplate"
         (onRemove)="removeRule($event)"
       >
       </cs-security-group-rule>
@@ -131,7 +131,7 @@
         *ngFor="let rule of securityGroup?.egressRules"
         [type]="'Egress'"
         [rule]="rule"
-        [canRemove]="!securityGroup.isPredefinedTemplate()"
+        [canRemove]="!securityGroup.isPredefinedTemplate"
         (onRemove)="removeRule($event)"
       >
       </cs-security-group-rule>

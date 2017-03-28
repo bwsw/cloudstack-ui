@@ -1,12 +1,24 @@
 <cs-list>
   <cs-top-bar cs-panels></cs-top-bar>
-  <ng-container *loading="!securityGroupList" cs-card-list>
-    <cs-security-group-template-list-item
-      *ngFor="let group of securityGroupList"
-      [securityGroupTemplate]="group"
-      (onClick)="showRulesDialog(group)"
-      (onDelete)="deleteSecurityGroupTemplate($event)"
-    ></cs-security-group-template-list-item>
+
+  <ng-container *loading="!predefinedSecurityGroupList || !customSecurityGroupList" cs-card-list>
+    <ng-container *ngIf="predefinedSecurityGroupList.length">
+      <h4 class="section-header">{{ "SYSTEM_SECURITY_GROUPS" | translate }}</h4>
+      <cs-security-group-template-list-item
+        *ngFor="let group of predefinedSecurityGroupList"
+        [securityGroupTemplate]="group"
+        (onClick)="showRulesDialog(group)"
+      ></cs-security-group-template-list-item>
+    </ng-container>
+
+    <ng-container *ngIf="customSecurityGroupList.length">
+      <h4 class="section-header">{{ "CUSTOM_SECURITY_GROUPS" | translate }}</h4>
+      <cs-security-group-template-list-item
+        *ngFor="let group of customSecurityGroupList"
+        [securityGroupTemplate]="group"
+        (onClick)="showRulesDialog(group)"
+        (onDelete)="deleteSecurityGroupTemplate($event)"
+      ></cs-security-group-template-list-item>
+    </ng-container>
   </ng-container>
-  <cs-fab (click)="showCreationDialog()"></cs-fab>
 </cs-list>

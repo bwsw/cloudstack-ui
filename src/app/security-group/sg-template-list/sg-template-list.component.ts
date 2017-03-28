@@ -8,19 +8,24 @@ import { SecurityGroup } from '../sg.model';
 import { SgTemplateCreationComponent } from '../sg-template-creation/sg-template-creation.component';
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
 import { NotificationService } from '../../shared/services/notification.service';
+import { ListService } from '../../shared/components/list/list.service';
+
 
 @Component({
   selector: 'cs-security-group-template-list',
-  templateUrl: 'sg-template-list.component.html'
+  templateUrl: 'sg-template-list.component.html',
+  providers: [ListService]
 })
 export class SgTemplateListComponent implements OnInit {
-  private securityGroupList: Array<SecurityGroup>;
+  public predefinedSecurityGroupList: Array<SecurityGroup>;
+  public customSecurityGroupList: Array<SecurityGroup>;
 
   constructor(
     private securityGroupService: SecurityGroupService,
     private dialogService: MdlDialogService,
     private translate: TranslateService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private listService: ListService
   ) { }
 
   public ngOnInit(): void {
@@ -30,9 +35,12 @@ export class SgTemplateListComponent implements OnInit {
       'tags[0].value': 'true'
     });
 
+    this.listService.onAction.subscribe(() => this.showCreationDialog());
+
     Observable.forkJoin([securityGroupTemplates, accountSecurityGroups])
       .subscribe(([templates, groups]) => {
-        this.securityGroupList = templates.concat(groups);
+        this.predefinedSecurityGroupList = templates;
+        this.customSecurityGroupList = groups;
       });
   }
 
@@ -44,7 +52,7 @@ export class SgTemplateListComponent implements OnInit {
         return this.securityGroupService.createTemplate(data);
       })
       .subscribe(template => {
-        this.securityGroupList.push(template);
+        this.customSecurityGroupList.push(template);
         this.notificationService.message(translatedString);
       });
   }
@@ -70,7 +78,7 @@ export class SgTemplateListComponent implements OnInit {
       .switchMap(() => this.securityGroupService.deleteTemplate(securityGroup.id))
       .subscribe(res => {
           if (res && res.success === 'true') {
-            this.securityGroupList = this.securityGroupList.filter(sg => sg.id !== securityGroup.id);
+            this.customSecurityGroupList = this.customSecurityGroupList.filter(sg => sg.id !== securityGroup.id);
             this.notificationService.message(translatedStrings['TEMPLATE_DELETED']);
           }
         },

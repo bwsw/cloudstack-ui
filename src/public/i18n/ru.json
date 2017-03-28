@@ -425,5 +425,7 @@
   "INCORRECT_FORMAT": "Неверный формат",
   "REMOVE_THIS_KEY": "Вы уверены, что хотите удалить этот ключ?",
   "KEY_REMOVAL_FAILED": "Не удалось удалить ключ",
-  "NO_AVAILABLE_OFFERINGS": "Нет доступных предложений"
+  "NO_AVAILABLE_OFFERINGS": "Нет доступных предложений",
+  "SYSTEM_SECURITY_GROUPS": "Системные",
+  "CUSTOM_SECURITY_GROUPS": "Пользовательские"
 }

@@ -55,7 +55,7 @@ export class SecurityGroup extends BaseModel {
     }
   }
 
-  public isPredefinedTemplate(): boolean {
+  public get isPredefinedTemplate(): boolean {
     return this.id.startsWith('template');
   }
 }
