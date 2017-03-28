@@ -38,6 +38,9 @@ export class TemplateFiltersComponent implements OnInit {
     'self'
   ];
 
+  private templateTabIndex = 0;
+  private isoTabIndex = 1;
+
   private queryStream = new Subject<string>();
 
   constructor(
@@ -66,6 +69,15 @@ export class TemplateFiltersComponent implements OnInit {
         });
         this.filterTranslations = strs;
       });
+  }
+
+  public get templateSwitchPosition(): number {
+    return this.showIso ? this.isoTabIndex : this.templateTabIndex;
+  }
+
+  public setMode(index: number): void {
+    this.showIso = index === this.isoTabIndex;
+    this.updateDisplayMode();
   }
 
   public updateFilters(): void {

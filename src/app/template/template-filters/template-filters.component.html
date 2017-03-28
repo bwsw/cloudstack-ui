@@ -2,19 +2,27 @@
   <mdl-card
     class="options-panel top-bar-height"
   >
-    <div
+    <mdl-tabs
       class="template-iso-switch"
+      mdl-ripple
+      [mdl-tab-active-index]="templateSwitchPosition"
+      (mdl-tab-active-changed)="setMode($event.index)"
       *ngIf="showIsoSwitch"
     >
-      <span class="mdl-switch__label">{{ 'TEMPLATES' | translate }}</span>
-      <mdl-switch
-        [(ngModel)]="showIso"
-        (click)="updateDisplayMode()"
-      >{{ 'ISO' | translate }}</mdl-switch>
-    </div>
+      <mdl-tab-panel>
+        <mdl-tab-panel-title>
+          <span>{{ 'TEMPLATES' | translate }}</span>
+        </mdl-tab-panel-title>
+      </mdl-tab-panel>
+      <mdl-tab-panel>
+        <mdl-tab-panel-title>
+          <span>{{ 'ISO' | translate }}</span>
+        </mdl-tab-panel-title>
+      </mdl-tab-panel>
+    </mdl-tabs>
 
     <mdl-select
-      class="os-type-select"
+      class="filter-select"
       [(ngModel)]="selectedOsFamilies"
       (ngModelChange)="updateFilters()"
       multiple="true"
@@ -51,19 +59,27 @@
   [class.delimiter]="showDelimiter"
   *ngIf="dialogMode"
 >
-  <div
+  <mdl-tabs
     class="template-iso-switch"
+    mdl-ripple
+    [mdl-tab-active-index]="templateSwitchPosition"
+    (mdl-tab-active-changed)="setMode($event.index)"
     *ngIf="showIsoSwitch"
   >
-    <span class="mdl-switch__label">{{ 'TEMPLATES' | translate }}</span>
-    <mdl-switch
-      [(ngModel)]="showIso"
-      (click)="updateDisplayMode()"
-    >{{ 'ISO' | translate }}</mdl-switch>
-  </div>
+    <mdl-tab-panel>
+      <mdl-tab-panel-title>
+        <span>{{ 'TEMPLATES' | translate }}</span>
+      </mdl-tab-panel-title>
+    </mdl-tab-panel>
+    <mdl-tab-panel>
+      <mdl-tab-panel-title>
+        <span>{{ 'ISO' | translate }}</span>
+      </mdl-tab-panel-title>
+    </mdl-tab-panel>
+  </mdl-tabs>
 
   <mdl-select
-    class="os-type-select"
+    class="filter-select"
     [(ngModel)]="selectedOsFamilies"
     (ngModelChange)="updateFilters()"
     multiple="true"

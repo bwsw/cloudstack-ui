@@ -2,15 +2,22 @@
 
 .template-iso-switch {
   display: inline-flex;
-  align-items: center;
-  min-height: 67px;
-
-  mdl-switch {
-    margin: 0 40px;
-  }
+  width: initial;
+  position: relative;
+  top: 9px;
+  margin: 0 20px 20px 20px;
 }
 
-.os-type-select {
+:host /deep/ .mdl-tabs__tab-bar {
+  height: 32px;
+}
+
+:host /deep/ .mdl-tabs__tab {
+  height: 32px;
+  line-height: 32px;
+}
+
+.filter-select {
   display: inline-block;
   width: $template-filter-select-width;
   margin: 0 20px;
