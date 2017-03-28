@@ -31,8 +31,8 @@ describe('Base backend service', () => {
   ];
 
   class MockError extends Response implements Error {
-    name: string;
-    message: string;
+    public name: string;
+    public message: string;
   }
 
   class TestModel extends BaseModel {
@@ -82,7 +82,8 @@ describe('Base backend service', () => {
             'mockerrorresponse': {
               'cserrorcode': 4350,
               'errorcode': 431,
-              'errortext': 'The vm with hostName test already exists in the network domain: cs1cloud.internal; network=Ntwk[204|Guest|6]',
+              'errortext': `The vm with hostName test already exists in the network domain:
+                cs1cloud.internal; network=Ntwk[204|Guest|6]`,
               'uuidList': []
             }
           }
@@ -156,6 +157,7 @@ describe('Base backend service', () => {
           expect(error).toBeDefined();
           expect(error.errorcode).toBeDefined();
           expect(error.errortext).toBeDefined();
+          expect(error.message).toBeDefined();
         }
       );
   })));

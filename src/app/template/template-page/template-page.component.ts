@@ -76,7 +76,7 @@ export class TemplatePageComponent implements OnInit {
     } else {
       obs = this.templateService.register(templateData);
     }
-    obs .subscribe(
+    obs.subscribe(
       () => {
         this.filterList.updateList();
         this.jobNotificationService.finish({
@@ -85,7 +85,7 @@ export class TemplatePageComponent implements OnInit {
         });
       },
       error => {
-        this.notificationService.error(error.json()['registerisoresponse']['errortext']);
+        this.notificationService.error(error.message);
         this.jobNotificationService.fail({
           id: notificationId,
           message: `${currentMode}_REGISTER_FAILED`,

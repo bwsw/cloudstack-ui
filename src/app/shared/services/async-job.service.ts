@@ -4,6 +4,7 @@ import { Subject, Observable } from 'rxjs/Rx';
 import { AsyncJob } from '../models/async-job.model';
 import { BaseBackendService } from './base-backend.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
+import { ErrorService } from './error.service';
 
 
 interface IJobObservables {
@@ -102,7 +103,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
             jobSubject.next(this.getResult(asyncJob, entity, entityModel));
           } break;
           case JobStatus.Failed: {
-            jobSubject.error(this.getResponse({ error: asyncJob.result }));
+            jobSubject.error(ErrorService.parseError(this.getResponse({ error: asyncJob.result })));
             break;
           }
         }

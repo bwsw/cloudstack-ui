@@ -53,14 +53,14 @@ describe('Async job service', () => {
   const queryFailedJobResponse = {
     status: 200,
     body: {
-      "queryasyncjobresultresponse": {
-        "jobid": "06d1c912-1273-404f-96d9-7a89ccef4d51",
-        "jobresult": {
-          "errorcode": 530,
-          "errortext": "Failed to authorize security group ingress rule(s)"
+      queryasyncjobresultresponse: {
+        jobid: '06d1c912-1273-404f-96d9-7a89ccef4d51',
+        jobresult: {
+          errorcode: 530,
+          errortext: 'Failed to authorize security group ingress rule(s)'
         },
-        "jobresultcode": 530,
-        "jobstatus": 2,
+        jobresultcode: 530,
+        jobstatus: 2,
       }
     }
   };
@@ -139,6 +139,7 @@ describe('Async job service', () => {
           expect(error).toBeDefined();
           expect(error.errorcode).toBeDefined();
           expect(error.errortext).toBeDefined();
+          expect(error.message).toBeDefined();
         }
       );
     tick(3000);
