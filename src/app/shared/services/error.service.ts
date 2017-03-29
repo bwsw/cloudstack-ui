@@ -45,10 +45,10 @@ export class ErrorService extends Subject<any> {
     } else {
       error.message = err.translation;
 
-      const params = (new RegExp(err.regex)).exec(error.errortext);
-      params.shift();
+      const matches = (new RegExp(err.regex)).exec(error.errortext);
+      matches.shift();
       const translationParams = {};
-      params.forEach((val, index) => translationParams[`val${index + 1}`] = val);
+      matches.forEach((val, index) => translationParams[`val${index + 1}`] = val);
       error.params = translationParams;
     }
 
