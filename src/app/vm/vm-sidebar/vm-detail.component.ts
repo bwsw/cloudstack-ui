@@ -64,10 +64,12 @@ export class VmDetailComponent implements OnInit, OnChanges {
   }
 
   public isNotFormattedField(key: string): boolean {
-    return key !== ServiceOfferingFields.id &&
-      key !== ServiceOfferingFields.created &&
-      key !== ServiceOfferingFields.diskBytesReadRate &&
-      key !== ServiceOfferingFields.diskBytesWriteRate;
+    return [
+      ServiceOfferingFields.id,
+      ServiceOfferingFields.created,
+      ServiceOfferingFields.diskBytesReadRate,
+      ServiceOfferingFields.diskBytesWriteRate
+    ].indexOf(key) === -1;
   }
 
   public isDateField(key: string): boolean {
@@ -75,8 +77,10 @@ export class VmDetailComponent implements OnInit, OnChanges {
   }
 
   public isDiskStatsField(key: string): boolean {
-    return key === ServiceOfferingFields.diskBytesReadRate ||
-      key === ServiceOfferingFields.diskBytesWriteRate;
+    return [
+      ServiceOfferingFields.diskBytesReadRate,
+      ServiceOfferingFields.diskBytesWriteRate
+    ].indexOf(key) > -1;
   }
 
   public changeColor(color: Color): void {
