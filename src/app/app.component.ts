@@ -22,6 +22,7 @@ import { StyleService } from './shared/services/style.service';
 import { ZoneService } from './shared/services/zone.service';
 import { Color } from './shared/models/color.model';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { AsyncJobService } from './shared/services/async-job.service';
 
 
 @Component({
@@ -48,6 +49,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private layoutService: LayoutService,
     @Inject('INotificationService') private notification: INotificationService,
     private styleService: StyleService,
+    private asyncJobService: AsyncJobService,
     private zoneService: ZoneService
   ) {
     this.title = this.auth.name;
@@ -68,6 +70,8 @@ export class AppComponent implements OnInit, AfterViewInit {
       if (loggedIn) {
         this.zoneService.areAllZonesBasic()
           .subscribe(basic => this.disableSecurityGroups = basic);
+      } else {
+        this.asyncJobService.completeAllJobs();
       }
     });
 
