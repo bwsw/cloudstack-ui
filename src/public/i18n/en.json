@@ -423,5 +423,6 @@
   "FROM": "From {{ lowerLimit }}",
   "INCORRECT_FORMAT": "Incorrect format",
 
-  "ARE_YOU_SURE_ADD_SECONDARY_IP": "Are you sure you want to add a secondary IP?"
+  "ARE_YOU_SURE_ADD_SECONDARY_IP": "Are you sure you want to add a secondary IP?",
+  "ARE_YOU_SURE_REMOVE_SECONDARY_IP": "Are you sure you want to remove this secondary IP?"
 }

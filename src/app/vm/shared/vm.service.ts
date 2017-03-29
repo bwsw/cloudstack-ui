@@ -261,6 +261,11 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       .switchMap(job => this.asyncJobService.queryJob(job.jobid));
   }
 
+  public removeIpFromNic(ipId: string): Observable<any> {
+    return this.sendCommand('removeIpFrom', { id: ipId }, 'Nic')
+      .switchMap(job => this.asyncJobService.queryJob(job.jobid));
+  }
+
   public getColor(vm: VirtualMachine): Color {
     if (vm.tags) {
       let colorTag = vm.tags.find(tag => tag.key === 'color');

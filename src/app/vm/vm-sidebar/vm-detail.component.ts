@@ -34,8 +34,8 @@ export class VmDetailComponent implements OnInit, OnChanges {
   @Input() public vm: VirtualMachine;
   public color: Color;
   public disableSecurityGroup = false;
-  private expandNIC: boolean;
-  private expandServiceOffering: boolean;
+  public expandNIC: boolean;
+  public expandServiceOffering: boolean;
 
   constructor(
     private dialogService: MdlDialogService,
@@ -120,6 +120,13 @@ export class VmDetailComponent implements OnInit, OnChanges {
       .subscribe(() => this.addSecondaryIp(vm));
   }
 
+  public confirmRemoveSecondaryIp(secondaryIpId: string, vm: VirtualMachine): void {
+    this.translateService.get('ARE_YOU_SURE_REMOVE_SECONDARY_IP')
+      .switchMap(str => this.dialogService.confirm(str))
+      .onErrorResumeNext()
+      .subscribe(() => this.removeSecondaryIp(secondaryIpId, vm));
+  }
+
   public changeServiceOffering(): void {
     this.dialogService.showCustomDialog({
       component: ServiceOfferingDialogComponent,
@@ -134,6 +141,16 @@ export class VmDetailComponent implements OnInit, OnChanges {
         res => {
           const ip = res.result.nicsecondaryip;
           vm.nic[0].secondaryIp.push(ip);
+        },
+        err => this.dialogService.alert(err.errortext)
+      );
+  }
+
+  private removeSecondaryIp(secondaryIpId: string, vm: VirtualMachine): void {
+    this.vmService.removeIpFromNic(secondaryIpId)
+      .subscribe(
+        () => {
+          vm.nic[0].secondaryIp = vm.nic[0].secondaryIp.filter(ip => ip.id !== secondaryIpId);
         },
         err => this.dialogService.alert(err.errortext)
       );

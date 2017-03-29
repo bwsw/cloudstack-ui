@@ -26,8 +26,8 @@
   float: right;
 }
 
-.add-secondary-ip-button {
-  float: left;
+.secondary-ips {
+  margin-left: 5%;
 }
 
 .change-offering-button {
@@ -46,4 +46,14 @@
 
 :host /deep/ .mdl-textfield {
   width: 330px;
+}
+
+.mdl-icon-button--small {
+  min-width: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.mdl-icon--small {
+  font-size: 20px;
 }
