@@ -53,7 +53,7 @@ export abstract class OfferingService<T extends BaseModel> extends BaseBackendSe
           return list;
         }
         return list.filter(offering => offering.isLocal === params.local);
-      })
+      });
   }
 
   protected abstract isOfferingAvailableInZone(

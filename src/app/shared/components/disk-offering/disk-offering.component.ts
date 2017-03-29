@@ -32,7 +32,7 @@ export class DiskOfferingComponent implements OnChanges {
         return this.diskOfferingService.getList({
           zoneId: this.zoneId,
           local: zone.localStorageEnabled
-        })
+        });
       })
       .subscribe((result: Array<DiskOffering>) => {
         if (result.length) {
