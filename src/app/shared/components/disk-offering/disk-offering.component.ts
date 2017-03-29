@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DiskOffering, DiskOfferingService } from '../..';
+import { ZoneService } from '../../services/zone.service';
 
 @Component({
   selector: 'cs-disk-offering',
@@ -13,7 +14,10 @@ export class DiskOfferingComponent implements OnChanges {
 
   public selectedDiskOffering: DiskOffering;
 
-  constructor(private diskOfferingService: DiskOfferingService) { }
+  constructor(
+    private diskOfferingService: DiskOfferingService,
+    private zoneService: ZoneService
+  ) { }
 
   public updateDiskOffering(offering): void {
     this.offeringUpdated.emit(offering);
@@ -23,7 +27,13 @@ export class DiskOfferingComponent implements OnChanges {
     if (!changes['zoneId']) {
       return;
     }
-    this.diskOfferingService.getList({ zoneId: this.zoneId })
+    this.zoneService.get(this.zoneId)
+      .switchMap(zone => {
+        return this.diskOfferingService.getList({
+          zoneId: this.zoneId,
+          local: zone.localStorageEnabled
+        })
+      })
       .subscribe((result: Array<DiskOffering>) => {
         if (result.length) {
           this.diskOfferingList = result;

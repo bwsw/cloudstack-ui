@@ -331,7 +331,10 @@ export class VmCreationComponent implements OnInit {
           zoneId: id,
           local: this.selectedZone.localStorageEnabled
         }),
-        this.diskOfferingService.getList({ zoneId: id })
+        this.diskOfferingService.getList({
+          zoneId: id,
+          local: this.selectedZone.localStorageEnabled
+        })
       ])
         .subscribe(([serviceOfferings, diskOfferings]) => {
           this.vmCreationData.serviceOfferings = serviceOfferings;
@@ -385,7 +388,6 @@ export class VmCreationComponent implements OnInit {
           this.sshService.getList(),
           this.templateService.getDefault(),
           this.vmService.getInstanceGroupList(),
-          this.diskOfferingService.getList({ zoneId: vmCreationData.vm.zoneId }),
           this.securityGroupService.getTemplates()
         ]);
       })
@@ -395,7 +397,6 @@ export class VmCreationComponent implements OnInit {
         sshKeyPairs,
         template,
         instanceGroups,
-        diskOfferings,
         securityGroupTemplates
       ]) => {
         vmCreationData.rootDiskSizeLimit = rootDiskSizeLimit;
@@ -403,7 +404,6 @@ export class VmCreationComponent implements OnInit {
         vmCreationData.sshKeyPairs = sshKeyPairs;
         vmCreationData.vm.template = template;
         vmCreationData.instanceGroups = instanceGroups.map(group => group.name);
-        vmCreationData.diskOfferings = diskOfferings;
 
         let preselectedSecurityGroups = securityGroupTemplates.filter(securityGroup => securityGroup.preselected);
         this.securityRules = Rules.createWithAllRulesSelected(preselectedSecurityGroups);

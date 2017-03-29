@@ -47,7 +47,13 @@ export abstract class OfferingService<T extends BaseModel> extends BaseBackendSe
         return list.filter(offering => {
           return this.isOfferingAvailableInZone(offering, offeringAvailability, zoneId);
         });
-      });
+      })
+      .map(list => {
+        if (!params || params.local === undefined) {
+          return list;
+        }
+        return list.filter(offering => offering.isLocal === params.local);
+      })
   }
 
   protected abstract isOfferingAvailableInZone(

@@ -1,5 +1,6 @@
 import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators/field-mapper.decorator';
+import { StorageTypes } from './service-offering.model';
 
 
 @FieldMapper({
@@ -7,7 +8,8 @@ import { FieldMapper } from '../decorators/field-mapper.decorator';
   displaytext: 'displayText',
   iscustomized: 'isCustomized',
   miniops: 'minIops',
-  maxIops: 'maxIops'
+  maxIops: 'maxIops',
+  storagetype: 'storageType'
 })
 export class DiskOffering extends BaseModel {
   public id: string;
@@ -20,4 +22,9 @@ export class DiskOffering extends BaseModel {
   public diskIopsReadRate: number;
   public diskIopsWriteRate: number;
   public isCustomized: boolean;
+  public storageType: string;
+
+  public get isLocal(): boolean {
+    return this.storageType === StorageTypes.local;
+  }
 }
