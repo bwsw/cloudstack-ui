@@ -52,13 +52,18 @@
     <mdl-card-supporting-text>
       <div class="grid service-offering" [class.open]="expandServiceOffering">
         <div class="row" *ngFor="let key of vm.serviceOffering.keys">
-          <template [ngIf]="key !== 'id' && key !== 'created'">
+          <template [ngIf]="isNotFormattedField(key)">
             <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
             <div>{{ vm.serviceOffering[key] | viewValue | async }}</div>
           </template>
-          <template [ngIf]="key === 'created'">
+          <template [ngIf]="isDateField(key)">
             <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
             <div>{{ vm.serviceOffering[key] | date }}</div>
+          </template>
+          <template [ngIf]="isDiskStatsField(key)"
+          >
+            <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
+            <div>{{ vm.serviceOffering[key] | division:10:6 }}</div>
           </template>
         </div>
       </div>
@@ -97,7 +102,7 @@
       <div class="collapsed-panel grid nic" *ngIf="!expandNIC">
         <div class="row" *ngFor="let nic of vm.nic; let i = index">
           <div>
-            {{ 'NIC' | translate }} {{i+1}}
+            {{ 'NIC' | translate }} {{ i+1 }}
           </div>
           <div>
             {{ nic.ipAddress }}

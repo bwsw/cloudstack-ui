@@ -18,6 +18,7 @@ import { Color } from '../../shared/models/color.model';
 import { ZoneService } from '../../shared/services/zone.service';
 import { InstanceGroupService } from '../../shared/services/instance-group.service';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
+import { ServiceOfferingFields } from '../../shared/models/service-offering.model';
 
 
 @Component({
@@ -31,6 +32,9 @@ export class VmDetailComponent implements OnChanges {
   public disableSecurityGroup = false;
   public groupName: string;
   public groupNames: Array<string>;
+
+  public ServiceOfferingFields = ServiceOfferingFields;
+
   private expandNIC: boolean;
   private expandServiceOffering: boolean;
 
@@ -61,6 +65,26 @@ export class VmDetailComponent implements OnChanges {
         this.vmService.updateVmInfo(vm);
         this.updateGroups();
       });
+  }
+
+  public isNotFormattedField(key: string): boolean {
+    return [
+      ServiceOfferingFields.id,
+      ServiceOfferingFields.created,
+      ServiceOfferingFields.diskBytesReadRate,
+      ServiceOfferingFields.diskBytesWriteRate
+    ].indexOf(key) === -1;
+  }
+
+  public isDateField(key: string): boolean {
+    return key === ServiceOfferingFields.created;
+  }
+
+  public isDiskStatsField(key: string): boolean {
+    return [
+      ServiceOfferingFields.diskBytesReadRate,
+      ServiceOfferingFields.diskBytesWriteRate
+    ].indexOf(key) > -1;
   }
 
   public changeColor(color: Color): void {
