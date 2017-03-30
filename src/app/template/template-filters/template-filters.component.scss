@@ -4,8 +4,7 @@
   display: inline-flex;
   width: initial;
   position: relative;
-  top: 9px;
-  margin: 0 20px 20px 20px;
+  margin: 19px;
 }
 
 :host /deep/ .mdl-tabs__tab-bar {
@@ -18,23 +17,24 @@
 }
 
 .filter-select {
-  display: inline-block;
+  display: inline-flex;
   width: $template-filter-select-width;
   margin: 0 20px;
 }
 
 .filter-select-container {
-  display: inline-block;
+  display: inline-flex;
 }
 
 .search-bar {
+  display: flex;
   max-width: 100%;
   white-space: nowrap;
   margin: 0;
   padding: 0 15px;
 
   mdl-icon {
-    vertical-align: middle;
+    align-self: center;
   }
 
   /deep/ mdl-textfield {

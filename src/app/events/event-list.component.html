@@ -10,6 +10,7 @@
       (ngModelChange)="filterEvents($event)"
     ></cs-date-picker>
     <mdl-select
+      class="event-type-select"
       [(ngModel)]="selectedLevels"
       (change)="filterEvents()"
       multiple="true"

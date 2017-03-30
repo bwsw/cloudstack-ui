@@ -1,6 +1,6 @@
 <div class="security-group-template-form">
   <h3 class="mdl-dialog__title">{{ 'CREATE_NEW_TEMPLATE' | translate }}</h3>
-  <form (ngSubmit)="onSubmit($event)" #templateCreationForm="ngForm">
+  <form (ngSubmit)="onSubmit($event)" #templateCreationForm="ngForm" novalidate>
     <div class="mdl-dialog__content">
       <mdl-textfield
         type="text"

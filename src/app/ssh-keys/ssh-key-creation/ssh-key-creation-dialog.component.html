@@ -1,6 +1,6 @@
 <div class="ssh-creation-form">
   <h3 class="mdl-dialog__title">{{ 'CREATE_SSH_KEY' | translate }}</h3>
-  <form (ngSubmit)="onSubmit($event)" #sshCreationForm="ngForm">
+  <form (ngSubmit)="onSubmit($event)" #sshCreationForm="ngForm" novalidate>
     <div class="mdl-dialog__content">
       <mdl-textfield
         type="text"

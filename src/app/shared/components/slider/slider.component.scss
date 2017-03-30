@@ -1,6 +1,11 @@
 .custom-slider {
   display: flex;
   justify-content: space-between;
+
+  & h5 {
+    margin: 0;
+    align-self: center;
+  }
 }
 
 .custom-slider-input {
@@ -9,10 +14,15 @@
     font-size: 20px;
   }
   width: 50px;
-  display: inline-block;
+  display: inline-flex;
 }
 
 .custom-slider-label {
-  display: inline-block;
+  align-self: center;
+  display: inline-flex;
   font-size: 20px;
+}
+
+.current-value {
+  display: flex;
 }

@@ -1,6 +1,6 @@
 <div>
   <h3 class="mdl-dialog__title">{{ 'VOLUME_CREATION_FORM.NEW_VOLUME' | translate }}</h3>
-  <form (ngSubmit)="onCreate($event)" #volumeCreationForm="ngForm">
+  <form (ngSubmit)="onCreate($event)" #volumeCreationForm="ngForm" novalidate>
     <div class="mdl-dialog__content">
       <div class="flex-column">
         <mdl-textfield
@@ -42,6 +42,7 @@
           <cs-slider
             [min]="minSize"
             [max]="maxSize"
+            [label]="'SIZE' | translate"
             [units]="'GB' | translate"
             name="diskSize"
             [(ngModel)]="size"

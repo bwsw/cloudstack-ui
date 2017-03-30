@@ -6,17 +6,18 @@
 }
 
 .top-bar-content {
+  display: flex;
+  align-content: center;
   flex: 1 1 100%;
   min-width: 0;
-  min-height: 67px;
+  min-height: 70px;
 }
 
 .top-bar-notifications {
   position: absolute;
-  right: 16px;
   z-index: 2;
-  margin: 16px;
-  height: 40px;
+  right: 0;
+  margin: 19px;
 }
 
 .drawer-button {

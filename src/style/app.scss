@@ -78,10 +78,16 @@ mdl-card.custom-card {
 }
 
 .options-panel {
-  display: block !important;
+  display: flex;
+  flex-direction: row !important;
   width: 100% !important;
   min-height: initial !important;
   overflow: visible !important;
+  flex-wrap: wrap;
+
+  & > * {
+    align-self: center;
+  }
 
   &.delimiter {
     border-bottom: 1px solid #dedede;

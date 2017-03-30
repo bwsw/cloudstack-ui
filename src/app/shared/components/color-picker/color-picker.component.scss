@@ -1,8 +1,14 @@
+:host {
+  display: inline-flex;
+  padding: 20px 0;
+}
+
 :host mdl-select {
+  display: flex;
   font-size: 24px;
 }
 
-:host /deep/ .mdl-textfield__input {
+:host /deep/ mdl-select > div {
   padding: 0;
 }
 

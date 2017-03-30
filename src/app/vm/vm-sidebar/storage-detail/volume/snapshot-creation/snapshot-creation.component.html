@@ -1,6 +1,6 @@
 <div class="snapshot-name-form">
   <h3 class="mdl-dialog__title">Take a snapshot</h3>
-  <form (ngSubmit)="onSubmit($event)" #snapshotCreationDialog="ngForm">
+  <form (ngSubmit)="onSubmit($event)" #snapshotCreationDialog="ngForm" novalidate>
     <div class="mdl-dialog__content">
       <mdl-textfield
         type="text"

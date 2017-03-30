@@ -72,6 +72,7 @@ div.closed {
 
 .stat-section {
   width: 100%;
+  flex-direction: column !important;
 }
 
 .stat-collapse {
@@ -79,8 +80,9 @@ div.closed {
 }
 
 .stat-header {
-  margin: 0;
-  padding: 18px 15px 0 15px;
+  margin: 18px 0;
+  padding-left: 15px;
+  align-self: auto;
 }
 
 :host /deep/ mdl-card-actions {

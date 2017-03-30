@@ -1,0 +1,12 @@
+:host {
+  display: inline-flex;
+}
+
+:host /deep/ mdl-textfield {
+  width: 100px;
+}
+
+.align-middle {
+  display: flex;
+  align-self: center;
+}

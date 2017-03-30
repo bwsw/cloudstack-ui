@@ -2,7 +2,7 @@
   {{ (securityGroup.isPredefinedTemplate ? 'TEMPLATE_RULES' : 'EDIT_RULES') | translate }}
 </h3>
 <div class="mdl-dialog__content">
-  <form #rulesForm="ngForm">
+  <form #rulesForm="ngForm" novalidate>
     <table class="mdl-data-table">
       <thead>
       <tr>

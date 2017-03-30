@@ -1,6 +1,6 @@
 <div class="security-group-template-form">
   <h3 class="mdl-dialog__title">{{ 'NEW_'+ mode.toUpperCase() | translate }}</h3>
-  <form (ngSubmit)="onCreate($event)" #templateCreationForm="ngForm">
+  <form (ngSubmit)="onCreate($event)" #templateCreationForm="ngForm" novalidate>
     <div
       class="mdl-dialog__content"
       [class.flex-dialog-content]="!snapshot"
