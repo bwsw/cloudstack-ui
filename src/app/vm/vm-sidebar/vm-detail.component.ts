@@ -3,8 +3,8 @@ import {
   Input,
   OnChanges
 } from '@angular/core';
-
 import { MdlDialogService } from 'angular2-mdl';
+import { TranslateService } from 'ng2-translate';
 
 import { TagService } from '../../shared';
 import { SecurityGroup } from '../../security-group/sg.model';
@@ -30,18 +30,18 @@ export class VmDetailComponent implements OnChanges {
   @Input() public vm: VirtualMachine;
   public color: Color;
   public disableSecurityGroup = false;
+  public expandNIC: boolean;
+  public expandServiceOffering: boolean;
   public groupName: string;
   public groupNames: Array<string>;
 
   public ServiceOfferingFields = ServiceOfferingFields;
 
-  private expandNIC: boolean;
-  private expandServiceOffering: boolean;
-
   constructor(
     private dialogService: MdlDialogService,
     private instanceGroupService: InstanceGroupService,
     private tagService: TagService,
+    private translateService: TranslateService,
     private vmService: VmService,
     private zoneService: ZoneService
   ) {
@@ -111,6 +111,20 @@ export class VmDetailComponent implements OnChanges {
     });
   }
 
+  public confirmAddSecondaryIp(vm: VirtualMachine): void {
+    this.translateService.get('ARE_YOU_SURE_ADD_SECONDARY_IP')
+      .switchMap(str => this.dialogService.confirm(str))
+      .onErrorResumeNext()
+      .subscribe(() => this.addSecondaryIp(vm));
+  }
+
+  public confirmRemoveSecondaryIp(secondaryIpId: string, vm: VirtualMachine): void {
+    this.translateService.get('ARE_YOU_SURE_REMOVE_SECONDARY_IP')
+      .switchMap(str => this.dialogService.confirm(str))
+      .onErrorResumeNext()
+      .subscribe(() => this.removeSecondaryIp(secondaryIpId, vm));
+  }
+
   public changeServiceOffering(): void {
     this.dialogService.showCustomDialog({
       component: ServiceOfferingDialogComponent,
@@ -128,6 +142,27 @@ export class VmDetailComponent implements OnChanges {
     } else {
       this.groupName = undefined;
     }
+  }
+
+  private addSecondaryIp(vm: VirtualMachine): void {
+    this.vmService.addIpToNic(vm.nic[0].id)
+      .subscribe(
+        res => {
+          const ip = res.result.nicsecondaryip;
+          vm.nic[0].secondaryIp.push(ip);
+        },
+        err => this.dialogService.alert(err.errortext)
+      );
+  }
+
+  private removeSecondaryIp(secondaryIpId: string, vm: VirtualMachine): void {
+    this.vmService.removeIpFromNic(secondaryIpId)
+      .subscribe(
+        () => {
+          vm.nic[0].secondaryIp = vm.nic[0].secondaryIp.filter(ip => ip.id !== secondaryIpId);
+        },
+        err => this.dialogService.alert(err.errortext)
+      );
   }
 
   private updateColor(): void {

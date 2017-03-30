@@ -26,6 +26,10 @@
   float: right;
 }
 
+.secondary-ips {
+  margin-left: 5%;
+}
+
 .change-offering-button {
   display: inline-block;
 }
@@ -47,4 +51,14 @@
 .overflow-card {
   overflow: visible;
   z-index: 10;
+}
+
+.mdl-icon-button--small {
+  min-width: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.mdl-icon--small {
+  font-size: 20px;
 }

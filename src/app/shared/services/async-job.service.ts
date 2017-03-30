@@ -155,7 +155,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
 
     const hasEntity = asyncJob.instanceType || asyncJob.resultType;
     let result;
-    if (hasEntity) {
+    if (hasEntity && (entity || entityModel)) {
       result = this.prepareModel(asyncJob.result[entity.toLowerCase()], entityModel);
       asyncJob.result = result;
     } else {
