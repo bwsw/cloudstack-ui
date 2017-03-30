@@ -4,7 +4,7 @@ import { TranslateService } from 'ng2-translate';
 import { Observable } from 'rxjs';
 
 import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
-import { VolumeResizeComponent } from '../../volume-resize.component';
+import { VolumeResizeComponent, VolumeResizeData } from '../../volume-resize.component';
 
 import {
   JobsNotificationService,
@@ -61,10 +61,10 @@ export class VolumeComponent implements OnInit {
       providers: [{ provide: 'volume', useValue: volume }]
     })
       .switchMap(res => res.onHide())
-      .switchMap((newSize: any) => {
-        if (newSize != null) {
+      .switchMap((volumeResizeData: VolumeResizeData) => {
+        if (volumeResizeData) {
           notificationId = this.jobNotificationService.add('VOLUME_RESIZING');
-          return this.volumeService.resize({ id: volume.id, size: newSize });
+          return this.volumeService.resize(volumeResizeData);
         }
         return Observable.of(undefined);
       })

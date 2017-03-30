@@ -26,12 +26,7 @@ export class ServiceOfferingDialogComponent implements OnInit {
 
   public ngOnInit(): void {
     this.zoneService.get(this.virtualMachine.zoneId)
-      .subscribe(zone => {
-        this.fetchData({
-          zoneId: zone.id,
-          local: zone.localStorageEnabled
-        });
-      });
+      .subscribe(zone => this.fetchData(zone));
   }
 
   public onChange(): void {

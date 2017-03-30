@@ -1,8 +1,9 @@
 <mdl-card
   class="custom-card spare-drive-card"
   mdl-shadow="2"
-  (click)="$event.stopPropagation(); handleClick()"
+  (click)="handleClick($event)"
   [class.card-selected]="isSelected"
+  [class.arrow]="popover.isVisible"
 >
   <mdl-card-title>
     <h2
@@ -31,7 +32,7 @@
   <mdl-card-menu>
     <button
       mdl-button
-      (click)="$event.stopPropagation(); myPopover.toggle($event)"
+      (click)="$event.stopPropagation(); popover.toggle($event)"
       mdl-button-type="icon"
       mdl-ripple>
       <mdl-icon>more_vert</mdl-icon>
@@ -39,7 +40,7 @@
   </mdl-card-menu>
   <mdl-popover
     class="card-popover spare-drive-popover"
-    #myPopover
+    #popover
     [hide-on-click]="true"
     [style.width.px]="300"
   >

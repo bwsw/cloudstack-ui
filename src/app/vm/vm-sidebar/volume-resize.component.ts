@@ -1,8 +1,15 @@
-import { Component, Inject, HostListener, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 
 import { Volume, DiskStorageService } from '../../shared';
+import { DiskOffering } from '../../shared/models/disk-offering.model';
 
+
+export interface VolumeResizeData {
+  id: string;
+  diskOfferingId?: string;
+  size?: number;
+}
 
 @Component({
   selector: 'cs-volume-resize',
@@ -13,9 +20,13 @@ export class VolumeResizeComponent implements OnInit {
   public newSize: number;
   public maxSize: number;
 
+  public diskOffering: DiskOffering;
+  public diskOfferingList: Array<DiskOffering>;
+
   constructor(
-    public dialog: MdlDialogReference,
+    @Inject('diskOfferingList') public diskOfferingListInjected: Array<DiskOffering>,
     @Inject('volume') public volume: Volume,
+    public dialog: MdlDialogReference,
     private diskStorageService: DiskStorageService
   ) {
     this.newSize = this.volume.size / Math.pow(2, 30);
@@ -23,16 +34,32 @@ export class VolumeResizeComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    if (this.diskOfferingListInjected && !this.diskOfferingList) {
+      this.diskOfferingList = this.diskOfferingListInjected;
+    }
+
     this.diskStorageService.getAvailablePrimaryStorage()
       .subscribe((limit: number) => this.maxSize = limit);
   }
 
-  public resizeVolume(): void {
-    this.dialog.hide(this.newSize);
+  public get canResize(): boolean {
+    return (this.diskOfferingList && this.diskOfferingList.length > 0) || this.volume.isRoot;
   }
 
-  @HostListener('click', ['$event'])
-  public onClick(e: Event): void {
-    e.stopPropagation();
+  public updateDiskOffering(diskOffering: DiskOffering): void {
+    this.diskOffering = diskOffering;
+  }
+
+  public resizeVolume(): void {
+    let params: VolumeResizeData = { id: this.volume.id };
+
+    if (this.diskOffering) {
+      params.diskOfferingId = this.diskOffering.id;
+    }
+    if (this.newSize) {
+      params.size = this.newSize;
+    }
+
+    this.dialog.hide(params);
   }
 }

@@ -5,6 +5,7 @@ import { ConfigService } from './config.service';
 import { DiskOffering } from '../models/disk-offering.model';
 import { BaseModel } from '../models/base.model';
 import { BaseBackendService } from './base-backend.service';
+import { Zone } from '../models/zone.model';
 
 
 export interface OfferingAvailability {
@@ -26,14 +27,16 @@ export abstract class OfferingService<T extends BaseModel> extends BaseBackendSe
   }
 
   public getList(params?: any): Observable<Array<T>> {
-    let availabilityObservable: Observable<OfferingAvailability> = this.configService.get('offeringAvailability');
+    const availabilityObservable: Observable<OfferingAvailability> = this.configService.get('offeringAvailability');
     let zoneId;
+    let local;
 
-    if (params && params.zoneId) {
-      zoneId = params.zoneId;
-      delete params.zoneId;
-    } else {
+    if (!params && !params.zone) {
       return super.getList(params);
+    } else {
+      zoneId = params.zone.id;
+      local = params.zone.localStorageEnabled;
+      delete params.zone;
     }
 
     return Observable.forkJoin([
@@ -49,16 +52,16 @@ export abstract class OfferingService<T extends BaseModel> extends BaseBackendSe
         });
       })
       .map(list => {
-        if (!params || params.local === undefined) {
+        if (!zoneId) {
           return list;
         }
-        return list.filter(offering => offering.isLocal === params.local);
+        return list.filter(offering => offering.isLocal === local);
       });
   }
 
   protected abstract isOfferingAvailableInZone(
     offering: ServiceOffering | DiskOffering,
     offeringAvailability: OfferingAvailability,
-    zoneId: string
+    zone: Zone
   ): boolean;
 }

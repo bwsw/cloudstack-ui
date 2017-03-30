@@ -32,11 +32,14 @@
         </div>
         <div>
           <h5>{{ 'DISK_OFFERING' | translate }}</h5>
-          <cs-disk-offering
-            *ngIf="zoneId"
-            [zoneId]="zoneId"
-            (offeringUpdated)="updateDiskOffering($event)"
-          ></cs-disk-offering>
+
+          <!-- todo: fix -->
+          <!--<cs-disk-offering-->
+            <!--*ngIf="zoneId"-->
+            <!--[zoneId]="zoneId"-->
+            <!--(offeringUpdated)="updateDiskOffering($event)"-->
+          <!--&gt;</cs-disk-offering>-->
+
         </div>
         <div *ngIf="showResizeSlider && minSize && maxSize">
           <cs-slider

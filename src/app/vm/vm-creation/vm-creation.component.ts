@@ -145,10 +145,7 @@ export class VmCreationComponent implements OnInit {
   // todo
   public show(): void {
     this.templateService.getDefault().subscribe(() => {
-      this.serviceOfferingFilterService.getAvailable({
-        zoneId: this.zoneId,
-        local: this.selectedZone.localStorageEnabled
-      })
+      this.serviceOfferingFilterService.getAvailable(this.selectedZone)
         .subscribe(() => {
           this.resourceUsageService.getResourceUsage().subscribe(result => {
             if (result.available.primaryStorage > this.vmCreationData.rootDiskSizeMin && result.available.instances) {
@@ -327,14 +324,8 @@ export class VmCreationComponent implements OnInit {
       this.changeDetectorRef.detectChanges();
 
       Observable.forkJoin([
-        this.serviceOfferingFilterService.getAvailable({
-          zoneId: id,
-          local: this.selectedZone.localStorageEnabled
-        }),
-        this.diskOfferingService.getList({
-          zoneId: id,
-          local: this.selectedZone.localStorageEnabled
-        })
+        this.serviceOfferingFilterService.getAvailable(this.selectedZone),
+        this.diskOfferingService.getList(this.selectedZone)
       ])
         .subscribe(([serviceOfferings, diskOfferings]) => {
           this.vmCreationData.serviceOfferings = serviceOfferings;

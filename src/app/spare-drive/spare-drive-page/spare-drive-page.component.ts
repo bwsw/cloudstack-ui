@@ -15,7 +15,7 @@ import {
 
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
 import { ListService } from '../../shared/components/list/list.service';
-import { VolumeResizeData } from '../../shared/services/volume.service';
+import { VolumeResizeData } from '../../vm/vm-sidebar/volume-resize.component';
 
 
 export interface VolumeCreationData {
@@ -48,22 +48,6 @@ export class SpareDrivePageComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    let diskOfferings: Array<DiskOffering>;
-
-    this.diskOfferingService.getList({ type: 'DATADISK' })
-      .switchMap((offerings: Array<DiskOffering>) => {
-        diskOfferings = offerings;
-        return this.volumeService.getList();
-      })
-      .subscribe(volumes => {
-        this.volumes = volumes
-          .filter(volume => !volume.virtualMachineId && !volume.tags.find((tag) => tag.key === deletionMark))
-          .map(volume => {
-            volume.diskOffering = diskOfferings.find(offering => offering.id === volume.diskOfferingId);
-            return volume;
-          });
-      });
-
     this.listService.onSelected.subscribe((volume: Volume) => {
       this.selectedVolume = volume;
     });
@@ -71,6 +55,8 @@ export class SpareDrivePageComponent implements OnInit {
     this.listService.onAction.subscribe(() => {
       this.showCreationDialog();
     });
+
+    this.updateVolumeList();
   }
 
   public showRemoveDialog(volume: Volume): void {
@@ -189,5 +175,25 @@ export class SpareDrivePageComponent implements OnInit {
             .subscribe(str => this.dialogService.alert(str));
         }
       );
+  }
+
+  private updateVolumeList(): void {
+
+    debugger;
+    let diskOfferings: Array<DiskOffering>;
+
+    this.diskOfferingService.getList({ type: 'DATADISK' })
+      .switchMap((offerings: Array<DiskOffering>) => {
+        diskOfferings = offerings;
+        return this.volumeService.getList();
+      })
+      .subscribe(volumes => {
+        this.volumes = volumes
+          .filter(volume => !volume.virtualMachineId && !volume.tags.find((tag) => tag.key === deletionMark))
+          .map(volume => {
+            volume.diskOffering = diskOfferings.find(offering => offering.id === volume.diskOfferingId);
+            return volume;
+          });
+      });
   }
 }

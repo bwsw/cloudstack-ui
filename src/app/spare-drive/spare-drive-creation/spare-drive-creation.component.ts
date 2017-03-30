@@ -59,6 +59,10 @@ export class SpareDriveCreationComponent implements OnInit {
     this.showResizeSlider = offering.isCustomized;
   }
 
+  private get zone(): Zone {
+    return this.zones.find(zone => zone.id === this.zoneId);
+  }
+
   private getZones(): void {
     this.zoneService.getList()
       .subscribe(zones => {
@@ -70,7 +74,7 @@ export class SpareDriveCreationComponent implements OnInit {
   }
 
   private getDiskOfferings(): void {
-    this.diskOfferingService.getList()
+    this.diskOfferingService.getList(this.zone)
       .subscribe(offerings => {
         this.diskOfferings = offerings;
         if (this.diskOfferings.length) {
