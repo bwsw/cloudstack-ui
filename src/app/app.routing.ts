@@ -20,23 +20,28 @@ const routes: Routes = [
   },
   {
     path: 'sg-templates',
-    component: SgTemplateListComponent
+    component: SgTemplateListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'instances',
-    component: VmListComponent
+    component: VmListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'templates',
-    component: TemplatePageComponent
+    component: TemplatePageComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'spare-drives',
-    component: SpareDrivePageComponent
+    component: SpareDrivePageComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'events',
-    component: EventListComponent
+    component: EventListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'settings',

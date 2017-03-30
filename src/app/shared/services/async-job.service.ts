@@ -86,21 +86,25 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     return jobSubject;
   }
 
-  private _queryJob(
-    jobId: string,
-    jobSubject: Subject<AsyncJob<any>>,
-    entity: string,
-    entityModel: any,
-    interval?: any
-  ): void {
+  public completeAllJobs(): void {
+    Object.keys(this.jobObservables).forEach(key => this.jobObservables[key].complete());
+    this.jobObservables = {};
+  }
+
+  private _queryJob(jobId: string,
+                    jobSubject: Subject<AsyncJob<any>>,
+                    entity: string,
+                    entityModel: any,
+                    interval?: any): void {
     this.sendCommand('query;Result', { jobId })
       .map(res => new AsyncJob<typeof entityModel>(res))
       .subscribe((asyncJob) => {
         switch (asyncJob.status) {
-          case JobStatus.InProgress: return;
-          case JobStatus.Completed: {
+          case JobStatus.InProgress:
+            return;
+          case JobStatus.Completed:
             jobSubject.next(this.getResult(asyncJob, entity, entityModel));
-          } break;
+            break;
           case JobStatus.Failed: {
             jobSubject.error(asyncJob.result);
             break;
@@ -143,11 +147,9 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     return jobId;
   }
 
-  private getResult(
-    asyncJob: AsyncJob<typeof entityModel>,
-    entity = '',
-    entityModel: any = null
-  ): any {
+  private getResult(asyncJob: AsyncJob<typeof entityModel>,
+                    entity = '',
+                    entityModel: any = null): any {
     // when response is just success: true/false
     if (asyncJob.result && asyncJob.result.success) {
       return asyncJob.result;
