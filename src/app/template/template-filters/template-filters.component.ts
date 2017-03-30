@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { TranslateService } from 'ng2-translate';
 
 import { OsFamily, StorageService } from '../../shared';
+import { FilterService } from '../../shared/services/filter.service';
 
 
 @Component({
@@ -45,19 +46,21 @@ export class TemplateFiltersComponent implements OnInit {
 
   constructor(
     private storageService: StorageService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private filter: FilterService
   ) { }
 
   public ngOnInit(): void {
-    this.selectedOsFamilies = this.osFamilies.concat();
-    this.selectedFilters = this.categoryFilters.concat();
-    this.updateFilters();
+    if (!this.dialogMode) {
+      this.initFilters();
+    } else {
+      this.selectedOsFamilies = this.osFamilies.concat();
+      this.selectedFilters = this.categoryFilters.concat();
+    }
 
     this.queryStream
       .distinctUntilChanged()
-      .subscribe(query => {
-        this.queries.emit(query);
-      });
+      .subscribe(query => this.queries.emit(query));
 
     this.translateService.get(
       this.categoryFilters.map(filter => `TEMPLATE_${filter.toUpperCase()}`)
@@ -86,15 +89,44 @@ export class TemplateFiltersComponent implements OnInit {
       selectedFilters: this.selectedFilters,
       query: this.query
     });
-  }
 
-  public search(e: KeyboardEvent): void {
-    this.queryStream.next((e.target as HTMLInputElement).value);
+    if (!this.dialogMode) {
+      this.updateFilter();
+    }
   }
 
   public updateDisplayMode(): void {
     let mode = this.showIso ? 'Iso' : 'Template';
     this.displayMode.emit(mode);
     this.storageService.write('templateDisplayMode', mode);
+  }
+
+  private initFilters(): void {
+    const params = this.filter.init('imagesFilters', {
+      'osFamilies': {
+        type: 'array',
+        options: this.osFamilies,
+        defaultOption: this.osFamilies
+      },
+      'categoryFilters': {
+        type: 'array',
+        options: this.categoryFilters,
+        defaultOption: this.categoryFilters
+      },
+      'query': { type: 'string' }
+    });
+    this.selectedOsFamilies = params['osFamilies'];
+    this.selectedFilters = params['categoryFilters'];
+
+    this.query = params['query'];
+    this.queryStream.next(this.query);
+  }
+
+  private updateFilter(): void {
+    this.filter.update('imagesFilters', {
+      'query': this.query || null,
+      'osFamilies': this.selectedOsFamilies.length ? this.selectedOsFamilies : null,
+      'categoryFilters': this.selectedFilters.length ? this.selectedFilters : null
+    });
   }
 }
