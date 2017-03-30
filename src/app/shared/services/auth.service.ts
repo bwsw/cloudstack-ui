@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@angular/core';
 import { IStorageService } from './storage.service';
-import { BaseBackendService, BACKEND_API_URL } from './base-backend.service';
+import { BaseBackendService } from './base-backend.service';
 import { BaseModelStub } from '../models/base.model';
 import { ErrorService } from './error.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, BehaviorSubject } from 'rxjs/Rx';
 
 
 @Injectable()
@@ -13,14 +13,12 @@ import { Observable, Subject } from 'rxjs/Rx';
   entityModel: BaseModelStub
 })
 export class AuthService extends BaseBackendService<BaseModelStub> {
-  public loggedIn: Subject<boolean>;
+  public loggedIn: BehaviorSubject<boolean>;
 
-  constructor(
-    @Inject('IStorageService') protected storage: IStorageService,
-    protected error: ErrorService
-  ) {
+  constructor(@Inject('IStorageService') protected storage: IStorageService,
+              protected error: ErrorService) {
     super();
-    this.loggedIn = new Subject<boolean>();
+    this.loggedIn = new BehaviorSubject<boolean>(!!this.userId);
   }
 
   public get name(): string {
@@ -51,7 +49,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     }
   }
 
-  public set userId(userId: string ) {
+  public set userId(userId: string) {
     if (!userId) {
       this.storage.remove('userId');
     } else {
@@ -78,20 +76,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   }
 
   public isLoggedIn(): Observable<boolean> {
-    if (this.name) {
-      return this.http.get(BACKEND_API_URL)
-        .map(() => true)
-        .catch(e => {
-          if (e.status === 400) {
-            return Observable.of(true);
-          } else {
-            this.setLoggedOut();
-            return Observable.of(false);
-          }
-        });
-    } else {
-      return Observable.of(false);
-    }
+    return Observable.of(!!this.userId);
   }
 
   public setLoggedIn(username: string, name: string, userId: string): void {
