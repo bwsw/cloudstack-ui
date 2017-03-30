@@ -111,8 +111,8 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       });
   }
 
-  public getDefault(): Observable<BaseTemplateModel> {
-    return this.getGroupedTemplates()
+  public getDefault(zoneId: string): Observable<BaseTemplateModel> {
+    return this.getGroupedTemplates({ zoneId })
       .map(data => {
         for (let filter of this._templateFilters) {
           if (data[filter].length > 0) {
