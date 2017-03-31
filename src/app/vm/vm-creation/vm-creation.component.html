@@ -51,6 +51,7 @@
         <div class="dialog-select-wrapper">
           <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.INSTALLATION_SOURCE' | translate }}</h5>
           <cs-vm-creation-template
+            *ngIf="vmCreationData.vm.template"
             class="dialog-select-select template-select"
             [selectedIn]="vmCreationData.vm.template"
             [zoneId]="zoneId"

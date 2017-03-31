@@ -144,27 +144,28 @@ export class VmCreationComponent implements OnInit {
 
   // todo
   public show(): void {
-    this.templateService.getDefault().subscribe(() => {
-      this.serviceOfferingFilterService.getAvailable({
-        zoneId: this.zoneId,
-        local: this.selectedZone.localStorageEnabled
-      })
-        .subscribe(() => {
-          this.resourceUsageService.getResourceUsage().subscribe(result => {
-            if (result.available.primaryStorage > this.vmCreationData.rootDiskSizeMin && result.available.instances) {
-            } else {
-              this.translateService.get('INSUFFICIENT_RESOURCES')
-                .subscribe(str => this.notificationService.error(str));
-            }
+    this.templateService.getDefault(this.zoneId)
+      .subscribe(() => {
+        this.serviceOfferingFilterService.getAvailable({
+          zoneId: this.zoneId,
+          local: this.selectedZone.localStorageEnabled
+        })
+          .subscribe(() => {
+            this.resourceUsageService.getResourceUsage().subscribe(result => {
+              if (result.available.primaryStorage > this.vmCreationData.rootDiskSizeMin && result.available.instances) {
+              } else {
+                this.translateService.get('INSUFFICIENT_RESOURCES')
+                  .subscribe(str => this.notificationService.error(str));
+              }
+            });
+          }, () => {
+            this.translateService.get('INSUFFICIENT_RESOURCES')
+              .subscribe(str => this.notificationService.error(str));
           });
-        }, () => {
-          this.translateService.get('INSUFFICIENT_RESOURCES')
-            .subscribe(str => this.notificationService.error(str));
-        });
-    }, () => {
-      this.translateService.get('UNABLE_TO_RECEIVE_TEMPLATES')
-        .subscribe(str => this.notificationService.error(str));
-    });
+      }, () => {
+        this.translateService.get('UNABLE_TO_RECEIVE_TEMPLATES')
+          .subscribe(str => this.notificationService.error(str));
+      });
   }
 
   public onVmCreationSubmit(e: any): void {
@@ -186,7 +187,6 @@ export class VmCreationComponent implements OnInit {
         this.vmCreationData = creationData;
         this.zoneId = this.vmCreationData.vm.zoneId;
 
-        this.setMinDiskSize();
         this.fetching = false;
 
         if (!this.vmCreationData.vm.displayName) {
@@ -201,20 +201,22 @@ export class VmCreationComponent implements OnInit {
 
     let notificationId: string;
     let params: any = this.vmCreateParams;
-    this.sgCreationInProgress = true;
 
-    this.securityGroupService.createWithRules(
+    let securityGroupObservable = this.securityGroupService.createWithRules(
       { name: this.utils.getUniqueId() + GROUP_POSTFIX },
       params.ingress || [],
       params.egress || []
     )
-      .switchMap(securityGroup => {
+      .map(securityGroup => {
         params['securityGroupIds'] = securityGroup.id;
-        return this.vmService.deploy(params);
-      })
+      });
+
+    delete params['ingress'];
+    delete params['egress'];
+
+    let vmDeployObservable = this.vmService.deploy(params)
       .switchMap(deployResponse => {
         notificationId = this.jobsNotificationService.add('VM_DEPLOY_IN_PROGRESS');
-
         this.vmService.get(deployResponse.id)
           .subscribe(vm => {
             vm.state = 'Deploying';
@@ -230,9 +232,9 @@ export class VmCreationComponent implements OnInit {
         if (this.vmCreationData.vm.instanceGroup) {
           return this.instanceGroupService.add(vm, this.vmCreationData.vm.instanceGroup);
         }
-        return Observable.of(null);
+        return Observable.of(vm);
       })
-      .subscribe(
+      .map(
         vm => {
           if (vm.instanceGroup) {
             this.instanceGroupService.groupsUpdates.next();
@@ -263,7 +265,17 @@ export class VmCreationComponent implements OnInit {
           this.notifyOnDeployFailed(notificationId);
         }
       );
+
+    if (this.selectedZone.networkTypeIsBasic) {
+      vmDeployObservable.subscribe();
+    } else {
+      this.sgCreationInProgress = true;
+      securityGroupObservable
+        .switchMap(() => vmDeployObservable)
+        .subscribe();
+    }
   }
+
 
   public showPassword(vmName: string, vmPassword: string): void {
     this.translateService.get(
@@ -334,11 +346,13 @@ export class VmCreationComponent implements OnInit {
         this.diskOfferingService.getList({
           zoneId: id,
           local: this.selectedZone.localStorageEnabled
-        })
+        }),
+        this.templateService.getDefault(id)
       ])
-        .subscribe(([serviceOfferings, diskOfferings]) => {
+        .subscribe(([serviceOfferings, diskOfferings, defaultTemplate]) => {
           this.vmCreationData.serviceOfferings = serviceOfferings;
           this.vmCreationData.diskOfferings = diskOfferings;
+          this.onTemplateChange(defaultTemplate);
           this.changeDetectorRef.detectChanges();
         });
     }
@@ -353,7 +367,9 @@ export class VmCreationComponent implements OnInit {
   }
 
   public setGroup(groupName: string): void {
-    this.vmCreationData.vm.instanceGroup = new InstanceGroup(groupName);
+    if (groupName) {
+      this.vmCreationData.vm.instanceGroup = new InstanceGroup(groupName);
+    }
   }
 
   private getDefaultVmName(): Observable<string> {
@@ -386,7 +402,6 @@ export class VmCreationComponent implements OnInit {
           this.diskStorageService.getAvailablePrimaryStorage(),
           this.affinityGroupService.getList(),
           this.sshService.getList(),
-          this.templateService.getDefault(),
           this.vmService.getInstanceGroupList(),
           this.securityGroupService.getTemplates()
         ]);
@@ -395,14 +410,12 @@ export class VmCreationComponent implements OnInit {
         rootDiskSizeLimit,
         affinityGroups,
         sshKeyPairs,
-        template,
         instanceGroups,
         securityGroupTemplates
       ]) => {
         vmCreationData.rootDiskSizeLimit = rootDiskSizeLimit;
         vmCreationData.affinityGroups = affinityGroups;
         vmCreationData.sshKeyPairs = sshKeyPairs;
-        vmCreationData.vm.template = template;
         vmCreationData.instanceGroups = instanceGroups.map(group => group.name);
 
         let preselectedSecurityGroups = securityGroupTemplates.filter(securityGroup => securityGroup.preselected);

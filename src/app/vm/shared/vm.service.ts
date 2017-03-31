@@ -77,14 +77,16 @@ export class VmService extends BaseBackendService<VirtualMachine> {
           Observable.of(vm),
           this.osTypesService.get(vm.guestOsId),
           this.serviceOfferingService.get(vm.serviceOfferingId),
-          this.securityGroupService.get(vm.securityGroup[0].id)
+          vm.securityGroup[0] ? this.securityGroupService.get(vm.securityGroup[0].id) : Observable.of(null)
         ]);
       })
       .map(([virtualMachine, osType, serviceOffering, securityGroup]) => {
         let vm = virtualMachine;
         vm.osType = osType;
         vm.serviceOffering = serviceOffering;
-        vm.securityGroup[0] = securityGroup;
+        if (securityGroup) {
+          vm.securityGroup[0] = securityGroup;
+        }
         return vm;
       });
   }
