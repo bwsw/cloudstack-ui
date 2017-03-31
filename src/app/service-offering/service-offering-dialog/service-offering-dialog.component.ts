@@ -53,6 +53,9 @@ export class ServiceOfferingDialogComponent implements OnInit {
         this.serviceOfferings = availableOfferings.filter(offering => {
           return offering.id !== this.virtualMachine.serviceOfferingId;
         });
+        if (this.serviceOfferings.length) {
+          this.serviceOffering = this.serviceOfferings[0];
+        }
       });
   }
 }
