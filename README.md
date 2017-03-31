@@ -36,9 +36,9 @@ The project is developed by Bitworks Software Frontend Division during education
 
 ## Implementation Details
 
-* Designed compatible with [Apache Cloudstack](http://cloudstack.apache.org/) 4.9 and wasn't tested with previous versions of CS
+* Designed compatible with [Apache Cloudstack](http://cloudstack.apache.org/) 4.9 and hasn't tested with previous versions of CS
 * Powered by [Angular 2](https://angular.io/) and [Google Material Design Lite](https://getmdl.io/)
-* Tested and should works fine in modern browsers
+* Tested and works fine in next modern browsers
    * Google Chrome 56.0.2924.76
    * Chromium 53.0.2785.143
 
@@ -173,6 +173,7 @@ You can contribute to development of the project in various ways:
 7. Provide testing environment for other deployment schemes. Now we interested in testing the app with
    1. KVM with RBD
    2. Xen with NFS, Local, RBD
+   3. Test results with other browsers and operating systems
 7. Hire us for frontend or backend development of custom software development projects. Take a look at our [website](https://bitworks.software/) to know where we can be useful. Take a look at our [presentation](https://www.slideshare.net/secret/BpNGxtaPUfOIqj) to learn more about us.
 
 To do a contribution, just contact us with next e-mail: info@bw-sw.com
