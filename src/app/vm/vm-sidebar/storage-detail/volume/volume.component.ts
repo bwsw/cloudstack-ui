@@ -15,6 +15,7 @@ import {
 
 import { Volume, Snapshot } from '../../../../shared/models';
 import { VolumeService } from '../../../../shared/services/volume.service';
+import { VolumeTypes } from '../../../../shared/models/volume.model';
 
 
 @Component({
@@ -42,7 +43,7 @@ export class VolumeComponent implements OnInit {
     if (this.volume.type === 'ROOT') {
       return 'Root';
     }
-    if (this.volume.type === 'DATADISK') {
+    if (this.volume.type === VolumeTypes.DATADISK) {
       return 'Data';
     }
     throw new Error('Unrecognized volume type');

@@ -15,6 +15,7 @@ import {
 
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
 import { ListService } from '../../shared/components/list/list.service';
+import { VolumeTypes } from '../../shared/models/volume.model';
 
 
 export interface VolumeCreationData {
@@ -167,7 +168,7 @@ export class SpareDrivePageComponent implements OnInit {
   private updateVolumeList(): void {
     let diskOfferings: Array<DiskOffering>;
 
-    this.diskOfferingService.getList({ type: 'DATADISK' })
+    this.diskOfferingService.getList({ type: VolumeTypes.DATADISK })
       .switchMap((offerings: Array<DiskOffering>) => {
         diskOfferings = offerings;
         return this.volumeService.getList();

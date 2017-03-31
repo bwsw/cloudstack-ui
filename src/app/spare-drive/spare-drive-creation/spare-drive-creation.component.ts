@@ -14,15 +14,15 @@ import { Observable } from 'rxjs';
 })
 export class SpareDriveCreationComponent implements OnInit {
   public name: string;
-  public _zoneId: string;
   public zones: Array<Zone>;
   public diskOfferingId: string;
   public diskOfferings: Array<DiskOffering>;
   public showResizeSlider: boolean;
   public size = 1;
-
   public minSize = 1;
   public maxSize: number;
+
+  private _zoneId: string;
 
   constructor(
     private dialog: MdlDialogReference,

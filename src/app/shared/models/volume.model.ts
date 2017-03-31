@@ -8,7 +8,7 @@ import { Tag } from './tag.model';
 
 type VolumeType = 'ROOT' | 'DATADISK';
 
-const VolumeTypes = {
+export const VolumeTypes = {
   ROOT: 'ROOT' as VolumeType,
   DATADISK: 'DATADISK' as VolumeType
 };

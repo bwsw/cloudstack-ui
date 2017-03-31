@@ -29,6 +29,7 @@ import { Iso } from '../../template/shared/iso.model';
 import { SecurityGroup } from '../../security-group/sg.model';
 import { VirtualMachine, IVmAction } from './vm.model';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
+import { VolumeTypes } from '../../shared/models/volume.model';
 
 
 export interface IVmActionEvent {
@@ -174,7 +175,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         this.command(e).subscribe((job: AsyncJob<VirtualMachine>) => {
           if (job && job.result && job.result.state === 'Destroyed') {
             e.vm.volumes
-              .filter(volume => volume.type === 'DATADISK')
+              .filter(volume => volume.type === VolumeTypes.DATADISK)
               .forEach(volume => this.volumeService.markForDeletion(volume.id).subscribe());
           }
         });

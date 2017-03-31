@@ -95,6 +95,10 @@ export class SpareDriveItemComponent implements OnInit {
       });
   }
 
+  public remove(): void {
+    this.onDelete.next(this.volume);
+  }
+
   private _resize(data: VolumeResizeData): void {
     this.volumeService.resize(data)
       .subscribe(
@@ -104,16 +108,12 @@ export class SpareDriveItemComponent implements OnInit {
               this.volume = newVolume;
               this.volume.diskOffering = diskOffering;
               this.onResize.emit(this.volume);
-            })
+            });
         },
-        (error) => {
+        error => {
           this.translateService.get(error.message)
             .subscribe(str => this.dialogService.alert(str));
         }
       );
-  }
-
-  public remove(): void {
-    this.onDelete.next(this.volume);
   }
 }
