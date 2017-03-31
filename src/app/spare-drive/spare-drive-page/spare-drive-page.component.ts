@@ -16,6 +16,8 @@ import {
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
 import { ListService } from '../../shared/components/list/list.service';
 import { VolumeResizeData } from '../../shared/services/volume.service';
+import { ZoneService } from '../../shared/services/zone.service';
+import { Zone } from '../../shared/models/zone.model';
 
 
 export interface VolumeCreationData {
@@ -25,6 +27,11 @@ export interface VolumeCreationData {
   size?: number;
 }
 
+interface SpareDriveSection {
+  zoneName: string;
+  spareDrives: Array<Volume>;
+}
+
 @Component({
   selector: 'cs-spare-drive-page',
   templateUrl: 'spare-drive-page.component.html',
@@ -32,8 +39,13 @@ export interface VolumeCreationData {
   providers: [ListService]
 })
 export class SpareDrivePageComponent implements OnInit {
-  public volumes: Array<Volume>;
   public selectedVolume: Volume;
+  public volumes: Array<Volume>;
+
+  public selectedZones: Array<Zone>;
+  public zones: Array<Zone>;
+
+  public sections: Array<SpareDriveSection>;
 
   @HostBinding('class.detail-list-container') public detailListContainer = true;
 
@@ -44,7 +56,8 @@ export class SpareDrivePageComponent implements OnInit {
     private notificationService: NotificationService,
     private listService: ListService,
     private translateService: TranslateService,
-    private volumeService: VolumeService
+    private volumeService: VolumeService,
+    private zoneService: ZoneService
   ) {}
 
   public ngOnInit(): void {
@@ -71,6 +84,23 @@ export class SpareDrivePageComponent implements OnInit {
     this.listService.onAction.subscribe(() => {
       this.showCreationDialog();
     });
+
+    this.updateZones();
+    this.updateSections();
+  }
+
+  public updateSections(): void {
+    if (!this.selectedZones) {
+      return;
+    }
+
+    this.sections = Zone.sortByName(this.selectedZones)
+      .map(zone => {
+        return {
+          zoneName: zone.name,
+          spareDrives: this.volumes.filter(volume => volume.zoneId === zone.id)
+        };
+      });
   }
 
   public showRemoveDialog(volume: Volume): void {
@@ -189,5 +219,11 @@ export class SpareDrivePageComponent implements OnInit {
             .subscribe(str => this.dialogService.alert(str));
         }
       );
+  }
+
+  private updateZones(): void {
+    this.zoneService.getList().subscribe(zones => {
+      this.zones = zones;
+    });
   }
 }

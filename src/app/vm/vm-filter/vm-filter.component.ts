@@ -58,8 +58,8 @@ export class VmFilterComponent implements OnInit {
   public update(): void {
     this.updateFilters.emit({
       doFilterByColor: this.doFilterByColor,
-      selectedGroups: this.selectedGroups,
-      selectedZones: this.selectedZones,
+      selectedGroups: InstanceGroup.sortByName(this.selectedGroups),
+      selectedZones: Zone.sortByName(this.selectedZones),
       mode: this.mode
     });
   }

@@ -221,3 +221,11 @@ mdl-simple-tooltip div {
 .card-list-container:last-child {
   margin-bottom: 15px;
 }
+
+.section {
+  width: 100%;
+  min-height: 0;
+  border-bottom: 1px solid #dedede;
+  background-color: white;
+  padding-bottom: 15px;
+}

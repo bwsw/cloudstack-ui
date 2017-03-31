@@ -20,7 +20,6 @@ export interface VmListSection {
 @Component({
   selector: 'cs-vm-list-section',
   templateUrl: 'vm-list-section.component.html',
-  styleUrls: ['vm-list-section.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VmListSectionComponent {

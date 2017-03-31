@@ -32,5 +32,6 @@ export class Volume extends BaseModel {
   public tags: Array<Tag>;
   public type: string;
   public zoneId: string;
+
   public zoneName: string;
 }
