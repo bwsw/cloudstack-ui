@@ -34,6 +34,10 @@ export class ServiceOfferingDialogComponent implements OnInit {
       });
   }
 
+  public updateOffering(offering: ServiceOffering): void {
+    this.serviceOffering = offering;
+  }
+
   public onChange(): void {
     this.vmService.changeServiceOffering(this.serviceOffering, this.virtualMachine);
     this.dialog.hide();
@@ -46,7 +50,9 @@ export class ServiceOfferingDialogComponent implements OnInit {
   private fetchData(params?: {}): void {
     this.serviceOfferingService.getAvailable(params)
       .subscribe(availableOfferings => {
-        this.serviceOfferings = availableOfferings;
+        this.serviceOfferings = availableOfferings.filter(offering => {
+          return offering.id !== this.virtualMachine.serviceOfferingId;
+        });
       });
   }
 }
