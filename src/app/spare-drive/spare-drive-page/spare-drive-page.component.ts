@@ -15,7 +15,6 @@ import {
 
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
 import { ListService } from '../../shared/components/list/list.service';
-import { VolumeResizeData } from '../../vm/vm-sidebar/volume-resize.component';
 
 
 export interface VolumeCreationData {
@@ -159,27 +158,13 @@ export class SpareDrivePageComponent implements OnInit {
         });
   }
 
-  public resize(data: VolumeResizeData): void {
-    this.volumeService.resize(data)
-      .subscribe(
-        (newVolume: Volume) => {
-          const volumeInd = this.volumes.findIndex(volume => volume.id === newVolume.id);
-          if (volumeInd === -1) {
-            return;
-          }
-
-          this.volumes[volumeInd] = newVolume;
-        },
-        (error) => {
-          this.translateService.get(error.message)
-            .subscribe(str => this.dialogService.alert(str));
-        }
-      );
+  public updateSelectedVolume(volume: Volume): void {
+    if (this.selectedVolume.id === volume.id) {
+      this.selectedVolume = volume;
+    }
   }
 
   private updateVolumeList(): void {
-
-    debugger;
     let diskOfferings: Array<DiskOffering>;
 
     this.diskOfferingService.getList({ type: 'DATADISK' })

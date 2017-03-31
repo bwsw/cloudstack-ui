@@ -3,6 +3,7 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
 import { DiskOffering } from '../models/disk-offering.model';
 import { OfferingService, OfferingAvailability } from './offering.service';
 import { Zone } from '../models/zone.model';
+import { Volume } from '../models/volume.model';
 
 
 @Injectable()
@@ -11,6 +12,11 @@ import { Zone } from '../models/zone.model';
   entityModel: DiskOffering
 })
 export class DiskOfferingService extends OfferingService<DiskOffering> {
+  public isOfferingAvailableForVolume(diskOffering: DiskOffering, volume: Volume, zone: Zone): boolean {
+    return diskOffering.isLocal === zone.localStorageEnabled &&
+      (diskOffering.isCustomized || diskOffering.id !== volume.diskOfferingId);
+  }
+
   protected isOfferingAvailableInZone(
     offering: DiskOffering,
     offeringAvailability: OfferingAvailability,

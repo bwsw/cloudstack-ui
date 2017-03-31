@@ -23,23 +23,20 @@
             name="zone"
           >
             <mdl-option
-              *ngFor="let zone of zones"
-              [value]="zone.id"
+              *ngFor="let z of zones"
+              [value]="z.id"
             >
-              {{ zone.name }}
+              {{ z.name }}
             </mdl-option>
           </mdl-select>
         </div>
         <div>
           <h5>{{ 'DISK_OFFERING' | translate }}</h5>
-
-          <!-- todo: fix -->
-          <!--<cs-disk-offering-->
-            <!--*ngIf="zoneId"-->
-            <!--[zoneId]="zoneId"-->
-            <!--(offeringUpdated)="updateDiskOffering($event)"-->
-          <!--&gt;</cs-disk-offering>-->
-
+          <cs-disk-offering
+            *ngIf="diskOfferings"
+            [diskOfferingList]="diskOfferings"
+            (offeringUpdated)="updateDiskOffering($event)"
+          ></cs-disk-offering>
         </div>
         <div *ngIf="showResizeSlider && minSize && maxSize">
           <cs-slider

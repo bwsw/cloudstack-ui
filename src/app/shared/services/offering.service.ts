@@ -31,7 +31,7 @@ export abstract class OfferingService<T extends BaseModel> extends BaseBackendSe
     let zoneId;
     let local;
 
-    if (!params && !params.zone) {
+    if (!params || !params.zone) {
       return super.getList(params);
     } else {
       zoneId = params.zone.id;

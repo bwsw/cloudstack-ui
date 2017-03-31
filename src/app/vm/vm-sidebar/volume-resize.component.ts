@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 
 import { Volume, DiskStorageService } from '../../shared';
@@ -24,22 +24,16 @@ export class VolumeResizeComponent implements OnInit {
   public diskOfferingList: Array<DiskOffering>;
 
   constructor(
-    @Inject('diskOfferingList') public diskOfferingListInjected: Array<DiskOffering>,
+    @Optional() @Inject('diskOfferingList') public diskOfferingListInjected: Array<DiskOffering>,
     @Inject('volume') public volume: Volume,
     public dialog: MdlDialogReference,
     private diskStorageService: DiskStorageService
-  ) {
-    this.newSize = this.volume.size / Math.pow(2, 30);
-    this.maxSize = 0; // to prevent mdl-slider from incorrect initial rendering
-  }
+  ) {}
 
   public ngOnInit(): void {
-    if (this.diskOfferingListInjected && !this.diskOfferingList) {
-      this.diskOfferingList = this.diskOfferingListInjected;
-    }
-
-    this.diskStorageService.getAvailablePrimaryStorage()
-      .subscribe((limit: number) => this.maxSize = limit);
+    this.getInjectedOfferingList();
+    this.updateSliderLimits();
+    this.setDefaultOffering();
   }
 
   public get canResize(): boolean {
@@ -61,5 +55,25 @@ export class VolumeResizeComponent implements OnInit {
     }
 
     this.dialog.hide(params);
+  }
+
+  private setDefaultOffering(): void {
+    if (this.diskOfferingList.length) {
+      this.diskOffering = this.diskOfferingList[0];
+    }
+  }
+
+  private getInjectedOfferingList(): void {
+    if (this.diskOfferingListInjected && !this.diskOfferingList) {
+      this.diskOfferingList = this.diskOfferingListInjected;
+    }
+  }
+
+  private updateSliderLimits(): void {
+    this.newSize = this.volume.size / Math.pow(2, 30);
+    this.maxSize = 0; // to prevent mdl-slider from incorrect initial rendering
+
+    this.diskStorageService.getAvailablePrimaryStorage()
+      .subscribe((limit: number) => this.maxSize = limit);
   }
 }

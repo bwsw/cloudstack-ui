@@ -1,14 +1,15 @@
-import { Component, Input, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ViewChild, OnInit } from '@angular/core';
 import { Volume } from '../../shared/models/volume.model';
 import { MdlDialogService } from 'angular2-mdl';
 import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
-import { VolumeAttachmentData } from '../../shared/services/volume.service';
+import { VolumeAttachmentData, VolumeService } from '../../shared/services/volume.service';
 import { VolumeResizeComponent, VolumeResizeData } from '../../vm/vm-sidebar/volume-resize.component';
 import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { Zone } from '../../shared/models/zone.model';
+import { TranslateService } from 'ng2-translate';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { Zone } from '../../shared/models/zone.model';
   templateUrl: 'spare-drive-item.component.html',
   styleUrls: ['spare-drive-item.component.scss']
 })
-export class SpareDriveItemComponent {
+export class SpareDriveItemComponent implements OnInit {
   @Input() public isSelected: boolean;
   @Input() public volume: Volume;
   @Output() public onClick = new EventEmitter();
@@ -30,6 +31,8 @@ export class SpareDriveItemComponent {
   constructor(
     private dialogService: MdlDialogService,
     private diskOfferingService: DiskOfferingService,
+    private translateService: TranslateService,
+    private volumeService: VolumeService,
     private zoneService: ZoneService
   ) {}
 
@@ -43,57 +46,74 @@ export class SpareDriveItemComponent {
       })
       .subscribe(diskOfferings => {
         this.diskOfferings = diskOfferings.filter((diskOffering: DiskOffering) => {
-          return diskOffering.isCustomized ||
-            diskOffering.isLocal === zone.localStorageEnabled && diskOffering.id !== this.volume.diskOfferingId;
-        })
+          return this.diskOfferingService.isOfferingAvailableForVolume(diskOffering, this.volume, zone);
+        });
       });
-}
+  }
 
-public attach(): void {
-  this.dialogService.showCustomDialog({
-  component: SpareDriveAttachmentComponent,
-  classes: 'spare-drive-attachment-dialog',
-  providers: [{ provide: 'zoneId', useValue: this.volume.zoneId }]
-})
-  .switchMap(res => res.onHide())
-  .subscribe((data: string) => {
-    if (!data) {
-      return;
+  public attach(): void {
+    this.dialogService.showCustomDialog({
+      component: SpareDriveAttachmentComponent,
+      classes: 'spare-drive-attachment-dialog',
+      providers: [{ provide: 'zoneId', useValue: this.volume.zoneId }]
+    })
+      .switchMap(res => res.onHide())
+      .subscribe((data: string) => {
+        if (!data) {
+          return;
+        }
+        this.onVolumeAttached.emit({
+          id: this.volume.id,
+          virtualMachineId: data
+        });
+      });
+  }
+
+  public handleClick(e: MouseEvent): void {
+    e.stopPropagation();
+    if (!this.popoverComponent.isVisible) {
+      this.onClick.emit(this.volume);
+    } else {
+      this.popoverComponent.hide();
     }
-    this.onVolumeAttached.emit({
-      id: this.volume.id,
-      virtualMachineId: data
-    });
-  });
-}
+  }
 
-public handleClick(e: MouseEvent): void {
-  e.stopPropagation();
-if (!this.popoverComponent.isVisible) {
-  this.onClick.emit(this.volume);
-} else {
-  this.popoverComponent.hide();
-}
-}
+  public resize(): void {
+    this.dialogService.showCustomDialog({
+      component: VolumeResizeComponent,
+      classes: 'volume-resize-dialog',
+      providers: [
+        { provide: 'volume', useValue: this.volume },
+        { provide: 'diskOfferingList', useValue: this.diskOfferings }
+      ],
+    })
+      .switchMap(res => res.onHide())
+      .subscribe((volumeResizeData: VolumeResizeData) => {
+        if (volumeResizeData) {
+          this._resize(volumeResizeData);
+        }
+      });
+  }
 
-public resize(): void {
-  this.dialogService.showCustomDialog({
-  component: VolumeResizeComponent,
-  classes: 'volume-resize-dialog',
-  providers: [
-    { provide: 'volume', useValue: this.volume },
-    { provide: 'diskOfferings', useValue: this.diskOfferings }
-  ],
-})
-  .switchMap(res => res.onHide())
-  .subscribe((volumeResizeData: VolumeResizeData) => {
-    if (volumeResizeData) {
-      this.onResize.next(volumeResizeData);
-    }
-  });
-}
+  private _resize(data: VolumeResizeData): void {
+    this.volumeService.resize(data)
+      .subscribe(
+        (newVolume: Volume) => {
+          this.diskOfferingService.get(data.diskOfferingId)
+            .subscribe(diskOffering => {
+              this.volume = newVolume;
+              this.volume.diskOffering = diskOffering;
+              this.onResize.emit(this.volume);
+            })
+        },
+        (error) => {
+          this.translateService.get(error.message)
+            .subscribe(str => this.dialogService.alert(str));
+        }
+      );
+  }
 
-public remove(): void {
-  this.onDelete.next(this.volume);
-}
+  public remove(): void {
+    this.onDelete.next(this.volume);
+  }
 }

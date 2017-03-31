@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Output, Input, SimpleChanges, OnChanges, OnInit } from '@angular/core';
 import { DiskOffering } from '../..';
 
 
@@ -7,7 +7,7 @@ import { DiskOffering } from '../..';
   templateUrl: 'disk-offering.component.html',
   styleUrls: ['disk-offering.component.scss']
 })
-export class DiskOfferingComponent {
+export class DiskOfferingComponent implements OnInit, OnChanges {
   @Input() public diskOfferingList: Array<DiskOffering>;
   @Output() public offeringUpdated = new EventEmitter();
 
@@ -17,13 +17,22 @@ export class DiskOfferingComponent {
     if (!this.diskOfferingList) {
       throw new Error('diskOfferingList is a required parameter');
     }
+    this.updateSelectedOffering();
+  }
 
-    if (this.diskOfferingList.length) {
-      this.selectedDiskOffering = this.diskOfferingList[0];
+  public ngOnChanges(changes: SimpleChanges): void {
+    if ('diskOfferingList' in changes) {
+      this.updateSelectedOffering();
     }
   }
 
   public updateDiskOffering(offering): void {
     this.offeringUpdated.emit(offering);
+  }
+
+  private updateSelectedOffering(): void {
+    if (this.diskOfferingList.length) {
+      this.selectedDiskOffering = this.diskOfferingList[0];
+    }
   }
 }

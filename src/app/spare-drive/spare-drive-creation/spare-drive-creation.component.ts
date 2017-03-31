@@ -5,6 +5,7 @@ import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 import { MdlDialogReference } from 'angular2-mdl';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { MdlDialogReference } from 'angular2-mdl';
 })
 export class SpareDriveCreationComponent implements OnInit {
   public name: string;
-  public zoneId: string;
+  public _zoneId: string;
   public zones: Array<Zone>;
   public diskOfferingId: string;
   public diskOfferings: Array<DiskOffering>;
@@ -31,9 +32,17 @@ export class SpareDriveCreationComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.getDiskOfferings();
-    this.getZones();
+    this.getZones().subscribe(() => this.getDiskOfferings());
     this.getSizeLimits();
+  }
+
+  public get zoneId(): string {
+    return this._zoneId;
+  }
+
+  public set zoneId(id: string) {
+    this._zoneId = id;
+    this.getDiskOfferings();
   }
 
   public onCreate(): void {
@@ -63,9 +72,9 @@ export class SpareDriveCreationComponent implements OnInit {
     return this.zones.find(zone => zone.id === this.zoneId);
   }
 
-  private getZones(): void {
-    this.zoneService.getList()
-      .subscribe(zones => {
+  private getZones(): Observable<void> {
+    return this.zoneService.getList()
+      .map(zones => {
         this.zones = zones;
         if (this.zones.length) {
           this.zoneId = this.zones[0].id;
@@ -74,11 +83,11 @@ export class SpareDriveCreationComponent implements OnInit {
   }
 
   private getDiskOfferings(): void {
-    this.diskOfferingService.getList(this.zone)
+    this.diskOfferingService.getList({ zone: this.zone })
       .subscribe(offerings => {
         this.diskOfferings = offerings;
         if (this.diskOfferings.length) {
-          this.diskOfferingId = this.diskOfferings[0].id;
+          this.updateDiskOffering(this.diskOfferings[0]);
         }
       });
   }

@@ -33,7 +33,7 @@ export class VolumeComponent implements OnInit {
     private snapshotService: SnapshotService,
     private volumeService: VolumeService,
     private notificationService: NotificationService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
   ) { }
 
   public ngOnInit(): void { }
@@ -58,7 +58,10 @@ export class VolumeComponent implements OnInit {
     this.dialogService.showCustomDialog({
       component: VolumeResizeComponent,
       classes: 'volume-resize-dialog',
-      providers: [{ provide: 'volume', useValue: volume }]
+      providers: [
+        { provide: 'volume', useValue: volume },
+        { provide: 'diskOfferingList', useValue: [] }
+      ]
     })
       .switchMap(res => res.onHide())
       .switchMap((volumeResizeData: VolumeResizeData) => {
@@ -68,7 +71,8 @@ export class VolumeComponent implements OnInit {
         }
         return Observable.of(undefined);
       })
-      .subscribe((newVolume: Volume) => {
+      .subscribe(
+        (newVolume: Volume) => {
           if (!newVolume) {
             return;
           }

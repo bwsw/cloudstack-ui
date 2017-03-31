@@ -137,7 +137,7 @@ export class VmCreationComponent implements OnInit {
     this.resetVmCreateData();
   }
 
-  public updateDiskOffering(offering: DiskOffering): void {
+  public set diskOffering(offering: DiskOffering) {
     this.showRootDiskResize = offering.isCustomized;
     this.selectedDiskOffering = offering;
   }
@@ -324,12 +324,14 @@ export class VmCreationComponent implements OnInit {
       this.changeDetectorRef.detectChanges();
 
       Observable.forkJoin([
-        this.serviceOfferingFilterService.getAvailable(this.selectedZone),
-        this.diskOfferingService.getList(this.selectedZone)
+        this.serviceOfferingFilterService.getAvailable({ zone: this.selectedZone }),
+        this.diskOfferingService.getList({ zone: this.selectedZone })
       ])
         .subscribe(([serviceOfferings, diskOfferings]) => {
           this.vmCreationData.serviceOfferings = serviceOfferings;
           this.vmCreationData.diskOfferings = diskOfferings;
+          this.diskOffering = diskOfferings[0];
+          this.setServiceOffering(serviceOfferings[0]);
           this.changeDetectorRef.detectChanges();
         });
     }
@@ -454,7 +456,7 @@ export class VmCreationComponent implements OnInit {
       params['diskofferingid'] = this.selectedDiskOffering.id;
       params['hypervisor'] = 'KVM';
     }
-    if (this.showRootDiskResize) {
+    if (this.templateSelected || this.showRootDiskResize) {
       const key = this.templateSelected ? 'rootDiskSize' : 'size';
       params[key] = this.vmCreationData.rootDiskSize;
     }
