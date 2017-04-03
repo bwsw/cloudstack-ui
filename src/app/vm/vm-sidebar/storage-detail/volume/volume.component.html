@@ -23,20 +23,6 @@
       <mdl-icon>more_vert</mdl-icon>
     </button>
   </mdl-card-menu>
-  <mdl-card-actions
-    *ngIf="volume.snapshots.length > 5"
-    mdl-card-border
-  >
-    <button
-      mdl-button
-      mdl-ripple
-      mdl-button-type="icon"
-      (click)="toggleStorage()"
-      [class.open]="expandStorage"
-    >
-      <mdl-icon>keyboard_arrow_down</mdl-icon>
-    </button>
-  </mdl-card-actions>
   <mdl-popover
     class="card-popover volume-popover"
     #myPopover
@@ -73,17 +59,32 @@
     </div>
   </mdl-popover>
   <mdl-card-actions
-    *ngIf="volumeType === 'Data'"
+    *ngIf="showVolumeActions"
     mdl-card-border
   >
-    <button
-      mdl-button
-      mdl-button-type="icon"
-      mdl-tooltip-position="top"
-      [mdl-tooltip]="'DETACH' | translate"
-      (click)="detach()"
-    >
-      <mdl-icon>remove</mdl-icon>
-    </button>
+    <div class="card-left-button">
+      <button
+        *ngIf="showAttachmentActions"
+        mdl-button
+        mdl-button-type="icon"
+        mdl-tooltip-position="top"
+        [mdl-tooltip]="'DETACH' | translate"
+        (click)="detach()"
+      >
+        <mdl-icon>remove</mdl-icon>
+      </button>
+    </div>
+    <div class="card-right-button">
+      <button
+        *ngIf="showSnapshotCollapseButton"
+        mdl-button
+        mdl-ripple
+        mdl-button-type="icon"
+        (click)="toggleStorage()"
+        [class.open]="expandStorage"
+      >
+        <mdl-icon>keyboard_arrow_down</mdl-icon>
+      </button>
+    </div>
   </mdl-card-actions>
 </mdl-card>

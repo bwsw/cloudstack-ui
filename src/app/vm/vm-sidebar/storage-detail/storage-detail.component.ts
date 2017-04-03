@@ -24,7 +24,6 @@ import { VolumeService } from '../../../shared/services/volume.service';
 export class StorageDetailComponent implements OnChanges {
   @Input() public vm: VirtualMachine;
   public iso: Iso;
-  public expandStorage: boolean;
 
   constructor(
     private dialogService: MdlDialogService,
@@ -33,9 +32,7 @@ export class StorageDetailComponent implements OnChanges {
     private isoService: IsoService,
     private notificationService: NotificationService,
     private volumeService: VolumeService
-  ) {
-    this.expandStorage = false;
-  }
+  ) {}
 
   public ngOnChanges(): void {
     if (this.vm.isoId) {
@@ -55,10 +52,6 @@ export class StorageDetailComponent implements OnChanges {
         this.vm.volumes.push(volume);
       }
     });
-  }
-
-  public toggleStorage(): void {
-    this.expandStorage = !this.expandStorage;
   }
 
   public handleIsoAction(event: IsoEvent): void {

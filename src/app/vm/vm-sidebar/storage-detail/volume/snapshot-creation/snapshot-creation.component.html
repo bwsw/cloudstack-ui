@@ -1,38 +1,43 @@
-<div class="snapshot-name-form">
-  <h3 class="mdl-dialog__title">Take a snapshot</h3>
-  <form (ngSubmit)="onSubmit($event)" #snapshotCreationDialog="ngForm" novalidate>
-    <div class="mdl-dialog__content">
-      <mdl-textfield
-        type="text"
-        label="Name"
-        name="name"
-        floating-label
-        autofocus
-        required
-        [(ngModel)]="name"
-        [style.width]="'100%'"
-      >
-      </mdl-textfield>
-    </div>
-    <div class="mdl-dialog__actions">
-      <button
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
-        type="button"
-        (click)="onSubmit()"
-      >
-        {{ 'CREATE' | translate }}
-      </button>
-      <button
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
-        type="button"
-        (click)="onHide()"
-      >
-        {{ 'CANCEL' | translate }}
-      </button>
-    </div>
-  </form>
-</div>
+<ng-container *loading="loading">
+  <ng-container *ngIf="enoughResources">
+    <h3 class="mdl-dialog__title">{{ 'TAKE_SNAPSHOT_SNAPSHOT_CREATION_FORM' | translate }}</h3>
+    <form (ngSubmit)="onSubmit($event)" #snapshotCreationDialog="ngForm" novalidate>
+      <div class="mdl-dialog__content">
+        <mdl-textfield
+          type="text"
+          label="Name"
+          name="name"
+          floating-label
+          autofocus
+          required
+          [(ngModel)]="name"
+          [style.width]="'100%'"
+        >
+        </mdl-textfield>
+      </div>
+      <div class="mdl-dialog__actions">
+        <button
+          mdl-colored="primary"
+          mdl-button
+          mdl-ripple
+          type="button"
+          (click)="onSubmit()"
+        >
+          {{ 'CREATE' | translate }}
+        </button>
+        <button
+          mdl-colored="primary"
+          mdl-button
+          mdl-ripple
+          type="button"
+          (click)="onHide()"
+        >
+          {{ 'CANCEL' | translate }}
+        </button>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container *ngIf="!enoughResources">
+    <div>No resources</div>
+  </ng-container>
+</ng-container>

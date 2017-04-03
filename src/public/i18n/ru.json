@@ -453,5 +453,7 @@
   "COPY_FAIL": "Ошибка при копировании",
 
   "ARE_YOU_SURE_ADD_SECONDARY_IP": "Вы уверены, что хотите добавить дополнительный IP?",
-  "ARE_YOU_SURE_REMOVE_SECONDARY_IP": "Вы уверены, что хотите удалить дополнительный IP?"
+  "ARE_YOU_SURE_REMOVE_SECONDARY_IP": "Вы уверены, что хотите удалить дополнительный IP?",
+
+  "TAKE_SNAPSHOT_SNAPSHOT_CREATION_FORM": "Создать снимок"
 }
