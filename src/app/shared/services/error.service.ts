@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Rx';
 
 interface ErrorTranslation {
-  regex: string;
+  regex: RegExp;
   translation: string;
 }
 
@@ -10,15 +10,15 @@ interface ErrorTranslation {
 export class ErrorService extends Subject<any> {
   private static ErrorMap: Array<ErrorTranslation> = [
     {
-      regex: 'Going from existing size of.*',
+      regex: /Going from existing size of.*/,
       translation: 'VOLUME_NEWSIZE_LOWER'
     },
     {
-      regex: 'Maximum number of resources of type \'primary_storage\'.*',
+      regex: /Maximum number of resources of type \'primary_storage\'.*/,
       translation: 'VOLUME_PRIMARY_STORAGE_EXCEEDED'
     },
     {
-      regex: 'The vm with hostName (.*) already exists.*',
+      regex: /The vm with hostName (.*) already exists.*/,
       translation: 'THE_NAME_IS_TAKEN'
     }
   ];
@@ -39,17 +39,18 @@ export class ErrorService extends Subject<any> {
   }
 
   public static parseError(error: any): any {
-    const err = ErrorService.ErrorMap.find(_ => new RegExp(_.regex).test(error.errortext));
+    const err = ErrorService.ErrorMap.find(_ => _.regex.test(error.errortext));
     if (!err) {
       error.message = error.errortext;
     } else {
       error.message = err.translation;
 
-      const matches = (new RegExp(err.regex)).exec(error.errortext);
+      const matches = err.regex.exec(error.errortext);
       matches.shift();
-      const translationParams = {};
-      matches.forEach((val, index) => translationParams[`val${index + 1}`] = val);
-      error.params = translationParams;
+      error.params = matches.reduce((map, val, index) => {
+        map[`val${index + 1}`] = val;
+        return map;
+      }, {});
     }
 
     return error;
