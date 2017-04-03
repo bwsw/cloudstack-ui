@@ -72,6 +72,7 @@ export class AppComponent implements OnInit, AfterViewInit {
           .subscribe(basic => this.disableSecurityGroups = basic);
       } else {
         this.asyncJobService.completeAllJobs();
+        this.router.navigate(['/logout']);
       }
     });
 
@@ -123,13 +124,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public toggleDrawer(): void {
     this.layoutService.toggleDrawer();
-  }
-
-  public logout(): void {
-    this.auth.logout()
-      .subscribe(() => {
-        this.router.navigate(['/login']);
-      });
   }
 
   public get logoSource(): string {

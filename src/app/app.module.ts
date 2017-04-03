@@ -22,6 +22,7 @@ import { EventsModule } from './events/events.module';
 import { SpareDriveModule } from './spare-drive/spare-drive.module';
 import { SettingsModule } from './settings/settings.module';
 import { SshKeysModule } from './ssh-keys/ssh-keys.module';
+import { LogoutComponent } from './auth/logout.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { SshKeysModule } from './ssh-keys/ssh-keys.module';
   ],
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    LogoutComponent
   ],
   providers: [
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
