@@ -64,13 +64,11 @@ export class VmStatisticsComponent implements OnInit {
   }
 
   public get memory(): Observable<string> {
-    const consumed = this.utilsService.divide(this.resourceUsage.consumed.memory, 2, '10');
-    const max = this.utilsService.divide(this.resourceUsage.max.memory, 2, '10');
+    const consumed = this.utilsService.divide(this.resourceUsage.consumed.memory, 2, '10', '1');
+    const max = this.utilsService.divide(this.resourceUsage.max.memory, 2, '10', '1');
 
     return this.translateService.get('GB')
-      .map(gb => {
-        return this.getStatsString(consumed as number, max as number, gb);
-      });
+      .map(gb => this.getStatsString(consumed as number, max as number, gb));
   }
 
   public get volumes(): string {
