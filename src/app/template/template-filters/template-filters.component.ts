@@ -1,10 +1,11 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { debounce } from 'lodash';
 import { Subject } from 'rxjs';
 
 import { TranslateService } from 'ng2-translate';
 
 import { OsFamily, StorageService } from '../../shared';
-import { FilterService } from '../../shared/services/filter.service';
+import { FilterService } from '../../shared/services';
 
 
 @Component({
@@ -39,6 +40,8 @@ export class TemplateFiltersComponent implements OnInit {
     'self'
   ];
 
+  private filtersKey = 'imageListFilters';
+
   private templateTabIndex = 0;
   private isoTabIndex = 1;
 
@@ -48,7 +51,9 @@ export class TemplateFiltersComponent implements OnInit {
     private storageService: StorageService,
     private translateService: TranslateService,
     private filter: FilterService
-  ) { }
+  ) {
+    this.updateFilters = debounce(this.updateFilters, 300, { leading: true, trailing: false });
+  }
 
   public ngOnInit(): void {
     if (!this.dialogMode) {
@@ -91,7 +96,11 @@ export class TemplateFiltersComponent implements OnInit {
     });
 
     if (!this.dialogMode) {
-      this.updateFilter();
+      this.filter.update(this.filtersKey, {
+        'query': this.query || null,
+        'osFamilies': this.selectedOsFamilies,
+        'categoryFilters': this.selectedFilters,
+      });
     }
   }
 
@@ -102,7 +111,7 @@ export class TemplateFiltersComponent implements OnInit {
   }
 
   private initFilters(): void {
-    const params = this.filter.init('imagesFilters', {
+    const params = this.filter.init(this.filtersKey, {
       'osFamilies': {
         type: 'array',
         options: this.osFamilies,
@@ -120,13 +129,5 @@ export class TemplateFiltersComponent implements OnInit {
 
     this.query = params['query'];
     this.queryStream.next(this.query);
-  }
-
-  private updateFilter(): void {
-    this.filter.update('imagesFilters', {
-      'query': this.query || null,
-      'osFamilies': this.selectedOsFamilies.length ? this.selectedOsFamilies : null,
-      'categoryFilters': this.selectedFilters.length ? this.selectedFilters : null
-    });
   }
 }

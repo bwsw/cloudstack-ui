@@ -4,15 +4,16 @@ import {
   OnInit,
   Output
 } from '@angular/core';
+import { debounce } from 'lodash';
+import { Observable } from 'rxjs';
 
 import { Zone, ZoneService } from '../../shared';
 
 import { SectionType } from '../vm-list/vm-list.component';
 import { VmService } from '../shared/vm.service';
-import { InstanceGroup } from '../../shared/models/instance-group.model';
-import { InstanceGroupService } from '../../shared/services/instance-group.service';
-import { FilterService } from '../../shared/services/filter.service';
-import { Observable } from 'rxjs';
+import { InstanceGroup } from '../../shared/models';
+import { InstanceGroupService } from '../../shared/services';
+import { FilterService } from '../../shared/services';
 
 
 export interface VmFilter {
@@ -36,12 +37,16 @@ export class VmFilterComponent implements OnInit {
   public zones: Array<Zone>;
   public mode: SectionType = SectionType.zone;
 
+  private filtersKey = 'vmListFilters';
+
   constructor(
     private instanceGroupService: InstanceGroupService,
     private vmService: VmService,
     private zoneService: ZoneService,
     private filter: FilterService
-  ) { }
+  ) {
+    this.update = debounce(this.update, 300, { leading: true, trailing: false });
+  }
 
   public ngOnInit(): void {
     Observable.forkJoin(
@@ -57,7 +62,7 @@ export class VmFilterComponent implements OnInit {
   }
 
   public initFilters(): void {
-    const params = this.filter.init('vmListFilters', {
+    const params = this.filter.init(this.filtersKey, {
       'byColors': { type: 'boolean' },
       'mode': { type: 'string', options: ['zone', 'group'], defaultOption: 'zone' },
       'zones': { type: 'array', defaultOption: [] },
@@ -88,11 +93,11 @@ export class VmFilterComponent implements OnInit {
       mode: this.mode
     });
 
-    this.filter.update('vmListFilters', {
+    this.filter.update(this.filtersKey, {
       'byColors': this.doFilterByColor,
       'mode': this.mode === SectionType.group ? 'group' : 'zone',
-      'zones': this.selectedZones.length ? this.selectedZones.map(_ => _.id) : null,
-      'groups': this.selectedGroups.length ? this.selectedGroups.map(_ => _.name) : null
+      'zones': this.selectedZones.map(_ => _.id),
+      'groups': this.selectedGroups.map(_ => _.name)
     });
   }
 
