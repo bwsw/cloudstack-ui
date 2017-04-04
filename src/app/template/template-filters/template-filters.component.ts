@@ -1,9 +1,11 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { debounce } from 'lodash';
 import { Subject } from 'rxjs';
 
 import { TranslateService } from 'ng2-translate';
 
 import { OsFamily, StorageService } from '../../shared';
+import { FilterService } from '../../shared/services';
 
 
 @Component({
@@ -38,6 +40,8 @@ export class TemplateFiltersComponent implements OnInit {
     'self'
   ];
 
+  private filtersKey = 'imageListFilters';
+
   private templateTabIndex = 0;
   private isoTabIndex = 1;
 
@@ -45,19 +49,23 @@ export class TemplateFiltersComponent implements OnInit {
 
   constructor(
     private storageService: StorageService,
-    private translateService: TranslateService
-  ) { }
+    private translateService: TranslateService,
+    private filter: FilterService
+  ) {
+    this.updateFilters = debounce(this.updateFilters, 300);
+  }
 
   public ngOnInit(): void {
-    this.selectedOsFamilies = this.osFamilies.concat();
-    this.selectedFilters = this.categoryFilters.concat();
-    this.updateFilters();
+    if (!this.dialogMode) {
+      this.initFilters();
+    } else {
+      this.selectedOsFamilies = this.osFamilies.concat();
+      this.selectedFilters = this.categoryFilters.concat();
+    }
 
     this.queryStream
       .distinctUntilChanged()
-      .subscribe(query => {
-        this.queries.emit(query);
-      });
+      .subscribe(query => this.queries.emit(query));
 
     this.translateService.get(
       this.categoryFilters.map(filter => `TEMPLATE_${filter.toUpperCase()}`)
@@ -86,15 +94,40 @@ export class TemplateFiltersComponent implements OnInit {
       selectedFilters: this.selectedFilters,
       query: this.query
     });
-  }
 
-  public search(e: KeyboardEvent): void {
-    this.queryStream.next((e.target as HTMLInputElement).value);
+    if (!this.dialogMode) {
+      this.filter.update(this.filtersKey, {
+        'query': this.query || null,
+        'osFamilies': this.selectedOsFamilies,
+        'categoryFilters': this.selectedFilters,
+      });
+    }
   }
 
   public updateDisplayMode(): void {
     let mode = this.showIso ? 'Iso' : 'Template';
     this.displayMode.emit(mode);
     this.storageService.write('templateDisplayMode', mode);
+  }
+
+  private initFilters(): void {
+    const params = this.filter.init(this.filtersKey, {
+      'osFamilies': {
+        type: 'array',
+        options: this.osFamilies,
+        defaultOption: this.osFamilies
+      },
+      'categoryFilters': {
+        type: 'array',
+        options: this.categoryFilters,
+        defaultOption: this.categoryFilters
+      },
+      'query': { type: 'string' }
+    });
+    this.selectedOsFamilies = params['osFamilies'];
+    this.selectedFilters = params['categoryFilters'];
+
+    this.query = params['query'];
+    this.queryStream.next(this.query);
   }
 }

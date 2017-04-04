@@ -71,6 +71,7 @@ import { MinValueValidatorDirective } from './directives/min-value.directive';
 import { LoadingDirective } from './directives/loading.directive';
 import { LoaderComponent } from './components/loader.component';
 import { UserService } from './services/user.service';
+import { FilterService } from './services/filter.service';
 
 
 @NgModule({
@@ -143,6 +144,7 @@ import { UserService } from './services/user.service';
     DiskOfferingService,
     DiskStorageService,
     ErrorService,
+    FilterService,
     InstanceGroupService,
     JobsNotificationService,
     LanguageService,

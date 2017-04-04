@@ -4,13 +4,16 @@ import {
   OnInit,
   Output
 } from '@angular/core';
+import { debounce } from 'lodash';
+import { Observable } from 'rxjs';
 
 import { Zone, ZoneService } from '../../shared';
 
 import { SectionType } from '../vm-list/vm-list.component';
 import { VmService } from '../shared/vm.service';
-import { InstanceGroup } from '../../shared/models/instance-group.model';
-import { InstanceGroupService } from '../../shared/services/instance-group.service';
+import { InstanceGroup } from '../../shared/models';
+import { InstanceGroupService } from '../../shared/services';
+import { FilterService } from '../../shared/services';
 
 
 export interface VmFilter {
@@ -34,16 +37,43 @@ export class VmFilterComponent implements OnInit {
   public zones: Array<Zone>;
   public mode: SectionType = SectionType.zone;
 
+  private filtersKey = 'vmListFilters';
+
   constructor(
     private instanceGroupService: InstanceGroupService,
     private vmService: VmService,
-    private zoneService: ZoneService
-  ) {}
+    private zoneService: ZoneService,
+    private filter: FilterService
+  ) {
+    this.update = debounce(this.update, 300);
+  }
 
   public ngOnInit(): void {
-    this.loadGroups();
-    this.zoneService.getList().subscribe(zoneList => this.zones = zoneList);
+    Observable.forkJoin(
+      this.vmService.getInstanceGroupList(),
+      this.zoneService.getList()
+    ).subscribe(([groups, zones]) => {
+      this.groups = groups;
+      this.zones = zones;
+
+      this.initFilters();
+    });
     this.instanceGroupService.groupsUpdates.subscribe(() => this.loadGroups());
+  }
+
+  public initFilters(): void {
+    const params = this.filter.init(this.filtersKey, {
+      'byColors': { type: 'boolean' },
+      'mode': { type: 'string', options: ['zone', 'group'], defaultOption: 'zone' },
+      'zones': { type: 'array', defaultOption: [] },
+      'groups': { type: 'array', defaultOption: [] }
+    });
+    this.doFilterByColor = !!params.byColors;
+    this.mode = params['mode'] === 'group' ? SectionType.group : SectionType.zone;
+    this.selectedZones = this.zones.filter(zone => params['zones'].find(id => id === zone.id));
+    this.selectedGroups = this.groups.filter(group => params['groups'].find(id => id === group.name));
+
+    this.update();
   }
 
   public loadGroups(): void {
@@ -61,6 +91,13 @@ export class VmFilterComponent implements OnInit {
       selectedGroups: this.selectedGroups,
       selectedZones: this.selectedZones,
       mode: this.mode
+    });
+
+    this.filter.update(this.filtersKey, {
+      'byColors': this.doFilterByColor,
+      'mode': this.mode === SectionType.group ? 'group' : 'zone',
+      'zones': this.selectedZones.map(_ => _.id),
+      'groups': this.selectedGroups.map(_ => _.name)
     });
   }
 
