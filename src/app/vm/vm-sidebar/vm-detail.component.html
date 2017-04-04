@@ -28,6 +28,7 @@
     <mdl-card-supporting-text class="overflow-card">
       <mdl-autocomplete
         class="details-select"
+        [placeholder]="'NO_GROUP' | translate"
         [(ngModel)]="groupName"
         [options]="groupNames"
       ></mdl-autocomplete>

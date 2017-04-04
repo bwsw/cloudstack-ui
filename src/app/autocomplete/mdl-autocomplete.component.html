@@ -1,13 +1,16 @@
+{{ ngModel }}
+
 <div
   class="mdl-textfield is-upgraded"
   [class.is-focused]="popover.isVisible || focused"
   [class.is-disabled]="disabled"
-  [class.is-dirty]="text?.length > 0">
+  [class.is-dirty]="text?.length > 0"
+>
   <span
     [attr.tabindex]="!disabled ? 0 : null"
     (focus)="open($event); addFocus()"
-    (blur)="close(); removeFocus()">
-  </span>
+    (blur)="close(); removeFocus()"
+  ></span>
   <input
     tabindex="-1"
     class="mdl-textfield__input"
@@ -19,6 +22,7 @@
     [value]="text"
     (ngModelChange)="filterResults($event)"
     [(ngModel)]="text"
+    (blur)="close(); removeFocus()"
   >
   <span
     class="mdl-select__toggle material-icons"

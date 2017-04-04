@@ -84,6 +84,7 @@
           <mdl-autocomplete
             *ngIf="vmCreationData.instanceGroups"
             name="group"
+            [placeholder]="'NO_GROUP' | translate"
             [options]="vmCreationData.instanceGroups"
             [ngModel]="null"
             (ngModelChange)="setGroup($event)"
