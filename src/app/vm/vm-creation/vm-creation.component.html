@@ -88,8 +88,10 @@
         <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
         <div *ngIf="noAffinityGroupTranslation">
           <mdl-autocomplete
+            name="affinityGroup"
             [options]="vmCreationData.affinityGroupNames"
-            (change)="affinityGroupChange($event)"
+            [ngModel]="vmCreationData.affinityGroupName"
+            (ngModelChange)="affinityGroupChange($event)"
           ></mdl-autocomplete>
         </div>
         <div

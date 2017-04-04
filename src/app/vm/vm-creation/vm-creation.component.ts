@@ -219,6 +219,7 @@ export class VmCreationComponent implements OnInit {
           })
             .switchMap(affinityGroup => {
               this.vmCreationData.affinityGroups.push(affinityGroup);
+              this.vmCreationData.affinityGroupNames.push(affinityGroup.name);
               params['affinityGroupNames'] = affinityGroup.name;
               this.agCreationInProgress = false;
               return this.vmService.deploy(params);
