@@ -167,6 +167,7 @@
   },
 
   "CREATING_SG": "Creating a security group",
+  "CREATING_AG": "Creating an affinity group",
 
   "CREATE_NEW_TEMPLATE": "Create new template",
   "TEMPLATE_CREATED": "Template {{ name }} created successfully",

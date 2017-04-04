@@ -1,5 +1,5 @@
-import { Component, ViewChild, Output, EventEmitter, OnInit, ChangeDetectorRef } from '@angular/core';
-import { MdlDialogComponent, MdlDialogService, MdlDialogReference } from 'angular2-mdl';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
 import { Observable, Subject } from 'rxjs/Rx';
 import { TranslateService } from 'ng2-translate';
 
@@ -29,19 +29,20 @@ import {
   ZoneService
 } from '../../shared';
 
-import { BaseTemplateModel } from '../../template/shared/base-template.model';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
-import { TemplateService } from '../../template/shared';
+import { BaseTemplateModel, TemplateService } from '../../template/shared';
 import { VmService } from '../shared/vm.service';
 import {
   CustomServiceOffering
 } from '../../service-offering/custom-service-offering/custom-service-offering.component';
-import { Template } from '../../template/shared/template.model';
+import { Template } from '../../template/shared';
 
 
 class VmCreationData {
   public vm: VirtualMachine;
   public affinityGroups: Array<AffinityGroup>;
+  public affinityGroupNames: Array<string>;
+  public affinityGroupTypes: Array<{ type: string }>;
   public instanceGroups: Array<string>;
   public serviceOfferings: Array<ServiceOffering>;
   public diskOfferings: Array<DiskOffering>;
@@ -50,6 +51,7 @@ class VmCreationData {
   public customServiceOffering: CustomServiceOffering;
 
   public affinityGroupId: string;
+  public affinityGroupName: string;
   public doStartVm: boolean;
   public keyboard: string;
   public keyPair: string;
@@ -76,9 +78,6 @@ class VmCreationData {
   styleUrls: ['vm-creation.component.scss']
 })
 export class VmCreationComponent implements OnInit {
-  @ViewChild(MdlDialogComponent) public vmCreateDialog: MdlDialogComponent;
-  @Output() public onCreated: EventEmitter<any> = new EventEmitter();
-
   public fetching: boolean;
   public enoughResources: boolean;
 
@@ -90,6 +89,7 @@ export class VmCreationComponent implements OnInit {
 
   public takenName: string;
   public sgCreationInProgress = false;
+  public agCreationInProgress = false;
 
   public showRootDiskResize = false;
   public showSecurityGroups = true;
@@ -171,6 +171,14 @@ export class VmCreationComponent implements OnInit {
     let notificationId: string;
     let params: any = this.vmCreateParams;
 
+    let shouldCreateAffinityGroup = false;
+    let affinityGroupName = params['affinityGroupNames'];
+    if (affinityGroupName) {
+      const ind = this.vmCreationData.affinityGroups.findIndex(ag => ag.name === affinityGroupName);
+      if (ind === -1) {
+        shouldCreateAffinityGroup = true;
+      }
+    }
     let securityGroupObservable = this.securityGroupService.createWithRules(
       { name: this.utils.getUniqueId() + GROUP_POSTFIX },
       params.ingress || [],
@@ -180,12 +188,29 @@ export class VmCreationComponent implements OnInit {
         params['securityGroupIds'] = securityGroup.id;
       });
 
+    let affinityGroupsObservable;
+    if (shouldCreateAffinityGroup) {
+      affinityGroupsObservable = this.affinityGroupService.create({
+        name: this.vmCreationData.affinityGroupName,
+        type: this.vmCreationData.affinityGroupTypes[0].type
+    })
+      .map(affinityGroup => {
+        this.vmCreationData.affinityGroups.push(affinityGroup);
+        this.vmCreationData.affinityGroupNames.push(affinityGroup.name);
+        params['affinityGroupNames'] = affinityGroup.name;
+        this.agCreationInProgress = false;
+      });
+    } else {
+      affinityGroupsObservable = Observable.of(null);
+    }
+
     delete params['ingress'];
     delete params['egress'];
 
     let vmDeployObservable = this.vmService.deploy(params)
       .switchMap(deployResponse => {
         notificationId = this.jobsNotificationService.add('VM_DEPLOY_IN_PROGRESS');
+
         this.vmService.get(deployResponse.id)
           .subscribe(vm => {
             vm.state = 'Deploying';
@@ -219,6 +244,7 @@ export class VmCreationComponent implements OnInit {
         },
         err => {
           this.sgCreationInProgress = false;
+          this.agCreationInProgress = false;
           const response = err.json()[`deployvirtualmachineresponse`];
           if (response && response.cserrorcode === 4350) {
             this.takenName = this.vmCreationData.vm.displayName;
@@ -236,11 +262,19 @@ export class VmCreationComponent implements OnInit {
       );
 
     if (this.selectedZone.networkTypeIsBasic) {
-      vmDeployObservable.subscribe();
+      this.agCreationInProgress = shouldCreateAffinityGroup;
+      affinityGroupsObservable
+        .switchMapTo(vmDeployObservable)
+        .subscribe();
     } else {
       this.sgCreationInProgress = true;
       securityGroupObservable
-        .switchMap(() => vmDeployObservable)
+        .switchMap(() => {
+          this.sgCreationInProgress = false;
+          this.agCreationInProgress = shouldCreateAffinityGroup;
+          return affinityGroupsObservable;
+        })
+        .switchMapTo(vmDeployObservable)
         .subscribe();
     }
   }
@@ -369,6 +403,10 @@ export class VmCreationComponent implements OnInit {
     }
   }
 
+  public affinityGroupChange(name): void {
+    this.vmCreationData.affinityGroupName = name;
+  }
+
   private getDefaultVmName(): Observable<string> {
     const regex = /vm-.*-(\d+)/;
 
@@ -397,6 +435,7 @@ export class VmCreationComponent implements OnInit {
 
         return Observable.forkJoin([
           this.affinityGroupService.getList(),
+          this.affinityGroupService.getTypes(),
           this.sshService.getList(),
           this.vmService.getInstanceGroupList(),
           this.securityGroupService.getTemplates()
@@ -404,11 +443,14 @@ export class VmCreationComponent implements OnInit {
       })
       .map(([
         affinityGroups,
+        affinityGroupTypes,
         sshKeyPairs,
         instanceGroups,
         securityGroupTemplates
       ]) => {
         vmCreationData.affinityGroups = affinityGroups;
+        vmCreationData.affinityGroupTypes = affinityGroupTypes;
+        vmCreationData.affinityGroupNames = affinityGroups.map(ag => ag.name);
         vmCreationData.sshKeyPairs = sshKeyPairs;
         vmCreationData.instanceGroups = instanceGroups.map(group => group.name);
 
@@ -460,8 +502,9 @@ export class VmCreationComponent implements OnInit {
     if (this.vmCreationData.vm.displayName) {
       params['name'] = this.vmCreationData.vm.displayName;
     }
-    if (this.vmCreationData.affinityGroupId) {
-      params['affinityGroupIds'] = this.vmCreationData.affinityGroupId;
+    const affinityGroupName = this.vmCreationData.affinityGroupName;
+    if (affinityGroupName) {
+      params['affinityGroupNames'] = affinityGroupName;
     }
     if (this.selectedDiskOffering && !this.templateSelected) {
       params['diskofferingid'] = this.selectedDiskOffering.id;

@@ -1,5 +1,5 @@
 import { Http, URLSearchParams, Response, Headers } from '@angular/http';
-import { BaseModel } from '../models/base.model';
+import { BaseModel } from '../models';
 import { ErrorService } from '.';
 import { ServiceLocator } from './service-locator';
 import { Observable } from 'rxjs/Rx';
@@ -25,7 +25,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   public getList(params?: {}): Observable<Array<M>> {
-    return this.sendCommand('list', params)
+    return this.sendCommand('list;s', params)
       .map(response => {
         let entity = this.entity.toLowerCase();
         if (entity === 'asyncjob') { // only if list?
@@ -44,7 +44,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return this.sendCommand('create', params)
       .map(response => {
         let entity = this.entity.toLowerCase();
-        if (entity === 'tag') {
+        if (entity === 'tag' || entity === 'affinitygroup') {
           return response;
         }
 
@@ -140,7 +140,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
     let apiCommand = `${cmd[0]}${ent}`;
 
     // fixing API's inconsistent behavior regarding commands
-    if (cmd[0] === 'list' || ent === 'Tag') {
+    if (ent === 'Tag') {
       apiCommand += 's';
     }
     if (cmd.length === 2) {

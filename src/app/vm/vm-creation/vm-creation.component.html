@@ -1,7 +1,8 @@
 <div class="overlay" *ngIf="sgCreationInProgress">
   <div class="message">
-    <p>{{ 'CREATING_SG' | translate }}</p>
-    <mdl-progress [indeterminate]="sgCreationInProgress"></mdl-progress>
+    <p *ngIf="sgCreationInProgress">{{ 'CREATING_SG' | translate }}</p>
+    <p *ngIf="agCreationInProgress">{{ 'CREATING_AG' | translate }}</p>
+    <mdl-progress [indeterminate]="sgCreationInProgress || agCreationInProgress"></mdl-progress>
   </div>
 </div>
 <div [class.vm-creation-container]="enoughResources !== false">
@@ -92,18 +93,12 @@
 
         <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
         <div *ngIf="noAffinityGroupTranslation">
-          <mdl-select
-            [ngModel]="vmCreationData.affinityGroupId"
+          <mdl-autocomplete
             name="affinityGroup"
-          >
-            <mdl-option [value]="''">{{ noAffinityGroupTranslation }}</mdl-option>
-            <mdl-option
-              *ngFor="let ag of vmCreationData.affinityGroups"
-              [value]="ag.id"
-            >
-              {{ ag.name }}
-            </mdl-option>
-          </mdl-select>
+            [options]="vmCreationData.affinityGroupNames"
+            [ngModel]="vmCreationData.affinityGroupName"
+            (ngModelChange)="affinityGroupChange($event)"
+          ></mdl-autocomplete>
         </div>
         <div
           *ngIf="showSecurityGroups"
