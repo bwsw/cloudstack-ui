@@ -169,8 +169,8 @@ You can contribute to the project development in various ways:
 6. Support and promote the development of specific functions which are important to you and may be shared.
 7. Provide testing environment for other deployment schemes. Now we interested in testing the app with
    1. KVM with RBD
-   2. Xen with NFS, Local, RBD
-   3. Oher browsers and operating systems
+   2. Xen with NFS, Local, RBD
+   3. Oher browsers and operating systems
 7. Hire us for frontend or backend development of custom software development projects. Take a look at our [website](https://bitworks.software/) to know where we can be useful. Take a look at our [presentation](https://www.slideshare.net/secret/BpNGxtaPUfOIqj) to learn more about us.
 
 To contribute, just contact us via e-mail: info@bw-sw.com
