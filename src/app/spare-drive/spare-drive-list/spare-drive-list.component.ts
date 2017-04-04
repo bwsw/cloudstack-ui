@@ -1,7 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Volume } from '../../shared/models/volume.model';
-import { VolumeAttachmentData, VolumeResizeData } from '../../shared/services/volume.service';
+import { VolumeAttachmentData } from '../../shared/services/volume.service';
 import { ListService } from '../../shared/components/list/list.service';
+import { VolumeResizeData } from '../../vm/vm-sidebar/volume-resize.component';
 
 
 @Component({

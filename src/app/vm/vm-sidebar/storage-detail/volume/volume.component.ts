@@ -4,7 +4,7 @@ import { TranslateService } from 'ng2-translate';
 import { Observable } from 'rxjs';
 
 import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
-import { VolumeResizeComponent } from '../../volume-resize.component';
+import { VolumeResizeComponent, VolumeResizeData } from '../../volume-resize.component';
 
 import {
   JobsNotificationService,
@@ -15,6 +15,7 @@ import {
 
 import { Volume, Snapshot } from '../../../../shared/models';
 import { VolumeService } from '../../../../shared/services/volume.service';
+import { VolumeTypes } from '../../../../shared/models/volume.model';
 
 
 const numberOfShownSnapshots = 5;
@@ -53,7 +54,7 @@ export class VolumeComponent implements OnInit {
   }
 
   public get showAttachmentActions(): boolean {
-    return this.volume.type === 'DATADISK'; // change to VolumeTypes.DATADISK
+    return this.volume.type === VolumeTypes.DATADISK;
   }
 
   public get showSnapshotCollapseButton(): boolean {
@@ -74,17 +75,21 @@ export class VolumeComponent implements OnInit {
     this.dialogService.showCustomDialog({
       component: VolumeResizeComponent,
       classes: 'volume-resize-dialog',
-      providers: [{ provide: 'volume', useValue: volume }]
+      providers: [
+        { provide: 'volume', useValue: volume },
+        { provide: 'diskOfferingList', useValue: [] }
+      ]
     })
       .switchMap(res => res.onHide())
-      .switchMap((newSize: any) => {
-        if (newSize != null) {
+      .switchMap((volumeResizeData: VolumeResizeData) => {
+        if (volumeResizeData) {
           notificationId = this.jobNotificationService.add('VOLUME_RESIZING');
-          return this.volumeService.resize({ id: volume.id, size: newSize });
+          return this.volumeService.resize(volumeResizeData);
         }
         return Observable.of(undefined);
       })
-      .subscribe((newVolume: Volume) => {
+      .subscribe(
+        (newVolume: Volume) => {
           if (!newVolume) {
             return;
           }

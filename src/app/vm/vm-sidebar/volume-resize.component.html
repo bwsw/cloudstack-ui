@@ -1,23 +1,39 @@
 <h3 class="mdl-dialog__title">{{ 'VOLUME_RESIZE_VOLUME' | translate }}</h3>
 <div class="mdl-dialog__content">
-  <form (ngSubmit)="resizeVolume()" #volumeResizeForm="ngForm" novalidate>
-    <cs-slider
-      [min]="volume.size | division:2:30"
-      [max]="maxSize"
-      [label]="'VOLUME_NEW_SIZE' | translate"
-      [(ngModel)]="newSize"
-      name="new-size"
-      [units]="'GB' | translate"
-    ></cs-slider>
-  </form>
+  <div *ngIf="canResize">
+    <form
+      (ngSubmit)="resizeVolume()"
+      #volumeResizeForm="ngForm"
+      novalidate
+    >
+      <div *ngIf="!volume?.isRoot">
+        <h5>{{ 'DISK_OFFERING' | translate }}</h5>
+        <cs-disk-offering
+          [diskOfferingList]="diskOfferingList"
+          (offeringUpdated)="updateDiskOffering($event)"
+        ></cs-disk-offering>
+      </div>
+      <cs-slider
+        *ngIf="diskOffering?.isCustomized || volume?.isRoot"
+        [min]="volume.size | division:2:30"
+        [max]="maxSize"
+        [label]="'VOLUME_NEW_SIZE' | translate"
+        [(ngModel)]="newSize"
+        name="new-size"
+        [units]="'GB' | translate"
+      ></cs-slider>
+    </form>
+  </div>
+  <div *ngIf="!canResize">{{ 'NO_AVAILABLE_DISK_OFFERINGS' | translate }}</div>
 </div>
 <div class="mdl-dialog__actions">
   <button
+    *ngIf="canResize"
     mdl-button
     mdl-colored="primary"
     mdl-ripple
     (click)="resizeVolume()"
-    [disabled]="volumeResizeForm.invalid"
+    [disabled]="volumeResizeForm?.invalid"
   >
     {{ 'VOLUME_RESIZE' | translate }}
   </button>

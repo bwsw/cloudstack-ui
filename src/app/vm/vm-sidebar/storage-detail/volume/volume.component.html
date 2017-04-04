@@ -1,4 +1,7 @@
-<mdl-card class="vm-card" mdl-shadow="2">
+<mdl-card
+  class="vm-card"
+  mdl-shadow="2"
+>
   <mdl-card-title>
     <h2 mdl-card-title-text>{{ volume.name }}</h2>
   </mdl-card-title>
@@ -17,7 +20,7 @@
   <mdl-card-menu>
     <button
       mdl-button
-      (click)="myPopover.toggle($event)"
+      (click)="popover.toggle($event)"
       mdl-button-type="icon"
       mdl-ripple>
       <mdl-icon>more_vert</mdl-icon>
@@ -25,7 +28,7 @@
   </mdl-card-menu>
   <mdl-popover
     class="card-popover volume-popover"
-    #myPopover
+    #popover
     [hide-on-click]="true"
     [style.width.px]="300"
   >

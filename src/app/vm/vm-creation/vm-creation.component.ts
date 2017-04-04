@@ -134,7 +134,7 @@ export class VmCreationComponent implements OnInit {
     this.resetVmCreateData();
   }
 
-  public updateDiskOffering(offering: DiskOffering): void {
+  public set diskOffering(offering: DiskOffering) {
     this.showRootDiskResize = offering.isCustomized;
     this.selectedDiskOffering = offering;
   }
@@ -245,7 +245,6 @@ export class VmCreationComponent implements OnInit {
     }
   }
 
-
   public showPassword(vmName: string, vmPassword: string): void {
     this.translateService.get(
       'PASSWORD_DIALOG_MESSAGE',
@@ -324,25 +323,28 @@ export class VmCreationComponent implements OnInit {
             throw new Error();
           }
           return Observable.forkJoin([
-            this.serviceOfferingFilterService.getAvailable({
-              zoneId: id,
-              local: this.selectedZone.localStorageEnabled
-            }),
+            this.serviceOfferingFilterService.getAvailable({ zone: this.selectedZone }),
             this.diskOfferingService.getList({
-              zoneId: id,
-              local: this.selectedZone.localStorageEnabled,
-              maxSize: this.utils.convertToGB(defaultTemplate.size)
+              zone: this.selectedZone,
+              maxSize: this.vmCreationData.rootDiskSizeLimit
             })
           ]);
         })
         .subscribe(
           ([serviceOfferings, diskOfferings]) => {
+            this.fetching = false;
+
+            if (!serviceOfferings.length || !diskOfferings.length) {
+              this.enoughResources = false;
+              return;
+            }
+
             this.vmCreationData.serviceOfferings = serviceOfferings;
             this.vmCreationData.diskOfferings = diskOfferings;
+            this.diskOffering = diskOfferings[0];
+            this.setServiceOffering(serviceOfferings[0]);
 
-            this.fetching = false;
             this.enoughResources = true;
-
             this.changeDetectorRef.detectChanges();
           },
           () => {
@@ -465,7 +467,7 @@ export class VmCreationComponent implements OnInit {
       params['diskofferingid'] = this.selectedDiskOffering.id;
       params['hypervisor'] = 'KVM';
     }
-    if (this.showRootDiskResize) {
+    if (this.templateSelected || this.showRootDiskResize) {
       const key = this.templateSelected ? 'rootDiskSize' : 'size';
       params[key] = this.vmCreationData.rootDiskSize;
     }

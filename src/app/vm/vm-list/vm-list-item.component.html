@@ -5,6 +5,7 @@
   [class.error]="vm.state === 'Error'"
   (click)="handleClick($event)"
   [style.background-color]="color.value"
+  [class.arrow]="popover.isVisible"
 >
   <mdl-card-title>
     <div
@@ -45,7 +46,7 @@
   <mdl-card-menu>
     <button
       mdl-button
-      (click)="$event.stopPropagation(); myPopover.toggle($event)"
+      (click)="$event.stopPropagation(); popover.toggle($event)"
       mdl-button-type="icon"
       mdl-ripple>
       <mdl-icon>more_vert</mdl-icon>
@@ -53,7 +54,7 @@
   </mdl-card-menu>
   <mdl-popover
     class="card-popover vm-popover"
-    #myPopover
+    #popover
     [hide-on-click]="true"
     [style.width.px]="300"
   >

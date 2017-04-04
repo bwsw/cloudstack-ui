@@ -8,6 +8,7 @@ import { SnapshotService } from './snapshot.service';
 import { Snapshot } from '../models/snapshot.model';
 import { AsyncJobService } from './async-job.service';
 import { TagService } from './tag.service';
+import { VolumeResizeData } from '../../vm/vm-sidebar/volume-resize.component';
 
 
 interface VolumeCreationData {
@@ -20,11 +21,6 @@ interface VolumeCreationData {
 export interface VolumeAttachmentData {
   id: string;
   virtualMachineId: string;
-}
-
-export interface VolumeResizeData {
-  id: string;
-  size: number;
 }
 
 export const deletionMark = 'toBeDeleted';
@@ -70,8 +66,8 @@ export class VolumeService extends BaseBackendService<Volume> {
       });
   }
 
-  public resize(params: VolumeResizeData): Observable<Volume> {
-    return this.sendCommand('resize', params)
+  public resize(volumeResizeData: VolumeResizeData): Observable<Volume> {
+    return this.sendCommand('resize', volumeResizeData)
       .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
       .catch((error) => {
         let message = '';

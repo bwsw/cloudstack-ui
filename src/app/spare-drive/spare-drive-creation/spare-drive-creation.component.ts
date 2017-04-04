@@ -3,7 +3,7 @@ import { Zone } from '../../shared/models/zone.model';
 import { ZoneService } from '../../shared/services/zone.service';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
-import { ResourceUsageService } from '../../shared/services/resource-usage.service';
+import { ResourceUsageService, ResourceStats } from '../../shared/services/resource-usage.service';
 import { MdlDialogReference } from 'angular2-mdl';
 import { Observable } from 'rxjs';
 
@@ -15,33 +15,39 @@ import { Observable } from 'rxjs';
 })
 export class SpareDriveCreationComponent implements OnInit {
   public name: string;
-  public zoneId: string;
   public zones: Array<Zone>;
   public diskOfferingId: string;
   public diskOfferings: Array<DiskOffering>;
   public showResizeSlider: boolean;
   public size = 1;
-
   public minSize = 1;
   public maxSize: number;
 
   public loading: boolean;
   public enoughResources: boolean;
+  private _zoneId: string;
 
-  constructor(private dialog: MdlDialogReference,
-              private diskOfferingService: DiskOfferingService,
-              private resourceUsageService: ResourceUsageService,
-              private zoneService: ZoneService) {
-  }
+  constructor(
+    private dialog: MdlDialogReference,
+    private diskOfferingService: DiskOfferingService,
+    private resourceUsageService: ResourceUsageService,
+    private zoneService: ZoneService) {}
 
   public ngOnInit(): void {
     this.loading = true;
 
-    Observable.forkJoin([
-      this.getZones(),
-      this.getDiskOfferings()
-    ])
+    this.getZones()
+      .switchMap(() => this.getDiskOfferings())
       .subscribe(() => this.loading = false);
+  }
+
+  public get zoneId(): string {
+    return this._zoneId;
+  }
+
+  public set zoneId(id: string) {
+    this._zoneId = id;
+    this.getDiskOfferings().subscribe();
   }
 
   public onCreate(): void {
@@ -67,6 +73,10 @@ export class SpareDriveCreationComponent implements OnInit {
     this.showResizeSlider = offering.isCustomized;
   }
 
+  private get zone(): Zone {
+    return this.zones.find(zone => zone.id === this.zoneId);
+  }
+
   private getZones(): Observable<any> {
     return this.zoneService.getList()
       .map(zones => {
@@ -77,6 +87,12 @@ export class SpareDriveCreationComponent implements OnInit {
       });
   }
 
+  private updateSizeLimits(resourceUsage: ResourceStats): void {
+    this.minSize = 1;
+    this.size = this.minSize;
+    this.maxSize = resourceUsage.available.primaryStorage;
+  }
+
   private getDiskOfferings(): Observable<any> {
     return this.resourceUsageService.getResourceUsage()
       .map(resourceUsage => {
@@ -85,7 +101,7 @@ export class SpareDriveCreationComponent implements OnInit {
           return;
         }
 
-        this.diskOfferingService.getList({ maxSize: resourceUsage.available.primaryStorage })
+        this.diskOfferingService.getList({ zone: this.zone, maxSize: resourceUsage.available.primaryStorage })
           .subscribe(offerings => {
             this.diskOfferings = offerings;
 
@@ -94,12 +110,8 @@ export class SpareDriveCreationComponent implements OnInit {
               return;
             }
 
-            this.diskOfferingId = this.diskOfferings[0].id;
-
-            this.minSize = 1;
-            this.size = this.minSize;
-            this.maxSize = resourceUsage.available.primaryStorage;
-
+            this.updateDiskOffering(this.diskOfferings[0]);
+            this.updateSizeLimits(resourceUsage);
             this.enoughResources = true;
           });
       });
