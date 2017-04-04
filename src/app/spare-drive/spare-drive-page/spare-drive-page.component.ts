@@ -18,7 +18,12 @@ import { ListService } from '../../shared/components/list/list.service';
 import { VolumeTypes } from '../../shared/models/volume.model';
 import { ZoneService } from '../../shared/services/zone.service';
 import { Zone } from '../../shared/models/zone.model';
+import { FilterService } from '../../shared/services/filter.service';
+import { debounce } from 'lodash';
+import { Observable } from 'rxjs';
 
+
+const spareDriveListFilters = 'spareDriveListFilters';
 
 export interface VolumeCreationData {
   name: string;
@@ -52,13 +57,16 @@ export class SpareDrivePageComponent implements OnInit {
   constructor(
     private dialogService: MdlDialogService,
     private diskOfferingService: DiskOfferingService,
+    private filter: FilterService,
     private jobsNotificationService: JobsNotificationService,
     private notificationService: NotificationService,
     private listService: ListService,
     private translateService: TranslateService,
     private volumeService: VolumeService,
     private zoneService: ZoneService
-  ) {}
+  ) {
+    this.update = debounce(this.update, 300);
+  }
 
   public ngOnInit(): void {
     this.listService.onSelected.subscribe((volume: Volume) => {
@@ -69,9 +77,28 @@ export class SpareDrivePageComponent implements OnInit {
       this.showCreationDialog();
     });
 
-    this.updateVolumeList();
-    this.updateZones();
-    this.updateSections();
+    Observable.forkJoin([
+      this.updateVolumeList(),
+      this.updateZones()
+    ])
+      .subscribe(() => {
+        this.initFilters();
+        this.updateSections();
+      });
+  }
+
+  public initFilters(): void {
+    const params = this.filter.init(spareDriveListFilters, {
+      'zones': { type: 'array', defaultOption: [] },
+    });
+    this.selectedZones = this.zones.filter(zone => params['zones'].find(id => id === zone.id));
+    this.update();
+  }
+
+  public update(): void {
+    this.filter.update(spareDriveListFilters, {
+      'zones': this.selectedZones.map(_ => _.id),
+    });
   }
 
   public updateSections(): void {
@@ -86,6 +113,8 @@ export class SpareDrivePageComponent implements OnInit {
           spareDrives: this.volumes.filter(volume => volume.zoneId === zone.id)
         };
       });
+
+    this.update();
   }
 
   public showRemoveDialog(volume: Volume): void {
@@ -196,21 +225,22 @@ export class SpareDrivePageComponent implements OnInit {
     }
   }
 
-  private updateZones(): void {
-    this.zoneService.getList().subscribe(zones => {
-      this.zones = zones;
-    });
+  private updateZones(): Observable<void> {
+    return this.zoneService.getList()
+      .map(zones => {
+        this.zones = zones;
+      });
   }
 
-  private updateVolumeList(): void {
+  private updateVolumeList(): Observable<void> {
     let diskOfferings: Array<DiskOffering>;
 
-    this.diskOfferingService.getList({ type: VolumeTypes.DATADISK })
+    return this.diskOfferingService.getList({ type: VolumeTypes.DATADISK })
       .switchMap((offerings: Array<DiskOffering>) => {
         diskOfferings = offerings;
         return this.volumeService.getList();
       })
-      .subscribe(volumes => {
+      .map(volumes => {
         this.volumes = volumes
           .filter(volume => !volume.virtualMachineId && !volume.tags.find((tag) => tag.key === deletionMark))
           .map(volume => {

@@ -1,22 +1,23 @@
 import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators/field-mapper.decorator';
-import { Sort } from '../decorators/sort.decorator';
+import * as _ from 'lodash';
 
 
-@Sort('name')
 @FieldMapper({
   securitygroupsenabled: 'securityGroupsEnabled',
   networktype: 'networkType',
   localstorageenabled: 'localStorageEnabled'
 })
 export class Zone extends BaseModel {
-  public static sortByName: any;
-
   public id: string;
   public name: string;
   public securityGroupsEnabled: boolean;
   public networkType: string;
   public localStorageEnabled: boolean;
+
+  public static sortByName(array: Array<Zone>): Array<Zone> {
+    return _.sortBy(array, 'name');
+  }
 
   public get networkTypeIsBasic(): boolean {
     return this.localStorageEnabled;

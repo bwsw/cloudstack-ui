@@ -76,15 +76,6 @@ export class VmFilterComponent implements OnInit {
     this.update();
   }
 
-  public loadGroups(): void {
-    this.vmService.getInstanceGroupList().subscribe(groupList => {
-      this.groups = groupList;
-      this.selectedGroups = this.selectedGroups.filter(selectedGroup => {
-        return groupList.includes(selectedGroup);
-      });
-    });
-  }
-
   public update(): void {
     this.updateFilters.emit({
       doFilterByColor: this.doFilterByColor,
@@ -98,6 +89,15 @@ export class VmFilterComponent implements OnInit {
       'mode': this.mode === SectionType.group ? 'group' : 'zone',
       'zones': this.selectedZones.map(_ => _.id),
       'groups': this.selectedGroups.map(_ => _.name)
+    });
+  }
+
+  public loadGroups(): void {
+    this.vmService.getInstanceGroupList().subscribe(groupList => {
+      this.groups = groupList;
+      this.selectedGroups = this.selectedGroups.filter(selectedGroup => {
+        return groupList.includes(selectedGroup);
+      });
     });
   }
 

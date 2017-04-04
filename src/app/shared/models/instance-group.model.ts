@@ -1,9 +1,10 @@
-import { Sort } from '../decorators/sort.decorator';
+import * as _ from 'lodash';
 
 
-@Sort('name')
 export class InstanceGroup {
-  public static sortByName: any;
-
   constructor(public name: string) {};
+
+  public static sortByName(array: Array<InstanceGroup>): Array<InstanceGroup> {
+    return _.sortBy(array, 'name');
+  }
 }
