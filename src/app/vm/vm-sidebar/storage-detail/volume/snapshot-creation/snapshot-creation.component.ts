@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 
 
@@ -17,7 +17,7 @@ import { ResourceUsageService, ResourceStats } from '../../../../../shared/servi
   templateUrl: 'snapshot-creation.component.html',
   styleUrls: ['snapshot-creation.component.scss']
 })
-export class SnapshotCreationComponent {
+export class SnapshotCreationComponent implements OnInit {
   public name: string;
 
   public loading = true;

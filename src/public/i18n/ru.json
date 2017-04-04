@@ -386,7 +386,7 @@
   "VOLUME_DETACH_FAILED": "Не удалось открепить диск",
 
   "VOLUME_CREATION_FORM": {
-    "NEW_VOLUME": "New volume"
+    "NEW_VOLUME": "Новый диск"
   },
 
   "VOLUME_CREATE_IN_PROGRESS": "Диск создается",
@@ -455,5 +455,8 @@
   "ARE_YOU_SURE_ADD_SECONDARY_IP": "Вы уверены, что хотите добавить дополнительный IP?",
   "ARE_YOU_SURE_REMOVE_SECONDARY_IP": "Вы уверены, что хотите удалить дополнительный IP?",
 
-  "TAKE_SNAPSHOT_SNAPSHOT_CREATION_FORM": "Создать снимок"
+  "TAKE_SNAPSHOT_SNAPSHOT_CREATION_FORM": "Создать снимок",
+  "SNAPSHOT_LIMIT_EXCEEDED": "Лимит снимков превышен. Для создания новых снимков Вам необходимо удалить какие-либо из ранее созданных снимков.",
+  "VOLUME_LIMIT_EXCEEDED": "Лимит дисков превышен. Для создания новых дисков вам нужно удалить какие-либо из ранее созданных дисков.",
+  "INSUFFICIENT_RESOURCES_VM": "Недостаточно ресурсов"
 }

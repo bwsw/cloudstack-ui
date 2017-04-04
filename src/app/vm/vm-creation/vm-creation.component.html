@@ -4,11 +4,11 @@
     <mdl-progress [indeterminate]="sgCreationInProgress"></mdl-progress>
   </div>
 </div>
-<div class="vm-creation-container">
+<div [class.vm-creation-container]="enoughResources !== false">
   <h3 class="mdl-dialog__title" translate>NEW_VM</h3>
   <form #vmCreateForm="ngForm" *loading="fetching" novalidate>
     <div class="container">
-      <div class="left-column">
+      <div *ngIf="enoughResources" class="left-column">
         <div>
           <mdl-textfield
             type="text"
@@ -77,7 +77,7 @@
           [units]="'GB' | translate"
         ></cs-slider>
       </div>
-      <div class="right-column">
+      <div *ngIf="enoughResources" class="right-column">
 
         <h5>{{ 'VM_CREATION_FORM.GROUP' | translate }}</h5>
         <div *ngIf="vmCreationData.instanceGroups">
@@ -153,9 +153,11 @@
           </mdl-checkbox>
         </div>
       </div>
+      <div *ngIf="!enoughResources">{{ 'INSUFFICIENT_RESOURCES_VM' | translate }}</div>
     </div>
     <div class="mdl-dialog__actions">
       <button
+        *ngIf="enoughResources"
         mdl-colored="primary"
         [disabled]="!vmCreateForm.valid || (vmCreationData.vm.displayName === takenName)"
         type="button"
