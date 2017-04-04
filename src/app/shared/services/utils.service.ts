@@ -19,4 +19,8 @@ export class UtilsService {
 
     return value / denominator;
   }
+
+  public convertToGB(value: number): number {
+    return value / Math.pow(2, 30);
+  }
 }

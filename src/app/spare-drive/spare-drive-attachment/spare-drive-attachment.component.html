@@ -3,7 +3,7 @@
   <h3 *ngIf="!virtualMachineId" class="mdl-dialog__title">{{ 'VOLUME_ATTACHMENT_NO_VMS' | translate }}</h3>
   <form (ngSubmit)="attach($event)" #volumeAttachmentForm="ngForm" novalidate>
     <div class="mdl-dialog__content">
-      <div >
+      <div>
         <mdl-select
           *ngIf="virtualMachineId"
           [(ngModel)]="virtualMachineId"

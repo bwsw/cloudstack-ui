@@ -17,6 +17,8 @@ import { Volume, Snapshot } from '../../../../shared/models';
 import { VolumeService } from '../../../../shared/services/volume.service';
 
 
+const numberOfShownSnapshots = 5;
+
 @Component({
   selector: 'cs-volume',
   templateUrl: 'volume.component.html',
@@ -25,6 +27,8 @@ import { VolumeService } from '../../../../shared/services/volume.service';
 export class VolumeComponent implements OnInit {
   @Input() public volume: Volume;
   @Output() public onDetach = new EventEmitter();
+
+  public expandStorage: boolean;
 
   constructor(
     private dialogService: MdlDialogService,
@@ -36,16 +40,28 @@ export class VolumeComponent implements OnInit {
     private translateService: TranslateService
   ) { }
 
-  public ngOnInit(): void { }
+  public ngOnInit(): void {
+    this.expandStorage = false;
+  }
 
-  public get volumeType(): 'Data' | 'Root' {
-    if (this.volume.type === 'ROOT') {
-      return 'Root';
+  public get showVolumeActions(): boolean {
+    if (!this.volume) {
+      return false;
     }
-    if (this.volume.type === 'DATADISK') {
-      return 'Data';
-    }
-    throw new Error('Unrecognized volume type');
+
+    return this.showAttachmentActions || this.showSnapshotCollapseButton;
+  }
+
+  public get showAttachmentActions(): boolean {
+    return this.volume.type === 'DATADISK'; // change to VolumeTypes.DATADISK
+  }
+
+  public get showSnapshotCollapseButton(): boolean {
+    return this.volume.snapshots.length > numberOfShownSnapshots;
+  }
+
+  public toggleStorage(): void {
+    this.expandStorage = !this.expandStorage;
   }
 
   public detach(): void {
