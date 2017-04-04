@@ -26,17 +26,17 @@ Table of Contents
       * [Configuration Options](#configuration-options)
 
 # Cloudstack UI
-Cloudstack UI is a project which purpose is to develop easy to use, light and user friendly frontend interface for [Apache Cloudstack](http://cloudstack.apache.org/) virtualization management system. Apache Cloudstack itself is great product which is used very widely but its frontend is developed for administrators (from our point of view), not for end cloud users. Some of behaviours are not straight forward and unnatural to average user and require quite long adaptation. Another reasons to develop are connected with lack of functions like virtual machine statistics & charting, sophisticated resource accounting and application management. This are in our long-term TODO list.
+Cloudstack UI is a project whose purpose is to develop an easy-to-use, light, and user friendly frontend interface for the [Apache Cloudstack](http://cloudstack.apache.org/) virtualization management system. Apache Cloudstack itself is a great product which is used very widely, but its frontend is developed for administrators (from our point of view), not for end cloud users. Some of the interactions are not straightforward and unnatural to an average user and require quite a long time to adapt. Other reasons to develop are connected with a lack of functions like virtual machine statistics & charting, sophisticated resource accounting, and application management. These are in our long-term TODO list.
 
 ## Project Story
 
-We at Bitworks run an ACS public cloud for 3 years (actually we still run CS 4.3 cloud in production) and we found that average users which are familiar to Digital Ocean, Amazon AWS and other VPS management systems feel uncomfortable with Cloudstack UI and make a lot of operational mistakes. That's why we decided to implement convinient and neat end-user facing UI covering regular activities which are important for day to day VM management.
+At Bitworks, we run an ACS public cloud for 3 years (actually we still run CS 4.3 cloud in production) and we found that average users who are familiar with Digital Ocean, Amazon AWS, and other VPS management systems feel uncomfortable with Cloudstack UI and make a lot of operational mistakes. That’s why we decided to implement a convenient and neat end-user facing UI covering regular activities, which are important for day-to-day VM management.
 
-The project is developed by Bitworks Software Frontend Division during educational marathon which purpose was to incorporate new team members and show them our standard development instruments for frontend development.
+The project is developed by Bitworks Software Frontend Division within the educational marathon, which has the purpose to incorporate our new team members and show them our standard frontend development instrument.
 
 ## Implementation Details
 
-* Designed compatible with [Apache Cloudstack](http://cloudstack.apache.org/) 4.9 and hasn't tested with previous versions of CS
+* Designed compatible with [Apache Cloudstack](http://cloudstack.apache.org/) 4.9 and hasn't tested for the previous versions of CS
 * Powered by [Angular 2](https://angular.io/) and [Google Material Design Lite](https://getmdl.io/)
 * Tested and works fine in next modern browsers
    * Google Chrome 56.0.2924.76
@@ -44,7 +44,7 @@ The project is developed by Bitworks Software Frontend Division during education
 
 ## Features Supported
 
-Since we designed the product from the perspective of well-known use cases which are common to our public cloud deployment we implemented only ones which are 100% required and covers most of use cases. May be in another deployment there are other requirements, but it's open source product indeed. 
+Since we designed the product from the perspective of well-known use cases, which are common to our public cloud deployment, we implemented only ones which are 100% required and cover most of use cases. Other deployments may imply other requirements, which is why it’s an open source product.
 
 So, what is supported:
 
@@ -66,47 +66,44 @@ So, what is supported:
 
 ## Features Yet Unsupported
 
-We intensively use features like projects in our own Cloudstack cloud to manage resources dedicated to project groups, etc. but generic users don't need them, so we don't support next features yet:
+We intensively use features like projects in our own Cloudstack cloud to manage resources dedicated to project groups, etc. but generic users don’t need them, so we don’t support the following features yet:
 
 * Advanced Zones
-* Other hypervisors than KVM are not tested
+* Hypervisors other than KVM have not been tested
 
-## Current To Do's
+## Current To Dos
 
 * Projects
 * Responsive interface for smart devices
 * API keys management
-* A lot of small improvements which affect greatly on user experience
+* A lot of small improvements which affect  user experience greatly
 
-## Long Term To Do's
+## Long Term To Dos
 
 * Plugins
    * VM metrics a.k.a. Pulse 
    * Resource utilization stats, traffic, IO stats, CS entities stats a.k.a. Accounting
    * Web SSH/RDP (guacamole)
 
-## Far away To Do's
+## Far Away To Dos
 * Plugins
    * Applications a.k.a. Roller (Docker swarm or Ansible, tbd)
 
 
-## Screenshots & Features descriptions
+## Screenshots & Features Descriptions
 
 #### Login view
 
-Just simple login screen. Nothing specially new. But it has nice preloader which can be used to brand it for specific company. By default it shows Apache Cloudstack banner.
+Just a simple login screen. Nothing really new. But it has a nice preloader which can be used to brand it for specific company. By default it shows Apache Cloudstack banner.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/loginView.png" target="_blank">![Login screen](./screens/loginView_mini.png)</a>
 
 #### Virtual machines view
 
-This screen was rethinked very greatly. First of all, we implemented "one step" approach everywhere and also we did it work without moving from view to view like ACS native interface works. Thus, all actions on VM instances are managed from the same screen. Also, the interface allows to view several zones immediately, group virtual machines by zones, by logical groups (e.g. Databases, WWW) and by colors. 
-
-We added an facility to brush virtual machine with specific color to make it look unique and meaingful to user from a certain perspective.
-
-Also we moved most of VM information to the sidebar which now has two tabs - the first one is for general view and virtual-machine related activities (like security groups, additional ips) and the second one is for virtual machine storage management (disks, snapshots and ISO).
-
-From the perspective of the system behaviour we changed it sometimes, e.g. when user wants to change service offering for running VM the interface says that VM will be stopped and started and it doesn't bother the user to do it separately. So we changed disconnected action sequences to connected ones.
+This screen was rethought greatly. First of all, we implemented the “one step” approach everywhere, and we also made it work without moving from view to view, like ACS native interface does. Thus, all actions on VM instances are managed from the same screen. Also, the interface allows to view several zones immediately, group virtual machines by zones, by logical groups (e.g. Databases, WWW), and by colors.
+We added a feature to brush a virtual machine with a specific color to make it look unique and meaningful to users from a certain perspective.
+Also we moved most of VM information to the sidebar, which now has two tabs - the first one is for the general view and virtual-machine related activities (like security groups, additional ips) and the second one is for virtual machine storage management (disks, snapshots, and ISO).
+From the system behavior standpoint, we have changed it sometimes, e.g. when the user wants to change service offering for running VM, the interface says that VM will be stopped and started, and it doesn’t make the user do it separately. So we replaced disconnected action sequences with connected ones.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/vmView1.png" target="_blank">![Virtual Machine View screen 1](./screens/vmView1_mini.png)</a>&nbsp;&nbsp;
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/vmView2.png" target="_blank">![Virtual Machine View screen 2](./screens/vmView2_mini.png)</a>&nbsp;&nbsp;
@@ -114,33 +111,33 @@ From the perspective of the system behaviour we changed it sometimes, e.g. when 
 
 #### New virtual machine form
 
-We changed new virtual machine form a lot. Now it's one step and it allows select everything from one screen without additional steps and so on. We believe it's much better to regular user than the one which is used in native UI. It also generates meaningful VM name from username like `vm-<username>-<counter>`. Other important thing is that the form immediately checks that user has required amount of resources to create the virtual machine and thus it doesn't allow him to launch creation of impossible things which will fail for sure.
+We changed the new virtual machine screen a lot. Now it’s one-step and it allows to select everything from one screen without additional steps and so on. We believe it’s much better for a regular user than the one which is used in the native UI. It also generates meaningful VM names from usernames like `vm-<username>-<counter>`. Another important thing is that the form immediately checks that the user has the required amount of resources to create the virtual machine, and thus it doesn’t allow them to launch creation of impossible things which will fail for sure.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVMView.png" target="_blank">![New Virtual Machine View](./screens/newVMView_mini.png)</a>
 
 #### Resource usage bar
 
-We also decided to place resource usage bar on the same virtual machine view screen. It can be collapsed or displayed. You also can see that the interface is in chocolate and blue colors. It's because we allow to change the theme instantly in settings area. Material Design allows doing it natively, default theme colors can be specified in configuration json file.
+We also decided to place resource usage bar on the same virtual machine view screen. It can be collapsed or displayed. You also can see that the interface is in chocolate and blue colors. It’s because we enabled instant theme changing in the settings area. Material Design allows doing it natively, default theme colors can be specified in configuration json file.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/resourceUsageBar.png" target="_blank">![New Virtual Machine View](./screens/resourceUsageBar_mini.png)</a>
 
 #### Templates & ISOs view
 
-We changed templates and ISOs view to make it more obvious and neat to use. Also, user can switch required OS family to filter out unnecessary images. Also, here is the same concept of single view without moving between screens is applied. Additional things are displayed in the sidebar.
+We changed the templates and ISOs view to make it more obvious and neat to use. Also, the user can choose the required OS family to filter out unnecessary images. Also the same concept of single view without moving between screens is applied here. Additional things are displayed in the sidebar.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/templatesISOsView.png" target="_blank">![Templates & ISOs view](./screens/templatesISOsView_mini.png)</a>&nbsp;&nbsp;
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/templatesISOsView2.png" target="_blank">![Templates & ISOs view 2](./screens/templatesISOsView2_mini.png)</a>
 
 #### Firewall Templates View
 
-So, here is a somekind controversial thing here. Actually, we don't think security group concept is quite clear for an average user. There is a reason. The user can not change security group for virtual machine, but he or she can change the rules inside of security group, as a result those changes affect all the virtual machines which share the same group. From out experience it's not what average user expects. We tried to change it to make it work in better way, so we created a concept "Firewall rules template" which is a preset which can be system default or developed by user and those presets (many) can be used to specify for newly created virtual machine. Upon creation the system creates new security group for every virtual machine which is initially filled with all the rules from specified presets. Next, when the user changes the rules for specific virtual machine they don't affect other machines. So, basically the interface doesn't allow to share a single security group between several virtual machines. Every virtual machine always gets unique security group which is built from presets specified when the virtual machine were created. Also, system administrators can specify default presents during the interface deploy in json configuration file, now we have "TCP Permit All", "UDP Permit All", "ICMP Permit All" presets which just pass all the traffic because we would like the user who doesn't read manuals and doesn't mention the details still gets his virtual machines accessible.
+So, here is somewhat of a controversial thing here. Actually, we don’t think the security group concept is quite clear for an average user. There is a reason. The user can not change the security group for a virtual machine, but he or she can change the rules inside of the security group; as a result those changes affect all the virtual machines which share the same group. From our experience it’s not what an average user expects. We tried to change it to make it work in a better way, so we created the “Firewall rules template” concept, which is a preset that can be system default or developed by the user, and those presets (many of them) can be used to specify for a newly created virtual machine. Upon creation the system creates a new security group for every virtual machine which is initially filled with all the rules from specified presets. Next, when the user changes the rules for a certain virtual machine, they don’t affect other machines. So, basically the interface disables sharing one security group between several virtual machines. Every virtual machine always gets a unique security group which is built from presets specified when the virtual machine was created. Also, system administrators can specify default presets during the interface deployment in json configuration file; now we have “TCP Permit All”, “UDP Permit All”, “ICMP Permit All” presets which just pass all the traffic because we would like the user who doesn’t read manuals and doesn’t mention the details to still make his virtual machines accessible.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/firewallTemplatesView.png" target="_blank">![Firewall templates view](./screens/firewallTemplatesView_mini.png)</a>&nbsp;&nbsp;
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/firewallTemplatesView2.png" target="_blank">![Firewall templates view 2](./screens/firewallTemplatesView2_mini.png)</a>
 
 #### Spare Drives View
 
-This panel displays only drives which are detached from virtual machines. Original ACS UI has "Storage" zone where user can see all the drives, but we don't think the average user needs such a function. Current ACS releases allow resizing of root volumes, so less and less users require more than one drive. But, some deployments can have different storage offerings, so it's still important to allow user working with additional drives, but we found in native ACS UI that users often forget about additional drives and they assume that they will be removed when the virtual machine is removed, so they don't expect in 99% that they can be reused. So we did it work in that way. All drives can be automatically removed on virtual machine removal. Drives that are attached are not displayed in "Spare drives" list, drives that are detached are displayed there. Also, we don't allow user create additional disks on a virtual machine creation because it leads to the confusion when the virtual machine is created from template &ndash; an user doesn't realize that he or she adds "additional" drive and it's not a root one.
+This panel displays only the drives which are detached from virtual machines. Original ACS UI has the “Storage” zone where the user can see all the drives, but we don’t think an average user needs such a function. Current ACS releases allow root volumes resizing, so fewer and fewer users require more than one drive. But, some deployments can have different storage offerings, so it’s still important to let the user work with additional drives, but in the native ACS UI we found that users often forget about additional drives and they assume they will be removed when the virtual machine is removed, so in 99% of the cases they don’t expect that they can be reused. So we made it work that way. All drives can be automatically removed on when a virtual machine is removed. The attached drives are not displayed in the “Spare drives” list, the drives that are detached are displayed there. Also, we don’t allow the user to create additional disks on a virtual machine creation because it leads to confusion when the virtual machine is created from a template – the user doesn’t realize that they add an “additional” drive and it’s not a root one.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView_mini.png)</a>&nbsp;
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView2.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView2_mini.png)</a>
@@ -148,7 +145,7 @@ This panel displays only drives which are detached from virtual machines. Origin
 
 #### Activity log view
 
-It's simplified view for account activities. It allows choosing the date and levels and see all of them. It's close to the same screen in ACS native UI but we believe that an user is interested in events of specific date and scrolling huge event log back to find something is not productive. Sometimes HelpDesk service just wants to show user that something had happened at specific date and thus the interface allows finding information easier.  
+It’s a simplified view for account activities. It lets you choose the date and levels and see all of them. It’s close to the same screen in the ACS native UI, but we believe that the user is interested in the events of specific date and scrolling a huge event log back to find something is not productive. Sometimes the HelpDesk service just wants to show the user that something had happened on a specific date, and thus the interface allows you to find information easier.  
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/activityLog.png" target="_blank">![Activity Log screen](./screens/activityLog_mini.png)</a>
 
@@ -156,19 +153,19 @@ It's simplified view for account activities. It allows choosing the date and lev
 
 ## Project Sponsors
 
-Currently project is supported by [Bitworks Software](https://bitworks.software/).
+The project is currently supported by [Bitworks Software](https://bitworks.software/).
 
 ![Bitworks Software](https://raw.githubusercontent.com/bwsw/bwsw.github.io/master/15047882.png)
 
 ## How to Contribute
 
-You can contribute to development of the project in various ways:
+You can contribute to the project development in various ways:
 
-1. Share the information about the project with other people, try to install the UI and share your opinion with us and your fellows.
-2. Propose useful feature. Ideas are always welcome. 
-3. Deploy it somewhere and inform us about success story and we will share it in adopters section.
-4. Fix bugs and send us PR.
-5. Implement a feature from Roadmap or just do something which is new.
+1. Share the information about the project with other people, try to install the UI and share your opinion with us and your colleagues.
+2. Propose useful features. Ideas are always welcome. 
+3. Deploy it somewhere and inform us about your success story and we will share it in the adopters section.
+4. Fix bugs and send us the PR.
+5. Implement a feature from the Roadmap or simply make something new.
 6. Support and promote the development of specific functions which are important to you and may be shared.
 7. Provide testing environment for other deployment schemes. Now we interested in testing the app with
    1. KVM with RBD
@@ -176,11 +173,11 @@ You can contribute to development of the project in various ways:
    3. Oher browsers and operating systems
 7. Hire us for frontend or backend development of custom software development projects. Take a look at our [website](https://bitworks.software/) to know where we can be useful. Take a look at our [presentation](https://www.slideshare.net/secret/BpNGxtaPUfOIqj) to learn more about us.
 
-To do a contribution, just contact us with next e-mail: info@bw-sw.com
+To contribute, just contact us via e-mail: info@bw-sw.com
 
 ## License
 
-It's released under Apache 2.0 license.
+It’s released under the Apache 2.0 license.
 
 # Documentation
 
