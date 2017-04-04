@@ -114,6 +114,7 @@ export class StorageDetailComponent implements OnChanges {
     this.dialogService.showCustomDialog({
       component: IsoAttachmentComponent,
       classes: 'iso-attachment-dialog',
+      providers: [{ provide: 'zoneId', useValue: this.vm.zoneId }]
     })
       .switchMap(res => res.onHide())
       .subscribe((iso: Iso) => {
@@ -141,13 +142,14 @@ export class StorageDetailComponent implements OnChanges {
       .subscribe(
         (attachedIso: Iso) => {
           this.iso = attachedIso;
+          this.vm.isoId = this.iso.id;
           this.jobNotificationService.finish({
             id: notificationId,
             message: 'ISO_ATTACH_DONE'
           });
         },
         error => {
-          this.iso = null;
+          this.iso = undefined;
           this.notificationService.error(error.errortext);
           this.jobNotificationService.fail({
             id: notificationId,
@@ -161,7 +163,8 @@ export class StorageDetailComponent implements OnChanges {
 
     this.isoService.detach(this.vm.id)
       .subscribe(() => {
-        this.iso = null;
+        this.iso = undefined;
+        this.vm.isoId = undefined;
         this.jobNotificationService.finish({
           id: notificationId,
           message: 'ISO_DETACH_DONE'

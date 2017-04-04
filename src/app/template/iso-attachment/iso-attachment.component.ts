@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 
 import { Iso } from '../shared';
@@ -13,7 +13,10 @@ export class IsoAttachmentComponent {
   public selectedIso: Iso;
   public showIso = true;
 
-  constructor(private dialog: MdlDialogReference) { }
+  constructor(
+    @Inject('zoneId') public zoneId: string,
+    private dialog: MdlDialogReference
+  ) { }
 
   public onAttach(): void {
     this.dialog.hide(this.selectedIso);
