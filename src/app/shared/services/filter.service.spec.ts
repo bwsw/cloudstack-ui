@@ -32,7 +32,7 @@ describe('Filter service', () => {
 
   beforeEach(async(() => {
     const storage = {};
-    spyOn(localStorage, 'getItem').and.callFake(key => storage[key]);
+    spyOn(localStorage, 'getItem').and.callFake(key => storage[key] || null);
     spyOn(localStorage, 'setItem').and.callFake((key, value) => storage[key] = '' + value);
     spyOn(localStorage, 'removeItem').and.callFake(key => delete storage[key]);
 
@@ -135,6 +135,10 @@ describe('Filter service', () => {
           type: 'array',
           options: ['option1', 'option2']
         },
+        'intersection': {
+          type: 'array',
+          options: ['option1', 'option2']
+        },
         'unknownValue': {
           type: 'array',
           options: ['option1', 'option2']
@@ -148,6 +152,7 @@ describe('Filter service', () => {
         serializedArray: 'anyValue,anotherValue',
         array: ['anyValue', 'anotherValue'],
         withOptions: 'option2',
+        intersection: 'option2,option3',
         unknownValue: 'option3',
         notAnArray: 123
       };
@@ -156,6 +161,7 @@ describe('Filter service', () => {
       expect(filters.array).toEqual(['anyValue', 'anotherValue']);
       expect(filters.withOptions).toEqual(['option2']);
       expect(filters.notAnArray).toBeUndefined();
+      expect(filters.intersection).toEqual(['option2']);
     })
   );
 
@@ -216,7 +222,7 @@ describe('Filter service', () => {
       activatedRoute.testParams = queryParams;
       const filters = filterService.init(testKey, whiteList);
       expect(filters).toEqual(queryParams);
-      expect(localStorage.getItem(testKey)).toBeUndefined();
+      expect(localStorage.getItem(testKey)).toBeNull();
     })
   );
 

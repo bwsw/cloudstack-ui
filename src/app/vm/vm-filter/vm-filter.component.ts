@@ -45,7 +45,7 @@ export class VmFilterComponent implements OnInit {
     private zoneService: ZoneService,
     private filter: FilterService
   ) {
-    this.update = debounce(this.update, 300, { leading: true, trailing: false });
+    this.update = debounce(this.update, 300);
   }
 
   public ngOnInit(): void {
@@ -68,7 +68,7 @@ export class VmFilterComponent implements OnInit {
       'zones': { type: 'array', defaultOption: [] },
       'groups': { type: 'array', defaultOption: [] }
     });
-    this.doFilterByColor = 'byColors' in params && params['byColors'] !== 'false';
+    this.doFilterByColor = !!params.byColors;
     this.mode = params['mode'] === 'group' ? SectionType.group : SectionType.zone;
     this.selectedZones = this.zones.filter(zone => params['zones'].find(id => id === zone.id));
     this.selectedGroups = this.groups.filter(group => params['groups'].find(id => id === group.name));

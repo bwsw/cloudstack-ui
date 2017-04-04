@@ -52,7 +52,7 @@ export class TemplateFiltersComponent implements OnInit {
     private translateService: TranslateService,
     private filter: FilterService
   ) {
-    this.updateFilters = debounce(this.updateFilters, 300, { leading: true, trailing: false });
+    this.updateFilters = debounce(this.updateFilters, 300);
   }
 
   public ngOnInit(): void {
