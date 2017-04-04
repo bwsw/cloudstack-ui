@@ -1,8 +1,14 @@
-<div class="snapshot-name-form">
-  <h3 class="mdl-dialog__title">Take a snapshot</h3>
-  <form (ngSubmit)="onSubmit($event)" #snapshotCreationDialog="ngForm" novalidate>
+<ng-container *loading="loading">
+  <h3 class="mdl-dialog__title">{{ 'TAKE_SNAPSHOT_SNAPSHOT_CREATION_FORM' | translate }}</h3>
+
+  <form
+    (ngSubmit)="onSubmit($event)"
+    #snapshotCreationDialog="ngForm"
+    novalidate
+  >
     <div class="mdl-dialog__content">
       <mdl-textfield
+        *ngIf="enoughResources"
         type="text"
         label="Name"
         name="name"
@@ -13,9 +19,11 @@
         [style.width]="'100%'"
       >
       </mdl-textfield>
+      <div class="blur-fix" *ngIf="!enoughResources">{{ "SNAPSHOT_LIMIT_EXCEEDED" | translate }}</div>
     </div>
     <div class="mdl-dialog__actions">
       <button
+        *ngIf="enoughResources"
         mdl-colored="primary"
         mdl-button
         mdl-ripple
@@ -35,4 +43,4 @@
       </button>
     </div>
   </form>
-</div>
+</ng-container>

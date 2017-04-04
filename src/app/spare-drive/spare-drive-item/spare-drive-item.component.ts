@@ -1,9 +1,15 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ViewChild, OnInit } from '@angular/core';
 import { Volume } from '../../shared/models/volume.model';
 import { MdlDialogService } from 'angular2-mdl';
 import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
-import { VolumeAttachmentData } from '../../shared/services/volume.service';
-import { VolumeResizeComponent } from '../../vm/vm-sidebar/volume-resize.component';
+import { VolumeAttachmentData, VolumeService } from '../../shared/services/volume.service';
+import { VolumeResizeComponent, VolumeResizeData } from '../../vm/vm-sidebar/volume-resize.component';
+import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
+import { DiskOffering } from '../../shared/models/disk-offering.model';
+import { DiskOfferingService } from '../../shared/services/disk-offering.service';
+import { ZoneService } from '../../shared/services/zone.service';
+import { Zone } from '../../shared/models/zone.model';
+import { TranslateService } from 'ng2-translate';
 
 
 @Component({
@@ -11,18 +17,38 @@ import { VolumeResizeComponent } from '../../vm/vm-sidebar/volume-resize.compone
   templateUrl: 'spare-drive-item.component.html',
   styleUrls: ['spare-drive-item.component.scss']
 })
-export class SpareDriveItemComponent {
+export class SpareDriveItemComponent implements OnInit {
   @Input() public isSelected: boolean;
   @Input() public volume: Volume;
   @Output() public onClick = new EventEmitter();
   @Output() public onVolumeAttached = new EventEmitter<VolumeAttachmentData>();
   @Output() public onDelete = new EventEmitter();
   @Output() public onResize = new EventEmitter();
+  @ViewChild(MdlPopoverComponent) public popoverComponent: MdlPopoverComponent;
 
-  constructor(private dialogService: MdlDialogService) {}
+  public diskOfferings: Array<DiskOffering>;
 
-  public handleClick(): void {
-    this.onClick.emit(this.volume);
+  constructor(
+    private dialogService: MdlDialogService,
+    private diskOfferingService: DiskOfferingService,
+    private translateService: TranslateService,
+    private volumeService: VolumeService,
+    private zoneService: ZoneService
+  ) {}
+
+  public ngOnInit(): void {
+    let zone;
+
+    this.zoneService.get(this.volume.zoneId)
+      .switchMap((_zone: Zone) => {
+        zone = _zone;
+        return this.diskOfferingService.getList(zone.id);
+      })
+      .subscribe(diskOfferings => {
+        this.diskOfferings = diskOfferings.filter((diskOffering: DiskOffering) => {
+          return this.diskOfferingService.isOfferingAvailableForVolume(diskOffering, this.volume, zone);
+        });
+      });
   }
 
   public attach(): void {
@@ -43,25 +69,51 @@ export class SpareDriveItemComponent {
       });
   }
 
+  public handleClick(e: MouseEvent): void {
+    e.stopPropagation();
+    if (!this.popoverComponent.isVisible) {
+      this.onClick.emit(this.volume);
+    } else {
+      this.popoverComponent.hide();
+    }
+  }
+
   public resize(): void {
     this.dialogService.showCustomDialog({
       component: VolumeResizeComponent,
       classes: 'volume-resize-dialog',
-      providers: [{ provide: 'volume', useValue: this.volume }]
+      providers: [
+        { provide: 'volume', useValue: this.volume },
+        { provide: 'diskOfferingList', useValue: this.diskOfferings }
+      ],
     })
       .switchMap(res => res.onHide())
-      .subscribe((newSize: any) => {
-        if (newSize != null) {
-          const data = {
-            id: this.volume.id,
-            size: newSize
-          };
-          this.onResize.next(data);
+      .subscribe((volumeResizeData: VolumeResizeData) => {
+        if (volumeResizeData) {
+          this._resize(volumeResizeData);
         }
       });
   }
 
   public remove(): void {
     this.onDelete.next(this.volume);
+  }
+
+  private _resize(data: VolumeResizeData): void {
+    this.volumeService.resize(data)
+      .subscribe(
+        (newVolume: Volume) => {
+          this.diskOfferingService.get(data.diskOfferingId)
+            .subscribe(diskOffering => {
+              this.volume = newVolume;
+              this.volume.diskOffering = diskOffering;
+              this.onResize.emit(this.volume);
+            });
+        },
+        error => {
+          this.translateService.get(error.message)
+            .subscribe(str => this.dialogService.alert(str));
+        }
+      );
   }
 }

@@ -6,6 +6,13 @@ import { ZoneName } from '../decorators/zone-name.decorator';
 import { Tag } from './tag.model';
 
 
+type VolumeType = 'ROOT' | 'DATADISK';
+
+export const VolumeTypes = {
+  ROOT: 'ROOT' as VolumeType,
+  DATADISK: 'DATADISK' as VolumeType
+};
+
 @ZoneName()
 @FieldMapper({
   diskofferingid: 'diskOfferingId',
@@ -30,8 +37,12 @@ export class Volume extends BaseModel {
   public snapshots: Array<Snapshot>;
   public storageType: string;
   public tags: Array<Tag>;
-  public type: string;
+  public type: VolumeType;
   public zoneId: string;
 
   public zoneName: string;
+
+  public get isRoot(): boolean {
+    return this.type === VolumeTypes.ROOT;
+  }
 }

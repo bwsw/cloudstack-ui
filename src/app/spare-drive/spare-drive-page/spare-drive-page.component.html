@@ -21,7 +21,7 @@
         (onSelected)="selectVolume($event)"
         (onDelete)="showRemoveDialog($event)"
         (onVolumeAttached)="attach($event)"
-        (onResize)="resize($event)"
+        (onResize)="updateVolume($event)"
         cs-list
       ></cs-spare-drive-list>
     </div>
@@ -34,10 +34,9 @@
       (onSelected)="selectVolume($event)"
       (onDelete)="showRemoveDialog($event)"
       (onVolumeAttached)="attach($event)"
-      (onResize)="resize($event)"
+      (onResize)="updateVolume($event)"
     ></cs-spare-drive-list>
   </div>
-
   <cs-spare-drive-sidebar
     [volume]="selectedVolume"
     cs-sidebar

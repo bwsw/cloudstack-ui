@@ -4,7 +4,7 @@ import { TranslateService } from 'ng2-translate';
 import { Observable } from 'rxjs';
 
 import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
-import { VolumeResizeComponent } from '../../volume-resize.component';
+import { VolumeResizeComponent, VolumeResizeData } from '../../volume-resize.component';
 
 import {
   JobsNotificationService,
@@ -15,7 +15,10 @@ import {
 
 import { Volume, Snapshot } from '../../../../shared/models';
 import { VolumeService } from '../../../../shared/services/volume.service';
+import { VolumeTypes } from '../../../../shared/models/volume.model';
 
+
+const numberOfShownSnapshots = 5;
 
 @Component({
   selector: 'cs-volume',
@@ -25,6 +28,8 @@ import { VolumeService } from '../../../../shared/services/volume.service';
 export class VolumeComponent implements OnInit {
   @Input() public volume: Volume;
   @Output() public onDetach = new EventEmitter();
+
+  public expandStorage: boolean;
 
   constructor(
     private dialogService: MdlDialogService,
@@ -36,16 +41,28 @@ export class VolumeComponent implements OnInit {
     private translateService: TranslateService
   ) { }
 
-  public ngOnInit(): void { }
+  public ngOnInit(): void {
+    this.expandStorage = false;
+  }
 
-  public get volumeType(): 'Data' | 'Root' {
-    if (this.volume.type === 'ROOT') {
-      return 'Root';
+  public get showVolumeActions(): boolean {
+    if (!this.volume) {
+      return false;
     }
-    if (this.volume.type === 'DATADISK') {
-      return 'Data';
-    }
-    throw new Error('Unrecognized volume type');
+
+    return this.showAttachmentActions || this.showSnapshotCollapseButton;
+  }
+
+  public get showAttachmentActions(): boolean {
+    return this.volume.type === VolumeTypes.DATADISK;
+  }
+
+  public get showSnapshotCollapseButton(): boolean {
+    return this.volume.snapshots.length > numberOfShownSnapshots;
+  }
+
+  public toggleStorage(): void {
+    this.expandStorage = !this.expandStorage;
   }
 
   public detach(): void {
@@ -58,17 +75,21 @@ export class VolumeComponent implements OnInit {
     this.dialogService.showCustomDialog({
       component: VolumeResizeComponent,
       classes: 'volume-resize-dialog',
-      providers: [{ provide: 'volume', useValue: volume }]
+      providers: [
+        { provide: 'volume', useValue: volume },
+        { provide: 'diskOfferingList', useValue: [] }
+      ]
     })
       .switchMap(res => res.onHide())
-      .switchMap((newSize: any) => {
-        if (newSize != null) {
+      .switchMap((volumeResizeData: VolumeResizeData) => {
+        if (volumeResizeData) {
           notificationId = this.jobNotificationService.add('VOLUME_RESIZING');
-          return this.volumeService.resize({ id: volume.id, size: newSize });
+          return this.volumeService.resize(volumeResizeData);
         }
         return Observable.of(undefined);
       })
-      .subscribe((newVolume: Volume) => {
+      .subscribe(
+        (newVolume: Volume) => {
           if (!newVolume) {
             return;
           }

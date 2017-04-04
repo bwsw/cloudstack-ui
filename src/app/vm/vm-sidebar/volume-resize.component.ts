@@ -1,8 +1,15 @@
-import { Component, Inject, HostListener, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 
 import { Volume, DiskStorageService } from '../../shared';
+import { DiskOffering } from '../../shared/models/disk-offering.model';
 
+
+export interface VolumeResizeData {
+  id: string;
+  diskOfferingId?: string;
+  size?: number;
+}
 
 @Component({
   selector: 'cs-volume-resize',
@@ -13,26 +20,60 @@ export class VolumeResizeComponent implements OnInit {
   public newSize: number;
   public maxSize: number;
 
+  public diskOffering: DiskOffering;
+  public diskOfferingList: Array<DiskOffering>;
+
   constructor(
-    public dialog: MdlDialogReference,
+    @Optional() @Inject('diskOfferingList') public diskOfferingListInjected: Array<DiskOffering>,
     @Inject('volume') public volume: Volume,
+    public dialog: MdlDialogReference,
     private diskStorageService: DiskStorageService
-  ) {
-    this.newSize = this.volume.size / Math.pow(2, 30);
-    this.maxSize = 0; // to prevent mdl-slider from incorrect initial rendering
-  }
+  ) {}
 
   public ngOnInit(): void {
-    this.diskStorageService.getAvailablePrimaryStorage()
-      .subscribe((limit: number) => this.maxSize = limit);
+    this.getInjectedOfferingList();
+    this.updateSliderLimits();
+    this.setDefaultOffering();
+  }
+
+  public get canResize(): boolean {
+    return (this.diskOfferingList && this.diskOfferingList.length > 0) || this.volume.isRoot;
+  }
+
+  public updateDiskOffering(diskOffering: DiskOffering): void {
+    this.diskOffering = diskOffering;
   }
 
   public resizeVolume(): void {
-    this.dialog.hide(this.newSize);
+    let params: VolumeResizeData = { id: this.volume.id };
+
+    if (this.diskOffering) {
+      params.diskOfferingId = this.diskOffering.id;
+    }
+    if (this.newSize) {
+      params.size = this.newSize;
+    }
+
+    this.dialog.hide(params);
   }
 
-  @HostListener('click', ['$event'])
-  public onClick(e: Event): void {
-    e.stopPropagation();
+  private setDefaultOffering(): void {
+    if (this.diskOfferingList.length) {
+      this.diskOffering = this.diskOfferingList[0];
+    }
+  }
+
+  private getInjectedOfferingList(): void {
+    if (this.diskOfferingListInjected && !this.diskOfferingList) {
+      this.diskOfferingList = this.diskOfferingListInjected;
+    }
+  }
+
+  private updateSliderLimits(): void {
+    this.newSize = this.volume.size / Math.pow(2, 30);
+    this.maxSize = 0; // to prevent mdl-slider from incorrect initial rendering
+
+    this.diskStorageService.getAvailablePrimaryStorage()
+      .subscribe((limit: number) => this.maxSize = limit);
   }
 }

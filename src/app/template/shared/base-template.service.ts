@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { BaseTemplateModel } from './base-template.model';
 import { AsyncJobService, BaseBackendCachedService } from '../../shared/services';
 import { OsTypeService } from '../../shared/services/os-type.service';
+import { UtilsService } from '../../shared/services/utils.service';
 
 
 export interface RequestParams {
@@ -25,7 +26,8 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
 
   constructor(
     protected asyncJobService: AsyncJobService,
-    protected osTypeService: OsTypeService
+    protected osTypeService: OsTypeService,
+    protected utilsService: UtilsService
   ) {
     super();
     this._templateFilters = ['featured', 'selfexecutable', 'community', 'sharedexecutable'];
@@ -42,6 +44,13 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     params[`${this.entity}filter`.toLowerCase()] = params.filter;
     delete params.filter;
 
+    let maxSize: number;
+
+    if (params && params['maxSize']) {
+      maxSize = params['maxSize'];
+      delete params['maxSize'];
+    }
+
     return Observable.forkJoin([
       super.getList(params),
       this.osTypeService.getList()
@@ -51,6 +60,12 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
         templates.forEach(template => {
           template.osType = osTypes.find(osType => osType.id === template.osTypeId);
         });
+        return templates;
+      })
+      .map(templates => {
+        if (maxSize) {
+          return templates.filter(template => this.utilsService.convertToGB(template.size) <= maxSize);
+        }
         return templates;
       });
   }
@@ -111,8 +126,8 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       });
   }
 
-  public getDefault(): Observable<BaseTemplateModel> {
-    return this.getGroupedTemplates()
+  public getDefault(zoneId: string, maxSize?: number): Observable<BaseTemplateModel> {
+    return this.getGroupedTemplates({ zoneId, maxSize })
       .map(data => {
         for (let filter of this._templateFilters) {
           if (data[filter].length > 0) {

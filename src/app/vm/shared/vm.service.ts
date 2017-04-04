@@ -29,6 +29,7 @@ import { Iso } from '../../template/shared/iso.model';
 import { SecurityGroup } from '../../security-group/sg.model';
 import { VirtualMachine, IVmAction } from './vm.model';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
+import { VolumeTypes } from '../../shared/models/volume.model';
 
 
 export interface IVmActionEvent {
@@ -77,14 +78,16 @@ export class VmService extends BaseBackendService<VirtualMachine> {
           Observable.of(vm),
           this.osTypesService.get(vm.guestOsId),
           this.serviceOfferingService.get(vm.serviceOfferingId),
-          this.securityGroupService.get(vm.securityGroup[0].id)
+          vm.securityGroup[0] ? this.securityGroupService.get(vm.securityGroup[0].id) : Observable.of(null)
         ]);
       })
       .map(([virtualMachine, osType, serviceOffering, securityGroup]) => {
         let vm = virtualMachine;
         vm.osType = osType;
         vm.serviceOffering = serviceOffering;
-        vm.securityGroup[0] = securityGroup;
+        if (securityGroup) {
+          vm.securityGroup[0] = securityGroup;
+        }
         return vm;
       });
   }
@@ -174,7 +177,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         this.command(e).subscribe((job: AsyncJob<VirtualMachine>) => {
           if (job && job.result && job.result.state === 'Destroyed') {
             e.vm.volumes
-              .filter(volume => volume.type === 'DATADISK')
+              .filter(volume => volume.type === VolumeTypes.DATADISK)
               .forEach(volume => this.volumeService.markForDeletion(volume.id).subscribe());
           }
         });

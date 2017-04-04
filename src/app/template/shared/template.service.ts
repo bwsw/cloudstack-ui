@@ -6,6 +6,7 @@ import { AsyncJobService } from '../../shared/services/async-job.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { Template } from './template.model';
 import { BaseTemplateService, RegisterTemplateBaseParams } from './base-template.service';
+import { UtilsService } from '../../shared/services/utils.service';
 
 
 @Injectable()
@@ -16,9 +17,10 @@ import { BaseTemplateService, RegisterTemplateBaseParams } from './base-template
 export class TemplateService extends BaseTemplateService {
   constructor (
     protected asyncJobService: AsyncJobService,
-    protected osTypeService: OsTypeService
+    protected osTypeService: OsTypeService,
+    protected utilsService: UtilsService
   ) {
-    super(asyncJobService, osTypeService);
+    super(asyncJobService, osTypeService, utilsService);
   }
 
   public register(params: RegisterTemplateBaseParams): Observable<Template> {

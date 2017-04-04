@@ -15,7 +15,7 @@ import {
 
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
 import { ListService } from '../../shared/components/list/list.service';
-import { VolumeResizeData } from '../../shared/services/volume.service';
+import { VolumeTypes } from '../../shared/models/volume.model';
 import { ZoneService } from '../../shared/services/zone.service';
 import { Zone } from '../../shared/models/zone.model';
 
@@ -61,22 +61,6 @@ export class SpareDrivePageComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    let diskOfferings: Array<DiskOffering>;
-
-    this.diskOfferingService.getList({ type: 'DATADISK' })
-      .switchMap((offerings: Array<DiskOffering>) => {
-        diskOfferings = offerings;
-        return this.volumeService.getList();
-      })
-      .subscribe(volumes => {
-        this.volumes = volumes
-          .filter(volume => !volume.virtualMachineId && !volume.tags.find((tag) => tag.key === deletionMark))
-          .map(volume => {
-            volume.diskOffering = diskOfferings.find(offering => offering.id === volume.diskOfferingId);
-            return volume;
-          });
-      });
-
     this.listService.onSelected.subscribe((volume: Volume) => {
       this.selectedVolume = volume;
     });
@@ -85,6 +69,7 @@ export class SpareDrivePageComponent implements OnInit {
       this.showCreationDialog();
     });
 
+    this.updateVolumeList();
     this.updateZones();
     this.updateSections();
   }
@@ -203,27 +188,35 @@ export class SpareDrivePageComponent implements OnInit {
         });
   }
 
-  public resize(data: VolumeResizeData): void {
-    this.volumeService.resize(data)
-      .subscribe(
-        (newVolume: Volume) => {
-          const volumeInd = this.volumes.findIndex(volume => volume.id === newVolume.id);
-          if (volumeInd === -1) {
-            return;
-          }
+  public updateVolume(volume: Volume): void {
+    this.volumes = this.volumes.map(vol => vol.id === volume.id ? volume : vol);
 
-          this.volumes[volumeInd] = newVolume;
-        },
-        (error) => {
-          this.translateService.get(error.message)
-            .subscribe(str => this.dialogService.alert(str));
-        }
-      );
+    if (this.selectedVolume && this.selectedVolume.id === volume.id) {
+      this.selectedVolume = volume;
+    }
   }
 
   private updateZones(): void {
     this.zoneService.getList().subscribe(zones => {
       this.zones = zones;
     });
+  }
+
+  private updateVolumeList(): void {
+    let diskOfferings: Array<DiskOffering>;
+
+    this.diskOfferingService.getList({ type: VolumeTypes.DATADISK })
+      .switchMap((offerings: Array<DiskOffering>) => {
+        diskOfferings = offerings;
+        return this.volumeService.getList();
+      })
+      .subscribe(volumes => {
+        this.volumes = volumes
+          .filter(volume => !volume.virtualMachineId && !volume.tags.find((tag) => tag.key === deletionMark))
+          .map(volume => {
+            volume.diskOffering = diskOfferings.find(offering => offering.id === volume.diskOfferingId);
+            return volume;
+          });
+      });
   }
 }

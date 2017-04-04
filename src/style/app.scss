@@ -222,6 +222,18 @@ mdl-simple-tooltip div {
   margin-bottom: 15px;
 }
 
+.card-left-button {
+  display: inline-block;
+}
+
+.card-right-button {
+  float: right;
+}
+
+.arrow {
+  cursor: initial;
+}
+
 .section {
   width: 100%;
   min-height: 0;

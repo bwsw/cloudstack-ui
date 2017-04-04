@@ -1,8 +1,8 @@
-<div>
+<div *loading="loading">
   <h3 class="mdl-dialog__title">{{ 'VOLUME_CREATION_FORM.NEW_VOLUME' | translate }}</h3>
   <form (ngSubmit)="onCreate($event)" #volumeCreationForm="ngForm" novalidate>
     <div class="mdl-dialog__content">
-      <div class="flex-column">
+      <div class="flex-column blur-fix" *ngIf="enoughResources">
         <mdl-textfield
           type="text"
           label="{{ 'NAME' | translate }}"
@@ -23,18 +23,18 @@
             name="zone"
           >
             <mdl-option
-              *ngFor="let zone of zones"
-              [value]="zone.id"
+              *ngFor="let z of zones"
+              [value]="z.id"
             >
-              {{ zone.name }}
+              {{ z.name }}
             </mdl-option>
           </mdl-select>
         </div>
         <div>
           <h5>{{ 'DISK_OFFERING' | translate }}</h5>
           <cs-disk-offering
-            *ngIf="zoneId"
-            [zoneId]="zoneId"
+            *ngIf="diskOfferings"
+            [diskOfferingList]="diskOfferings"
             (offeringUpdated)="updateDiskOffering($event)"
           ></cs-disk-offering>
         </div>
@@ -49,9 +49,11 @@
           ></cs-slider>
         </div>
       </div>
+      <div *ngIf="!enoughResources">{{ "VOLUME_LIMIT_EXCEEDED" | translate }}</div>
     </div>
     <div class="mdl-dialog__actions">
       <button
+        *ngIf="enoughResources"
         mdl-colored="primary"
         mdl-button
         mdl-ripple

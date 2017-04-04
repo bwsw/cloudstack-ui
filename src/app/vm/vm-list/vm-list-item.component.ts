@@ -5,13 +5,15 @@ import {
   EventEmitter,
   OnInit,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
+  ViewChild
 } from '@angular/core';
 import { VirtualMachine, IVmAction } from '../shared/vm.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { AsyncJob } from '../../shared/models/async-job.model';
 import { VmService } from '../shared/vm.service';
 import { Color } from '../../shared/models/color.model';
+import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
 
 
 @Component({
@@ -24,6 +26,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
   @Input() public isSelected: boolean;
   @Output() public onVmAction = new EventEmitter();
   @Output() public onClick = new EventEmitter();
+  @ViewChild(MdlPopoverComponent) public popoverComponent: MdlPopoverComponent;
 
   public actions: Array<IVmAction>;
   public color: Color;
@@ -50,7 +53,11 @@ export class VmListItemComponent implements OnInit, OnChanges {
 
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
-    this.onClick.emit(this.vm);
+    if (!this.popoverComponent.isVisible) {
+      this.onClick.emit(this.vm);
+    } else {
+      this.popoverComponent.hide();
+    }
   }
 
   public openConsole(): void {

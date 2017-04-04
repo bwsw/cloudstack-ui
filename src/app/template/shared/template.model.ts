@@ -12,4 +12,5 @@ export class Template extends BaseTemplateModel {
   public isPasswordEnabled: boolean;
   public status: string;
   public type: string;
+  public size: number;
 }

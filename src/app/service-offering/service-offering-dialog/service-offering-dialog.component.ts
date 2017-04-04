@@ -26,12 +26,11 @@ export class ServiceOfferingDialogComponent implements OnInit {
 
   public ngOnInit(): void {
     this.zoneService.get(this.virtualMachine.zoneId)
-      .subscribe(zone => {
-        this.fetchData({
-          zoneId: zone.id,
-          local: zone.localStorageEnabled
-        });
-      });
+      .subscribe(zone => this.fetchData(zone));
+  }
+
+  public updateOffering(offering: ServiceOffering): void {
+    this.serviceOffering = offering;
   }
 
   public onChange(): void {
@@ -46,7 +45,12 @@ export class ServiceOfferingDialogComponent implements OnInit {
   private fetchData(params?: {}): void {
     this.serviceOfferingService.getAvailable(params)
       .subscribe(availableOfferings => {
-        this.serviceOfferings = availableOfferings;
+        this.serviceOfferings = availableOfferings.filter(offering => {
+          return offering.id !== this.virtualMachine.serviceOfferingId;
+        });
+        if (this.serviceOfferings.length) {
+          this.serviceOffering = this.serviceOfferings[0];
+        }
       });
   }
 }
