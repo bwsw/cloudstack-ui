@@ -1,5 +1,3 @@
-{{ ngModel }}
-
 <div
   class="mdl-textfield is-upgraded"
   [class.is-focused]="popover.isVisible || focused"
@@ -22,7 +20,6 @@
     [value]="text"
     (ngModelChange)="filterResults($event)"
     [(ngModel)]="text"
-    (blur)="close(); removeFocus()"
   >
   <span
     class="mdl-select__toggle material-icons"
