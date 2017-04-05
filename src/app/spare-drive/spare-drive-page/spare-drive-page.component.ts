@@ -129,8 +129,7 @@ export class SpareDrivePageComponent implements OnInit {
           });
         },
         error => {
-          // todo: CS-3168
-          this.notificationService.error(error.json().createvolumeresponse.errortext);
+          this.notificationService.error(error.errortext);
           this.jobsNotificationService.fail({
             id: notificationId,
             message: 'VOLUME_CREATE_FAILED',
@@ -151,7 +150,7 @@ export class SpareDrivePageComponent implements OnInit {
           });
         },
         error => {
-          this.notificationService.error(error.json().attachvolumeresponse.errortext);
+          this.notificationService.error(error.errortext);
           this.jobsNotificationService.fail({
             id: notificationId,
             message: 'VOLUME_ATTACH_FAILED',

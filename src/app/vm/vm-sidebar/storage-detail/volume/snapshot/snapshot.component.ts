@@ -56,7 +56,7 @@ export class SnapshotComponent {
           });
         },
         error => {
-          this.notificationService.error(error.json()['createtemplateresponse']['errortext']);
+          this.notificationService.error(error.errortext);
           this.jobNotificationService.fail({
             id: notificationId,
             message: 'TEMPLATE_CREATION_FAILED'

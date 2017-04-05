@@ -67,23 +67,7 @@ export class SshKeysPageComponent implements OnInit {
   }
 
   private handleError(error): void {
-    const errorMap = {
-      'A key pair with name': 'KEYPAIR_ALREADY_EXISTS',
-      'Public key is invalid': 'INVALID_PUBLIC_KEY'
-    };
-
-    let message;
-    for (let key in errorMap) {
-      if (error.errortext.startsWith(key)) {
-        message = errorMap[key];
-        break;
-      }
-    }
-    if (!message) {
-      message = error.errortext;
-    }
-
-    this.translateService.get(message)
+    this.translateService.get(error.message, error.params)
       .subscribe((msg) => this.dialogService.alert(msg));
   }
 

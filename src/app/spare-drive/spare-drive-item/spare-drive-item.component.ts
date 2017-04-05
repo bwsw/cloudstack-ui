@@ -1,15 +1,18 @@
 import { Component, Input, EventEmitter, Output, ViewChild, OnInit } from '@angular/core';
-import { Volume } from '../../shared/models/volume.model';
 import { MdlDialogService } from 'angular2-mdl';
-import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
-import { VolumeAttachmentData, VolumeService } from '../../shared/services/volume.service';
-import { VolumeResizeComponent, VolumeResizeData } from '../../vm/vm-sidebar/volume-resize.component';
-import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
-import { DiskOffering } from '../../shared/models/disk-offering.model';
-import { DiskOfferingService } from '../../shared/services/disk-offering.service';
-import { ZoneService } from '../../shared/services/zone.service';
-import { Zone } from '../../shared/models/zone.model';
 import { TranslateService } from 'ng2-translate';
+import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
+
+import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
+import { VolumeResizeComponent } from '../../vm/vm-sidebar/volume-resize.component';
+import {
+  DiskOfferingService,
+  VolumeAttachmentData,
+  VolumeResizeData,
+  VolumeService,
+  ZoneService
+} from '../../shared/services';
+import { DiskOffering, Volume, Zone } from '../../shared/models';
 
 
 @Component({

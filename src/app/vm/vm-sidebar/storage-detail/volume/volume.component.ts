@@ -4,18 +4,18 @@ import { TranslateService } from 'ng2-translate';
 import { Observable } from 'rxjs';
 
 import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
-import { VolumeResizeComponent, VolumeResizeData } from '../../volume-resize.component';
+import { VolumeResizeComponent } from '../../volume-resize.component';
 
 import {
   JobsNotificationService,
   NotificationService,
   SnapshotService,
-  StatsUpdateService
+  StatsUpdateService,
+  VolumeResizeData,
+  VolumeService
 } from '../../../../shared/services';
 
-import { Volume, Snapshot } from '../../../../shared/models';
-import { VolumeService } from '../../../../shared/services/volume.service';
-import { VolumeTypes } from '../../../../shared/models/volume.model';
+import { Volume, VolumeTypes, Snapshot } from '../../../../shared/models';
 
 
 const numberOfShownSnapshots = 5;

@@ -245,17 +245,8 @@ export class VmCreationComponent implements OnInit {
         err => {
           this.sgCreationInProgress = false;
           this.agCreationInProgress = false;
-          const response = err.json()[`deployvirtualmachineresponse`];
-          if (response && response.cserrorcode === 4350) {
-            this.takenName = this.vmCreationData.vm.displayName;
-            this.translateService.get(
-              'THE_NAME_IS_TAKEN',
-              { name: this.vmCreationData.vm.displayName }
-            )
-              .subscribe(str => this.dialogService.alert(str));
-
-            return;
-          }
+          this.translateService.get(err.message, err.params)
+            .subscribe(str => this.dialogService.alert(str));
 
           this.notifyOnDeployFailed(notificationId);
         }

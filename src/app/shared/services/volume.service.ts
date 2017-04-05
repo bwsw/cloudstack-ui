@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
 
-import { Volume } from '../models/volume.model';
+import { Volume } from '../models';
 import { BaseBackendService } from './base-backend.service';
-import { BackendResource } from '../decorators/backend-resource.decorator';
+import { BackendResource } from '../decorators';
 import { SnapshotService } from './snapshot.service';
-import { Snapshot } from '../models/snapshot.model';
+import { Snapshot } from '../models';
 import { AsyncJobService } from './async-job.service';
 import { TagService } from './tag.service';
-import { VolumeResizeData } from '../../vm/vm-sidebar/volume-resize.component';
 
 
 interface VolumeCreationData {
@@ -21,6 +20,12 @@ interface VolumeCreationData {
 export interface VolumeAttachmentData {
   id: string;
   virtualMachineId: string;
+}
+
+export interface VolumeResizeData {
+  id: string;
+  diskOfferingId?: string;
+  size?: number;
 }
 
 export const deletionMark = 'toBeDeleted';
@@ -66,34 +71,9 @@ export class VolumeService extends BaseBackendService<Volume> {
       });
   }
 
-  public resize(volumeResizeData: VolumeResizeData): Observable<Volume> {
-    return this.sendCommand('resize', volumeResizeData)
-      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
-      .catch((error) => {
-        let message = '';
-
-        const errorMap = {
-          'Going from': 'VOLUME_NEWSIZE_LOWER',
-          'Maximum number of': 'VOLUME_PRIMARY_STORAGE_EXCEEDED',
-        };
-
-        // can't rely on error codes, native ui just prints errortext
-        for (let key in errorMap) {
-          if (error.errortext.startsWith(key)) {
-            message = errorMap[key];
-            break;
-          }
-        }
-
-        // don't know what errors may occur,
-        // so print errortext like native ui
-        if (!message) {
-          message = error.errortext;
-        }
-
-        error.message = message;
-        return Observable.throw(error);
-      });
+  public resize(params: VolumeResizeData): Observable<Volume> {
+    return this.sendCommand('resize', params)
+      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel));
   }
 
   public remove(id: string): Observable<null> {

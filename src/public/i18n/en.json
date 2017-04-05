@@ -187,7 +187,7 @@
   },
 
   "THIS_NAME_IS_TAKEN": "This name is taken",
-  "THE_NAME_IS_TAKEN": "The name {{name}} is taken",
+  "THE_NAME_IS_TAKEN": "The name {{val1}} is taken",
   "UNABLE_TO_RECEIVE_TEMPLATES": "Unable to receive templates",
   "NAME": "Name",
   "DESCRIPTION": "Description",
@@ -445,7 +445,7 @@
 
   "CREATE_SSH_KEY": "Create SSH key",
   "AUTO_GENERATED": "auto generated",
-  "KEYPAIR_ALREADY_EXISTS": "SSH key with this name already exists",
+  "KEYPAIR_ALREADY_EXISTS": "SSH key with name '{{val1}}' already exists",
   "INVALID_PUBLIC_KEY": "Invalid public key",
 
   "SAVE_THIS_KEY": "Please, save this private key as it will not be kept",

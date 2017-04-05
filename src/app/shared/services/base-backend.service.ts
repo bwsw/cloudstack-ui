@@ -98,6 +98,16 @@ export abstract class BaseBackendService<M extends BaseModel> {
       .catch(error => this.handleError(error));
   }
 
+  protected getResponse(result: any): any {
+    const responseKeys = Object.keys(result);
+    if (responseKeys.length !== 1) {
+      throw new Error('wrong response');
+    }
+
+    return result[responseKeys[0]];
+  }
+
+
   protected postRequest(command: string, params?: {}): Observable<any> {
     const headers = new Headers({
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -108,12 +118,10 @@ export abstract class BaseBackendService<M extends BaseModel> {
       .catch(error => this.handleError(error));
   }
 
-  // todo: check if it works for tags, delete etc.
-
   protected sendCommand(command: string, params?: {}, entity?: string): Observable<any> {
     return this.getRequest(command, params, entity)
       .map(res => this.getResponse(res))
-      .catch(error => this.handleError(error));
+      .catch(error => this.handleCommandError(error));
   }
 
   private breakParamsArray(params: {}, arrayName: string): any {
@@ -150,17 +158,13 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return apiCommand;
   }
 
-  private getResponse(result: any): any {
-    const responseKeys = Object.keys(result);
-    if (responseKeys.length !== 1) {
-      throw new Error('wrong response');
-    }
-
-    return result[responseKeys[0]];
+  private handleError(response): Observable<any> {
+    let error = response.json();
+    this.error.next(response);
+    return Observable.throw(error);
   }
 
-  private handleError(error): Observable<any> {
-    this.error.send(error);
-    return Observable.throw(error);
+  private handleCommandError(error): Observable<any> {
+    return Observable.throw(ErrorService.parseError(this.getResponse(error)));
   }
 }

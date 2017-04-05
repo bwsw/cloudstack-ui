@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import {
   Color,
@@ -7,10 +8,7 @@ import {
   StorageService,
   StyleService
 } from '../shared';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UserService } from '../shared/services/user.service';
-import { AuthService } from '../shared/services/auth.service';
-import { NotificationService } from '../shared/services/notification.service';
+import { AuthService, UserService, NotificationService } from '../shared/services';
 
 
 @Component({
@@ -81,7 +79,7 @@ export class SettingsComponent implements OnInit {
     this.userService.updatePassword(this.authService.userId, this.password)
       .subscribe(
         () => {},
-        error => this.notificationService.error(error.json()['updateuserresponse'].errortext)
+        error => this.notificationService.error(error.errortext)
       );
   }
 

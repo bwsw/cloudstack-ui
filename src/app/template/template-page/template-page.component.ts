@@ -85,7 +85,7 @@ export class TemplatePageComponent implements OnInit {
         });
       },
       error => {
-        this.notificationService.error(error.json()['registerisoresponse']['errortext']);
+        this.notificationService.error(error.errortext);
         this.jobNotificationService.fail({
           id: notificationId,
           message: `${currentMode}_REGISTER_FAILED`,

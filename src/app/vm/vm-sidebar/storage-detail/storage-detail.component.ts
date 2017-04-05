@@ -94,7 +94,7 @@ export class StorageDetailComponent implements OnChanges {
           });
         },
         error => {
-          this.notificationService.error(error.json().detachvolumeresponse.errortext);
+          this.notificationService.error(error.errortext);
           this.jobNotificationService.fail({
             id: notificationId,
             message: 'VOLUME_DETACH_FAILED'

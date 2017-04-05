@@ -2,14 +2,9 @@ import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 
 import { Volume, DiskStorageService } from '../../shared';
-import { DiskOffering } from '../../shared/models/disk-offering.model';
+import { DiskOffering } from '../../shared/models';
+import { VolumeResizeData } from '../../shared/services';
 
-
-export interface VolumeResizeData {
-  id: string;
-  diskOfferingId?: string;
-  size?: number;
-}
 
 @Component({
   selector: 'cs-volume-resize',

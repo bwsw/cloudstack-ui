@@ -4,6 +4,7 @@ import { Subject, Observable } from 'rxjs/Rx';
 import { AsyncJob } from '../models/async-job.model';
 import { BaseBackendService } from './base-backend.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
+import { ErrorService } from './error.service';
 
 
 interface IJobObservables {
@@ -91,11 +92,13 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     this.jobObservables = {};
   }
 
-  private _queryJob(jobId: string,
-                    jobSubject: Subject<AsyncJob<any>>,
-                    entity: string,
-                    entityModel: any,
-                    interval?: any): void {
+  private _queryJob(
+    jobId: string,
+    jobSubject: Subject<AsyncJob<any>>,
+    entity: string,
+    entityModel: any,
+    interval?: any
+  ): void {
     this.sendCommand('query;Result', { jobId })
       .map(res => new AsyncJob<typeof entityModel>(res))
       .subscribe((asyncJob) => {
@@ -106,7 +109,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
             jobSubject.next(this.getResult(asyncJob, entity, entityModel));
             break;
           case JobStatus.Failed: {
-            jobSubject.error(asyncJob.result);
+            jobSubject.error(ErrorService.parseError(this.getResponse({ error: asyncJob.result })));
             break;
           }
         }
@@ -147,9 +150,11 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     return jobId;
   }
 
-  private getResult(asyncJob: AsyncJob<typeof entityModel>,
-                    entity = '',
-                    entityModel: any = null): any {
+  private getResult(
+    asyncJob: AsyncJob<typeof entityModel>,
+    entity = '',
+    entityModel: any = null
+  ): any {
     // when response is just success: true/false
     if (asyncJob.result && asyncJob.result.success) {
       return asyncJob.result;
@@ -157,7 +162,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
 
     const hasEntity = asyncJob.instanceType || asyncJob.resultType;
     let result;
-    if (hasEntity && (entity || entityModel)) {
+    if (hasEntity && (entity && entityModel)) {
       result = this.prepareModel(asyncJob.result[entity.toLowerCase()], entityModel);
       asyncJob.result = result;
     } else {

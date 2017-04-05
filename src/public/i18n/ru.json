@@ -187,7 +187,7 @@
   },
 
   "THIS_NAME_IS_TAKEN": "Это имя занято",
-  "THE_NAME_IS_TAKEN": "Имя {{name}} уже занято",
+  "THE_NAME_IS_TAKEN": "Имя {{val1}} уже занято",
   "UNABLE_TO_RECEIVE_TEMPLATES": "Неудалось получить шаблоны",
   "NAME": "Имя",
   "DESCRIPTION": "Описание",
@@ -445,7 +445,7 @@
 
   "CREATE_SSH_KEY": "Создать SSH ключ",
   "AUTO_GENERATED": "автогенерируемый",
-  "KEYPAIR_ALREADY_EXISTS": "SSH ключ с таким именем уже существует",
+  "KEYPAIR_ALREADY_EXISTS": "SSH ключ с именем \"{{val1}}\" уже существует",
   "INVALID_PUBLIC_KEY": "Неправильный открытый ключ",
 
   "SAVE_THIS_KEY": "Пожалуйста, скопируйте этот ключ, так как он не будет сохранен",
