@@ -77,7 +77,6 @@ export class VmFilterComponent implements OnInit {
   }
 
   public loadGroups(): void {
-    debugger;
     this.vmService.getInstanceGroupList().subscribe(groupList => {
       this.groups = groupList;
       this.selectedGroups = this.selectedGroups.filter(selectedGroup => {
