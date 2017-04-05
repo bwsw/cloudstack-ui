@@ -18,11 +18,13 @@ export interface SshKeyCreationData {
 })
 export class SSHKeyPairService extends BaseBackendCachedService<SSHKeyPair> {
   public create(params: SshKeyCreationData): Observable<SSHKeyPair> {
+    this.invalidateCache();
     return this.sendCommand('create', params)
       .map(response => this.prepareModel(response['keypair']));
   }
 
   public register(params: SshKeyCreationData): Observable<SSHKeyPair> {
+    this.invalidateCache();
     return this.sendCommand('register', params)
       .map(response => this.prepareModel(response['keypair']));
   }

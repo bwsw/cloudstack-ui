@@ -1,17 +1,37 @@
-<mdl-list-item lines="2">
-  <mdl-list-item-primary-content>
-    <mdl-icon mdl-list-item-avatar>vpn_key</mdl-icon>
-    <span>{{ key.name }}</span>
-    <mdl-list-item-sub-title>{{ key.fingerPrint }}</mdl-list-item-sub-title>
-  </mdl-list-item-primary-content>
-  <mdl-list-item-secondary-content>
+<mdl-card class="custom-card" mdl-shadow="2">
+  <mdl-card-title>
+    <h2 mdl-card-title-text [mdl-tooltip]="key.name">
+      {{ key.name }}
+    </h2>
+  </mdl-card-title>
+  <mdl-card-supporting-text>
+    {{ key.fingerPrint }}
+  </mdl-card-supporting-text>
+  <mdl-card-menu>
     <button
       mdl-button
+      (click)="$event.stopPropagation(); popover.toggle($event)"
       mdl-button-type="icon"
-      (click)="onRemoveClicked()"
-    >
-      <mdl-icon *ngIf="!key.loading">clear</mdl-icon>
-      <mdl-spinner single-color active *ngIf="key.loading"></mdl-spinner>
+      mdl-ripple>
+      <mdl-icon>more_vert</mdl-icon>
     </button>
-  </mdl-list-item-secondary-content>
-</mdl-list-item>
+  </mdl-card-menu>
+  <mdl-popover
+    class="card-popover vm-popover"
+    #popover
+    [hide-on-click]="true"
+  >
+    <div mdl-shadow="6" class="popover-actions">
+      <button
+        (click)="onRemoveClicked()"
+        [mdl-tooltip]="'DELETE' | translate"
+        mdl-tooltip-position="bottom"
+        mdl-button
+        mdl-button-type="icon"
+        mdl-ripple
+      >
+        <mdl-icon>close</mdl-icon>
+      </button>
+    </div>
+  </mdl-popover>
+</mdl-card>

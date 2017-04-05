@@ -32,6 +32,8 @@ mdl-card mdl-card-menu {
 }
 
 mdl-card.custom-card {
+  min-height: 0;
+
   & mdl-card-supporting-text {
     width: 100%;
   }
