@@ -122,7 +122,12 @@
     </nav>
 
     <div class="license-container">
-      <div class="license" [innerHTML]="'LICENSE' | translate"></div>
+      <div class="license">
+        {{ 'LICENSE_1' | translate: { year: currentYear } }}
+        <a href="https://bitworks.software/" target="_blank">{{ 'LICENSE_2' | translate }}</a>
+        <br>
+        {{ 'LICENSE_3' | translate }}
+      </div>
     </div>
 
   </mdl-layout-drawer>
