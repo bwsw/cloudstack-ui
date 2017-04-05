@@ -148,7 +148,8 @@ export class SpareDrivePageComponent implements OnInit {
           });
         },
         error => {
-          this.dialogService.alert(error.errortext);
+          this.translateService.get(error.message, error.params)
+            .subscribe(str => this.dialogService.alert(str));
           this.jobsNotificationService.fail({
             id: notificationId,
             message: 'VOLUME_ATTACH_FAILED',
