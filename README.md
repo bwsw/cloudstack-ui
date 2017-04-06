@@ -83,6 +83,7 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 * Plugins
    * VM metrics a.k.a. Pulse 
    * Resource utilization stats, traffic, IO stats, CS entities stats a.k.a. Accounting
+   * Self registration for public cloud
    * Web SSH/RDP (guacamole)
 
 ## Far Away To Dos
