@@ -71,7 +71,7 @@ export class TemplateFilterListComponent implements OnInit {
     this.visibleTemplateList = this.filterBySearch(this.filterByCategories(this.templateList));
     if (this.zoneId) {
       this.visibleTemplateList = this.visibleTemplateList
-        .filter(template => template.zoneId === this.zoneId);
+        .filter(template => template.zoneId === this.zoneId || template.crossZones);
     }
   }
 

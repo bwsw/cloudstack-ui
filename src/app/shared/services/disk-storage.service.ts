@@ -7,6 +7,7 @@ import { Volume } from '../models';
 import { SnapshotService } from './snapshot.service';
 import { Iso, IsoService } from '../../template/shared';
 import { ResourceType, Snapshot } from '../models';
+import { MAX_ROOT_DISK_SIZE_ADMIN } from '../../vm/shared/vm.model';
 
 
 @Injectable()
@@ -19,7 +20,8 @@ export class DiskStorageService {
   ) {}
 
   public getAvailablePrimaryStorage(): Observable<number> {
-    return this.getAvailableStorage(ResourceType.PrimaryStorage);
+    return this.getAvailableStorage(ResourceType.PrimaryStorage)
+      .map(size => size === -1 ? MAX_ROOT_DISK_SIZE_ADMIN : size);
   }
 
   public getConsumedPrimaryStorage(): Observable<number> {
