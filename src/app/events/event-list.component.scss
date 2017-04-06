@@ -10,6 +10,10 @@
   width: 200px;
 }
 
+:host mdl-table /deep/ table {
+  white-space: normal;
+}
+
 :host mdl-table /deep/ table.mdl-data-table {
   width: 100%;
 }
