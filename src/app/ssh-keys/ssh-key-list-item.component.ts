@@ -5,6 +5,7 @@ import { SSHKeyPair } from '../shared/models/ssh-keypair.model';
 @Component({
   selector: 'cs-ssh-key-list-item',
   templateUrl: 'ssh-key-list-item.component.html',
+  styleUrls: ['ssh-key-list-item.component.scss']
 })
 export class SshKeyListItemComponent {
   @Input() public key: SSHKeyPair;

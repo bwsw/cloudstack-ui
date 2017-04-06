@@ -1,0 +1,15 @@
+:host {
+  display: inline-flex
+}
+
+:host mdl-card {
+  width: 340px
+}
+
+:host mdl-card-title mdl-icon {
+  margin-right: 10px;
+}
+
+:host .mdl-card__title-text {
+  width: 80%;
+}
