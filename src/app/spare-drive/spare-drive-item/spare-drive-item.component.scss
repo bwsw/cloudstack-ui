@@ -25,3 +25,9 @@
 .spare-drive-popover {
   width: 133px !important;
 }
+
+/deep/ .spare-drive-attachment-dialog {
+  width: 370px !important;
+  overflow: visible !important;
+  padding: 10.5px;
+}
