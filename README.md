@@ -81,7 +81,7 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 ## Long Term To Dos
 
 * Plugins
-   * VM metrics a.k.a. Pulse 
+   * VM metrics a.k.a. Pulse (charts and availability information)
    * Resource utilization stats, traffic, IO stats, CS entities stats a.k.a. Accounting
    * Self registration for public cloud
    * Web SSH/RDP (guacamole)
