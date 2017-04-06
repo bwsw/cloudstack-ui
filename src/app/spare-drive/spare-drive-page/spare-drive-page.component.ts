@@ -3,7 +3,6 @@ import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 
 import {
-  deletionMark,
   DiskOffering,
   DiskOfferingService,
   JobsNotificationService,
@@ -176,7 +175,7 @@ export class SpareDrivePageComponent implements OnInit {
       })
       .subscribe(volumes => {
         this.volumes = volumes
-          .filter(volume => !volume.virtualMachineId && !volume.tags.find((tag) => tag.key === deletionMark))
+          .filter((volume: Volume) => !volume.virtualMachineId && !volume.isDeleted)
           .map(volume => {
             volume.diskOffering = diskOfferings.find(offering => offering.id === volume.diskOfferingId);
             return volume;

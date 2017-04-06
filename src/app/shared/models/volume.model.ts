@@ -3,7 +3,7 @@ import { FieldMapper } from '../decorators/field-mapper.decorator';
 import { Snapshot } from './snapshot.model';
 import { DiskOffering } from './disk-offering.model';
 import { ZoneName } from '../decorators/zone-name.decorator';
-import { Tag } from './tag.model';
+import { Tag, DeletionMark } from './tag.model';
 
 
 type VolumeType = 'ROOT' | 'DATADISK';
@@ -43,5 +43,9 @@ export class Volume extends BaseModel {
 
   public get isRoot(): boolean {
     return this.type === VolumeTypes.ROOT;
+  }
+
+  public get isDeleted(): boolean {
+    return !!this.tags.find(tag => tag.key === DeletionMark.TAG && tag.value === DeletionMark.VALUE);
   }
 }
