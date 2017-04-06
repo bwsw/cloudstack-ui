@@ -21,6 +21,7 @@ import { Zone } from '../../shared/models/zone.model';
 import { FilterService } from '../../shared/services/filter.service';
 import { debounce } from 'lodash';
 import { Observable } from 'rxjs';
+import * as _ from 'lodash';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -106,7 +107,7 @@ export class SpareDrivePageComponent implements OnInit {
       return;
     }
 
-    this.sections = Zone.sortByName(this.selectedZones)
+    this.sections = _.sortBy(this.selectedZones, 'name')
       .map(zone => {
         return {
           zoneName: zone.name,

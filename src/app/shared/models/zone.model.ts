@@ -1,6 +1,5 @@
 import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators/field-mapper.decorator';
-import * as _ from 'lodash';
 
 
 @FieldMapper({
@@ -14,10 +13,6 @@ export class Zone extends BaseModel {
   public securityGroupsEnabled: boolean;
   public networkType: string;
   public localStorageEnabled: boolean;
-
-  public static sortByName(array: Array<Zone>): Array<Zone> {
-    return _.sortBy(array, 'name');
-  }
 
   public get networkTypeIsBasic(): boolean {
     return this.localStorageEnabled;
