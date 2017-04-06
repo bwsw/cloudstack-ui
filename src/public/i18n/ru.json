@@ -159,7 +159,7 @@
     "DISK_SIZE": "Размер диска",
     "GROUP": "Группа",
     "AFFINITY_GROUPS": "Аффинитетные группы",
-    "SECURITY_GROUPS": "Группы безопасности",
+    "SECURITY_GROUPS": "Брандмауэр",
     "CREATE_SECURITY": "Создать",
     "KEYBOARD_LAYOUT": "Раскладка клавиатуры",
     "SSH_KEYPAIR": "SSH ключ",
