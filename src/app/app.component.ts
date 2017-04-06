@@ -94,6 +94,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
   }
 
+  public get currentYear(): string {
+    return (new Date).getFullYear().toString();
+  }
+
   public get drawerStyles(): SafeStyle {
     let styleString;
 
