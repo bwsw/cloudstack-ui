@@ -313,6 +313,11 @@ export class VmCreationComponent implements OnInit {
     }
   }
 
+  public updateDiskOffering(offering: DiskOffering): void {
+    this.showRootDiskResize = offering.isCustomized;
+    this.selectedDiskOffering = offering;
+  }
+
   public get zoneId(): string {
     return this.vmCreationData.vm.zoneId;
   }
