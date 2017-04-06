@@ -85,6 +85,7 @@
           <mdl-autocomplete
             *ngIf="vmCreationData.instanceGroups"
             name="group"
+            [placeholder]="'NO_GROUP' | translate"
             [options]="vmCreationData.instanceGroups"
             [ngModel]="null"
             (ngModelChange)="setGroup($event)"
@@ -95,6 +96,7 @@
         <div *ngIf="noAffinityGroupTranslation">
           <mdl-autocomplete
             name="affinityGroup"
+            [placeholder]="'NO_GROUP' | translate"
             [options]="vmCreationData.affinityGroupNames"
             [ngModel]="vmCreationData.affinityGroupName"
             (ngModelChange)="affinityGroupChange($event)"

@@ -85,7 +85,6 @@ export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, A
     }
 
     this.popover.hide = () => {
-      this.popoverVisible = false;
       this.popover.isVisible = false;
       this.onSelect(this.getNewValueOnLeave());
       for (let i = 0; i < this.visibleOptions.length; i++) {
@@ -134,23 +133,12 @@ export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, A
     this.visibleOptions = this.options.filter(option => option.startsWith(this.text || ''));
 
     if (!this.visibleOptions.length) {
-      this.popoverVisible = false;
       return;
     }
 
     if (this.popover.isVisible) {
-      this.popoverVisible = true;
       if (!reload) { return; }
       this.onSelect(this.getNewValueOnFilterChange());
-    }
-  }
-
-  private set popoverVisible(visible: boolean) {
-    let style = this.popover.elementRef.nativeElement.style;
-    if (visible) {
-      style.display = 'block';
-    } else {
-      style.display = 'none';
     }
   }
 
@@ -174,6 +162,7 @@ export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, A
     if (!this.disabled && !this.popover.isVisible) {
       this.popover.show($event);
     }
+    this.onSelect(this.text);
   }
 
   public close(): void {
@@ -185,8 +174,8 @@ export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, A
 
   public writeValue(value: any): void {
     this.ngModel = value;
-    this.onChange(this.ngModel);
     this.renderValue();
+    this.onChange(this.text);
   }
 
   public registerOnChange(fn: (value: any) => void): void {
@@ -274,15 +263,12 @@ export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, A
   }
 
   private getNewValueOnEnter(): string {
-    if (!this.visibleOptions.length) {
-      return this.text;
-    }
     for (let i = 0; i < this.visibleOptions.length; i++) {
       if (this.visibleOptions[i] === this.ngModel) {
         return this.visibleOptions[i];
       }
     }
-    return this.visibleOptions[0];
+    return this.text;
   }
 
   private getNewValueOnLeave(): string {

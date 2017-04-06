@@ -54,7 +54,9 @@ export class VmDetailComponent implements OnChanges {
   }
 
   public get doShowChangeGroupButton(): boolean {
-    return this.groupName && (!this.vm.instanceGroup || this.vm.instanceGroup.name !== this.groupName);
+    let groupWasEmpty = !this.vm.instanceGroup && !!this.groupName;
+    let groupChanged = this.vm.instanceGroup && this.vm.instanceGroup.name !== this.groupName;
+    return groupWasEmpty || groupChanged;
   }
 
   public changeGroup(): void {
