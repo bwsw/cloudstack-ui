@@ -1,9 +1,12 @@
 :host {
-  display: block;
+  display: flex;
+  width: 100%;
 }
 
 .event-list {
   padding: 15px;
+  display: flex;
+  overflow: auto;
 }
 
 :host mdl-select /deep/ .mdl-textfield {
@@ -34,4 +37,14 @@ mdl-select {
 
 .event-type-select {
   display: inline-flex;
+}
+
+:host mdl-table {
+  width: 100%;
+}
+
+:host .event-list-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
