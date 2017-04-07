@@ -1,6 +1,12 @@
 import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators/field-mapper.decorator';
 
+
+export const DeletionMark = {
+  TAG: 'status',
+  VALUE: 'removed'
+};
+
 @FieldMapper({
   domainid: 'domainId',
   resourceid: 'resourceId',

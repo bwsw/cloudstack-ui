@@ -4,10 +4,7 @@ import { Router } from '@angular/router';
 import {
   AuthService,
   INotificationService,
-  SecurityGroupService,
-  VolumeService
 } from '../shared';
-import { AffinityGroupService } from '../shared/services/affinity-group.service';
 
 
 @Component({
@@ -21,11 +18,8 @@ export class LoginComponent {
 
   constructor(
     private auth: AuthService,
-    private affinityGroupService: AffinityGroupService,
     @Inject('INotificationService') private notification: INotificationService,
-    private router: Router,
-    private securityGroupService: SecurityGroupService,
-    private volumeService: VolumeService
+    private router: Router
   ) {
     this.username = '';
     this.password = '';
@@ -45,9 +39,6 @@ export class LoginComponent {
   }
 
   private handleLogin(): void {
-    this.securityGroupService.removeEmptyGroups();
-    this.affinityGroupService.removeEmptyGroups();
-    this.volumeService.removeMarkedVolumes();
     this.router.navigate(['']);
   }
 

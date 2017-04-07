@@ -8,6 +8,7 @@ import { SnapshotService } from './snapshot.service';
 import { Snapshot } from '../models';
 import { AsyncJobService } from './async-job.service';
 import { TagService } from './tag.service';
+import { DeletionMark } from '../models/tag.model';
 
 
 interface VolumeCreationData {
@@ -27,9 +28,6 @@ export interface VolumeResizeData {
   diskOfferingId?: string;
   size?: number;
 }
-
-export const deletionMark = 'toBeDeleted';
-
 
 @Injectable()
 @BackendResource({
@@ -109,20 +107,8 @@ export class VolumeService extends BaseBackendService<Volume> {
     return this.tagsService.create({
       resourceIds: id,
       resourceType: this.entity,
-      'tags[0].key': deletionMark,
-      'tags[0].value': 'true',
+      'tags[0].key': DeletionMark.TAG,
+      'tags[0].value': DeletionMark.VALUE
     });
-  }
-
-  public removeMarkedVolumes(): void {
-    this.getList({
-      'tags[0].key': deletionMark,
-      'tags[0].value': 'true'
-    })
-      .subscribe(volumes => {
-        volumes
-          .filter(volume => !volume.virtualMachineId)
-          .forEach(volume => this.remove(volume.id).subscribe());
-      });
   }
 }

@@ -36,13 +36,14 @@ import {
   CustomServiceOffering
 } from '../../service-offering/custom-service-offering/custom-service-offering.component';
 import { Template } from '../../template/shared';
+import { AffinityGroupType } from '../../shared/models/affinity-group.model';
 
 
 class VmCreationData {
   public vm: VirtualMachine;
   public affinityGroups: Array<AffinityGroup>;
   public affinityGroupNames: Array<string>;
-  public affinityGroupTypes: Array<{ type: string }>;
+  public affinityGroupTypes: Array<AffinityGroupType>;
   public instanceGroups: Array<string>;
   public serviceOfferings: Array<ServiceOffering>;
   public diskOfferings: Array<DiskOffering>;
