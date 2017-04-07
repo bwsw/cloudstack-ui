@@ -10,6 +10,7 @@
   <form #vmCreateForm="ngForm" *loading="fetching" novalidate>
     <div class="container">
       <div *ngIf="enoughResources" class="left-column">
+        <h5>{{ 'VM_CREATION_FORM.NAME' | translate }}</h5>
         <div>
           <mdl-textfield
             type="text"
@@ -63,8 +64,8 @@
         <div *ngIf="!templateSelected">
           <h5>{{ 'DISK_OFFERING' | translate }}</h5>
           <cs-disk-offering
-            *ngIf="diskOfferings"
-            [diskOfferingList]="diskOfferings"
+            *ngIf="vmCreationData.diskOfferings"
+            [diskOfferingList]="vmCreationData.diskOfferings"
             (offeringUpdated)="updateDiskOffering($event)"
           ></cs-disk-offering>
         </div>
