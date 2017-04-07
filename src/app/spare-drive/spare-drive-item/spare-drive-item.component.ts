@@ -57,8 +57,8 @@ export class SpareDriveItemComponent implements OnInit {
   public attach(): void {
     this.dialogService.showCustomDialog({
       component: SpareDriveAttachmentComponent,
-      classes: 'spare-drive-attachment-dialog',
-      providers: [{ provide: 'zoneId', useValue: this.volume.zoneId }]
+      providers: [{ provide: 'zoneId', useValue: this.volume.zoneId }],
+      styles: { width: '375px' }
     })
       .switchMap(res => res.onHide())
       .subscribe((data: string) => {

@@ -461,6 +461,7 @@
   "TAKE_SNAPSHOT_SNAPSHOT_CREATION_FORM": "Take a snapshot",
   "SNAPSHOT_LIMIT_EXCEEDED": "Snapshot limit has been exceeded. You need to delete some of your previous snapshots first.",
   "VOLUME_LIMIT_EXCEEDED": "Volume limit has been exceeded. You need to delete some of your volumes to create a new one.",
+  "UNABLE_FIND_PRIMARY_STORAGE": "Unable to find suitable primary storage when creating volume {{val1}}"
   "INSUFFICIENT_RESOURCES_VM": "Insufficient resources",
 
   "NO_GROUP": "No group"

@@ -6,7 +6,6 @@ import {
   DiskOffering,
   DiskOfferingService,
   JobsNotificationService,
-  NotificationService,
   Volume,
   VolumeAttachmentData,
   VolumeService
@@ -40,7 +39,6 @@ export class SpareDrivePageComponent implements OnInit {
     private dialogService: MdlDialogService,
     private diskOfferingService: DiskOfferingService,
     private jobsNotificationService: JobsNotificationService,
-    private notificationService: NotificationService,
     private listService: ListService,
     private translateService: TranslateService,
     private volumeService: VolumeService
@@ -90,7 +88,7 @@ export class SpareDrivePageComponent implements OnInit {
           this.jobsNotificationService.finish({ message: 'VOLUME_DELETE_DONE' });
         },
         error => {
-          this.notificationService.error(error);
+          this.dialogService.alert(error);
           this.jobsNotificationService.fail({ message: 'VOLUME_DELETE_FAILED' });
         }
       );
@@ -128,7 +126,7 @@ export class SpareDrivePageComponent implements OnInit {
           });
         },
         error => {
-          this.notificationService.error(error.errortext);
+          this.dialogService.alert(error.errortext);
           this.jobsNotificationService.fail({
             id: notificationId,
             message: 'VOLUME_CREATE_FAILED',
@@ -149,7 +147,8 @@ export class SpareDrivePageComponent implements OnInit {
           });
         },
         error => {
-          this.notificationService.error(error.errortext);
+          this.translateService.get(error.message, error.params)
+            .subscribe(str => this.dialogService.alert(str));
           this.jobsNotificationService.fail({
             id: notificationId,
             message: 'VOLUME_ATTACH_FAILED',
