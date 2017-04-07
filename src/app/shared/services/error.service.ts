@@ -24,6 +24,10 @@ export class ErrorService extends Subject<any> {
     {
       regex: /A key pair with name '(.*)' already exists/,
       translation: 'KEYPAIR_ALREADY_EXISTS'
+    },
+    {
+      regex: /Unable to find suitable primary storage when creating volume (.*)/,
+      translation: 'UNABLE_FIND_PRIMARY_STORAGE'
     }
   ];
 
