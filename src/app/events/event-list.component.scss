@@ -48,3 +48,7 @@ mdl-select {
   flex-direction: column;
   width: 100%;
 }
+
+/deep/ .mdl-layout__content {
+  display: flex;
+}
