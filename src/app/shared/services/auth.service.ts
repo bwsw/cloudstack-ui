@@ -22,38 +22,38 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   }
 
   public get name(): string {
-    return this.storage.read('name') || '';
+    return this.storage.readLocal('name') || '';
   }
 
   public get username(): string {
-    return this.storage.read('username') || '';
+    return this.storage.readLocal('username') || '';
   }
 
   public get userId(): string {
-    return this.storage.read('userId') || '';
+    return this.storage.readLocal('userId') || '';
   }
 
   public set name(name: string) {
     if (!name) {
-      this.storage.remove('name');
+      this.storage.removeLocal('name');
     } else {
-      this.storage.write('name', name);
+      this.storage.writeLocal('name', name);
     }
   }
 
   public set username(username: string) {
     if (!username) {
-      this.storage.remove('username');
+      this.storage.removeLocal('username');
     } else {
-      this.storage.write('username', username);
+      this.storage.writeLocal('username', username);
     }
   }
 
   public set userId(userId: string) {
     if (!userId) {
-      this.storage.remove('userId');
+      this.storage.removeLocal('userId');
     } else {
-      this.storage.write('userId', userId);
+      this.storage.writeLocal('userId', userId);
     }
   }
 

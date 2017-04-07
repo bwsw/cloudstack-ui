@@ -29,7 +29,7 @@ export class VmStatisticsComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    const shouldShowStatistics = this.storageService.read(showStatistics);
+    const shouldShowStatistics = this.storageService.readLocal(showStatistics);
     // no such key in the local storage, just show the stats
     if (!shouldShowStatistics) {
       this.updateStats();
@@ -134,7 +134,7 @@ export class VmStatisticsComponent implements OnInit {
       this.updateStats();
     }
 
-    this.storageService.write(showStatistics, this.isOpen.toString());
+    this.storageService.writeLocal(showStatistics, this.isOpen.toString());
   }
 
   public updateStats(): void {

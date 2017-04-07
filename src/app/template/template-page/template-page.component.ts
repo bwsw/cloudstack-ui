@@ -46,7 +46,7 @@ export class TemplatePageComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.viewMode = this.storageService.read('templateDisplayMode') || 'Template';
+    this.viewMode = this.storageService.readLocal('templateDisplayMode') || 'Template';
     this.listService.onAction.subscribe(() => this.showCreationDialog());
     this.listService.onSelected.subscribe((template: Template) => this.selectedTemplate = template);
     this.listService.onDeselected.subscribe(() => this.selectedTemplate = null);

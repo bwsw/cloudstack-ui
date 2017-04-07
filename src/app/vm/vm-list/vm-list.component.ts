@@ -280,7 +280,7 @@ export class VmListComponent implements OnInit {
   }
 
   private showSuggestionDialog(): void {
-    if (this.storageService.read(askToCreateVm) === 'false') {
+    if (this.storageService.readLocal(askToCreateVm) === 'false') {
       return;
     }
     this.translateService.get([
@@ -304,7 +304,7 @@ export class VmListComponent implements OnInit {
           },
           {
             handler: () => {
-              this.storageService.write(askToCreateVm, 'false');
+              this.storageService.writeLocal(askToCreateVm, 'false');
             },
             text: translations['NO_DONT_ASK']
           }

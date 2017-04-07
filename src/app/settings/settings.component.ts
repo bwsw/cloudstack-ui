@@ -9,6 +9,7 @@ import {
   StyleService
 } from '../shared';
 import { AuthService, UserService, NotificationService } from '../shared/services';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class SettingsComponent implements OnInit {
 ) { }
 
   public ngOnInit(): void {
-    this.language = this.languageService.getLanguage();
+    this.getLanguage();
     this.loadColors();
     this.buildForm();
   }
@@ -87,15 +88,22 @@ export class SettingsComponent implements OnInit {
     return this.passwordUpdateForm.controls['password'].value;
   }
 
+  private getLanguage(): void {
+    this.languageService.getLanguage().subscribe(language => this.language = language);
+  }
+
   private loadColors(): void {
     this.configService.get('themeColors')
       .subscribe(themeColors => {
-        let primaryColorName = this.storageService.read('primaryColor');
-        let accentColorName = this.storageService.read('accentColor');
-
-        this.primaryColors = themeColors;
-        this.primaryColor = themeColors.find(color => color.name === primaryColorName);
-        this.accentColor = this.accentColors.find(color => color.name === accentColorName);
+        Observable.forkJoin([
+          this.storageService.readRemote('primaryColor'),
+          this.storageService.readRemote('accentColor')
+        ])
+          .subscribe(([primaryColorName, accentColorName]) => {
+            this.primaryColors = themeColors;
+            this.primaryColor = themeColors.find(color => color.name === primaryColorName);
+            this.accentColor = this.accentColors.find(color => color.name === accentColorName);
+          });
       });
   }
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 import { Color } from '../models/color.model';
 import { ConfigService } from './config.service';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
 
 @Injectable()
@@ -23,20 +23,26 @@ export class StyleService {
       'defaultTheme'
     ])
       .subscribe(([themeColors, defaultTheme]) => {
-        let primaryColorName = this.storageService.read('primaryColor') || defaultTheme.primaryColor;
-        let accentColorName = this.storageService.read('accentColor')  || defaultTheme.accentColor;
+        Observable.forkJoin([
+          this.storageService.readRemote('primaryColor'),
+          this.storageService.readRemote('accentColor')
+        ])
+          .subscribe(([primary, accent]) => {
+            const primaryColorName = primary || defaultTheme.primaryColor;
+            const accentColorName = accent || defaultTheme.accentColor;
 
-        let primaryColor = themeColors.find(color => color.name === primaryColorName);
-        let accentColor = themeColors.find(color => color.name === accentColorName);
+            const primaryColor = themeColors.find(color => color.name === primaryColorName);
+            const accentColor = themeColors.find(color => color.name === accentColorName);
 
-        this.updatePalette(primaryColor, accentColor);
+            this.updatePalette(primaryColor, accentColor);
+          });
       });
   }
 
   public updatePalette(primaryColor: Color, accentColor: Color): void {
     this.styleElement.href = `https://code.getmdl.io/1.3.0/material.${primaryColor.name}-${accentColor.name}.min.css`;
-    this.storageService.write('primaryColor', primaryColor.name);
-    this.storageService.write('accentColor', accentColor.name);
+    this.storageService.writeRemote('primaryColor', primaryColor.name).subscribe();
+    this.storageService.writeRemote('accentColor', accentColor.name).subscribe();
     this.paletteUpdates.next(primaryColor);
   }
 

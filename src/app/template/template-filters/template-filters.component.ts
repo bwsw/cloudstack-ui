@@ -107,7 +107,7 @@ export class TemplateFiltersComponent implements OnInit {
   public updateDisplayMode(): void {
     let mode = this.showIso ? 'Iso' : 'Template';
     this.displayMode.emit(mode);
-    this.storageService.write('templateDisplayMode', mode);
+    this.storageService.writeLocal('templateDisplayMode', mode);
   }
 
   private initFilters(): void {
