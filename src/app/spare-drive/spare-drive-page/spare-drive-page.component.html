@@ -13,18 +13,20 @@
   </cs-top-bar>
 
   <div *ngIf="selectedZones?.length" cs-list>
-    <div class="section" *ngFor="let s of sections">
-      <h4 class="section-header">{{ s.zoneName }}</h4>
-      <cs-spare-drive-list
-        *loading="!volumes"
-        [volumes]="s.spareDrives"
-        (onSelected)="selectVolume($event)"
-        (onDelete)="showRemoveDialog($event)"
-        (onVolumeAttached)="attach($event)"
-        (onResize)="updateVolume($event)"
-        cs-list
-      ></cs-spare-drive-list>
-    </div>
+    <ng-container *ngFor="let s of sections">
+      <div class="section" *ngIf="s?.spareDrives?.length">
+        <h4 class="section-header">{{ s.zoneName }}</h4>
+        <cs-spare-drive-list
+          *loading="!volumes"
+          [volumes]="s.spareDrives"
+          (onSelected)="selectVolume($event)"
+          (onDelete)="showRemoveDialog($event)"
+          (onVolumeAttached)="attach($event)"
+          (onResize)="updateVolume($event)"
+          cs-list
+        ></cs-spare-drive-list>
+      </div>
+    </ng-container>
   </div>
 
   <div *ngIf="!selectedZones || !selectedZones.length" cs-list>
