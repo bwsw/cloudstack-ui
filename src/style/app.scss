@@ -235,3 +235,11 @@ mdl-simple-tooltip div {
 .arrow {
   cursor: initial;
 }
+
+.section {
+  width: 100%;
+  min-height: 0;
+  border-bottom: 1px solid #dedede;
+  background-color: white;
+  padding-bottom: 15px;
+}

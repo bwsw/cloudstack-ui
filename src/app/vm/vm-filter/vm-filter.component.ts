@@ -14,6 +14,7 @@ import { VmService } from '../shared/vm.service';
 import { InstanceGroup } from '../../shared/models';
 import { InstanceGroupService } from '../../shared/services';
 import { FilterService } from '../../shared/services';
+import * as _ from 'lodash';
 
 
 export interface VmFilter {
@@ -88,8 +89,8 @@ export class VmFilterComponent implements OnInit {
   public update(): void {
     this.updateFilters.emit({
       doFilterByColor: this.doFilterByColor,
-      selectedGroups: this.selectedGroups,
-      selectedZones: this.selectedZones,
+      selectedGroups: _.sortBy(this.selectedGroups, 'name'),
+      selectedZones: _.sortBy(this.selectedZones, 'name'),
       mode: this.mode
     });
 
