@@ -56,16 +56,15 @@
             class="dialog-select-select template-select"
             [selectedIn]="vmCreationData.vm.template"
             [zoneId]="zoneId"
-            (selectedOut)="onTemplateChange($event)"
+            (selectedOut)="setTemplate($event)"
           ></cs-vm-creation-template>
         </div>
 
-        <div *ngIf="!templateSelected">
+        <div *ngIf="!templateSelected && vmCreationData.diskOfferings">
           <h5>{{ 'DISK_OFFERING' | translate }}</h5>
           <cs-disk-offering
-            *ngIf="diskOfferings"
-            [diskOfferingList]="diskOfferings"
-            (offeringUpdated)="updateDiskOffering($event)"
+            [diskOfferingList]="vmCreationData.diskOfferings"
+            (offeringUpdated)="setDiskOffering($event)"
           ></cs-disk-offering>
         </div>
         <cs-slider
