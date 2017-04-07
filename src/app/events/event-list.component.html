@@ -1,37 +1,39 @@
-<cs-top-bar cs-panels>
-  <mdl-card class="options-panel top-bar-height">
-    <cs-date-picker
-      [okLabel]="'OK' | translate"
-      [locale]="locale"
-      [firstDayOfWeek]="locale === 'en' ? 0 : 1"
-      [DateTimeFormat]="dateTimeFormat"
-      [cancelLabel]="'CANCEL' | translate"
-      [(ngModel)]="date"
-      (ngModelChange)="filterEvents($event)"
-    ></cs-date-picker>
-    <mdl-select
-      class="event-type-select"
-      [(ngModel)]="selectedLevels"
-      (change)="filterEvents()"
-      multiple="true"
-      placeholder="Levels"
-    >
-      <mdl-option
-        *ngFor="let level of levels"
-        [value]="level"
+<div class="event-list-container">
+  <cs-top-bar cs-panels>
+    <mdl-card class="options-panel top-bar-height">
+      <cs-date-picker
+        [okLabel]="'OK' | translate"
+        [locale]="locale"
+        [firstDayOfWeek]="locale === 'en' ? 0 : 1"
+        [DateTimeFormat]="dateTimeFormat"
+        [cancelLabel]="'CANCEL' | translate"
+        [(ngModel)]="date"
+        (ngModelChange)="filterEvents($event)"
+      ></cs-date-picker>
+      <mdl-select
+        class="event-type-select"
+        [(ngModel)]="selectedLevels"
+        (change)="filterEvents()"
+        multiple="true"
+        placeholder="Levels"
       >
-        {{ level }}
-      </mdl-option>
-    </mdl-select>
-  </mdl-card>
-</cs-top-bar>
-<div class="event-list">
-  <ng-container *loading="loading">
-    <mdl-table
-      *ngIf="events?.length"
-      mdl-shadow="2"
-      [table-model]="tableModel"
-    ></mdl-table>
-    <span *ngIf="!events?.length" translate>NO_EVENTS</span>
-  </ng-container>
+        <mdl-option
+          *ngFor="let level of levels"
+          [value]="level"
+        >
+          {{ level }}
+        </mdl-option>
+      </mdl-select>
+    </mdl-card>
+  </cs-top-bar>
+  <div class="event-list">
+    <ng-container *loading="loading">
+      <mdl-table
+        *ngIf="events?.length"
+        mdl-shadow="2"
+        [table-model]="tableModel"
+      ></mdl-table>
+      <span *ngIf="!events?.length" translate>NO_EVENTS</span>
+    </ng-container>
+  </div>
 </div>

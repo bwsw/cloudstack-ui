@@ -14,6 +14,7 @@ import { ListService } from '../../shared/components/list/list.service';
 @Component({
   selector: 'cs-security-group-template-list',
   templateUrl: 'sg-template-list.component.html',
+  styleUrls: ['sg-template-list.component.scss'],
   providers: [ListService]
 })
 export class SgTemplateListComponent implements OnInit {
