@@ -268,9 +268,6 @@ export class VmCreationComponent implements OnInit {
   }
 
   public set zoneId(id: string) {
-    if (!id) {
-      return;
-    }
     this.updateZone(id).subscribe();
   }
 
@@ -498,7 +495,7 @@ export class VmCreationComponent implements OnInit {
     this.vmCreationData.vm.zoneId = id;
     this.vmCreationData.customServiceOffering = undefined;
 
-    if (!this.vmCreationData || !this.vmCreationData.zones) {
+    if (!id || !this.vmCreationData || !this.vmCreationData.zones) {
       return Observable.of(null);
     }
 
