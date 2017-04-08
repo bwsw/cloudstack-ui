@@ -8,13 +8,37 @@
   <mdl-card-supporting-text>
     <div class="disk-size">{{ (volume.size | division:2:30:2) + ' ' + ('GB' | translate) }}</div>
     <div class="grid volumes snapshots" [class.open]="expandStorage">
+      <div *ngIf="volume.snapshots?.length">
+        <div class="row">
+          <div>Last snapshot:</div>
+          <div *ngIf="volume.snapshots.length">
+            <button mdl-button mdl-colored="primary" (click)="showSnapshots()">
+              View all ({{ volume.snapshots.length }})
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div>{{ volume.snapshots[0].name }}</div>
+        </div>
+        <div class="row">
+          <div>{{ volume.snapshots[0].created }}</div>
+          <div>
+            <button
+              *ngFor="let action of snapshotActions.Actions"
+              class="button-18px snapshot-button"
+              [mdl-tooltip]="action.name | translate"
+              mdl-tooltip-position="top"
+              mdl-button
+              mdl-button-type="icon"
+              (click)="action.action(volume.snapshots[0], volume)"
+            >
+              <mdl-icon>{{ action.icon }}</mdl-icon>
+            </button>
+          </div>
+        </div>
 
-      <cs-snapshot
-        *ngFor="let snapshot of volume.snapshots"
-        [snapshot]="snapshot"
-        (onSnapshotDelete)="handleSnapshotDelete($event)"
-      ></cs-snapshot>
-
+      </div>
+      <div class="row" *ngIf="!volume.snapshots?.length">No snapshots</div>
     </div>
   </mdl-card-supporting-text>
   <mdl-card-menu>

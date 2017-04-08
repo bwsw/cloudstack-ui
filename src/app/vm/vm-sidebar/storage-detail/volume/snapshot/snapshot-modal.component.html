@@ -1,0 +1,42 @@
+<div>
+  <h3 class="mdl-dialog__title">Snapshots</h3>
+  <div class="mdl-dialog__content">
+    <table class="mdl-data-table" style="width: 100%">
+      <thead>
+      <tr>
+        <th class="mdl-data-table__cell--non-numeric">Name</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let snapshot of volume.snapshots">
+        <td class="mdl-data-table__cell--non-numeric">{{ snapshot.name }}</td>
+        <td>{{ snapshot.created }}</td>
+        <td>
+          <button
+            *ngFor="let action of snapshotActions.Actions"
+            class="button-18px snapshot-button"
+            [mdl-tooltip]="action.name | translate"
+            mdl-tooltip-position="top"
+            mdl-button
+            mdl-button-type="icon"
+            (click)="action.action(snapshot, volume)"
+          >
+            <mdl-icon>{{ action.icon }}</mdl-icon>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="mdl-dialog__actions">
+    <button
+      mdl-button
+      mdl-colored="primary"
+      (click)="dialog.hide()"
+    >
+      {{ 'CLOSE' | translate }}
+    </button>
+  </div>
+</div>

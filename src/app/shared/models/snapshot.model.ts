@@ -1,5 +1,5 @@
 import { BaseModel } from './base.model';
-import { FieldMapper } from '../decorators/field-mapper.decorator';
+import { FieldMapper } from '../decorators';
 
 @FieldMapper({
   physicalsize: 'physicalSize',
@@ -9,4 +9,5 @@ export class Snapshot extends BaseModel {
   public id: string;
   public physicalSize: number;
   public volumeId: string;
+  public name: string;
 }

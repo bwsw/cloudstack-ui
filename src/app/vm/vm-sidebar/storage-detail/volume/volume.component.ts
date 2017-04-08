@@ -16,6 +16,8 @@ import {
 } from '../../../../shared/services';
 
 import { Volume, VolumeTypes, Snapshot } from '../../../../shared/models';
+import { SnapshotModalComponent } from './snapshot/snapshot-modal.component';
+import { SnapshotActionsService } from './snapshot/snapshot-actions.service';
 
 
 const numberOfShownSnapshots = 5;
@@ -23,7 +25,7 @@ const numberOfShownSnapshots = 5;
 @Component({
   selector: 'cs-volume',
   templateUrl: 'volume.component.html',
-  styleUrls: ['volume.component.scss']
+  styleUrls: ['volume.component.scss'],
 })
 export class VolumeComponent implements OnInit {
   @Input() public volume: Volume;
@@ -38,7 +40,8 @@ export class VolumeComponent implements OnInit {
     private snapshotService: SnapshotService,
     private volumeService: VolumeService,
     private notificationService: NotificationService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    public snapshotActions: SnapshotActionsService
   ) { }
 
   public ngOnInit(): void {
@@ -59,6 +62,17 @@ export class VolumeComponent implements OnInit {
 
   public get showSnapshotCollapseButton(): boolean {
     return this.volume.snapshots.length > numberOfShownSnapshots;
+  }
+
+  public showSnapshots(): void {
+    this.dialogService.showCustomDialog({
+      component: SnapshotModalComponent,
+      providers: [
+        { provide: 'snapshots', useValue: this.volume.snapshots },
+        { provide: 'volume', useValue: this.volume }
+      ],
+      styles: { width: '700px' }
+    });
   }
 
   public toggleStorage(): void {
