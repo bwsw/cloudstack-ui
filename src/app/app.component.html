@@ -1,17 +1,140 @@
-<header>
-  <nav>
-    <a [routerLink]="['']">Home</a>
-    <a [routerLink]="['about']">About</a>
-  </nav>
-</header>
-<main>
-  <h1>{{ 'HELLO_FROM' | translate }} {{api.title}}!</h1>
+<mdl-layout
+  [mdl-layout-fixed-drawer]="loggedIn ? true : null"
+  #mainLayout="mdlLayout"
+  mdl-layout-no-drawer-button
+>
+  <mdl-layout-drawer
+    *ngIf="loggedIn"
+    class="mdl-color--grey-50 flex-container"
+    [attr.style]="drawerStyles"
+    [class.drawer-open]="isDrawerOpen"
+  >
+    <mdl-icon
+      (click)="toggleDrawer()"
+      class="hide-button"
+    >keyboard_arrow_left</mdl-icon>
+    <mdl-layout-title>
+      <img class="logo" [src]="logoSource">
+      <div class="title-header">
+        <mdl-icon class="link-element">person</mdl-icon>
+        <div class="link-element">{{ 'WELCOME' | translate:{ name: title } }}</div>
+      </div>
+    </mdl-layout-title>
+    <nav class="mdl-navigation">
 
-  <!-- Images (and assets) are parsed and loaded from within the public directory -->
-  <img src="/img/angular.png">
+      <a
+        (click)="componentSelected(mainLayout)"
+        class="mdl-navigation__link link-container"
+        routerLink="/instances"
+        [class.link-hover-light]="isLightTheme"
+        [class.link-hover-dark]="!isLightTheme"
+        [routerLinkActive]="linkActiveStyle"
+      >
+        <mdl-icon class="link-element">cloud</mdl-icon>
+        <div class="link-element" [innerHTML]="'VM_NAVBAR' | translate"></div>
+      </a>
 
-  <router-outlet></router-outlet>
-</main>
-<footer>
-  <a [href]="url">Webpack Angular 2 Starter</a>
-</footer>
+      <a
+        (click)="componentSelected(mainLayout)"
+        class="mdl-navigation__link link-container"
+        routerLink="/spare-drives"
+        [class.link-hover-light]="isLightTheme"
+        [class.link-hover-dark]="!isLightTheme"
+        [routerLinkActive]="linkActiveStyle"
+      >
+        <mdl-icon class="link-element">dns</mdl-icon>
+        <div class="link-element" [innerHTML]="'SPARE_DRIVES_NAVBAR' | translate"></div>
+      </a>
+
+      <a
+        (click)="componentSelected(mainLayout)"
+        class="mdl-navigation__link link-container"
+        routerLink="/templates"
+        [class.link-hover-light]="isLightTheme"
+        [class.link-hover-dark]="!isLightTheme"
+        [routerLinkActive]="linkActiveStyle"
+      >
+        <span class="link-element disc-icon"></span>
+        <div class="link-element" [innerHTML]="'IMAGES' | translate"></div>
+      </a>
+
+      <a
+        *ngIf="!disableSecurityGroups"
+        (click)="componentSelected(mainLayout)"
+        class="mdl-navigation__link link-container"
+        routerLink="/sg-templates"
+        [class.link-hover-light]="isLightTheme"
+        [class.link-hover-dark]="!isLightTheme"
+        [routerLinkActive]="linkActiveStyle"
+      >
+        <mdl-icon class="link-element">security</mdl-icon>
+        <div class="link-element" [innerHTML]="'FIREWALL' | translate"></div>
+      </a>
+
+      <a
+        (click)="componentSelected(mainLayout)"
+        class="mdl-navigation__link link-container"
+        routerLink="/events"
+        [class.link-hover-light]="isLightTheme"
+        [class.link-hover-dark]="!isLightTheme"
+        [routerLinkActive]="linkActiveStyle"
+      >
+        <mdl-icon>event_note</mdl-icon>
+        <div class="link-element" [innerHTML]="'ACTIVITY_LOG' | translate"></div>
+      </a>
+
+      <a
+        (click)="componentSelected(mainLayout)"
+        class="mdl-navigation__link link-container"
+        routerLink="/ssh-keys"
+        [class.link-hover-light]="isLightTheme"
+        [class.link-hover-dark]="!isLightTheme"
+        [routerLinkActive]="linkActiveStyle"
+      >
+        <mdl-icon>vpn_key</mdl-icon>
+        <div class="link-element" [innerHTML]="'SSH_KEYS' | translate"></div>
+      </a>
+
+      <a
+        #settingsLink
+        (click)="componentSelected(mainLayout)"
+        class="mdl-navigation__link link-container"
+        routerLink="/settings"
+        [class.link-hover-light]="isLightTheme"
+        [class.link-hover-dark]="!isLightTheme"
+        [routerLinkActive]="linkActiveStyle"
+      >
+        <mdl-icon>settings</mdl-icon>
+        <div class="link-element" [innerHTML]="'SETTINGS' | translate"></div>
+      </a>
+
+      <a
+        (click)="componentSelected(mainLayout);"
+        class="mdl-navigation__link link-container"
+        routerLink="/logout"
+        [class.link-hover-light]="isLightTheme"
+        [class.link-hover-dark]="!isLightTheme"
+        [routerLinkActive]="linkActiveStyle"
+      >
+        <mdl-icon>exit_to_app</mdl-icon>
+        <div class="link-element" [innerHTML]="'LOGOUT' | translate"></div>
+      </a>
+    </nav>
+
+    <div class="license-container">
+      <div class="license">
+        {{ 'LICENSE_1' | translate: { year: currentYear } }}
+        <a href="https://bitworks.software/" target="_blank">{{ 'LICENSE_2' | translate }}</a>
+        <br>
+        {{ 'LICENSE_3' | translate }}
+      </div>
+    </div>
+
+  </mdl-layout-drawer>
+  <mdl-layout-content
+    class="mdl-color--grey-100"
+    [class.content-margin]="isDrawerOpen && loggedIn"
+  >
+    <router-outlet></router-outlet>
+  </mdl-layout-content>
+</mdl-layout>

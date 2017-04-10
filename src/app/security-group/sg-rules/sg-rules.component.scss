@@ -1,0 +1,67 @@
+/deep/ .sg-rules-dialog {
+  width: 880px;
+  padding: 12.8px;
+}
+
+mdl-textfield {
+  /deep/ .mdl-textfield__input,
+  /deep/ .mdl-textfield__label {
+    text-align: left;
+  }
+
+  &.cidr {
+    width: 150px;
+  }
+}
+
+.mdl-dialog__content {
+  overflow-y: auto;
+  min-height: 283px;
+  max-height: 550px;
+
+  table {
+    width: 100%;
+  }
+}
+
+:host /deep/ .mdl-textfield {
+   width: 85px;
+}
+
+:host mdl-select.type /deep/ .mdl-textfield {
+  width: 120px;
+}
+
+:host /deep/ mdl-spinner {
+  position: relative;
+  top: 2px;
+}
+
+.add-rule-button,
+/deep/ .delete-rule-button {
+  color: black;
+}
+
+// the form becomes blurry when in has certain sizes
+// this is a Chromium bug that manifests itself in Ubuntu and Windows and is related to css transforms
+// we apply one of these classes to the form depending on the number of rules
+// to manipulate the width and fix the blurriness
+/deep/ .blur-fix-even {
+  padding: 11.7px !important;
+}
+
+/deep/ .blur-fix-odd {
+  padding: 11.8px !important;
+}
+
+.cidr {
+  text-align: left;
+}
+
+:host /deep/ .mdl-data-table th {
+  text-align: left;
+}
+
+:host /deep/ .mdl-data-table td {
+  text-align: left;
+}

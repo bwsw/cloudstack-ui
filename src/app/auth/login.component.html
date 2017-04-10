@@ -1,0 +1,40 @@
+<div class="flex-container">
+  <img class="logo" src="/img/cloudstack_logo.png">
+  <div class="login mdl-color--white" mdl-shadow="2">
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
+      <div class="mdl-dialog__content">
+        <mdl-textfield
+          required
+          type="text"
+          [label]="'USERNAME' | translate "
+          name="username"
+          #user="ngModel"
+          [(ngModel)]="username"
+          [class.is-invalid]="user.invalid && !user.pristine"
+        >
+        </mdl-textfield>
+        <br/>
+        <mdl-textfield
+          required
+          type="password"
+          [label]="'PASSWORD' | translate"
+          name="password"
+          #pass="ngModel"
+          [(ngModel)]="password"
+          [class.is-invalid]="pass.invalid && !pass.pristine"
+        >
+        </mdl-textfield>
+      </div>
+      <div class="mdl-dialog__actions">
+        <button
+          mdl-colored="primary"
+          mdl-button
+          mdl-ripple
+          type="submit"
+          [disabled]="!loginForm.valid"
+        >{{ 'LOGIN' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+

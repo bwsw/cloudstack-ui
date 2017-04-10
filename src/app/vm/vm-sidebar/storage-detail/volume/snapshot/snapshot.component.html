@@ -1,0 +1,42 @@
+<div class="row">
+  <div
+    class="snapshot-name"
+    [mdl-tooltip]="snapshot.name"
+    mdl-tooltip-position="top"
+  >
+    {{ snapshot.name }}
+  </div>
+  <div class="snapshot-date">{{ snapshot.created | date:'MMM d' }}</div>
+  <div class="snapshot-state">{{ 'SNAPSHOT.' + snapshot.state.toUpperCase() | translate }}</div>
+  <div class="snapshot-buttons">
+    <button
+      class="button-18px snapshot-button"
+      [mdl-tooltip]="'CREATE_TEMPLATE_BUTTON' | translate"
+      mdl-tooltip-position="top"
+      mdl-button
+      mdl-button-type="icon"
+      (click)="showCreationDialog()"
+    >
+      <mdl-icon class="icon-18px">add</mdl-icon>
+    </button>
+    <button
+      class="button-18px snapshot-button"
+      [mdl-tooltip]="'REVERT_TO_SNAPSHOT' | translate"
+      mdl-tooltip-position="top"
+      mdl-button
+      mdl-button-type="icon"
+    >
+      <mdl-icon class="icon-18px">replay</mdl-icon>
+    </button>
+    <button
+      class="button-18px snapshot-button"
+      [mdl-tooltip]="'DELETE' | translate "
+      mdl-tooltip-position="top"
+      mdl-button
+      mdl-button-type="icon"
+      (click)="deleteSnapshot()"
+    >
+      <mdl-icon class="icon-18px">close</mdl-icon>
+    </button>
+  </div>
+</div>

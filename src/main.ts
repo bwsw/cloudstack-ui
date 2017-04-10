@@ -7,6 +7,7 @@ if (process.env.ENV === 'build' || process.env.ENV === 'build:aot') {
   enableProdMode();
 }
 
+// tslint:disable-next-line
 export function main() {
   platformBrowserDynamic().bootstrapModule(AppModule);
 }

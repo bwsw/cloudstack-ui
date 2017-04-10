@@ -1,0 +1,7 @@
+<cs-top-bar></cs-top-bar>
+<cs-ssh-key-list
+  *loading="!sshKeyList"
+  [keys]="sshKeyList"
+  (onRemove)="removeKey($event)"
+></cs-ssh-key-list>
+<cs-fab (click)="showCreationDialog()"></cs-fab>

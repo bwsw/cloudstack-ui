@@ -1,0 +1,40 @@
+<div
+  class="mdl-textfield is-upgraded"
+  [class.is-focused]="popover.isVisible || focused"
+  [class.is-disabled]="disabled"
+  [class.is-dirty]="text?.length > 0"
+>
+  <span
+    [attr.tabindex]="!disabled ? 0 : null"
+    (focus)="open($event); addFocus()"
+    (blur)="close(); removeFocus()"
+  ></span>
+  <input
+    tabindex="-1"
+    class="mdl-textfield__input"
+    (click)="toggle($event)"
+    (dblclick)="open($event)"
+    (input)="open($event)"
+    [placeholder]="placeholder ? placeholder : ''"
+    [attr.id]="textFieldId"
+    [value]="text"
+    (ngModelChange)="filterResults($event)"
+    [(ngModel)]="text"
+  >
+  <span
+    class="mdl-select__toggle material-icons"
+    (click)="toggle($event)">
+    keyboard_arrow_down
+  </span>
+  <label class="mdl-textfield__label" [attr.for]="textFieldId">{{ label }}</label>
+  <span class="mdl-textfield__error"></span>
+  <mdl-popover hide-on-click="true" [style.width.%]="100">
+    <div class="mdl-list mdl-shadow--6dp" *ngIf="visibleOptions">
+      <mdl-option
+        *ngFor="let option of visibleOptions"
+        [value]="option"
+        (click)="onSelect(option)"
+      >{{ option }}</mdl-option>
+    </div>
+  </mdl-popover>
+</div>

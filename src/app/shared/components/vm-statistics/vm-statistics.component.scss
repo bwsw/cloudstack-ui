@@ -1,0 +1,90 @@
+@import '../../../../style/__variables.scss';
+
+.stat-card-mdl {
+  display: inline-flex;
+  margin: 15px 0 15px 15px;
+  min-height: 156px;
+}
+
+.progress {
+  margin-left: 16px;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 8px;
+}
+
+.progress-title {
+  padding-bottom: 16px;
+}
+
+.single-bar {
+  margin-top: 24px;
+}
+
+.bar {
+  padding-bottom: 4px;
+  display: inline-block;
+}
+
+.second-bar {
+  margin-top: 20px;
+}
+
+.stat-list {
+  font-size: 0; // hack to remove extra space between stat cards
+  overflow: hidden;
+  transition: margin 0.3s;
+
+  &.open {
+    margin-right: $sidebar-width;
+  }
+}
+
+.stat-values {
+  position: absolute;
+  padding-right: 16px;
+  right: 0;
+  display: inline-block;
+}
+
+.stat-card-wrapper {
+  display: inline-block;
+}
+
+.footnote {
+  color: red;
+}
+
+.toggle {
+  position: relative;
+  top: -1px;
+}
+
+.toggle.closed {
+  transform: rotate(180deg);
+}
+
+div.closed {
+  height: 0;
+  transition: margin 0.3s;
+  overflow: hidden;
+}
+
+.stat-section {
+  width: 100%;
+  flex-direction: column !important;
+}
+
+.stat-collapse {
+  text-align: right;
+}
+
+.stat-header {
+  margin: 18px 0;
+  padding-left: 15px;
+  align-self: auto;
+}
+
+:host /deep/ mdl-card-actions {
+  padding: 0;
+}

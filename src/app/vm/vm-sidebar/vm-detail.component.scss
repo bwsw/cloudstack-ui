@@ -1,0 +1,56 @@
+@import '../../../style/__variables';
+
+.grid.service-offering {
+  overflow: hidden;
+  height: 5 * $sidebar-card-line-height;
+
+  &.open {
+    height: auto;
+  }
+}
+
+.nic .row > div:nth-child(2n),
+.security-group .row > div:nth-child(2n),
+.service-offering .row > div:nth-child(2n),
+.statistics .row > div:nth-child(2n)
+{
+  text-align: right;
+}
+
+.nic-name {
+  font-weight: bolder;
+  padding: 2px;
+}
+
+.secondary-ips {
+  margin-left: 5%;
+}
+
+.vm-details-header {
+  height: 30px;
+  margin: 0 0 6px 6px;
+}
+
+.details-select {
+  margin: 5px;
+  width: 330px;
+}
+
+:host /deep/ .mdl-textfield {
+  width: 330px;
+}
+
+.overflow-card {
+  overflow: visible;
+  z-index: 10;
+}
+
+.mdl-icon-button--small {
+  min-width: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.mdl-icon--small {
+  font-size: 20px;
+}

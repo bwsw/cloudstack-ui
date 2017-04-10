@@ -1,0 +1,14 @@
+<div
+  *ngIf="volumes"
+  class="card-list-container"
+>
+  <cs-spare-drive-item
+    *ngFor="let volume of volumes"
+    [volume]="volume"
+    [isSelected]="volume.id === selectedVolume?.id"
+    (onClick)="selectVolume(volume)"
+    (onVolumeAttached)="attach($event)"
+    (onDelete)="remove($event)"
+    (onResize)="resize($event)"
+  ></cs-spare-drive-item>
+</div>

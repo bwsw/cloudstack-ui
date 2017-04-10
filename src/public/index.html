@@ -4,10 +4,18 @@
     <meta charset="utf-8">
     <title>Cloudstack UI</title>
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
-
+    <link rel="stylesheet" href="/css/loader.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <base href="/">
   </head>
   <body>
-    <cs-app>Loading...</cs-app>
+    <cs-app>
+      <div class="preloader">
+        <img src="/img/cloudstack_logo.png" style="">
+        <div class="loader"></div>
+      </div>
+    </cs-app>
+    <dialog-outlet></dialog-outlet>
   </body>
 </html>
+

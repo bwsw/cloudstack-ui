@@ -1,0 +1,18 @@
+<mdl-list-item>
+  <mdl-list-item-primary-content>
+    {{ type.toUpperCase() | translate }}
+    {{ item.rule.CIDR }}
+    {{ item.rule.protocol.toUpperCase() }}
+    <ng-container *ngIf="item.rule.protocol === NetworkProtocols.ICMP">
+      {{ item.rule.icmpCode }}
+      {{ item.rule.icmpType }}
+    </ng-container>
+    <ng-container *ngIf="item.rule.protocol !== NetworkProtocols.ICMP">
+      {{ item.rule.startPort }}
+      {{ item.rule.endPort }}
+    </ng-container>
+  </mdl-list-item-primary-content>
+  <mdl-list-item-secondary-action>
+    <mdl-checkbox mdl-ripple [(ngModel)]="item.checked"></mdl-checkbox>
+  </mdl-list-item-secondary-action>
+</mdl-list-item>

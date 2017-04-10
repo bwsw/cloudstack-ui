@@ -1,0 +1,25 @@
+mdl-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+.os-icon {
+  color: black;
+  background: transparent;
+}
+
+:host /deep/ .highlight {
+  background: #ffeb3b;
+}
+
+mdl-list-item {
+  cursor: pointer;
+}
+
+.selected-template span {
+  font-weight: bold;
+}
+
+.inline-block {
+  display: inline-block;
+}

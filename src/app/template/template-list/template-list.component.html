@@ -1,0 +1,53 @@
+<div class="template-list" [class.open]="isDetailOpen">
+  <cs-no-results *ngIf="!templateList?.length"></cs-no-results>
+  <mdl-list>
+    <div *ngFor="let template of templateList">
+      <mdl-list-item
+        lines="2"
+        (click)="$event.stopPropagation(); selectTemplate(template)"
+        [class.selected-template]="selectedTemplate?.id === template.id"
+        [class.inline-block]="!radio"
+      >
+        <mdl-list-item-primary-content>
+          <mdl-icon class="os-icon" mdl-list-item-avatar [ngSwitch]="template.osType.osFamily">
+            <template [ngSwitchCase]="'Linux'">
+              <img
+                src="/img/os/linux.png"
+                width="40"
+                height="40"
+              >
+            </template>
+            <template [ngSwitchCase]="'Windows'">
+              <img
+                src="/img/os/windows.png"
+                width="40"
+                height="40"
+              >
+            </template>
+            <template [ngSwitchCase]="'Mac OS'">
+              <img
+                src="/img/os/osx.png"
+                width="40"
+                height="40"
+              >
+            </template>
+            <template ngSwitchDefault>help</template>
+          </mdl-icon>
+          <span [innerHTML]="template.name | highlight:query"></span>
+          <mdl-list-item-sub-title
+            [innerHTML]="template.displayText | highlight:query"
+          ></mdl-list-item-sub-title>
+        </mdl-list-item-primary-content>
+        <mdl-list-item-secondary-action>
+          <mdl-radio
+            *ngIf="radio"
+            name="radio"
+            [value]="template.id"
+            [(ngModel)]="selectedTemplate.id"
+            mdl-ripple
+          ></mdl-radio>
+        </mdl-list-item-secondary-action>
+      </mdl-list-item>
+    </div>
+  </mdl-list>
+</div>

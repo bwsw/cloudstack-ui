@@ -1,0 +1,256 @@
+{
+  "securityGroupTemplates": [
+    {
+      "id": "templateTCP",
+      "name": "TCP Permit All",
+      "description": "Permits all TPC traffic",
+      "preselected": true,
+      "ingressRules": [
+        {
+          "ruleId": "9552c7e9-9421-4a16-8a09-00a6bab4aa5a",
+          "protocol": "tcp",
+          "startPort": 1,
+          "endPort": 65535,
+          "CIDR": "0.0.0.0/0"
+        }
+      ],
+      "egressRules": [
+        {
+          "ruleId": "dcaeefe0-0014-4431-b21d-db2e66f9162d",
+          "protocol": "tcp",
+          "startPort": 1,
+          "endPort": 65535,
+          "CIDR": "0.0.0.0/0"
+        }
+      ]
+    },
+    {
+      "id": "templateUDP",
+      "name": "UDP Permit All",
+      "description": "Permits all UDP traffic",
+      "preselected": true,
+      "ingressRules": [
+        {
+          "ruleId": "871aa876-a9cd-4a14-b5d6-1eed4078ee20",
+          "protocol": "udp",
+          "startPort": 1,
+          "endPort": 65535,
+          "CIDR": "0.0.0.0/0"
+        }
+      ],
+      "egressRules": [
+        {
+          "ruleId": "070a8ec4-14a0-4a02-be8e-79cd699fd1a4",
+          "protocol": "udp",
+          "startPort": 1,
+          "endPort": 65535,
+          "CIDR": "0.0.0.0/0"
+        }
+      ]
+    },
+    {
+      "id": "templateICMP",
+      "name": "ICMP Permit All",
+      "description": "Permits all ICMP traffic",
+      "preselected": true,
+      "ingressRules": [
+        {
+          "ruleId": "e1826579-d4b2-415b-833f-24f0c4094074",
+          "icmpCode": -1,
+          "icmpType": -1,
+          "protocol": "icmp",
+          "CIDR": "0.0.0.0/0"
+        }
+      ],
+      "egressRules": [
+        {
+          "ruleId": "d0a0125a-b719-424b-80d3-41a695fa1219",
+          "icmpCode": -1,
+          "icmpType": -1,
+          "protocol": "icmp",
+          "CIDR": "0.0.0.0/0"
+        }
+      ]
+    }
+  ],
+  "vmColors": [
+    { "value": "#FFEBEE" },
+    { "value": "#FCE4EC" },
+    { "value": "#F3E5F5" },
+    { "value": "#EDE7F6" },
+    { "value": "#E8EAF6" },
+    { "value": "#E3F2FD" },
+    { "value": "#E1F5FE" },
+    { "value": "#E0F7FA" },
+    { "value": "#E0F2F1" },
+    { "value": "#E8F5E9" },
+    { "value": "#F1F8E9" },
+    { "value": "#F9FBE7" },
+    { "value": "#FFFDE7" },
+    { "value": "#FFF8E1" },
+    { "value": "#FFF3E0" },
+    { "value": "#FBE9E7" },
+    { "value": "#EFEBE9" },
+    { "value": "#FFFFFF" },
+    { "value": "#ECEFF1" }
+  ],
+  "themeColors": [
+    {
+      "name": "red",
+      "value": "#F44336",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "name": "pink",
+      "value": "#E91E63",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "name": "purple",
+      "value": "#9C27B0",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "name": "deep_purple",
+      "value": "#673AB7",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "name": "indigo",
+      "value": "#3F51B5",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "name": "blue",
+      "value": "#2196F3",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "name": "light_blue",
+      "value": "#03A9F4",
+      "textColor": "#666666"
+    },
+    {
+      "name": "cyan",
+      "value": "#00BCD4",
+      "textColor": "#666666"
+    },
+    {
+      "name": "teal",
+      "value": "#009688",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "name": "green",
+      "value": "#4CAF50",
+      "textColor": "#666666"
+    },
+    {
+      "name": "light_green",
+      "value": "#8BC34A",
+      "textColor": "#666666"
+    },
+    {
+      "name": "lime",
+      "value": "#CDDC39",
+      "textColor": "#666666"
+    },
+    {
+      "name": "yellow",
+      "value": "#FFEB3B",
+      "textColor": "#666666"
+    },
+    {
+      "name": "amber",
+      "value": "#FFC107",
+      "textColor": "#666666"
+    },
+    {
+      "name": "orange",
+      "value": "#FF9800",
+      "textColor": "#666666"
+    },
+    {
+      "name": "deep_orange",
+      "value": "#FF5722",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "name": "brown",
+      "value": "#795548",
+      "textColor": "#FFFFFF",
+      "primaryOnly": true
+    },
+    {
+      "name": "grey",
+      "value": "#9E9E9E",
+      "textColor": "#666666",
+      "primaryOnly": true
+    },
+    {
+      "name": "blue_grey",
+      "value": "#607D8B",
+      "textColor": "#FFFFFF",
+      "primaryOnly": true
+    }
+  ],
+  "defaultTheme": {
+    "primaryColor": "teal",
+    "accentColor": "lime"
+  },
+  "offeringAvailability": {
+    "filterOfferings": false,
+    "031a55bb-5d6b-4336-ab93-d5dead28a887": {
+      "serviceOfferings": [
+        "4fbec0f2-e03a-4135-8f0e-a13abca3c2e2",
+        "89fa6342-d64a-4ba4-a410-ce309ea948df",
+        "d0e8ce1c-5112-4fe0-95ac-29b39551ff16",
+        "3890f81e-62aa-4a50-971a-f066223d623d"
+      ],
+      "diskOfferings": [
+        "b785e23e-5159-4968-ba6e-3ddb9fa1d58e",
+        "f26bce86-c32a-4792-8697-5d69307205d7"
+      ]
+    },
+    "3fcdb37c-1c0b-4728-b62f-970c765c3fbc": {
+      "serviceOfferings": [
+        "9b6c8c2c-7a4f-4bf3-9944-619cc239fdd3",
+        "206f4b51-48b5-4173-84d5-167bebd21dd2"
+      ],
+      "diskOfferings": [
+        "6d135a79-cf3b-4eae-86c5-89884255c90d",
+        "c201d261-16bb-46ba-b831-e1715e5238e3"
+      ]
+    }
+  },
+  "customOfferingRestrictions": {
+    "031a55bb-5d6b-4336-ab93-d5dead28a887": {
+      "cpuNumber": {
+        "min": 1,
+        "max": 4
+      },
+      "cpuSpeed": {
+        "min": 1000,
+        "max": 2000
+      },
+      "memory": {
+        "min": 32,
+        "max": 8192
+      }
+    },
+    "3fcdb37c-1c0b-4728-b62f-970c765c3fbc": {
+      "cpuNumber": {
+        "min": 1,
+        "max": 4
+      },
+      "cpuSpeed": {
+        "min": 1000,
+        "max": 2000
+      },
+      "memory": {
+        "min": 32,
+        "max": 8192
+      }
+    }
+  }
+}

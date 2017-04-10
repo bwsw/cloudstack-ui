@@ -1,0 +1,178 @@
+<div class="overlay" *ngIf="sgCreationInProgress">
+  <div class="message">
+    <p *ngIf="sgCreationInProgress">{{ 'CREATING_SG' | translate }}</p>
+    <p *ngIf="agCreationInProgress">{{ 'CREATING_AG' | translate }}</p>
+    <mdl-progress [indeterminate]="sgCreationInProgress || agCreationInProgress"></mdl-progress>
+  </div>
+</div>
+<div [class.vm-creation-container]="enoughResources !== false">
+  <h3 class="mdl-dialog__title" translate>NEW_VM</h3>
+  <form #vmCreateForm="ngForm" *loading="fetching" novalidate>
+    <div class="container">
+      <div *ngIf="enoughResources" class="left-column">
+        <h5>{{ 'VM_CREATION_FORM.NAME' | translate }}</h5>
+        <div>
+          <mdl-textfield
+            type="text"
+            [label]="'VM_CREATION_FORM.NAME' | translate"
+            name="name"
+            pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
+            [error-msg]="(takenName ? 'THIS_NAME_IS_TAKEN' : '') | translate"
+            #vmname="ngModel"
+            [(ngModel)]="vmCreationData.vm.displayName"
+            [class.is-invalid]="!vmname.valid || (vmCreationData.vm.displayName === takenName)"
+          >
+          </mdl-textfield>
+        </div>
+
+        <div>
+          <h5>{{ 'VM_CREATION_FORM.ZONE' | translate }}</h5>
+          <div>
+            <mdl-select
+              [(ngModel)]="zoneId"
+              name="zone"
+            >
+              <mdl-option *ngFor="let z of vmCreationData.zones" [value]="z.id" >
+                {{ z.name }}
+              </mdl-option>
+            </mdl-select>
+          </div>
+        </div>
+
+        <div *ngIf="zoneId && vmCreationData.serviceOfferings">
+          <h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>
+          <cs-service-offering-selector
+            name="serviceOffering"
+            [serviceOfferings]="vmCreationData.serviceOfferings"
+            [zoneId]="vmCreationData.vm.zoneId"
+            [offering]="vmCreationData.customServiceOffering"
+            (offeringChanged)="setServiceOffering($event)"
+          ></cs-service-offering-selector>
+        </div>
+
+        <div class="dialog-select-wrapper">
+          <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.INSTALLATION_SOURCE' | translate }}</h5>
+          <cs-vm-creation-template
+            *ngIf="vmCreationData.vm.template"
+            class="dialog-select-select template-select"
+            [selectedIn]="vmCreationData.vm.template"
+            [zoneId]="zoneId"
+            (selectedOut)="setTemplate($event)"
+          ></cs-vm-creation-template>
+        </div>
+
+        <div *ngIf="!templateSelected && vmCreationData.diskOfferings">
+          <h5>{{ 'DISK_OFFERING' | translate }}</h5>
+          <cs-disk-offering
+            [diskOfferingList]="vmCreationData.diskOfferings"
+            (offeringUpdated)="setDiskOffering($event)"
+          ></cs-disk-offering>
+        </div>
+        <cs-slider
+          *ngIf="templateSelected || showRootDiskResize"
+          [min]="vmCreationData.rootDiskSizeMin"
+          [max]="vmCreationData.rootDiskSizeLimit"
+          [label]="'VM_CREATION_FORM.DISK_SIZE' | translate"
+          name="rds"
+          [(ngModel)]="vmCreationData.rootDiskSize"
+          [units]="'GB' | translate"
+        ></cs-slider>
+      </div>
+      <div *ngIf="enoughResources" class="right-column">
+
+        <h5>{{ 'VM_CREATION_FORM.GROUP' | translate }}</h5>
+        <div *ngIf="vmCreationData.instanceGroups">
+          <mdl-autocomplete
+            *ngIf="vmCreationData.instanceGroups"
+            name="group"
+            [placeholder]="'NO_GROUP' | translate"
+            [options]="vmCreationData.instanceGroups"
+            [ngModel]="null"
+            (ngModelChange)="setGroup($event)"
+          ></mdl-autocomplete>
+        </div>
+
+        <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
+        <div *ngIf="noAffinityGroupTranslation">
+          <mdl-autocomplete
+            name="affinityGroup"
+            [placeholder]="'NO_GROUP' | translate"
+            [options]="vmCreationData.affinityGroupNames"
+            [ngModel]="vmCreationData.affinityGroupName"
+            (ngModelChange)="affinityGroupChange($event)"
+          ></mdl-autocomplete>
+        </div>
+        <div
+          *ngIf="showSecurityGroups"
+          class="dialog-select-wrapper"
+        >
+          <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.SECURITY_GROUPS' | translate }}</h5>
+          <cs-security-group-rules-manager
+            name="sgm"
+            class="dialog-select-select"
+            [(ngModel)]="securityRules"
+          ></cs-security-group-rules-manager>
+        </div>
+        <h5>{{ 'VM_CREATION_FORM.KEYBOARD_LAYOUT' | translate }}</h5>
+        <div *ngIf="keyboardTranslations">
+          <mdl-select
+            name="keyboard"
+            [(ngModel)]="vmCreationData.keyboard"
+          >
+            <mdl-option
+              *ngFor="let k of keyboards"
+              [value]="k"
+            >
+              {{ keyboardTranslations[k] }}
+            </mdl-option>
+          </mdl-select>
+        </div>
+        <h5>{{ 'VM_CREATION_FORM.SSH_KEYPAIR' | translate }}</h5>
+        <div>
+          <mdl-select
+            name="ssh"
+            [(ngModel)]="vmCreationData.vm.keyPair"
+          >
+            <mdl-option
+              *ngFor="let k of vmCreationData.sshKeyPairs"
+              [value]="k.name"
+            >
+              {{ k.name }}
+            </mdl-option>
+          </mdl-select>
+        </div>
+        <div class="start-vm-checkbox">
+          <mdl-checkbox
+            name="startVm"
+            [(ngModel)]="vmCreationData.doStartVm"
+          >
+            {{ 'VM_CREATION_FORM.START_VM' | translate }}
+          </mdl-checkbox>
+        </div>
+      </div>
+      <div *ngIf="!enoughResources">{{ 'INSUFFICIENT_RESOURCES_VM' | translate }}</div>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button
+        *ngIf="enoughResources"
+        mdl-colored="primary"
+        [disabled]="!vmCreateForm.valid || (vmCreationData.vm.displayName === takenName)"
+        type="button"
+        mdl-button
+        (click)="onVmCreationSubmit($event)"
+        mdl-ripple
+      >
+        {{ 'CREATE' | translate }}
+      </button>
+      <button
+        mdl-colored="primary"
+        type="button"
+        mdl-button
+        (click)="onCancel()"
+        mdl-ripple
+      >
+        {{ 'CANCEL' | translate }}
+      </button>
+    </div>
+  </form>
+</div>

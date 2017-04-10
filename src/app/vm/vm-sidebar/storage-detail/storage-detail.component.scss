@@ -1,0 +1,7 @@
+$line-height: 22px;
+
+.grid.volumes .row > div {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

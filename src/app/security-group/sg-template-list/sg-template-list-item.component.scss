@@ -1,0 +1,27 @@
+:host {
+  display: inline-flex;
+}
+
+.description,
+.domain,
+.account,
+.labels {
+  height: 20px;
+  margin-bottom: 10px;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.description span {
+  width: auto;
+}
+
+.sg-popover {
+  width: 97px !important;
+}
+
+.predefined-sg-popover {
+  width: 60px !important;
+}

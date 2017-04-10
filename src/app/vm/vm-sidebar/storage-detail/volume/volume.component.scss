@@ -1,0 +1,19 @@
+$line-height: 22px;
+
+.grid.snapshots {
+  overflow: hidden;
+  max-height: 6 * $line-height;
+
+  &.open {
+    max-height: none;
+    height: auto;
+  }
+}
+
+.disk-size {
+  padding-bottom: 8px;
+}
+
+.volume-popover {
+  width: 135px !important;
+}

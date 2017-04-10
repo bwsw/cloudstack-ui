@@ -1,0 +1,29 @@
+:host {
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.row {
+  height: 20px;
+  margin-bottom: 10px;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/deep/ .volume-attachment-dialog {
+  width: 380px;
+  overflow: visible;
+  padding-bottom: 15px; //blur fix
+}
+
+.spare-drive-popover {
+  width: 135px !important;
+}
+
+/deep/ .spare-drive-attachment-dialog {
+  width: 370px !important;
+  overflow: visible !important;
+  padding: 10.5px;
+}

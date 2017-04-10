@@ -1,0 +1,120 @@
+<cs-top-bar *ngIf="!dialogMode">
+  <mdl-card
+    class="options-panel top-bar-height"
+  >
+    <mdl-tabs
+      class="template-iso-switch"
+      mdl-ripple
+      [mdl-tab-active-index]="templateSwitchPosition"
+      (mdl-tab-active-changed)="setMode($event.index)"
+      *ngIf="showIsoSwitch"
+    >
+      <mdl-tab-panel>
+        <mdl-tab-panel-title>
+          <span>{{ 'TEMPLATES' | translate }}</span>
+        </mdl-tab-panel-title>
+      </mdl-tab-panel>
+      <mdl-tab-panel>
+        <mdl-tab-panel-title>
+          <span>{{ 'ISO' | translate }}</span>
+        </mdl-tab-panel-title>
+      </mdl-tab-panel>
+    </mdl-tabs>
+
+    <mdl-select
+      class="filter-select"
+      [(ngModel)]="selectedOsFamilies"
+      (ngModelChange)="updateFilters()"
+      multiple="true"
+      placeholder="{{ 'OS_FAMILY' | translate }}"
+    >
+      <mdl-option
+        *ngFor="let family of osFamilies"
+        [value]="family"
+      >
+        {{ family }}
+      </mdl-option>
+    </mdl-select>
+    <div *ngIf="filterTranslations" class="filter-select-container">
+      <mdl-select
+        class="filter-select"
+        [(ngModel)]="selectedFilters"
+        (ngModelChange)="updateFilters()"
+        multiple="true"
+        placeholder="{{ 'TYPE' | translate }}"
+      >
+        <mdl-option
+          *ngFor="let f of categoryFilters"
+          [value]="f"
+        >
+          {{ filterTranslations[f] }}
+        </mdl-option>
+      </mdl-select>
+    </div>
+  </mdl-card>
+</cs-top-bar>
+
+<mdl-card
+  class="options-panel"
+  [class.delimiter]="showDelimiter"
+  *ngIf="dialogMode"
+>
+  <mdl-tabs
+    class="template-iso-switch"
+    mdl-ripple
+    [mdl-tab-active-index]="templateSwitchPosition"
+    (mdl-tab-active-changed)="setMode($event.index)"
+    *ngIf="showIsoSwitch"
+  >
+    <mdl-tab-panel>
+      <mdl-tab-panel-title>
+        <span>{{ 'TEMPLATES' | translate }}</span>
+      </mdl-tab-panel-title>
+    </mdl-tab-panel>
+    <mdl-tab-panel>
+      <mdl-tab-panel-title>
+        <span>{{ 'ISO' | translate }}</span>
+      </mdl-tab-panel-title>
+    </mdl-tab-panel>
+  </mdl-tabs>
+
+  <mdl-select
+    class="filter-select"
+    [(ngModel)]="selectedOsFamilies"
+    (ngModelChange)="updateFilters()"
+    multiple="true"
+    placeholder="{{ 'OS_FAMILY' | translate }}"
+  >
+    <mdl-option
+      *ngFor="let family of osFamilies"
+      [value]="family"
+    >
+      {{ family }}
+    </mdl-option>
+  </mdl-select>
+  <div *ngIf="filterTranslations" class="filter-select-container">
+    <mdl-select
+      class="filter-select"
+      [(ngModel)]="selectedFilters"
+      (ngModelChange)="updateFilters()"
+      multiple="true"
+      placeholder="{{ 'TYPE' | translate }}"
+    >
+      <mdl-option
+        *ngFor="let f of categoryFilters"
+        [value]="f"
+      >
+        {{ filterTranslations[f] }}
+      </mdl-option>
+    </mdl-select>
+  </div>
+</mdl-card>
+
+<p class="search-bar">
+  <mdl-icon>search</mdl-icon>
+  <mdl-textfield
+    type="text"
+    [(ngModel)]="query"
+    (ngModelChange)="updateFilters()"
+  ></mdl-textfield>
+</p>

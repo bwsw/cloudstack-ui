@@ -1,0 +1,32 @@
+.custom-slider {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+
+  & h5 {
+    margin: 0;
+    align-self: center;
+  }
+}
+
+:host mdl-textfield {
+  padding: 0;
+}
+
+.custom-slider-input {
+  /deep/ .mdl-textfield__input {
+    text-align: center;
+    font-size: 20px;
+  }
+  width: 60px;
+}
+
+.custom-slider-label {
+  align-self: center;
+  display: inline-flex;
+  font-size: 20px;
+}
+
+.current-value {
+  display: flex;
+}

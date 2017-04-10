@@ -1,0 +1,35 @@
+<mdl-card *ngIf="iso" mdl-shadow="2">
+  <mdl-card-title>
+    <h2 mdl-card-title-text>{{ 'ISO' | translate }}</h2>
+  </mdl-card-title>
+  <mdl-card-supporting-text>{{ iso.name }}</mdl-card-supporting-text>
+  <mdl-card-actions mdl-card-border>
+    <button
+      mdl-button
+      mdl-button-type="icon"
+      mdl-tooltip-position="top"
+      [mdl-tooltip]="'DETACH' | translate"
+      (click)="detachIso()"
+    >
+      <mdl-icon>remove</mdl-icon>
+    </button>
+  </mdl-card-actions>
+</mdl-card>
+
+<mdl-card *ngIf="!iso" mdl-shadow="2">
+  <mdl-card-title>
+    <h2 mdl-card-title-text>{{ 'ISO' | translate }}</h2>
+  </mdl-card-title>
+  <mdl-card-supporting-text>{{ 'NO_MEDIUM' | translate }}</mdl-card-supporting-text>
+  <mdl-card-actions mdl-card-border>
+    <button
+      mdl-button
+      mdl-button-type="icon"
+      mdl-tooltip-position="top"
+      [mdl-tooltip]="'ATTACH' | translate"
+      (click)="attachIso()"
+    >
+      <mdl-icon>add</mdl-icon>
+    </button>
+  </mdl-card-actions>
+</mdl-card>

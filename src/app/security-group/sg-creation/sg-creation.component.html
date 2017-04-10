@@ -1,0 +1,76 @@
+<h3 class="mdl-dialog__title">{{ 'SECURITY_GROUP_TEMPLATES' | translate }}</h3>
+<div class="mdl-dialog__content">
+  <div class="list-builder">
+    <div class="left-list">
+      <h5>{{ 'ALL_GROUPS' | translate }}</h5>
+      <mdl-list>
+        <mdl-list-item
+          *ngFor="let secuityGroup of items[0]; let i=index"
+          [class.active]="selectedColumnIndex === 0 && selectedGroupIndex === i"
+          (click)="selectGroup(i, true)"
+          mdl-ripple
+        >
+          <mdl-list-item-primary-content>
+            {{ secuityGroup.name }}
+          </mdl-list-item-primary-content>
+        </mdl-list-item>
+      </mdl-list>
+    </div>
+    <div class="buttons-container">
+      <button
+        mdl-button
+        mdl-button-type="icon"
+        (click)="move(false)"
+        disabled="{{ selectedColumnIndex !== 0 }}"
+      >
+        <mdl-icon>navigate_next</mdl-icon>
+      </button>
+      <button
+        mdl-button
+        mdl-button-type="icon"
+        (click)="move(true)"
+        disabled="{{ selectedColumnIndex !== 1 }}"
+      >
+        <mdl-icon>navigate_before</mdl-icon>
+      </button>
+    </div>
+    <div class="right-list">
+      <h5>{{ 'SELECTED_GROUPS' | translate }}</h5>
+      <mdl-list>
+        <mdl-list-item
+          *ngFor="let secuityGroup of items[1]; let i=index"
+          [class.active]="selectedColumnIndex === 1 && selectedGroupIndex === i"
+          (click)="selectGroup(i, false)"
+          mdl-ripple
+        >
+          <mdl-list-item-primary-content>
+            {{ secuityGroup.name }}
+          </mdl-list-item-primary-content>
+        </mdl-list-item>
+      </mdl-list>
+    </div>
+  </div>
+  <div class="rules-list">
+    <h5>{{ 'NETWORK_RULES' | translate }}</h5>
+    <mdl-list>
+      <cs-sg-creation-rule
+        *ngFor="let item of selectedRules[0]"
+        [item]="item"
+        [type]="NetworkRuleTypes.Ingress"
+      ></cs-sg-creation-rule>
+      <cs-sg-creation-rule
+        *ngFor="let item of selectedRules[1]"
+        [item]="item"
+        [type]="NetworkRuleTypes.Egress"
+      ></cs-sg-creation-rule>
+    </mdl-list>
+  </div>
+</div>
+<div class="mdl-dialog__actions" style="text-align: right;">
+  <button mdl-button (click)="onSave()" mdl-colored="primary">
+    {{ 'SAVE' | translate }}
+  </button>
+  <button mdl-button (click)="onCancel()" mdl-colored="primary">
+    {{ 'CANCEL' | translate }}
+  </button>
+</div>

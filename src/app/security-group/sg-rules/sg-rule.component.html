@@ -1,0 +1,24 @@
+<td class="mdl-data-table__cell--non-numeric">{{ type.toUpperCase() | translate }}</td>
+<td>{{ rule.protocol.toUpperCase() }}</td>
+<template [ngIf]="rule.protocol === NetworkProtocols.ICMP">
+  <td>{{ rule.icmpType }}</td>
+  <td>{{ rule.icmpCode }}</td>
+</template>
+<template [ngIf]="rule.protocol !== NetworkProtocols.ICMP">
+  <td>{{ rule.startPort }}</td>
+  <td>{{ rule.endPort }}</td>
+</template>
+<td class="mdl-data-table__cell--non-numeric">{{ rule.CIDR }}</td>
+<td>
+  <button
+    class="delete-rule-button"
+    mdl-button
+    mdl-button-type="icon"
+    (click)="handleRemoveClicked($event)"
+    disabled="{{ !canRemove || deleting }}"
+    [hidden]="!canRemove"
+  >
+    <mdl-icon *ngIf="!deleting">close</mdl-icon>
+    <mdl-spinner single-color active *ngIf="deleting"></mdl-spinner>
+  </button>
+</td>

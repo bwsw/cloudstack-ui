@@ -3,6 +3,8 @@
     "node_modules/codelyzer"
   ],
   "rules": {
+    "align": [true, "parameters", "statements"],
+    "array-type": [true, "generic"],
     "class-name": true,
     "comment-format": [
       true,
@@ -16,7 +18,6 @@
       "spaces"
     ],
     "label-position": true,
-    "label-undefined": true,
     "max-line-length": [
       true,
       120
@@ -30,15 +31,16 @@
     "no-bitwise": true,
     "no-console": [
       true,
+      "log",
       "debug",
       "info",
       "time",
       "timeEnd",
       "trace"
     ],
+    "no-consecutive-blank-lines": [true, 2],
     "no-construct": true,
     "no-debugger": true,
-    "no-duplicate-key": true,
     "no-duplicate-variable": true,
     "no-empty": false,
     "no-eval": true,
@@ -48,8 +50,6 @@
     "no-switch-case-fall-through": true,
     "no-trailing-whitespace": true,
     "no-unused-expression": true,
-    "no-unused-variable": true,
-    "no-unreachable": true,
     "no-use-before-declare": true,
     "no-var-keyword": true,
     "object-literal-sort-keys": false,
@@ -72,6 +72,10 @@
       true,
       "allow-null-check"
     ],
+    "typedef": [
+      true,
+      "call-signature"
+    ],
     "typedef-whitespace": [
       true,
       {
@@ -88,14 +92,22 @@
       "check-branch",
       "check-decl",
       "check-operator",
+      "check-module",
       "check-separator",
       "check-type"
     ],
-
-    "directive-selector-name": [true, "camelCase"],
-    "component-selector-name": [true, "kebab-case"],
-    "directive-selector-type": [true, "attribute"],
-    "component-selector-type": [true, "element"],
+    "directive-selector": [
+      true,
+      "attribute",
+      "cs",
+      "camelCase"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      "cs",
+      "kebab-case"
+    ],
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
     "use-host-property-decorator": true,
@@ -105,8 +117,14 @@
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true,
-    "directive-selector-prefix": [true, "cs"],
-    "component-selector-prefix": [true, "cs"],
-    "pipe-naming": [true, "camelCase", "cs"]
+    "pipe-naming": [
+      true,
+      "camelCase",
+      "cs"
+    ],
+    "no-attribute-parameter-decorator": true,
+    "import-destructuring-spacing": true,
+    "templates-use-public": true,
+    "invoke-injectable": true
   }
 }

@@ -1,0 +1,18 @@
+:host .actions {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 5px 10px;
+}
+
+:host mdl-list {
+  min-height: 100px;
+  max-height: 288px;
+  overflow: auto;
+}
+
+.mdl-card__title {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+  .mdl-card__title-text {
+    font-size: 1.4em;
+  }
+}

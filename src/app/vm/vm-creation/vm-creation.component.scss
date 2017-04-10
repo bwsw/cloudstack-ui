@@ -1,0 +1,109 @@
+:host {
+  position: relative;
+  display: block;
+}
+
+:host mdl-textfield {
+  padding-top: 15px;
+}
+
+.vm-creation-container {
+  position: relative;
+  padding: 1em;
+  min-height: 500px;
+
+  /deep/ cs-loader {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 9999999999999;
+
+  .message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.container {
+  display: flex;
+  padding: 15px 24px 0;
+  justify-content: space-between;
+}
+
+h5 {
+  margin-bottom: 0;
+}
+
+.network-security-info {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.start-vm-checkbox {
+  margin-top: 20px;
+}
+
+.left-column,
+.right-column {
+  width: 300px;
+}
+
+.root-disk-size {
+  position:relative;
+  width: 300px;
+}
+
+.security-groups {
+  position: relative;
+  width: 300px;
+}
+
+.dialog-select-header {
+  display: inline-block;
+}
+
+.dialog-select-create-button {
+  margin-top: 16px;
+  margin-right: 16px;
+  display:inline-block;
+  position:absolute;
+  right: 0;
+}
+
+.dialog-select-select {
+  position: absolute;
+  right: 0;
+  display: inline-block;
+  text-align: right;
+  margin-top: 16px;
+
+  /deep/ .mdl-textfield {
+    padding-top: 10px;
+  }
+
+  /deep/ .mdl-textfield__input {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    border: none;
+  }
+}
+
+.dialog-select-wrapper {
+  position: relative;
+  margin-bottom: 86px;
+}
+

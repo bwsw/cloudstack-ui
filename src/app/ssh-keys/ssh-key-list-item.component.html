@@ -1,0 +1,38 @@
+<mdl-card class="custom-card" mdl-shadow="2">
+  <mdl-card-title>
+    <mdl-icon>vpn_key</mdl-icon>
+    <h2 mdl-card-title-text [mdl-tooltip]="key.name">
+      {{ key.name }}
+    </h2>
+  </mdl-card-title>
+  <mdl-card-supporting-text>
+    {{ key.fingerPrint }}
+  </mdl-card-supporting-text>
+  <mdl-card-menu>
+    <button
+      mdl-button
+      (click)="$event.stopPropagation(); popover.toggle($event)"
+      mdl-button-type="icon"
+      mdl-ripple>
+      <mdl-icon>more_vert</mdl-icon>
+    </button>
+  </mdl-card-menu>
+  <mdl-popover
+    class="card-popover vm-popover"
+    #popover
+    [hide-on-click]="true"
+  >
+    <div mdl-shadow="6" class="popover-actions">
+      <button
+        (click)="onRemoveClicked()"
+        [mdl-tooltip]="'DELETE' | translate"
+        mdl-tooltip-position="bottom"
+        mdl-button
+        mdl-button-type="icon"
+        mdl-ripple
+      >
+        <mdl-icon>close</mdl-icon>
+      </button>
+    </div>
+  </mdl-popover>
+</mdl-card>

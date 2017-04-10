@@ -1,8 +1,245 @@
 // styles in src/style directory are applied to the whole page
-body {
-    background: #0147A7;
-    color: #fff;
+@import '~angular2-mdl/scss/material-design-lite';
+
+@import '~@angular2-mdl-ext/popover/popover';
+@import '~@angular2-mdl-ext/select/select';
+
+@import "~angular2-mdl/scss/color-definitions";
+@import '__variables.scss';
+
+
+* {
+  box-sizing: border-box;
 }
-a {
-    color: #03A9F4;
+
+.disabled-link {
+  cursor: pointer;
+}
+
+mdl-card > mdl-card-title + mdl-card-supporting-text {
+  padding-top: 0 !important;
+}
+
+mdl-card .mdl-card__title-text,
+.details-header {
+  font-size: 18px;
+  width: 100%;
+}
+
+mdl-card mdl-card-menu {
+  top: 5px !important;
+  right: 5px !important;
+}
+
+mdl-card.custom-card {
+  min-height: 0;
+
+  & mdl-card-supporting-text {
+    width: 100%;
+  }
+
+  & mdl-card-actions {
+    border-top: 1px solid rgba(0,0,0,.1);
+  }
+
+  & mdl-card-title > h2 {
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  & table {
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  & table td, table th {
+    border: 1px solid black;
+    border-top: 0;
+    border-bottom: 0;
+  }
+
+  & table tr:first-child th {
+    border-top: 0;
+  }
+  & table tr:last-child td {
+    border-bottom: 0;
+  }
+
+  & table tr td:first-child,
+  & table tr th:first-child {
+    border-left: 0;
+  }
+  & table tr td:last-child,
+  & table tr th:last-child {
+    border-right: 0;
+  }
+}
+
+.options-panel {
+  display: flex;
+  flex-direction: row !important;
+  width: 100% !important;
+  min-height: initial !important;
+  overflow: visible !important;
+  flex-wrap: wrap;
+
+  & > * {
+    align-self: center;
+  }
+
+  &.delimiter {
+    border-bottom: 1px solid #dedede;
+  }
+}
+
+.mdl-dialog {
+  max-height: 100% !important;
+  overflow: auto !important;
+}
+
+.mdl-dialog__title {
+  font-size: 24px !important;
+  font-weight: bold !important;
+}
+
+mdl-simple-tooltip div {
+  white-space: normal;
+  word-break: break-all;
+}
+
+.mdl-tabs__tab {
+  cursor: pointer;
+}
+
+.card-wrapper {
+  display: flex;
+
+  & > div:first-child {
+    flex: 1;
+  }
+
+  & > div:last-child {
+    flex: 2;
+
+    & span {
+      display: block;
+      width: 215px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+.grid {
+  margin: 5px auto;
+
+  .row {
+    display: flex;
+    flex-flow: row wrap;
+
+    & > div {
+      width: 50%;
+      padding: 2px;
+    }
+
+    & > div:nth-child(2n) {
+      text-align: right;
+    }
+  }
+}
+
+.card-selected {
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12),
+              0 5px 5px -3px rgba(0, 0, 0, 0.2) !important;
+  transition: 0.25s, box-shadow 0.25s;
+}
+
+.padding {
+  padding: 15px;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.margin-bottom {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.filter-select {
+  display: inline-block;
+  width: $template-filter-select-width;
+  margin: 0 20px;
+}
+
+.section-header {
+  margin: 0;
+  padding: 15px 15px 0 15px;
+}
+
+.detail-list-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.popover-actions {
+  padding: 1rem;
+}
+
+.mdl-layout--fixed-drawer>.mdl-layout__drawer {
+  transform: translateX(-240px) !important;
+}
+
+.mdl-layout--fixed-drawer>.mdl-layout__content {
+  margin-left: 0 !important;
+}
+
+.mdl-layout__drawer-button {
+  margin-top: 6px !important;
+}
+
+.card-popover {
+  top: 0;
+  right: 50px;
+}
+
+.dialog-overflow-visible {
+  overflow: visible !important;
+}
+
+.card-list-container > * {
+  margin-top: 15px;
+  margin-left: 15px;
+}
+
+.card-list-container:last-child {
+  margin-bottom: 15px;
+}
+
+.card-left-button {
+  display: inline-block;
+}
+
+.card-right-button {
+  float: right;
+}
+
+.arrow {
+  cursor: initial;
+}
+
+.section {
+  width: 100%;
+  min-height: 0;
+  border-bottom: 1px solid #dedede;
+  background-color: white;
+  padding-bottom: 15px;
 }

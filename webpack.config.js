@@ -10,6 +10,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 var AotPlugin = require('@ngtools/webpack').AotPlugin;
+var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 /**
  * Env
@@ -20,6 +21,21 @@ var isTestWatch = ENV === 'test-watch';
 var isTest = ENV === 'test' || isTestWatch;
 var isAot = ENV === 'build:aot';
 var isProd = ENV === 'build' || isAot;
+var isDev = !isTest && !isProd;
+
+var BACKEND_API_URL = process.env.BACKEND_API_URL;
+if (!BACKEND_API_URL && isDev) {
+  throw new Error('Environment variable BACKEND_API_URL is required');
+}
+
+//Proxy config
+var redirectTo;
+if (isDev) {
+  var leadingSlash = BACKEND_API_URL[BACKEND_API_URL.length - 1] === '/';
+  redirectTo =  leadingSlash ? BACKEND_API_URL.substr(0, BACKEND_API_URL.length - 1) : BACKEND_API_URL;
+}
+var apiUrl = '/client/api';
+var consoleUrl = '/client/console';
 
 module.exports = function makeWebpackConfig() {
   /**
@@ -288,9 +304,19 @@ module.exports = function makeWebpackConfig() {
 
       // Copy assets from the public folder
       // Reference: https://github.com/kevlened/copy-webpack-plugin
-      new CopyWebpackPlugin([{
-        from: root('src/public')
-      }])
+      new CopyWebpackPlugin([
+        {from: root('src/public'), ignore: ['config-dev.json']}
+      ]),
+
+      new OptimizeCssAssetsPlugin({
+        assetNameRegExp: /\.css$/g,
+        cssProcessor: require('cssnano'),
+        cssProcessorOptions: {
+          discardComments: {removeAll: true },
+          safe: true
+        },
+        canPrint: true
+      })
     );
   }
 
@@ -300,11 +326,26 @@ module.exports = function makeWebpackConfig() {
    * Reference: http://webpack.github.io/docs/webpack-dev-server.html
    */
   config.devServer = {
+    proxy: { },
     contentBase: './src/public',
     historyApiFallback: true,
     quiet: true,
     stats: 'minimal' // none (or false), errors-only, minimal, normal (or true) and verbose
   };
+
+  if (isDev) {
+    config.devServer.proxy[apiUrl] = {
+      target: redirectTo + apiUrl,
+      secure: false
+    };
+
+    config.devServer.proxy[consoleUrl] = {
+      target: redirectTo + consoleUrl,
+      pathRewrite: { }
+    };
+
+    config.devServer.proxy[consoleUrl].pathRewrite["^" + consoleUrl] = "";
+  }
 
   return config;
 }();

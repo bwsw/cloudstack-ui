@@ -1,0 +1,55 @@
+<div class="ssh-creation-form">
+  <h3 class="mdl-dialog__title">{{ 'CREATE_SSH_KEY' | translate }}</h3>
+  <form (ngSubmit)="onSubmit($event)" #sshCreationForm="ngForm" novalidate>
+    <div class="mdl-dialog__content">
+      <mdl-textfield
+        type="text"
+        floating-label
+        label="{{ 'NAME' | translate }}"
+        name="name"
+        [(ngModel)]="name"
+        #nameField="ngModel"
+        [class.is-invalid]="nameField.invalid && !nameField.pristine"
+        [style.width]="'100%'"
+        autofocus
+        required
+      >
+      </mdl-textfield>
+      <br/>
+      <span class="public-key-label mdl-color-text--primary">{{ 'PUBLIC_KEY' | translate }}</span>
+      <mdl-textfield
+        class="public-key-input"
+        type="text"
+        label="{{ 'AUTO_GENERATED' | translate }}"
+        name="public-key"
+        [(ngModel)]="publicKey"
+        #publicKeyField="ngModel"
+        [class.is-invalid]="publicKeyField.invalid && !publicKeyField.pristine"
+        [style.width]="'100%'"
+        rows="3"
+        maxrows="3"
+      >
+      </mdl-textfield>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button
+        mdl-colored="primary"
+        mdl-button
+        mdl-ripple
+        type="submit"
+        [disabled]="!sshCreationForm.valid"
+      >
+        {{ 'CREATE' | translate }}
+      </button>
+      <button
+        mdl-colored="primary"
+        mdl-button
+        mdl-ripple
+        type="button"
+        (click)="dialog.hide()"
+      >
+        {{ 'CANCEL' | translate }}
+      </button>
+    </div>
+  </form>
+</div>

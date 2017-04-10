@@ -1,0 +1,46 @@
+<cs-list>
+  <cs-top-bar cs-panels>
+    <mdl-select
+      class="filter-select"
+      *ngIf="zones"
+      [(ngModel)]="selectedZones"
+      (ngModelChange)="updateSections()"
+      multiple="true"
+      [placeholder]="'SELECT_ZONES' | translate"
+    >
+      <mdl-option mdl-ripple *ngFor="let z of zones" [value]="z">{{ z.name }}</mdl-option>
+    </mdl-select>
+  </cs-top-bar>
+
+  <div *ngIf="selectedZones?.length" cs-list>
+    <ng-container *ngFor="let s of sections">
+      <div class="section" *ngIf="s?.spareDrives?.length">
+        <h4 class="section-header">{{ s.zoneName }}</h4>
+        <cs-spare-drive-list
+          *loading="!volumes"
+          [volumes]="s.spareDrives"
+          (onSelected)="selectVolume($event)"
+          (onDelete)="showRemoveDialog($event)"
+          (onVolumeAttached)="attach($event)"
+          (onResize)="updateVolume($event)"
+          cs-list
+        ></cs-spare-drive-list>
+      </div>
+    </ng-container>
+  </div>
+
+  <div *ngIf="!selectedZones || !selectedZones.length" cs-list>
+    <cs-spare-drive-list
+      *loading="!volumes"
+      [volumes]="volumes"
+      (onSelected)="selectVolume($event)"
+      (onDelete)="showRemoveDialog($event)"
+      (onVolumeAttached)="attach($event)"
+      (onResize)="updateVolume($event)"
+    ></cs-spare-drive-list>
+  </div>
+  <cs-spare-drive-sidebar
+    [volume]="selectedVolume"
+    cs-sidebar
+  ></cs-spare-drive-sidebar>
+</cs-list>

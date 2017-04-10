@@ -1,0 +1,18 @@
+/deep/ .service-offering-dialog {
+  overflow: visible !important; /* so that the dialog window doesn't cut the SO dropdown */
+  width: 350px;
+  padding: 11.7px;
+}
+
+.service-offering-selector {
+  padding-top: 10px;
+  display: block;
+}
+
+.warning {
+  color: red;
+}
+
+.message {
+  text-align: right;
+}
