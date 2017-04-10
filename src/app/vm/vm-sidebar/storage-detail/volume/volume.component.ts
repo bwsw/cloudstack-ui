@@ -86,7 +86,7 @@ export class VolumeComponent implements OnInit {
           notificationId = this.jobNotificationService.add('VOLUME_RESIZING');
           return this.volumeService.resize(volumeResizeData);
         }
-        return Observable.of(undefined);
+        return Observable.of(null);
       })
       .subscribe(
         (newVolume: Volume) => {

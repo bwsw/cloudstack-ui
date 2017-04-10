@@ -44,7 +44,7 @@ export class StorageService implements IStorageService {
   public writeRemote(key: string, value: string): Observable<void> {
     const user = { id: this.readLocal('userId') };
     if (!user.id) {
-      return;
+      return Observable.of(null);
     }
     return this.tagService.update(user, 'User', key, value);
   }
@@ -52,7 +52,7 @@ export class StorageService implements IStorageService {
   public readRemote(key: string): Observable<string> {
     const user = { id: this.readLocal('userId') };
     if (!user.id) {
-      return Observable.of(undefined);
+      return Observable.of(null);
     }
     return this.tagService.getTag(user, key).map(tag => tag ? tag.value : undefined);
   }
@@ -87,7 +87,7 @@ export class StorageService implements IStorageService {
   }
 
   private inMemoryRead(key: string): string {
-    return this.inMemoryStorage[key] || undefined;
+    return this.inMemoryStorage[key] || null;
   }
 
   private inMemoryRemove(key: string): void {

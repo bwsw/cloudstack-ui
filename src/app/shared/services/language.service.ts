@@ -14,11 +14,13 @@ export class LanguageService {
   ) {}
 
   public getLanguage(): Observable<string> {
-    return this.storage.readRemote('lang')
-      .map(lang => lang || this.defaultLanguage);
+    return this.storage.readRemote('lang').map(lang => {
+      return lang || this.defaultLanguage;
+    });
   }
 
   public setLanguage(lang: string): void {
+    this.storage.writeLocal('lang', lang);
     this.storage.writeRemote('lang', lang).subscribe(() => this.applyLanguage());
   }
 
@@ -27,6 +29,6 @@ export class LanguageService {
   }
 
   private get defaultLanguage(): string {
-    return DEFAULT_LANGUAGE;
+    return navigator.language || DEFAULT_LANGUAGE;
   }
 }
