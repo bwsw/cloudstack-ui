@@ -25,7 +25,8 @@
               mdl-tooltip-position="top"
               mdl-button
               mdl-button-type="icon"
-              (click)="action.action(volume.snapshots[0], volume)"
+              (click)="action.activate(volume.snapshots[0], volume)"
+              [disabled]="volume.snapshots[0]['loading']"
             >
               <mdl-icon>{{ action.icon }}</mdl-icon>
             </button>

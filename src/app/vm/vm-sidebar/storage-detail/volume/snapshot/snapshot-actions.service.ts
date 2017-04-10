@@ -11,7 +11,7 @@ import { TranslateService } from 'ng2-translate';
 export interface SnapshotAction {
   name: string;
   icon: string;
-  action(snapshot: Snapshot, volume?: Volume);
+  activate(snapshot: Snapshot, volume?: Volume);
 }
 
 @Injectable()
@@ -20,17 +20,12 @@ export class SnapshotActionsService {
     {
       name: 'CREATE_TEMPLATE_BUTTON',
       icon: 'add',
-      action: (snapshot) => this.showCreationDialog(snapshot)
-    },
-    {
-      name: 'REVERT_TO_SNAPSHOT',
-      icon: 'replay',
-      action: () => {}
+      activate: (snapshot) => this.showCreationDialog(snapshot)
     },
     {
       name: 'DELETE',
       icon: 'delete',
-      action: (snapshot, volume) => this.handleSnapshotDelete(snapshot, volume)
+      activate: (snapshot, volume) => this.handleSnapshotDelete(snapshot, volume)
     },
   ];
 
@@ -55,7 +50,7 @@ export class SnapshotActionsService {
       .switchMap(res => res.onHide())
       .subscribe(data => {
         if (data) {
-          this.createTemplate(data);
+          this.createTemplate(data, snapshot);
         }
       });
   }
@@ -64,13 +59,13 @@ export class SnapshotActionsService {
     let notificationId: string;
 
     this.translateService.get('CONFIRM_SNAPSHOT_DELETE')
-      .switchMap(str => {
-        return this.dialogService.confirm(str);
-      })
+      .switchMap(str => this.dialogService.confirm(str))
       .switchMap(() => {
+        snapshot['loading'] = true;
         notificationId = this.jobNotificationService.add('SNAPSHOT_DELETE_IN_PROGRESS');
         return this.snapshotService.remove(snapshot.id);
       })
+      .finally(() => snapshot['loading'] = false)
       .subscribe(
         () => {
           volume.snapshots = volume.snapshots.filter(_ => _.id !== snapshot.id);
@@ -83,6 +78,7 @@ export class SnapshotActionsService {
           if (!error) {
             return;
           }
+
           this.notificationService.error(error);
           this.jobNotificationService.fail({
             id: notificationId,
@@ -92,23 +88,25 @@ export class SnapshotActionsService {
       );
   }
 
-    private createTemplate(data): void {
-      let notificationId = this.jobNotificationService.add('TEMPLATE_CREATION_IN_PROGRESS');
-      this.templateService.create(data)
-        .subscribe(
-          () => {
-            this.jobNotificationService.finish({
-              id: notificationId,
-              message: 'TEMPLATE_CREATION_DONE'
-            });
-          },
-          error => {
-            this.notificationService.error(error.errortext);
-            this.jobNotificationService.fail({
-              id: notificationId,
-              message: 'TEMPLATE_CREATION_FAILED'
-            });
-          }
-        );
-    }
+  private createTemplate(data, snapshot): void {
+    snapshot['loading'] = true;
+    let notificationId = this.jobNotificationService.add('TEMPLATE_CREATION_IN_PROGRESS');
+    this.templateService.create(data)
+      .finally(() => snapshot['loading'] = false)
+      .subscribe(
+        () => {
+          this.jobNotificationService.finish({
+            id: notificationId,
+            message: 'TEMPLATE_CREATION_DONE'
+          });
+        },
+        error => {
+          this.notificationService.error(error.errortext);
+          this.jobNotificationService.fail({
+            id: notificationId,
+            message: 'TEMPLATE_CREATION_FAILED'
+          });
+        }
+      );
+  }
 }
