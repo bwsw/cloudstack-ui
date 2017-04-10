@@ -1,24 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MdlDefaultTableModel } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
+import { Observable } from 'rxjs';
 
 import { EventService } from './event.service';
 import { Event } from './event.model';
-import { Observable } from 'rxjs';
 import { dateTimeFormat, formatIso } from '../shared/components/date-picker/dateUtils';
 
-let DateTimeFormat;
-const areIntlLocalesSupported = require('intl-locales-supported');
-
-if (areIntlLocalesSupported(['ru'])) {
-  DateTimeFormat = Intl.DateTimeFormat;
-} else {
-  const IntlPolyfill = require('intl');
-  DateTimeFormat = IntlPolyfill.DateTimeFormat;
-  // puts this in the bundle,
-  // todo dynamic import
-  require('intl/locale-data/jsonp/ru.js');
-}
 
 @Component({
   selector: 'cs-event-list',
@@ -124,7 +112,7 @@ export class EventListComponent implements OnInit {
       second: 'numeric',
       timeZoneName: 'short'
     };
-    const dateTimeFormat = new DateTimeFormat(this.locale, options);
+    const dateTimeFormat = new Intl.DateTimeFormat(this.locale, options);
     this.tableModel.data = this.events.map(event => Object.assign({}, event, {
       selected: false,
       time: dateTimeFormat.format(new Date(event.created))

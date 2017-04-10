@@ -1,21 +1,21 @@
 <div>
-  <h3 class="mdl-dialog__title">Snapshots</h3>
+  <h3 class="mdl-dialog__title">{{ 'SNAPSHOTS' | translate }}</h3>
   <div class="mdl-dialog__content">
-    <table class="mdl-data-table" style="width: 100%">
+    <table *ngIf="volume?.snapshots?.length" class="mdl-data-table" style="width: 100%">
       <thead>
       <tr>
-        <th class="mdl-data-table__cell--non-numeric">Name</th>
-        <th>Date</th>
-        <th>Actions</th>
+        <th class="mdl-data-table__cell--non-numeric">{{ 'NAME' | translate}}</th>
+        <th>{{ 'DATE' | translate }}</th>
+        <th>{{ 'ACTIONS' | translate }}</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let snapshot of volume.snapshots">
-        <td class="mdl-data-table__cell--non-numeric">{{ snapshot.name }}</td>
-        <td>{{ snapshot.created }}</td>
+        <td class="snapshot-name mdl-data-table__cell--non-numeric">{{ snapshot.name }}</td>
+        <td>{{ snapshot.created | date:'medium' }}</td>
         <td>
           <button
-            *ngFor="let action of snapshotActions.Actions"
+            *ngFor="let action of snapshotActionsService.Actions"
             class="button-18px snapshot-button"
             [mdl-tooltip]="action.name | translate"
             mdl-tooltip-position="top"
@@ -29,6 +29,7 @@
       </tr>
       </tbody>
     </table>
+    <div class="row" *ngIf="!volume.snapshots?.length">{{ 'NO_SNAPSHOTS' | translate }}</div>
   </div>
   <div class="mdl-dialog__actions">
     <button

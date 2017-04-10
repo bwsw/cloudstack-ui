@@ -41,7 +41,7 @@ export class VolumeComponent implements OnInit {
     private volumeService: VolumeService,
     private notificationService: NotificationService,
     private translateService: TranslateService,
-    public snapshotActions: SnapshotActionsService
+    public snapshotActionsService: SnapshotActionsService
   ) { }
 
   public ngOnInit(): void {

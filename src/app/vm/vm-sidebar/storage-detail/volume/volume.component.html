@@ -1,30 +1,25 @@
-<mdl-card
-  class="vm-card"
-  mdl-shadow="2"
->
+<mdl-card class="vm-card" mdl-shadow="2">
   <mdl-card-title>
     <h2 mdl-card-title-text>{{ volume.name }}</h2>
   </mdl-card-title>
   <mdl-card-supporting-text>
     <div class="disk-size">{{ (volume.size | division:2:30:2) + ' ' + ('GB' | translate) }}</div>
     <div class="grid volumes snapshots" [class.open]="expandStorage">
-      <div *ngIf="volume.snapshots?.length">
+      <div *ngIf="volume.snapshots?.length" class="last-snapshot">
         <div class="row">
-          <div>Last snapshot:</div>
+          <div>{{ 'LAST_SNAPSHOT' | translate }}:</div>
           <div *ngIf="volume.snapshots.length">
             <button mdl-button mdl-colored="primary" (click)="showSnapshots()">
-              View all ({{ volume.snapshots.length }})
+              {{ 'VIEW_ALL' | translate }} ({{ volume.snapshots.length }})
             </button>
           </div>
         </div>
+        <div class="row snapshot-name">{{ volume.snapshots[0].name }}</div>
         <div class="row">
-          <div>{{ volume.snapshots[0].name }}</div>
-        </div>
-        <div class="row">
-          <div>{{ volume.snapshots[0].created }}</div>
-          <div>
+          <div style="width: 70%;">{{ volume.snapshots[0].created | date:'medium' }}</div>
+          <div style="width: 30%;">
             <button
-              *ngFor="let action of snapshotActions.Actions"
+              *ngFor="let action of snapshotActionsService.Actions"
               class="button-18px snapshot-button"
               [mdl-tooltip]="action.name | translate"
               mdl-tooltip-position="top"
@@ -38,7 +33,7 @@
         </div>
 
       </div>
-      <div class="row" *ngIf="!volume.snapshots?.length">No snapshots</div>
+      <div class="row" *ngIf="!volume.snapshots?.length">{{ 'NO_SNAPSHOTS' | translate }}</div>
     </div>
   </mdl-card-supporting-text>
   <mdl-card-menu>

@@ -17,3 +17,14 @@ $line-height: 22px;
 .volume-popover {
   width: 133px !important;
 }
+
+.snapshot-name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: block !important;
+}
+
+.last-snapshot > .row > div {
+  align-self: center;
+}

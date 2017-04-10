@@ -25,7 +25,7 @@ export class SnapshotActionsService {
     {
       name: 'REVERT_TO_SNAPSHOT',
       icon: 'replay',
-      action: () => console.log('replay')
+      action: () => {}
     },
     {
       name: 'DELETE',

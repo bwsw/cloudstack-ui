@@ -6,11 +6,18 @@ import { SnapshotActionsService } from './snapshot-actions.service';
 
 @Component({
   selector: 'cs-snapshot-modal',
-  templateUrl: 'snapshot-modal.component.html'
+  templateUrl: 'snapshot-modal.component.html',
+  styles: [`
+    .snapshot-name {
+      max-width: 290px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  `]
 })
 export class SnapshotModalComponent {
   constructor(
-    public snapshotActions: SnapshotActionsService,
+    public snapshotActionsService: SnapshotActionsService,
     public dialog: MdlDialogReference,
     @Inject('snapshots') public snapshots: Array<Snapshot>,
     @Inject('volume') public volume: Volume

@@ -1,8 +1,8 @@
-import { NgModule, ApplicationRef, Injector } from '@angular/core';
+import { NgModule, ApplicationRef, Injector, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from 'ng2-translate';
+import { TranslateModule, TranslateService } from 'ng2-translate';
 import { MdlModule, DISABLE_NATIVE_VALIDITY_CHECKING, MdlDialogService } from 'angular2-mdl';
 import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
@@ -52,7 +52,12 @@ import { LogoutComponent } from './auth/logout.component';
   ],
   providers: [
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
-    { provide: MdlDialogService, useClass: CustomDialogService }
+    { provide: MdlDialogService, useClass: CustomDialogService },
+    {
+      provide: LOCALE_ID,
+      deps: [TranslateService],
+      useFactory: (translateService) => translateService.currentLang
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -192,6 +192,9 @@
   "NAME": "Имя",
   "DESCRIPTION": "Описание",
   "LABELS": "Метки",
+  "DATE": "Дата",
+  "ACTIONS": "Действия",
+  "VIEW_ALL": "Все",
   "CUSTOM_TEMPLATES_NOT_INCLUDED": "Нет шаблонов",
   "BASED_ON": "основан на",
   "SEPARATE_MULTILINE_LABELS": "* разделяйте метки используя ;",
@@ -463,5 +466,7 @@
   "VOLUME_LIMIT_EXCEEDED": "Лимит дисков превышен. Для создания новых дисков вам нужно удалить какие-либо из ранее созданных дисков.",
   "INSUFFICIENT_RESOURCES_VM": "Недостаточно ресурсов",
 
-  "NO_GROUP": "Без группы"
+  "NO_GROUP": "Без группы",
+  "NO_SNAPSHOTS": "Нет снимков",
+  "LAST_SNAPSHOT": "Последний снимок"
 }
