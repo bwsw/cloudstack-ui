@@ -38,7 +38,7 @@
             (offeringUpdated)="updateDiskOffering($event)"
           ></cs-disk-offering>
         </div>
-        <div *ngIf="showResizeSlider && minSize && maxSize">
+        <div class="blur-fix" *ngIf="showResizeSlider && minSize && maxSize">
           <cs-slider
             [min]="minSize"
             [max]="maxSize"
