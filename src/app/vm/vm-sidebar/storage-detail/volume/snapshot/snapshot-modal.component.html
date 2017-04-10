@@ -5,15 +5,15 @@
       <thead>
       <tr>
         <th class="mdl-data-table__cell--non-numeric">{{ 'NAME' | translate}}</th>
-        <th>{{ 'DATE' | translate }}</th>
-        <th>{{ 'ACTIONS' | translate }}</th>
+        <th class="mdl-data-table__cell--non-numeric">{{ 'DATE' | translate }}</th>
+        <th class="mdl-data-table__cell--non-numeric">{{ 'ACTIONS' | translate }}</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let snapshot of volume.snapshots">
         <td class="snapshot-name mdl-data-table__cell--non-numeric">{{ snapshot.name }}</td>
-        <td>{{ snapshot.created | date:'medium' }}</td>
-        <td>
+        <td class="mdl-data-table__cell--non-numeric">{{ snapshot.created | date:'medium' }}</td>
+        <td class="mdl-data-table__cell--non-numeric">
           <button
             *ngFor="let action of snapshotActionsService.Actions"
             class="button-18px snapshot-button"
