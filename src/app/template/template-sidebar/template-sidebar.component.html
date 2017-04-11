@@ -1,6 +1,14 @@
 <div *ngIf="template">
   <mdl-card mdl-shadow="2">
     <mdl-card-title>
+      <div
+        class="state-icon"
+        [class.running]="template.isReady"
+        [class.in-progress]="!template.isReady"
+        [mdl-tooltip]="(template.isReady ? 'READY' : 'NOT_READY') | translate"
+        mdl-tooltip-position="right"
+      >
+      </div>
       <h2 mdl-card-title-text>{{ template.name }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
@@ -12,10 +20,6 @@
         <div class="row">
           <div>{{ 'OS' | translate }}</div>
           <div>{{ template.osTypeName }}</div>
-        </div>
-        <div *ngIf="!template.isReady" class="row">
-          <div>{{ 'READY' | translate}}</div>
-          <div>{{ 'NO' | translate }}</div>
         </div>
       </div>
     </mdl-card-supporting-text>
