@@ -4,6 +4,8 @@
 npm install;
 echo ******Dependencies was installed******
 
+npm run test
+
 npm run build
 echo ******Dist was built******
 
