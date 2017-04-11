@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ResourceUsageService, ResourceStats } from '../../services/resource-usage.service';
 import { IStorageService } from '../../services/storage.service';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { TranslateService } from 'ng2-translate';
 import { UtilsService } from '../../services/utils.service';
 

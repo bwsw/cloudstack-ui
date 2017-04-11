@@ -1,7 +1,7 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { Http } from '@angular/http';
 import { SecurityGroup } from '../../security-group/sg.model';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 interface IConfig {
   securityGroupTemplates: Array<SecurityGroup>;

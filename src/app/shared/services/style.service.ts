@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+
 import { StorageService } from './storage.service';
-import { Color } from '../models/color.model';
+import { Color } from '../models';
 import { ConfigService } from './config.service';
-import { Subject } from 'rxjs';
 
 
 @Injectable()

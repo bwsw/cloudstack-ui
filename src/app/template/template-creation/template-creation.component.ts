@@ -28,7 +28,7 @@ export class TemplateCreationComponent implements OnInit {
     private osTypeService: OsTypeService,
     private zoneService: ZoneService,
     @Optional() @Inject('snapshot') public snapshot: Snapshot,
-    @Inject('mode') public mode: string //'Template' | 'Iso'
+    @Inject('mode') public mode: string
   ) { }
 
   public ngOnInit(): void {

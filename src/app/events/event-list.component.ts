@@ -4,7 +4,7 @@ import { TranslateService } from 'ng2-translate';
 
 import { EventService } from './event.service';
 import { Event } from './event.model';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { dateTimeFormat, formatIso } from '../shared/components/date-picker/dateUtils';
 
 let DateTimeFormat;

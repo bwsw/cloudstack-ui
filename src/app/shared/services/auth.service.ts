@@ -1,10 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 import { IStorageService } from './storage.service';
 import { BaseBackendService } from './base-backend.service';
 import { BaseModelStub } from '../models/base.model';
 import { ErrorService } from './error.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
-import { Observable, BehaviorSubject } from 'rxjs/Rx';
 
 
 @Injectable()

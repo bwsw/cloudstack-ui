@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 import { ConfigService } from '../../shared/services/config.service';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { TranslateService } from 'ng2-translate';
 
 

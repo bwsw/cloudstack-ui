@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 import { ResourceLimitService } from './resource-limit.service';
 import { VolumeService } from './volume.service';

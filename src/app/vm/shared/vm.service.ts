@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { BackendResource } from '../../shared/decorators';
 
