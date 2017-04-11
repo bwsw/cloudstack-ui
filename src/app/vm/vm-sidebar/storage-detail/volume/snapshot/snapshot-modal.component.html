@@ -12,7 +12,7 @@
       <tbody>
       <tr *ngFor="let snapshot of volume.snapshots">
         <td class="snapshot-name mdl-data-table__cell--non-numeric">{{ snapshot.name }}</td>
-        <td class="mdl-data-table__cell--non-numeric">{{ snapshot.created | date:'medium' }}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{ snapshot.created | date:'y-MM-dd H:m:s' }}</td>
         <td class="mdl-data-table__cell--non-numeric">
           <button
             *ngFor="let action of snapshotActionsService.Actions"

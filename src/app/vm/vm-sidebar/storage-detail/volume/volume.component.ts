@@ -67,10 +67,7 @@ export class VolumeComponent implements OnInit {
   public showSnapshots(): void {
     this.dialogService.showCustomDialog({
       component: SnapshotModalComponent,
-      providers: [
-        { provide: 'snapshots', useValue: this.volume.snapshots },
-        { provide: 'volume', useValue: this.volume }
-      ],
+      providers: [{ provide: 'volume', useValue: this.volume }],
       styles: { width: '700px' }
     });
   }

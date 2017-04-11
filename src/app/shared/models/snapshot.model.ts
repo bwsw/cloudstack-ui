@@ -7,7 +7,13 @@ import { FieldMapper } from '../decorators';
 })
 export class Snapshot extends BaseModel {
   public id: string;
+  public created: Date;
   public physicalSize: number;
   public volumeId: string;
   public name: string;
+
+  constructor(json) {
+    super(json);
+    this.created = new Date(json.created.replace(/-/g, '/').replace(/T/g, ' '));
+  }
 }

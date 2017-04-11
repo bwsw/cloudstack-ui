@@ -11,7 +11,7 @@ import { TranslateService } from 'ng2-translate';
 export interface SnapshotAction {
   name: string;
   icon: string;
-  activate(snapshot: Snapshot, volume?: Volume);
+  activate(snapshot: Snapshot, volume?: Volume): void;
 }
 
 @Injectable()
