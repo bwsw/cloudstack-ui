@@ -30,4 +30,4 @@ fi
 
 # Starting server
 echo ******Starting Nginx******
-docker run -e "API_BACKEND_URL=$API" -p $DEPLOY_PORT:80 --name $CONTAINER_NAME $CONFIG_MOUNT cloudstack-nginx;
+docker run -e "API_BACKEND_URL=$API" -dp $DEPLOY_PORT:80 --name $CONTAINER_NAME $CONFIG_MOUNT cloudstack-nginx;

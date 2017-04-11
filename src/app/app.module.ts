@@ -26,7 +26,7 @@ import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { LogoutComponent } from './auth/logout.component';
 
 
-export function createTranslateLoader(http: Http) {
+export function createTranslateLoader(http: Http): TranslateStaticLoader {
   return new TranslateStaticLoader(http, './i18n', '.json');
 }
 
