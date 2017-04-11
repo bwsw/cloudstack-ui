@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/bash
 
 # Run node container to install dependencies, test and build app
 npm install;
