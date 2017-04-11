@@ -304,9 +304,7 @@ module.exports = function makeWebpackConfig() {
 
       // Copy assets from the public folder
       // Reference: https://github.com/kevlened/copy-webpack-plugin
-      new CopyWebpackPlugin([
-        {from: root('src/public'), ignore: ['config-dev.json']}
-      ]),
+      new CopyWebpackPlugin([{from: root('src/public')}]),
 
       new OptimizeCssAssetsPlugin({
         assetNameRegExp: /\.css$/g,

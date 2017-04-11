@@ -7,21 +7,17 @@
   padding: 14.5px; // blur
 }
 
-.flex-column {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  justify-content: center;
+:host .mdl-dialog__content {
+  padding-bottom: 5px;
+}
+
+.column {
   max-width: 300px;
 }
 
 .flex-dialog-content {
   display: flex;
   justify-content: space-between;
-}
-
-.password-enabled-checkbox {
-  margin: 10px 0;
 }
 
 .dynscal-checkbox {

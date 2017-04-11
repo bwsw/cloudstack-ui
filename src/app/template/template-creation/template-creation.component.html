@@ -5,7 +5,7 @@
       class="mdl-dialog__content"
       [class.flex-dialog-content]="!snapshot"
     >
-      <div [class.flex-column]="!snapshot">
+      <div [class.column]="!snapshot">
         <mdl-textfield
           type="text"
           label="{{ 'NAME' | translate }}"
@@ -46,10 +46,11 @@
         >
         </mdl-textfield>
       </div>
-      <div [class.flex-column]="!snapshot">
+      <div [class.column]="!snapshot">
         <div>
-          <h5>{{ 'OS_TYPE' | translate }}</h5>
           <mdl-select
+            [label]="'OS_TYPE' | translate"
+            floating-label
             [(ngModel)]="osTypeId"
             id="osType"
             name="osType"
@@ -63,8 +64,9 @@
           </mdl-select>
         </div>
         <div *ngIf="!snapshot">
-          <h5>{{ 'ZONE' | translate }}</h5>
           <mdl-select
+            [label]="'ZONE' | translate"
+            floating-label
             [(ngModel)]="zoneId"
             id="serviceOffering"
             name="serviceOffering"
@@ -79,7 +81,6 @@
         </div>
         <div>
           <mdl-checkbox
-            class="password-enabled-checkbox"
             name="pass"
             [(ngModel)]="passwordEnabled"
             *ngIf="mode === 'Template'"
