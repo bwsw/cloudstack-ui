@@ -327,6 +327,7 @@
   "DELETE_TEMPLATE_CONFIRM": "Are you sure you want to delete this template?",
 
   "READY": "Ready",
+  "NOT_READY": "Not ready",
   "NO_RESULTS": "No results",
   "ATTACH": "Attach",
   "DETACH": "Detach",
