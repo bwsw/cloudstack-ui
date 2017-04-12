@@ -184,75 +184,124 @@ It’s released under the Apache 2.0 license.
 
 ## Deployment
 
-To run docker container with default options use:
+1.
+Download docker container from https://hub.docker.com/r/bwsw/cloudstack-ui
+
+2.
+To run docker container with default configuration options use:
+    
     docker run -d -p 80:80 --name cloudstack-ui \
                -e API_BACKEND_URL=http://link_to_api_endpoint \
-               -v CONFIG_PATH:/var/www/dist/config \
                bw-sw/cloudstack-ui
 
- If you want to override default params use:
+If you want to override default options use:
+    
     docker run -d -p 80:80 --name cloudstack-ui \
                -e API_BACKEND_URL=http://link_to_api_endpoint \
+              -v CONFIG_PATH:/var/www/dist/config \
                bw-sw/cloudstack-ui
 
 `API_BACKEND_URL` - url of ACS API
+
 `CONFIG_PATH` - path to a directory with a custom configuration file named config.json. For example: /home/cs-ui-config
 
-Start https://hub.docker.com/r/bwsw/cloudstack-ui-cleaner/ for cleaning purposes.
+
+3.
+Download and start https://hub.docker.com/r/bwsw/cloudstack-ui-cleaner/ for cleaning purposes.
 
 
 ## Configuration Options
 
 You can customize the application by providing your own configuration file (example link).
 
-securityGroupTemplates:
-Predefined templates for security groups. You can define your own security groups that will be available for all users by default.
-Parameters:
-id: a unique identifier
-name
-description
-preselected (true/false): specifies whether network rules from this template will be automatically applied for newly
-created virtual machines.
-ingress and egress rules:
-  ruleId: a unique identifier
-  protocol: either 'tcp', 'udp' or 'icmp'
-  CIDR: subnet mask (e.g. 0.0.0.0/0)
-  For TCP and UDP: startPort and endPort
-  For ICMP: icmpCode and icmpType.
+### securityGroupTemplates:
 
-vmColors:
+Predefined templates for security groups. You can define your own security groups that will be available for all users by default. Format:
+
+    "securityGroupTemplates": [
+        {
+          "id": "templateTCP",
+          "name": "TCP Permit All",
+          "description": "Permits all TPC traffic",
+          "preselected": true,
+          "ingressRules": [
+            {
+              "ruleId": "9552c7e9-9421-4a16-8a09-00a6bab4aa5a",
+              "protocol": "tcp",
+              "startPort": 1,
+              "endPort": 65535,
+              "CIDR": "0.0.0.0/0"
+            }
+          ],
+          "egressRules": [
+            {
+              "ruleId": "dcaeefe0-0014-4431-b21d-db2e66f9162d",
+              "protocol": "tcp",
+              "startPort": 1,
+              "endPort": 65535,
+              "CIDR": "0.0.0.0/0"
+            }
+          ]
+        },
+        {...}
+    ]
+
+
+
+Parameters:
+
+* id: a unique identifier
+* name
+* description
+* preselected (true or false) - specifies whether network rules from this template will be automatically applied for newly created virtual machines
+* ingress and egress rules:
+   * ruleId: a unique identifier
+   * protocol: either 'tcp', 'udp' or 'icmp'
+   * CIDR: subnet mask (e.g. 0.0.0.0/0)
+   * For TCP and UDP: startPort and endPort
+   * For ICMP: icmpCode and icmpType
+
+### vmColors
+
 The set of colors for virtual machines in hexadecimal format. You can specify any colors you like.
 
-themeColors:
+### themeColors
+
 Color info for Material design themes. Changes are not recommended.
 
-offeringAvailability:
+### offeringAvailability
+
 In this section you can specify which offerings will be available for which zones. Format:
-offeringAvailability: {
-  "filterOfferings": true,
-  "zoneId": {
-    "diskOfferings": ["offeringId1", "offeringId2"],
-    "serviceOfferings": ["offeringId3", "offeringId4"]
-  }
-}
+
+    offeringAvailability: {
+      "filterOfferings": true,
+        "zoneId": {
+          "diskOfferings": ["offeringId1", "offeringId2"],
+          "serviceOfferings": ["offeringId3", "offeringId4"]
+        }
+    }
+
 If filterOfferings is set to false, all offerings will be available for all zones.
 
-customOfferingRestrictions:
-  In this sections you can specify limits for custom offerings in the following format:
-  "customOfferingRestrictions": {
-    "offeringId1": {
-      "cpuNumber": {
-        "min": number,
-        "max": number
-      },
-      "cpuSpeed": {
-        "min": speed_in_mhz,
-        "max": speed_in_mhz
-      },
-      "memory": {
-        "min": memory_in_mb,
-        "max": memory_in_mb
+### customOfferingRestrictions
+
+In this sections you can specify limits for custom offerings in the following format:
+
+    "customOfferingRestrictions": {
+      "offeringId1": {
+        "cpuNumber": {
+          "min": number,
+          "max": number
+        },
+        "cpuSpeed": {
+          "min": speed_in_mhz,
+          "max": speed_in_mhz
+        },
+        "memory": {
+          "min": memory_in_mb,
+          "max": memory_in_mb
+        }
       }
     }
-  }
+    
 Any of these parameters may be left unspecified, in which case 0 will be used for min and infinity will be used for max.
