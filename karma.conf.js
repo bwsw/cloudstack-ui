@@ -85,12 +85,19 @@ module.exports = function (config) {
 
     _config.coverageReporter = {
       dir: 'coverage/',
-      reporters: [{
-        type: 'json',
-        dir: 'coverage',
-        subdir: 'json',
-        file: 'coverage-final.json'
-      }]
+      reporters: [
+        {
+          type: 'json',
+          dir: 'coverage',
+          subdir: 'json',
+          file: 'coverage-final.json'
+        },
+        {
+          type: 'cobertura',
+          subdir: 'cobertura',
+          file: 'cobertura.xml'
+        }
+      ]
     };
   }
 

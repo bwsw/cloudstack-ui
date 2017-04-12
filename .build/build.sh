@@ -1,13 +1,8 @@
 #! /bin/bash
 
-# Run node container to install dependencies, test and build app
-npm install;
-echo ******Dependencies was installed******
+COMMAND="npm i && npm rebuild node-sass && npm run build"
 
-npm run test
-
-npm run build
-echo ******Dist was built******
+docker run -v  $(pwd)/..:/workspace -w /workspace node /bin/bash -ce "$COMMAND"
 
 # Build docker image
 docker build -t cloudstack-nginx --file=Dockerfile ..
