@@ -198,12 +198,12 @@ If you want to override default options use:
     
     docker run -d -p 80:80 --name cloudstack-ui \
                -e API_BACKEND_URL=http://link_to_api_endpoint \
-              -v CONFIG_PATH:/var/www/dist/config \
+              -v /my/config/path:/var/www/dist/config \
                bw-sw/cloudstack-ui
 
 `API_BACKEND_URL` - url of ACS API
 
-`CONFIG_PATH` - path to a directory with a custom configuration file named config.json. For example: /home/cs-ui-config
+`/my/config/path` - path to a directory with a custom configuration file named config.json. For example: /home/cs-ui-config
 
 
 3.
