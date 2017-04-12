@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { TranslateService } from 'ng2-translate';
 
 import { VirtualMachine } from '../shared/vm.model';

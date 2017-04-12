@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { BaseTemplateModel } from './base-template.model';
 import { AsyncJobService, BaseBackendCachedService } from '../../shared/services';

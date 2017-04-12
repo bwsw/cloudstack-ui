@@ -4,7 +4,7 @@ import { Snapshot } from '../models/snapshot.model';
 import { BaseBackendCachedService } from '.';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { AsyncJobService } from './async-job.service';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { AsyncJob } from '../models/async-job.model';
 
 

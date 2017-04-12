@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 

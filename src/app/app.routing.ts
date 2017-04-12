@@ -1,4 +1,4 @@
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { LoginComponent } from './auth/login.component';
 import { SgTemplateListComponent } from './security-group/sg-template-list/sg-template-list.component';
@@ -7,13 +7,13 @@ import { VmListComponent } from './vm/vm-list/vm-list.component';
 import { EventListComponent } from './events/event-list.component';
 import { SpareDrivePageComponent } from './spare-drive/spare-drive-page/spare-drive-page.component';
 import { SettingsComponent } from './settings/settings.component';
-import { AuthGuard } from './shared/services/auth-guard.service';
-import { LoginGuard } from './shared/services/login-guard.service';
+import { AuthGuard } from './shared/services';
+import { LoginGuard } from './shared/services';
 import { SshKeysPageComponent } from './ssh-keys/ssh-keys-page.component';
 import { LogoutComponent } from './auth/logout.component';
 
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
@@ -63,5 +63,3 @@ const routes: Routes = [
     redirectTo: '/instances'
   }
 ];
-
-export const routing = RouterModule.forRoot(routes);

@@ -1,6 +1,9 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
+import debounce = require('lodash/debounce');
+import sortBy = require('lodash/sortBy');
+import { Observable } from 'rxjs/Observable';
 
 import {
   DiskOffering,
@@ -17,9 +20,6 @@ import { VolumeTypes } from '../../shared/models/volume.model';
 import { ZoneService } from '../../shared/services/zone.service';
 import { Zone } from '../../shared/models/zone.model';
 import { FilterService } from '../../shared/services/filter.service';
-import { debounce } from 'lodash';
-import { Observable } from 'rxjs';
-import * as _ from 'lodash';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -104,7 +104,7 @@ export class SpareDrivePageComponent implements OnInit {
       return;
     }
 
-    this.sections = _.sortBy(this.selectedZones, 'name')
+    this.sections = sortBy(this.selectedZones, 'name')
       .map(zone => {
         return {
           zoneName: zone.name,

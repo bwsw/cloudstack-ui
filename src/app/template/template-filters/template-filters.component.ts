@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
-import { debounce } from 'lodash';
-import { Subject } from 'rxjs';
+import debounce = require('lodash/debounce');
+import { Subject } from 'rxjs/Subject';
 
 import { TranslateService } from 'ng2-translate';
 

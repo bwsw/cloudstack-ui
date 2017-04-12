@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdlDefaultTableModel } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { EventService } from './event.service';
 import { Event } from './event.model';

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { DiskOffering } from '../models/disk-offering.model';
 import { OfferingService, OfferingAvailability } from './offering.service';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { Zone } from '../models/zone.model';
 import { Volume } from '../models/volume.model';
 

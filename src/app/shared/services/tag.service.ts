@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { BaseBackendService } from './base-backend.service';
 import { Tag } from '../models/tag.model';

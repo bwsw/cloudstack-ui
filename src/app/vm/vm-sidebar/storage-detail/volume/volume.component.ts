@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
 import { VolumeResizeComponent } from '../../volume-resize.component';
