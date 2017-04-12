@@ -3,11 +3,14 @@
     <mdl-card-title>
       <div
         class="state-icon"
-        [class.running]="template.isReady"
-        [class.in-progress]="!template.isReady"
-        [mdl-tooltip]="(template.isReady ? 'READY' : 'NOT_READY') | translate"
+        [class.running]="ready"
+        [class.in-progress]="!ready"
         mdl-tooltip-position="right"
+        [mdl-tooltip]="tt"
       >
+        <mdl-tooltip #tt="mdlTooltip">
+          {{ (ready ? 'READY' : 'NOT_READY') | translate }}
+        </mdl-tooltip>
       </div>
       <h2 mdl-card-title-text>{{ template.name }}</h2>
     </mdl-card-title>
