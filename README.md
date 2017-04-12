@@ -203,7 +203,7 @@ If you want to override default options use:
 
 `http://link_to_api_endpoint` - url of ACS API
 
-`/my/config/path` - path to a directory with a custom configuration file named config.json. For example: /home/cs-ui-config
+`/my/config/path` - path to a directory with a custom configuration file named config.json.
 
 
 3.
