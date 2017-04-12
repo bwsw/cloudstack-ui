@@ -43,7 +43,6 @@ export class DiskStorageService {
       this.templateService.getList({ filter: 'self' })
     ])
       .map(([snapshots, isos, templates]) => {
-        debugger;
         let consumedSecondaryStorage = 0;
         snapshots.forEach((snapshot: Snapshot) => {
           consumedSecondaryStorage += snapshot.physicalSize || 0;

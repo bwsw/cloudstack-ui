@@ -97,7 +97,7 @@ export class VolumeComponent implements OnInit {
           { provide: 'volume', useValue: volume },
           { provide: 'diskOfferingList', useValue: diskOfferingList }
         ]
-      })
+      });
     })
       .switchMap(res => res.onHide())
       .switchMap((volumeResizeData: VolumeResizeData) => {
