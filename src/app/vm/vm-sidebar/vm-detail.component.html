@@ -59,10 +59,9 @@
           </template>
           <template [ngIf]="isDateField(key)">
             <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
-            <div>{{ vm.serviceOffering[key] | date }}</div>
+            <div>{{ vm.serviceOffering[key] | date:'y-MM-dd H:m:s' }}</div>
           </template>
-          <template [ngIf]="isDiskStatsField(key)"
-          >
+          <template [ngIf]="isDiskStatsField(key)">
             <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
             <div>{{ vm.serviceOffering[key] | division:10:6 }}</div>
           </template>

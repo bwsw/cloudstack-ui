@@ -192,6 +192,9 @@
   "NAME": "Name",
   "DESCRIPTION": "Description",
   "LABELS": "Labels",
+  "DATE": "Date",
+  "ACTIONS": "Actions",
+  "VIEW_ALL": "View all",
   "CUSTOM_TEMPLATES_NOT_INCLUDED": "Templates not included",
   "BASED_ON": "based on",
   "SEPARATE_MULTILINE_LABELS": "* separate multiple labels with a semicolon",
@@ -464,5 +467,7 @@
   "UNABLE_FIND_PRIMARY_STORAGE": "Unable to find suitable primary storage when creating volume {{val1}}",
   "INSUFFICIENT_RESOURCES_VM": "Insufficient resources",
 
-  "NO_GROUP": "No group"
+  "NO_GROUP": "No group",
+  "NO_SNAPSHOTS": "No snapshots",
+  "LAST_SNAPSHOT": "Last snapshot"
 }

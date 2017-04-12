@@ -33,6 +33,7 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
   }
 
   public remove(id: string): Observable<any> {
+    this.invalidateCache();
     return this.sendCommand('delete', { id })
       .switchMap(job => this.asyncJobService.queryJob(job.jobid));
   }

@@ -52,7 +52,7 @@ import { LogoutComponent } from './auth/logout.component';
   ],
   providers: [
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
-    { provide: MdlDialogService, useClass: CustomDialogService }
+    { provide: MdlDialogService, useClass: CustomDialogService },
   ],
   bootstrap: [AppComponent]
 })

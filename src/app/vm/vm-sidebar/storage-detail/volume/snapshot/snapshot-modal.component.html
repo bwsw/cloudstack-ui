@@ -1,0 +1,44 @@
+<div>
+  <h3 class="mdl-dialog__title">{{ 'SNAPSHOTS' | translate }}</h3>
+  <div class="mdl-dialog__content">
+    <table *ngIf="volume?.snapshots?.length" class="mdl-data-table" style="width: 100%">
+      <thead>
+      <tr>
+        <th class="mdl-data-table__cell--non-numeric">{{ 'NAME' | translate}}</th>
+        <th class="mdl-data-table__cell--non-numeric">{{ 'DATE' | translate }}</th>
+        <th class="mdl-data-table__cell--non-numeric">{{ 'ACTIONS' | translate }}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let snapshot of volume.snapshots">
+        <td class="snapshot-name mdl-data-table__cell--non-numeric">{{ snapshot.name }}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{ snapshot.created | date:'y-MM-dd H:m:s' }}</td>
+        <td class="mdl-data-table__cell--non-numeric">
+          <button
+            *ngFor="let action of snapshotActionsService.Actions"
+            class="button-18px snapshot-button"
+            [mdl-tooltip]="action.name | translate"
+            mdl-tooltip-position="top"
+            mdl-button
+            mdl-button-type="icon"
+            (click)="action.activate(snapshot, volume)"
+            [disabled]="snapshot['loading']"
+          >
+            <mdl-icon>{{ action.icon }}</mdl-icon>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="row" *ngIf="!volume.snapshots?.length">{{ 'NO_SNAPSHOTS' | translate }}</div>
+  </div>
+  <div class="mdl-dialog__actions">
+    <button
+      mdl-button
+      mdl-colored="primary"
+      (click)="dialog.hide()"
+    >
+      {{ 'CLOSE' | translate }}
+    </button>
+  </div>
+</div>

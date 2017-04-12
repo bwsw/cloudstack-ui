@@ -36,6 +36,7 @@ export const ServiceOfferingFields = {
   defaultuse: 'defaultUse'
 })
 export class ServiceOffering extends Offering {
+  public created: Date;
   public cpuNumber: number;
   public cpuSpeed: number;
   public memory: number;
@@ -47,4 +48,10 @@ export class ServiceOffering extends Offering {
   public defaultUse: boolean;
   public deploymentPlanner: string;
   public domain: string;
+
+  constructor(json) {
+    super(json);
+
+    this.created = new Date(json.created.replace(/-/g, '/').replace(/T/g, ' '));
+  }
 }
