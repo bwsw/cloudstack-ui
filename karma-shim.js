@@ -13,6 +13,8 @@ require('zone.js/dist/jasmine-patch');
 require('zone.js/dist/async-test');
 require('zone.js/dist/fake-async-test');
 
+require('./src/vendor');
+
 /*
  Ok, this is kinda crazy. We can use the the context method on
  require that webpack created in order to tell webpack
