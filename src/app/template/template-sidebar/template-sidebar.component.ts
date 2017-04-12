@@ -11,9 +11,11 @@ export class TemplateSidebarComponent {
   @Input() public template: BaseTemplateModel;
   @Output() public deleteTemplate = new EventEmitter();
 
-  constructor(
-    private authService: AuthService
-  ) {}
+  constructor(private authService: AuthService) {}
+
+  public get ready(): boolean {
+    return this.template.isReady;
+  }
 
   public get isSelf(): boolean {
     return this.authService.username === this.template.account;

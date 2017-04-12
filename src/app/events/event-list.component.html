@@ -33,7 +33,7 @@
         mdl-shadow="2"
         [table-model]="tableModel"
       ></mdl-table>
-      <span *ngIf="!events?.length" translate>NO_EVENTS</span>
+      <span *ngIf="!events?.length">{{ 'NO_EVENTS' | translate }}</span>
     </ng-container>
   </div>
 </div>

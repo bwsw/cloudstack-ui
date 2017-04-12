@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ServiceOffering } from '../models/service-offering.model';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { ConfigService } from './config.service';
 import { DiskOffering } from '../models/disk-offering.model';
 import { BaseModel } from '../models/base.model';

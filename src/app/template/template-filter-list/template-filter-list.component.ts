@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { Iso } from '../shared/iso.model';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { OsFamily } from '../../shared/models/os-type.model';
 import { TemplateService } from '../shared/template.service';
 import { AuthService } from '../../shared/services/auth.service';

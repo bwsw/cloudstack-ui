@@ -192,6 +192,9 @@
   "NAME": "Имя",
   "DESCRIPTION": "Описание",
   "LABELS": "Метки",
+  "DATE": "Дата",
+  "ACTIONS": "Действия",
+  "VIEW_ALL": "Все",
   "CUSTOM_TEMPLATES_NOT_INCLUDED": "Нет шаблонов",
   "BASED_ON": "основан на",
   "SEPARATE_MULTILINE_LABELS": "* разделяйте метки используя ;",
@@ -324,6 +327,7 @@
   "DELETE_TEMPLATE_CONFIRM": "Вы уверены, что хотите удалить этот шаблон?",
 
   "READY": "Готов",
+  "NOT_READY": "Не готов",
   "NO_RESULTS": "Поиск не дал результатов",
   "ATTACH": "Прикрепить",
   "DETACH": "Открепить",
@@ -464,5 +468,7 @@
   "UNABLE_FIND_PRIMARY_STORAGE": "Неудалось найти подходящее основное хранилище при создании диска {{val1}}",
   "INSUFFICIENT_RESOURCES_VM": "Недостаточно ресурсов",
 
-  "NO_GROUP": "Без группы"
+  "NO_GROUP": "Без группы",
+  "NO_SNAPSHOTS": "Нет снимков",
+  "LAST_SNAPSHOT": "Последний снимок"
 }

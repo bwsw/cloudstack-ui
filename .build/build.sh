@@ -1,6 +1,6 @@
 #! /bin/bash
 
-COMMAND="npm i && npm rebuild node-sass && npm run build"
+COMMAND="npm i && npm rebuild node-sass && npm run build:aot"
 
 docker run -v  $(pwd)/..:/workspace -w /workspace node /bin/bash -ce "$COMMAND"
 

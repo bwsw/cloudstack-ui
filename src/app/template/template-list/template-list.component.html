@@ -34,6 +34,14 @@
             <template ngSwitchDefault>help</template>
           </mdl-icon>
           <span [innerHTML]="template.name | highlight:query"></span>
+          <ng-container *ngIf="!template.isReady">
+            <div
+              class="state-icon"
+              [class.in-progress]="true"
+              [mdl-tooltip]="'NOT_READY' | translate"
+              mdl-tooltip-position="left"
+            ></div>
+          </ng-container>
           <mdl-list-item-sub-title
             [innerHTML]="template.displayText | highlight:query"
           ></mdl-list-item-sub-title>

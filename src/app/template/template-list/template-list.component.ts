@@ -13,6 +13,7 @@ export class TemplateListComponent {
   @Input() public templateList: Array<BaseTemplateModel>;
   @Input() public query: string;
   @Input() public selectedTemplate: BaseTemplateModel;
+  @Input() public dialogMode: boolean;
   @Output() public selectedTemplateChange = new EventEmitter();
 
   constructor(@Optional() private listService: ListService) {}

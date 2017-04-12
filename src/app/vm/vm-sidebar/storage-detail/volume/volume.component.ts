@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
 import { VolumeResizeComponent } from '../../volume-resize.component';
@@ -16,6 +16,8 @@ import {
 } from '../../../../shared/services';
 
 import { Volume, VolumeTypes, Snapshot } from '../../../../shared/models';
+import { SnapshotModalComponent } from './snapshot/snapshot-modal.component';
+import { SnapshotActionsService } from './snapshot/snapshot-actions.service';
 
 
 const numberOfShownSnapshots = 5;
@@ -23,7 +25,7 @@ const numberOfShownSnapshots = 5;
 @Component({
   selector: 'cs-volume',
   templateUrl: 'volume.component.html',
-  styleUrls: ['volume.component.scss']
+  styleUrls: ['volume.component.scss'],
 })
 export class VolumeComponent implements OnInit {
   @Input() public volume: Volume;
@@ -38,7 +40,8 @@ export class VolumeComponent implements OnInit {
     private snapshotService: SnapshotService,
     private volumeService: VolumeService,
     private notificationService: NotificationService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    public snapshotActionsService: SnapshotActionsService
   ) { }
 
   public ngOnInit(): void {
@@ -59,6 +62,14 @@ export class VolumeComponent implements OnInit {
 
   public get showSnapshotCollapseButton(): boolean {
     return this.volume.snapshots.length > numberOfShownSnapshots;
+  }
+
+  public showSnapshots(): void {
+    this.dialogService.showCustomDialog({
+      component: SnapshotModalComponent,
+      providers: [{ provide: 'volume', useValue: this.volume }],
+      styles: { width: '700px' }
+    });
   }
 
   public toggleStorage(): void {

@@ -17,7 +17,7 @@ import {
 import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({

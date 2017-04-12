@@ -8,12 +8,11 @@ import { TranslateService } from 'ng2-translate';
 
 import { VirtualMachine } from '../../shared/vm.model';
 import { IsoAttachmentComponent } from '../../../template/iso-attachment/iso-attachment.component';
-import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { Iso, IsoService } from '../../../template/shared';
-import { NotificationService } from '../../../shared/services/notification.service';
 import { IsoEvent } from './iso-attachment.component';
-import { Volume } from '../../../shared/models/volume.model';
-import { VolumeService } from '../../../shared/services/volume.service';
+
+import { Volume } from '../../../shared/models';
+import { JobsNotificationService, NotificationService, VolumeService } from '../../../shared/services';
 
 
 @Component({

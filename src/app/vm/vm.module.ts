@@ -10,7 +10,7 @@ import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { SharedModule } from '../shared/shared.module';
 import { StorageDetailComponent } from './vm-sidebar/storage-detail/storage-detail.component';
-import { TemplateModule } from '../template/template.module';
+import { TemplateModule } from '../template';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmDetailComponent } from './vm-sidebar/vm-detail.component';
 import { VmListComponent } from './vm-list/vm-list.component';
@@ -22,13 +22,14 @@ import { VmTemplateDialogComponent } from './vm-creation/vm-creation-template/vm
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 import { IsoComponent } from './vm-sidebar/storage-detail/iso-attachment.component';
 import { VolumeComponent } from './vm-sidebar/storage-detail/volume/volume.component';
-import { SnapshotComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshot.component';
 import {
   SnapshotCreationComponent
 } from './vm-sidebar/storage-detail/volume/snapshot-creation/snapshot-creation.component';
 import { VmFilterComponent } from './vm-filter/vm-filter.component';
 import { VmListSectionComponent } from './vm-list/vm-list-section/vm-list-section.component';
 import { VmListSubsectionComponent } from './vm-list/vm-list-subsection/vm-list-subsection.component';
+import { SnapshotModalComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshot-modal.component';
+import { SnapshotActionsService } from './vm-sidebar/storage-detail/volume/snapshot/snapshot-actions.service';
 
 
 @NgModule({
@@ -59,17 +60,19 @@ import { VmListSubsectionComponent } from './vm-list/vm-list-subsection/vm-list-
     VolumeResizeComponent,
     IsoComponent,
     VolumeComponent,
-    SnapshotComponent,
-    SnapshotCreationComponent
+    SnapshotCreationComponent,
+    SnapshotModalComponent
   ],
   providers: [
-    VmService
+    VmService,
+    SnapshotActionsService
   ],
   entryComponents: [
     VmCreationComponent,
     VmTemplateDialogComponent,
     VolumeResizeComponent,
-    SnapshotCreationComponent
+    SnapshotCreationComponent,
+    SnapshotModalComponent
   ]
 })
 export class VmModule { }

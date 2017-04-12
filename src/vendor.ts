@@ -1,11 +1,5 @@
-// Angular 2
-import '@angular/platform-browser';
-import '@angular/platform-browser-dynamic';
-import '@angular/core';
-import '@angular/common';
-import '@angular/forms';
-import '@angular/http';
-import '@angular/router';
-
-import 'rxjs';
-import '@angularclass/hmr';
+/*
+  Modules imported in this file will not be tree-shaken in production build
+  and will be imported as is.
+ */
+import 'rxjs/Rx';

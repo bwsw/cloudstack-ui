@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BaseBackendService } from './base-backend.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { User } from '../models/user.model';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()

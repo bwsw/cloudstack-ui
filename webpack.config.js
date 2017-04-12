@@ -9,6 +9,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
+var AotPlugin = require('@ngtools/webpack').AotPlugin;
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 /**
@@ -18,7 +19,8 @@ var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 var ENV = process.env.npm_lifecycle_event;
 var isTestWatch = ENV === 'test-watch';
 var isTest = ENV === 'test' || isTestWatch;
-var isProd = ENV === 'build';
+var isAot = ENV === 'build:aot';
+var isProd = ENV === 'build' || isAot;
 var isDev = !isTest && !isProd;
 
 var BACKEND_API_URL = process.env.BACKEND_API_URL;
@@ -102,13 +104,6 @@ module.exports = function makeWebpackConfig() {
    */
   config.module = {
     rules: [
-      // Support for .ts files.
-      {
-        test: /\.ts$/,
-        loaders: ['awesome-typescript-loader?' + atlOptions, 'angular2-template-loader', '@angularclass/hmr-loader'],
-        exclude: [isTest ? /\.(e2e)\.ts$/ : /\.(spec|e2e)\.ts$/, /node_modules\/(?!(ng2-.+))/]
-      },
-
       // copy those assets to output
       {
         test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -145,6 +140,20 @@ module.exports = function makeWebpackConfig() {
       {test: /\.html$/, loader: 'raw-loader',  exclude: root('src', 'public')}
     ]
   };
+
+  if (isAot) {
+    config.module.rules.push({
+      test: /\.ts$/,
+      loader: '@ngtools/webpack',
+      exclude: [/\.(spec|e2e)\.ts$/]
+    });
+  } else {
+    config.module.rules.push({
+      test: /\.ts$/,
+      loaders: ['awesome-typescript-loader?' + atlOptions, 'angular2-template-loader', '@angularclass/hmr-loader'],
+      exclude: [isTest ? /\.(e2e)\.ts$/ : /\.(spec|e2e)\.ts$/, /node_modules\/(?!(ng2-.+))/]
+    });
+  }
 
   if (isTest && !isTestWatch) {
     // instrument only testing sources with Istanbul, covers ts files
@@ -243,6 +252,17 @@ module.exports = function makeWebpackConfig() {
       // Reference: https://github.com/webpack/extract-text-webpack-plugin
       // Disabled when in test mode or not in build mode
       new ExtractTextPlugin({filename: 'css/[name].[hash].css', disable: !isProd})
+    );
+  }
+
+  if (isAot) {
+    config.plugins.push(
+      new AotPlugin({
+        tsConfigPath: path.resolve(__dirname, 'tsconfig.json'),
+        basePath: __dirname,
+        entryModule: path.resolve(__dirname, 'src/app/app.module#AppModule'),
+        genDir: path.join(__dirname, 'out', 'ngfactory')
+      })
     );
   }
 

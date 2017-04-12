@@ -243,3 +243,24 @@ mdl-simple-tooltip div {
   background-color: white;
   padding-bottom: 15px;
 }
+
+.state-icon {
+  display: inline-block;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  margin-right: 8px;
+}
+
+.running {
+  background-color: #388E3C;
+}
+
+.in-progress {
+  background-color: #FFA726;
+}
+
+.stopped,
+.error {
+  background-color: #B71C1C;
+}

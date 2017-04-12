@@ -3,7 +3,7 @@ import {
   OnInit,
   Inject
 } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { MdlDialogReference } from 'angular2-mdl';
 
 import {

@@ -8,7 +8,7 @@ import { SnapshotService } from './snapshot.service';
 import { Snapshot } from '../models/snapshot.model';
 import { DiskStorageService } from './disk-storage.service';
 import { ResourceType, ResourceLimit } from '../models/resource-limit.model';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 
 export class ResourcesData {

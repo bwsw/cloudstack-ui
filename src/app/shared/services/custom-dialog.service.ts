@@ -4,7 +4,7 @@ import {
   MdlDialogReference,
   IMdlCustomDialogConfiguration
 } from 'angular2-mdl';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class CustomDialogService extends MdlDialogService {

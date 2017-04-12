@@ -6,7 +6,7 @@
   </div>
 </div>
 <div [class.vm-creation-container]="enoughResources !== false">
-  <h3 class="mdl-dialog__title" translate>NEW_VM</h3>
+  <h3 class="mdl-dialog__title">{{ 'NEW_VM' | translate }}</h3>
   <form #vmCreateForm="ngForm" *loading="fetching" novalidate>
     <div class="container">
       <div *ngIf="enoughResources" class="left-column">

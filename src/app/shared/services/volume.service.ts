@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
-import { Volume } from '../models';
+import { DeletionMark, Volume, Snapshot } from '../models';
 import { BaseBackendService } from './base-backend.service';
 import { BackendResource } from '../decorators';
 import { SnapshotService } from './snapshot.service';
-import { Snapshot } from '../models';
 import { AsyncJobService } from './async-job.service';
 import { TagService } from './tag.service';
-import { DeletionMark } from '../models/tag.model';
 
 
 interface VolumeCreationData {

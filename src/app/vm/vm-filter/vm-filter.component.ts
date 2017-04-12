@@ -4,8 +4,9 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { debounce } from 'lodash';
-import { Observable } from 'rxjs';
+import debounce = require('lodash/debounce');
+import sortBy = require('lodash/sortBy');
+import { Observable } from 'rxjs/Observable';
 
 import { Zone, ZoneService } from '../../shared';
 
@@ -14,7 +15,6 @@ import { VmService } from '../shared/vm.service';
 import { InstanceGroup } from '../../shared/models';
 import { InstanceGroupService } from '../../shared/services';
 import { FilterService } from '../../shared/services';
-import * as _ from 'lodash';
 
 
 export interface VmFilter {
@@ -89,8 +89,8 @@ export class VmFilterComponent implements OnInit {
   public update(): void {
     this.updateFilters.emit({
       doFilterByColor: this.doFilterByColor,
-      selectedGroups: _.sortBy(this.selectedGroups, 'name'),
-      selectedZones: _.sortBy(this.selectedZones, 'name'),
+      selectedGroups: sortBy(this.selectedGroups, 'name'),
+      selectedZones: sortBy(this.selectedZones, 'name'),
       mode: this.mode
     });
 
