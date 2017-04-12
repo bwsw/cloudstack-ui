@@ -18,6 +18,10 @@ import {
 import { Volume, VolumeTypes, Snapshot } from '../../../../shared/models';
 import { SnapshotModalComponent } from './snapshot/snapshot-modal.component';
 import { SnapshotActionsService } from './snapshot/snapshot-actions.service';
+import { DiskOfferingService } from '../../../../shared/services/disk-offering.service';
+import { ZoneService } from '../../../../shared/services/zone.service';
+import { DiskOffering } from '../../../../shared/models/disk-offering.model';
+import { Zone } from '../../../../shared/models/zone.model';
 
 
 const numberOfShownSnapshots = 5;
@@ -35,12 +39,14 @@ export class VolumeComponent implements OnInit {
 
   constructor(
     private dialogService: MdlDialogService,
+    private diskOfferingService: DiskOfferingService,
     private jobNotificationService: JobsNotificationService,
     private statsUpdateService: StatsUpdateService,
     private snapshotService: SnapshotService,
     private volumeService: VolumeService,
     private notificationService: NotificationService,
     private translateService: TranslateService,
+    private zoneService: ZoneService,
     public snapshotActionsService: SnapshotActionsService
   ) { }
 
@@ -83,13 +89,15 @@ export class VolumeComponent implements OnInit {
   public showVolumeResizeDialog(volume: Volume): void {
     let notificationId: string;
 
-    this.dialogService.showCustomDialog({
-      component: VolumeResizeComponent,
-      classes: 'volume-resize-dialog',
-      providers: [
-        { provide: 'volume', useValue: volume },
-        { provide: 'diskOfferingList', useValue: [] }
-      ]
+    this.getOfferings().switchMap(diskOfferingList => {
+      return this.dialogService.showCustomDialog({
+        component: VolumeResizeComponent,
+        classes: 'volume-resize-dialog',
+        providers: [
+          { provide: 'volume', useValue: volume },
+          { provide: 'diskOfferingList', useValue: diskOfferingList }
+        ]
+      })
     })
       .switchMap(res => res.onHide())
       .switchMap((volumeResizeData: VolumeResizeData) => {
@@ -168,5 +176,20 @@ export class VolumeComponent implements OnInit {
     this.volume.snapshots = this.volume.snapshots.filter(volumeSnapshot => {
       return volumeSnapshot.id !== snapshot.id;
     });
+  }
+
+  private getOfferings(): Observable<Array<DiskOffering>> {
+    let zone;
+
+    return this.zoneService.get(this.volume.zoneId)
+      .switchMap((_zone: Zone) => {
+        zone = _zone;
+        return this.diskOfferingService.getList(zone.id);
+      })
+      .map(diskOfferings => {
+        return diskOfferings.filter((diskOffering: DiskOffering) => {
+          return this.diskOfferingService.isOfferingAvailableForVolume(diskOffering, this.volume, zone);
+        });
+      });
   }
 }

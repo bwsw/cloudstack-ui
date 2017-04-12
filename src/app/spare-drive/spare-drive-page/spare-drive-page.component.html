@@ -19,6 +19,7 @@
         <cs-spare-drive-list
           *loading="!volumes"
           [volumes]="s.spareDrives"
+          [selectedVolume]="selectedVolume"
           (onSelected)="selectVolume($event)"
           (onDelete)="showRemoveDialog($event)"
           (onVolumeAttached)="attach($event)"
@@ -33,6 +34,7 @@
     <cs-spare-drive-list
       *loading="!volumes"
       [volumes]="volumes"
+      [selectedVolume]="selectedVolume"
       (onSelected)="selectVolume($event)"
       (onDelete)="showRemoveDialog($event)"
       (onVolumeAttached)="attach($event)"

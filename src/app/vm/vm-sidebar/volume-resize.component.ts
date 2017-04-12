@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Optional } from '@angular/core';
+import { Component, Inject, OnInit, Optional, Input } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 
 import { Volume, DiskStorageService } from '../../shared';
@@ -16,7 +16,7 @@ export class VolumeResizeComponent implements OnInit {
   public maxSize: number;
 
   public diskOffering: DiskOffering;
-  public diskOfferingList: Array<DiskOffering>;
+  @Input() public diskOfferingList: Array<DiskOffering>;
 
   constructor(
     @Optional() @Inject('diskOfferingList') public diskOfferingListInjected: Array<DiskOffering>,
