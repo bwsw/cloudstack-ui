@@ -201,7 +201,7 @@ If you want to override default options use:
                -v /my/config/path:/var/www/dist/config \
                bw-sw/cloudstack-ui
 
-`API_BACKEND_URL` - url of ACS API
+`http://link_to_api_endpoint` - url of ACS API
 
 `/my/config/path` - path to a directory with a custom configuration file named config.json. For example: /home/cs-ui-config
 
