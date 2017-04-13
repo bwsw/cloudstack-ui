@@ -6,6 +6,7 @@ import { TranslateService } from 'ng2-translate';
 
 import { OsFamily, StorageService } from '../../shared';
 import { FilterService } from '../../shared/services';
+import { TemplateFilters } from '../shared/base-template.service';
 
 
 @Component({
@@ -36,8 +37,8 @@ export class TemplateFiltersComponent implements OnInit {
   ];
 
   public categoryFilters = [
-    'featured',
-    'self'
+    TemplateFilters.featured,
+    TemplateFilters.self
   ];
 
   private filtersKey = 'imageListFilters';

@@ -7,6 +7,16 @@ import { OsTypeService } from '../../shared/services/os-type.service';
 import { UtilsService } from '../../shared/services/utils.service';
 
 
+export const TemplateFilters = {
+  community: 'community',
+  executable: 'executable',
+  featured: 'featured',
+  self: 'self',
+  selfExecutable: 'selfexecutable',
+  sharedExecutable: 'sharedexecutable'
+};
+
+
 export interface RequestParams {
   filter: string;
   [propName: string]: any;
@@ -30,11 +40,16 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     protected utilsService: UtilsService
   ) {
     super();
-    this._templateFilters = ['featured', 'selfexecutable', 'community', 'sharedexecutable'];
+    this._templateFilters = [
+      TemplateFilters.featured,
+      TemplateFilters.selfExecutable,
+      TemplateFilters.community,
+      TemplateFilters.sharedExecutable
+    ];
   }
 
   public get(id: string, params?: RequestParams): Observable<BaseTemplateModel> {
-    const filter = params && params.filter ? params.filter : 'featured';
+    const filter = params && params.filter ? params.filter : TemplateFilters.featured;
     return this.getList(({ id, filter }))
       .map(templates => templates[0])
       .catch(error => Observable.throw(error));
@@ -98,14 +113,10 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     let localFilters = this._templateFilters;
     if (filters) {
       if (filters.includes('all')) {
-        filters = [
-          'featured',
-          'self',
-          'selfexecutable',
-          'sharedexecutable',
-          'executable',
-          'community'
-        ];
+        filters = Object.keys(TemplateFilters).reduce((acc, key) => {
+          acc.push(TemplateFilters[key]);
+          return acc;
+        }, []);
       }
       localFilters = filters;
     }
