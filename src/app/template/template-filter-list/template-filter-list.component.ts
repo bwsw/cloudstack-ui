@@ -79,7 +79,9 @@ export class TemplateFilterListComponent implements OnInit {
     this.fetching = true;
     if (mode === 'Template') {
       this.templateList = [];
-      return this.templateService.getGroupedTemplates({}, ['featured', 'self'])
+
+      const selfFilter = this.dialogMode ? 'selfexecutable' : 'self';
+      return this.templateService.getGroupedTemplates({}, ['featured', selfFilter])
         .map(templates => {
           let t = [];
           for (let filter in templates) {
@@ -93,9 +95,17 @@ export class TemplateFilterListComponent implements OnInit {
         });
     } else {
       this.templateList = [];
+      let params;
+      let selfFilter;
+      if (this.dialogMode) {
+        params = { bootable: true };
+        selfFilter = 'selfexecutable';
+      } else {
+        selfFilter = 'self';
+      }
       return Observable.forkJoin([
-        this.isoService.getList({filter: 'featured'}),
-        this.isoService.getList({filter: 'self'}),
+        this.isoService.getList(Object.assign({}, params, { filter: 'featured' })),
+        this.isoService.getList(Object.assign({}, params, { filter: selfFilter })),
       ])
         .map(([featuredIsos, selfIsos]) => {
           this.templateList = (featuredIsos as Array<Iso>).concat(selfIsos as Array<Iso>);
