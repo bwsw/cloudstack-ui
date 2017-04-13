@@ -2,7 +2,7 @@
   <mdl-card-title>
     <h2 mdl-card-title-text>{{ volume.name }}</h2>
   </mdl-card-title>
-  <mdl-card-supporting-text>
+  <mdl-card-supporting-text *loading="loading"  >
     <div class="disk-size">{{ (volume.size | division:2:30:2) + ' ' + ('GB' | translate) }}</div>
     <div class="grid volumes snapshots" [class.open]="expandStorage">
       <div *ngIf="volume.snapshots?.length" class="last-snapshot">
@@ -37,7 +37,7 @@
       <div class="row" *ngIf="!volume.snapshots?.length">{{ 'NO_SNAPSHOTS' | translate }}</div>
     </div>
   </mdl-card-supporting-text>
-  <mdl-card-menu>
+  <mdl-card-menu *ngIf="!loading" >
     <button
       mdl-button
       (click)="popover.toggle($event)"

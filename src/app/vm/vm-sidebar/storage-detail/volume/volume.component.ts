@@ -36,6 +36,7 @@ export class VolumeComponent implements OnInit {
   @Output() public onDetach = new EventEmitter();
 
   public expandStorage: boolean;
+  public loading = false;
 
   constructor(
     private dialogService: MdlDialogService,
@@ -88,8 +89,10 @@ export class VolumeComponent implements OnInit {
 
   public showVolumeResizeDialog(volume: Volume): void {
     let notificationId: string;
+    this.loading = true;
 
     this.getOfferings().switchMap(diskOfferingList => {
+      this.loading = false;
       return this.dialogService.showCustomDialog({
         component: VolumeResizeComponent,
         classes: 'volume-resize-dialog',
