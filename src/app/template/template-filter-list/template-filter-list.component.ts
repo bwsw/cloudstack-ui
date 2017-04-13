@@ -7,7 +7,14 @@ import { AuthService } from '../../shared/services/auth.service';
 import { IsoService } from '../shared/iso.service';
 import { ServiceLocator } from '../../shared/services/service-locator';
 import { BaseTemplateModel } from '../shared/base-template.model';
+import { Zone } from '../../shared/models/zone.model';
+import sortBy = require('lodash/sortBy');
 
+
+interface TemplateSection {
+  zoneName: string;
+  templates: Array<BaseTemplateModel>;
+}
 
 @Component({
   selector: 'cs-template-filter-list',
@@ -29,8 +36,11 @@ export class TemplateFilterListComponent implements OnInit {
   public query: string;
   public selectedFilters: Array<string> = [];
   public selectedOsFamilies: Array<OsFamily> = [];
+  public selectedZones: Array<Zone> = [];
   public templateList: Array<BaseTemplateModel> = [];
   public visibleTemplateList: Array<BaseTemplateModel> = [];
+
+  public sections: Array<TemplateSection>;
 
   protected templateService = ServiceLocator.injector.get(TemplateService);
   protected authService = ServiceLocator.injector.get(AuthService);
@@ -66,13 +76,45 @@ export class TemplateFilterListComponent implements OnInit {
     if (filters) {
       this.selectedOsFamilies = filters.selectedOsFamilies;
       this.selectedFilters = filters.selectedFilters;
+      this.selectedZones = filters.selectedZones;
       this.query = filters.query;
     }
+
     this.visibleTemplateList = this.filterBySearch(this.filterByCategories(this.templateList));
     if (this.zoneId) {
       this.visibleTemplateList = this.visibleTemplateList
         .filter(template => template.zoneId === this.zoneId || template.crossZones);
     }
+    this.updateSections();
+  }
+
+  public get noFilteringResults(): boolean {
+    if (this.selectedZones && this.selectedZones.length) {
+      return !this.sectionsLength;
+    } else {
+      return !this.templateList || !this.templateList.length;
+    }
+  }
+
+  private get sectionsLength(): number {
+    if (!this.sections) {
+      return 0;
+    }
+    return this.sections.reduce((acc, section) => acc + section.templates.length, 0);
+  }
+
+  private updateSections(): void {
+    if (!this.selectedZones) {
+      return;
+    }
+
+    this.sections = sortBy(this.selectedZones, 'name')
+      .map(zone => {
+        return {
+          zoneName: zone.name,
+          templates: this.visibleTemplateList.filter(template => template.zoneId === zone.id)
+        };
+      });
   }
 
   private fetchData(mode: string): Observable<any> {

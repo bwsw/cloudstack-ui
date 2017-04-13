@@ -51,6 +51,16 @@
         </mdl-option>
       </mdl-select>
     </div>
+    <mdl-select
+      class="filter-select"
+      *ngIf="zones"
+      [(ngModel)]="selectedZones"
+      (ngModelChange)="updateFilters()"
+      multiple="true"
+      [placeholder]="'SELECT_ZONES' | translate"
+    >
+      <mdl-option mdl-ripple *ngFor="let z of zones" [value]="z">{{ z.name }}</mdl-option>
+    </mdl-select>
   </mdl-card>
 </cs-top-bar>
 

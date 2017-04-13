@@ -115,6 +115,21 @@ export class SpareDrivePageComponent implements OnInit {
     this.update();
   }
 
+  public get noFilteringResults(): boolean {
+    if (this.selectedZones && this.selectedZones.length) {
+      return !this.sectionsLength;
+    } else {
+      return !this.volumes || !this.volumes.length;
+    }
+  }
+
+  private get sectionsLength(): number {
+    if (!this.sections) {
+      return 0;
+    }
+    return this.sections.reduce((acc, section) => acc + section.spareDrives.length, 0);
+  }
+
   public showRemoveDialog(volume: Volume): void {
     this.translateService.get([
       'YES',

@@ -39,6 +39,9 @@
       (onResize)="updateVolume($event)"
     ></cs-spare-drive-list>
   </div>
+
+  <cs-no-results *ngIf="noFilteringResults" cs-list></cs-no-results>
+
   <cs-spare-drive-sidebar
     [volume]="selectedVolume"
     cs-sidebar

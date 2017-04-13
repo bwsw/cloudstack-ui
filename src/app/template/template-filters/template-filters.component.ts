@@ -6,6 +6,8 @@ import { TranslateService } from 'ng2-translate';
 
 import { OsFamily, StorageService } from '../../shared';
 import { FilterService } from '../../shared/services';
+import { Zone } from '../../shared/models/zone.model';
+import { ZoneService } from '../../shared/services/zone.service';
 
 
 @Component({
@@ -26,6 +28,10 @@ export class TemplateFiltersComponent implements OnInit {
   public query: string;
   public selectedOsFamilies: Array<OsFamily>;
   public selectedFilters: Array<string>;
+
+  public zones: Array<Zone>;
+  public selectedZones: Array<Zone>;
+
   public filterTranslations: {};
 
   public osFamilies: Array<OsFamily> = [
@@ -48,16 +54,20 @@ export class TemplateFiltersComponent implements OnInit {
   private queryStream = new Subject<string>();
 
   constructor(
+    private filter: FilterService,
     private storageService: StorageService,
     private translateService: TranslateService,
-    private filter: FilterService
+    private zoneService: ZoneService
   ) {
     this.updateFilters = debounce(this.updateFilters, 300);
   }
 
   public ngOnInit(): void {
     if (!this.dialogMode) {
-      this.initFilters();
+      this.zoneService.getList().subscribe(zones => {
+        this.zones = zones;
+        this.initFilters();
+      });
     } else {
       this.selectedOsFamilies = this.osFamilies.concat();
       this.selectedFilters = this.categoryFilters.concat();
@@ -92,6 +102,7 @@ export class TemplateFiltersComponent implements OnInit {
     this.filters.emit({
       selectedOsFamilies: this.selectedOsFamilies,
       selectedFilters: this.selectedFilters,
+      selectedZones: this.selectedZones,
       query: this.query
     });
 
@@ -100,6 +111,7 @@ export class TemplateFiltersComponent implements OnInit {
         'query': this.query || null,
         'osFamilies': this.selectedOsFamilies,
         'categoryFilters': this.selectedFilters,
+        'zones': this.selectedZones.map(_ => _.id)
       });
     }
   }
@@ -122,11 +134,16 @@ export class TemplateFiltersComponent implements OnInit {
         options: this.categoryFilters,
         defaultOption: this.categoryFilters
       },
+      'zones': {
+        type: 'array',
+        options: this.zones,
+        defaultOption: []
+      },
       'query': { type: 'string' }
     });
     this.selectedOsFamilies = params['osFamilies'];
     this.selectedFilters = params['categoryFilters'];
-
+    this.selectedZones = this.zones.filter(zone => params['zones'].find(id => id === zone.id));
     this.query = params['query'];
     this.queryStream.next(this.query);
   }

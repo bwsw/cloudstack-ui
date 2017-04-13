@@ -9,13 +9,35 @@
   [dialogMode]="dialogMode"
 ></cs-template-filters>
 
-<cs-template-list
-  *loading="fetching"
-  class="template-list"
-  [selectedTemplate]="selectedTemplate"
-  (selectedTemplateChange)="selectTemplate($event)"
-  [templateList]="visibleTemplateList"
-  [query]="query"
-  [radio]="showRadio"
-  [dialogMode]="dialogMode"
-></cs-template-list>
+<div *ngIf="selectedZones?.length" cs-list>
+  <ng-container *ngFor="let s of sections">
+    <div class="section" *ngIf="s?.templates?.length">
+      <h4 class="section-header">{{ s.zoneName }}</h4>
+      <cs-template-list
+        *loading="fetching"
+        class="template-list"
+        [selectedTemplate]="selectedTemplate"
+        (selectedTemplateChange)="selectTemplate($event)"
+        [templateList]="s.templates"
+        [query]="query"
+        [radio]="showRadio"
+        [dialogMode]="dialogMode"
+      ></cs-template-list>
+    </div>
+  </ng-container>
+</div>
+
+<div *ngIf="!selectedZones || !selectedZones.length" cs-list>
+  <cs-template-list
+    *loading="fetching"
+    class="template-list"
+    [selectedTemplate]="selectedTemplate"
+    (selectedTemplateChange)="selectTemplate($event)"
+    [templateList]="visibleTemplateList"
+    [query]="query"
+    [radio]="showRadio"
+    [dialogMode]="dialogMode"
+  ></cs-template-list>
+</div>
+
+<cs-no-results *ngIf="noFilteringResults"></cs-no-results>
