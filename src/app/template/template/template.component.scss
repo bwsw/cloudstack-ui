@@ -1,0 +1,23 @@
+:host {
+  display: inline-flex;
+  cursor: pointer;
+  z-index: -1;
+
+  & mdl-card {
+    z-index: 0;
+  }
+}
+
+.single-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.multiline {
+  text-align: right;
+}
+
+.template-popover {
+  width: 60px !important;
+}

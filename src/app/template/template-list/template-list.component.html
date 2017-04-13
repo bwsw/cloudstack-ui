@@ -1,5 +1,4 @@
-<div class="template-list" [class.open]="isDetailOpen">
-  <cs-no-results *ngIf="!templateList?.length"></cs-no-results>
+<div class="template-list" *ngIf="displayModeList">
   <mdl-list>
     <div *ngFor="let template of templateList">
       <mdl-list-item
@@ -58,4 +57,18 @@
       </mdl-list-item>
     </div>
   </mdl-list>
+</div>
+
+<div
+  *ngIf="displayModeCard"
+  class="card-list-container"
+>
+  <cs-template
+    [template]="template"
+    [isSelected]="template?.id === selectedTemplate?.id"
+    [searchQuery]="query"
+    *ngFor="let template of templateList"
+    (onClick)="selectTemplate(template)"
+    (deleteTemplate)="removeTemplate($event)"
+  ></cs-template>
 </div>

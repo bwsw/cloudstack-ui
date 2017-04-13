@@ -20,6 +20,7 @@ export class TemplateFiltersComponent implements OnInit {
   @Input() public showDelimiter = false;
   @Input() public showIso: boolean;
   @Input() public dialogMode = false;
+  @Input() public searchPanelWhite: boolean;
 
   @Output() public queries = new EventEmitter();
   @Output() public displayMode = new EventEmitter();
@@ -64,10 +65,11 @@ export class TemplateFiltersComponent implements OnInit {
 
   public ngOnInit(): void {
     if (!this.dialogMode) {
-      this.zoneService.getList().subscribe(zones => {
-        this.zones = zones;
-        this.initFilters();
-      });
+      this.zoneService.getList()
+        .subscribe(zones => {
+          this.zones = zones;
+          this.initFilters();
+        });
     } else {
       this.selectedOsFamilies = this.osFamilies.concat();
       this.selectedFilters = this.categoryFilters.concat();
@@ -136,7 +138,6 @@ export class TemplateFiltersComponent implements OnInit {
       },
       'zones': {
         type: 'array',
-        options: this.zones,
         defaultOption: []
       },
       'query': { type: 'string' }

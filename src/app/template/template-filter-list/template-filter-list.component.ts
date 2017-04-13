@@ -9,6 +9,8 @@ import { ServiceLocator } from '../../shared/services/service-locator';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { Zone } from '../../shared/models/zone.model';
 import sortBy = require('lodash/sortBy');
+import { TemplateDisplayMode, TemplateDisplayModes } from '../template-list/template-list.component';
+import { Template } from '../shared/template.model';
 
 
 interface TemplateSection {
@@ -29,6 +31,7 @@ export class TemplateFilterListComponent implements OnInit {
   @Input() public showRadio = false;
   @Input() public viewMode: string;
   @Input() public zoneId: string;
+  @Output() public deleteTemplate = new EventEmitter();
   @Output() public selectedTemplateChange = new EventEmitter();
   @Output() public viewModeChange = new EventEmitter();
 
@@ -92,8 +95,20 @@ export class TemplateFilterListComponent implements OnInit {
     if (this.selectedZones && this.selectedZones.length) {
       return !this.sectionsLength;
     } else {
-      return !this.templateList || !this.templateList.length;
+      return !this.visibleTemplateList || !this.visibleTemplateList.length;
     }
+  }
+
+  public get displayMode(): TemplateDisplayMode {
+    return this.dialogMode ? TemplateDisplayModes.LIST : TemplateDisplayModes.CARD;
+  }
+
+  public get anyZoneResults(): boolean {
+    return this.selectedZones && this.selectedZones.length && !this.noFilteringResults;
+  }
+
+  public removeTemplate(template: Template): void {
+    this.deleteTemplate.next(template);
   }
 
   private get sectionsLength(): number {

@@ -7,6 +7,7 @@
   [showIsoSwitch]="showIsoSwitch"
   [showDelimiter]="showDelimiter"
   [dialogMode]="dialogMode"
+  [searchPanelWhite]="anyZoneResults"
 ></cs-template-filters>
 
 <div *ngIf="selectedZones?.length" cs-list>
@@ -18,10 +19,12 @@
         class="template-list"
         [selectedTemplate]="selectedTemplate"
         (selectedTemplateChange)="selectTemplate($event)"
+        (deleteTemplate)="removeTemplate($event)"
         [templateList]="s.templates"
         [query]="query"
         [radio]="showRadio"
         [dialogMode]="dialogMode"
+        [displayMode]="displayMode"
       ></cs-template-list>
     </div>
   </ng-container>
@@ -33,11 +36,13 @@
     class="template-list"
     [selectedTemplate]="selectedTemplate"
     (selectedTemplateChange)="selectTemplate($event)"
+    (deleteTemplate)="removeTemplate($event)"
     [templateList]="visibleTemplateList"
     [query]="query"
     [radio]="showRadio"
     [dialogMode]="dialogMode"
+    [displayMode]="displayMode"
   ></cs-template-list>
 </div>
 
-<cs-no-results *ngIf="noFilteringResults"></cs-no-results>
+<cs-no-results *ngIf="noFilteringResults && !fetching"></cs-no-results>
