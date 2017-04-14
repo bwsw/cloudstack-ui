@@ -187,30 +187,34 @@ It’s released under the Apache 2.0 license.
 
 ## Deployment
 
-1. Download docker container from https://hub.docker.com/r/bwsw/cloudstack-ui
-
-2. Running docker container:
+### Main UI container
 
 To run docker container with default configuration options use:
 
-    docker run -d -p 80:80 --name cloudstack-ui \
-               -e API_BACKEND_URL=http://link_to_api_endpoint \
-               bwsw/cloudstack-ui
+```
+docker run -d -p 80:80 --name cloudstack-ui \
+           -e API_BACKEND_URL=http://link_to_api_endpoint \
+           bwsw/cloudstack-ui
+```
 
 If you want to override default options use:
-    
-    docker run -d -p 80:80 --name cloudstack-ui \
-               -e API_BACKEND_URL=http://link_to_api_endpoint \
-               -v /my/config/path:/config \
-               bwsw/cloudstack-ui
+
+```
+docker run -d -p 80:80 --name cloudstack-ui \
+           -e API_BACKEND_URL=http://link_to_api_endpoint \
+           -v /my/config/path:/config \
+           bwsw/cloudstack-ui
+```
 
 `http://link_to_api_endpoint` - url of ACS API
 
 `/my/config/path` - path to a directory with a custom configuration file named config.json.
 
+### Assisting object cleanup container
 
-3. Download and start https://hub.docker.com/r/bwsw/cloudstack-ui-cleaner/ for cleaning purposes.
+Some operations implemented in the UI requires "late" activities, so we use additional cleaner container that cleans objects marked for the removal.
 
+Download and start [bwsw/cloudstack-ui-cleaner](https://hub.docker.com/r/bwsw/cloudstack-ui-cleaner/) container.
 
 ## Configuration Options
 
