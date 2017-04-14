@@ -8,14 +8,12 @@ import { VolumeResizeComponent } from '../../volume-resize.component';
 
 import {
   JobsNotificationService,
-  NotificationService,
-  SnapshotService,
   StatsUpdateService,
   VolumeResizeData,
   VolumeService
 } from '../../../../shared/services';
 
-import { Volume, VolumeTypes, Snapshot } from '../../../../shared/models';
+import { Volume, VolumeTypes } from '../../../../shared/models';
 import { SnapshotModalComponent } from './snapshot/snapshot-modal.component';
 import { SnapshotActionsService } from './snapshot/snapshot-actions.service';
 import { DiskOfferingService } from '../../../../shared/services/disk-offering.service';
@@ -43,9 +41,7 @@ export class VolumeComponent implements OnInit {
     private diskOfferingService: DiskOfferingService,
     private jobNotificationService: JobsNotificationService,
     private statsUpdateService: StatsUpdateService,
-    private snapshotService: SnapshotService,
     private volumeService: VolumeService,
-    private notificationService: NotificationService,
     private translateService: TranslateService,
     private zoneService: ZoneService,
     public snapshotActionsService: SnapshotActionsService
@@ -140,44 +136,6 @@ export class VolumeComponent implements OnInit {
       component: SnapshotCreationComponent,
       classes: 'snapshot-creation-dialog',
       providers: [{ provide: 'volumeId', useValue: volumeId }],
-    });
-  }
-
-  public handleSnapshotDelete(snapshot: Snapshot): void {
-    let notificationId: string;
-
-    this.translateService.get('CONFIRM_SNAPSHOT_DELETE')
-      .switchMap(str => {
-        return this.dialogService.confirm(str);
-      })
-      .switchMap(() => {
-        notificationId = this.jobNotificationService.add('SNAPSHOT_DELETE_IN_PROGRESS');
-        return this.snapshotService.remove(snapshot.id);
-      })
-      .subscribe(
-        () => {
-          this.removeSnapshotFromVolume(snapshot);
-          this.jobNotificationService.finish({
-            id: notificationId,
-            message: 'SNAPSHOT_DELETE_DONE'
-          });
-        },
-        error => {
-          if (!error) {
-            return;
-          }
-          this.notificationService.error(error);
-          this.jobNotificationService.fail({
-            id: notificationId,
-            message: 'SNAPSHOT_DELETE_FAILED'
-          });
-        }
-      );
-  }
-
-  private removeSnapshotFromVolume(snapshot: Snapshot): void {
-    this.volume.snapshots = this.volume.snapshots.filter(volumeSnapshot => {
-      return volumeSnapshot.id !== snapshot.id;
     });
   }
 
