@@ -5,6 +5,30 @@
   (click)="handleClick($event)"
 >
   <mdl-card-title>
+    <mdl-icon class="os-icon" [ngSwitch]="template.osType.osFamily">
+      <template [ngSwitchCase]="'Linux'">
+        <img
+          src="/img/os/linux.png"
+          width="40"
+          height="40"
+        >
+      </template>
+      <template [ngSwitchCase]="'Windows'">
+        <img
+          src="/img/os/windows.png"
+          width="40"
+          height="40"
+        >
+      </template>
+      <template [ngSwitchCase]="'Mac OS'">
+        <img
+          src="/img/os/osx.png"
+          width="40"
+          height="40"
+        >
+      </template>
+      <template ngSwitchDefault>help</template>
+    </mdl-icon>
     <div
       class="state-icon"
       [class.running]="ready"
@@ -21,6 +45,7 @@
       mdl-tooltip-position="bottom"
       mdl-card-title-text
       [innerHTML]="template.name | highlight:searchQuery"
+      class="template-header"
     ></h2>
     <mdl-tooltip #headerTooltip="mdlTooltip">
       {{ template.displayText }}
@@ -28,7 +53,7 @@
   </mdl-card-title>
   <mdl-card-supporting-text>
     <div class="card-wrapper" *ngIf="template">
-      <div class="first">{{ 'DESCRIPTION' | translate }}</div>
+      <div class="first">{{ 'DESCRIPTION' | translate }}:</div>
       <div
         *ngIf="singleLine"
         class="last single-line"
@@ -50,7 +75,7 @@
       </mdl-tooltip>
     </div>
     <div class="card-wrapper">
-      <div class="first">{{ 'OS' | translate }}</div>
+      <div class="first">{{ 'OS' | translate }}:</div>
       <div
         *ngIf="singleLine"
         class="last single-line"
