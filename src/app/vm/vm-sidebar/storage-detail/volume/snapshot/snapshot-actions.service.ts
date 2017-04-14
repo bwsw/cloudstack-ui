@@ -6,6 +6,7 @@ import { JobsNotificationService, NotificationService, SnapshotService } from '.
 import { TemplateCreationComponent } from '../../../../../template/template-creation/template-creation.component';
 import { Snapshot, Volume } from '../../../../../shared/models';
 import { TranslateService } from 'ng2-translate';
+import { StatsUpdateService } from '../../../../../shared/services/stats-update.service';
 
 
 export interface SnapshotAction {
@@ -35,7 +36,8 @@ export class SnapshotActionsService {
     private notificationService: NotificationService,
     private templateService: TemplateService,
     private translateService: TranslateService,
-    private snapshotService: SnapshotService
+    private snapshotService: SnapshotService,
+    private statsUpdateService: StatsUpdateService
   ) { }
 
   public showCreationDialog(snapshot: Snapshot): void {
@@ -68,6 +70,7 @@ export class SnapshotActionsService {
       .finally(() => snapshot['loading'] = false)
       .subscribe(
         () => {
+          this.statsUpdateService.next();
           volume.snapshots = volume.snapshots.filter(_ => _.id !== snapshot.id);
           this.jobNotificationService.finish({
             id: notificationId,
@@ -95,6 +98,7 @@ export class SnapshotActionsService {
       .finally(() => snapshot['loading'] = false)
       .subscribe(
         () => {
+          this.statsUpdateService.next();
           this.jobNotificationService.finish({
             id: notificationId,
             message: 'TEMPLATE_CREATION_DONE'
