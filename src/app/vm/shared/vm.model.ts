@@ -202,7 +202,7 @@ export class VirtualMachine extends BaseModel {
         mdlIcon = 'settings_backup_restore';
         break;
       case 'destroy':
-        mdlIcon = 'close';
+        mdlIcon = 'delete';
         break;
       case 'resetPasswordFor':
         mdlIcon = 'vpn_key';
