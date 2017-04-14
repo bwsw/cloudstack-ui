@@ -1,3 +1,5 @@
+import moment = require('moment');
+
 import { BaseModel, Tag } from '../../shared/models';
 import { FieldMapper } from '../../shared/decorators/field-mapper.decorator';
 import { OsType } from '../../shared/models/os-type.model';
@@ -19,7 +21,7 @@ import { OsType } from '../../shared/models/os-type.model';
 export class BaseTemplateModel extends BaseModel {
   public id: string;
   public account: string;
-  public created: string;
+  public created: Date;
   public crossZones: boolean;
   public displayText: string;
   public domain: string;
@@ -37,4 +39,9 @@ export class BaseTemplateModel extends BaseModel {
   public tags: Array<Tag>;
   public zoneId: string;
   public zoneName: string;
+
+  constructor(json) {
+    super(json);
+    this.created = moment(json.created).toDate();
+  }
 }

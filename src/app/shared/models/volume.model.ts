@@ -1,3 +1,5 @@
+import moment = require('moment');
+
 import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators/field-mapper.decorator';
 import { Snapshot } from './snapshot.model';
@@ -25,7 +27,7 @@ export const VolumeTypes = {
 })
 export class Volume extends BaseModel {
   public id: string;
-  public created: string;
+  public created: Date;
   public domain: string;
   public diskOffering: DiskOffering;
   public diskOfferingId: string;
@@ -41,6 +43,11 @@ export class Volume extends BaseModel {
   public zoneId: string;
 
   public zoneName: string;
+
+  constructor(json) {
+    super(json);
+    this.created = moment(json.created).toDate();
+  }
 
   public get isRoot(): boolean {
     return this.type === VolumeTypes.ROOT;
