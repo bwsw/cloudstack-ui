@@ -19,7 +19,9 @@ export const ServiceOfferingFields = {
   diskBytesReadRate: 'diskBytesReadRate',
   diskBytesWriteRate: 'diskBytesWriteRate',
   diskIopsReadRate: 'diskIopsReadRate',
-  diskIopsWriteRate: 'diskIopsWriteRate'
+  diskIopsWriteRate: 'diskIopsWriteRate',
+  provisioningType: 'provisioningType',
+  storageType: 'storageType'
 };
 
 @FieldMapper({

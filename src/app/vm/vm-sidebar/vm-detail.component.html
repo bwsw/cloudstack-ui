@@ -65,6 +65,12 @@
             <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
             <div>{{ vm.serviceOffering[key] | division:10:6 }}</div>
           </template>
+          <template [ngIf]="isTranslatedField(key)">
+            <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
+            <div *ngIf="vm?.serviceOffering[key]">
+              {{ 'SERVICE_OFFERING_VALUES.' + vm.serviceOffering[key] | translate }}
+            </div>
+          </template>
         </div>
       </div>
     </mdl-card-supporting-text>

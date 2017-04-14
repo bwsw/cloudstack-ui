@@ -97,8 +97,8 @@ export class TemplatePageComponent implements OnInit {
     let currentMode = this.viewMode === 'Iso' ? 'ISO' : 'TEMPLATE';
     let notificationId;
 
-    this.translateService.get(`DELETE_${currentMode}_CONFIRM`)
-      .switchMap(str => this.dialogService.confirm(str))
+    this.translateService.get([`DELETE_${currentMode}_CONFIRM`, 'NO', 'YES'])
+      .switchMap(str => this.dialogService.confirm(str[`DELETE_${currentMode}_CONFIRM`], str['NO'], str['YES']))
       .switchMap(() => {
         if (template instanceof Template) {
           notificationId = this.jobNotificationService.add('DELETE_TEMPLATE_IN_PROGRESS');

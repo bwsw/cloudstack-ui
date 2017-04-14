@@ -118,9 +118,9 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private detachIsoDialog(): void {
-    this.translateService.get('CONFIRM_ISO_DETACH')
+    this.translateService.get(['CONFIRM_ISO_DETACH', 'NO', 'YES'])
       .switchMap(str => {
-        return this.dialogService.confirm(str);
+        return this.dialogService.confirm(str['CONFIRM_ISO_DETACH'], str['NO'], str['YES']);
       })
       .subscribe(
         () => this.detachIso(),
