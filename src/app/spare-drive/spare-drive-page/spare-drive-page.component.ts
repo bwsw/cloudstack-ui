@@ -145,6 +145,7 @@ export class SpareDrivePageComponent implements OnInit {
             this.listService.onDeselected.next();
           }
           this.jobsNotificationService.finish({ message: 'VOLUME_DELETE_DONE' });
+          this.updateSections();
         },
         error => {
           this.dialogService.alert(error);
@@ -177,6 +178,7 @@ export class SpareDrivePageComponent implements OnInit {
               .subscribe((diskOffering: DiskOffering) => {
                 volume.diskOffering = diskOffering;
                 this.volumes.push(volume);
+                this.updateSections();
               });
           }
           this.jobsNotificationService.finish({
@@ -204,6 +206,7 @@ export class SpareDrivePageComponent implements OnInit {
             id: notificationId,
             message: 'VOLUME_ATTACH_DONE',
           });
+          this.updateSections();
         },
         error => {
           this.translateService.get(error.message, error.params)
@@ -221,13 +224,11 @@ export class SpareDrivePageComponent implements OnInit {
     if (this.selectedVolume && this.selectedVolume.id === volume.id) {
       this.selectedVolume = volume;
     }
+    this.updateSections();
   }
 
   private updateZones(): Observable<void> {
-    return this.zoneService.getList()
-      .map(zones => {
-        this.zones = zones;
-      });
+    return this.zoneService.getList().map(zones => { this.zones = zones; });
   }
 
   private updateVolumeList(): Observable<void> {
@@ -245,6 +246,7 @@ export class SpareDrivePageComponent implements OnInit {
             volume.diskOffering = diskOfferings.find(offering => offering.id === volume.diskOfferingId);
             return volume;
           });
+        this.updateSections();
       });
   }
 }

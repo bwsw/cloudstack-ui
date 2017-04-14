@@ -8,6 +8,8 @@ import { SnapshotService } from './snapshot.service';
 import { Iso, IsoService } from '../../template/shared';
 import { ResourceType, Snapshot } from '../models';
 import { MAX_ROOT_DISK_SIZE_ADMIN } from '../../vm/shared/vm.model';
+import { TemplateService } from '../../template/shared/template.service';
+import { Template } from '../../template/shared/template.model';
 
 
 @Injectable()
@@ -17,6 +19,7 @@ export class DiskStorageService {
     private volume: VolumeService,
     private snapshotService: SnapshotService,
     private isoService: IsoService,
+    private templateService: TemplateService
   ) {}
 
   public getAvailablePrimaryStorage(): Observable<number> {
@@ -36,17 +39,22 @@ export class DiskStorageService {
   public getConsumedSecondaryStorage(): Observable<number> {
     return Observable.forkJoin([
       this.snapshotService.getList(),
-      this.isoService.getList({ filter: 'self' })
-    ]).map((result: Array<any>) => {
-      let consumedSecondaryStorage = 0;
-      result[0].forEach((snapshot: Snapshot) => {
-        consumedSecondaryStorage += snapshot.physicalSize;
+      this.isoService.getList({ filter: 'self' }),
+      this.templateService.getList({ filter: 'self' })
+    ])
+      .map(([snapshots, isos, templates]) => {
+        let consumedSecondaryStorage = 0;
+        snapshots.forEach((snapshot: Snapshot) => {
+          consumedSecondaryStorage += snapshot.physicalSize || 0;
+        });
+        isos.forEach((iso: Iso) => {
+          consumedSecondaryStorage += iso.size || 0;
+        });
+        templates.forEach((template: Template) => {
+          consumedSecondaryStorage += template.size || 0;
+        });
+        return Math.floor(consumedSecondaryStorage / Math.pow(2, 30));
       });
-      result[1].forEach((iso: Iso) => {
-        consumedSecondaryStorage += iso.size;
-      });
-      return Math.floor(consumedSecondaryStorage / Math.pow(2, 30));
-    });
   }
 
   private getConsumedStorage(resourceType: ResourceType): Observable<number> {
