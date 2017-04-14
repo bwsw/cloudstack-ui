@@ -212,7 +212,7 @@ docker run -d -p 80:80 --name cloudstack-ui \
 
 ### Assisting object cleanup container
 
-Some operations implemented in the UI requires "late" activities, so we use additional cleaner container that cleans objects marked for the removal.
+Some operations implemented in the UI require "delayed" activities, so we use additional cleaner container that cleans objects marked for the removal.
 
 Download and start [bwsw/cloudstack-ui-cleaner](https://hub.docker.com/r/bwsw/cloudstack-ui-cleaner/) container.
 
