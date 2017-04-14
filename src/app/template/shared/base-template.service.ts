@@ -113,10 +113,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     let localFilters = this._templateFilters;
     if (filters) {
       if (filters.includes('all')) {
-        filters = Object.keys(TemplateFilters).reduce((acc, key) => {
-          acc.push(TemplateFilters[key]);
-          return acc;
-        }, []);
+        filters = Object.keys(TemplateFilters).map((key) => TemplateFilters[key]);
       }
       localFilters = filters;
     }
