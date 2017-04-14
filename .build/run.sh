@@ -2,7 +2,7 @@
 
 # Check if DEPLOY_PORT wasn't set
 if [ -z "$DEPLOY_PORT" ]; then
-  export DEPLOY_PORT="81";
+  export DEPLOY_PORT="80";
 fi
 
 if [ -n "$CONFIG_PATH" ]; then
@@ -30,4 +30,4 @@ fi
 
 # Starting server
 echo ******Starting Nginx******
-docker run -e "API_BACKEND_URL=$API" -p $DEPLOY_PORT:80 --name $CONTAINER_NAME $CONFIG_MOUNT cloudstack-ui;
+docker run -e "API_BACKEND_URL=$API" -d -p $DEPLOY_PORT:80 --name $CONTAINER_NAME $CONFIG_MOUNT cloudstack-ui;
