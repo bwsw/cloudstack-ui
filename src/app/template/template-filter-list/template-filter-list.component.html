@@ -10,7 +10,7 @@
   [searchPanelWhite]="anyZoneResults"
 ></cs-template-filters>
 
-<div *ngIf="selectedZones?.length" cs-list>
+<ng-container *ngIf="selectedZones?.length" cs-list>
   <ng-container *ngFor="let s of sections">
     <div class="section" *ngIf="s?.templates?.length">
       <h4 class="section-header">{{ s.zoneName }}</h4>
@@ -28,9 +28,9 @@
       ></cs-template-list>
     </div>
   </ng-container>
-</div>
+</ng-container>
 
-<div *ngIf="!selectedZones || !selectedZones.length" cs-list>
+<ng-container *ngIf="!selectedZones || !selectedZones.length" cs-list>
   <cs-template-list
     *loading="fetching"
     class="template-list"
@@ -43,6 +43,6 @@
     [dialogMode]="dialogMode"
     [displayMode]="displayMode"
   ></cs-template-list>
-</div>
+</ng-container>
 
 <cs-no-results *ngIf="noFilteringResults && !fetching"></cs-no-results>
