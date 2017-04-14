@@ -87,7 +87,7 @@ export class VmListComponent implements OnInit {
     this.subscribeToVmDeselected();
   }
 
-  public get anyFilteringResults(): boolean {
+  public get noFilteringResults(): boolean {
     return (this.showSections && !this.sectionsLength) ||
       (!this.showSections && this.showSubsections && !this.subsectionsLength);
   }

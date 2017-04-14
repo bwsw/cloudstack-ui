@@ -34,6 +34,10 @@ mdl-card mdl-card-menu {
 mdl-card.custom-card {
   min-height: 0;
 
+  & .mdl-card__title-text {
+    width: 90%;
+  }
+
   & mdl-card-supporting-text {
     width: 100%;
   }
@@ -117,15 +121,16 @@ mdl-simple-tooltip div {
 
 .card-wrapper {
   display: flex;
+  padding: 2px;
 
-  & > div:first-child {
+  & > div.first {
     flex: 1;
   }
 
-  & > div:last-child {
+  & > div.last {
     flex: 2;
 
-    & span {
+    & span.fixed-length-span {
       display: block;
       width: 215px;
       overflow: hidden;
