@@ -158,7 +158,7 @@ export class VmListComponent implements OnInit {
       e.action.confirmMessage
     ])
       .switchMap((strs) => {
-        return this.dialogService.confirm(strs[e.action.confirmMessage], strs.NO, strs.YES);
+        return this.dialogService.confirm(strs[e.action.confirmMessage], strs['NO'], strs['YES']);
       })
       .onErrorResumeNext()
       .subscribe(() => this.vmService.vmAction(e));

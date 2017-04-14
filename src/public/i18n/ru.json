@@ -130,13 +130,13 @@
     "memory": "Память (МБ)",
     "displayText": "Описание",
     "storageType": "Тип хранилища",
-    "provisioningType": "Provisioning type",
+    "provisioningType": "Выделение емкости",
     "offerHa": "Повышенная отказоустойчивость",
     "networkRate": "Скорость сети",
     "minIops": "Мин. IOPS",
-    "maxIops": "Максю IOPS",
-    "limitCpu": "CPU cap",
-    "isVolatile": "Volatile",
+    "maxIops": "Макс. IOPS",
+    "limitCpu": "Ограничение использования CPU",
+    "isVolatile": "Очищать диски при перезагрузке",
     "hypervisorSnapshotReserve": "Hypervisor Snapshot Reserve",
     "diskBytesReadRate": "Скорость чтения диска (МБайт/сек)",
     "diskBytesWriteRate": "Скорость записи диска (МБайт/сек)",
@@ -148,6 +148,14 @@
     "isSystem": "Системная",
     "defaultUse": "По умолчанию",
     "isCustomized": "Настраиваемая"
+  },
+
+  "SERVICE_OFFERING_VALUES": {
+    "thin": "Динамическое",
+    "thick": "Статическое",
+    "sparse": "Разреженное",
+    "shared": "Общее",
+    "local": "Локальное"
   },
 
   "VM_CREATION_FORM": {

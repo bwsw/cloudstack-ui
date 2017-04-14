@@ -60,8 +60,8 @@ export class SnapshotActionsService {
   public handleSnapshotDelete(snapshot: Snapshot, volume): void {
     let notificationId: string;
 
-    this.translateService.get('CONFIRM_SNAPSHOT_DELETE')
-      .switchMap(str => this.dialogService.confirm(str))
+    this.translateService.get(['CONFIRM_SNAPSHOT_DELETE', 'NO', 'YES'])
+      .switchMap(str => this.dialogService.confirm(str['CONFIRM_SNAPSHOT_DELETE'], str['NO'], str['YES']))
       .switchMap(() => {
         snapshot['loading'] = true;
         notificationId = this.jobNotificationService.add('SNAPSHOT_DELETE_IN_PROGRESS');
