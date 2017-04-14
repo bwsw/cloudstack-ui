@@ -100,14 +100,6 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       .switchMap(job => this.asyncJobService.queryJob(job.jobid));
   }
 
-  public addOsTypeData(template: BaseTemplateModel): Observable<BaseTemplateModel> {
-    return this.osTypeService.getList()
-      .map(osTypes => {
-        template.osType = osTypes.find(osType => osType.id === template.osTypeId);
-        return template;
-      });
-  }
-
   public getGroupedTemplates(params?: {}, filters?: Array<string>): Observable<Object> {
     let _params = params || {};
     let localFilters = this._templateFilters;
