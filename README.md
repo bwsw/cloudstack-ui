@@ -184,11 +184,10 @@ It’s released under the Apache 2.0 license.
 
 ## Deployment
 
-1.
-Download docker container from https://hub.docker.com/r/bwsw/cloudstack-ui
+1. Download docker container from https://hub.docker.com/r/bwsw/cloudstack-ui
 
-2.
-To run docker container with default configuration options use:
+2. To run docker container with default configuration options use:
+
     
     docker run -d -p 80:80 --name cloudstack-ui \
                -e API_BACKEND_URL=http://link_to_api_endpoint \
@@ -206,8 +205,7 @@ If you want to override default options use:
 `/my/config/path` - path to a directory with a custom configuration file named config.json.
 
 
-3.
-Download and start https://hub.docker.com/r/bwsw/cloudstack-ui-cleaner/ for cleaning purposes.
+3. Download and start https://hub.docker.com/r/bwsw/cloudstack-ui-cleaner/ for cleaning purposes.
 
 
 ## Configuration Options
