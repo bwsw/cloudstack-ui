@@ -1,3 +1,5 @@
+import moment = require('moment');
+
 import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators';
 
@@ -14,6 +16,6 @@ export class Snapshot extends BaseModel {
 
   constructor(json) {
     super(json);
-    this.created = new Date(json.created.replace(/-/g, '/').replace(/T/g, ' '));
+    this.created = moment(json.created).toDate();
   }
 }

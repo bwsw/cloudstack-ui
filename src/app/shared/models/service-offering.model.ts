@@ -1,3 +1,5 @@
+import moment = require('moment');
+
 import { FieldMapper } from '../decorators/field-mapper.decorator';
 import { Offering } from './offering.model';
 
@@ -52,6 +54,6 @@ export class ServiceOffering extends Offering {
   constructor(json) {
     super(json);
 
-    this.created = new Date(json.created.replace(/-/g, '/').replace(/T/g, ' '));
+    this.created = moment(json.created).toDate();
   }
 }
