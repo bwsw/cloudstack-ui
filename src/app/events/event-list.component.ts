@@ -36,7 +36,7 @@ export class EventListComponent implements OnInit {
     private eventService: EventService,
     private translate: TranslateService,
   ) {
-    this.selectedLevels = this.levels.concat();
+    this.selectedLevels = [];
 
     this.locale = this.translate.currentLang;
 
@@ -63,14 +63,9 @@ export class EventListComponent implements OnInit {
 
     const selectedLevels = this.selectedLevels;
 
-    if (!selectedLevels.length) {
-      this.events = [];
-      return;
-    }
-
     this.loading = true;
 
-    if (selectedLevels.length !== 1 && selectedLevels.length !== this.levels.length) {
+    if (selectedLevels.length > 1 && selectedLevels.length < this.levels.length) {
       const obs = selectedLevels
         .map(level => this.eventService.getList(Object.assign({}, params, { level })));
 

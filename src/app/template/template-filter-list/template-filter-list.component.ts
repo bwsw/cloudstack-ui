@@ -108,10 +108,13 @@ export class TemplateFilterListComponent implements OnInit {
   private filterByCategories(templateList: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
     return templateList
       .filter(template => {
-        let featuredFilter = this.selectedFilters.includes('featured') || !template.isFeatured;
-        let selfFilter = this.selectedFilters.includes('self') ||
+        let featuredFilter = !this.selectedFilters.length ||
+          this.selectedFilters.includes('featured') || !template.isFeatured;
+        let selfFilter = !this.selectedFilters.length ||
+          this.selectedFilters.includes('self') ||
           !(template.account === this.authService.username);
-        let osFilter = this.selectedOsFamilies.includes(template.osType.osFamily);
+        let osFilter = !this.selectedOsFamilies.length ||
+          this.selectedOsFamilies.includes(template.osType.osFamily);
         return featuredFilter && selfFilter && osFilter;
       });
   }
