@@ -7,6 +7,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { IsoService } from '../shared/iso.service';
 import { ServiceLocator } from '../../shared/services/service-locator';
 import { BaseTemplateModel } from '../shared/base-template.model';
+import { TemplateFilters } from '../shared/base-template.service';
 
 
 @Component({
@@ -79,7 +80,9 @@ export class TemplateFilterListComponent implements OnInit {
     this.fetching = true;
     if (mode === 'Template') {
       this.templateList = [];
-      return this.templateService.getGroupedTemplates({}, ['featured', 'self'])
+
+      const selfFilter = this.dialogMode ? TemplateFilters.selfExecutable : TemplateFilters.self;
+      return this.templateService.getGroupedTemplates({}, [TemplateFilters.featured, selfFilter])
         .map(templates => {
           let t = [];
           for (let filter in templates) {
@@ -93,9 +96,17 @@ export class TemplateFilterListComponent implements OnInit {
         });
     } else {
       this.templateList = [];
+      let params;
+      let selfFilter;
+      if (this.dialogMode) {
+        params = { bootable: true };
+        selfFilter = TemplateFilters.selfExecutable;
+      } else {
+        selfFilter = TemplateFilters.self;
+      }
       return Observable.forkJoin([
-        this.isoService.getList({filter: 'featured'}),
-        this.isoService.getList({filter: 'self'}),
+        this.isoService.getList(Object.assign({}, params, { filter: TemplateFilters.featured })),
+        this.isoService.getList(Object.assign({}, params, { filter: selfFilter })),
       ])
         .map(([featuredIsos, selfIsos]) => {
           this.templateList = (featuredIsos as Array<Iso>).concat(selfIsos as Array<Iso>);
@@ -108,8 +119,8 @@ export class TemplateFilterListComponent implements OnInit {
   private filterByCategories(templateList: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
     return templateList
       .filter(template => {
-        let featuredFilter = this.selectedFilters.includes('featured') || !template.isFeatured;
-        let selfFilter = this.selectedFilters.includes('self') ||
+        let featuredFilter = this.selectedFilters.includes(TemplateFilters.featured) || !template.isFeatured;
+        let selfFilter = this.selectedFilters.includes(TemplateFilters.self) ||
           !(template.account === this.authService.username);
         let osFilter = this.selectedOsFamilies.includes(template.osType.osFamily);
         return featuredFilter && selfFilter && osFilter;

@@ -20,7 +20,7 @@ import { VmService } from './shared/vm.service';
 import { VmTemplateComponent } from './vm-creation/vm-creation-template/vm-template.component';
 import { VmTemplateDialogComponent } from './vm-creation/vm-creation-template/vm-template-dialog.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
-import { IsoComponent } from './vm-sidebar/storage-detail/iso-attachment.component';
+import { IsoComponent } from './vm-sidebar/storage-detail/iso.component';
 import { VolumeComponent } from './vm-sidebar/storage-detail/volume/volume.component';
 import {
   SnapshotCreationComponent
