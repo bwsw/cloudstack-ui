@@ -38,6 +38,7 @@ import {
 } from '../../service-offering/custom-service-offering/custom-service-offering.component';
 import { Template } from '../../template/shared';
 import { AffinityGroupType } from '../../shared/models/affinity-group.model';
+import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 
 
 class VmCreationData {
@@ -107,6 +108,7 @@ export class VmCreationComponent implements OnInit {
     private diskStorageService: DiskStorageService,
     private instanceGroupService: InstanceGroupService,
     private jobsNotificationService: JobsNotificationService,
+    private resourceUsageService: ResourceUsageService,
     private securityGroupService: SecurityGroupService,
     private serviceOfferingFilterService: ServiceOfferingFilterService,
     private sshService: SSHKeyPairService,
@@ -133,9 +135,21 @@ export class VmCreationComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.resetVmCreateData();
-    this.enoughResources = true;
     this.fetching = true;
+    this.enoughResources = true;
+    this.resourceUsageService.getResourceUsage()
+      .subscribe(resourceUsage => {
+        if (resourceUsage.available.cpus &&
+          resourceUsage.available.instances &&
+          resourceUsage.available.volumes
+        ) {
+          this.resetVmCreateData();
+        } else {
+          this.fetching = false;
+          this.enoughResources = false;
+        }
+      });
+
   }
 
   public setDiskOffering(offering: DiskOffering): void {
