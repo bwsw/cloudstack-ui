@@ -6,7 +6,7 @@ if [ -z "$DEPLOY_PORT" ]; then
 fi
 
 if [ -n "$CONFIG_PATH" ]; then
-  export CONFIG_MOUNT="-v ${CONFIG_PATH}:/var/www/dist/config";
+  export CONFIG_MOUNT="-v ${CONFIG_PATH}:/config";
 else
   export CONFIG_MOUNT="";
 fi
@@ -18,7 +18,7 @@ else
 fi
 
 # Generate container name unique for port
-CONTAINER_NAME=cloudstack-nginx
+CONTAINER_NAME=cloudstack-ui
 CONTAINER_NAME=$CONTAINER_NAME-$DEPLOY_PORT
 
 # Check if nginx is running and then stop it
@@ -30,4 +30,4 @@ fi
 
 # Starting server
 echo ******Starting Nginx******
-docker run -e "API_BACKEND_URL=$API" -d -p $DEPLOY_PORT:80 --name $CONTAINER_NAME $CONFIG_MOUNT cloudstack-nginx;
+docker run -e "API_BACKEND_URL=$API" -d -p $DEPLOY_PORT:80 --name $CONTAINER_NAME $CONFIG_MOUNT cloudstack-ui;

@@ -1,5 +1,5 @@
 FROM nginx:stable-alpine
-VOLUME /var/www/dist/config
+VOLUME /config/
 
 COPY .build/nginx.conf /etc/nginx/conf.d/default.conf
 COPY .build/startup.sh /etc/nginx/startup.sh

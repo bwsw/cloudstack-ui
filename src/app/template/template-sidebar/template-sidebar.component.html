@@ -1,41 +1,9 @@
 <div *ngIf="template">
-  <mdl-card mdl-shadow="2">
-    <mdl-card-title>
-      <div
-        class="state-icon"
-        [class.running]="ready"
-        [class.in-progress]="!ready"
-        mdl-tooltip-position="right"
-        [mdl-tooltip]="tt"
-      >
-        <mdl-tooltip #tt="mdlTooltip">
-          {{ (ready ? 'READY' : 'NOT_READY') | translate }}
-        </mdl-tooltip>
-      </div>
-      <h2 mdl-card-title-text>{{ template.name }}</h2>
-    </mdl-card-title>
-    <mdl-card-supporting-text>
-      <div class="grid grid-right">
-        <div class="row">
-          <div>{{ 'DESCRIPTION' | translate }}</div>
-          <div>{{ template.displayText }}</div>
-        </div>
-        <div class="row">
-          <div>{{ 'OS' | translate }}</div>
-          <div>{{ template.osTypeName }}</div>
-        </div>
-      </div>
-    </mdl-card-supporting-text>
-    <mdl-card-actions mdl-card-border *ngIf="isSelf">
-      <button
-        mdl-button
-        mdl-button-type="icon"
-        (click)="remove()"
-      >
-        <mdl-icon>delete</mdl-icon>
-      </button>
-    </mdl-card-actions>
-  </mdl-card>
+  <cs-template
+    [template]="template"
+    [singleLine]="false"
+    (deleteTemplate)="remove()"
+  ></cs-template>
   <mdl-card mdl-shadow="2">
     <mdl-card-title>
       <h2 mdl-card-title-text>{{ "DETAILS" | translate }}</h2>

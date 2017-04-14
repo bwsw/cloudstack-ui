@@ -4,9 +4,10 @@
   </mdl-card-title>
   <mdl-card-supporting-text>
     <div class="card-wrapper">
-      <div class="description">{{ 'DESCRIPTION' | translate }}: </div>
-      <div class="description">
+      <div class="description first">{{ 'DESCRIPTION' | translate }}: </div>
+      <div class="description last">
         <span
+          class="fixed-width-span"
           *ngIf="securityGroupTemplate.description"
           [mdl-tooltip]="securityGroupTemplate.description"
           mdl-tooltip-position="top"

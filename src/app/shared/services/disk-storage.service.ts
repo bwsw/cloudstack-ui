@@ -10,6 +10,7 @@ import { ResourceType, Snapshot } from '../models';
 import { MAX_ROOT_DISK_SIZE_ADMIN } from '../../vm/shared/vm.model';
 import { TemplateService } from '../../template/shared/template.service';
 import { Template } from '../../template/shared/template.model';
+import { TemplateFilters } from '../../template/shared/base-template.service';
 
 
 @Injectable()
@@ -39,8 +40,8 @@ export class DiskStorageService {
   public getConsumedSecondaryStorage(): Observable<number> {
     return Observable.forkJoin([
       this.snapshotService.getList(),
-      this.isoService.getList({ filter: 'self' }),
-      this.templateService.getList({ filter: 'self' })
+      this.isoService.getList({ filter: TemplateFilters.self }),
+      this.templateService.getList({ filter: TemplateFilters.self })
     ])
       .map(([snapshots, isos, templates]) => {
         let consumedSecondaryStorage = 0;

@@ -1,5 +1,4 @@
-<div class="template-list" [class.open]="isDetailOpen">
-  <cs-no-results *ngIf="!templateList?.length"></cs-no-results>
+<div class="template-list" *ngIf="displayModeList">
   <mdl-list>
     <div *ngFor="let template of templateList">
       <mdl-list-item
@@ -46,16 +45,36 @@
             [innerHTML]="template.displayText | highlight:query"
           ></mdl-list-item-sub-title>
         </mdl-list-item-primary-content>
-        <mdl-list-item-secondary-action>
+        <mdl-list-item-secondary-action *ngIf="radio">
           <mdl-radio
-            *ngIf="radio"
+            *ngIf="selectedTemplate"
             name="radio"
             [value]="template.id"
-            [(ngModel)]="selectedTemplate.id"
+            [ngModel]="selectedTemplate.id"
+            mdl-ripple
+          >
+          </mdl-radio>
+          <mdl-radio
+            *ngIf="!selectedTemplate"
+            name="radio"
             mdl-ripple
           ></mdl-radio>
         </mdl-list-item-secondary-action>
       </mdl-list-item>
     </div>
   </mdl-list>
+</div>
+
+<div
+  *ngIf="displayModeCard"
+  class="card-list-container"
+>
+  <cs-template
+    [template]="template"
+    [isSelected]="template?.id === selectedTemplate?.id"
+    [searchQuery]="query"
+    *ngFor="let template of templateList"
+    (onClick)="selectTemplate(template)"
+    (deleteTemplate)="removeTemplate($event)"
+  ></cs-template>
 </div>
