@@ -20,12 +20,12 @@ Table of Contents
          * [Firewall Templates View](#firewall-templates-view)
          * [Spare Drives View](#spare-drives-view)
          * [Activity log view](#activity-log-view)
-      * [Project Sponsors](#project-sponsors)
-      * [How to Contribute](#how-to-contribute)
-      * [License](#license)
    * [Documentation](#documentation)
       * [Deployment](#deployment)
       * [Configuration Options](#configuration-options)
+   * [Project Sponsors](#project-sponsors)
+      * [How to Contribute](#how-to-contribute)
+      * [License](#license)
 
 # Cloudstack UI
 
@@ -33,7 +33,7 @@ Cloudstack UI is a project whose purpose is to develop an easy-to-use, light, an
 
 ## Project Story
 
-At Bitworks, we run an ACS public cloud for 3 years (actually we still run CS 4.3 cloud in production) and we found that average users who are familiar with Digital Ocean, Amazon AWS, and other VPS management systems feel uncomfortable with Cloudstack UI and make a lot of operational mistakes. That’s why we decided to implement a convenient and neat end-user facing UI covering regular activities, which are important for day-to-day VM management.
+At [Bitworks Software](https://bitworks.software/), we run an ACS public cloud for 3 years (actually we still run CS 4.3 cloud in production) and we found that average users who are familiar with Digital Ocean, Amazon AWS, and other VPS management systems feel uncomfortable with Cloudstack UI and make a lot of operational mistakes. That’s why we decided to implement a convenient and neat end-user facing UI covering regular activities, which are important for day-to-day VM management.
 
 The project is developed by Bitworks Software Frontend Division within the educational marathon, which has the purpose to incorporate our new team members and show them our standard frontend development instrument.
 
@@ -152,36 +152,6 @@ This panel displays only the drives which are detached from virtual machines. Or
 It’s a simplified view for account activities. It lets you choose the date and levels and see all of them. It’s close to the same screen in the ACS native UI, but we believe that the user is interested in the events of specific date and scrolling a huge event log back to find something is not productive. Sometimes the HelpDesk service just wants to show the user that something had happened on a specific date, and thus the interface allows you to find information easier.  
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/activityLog.png" target="_blank">![Activity Log screen](./screens/activityLog_mini.png)</a>
-
-
-
-## Project Sponsors
-
-The project is currently supported by [Bitworks Software](https://bitworks.software/).
-
-![Bitworks Software](https://raw.githubusercontent.com/bwsw/bwsw.github.io/master/15047882.png)
-
-## How to Contribute
-
-You can contribute to the project development in various ways:
-
-1. Share the information about the project with other people, try to install the UI and share your opinion with us and your colleagues.
-2. Propose useful features. Ideas are always welcome. 
-3. Deploy it somewhere and inform us about your success story and we will share it in the adopters section.
-4. Fix bugs and send us the PR.
-5. Implement a feature from the Roadmap or simply make something new.
-6. Support and promote the development of specific functions which are important to you and may be shared.
-7. Provide testing environment for other deployment schemes. Now we interested in testing the app with
-   1. KVM with RBD
-   2. Xen with NFS, Local, RBD
-   3. Oher browsers and operating systems
-7. Hire us for frontend or backend development of custom software development projects. Take a look at our [website](https://bitworks.software/) to know where we can be useful. Take a look at our [presentation](https://www.slideshare.net/secret/BpNGxtaPUfOIqj) to learn more about us.
-
-To contribute, just contact us via e-mail: info@bw-sw.com
-
-## License
-
-It’s released under the Apache 2.0 license.
 
 # Documentation
 
@@ -311,3 +281,31 @@ In this sections you can specify limits for custom offerings in the following fo
     }
     
 Any of these parameters may be left unspecified, in which case 0 will be used for min and infinity will be used for max.
+
+## Project Sponsors
+
+The project is currently supported by [Bitworks Software](https://bitworks.software/).
+
+![Bitworks Software](https://raw.githubusercontent.com/bwsw/bwsw.github.io/master/15047882.png)
+
+## How to Contribute
+
+You can contribute to the project development in various ways:
+
+1. Share the information about the project with other people, try to install the UI and share your opinion with us and your colleagues.
+2. Propose useful features. Ideas are always welcome. 
+3. Deploy it somewhere and inform us about your success story and we will share it in the adopters section.
+4. Fix bugs and send us the PR.
+5. Implement a feature from the Roadmap or simply make something new.
+6. Support and promote the development of specific functions which are important to you and may be shared.
+7. Provide testing environment for other deployment schemes. Now we interested in testing the app with
+   1. KVM with RBD
+   2. Xen with NFS, Local, RBD
+   3. Oher browsers and operating systems
+7. Hire us for frontend or backend development of custom software development projects. Take a look at our [website](https://bitworks.software/) to know where we can be useful. Take a look at our [presentation](https://www.slideshare.net/secret/BpNGxtaPUfOIqj) to learn more about us.
+
+To contribute, just contact us via e-mail: info@bw-sw.com
+
+## License
+
+It’s released under the Apache 2.0 license.
