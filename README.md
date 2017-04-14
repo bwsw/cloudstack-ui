@@ -186,9 +186,10 @@ It’s released under the Apache 2.0 license.
 
 1. Download docker container from https://hub.docker.com/r/bwsw/cloudstack-ui
 
-2. To run docker container with default configuration options use:
+2. Running docker container:
 
-    
+To run docker container with default configuration options use:
+
     docker run -d -p 80:80 --name cloudstack-ui \
                -e API_BACKEND_URL=http://link_to_api_endpoint \
                bwsw/cloudstack-ui
