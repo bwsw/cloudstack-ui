@@ -42,6 +42,7 @@
             name="icmpType"
             type="number"
             minValue="-1"
+            integerValue
             error-msg="{{ 'ENTER_VALID_TYPE' | translate }}"
             [label]="(icmpType === -1 ? 'ICMP_ANY' : '') | translate"
             floating-label
@@ -55,8 +56,10 @@
             [class.is-invalid]="startPortField.touched && startPortField.invalid"
             name="startPort"
             type="number"
+            step="1"
             minValue="0"
             maxValue="65536"
+            integerValue
             error-msg="{{ 'ENTER_VALID_PORT' | translate }}"
             required
             [(ngModel)]="startPort"
@@ -70,6 +73,7 @@
             name="icmpCode"
             type="number"
             minValue="-1"
+            integerValue
             [label]="(icmpCode === -1 ? 'ICMP_ANY' : '') | translate"
             floating-label
             error-msg="{{ 'ENTER_VALID_CODE' | translate }}"
@@ -85,6 +89,7 @@
             type="number"
             minValue="0"
             maxValue="65536"
+            integerValue
             error-msg="{{ 'ENTER_VALID_PORT' | translate }}"
             required
             [(ngModel)]="endPort"
