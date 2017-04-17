@@ -8,7 +8,7 @@ export function integerValidator(): ValidatorFn {
       return null;
     }
     return {
-      control: {
+      integerValidator: {
         valid: false
       }
     };
