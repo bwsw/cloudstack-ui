@@ -118,45 +118,56 @@
       <div class="expanded-panel grid nic" *ngIf="expandNIC">
         <div *ngFor="let nic of vm.nic; let i = index">
           <div class="nic-name">{{ 'NIC' | translate }} {{i+1}}</div>
-          <div *ngFor="let key of nic.keys; let i = index">
-            <div class="row"
-              *ngIf="key !== 'id' && key !== 'networkId' &&
-                  key !== 'deviceid' && key !== 'virtualMachineId' && key !== 'secondaryIp'"
-            >
-              <div>{{ 'NETWORK_INTERFACE_CONTROLLER_FIELDS.' + key | translate }}</div>
-              <div>{{ nic[key] | viewValue | async }}</div>
+          <div class="row">
+            <div>{{ 'NIC_FIELDS.macAddress' | translate }}</div>
+            <div>{{ nic.macAddress }}</div>
+          </div>
+          <div class="row">
+            <div>{{ 'NIC_FIELDS.ipAddress' | translate }}</div>
+            <div>{{ nic.ipAddress }}</div>
+          </div>
+          <div class="row">
+            <div>{{ 'NIC_FIELDS.netmask' | translate }}</div>
+            <div>{{ nic.netmask }}</div>
+          </div>
+          <div class="row">
+            <div>{{ 'NIC_FIELDS.gateway' | translate }}</div>
+            <div>{{ nic.gateway }}</div>
+          </div>
+          <div class="row">
+            <div>{{ 'NIC_FIELDS.type' | translate }}</div>
+            <div>{{ nic.type }}</div>
+          </div>
+          <ng-container>
+            <div class="row">
+              <div>{{ 'NIC_FIELDS.secondaryIp' | translate }}</div>
+              <div>
+                <button
+                  mdl-button
+                  mdl-button-type="icon"
+                  class="mdl-icon-button--small"
+                  (click)="confirmAddSecondaryIp(vm)"
+                >
+                  <mdl-icon class="mdl-icon--small">add</mdl-icon>
+                </button>
+              </div>
             </div>
-            <ng-container *ngIf="key === 'secondaryIp'">
-              <div class="row">
-                <div>{{ 'NETWORK_INTERFACE_CONTROLLER_FIELDS.' + key | translate }}</div>
+            <div class="secondary-ips">
+              <div class="row" *ngFor="let ip of nic.secondaryIp">
+                <div>{{ip.ipaddress}}</div>
                 <div>
                   <button
                     mdl-button
                     mdl-button-type="icon"
                     class="mdl-icon-button--small"
-                    (click)="confirmAddSecondaryIp(vm)"
+                    (click)="confirmRemoveSecondaryIp(ip.id, vm)"
                   >
-                    <mdl-icon class="mdl-icon--small">add</mdl-icon>
+                    <mdl-icon class="mdl-icon--small">delete</mdl-icon>
                   </button>
                 </div>
               </div>
-              <div class="secondary-ips">
-                <div class="row" *ngFor="let ip of nic.secondaryIp">
-                  <div>{{ip.ipaddress}}</div>
-                  <div>
-                    <button
-                      mdl-button
-                      mdl-button-type="icon"
-                      class="mdl-icon-button--small"
-                      (click)="confirmRemoveSecondaryIp(ip.id, vm)"
-                    >
-                      <mdl-icon class="mdl-icon--small">delete</mdl-icon>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </ng-container>
-          </div>
+            </div>
+          </ng-container>
         </div>
       </div>
     </mdl-card-supporting-text>
