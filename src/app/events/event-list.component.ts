@@ -21,7 +21,6 @@ export class EventListComponent implements OnInit {
 
   public date;
 
-  public formatDate = formatIso;
   public dateTimeFormat;
   public locale;
 
@@ -51,7 +50,7 @@ export class EventListComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.translate.get(['DESCRIPTION', 'LEVEL', 'TYPE'])
+    this.translate.get(['DESCRIPTION', 'LEVEL', 'TYPE', 'TIME'])
       .subscribe(translations => this.initTableModel(translations));
   }
 
@@ -90,7 +89,7 @@ export class EventListComponent implements OnInit {
       { key: 'description', name: translations['DESCRIPTION'] },
       { key: 'level', name: translations['LEVEL'] },
       { key: 'type', name: translations['TYPE'] },
-      { key: 'time', name: 'Time' }
+      { key: 'time', name: translations['TIME'] }
     ]);
   }
 

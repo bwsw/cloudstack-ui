@@ -361,6 +361,8 @@
   "EVENTS": "Events",
   "NO_EVENTS": "No events for the selected date",
   "LEVEL": "Level",
+  "LEVELS": "Select levels",
+  "TIME": "Time",
 
   "SPARE_DRIVES_NAVBAR": "Spare drives",
   "SPARE_DRIVE_STATE": {
