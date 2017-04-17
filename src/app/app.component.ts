@@ -10,7 +10,7 @@ import { Response } from '@angular/http';
 
 import { AuthService } from './shared/services';
 import { Router } from '@angular/router';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { ErrorService } from './shared/services/error.service';
 import { INotificationService } from './shared/services/notification.service';
 import { LanguageService } from './shared/services/language.service';

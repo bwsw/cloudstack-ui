@@ -5,7 +5,7 @@ import { TemplateService } from '../../../../../template/shared';
 import { JobsNotificationService, NotificationService, SnapshotService } from '../../../../../shared/services';
 import { TemplateCreationComponent } from '../../../../../template/template-creation/template-creation.component';
 import { Snapshot, Volume } from '../../../../../shared/models';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { StatsUpdateService } from '../../../../../shared/services/stats-update.service';
 
 

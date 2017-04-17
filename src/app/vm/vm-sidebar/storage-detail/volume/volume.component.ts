@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
 import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';

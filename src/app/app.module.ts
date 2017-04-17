@@ -3,7 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule, Http } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MdlModule, DISABLE_NATIVE_VALIDITY_CHECKING, MdlDialogService } from 'angular2-mdl';
 import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
@@ -26,8 +27,8 @@ import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { LogoutComponent } from './auth/logout.component';
 
 
-export function createTranslateLoader(http: Http): TranslateStaticLoader {
-  return new TranslateStaticLoader(http, './i18n', '.json');
+export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
+  return new TranslateHttpLoader(http, './i18n/', '.json');
 }
 
 @NgModule({
@@ -49,9 +50,11 @@ export function createTranslateLoader(http: Http): TranslateStaticLoader {
     VmModule,
     SharedModule,
     TranslateModule.forRoot({
-      provide: TranslateLoader,
-      useFactory: (createTranslateLoader),
-      deps: [Http]
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [Http]
+      }
     }),
     RouterModule.forRoot(routes)
   ],

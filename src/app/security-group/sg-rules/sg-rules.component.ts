@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MdlDialogReference } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 
 import { SecurityGroupService } from '../../shared/services';
 import { SecurityGroup, NetworkRuleType, NetworkRuleTypes, NetworkProtocol, NetworkProtocols } from '../sg.model';

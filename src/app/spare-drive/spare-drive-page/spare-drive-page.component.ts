@@ -1,6 +1,6 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import debounce = require('lodash/debounce');
 import sortBy = require('lodash/sortBy');
 import { Observable } from 'rxjs/Observable';
