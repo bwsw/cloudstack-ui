@@ -72,6 +72,7 @@ import { LoadingDirective } from './directives/loading.directive';
 import { LoaderComponent } from './components/loader.component';
 import { UserService } from './services/user.service';
 import { FilterService } from './services/filter.service';
+import { IntegerValidatorDirective } from './directives/integer-value.directive';
 
 
 @NgModule({
@@ -88,6 +89,7 @@ import { FilterService } from './services/filter.service';
     DatePickerComponent,
     DiskOfferingComponent,
     FabComponent,
+    IntegerValidatorDirective,
     ListComponent,
     NoResultsComponent,
     MaxValueValidatorDirective,
@@ -118,6 +120,7 @@ import { FilterService } from './services/filter.service';
     DatePickerDialogComponent,
     DiskOfferingComponent,
     FabComponent,
+    IntegerValidatorDirective,
     ListComponent,
     NoResultsComponent,
     MaxValueValidatorDirective,
