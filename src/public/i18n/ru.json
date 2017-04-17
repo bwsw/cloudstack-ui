@@ -239,7 +239,7 @@
   "CHANGE_SERVICE_OFFERING": "Изменить предложение",
   "SO_CHANGE_DISABLED": "Необходимо остановить машину",
 
-  "EDIT_RULES": "Редактировать правила",
+  "FIREWALL_RULES_FOR_VM": "Правила брандмауэра для ВМ",
   "TEMPLATE_RULES": "Правила шаблона",
   "CLOSE": "Закрыть",
   "TYPE": "Тип",
