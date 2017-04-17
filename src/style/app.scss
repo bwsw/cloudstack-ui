@@ -100,11 +100,6 @@ mdl-card.custom-card {
   }
 }
 
-.mdl-dialog {
-  max-height: 100% !important;
-  overflow: auto !important;
-}
-
 .mdl-dialog__title {
   font-size: 24px !important;
   font-weight: bold !important;
@@ -280,4 +275,26 @@ mdl-simple-tooltip div {
 .stopped,
 .error {
   background-color: #B71C1C;
+}
+
+.dialog-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+}
+
+.mdl-dialog {
+  transform: initial;
+  position: initial;
+}
+
+.inner-wrapper {
+  position: relative;
 }
