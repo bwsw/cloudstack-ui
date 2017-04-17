@@ -1,19 +1,12 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnInit,
-  OnChanges,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core';
-import { VirtualMachine, IVmAction } from '../shared/vm.model';
-import { AsyncJobService } from '../../shared/services/async-job.service';
-import { AsyncJob } from '../../shared/models/async-job.model';
-import { VmService } from '../shared/vm.service';
-import { Color } from '../../shared/models/color.model';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
+
+import { AsyncJob, Color } from '../../shared/models';
+import { AsyncJobService } from '../../shared/services';
+import { IVmAction, VirtualMachine } from '../shared/vm.model';
+import { VmService } from '../shared/vm.service';
+import { TranslateService } from 'ng2-translate';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -33,7 +26,8 @@ export class VmListItemComponent implements OnInit, OnChanges {
 
   constructor(
     private asyncJobService: AsyncJobService,
-    private vmService: VmService
+    private vmService: VmService,
+    private translate: TranslateService
   ) { }
 
   public ngOnInit(): void {
@@ -49,6 +43,14 @@ export class VmListItemComponent implements OnInit, OnChanges {
     this.vmService.vmUpdateObservable.subscribe(() => {
       this.updateColor();
     });
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    for (let propName in changes) {
+      if (changes.hasOwnProperty(propName) && propName === 'isSelected') {
+        this.isSelected = changes[propName].currentValue;
+      }
+    }
   }
 
   public handleClick(e: MouseEvent): void {
@@ -87,12 +89,12 @@ export class VmListItemComponent implements OnInit, OnChanges {
     this.onVmAction.emit(e);
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
-    for (let propName in changes) {
-      if (changes.hasOwnProperty(propName) && propName === 'isSelected') {
-        this.isSelected = changes[propName].currentValue;
-      }
-    }
+  public get memory(): Observable<string> {
+    const memory = this.vm.memory;
+    const gigabyte = Math.pow(2, 10); // vm.memory is in megabytes
+    return memory < gigabyte ?
+      this.translate.get('MB').map(str => `${memory} ${str}`) :
+      this.translate.get('GB').map(str => `${memory / gigabyte} ${str}`);
   }
 
   private updateColor(): void {
