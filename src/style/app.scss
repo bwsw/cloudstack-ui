@@ -211,16 +211,15 @@ mdl-simple-tooltip div {
   margin-top: 6px !important;
 }
 
-.mdl-button {
+.mdl-button mdl-icon {
   color: black !important;
 }
 
-.mdl-button[disabled][disabled], .mdl-button.mdl-button--disabled.mdl-button--disabled {
+.mdl-button[disabled] mdl-icon, .mdl-button.mdl-button--disabled mdl-icon {
   color: rgba(0,0,0,.26) !important;
   cursor: default;
   background-color: transparent;
 }
-
 
 .card-popover {
   top: 0;
