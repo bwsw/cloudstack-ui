@@ -16,6 +16,14 @@
   cursor: pointer;
 }
 
+.tooltip-position-fix {
+  overflow: hidden;
+  max-width: 100%;
+  display: inline-block !important;
+  text-overflow: ellipsis;
+  width: auto !important;
+}
+
 mdl-card > mdl-card-title + mdl-card-supporting-text {
   padding-top: 0 !important;
 }
@@ -35,7 +43,8 @@ mdl-card.custom-card {
   min-height: 0;
 
   & .mdl-card__title-text {
-    width: 90%;
+    @extend .tooltip-position-fix;
+    max-width: 95%;
   }
 
   & mdl-card-supporting-text {
