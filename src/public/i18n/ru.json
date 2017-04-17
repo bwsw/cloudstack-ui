@@ -361,6 +361,8 @@
   "EVENTS": "События",
   "NO_EVENTS": "Нет событий на выбранной дате",
   "LEVEL": "Уровень",
+  "LEVELS": "Выберите уровни",
+  "TIME": "Время",
 
   "SPARE_DRIVES_NAVBAR": "Свободные диски",
   "SPARE_DRIVE_STATE": {
