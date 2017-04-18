@@ -100,7 +100,7 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 
 Just a simple login screen. Nothing really new. But it has a nice preloader which can be used to brand it for specific company. By default it shows Apache Cloudstack banner.
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/loginView.png" target="_blank">![Login screen](./screens/loginView_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/loginView.PNG" target="_blank">![Login screen](./screens/loginView_mini.jpg)</a>
 
 #### Virtual machines view
 
