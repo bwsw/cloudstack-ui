@@ -143,8 +143,8 @@ So, here is somewhat of a controversial thing here. Actually, we don’t think t
 
 This panel displays only the drives which are detached from virtual machines. Original ACS UI has the “Storage” zone where the user can see all the drives, but we don’t think an average user needs such a function. Current ACS releases allow root volumes resizing, so fewer and fewer users require more than one drive. But, some deployments can have different storage offerings, so it’s still important to let the user work with additional drives, but in the native ACS UI we found that users often forget about additional drives and they assume they will be removed when the virtual machine is removed, so in 99% of the cases they don’t expect that they can be reused. So we made it work that way. All drives can be automatically removed on when a virtual machine is removed. The attached drives are not displayed in the “Spare drives” list, the drives that are detached are displayed there. Also, we don’t allow the user to create additional disks on a virtual machine creation because it leads to confusion when the virtual machine is created from a template – the user doesn’t realize that they add an “additional” drive and it’s not a root one.
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView_mini.png)</a>&nbsp;
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView2.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView2_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView.PNG" target="_blank">![Firewall templates view 2](./screens/spareDrivesView_mini.jpg)</a>&nbsp;
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView2.PNG" target="_blank">![Firewall templates view 2](./screens/spareDrivesView2_mini.jpg)</a>
 
 
 #### Activity log view
