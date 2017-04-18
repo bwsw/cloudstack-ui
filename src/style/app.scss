@@ -155,8 +155,8 @@ mdl-simple-tooltip div {
 
 .card-selected {
   box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14),
-              0 3px 14px 2px rgba(0, 0, 0, 0.12),
-              0 5px 5px -3px rgba(0, 0, 0, 0.2) !important;
+  0 3px 14px 2px rgba(0, 0, 0, 0.12),
+  0 5px 5px -3px rgba(0, 0, 0, 0.2) !important;
   transition: 0.25s, box-shadow 0.25s;
 }
 
@@ -278,10 +278,6 @@ mdl-simple-tooltip div {
 }
 
 .dialog-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   position: absolute;
   top: 0;
   left: 0;
@@ -291,10 +287,12 @@ mdl-simple-tooltip div {
 }
 
 .mdl-dialog {
-  transform: initial;
-  position: initial;
+  transform: translate(0, 0);
+  position: absolute;
+  margin: 70px auto;
 }
 
 .inner-wrapper {
   position: relative;
+  width: 100%;
 }
