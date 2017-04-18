@@ -5,8 +5,6 @@ import { AsyncJob, Color } from '../../shared/models';
 import { AsyncJobService } from '../../shared/services';
 import { IVmAction, VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
-import { TranslateService } from 'ng2-translate';
-import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -24,10 +22,11 @@ export class VmListItemComponent implements OnInit, OnChanges {
   public actions: Array<IVmAction>;
   public color: Color;
 
+  public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
+
   constructor(
     private asyncJobService: AsyncJobService,
-    private vmService: VmService,
-    private translate: TranslateService
+    private vmService: VmService
   ) { }
 
   public ngOnInit(): void {
@@ -89,12 +88,12 @@ export class VmListItemComponent implements OnInit, OnChanges {
     this.onVmAction.emit(e);
   }
 
-  public get memory(): Observable<string> {
-    const memory = this.vm.memory;
-    const gigabyte = Math.pow(2, 10); // vm.memory is in megabytes
-    return memory < gigabyte ?
-      this.translate.get('MB').map(str => `${memory} ${str}`) :
-      this.translate.get('GB').map(str => `${memory / gigabyte} ${str}`);
+  public getMemoryInMb(): string {
+    return this.vm.memory.toFixed(2);
+  }
+
+  public getMemoryInGb(): string {
+    return (this.vm.memory / this.gigabyte).toFixed(2);
   }
 
   private updateColor(): void {

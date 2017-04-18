@@ -112,6 +112,8 @@
   "SECONDARY_(STORAGE)": "Secondary",
   "GB": "GB",
   "MB": "MB",
+  "GB_VALUE": "{{value}} GB",
+  "MB_VALUE": "{{value}} MB",
   "GHZ": "GHz",
   "MHZ": "MHz",
   "STATISTICS_FIELDS": {
