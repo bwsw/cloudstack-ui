@@ -129,8 +129,8 @@ We also decided to place resource usage bar on the same virtual machine view scr
 
 We changed the templates and ISOs view to make it more obvious and neat to use. Also, the user can choose the required OS family to filter out unnecessary images. Also the same concept of single view without moving between screens is applied here. Additional things are displayed in the sidebar.
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/templatesISOsView.png" target="_blank">![Templates & ISOs view](./screens/templatesISOsView_mini.png)</a>&nbsp;&nbsp;
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/templatesISOsView2.png" target="_blank">![Templates & ISOs view 2](./screens/templatesISOsView2_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/templatesISOsView.PNG" target="_blank">![Templates & ISOs view](./screens/templatesISOsView_mini.jpg)</a>&nbsp;&nbsp;
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/templatesISOsView2.PNG" target="_blank">![Templates & ISOs view 2](./screens/templatesISOsView2_mini.jpg)</a>
 
 #### Firewall Templates View
 
