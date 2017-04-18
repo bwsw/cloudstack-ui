@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
+import sortBy = require('lodash/sortBy');
 
 import { SSHKeyPair } from '../shared/models/ssh-keypair.model';
 import { SshKeyCreationData, SSHKeyPairService } from '../shared/services/ssh-keypair.service';
@@ -49,7 +50,7 @@ export class SshKeysPageComponent implements OnInit {
     const keyCreationObs = data.publicKey ? this.sshKeyService.register(data) : this.sshKeyService.create(data);
     keyCreationObs.subscribe(
       (sshKey: SSHKeyPair) => {
-        this.sshKeyList = this.sshKeyList.concat(sshKey);
+        this.sshKeyList = sortBy(this.sshKeyList.concat(sshKey), 'name');
         if (sshKey.privateKey) {
           this.showPrivateKey(sshKey.privateKey);
         }
