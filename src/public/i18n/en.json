@@ -116,6 +116,7 @@
   "MB_VALUE": "{{value}} MB",
   "GHZ": "GHz",
   "MHZ": "MHz",
+  "CPU_MHZ": "{{count}}x{{speed}} MHz",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "CPU utilized",
     "NETWORK_READ": "Network read",
