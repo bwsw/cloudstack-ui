@@ -33,7 +33,7 @@ Cloudstack UI is a project whose purpose is to develop an easy-to-use, light, an
 
 ## Project Story
 
-At [Bitworks Software](https://bitworks.software/), we run an ACS public cloud for 3 years (actually we still run CS 4.3 cloud in production) and we found that average users who are familiar with Digital Ocean, Amazon AWS, and other VPS management systems feel uncomfortable with Cloudstack UI and make a lot of operational mistakes. That’s why we decided to implement a convenient and neat end-user facing UI covering regular activities, which are important for day-to-day VM management.
+At [Bitworks Software](https://bitworks.software/), we run an ACS public cloud for 3 years (actually we still run CS 4.3 cloud in production) and we found that average users who are familiar with Digital Ocean, Amazon AWS, and other VPS management systems feel uncomfortable with original Cloudstack UI and make a lot of operational mistakes. That’s why we decided to implement a convenient and neat end-user facing UI covering regular activities, which are important for day-to-day VM management.
 
 The project is developed by Bitworks Software Frontend Division within the educational marathon, which has the purpose to incorporate our new team members and show them our standard frontend development instrument.
 
@@ -58,7 +58,7 @@ So, what is supported:
 * Multiple zones
 * Virtual machine standard operations supported by Apache Cloudstack
 * Root and Data disks management
-* Ad-hoc and periodical snapshots for disks
+* Ad-hoc snapshots for disks
 * Affinity groups management
 * VM groups
 * Localization support
