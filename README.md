@@ -33,7 +33,7 @@ Cloudstack UI is a project whose purpose is to develop an easy-to-use, light, an
 
 ## Project Story
 
-At [Bitworks Software](https://bitworks.software/), we run an ACS public cloud for 3 years (actually we still run CS 4.3 cloud in production) and we found that average users who are familiar with Digital Ocean, Amazon AWS, and other VPS management systems feel uncomfortable with Cloudstack UI and make a lot of operational mistakes. That’s why we decided to implement a convenient and neat end-user facing UI covering regular activities, which are important for day-to-day VM management.
+At [Bitworks Software](https://bitworks.software/), we run an ACS public cloud for 3 years (actually we still run CS 4.3 cloud in production) and we found that average users who are familiar with Digital Ocean, Amazon AWS, and other VPS management systems feel uncomfortable with original Cloudstack UI and make a lot of operational mistakes. That’s why we decided to implement a convenient and neat end-user facing UI covering regular activities, which are important for day-to-day VM management.
 
 The project is developed by Bitworks Software Frontend Division within the educational marathon, which has the purpose to incorporate our new team members and show them our standard frontend development instrument.
 
@@ -58,7 +58,7 @@ So, what is supported:
 * Multiple zones
 * Virtual machine standard operations supported by Apache Cloudstack
 * Root and Data disks management
-* Ad-hoc and periodical snapshots for disks
+* Ad-hoc snapshots for disks
 * Affinity groups management
 * VM groups
 * Localization support
@@ -100,7 +100,7 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 
 Just a simple login screen. Nothing really new. But it has a nice preloader which can be used to brand it for specific company. By default it shows Apache Cloudstack banner.
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/loginView.PNG" target="_blank">![Login screen](./screens/loginView_mini.jpg)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/loginView.png" target="_blank">![Login screen](./screens/loginView_mini.png)</a>
 
 #### Virtual machines view
 
@@ -117,7 +117,7 @@ From the system behavior standpoint, we have changed it sometimes, e.g. when the
 
 We changed the new virtual machine screen a lot. Now it’s one-step and it allows to select everything from one screen without additional steps and so on. We believe it’s much better for a regular user than the one which is used in the native UI. It also generates meaningful VM names from usernames like `vm-<username>-<counter>`. Another important thing is that the form immediately checks that the user has the required amount of resources to create the virtual machine, and thus it doesn’t allow them to launch creation of impossible things which will fail for sure.
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVMView.png" target="_blank">![New Virtual Machine View](./screens/newVMView_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVMview.png" target="_blank">![New Virtual Machine View](./screens/newVMView_mini.png)</a>
 
 #### Resource usage bar
 
