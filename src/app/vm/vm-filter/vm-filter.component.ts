@@ -15,11 +15,13 @@ import { VmService } from '../shared/vm.service';
 import { InstanceGroup } from '../../shared/models';
 import { InstanceGroupService } from '../../shared/services';
 import { FilterService } from '../../shared/services';
+import { VmState, VmStates } from '../shared/vm.model';
 
 
 export interface VmFilter {
   doFilterByColor: boolean;
   selectedGroups: Array<InstanceGroup>;
+  selectedStates: Array<VmState>;
   selectedZones: Array<Zone>;
   mode: SectionType;
 }
@@ -33,9 +35,14 @@ export class VmFilterComponent implements OnInit {
   @Output() public updateFilters = new EventEmitter<VmFilter>();
   public doFilterByColor = false;
   public selectedGroups: Array<InstanceGroup> = [];
+  public selectedStates: Array<VmState> = [];
   public selectedZones: Array<Zone> = [];
   public groups: Array<InstanceGroup>;
   public zones: Array<Zone>;
+  public states: Array<VmState> = [
+    VmStates.Running,
+    VmStates.Stopped
+  ];
   public mode: SectionType = SectionType.zone;
 
   private filtersKey = 'vmListFilters';
@@ -90,6 +97,7 @@ export class VmFilterComponent implements OnInit {
     this.updateFilters.emit({
       doFilterByColor: this.doFilterByColor,
       selectedGroups: sortBy(this.selectedGroups, 'name'),
+      selectedStates: this.selectedStates,
       selectedZones: sortBy(this.selectedZones, 'name'),
       mode: this.mode
     });
@@ -109,6 +117,11 @@ export class VmFilterComponent implements OnInit {
 
   public updateGroups(selectedGroups: Array<InstanceGroup>): void {
     this.selectedGroups = selectedGroups;
+    this.update();
+  }
+
+  public updateStates(statuses: Array<VmState>): void {
+    this.selectedStates = statuses;
     this.update();
   }
 

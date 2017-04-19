@@ -425,6 +425,7 @@
   "PALETTE": "Цвета темы интерфейса",
   "SELECT_GROUPS": "Выбор групп",
   "SELECT_ZONES": "Выбор зон",
+  "SELECT_STATES": "Выбор статуса",
   "NETWORK_RULES": "Сетевые правила",
 
   "LICENSE_1": "© {{ year }}, ",
