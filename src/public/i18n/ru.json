@@ -112,8 +112,11 @@
   "SECONDARY_(STORAGE)": "Дополнительное",
   "GB": "GB",
   "MB": "MB",
+  "GB_VALUE": "{{value}} GB",
+  "MB_VALUE": "{{value}} MB",
   "GHZ": "ГГц",
   "MHZ": "МГц",
+  "CPU_MHZ": "{{count}}x{{speed}} МГц",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "Загружено CPU",
     "NETWORK_READ": "Прочитанно через сеть",
@@ -210,7 +213,7 @@
   "IP": "IP",
   "NIC": "NIC",
   "NETWORK_CONFIGURATION": "Конфигурация сети",
-  "NETWORK_INTERFACE_CONTROLLER_FIELDS": {
+  "NIC_FIELDS": {
     "broadcastUri":  "Broadcast URI",
     "gateway": "Шлюз",
     "ip6Address": "IPv6 адрес",
@@ -239,7 +242,7 @@
   "CHANGE_SERVICE_OFFERING": "Изменить предложение",
   "SO_CHANGE_DISABLED": "Необходимо остановить машину",
 
-  "EDIT_RULES": "Редактировать правила",
+  "FIREWALL_RULES_FOR_VM": "Правила брандмауэра для ВМ",
   "TEMPLATE_RULES": "Правила шаблона",
   "CLOSE": "Закрыть",
   "TYPE": "Тип",
@@ -361,6 +364,8 @@
   "EVENTS": "События",
   "NO_EVENTS": "Нет событий на выбранной дате",
   "LEVEL": "Уровень",
+  "LEVELS": "Выберите уровни",
+  "TIME": "Время",
 
   "SPARE_DRIVES_NAVBAR": "Свободные диски",
   "SPARE_DRIVE_STATE": {

@@ -15,7 +15,7 @@
         [(ngModel)]="selectedLevels"
         (change)="filterEvents()"
         multiple="true"
-        placeholder="Levels"
+        [placeholder]="'LEVELS' | translate"
       >
         <mdl-option
           *ngFor="let level of levels"
