@@ -112,8 +112,11 @@
   "SECONDARY_(STORAGE)": "Дополнительное",
   "GB": "GB",
   "MB": "MB",
+  "GB_VALUE": "{{value}} GB",
+  "MB_VALUE": "{{value}} MB",
   "GHZ": "ГГц",
   "MHZ": "МГц",
+  "CPU_MHZ": "{{count}}x{{speed}} МГц",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "Загружено CPU",
     "NETWORK_READ": "Прочитанно через сеть",
