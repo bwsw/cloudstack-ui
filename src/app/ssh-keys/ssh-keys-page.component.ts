@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import sortBy = require('lodash/sortBy');
 
 import { SSHKeyPair } from '../shared/models/ssh-keypair.model';

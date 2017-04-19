@@ -4,7 +4,7 @@ import {
   OnChanges
 } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 
 import { TagService } from '../../shared';
 import { SecurityGroup } from '../../security-group/sg.model';

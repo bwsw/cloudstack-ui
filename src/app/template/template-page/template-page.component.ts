@@ -2,7 +2,7 @@ import { Component, ViewChild, OnInit, HostBinding } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 
 import {
   Iso,
