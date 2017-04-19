@@ -112,8 +112,11 @@
   "SECONDARY_(STORAGE)": "Secondary",
   "GB": "GB",
   "MB": "MB",
+  "GB_VALUE": "{{value}} GB",
+  "MB_VALUE": "{{value}} MB",
   "GHZ": "GHz",
   "MHZ": "MHz",
+  "CPU_MHZ": "{{count}}x{{speed}} MHz",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "CPU utilized",
     "NETWORK_READ": "Network read",
@@ -210,7 +213,7 @@
   "IP": "IP",
   "NIC": "NIC",
   "NETWORK_CONFIGURATION": "Network configuration",
-  "NETWORK_INTERFACE_CONTROLLER_FIELDS": {
+  "NIC_FIELDS": {
     "broadcastUri":  "Broadcast URI",
     "gateway": "Gateway",
     "ip6Address": "IPv6 address",
@@ -239,7 +242,7 @@
   "CHANGE_SERVICE_OFFERING": "Change service offering",
   "SO_CHANGE_DISABLED": "The virtual machine needs to be stopped",
 
-  "EDIT_RULES": "Edit rules",
+  "FIREWALL_RULES_FOR_VM": "Firewall rules for VM",
   "TEMPLATE_RULES": "Template rules",
   "CLOSE": "Close",
   "TYPE": "Type",
@@ -361,6 +364,8 @@
   "EVENTS": "Events",
   "NO_EVENTS": "No events for the selected date",
   "LEVEL": "Level",
+  "LEVELS": "Select levels",
+  "TIME": "Time",
 
   "SPARE_DRIVES_NAVBAR": "Spare drives",
   "SPARE_DRIVE_STATE": {

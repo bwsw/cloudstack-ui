@@ -39,9 +39,16 @@
       </tr>
       </thead>
       <tr>
-        <td>{{ vm.cpuNumber + 'x' + vm.cpuSpeed }} {{ 'MHZ' | translate }}</td>
-        <td>{{ vm.memory | division:2:10:2 }} {{ 'GB' | translate }}</td>
-        <td>{{ vm.getDisksSize().toFixed(2) }} {{ 'GB' | translate }}</td>
+        <td>{{ 'CPU_MHZ' | translate:({ count: vm.cpuNumber, speed: vm.cpuSpeed }) }}</td>
+        <td>
+          <ng-container *ngIf="vm.memory < gigabyte">
+            {{ 'MB_VALUE' | translate:({ value: getMemoryInMb() }) }}
+          </ng-container>
+          <ng-container *ngIf="vm.memory >= gigabyte">
+            {{ 'GB_VALUE' | translate:({ value: getMemoryInGb() }) }}
+          </ng-container>
+        </td>
+        <td>{{ 'GB_VALUE' | translate:({ value: vm.getDisksSize().toFixed(2) }) }}</td>
       </tr>
     </table>
   </mdl-card-supporting-text>

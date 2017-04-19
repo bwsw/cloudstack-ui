@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/bwsw/cloudstack-ui.svg?branch=master)](https://travis-ci.org/bwsw/cloudstack-ui)
+
 Table of Contents
 =================
 
@@ -18,19 +20,20 @@ Table of Contents
          * [Firewall Templates View](#firewall-templates-view)
          * [Spare Drives View](#spare-drives-view)
          * [Activity log view](#activity-log-view)
-      * [Project Sponsors](#project-sponsors)
-      * [How to Contribute](#how-to-contribute)
-      * [License](#license)
    * [Documentation](#documentation)
       * [Deployment](#deployment)
       * [Configuration Options](#configuration-options)
+   * [Project Sponsors](#project-sponsors)
+      * [How to Contribute](#how-to-contribute)
+      * [License](#license)
 
 # Cloudstack UI
+
 Cloudstack UI is a project whose purpose is to develop an easy-to-use, light, and user friendly frontend interface for the [Apache Cloudstack](http://cloudstack.apache.org/) virtualization management system. Apache Cloudstack itself is a great product which is used very widely, but its frontend is developed for administrators (from our point of view), not for end cloud users. Some of the interactions are not straightforward and unnatural to an average user and require quite a long time to adapt. Other reasons to develop are connected with a lack of functions like virtual machine statistics & charting, sophisticated resource accounting, and application management. These are in our long-term TODO list.
 
 ## Project Story
 
-At Bitworks, we run an ACS public cloud for 3 years (actually we still run CS 4.3 cloud in production) and we found that average users who are familiar with Digital Ocean, Amazon AWS, and other VPS management systems feel uncomfortable with Cloudstack UI and make a lot of operational mistakes. That’s why we decided to implement a convenient and neat end-user facing UI covering regular activities, which are important for day-to-day VM management.
+At [Bitworks Software](https://bitworks.software/), we run an ACS public cloud for 3 years (actually we still run CS 4.3 cloud in production) and we found that average users who are familiar with Digital Ocean, Amazon AWS, and other VPS management systems feel uncomfortable with original Cloudstack UI and make a lot of operational mistakes. That’s why we decided to implement a convenient and neat end-user facing UI covering regular activities, which are important for day-to-day VM management.
 
 The project is developed by Bitworks Software Frontend Division within the educational marathon, which has the purpose to incorporate our new team members and show them our standard frontend development instrument.
 
@@ -55,7 +58,7 @@ So, what is supported:
 * Multiple zones
 * Virtual machine standard operations supported by Apache Cloudstack
 * Root and Data disks management
-* Ad-hoc and periodical snapshots for disks
+* Ad-hoc snapshots for disks
 * Affinity groups management
 * VM groups
 * Localization support
@@ -114,7 +117,7 @@ From the system behavior standpoint, we have changed it sometimes, e.g. when the
 
 We changed the new virtual machine screen a lot. Now it’s one-step and it allows to select everything from one screen without additional steps and so on. We believe it’s much better for a regular user than the one which is used in the native UI. It also generates meaningful VM names from usernames like `vm-<username>-<counter>`. Another important thing is that the form immediately checks that the user has the required amount of resources to create the virtual machine, and thus it doesn’t allow them to launch creation of impossible things which will fail for sure.
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVMView.png" target="_blank">![New Virtual Machine View](./screens/newVMView_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVMview.png" target="_blank">![New Virtual Machine View](./screens/newVMView_mini.png)</a>
 
 #### Resource usage bar
 
@@ -150,65 +153,38 @@ It’s a simplified view for account activities. It lets you choose the date and
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/activityLog.png" target="_blank">![Activity Log screen](./screens/activityLog_mini.png)</a>
 
-
-
-## Project Sponsors
-
-The project is currently supported by [Bitworks Software](https://bitworks.software/).
-
-![Bitworks Software](https://raw.githubusercontent.com/bwsw/bwsw.github.io/master/15047882.png)
-
-## How to Contribute
-
-You can contribute to the project development in various ways:
-
-1. Share the information about the project with other people, try to install the UI and share your opinion with us and your colleagues.
-2. Propose useful features. Ideas are always welcome. 
-3. Deploy it somewhere and inform us about your success story and we will share it in the adopters section.
-4. Fix bugs and send us the PR.
-5. Implement a feature from the Roadmap or simply make something new.
-6. Support and promote the development of specific functions which are important to you and may be shared.
-7. Provide testing environment for other deployment schemes. Now we interested in testing the app with
-   1. KVM with RBD
-   2. Xen with NFS, Local, RBD
-   3. Oher browsers and operating systems
-7. Hire us for frontend or backend development of custom software development projects. Take a look at our [website](https://bitworks.software/) to know where we can be useful. Take a look at our [presentation](https://www.slideshare.net/secret/BpNGxtaPUfOIqj) to learn more about us.
-
-To contribute, just contact us via e-mail: info@bw-sw.com
-
-## License
-
-It’s released under the Apache 2.0 license.
-
 # Documentation
 
 ## Deployment
 
-1.
-Download docker container from https://hub.docker.com/r/bwsw/cloudstack-ui
+### Main UI container
 
-2.
 To run docker container with default configuration options use:
-    
-    docker run -d -p 80:80 --name cloudstack-ui \
-               -e API_BACKEND_URL=http://link_to_api_endpoint \
-               bw-sw/cloudstack-ui
+
+```
+docker run -d -p 80:80 --name cloudstack-ui \
+           -e API_BACKEND_URL=http://link_to_api_endpoint \
+           bwsw/cloudstack-ui
+```
 
 If you want to override default options use:
-    
-    docker run -d -p 80:80 --name cloudstack-ui \
-               -e API_BACKEND_URL=http://link_to_api_endpoint \
-               -v /my/config/path:/config \
-               bw-sw/cloudstack-ui
+
+```
+docker run -d -p 80:80 --name cloudstack-ui \
+           -e API_BACKEND_URL=http://link_to_api_endpoint \
+           -v /my/config/path:/config \
+           bwsw/cloudstack-ui
+```
 
 `http://link_to_api_endpoint` - url of ACS API
 
 `/my/config/path` - path to a directory with a custom configuration file named config.json.
 
+### Assisting object cleanup container
 
-3.
-Download and start https://hub.docker.com/r/bwsw/cloudstack-ui-cleaner/ for cleaning purposes.
+Some operations implemented in the UI require "delayed" activities, so we use additional cleaner container that cleans objects marked for the removal.
 
+Download and start [bwsw/cloudstack-ui-cleaner](https://hub.docker.com/r/bwsw/cloudstack-ui-cleaner/) container.
 
 ## Configuration Options
 
@@ -305,3 +281,31 @@ In this sections you can specify limits for custom offerings in the following fo
     }
     
 Any of these parameters may be left unspecified, in which case 0 will be used for min and infinity will be used for max.
+
+## Project Sponsors
+
+The project is currently supported by [Bitworks Software](https://bitworks.software/).
+
+![Bitworks Software](https://raw.githubusercontent.com/bwsw/bwsw.github.io/master/15047882.png)
+
+## How to Contribute
+
+You can contribute to the project development in various ways:
+
+1. Share the information about the project with other people, try to install the UI and share your opinion with us and your colleagues.
+2. Propose useful features. Ideas are always welcome. 
+3. Deploy it somewhere and inform us about your success story and we will share it in the adopters section.
+4. Fix bugs and send us the PR.
+5. Implement a feature from the Roadmap or simply make something new.
+6. Support and promote the development of specific functions which are important to you and may be shared.
+7. Provide testing environment for other deployment schemes. Now we interested in testing the app with
+   1. KVM with RBD
+   2. Xen with NFS, Local, RBD
+   3. Oher browsers and operating systems
+7. Hire us for frontend or backend development of custom software development projects. Take a look at our [website](https://bitworks.software/) to know where we can be useful. Take a look at our [presentation](https://www.slideshare.net/secret/BpNGxtaPUfOIqj) to learn more about us.
+
+To contribute, just contact us via e-mail: info@bw-sw.com
+
+## License
+
+It’s released under the Apache 2.0 license.
