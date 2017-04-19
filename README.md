@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/bwsw/cloudstack-ui.svg?branch=master)](https://travis-ci.org/bwsw/cloudstack-ui)
+
 Table of Contents
 =================
 
@@ -26,6 +28,7 @@ Table of Contents
       * [Configuration Options](#configuration-options)
 
 # Cloudstack UI
+
 Cloudstack UI is a project whose purpose is to develop an easy-to-use, light, and user friendly frontend interface for the [Apache Cloudstack](http://cloudstack.apache.org/) virtualization management system. Apache Cloudstack itself is a great product which is used very widely, but its frontend is developed for administrators (from our point of view), not for end cloud users. Some of the interactions are not straightforward and unnatural to an average user and require quite a long time to adapt. Other reasons to develop are connected with a lack of functions like virtual machine statistics & charting, sophisticated resource accounting, and application management. These are in our long-term TODO list.
 
 ## Project Story
@@ -184,30 +187,29 @@ It’s released under the Apache 2.0 license.
 
 ## Deployment
 
-1.
-Download docker container from https://hub.docker.com/r/bwsw/cloudstack-ui
+1. Download docker container from https://hub.docker.com/r/bwsw/cloudstack-ui
 
-2.
+2. Running docker container:
+
 To run docker container with default configuration options use:
-    
+
     docker run -d -p 80:80 --name cloudstack-ui \
                -e API_BACKEND_URL=http://link_to_api_endpoint \
-               bw-sw/cloudstack-ui
+               bwsw/cloudstack-ui
 
 If you want to override default options use:
     
     docker run -d -p 80:80 --name cloudstack-ui \
                -e API_BACKEND_URL=http://link_to_api_endpoint \
                -v /my/config/path:/config \
-               bw-sw/cloudstack-ui
+               bwsw/cloudstack-ui
 
 `http://link_to_api_endpoint` - url of ACS API
 
 `/my/config/path` - path to a directory with a custom configuration file named config.json.
 
 
-3.
-Download and start https://hub.docker.com/r/bwsw/cloudstack-ui-cleaner/ for cleaning purposes.
+3. Download and start https://hub.docker.com/r/bwsw/cloudstack-ui-cleaner/ for cleaning purposes.
 
 
 ## Configuration Options
