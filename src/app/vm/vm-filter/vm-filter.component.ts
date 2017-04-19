@@ -41,7 +41,8 @@ export class VmFilterComponent implements OnInit {
   public zones: Array<Zone>;
   public states: Array<VmState> = [
     VmStates.Running,
-    VmStates.Stopped
+    VmStates.Stopped,
+    VmStates.Error
   ];
   public mode: SectionType = SectionType.zone;
 
