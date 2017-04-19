@@ -74,12 +74,14 @@ export class VmFilterComponent implements OnInit {
       'byColors': { type: 'boolean' },
       'mode': { type: 'string', options: ['zone', 'group'], defaultOption: 'zone' },
       'zones': { type: 'array', defaultOption: [] },
-      'groups': { type: 'array', defaultOption: [] }
+      'groups': { type: 'array', defaultOption: [] },
+      'states': { type: 'array', options: this.states, defaultOption: [] }
     });
     this.doFilterByColor = !!params.byColors;
     this.mode = params['mode'] === 'group' ? SectionType.group : SectionType.zone;
     this.selectedZones = this.zones.filter(zone => params['zones'].find(id => id === zone.id));
     this.selectedGroups = this.groups.filter(group => params['groups'].find(id => id === group.name));
+    this.selectedStates = params.states;
 
     this.update();
   }
@@ -106,7 +108,8 @@ export class VmFilterComponent implements OnInit {
       'byColors': this.doFilterByColor,
       'mode': this.mode === SectionType.group ? 'group' : 'zone',
       'zones': this.selectedZones.map(_ => _.id),
-      'groups': this.selectedGroups.map(_ => _.name)
+      'groups': this.selectedGroups.map(_ => _.name),
+      'states': this.selectedStates
     });
   }
 
