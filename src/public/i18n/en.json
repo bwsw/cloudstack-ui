@@ -210,7 +210,7 @@
   "IP": "IP",
   "NIC": "NIC",
   "NETWORK_CONFIGURATION": "Network configuration",
-  "NETWORK_INTERFACE_CONTROLLER_FIELDS": {
+  "NIC_FIELDS": {
     "broadcastUri":  "Broadcast URI",
     "gateway": "Gateway",
     "ip6Address": "IPv6 address",
