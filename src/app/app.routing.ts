@@ -10,7 +10,6 @@ import { SettingsComponent } from './settings/settings.component';
 import { AuthGuard } from './shared/services';
 import { LoginGuard } from './shared/services';
 import { SshKeysPageComponent } from './ssh-keys/ssh-keys-page.component';
-import { LogoutComponent } from './auth/logout.component';
 
 
 export const routes: Routes = [
@@ -18,10 +17,6 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     canActivate: [LoginGuard]
-  },
-  {
-    path: 'logout',
-    component: LogoutComponent
   },
   {
     path: 'sg-templates',

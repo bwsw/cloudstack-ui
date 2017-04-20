@@ -1,30 +1,29 @@
-import { NgModule, ApplicationRef, Injector } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule, Http } from '@angular/http';
+import { ApplicationRef, Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Http, HttpModule } from '@angular/http';
+import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { MdlModule, DISABLE_NATIVE_VALIDITY_CHECKING, MdlDialogService } from 'angular2-mdl';
 import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
-import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
+import { createNewHosts, removeNgStyles } from '@angularclass/hmr';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { DISABLE_NATIVE_VALIDITY_CHECKING, MdlDialogService, MdlModule } from 'angular2-mdl';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './auth/login.component';
-import { ServiceLocator } from './shared/services';
 import { routes } from './app.routing';
+import { LoginComponent } from './auth/login.component';
+import { EventsModule } from './events/events.module';
 import { SecurityGroupModule } from './security-group/sg.module';
 import { ServiceOfferingModule } from './service-offering/service-offering.module';
+import { SettingsModule } from './settings/settings.module';
+import { CustomDialogService } from './shared/services/custom-dialog.service';
+import { ServiceLocator } from './shared/services/service-locator';
 import { SharedModule } from './shared/shared.module';
+import { SpareDriveModule } from './spare-drive';
+import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
-import { CustomDialogService } from './shared/services/custom-dialog.service';
-import { EventsModule } from './events/events.module';
-import { SpareDriveModule } from './spare-drive';
-import { SettingsModule } from './settings/settings.module';
-import { SshKeysModule } from './ssh-keys/ssh-keys.module';
-import { LogoutComponent } from './auth/logout.component';
 
 
 export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
@@ -60,8 +59,7 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
   ],
   declarations: [
     AppComponent,
-    LoginComponent,
-    LogoutComponent
+    LoginComponent
   ],
   providers: [
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },

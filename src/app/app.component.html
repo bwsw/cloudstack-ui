@@ -109,9 +109,9 @@
       </a>
 
       <a
-        (click)="componentSelected(mainLayout);"
+        (click)="componentSelected(mainLayout); onLogout($event)"
+        href="/logout"
         class="mdl-navigation__link link-container"
-        routerLink="/logout"
         [class.link-hover-light]="isLightTheme"
         [class.link-hover-dark]="!isLightTheme"
         [routerLinkActive]="linkActiveStyle"

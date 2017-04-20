@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import {
   AuthService,
@@ -19,6 +19,7 @@ export class LoginComponent {
   constructor(
     private auth: AuthService,
     @Inject('INotificationService') private notification: INotificationService,
+    private route: ActivatedRoute,
     private router: Router
   ) {
     this.username = '';
@@ -39,9 +40,8 @@ export class LoginComponent {
   }
 
   private handleLogin(): void {
-    const url = this.auth.redirectUrl || '';
-    this.router.navigate([url])
-      .then(() => this.auth.redirectUrl = '');
+    const next = this.route.snapshot.queryParams['next'] || '';
+    this.router.navigateByUrl(next);
   }
 
   private handleError(error: string): void {

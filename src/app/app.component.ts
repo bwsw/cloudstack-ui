@@ -17,6 +17,7 @@ import {
 } from './shared/services';
 import { StyleService } from './shared/services/style.service';
 import { ZoneService } from './shared/services/zone.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private error: ErrorService,
     private languageService: LanguageService,
     private layoutService: LayoutService,
+    private router: Router,
     @Inject('INotificationService') private notification: INotificationService,
     private styleService: StyleService,
     private asyncJobService: AsyncJobService,
@@ -83,6 +85,13 @@ export class AppComponent implements OnInit, AfterViewInit {
           this.settingsLink.nativeElement.classList.remove('link-active-light', 'link-hover-dark');
         }
       }
+    });
+  }
+
+  public onLogout(event): void {
+    event.preventDefault();
+    this.auth.logout().subscribe(() => {
+      this.router.navigate(['login']);
     });
   }
 
