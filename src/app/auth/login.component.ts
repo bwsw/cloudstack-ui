@@ -40,8 +40,8 @@ export class LoginComponent {
 
   private handleLogin(): void {
     const url = this.auth.redirectUrl || '';
-    this.router.navigate([url]);
-    this.auth.redirectUrl = '';
+    this.router.navigate([url])
+      .then(() => this.auth.redirectUrl = '');
   }
 
   private handleError(error: string): void {
