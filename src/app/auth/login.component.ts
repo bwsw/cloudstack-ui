@@ -39,7 +39,9 @@ export class LoginComponent {
   }
 
   private handleLogin(): void {
-    this.router.navigate(['']);
+    const url = this.auth.redirectUrl || '';
+    this.router.navigate([url]);
+    this.auth.redirectUrl = '';
   }
 
   private handleError(error: string): void {

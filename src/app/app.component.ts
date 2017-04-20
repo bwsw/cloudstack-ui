@@ -1,28 +1,22 @@
-import {
-  Component,
-  Inject,
-  OnInit,
-  ViewChild,
-  ElementRef,
-  AfterViewInit
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { Response } from '@angular/http';
-
-import { AuthService } from './shared/services';
-import { Router } from '@angular/router';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
-import { ErrorService } from './shared/services/error.service';
-import { INotificationService } from './shared/services/notification.service';
-import { LanguageService } from './shared/services/language.service';
-import { LayoutService } from './shared/services/layout.service';
 import { MdlLayoutComponent } from 'angular2-mdl';
 
 import '../style/app.scss';
+import { Color } from './shared/models';
+
+import {
+  AsyncJobService,
+  AuthService,
+  ErrorService,
+  INotificationService,
+  LanguageService,
+  LayoutService
+} from './shared/services';
 import { StyleService } from './shared/services/style.service';
 import { ZoneService } from './shared/services/zone.service';
-import { Color } from './shared/models/color.model';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { AsyncJobService } from './shared/services/async-job.service';
 
 
 @Component({
@@ -42,7 +36,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   constructor(
     private auth: AuthService,
     private domSanitizer: DomSanitizer,
-    private router: Router,
     private translate: TranslateService,
     private error: ErrorService,
     private languageService: LanguageService,
@@ -72,7 +65,6 @@ export class AppComponent implements OnInit, AfterViewInit {
           .subscribe(basic => this.disableSecurityGroups = basic);
       } else {
         this.asyncJobService.completeAllJobs();
-        this.router.navigate(['/logout']);
       }
     });
 

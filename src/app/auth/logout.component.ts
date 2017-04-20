@@ -11,11 +11,14 @@ import {
   template: ''
 })
 export class LogoutComponent implements OnInit {
-  constructor(private auth: AuthService,
-              private router: Router) {
-  }
+  constructor(
+    private auth: AuthService,
+    private router: Router
+  ) { }
 
   public ngOnInit(): void {
-    this.auth.logout().subscribe(() => this.router.navigate(['/login']));
+    this.auth.logout().subscribe(() => {
+      this.router.navigate(['/login']);
+    });
   }
 }

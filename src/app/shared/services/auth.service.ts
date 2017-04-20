@@ -17,8 +17,12 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
 export class AuthService extends BaseBackendService<BaseModelStub> {
   public loggedIn: BehaviorSubject<boolean>;
 
-  constructor(@Inject('IStorageService') protected storage: IStorageService,
-              protected error: ErrorService) {
+  public redirectUrl: string;
+
+  constructor(
+    @Inject('IStorageService') protected storage: IStorageService,
+    protected error: ErrorService
+  ) {
     super();
     this.loggedIn = new BehaviorSubject<boolean>(!!this.userId);
   }
