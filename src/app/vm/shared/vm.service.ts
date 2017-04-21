@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
@@ -31,6 +29,7 @@ import { SecurityGroup } from '../../security-group/sg.model';
 import { VirtualMachine, IVmAction } from './vm.model';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { VolumeTypes } from '../../shared/models/volume.model';
+import { DialogService } from '../../shared/services/dialog.service';
 
 
 export interface IVmActionEvent {
@@ -49,13 +48,12 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   constructor(
     private asyncJobService: AsyncJobService,
-    private dialogService: MdlDialogService,
+    private dialogService: DialogService,
     private jobsNotificationService: JobsNotificationService,
     private notificationService: NotificationService,
     private osTypesService: OsTypeService,
     private serviceOfferingService: ServiceOfferingService,
     private securityGroupService: SecurityGroupService,
-    private translateService: TranslateService,
     private volumeService: VolumeService,
   ) {
     super();
@@ -190,14 +188,10 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public resetPassword(e: IVmActionEvent): void {
     let showDialog = (displayName: string, password: string) => {
-      this.translateService.get('PASSWORD_DIALOG_MESSAGE',
-        {
-          vmName: displayName,
-          vmPassword: password
-        })
-        .subscribe((res: string) => {
-          this.dialogService.alert(res);
-        });
+      this.dialogService.alert({
+        translationToken: 'PASSWORD_DIALOG_MESSAGE',
+        interpolateParams: { vmName: displayName, vmPassword: password }
+      } as any);
     };
 
     if (e.vm.state === 'Stopped') {
@@ -313,15 +307,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     if (vm.volumes.length === 1) {
       return Observable.of(false);
     }
-
-    return this.translateService.get(['CONFIRM_VM_DELETE_DRIVES', 'NO', 'YES'])
-      .switchMap(strs => {
-        return this.dialogService.confirm(
-          strs['CONFIRM_VM_DELETE_DRIVES'],
-          strs['NO'],
-          strs['YES']
-        );
-      });
+    return this.dialogService.confirm('CONFIRM_VM_DELETE_DRIVES', 'NO', 'YES');
   }
 
   private buildCommandParams(id: string, commandName: string): any {

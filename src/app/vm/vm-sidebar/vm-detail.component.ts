@@ -3,8 +3,6 @@ import {
   Input,
   OnChanges
 } from '@angular/core';
-import { MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
 
 import { TagService } from '../../shared';
 import { SecurityGroup } from '../../security-group/sg.model';
@@ -19,6 +17,7 @@ import { ZoneService } from '../../shared/services/zone.service';
 import { InstanceGroupService } from '../../shared/services/instance-group.service';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { ServiceOfferingFields } from '../../shared/models/service-offering.model';
+import { DialogService } from '../../shared/services/dialog.service';
 
 
 @Component({
@@ -38,10 +37,9 @@ export class VmDetailComponent implements OnChanges {
   public ServiceOfferingFields = ServiceOfferingFields;
 
   constructor(
-    private dialogService: MdlDialogService,
+    private dialogService: DialogService,
     private instanceGroupService: InstanceGroupService,
     private tagService: TagService,
-    private translateService: TranslateService,
     private vmService: VmService,
     private zoneService: ZoneService
   ) {
@@ -123,15 +121,13 @@ export class VmDetailComponent implements OnChanges {
   }
 
   public confirmAddSecondaryIp(vm: VirtualMachine): void {
-    this.translateService.get(['ARE_YOU_SURE_ADD_SECONDARY_IP', 'NO', 'YES'])
-      .switchMap(str => this.dialogService.confirm(str['ARE_YOU_SURE_ADD_SECONDARY_IP'], str['NO'], str['YES']))
+    this.dialogService.confirm('ARE_YOU_SURE_ADD_SECONDARY_IP', 'NO', 'YES')
       .onErrorResumeNext()
       .subscribe(() => this.addSecondaryIp(vm));
   }
 
   public confirmRemoveSecondaryIp(secondaryIpId: string, vm: VirtualMachine): void {
-    this.translateService.get(['ARE_YOU_SURE_REMOVE_SECONDARY_IP', 'NO', 'YES'])
-      .switchMap(str => this.dialogService.confirm(str['ARE_YOU_SURE_REMOVE_SECONDARY_IP'], str['NO'], str['YES']))
+    this.dialogService.confirm('ARE_YOU_SURE_REMOVE_SECONDARY_IP', 'NO', 'YES')
       .onErrorResumeNext()
       .subscribe(() => this.removeSecondaryIp(secondaryIpId, vm));
   }

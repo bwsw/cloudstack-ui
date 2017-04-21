@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
+import { MdlDialogReference } from 'angular2-mdl';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from 'ng2-translate';
@@ -39,6 +39,7 @@ import {
 import { Template } from '../../template/shared';
 import { AffinityGroupType } from '../../shared/models/affinity-group.model';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
+import { DialogService } from '../../shared/services/dialog.service';
 
 
 class VmCreationData {
@@ -103,7 +104,7 @@ export class VmCreationComponent implements OnInit {
     private auth: AuthService,
     private changeDetectorRef: ChangeDetectorRef,
     private dialog: MdlDialogReference,
-    private dialogService: MdlDialogService,
+    private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private diskStorageService: DiskStorageService,
     private instanceGroupService: InstanceGroupService,

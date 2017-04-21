@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 import sortBy = require('lodash/sortBy');
 
@@ -7,6 +6,7 @@ import { SSHKeyPair } from '../shared/models/ssh-keypair.model';
 import { SshKeyCreationData, SSHKeyPairService } from '../shared/services/ssh-keypair.service';
 import { SShKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creation-dialog.component';
 import { SshPrivateKeyDialogComponent } from './ssh-key-creation/ssh-private-key-dialog.component';
+import { DialogService } from '../shared/services/dialog.service';
 
 
 @Component({
@@ -18,7 +18,7 @@ export class SshKeysPageComponent implements OnInit {
 
   constructor(
     private sshKeyService: SSHKeyPairService,
-    private dialogService: MdlDialogService,
+    private dialogService: DialogService,
     private translateService: TranslateService
   ) { }
 
@@ -38,8 +38,7 @@ export class SshKeysPageComponent implements OnInit {
   }
 
   public removeKey(name: string): void {
-    this.translateService.get(['REMOVE_THIS_KEY', 'YES', 'NO', 'KEY_REMOVAL_FAILED'])
-      .subscribe(translations => this.showRemovalDialog(name, translations));
+    this.showRemovalDialog(name);
   }
 
   private createSshKey(data: SshKeyCreationData): void {
@@ -72,12 +71,8 @@ export class SshKeysPageComponent implements OnInit {
       .subscribe((msg) => this.dialogService.alert(msg));
   }
 
-  private showRemovalDialog(name: string, translations: Array<string>): void {
-    this.dialogService.confirm(
-      translations['REMOVE_THIS_KEY'],
-      translations['NO'],
-      translations['YES'],
-    )
+  private showRemovalDialog(name: string): void {
+    this.dialogService.confirm('REMOVE_THIS_KEY', 'NO', 'YES')
       .onErrorResumeNext()
       .switchMap(() => {
         this.setLoading(name);
@@ -87,7 +82,7 @@ export class SshKeysPageComponent implements OnInit {
         () => this.sshKeyList = this.sshKeyList.filter(key => key.name !== name),
         () => {
           this.setLoading(name, false);
-          this.dialogService.alert(translations['KEY_REMOVAL_FAILED']);
+          this.dialogService.alert('KEY_REMOVAL_FAILED');
         }
       );
   }

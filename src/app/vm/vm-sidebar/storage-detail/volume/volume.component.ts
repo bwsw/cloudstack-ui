@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 import { Observable } from 'rxjs/Observable';
 
@@ -20,6 +19,7 @@ import { DiskOfferingService } from '../../../../shared/services/disk-offering.s
 import { ZoneService } from '../../../../shared/services/zone.service';
 import { DiskOffering } from '../../../../shared/models/disk-offering.model';
 import { Zone } from '../../../../shared/models/zone.model';
+import { DialogService } from '../../../../shared/services/dialog.service';
 
 
 const numberOfShownSnapshots = 5;
@@ -37,7 +37,7 @@ export class VolumeComponent implements OnInit {
   public loading = false;
 
   constructor(
-    private dialogService: MdlDialogService,
+    private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private jobNotificationService: JobsNotificationService,
     private statsUpdateService: StatsUpdateService,

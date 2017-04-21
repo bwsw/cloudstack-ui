@@ -4,7 +4,7 @@ import { HttpModule, Http } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
-import { MdlModule, DISABLE_NATIVE_VALIDITY_CHECKING, MdlDialogService } from 'angular2-mdl';
+import { MdlModule, DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
 import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
@@ -18,7 +18,6 @@ import { ServiceOfferingModule } from './service-offering/service-offering.modul
 import { SharedModule } from './shared/shared.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
-import { CustomDialogService } from './shared/services/custom-dialog.service';
 import { EventsModule } from './events/events.module';
 import { SpareDriveModule } from './spare-drive';
 import { SettingsModule } from './settings/settings.module';
@@ -61,8 +60,7 @@ export function createTranslateLoader(http: Http): TranslateStaticLoader {
     LogoutComponent
   ],
   providers: [
-    { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
-    { provide: MdlDialogService, useClass: CustomDialogService },
+    { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true }
   ],
   bootstrap: [AppComponent]
 })

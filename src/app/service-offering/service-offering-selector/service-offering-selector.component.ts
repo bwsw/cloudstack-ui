@@ -15,9 +15,9 @@ import {
   CustomServiceOffering
 } from '../custom-service-offering/custom-service-offering.component';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
-import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from 'ng2-translate';
 import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../../shared/services/dialog.service';
 
 
 @Component({
@@ -40,7 +40,7 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges {
 
 
   constructor(
-    private dialogService: MdlDialogService,
+    private dialogService: DialogService,
     private translateService: TranslateService
   ) { }
 

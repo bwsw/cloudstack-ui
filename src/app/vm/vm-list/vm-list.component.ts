@@ -7,8 +7,6 @@ import { Component,
 
 import { VmService, IVmActionEvent } from '../shared/vm.service';
 import { VirtualMachine } from '../shared/vm.model';
-import { MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
 import {
   AsyncJobService,
   IStorageService,
@@ -27,6 +25,7 @@ import { VmListSubsection } from './vm-list-subsection/vm-list-subsection.compon
 import { VmStatisticsComponent } from '../../shared/components/vm-statistics/vm-statistics.component';
 import { AsyncJob } from '../../shared/models/async-job.model';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
+import { DialogService } from '../../shared/services/dialog.service';
 
 
 export const enum SectionType {
@@ -66,8 +65,7 @@ export class VmListComponent implements OnInit {
   constructor (
     private listService: ListService,
     private vmService: VmService,
-    private dialogService: MdlDialogService,
-    private translateService: TranslateService,
+    private dialogService: DialogService,
     @Inject('IStorageService') protected storageService: IStorageService,
     private jobsNotificationService: JobsNotificationService,
     private asyncJobService: AsyncJobService,
@@ -152,14 +150,7 @@ export class VmListComponent implements OnInit {
   }
 
   public vmAction(e: IVmActionEvent): void {
-    this.translateService.get([
-      'YES',
-      'NO',
-      e.action.confirmMessage
-    ])
-      .switchMap((strs) => {
-        return this.dialogService.confirm(strs[e.action.confirmMessage], strs['NO'], strs['YES']);
-      })
+    this.dialogService.confirm(e.action.confirmMessage, 'NO', 'YES')
       .onErrorResumeNext()
       .subscribe(() => this.vmService.vmAction(e));
   }
@@ -283,37 +274,26 @@ export class VmListComponent implements OnInit {
     if (this.storageService.read(askToCreateVm) === 'false') {
       return;
     }
-    this.translateService.get([
-      'YES',
-      'NO',
-      'NO_DONT_ASK',
-      'WOULD_YOU_LIKE_TO_CREATE_VM'
-    ]).subscribe(translations => {
-      this.dialogService.showDialog({
-        message: translations['WOULD_YOU_LIKE_TO_CREATE_VM'],
-        actions: [
-          {
-            handler: () => {
-              this.showVmCreationDialog();
-            },
-            text: translations['YES']
-          },
-          {
-            handler: () => { },
-            text: translations['NO']
-          },
-          {
-            handler: () => {
-              this.storageService.write(askToCreateVm, 'false');
-            },
-            text: translations['NO_DONT_ASK']
-          }
-        ],
-        fullWidthAction: true,
-        isModal: true,
-        clickOutsideToClose: true,
-        styles: { 'width': '320px' }
-      });
+
+    this.dialogService.showDialog({
+      message: 'WOULD_YOU_LIKE_TO_CREATE_VM',
+      actions: [
+        {
+          handler: () => { this.showVmCreationDialog(); },
+          text: 'YES'
+        },
+        {
+          text: 'NO'
+        },
+        {
+          handler: () => { this.storageService.write(askToCreateVm, 'false'); },
+          text: 'NO_DONT_ASK'
+        }
+      ],
+      fullWidthAction: true,
+      isModal: true,
+      clickOutsideToClose: true,
+      styles: { 'width': '320px' }
     });
   }
 
