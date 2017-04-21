@@ -1,5 +1,7 @@
 .snapshot-name {
   width: 25% !important;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .snapshot-date {

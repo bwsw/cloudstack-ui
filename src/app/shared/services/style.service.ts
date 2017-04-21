@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { StorageService } from './storage.service';
 import { Color } from '../models/color.model';
 import { ConfigService } from './config.service';
 import { Subject, Observable } from 'rxjs';
+import { UserService } from './user.service';
 
 
 @Injectable()
@@ -12,7 +12,7 @@ export class StyleService {
 
   constructor(
     private configService: ConfigService,
-    private storageService: StorageService
+    private userService: UserService
   ) {}
 
   public loadPalette(): void {
@@ -24,8 +24,8 @@ export class StyleService {
     ])
       .subscribe(([themeColors, defaultTheme]) => {
         Observable.forkJoin([
-          this.storageService.readRemote('primaryColor'),
-          this.storageService.readRemote('accentColor')
+          this.userService.readTag('primaryColor'),
+          this.userService.readTag('accentColor')
         ])
           .subscribe(([primary, accent]) => {
             const primaryColorName = primary || defaultTheme.primaryColor;
@@ -41,8 +41,8 @@ export class StyleService {
 
   public updatePalette(primaryColor: Color, accentColor: Color): void {
     this.styleElement.href = `https://code.getmdl.io/1.3.0/material.${primaryColor.name}-${accentColor.name}.min.css`;
-    this.storageService.writeRemote('primaryColor', primaryColor.name).subscribe();
-    this.storageService.writeRemote('accentColor', accentColor.name).subscribe();
+    this.userService.writeTag('primaryColor', primaryColor.name).subscribe();
+    this.userService.writeTag('accentColor', accentColor.name).subscribe();
     this.paletteUpdates.next(primaryColor);
   }
 

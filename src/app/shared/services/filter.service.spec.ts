@@ -52,14 +52,14 @@ describe('Filter service', () => {
     const params = { asd: 4, dsa: 5 };
     filterService.update(testKey, params);
     tick(5);
-    expect(storage.readLocal(testKey)).toBe(JSON.stringify(params));
+    expect(storage.read(testKey)).toBe(JSON.stringify(params));
   })));
 
   it('should not put empty arrays', fakeAsync(inject([FilterService, StorageService], (filterService, storage) => {
     const params = { asd: [], dsa: [5] };
     filterService.update(testKey, params);
     tick(5);
-    expect(storage.readLocal(testKey)).toBe(JSON.stringify({ dsa: [5] }));
+    expect(storage.read(testKey)).toBe(JSON.stringify({ dsa: [5] }));
   })));
 
   it(
@@ -197,7 +197,7 @@ describe('Filter service', () => {
 
       const queryParams = { filter1: 'privet' };
       const storageFilters = { filter2: ['asd', 'dsa'] };
-      storage.writeLocal(testKey, JSON.stringify(storageFilters));
+      storage.write(testKey, JSON.stringify(storageFilters));
       activatedRoute.testParams = queryParams;
       const filters = filterService.init(testKey, whiteList);
       expect(filters).toEqual(Object.assign({}, queryParams, storageFilters));
@@ -217,11 +217,11 @@ describe('Filter service', () => {
       };
 
       const queryParams = { filter1: 'privet' };
-      storage.writeLocal(testKey, 'invalidJSON');
+      storage.write(testKey, 'invalidJSON');
       activatedRoute.testParams = queryParams;
       const filters = filterService.init(testKey, whiteList);
       expect(filters).toEqual(queryParams);
-      expect(storage.readLocal(testKey)).toBeNull();
+      expect(storage.read(testKey)).toBeNull();
     })
   );
 

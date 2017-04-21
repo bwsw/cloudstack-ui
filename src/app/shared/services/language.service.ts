@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 import { TranslateService } from 'ng2-translate';
 import { Observable } from 'rxjs';
+import { UserService } from './user.service';
 
 
 const DEFAULT_LANGUAGE = 'en';
@@ -10,18 +11,19 @@ const DEFAULT_LANGUAGE = 'en';
 export class LanguageService {
   constructor(
     private storage: StorageService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private userService: UserService
   ) {}
 
   public getLanguage(): Observable<string> {
-    return this.storage.readRemote('lang').map(lang => {
+    return this.userService.readTag('lang').map(lang => {
       return lang || this.defaultLanguage;
     });
   }
 
   public setLanguage(lang: string): void {
-    this.storage.writeLocal('lang', lang);
-    this.storage.writeRemote('lang', lang).subscribe(() => this.applyLanguage());
+    this.storage.write('lang', lang);
+    this.userService.writeTag('lang', lang).subscribe(() => this.applyLanguage());
   }
 
   public applyLanguage(): void {

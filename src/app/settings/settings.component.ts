@@ -5,7 +5,6 @@ import {
   Color,
   ConfigService,
   LanguageService,
-  StorageService,
   StyleService
 } from '../shared';
 import { AuthService, UserService, NotificationService } from '../shared/services';
@@ -31,7 +30,6 @@ export class SettingsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private languageService: LanguageService,
     private notificationService: NotificationService,
-    private storageService: StorageService,
     private styleService: StyleService,
     private userService: UserService
 ) { }
@@ -96,8 +94,8 @@ export class SettingsComponent implements OnInit {
     this.configService.get('themeColors')
       .subscribe(themeColors => {
         Observable.forkJoin([
-          this.storageService.readRemote('primaryColor'),
-          this.storageService.readRemote('accentColor')
+          this.userService.readTag('primaryColor'),
+          this.userService.readTag('accentColor')
         ])
           .subscribe(([primaryColorName, accentColorName]) => {
             this.primaryColors = themeColors;

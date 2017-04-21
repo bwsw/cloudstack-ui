@@ -36,16 +36,16 @@ export class FilterService {
       }
     }, {});
     this.router.navigate([], { queryParams })
-      .then(() => this.storage.writeLocal(key, JSON.stringify(queryParams)));
+      .then(() => this.storage.write(key, JSON.stringify(queryParams)));
   }
 
   private getParams(key: string, config: FilterConfig): any {
     const queryParams = this.route.snapshot.queryParams;
     let storage = {};
     try {
-      storage = JSON.parse(this.storage.readLocal(key)) || {};
+      storage = JSON.parse(this.storage.read(key)) || {};
     } catch (e) {
-      this.storage.removeLocal(key);
+      this.storage.remove(key);
     }
 
     return Object.keys(config).reduce((memo, filter) => {

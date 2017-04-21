@@ -23,13 +23,13 @@ export class VmStatisticsComponent implements OnInit {
     private resourceUsageService: ResourceUsageService,
     private translateService: TranslateService,
     private utilsService: UtilsService,
-    @Inject('IStorageService') protected storageService: IStorageService,
+    @Inject('IStorageService') protected storageService: IStorageService
   ) {
     this.resourceUsage = new ResourceStats();
   }
 
   public ngOnInit(): void {
-    const shouldShowStatistics = this.storageService.readLocal(showStatistics);
+    const shouldShowStatistics = this.storageService.read(showStatistics);
     // no such key in the local storage, just show the stats
     if (!shouldShowStatistics) {
       this.updateStats();
@@ -134,7 +134,7 @@ export class VmStatisticsComponent implements OnInit {
       this.updateStats();
     }
 
-    this.storageService.writeLocal(showStatistics, this.isOpen.toString());
+    this.storageService.write(showStatistics, this.isOpen.toString());
   }
 
   public updateStats(): void {
