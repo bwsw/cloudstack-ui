@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 
 import {
@@ -15,6 +15,7 @@ import {
   SecurityGroup
 } from '../../security-group/sg.model';
 import { TagService } from './tag.service';
+import { DeletionMark } from '../models/tag.model';
 
 
 export const GROUP_POSTFIX = '-cs-sg';
@@ -68,26 +69,6 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
     return this.remove({ id });
   }
 
-  public removeEmptyGroups(): void {
-    this.invalidateCache();
-    this.getList()
-      .subscribe((groups: Array<SecurityGroup>) => {
-        const uuidV4RegexRaw = '[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}';
-        const regex = new RegExp(`^${uuidV4RegexRaw}${GROUP_POSTFIX}$`, 'i');
-        groups.forEach(group => {
-          if (!regex.test(group.name)) {
-            return;
-          }
-
-          if (group.virtualMachineIds.length) {
-            return;
-          }
-
-          this.remove({ id: group.id }).toPromise();
-        });
-      });
-  }
-
   public createWithRules(
     params: {},
     ingressRules: Array<NetworkRule>,
@@ -133,6 +114,15 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
         const rule = securityGroup[`${type.toLowerCase()}Rules`][0];
         return Observable.of(rule);
       });
+  }
+
+  public markForDeletion(id: string): Observable<any> {
+    return this.tagService.create({
+      resourceIds: id,
+      resourceType: this.entity,
+      'tags[0].key': DeletionMark.TAG,
+      'tags[0].value': DeletionMark.VALUE
+    });
   }
 
   public removeRule(type: NetworkRuleType, data): Observable<null> {

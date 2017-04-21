@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BaseBackendCachedService } from '.';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { ResourceLimit } from '../models/resource-limit.model';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()

@@ -28,7 +28,8 @@ export class SpareDriveAttachmentComponent implements OnInit {
       });
   }
 
-  public attach(): void {
+  public attach(event): void {
+    event.preventDefault();
     this.dialog.hide(this.virtualMachineId);
   }
 

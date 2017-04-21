@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { AffinityGroup } from '../models';
 import { BackendResource } from '../decorators';
 import { BaseBackendCachedService } from './base-backend-cached.service';
 import { AsyncJobService } from './async-job.service';
+import { AffinityGroupType } from '../models/affinity-group.model';
 
 
 export interface AffinityGroupCreationData {
@@ -12,7 +13,6 @@ export interface AffinityGroupCreationData {
   type: string;
   description?: string;
 }
-
 
 @Injectable()
 @BackendResource({
@@ -24,7 +24,7 @@ export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup
     super();
   }
 
-  public getTypes(params?: {}): Observable<Array<{ type: string }>> {
+  public getTypes(params?: {}): Observable<Array<AffinityGroupType>> {
     return this.sendCommand('list;Types', params)
       .map(result => result[`affinityGroupType`] || []);
   }
@@ -32,15 +32,5 @@ export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup
   public create(params: AffinityGroupCreationData): Observable<AffinityGroup> {
     return super.create(params)
       .switchMap(job => this.asyncJob.queryJob(job.jobid, this.entity, this.entityModel));
-  }
-
-  public removeEmptyGroups(): void {
-    this.invalidateCache();
-    this.getList()
-      .subscribe(affinityGroupList => {
-        affinityGroupList
-          .filter(ag => !ag.virtualMachineIds.length)
-          .forEach(ag => this.remove({ id: ag.id }).subscribe());
-      });
   }
 }

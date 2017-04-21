@@ -4,7 +4,7 @@ import {
   OnChanges
 } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 
 import { TagService } from '../../shared';
 import { SecurityGroup } from '../../security-group/sg.model';
@@ -74,8 +74,17 @@ export class VmDetailComponent implements OnChanges {
       ServiceOfferingFields.id,
       ServiceOfferingFields.created,
       ServiceOfferingFields.diskBytesReadRate,
-      ServiceOfferingFields.diskBytesWriteRate
+      ServiceOfferingFields.diskBytesWriteRate,
+      ServiceOfferingFields.storageType,
+      ServiceOfferingFields.provisioningType
     ].indexOf(key) === -1;
+  }
+
+  public isTranslatedField(key: string): boolean {
+    return [
+      ServiceOfferingFields.storageType,
+      ServiceOfferingFields.provisioningType
+    ].indexOf(key) > -1;
   }
 
   public isDateField(key: string): boolean {
@@ -114,15 +123,15 @@ export class VmDetailComponent implements OnChanges {
   }
 
   public confirmAddSecondaryIp(vm: VirtualMachine): void {
-    this.translateService.get('ARE_YOU_SURE_ADD_SECONDARY_IP')
-      .switchMap(str => this.dialogService.confirm(str))
+    this.translateService.get(['ARE_YOU_SURE_ADD_SECONDARY_IP', 'NO', 'YES'])
+      .switchMap(str => this.dialogService.confirm(str['ARE_YOU_SURE_ADD_SECONDARY_IP'], str['NO'], str['YES']))
       .onErrorResumeNext()
       .subscribe(() => this.addSecondaryIp(vm));
   }
 
   public confirmRemoveSecondaryIp(secondaryIpId: string, vm: VirtualMachine): void {
-    this.translateService.get('ARE_YOU_SURE_REMOVE_SECONDARY_IP')
-      .switchMap(str => this.dialogService.confirm(str))
+    this.translateService.get(['ARE_YOU_SURE_REMOVE_SECONDARY_IP', 'NO', 'YES'])
+      .switchMap(str => this.dialogService.confirm(str['ARE_YOU_SURE_REMOVE_SECONDARY_IP'], str['NO'], str['YES']))
       .onErrorResumeNext()
       .subscribe(() => this.removeSecondaryIp(secondaryIpId, vm));
   }

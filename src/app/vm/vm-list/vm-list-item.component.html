@@ -14,10 +14,12 @@
       [class.stopped]="vm.state === 'Stopped'"
       [class.error]="vm.state === 'Error'"
       [class.in-progress]="vm.state !== 'Running' && vm.state !== 'Stopped'"
-      [mdl-tooltip]="vm.state.toUpperCase() | translate"
+      [mdl-tooltip]="tt"
       mdl-tooltip-position="right"
-    >
-    </div>
+    ></div>
+    <mdl-tooltip #tt="mdlTooltip" >
+      {{ vm.state.toUpperCase() | translate }}
+    </mdl-tooltip>
     <h2
       mdl-card-title-text
       [mdl-tooltip]="vm.name"
@@ -37,9 +39,16 @@
       </tr>
       </thead>
       <tr>
-        <td>{{ vm.cpuNumber + 'x' + vm.cpuSpeed }} {{ 'MHZ' | translate }}</td>
-        <td>{{ vm.memory | division:2:10:2 }} {{ 'GB' | translate }}</td>
-        <td>{{ vm.getDisksSize().toFixed(2) }} {{ 'GB' | translate }}</td>
+        <td>{{ 'CPU_MHZ' | translate:({ count: vm.cpuNumber, speed: vm.cpuSpeed }) }}</td>
+        <td>
+          <ng-container *ngIf="vm.memory < gigabyte">
+            {{ 'MB_VALUE' | translate:({ value: getMemoryInMb() }) }}
+          </ng-container>
+          <ng-container *ngIf="vm.memory >= gigabyte">
+            {{ 'GB_VALUE' | translate:({ value: getMemoryInGb() }) }}
+          </ng-container>
+        </td>
+        <td>{{ 'GB_VALUE' | translate:({ value: vm.getDisksSize().toFixed(2) }) }}</td>
       </tr>
     </table>
   </mdl-card-supporting-text>

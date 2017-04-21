@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { SecurityGroup } from '../sg.model';
@@ -14,6 +14,7 @@ import { ListService } from '../../shared/components/list/list.service';
 @Component({
   selector: 'cs-security-group-template-list',
   templateUrl: 'sg-template-list.component.html',
+  styleUrls: ['sg-template-list.component.scss'],
   providers: [ListService]
 })
 export class SgTemplateListComponent implements OnInit {

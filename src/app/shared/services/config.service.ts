@@ -1,11 +1,14 @@
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { SecurityGroup } from '../../security-group/sg.model';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+
 
 interface IConfig {
   securityGroupTemplates: Array<SecurityGroup>;
 }
+
+const configUrl = '/config/config.json';
 
 @Injectable()
 export class ConfigService {
@@ -41,8 +44,7 @@ export class ConfigService {
 
   private load(reload = false): Observable<any> {
     if (reload || !this.config) {
-      const url = `/config-${isDevMode() ? 'dev' : 'prod'}.json`;
-      return this.http.get(url)
+      return this.http.get(configUrl)
         .map(response => {
           this.config = response.json();
         })

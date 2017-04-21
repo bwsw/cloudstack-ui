@@ -39,7 +39,7 @@
   "SNAPSHOT_IN_PROGRESS": "Создается снимок",
   "SNAPSHOT_DONE": "Снимок создан",
   "SNAPSHOT_FAILED": "Не удалось создать снимок",
-  "VOLUME_BUSY": "Диск занят",
+  "VOLUME_BUSY": "На виртуальной машине, к которой прикреплен этот диск, уже выполняется другое действие над снимками. Повторите попытку позже.",
 
   "CONFIRM_VM_START": "Вы уверены, что хотите запустить виртуальную машину?",
   "CONFIRM_VM_STOP": "Вы уверены, что хотите остановить виртуальную машину?",
@@ -112,8 +112,11 @@
   "SECONDARY_(STORAGE)": "Дополнительное",
   "GB": "GB",
   "MB": "MB",
+  "GB_VALUE": "{{value}} GB",
+  "MB_VALUE": "{{value}} MB",
   "GHZ": "ГГц",
   "MHZ": "МГц",
+  "CPU_MHZ": "{{count}}x{{speed}} МГц",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "Загружено CPU",
     "NETWORK_READ": "Прочитанно через сеть",
@@ -130,13 +133,13 @@
     "memory": "Память (МБ)",
     "displayText": "Описание",
     "storageType": "Тип хранилища",
-    "provisioningType": "Provisioning type",
+    "provisioningType": "Выделение емкости",
     "offerHa": "Повышенная отказоустойчивость",
     "networkRate": "Скорость сети",
     "minIops": "Мин. IOPS",
-    "maxIops": "Максю IOPS",
-    "limitCpu": "CPU cap",
-    "isVolatile": "Volatile",
+    "maxIops": "Макс. IOPS",
+    "limitCpu": "Ограничение использования CPU",
+    "isVolatile": "Очищать диски при перезагрузке",
     "hypervisorSnapshotReserve": "Hypervisor Snapshot Reserve",
     "diskBytesReadRate": "Скорость чтения диска (МБайт/сек)",
     "diskBytesWriteRate": "Скорость записи диска (МБайт/сек)",
@@ -148,6 +151,14 @@
     "isSystem": "Системная",
     "defaultUse": "По умолчанию",
     "isCustomized": "Настраиваемая"
+  },
+
+  "SERVICE_OFFERING_VALUES": {
+    "thin": "Динамическое",
+    "thick": "Статическое",
+    "sparse": "Разреженное",
+    "shared": "Общее",
+    "local": "Локальное"
   },
 
   "VM_CREATION_FORM": {
@@ -192,6 +203,9 @@
   "NAME": "Имя",
   "DESCRIPTION": "Описание",
   "LABELS": "Метки",
+  "DATE": "Дата",
+  "ACTIONS": "Действия",
+  "VIEW_ALL": "Все",
   "CUSTOM_TEMPLATES_NOT_INCLUDED": "Нет шаблонов",
   "BASED_ON": "основан на",
   "SEPARATE_MULTILINE_LABELS": "* разделяйте метки используя ;",
@@ -199,7 +213,7 @@
   "IP": "IP",
   "NIC": "NIC",
   "NETWORK_CONFIGURATION": "Конфигурация сети",
-  "NETWORK_INTERFACE_CONTROLLER_FIELDS": {
+  "NIC_FIELDS": {
     "broadcastUri":  "Broadcast URI",
     "gateway": "Шлюз",
     "ip6Address": "IPv6 адрес",
@@ -228,7 +242,7 @@
   "CHANGE_SERVICE_OFFERING": "Изменить предложение",
   "SO_CHANGE_DISABLED": "Необходимо остановить машину",
 
-  "EDIT_RULES": "Редактировать правила",
+  "FIREWALL_RULES_FOR_VM": "Правила брандмауэра для ВМ",
   "TEMPLATE_RULES": "Правила шаблона",
   "CLOSE": "Закрыть",
   "TYPE": "Тип",
@@ -324,6 +338,7 @@
   "DELETE_TEMPLATE_CONFIRM": "Вы уверены, что хотите удалить этот шаблон?",
 
   "READY": "Готов",
+  "NOT_READY": "Не готов",
   "NO_RESULTS": "Поиск не дал результатов",
   "ATTACH": "Прикрепить",
   "DETACH": "Открепить",
@@ -349,6 +364,8 @@
   "EVENTS": "События",
   "NO_EVENTS": "Нет событий на выбранной дате",
   "LEVEL": "Уровень",
+  "LEVELS": "Выберите уровни",
+  "TIME": "Время",
 
   "SPARE_DRIVES_NAVBAR": "Свободные диски",
   "SPARE_DRIVE_STATE": {
@@ -461,7 +478,10 @@
   "TAKE_SNAPSHOT_SNAPSHOT_CREATION_FORM": "Создать снимок",
   "SNAPSHOT_LIMIT_EXCEEDED": "Лимит снимков превышен. Для создания новых снимков Вам необходимо удалить какие-либо из ранее созданных снимков.",
   "VOLUME_LIMIT_EXCEEDED": "Лимит дисков превышен. Для создания новых дисков вам нужно удалить какие-либо из ранее созданных дисков.",
+  "UNABLE_FIND_PRIMARY_STORAGE": "Не удалось найти подходящее основное хранилище при создании диска {{val1}}",
   "INSUFFICIENT_RESOURCES_VM": "Недостаточно ресурсов",
 
-  "NO_GROUP": "Без группы"
+  "NO_GROUP": "Без группы",
+  "NO_SNAPSHOTS": "Нет снимков",
+  "LAST_SNAPSHOT": "Последний снимок"
 }

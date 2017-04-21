@@ -1,3 +1,5 @@
+import moment = require('moment');
+
 import { FieldMapper } from '../decorators/field-mapper.decorator';
 import { Offering } from './offering.model';
 
@@ -19,7 +21,9 @@ export const ServiceOfferingFields = {
   diskBytesReadRate: 'diskBytesReadRate',
   diskBytesWriteRate: 'diskBytesWriteRate',
   diskIopsReadRate: 'diskIopsReadRate',
-  diskIopsWriteRate: 'diskIopsWriteRate'
+  diskIopsWriteRate: 'diskIopsWriteRate',
+  provisioningType: 'provisioningType',
+  storageType: 'storageType'
 };
 
 @FieldMapper({
@@ -36,6 +40,7 @@ export const ServiceOfferingFields = {
   defaultuse: 'defaultUse'
 })
 export class ServiceOffering extends Offering {
+  public created: Date;
   public cpuNumber: number;
   public cpuSpeed: number;
   public memory: number;
@@ -47,4 +52,10 @@ export class ServiceOffering extends Offering {
   public defaultUse: boolean;
   public deploymentPlanner: string;
   public domain: string;
+
+  constructor(json) {
+    super(json);
+
+    this.created = moment(json.created).toDate();
+  }
 }

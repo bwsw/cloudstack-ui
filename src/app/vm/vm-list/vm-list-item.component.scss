@@ -10,10 +10,10 @@
 
 .custom-card .mdl-card__title {
   padding-bottom: 5px;
-}
 
-.custom-card .mdl-card__title-text {
-  width: 90%;
+  .mdl-card__title-text {
+    max-width: 85%;
+  }
 }
 
 .os-type {
@@ -30,27 +30,6 @@ mdl-card.error {
 
 .vm-state {
   float: right;
-}
-
-.state-icon {
-  display: inline-block;
-  border-radius: 50%;
-  width: 10px;
-  height: 10px;
-  margin-right: 8px;
-}
-
-.running {
-  background-color: #388E3C;
-}
-
-.in-progress {
-  background-color: #FFA726;
-}
-
-.stopped,
-.error {
-  background-color: #B71C1C;
 }
 
 .vm-popover {

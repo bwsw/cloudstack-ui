@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output, ViewChild, OnInit } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
 
 import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
@@ -57,8 +57,8 @@ export class SpareDriveItemComponent implements OnInit {
   public attach(): void {
     this.dialogService.showCustomDialog({
       component: SpareDriveAttachmentComponent,
-      classes: 'spare-drive-attachment-dialog',
-      providers: [{ provide: 'zoneId', useValue: this.volume.zoneId }]
+      providers: [{ provide: 'zoneId', useValue: this.volume.zoneId }],
+      classes: 'spare-drive-attachment-dialog'
     })
       .switchMap(res => res.onHide())
       .subscribe((data: string) => {

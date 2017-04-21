@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MdlModule } from 'angular2-mdl';
 import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
-import { TranslateModule } from 'ng2-translate';
+import { TranslateModule } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard/dist';
 
 import { SshKeyListComponent } from './ssh-key-list.component';

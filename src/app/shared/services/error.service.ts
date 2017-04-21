@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Rx';
+import { Subject } from 'rxjs/Subject';
 
 interface ErrorTranslation {
   regex: RegExp;
@@ -24,6 +24,14 @@ export class ErrorService extends Subject<any> {
     {
       regex: /A key pair with name '(.*)' already exists/,
       translation: 'KEYPAIR_ALREADY_EXISTS'
+    },
+    {
+      regex: /Unable to find suitable primary storage when creating volume (.*)/,
+      translation: 'UNABLE_FIND_PRIMARY_STORAGE'
+    },
+    {
+      regex: /There is other active snapshot tasks on the instance (.*)/,
+      translation: 'VOLUME_BUSY'
     }
   ];
 

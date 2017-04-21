@@ -39,7 +39,7 @@
   "SNAPSHOT_IN_PROGRESS": "Taking a snapshot",
   "SNAPSHOT_DONE": "Snapshot taken",
   "SNAPSHOT_FAILED": "Snapshot failed",
-  "VOLUME_BUSY": "Volume is busy",
+  "VOLUME_BUSY": "There is other active snapshot tasks on the instance to which the volume is attached, please try again later",
 
   "CONFIRM_VM_START": "Are you sure you want to start this virtual machine?",
   "CONFIRM_VM_STOP": "Are you sure you want to stop this virtual machine?",
@@ -112,8 +112,11 @@
   "SECONDARY_(STORAGE)": "Secondary",
   "GB": "GB",
   "MB": "MB",
+  "GB_VALUE": "{{value}} GB",
+  "MB_VALUE": "{{value}} MB",
   "GHZ": "GHz",
   "MHZ": "MHz",
+  "CPU_MHZ": "{{count}}x{{speed}} MHz",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "CPU utilized",
     "NETWORK_READ": "Network read",
@@ -148,6 +151,14 @@
     "isSystem": "System",
     "defaultUse": "Default",
     "isCustomized": "Customized"
+  },
+
+  "SERVICE_OFFERING_VALUES": {
+    "thin": "Thin",
+    "thick": "Thick",
+    "sparse": "Sparse",
+    "shared": "Shared",
+    "local": "Local"
   },
 
   "VM_CREATION_FORM": {
@@ -192,6 +203,9 @@
   "NAME": "Name",
   "DESCRIPTION": "Description",
   "LABELS": "Labels",
+  "DATE": "Date",
+  "ACTIONS": "Actions",
+  "VIEW_ALL": "View all",
   "CUSTOM_TEMPLATES_NOT_INCLUDED": "Templates not included",
   "BASED_ON": "based on",
   "SEPARATE_MULTILINE_LABELS": "* separate multiple labels with a semicolon",
@@ -199,7 +213,7 @@
   "IP": "IP",
   "NIC": "NIC",
   "NETWORK_CONFIGURATION": "Network configuration",
-  "NETWORK_INTERFACE_CONTROLLER_FIELDS": {
+  "NIC_FIELDS": {
     "broadcastUri":  "Broadcast URI",
     "gateway": "Gateway",
     "ip6Address": "IPv6 address",
@@ -228,7 +242,7 @@
   "CHANGE_SERVICE_OFFERING": "Change service offering",
   "SO_CHANGE_DISABLED": "The virtual machine needs to be stopped",
 
-  "EDIT_RULES": "Edit rules",
+  "FIREWALL_RULES_FOR_VM": "Firewall rules for VM",
   "TEMPLATE_RULES": "Template rules",
   "CLOSE": "Close",
   "TYPE": "Type",
@@ -324,6 +338,7 @@
   "DELETE_TEMPLATE_CONFIRM": "Are you sure you want to delete this template?",
 
   "READY": "Ready",
+  "NOT_READY": "Not ready",
   "NO_RESULTS": "No results",
   "ATTACH": "Attach",
   "DETACH": "Detach",
@@ -349,6 +364,8 @@
   "EVENTS": "Events",
   "NO_EVENTS": "No events for the selected date",
   "LEVEL": "Level",
+  "LEVELS": "Select levels",
+  "TIME": "Time",
 
   "SPARE_DRIVES_NAVBAR": "Spare drives",
   "SPARE_DRIVE_STATE": {
@@ -461,7 +478,10 @@
   "TAKE_SNAPSHOT_SNAPSHOT_CREATION_FORM": "Take a snapshot",
   "SNAPSHOT_LIMIT_EXCEEDED": "Snapshot limit has been exceeded. You need to delete some of your previous snapshots first.",
   "VOLUME_LIMIT_EXCEEDED": "Volume limit has been exceeded. You need to delete some of your volumes to create a new one.",
+  "UNABLE_FIND_PRIMARY_STORAGE": "Unable to find suitable primary storage when creating volume {{val1}}",
   "INSUFFICIENT_RESOURCES_VM": "Insufficient resources",
 
-  "NO_GROUP": "No group"
+  "NO_GROUP": "No group",
+  "NO_SNAPSHOTS": "No snapshots",
+  "LAST_SNAPSHOT": "Last snapshot"
 }

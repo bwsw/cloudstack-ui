@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BaseModel } from '../../models/base.model';
-import { Subject } from 'rxjs';
+import { BaseModel } from '../../models';
+import { Subject } from 'rxjs/Subject';
 
 
 @Injectable()

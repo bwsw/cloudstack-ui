@@ -1,9 +1,10 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
-import { Observable, Subject } from 'rxjs/Rx';
-import { TranslateService } from 'ng2-translate';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { TranslateService } from '@ngx-translate/core';
 
-import { VirtualMachine, MAX_ROOT_DISK_SIZE_ADMIN } from '../shared/vm.model';
+import { VirtualMachine } from '../shared/vm.model';
 
 import {
   AffinityGroup,
@@ -36,13 +37,15 @@ import {
   CustomServiceOffering
 } from '../../service-offering/custom-service-offering/custom-service-offering.component';
 import { Template } from '../../template/shared';
+import { AffinityGroupType } from '../../shared/models/affinity-group.model';
+import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 
 
 class VmCreationData {
   public vm: VirtualMachine;
   public affinityGroups: Array<AffinityGroup>;
   public affinityGroupNames: Array<string>;
-  public affinityGroupTypes: Array<{ type: string }>;
+  public affinityGroupTypes: Array<AffinityGroupType>;
   public instanceGroups: Array<string>;
   public serviceOfferings: Array<ServiceOffering>;
   public diskOfferings: Array<DiskOffering>;
@@ -105,6 +108,7 @@ export class VmCreationComponent implements OnInit {
     private diskStorageService: DiskStorageService,
     private instanceGroupService: InstanceGroupService,
     private jobsNotificationService: JobsNotificationService,
+    private resourceUsageService: ResourceUsageService,
     private securityGroupService: SecurityGroupService,
     private serviceOfferingFilterService: ServiceOfferingFilterService,
     private sshService: SSHKeyPairService,
@@ -131,10 +135,24 @@ export class VmCreationComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.resetVmCreateData();
+    this.fetching = true;
+    this.enoughResources = true;
+    this.resourceUsageService.getResourceUsage()
+      .subscribe(resourceUsage => {
+        if (resourceUsage.available.cpus &&
+          resourceUsage.available.instances &&
+          resourceUsage.available.volumes
+        ) {
+          this.resetVmCreateData();
+        } else {
+          this.fetching = false;
+          this.enoughResources = false;
+        }
+      });
+
   }
 
-  public set diskOffering(offering: DiskOffering) {
+  public setDiskOffering(offering: DiskOffering): void {
     this.showRootDiskResize = offering.isCustomized;
     this.selectedDiskOffering = offering;
   }
@@ -149,7 +167,6 @@ export class VmCreationComponent implements OnInit {
   }
 
   public resetVmCreateData(): void {
-    this.fetching = true;
     Observable.forkJoin([
       this.getVmCreateData(),
       this.getDefaultVmName()
@@ -166,9 +183,6 @@ export class VmCreationComponent implements OnInit {
   }
 
   public deployVm(): void {
-    let deployObservable = new Subject();
-
-    let notificationId: string;
     let params: any = this.vmCreateParams;
 
     let shouldCreateAffinityGroup = false;
@@ -193,13 +207,13 @@ export class VmCreationComponent implements OnInit {
       affinityGroupsObservable = this.affinityGroupService.create({
         name: this.vmCreationData.affinityGroupName,
         type: this.vmCreationData.affinityGroupTypes[0].type
-    })
-      .map(affinityGroup => {
-        this.vmCreationData.affinityGroups.push(affinityGroup);
-        this.vmCreationData.affinityGroupNames.push(affinityGroup.name);
-        params['affinityGroupNames'] = affinityGroup.name;
-        this.agCreationInProgress = false;
-      });
+      })
+        .map(affinityGroup => {
+          this.vmCreationData.affinityGroups.push(affinityGroup);
+          this.vmCreationData.affinityGroupNames.push(affinityGroup.name);
+          params['affinityGroupNames'] = affinityGroup.name;
+          this.agCreationInProgress = false;
+        });
     } else {
       affinityGroupsObservable = Observable.of(null);
     }
@@ -207,66 +221,24 @@ export class VmCreationComponent implements OnInit {
     delete params['ingress'];
     delete params['egress'];
 
-    let vmDeployObservable = this.vmService.deploy(params)
-      .switchMap(deployResponse => {
-        notificationId = this.jobsNotificationService.add('VM_DEPLOY_IN_PROGRESS');
-
-        this.vmService.get(deployResponse.id)
-          .subscribe(vm => {
-            vm.state = 'Deploying';
-            deployObservable.next(vm);
-            deployObservable.complete();
-          });
-
-        this.sgCreationInProgress = false;
-        this.dialog.hide(deployObservable);
-        return this.vmService.registerVmJob(deployResponse);
-      })
-      .switchMap(vm => {
-        if (this.vmCreationData.vm.instanceGroup) {
-          return this.instanceGroupService.add(vm, this.vmCreationData.vm.instanceGroup);
-        }
-        return Observable.of(vm);
-      })
-      .map(
-        vm => {
-          if (vm.instanceGroup) {
-            this.instanceGroupService.groupsUpdates.next();
-          }
-
-          this.notifyOnDeployDone(notificationId);
-          if (!vm.password) {
-            return;
-          }
-
-          this.showPassword(vm.displayName, vm.password);
-          this.vmService.updateVmInfo(vm);
-        },
-        err => {
-          this.sgCreationInProgress = false;
-          this.agCreationInProgress = false;
-          this.translateService.get(err.message, err.params)
-            .subscribe(str => this.dialogService.alert(str));
-
-          this.notifyOnDeployFailed(notificationId);
-        }
-      );
-
     if (this.selectedZone.networkTypeIsBasic) {
       this.agCreationInProgress = shouldCreateAffinityGroup;
       affinityGroupsObservable
-        .switchMapTo(vmDeployObservable)
-        .subscribe();
+        .subscribe(() => {
+          this.deploy(params);
+        });
     } else {
-      this.sgCreationInProgress = true;
-      securityGroupObservable
+      this.agCreationInProgress = shouldCreateAffinityGroup;
+      affinityGroupsObservable
         .switchMap(() => {
-          this.sgCreationInProgress = false;
-          this.agCreationInProgress = shouldCreateAffinityGroup;
-          return affinityGroupsObservable;
+          this.agCreationInProgress = false;
+          this.sgCreationInProgress = true;
+          return securityGroupObservable;
         })
-        .switchMapTo(vmDeployObservable)
-        .subscribe();
+        .subscribe(() => {
+          this.sgCreationInProgress = false;
+          this.deploy(params);
+        });
     }
   }
 
@@ -294,12 +266,6 @@ export class VmCreationComponent implements OnInit {
     });
   }
 
-  public onTemplateChange(t: BaseTemplateModel): void {
-    this.vmCreationData.vm.template = t;
-
-    this.setMinDiskSize(t);
-  }
-
   public setServiceOffering(offering: ServiceOffering): void {
     this.vmCreationData.vm.serviceOfferingId = offering.id;
     if (offering.isCustomized) {
@@ -318,66 +284,7 @@ export class VmCreationComponent implements OnInit {
   }
 
   public set zoneId(id: string) {
-    this.vmCreationData.vm.zoneId = id;
-    this.vmCreationData.customServiceOffering = undefined;
-    this.changeDetectorRef.detectChanges();
-
-    if (this.vmCreationData && this.vmCreationData.zones) {
-      this.showSecurityGroups = !this.vmCreationData.zones.find(zone => zone.id === id).networkTypeIsBasic;
-
-      this.vmCreationData.serviceOfferings = [];
-      this.vmCreationData.vm.serviceOfferingId = null;
-      this.vmCreationData.diskOfferings = [];
-      this.selectedDiskOffering = null;
-      this.changeDetectorRef.detectChanges();
-
-      this.diskStorageService.getAvailablePrimaryStorage()
-        .switchMap(rootDiskSizeLimit => {
-          if (rootDiskSizeLimit === -1) {
-            this.vmCreationData.rootDiskSizeLimit = MAX_ROOT_DISK_SIZE_ADMIN;
-          } else {
-            this.vmCreationData.rootDiskSizeLimit = rootDiskSizeLimit;
-          }
-
-          return this.templateService.getDefault(id);
-        })
-        .switchMap(defaultTemplate => {
-          if (defaultTemplate && this.utils.convertToGB(defaultTemplate.size) < this.vmCreationData.rootDiskSizeLimit) {
-            this.onTemplateChange(defaultTemplate);
-          } else {
-            throw new Error();
-          }
-          return Observable.forkJoin([
-            this.serviceOfferingFilterService.getAvailable({ zone: this.selectedZone }),
-            this.diskOfferingService.getList({
-              zone: this.selectedZone,
-              maxSize: this.vmCreationData.rootDiskSizeLimit
-            })
-          ]);
-        })
-        .subscribe(
-          ([serviceOfferings, diskOfferings]) => {
-            this.fetching = false;
-
-            if (!serviceOfferings.length || !diskOfferings.length) {
-              this.enoughResources = false;
-              return;
-            }
-
-            this.vmCreationData.serviceOfferings = serviceOfferings;
-            this.vmCreationData.diskOfferings = diskOfferings;
-            this.diskOffering = diskOfferings[0];
-            this.setServiceOffering(serviceOfferings[0]);
-
-            this.enoughResources = true;
-            this.changeDetectorRef.detectChanges();
-          },
-          () => {
-            this.fetching = false;
-            this.enoughResources = false;
-          }
-        );
-    }
+    this.updateZone(id).subscribe();
   }
 
   public get templateSelected(): boolean {
@@ -396,6 +303,15 @@ export class VmCreationComponent implements OnInit {
 
   public affinityGroupChange(name): void {
     this.vmCreationData.affinityGroupName = name;
+  }
+
+  public setTemplate(t: BaseTemplateModel): void {
+    if (t && this.utils.convertToGB(t.size) < this.vmCreationData.rootDiskSizeLimit) {
+      this.vmCreationData.vm.template = t;
+      this.setMinDiskSize(t);
+    } else {
+      this.enoughResources = false;
+    }
   }
 
   private getDefaultVmName(): Observable<string> {
@@ -423,7 +339,10 @@ export class VmCreationComponent implements OnInit {
       .switchMap(zoneList => {
         vmCreationData.zones = zoneList;
         vmCreationData.vm.zoneId = zoneList[0].id;
-
+        this.vmCreationData.vm.zoneId = zoneList[0].id;
+        return this.updateZone(zoneList[0].id);
+      })
+      .switchMap(() => {
         return Observable.forkJoin([
           this.affinityGroupService.getList(),
           this.affinityGroupService.getTypes(),
@@ -515,5 +434,112 @@ export class VmCreationComponent implements OnInit {
       params['egress'] = this.securityRules.egress;
     }
     return params;
+  }
+
+  private deploy(params): void {
+    let deployObservable = new Subject();
+    let notificationId: string;
+
+    this.vmService.deploy(params)
+      .switchMap(deployResponse => {
+        notificationId = this.jobsNotificationService.add('VM_DEPLOY_IN_PROGRESS');
+
+        this.vmService.get(deployResponse.id)
+          .subscribe(vm => {
+            vm.state = 'Deploying';
+            deployObservable.next(vm);
+            deployObservable.complete();
+          });
+
+        this.sgCreationInProgress = false;
+        this.dialog.hide(deployObservable);
+        return this.vmService.registerVmJob(deployResponse);
+      })
+      .switchMap(vm => {
+        if (this.vmCreationData.vm.instanceGroup) {
+          return this.instanceGroupService.add(vm, this.vmCreationData.vm.instanceGroup);
+        }
+        return Observable.of(vm);
+      })
+      .subscribe(
+        vm => {
+          if (vm.instanceGroup) {
+            this.instanceGroupService.groupsUpdates.next();
+          }
+
+          this.notifyOnDeployDone(notificationId);
+          if (!vm.password) {
+            return;
+          }
+
+          this.showPassword(vm.displayName, vm.password);
+          this.vmService.updateVmInfo(vm);
+        },
+        err => {
+          this.sgCreationInProgress = false;
+          this.agCreationInProgress = false;
+          this.translateService.get(err.message, err.params)
+            .subscribe(str => this.dialogService.alert(str));
+
+          this.notifyOnDeployFailed(notificationId);
+        }
+      );
+  }
+
+  private setServiceOfferings(serviceOfferings: Array<ServiceOffering>): void {
+    if (!serviceOfferings.length) {
+      this.enoughResources = false;
+    }
+    this.vmCreationData.serviceOfferings = serviceOfferings;
+    this.setServiceOffering(serviceOfferings[0]);
+  }
+
+  private setDiskOfferings(diskOfferings: Array<DiskOffering>): void {
+    let filteredDiskOfferings = diskOfferings.filter((diskOffering: DiskOffering) => {
+      return diskOffering.diskSize < this.vmCreationData.rootDiskSizeLimit;
+    });
+
+    if (!filteredDiskOfferings.length) {
+      this.enoughResources = false;
+    } else {
+      this.vmCreationData.diskOfferings = diskOfferings;
+      this.setDiskOffering(diskOfferings[0]);
+    }
+  }
+
+  private updateZone(id: string): Observable<void> {
+    this.vmCreationData.vm.zoneId = id;
+    this.vmCreationData.customServiceOffering = undefined;
+
+    if (!id || !this.vmCreationData || !this.vmCreationData.zones) {
+      return Observable.of(null);
+    }
+
+    this.showSecurityGroups = !this.vmCreationData.zones.find(zone => zone.id === id).networkTypeIsBasic;
+
+    this.vmCreationData.serviceOfferings = [];
+    this.vmCreationData.vm.serviceOfferingId = null;
+    this.vmCreationData.diskOfferings = [];
+    this.selectedDiskOffering = null;
+    this.changeDetectorRef.detectChanges();
+
+    return Observable.forkJoin([
+      this.diskStorageService.getAvailablePrimaryStorage(),
+      this.serviceOfferingFilterService.getAvailable({ zone: this.selectedZone }),
+      this.diskOfferingService.getList({ zone: this.selectedZone, maxSize: this.vmCreationData.rootDiskSizeLimit }),
+      this.templateService.getDefault(this.selectedZone.id, this.vmCreationData.rootDiskSizeLimit)
+    ])
+      .map(([
+        rootDiskSizeLimit,
+        serviceOfferings,
+        diskOfferings,
+        defaultTemplate]: [number, Array<ServiceOffering>, Array<DiskOffering>, BaseTemplateModel]
+      ) => {
+        this.vmCreationData.rootDiskSizeLimit = rootDiskSizeLimit;
+        this.setServiceOfferings(serviceOfferings);
+        this.setTemplate(defaultTemplate);
+        this.setDiskOfferings(diskOfferings);
+        this.fetching = false;
+      });
   }
 }

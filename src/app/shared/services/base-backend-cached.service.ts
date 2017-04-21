@@ -1,7 +1,8 @@
-import { BaseModel } from '../models/base.model';
+import { Observable } from 'rxjs/Observable';
+import isEqual = require('lodash/isEqual');
+
+import { BaseModel } from '../models';
 import { BaseBackendService } from './base-backend.service';
-import { Observable } from 'rxjs/Rx';
-import * as _ from 'lodash';
 
 
 interface ICache<M> {
@@ -19,7 +20,7 @@ export abstract class BaseBackendCachedService<M extends BaseModel> extends Base
 
   public getList(params?: {}): Observable<Array<M>> {
     for (let i = 0; i < this.cache.length; i++) {
-      if (_.isEqual(params, this.cache[i].params)) {
+      if (isEqual(params, this.cache[i].params)) {
         return Observable.of(this.cache[i].result);
       }
     }

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
-import { Observable, Subject } from 'rxjs/Rx';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { BackendResource } from '../../shared/decorators';
 
@@ -174,11 +175,12 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   public destroy(e: IVmActionEvent): void {
     this.destroyVolumeDeleteConfirmDialog(e.vm).subscribe(
       () => {
-        this.command(e).subscribe((job: AsyncJob<VirtualMachine>) => {
-          if (job && job.result && job.result.state === 'Destroyed') {
+        this.command(e).subscribe(vm => {
+          if (vm && vm.state === 'Destroyed') {
             e.vm.volumes
               .filter(volume => volume.type === VolumeTypes.DATADISK)
               .forEach(volume => this.volumeService.markForDeletion(volume.id).subscribe());
+            e.vm.securityGroup.forEach(sg => this.securityGroupService.markForDeletion(sg.id).subscribe());
           }
         });
       },

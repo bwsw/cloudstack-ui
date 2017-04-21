@@ -1,9 +1,11 @@
+import moment = require('moment');
+
 import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators/field-mapper.decorator';
 import { Snapshot } from './snapshot.model';
 import { DiskOffering } from './disk-offering.model';
 import { ZoneName } from '../decorators/zone-name.decorator';
-import { Tag } from './tag.model';
+import { Tag, DeletionMark } from './tag.model';
 
 
 type VolumeType = 'ROOT' | 'DATADISK';
@@ -25,7 +27,7 @@ export const VolumeTypes = {
 })
 export class Volume extends BaseModel {
   public id: string;
-  public created: string;
+  public created: Date;
   public domain: string;
   public diskOffering: DiskOffering;
   public diskOfferingId: string;
@@ -39,9 +41,19 @@ export class Volume extends BaseModel {
   public tags: Array<Tag>;
   public type: VolumeType;
   public zoneId: string;
+
   public zoneName: string;
+
+  constructor(json) {
+    super(json);
+    this.created = moment(json.created).toDate();
+  }
 
   public get isRoot(): boolean {
     return this.type === VolumeTypes.ROOT;
+  }
+
+  public get isDeleted(): boolean {
+    return !!this.tags.find(tag => tag.key === DeletionMark.TAG && tag.value === DeletionMark.VALUE);
   }
 }

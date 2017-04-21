@@ -56,6 +56,7 @@
       style="width:0"
       [ngModel]="doFilterByColor"
       (ngModelChange)="updateColor($event)"
+      (click)="$event.stopPropagation()"
     >
       {{ 'GROUP_BY_COLORS' | translate }}
     </mdl-checkbox>

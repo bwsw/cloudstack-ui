@@ -44,7 +44,7 @@ module.exports = function (config) {
     // test results reporter to use
     // possible values: 'dots', 'progress', 'mocha'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha"],
+    reporters: ['mocha'],
 
     // web server port
     port: 9876,
@@ -61,7 +61,19 @@ module.exports = function (config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: isTestWatch ? ['Chrome'] : ['ChromeHeadless'],
+
+    customLaunchers: {
+      ChromeHeadless: {
+        base: 'Chrome',
+        flags: [
+          '--no-sandbox',
+          '--headless',
+          '--disable-gpu',
+          ' --remote-debugging-port=9876'
+        ]
+      }
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
@@ -69,16 +81,30 @@ module.exports = function (config) {
   };
 
   if (!isTestWatch) {
-    _config.reporters.push("coverage");
+    _config.reporters.push('coverage');
+    _config.reporters.push('junit');
+
+    _config.junitReporter = {
+      outputDir: 'reports', // results will be saved as $outputDir/$browserName.xml
+      outputFile: 'junit.xml', // if included, results will be saved as $outputDir/$browserName/$outputFile
+      suite: '', // suite will become the package name attribute in xml testsuite element
+      useBrowserName: false // add browser name to report and classes names
+    };
 
     _config.coverageReporter = {
-      dir: 'coverage/',
-      reporters: [{
-        type: 'json',
-        dir: 'coverage',
-        subdir: 'json',
-        file: 'coverage-final.json'
-      }]
+      dir: 'reports/',
+      reporters: [
+        {
+          type: 'json',
+          subdir: 'coverage/json',
+          file: 'coverage-final.json'
+        },
+        {
+          type: 'cobertura',
+          subdir: 'coverage/cobertura',
+          file: 'cobertura.xml'
+        }
+      ]
     };
   }
 

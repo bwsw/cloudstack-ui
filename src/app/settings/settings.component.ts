@@ -74,12 +74,12 @@ export class SettingsComponent implements OnInit {
   }
 
   public updatePassword(): void {
-    this.passwordUpdateForm.reset();
     this.userService.updatePassword(this.authService.userId, this.password)
       .subscribe(
         () => {},
         error => this.notificationService.error(error.errortext)
       );
+    this.passwordUpdateForm.reset();
   }
 
   private get password(): string {

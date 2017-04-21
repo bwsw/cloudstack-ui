@@ -96,11 +96,7 @@
             </mdl-progress>
           </div>
           <div class="bar second-bar">{{ 'SECONDARY_(STORAGE)' | translate }}</div>
-          <div
-            mdl-tooltip="{{ 'CUSTOM_TEMPLATES_NOT_INCLUDED' | translate }}"
-            mdl-tooltip-position="top"
-            class="stat-values second-bar"
-          >
+          <div class="stat-values second-bar">
             {{ secondaryStorage | async }}
           </div>
           <div>

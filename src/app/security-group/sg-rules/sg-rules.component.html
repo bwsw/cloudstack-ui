@@ -1,5 +1,5 @@
 <h3 class="mdl-dialog__title">
-  {{ (securityGroup.isPredefinedTemplate ? 'TEMPLATE_RULES' : 'EDIT_RULES') | translate }}
+  {{ (securityGroup.isPredefinedTemplate ? 'TEMPLATE_RULES' : 'FIREWALL_RULES_FOR_VM') | translate }}
 </h3>
 <div class="mdl-dialog__content">
   <form #rulesForm="ngForm" novalidate>
@@ -42,6 +42,7 @@
             name="icmpType"
             type="number"
             minValue="-1"
+            integerValue
             error-msg="{{ 'ENTER_VALID_TYPE' | translate }}"
             [label]="(icmpType === -1 ? 'ICMP_ANY' : '') | translate"
             floating-label
@@ -57,6 +58,7 @@
             type="number"
             minValue="0"
             maxValue="65536"
+            integerValue
             error-msg="{{ 'ENTER_VALID_PORT' | translate }}"
             required
             [(ngModel)]="startPort"
@@ -70,6 +72,7 @@
             name="icmpCode"
             type="number"
             minValue="-1"
+            integerValue
             [label]="(icmpCode === -1 ? 'ICMP_ANY' : '') | translate"
             floating-label
             error-msg="{{ 'ENTER_VALID_CODE' | translate }}"
@@ -85,6 +88,7 @@
             type="number"
             minValue="0"
             maxValue="65536"
+            integerValue
             error-msg="{{ 'ENTER_VALID_PORT' | translate }}"
             required
             [(ngModel)]="endPort"

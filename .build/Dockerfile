@@ -1,8 +1,9 @@
-FROM nginx
+FROM nginx:stable-alpine
+VOLUME /config/
 
 COPY .build/nginx.conf /etc/nginx/conf.d/default.conf
-COPY .build/replace-placeholders.sh /etc/nginx/replace-placeholders.sh
+COPY .build/startup.sh /etc/nginx/startup.sh
 COPY dist /var/www/dist
-RUN chmod 777 /etc/nginx/replace-placeholders.sh
+RUN chmod 777 /etc/nginx/startup.sh
 
-CMD ["/bin/bash", "-e", "/etc/nginx/replace-placeholders.sh"]
+CMD ["/bin/sh", "-e", "/etc/nginx/startup.sh"]

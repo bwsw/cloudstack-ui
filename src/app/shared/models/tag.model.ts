@@ -6,6 +6,11 @@ export const ResourceTypes = {
   USER: 'User'
 };
 
+export const DeletionMark = {
+  TAG: 'status',
+  VALUE: 'removed'
+};
+
 @FieldMapper({
   domainid: 'domainId',
   resourceid: 'resourceId',

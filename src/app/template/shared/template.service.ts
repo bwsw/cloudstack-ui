@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 import { BackendResource } from '../../shared/decorators/backend-resource.decorator';
 import { AsyncJobService } from '../../shared/services/async-job.service';

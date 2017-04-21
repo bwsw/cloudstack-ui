@@ -1,10 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { BaseTemplateModel } from './base-template.model';
 import { AsyncJobService, BaseBackendCachedService } from '../../shared/services';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { UtilsService } from '../../shared/services/utils.service';
+
+
+export const TemplateFilters = {
+  community: 'community',
+  executable: 'executable',
+  featured: 'featured',
+  self: 'self',
+  selfExecutable: 'selfexecutable',
+  sharedExecutable: 'sharedexecutable'
+};
 
 
 export interface RequestParams {
@@ -30,11 +40,16 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     protected utilsService: UtilsService
   ) {
     super();
-    this._templateFilters = ['featured', 'selfexecutable', 'community', 'sharedexecutable'];
+    this._templateFilters = [
+      TemplateFilters.featured,
+      TemplateFilters.selfExecutable,
+      TemplateFilters.community,
+      TemplateFilters.sharedExecutable
+    ];
   }
 
   public get(id: string, params?: RequestParams): Observable<BaseTemplateModel> {
-    const filter = params && params.filter ? params.filter : 'featured';
+    const filter = params && params.filter ? params.filter : TemplateFilters.featured;
     return this.getList(({ id, filter }))
       .map(templates => templates[0])
       .catch(error => Observable.throw(error));
@@ -85,27 +100,12 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       .switchMap(job => this.asyncJobService.queryJob(job.jobid));
   }
 
-  public addOsTypeData(template: BaseTemplateModel): Observable<BaseTemplateModel> {
-    return this.osTypeService.getList()
-      .map(osTypes => {
-        template.osType = osTypes.find(osType => osType.id === template.osTypeId);
-        return template;
-      });
-  }
-
   public getGroupedTemplates(params?: {}, filters?: Array<string>): Observable<Object> {
     let _params = params || {};
     let localFilters = this._templateFilters;
     if (filters) {
       if (filters.includes('all')) {
-        filters = [
-          'featured',
-          'self',
-          'selfexecutable',
-          'sharedexecutable',
-          'executable',
-          'community'
-        ];
+        filters = Object.keys(TemplateFilters).map((key) => TemplateFilters[key]);
       }
       localFilters = filters;
     }

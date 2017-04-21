@@ -2,6 +2,10 @@ import { BaseModel } from './';
 import { FieldMapper } from '../decorators/field-mapper.decorator';
 
 
+export interface AffinityGroupType {
+  type: string;
+}
+
 @FieldMapper({
   virtualmachineIds: 'virtualMachineIds'
 })

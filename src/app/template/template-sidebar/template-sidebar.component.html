@@ -1,34 +1,9 @@
 <div *ngIf="template">
-  <mdl-card mdl-shadow="2">
-    <mdl-card-title>
-      <h2 mdl-card-title-text>{{ template.name }}</h2>
-    </mdl-card-title>
-    <mdl-card-supporting-text>
-      <div class="grid grid-right">
-        <div class="row">
-          <div>{{ 'DESCRIPTION' | translate }}</div>
-          <div>{{ template.displayText }}</div>
-        </div>
-        <div class="row">
-          <div>{{ 'OS' | translate }}</div>
-          <div>{{ template.osTypeName }}</div>
-        </div>
-        <div *ngIf="!template.isReady" class="row">
-          <div>{{ 'READY' | translate}}</div>
-          <div>{{ 'NO' | translate }}</div>
-        </div>
-      </div>
-    </mdl-card-supporting-text>
-    <mdl-card-actions mdl-card-border *ngIf="isSelf">
-      <button
-        mdl-button
-        mdl-button-type="icon"
-        (click)="remove()"
-      >
-        <mdl-icon>delete</mdl-icon>
-      </button>
-    </mdl-card-actions>
-  </mdl-card>
+  <cs-template
+    [template]="template"
+    [singleLine]="false"
+    (deleteTemplate)="remove()"
+  ></cs-template>
   <mdl-card mdl-shadow="2">
     <mdl-card-title>
       <h2 mdl-card-title-text>{{ "DETAILS" | translate }}</h2>
@@ -69,7 +44,7 @@
         </div>
         <div class="row">
           <div>{{ 'CREATED_MASC' | translate }}</div>
-          <div>{{ template.created | date:'MMM d' }}</div>
+          <div>{{ template.created | date:'y-MM-dd H:m:s' }}</div>
         </div>
         <div *ngIf="template.type" class="row">
           <div>{{ 'TYPE' | translate }}</div>

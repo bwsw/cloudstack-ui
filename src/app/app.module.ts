@@ -1,8 +1,10 @@
 import { NgModule, ApplicationRef, Injector } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule } from '@angular/http';
+import { HttpModule, Http } from '@angular/http';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from 'ng2-translate';
+import { RouterModule } from '@angular/router';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MdlModule, DISABLE_NATIVE_VALIDITY_CHECKING, MdlDialogService } from 'angular2-mdl';
 import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
@@ -11,7 +13,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login.component';
 import { ServiceLocator } from './shared/services';
-import { routing } from './app.routing';
+import { routes } from './app.routing';
 import { SecurityGroupModule } from './security-group/sg.module';
 import { ServiceOfferingModule } from './service-offering/service-offering.module';
 import { SharedModule } from './shared/shared.module';
@@ -19,11 +21,15 @@ import { TemplateModule } from './template';
 import { VmModule } from './vm';
 import { CustomDialogService } from './shared/services/custom-dialog.service';
 import { EventsModule } from './events/events.module';
-import { SpareDriveModule } from './spare-drive/spare-drive.module';
+import { SpareDriveModule } from './spare-drive';
 import { SettingsModule } from './settings/settings.module';
 import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { LogoutComponent } from './auth/logout.component';
 
+
+export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
+  return new TranslateHttpLoader(http, './i18n/', '.json');
+}
 
 @NgModule({
   imports: [
@@ -31,7 +37,6 @@ import { LogoutComponent } from './auth/logout.component';
     HttpModule,
     FormsModule,
     TranslateModule.forRoot(),
-    routing,
     EventsModule,
     MdlModule,
     MdlPopoverModule,
@@ -43,7 +48,15 @@ import { LogoutComponent } from './auth/logout.component';
     SshKeysModule,
     TemplateModule,
     VmModule,
-    SharedModule
+    SharedModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [Http]
+      }
+    }),
+    RouterModule.forRoot(routes)
   ],
   declarations: [
     AppComponent,
@@ -52,7 +65,7 @@ import { LogoutComponent } from './auth/logout.component';
   ],
   providers: [
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
-    { provide: MdlDialogService, useClass: CustomDialogService }
+    { provide: MdlDialogService, useClass: CustomDialogService },
   ],
   bootstrap: [AppComponent]
 })

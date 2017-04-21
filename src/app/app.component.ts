@@ -10,7 +10,7 @@ import { Response } from '@angular/http';
 
 import { AuthService } from './shared/services';
 import { Router } from '@angular/router';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { ErrorService } from './shared/services/error.service';
 import { INotificationService } from './shared/services/notification.service';
 import { LanguageService } from './shared/services/language.service';
@@ -153,12 +153,7 @@ export class AppComponent implements OnInit, AfterViewInit {
           this.translate.get('NOT_LOGGED_IN').subscribe(result => this.notification.message(result));
           this.auth.setLoggedOut();
           break;
-        case 431:
-          this.translate.get('WRONG_ARGUMENTS').subscribe(result => this.notification.message(result));
-          break;
       }
-    } else {
-      this.translate.get('UNEXPECTED_ERROR').subscribe(result => this.notification.message(result));
     }
   }
 

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from 'ng2-translate';
+import { TranslateModule } from '@ngx-translate/core';
 import { MdlModule } from 'angular2-mdl';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 
@@ -14,6 +14,8 @@ import { IsoAttachmentComponent } from './iso-attachment/iso-attachment.componen
 import { TemplateFilterListComponent } from './template-filter-list/template-filter-list.component';
 import { TemplateFiltersComponent } from './template-filters/template-filters.component';
 import { TemplateListComponent } from './template-list/template-list.component';
+import { TemplateComponent } from './template/template.component';
+import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 
 
 @NgModule({
@@ -22,11 +24,13 @@ import { TemplateListComponent } from './template-list/template-list.component';
     FormsModule,
     TranslateModule,
     MdlModule,
+    MdlPopoverModule,
     MdlSelectModule,
     SharedModule
   ],
   declarations: [
     IsoAttachmentComponent,
+    TemplateComponent,
     TemplateCreationComponent,
     TemplateFiltersComponent,
     TemplateListComponent,

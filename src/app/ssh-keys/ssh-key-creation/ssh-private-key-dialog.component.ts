@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 
 import { NotificationService } from '../../shared/services/notification.service';
 

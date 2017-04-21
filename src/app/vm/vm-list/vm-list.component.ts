@@ -8,7 +8,7 @@ import { Component,
 import { VmService, IVmActionEvent } from '../shared/vm.service';
 import { VirtualMachine } from '../shared/vm.model';
 import { MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import {
   AsyncJobService,
   IStorageService,
@@ -87,7 +87,7 @@ export class VmListComponent implements OnInit {
     this.subscribeToVmDeselected();
   }
 
-  public get anyFilteringResults(): boolean {
+  public get noFilteringResults(): boolean {
     return (this.showSections && !this.sectionsLength) ||
       (!this.showSections && this.showSubsections && !this.subsectionsLength);
   }
@@ -158,7 +158,7 @@ export class VmListComponent implements OnInit {
       e.action.confirmMessage
     ])
       .switchMap((strs) => {
-        return this.dialogService.confirm(strs[e.action.confirmMessage], strs.NO, strs.YES);
+        return this.dialogService.confirm(strs[e.action.confirmMessage], strs['NO'], strs['YES']);
       })
       .onErrorResumeNext()
       .subscribe(() => this.vmService.vmAction(e));

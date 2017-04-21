@@ -16,6 +16,14 @@
   cursor: pointer;
 }
 
+.tooltip-position-fix {
+  overflow: hidden;
+  max-width: 100%;
+  display: inline-block !important;
+  text-overflow: ellipsis;
+  width: auto !important;
+}
+
 mdl-card > mdl-card-title + mdl-card-supporting-text {
   padding-top: 0 !important;
 }
@@ -33,6 +41,11 @@ mdl-card mdl-card-menu {
 
 mdl-card.custom-card {
   min-height: 0;
+
+  & .mdl-card__title-text {
+    @extend .tooltip-position-fix;
+    max-width: 95%;
+  }
 
   & mdl-card-supporting-text {
     width: 100%;
@@ -117,15 +130,16 @@ mdl-simple-tooltip div {
 
 .card-wrapper {
   display: flex;
+  padding: 2px;
 
-  & > div:first-child {
+  & > div.first {
     flex: 1;
   }
 
-  & > div:last-child {
+  & > div.last {
     flex: 2;
 
-    & span {
+    & span.fixed-length-span {
       display: block;
       width: 215px;
       overflow: hidden;
@@ -206,6 +220,16 @@ mdl-simple-tooltip div {
   margin-top: 6px !important;
 }
 
+.mdl-button mdl-icon {
+  color: black !important;
+}
+
+.mdl-button[disabled] mdl-icon, .mdl-button.mdl-button--disabled mdl-icon {
+  color: rgba(0,0,0,.26) !important;
+  cursor: default;
+  background-color: transparent;
+}
+
 .card-popover {
   top: 0;
   right: 50px;
@@ -234,4 +258,34 @@ mdl-simple-tooltip div {
 
 .arrow {
   cursor: initial;
+}
+
+.section {
+  width: 100%;
+  min-height: 0;
+  border-bottom: 1px solid #dedede;
+  background-color: white;
+  padding-bottom: 15px;
+}
+
+.state-icon {
+  display: inline-block;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.running {
+  background-color: #388E3C;
+}
+
+.in-progress {
+  background-color: #FFA726;
+}
+
+.stopped,
+.error {
+  background-color: #B71C1C;
 }

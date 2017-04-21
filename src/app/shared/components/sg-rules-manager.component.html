@@ -8,10 +8,12 @@
     <span *ngIf="!savedRules?.templates?.length">{{ 'CREATE' | translate }}</span>
     <span *ngIf="savedRules?.templates?.length">{{ 'EDIT' | translate }}</span>
   </button>
-  <div class="template-list" *ngIf="savedRules.templates?.length">
-    {{ 'BASED_ON' | translate }}
-    <span *ngFor="let sg of savedRules?.templates; let i=index">
-    {{ sg.name }}{{ i === savedRules?.templates?.length - 1 ? '' : ',' }}
-  </span>
+  <div class="mdl-textfield template-list" *ngIf="savedRules.templates?.length">
+    <div class="mdl-textfield__input">
+      {{ 'BASED_ON' | translate }}
+      <span *ngFor="let sg of savedRules?.templates; let i=index">
+        {{ sg.name }}{{ i === savedRules?.templates?.length - 1 ? '' : ',' }}
+      </span>
+    </div>
   </div>
 </div>

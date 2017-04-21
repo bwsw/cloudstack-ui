@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ServiceOffering } from '../models/service-offering.model';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { ConfigService } from './config.service';
 import { DiskOffering } from '../models/disk-offering.model';
 import { BaseModel } from '../models/base.model';
@@ -29,13 +29,13 @@ export abstract class OfferingService<T extends BaseModel> extends BaseBackendSe
   public getList(params?: any): Observable<Array<T>> {
     const availabilityObservable: Observable<OfferingAvailability> = this.configService.get('offeringAvailability');
     let zoneId;
-    let local;
+    let zoneLocal;
 
     if (!params || !params.zone) {
       return super.getList(params);
     } else {
       zoneId = params.zone.id;
-      local = params.zone.localStorageEnabled;
+      zoneLocal = params.zone.localStorageEnabled;
       delete params.zone;
     }
 
@@ -55,7 +55,7 @@ export abstract class OfferingService<T extends BaseModel> extends BaseBackendSe
         if (!zoneId) {
           return list;
         }
-        return list.filter(offering => offering.isLocal === local);
+        return list.filter(offering => zoneLocal || !offering.isLocal);
       });
   }
 

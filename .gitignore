@@ -11,7 +11,7 @@ pids
 lib-cov
 
 # Coverage directory used by tools like istanbul
-coverage
+reports
 
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
@@ -33,7 +33,7 @@ Thumbs.db
 /bower_components
 
 # Coverage #
-/coverage/
+/reports/
 
 # Typing #
 /src/typings/tsd/

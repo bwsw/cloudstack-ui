@@ -4,16 +4,15 @@ import {
   OnChanges
 } from '@angular/core';
 import { MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 
 import { VirtualMachine } from '../../shared/vm.model';
 import { IsoAttachmentComponent } from '../../../template/iso-attachment/iso-attachment.component';
-import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { Iso, IsoService } from '../../../template/shared';
-import { NotificationService } from '../../../shared/services/notification.service';
-import { IsoEvent } from './iso-attachment.component';
-import { Volume } from '../../../shared/models/volume.model';
-import { VolumeService } from '../../../shared/services/volume.service';
+import { IsoEvent } from './iso.component';
+
+import { Volume } from '../../../shared/models';
+import { JobsNotificationService, NotificationService, VolumeService } from '../../../shared/services';
 
 
 @Component({
@@ -119,9 +118,9 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private detachIsoDialog(): void {
-    this.translateService.get('CONFIRM_ISO_DETACH')
+    this.translateService.get(['CONFIRM_ISO_DETACH', 'NO', 'YES'])
       .switchMap(str => {
-        return this.dialogService.confirm(str);
+        return this.dialogService.confirm(str['CONFIRM_ISO_DETACH'], str['NO'], str['YES']);
       })
       .subscribe(
         () => this.detachIso(),

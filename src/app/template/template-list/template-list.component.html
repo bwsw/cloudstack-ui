@@ -1,5 +1,4 @@
-<div class="template-list" [class.open]="isDetailOpen">
-  <cs-no-results *ngIf="!templateList?.length"></cs-no-results>
+<div class="template-list" *ngIf="displayModeList">
   <mdl-list>
     <div *ngFor="let template of templateList">
       <mdl-list-item
@@ -34,20 +33,48 @@
             <template ngSwitchDefault>help</template>
           </mdl-icon>
           <span [innerHTML]="template.name | highlight:query"></span>
+          <ng-container *ngIf="!template.isReady">
+            <div
+              class="state-icon"
+              [class.in-progress]="true"
+              [mdl-tooltip]="'NOT_READY' | translate"
+              mdl-tooltip-position="left"
+            ></div>
+          </ng-container>
           <mdl-list-item-sub-title
             [innerHTML]="template.displayText | highlight:query"
           ></mdl-list-item-sub-title>
         </mdl-list-item-primary-content>
-        <mdl-list-item-secondary-action>
+        <mdl-list-item-secondary-action *ngIf="radio">
           <mdl-radio
-            *ngIf="radio"
+            *ngIf="selectedTemplate"
             name="radio"
-            [value]="template"
-            [(ngModel)]="selectedTemplate"
+            [value]="template.id"
+            [ngModel]="selectedTemplate.id"
+            mdl-ripple
+          >
+          </mdl-radio>
+          <mdl-radio
+            *ngIf="!selectedTemplate"
+            name="radio"
             mdl-ripple
           ></mdl-radio>
         </mdl-list-item-secondary-action>
       </mdl-list-item>
     </div>
   </mdl-list>
+</div>
+
+<div
+  *ngIf="displayModeCard"
+  class="card-list-container"
+>
+  <cs-template
+    [template]="template"
+    [isSelected]="template?.id === selectedTemplate?.id"
+    [searchQuery]="query"
+    *ngFor="let template of templateList"
+    (onClick)="selectTemplate(template)"
+    (deleteTemplate)="removeTemplate($event)"
+  ></cs-template>
 </div>

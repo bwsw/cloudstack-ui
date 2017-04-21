@@ -3,9 +3,13 @@
   display: block;
 }
 
+:host mdl-textfield {
+  padding-top: 15px;
+}
+
 .vm-creation-container {
   position: relative;
-  padding: 1em;
+  padding: 0.9em;
   min-height: 500px;
 
   /deep/ cs-loader {
@@ -34,7 +38,7 @@
 
 .container {
   display: flex;
-  padding: 15px 24px 1px;
+  padding: 15px 24px 0;
   justify-content: space-between;
 }
 
@@ -80,14 +84,26 @@ h5 {
 
 .dialog-select-select {
   position: absolute;
-  right: -8px;
+  right: 0;
   display: inline-block;
   text-align: right;
   margin-top: 16px;
+
+  /deep/ .mdl-textfield {
+    padding-top: 10px;
+  }
+
+  /deep/ .mdl-textfield__input {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    border: none;
+  }
 }
 
 .dialog-select-wrapper {
   position: relative;
-  margin-bottom: 60px;
+  margin-bottom: 86px;
 }
 

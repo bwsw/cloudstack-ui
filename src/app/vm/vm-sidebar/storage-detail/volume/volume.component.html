@@ -1,23 +1,43 @@
-<mdl-card
-  class="vm-card"
-  mdl-shadow="2"
->
+<mdl-card class="vm-card" mdl-shadow="2">
   <mdl-card-title>
     <h2 mdl-card-title-text>{{ volume.name }}</h2>
   </mdl-card-title>
-  <mdl-card-supporting-text>
+  <mdl-card-supporting-text *loading="loading"  >
     <div class="disk-size">{{ (volume.size | division:2:30:2) + ' ' + ('GB' | translate) }}</div>
     <div class="grid volumes snapshots" [class.open]="expandStorage">
+      <div *ngIf="volume.snapshots?.length" class="last-snapshot">
+        <div class="row">
+          <div>{{ 'LAST_SNAPSHOT' | translate }}:</div>
+          <div *ngIf="volume.snapshots.length">
+            <button mdl-button mdl-colored="primary" (click)="showSnapshots()">
+              {{ 'VIEW_ALL' | translate }} ({{ volume.snapshots.length }})
+            </button>
+          </div>
+        </div>
+        <div class="row snapshot-name">{{ volume.snapshots[0].name }}</div>
+        <div class="row">
+          <div style="width: 70%;">{{ volume.snapshots[0].created | date:'y-MM-dd H:m:s' }}</div>
+          <div style="width: 30%;">
+            <button
+              *ngFor="let action of snapshotActionsService.Actions"
+              class="button-18px snapshot-button"
+              [mdl-tooltip]="action.name | translate"
+              mdl-tooltip-position="top"
+              mdl-button
+              mdl-button-type="icon"
+              (click)="action.activate(volume.snapshots[0], volume)"
+              [disabled]="volume.snapshots[0]['loading']"
+            >
+              <mdl-icon>{{ action.icon }}</mdl-icon>
+            </button>
+          </div>
+        </div>
 
-      <cs-snapshot
-        *ngFor="let snapshot of volume.snapshots"
-        [snapshot]="snapshot"
-        (onSnapshotDelete)="handleSnapshotDelete($event)"
-      ></cs-snapshot>
-
+      </div>
+      <div class="row" *ngIf="!volume.snapshots?.length">{{ 'NO_SNAPSHOTS' | translate }}</div>
     </div>
   </mdl-card-supporting-text>
-  <mdl-card-menu>
+  <mdl-card-menu *ngIf="!loading" >
     <button
       mdl-button
       (click)="popover.toggle($event)"
@@ -42,14 +62,15 @@
       >
         <mdl-icon >camera_alt</mdl-icon>
       </button>
-      <button
-        [mdl-tooltip]="'SNAPSHOT_SCHEDULE_BUTTON' | translate "
-        mdl-tooltip-position="bottom"
-        mdl-button
-        mdl-button-type="icon"
-      >
-        <mdl-icon >schedule</mdl-icon>
-      </button>
+      <!--todo: recurring snapshots-->
+      <!--<button-->
+        <!--[mdl-tooltip]="'SNAPSHOT_SCHEDULE_BUTTON' | translate "-->
+        <!--mdl-tooltip-position="bottom"-->
+        <!--mdl-button-->
+        <!--mdl-button-type="icon"-->
+      <!--&gt;-->
+        <!--<mdl-icon >schedule</mdl-icon>-->
+      <!--</button>-->
       <button
         mdl-button
         mdl-button-type="icon"
@@ -62,7 +83,7 @@
     </div>
   </mdl-popover>
   <mdl-card-actions
-    *ngIf="showVolumeActions"
+    *ngIf="showVolumeActions && !loading"
     mdl-card-border
   >
     <div class="card-left-button">
