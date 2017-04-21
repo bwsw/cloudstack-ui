@@ -50,7 +50,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     @Inject('INotificationService') private notification: INotificationService,
     private styleService: StyleService,
     private asyncJobService: AsyncJobService,
-    private zoneService: ZoneService,
+    private zoneService: ZoneService
   ) {
     this.title = this.auth.name;
   }
