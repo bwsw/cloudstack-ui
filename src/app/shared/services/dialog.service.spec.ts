@@ -5,7 +5,7 @@ import { MdlDialogOutletModule, MdlDialogModule, MdlDialogService } from 'angula
 import { Observable } from 'rxjs';
 import { DialogService } from './dialog.service';
 import { ServiceLocator } from './service-locator';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -49,6 +49,10 @@ describe('Custom dialog', () => {
 
       if (key instanceof Array) {
         const translateStrings = key.reduce((acc, k) => {
+          if (k === undefined) {
+            throw new Error();
+          }
+
           if (k === 'TRANSLATE_INTERPOLATE') {
             acc[k] = interpolateString;
             return acc;
