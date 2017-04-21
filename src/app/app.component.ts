@@ -147,12 +147,7 @@ export class AppComponent implements OnInit, AfterViewInit {
           this.translate.get('NOT_LOGGED_IN').subscribe(result => this.notification.message(result));
           this.auth.setLoggedOut();
           break;
-        case 431:
-          this.translate.get('WRONG_ARGUMENTS').subscribe(result => this.notification.message(result));
-          break;
       }
-    } else {
-      this.translate.get('UNEXPECTED_ERROR').subscribe(result => this.notification.message(result));
     }
   }
 }

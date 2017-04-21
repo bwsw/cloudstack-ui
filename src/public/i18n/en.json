@@ -39,7 +39,7 @@
   "SNAPSHOT_IN_PROGRESS": "Taking a snapshot",
   "SNAPSHOT_DONE": "Snapshot taken",
   "SNAPSHOT_FAILED": "Snapshot failed",
-  "VOLUME_BUSY": "Volume is busy",
+  "VOLUME_BUSY": "There is other active snapshot tasks on the instance to which the volume is attached, please try again later",
 
   "CONFIRM_VM_START": "Are you sure you want to start this virtual machine?",
   "CONFIRM_VM_STOP": "Are you sure you want to stop this virtual machine?",
