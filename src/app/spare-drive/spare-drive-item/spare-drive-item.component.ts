@@ -1,5 +1,5 @@
 import { Component, Input, EventEmitter, Output, ViewChild, OnInit } from '@angular/core';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
 
 import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';

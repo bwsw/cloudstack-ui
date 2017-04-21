@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { MdlModule } from 'angular2-mdl';
-import { TranslateModule } from 'ng2-translate';
+import { TranslateModule } from '@ngx-translate/core';
 
 import {
   DivisionPipe,

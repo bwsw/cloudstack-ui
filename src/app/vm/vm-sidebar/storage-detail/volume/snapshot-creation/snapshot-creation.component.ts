@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MdlDialogReference } from 'angular2-mdl';
+import { MdlDialogReference, MdlDialogService } from 'angular2-mdl';
+import { TranslateService } from 'ng2-translate';
+import moment = require('moment');
 
 
 import {
-  ErrorService,
   JobsNotificationService,
-  NotificationService,
   SnapshotService,
   StatsUpdateService
 } from '../../../../../shared/services';
@@ -25,23 +25,27 @@ export class SnapshotCreationComponent implements OnInit {
 
   constructor(
     private dialog: MdlDialogReference,
+    private dialogService: MdlDialogService,
     private snapshotService: SnapshotService,
     private jobsNotificationService: JobsNotificationService,
-    private notificationService: NotificationService,
-    private errorService: ErrorService,
     private statsUpdateService: StatsUpdateService,
     @Inject('volumeId') private volumeId: string,
-    private resourceUsageService: ResourceUsageService
-  ) {
-    this.name = '';
-  }
+    private resourceUsageService: ResourceUsageService,
+    private translateService: TranslateService
+  ) {}
 
   public ngOnInit(): void {
+    this.name = this.defaultName;
+
     this.resourceUsageService.getResourceUsage()
       .subscribe((resourceStats: ResourceStats) => {
         this.loading = false;
         this.enoughResources = resourceStats.available.snapshots > 0;
       });
+  }
+
+  public get defaultName(): string {
+    return moment().format('YYMMDD-HHmm');
   }
 
   public onSubmit(): void {
@@ -69,9 +73,9 @@ export class SnapshotCreationComponent implements OnInit {
             id: notificationId,
             message: 'SNAPSHOT_FAILED'
           });
-          let error = this.errorService.parseCsError(e);
-          if (error === 4350) { this.notificationService.error('VOLUME_BUSY'); }
-          if (error === 4370) { this.notificationService.error('INSUFFICIENT_RESOURCES'); }
+
+          this.translateService.get(e.message, e.params)
+            .subscribe(str => this.dialogService.alert(str));
         });
   }
 }

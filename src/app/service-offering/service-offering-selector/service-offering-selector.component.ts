@@ -15,7 +15,7 @@ import {
   CustomServiceOffering
 } from '../custom-service-offering/custom-service-offering.component';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../shared/services/dialog.service';
 

@@ -28,6 +28,10 @@ export class ErrorService extends Subject<any> {
     {
       regex: /Unable to find suitable primary storage when creating volume (.*)/,
       translation: 'UNABLE_FIND_PRIMARY_STORAGE'
+    },
+    {
+      regex: /There is other active snapshot tasks on the instance (.*)/,
+      translation: 'VOLUME_BUSY'
     }
   ];
 

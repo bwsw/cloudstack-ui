@@ -1,5 +1,5 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import debounce = require('lodash/debounce');
 import sortBy = require('lodash/sortBy');
 import { Observable } from 'rxjs/Observable';
