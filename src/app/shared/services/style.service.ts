@@ -39,10 +39,14 @@ export class StyleService {
       });
   }
 
-  public updatePalette(primaryColor: Color, accentColor: Color): void {
-    this.styleElement.href = `https://code.getmdl.io/1.3.0/material.${primaryColor.name}-${accentColor.name}.min.css`;
+  public setPalette(primaryColor: Color, accentColor: Color): void {
     this.userService.writeTag('primaryColor', primaryColor.name).subscribe();
     this.userService.writeTag('accentColor', accentColor.name).subscribe();
+    this.updatePalette(primaryColor, accentColor);
+  }
+
+  public updatePalette(primaryColor: Color, accentColor: Color): void {
+    this.styleElement.href = `https://code.getmdl.io/1.3.0/material.${primaryColor.name}-${accentColor.name}.min.css`;
     this.paletteUpdates.next(primaryColor);
   }
 

@@ -70,7 +70,7 @@ export class SettingsComponent implements OnInit {
   }
 
   public updatePalette(): void {
-    this.styleService.updatePalette(this.primaryColor, this.accentColor);
+    this.styleService.setPalette(this.primaryColor, this.accentColor);
   }
 
   public updatePassword(): void {
