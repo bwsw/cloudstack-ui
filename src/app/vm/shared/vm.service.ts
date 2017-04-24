@@ -159,7 +159,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   public command(e: IVmActionEvent): Observable<any> {
     let notificationId = this.jobsNotificationService.add(e.action.progressMessage);
     if (e.vm) {
-      e.vm.state = e.action.vmStateOnAction;
+      e.vm.state = e.action.vmStateOnAction as any;
     }
     return this.sendCommand(e.action.commandName, this.buildCommandParams(e.vm.id, e.action.commandName))
       .switchMap(job => this.registerVmJob(job))
