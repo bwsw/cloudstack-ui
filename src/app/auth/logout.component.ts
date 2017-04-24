@@ -16,6 +16,11 @@ export class LogoutComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.auth.logout().subscribe(() => this.router.navigate(['/login']));
+    this.auth.logout().subscribe(() => {
+      if (this.router.url !== '/login') {
+        location.reload();
+        this.router.navigate(['/login']);
+      }
+    });
   }
 }

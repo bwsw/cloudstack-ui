@@ -74,7 +74,9 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.zoneService.areAllZonesBasic().subscribe(basic => this.disableSecurityGroups = basic);
       } else {
         this.asyncJobService.completeAllJobs();
-        this.router.navigate(['/logout']);
+        if (this.router.url !== '/login' && this.router.url !== '/') {
+          this.router.navigate(['/logout']);
+        }
       }
     });
 
@@ -93,7 +95,7 @@ export class AppComponent implements OnInit, AfterViewInit {
           });
         } else {
           this.navigationBar.nativeElement.querySelectorAll('a').forEach(link => {
-            link.classList.remove('link-active-light', 'link-hover-dark');
+            link.classList.remove('link-active-light', 'link-hover-light');
           });
         }
       }
