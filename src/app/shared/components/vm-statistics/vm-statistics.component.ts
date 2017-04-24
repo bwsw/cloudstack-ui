@@ -23,7 +23,7 @@ export class VmStatisticsComponent implements OnInit {
     private resourceUsageService: ResourceUsageService,
     private translateService: TranslateService,
     private utilsService: UtilsService,
-    @Inject('IStorageService') protected storageService: IStorageService,
+    @Inject('IStorageService') protected storageService: IStorageService
   ) {
     this.resourceUsage = new ResourceStats();
   }

@@ -12,7 +12,9 @@
     <mdl-icon
       (click)="toggleDrawer()"
       class="hide-button"
-    >keyboard_arrow_left</mdl-icon>
+    >
+      keyboard_arrow_left
+    </mdl-icon>
     <mdl-layout-title>
       <img class="logo" [src]="logoSource">
       <div class="title-header">
@@ -20,8 +22,7 @@
         <div class="link-element">{{ 'WELCOME' | translate:{ name: title } }}</div>
       </div>
     </mdl-layout-title>
-    <nav class="mdl-navigation">
-
+    <nav #navigationBar class="mdl-navigation">
       <a
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
@@ -96,7 +97,6 @@
       </a>
 
       <a
-        #settingsLink
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/settings"

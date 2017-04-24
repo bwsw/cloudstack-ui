@@ -3,9 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import {
   Color,
-  ConfigService,
   LanguageService,
-  StorageService,
   StyleService
 } from '../shared';
 import { AuthService, UserService, NotificationService } from '../shared/services';
@@ -26,17 +24,15 @@ export class SettingsComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private configService: ConfigService,
     private formBuilder: FormBuilder,
     private languageService: LanguageService,
     private notificationService: NotificationService,
-    private storageService: StorageService,
     private styleService: StyleService,
     private userService: UserService
 ) { }
 
   public ngOnInit(): void {
-    this.language = this.languageService.getLanguage();
+    this.getLanguage();
     this.loadColors();
     this.buildForm();
   }
@@ -71,7 +67,7 @@ export class SettingsComponent implements OnInit {
   }
 
   public updatePalette(): void {
-    this.styleService.updatePalette(this.primaryColor, this.accentColor);
+    this.styleService.setPalette(this.primaryColor, this.accentColor);
   }
 
   public updatePassword(): void {
@@ -87,15 +83,18 @@ export class SettingsComponent implements OnInit {
     return this.passwordUpdateForm.controls['password'].value;
   }
 
-  private loadColors(): void {
-    this.configService.get('themeColors')
-      .subscribe(themeColors => {
-        let primaryColorName = this.storageService.read('primaryColor');
-        let accentColorName = this.storageService.read('accentColor');
+  private getLanguage(): void {
+    this.languageService.getLanguage().subscribe(language => this.language = language);
+  }
 
-        this.primaryColors = themeColors;
-        this.primaryColor = themeColors.find(color => color.name === primaryColorName);
-        this.accentColor = this.accentColors.find(color => color.name === accentColorName);
+  private loadColors(): void {
+    this.styleService.getThemeData()
+      .subscribe(themeData => {
+        this.primaryColors = themeData.themeColors;
+        this.primaryColor = themeData.themeColors.find(color => color.name === themeData.primaryColor) ||
+          themeData.themeColors[0];
+        this.accentColor = this.accentColors.find(color => color.name === themeData.accentColor) ||
+          themeData.themeColors[1];
       });
   }
 

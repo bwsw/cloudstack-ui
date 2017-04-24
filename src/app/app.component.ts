@@ -31,7 +31,10 @@ import { AsyncJobService } from './shared/services/async-job.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, AfterViewInit {
-  @ViewChild('settingsLink') public settingsLink: ElementRef;
+  // todo: make a wrapper for link and use @ViewChildren(LinkWrapper)
+  @ViewChild('navigationBar') public navigationBar: ElementRef;
+
+
   @ViewChild(MdlLayoutComponent) public layoutComponent: MdlLayoutComponent;
   public loggedIn: boolean;
   public title: string;
@@ -60,16 +63,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public ngOnInit(): void {
-    this.languageService.applyLanguage();
-    this.styleService.loadPalette();
+    this.loadSettings();
 
     this.error.subscribe(e => this.handleError(e));
     this.auth.loggedIn.subscribe(loggedIn => {
       this.loggedIn = loggedIn;
       this.updateAccount(loggedIn);
       if (loggedIn) {
-        this.zoneService.areAllZonesBasic()
-          .subscribe(basic => this.disableSecurityGroups = basic);
+        this.loadSettings();
+        this.zoneService.areAllZonesBasic().subscribe(basic => this.disableSecurityGroups = basic);
       } else {
         this.asyncJobService.completeAllJobs();
         this.router.navigate(['/logout']);
@@ -84,11 +86,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   public ngAfterViewInit(): void {
     this.styleService.paletteUpdates.subscribe(color => {
       this.themeColor = color;
-      if (this.settingsLink) {
+      if (this.navigationBar) {
         if (this.isLightTheme) {
-          this.settingsLink.nativeElement.classList.remove('link-active-dark', 'link-hover-dark');
+          this.navigationBar.nativeElement.querySelectorAll('a').forEach(link => {
+            link.classList.remove('link-active-dark', 'link-hover-dark');
+          });
         } else {
-          this.settingsLink.nativeElement.classList.remove('link-active-light', 'link-hover-dark');
+          this.navigationBar.nativeElement.querySelectorAll('a').forEach(link => {
+            link.classList.remove('link-active-light', 'link-hover-dark');
+          });
         }
       }
     });
@@ -149,5 +155,10 @@ export class AppComponent implements OnInit, AfterViewInit {
           break;
       }
     }
+  }
+
+  private loadSettings(): void {
+    this.languageService.applyLanguage();
+    this.styleService.loadPalette();
   }
 }
