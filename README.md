@@ -117,7 +117,7 @@ From the system behavior standpoint, we have changed it sometimes, e.g. when the
 
 We changed the new virtual machine screen a lot. Now it’s one-step and it allows to select everything from one screen without additional steps and so on. We believe it’s much better for a regular user than the one which is used in the native UI. It also generates meaningful VM names from usernames like `vm-<username>-<counter>`. Another important thing is that the form immediately checks that the user has the required amount of resources to create the virtual machine, and thus it doesn’t allow them to launch creation of impossible things which will fail for sure.
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVMview.png" target="_blank">![New Virtual Machine View](./screens/newVMView_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVMView.png" target="_blank">![New Virtual Machine View](./screens/newVMView_mini.png)</a>
 
 #### Resource usage bar
 
