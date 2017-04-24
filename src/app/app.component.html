@@ -12,7 +12,9 @@
     <mdl-icon
       (click)="toggleDrawer()"
       class="hide-button"
-    >keyboard_arrow_left</mdl-icon>
+    >
+      keyboard_arrow_left
+    </mdl-icon>
     <mdl-layout-title>
       <img class="logo" [src]="logoSource">
       <div class="title-header">
@@ -22,7 +24,6 @@
     </mdl-layout-title>
     <nav #navigationBar class="mdl-navigation">
       <a
-        #instancesLink
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/instances"
@@ -35,7 +36,6 @@
       </a>
 
       <a
-        #spareDrivesLink
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/spare-drives"
@@ -48,7 +48,6 @@
       </a>
 
       <a
-        #templatesLink
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/templates"
@@ -61,7 +60,6 @@
       </a>
 
       <a
-        #sgTemplatesLink
         *ngIf="!disableSecurityGroups"
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
@@ -75,7 +73,6 @@
       </a>
 
       <a
-        #eventsLink
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/events"
@@ -88,7 +85,6 @@
       </a>
 
       <a
-        #sshKeysLink
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/ssh-keys"
@@ -101,7 +97,6 @@
       </a>
 
       <a
-        #settingsLink
         (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/settings"

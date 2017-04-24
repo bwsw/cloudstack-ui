@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { UserService } from './user.service';
 
 

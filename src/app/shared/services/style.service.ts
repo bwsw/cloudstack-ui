@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Color } from '../models';
 import { ConfigService } from './config.service';
-import { Subject, Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Subject} from 'rxjs/Subject';
 import { UserService } from './user.service';
 
 
