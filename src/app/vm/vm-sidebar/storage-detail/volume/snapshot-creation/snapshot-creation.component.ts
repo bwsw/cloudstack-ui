@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MdlDialogReference, MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import moment = require('moment');
 
 

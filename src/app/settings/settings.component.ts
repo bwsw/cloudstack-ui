@@ -3,12 +3,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import {
   Color,
-  ConfigService,
   LanguageService,
   StyleService
 } from '../shared';
 import { AuthService, UserService, NotificationService } from '../shared/services';
-import { Observable } from 'rxjs';
 
 
 @Component({
@@ -26,7 +24,6 @@ export class SettingsComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private configService: ConfigService,
     private formBuilder: FormBuilder,
     private languageService: LanguageService,
     private notificationService: NotificationService,
@@ -91,17 +88,13 @@ export class SettingsComponent implements OnInit {
   }
 
   private loadColors(): void {
-    this.configService.get('themeColors')
-      .subscribe(themeColors => {
-        Observable.forkJoin([
-          this.userService.readTag('primaryColor'),
-          this.userService.readTag('accentColor')
-        ])
-          .subscribe(([primaryColorName, accentColorName]) => {
-            this.primaryColors = themeColors;
-            this.primaryColor = themeColors.find(color => color.name === primaryColorName);
-            this.accentColor = this.accentColors.find(color => color.name === accentColorName);
-          });
+    this.styleService.getThemeData()
+      .subscribe(themeData => {
+        this.primaryColors = themeData.themeColors;
+        this.primaryColor = themeData.themeColors.find(color => color.name === themeData.primaryColor) ||
+          themeData.themeColors[0];
+        this.accentColor = this.accentColors.find(color => color.name === themeData.accentColor) ||
+          themeData.themeColors[1];
       });
   }
 

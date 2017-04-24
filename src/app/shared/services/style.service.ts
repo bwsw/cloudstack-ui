@@ -5,6 +5,36 @@ import { Subject, Observable } from 'rxjs';
 import { UserService } from './user.service';
 
 
+interface Theme {
+  primaryColor: string;
+  accentColor: string;
+}
+
+interface ThemeData {
+  primaryColor: string;
+  accentColor: string;
+  defaultTheme: Theme;
+  themeColors: Array<Color>;
+}
+
+const fallbackTheme: Theme = {
+  primaryColor: 'blue',
+  accentColor: 'red'
+};
+
+const fallbackThemeColors: Array<Color> = [
+  {
+    name: 'red',
+    value: '#F44336',
+    textColor: '#FFFFFF'
+  },
+  {
+    name: 'blue',
+    value: '#2196F3',
+    textColor: '#FFFFFF'
+  }
+];
+
 @Injectable()
 export class StyleService {
   public styleElement: HTMLLinkElement;
@@ -18,24 +48,42 @@ export class StyleService {
   public loadPalette(): void {
     this.initStyleSheet();
 
-    this.configService.get([
-      'themeColors',
-      'defaultTheme'
+    this.getThemeData()
+      .subscribe(themeData => {
+        const primaryColor = themeData.themeColors.find(color => color.name === themeData.primaryColor) ||
+          themeData.themeColors[0];
+        const accentColor = themeData.themeColors.find(color => color.name === themeData.accentColor) ||
+          themeData.themeColors[1];
+        this.updatePalette(primaryColor, accentColor);
+      });
+  }
+
+  public getThemeData(): Observable<ThemeData> {
+    return Observable.forkJoin([
+      this.configService.get('defaultTheme'),
+      this.configService.get('themeColors'),
+      this.userService.readTag('primaryColor'),
+      this.userService.readTag('accentColor')
     ])
-      .subscribe(([themeColors, defaultTheme]) => {
-        Observable.forkJoin([
-          this.userService.readTag('primaryColor'),
-          this.userService.readTag('accentColor')
-        ])
-          .subscribe(([primary, accent]) => {
-            const primaryColorName = primary || defaultTheme.primaryColor;
-            const accentColorName = accent || defaultTheme.accentColor;
+      .map(([defaultTheme, themeColors, primaryColor, accentColor]) => {
+        if (!defaultTheme || !defaultTheme.primaryColor || !defaultTheme.accentColor) {
+          defaultTheme = undefined;
+          defaultTheme = undefined;
+        }
 
-            const primaryColor = themeColors.find(color => color.name === primaryColorName);
-            const accentColor = themeColors.find(color => color.name === accentColorName);
+        if (!themeColors  || themeColors.length < 2) {
+          defaultTheme = undefined;
+          themeColors = undefined;
+          primaryColor = undefined;
+          accentColor = undefined;
+        }
 
-            this.updatePalette(primaryColor, accentColor);
-          });
+        return {
+          primaryColor: primaryColor || (defaultTheme && defaultTheme.primaryColor) || fallbackTheme.primaryColor,
+          accentColor: accentColor || (defaultTheme && defaultTheme.accentColor) || fallbackTheme.accentColor,
+          defaultTheme: defaultTheme || fallbackTheme,
+          themeColors: themeColors || fallbackThemeColors
+        };
       });
   }
 
