@@ -10,13 +10,19 @@
     <base href="/">
   </head>
   <body>
-    <cs-app>
+  <div>
+    <div class="dialog-container">
+      <div class="inner-wrapper">
+        <dialog-outlet></dialog-outlet>
+      </div>
+    </div>
+  </div>
+  <cs-app>
       <div class="preloader">
         <img src="/img/cloudstack_logo.png" style="">
         <div class="loader"></div>
       </div>
     </cs-app>
-    <dialog-outlet></dialog-outlet>
   </body>
 </html>
 
