@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from '@ngx-translate/core';
 
 import { SecurityGroupService } from '../../shared/services/security-group.service';
@@ -9,6 +8,7 @@ import { SgTemplateCreationComponent } from '../sg-template-creation/sg-template
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
 import { NotificationService } from '../../shared/services/notification.service';
 import { ListService } from '../../shared/components/list/list.service';
+import { DialogService } from '../../shared/services/dialog.service';
 
 
 @Component({
@@ -23,7 +23,7 @@ export class SgTemplateListComponent implements OnInit {
 
   constructor(
     private securityGroupService: SecurityGroupService,
-    private dialogService: MdlDialogService,
+    private dialogService: DialogService,
     private translate: TranslateService,
     private notificationService: NotificationService,
     private listService: ListService
@@ -59,28 +59,14 @@ export class SgTemplateListComponent implements OnInit {
   }
 
   public deleteSecurityGroupTemplate(securityGroup: SecurityGroup): void {
-    let translatedStrings = [];
-    this.translate.get([
-      'YES',
-      'NO',
-      'CONFIRM_DELETE_TEMPLATE',
-      'TEMPLATE_DELETED'
-    ], {
-      name: securityGroup.name
-    })
-      .switchMap(strs => {
-        translatedStrings = strs;
-        return this.dialogService.confirm(
-          translatedStrings['CONFIRM_DELETE_TEMPLATE'],
-          translatedStrings['NO'],
-          translatedStrings['YES']
-        );
-      })
+    this.dialogService.confirm('CONFIRM_DELETE_TEMPLATE', 'NO', 'YES')
       .switchMap(() => this.securityGroupService.deleteTemplate(securityGroup.id))
-      .subscribe(res => {
+      .subscribe(
+        res => {
           if (res && res.success === 'true') {
             this.customSecurityGroupList = this.customSecurityGroupList.filter(sg => sg.id !== securityGroup.id);
-            this.notificationService.message(translatedStrings['TEMPLATE_DELETED']);
+            this.translate.get('TEMPLATE_DELETED', { name: securityGroup.name })
+              .subscribe(str => this.notificationService.message(str['TEMPLATE_DELETED']));
           }
         },
         // handle errors from cancel button

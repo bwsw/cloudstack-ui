@@ -1,7 +1,6 @@
 import { Component, ViewChild, OnInit, HostBinding } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from '@ngx-translate/core';
 
 import {
@@ -19,6 +18,7 @@ import { StorageService } from '../../shared/services/storage.service';
 import { TemplateFilterListComponent } from '../template-filter-list/template-filter-list.component';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { Template } from '../shared/template.model';
+import { DialogService } from '../../shared/services/dialog.service';
 
 
 @Component({
@@ -34,7 +34,7 @@ export class TemplatePageComponent implements OnInit {
   @ViewChild(TemplateFilterListComponent) private filterList;
 
   constructor(
-    private dialogService: MdlDialogService,
+    private dialogService: DialogService,
     private storageService: StorageService,
     private isoService: IsoService,
     private jobNotificationService: JobsNotificationService,
@@ -97,8 +97,7 @@ export class TemplatePageComponent implements OnInit {
     let currentMode = this.viewMode === 'Iso' ? 'ISO' : 'TEMPLATE';
     let notificationId;
 
-    this.translateService.get([`DELETE_${currentMode}_CONFIRM`, 'NO', 'YES'])
-      .switchMap(str => this.dialogService.confirm(str[`DELETE_${currentMode}_CONFIRM`], str['NO'], str['YES']))
+    this.dialogService.confirm(`DELETE_${currentMode}_CONFIRM`, 'NO', 'YES')
       .switchMap(() => {
         if (template instanceof Template) {
           notificationId = this.jobNotificationService.add('DELETE_TEMPLATE_IN_PROGRESS');

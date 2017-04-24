@@ -1,5 +1,4 @@
 import { Component, Input, EventEmitter, Output, ViewChild, OnInit } from '@angular/core';
-import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from '@ngx-translate/core';
 import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
 
@@ -13,6 +12,7 @@ import {
   ZoneService
 } from '../../shared/services';
 import { DiskOffering, Volume, Zone } from '../../shared/models';
+import { DialogService } from '../../shared/services/dialog.service';
 
 
 @Component({
@@ -32,7 +32,7 @@ export class SpareDriveItemComponent implements OnInit {
   public diskOfferings: Array<DiskOffering>;
 
   constructor(
-    private dialogService: MdlDialogService,
+    private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private translateService: TranslateService,
     private volumeService: VolumeService,

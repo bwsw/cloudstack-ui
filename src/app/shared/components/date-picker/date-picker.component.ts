@@ -5,10 +5,10 @@ import {
   AfterViewInit
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { MdlDialogService } from 'angular2-mdl';
 
 import { DatePickerDialogComponent } from './date-picker-dialog.component';
 import { dateTimeFormat as DateTimeFormat, formatIso } from './dateUtils';
+import { DialogService } from '../../services/dialog.service';
 
 
 interface DatePickerConfig {
@@ -44,7 +44,7 @@ export class DatePickerComponent implements ControlValueAccessor, AfterViewInit 
   public _date: Date = new Date();
   private isDialogOpen = false;
 
-  constructor(private dialogService: MdlDialogService) {}
+  constructor(private dialogService: DialogService) {}
 
   public ngAfterViewInit(): void {
     this.date = new Date();

@@ -7,7 +7,7 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { MdlDialogService } from 'angular2-mdl';
+import { DialogService } from '../../services/dialog.service';
 
 
 @Component({
@@ -24,7 +24,7 @@ export class SidebarComponent {
 
   constructor(
     private elementRef: ElementRef,
-    private dialogService: MdlDialogService
+    private dialogService: DialogService
   ) {
     this.dialogService.onDialogsOpenChanged
       .subscribe(dialogsOpen => {

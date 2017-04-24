@@ -73,6 +73,7 @@ import { LoaderComponent } from './components/loader.component';
 import { UserService } from './services/user.service';
 import { FilterService } from './services/filter.service';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
+import { DialogService } from './services/dialog.service';
 
 
 @NgModule({
@@ -144,6 +145,7 @@ import { IntegerValidatorDirective } from './directives/integer-value.directive'
     AuthGuard,
     AuthService,
     ConfigService,
+    DialogService,
     DiskOfferingService,
     DiskStorageService,
     ErrorService,

@@ -1,5 +1,4 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
-import { MdlDialogService } from 'angular2-mdl';
 import { TranslateService } from '@ngx-translate/core';
 import debounce = require('lodash/debounce');
 import sortBy = require('lodash/sortBy');
@@ -20,6 +19,7 @@ import { VolumeTypes } from '../../shared/models/volume.model';
 import { ZoneService } from '../../shared/services/zone.service';
 import { Zone } from '../../shared/models/zone.model';
 import { FilterService } from '../../shared/services/filter.service';
+import { DialogService } from '../../shared/services/dialog.service';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -54,7 +54,7 @@ export class SpareDrivePageComponent implements OnInit {
   @HostBinding('class.detail-list-container') public detailListContainer = true;
 
   constructor(
-    private dialogService: MdlDialogService,
+    private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private filter: FilterService,
     private jobsNotificationService: JobsNotificationService,
@@ -131,20 +131,7 @@ export class SpareDrivePageComponent implements OnInit {
   }
 
   public showRemoveDialog(volume: Volume): void {
-    this.translateService.get([
-      'YES',
-      'NO',
-      'CONFIRM_DELETE_VOLUME',
-      'VOLUME_DELETE_DONE',
-      'VOLUME_DELETE_FAILED'
-    ])
-      .switchMap(translatedStrings => {
-        return this.dialogService.confirm(
-          translatedStrings['CONFIRM_DELETE_VOLUME'],
-          translatedStrings['NO'],
-          translatedStrings['YES']
-        );
-      })
+    this.dialogService.confirm('CONFIRM_DELETE_VOLUME', 'NO', 'YES')
       .onErrorResumeNext()
       .subscribe(() => this.remove(volume));
   }

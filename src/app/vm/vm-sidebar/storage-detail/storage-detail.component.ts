@@ -3,8 +3,6 @@ import {
   Input,
   OnChanges
 } from '@angular/core';
-import { MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from '@ngx-translate/core';
 
 import { VirtualMachine } from '../../shared/vm.model';
 import { IsoAttachmentComponent } from '../../../template/iso-attachment/iso-attachment.component';
@@ -13,6 +11,7 @@ import { IsoEvent } from './iso.component';
 
 import { Volume } from '../../../shared/models';
 import { JobsNotificationService, NotificationService, VolumeService } from '../../../shared/services';
+import { DialogService } from '../../../shared/services/dialog.service';
 
 
 @Component({
@@ -25,8 +24,7 @@ export class StorageDetailComponent implements OnChanges {
   public iso: Iso;
 
   constructor(
-    private dialogService: MdlDialogService,
-    private translateService: TranslateService,
+    private dialogService: DialogService,
     private jobNotificationService: JobsNotificationService,
     private isoService: IsoService,
     private notificationService: NotificationService,
@@ -63,18 +61,7 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   public showVolumeDetachDialog(volume: Volume): void {
-    this.translateService.get([
-      'CONFIRM_VOLUME_DETACH',
-      'YES',
-      'NO'
-    ])
-      .switchMap(translatedStrings => {
-        return this.dialogService.confirm(
-          translatedStrings['CONFIRM_VOLUME_DETACH'],
-          translatedStrings['NO'],
-          translatedStrings['YES']
-        );
-      })
+    this.dialogService.confirm('CONFIRM_VOLUME_DETACH', 'NO', 'YES')
       .onErrorResumeNext()
       .subscribe(() => this.detachVolume(volume));
   }
@@ -118,10 +105,7 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private detachIsoDialog(): void {
-    this.translateService.get(['CONFIRM_ISO_DETACH', 'NO', 'YES'])
-      .switchMap(str => {
-        return this.dialogService.confirm(str['CONFIRM_ISO_DETACH'], str['NO'], str['YES']);
-      })
+    this.dialogService.confirm('CONFIRM_ISO_DETACH', 'NO', 'YES')
       .subscribe(
         () => this.detachIso(),
         () => {}

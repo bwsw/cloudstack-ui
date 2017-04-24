@@ -1,8 +1,7 @@
 import { Injector } from '@angular/core';
-import { inject, TestBed, async, getTestBed, fakeAsync, tick } from '@angular/core/testing';
+import { inject, TestBed, async, fakeAsync, tick } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { ServiceLocator } from './service-locator';
 import { StorageService } from './';
 import { FilterConfig, FilterService } from './filter.service';
 
@@ -45,7 +44,6 @@ describe('Filter service', () => {
         Injector
       ],
     });
-    ServiceLocator.injector = getTestBed().get(Injector);
   }));
 
 
