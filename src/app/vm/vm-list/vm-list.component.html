@@ -70,7 +70,7 @@
       class="card-list-container"
     >
       <cs-vm-list-item
-        *ngFor="let vm of vmList"
+        *ngFor="let vm of visibleVmList"
         [vm]="vm"
         [isSelected]="selectedVm?.id === vm?.id"
         (onVmAction)="vmAction($event)"

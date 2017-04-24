@@ -1,17 +1,15 @@
-import { FieldMapper } from '../../shared/decorators';
-
+import { SecurityGroup } from '../../security-group/sg.model';
+import { FieldMapper, ZoneName } from '../../shared/decorators';
 import {
   BaseModel,
+  InstanceGroup,
   NIC,
   OsType,
   ServiceOffering,
+  Tag,
   Volume
 } from '../../shared/models';
-import { SecurityGroup } from '../../security-group/sg.model';
-import { BaseTemplateModel } from '../../template/shared/base-template.model';
-import { ZoneName } from '../../shared/decorators/zone-name.decorator';
-import { Tag } from '../../shared/models/tag.model';
-import { InstanceGroup } from '../../shared/models/instance-group.model';
+import { BaseTemplateModel } from '../../template/shared';
 
 
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
@@ -33,6 +31,18 @@ export interface IVmAction {
   progressMessage: string;
   successMessage: string;
 }
+
+type PredefinedStates = 'Running' | 'Stopped' | 'Error' | 'Destroyed' | 'Expunged';
+type CustomStates = 'Deploying';
+export type VmState = PredefinedStates | CustomStates;
+
+export const VmStates = {
+  Running: 'Running' as VmState,
+  Stopped: 'Stopped' as VmState,
+  Error: 'Error' as VmState,
+  Destroyed: 'Destroyed' as VmState,
+  Expunged: 'Expunged' as VmState
+};
 
 @ZoneName()
 @FieldMapper({
@@ -73,7 +83,7 @@ export class VirtualMachine extends BaseModel {
   public id: string;
   public displayName: string;
   // Status
-  public state: string;
+  public state: VmState;
   // Service Offering
   public serviceOffering: ServiceOffering;
   public serviceOfferingId: string;
@@ -177,7 +187,7 @@ export class VirtualMachine extends BaseModel {
     return true;
   }
 
-  public static getAction(action: string): IVmAction  {
+  public static getAction(action: string): IVmAction {
     let name = action.charAt(0).toUpperCase() + action.slice(1);
     let commandName = action;
     let nameLower = action.toLowerCase();

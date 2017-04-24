@@ -1,30 +1,26 @@
-import { Component,
-  OnInit,
-  Inject,
-  ViewChild,
-  HostBinding
-} from '@angular/core';
+import { Component, HostBinding, Inject, OnInit, ViewChild } from '@angular/core';
 
-import { VmService, IVmActionEvent } from '../shared/vm.service';
-import { VirtualMachine } from '../shared/vm.model';
 import {
+  AsyncJob,
   AsyncJobService,
+  InstanceGroup,
   IStorageService,
   JobsNotificationService,
   ServiceOfferingService,
   StatsUpdateService,
+  VmStatisticsComponent,
   Zone
 } from '../../shared';
 
 import { ListService } from '../../shared/components/list/list.service';
+import { VirtualMachine } from '../shared/vm.model';
+
+import { IVmActionEvent, VmService } from '../shared/vm.service';
 
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import { VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListSection } from './vm-list-section/vm-list-section.component';
 import { VmListSubsection } from './vm-list-subsection/vm-list-subsection.component';
-import { VmStatisticsComponent } from '../../shared/components/vm-statistics/vm-statistics.component';
-import { AsyncJob } from '../../shared/models/async-job.model';
-import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { DialogService } from '../../shared/services/dialog.service';
 
 
@@ -42,25 +38,20 @@ const askToCreateVm = 'askToCreateVm';
 })
 export class VmListComponent implements OnInit {
   @ViewChild(VmStatisticsComponent) public vmStats: VmStatisticsComponent;
-  @ViewChild(VmCreationComponent) public vmCreationForm: VmCreationComponent;
   @HostBinding('class.mdl-color--grey-100') public backgroundColorClass = true;
   @HostBinding('class.detail-list-container') public detailListContainer = true;
 
-  public isDetailOpen: boolean;
-
-  public groupByColors = false;
-
-  public selectedVm: VirtualMachine;
-
   public filterData: VmFilter;
-
+  public groupByColors = false;
+  public selectedVm: VirtualMachine;
   public showSections = false;
   public showSubsections = false;
 
   public sections: Array<VmListSection> = [];
   public subsections: Array<VmListSubsection> = [];
 
-  private vmList: Array<VirtualMachine>;
+  public vmList: Array<VirtualMachine>;
+  public visibleVmList: Array<VirtualMachine>;
 
   constructor (
     private listService: ListService,
@@ -130,6 +121,7 @@ export class VmListComponent implements OnInit {
     this.sections = [];
     this.subsections = [];
 
+    this.visibleVmList = this.filterVMsByState(this.vmList, filterData.selectedStates);
     if (filterData.doFilterByColor) {
       this.vmList = this.sortByColor(this.vmList);
     } else {
@@ -137,11 +129,11 @@ export class VmListComponent implements OnInit {
     }
 
     if (this.showSections) {
-      this.updateSections(filterData);
+      this.updateSections(this.visibleVmList, filterData);
     }
 
     if (!this.showSections && this.showSubsections) {
-      this.updateSubsections(filterData);
+      this.updateSubsections(this.visibleVmList, filterData);
     }
   }
 
@@ -188,6 +180,7 @@ export class VmListComponent implements OnInit {
     this.vmService.getList()
       .subscribe(vmList => {
         this.vmList = vmList;
+        this.visibleVmList = vmList;
         if (!this.vmList.length) {
           this.showSuggestionDialog();
         }
@@ -305,6 +298,11 @@ export class VmListComponent implements OnInit {
     return vmList.filter(vm => vm.zoneId === zone.id);
   }
 
+  private filterVMsByState(vmList: Array<VirtualMachine>, states): Array<VirtualMachine> {
+    return !states.length ? vmList :
+      vmList.filter(vm => states.some(state => vm.state === state));
+  }
+
   private sortByColor(vmList: Array<VirtualMachine>): Array<VirtualMachine> {
     return vmList.sort((vmA, vmB) => {
       let vmAColor = this.vmService.getColor(vmA).value;
@@ -353,14 +351,14 @@ export class VmListComponent implements OnInit {
     }
   }
 
-  private updateSections(filterData: VmFilter): void {
+  private updateSections(vms: Array<VirtualMachine>, filterData: VmFilter): void {
     let filterDataKey = this.getFilterKey(filterData.mode);
 
     this.sections = filterData[filterDataKey]
       .map((elem): VmListSection => {
         let vmList = filterData.mode === SectionType.group ?
-          this.filterVmsByGroup(this.vmList, elem) :
-          this.filterVmsByZone(this.vmList, elem);
+          this.filterVmsByGroup(vms, elem) :
+          this.filterVmsByZone(vms, elem);
 
         let subsectionList = this.getSubsectionList(vmList, filterData);
 
@@ -371,16 +369,16 @@ export class VmListComponent implements OnInit {
       });
   }
 
-  private updateSubsections(filterData: VmFilter): void {
-    this.subsections = this.getSubsectionList(this.vmList, filterData);
+  private updateSubsections(vms: Array<VirtualMachine>, filterData: VmFilter): void {
+    this.subsections = this.getSubsectionList(vms, filterData);
   }
 
   private getSubsectionList(
     vmList: Array<VirtualMachine>,
     filterData: VmFilter
   ): Array<VmListSubsection> {
-    let subsectionType = this.getSubsectionType(filterData.mode);
-    let filterDataKey = this.getFilterKey(subsectionType);
+    const subsectionType = this.getSubsectionType(filterData.mode);
+    const filterDataKey = this.getFilterKey(subsectionType);
 
     return filterData[filterDataKey]
       .map(elem => {

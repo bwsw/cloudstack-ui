@@ -15,11 +15,13 @@ import { VmService } from '../shared/vm.service';
 import { InstanceGroup } from '../../shared/models';
 import { InstanceGroupService } from '../../shared/services';
 import { FilterService } from '../../shared/services';
+import { VmState, VmStates } from '../shared/vm.model';
 
 
 export interface VmFilter {
   doFilterByColor: boolean;
   selectedGroups: Array<InstanceGroup>;
+  selectedStates: Array<VmState>;
   selectedZones: Array<Zone>;
   mode: SectionType;
 }
@@ -33,9 +35,15 @@ export class VmFilterComponent implements OnInit {
   @Output() public updateFilters = new EventEmitter<VmFilter>();
   public doFilterByColor = false;
   public selectedGroups: Array<InstanceGroup> = [];
+  public selectedStates: Array<VmState> = [];
   public selectedZones: Array<Zone> = [];
   public groups: Array<InstanceGroup>;
   public zones: Array<Zone>;
+  public states: Array<VmState> = [
+    VmStates.Running,
+    VmStates.Stopped,
+    VmStates.Error
+  ];
   public mode: SectionType = SectionType.zone;
 
   private filtersKey = 'vmListFilters';
@@ -67,12 +75,14 @@ export class VmFilterComponent implements OnInit {
       'byColors': { type: 'boolean' },
       'mode': { type: 'string', options: ['zone', 'group'], defaultOption: 'zone' },
       'zones': { type: 'array', defaultOption: [] },
-      'groups': { type: 'array', defaultOption: [] }
+      'groups': { type: 'array', defaultOption: [] },
+      'states': { type: 'array', options: this.states, defaultOption: [] }
     });
     this.doFilterByColor = !!params.byColors;
     this.mode = params['mode'] === 'group' ? SectionType.group : SectionType.zone;
     this.selectedZones = this.zones.filter(zone => params['zones'].find(id => id === zone.id));
     this.selectedGroups = this.groups.filter(group => params['groups'].find(id => id === group.name));
+    this.selectedStates = params.states;
 
     this.update();
   }
@@ -90,6 +100,7 @@ export class VmFilterComponent implements OnInit {
     this.updateFilters.emit({
       doFilterByColor: this.doFilterByColor,
       selectedGroups: sortBy(this.selectedGroups, 'name'),
+      selectedStates: this.selectedStates,
       selectedZones: sortBy(this.selectedZones, 'name'),
       mode: this.mode
     });
@@ -98,7 +109,8 @@ export class VmFilterComponent implements OnInit {
       'byColors': this.doFilterByColor,
       'mode': this.mode === SectionType.group ? 'group' : 'zone',
       'zones': this.selectedZones.map(_ => _.id),
-      'groups': this.selectedGroups.map(_ => _.name)
+      'groups': this.selectedGroups.map(_ => _.name),
+      'states': this.selectedStates
     });
   }
 
@@ -109,6 +121,11 @@ export class VmFilterComponent implements OnInit {
 
   public updateGroups(selectedGroups: Array<InstanceGroup>): void {
     this.selectedGroups = selectedGroups;
+    this.update();
+  }
+
+  public updateStates(statuses: Array<VmState>): void {
+    this.selectedStates = statuses;
     this.update();
   }
 
