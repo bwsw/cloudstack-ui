@@ -19,7 +19,7 @@
   "RESTORING": "Переустановка",
   "DESTROYING": "Уничтожение",
   "DEPLOYING": "Развертывание",
-  "Error": "Ошибка",
+  "ERROR": "Ошибка",
 
   "START_IN_PROGRESS": "Запуск",
   "STOP_IN_PROGRESS": "Остановка",

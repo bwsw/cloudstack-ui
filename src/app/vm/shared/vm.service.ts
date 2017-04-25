@@ -30,6 +30,7 @@ import { VirtualMachine, IVmAction } from './vm.model';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { VolumeTypes } from '../../shared/models/volume.model';
 import { DialogService } from '../../shared/services/dialog.service';
+import { UserService } from '../../shared/services/user.service';
 
 
 export interface IVmActionEvent {
@@ -54,9 +55,29 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     private osTypesService: OsTypeService,
     private serviceOfferingService: ServiceOfferingService,
     private securityGroupService: SecurityGroupService,
-    private volumeService: VolumeService,
+    private userService: UserService,
+    private volumeService: VolumeService
   ) {
     super();
+  }
+
+  public getNumberOfVms(): Observable<number> {
+    return this.userService.readTag('numberOfVms')
+      .switchMap(numberOfVms => {
+        if (numberOfVms !== undefined && !Number.isNaN(+numberOfVms)) {
+          return Observable.of(+numberOfVms);
+        }
+
+        return this.getList({}, true)
+          .switchMap(vmList => {
+            return this.writeNumberOfVms(vmList.length);
+          });
+      });
+  }
+
+  public incrementNumberOfVms(): Observable<number> {
+    return this.getNumberOfVms()
+      .switchMap(numberOfVms => this.writeNumberOfVms(numberOfVms + 1));
   }
 
   public updateVmInfo(vm: VirtualMachine): void {
@@ -357,5 +378,11 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       vm.securityGroup[index] = groups.find(sg => sg.id === group.id);
     });
     return vm;
+  }
+
+  private writeNumberOfVms(number: number): Observable<number> {
+    return this.userService
+      .writeTag('numberOfVms', number.toString())
+      .mapTo(number);
   }
 }
