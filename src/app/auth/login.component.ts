@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import {
@@ -7,14 +7,17 @@ import {
 } from '../shared';
 
 
+const fadeIn = 600;
+
 @Component({
   selector: 'cs-login',
   templateUrl: './login.component.html',
   styleUrls: ['login.component.scss'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   public username: string;
   public password: string;
+  public loading = true;
 
   constructor(
     private auth: AuthService,
@@ -23,6 +26,10 @@ export class LoginComponent {
   ) {
     this.username = '';
     this.password = '';
+  }
+
+  public ngOnInit(): void {
+    setTimeout(() => this.loading = false, fadeIn);
   }
 
   public onSubmit(): void {

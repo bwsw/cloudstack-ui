@@ -1,28 +1,27 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Cloudstack UI</title>
-    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
-    <link rel="stylesheet" href="/css/loader.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en,Intl.~locale.ru"></script>
-    <base href="/">
-  </head>
-  <body>
-  <div>
-    <div class="dialog-container">
-      <div class="inner-wrapper">
-        <dialog-outlet></dialog-outlet>
-      </div>
+<head>
+  <meta charset="utf-8">
+  <title>Cloudstack UI</title>
+  <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+  <link rel="stylesheet" href="/css/loader.css">
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en,Intl.~locale.ru"></script>
+  <base href="/">
+</head>
+<body>
+<div>
+  <div class="dialog-container">
+    <div class="inner-wrapper">
+      <dialog-outlet></dialog-outlet>
     </div>
   </div>
-  <cs-app>
-      <div class="preloader">
-        <img src="/img/cloudstack_logo.png" style="">
-        <div class="loader"></div>
-      </div>
-    </cs-app>
-  </body>
+</div>
+<cs-app>
+  <div class="preloader">
+    <img src="/img/cloudstack_logo.png">
+    <div class="loader"></div>
+  </div>
+</cs-app>
+</body>
 </html>
 
