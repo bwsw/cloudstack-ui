@@ -39,7 +39,7 @@ export class TagService extends BaseBackendService<Tag> {
   }
 
   public getTag(entity: any, key: string): Observable<Tag> {
-    return this.getList({ resourceIds: entity.id, key }).map(tags => tags.length ? tags[0] : undefined);
+    return this.getList({ resourceId: entity.id, key }).map(tags => tags.length ? tags[0] : undefined);
   }
 
   public update(entity: any, entityName: string, key: string, value: any): Observable<any> {
