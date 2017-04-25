@@ -64,14 +64,14 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   public getNumberOfVms(): Observable<number> {
     return this.userService.readTag('numberOfVms')
       .switchMap(numberOfVms => {
-        if (numberOfVms !== undefined) {
+        if (numberOfVms !== undefined && !Number.isNaN(+numberOfVms)) {
           return Observable.of(+numberOfVms);
-        } else {
-          return this.getList({}, true)
-            .switchMap(vmList => {
-              return this.writeNumberOfVms(vmList.length);
-            });
         }
+
+        return this.getList({}, true)
+          .switchMap(vmList => {
+            return this.writeNumberOfVms(vmList.length);
+          });
       });
   }
 
@@ -383,6 +383,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   private writeNumberOfVms(number: number): Observable<number> {
     return this.userService
       .writeTag('numberOfVms', number.toString())
-      .map(() => number);
+      .mapTo(number);
   }
 }
