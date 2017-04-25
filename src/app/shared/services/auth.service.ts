@@ -15,12 +15,12 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
   entityModel: BaseModelStub
 })
 export class AuthService extends BaseBackendService<BaseModelStub> {
-  public loggedIn: BehaviorSubject<boolean>;
+  public loggedIn: BehaviorSubject<string>;
 
   constructor(@Inject('IStorageService') protected storage: IStorageService,
               protected error: ErrorService) {
     super();
-    this.loggedIn = new BehaviorSubject<boolean>(!!this.userId);
+    this.loggedIn = new BehaviorSubject<string>(!!this.userId ? 'login' : 'logout');
   }
 
   public get name(): string {
@@ -70,7 +70,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
 
   public logout(): Observable<void> {
     return this.postRequest('logout')
-      .map(() => this.setLoggedOut())
+      .map(() => this.setLoggedOut('logout'))
       .catch(error => {
         this.error.send(error);
         return Observable.throw('Unable to log out.');
@@ -85,13 +85,13 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     this.name = name;
     this.username = username;
     this.userId = userId;
-    this.loggedIn.next(true);
+    this.loggedIn.next('login');
   }
 
-  public setLoggedOut(): void {
+  public setLoggedOut(a: string): void {
     this.name = '';
     this.username = '';
     this.userId = '';
-    this.loggedIn.next(false);
+    this.loggedIn.next(a);
   }
 }

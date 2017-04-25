@@ -67,15 +67,15 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     this.error.subscribe(e => this.handleError(e));
     this.auth.loggedIn.subscribe(loggedIn => {
-      this.loggedIn = loggedIn;
-      this.updateAccount(loggedIn);
-      if (loggedIn) {
+      this.loggedIn = loggedIn === 'login';
+      this.updateAccount(this.loggedIn);
+      if (loggedIn === 'login') {
         this.loadSettings();
         this.zoneService.areAllZonesBasic().subscribe(basic => this.disableSecurityGroups = basic);
       } else {
         this.asyncJobService.completeAllJobs();
         if (this.router.url !== '/login' && this.router.url !== '/') {
-          this.router.navigate(['/logout']);
+          this.router.navigate(['/logout'], { queryParams: { loggedIn } });
         }
       }
     });
@@ -153,7 +153,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       switch (e.status) {
         case 401:
           this.translate.get('NOT_LOGGED_IN').subscribe(result => this.notification.message(result));
-          this.auth.setLoggedOut();
+          this.auth.setLoggedOut('reset');
           break;
       }
     }
