@@ -316,20 +316,9 @@ export class VmCreationComponent implements OnInit {
   }
 
   private getDefaultVmName(): Observable<string> {
-    const regex = /vm-.*-(\d+)/;
-
-    return this.vmService.getList({}, true)
-      .map(vmList => {
-        let max = 0;
-        vmList.forEach(vm => {
-          const match = vm.displayName.match(regex);
-
-          if (match && +match[1] > max) {
-            max = +match[1];
-          }
-        });
-
-        return `vm-${this.auth.username}-${++max}`;
+    return this.vmService.getNumberOfVms()
+      .map(numberOfVms => {
+        return `vm-${this.auth.username}-${numberOfVms + 1}`;
       });
   }
 
@@ -440,6 +429,7 @@ export class VmCreationComponent implements OnInit {
   private deploy(params): void {
     let deployObservable = new Subject();
     let notificationId: string;
+    let deployResponseVm: any;
 
     this.vmService.deploy(params)
       .switchMap(deployResponse => {
@@ -447,10 +437,13 @@ export class VmCreationComponent implements OnInit {
 
         this.vmService.get(deployResponse.id)
           .subscribe(vm => {
+            deployResponseVm = vm;
             vm.state = 'Deploying';
             deployObservable.next(vm);
             deployObservable.complete();
           });
+
+        this.vmService.incrementNumberOfVms().subscribe();
 
         this.sgCreationInProgress = false;
         this.dialog.hide(deployObservable);
@@ -477,6 +470,9 @@ export class VmCreationComponent implements OnInit {
           this.vmService.updateVmInfo(vm);
         },
         err => {
+          deployResponseVm.state = 'Error';
+          this.vmService.updateVmInfo(deployResponseVm);
+
           this.sgCreationInProgress = false;
           this.agCreationInProgress = false;
           this.translateService.get(err.message, err.params)
