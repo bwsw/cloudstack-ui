@@ -7,6 +7,8 @@ import {
 } from '../shared';
 
 
+const fadeIn = 600;
+
 @Component({
   selector: 'cs-login',
   templateUrl: './login.component.html',
@@ -27,9 +29,7 @@ export class LoginComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    setTimeout(() => {
-      this.loading = false;
-    }, 750);
+    setTimeout(() => this.loading = false, fadeIn);
   }
 
   public onSubmit(): void {
