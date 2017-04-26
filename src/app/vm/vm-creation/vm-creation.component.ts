@@ -470,8 +470,10 @@ export class VmCreationComponent implements OnInit {
           this.vmService.updateVmInfo(vm);
         },
         err => {
-          deployResponseVm.state = 'Error';
-          this.vmService.updateVmInfo(deployResponseVm);
+          if (deployResponseVm) {
+            deployResponseVm.state = 'Error';
+            this.vmService.updateVmInfo(deployResponseVm);
+          }
 
           this.sgCreationInProgress = false;
           this.agCreationInProgress = false;
