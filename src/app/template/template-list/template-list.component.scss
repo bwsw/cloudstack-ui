@@ -38,7 +38,8 @@ mdl-list-item {
 
 .template-text {
   display: inline-block;
-  max-width: 300px;
+  max-width: 500px;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
