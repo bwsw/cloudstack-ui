@@ -163,7 +163,7 @@ To run docker container with default configuration options use:
 
 ```
 docker run -d -p 80:80 --name cloudstack-ui \
-           -e API_BACKEND_URL=http://link_to_api_endpoint \
+           -e API_BACKEND_URL=http://link_to_api_endpoint/ \
            bwsw/cloudstack-ui
 ```
 

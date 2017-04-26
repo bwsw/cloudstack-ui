@@ -32,7 +32,10 @@
             </template>
             <template ngSwitchDefault>help</template>
           </mdl-icon>
-          <span [innerHTML]="template.name | highlight:query"></span>
+          <span
+            class="template-text"
+            [innerHTML]="template.name | highlight:query"
+          ></span>
           <ng-container *ngIf="!template.isReady">
             <div
               class="state-icon"
@@ -42,6 +45,7 @@
             ></div>
           </ng-container>
           <mdl-list-item-sub-title
+            class="template-text"
             [innerHTML]="template.displayText | highlight:query"
           ></mdl-list-item-sub-title>
         </mdl-list-item-primary-content>

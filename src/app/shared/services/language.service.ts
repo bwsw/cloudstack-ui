@@ -31,6 +31,10 @@ export class LanguageService {
   }
 
   private get defaultLanguage(): string {
-    return navigator.language || DEFAULT_LANGUAGE;
+    const language = navigator.language && navigator.language.substr(0, 2);
+    if (language === 'ru' || language === 'en') {
+      return language;
+    }
+    return DEFAULT_LANGUAGE;
   }
 }
