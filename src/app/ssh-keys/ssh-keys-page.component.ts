@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import sortBy = require('lodash/sortBy');
 
-import { SSHKeyPair } from '../shared/models/ssh-keypair.model';
+import { SSHKeyPair } from '../shared/models';
+import { DialogService } from '../shared/services/dialog.service';
 import { SshKeyCreationData, SSHKeyPairService } from '../shared/services/ssh-keypair.service';
 import { SShKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creation-dialog.component';
 import { SshPrivateKeyDialogComponent } from './ssh-key-creation/ssh-private-key-dialog.component';
-import { DialogService } from '../shared/services/dialog.service';
+import sortBy = require('lodash/sortBy');
 
 
 @Component({
@@ -24,9 +24,8 @@ export class SshKeysPageComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.sshKeyService
-      .getList()
-      .subscribe(keyList => this.sshKeyList = keyList);
+    this.sshKeyService.getList()
+      .subscribe(keyList => this.sshKeyList = sortBy(keyList, 'name'));
   }
 
   public showCreationDialog(): void {
