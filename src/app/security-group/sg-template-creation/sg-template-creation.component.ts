@@ -9,12 +9,10 @@ import { MdlDialogReference } from 'angular2-mdl';
 export class SgTemplateCreationComponent {
   public name: string;
   public description: string;
-  public labels: string;
 
   constructor(public dialog: MdlDialogReference) {
     this.name = '';
     this.description = '';
-    this.labels = '';
   }
 
   public onSubmit(e: Event): void {
@@ -22,7 +20,6 @@ export class SgTemplateCreationComponent {
     this.dialog.hide({
       name: this.name,
       description: this.description,
-      labels: this.labels
     });
   }
 }

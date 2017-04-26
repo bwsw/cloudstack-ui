@@ -202,13 +202,11 @@
   "UNABLE_TO_RECEIVE_TEMPLATES": "Unable to receive templates",
   "NAME": "Name",
   "DESCRIPTION": "Description",
-  "LABELS": "Labels",
   "DATE": "Date",
   "ACTIONS": "Actions",
   "VIEW_ALL": "View all",
   "CUSTOM_TEMPLATES_NOT_INCLUDED": "Templates not included",
   "BASED_ON": "based on",
-  "SEPARATE_MULTILINE_LABELS": "* separate multiple labels with a semicolon",
 
   "IP": "IP",
   "NIC": "NIC",
