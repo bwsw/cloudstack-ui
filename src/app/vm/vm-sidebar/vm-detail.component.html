@@ -77,6 +77,8 @@
     <mdl-card-actions mdl-card-border>
       <div class="card-left-button">
         <button
+          [mdl-tooltip]="'CHANGE' | translate"
+          mdl-tooltip-position="top"
           mdl-button
           mdl-button-type="icon"
           (click)="changeServiceOffering()"
@@ -206,6 +208,8 @@
     </mdl-card-supporting-text>
     <mdl-card-actions mdl-card-border>
       <button
+        [mdl-tooltip]="'EDIT' | translate"
+        mdl-tooltip-position="top"
         mdl-button
         mdl-button-type="icon"
         (click)="showRulesDialog(vm.securityGroup[0])"

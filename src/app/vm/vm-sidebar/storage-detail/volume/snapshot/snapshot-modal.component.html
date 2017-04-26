@@ -17,8 +17,6 @@
           <button
             *ngFor="let action of snapshotActionsService.Actions"
             class="button-18px snapshot-button"
-            [mdl-tooltip]="action.name | translate"
-            mdl-tooltip-position="top"
             mdl-button
             mdl-button-type="icon"
             (click)="action.activate(snapshot, volume)"

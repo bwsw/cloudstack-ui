@@ -110,6 +110,8 @@
   >
     <div mdl-shadow="6" class="popover-actions">
       <button
+        [mdl-tooltip]="'DELETE' | translate"
+        mdl-tooltip-position="bottom"
         mdl-button
         mdl-button-type="icon"
         (click)="removeTemplate()"
