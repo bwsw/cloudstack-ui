@@ -11,7 +11,8 @@ import { DialogService } from '../shared/services/dialog.service';
 
 @Component({
   selector: 'cs-ssh-keys-page',
-  templateUrl: 'ssh-keys-page.component.html'
+  templateUrl: 'ssh-keys-page.component.html',
+  styleUrls: ['ssh-keys-page.component.scss']
 })
 export class SshKeysPageComponent implements OnInit {
   public sshKeyList: Array<SSHKeyPair>;
