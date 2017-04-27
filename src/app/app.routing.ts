@@ -11,9 +11,14 @@ import { AuthGuard } from './shared/services';
 import { LoginGuard } from './shared/services';
 import { SshKeysPageComponent } from './ssh-keys/ssh-keys-page.component';
 import { LogoutComponent } from './auth/logout.component';
+import { InlineEditAutocompleteComponent } from './shared/components/inline-edit/inline-edit-autocomplete.component';
 
 
 export const routes: Routes = [
+  {
+    path: 'test',
+    component: InlineEditAutocompleteComponent
+  },
   {
     path: 'login',
     component: LoginComponent,

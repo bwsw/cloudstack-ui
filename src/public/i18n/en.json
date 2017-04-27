@@ -482,5 +482,9 @@
 
   "NO_GROUP": "No group",
   "NO_SNAPSHOTS": "No snapshots",
-  "LAST_SNAPSHOT": "Last snapshot"
+  "LAST_SNAPSHOT": "Last snapshot",
+
+  "CLICK_TO_EDIT": "Click to edit",
+  "SELECT_AN_OPTION": "Select an option",
+  "ENTER_TEXT": "Enter text"
 }

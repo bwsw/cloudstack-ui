@@ -1,0 +1,47 @@
+<form (ngSubmit)="onSubmit($event)" #inlineInputForm="ngForm" novalidate>
+  <span
+    class="text-content"
+    (click)="edit()"
+    *ngIf="!editing && !showContentPlaceholder"
+  >
+    {{ content }}
+  </span>
+
+  <span
+    class="text-content text-content-empty"
+    (click)="edit($event)"
+    *ngIf="!editing && showContentPlaceholder"
+  >
+    {{ contentPlaceholder }}
+  </span>
+
+  <mdl-autocomplete
+    name="autocomplete"
+    *ngIf="editing"
+    [placeholder]="inputPlaceholder"
+    [options]="autocompleteOptions"
+    [ngModel]="textFieldText"
+    (ngModelChange)="updateTextFieldText($event)"
+  ></mdl-autocomplete>
+
+  <br>
+
+  <div class="buttons">
+    <button
+      mdl-button
+      *ngIf="editing"
+      (click)="onCancel()"
+      type="button"
+    >
+      {{ 'CANCEL' | translate }}
+    </button>
+
+    <button
+      mdl-button
+      *ngIf="editing"
+      type="submit"
+    >
+      {{ 'SAVE' | translate }}
+    </button>
+  </div>
+</form>
