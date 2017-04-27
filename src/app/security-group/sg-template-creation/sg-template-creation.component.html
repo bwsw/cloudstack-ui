@@ -9,7 +9,7 @@
         floating-label
         autofocus
         required
-        [(ngModel)]="name"
+        [(ngModel)]="sgTemplateFormData.name"
         #nameField="ngModel"
         [class.is-invalid]="nameField.invalid && !nameField.pristine"
         [style.width]="'100%'"
@@ -22,7 +22,7 @@
         name="description"
         floating-label
         required
-        [(ngModel)]="description"
+        [(ngModel)]="sgTemplateFormData.description"
         #descriptionField="ngModel"
         [class.is-invalid]="descriptionField.invalid && !descriptionField.pristine"
         [style.width]="'100%'"

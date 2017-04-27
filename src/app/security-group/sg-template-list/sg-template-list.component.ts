@@ -4,7 +4,10 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { SecurityGroup } from '../sg.model';
-import { SgTemplateCreationComponent } from '../sg-template-creation/sg-template-creation.component';
+import {
+  SgTemplateCreationComponent,
+  SgTemplateFormData
+} from '../sg-template-creation/sg-template-creation.component';
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
 import { NotificationService } from '../../shared/services/notification.service';
 import { ListService } from '../../shared/components/list/list.service';
@@ -20,6 +23,7 @@ import { DialogService } from '../../shared/services/dialog.service';
 export class SgTemplateListComponent implements OnInit {
   public predefinedSecurityGroupList: Array<SecurityGroup>;
   public customSecurityGroupList: Array<SecurityGroup>;
+  public sgCreationFormData: SgTemplateFormData;
 
   constructor(
     private securityGroupService: SecurityGroupService,
@@ -45,14 +49,14 @@ export class SgTemplateListComponent implements OnInit {
       });
   }
 
-  public createSecurityGroupTemplate(data): void {
+  public createSecurityGroupTemplate(data): Observable<void> {
     let translatedString = '';
-    this.translate.get('TEMPLATE_CREATED', { name: data.name })
+    return this.translate.get('TEMPLATE_CREATED', { name: data.name })
       .switchMap(str => {
         translatedString = str;
         return this.securityGroupService.createTemplate(data);
       })
-      .subscribe(template => {
+      .map(template => {
         this.customSecurityGroupList.push(template);
         this.notificationService.message(translatedString);
       });
@@ -77,14 +81,21 @@ export class SgTemplateListComponent implements OnInit {
   public showCreationDialog(): void {
     this.dialogService.showCustomDialog({
       component: SgTemplateCreationComponent,
-      classes: 'sg-template-creation-dialog'
+      classes: 'sg-template-creation-dialog',
+      providers: [{ provide: 'formData', useValue: this.sgCreationFormData }]
     })
       .switchMap(res => res.onHide())
       .subscribe((data: any) => {
-        if (!data) {
-          return;
-        }
-        this.createSecurityGroupTemplate(data);
+        this.sgCreationFormData = undefined;
+        if (!data) { return; }
+        this.createSecurityGroupTemplate(data)
+          .subscribe(
+            () => {},
+            error => {
+              this.sgCreationFormData = data;
+              this.handleSgCreationError(error);
+            }
+          );
       });
   }
 
@@ -94,5 +105,10 @@ export class SgTemplateListComponent implements OnInit {
       classes: 'sg-rules-dialog',
       providers: [{ provide: 'securityGroup', useValue: group }],
     });
+  }
+
+  private handleSgCreationError(error: any): void {
+    this.translate.get(error.message, error.params)
+      .subscribe((msg) => this.dialogService.alert(msg));
   }
 }

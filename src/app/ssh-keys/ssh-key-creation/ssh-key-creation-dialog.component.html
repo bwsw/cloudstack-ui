@@ -7,7 +7,7 @@
         floating-label
         label="{{ 'NAME' | translate }}"
         name="name"
-        [(ngModel)]="name"
+        [(ngModel)]="sshFormData.name"
         #nameField="ngModel"
         [class.is-invalid]="nameField.invalid && !nameField.pristine"
         [style.width]="'100%'"
@@ -22,7 +22,7 @@
         type="text"
         label="{{ 'AUTO_GENERATED' | translate }}"
         name="public-key"
-        [(ngModel)]="publicKey"
+        [(ngModel)]="sshFormData.publicKey"
         #publicKeyField="ngModel"
         [class.is-invalid]="publicKeyField.invalid && !publicKeyField.pristine"
         [style.width]="'100%'"

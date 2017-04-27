@@ -7,6 +7,7 @@ import { SshKeyCreationData, SSHKeyPairService } from '../shared/services/ssh-ke
 import { SShKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creation-dialog.component';
 import { SshPrivateKeyDialogComponent } from './ssh-key-creation/ssh-private-key-dialog.component';
 import sortBy = require('lodash/sortBy');
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -16,6 +17,7 @@ import sortBy = require('lodash/sortBy');
 })
 export class SshKeysPageComponent implements OnInit {
   public sshKeyList: Array<SSHKeyPair>;
+  public sshCreationFormData: SshKeyCreationData;
 
   constructor(
     private sshKeyService: SSHKeyPairService,
@@ -31,31 +33,40 @@ export class SshKeysPageComponent implements OnInit {
   public showCreationDialog(): void {
     this.dialogService.showCustomDialog({
       component: SShKeyCreationDialogComponent,
+      providers: [{ provide: 'formData', useValue: this.sshCreationFormData }],
       styles: { width: '400px' }
     })
       .switchMap(res => res.onHide())
-      .subscribe(data => this.createSshKey(data));
+      .subscribe(data => {
+        this.sshCreationFormData = undefined;
+        if (!data) { return; }
+        this.createSshKey(data).subscribe(
+          () => {},
+          error => {
+            this.sshCreationFormData = data;
+            this.handleError(error);
+          }
+        );
+      });
   }
 
   public removeKey(name: string): void {
     this.showRemovalDialog(name);
   }
 
-  private createSshKey(data: SshKeyCreationData): void {
+  private createSshKey(data: SshKeyCreationData): Observable<void> {
     if (!data) {
       return;
     }
 
     const keyCreationObs = data.publicKey ? this.sshKeyService.register(data) : this.sshKeyService.create(data);
-    keyCreationObs.subscribe(
+    return keyCreationObs.map(
       (sshKey: SSHKeyPair) => {
         this.sshKeyList = sortBy(this.sshKeyList.concat(sshKey), 'name');
         if (sshKey.privateKey) {
           this.showPrivateKey(sshKey.privateKey);
         }
-      },
-      (error) => this.handleError(error)
-    );
+      });
   }
 
   private showPrivateKey(privateKey: string): void {

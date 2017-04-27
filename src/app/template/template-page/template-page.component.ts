@@ -134,9 +134,10 @@ export class TemplatePageComponent implements OnInit {
           let listOfUsedVms = error.vms.map(vm => vm.name).join(', ');
           this.translateService.get('DELETE_ISO_VMS_IN_USE', {
             vms: listOfUsedVms
-          }).subscribe(str => {
-            this.dialogService.alert(str);
-          });
+          })
+            .subscribe(str => {
+              this.dialogService.alert(str);
+            });
         } else {
           this.jobNotificationService.fail({
             id: notificationId,
