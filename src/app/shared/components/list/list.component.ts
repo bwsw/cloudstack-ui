@@ -14,17 +14,13 @@ export class ListComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     if (this.listService) {
-      this.listService.onSelected.subscribe(() => {
-        this.isOpen = true;
-      });
-      this.listService.onDeselected.subscribe(() => {
-        this.isOpen = false;
-      });
+      this.listService.onSelected.subscribe(() => this.isOpen = true);
+      this.listService.onDeselected.subscribe(() => this.isOpen = false);
     }
   }
 
   public onDetailsHide(): void {
-    this.listService.onDeselected.next();
+    this.listService.deselectItem();
   }
 
   public onAction(): void {

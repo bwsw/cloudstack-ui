@@ -81,10 +81,6 @@
     <cs-no-results *ngIf="noFilteringResults"></cs-no-results>
   </ng-container>
 
-  <cs-vm-sidebar
-    class="mdl-color--grey-100"
-    [vm]="selectedVm"
-    cs-sidebar
-  ></cs-vm-sidebar>
+  <router-outlet cs-sidebar></router-outlet>
 </cs-list>
 

@@ -158,7 +158,7 @@ export class VmListComponent implements OnInit {
       return;
     }
     this.selectedVm = vm;
-    this.listService.onSelected.next();
+    this.listService.selectItem(vm);
   }
 
   public showVmCreationDialog(): void {
