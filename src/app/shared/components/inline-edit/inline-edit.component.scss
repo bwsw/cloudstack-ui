@@ -1,4 +1,8 @@
-:host mdl-textfield /deep/ div input {
-  padding-top: 2px;
-  font-size: 14px;
+:host mdl-textfield {
+  /deep/ div input,
+  /deep/ div textarea {
+    padding: 0;
+    font-size: 14px;
+    line-height: 18px;
+  }
 }

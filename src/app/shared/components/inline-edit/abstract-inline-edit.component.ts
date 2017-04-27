@@ -17,11 +17,12 @@ export abstract class AbstractInlineEditComponent implements OnInit {
   public textFieldText: string;
   public editing: boolean;
 
-  public constructor(protected changeDetectorRef: ChangeDetectorRef) {}
+  constructor(protected changeDetectorRef: ChangeDetectorRef) {
+    this.textChange = new EventEmitter<string>();
+  }
 
   public ngOnInit(): void {
     this.editing = false;
-    this.textChange = new EventEmitter<string>();
   }
 
   public get showContentPlaceholder(): boolean {

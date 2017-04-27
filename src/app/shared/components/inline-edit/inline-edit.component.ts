@@ -11,6 +11,9 @@ import { AbstractInlineEditComponent } from './abstract-inline-edit.component';
 })
 export class InlineEditComponent extends AbstractInlineEditComponent implements OnInit {
   @Input() public rows: number;
+  @Input() public maxrows: number;
+  @Input() public maxLength: number;
+
   @ViewChild(MdlTextFieldComponent) public textFieldComponent: MdlTextFieldComponent;
 
   public constructor(
@@ -37,5 +40,15 @@ export class InlineEditComponent extends AbstractInlineEditComponent implements 
   public edit(): void {
     super.edit();
     this.textFieldComponent.setFocus();
+  }
+
+  public updateTextFieldText(newText: string): void {
+    this.textFieldText = newText;
+
+    if (this.maxLength && this.textFieldText.length > this.maxLength) {
+      this.textFieldText = this.textFieldText.substr(0, this.maxLength);
+      this.changeDetectorRef.detectChanges();
+      this.textFieldComponent.writeValue(this.textFieldText);
+    }
   }
 }

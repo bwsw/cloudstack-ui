@@ -18,9 +18,12 @@
   <mdl-textfield
     name="textField"
     *ngIf="editing"
-    [(ngModel)]="textFieldText"
+    [ngModel]="textFieldText"
+    (ngModelChange)="updateTextFieldText($event)"
     [placeholder]="inputPlaceholder"
     [rows]="rows"
+    [maxrows]="maxrows"
+    (keyup.enter)="onSubmit()"
   ></mdl-textfield>
 
   <br>
