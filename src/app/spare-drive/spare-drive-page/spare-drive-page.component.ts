@@ -167,17 +167,17 @@ export class SpareDrivePageComponent implements OnInit {
       providers: [{ provide: 'formData', useValue: this.spareDriveFormData }]
     })
       .switchMap(res => res.onHide())
-      .subscribe((data: any) => {
-        if (!data) {
-          return;
-        }
-        this.createVolume(data);
-      }, () => {});
+      .subscribe(
+        (data: any) => {
+          this.spareDriveFormData = undefined;
+          if (!data) { return; }
+          this.createVolume(data);
+        });
   }
 
-  public createVolume(volumeCreationData: VolumeCreationData): void {
+  public createVolume(volumeCreationData: SpareDriveFormData): void {
     let notificationId = this.jobsNotificationService.add('VOLUME_CREATE_IN_PROGRESS');
-    this.volumeService.create(volumeCreationData)
+    this.volumeService.create(volumeCreationData.getParams())
       .subscribe(
         volume => {
           if (volume.id) {
@@ -194,7 +194,11 @@ export class SpareDrivePageComponent implements OnInit {
           });
         },
         error => {
-          this.dialogService.alert(error.errortext);
+          this.spareDriveFormData = volumeCreationData;
+          this.dialogService.alert(error.errortext)
+            .subscribe(() => {
+              this.showCreationDialog();
+            });
           this.jobsNotificationService.fail({
             id: notificationId,
             message: 'VOLUME_CREATE_FAILED',

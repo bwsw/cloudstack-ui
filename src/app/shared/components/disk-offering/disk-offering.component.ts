@@ -8,16 +8,16 @@ import { DiskOffering } from '../..';
   styleUrls: ['disk-offering.component.scss']
 })
 export class DiskOfferingComponent implements OnInit, OnChanges {
+  @Input() public selectedDiskOffering: DiskOffering;
   @Input() public diskOfferingList: Array<DiskOffering>;
   @Output() public offeringUpdated = new EventEmitter();
-
-  public selectedDiskOffering: DiskOffering;
 
   public ngOnInit(): void {
     if (!this.diskOfferingList) {
       throw new Error('diskOfferingList is a required parameter');
     }
-    this.updateSelectedOffering();
+
+    this.updateSelectedOffering(this.selectedDiskOffering);
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -30,9 +30,9 @@ export class DiskOfferingComponent implements OnInit, OnChanges {
     this.offeringUpdated.emit(offering);
   }
 
-  private updateSelectedOffering(): void {
+  private updateSelectedOffering(diskOffering?: DiskOffering): void {
     if (this.diskOfferingList.length) {
-      this.selectedDiskOffering = this.diskOfferingList[0];
+      this.selectedDiskOffering = diskOffering || this.diskOfferingList[0];
     }
   }
 }

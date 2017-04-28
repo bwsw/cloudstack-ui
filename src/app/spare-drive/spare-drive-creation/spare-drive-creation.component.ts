@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Optional } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit, Optional } from '@angular/core';
 import { Zone } from '../../shared/models/zone.model';
 import { ZoneService } from '../../shared/services/zone.service';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
@@ -12,7 +12,6 @@ import { VolumeCreationData } from '../../shared/services/volume.service';
 export class SpareDriveFormData {
   constructor(
     public zoneId = '',
-    public offeringIsCustomized = false,
     public diskOffering: DiskOffering = null,
     public name = '',
     public size = 1
@@ -25,7 +24,7 @@ export class SpareDriveFormData {
       diskOfferingId: this.diskOffering.id
     };
 
-    if (this.offeringIsCustomized) {
+    if (this.diskOffering.isCustomized) {
       params['size'] = this.size;
     }
 
@@ -51,6 +50,7 @@ export class SpareDriveCreationComponent implements OnInit {
 
   constructor(
     @Optional() @Inject('formData') public formData,
+    private changeDetectorRef: ChangeDetectorRef,
     private dialog: MdlDialogReference,
     private diskOfferingService: DiskOfferingService,
     private resourceUsageService: ResourceUsageService,
@@ -60,11 +60,13 @@ export class SpareDriveCreationComponent implements OnInit {
   public ngOnInit(): void {
     this.loading = true;
     this.spareDriveFormData = this.formData || new SpareDriveFormData();
-    this.getZones().subscribe(() => this.loading = false);
+    this.changeDetectorRef.detectChanges();
+    this.getZones().subscribe();
   }
 
   public get showResizeSlider(): boolean {
-    return this.spareDriveFormData.offeringIsCustomized;
+    if (!this.spareDriveFormData || !this.spareDriveFormData.diskOffering) { return false; }
+    return this.spareDriveFormData.diskOffering.isCustomized;
   }
 
   public get zoneId(): string {
@@ -86,6 +88,7 @@ export class SpareDriveCreationComponent implements OnInit {
 
   public updateDiskOffering(offering: DiskOffering): void {
     this.spareDriveFormData.diskOffering = offering;
+    this.changeDetectorRef.detectChanges();
   }
 
   private get zone(): Zone {
@@ -98,18 +101,31 @@ export class SpareDriveCreationComponent implements OnInit {
         this.zones = zones;
         if (this.zones.length && (!this.formData || !this.formData.zoneId)) {
           this.zoneId = this.zones[0].id;
+        } else {
+          this.zoneId = this.formData.zoneId;
         }
+        this.changeDetectorRef.detectChanges();
       });
   }
 
   private updateSizeLimits(resourceUsage: ResourceStats): void {
     this.minSize = 1;
-    this.spareDriveFormData.size = this.minSize;
     this.maxSize = resourceUsage.available.primaryStorage;
+
+    const size = this.spareDriveFormData.size;
+    if (size === undefined || size < this.minSize || size > this.maxSize) {
+      this.spareDriveFormData.size = this.minSize;
+    }
   }
 
   private setDefaultDiskOffering(): void {
-    if (!this.diskOfferings.find(offering => this.spareDriveFormData.diskOffering.id === offering.id)) {
+    const listDiskOffering = this.spareDriveFormData.diskOffering &&
+      this.diskOfferings.find(offering => {
+        return this.spareDriveFormData.diskOffering.id === offering.id;
+      });
+    if (listDiskOffering) {
+      this.updateDiskOffering(listDiskOffering);
+    } else {
       this.updateDiskOffering(this.diskOfferings[0]);
     }
   }
@@ -125,14 +141,17 @@ export class SpareDriveCreationComponent implements OnInit {
         this.diskOfferingService.getList({ zone: this.zone, maxSize: resourceUsage.available.primaryStorage })
           .subscribe(offerings => {
             this.diskOfferings = offerings;
+            this.changeDetectorRef.detectChanges();
 
             if (!this.diskOfferings.length) {
               this.enoughResources = false;
+              this.loading = false;
               return;
             }
 
             this.setDefaultDiskOffering();
             this.enoughResources = true;
+            this.loading = false;
             this.updateSizeLimits(resourceUsage);
           });
       });

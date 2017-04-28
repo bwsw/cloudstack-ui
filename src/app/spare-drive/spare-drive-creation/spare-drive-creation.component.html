@@ -18,7 +18,7 @@
         <div>
           <h5>{{ 'ZONE' | translate }}</h5>
           <mdl-select
-            [(ngModel)]="spareDriveFormData.zoneId"
+            [(ngModel)]="zoneId"
             id="zone"
             name="zone"
           >
@@ -34,6 +34,7 @@
           <h5>{{ 'DISK_OFFERING' | translate }}</h5>
           <cs-disk-offering
             *ngIf="diskOfferings"
+            [selectedDiskOffering]="spareDriveFormData.diskOffering"
             [diskOfferingList]="diskOfferings"
             (offeringUpdated)="updateDiskOffering($event)"
           ></cs-disk-offering>
