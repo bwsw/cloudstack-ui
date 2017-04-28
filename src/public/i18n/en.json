@@ -368,7 +368,8 @@
   "SPARE_DRIVES_NAVBAR": "Spare drives",
   "SPARE_DRIVE_STATE": {
     "ALLOCATED": "Allocated",
-    "READY": "Ready"
+    "READY": "Ready",
+    "UPLOADABANDONED": "Upload abandoned"
   },
   "STATE": "State",
   "SPARE_DRIVE_DETAILS": {

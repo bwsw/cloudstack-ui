@@ -13,7 +13,10 @@ import {
   VolumeService
 } from '../../shared';
 
-import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
+import {
+  SpareDriveCreationComponent,
+  SpareDriveFormData
+} from '../spare-drive-creation/spare-drive-creation.component';
 import { ListService } from '../../shared/components/list/list.service';
 import { VolumeTypes } from '../../shared/models/volume.model';
 import { ZoneService } from '../../shared/services/zone.service';
@@ -50,6 +53,7 @@ export class SpareDrivePageComponent implements OnInit {
   public zones: Array<Zone>;
 
   public sections: Array<SpareDriveSection>;
+  public spareDriveFormData: SpareDriveFormData;
 
   @HostBinding('class.detail-list-container') public detailListContainer = true;
 
@@ -159,7 +163,8 @@ export class SpareDrivePageComponent implements OnInit {
   public showCreationDialog(): void {
     this.dialogService.showCustomDialog({
       component: SpareDriveCreationComponent,
-      classes: 'spare-drive-creation-dialog'
+      classes: 'spare-drive-creation-dialog',
+      providers: [{ provide: 'formData', useValue: this.spareDriveFormData }]
     })
       .switchMap(res => res.onHide())
       .subscribe((data: any) => {

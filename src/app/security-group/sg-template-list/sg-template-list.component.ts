@@ -109,6 +109,7 @@ export class SgTemplateListComponent implements OnInit {
 
   private handleSgCreationError(error: any): void {
     this.translate.get(error.message, error.params)
-      .subscribe((msg) => this.dialogService.alert(msg));
+      .switchMap((msg) => this.dialogService.alert(msg))
+      .subscribe(() => this.showCreationDialog());
   }
 }

@@ -79,7 +79,8 @@ export class SshKeysPageComponent implements OnInit {
 
   private handleError(error): void {
     this.translateService.get(error.message, error.params)
-      .subscribe((msg) => this.dialogService.alert(msg));
+      .switchMap(msg => this.dialogService.alert(msg))
+      .subscribe(() => this.showCreationDialog());
   }
 
   private showRemovalDialog(name: string): void {

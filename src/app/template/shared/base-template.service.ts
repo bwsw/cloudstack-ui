@@ -5,6 +5,7 @@ import { BaseTemplateModel } from './base-template.model';
 import { AsyncJobService, BaseBackendCachedService } from '../../shared/services';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { UtilsService } from '../../shared/services/utils.service';
+import { TemplateFormData } from '../template-creation/template-creation.component';
 
 
 export const TemplateFilters = {
@@ -20,14 +21,6 @@ export const TemplateFilters = {
 export interface RequestParams {
   filter: string;
   [propName: string]: any;
-}
-
-export interface RegisterTemplateBaseParams {
-  displayText: string;
-  name: string;
-  osTypeId: string;
-  url?: string;
-  zoneId?: string;
 }
 
 @Injectable()
@@ -85,9 +78,9 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       });
   }
 
-  public register(params: RegisterTemplateBaseParams): Observable<BaseTemplateModel> {
+  public register(data: TemplateFormData): Observable<BaseTemplateModel> {
     this.invalidateCache();
-    return this.sendCommand('register', params)
+    return this.sendCommand('register', data.getParams())
       .map(result => this.prepareModel(result[this.entity.toLowerCase()][0]));
   }
 

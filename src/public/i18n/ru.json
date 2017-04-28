@@ -368,7 +368,8 @@
   "SPARE_DRIVES_NAVBAR": "Свободные диски",
   "SPARE_DRIVE_STATE": {
     "ALLOCATED": "Аллоцирован",
-    "READY": "Готов"
+    "READY": "Готов",
+    "UPLOADABANDONED": " Upload abandoned"
   },
   "STATE": "Состояние",
   "SPARE_DRIVE_DETAILS": {

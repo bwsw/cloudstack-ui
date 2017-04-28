@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 
 
@@ -19,7 +19,7 @@ export class SgTemplateCreationComponent implements OnInit {
 
   constructor(
     public dialog: MdlDialogReference,
-    @Inject('formData') public formData: SgTemplateFormData
+    @Optional() @Inject('formData') public formData: SgTemplateFormData
   ) {}
 
   public ngOnInit(): void {

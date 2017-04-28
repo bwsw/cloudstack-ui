@@ -13,7 +13,7 @@
           floating-label
           autofocus
           required
-          [(ngModel)]="name"
+          [(ngModel)]="templateFormData.name"
           #nameField="ngModel"
           [class.is-invalid]="nameField.invalid && !nameField.pristine"
         >
@@ -25,7 +25,7 @@
           name="description"
           floating-label
           required
-          [(ngModel)]="displayText"
+          [(ngModel)]="templateFormData.displayText"
           #descriptionField="ngModel"
           [class.is-invalid]="descriptionField.invalid && !descriptionField.pristine"
         >
@@ -40,7 +40,7 @@
           required
           pattern="^(http|https):\/\/.*$"
           error-msg="{{ 'INVALID_URL' | translate }}"
-          [(ngModel)]="url"
+          [(ngModel)]="templateFormData.url"
           #urlField="ngModel"
           [class.is-invalid]="urlField.invalid && !urlField.pristine"
         >
@@ -51,7 +51,7 @@
           <mdl-select
             [label]="'OS_TYPE' | translate"
             floating-label
-            [(ngModel)]="osTypeId"
+            [(ngModel)]="templateFormData.osTypeId"
             id="osType"
             name="osType"
           >
@@ -67,7 +67,7 @@
           <mdl-select
             [label]="'ZONE' | translate"
             floating-label
-            [(ngModel)]="zoneId"
+            [(ngModel)]="templateFormData.zoneId"
             id="serviceOffering"
             name="serviceOffering"
           >
@@ -82,7 +82,7 @@
         <div>
           <mdl-checkbox
             name="pass"
-            [(ngModel)]="passwordEnabled"
+            [(ngModel)]="templateFormData.passwordEnabled"
             *ngIf="mode === 'Template'"
           >
             {{ 'TEMPLATE_PASSWORD_ENABLED' | translate }}
@@ -90,7 +90,7 @@
           <mdl-checkbox
             class="dynscal-checkbox"
             name="dynscal"
-            [(ngModel)]="dynamicallyScalable"
+            [(ngModel)]="templateFormData.dynamicallyScalable"
             *ngIf="mode === 'Template'"
           >
             {{ 'TEMPLATE_DYNAMICALLY_SCALABLE' | translate }}
