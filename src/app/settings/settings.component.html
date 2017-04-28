@@ -10,6 +10,17 @@
       <mdl-option [value]="'ru'">Русский</mdl-option>
     </mdl-select>
   </div>
+  <div *ngIf="firstDayOfWeek != null">
+    <h4 class="no-margin">{{ 'FIRST_DAY_OF_WEEK' | translate }}</h4>
+    <mdl-select
+      [ngModel]="firstDayOfWeek"
+      [disabled]="updatingFirstDayOfWeek"
+      (change)="firstDayOfWeekChange($event)"
+    >
+      <mdl-option [value]="0">{{ 'SUNDAY' | translate }}</mdl-option>
+      <mdl-option [value]="1">{{ 'MONDAY' | translate }}</mdl-option>
+    </mdl-select>
+  </div>
   <div>
     <h4>{{ 'PALETTE' | translate }}</h4>
     <div>

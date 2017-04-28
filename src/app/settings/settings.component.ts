@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import {
-  Color,
-  LanguageService,
-  StyleService
-} from '../shared';
-import { AuthService, UserService, NotificationService } from '../shared/services';
+import { Color, LanguageService, StyleService } from '../shared';
+import { AuthService, NotificationService } from '../shared/services';
+import { UserService } from '../shared/services/user.service';
 
 
 @Component({
@@ -16,11 +13,14 @@ import { AuthService, UserService, NotificationService } from '../shared/service
 })
 export class SettingsComponent implements OnInit {
   public accentColor: Color;
+  public firstDayOfWeek = 1;
   public language: string;
   public primaryColor: Color;
   public primaryColors: Array<Color>;
 
   public passwordUpdateForm: FormGroup;
+
+  public updatingFirstDayOfWeek = false;
 
   constructor(
     private authService: AuthService,
@@ -34,6 +34,7 @@ export class SettingsComponent implements OnInit {
   public ngOnInit(): void {
     this.getLanguage();
     this.loadColors();
+    this.loadFirstDayOfWeek();
     this.buildForm();
   }
 
@@ -79,6 +80,14 @@ export class SettingsComponent implements OnInit {
     this.passwordUpdateForm.reset();
   }
 
+  public firstDayOfWeekChange(day: number): void {
+    this.firstDayOfWeek = day;
+    this.updatingFirstDayOfWeek = true;
+    this.userService.writeTag('firstDayOfWeek', '' + day)
+      .finally(() => this.updatingFirstDayOfWeek = false)
+      .subscribe();
+  }
+
   private get password(): string {
     return this.passwordUpdateForm.controls['password'].value;
   }
@@ -96,6 +105,11 @@ export class SettingsComponent implements OnInit {
         this.accentColor = this.accentColors.find(color => color.name === themeData.accentColor) ||
           themeData.themeColors[1];
       });
+  }
+
+  private loadFirstDayOfWeek(): void {
+    this.languageService.getFirstDayOfWeek()
+      .subscribe((day: number) => this.firstDayOfWeek = day);
   }
 
   private buildForm(): void {

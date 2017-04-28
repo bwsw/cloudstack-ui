@@ -30,6 +30,21 @@ export class LanguageService {
     this.getLanguage().subscribe(lang => this.translate.use(lang));
   }
 
+  public getFirstDayOfWeek(): Observable<number> {
+    return this.userService.readTag('firstDayOfWeek')
+      .map(dayRaw => {
+        const fallbackDay = this.storage.read('lang') === 'en' ? 0 : 1;
+        if (dayRaw === undefined) {
+          return fallbackDay;
+        }
+        const day = +dayRaw;
+        if (isNaN(day) || (day < 0 || day > 6)) {
+          return fallbackDay;
+        }
+        return day;
+      });
+  }
+
   private get defaultLanguage(): string {
     const language = navigator.language && navigator.language.substr(0, 2);
     if (language === 'ru' || language === 'en') {
