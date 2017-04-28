@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 
 import { SSHKeyPair } from '../shared/models';
 import { DialogService } from '../shared/services/dialog.service';
@@ -21,8 +20,7 @@ export class SshKeysPageComponent implements OnInit {
 
   constructor(
     private sshKeyService: SSHKeyPairService,
-    private dialogService: DialogService,
-    private translateService: TranslateService
+    private dialogService: DialogService
   ) { }
 
   public ngOnInit(): void {
@@ -78,8 +76,10 @@ export class SshKeysPageComponent implements OnInit {
   }
 
   private handleError(error): void {
-    this.translateService.get(error.message, error.params)
-      .switchMap(msg => this.dialogService.alert(msg))
+    this.dialogService.alert({
+      translationToken: error.message,
+      interpolateParams: error.params
+    })
       .subscribe(() => this.showCreationDialog());
   }
 

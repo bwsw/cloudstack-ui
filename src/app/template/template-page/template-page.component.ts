@@ -102,8 +102,7 @@ export class TemplatePageComponent implements OnInit {
       },
       error => {
         this.templateCreationFormData = templateData;
-        this.translateService.get(error.errortext)
-          .switchMap(msg => this.dialogService.alert(msg))
+        this.dialogService.alert(error.message)
           .subscribe(() => this.showCreationDialog());
 
         this.jobNotificationService.fail({

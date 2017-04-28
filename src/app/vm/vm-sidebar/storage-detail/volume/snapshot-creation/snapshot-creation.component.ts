@@ -1,15 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MdlDialogReference, MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from '@ngx-translate/core';
+import { MdlDialogReference,  } from 'angular2-mdl';
 import moment = require('moment');
-
 
 import {
   JobsNotificationService,
-  SnapshotService,
   StatsUpdateService
 } from '../../../../../shared/services';
 import { ResourceUsageService, ResourceStats } from '../../../../../shared/services/resource-usage.service';
+import { DialogService } from '../../../../../shared/services/dialog.service';
+import { SnapshotService } from '../../../../../shared/services/snapshot.service';
 
 
 @Component({
@@ -23,15 +22,15 @@ export class SnapshotCreationComponent implements OnInit {
   public loading = true;
   public enoughResources: boolean;
 
+  // todo: check if dialog reference works with DialogService
   constructor(
     private dialog: MdlDialogReference,
-    private dialogService: MdlDialogService,
+    private dialogService: DialogService,
     private snapshotService: SnapshotService,
     private jobsNotificationService: JobsNotificationService,
     private statsUpdateService: StatsUpdateService,
     @Inject('volumeId') private volumeId: string,
-    private resourceUsageService: ResourceUsageService,
-    private translateService: TranslateService
+    private resourceUsageService: ResourceUsageService
   ) {}
 
   public ngOnInit(): void {
@@ -74,8 +73,10 @@ export class SnapshotCreationComponent implements OnInit {
             message: 'SNAPSHOT_FAILED'
           });
 
-          this.translateService.get(e.message, e.params)
-            .subscribe(str => this.dialogService.alert(str));
+          this.dialogService.alert({
+            translationToken: e.message,
+            interpolateParams: e.params
+          });
         });
   }
 }

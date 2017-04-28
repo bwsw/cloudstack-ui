@@ -75,14 +75,15 @@ export class TemplateCreationComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.templateFormData = this.formData || new TemplateFormData(this.mode, this.snapshot);
+    let osTypeId = '';
+    let zoneId = '';
 
     this.osTypes = [];
     this.osTypeService
       .getList()
       .subscribe(osTypes => {
         this.osTypes = osTypes;
-        this.templateFormData.osTypeId = this.osTypes[0].id;
+        osTypeId = this.osTypes[0].id;
       });
 
     if (!this.snapshot) {
@@ -91,8 +92,16 @@ export class TemplateCreationComponent implements OnInit {
         .getList()
         .subscribe(zones => {
           this.zones = zones;
-          this.templateFormData.zoneId = this.zones[0].id;
+          zoneId = this.zones[0].id;
         });
+    }
+
+    if (this.formData) {
+      this.templateFormData = this.formData;
+    } else {
+      this.templateFormData = new TemplateFormData(this.mode, this.snapshot);
+      this.templateFormData.osTypeId = osTypeId;
+      this.templateFormData.zoneId = zoneId;
     }
   }
 

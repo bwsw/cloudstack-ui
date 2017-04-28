@@ -1,5 +1,4 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import debounce = require('lodash/debounce');
 import sortBy = require('lodash/sortBy');
 import { Observable } from 'rxjs/Observable';
@@ -9,8 +8,7 @@ import {
   DiskOfferingService,
   JobsNotificationService,
   Volume,
-  VolumeAttachmentData,
-  VolumeService
+  VolumeAttachmentData
 } from '../../shared';
 
 import {
@@ -23,6 +21,7 @@ import { ZoneService } from '../../shared/services/zone.service';
 import { Zone } from '../../shared/models/zone.model';
 import { FilterService } from '../../shared/services/filter.service';
 import { DialogService } from '../../shared/services/dialog.service';
+import { VolumeService } from '../../shared/services/volume.service';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -63,7 +62,6 @@ export class SpareDrivePageComponent implements OnInit {
     private filter: FilterService,
     private jobsNotificationService: JobsNotificationService,
     private listService: ListService,
-    private translateService: TranslateService,
     private volumeService: VolumeService,
     private zoneService: ZoneService
   ) {
@@ -154,7 +152,7 @@ export class SpareDrivePageComponent implements OnInit {
           this.updateSections();
         },
         error => {
-          this.dialogService.alert(error);
+          this.dialogService.alert(error.message);
           this.jobsNotificationService.fail({ message: 'VOLUME_DELETE_FAILED' });
         }
       );
@@ -195,10 +193,8 @@ export class SpareDrivePageComponent implements OnInit {
         },
         error => {
           this.spareDriveFormData = volumeCreationData;
-          this.dialogService.alert(error.errortext)
-            .subscribe(() => {
-              this.showCreationDialog();
-            });
+          this.dialogService.alert(error.message)
+            .subscribe(() => this.showCreationDialog());
           this.jobsNotificationService.fail({
             id: notificationId,
             message: 'VOLUME_CREATE_FAILED',
@@ -220,8 +216,10 @@ export class SpareDrivePageComponent implements OnInit {
           this.updateSections();
         },
         error => {
-          this.translateService.get(error.message, error.params)
-            .subscribe(str => this.dialogService.alert(str));
+          this.dialogService.alert({
+            translationToken: error.message,
+            interpolateParams: error.params
+          });
           this.jobsNotificationService.fail({
             id: notificationId,
             message: 'VOLUME_ATTACH_FAILED',

@@ -1,5 +1,4 @@
 import { Component, Input, EventEmitter, Output, ViewChild, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
 
 import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
@@ -8,11 +7,11 @@ import {
   DiskOfferingService,
   VolumeAttachmentData,
   VolumeResizeData,
-  VolumeService,
   ZoneService
 } from '../../shared/services';
 import { DiskOffering, Volume, Zone } from '../../shared/models';
 import { DialogService } from '../../shared/services/dialog.service';
+import { VolumeService } from '../../shared/services/volume.service';
 
 
 @Component({
@@ -34,7 +33,6 @@ export class SpareDriveItemComponent implements OnInit {
   constructor(
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
-    private translateService: TranslateService,
     private volumeService: VolumeService,
     private zoneService: ZoneService
   ) {}
@@ -113,10 +111,7 @@ export class SpareDriveItemComponent implements OnInit {
               this.onResize.emit(this.volume);
             });
         },
-        error => {
-          this.translateService.get(error.message)
-            .subscribe(str => this.dialogService.alert(str));
-        }
+        error => this.dialogService.alert(error.message)
       );
   }
 }

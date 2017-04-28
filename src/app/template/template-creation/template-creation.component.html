@@ -16,6 +16,7 @@
           [(ngModel)]="templateFormData.name"
           #nameField="ngModel"
           [class.is-invalid]="nameField.invalid && !nameField.pristine"
+          maxlength="255"
         >
         </mdl-textfield>
         <br>
@@ -28,6 +29,7 @@
           [(ngModel)]="templateFormData.displayText"
           #descriptionField="ngModel"
           [class.is-invalid]="descriptionField.invalid && !descriptionField.pristine"
+          maxlength="1024"
         >
         </mdl-textfield>
         <br>

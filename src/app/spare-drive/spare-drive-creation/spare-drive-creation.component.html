@@ -13,6 +13,7 @@
           [(ngModel)]="spareDriveFormData.name"
           #nameField="ngModel"
           [class.is-invalid]="nameField.invalid && !nameField.pristine"
+          maxlength="255"
         >
         </mdl-textfield>
         <div>

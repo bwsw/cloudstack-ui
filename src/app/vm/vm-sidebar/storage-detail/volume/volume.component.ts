@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
 import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
@@ -42,7 +41,6 @@ export class VolumeComponent implements OnInit {
     private jobNotificationService: JobsNotificationService,
     private statsUpdateService: StatsUpdateService,
     private volumeService: VolumeService,
-    private translateService: TranslateService,
     private zoneService: ZoneService,
     public snapshotActionsService: SnapshotActionsService
   ) { }
@@ -125,8 +123,7 @@ export class VolumeComponent implements OnInit {
             id: notificationId,
             message: 'VOLUME_RESIZE_FAILED'
           });
-          this.translateService.get(error.message)
-            .subscribe(str => this.dialogService.alert(str));
+          this.dialogService.alert(error.message);
         }
       );
   }
