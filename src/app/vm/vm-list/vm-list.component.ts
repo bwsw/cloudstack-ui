@@ -18,7 +18,7 @@ import { VirtualMachine } from '../shared/vm.model';
 import { IVmActionEvent, VmService } from '../shared/vm.service';
 
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
-import { VmFilter } from '../vm-filter/vm-filter.component';
+import { InstanceGroupOrNoGroup, VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListSection } from './vm-list-section/vm-list-section.component';
 import { VmListSubsection } from './vm-list-subsection/vm-list-subsection.component';
 import { DialogService } from '../../shared/services/dialog.service';
@@ -290,8 +290,12 @@ export class VmListComponent implements OnInit {
     });
   }
 
-  private filterVmsByGroup(vmList: Array<VirtualMachine>, group: InstanceGroup): Array<VirtualMachine> {
-    return vmList.filter(vm => vm.instanceGroup && vm.instanceGroup.name === group.name);
+  private filterVmsByGroup(vmList: Array<VirtualMachine>, group: InstanceGroupOrNoGroup): Array<VirtualMachine> {
+    return vmList.filter(
+      vm =>
+        (!vm.instanceGroup && group === '-1') ||
+        (vm.instanceGroup && vm.instanceGroup.name === (group as InstanceGroup).name)
+    );
   }
 
   private filterVmsByZone(vmList: Array<VirtualMachine>, zone: Zone): Array<VirtualMachine> {
