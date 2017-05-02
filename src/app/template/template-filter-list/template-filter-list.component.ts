@@ -52,6 +52,7 @@ export class TemplateFilterListComponent implements OnInit {
 
   public ngOnInit(): void {
     this.updateList();
+    this.templateService.templateUpdates.subscribe(() => this.updateList());
   }
 
   public changeViewMode(mode: string): void {

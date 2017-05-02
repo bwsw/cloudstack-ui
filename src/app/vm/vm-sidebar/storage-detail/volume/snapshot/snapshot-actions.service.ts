@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 
 import { TemplateService } from '../../../../../template/shared';
 import { JobsNotificationService, NotificationService, SnapshotService } from '../../../../../shared/services';
-import { TemplateCreationComponent } from '../../../../../template/template-creation/template-creation.component';
+import {
+  TemplateCreationComponent,
+  TemplateFormData
+} from '../../../../../template/template-creation/template-creation.component';
 import { Snapshot, Volume } from '../../../../../shared/models';
 import { StatsUpdateService } from '../../../../../shared/services/stats-update.service';
 import { DialogService } from '../../../../../shared/services/dialog.service';
@@ -88,7 +91,7 @@ export class SnapshotActionsService {
       );
   }
 
-  private createTemplate(data, snapshot): void {
+  private createTemplate(data: TemplateFormData, snapshot: Snapshot): void {
     snapshot['loading'] = true;
     let notificationId = this.jobNotificationService.add('TEMPLATE_CREATION_IN_PROGRESS');
     this.templateService.create(data)
