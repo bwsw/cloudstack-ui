@@ -52,28 +52,6 @@
     </mdl-tooltip>
   </mdl-card-title>
   <mdl-card-supporting-text>
-    <div class="card-wrapper" *ngIf="template">
-      <div class="first">{{ 'DESCRIPTION' | translate }}:</div>
-      <div
-        *ngIf="singleLine"
-        class="last single-line"
-        [mdl-tooltip]="descriptionTooltip"
-        mdl-tooltip-position="top"
-
-      >
-        <span [innerHTML]="template.displayText | highlight:searchQuery"></span>
-      </div>
-      <div
-        *ngIf="!singleLine"
-        class="last multiline"
-        [innerHTML]="template.displayText | highlight:searchQuery"
-      ></div>
-      <mdl-tooltip
-        #descriptionTooltip="mdlTooltip"
-      >
-        {{ template.displayText }}
-      </mdl-tooltip>
-    </div>
     <div class="card-wrapper">
       <div class="first">{{ 'OS' | translate }}:</div>
       <div
@@ -90,6 +68,26 @@
       ></div>
       <mdl-tooltip #osTooltip="mdlTooltip">
         {{ template.osTypeName }}
+      </mdl-tooltip>
+    </div>
+    <div class="card-wrapper" *ngIf="template">
+      <div
+        *ngIf="singleLine"
+        class="last single-line"
+        [mdl-tooltip]="descriptionTooltip"
+        mdl-tooltip-position="top"
+      >
+        <span [innerHTML]="template.displayText | highlight:searchQuery"></span>
+      </div>
+      <div
+        *ngIf="!singleLine"
+        class="last multiline"
+        [innerHTML]="template.displayText | highlight:searchQuery"
+      ></div>
+      <mdl-tooltip
+        #descriptionTooltip="mdlTooltip"
+      >
+        {{ template.displayText }}
       </mdl-tooltip>
     </div>
   </mdl-card-supporting-text>

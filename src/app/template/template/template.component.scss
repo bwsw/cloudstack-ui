@@ -8,6 +8,10 @@
   }
 }
 
+.last {
+  flex: 6 !important;
+}
+
 .single-line {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -15,7 +19,8 @@
 }
 
 .multiline {
-  text-align: right;
+  word-break: break-all;
+  overflow: hidden;
 }
 
 .template-popover {
