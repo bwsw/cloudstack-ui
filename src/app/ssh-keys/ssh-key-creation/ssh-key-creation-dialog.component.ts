@@ -1,23 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
 
+
+export class SShFormData {
+  constructor(
+    public name = '',
+    public publicKey = '',
+  ) {}
+}
 
 @Component({
   selector: 'cs-ssh-key-creation-dialog',
   templateUrl: 'ssh-key-creation-dialog.component.html',
   styleUrls: ['ssh-key-creation-dialog.component.scss']
 })
-export class SShKeyCreationDialogComponent {
-  public name: string;
-  public publicKey: string;
+export class SShKeyCreationDialogComponent implements OnInit {
+  public sshFormData: SShFormData;
 
-  constructor(public dialog: MdlDialogReference) { }
+  constructor(
+    public dialog: MdlDialogReference,
+    @Optional() @Inject('formData') public formData: SShFormData
+  ) {}
+
+  public ngOnInit(): void {
+    this.sshFormData = this.formData || new SShFormData();
+  }
 
   public onSubmit(e): void {
     e.preventDefault();
-    this.dialog.hide({
-      name: this.name,
-      publicKey: this.publicKey
-    });
+    this.dialog.hide(this.sshFormData);
   }
 }

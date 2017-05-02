@@ -342,12 +342,12 @@ export class VmCreationComponent implements OnInit {
         ]);
       })
       .map(([
-        affinityGroups,
-        affinityGroupTypes,
-        sshKeyPairs,
-        instanceGroups,
-        securityGroupTemplates
-      ]) => {
+              affinityGroups,
+              affinityGroupTypes,
+              sshKeyPairs,
+              instanceGroups,
+              securityGroupTemplates
+            ]) => {
         vmCreationData.affinityGroups = affinityGroups;
         vmCreationData.affinityGroupTypes = affinityGroupTypes;
         vmCreationData.affinityGroupNames = affinityGroups.map(ag => ag.name);
@@ -477,8 +477,10 @@ export class VmCreationComponent implements OnInit {
 
           this.sgCreationInProgress = false;
           this.agCreationInProgress = false;
-          this.translateService.get(err.message, err.params)
-            .subscribe(str => this.dialogService.alert(str));
+          this.dialogService.alert({
+            translationToken: err.message,
+            interpolateParams: err.params
+          });
 
           this.notifyOnDeployFailed(notificationId);
         }
@@ -529,10 +531,10 @@ export class VmCreationComponent implements OnInit {
       this.templateService.getDefault(this.selectedZone.id, this.vmCreationData.rootDiskSizeLimit)
     ])
       .map(([
-        rootDiskSizeLimit,
-        serviceOfferings,
-        diskOfferings,
-        defaultTemplate]: [number, Array<ServiceOffering>, Array<DiskOffering>, BaseTemplateModel]
+              rootDiskSizeLimit,
+              serviceOfferings,
+              diskOfferings,
+              defaultTemplate]: [number, Array<ServiceOffering>, Array<DiskOffering>, BaseTemplateModel]
       ) => {
         this.vmCreationData.rootDiskSizeLimit = rootDiskSizeLimit;
         this.setServiceOfferings(serviceOfferings);

@@ -1,7 +1,7 @@
 <cs-list>
   <cs-template-filter-list
     [(selectedTemplate)]="selectedTemplate"
-    [(viewMode)]="viewMode"
+    [(viewMode)]="_viewMode"
     (deleteTemplate)="removeTemplate($event)"
     cs-list
   ></cs-template-filter-list>

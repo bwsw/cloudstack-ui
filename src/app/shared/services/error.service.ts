@@ -14,7 +14,7 @@ export class ErrorService extends Subject<any> {
       translation: 'VOLUME_NEWSIZE_LOWER'
     },
     {
-      regex: /Maximum number of resources of type \'primary_storage\'.*/,
+      regex: /Maximum number of resources of type 'primary_storage'.*/,
       translation: 'VOLUME_PRIMARY_STORAGE_EXCEEDED'
     },
     {
@@ -32,6 +32,19 @@ export class ErrorService extends Subject<any> {
     {
       regex: /There is other active snapshot tasks on the instance (.*)/,
       translation: 'VOLUME_BUSY'
+    },
+    {
+      regex: /Unable to create security group, a group with name (.*) already exists\./,
+      translation: 'SECURITY_GROUP_NAME_TAKEN'
+    },
+    {
+      regex: /Public key is invalid/,
+      translation: 'PUBLIC_KEY_INVALID'
+    },
+    {
+      // tslint:disable-next-line
+      regex: /Unable to execute API command (.*) due to invalid value. Value greater than max allowed length (.*) for param: (.*)/,
+      translation: 'PARAM_MAX_LENGTH_EXCEEDED'
     }
   ];
 

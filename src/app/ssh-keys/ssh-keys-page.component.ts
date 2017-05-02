@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 
 import { SSHKeyPair } from '../shared/models';
 import { DialogService } from '../shared/services/dialog.service';
@@ -7,6 +6,7 @@ import { SshKeyCreationData, SSHKeyPairService } from '../shared/services/ssh-ke
 import { SShKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creation-dialog.component';
 import { SshPrivateKeyDialogComponent } from './ssh-key-creation/ssh-private-key-dialog.component';
 import sortBy = require('lodash/sortBy');
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -16,11 +16,11 @@ import sortBy = require('lodash/sortBy');
 })
 export class SshKeysPageComponent implements OnInit {
   public sshKeyList: Array<SSHKeyPair>;
+  public sshCreationFormData: SshKeyCreationData;
 
   constructor(
     private sshKeyService: SSHKeyPairService,
-    private dialogService: DialogService,
-    private translateService: TranslateService
+    private dialogService: DialogService
   ) { }
 
   public ngOnInit(): void {
@@ -31,31 +31,40 @@ export class SshKeysPageComponent implements OnInit {
   public showCreationDialog(): void {
     this.dialogService.showCustomDialog({
       component: SShKeyCreationDialogComponent,
+      providers: [{ provide: 'formData', useValue: this.sshCreationFormData }],
       styles: { width: '400px' }
     })
       .switchMap(res => res.onHide())
-      .subscribe(data => this.createSshKey(data));
+      .subscribe(data => {
+        this.sshCreationFormData = undefined;
+        if (!data) { return; }
+        this.createSshKey(data).subscribe(
+          () => {},
+          error => {
+            this.sshCreationFormData = data;
+            this.handleError(error);
+          }
+        );
+      });
   }
 
   public removeKey(name: string): void {
     this.showRemovalDialog(name);
   }
 
-  private createSshKey(data: SshKeyCreationData): void {
+  private createSshKey(data: SshKeyCreationData): Observable<void> {
     if (!data) {
       return;
     }
 
     const keyCreationObs = data.publicKey ? this.sshKeyService.register(data) : this.sshKeyService.create(data);
-    keyCreationObs.subscribe(
+    return keyCreationObs.map(
       (sshKey: SSHKeyPair) => {
         this.sshKeyList = sortBy(this.sshKeyList.concat(sshKey), 'name');
         if (sshKey.privateKey) {
           this.showPrivateKey(sshKey.privateKey);
         }
-      },
-      (error) => this.handleError(error)
-    );
+      });
   }
 
   private showPrivateKey(privateKey: string): void {
@@ -67,8 +76,11 @@ export class SshKeysPageComponent implements OnInit {
   }
 
   private handleError(error): void {
-    this.translateService.get(error.message, error.params)
-      .subscribe((msg) => this.dialogService.alert(msg));
+    this.dialogService.alert({
+      translationToken: error.message,
+      interpolateParams: error.params
+    })
+      .subscribe(() => this.showCreationDialog());
   }
 
   private showRemovalDialog(name: string): void {

@@ -158,7 +158,7 @@ export class VmDetailComponent implements OnChanges {
           const ip = res.result.nicsecondaryip;
           vm.nic[0].secondaryIp.push(ip);
         },
-        err => this.dialogService.alert(err.errortext)
+        err => this.dialogService.alert(err.message)
       );
   }
 
@@ -168,7 +168,7 @@ export class VmDetailComponent implements OnChanges {
         () => {
           vm.nic[0].secondaryIp = vm.nic[0].secondaryIp.filter(ip => ip.id !== secondaryIpId);
         },
-        err => this.dialogService.alert(err.errortext)
+        err => this.dialogService.alert(err.message)
       );
   }
 

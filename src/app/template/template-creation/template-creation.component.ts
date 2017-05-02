@@ -5,21 +5,63 @@ import { OsType, OsTypeService, Zone, ZoneService } from '../../shared';
 import { Snapshot } from '../../shared/models/snapshot.model';
 
 
+export interface RegisterTemplateBaseParams {
+  displayText: string;
+  name: string;
+  osTypeId: string;
+  url?: string;
+  zoneId?: string;
+  passwordEnabled?: boolean;
+  isDynamicallyScalable?: boolean;
+  snapshotId?: string;
+}
+
+export class TemplateFormData {
+  constructor(
+    public mode: 'Template' | 'Iso',
+    public snapshot?: Snapshot,
+    public name = '',
+    public displayText = '',
+    public osTypeId = '',
+    public url = '',
+    public zoneId = '',
+    public passwordEnabled = false,
+    public dynamicallyScalable = false,
+  ) {}
+
+  public getParams(): RegisterTemplateBaseParams {
+    const params = {
+      name: this.name,
+      displayText: this.displayText,
+      osTypeId: this.osTypeId,
+    };
+
+    if (this.snapshot) {
+      params['snapshotId'] = this.snapshot.id;
+      return params;
+    }
+
+    params['url'] = this.url;
+    params['zoneId'] = this.zoneId;
+
+    if (this.mode === 'Template') {
+      params['passwordEnabled'] = this.passwordEnabled;
+      params['isDynamicallyScalable'] = this.dynamicallyScalable;
+      params['hypervisor'] = 'KVM';
+      params['format'] = 'QCOW2';
+      params['requiresHvm'] = true;
+    }
+    return params;
+  }
+}
+
 @Component({
   selector: 'cs-template-creation',
   templateUrl: 'template-creation.component.html',
   styleUrls: ['template-creation.component.scss']
 })
 export class TemplateCreationComponent implements OnInit {
-  public name: string;
-  public displayText: string;
-  public osTypeId: string;
-  public url: string;
-  public zoneId: string;
-
-  public passwordEnabled: boolean;
-  public dynamicallyScalable: boolean;
-
+  public templateFormData: TemplateFormData;
   public osTypes: Array<OsType>;
   public zones: Array<Zone>;
 
@@ -28,18 +70,20 @@ export class TemplateCreationComponent implements OnInit {
     private osTypeService: OsTypeService,
     private zoneService: ZoneService,
     @Optional() @Inject('snapshot') public snapshot: Snapshot,
-    @Inject('mode') public mode: string
+    @Optional() @Inject('formData') public formData: TemplateFormData,
+    @Inject('mode') public mode: 'Template' | 'Iso'
   ) { }
 
   public ngOnInit(): void {
-    this.passwordEnabled = this.dynamicallyScalable = false;
+    let osTypeId = '';
+    let zoneId = '';
 
     this.osTypes = [];
     this.osTypeService
       .getList()
       .subscribe(osTypes => {
         this.osTypes = osTypes;
-        this.osTypeId = this.osTypes[0].id;
+        osTypeId = this.osTypes[0].id;
       });
 
     if (!this.snapshot) {
@@ -48,8 +92,16 @@ export class TemplateCreationComponent implements OnInit {
         .getList()
         .subscribe(zones => {
           this.zones = zones;
-          this.zoneId = this.zones[0].id;
+          zoneId = this.zones[0].id;
         });
+    }
+
+    if (this.formData) {
+      this.templateFormData = this.formData;
+    } else {
+      this.templateFormData = new TemplateFormData(this.mode, this.snapshot);
+      this.templateFormData.osTypeId = osTypeId;
+      this.templateFormData.zoneId = zoneId;
     }
   }
 
@@ -58,24 +110,6 @@ export class TemplateCreationComponent implements OnInit {
   }
 
   public onCreate(): void {
-    const params = {
-      name: this.name,
-      displayText: this.displayText,
-      osTypeId: this.osTypeId,
-    };
-
-    if (!this.snapshot) {
-      params['url'] = this.url;
-      params['zoneId'] = this.zoneId;
-
-      if (this.mode === 'Template') {
-        params['passwordEnabled'] = this.passwordEnabled;
-        params['isDynamicallyScalable'] = this.dynamicallyScalable;
-      }
-    } else {
-      params['snapshotId'] = this.snapshot.id;
-    }
-
-    this.dialog.hide(params);
+    this.dialog.hide(this.templateFormData);
   }
 }

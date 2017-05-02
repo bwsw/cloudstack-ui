@@ -5,8 +5,10 @@ import { BackendResource } from '../../shared/decorators/backend-resource.decora
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { Template } from './template.model';
-import { BaseTemplateService, RegisterTemplateBaseParams } from './base-template.service';
+import { BaseTemplateService } from './base-template.service';
 import { UtilsService } from '../../shared/services/utils.service';
+import { TemplateFormData } from '../template-creation/template-creation.component';
+import { Subject } from 'rxjs/Subject';
 
 
 @Injectable()
@@ -15,25 +17,24 @@ import { UtilsService } from '../../shared/services/utils.service';
   entityModel: Template
 })
 export class TemplateService extends BaseTemplateService {
+  public templateUpdates: Subject<void>;
+
   constructor (
     protected asyncJobService: AsyncJobService,
     protected osTypeService: OsTypeService,
     protected utilsService: UtilsService
   ) {
     super(asyncJobService, osTypeService, utilsService);
+    this.templateUpdates = new Subject<void>();
   }
 
-  public create(params: {}): Observable<Template> {
-    return this.sendCommand('create', params)
-      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel));
-  }
-
-  public register(params: RegisterTemplateBaseParams): Observable<Template> {
-    // stub
-    params['hypervisor'] = 'KVM';
-    params['format'] = 'QCOW2';
-    params['requiresHvm'] = true;
-
-    return super.register(params);
+  public create(data: TemplateFormData): Observable<Template> {
+    return this.sendCommand('create', data.getParams())
+      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
+      .map(result => {
+        this.invalidateCache();
+        this.templateUpdates.next();
+        return result;
+      });
   }
 }

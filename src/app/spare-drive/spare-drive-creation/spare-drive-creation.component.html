@@ -2,7 +2,7 @@
   <h3 class="mdl-dialog__title">{{ 'VOLUME_CREATION_FORM.NEW_VOLUME' | translate }}</h3>
   <form (ngSubmit)="onCreate($event)" #volumeCreationForm="ngForm" novalidate>
     <div class="mdl-dialog__content">
-      <div class="flex-column blur-fix" *ngIf="enoughResources">
+      <div class="flex-column blur-fix" *ngIf="enoughResources && spareDriveFormData">
         <mdl-textfield
           type="text"
           label="{{ 'NAME' | translate }}"
@@ -10,9 +10,10 @@
           floating-label
           autofocus
           required
-          [(ngModel)]="name"
+          [(ngModel)]="spareDriveFormData.name"
           #nameField="ngModel"
           [class.is-invalid]="nameField.invalid && !nameField.pristine"
+          maxlength="255"
         >
         </mdl-textfield>
         <div>
@@ -34,6 +35,7 @@
           <h5>{{ 'DISK_OFFERING' | translate }}</h5>
           <cs-disk-offering
             *ngIf="diskOfferings"
+            [selectedDiskOffering]="spareDriveFormData.diskOffering"
             [diskOfferingList]="diskOfferings"
             (offeringUpdated)="updateDiskOffering($event)"
           ></cs-disk-offering>
@@ -45,7 +47,7 @@
             [label]="'SIZE' | translate"
             [units]="'GB' | translate"
             name="diskSize"
-            [(ngModel)]="size"
+            [(ngModel)]="spareDriveFormData.size"
           ></cs-slider>
         </div>
       </div>

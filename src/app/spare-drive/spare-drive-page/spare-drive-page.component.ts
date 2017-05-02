@@ -1,5 +1,4 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import debounce = require('lodash/debounce');
 import sortBy = require('lodash/sortBy');
 import { Observable } from 'rxjs/Observable';
@@ -9,17 +8,20 @@ import {
   DiskOfferingService,
   JobsNotificationService,
   Volume,
-  VolumeAttachmentData,
-  VolumeService
+  VolumeAttachmentData
 } from '../../shared';
 
-import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
+import {
+  SpareDriveCreationComponent,
+  SpareDriveFormData
+} from '../spare-drive-creation/spare-drive-creation.component';
 import { ListService } from '../../shared/components/list/list.service';
 import { VolumeTypes } from '../../shared/models/volume.model';
 import { ZoneService } from '../../shared/services/zone.service';
 import { Zone } from '../../shared/models/zone.model';
 import { FilterService } from '../../shared/services/filter.service';
 import { DialogService } from '../../shared/services/dialog.service';
+import { VolumeService } from '../../shared/services/volume.service';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -50,6 +52,7 @@ export class SpareDrivePageComponent implements OnInit {
   public zones: Array<Zone>;
 
   public sections: Array<SpareDriveSection>;
+  public spareDriveFormData: SpareDriveFormData;
 
   @HostBinding('class.detail-list-container') public detailListContainer = true;
 
@@ -59,7 +62,6 @@ export class SpareDrivePageComponent implements OnInit {
     private filter: FilterService,
     private jobsNotificationService: JobsNotificationService,
     private listService: ListService,
-    private translateService: TranslateService,
     private volumeService: VolumeService,
     private zoneService: ZoneService
   ) {
@@ -150,7 +152,7 @@ export class SpareDrivePageComponent implements OnInit {
           this.updateSections();
         },
         error => {
-          this.dialogService.alert(error);
+          this.dialogService.alert(error.message);
           this.jobsNotificationService.fail({ message: 'VOLUME_DELETE_FAILED' });
         }
       );
@@ -159,20 +161,21 @@ export class SpareDrivePageComponent implements OnInit {
   public showCreationDialog(): void {
     this.dialogService.showCustomDialog({
       component: SpareDriveCreationComponent,
-      classes: 'spare-drive-creation-dialog'
+      classes: 'spare-drive-creation-dialog',
+      providers: [{ provide: 'formData', useValue: this.spareDriveFormData }]
     })
       .switchMap(res => res.onHide())
-      .subscribe((data: any) => {
-        if (!data) {
-          return;
-        }
-        this.createVolume(data);
-      }, () => {});
+      .subscribe(
+        (data: any) => {
+          this.spareDriveFormData = undefined;
+          if (!data) { return; }
+          this.createVolume(data);
+        });
   }
 
-  public createVolume(volumeCreationData: VolumeCreationData): void {
+  public createVolume(volumeCreationData: SpareDriveFormData): void {
     let notificationId = this.jobsNotificationService.add('VOLUME_CREATE_IN_PROGRESS');
-    this.volumeService.create(volumeCreationData)
+    this.volumeService.create(volumeCreationData.getParams())
       .subscribe(
         volume => {
           if (volume.id) {
@@ -189,7 +192,9 @@ export class SpareDrivePageComponent implements OnInit {
           });
         },
         error => {
-          this.dialogService.alert(error.errortext);
+          this.spareDriveFormData = volumeCreationData;
+          this.dialogService.alert(error.message)
+            .subscribe(() => this.showCreationDialog());
           this.jobsNotificationService.fail({
             id: notificationId,
             message: 'VOLUME_CREATE_FAILED',
@@ -211,8 +216,10 @@ export class SpareDrivePageComponent implements OnInit {
           this.updateSections();
         },
         error => {
-          this.translateService.get(error.message, error.params)
-            .subscribe(str => this.dialogService.alert(str));
+          this.dialogService.alert({
+            translationToken: error.message,
+            interpolateParams: error.params
+          });
           this.jobsNotificationService.fail({
             id: notificationId,
             message: 'VOLUME_ATTACH_FAILED',

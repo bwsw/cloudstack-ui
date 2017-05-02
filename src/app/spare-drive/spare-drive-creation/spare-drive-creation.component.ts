@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit, Optional } from '@angular/core';
 import { Zone } from '../../shared/models/zone.model';
 import { ZoneService } from '../../shared/services/zone.service';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
@@ -6,7 +6,31 @@ import { DiskOfferingService } from '../../shared/services/disk-offering.service
 import { ResourceUsageService, ResourceStats } from '../../shared/services/resource-usage.service';
 import { MdlDialogReference } from 'angular2-mdl';
 import { Observable } from 'rxjs/Observable';
+import { VolumeCreationData } from '../../shared/services/volume.service';
 
+
+export class SpareDriveFormData {
+  constructor(
+    public zoneId = '',
+    public diskOffering: DiskOffering = null,
+    public name = '',
+    public size = 1
+  ) {}
+
+  public getParams(): VolumeCreationData {
+    let params = {
+      name: this.name,
+      zoneId: this.zoneId,
+      diskOfferingId: this.diskOffering.id
+    };
+
+    if (this.diskOffering.isCustomized) {
+      params['size'] = this.size;
+    }
+
+    return params;
+  }
+}
 
 @Component({
   selector: 'cs-spare-drive-creation',
@@ -14,54 +38,48 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['spare-drive-creation.component.scss']
 })
 export class SpareDriveCreationComponent implements OnInit {
-  public name: string;
+  public spareDriveFormData: SpareDriveFormData;
+
   public zones: Array<Zone>;
-  public diskOfferingId: string;
   public diskOfferings: Array<DiskOffering>;
-  public showResizeSlider: boolean;
-  public size = 1;
   public minSize = 1;
   public maxSize: number;
 
   public loading: boolean;
   public enoughResources: boolean;
-  private _zoneId: string;
 
   constructor(
+    @Optional() @Inject('formData') public formData,
+    private changeDetectorRef: ChangeDetectorRef,
     private dialog: MdlDialogReference,
     private diskOfferingService: DiskOfferingService,
     private resourceUsageService: ResourceUsageService,
-    private zoneService: ZoneService) {}
+    private zoneService: ZoneService
+  ) {}
 
   public ngOnInit(): void {
     this.loading = true;
+    this.spareDriveFormData = this.formData || new SpareDriveFormData();
+    this.changeDetectorRef.detectChanges();
+    this.getZones().subscribe();
+  }
 
-    this.getZones()
-      .switchMap(() => this.getDiskOfferings())
-      .subscribe(() => this.loading = false);
+  public get showResizeSlider(): boolean {
+    if (!this.spareDriveFormData || !this.spareDriveFormData.diskOffering) { return false; }
+    return this.spareDriveFormData.diskOffering.isCustomized;
   }
 
   public get zoneId(): string {
-    return this._zoneId;
+    return this.spareDriveFormData.zoneId;
   }
 
   public set zoneId(id: string) {
-    this._zoneId = id;
+    this.spareDriveFormData.zoneId = id;
     this.getDiskOfferings().subscribe();
   }
 
   public onCreate(): void {
-    let params = {
-      name: this.name,
-      zoneId: this.zoneId,
-      diskOfferingId: this.diskOfferingId
-    };
-
-    if (this.showResizeSlider) {
-      params['size'] = this.size;
-    }
-
-    this.dialog.hide(params);
+    this.dialog.hide(this.spareDriveFormData);
   }
 
   public onCancel(): void {
@@ -69,8 +87,8 @@ export class SpareDriveCreationComponent implements OnInit {
   }
 
   public updateDiskOffering(offering: DiskOffering): void {
-    this.diskOfferingId = offering.id;
-    this.showResizeSlider = offering.isCustomized;
+    this.spareDriveFormData.diskOffering = offering;
+    this.changeDetectorRef.detectChanges();
   }
 
   private get zone(): Zone {
@@ -81,16 +99,35 @@ export class SpareDriveCreationComponent implements OnInit {
     return this.zoneService.getList()
       .map(zones => {
         this.zones = zones;
-        if (this.zones.length) {
+        if (this.zones.length && (!this.formData || !this.formData.zoneId)) {
           this.zoneId = this.zones[0].id;
+        } else {
+          this.zoneId = this.formData.zoneId;
         }
+        this.changeDetectorRef.detectChanges();
       });
   }
 
   private updateSizeLimits(resourceUsage: ResourceStats): void {
     this.minSize = 1;
-    this.size = this.minSize;
     this.maxSize = resourceUsage.available.primaryStorage;
+
+    const size = this.spareDriveFormData.size;
+    if (size === undefined || size < this.minSize || size > this.maxSize) {
+      this.spareDriveFormData.size = this.minSize;
+    }
+  }
+
+  private setDefaultDiskOffering(): void {
+    const listDiskOffering = this.spareDriveFormData.diskOffering &&
+      this.diskOfferings.find(offering => {
+        return this.spareDriveFormData.diskOffering.id === offering.id;
+      });
+    if (listDiskOffering) {
+      this.updateDiskOffering(listDiskOffering);
+    } else {
+      this.updateDiskOffering(this.diskOfferings[0]);
+    }
   }
 
   private getDiskOfferings(): Observable<any> {
@@ -104,15 +141,18 @@ export class SpareDriveCreationComponent implements OnInit {
         this.diskOfferingService.getList({ zone: this.zone, maxSize: resourceUsage.available.primaryStorage })
           .subscribe(offerings => {
             this.diskOfferings = offerings;
+            this.changeDetectorRef.detectChanges();
 
             if (!this.diskOfferings.length) {
               this.enoughResources = false;
+              this.loading = false;
               return;
             }
 
-            this.updateDiskOffering(this.diskOfferings[0]);
-            this.updateSizeLimits(resourceUsage);
+            this.setDefaultDiskOffering();
             this.enoughResources = true;
+            this.loading = false;
+            this.updateSizeLimits(resourceUsage);
           });
       });
   }

@@ -10,7 +10,7 @@ import { AsyncJobService } from './async-job.service';
 import { TagService } from './tag.service';
 
 
-interface VolumeCreationData {
+export interface VolumeCreationData {
   name: string;
   zoneId: string;
   diskOfferingId: string;

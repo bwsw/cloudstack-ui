@@ -368,7 +368,8 @@
   "SPARE_DRIVES_NAVBAR": "Spare drives",
   "SPARE_DRIVE_STATE": {
     "ALLOCATED": "Allocated",
-    "READY": "Ready"
+    "READY": "Ready",
+    "UPLOADABANDONED": "Upload abandoned"
   },
   "STATE": "State",
   "SPARE_DRIVE_DETAILS": {
@@ -482,5 +483,9 @@
 
   "NO_GROUP": "No group",
   "NO_SNAPSHOTS": "No snapshots",
-  "LAST_SNAPSHOT": "Last snapshot"
+  "LAST_SNAPSHOT": "Last snapshot",
+
+  "SECURITY_GROUP_NAME_TAKEN": "Unable to create security group, a group with name {{val1}} already exists.",
+  "PUBLIC_KEY_INVALID": "Public key is invalid",
+  "PARAM_MAX_LENGTH_EXCEEDED": "Unable to execute API command {{val1}} due to invalid value. Value greater than max allowed length {{val2}} for param: {{val3}}"
 }
