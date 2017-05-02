@@ -1,5 +1,5 @@
 <cs-top-bar></cs-top-bar>
-<div class="padding">
+<div class="padding" *loading="loading">
   <div *ngIf="language">
     <h4 class="no-margin">{{ 'LANGUAGE' | translate }}</h4>
     <mdl-select
@@ -13,12 +13,13 @@
   <div *ngIf="firstDayOfWeek != null">
     <h4 class="no-margin">{{ 'FIRST_DAY_OF_WEEK' | translate }}</h4>
     <mdl-select
+      *ngIf="dayTranslations"
       [ngModel]="firstDayOfWeek"
       [disabled]="updatingFirstDayOfWeek"
       (change)="firstDayOfWeekChange($event)"
     >
-      <mdl-option [value]="0">{{ 'SUNDAY' | translate }}</mdl-option>
-      <mdl-option [value]="1">{{ 'MONDAY' | translate }}</mdl-option>
+      <mdl-option [value]="0">{{ dayTranslations['SUNDAY'] }}</mdl-option>
+      <mdl-option [value]="1">{{ dayTranslations['MONDAY'] }}</mdl-option>
     </mdl-select>
   </div>
   <div>

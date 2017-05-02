@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Color, LanguageService, StyleService } from '../shared';
 import { AuthService, NotificationService } from '../shared/services';
 import { UserService } from '../shared/services/user.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -21,6 +22,8 @@ export class SettingsComponent implements OnInit {
   public passwordUpdateForm: FormGroup;
 
   public updatingFirstDayOfWeek = false;
+  public dayTranslations: {};
+  public loading = false;
 
   constructor(
     private authService: AuthService,
@@ -28,14 +31,17 @@ export class SettingsComponent implements OnInit {
     private languageService: LanguageService,
     private notificationService: NotificationService,
     private styleService: StyleService,
+    private translateService: TranslateService,
     private userService: UserService
-) { }
+  ) { }
 
   public ngOnInit(): void {
     this.getLanguage();
     this.loadColors();
     this.loadFirstDayOfWeek();
     this.buildForm();
+    this.loadDayTranslations();
+    this.translateService.onLangChange.subscribe(() => this.loadDayTranslations());
   }
 
   public get accentColors(): Array<Color> {
@@ -51,7 +57,9 @@ export class SettingsComponent implements OnInit {
   }
 
   public changeLanguage(lang: string): void {
+    this.loading = true;
     this.languageService.setLanguage(lang);
+    this.loadDayTranslations();
   }
 
   public updatePrimaryColor(color: Color): void {
@@ -90,6 +98,17 @@ export class SettingsComponent implements OnInit {
 
   private get password(): string {
     return this.passwordUpdateForm.controls['password'].value;
+  }
+
+  private loadDayTranslations(): void {
+    this.translateService.get(['SUNDAY', 'MONDAY'])
+      .subscribe(translations => {
+        this.dayTranslations = undefined;
+        setTimeout(() => {
+          this.dayTranslations = translations;
+          setTimeout(() => this.loading = false, 1000);
+        }, 0);
+      });
   }
 
   private getLanguage(): void {
