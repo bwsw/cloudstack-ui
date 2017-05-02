@@ -29,7 +29,6 @@ import { VmListSectionComponent } from './vm-list/vm-list-section/vm-list-sectio
 import { VmListSubsectionComponent } from './vm-list/vm-list-subsection/vm-list-subsection.component';
 import { SnapshotModalComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshot-modal.component';
 import { SnapshotActionsService } from './vm-sidebar/storage-detail/volume/snapshot/snapshot-actions.service';
-import { VmDescriptionComponent } from './vm-sidebar/vm-description/vm-description.component';
 
 
 @NgModule({
@@ -49,7 +48,6 @@ import { VmDescriptionComponent } from './vm-sidebar/vm-description/vm-descripti
     VmListComponent,
     VmCreationComponent,
     VmListItemComponent,
-    VmDescriptionComponent,
     VmDetailComponent,
     VmFilterComponent,
     VmSidebarComponent,

@@ -12,7 +12,7 @@
     (click)="edit()"
     *ngIf="!editing && showContentPlaceholder"
   >
-    {{ contentPlaceholder }}
+    {{ contentPlaceholder | translate }}
   </span>
 
   <mdl-textfield
@@ -20,7 +20,7 @@
     *ngIf="editing"
     [ngModel]="textFieldText"
     (ngModelChange)="updateTextFieldText($event)"
-    [placeholder]="inputPlaceholder"
+    [placeholder]="inputPlaceholder | translate"
     [rows]="rows"
     [maxrows]="maxrows"
     (keyup.enter)="onSubmit()"

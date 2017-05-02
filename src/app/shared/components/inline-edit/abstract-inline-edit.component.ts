@@ -1,11 +1,6 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 
-@Component({
-  selector: 'cs-inline-edit',
-  templateUrl: 'inline-edit.component.html',
-  styleUrls: ['inline-edit.component.scss']
-})
 export abstract class AbstractInlineEditComponent implements OnInit {
   @Input() public content: string;
 

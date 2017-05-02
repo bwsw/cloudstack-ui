@@ -21,20 +21,8 @@ export class InlineEditComponent extends AbstractInlineEditComponent implements 
     protected translateService: TranslateService
   ) {
     super(changeDetectorRef);
-  }
-
-  public ngOnInit(): void {
-    super.ngOnInit();
-
-    this.translateService.get(['CLICK_TO_EDIT', 'ENTER_TEXT'])
-      .subscribe(translations => {
-        if (!this.contentPlaceholder) {
-          this.contentPlaceholder = translations['CLICK_TO_EDIT'];
-        }
-        if (!this.inputPlaceholder) {
-          this.inputPlaceholder = translations['ENTER_TEXT'];
-        }
-      });
+    this.contentPlaceholder = 'CLICK_TO_EDIT';
+    this.inputPlaceholder = 'ENTER_TEXT';
   }
 
   public edit(): void {

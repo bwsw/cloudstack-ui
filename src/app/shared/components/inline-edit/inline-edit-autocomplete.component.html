@@ -12,13 +12,13 @@
     (click)="edit($event)"
     *ngIf="!editing && showContentPlaceholder"
   >
-    {{ contentPlaceholder }}
+    {{ contentPlaceholder | translate }}
   </span>
 
   <mdl-autocomplete
     name="autocomplete"
     *ngIf="editing"
-    [placeholder]="inputPlaceholder"
+    [placeholder]="inputPlaceholder | translate"
     [options]="autocompleteOptions"
     [ngModel]="textFieldText"
     (ngModelChange)="updateTextFieldText($event)"

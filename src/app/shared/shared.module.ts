@@ -80,6 +80,7 @@ import {
   MDL_SELECT_VALUE_ACCESSOR,
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
+import { DescriptionComponent } from './components/description/description.component';
 
 
 @NgModule({
@@ -94,6 +95,7 @@ import {
   exports: [
     ColorPickerComponent,
     DatePickerComponent,
+    DescriptionComponent,
     DiskOfferingComponent,
     FabComponent,
     InlineEditComponent,
@@ -128,6 +130,7 @@ import {
     DateDisplayComponent,
     DatePickerComponent,
     DatePickerDialogComponent,
+    DescriptionComponent,
     DiskOfferingComponent,
     FabComponent,
     InlineEditComponent,
