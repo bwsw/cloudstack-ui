@@ -1,4 +1,7 @@
 <div *ngIf="vms.length || subsections.length" class="section">
-  <h4 class="section-header">{{ sectionName }}</h4>
+  <h4 class="section-header">
+    <ng-container *ngIf="sectionName">{{ sectionName }}</ng-container>
+    <em *ngIf="!sectionName">{{ 'NO_GROUP' | translate }}</em>
+  </h4>
   <ng-content></ng-content>
 </div>
