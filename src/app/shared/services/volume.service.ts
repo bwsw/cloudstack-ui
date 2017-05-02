@@ -39,7 +39,7 @@ export class VolumeService extends BaseBackendService<Volume> {
   constructor(
     private asyncJobService: AsyncJobService,
     private snapshotService: SnapshotService,
-    private tagsService: TagService
+    private tagService: TagService
   ) {
     super();
   }
@@ -103,11 +103,22 @@ export class VolumeService extends BaseBackendService<Volume> {
   }
 
   public markForDeletion(id: string): Observable<any> {
-    return this.tagsService.create({
+    return this.tagService.create({
       resourceIds: id,
       resourceType: this.entity,
       'tags[0].key': DeletionMark.TAG,
       'tags[0].value': DeletionMark.VALUE
     });
+  }
+
+  public getDescription(volume: Volume): Observable<string> {
+    return this.tagService.getTag(volume, 'description')
+      .map(tag => {
+        return tag ? tag.value : undefined;
+      });
+  }
+
+  public updateDescription(vm: Volume, description: string): Observable<void> {
+    return this.tagService.update(vm, 'Volume', 'description', description);
   }
 }

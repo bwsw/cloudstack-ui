@@ -20,6 +20,12 @@
       </div>
     </mdl-card-supporting-text>
   </mdl-card>
+
+  <cs-description
+    [description]="description"
+    (descriptionChange)="changeDescription($event)"
+  ></cs-description>
+
   <mdl-card mdl-shadow="2" *ngIf="volume.diskOffering">
     <mdl-card-title>
       <h2 mdl-card-title-text>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING_TITLE' | translate }}</h2>

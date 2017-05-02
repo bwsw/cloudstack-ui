@@ -31,6 +31,7 @@ import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { VolumeTypes } from '../../shared/models/volume.model';
 import { DialogService } from '../../shared/services/dialog.service';
 import { UserService } from '../../shared/services/user.service';
+import { TagService } from '../../shared/services/tag.service';
 
 
 export interface IVmActionEvent {
@@ -55,6 +56,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     private osTypesService: OsTypeService,
     private serviceOfferingService: ServiceOfferingService,
     private securityGroupService: SecurityGroupService,
+    private tagService: TagService,
     private userService: UserService,
     private volumeService: VolumeService
   ) {
@@ -297,6 +299,17 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       }
     }
     return new Color('white', '#FFFFFF');
+  }
+
+  public getDescription(vm: VirtualMachine): Observable<string> {
+    return this.tagService.getTag(vm, 'description')
+      .map(tag => {
+        return tag ? tag.value : undefined;
+      });
+  }
+
+  public updateDescription(vm: VirtualMachine, description: string): Observable<void> {
+    return this.tagService.update(vm, 'UserVm', 'description', description);
   }
 
   private changeOffering(serviceOffering: ServiceOffering, virtualMachine: VirtualMachine): Observable<void> {

@@ -482,5 +482,9 @@
 
   "NO_GROUP": "Без группы",
   "NO_SNAPSHOTS": "Нет снимков",
-  "LAST_SNAPSHOT": "Последний снимок"
+  "LAST_SNAPSHOT": "Последний снимок",
+
+  "CLICK_TO_EDIT": "Нажмите для редактирования",
+  "SELECT_AN_OPTION": "Выберите опцию",
+  "ENTER_TEXT": "Введите текст"
 }

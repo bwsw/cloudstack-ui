@@ -27,7 +27,7 @@ export class TagService extends BaseBackendService<Tag> {
   }
 
   public getList(params?: {}): Observable<Array<Tag>> {
-    return this.sendCommand('list', params)
+    return this.sendCommand('list', params, 'Tag')
       .map(response => {
         const entity = this.entity.toLowerCase();
         const result = response[entity];

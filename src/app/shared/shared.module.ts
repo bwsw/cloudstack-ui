@@ -74,6 +74,13 @@ import { UserService } from './services/user.service';
 import { FilterService } from './services/filter.service';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
 import { DialogService } from './services/dialog.service';
+import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
+import { InlineEditAutocompleteComponent } from './components/inline-edit/inline-edit-autocomplete.component';
+import {
+  MDL_SELECT_VALUE_ACCESSOR,
+  MdlAutocompleteComponent
+} from './components/autocomplete/mdl-autocomplete.component';
+import { DescriptionComponent } from './components/description/description.component';
 
 
 @NgModule({
@@ -88,13 +95,17 @@ import { DialogService } from './services/dialog.service';
   exports: [
     ColorPickerComponent,
     DatePickerComponent,
+    DescriptionComponent,
     DiskOfferingComponent,
     FabComponent,
+    InlineEditComponent,
+    InlineEditAutocompleteComponent,
     IntegerValidatorDirective,
     ListComponent,
     NoResultsComponent,
     MaxValueValidatorDirective,
     MinValueValidatorDirective,
+    MdlAutocompleteComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     SgRulesManagerComponent,
@@ -119,13 +130,17 @@ import { DialogService } from './services/dialog.service';
     DateDisplayComponent,
     DatePickerComponent,
     DatePickerDialogComponent,
+    DescriptionComponent,
     DiskOfferingComponent,
     FabComponent,
+    InlineEditComponent,
+    InlineEditAutocompleteComponent,
     IntegerValidatorDirective,
     ListComponent,
     NoResultsComponent,
     MaxValueValidatorDirective,
     MinValueValidatorDirective,
+    MdlAutocompleteComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     SgRulesManagerComponent,
@@ -174,6 +189,7 @@ import { DialogService } from './services/dialog.service';
     ZoneService,
     { provide: 'INotificationService', useClass: NotificationService },
     { provide: 'IStorageService', useClass: StorageService },
+    MDL_SELECT_VALUE_ACCESSOR
   ]
 })
 export class SharedModule { }
