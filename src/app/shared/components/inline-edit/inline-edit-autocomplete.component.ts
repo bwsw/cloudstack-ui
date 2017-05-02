@@ -18,8 +18,7 @@ export class InlineEditAutocompleteComponent extends AbstractInlineEditComponent
     protected translateService: TranslateService
   ) {
     super(changeDetectorRef);
-    this.contentPlaceholder = 'CLICK_TO_EDIT';
-    this.inputPlaceholder = 'SELECT_AN_OPTION';
+    this.inputPlaceholder = this.inputPlaceholder || 'SELECT_AN_OPTION';
   }
 
   public ngOnInit(): void {

@@ -18,6 +18,7 @@ export abstract class AbstractInlineEditComponent implements OnInit {
 
   public ngOnInit(): void {
     this.editing = false;
+    this.contentPlaceholder = this.contentPlaceholder || 'CLICK_TO_EDIT';
   }
 
   public get showContentPlaceholder(): boolean {

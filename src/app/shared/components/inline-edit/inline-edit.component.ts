@@ -21,8 +21,7 @@ export class InlineEditComponent extends AbstractInlineEditComponent implements 
     protected translateService: TranslateService
   ) {
     super(changeDetectorRef);
-    this.contentPlaceholder = 'CLICK_TO_EDIT';
-    this.inputPlaceholder = 'ENTER_TEXT';
+    this.inputPlaceholder = this.contentPlaceholder || 'ENTER_TEXT';
   }
 
   public edit(): void {
