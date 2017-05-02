@@ -18,6 +18,7 @@ export class EventListComponent implements OnInit {
   public tableModel: MdlDefaultTableModel;
 
   public events: Array<Event>;
+  public visibleEvents: Array<Event>;
 
   public date;
 
@@ -25,11 +26,14 @@ export class EventListComponent implements OnInit {
   public locale;
 
   public selectedLevels: Array<string>;
+  public selectedTypes: Array<string>;
   public levels = [
     'INFO',
     'WARN',
     'ERROR'
   ];
+
+  public eventTypes: Array<string>;
 
   constructor(
     private eventService: EventService,
@@ -81,7 +85,28 @@ export class EventListComponent implements OnInit {
     }
 
     this.eventService.getList(params)
-      .subscribe(this.updateEvents);
+      .subscribe(events => {
+        this.events = events;
+        this.updateEvents(events);
+      });
+  }
+
+  public filterByType(): void {
+    if (!this.selectedTypes.length) {
+      this.updateEvents(this.events);
+    }
+
+    const eventsFilteredByTypes = this.events.filter(event => this.selectedTypes.includes(event.type));
+    this.updateEvents(eventsFilteredByTypes);
+  }
+
+  private getEventTypes(): Array<string> {
+    return this.events.reduce((acc, event) => {
+      if (this.selectedTypes.includes(event.type)) {
+        acc.push(event);
+      }
+      return acc;
+    }, []);
   }
 
   private initTableModel(translations: any): void {
@@ -95,7 +120,7 @@ export class EventListComponent implements OnInit {
 
   private updateEvents(events): void {
     this.loading = false;
-    this.events = events;
+    this.visibleEvents = events;
     this.createTableModel();
   }
 

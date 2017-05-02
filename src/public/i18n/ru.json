@@ -486,5 +486,6 @@
 
   "CLICK_TO_EDIT": "Нажмите для редактирования",
   "SELECT_AN_OPTION": "Выберите опцию",
-  "ENTER_TEXT": "Введите текст"
+  "ENTER_TEXT": "Введите текст",
+  "EVENT_TYPES": "Типы"
 }

@@ -11,7 +11,6 @@
         (ngModelChange)="filterEvents($event)"
       ></cs-date-picker>
       <mdl-select
-        class="event-type-select"
         [(ngModel)]="selectedLevels"
         (change)="filterEvents()"
         multiple="true"
@@ -24,6 +23,22 @@
           {{ level }}
         </mdl-option>
       </mdl-select>
+      <mdl-select
+        *ngIf="eventTypes"
+        [(ngModel)]="selectedTypes"
+        (change)="filterEvents()"
+        multiple="true"
+        [placeholder]="'EVENT_TYPES' | translate"
+      >
+        <mdl-option
+          *ngFor="let et of eventTypes"
+          [value]="et"
+        >
+          {{ et }}
+        </mdl-option>
+      </mdl-select>
+
+
     </mdl-card>
   </cs-top-bar>
   <div class="event-list">
