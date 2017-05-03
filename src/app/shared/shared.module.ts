@@ -81,6 +81,7 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { DescriptionComponent } from './components/description/description.component';
+import { SearchComponent } from './components/search/search.component';
 
 
 @NgModule({
@@ -108,6 +109,7 @@ import { DescriptionComponent } from './components/description/description.compo
     MdlAutocompleteComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
+    SearchComponent,
     SgRulesManagerComponent,
     SidebarComponent,
     TopBarComponent,
@@ -143,6 +145,7 @@ import { DescriptionComponent } from './components/description/description.compo
     MdlAutocompleteComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
+    SearchComponent,
     SgRulesManagerComponent,
     SidebarComponent,
     TopBarComponent,

@@ -39,6 +39,10 @@
           {{ et }}
         </mdl-option>
       </mdl-select>
+      <cs-search
+        [(ngModel)]="query"
+        (ngModelChange)="filter()"
+      ></cs-search>
     </mdl-card>
   </cs-top-bar>
   <div class="event-list">

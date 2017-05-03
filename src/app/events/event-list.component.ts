@@ -8,6 +8,7 @@ import { dateTimeFormat, formatIso } from '../shared/components/date-picker/date
 import { FilterService } from '../shared/services/filter.service';
 
 import moment = require('moment');
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'cs-event-list',
@@ -28,11 +29,9 @@ export class EventListComponent implements OnInit {
   public selectedLevels: Array<string>;
   public selectedTypes: Array<string>;
   public eventTypes: Array<string>;
-  public levels = [
-    'INFO',
-    'WARN',
-    'ERROR'
-  ];
+  public levels = ['INFO', 'WARN', 'ERROR'];
+
+  public query: string;
 
   private filtersKey = 'eventListFilters';
 
@@ -57,21 +56,59 @@ export class EventListComponent implements OnInit {
     this.initFilters();
   }
 
-  public initFilters(): void {
-    const params = this.filterService.init(this.filtersKey, {
-      'date': { type: 'string' },
-      'levels': { type: 'array', options: this.levels, defaultOption: [] },
-      'types': { type: 'array', defaultOption: [] }
+  public filter(): void {
+    this.visibleEvents = this.events.filter(event => {
+      const levelFilter = !this.selectedLevels.length ||
+        this.selectedLevels.length && this.selectedLevels.includes(event.level);
+
+      const typeFilter = !this.selectedTypes.length ||
+        this.selectedTypes.length && this.selectedTypes.includes(event.type);
+
+      return levelFilter && typeFilter;
     });
 
-    this.date = moment(params['date']).toDate();
-    this.selectedLevels = this.levels.filter(level => params['levels'].includes(level));
-    this.selectedTypes = this.eventTypes.filter(type => params['types'].includes(type));
+    this.filterBySearch();
+    this.updateEvents();
 
-    this.getEvents();
+    this.filterService.update(this.filtersKey, {
+      'date': moment(this.date).format('YYYY-MM-DD'),
+      'levels': this.selectedLevels,
+      'types': this.selectedTypes,
+      'query': this.query
+    });
   }
 
   public getEvents(): void {
+    this.getEventsObservable().subscribe();
+  }
+
+  private filterBySearch(): void {
+    if (!this.query) {
+      return;
+    }
+
+    const queryLower = this.query.toLowerCase();
+    this.visibleEvents = this.visibleEvents.filter((event: Event) => {
+      return event.description.toLowerCase().includes(queryLower) ||
+        event.level.toLowerCase().includes(queryLower) ||
+        event.type.toLowerCase().includes(queryLower) ||
+        this.stringifyDate(event.created).toLowerCase().includes(queryLower);
+    });
+  }
+
+  private stringifyDate(date: Date): string {
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      timeZoneName: 'short'
+    };
+    const dateTimeFormat = new Intl.DateTimeFormat(this.locale, options);
+
+    return dateTimeFormat.format(date);
+  }
+
+  private getEventsObservable(): Observable<any> {
     this.loading = true;
 
     const params = {
@@ -79,8 +116,8 @@ export class EventListComponent implements OnInit {
       endDate: formatIso(this.date)
     };
 
-    this.eventService.getList(params)
-      .subscribe(events => {
+    return this.eventService.getList(params)
+      .map(events => {
         this.events = events;
         this.getEventTypes();
         this.filter();
@@ -89,19 +126,22 @@ export class EventListComponent implements OnInit {
       });
   }
 
-  public filter(): void {
-    this.visibleEvents = this.events.filter(event => {
-      const levelFilter =
-        !this.selectedLevels.length ||
-        (this.selectedLevels.length && this.selectedLevels.includes(event.level));
-
-      const typeFilter =
-        !this.selectedTypes.length ||
-        (this.selectedTypes.length && this.selectedTypes.includes(event.type));
-
-      return levelFilter && typeFilter;
+  private initFilters(): void {
+    const params = this.filterService.init(this.filtersKey, {
+      'date': { type: 'string' },
+      'levels': { type: 'array', options: this.levels, defaultOption: [] },
+      'types': { type: 'array', defaultOption: [] },
+      'query': { type: 'string' }
     });
-    this.updateEvents();
+
+    this.date = moment(params['date']).toDate();
+    this.getEventsObservable()
+      .subscribe(() => {
+        this.selectedLevels = this.levels.filter(level => params['levels'].includes(level));
+        this.selectedTypes = this.eventTypes.filter(type => params['types'].includes(type));
+        this.query = params['query'];
+        this.filter();
+      });
   }
 
   private setDateTimeFormat(): void {
@@ -137,16 +177,9 @@ export class EventListComponent implements OnInit {
   }
 
   private createTableModel(): void {
-    const options = {
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
-      timeZoneName: 'short'
-    };
-    const dateTimeFormat = new Intl.DateTimeFormat(this.locale, options);
     this.tableModel.data = this.visibleEvents.map(event => Object.assign({}, event, {
       selected: false,
-      time: dateTimeFormat.format(new Date(event.created))
+      time: this.stringifyDate(event.created)
     }));
   }
 }

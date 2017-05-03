@@ -120,14 +120,9 @@
   </div>
 </mdl-card>
 
-<p
-  class="search-bar"
-  [class.search-bar-white]="searchPanelWhite"
->
-  <mdl-icon>search</mdl-icon>
-  <mdl-textfield
-    type="text"
+<div [class.search-bar-white]="searchPanelWhite">
+  <cs-search
     [(ngModel)]="query"
     (ngModelChange)="updateFilters()"
-  ></mdl-textfield>
-</p>
+  ></cs-search>
+</div>
