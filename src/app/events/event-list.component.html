@@ -47,11 +47,12 @@
   </cs-top-bar>
   <div class="event-list">
     <ng-container *loading="loading">
-      <mdl-table
+      <cs-table
         *ngIf="visibleEvents?.length"
         mdl-shadow="2"
         [table-model]="tableModel"
-      ></mdl-table>
+        [searchQuery]="query"
+      ></cs-table>
       <span *ngIf="!visibleEvents?.length">{{ 'NO_EVENTS' | translate }}</span>
     </ng-container>
   </div>

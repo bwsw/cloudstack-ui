@@ -10,6 +10,7 @@ import { FilterService } from '../shared/services/filter.service';
 import moment = require('moment');
 import { Observable } from 'rxjs/Observable';
 
+
 @Component({
   selector: 'cs-event-list',
   templateUrl: 'event-list.component.html',
@@ -46,6 +47,7 @@ export class EventListComponent implements OnInit {
     this.locale = this.translate.currentLang;
 
     this.updateEvents = this.updateEvents.bind(this);
+
   }
 
   public ngOnInit(): void {
@@ -160,6 +162,7 @@ export class EventListComponent implements OnInit {
       }
       return acc;
     }, []);
+    this.selectedTypes = this.selectedTypes.filter(type => this.eventTypes.includes(type));
   }
 
   private initTableModel(translations: any): void {

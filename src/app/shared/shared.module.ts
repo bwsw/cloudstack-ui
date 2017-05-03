@@ -82,6 +82,7 @@ import {
 } from './components/autocomplete/mdl-autocomplete.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { SearchComponent } from './components/search/search.component';
+import { TableComponent } from './components/table/table.component';
 
 
 @NgModule({
@@ -112,6 +113,7 @@ import { SearchComponent } from './components/search/search.component';
     SearchComponent,
     SgRulesManagerComponent,
     SidebarComponent,
+    TableComponent,
     TopBarComponent,
     VmStatisticsComponent,
     DivisionPipe,
@@ -148,6 +150,7 @@ import { SearchComponent } from './components/search/search.component';
     SearchComponent,
     SgRulesManagerComponent,
     SidebarComponent,
+    TableComponent,
     TopBarComponent,
     VmStatisticsComponent,
     DivisionPipe,
