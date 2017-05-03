@@ -51,6 +51,8 @@ export class EventListComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    debugger;
+
     this.setDateTimeFormat();
     this.translate.onLangChange.subscribe(() => this.setDateTimeFormat());
     this.translate.get(['DESCRIPTION', 'LEVEL', 'TYPE', 'TIME'])
