@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MdlDefaultTableModel } from 'angular2-mdl';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
 
 import { EventService } from './event.service';
 import { Event } from './event.model';
 import { dateTimeFormat, formatIso } from '../shared/components/date-picker/dateUtils';
+import { FilterService } from '../shared/services/filter.service';
 
+import moment = require('moment');
 
 @Component({
   selector: 'cs-event-list',
@@ -21,89 +22,101 @@ export class EventListComponent implements OnInit {
   public visibleEvents: Array<Event>;
 
   public date;
-
   public dateTimeFormat;
   public locale;
 
   public selectedLevels: Array<string>;
   public selectedTypes: Array<string>;
+  public eventTypes: Array<string>;
   public levels = [
     'INFO',
     'WARN',
     'ERROR'
   ];
 
-  public eventTypes: Array<string>;
+  private filtersKey = 'eventListFilters';
 
   constructor(
     private eventService: EventService,
+    private filterService: FilterService,
     private translate: TranslateService,
   ) {
     this.selectedLevels = [];
+    this.selectedTypes = [];
 
     this.locale = this.translate.currentLang;
 
+    this.updateEvents = this.updateEvents.bind(this);
+  }
+
+  public ngOnInit(): void {
+    this.setDateTimeFormat();
+    this.translate.onLangChange.subscribe(() => this.setDateTimeFormat());
+    this.translate.get(['DESCRIPTION', 'LEVEL', 'TYPE', 'TIME'])
+      .subscribe(translations => this.initTableModel(translations));
+    this.initFilters();
+  }
+
+  public initFilters(): void {
+    const params = this.filterService.init(this.filtersKey, {
+      'date': { type: 'string' },
+      'levels': { type: 'array', options: this.levels, defaultOption: [] },
+      'types': { type: 'array', defaultOption: [] }
+    });
+
+    this.date = moment(params['date']).toDate();
+    this.selectedLevels = this.levels.filter(level => params['levels'].includes(level));
+    this.selectedTypes = this.eventTypes.filter(type => params['types'].includes(type));
+
+    this.getEvents();
+  }
+
+  public getEvents(): void {
+    this.loading = true;
+
+    const params = {
+      startDate: formatIso(this.date),
+      endDate: formatIso(this.date)
+    };
+
+    this.eventService.getList(params)
+      .subscribe(events => {
+        this.events = events;
+        this.getEventTypes();
+        this.filter();
+        this.updateEvents();
+        this.loading = false;
+      });
+  }
+
+  public filter(): void {
+    this.visibleEvents = this.events.filter(event => {
+      const levelFilter =
+        !this.selectedLevels.length ||
+        (this.selectedLevels.length && this.selectedLevels.includes(event.level));
+
+      const typeFilter =
+        !this.selectedTypes.length ||
+        (this.selectedTypes.length && this.selectedTypes.includes(event.type));
+
+      return levelFilter && typeFilter;
+    });
+    this.updateEvents();
+  }
+
+  private setDateTimeFormat(): void {
     if (this.translate.currentLang === 'en') {
       this.dateTimeFormat = dateTimeFormat;
     }
     if (this.translate.currentLang === 'ru') {
       this.dateTimeFormat = Intl.DateTimeFormat;
     }
-
-    this.updateEvents = this.updateEvents.bind(this);
   }
 
-  public ngOnInit(): void {
-    this.translate.get(['DESCRIPTION', 'LEVEL', 'TYPE', 'TIME'])
-      .subscribe(translations => this.initTableModel(translations));
-  }
-
-  public filterEvents(): void {
-    const params = {
-      startDate: formatIso(this.date),
-      endDate: formatIso(this.date)
-    };
-
-    const selectedLevels = this.selectedLevels;
-
-    this.loading = true;
-
-    if (selectedLevels.length > 1 && selectedLevels.length < this.levels.length) {
-      const obs = selectedLevels
-        .map(level => this.eventService.getList(Object.assign({}, params, { level })));
-
-      Observable.forkJoin(obs)
-        .subscribe(results => {
-          this.events = [].concat.apply([], results);
-          this.updateEvents(this.events);
-        });
-      return;
-    }
-
-    if (selectedLevels.length === 1) {
-      params['level'] = this.selectedLevels[0];
-    }
-
-    this.eventService.getList(params)
-      .subscribe(events => {
-        this.events = events;
-        this.updateEvents(events);
-      });
-  }
-
-  public filterByType(): void {
-    if (!this.selectedTypes.length) {
-      this.updateEvents(this.events);
-    }
-
-    const eventsFilteredByTypes = this.events.filter(event => this.selectedTypes.includes(event.type));
-    this.updateEvents(eventsFilteredByTypes);
-  }
-
-  private getEventTypes(): Array<string> {
-    return this.events.reduce((acc, event) => {
-      if (this.selectedTypes.includes(event.type)) {
-        acc.push(event);
+  private getEventTypes(): void {
+    this.eventTypes = this.events.reduce((acc, event) => {
+      if (!acc.includes(event.type)) {
+        acc.push(event.type);
       }
       return acc;
     }, []);
@@ -118,9 +131,8 @@ export class EventListComponent implements OnInit {
     ]);
   }
 
-  private updateEvents(events): void {
+  private updateEvents(): void {
     this.loading = false;
-    this.visibleEvents = events;
     this.createTableModel();
   }
 
@@ -132,7 +144,7 @@ export class EventListComponent implements OnInit {
       timeZoneName: 'short'
     };
     const dateTimeFormat = new Intl.DateTimeFormat(this.locale, options);
-    this.tableModel.data = this.events.map(event => Object.assign({}, event, {
+    this.tableModel.data = this.visibleEvents.map(event => Object.assign({}, event, {
       selected: false,
       time: dateTimeFormat.format(new Date(event.created))
     }));
