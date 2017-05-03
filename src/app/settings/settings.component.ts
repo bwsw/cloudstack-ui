@@ -103,10 +103,11 @@ export class SettingsComponent implements OnInit {
   private loadDayTranslations(): void {
     this.translateService.get(['SUNDAY', 'MONDAY'])
       .subscribe(translations => {
+        // workaround for queryList change bug (https://git.io/v9R69)
         this.dayTranslations = undefined;
         setTimeout(() => {
           this.dayTranslations = translations;
-          setTimeout(() => this.loading = false, 1000);
+          setTimeout(() => this.loading = false, 500);
         }, 0);
       });
   }
