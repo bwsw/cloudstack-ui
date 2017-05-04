@@ -480,7 +480,7 @@
   "UNABLE_FIND_PRIMARY_STORAGE": "Не удалось найти подходящее основное хранилище при создании диска {{val1}}",
   "INSUFFICIENT_RESOURCES_VM": "Недостаточно ресурсов",
 
-  "NO_GROUP ": "Без группы",
+  "NO_GROUP": "Без группы",
   "NO_SNAPSHOTS": "Нет снимков",
   "LAST_SNAPSHOT": "Последний снимок",
 

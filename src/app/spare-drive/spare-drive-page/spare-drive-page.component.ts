@@ -1,26 +1,27 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import debounce = require('lodash/debounce');
-import sortBy = require('lodash/sortBy');
 import { Observable } from 'rxjs/Observable';
 
 import {
+  DialogService,
   DiskOffering,
   DiskOfferingService,
+  FilterService,
   JobsNotificationService,
   Volume,
   VolumeAttachmentData,
-  VolumeService
+  VolumeTypes,
+  Zone,
+  ZoneService
 } from '../../shared';
+import { ListService } from '../../shared/components/list/list.service';
+import { UserService } from '../../shared/services/user.service';
+import { VolumeService } from '../../shared/services/volume.service';
 
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
-import { ListService } from '../../shared/components/list/list.service';
-import { VolumeTypes } from '../../shared/models/volume.model';
-import { ZoneService } from '../../shared/services/zone.service';
-import { Zone } from '../../shared/models/zone.model';
-import { FilterService } from '../../shared/services/filter.service';
-import { DialogService } from '../../shared/services/dialog.service';
-import { UserService } from '../../shared/services/user.service';
+
+import debounce = require('lodash/debounce');
+import sortBy = require('lodash/sortBy');
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
