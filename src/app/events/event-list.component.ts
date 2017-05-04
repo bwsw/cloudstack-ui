@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { MdlDefaultTableModel } from 'angular2-mdl';
 import { TranslateService } from '@ngx-translate/core';
+import { MdlDefaultTableModel } from 'angular2-mdl';
 import { Observable } from 'rxjs/Observable';
 
-import { EventService } from './event.service';
-import { Event } from './event.model';
 import { dateTimeFormat, formatIso } from '../shared/components/date-picker/dateUtils';
+import { LanguageService } from '../shared/services';
+import { Event } from './event.model';
+import { EventService } from './event.service';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class EventListComponent implements OnInit {
 
   public dateTimeFormat;
   public locale;
+  public firstDayOfWeek: number;
 
   public selectedLevels: Array<string>;
   public levels = [
@@ -34,10 +36,12 @@ export class EventListComponent implements OnInit {
   constructor(
     private eventService: EventService,
     private translate: TranslateService,
+    private languageService: LanguageService
   ) {
     this.selectedLevels = [];
 
     this.locale = this.translate.currentLang;
+    this.firstDayOfWeek = this.locale === 'en' ? 0 : 1;
 
     if (this.translate.currentLang === 'en') {
       this.dateTimeFormat = dateTimeFormat;
@@ -52,6 +56,9 @@ export class EventListComponent implements OnInit {
   public ngOnInit(): void {
     this.translate.get(['DESCRIPTION', 'LEVEL', 'TYPE', 'TIME'])
       .subscribe(translations => this.initTableModel(translations));
+
+    this.languageService.getFirstDayOfWeek()
+      .subscribe(day => this.firstDayOfWeek = day);
   }
 
   public filterEvents(): void {
