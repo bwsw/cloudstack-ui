@@ -13,6 +13,7 @@ import { TopBarComponent } from '../shared/components/top-bar/top-bar.component'
 import { DatePickerComponent } from '../shared/components/date-picker';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { MdlModule } from 'angular2-mdl';
+import { LanguageService } from '../shared/services';
 
 
 const eventServiceFixture = require('./event.service.fixture.json');
@@ -22,6 +23,10 @@ class MockTranslateService {
 
   constructor() {
     this.onLangChange = new EventEmitter<void>();
+  }
+
+  public get currentLang(): string {
+    return 'en';
   }
 
   public get(key: string | Array<string>): Observable<string | any> {
@@ -63,6 +68,12 @@ class MockFilterService {
   public update(): void {}
 }
 
+class MockLanguageService {
+  public getFirstDayOfWeek(): Observable<number> {
+    return Observable.of(0);
+  }
+}
+
 @Pipe({
   // tslint:disable-next-line
   name: 'translate'
@@ -93,7 +104,8 @@ describe('event list component', () => {
       providers: [
         { provide: TranslateService, useClass: MockTranslateService },
         { provide: EventService, useClass: MockEventService },
-        { provide: FilterService, useClass: MockFilterService }
+        { provide: FilterService, useClass: MockFilterService },
+        { provide: LanguageService, useClass: MockLanguageService }
       ],
       imports: [
         SharedModule,

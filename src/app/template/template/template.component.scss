@@ -8,6 +8,10 @@
   }
 }
 
+.last {
+  margin-left: 20px;
+}
+
 .single-line {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -15,7 +19,8 @@
 }
 
 .multiline {
-  text-align: right;
+  word-wrap: break-word;
+  overflow: hidden;
 }
 
 .template-popover {
