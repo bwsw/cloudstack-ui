@@ -53,7 +53,7 @@
   </mdl-card-title>
   <mdl-card-supporting-text>
     <div class="card-wrapper">
-      <div class="first">{{ 'OS' | translate }}:</div>
+      <div>{{ 'OS' | translate }}:</div>
       <div
         *ngIf="singleLine"
         class="last single-line"
@@ -73,7 +73,7 @@
     <div class="card-wrapper" *ngIf="template">
       <div
         *ngIf="singleLine"
-        class="last single-line"
+        class="single-line"
         [mdl-tooltip]="descriptionTooltip"
         mdl-tooltip-position="top"
       >
@@ -81,7 +81,7 @@
       </div>
       <div
         *ngIf="!singleLine"
-        class="last multiline"
+        class="multiline"
         [innerHTML]="template.displayText | highlight:searchQuery"
       ></div>
       <mdl-tooltip

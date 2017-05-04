@@ -9,7 +9,7 @@
 }
 
 .last {
-  flex: 6 !important;
+  margin-left: 20px;
 }
 
 .single-line {
@@ -19,7 +19,7 @@
 }
 
 .multiline {
-  word-break: break-all;
+  word-wrap: break-word;
   overflow: hidden;
 }
 
