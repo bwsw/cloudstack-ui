@@ -489,5 +489,6 @@
 
   "CLICK_TO_EDIT": "Click to edit",
   "SELECT_AN_OPTION": "Select an option",
-  "ENTER_TEXT": "Enter text"
+  "ENTER_TEXT": "Enter text",
+  "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Would you like to create a new volume?"
 }
