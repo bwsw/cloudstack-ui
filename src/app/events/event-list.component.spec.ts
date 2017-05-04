@@ -11,14 +11,14 @@ import { EventService } from './event.service';
 import { NotificationBoxComponent } from '../shared/components/notification-box';
 import { TopBarComponent } from '../shared/components/top-bar/top-bar.component';
 import { DatePickerComponent } from '../shared/components/date-picker';
-import { MdlSelectComponent, MdlSelectModule } from '@angular2-mdl-ext/select';
+import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { MdlModule } from 'angular2-mdl';
 
 
 const eventServiceFixture = require('./event.service.fixture.json');
 
 class MockTranslateService {
-  public onLangChange: EventEmitter<void>
+  public onLangChange: EventEmitter<void>;
 
   constructor() {
     this.onLangChange = new EventEmitter<void>();
@@ -42,9 +42,9 @@ class MockEventService {
   }
 
   public getList(params): Observable<Array<Event>> {
-    const result = this.fixture[params['startdate']];
+    const result = this.fixture[params['startDate']];
 
-    if (params['startdate'] !== params['enddate']) {
+    if (params['startDate'] !== params['endDate']) {
       throw new Error();
     }
 
@@ -119,8 +119,99 @@ describe('event list component', () => {
     comp = fixture.componentInstance;
   });
 
-  it('should do at least something', () => {
+  it('should grab events by date', () => {
     fixture.detectChanges();
-    expect(true).toBeTruthy();
+    comp.date = new Date('1970-01-02');
+    comp.getEvents();
+    fixture.detectChanges();
+    expect(comp.tableModel.data[0].id).toBe('1');
+    expect(comp.tableModel.data[1].id).toBe('2');
+    expect(comp.tableModel.data[2].id).toBe('3');
+
+    comp.date = new Date('1970-01-03');
+    comp.getEvents();
+    fixture.detectChanges();
+    expect(comp.tableModel.data[0].id).toBe('4');
+    expect(comp.tableModel.data[1].id).toBe('5');
+    expect(comp.tableModel.data[2].id).toBe('6');
+    expect(comp.tableModel.data[3].id).toBe('7');
+    expect(comp.tableModel.data[4].id).toBe('8');
+    expect(comp.tableModel.data[5].id).toBe('9');
+  });
+
+  it('should filter events by level', () => {
+    fixture.detectChanges();
+    comp.date = new Date('1970-01-03');
+    comp.getEvents();
+    comp.selectedLevels = ['INFO'];
+    comp.filter();
+    fixture.detectChanges();
+    expect(comp.tableModel.data[0].id).toBe('4');
+    expect(comp.tableModel.data[1].id).toBe('7');
+    comp.selectedLevels = ['INFO', 'WARN'];
+    comp.filter();
+    fixture.detectChanges();
+    expect(comp.tableModel.data.length).toBe(4);
+    comp.selectedLevels = [];
+    comp.filter();
+    fixture.detectChanges();
+    expect(comp.tableModel.data.length).toBe(6);
+  });
+
+  it('should filter events by type', () => {
+    fixture.detectChanges();
+    comp.date = new Date('1970-01-02');
+    comp.getEvents();
+    fixture.detectChanges();
+    expect(comp.eventTypes).toEqual(['USER.LOGIN', 'USER.LOGOUT', 'SG.CREATE']);
+
+    comp.date = new Date('1970-01-03');
+    comp.getEvents();
+    fixture.detectChanges();
+    expect(comp.eventTypes).toEqual(['SG.AUTH.INGRESS', 'SG.AUTH.EGRESS', 'CREATE_TAGS']);
+    comp.selectedTypes = ['SG.AUTH.INGRESS'];
+    comp.filter();
+    expect(comp.tableModel.data[0].id).toBe('4');
+    expect(comp.tableModel.data[1].id).toBe('5');
+    comp.selectedTypes = ['SG.AUTH.INGRESS', 'CREATE_TAGS'];
+    comp.filter();
+    fixture.detectChanges();
+    expect(comp.tableModel.data.length).toBe(4);
+  });
+
+  it('should filter by all filters', () => {
+    fixture.detectChanges();
+    comp.date = new Date('1970-01-03');
+    comp.getEvents();
+    fixture.detectChanges();
+    comp.selectedTypes = ['SG.AUTH.INGRESS'];
+    comp.selectedLevels = ['WARN'];
+    comp.filter();
+    fixture.detectChanges();
+    expect(comp.tableModel.data[0].id).toBe('5');
+    expect(comp.tableModel.data.length).toBe(1);
+    comp.selectedTypes = ['CREATE_TAGS'];
+    comp.selectedLevels = ['ERROR'];
+    comp.filter();
+    fixture.detectChanges();
+    expect(comp.tableModel.data[0].id).toBe('9');
+    expect(comp.tableModel.data.length).toBe(1);
+  });
+
+  it('should filter by search field', () => {
+    fixture.detectChanges();
+    comp.date = new Date('1970-01-02');
+    comp.getEvents();
+    comp.query = 'failed';
+    comp.filter();
+    fixture.detectChanges();
+    expect(comp.tableModel.data[0].id).toBe('3');
+
+    comp.date = new Date('1970-01-03');
+    comp.getEvents();
+    comp.query = 'authorized';
+    comp.filter();
+    fixture.detectChanges();
+    expect(comp.tableModel.data.length).toBe(4);
   });
 });

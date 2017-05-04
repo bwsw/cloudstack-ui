@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { EventService } from './event.service';
 import { Event } from './event.model';
 import { dateTimeFormat, formatIso } from '../shared/components/date-picker/dateUtils';
-import { FilterService } from '../shared/services/filter.service';
+import { FilterService } from '../shared';
 
 import moment = require('moment');
 import { Observable } from 'rxjs/Observable';
@@ -51,8 +51,6 @@ export class EventListComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    debugger;
-
     this.setDateTimeFormat();
     this.translate.onLangChange.subscribe(() => this.setDateTimeFormat());
     this.translate.get(['DESCRIPTION', 'LEVEL', 'TYPE', 'TIME'])

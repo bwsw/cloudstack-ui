@@ -18,7 +18,7 @@
       "id":"3",
       "type":"SG.CREATE",
       "level":"ERROR",
-      "description":"sg_create_failer",
+      "description":"sg_create_failed",
       "created":"1970-01-02T00:00:03+0700"
     }
   ],
