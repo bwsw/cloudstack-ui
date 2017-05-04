@@ -81,6 +81,8 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { DescriptionComponent } from './components/description/description.component';
+import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
+import { FancySelectTestComponent } from './components/fancy-select/fancy-select-test.component';
 
 
 @NgModule({
@@ -98,6 +100,8 @@ import { DescriptionComponent } from './components/description/description.compo
     DescriptionComponent,
     DiskOfferingComponent,
     FabComponent,
+    FancySelectComponent,
+    FancySelectTestComponent,
     InlineEditComponent,
     InlineEditAutocompleteComponent,
     IntegerValidatorDirective,
@@ -133,6 +137,8 @@ import { DescriptionComponent } from './components/description/description.compo
     DescriptionComponent,
     DiskOfferingComponent,
     FabComponent,
+    FancySelectComponent,
+    FancySelectTestComponent,
     InlineEditComponent,
     InlineEditAutocompleteComponent,
     IntegerValidatorDirective,

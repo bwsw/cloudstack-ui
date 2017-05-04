@@ -11,9 +11,14 @@ import { AuthGuard } from './shared/services';
 import { LoginGuard } from './shared/services';
 import { SshKeysPageComponent } from './ssh-keys/ssh-keys-page.component';
 import { LogoutComponent } from './auth/logout.component';
+import { FancySelectTestComponent } from './shared/components/fancy-select/fancy-select-test.component';
 
 
 export const routes: Routes = [
+  {
+    path: 'test',
+    component: FancySelectTestComponent
+  },
   {
     path: 'login',
     component: LoginComponent,

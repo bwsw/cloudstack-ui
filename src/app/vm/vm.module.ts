@@ -29,6 +29,8 @@ import { VmListSectionComponent } from './vm-list/vm-list-section/vm-list-sectio
 import { VmListSubsectionComponent } from './vm-list/vm-list-subsection/vm-list-subsection.component';
 import { SnapshotModalComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshot-modal.component';
 import { SnapshotActionsService } from './vm-sidebar/storage-detail/volume/snapshot/snapshot-actions.service';
+import { SpareDriveAttachmentComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attachment.component';
+import { SpareDriveAttachmentDialogComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attachment-dialog.component';
 
 
 @NgModule({
@@ -44,6 +46,8 @@ import { SnapshotActionsService } from './vm-sidebar/storage-detail/volume/snaps
     TranslateModule
   ],
   declarations: [
+    SpareDriveAttachmentDetailComponent,
+    SpareDriveAttachmentDialogComponent,
     StorageDetailComponent,
     VmListComponent,
     VmCreationComponent,

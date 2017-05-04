@@ -1,0 +1,14 @@
+<mdl-card mdl-shadow="2">
+  <cs-fancy-select>
+    <mdl-card-title class="fancy-select-header">
+      <h2 mdl-card-title-text>{{ 'ATTACH_VOLUME' | translate }}</h2>
+    </mdl-card-title>
+    <mdl-button
+      (click)="showDialog()"
+      class="fancy-select-button"
+    >{{ 'SELECT' | translate }}</mdl-button>
+    <mdl-card-supporting-text class="fancy-select-content">
+      {{ 'SELECT_VOLUME' }}
+    </mdl-card-supporting-text>
+  </cs-fancy-select>
+</mdl-card>
