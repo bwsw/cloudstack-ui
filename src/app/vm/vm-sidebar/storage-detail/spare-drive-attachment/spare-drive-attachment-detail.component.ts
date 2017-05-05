@@ -7,9 +7,10 @@ import { SpareDriveAttachmentDialogComponent } from './spare-drive-attachment-di
 
 
 @Component({
-  selector: 'cs-spare-drive-attachment-detail'
+  selector: 'cs-spare-drive-attachment-detail',
+  template: '<div></div>'
 })
-export class SpareDriveAttachmentDetailComponent {
+export class SpareDriveAttachmentDetailComponent implements OnInit {
   @Input() public virtualMachine: VirtualMachine;
   @Output() public volumeSelected: EventEmitter<Volume>;
 

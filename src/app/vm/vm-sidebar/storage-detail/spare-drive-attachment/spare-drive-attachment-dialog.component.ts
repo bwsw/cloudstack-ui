@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Volume } from '../../../../shared/models';
 import { MdlDialogReference } from 'angular2-mdl';
 
@@ -6,7 +6,7 @@ import { MdlDialogReference } from 'angular2-mdl';
   selector: 'cs-spare-drive-attachment-dialog',
   templateUrl: 'spare-drive-attachment-dialog.component.html'
 })
-export class SpareDriveAttachmentDialogComponent implements OnInit {
+export class SpareDriveAttachmentDialogComponent {
   public selectedVolume: Volume;
 
   constructor(
