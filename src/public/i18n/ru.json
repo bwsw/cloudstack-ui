@@ -492,5 +492,7 @@
   "ENTER_TEXT": "Введите текст",
   "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Хотите создать новый диск?",
   "ATTACH_VOLUME": "Прикрепление диска",
-  "SELECT_VOLUME": "Выберите диск"
+  "SELECT_VOLUME": "Выберите диск",
+  "NO_AVAILABLE_VOLUMES": "Нет доступных дисков",
+  "NAVIGATE_TO_VOLUME_CREATION_PAGE": "Открыть страницу создания"
 }

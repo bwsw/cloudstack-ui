@@ -11,7 +11,8 @@ import { IsoEvent } from './iso.component';
 
 import { Volume } from '../../../shared/models';
 import { JobsNotificationService, NotificationService, VolumeService } from '../../../shared/services';
-import { DialogService } from '../../../shared/services/dialog.service';
+import { DialogService } from '../../../shared';
+import { SpareDriveActionsService } from '../../../spare-drive/spare-drive-actions.service';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class StorageDetailComponent implements OnChanges {
     private jobNotificationService: JobsNotificationService,
     private isoService: IsoService,
     private notificationService: NotificationService,
+    private spareDriveActionService: SpareDriveActionsService,
     private volumeService: VolumeService
   ) {}
 
@@ -43,11 +45,22 @@ export class StorageDetailComponent implements OnChanges {
     this.subscribeToVolumeAttachments();
   }
 
+  public get volumes(): Array<Volume> {
+    return this.vm.volumes.sort((a, b) => {
+      if (a.isRoot) { return -1; }
+      if (b.isRoot) { return  1; }
+
+      if (a.name < b.name) { return -1; }
+      if (a.name > b.name) { return  1; }
+
+      return 0;
+    });
+  }
+
   public subscribeToVolumeAttachments(): void {
-    this.volumeService.onVolumeAttached.subscribe((volume: Volume) => {
-      if (volume.virtualMachineId === this.vm.id) {
-        this.vm.volumes.push(volume);
-      }
+    this.spareDriveActionService.volumeAttached.subscribe(() => {
+      this.volumeService.getList({ virtualMachineId: this.vm.id })
+        .subscribe(volumes => this.vm.volumes = volumes);
     });
   }
 

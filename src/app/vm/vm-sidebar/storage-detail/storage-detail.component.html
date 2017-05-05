@@ -1,12 +1,13 @@
 <div *ngIf="vm">
   <cs-volume
-    *ngFor="let volume of vm.volumes"
+    *ngFor="let volume of volumes"
     [volume]="volume"
     (onDetach)="showVolumeDetachDialog($event)"
-  >
-  </cs-volume>
+  ></cs-volume>
 
-  <cs-spare-drive-attachment-detail></cs-spare-drive-attachment-detail>
+  <cs-spare-drive-attachment-detail
+    [virtualMachine]="vm"
+  ></cs-spare-drive-attachment-detail>
 
   <cs-iso
     [iso]="iso"

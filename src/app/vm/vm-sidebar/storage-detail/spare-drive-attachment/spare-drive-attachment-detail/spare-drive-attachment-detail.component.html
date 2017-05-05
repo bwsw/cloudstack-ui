@@ -1,0 +1,41 @@
+<mdl-card mdl-shadow="2">
+  <cs-fancy-select>
+    <mdl-card-title class="fancy-select-header">
+      <h2 mdl-card-title-text>
+        {{ 'ATTACH_VOLUME' | translate }}
+      </h2>
+    </mdl-card-title>
+    <mdl-button
+      *ngIf="volumes?.length"
+      (click)="showDialog()"
+      class="fancy-select-button"
+    >
+      {{ 'SELECT' | translate }}
+    </mdl-button>
+    <mdl-card-supporting-text class="fancy-select-content">
+      <ng-container *ngIf="volumes?.length">
+        <ng-container *ngIf="!selectedVolume">
+          {{ 'SELECT_VOLUME' | translate }}
+        </ng-container>
+        <ng-container *ngIf="selectedVolume">
+          {{ selectedVolume.name }}
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="!volumes?.length">
+        {{ 'NO_AVAILABLE_VOLUMES' | translate }}. <a class="mdl-navigation__link" routerLink="/spare-drives">{{
+           'NAVIGATE_TO_VOLUME_CREATION_PAGE' | translate }}</a>
+      </ng-container>
+    </mdl-card-supporting-text>
+  </cs-fancy-select>
+  <mdl-card-actions mdl-card-border *ngIf="selectedVolume">
+    <button
+      mdl-button
+      mdl-button-type="icon"
+      mdl-tooltip-position="top"
+      [mdl-tooltip]="'ATTACH' | translate"
+      (click)="attachIso()"
+    >
+      <mdl-icon>attach_file</mdl-icon>
+    </button>
+  </mdl-card-actions>
+</mdl-card>

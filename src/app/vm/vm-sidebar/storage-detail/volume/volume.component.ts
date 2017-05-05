@@ -1,25 +1,32 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
-import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
-import { VolumeResizeComponent } from '../../volume-resize.component';
-
 import {
+  DialogService,
+  DiskOffering,
+  DiskOfferingService,
   JobsNotificationService,
   StatsUpdateService,
+  Volume,
   VolumeResizeData,
-  VolumeService
-} from '../../../../shared/services';
+  VolumeTypes,
+  Zone,
+  ZoneService
+} from '../../../../shared';
 
-import { Volume, VolumeTypes } from '../../../../shared/models';
-import { SnapshotModalComponent } from './snapshot/snapshot-modal.component';
+import { VolumeResizeComponent } from '../../volume-resize.component';
+
+import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
 import { SnapshotActionsService } from './snapshot/snapshot-actions.service';
-import { DiskOfferingService } from '../../../../shared/services/disk-offering.service';
-import { ZoneService } from '../../../../shared/services/zone.service';
-import { DiskOffering } from '../../../../shared/models/disk-offering.model';
-import { Zone } from '../../../../shared/models/zone.model';
-import { DialogService } from '../../../../shared/services/dialog.service';
+import { SnapshotModalComponent } from './snapshot/snapshot-modal.component';
+import { VolumeService } from '../../../../shared/services/volume.service';
 
 
 const numberOfShownSnapshots = 5;
