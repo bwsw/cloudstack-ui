@@ -1,5 +1,6 @@
 import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { MdlModule } from 'angular2-mdl';
 import { Observable } from 'rxjs/Observable';
 
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe';
@@ -7,6 +8,7 @@ import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { NetworkRule, SecurityGroup } from '../../security-group/sg.model';
 import { DialogService } from '../services/dialog.service';
 import { SgRulesManagerComponent } from './';
+import { FancySelectComponent } from './fancy-select/fancy-select.component';
 
 
 const mockSg = new SecurityGroup({
@@ -101,10 +103,15 @@ describe('Sg Rules manager component', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SgRulesManagerComponent, MockTranslatePipe],
+      declarations: [
+        SgRulesManagerComponent,
+        MockTranslatePipe,
+        FancySelectComponent
+      ],
       providers: [
         { provide: DialogService, useClass: MockDialogService },
-      ]
+      ],
+      imports: [MdlModule]
     });
 
     TestBed.compileComponents().then(() => {
@@ -132,7 +139,7 @@ describe('Sg Rules manager component', () => {
     const dialogService = TestBed.get(DialogService);
     spyOn(dialogService, 'showCustomDialog').and.callThrough();
     f.detectChanges();
-    f.debugElement.query(By.css('button.mdl-button')).triggerEventHandler('click');
+    f.debugElement.query(By.css('mdl-button')).triggerEventHandler('click');
 
     expect(dialogService.showCustomDialog).toHaveBeenCalled();
   });
@@ -145,7 +152,7 @@ describe('Sg Rules manager component', () => {
     const dialogService = TestBed.get(DialogService);
     spyOn(dialogService, 'showCustomDialog').and.callThrough();
     f.detectChanges();
-    f.debugElement.query(By.css('button.mdl-button')).triggerEventHandler('click');
+    f.debugElement.query(By.css('mdl-button')).triggerEventHandler('click');
 
     const expectedSavedRules = new Rules([mockSg], mockIngressRules, mockEgressRules);
     const expectedRules = Object.assign({}, expectedSavedRules);
