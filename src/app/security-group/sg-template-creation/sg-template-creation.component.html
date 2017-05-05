@@ -1,3 +1,9 @@
+<div *ngIf="creationInProgress" class="overlay">
+  <div class="message">
+    <p>{{ 'CREATING_SG_TEMPLATE' | translate }}</p>
+    <mdl-progress [indeterminate]="true"></mdl-progress>
+  </div>
+</div>
 <div class="security-group-template-form">
   <h3 class="mdl-dialog__title">{{ 'CREATE_NEW_TEMPLATE' | translate }}</h3>
   <form (ngSubmit)="onSubmit($event)" #templateCreationForm="ngForm" novalidate>
@@ -28,6 +34,11 @@
         [style.width]="'100%'"
       >
       </mdl-textfield>
+      <cs-security-group-rules-manager
+        name="sgm"
+        class="dialog-select-select"
+        [(ngModel)]="securityRules"
+      ></cs-security-group-rules-manager>
     </div>
     <div class="mdl-dialog__actions">
       <button
