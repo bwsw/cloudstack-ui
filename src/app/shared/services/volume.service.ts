@@ -70,7 +70,7 @@ export class VolumeService extends BaseBackendService<Volume> {
   }
 
   public getSpareList(params?: {}): Observable<Array<Volume>> {
-    return this.getList()
+    return this.getList(params)
       .map(volumes => {
         return volumes.filter((volume: Volume) => {
           return !volume.virtualMachineId && !volume.isDeleted;

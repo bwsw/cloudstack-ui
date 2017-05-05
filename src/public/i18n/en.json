@@ -493,6 +493,7 @@
   "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Would you like to create a new volume?",
   "ATTACH_VOLUME": "Attach a volume",
   "SELECT_VOLUME": "Select a volume",
-  "NO_AVAILABLE_VOLUMES": "No available volumes",
-  "NAVIGATE_TO_VOLUME_CREATION_PAGE": "Open creation page"
+
+  "NO_AVAILABLE_VOLUMES": "No available volumes. Detach a volume or",
+  "NAVIGATE_TO_VOLUME_CREATION_PAGE": "create a new one"
 }

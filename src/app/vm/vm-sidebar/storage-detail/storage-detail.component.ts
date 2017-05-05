@@ -10,9 +10,13 @@ import { Iso, IsoService } from '../../../template/shared';
 import { IsoEvent } from './iso.component';
 
 import { Volume } from '../../../shared/models';
-import { JobsNotificationService, NotificationService, VolumeService } from '../../../shared/services';
+import {
+  JobsNotificationService,
+  NotificationService,
+} from '../../../shared/services';
 import { DialogService } from '../../../shared';
 import { SpareDriveActionsService } from '../../../spare-drive/spare-drive-actions.service';
+import { VolumeService } from '../../../shared/services/volume.service';
 
 
 @Component({
@@ -52,16 +56,16 @@ export class StorageDetailComponent implements OnChanges {
 
       if (a.name < b.name) { return -1; }
       if (a.name > b.name) { return  1; }
-
       return 0;
     });
   }
 
   public subscribeToVolumeAttachments(): void {
-    this.spareDriveActionService.volumeAttached.subscribe(() => {
-      this.volumeService.getList({ virtualMachineId: this.vm.id })
-        .subscribe(volumes => this.vm.volumes = volumes);
-    });
+    this.spareDriveActionService.onVolumeAttachment
+      .subscribe(() => {
+        this.volumeService.getList({ virtualMachineId: this.vm.id })
+          .subscribe(volumes => this.vm.volumes = volumes);
+      });
   }
 
   public handleIsoAction(event: IsoEvent): void {
@@ -80,26 +84,7 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private detachVolume(volume: Volume): void {
-    let notificationId = this.jobNotificationService.add('VOLUME_DETACH_IN_PROGRESS');
-    this.volumeService.detach(volume.id)
-      .subscribe(
-        () => {
-          this.vm.volumes = this.vm.volumes.filter(vmVolume => {
-            return volume.id !== vmVolume.id;
-          });
-          this.jobNotificationService.finish({
-            id: notificationId,
-            message: 'VOLUME_DETACH_DONE'
-          });
-        },
-        error => {
-          this.notificationService.error(error.errortext);
-          this.jobNotificationService.fail({
-            id: notificationId,
-            message: 'VOLUME_DETACH_FAILED'
-          });
-        }
-      );
+    this.spareDriveActionService.detach(volume).subscribe();
   }
 
   private attachIsoDialog(): void {

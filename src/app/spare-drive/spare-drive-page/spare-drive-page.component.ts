@@ -87,8 +87,9 @@ export class SpareDrivePageComponent implements OnInit {
         this.updateSections();
       });
 
-    this.spareDriveActionsService.volumeAttached
-      .subscribe(volume => this.onVolumeAttached(volume));
+    this.spareDriveActionsService.onVolumeAttachment.subscribe(() => {
+      this.onVolumeAttached();
+    });
   }
 
   public initFilters(): void {
@@ -217,8 +218,8 @@ export class SpareDrivePageComponent implements OnInit {
     this.updateSections();
   }
 
-  private onVolumeAttached(volume: Volume): void {
-    this.volumes = this.volumes.filter(v => v.id !== volume.id);
+  private onVolumeAttached(): void {
+    this.updateVolumeList();
     this.updateSections();
   }
 

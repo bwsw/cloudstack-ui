@@ -7,6 +7,7 @@ import {
   SpareDriveAttachmentDialogComponent
 } from '../spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
 import { SpareDriveActionsService } from '../../../../../spare-drive/spare-drive-actions.service';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -32,22 +33,23 @@ export class SpareDriveAttachmentDetailComponent implements OnInit {
     if (!this.virtualMachine) {
       throw new Error('the virtualMachine property is missing in cs-spare-drive-attachment-detail');
     }
-
-    this.loading = true;
-    this.volumeService
-      .getSpareList({ zoneId: this.virtualMachine.zoneId })
-      .subscribe(volumes => {
-        this.volumes = volumes;
-        this.loading = false;
+    this.loadVolumes().subscribe();
+    this.spareDriveActionsService
+      .onVolumeAttachment
+      .subscribe(() => {
+        this.loadVolumes().subscribe();
       });
   }
 
   public showDialog(): void {
-    this.dialogService.showCustomDialog({
-      component: SpareDriveAttachmentDialogComponent,
-      providers: [{ provide: 'volumes', useValue: this.volumes }],
-      classes: 'spare-drive-attachment-dialog'
-    })
+    this.loadVolumes()
+      .switchMap(() => {
+        return this.dialogService.showCustomDialog({
+          component: SpareDriveAttachmentDialogComponent,
+          providers: [{ provide: 'volumes', useValue: this.volumes }],
+          classes: 'spare-drive-attachment-dialog'
+        });
+      })
       .switchMap(res => res.onHide())
       .onErrorResumeNext()
       .subscribe((volume: Volume) => {
@@ -57,9 +59,24 @@ export class SpareDriveAttachmentDetailComponent implements OnInit {
   }
 
   public attachIso(): void {
+    this.loading = true;
+    this.changeDetector.detectChanges();
     this.spareDriveActionsService.attach({
       id: this.selectedVolume.id,
       virtualMachineId: this.virtualMachine.id
-    });
+    })
+      .subscribe(() => {
+        this.loading = false;
+        this.selectedVolume = undefined;
+      });
+  }
+
+  private loadVolumes(): Observable<void> {
+    return this.volumeService
+      .getSpareList({ zoneId: this.virtualMachine.zoneId })
+      .map(volumes => {
+        this.volumes = volumes;
+        this.changeDetector.detectChanges();
+      });
   }
 }
