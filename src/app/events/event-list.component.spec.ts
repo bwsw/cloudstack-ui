@@ -14,6 +14,7 @@ import { DatePickerComponent } from '../shared/components/date-picker';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { MdlModule } from 'angular2-mdl';
 import { LanguageService } from '../shared/services';
+import { By } from '@angular/platform-browser';
 
 
 const eventServiceFixture = require('./event.service.fixture.json');
@@ -225,5 +226,23 @@ describe('event list component', () => {
     comp.filter();
     fixture.detectChanges();
     expect(comp.tableModel.data.length).toBe(4);
+  });
+
+  it('should render table correctly', () => {
+    fixture.detectChanges();
+    comp.date = new Date('1970-01-02');
+    comp.getEvents();
+    fixture.detectChanges();
+
+    const td = fixture.debugElement.queryAll(By.css('td'));
+    expect(td[0].nativeElement.textContent).toBe('user_logged_in');
+    expect(td[1].nativeElement.textContent).toBe('INFO');
+    expect(td[2].nativeElement.textContent).toBe('USER.LOGIN');
+    expect(td[3].nativeElement.textContent).toBe('12:00:01 AM GMT+7');
+
+    expect(td[4].nativeElement.textContent).toBe('user_logged_out');
+    expect(td[5].nativeElement.textContent).toBe('WARN');
+    expect(td[6].nativeElement.textContent).toBe('USER.LOGOUT');
+    expect(td[7].nativeElement.textContent).toBe('12:00:02 AM GMT+7');
   });
 });

@@ -25,7 +25,7 @@ export class EventListComponent implements OnInit {
 
   public date;
   public dateTimeFormat;
-  public locale;
+  public dateStringifyDateTimeFormat;
   public firstDayOfWeek: number;
 
   public selectedLevels: Array<string>;
@@ -45,12 +45,9 @@ export class EventListComponent implements OnInit {
   ) {
     this.selectedLevels = [];
     this.selectedTypes = [];
-
-    this.locale = this.translate.currentLang;
     this.firstDayOfWeek = this.locale === 'en' ? 0 : 1;
 
     this.updateEvents = this.updateEvents.bind(this);
-
   }
 
   public ngOnInit(): void {
@@ -62,6 +59,10 @@ export class EventListComponent implements OnInit {
 
     this.languageService.getFirstDayOfWeek()
       .subscribe(day => this.firstDayOfWeek = day);
+  }
+
+  public get locale(): string {
+    return this.translate.currentLang;
   }
 
   public filter(): void {
@@ -105,15 +106,7 @@ export class EventListComponent implements OnInit {
   }
 
   private stringifyDate(date: Date): string {
-    const options = {
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
-      timeZoneName: 'short'
-    };
-    const dateTimeFormat = new Intl.DateTimeFormat(this.locale, options);
-
-    return dateTimeFormat.format(date);
+    return this.dateStringifyDateTimeFormat.format(date);
   }
 
   private getEventsObservable(): Observable<any> {
@@ -159,6 +152,14 @@ export class EventListComponent implements OnInit {
     if (this.translate.currentLang === 'ru') {
       this.dateTimeFormat = Intl.DateTimeFormat;
     }
+
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      timeZoneName: 'short'
+    };
+    this.dateStringifyDateTimeFormat = new Intl.DateTimeFormat(this.locale, options);
   }
 
   private getEventTypes(): void {
