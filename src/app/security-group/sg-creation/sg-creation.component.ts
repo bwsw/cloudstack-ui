@@ -14,7 +14,7 @@ import {
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 
 
-interface RuleListItem {
+export interface RuleListItem {
   rule: NetworkRule;
   checked: boolean;
 }

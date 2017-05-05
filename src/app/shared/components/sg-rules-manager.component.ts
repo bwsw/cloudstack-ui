@@ -46,10 +46,7 @@ export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
   }
 
   public writeValue(value): void {
-    if (value) {
-      this.rules = value;
-      this.savedRules = this.rules;
-    }
+    this.updateRules(value);
   }
 
   public registerOnChange(fn): void {
