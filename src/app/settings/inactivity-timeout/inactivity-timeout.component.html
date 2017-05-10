@@ -1,0 +1,38 @@
+<div class="settings-control">
+  <h4
+    class="no-margin"
+    [innerHTML]="'INACTIVITY_TIMEOUT' | translate"
+  ></h4>
+
+  <form
+    (ngSubmit)="changeInactivityTimeout($event)"
+    #inactivityTimeoutForm="ngForm"
+    novalidate
+  >
+    <mdl-textfield
+      #inactivityTimeoutField="ngModel"
+      name="inactivityTimeout"
+      type="number"
+      [min]="0"
+      [minValue]="0"
+      [max]="maxInactivityTimeout"
+      [maxValue]="maxInactivityTimeout"
+      step="1"
+      required
+      integerValue
+      error-msg="{{ 'INACTIVITY_LIMITS' | translate }}"
+      [(ngModel)]="tempInactivityTimeout"
+      [class.is-invalid]="inactivityTimeoutField.invalid"
+      (blur)="onBlur()"
+    ></mdl-textfield>
+    <div class="right-button">
+      <button
+        type="submit"
+        mdl-button
+        [disabled]="changeButtonDisabled"
+      >
+        {{ 'UPDATE' | translate }}
+      </button>
+    </div>
+  </form>
+</div>

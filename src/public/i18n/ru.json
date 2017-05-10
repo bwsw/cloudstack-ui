@@ -490,5 +490,8 @@
   "CLICK_TO_EDIT": "Нажмите для редактирования",
   "SELECT_AN_OPTION": "Выберите опцию",
   "ENTER_TEXT": "Введите текст",
-  "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Хотите создать новый диск?"
+  "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Хотите создать новый диск?",
+
+  "INACTIVITY_TIMEOUT": "Лимит времени сеанса (в&nbsp;минутах)",
+  "INACTIVITY_LIMITS": "От 0 до 300"
 }

@@ -4,9 +4,14 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { IStorageService } from './storage.service';
 import { BaseBackendService } from './base-backend.service';
-import { BaseModelStub } from '../models/base.model';
+import { BaseModelStub } from '../models';
 import { ErrorService } from './error.service';
-import { BackendResource } from '../decorators/backend-resource.decorator';
+import { BackendResource } from '../decorators';
+import { UserService } from './user.service';
+
+import debounce = require('lodash/debounce');
+
+export const SESSION_REFRESH_INTERVAL = 2000;
 
 
 @Injectable()
@@ -16,11 +21,59 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
 })
 export class AuthService extends BaseBackendService<BaseModelStub> {
   public loggedIn: BehaviorSubject<string>;
+  public refreshTimer: any;
+  public numberOfRefreshes = 0;
+  public inactivityTimeout: number;
 
-  constructor(@Inject('IStorageService') protected storage: IStorageService,
-              protected error: ErrorService) {
+  constructor(
+    protected error: ErrorService,
+    protected userService: UserService,
+    @Inject('IStorageService') protected storage: IStorageService
+  ) {
     super();
+
     this.loggedIn = new BehaviorSubject<string>(!!this.userId ? 'login' : 'logout');
+
+    debounce(this.refreshSession, SESSION_REFRESH_INTERVAL, { leading: true });
+    debounce(this.resetTimer, SESSION_REFRESH_INTERVAL, { leading: true });
+
+    this.http.onHttpRequest.subscribe(() => {
+      if (this.inactivityTimeout && this.refreshTimer) {
+        this.resetTimer();
+      }
+    });
+  }
+
+  public getInactivityTimeout(): Observable<number> {
+    if (this.inactivityTimeout) {
+      return Observable.of(this.inactivityTimeout);
+    }
+
+    return this.userService.readTag('sessionTimeout')
+      .switchMap(timeout => {
+        const convertedTimeout = +timeout;
+
+        if (Number.isNaN(convertedTimeout)) {
+          const newTimeout = 0;
+          return this.userService
+            .writeTag('sessionTimeout', newTimeout.toString())
+            .map(() => {
+              this.inactivityTimeout = newTimeout;
+              return newTimeout;
+            });
+        } else {
+          this.inactivityTimeout = convertedTimeout;
+          return Observable.of(convertedTimeout);
+        }
+      });
+  }
+
+  public setInactivityTimeout(value: number): Observable<void> {
+    return this.userService.writeTag('sessionTimeout', value.toString())
+      .map(() => {
+        this.inactivityTimeout = value;
+        this.resetTimer();
+      });
   }
 
   public get name(): string {
@@ -93,5 +146,28 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     this.username = '';
     this.userId = '';
     this.loggedIn.next(a);
+  }
+
+  private refreshSession(): void {
+    if (++this.numberOfRefreshes >= this.inactivityTimeout) {
+      this.clearTimer();
+      this.logout().subscribe();
+    } else {
+      this.http.refreshSession().subscribe(() => console.log(this.numberOfRefreshes));
+    }
+  }
+
+  private resetTimer(): void {
+    this.clearTimer();
+    this.numberOfRefreshes = 0;
+    this.setTimer();
+  }
+
+  private clearTimer(): void {
+    clearInterval(this.refreshTimer);
+  }
+
+  private setTimer(): void {
+    this.refreshTimer = setInterval(this.refreshSession.bind(this), SESSION_REFRESH_INTERVAL);
   }
 }

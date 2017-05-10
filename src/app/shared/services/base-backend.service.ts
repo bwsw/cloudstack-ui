@@ -1,8 +1,8 @@
-import { Http, URLSearchParams, Response, Headers } from '@angular/http';
+import { URLSearchParams, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { BaseModel } from '../models';
-import { ErrorService } from '.';
+import { ErrorService, HttpService } from '.';
 import { ServiceLocator } from './service-locator';
 
 
@@ -13,11 +13,11 @@ export abstract class BaseBackendService<M extends BaseModel> {
   protected entityModel: { new (params?): M; };
 
   protected error: ErrorService;
-  protected http: Http;
+  protected http: HttpService;
 
   constructor() {
     this.error = ServiceLocator.injector.get(ErrorService);
-    this.http = ServiceLocator.injector.get(Http);
+    this.http = ServiceLocator.injector.get(HttpService);
   }
 
   public get(id: string): Observable<M> {

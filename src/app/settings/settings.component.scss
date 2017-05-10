@@ -2,7 +2,15 @@
   width: 100%;
 }
 
-.password-change-button {
-  text-align: right;
-  width: 300px;
+.flex-container {
+  display: flex;
+}
+
+.flex-column-left {
+  flex: 1;
+  margin-right: 50px;
+}
+
+.flex-column-right {
+  flex: 1;
 }

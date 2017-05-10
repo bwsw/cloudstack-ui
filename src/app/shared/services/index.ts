@@ -11,6 +11,7 @@ export * from './disk-offering.service';
 export * from './disk-storage.service';
 export * from './error.service';
 export * from './filter.service';
+export * from './http.service';
 export * from './instance-group.service';
 export * from './jobs-notification.service';
 export * from './language.service';
