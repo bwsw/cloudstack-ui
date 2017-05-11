@@ -2,10 +2,13 @@
   <div>
     <h2 class="details-header vm-details-header">{{ 'COLOR' | translate }}</h2>
     <cs-color-picker
+      *ngIf="colorList"
       class="details-select"
-      [selectedColor]="color"
-      (onColorChanged)="changeColor($event)"
-    ></cs-color-picker>
+      [colors]="colorList"
+      [ngModel]="color"
+      (change)="changeColor($event)"
+    >
+    </cs-color-picker>
   </div>
 
   <cs-description

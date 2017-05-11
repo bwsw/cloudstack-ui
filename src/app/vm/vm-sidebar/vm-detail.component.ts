@@ -1,23 +1,16 @@
-import {
-  Component,
-  Input,
-  OnChanges
-} from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
 
 import { SecurityGroup } from '../../security-group/sg.model';
 import {
   ServiceOfferingDialogComponent
 } from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
-import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
+import { Color, InstanceGroup, ServiceOfferingFields } from '../../shared/models';
+import { ConfigService, DialogService, InstanceGroupService } from '../../shared/services';
+import { TagService } from '../../shared/services/tag.service';
+import { ZoneService } from '../../shared/services/zone.service';
 import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
-import { Color } from '../../shared/models/color.model';
-import { ZoneService } from '../../shared/services/zone.service';
-import { InstanceGroupService } from '../../shared/services/instance-group.service';
-import { InstanceGroup } from '../../shared/models/instance-group.model';
-import { ServiceOfferingFields } from '../../shared/models/service-offering.model';
-import { DialogService } from '../../shared/services/dialog.service';
-import { TagService } from '../../shared/services/tag.service';
 
 
 @Component({
@@ -25,9 +18,10 @@ import { TagService } from '../../shared/services/tag.service';
   templateUrl: 'vm-detail.component.html',
   styleUrls: ['vm-detail.component.scss']
 })
-export class VmDetailComponent implements OnChanges {
+export class VmDetailComponent implements OnChanges, OnInit {
   @Input() public vm: VirtualMachine;
   public color: Color;
+  public colorList: Array<Color>;
   public description: string;
   public disableSecurityGroup = false;
   public expandNIC: boolean;
@@ -35,17 +29,21 @@ export class VmDetailComponent implements OnChanges {
   public groupName: string;
   public groupNames: Array<string>;
 
-  public ServiceOfferingFields = ServiceOfferingFields;
-
   constructor(
     private dialogService: DialogService,
     private instanceGroupService: InstanceGroupService,
     private tagService: TagService,
     private vmService: VmService,
-    private zoneService: ZoneService
+    private zoneService: ZoneService,
+    private configService: ConfigService
   ) {
     this.expandNIC = false;
     this.expandServiceOffering = false;
+  }
+
+  public ngOnInit(): void {
+    this.configService.get('vmColors')
+      .subscribe(colors => this.colorList = colors);
   }
 
   public ngOnChanges(): void {
@@ -66,6 +64,29 @@ export class VmDetailComponent implements OnChanges {
         this.vmService.updateVmInfo(vm);
         this.updateGroups();
       });
+  }
+
+  public changeColor(color: Color): void {
+    this.tagService.update(this.vm, 'UserVm', 'color', color.value)
+      .subscribe(vm => {
+        this.vm = vm;
+        this.vmService.updateVmInfo(this.vm);
+      });
+  }
+
+  public changeServiceOffering(): void {
+    this.dialogService.showCustomDialog({
+      component: ServiceOfferingDialogComponent,
+      classes: 'service-offering-dialog',
+      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
+    });
+  }
+
+  public changeDescription(newDescription: string): void {
+    this.vmService
+      .updateDescription(this.vm, newDescription)
+      .onErrorResumeNext()
+      .subscribe();
   }
 
   public isNotFormattedField(key: string): boolean {
@@ -97,14 +118,6 @@ export class VmDetailComponent implements OnChanges {
     ].indexOf(key) > -1;
   }
 
-  public changeColor(color: Color): void {
-    this.tagService.update(this.vm, 'UserVm', 'color', color.value)
-      .subscribe(vm => {
-        this.vm = vm;
-        this.vmService.updateVmInfo(this.vm);
-      });
-  }
-
   public toggleNIC(): void {
     this.expandNIC = !this.expandNIC;
   }
@@ -131,21 +144,6 @@ export class VmDetailComponent implements OnChanges {
     this.dialogService.confirm('ARE_YOU_SURE_REMOVE_SECONDARY_IP', 'NO', 'YES')
       .onErrorResumeNext()
       .subscribe(() => this.removeSecondaryIp(secondaryIpId, vm));
-  }
-
-  public changeServiceOffering(): void {
-    this.dialogService.showCustomDialog({
-      component: ServiceOfferingDialogComponent,
-      classes: 'service-offering-dialog',
-      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
-    });
-  }
-
-  public changeDescription(newDescription: string): void {
-    this.vmService
-      .updateDescription(this.vm, newDescription)
-      .onErrorResumeNext()
-      .subscribe();
   }
 
   private update(): void {

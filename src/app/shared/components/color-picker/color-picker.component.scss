@@ -1,27 +1,60 @@
+$preview-width: 24px;
+$input-margin: 10px;
+
 :host {
-  display: inline-flex;
-  padding: 20px 0;
+  font-size: 0;
+  position: relative;
+  display: block;
 }
 
-:host mdl-select {
+.color-preview-container {
+  cursor: pointer;
+  display: inline-block;
+  width: $preview-width;
+  height: $preview-width;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.14), 0 2px 2px 0 rgba(0,0,0,.098), 0 1px 5px 0 rgba(0,0,0,.084);
+  overflow: hidden;
+  position: relative;
+  top: 7px;
+  background-color: #fff;
+
+  .color-preview {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+:host mdl-textfield {
+  width: 300px - $input-margin - $preview-width !important;
+  margin-left: $input-margin;
+  /deep/ input {
+    cursor: pointer;
+  }
+}
+
+.popover-container {
+  position: relative;
+  top: -15px;
+  left: $input-margin + $preview-width;
+}
+
+.color {
+  transition: transform 0.3s, box-shadow 0.3s;
+  transform-origin: center center;
+  cursor: pointer;
+
+  &:hover,
+  &.active {
+    transform: scale(0.85, 0.85);
+    box-shadow: 0 0 2px 0 #adadad;
+  }
+}
+
+.color-picker-container {
   display: flex;
-  font-size: 24px;
-}
-
-:host /deep/ mdl-select > div {
-  padding: 0;
-}
-
-:host /deep/ .mdl-list__item {
-  background-color: inherit;
-}
-
-:host /deep/ .mdl-select .mdl-list__item:hover {
-  background-color: inherit !important;
-  border: 1px solid rgba(0,0,0,0.3);
-}
-
-:host /deep/ .mdl-select .mdl-list__item.is-active {
-  background-color: inherit;
-  border: 1px solid rgba(0,0,0,0.3);
+  flex-wrap: wrap;
+  padding: 5px;
+  box-sizing: content-box;
 }
