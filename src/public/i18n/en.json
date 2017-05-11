@@ -490,5 +490,6 @@
   "CLICK_TO_EDIT": "Click to edit",
   "SELECT_AN_OPTION": "Select an option",
   "ENTER_TEXT": "Enter text",
-  "EVENT_TYPES": "Types"
+  "EVENT_TYPES": "Types",
+  "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Would you like to create a new volume?"
 }

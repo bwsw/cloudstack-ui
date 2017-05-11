@@ -1,28 +1,31 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import debounce = require('lodash/debounce');
-import sortBy = require('lodash/sortBy');
 import { Observable } from 'rxjs/Observable';
 
 import {
+  DialogService,
   DiskOffering,
   DiskOfferingService,
+  FilterService,
   JobsNotificationService,
   Volume,
   VolumeAttachmentData,
-  VolumeService
+  VolumeTypes,
+  Zone,
+  ZoneService
 } from '../../shared';
+import { ListService } from '../../shared/components/list/list.service';
+import { UserService } from '../../shared/services/user.service';
+import { VolumeService } from '../../shared/services/volume.service';
 
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
-import { ListService } from '../../shared/components/list/list.service';
-import { VolumeTypes } from '../../shared/models/volume.model';
-import { ZoneService } from '../../shared/services/zone.service';
-import { Zone } from '../../shared/models/zone.model';
-import { FilterService } from '../../shared/services/filter.service';
-import { DialogService } from '../../shared/services/dialog.service';
+
+import debounce = require('lodash/debounce');
+import sortBy = require('lodash/sortBy');
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
+const askToCreateVolume = 'askToCreateVolume';
 
 export interface VolumeCreationData {
   name: string;
@@ -60,6 +63,7 @@ export class SpareDrivePageComponent implements OnInit {
     private jobsNotificationService: JobsNotificationService,
     private listService: ListService,
     private translateService: TranslateService,
+    private userService: UserService,
     private volumeService: VolumeService,
     private zoneService: ZoneService
   ) {
@@ -229,6 +233,37 @@ export class SpareDrivePageComponent implements OnInit {
     this.updateSections();
   }
 
+  private showSuggestionDialog(): void {
+    this.userService.readTag(askToCreateVolume)
+      .subscribe(tag => {
+        if (tag === 'false') {
+          return;
+        }
+
+        this.dialogService.showDialog({
+          message: 'WOULD_YOU_LIKE_TO_CREATE_VOLUME',
+          actions: [
+            {
+              handler: () => { this.showCreationDialog(); },
+              text: 'YES'
+            },
+            {
+              text: 'NO'
+            },
+            {
+              handler: () => this.userService.writeTag(askToCreateVolume, 'false').subscribe(),
+              text: 'NO_DONT_ASK'
+            }
+          ],
+          fullWidthAction: true,
+          isModal: true,
+          clickOutsideToClose: true,
+          styles: { 'width': '320px' }
+        });
+
+      });
+  }
+
   private updateZones(): Observable<void> {
     return this.zoneService.getList().map(zones => { this.zones = zones; });
   }
@@ -248,7 +283,12 @@ export class SpareDrivePageComponent implements OnInit {
             volume.diskOffering = diskOfferings.find(offering => offering.id === volume.diskOfferingId);
             return volume;
           });
-        this.updateSections();
+
+        if (this.volumes.length) {
+          this.updateSections();
+        } else {
+          this.showSuggestionDialog();
+        }
       });
   }
 }

@@ -490,5 +490,6 @@
   "CLICK_TO_EDIT": "Нажмите для редактирования",
   "SELECT_AN_OPTION": "Выберите опцию",
   "ENTER_TEXT": "Введите текст",
-  "EVENT_TYPES": "Типы"
+  "EVENT_TYPES": "Типы",
+  "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Хотите создать новый диск?"
 }
