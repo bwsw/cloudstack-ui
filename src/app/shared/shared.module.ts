@@ -188,8 +188,6 @@ import { RequestOptions, XHRBackend } from '@angular/http';
     UtilsService,
     VolumeService,
     ZoneService,
-    { provide: 'INotificationService', useClass: NotificationService },
-    { provide: 'IStorageService', useClass: StorageService },
     {
       provide: HttpService, useFactory: (backend: XHRBackend, options: RequestOptions) => {
         return new HttpService(backend, options);

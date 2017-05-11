@@ -1,17 +1,16 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { IStorageService } from './storage.service';
 import { BaseBackendService } from './base-backend.service';
 import { BaseModelStub } from '../models';
-import { ErrorService } from './error.service';
 import { BackendResource } from '../decorators';
+import { StorageService } from './storage.service';
 import { UserService } from './user.service';
 
 import debounce = require('lodash/debounce');
 
-export const SESSION_REFRESH_INTERVAL = 2000;
+export const SESSION_REFRESH_INTERVAL = 60 * 1000;
 
 
 @Injectable()
@@ -21,14 +20,13 @@ export const SESSION_REFRESH_INTERVAL = 2000;
 })
 export class AuthService extends BaseBackendService<BaseModelStub> {
   public loggedIn: BehaviorSubject<string>;
-  public refreshTimer: any;
-  public numberOfRefreshes = 0;
-  public inactivityTimeout: number;
+  private refreshTimer: any;
+  private numberOfRefreshes = 0;
+  private inactivityTimeout: number;
 
   constructor(
-    protected error: ErrorService,
     protected userService: UserService,
-    @Inject('IStorageService') protected storage: IStorageService
+    protected storage: StorageService
   ) {
     super();
 
@@ -42,6 +40,16 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
         this.resetTimer();
       }
     });
+
+    this.getInactivityTimeout().subscribe();
+  }
+
+  public setInactivityTimeout(value: number): Observable<void> {
+    return this.userService.writeTag('sessionTimeout', value.toString())
+      .map(() => {
+        this.inactivityTimeout = value;
+        this.resetTimer();
+      });
   }
 
   public getInactivityTimeout(): Observable<number> {
@@ -63,16 +71,9 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
             });
         } else {
           this.inactivityTimeout = convertedTimeout;
+          this.resetTimer();
           return Observable.of(convertedTimeout);
         }
-      });
-  }
-
-  public setInactivityTimeout(value: number): Observable<void> {
-    return this.userService.writeTag('sessionTimeout', value.toString())
-      .map(() => {
-        this.inactivityTimeout = value;
-        this.resetTimer();
       });
   }
 
@@ -153,14 +154,16 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
       this.clearTimer();
       this.logout().subscribe();
     } else {
-      this.http.refreshSession().subscribe(() => console.log(this.numberOfRefreshes));
+      this.http.refreshSession();
     }
   }
 
   private resetTimer(): void {
     this.clearTimer();
     this.numberOfRefreshes = 0;
-    this.setTimer();
+    if (this.inactivityTimeout) {
+      this.setTimer();
+    }
   }
 
   private clearTimer(): void {

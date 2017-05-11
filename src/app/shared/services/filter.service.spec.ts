@@ -2,7 +2,7 @@ import { Injector } from '@angular/core';
 import { inject, TestBed, async, fakeAsync, tick } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { StorageService } from './';
+import { StorageService } from './storage.service';
 import { FilterConfig, FilterService } from './filter.service';
 import { TagService } from './tag.service';
 import { UtilsService } from './utils.service';

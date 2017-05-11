@@ -2,7 +2,6 @@ import { inject, TestBed, async, getTestBed, fakeAsync, tick } from '@angular/co
 import { Injector } from '@angular/core';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import {
-  Http,
   BaseRequestOptions,
   XHRBackend,
   HttpModule,
@@ -11,7 +10,11 @@ import {
   URLSearchParams
 } from '@angular/http';
 import { ServiceLocator } from './service-locator';
-import { AsyncJobService, ErrorService } from './';
+import {
+  AsyncJobService,
+  ErrorService,
+  HttpService
+} from './';
 
 
 describe('Async job service', () => {
@@ -73,10 +76,10 @@ describe('Async job service', () => {
         MockBackend,
         BaseRequestOptions,
         {
-          provide: Http,
+          provide: HttpService,
           deps: [MockBackend, BaseRequestOptions],
           useFactory: (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backend, defaultOptions);
+            return new HttpService(backend, defaultOptions);
           },
         },
         Injector

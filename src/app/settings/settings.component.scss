@@ -4,6 +4,7 @@
 
 .flex-container {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .flex-column-left {
@@ -12,5 +13,5 @@
 }
 
 .flex-column-right {
-  flex: 1;
+  flex: 2;
 }
