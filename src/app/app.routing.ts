@@ -16,10 +16,6 @@ import { FancySelectTestComponent } from './shared/components/fancy-select/fancy
 
 export const routes: Routes = [
   {
-    path: 'test',
-    component: FancySelectTestComponent
-  },
-  {
     path: 'login',
     component: LoginComponent,
     canActivate: [LoginGuard]
