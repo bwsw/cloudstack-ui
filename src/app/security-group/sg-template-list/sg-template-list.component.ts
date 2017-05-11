@@ -8,7 +8,7 @@ import { SgTemplateCreationComponent } from '../sg-template-creation/sg-template
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
 import { NotificationService } from '../../shared/services/notification.service';
 import { ListService } from '../../shared/components/list/list.service';
-import { DialogService } from '../../shared/services/dialog.service';
+import { DialogService } from '../../shared/services/dialog/dialog.service';
 
 
 @Component({

@@ -19,7 +19,7 @@ import { DiskOfferingService } from '../../../../shared/services/disk-offering.s
 import { ZoneService } from '../../../../shared/services/zone.service';
 import { DiskOffering } from '../../../../shared/models/disk-offering.model';
 import { Zone } from '../../../../shared/models/zone.model';
-import { DialogService } from '../../../../shared/services/dialog.service';
+import { DialogService } from '../../../../shared/services/dialog/dialog.service';
 
 
 const numberOfShownSnapshots = 5;

@@ -29,7 +29,7 @@ import { SecurityGroup } from '../../security-group/sg.model';
 import { VirtualMachine, IVmAction } from './vm.model';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { VolumeTypes } from '../../shared/models/volume.model';
-import { DialogService } from '../../shared/services/dialog.service';
+import { DialogService } from '../../shared/services/dialog/dialog.service';
 import { UserService } from '../../shared/services/user.service';
 import { TagService } from '../../shared/services/tag.service';
 

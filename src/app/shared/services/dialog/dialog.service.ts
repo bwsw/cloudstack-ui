@@ -8,6 +8,8 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { CustomAlertComponent, CustomAlertConfig } from './custom-alert.component';
+import { CustomConfirmComponent, CustomConfirmConfig } from './custom-confirm.component';
 
 
 export interface SimpleDialogConfiguration extends IMdlDialogConfiguration {
@@ -74,6 +76,33 @@ export class DialogService {
     title?: string
   ): Observable<void> {
     return this.alertConfirmDialog(DialogTypes.CONFIRM, message, declineText, confirmText, title);
+  }
+
+  public customAlert(config: CustomAlertConfig): Observable<void> {
+    return this.customAlertConfirm(DialogTypes.ALERT, config);
+  }
+
+  public customConfirm(config: CustomConfirmConfig): Observable<void> {
+    return this.customAlertConfirm(DialogTypes.CONFIRM, config)
+      .switchMap(result => result ? Observable.of(null) : Observable.throw);
+  }
+
+  public customAlertConfirm(
+    dialogType: DialogType,
+    config: CustomAlertConfig | CustomConfirmConfig
+  ): Observable<void> {
+
+    const dialogConfig = Object.assign(
+      {
+        component: dialogType === DialogTypes.ALERT ? CustomAlertComponent : CustomConfirmComponent,
+        providers: [{ provide: 'config', useValue: config }]
+      },
+      config.width ? { width: config.width } : null,
+      config.clickOutsideToClose ? { clickOutsideToClose: config.clickOutsideToClose } : null
+    );
+
+    return this.showCustomDialog(dialogConfig)
+      .switchMap(res => res.onHide());
   }
 
   public showDialog(config: SimpleDialogConfiguration): Observable<MdlDialogReference> {

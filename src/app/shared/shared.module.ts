@@ -73,7 +73,7 @@ import { LoaderComponent } from './components/loader.component';
 import { UserService } from './services/user.service';
 import { FilterService } from './services/filter.service';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
-import { DialogService } from './services/dialog.service';
+import { DialogService } from './services/dialog/dialog.service';
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
 import { InlineEditAutocompleteComponent } from './components/inline-edit/inline-edit-autocomplete.component';
 import {

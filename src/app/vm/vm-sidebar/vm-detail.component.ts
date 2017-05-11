@@ -16,7 +16,7 @@ import { ZoneService } from '../../shared/services/zone.service';
 import { InstanceGroupService } from '../../shared/services/instance-group.service';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { ServiceOfferingFields } from '../../shared/models/service-offering.model';
-import { DialogService } from '../../shared/services/dialog.service';
+import { DialogService } from '../../shared/services/dialog/dialog.service';
 import { TagService } from '../../shared/services/tag.service';
 
 

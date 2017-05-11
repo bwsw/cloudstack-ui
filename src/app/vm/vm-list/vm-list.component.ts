@@ -20,7 +20,7 @@ import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import { InstanceGroupOrNoGroup, VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListSection } from './vm-list-section/vm-list-section.component';
 import { VmListSubsection } from './vm-list-subsection/vm-list-subsection.component';
-import { DialogService } from '../../shared/services/dialog.service';
+import { DialogService } from '../../shared/services/dialog/dialog.service';
 import { UserService } from '../../shared/services/user.service';
 
 

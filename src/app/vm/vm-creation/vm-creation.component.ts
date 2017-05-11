@@ -39,7 +39,7 @@ import {
 import { Template } from '../../template/shared';
 import { AffinityGroupType } from '../../shared/models/affinity-group.model';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
-import { DialogService } from '../../shared/services/dialog.service';
+import { DialogService } from '../../shared/services/dialog/dialog.service';
 
 
 class VmCreationData {

@@ -4,7 +4,7 @@ import { TestBed, async, getTestBed, fakeAsync, tick } from '@angular/core/testi
 import { MdlDialogOutletModule, MdlDialogModule, MdlDialogService } from 'angular2-mdl';
 import { Observable } from 'rxjs';
 import { DialogService } from './dialog.service';
-import { ServiceLocator } from './service-locator';
+import { ServiceLocator } from '../service-locator';
 import { TranslateService } from '@ngx-translate/core';
 
 
