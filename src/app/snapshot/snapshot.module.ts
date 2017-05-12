@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MdlModule } from 'angular2-mdl';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
-
-import { SettingsComponent } from './settings.component';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { RecurringSnapshotsComponent } from './recurring-snapshots/recurring-snapshots.component';
 
 
 @NgModule({
@@ -19,7 +18,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     SharedModule,
     ReactiveFormsModule
   ],
-  exports: [SettingsComponent],
-  declarations: [SettingsComponent]
+  exports: [RecurringSnapshotsComponent],
+  declarations: [RecurringSnapshotsComponent]
 })
-export class SettingsModule { }
+export class SnapshotModule { }

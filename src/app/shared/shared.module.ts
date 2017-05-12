@@ -81,6 +81,7 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { DescriptionComponent } from './components/description/description.component';
+import { TimePickerComponent } from './components/time-picker/time-picker.component';
 
 
 @NgModule({
@@ -110,6 +111,7 @@ import { DescriptionComponent } from './components/description/description.compo
     NotificationBoxItemComponent,
     SgRulesManagerComponent,
     SidebarComponent,
+    TimePickerComponent,
     TopBarComponent,
     VmStatisticsComponent,
     DivisionPipe,
@@ -145,6 +147,7 @@ import { DescriptionComponent } from './components/description/description.compo
     NotificationBoxItemComponent,
     SgRulesManagerComponent,
     SidebarComponent,
+    TimePickerComponent,
     TopBarComponent,
     VmStatisticsComponent,
     DivisionPipe,

@@ -24,6 +24,7 @@ import { SpareDriveModule } from './spare-drive';
 import { SettingsModule } from './settings/settings.module';
 import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { LogoutComponent } from './auth/logout.component';
+import { SnapshotModule } from './snapshot/snapshot.module';
 
 
 export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
@@ -32,6 +33,7 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
 
 @NgModule({
   imports: [
+    SnapshotModule,
     BrowserModule,
     HttpModule,
     FormsModule,
