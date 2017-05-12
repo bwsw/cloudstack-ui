@@ -1,7 +1,7 @@
-import { Injectable, Injector } from '@angular/core';
+import { Component, Injectable, Injector } from '@angular/core';
 import { async, discardPeriodicTasks, fakeAsync, getTestBed, TestBed, tick } from '@angular/core/testing';
-import { BaseRequestOptions, HttpModule, Response, ResponseOptions, XHRBackend } from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
+import { BaseRequestOptions, HttpModule, XHRBackend } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 import { Observable } from 'rxjs/Observable';
 
 import { AuthService, ErrorService, HttpService, SESSION_REFRESH_INTERVAL } from './';
@@ -9,6 +9,12 @@ import { ServiceLocator } from './service-locator';
 import { StorageService } from './storage.service';
 import { UserService } from './user.service';
 
+
+@Component({
+  selector: 'cs-test-view',
+  template: '<div></div>'
+})
+class TestViewComponent {}
 
 @Injectable()
 class MockErrorService {
@@ -25,6 +31,10 @@ class Tag {
 @Injectable()
 class MockUserService {
   private tags = [];
+
+  public getList(): Observable<any> {
+    return Observable.of(null);
+  }
 
   public readTag(key: string): Observable<string> {
     const result = this.tags.find(tag => tag.key === key);
@@ -56,12 +66,11 @@ class MockStorageService {
 
 describe('Custom dialog', () => {
   let authService: AuthService;
-  let httpService: HttpService;
-  let mockBackend: MockBackend;
   const inactivityInterval = 10;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      declarations: [TestViewComponent],
       providers: [
         AuthService,
         MockBackend,
@@ -85,12 +94,6 @@ describe('Custom dialog', () => {
 
     ServiceLocator.injector = getTestBed().get(Injector);
     authService = TestBed.get(AuthService);
-    httpService = TestBed.get(HttpService);
-    mockBackend = TestBed.get(MockBackend);
-
-    mockBackend.connections.subscribe((connection: MockConnection) => {
-      connection.mockRespond(new Response(new ResponseOptions({ status: 200 })));
-    });
   }));
 
   it('should set inactivity timeout', () => {
@@ -102,7 +105,7 @@ describe('Custom dialog', () => {
   });
 
   it('should refresh session', fakeAsync(() => {
-    const refresh = spyOn(httpService, 'refreshSession').and.returnValue(Observable.of(null));
+    const refresh = spyOn(authService, 'sendRefreshRequest');
     authService.setInactivityTimeout(inactivityInterval).subscribe();
     tick(SESSION_REFRESH_INTERVAL * inactivityInterval);
     expect(refresh).toHaveBeenCalledTimes(inactivityInterval - 1);
@@ -118,7 +121,7 @@ describe('Custom dialog', () => {
   }));
 
   it('should stop refreshing if inactivity interval=0', fakeAsync(() => {
-    const refresh = spyOn(httpService, 'refreshSession');
+    const refresh = spyOn(authService, 'sendRefreshRequest');
     authService.setInactivityTimeout(inactivityInterval).subscribe();
     tick(SESSION_REFRESH_INTERVAL);
     expect(refresh).toHaveBeenCalledTimes(1);
@@ -127,12 +130,12 @@ describe('Custom dialog', () => {
     expect(refresh).toHaveBeenCalledTimes(1);
   }));
 
-  it('should extend delay before logging out if a request was made', fakeAsync(() => {
+  it('should extend logout delay on user input', fakeAsync(() => {
     const logout = spyOn(authService, 'logout').and.returnValue(Observable.of(null));
-    authService.setInactivityTimeout(2).subscribe();
-    tick(SESSION_REFRESH_INTERVAL);
-    httpService.get('').subscribe();
-    tick(SESSION_REFRESH_INTERVAL + 100);
+    authService.setInactivityTimeout(1).subscribe();
+    tick(SESSION_REFRESH_INTERVAL - 100);
+    document.dispatchEvent(new MouseEvent('mousemove', {}));
+    tick(200);
     expect(logout).toHaveBeenCalledTimes(0);
     discardPeriodicTasks();
   }));

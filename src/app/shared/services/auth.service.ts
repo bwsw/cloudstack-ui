@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
@@ -10,7 +10,7 @@ import { UserService } from './user.service';
 
 import debounce = require('lodash/debounce');
 
-export const SESSION_REFRESH_INTERVAL = 60 * 1000;
+export const SESSION_REFRESH_INTERVAL = 1000;
 
 
 @Injectable()
@@ -25,8 +25,9 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   private inactivityTimeout: number;
 
   constructor(
+    protected storage: StorageService,
     protected userService: UserService,
-    protected storage: StorageService
+    protected zone: NgZone
   ) {
     super();
 
@@ -35,13 +36,8 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     debounce(this.refreshSession, SESSION_REFRESH_INTERVAL, { leading: true });
     debounce(this.resetTimer, SESSION_REFRESH_INTERVAL, { leading: true });
 
-    this.http.onHttpRequest.subscribe(() => {
-      if (this.inactivityTimeout && this.refreshTimer) {
-        this.resetTimer();
-      }
-    });
-
     this.getInactivityTimeout().subscribe();
+    this.addEventListeners();
   }
 
   public setInactivityTimeout(value: number): Observable<void> {
@@ -149,13 +145,25 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     this.loggedIn.next(a);
   }
 
+  public sendRefreshRequest(): void {
+    this.userService.getList().subscribe();
+  }
+
   private refreshSession(): void {
     if (++this.numberOfRefreshes >= this.inactivityTimeout) {
       this.clearTimer();
-      this.logout().subscribe();
+      this.zone.run(() => this.logout().subscribe());
     } else {
-      this.http.refreshSession();
+      this.sendRefreshRequest();
     }
+  }
+
+  private addEventListeners(): void {
+    const events = 'mousemove keydown DOMMouseScroll mousewheel mousedown touchstart touchmove scroll'.split(' ');
+    const observables = events.map(event => Observable.fromEvent(document, event));
+    this.zone.runOutsideAngular(() => {
+      Observable.merge(...observables).subscribe(() => this.resetTimer());
+    });
   }
 
   private resetTimer(): void {

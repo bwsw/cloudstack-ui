@@ -21,7 +21,7 @@
       integerValue
       error-msg="{{ 'INACTIVITY_LIMITS' | translate }}"
       [(ngModel)]="tempInactivityTimeout"
-      [class.is-invalid]="inactivityTimeoutField.touched && inactivityTimeoutField.invalid"
+      [class.is-invalid]="inactivityTimeoutField.dirty && inactivityTimeoutField.invalid"
       (blur)="onBlur()"
     ></mdl-textfield>
     <div class="right-button">
