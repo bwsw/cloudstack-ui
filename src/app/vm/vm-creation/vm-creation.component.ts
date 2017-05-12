@@ -244,13 +244,14 @@ export class VmCreationComponent implements OnInit {
   }
 
   public showPassword(vmName: string, vmPassword: string): void {
-    this.translateService.get(
-      'PASSWORD_DIALOG_MESSAGE',
-      { vmName, vmPassword }
-    )
-      .subscribe((passwordMessage: string) => {
-        this.dialogService.alert(passwordMessage);
-      });
+    this.dialogService.customAlert({
+      message: {
+        translationToken: 'PASSWORD_DIALOG_MESSAGE',
+        interpolateParams: { vmName, vmPassword }
+      },
+      width: '400px',
+      clickOutsideToClose: false
+    });
   }
 
   public notifyOnDeployDone(notificationId: string): void {

@@ -66,7 +66,7 @@ export class DialogService {
   }
 
   public alert(message: string | ParametrizedTranslation, okText?: string, title?: string): Observable<void> {
-    return this.alertConfirmDialog(DialogTypes.ALERT, message, okText, title);
+    return this.simpleDialog(DialogTypes.ALERT, message, okText, title);
   }
 
   public confirm(
@@ -75,34 +75,20 @@ export class DialogService {
     confirmText?: string,
     title?: string
   ): Observable<void> {
-    return this.alertConfirmDialog(DialogTypes.CONFIRM, message, declineText, confirmText, title);
+    return this.simpleDialog(DialogTypes.CONFIRM, message, declineText, confirmText, title);
   }
 
   public customAlert(config: CustomAlertConfig): Observable<void> {
-    return this.customAlertConfirm(DialogTypes.ALERT, config);
+    const _config = config.okText ? config : Object.assign(config, { okText: 'OK' });
+    return this.customSimpleDialog(DialogTypes.ALERT, _config);
   }
 
   public customConfirm(config: CustomConfirmConfig): Observable<void> {
-    return this.customAlertConfirm(DialogTypes.CONFIRM, config)
+    let _config = config.confirmText ? config : Object.assign(config, { confirmText: 'YES' });
+    _config = _config.declineText ? _config : Object.assign(config, { declineText: 'NO' });
+
+    return this.customSimpleDialog(DialogTypes.CONFIRM, _config)
       .switchMap(result => result ? Observable.of(null) : Observable.throw);
-  }
-
-  public customAlertConfirm(
-    dialogType: DialogType,
-    config: CustomAlertConfig | CustomConfirmConfig
-  ): Observable<void> {
-
-    const dialogConfig = Object.assign(
-      {
-        component: dialogType === DialogTypes.ALERT ? CustomAlertComponent : CustomConfirmComponent,
-        providers: [{ provide: 'config', useValue: config }]
-      },
-      config.width ? { width: config.width } : null,
-      config.clickOutsideToClose ? { clickOutsideToClose: config.clickOutsideToClose } : null
-    );
-
-    return this.showCustomDialog(dialogConfig)
-      .switchMap(res => res.onHide());
   }
 
   public showDialog(config: SimpleDialogConfiguration): Observable<MdlDialogReference> {
@@ -134,7 +120,25 @@ export class DialogService {
     return Observable.of(null);
   }
 
-  private alertConfirmDialog(dialogType: DialogType, ...args: Array<any>): Observable<void> {
+  private customSimpleDialog(
+    dialogType: DialogType,
+    config: CustomAlertConfig | CustomConfirmConfig
+  ): Observable<void> {
+
+    const dialogConfig = Object.assign(
+      {
+        component: dialogType === DialogTypes.ALERT ? CustomAlertComponent : CustomConfirmComponent,
+        providers: [{ provide: 'config', useValue: config }]
+      },
+      config.width ? { styles: { width: config.width } } : null,
+      config.clickOutsideToClose !== null ? { clickOutsideToClose: config.clickOutsideToClose } : null
+    );
+
+    return this.showCustomDialog(dialogConfig)
+      .switchMap(res => res.onHide());
+  }
+
+  private simpleDialog(dialogType: DialogType, ...args: Array<any>): Observable<void> {
     const result: Subject<any> = new Subject();
     const translationParams = this.getTranslationParams(args[0], Array.from(args).slice(1));
 

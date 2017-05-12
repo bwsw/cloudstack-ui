@@ -1,17 +1,28 @@
 <div>
-  <h3 class="mdl-dialog__title">
-    {{ title }}
-  </h3>
-  <div class="mdl-dialog__content">
-    {{ content }}
-  </div>
+  <h3
+    *ngIf="config?.title"
+    class="mdl-dialog__title"
+    [innerHTML]="config?.title | translate"
+  ></h3>
+
+  <div
+    *ngIf="!messageIsParametrized"
+    class="mdl-dialog__content"
+    [innerHTML]="config?.message | translate"
+  ></div>
+  <div
+    *ngIf="messageIsParametrized"
+    class="mdl-dialog__content"
+    [innerHTML]="config?.message?.translationToken | translate:(config?.message?.interpolateParams)"
+  ></div>
+
   <div class="mdl-dialog__actions">
     <button
+      #focusButton
       mdl-button
       mdl-colored="primary"
       (click)="ok()"
-    >
-      {{ okText }}
-    </button>
+      [innerHTML]="config?.okText | translate"
+    ></button>
   </div>
 </div>

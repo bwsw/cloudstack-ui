@@ -142,9 +142,19 @@ export class VmListComponent implements OnInit {
   }
 
   public vmAction(e: IVmActionEvent): void {
-    this.dialogService.confirm(e.action.confirmMessage, 'NO', 'YES')
-      .onErrorResumeNext()
-      .subscribe(() => this.vmService.vmAction(e));
+    let dialog;
+    if (e.action.commandName === 'resetPasswordFor') {
+      dialog = this.dialogService.customConfirm({
+        message: e.action.confirmMessage,
+        declineText: 'NO',
+        confirmText: 'YES',
+        width: '400px'
+      });
+    } else {
+      dialog = this.dialogService.confirm(e.action.confirmMessage, 'NO', 'YES');
+    }
+
+    dialog.onErrorResumeNext().subscribe(() => this.vmService.vmAction(e));
   }
 
   public onVmCreated(vm: VirtualMachine): void {

@@ -81,6 +81,8 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { DescriptionComponent } from './components/description/description.component';
+import { CustomAlertComponent } from './services/dialog/custom-alert.component';
+import { CustomConfirmComponent } from './services/dialog/custom-confirm.component';
 
 
 @NgModule({
@@ -119,6 +121,8 @@ import { DescriptionComponent } from './components/description/description.compo
     LoadingDirective
   ],
   entryComponents: [
+    CustomAlertComponent,
+    CustomConfirmComponent,
     DatePickerDialogComponent,
     LoaderComponent
   ],
@@ -127,6 +131,8 @@ import { DescriptionComponent } from './components/description/description.compo
     CalendarMonthComponent,
     CalendarYearComponent,
     ColorPickerComponent,
+    CustomAlertComponent,
+    CustomConfirmComponent,
     DateDisplayComponent,
     DatePickerComponent,
     DatePickerDialogComponent,

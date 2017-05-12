@@ -1,25 +1,25 @@
 import { Component, Inject } from '@angular/core';
-import { ParametrizedTranslation } from './dialog.service';
 import { MdlDialogReference } from 'angular2-mdl';
+import { CustomSimpleComponent, CustomSimpleDialogConfig } from './custom-simple-dialog.component';
 
 
-export interface CustomConfirmConfig {
-  message: string | ParametrizedTranslation;
+export interface CustomConfirmConfig extends CustomSimpleDialogConfig {
   declineText?: string;
   confirmText?: string;
-  title?: string;
-  width?: number;
-  clickOutsideToClose?: boolean;
 }
 
 @Component({
-  selector: 'cs-custom-confirm'
+  selector: 'cs-custom-confirm',
+  templateUrl: 'custom-confirm.component.html',
+  styleUrls: ['custom-simple-dialog.scss']
 })
-export class CustomConfirmComponent {
+export class CustomConfirmComponent extends CustomSimpleComponent {
   constructor(
-    public dialog: MdlDialogReference,
-    @Inject('config') public config: CustomConfirmConfig
-  ) {}
+    @Inject('config') public config: CustomConfirmConfig,
+    protected dialog: MdlDialogReference
+  ) {
+    super(config, dialog);
+  }
 
   public confirm(): void {
     this.dialog.hide(true);

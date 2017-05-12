@@ -1,31 +1,26 @@
-import { Component, HostListener, Inject } from '@angular/core';
-import { ParametrizedTranslation } from './dialog.service';
+import { Component, Inject } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
+import { CustomSimpleComponent, CustomSimpleDialogConfig } from './custom-simple-dialog.component';
 
 
-export interface CustomAlertConfig {
-  message: string | ParametrizedTranslation;
+export interface CustomAlertConfig extends CustomSimpleDialogConfig {
   okText?: string;
-  title?: string;
-  width?: number;
-  clickOutsideToClose?: boolean;
 }
 
 @Component({
-  selector: 'cs-custom-alert'
+  selector: 'cs-custom-alert',
+  templateUrl: 'custom-alert.component.html',
+  styleUrls: ['custom-simple-dialog.scss']
 })
-export class CustomAlertComponent {
+export class CustomAlertComponent extends CustomSimpleComponent {
   constructor(
-    public dialog: MdlDialogReference,
-    @Inject('config') public config: CustomAlertConfig
-  ) {}
-
-  public ok(): void {
-    this.dialog.hide();
+    @Inject('config') public config: CustomAlertConfig,
+    protected dialog: MdlDialogReference,
+  ) {
+    super(config, dialog);
   }
 
-  @HostListener('keydown.esc')
-  public onEsc(): void {
+  public ok(): void {
     this.dialog.hide();
   }
 }

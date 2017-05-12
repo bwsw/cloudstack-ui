@@ -210,10 +210,14 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public resetPassword(e: IVmActionEvent): void {
-    let showDialog = (displayName: string, password: string) => {
-      this.dialogService.alert({
-        translationToken: 'PASSWORD_DIALOG_MESSAGE',
-        interpolateParams: { vmName: displayName, vmPassword: password }
+    let showDialog = (vmName: string, vmPassword: string) => {
+      this.dialogService.customAlert({
+        message: {
+          translationToken: 'PASSWORD_DIALOG_MESSAGE',
+          interpolateParams: { vmName, vmPassword }
+        },
+        width: '400px',
+        clickOutsideToClose: false
       } as any);
     };
 
