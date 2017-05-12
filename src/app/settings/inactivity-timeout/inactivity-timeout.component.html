@@ -3,14 +3,12 @@
     class="no-margin"
     [innerHTML]="'INACTIVITY_TIMEOUT' | translate"
   ></h4>
-
   <form
     (ngSubmit)="changeInactivityTimeout($event)"
     #inactivityTimeoutForm="ngForm"
     novalidate
   >
     <mdl-textfield
-      *ngIf="tempInactivityTimeout"
       #inactivityTimeoutField="ngModel"
       name="inactivityTimeout"
       type="number"
@@ -23,7 +21,7 @@
       integerValue
       error-msg="{{ 'INACTIVITY_LIMITS' | translate }}"
       [(ngModel)]="tempInactivityTimeout"
-      [class.is-invalid]="inactivityTimeoutField.invalid"
+      [class.is-invalid]="inactivityTimeoutField.touched && inactivityTimeoutField.invalid"
       (blur)="onBlur()"
     ></mdl-textfield>
     <div class="right-button">
