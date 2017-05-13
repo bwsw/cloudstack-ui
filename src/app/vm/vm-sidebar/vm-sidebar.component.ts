@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { VirtualMachine } from '../shared/vm.model';
-import { ActivatedRoute } from '@angular/router';
+import { VmService } from '../shared/vm.service';
 
 
 @Component({
@@ -11,9 +12,16 @@ import { ActivatedRoute } from '@angular/router';
 export class VmSidebarComponent {
   @Input() public vm: VirtualMachine;
 
-  constructor(private route: ActivatedRoute) {
-    this.route.params.subscribe(params => {
-      console.log(params);
+  constructor(
+    private vmService: VmService,
+    private route: ActivatedRoute
+  ) {
+    this.route.params.pluck('id')
+      .subscribe((id: string) => {
+        if (id) {
+          this.vmService.get(id)
+            .subscribe(vm => this.vm = vm);
+        }
     });
   }
 }

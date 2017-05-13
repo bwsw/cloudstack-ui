@@ -1,19 +1,19 @@
 <div
   class="detail-list margin-right"
-  [class.open]="isOpen"
+  [class.open]="listService?.selectedId"
 >
   <ng-content select="[cs-panels]"></ng-content>
   <ng-content select="[cs-list]"></ng-content>
 </div>
 
 <cs-sidebar
-  [isOpen]="isOpen"
+  [isOpen]="listService?.selectedId"
   (onClickOutside)="onDetailsHide()"
 >
   <ng-content select="[cs-sidebar]"></ng-content>
 </cs-sidebar>
 
 <cs-fab
-  [isOpen]="isOpen"
+  [isOpen]="listService?.selectedId"
   (click)="onAction()"
 ></cs-fab>

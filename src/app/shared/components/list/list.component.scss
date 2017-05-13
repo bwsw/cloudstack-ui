@@ -2,10 +2,6 @@
 
 .margin-right {
   transition: margin 0.3s;
-
-  &.open {
-    margin-right: $sidebar-width + 1;
-  }
 }
 
 .fab.open {

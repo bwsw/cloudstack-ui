@@ -1,7 +1,7 @@
 import { Component, Input, Optional, EventEmitter, Output } from '@angular/core';
 import { BaseTemplateModel } from '../shared/base-template.model';
+import { Template } from '../shared';
 import { ListService } from '../../shared/components/list/list.service';
-import { Template } from '../shared/template.model';
 
 
 export type TemplateDisplayMode = 'CARD' | 'LIST';
@@ -38,7 +38,7 @@ export class TemplateListComponent {
 
   public selectTemplate(template: BaseTemplateModel): void {
     if (this.listService) {
-      this.listService.onSelected.next(template);
+      this.listService.showDetails(`${template instanceof Template ? 'template' : 'iso'}/${template.id}`);
     }
     this.selectedTemplate = template;
     this.selectedTemplateChange.emit(this.selectedTemplate);

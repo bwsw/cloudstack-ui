@@ -1,30 +1,49 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
-
-import { BaseModel } from '../../models';
 
 
 @Injectable()
 export class ListService {
-  public onSelected = new Subject<BaseModel>();
+  public onSelected = new Subject<string>();
   public onDeselected = new Subject<void>();
   public onAction = new Subject<void>();
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  private selectedId: string;
 
-  public selectItem(model: BaseModel): void {
-    this.router.navigate([model.id], {
+  constructor(protected route: ActivatedRoute, protected router: Router) {
+    this.router.events
+      .filter(event => event instanceof NavigationEnd)
+      .map(() => this.route.firstChild)
+      .subscribe((route) => {
+        if (route) {
+          this.selectedId = route.snapshot.params['id'] || null;
+        }
+      });
+  }
+
+  public showDetails(id: string): void {
+    this.router.navigate([id], {
       relativeTo: this.route,
       preserveQueryParams: true
-    })
-      .then(() => this.onSelected.next(model));
+    });
+  }
+
+  public selectItem(id: string): void {
+    this.selectedId = id;
+    this.onSelected.next(this.selectedId);
   }
 
   public deselectItem(): void {
-    this.router.navigate([this.route.parent.snapshot.url], {
-      preserveQueryParams: true
-    })
+    this.selectedId = null;
+    this.router
+      .navigate([this.route.parent.snapshot.url], {
+        preserveQueryParams: true
+      })
       .then(() => this.onDeselected.next());
+  }
+
+  public isSelected(id: string): boolean {
+    return id === this.selectedId;
   }
 }

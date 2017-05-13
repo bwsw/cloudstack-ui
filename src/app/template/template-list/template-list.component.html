@@ -4,7 +4,7 @@
       <mdl-list-item
         lines="2"
         (click)="$event.stopPropagation(); selectTemplate(template)"
-        [class.selected-template]="selectedTemplate?.id === template.id"
+        [class.selected-template]="listService.isSelected(template.id)"
         [class.inline-block]="!radio"
       >
         <mdl-list-item-primary-content>
@@ -75,7 +75,7 @@
 >
   <cs-template
     [template]="template"
-    [isSelected]="template?.id === selectedTemplate?.id"
+    [isSelected]="listService.isSelected(template.id)"
     [searchQuery]="query"
     *ngFor="let template of templateList"
     (onClick)="selectTemplate(template)"

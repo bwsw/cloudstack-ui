@@ -1,24 +1,17 @@
-import { Component, ViewChild, OnInit, HostBinding } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
-
-import {
-  Iso,
-  IsoService,
-  TemplateService
-} from '../shared';
-
+import { Observable } from 'rxjs/Observable';
 import { ListService } from '../../shared/components/list/list.service';
 
 import { JobsNotificationService, NotificationService } from '../../shared/services';
-import { TemplateCreationComponent } from '../template-creation/template-creation.component';
-import { VmService } from '../../vm/shared/vm.service';
-import { StorageService } from '../../shared/services/storage.service';
-import { TemplateFilterListComponent } from '../template-filter-list/template-filter-list.component';
-import { BaseTemplateModel } from '../shared/base-template.model';
-import { Template } from '../shared/template.model';
 import { DialogService } from '../../shared/services/dialog.service';
+import { StorageService } from '../../shared/services/storage.service';
+import { VmService } from '../../vm/shared/vm.service';
+
+import { BaseTemplateModel, Iso, IsoService, Template, TemplateService } from '../shared';
+import { TemplateCreationComponent } from '../template-creation/template-creation.component';
+import { TemplateFilterListComponent } from '../template-filter-list/template-filter-list.component';
 
 
 @Component({
@@ -28,7 +21,6 @@ import { DialogService } from '../../shared/services/dialog.service';
 })
 export class TemplatePageComponent implements OnInit {
   public viewMode: string;
-  public selectedTemplate: BaseTemplateModel;
 
   @HostBinding('class.detail-list-container') public detailListContainer = true;
   @ViewChild(TemplateFilterListComponent) private filterList;
@@ -48,8 +40,6 @@ export class TemplatePageComponent implements OnInit {
   public ngOnInit(): void {
     this.viewMode = this.storageService.read('templateDisplayMode') || 'Template';
     this.listService.onAction.subscribe(() => this.showCreationDialog());
-    this.listService.onSelected.subscribe((template: Template) => this.selectedTemplate = template);
-    this.listService.onDeselected.subscribe(() => this.selectedTemplate = null);
   }
 
   public showCreationDialog(): void {

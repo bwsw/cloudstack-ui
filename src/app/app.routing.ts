@@ -6,9 +6,7 @@ import { EventListComponent } from './events/event-list.component';
 import { SgTemplateListComponent } from './security-group/sg-template-list/sg-template-list.component';
 import { SettingsComponent } from './settings/settings.component';
 import { AuthGuard, LoginGuard } from './shared/services';
-import { SpareDrivePageComponent } from './spare-drive/spare-drive-page/spare-drive-page.component';
 import { SshKeysPageComponent } from './ssh-keys/ssh-keys-page.component';
-import { TemplatePageComponent } from './template/template-page/template-page.component';
 
 
 export const routes: Routes = [
@@ -24,16 +22,6 @@ export const routes: Routes = [
   {
     path: 'sg-templates',
     component: SgTemplateListComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'templates',
-    component: TemplatePageComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'spare-drives',
-    component: SpareDrivePageComponent,
     canActivate: [AuthGuard]
   },
   {

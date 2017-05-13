@@ -43,7 +43,7 @@ export class VmListComponent implements OnInit {
 
   public filterData: VmFilter;
   public groupByColors = false;
-  public selectedVm: VirtualMachine;
+  // public selectedVm: VirtualMachine;
   public showSections = false;
   public showSubsections = false;
 
@@ -54,7 +54,7 @@ export class VmListComponent implements OnInit {
   public visibleVmList: Array<VirtualMachine>;
 
   constructor (
-    private listService: ListService,
+    public listService: ListService,
     private vmService: VmService,
     private dialogService: DialogService,
     @Inject('IStorageService') protected storageService: IStorageService,
@@ -73,7 +73,6 @@ export class VmListComponent implements OnInit {
     this.subscribeToSnapshotAdded();
     this.subscribeToVmDestroyed();
     this.subscribeToVmCreationDialog();
-    this.subscribeToVmDeselected();
   }
 
   public get noFilteringResults(): boolean {
@@ -154,11 +153,10 @@ export class VmListComponent implements OnInit {
   }
 
   public showDetail(vm: VirtualMachine): void {
-    if (vm.state === 'Error') {
-      return;
+    if (vm.state !== 'Error') {
+      // this.listService.selectItem(vm);
+      this.listService.showDetails(vm.id);
     }
-    this.selectedVm = vm;
-    this.listService.selectItem(vm);
   }
 
   public showVmCreationDialog(): void {
@@ -191,10 +189,6 @@ export class VmListComponent implements OnInit {
     this.statsUpdateService.subscribe(() => {
       this.updateStats();
     });
-  }
-
-  private subscribeToVmDeselected(): void {
-    this.listService.onDeselected.subscribe(() => this.selectedVm = null);
   }
 
   private subscribeToVmUpdates(): void {
@@ -239,7 +233,8 @@ export class VmListComponent implements OnInit {
       const state = job.result.state;
       if (job.instanceType === 'VirtualMachine' && (state === 'Destroyed' || state === 'Expunging')) {
         this.vmList = this.vmList.filter(vm => vm.id !== job.result.id);
-        if (this.selectedVm && this.selectedVm.id === job.result.id) {
+        // if (this.listService.selectedId === job.result.id) {
+        if (this.listService.isSelected(job.result.id)) {
           this.listService.onDeselected.next();
         }
         this.updateFilters();
