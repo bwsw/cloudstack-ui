@@ -276,8 +276,8 @@
   "RESIZE_DISK_BUTTON": "Resize the disk",
   "REVERT_TO_SNAPSHOT": "Revert disk to this snapshot",
 
-  "VM_VIEW": "VM View",
-  "STORAGE_VIEW": "Storage View",
+  "VM_VIEW": "VM",
+  "STORAGE_VIEW": "Storage",
 
   "VOLUME_RESIZE": "Resize",
   "VOLUME_RESIZING": "Resizing volume",
