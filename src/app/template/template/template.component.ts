@@ -13,7 +13,7 @@ import { BaseTemplateModel } from '../shared';
 export class TemplateComponent {
   @Input() public template: BaseTemplateModel;
   @Input() public isSelected: boolean;
-  @HostBinding('class.singleline') @Input() public singleLine = true;
+  @HostBinding('class.single-line') @Input() public singleLine = true;
   @Input() public searchQuery: string;
   @Output() public deleteTemplate = new EventEmitter();
   @Output() public onClick = new EventEmitter();
