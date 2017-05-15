@@ -11,7 +11,7 @@ import { IsoEvent } from './iso.component';
 
 import { Volume } from '../../../shared/models';
 import { JobsNotificationService, NotificationService, VolumeService } from '../../../shared/services';
-import { DialogService } from '../../../shared/services/dialog.service';
+import { DialogService } from '../../../shared/services/dialog/dialog.service';
 
 
 @Component({

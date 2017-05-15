@@ -8,6 +8,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { CustomSimpleDialogComponent, CustomSimpleDialogConfig } from './custom-dialog.component';
 
 
 export interface SimpleDialogConfiguration extends IMdlDialogConfiguration {
@@ -34,12 +35,16 @@ export interface DialogTranslationParams {
   interpolateParams: { [key: string]: string; };
 }
 
-type DialogType = 'ALERT' | 'CONFIRM';
+export type DialogType = 'ALERT' | 'CONFIRM';
 
-const DialogTypes = {
+export const DialogTypes = {
   ALERT: 'ALERT' as DialogType,
   CONFIRM: 'CONFIRM' as DialogType
 };
+
+const defaultAlertDialogConfirmText = 'OK';
+const defaultConfirmDialogConfirmText = 'YES';
+const defaultConfirmDialogDeclineText = 'NO';
 
 @Injectable()
 export class DialogService {
@@ -64,7 +69,7 @@ export class DialogService {
   }
 
   public alert(message: string | ParametrizedTranslation, okText?: string, title?: string): Observable<void> {
-    return this.alertConfirmDialog(DialogTypes.ALERT, message, okText, title);
+    return this.simpleDialog(DialogTypes.ALERT, message, okText, title);
   }
 
   public confirm(
@@ -73,7 +78,29 @@ export class DialogService {
     confirmText?: string,
     title?: string
   ): Observable<void> {
-    return this.alertConfirmDialog(DialogTypes.CONFIRM, message, declineText, confirmText, title);
+    return this.simpleDialog(DialogTypes.CONFIRM, message, declineText, confirmText, title);
+  }
+
+  public customAlert(config: CustomSimpleDialogConfig): Observable<void> {
+    config.dialogType = DialogTypes.ALERT;
+    if (!config.confirmText) {
+      config.confirmText = defaultAlertDialogConfirmText;
+    }
+
+    return this.customSimpleDialog(config);
+  }
+
+  public customConfirm(config: CustomSimpleDialogConfig): Observable<void> {
+    config.dialogType = DialogTypes.CONFIRM;
+    if (!config.confirmText) {
+      config.confirmText = defaultConfirmDialogConfirmText;
+    }
+    if (!config.declineText) {
+      config.declineText = defaultConfirmDialogDeclineText;
+    }
+
+    return this.customSimpleDialog(config)
+      .switchMap(result => result ? Observable.of(null) : Observable.throw);
   }
 
   public showDialog(config: SimpleDialogConfiguration): Observable<MdlDialogReference> {
@@ -105,7 +132,21 @@ export class DialogService {
     return Observable.of(null);
   }
 
-  private alertConfirmDialog(dialogType: DialogType, ...args: Array<any>): Observable<void> {
+  private customSimpleDialog(config: CustomSimpleDialogConfig): Observable<void> {
+    const dialogConfig = Object.assign(
+      {
+        component: CustomSimpleDialogComponent,
+        providers: [{ provide: 'config', useValue: config }]
+      },
+      config.width ? { styles: { width: config.width } } : null,
+      config.clickOutsideToClose !== null ? { clickOutsideToClose: config.clickOutsideToClose } : null
+    );
+
+    return this.showCustomDialog(dialogConfig)
+      .switchMap(res => res.onHide());
+  }
+
+  private simpleDialog(dialogType: DialogType, ...args: Array<any>): Observable<void> {
     const result: Subject<any> = new Subject();
     const translationParams = this.getTranslationParams(args[0], Array.from(args).slice(1));
 
