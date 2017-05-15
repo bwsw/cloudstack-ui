@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { BackendResource } from '../decorators/backend-resource.decorator';
-
-import {
-  AsyncJobService,
-  BaseBackendCachedService,
-  ConfigService
-} from '../services';
+import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import {
   NetworkProtocol,
   NetworkRule,
@@ -14,8 +8,11 @@ import {
   NetworkRuleTypes,
   SecurityGroup
 } from '../../security-group/sg.model';
+import { BackendResource } from '../decorators';
+import { DeletionMark } from '../models';
+
+import { AsyncJobService, BaseBackendCachedService, ConfigService } from '../services';
 import { TagService } from './tag.service';
-import { DeletionMark } from '../models/tag.model';
 
 
 export const GROUP_POSTFIX = '-cs-sg';
@@ -44,10 +41,12 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
       });
   }
 
-  public createTemplate(data: any): Observable<any> {
+  public createTemplate(data: any, rules?: Rules): Observable<any> {
     this.invalidateCache();
     let template;
-    return this.create(data)
+    return (rules
+      ? this.createWithRules(data, rules.ingress, rules.egress)
+      : this.create(data))
       .switchMap(res => {
         template = res;
 
@@ -56,7 +55,7 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
           resourceIds: id,
           resourceType: this.entity,
           'tags[0].key': 'template',
-          'tags[0].value': 'true',
+          'tags[0].value': 'true'
         };
 
         return this.tagService.create(params);
