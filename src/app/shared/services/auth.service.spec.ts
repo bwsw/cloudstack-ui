@@ -4,7 +4,7 @@ import { BaseRequestOptions, Http, HttpModule, XHRBackend } from '@angular/http'
 import { MockBackend } from '@angular/http/testing';
 import { Observable } from 'rxjs/Observable';
 
-import { AuthService, ErrorService, SESSION_REFRESH_INTERVAL } from './';
+import { AuthService, ConfigService, ErrorService } from './';
 import { ServiceLocator } from './service-locator';
 import { StorageService } from './storage.service';
 import { UserService } from './user.service';
@@ -64,9 +64,25 @@ class MockStorageService {
   }
 }
 
-describe('Custom dialog', () => {
+const configStorage = {};
+function getRefreshInterval(): number {
+  return +configStorage['sessionRefreshInterval'] * 1000;
+}
+
+function setRefreshInterval(value: number): void {
+  configStorage['sessionRefreshInterval'] = value;
+}
+
+@Injectable()
+class MockConfigService {
+  public get(key: string): Observable<string> {
+    return Observable.of(configStorage[key]);
+  }
+}
+
+describe('Auth service session', () => {
   let authService: AuthService;
-  const inactivityInterval = 10;
+  let configService: ConfigService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -75,6 +91,7 @@ describe('Custom dialog', () => {
         AuthService,
         MockBackend,
         BaseRequestOptions,
+        { provide: ConfigService, useClass: MockConfigService },
         { provide: ErrorService, useClass: MockErrorService },
         { provide: UserService, useClass: MockUserService },
         { provide: StorageService, useClass: MockStorageService },
@@ -94,6 +111,7 @@ describe('Custom dialog', () => {
 
     ServiceLocator.injector = getTestBed().get(Injector);
     authService = TestBed.get(AuthService);
+    configService = TestBed.get(ConfigService);
   }));
 
   it('should set inactivity timeout', () => {
@@ -106,37 +124,87 @@ describe('Custom dialog', () => {
 
   it('should refresh session', fakeAsync(() => {
     const refresh = spyOn(authService, 'sendRefreshRequest');
-    authService.setInactivityTimeout(inactivityInterval).subscribe();
-    tick(SESSION_REFRESH_INTERVAL * inactivityInterval);
-    expect(refresh).toHaveBeenCalledTimes(inactivityInterval - 1);
-  }));
+    const inactivityTimeout = 10;
+    const refreshInterval = 60;
 
-  it('should logout after session expires', fakeAsync(() => {
-    const logout = spyOn(authService, 'logout').and.returnValue(Observable.of(null));
-    authService.setInactivityTimeout(inactivityInterval).subscribe();
-    tick(SESSION_REFRESH_INTERVAL * (inactivityInterval - 1));
-    expect(logout).toHaveBeenCalledTimes(0);
-    tick(SESSION_REFRESH_INTERVAL);
-    expect(logout).toHaveBeenCalledTimes(1);
+    setRefreshInterval(refreshInterval);
+    authService.setInactivityTimeout(inactivityTimeout).subscribe();
+
+    tick(getRefreshInterval() * inactivityTimeout * 60 / refreshInterval);
+    expect(refresh).toHaveBeenCalledTimes(inactivityTimeout - 1);
   }));
 
   it('should stop refreshing if inactivity interval=0', fakeAsync(() => {
     const refresh = spyOn(authService, 'sendRefreshRequest');
-    authService.setInactivityTimeout(inactivityInterval).subscribe();
-    tick(SESSION_REFRESH_INTERVAL);
+    const inactivityTimeout = 10;
+
+    authService.setInactivityTimeout(inactivityTimeout).subscribe();
+    tick(getRefreshInterval());
     expect(refresh).toHaveBeenCalledTimes(1);
     authService.setInactivityTimeout(0).subscribe();
-    tick(SESSION_REFRESH_INTERVAL * 10);
+    tick(getRefreshInterval() * 10);
     expect(refresh).toHaveBeenCalledTimes(1);
   }));
 
   it('should extend logout delay on user input', fakeAsync(() => {
     const logout = spyOn(authService, 'logout').and.returnValue(Observable.of(null));
     authService.setInactivityTimeout(1).subscribe();
-    tick(SESSION_REFRESH_INTERVAL - 100);
+    tick(getRefreshInterval() - 100);
     document.dispatchEvent(new MouseEvent('mousemove', {}));
     tick(200);
     expect(logout).toHaveBeenCalledTimes(0);
     discardPeriodicTasks();
+  }));
+});
+
+describe('Auth service session', () => {
+  let authService: AuthService;
+  let configService: ConfigService;
+  const refreshInterval = 1;
+
+  beforeEach(async(() => {
+    setRefreshInterval(refreshInterval);
+    TestBed.configureTestingModule({
+      declarations: [TestViewComponent],
+      providers: [
+        AuthService,
+        MockBackend,
+        BaseRequestOptions,
+        { provide: ConfigService, useClass: MockConfigService },
+        { provide: ErrorService, useClass: MockErrorService },
+        { provide: UserService, useClass: MockUserService },
+        { provide: StorageService, useClass: MockStorageService },
+        { provide: Http,
+          deps: [MockBackend, BaseRequestOptions],
+          useFactory:
+            (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
+              return new Http(backend, defaultOptions);
+            },
+        },
+        Injector
+      ],
+      imports: [
+        HttpModule
+      ]
+    });
+
+    ServiceLocator.injector = getTestBed().get(Injector);
+    authService = TestBed.get(AuthService);
+    configService = TestBed.get(ConfigService);
+  }));
+
+  it('should logout after session expires', fakeAsync(() => {
+    const inactivityTimeout = 10;
+    const logout = spyOn(authService, 'logout').and.returnValue(Observable.of(null));
+    const refresh = spyOn(authService, 'sendRefreshRequest');
+
+    authService.setInactivityTimeout(inactivityTimeout).subscribe();
+
+    tick(getRefreshInterval() * (inactivityTimeout - 1) * 60 / refreshInterval);
+    expect(refresh).toHaveBeenCalledTimes(540);
+    expect(logout).toHaveBeenCalledTimes(0);
+
+    tick(getRefreshInterval() * 60);
+    expect(logout).toHaveBeenCalledTimes(1);
   }));
 });
