@@ -3,42 +3,27 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { SecurityGroup } from '../../security-group/sg.model';
 
-import {
-  DialogService,
-  InstanceGroup,
-  OsTypeService,
-  SecurityGroupService,
-  ServiceOfferingService,
-  VolumeTypes
-} from '../../shared';
-
 import { BackendResource } from '../../shared/decorators';
 
-import {
-  AsyncJob,
-  Color,
-  OsType,
-  ServiceOffering,
-  Volume
-} from '../../shared/models';
+import { AsyncJob, Color, OsType, ServiceOffering, Volume } from '../../shared/models';
 
 import {
   AsyncJobService,
   BaseBackendService,
   JobsNotificationService,
-  NotificationService
+  NotificationService, OsTypeService,
 } from '../../shared/services';
+
+import { Iso } from '../../template/shared';
+import { IVmAction, VirtualMachine, VmActions, VmStates } from './vm.model';
+import { DialogService } from '../../shared/services/dialog/dialog.service';
+import { ServiceOfferingService } from '../../shared/services/service-offering.service';
+import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { TagService } from '../../shared/services/tag.service';
 import { UserService } from '../../shared/services/user.service';
 import { VolumeService } from '../../shared/services/volume.service';
-
-import { Iso } from '../../template/shared';
-import {
-  IVmAction,
-  VirtualMachine,
-  VmActions,
-  VmStates
-} from './vm.model';
+import { InstanceGroup } from '../../shared/models/instance-group.model';
+import { VolumeTypes } from '../../shared/models/volume.model';
 
 
 export interface IVmActionEvent {
