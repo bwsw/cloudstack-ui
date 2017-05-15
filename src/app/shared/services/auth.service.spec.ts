@@ -1,10 +1,10 @@
 import { Component, Injectable, Injector } from '@angular/core';
 import { async, discardPeriodicTasks, fakeAsync, getTestBed, TestBed, tick } from '@angular/core/testing';
-import { BaseRequestOptions, HttpModule, XHRBackend } from '@angular/http';
+import { BaseRequestOptions, Http, HttpModule, XHRBackend } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { Observable } from 'rxjs/Observable';
 
-import { AuthService, ErrorService, HttpService, SESSION_REFRESH_INTERVAL } from './';
+import { AuthService, ErrorService, SESSION_REFRESH_INTERVAL } from './';
 import { ServiceLocator } from './service-locator';
 import { StorageService } from './storage.service';
 import { UserService } from './user.service';
@@ -78,11 +78,11 @@ describe('Custom dialog', () => {
         { provide: ErrorService, useClass: MockErrorService },
         { provide: UserService, useClass: MockUserService },
         { provide: StorageService, useClass: MockStorageService },
-        { provide: HttpService,
+        { provide: Http,
           deps: [MockBackend, BaseRequestOptions],
           useFactory:
             (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
-              return new HttpService(backend, defaultOptions);
+              return new Http(backend, defaultOptions);
             },
         },
         Injector

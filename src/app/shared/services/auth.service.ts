@@ -10,7 +10,7 @@ import { UserService } from './user.service';
 
 import debounce = require('lodash/debounce');
 
-export const SESSION_REFRESH_INTERVAL = 1000;
+export const SESSION_REFRESH_INTERVAL = 60 * 1000;
 
 
 @Injectable()

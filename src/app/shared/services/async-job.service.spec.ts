@@ -4,6 +4,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import {
   BaseRequestOptions,
   XHRBackend,
+  Http,
   HttpModule,
   Response,
   ResponseOptions,
@@ -13,7 +14,6 @@ import { ServiceLocator } from './service-locator';
 import {
   AsyncJobService,
   ErrorService,
-  HttpService
 } from './';
 
 
@@ -76,10 +76,10 @@ describe('Async job service', () => {
         MockBackend,
         BaseRequestOptions,
         {
-          provide: HttpService,
+          provide: Http,
           deps: [MockBackend, BaseRequestOptions],
           useFactory: (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
-            return new HttpService(backend, defaultOptions);
+            return new Http(backend, defaultOptions);
           },
         },
         Injector

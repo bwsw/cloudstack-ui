@@ -10,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'cs-settings',
   templateUrl: 'settings.component.html',
-  styleUrls: ['settings.scss', 'settings.component.scss']
+  styleUrls: ['settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
   public accentColor: Color;

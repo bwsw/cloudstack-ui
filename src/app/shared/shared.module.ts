@@ -41,7 +41,7 @@ import {
   TagService,
   UtilsService,
   VolumeService,
-  ZoneService, HttpService
+  ZoneService
 } from './services';
 
 import {
@@ -81,7 +81,7 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { DescriptionComponent } from './components/description/description.component';
-import { RequestOptions, XHRBackend } from '@angular/http';
+import { Http, RequestOptions, XHRBackend } from '@angular/http';
 
 
 @NgModule({
@@ -189,8 +189,8 @@ import { RequestOptions, XHRBackend } from '@angular/http';
     VolumeService,
     ZoneService,
     {
-      provide: HttpService, useFactory: (backend: XHRBackend, options: RequestOptions) => {
-        return new HttpService(backend, options);
+      provide: Http, useFactory: (backend: XHRBackend, options: RequestOptions) => {
+        return new Http(backend, options);
       },
       deps: [XHRBackend, RequestOptions]
     },

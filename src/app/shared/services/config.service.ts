@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
 import { SecurityGroup } from '../../security-group/sg.model';
 import { Observable } from 'rxjs/Observable';
-import { HttpService } from './http.service';
 
 
 interface IConfig {
@@ -14,7 +14,7 @@ const configUrl = '/config/config.json';
 export class ConfigService {
   private config: IConfig;
 
-  constructor(private http: HttpService) { }
+  constructor(private http: Http) { }
 
   public get(key: string | Array<string>): Observable<any | Array<any>> {
     let isArray = Array.isArray(key);

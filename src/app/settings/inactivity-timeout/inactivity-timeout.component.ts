@@ -6,7 +6,7 @@ import { NgModel } from '@angular/forms';
 @Component({
   selector: 'cs-inactivity-timeout',
   templateUrl: 'inactivity-timeout.component.html',
-  styleUrls: ['../settings.scss']
+  styleUrls: ['inactivity-timeout.component.scss']
 })
 export class InactivityTimeoutComponent implements OnInit {
   @Input() public inactivityTimeout: number;

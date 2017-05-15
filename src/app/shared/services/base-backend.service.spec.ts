@@ -1,13 +1,14 @@
 import { inject, TestBed, async, getTestBed } from '@angular/core/testing';
 import { Injector } from '@angular/core';
 
-import { BaseBackendService, HttpService } from './';
+import { BaseBackendService } from './';
 import { BaseModel } from '../models';
 import { BackendResource } from '../decorators';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import {
   BaseRequestOptions,
   XHRBackend,
+  Http,
   HttpModule,
   Response,
   ResponseOptions,
@@ -53,11 +54,11 @@ describe('Base backend service', () => {
         MockBackend,
         BaseRequestOptions,
         {
-          provide: HttpService,
+          provide: Http,
           deps: [MockBackend, BaseRequestOptions],
           useFactory:
             (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
-              return new HttpService(backend, defaultOptions);
+              return new Http(backend, defaultOptions);
             },
         },
         Injector
