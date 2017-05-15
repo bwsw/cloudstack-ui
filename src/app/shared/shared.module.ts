@@ -71,7 +71,7 @@ import { MinValueValidatorDirective } from './directives/min-value.directive';
 import { LoadingDirective } from './directives/loading.directive';
 import { LoaderComponent } from './components/loader.component';
 import { UserService } from './services/user.service';
-import { FilterService } from './services/filter.service';
+import { FilterService } from './services';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
 import { DialogService } from './services/dialog/dialog.service';
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
@@ -82,6 +82,7 @@ import {
 } from './components/autocomplete/mdl-autocomplete.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { CustomSimpleDialogComponent } from './services/dialog/custom-dialog.component';
+import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
 
 
 @NgModule({
@@ -99,6 +100,7 @@ import { CustomSimpleDialogComponent } from './services/dialog/custom-dialog.com
     DescriptionComponent,
     DiskOfferingComponent,
     FabComponent,
+    FancySelectComponent,
     InlineEditComponent,
     InlineEditAutocompleteComponent,
     IntegerValidatorDirective,
@@ -136,6 +138,7 @@ import { CustomSimpleDialogComponent } from './services/dialog/custom-dialog.com
     DescriptionComponent,
     DiskOfferingComponent,
     FabComponent,
+    FancySelectComponent,
     InlineEditComponent,
     InlineEditAutocompleteComponent,
     IntegerValidatorDirective,
