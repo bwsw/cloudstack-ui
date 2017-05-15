@@ -8,8 +8,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { CustomAlertComponent, CustomAlertConfig } from './custom-alert.component';
-import { CustomConfirmComponent, CustomConfirmConfig } from './custom-confirm.component';
+import { CustomSimpleDialogComponent, CustomSimpleDialogConfig } from './custom-dialog.component';
 
 
 export interface SimpleDialogConfiguration extends IMdlDialogConfiguration {
@@ -36,12 +35,16 @@ export interface DialogTranslationParams {
   interpolateParams: { [key: string]: string; };
 }
 
-type DialogType = 'ALERT' | 'CONFIRM';
+export type DialogType = 'ALERT' | 'CONFIRM';
 
-const DialogTypes = {
+export const DialogTypes = {
   ALERT: 'ALERT' as DialogType,
   CONFIRM: 'CONFIRM' as DialogType
 };
+
+const defaultAlertDialogConfirmText = 'OK';
+const defaultConfirmDialogConfirmText = 'YES';
+const defaultConfirmDialogDeclineText = 'NO';
 
 @Injectable()
 export class DialogService {
@@ -78,16 +81,25 @@ export class DialogService {
     return this.simpleDialog(DialogTypes.CONFIRM, message, declineText, confirmText, title);
   }
 
-  public customAlert(config: CustomAlertConfig): Observable<void> {
-    const _config = config.okText ? config : Object.assign(config, { okText: 'OK' });
-    return this.customSimpleDialog(DialogTypes.ALERT, _config);
+  public customAlert(config: CustomSimpleDialogConfig): Observable<void> {
+    config.dialogType = DialogTypes.ALERT;
+    if (!config.confirmText) {
+      config.confirmText = defaultAlertDialogConfirmText;
+    }
+
+    return this.customSimpleDialog(config);
   }
 
-  public customConfirm(config: CustomConfirmConfig): Observable<void> {
-    let _config = config.confirmText ? config : Object.assign(config, { confirmText: 'YES' });
-    _config = _config.declineText ? _config : Object.assign(config, { declineText: 'NO' });
+  public customConfirm(config: CustomSimpleDialogConfig): Observable<void> {
+    config.dialogType = DialogTypes.CONFIRM;
+    if (!config.confirmText) {
+      config.confirmText = defaultConfirmDialogConfirmText;
+    }
+    if (!config.declineText) {
+      config.declineText = defaultConfirmDialogDeclineText;
+    }
 
-    return this.customSimpleDialog(DialogTypes.CONFIRM, _config)
+    return this.customSimpleDialog(config)
       .switchMap(result => result ? Observable.of(null) : Observable.throw);
   }
 
@@ -120,14 +132,10 @@ export class DialogService {
     return Observable.of(null);
   }
 
-  private customSimpleDialog(
-    dialogType: DialogType,
-    config: CustomAlertConfig | CustomConfirmConfig
-  ): Observable<void> {
-
+  private customSimpleDialog(config: CustomSimpleDialogConfig): Observable<void> {
     const dialogConfig = Object.assign(
       {
-        component: dialogType === DialogTypes.ALERT ? CustomAlertComponent : CustomConfirmComponent,
+        component: CustomSimpleDialogComponent,
         providers: [{ provide: 'config', useValue: config }]
       },
       config.width ? { styles: { width: config.width } } : null,

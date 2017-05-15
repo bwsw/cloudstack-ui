@@ -12,7 +12,7 @@ import {
 } from '../../shared';
 
 import { ListService } from '../../shared/components/list/list.service';
-import { VirtualMachine } from '../shared/vm.model';
+import { VirtualMachine, VmActions, VmStates } from '../shared/vm.model';
 
 import { IVmActionEvent, VmService } from '../shared/vm.service';
 
@@ -143,11 +143,9 @@ export class VmListComponent implements OnInit {
 
   public vmAction(e: IVmActionEvent): void {
     let dialog;
-    if (e.action.commandName === 'resetPasswordFor') {
+    if (e.action.commandName === VmActions.RESET_PASSWORD) {
       dialog = this.dialogService.customConfirm({
         message: e.action.confirmMessage,
-        declineText: 'NO',
-        confirmText: 'YES',
         width: '400px'
       });
     } else {
@@ -247,7 +245,7 @@ export class VmListComponent implements OnInit {
       }
 
       const state = job.result.state;
-      if (job.instanceType === 'VirtualMachine' && (state === 'Destroyed' || state === 'Expunging')) {
+      if (job.instanceType === 'VirtualMachine' && (state === VmStates.Destroyed || state === VmStates.Expunging)) {
         this.vmList = this.vmList.filter(vm => vm.id !== job.result.id);
         if (this.selectedVm && this.selectedVm.id === job.result.id) {
           this.listService.onDeselected.next();

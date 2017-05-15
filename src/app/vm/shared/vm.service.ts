@@ -1,6 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { SecurityGroup } from '../../security-group/sg.model';
+
+import {
+  DialogService,
+  InstanceGroup,
+  OsTypeService,
+  SecurityGroupService,
+  ServiceOfferingService,
+  VolumeTypes
+} from '../../shared';
 
 import { BackendResource } from '../../shared/decorators';
 
@@ -16,22 +26,19 @@ import {
   AsyncJobService,
   BaseBackendService,
   JobsNotificationService,
-  NotificationService,
+  NotificationService
 } from '../../shared/services';
-
-import { OsTypeService } from '../../shared/services/os-type.service';
-import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { VolumeService } from '../../shared/services/volume.service';
-import { ServiceOfferingService } from '../../shared/services/service-offering.service';
-
-import { Iso } from '../../template/shared/iso.model';
-import { SecurityGroup } from '../../security-group/sg.model';
-import { VirtualMachine, IVmAction } from './vm.model';
-import { InstanceGroup } from '../../shared/models/instance-group.model';
-import { VolumeTypes } from '../../shared/models/volume.model';
-import { DialogService } from '../../shared/services/dialog/dialog.service';
-import { UserService } from '../../shared/services/user.service';
 import { TagService } from '../../shared/services/tag.service';
+import { UserService } from '../../shared/services/user.service';
+import { VolumeService } from '../../shared/services/volume.service';
+
+import { Iso } from '../../template/shared';
+import {
+  IVmAction,
+  VirtualMachine,
+  VmActions,
+  VmStates
+} from './vm.model';
 
 
 export interface IVmActionEvent {
@@ -167,10 +174,10 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public vmAction(e: IVmActionEvent): void {
     switch (e.action.commandName) {
-      case 'resetPasswordFor': return this.resetPassword(e);
-      case 'destroy': return this.destroy(e);
+      case VmActions.RESET_PASSWORD: return this.resetPassword(e);
+      case VmActions.DESTROY: return this.destroy(e);
     }
-    if (e.action.commandName !== 'resetPasswordFor') {
+    if (e.action.commandName !== VmActions.RESET_PASSWORD) {
       this.command(e).subscribe();
     } else {
       this.resetPassword(e);
@@ -197,7 +204,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     this.destroyVolumeDeleteConfirmDialog(e.vm).subscribe(
       () => {
         this.command(e).subscribe(vm => {
-          if (vm && vm.state === 'Destroyed') {
+          if (vm && vm.state === VmStates.Destroyed) {
             e.vm.volumes
               .filter(volume => volume.type === VolumeTypes.DATADISK)
               .forEach(volume => this.volumeService.markForDeletion(volume.id).subscribe());
@@ -221,7 +228,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       } as any);
     };
 
-    if (e.vm.state === 'Stopped') {
+    if (e.vm.state === VmStates.Stopped) {
       this.command(e)
         .subscribe((vm: VirtualMachine) => {
           if (vm && vm.password) {
@@ -230,12 +237,12 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         });
     } else {
       let stop: IVmActionEvent = {
-        action: VirtualMachine.getAction('stop'),
+        action: VirtualMachine.getAction(VmActions.STOP),
         vm: e.vm,
         templateId: e.templateId
       };
       let start: IVmActionEvent = {
-        action: VirtualMachine.getAction('start'),
+        action: VirtualMachine.getAction(VmActions.START),
         vm: e.vm,
         templateId: e.templateId
       };
@@ -266,12 +273,12 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       return;
     }
 
-    if (virtualMachine.state === 'Stopped') {
+    if (virtualMachine.state === VmStates.Stopped) {
       this.changeOffering(serviceOffering, virtualMachine).subscribe();
       return;
     }
     this.command({
-      action: VirtualMachine.getAction('stop'),
+      action: VirtualMachine.getAction(VmActions.STOP),
       vm: virtualMachine
     })
       .switchMap(() => {
@@ -279,7 +286,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       })
       .subscribe(() => {
         this.command({
-          action: VirtualMachine.getAction('start'),
+          action: VirtualMachine.getAction(VmActions.START),
           vm: virtualMachine
         }).subscribe();
       });

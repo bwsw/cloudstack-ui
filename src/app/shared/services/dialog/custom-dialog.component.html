@@ -6,14 +6,8 @@
   ></h3>
 
   <div
-    *ngIf="!messageIsParametrized"
     class="mdl-dialog__content"
-    [innerHTML]="config?.message | translate"
-  ></div>
-  <div
-    *ngIf="messageIsParametrized"
-    class="mdl-dialog__content"
-    [innerHTML]="config?.message?.translationToken | translate:(config?.message?.interpolateParams)"
+    [innerHTML]="translatedMessage | async"
   ></div>
 
   <div class="mdl-dialog__actions">
@@ -25,6 +19,7 @@
       [innerHTML]="config?.confirmText | translate"
     ></button>
     <button
+      *ngIf="showDeclineButton"
       mdl-button
       mdl-colored="primary"
       (click)="decline()"
