@@ -29,6 +29,12 @@ import { VmListSectionComponent } from './vm-list/vm-list-section/vm-list-sectio
 import { VmListSubsectionComponent } from './vm-list/vm-list-subsection/vm-list-subsection.component';
 import { SnapshotModalComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshot-modal.component';
 import { SnapshotActionsService } from './vm-sidebar/storage-detail/volume/snapshot/snapshot-actions.service';
+// tslint:disable-next-line
+import { SpareDriveAttachmentDetailComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attachment-detail/spare-drive-attachment-detail.component';
+// tslint:disable-next-line
+import { SpareDriveAttachmentDialogComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
+import { routes } from '../app.routing';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -41,9 +47,12 @@ import { SnapshotActionsService } from './vm-sidebar/storage-detail/volume/snaps
     MdlSelectModule,
     SharedModule,
     TemplateModule,
-    TranslateModule
+    TranslateModule,
+    RouterModule.forRoot(routes)
   ],
   declarations: [
+    SpareDriveAttachmentDetailComponent,
+    SpareDriveAttachmentDialogComponent,
     StorageDetailComponent,
     VmListComponent,
     VmCreationComponent,
@@ -70,7 +79,8 @@ import { SnapshotActionsService } from './vm-sidebar/storage-detail/volume/snaps
     VmTemplateDialogComponent,
     VolumeResizeComponent,
     SnapshotCreationComponent,
-    SnapshotModalComponent
+    SnapshotModalComponent,
+    SpareDriveAttachmentDialogComponent
   ]
 })
 export class VmModule { }

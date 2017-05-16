@@ -5,7 +5,7 @@ import { JobsNotificationService, NotificationService, SnapshotService } from '.
 import { TemplateCreationComponent } from '../../../../../template/template-creation/template-creation.component';
 import { Snapshot, Volume } from '../../../../../shared/models';
 import { StatsUpdateService } from '../../../../../shared/services/stats-update.service';
-import { DialogService } from '../../../../../shared/services/dialog/dialog.service';
+import { DialogService } from '../../../../../shared';
 
 
 export interface SnapshotAction {

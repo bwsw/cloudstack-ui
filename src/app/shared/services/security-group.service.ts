@@ -11,8 +11,10 @@ import {
 import { BackendResource } from '../decorators';
 import { DeletionMark } from '../models';
 
-import { AsyncJobService, BaseBackendCachedService, ConfigService } from '../services';
 import { TagService } from './tag.service';
+import { BaseBackendCachedService } from './base-backend-cached.service';
+import { AsyncJobService } from './async-job.service';
+import { ConfigService } from './config.service';
 
 
 export const GROUP_POSTFIX = '-cs-sg';
