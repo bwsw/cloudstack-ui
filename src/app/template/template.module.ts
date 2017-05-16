@@ -14,12 +14,13 @@ import { TemplateFilterListComponent } from './template-filter-list/template-fil
 import { TemplateFiltersComponent } from './template-filters/template-filters.component';
 import { TemplateListComponent } from './template-list/template-list.component';
 import { TemplatePageComponent } from './template-page/template-page.component';
-import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
+import { BaseTemplateSidebarComponent } from './template-sidebar/base-template-sidebar.component';
 import { templatesRouting } from './template.routing';
 import { TemplateComponent } from './template/template.component';
 import { TemplateListService } from './template-list.service';
-import { AsdSidebarComponent } from './template-sidebar/asd-sidebar.component';
+import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
 import { IsoSidebarComponent } from './template-sidebar/iso-sidebar.component';
+import { TemplateCardListComponent } from './template-list/template-card-list.component';
 
 
 @NgModule({
@@ -34,16 +35,17 @@ import { IsoSidebarComponent } from './template-sidebar/iso-sidebar.component';
     templatesRouting
   ],
   declarations: [
-    AsdSidebarComponent,
+    TemplateSidebarComponent,
     IsoSidebarComponent,
     IsoAttachmentComponent,
     TemplateComponent,
     TemplateCreationComponent,
     TemplateFiltersComponent,
     TemplateListComponent,
+    TemplateCardListComponent,
     TemplateFilterListComponent,
     TemplatePageComponent,
-    TemplateSidebarComponent
+    BaseTemplateSidebarComponent
   ],
   exports: [
     TemplateFilterListComponent

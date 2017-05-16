@@ -108,8 +108,8 @@ export class TemplatePageComponent implements OnInit {
       .subscribe(() => {
         this.filterList.updateList();
 
-        if (this.selectedTemplate && this.selectedTemplate.id === template.id) {
-          this.listService.onDeselected.next();
+        if (this.listService.isSelected(template.id)) {
+          this.listService.deselectItem();
         }
 
         this.jobNotificationService.finish({

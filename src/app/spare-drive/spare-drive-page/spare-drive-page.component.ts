@@ -138,9 +138,8 @@ export class SpareDrivePageComponent implements OnInit {
           this.volumes = this.volumes.filter(listVolume => {
             return listVolume.id !== volume.id;
           });
-          // if (this.selectedVolume && this.selectedVolume.id === volume.id) {
           if (this.listService.isSelected(volume.id)) {
-            this.listService.onDeselected.next();
+            this.listService.deselectItem();
           }
           this.jobsNotificationService.finish({ message: 'VOLUME_DELETE_DONE' });
           this.updateSections();

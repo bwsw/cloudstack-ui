@@ -233,9 +233,8 @@ export class VmListComponent implements OnInit {
       const state = job.result.state;
       if (job.instanceType === 'VirtualMachine' && (state === 'Destroyed' || state === 'Expunging')) {
         this.vmList = this.vmList.filter(vm => vm.id !== job.result.id);
-        // if (this.listService.selectedId === job.result.id) {
         if (this.listService.isSelected(job.result.id)) {
-          this.listService.onDeselected.next();
+          this.listService.deselectItem();
         }
         this.updateFilters();
         this.updateStats();

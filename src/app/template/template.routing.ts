@@ -1,7 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../shared/services';
 import { TemplatePageComponent } from './template-page/template-page.component';
-import { AsdSidebarComponent } from './template-sidebar/asd-sidebar.component';
+import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
 import { IsoSidebarComponent } from './template-sidebar/iso-sidebar.component';
 
 const routes: Routes = [
@@ -12,7 +12,7 @@ const routes: Routes = [
     children: [
       {
         path: 'template/:id',
-        component: AsdSidebarComponent,
+        component: TemplateSidebarComponent,
         canActivate: [AuthGuard]
       },
       {

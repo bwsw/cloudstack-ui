@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IsoService } from '../shared';
-import { TemplateSidebarComponent } from './template-sidebar.component';
+import { BaseTemplateSidebarComponent } from './base-template-sidebar.component';
 
 @Component({
   selector: 'cs-iso-sidebar',
-  templateUrl: 'template-sidebar.component.html'
+  templateUrl: './base-template-sidebar.component.html',
+  styleUrls: ['./base-template-sidebar.component.scss']
 })
-export class IsoSidebarComponent extends TemplateSidebarComponent {
+export class IsoSidebarComponent extends BaseTemplateSidebarComponent {
   constructor(
     private isoService: IsoService,
     private route: ActivatedRoute

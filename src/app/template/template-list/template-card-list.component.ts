@@ -1,25 +1,23 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { Template } from '../shared';
+import { ListService } from '../../shared/components/list/list.service';
 
 
 @Component({
-  selector: 'cs-template-list',
-  templateUrl: 'template-list.component.html',
+  selector: 'cs-template-card-list',
+  templateUrl: 'template-card-list.component.html',
   styleUrls: ['template-list.component.scss']
 })
-export class TemplateListComponent {
-  @Input() public radio = false;
+export class TemplateCardListComponent {
   @Input() public templateList: Array<BaseTemplateModel>;
   @Input() public query: string;
-  @Input() public selectedTemplate: BaseTemplateModel;
-  @Input() public dialogMode: boolean;
   @Output() public deleteTemplate = new EventEmitter();
-  @Output() public selectedTemplateChange = new EventEmitter();
+
+  constructor(public listService: ListService) {}
 
   public selectTemplate(template: BaseTemplateModel): void {
-    this.selectedTemplate = template;
-    this.selectedTemplateChange.emit(this.selectedTemplate);
+    this.listService.showDetails(`${template.path}/${template.id}`);
   }
 
   public removeTemplate(template: Template): void {
