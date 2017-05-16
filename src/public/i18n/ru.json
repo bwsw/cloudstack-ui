@@ -498,5 +498,13 @@
   "SELECT_VOLUME": "Выберите диск",
 
   "NO_AVAILABLE_VOLUMES": "Нет доступных дисков. Открепите диск или",
-  "NAVIGATE_TO_VOLUME_CREATION_PAGE": "создайте новый"
+  "NAVIGATE_TO_VOLUME_CREATION_PAGE": "создайте новый",
+
+  "VM_FILTERS": {
+    "STATE": {
+      "RUNNING": "Запущенные",
+      "STOPPED": "Остановленные",
+      "ERROR": "Ошибка"
+    }
+  }
 }

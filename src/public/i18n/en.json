@@ -498,5 +498,13 @@
   "SELECT_VOLUME": "Select a volume",
 
   "NO_AVAILABLE_VOLUMES": "No available volumes. Detach a volume or",
-  "NAVIGATE_TO_VOLUME_CREATION_PAGE": "create a new one"
+  "NAVIGATE_TO_VOLUME_CREATION_PAGE": "create a new one",
+
+  "VM_FILTERS": {
+    "STATE": {
+      "RUNNING": "Running",
+      "STOPPED": "Stopped",
+      "ERROR": "Error"
+    }
+  }
 }
