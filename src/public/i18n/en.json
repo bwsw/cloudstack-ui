@@ -461,6 +461,7 @@
   "CHANGE_PASSWORD": "Change password",
   "NEW_PASSWORD": "New password",
   "REPEAT_PASSWORD": "Repeat password",
+  "PASSWORD_CHANGED_SUCCESSFULLY": "Password has been changed successfully",
   "UPDATE": "Update",
 
   "TEMPLATE_CREATION_DONE": "Template created",
