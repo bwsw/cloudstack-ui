@@ -34,7 +34,7 @@ export interface VolumeResizeData {
   entityModel: Volume
 })
 export class VolumeService extends BaseBackendService<Volume> {
-  public onVolumeAttached = new Subject<Volume>();
+  public onVolumeAttached: Subject<Volume>;
 
   constructor(
     private asyncJobService: AsyncJobService,
@@ -42,6 +42,7 @@ export class VolumeService extends BaseBackendService<Volume> {
     private tagService: TagService
   ) {
     super();
+    this.onVolumeAttached = new Subject<Volume>();
   }
 
   public get(id: string): Observable<Volume> {
@@ -65,6 +66,15 @@ export class VolumeService extends BaseBackendService<Volume> {
           volume.snapshots = snapshots.filter((snapshot: Snapshot) => snapshot.volumeId === volume.id);
         });
         return volumes;
+      });
+  }
+
+  public getSpareList(params?: {}): Observable<Array<Volume>> {
+    return this.getList(params)
+      .map(volumes => {
+        return volumes.filter((volume: Volume) => {
+          return !volume.virtualMachineId && !volume.isDeleted;
+        });
       });
   }
 

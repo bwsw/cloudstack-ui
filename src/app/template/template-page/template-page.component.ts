@@ -18,7 +18,7 @@ import { StorageService } from '../../shared/services/storage.service';
 import { TemplateFilterListComponent } from '../template-filter-list/template-filter-list.component';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { Template } from '../shared/template.model';
-import { DialogService } from '../../shared/services/dialog.service';
+import { DialogService } from '../../shared/services/dialog/dialog.service';
 
 
 @Component({
