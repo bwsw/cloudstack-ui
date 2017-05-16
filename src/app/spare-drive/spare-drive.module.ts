@@ -13,6 +13,7 @@ import { SpareDriveItemComponent } from './spare-drive-item/spare-drive-item.com
 import { SpareDriveSidebarComponent } from './spare-drive-sidebar/spare-drive-sidebar.component';
 import { SpareDriveCreationComponent } from './spare-drive-creation/spare-drive-creation.component';
 import { SpareDriveAttachmentComponent } from './spare-drive-attachment/spare-drive-attachment.component';
+import { SpareDriveActionsService } from './spare-drive-actions.service';
 
 
 @NgModule({
@@ -39,6 +40,9 @@ import { SpareDriveAttachmentComponent } from './spare-drive-attachment/spare-dr
   entryComponents: [
     SpareDriveAttachmentComponent,
     SpareDriveCreationComponent
+  ],
+  providers: [
+    SpareDriveActionsService
   ]
 })
 export class SpareDriveModule { }

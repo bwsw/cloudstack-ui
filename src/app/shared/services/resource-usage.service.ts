@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ResourceLimitService } from './resource-limit.service';
-import { VmService } from '../../vm/shared/vm.service';
-import { VirtualMachine } from '../../vm/';
-import { VolumeService } from './volume.service';
-import { Volume } from '../models/volume.model';
-import { SnapshotService } from './snapshot.service';
-import { Snapshot } from '../models/snapshot.model';
-import { DiskStorageService } from './disk-storage.service';
-import { ResourceType, ResourceLimit } from '../models/resource-limit.model';
 import { Observable } from 'rxjs/Observable';
+import { VirtualMachine } from '../../vm/';
+import { VmService } from '../../vm/shared/vm.service';
+import { ResourceLimit, ResourceType } from '../models/resource-limit.model';
+import { Snapshot } from '../models/snapshot.model';
+import { Volume } from '../models/volume.model';
+import { DiskStorageService } from './disk-storage.service';
+import { ResourceLimitService } from './resource-limit.service';
+import { SnapshotService } from './snapshot.service';
+import { VolumeService } from './volume.service';
 
 
 export class ResourcesData {

@@ -1,5 +1,4 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
 import {
@@ -9,7 +8,6 @@ import {
   FilterService,
   JobsNotificationService,
   Volume,
-  VolumeAttachmentData,
   VolumeTypes,
   Zone,
   ZoneService
@@ -22,6 +20,7 @@ import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive
 
 import debounce = require('lodash/debounce');
 import sortBy = require('lodash/sortBy');
+import { SpareDriveActionsService } from '../spare-drive-actions.service';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -62,7 +61,7 @@ export class SpareDrivePageComponent implements OnInit {
     private filter: FilterService,
     private jobsNotificationService: JobsNotificationService,
     private listService: ListService,
-    private translateService: TranslateService,
+    private spareDriveActionsService: SpareDriveActionsService,
     private userService: UserService,
     private volumeService: VolumeService,
     private zoneService: ZoneService
@@ -87,6 +86,10 @@ export class SpareDrivePageComponent implements OnInit {
         this.initFilters();
         this.updateSections();
       });
+
+    this.spareDriveActionsService.onVolumeAttachment.subscribe(() => {
+      this.onVolumeAttached();
+    });
   }
 
   public initFilters(): void {
@@ -202,26 +205,8 @@ export class SpareDrivePageComponent implements OnInit {
       );
   }
 
-  public attach(data: VolumeAttachmentData): void {
-    let notificationId = this.jobsNotificationService.add('VOLUME_ATTACH_IN_PROGRESS');
-    this.volumeService.attach(data)
-      .subscribe(
-        volume => {
-          this.volumes = this.volumes.filter(v => v.id !== volume.id);
-          this.jobsNotificationService.finish({
-            id: notificationId,
-            message: 'VOLUME_ATTACH_DONE',
-          });
-          this.updateSections();
-        },
-        error => {
-          this.translateService.get(error.message, error.params)
-            .subscribe(str => this.dialogService.alert(str));
-          this.jobsNotificationService.fail({
-            id: notificationId,
-            message: 'VOLUME_ATTACH_FAILED',
-          });
-        });
+  public attach(data): void {
+    this.spareDriveActionsService.attach(data);
   }
 
   public updateVolume(volume: Volume): void {
@@ -230,6 +215,11 @@ export class SpareDrivePageComponent implements OnInit {
     if (this.selectedVolume && this.selectedVolume.id === volume.id) {
       this.selectedVolume = volume;
     }
+    this.updateSections();
+  }
+
+  private onVolumeAttached(): void {
+    this.updateVolumeList();
     this.updateSections();
   }
 
@@ -274,11 +264,10 @@ export class SpareDrivePageComponent implements OnInit {
     return this.diskOfferingService.getList({ type: VolumeTypes.DATADISK })
       .switchMap((offerings: Array<DiskOffering>) => {
         diskOfferings = offerings;
-        return this.volumeService.getList();
+        return this.volumeService.getSpareList();
       })
       .map(volumes => {
         this.volumes = volumes
-          .filter((volume: Volume) => !volume.virtualMachineId && !volume.isDeleted)
           .map(volume => {
             volume.diskOffering = diskOfferings.find(offering => offering.id === volume.diskOfferingId);
             return volume;

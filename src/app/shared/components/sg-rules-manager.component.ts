@@ -2,7 +2,7 @@ import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { SgCreationComponent, Rules } from '../../security-group/sg-creation/sg-creation.component';
-import { DialogService } from '../services/dialog.service';
+import { DialogService } from '../services/dialog/dialog.service';
 
 
 @Component({
@@ -46,10 +46,7 @@ export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
   }
 
   public writeValue(value): void {
-    if (value) {
-      this.rules = value;
-      this.savedRules = this.rules;
-    }
+    this.updateRules(value);
   }
 
   public registerOnChange(fn): void {

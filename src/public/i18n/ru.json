@@ -61,6 +61,8 @@
   "NO": "Нет",
   "OK": "Ок",
   "CANCEL": "Отмена",
+  "ADD": "Добавить",
+  "NONE": "Не выбрано",
 
   "START": "Запустить",
   "STOP": "Остановить",
@@ -88,7 +90,7 @@
   "KB_SC": "Simplified Chinese keyboard",
 
   "STATUS": "Статус",
-  "SERVICE_OFFERING": "Услуги служб",
+  "SERVICE_OFFERING": "Сервисное предложение",
   "IP_ADDRESSES": "IP адреса",
   "VOLUMES": "Диски",
   "SECURITY_GROUP": "Группа безопасности",
@@ -179,6 +181,7 @@
 
   "CREATING_SG": "Создание группы безопасности",
   "CREATING_AG": "Создание аффинитетной группы",
+  "CREATING_SG_TEMPLATE": "Создание шаблона группы безопасности",
 
   "CREATE_NEW_TEMPLATE": "Создать новый шаблон",
   "TEMPLATE_CREATED": "Шаблон {{ name }} успешно создан",
@@ -491,5 +494,10 @@
   "SELECT_AN_OPTION": "Выберите опцию",
   "ENTER_TEXT": "Введите текст",
   "EVENT_TYPES": "Типы",
-  "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Хотите создать новый диск?"
+  "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Хотите создать новый диск?",
+  "ATTACH_VOLUME": "Прикрепление диска",
+  "SELECT_VOLUME": "Выберите диск",
+
+  "NO_AVAILABLE_VOLUMES": "Нет доступных дисков. Открепите диск или",
+  "NAVIGATE_TO_VOLUME_CREATION_PAGE": "создайте новый"
 }

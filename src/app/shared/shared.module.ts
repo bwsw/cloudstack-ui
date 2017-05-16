@@ -71,9 +71,9 @@ import { MinValueValidatorDirective } from './directives/min-value.directive';
 import { LoadingDirective } from './directives/loading.directive';
 import { LoaderComponent } from './components/loader.component';
 import { UserService } from './services/user.service';
-import { FilterService } from './services/filter.service';
+import { FilterService } from './services';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
-import { DialogService } from './services/dialog.service';
+import { DialogService } from './services/dialog/dialog.service';
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
 import { InlineEditAutocompleteComponent } from './components/inline-edit/inline-edit-autocomplete.component';
 import {
@@ -83,6 +83,8 @@ import {
 import { DescriptionComponent } from './components/description/description.component';
 import { SearchComponent } from './components/search/search.component';
 import { TableComponent } from './components/table/table.component';
+import { CustomSimpleDialogComponent } from './services/dialog/custom-dialog.component';
+import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
 
 
 @NgModule({
@@ -100,6 +102,7 @@ import { TableComponent } from './components/table/table.component';
     DescriptionComponent,
     DiskOfferingComponent,
     FabComponent,
+    FancySelectComponent,
     InlineEditComponent,
     InlineEditAutocompleteComponent,
     IntegerValidatorDirective,
@@ -123,6 +126,7 @@ import { TableComponent } from './components/table/table.component';
     LoadingDirective
   ],
   entryComponents: [
+    CustomSimpleDialogComponent,
     DatePickerDialogComponent,
     LoaderComponent
   ],
@@ -131,12 +135,14 @@ import { TableComponent } from './components/table/table.component';
     CalendarMonthComponent,
     CalendarYearComponent,
     ColorPickerComponent,
+    CustomSimpleDialogComponent,
     DateDisplayComponent,
     DatePickerComponent,
     DatePickerDialogComponent,
     DescriptionComponent,
     DiskOfferingComponent,
     FabComponent,
+    FancySelectComponent,
     InlineEditComponent,
     InlineEditAutocompleteComponent,
     IntegerValidatorDirective,
