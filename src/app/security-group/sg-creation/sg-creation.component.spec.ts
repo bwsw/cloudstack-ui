@@ -3,7 +3,7 @@ import { async, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { MdlDialogReference } from 'angular2-mdl';
 import { Observable } from 'rxjs/Observable';
-import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe';
+import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
 
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { NetworkRule, SecurityGroup } from '../sg.model';

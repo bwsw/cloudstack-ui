@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { MdlModule } from 'angular2-mdl';
 import { Observable } from 'rxjs/Observable';
 
-import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe';
+import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { NetworkRule, SecurityGroup } from '../../security-group/sg.model';
 import { DialogService } from '../services/dialog/dialog.service';

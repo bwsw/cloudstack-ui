@@ -1,8 +1,8 @@
 import { Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
-import { MdlButtonComponent, MdlDialogReference } from 'angular2-mdl';
-import { DialogType, DialogTypes, ParametrizedTranslation } from './dialog.service';
-import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
+import { MdlButtonComponent, MdlDialogReference } from 'angular2-mdl';
+import { Observable } from 'rxjs/Observable';
+import { DialogType, DialogTypes, ParametrizedTranslation } from './dialog.service';
 
 
 export interface CustomSimpleDialogConfig {
@@ -21,13 +21,16 @@ export interface CustomSimpleDialogConfig {
   styleUrls: ['custom-dialog.component.scss']
 })
 export class CustomSimpleDialogComponent implements OnInit {
+  public config: CustomSimpleDialogConfig;
   @ViewChild(MdlButtonComponent) private focusButton: MdlButtonComponent;
 
   constructor(
-    @Inject('config') public config: CustomSimpleDialogConfig,
+    @Inject('config') config: any,
     protected dialog: MdlDialogReference,
     protected translateService: TranslateService
-  ) {}
+  ) {
+    this.config = config;
+  }
 
   public ngOnInit(): void {
     this.dialog.onVisible()
