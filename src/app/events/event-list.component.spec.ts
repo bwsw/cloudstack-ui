@@ -135,14 +135,14 @@ describe('event list component', () => {
   it('should grab events by date', () => {
     fixture.detectChanges();
     comp.date = new Date('1970-01-02');
-    comp.getEvents();
+    comp.getEvents({ reload: true });
     fixture.detectChanges();
     expect(comp.tableModel.data[0].id).toBe('1');
     expect(comp.tableModel.data[1].id).toBe('2');
     expect(comp.tableModel.data[2].id).toBe('3');
 
     comp.date = new Date('1970-01-03');
-    comp.getEvents();
+    comp.getEvents({ reload: true });
     fixture.detectChanges();
     expect(comp.tableModel.data[0].id).toBe('4');
     expect(comp.tableModel.data[1].id).toBe('5');
@@ -155,18 +155,18 @@ describe('event list component', () => {
   it('should filter events by level', () => {
     fixture.detectChanges();
     comp.date = new Date('1970-01-03');
-    comp.getEvents();
+    comp.getEvents({ reload: true });
     comp.selectedLevels = ['INFO'];
-    comp.filter();
+    comp.getEvents();
     fixture.detectChanges();
     expect(comp.tableModel.data[0].id).toBe('4');
     expect(comp.tableModel.data[1].id).toBe('7');
     comp.selectedLevels = ['INFO', 'WARN'];
-    comp.filter();
+    comp.getEvents();
     fixture.detectChanges();
     expect(comp.tableModel.data.length).toBe(4);
     comp.selectedLevels = [];
-    comp.filter();
+    comp.getEvents();
     fixture.detectChanges();
     expect(comp.tableModel.data.length).toBe(6);
   });
@@ -174,20 +174,20 @@ describe('event list component', () => {
   it('should filter events by type', () => {
     fixture.detectChanges();
     comp.date = new Date('1970-01-02');
-    comp.getEvents();
+    comp.getEvents({ reload: true });
     fixture.detectChanges();
     expect(comp.eventTypes).toEqual(['USER.LOGIN', 'USER.LOGOUT', 'SG.CREATE']);
 
     comp.date = new Date('1970-01-03');
-    comp.getEvents();
+    comp.getEvents({ reload: true });
     fixture.detectChanges();
     expect(comp.eventTypes).toEqual(['SG.AUTH.INGRESS', 'SG.AUTH.EGRESS', 'CREATE_TAGS']);
     comp.selectedTypes = ['SG.AUTH.INGRESS'];
-    comp.filter();
+    comp.getEvents();
     expect(comp.tableModel.data[0].id).toBe('4');
     expect(comp.tableModel.data[1].id).toBe('5');
     comp.selectedTypes = ['SG.AUTH.INGRESS', 'CREATE_TAGS'];
-    comp.filter();
+    comp.getEvents();
     fixture.detectChanges();
     expect(comp.tableModel.data.length).toBe(4);
   });
@@ -195,17 +195,17 @@ describe('event list component', () => {
   it('should filter by all filters', () => {
     fixture.detectChanges();
     comp.date = new Date('1970-01-03');
-    comp.getEvents();
+    comp.getEvents({ reload: true });
     fixture.detectChanges();
     comp.selectedTypes = ['SG.AUTH.INGRESS'];
     comp.selectedLevels = ['WARN'];
-    comp.filter();
+    comp.getEvents();
     fixture.detectChanges();
     expect(comp.tableModel.data[0].id).toBe('5');
     expect(comp.tableModel.data.length).toBe(1);
     comp.selectedTypes = ['CREATE_TAGS'];
     comp.selectedLevels = ['ERROR'];
-    comp.filter();
+    comp.getEvents();
     fixture.detectChanges();
     expect(comp.tableModel.data[0].id).toBe('9');
     expect(comp.tableModel.data.length).toBe(1);
@@ -214,16 +214,16 @@ describe('event list component', () => {
   it('should filter by search field', () => {
     fixture.detectChanges();
     comp.date = new Date('1970-01-02');
-    comp.getEvents();
+    comp.getEvents({ reload: true });
     comp.query = 'failed';
-    comp.filter();
+    comp.getEvents();
     fixture.detectChanges();
     expect(comp.tableModel.data[0].id).toBe('3');
 
     comp.date = new Date('1970-01-03');
-    comp.getEvents();
+    comp.getEvents({ reload: true });
     comp.query = 'authorized';
-    comp.filter();
+    comp.getEvents();
     fixture.detectChanges();
     expect(comp.tableModel.data.length).toBe(4);
   });
@@ -231,7 +231,7 @@ describe('event list component', () => {
   it('should render table correctly', () => {
     fixture.detectChanges();
     comp.date = new Date('1970-01-02');
-    comp.getEvents();
+    comp.getEvents({ reload: true });
     fixture.detectChanges();
 
     const td = fixture.debugElement.queryAll(By.css('td'));

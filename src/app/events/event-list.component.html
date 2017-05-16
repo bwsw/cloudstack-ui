@@ -8,12 +8,12 @@
         [DateTimeFormat]="dateTimeFormat"
         [cancelLabel]="'CANCEL' | translate"
         [(ngModel)]="date"
-        (ngModelChange)="getEvents()"
+        (ngModelChange)="getEvents({ reload: true })"
       ></cs-date-picker>
 
       <mdl-select
         [(ngModel)]="selectedLevels"
-        (change)="filter()"
+        (change)="getEvents()"
         multiple="true"
         [placeholder]="'LEVELS' | translate"
       >
@@ -28,7 +28,7 @@
       <mdl-select
         *ngIf="eventTypes"
         [(ngModel)]="selectedTypes"
-        (change)="filter()"
+        (change)="getEvents()"
         multiple="true"
         [placeholder]="'EVENT_TYPES' | translate"
       >
@@ -41,7 +41,7 @@
       </mdl-select>
       <cs-search
         [(ngModel)]="query"
-        (ngModelChange)="filter()"
+        (ngModelChange)="getEvents()"
       ></cs-search>
     </mdl-card>
   </cs-top-bar>

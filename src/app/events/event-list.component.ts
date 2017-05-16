@@ -11,6 +11,7 @@ import { EventService } from './event.service';
 
 import moment = require('moment');
 
+
 @Component({
   selector: 'cs-event-list',
   templateUrl: 'event-list.component.html',
@@ -20,7 +21,6 @@ export class EventListComponent implements OnInit {
   public loading = false;
   public tableModel: MdlDefaultTableModel;
 
-  public events: Array<Event>;
   public visibleEvents: Array<Event>;
 
   public date;
@@ -28,12 +28,14 @@ export class EventListComponent implements OnInit {
   public dateStringifyDateTimeFormat;
   public firstDayOfWeek: number;
 
+  public events: Array<Event>;
   public selectedLevels: Array<string>;
   public selectedTypes: Array<string>;
+  public query: string;
+
   public eventTypes: Array<string>;
   public levels = ['INFO', 'WARN', 'ERROR'];
 
-  public query: string;
 
   private filtersKey = 'eventListFilters';
 
@@ -43,10 +45,7 @@ export class EventListComponent implements OnInit {
     private translate: TranslateService,
     private languageService: LanguageService
   ) {
-    this.selectedLevels = [];
-    this.selectedTypes = [];
     this.firstDayOfWeek = this.locale === 'en' ? 0 : 1;
-
     this.updateEvents = this.updateEvents.bind(this);
   }
 
@@ -65,20 +64,62 @@ export class EventListComponent implements OnInit {
     return this.translate.currentLang;
   }
 
-  public filter(): void {
-    this.visibleEvents = this.events.filter(event => {
-      const levelFilter = !this.selectedLevels.length ||
-        this.selectedLevels.length && this.selectedLevels.includes(event.level);
+  public getEvents(params = { reload: false }): void {
+    if (params.reload) { this.loading = true; }
+    this.getEventsObservable(params)
+      .subscribe(() => this.loading = false);
+  }
 
-      const typeFilter = !this.selectedTypes.length ||
-        this.selectedTypes.length && this.selectedTypes.includes(event.type);
+  public getEventsObservable(params: { reload: boolean }): Observable<Array<Event>> {
+    const dateParams = {
+      startDate: formatIso(this.date),
+      endDate: formatIso(this.date)
+    };
 
-      return levelFilter && typeFilter;
+    const eventObservable = this.events && !params.reload ?
+      Observable.of(this.events) :
+      this.eventService.getList(dateParams);
+
+    return eventObservable
+      .do(events => this.updateEventTypes(events))
+      .map(events => this.filterByLevel(events))
+      .map(events => this.filterByType(events))
+      .map(events => this.filterBySearch(events))
+      .do(events => {
+        this.updateQueryParams();
+        this.updateEvents(events);
+      });
+  }
+
+  private filterByLevel(events: Array<Event>): Array<Event> {
+    return events.filter(event => {
+      return !this.selectedLevels.length ||
+        this.selectedLevels.length &&
+        this.selectedLevels.includes(event.level);
     });
+  }
 
-    this.filterBySearch();
-    this.updateEvents();
+  private filterByType(events: Array<Event>): Array<Event> {
+    return events.filter(event => {
+      return !this.selectedTypes.length ||
+        this.selectedTypes.length &&
+        this.selectedTypes.includes(event.type);
+    });
+  }
 
+  private filterBySearch(events: Array<Event>): Array<Event> {
+    if (!this.query) { return events; }
+
+    const queryLower = this.query.toLowerCase();
+    return events.filter((event: Event) => {
+      return event.description.toLowerCase().includes(queryLower) ||
+        event.level.toLowerCase().includes(queryLower) ||
+        event.type.toLowerCase().includes(queryLower) ||
+        this.stringifyDate(event.created).toLowerCase().includes(queryLower);
+    });
+  }
+
+  private updateQueryParams(): void {
     this.filterService.update(this.filtersKey, {
       'date': moment(this.date).format('YYYY-MM-DD'),
       'levels': this.selectedLevels,
@@ -87,44 +128,12 @@ export class EventListComponent implements OnInit {
     });
   }
 
-  public getEvents(): void {
-    this.getEventsObservable().subscribe();
-  }
-
-  private filterBySearch(): void {
-    if (!this.query) {
-      return;
-    }
-
-    const queryLower = this.query.toLowerCase();
-    this.visibleEvents = this.visibleEvents.filter((event: Event) => {
-      return event.description.toLowerCase().includes(queryLower) ||
-        event.level.toLowerCase().includes(queryLower) ||
-        event.type.toLowerCase().includes(queryLower) ||
-        this.stringifyDate(event.created).toLowerCase().includes(queryLower);
-    });
-  }
-
   private stringifyDate(date: Date): string {
     return this.dateStringifyDateTimeFormat.format(date);
   }
 
-  private getEventsObservable(): Observable<any> {
-    this.loading = true;
-
-    const params = {
-      startDate: formatIso(this.date),
-      endDate: formatIso(this.date)
-    };
-
-    return this.eventService.getList(params)
-      .map(events => {
-        this.events = events;
-        this.getEventTypes();
-        this.filter();
-        this.updateEvents();
-        this.loading = false;
-      });
+  private updateEventTypes(events: Array<Event>): void {
+    this.eventTypes = this.getEventTypes(events);
   }
 
   private initFilters(): void {
@@ -136,13 +145,10 @@ export class EventListComponent implements OnInit {
     });
 
     this.date = moment(params['date']).toDate();
-    this.getEventsObservable()
-      .subscribe(() => {
-        this.selectedLevels = this.levels.filter(level => params['levels'].includes(level));
-        this.selectedTypes = this.eventTypes.filter(type => params['types'].includes(type));
-        this.query = params['query'];
-        this.filter();
-      });
+    this.selectedLevels = params['levels'];
+    this.selectedTypes = params['types'];
+    this.query = params['query'];
+    this.getEvents();
   }
 
   private setDateTimeFormat(): void {
@@ -162,14 +168,13 @@ export class EventListComponent implements OnInit {
     this.dateStringifyDateTimeFormat = new Intl.DateTimeFormat(this.locale, options);
   }
 
-  private getEventTypes(): void {
-    this.eventTypes = this.events.reduce((acc, event) => {
+  private getEventTypes(events: Array<Event>): Array<string> {
+    return events.reduce((acc, event) => {
       if (!acc.includes(event.type)) {
         acc.push(event.type);
       }
       return acc;
     }, []);
-    this.selectedTypes = this.selectedTypes.filter(type => this.eventTypes.includes(type));
   }
 
   private initTableModel(translations: any): void {
@@ -181,8 +186,8 @@ export class EventListComponent implements OnInit {
     ]);
   }
 
-  private updateEvents(): void {
-    this.loading = false;
+  private updateEvents(events: Array<Event>): void {
+    this.visibleEvents = events;
     this.createTableModel();
   }
 
