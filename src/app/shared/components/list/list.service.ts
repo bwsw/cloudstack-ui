@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 
@@ -6,6 +6,7 @@ import { Subject } from 'rxjs/Subject';
 @Injectable()
 export class ListService {
   public onAction = new Subject<void>();
+  public onDelete = new EventEmitter();
 
   private selectedId: string;
 
@@ -16,6 +17,8 @@ export class ListService {
       .subscribe((activatedRoute) => {
         if (activatedRoute) {
           this.selectedId = activatedRoute.snapshot.params['id'] || null;
+        } else {
+          this.selectedId = null;
         }
       });
   }
@@ -28,7 +31,6 @@ export class ListService {
   }
 
   public deselectItem(): void {
-    this.selectedId = null;
     this.router.navigate([this.route.parent.snapshot.url], {
       preserveQueryParams: true
     });

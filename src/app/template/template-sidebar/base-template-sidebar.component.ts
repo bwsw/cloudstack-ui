@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BaseTemplateModel } from '../shared/base-template.model';
+import { TemplateActionsService } from '../shared/template-actions.service';
+import { ListService } from '../../shared/components/list/list.service';
 
 
 @Component({
@@ -9,9 +11,15 @@ import { BaseTemplateModel } from '../shared/base-template.model';
 })
 export class BaseTemplateSidebarComponent {
   @Input() public template: BaseTemplateModel;
-  @Output() public deleteTemplate = new EventEmitter();
+
+  constructor(
+    protected templateActions: TemplateActionsService,
+    protected listService: ListService
+  ) {}
 
   public remove(): void {
-    this.deleteTemplate.next(this.template);
+    this.templateActions.removeTemplate(this.template).subscribe(() => {
+      this.listService.onDelete.emit(this.template);
+    });
   }
 }

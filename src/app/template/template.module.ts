@@ -17,10 +17,10 @@ import { TemplatePageComponent } from './template-page/template-page.component';
 import { BaseTemplateSidebarComponent } from './template-sidebar/base-template-sidebar.component';
 import { templatesRouting } from './template.routing';
 import { TemplateComponent } from './template/template.component';
-import { TemplateListService } from './template-list.service';
 import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
 import { IsoSidebarComponent } from './template-sidebar/iso-sidebar.component';
 import { TemplateCardListComponent } from './template-list/template-card-list.component';
+import { TemplateActionsService } from './shared/template-actions.service';
 
 
 @NgModule({
@@ -53,7 +53,7 @@ import { TemplateCardListComponent } from './template-list/template-card-list.co
   providers: [
     IsoService,
     TemplateService,
-    TemplateListService
+    TemplateActionsService
   ],
   entryComponents: [
     IsoAttachmentComponent,

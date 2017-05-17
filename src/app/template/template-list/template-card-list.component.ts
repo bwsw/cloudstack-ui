@@ -1,7 +1,7 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { BaseTemplateModel } from '../shared/base-template.model';
-import { Template } from '../shared';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ListService } from '../../shared/components/list/list.service';
+import { Template } from '../shared';
+import { BaseTemplateModel } from '../shared/base-template.model';
 
 
 @Component({

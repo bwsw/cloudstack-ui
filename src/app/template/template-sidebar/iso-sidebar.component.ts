@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ListService } from '../../shared/components/list/list.service';
 import { IsoService } from '../shared';
+import { TemplateActionsService } from '../shared/template-actions.service';
 import { BaseTemplateSidebarComponent } from './base-template-sidebar.component';
 
 @Component({
@@ -11,9 +13,11 @@ import { BaseTemplateSidebarComponent } from './base-template-sidebar.component'
 export class IsoSidebarComponent extends BaseTemplateSidebarComponent {
   constructor(
     private isoService: IsoService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    templateActions: TemplateActionsService,
+    listService: ListService
   ) {
-    super();
+    super(templateActions, listService);
     this.route.params.pluck('id').subscribe((id: string) => {
       if (id) {
         this.isoService.get(id)
