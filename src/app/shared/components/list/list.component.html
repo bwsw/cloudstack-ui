@@ -6,6 +6,7 @@
   <ng-content select="[cs-list]"></ng-content>
 </div>
 
+<div class="backdrop" *ngIf="listService?.selectedId"></div>
 <cs-sidebar
   [isOpen]="listService?.selectedId"
   (onClickOutside)="onDetailsHide()"
