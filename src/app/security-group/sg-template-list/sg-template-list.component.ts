@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
 import { ListService } from '../../shared/components/list/list.service';
@@ -24,7 +23,6 @@ export class SgTemplateListComponent implements OnInit {
   constructor(
     private securityGroupService: SecurityGroupService,
     private dialogService: DialogService,
-    private translate: TranslateService,
     private notificationService: NotificationService,
     private listService: ListService
   ) { }
@@ -53,8 +51,10 @@ export class SgTemplateListComponent implements OnInit {
         res => {
           if (res && res.success === 'true') {
             this.customSecurityGroupList = this.customSecurityGroupList.filter(sg => sg.id !== securityGroup.id);
-            this.translate.get('TEMPLATE_DELETED', { name: securityGroup.name })
-              .subscribe(str => this.notificationService.message(str));
+            this.notificationService.message({
+              translationToken: 'TEMPLATE_DELETED',
+              interpolateParams: { name: securityGroup.name }
+            });
           }
         }
       );
@@ -72,8 +72,10 @@ export class SgTemplateListComponent implements OnInit {
           return;
         }
         this.customSecurityGroupList.push(template);
-        this.translate.get('TEMPLATE_CREATED', { name: template.name })
-          .subscribe(str => this.notificationService.message(str));
+        this.notificationService.message({
+          translationToken: 'TEMPLATE_CREATED',
+          interpolateParams: { name: template.name }
+        });
         this.showRulesDialog(template);
       });
   }

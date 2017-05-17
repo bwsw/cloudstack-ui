@@ -461,6 +461,7 @@
   "CHANGE_PASSWORD": "Изменение пароля",
   "NEW_PASSWORD": "Новый пароль",
   "REPEAT_PASSWORD": "Повторите пароль",
+  "PASSWORD_CHANGED_SUCCESSFULLY": "Пароль был успешно изменен",
   "UPDATE": "Обновить",
 
   "TEMPLATE_CREATION_DONE": "Шаблон создан",
@@ -498,5 +499,13 @@
   "SELECT_VOLUME": "Выберите диск",
 
   "NO_AVAILABLE_VOLUMES": "Нет доступных дисков. Открепите диск или",
-  "NAVIGATE_TO_VOLUME_CREATION_PAGE": "создайте новый"
+  "NAVIGATE_TO_VOLUME_CREATION_PAGE": "создайте новый",
+
+  "VM_FILTERS": {
+    "STATE": {
+      "RUNNING": "Запущенные",
+      "STOPPED": "Остановленные",
+      "ERROR": "Ошибка"
+    }
+  }
 }

@@ -37,10 +37,10 @@ export class VmFilterComponent implements OnInit {
   public selectedZones: Array<Zone> = [];
   public groups: Array<InstanceGroup>;
   public zones: Array<Zone>;
-  public states: Array<VmState> = [
-    VmStates.Running,
-    VmStates.Stopped,
-    VmStates.Error
+  public states = [
+    { state: VmStates.Running, name: 'VM_FILTERS.STATE.RUNNING' },
+    { state: VmStates.Stopped, name: 'VM_FILTERS.STATE.STOPPED' },
+    { state: VmStates.Error,   name: 'VM_FILTERS.STATE.ERROR' }
   ];
   public mode: SectionType = SectionType.zone;
 

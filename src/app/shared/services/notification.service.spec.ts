@@ -9,6 +9,8 @@ import {
   fakeAsync,
   tick
 } from '@angular/core/testing';
+import { TranslateService } from '@ngx-translate/core';
+import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
 
 @Component({
   selector: 'cs-test-view',
@@ -28,6 +30,7 @@ describe('Service: Notification service', () => {
       ],
       providers: [
         NotificationService,
+        { provide: TranslateService, useClass: MockTranslateService }
       ]
     });
   }));
