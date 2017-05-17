@@ -1,0 +1,45 @@
+<div class="settings-control">
+  <h4 [translate]="'API'"></h4>
+
+  <div *ngFor="let l of linkFields">
+    <div>
+      <h5 [translate]="l.title"></h5>
+      <a
+        [href]="l.href"
+        [translate]="l.href"
+      ></a>
+    </div>
+  </div>
+
+  <div *ngFor="let i of inputFields">
+    <h5 [translate]="i.title"></h5>
+    <cs-input-group>
+      <mdl-textfield
+        cs-input-group-textbox
+        readonly
+        [(ngModel)]="i.value"
+      >
+        {{ i.value }}
+      </mdl-textfield>
+      <button
+        mdl-button
+        mdl-button-type="icon"
+        cs-input-group-button
+        ngxClipboard
+        [cbContent]="i.value"
+        (cbOnSuccess)="onCopySuccess()"
+        (cbOnError)="onCopyFail()"
+      >
+        <mdl-icon
+          mdl-tooltip-position="right"
+          [mdl-tooltip]="tt"
+        >
+          content_copy
+        </mdl-icon>
+      </button>
+    </cs-input-group>
+  </div>
+  <mdl-tooltip #tt="mdlTooltip">
+    {{ 'COPY' | translate }}
+  </mdl-tooltip>
+</div>

@@ -252,5 +252,6 @@
         "max": 8192
       }
     }
-  }
+  },
+  "API_DOC_LINK": "https://cloudstack.apache.org/api/apidocs-4.9/"
 }

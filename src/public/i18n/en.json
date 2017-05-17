@@ -498,5 +498,11 @@
   "SELECT_VOLUME": "Select a volume",
 
   "NO_AVAILABLE_VOLUMES": "No available volumes. Detach a volume or",
-  "NAVIGATE_TO_VOLUME_CREATION_PAGE": "create a new one"
+  "NAVIGATE_TO_VOLUME_CREATION_PAGE": "create a new one",
+
+  "API": "API",
+  "API_URL": "URL",
+  "API_KEY": "Key",
+  "API_SECRET_KEY": "Secret key",
+  "API_DOC_LINK": "Documentation"
 }
