@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { MdlDialogReference } from 'angular2-mdl';
-import { TranslateService } from '@ngx-translate/core';
 
 import { NotificationService } from '../../shared/services/notification.service';
 
@@ -13,17 +12,14 @@ export class SshPrivateKeyDialogComponent {
   constructor(
     public dialog: MdlDialogReference,
     @Inject('privateKey') public privateKey: string,
-    private notificationService: NotificationService,
-    private translationService: TranslateService
+    private notificationService: NotificationService
   ) { }
 
   public onCopySuccess(): void {
-    this.translationService.get('COPY_SUCCESS')
-      .subscribe(str => this.notificationService.message(str));
+    this.notificationService.message('COPY_SUCCESS');
   }
 
   public onCopyFail(): void {
-    this.translationService.get('COPY_FAIL')
-      .subscribe(str => this.notificationService.message(str));
+    this.notificationService.message('COPY_FAIL');
   }
 }
