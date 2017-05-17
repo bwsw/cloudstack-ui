@@ -1,0 +1,29 @@
+<div>
+  <h3
+    *ngIf="config?.title"
+    class="mdl-dialog__title"
+    [innerHTML]="config?.title | translate"
+  ></h3>
+
+  <div
+    class="mdl-dialog__content"
+    [innerHTML]="translatedMessage | async"
+  ></div>
+
+  <div class="mdl-dialog__actions">
+    <button
+      #focusButton
+      mdl-button
+      mdl-colored="primary"
+      (click)="confirm()"
+      [innerHTML]="config?.confirmText | translate"
+    ></button>
+    <button
+      *ngIf="showDeclineButton"
+      mdl-button
+      mdl-colored="primary"
+      (click)="decline()"
+      [innerHTML]="config?.declineText | translate"
+    ></button>
+  </div>
+</div>

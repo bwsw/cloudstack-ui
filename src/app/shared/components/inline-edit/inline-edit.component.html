@@ -1,0 +1,49 @@
+<form (ngSubmit)="onSubmit($event)" #inlineInputForm="ngForm" novalidate>
+  <span
+    class="text-content"
+    (click)="edit()"
+    *ngIf="!editing && !showContentPlaceholder"
+  >
+    {{ content }}
+  </span>
+
+  <span
+    class="text-content text-content-empty"
+    (click)="edit()"
+    *ngIf="!editing && showContentPlaceholder"
+  >
+    {{ contentPlaceholder | translate }}
+  </span>
+
+  <mdl-textfield
+    name="textField"
+    *ngIf="editing"
+    [ngModel]="textFieldText"
+    (ngModelChange)="updateTextFieldText($event)"
+    [placeholder]="inputPlaceholder | translate"
+    [rows]="rows"
+    [maxrows]="maxrows"
+    (keyup.enter)="onSubmit()"
+  ></mdl-textfield>
+
+  <br>
+
+  <div class="buttons">
+    <button
+      mdl-button
+      *ngIf="editing"
+      (click)="onCancel()"
+      type="button"
+    >
+      {{ 'CANCEL' | translate }}
+    </button>
+
+    <button
+      mdl-button
+      *ngIf="editing"
+      type="submit"
+    >
+      {{ 'SAVE' | translate }}
+    </button>
+  </div>
+</form>

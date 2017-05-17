@@ -1,12 +1,12 @@
 import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
+import { ListService } from '../../shared/components/list/list.service';
+import { DialogService } from '../../shared/services/dialog/dialog.service';
 
-import { DialogService } from '../../shared/services/dialog.service';
 import { StorageService } from '../../shared/services/storage.service';
 import { BaseTemplateModel } from '../shared';
+import { TemplateActionsService } from '../shared/template-actions.service';
 import { TemplateCreationComponent } from '../template-creation/template-creation.component';
 import { TemplateFilterListComponent } from '../template-filter-list/template-filter-list.component';
-import { TemplateActionsService } from '../shared/template-actions.service';
-import { ListService } from '../../shared/components/list/list.service';
 
 
 @Component({

@@ -4,7 +4,6 @@ import {
   OnChanges
 } from '@angular/core';
 
-import { TagService } from '../../shared';
 import { SecurityGroup } from '../../security-group/sg.model';
 import {
   ServiceOfferingDialogComponent
@@ -17,7 +16,8 @@ import { ZoneService } from '../../shared/services/zone.service';
 import { InstanceGroupService } from '../../shared/services/instance-group.service';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { ServiceOfferingFields } from '../../shared/models/service-offering.model';
-import { DialogService } from '../../shared/services/dialog.service';
+import { DialogService } from '../../shared/services/dialog/dialog.service';
+import { TagService } from '../../shared/services/tag.service';
 
 
 @Component({
@@ -28,6 +28,7 @@ import { DialogService } from '../../shared/services/dialog.service';
 export class VmDetailComponent implements OnChanges {
   @Input() public vm: VirtualMachine;
   public color: Color;
+  public description: string;
   public disableSecurityGroup = false;
   public expandNIC: boolean;
   public expandServiceOffering: boolean;
@@ -140,9 +141,18 @@ export class VmDetailComponent implements OnChanges {
     });
   }
 
+  public changeDescription(newDescription: string): void {
+    this.vmService
+      .updateDescription(this.vm, newDescription)
+      .onErrorResumeNext()
+      .subscribe();
+  }
+
   private update(): void {
     this.updateColor();
     this.updateGroups();
+    this.updateDescription();
+
     this.checkSecurityGroupDisabled();
     if (this.vm.instanceGroup) {
       this.groupName = this.vm.instanceGroup.name;
@@ -180,6 +190,13 @@ export class VmDetailComponent implements OnChanges {
     this.vmService.getInstanceGroupList().subscribe(groups => {
       this.groupNames = groups.map(group => group.name);
     });
+  }
+
+  private updateDescription(): void {
+    this.vmService.getDescription(this.vm)
+      .subscribe(description => {
+        this.description = description;
+      });
   }
 
   private checkSecurityGroupDisabled(): void {

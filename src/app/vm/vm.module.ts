@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
-import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { TranslateModule } from '@ngx-translate/core';
 import { MdlModule } from 'angular2-mdl';
+import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
+import { MdlSelectModule } from '@angular2-mdl-ext/select';
 
-import { MdlAutocompleteModule } from '../autocomplete/mdl-autocomplete.component';
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { SharedModule } from '../shared/shared.module';
 import { TemplateModule } from '../template';
@@ -31,6 +30,12 @@ import { VmDetailComponent } from './vm-sidebar/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 import { vmRouting } from './vm.routing';
+// tslint:disable-next-line
+import { SpareDriveAttachmentDetailComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attachment-detail/spare-drive-attachment-detail.component';
+// tslint:disable-next-line
+import { SpareDriveAttachmentDialogComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
+import { routes } from '../app.routing';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -38,7 +43,6 @@ import { vmRouting } from './vm.routing';
     CommonModule,
     FormsModule,
     ServiceOfferingModule,
-    MdlAutocompleteModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
@@ -46,8 +50,12 @@ import { vmRouting } from './vm.routing';
     TemplateModule,
     TranslateModule,
     vmRouting,
+    TranslateModule,
+    RouterModule.forRoot(routes)
   ],
   declarations: [
+    SpareDriveAttachmentDetailComponent,
+    SpareDriveAttachmentDialogComponent,
     StorageDetailComponent,
     VmListComponent,
     VmCreationComponent,
@@ -74,7 +82,8 @@ import { vmRouting } from './vm.routing';
     VmTemplateDialogComponent,
     VolumeResizeComponent,
     SnapshotCreationComponent,
-    SnapshotModalComponent
+    SnapshotModalComponent,
+    SpareDriveAttachmentDialogComponent
   ]
 })
 export class VmModule { }

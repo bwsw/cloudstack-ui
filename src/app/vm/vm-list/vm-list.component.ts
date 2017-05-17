@@ -1,10 +1,9 @@
-import { Component, HostBinding, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 
 import {
   AsyncJob,
   AsyncJobService,
   InstanceGroup,
-  IStorageService,
   JobsNotificationService,
   ServiceOfferingService,
   StatsUpdateService,
@@ -13,15 +12,16 @@ import {
 } from '../../shared';
 
 import { ListService } from '../../shared/components/list/list.service';
-import { VirtualMachine } from '../shared/vm.model';
+import { VirtualMachine, VmActions, VmStates } from '../shared/vm.model';
 
 import { IVmActionEvent, VmService } from '../shared/vm.service';
 
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
-import { VmFilter } from '../vm-filter/vm-filter.component';
+import { InstanceGroupOrNoGroup, VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListSection } from './vm-list-section/vm-list-section.component';
 import { VmListSubsection } from './vm-list-subsection/vm-list-subsection.component';
-import { DialogService } from '../../shared/services/dialog.service';
+import { DialogService } from '../../shared/services/dialog/dialog.service';
+import { UserService } from '../../shared/services/user.service';
 
 
 export const enum SectionType {
@@ -57,11 +57,11 @@ export class VmListComponent implements OnInit {
     public listService: ListService,
     private vmService: VmService,
     private dialogService: DialogService,
-    @Inject('IStorageService') protected storageService: IStorageService,
     private jobsNotificationService: JobsNotificationService,
     private asyncJobService: AsyncJobService,
     private statsUpdateService: StatsUpdateService,
-    private serviceOfferingService: ServiceOfferingService
+    private serviceOfferingService: ServiceOfferingService,
+    private userService: UserService
   ) { }
 
   public ngOnInit(): void {
@@ -141,9 +141,17 @@ export class VmListComponent implements OnInit {
   }
 
   public vmAction(e: IVmActionEvent): void {
-    this.dialogService.confirm(e.action.confirmMessage, 'NO', 'YES')
-      .onErrorResumeNext()
-      .subscribe(() => this.vmService.vmAction(e));
+    let dialog;
+    if (e.action.commandName === VmActions.RESET_PASSWORD) {
+      dialog = this.dialogService.customConfirm({
+        message: e.action.confirmMessage,
+        width: '400px'
+      });
+    } else {
+      dialog = this.dialogService.confirm(e.action.confirmMessage, 'NO', 'YES');
+    }
+
+    dialog.onErrorResumeNext().subscribe(() => this.vmService.vmAction(e));
   }
 
   public onVmCreated(vm: VirtualMachine): void {
@@ -231,7 +239,7 @@ export class VmListComponent implements OnInit {
       }
 
       const state = job.result.state;
-      if (job.instanceType === 'VirtualMachine' && (state === 'Destroyed' || state === 'Expunging')) {
+      if (job.instanceType === 'VirtualMachine' && (state === VmStates.Destroyed || state === VmStates.Expunging)) {
         this.vmList = this.vmList.filter(vm => vm.id !== job.result.id);
         if (this.listService.isSelected(job.result.id)) {
           this.listService.deselectItem();
@@ -258,34 +266,42 @@ export class VmListComponent implements OnInit {
   }
 
   private showSuggestionDialog(): void {
-    if (this.storageService.read(askToCreateVm) === 'false') {
-      return;
-    }
-
-    this.dialogService.showDialog({
-      message: 'WOULD_YOU_LIKE_TO_CREATE_VM',
-      actions: [
-        {
-          handler: () => { this.showVmCreationDialog(); },
-          text: 'YES'
-        },
-        {
-          text: 'NO'
-        },
-        {
-          handler: () => { this.storageService.write(askToCreateVm, 'false'); },
-          text: 'NO_DONT_ASK'
+    this.userService.readTag(askToCreateVm)
+      .subscribe(tag => {
+        if (tag === 'false') {
+          return;
         }
-      ],
-      fullWidthAction: true,
-      isModal: true,
-      clickOutsideToClose: true,
-      styles: { 'width': '320px' }
-    });
+
+        this.dialogService.showDialog({
+          message: 'WOULD_YOU_LIKE_TO_CREATE_VM',
+          actions: [
+            {
+              handler: () => this.showVmCreationDialog(),
+              text: 'YES'
+            },
+            {
+              text: 'NO'
+            },
+            {
+              handler: () => this.userService.writeTag(askToCreateVm, 'false').subscribe(),
+              text: 'NO_DONT_ASK'
+            }
+          ],
+          fullWidthAction: true,
+          isModal: true,
+          clickOutsideToClose: true,
+          styles: { 'width': '320px' }
+        });
+
+      });
   }
 
-  private filterVmsByGroup(vmList: Array<VirtualMachine>, group: InstanceGroup): Array<VirtualMachine> {
-    return vmList.filter(vm => vm.instanceGroup && vm.instanceGroup.name === group.name);
+  private filterVmsByGroup(vmList: Array<VirtualMachine>, group: InstanceGroupOrNoGroup): Array<VirtualMachine> {
+    return vmList.filter(
+      vm =>
+        (!vm.instanceGroup && group === '-1') ||
+        (vm.instanceGroup && vm.instanceGroup.name === (group as InstanceGroup).name)
+    );
   }
 
   private filterVmsByZone(vmList: Array<VirtualMachine>, zone: Zone): Array<VirtualMachine> {

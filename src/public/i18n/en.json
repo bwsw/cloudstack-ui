@@ -61,6 +61,8 @@
   "NO": "No",
   "OK": "Ok",
   "CANCEL": "Cancel",
+  "ADD": "Add",
+  "NONE": "None",
 
   "START": "Start",
   "STOP": "Stop",
@@ -179,6 +181,7 @@
 
   "CREATING_SG": "Creating a security group",
   "CREATING_AG": "Creating an affinity group",
+  "CREATING_SG_TEMPLATE": "Creating a security group template",
 
   "CREATE_NEW_TEMPLATE": "Create new template",
   "TEMPLATE_CREATED": "Template {{ name }} created successfully",
@@ -273,8 +276,8 @@
   "RESIZE_DISK_BUTTON": "Resize the disk",
   "REVERT_TO_SNAPSHOT": "Revert disk to this snapshot",
 
-  "VM_VIEW": "VM View",
-  "STORAGE_VIEW": "Storage View",
+  "VM_VIEW": "VM",
+  "STORAGE_VIEW": "Storage",
 
   "VOLUME_RESIZE": "Resize",
   "VOLUME_RESIZING": "Resizing volume",
@@ -422,6 +425,9 @@
   "PUBLIC_KEY": "Public key",
   "LANGUAGE": "Interface Language",
   "COLOR": "Color",
+  "FIRST_DAY_OF_WEEK": "First day of the week",
+  "MONDAY": "Monday",
+  "SUNDAY": "Sunday",
   "GROUP_BY_COLORS": "Group by colors",
   "PALETTE": "Interface Theme Colors",
   "SELECT_GROUPS": "Select groups",
@@ -482,5 +488,15 @@
 
   "NO_GROUP": "No group",
   "NO_SNAPSHOTS": "No snapshots",
-  "LAST_SNAPSHOT": "Last snapshot"
+  "LAST_SNAPSHOT": "Last snapshot",
+
+  "CLICK_TO_EDIT": "Click to edit",
+  "SELECT_AN_OPTION": "Select an option",
+  "ENTER_TEXT": "Enter text",
+  "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Would you like to create a new volume?",
+  "ATTACH_VOLUME": "Attach a volume",
+  "SELECT_VOLUME": "Select a volume",
+
+  "NO_AVAILABLE_VOLUMES": "No available volumes. Detach a volume or",
+  "NAVIGATE_TO_VOLUME_CREATION_PAGE": "create a new one"
 }

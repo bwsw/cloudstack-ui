@@ -102,17 +102,12 @@
             (ngModelChange)="affinityGroupChange($event)"
           ></mdl-autocomplete>
         </div>
-        <div
+        <cs-security-group-rules-manager
           *ngIf="showSecurityGroups"
-          class="dialog-select-wrapper"
-        >
-          <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.SECURITY_GROUPS' | translate }}</h5>
-          <cs-security-group-rules-manager
-            name="sgm"
-            class="dialog-select-select"
-            [(ngModel)]="securityRules"
-          ></cs-security-group-rules-manager>
-        </div>
+          name="sgm"
+          class="sg-rules-manager"
+          [(ngModel)]="securityRules"
+        ></cs-security-group-rules-manager>
         <h5>{{ 'VM_CREATION_FORM.KEYBOARD_LAYOUT' | translate }}</h5>
         <div *ngIf="keyboardTranslations">
           <mdl-select

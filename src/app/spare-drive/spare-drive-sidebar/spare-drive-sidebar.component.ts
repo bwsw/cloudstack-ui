@@ -12,6 +12,8 @@ import { VolumeService } from '../../shared/services/volume.service';
   templateUrl: 'spare-drive-sidebar.component.html'
 })
 export class SpareDriveSidebarComponent {
+  public description: string;
+
   @Input() public volume: Volume;
   @HostBinding('class.grid') public grid = true;
 
@@ -27,12 +29,23 @@ export class SpareDriveSidebarComponent {
             this.diskOfferingService.getList({ type: VolumeTypes.DATADISK }),
             this.volumeService.get(id)
           ).subscribe(([diskOfferings, volume]) => {
-            volume.diskOffering = diskOfferings.find(
-              offering => offering.id === volume.diskOfferingId
-            );
-            this.volume = volume;
+            this.volumeService.getDescription(volume)
+              .subscribe(description => {
+                volume.diskOffering = diskOfferings.find(
+                  offering => offering.id === volume.diskOfferingId
+                );
+                this.volume = volume;
+                this.description = description;
+              });
           });
         }
     });
+  }
+
+  public changeDescription(newDescription: string): void {
+    this.volumeService
+      .updateDescription(this.volume, newDescription)
+      .onErrorResumeNext()
+      .subscribe();
   }
 }

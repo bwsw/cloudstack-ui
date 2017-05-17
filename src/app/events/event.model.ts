@@ -1,5 +1,6 @@
-import { BaseModel } from '../shared/models/base.model';
-import { FieldMapper } from '../shared/decorators/field-mapper.decorator';
+import { BaseModel } from '../shared/models';
+import { FieldMapper } from '../shared/decorators';
+import moment = require('moment');
 
 @FieldMapper({
   domainid: 'domainId',
@@ -13,7 +14,12 @@ export class Event extends BaseModel {
   public account: string;
   public domainId: string;
   public domain: string;
-  public created: string;
+  public created: Date;
   public state: string;
   public parentId: string;
+
+  constructor(json) {
+    super(json);
+    this.created = moment(json.created).toDate();
+  }
 }

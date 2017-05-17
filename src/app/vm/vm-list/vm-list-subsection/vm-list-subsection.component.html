@@ -1,2 +1,5 @@
-<h5 class="section-header">{{ subsectionName }}</h5>
+<h5 class="section-header">
+  <ng-container *ngIf="subsectionName">{{ subsectionName }}</ng-container>
+  <em *ngIf="!subsectionName">{{ 'NO_GROUP' | translate }}</em>
+</h5>
 <ng-content></ng-content>

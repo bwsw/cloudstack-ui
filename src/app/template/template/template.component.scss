@@ -1,11 +1,18 @@
 :host {
   display: inline-flex;
-  cursor: pointer;
   z-index: -1;
 
   & mdl-card {
     z-index: 0;
   }
+}
+
+:host(.single-line) {
+  cursor: pointer;
+}
+
+.last {
+  margin-left: 20px;
 }
 
 .single-line {
@@ -15,7 +22,8 @@
 }
 
 .multiline {
-  text-align: right;
+  word-wrap: break-word;
+  overflow: hidden;
 }
 
 .template-popover {

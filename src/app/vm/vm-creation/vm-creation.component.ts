@@ -39,7 +39,7 @@ import {
 import { Template } from '../../template/shared';
 import { AffinityGroupType } from '../../shared/models/affinity-group.model';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
-import { DialogService } from '../../shared/services/dialog.service';
+import { DialogService } from '../../shared/services/dialog/dialog.service';
 
 
 class VmCreationData {
@@ -244,13 +244,14 @@ export class VmCreationComponent implements OnInit {
   }
 
   public showPassword(vmName: string, vmPassword: string): void {
-    this.translateService.get(
-      'PASSWORD_DIALOG_MESSAGE',
-      { vmName, vmPassword }
-    )
-      .subscribe((passwordMessage: string) => {
-        this.dialogService.alert(passwordMessage);
-      });
+    this.dialogService.customAlert({
+      message: {
+        translationToken: 'PASSWORD_DIALOG_MESSAGE',
+        interpolateParams: { vmName, vmPassword }
+      },
+      width: '400px',
+      clickOutsideToClose: false
+    });
   }
 
   public notifyOnDeployDone(notificationId: string): void {

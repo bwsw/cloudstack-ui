@@ -2,8 +2,8 @@ import { Http, URLSearchParams, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { BaseModel } from '../models';
-import { ErrorService } from '.';
 import { ServiceLocator } from './service-locator';
+import { ErrorService } from './error.service';
 
 
 export const BACKEND_API_URL = '/client/api';
