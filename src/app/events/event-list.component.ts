@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { MdlDefaultTableModel } from 'angular2-mdl';
+import { MdlDefaultTableModel } from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
 
 import { dateTimeFormat, formatIso } from '../shared/components/date-picker/dateUtils';

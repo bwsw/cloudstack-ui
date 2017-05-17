@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NotificationService } from './notification.service';
-import { MdlSnackbaModule, MdlDialogOutletModule } from 'angular2-mdl';
+import { MdlSnackbaModule, MdlDialogOutletModule } from '@angular-mdl/core';
 
 import {
   inject,

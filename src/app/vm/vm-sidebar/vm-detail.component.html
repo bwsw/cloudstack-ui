@@ -58,24 +58,24 @@
     <mdl-card-supporting-text>
       <div class="grid service-offering" [class.open]="expandServiceOffering">
         <div class="row" *ngFor="let key of vm.serviceOffering.keys">
-          <template [ngIf]="isNotFormattedField(key)">
+          <ng-template [ngIf]="isNotFormattedField(key)">
             <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
             <div>{{ vm.serviceOffering[key] | viewValue | async }}</div>
-          </template>
-          <template [ngIf]="isDateField(key)">
+          </ng-template>
+          <ng-template [ngIf]="isDateField(key)">
             <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
             <div>{{ vm.serviceOffering[key] | date:'y-MM-dd H:m:s' }}</div>
-          </template>
-          <template [ngIf]="isDiskStatsField(key)">
+          </ng-template>
+          <ng-template [ngIf]="isDiskStatsField(key)">
             <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
             <div>{{ vm.serviceOffering[key] | division:10:6 }}</div>
-          </template>
-          <template [ngIf]="isTranslatedField(key)">
+          </ng-template>
+          <ng-template [ngIf]="isTranslatedField(key)">
             <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
             <div *ngIf="vm?.serviceOffering[key]">
               {{ 'SERVICE_OFFERING_VALUES.' + vm.serviceOffering[key] | translate }}
             </div>
-          </template>
+          </ng-template>
         </div>
       </div>
     </mdl-card-supporting-text>

@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MdlDialogReference } from 'angular2-mdl';
+import { MdlDialogReference } from '@angular-mdl/core';
 
 import { Volume } from '../../../../../shared/models';
 import { SnapshotActionsService } from './snapshot-actions.service';
