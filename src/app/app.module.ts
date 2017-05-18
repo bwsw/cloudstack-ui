@@ -40,7 +40,7 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
-    SecurityGroupModule
+    SecurityGroupModule,
     ServiceOfferingModule,
     SettingsModule,
     SpareDriveModule,
