@@ -163,7 +163,8 @@ To run docker container with default configuration options use:
 
 ```
 docker run -d -p 80:80 --name cloudstack-ui \
-           -e API_BACKEND_URL=http://link_to_api_endpoint/ \
+           -e API_BACKEND_URL=http://link/to/api/endpoint \
+           -e CONSOLE_BACKEND_URL=http://link/to/console/endpoint
            bwsw/cloudstack-ui
 ```
 
@@ -171,14 +172,20 @@ If you want to override default options use:
 
 ```
 docker run -d -p 80:80 --name cloudstack-ui \
-           -e API_BACKEND_URL=http://link_to_api_endpoint/ \
+           -e API_BACKEND_URL=http://link/to/api/endpoint \
+           -e CONSOLE_BACKEND_URL=http://link/to/console/endpoint \
+           -e BASE_HREF=base_href
            -v /my/config/path:/config \
            bwsw/cloudstack-ui
 ```
 
-`http://link_to_api_endpoint` - url of ACS API
+`http://link/to/api/endpoint` - url of Cloudstack API endpoint (e.g. http://host:8080/client/api)
 
-`/my/config/path` - path to a directory with a custom configuration file named config.json.
+`http://link/to/console/endpoint` - url of Cloudstack console endpoint (e.g. http://host:8080/client/console)
+
+`base_href` - custom base URL (optional, defaults to "/")
+
+`/my/config/path` - path to a directory with a custom configuration file named config.json (optional)
 
 ### Assisting object cleanup container
 
