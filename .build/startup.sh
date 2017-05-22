@@ -5,10 +5,9 @@ sed -i -e 's#API_BACKEND_URL#'"$API_BACKEND_URL"'#g' /etc/nginx/conf.d/default.c
 sed -i -e 's#CONSOLE_BACKEND_URL#'"$CONSOLE_BACKEND_URL"'#g' /etc/nginx/conf.d/default.conf
 
 # add base href
-if [ -z $BASE_HREF ]; then
-    BASE_HREF=/
+if [ -n $BASE_HREF ]; then
+    sed -i -e 's#"/"#'"$BASE_HREF"'#g' /var/www/dist/index.html
 fi
-sed -i -e 's#BASE_HREF#'"$BASE_HREF"'#g' /var/www/dist/index.html
 
 # load config
 if [ -e '/config/config.json' ]; then
