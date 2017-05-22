@@ -4,14 +4,29 @@ import { UserService } from '../../shared/services/user.service';
 import { Observable } from 'rxjs/Observable';
 
 
+interface ApiInfoLink {
+  title: string;
+  href: string;
+}
+
 interface ApiInfoTextField {
   title: string;
   value: string;
 }
 
-interface ApiInfoLink {
-  title: string;
-  href: string;
+interface ApiInfoLinks {
+  apiUrl: ApiInfoLink;
+  apiDocLink: ApiInfoLink;
+}
+
+interface ApiInfoTextFields {
+  apiKey: ApiInfoTextField;
+  apiSecretKey: ApiInfoTextField;
+}
+
+interface ApiKeys {
+  apiKey: string;
+  secretKey: string;
 }
 
 @Component({
@@ -20,8 +35,8 @@ interface ApiInfoLink {
   styleUrls: ['api-info.component.scss']
 })
 export class ApiInfoComponent implements OnInit {
-  public linkFields: Array<ApiInfoLink>;
-  public inputFields: Array<ApiInfoTextField>;
+  public linkFields: ApiInfoLinks;
+  public inputFields: ApiInfoTextFields;
 
   constructor(
     private configService: ConfigService,
@@ -31,25 +46,32 @@ export class ApiInfoComponent implements OnInit {
 
   public ngOnInit(): void {
     Observable.forkJoin(
-      this.userService.getApiKey(),
-      this.userService.getSecretKey(),
+      this.getApiKeys(),
       this.configService.get('API_DOC_LINK')
     )
-      .subscribe(([apiKey, secretKey, apiDocLink]) => {
-        this.linkFields = [
-          { title: 'API_URL', href: this.apiUrl },
-          { title: 'API_DOC_LINK', href: apiDocLink }
-        ];
+      .subscribe(([apiKeys, apiDocLink]) => {
+        this.linkFields = {
+          apiUrl: {title: 'API_URL', href: this.apiUrl},
+          apiDocLink: {title: 'API_DOC_LINK', href: apiDocLink}
+        };
 
-        this.inputFields = [
-          { title: 'API_KEY', value: apiKey },
-          { title: 'API_SECRET_KEY', value: secretKey }
-        ];
+        this.inputFields = {
+          apiKey: {title: 'API_KEY', value: apiKeys.apiKey},
+          apiSecretKey: {title: 'API_SECRET_KEY', value: apiKeys.secretKey}
+        };
       });
   }
 
   private get apiUrl(): string {
-    return location.origin + BACKEND_API_URL;
+    let locationOrigin: string;
+
+    if (location.origin) {
+      locationOrigin = location.origin;
+    } else {
+      locationOrigin = '' + location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+    }
+
+    return locationOrigin + BACKEND_API_URL;
   }
 
   public onCopySuccess(): void {
@@ -58,5 +80,19 @@ export class ApiInfoComponent implements OnInit {
 
   public onCopyFail(): void {
     this.notificationService.message('COPY_FAIL');
+  }
+
+  private getApiKeys(): Observable<ApiKeys> {
+    return this.userService.getList()
+      .map(users => {
+        if (!users || !users.length) {
+          throw new Error('Unable to get user\'s API key');
+        } else {
+          return {
+            apiKey: users[0].apiKey,
+            secretKey: users[0].secretKey
+          };
+        }
+      });
   }
 }

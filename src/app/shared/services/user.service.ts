@@ -22,28 +22,6 @@ export class UserService extends BaseBackendService<User> {
     super();
   }
 
-  public getApiKey(): Observable<string> {
-    return this.getList()
-      .map(users => {
-        if (!users || !users.length) {
-          throw new Error('Unable to get user\'s API key');
-        } else {
-          return users[0].apiKey;
-        }
-      });
-  }
-
-  public getSecretKey(): Observable<string> {
-    return this.getList()
-      .map(users => {
-        if (!users || !users.length) {
-          throw new Error('Unable to get user\'s secret key');
-        } else {
-          return users[0].secretKey;
-        }
-      });
-  }
-
   public updatePassword(id: string, password: string): Observable<any> {
     return this.postRequest('update', { id, password });
   }
