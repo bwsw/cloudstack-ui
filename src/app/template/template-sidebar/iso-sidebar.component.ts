@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { TemplateService } from '../shared';
-import { BaseTemplateSidebarComponent } from './base-template-sidebar.component';
-import { TemplateActionsService } from '../shared/template-actions.service';
 import { ListService } from '../../shared/components/list/list.service';
+import { IsoService } from '../shared';
+import { TemplateActionsService } from '../shared/template-actions.service';
+import { BaseTemplateSidebarComponent } from './base-template-sidebar.component';
 
 @Component({
-  selector: 'cs-template-sidebar',
+  selector: 'cs-iso-sidebar',
   templateUrl: './base-template-sidebar.component.html',
   styleUrls: ['./base-template-sidebar.component.scss']
 })
-export class TemplateSidebarComponent extends BaseTemplateSidebarComponent {
+export class IsoSidebarComponent extends BaseTemplateSidebarComponent {
   constructor(
-    private templateService: TemplateService,
+    private isoService: IsoService,
     private route: ActivatedRoute,
     templateActions: TemplateActionsService,
     listService: ListService
@@ -20,7 +20,7 @@ export class TemplateSidebarComponent extends BaseTemplateSidebarComponent {
     super(templateActions, listService);
     this.route.params.pluck('id').subscribe((id: string) => {
       if (id) {
-        this.templateService.get(id)
+        this.isoService.get(id)
           .subscribe(template => this.template = template);
       }
     });

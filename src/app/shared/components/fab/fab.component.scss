@@ -1,6 +1,7 @@
 @import '../../../../style/__variables';
 
 .fab {
+  transition: margin 0.3s;
   position: fixed;
   right: 32px;
   bottom: 32px;

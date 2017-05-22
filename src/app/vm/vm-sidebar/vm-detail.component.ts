@@ -15,9 +15,10 @@ import { Color } from '../../shared/models/color.model';
 import { ZoneService } from '../../shared/services/zone.service';
 import { InstanceGroupService } from '../../shared/services/instance-group.service';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
-import { ServiceOfferingFields } from '../../shared/models/service-offering.model';
+import { ServiceOffering, ServiceOfferingFields } from '../../shared/models/service-offering.model';
 import { DialogService } from '../../shared/services/dialog/dialog.service';
 import { TagService } from '../../shared/services/tag.service';
+import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 
 
 @Component({
@@ -40,6 +41,7 @@ export class VmDetailComponent implements OnChanges {
   constructor(
     private dialogService: DialogService,
     private instanceGroupService: InstanceGroupService,
+    private serviceOfferingService: ServiceOfferingService,
     private tagService: TagService,
     private vmService: VmService,
     private zoneService: ZoneService
@@ -138,7 +140,14 @@ export class VmDetailComponent implements OnChanges {
       component: ServiceOfferingDialogComponent,
       classes: 'service-offering-dialog',
       providers: [{ provide: 'virtualMachine', useValue: this.vm }],
-    });
+    }).switchMap(res => res.onHide())
+      .subscribe((newOffering: ServiceOffering) => {
+        if (newOffering) {
+          this.serviceOfferingService.get(newOffering.id).subscribe(offering => {
+            this.vm.serviceOffering = offering;
+          });
+        }
+      });
   }
 
   public changeDescription(newDescription: string): void {

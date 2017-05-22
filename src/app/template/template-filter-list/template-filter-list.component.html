@@ -10,27 +10,36 @@
   [searchPanelWhite]="anyZoneResults"
 ></cs-template-filters>
 
-<ng-container *ngIf="selectedZones?.length" cs-list>
-  <ng-container *ngFor="let s of sections">
-    <div class="section" *ngIf="s?.templates?.length">
-      <h4 class="section-header">{{ s.zoneName }}</h4>
-      <cs-template-list
-        *loading="fetching"
-        class="template-list"
-        [selectedTemplate]="selectedTemplate"
-        (selectedTemplateChange)="selectTemplate($event)"
-        (deleteTemplate)="removeTemplate($event)"
-        [templateList]="s.templates"
-        [query]="query"
-        [radio]="showRadio"
-        [dialogMode]="dialogMode"
-        [displayMode]="displayMode"
-      ></cs-template-list>
-    </div>
+<ng-container *ngIf="!dialogMode">
+  <ng-container *ngIf="selectedZones?.length" cs-list>
+    <ng-container *ngFor="let s of sections">
+      <div class="section" *ngIf="s?.templates?.length">
+        <h4 class="section-header">{{ s.zoneName }}</h4>
+        <cs-template-card-list
+          *loading="fetching"
+          class="template-list"
+          [query]="query"
+          [templateList]="s.templates"
+          (deleteTemplate)="removeTemplate($event)"
+        >
+        </cs-template-card-list>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="!selectedZones || !selectedZones.length" cs-list>
+    <cs-template-card-list
+      *loading="fetching"
+      class="template-list"
+      [query]="query"
+      [templateList]="visibleTemplateList"
+      (deleteTemplate)="removeTemplate($event)"
+    >
+    </cs-template-card-list>
   </ng-container>
 </ng-container>
 
-<ng-container *ngIf="!selectedZones || !selectedZones.length" cs-list>
+<ng-container *ngIf="dialogMode">
   <cs-template-list
     *loading="fetching"
     class="template-list"
@@ -41,7 +50,6 @@
     [query]="query"
     [radio]="showRadio"
     [dialogMode]="dialogMode"
-    [displayMode]="displayMode"
   ></cs-template-list>
 </ng-container>
 
