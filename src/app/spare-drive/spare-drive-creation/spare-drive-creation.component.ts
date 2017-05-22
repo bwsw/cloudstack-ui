@@ -22,11 +22,11 @@ export class SpareDriveCreationComponent implements OnInit {
   public name: string;
   public zones: Array<Zone>;
   public diskOfferingId: string;
-  public diskOfferings: Array<DiskOffering>;
+  public diskOfferings: Array<DiskOffering> = [];
   public showResizeSlider: boolean;
   public size = 1;
   public minSize = 1;
-  public maxSize: number;
+  public maxSize = 2;
 
   public loading: boolean;
   private _zoneId: string;
@@ -48,8 +48,9 @@ export class SpareDriveCreationComponent implements OnInit {
 
     this.getZones()
       .switchMap(() => this.getDiskOfferings())
-      .finally(() => this.loading = false)
-      .subscribe();
+      .delay(100) // because ngIf elements appear when the form is already visible
+                  // todo: replace delay with *loading directive with minimum loading time
+      .subscribe(() => this.loading = false);
   }
 
   public get zoneId(): string {

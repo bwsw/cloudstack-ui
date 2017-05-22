@@ -33,12 +33,11 @@
         <div>
           <h5>{{ 'DISK_OFFERING' | translate }}</h5>
           <cs-disk-offering
-            *ngIf="diskOfferings"
             [diskOfferingList]="diskOfferings"
             (offeringUpdated)="updateDiskOffering($event)"
           ></cs-disk-offering>
         </div>
-        <div class="blur-fix" *ngIf="showResizeSlider && minSize && maxSize">
+        <div *ngIf="showResizeSlider && minSize && maxSize">
           <cs-slider
             [min]="minSize"
             [max]="maxSize"
