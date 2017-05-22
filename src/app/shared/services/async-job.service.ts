@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { BackendResource } from '../decorators/backend-resource.decorator';
 
 import { AsyncJob } from '../models/async-job.model';
+import { AuthService } from './auth.service';
 import { BaseBackendService } from './base-backend.service';
-import { BackendResource } from '../decorators/backend-resource.decorator';
 import { ErrorService } from './error.service';
 
 
@@ -31,12 +32,12 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
   private jobObservables: IJobObservables;
   private timerId: any;
 
-  constructor() {
+  constructor(private authService: AuthService) {
     super();
-    this.pollingInterval = 2000;
-    this.immediatePollingInterval = 100;
-    this.jobObservables = {};
-    this.event = new Subject<AsyncJob<any>>();
+    this.reset();
+    this.authService.loggedIn.subscribe(() => {
+      this.reset();
+    });
   }
 
   public addJob(id: string): Observable<AsyncJob<any>> {
@@ -78,7 +79,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     setTimeout(() => {
       this._queryJob(jobId, jobSubject, entity, entityModel);
       let interval = setInterval(() => {
-        if (jobSubject.isStopped) {
+        if (jobSubject.isStopped || !this.poll) {
           clearInterval(interval);
           return;
         }
@@ -86,11 +87,6 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
       }, this.pollingInterval);
     }, this.immediatePollingInterval);
     return jobSubject;
-  }
-
-  public completeAllJobs(): void {
-    Object.keys(this.jobObservables).forEach(key => this.jobObservables[key].complete());
-    this.jobObservables = {};
   }
 
   private _queryJob(
@@ -170,5 +166,21 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
       result = asyncJob;
     }
     return result;
+  }
+
+  private reset(): void {
+    if (this.timerId) {
+      clearInterval(this.timerId);
+    }
+    if (this.jobObservables) {
+      Object.keys(this.jobObservables).forEach(key => this.jobObservables[key].complete());
+    }
+
+    this.poll = false;
+    this.timerId = undefined;
+    this.jobObservables = {};
+    this.pollingInterval = 2000;
+    this.immediatePollingInterval = 100;
+    this.event = new Subject<AsyncJob<any>>();
   }
 }

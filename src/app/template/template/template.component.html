@@ -6,28 +6,28 @@
 >
   <mdl-card-title>
     <mdl-icon class="os-icon" [ngSwitch]="template.osType.osFamily">
-      <template [ngSwitchCase]="'Linux'">
+      <ng-template [ngSwitchCase]="'Linux'">
         <img
           src="/img/os/linux.png"
           width="40"
           height="40"
         >
-      </template>
-      <template [ngSwitchCase]="'Windows'">
+      </ng-template>
+      <ng-template [ngSwitchCase]="'Windows'">
         <img
           src="/img/os/windows.png"
           width="40"
           height="40"
         >
-      </template>
-      <template [ngSwitchCase]="'Mac OS'">
+      </ng-template>
+      <ng-template [ngSwitchCase]="'Mac OS'">
         <img
           src="/img/os/osx.png"
           width="40"
           height="40"
         >
-      </template>
-      <template ngSwitchDefault>help</template>
+      </ng-template>
+      <ng-template ngSwitchDefault>help</ng-template>
     </mdl-icon>
     <div
       class="state-icon"
@@ -52,30 +52,8 @@
     </mdl-tooltip>
   </mdl-card-title>
   <mdl-card-supporting-text>
-    <div class="card-wrapper" *ngIf="template">
-      <div class="first">{{ 'DESCRIPTION' | translate }}:</div>
-      <div
-        *ngIf="singleLine"
-        class="last single-line"
-        [mdl-tooltip]="descriptionTooltip"
-        mdl-tooltip-position="top"
-
-      >
-        <span [innerHTML]="template.displayText | highlight:searchQuery"></span>
-      </div>
-      <div
-        *ngIf="!singleLine"
-        class="last multiline"
-        [innerHTML]="template.displayText | highlight:searchQuery"
-      ></div>
-      <mdl-tooltip
-        #descriptionTooltip="mdlTooltip"
-      >
-        {{ template.displayText }}
-      </mdl-tooltip>
-    </div>
     <div class="card-wrapper">
-      <div class="first">{{ 'OS' | translate }}:</div>
+      <div>{{ 'OS' | translate }}:</div>
       <div
         *ngIf="singleLine"
         class="last single-line"
@@ -90,6 +68,26 @@
       ></div>
       <mdl-tooltip #osTooltip="mdlTooltip">
         {{ template.osTypeName }}
+      </mdl-tooltip>
+    </div>
+    <div class="card-wrapper" *ngIf="template">
+      <div
+        *ngIf="singleLine"
+        class="single-line"
+        [mdl-tooltip]="descriptionTooltip"
+        mdl-tooltip-position="top"
+      >
+        <span [innerHTML]="template.displayText | highlight:searchQuery"></span>
+      </div>
+      <div
+        *ngIf="!singleLine"
+        class="multiline"
+        [innerHTML]="template.displayText | highlight:searchQuery"
+      ></div>
+      <mdl-tooltip
+        #descriptionTooltip="mdlTooltip"
+      >
+        {{ template.displayText }}
       </mdl-tooltip>
     </div>
   </mdl-card-supporting-text>
@@ -110,6 +108,8 @@
   >
     <div mdl-shadow="6" class="popover-actions">
       <button
+        [mdl-tooltip]="'DELETE' | translate"
+        mdl-tooltip-position="bottom"
         mdl-button
         mdl-button-type="icon"
         (click)="removeTemplate()"

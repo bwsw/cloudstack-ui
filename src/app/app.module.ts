@@ -8,16 +8,16 @@ import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { createNewHosts, removeNgStyles } from '@angularclass/hmr';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { DISABLE_NATIVE_VALIDITY_CHECKING, MdlDialogService, MdlModule } from 'angular2-mdl';
+import { DISABLE_NATIVE_VALIDITY_CHECKING, MdlModule } from 'angular2-mdl';
 
 import { AppComponent } from './app.component';
 import { routes } from './app.routing';
 import { LoginComponent } from './auth/login.component';
+import { LogoutComponent } from './auth/logout.component';
 import { EventsModule } from './events/events.module';
 import { SecurityGroupModule } from './security-group/sg.module';
 import { ServiceOfferingModule } from './service-offering/service-offering.module';
 import { SettingsModule } from './settings/settings.module';
-import { CustomDialogService } from './shared/services/custom-dialog.service';
 import { ServiceLocator } from './shared/services/service-locator';
 import { SharedModule } from './shared/shared.module';
 import { SpareDriveModule } from './spare-drive';
@@ -59,11 +59,11 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
   ],
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    LogoutComponent
   ],
   providers: [
-    { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
-    { provide: MdlDialogService, useClass: CustomDialogService },
+    { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true }
   ],
   bootstrap: [AppComponent]
 })

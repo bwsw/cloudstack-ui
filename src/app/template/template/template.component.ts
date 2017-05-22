@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { BaseTemplateModel } from '../shared/base-template.model';
-import { AuthService } from '../../shared/services/auth.service';
-import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
+import { Component, EventEmitter, HostBinding, Input, Output, ViewChild } from '@angular/core';
+import { MdlPopoverComponent } from '@angular-mdl/popover';
+
+import { AuthService } from '../../shared';
+import { BaseTemplateModel } from '../shared';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
 export class TemplateComponent {
   @Input() public template: BaseTemplateModel;
   @Input() public isSelected: boolean;
-  @Input() public singleLine = true;
+  @HostBinding('class.single-line') @Input() public singleLine = true;
   @Input() public searchQuery: string;
   @Output() public deleteTemplate = new EventEmitter();
   @Output() public onClick = new EventEmitter();

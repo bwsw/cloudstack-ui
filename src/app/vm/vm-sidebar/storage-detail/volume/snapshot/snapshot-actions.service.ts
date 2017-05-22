@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { MdlDialogService } from 'angular2-mdl';
 
 import { TemplateService } from '../../../../../template/shared';
 import { JobsNotificationService, NotificationService, SnapshotService } from '../../../../../shared/services';
 import { TemplateCreationComponent } from '../../../../../template/template-creation/template-creation.component';
 import { Snapshot, Volume } from '../../../../../shared/models';
-import { TranslateService } from '@ngx-translate/core';
 import { StatsUpdateService } from '../../../../../shared/services/stats-update.service';
+import { DialogService } from '../../../../../shared';
 
 
 export interface SnapshotAction {
@@ -31,11 +30,10 @@ export class SnapshotActionsService {
   ];
 
   constructor(
-    private dialogService: MdlDialogService,
+    private dialogService: DialogService,
     private jobNotificationService: JobsNotificationService,
     private notificationService: NotificationService,
     private templateService: TemplateService,
-    private translateService: TranslateService,
     private snapshotService: SnapshotService,
     private statsUpdateService: StatsUpdateService
   ) { }
@@ -60,8 +58,7 @@ export class SnapshotActionsService {
   public handleSnapshotDelete(snapshot: Snapshot, volume): void {
     let notificationId: string;
 
-    this.translateService.get(['CONFIRM_SNAPSHOT_DELETE', 'NO', 'YES'])
-      .switchMap(str => this.dialogService.confirm(str['CONFIRM_SNAPSHOT_DELETE'], str['NO'], str['YES']))
+    this.dialogService.confirm('CONFIRM_SNAPSHOT_DELETE', 'NO', 'YES')
       .switchMap(() => {
         snapshot['loading'] = true;
         notificationId = this.jobNotificationService.add('SNAPSHOT_DELETE_IN_PROGRESS');

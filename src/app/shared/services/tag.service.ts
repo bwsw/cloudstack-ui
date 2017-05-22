@@ -22,15 +22,30 @@ export class TagService extends BaseBackendService<Tag> {
 
   public remove(params?: {}): Observable<any> {
     return super.remove(params)
-      .switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid));
+      .switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid))
+      .catch(() => Observable.of(null));
+  }
+
+  public getList(params?: {}): Observable<Array<Tag>> {
+    return this.sendCommand('list', params, 'Tag')
+      .map(response => {
+        const entity = this.entity.toLowerCase();
+        const result = response[entity];
+        if (!result) {
+          return [];
+        }
+        return result.map(m => this.prepareModel(m)) as Array<Tag>;
+      });
+  }
+
+  public getTag(entity: any, key: string): Observable<Tag> {
+    return this.getList({ resourceId: entity.id, key }).map(tags => tags.length ? tags[0] : undefined);
   }
 
   public update(entity: any, entityName: string, key: string, value: any): Observable<any> {
-    if (!entity.tags || !entity.id) {
+    if (!entity.id) {
       throw new Error('This entity can\'t have tags');
     }
-
-    let oldTag = entity.tags.find(tag => tag.key === key);
 
     let createObs = this.create({
       resourceIds: entity.id,
@@ -39,26 +54,28 @@ export class TagService extends BaseBackendService<Tag> {
       'tags[0].value': value,
     })
       .map(() => {
-        entity.tags.push(new Tag({
-          resourceId: entity.id,
-          resourceType: entityName,
-          key,
-          value
-        }));
+        if (entity.tags) {
+          entity.tags.push(new Tag({
+            resourceId: entity.id,
+            resourceType: entityName,
+            key,
+            value
+          }));
+        }
         return entity;
       });
 
-    if (!oldTag) {
-      return createObs;
-    }
-
-    return this.remove({
-      resourceIds: entity.id,
-      resourceType: entityName,
-      'tags[0].key': key,
-      'tags[0].value': oldTag.value || ''
-    })
-      .map(() => entity.tags = entity.tags.filter(tag => tag.key !== oldTag.key))
-      .switchMap(() => createObs);
+    return this.getTag(entity, key)
+      .switchMap(tag => {
+        return this.remove({
+          resourceIds: entity.id,
+          resourceType: entityName,
+          'tags[0].key': key,
+          'tags[0].value': tag.value || ''
+        })
+          .map(() => entity.tags = entity.tags.filter(t => tag.key !== t.key))
+          .switchMap(() => createObs);
+      })
+      .catch(() => createObs);
   }
 }

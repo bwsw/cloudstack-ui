@@ -7,6 +7,7 @@ import { BaseBackendService } from './base-backend.service';
 import { BaseModelStub } from '../models/base.model';
 import { ErrorService } from './error.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
+import { Subject } from 'rxjs/Subject';
 
 
 @Injectable()
@@ -71,12 +72,15 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   }
 
   public logout(): Observable<void> {
-    return this.postRequest('logout')
-      .map(() => this.setLoggedOut())
+    const obs = new Subject<void>();
+    this.postRequest('logout')
+      .do(() => this.setLoggedOut())
       .catch(error => {
         this.error.send(error);
         return Observable.throw('Unable to log out.');
-      });
+      })
+      .subscribe(() => obs.next());
+    return obs;
   }
 
   public isLoggedIn(): Observable<boolean> {

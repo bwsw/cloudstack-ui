@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { MdlDialogService, MdlDialogReference } from 'angular2-mdl';
+import { MdlDialogReference } from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
@@ -39,6 +39,7 @@ import {
 import { Template } from '../../template/shared';
 import { AffinityGroupType } from '../../shared/models/affinity-group.model';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
+import { DialogService } from '../../shared/services/dialog/dialog.service';
 
 
 class VmCreationData {
@@ -103,7 +104,7 @@ export class VmCreationComponent implements OnInit {
     private auth: AuthService,
     private changeDetectorRef: ChangeDetectorRef,
     private dialog: MdlDialogReference,
-    private dialogService: MdlDialogService,
+    private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private diskStorageService: DiskStorageService,
     private instanceGroupService: InstanceGroupService,
@@ -243,13 +244,14 @@ export class VmCreationComponent implements OnInit {
   }
 
   public showPassword(vmName: string, vmPassword: string): void {
-    this.translateService.get(
-      'PASSWORD_DIALOG_MESSAGE',
-      { vmName, vmPassword }
-    )
-      .subscribe((passwordMessage: string) => {
-        this.dialogService.alert(passwordMessage);
-      });
+    this.dialogService.customAlert({
+      message: {
+        translationToken: 'PASSWORD_DIALOG_MESSAGE',
+        interpolateParams: { vmName, vmPassword }
+      },
+      width: '400px',
+      clickOutsideToClose: false
+    });
   }
 
   public notifyOnDeployDone(notificationId: string): void {
@@ -315,20 +317,9 @@ export class VmCreationComponent implements OnInit {
   }
 
   private getDefaultVmName(): Observable<string> {
-    const regex = /vm-.*-(\d+)/;
-
-    return this.vmService.getList({}, true)
-      .map(vmList => {
-        let max = 0;
-        vmList.forEach(vm => {
-          const match = vm.displayName.match(regex);
-
-          if (match && +match[1] > max) {
-            max = +match[1];
-          }
-        });
-
-        return `vm-${this.auth.username}-${++max}`;
+    return this.vmService.getNumberOfVms()
+      .map(numberOfVms => {
+        return `vm-${this.auth.username}-${numberOfVms + 1}`;
       });
   }
 
@@ -439,6 +430,7 @@ export class VmCreationComponent implements OnInit {
   private deploy(params): void {
     let deployObservable = new Subject();
     let notificationId: string;
+    let deployResponseVm: any;
 
     this.vmService.deploy(params)
       .switchMap(deployResponse => {
@@ -446,10 +438,13 @@ export class VmCreationComponent implements OnInit {
 
         this.vmService.get(deployResponse.id)
           .subscribe(vm => {
+            deployResponseVm = vm;
             vm.state = 'Deploying';
             deployObservable.next(vm);
             deployObservable.complete();
           });
+
+        this.vmService.incrementNumberOfVms().subscribe();
 
         this.sgCreationInProgress = false;
         this.dialog.hide(deployObservable);
@@ -476,6 +471,11 @@ export class VmCreationComponent implements OnInit {
           this.vmService.updateVmInfo(vm);
         },
         err => {
+          if (deployResponseVm) {
+            deployResponseVm.state = 'Error';
+            this.vmService.updateVmInfo(deployResponseVm);
+          }
+
           this.sgCreationInProgress = false;
           this.agCreationInProgress = false;
           this.translateService.get(err.message, err.params)

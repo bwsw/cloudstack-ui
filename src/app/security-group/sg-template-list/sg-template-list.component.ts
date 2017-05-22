@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from '@ngx-translate/core';
 
-import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { SecurityGroup } from '../sg.model';
-import { SgTemplateCreationComponent } from '../sg-template-creation/sg-template-creation.component';
-import { SgRulesComponent } from '../sg-rules/sg-rules.component';
-import { NotificationService } from '../../shared/services/notification.service';
 import { ListService } from '../../shared/components/list/list.service';
+import { NotificationService } from '../../shared/services';
+import { DialogService } from '../../shared/services/dialog/dialog.service';
+import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { SgRulesComponent } from '../sg-rules/sg-rules.component';
+import { SgTemplateCreationComponent } from '../sg-template-creation/sg-template-creation.component';
+import { SecurityGroup } from '../sg.model';
 
 
 @Component({
@@ -23,8 +22,7 @@ export class SgTemplateListComponent implements OnInit {
 
   constructor(
     private securityGroupService: SecurityGroupService,
-    private dialogService: MdlDialogService,
-    private translate: TranslateService,
+    private dialogService: DialogService,
     private notificationService: NotificationService,
     private listService: ListService
   ) { }
@@ -45,60 +43,40 @@ export class SgTemplateListComponent implements OnInit {
       });
   }
 
-  public createSecurityGroupTemplate(data): void {
-    let translatedString = '';
-    this.translate.get('TEMPLATE_CREATED', { name: data.name })
-      .switchMap(str => {
-        translatedString = str;
-        return this.securityGroupService.createTemplate(data);
-      })
-      .subscribe(template => {
-        this.customSecurityGroupList.push(template);
-        this.notificationService.message(translatedString);
-      });
-  }
-
   public deleteSecurityGroupTemplate(securityGroup: SecurityGroup): void {
-    let translatedStrings = [];
-    this.translate.get([
-      'YES',
-      'NO',
-      'CONFIRM_DELETE_TEMPLATE',
-      'TEMPLATE_DELETED'
-    ], {
-      name: securityGroup.name
-    })
-      .switchMap(strs => {
-        translatedStrings = strs;
-        return this.dialogService.confirm(
-          translatedStrings['CONFIRM_DELETE_TEMPLATE'],
-          translatedStrings['NO'],
-          translatedStrings['YES']
-        );
-      })
+    this.dialogService.confirm('CONFIRM_DELETE_TEMPLATE', 'NO', 'YES')
+      .onErrorResumeNext()
       .switchMap(() => this.securityGroupService.deleteTemplate(securityGroup.id))
-      .subscribe(res => {
+      .subscribe(
+        res => {
           if (res && res.success === 'true') {
             this.customSecurityGroupList = this.customSecurityGroupList.filter(sg => sg.id !== securityGroup.id);
-            this.notificationService.message(translatedStrings['TEMPLATE_DELETED']);
+            this.notificationService.message({
+              translationToken: 'TEMPLATE_DELETED',
+              interpolateParams: { name: securityGroup.name }
+            });
           }
-        },
-        // handle errors from cancel button
-        () => {}
+        }
       );
   }
 
   public showCreationDialog(): void {
     this.dialogService.showCustomDialog({
       component: SgTemplateCreationComponent,
+      clickOutsideToClose: false,
       classes: 'sg-template-creation-dialog'
     })
       .switchMap(res => res.onHide())
-      .subscribe((data: any) => {
-        if (!data) {
+      .subscribe((template: SecurityGroup) => {
+        if (!template) {
           return;
         }
-        this.createSecurityGroupTemplate(data);
+        this.customSecurityGroupList.push(template);
+        this.notificationService.message({
+          translationToken: 'TEMPLATE_CREATED',
+          interpolateParams: { name: template.name }
+        });
+        this.showRulesDialog(template);
       });
   }
 

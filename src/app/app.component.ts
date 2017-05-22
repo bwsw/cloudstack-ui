@@ -1,14 +1,13 @@
 import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { Response } from '@angular/http';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { TranslateService } from '@ngx-translate/core';
 import { MdlLayoutComponent } from 'angular2-mdl';
+
 
 import '../style/app.scss';
 import { Color } from './shared/models';
 
 import {
-  AsyncJobService,
   AuthService,
   ErrorService,
   INotificationService,
@@ -26,7 +25,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, AfterViewInit {
-  @ViewChild('settingsLink') public settingsLink: ElementRef;
+  // todo: make a wrapper for link and use @ViewChildren(LinkWrapper)
+  @ViewChild('navigationBar') public navigationBar: ElementRef;
+
+
   @ViewChild(MdlLayoutComponent) public layoutComponent: MdlLayoutComponent;
   public loggedIn: boolean;
   public title: string;
@@ -37,14 +39,12 @@ export class AppComponent implements OnInit, AfterViewInit {
   constructor(
     private auth: AuthService,
     private domSanitizer: DomSanitizer,
-    private translate: TranslateService,
     private error: ErrorService,
     private languageService: LanguageService,
     private layoutService: LayoutService,
     private router: Router,
     @Inject('INotificationService') private notification: INotificationService,
     private styleService: StyleService,
-    private asyncJobService: AsyncJobService,
     private zoneService: ZoneService
   ) {
     this.title = this.auth.name;
@@ -55,18 +55,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public ngOnInit(): void {
-    this.languageService.applyLanguage();
-    this.styleService.loadPalette();
+    this.loadSettings();
 
     this.error.subscribe(e => this.handleError(e));
     this.auth.loggedIn.subscribe(loggedIn => {
       this.loggedIn = loggedIn;
-      this.updateAccount(loggedIn);
+      this.updateAccount(this.loggedIn);
       if (loggedIn) {
-        this.zoneService.areAllZonesBasic()
-          .subscribe(basic => this.disableSecurityGroups = basic);
-      } else {
-        this.asyncJobService.completeAllJobs();
+        this.loadSettings();
+        this.zoneService.areAllZonesBasic().subscribe(basic => this.disableSecurityGroups = basic);
       }
     });
 
@@ -78,11 +75,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   public ngAfterViewInit(): void {
     this.styleService.paletteUpdates.subscribe(color => {
       this.themeColor = color;
-      if (this.settingsLink) {
+      if (this.navigationBar) {
         if (this.isLightTheme) {
-          this.settingsLink.nativeElement.classList.remove('link-active-dark', 'link-hover-dark');
+          this.navigationBar.nativeElement.querySelectorAll('a').forEach(link => {
+            link.classList.remove('link-active-dark', 'link-hover-dark');
+          });
         } else {
-          this.settingsLink.nativeElement.classList.remove('link-active-light', 'link-hover-dark');
+          this.navigationBar.nativeElement.querySelectorAll('a').forEach(link => {
+            link.classList.remove('link-active-light', 'link-hover-light');
+          });
         }
       }
     });
@@ -145,15 +146,16 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (e instanceof Response) {
       switch (e.status) {
         case 401:
-          this.translate.get('NOT_LOGGED_IN').subscribe(result => this.notification.message(result));
+          this.notification.message('NOT_LOGGED_IN');
           this.auth.setLoggedOut();
-          break;
-        case 431:
-          this.translate.get('WRONG_ARGUMENTS').subscribe(result => this.notification.message(result));
+          this.router.navigate(['/logout']);
           break;
       }
-    } else {
-      this.translate.get('UNEXPECTED_ERROR').subscribe(result => this.notification.message(result));
     }
+  }
+
+  private loadSettings(): void {
+    this.languageService.applyLanguage();
+    this.styleService.loadPalette();
   }
 }

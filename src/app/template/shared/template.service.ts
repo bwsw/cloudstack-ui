@@ -23,6 +23,11 @@ export class TemplateService extends BaseTemplateService {
     super(asyncJobService, osTypeService, utilsService);
   }
 
+  public create(params: {}): Observable<Template> {
+    return this.sendCommand('create', params)
+      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel));
+  }
+
   public register(params: RegisterTemplateBaseParams): Observable<Template> {
     // stub
     params['hypervisor'] = 'KVM';

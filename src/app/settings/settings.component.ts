@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
-import {
-  Color,
-  ConfigService,
-  LanguageService,
-  StorageService,
-  StyleService
-} from '../shared';
-import { AuthService, UserService, NotificationService } from '../shared/services';
+import { Color, LanguageService, StyleService } from '../shared';
+import { AuthService, NotificationService } from '../shared/services';
+import { UserService } from '../shared/services/user.service';
 
 
 @Component({
@@ -18,27 +14,37 @@ import { AuthService, UserService, NotificationService } from '../shared/service
 })
 export class SettingsComponent implements OnInit {
   public accentColor: Color;
+  public firstDayOfWeek = 1;
   public language: string;
   public primaryColor: Color;
   public primaryColors: Array<Color>;
 
   public passwordUpdateForm: FormGroup;
 
+  public updatingFirstDayOfWeek = false;
+  public dayTranslations: {};
+  public loading = false;
+
+  public primaryColorControl = new FormControl();
+  public accentColorControl = new FormControl();
+
   constructor(
     private authService: AuthService,
-    private configService: ConfigService,
     private formBuilder: FormBuilder,
     private languageService: LanguageService,
     private notificationService: NotificationService,
-    private storageService: StorageService,
     private styleService: StyleService,
+    private translateService: TranslateService,
     private userService: UserService
-) { }
+  ) { }
 
   public ngOnInit(): void {
-    this.language = this.languageService.getLanguage();
+    this.getLanguage();
     this.loadColors();
+    this.loadFirstDayOfWeek();
     this.buildForm();
+    this.loadDayTranslations();
+    this.translateService.onLangChange.subscribe(() => this.loadDayTranslations());
   }
 
   public get accentColors(): Array<Color> {
@@ -54,7 +60,9 @@ export class SettingsComponent implements OnInit {
   }
 
   public changeLanguage(lang: string): void {
+    this.loading = true;
     this.languageService.setLanguage(lang);
+    this.loadDayTranslations();
   }
 
   public updatePrimaryColor(color: Color): void {
@@ -71,32 +79,63 @@ export class SettingsComponent implements OnInit {
   }
 
   public updatePalette(): void {
-    this.styleService.updatePalette(this.primaryColor, this.accentColor);
+    this.styleService.setPalette(this.primaryColor, this.accentColor);
   }
 
   public updatePassword(): void {
     this.userService.updatePassword(this.authService.userId, this.password)
       .subscribe(
-        () => {},
+        () => this.notificationService.message('PASSWORD_CHANGED_SUCCESSFULLY'),
         error => this.notificationService.error(error.errortext)
       );
     this.passwordUpdateForm.reset();
+  }
+
+  public firstDayOfWeekChange(day: number): void {
+    this.firstDayOfWeek = day;
+    this.updatingFirstDayOfWeek = true;
+    this.userService.writeTag('firstDayOfWeek', '' + day)
+      .finally(() => this.updatingFirstDayOfWeek = false)
+      .subscribe();
   }
 
   private get password(): string {
     return this.passwordUpdateForm.controls['password'].value;
   }
 
-  private loadColors(): void {
-    this.configService.get('themeColors')
-      .subscribe(themeColors => {
-        let primaryColorName = this.storageService.read('primaryColor');
-        let accentColorName = this.storageService.read('accentColor');
-
-        this.primaryColors = themeColors;
-        this.primaryColor = themeColors.find(color => color.name === primaryColorName);
-        this.accentColor = this.accentColors.find(color => color.name === accentColorName);
+  private loadDayTranslations(): void {
+    this.translateService.get(['SUNDAY', 'MONDAY'])
+      .subscribe(translations => {
+        // workaround for queryList change bug (https://git.io/v9R69)
+        this.dayTranslations = undefined;
+        setTimeout(() => {
+          this.dayTranslations = translations;
+          setTimeout(() => this.loading = false, 500);
+        }, 0);
       });
+  }
+
+  private getLanguage(): void {
+    this.languageService.getLanguage().subscribe(language => this.language = language);
+  }
+
+  private loadColors(): void {
+    this.styleService.getThemeData()
+      .subscribe(themeData => {
+        this.primaryColors = themeData.themeColors;
+        this.primaryColor = themeData.themeColors.find(color => color.name === themeData.primaryColor) ||
+          themeData.themeColors[0];
+        this.accentColor = this.accentColors.find(color => color.name === themeData.accentColor) ||
+          themeData.themeColors[1];
+
+        this.primaryColorControl.setValue(this.primaryColor);
+        this.accentColorControl.setValue(this.accentColor);
+      });
+  }
+
+  private loadFirstDayOfWeek(): void {
+    this.languageService.getFirstDayOfWeek()
+      .subscribe((day: number) => this.firstDayOfWeek = day);
   }
 
   private buildForm(): void {

@@ -1,11 +1,13 @@
 // styles in src/style directory are applied to the whole page
-@import '~angular2-mdl/scss/material-design-lite';
+@import '~@angular-mdl/core/scss/material-design-lite';
 
-@import '~@angular2-mdl-ext/popover/popover';
-@import '~@angular2-mdl-ext/select/select';
+@import '~@angular-mdl/popover/popover';
+@import '~@angular-mdl/select/select';
 
-@import "~angular2-mdl/scss/color-definitions";
+@import "~@angular-mdl/core/scss/color-definitions";
 @import '__variables.scss';
+
+@import '../app/shared/styles/overlay';
 
 
 * {
@@ -107,11 +109,6 @@ mdl-card.custom-card {
   &.delimiter {
     border-bottom: 1px solid #dedede;
   }
-}
-
-.mdl-dialog {
-  max-height: 100% !important;
-  overflow: auto !important;
 }
 
 .mdl-dialog__title {
@@ -288,4 +285,25 @@ mdl-simple-tooltip div {
 .stopped,
 .error {
   background-color: #B71C1C;
+}
+
+.dialog-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.mdl-dialog {
+  transform: translate(0, 0);
+  position: absolute;
+  margin: 70px auto;
+}
+
+.inner-wrapper {
+  position: relative;
+  width: 100%;
 }

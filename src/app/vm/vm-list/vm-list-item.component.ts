@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
+import { MdlPopoverComponent } from '@angular-mdl/popover';
 
 import { AsyncJob, Color } from '../../shared/models';
 import { AsyncJobService } from '../../shared/services';

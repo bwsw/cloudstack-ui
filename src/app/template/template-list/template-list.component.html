@@ -1,38 +1,41 @@
-<div class="template-list" *ngIf="displayModeList">
+<div class="template-list">
   <mdl-list>
     <div *ngFor="let template of templateList">
       <mdl-list-item
         lines="2"
         (click)="$event.stopPropagation(); selectTemplate(template)"
-        [class.selected-template]="selectedTemplate?.id === template.id"
+        [class.selected-template]="selectedTemplate?.id === template?.id"
         [class.inline-block]="!radio"
       >
         <mdl-list-item-primary-content>
           <mdl-icon class="os-icon" mdl-list-item-avatar [ngSwitch]="template.osType.osFamily">
-            <template [ngSwitchCase]="'Linux'">
+            <ng-template [ngSwitchCase]="'Linux'">
               <img
                 src="/img/os/linux.png"
                 width="40"
                 height="40"
               >
-            </template>
-            <template [ngSwitchCase]="'Windows'">
+            </ng-template>
+            <ng-template [ngSwitchCase]="'Windows'">
               <img
                 src="/img/os/windows.png"
                 width="40"
                 height="40"
               >
-            </template>
-            <template [ngSwitchCase]="'Mac OS'">
+            </ng-template>
+            <ng-template [ngSwitchCase]="'Mac OS'">
               <img
                 src="/img/os/osx.png"
                 width="40"
                 height="40"
               >
-            </template>
-            <template ngSwitchDefault>help</template>
+            </ng-template>
+            <ng-template ngSwitchDefault>help</ng-template>
           </mdl-icon>
-          <span [innerHTML]="template.name | highlight:query"></span>
+          <span
+            class="template-text"
+            [innerHTML]="template.name | highlight:query"
+          ></span>
           <ng-container *ngIf="!template.isReady">
             <div
               class="state-icon"
@@ -42,6 +45,7 @@
             ></div>
           </ng-container>
           <mdl-list-item-sub-title
+            class="template-text"
             [innerHTML]="template.displayText | highlight:query"
           ></mdl-list-item-sub-title>
         </mdl-list-item-primary-content>
@@ -63,18 +67,4 @@
       </mdl-list-item>
     </div>
   </mdl-list>
-</div>
-
-<div
-  *ngIf="displayModeCard"
-  class="card-list-container"
->
-  <cs-template
-    [template]="template"
-    [isSelected]="template?.id === selectedTemplate?.id"
-    [searchQuery]="query"
-    *ngFor="let template of templateList"
-    (onClick)="selectTemplate(template)"
-    (deleteTemplate)="removeTemplate($event)"
-  ></cs-template>
 </div>

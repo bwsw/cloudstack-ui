@@ -1,0 +1,11 @@
+:host mdl-textfield {
+  margin-top: -20px;
+  margin-bottom: -10px;
+
+  /deep/ div input,
+  /deep/ div textarea {
+    padding: 0;
+    font-size: 14px;
+    line-height: 18px;
+  }
+}

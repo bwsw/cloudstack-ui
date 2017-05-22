@@ -4,8 +4,6 @@ import {
   EventEmitter,
   forwardRef,
   Input,
-  ModuleWithProviders,
-  NgModule,
   Output,
   ViewChild,
   ViewEncapsulation,
@@ -17,10 +15,9 @@ import {
   OnInit,
   OnChanges
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor, FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { MdlOptionComponent, MdlSelectModule } from '@angular2-mdl-ext/select';
-import { MdlPopoverComponent, MdlPopoverModule } from '@angular2-mdl-ext/popover';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { MdlOptionComponent } from '@angular-mdl/select';
+import { MdlPopoverComponent } from '@angular-mdl/popover';
 
 function toBoolean (value: any): boolean {
   return value !== null && `${value}` !== 'false';
@@ -31,7 +28,7 @@ function randomId(): string {
   return (S4() + S4());
 }
 
-const MDL_SELECT_VALUE_ACCESSOR: any = {
+export const MDL_SELECT_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => MdlAutocompleteComponent),
   multi: true
@@ -46,10 +43,6 @@ const MDL_SELECT_VALUE_ACCESSOR: any = {
   providers: [MDL_SELECT_VALUE_ACCESSOR]
 })
 export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnChanges {
-  @HostBinding('class.mdl-select') public mdlSelectClass = true;
-  @HostBinding('class.mdl-select--floating-label') public mdlSelectFloatingLabel = this.isFloatingLabel;
-  @HostBinding('class.has-placeholder') public hasPlaceholder = this.placeholder;
-
   @Input() public disabled = false;
   @Input() public label = '';
   @Input() public placeholder = '';
@@ -57,8 +50,14 @@ export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, A
   @Input() public text = '';
 
   @Output() public change = new EventEmitter();
+  @HostBinding('class.mdl-select') public mdlSelectClass = true;
+  @HostBinding('class.mdl-select--floating-label') public mdlSelectFloatingLabel = this.isFloatingLabel;
+  @HostBinding('class.has-placeholder') public hasPlaceholder = this.placeholder;
 
   @ViewChild(MdlPopoverComponent) public popover: MdlPopoverComponent;
+  @ViewChild('autocompleteInput') public autocompleteInput;
+  @ViewChild('autocompleteInputSpan') public autocompleteInputSpan;
+
   public ngModel: any;
   public focused = false;
   public textFieldId: string;
@@ -144,6 +143,7 @@ export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, A
 
   public addFocus(): void {
     this.focused = true;
+    this.autocompleteInput.nativeElement.focus();
   }
 
   public removeFocus(): void {
@@ -151,6 +151,7 @@ export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, A
   }
 
   public toggle($event: Event): void {
+    this.autocompleteInput.nativeElement.focus();
     if (!this.disabled) {
       this.popover.toggle($event);
       $event.stopPropagation();
@@ -278,31 +279,5 @@ export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, A
       }
     }
     return this.text;
-  }
-}
-
-@NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    MdlPopoverModule,
-    MdlSelectModule
-  ],
-  exports: [
-    MdlAutocompleteComponent,
-  ],
-  declarations: [
-    MdlAutocompleteComponent
-  ],
-  providers: [
-    MDL_SELECT_VALUE_ACCESSOR
-  ]
-})
-export class MdlAutocompleteModule {
-  public static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: MdlAutocompleteModule,
-      providers: []
-    };
   }
 }

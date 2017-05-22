@@ -130,12 +130,12 @@ export class TemplateFiltersComponent implements OnInit {
       'osFamilies': {
         type: 'array',
         options: this.osFamilies,
-        defaultOption: this.osFamilies
+        defaultOption: []
       },
       'categoryFilters': {
         type: 'array',
         options: this.categoryFilters,
-        defaultOption: this.categoryFilters
+        defaultOption: []
       },
       'zones': {
         type: 'array',

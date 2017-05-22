@@ -15,6 +15,23 @@
 
 :host mdl-table /deep/ table {
   white-space: normal;
+  table-layout: fixed;
+}
+
+:host mdl-table /deep/ td:first-child {
+  word-wrap: break-word;
+}
+
+:host mdl-table /deep/ td:nth-child(3) {
+  word-wrap: break-word;
+}
+
+:host mdl-table /deep/ th:first-of-type {
+  width: 50%;
+}
+
+:host mdl-table /deep/ th:nth-of-type(2) {
+  width: 10%;
 }
 
 :host mdl-table /deep/ table.mdl-data-table {
@@ -41,6 +58,7 @@ mdl-select {
 
 :host mdl-table {
   width: 100%;
+  min-width: 840px;
 }
 
 :host .event-list-container {

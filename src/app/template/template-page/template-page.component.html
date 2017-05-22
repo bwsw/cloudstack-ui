@@ -5,10 +5,5 @@
     (deleteTemplate)="removeTemplate($event)"
     cs-list
   ></cs-template-filter-list>
-
-  <cs-template-sidebar
-    [template]="selectedTemplate"
-    (deleteTemplate)="removeTemplate($event)"
-    cs-sidebar
-  ></cs-template-sidebar>
+  <router-outlet cs-sidebar></router-outlet>
 </cs-list>

@@ -1,0 +1,23 @@
+:host form {
+  display: inline-block;
+  width: 100%
+}
+
+:host .text-content {
+  display: inline-block;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+:host .text-content-empty {
+  color: #757575;
+}
+
+:host .text-content:hover {
+  cursor: pointer;
+}
+
+:host .buttons {
+  display: flex;
+  justify-content: flex-end;
+}

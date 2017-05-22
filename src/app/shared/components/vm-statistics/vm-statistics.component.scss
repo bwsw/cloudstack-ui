@@ -32,7 +32,6 @@
 
 .stat-list {
   font-size: 0; // hack to remove extra space between stat cards
-  overflow: hidden;
   transition: margin 0.3s;
 
   &.open {

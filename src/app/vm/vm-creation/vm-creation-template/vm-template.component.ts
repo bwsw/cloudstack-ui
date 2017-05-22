@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output, OnInit, OnChanges } from '@angular/core';
-import { MdlDialogService } from 'angular2-mdl';
 import { Template, TemplateService } from '../../../template/shared';
 import { VmTemplateDialogComponent } from './vm-template-dialog.component';
 import { PRESELECTED_TEMPLATE_TOKEN, ZONE } from './injector-token';
+import { DialogService } from '../../../shared/services/dialog/dialog.service';
 
 
 @Component({
@@ -17,7 +17,7 @@ export class VmTemplateComponent implements OnInit, OnChanges {
   public displayTemplateName: string;
 
   constructor(
-    private dialogService: MdlDialogService,
+    private dialogService: DialogService,
     private templateService: TemplateService
   ) {
     this.selectedOut = new EventEmitter<Template>();

@@ -19,7 +19,7 @@
   "RESTORING": "Переустановка",
   "DESTROYING": "Уничтожение",
   "DEPLOYING": "Развертывание",
-  "Error": "Ошибка",
+  "ERROR": "Ошибка",
 
   "START_IN_PROGRESS": "Запуск",
   "STOP_IN_PROGRESS": "Остановка",
@@ -39,7 +39,7 @@
   "SNAPSHOT_IN_PROGRESS": "Создается снимок",
   "SNAPSHOT_DONE": "Снимок создан",
   "SNAPSHOT_FAILED": "Не удалось создать снимок",
-  "VOLUME_BUSY": "Диск занят",
+  "VOLUME_BUSY": "На виртуальной машине, к которой прикреплен этот диск, уже выполняется другое действие над снимками. Повторите попытку позже.",
 
   "CONFIRM_VM_START": "Вы уверены, что хотите запустить виртуальную машину?",
   "CONFIRM_VM_STOP": "Вы уверены, что хотите остановить виртуальную машину?",
@@ -61,6 +61,8 @@
   "NO": "Нет",
   "OK": "Ок",
   "CANCEL": "Отмена",
+  "ADD": "Добавить",
+  "NONE": "Не выбрано",
 
   "START": "Запустить",
   "STOP": "Остановить",
@@ -88,7 +90,7 @@
   "KB_SC": "Simplified Chinese keyboard",
 
   "STATUS": "Статус",
-  "SERVICE_OFFERING": "Услуги служб",
+  "SERVICE_OFFERING": "Сервисное предложение",
   "IP_ADDRESSES": "IP адреса",
   "VOLUMES": "Диски",
   "SECURITY_GROUP": "Группа безопасности",
@@ -119,11 +121,11 @@
   "CPU_MHZ": "{{count}}x{{speed}} МГц",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "Загружено CPU",
-    "NETWORK_READ": "Прочитанно через сеть",
+    "NETWORK_READ": "Прочитано через сеть",
     "NETWORK_WRITE": "Записано через сеть",
-    "DISK_READ": "Прочитанно с диска",
+    "DISK_READ": "Прочитано с диска",
     "DISK_WRITE": "Записано на диск",
-    "DISK_READ_IO": "Прочитанно с диска (IO)",
+    "DISK_READ_IO": "Прочитано с диска (IO)",
     "DISK_WRITE_IO": "Записано на диск (IO)"
   },
   "SERVICE_OFFERING_FIELDS": {
@@ -179,6 +181,7 @@
 
   "CREATING_SG": "Создание группы безопасности",
   "CREATING_AG": "Создание аффинитетной группы",
+  "CREATING_SG_TEMPLATE": "Создание шаблона группы безопасности",
 
   "CREATE_NEW_TEMPLATE": "Создать новый шаблон",
   "TEMPLATE_CREATED": "Шаблон {{ name }} успешно создан",
@@ -202,13 +205,11 @@
   "UNABLE_TO_RECEIVE_TEMPLATES": "Неудалось получить шаблоны",
   "NAME": "Имя",
   "DESCRIPTION": "Описание",
-  "LABELS": "Метки",
   "DATE": "Дата",
   "ACTIONS": "Действия",
   "VIEW_ALL": "Все",
   "CUSTOM_TEMPLATES_NOT_INCLUDED": "Нет шаблонов",
   "BASED_ON": "основан на",
-  "SEPARATE_MULTILINE_LABELS": "* разделяйте метки используя ;",
 
   "IP": "IP",
   "NIC": "NIC",
@@ -424,10 +425,14 @@
   "PUBLIC_KEY": "Открытый ключ",
   "LANGUAGE": "Язык Интерфейса",
   "COLOR": "Цвет",
+  "FIRST_DAY_OF_WEEK": "Первый день недели",
+  "MONDAY": "Понедельник",
+  "SUNDAY": "Воскресенье",
   "GROUP_BY_COLORS": "Группировать по цветам",
   "PALETTE": "Цвета темы интерфейса",
   "SELECT_GROUPS": "Выбор групп",
   "SELECT_ZONES": "Выбор зон",
+  "SELECT_STATES": "Выбор статуса",
   "NETWORK_RULES": "Сетевые правила",
 
   "LICENSE_1": "© {{ year }}, ",
@@ -456,6 +461,7 @@
   "CHANGE_PASSWORD": "Изменение пароля",
   "NEW_PASSWORD": "Новый пароль",
   "REPEAT_PASSWORD": "Повторите пароль",
+  "PASSWORD_CHANGED_SUCCESSFULLY": "Пароль был успешно изменен",
   "UPDATE": "Обновить",
 
   "TEMPLATE_CREATION_DONE": "Шаблон создан",
@@ -478,10 +484,28 @@
   "TAKE_SNAPSHOT_SNAPSHOT_CREATION_FORM": "Создать снимок",
   "SNAPSHOT_LIMIT_EXCEEDED": "Лимит снимков превышен. Для создания новых снимков Вам необходимо удалить какие-либо из ранее созданных снимков.",
   "VOLUME_LIMIT_EXCEEDED": "Лимит дисков превышен. Для создания новых дисков вам нужно удалить какие-либо из ранее созданных дисков.",
-  "UNABLE_FIND_PRIMARY_STORAGE": "Неудалось найти подходящее основное хранилище при создании диска {{val1}}",
+  "UNABLE_FIND_PRIMARY_STORAGE": "Не удалось найти подходящее основное хранилище при создании диска {{val1}}",
   "INSUFFICIENT_RESOURCES_VM": "Недостаточно ресурсов",
 
   "NO_GROUP": "Без группы",
   "NO_SNAPSHOTS": "Нет снимков",
-  "LAST_SNAPSHOT": "Последний снимок"
+  "LAST_SNAPSHOT": "Последний снимок",
+
+  "CLICK_TO_EDIT": "Нажмите для редактирования",
+  "SELECT_AN_OPTION": "Выберите опцию",
+  "ENTER_TEXT": "Введите текст",
+  "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Хотите создать новый диск?",
+  "ATTACH_VOLUME": "Прикрепление диска",
+  "SELECT_VOLUME": "Выберите диск",
+
+  "NO_AVAILABLE_VOLUMES": "Нет доступных дисков. Открепите диск или",
+  "NAVIGATE_TO_VOLUME_CREATION_PAGE": "создайте новый",
+
+  "VM_FILTERS": {
+    "STATE": {
+      "RUNNING": "Запущенные",
+      "STOPPED": "Остановленные",
+      "ERROR": "Ошибка"
+    }
+  }
 }
