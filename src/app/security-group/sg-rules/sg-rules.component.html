@@ -8,14 +8,14 @@
       <tr>
         <th class="mdl-data-table__cell--non-numeric">{{ 'TYPE' | translate }}</th>
         <th>{{ 'PROTOCOL' | translate }}</th>
-        <template [ngIf]="protocol !== NetworkProtocols.ICMP">
+        <ng-template [ngIf]="protocol !== NetworkProtocols.ICMP">
           <th>{{ 'START_PORT' | translate }}</th>
           <th>{{ 'END_PORT' | translate }}</th>
-        </template>
-        <template [ngIf]="protocol === NetworkProtocols.ICMP">
+        </ng-template>
+        <ng-template [ngIf]="protocol === NetworkProtocols.ICMP">
           <th>{{ 'ICMP_TYPE' | translate }}</th>
           <th>{{ 'ICMP_CODE' | translate }}</th>
-        </template>
+        </ng-template>
         <th class="mdl-data-table__cell--non-numeric">CIDR</th>
         <th></th>
       </tr>

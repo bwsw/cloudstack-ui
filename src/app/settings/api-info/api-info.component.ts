@@ -37,6 +37,7 @@ interface ApiKeys {
 export class ApiInfoComponent implements OnInit {
   public linkFields: ApiInfoLinks;
   public inputFields: ApiInfoTextFields;
+  public loading: boolean;
 
   constructor(
     private configService: ConfigService,
@@ -45,14 +46,16 @@ export class ApiInfoComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
+    this.loading = true;
     Observable.forkJoin(
       this.getApiKeys(),
-      this.configService.get('API_DOC_LINK')
+      this.configService.get('apiDocLink')
     )
+      .finally(() => this.loading = false)
       .subscribe(([apiKeys, apiDocLink]) => {
         this.linkFields = {
           apiUrl: {title: 'API_URL', href: this.apiUrl},
-          apiDocLink: {title: 'API_DOC_LINK', href: apiDocLink}
+          apiDocLink: {title: 'API_DOC_LINK', href: apiDocLink }
         };
 
         this.inputFields = {

@@ -2,7 +2,7 @@
   <mdl-card-title>
     <h2
       mdl-card-title-text
-      [mdl-tooltip]="securityGroupTemplate.name"
+      [mdl-tooltip]="sgTitleTooltip"
       mdl-tooltip-position="bottom"
     >
       {{ securityGroupTemplate.name }}
@@ -74,3 +74,7 @@
     </div>
   </mdl-popover>
 </mdl-card>
+<mdl-tooltip #sgTitleTooltip="mdlTooltip">
+  {{ securityGroupTemplate.name }}
+</mdl-tooltip>
+

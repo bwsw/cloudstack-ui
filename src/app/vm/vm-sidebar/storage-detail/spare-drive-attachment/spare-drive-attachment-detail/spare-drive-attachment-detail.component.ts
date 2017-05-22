@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { EventEmitter, Component, Output, Input, OnInit } from '@angular/core';
 import { VirtualMachine } from '../../../../shared/vm.model';
 import { Volume } from '../../../../../shared/models';
 import { VolumeService } from '../../../../../shared/services/volume.service';
@@ -17,13 +17,13 @@ import { Observable } from 'rxjs/Observable';
 })
 export class SpareDriveAttachmentDetailComponent implements OnInit {
   @Input() public virtualMachine: VirtualMachine;
+  @Output() public onAttach = new EventEmitter();
 
   public loading: boolean;
   public selectedVolume: Volume;
   public volumes: Array<Volume>;
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
     private dialogService: DialogService,
     private spareDriveActionsService: SpareDriveActionsService,
     private volumeService: VolumeService
@@ -54,19 +54,18 @@ export class SpareDriveAttachmentDetailComponent implements OnInit {
       .onErrorResumeNext()
       .subscribe((volume: Volume) => {
         this.selectedVolume = volume;
-        this.changeDetector.detectChanges();
       });
   }
 
   public attachIso(): void {
     this.loading = true;
-    this.changeDetector.detectChanges();
     this.spareDriveActionsService.attach({
       id: this.selectedVolume.id,
       virtualMachineId: this.virtualMachine.id
     })
       .subscribe(() => {
         this.loading = false;
+        this.onAttach.next(this.selectedVolume);
         this.selectedVolume = undefined;
       });
   }
@@ -76,7 +75,6 @@ export class SpareDriveAttachmentDetailComponent implements OnInit {
       .getSpareList({ zoneId: this.virtualMachine.zoneId })
       .map(volumes => {
         this.volumes = volumes;
-        this.changeDetector.detectChanges();
       });
   }
 }

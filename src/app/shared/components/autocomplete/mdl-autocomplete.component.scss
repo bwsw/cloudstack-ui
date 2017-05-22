@@ -2,7 +2,7 @@ input {
   outline: none;
 }
 
-@import "../../../../../node_modules/angular2-mdl/scss/variables";
+@import "../../../../../node_modules/@angular-mdl/core/scss/variables";
 
 :host {
   &--floating-label {

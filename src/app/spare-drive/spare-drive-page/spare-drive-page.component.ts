@@ -45,7 +45,6 @@ interface SpareDriveSection {
   providers: [ListService]
 })
 export class SpareDrivePageComponent implements OnInit {
-  public selectedVolume: Volume;
   public volumes: Array<Volume>;
 
   public selectedZones: Array<Zone>;
@@ -70,10 +69,6 @@ export class SpareDrivePageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.listService.onSelected.subscribe((volume: Volume) => {
-      this.selectedVolume = volume;
-    });
-
     this.listService.onAction.subscribe(() => {
       this.showCreationDialog();
     });
@@ -150,8 +145,8 @@ export class SpareDrivePageComponent implements OnInit {
           this.volumes = this.volumes.filter(listVolume => {
             return listVolume.id !== volume.id;
           });
-          if (this.selectedVolume && this.selectedVolume.id === volume.id) {
-            this.listService.onDeselected.next();
+          if (this.listService.isSelected(volume.id)) {
+            this.listService.deselectItem();
           }
           this.jobsNotificationService.finish({ message: 'VOLUME_DELETE_DONE' });
           this.updateSections();
@@ -212,8 +207,8 @@ export class SpareDrivePageComponent implements OnInit {
   public updateVolume(volume: Volume): void {
     this.volumes = this.volumes.map(vol => vol.id === volume.id ? volume : vol);
 
-    if (this.selectedVolume && this.selectedVolume.id === volume.id) {
-      this.selectedVolume = volume;
+    if (this.listService.isSelected(volume.id)) {
+      this.listService.showDetails(volume.id);
     }
     this.updateSections();
   }
