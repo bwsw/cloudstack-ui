@@ -69,7 +69,6 @@ export class StyleService {
       .map(([defaultTheme, themeColors, primaryColor, accentColor]) => {
         if (!defaultTheme || !defaultTheme.primaryColor || !defaultTheme.accentColor) {
           defaultTheme = undefined;
-          defaultTheme = undefined;
         }
 
         if (!themeColors  || themeColors.length < 2) {
