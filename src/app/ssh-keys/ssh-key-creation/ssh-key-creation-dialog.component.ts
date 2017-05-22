@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MdlDialogReference } from 'angular2-mdl';
+import { MdlDialogReference } from '@angular-mdl/core';
 import { SshKeyCreationData, SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
 import { Observable } from 'rxjs/Observable';
 import { SSHKeyPair } from '../../shared/models';

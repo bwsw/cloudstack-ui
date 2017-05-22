@@ -1,7 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { MdlDialogReference } from 'angular2-mdl';
+import { MdlDialogReference } from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
 

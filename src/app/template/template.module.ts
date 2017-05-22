@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
-import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { TranslateModule } from '@ngx-translate/core';
-import { MdlModule } from 'angular2-mdl';
+import { MdlModule } from '@angular-mdl/core';
+import { MdlSelectModule } from '@angular-mdl/select';
 
 import { SharedModule } from '../shared/shared.module';
 import { IsoAttachmentComponent } from './iso-attachment/iso-attachment.component';
@@ -17,6 +16,7 @@ import { TemplatePageComponent } from './template-page/template-page.component';
 import { BaseTemplateSidebarComponent } from './template-sidebar/base-template-sidebar.component';
 import { templatesRouting } from './template.routing';
 import { TemplateComponent } from './template/template.component';
+import { MdlPopoverModule } from '@angular-mdl/popover';
 import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
 import { IsoSidebarComponent } from './template-sidebar/iso-sidebar.component';
 import { TemplateCardListComponent } from './template-list/template-card-list.component';

@@ -26,13 +26,13 @@ export class ListService {
   public showDetails(id: string): void {
     this.router.navigate([id], {
       relativeTo: this.route,
-      preserveQueryParams: true
+      queryParamsHandling: 'preserve'
     });
   }
 
   public deselectItem(): void {
     this.router.navigate([this.route.parent.snapshot.url], {
-      preserveQueryParams: true
+      queryParamsHandling: 'preserve'
     });
   }
 

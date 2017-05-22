@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MdlDialogReference } from 'angular2-mdl';
+import { MdlDialogReference } from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { Rules } from '../sg-creation/sg-creation.component';
