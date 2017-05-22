@@ -88,6 +88,7 @@ export class VirtualMachine extends BaseModel {
 
   public id: string;
   public displayName: string;
+  public name: string;
   // Status
   public state: VmState;
   // Service Offering

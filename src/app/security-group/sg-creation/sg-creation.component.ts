@@ -4,7 +4,7 @@ import {
   Inject
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { MdlDialogReference } from 'angular2-mdl';
+import { MdlDialogReference } from '@angular-mdl/core';
 
 import {
   SecurityGroup,
