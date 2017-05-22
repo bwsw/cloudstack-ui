@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 
 import { SSHKeyPair } from '../shared/models';
 import { DialogService } from '../shared/services/dialog/dialog.service';
-import { SshKeyCreationData, SSHKeyPairService } from '../shared/services/ssh-keypair.service';
+import { SSHKeyPairService } from '../shared/services/ssh-keypair.service';
 import { SShKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creation-dialog.component';
 import { SshPrivateKeyDialogComponent } from './ssh-key-creation/ssh-private-key-dialog.component';
 import sortBy = require('lodash/sortBy');
@@ -18,9 +17,8 @@ export class SshKeysPageComponent implements OnInit {
   public sshKeyList: Array<SSHKeyPair>;
 
   constructor(
-    private sshKeyService: SSHKeyPairService,
     private dialogService: DialogService,
-    private translateService: TranslateService
+    private sshKeyService: SSHKeyPairService
   ) { }
 
   public ngOnInit(): void {
@@ -31,44 +29,37 @@ export class SshKeysPageComponent implements OnInit {
   public showCreationDialog(): void {
     this.dialogService.showCustomDialog({
       component: SShKeyCreationDialogComponent,
-      styles: { width: '400px' }
+      clickOutsideToClose: false,
+      styles: {
+        width: '400px',
+        height: '360px'
+      }
     })
       .switchMap(res => res.onHide())
-      .subscribe(data => this.createSshKey(data));
+      .subscribe(
+        (sshKey: SSHKeyPair) => {
+          if (sshKey) {
+            this.sshKeyList = sortBy(this.sshKeyList.concat(sshKey), 'name');
+            if (sshKey.privateKey) {
+              this.showPrivateKey(sshKey.privateKey);
+            }
+          }
+        });
   }
 
   public removeKey(name: string): void {
     this.showRemovalDialog(name);
   }
 
-  private createSshKey(data: SshKeyCreationData): void {
-    if (!data) {
-      return;
-    }
-
-    const keyCreationObs = data.publicKey ? this.sshKeyService.register(data) : this.sshKeyService.create(data);
-    keyCreationObs.subscribe(
-      (sshKey: SSHKeyPair) => {
-        this.sshKeyList = sortBy(this.sshKeyList.concat(sshKey), 'name');
-        if (sshKey.privateKey) {
-          this.showPrivateKey(sshKey.privateKey);
-        }
-      },
-      (error) => this.handleError(error)
-    );
-  }
-
   private showPrivateKey(privateKey: string): void {
     this.dialogService.showCustomDialog({
       component: SshPrivateKeyDialogComponent,
       providers: [{ provide: 'privateKey', useValue: privateKey }],
-      styles: { width: '400px', 'word-break': 'break-all' }
+      styles: {
+        width: '400px',
+        'word-break': 'break-all'
+      }
     });
-  }
-
-  private handleError(error): void {
-    this.translateService.get(error.message, error.params)
-      .subscribe((msg) => this.dialogService.alert(msg));
   }
 
   private showRemovalDialog(name: string): void {
