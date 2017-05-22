@@ -19,6 +19,8 @@ import { OsType } from '../../shared/models/os-type.model';
   zonename: 'zoneName',
 })
 export class BaseTemplateModel extends BaseModel {
+  public path: string;
+
   public id: string;
   public account: string;
   public created: Date;

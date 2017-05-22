@@ -5,7 +5,7 @@
   <cs-spare-drive-item
     *ngFor="let volume of volumes"
     [volume]="volume"
-    [isSelected]="volume.id === selectedVolume?.id"
+    [isSelected]="listService.isSelected(volume.id)"
     (onClick)="selectVolume(volume)"
     (onVolumeAttached)="attach($event)"
     (onDelete)="remove($event)"
