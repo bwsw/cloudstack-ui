@@ -1,10 +1,10 @@
-<div class="template-list" *ngIf="displayModeList">
+<div class="template-list">
   <mdl-list>
     <div *ngFor="let template of templateList">
       <mdl-list-item
         lines="2"
         (click)="$event.stopPropagation(); selectTemplate(template)"
-        [class.selected-template]="selectedTemplate?.id === template.id"
+        [class.selected-template]="selectedTemplate?.id === template?.id"
         [class.inline-block]="!radio"
       >
         <mdl-list-item-primary-content>
@@ -67,18 +67,4 @@
       </mdl-list-item>
     </div>
   </mdl-list>
-</div>
-
-<div
-  *ngIf="displayModeCard"
-  class="card-list-container"
->
-  <cs-template
-    [template]="template"
-    [isSelected]="template?.id === selectedTemplate?.id"
-    [searchQuery]="query"
-    *ngFor="let template of templateList"
-    (onClick)="selectTemplate(template)"
-    (deleteTemplate)="removeTemplate($event)"
-  ></cs-template>
 </div>

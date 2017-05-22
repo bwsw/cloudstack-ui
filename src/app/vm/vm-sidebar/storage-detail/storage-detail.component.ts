@@ -17,6 +17,7 @@ import {
 import { DialogService } from '../../../shared';
 import { SpareDriveActionsService } from '../../../spare-drive/spare-drive-actions.service';
 import { VolumeService } from '../../../shared/services/volume.service';
+import { VmService } from '../../shared/vm.service';
 
 
 @Component({
@@ -28,21 +29,19 @@ export class StorageDetailComponent implements OnChanges {
   @Input() public vm: VirtualMachine;
   public iso: Iso;
 
-  constructor(
-    private dialogService: DialogService,
-    private jobNotificationService: JobsNotificationService,
-    private isoService: IsoService,
-    private notificationService: NotificationService,
-    private spareDriveActionService: SpareDriveActionsService,
-    private volumeService: VolumeService
-  ) {}
+  constructor(private dialogService: DialogService,
+              private jobNotificationService: JobsNotificationService,
+              private isoService: IsoService,
+              private notificationService: NotificationService,
+              private spareDriveActionService: SpareDriveActionsService,
+              private vmService: VmService,
+              private volumeService: VolumeService) {
+  }
 
   public ngOnChanges(): void {
     if (this.vm.isoId) {
       this.isoService.get(this.vm.isoId)
-        .subscribe((iso: Iso) => {
-          this.iso = iso;
-        });
+        .subscribe((iso: Iso) => this.iso = iso);
     } else {
       this.iso = null;
     }
@@ -77,6 +76,10 @@ export class StorageDetailComponent implements OnChanges {
     }
   }
 
+  public onVolumeChange(): void {
+    this.vmService.updateVmInfo(this.vm);
+  }
+
   public showVolumeDetachDialog(volume: Volume): void {
     this.dialogService.confirm('CONFIRM_VOLUME_DETACH', 'NO', 'YES')
       .onErrorResumeNext()
@@ -84,7 +87,10 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private detachVolume(volume: Volume): void {
-    this.spareDriveActionService.detach(volume).subscribe();
+    volume['loading'] = true;
+    this.spareDriveActionService.detach(volume)
+      .finally(() => volume['loading'] = false)
+      .subscribe(() => this.onVolumeChange());
   }
 
   private attachIsoDialog(): void {
@@ -106,7 +112,8 @@ export class StorageDetailComponent implements OnChanges {
     this.dialogService.confirm('CONFIRM_ISO_DETACH', 'NO', 'YES')
       .subscribe(
         () => this.detachIso(),
-        () => {}
+        () => {
+        }
       );
   }
 

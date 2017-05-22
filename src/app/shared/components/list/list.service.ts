@@ -1,11 +1,42 @@
-import { Injectable } from '@angular/core';
-import { BaseModel } from '../../models';
+import { EventEmitter, Injectable } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 
 
 @Injectable()
 export class ListService {
-  public onSelected = new Subject<BaseModel>();
-  public onDeselected = new Subject<void>();
   public onAction = new Subject<void>();
+  public onDelete = new EventEmitter();
+
+  private selectedId: string;
+
+  constructor(protected route: ActivatedRoute, protected router: Router) {
+    this.router.events
+      .filter(event => event instanceof NavigationEnd)
+      .map(() => this.route.firstChild)
+      .subscribe((activatedRoute) => {
+        if (activatedRoute) {
+          this.selectedId = activatedRoute.snapshot.params['id'] || null;
+        } else {
+          this.selectedId = null;
+        }
+      });
+  }
+
+  public showDetails(id: string): void {
+    this.router.navigate([id], {
+      relativeTo: this.route,
+      preserveQueryParams: true
+    });
+  }
+
+  public deselectItem(): void {
+    this.router.navigate([this.route.parent.snapshot.url], {
+      preserveQueryParams: true
+    });
+  }
+
+  public isSelected(id: string): boolean {
+    return id === this.selectedId;
+  }
 }
