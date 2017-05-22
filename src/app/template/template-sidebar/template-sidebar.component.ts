@@ -1,17 +1,28 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { BaseTemplateModel } from '../shared/base-template.model';
-
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { TemplateService } from '../shared';
+import { BaseTemplateSidebarComponent } from './base-template-sidebar.component';
+import { TemplateActionsService } from '../shared/template-actions.service';
+import { ListService } from '../../shared/components/list/list.service';
 
 @Component({
   selector: 'cs-template-sidebar',
-  templateUrl: 'template-sidebar.component.html',
-  styleUrls: ['template-sidebar.component.scss']
+  templateUrl: './base-template-sidebar.component.html',
+  styleUrls: ['./base-template-sidebar.component.scss']
 })
-export class TemplateSidebarComponent {
-  @Input() public template: BaseTemplateModel;
-  @Output() public deleteTemplate = new EventEmitter();
-
-  public remove(): void {
-    this.deleteTemplate.next(this.template);
+export class TemplateSidebarComponent extends BaseTemplateSidebarComponent {
+  constructor(
+    private templateService: TemplateService,
+    private route: ActivatedRoute,
+    templateActions: TemplateActionsService,
+    listService: ListService
+  ) {
+    super(templateActions, listService);
+    this.route.params.pluck('id').subscribe((id: string) => {
+      if (id) {
+        this.templateService.get(id)
+          .subscribe(template => this.template = template);
+      }
+    });
   }
 }

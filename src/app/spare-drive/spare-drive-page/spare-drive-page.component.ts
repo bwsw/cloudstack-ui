@@ -1,5 +1,4 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
 import {
@@ -9,7 +8,6 @@ import {
   FilterService,
   JobsNotificationService,
   Volume,
-  VolumeAttachmentData,
   VolumeTypes,
   Zone,
   ZoneService
@@ -22,6 +20,7 @@ import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive
 
 import debounce = require('lodash/debounce');
 import sortBy = require('lodash/sortBy');
+import { SpareDriveActionsService } from '../spare-drive-actions.service';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -46,7 +45,6 @@ interface SpareDriveSection {
   providers: [ListService]
 })
 export class SpareDrivePageComponent implements OnInit {
-  public selectedVolume: Volume;
   public volumes: Array<Volume>;
 
   public selectedZones: Array<Zone>;
@@ -62,7 +60,7 @@ export class SpareDrivePageComponent implements OnInit {
     private filter: FilterService,
     private jobsNotificationService: JobsNotificationService,
     private listService: ListService,
-    private translateService: TranslateService,
+    private spareDriveActionsService: SpareDriveActionsService,
     private userService: UserService,
     private volumeService: VolumeService,
     private zoneService: ZoneService
@@ -71,10 +69,6 @@ export class SpareDrivePageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.listService.onSelected.subscribe((volume: Volume) => {
-      this.selectedVolume = volume;
-    });
-
     this.listService.onAction.subscribe(() => {
       this.showCreationDialog();
     });
@@ -87,6 +81,10 @@ export class SpareDrivePageComponent implements OnInit {
         this.initFilters();
         this.updateSections();
       });
+
+    this.spareDriveActionsService.onVolumeAttachment.subscribe(() => {
+      this.onVolumeAttached();
+    });
   }
 
   public initFilters(): void {
@@ -147,8 +145,8 @@ export class SpareDrivePageComponent implements OnInit {
           this.volumes = this.volumes.filter(listVolume => {
             return listVolume.id !== volume.id;
           });
-          if (this.selectedVolume && this.selectedVolume.id === volume.id) {
-            this.listService.onDeselected.next();
+          if (this.listService.isSelected(volume.id)) {
+            this.listService.deselectItem();
           }
           this.jobsNotificationService.finish({ message: 'VOLUME_DELETE_DONE' });
           this.updateSections();
@@ -202,34 +200,21 @@ export class SpareDrivePageComponent implements OnInit {
       );
   }
 
-  public attach(data: VolumeAttachmentData): void {
-    let notificationId = this.jobsNotificationService.add('VOLUME_ATTACH_IN_PROGRESS');
-    this.volumeService.attach(data)
-      .subscribe(
-        volume => {
-          this.volumes = this.volumes.filter(v => v.id !== volume.id);
-          this.jobsNotificationService.finish({
-            id: notificationId,
-            message: 'VOLUME_ATTACH_DONE',
-          });
-          this.updateSections();
-        },
-        error => {
-          this.translateService.get(error.message, error.params)
-            .subscribe(str => this.dialogService.alert(str));
-          this.jobsNotificationService.fail({
-            id: notificationId,
-            message: 'VOLUME_ATTACH_FAILED',
-          });
-        });
+  public attach(data): void {
+    this.spareDriveActionsService.attach(data);
   }
 
   public updateVolume(volume: Volume): void {
     this.volumes = this.volumes.map(vol => vol.id === volume.id ? volume : vol);
 
-    if (this.selectedVolume && this.selectedVolume.id === volume.id) {
-      this.selectedVolume = volume;
+    if (this.listService.isSelected(volume.id)) {
+      this.listService.showDetails(volume.id);
     }
+    this.updateSections();
+  }
+
+  private onVolumeAttached(): void {
+    this.updateVolumeList();
     this.updateSections();
   }
 
@@ -274,11 +259,10 @@ export class SpareDrivePageComponent implements OnInit {
     return this.diskOfferingService.getList({ type: VolumeTypes.DATADISK })
       .switchMap((offerings: Array<DiskOffering>) => {
         diskOfferings = offerings;
-        return this.volumeService.getList();
+        return this.volumeService.getSpareList();
       })
       .map(volumes => {
         this.volumes = volumes
-          .filter((volume: Volume) => !volume.virtualMachineId && !volume.isDeleted)
           .map(volume => {
             volume.diskOffering = diskOfferings.find(offering => offering.id === volume.diskOfferingId);
             return volume;

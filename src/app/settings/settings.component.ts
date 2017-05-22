@@ -85,7 +85,7 @@ export class SettingsComponent implements OnInit {
   public updatePassword(): void {
     this.userService.updatePassword(this.authService.userId, this.password)
       .subscribe(
-        () => {},
+        () => this.notificationService.message('PASSWORD_CHANGED_SUCCESSFULLY'),
         error => this.notificationService.error(error.errortext)
       );
     this.passwordUpdateForm.reset();

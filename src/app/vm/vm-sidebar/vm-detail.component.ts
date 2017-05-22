@@ -5,12 +5,13 @@ import { SecurityGroup } from '../../security-group/sg.model';
 import {
   ServiceOfferingDialogComponent
 } from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
-import { Color, InstanceGroup, ServiceOfferingFields } from '../../shared/models';
+import { Color, InstanceGroup, ServiceOfferingFields, ServiceOffering } from '../../shared/models';
 import { ConfigService, DialogService, InstanceGroupService } from '../../shared/services';
 import { TagService } from '../../shared/services/tag.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
+import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 
 
 @Component({
@@ -32,6 +33,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
   constructor(
     private dialogService: DialogService,
     private instanceGroupService: InstanceGroupService,
+    private serviceOfferingService: ServiceOfferingService,
     private tagService: TagService,
     private vmService: VmService,
     private zoneService: ZoneService,
@@ -79,7 +81,14 @@ export class VmDetailComponent implements OnChanges, OnInit {
       component: ServiceOfferingDialogComponent,
       classes: 'service-offering-dialog',
       providers: [{ provide: 'virtualMachine', useValue: this.vm }],
-    });
+    }).switchMap(res => res.onHide())
+      .subscribe((newOffering: ServiceOffering) => {
+        if (newOffering) {
+          this.serviceOfferingService.get(newOffering.id).subscribe(offering => {
+            this.vm.serviceOffering = offering;
+          });
+        }
+      });
   }
 
   public changeDescription(newDescription: string): void {

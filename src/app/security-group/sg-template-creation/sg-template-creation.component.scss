@@ -1,7 +1,22 @@
 /deep/ .sg-template-creation-dialog {
   width: 450px;
+  padding: 0;
+}
+
+:host mdl-progress {
+  width: 300px;
 }
 
 .security-group-template-form {
-  padding-bottom: 1px;
+  padding: 1em;
+}
+
+cs-security-group-rules-manager {
+  width: 100%;
+  margin-top: 0;
+}
+
+:host /deep/ cs-security-group-rules-manager .mdl-textfield {
+  padding-bottom: 0;
+  width: 100%;
 }

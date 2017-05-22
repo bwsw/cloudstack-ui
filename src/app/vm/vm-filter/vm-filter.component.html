@@ -55,7 +55,6 @@
 
   <div class="filter-checkbox">
     <mdl-checkbox
-      style="width:0"
       [ngModel]="doFilterByColor"
       (ngModelChange)="updateColor($event)"
       (click)="$event.stopPropagation()"
@@ -72,6 +71,6 @@
     multiple="true"
     [placeholder]="'SELECT_STATES' | translate"
   >
-    <mdl-option mdl-ripple *ngFor="let s of states" [value]="s">{{ s }}</mdl-option>
+    <mdl-option mdl-ripple *ngFor="let s of states" [value]="s.state">{{ s.name | translate }}</mdl-option>
   </mdl-select>
 </mdl-card>

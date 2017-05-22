@@ -1,4 +1,3 @@
-export * from './vm.module';
-
+export { VmModule } from './vm.module';
 export * from './shared/vm.model';
-export * from './shared/vm.service';
+export { IVmActionEvent, VmService } from './shared/vm.service';

@@ -2,8 +2,8 @@ import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, fakeAsync, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
-import { MdlButtonModule, MdlIconModule } from 'angular2-mdl';
+import { MdlPopoverModule } from '@angular-mdl/popover';
+import { MdlButtonModule, MdlIconModule } from '@angular-mdl/core';
 import { Color } from '../../models';
 import { ColorPickerComponent } from './color-picker.component';
 

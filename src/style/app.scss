@@ -1,11 +1,13 @@
 // styles in src/style directory are applied to the whole page
-@import '~angular2-mdl/scss/material-design-lite';
+@import '~@angular-mdl/core/scss/material-design-lite';
 
-@import '~@angular2-mdl-ext/popover/popover';
-@import '~@angular2-mdl-ext/select/select';
+@import '~@angular-mdl/popover/popover';
+@import '~@angular-mdl/select/select';
 
-@import "~angular2-mdl/scss/color-definitions";
+@import "~@angular-mdl/core/scss/color-definitions";
 @import '__variables.scss';
+
+@import '../app/shared/styles/overlay';
 
 
 * {

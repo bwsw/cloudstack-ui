@@ -8,7 +8,7 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import { MdlSelectComponent } from '@angular2-mdl-ext/select';
+import { MdlSelectComponent } from '@angular-mdl/select';
 
 import {
   CustomServiceOfferingComponent,
@@ -17,7 +17,7 @@ import {
 import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../shared/services/dialog.service';
+import { DialogService } from '../../shared/services/dialog/dialog.service';
 
 
 @Component({

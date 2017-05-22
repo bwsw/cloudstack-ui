@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output, ViewChild, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
+import { MdlPopoverComponent } from '@angular-mdl/popover';
 
 import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
 import { VolumeResizeComponent } from '../../vm/vm-sidebar/volume-resize.component';
@@ -12,7 +12,7 @@ import {
   ZoneService
 } from '../../shared/services';
 import { DiskOffering, Volume, Zone } from '../../shared/models';
-import { DialogService } from '../../shared/services/dialog.service';
+import { DialogService } from '../../shared/services/dialog/dialog.service';
 
 
 @Component({

@@ -61,6 +61,8 @@
   "NO": "Нет",
   "OK": "Ок",
   "CANCEL": "Отмена",
+  "ADD": "Добавить",
+  "NONE": "Не выбрано",
 
   "START": "Запустить",
   "STOP": "Остановить",
@@ -88,7 +90,7 @@
   "KB_SC": "Simplified Chinese keyboard",
 
   "STATUS": "Статус",
-  "SERVICE_OFFERING": "Услуги служб",
+  "SERVICE_OFFERING": "Сервисное предложение",
   "IP_ADDRESSES": "IP адреса",
   "VOLUMES": "Диски",
   "SECURITY_GROUP": "Группа безопасности",
@@ -119,11 +121,11 @@
   "CPU_MHZ": "{{count}}x{{speed}} МГц",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "Загружено CPU",
-    "NETWORK_READ": "Прочитанно через сеть",
+    "NETWORK_READ": "Прочитано через сеть",
     "NETWORK_WRITE": "Записано через сеть",
-    "DISK_READ": "Прочитанно с диска",
+    "DISK_READ": "Прочитано с диска",
     "DISK_WRITE": "Записано на диск",
-    "DISK_READ_IO": "Прочитанно с диска (IO)",
+    "DISK_READ_IO": "Прочитано с диска (IO)",
     "DISK_WRITE_IO": "Записано на диск (IO)"
   },
   "SERVICE_OFFERING_FIELDS": {
@@ -179,6 +181,7 @@
 
   "CREATING_SG": "Создание группы безопасности",
   "CREATING_AG": "Создание аффинитетной группы",
+  "CREATING_SG_TEMPLATE": "Создание шаблона группы безопасности",
 
   "CREATE_NEW_TEMPLATE": "Создать новый шаблон",
   "TEMPLATE_CREATED": "Шаблон {{ name }} успешно создан",
@@ -458,6 +461,7 @@
   "CHANGE_PASSWORD": "Изменение пароля",
   "NEW_PASSWORD": "Новый пароль",
   "REPEAT_PASSWORD": "Повторите пароль",
+  "PASSWORD_CHANGED_SUCCESSFULLY": "Пароль был успешно изменен",
   "UPDATE": "Обновить",
 
   "TEMPLATE_CREATION_DONE": "Шаблон создан",
@@ -490,5 +494,18 @@
   "CLICK_TO_EDIT": "Нажмите для редактирования",
   "SELECT_AN_OPTION": "Выберите опцию",
   "ENTER_TEXT": "Введите текст",
-  "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Хотите создать новый диск?"
+  "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Хотите создать новый диск?",
+  "ATTACH_VOLUME": "Прикрепление диска",
+  "SELECT_VOLUME": "Выберите диск",
+
+  "NO_AVAILABLE_VOLUMES": "Нет доступных дисков. Открепите диск или",
+  "NAVIGATE_TO_VOLUME_CREATION_PAGE": "создайте новый",
+
+  "VM_FILTERS": {
+    "STATE": {
+      "RUNNING": "Запущенные",
+      "STOPPED": "Остановленные",
+      "ERROR": "Ошибка"
+    }
+  }
 }

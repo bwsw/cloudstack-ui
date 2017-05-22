@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Zone } from '../../shared/models/zone.model';
+import { Zone } from '../../shared';
 import { ZoneService } from '../../shared/services/zone.service';
-import { DiskOffering } from '../../shared/models/disk-offering.model';
-import { DiskOfferingService } from '../../shared/services/disk-offering.service';
+import { DiskOffering } from '../../shared';
+import { DiskOfferingService } from '../../shared';
 import { ResourceUsageService, ResourceStats } from '../../shared/services/resource-usage.service';
-import { MdlDialogReference } from 'angular2-mdl';
+import { MdlDialogReference } from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
 
 
