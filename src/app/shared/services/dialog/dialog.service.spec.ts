@@ -1,11 +1,12 @@
 import { Component, Injector } from '@angular/core';
 import { TestBed, async, getTestBed, fakeAsync, tick } from '@angular/core/testing';
 
-import { MdlDialogOutletModule, MdlDialogModule, MdlDialogService } from '@angular-mdl/core';
+import { MdlDialogOutletModule } from '@angular-mdl/core';
 import { Observable } from 'rxjs';
 import { DialogService } from './dialog.service';
 import { ServiceLocator } from '../service-locator';
 import { TranslateService } from '@ngx-translate/core';
+import { MdlDialogService } from './mdl-dialog.service';
 
 
 @Component({
@@ -75,12 +76,10 @@ describe('Custom dialog', () => {
     TestBed.configureTestingModule({
       declarations: [TestViewComponent],
       providers: [
-        DialogService,
         MdlDialogService,
         { provide: TranslateService, useClass: TranslateServiceStub }
       ],
       imports: [
-        MdlDialogModule,
         MdlDialogOutletModule,
       ]
     });

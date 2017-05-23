@@ -83,12 +83,15 @@ import {
 import { DescriptionComponent } from './components/description/description.component';
 import { CustomSimpleDialogComponent } from './services/dialog/custom-dialog.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
+import { MdlDialogService } from './services/dialog/mdl-dialog.service';
+import { MdlDialogModule } from './services/dialog';
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    MdlDialogModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
@@ -167,6 +170,7 @@ import { FancySelectComponent } from './components/fancy-select/fancy-select.com
     AuthService,
     ConfigService,
     DialogService,
+    MdlDialogService,
     DiskOfferingService,
     DiskStorageService,
     ErrorService,

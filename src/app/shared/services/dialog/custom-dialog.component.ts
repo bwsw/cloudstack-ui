@@ -1,8 +1,9 @@
 import { Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { MdlButtonComponent, MdlDialogReference } from '@angular-mdl/core';
+import { MdlButtonComponent } from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogType, DialogTypes, ParametrizedTranslation } from './dialog.service';
+import { MdlDialogReference } from './';
 
 
 export interface CustomSimpleDialogConfig {

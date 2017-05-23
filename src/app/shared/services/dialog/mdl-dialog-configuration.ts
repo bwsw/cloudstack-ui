@@ -4,7 +4,7 @@ import {
   Provider,
   ElementRef
 } from '@angular/core';
-import { MdlButtonComponent } from '../button/mdl-button.component';
+import { MdlButtonComponent } from '@angular-mdl/core';
 
 /**
  * @deprecated cusotm dialogs no longer need to implement this interface

@@ -15,7 +15,7 @@ import {
   IMdlDialogAction,
   IMdlSimpleDialogConfiguration
 } from './mdl-dialog-configuration';
-import { MdlButtonComponent } from '../button/mdl-button.component';
+import { MdlButtonComponent } from '@angular-mdl/core';
 
 
 @Component({

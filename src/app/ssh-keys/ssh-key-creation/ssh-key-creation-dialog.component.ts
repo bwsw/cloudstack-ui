@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MdlDialogReference } from '@angular-mdl/core';
+import { MdlDialogReference } from '../../shared/services/dialog';
 
 
 @Component({

@@ -4,7 +4,6 @@ import {
   Inject
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { MdlDialogReference } from '@angular-mdl/core';
 
 import {
   SecurityGroup,
@@ -12,6 +11,7 @@ import {
   NetworkRuleTypes
 } from '../sg.model';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { MdlDialogReference } from '../../shared/services/dialog';
 
 
 export interface RuleListItem {

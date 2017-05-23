@@ -11,8 +11,8 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 
 import { MdlDialogService, MdlDialogReference } from './mdl-dialog.service';
-import { toBoolean } from './../common/boolean-property';
 import { IMdlDialogConfiguration } from './mdl-dialog-configuration';
+import { toBoolean } from '@angular-mdl/core/components/common/boolean-property';
 
 
 

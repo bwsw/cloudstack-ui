@@ -16,9 +16,9 @@ import {
   MDL_CONFIGUARTION
 } from './mdl-dialog.service';
 import { IMdlDialogConfiguration, IOpenCloseRect } from './mdl-dialog-configuration';
-import { MdlButtonComponent } from '../button/mdl-button.component';
 import { InternalMdlDialogReference } from './internal-dialog-reference';
-import { Animations } from '../common/animations';
+import { Animations } from '@angular-mdl/core/components/common/animations';
+import { MdlButtonComponent } from '@angular-mdl/core';
 
 const enterTransitionDuration = 300;
 const leaveTransitionDuration = 250;
@@ -214,7 +214,7 @@ export class MdlDialogHostComponent implements OnInit {
     return this.config.animate;
   }
 
-  private getClientRect(input: MdlButtonComponent | MouseEvent | IOpenCloseRect): IOpenCloseRect {
+  private getClientRect(input): IOpenCloseRect {
 
     if(input instanceof MdlButtonComponent){
 

@@ -1,22 +1,16 @@
 import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { MdlLayoutComponent } from '@angular-mdl/core';
 import { Response } from '@angular/http';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { MdlLayoutComponent } from 'angular2-mdl';
+import { Router } from '@angular/router';
 
 
 import '../style/app.scss';
 import { Color } from './shared/models';
 
-import {
-  AuthService,
-  ErrorService,
-  INotificationService,
-  LanguageService,
-  LayoutService
-} from './shared/services';
+import { AuthService, ErrorService, INotificationService, LanguageService, LayoutService } from './shared/services';
 import { StyleService } from './shared/services/style.service';
 import { ZoneService } from './shared/services/zone.service';
-import { Router } from '@angular/router';
 
 
 @Component({

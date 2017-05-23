@@ -6,12 +6,12 @@ import {
   ElementRef
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MdlDialogReference } from '@angular-mdl/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { SecurityGroupService } from '../../shared/services';
 import { SecurityGroup, NetworkRuleType, NetworkRuleTypes, NetworkProtocol, NetworkProtocols } from '../sg.model';
 import { NotificationService } from '../../shared/services';
+import { MdlDialogReference } from '../../shared/services/dialog';
 
 
 @Component({

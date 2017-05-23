@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { MdlDialogService } from './mdl-dialog.service';
 import { MdlDialogComponent } from './mdl-dialog.component';
 import { MdlSimpleDialogComponent } from './mdl-simple-dialog.component';
-import { MdlCommonsModule } from '../common/index';
 import { MdlDialogHostComponent } from './mdl-dialog-host.component';
 import { MdlAlertComponent } from './mdl-alert.component';
-import { MdlDialogOutletModule } from '../dialog-outlet/index';
-import { MdlButtonModule } from '../button/mdl-button.component';
+import { DialogService } from './dialog.service';
+import { MdlCommonsModule } from '@angular-mdl/core/components/common';
+import { MdlButtonModule, MdlDialogOutletModule } from '@angular-mdl/core';
 
 export * from './mdl-dialog.component';
 export * from './mdl-dialog.service';
@@ -49,7 +49,7 @@ export class MdlDialogModule {
   public static forRoot(): ModuleWithProviders {
     return {
       ngModule: MdlDialogModule,
-      providers: [MdlDialogService]
+      providers: [MdlDialogService, DialogService]
     };
   }
 }

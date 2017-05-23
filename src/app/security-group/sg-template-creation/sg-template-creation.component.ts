@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MdlDialogReference } from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { Rules } from '../sg-creation/sg-creation.component';
+import { MdlDialogReference } from '../../shared/services/dialog';
 
 @Component({
   selector: 'cs-security-group-template-creation',

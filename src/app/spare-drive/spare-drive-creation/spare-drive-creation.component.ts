@@ -4,8 +4,8 @@ import { ZoneService } from '../../shared/services/zone.service';
 import { DiskOffering } from '../../shared';
 import { DiskOfferingService } from '../../shared';
 import { ResourceUsageService, ResourceStats } from '../../shared/services/resource-usage.service';
-import { MdlDialogReference } from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
+import { MdlDialogReference } from '../../shared/services/dialog';
 
 
 @Component({

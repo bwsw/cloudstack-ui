@@ -1,14 +1,14 @@
+import { DISABLE_NATIVE_VALIDITY_CHECKING, MdlModule } from '@angular-mdl/core';
+import { MdlPopoverModule } from '@angular-mdl/popover';
+import { MdlSelectModule } from '@angular-mdl/select';
 import { ApplicationRef, Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
-import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { createNewHosts, removeNgStyles } from '@angularclass/hmr';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { DISABLE_NATIVE_VALIDITY_CHECKING, MdlModule } from 'angular2-mdl';
 
 import { AppComponent } from './app.component';
 import { routes } from './app.routing';

@@ -24,7 +24,7 @@ import {
   IMdlSimpleDialogConfiguration
 } from './mdl-dialog-configuration';
 import { InternalMdlDialogReference } from './internal-dialog-reference';
-import { MdlDialogOutletService } from '../dialog-outlet/mdl-dialog-outlet.service';
+import { MdlDialogOutletService } from '@angular-mdl/core';
 
 
 
@@ -216,6 +216,10 @@ export class MdlDialogService {
     hostComponentRef.instance.dialogTarget.createEmbeddedView(template);
 
     return this.showHostDialog(internalDialogRef.dialogRef, hostComponentRef);
+  }
+
+  public hideAllDialogs(): void {
+    this.openDialogs.forEach(dialog => dialog.hide());
   }
 
   private showHostDialog(dialogRef: MdlDialogReference, hostComponentRef: ComponentRef<MdlDialogHostComponent> ) {

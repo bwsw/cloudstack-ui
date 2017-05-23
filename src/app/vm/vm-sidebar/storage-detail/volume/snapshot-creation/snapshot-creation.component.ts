@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MdlDialogReference } from '@angular-mdl/core';
 import moment = require('moment');
 
 
@@ -11,6 +10,7 @@ import {
 import { ResourceUsageService, ResourceStats } from '../../../../../shared/services/resource-usage.service';
 import { DialogService } from '../../../../../shared/services/dialog/dialog.service';
 import { Volume } from '../../../../../shared/models/volume.model';
+import { MdlDialogReference } from '../../../../../shared/services/dialog';
 
 
 @Component({

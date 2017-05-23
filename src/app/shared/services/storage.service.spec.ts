@@ -19,19 +19,10 @@ describe('Storage service with local storage', () => {
   });
 
   it('should write, read and remove values', () => {
-    const write = spyOn(storageService, 'localStorageWrite').and.callThrough();
-    const read = spyOn(storageService, 'localStorageRead').and.callThrough();
-    const remove = spyOn(storageService, 'localStorageRemove').and.callThrough();
-
     storageService.write('testKey', 'testValue');
     expect(storageService.read('testKey')).toBe('testValue');
     storageService.remove('testKey');
     expect(storageService.read('testKey')).toBeFalsy();
-
-    expect(write).toHaveBeenCalledWith('testKey', 'testValue');
-    expect(read).toHaveBeenCalledWith('testKey');
-    expect(read).toHaveBeenCalledTimes(2);
-    expect(remove).toHaveBeenCalledWith('testKey');
   });
 });
 
@@ -52,18 +43,9 @@ describe('Storage service without local storage', () => {
   });
 
   it('should write, read and remove values', () => {
-    const write = spyOn(storageService, 'inMemoryWrite').and.callThrough();
-    const read = spyOn(storageService, 'inMemoryRead').and.callThrough();
-    const remove = spyOn(storageService, 'inMemoryRemove').and.callThrough();
-
     storageService.write('testKey', 'testValue');
     expect(storageService.read('testKey')).toBe('testValue');
     storageService.remove('testKey');
     expect(storageService.read('testKey')).toBeFalsy();
-
-    expect(write).toHaveBeenCalledWith('testKey', 'testValue');
-    expect(read).toHaveBeenCalledWith('testKey');
-    expect(read).toHaveBeenCalledTimes(2);
-    expect(remove).toHaveBeenCalledWith('testKey');
   });
 });

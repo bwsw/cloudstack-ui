@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MdlDialogReference } from '@angular-mdl/core';
+import { MdlDialogReference } from '../../services/dialog';
 
 @Component({
   selector: 'cs-date-picker-dialog',
