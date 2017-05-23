@@ -4,7 +4,7 @@ import {
   IMdlDialogConfiguration,
   IMdlCustomDialogConfiguration,
   MdlDialogService
-} from 'angular2-mdl';
+} from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';

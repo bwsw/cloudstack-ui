@@ -27,17 +27,17 @@
     <div>
       <cs-color-picker
         *ngIf="primaryColor"
-        [selectedColor]="primaryColor"
-        [colorList]="primaryColors"
-        (onColorChanged)="updatePrimaryColor($event)"
+        [colors]="primaryColors"
+        [formControl]="primaryColorControl"
+        (change)="updatePrimaryColor($event)"
       ></cs-color-picker>
     </div>
     <div>
       <cs-color-picker
         *ngIf="accentColor"
-        [selectedColor]="accentColor"
-        [colorList]="accentColors"
-        (onColorChanged)="updateAccentColor($event)"
+        [colors]="accentColors"
+        [formControl]="accentColorControl"
+        (change)="updateAccentColor($event)"
       ></cs-color-picker>
     </div>
   </div>

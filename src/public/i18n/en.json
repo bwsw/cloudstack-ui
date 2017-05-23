@@ -305,7 +305,7 @@
   "ISO_REGISTER_FAILED": "ISO failed",
   "TEMPLATE_REGISTER_IN_PROGRESS": "Registering a template",
   "TEMPLATE_REGISTER_DONE": "Template registered",
-  "TEMPLATE_REGISTER_FAILED": "Template failed",
+  "TEMPLATE_REGISTER_FAILED": "Template register failed",
   "INVALID_URL": "Invalid URL (only http or https)",
   "CREATED_MASC": "Created",
   "SIZE": "Size",

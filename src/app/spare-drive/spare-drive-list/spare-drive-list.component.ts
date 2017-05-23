@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { ListService } from '../../shared/components/list/list.service';
 import { Volume } from '../../shared/models';
@@ -9,25 +9,16 @@ import { VolumeAttachmentData, VolumeResizeData } from '../../shared/services';
   selector: 'cs-spare-drive-list',
   templateUrl: 'spare-drive-list.component.html'
 })
-export class SpareDriveListComponent implements OnInit {
+export class SpareDriveListComponent {
   @Input() public volumes: Array<Volume>;
-  @Input() public selectedVolume: Volume;
-  @Output() public onSelected = new EventEmitter();
   @Output() public onDelete = new EventEmitter();
   @Output() public onVolumeAttached = new EventEmitter();
   @Output() public onResize = new EventEmitter();
 
-  constructor(private listService: ListService) {}
-
-  public ngOnInit(): void {
-    this.listService.onDeselected.subscribe(() => {
-      this.selectedVolume = null;
-    });
-  }
+  constructor(public listService: ListService) {}
 
   public selectVolume(volume: Volume): void {
-    this.selectedVolume = volume;
-    this.listService.onSelected.next(volume);
+    this.listService.showDetails(volume.id);
   }
 
   public remove(volume: Volume): void {

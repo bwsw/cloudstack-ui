@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MdlDialogReference, MdlDialogService } from 'angular2-mdl';
-import { TranslateService } from '@ngx-translate/core';
+import { MdlDialogReference } from '@angular-mdl/core';
 import moment = require('moment');
 
 
@@ -10,6 +9,8 @@ import {
   StatsUpdateService
 } from '../../../../../shared/services';
 import { ResourceUsageService, ResourceStats } from '../../../../../shared/services/resource-usage.service';
+import { DialogService } from '../../../../../shared/services/dialog/dialog.service';
+import { Volume } from '../../../../../shared/models/volume.model';
 
 
 @Component({
@@ -25,13 +26,12 @@ export class SnapshotCreationComponent implements OnInit {
 
   constructor(
     private dialog: MdlDialogReference,
-    private dialogService: MdlDialogService,
+    private dialogService: DialogService,
     private snapshotService: SnapshotService,
     private jobsNotificationService: JobsNotificationService,
     private statsUpdateService: StatsUpdateService,
-    @Inject('volumeId') private volumeId: string,
+    @Inject('volume') private volume: Volume,
     private resourceUsageService: ResourceUsageService,
-    private translateService: TranslateService
   ) {}
 
   public ngOnInit(): void {
@@ -50,7 +50,7 @@ export class SnapshotCreationComponent implements OnInit {
 
   public onSubmit(): void {
     this.dialog.hide();
-    this.takeSnapshot(this.volumeId, this.name);
+    this.takeSnapshot(this.volume.id, this.name);
   }
 
   public onHide(): void {
@@ -61,12 +61,13 @@ export class SnapshotCreationComponent implements OnInit {
     let notificationId = this.jobsNotificationService.add('SNAPSHOT_IN_PROGRESS');
     this.snapshotService.create(volumeId, name)
       .subscribe(
-        () => {
+        (result: any) => {
           this.statsUpdateService.next();
           this.jobsNotificationService.finish({
             id: notificationId,
             message: 'SNAPSHOT_DONE'
           });
+          this.volume.snapshots.unshift(result);
         },
         e => {
           this.jobsNotificationService.fail({
@@ -74,8 +75,10 @@ export class SnapshotCreationComponent implements OnInit {
             message: 'SNAPSHOT_FAILED'
           });
 
-          this.translateService.get(e.message, e.params)
-            .subscribe(str => this.dialogService.alert(str));
+          this.dialogService.alert({
+            translationToken: e.message,
+            interpolateParams: e.params
+          });
         });
   }
 }

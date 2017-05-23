@@ -8,7 +8,7 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import { MdlSelectComponent } from '@angular2-mdl-ext/select';
+import { MdlSelectComponent } from '@angular-mdl/select';
 
 import {
   CustomServiceOfferingComponent,

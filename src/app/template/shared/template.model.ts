@@ -7,6 +7,8 @@ import { BaseTemplateModel } from './base-template.model';
   templatetype: 'type'
 })
 export class Template extends BaseTemplateModel {
+  public path = 'template';
+
   public format: string;
   public hypervisor: string;
   public isPasswordEnabled: boolean;

@@ -1,3 +1,9 @@
-.blur-fix {
-  padding: 0.5px;
+:host {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+.spare-drive-creation-form {
+  flex: 1;
 }

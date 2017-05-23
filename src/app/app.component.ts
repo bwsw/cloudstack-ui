@@ -14,7 +14,7 @@ import { ErrorService } from './shared/services/error.service';
 import { INotificationService } from './shared/services/notification.service';
 import { LanguageService } from './shared/services/language.service';
 import { LayoutService } from './shared/services/layout.service';
-import { MdlLayoutComponent } from 'angular2-mdl';
+import { MdlLayoutComponent } from '@angular-mdl/core';
 
 import '../style/app.scss';
 import { StyleService } from './shared/services/style.service';
