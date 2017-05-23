@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { ConfigService } from '../../shared/services/config.service';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
-import { MdlDialogReference } from '../../shared/services/dialog';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 
 
 export class CustomServiceOffering {

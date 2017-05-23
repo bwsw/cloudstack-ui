@@ -8,9 +8,9 @@ import {
   StatsUpdateService
 } from '../../../../../shared/services';
 import { ResourceUsageService, ResourceStats } from '../../../../../shared/services/resource-usage.service';
-import { DialogService } from '../../../../../shared/services/dialog/dialog.service';
+import { DialogService } from '../../../../../dialog/dialog-module/dialog.service';
 import { Volume } from '../../../../../shared/models/volume.model';
-import { MdlDialogReference } from '../../../../../shared/services/dialog';
+import { MdlDialogReference } from '../../../../../dialog/dialog-module';
 
 
 @Component({

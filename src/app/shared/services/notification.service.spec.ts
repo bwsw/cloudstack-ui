@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NotificationService } from './notification.service';
-import { MdlSnackbaModule, MdlDialogOutletModule } from '@angular-mdl/core';
+import { MdlSnackbaModule } from '@angular-mdl/core';
 
 import {
   inject,
@@ -11,6 +11,7 @@ import {
 } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
+import { MdlDialogOutletModule } from '../../dialog/dialog-outlet-module';
 
 @Component({
   selector: 'cs-test-view',

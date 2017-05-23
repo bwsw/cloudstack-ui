@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 
 import { Volume } from '../../../../../shared/models';
 import { SnapshotActionsService } from './snapshot-actions.service';
-import { MdlDialogReference } from '../../../../../shared/services/dialog';
+import { MdlDialogReference } from '../../../../../dialog/dialog-module';
 
 @Component({
   selector: 'cs-snapshot-modal',

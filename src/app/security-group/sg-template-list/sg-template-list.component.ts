@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { ListService } from '../../shared/components/list/list.service';
 import { NotificationService } from '../../shared/services';
-import { DialogService } from '../../shared/services/dialog/dialog.service';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
 import { SgTemplateCreationComponent } from '../sg-template-creation/sg-template-creation.component';

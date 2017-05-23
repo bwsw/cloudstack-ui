@@ -8,7 +8,7 @@ import { Subject } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { CustomSimpleDialogComponent, CustomSimpleDialogConfig } from './custom-dialog.component';
 import { MdlDialogService } from './mdl-dialog.service';
-import { MdlDialogReference } from './';
+import { MdlDialogReference } from '../dialog-module';
 
 
 export interface SimpleDialogConfiguration extends IMdlDialogConfiguration {

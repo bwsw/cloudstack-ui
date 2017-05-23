@@ -24,8 +24,7 @@ import {
   IMdlSimpleDialogConfiguration
 } from './mdl-dialog-configuration';
 import { InternalMdlDialogReference } from './internal-dialog-reference';
-import { MdlDialogOutletService } from '@angular-mdl/core';
-
+import { MdlDialogOutletService } from '../dialog-outlet-module';
 
 
 export const MDL_CONFIGUARTION = new InjectionToken<IMdlDialogConfiguration>('MDL_CONFIGUARTION');
@@ -84,7 +83,8 @@ export class MdlDialogService {
     private componentFactoryResolver: ComponentFactoryResolver,
     @Inject(DOCUMENT) private doc: any,
     private appRef: ApplicationRef,
-    private mdlDialogOutletService: MdlDialogOutletService) {
+    private mdlDialogOutletService: MdlDialogOutletService
+  ) {
 
     this.mdlDialogOutletService.backdropClickEmitter.subscribe( () => {
       this.onBackdropClick();

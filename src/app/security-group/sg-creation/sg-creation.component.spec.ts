@@ -7,7 +7,7 @@ import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { NetworkRule, SecurityGroup } from '../sg.model';
 import { Rules, SgCreationComponent } from './sg-creation.component';
-import { MdlDialogReference } from '../../shared/services/dialog';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 
 
 describe('Sg creation component', () => {

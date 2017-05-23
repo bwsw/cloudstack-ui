@@ -24,6 +24,7 @@ import { SpareDriveModule } from './spare-drive';
 import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
+import { MdlDialogModule } from './dialog/dialog-module';
 
 
 export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
@@ -40,6 +41,7 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
+    MdlDialogModule,
     SecurityGroupModule,
     ServiceOfferingModule,
     SettingsModule,

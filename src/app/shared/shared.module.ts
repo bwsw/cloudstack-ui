@@ -73,7 +73,7 @@ import { LoaderComponent } from './components/loader.component';
 import { UserService } from './services/user.service';
 import { FilterService } from './services';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
-import { DialogService } from './services/dialog/dialog.service';
+import { DialogService } from '../dialog/dialog-module/dialog.service';
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
 import { InlineEditAutocompleteComponent } from './components/inline-edit/inline-edit-autocomplete.component';
 import {
@@ -81,10 +81,9 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { DescriptionComponent } from './components/description/description.component';
-import { CustomSimpleDialogComponent } from './services/dialog/custom-dialog.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
-import { MdlDialogService } from './services/dialog/mdl-dialog.service';
-import { MdlDialogModule } from './services/dialog';
+import { MdlDialogService } from '../dialog/dialog-module/mdl-dialog.service';
+import { MdlDialogModule } from '../dialog/dialog-module';
 
 
 @NgModule({
@@ -125,7 +124,6 @@ import { MdlDialogModule } from './services/dialog';
     LoadingDirective
   ],
   entryComponents: [
-    CustomSimpleDialogComponent,
     DatePickerDialogComponent,
     LoaderComponent
   ],
@@ -134,7 +132,6 @@ import { MdlDialogModule } from './services/dialog';
     CalendarMonthComponent,
     CalendarYearComponent,
     ColorPickerComponent,
-    CustomSimpleDialogComponent,
     DateDisplayComponent,
     DatePickerComponent,
     DatePickerDialogComponent,

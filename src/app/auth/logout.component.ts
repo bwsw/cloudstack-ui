@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../shared/services';
 import { Router } from '@angular/router';
-import { MdlDialogService } from '../shared/services/dialog';
+import { MdlDialogService } from '../dialog/dialog-module';
 
 
 @Component({
@@ -17,7 +17,6 @@ export class LogoutComponent implements OnInit {
 
   public ngOnInit(): void {
     this.authService.logout().subscribe(() => {
-      debugger;
       this.router.navigate(['/login']);
       this.dialogService.hideAllDialogs();
     });

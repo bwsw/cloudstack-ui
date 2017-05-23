@@ -1,20 +1,22 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MdlDialogService } from './mdl-dialog.service';
-import { MdlDialogComponent } from './mdl-dialog.component';
-import { MdlSimpleDialogComponent } from './mdl-simple-dialog.component';
-import { MdlDialogHostComponent } from './mdl-dialog-host.component';
-import { MdlAlertComponent } from './mdl-alert.component';
-import { DialogService } from './dialog.service';
+import { MdlButtonModule } from '@angular-mdl/core';
 import { MdlCommonsModule } from '@angular-mdl/core/components/common';
-import { MdlButtonModule, MdlDialogOutletModule } from '@angular-mdl/core';
+import { CommonModule } from '@angular/common';
+import { ModuleWithProviders, NgModule } from '@angular/core';
+import { CustomSimpleDialogComponent } from './custom-dialog.component';
+import { DialogService } from './dialog.service';
+import { MdlAlertComponent } from './mdl-alert.component';
+import { MdlDialogHostComponent } from './mdl-dialog-host.component';
+import { MdlDialogComponent } from './mdl-dialog.component';
+import { MdlDialogService } from './mdl-dialog.service';
+import { MdlSimpleDialogComponent } from './mdl-simple-dialog.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { MdlDialogOutletModule } from '../dialog-outlet-module';
+
 
 export * from './mdl-dialog.component';
 export * from './mdl-dialog.service';
 export * from './mdl-dialog-configuration';
 export * from './mdl-alert.component';
-
-
 
 const PUBLIC_COMPONENTS = [
   MdlDialogComponent,
@@ -22,6 +24,7 @@ const PUBLIC_COMPONENTS = [
 ];
 
 const PRIVATE_COMPONENTS = [
+  CustomSimpleDialogComponent,
   MdlDialogHostComponent,
   MdlSimpleDialogComponent
 ];
@@ -29,6 +32,7 @@ const PRIVATE_COMPONENTS = [
 @NgModule({
   imports: [
     CommonModule,
+    TranslateModule,
     MdlCommonsModule,
     MdlButtonModule,
     MdlDialogOutletModule.forRoot()

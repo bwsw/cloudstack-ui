@@ -5,7 +5,7 @@ import { DiskOffering } from '../../shared';
 import { DiskOfferingService } from '../../shared';
 import { ResourceUsageService, ResourceStats } from '../../shared/services/resource-usage.service';
 import { Observable } from 'rxjs/Observable';
-import { MdlDialogReference } from '../../shared/services/dialog';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 
 
 @Component({

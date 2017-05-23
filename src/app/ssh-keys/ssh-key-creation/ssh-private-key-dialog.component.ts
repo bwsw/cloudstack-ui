@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 
 import { NotificationService } from '../../shared/services/notification.service';
-import { MdlDialogReference } from '../../shared/services/dialog';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 
 
 @Component({

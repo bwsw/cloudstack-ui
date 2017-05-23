@@ -12,7 +12,7 @@ import {
   ZoneService
 } from '../../shared/services';
 import { DiskOffering, Volume, Zone } from '../../shared/models';
-import { DialogService } from '../../shared/services/dialog/dialog.service';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 
 @Component({

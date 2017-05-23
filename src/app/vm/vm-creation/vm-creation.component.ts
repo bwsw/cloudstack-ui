@@ -38,8 +38,8 @@ import {
 import { Template } from '../../template/shared';
 import { AffinityGroupType } from '../../shared/models/affinity-group.model';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
-import { DialogService } from '../../shared/services/dialog/dialog.service';
-import { MdlDialogReference } from '../../shared/services/dialog';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 
 
 class VmCreationData {

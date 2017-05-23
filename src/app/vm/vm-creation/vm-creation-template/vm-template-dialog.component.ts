@@ -5,7 +5,7 @@ import { PRESELECTED_TEMPLATE_TOKEN, ZONE } from './injector-token';
 import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { Iso } from '../../../template/shared/iso.model';
-import { MdlDialogReference } from '../../../shared/services/dialog';
+import { MdlDialogReference } from '../../../dialog/dialog-module';
 
 
 @Component({

@@ -11,7 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SecurityGroupService } from '../../shared/services';
 import { SecurityGroup, NetworkRuleType, NetworkRuleTypes, NetworkProtocol, NetworkProtocols } from '../sg.model';
 import { NotificationService } from '../../shared/services';
-import { MdlDialogReference } from '../../shared/services/dialog';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 
 
 @Component({

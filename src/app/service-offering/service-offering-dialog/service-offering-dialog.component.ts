@@ -4,7 +4,7 @@ import { VmService } from '../../vm/shared/vm.service';
 import { ServiceOfferingFilterService } from '../../shared/services/service-offering-filter.service';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 import { ZoneService } from '../../shared/services/zone.service';
-import { MdlDialogReference } from '../../shared/services/dialog';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 
 
 @Component({

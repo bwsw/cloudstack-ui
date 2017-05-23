@@ -11,7 +11,7 @@ import {
   NetworkRuleTypes
 } from '../sg.model';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { MdlDialogReference } from '../../shared/services/dialog';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 
 
 export interface RuleListItem {

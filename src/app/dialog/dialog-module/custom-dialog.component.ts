@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { MdlButtonComponent } from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogType, DialogTypes, ParametrizedTranslation } from './dialog.service';
-import { MdlDialogReference } from './';
+import { MdlDialogReference } from './mdl-dialog.service';
 
 
 export interface CustomSimpleDialogConfig {
@@ -13,7 +13,7 @@ export interface CustomSimpleDialogConfig {
   declineText?: string;
   title?: string;
   width?: string;
-  clickOutsideToClose?: boolean;
+  clickOutsideToCllose?: boolean;
 }
 
 @Component({

@@ -4,7 +4,7 @@ import {
   Provider,
   ElementRef
 } from '@angular/core';
-import { MdlButtonComponent } from '@angular-mdl/core';
+import { MdlButtonComponent } from '../button/mdl-button.component';
 
 /**
  * @deprecated cusotm dialogs no longer need to implement this interface
@@ -54,7 +54,7 @@ export interface IMdlDialogConfiguration {
   /**
    * true if the dialogs should animate. defaults to true.
    */
-  animate?: boolean
+  animate?: boolean;
 
   /**
    * css classes as space delimted list of classes applied to

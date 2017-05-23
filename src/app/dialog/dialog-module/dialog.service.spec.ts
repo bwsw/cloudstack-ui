@@ -1,12 +1,12 @@
 import { Component, Injector } from '@angular/core';
 import { TestBed, async, getTestBed, fakeAsync, tick } from '@angular/core/testing';
 
-import { MdlDialogOutletModule } from '@angular-mdl/core';
 import { Observable } from 'rxjs';
 import { DialogService } from './dialog.service';
-import { ServiceLocator } from '../service-locator';
+import { ServiceLocator } from '../../service-locator';
 import { TranslateService } from '@ngx-translate/core';
 import { MdlDialogService } from './mdl-dialog.service';
+import { MdlDialogOutletModule } from '../dialog-outlet-module';
 
 
 @Component({

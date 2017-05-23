@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MdlSnackbarService, MdlSnackbarComponent } from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
-import { ParametrizedTranslation } from './dialog/dialog.service';
+import { ParametrizedTranslation } from '../../dialog/dialog-module/dialog.service';
 import { Subject } from 'rxjs/Subject';
 
 interface INotificationAction {
