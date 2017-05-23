@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, Optional, Input } from '@angular/core';
-import { MdlDialogReference } from 'angular2-mdl';
+import { MdlDialogReference } from '@angular-mdl/core';
 
 import { Volume, DiskStorageService } from '../../shared';
 import { DiskOffering } from '../../shared/models';

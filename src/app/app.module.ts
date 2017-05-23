@@ -5,9 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { MdlModule, DISABLE_NATIVE_VALIDITY_CHECKING } from 'angular2-mdl';
-import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
-import { MdlSelectModule } from '@angular2-mdl-ext/select';
+import { MdlModule, DISABLE_NATIVE_VALIDITY_CHECKING } from '@angular-mdl/core';
+import { MdlPopoverModule } from '@angular-mdl/popover';
+import { MdlSelectModule } from '@angular-mdl/select';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
 import { AppComponent } from './app.component';

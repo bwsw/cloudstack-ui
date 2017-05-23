@@ -1,6 +1,6 @@
 import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { MdlModule } from 'angular2-mdl';
+import { MdlModule } from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
 
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';

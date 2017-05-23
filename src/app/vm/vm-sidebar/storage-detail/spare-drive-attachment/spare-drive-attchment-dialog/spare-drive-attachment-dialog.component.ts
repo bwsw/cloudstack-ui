@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Volume } from '../../../../../shared/models';
-import { MdlDialogReference } from 'angular2-mdl';
+import { MdlDialogReference } from '@angular-mdl/core';
 
 @Component({
   selector: 'cs-spare-drive-attachment-dialog',

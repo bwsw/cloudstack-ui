@@ -10,12 +10,11 @@ import { Response } from '@angular/http';
 
 import { AuthService } from './shared/services';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { ErrorService } from './shared/services/error.service';
 import { INotificationService } from './shared/services/notification.service';
 import { LanguageService } from './shared/services/language.service';
 import { LayoutService } from './shared/services/layout.service';
-import { MdlLayoutComponent } from 'angular2-mdl';
+import { MdlLayoutComponent } from '@angular-mdl/core';
 
 import '../style/app.scss';
 import { StyleService } from './shared/services/style.service';
@@ -46,7 +45,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     private auth: AuthService,
     private domSanitizer: DomSanitizer,
     private router: Router,
-    private translate: TranslateService,
     private error: ErrorService,
     private languageService: LanguageService,
     private layoutService: LayoutService,
@@ -152,7 +150,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (e instanceof Response) {
       switch (e.status) {
         case 401:
-          this.translate.get('NOT_LOGGED_IN').subscribe(result => this.notification.message(result));
+          this.notification.message('NOT_LOGGED_IN');
           this.auth.setLoggedOut('reset');
           break;
       }

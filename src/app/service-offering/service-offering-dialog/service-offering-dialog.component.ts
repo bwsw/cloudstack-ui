@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MdlDialogReference } from 'angular2-mdl';
+import { MdlDialogReference } from '@angular-mdl/core';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { VmService } from '../../vm/shared/vm.service';
 import { ServiceOfferingFilterService } from '../../shared/services/service-offering-filter.service';
@@ -15,7 +15,7 @@ import { ZoneService } from '../../shared/services/zone.service';
 export class ServiceOfferingDialogComponent implements OnInit {
   public serviceOffering: ServiceOffering;
   public serviceOfferings: Array<ServiceOffering>;
-
+  public loading: Boolean;
   constructor(
     public dialog: MdlDialogReference,
     @Inject('virtualMachine') public virtualMachine: VirtualMachine,
@@ -33,8 +33,10 @@ export class ServiceOfferingDialogComponent implements OnInit {
   }
 
   public onChange(): void {
-    this.vmService.changeServiceOffering(this.serviceOffering, this.virtualMachine);
-    this.dialog.hide();
+    this.loading = true;
+    this.vmService.changeServiceOffering(this.serviceOffering, this.virtualMachine)
+      .finally(() => this.loading = false)
+      .subscribe(() => this.dialog.hide(this.serviceOffering));
   }
 
   public onCancel(): void {

@@ -4,6 +4,7 @@ interface IFieldMapper {
 
 
 export abstract class BaseModel {
+  public id: string;
   protected _mapper: IFieldMapper;
 
   constructor(params?: {}) {
@@ -22,8 +23,8 @@ export abstract class BaseModel {
   }
 
   public serialize(): any {
-    const model = {};
-    const reverseMap = {};
+    const model: any = {};
+    const reverseMap: any = {};
 
     if (!this._mapper) {
       return model;

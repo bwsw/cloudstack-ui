@@ -253,28 +253,28 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       .map(vmList => vmList.filter(vm => vm.isoId === iso.id));
   }
 
-  public changeServiceOffering(serviceOffering: ServiceOffering, virtualMachine: VirtualMachine): void {
+  public changeServiceOffering(
+    serviceOffering: ServiceOffering,
+    virtualMachine: VirtualMachine
+  ): Observable<VirtualMachine> {
     if (virtualMachine.serviceOfferingId === serviceOffering.id) {
-      return;
+      return Observable.of(virtualMachine);
     }
 
     if (virtualMachine.state === VmStates.Stopped) {
-      this.changeOffering(serviceOffering, virtualMachine).subscribe();
-      return;
+      return this.changeOffering(serviceOffering, virtualMachine).map(vm => vm);
     }
-    this.command({
+    return this.command({
       action: VirtualMachine.getAction(VmActions.STOP),
       vm: virtualMachine
-    })
-      .switchMap(() => {
-        return this.changeOffering(serviceOffering, virtualMachine);
-      })
-      .subscribe(() => {
-        this.command({
-          action: VirtualMachine.getAction(VmActions.START),
-          vm: virtualMachine
-        }).subscribe();
-      });
+    }).switchMap(() => {
+      return this.changeOffering(serviceOffering, virtualMachine).map(vm => vm);
+    }).switchMap((vm) => {
+      return this.command({
+        action: VirtualMachine.getAction(VmActions.START),
+        vm: virtualMachine
+      }).map(() => vm);
+    });
   }
 
   public addIpToNic(nicId: string, ipAddress?: string): Observable<any> {
@@ -308,7 +308,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return this.tagService.update(vm, 'UserVm', 'description', description);
   }
 
-  private changeOffering(serviceOffering: ServiceOffering, virtualMachine: VirtualMachine): Observable<void> {
+  private changeOffering(serviceOffering: ServiceOffering, virtualMachine: VirtualMachine): Observable<VirtualMachine> {
     let params = {};
 
     params['id'] = virtualMachine.id;
@@ -327,6 +327,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       .map(result => {
         this.jobsNotificationService.finish({ message: 'OFFERING_CHANGED' });
         this.updateVmInfo(result);
+        return result;
       }, () => {
         this.jobsNotificationService.fail({ message: 'OFFERING_CHANGE_FAILED' });
         this.notificationService.error('UNEXPECTED_ERROR');

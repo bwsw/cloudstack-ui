@@ -17,7 +17,7 @@
             <cs-vm-list-item
               *ngFor="let vm of subsection.vmList"
               [vm]="vm"
-              [isSelected]="selectedVm?.id === vm?.id"
+              [isSelected]="listService?.isSelected(vm?.id)"
               (onVmAction)="vmAction($event)"
               (onClick)="showDetail($event)"
             ></cs-vm-list-item>
@@ -42,7 +42,7 @@
                   <cs-vm-list-item
                     *ngFor="let vm of subsection.vmList"
                     [vm]="vm"
-                    [isSelected]="selectedVm?.id === vm?.id"
+                    [isSelected]="listService?.isSelected(vm?.id)"
                     (onVmAction)="vmAction($event)"
                     (onClick)="showDetail($event)"
                   ></cs-vm-list-item>
@@ -55,7 +55,7 @@
               <cs-vm-list-item
                 *ngFor="let vm of section.vmList"
                 [vm]="vm"
-                [isSelected]="selectedVm?.id === vm?.id"
+                [isSelected]="listService?.isSelected(vm?.id)"
                 (onVmAction)="vmAction($event)"
                 (onClick)="showDetail($event)"
               ></cs-vm-list-item>
@@ -72,7 +72,7 @@
       <cs-vm-list-item
         *ngFor="let vm of visibleVmList"
         [vm]="vm"
-        [isSelected]="selectedVm?.id === vm?.id"
+        [isSelected]="listService?.isSelected(vm?.id)"
         (onVmAction)="vmAction($event)"
         (onClick)="showDetail($event)"
       ></cs-vm-list-item>
@@ -81,10 +81,5 @@
     <cs-no-results *ngIf="noFilteringResults"></cs-no-results>
   </ng-container>
 
-  <cs-vm-sidebar
-    class="mdl-color--grey-100"
-    [vm]="selectedVm"
-    cs-sidebar
-  ></cs-vm-sidebar>
+  <router-outlet cs-sidebar></router-outlet>
 </cs-list>
-

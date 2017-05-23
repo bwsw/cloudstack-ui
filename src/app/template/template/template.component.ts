@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostBinding, Input, Output, ViewChild } from '@angular/core';
-import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
+import { MdlPopoverComponent } from '@angular-mdl/popover';
 
 import { AuthService } from '../../shared';
 import { BaseTemplateModel } from '../shared';

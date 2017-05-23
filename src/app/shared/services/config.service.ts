@@ -8,7 +8,7 @@ interface IConfig {
   securityGroupTemplates: Array<SecurityGroup>;
 }
 
-const configUrl = '/config/config.json';
+const configUrl = 'config/config.json';
 
 @Injectable()
 export class ConfigService {

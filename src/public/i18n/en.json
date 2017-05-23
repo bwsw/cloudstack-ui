@@ -305,7 +305,7 @@
   "ISO_REGISTER_FAILED": "ISO failed",
   "TEMPLATE_REGISTER_IN_PROGRESS": "Registering a template",
   "TEMPLATE_REGISTER_DONE": "Template registered",
-  "TEMPLATE_REGISTER_FAILED": "Template failed",
+  "TEMPLATE_REGISTER_FAILED": "Template register failed",
   "INVALID_URL": "Invalid URL (only http or https)",
   "CREATED_MASC": "Created",
   "SIZE": "Size",
@@ -461,6 +461,7 @@
   "CHANGE_PASSWORD": "Change password",
   "NEW_PASSWORD": "New password",
   "REPEAT_PASSWORD": "Repeat password",
+  "PASSWORD_CHANGED_SUCCESSFULLY": "Password has been changed successfully",
   "UPDATE": "Update",
 
   "TEMPLATE_CREATION_DONE": "Template created",
@@ -499,5 +500,13 @@
   "SELECT_VOLUME": "Select a volume",
 
   "NO_AVAILABLE_VOLUMES": "No available volumes. Detach a volume or",
-  "NAVIGATE_TO_VOLUME_CREATION_PAGE": "create a new one"
+  "NAVIGATE_TO_VOLUME_CREATION_PAGE": "create a new one",
+
+  "VM_FILTERS": {
+    "STATE": {
+      "RUNNING": "Running",
+      "STOPPED": "Stopped",
+      "ERROR": "Error"
+    }
+  }
 }
