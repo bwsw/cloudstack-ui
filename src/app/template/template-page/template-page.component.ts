@@ -37,22 +37,15 @@ export class TemplatePageComponent implements OnInit {
     this.dialogService.showCustomDialog({
       component: TemplateCreationComponent,
       classes: 'template-creation-dialog dialog-overflow-visible',
-      providers: [{ provide: 'mode', useValue: this.viewMode }]
+      providers: [{ provide: 'mode', useValue: this.viewMode }],
+      clickOutsideToClose: false
     })
       .switchMap(res => res.onHide())
-      .subscribe(isoData => {
-        if (isoData) {
-          this.createTemplate(isoData);
+      .subscribe(templateData => {
+        if (templateData) {
+          this.updateList();
         }
       });
-  }
-
-  public createTemplate(templateData): void {
-    this.templateActions.createTemplate(templateData, this.viewMode)
-      .subscribe(
-        () => this.updateList(),
-        () => {}
-      );
   }
 
   public removeTemplate(template: BaseTemplateModel): void {

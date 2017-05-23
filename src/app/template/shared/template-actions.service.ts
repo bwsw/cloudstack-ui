@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../shared/services/dialog/dialog.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
-import { NotificationService } from '../../shared/services/notification.service';
 import { VmService } from '../../vm/shared/vm.service';
 import { BaseTemplateModel } from './base-template.model';
 import { Iso } from './iso.model';
@@ -15,7 +14,6 @@ export class TemplateActionsService {
   constructor(
     private dialogService: DialogService,
     private jobNotificationService: JobsNotificationService,
-    private notificationService: NotificationService,
     private templateService: TemplateService,
     private isoService: IsoService,
     private vmService: VmService
@@ -40,14 +38,17 @@ export class TemplateActionsService {
     }
     const notificationId = this.jobNotificationService.add(inProgressTranslation);
 
-    return obs.map(() => {
+    return obs.do(() => {
       this.jobNotificationService.finish({
         id: notificationId,
         message: doneTranslation,
       });
     })
       .catch(error => {
-        this.notificationService.error(error.errortext);
+        this.dialogService.alert({
+          translationToken: error.message,
+          interpolateParams: error.params
+        });
         this.jobNotificationService.fail({
           id: notificationId,
           message: failedTranslation,
