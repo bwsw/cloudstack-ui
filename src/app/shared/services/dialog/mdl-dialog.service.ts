@@ -1,24 +1,31 @@
 import {
-  ApplicationRef,
-  ComponentFactoryResolver,
-  ComponentRef,
-  EventEmitter,
   Inject,
   Injectable,
-  InjectionToken,
-  Provider,
-  ReflectiveInjector,
-  TemplateRef,
+  ComponentFactoryResolver,
+  ComponentRef,
   Type,
-  ViewContainerRef
+  ReflectiveInjector,
+  Provider,
+  ApplicationRef,
+  ViewContainerRef,
+  TemplateRef,
+  EventEmitter,
+  InjectionToken
 } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
-import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
- './mdl-dialog-configuration';
-import { MdlDialogHostComponent } from './mdl-dialog-host.component';
+import { Observable } from 'rxjs/Observable';
 
 import { MdlSimpleDialogComponent } from './mdl-simple-dialog.component';
+import { MdlDialogHostComponent } from './mdl-dialog-host.component';
+import {
+  IMdlDialogConfiguration,
+  IMdlCustomDialogConfiguration,
+  IMdlSimpleDialogConfiguration
+} from './mdl-dialog-configuration';
+import { InternalMdlDialogReference } from './internal-dialog-reference';
+import { MdlDialogOutletService } from '../dialog-outlet/mdl-dialog-outlet.service';
+
 
 
 export const MDL_CONFIGUARTION = new InjectionToken<IMdlDialogConfiguration>('MDL_CONFIGUARTION');
@@ -60,7 +67,7 @@ export class MdlDialogReference {
 /**
  * The MdlDialogService is used to open different kind of dialogs. SimpleDialogs and Custom Dialogs.
  * @experimental
- */
+  */
 
 @Injectable()
 export class MdlDialogService {
@@ -95,16 +102,16 @@ export class MdlDialogService {
     let result: Subject<any> = new Subject();
 
     this.showDialog({
-      title: title,
-      message: alertMessage,
-      actions: [
-        { handler: () => {
-          result.next(null);
-          result.complete();
-        }, text: okText}
-      ],
-      isModal: true
-    });
+        title: title,
+        message: alertMessage,
+        actions: [
+          { handler: () => {
+            result.next(null);
+            result.complete();
+          }, text: okText}
+        ],
+        isModal: true
+      });
 
     return result;
   }
@@ -253,7 +260,7 @@ export class MdlDialogService {
 
   private pushDialog(dialogRef: InternalMdlDialogReference) {
     if (this.openDialogs.length == 0) { // first dialog being opened
-      this.onDialogsOpenChanged.emit(true);
+        this.onDialogsOpenChanged.emit(true);
     }
 
     this.openDialogs.push(dialogRef);
@@ -323,4 +330,6 @@ export class MdlDialogService {
 
     return viewContainerRef.createComponent(cFactory, viewContainerRef.length, childInjector);
   }
+
+
 }
