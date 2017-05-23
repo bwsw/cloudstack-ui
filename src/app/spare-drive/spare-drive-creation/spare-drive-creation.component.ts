@@ -48,9 +48,8 @@ export class SpareDriveCreationComponent implements OnInit {
 
     this.getZones()
       .switchMap(() => this.getDiskOfferings())
-      .delay(100) // because ngIf elements appear when the form is already visible
-                  // todo: replace delay with *loading directive with minimum loading time
-      .subscribe(() => this.loading = false);
+      .finally(() => this.loading = false)
+      .subscribe();
   }
 
   public get zoneId(): string {

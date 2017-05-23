@@ -36,15 +36,14 @@ export class SshKeysPageComponent implements OnInit {
       }
     })
       .switchMap(res => res.onHide())
-      .subscribe(
-        (sshKey: SSHKeyPair) => {
-          if (sshKey) {
-            this.sshKeyList = sortBy(this.sshKeyList.concat(sshKey), 'name');
-            if (sshKey.privateKey) {
-              this.showPrivateKey(sshKey.privateKey);
-            }
+      .subscribe((sshKey: SSHKeyPair) => {
+        if (sshKey) {
+          this.sshKeyList = sortBy(this.sshKeyList.concat(sshKey), 'name');
+          if (sshKey.privateKey) {
+            this.showPrivateKey(sshKey.privateKey);
           }
-        });
+        }
+      });
   }
 
   public removeKey(name: string): void {
