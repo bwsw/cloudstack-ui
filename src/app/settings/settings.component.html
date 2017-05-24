@@ -2,6 +2,7 @@
 <div class="padding" *loading="loading">
   <div *ngIf="language">
     <h4 class="no-margin">{{ 'LANGUAGE' | translate }}</h4>
+    {{language}}
     <mdl-select
       [(ngModel)]="language"
       (change)="changeLanguage($event)"
