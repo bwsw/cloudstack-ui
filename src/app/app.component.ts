@@ -137,7 +137,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public get logoSource(): string {
-    return `/img/cloudstack_logo_${ this.isLightTheme ? 'light' : 'dark' }.png`;
+    return `img/cloudstack_logo_${ this.isLightTheme ? 'light' : 'dark' }.png`;
   }
 
   private updateAccount(loggedIn: boolean): void {

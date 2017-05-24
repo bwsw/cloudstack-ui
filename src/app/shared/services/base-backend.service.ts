@@ -6,7 +6,7 @@ import { ServiceLocator } from './service-locator';
 import { ErrorService } from './error.service';
 
 
-export const BACKEND_API_URL = '/client/api';
+export const BACKEND_API_URL = 'client/api';
 
 export abstract class BaseBackendService<M extends BaseModel> {
   protected entity: string;
