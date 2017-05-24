@@ -5,7 +5,7 @@ sed -i -e 's#API_BACKEND_URL#'"$API_BACKEND_URL"'#g' /etc/nginx/conf.d/default.c
 sed -i -e 's#CONSOLE_BACKEND_URL#'"$CONSOLE_BACKEND_URL"'#g' /etc/nginx/conf.d/default.conf
 
 # add base href
-if [ -n $BASE_HREF ]; then
+if [ -n "$BASE_HREF" ]; then
     sed -i -e 's#"/"#'"$BASE_HREF"'#g' /var/www/dist/index.html
 fi
 
