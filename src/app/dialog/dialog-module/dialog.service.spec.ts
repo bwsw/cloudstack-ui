@@ -3,10 +3,10 @@ import { TestBed, async, getTestBed, fakeAsync, tick } from '@angular/core/testi
 
 import { Observable } from 'rxjs';
 import { DialogService } from './dialog.service';
-import { ServiceLocator } from '../../service-locator';
 import { TranslateService } from '@ngx-translate/core';
 import { MdlDialogService } from './mdl-dialog.service';
 import { MdlDialogOutletModule } from '../dialog-outlet-module';
+import { ServiceLocator } from '../../shared/services/service-locator';
 
 
 @Component({

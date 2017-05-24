@@ -11,29 +11,28 @@ import { IMdlDialogConfiguration } from './mdl-dialog-configuration';
  * and internal implementations.
  */
 export class InternalMdlDialogReference {
-
-  public hostDialogComponentRef: ComponentRef<any>;
-  private onHideSubject: Subject<any> = new Subject();
-  private onVisibleSubject: Subject<any> = new Subject();
   public closeCallback: () => void;
   public isModal = false;
   public dialogRef: MdlDialogReference;
+  public hostDialogComponentRef: ComponentRef<any>;
+  private onHideSubject: Subject<any> = new Subject();
+  private onVisibleSubject: Subject<any> = new Subject();
 
-  constructor(public config: IMdlDialogConfiguration){
+  constructor(public config: IMdlDialogConfiguration) {
     this.dialogRef = new MdlDialogReference(this);
   }
 
-  get  hostDialog() {
+  get hostDialog(): any {
     return this.hostDialogComponentRef.instance;
   }
 
-  public hide(data?: any) {
+  public hide(data?: any): void {
     this.onHideSubject.next(data);
     this.onHideSubject.complete();
     this.closeCallback();
   }
 
-  public visible() {
+  public visible(): void {
     this.onVisibleSubject.next();
     this.onVisibleSubject.complete();
   }

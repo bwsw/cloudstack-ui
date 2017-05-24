@@ -15,8 +15,8 @@ import { IMdlDialogConfiguration } from './mdl-dialog-configuration';
 import { toBoolean } from '@angular-mdl/core/components/common/boolean-property';
 
 
-
 @Component({
+  // tslint:disable-next-line
   selector: 'mdl-dialog',
   template: `
     <div *dialogTemplate>
@@ -26,38 +26,32 @@ import { toBoolean } from '@angular-mdl/core/components/common/boolean-property'
   encapsulation: ViewEncapsulation.None
 })
 export class MdlDialogComponent {
-
+  @Input() public config: IMdlDialogConfiguration;
+  @Output() public showEmitter: EventEmitter<MdlDialogReference> = new EventEmitter<MdlDialogReference>();
+  @Output() public hideEmitter: EventEmitter<void> = new EventEmitter<void>();
   @ViewChild(TemplateRef) public template: TemplateRef<any>;
 
-  // @deprecated use mdl-dialog-config instead (will be removed in 3.0.0)
   private _modal: boolean;
-  @Input('mdl-modal')
+  @Input()
   get modal(): boolean { return this._modal; }
   set modal(value) { this._modal = toBoolean(value); }
 
-  @Input('mdl-dialog-config') public config: IMdlDialogConfiguration;
-  @Output('show') public showEmitter: EventEmitter<MdlDialogReference> = new EventEmitter<MdlDialogReference>();
-  @Output('hide') public hideEmitter: EventEmitter<void> = new EventEmitter<void>();
-
   private isShown = false;
-  private dialogRef : MdlDialogReference = null;
+  private dialogRef: MdlDialogReference = null;
 
   constructor(private dialogService: MdlDialogService) {}
 
 
   public show(): Observable<MdlDialogReference> {
-
-    if(this.isShown){
+    if (this.isShown) {
       throw new Error('Only one instance of an embedded mdl-dialog can exist!');
     }
     this.isShown = true;
 
     let mergedConfig: IMdlDialogConfiguration = this.config || {};
 
-    // mdl-modal overwrites config.isModal if present
     mergedConfig.isModal = typeof this.modal !== 'undefined' ? this.modal : mergedConfig.isModal;
-    // default is true
-    if (typeof mergedConfig.isModal === 'undefined'){
+    if (typeof mergedConfig.isModal === 'undefined') {
       mergedConfig.isModal = true;
     }
 
@@ -82,12 +76,12 @@ export class MdlDialogComponent {
         this.isShown = false;
       });
 
-    })
+    });
     return result.asObservable();
   }
 
-  public close() {
-    if (this.dialogRef){
+  public close(): void {
+    if (this.dialogRef) {
       this.dialogRef.hide();
     }
   }

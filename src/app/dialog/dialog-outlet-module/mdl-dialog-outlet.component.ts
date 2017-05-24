@@ -1,3 +1,5 @@
+//tslint:disable
+
 import { Component, ViewContainerRef, forwardRef, Inject } from '@angular/core';
 
 import { MdlDialogOutletService } from './mdl-dialog-outlet.service';
@@ -28,7 +30,7 @@ export class MdlDialogOutletComponent {
 export class MdlDialogInnerOutletComponent {
 
   constructor(
-    private vCRef: ViewContainerRef,
+    vCRef: ViewContainerRef,
     @Inject( forwardRef( () => MdlDialogOutletService)) service: MdlDialogOutletService) {
     service.setDefaultViewContainerRef(vCRef);
   }

@@ -1,7 +1,10 @@
+//tslint:disable
+
 import { Component, HostListener, HostBinding, ViewEncapsulation, EventEmitter } from '@angular/core';
 
 
 @Component({
+  // tslint:disable-next-line
   selector: 'mdl-backdrop-overlay',
   host: {
     '[class.dialog-backdrop]': 'true',

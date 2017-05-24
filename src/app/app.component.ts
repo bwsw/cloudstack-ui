@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
 import { MdlLayoutComponent } from '@angular-mdl/core';
 import { Response } from '@angular/http';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
@@ -11,6 +11,7 @@ import { Color } from './shared/models';
 import { AuthService, ErrorService, INotificationService, LanguageService, LayoutService } from './shared/services';
 import { StyleService } from './shared/services/style.service';
 import { ZoneService } from './shared/services/zone.service';
+import { MdlDialogService } from './dialog/dialog-module';
 
 
 @Component({
@@ -36,10 +37,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     private error: ErrorService,
     private languageService: LanguageService,
     private layoutService: LayoutService,
+    private mdlDialogService: MdlDialogService,
     private router: Router,
     @Inject('INotificationService') private notification: INotificationService,
     private styleService: StyleService,
-    private zoneService: ZoneService
+    private zoneService: ZoneService,
+    private zone: NgZone
   ) {
     this.title = this.auth.name;
   }
@@ -64,6 +67,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.layoutService.drawerToggled.subscribe(() => {
       this.toggleDrawer();
     });
+
+    this.captureScrollEvents();
+    this.toggleDialogOverlay();
   }
 
   public ngAfterViewInit(): void {
@@ -151,5 +157,27 @@ export class AppComponent implements OnInit, AfterViewInit {
   private loadSettings(): void {
     this.languageService.applyLanguage();
     this.styleService.loadPalette();
+  }
+
+  private captureScrollEvents(): void {
+    const useCapture = true;
+    this.zone.runOutsideAngular(() => {
+      document.querySelector('.dialog-container')
+        .addEventListener(
+          'scroll',
+          e => e.stopPropagation(),
+          useCapture
+        );
+    });
+  }
+
+  private toggleDialogOverlay(): void {
+    this.mdlDialogService.onDialogsOpenChanged.subscribe(open => {
+      if (open) {
+        document.querySelector('.dialog-container').classList.add('dialog-container-overlay');
+      } else {
+        document.querySelector('.dialog-container').classList.remove('dialog-container-overlay');
+      }
+    });
   }
 }

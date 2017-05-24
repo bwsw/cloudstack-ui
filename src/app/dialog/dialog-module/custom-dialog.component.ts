@@ -13,7 +13,7 @@ export interface CustomSimpleDialogConfig {
   declineText?: string;
   title?: string;
   width?: string;
-  clickOutsideToCllose?: boolean;
+  clickOutsideToClose?: boolean;
 }
 
 @Component({
