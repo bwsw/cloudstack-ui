@@ -43,8 +43,7 @@ export class ApiInfoComponent implements OnInit {
   constructor(
     private configService: ConfigService,
     private notificationService: NotificationService,
-    private userService: UserService,
-    private utilsService: UtilsService
+    private userService: UserService
   ) {}
 
   public ngOnInit(): void {
@@ -68,7 +67,7 @@ export class ApiInfoComponent implements OnInit {
   }
 
   private get apiUrl(): string {
-    return this.utilsService.locationOrigin + '/' + BACKEND_API_URL;
+    return BACKEND_API_URL;
   }
 
   public onCopySuccess(): void {

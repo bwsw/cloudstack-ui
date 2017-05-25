@@ -4,14 +4,6 @@ import * as uuid from 'uuid';
 
 @Injectable()
 export class UtilsService {
-  public get locationOrigin(): string {
-    if (location.origin) {
-      return location.origin;
-    } else {
-      return '' + location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
-    }
-  }
-
   public getUniqueId(): string {
     return uuid.v4();
   }
