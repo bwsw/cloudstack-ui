@@ -1,20 +1,20 @@
+import { MdlModule } from '@angular-mdl/core';
+import { MdlSelectModule } from '@angular-mdl/select';
 import { Component, EventEmitter, NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
+import { DatePickerComponent } from '../shared/components/date-picker';
+import { NotificationBoxComponent } from '../shared/components/notification-box';
+import { TopBarComponent } from '../shared/components/top-bar/top-bar.component';
+import { LanguageService } from '../shared/services';
 
 import { FilterService } from '../shared/services/filter.service';
 import { SharedModule } from '../shared/shared.module';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
 import { EventService } from './event.service';
-import { NotificationBoxComponent } from '../shared/components/notification-box';
-import { TopBarComponent } from '../shared/components/top-bar/top-bar.component';
-import { DatePickerComponent } from '../shared/components/date-picker';
-import { MdlSelectModule } from '@angular2-mdl-ext/select';
-import { MdlModule } from 'angular2-mdl';
-import { LanguageService } from '../shared/services';
-import { By } from '@angular/platform-browser';
 
 
 const eventServiceFixture = require('./event.service.fixture.json');

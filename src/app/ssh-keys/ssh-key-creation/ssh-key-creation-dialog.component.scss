@@ -1,3 +1,12 @@
+:host {
+  display: flex;
+  align-items: center;
+}
+
+.ssh-creation-form {
+  flex: 1;
+}
+
 .public-key-label {
   font-size: 12px;
 }

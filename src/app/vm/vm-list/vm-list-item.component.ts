@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
+import { MdlPopoverComponent } from '@angular-mdl/popover';
 
 import { AsyncJob, Color } from '../../shared/models';
 import { AsyncJobService } from '../../shared/services';
@@ -63,7 +63,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
 
   public openConsole(): void {
     window.open(
-      `/client/console?cmd=access&vm=${this.vm.id}`,
+      `client/console?cmd=access&vm=${this.vm.id}`,
       this.vm.displayName,
       'resizable=0,width=820,height=640'
     );

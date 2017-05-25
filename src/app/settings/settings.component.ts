@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 import { Color, LanguageService, StyleService } from '../shared';
 import { AuthService, NotificationService } from '../shared/services';
 import { UserService } from '../shared/services/user.service';
-import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -24,6 +24,9 @@ export class SettingsComponent implements OnInit {
   public updatingFirstDayOfWeek = false;
   public dayTranslations: {};
   public loading = false;
+
+  public primaryColorControl = new FormControl();
+  public accentColorControl = new FormControl();
 
   constructor(
     private authService: AuthService,
@@ -82,7 +85,7 @@ export class SettingsComponent implements OnInit {
   public updatePassword(): void {
     this.userService.updatePassword(this.authService.userId, this.password)
       .subscribe(
-        () => {},
+        () => this.notificationService.message('PASSWORD_CHANGED_SUCCESSFULLY'),
         error => this.notificationService.error(error.errortext)
       );
     this.passwordUpdateForm.reset();
@@ -124,6 +127,9 @@ export class SettingsComponent implements OnInit {
           themeData.themeColors[0];
         this.accentColor = this.accentColors.find(color => color.name === themeData.accentColor) ||
           themeData.themeColors[1];
+
+        this.primaryColorControl.setValue(this.primaryColor);
+        this.accentColorControl.setValue(this.accentColor);
       });
   }
 

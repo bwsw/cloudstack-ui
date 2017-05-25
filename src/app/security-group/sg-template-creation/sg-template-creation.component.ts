@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MdlDialogReference } from 'angular2-mdl';
+import { MdlDialogReference } from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { Rules } from '../sg-creation/sg-creation.component';
+import { DialogService } from '../../shared/services/dialog/dialog.service';
 
 @Component({
   selector: 'cs-security-group-template-creation',
@@ -17,7 +18,10 @@ export class SgTemplateCreationComponent {
 
   public creationInProgress = false;
 
-  constructor(public dialog: MdlDialogReference, private sgService: SecurityGroupService) { }
+  constructor(
+    public dialog: MdlDialogReference,
+    public dialogService: DialogService,
+    private sgService: SecurityGroupService) { }
 
   public onSubmit(e: Event): void {
     e.preventDefault();
@@ -34,9 +38,17 @@ export class SgTemplateCreationComponent {
     this.creationInProgress = true;
     this.sgService.createTemplate(data, rules)
       .switchMap(template => rules ? this.sgService.get(template.id) : Observable.of(template))
-      .subscribe(template => {
-        this.dialog.hide(template);
-        this.creationInProgress = false;
-      }, () => this.creationInProgress = false);
+      .finally(() => this.creationInProgress = false)
+      .subscribe(
+        template => this.dialog.hide(template),
+        error => this.handleError(error)
+      );
+  }
+
+  private handleError(error): void {
+    this.dialogService.alert({
+      translationToken: error.message,
+      interpolateParams: error.params
+    });
   }
 }

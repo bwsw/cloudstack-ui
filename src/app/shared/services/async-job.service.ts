@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-import { AsyncJob } from '../models/async-job.model';
+import { AsyncJob } from '../models';
 import { BaseBackendService } from './base-backend.service';
-import { BackendResource } from '../decorators/backend-resource.decorator';
+import { BackendResource } from '../decorators';
 import { ErrorService } from './error.service';
 
 

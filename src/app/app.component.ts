@@ -1,28 +1,27 @@
 import {
+  AfterViewInit,
   Component,
-  Inject,
-  OnInit,
-  ViewChild,
   ElementRef,
-  AfterViewInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 import { Response } from '@angular/http';
-
-import { AuthService } from './shared/services';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { ErrorService } from './shared/services/error.service';
-import { INotificationService } from './shared/services/notification.service';
-import { LanguageService } from './shared/services/language.service';
-import { LayoutService } from './shared/services/layout.service';
-import { MdlLayoutComponent } from 'angular2-mdl';
+import { MdlLayoutComponent } from '@angular-mdl/core';
 
 import '../style/app.scss';
-import { StyleService } from './shared/services/style.service';
-import { ZoneService } from './shared/services/zone.service';
-import { Color } from './shared/models/color.model';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { AsyncJobService } from './shared/services/async-job.service';
+import {
+  AsyncJobService,
+  AuthService,
+  Color,
+  ErrorService,
+  LanguageService,
+  LayoutService,
+  NotificationService,
+  StyleService,
+  ZoneService
+} from './shared';
 
 
 @Component({
@@ -46,11 +45,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     private auth: AuthService,
     private domSanitizer: DomSanitizer,
     private router: Router,
-    private translate: TranslateService,
     private error: ErrorService,
     private languageService: LanguageService,
     private layoutService: LayoutService,
-    @Inject('INotificationService') private notification: INotificationService,
+    private notification: NotificationService,
     private styleService: StyleService,
     private asyncJobService: AsyncJobService,
     private zoneService: ZoneService
@@ -139,7 +137,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public get logoSource(): string {
-    return `/img/cloudstack_logo_${ this.isLightTheme ? 'light' : 'dark' }.png`;
+    return `img/cloudstack_logo_${ this.isLightTheme ? 'light' : 'dark' }.png`;
   }
 
   private updateAccount(loggedIn: boolean): void {
@@ -152,7 +150,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (e instanceof Response) {
       switch (e.status) {
         case 401:
-          this.translate.get('NOT_LOGGED_IN').subscribe(result => this.notification.message(result));
+          this.notification.message('NOT_LOGGED_IN');
           this.auth.setLoggedOut('reset');
           break;
       }

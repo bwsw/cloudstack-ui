@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { MdlDialogReference } from 'angular2-mdl';
+import { MdlDialogReference } from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
@@ -349,10 +349,10 @@ export class VmCreationComponent implements OnInit {
         instanceGroups,
         securityGroupTemplates
       ]) => {
-        vmCreationData.affinityGroups = affinityGroups;
-        vmCreationData.affinityGroupTypes = affinityGroupTypes;
+        vmCreationData.affinityGroups = <any>affinityGroups;
+        vmCreationData.affinityGroupTypes = <any>affinityGroupTypes;
         vmCreationData.affinityGroupNames = affinityGroups.map(ag => ag.name);
-        vmCreationData.sshKeyPairs = sshKeyPairs;
+        vmCreationData.sshKeyPairs = <any>sshKeyPairs;
         vmCreationData.instanceGroups = instanceGroups.map(group => group.name);
 
         let preselectedSecurityGroups = securityGroupTemplates.filter(securityGroup => securityGroup.preselected);

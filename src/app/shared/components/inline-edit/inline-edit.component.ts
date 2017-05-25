@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MdlTextFieldComponent } from 'angular2-mdl';
+import { MdlTextFieldComponent } from '@angular-mdl/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AbstractInlineEditComponent } from './abstract-inline-edit.component';
 

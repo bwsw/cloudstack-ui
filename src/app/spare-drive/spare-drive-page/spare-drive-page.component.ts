@@ -45,7 +45,6 @@ interface SpareDriveSection {
   providers: [ListService]
 })
 export class SpareDrivePageComponent implements OnInit {
-  public selectedVolume: Volume;
   public volumes: Array<Volume>;
 
   public selectedZones: Array<Zone>;
@@ -70,10 +69,6 @@ export class SpareDrivePageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.listService.onSelected.subscribe((volume: Volume) => {
-      this.selectedVolume = volume;
-    });
-
     this.listService.onAction.subscribe(() => {
       this.showCreationDialog();
     });
@@ -150,8 +145,8 @@ export class SpareDrivePageComponent implements OnInit {
           this.volumes = this.volumes.filter(listVolume => {
             return listVolume.id !== volume.id;
           });
-          if (this.selectedVolume && this.selectedVolume.id === volume.id) {
-            this.listService.onDeselected.next();
+          if (this.listService.isSelected(volume.id)) {
+            this.listService.deselectItem();
           }
           this.jobsNotificationService.finish({ message: 'VOLUME_DELETE_DONE' });
           this.updateSections();
@@ -166,44 +161,18 @@ export class SpareDrivePageComponent implements OnInit {
   public showCreationDialog(): void {
     this.dialogService.showCustomDialog({
       component: SpareDriveCreationComponent,
-      classes: 'spare-drive-creation-dialog'
+      classes: 'spare-drive-creation-dialog',
+      clickOutsideToClose: false
     })
       .switchMap(res => res.onHide())
-      .subscribe((data: any) => {
-        if (!data) {
-          return;
+      .subscribe((volume: Volume) => {
+        if (volume) {
+          this.volumes.push(volume);
+          this.updateSections();
         }
-        this.createVolume(data);
-      }, () => {});
+      });
   }
 
-  public createVolume(volumeCreationData: VolumeCreationData): void {
-    let notificationId = this.jobsNotificationService.add('VOLUME_CREATE_IN_PROGRESS');
-    this.volumeService.create(volumeCreationData)
-      .subscribe(
-        volume => {
-          if (volume.id) {
-            this.diskOfferingService.get(volume.diskOfferingId)
-              .subscribe((diskOffering: DiskOffering) => {
-                volume.diskOffering = diskOffering;
-                this.volumes.push(volume);
-                this.updateSections();
-              });
-          }
-          this.jobsNotificationService.finish({
-            id: notificationId,
-            message: 'VOLUME_CREATE_DONE',
-          });
-        },
-        error => {
-          this.dialogService.alert(error.errortext);
-          this.jobsNotificationService.fail({
-            id: notificationId,
-            message: 'VOLUME_CREATE_FAILED',
-          });
-        }
-      );
-  }
 
   public attach(data): void {
     this.spareDriveActionsService.attach(data);
@@ -212,8 +181,8 @@ export class SpareDrivePageComponent implements OnInit {
   public updateVolume(volume: Volume): void {
     this.volumes = this.volumes.map(vol => vol.id === volume.id ? volume : vol);
 
-    if (this.selectedVolume && this.selectedVolume.id === volume.id) {
-      this.selectedVolume = volume;
+    if (this.listService.isSelected(volume.id)) {
+      this.listService.showDetails(volume.id);
     }
     this.updateSections();
   }

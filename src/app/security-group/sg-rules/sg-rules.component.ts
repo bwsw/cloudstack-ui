@@ -6,7 +6,7 @@ import {
   ElementRef
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MdlDialogReference } from 'angular2-mdl';
+import { MdlDialogReference } from '@angular-mdl/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { SecurityGroupService } from '../../shared/services';
@@ -77,18 +77,17 @@ export class SgRulesComponent implements OnInit {
     this.adding = true;
 
     this.securityGroupService.addRule(type, params)
-      .subscribe(rule => {
-        this.securityGroup[`${type.toLowerCase()}Rules`].push(rule);
-        this.resetForm();
-        this.adding = false;
-        this.setPadding();
-      }, () => {
-        this.translateService.get(['FAILED_TO_ADD_RULE']).subscribe((translations) => {
-          this.notificationService.message(translations['FAILED_TO_ADD_RULE']);
+      .subscribe(
+        rule => {
+          this.securityGroup[`${type.toLowerCase()}Rules`].push(rule);
+          this.resetForm();
           this.adding = false;
-
+          this.setPadding();
+        },
+        () => {
+          this.notificationService.message('FAILED_TO_ADD_RULE');
+          this.adding = false;
         });
-      });
   }
 
   public onIcmpTypeClick(): void {

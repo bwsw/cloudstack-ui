@@ -6,28 +6,28 @@
 >
   <mdl-card-title>
     <mdl-icon class="os-icon" [ngSwitch]="template.osType.osFamily">
-      <template [ngSwitchCase]="'Linux'">
+      <ng-template [ngSwitchCase]="'Linux'">
         <img
-          src="/img/os/linux.png"
+          src="img/os/linux.png"
           width="40"
           height="40"
         >
-      </template>
-      <template [ngSwitchCase]="'Windows'">
+      </ng-template>
+      <ng-template [ngSwitchCase]="'Windows'">
         <img
-          src="/img/os/windows.png"
+          src="img/os/windows.png"
           width="40"
           height="40"
         >
-      </template>
-      <template [ngSwitchCase]="'Mac OS'">
+      </ng-template>
+      <ng-template [ngSwitchCase]="'Mac OS'">
         <img
-          src="/img/os/osx.png"
+          src="img/os/osx.png"
           width="40"
           height="40"
         >
-      </template>
-      <template ngSwitchDefault>help</template>
+      </ng-template>
+      <ng-template ngSwitchDefault>help</ng-template>
     </mdl-icon>
     <div
       class="state-icon"

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
-import { MdlSelectModule } from '@angular2-mdl-ext/select';
-import { MdlModule } from 'angular2-mdl';
+import { MdlPopoverModule } from '@angular-mdl/popover';
+import { MdlSelectModule } from '@angular-mdl/select';
+import { MdlModule } from '@angular-mdl/core';
 import { TranslateModule } from '@ngx-translate/core';
 
 import {
@@ -81,6 +81,7 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { DescriptionComponent } from './components/description/description.component';
+import { Http, RequestOptions, XHRBackend } from '@angular/http';
 import { SearchComponent } from './components/search/search.component';
 import { TableComponent } from './components/table/table.component';
 import { CustomSimpleDialogComponent } from './services/dialog/custom-dialog.component';
@@ -199,8 +200,12 @@ import { FancySelectComponent } from './components/fancy-select/fancy-select.com
     UtilsService,
     VolumeService,
     ZoneService,
-    { provide: 'INotificationService', useClass: NotificationService },
-    { provide: 'IStorageService', useClass: StorageService },
+    {
+      provide: Http, useFactory: (backend: XHRBackend, options: RequestOptions) => {
+        return new Http(backend, options);
+      },
+      deps: [XHRBackend, RequestOptions]
+    },
     MDL_SELECT_VALUE_ACCESSOR
   ]
 })

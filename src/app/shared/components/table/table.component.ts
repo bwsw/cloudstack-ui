@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MdlTableComponent } from 'angular2-mdl';
+import { MdlTableComponent } from '@angular-mdl/core';
 
 
 @Component({

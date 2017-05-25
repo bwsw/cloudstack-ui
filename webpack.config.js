@@ -8,7 +8,7 @@ var autoprefixer = require('autoprefixer');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
-var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
+var CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 var AotPlugin = require('@ngtools/webpack').AotPlugin;
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
@@ -76,7 +76,7 @@ module.exports = function makeWebpackConfig() {
    */
   config.output = isTest ? {} : {
     path: root('dist'),
-    publicPath: isProd ? '/' : 'http://localhost:8080/',
+    publicPath: isProd ? '' : 'http://localhost:8080/',
     filename: isProd ? 'js/[name].[hash].js' : 'js/[name].js',
     chunkFilename: isProd ? '[id].[hash].chunk.js' : '[id].chunk.js'
   };
@@ -87,7 +87,7 @@ module.exports = function makeWebpackConfig() {
    */
   config.resolve = {
     // only discover files that have those extensions
-    extensions: ['.ts', '.js', '.json', '.css', '.scss', '.html'],
+    extensions: ['.ts', '.js', '.json', '.css', '.scss', '.html']
   };
 
   var atlOptions = '';
@@ -191,11 +191,11 @@ module.exports = function makeWebpackConfig() {
     }),
 
     // Workaround needed for angular 2 angular/angular#11580
-      new webpack.ContextReplacementPlugin(
-        // The (\\|\/) piece accounts for path separators in *nix and Windows
-        /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
-        root('./src') // location of your src
-      ),
+    new webpack.ContextReplacementPlugin(
+      // The (\\|\/) piece accounts for path separators in *nix and Windows
+      /angular(\\|\/)core(\\|\/)@angular/,
+      root('./src') // location of your src
+    ),
 
     // Tslint configuration for webpack 2
     new webpack.LoaderOptionsPlugin({
@@ -232,7 +232,7 @@ module.exports = function makeWebpackConfig() {
 
   if (!isTest && !isTestWatch) {
     config.plugins.push(
-      new ForkCheckerPlugin(),
+      new CheckerPlugin(),
 
       // Generate common chunks if necessary
       // Reference: https://webpack.github.io/docs/code-splitting.html
@@ -258,10 +258,11 @@ module.exports = function makeWebpackConfig() {
   if (isAot) {
     config.plugins.push(
       new AotPlugin({
-        tsConfigPath: path.resolve(__dirname, 'tsconfig.json'),
+        tsConfigPath: path.resolve(__dirname, 'tsconfig.aot.json'),
         basePath: __dirname,
         entryModule: path.resolve(__dirname, 'src/app/app.module#AppModule'),
-        genDir: path.join(__dirname, 'out', 'ngfactory')
+        genDir: path.join(__dirname, 'out', 'ngfactory'),
+        skipCodeGeneration: true
       })
     );
   }

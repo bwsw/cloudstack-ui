@@ -1,12 +1,12 @@
 <div class="flex-container" *ngIf="!loading">
-  <img class="logo" src="/img/cloudstack_logo.png">
+  <img class="logo" src="img/cloudstack_logo.png">
   <div class="login mdl-color--white" mdl-shadow="2">
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
       <div class="mdl-dialog__content">
         <mdl-textfield
           required
           type="text"
-          [label]="'USERNAME' | translate "
+          [label]="'USERNAME' | translate"
           name="username"
           #user="ngModel"
           [(ngModel)]="username"
