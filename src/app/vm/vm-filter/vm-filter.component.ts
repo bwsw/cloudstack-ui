@@ -59,12 +59,13 @@ export class VmFilterComponent implements OnInit {
     Observable.forkJoin(
       this.vmService.getInstanceGroupList(),
       this.zoneService.getList()
-    ).subscribe(([groups, zones]) => {
-      this.groups = groups.sort(this.groupSortPredicate);
-      this.zones = zones;
+    )
+      .subscribe(([groups, zones]) => {
+        this.groups = groups.sort(this.groupSortPredicate);
+        this.zones = zones;
 
-      this.initFilters();
-    });
+        this.initFilters();
+      });
     this.instanceGroupService.groupsUpdates.subscribe(() => this.loadGroups());
   }
 

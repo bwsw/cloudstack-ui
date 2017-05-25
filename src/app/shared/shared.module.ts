@@ -82,6 +82,8 @@ import {
 } from './components/autocomplete/mdl-autocomplete.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { Http, RequestOptions, XHRBackend } from '@angular/http';
+import { SearchComponent } from './components/search/search.component';
+import { TableComponent } from './components/table/table.component';
 import { CustomSimpleDialogComponent } from './services/dialog/custom-dialog.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
 
@@ -112,8 +114,10 @@ import { FancySelectComponent } from './components/fancy-select/fancy-select.com
     MdlAutocompleteComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
+    SearchComponent,
     SgRulesManagerComponent,
     SidebarComponent,
+    TableComponent,
     TopBarComponent,
     VmStatisticsComponent,
     DivisionPipe,
@@ -150,8 +154,10 @@ import { FancySelectComponent } from './components/fancy-select/fancy-select.com
     MdlAutocompleteComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
+    SearchComponent,
     SgRulesManagerComponent,
     SidebarComponent,
+    TableComponent,
     TopBarComponent,
     VmStatisticsComponent,
     DivisionPipe,
