@@ -15,13 +15,6 @@ import { SharedModule } from '../shared/shared.module';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
 import { EventService } from './event.service';
-import { NotificationBoxComponent } from '../shared/components/notification-box';
-import { TopBarComponent } from '../shared/components/top-bar/top-bar.component';
-import { DatePickerComponent } from '../shared/components/date-picker';
-import { MdlSelectModule } from '@angular-mdl/select';
-import { MdlModule } from '@angular-mdl/core';
-import { LanguageService } from '../shared/services';
-import { By } from '@angular/platform-browser';
 
 
 const eventServiceFixture = require('./event.service.fixture.json');

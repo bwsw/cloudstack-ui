@@ -512,5 +512,11 @@
       "STOPPED": "Stopped",
       "ERROR": "Error"
     }
-  }
+  },
+
+  "API": "API",
+  "API_URL": "URL",
+  "API_KEY": "Key",
+  "API_SECRET_KEY": "Secret key",
+  "API_DOC_LINK": "Documentation"
 }

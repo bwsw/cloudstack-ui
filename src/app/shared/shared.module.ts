@@ -86,6 +86,7 @@ import { SearchComponent } from './components/search/search.component';
 import { TableComponent } from './components/table/table.component';
 import { CustomSimpleDialogComponent } from './services/dialog/custom-dialog.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
+import { InputGroupComponent } from './components/input-group/input-group.component';
 
 
 @NgModule({
@@ -106,6 +107,7 @@ import { FancySelectComponent } from './components/fancy-select/fancy-select.com
     FancySelectComponent,
     InlineEditComponent,
     InlineEditAutocompleteComponent,
+    InputGroupComponent,
     IntegerValidatorDirective,
     ListComponent,
     NoResultsComponent,
@@ -146,6 +148,7 @@ import { FancySelectComponent } from './components/fancy-select/fancy-select.com
     FancySelectComponent,
     InlineEditComponent,
     InlineEditAutocompleteComponent,
+    InputGroupComponent,
     IntegerValidatorDirective,
     ListComponent,
     NoResultsComponent,

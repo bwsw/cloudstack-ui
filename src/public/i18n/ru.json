@@ -512,5 +512,11 @@
       "STOPPED": "Остановленные",
       "ERROR": "Ошибка"
     }
-  }
+  },
+
+  "API": "API",
+  "API_URL": "URL",
+  "API_KEY": "Ключ",
+  "API_SECRET_KEY": "Секретный ключ",
+  "API_DOC_LINK": "Документация"
 }
