@@ -50,6 +50,7 @@ import {
   AsyncJobService,
   AuthGuard,
   AuthService,
+  CacheService,
   ConfigService,
   DiskOfferingService,
   DiskStorageService,
@@ -72,10 +73,10 @@ import {
   StyleService,
   ZoneService
 } from './services';
-import { UserService } from './services/user.service';
 import { SnapshotService } from './services/snapshot.service';
 import { StorageService } from './services/storage.service';
 import { TagService } from './services/tag.service';
+import { UserService } from './services/user.service';
 import { UtilsService } from './services/utils.service';
 import { VolumeService } from './services/volume.service';
 
@@ -159,6 +160,7 @@ import { VolumeService } from './services/volume.service';
     AsyncJobService,
     AuthGuard,
     AuthService,
+    CacheService,
     ConfigService,
     DiskOfferingService,
     DiskStorageService,

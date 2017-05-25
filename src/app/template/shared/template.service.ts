@@ -18,7 +18,7 @@ export class TemplateService extends BaseTemplateService {
   constructor (
     protected asyncJobService: AsyncJobService,
     protected osTypeService: OsTypeService,
-    protected utilsService: UtilsService
+    protected utilsService: UtilsService,
   ) {
     super(asyncJobService, osTypeService, utilsService);
   }
