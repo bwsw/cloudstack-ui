@@ -1,9 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { ResourceStats, ResourceUsageService } from '../../services/resource-usage.service';
-import { IStorageService } from '../../services/storage.service';
+import { StorageService } from '../../services/storage.service';
 import { UtilsService } from '../../services/utils.service';
+
 
 const showStatistics = 'showStatistics';
 
@@ -21,7 +22,7 @@ export class VmStatisticsComponent implements OnInit {
   constructor(
     private translateService: TranslateService,
     private utilsService: UtilsService,
-    @Inject('IStorageService') protected storageService: IStorageService,
+    private storageService: StorageService,
     private resourceUsageService: ResourceUsageService
   ) {
     this.resourceUsage = new ResourceStats();

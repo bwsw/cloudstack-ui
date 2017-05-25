@@ -252,5 +252,6 @@
         "max": 8192
       }
     }
-  }
+  },
+  "sessionRefreshInterval": 60
 }
