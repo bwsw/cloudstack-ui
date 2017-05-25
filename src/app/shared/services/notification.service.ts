@@ -10,15 +10,8 @@ interface INotificationAction {
   text: string;
 }
 
-export interface INotificationService {
-  timeout: number;
-  message(message: string): Observable<MdlSnackbarComponent>;
-  warning(message: string, action: INotificationAction): Observable<MdlSnackbarComponent>;
-  error(message: string, action: INotificationAction): Observable<MdlSnackbarComponent>;
-}
-
 @Injectable()
-export class NotificationService implements INotificationService {
+export class NotificationService implements NotificationService {
   public timeout: number;
 
   constructor(
@@ -86,20 +79,4 @@ export class NotificationService implements INotificationService {
       return this.translateService.get(message.translationToken, message.interpolateParams);
     }
   }
-}
-
-export class MockNotificationService implements INotificationService {
-  public timeout: number;
-
-  public message(_message: string): Observable<MdlSnackbarComponent> {
-    return new Observable<MdlSnackbarComponent>();
-  };
-
-  public warning(_message: string, _action: INotificationAction): Observable<MdlSnackbarComponent> {
-    return new Observable<MdlSnackbarComponent>();
-  };
-
-  public error(_message: string, _action: INotificationAction): Observable<MdlSnackbarComponent> {
-    return new Observable<MdlSnackbarComponent>();
-  };
 }

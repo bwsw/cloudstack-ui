@@ -1,4 +1,4 @@
-import { Http, URLSearchParams, Response, Headers } from '@angular/http';
+import { URLSearchParams, Response, Headers, Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { BaseModel } from '../models';

@@ -26,7 +26,7 @@ describe('Custom dialog', () => {
     TRANSLATE_OK: 'ok'
   };
 
-  class TranslateServiceStub {
+  class MockTranslateService {
 
     public get(key: string | Array<string>, interpolateParams?: Object): Observable<string | any> {
       let interpolateString = '';
@@ -77,7 +77,7 @@ describe('Custom dialog', () => {
       declarations: [TestViewComponent],
       providers: [
         MdlDialogService,
-        { provide: TranslateService, useClass: TranslateServiceStub }
+        { provide: TranslateService, useClass: MockTranslateService }
       ],
       imports: [
         MdlDialogOutletModule,

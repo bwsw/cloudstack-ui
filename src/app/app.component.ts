@@ -1,12 +1,12 @@
-import { AfterViewInit, Component, ElementRef, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
 import { MdlLayoutComponent } from '@angular-mdl/core';
+import { AfterViewInit, Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Response } from '@angular/http';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import '../style/app.scss';
 import { MdlDialogService } from './dialog/dialog-module';
 import { Color } from './shared/models';
-import { AuthService, ErrorService, INotificationService, LanguageService, LayoutService } from './shared/services';
+import { AuthService, ErrorService, LanguageService, LayoutService, NotificationService } from './shared/services';
 import { StyleService } from './shared/services/style.service';
 import { ZoneService } from './shared/services/zone.service';
 
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private languageService: LanguageService,
     private layoutService: LayoutService,
     private mdlDialogService: MdlDialogService,
-    @Inject('INotificationService') private notification: INotificationService,
+    private notification: NotificationService,
     private styleService: StyleService,
     private zoneService: ZoneService,
     private zone: NgZone

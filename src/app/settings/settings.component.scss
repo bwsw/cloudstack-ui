@@ -2,7 +2,25 @@
   width: 100%;
 }
 
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex-column-left {
+  flex: 1;
+  margin-right: 50px;
+}
+
+.flex-column-right {
+  flex: 2;
+}
+
+.settings-control {
+  max-width: 300px;
+}
+
 .password-change-button {
   text-align: right;
-  width: 300px;
+  width: 100%;
 }

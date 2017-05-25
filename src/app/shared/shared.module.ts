@@ -4,6 +4,7 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Http, RequestOptions, XHRBackend } from '@angular/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { MdlDialogModule } from '../dialog/dialog-module';
 
@@ -35,7 +36,10 @@ import { DescriptionComponent } from './components/description/description.compo
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
 import { InlineEditAutocompleteComponent } from './components/inline-edit/inline-edit-autocomplete.component';
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
+import { InputGroupComponent } from './components/input-group/input-group.component';
 import { LoaderComponent } from './components/loader.component';
+import { SearchComponent } from './components/search/search.component';
+import { TableComponent } from './components/table/table.component';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
 
 import { LoadingDirective } from './directives/loading.directive';
@@ -100,6 +104,7 @@ import { VolumeService } from './services/volume.service';
     FancySelectComponent,
     InlineEditComponent,
     InlineEditAutocompleteComponent,
+    InputGroupComponent,
     IntegerValidatorDirective,
     ListComponent,
     NoResultsComponent,
@@ -108,8 +113,10 @@ import { VolumeService } from './services/volume.service';
     MdlAutocompleteComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
+    SearchComponent,
     SgRulesManagerComponent,
     SidebarComponent,
+    TableComponent,
     TopBarComponent,
     VmStatisticsComponent,
     DivisionPipe,
@@ -136,6 +143,7 @@ import { VolumeService } from './services/volume.service';
     FancySelectComponent,
     InlineEditComponent,
     InlineEditAutocompleteComponent,
+    InputGroupComponent,
     IntegerValidatorDirective,
     ListComponent,
     NoResultsComponent,
@@ -144,8 +152,10 @@ import { VolumeService } from './services/volume.service';
     MdlAutocompleteComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
+    SearchComponent,
     SgRulesManagerComponent,
     SidebarComponent,
+    TableComponent,
     TopBarComponent,
     VmStatisticsComponent,
     DivisionPipe,
@@ -188,8 +198,12 @@ import { VolumeService } from './services/volume.service';
     UtilsService,
     VolumeService,
     ZoneService,
-    { provide: 'INotificationService', useClass: NotificationService },
-    { provide: 'IStorageService', useClass: StorageService },
+    {
+      provide: Http, useFactory: (backend: XHRBackend, options: RequestOptions) => {
+        return new Http(backend, options);
+      },
+      deps: [XHRBackend, RequestOptions]
+    },
     MDL_SELECT_VALUE_ACCESSOR
   ]
 })
