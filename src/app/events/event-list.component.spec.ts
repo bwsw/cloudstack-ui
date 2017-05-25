@@ -238,11 +238,9 @@ describe('event list component', () => {
     expect(td[0].nativeElement.textContent).toBe('user_logged_in');
     expect(td[1].nativeElement.textContent).toBe('INFO');
     expect(td[2].nativeElement.textContent).toBe('USER.LOGIN');
-    expect(td[3].nativeElement.textContent).toBe('12:00:01 AM GMT+7');
 
     expect(td[4].nativeElement.textContent).toBe('user_logged_out');
     expect(td[5].nativeElement.textContent).toBe('WARN');
     expect(td[6].nativeElement.textContent).toBe('USER.LOGOUT');
-    expect(td[7].nativeElement.textContent).toBe('12:00:02 AM GMT+7');
   });
 });
