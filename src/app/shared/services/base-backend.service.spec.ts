@@ -2,13 +2,13 @@ import { inject, TestBed, async, getTestBed } from '@angular/core/testing';
 import { Injector } from '@angular/core';
 
 import { BaseBackendService } from './';
-import { BaseModel } from '../models/base.model';
-import { BackendResource } from '../decorators/backend-resource.decorator';
+import { BaseModel } from '../models';
+import { BackendResource } from '../decorators';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import {
-  Http,
   BaseRequestOptions,
   XHRBackend,
+  Http,
   HttpModule,
   Response,
   ResponseOptions,

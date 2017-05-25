@@ -2,14 +2,8 @@ import { Injectable } from '@angular/core';
 import { UtilsService } from './utils.service';
 
 
-export interface IStorageService {
-  write(key: string, value: string): void;
-  read(key: string): string;
-  remove(key: string): void;
-}
-
 @Injectable()
-export class StorageService implements IStorageService {
+export class StorageService {
   private isLocalStorage: boolean;
   private inMemoryStorage: Object;
 

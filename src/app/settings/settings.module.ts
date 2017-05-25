@@ -6,6 +6,7 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { SettingsComponent } from './settings.component';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { InactivityTimeoutComponent } from './inactivity-timeout/inactivity-timeout.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     SettingsComponent
   ],
   declarations: [
+    InactivityTimeoutComponent,
     SettingsComponent
   ]
 })
