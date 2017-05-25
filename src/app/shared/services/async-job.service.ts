@@ -6,6 +6,7 @@ import { AsyncJob } from '../models';
 import { BaseBackendService } from './base-backend.service';
 import { BackendResource } from '../decorators';
 import { ErrorService } from './error.service';
+import { AuthService } from './';
 
 
 interface IJobObservables {
@@ -27,53 +28,22 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
   public event: Subject<AsyncJob<any>>;
   public pollingInterval: number;
   public immediatePollingInterval: number;
-  public poll: boolean;
-  private jobObservables: IJobObservables;
-  private timerId: any;
+  private jobs: Array<Subject<AsyncJob<any>>> = [];
 
-  constructor() {
+  constructor(private authService: AuthService) {
     super();
     this.pollingInterval = 2000;
     this.immediatePollingInterval = 100;
-    this.jobObservables = {};
     this.event = new Subject<AsyncJob<any>>();
-  }
-
-  public addJob(id: string): Observable<AsyncJob<any>> {
-    let observable = new Subject<AsyncJob<any>>();
-    this.jobObservables[id] = observable;
-    this.startPolling();
-    return observable;
-  }
-
-  public queryJobs(): boolean {
-    if (!this.poll) {
-      return false;
-    }
-    this.getList().subscribe(result => {
-      let anyJobs = false;
-      result.forEach(elem => {
-        let id = elem.id;
-        if (this.jobObservables[id]) {
-          if (elem.status === 0) { // if the job is completed successfully
-            anyJobs = true;
-          } else {
-            this.jobObservables[id].next(elem);
-            this.jobObservables[id].complete();
-            delete this.jobObservables[id];
-          }
-        }
-      });
-      if (!anyJobs) {
-        this.stopPolling();
-      }
+    this.authService.loggedIn.subscribe(() => {
+      this.completeAllJobs();
     });
-    return true;
   }
 
   public queryJob(job: any, entity = '', entityModel: any = null): Observable<typeof entityModel> {
     const jobId = this.getJobId(job);
-    let jobSubject = new Subject<AsyncJob<typeof entityModel>>();
+    const jobSubject = new Subject<AsyncJob<typeof entityModel>>();
+    this.jobs.push(jobSubject);
 
     setTimeout(() => {
       this._queryJob(jobId, jobSubject, entity, entityModel);
@@ -88,9 +58,8 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     return jobSubject;
   }
 
-  public completeAllJobs(): void {
-    Object.keys(this.jobObservables).forEach(key => this.jobObservables[key].complete());
-    this.jobObservables = {};
+  private completeAllJobs(): void {
+    this.jobs.forEach(job => job.complete());
   }
 
   private _queryJob(
@@ -121,20 +90,6 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
         jobSubject.complete();
         this.event.next(asyncJob);
       });
-  }
-
-  private startPolling(): void {
-    clearInterval(this.timerId);
-    setTimeout(() => {
-      this.queryJobs();
-      this.timerId = setInterval(() => this.queryJobs(), this.pollingInterval);
-    }, this.immediatePollingInterval);
-    this.poll = true;
-  }
-
-  private stopPolling(): void {
-    clearInterval(this.timerId);
-    this.poll = false;
   }
 
   private getJobId(job: any): string {

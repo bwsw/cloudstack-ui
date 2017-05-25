@@ -1,17 +1,15 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { BackendResource } from '../decorators';
+import { BaseModelStub } from '../models';
 
 import { BaseBackendService } from './base-backend.service';
-import { BaseModelStub } from '../models';
-import { BackendResource } from '../decorators';
 import { ConfigService } from './config.service';
+import { ErrorService } from './error.service';
 import { StorageService } from './storage.service';
 import { UserService } from './user.service';
-import { BaseModelStub } from '../models/base.model';
-import { ErrorService } from './error.service';
-import { BackendResource } from '../decorators/backend-resource.decorator';
-import { Subject } from 'rxjs/Subject';
 
 import debounce = require('lodash/debounce');
 

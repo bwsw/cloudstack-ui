@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { SecurityGroup } from '../../security-group/sg.model';
 import { Observable } from 'rxjs/Observable';
-import { AuthService } from './';
 
 
 interface IConfig {
@@ -15,12 +14,7 @@ const configUrl = 'config/config.json';
 export class ConfigService {
   private config: IConfig;
 
-  constructor(
-    private authService: AuthService,
-    private http: Http
-  ) {
-    this.authService.loggedIn.subscribe(() => this.resetConfig());
-  }
+  constructor(private http: Http) {}
 
   public get(key: string | Array<string>): Observable<any | Array<any>> {
     let isArray = Array.isArray(key);
@@ -62,9 +56,5 @@ export class ConfigService {
 
   private handleError(): Observable<any> {
     return Observable.throw('Unable to access config file');
-  }
-
-  private resetConfig(): void {
-    this.config = undefined;
   }
 }
