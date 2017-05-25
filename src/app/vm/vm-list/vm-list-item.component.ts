@@ -63,7 +63,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
 
   public openConsole(): void {
     window.open(
-      `/client/console?cmd=access&vm=${this.vm.id}`,
+      `client/console?cmd=access&vm=${this.vm.id}`,
       this.vm.displayName,
       'resizable=0,width=820,height=640'
     );

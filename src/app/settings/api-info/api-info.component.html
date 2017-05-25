@@ -4,14 +4,20 @@
 
     <div>
       <h5 [translate]="linkFields.apiUrl.title"></h5>
-      <a [href]="linkFields.apiUrl.href">
+      <a
+        target="_blank"
+        [href]="linkFields.apiUrl.href"
+      >
         {{ linkFields.apiUrl.href }}
       </a>
     </div>
 
     <div>
       <h5 [translate]="linkFields.apiDocLink.title"></h5>
-      <a [href]="linkFields.apiDocLink.href">
+      <a
+        target="_blank"
+        [href]="linkFields.apiDocLink.href"
+      >
         {{ linkFields.apiDocLink.href }}
       </a>
     </div>

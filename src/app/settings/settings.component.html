@@ -1,74 +1,87 @@
 <cs-top-bar></cs-top-bar>
-<div class="padding" *loading="loading">
-  <div *ngIf="language">
-    <h4 class="no-margin">{{ 'LANGUAGE' | translate }}</h4>
-    <mdl-select
-      [(ngModel)]="language"
-      (change)="changeLanguage($event)"
+<div class="padding flex-container" *loading="loading">
+  <div class="flex-column-left">
+    <div
+      class="settings-control"
+      *ngIf="language"
     >
-      <mdl-option [value]="'en'">English</mdl-option>
-      <mdl-option [value]="'ru'">Русский</mdl-option>
-    </mdl-select>
-  </div>
-  <div *ngIf="firstDayOfWeek != null">
-    <h4 class="no-margin">{{ 'FIRST_DAY_OF_WEEK' | translate }}</h4>
-    <mdl-select
-      *ngIf="dayTranslations"
-      [ngModel]="firstDayOfWeek"
-      [disabled]="updatingFirstDayOfWeek"
-      (change)="firstDayOfWeekChange($event)"
-    >
-      <mdl-option [value]="0">{{ dayTranslations['SUNDAY'] }}</mdl-option>
-      <mdl-option [value]="1">{{ dayTranslations['MONDAY'] }}</mdl-option>
-    </mdl-select>
-  </div>
-  <div>
-    <h4>{{ 'PALETTE' | translate }}</h4>
-    <div>
-      <cs-color-picker
-        *ngIf="primaryColor"
-        [selectedColor]="primaryColor"
-        [colorList]="primaryColors"
-        (onColorChanged)="updatePrimaryColor($event)"
-      ></cs-color-picker>
-    </div>
-    <div>
-      <cs-color-picker
-        *ngIf="accentColor"
-        [selectedColor]="accentColor"
-        [colorList]="accentColors"
-        (onColorChanged)="updateAccentColor($event)"
-      ></cs-color-picker>
-    </div>
-  </div>
-  <form (ngSubmit)="updatePassword()" [formGroup]="passwordUpdateForm" novalidate>
-    <h4>{{ 'CHANGE_PASSWORD' | translate }}</h4>
-    <mdl-textfield
-      required
-      type="password"
-      label="{{ 'NEW_PASSWORD' | translate }}"
-      formControlName="password"
-      floating-label
-      required
-    ></mdl-textfield>
-    <br>
-    <mdl-textfield
-      required
-      type="password"
-      label="{{ 'REPEAT_PASSWORD' | translate }}"
-      formControlName="passwordRepeat"
-      floating-label
-    ></mdl-textfield>
-    <br>
-    <div class="password-change-button">
-      <button
-        type="submit"
-        mdl-button
-        [disabled]="!passwordUpdateForm.valid"
+      <h4 class="no-margin">{{ 'LANGUAGE' | translate }}</h4>
+      <mdl-select
+        [(ngModel)]="language"
+        (change)="changeLanguage($event)"
       >
-        {{ 'UPDATE' | translate }}
-      </button>
+        <mdl-option [value]="'en'">English</mdl-option>
+        <mdl-option [value]="'ru'">Русский</mdl-option>
+      </mdl-select>
     </div>
-  </form>
-  <cs-api-info></cs-api-info>
+    <div
+      class="settings-control"
+      *ngIf="firstDayOfWeek != null"
+    >
+      <h4 class="no-margin">{{ 'FIRST_DAY_OF_WEEK' | translate }}</h4>
+      <mdl-select
+        *ngIf="dayTranslations"
+        [ngModel]="firstDayOfWeek"
+        [disabled]="updatingFirstDayOfWeek"
+        (change)="firstDayOfWeekChange($event)"
+      >
+        <mdl-option [value]="0">{{ dayTranslations['SUNDAY'] }}</mdl-option>
+        <mdl-option [value]="1">{{ dayTranslations['MONDAY'] }}</mdl-option>
+      </mdl-select>
+    </div>
+    <div class="settings-control">
+      <h4>{{ 'PALETTE' | translate }}</h4>
+      <div>
+        <cs-color-picker
+          *ngIf="primaryColor"
+          [colors]="primaryColors"
+          [formControl]="primaryColorControl"
+          (change)="updatePrimaryColor($event)"
+        ></cs-color-picker>
+      </div>
+      <div>
+        <cs-color-picker
+          *ngIf="accentColor"
+          [colors]="accentColors"
+          [formControl]="accentColorControl"
+          (change)="updateAccentColor($event)"
+        ></cs-color-picker>
+      </div>
+    </div>
+    <div class="settings-control">
+      <form (ngSubmit)="updatePassword()" [formGroup]="passwordUpdateForm" novalidate>
+        <h4>{{ 'CHANGE_PASSWORD' | translate }}</h4>
+        <mdl-textfield
+          required
+          type="password"
+          label="{{ 'NEW_PASSWORD' | translate }}"
+          formControlName="password"
+          floating-label
+          required
+        ></mdl-textfield>
+        <br>
+        <mdl-textfield
+          required
+          type="password"
+          label="{{ 'REPEAT_PASSWORD' | translate }}"
+          formControlName="passwordRepeat"
+          floating-label
+        ></mdl-textfield>
+        <br>
+        <div class="password-change-button">
+          <button
+            type="submit"
+            mdl-button
+            [disabled]="!passwordUpdateForm.valid"
+          >
+            {{ 'UPDATE' | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="flex-column-right">
+    <cs-inactivity-timeout></cs-inactivity-timeout>
+    <cs-api-info></cs-api-info>
+  </div>
 </div>

@@ -8,6 +8,7 @@ import { SettingsComponent } from './settings.component';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ApiInfoComponent } from './api-info/api-info.component';
+import { InactivityTimeoutComponent } from './inactivity-timeout/inactivity-timeout.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { ApiInfoComponent } from './api-info/api-info.component';
   ],
   declarations: [
     ApiInfoComponent,
+    InactivityTimeoutComponent,
     SettingsComponent
   ]
 })

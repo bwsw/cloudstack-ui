@@ -253,5 +253,6 @@
       }
     }
   },
-  "apiDocLink": "https://cloudstack.apache.org/api/apidocs-4.9/"
+  "apiDocLink": "https://cloudstack.apache.org/api/apidocs-4.9/",
+  "sessionRefreshInterval": 60
 }

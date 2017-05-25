@@ -1,4 +1,4 @@
-import { Http, URLSearchParams, Response, Headers } from '@angular/http';
+import { URLSearchParams, Response, Headers, Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { BaseModel } from '../models';
@@ -6,7 +6,7 @@ import { ServiceLocator } from './service-locator';
 import { ErrorService } from './error.service';
 
 
-export const BACKEND_API_URL = '/client/api';
+export const BACKEND_API_URL = 'client/api';
 
 export abstract class BaseBackendService<M extends BaseModel> {
   protected entity: string;

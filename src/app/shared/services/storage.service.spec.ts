@@ -4,7 +4,7 @@ import { UtilsService } from './utils.service';
 
 
 describe('Storage service with local storage', () => {
-  let storageService: StorageService;
+  let storageService: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -36,7 +36,7 @@ describe('Storage service with local storage', () => {
 });
 
 describe('Storage service without local storage', () => {
-  let storageService: StorageService;
+  let storageService: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
