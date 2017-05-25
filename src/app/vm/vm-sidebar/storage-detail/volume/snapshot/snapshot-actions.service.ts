@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import { DialogService } from '../../../../../dialog/dialog-module/dialog.service';
+import { Snapshot, Volume } from '../../../../../shared/models';
+import { JobsNotificationService, NotificationService } from '../../../../../shared/services';
+import { SnapshotService } from '../../../../../shared/services/snapshot.service';
+import { StatsUpdateService } from '../../../../../shared/services/stats-update.service';
 
 import { TemplateService } from '../../../../../template/shared';
-import { JobsNotificationService, NotificationService, SnapshotService } from '../../../../../shared/services';
 import { TemplateCreationComponent } from '../../../../../template/template-creation/template-creation.component';
-import { Snapshot, Volume } from '../../../../../shared/models';
-import { StatsUpdateService } from '../../../../../shared/services/stats-update.service';
-import { DialogService } from '../../../../../shared';
 
 
 export interface SnapshotAction {

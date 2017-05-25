@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { VolumeAttachmentData, VolumeService } from '../shared/services/volume.service';
-import { DialogService, JobsNotificationService, NotificationService } from '../shared/services';
-import { Subject } from 'rxjs/Subject';
-import { Volume } from '../shared/models';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { DialogService } from '../dialog/dialog-module/dialog.service';
+import { Volume } from '../shared/models';
+import { JobsNotificationService, NotificationService } from '../shared/services';
+import { VolumeAttachmentData, VolumeService } from '../shared/services/volume.service';
 
 
 export type VolumeAttachmentEvent = 'attached' | 'detached';

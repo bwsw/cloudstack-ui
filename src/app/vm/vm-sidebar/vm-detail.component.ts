@@ -6,12 +6,13 @@ import {
   ServiceOfferingDialogComponent
 } from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
 import { Color, InstanceGroup, ServiceOfferingFields, ServiceOffering } from '../../shared/models';
-import { ConfigService, DialogService, InstanceGroupService } from '../../shared/services';
+import { ConfigService, InstanceGroupService } from '../../shared/services';
 import { TagService } from '../../shared/services/tag.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 
 @Component({

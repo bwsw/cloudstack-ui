@@ -47,13 +47,17 @@ const PRIVATE_COMPONENTS = [
   entryComponents: [
     ...PUBLIC_COMPONENTS,
     ...PRIVATE_COMPONENTS
+  ],
+  providers: [
+    DialogService,
+    MdlDialogService
   ]
 })
 export class MdlDialogModule {
   public static forRoot(): ModuleWithProviders {
     return {
       ngModule: MdlDialogModule,
-      providers: [MdlDialogService, DialogService]
+      providers: [DialogService]
     };
   }
 }

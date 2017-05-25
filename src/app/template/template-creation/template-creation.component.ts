@@ -1,8 +1,9 @@
 import { Component, OnInit, Inject, Optional } from '@angular/core';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 
 import { OsType, OsTypeService, Zone, ZoneService } from '../../shared';
 import { Snapshot } from '../../shared/models/snapshot.model';
-import { MdlDialogReference } from '../../dialog/dialog-module';
+import { TemplateActionsService } from '../shared/template-actions.service';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class TemplateCreationComponent implements OnInit {
   constructor(
     private dialog: MdlDialogReference,
     private osTypeService: OsTypeService,
+    private templateActions: TemplateActionsService,
     private zoneService: ZoneService,
     @Optional() @Inject('snapshot') public snapshot: Snapshot,
     @Inject('mode') public mode: string
@@ -76,6 +78,10 @@ export class TemplateCreationComponent implements OnInit {
       params['snapshotId'] = this.snapshot.id;
     }
 
-    this.dialog.hide(params);
+    this.templateActions.createTemplate(params, this.mode)
+      .subscribe(
+        template => this.dialog.hide(template),
+        () => {}
+      );
   }
 }

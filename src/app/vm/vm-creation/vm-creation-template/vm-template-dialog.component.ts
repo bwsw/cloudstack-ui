@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { MdlDialogReference } from '../../../dialog/dialog-module';
 
 import { Template } from '../../../template/shared';
-import { PRESELECTED_TEMPLATE_TOKEN, ZONE } from './injector-token';
-import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { Iso } from '../../../template/shared/iso.model';
-import { MdlDialogReference } from '../../../dialog/dialog-module';
+import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
+import { PRESELECTED_TEMPLATE_TOKEN, ZONE } from './injector-token';
 
 
 @Component({

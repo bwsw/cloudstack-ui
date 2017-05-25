@@ -64,8 +64,8 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
 
   public login(username: string, password: string): Observable<void> {
     return this.postRequest('login', { username, password })
-      .map(response => {
-        let res = response.loginresponse;
+      .map(res => this.getResponse(res))
+      .do(res => {
         this.setLoggedIn(res.username, `${res.firstname} ${res.lastname}`, res.userid);
       })
       .catch(() => Observable.throw('Incorrect username or password.'));

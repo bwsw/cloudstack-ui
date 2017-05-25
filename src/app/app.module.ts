@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { routes } from './app.routing';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
+import { MdlDialogModule } from './dialog/dialog-module';
 import { EventsModule } from './events/events.module';
 import { SecurityGroupModule } from './security-group/sg.module';
 import { ServiceOfferingModule } from './service-offering/service-offering.module';
@@ -24,7 +25,6 @@ import { SpareDriveModule } from './spare-drive';
 import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
-import { MdlDialogModule } from './dialog/dialog-module';
 
 
 export function HttpLoaderFactory(http: Http): TranslateHttpLoader {

@@ -349,8 +349,8 @@ export class VmCreationComponent implements OnInit {
         instanceGroups,
         securityGroupTemplates
       ]) => {
-        vmCreationData.affinityGroups = affinityGroups;
-        vmCreationData.affinityGroupTypes = affinityGroupTypes;
+        vmCreationData.affinityGroups = <any>affinityGroups;
+        vmCreationData.affinityGroupTypes = <any>affinityGroupTypes;
         vmCreationData.affinityGroupNames = affinityGroups.map(ag => ag.name);
         vmCreationData.sshKeyPairs = <any>sshKeyPairs;
         vmCreationData.instanceGroups = instanceGroups.map(group => group.name);

@@ -16,6 +16,7 @@ export class ServiceOfferingDialogComponent implements OnInit {
   public serviceOffering: ServiceOffering;
   public serviceOfferings: Array<ServiceOffering>;
   public loading: Boolean;
+
   constructor(
     public dialog: MdlDialogReference,
     @Inject('virtualMachine') public virtualMachine: VirtualMachine,

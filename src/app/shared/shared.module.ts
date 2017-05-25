@@ -1,16 +1,49 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
-import { MdlModule } from '@angular-mdl/core';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { MdlDialogModule } from '../dialog/dialog-module';
 
 import {
-  DivisionPipe,
-  HighLightPipe,
-  ViewValuePipe
-} from './pipes';
+  CalendarComponent,
+  CalendarMonthComponent,
+  CalendarYearComponent,
+  ColorPickerComponent,
+  DateDisplayComponent,
+  DatePickerComponent,
+  DatePickerDialogComponent,
+  DiskOfferingComponent,
+  FabComponent,
+  ListComponent,
+  NoResultsComponent,
+  NotificationBoxComponent,
+  NotificationBoxItemComponent,
+  SgRulesManagerComponent,
+  SidebarComponent,
+  SliderComponent,
+  TopBarComponent,
+  VmStatisticsComponent
+} from './components';
+import {
+  MDL_SELECT_VALUE_ACCESSOR,
+  MdlAutocompleteComponent
+} from './components/autocomplete/mdl-autocomplete.component';
+import { DescriptionComponent } from './components/description/description.component';
+import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
+import { InlineEditAutocompleteComponent } from './components/inline-edit/inline-edit-autocomplete.component';
+import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
+import { LoaderComponent } from './components/loader.component';
+import { IntegerValidatorDirective } from './directives/integer-value.directive';
+
+import { LoadingDirective } from './directives/loading.directive';
+
+import { MaxValueValidatorDirective } from './directives/max-value.directive';
+import { MinValueValidatorDirective } from './directives/min-value.directive';
+
+import { DivisionPipe, HighLightPipe, ViewValuePipe } from './pipes';
 
 import {
   AffinityGroupService,
@@ -21,6 +54,7 @@ import {
   DiskOfferingService,
   DiskStorageService,
   ErrorService,
+  FilterService,
   InstanceGroupService,
   JobsNotificationService,
   LanguageService,
@@ -31,59 +65,19 @@ import {
   ResourceLimitService,
   ResourceUsageService,
   SecurityGroupService,
-  ServiceOfferingService,
   ServiceOfferingFilterService,
-  SnapshotService,
+  ServiceOfferingService,
   SSHKeyPairService,
   StatsUpdateService,
-  StorageService,
   StyleService,
-  TagService,
-  UtilsService,
-  VolumeService,
   ZoneService
 } from './services';
-
-import {
-  CalendarComponent,
-  CalendarMonthComponent,
-  CalendarYearComponent,
-  ColorPickerComponent,
-  DateDisplayComponent,
-  DatePickerComponent,
-  DatePickerDialogComponent,
-  ListComponent,
-  DiskOfferingComponent,
-  FabComponent,
-  NoResultsComponent,
-  NotificationBoxComponent,
-  NotificationBoxItemComponent,
-  SgRulesManagerComponent,
-  SidebarComponent,
-  TopBarComponent,
-  VmStatisticsComponent,
-  SliderComponent
-} from './components';
-
-import { MaxValueValidatorDirective } from './directives/max-value.directive';
-import { MinValueValidatorDirective } from './directives/min-value.directive';
-
-import { LoadingDirective } from './directives/loading.directive';
-import { LoaderComponent } from './components/loader.component';
 import { UserService } from './services/user.service';
-import { FilterService } from './services';
-import { IntegerValidatorDirective } from './directives/integer-value.directive';
-import { DialogService } from '../dialog/dialog-module/dialog.service';
-import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
-import { InlineEditAutocompleteComponent } from './components/inline-edit/inline-edit-autocomplete.component';
-import {
-  MDL_SELECT_VALUE_ACCESSOR,
-  MdlAutocompleteComponent
-} from './components/autocomplete/mdl-autocomplete.component';
-import { DescriptionComponent } from './components/description/description.component';
-import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
-import { MdlDialogService } from '../dialog/dialog-module/mdl-dialog.service';
-import { MdlDialogModule } from '../dialog/dialog-module';
+import { SnapshotService } from './services/snapshot.service';
+import { StorageService } from './services/storage.service';
+import { TagService } from './services/tag.service';
+import { UtilsService } from './services/utils.service';
+import { VolumeService } from './services/volume.service';
 
 
 @NgModule({
@@ -166,8 +160,6 @@ import { MdlDialogModule } from '../dialog/dialog-module';
     AuthGuard,
     AuthService,
     ConfigService,
-    DialogService,
-    MdlDialogService,
     DiskOfferingService,
     DiskStorageService,
     ErrorService,

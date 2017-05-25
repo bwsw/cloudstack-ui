@@ -2,7 +2,6 @@ import { Component, HostBinding, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import {
-  DialogService,
   DiskOffering,
   DiskOfferingService,
   FilterService,
@@ -21,6 +20,7 @@ import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive
 import debounce = require('lodash/debounce');
 import sortBy = require('lodash/sortBy');
 import { SpareDriveActionsService } from '../spare-drive-actions.service';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -161,44 +161,18 @@ export class SpareDrivePageComponent implements OnInit {
   public showCreationDialog(): void {
     this.dialogService.showCustomDialog({
       component: SpareDriveCreationComponent,
-      classes: 'spare-drive-creation-dialog'
+      classes: 'spare-drive-creation-dialog',
+      clickOutsideToClose: false
     })
       .switchMap(res => res.onHide())
-      .subscribe((data: any) => {
-        if (!data) {
-          return;
+      .subscribe((volume: Volume) => {
+        if (volume) {
+          this.volumes.push(volume);
+          this.updateSections();
         }
-        this.createVolume(data);
-      }, () => {});
+      });
   }
 
-  public createVolume(volumeCreationData: VolumeCreationData): void {
-    let notificationId = this.jobsNotificationService.add('VOLUME_CREATE_IN_PROGRESS');
-    this.volumeService.create(volumeCreationData)
-      .subscribe(
-        volume => {
-          if (volume.id) {
-            this.diskOfferingService.get(volume.diskOfferingId)
-              .subscribe((diskOffering: DiskOffering) => {
-                volume.diskOffering = diskOffering;
-                this.volumes.push(volume);
-                this.updateSections();
-              });
-          }
-          this.jobsNotificationService.finish({
-            id: notificationId,
-            message: 'VOLUME_CREATE_DONE',
-          });
-        },
-        error => {
-          this.dialogService.alert(error.errortext);
-          this.jobsNotificationService.fail({
-            id: notificationId,
-            message: 'VOLUME_CREATE_FAILED',
-          });
-        }
-      );
-  }
 
   public attach(data): void {
     this.spareDriveActionsService.attach(data);

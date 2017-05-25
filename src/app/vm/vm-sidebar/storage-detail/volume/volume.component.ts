@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import {
-  DialogService,
   DiskOffering,
   DiskOfferingService,
   JobsNotificationService,
@@ -20,6 +19,7 @@ import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation
 import { SnapshotActionsService } from './snapshot/snapshot-actions.service';
 import { SnapshotModalComponent } from './snapshot/snapshot-modal.component';
 import { VolumeService } from '../../../../shared/services/volume.service';
+import { DialogService } from '../../../../dialog/dialog-module/dialog.service';
 
 
 const numberOfShownSnapshots = 5;

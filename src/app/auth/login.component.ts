@@ -7,7 +7,7 @@ import {
 } from '../shared';
 
 
-const fadeIn = 600;
+const fadeIn = 0;
 
 @Component({
   selector: 'cs-login',

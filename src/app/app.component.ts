@@ -3,15 +3,12 @@ import { MdlLayoutComponent } from '@angular-mdl/core';
 import { Response } from '@angular/http';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-
-
 import '../style/app.scss';
+import { MdlDialogService } from './dialog/dialog-module';
 import { Color } from './shared/models';
-
 import { AuthService, ErrorService, INotificationService, LanguageService, LayoutService } from './shared/services';
 import { StyleService } from './shared/services/style.service';
 import { ZoneService } from './shared/services/zone.service';
-import { MdlDialogService } from './dialog/dialog-module';
 
 
 @Component({
@@ -34,11 +31,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   constructor(
     private auth: AuthService,
     private domSanitizer: DomSanitizer,
+    private router: Router,
     private error: ErrorService,
     private languageService: LanguageService,
     private layoutService: LayoutService,
     private mdlDialogService: MdlDialogService,
-    private router: Router,
     @Inject('INotificationService') private notification: INotificationService,
     private styleService: StyleService,
     private zoneService: ZoneService,
@@ -133,7 +130,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public get logoSource(): string {
-    return `/img/cloudstack_logo_${ this.isLightTheme ? 'light' : 'dark' }.png`;
+    return `img/cloudstack_logo_${ this.isLightTheme ? 'light' : 'dark' }.png`;
   }
 
   private updateAccount(loggedIn: boolean): void {
