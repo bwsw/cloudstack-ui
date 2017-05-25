@@ -81,7 +81,6 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { DescriptionComponent } from './components/description/description.component';
-import { Http, RequestOptions, XHRBackend } from '@angular/http';
 import { SearchComponent } from './components/search/search.component';
 import { TableComponent } from './components/table/table.component';
 import { CustomSimpleDialogComponent } from './services/dialog/custom-dialog.component';
@@ -203,12 +202,6 @@ import { InputGroupComponent } from './components/input-group/input-group.compon
     UtilsService,
     VolumeService,
     ZoneService,
-    {
-      provide: Http, useFactory: (backend: XHRBackend, options: RequestOptions) => {
-        return new Http(backend, options);
-      },
-      deps: [XHRBackend, RequestOptions]
-    },
     MDL_SELECT_VALUE_ACCESSOR
   ]
 })
