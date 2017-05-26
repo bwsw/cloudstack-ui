@@ -6,12 +6,7 @@ import { AsyncJob } from '../models';
 import { BaseBackendService } from './base-backend.service';
 import { BackendResource } from '../decorators';
 import { ErrorService } from './error.service';
-import { AuthService } from './';
 
-
-interface IJobObservables {
-  [id: string]: Subject<AsyncJob<any> | void>;
-}
 
 const enum JobStatus {
   InProgress,
@@ -28,16 +23,14 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
   public event: Subject<AsyncJob<any>>;
   public pollingInterval: number;
   public immediatePollingInterval: number;
+  private timerIds: Array<any> = [];
   private jobs: Array<Subject<AsyncJob<any>>> = [];
 
-  constructor(private authService: AuthService) {
+  constructor() {
     super();
     this.pollingInterval = 2000;
     this.immediatePollingInterval = 100;
     this.event = new Subject<AsyncJob<any>>();
-    this.authService.loggedIn.subscribe(() => {
-      this.completeAllJobs();
-    });
   }
 
   public queryJob(job: any, entity = '', entityModel: any = null): Observable<typeof entityModel> {
@@ -54,12 +47,16 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
         }
         this._queryJob(jobId, jobSubject, entity, entityModel, interval);
       }, this.pollingInterval);
+      this.timerIds.push(interval);
     }, this.immediatePollingInterval);
     return jobSubject;
   }
 
-  private completeAllJobs(): void {
+  public completeAllJobs(): void {
+    this.timerIds.forEach(id => clearInterval(id));
     this.jobs.forEach(job => job.complete());
+    this.jobs = [];
+    this.timerIds = [];
   }
 
   private _queryJob(
@@ -86,6 +83,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
 
         if (interval) {
           clearInterval(interval);
+          this.timerIds.filter(id => interval !== id);
         }
         jobSubject.complete();
         this.event.next(asyncJob);
