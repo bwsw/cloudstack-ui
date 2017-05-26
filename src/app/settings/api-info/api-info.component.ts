@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BACKEND_API_URL, ConfigService, NotificationService } from '../../shared/services';
 import { UserService } from '../../shared/services/user.service';
 import { Observable } from 'rxjs/Observable';
+import { UtilsService } from '../../shared/services/utils.service';
 
 
 interface ApiInfoLink {
@@ -42,7 +43,8 @@ export class ApiInfoComponent implements OnInit {
   constructor(
     private configService: ConfigService,
     private notificationService: NotificationService,
-    private userService: UserService
+    private userService: UserService,
+    private utilsService: UtilsService
   ) {}
 
   public ngOnInit(): void {
@@ -66,7 +68,8 @@ export class ApiInfoComponent implements OnInit {
   }
 
   private get apiUrl(): string {
-    return BACKEND_API_URL;
+    console.log(this.utilsService.locationOrigin + this.utilsService.baseHref + BACKEND_API_URL);
+    return this.utilsService.locationOrigin + this.utilsService.baseHref + BACKEND_API_URL;
   }
 
   public onCopySuccess(): void {

@@ -1,9 +1,24 @@
 import { Injectable } from '@angular/core';
+import { PlatformLocation } from '@angular/common';
 import * as uuid from 'uuid';
 
 
 @Injectable()
 export class UtilsService {
+  constructor(private platformLocation: PlatformLocation) {}
+
+  public get locationOrigin(): string {
+    if (location.origin) {
+      return location.origin;
+    } else {
+      return '' + location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+    }
+  }
+
+  public get baseHref(): string {
+    return this.platformLocation.getBaseHrefFromDOM();
+  }
+
   public getUniqueId(): string {
     return uuid.v4();
   }
