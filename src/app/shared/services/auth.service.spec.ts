@@ -2,9 +2,11 @@ import { Component, Injectable, Injector } from '@angular/core';
 import { async, discardPeriodicTasks, fakeAsync, getTestBed, TestBed, tick } from '@angular/core/testing';
 import { BaseRequestOptions, Http, HttpModule, XHRBackend } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
+import { NavigationExtras, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
-import { AuthService, ConfigService, ErrorService } from './';
+import { AsyncJobService, AuthService, CacheService, ConfigService, ErrorService } from './';
+import { RouterUtilsService } from './router-utils.service';
 import { ServiceLocator } from './service-locator';
 import { StorageService } from './storage.service';
 import { UserService } from './user.service';
@@ -62,6 +64,10 @@ class MockStorageService {
   public remove(key: string): void {
     delete this.storage[key];
   }
+
+  public resetInMemoryStorage(): void {
+    this.storage = {};
+  }
 }
 
 const configStorage = {};
@@ -80,34 +86,68 @@ class MockConfigService {
   }
 }
 
+@Injectable()
+class MockAsyncJobService {
+  public completeAllJobs(): void {}
+}
+
+@Injectable()
+class MockCacheService {
+  public invalidateAll(): void {}
+}
+
+@Injectable()
+class MockRouter {
+  public navigate(route: any): Promise<any> {
+    return Promise.resolve(route);
+  }
+}
+
+@Injectable()
+class MockRouterUtilsService {
+  public get locationOrigin(): string {
+    return '';
+  }
+
+  public getRedirectionQueryParams(next?: string): NavigationExtras {
+    return { queryParams: { next } };
+  }
+}
+
+const testBedConfig = {
+  declarations: [TestViewComponent],
+  providers: [
+    AuthService,
+    MockBackend,
+    BaseRequestOptions,
+    { provide: AsyncJobService, useClass: MockAsyncJobService },
+    { provide: CacheService, useClass: MockCacheService },
+    { provide: ConfigService, useClass: MockConfigService },
+    { provide: ErrorService, useClass: MockErrorService },
+    { provide: UserService, useClass: MockUserService },
+    { provide: Router, useClass: MockRouter },
+    { provide: RouterUtilsService, useClass: MockRouterUtilsService },
+    { provide: StorageService, useClass: MockStorageService },
+    { provide: Http,
+      deps: [MockBackend, BaseRequestOptions],
+      useFactory:
+        (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
+          return new Http(backend, defaultOptions);
+        },
+    },
+    Injector
+  ],
+  imports: [
+    HttpModule
+  ]
+};
+
 describe('Auth service session', () => {
   let authService: AuthService;
   let configService: ConfigService;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [TestViewComponent],
-      providers: [
-        AuthService,
-        MockBackend,
-        BaseRequestOptions,
-        { provide: ConfigService, useClass: MockConfigService },
-        { provide: ErrorService, useClass: MockErrorService },
-        { provide: UserService, useClass: MockUserService },
-        { provide: StorageService, useClass: MockStorageService },
-        { provide: Http,
-          deps: [MockBackend, BaseRequestOptions],
-          useFactory:
-            (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
-              return new Http(backend, defaultOptions);
-            },
-        },
-        Injector
-      ],
-      imports: [
-        HttpModule
-      ]
-    });
+    TestBed.configureTestingModule(testBedConfig);
 
     ServiceLocator.injector = getTestBed().get(Injector);
     authService = TestBed.get(AuthService);
@@ -160,42 +200,24 @@ describe('Auth service session', () => {
 describe('Auth service session', () => {
   let authService: AuthService;
   let configService: ConfigService;
+  let router: Router;
+  let routerUtils: RouterUtilsService;
   const refreshInterval = 1;
 
   beforeEach(async(() => {
     setRefreshInterval(refreshInterval);
-    TestBed.configureTestingModule({
-      declarations: [TestViewComponent],
-      providers: [
-        AuthService,
-        MockBackend,
-        BaseRequestOptions,
-        { provide: ConfigService, useClass: MockConfigService },
-        { provide: ErrorService, useClass: MockErrorService },
-        { provide: UserService, useClass: MockUserService },
-        { provide: StorageService, useClass: MockStorageService },
-        { provide: Http,
-          deps: [MockBackend, BaseRequestOptions],
-          useFactory:
-            (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
-              return new Http(backend, defaultOptions);
-            },
-        },
-        Injector
-      ],
-      imports: [
-        HttpModule
-      ]
-    });
+    TestBed.configureTestingModule(testBedConfig);
 
     ServiceLocator.injector = getTestBed().get(Injector);
     authService = TestBed.get(AuthService);
     configService = TestBed.get(ConfigService);
+    router = TestBed.get(Router);
+    routerUtils = TestBed.get(RouterUtilsService);
   }));
 
   it('should logout after session expires', fakeAsync(() => {
     const inactivityTimeout = 10;
-    const logout = spyOn(authService, 'logout').and.returnValue(Observable.of(null));
+    const logout = spyOn(router, 'navigate').and.callThrough();
     const refresh = spyOn(authService, 'sendRefreshRequest');
 
     authService.setInactivityTimeout(inactivityTimeout).subscribe();
@@ -206,5 +228,6 @@ describe('Auth service session', () => {
 
     tick(getRefreshInterval() * 60);
     expect(logout).toHaveBeenCalledTimes(1);
+    expect(logout).toHaveBeenCalledWith(['/logout'], routerUtils.getRedirectionQueryParams());
   }));
 });

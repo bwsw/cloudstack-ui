@@ -1,3 +1,4 @@
+import { MdlDialogOutletService } from '@angular-mdl/core';
 import {
   ComponentFactoryResolver,
   ComponentRef,
@@ -12,7 +13,6 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { MdlDialogOutletService } from '../dialog-outlet-module';
 import { InternalMdlDialogReference } from './internal-dialog-reference';
 import {
   IMdlCustomDialogConfiguration,

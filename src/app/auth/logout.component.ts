@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../shared/services';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MdlDialogService } from '../dialog/dialog-module';
+import { AuthService } from '../shared/services';
+import { RouterUtilsService } from '../shared/services/router-utils.service';
 
 
 @Component({
@@ -10,14 +11,18 @@ import { MdlDialogService } from '../dialog/dialog-module';
 })
 export class LogoutComponent implements OnInit {
   constructor(
+    private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     private dialogService: MdlDialogService,
-    private router: Router
+    private router: Router,
+    private routerUtilsService: RouterUtilsService
   ) {}
 
   public ngOnInit(): void {
     this.authService.logout().subscribe(() => {
-      this.router.navigate(['/login']);
+      const next = this.activatedRoute.snapshot.queryParams['next'];
+      const redirectionParams = next ? this.routerUtilsService.getRedirectionQueryParams(next) : {};
+      this.router.navigate(['/login'], redirectionParams);
       this.dialogService.hideAllDialogs();
     });
   }

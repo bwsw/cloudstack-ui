@@ -1,13 +1,16 @@
 import { Injectable, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { BackendResource } from '../decorators';
 import { BaseModelStub } from '../models';
+import { AsyncJobService } from './async-job.service';
 
 import { BaseBackendService } from './base-backend.service';
+import { CacheService } from './cache.service';
 import { ConfigService } from './config.service';
-import { ErrorService } from './error.service';
+import { RouterUtilsService } from './router-utils.service';
 import { StorageService } from './storage.service';
 import { UserService } from './user.service';
 
@@ -29,10 +32,13 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   private sessionRefreshInterval = DEFAULT_SESSION_REFRESH_INTERVAL;
 
   constructor(
+    protected asyncJobService: AsyncJobService,
+    protected cacheService: CacheService,
     protected configService: ConfigService,
-    protected errorService: ErrorService,
     protected storage: StorageService,
+    protected router: Router,
     protected userService: UserService,
+    protected routerUtilsService: RouterUtilsService,
     protected zone: NgZone
   ) {
     super();
@@ -51,6 +57,12 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
         this.resetTimer();
         this.addEventListeners();
       });
+
+    this.loggedIn.subscribe(() => {
+      this.asyncJobService.completeAllJobs();
+      this.cacheService.invalidateAll();
+      this.storage.resetInMemoryStorage();
+    });
   }
 
   public setInactivityTimeout(value: number): Observable<void> {
@@ -142,28 +154,28 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     return Observable.of(!!this.userId);
   }
 
-  public setLoggedIn(username: string, name: string, userId: string): void {
+  public sendRefreshRequest(): void {
+    this.userService.getList().subscribe();
+  }
+
+  private setLoggedIn(username: string, name: string, userId: string): void {
     this.name = name;
     this.username = username;
     this.userId = userId;
     this.loggedIn.next(true);
   }
 
-  public setLoggedOut(): void {
+  private setLoggedOut(): void {
     this.name = '';
     this.username = '';
     this.userId = '';
     this.loggedIn.next(false);
   }
 
-  public sendRefreshRequest(): void {
-    this.userService.getList().subscribe();
-  }
-
   private refreshSession(): void {
     if (++this.numberOfRefreshes * this.sessionRefreshInterval >= this.inactivityTimeout * 60) {
       this.clearTimer();
-      this.zone.run(() => this.logout().subscribe());
+      this.zone.run(() => this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams()));
     } else {
       this.sendRefreshRequest();
     }

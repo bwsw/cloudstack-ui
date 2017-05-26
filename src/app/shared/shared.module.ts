@@ -1,10 +1,9 @@
-import { MdlModule } from '@angular-mdl/core';
+import { MdlDialogOutletModule, MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Http, RequestOptions, XHRBackend } from '@angular/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { MdlDialogModule } from '../dialog/dialog-module';
 
@@ -77,6 +76,7 @@ import {
   StyleService,
   ZoneService
 } from './services';
+import { RouterUtilsService } from './services/router-utils.service';
 import { SnapshotService } from './services/snapshot.service';
 import { StorageService } from './services/storage.service';
 import { TagService } from './services/tag.service';
@@ -90,6 +90,7 @@ import { VolumeService } from './services/volume.service';
     CommonModule,
     FormsModule,
     MdlDialogModule,
+    MdlDialogOutletModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
@@ -185,6 +186,7 @@ import { VolumeService } from './services/volume.service';
     OsTypeService,
     ResourceLimitService,
     ResourceUsageService,
+    RouterUtilsService,
     SecurityGroupService,
     ServiceOfferingService,
     ServiceOfferingFilterService,
@@ -198,12 +200,6 @@ import { VolumeService } from './services/volume.service';
     UtilsService,
     VolumeService,
     ZoneService,
-    {
-      provide: Http, useFactory: (backend: XHRBackend, options: RequestOptions) => {
-        return new Http(backend, options);
-      },
-      deps: [XHRBackend, RequestOptions]
-    },
     MDL_SELECT_VALUE_ACCESSOR
   ]
 })

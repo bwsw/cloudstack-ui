@@ -7,6 +7,7 @@ import '../style/app.scss';
 import { MdlDialogService } from './dialog/dialog-module';
 import { Color } from './shared/models';
 import { AuthService, ErrorService, LanguageService, LayoutService, NotificationService } from './shared/services';
+import { RouterUtilsService } from './shared/services/router-utils.service';
 import { StyleService } from './shared/services/style.service';
 import { ZoneService } from './shared/services/zone.service';
 
@@ -38,6 +39,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private mdlDialogService: MdlDialogService,
     private notification: NotificationService,
     private styleService: StyleService,
+    private routerUtilsService: RouterUtilsService,
     private zoneService: ZoneService,
     private zone: NgZone
   ) {
@@ -89,7 +91,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   public onLogout(event): void {
     event.preventDefault();
     this.auth.logout().subscribe(() => {
-      this.router.navigate(['login']);
+      this.router.navigate(['/login']);
     });
   }
 
@@ -144,8 +146,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       switch (e.status) {
         case 401:
           this.notification.message('NOT_LOGGED_IN');
-          this.auth.setLoggedOut();
-          this.router.navigate(['/logout']);
+          const route = this.routerUtilsService.routeWithoutQueryParams;
+          if (route !== '/login' && route !== '/logout') {
+            this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams());
+          }
           break;
       }
     }
