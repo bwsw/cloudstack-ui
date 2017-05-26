@@ -2,7 +2,7 @@ import { Observable } from 'rxjs/Observable';
 import { BaseModel } from '../models';
 import { CacheService } from './';
 import { BaseBackendService } from './base-backend.service';
-import { Cache } from './cache.service';
+import { Cache } from './cache';
 import { ServiceLocator } from './service-locator';
 
 
