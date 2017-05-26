@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { BACKEND_API_URL, ConfigService, NotificationService } from '../../shared/services';
 import { UserService } from '../../shared/services/user.service';
 import { Observable } from 'rxjs/Observable';
-import { UtilsService } from '../../shared/services/utils.service';
 
 
 interface ApiInfoLink {
