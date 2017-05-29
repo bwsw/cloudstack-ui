@@ -7,7 +7,7 @@ import * as uuid from 'uuid';
 export class UtilsService {
   constructor(private platformLocation: PlatformLocation) {}
 
-  public get locationOrigin(): string {
+  public getLocationOrigin(): string {
     if (location.origin) {
       return location.origin;
     } else {
@@ -15,7 +15,7 @@ export class UtilsService {
     }
   }
 
-  public get baseHref(): string {
+  public getBaseHref(): string {
     return this.platformLocation.getBaseHrefFromDOM();
   }
 
