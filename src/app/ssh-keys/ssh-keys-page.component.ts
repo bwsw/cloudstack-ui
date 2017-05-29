@@ -31,8 +31,7 @@ export class SshKeysPageComponent implements OnInit {
       component: SShKeyCreationDialogComponent,
       clickOutsideToClose: false,
       styles: {
-        width: '400px',
-        height: '360px'
+        width: '400px'
       }
     })
       .switchMap(res => res.onHide())

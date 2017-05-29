@@ -86,6 +86,7 @@ import { TableComponent } from './components/table/table.component';
 import { CustomSimpleDialogComponent } from './services/dialog/custom-dialog.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
 import { InputGroupComponent } from './components/input-group/input-group.component';
+import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
 
 
 @NgModule({
@@ -115,6 +116,7 @@ import { InputGroupComponent } from './components/input-group/input-group.compon
     MdlAutocompleteComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
+    OverlayLoadingComponent,
     SearchComponent,
     SgRulesManagerComponent,
     SidebarComponent,
@@ -156,6 +158,7 @@ import { InputGroupComponent } from './components/input-group/input-group.compon
     MdlAutocompleteComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
+    OverlayLoadingComponent,
     SearchComponent,
     SgRulesManagerComponent,
     SidebarComponent,
