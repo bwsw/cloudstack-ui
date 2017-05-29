@@ -28,6 +28,16 @@ export class SettingsComponent implements OnInit {
   public primaryColorControl = new FormControl();
   public accentColorControl = new FormControl();
 
+  public languages = [
+    { value: 'en', text: 'English' },
+    { value: 'ru', text: 'Русский' }
+  ];
+
+  public daysOfTheWeek = [
+    { value: 0, text: 'SUNDAY' },
+    { value: 1, text: 'MONDAY' }
+  ];
+
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,

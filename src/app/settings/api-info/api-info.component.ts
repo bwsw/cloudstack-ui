@@ -56,13 +56,13 @@ export class ApiInfoComponent implements OnInit {
       .finally(() => this.loading = false)
       .subscribe(([apiKeys, apiDocLink]) => {
         this.linkFields = {
-          apiUrl: {title: 'API_URL', href: this.apiUrl},
-          apiDocLink: {title: 'API_DOC_LINK', href: apiDocLink }
+          apiUrl: { title: 'API_URL', href: this.apiUrl },
+          apiDocLink: { title: 'API_DOC_LINK', href: apiDocLink }
         };
 
         this.inputFields = {
-          apiKey: {title: 'API_KEY', value: apiKeys.apiKey},
-          apiSecretKey: {title: 'API_SECRET_KEY', value: apiKeys.secretKey}
+          apiKey: { title: 'API_KEY', value: apiKeys.apiKey },
+          apiSecretKey: { title: 'API_SECRET_KEY', value: apiKeys.secretKey }
         };
       });
   }
