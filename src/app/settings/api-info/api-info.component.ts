@@ -68,8 +68,10 @@ export class ApiInfoComponent implements OnInit {
   }
 
   private get apiUrl(): string {
-    console.log(this.utilsService.locationOrigin + this.utilsService.baseHref + BACKEND_API_URL);
-    return this.utilsService.locationOrigin + this.utilsService.baseHref + BACKEND_API_URL;
+    return this.utilsService.locationOrigin +
+      ('/' + this.utilsService.baseHref + '/' +
+      BACKEND_API_URL
+    ).replace(/\/+/, '/');
   }
 
   public onCopySuccess(): void {
