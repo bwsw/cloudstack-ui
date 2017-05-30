@@ -147,7 +147,7 @@ export class VmCreationComponent implements OnInit {
           this.resetVmCreateData();
         } else {
           this.fetching = false;
-          // this.enoughResources = false;
+          this.enoughResources = false;
         }
       });
 
@@ -312,7 +312,7 @@ export class VmCreationComponent implements OnInit {
       this.vmCreationData.vm.template = t;
       this.setMinDiskSize(t);
     } else {
-      // this.enoughResources = false;
+      this.enoughResources = false;
     }
   }
 
@@ -488,7 +488,7 @@ export class VmCreationComponent implements OnInit {
 
   private setServiceOfferings(serviceOfferings: Array<ServiceOffering>): void {
     if (!serviceOfferings.length) {
-      // this.enoughResources = false;
+      this.enoughResources = false;
     }
     this.vmCreationData.serviceOfferings = serviceOfferings;
     this.setServiceOffering(serviceOfferings[0]);
@@ -500,7 +500,7 @@ export class VmCreationComponent implements OnInit {
     });
 
     if (!filteredDiskOfferings.length) {
-      // this.enoughResources = false;
+      this.enoughResources = false;
     } else {
       this.vmCreationData.diskOfferings = diskOfferings;
       this.setDiskOffering(diskOfferings[0]);
