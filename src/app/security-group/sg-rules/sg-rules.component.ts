@@ -35,6 +35,17 @@ export class SgRulesComponent implements OnInit {
   public NetworkProtocols = NetworkProtocols;
   public NetworkRuleTypes = NetworkRuleTypes;
 
+  public types = [
+    { value: NetworkRuleTypes.Ingress, text: 'INGRESS' },
+    { value: NetworkRuleTypes.Egress, text: 'EGRESS' },
+  ];
+
+  public protocols = [
+    { value: NetworkProtocols.TCP, text: 'TCP' },
+    { value: NetworkProtocols.UDP, text: 'UDP' },
+    { value: NetworkProtocols.ICMP, text: 'ICMP' }
+  ];
+
   constructor(
     public dialog: MdlDialogReference,
     private securityGroupService: SecurityGroupService,

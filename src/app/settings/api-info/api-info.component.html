@@ -12,7 +12,7 @@
       </a>
     </div>
 
-    <div>
+    <div *ngIf="linkFields.apiDocLink.href">
       <h5 [translate]="linkFields.apiDocLink.title"></h5>
       <a
         target="_blank"
@@ -22,7 +22,7 @@
       </a>
     </div>
 
-    <div>
+    <div *ngIf="inputFields.apiKey.value">
       <h5 [translate]="inputFields.apiKey.title"></h5>
       <cs-input-group>
         <mdl-textfield
@@ -54,7 +54,7 @@
       </mdl-tooltip>
     </div>
 
-    <div>
+    <div *ngIf="inputFields.apiSecretKey.value">
       <h5 [translate]="inputFields.apiSecretKey.title"></h5>
       <cs-input-group>
         <mdl-textfield
