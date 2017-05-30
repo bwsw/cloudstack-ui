@@ -74,9 +74,11 @@ export class ApiInfoComponent implements OnInit {
   private get apiUrl(): string {
     return [
       this.utilsService.getLocationOrigin().replace(/\/$/, ''),
-      this.utilsService.getBaseHref().replace('/', ''),
+      this.utilsService.getBaseHref().replace(/^\//, '').replace(/\/$/, ''),
       BACKEND_API_URL
-    ].join('/');
+    ]
+      .filter(s => s)
+      .join('/');
   }
 
   public onCopySuccess(): void {
