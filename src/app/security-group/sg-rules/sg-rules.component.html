@@ -24,15 +24,22 @@
       <tr *ngIf="!securityGroup.isPredefinedTemplate">
         <td class="mdl-data-table__cell--non-numeric">
           <mdl-select class="type" [(ngModel)]="type" name="type">
-            <mdl-option [value]="NetworkRuleTypes.Ingress">{{ 'INGRESS' | translate }}</mdl-option>
-            <mdl-option [value]="NetworkRuleTypes.Egress">{{ 'EGRESS' | translate }}</mdl-option>
+            <mdl-option
+              *ngFor="let t of types"
+              [value]="t.value"
+            >
+              {{ t.text | translate }}
+            </mdl-option>
           </mdl-select>
         </td>
         <td>
           <mdl-select [(ngModel)]="protocol" name="protocol">
-            <mdl-option [value]="NetworkProtocols.TCP">TCP</mdl-option>
-            <mdl-option [value]="NetworkProtocols.UDP">UDP</mdl-option>
-            <mdl-option [value]="NetworkProtocols.ICMP">ICMP</mdl-option>
+            <mdl-option
+              *ngFor="let p of protocols"
+              [value]="p.value"
+            >
+              {{ p.text }}
+            </mdl-option>
           </mdl-select>
         </td>
         <td>
