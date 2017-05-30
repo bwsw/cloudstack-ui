@@ -22,7 +22,6 @@
         label="{{ 'DESCRIPTION' | translate }}"
         name="description"
         floating-label
-        required
         [(ngModel)]="description"
         #descriptionField="ngModel"
         [class.is-invalid]="descriptionField.invalid && !descriptionField.pristine"
