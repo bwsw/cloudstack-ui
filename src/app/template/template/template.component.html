@@ -47,9 +47,6 @@
       [innerHTML]="template.name | highlight:searchQuery"
       class="template-header"
     ></h2>
-    <mdl-tooltip #headerTooltip="mdlTooltip">
-      {{ template.name }}
-    </mdl-tooltip>
   </mdl-card-title>
   <mdl-card-supporting-text>
     <div class="card-wrapper">
@@ -119,3 +116,6 @@
     </div>
   </mdl-popover>
 </mdl-card>
+<mdl-tooltip #headerTooltip="mdlTooltip">
+  {{ template.name }}
+</mdl-tooltip>
