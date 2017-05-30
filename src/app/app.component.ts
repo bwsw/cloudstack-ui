@@ -22,6 +22,7 @@ import {
   StyleService,
   ZoneService
 } from './shared';
+import { RouterUtilsService } from './shared/services/router-utils.service';
 
 
 @Component({
@@ -51,13 +52,16 @@ export class AppComponent implements OnInit, AfterViewInit {
     private notification: NotificationService,
     private styleService: StyleService,
     private asyncJobService: AsyncJobService,
+    private routerUtilsService: RouterUtilsService,
     private zoneService: ZoneService
   ) {
     this.title = this.auth.name;
   }
 
-  public componentSelected(mainLayout: MdlLayoutComponent): void {
-    mainLayout.closeDrawerOnSmallScreens();
+  public linkClick(routerLink: string): void {
+    if (routerLink === this.routerUtilsService.getRouteWithoutQueryParams()) {
+      location.reload();
+    }
   }
 
   public ngOnInit(): void {

@@ -87,6 +87,7 @@ import { CustomSimpleDialogComponent } from './services/dialog/custom-dialog.com
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
 import { InputGroupComponent } from './components/input-group/input-group.component';
 import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
+import { RouterUtilsService } from './services/router-utils.service';
 
 
 @NgModule({
@@ -192,6 +193,7 @@ import { OverlayLoadingComponent } from './components/overlay-loading/overlay-lo
     OsTypeService,
     ResourceLimitService,
     ResourceUsageService,
+    RouterUtilsService,
     SecurityGroupService,
     ServiceOfferingService,
     ServiceOfferingFilterService,
