@@ -57,14 +57,14 @@ export class SpareDriveAttachmentDetailComponent implements OnInit {
       });
   }
 
-  public attachIso(): void {
+  public attachVolume(): void {
     this.loading = true;
     this.spareDriveActionsService.attach({
       id: this.selectedVolume.id,
       virtualMachineId: this.virtualMachine.id
     })
+      .finally(() => setTimeout(() => this.loading = false))
       .subscribe(() => {
-        this.loading = false;
         this.onAttach.next(this.selectedVolume);
         this.selectedVolume = undefined;
       });
