@@ -1,10 +1,6 @@
 :host {
-  display: flex;
-  align-items: center;
-}
-
-.ssh-creation-form {
-  flex: 1;
+  position: relative;
+  display: block;
 }
 
 .public-key-label {
