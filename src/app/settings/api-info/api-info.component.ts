@@ -3,6 +3,7 @@ import { BACKEND_API_URL, ConfigService, NotificationService } from '../../share
 import { UserService } from '../../shared/services/user.service';
 import { Observable } from 'rxjs/Observable';
 import { UtilsService } from '../../shared/services/utils.service';
+import { DefaultUrlSerializer, UrlSerializer } from '@angular/router';
 
 
 interface ApiInfoLink {
@@ -39,13 +40,16 @@ export class ApiInfoComponent implements OnInit {
   public linkFields: ApiInfoLinks;
   public inputFields: ApiInfoTextFields;
   public loading: boolean;
+  private urlSerializer: UrlSerializer;
 
   constructor(
     private configService: ConfigService,
     private notificationService: NotificationService,
     private userService: UserService,
     private utilsService: UtilsService
-  ) {}
+  ) {
+    this.urlSerializer = new DefaultUrlSerializer();
+  }
 
   public ngOnInit(): void {
     this.loading = true;
@@ -68,7 +72,13 @@ export class ApiInfoComponent implements OnInit {
   }
 
   private get apiUrl(): string {
-    return this.utilsService.locationOrigin + '/' + BACKEND_API_URL;
+    return [
+      this.utilsService.getLocationOrigin().replace(/\/$/, ''),
+      this.utilsService.getBaseHref().replace(/^\//, '').replace(/\/$/, ''),
+      BACKEND_API_URL
+    ]
+      .filter(s => s)
+      .join('/');
   }
 
   public onCopySuccess(): void {
