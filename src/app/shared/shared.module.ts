@@ -87,6 +87,7 @@ import { CustomSimpleDialogComponent } from './services/dialog/custom-dialog.com
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
 import { InputGroupComponent } from './components/input-group/input-group.component';
 import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
+import { VolumeOfferingService } from './services/volume-offering.service';
 
 
 @NgModule({
@@ -204,6 +205,7 @@ import { OverlayLoadingComponent } from './components/overlay-loading/overlay-lo
     UserService,
     UtilsService,
     VolumeService,
+    VolumeOfferingService,
     ZoneService,
     MDL_SELECT_VALUE_ACCESSOR
   ]
