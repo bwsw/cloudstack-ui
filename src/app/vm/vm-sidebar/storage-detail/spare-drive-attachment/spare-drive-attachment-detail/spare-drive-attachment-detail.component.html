@@ -37,7 +37,7 @@
       mdl-tooltip-position="top"
       *ngIf="!loading"
       [mdl-tooltip]="'ATTACH' | translate"
-      (click)="$event.stopPropagation(); attachIso()"
+      (click)="$event.stopPropagation(); attachVolume()"
     >
       <mdl-icon>attach_file</mdl-icon>
     </button>
@@ -46,7 +46,6 @@
       mdl-button-type="icon"
       *ngIf="loading"
       disabled
-      (click)="$event.stopPropagation(); attachIso()"
     >
       <mdl-icon>attach_file</mdl-icon>
     </button>

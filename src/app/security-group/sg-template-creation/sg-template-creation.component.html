@@ -1,9 +1,4 @@
-<div *ngIf="creationInProgress" class="overlay">
-  <div class="message">
-    <p>{{ 'CREATING_SG_TEMPLATE' | translate }}</p>
-    <mdl-progress [indeterminate]="true"></mdl-progress>
-  </div>
-</div>
+<cs-overlay-loading [active]="creationInProgress"></cs-overlay-loading>
 <div class="security-group-template-form">
   <h3 class="mdl-dialog__title">{{ 'CREATE_NEW_TEMPLATE' | translate }}</h3>
   <form (ngSubmit)="onSubmit($event)" #templateCreationForm="ngForm" novalidate>
@@ -27,7 +22,6 @@
         label="{{ 'DESCRIPTION' | translate }}"
         name="description"
         floating-label
-        required
         [(ngModel)]="description"
         #descriptionField="ngModel"
         [class.is-invalid]="descriptionField.invalid && !descriptionField.pristine"

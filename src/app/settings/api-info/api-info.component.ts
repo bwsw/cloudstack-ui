@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { BACKEND_API_URL, ConfigService, NotificationService } from '../../shared/services';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { UserService } from '../../shared/services/user.service';
+import { DefaultUrlSerializer, UrlSerializer } from '@angular/router';
 
 
 interface ApiInfoLink {
@@ -39,13 +40,16 @@ export class ApiInfoComponent implements OnInit {
   public linkFields: ApiInfoLinks;
   public inputFields: ApiInfoTextFields;
   public loading: boolean;
+  private urlSerializer: UrlSerializer;
 
   constructor(
     private configService: ConfigService,
     private notificationService: NotificationService,
     private userService: UserService,
     private routerUtilsService: RouterUtilsService
-  ) {}
+  ) {
+    this.urlSerializer = new DefaultUrlSerializer();
+  }
 
   public ngOnInit(): void {
     this.loading = true;
@@ -56,19 +60,25 @@ export class ApiInfoComponent implements OnInit {
       .finally(() => this.loading = false)
       .subscribe(([apiKeys, apiDocLink]) => {
         this.linkFields = {
-          apiUrl: {title: 'API_URL', href: this.apiUrl},
-          apiDocLink: {title: 'API_DOC_LINK', href: apiDocLink }
+          apiUrl: { title: 'API_URL', href: this.apiUrl },
+          apiDocLink: { title: 'API_DOC_LINK', href: apiDocLink }
         };
 
         this.inputFields = {
-          apiKey: {title: 'API_KEY', value: apiKeys.apiKey},
-          apiSecretKey: {title: 'API_SECRET_KEY', value: apiKeys.secretKey}
+          apiKey: { title: 'API_KEY', value: apiKeys.apiKey },
+          apiSecretKey: { title: 'API_SECRET_KEY', value: apiKeys.secretKey }
         };
       });
   }
 
   private get apiUrl(): string {
-    return this.routerUtilsService.locationOrigin + '/' + BACKEND_API_URL;
+    return [
+      this.routerUtilsService.getLocationOrigin().replace(/\/$/, ''),
+      this.routerUtilsService.getBaseHref().replace(/^\//, '').replace(/\/$/, ''),
+      BACKEND_API_URL
+    ]
+      .filter(s => s)
+      .join('/');
   }
 
   public onCopySuccess(): void {

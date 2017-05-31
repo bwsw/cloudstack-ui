@@ -10,8 +10,12 @@
         [(ngModel)]="language"
         (change)="changeLanguage($event)"
       >
-        <mdl-option [value]="'en'">English</mdl-option>
-        <mdl-option [value]="'ru'">Русский</mdl-option>
+        <mdl-option
+          *ngFor="let l of languages"
+          [value]="l.value"
+        >
+          {{ l.text }}
+        </mdl-option>
       </mdl-select>
     </div>
     <div
@@ -25,8 +29,12 @@
         [disabled]="updatingFirstDayOfWeek"
         (change)="firstDayOfWeekChange($event)"
       >
-        <mdl-option [value]="0">{{ dayTranslations['SUNDAY'] }}</mdl-option>
-        <mdl-option [value]="1">{{ dayTranslations['MONDAY'] }}</mdl-option>
+        <mdl-option
+          *ngFor="let d of daysOfTheWeek"
+          [value]="d.value"
+        >
+          {{ d.text | translate }}
+        </mdl-option>
       </mdl-select>
     </div>
     <div class="settings-control">

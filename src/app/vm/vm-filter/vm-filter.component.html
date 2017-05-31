@@ -8,8 +8,22 @@
     multiple="true"
     [placeholder]="'SELECT_GROUPS' | translate"
   >
-    <mdl-option value="-1"><em>{{ 'NO_GROUP' | translate }}</em></mdl-option>
-    <mdl-option mdl-ripple *ngFor="let g of groups" [value]="g">{{ g.name }}</mdl-option>
+    <mdl-option
+      *ngIf="showNoGroupFilter"
+      value="-1"
+    >
+      <em>
+        {{ 'NO_GROUP' | translate }}
+      </em>
+    </mdl-option>
+
+    <mdl-option
+      mdl-ripple
+      *ngFor="let g of groups"
+      [value]="g"
+    >
+      {{ g.name }}
+    </mdl-option>
   </mdl-select>
   <mdl-select
     class="filter-select"
@@ -48,8 +62,22 @@
     multiple="true"
     [placeholder]="'SELECT_GROUPS' | translate"
   >
-    <mdl-option value="-1"><em>{{ 'NO_GROUP' | translate }}</em></mdl-option>
-    <mdl-option mdl-ripple *ngFor="let g of groups" [value]="g">{{ g.name }}</mdl-option>
+    <mdl-option
+      *ngIf="showNoGroupFilter"
+      value="-1"
+    >
+      <em>
+        {{ 'NO_GROUP' | translate }}
+      </em>
+    </mdl-option>
+
+    <mdl-option
+      mdl-ripple
+      *ngFor="let g of groups"
+      [value]="g"
+    >
+      {{ g.name }}
+    </mdl-option>
   </mdl-select>
 
 

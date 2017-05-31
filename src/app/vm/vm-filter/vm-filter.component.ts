@@ -43,6 +43,7 @@ export class VmFilterComponent implements OnInit {
     { state: VmStates.Error,   name: 'VM_FILTERS.STATE.ERROR' }
   ];
   public mode: SectionType = SectionType.zone;
+  public showNoGroupFilter = true;
 
   private filtersKey = 'vmListFilters';
 

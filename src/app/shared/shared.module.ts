@@ -76,6 +76,7 @@ import {
   StyleService,
   ZoneService
 } from './services';
+import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
 import { RouterUtilsService } from './services/router-utils.service';
 import { SnapshotService } from './services/snapshot.service';
 import { StorageService } from './services/storage.service';
@@ -114,6 +115,7 @@ import { VolumeService } from './services/volume.service';
     MdlAutocompleteComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
+    OverlayLoadingComponent,
     SearchComponent,
     SgRulesManagerComponent,
     SidebarComponent,
@@ -153,6 +155,7 @@ import { VolumeService } from './services/volume.service';
     MdlAutocompleteComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
+    OverlayLoadingComponent,
     SearchComponent,
     SgRulesManagerComponent,
     SidebarComponent,

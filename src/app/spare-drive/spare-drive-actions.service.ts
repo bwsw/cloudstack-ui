@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { VolumeAttachmentData, VolumeService } from '../shared/services/volume.service';
+import { JobsNotificationService } from '../shared/services';
 import { Subject } from 'rxjs/Subject';
 import { DialogService } from '../dialog/dialog-module/dialog.service';
 import { Volume } from '../shared/models';
-import { JobsNotificationService, NotificationService } from '../shared/services';
-import { VolumeAttachmentData, VolumeService } from '../shared/services/volume.service';
 
 
 export type VolumeAttachmentEvent = 'attached' | 'detached';
@@ -20,7 +20,6 @@ export class SpareDriveActionsService {
   constructor(
     private dialogService: DialogService,
     private jobsNotificationService: JobsNotificationService,
-    private notificationService: NotificationService,
     private volumeService: VolumeService
   ) {
     this.onVolumeAttachment = new Subject<VolumeAttachmentEvent>();
@@ -29,41 +28,46 @@ export class SpareDriveActionsService {
   public attach(data: VolumeAttachmentData): Observable<void> {
     let notificationId = this.jobsNotificationService.add('VOLUME_ATTACH_IN_PROGRESS');
     return this.volumeService.attach(data)
-      .map(
-        () => {
-          this.onVolumeAttachment.next(VolumeAttachmentEvents.ATTACHED);
-          this.jobsNotificationService.finish({
-            id: notificationId,
-            message: 'VOLUME_ATTACH_DONE',
-          });
-        },
-        error => {
-          this.dialogService.alert(error.message);
-          this.jobsNotificationService.fail({
-            id: notificationId,
-            message: 'VOLUME_ATTACH_FAILED',
-          });
+      .map(() => {
+        this.onVolumeAttachment.next(VolumeAttachmentEvents.ATTACHED);
+        this.jobsNotificationService.finish({
+          id: notificationId,
+          message: 'VOLUME_ATTACH_DONE',
         });
+      })
+      .catch(error => {
+        this.dialogService.alert({
+          translationToken: error.message,
+          interpolateParams: error.params
+        });
+        this.jobsNotificationService.fail({
+          id: notificationId,
+          message: 'VOLUME_ATTACH_FAILED',
+        });
+        return error;
+      });
   }
 
   public detach(volume: Volume): Observable<void> {
     let notificationId = this.jobsNotificationService.add('VOLUME_DETACH_IN_PROGRESS');
     return this.volumeService.detach(volume.id)
-      .map(
-        () => {
-          this.onVolumeAttachment.next(VolumeAttachmentEvents.DETACHED);
-          this.jobsNotificationService.finish({
-            id: notificationId,
-            message: 'VOLUME_DETACH_DONE'
-          });
-        },
-        error => {
-          this.notificationService.error(error.errortext);
-          this.jobsNotificationService.fail({
-            id: notificationId,
-            message: 'VOLUME_DETACH_FAILED'
-          });
-        }
-      );
+      .map(() => {
+        this.onVolumeAttachment.next(VolumeAttachmentEvents.DETACHED);
+        this.jobsNotificationService.finish({
+          id: notificationId,
+          message: 'VOLUME_DETACH_DONE'
+        });
+      })
+      .catch(error => {
+        this.dialogService.alert({
+          translationToken: error.message,
+          interpolateParams: error.params
+        });
+        this.jobsNotificationService.fail({
+          id: notificationId,
+          message: 'VOLUME_DETACH_FAILED',
+        });
+        return error;
+      });
   }
 }

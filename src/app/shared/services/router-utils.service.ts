@@ -1,12 +1,21 @@
 import { Injectable } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { PlatformLocation } from '@angular/common';
 
 
 @Injectable()
 export class RouterUtilsService {
-  constructor(private router: Router) {}
+  constructor(
+    private platformLocation: PlatformLocation,
+    private router: Router
+  ) {}
 
-  public get locationOrigin(): string {
+  public getBaseHref(): string {
+    return this.platformLocation.getBaseHrefFromDOM();
+  }
+
+
+  public getLocationOrigin(): string {
     if (location.origin) {
       return location.origin;
     } else {

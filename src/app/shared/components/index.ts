@@ -9,6 +9,7 @@ export * from './input-group/input-group.component';
 export * from './list/list.component';
 export * from './no-results/no-results.component';
 export * from './notification-box';
+export * from './overlay-loading/overlay-loading.component';
 export * from './sidebar';
 export * from './sg-rules-manager.component';
 export * from './top-bar/top-bar.component';
