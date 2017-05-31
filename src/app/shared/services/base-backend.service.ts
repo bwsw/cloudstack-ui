@@ -1,12 +1,19 @@
-import { URLSearchParams, Response, Headers, Http } from '@angular/http';
+import { Headers, Http, Response, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { BaseModel } from '../models';
-import { ServiceLocator } from './service-locator';
+import { CacheService } from './';
+import { Cache } from './cache';
 import { ErrorService } from './error.service';
+import { ServiceLocator } from './service-locator';
 
 
 export const BACKEND_API_URL = 'client/api';
+
+export interface ApiFormat {
+  command?: string;
+  entity?: string;
+}
 
 export abstract class BaseBackendService<M extends BaseModel> {
   protected entity: string;
@@ -15,9 +22,12 @@ export abstract class BaseBackendService<M extends BaseModel> {
   protected error: ErrorService;
   protected http: Http;
 
+  protected requestCache: Cache<Observable<Array<M>>>;
+
   constructor() {
     this.error = ServiceLocator.injector.get(ErrorService);
     this.http = ServiceLocator.injector.get(Http);
+    this.initRequestCache();
   }
 
   public get(id: string): Observable<M> {
@@ -25,20 +35,15 @@ export abstract class BaseBackendService<M extends BaseModel> {
       .map(res => res[0] as M);
   }
 
-  public getList(params?: {}): Observable<Array<M>> {
-    return this.sendCommand('list;s', params)
-      .map(response => {
-        let entity = this.entity.toLowerCase();
-        if (entity === 'asyncjob') { // only if list?
-          entity += 's';
-        }
+  public getList(params?: {}, customApiFormat?: ApiFormat): Observable<Array<M>> {
+    const cachedRequest = this.requestCache.get(params);
+    if (cachedRequest) {
+      return cachedRequest;
+    }
 
-        const result = response[entity];
-        if (!result) {
-          return [];
-        }
-        return result.map(m => this.prepareModel(m)) as Array<M>;
-      });
+    const result = this.makeGetListObservable(params, customApiFormat);
+    this.requestCache.set({ params, result });
+    return result;
   }
 
   public create(params?: {}): Observable<any> {
@@ -125,6 +130,27 @@ export abstract class BaseBackendService<M extends BaseModel> {
       .catch(error => this.handleCommandError(error));
   }
 
+  protected formatGetListResponse(response: any): Array<M> {
+    let entity = this.entity.toLowerCase();
+    if (entity === 'asyncjob') { // only if list?
+      entity += 's';
+    }
+
+    const result = response[entity];
+    if (!result) {
+      return [];
+    }
+    return result.map(m => this.prepareModel(m)) as Array<M>;
+  }
+
+  private makeGetListObservable(params?: {}, customApiFormat?: ApiFormat): Observable<Array<M>> {
+    const command = customApiFormat && customApiFormat.command || 'list;s';
+    const entity = customApiFormat && customApiFormat.entity;
+    return this.sendCommand(command, params, entity)
+      .map(response => this.formatGetListResponse(response))
+      .share();
+  }
+
   private breakParamsArray(params: {}, arrayName: string): any {
     let array = params[arrayName];
     let result = {};
@@ -167,5 +193,12 @@ export abstract class BaseBackendService<M extends BaseModel> {
 
   private handleCommandError(error): Observable<any> {
     return Observable.throw(ErrorService.parseError(this.getResponse(error)));
+  }
+
+  private initRequestCache(): void {
+    const cacheTag = `${this.entity}RequestCache`;
+    this.requestCache = ServiceLocator.injector
+      .get(CacheService)
+      .get<Observable<Array<M>>>(cacheTag);
   }
 }

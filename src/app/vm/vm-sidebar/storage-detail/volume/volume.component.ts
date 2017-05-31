@@ -122,7 +122,7 @@ export class VolumeComponent implements OnInit {
     return this.zoneService.get(this.volume.zoneId)
       .switchMap((_zone: Zone) => {
         zone = _zone;
-        return this.diskOfferingService.getList(zone.id);
+        return this.diskOfferingService.getList({ zoneId: zone.id });
       })
       .map(diskOfferings => {
         return diskOfferings.filter((diskOffering: DiskOffering) => {

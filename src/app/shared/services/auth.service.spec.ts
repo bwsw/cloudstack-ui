@@ -10,6 +10,7 @@ import { RouterUtilsService } from './router-utils.service';
 import { ServiceLocator } from './service-locator';
 import { StorageService } from './storage.service';
 import { UserService } from './user.service';
+import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
 
 
 @Component({
@@ -89,11 +90,6 @@ class MockConfigService {
 @Injectable()
 class MockAsyncJobService {
   public completeAllJobs(): void {}
-}
-
-@Injectable()
-class MockCacheService {
-  public invalidateAll(): void {}
 }
 
 @Injectable()

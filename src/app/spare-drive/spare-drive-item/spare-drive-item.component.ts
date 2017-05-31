@@ -45,7 +45,7 @@ export class SpareDriveItemComponent implements OnInit {
     this.zoneService.get(this.volume.zoneId)
       .switchMap((_zone: Zone) => {
         zone = _zone;
-        return this.diskOfferingService.getList(zone.id);
+        return this.diskOfferingService.getList({ zoneId: zone.id });
       })
       .subscribe(diskOfferings => {
         this.diskOfferings = diskOfferings.filter((diskOffering: DiskOffering) => {

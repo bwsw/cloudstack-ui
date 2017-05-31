@@ -1,7 +1,7 @@
 import { inject, TestBed, async, getTestBed } from '@angular/core/testing';
 import { Injector } from '@angular/core';
 
-import { BaseBackendService } from './';
+import { BaseBackendService, CacheService } from './';
 import { BaseModel } from '../models';
 import { BackendResource } from '../decorators';
 import { MockBackend, MockConnection } from '@angular/http/testing';
@@ -16,6 +16,8 @@ import {
 } from '@angular/http';
 import { ErrorService } from '../services';
 import { ServiceLocator } from './service-locator';
+import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
+
 
 describe('Base backend service', () => {
   let mockBackend: MockBackend;
@@ -53,6 +55,7 @@ describe('Base backend service', () => {
         ErrorService,
         MockBackend,
         BaseRequestOptions,
+        { provide: CacheService, useClass: MockCacheService },
         {
           provide: Http,
           deps: [MockBackend, BaseRequestOptions],
