@@ -34,4 +34,5 @@ export * from './tag.service';
 export * from './user.service';
 export * from './utils.service';
 export * from './volume.service';
+export * from './volume-offering.service';
 export * from './zone.service';
