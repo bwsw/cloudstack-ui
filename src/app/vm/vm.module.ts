@@ -36,6 +36,7 @@ import { SpareDriveAttachmentDetailComponent } from './vm-sidebar/storage-detail
 import { SpareDriveAttachmentDialogComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
 import { routes } from '../app.routing';
 import { RouterModule } from '@angular/router';
+import { InstanceGroupComponent } from './vm-sidebar/instance-group/instance-group.component';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import { RouterModule } from '@angular/router';
     RouterModule.forRoot(routes)
   ],
   declarations: [
+    InstanceGroupComponent,
     SpareDriveAttachmentDetailComponent,
     SpareDriveAttachmentDialogComponent,
     StorageDetailComponent,
