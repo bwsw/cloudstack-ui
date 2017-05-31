@@ -88,13 +88,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public onLogout(event): void {
-    event.preventDefault();
-    this.auth.logout().subscribe(() => {
-      this.router.navigate(['/login']);
-    });
-  }
-
   public get currentYear(): string {
     return (new Date).getFullYear().toString();
   }
