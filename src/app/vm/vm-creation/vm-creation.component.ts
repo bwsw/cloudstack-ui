@@ -63,6 +63,8 @@ class VmCreationData {
   public rootDiskSizeMin: number;
   public rootDiskSizeLimit: number;
 
+  public defaultName: string;
+
   constructor() {
     this.vm = new VirtualMachine({
       keyPair: ''
@@ -177,6 +179,7 @@ export class VmCreationComponent implements OnInit {
         this.zoneId = this.vmCreationData.vm.zoneId;
 
         if (!this.vmCreationData.vm.displayName) {
+          this.vmCreationData.defaultName = defaultName;
           setTimeout(() => this.vmCreationData.vm.displayName = defaultName);
           this.changeDetectorRef.detectChanges();
         }
@@ -400,9 +403,8 @@ export class VmCreationComponent implements OnInit {
       }];
     }
 
-    if (this.vmCreationData.vm.displayName) {
-      params['name'] = this.vmCreationData.vm.displayName;
-    }
+    params['name'] = this.vmCreationData.vm.displayName || this.vmCreationData.defaultName;
+
     const affinityGroupName = this.vmCreationData.affinityGroupName;
     if (affinityGroupName) {
       params['affinityGroupNames'] = affinityGroupName;
