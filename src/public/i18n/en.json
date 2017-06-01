@@ -5,7 +5,10 @@
   "LOGOUT": "Logout",
   "NOT_LOGGED_IN": "You are not logged in",
   "LOGIN_FORM": {
-    "ADVANCED": "Advanced"
+    "ADVANCED": "Advanced",
+    "INCORRECT_USERNAME": "Incorrect username",
+    "INCORRECT_PASSWORD": "Incorrect password",
+    "INCORRECT_DOMAIN": "Unable to find domain {{param1}}"
   },
   "WRONG_ARGUMENTS": "Wrong arguments",
   "UNEXPECTED_ERROR": "Unexpected error",

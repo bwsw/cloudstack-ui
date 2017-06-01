@@ -5,7 +5,10 @@
   "LOGOUT": "Выйти",
   "NOT_LOGGED_IN": "Вы не вошли в систему",
   "LOGIN_FORM": {
-    "ADVANCED": "Дополнительно"
+    "ADVANCED": "Дополнительно",
+    "INCORRECT_USERNAME": "Неверное имя пользователя",
+    "INCORRECT_PASSWORD": "Неверный пароль",
+    "INCORRECT_DOMAIN": "Не удалось найти домен {{val1}}"
   },
   "WRONG_ARGUMENTS": "Неверные параметры",
   "UNEXPECTED_ERROR": "Неизвестная ошибка",

@@ -32,6 +32,18 @@ export class ErrorService extends Subject<any> {
     {
       regex: /There is other active snapshot tasks on the instance (.*)/,
       translation: 'VOLUME_BUSY'
+    },
+    {
+      regex: /User is not allowed CloudStack login/,
+      translation: 'LOGIN_FORM.INCORRECT_USERNAME'
+    },
+    {
+      regex: /Failed to authenticate user (.*); please provide valid credentials/,
+      translation: 'LOGIN_FORM.INCORRECT_PASSWORD'
+    },
+    {
+      regex: /Unable to find the domain from the path \/(.*)\//,
+      translation: 'LOGIN_FORM.INCORRECT_DOMAIN'
     }
   ];
 

@@ -122,7 +122,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
         this.setLoggedIn(res.username, `${res.firstname} ${res.lastname}`, res.userid);
         return res;
       })
-      .catch(() => Observable.throw('Incorrect username or password.'));
+      .catch((error) => this.handleCommandError(error));
   }
 
   public logout(): Observable<void> {

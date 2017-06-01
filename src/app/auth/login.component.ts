@@ -61,7 +61,10 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['']);
   }
 
-  private handleError(error: string): void {
-    this.notification.message(error);
+  private handleError(error: any): void {
+    this.notification.message({
+      translationToken: error.message,
+      interpolateParams: error.params
+    });
   }
 }

@@ -129,6 +129,10 @@ export abstract class BaseBackendService<M extends BaseModel> {
       .catch(error => this.handleCommandError(error));
   }
 
+  protected handleCommandError(error): Observable<any> {
+    return Observable.throw(ErrorService.parseError(this.getResponse(error)));
+  }
+
   private breakParamsArray(params: {}, arrayName: string): any {
     let array = params[arrayName];
     let result = {};
@@ -167,9 +171,5 @@ export abstract class BaseBackendService<M extends BaseModel> {
     let error = response.json();
     this.error.next(response);
     return Observable.throw(error);
-  }
-
-  private handleCommandError(error): Observable<any> {
-    return Observable.throw(ErrorService.parseError(this.getResponse(error)));
   }
 }
