@@ -88,6 +88,7 @@ import { FancySelectComponent } from './components/fancy-select/fancy-select.com
 import { InputGroupComponent } from './components/input-group/input-group.component';
 import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
 import { MdlTextAreaAutoresizeDirective } from './directives/mdl-textarea-autoresize.directive';
+import { VolumeOfferingService } from './services/volume-offering.service';
 
 
 @NgModule({
@@ -207,6 +208,7 @@ import { MdlTextAreaAutoresizeDirective } from './directives/mdl-textarea-autore
     UserService,
     UtilsService,
     VolumeService,
+    VolumeOfferingService,
     ZoneService,
     MDL_SELECT_VALUE_ACCESSOR
   ]

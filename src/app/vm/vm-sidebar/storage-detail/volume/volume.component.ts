@@ -12,14 +12,9 @@ import {
   ZoneService
 } from '../../../../shared';
 
+import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
 import { VolumeResizeComponent } from '../../volume-resize.component';
 
-import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
-import { SnapshotActionsService } from './snapshot/snapshot-actions.service';
-import { SnapshotModalComponent } from './snapshot/snapshot-modal.component';
-
-
-const numberOfShownSnapshots = 5;
 
 @Component({
   selector: 'cs-volume',
@@ -31,51 +26,30 @@ export class VolumeComponent implements OnInit {
   @Output() public onDetach = new EventEmitter();
   @Output() public onResize = new EventEmitter();
 
-  public expandStorage: boolean;
+  public expandDetails: boolean;
   private _loading = false;
 
   constructor(
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private statsUpdateService: StatsUpdateService,
-    private zoneService: ZoneService,
-    public snapshotActionsService: SnapshotActionsService) {
-  }
+    private zoneService: ZoneService
+  ) {}
 
   public get loading(): Boolean {
     return this._loading || this.volume['loading'];
   }
 
   public ngOnInit(): void {
-    this.expandStorage = false;
-  }
-
-  public get showVolumeActions(): boolean {
-    if (!this.volume) {
-      return false;
-    }
-
-    return this.showAttachmentActions || this.showSnapshotCollapseButton;
+    this.expandDetails = false;
   }
 
   public get showAttachmentActions(): boolean {
     return this.volume.type === VolumeTypes.DATADISK;
   }
 
-  public get showSnapshotCollapseButton(): boolean {
-    return this.volume.snapshots.length > numberOfShownSnapshots;
-  }
-
-  public showSnapshots(): void {
-    this.dialogService.showCustomDialog({
-      component: SnapshotModalComponent,
-      providers: [{ provide: 'volume', useValue: this.volume }],
-      styles: { width: '700px' }
-    });
-  }
-
-  public toggleStorage(): void {
-    this.expandStorage = !this.expandStorage;
+  public toggleDetails(): void {
+    this.expandDetails = !this.expandDetails;
   }
 
   public detach(): void {

@@ -24,6 +24,8 @@ export class TemplateCreationComponent implements OnInit {
   public osTypes: Array<OsType>;
   public zones: Array<Zone>;
 
+  public loading: boolean;
+
   constructor(
     private dialog: MdlDialogReference,
     private osTypeService: OsTypeService,
@@ -78,7 +80,9 @@ export class TemplateCreationComponent implements OnInit {
       params['snapshotId'] = this.snapshot.id;
     }
 
+    this.loading = true;
     this.templateActions.createTemplate(params, this.mode)
+      .finally(() => this.loading = false)
       .subscribe(
         template => this.dialog.hide(template),
         () => {}

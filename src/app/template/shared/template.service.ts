@@ -25,7 +25,8 @@ export class TemplateService extends BaseTemplateService {
 
   public create(params: {}): Observable<Template> {
     return this.sendCommand('create', params)
-      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel));
+      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
+      .do(() => this.invalidateCache());
   }
 
   public register(params: RegisterTemplateBaseParams): Observable<Template> {
@@ -34,6 +35,7 @@ export class TemplateService extends BaseTemplateService {
     params['format'] = 'QCOW2';
     params['requiresHvm'] = true;
 
-    return super.register(params);
+    return super.register(params)
+      .do(() => this.invalidateCache());
   }
 }

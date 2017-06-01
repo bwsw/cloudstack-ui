@@ -1,15 +1,3 @@
-$line-height: 22px;
-
-.grid.snapshots {
-  overflow: hidden;
-  max-height: 6 * $line-height;
-
-  &.open {
-    max-height: none;
-    height: auto;
-  }
-}
-
 .disk-size {
   padding-bottom: 8px;
 }
@@ -17,15 +5,4 @@ $line-height: 22px;
 .volume-popover {
   //width: 135px !important; todo: recurring snapshots
   width: 100px !important;
-}
-
-.snapshot-name {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  display: block !important;
-}
-
-.last-snapshot > .row > div {
-  align-self: center;
 }

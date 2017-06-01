@@ -38,6 +38,8 @@ import { routes } from '../app.routing';
 import { RouterModule } from '@angular/router';
 import { InstanceGroupComponent } from './vm-sidebar/instance-group/instance-group.component';
 import { InstanceGroupSelectorComponent } from './vm-sidebar/instance-group-selector/instance-group-selector.component';
+import { SnapshotsComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshots.component';
+import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volume-details/volume-details.component';
 
 
 @NgModule({
@@ -58,6 +60,7 @@ import { InstanceGroupSelectorComponent } from './vm-sidebar/instance-group-sele
   declarations: [
     InstanceGroupComponent,
     InstanceGroupSelectorComponent,
+    SnapshotsComponent,
     SpareDriveAttachmentDetailComponent,
     SpareDriveAttachmentDialogComponent,
     StorageDetailComponent,
@@ -71,6 +74,7 @@ import { InstanceGroupSelectorComponent } from './vm-sidebar/instance-group-sele
     VmTemplateDialogComponent,
     VmListSectionComponent,
     VmListSubsectionComponent,
+    VolumeDetailsComponent,
     VolumeResizeComponent,
     IsoComponent,
     VolumeComponent,
