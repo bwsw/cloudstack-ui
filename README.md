@@ -166,7 +166,7 @@ docker run -d -p 80:80 --name cloudstack-ui \
            -e API_BACKEND_URL=http://link/to/api/endpoint \
            -e CONSOLE_BACKEND_URL=http://link/to/console/endpoint \
            -e BASE_HREF=base_href \
-           -v /my/config/path:/config \
+           -v /path/to/config.json: /var/www/dist/config/config.json \
            bwsw/cloudstack-ui
 ```
 
@@ -176,7 +176,7 @@ docker run -d -p 80:80 --name cloudstack-ui \
 
 `base_href` - custom base URL (optional, defaults to "/")
 
-`/my/config/path` - path to a directory with a custom configuration file named config.json (optional)
+`/path/to/config.json` - path to a custom configuration file named config.json (optional)
 
 ### Assisting object cleanup container
 
@@ -187,6 +187,12 @@ Download and start [bwsw/cloudstack-ui-cleaner](https://hub.docker.com/r/bwsw/cl
 ## Configuration Options
 
 You can customize the application by providing your own configuration file (example link).
+
+### Default domain URL
+
+Domain URL used to fill the 'Domain' field in the login form
+
+    "defaultDomainUrl": "domain"
 
 ### securityGroupTemplates:
 
