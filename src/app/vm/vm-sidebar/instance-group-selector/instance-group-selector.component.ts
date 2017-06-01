@@ -4,12 +4,12 @@ import { InstanceGroupService } from '../../../shared/services';
 import { InstanceGroup } from '../../../shared/models';
 import { VmService } from '../../shared/vm.service';
 import { MdlDialogReference, MdlTextFieldComponent } from '@angular-mdl/core';
-import { DialogService } from '../../../shared/services/dialog/dialog.service';
 
 
 enum InstanceGroupAssignmentMode {
+  assignExistingGroup,
   createNewGroup,
-  assignExistingGroup
+  removeFromGroup
 }
 
 @Component({
@@ -31,7 +31,6 @@ export class InstanceGroupSelectorComponent implements OnInit {
   constructor(
     @Inject('vm') public vm: VirtualMachine,
     private dialog: MdlDialogReference,
-    private dialogService: DialogService,
     private instanceGroupService: InstanceGroupService,
     private vmService: VmService
   ) {}
@@ -71,23 +70,23 @@ export class InstanceGroupSelectorComponent implements OnInit {
     return this.mode === this.modes.assignExistingGroup;
   }
 
+  public get isModeRemove(): boolean {
+    return this.mode === this.modes.removeFromGroup;
+  }
+
   public changeGroup(): void {
     this.loading = true;
-    let instanceGroup = new InstanceGroup(this.newGroupName);
+    if (this.mode === InstanceGroupAssignmentMode.removeFromGroup) {
+      this.newGroupName = '';
+    }
+
+    const instanceGroup = new InstanceGroup(this.newGroupName);
     this.instanceGroupService.add(this.vm, instanceGroup)
-      .subscribe(
-        vm => {
-          this.dialog.hide();
-          this.instanceGroupService.groupsUpdates.next();
-          this.vmService.updateVmInfo(vm);
-        },
-        error => {
-          this.loading = false;
-          this.dialogService.alert({
-            translationToken: error.message,
-            interpolateParams: error.params
-          });
-        });
+      .subscribe(vm => {
+        this.dialog.hide();
+        this.instanceGroupService.groupsUpdates.next();
+        this.vmService.updateVmInfo(vm);
+      });
   }
 
   public onCancel(): void {

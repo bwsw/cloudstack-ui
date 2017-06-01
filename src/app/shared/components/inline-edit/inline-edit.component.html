@@ -29,13 +29,13 @@
   </span>
 
   <mdl-textfield
+    mdl-textarea-autoresize
     name="textField"
     *ngIf="editing"
     [ngModel]="textFieldText"
     (ngModelChange)="updateTextFieldText($event)"
     [placeholder]="inputPlaceholder | translate"
-    rows="rows"
-    [maxrows]="3"
+    [rows]="rows"
     (keyup.enter)="onSubmit()"
   ></mdl-textfield>
 

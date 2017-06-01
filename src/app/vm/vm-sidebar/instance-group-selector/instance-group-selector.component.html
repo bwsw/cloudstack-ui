@@ -25,6 +25,15 @@
         >
           {{ 'CREATE_NEW_GROUP' | translate }}
         </mdl-radio>
+
+        <mdl-radio
+          name="removeFromGroup"
+          [value]="modes.removeFromGroup"
+          [(ngModel)]="mode"
+          mdl-ripple
+        >
+          {{ 'REMOVE_FROM_GROUP' | translate }}
+        </mdl-radio>
       </div>
 
       <mdl-textfield
@@ -59,6 +68,7 @@
     </div>
     <div class="mdl-dialog__actions">
       <button
+        *ngIf="!isModeRemove"
         mdl-colored="primary"
         mdl-button
         mdl-ripple
@@ -66,6 +76,15 @@
         [disabled]="!groupChanged || !instanceGroupForm.valid"
       >
         {{ 'ASSIGN' | translate }}
+      </button>
+      <button
+        *ngIf="isModeRemove"
+        mdl-colored="primary"
+        mdl-button
+        mdl-ripple
+        type="submit"
+      >
+        {{ 'REMOVE' | translate }}
       </button>
       <button
         mdl-colored="primary"

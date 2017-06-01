@@ -87,6 +87,7 @@ import { CustomSimpleDialogComponent } from './services/dialog/custom-dialog.com
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
 import { InputGroupComponent } from './components/input-group/input-group.component';
 import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
+import { MdlTextAreaAutoresizeDirective } from './directives/mdl-textarea-autoresize.directive';
 
 
 @NgModule({
@@ -127,7 +128,8 @@ import { OverlayLoadingComponent } from './components/overlay-loading/overlay-lo
     SliderComponent,
     HighLightPipe,
     ViewValuePipe,
-    LoadingDirective
+    LoadingDirective,
+    MdlTextAreaAutoresizeDirective
   ],
   entryComponents: [
     CustomSimpleDialogComponent,
@@ -156,6 +158,7 @@ import { OverlayLoadingComponent } from './components/overlay-loading/overlay-lo
     MaxValueValidatorDirective,
     MinValueValidatorDirective,
     MdlAutocompleteComponent,
+    MdlTextAreaAutoresizeDirective,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     OverlayLoadingComponent,
