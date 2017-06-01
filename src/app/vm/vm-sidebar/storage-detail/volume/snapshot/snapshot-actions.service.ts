@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { TemplateService } from '../../../../../template/shared';
 import { JobsNotificationService, NotificationService, SnapshotService } from '../../../../../shared/services';
 import { TemplateCreationComponent } from '../../../../../template/template-creation/template-creation.component';
 import { Snapshot, Volume } from '../../../../../shared/models';
@@ -33,7 +32,6 @@ export class SnapshotActionsService {
     private dialogService: DialogService,
     private jobNotificationService: JobsNotificationService,
     private notificationService: NotificationService,
-    private templateService: TemplateService,
     private snapshotService: SnapshotService,
     private statsUpdateService: StatsUpdateService
   ) { }
@@ -46,13 +44,7 @@ export class SnapshotActionsService {
         { provide: 'mode', useValue: 'Template' },
         { provide: 'snapshot', useValue: snapshot }
       ]
-    })
-      .switchMap(res => res.onHide())
-      .subscribe(data => {
-        if (data) {
-          this.createTemplate(data, snapshot);
-        }
-      });
+    });
   }
 
   public handleSnapshotDelete(snapshot: Snapshot, volume): void {
@@ -83,29 +75,6 @@ export class SnapshotActionsService {
           this.jobNotificationService.fail({
             id: notificationId,
             message: 'SNAPSHOT_DELETE_FAILED'
-          });
-        }
-      );
-  }
-
-  private createTemplate(data, snapshot): void {
-    snapshot['loading'] = true;
-    let notificationId = this.jobNotificationService.add('TEMPLATE_CREATION_IN_PROGRESS');
-    this.templateService.create(data)
-      .finally(() => snapshot['loading'] = false)
-      .subscribe(
-        () => {
-          this.statsUpdateService.next();
-          this.jobNotificationService.finish({
-            id: notificationId,
-            message: 'TEMPLATE_CREATION_DONE'
-          });
-        },
-        error => {
-          this.notificationService.error(error.errortext);
-          this.jobNotificationService.fail({
-            id: notificationId,
-            message: 'TEMPLATE_CREATION_FAILED'
           });
         }
       );
