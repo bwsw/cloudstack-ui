@@ -4,6 +4,9 @@
   "LOGIN": "Войти",
   "LOGOUT": "Выйти",
   "NOT_LOGGED_IN": "Вы не вошли в систему",
+  "LOGIN_FORM": {
+    "ADVANCED": "Дополнительно"
+  },
   "WRONG_ARGUMENTS": "Неверные параметры",
   "UNEXPECTED_ERROR": "Неизвестная ошибка",
   "CPU": "CPU",

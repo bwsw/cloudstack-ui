@@ -115,8 +115,8 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     }
   }
 
-  public login(username: string, password: string): Observable<void> {
-    return this.postRequest('login', { username, password })
+  public login(username: string, password: string, domain?: string): Observable<void> {
+    return this.postRequest('login', { username, password, domain })
       .map(res => this.getResponse(res))
       .map(res => {
         this.setLoggedIn(res.username, `${res.firstname} ${res.lastname}`, res.userid);

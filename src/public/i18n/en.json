@@ -4,6 +4,9 @@
   "LOGIN": "Login",
   "LOGOUT": "Logout",
   "NOT_LOGGED_IN": "You are not logged in",
+  "LOGIN_FORM": {
+    "ADVANCED": "Advanced"
+  },
   "WRONG_ARGUMENTS": "Wrong arguments",
   "UNEXPECTED_ERROR": "Unexpected error",
   "CPU": "CPU",

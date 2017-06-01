@@ -24,6 +24,17 @@
           [class.is-invalid]="pass.invalid && !pass.pristine"
         >
         </mdl-textfield>
+        <br/>
+        <mdl-textfield
+          *ngIf="showDomain"
+          type="text"
+          [label]="'DOMAIN' | translate"
+          name="domain"
+          #domainField="ngModel"
+          [(ngModel)]="domain"
+          [class.is-invalid]="domainField.invalid && !domainField.pristine"
+        >
+        </mdl-textfield>
       </div>
       <div class="mdl-dialog__actions">
         <button
@@ -33,6 +44,15 @@
           type="submit"
           [disabled]="!loginForm.valid"
         >{{ 'LOGIN' | translate }}</button>
+        <button
+          mdl-colored="primary"
+          mdl-button
+          mdl-ripple
+          type="button"
+          (click)="toggleDomain()"
+        >
+          {{ 'LOGIN_FORM.ADVANCED' | translate }}
+        </button>
       </div>
     </form>
   </div>

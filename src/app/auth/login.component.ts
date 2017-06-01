@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import {
   AuthService,
   NotificationService,
 } from '../shared';
+import { ConfigService } from '../shared/services/config.service';
 
 
 const fadeIn = 600;
@@ -15,34 +16,45 @@ const fadeIn = 600;
   styleUrls: ['login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  public username: string;
-  public password: string;
+  public username = '';
+  public password = '';
+  public domain = '';
   public loading = true;
+
+  public showDomain = false;
 
   constructor(
     private auth: AuthService,
     private notification: NotificationService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
+    private configService: ConfigService
   ) {
-    this.username = '';
-    this.password = '';
   }
 
   public ngOnInit(): void {
-    setTimeout(() => this.loading = false, fadeIn);
+    this.configService.get('defaultDomainUrl')
+      .subscribe(domainFromConfig => {
+        const domainFromQueryParams = this.route.snapshot.queryParams['domain'];
+        this.domain = domainFromQueryParams || domainFromConfig || '';
+
+        setTimeout(() => this.loading = false, fadeIn);
+      });
+  }
+
+  public toggleDomain(): void {
+    this.showDomain = !this.showDomain;
   }
 
   public onSubmit(): void {
-    this.login(this.username, this.password);
+    this.login(this.username, this.password, this.domain);
   }
 
-  private login(username: string, password: string): void {
-    this.auth.login(username, password)
-      .subscribe(() => {
-        this.handleLogin();
-      }, error => {
-        this.handleError(error);
-      });
+  private login(username: string, password: string, domain: string): void {
+    this.auth
+      .login(username, password, domain)
+      .subscribe(() => this.handleLogin(), error => this.handleError(error));
+
   }
 
   private handleLogin(): void {
