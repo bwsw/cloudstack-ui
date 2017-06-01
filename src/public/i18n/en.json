@@ -518,5 +518,11 @@
   "API_URL": "URL",
   "API_KEY": "Key",
   "API_SECRET_KEY": "Secret key",
-  "API_DOC_LINK": "Documentation"
+  "API_DOC_LINK": "Documentation",
+
+  "INSTANCE_GROUP_CHANGE": "Instance group",
+  "CREATE_NEW_GROUP": "Create a new group",
+  "CHOOSE_EXISTING_GROUP": "Choose an existing group",
+  "CHOOSE_GROUP": "Choose a group",
+  "ENTER_GROUP_NAME": "Enter group name"
 }

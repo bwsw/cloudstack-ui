@@ -1,23 +1,24 @@
-<mdl-card-title>
-  {{ 'GROUP' | translate }}
-</mdl-card-title>
-<mdl-card-supporting-text class="overflow-card">
-  <mdl-autocomplete
-    class="details-select"
-    [placeholder]="'NO_GROUP' | translate"
-    [(ngModel)]="groupName"
-    [options]="groupNames"
-  ></mdl-autocomplete>
-</mdl-card-supporting-text>
-<mdl-card-actions *ngIf="doShowChangeGroupButton" mdl-card-border>
-  <mdl-button
-    class="button-align-right"
-    type="button"
-    mdl-button
-    mdl-ripple
-    (click)="$event.stopPropagation(); changeGroup()"
-  >
-    {{ 'ASSIGN' | translate }}
-  </mdl-button>
-</mdl-card-actions>
+<mdl-card mdl-shadow="2">
+  <mdl-card-title>
+    {{ 'GROUP' | translate }}
+  </mdl-card-title>
+  <mdl-card-supporting-text class="overflow-card">
+    <div style="display: flex; justify-content: space-between">
+    <span
+      class="text-content"
+      (click)="changeGroup()"
+      style="overflow: hidden"
+    >
+      {{ groupName }}
+    </span>
+      <button
+        mdl-button
+        mdl-button-type="icon"
+        (click)="changeGroup()"
+        style="margin-left: 10px; align-self: center"
+      >
+        <mdl-icon>edit</mdl-icon>
+      </button>
+    </div>
+  </mdl-card-supporting-text>
 </mdl-card>

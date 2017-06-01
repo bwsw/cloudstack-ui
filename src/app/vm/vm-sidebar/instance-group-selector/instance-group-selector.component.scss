@@ -1,0 +1,12 @@
+:host {
+  position: relative;
+  display: block;
+}
+
+/deep/ .instance-group-selector-dialog {
+  width: 350px;
+}
+
+.mdl-dialog__content {
+  padding-bottom: 0;
+}

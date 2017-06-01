@@ -37,6 +37,7 @@ import { SpareDriveAttachmentDialogComponent } from './vm-sidebar/storage-detail
 import { routes } from '../app.routing';
 import { RouterModule } from '@angular/router';
 import { InstanceGroupComponent } from './vm-sidebar/instance-group/instance-group.component';
+import { InstanceGroupSelectorComponent } from './vm-sidebar/instance-group-selector/instance-group-selector.component';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { InstanceGroupComponent } from './vm-sidebar/instance-group/instance-gro
   ],
   declarations: [
     InstanceGroupComponent,
+    InstanceGroupSelectorComponent,
     SpareDriveAttachmentDetailComponent,
     SpareDriveAttachmentDialogComponent,
     StorageDetailComponent,
@@ -80,6 +82,7 @@ import { InstanceGroupComponent } from './vm-sidebar/instance-group/instance-gro
     SnapshotActionsService
   ],
   entryComponents: [
+    InstanceGroupSelectorComponent,
     VmCreationComponent,
     VmTemplateDialogComponent,
     VolumeResizeComponent,

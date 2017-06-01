@@ -34,8 +34,8 @@
     [ngModel]="textFieldText"
     (ngModelChange)="updateTextFieldText($event)"
     [placeholder]="inputPlaceholder | translate"
-    rows="1"
-    maxrows="3"
+    rows="rows"
+    [maxrows]="3"
     (keyup.enter)="onSubmit()"
   ></mdl-textfield>
 

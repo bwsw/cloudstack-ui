@@ -1,52 +1,33 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { InstanceGroup } from '../../../shared/models';
-import { InstanceGroupService } from '../../../shared/services';
+import { Component, Input } from '@angular/core';
 import { VirtualMachine } from '../../shared/vm.model';
-import { VmService } from '../../shared/vm.service';
+import { MdlDialogService } from '@angular-mdl/core';
+import { InstanceGroupSelectorComponent } from '../instance-group-selector/instance-group-selector.component';
 
 
 @Component({
   selector: 'cs-instance-group',
-  templateUrl: 'instance-group.component.html'
+  templateUrl: 'instance-group.component.html',
+  styleUrls: ['instance-group.component.scss']
 })
-export class InstanceGroupComponent implements OnInit {
+export class InstanceGroupComponent {
   @Input() public vm: VirtualMachine;
 
-  public groupName: string;
-  public groupNames: Array<string>;
+  constructor(private dialogService: MdlDialogService) {}
 
-  constructor(
-    private instanceGroupService: InstanceGroupService,
-    private vmService: VmService
-  ) {}
-
-  public ngOnInit(): void {
-    if (this.vm.instanceGroup) {
-      this.groupName = this.vm.instanceGroup.name;
-    } else {
-      this.groupName = undefined;
-    }
-  }
-
-  public get doShowChangeGroupButton(): boolean {
-    let groupWasEmpty = !this.vm.instanceGroup && !!this.groupName;
-    let groupChanged = this.vm.instanceGroup && this.vm.instanceGroup.name !== this.groupName;
-    return groupWasEmpty || groupChanged;
+  public get groupName(): string {
+    return this.vm.instanceGroup && this.vm.instanceGroup.name;
   }
 
   public changeGroup(): void {
-    let instanceGroup = new InstanceGroup(this.groupName);
-    this.instanceGroupService.add(this.vm, instanceGroup)
-      .subscribe(vm => {
-        this.instanceGroupService.groupsUpdates.next();
-        this.vmService.updateVmInfo(vm);
-        this.updateGroups();
-      });
-  }
-
-  private updateGroups(): void {
-    this.vmService.getInstanceGroupList().subscribe(groups => {
-      this.groupNames = groups.map(group => group.name);
+    this.dialogService.showCustomDialog({
+      component: InstanceGroupSelectorComponent,
+      classes: 'instance-group-selector-dialog',
+      providers: [
+        {
+          provide: 'vm',
+          useValue: this.vm
+        }
+      ]
     });
   }
 }
