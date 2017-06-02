@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BACKEND_API_URL, ConfigService, NotificationService } from '../../shared/services';
-import { UserService } from '../../shared/services/user.service';
 import { Observable } from 'rxjs/Observable';
-import { UtilsService } from '../../shared/services/utils.service';
+import { BACKEND_API_URL, ConfigService, NotificationService } from '../../shared/services';
+import { RouterUtilsService } from '../../shared/services/router-utils.service';
+import { UserService } from '../../shared/services/user.service';
 import { DefaultUrlSerializer, UrlSerializer } from '@angular/router';
 
 
@@ -46,7 +46,7 @@ export class ApiInfoComponent implements OnInit {
     private configService: ConfigService,
     private notificationService: NotificationService,
     private userService: UserService,
-    private utilsService: UtilsService
+    private routerUtilsService: RouterUtilsService
   ) {
     this.urlSerializer = new DefaultUrlSerializer();
   }
@@ -73,8 +73,8 @@ export class ApiInfoComponent implements OnInit {
 
   private get apiUrl(): string {
     return [
-      this.utilsService.getLocationOrigin().replace(/\/$/, ''),
-      this.utilsService.getBaseHref().replace(/^\//, '').replace(/\/$/, ''),
+      this.routerUtilsService.getLocationOrigin().replace(/\/$/, ''),
+      this.routerUtilsService.getBaseHref().replace(/^\//, '').replace(/\/$/, ''),
       BACKEND_API_URL
     ]
       .filter(s => s)

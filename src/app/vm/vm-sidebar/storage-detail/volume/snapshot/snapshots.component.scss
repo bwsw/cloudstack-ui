@@ -1,0 +1,22 @@
+$line-height: 22px;
+
+.snapshot-name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: block !important;
+}
+
+.last-snapshot > .row > div {
+  align-self: center;
+}
+
+.grid.snapshots {
+  overflow: hidden;
+  max-height: 6 * $line-height;
+
+  &.open {
+    max-height: none;
+    height: auto;
+  }
+}

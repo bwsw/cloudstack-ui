@@ -8,7 +8,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 import { DatePickerDialogComponent } from './date-picker-dialog.component';
 import { dateTimeFormat as DateTimeFormat, formatIso } from './dateUtils';
-import { DialogService } from '../../services/dialog/dialog.service';
+import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 
 
 interface DatePickerConfig {

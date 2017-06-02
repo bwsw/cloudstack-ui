@@ -1,23 +1,16 @@
-import {
-  Component,
-  Input,
-  OnChanges
-} from '@angular/core';
-
-import { VirtualMachine } from '../../shared/vm.model';
-import { IsoAttachmentComponent } from '../../../template/iso-attachment/iso-attachment.component';
-import { Iso, IsoService } from '../../../template/shared';
-import { IsoEvent } from './iso.component';
+import { Component, Input, OnChanges } from '@angular/core';
+import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 
 import { Volume } from '../../../shared/models';
-import {
-  JobsNotificationService,
-  NotificationService,
-} from '../../../shared/services';
-import { DialogService } from '../../../shared';
-import { SpareDriveActionsService } from '../../../spare-drive/spare-drive-actions.service';
+import { JobsNotificationService, NotificationService } from '../../../shared/services';
 import { VolumeService } from '../../../shared/services/volume.service';
+import { SpareDriveActionsService } from '../../../spare-drive/spare-drive-actions.service';
+import { IsoAttachmentComponent } from '../../../template/iso-attachment/iso-attachment.component';
+import { Iso, IsoService } from '../../../template/shared';
+
+import { VirtualMachine } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
+import { IsoEvent } from './iso.component';
 
 
 @Component({

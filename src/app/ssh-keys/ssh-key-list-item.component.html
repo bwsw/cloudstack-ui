@@ -1,7 +1,11 @@
 <mdl-card class="custom-card" mdl-shadow="2">
   <mdl-card-title>
     <mdl-icon>vpn_key</mdl-icon>
-    <h2 mdl-card-title-text [mdl-tooltip]="key.name">
+    <h2
+      mdl-card-title-text
+      mdl-tooltip-position="bottom"
+      [mdl-tooltip]="sshKeyNameTooltip"
+    >
       {{ key.name }}
     </h2>
   </mdl-card-title>
@@ -36,3 +40,6 @@
     </div>
   </mdl-popover>
 </mdl-card>
+<mdl-tooltip #sshKeyNameTooltip="mdlTooltip">
+  {{ key.name }}
+</mdl-tooltip>

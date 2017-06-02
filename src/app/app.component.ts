@@ -1,28 +1,15 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { MdlLayoutComponent } from '@angular-mdl/core';
+import { AfterViewInit, Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Response } from '@angular/http';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { MdlLayoutComponent } from '@angular-mdl/core';
-
 import '../style/app.scss';
-import {
-  AsyncJobService,
-  AuthService,
-  Color,
-  ErrorService,
-  LanguageService,
-  LayoutService,
-  NotificationService,
-  StyleService,
-  ZoneService
-} from './shared';
+import { MdlDialogService } from './dialog/dialog-module';
+import { Color } from './shared/models';
+import { AuthService, ErrorService, LanguageService, LayoutService, NotificationService } from './shared/services';
 import { RouterUtilsService } from './shared/services/router-utils.service';
+import { StyleService } from './shared/services/style.service';
+import { ZoneService } from './shared/services/zone.service';
 
 
 @Component({
@@ -49,11 +36,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     private error: ErrorService,
     private languageService: LanguageService,
     private layoutService: LayoutService,
+    private mdlDialogService: MdlDialogService,
     private notification: NotificationService,
     private styleService: StyleService,
-    private asyncJobService: AsyncJobService,
     private routerUtilsService: RouterUtilsService,
-    private zoneService: ZoneService
+    private zoneService: ZoneService,
+    private zone: NgZone
   ) {
     this.title = this.auth.name;
   }
@@ -71,22 +59,20 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     this.error.subscribe(e => this.handleError(e));
     this.auth.loggedIn.subscribe(loggedIn => {
-      this.loggedIn = loggedIn === 'login';
+      this.loggedIn = loggedIn;
       this.updateAccount(this.loggedIn);
-      if (loggedIn === 'login') {
+      if (loggedIn) {
         this.loadSettings();
         this.zoneService.areAllZonesBasic().subscribe(basic => this.disableSecurityGroups = basic);
-      } else {
-        this.asyncJobService.completeAllJobs();
-        if (this.router.url !== '/login' && this.router.url !== '/') {
-          this.router.navigate(['/logout'], { queryParams: { loggedIn } });
-        }
       }
     });
 
     this.layoutService.drawerToggled.subscribe(() => {
       this.toggleDrawer();
     });
+
+    this.captureScrollEvents();
+    this.toggleDialogOverlay();
   }
 
   public ngAfterViewInit(): void {
@@ -157,7 +143,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       switch (e.status) {
         case 401:
           this.notification.message('NOT_LOGGED_IN');
-          this.auth.setLoggedOut('reset');
+          const route = this.routerUtilsService.getRouteWithoutQueryParams();
+          if (route !== '/login' && route !== '/logout') {
+            this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams());
+          }
           break;
       }
     }
@@ -166,5 +155,27 @@ export class AppComponent implements OnInit, AfterViewInit {
   private loadSettings(): void {
     this.languageService.applyLanguage();
     this.styleService.loadPalette();
+  }
+
+  private captureScrollEvents(): void {
+    const useCapture = true;
+    this.zone.runOutsideAngular(() => {
+      document.querySelector('.dialog-container')
+        .addEventListener(
+          'scroll',
+          e => e.stopPropagation(),
+          useCapture
+        );
+    });
+  }
+
+  private toggleDialogOverlay(): void {
+    this.mdlDialogService.onDialogsOpenChanged.subscribe(open => {
+      if (open) {
+        document.querySelector('.dialog-container').classList.add('dialog-container-overlay');
+      } else {
+        document.querySelector('.dialog-container').classList.remove('dialog-container-overlay');
+      }
+    });
   }
 }

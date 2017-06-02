@@ -1,5 +1,4 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { MdlDialogReference } from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
@@ -39,7 +38,8 @@ import {
 import { Template } from '../../template/shared';
 import { AffinityGroupType } from '../../shared/models/affinity-group.model';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
-import { DialogService } from '../../shared/services/dialog/dialog.service';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 
 
 class VmCreationData {

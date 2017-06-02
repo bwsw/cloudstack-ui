@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RouterUtilsService } from './router-utils.service';
 
 import { StorageService } from './storage.service';
+
 
 export interface FilterConfig {
   [propName: string]: FilterItemConfig;
@@ -18,7 +20,8 @@ export class FilterService {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private storage: StorageService
+    private storage: StorageService,
+    private routerUtilsService: RouterUtilsService
   ) { }
 
   public init(key: string, paramsWhitelist: FilterConfig): any {
@@ -26,6 +29,10 @@ export class FilterService {
   }
 
   public update(key, params): void {
+    if (this.routerUtilsService.routeWithoutQueryParams === '/login') {
+      return;
+    }
+
     const queryParams = Object.keys(params).reduce((memo, field) => {
       if (params.hasOwnProperty(field)) {
         const val = params[field];

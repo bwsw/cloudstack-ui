@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../shared/services/dialog/dialog.service';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { VmService } from '../../vm/shared/vm.service';
 import { BaseTemplateModel } from './base-template.model';
@@ -8,6 +8,7 @@ import { Iso } from './iso.model';
 import { IsoService } from './iso.service';
 import { Template } from './template.model';
 import { TemplateService } from './template.service';
+
 
 @Injectable()
 export class TemplateActionsService {
@@ -17,8 +18,7 @@ export class TemplateActionsService {
     private templateService: TemplateService,
     private isoService: IsoService,
     private vmService: VmService
-  ) { }
-
+  ) {}
 
   public createTemplate(templateData, viewMode): Observable<void> {
     let obs;
@@ -34,7 +34,12 @@ export class TemplateActionsService {
       inProgressTranslation = 'TEMPLATE_REGISTER_IN_PROGRESS';
       doneTranslation = 'TEMPLATE_REGISTER_DONE';
       failedTranslation = 'TEMPLATE_REGISTER_FAILED';
-      obs = this.templateService.register(templateData);
+
+      if (templateData.snapshotId) {
+        obs = this.templateService.create(templateData);
+      } else {
+        obs = this.templateService.register(templateData);
+      }
     }
     const notificationId = this.jobNotificationService.add(inProgressTranslation);
 

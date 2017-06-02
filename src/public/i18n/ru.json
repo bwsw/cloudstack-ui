@@ -354,7 +354,7 @@
   "ISO_ATTACH_DONE": "ISO файл прикреплен",
   "ISO_ATTACH_FAILED": "Не удалось прикрепить ISO файл",
 
-  "DISK_OFFERING": "Дисковая услуга",
+  "DISK_OFFERING": "Дисковое предложение",
   "INSTALLATION_SOURCE": "Источник установки",
 
   "CONFIRM_SNAPSHOT_DELETE": "Вы действительно хотите удалить этот снимок?",
@@ -375,7 +375,7 @@
   },
   "STATE": "Состояние",
   "SPARE_DRIVE_DETAILS": {
-    "DISK_OFFERING_TITLE": "Дисковая услуга",
+    "DISK_OFFERING_TITLE": "Дисковое предложение",
     "STORAGE_TYPE": "Тип хранилища",
     "CREATED": "Создан",
     "DISK_OFFERING": {

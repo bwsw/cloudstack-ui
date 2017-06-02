@@ -9,7 +9,11 @@
     </h2>
   </mdl-card-title>
   <mdl-card-supporting-text>
-    <div class="card-wrapper">
+    <div class="card-wrapper" *ngIf="!securityGroupTemplate?.description">
+      <div class="description"></div>
+    </div>
+
+    <div class="card-wrapper" *ngIf="securityGroupTemplate?.description">
       <div class="description first">{{ 'DESCRIPTION' | translate }}: </div>
       <div class="description last">
         <span

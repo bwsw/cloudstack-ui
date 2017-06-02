@@ -2,12 +2,12 @@ import { EventEmitter, Component, Output, Input, OnInit } from '@angular/core';
 import { VirtualMachine } from '../../../../shared/vm.model';
 import { Volume } from '../../../../../shared/models';
 import { VolumeService } from '../../../../../shared/services/volume.service';
-import { DialogService } from '../../../../../shared/services';
 import {
   SpareDriveAttachmentDialogComponent
 } from '../spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
 import { SpareDriveActionsService } from '../../../../../spare-drive/spare-drive-actions.service';
 import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../../../../../dialog/dialog-module/dialog.service';
 
 
 @Component({
@@ -57,14 +57,14 @@ export class SpareDriveAttachmentDetailComponent implements OnInit {
       });
   }
 
-  public attachIso(): void {
+  public attachVolume(): void {
     this.loading = true;
     this.spareDriveActionsService.attach({
       id: this.selectedVolume.id,
       virtualMachineId: this.virtualMachine.id
     })
+      .finally(() => setTimeout(() => this.loading = false))
       .subscribe(() => {
-        this.loading = false;
         this.onAttach.next(this.selectedVolume);
         this.selectedVolume = undefined;
       });

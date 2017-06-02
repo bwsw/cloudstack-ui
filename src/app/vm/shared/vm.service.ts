@@ -16,7 +16,7 @@ import {
 
 import { Iso } from '../../template/shared';
 import { IVmAction, VirtualMachine, VmActions, VmStates } from './vm.model';
-import { DialogService } from '../../shared/services/dialog/dialog.service';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { TagService } from '../../shared/services/tag.service';
