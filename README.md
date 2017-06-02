@@ -166,7 +166,7 @@ docker run -d -p 80:80 --name cloudstack-ui \
            -e API_BACKEND_URL=http://link/to/api/endpoint \
            -e CONSOLE_BACKEND_URL=http://link/to/console/endpoint \
            -e BASE_HREF=base_href \
-           -v /path/to/config.json: /var/www/dist/config/config.json \
+           -v /path/to/config.json:/var/www/dist/config/config.json \
            bwsw/cloudstack-ui
 ```
 
@@ -192,7 +192,7 @@ You can customize the application by providing your own configuration file (exam
 
 Domain URL used to fill the 'Domain' field in the login form
 
-    "defaultDomainUrl": "domain"
+    "defaultDomain": "domain"
 
 ### securityGroupTemplates:
 

@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.configService.get('defaultDomainUrl')
+    this.configService.get('defaultDomain')
       .subscribe(domainFromConfig => {
         const domainFromQueryParams = this.route.snapshot.queryParams['domain'];
         this.domain = domainFromQueryParams || domainFromConfig || '';

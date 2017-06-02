@@ -8,7 +8,7 @@
     "ADVANCED": "Advanced",
     "INCORRECT_USERNAME": "Incorrect username",
     "INCORRECT_PASSWORD": "Incorrect password",
-    "INCORRECT_DOMAIN": "Unable to find domain {{param1}}"
+    "INCORRECT_DOMAIN": "Unable to find domain {{val1}}"
   },
   "WRONG_ARGUMENTS": "Wrong arguments",
   "UNEXPECTED_ERROR": "Unexpected error",
