@@ -2,6 +2,9 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 import { VmService } from '../../vm/shared/vm.service';
 import { MdlDialogReference } from '../../dialog/dialog-module';
+import { VolumeService } from '../../shared/services/volume.service';
+import { Volume } from '../../shared/models';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 
 @Component({
@@ -11,10 +14,14 @@ import { MdlDialogReference } from '../../dialog/dialog-module';
 export class SpareDriveAttachmentComponent implements OnInit {
   public virtualMachineId: string;
   public virtualMachines: Array<VirtualMachine>;
+  public loading: boolean;
 
   constructor(
     private dialog: MdlDialogReference,
+    private dialogService: DialogService,
     private vmService: VmService,
+    private volumeService: VolumeService,
+    @Inject('volume') private volume: Volume,
     @Inject('zoneId') private zoneId: string
   ) {}
 
@@ -28,9 +35,18 @@ export class SpareDriveAttachmentComponent implements OnInit {
       });
   }
 
-  public attach(event): void {
-    event.preventDefault();
-    this.dialog.hide(this.virtualMachineId);
+  public attach(): void {
+    this.volumeService.attach({
+      id: this.volume.id,
+      virtualMachineId: this.virtualMachineId
+    })
+      .subscribe(
+        () => this.dialog.hide(this.virtualMachineId),
+        error => this.dialogService.alert({
+          translationToken: error.message,
+          interpolateParams: error.params
+        })
+      );
   }
 
   public onCancel(): void {

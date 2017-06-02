@@ -1,9 +1,10 @@
-import { MdlDialogReference } from '@angular-mdl/core';
 import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
+import { MdlDialogReference } from '../../dialog/dialog-module';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { DiskOfferingComponent } from '../../shared/components/disk-offering/disk-offering.component';
 import { OverlayLoadingComponent } from '../../shared/components/overlay-loading/overlay-loading.component';
 import { SliderComponent } from '../../shared/components/slider/slider.component';
@@ -12,7 +13,6 @@ import { DiskOffering, Volume } from '../../shared/models';
 import { JobsNotificationService } from '../../shared/services';
 import { VolumeService } from '../../shared/services/volume.service';
 import { VolumeResizeComponent } from './volume-resize.component';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 
 @Injectable()
