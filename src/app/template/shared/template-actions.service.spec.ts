@@ -14,7 +14,7 @@ class MockDialogService {
   public alert(): void {}
 
   public confirm(): Observable<void> {
-    return Observable.of(null);it
+    return Observable.of(null);
   };
 }
 
