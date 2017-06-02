@@ -3,7 +3,7 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import { DialogService } from '../../services/dialog/dialog.service';
+import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 
 
 @Component({

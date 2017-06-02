@@ -14,7 +14,7 @@ const configUrl = 'config/config.json';
 export class ConfigService {
   private config: IConfig;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {}
 
   public get(key: string | Array<string>): Observable<any | Array<any>> {
     let isArray = Array.isArray(key);

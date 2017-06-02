@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
-import {
-  AuthService,
-} from '../shared';
+import { MdlDialogService } from '../dialog/dialog-module';
+import { AuthService } from '../shared/services';
+import { RouterUtilsService } from '../shared/services/router-utils.service';
 
 
 @Component({
@@ -12,21 +11,19 @@ import {
 })
 export class LogoutComponent implements OnInit {
   constructor(
-    private auth: AuthService,
-    private ar: ActivatedRoute,
-    private router: Router
-  ) {
-  }
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
+    private dialogService: MdlDialogService,
+    private router: Router,
+    private routerUtilsService: RouterUtilsService
+  ) {}
 
   public ngOnInit(): void {
-    this.auth.logout().subscribe(() => {
-      if (this.router.url !== '/login' && this.ar.snapshot.queryParams['loggedIn'] === 'reset') {
-        this.router.navigate(['/login']).then(() => location.reload());
-        return;
-      }
-      if (this.router.url !== '/login') {
-        this.router.navigate(['/login']);
-      }
+    this.authService.logout().subscribe(() => {
+      const next = this.activatedRoute.snapshot.queryParams['next'];
+      const redirectionParams = next ? this.routerUtilsService.getRedirectionQueryParams(next) : {};
+      this.router.navigate(['/login'], redirectionParams);
+      this.dialogService.hideAllDialogs();
     });
   }
 }

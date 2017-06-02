@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MdlDialogReference } from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { Rules } from '../sg-creation/sg-creation.component';
-import { DialogService } from '../../shared/services/dialog/dialog.service';
+import { MdlDialogReference } from '../../dialog/dialog-module';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 @Component({
   selector: 'cs-security-group-template-creation',
@@ -21,7 +21,8 @@ export class SgTemplateCreationComponent {
   constructor(
     public dialog: MdlDialogReference,
     public dialogService: DialogService,
-    private sgService: SecurityGroupService) { }
+    private sgService: SecurityGroupService
+  ) { }
 
   public onSubmit(e: Event): void {
     e.preventDefault();

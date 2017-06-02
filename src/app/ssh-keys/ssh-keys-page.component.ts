@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { DialogService } from '../dialog/dialog-module/dialog.service';
 import { SSHKeyPair } from '../shared/models';
-import { DialogService } from '../shared/services/dialog/dialog.service';
 import { SSHKeyPairService } from '../shared/services/ssh-keypair.service';
 import { SShKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creation-dialog.component';
 import { SshPrivateKeyDialogComponent } from './ssh-key-creation/ssh-private-key-dialog.component';
@@ -19,7 +18,7 @@ export class SshKeysPageComponent implements OnInit {
   constructor(
     private dialogService: DialogService,
     private sshKeyService: SSHKeyPairService
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.sshKeyService.getList()

@@ -1,9 +1,10 @@
 import { Injector } from '@angular/core';
-import { inject, TestBed, async, fakeAsync, tick } from '@angular/core/testing';
+import { async, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FilterConfig, FilterService } from './filter.service';
+import { RouterUtilsService } from './router-utils.service';
 
 import { StorageService } from './storage.service';
-import { FilterConfig, FilterService } from './filter.service';
 import { TagService } from './tag.service';
 import { UtilsService } from './utils.service';
 
@@ -38,7 +39,8 @@ describe('Filter service', () => {
         { provide: ActivatedRoute, useClass: ActivateRouteStub },
         { provide: Router, useClass: RouterStub },
         { provide: TagService, useValue: {} },
-        { provide: UtilsService, useValue: {} },
+        { provide: RouterUtilsService, useValue: {} },
+        UtilsService,
         StorageService,
         Injector
       ],

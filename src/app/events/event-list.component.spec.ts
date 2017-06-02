@@ -6,11 +6,10 @@ import { By } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { DatePickerComponent } from '../shared/components/date-picker';
-import { NotificationBoxComponent } from '../shared/components/notification-box';
 import { TopBarComponent } from '../shared/components/top-bar/top-bar.component';
 import { LanguageService } from '../shared/services';
 
-import { FilterService } from '../shared/services/filter.service';
+import { FilterService } from '../shared/services/';
 import { SharedModule } from '../shared/shared.module';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
@@ -97,21 +96,21 @@ describe('event list component', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        SharedModule,
+        MdlModule,
+        MdlSelectModule
+      ],
       declarations: [
         MockTranslatePipe,
         EventListComponent,
         MockNotificationBoxComponent
       ],
       providers: [
-        { provide: TranslateService, useClass: MockTranslateService },
         { provide: EventService, useClass: MockEventService },
         { provide: FilterService, useClass: MockFilterService },
+        { provide: TranslateService, useClass: MockTranslateService },
         { provide: LanguageService, useClass: MockLanguageService }
-      ],
-      imports: [
-        SharedModule,
-        MdlModule,
-        MdlSelectModule
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -119,9 +118,6 @@ describe('event list component', () => {
 
   beforeEach(() => {
     fixture = TestBed
-      .overrideComponent(NotificationBoxComponent, {
-        set: { template: '' }
-      })
       .overrideComponent(TopBarComponent, {
         set: { template: '<ng-content></ng-content>' }
       })

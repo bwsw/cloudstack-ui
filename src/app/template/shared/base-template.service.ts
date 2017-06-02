@@ -37,7 +37,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
   constructor(
     protected asyncJobService: AsyncJobService,
     protected osTypeService: OsTypeService,
-    protected utilsService: UtilsService
+    protected utilsService: UtilsService,
   ) {
     super();
     this._templateFilters = [

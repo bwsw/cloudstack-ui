@@ -1,48 +1,41 @@
 import { Observable } from 'rxjs/Observable';
-import isEqual = require('lodash/isEqual');
-
 import { BaseModel } from '../models';
+import { CacheService } from './';
 import { BaseBackendService } from './base-backend.service';
+import { Cache } from './cache';
+import { ServiceLocator } from './service-locator';
 
-
-interface ICache<M> {
-  params: {};
-  result: Array<M>;
-}
 
 export abstract class BaseBackendCachedService<M extends BaseModel> extends BaseBackendService<M> {
-  protected cache: Array<ICache<M>>;
+  private cache: Cache<Array<M>>;
 
   constructor() {
     super();
-    this.cache = [];
+    this.cache = ServiceLocator.injector.get(CacheService).get<Array<M>>(this.entity);
   }
 
   public getList(params?: {}): Observable<Array<M>> {
-    for (let i = 0; i < this.cache.length; i++) {
-      if (isEqual(params, this.cache[i].params)) {
-        return Observable.of(this.cache[i].result);
-      }
+    const cachedResult = this.cache.get(params);
+    if (cachedResult) {
+      return Observable.of(cachedResult);
+    } else {
+      return super.getList(params)
+        .map(result => {
+          this.cache.set({ params, result });
+          return result;
+        });
     }
-
-    return super.getList(params)
-      .map(result => {
-        this.cache.push({ params, result });
-        return result;
-      });
   }
 
   public create(params?: {}): Observable<any> {
-    this.invalidateCache();
-    return super.create(params);
+    return super.create(params).do(() => this.cache.invalidate());
   }
 
   public remove(params?: {}): Observable<any> {
-    this.invalidateCache();
-    return super.remove(params);
+    return super.remove(params).do(() => this.cache.invalidate());
   }
 
-  protected invalidateCache(): void {
-    this.cache = [];
+  public invalidateCache(): void {
+    this.cache.invalidate();
   }
 }

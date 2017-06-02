@@ -1,14 +1,14 @@
-import { Injectable, EventEmitter } from '@angular/core';
 import {
-  MdlDialogReference,
-  IMdlDialogConfiguration,
   IMdlCustomDialogConfiguration,
-  MdlDialogService
+  IMdlDialogConfiguration
 } from '@angular-mdl/core';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs';
+import { EventEmitter, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Subject } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { CustomSimpleDialogComponent, CustomSimpleDialogConfig } from './custom-dialog.component';
+import { MdlDialogService } from './mdl-dialog.service';
+import { MdlDialogReference } from '../dialog-module';
 
 
 export interface SimpleDialogConfiguration extends IMdlDialogConfiguration {
@@ -132,7 +132,7 @@ export class DialogService {
     return Observable.of(null);
   }
 
-  private customSimpleDialog(config: CustomSimpleDialogConfig): Observable<void> {
+  private customSimpleDialog(config: CustomSimpleDialogConfig): Observable<any> {
     const dialogConfig = Object.assign(
       {
         component: CustomSimpleDialogComponent,

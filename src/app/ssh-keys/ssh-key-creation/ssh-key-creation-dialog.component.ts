@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { MdlDialogReference } from '@angular-mdl/core';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 import { SshKeyCreationData, SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
 import { Observable } from 'rxjs/Observable';
 import { SSHKeyPair } from '../../shared/models';
-import { DialogService } from '../../shared/services/dialog/dialog.service';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 
 @Component({
