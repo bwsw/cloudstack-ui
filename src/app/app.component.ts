@@ -60,7 +60,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public linkClick(routerLink: string): void {
     if (routerLink === this.routerUtilsService.getRouteWithoutQueryParams()) {
-      location.reload();
+      this.router.navigate(['reload'], {
+        queryParamsHandling: 'preserve',
+        skipLocationChange: true
+      });
     }
   }
 

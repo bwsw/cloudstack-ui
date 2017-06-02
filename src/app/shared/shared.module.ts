@@ -88,6 +88,7 @@ import { FancySelectComponent } from './components/fancy-select/fancy-select.com
 import { InputGroupComponent } from './components/input-group/input-group.component';
 import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
 import { RouterUtilsService } from './services/router-utils.service';
+import { ReloadComponent } from './components/reload/reload.component';
 
 
 @NgModule({
@@ -160,6 +161,7 @@ import { RouterUtilsService } from './services/router-utils.service';
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     OverlayLoadingComponent,
+    ReloadComponent,
     SearchComponent,
     SgRulesManagerComponent,
     SidebarComponent,
