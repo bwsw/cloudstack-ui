@@ -38,6 +38,8 @@ export interface IVmActionEvent {
   entityModel: VirtualMachine
 })
 export class VmService extends BaseBackendService<VirtualMachine> {
+  private static vmColorDelimiter = ';';
+
   public vmUpdateObservable = new Subject<VirtualMachine>();
 
   constructor(
@@ -291,10 +293,19 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     if (vm.tags) {
       let colorTag = vm.tags.find(tag => tag.key === 'color');
       if (colorTag) {
-        return new Color(colorTag.value, colorTag.value);
+        const [backgroundColor, textColor] = colorTag.value.split(VmService.vmColorDelimiter);
+        return new Color(backgroundColor, backgroundColor, textColor || '');
       }
     }
-    return new Color('white', '#FFFFFF');
+    return new Color('white', '#FFFFFF', '');
+  }
+
+  public setColor(vm: VirtualMachine, color: Color): Observable<VirtualMachine> {
+    let tagValue = color.value;
+    if (color.textColor) {
+      tagValue += `${VmService.vmColorDelimiter}${color.textColor}`;
+    }
+    return this.tagService.update(vm, 'UserVm', 'color', tagValue);
   }
 
   public getDescription(vm: VirtualMachine): Observable<string> {
