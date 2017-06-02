@@ -36,6 +36,8 @@ import { SpareDriveAttachmentDetailComponent } from './vm-sidebar/storage-detail
 import { SpareDriveAttachmentDialogComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
 import { routes } from '../app.routing';
 import { RouterModule } from '@angular/router';
+import { SnapshotsComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshots.component';
+import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volume-details/volume-details.component';
 
 
 @NgModule({
@@ -54,6 +56,7 @@ import { RouterModule } from '@angular/router';
     RouterModule.forRoot(routes)
   ],
   declarations: [
+    SnapshotsComponent,
     SpareDriveAttachmentDetailComponent,
     SpareDriveAttachmentDialogComponent,
     StorageDetailComponent,
@@ -67,6 +70,7 @@ import { RouterModule } from '@angular/router';
     VmTemplateDialogComponent,
     VmListSectionComponent,
     VmListSubsectionComponent,
+    VolumeDetailsComponent,
     VolumeResizeComponent,
     IsoComponent,
     VolumeComponent,
