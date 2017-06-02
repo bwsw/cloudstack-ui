@@ -10,7 +10,7 @@ import { OverlayLoadingComponent } from '../../shared/components/overlay-loading
 import { SliderComponent } from '../../shared/components/slider/slider.component';
 import { DiskStorageService } from '../../shared/index';
 import { DiskOffering, Volume } from '../../shared/models';
-import { JobsNotificationService } from '../../shared/services';
+import { DiskOfferingService, JobsNotificationService } from '../../shared/services';
 import { VolumeService } from '../../shared/services/volume.service';
 import { VolumeResizeComponent } from './volume-resize.component';
 
@@ -28,6 +28,13 @@ class MockDiskStorageService {
 class MockVolumeService {
   public resize(): Observable<Volume> {
     return Observable.of(new Volume(''));
+  }
+}
+
+@Injectable()
+class MockDiskOfferingService {
+  public get(): Observable<any> {
+    return Observable.of([]);
   }
 }
 
@@ -71,6 +78,7 @@ describe('volume resize for root disks', () => {
       ],
       providers: [
         { provide: DialogService, useValue: dialogService },
+        { provide: DiskOfferingService, useClass: MockDiskOfferingService },
         { provide: DiskStorageService, useClass: MockDiskStorageService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: MdlDialogReference, useValue: dialog },
@@ -136,6 +144,7 @@ describe('volume resize for data disks', () => {
       ],
       providers: [
         { provide: DialogService, useValue: dialogService },
+        { provide: DiskOfferingService, useClass: MockDiskOfferingService },
         { provide: DiskStorageService, useClass: MockDiskStorageService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: MdlDialogReference, useValue: dialog },
