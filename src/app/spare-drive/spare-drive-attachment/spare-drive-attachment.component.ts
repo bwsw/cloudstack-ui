@@ -2,14 +2,15 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 import { VmService } from '../../vm/shared/vm.service';
 import { MdlDialogReference } from '../../dialog/dialog-module';
-import { VolumeService } from '../../shared/services/volume.service';
 import { Volume } from '../../shared/models';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { SpareDriveActionsService } from '../spare-drive-actions.service';
 
 
 @Component({
   selector: 'cs-spare-drive-attachment',
-  templateUrl: 'spare-drive-attachment.component.html'
+  templateUrl: 'spare-drive-attachment.component.html',
+  styleUrls: ['spare-drive-attachment.component.scss']
 })
 export class SpareDriveAttachmentComponent implements OnInit {
   public virtualMachineId: string;
@@ -19,8 +20,8 @@ export class SpareDriveAttachmentComponent implements OnInit {
   constructor(
     private dialog: MdlDialogReference,
     private dialogService: DialogService,
+    private spareDriveActionsService: SpareDriveActionsService,
     private vmService: VmService,
-    private volumeService: VolumeService,
     @Inject('volume') private volume: Volume,
     @Inject('zoneId') private zoneId: string
   ) {}
@@ -36,10 +37,17 @@ export class SpareDriveAttachmentComponent implements OnInit {
   }
 
   public attach(): void {
-    this.volumeService.attach({
+    if (!this.virtualMachineId) {
+      this.dialog.hide();
+      return;
+    }
+
+    this.loading = true;
+    this.spareDriveActionsService.attach({
       id: this.volume.id,
       virtualMachineId: this.virtualMachineId
     })
+      .finally(() => this.loading = false)
       .subscribe(
         () => this.dialog.hide(this.virtualMachineId),
         error => this.dialogService.alert({

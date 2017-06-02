@@ -20,7 +20,6 @@
           *loading="!volumes"
           [volumes]="s.spareDrives"
           (onDelete)="showRemoveDialog($event)"
-          (onVolumeAttached)="attach($event)"
           (onResize)="updateVolume($event)"
           cs-list
         ></cs-spare-drive-list>

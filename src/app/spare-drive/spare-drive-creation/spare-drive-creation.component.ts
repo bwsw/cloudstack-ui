@@ -30,6 +30,7 @@ export class SpareDriveCreationComponent implements OnInit {
   private _zoneId: string;
 
   private notificationId: string;
+  private insufficientResourcesDialog: Observable<any>;
 
   constructor(
     private dialog: MdlDialogReference,
@@ -142,8 +143,12 @@ export class SpareDriveCreationComponent implements OnInit {
   }
 
   private handleInsufficientResources(): void {
-    this.dialogService.alert('VOLUME_LIMIT_EXCEEDED')
-      .subscribe(_ => this.dialog.hide());
+    this.dialog.hide();
+    if (!this.insufficientResourcesDialog) {
+      this.insufficientResourcesDialog = this.dialogService.alert('VOLUME_LIMIT_EXCEEDED');
+      this.insufficientResourcesDialog
+        .subscribe(() => this.insufficientResourcesDialog = undefined);
+    }
   }
 
   private get creationParams(): any {
