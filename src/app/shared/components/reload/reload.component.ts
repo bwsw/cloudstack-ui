@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -7,9 +7,9 @@ import { Router } from '@angular/router';
   template: ''
 })
 export class ReloadComponent implements OnInit {
-  constructor(private router: Router) {}
+  constructor(private location: Location) {}
 
   public ngOnInit(): void {
-    this.router.navigate([document.referrer]);
+    this.location.back();
   }
 }
