@@ -19,8 +19,8 @@
             pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
             [error-msg]="(takenName ? 'THIS_NAME_IS_TAKEN' : '') | translate"
             #vmname="ngModel"
-            [(ngModel)]="vmCreationData.vm.displayName"
-            [class.is-invalid]="!vmname.valid || (vmCreationData.vm.displayName === takenName)"
+            [(ngModel)]="vmCreationData.displayName"
+            [class.is-invalid]="!vmname.valid || (vmCreationData.displayName === takenName)"
           >
           </mdl-textfield>
         </div>
@@ -29,22 +29,22 @@
           <h5>{{ 'VM_CREATION_FORM.ZONE' | translate }}</h5>
           <div>
             <mdl-select
-              [(ngModel)]="zoneId"
+              [(ngModel)]="zone"
               name="zone"
             >
-              <mdl-option *ngFor="let z of vmCreationData.zones" [value]="z.id" >
+              <mdl-option *ngFor="let z of zones" [value]="z" >
                 {{ z.name }}
               </mdl-option>
             </mdl-select>
           </div>
         </div>
 
-        <div *ngIf="zoneId && vmCreationData.serviceOfferings">
+        <div *ngIf="zone && serviceOfferings">
           <h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>
           <cs-service-offering-selector
             name="serviceOffering"
-            [serviceOfferings]="vmCreationData.serviceOfferings"
-            [zoneId]="vmCreationData.vm.zoneId"
+            [serviceOfferings]="serviceOfferings"
+            [zoneId]="vmCreationData?.zone?.id"
             [offering]="vmCreationData.customServiceOffering"
             (offeringChanged)="setServiceOffering($event)"
           ></cs-service-offering-selector>
@@ -53,18 +53,18 @@
         <div class="dialog-select-wrapper">
           <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.INSTALLATION_SOURCE' | translate }}</h5>
           <cs-vm-creation-template
-            *ngIf="vmCreationData.vm.template"
+            *ngIf="vmCreationData.template"
             class="dialog-select-select template-select"
-            [selectedIn]="vmCreationData.vm.template"
-            [zoneId]="zoneId"
+            [selectedIn]="vmCreationData.template"
+            [zoneId]="zone.id"
             (selectedOut)="setTemplate($event)"
           ></cs-vm-creation-template>
         </div>
 
-        <div *ngIf="!templateSelected && vmCreationData.diskOfferings">
+        <div *ngIf="!templateSelected && diskOfferings">
           <h5>{{ 'DISK_OFFERING' | translate }}</h5>
           <cs-disk-offering
-            [diskOfferingList]="vmCreationData.diskOfferings"
+            [diskOfferingList]="diskOfferings"
             (offeringUpdated)="setDiskOffering($event)"
           ></cs-disk-offering>
         </div>
@@ -81,12 +81,12 @@
       <div *ngIf="enoughResources" class="right-column">
 
         <h5>{{ 'VM_CREATION_FORM.GROUP' | translate }}</h5>
-        <div *ngIf="vmCreationData.instanceGroups">
+        <div *ngIf="instanceGroups">
           <mdl-autocomplete
-            *ngIf="vmCreationData.instanceGroups"
+            *ngIf="instanceGroups"
             name="group"
             [placeholder]="'NO_GROUP' | translate"
-            [options]="vmCreationData.instanceGroups"
+            [options]="instanceGroups"
             [ngModel]="null"
             (ngModelChange)="setGroup($event)"
           ></mdl-autocomplete>
@@ -97,13 +97,13 @@
           <mdl-autocomplete
             name="affinityGroup"
             [placeholder]="'NO_GROUP' | translate"
-            [options]="vmCreationData.affinityGroupNames"
+            [options]="affinityGroupNames"
             [ngModel]="vmCreationData.affinityGroupName"
             (ngModelChange)="affinityGroupChange($event)"
           ></mdl-autocomplete>
         </div>
         <cs-security-group-rules-manager
-          *ngIf="showSecurityGroups"
+          *ngIf="vmCreationData.showSecurityGroups"
           name="sgm"
           class="sg-rules-manager"
           [(ngModel)]="securityRules"
@@ -126,10 +126,10 @@
         <div>
           <mdl-select
             name="ssh"
-            [(ngModel)]="vmCreationData.vm.keyPair"
+            [(ngModel)]="vmCreationData.keyPair"
           >
             <mdl-option
-              *ngFor="let k of vmCreationData.sshKeyPairs"
+              *ngFor="let k of sshKeyPairs"
               [value]="k.name"
             >
               {{ k.name }}
@@ -151,7 +151,7 @@
       <button
         *ngIf="enoughResources"
         mdl-colored="primary"
-        [disabled]="!vmCreateForm.valid || (vmCreationData.vm.displayName === takenName)"
+        [disabled]="!vmCreateForm.valid || (vmCreationData.displayName === takenName)"
         type="button"
         mdl-button
         (click)="onVmCreationSubmit($event)"

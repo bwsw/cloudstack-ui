@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
@@ -44,16 +45,17 @@ import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volum
   imports: [
     CommonModule,
     FormsModule,
-    ServiceOfferingModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
+    ReactiveFormsModule,
+    ServiceOfferingModule,
     SharedModule,
     TemplateModule,
     TranslateModule,
-    vmRouting,
     TranslateModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    vmRouting
   ],
   declarations: [
     SnapshotsComponent,
