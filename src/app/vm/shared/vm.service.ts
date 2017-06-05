@@ -11,7 +11,8 @@ import {
   AsyncJobService,
   BaseBackendService,
   JobsNotificationService,
-  NotificationService, OsTypeService,
+  NotificationService,
+  OsTypeService,
 } from '../../shared/services';
 
 import { Iso } from '../../template/shared';
@@ -38,8 +39,6 @@ export interface IVmActionEvent {
   entityModel: VirtualMachine
 })
 export class VmService extends BaseBackendService<VirtualMachine> {
-  private static vmColorDelimiter = ';';
-
   public vmUpdateObservable = new Subject<VirtualMachine>();
 
   constructor(
@@ -289,21 +288,10 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       .switchMap(job => this.asyncJobService.queryJob(job.jobid));
   }
 
-  public getColor(vm: VirtualMachine): Color {
-    if (vm.tags) {
-      let colorTag = vm.tags.find(tag => tag.key === 'color');
-      if (colorTag) {
-        const [backgroundColor, textColor] = colorTag.value.split(VmService.vmColorDelimiter);
-        return new Color(backgroundColor, backgroundColor, textColor || '');
-      }
-    }
-    return new Color('white', '#FFFFFF', '');
-  }
-
   public setColor(vm: VirtualMachine, color: Color): Observable<VirtualMachine> {
     let tagValue = color.value;
     if (color.textColor) {
-      tagValue += `${VmService.vmColorDelimiter}${color.textColor}`;
+      tagValue += `${VirtualMachine.ColorDelimiter}${color.textColor}`;
     }
     return this.tagService.update(vm, 'UserVm', 'color', tagValue);
   }

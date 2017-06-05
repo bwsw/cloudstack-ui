@@ -193,7 +193,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
   }
 
   private updateColor(): void {
-    this.color = this.vmService.getColor(this.vm);
+    this.color = this.vm.getColor();
   }
 
   private updateGroups(): void {
