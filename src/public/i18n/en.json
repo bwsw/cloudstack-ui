@@ -5,7 +5,8 @@
   "LOGOUT": "Logout",
   "NOT_LOGGED_IN": "You are not logged in",
   "LOGIN_FORM": {
-    "ADVANCED": "Advanced",
+    "SHOW_ADVANCED": "Show advanced options",
+    "HIDE_ADVANCED": "Hide advanced options",
     "INCORRECT_USERNAME": "Incorrect username",
     "INCORRECT_PASSWORD": "Incorrect password",
     "INCORRECT_DOMAIN": "Unable to find domain {{val1}}"

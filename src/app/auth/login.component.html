@@ -45,13 +45,16 @@
           [disabled]="!loginForm.valid"
         >{{ 'LOGIN' | translate }}</button>
         <button
-          mdl-colored="primary"
+          class="options-button"
+          mdl-button-type="icon"
           mdl-button
           mdl-ripple
           type="button"
+          [mdl-tooltip]="(showDomain ? 'LOGIN_FORM.HIDE_ADVANCED' : 'LOGIN_FORM.SHOW_ADVANCED') | translate"
+          mdl-tooltip-position="top"
           (click)="toggleDomain()"
         >
-          {{ 'LOGIN_FORM.ADVANCED' | translate }}
+          <mdl-icon>settings</mdl-icon>
         </button>
       </div>
     </form>
