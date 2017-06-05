@@ -394,6 +394,7 @@
     "SHARED": "Shared",
     "LOCAL": "Local"
   },
+  "VOLUME_NAME_TOO_LONG": "Volume name cannot be longer than {{val1}} characters",
 
   "CONFIRM_DELETE_VOLUME": "Are you sure you want to delete this volume?",
   "VOLUME_DELETE_DONE": "Volume has been deleted",
