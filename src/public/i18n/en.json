@@ -189,6 +189,7 @@
   "ALL_GROUPS": "All templates",
   "SELECTED_GROUPS": "Selected templates",
   "FIREWALL_RULES": "Firewall rules",
+  "BASIC_RULES": "Basic rules",
   "SAVE": "Save",
   "CREATE": "Create",
   "EDIT": "Edit",
