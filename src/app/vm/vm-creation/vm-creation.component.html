@@ -8,7 +8,7 @@
 <div class="vm-creation-container">
   <h3 class="mdl-dialog__title">{{ 'NEW_VM' | translate }}</h3>
   <form
-    (ngSubmit)="onVmCreationSubmit($event)
+    (ngSubmit)="onVmCreationSubmit($event)"
     [formGroup]="form"
     #vmCreateForm="ngForm"
     *loading="fetching"

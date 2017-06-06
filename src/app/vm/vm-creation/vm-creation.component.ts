@@ -14,23 +14,19 @@ import {
   AffinityGroupService,
   AuthService,
   DiskOffering,
-  DiskOfferingService,
-  DiskStorageService,
   GROUP_POSTFIX,
   InstanceGroup,
   InstanceGroupService,
   JobsNotificationService,
   SecurityGroupService,
-  ServiceOfferingFilterService,
-  SSHKeyPairService,
   ZoneService
 } from '../../shared';
 
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
-import { BaseTemplateModel, TemplateService } from '../../template/shared';
+import { BaseTemplateModel } from '../../template/shared';
 import { VmService } from '../shared/vm.service';
 import { Template } from '../../template/shared';
-import { AffinityGroupType } from '../../shared/models/affinity-group.model';
+import { AffinityGroupType }from '../../shared/models/affinity-group.model';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { MdlDialogReference } from '../../dialog/dialog-module';
@@ -38,7 +34,9 @@ import { UtilsService } from '../../shared/services/utils.service';
 import { FormGroup } from '@angular/forms';
 import { BaseField } from './vm-creation-field/base-field';
 import { VmFormService } from './vm-form.service';
-import { VmCreationData } from './vm-creation-data/vm-creation-data';
+import { VmCreationState } from './vm-creation-data/vm-creation-data';
+import { VmCreationService } from './vm-creation.service';
+import { SecurityGroup } from '../../security-group/sg.model';
 
 
 @Component({
@@ -48,18 +46,18 @@ import { VmCreationData } from './vm-creation-data/vm-creation-data';
 })
 export class VmCreationComponent implements OnInit {
   public affinityGroups: Array<AffinityGroup>;
-  public affinityGroupNames: Array<string>;
   public affinityGroupTypes: Array<AffinityGroupType>;
+  public availablePrimaryStorage: number;
+  public diskOfferings: Array<DiskOffering>;
   public instanceGroups: Array<string>;
   public serviceOfferings: Array<ServiceOffering>;
-  public diskOfferings: Array<DiskOffering>;
   public sshKeyPairs: Array<SSHKeyPair>;
   public zones: Array<Zone>;
 
   public fetching: boolean;
   public enoughResources = true;
 
-  public vmCreationData: VmCreationData;
+  public vmCreationData: VmCreationState;
   public keyboards = ['us', 'uk', 'jp', 'sc'];
   public noAffinityGroupTranslation: string;
   public keyboardTranslations: Object;
@@ -78,23 +76,19 @@ export class VmCreationComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private dialog: MdlDialogReference,
     private dialogService: DialogService,
-    private diskOfferingService: DiskOfferingService,
-    private diskStorageService: DiskStorageService,
     private instanceGroupService: InstanceGroupService,
     private jobsNotificationService: JobsNotificationService,
     private resourceUsageService: ResourceUsageService,
     private securityGroupService: SecurityGroupService,
-    private serviceOfferingFilterService: ServiceOfferingFilterService,
-    private sshService: SSHKeyPairService,
-    private templateService: TemplateService,
     private translateService: TranslateService,
     private utils: UtilsService,
+    private vmCreationService: VmCreationService,
     private vmService: VmService,
     private zoneService: ZoneService,
 
     private formService: VmFormService
   ) {
-    this.vmCreationData = new VmCreationData();
+    this.vmCreationData = new VmCreationState();
 
     this.translateService.get('NO_AFFINITY_GROUP').subscribe(str => {
       this.noAffinityGroupTranslation = str;
@@ -108,6 +102,10 @@ export class VmCreationComponent implements OnInit {
         this.keyboards.forEach(kb => keyboardTranslations[kb] = strs['KB_' + kb.toUpperCase()]);
         this.keyboardTranslations = keyboardTranslations;
       });
+  }
+
+  public get affinityGroupNames(): Array<string> {
+    return this.affinityGroups.map(affinityGroup => affinityGroup.name);
   }
 
   public ngOnInit(): void {
@@ -419,63 +417,34 @@ export class VmCreationComponent implements OnInit {
     }
   }
 
+  private getPreselectedRules(securityGroupTemplates: Array<SecurityGroup>): Rules {
+    const preselectedSecurityGroups = securityGroupTemplates
+      .filter(securityGroup => securityGroup.preselected);
+    return Rules.createWithAllRulesSelected(preselectedSecurityGroups);
+  }
+
   private updateZone(zone: Zone): Observable<void> {
     this.vmCreationData.reset();
     this.vmCreationData.zone = zone;
-
-    if (!zone || !this.vmCreationData || !this.zones) {
-      return Observable.of(null);
-    }
+    if (!zone || !this.vmCreationData || !this.zones) { return Observable.of(null); }
 
     this.serviceOfferings = [];
     this.vmCreationData.serviceOffering = new ServiceOffering({ id: null });
     this.diskOfferings = [];
     this.changeDetectorRef.detectChanges();
+    this.vmCreationService.getData().subscribe(vmCreationData => {
+      this.affinityGroups = vmCreationData.affinityGroupList;
+      this.affinityGroupTypes = vmCreationData.affinityGroupTypes;
+      this.instanceGroups = vmCreationData.instanceGroups.map(group => group.name);
+      this.securityRules = this.getPreselectedRules(vmCreationData.securityGroupTemplates);
+      this.sshKeyPairs = vmCreationData.sshKeyPairs;
+      this.vmCreationData.rootDiskSizeLimit = vmCreationData.availablePrimaryStorage;
+      this.setDiskOfferings(vmCreationData.diskOfferings);
+      this.setServiceOfferings(vmCreationData.serviceOfferings);
+      this.vmCreationData.template = vmCreationData.defaultTemplate;
 
-    return Observable.forkJoin([
-      this.affinityGroupService.getList(),
-      this.affinityGroupService.getTypes(),
-      this.sshService.getList(),
-      this.vmService.getInstanceGroupList(),
-      this.securityGroupService.getTemplates(),
-
-      this.diskStorageService.getAvailablePrimaryStorage(),
-      this.serviceOfferingFilterService.getAvailable({ zone: this.selectedZone }),
-      this.diskOfferingService.getList({ zone: this.selectedZone, maxSize: this.vmCreationData.rootDiskSizeLimit }),
-      this.templateService.getDefault(this.selectedZone.id, this.vmCreationData.rootDiskSizeLimit)
-    ])
-      .map(([
-        affinityGroups,
-        affinityGroupTypes,
-        sshKeyPairs,
-        instanceGroups,
-        securityGroupTemplates,
-
-        rootDiskSizeLimit,
-        serviceOfferings,
-        diskOfferings,
-        defaultTemplate]
-      ) => {
-        this.affinityGroups = <any>affinityGroups;
-        this.affinityGroupTypes = <any>affinityGroupTypes;
-        this.affinityGroupNames = affinityGroups.map(ag => ag.name);
-        this.sshKeyPairs = <any>sshKeyPairs;
-        this.instanceGroups = instanceGroups.map(group => group.name);
-
-        let preselectedSecurityGroups = securityGroupTemplates.filter(securityGroup => securityGroup.preselected);
-        this.securityRules = Rules.createWithAllRulesSelected(preselectedSecurityGroups);
-
-        if (sshKeyPairs.length) {
-          this.vmCreationData.keyPair = sshKeyPairs[0].name;
-        }
-
-        this.vmCreationData.rootDiskSizeLimit = rootDiskSizeLimit;
-        this.setServiceOfferings(serviceOfferings);
-        this.vmCreationData.template = defaultTemplate;
-        this.setDiskOfferings(diskOfferings);
-
-        this.changeDetectorRef.detectChanges();
-        this.fetching = false;
+      this.changeDetectorRef.detectChanges();
+      this.fetching = false;
     });
   }
 }

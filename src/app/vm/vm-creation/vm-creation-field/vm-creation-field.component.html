@@ -16,140 +16,140 @@
 
 
 
-<div *ngIf="enoughResources" class="left-column">
-  <h5>{{ 'VM_CREATION_FORM.NAME' | translate }}</h5>
-  <div>
-    <mdl-textfield
-      type="text"
-      [label]="'VM_CREATION_FORM.NAME' | translate"
-      name="name"
-      pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
-      [error-msg]="(takenName ? 'THIS_NAME_IS_TAKEN' : '') | translate"
-      #vmname="ngModel"
-      [(ngModel)]="vmCreationData.displayName"
-      [class.is-invalid]="!vmname.valid || (vmCreationData.displayName === takenName)"
-    >
-    </mdl-textfield>
-  </div>
+<!--<div *ngIf="enoughResources" class="left-column">-->
+  <!--<h5>{{ 'VM_CREATION_FORM.NAME' | translate }}</h5>-->
+  <!--<div>-->
+    <!--<mdl-textfield-->
+      <!--type="text"-->
+      <!--[label]="'VM_CREATION_FORM.NAME' | translate"-->
+      <!--name="name"-->
+      <!--pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"-->
+      <!--[error-msg]="(takenName ? 'THIS_NAME_IS_TAKEN' : '') | translate"-->
+      <!--#vmname="ngModel"-->
+      <!--[(ngModel)]="vmCreationData.displayName"-->
+      <!--[class.is-invalid]="!vmname.valid || (vmCreationData.displayName === takenName)"-->
+    <!--&gt;-->
+    <!--</mdl-textfield>-->
+  <!--</div>-->
 
-  <div>
-    <h5>{{ 'VM_CREATION_FORM.ZONE' | translate }}</h5>
-    <div>
-      <mdl-select
-        [(ngModel)]="zone"
-        name="zone"
-      >
-        <mdl-option *ngFor="let z of zones" [value]="z" >
-          {{ z.name }}
-        </mdl-option>
-      </mdl-select>
-    </div>
-  </div>
+  <!--<div>-->
+    <!--<h5>{{ 'VM_CREATION_FORM.ZONE' | translate }}</h5>-->
+    <!--<div>-->
+      <!--<mdl-select-->
+        <!--[(ngModel)]="zone"-->
+        <!--name="zone"-->
+      <!--&gt;-->
+        <!--<mdl-option *ngFor="let z of zones" [value]="z" >-->
+          <!--{{ z.name }}-->
+        <!--</mdl-option>-->
+      <!--</mdl-select>-->
+    <!--</div>-->
+  <!--</div>-->
 
-  <div *ngIf="zone && serviceOfferings">
-    <h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>
-    <cs-service-offering-selector
-      name="serviceOffering"
-      [serviceOfferings]="serviceOfferings"
-      [zoneId]="vmCreationData?.zone?.id"
-      [offering]="vmCreationData.customServiceOffering"
-      (offeringChanged)="setServiceOffering($event)"
-    ></cs-service-offering-selector>
-  </div>
+  <!--<div *ngIf="zone && serviceOfferings">-->
+    <!--<h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>-->
+    <!--<cs-service-offering-selector-->
+      <!--name="serviceOffering"-->
+      <!--[serviceOfferings]="serviceOfferings"-->
+      <!--[zoneId]="vmCreationData?.zone?.id"-->
+      <!--[offering]="vmCreationData.customServiceOffering"-->
+      <!--(offeringChanged)="setServiceOffering($event)"-->
+    <!--&gt;</cs-service-offering-selector>-->
+  <!--</div>-->
 
-  <div class="dialog-select-wrapper">
-    <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.INSTALLATION_SOURCE' | translate }}</h5>
-    <cs-vm-creation-template
-      *ngIf="vmCreationData.template"
-      class="dialog-select-select template-select"
-      [selectedIn]="vmCreationData.template"
-      [zoneId]="zone.id"
-      (selectedOut)="setTemplate($event)"
-    ></cs-vm-creation-template>
-  </div>
+  <!--<div class="dialog-select-wrapper">-->
+    <!--<h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.INSTALLATION_SOURCE' | translate }}</h5>-->
+    <!--<cs-vm-creation-template-->
+      <!--*ngIf="vmCreationData.template"-->
+      <!--class="dialog-select-select template-select"-->
+      <!--[selectedIn]="vmCreationData.template"-->
+      <!--[zoneId]="zone.id"-->
+      <!--(selectedOut)="setTemplate($event)"-->
+    <!--&gt;</cs-vm-creation-template>-->
+  <!--</div>-->
 
-  <div *ngIf="!templateSelected && diskOfferings">
-    <h5>{{ 'DISK_OFFERING' | translate }}</h5>
-    <cs-disk-offering
-      [diskOfferingList]="diskOfferings"
-      (offeringUpdated)="setDiskOffering($event)"
-    ></cs-disk-offering>
-  </div>
-  <cs-slider
-    *ngIf="templateSelected || showRootDiskResize"
-    [min]="vmCreationData.rootDiskSizeMin"
-    [max]="vmCreationData.rootDiskSizeLimit"
-    [label]="'VM_CREATION_FORM.DISK_SIZE' | translate"
-    name="rds"
-    [(ngModel)]="vmCreationData.rootDiskSize"
-    [units]="'GB' | translate"
-  ></cs-slider>
-</div>
-<div *ngIf="enoughResources" class="right-column">
+  <!--<div *ngIf="!templateSelected && diskOfferings">-->
+    <!--<h5>{{ 'DISK_OFFERING' | translate }}</h5>-->
+    <!--<cs-disk-offering-->
+      <!--[diskOfferingList]="diskOfferings"-->
+      <!--(offeringUpdated)="setDiskOffering($event)"-->
+    <!--&gt;</cs-disk-offering>-->
+  <!--</div>-->
+  <!--<cs-slider-->
+    <!--*ngIf="templateSelected || showRootDiskResize"-->
+    <!--[min]="vmCreationData.rootDiskSizeMin"-->
+    <!--[max]="vmCreationData.rootDiskSizeLimit"-->
+    <!--[label]="'VM_CREATION_FORM.DISK_SIZE' | translate"-->
+    <!--name="rds"-->
+    <!--[(ngModel)]="vmCreationData.rootDiskSize"-->
+    <!--[units]="'GB' | translate"-->
+  <!--&gt;</cs-slider>-->
+<!--</div>-->
+<!--<div *ngIf="enoughResources" class="right-column">-->
 
-  <h5>{{ 'VM_CREATION_FORM.GROUP' | translate }}</h5>
-  <div *ngIf="instanceGroups">
-    <mdl-autocomplete
-      *ngIf="instanceGroups"
-      name="group"
-      [placeholder]="'NO_GROUP' | translate"
-      [options]="instanceGroups"
-      [ngModel]="null"
-      (ngModelChange)="setGroup($event)"
-    ></mdl-autocomplete>
-  </div>
+  <!--<h5>{{ 'VM_CREATION_FORM.GROUP' | translate }}</h5>-->
+  <!--<div *ngIf="instanceGroups">-->
+    <!--<mdl-autocomplete-->
+      <!--*ngIf="instanceGroups"-->
+      <!--name="group"-->
+      <!--[placeholder]="'NO_GROUP' | translate"-->
+      <!--[options]="instanceGroups"-->
+      <!--[ngModel]="null"-->
+      <!--(ngModelChange)="setGroup($event)"-->
+    <!--&gt;</mdl-autocomplete>-->
+  <!--</div>-->
 
-  <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
-  <div *ngIf="noAffinityGroupTranslation">
-    <mdl-autocomplete
-      name="affinityGroup"
-      [placeholder]="'NO_GROUP' | translate"
-      [options]="affinityGroupNames"
-      [ngModel]="vmCreationData.affinityGroupName"
-      (ngModelChange)="affinityGroupChange($event)"
-    ></mdl-autocomplete>
-  </div>
-  <cs-security-group-rules-manager
-    *ngIf="vmCreationData.showSecurityGroups"
-    name="sgm"
-    class="sg-rules-manager"
-    [(ngModel)]="securityRules"
-  ></cs-security-group-rules-manager>
-  <h5>{{ 'VM_CREATION_FORM.KEYBOARD_LAYOUT' | translate }}</h5>
-  <div *ngIf="keyboardTranslations">
-    <mdl-select
-      name="keyboard"
-      [(ngModel)]="vmCreationData.keyboard"
-    >
-      <mdl-option
-        *ngFor="let k of keyboards"
-        [value]="k"
-      >
-        {{ keyboardTranslations[k] }}
-      </mdl-option>
-    </mdl-select>
-  </div>
-  <h5>{{ 'VM_CREATION_FORM.SSH_KEYPAIR' | translate }}</h5>
-  <div>
-    <mdl-select
-      name="ssh"
-      [(ngModel)]="vmCreationData.keyPair"
-    >
-      <mdl-option
-        *ngFor="let k of sshKeyPairs"
-        [value]="k.name"
-      >
-        {{ k.name }}
-      </mdl-option>
-    </mdl-select>
-  </div>
-  <div class="start-vm-checkbox">
-    <mdl-checkbox
-      name="startVm"
-      [(ngModel)]="vmCreationData.doStartVm"
-    >
-      {{ 'VM_CREATION_FORM.START_VM' | translate }}
-    </mdl-checkbox>
-  </div>
-</div>
-<div *ngIf="!enoughResources">{{ 'INSUFFICIENT_RESOURCES_VM' | translate }}</div>
+  <!--<h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>-->
+  <!--<div *ngIf="noAffinityGroupTranslation">-->
+    <!--<mdl-autocomplete-->
+      <!--name="affinityGroup"-->
+      <!--[placeholder]="'NO_GROUP' | translate"-->
+      <!--[options]="affinityGroupNames"-->
+      <!--[ngModel]="vmCreationData.affinityGroupName"-->
+      <!--(ngModelChange)="affinityGroupChange($event)"-->
+    <!--&gt;</mdl-autocomplete>-->
+  <!--</div>-->
+  <!--<cs-security-group-rules-manager-->
+    <!--*ngIf="vmCreationData.showSecurityGroups"-->
+    <!--name="sgm"-->
+    <!--class="sg-rules-manager"-->
+    <!--[(ngModel)]="securityRules"-->
+  <!--&gt;</cs-security-group-rules-manager>-->
+  <!--<h5>{{ 'VM_CREATION_FORM.KEYBOARD_LAYOUT' | translate }}</h5>-->
+  <!--<div *ngIf="keyboardTranslations">-->
+    <!--<mdl-select-->
+      <!--name="keyboard"-->
+      <!--[(ngModel)]="vmCreationData.keyboard"-->
+    <!--&gt;-->
+      <!--<mdl-option-->
+        <!--*ngFor="let k of keyboards"-->
+        <!--[value]="k"-->
+      <!--&gt;-->
+        <!--{{ keyboardTranslations[k] }}-->
+      <!--</mdl-option>-->
+    <!--</mdl-select>-->
+  <!--</div>-->
+  <!--<h5>{{ 'VM_CREATION_FORM.SSH_KEYPAIR' | translate }}</h5>-->
+  <!--<div>-->
+    <!--<mdl-select-->
+      <!--name="ssh"-->
+      <!--[(ngModel)]="vmCreationData.keyPair"-->
+    <!--&gt;-->
+      <!--<mdl-option-->
+        <!--*ngFor="let k of sshKeyPairs"-->
+        <!--[value]="k.name"-->
+      <!--&gt;-->
+        <!--{{ k.name }}-->
+      <!--</mdl-option>-->
+    <!--</mdl-select>-->
+  <!--</div>-->
+  <!--<div class="start-vm-checkbox">-->
+    <!--<mdl-checkbox-->
+      <!--name="startVm"-->
+      <!--[(ngModel)]="vmCreationData.doStartVm"-->
+    <!--&gt;-->
+      <!--{{ 'VM_CREATION_FORM.START_VM' | translate }}-->
+    <!--</mdl-checkbox>-->
+  <!--</div>-->
+<!--</div>-->
+<!--<div *ngIf="!enoughResources">{{ 'INSUFFICIENT_RESOURCES_VM' | translate }}</div>-->

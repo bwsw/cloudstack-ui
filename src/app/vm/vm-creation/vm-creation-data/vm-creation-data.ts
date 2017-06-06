@@ -6,7 +6,7 @@ import { UtilsService } from '../../../shared/services/utils.service';
 import { ServiceLocator } from '../../../shared/services/service-locator';
 
 
-export class VmCreationData {
+export class VmCreationState {
   public affinityGroupId: string;
   public affinityGroupName: string;
   public customServiceOffering: CustomServiceOffering;
