@@ -26,6 +26,22 @@ export class VolumeDetailsComponent implements OnInit {
     this.getDescription();
   }
 
+  public hasPerformanceInfo(): boolean {
+    if (!this.volume || !this.volume.diskOffering) {
+      return false;
+    }
+
+    const diskOffering = this.volume.diskOffering;
+    return [
+      diskOffering.minIops,
+      diskOffering.maxIops,
+      diskOffering.diskBytesReadRate,
+      diskOffering.diskBytesWriteRate,
+      diskOffering.diskIopsReadRate,
+      diskOffering.diskIopsWriteRate
+    ].some(a => a !== undefined);
+  }
+
   // todo: issue #48
   private getDiskOffering(): void {
     this.volumeOfferingService.getVolumeOffering(this.volume)

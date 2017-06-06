@@ -119,6 +119,8 @@
   "GHZ": "GHz",
   "MHZ": "MHz",
   "CPU_MHZ": "{{count}}x{{speed}} MHz",
+  "IOPS": "{{value}} IOPS",
+  "MBPS": "{{value}} MB/s",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "CPU utilized",
     "NETWORK_READ": "Network read",
@@ -145,8 +147,8 @@
     "hypervisorSnapshotReserve": "Hypervisor Snapshot Reserve",
     "diskBytesReadRate": "Disk read rate (MB/s)",
     "diskBytesWriteRate": "Disk write rate (MB/s)",
-    "diskIopsReadRate": "Disk read rate (IO/s)",
-    "diskIopsWriteRate": "Disk write rate (IO/s)",
+    "diskIopsReadRate": "Disk read rate (IOPs)",
+    "diskIopsWriteRate": "Disk write rate (IOPs)",
     "deploymentPlanner": "Deployment planner",
     "domain": "Domain",
     "created": "Created",
@@ -313,7 +315,7 @@
   "PUBLIC": "Public",
   "RECOMMENDED": "Recommended",
   "CROSS_ZONES": "Cross Zones",
-  "DETAILS": "Details",
+  "DETAILS": "General information",
   "HYPERVISOR": "Hypervisor",
   "USER_TEMPLATE_TYPE": "User",
   "BUILTIN_TEMPLATE_TYPE": "Built-in",
@@ -354,6 +356,7 @@
   "ISO_ATTACH_DONE": "ISO has been attached",
   "ISO_ATTACH_FAILED": "Failed to attach an ISO",
 
+  "PERFORMANCE": "Performance",
   "DISK_OFFERING": "Disk offering",
   "INSTALLATION_SOURCE": "Installation source",
 
@@ -383,10 +386,8 @@
       "DESCRIPTION": "Description",
       "MINIOPS": "Min IOPS",
       "MAXIOPS": "Max IOPS",
-      "BYTES_READ_RATE": "Read rate (MB/s)",
-      "BYTES_WRITE_RATE": "Write rate (MB/s)",
-      "IOPS_READ_RATE": "Read rate (IO/s)",
-      "IOPS_WRITE_RATE": "Write rate (IO/s)"
+      "READ_RATE": "Read rate",
+      "WRITE_RATE": "Write rate"
     }
   },
   "RESIZE": "Resize",
