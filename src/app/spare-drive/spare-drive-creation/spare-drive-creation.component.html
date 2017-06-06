@@ -2,7 +2,7 @@
 <h3 class="mdl-dialog__title">{{ 'VOLUME_CREATION_FORM.NEW_VOLUME' | translate }}</h3>
 <form (ngSubmit)="onCreate($event)" #volumeCreationForm="ngForm" novalidate>
   <div class="mdl-dialog__content">
-    <div class="flex-column blur-fix">
+    <div class="flex-column">
       <mdl-textfield
         type="text"
         label="{{ 'NAME' | translate }}"
