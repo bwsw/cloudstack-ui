@@ -3,7 +3,6 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
 
-
 import {
   AffinityGroup,
   ServiceOffering,
@@ -30,114 +29,17 @@ import {
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { BaseTemplateModel, TemplateService } from '../../template/shared';
 import { VmService } from '../shared/vm.service';
-import {
-  CustomServiceOffering
-} from '../../service-offering/custom-service-offering/custom-service-offering.component';
 import { Template } from '../../template/shared';
 import { AffinityGroupType } from '../../shared/models/affinity-group.model';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { MdlDialogReference } from '../../dialog/dialog-module';
-import { ServiceLocator } from '../../shared/services/service-locator';
 import { UtilsService } from '../../shared/services/utils.service';
+import { FormGroup } from '@angular/forms';
+import { BaseField } from './vm-creation-field/base-field';
+import { VmFormService } from './vm-form.service';
+import { VmCreationData } from './vm-creation-data/vm-creation-data';
 
-
-class VmCreationData {
-  public affinityGroupId: string;
-  public affinityGroupName: string;
-  public customServiceOffering: CustomServiceOffering;
-  public displayName: string;
-  public doStartVm: boolean;
-  public instanceGroup: InstanceGroup;
-  public keyboard: string;
-  public keyPair: string;
-  public rootDiskSize: number;
-  public rootDiskSizeMin: number;
-  public rootDiskSizeLimit: number;
-  public showRootDiskResize = false;
-  public zone: Zone;
-
-  private _diskOffering: DiskOffering;
-  private _serviceOffering: ServiceOffering;
-  private _template: BaseTemplateModel;
-
-  private utils: UtilsService;
-
-  constructor() {
-    this.utils = ServiceLocator.injector.get(UtilsService);
-
-    this.affinityGroupId = '';
-    this.rootDiskSize = 1;
-    this.rootDiskSizeMin = 1;
-    this.rootDiskSizeLimit = 2;
-    this.doStartVm = true;
-    this.keyboard = 'us';
-    this.keyPair = '';
-  }
-
-  public get showSecurityGroups(): boolean {
-    return !this.zone.networkTypeIsBasic;
-  };
-
-  public reset(): void {
-    Object.keys(this).forEach(key => {
-      if (key !== 'utils') {
-        this[key] = null;
-      }
-    });
-  }
-
-  public set diskOffering(offering: DiskOffering) {
-    this.showRootDiskResize = offering.isCustomized;
-    this._diskOffering = offering;
-  }
-
-  public get template(): BaseTemplateModel {
-    return this._template;
-  }
-
-  public set template(t: BaseTemplateModel) {
-    if (t && this.utils.convertToGB(t.size || 0) < this.rootDiskSizeLimit) {
-      this._template = t;
-      this.setMinDiskSize(t);
-    } else {
-      // this.enoughResources = false;
-    }
-  }
-
-  private setMinDiskSize(template?: BaseTemplateModel): void {
-    const t = template || this.template;
-    if (!t) {
-      throw new Error('Template was not passed to set disk size');
-    }
-
-    if (t.size != null) {
-      const newSize = t.size / Math.pow(2, 30);
-      this.rootDiskSizeMin = newSize;
-      this.rootDiskSize = newSize;
-    } else {
-      this.rootDiskSizeMin = 1;
-      this.rootDiskSize = 1;
-    }
-  }
-
-  public get serviceOffering(): ServiceOffering {
-    return this._serviceOffering;
-  }
-
-  public set serviceOffering(offering: ServiceOffering) {
-    this._serviceOffering = offering;
-    if (offering.isCustomized) {
-      this.customServiceOffering = new CustomServiceOffering(
-        offering.cpuNumber,
-        offering.cpuSpeed,
-        offering.memory
-      );
-    } else {
-      this.customServiceOffering = null;
-    }
-  }
-}
 
 @Component({
   selector: 'cs-vm-create',
@@ -167,6 +69,9 @@ export class VmCreationComponent implements OnInit {
   public sgCreationInProgress = false;
   public agCreationInProgress = false;
 
+  public fields: Array<BaseField<any>> = [];
+  public form: FormGroup;
+
   constructor(
     private affinityGroupService: AffinityGroupService,
     private auth: AuthService,
@@ -185,7 +90,9 @@ export class VmCreationComponent implements OnInit {
     private translateService: TranslateService,
     private utils: UtilsService,
     private vmService: VmService,
-    private zoneService: ZoneService
+    private zoneService: ZoneService,
+
+    private formService: VmFormService
   ) {
     this.vmCreationData = new VmCreationData();
 
@@ -219,6 +126,8 @@ export class VmCreationComponent implements OnInit {
           // this.enoughResources = false;
         }
       });
+    // need to check if enough resources
+    this.formService.toFormGroup(this.fields);
   }
 
   public onVmCreationSubmit(e: any): void {

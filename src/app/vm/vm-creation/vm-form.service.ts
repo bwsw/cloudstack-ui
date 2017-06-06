@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BaseField } from './base-field';
+import { BaseField } from './vm-creation-field/base-field';
 
 
 @Injectable()
@@ -9,10 +9,7 @@ export class VmFormService {
     let group: any = {};
 
     fields.forEach(field => {
-      group[field.key] =
-        field.required ?
-          new FormControl(field.value, Validators.required) :
-          new FormControl(field.value || '');
+      group[field.key] = new FormControl(field.value, field.validators);
     });
 
     return new FormGroup(group);
