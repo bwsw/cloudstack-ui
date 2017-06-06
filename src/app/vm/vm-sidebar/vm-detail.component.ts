@@ -1,17 +1,18 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
-
 import { SecurityGroup } from '../../security-group/sg.model';
+
 import {
   ServiceOfferingDialogComponent
 } from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
-import { Color, ServiceOfferingFields, ServiceOffering } from '../../shared/models';
-import { ConfigService, DialogService } from '../../shared/services';
+import { Color, ServiceOffering, ServiceOfferingFields } from '../../shared/models';
+import { ConfigService } from '../../shared/services';
+import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { TagService } from '../../shared/services/tag.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
-import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 
 
 @Component({

@@ -1,11 +1,12 @@
+import { MdlDialogOutletModule } from '@angular-mdl/core';
 import { Component, Injector } from '@angular/core';
-import { TestBed, async, getTestBed, fakeAsync, tick } from '@angular/core/testing';
-
-import { MdlDialogOutletModule, MdlDialogModule, MdlDialogService } from '@angular-mdl/core';
-import { Observable } from 'rxjs';
-import { DialogService } from './dialog.service';
-import { ServiceLocator } from '../service-locator';
+import { async, fakeAsync, getTestBed, TestBed, tick } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
+
+import { Observable } from 'rxjs';
+import { ServiceLocator } from '../../shared/services/service-locator';
+import { DialogService } from './dialog.service';
+import { MdlDialogModule } from './';
 
 
 @Component({
@@ -73,15 +74,13 @@ describe('Custom dialog', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TestViewComponent],
-      providers: [
-        DialogService,
-        MdlDialogService,
-        { provide: TranslateService, useClass: MockTranslateService }
-      ],
       imports: [
         MdlDialogModule,
-        MdlDialogOutletModule,
+        MdlDialogOutletModule.forRoot()
+      ],
+      declarations: [TestViewComponent],
+      providers: [
+        { provide: TranslateService, useClass: MockTranslateService }
       ]
     });
 
@@ -90,7 +89,6 @@ describe('Custom dialog', () => {
     dialogService = TestBed.get(DialogService);
     ServiceLocator.injector = getTestBed().get(Injector);
   }));
-
 
   it('should translate alerts', fakeAsync(() => {
     fixture.detectChanges();

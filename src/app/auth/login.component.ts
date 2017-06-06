@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import {
   AuthService,
@@ -7,29 +7,23 @@ import {
 } from '../shared';
 
 
-const fadeIn = 600;
-
 @Component({
   selector: 'cs-login',
   templateUrl: './login.component.html',
   styleUrls: ['login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   public username: string;
   public password: string;
-  public loading = true;
 
   constructor(
     private auth: AuthService,
     private notification: NotificationService,
+    private route: ActivatedRoute,
     private router: Router
   ) {
     this.username = '';
     this.password = '';
-  }
-
-  public ngOnInit(): void {
-    setTimeout(() => this.loading = false, fadeIn);
   }
 
   public onSubmit(): void {
@@ -46,7 +40,8 @@ export class LoginComponent implements OnInit {
   }
 
   private handleLogin(): void {
-    this.router.navigate(['']);
+    const next = this.route.snapshot.queryParams['next'] || '';
+    this.router.navigateByUrl(next);
   }
 
   private handleError(error: string): void {

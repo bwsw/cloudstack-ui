@@ -1,13 +1,13 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { MdlDialogReference } from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
 
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { NetworkRule, SecurityGroup } from '../sg.model';
 import { Rules, SgCreationComponent } from './sg-creation.component';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 
 
 describe('Sg creation component', () => {

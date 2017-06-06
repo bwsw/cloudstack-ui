@@ -28,7 +28,7 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
   constructor(
     private asyncJobService: AsyncJobService,
     private configService: ConfigService,
-    private tagService: TagService
+    private tagService: TagService,
   ) {
     super();
   }

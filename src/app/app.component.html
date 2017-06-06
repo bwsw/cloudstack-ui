@@ -109,10 +109,9 @@
       </a>
 
       <a
-        (click)="componentSelected(mainLayout);"
-        class="mdl-navigation__link link-container"
+        (click)="componentSelected(mainLayout)"
         routerLink="/logout"
-        [queryParams]="{ loggedIn: 'reset' }"
+        class="mdl-navigation__link link-container"
         [class.link-hover-light]="isLightTheme"
         [class.link-hover-dark]="!isLightTheme"
         [routerLinkActive]="linkActiveStyle"

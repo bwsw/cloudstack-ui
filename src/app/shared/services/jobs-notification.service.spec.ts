@@ -1,15 +1,29 @@
-import { TestBed, async, inject } from '@angular/core/testing';
-import { JobsNotificationService, INotificationStatus } from './jobs-notification.service';
+import { MdlDialogOutletModule } from '@angular-mdl/core';
+import { Injectable } from '@angular/core';
+import { async, inject, TestBed } from '@angular/core/testing';
+import { Subject } from 'rxjs/Subject';
+import { AuthService } from './';
+import { INotificationStatus, JobsNotificationService } from './jobs-notification.service';
 import { UtilsService } from './utils.service';
+
+
+@Injectable()
+export class MockAuthService {
+  public loggedIn = new Subject<boolean>();
+}
 
 describe('Jobs notification service', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      providers: [
-        UtilsService,
-        JobsNotificationService
+      imports: [
+        MdlDialogOutletModule
       ],
-      imports: []
+      providers: [
+        AuthService,
+        UtilsService,
+        JobsNotificationService,
+        { provide: AuthService, useClass: MockAuthService }
+      ]
     });
   }));
 

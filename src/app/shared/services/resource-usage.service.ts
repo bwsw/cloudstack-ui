@@ -94,16 +94,14 @@ export class ResourceUsageService {
       .map(result => consumedResources.secondaryStorage = result));
 
     return Observable.forkJoin(promiseArray)
-      .switchMap(() => {
-        return this.resourceLimitService.getList()
-          .map(result => {
-            maxResources = new ResourcesData(result);
-            return new ResourceStats(
-              this.getAvailableResources(maxResources, consumedResources),
-              consumedResources,
-              maxResources
-            );
-          });
+      .switchMap(() => this.resourceLimitService.getList())
+      .map(result => {
+        maxResources = new ResourcesData(result);
+        return new ResourceStats(
+          this.getAvailableResources(maxResources, consumedResources),
+          consumedResources,
+          maxResources
+        );
       });
   }
 

@@ -1,6 +1,6 @@
 import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { ListService } from '../../shared/components/list/list.service';
-import { DialogService } from '../../shared/services/dialog/dialog.service';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 import { StorageService } from '../../shared/services/storage.service';
 import { BaseTemplateModel } from '../shared';
@@ -46,6 +46,14 @@ export class TemplatePageComponent implements OnInit {
           this.updateList();
         }
       });
+  }
+
+  public createTemplate(templateData): void {
+    this.templateActions.createTemplate(templateData, this.viewMode)
+      .subscribe(
+        () => this.updateList(),
+        () => {}
+      );
   }
 
   public removeTemplate(template: BaseTemplateModel): void {
