@@ -36,7 +36,7 @@
     (ngModelChange)="updateTextFieldText($event)"
     [placeholder]="inputPlaceholder | translate"
     [rows]="rows"
-    (keyup.enter)="onSubmit()"
+    (keyup)="onKeyUp($event)"
   ></mdl-textfield>
 
   <div class="buttons">

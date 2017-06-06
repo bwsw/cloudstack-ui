@@ -18,15 +18,16 @@ enum InstanceGroupAssignmentMode {
   styleUrls: ['instance-group-selector.component.scss']
 })
 export class InstanceGroupSelectorComponent implements OnInit {
-  public anyGroups: boolean;
-  public groupNames: Array<string>;
-  public loading: boolean;
-  public _mode: InstanceGroupAssignmentMode;
+  @ViewChild('groupField') public groupTextbox: MdlTextFieldComponent;
+
   public maxLength = 255;
   public modes = InstanceGroupAssignmentMode;
   public newGroupName: string;
+  private anyGroups: boolean;
+  private groupNames: Array<string>;
+  private loading: boolean;
+  private _mode: InstanceGroupAssignmentMode;
 
-  @ViewChild('groupField') public groupTextbox: MdlTextFieldComponent;
 
   constructor(
     @Inject('vm') public vm: VirtualMachine,

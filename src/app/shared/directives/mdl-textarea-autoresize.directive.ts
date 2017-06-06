@@ -1,4 +1,4 @@
-import { AfterViewChecked, Directive, ElementRef, HostListener } from '@angular/core';
+import { AfterViewChecked, Directive, ElementRef, HostListener, NgZone } from '@angular/core';
 
 
 @Directive({
@@ -8,11 +8,16 @@ import { AfterViewChecked, Directive, ElementRef, HostListener } from '@angular/
 export class MdlTextAreaAutoresizeDirective implements AfterViewChecked {
   private textArea: HTMLTextAreaElement;
 
-  constructor(public elementRef: ElementRef) {}
+  constructor(
+    public elementRef: ElementRef,
+    public zone: NgZone
+  ) {}
 
-  @HostListener('input', ['$event.target'])
+  @HostListener('input', ['$event'])
   public onInput(): void {
-    this.adjust();
+    this.zone.runOutsideAngular(() => {
+      this.adjust();
+    });
   }
 
   public ngAfterViewChecked(): void {
