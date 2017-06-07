@@ -1,4 +1,5 @@
 import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 import {
   AsyncJob,
@@ -21,7 +22,7 @@ import { VmListSection } from './vm-list-section/vm-list-section.component';
 import { VmListSubsection } from './vm-list-subsection/vm-list-subsection.component';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { UserService } from '../../shared/services/user.service';
-import { Observable } from 'rxjs/Observable';
+import { ZoneService } from '../../shared/services/zone.service';
 
 
 export const enum SectionType {
@@ -43,9 +44,10 @@ export class VmListComponent implements OnInit {
 
   public filterData: VmFilter;
   public groupByColors = false;
-  // public selectedVm: VirtualMachine;
   public showSections = false;
   public showSubsections = false;
+  public groups: Array<InstanceGroup>;
+  public zones: Array<Zone>;
 
   public sections: Array<VmListSection> = [];
   public subsections: Array<VmListSubsection> = [];
@@ -60,7 +62,8 @@ export class VmListComponent implements OnInit {
     private jobsNotificationService: JobsNotificationService,
     private asyncJobService: AsyncJobService,
     private statsUpdateService: StatsUpdateService,
-    private userService: UserService
+    private userService: UserService,
+    private zoneService: ZoneService
   ) { }
 
   public ngOnInit(): void {
@@ -68,7 +71,6 @@ export class VmListComponent implements OnInit {
     this.resubscribeToJobs();
     this.subscribeToStatsUpdates();
     this.subscribeToVmUpdates();
-    this.subscribeToVmDestroyed();
     this.subscribeToVmDestroyed();
     this.subscribeToVmCreationDialog();
   }
@@ -160,7 +162,6 @@ export class VmListComponent implements OnInit {
 
   public showDetail(vm: VirtualMachine): void {
     if (vm.state !== 'Error') {
-      // this.listService.selectItem(vm);
       this.listService.showDetails(vm.id);
     }
   }
@@ -182,13 +183,19 @@ export class VmListComponent implements OnInit {
   }
 
   private getVmList(): Observable<VirtualMachine> {
-    return this.vmService.getList()
-      .switchMap(vmList => {
+    return Observable.forkJoin(
+      this.vmService.getList(),
+      this.vmService.getInstanceGroupList(),
+      this.zoneService.getList()
+    )
+      .switchMap(([vmList, groups, zones]) => {
         this.vmList = vmList;
         this.visibleVmList = vmList;
         if (!this.vmList.length) {
           this.showSuggestionDialog();
         }
+        this.groups = groups;
+        this.zones = zones;
         return this.vmList;
       });
   }
@@ -243,19 +250,6 @@ export class VmListComponent implements OnInit {
       }
     });
   }
-
-  // private subscribeToSnapshotAdded(): void {
-  //   this.asyncJobService.event.subscribe((job: AsyncJob<any>) => {
-  //     if (job.result && job.instanceType === 'Snapshot') {
-  //       this.vmList.forEach((vm, index, array) => {
-  //         let vol = vm.volumes.findIndex(volume => volume.id === job.result.volumeId);
-  //         if (vol !== -1) {
-  //           array[index].volumes[vol].snapshots.unshift(job.result);
-  //         }
-  //       });
-  //     }
-  //   });
-  // }
 
   private subscribeToVmCreationDialog(): void {
     this.listService.onAction.subscribe(() => this.showVmCreationDialog());
