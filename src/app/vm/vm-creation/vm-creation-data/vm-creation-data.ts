@@ -4,6 +4,7 @@ import { DiskOffering, InstanceGroup, ServiceOffering, Zone } from '../../../sha
 import { BaseTemplateModel } from '../../../template/shared';
 import { UtilsService } from '../../../shared/services/utils.service';
 import { ServiceLocator } from '../../../shared/services/service-locator';
+import { Rules } from '../../../security-group/sg-creation/sg-creation.component';
 
 
 export class VmCreationState {
@@ -16,8 +17,7 @@ export class VmCreationState {
   public keyboard: string;
   public keyPair: string;
   public rootDiskSize: number;
-  public rootDiskSizeMin: number;
-  public rootDiskSizeLimit: number;
+  public securityRules: Rules;
   public showRootDiskResize = false;
   public zone: Zone;
 
@@ -32,8 +32,6 @@ export class VmCreationState {
 
     this.affinityGroupId = '';
     this.rootDiskSize = 1;
-    this.rootDiskSizeMin = 1;
-    this.rootDiskSizeLimit = 2;
     this.doStartVm = true;
     this.keyboard = 'us';
     this.keyPair = '';
@@ -77,10 +75,8 @@ export class VmCreationState {
 
     if (t.size != null) {
       const newSize = t.size / Math.pow(2, 30);
-      this.rootDiskSizeMin = newSize;
       this.rootDiskSize = newSize;
     } else {
-      this.rootDiskSizeMin = 1;
       this.rootDiskSize = 1;
     }
   }

@@ -22,11 +22,10 @@ import {
   ZoneService
 } from '../../shared';
 
-import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { BaseTemplateModel } from '../../template/shared';
 import { VmService } from '../shared/vm.service';
 import { Template } from '../../template/shared';
-import { AffinityGroupType }from '../../shared/models/affinity-group.model';
+import { AffinityGroupType } from '../../shared/models/affinity-group.model';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { MdlDialogReference } from '../../dialog/dialog-module';
@@ -35,8 +34,9 @@ import { FormGroup } from '@angular/forms';
 import { BaseField } from './vm-creation-field/base-field';
 import { VmFormService } from './vm-form.service';
 import { VmCreationState } from './vm-creation-data/vm-creation-data';
-import { VmCreationService } from './vm-creation.service';
+import { VmCreationData, VmCreationService } from './vm-creation.service';
 import { SecurityGroup } from '../../security-group/sg.model';
+import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 
 
 @Component({
@@ -45,11 +45,12 @@ import { SecurityGroup } from '../../security-group/sg.model';
   styleUrls: ['vm-creation.component.scss']
 })
 export class VmCreationComponent implements OnInit {
+  public vmCreationData: VmCreationData;
+
   public affinityGroups: Array<AffinityGroup>;
   public affinityGroupTypes: Array<AffinityGroupType>;
-  public availablePrimaryStorage: number;
   public diskOfferings: Array<DiskOffering>;
-  public instanceGroups: Array<string>;
+  public instanceGroups: Array<InstanceGroup>;
   public serviceOfferings: Array<ServiceOffering>;
   public sshKeyPairs: Array<SSHKeyPair>;
   public zones: Array<Zone>;
@@ -57,11 +58,10 @@ export class VmCreationComponent implements OnInit {
   public fetching: boolean;
   public enoughResources = true;
 
-  public vmCreationData: VmCreationState;
+  public vmCreationState: VmCreationState;
   public keyboards = ['us', 'uk', 'jp', 'sc'];
   public noAffinityGroupTranslation: string;
   public keyboardTranslations: Object;
-  public securityRules: Rules;
 
   public takenName: string;
   public sgCreationInProgress = false;
@@ -88,7 +88,7 @@ export class VmCreationComponent implements OnInit {
 
     private formService: VmFormService
   ) {
-    this.vmCreationData = new VmCreationState();
+    this.vmCreationState = new VmCreationState();
 
     this.translateService.get('NO_AFFINITY_GROUP').subscribe(str => {
       this.noAffinityGroupTranslation = str;
@@ -106,6 +106,10 @@ export class VmCreationComponent implements OnInit {
 
   public get affinityGroupNames(): Array<string> {
     return this.affinityGroups.map(affinityGroup => affinityGroup.name);
+  }
+
+  public get instanceGroupNames(): Array<string> {
+    return this.instanceGroups.map(instanceGroup => instanceGroup.name);
   }
 
   public ngOnInit(): void {
@@ -167,7 +171,7 @@ export class VmCreationComponent implements OnInit {
     let affinityGroupsObservable;
     if (shouldCreateAffinityGroup) {
       affinityGroupsObservable = this.affinityGroupService.create({
-        name: this.vmCreationData.affinityGroupName,
+        name: this.vmCreationState.affinityGroupName,
         type: this.affinityGroupTypes[0].type
       })
         .map(affinityGroup => {
@@ -229,16 +233,12 @@ export class VmCreationComponent implements OnInit {
     });
   }
 
-  public get zone(): Zone {
-    return this.vmCreationData.zone;
-  }
-
   public set zone(zone: Zone) {
     this.updateZone(zone).subscribe();
   }
 
   public get templateSelected(): boolean {
-    return this.vmCreationData.template instanceof Template;
+    return this.vmCreationState.template instanceof Template;
   }
 
   public get selectedZone(): Zone {
@@ -246,25 +246,25 @@ export class VmCreationComponent implements OnInit {
   }
 
   public setDiskOffering(diskOffering: DiskOffering): void {
-    this.vmCreationData.diskOffering = diskOffering;
+    this.vmCreationState.diskOffering = diskOffering;
   }
 
   public setServiceOffering(serviceOffering: ServiceOffering): void {
-    this.vmCreationData.serviceOffering = serviceOffering;
+    this.vmCreationState.serviceOffering = serviceOffering;
   }
 
   public setTemplate(template: BaseTemplateModel): void {
-    this.vmCreationData.template = template;
+    this.vmCreationState.template = template;
   }
 
   public setGroup(groupName: string): void {
     if (groupName) {
-      this.vmCreationData.instanceGroup = new InstanceGroup(groupName);
+      this.vmCreationState.instanceGroup = new InstanceGroup(groupName);
     }
   }
 
   public affinityGroupChange(name): void {
-    this.vmCreationData.affinityGroupName = name;
+    this.vmCreationState.affinityGroupName = name;
   }
 
   private getDefaultVmName(): Observable<string> {
@@ -277,8 +277,8 @@ export class VmCreationComponent implements OnInit {
   private setDefaultVmName(): Observable<void> {
     return this.getDefaultVmName()
       .map(defaultName => {
-        if (!this.vmCreationData.displayName) {
-          setTimeout(() => this.vmCreationData.displayName = defaultName);
+        if (!this.vmCreationState.displayName) {
+          setTimeout(() => this.vmCreationState.displayName = defaultName);
           this.changeDetectorRef.detectChanges();
         }
       });
@@ -294,45 +294,45 @@ export class VmCreationComponent implements OnInit {
 
   private get vmCreateParams(): {} {
     let params = {
-      'serviceOfferingId': this.vmCreationData.serviceOffering.id,
-      'templateId': this.vmCreationData.template.id,
-      'zoneId': this.vmCreationData.zone.id,
-      'keyPair': this.vmCreationData.keyPair,
-      'keyboard': this.vmCreationData.keyboard,
+      'serviceOfferingId': this.vmCreationState.serviceOffering.id,
+      'templateId': this.vmCreationState.template.id,
+      'zoneId': this.vmCreationState.zone.id,
+      'keyPair': this.vmCreationState.keyPair,
+      'keyboard': this.vmCreationState.keyboard,
       'response': 'json'
     };
 
-    if (this.vmCreationData.customServiceOffering) {
+    if (this.vmCreationState.customServiceOffering) {
       params['details'] = [{
-        cpuNumber: this.vmCreationData.customServiceOffering.cpuNumber,
-        cpuSpeed: this.vmCreationData.customServiceOffering.cpuSpeed,
-        memory: this.vmCreationData.customServiceOffering.memory
+        cpuNumber: this.vmCreationState.customServiceOffering.cpuNumber,
+        cpuSpeed: this.vmCreationState.customServiceOffering.cpuSpeed,
+        memory: this.vmCreationState.customServiceOffering.memory
       }];
     }
 
-    if (this.vmCreationData.displayName) {
-      params['name'] = this.vmCreationData.displayName;
+    if (this.vmCreationState.displayName) {
+      params['name'] = this.vmCreationState.displayName;
     }
-    const affinityGroupName = this.vmCreationData.affinityGroupName;
+    const affinityGroupName = this.vmCreationState.affinityGroupName;
     if (affinityGroupName) {
       params['affinityGroupNames'] = affinityGroupName;
     }
-    if (this.vmCreationData.diskOffering && !this.templateSelected) {
-      params['diskofferingid'] = this.vmCreationData.diskOffering.id;
+    if (this.vmCreationState.diskOffering && !this.templateSelected) {
+      params['diskofferingid'] = this.vmCreationState.diskOffering.id;
       params['hypervisor'] = 'KVM';
     }
-    if (this.templateSelected || this.vmCreationData.showRootDiskResize) {
+    if (this.templateSelected || this.vmCreationState.showRootDiskResize) {
       const key = this.templateSelected ? 'rootDiskSize' : 'size';
-      params[key] = this.vmCreationData.rootDiskSize;
+      params[key] = this.vmCreationState.rootDiskSize;
     }
-    if (!this.vmCreationData.doStartVm) {
+    if (!this.vmCreationState.doStartVm) {
       params['startVm'] = 'false';
     }
-    if (this.securityRules && this.securityRules.ingress) {
-      params['ingress'] = this.securityRules.ingress;
+    if (this.vmCreationState.securityRules && this.vmCreationState.securityRules.ingress) {
+      params['ingress'] = this.vmCreationState.securityRules.ingress;
     }
-    if (this.securityRules && this.securityRules.egress) {
-      params['egress'] = this.securityRules.egress;
+    if (this.vmCreationState.securityRules && this.vmCreationState.securityRules.egress) {
+      params['egress'] = this.vmCreationState.securityRules.egress;
     }
     return params;
   }
@@ -361,8 +361,8 @@ export class VmCreationComponent implements OnInit {
         return this.vmService.registerVmJob(deployResponse);
       })
       .switchMap(vm => {
-        if (this.vmCreationData.instanceGroup) {
-          return this.instanceGroupService.add(vm, this.vmCreationData.instanceGroup);
+        if (this.vmCreationState.instanceGroup) {
+          return this.instanceGroupService.add(vm, this.vmCreationState.instanceGroup);
         }
         return Observable.of(vm);
       })
@@ -396,53 +396,39 @@ export class VmCreationComponent implements OnInit {
       );
   }
 
-  private setServiceOfferings(serviceOfferings: Array<ServiceOffering>): void {
-    if (!serviceOfferings.length) {
-      // this.enoughResources = false;
-    }
-    this.serviceOfferings = serviceOfferings;
-    this.vmCreationData.serviceOffering = serviceOfferings[0];
-  }
-
-  private setDiskOfferings(diskOfferings: Array<DiskOffering>): void {
-    let filteredDiskOfferings = diskOfferings.filter((diskOffering: DiskOffering) => {
-      return diskOffering.diskSize < this.vmCreationData.rootDiskSizeLimit;
-    });
-
-    if (!filteredDiskOfferings.length) {
-      // this.enoughResources = false;
-    } else {
-      this.diskOfferings = diskOfferings;
-      this.vmCreationData.diskOffering = diskOfferings[0];
-    }
-  }
-
   private getPreselectedRules(securityGroupTemplates: Array<SecurityGroup>): Rules {
     const preselectedSecurityGroups = securityGroupTemplates
       .filter(securityGroup => securityGroup.preselected);
     return Rules.createWithAllRulesSelected(preselectedSecurityGroups);
   }
 
+  private setDiskOfferings(diskOfferings: Array<DiskOffering>): void {
+    let filteredDiskOfferings = diskOfferings.filter((diskOffering: DiskOffering) => {
+      return diskOffering.diskSize < this.vmCreationData.availablePrimaryStorage;
+    });
+
+    if (!filteredDiskOfferings.length) {
+      // this.enoughResources = false;
+    } else {
+      this.diskOfferings = diskOfferings;
+      this.vmCreationState.diskOffering = diskOfferings[0];
+    }
+  }
+
   private updateZone(zone: Zone): Observable<void> {
-    this.vmCreationData.reset();
-    this.vmCreationData.zone = zone;
+    this.vmCreationState.reset();
+    this.vmCreationState.zone = zone;
     if (!zone || !this.vmCreationData || !this.zones) { return Observable.of(null); }
 
     this.serviceOfferings = [];
-    this.vmCreationData.serviceOffering = new ServiceOffering({ id: null });
+    this.vmCreationState.serviceOffering = new ServiceOffering({ id: null });
     this.diskOfferings = [];
     this.changeDetectorRef.detectChanges();
     this.vmCreationService.getData().subscribe(vmCreationData => {
-      this.affinityGroups = vmCreationData.affinityGroupList;
-      this.affinityGroupTypes = vmCreationData.affinityGroupTypes;
-      this.instanceGroups = vmCreationData.instanceGroups.map(group => group.name);
-      this.securityRules = this.getPreselectedRules(vmCreationData.securityGroupTemplates);
-      this.sshKeyPairs = vmCreationData.sshKeyPairs;
-      this.vmCreationData.rootDiskSizeLimit = vmCreationData.availablePrimaryStorage;
+      this.vmCreationData = vmCreationData;
       this.setDiskOfferings(vmCreationData.diskOfferings);
-      this.setServiceOfferings(vmCreationData.serviceOfferings);
-      this.vmCreationData.template = vmCreationData.defaultTemplate;
-
+      this.vmCreationState.template = vmCreationData.defaultTemplate;
+      this.vmCreationState.securityRules = this.getPreselectedRules(vmCreationData.securityGroupTemplates);
       this.changeDetectorRef.detectChanges();
       this.fetching = false;
     });
