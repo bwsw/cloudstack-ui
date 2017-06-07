@@ -1,10 +1,10 @@
-import { MdlDialogReference } from '@angular-mdl/core';
 import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { DiskStorageService, Volume } from '../../shared';
 import { DiskOffering } from '../../shared/models';
-import { JobsNotificationService, VolumeResizeData } from '../../shared/services';
+import { DiskOfferingService, JobsNotificationService, VolumeResizeData } from '../../shared/services';
 import { VolumeService } from '../../shared/services/volume.service';
 
 
@@ -26,6 +26,7 @@ export class VolumeResizeComponent implements OnInit {
   constructor(
     private dialog: MdlDialogReference,
     private dialogService: DialogService,
+    private diskOfferingService: DiskOfferingService,
     private diskStorageService: DiskStorageService,
     private jobsNotificationService: JobsNotificationService,
     private volumeService: VolumeService,
@@ -90,7 +91,12 @@ export class VolumeResizeComponent implements OnInit {
       id: this.notificationId,
       message: 'VOLUME_RESIZED'
     });
-    this.dialog.hide(volume);
+
+    this.diskOfferingService.get(volume.diskOfferingId)
+      .subscribe(diskOffering => {
+        volume.diskOffering = diskOffering;
+        this.dialog.hide(volume);
+      });
   }
 
   private handleVolumeResizeError(error: Error): void {

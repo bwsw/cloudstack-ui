@@ -173,11 +173,6 @@ export class SpareDrivePageComponent implements OnInit {
       });
   }
 
-
-  public attach(data): void {
-    this.spareDriveActionsService.attach(data);
-  }
-
   public updateVolume(volume: Volume): void {
     this.volumes = this.volumes.map(vol => vol.id === volume.id ? volume : vol);
 
@@ -188,7 +183,7 @@ export class SpareDrivePageComponent implements OnInit {
   }
 
   private onVolumeAttached(): void {
-    this.updateVolumeList();
+    this.updateVolumeList().subscribe();
     this.updateSections();
   }
 

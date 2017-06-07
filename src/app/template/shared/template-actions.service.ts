@@ -9,6 +9,7 @@ import { IsoService } from './iso.service';
 import { Template } from './template.model';
 import { TemplateService } from './template.service';
 
+
 @Injectable()
 export class TemplateActionsService {
   constructor(
@@ -33,7 +34,12 @@ export class TemplateActionsService {
       inProgressTranslation = 'TEMPLATE_REGISTER_IN_PROGRESS';
       doneTranslation = 'TEMPLATE_REGISTER_DONE';
       failedTranslation = 'TEMPLATE_REGISTER_FAILED';
-      obs = this.templateService.register(templateData);
+
+      if (templateData.snapshotId) {
+        obs = this.templateService.create(templateData);
+      } else {
+        obs = this.templateService.register(templateData);
+      }
     }
     const notificationId = this.jobNotificationService.add(inProgressTranslation);
 

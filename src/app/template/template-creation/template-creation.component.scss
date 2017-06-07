@@ -1,10 +1,14 @@
+:host {
+  position: relative;
+  display: block;
+}
+
 /deep/ .template-creation-dialog {
   width: 720px;
 }
 
 /deep/ .template-creation-dialog-snapshot {
-  width: 376px;
-  padding: 14.5px; // blur
+  width: 376px !important;
 }
 
 :host .mdl-dialog__content {

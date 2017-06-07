@@ -84,6 +84,7 @@ import { TagService } from './services/tag.service';
 import { UserService } from './services/user.service';
 import { UtilsService } from './services/utils.service';
 import { VolumeService } from './services/volume.service';
+import { VolumeOfferingService } from './services/volume-offering.service';
 
 
 @NgModule({
@@ -202,6 +203,7 @@ import { VolumeService } from './services/volume.service';
     UserService,
     UtilsService,
     VolumeService,
+    VolumeOfferingService,
     ZoneService,
     MDL_SELECT_VALUE_ACCESSOR
   ]

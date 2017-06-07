@@ -31,8 +31,6 @@
 }
 
 :host /deep/ .grid {
-  margin: 5px auto;
-
   .row {
     display: flex;
     flex-flow: row wrap;
