@@ -319,7 +319,7 @@
   "USER_TEMPLATE_TYPE": "User",
   "BUILTIN_TEMPLATE_TYPE": "Built-in",
 
-  "OS_FAMILY": "OS Family",
+  "OS_FAMILY": "Select OS families",
   "TEMPLATE_FEATURED": "Featured",
   "TEMPLATE_SELF": "My",
   "TEMPLATE_SELFEXECUTABLE": "My",
@@ -327,6 +327,7 @@
   "TEMPLATE_EXTRACTABLE": "Extractable",
   "TEMPLATE_PASSWORD_ENABLED": "Password enabled",
   "TEMPLATE_DYNAMICALLY_SCALABLE": "Dynamically scalable",
+  "TEMPLATE_TYPES": "Select types",
 
   "DELETE_ISO_IN_PROGRESS": " Deleting an ISO",
   "DELETE_ISO_DONE": "ISO deleted",
@@ -496,7 +497,7 @@
   "CLICK_TO_EDIT": "Click to edit",
   "SELECT_AN_OPTION": "Select an option",
   "ENTER_TEXT": "Enter text",
-  "EVENT_TYPES": "Types",
+  "EVENT_TYPES": "Select types",
   "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Would you like to create a new volume?",
 
   "INACTIVITY_TIMEOUT": "Session timeout (in&nbsp;minutes)",
