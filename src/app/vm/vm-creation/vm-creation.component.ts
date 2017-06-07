@@ -32,14 +32,12 @@ import {
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { BaseTemplateModel, TemplateService } from '../../template/shared';
 import { VmService } from '../shared/vm.service';
-import {
-  CustomServiceOffering
-} from '../../service-offering/custom-service-offering/custom-service-offering.component';
 import { Template } from '../../template/shared';
 import { AffinityGroupType } from '../../shared/models/affinity-group.model';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { MdlDialogReference } from '../../dialog/dialog-module';
+import { CustomServiceOffering } from '../../service-offering/custom-service-offering/custom-service-offering';
 
 
 class VmCreationData {
@@ -85,7 +83,7 @@ class VmCreationData {
 })
 export class VmCreationComponent implements OnInit {
   public fetching: boolean;
-  public enoughResources: boolean;
+  // public enoughResources: boolean;
 
   public vmCreationData: VmCreationData;
   public keyboards = ['us', 'uk', 'jp', 'sc'];
@@ -139,7 +137,7 @@ export class VmCreationComponent implements OnInit {
 
   public ngOnInit(): void {
     this.fetching = true;
-    this.enoughResources = true;
+    // this.enoughResources = true;
     this.resourceUsageService.getResourceUsage()
       .subscribe(resourceUsage => {
         if (resourceUsage.available.cpus &&
@@ -149,7 +147,7 @@ export class VmCreationComponent implements OnInit {
           this.resetVmCreateData();
         } else {
           this.fetching = false;
-          this.enoughResources = false;
+          // this.enoughResources = false;
         }
       });
 
@@ -274,11 +272,7 @@ export class VmCreationComponent implements OnInit {
   public setServiceOffering(offering: ServiceOffering): void {
     this.vmCreationData.vm.serviceOfferingId = offering.id;
     if (offering.isCustomized) {
-      this.vmCreationData.customServiceOffering = new CustomServiceOffering(
-        offering.cpuNumber,
-        offering.cpuSpeed,
-        offering.memory
-      );
+      this.vmCreationData.customServiceOffering = offering;
     } else {
       this.vmCreationData.customServiceOffering = null;
     }
@@ -300,6 +294,16 @@ export class VmCreationComponent implements OnInit {
     return this.vmCreationData.zones.find(zone => zone.id === this.zoneId);
   }
 
+  // todo: temporary, remove
+  public get serviceOffering(): ServiceOffering {
+    return this.vmCreationData.serviceOfferings[0];
+  }
+
+  public set serviceOffering(offering: ServiceOffering) {
+    this.setServiceOffering(offering);
+  }
+  // todo: temporary, remove
+
   public setGroup(groupName: string): void {
     if (groupName) {
       this.vmCreationData.vm.instanceGroup = new InstanceGroup(groupName);
@@ -315,7 +319,7 @@ export class VmCreationComponent implements OnInit {
       this.vmCreationData.vm.template = t;
       this.setMinDiskSize(t);
     } else {
-      this.enoughResources = false;
+      // this.enoughResources = false;
     }
   }
 
@@ -490,7 +494,7 @@ export class VmCreationComponent implements OnInit {
 
   private setServiceOfferings(serviceOfferings: Array<ServiceOffering>): void {
     if (!serviceOfferings.length) {
-      this.enoughResources = false;
+      // this.enoughResources = false;
     }
     this.vmCreationData.serviceOfferings = serviceOfferings;
     this.setServiceOffering(serviceOfferings[0]);
@@ -502,7 +506,7 @@ export class VmCreationComponent implements OnInit {
     });
 
     if (!filteredDiskOfferings.length) {
-      this.enoughResources = false;
+      // this.enoughResources = false;
     } else {
       this.vmCreationData.diskOfferings = diskOfferings;
       this.setDiskOffering(diskOfferings[0]);

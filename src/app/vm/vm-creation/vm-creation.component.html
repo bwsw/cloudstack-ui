@@ -5,11 +5,11 @@
     <mdl-progress [indeterminate]="sgCreationInProgress || agCreationInProgress"></mdl-progress>
   </div>
 </div>
-<div [class.vm-creation-container]="enoughResources !== false">
+<div class="vm-creation-container">
   <h3 class="mdl-dialog__title">{{ 'NEW_VM' | translate }}</h3>
   <form #vmCreateForm="ngForm" *loading="fetching" novalidate>
     <div class="container">
-      <div *ngIf="enoughResources" class="left-column">
+      <div class="left-column">
         <h5>{{ 'VM_CREATION_FORM.NAME' | translate }}</h5>
         <div>
           <mdl-textfield
@@ -45,8 +45,8 @@
             name="serviceOffering"
             [serviceOfferings]="vmCreationData.serviceOfferings"
             [zoneId]="vmCreationData.vm.zoneId"
-            [offering]="vmCreationData.customServiceOffering"
-            (offeringChanged)="setServiceOffering($event)"
+
+            [(ngModel)]="serviceOffering"
           ></cs-service-offering-selector>
         </div>
 
@@ -78,7 +78,7 @@
           [units]="'GB' | translate"
         ></cs-slider>
       </div>
-      <div *ngIf="enoughResources" class="right-column">
+      <div class="right-column">
 
         <h5>{{ 'VM_CREATION_FORM.GROUP' | translate }}</h5>
         <div *ngIf="vmCreationData.instanceGroups">
@@ -145,11 +145,10 @@
           </mdl-checkbox>
         </div>
       </div>
-      <div *ngIf="!enoughResources">{{ 'INSUFFICIENT_RESOURCES_VM' | translate }}</div>
+      <div>{{ 'INSUFFICIENT_RESOURCES_VM' | translate }}</div>
     </div>
     <div class="mdl-dialog__actions">
       <button
-        *ngIf="enoughResources"
         mdl-colored="primary"
         [disabled]="!vmCreateForm.valid || (vmCreationData.vm.displayName === takenName)"
         type="button"
