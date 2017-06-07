@@ -16,7 +16,6 @@ import {
 } from '@angular/http';
 import { ErrorService } from '../services';
 import { ServiceLocator } from './service-locator';
-import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
 
 
 describe('Base backend service', () => {
@@ -55,7 +54,7 @@ describe('Base backend service', () => {
         ErrorService,
         MockBackend,
         BaseRequestOptions,
-        { provide: CacheService, useClass: MockCacheService },
+        CacheService,
         {
           provide: Http,
           deps: [MockBackend, BaseRequestOptions],
@@ -113,6 +112,7 @@ describe('Base backend service', () => {
 
         if (item === undefined) {
           connection.mockError(new Error('Wrong arguments'));
+          return;
         }
 
         (mockResponse.body.listtestsresponse as any).count = 1;
@@ -120,7 +120,7 @@ describe('Base backend service', () => {
       }
 
       const options = new ResponseOptions(mockResponse);
-      connection.mockRespond(new Response(options));
+      setTimeout(() => connection.mockRespond(new Response(options)), 1000);
     });
   }));
 
@@ -147,9 +147,10 @@ describe('Base backend service', () => {
   })));
 
   it('should throw if model was not found by id', async(inject([TestBackendService], (testService) => {
-    expect(() => {
-      testService.get('unknown-id');
-    }).toThrow();
+    testService.get('unknown-id').subscribe(
+      () => {},
+      error => expect(error).toBeDefined()
+    );
   })));
 
   it('should parse an error', async(inject([TestBackendService], (testService) => {
@@ -164,5 +165,39 @@ describe('Base backend service', () => {
         }
       );
   })));
+
+  it('should merge concurrent requests with identical parameters', async(inject([TestBackendService], (testService) => {
+    const createConnectionSpy = spyOn(mockBackend, 'createConnection').and.callThrough();
+    testService.getList({ id: 'id1' }).subscribe(
+      res => expect(res).toEqual([new TestModel(test[0])])
+    );
+    testService.getList({ id: 'id1' }).subscribe(
+      res => expect(res).toEqual([new TestModel(test[0])])
+    );
+    expect(createConnectionSpy).toHaveBeenCalledTimes(1);
+  })));
+
+  it('should merge concurrent requests without parameters', async(inject([TestBackendService], (testService) => {
+    const createConnectionSpy = spyOn(mockBackend, 'createConnection').and.callThrough();
+    testService.getList().subscribe(
+      res => expect(res).toEqual([new TestModel(test[0]), new TestModel(test[1])])
+    );
+    testService.getList().subscribe(
+      res => expect(res).toEqual([new TestModel(test[0]), new TestModel(test[1])])
+    );
+    expect(createConnectionSpy).toHaveBeenCalledTimes(1);
+  })));
+
+  it('should not merge concurrent requests with different parameters',
+    async(inject([TestBackendService], (testService) => {
+      const createConnectionSpy = spyOn(mockBackend, 'createConnection').and.callThrough();
+      testService.getList({ id: 'id1' }).subscribe(
+        res => expect(res).toEqual([new TestModel(test[0])])
+      );
+      testService.getList({ id: 'id2' }).subscribe(
+        res => expect(res).toEqual([new TestModel(test[1])])
+      );
+      expect(createConnectionSpy).toHaveBeenCalledTimes(2);
+    })));
 });
 
