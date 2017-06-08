@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 import { BaseTemplateModel, TemplateService } from '../../../template/shared';
 import { PRESELECTED_TEMPLATE_TOKEN, ZONE } from './injector-token';
@@ -10,7 +10,14 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'cs-vm-creation-template',
   templateUrl: 'vm-template.component.html',
-  styleUrls: ['vm-template.component.scss']
+  styleUrls: ['vm-template.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => VmTemplateComponent),
+      multi: true
+    }
+  ]
 })
 export class VmTemplateComponent implements OnInit, ControlValueAccessor {
   @Input() public zoneId: string;

@@ -1,17 +1,24 @@
-import { Component, EventEmitter, Output, Input, SimpleChanges, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, SimpleChanges, OnChanges, OnInit, forwardRef } from '@angular/core';
 import { DiskOffering } from '../..';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 
 @Component({
   selector: 'cs-disk-offering',
   templateUrl: 'disk-offering.component.html',
-  styleUrls: ['disk-offering.component.scss']
+  styleUrls: ['disk-offering.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => DiskOfferingComponent),
+      multi: true
+    }
+  ]
 })
-export class DiskOfferingComponent implements OnInit, OnChanges {
+export class DiskOfferingComponent implements OnInit, OnChanges, ControlValueAccessor {
   @Input() public diskOfferingList: Array<DiskOffering>;
-  @Output() public offeringUpdated = new EventEmitter();
 
-  public selectedDiskOffering: DiskOffering;
+  private _diskOffering: DiskOffering;
 
   public ngOnInit(): void {
     if (!this.diskOfferingList) {
@@ -26,13 +33,38 @@ export class DiskOfferingComponent implements OnInit, OnChanges {
     }
   }
 
-  public updateDiskOffering(offering): void {
-    this.offeringUpdated.emit(offering);
+  public updateDiskOffering(diskOffering: DiskOffering): void {
+    if (diskOffering) {
+      this.diskOffering = diskOffering;
+    }
+  }
+
+  @Input()
+  public get diskOffering(): DiskOffering {
+    return this._diskOffering;
+  }
+
+  public set diskOffering(diskOffering: DiskOffering) {
+    this._diskOffering = diskOffering;
+    this.propagateChange(this.diskOffering);
+  }
+
+  public writeValue(diskOffering: DiskOffering): void {
+    if (diskOffering) {
+      this.diskOffering = diskOffering;
+    }
+  }
+
+  public propagateChange: any = () => {};
+  public registerOnTouched(): any {}
+
+  public registerOnChange(fn): void {
+    this.propagateChange = fn;
   }
 
   private updateSelectedOffering(): void {
     if (this.diskOfferingList.length) {
-      this.selectedDiskOffering = this.diskOfferingList[0];
+      this.diskOffering = this.diskOfferingList[0];
     }
   }
 }

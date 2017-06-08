@@ -45,7 +45,6 @@
             name="serviceOffering"
             [serviceOfferings]="vmCreationData.serviceOfferings"
             [zoneId]="vmCreationData.vm.zoneId"
-
             [(ngModel)]="serviceOffering"
           ></cs-service-offering-selector>
         </div>
@@ -60,11 +59,12 @@
           ></cs-vm-creation-template>
         </div>
 
-        <div *ngIf="!templateSelected && vmCreationData.diskOfferings">
+        <div *ngIf="vmCreationData.diskOfferings">
           <h5>{{ 'DISK_OFFERING' | translate }}</h5>
           <cs-disk-offering
+            name="diskOfferingSelector"
             [diskOfferingList]="vmCreationData.diskOfferings"
-            (offeringUpdated)="setDiskOffering($event)"
+            [(ngModel)]="diskOffering"
           ></cs-disk-offering>
         </div>
         <cs-slider

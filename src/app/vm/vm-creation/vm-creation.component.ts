@@ -295,6 +295,17 @@ export class VmCreationComponent implements OnInit {
   }
 
   // todo: temporary, remove
+  public _diskOffering: DiskOffering;
+  public get diskOffering(): DiskOffering {
+    return this._diskOffering;
+  }
+
+  public set diskOffering(diskOffering: DiskOffering) {
+    this.setDiskOffering(diskOffering);
+    this._diskOffering = diskOffering;
+  }
+
+
   public serviceOffering: ServiceOffering;
   public template: BaseTemplateModel;
   // todo: temporary, remove
