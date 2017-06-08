@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MdlDialogReference } from '../../dialog/dialog-module';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { AffinityGroupService } from '../../shared/services/affinity-group.service';
 import { VirtualMachine } from '../shared/vm.model';
@@ -15,6 +16,7 @@ export class AffinityGroupComponent implements OnInit {
   constructor(
     private affinityGroupService: AffinityGroupService,
     private dialog: MdlDialogReference,
+    private dialogService: DialogService,
     @Inject('virtualMachine') public vm: VirtualMachine
   ) { }
 
@@ -33,9 +35,11 @@ export class AffinityGroupComponent implements OnInit {
   }
 
   public changeAffinityGroup(): void {
-    this.affinityGroupService.updateForVm(this.vm, this.selectedAffinityGroup)
-      .subscribe(vm => {
-        this.dialog.hide(vm.affinityGroup);
-      });
+    this.affinityGroupService
+      .updateForVm(this.vm, this.selectedAffinityGroup)
+      .subscribe(
+        vm => this.dialog.hide(vm.affinityGroup),
+        error => this.dialogService.alert(error.message)
+      );
   }
 }
