@@ -1,5 +1,5 @@
 import {
-  AfterContentChecked,
+  AfterViewChecked,
   Component,
   ComponentRef,
   ElementRef,
@@ -35,7 +35,7 @@ const leaveTransitionEasingCurve = 'cubic-bezier(0.0, 0.0, 0.2, 1)';
   styleUrls: ['mdl-dialog-host.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class MdlDialogHostComponent implements OnInit, AfterContentChecked {
+export class MdlDialogHostComponent implements OnInit, AfterViewChecked {
   @HostBinding('class.mdl-dialog') public mdlDialog = true;
   @HostBinding('class.open') public visible = false;
   @HostBinding('style.zIndex') public zIndex = MIN_DIALOG_Z_INDEX + 1;
@@ -73,7 +73,7 @@ export class MdlDialogHostComponent implements OnInit, AfterContentChecked {
     this.addResizeListener();
   }
 
-  public ngAfterContentChecked(): void {
+  public ngAfterViewChecked(): void {
     this.updateDialogPosition();
   }
 
