@@ -1,6 +1,6 @@
 <div *ngIf="mode === 'create'">
   <cs-fancy-select>
-    <h5 class="fancy-select-header">{{ 'VM_CREATION_FORM.SECURITY_GROUPS' | translate }}</h5>
+    <h5 class="fancy-select-header">{{ header | translate }}</h5>
     <mdl-button
       class="fancy-select-button"
       (click)="showDialog()"

@@ -86,6 +86,9 @@ import { UtilsService } from './services/utils.service';
 import { VolumeService } from './services/volume.service';
 import { VolumeOfferingService } from './services/volume-offering.service';
 import { ReloadComponent } from './components/reload/reload.component';
+import {
+  CharacterCountTextfieldComponent
+} from './components/character-count-textfield/character-count-textfield.component';
 
 
 @NgModule({
@@ -100,6 +103,7 @@ import { ReloadComponent } from './components/reload/reload.component';
     TranslateModule
   ],
   exports: [
+    CharacterCountTextfieldComponent,
     ColorPickerComponent,
     DatePickerComponent,
     DescriptionComponent,
@@ -135,6 +139,7 @@ import { ReloadComponent } from './components/reload/reload.component';
     LoaderComponent
   ],
   declarations: [
+    CharacterCountTextfieldComponent,
     CalendarComponent,
     CalendarMonthComponent,
     CalendarYearComponent,

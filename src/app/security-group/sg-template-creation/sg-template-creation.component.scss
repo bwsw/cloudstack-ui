@@ -20,3 +20,11 @@ cs-security-group-rules-manager {
   padding-bottom: 0;
   width: 100%;
 }
+
+.basic-rules {
+  /deep/ {
+    h5 {
+      font-size: 16px;
+    }
+  }
+}
