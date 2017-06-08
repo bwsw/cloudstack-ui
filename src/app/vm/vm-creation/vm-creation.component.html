@@ -159,7 +159,6 @@
     </div>
     <div class="mdl-dialog__actions">
       <button
-        *ngIf="enoughResources"
         mdl-colored="primary"
         [disabled]="!vmCreateForm.valid || (vmCreationData.displayName === takenName)"
         type="submit"

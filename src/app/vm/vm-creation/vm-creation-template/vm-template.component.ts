@@ -1,62 +1,86 @@
-import { Component, EventEmitter, Input, Output, OnInit, OnChanges } from '@angular/core';
-import { Template, TemplateService } from '../../../template/shared';
-import { VmTemplateDialogComponent } from './vm-template-dialog.component';
-import { PRESELECTED_TEMPLATE_TOKEN, ZONE } from './injector-token';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DialogService } from '../../../dialog/dialog-module/dialog.service';
+import { BaseTemplateModel, TemplateService } from '../../../template/shared';
+import { PRESELECTED_TEMPLATE_TOKEN, ZONE } from './injector-token';
+import { VmTemplateDialogComponent } from './vm-template-dialog.component';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
   selector: 'cs-vm-creation-template',
   templateUrl: 'vm-template.component.html',
-  styleUrls: ['vm-template.component.scss']
+  styleUrls: ['vm-template.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => VmTemplateComponent),
+      multi: true
+    }
+  ]
 })
-export class VmTemplateComponent implements OnInit, OnChanges {
-  @Input() public selectedIn: Template;
+export class VmTemplateComponent implements OnInit, ControlValueAccessor {
   @Input() public zoneId: string;
-  @Output() public selectedOut: EventEmitter<Template>;
-  public displayTemplateName: string;
+
+  private _template: BaseTemplateModel;
 
   constructor(
     private dialogService: DialogService,
     private templateService: TemplateService
-  ) {
-    this.selectedOut = new EventEmitter<Template>();
-  }
+  ) {}
 
   public ngOnInit(): void {
-    if (this.selectedIn) {
-      this.displayTemplateName = this.selectedIn.name;
-    } else {
-      this.templateService.getDefault(this.zoneId)
-        .subscribe((template: Template) => {
-          this.selectedIn = template;
-          this.displayTemplateName = this.selectedIn.name;
-        });
-    }
-  }
-
-  public ngOnChanges(): void {
-    if (this.selectedIn) {
-      this.displayTemplateName = this.selectedIn.name;
+    if (!this.template) {
+      this.loadDefaultTemplate();
     }
   }
 
   public onClick(): void {
-    this.dialogService.showCustomDialog({
+    this.showTemplateSelectionDialog().subscribe(template => {
+      if (template) {
+        this.template = template;
+      }
+    });
+  }
+
+  public propagateChange: any = () => {};
+
+  @Input()
+  public get template(): BaseTemplateModel {
+    return this._template;
+  }
+
+  public set template(template: BaseTemplateModel) {
+    this._template = template;
+    this.propagateChange(template);
+  }
+
+  public writeValue(template: BaseTemplateModel): void {
+    if (template) {
+      this.template = template;
+    }
+  }
+
+  public registerOnChange(fn): void {
+    this.propagateChange = fn;
+  }
+
+  public registerOnTouched(): void {}
+
+  private loadDefaultTemplate(): void {
+    this.templateService.getDefault(this.zoneId)
+      .subscribe(template => this.template = template);
+  }
+
+  private showTemplateSelectionDialog(): Observable<BaseTemplateModel> {
+    return this.dialogService.showCustomDialog({
       component: VmTemplateDialogComponent,
       classes: 'vm-template-dialog',
       providers: [
-        { provide: PRESELECTED_TEMPLATE_TOKEN, useValue: this.selectedIn },
+        { provide: PRESELECTED_TEMPLATE_TOKEN, useValue: this.template },
         { provide: ZONE, useValue: this.zoneId }
       ],
     })
-      .switchMap(res => res.onHide())
-      .subscribe((data: any) => {
-        if (!data) {
-          return;
-        }
-        this.selectedOut.emit(data);
-        this.displayTemplateName = data.name;
-      }, () => {});
+      .switchMap(res => res.onHide());
   }
 }
