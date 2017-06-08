@@ -1,6 +1,10 @@
 <h3 class="mdl-dialog__title">{{ 'SELECT_AFFINITY_GROUP' | translate }}</h3>
 <div *loading="!affinityGroups" class="mdl-dialog__content">
-  <mdl-select *ngIf="affinityGroups?.length; else noGroups" [(ngModel)]="selectedAffinityGroup">
+  <mdl-select
+    *ngIf="affinityGroups?.length || vm.affinityGroup?.length; else noGroups"
+    [(ngModel)]="selectedAffinityGroup"
+  >
+    <mdl-option *ngIf="vm.affinityGroup.length" value="">{{ 'NO_GROUP' | translate }}</mdl-option>
     <mdl-option *ngFor="let ag of affinityGroups" [value]="ag.id">
       {{ ag.name }}
     </mdl-option>
@@ -10,7 +14,7 @@
 <div class="mdl-dialog__actions">
   <button
     (click)="changeAffinityGroup()"
-    [disabled]="!selectedAffinityGroup"
+    [disabled]="selectedAffinityGroup == null"
     mdl-button
     mdl-colored="primary"
   >
