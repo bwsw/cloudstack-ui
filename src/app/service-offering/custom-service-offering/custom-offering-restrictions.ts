@@ -1,4 +1,4 @@
-class CustomOfferingRestrictions {
+export class CustomOfferingRestrictions {
   public cpuNumber = { min: 0, max: Number.POSITIVE_INFINITY};
   public cpuSpeed  = { min: 0, max: Number.POSITIVE_INFINITY};
   public memory    = { min: 0, max: Number.POSITIVE_INFINITY};

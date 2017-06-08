@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { MdlDialogReference } from '../../dialog/dialog-module';
 import { ServiceOffering } from '../../shared/models';
 import { CustomServiceOffering } from './custom-service-offering';
+import { CustomOfferingRestrictions } from './custom-offering-restrictions';
 
 
 @Component({

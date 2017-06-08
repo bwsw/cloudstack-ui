@@ -27,6 +27,7 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges, Cont
   @ViewChild(MdlSelectComponent) public selectComponent: MdlSelectComponent;
 
   private _serviceOffering: ServiceOffering;
+  private previousOffering: ServiceOffering;
 
   constructor(
     private dialogService: DialogService,
@@ -66,13 +67,13 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges, Cont
     const memory = this.serviceOffering.memory;
 
     return this.translateService.get(['MB', 'MHZ'])
-      .map(([mb, mhz]) => `${cpuNumber}x${cpuSpeed} ${mhz}, ${memory} ${mb}`);
+      .map(({ MB, MHZ }) => `${cpuNumber}x${cpuSpeed} ${MHZ}, ${memory} ${MB}`);
   }
 
   public changeOffering(newOffering: ServiceOffering): void {
-    if (!newOffering.isCustomized) {
-      this.serviceOffering = newOffering;
-    } else {
+    this.saveOffering();
+    this.serviceOffering = newOffering;
+    if (newOffering.isCustomized) {
       this.showCustomOfferingDialog()
         .subscribe(customOffering => this.setCustomOffering(customOffering));
     }
@@ -94,14 +95,21 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges, Cont
 
   private setCustomOffering(customOffering: CustomServiceOffering): void {
     if (customOffering) {
+      this.updateCustomOfferingInList(customOffering);
       this.serviceOffering = customOffering;
     } else {
-      this.resetSelectComponent();
+      this.restorePreviousOffering();
     }
   }
 
-  private resetSelectComponent(): void {
-    this.selectComponent.writeValue(this.serviceOffering);
+  private updateCustomOfferingInList(customOffering: CustomServiceOffering): void {
+    this.serviceOfferings = this.serviceOfferings.map(offering => {
+      if (offering.id === customOffering.id) {
+        return customOffering;
+      } else {
+        return offering;
+      }
+    });
   }
 
   private showCustomOfferingDialog(): Observable<CustomServiceOffering> {
@@ -119,5 +127,14 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges, Cont
         }
       ]
     }).switchMap(res => res.onHide());
+  }
+
+  private saveOffering(): void {
+    this.previousOffering = this.serviceOffering;
+  }
+
+  private restorePreviousOffering(): void {
+    this.serviceOffering = this.previousOffering;
+    this.selectComponent.writeValue(this.serviceOffering);
   }
 }
