@@ -245,6 +245,7 @@
   "SO_CHANGE_DISABLED": "The virtual machine needs to be stopped",
 
   "SELECT_AFFINITY_GROUP": "Select affinity group",
+  "NO_AFFINITY_GROUPS": "No affinity groups",
 
   "FIREWALL_RULES_FOR_VM": "Firewall rules for VM",
   "TEMPLATE_RULES": "Template rules",

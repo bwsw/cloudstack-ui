@@ -245,6 +245,7 @@
   "SO_CHANGE_DISABLED": "Необходимо остановить машину",
 
   "SELECT_AFFINITY_GROUP": "Выберите аффинитетную группу",
+  "NO_AFFINITY_GROUPS": "Нет аффинитетных групп",
 
   "FIREWALL_RULES_FOR_VM": "Правила брандмауэра для ВМ",
   "TEMPLATE_RULES": "Правила шаблона",

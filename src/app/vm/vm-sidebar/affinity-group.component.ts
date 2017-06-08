@@ -22,7 +22,9 @@ export class AffinityGroupComponent implements OnInit {
     this.affinityGroupService.getList()
       .subscribe(groups => {
         this.affinityGroups = groups.filter(_ => !this.vm.affinityGroup.some(ag => ag.id === _.id));
-        this.selectedAffinityGroup = this.affinityGroups[0].id;
+        if (this.affinityGroups.length) {
+          this.selectedAffinityGroup = this.affinityGroups[0].id;
+        }
       });
   }
 
