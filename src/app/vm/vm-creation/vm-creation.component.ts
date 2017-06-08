@@ -295,16 +295,8 @@ export class VmCreationComponent implements OnInit {
   }
 
   // todo: temporary, remove
-  public so: ServiceOffering;
-
-  public get serviceOffering(): ServiceOffering {
-    return this.vmCreationData.serviceOfferings[0];
-  }
-
-  public set serviceOffering(offering: ServiceOffering) {
-    this.so = offering;
-    this.setServiceOffering(offering);
-  }
+  public serviceOffering: ServiceOffering;
+  public template: BaseTemplateModel;
   // todo: temporary, remove
 
   public setGroup(groupName: string): void {
