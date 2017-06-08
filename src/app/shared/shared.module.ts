@@ -85,6 +85,7 @@ import { UserService } from './services/user.service';
 import { UtilsService } from './services/utils.service';
 import { VolumeService } from './services/volume.service';
 import { VolumeOfferingService } from './services/volume-offering.service';
+import { ReloadComponent } from './components/reload/reload.component';
 import {
   CharacterCountTextfieldComponent
 } from './components/character-count-textfield/character-count-textfield.component';
@@ -162,6 +163,7 @@ import {
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     OverlayLoadingComponent,
+    ReloadComponent,
     SearchComponent,
     SgRulesManagerComponent,
     SidebarComponent,
