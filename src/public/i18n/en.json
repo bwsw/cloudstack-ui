@@ -244,6 +244,8 @@
   "CHANGE_SERVICE_OFFERING": "Change service offering",
   "SO_CHANGE_DISABLED": "The virtual machine needs to be stopped",
 
+  "SELECT_AFFINITY_GROUP": "Select affinity group",
+
   "FIREWALL_RULES_FOR_VM": "Firewall rules for VM",
   "TEMPLATE_RULES": "Template rules",
   "CLOSE": "Close",

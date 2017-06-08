@@ -10,14 +10,10 @@ import {
   Volume
 } from '../../shared/models';
 import { BaseTemplateModel } from '../../template/shared';
+import { AffinityGroup } from '../../shared/models/affinity-group.model';
 
 
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
-
-interface IAffinityGroup {
-  id: string;
-  name: string;
-}
 
 export interface IVmAction {
   name: string;
@@ -104,7 +100,7 @@ export class VirtualMachine extends BaseModel {
   // Security Group
   public securityGroup: Array<SecurityGroup>;
   // Affinity Group
-  public affinityGroup: Array<IAffinityGroup>;
+  public affinityGroup: Array<AffinityGroup>;
   // Zone
   public zoneId: string;
   public zoneName: string;

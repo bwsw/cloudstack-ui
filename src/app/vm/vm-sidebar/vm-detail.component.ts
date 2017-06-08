@@ -13,6 +13,8 @@ import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { AffinityGroupComponent } from './affinity-group.component';
+import { AffinityGroup } from '../../shared/models/affinity-group.model';
 
 
 @Component({
@@ -97,6 +99,19 @@ export class VmDetailComponent implements OnChanges, OnInit {
       .updateDescription(this.vm, newDescription)
       .onErrorResumeNext()
       .subscribe();
+  }
+
+  public changeAffinityGroup(): void {
+    this.dialogService.showCustomDialog({
+      component: AffinityGroupComponent,
+      styles: { width: '350px' },
+      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
+    }).switchMap(dialog => dialog.onHide())
+      .subscribe((group?: Array<AffinityGroup>) => {
+        if (group) {
+          this.vm.affinityGroup = group;
+        }
+      });
   }
 
   public isNotFormattedField(key: string): boolean {
