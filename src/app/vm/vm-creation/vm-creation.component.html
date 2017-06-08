@@ -78,7 +78,6 @@
         ></cs-slider>
       </div>
       <div class="right-column">
-
         <h5>{{ 'VM_CREATION_FORM.GROUP' | translate }}</h5>
         <div *ngIf="vmCreationData.instanceGroups">
           <mdl-autocomplete
@@ -86,8 +85,7 @@
             name="group"
             [placeholder]="'NO_GROUP' | translate"
             [options]="vmCreationData.instanceGroups"
-            [ngModel]="null"
-            (ngModelChange)="setGroup($event)"
+            [(ngModel)]="affinityGroup"
           ></mdl-autocomplete>
         </div>
 
@@ -97,8 +95,7 @@
             name="affinityGroup"
             [placeholder]="'NO_GROUP' | translate"
             [options]="vmCreationData.affinityGroupNames"
-            [ngModel]="vmCreationData.affinityGroupName"
-            (ngModelChange)="affinityGroupChange($event)"
+            [(ngModel)]="instanceGroup"
           ></mdl-autocomplete>
         </div>
         <cs-security-group-rules-manager

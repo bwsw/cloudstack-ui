@@ -308,6 +308,9 @@ export class VmCreationComponent implements OnInit {
 
   public serviceOffering: ServiceOffering;
   public template: BaseTemplateModel;
+  public affinityGroup: string;
+  public instanceGroup: string;
+
   // todo: temporary, remove
 
   public setGroup(groupName: string): void {
