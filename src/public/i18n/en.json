@@ -246,6 +246,7 @@
 
   "SELECT_AFFINITY_GROUP": "Select affinity group",
   "NO_AFFINITY_GROUPS": "No affinity groups",
+  "STOP_MACHINE_FOR_AG": "You need to stop the virtual machine to change affinity group. Do you want to stop it now?",
 
   "FIREWALL_RULES_FOR_VM": "Firewall rules for VM",
   "TEMPLATE_RULES": "Template rules",

@@ -13,6 +13,8 @@ export class AffinityGroupComponent implements OnInit {
   public affinityGroups: Array<AffinityGroup>;
   public selectedAffinityGroup: string;
 
+  public changingGroupInProgress = false;
+
   constructor(
     private affinityGroupService: AffinityGroupService,
     private dialog: MdlDialogReference,
@@ -21,13 +23,16 @@ export class AffinityGroupComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.affinityGroupService.getList()
-      .subscribe(groups => {
-        this.affinityGroups = groups.filter(_ => !this.vm.affinityGroup.some(ag => ag.id === _.id));
-        if (this.affinityGroups.length) {
-          this.selectedAffinityGroup = this.affinityGroups[0].id;
-        }
-      });
+    this.affinityGroupService.getList().subscribe(groups => {
+      this.affinityGroups = groups.filter(
+        _ => !this.vm.affinityGroup.some(ag => ag.id === _.id)
+      );
+      if (this.affinityGroups.length) {
+        this.selectedAffinityGroup = this.affinityGroups[0].id;
+      } else {
+        this.selectedAffinityGroup = '';
+      }
+    });
   }
 
   public hide(): void {
@@ -35,8 +40,10 @@ export class AffinityGroupComponent implements OnInit {
   }
 
   public changeAffinityGroup(): void {
+    this.changingGroupInProgress = true;
     this.affinityGroupService
       .updateForVm(this.vm, this.selectedAffinityGroup)
+      .finally(() => this.changingGroupInProgress = false)
       .subscribe(
         vm => this.dialog.hide(vm.affinityGroup),
         error => this.dialogService.alert(error.message)
