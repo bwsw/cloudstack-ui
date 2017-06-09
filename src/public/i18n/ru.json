@@ -517,9 +517,11 @@
     }
   },
 
-  "API": "API",
-  "API_URL": "URL",
-  "API_KEY": "Ключ",
+  "SECURITY": "Безопасность",
+  "LOOK_AND_FEEL": "Настройки интерфейса",
+  "API": "Конфигурация API",
+  "API_URL": "URL подключения",
+  "API_KEY": "Ключ API",
   "API_SECRET_KEY": "Секретный ключ",
   "API_DOC_LINK": "Документация"
 }

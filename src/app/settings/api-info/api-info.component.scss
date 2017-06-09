@@ -1,10 +1,6 @@
-h5 {
-  margin: 0;
-}
-
 a {
   display: inline-block;
-  margin: 20px 0;
+  margin: 10px 0;
   overflow: hidden;
   max-width: 100%;
   text-overflow: ellipsis;
@@ -17,8 +13,4 @@ mdl-textfield {
 
 mdl-textfield /deep/ input {
   cursor: text;
-}
-
-.settings-control {
-  max-width: 300px;
 }
