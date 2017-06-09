@@ -38,7 +38,7 @@ import { routes } from '../app.routing';
 import { RouterModule } from '@angular/router';
 import { SnapshotsComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshots.component';
 import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volume-details/volume-details.component';
-import { AffinityGroupComponent } from './vm-sidebar/affinity-group.component';
+import { AffinityGroupDialogComponent } from './vm-sidebar/affinity-group-dialog.component';
 
 
 @NgModule({
@@ -57,7 +57,7 @@ import { AffinityGroupComponent } from './vm-sidebar/affinity-group.component';
     RouterModule.forRoot(routes)
   ],
   declarations: [
-    AffinityGroupComponent,
+    AffinityGroupDialogComponent,
     SnapshotsComponent,
     SpareDriveAttachmentDetailComponent,
     SpareDriveAttachmentDialogComponent,
@@ -84,7 +84,7 @@ import { AffinityGroupComponent } from './vm-sidebar/affinity-group.component';
     SnapshotActionsService
   ],
   entryComponents: [
-    AffinityGroupComponent,
+    AffinityGroupDialogComponent,
     VmCreationComponent,
     VmTemplateDialogComponent,
     VolumeResizeComponent,

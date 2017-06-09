@@ -13,7 +13,7 @@ import { VirtualMachine, VmActions, VmStates } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { AffinityGroupComponent } from './affinity-group.component';
+import { AffinityGroupDialogComponent } from './affinity-group-dialog.component';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 
 
@@ -236,7 +236,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
 
   private showAffinityGroupDialog(): void {
     this.dialogService.showCustomDialog({
-      component: AffinityGroupComponent,
+      component: AffinityGroupDialogComponent,
       styles: { width: '350px' },
       providers: [{ provide: 'virtualMachine', useValue: this.vm }],
       clickOutsideToClose: false

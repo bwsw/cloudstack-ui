@@ -6,10 +6,10 @@ import { AffinityGroupService } from '../../shared/services/affinity-group.servi
 import { VirtualMachine } from '../shared/vm.model';
 
 @Component({
-  selector: 'cs-affinity-group',
-  templateUrl: 'affinity-group.component.html'
+  selector: 'cs-affinity-group-dialog',
+  templateUrl: 'affinity-group-dialog.component.html'
 })
-export class AffinityGroupComponent implements OnInit {
+export class AffinityGroupDialogComponent implements OnInit {
   public affinityGroups: Array<AffinityGroup>;
   public selectedAffinityGroup: string;
 
