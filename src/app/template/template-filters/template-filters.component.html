@@ -41,7 +41,7 @@
         [(ngModel)]="selectedFilters"
         (ngModelChange)="updateFilters()"
         multiple="true"
-        placeholder="{{ 'TYPE' | translate }}"
+        placeholder="{{ 'TEMPLATE_TYPES' | translate }}"
       >
         <mdl-option
           *ngFor="let f of categoryFilters"

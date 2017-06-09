@@ -3,18 +3,16 @@
 <form (ngSubmit)="onCreate($event)" #volumeCreationForm="ngForm" novalidate>
   <div class="mdl-dialog__content">
     <div class="flex-column">
-      <mdl-textfield
+      <cs-character-count-textfield
         type="text"
         label="{{ 'NAME' | translate }}"
         name="name"
         floating-label
         autofocus
         required
+        maxlength="255"
         [(ngModel)]="name"
-        #nameField="ngModel"
-        [class.is-invalid]="nameField.invalid && !nameField.pristine"
-      >
-      </mdl-textfield>
+      ></cs-character-count-textfield>
       <div>
         <h5>{{ 'ZONE' | translate }}</h5>
         <mdl-select

@@ -19,6 +19,7 @@ import { DialogService } from '../../dialog/dialog-module/dialog.service';
 })
 export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
   @Input() public mode: 'create' | 'edit';
+  @Input() public header = 'VM_CREATION_FORM.SECURITY_GROUPS';
   public savedRules: Rules;
 
   private _rules: Rules;
