@@ -8,6 +8,7 @@
 @import '__variables.scss';
 
 @import '../app/shared/styles/overlay';
+@import '../app/shared/styles/text-overflow-tooltip-fix';
 
 
 * {
@@ -24,6 +25,7 @@
   display: inline-block !important;
   text-overflow: ellipsis;
   width: auto !important;
+  @extend .text-overflow-tooltip-fix;
 }
 
 mdl-card > mdl-card-title + mdl-card-supporting-text {
