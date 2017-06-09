@@ -24,7 +24,7 @@
     <mdl-select
       class="filter-select"
       [(ngModel)]="selectedOsFamilies"
-      (ngModelChange)="updateFilters()"
+      (change)="updateFilters()"
       multiple="true"
       placeholder="{{ 'OS_FAMILY' | translate }}"
     >
@@ -39,7 +39,7 @@
       <mdl-select
         class="filter-select"
         [(ngModel)]="selectedFilters"
-        (ngModelChange)="updateFilters()"
+        (change)="updateFilters()"
         multiple="true"
         placeholder="{{ 'TEMPLATE_TYPES' | translate }}"
       >
@@ -55,7 +55,7 @@
       class="filter-select"
       *ngIf="zones"
       [(ngModel)]="selectedZones"
-      (ngModelChange)="updateFilters()"
+      (change)="updateFilters()"
       multiple="true"
       [placeholder]="'SELECT_ZONES' | translate"
     >
@@ -91,7 +91,7 @@
   <mdl-select
     class="filter-select"
     [(ngModel)]="selectedOsFamilies"
-    (ngModelChange)="updateFilters()"
+    (change)="updateFilters()"
     multiple="true"
     placeholder="{{ 'OS_FAMILY' | translate }}"
   >
@@ -106,7 +106,7 @@
     <mdl-select
       class="filter-select"
       [(ngModel)]="selectedFilters"
-      (ngModelChange)="updateFilters()"
+      (change)="updateFilters()"
       multiple="true"
       placeholder="{{ 'TYPE' | translate }}"
     >

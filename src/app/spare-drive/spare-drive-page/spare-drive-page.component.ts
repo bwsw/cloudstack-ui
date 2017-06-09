@@ -17,7 +17,6 @@ import { VolumeService } from '../../shared/services/volume.service';
 
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
 
-import debounce = require('lodash/debounce');
 import sortBy = require('lodash/sortBy');
 import { SpareDriveActionsService } from '../spare-drive-actions.service';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
@@ -64,9 +63,7 @@ export class SpareDrivePageComponent implements OnInit {
     private userService: UserService,
     private volumeService: VolumeService,
     private zoneService: ZoneService
-  ) {
-    this.update = debounce(this.update, 300);
-  }
+  ) { }
 
   public ngOnInit(): void {
     this.listService.onAction.subscribe(() => {
