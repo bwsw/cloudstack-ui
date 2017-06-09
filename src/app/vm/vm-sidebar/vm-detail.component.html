@@ -274,11 +274,11 @@
         </div>
         <div class="row">
           <div>{{ 'STATISTICS_FIELDS.DISK_READ_IO' | translate }}</div>
-          <div>{{ vm.diskIoRead }}</div>
+          <div>{{ 'IOPS' | translate:{ value: vm.diskIoRead } }}</div>
         </div>
         <div class="row">
           <div>{{ 'STATISTICS_FIELDS.DISK_WRITE_IO' | translate }}</div>
-          <div>{{ vm.diskIoWrite }}</div>
+          <div>{{ 'IOPS' | translate:{ value: vm.diskIoWrite } }}</div>
         </div>
       </div>
     </mdl-card-supporting-text>

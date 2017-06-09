@@ -119,6 +119,8 @@
   "GHZ": "ГГц",
   "MHZ": "МГц",
   "CPU_MHZ": "{{count}}x{{speed}} МГц",
+  "IOPS": "{{value}} IOPS",
+  "MBPS": "{{value}} MB/s",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "Загружено CPU",
     "NETWORK_READ": "Прочитано через сеть",
@@ -145,8 +147,8 @@
     "hypervisorSnapshotReserve": "Hypervisor Snapshot Reserve",
     "diskBytesReadRate": "Скорость чтения диска (МБайт/сек)",
     "diskBytesWriteRate": "Скорость записи диска (МБайт/сек)",
-    "diskIopsReadRate": "Скорость чтения диска (IO/сек)",
-    "diskIopsWriteRate": "Скорость записи диска (IO/сек)",
+    "diskIopsReadRate": "Скорость чтения диска (IOPS)",
+    "diskIopsWriteRate": "Скорость записи диска (IOPS)",
     "deploymentPlanner": "Deployment planner",
     "domain": "Домен",
     "created": "Создана",
@@ -314,7 +316,7 @@
   "PUBLIC": "Публичный",
   "RECOMMENDED": "Рекоммендуемый",
   "CROSS_ZONES": "Общий для зон",
-  "DETAILS": "Подробности",
+  "DETAILS": "Общая информация",
   "HYPERVISOR": "Гипервизор",
   "USER_TEMPLATE_TYPE": "Пользовательский",
   "BUILTIN_TEMPLATE_TYPE": "Встроенный",
@@ -356,6 +358,7 @@
   "ISO_ATTACH_DONE": "ISO файл прикреплен",
   "ISO_ATTACH_FAILED": "Не удалось прикрепить ISO файл",
 
+  "PERFORMANCE": "Производительность",
   "DISK_OFFERING": "Дисковое предложение",
   "INSTALLATION_SOURCE": "Источник установки",
 
@@ -385,10 +388,8 @@
       "DESCRIPTION": "Описание",
       "MINIOPS": "Минимальное кол-во IO/сек",
       "MAXIOPS": "Максимальное кол-во IO/сек",
-      "BYTES_READ_RATE": "Скорость чтения (МБайт/сек)",
-      "BYTES_WRITE_RATE": "Скорость записи (МБайт/сек)",
-      "IOPS_READ_RATE": "Скорость чтения (IO/сек)",
-      "IOPS_WRITE_RATE": "Скорость записи (IO/сек)"
+      "READ_RATE": "Скорость чтения",
+      "WRITE_RATE": "Скорость записи"
     }
   },
   "RESIZE": "Изменить размер",
