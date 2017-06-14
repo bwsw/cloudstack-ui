@@ -5,6 +5,17 @@
   (click)="handleClick($event)"
 >
   <mdl-card-title>
+    <div
+      class="state-icon"
+      [class.running]="ready"
+      [class.in-progress]="!ready"
+      mdl-tooltip-position="right"
+      [mdl-tooltip]="tt"
+    >
+      <mdl-tooltip #tt="mdlTooltip">
+        {{ (ready ? 'READY' : 'NOT_READY') | translate }}
+      </mdl-tooltip>
+    </div>
     <mdl-icon class="os-icon" [ngSwitch]="template.osType.osFamily">
       <ng-template [ngSwitchCase]="'Linux'">
         <img
@@ -29,17 +40,6 @@
       </ng-template>
       <ng-template ngSwitchDefault>help</ng-template>
     </mdl-icon>
-    <div
-      class="state-icon"
-      [class.running]="ready"
-      [class.in-progress]="!ready"
-      mdl-tooltip-position="right"
-      [mdl-tooltip]="tt"
-    >
-      <mdl-tooltip #tt="mdlTooltip">
-        {{ (ready ? 'READY' : 'NOT_READY') | translate }}
-      </mdl-tooltip>
-    </div>
     <h2
       [mdl-tooltip]="headerTooltip"
       mdl-tooltip-position="bottom"
