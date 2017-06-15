@@ -5,6 +5,7 @@ import { BaseTemplateModel } from './base-template.model';
 import { AsyncJobService, BaseBackendCachedService } from '../../shared/services';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { UtilsService } from '../../shared/services/utils.service';
+import { TagService } from '../../shared/services/tag.service';
 
 
 export const TemplateFilters = {
@@ -15,7 +16,6 @@ export const TemplateFilters = {
   selfExecutable: 'selfexecutable',
   sharedExecutable: 'sharedexecutable'
 };
-
 
 export interface RequestParams {
   filter: string;
@@ -28,7 +28,10 @@ export interface RegisterTemplateBaseParams {
   osTypeId: string;
   url?: string;
   zoneId?: string;
+  entity: 'Iso' | 'Template';
 }
+
+export const DOWNLOAD_URL = 'DOWNLOAD_URL';
 
 @Injectable()
 export abstract class BaseTemplateService extends BaseBackendCachedService<BaseTemplateModel> {
@@ -38,6 +41,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     protected asyncJobService: AsyncJobService,
     protected osTypeService: OsTypeService,
     protected utilsService: UtilsService,
+    protected tagService: TagService
   ) {
     super();
     this._templateFilters = [
@@ -87,8 +91,17 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
 
   public register(params: RegisterTemplateBaseParams): Observable<BaseTemplateModel> {
     this.invalidateCache();
+
     return this.sendCommand('register', params)
-      .map(result => this.prepareModel(result[this.entity.toLowerCase()][0]));
+      .map(result => this.prepareModel(result[this.entity.toLowerCase()][0]))
+      .switchMap(template => {
+        return this.tagService.update(template, params.entity, DOWNLOAD_URL, params.url)
+          .catch(() => Observable.of())
+          .map(tag => {
+            template.tags.push(tag);
+            return template;
+          });
+      });
   }
 
   public remove(template: BaseTemplateModel): Observable<any> {

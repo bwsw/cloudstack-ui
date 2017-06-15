@@ -6,7 +6,7 @@
   ></cs-template>
   <mdl-card mdl-shadow="2">
     <mdl-card-title>
-      <h2 mdl-card-title-text>{{ "DETAILS" | translate }}</h2>
+      <h2 mdl-card-title-text>{{ 'DETAILS' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
       <div class="grid grid-right">
@@ -55,6 +55,18 @@
           <div>{{ template.hypervisor }}</div>
         </div>
       </div>
+    </mdl-card-supporting-text>
+  </mdl-card>
+  <mdl-card *ngIf="templateDownloadUrl" mdl-shadow="2">
+    <mdl-card-title>
+      <h2 mdl-card-title-text>{{ 'DOWNLOAD_URL' | translate }}</h2>
+    </mdl-card-title>
+    <mdl-card-supporting-text>
+      <a
+        [href]="templateDownloadUrl"
+        target="_blank"
+        class="mdl-color-text--primary-dark"
+      >{{ templateDownloadUrl }}</a>
     </mdl-card-supporting-text>
   </mdl-card>
 </div>

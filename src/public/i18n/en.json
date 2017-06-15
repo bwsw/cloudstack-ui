@@ -320,6 +320,7 @@
   "HYPERVISOR": "Hypervisor",
   "USER_TEMPLATE_TYPE": "User",
   "BUILTIN_TEMPLATE_TYPE": "Built-in",
+  "DOWNLOAD_URL": "Download URL",
 
   "OS_FAMILY": "Select OS families",
   "TEMPLATE_FEATURED": "Featured",

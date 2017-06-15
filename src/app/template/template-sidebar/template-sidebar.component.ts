@@ -12,17 +12,11 @@ import { ListService } from '../../shared/components/list/list.service';
 })
 export class TemplateSidebarComponent extends BaseTemplateSidebarComponent {
   constructor(
-    private templateService: TemplateService,
-    private route: ActivatedRoute,
+    templateService: TemplateService,
+    route: ActivatedRoute,
     templateActions: TemplateActionsService,
     listService: ListService
   ) {
-    super(templateActions, listService);
-    this.route.params.pluck('id').subscribe((id: string) => {
-      if (id) {
-        this.templateService.get(id)
-          .subscribe(template => this.template = template);
-      }
-    });
+    super(templateService, templateActions, listService, route);
   }
 }

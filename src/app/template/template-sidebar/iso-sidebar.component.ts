@@ -12,17 +12,11 @@ import { BaseTemplateSidebarComponent } from './base-template-sidebar.component'
 })
 export class IsoSidebarComponent extends BaseTemplateSidebarComponent {
   constructor(
-    private isoService: IsoService,
-    private route: ActivatedRoute,
+    isoService: IsoService,
+    route: ActivatedRoute,
     templateActions: TemplateActionsService,
     listService: ListService
   ) {
-    super(templateActions, listService);
-    this.route.params.pluck('id').subscribe((id: string) => {
-      if (id) {
-        this.isoService.get(id)
-          .subscribe(template => this.template = template);
-      }
-    });
+    super(isoService, templateActions, listService, route);
   }
 }

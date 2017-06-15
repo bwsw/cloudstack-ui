@@ -13,7 +13,6 @@ import { TemplateFilterListComponent } from './template-filter-list/template-fil
 import { TemplateFiltersComponent } from './template-filters/template-filters.component';
 import { TemplateListComponent } from './template-list/template-list.component';
 import { TemplatePageComponent } from './template-page/template-page.component';
-import { BaseTemplateSidebarComponent } from './template-sidebar/base-template-sidebar.component';
 import { templatesRouting } from './template.routing';
 import { TemplateComponent } from './template/template.component';
 import { MdlPopoverModule } from '@angular-mdl/popover';
@@ -44,8 +43,7 @@ import { TemplateActionsService } from './shared/template-actions.service';
     TemplateListComponent,
     TemplateCardListComponent,
     TemplateFilterListComponent,
-    TemplatePageComponent,
-    BaseTemplateSidebarComponent
+    TemplatePageComponent
   ],
   exports: [
     TemplateFilterListComponent
