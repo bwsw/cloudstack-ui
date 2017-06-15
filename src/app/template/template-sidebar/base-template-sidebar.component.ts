@@ -4,10 +4,13 @@ import { BaseTemplateModel } from '../shared/base-template.model';
 import { TemplateActionsService } from '../shared/template-actions.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { BaseTemplateService, DOWNLOAD_URL } from '../shared/base-template.service';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 export abstract class BaseTemplateSidebarComponent implements OnInit {
   @Input() public template: BaseTemplateModel;
   public templateDownloadUrl: string;
+  public updating: boolean;
+
   private service: BaseTemplateService;
 
   constructor(
@@ -15,6 +18,7 @@ export abstract class BaseTemplateSidebarComponent implements OnInit {
     protected templateActions: TemplateActionsService,
     protected listService: ListService,
     private route: ActivatedRoute,
+    private dialogService: DialogService
   ) {
     this.service = service;
   }
@@ -22,7 +26,7 @@ export abstract class BaseTemplateSidebarComponent implements OnInit {
   public ngOnInit(): void {
     this.route.params.pluck('id').subscribe((id: string) => {
       if (id) {
-        this.service.get(id).subscribe(template => {
+        this.service.getWithGroupedZones(id).subscribe(template => {
           this.template = template;
           const downloadUrlTag = this.template.tags.find(
             tag => tag.key === DOWNLOAD_URL
@@ -39,5 +43,17 @@ export abstract class BaseTemplateSidebarComponent implements OnInit {
     this.templateActions.removeTemplate(this.template).subscribe(() => {
       this.listService.onDelete.emit(this.template);
     });
+  }
+
+  public updateStatus(): void {
+    if (this.template) {
+      this.updating = true;
+      this.service.getWithGroupedZones(this.template.id, null, false)
+        .finally(() => this.updating = false)
+        .subscribe(
+          template => this.template = template,
+          error => this.dialogService.alert(error.message)
+        );
+    }
   }
 }

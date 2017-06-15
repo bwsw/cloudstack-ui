@@ -4,6 +4,7 @@ import { ListService } from '../../shared/components/list/list.service';
 import { IsoService } from '../shared';
 import { TemplateActionsService } from '../shared/template-actions.service';
 import { BaseTemplateSidebarComponent } from './base-template-sidebar.component';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 @Component({
   selector: 'cs-iso-sidebar',
@@ -15,8 +16,9 @@ export class IsoSidebarComponent extends BaseTemplateSidebarComponent {
     isoService: IsoService,
     route: ActivatedRoute,
     templateActions: TemplateActionsService,
-    listService: ListService
+    listService: ListService,
+    dialogService: DialogService
   ) {
-    super(isoService, templateActions, listService, route);
+    super(isoService, templateActions, listService, route, dialogService);
   }
 }
