@@ -131,9 +131,13 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       .map(data => {
         for (let filter of this._templateFilters) {
           if (data[filter].length > 0) {
-            return data[filter][0];
+            const readyTemplates = data[filter].filter(_ => _.isReady);
+            if (readyTemplates.length) {
+              return readyTemplates[0];
+            }
           }
         }
+        return undefined;
       })
       .catch(() => Observable.throw(0));
   }
