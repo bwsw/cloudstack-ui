@@ -305,8 +305,8 @@ export class VmListComponent implements OnInit {
 
   private sortByColor(vmList: Array<VirtualMachine>): Array<VirtualMachine> {
     return vmList.sort((vmA, vmB) => {
-      let vmAColor = this.vmService.getColor(vmA).value;
-      let vmBColor = this.vmService.getColor(vmB).value;
+      let vmAColor = vmA.getColor().value;
+      let vmBColor = vmB.getColor().value;
 
       if (vmAColor < vmBColor) {
         return -1;
