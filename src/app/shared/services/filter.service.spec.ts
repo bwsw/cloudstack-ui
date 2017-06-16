@@ -19,6 +19,7 @@ describe('Filter service', () => {
 
   class ActivateRouteStub {
     private _testQueryParams: {};
+
     get testParams(): {} {
       return this._testQueryParams;
     }
@@ -39,7 +40,12 @@ describe('Filter service', () => {
         { provide: ActivatedRoute, useClass: ActivateRouteStub },
         { provide: Router, useClass: RouterStub },
         { provide: TagService, useValue: {} },
-        { provide: RouterUtilsService, useValue: {} },
+        {
+          provide: RouterUtilsService,
+          useValue: {
+            getRouteWithoutQueryParams: _ => _
+          }
+        },
         UtilsService,
         StorageService,
         Injector

@@ -19,7 +19,7 @@
         [style.width]="'100%'"
       >
       </mdl-textfield>
-      <div class="blur-fix" *ngIf="!enoughResources">{{ "SNAPSHOT_LIMIT_EXCEEDED" | translate }}</div>
+      <div *ngIf="!enoughResources">{{ "SNAPSHOT_LIMIT_EXCEEDED" | translate }}</div>
     </div>
     <div class="mdl-dialog__actions">
       <button

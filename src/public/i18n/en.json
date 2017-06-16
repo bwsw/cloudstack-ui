@@ -119,6 +119,8 @@
   "GHZ": "GHz",
   "MHZ": "MHz",
   "CPU_MHZ": "{{count}}x{{speed}} MHz",
+  "IOPS": "{{value}} IOPS",
+  "MBPS": "{{value}} MB/s",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "CPU utilized",
     "NETWORK_READ": "Network read",
@@ -145,8 +147,8 @@
     "hypervisorSnapshotReserve": "Hypervisor Snapshot Reserve",
     "diskBytesReadRate": "Disk read rate (MB/s)",
     "diskBytesWriteRate": "Disk write rate (MB/s)",
-    "diskIopsReadRate": "Disk read rate (IO/s)",
-    "diskIopsWriteRate": "Disk write rate (IO/s)",
+    "diskIopsReadRate": "Disk read rate (IOPs)",
+    "diskIopsWriteRate": "Disk write rate (IOPs)",
     "deploymentPlanner": "Deployment planner",
     "domain": "Domain",
     "created": "Created",
@@ -189,6 +191,7 @@
   "ALL_GROUPS": "All templates",
   "SELECTED_GROUPS": "Selected templates",
   "FIREWALL_RULES": "Firewall rules",
+  "BASIC_RULES": "Basic rules",
   "SAVE": "Save",
   "CREATE": "Create",
   "EDIT": "Edit",
@@ -313,12 +316,12 @@
   "PUBLIC": "Public",
   "RECOMMENDED": "Recommended",
   "CROSS_ZONES": "Cross Zones",
-  "DETAILS": "Details",
+  "DETAILS": "General information",
   "HYPERVISOR": "Hypervisor",
   "USER_TEMPLATE_TYPE": "User",
   "BUILTIN_TEMPLATE_TYPE": "Built-in",
 
-  "OS_FAMILY": "OS Family",
+  "OS_FAMILY": "Select OS families",
   "TEMPLATE_FEATURED": "Featured",
   "TEMPLATE_SELF": "My",
   "TEMPLATE_SELFEXECUTABLE": "My",
@@ -326,6 +329,7 @@
   "TEMPLATE_EXTRACTABLE": "Extractable",
   "TEMPLATE_PASSWORD_ENABLED": "Password enabled",
   "TEMPLATE_DYNAMICALLY_SCALABLE": "Dynamically scalable",
+  "TEMPLATE_TYPES": "Select types",
 
   "DELETE_ISO_IN_PROGRESS": " Deleting an ISO",
   "DELETE_ISO_DONE": "ISO deleted",
@@ -354,6 +358,7 @@
   "ISO_ATTACH_DONE": "ISO has been attached",
   "ISO_ATTACH_FAILED": "Failed to attach an ISO",
 
+  "PERFORMANCE": "Performance",
   "DISK_OFFERING": "Disk offering",
   "INSTALLATION_SOURCE": "Installation source",
 
@@ -383,10 +388,8 @@
       "DESCRIPTION": "Description",
       "MINIOPS": "Min IOPS",
       "MAXIOPS": "Max IOPS",
-      "BYTES_READ_RATE": "Read rate (MB/s)",
-      "BYTES_WRITE_RATE": "Write rate (MB/s)",
-      "IOPS_READ_RATE": "Read rate (IO/s)",
-      "IOPS_WRITE_RATE": "Write rate (IO/s)"
+      "READ_RATE": "Read rate",
+      "WRITE_RATE": "Write rate"
     }
   },
   "RESIZE": "Resize",
@@ -394,6 +397,7 @@
     "SHARED": "Shared",
     "LOCAL": "Local"
   },
+  "VOLUME_NAME_TOO_LONG": "Volume name cannot be longer than {{val1}} characters",
 
   "CONFIRM_DELETE_VOLUME": "Are you sure you want to delete this volume?",
   "VOLUME_DELETE_DONE": "Volume has been deleted",
@@ -494,7 +498,7 @@
   "CLICK_TO_EDIT": "Click to edit",
   "SELECT_AN_OPTION": "Select an option",
   "ENTER_TEXT": "Enter text",
-  "EVENT_TYPES": "Types",
+  "EVENT_TYPES": "Select types",
   "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Would you like to create a new volume?",
 
   "INACTIVITY_TIMEOUT": "Session timeout (in&nbsp;minutes)",
@@ -514,9 +518,11 @@
     }
   },
 
-  "API": "API",
-  "API_URL": "URL",
-  "API_KEY": "Key",
+  "SECURITY": "Security",
+  "LOOK_AND_FEEL": "Look and Feel",
+  "API": "API configuration",
+  "API_URL": "Connection URL",
+  "API_KEY": "API Key",
   "API_SECRET_KEY": "Secret key",
   "API_DOC_LINK": "Documentation",
 

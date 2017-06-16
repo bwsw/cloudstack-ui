@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { DefaultUrlSerializer, UrlSerializer } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { BACKEND_API_URL, ConfigService, NotificationService } from '../../shared/services';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { UserService } from '../../shared/services/user.service';
-import { DefaultUrlSerializer, UrlSerializer } from '@angular/router';
 
 
 interface ApiInfoLink {

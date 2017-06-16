@@ -32,6 +32,10 @@ export class ErrorService extends Subject<any> {
     {
       regex: /There is other active snapshot tasks on the instance (.*)/,
       translation: 'VOLUME_BUSY'
+    },
+    {
+      regex: /Value greater than max allowed length (\d+) for param: volumeName/,
+      translation: 'VOLUME_NAME_TOO_LONG'
     }
   ];
 

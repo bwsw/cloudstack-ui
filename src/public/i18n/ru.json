@@ -119,6 +119,8 @@
   "GHZ": "ГГц",
   "MHZ": "МГц",
   "CPU_MHZ": "{{count}}x{{speed}} МГц",
+  "IOPS": "{{value}} IOPS",
+  "MBPS": "{{value}} MB/s",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "Загружено CPU",
     "NETWORK_READ": "Прочитано через сеть",
@@ -145,8 +147,8 @@
     "hypervisorSnapshotReserve": "Hypervisor Snapshot Reserve",
     "diskBytesReadRate": "Скорость чтения диска (МБайт/сек)",
     "diskBytesWriteRate": "Скорость записи диска (МБайт/сек)",
-    "diskIopsReadRate": "Скорость чтения диска (IO/сек)",
-    "diskIopsWriteRate": "Скорость записи диска (IO/сек)",
+    "diskIopsReadRate": "Скорость чтения диска (IOPS)",
+    "diskIopsWriteRate": "Скорость записи диска (IOPS)",
     "deploymentPlanner": "Deployment planner",
     "domain": "Домен",
     "created": "Создана",
@@ -189,6 +191,7 @@
   "ALL_GROUPS": "Все шаблоны",
   "SELECTED_GROUPS": "Выбранные шаблоны",
   "FIREWALL_RULES": "Правила брандмауэра",
+  "BASIC_RULES": "Базовые правила",
   "SAVE": "Сохранить",
   "CREATE": "Создать",
   "EDIT": "Редактировать",
@@ -313,12 +316,12 @@
   "PUBLIC": "Публичный",
   "RECOMMENDED": "Рекоммендуемый",
   "CROSS_ZONES": "Общий для зон",
-  "DETAILS": "Подробности",
+  "DETAILS": "Общая информация",
   "HYPERVISOR": "Гипервизор",
   "USER_TEMPLATE_TYPE": "Пользовательский",
   "BUILTIN_TEMPLATE_TYPE": "Встроенный",
 
-  "OS_FAMILY": "Семейство ОС",
+  "OS_FAMILY": "Выберите ОС",
   "TEMPLATE_FEATURED": "Рекомендованные",
   "TEMPLATE_SELF": "Мои",
   "TEMPLATE_SELFEXECUTABLE": "Мои",
@@ -326,6 +329,7 @@
   "TEMPLATE_EXTRACTABLE": "Извлекаемый",
   "TEMPLATE_PASSWORD_ENABLED": "Пароль включен",
   "TEMPLATE_DYNAMICALLY_SCALABLE": "Динамическое масштабирование",
+  "TEMPLATE_TYPES": "Выберите типы",
 
   "DELETE_ISO_IN_PROGRESS": "Удаление ISO",
   "DELETE_ISO_DONE": "ISO удален",
@@ -354,6 +358,7 @@
   "ISO_ATTACH_DONE": "ISO файл прикреплен",
   "ISO_ATTACH_FAILED": "Не удалось прикрепить ISO файл",
 
+  "PERFORMANCE": "Производительность",
   "DISK_OFFERING": "Дисковое предложение",
   "INSTALLATION_SOURCE": "Источник установки",
 
@@ -383,10 +388,8 @@
       "DESCRIPTION": "Описание",
       "MINIOPS": "Минимальное кол-во IO/сек",
       "MAXIOPS": "Максимальное кол-во IO/сек",
-      "BYTES_READ_RATE": "Скорость чтения (МБайт/сек)",
-      "BYTES_WRITE_RATE": "Скорость записи (МБайт/сек)",
-      "IOPS_READ_RATE": "Скорость чтения (IO/сек)",
-      "IOPS_WRITE_RATE": "Скорость записи (IO/сек)"
+      "READ_RATE": "Скорость чтения",
+      "WRITE_RATE": "Скорость записи"
     }
   },
   "RESIZE": "Изменить размер",
@@ -394,6 +397,7 @@
     "SHARED": "Общее",
     "LOCAL": "Локальное"
   },
+  "VOLUME_NAME_TOO_LONG": "Имя диска не может быть длиннее {{val1}} символов",
 
   "CONFIRM_DELETE_VOLUME": "Вы уверены, что хотите удалить этот диск?",
   "VOLUME_DELETE_DONE": "Диск успешно удален",
@@ -430,9 +434,9 @@
   "SUNDAY": "Воскресенье",
   "GROUP_BY_COLORS": "Группировать по цветам",
   "PALETTE": "Цвета темы интерфейса",
-  "SELECT_GROUPS": "Выбор групп",
-  "SELECT_ZONES": "Выбор зон",
-  "SELECT_STATES": "Выбор статуса",
+  "SELECT_GROUPS": "Выберите группы",
+  "SELECT_ZONES": "Выберите зоны",
+  "SELECT_STATES": "Выберите статусы",
   "NETWORK_RULES": "Сетевые правила",
 
   "LICENSE_1": "© {{ year }}, ",
@@ -494,7 +498,7 @@
   "CLICK_TO_EDIT": "Нажмите для редактирования",
   "SELECT_AN_OPTION": "Выберите опцию",
   "ENTER_TEXT": "Введите текст",
-  "EVENT_TYPES": "Типы",
+  "EVENT_TYPES": "Выберите типы",
   "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Хотите создать новый диск?",
 
   "INACTIVITY_TIMEOUT": "Лимит времени сеанса (в&nbsp;минутах)",
@@ -514,9 +518,11 @@
     }
   },
 
-  "API": "API",
-  "API_URL": "URL",
-  "API_KEY": "Ключ",
+  "SECURITY": "Безопасность",
+  "LOOK_AND_FEEL": "Настройки интерфейса",
+  "API": "Конфигурация API",
+  "API_URL": "URL подключения",
+  "API_KEY": "Ключ API",
   "API_SECRET_KEY": "Секретный ключ",
   "API_DOC_LINK": "Документация",
 
