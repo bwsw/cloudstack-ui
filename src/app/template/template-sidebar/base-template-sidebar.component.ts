@@ -9,6 +9,7 @@ import { DialogService } from '../../dialog/dialog-module/dialog.service';
 export abstract class BaseTemplateSidebarComponent implements OnInit {
   @Input() public template: BaseTemplateModel;
   public templateDownloadUrl: string;
+  public readyInEveryZone: boolean;
   public updating: boolean;
 
   private service: BaseTemplateService;
@@ -24,18 +25,17 @@ export abstract class BaseTemplateSidebarComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.route.params.pluck('id').subscribe((id: string) => {
-      if (id) {
-        this.service.getWithGroupedZones(id).subscribe(template => {
-          this.template = template;
-          const downloadUrlTag = this.template.tags.find(
-            tag => tag.key === DOWNLOAD_URL
-          );
-          if (downloadUrlTag) {
-            this.templateDownloadUrl = downloadUrlTag.value;
-          }
-        });
-      }
+    this.route.params.pluck('id').filter(id => !!id).subscribe((id: string) => {
+      this.service.getWithGroupedZones(id).subscribe(template => {
+        this.template = template;
+        const downloadUrlTag = this.template.tags.find(
+          tag => tag.key === DOWNLOAD_URL
+        );
+        if (downloadUrlTag) {
+          this.templateDownloadUrl = downloadUrlTag.value;
+        }
+        this.checkZones();
+      });
     });
   }
 
@@ -51,9 +51,16 @@ export abstract class BaseTemplateSidebarComponent implements OnInit {
       this.service.getWithGroupedZones(this.template.id, null, false)
         .finally(() => this.updating = false)
         .subscribe(
-          template => this.template = template,
+          template => {
+            this.template = template;
+            this.checkZones();
+          },
           error => this.dialogService.alert(error.message)
         );
     }
+  }
+
+  private checkZones(): void {
+    this.readyInEveryZone = this.template.zones.every(template => template.isReady);
   }
 }

@@ -82,7 +82,7 @@
         <span>{{ 'ZONES' | translate }}</span>
       </mdl-tab-panel-title>
       <mdl-tab-panel-content *loading="updating">
-        <div class="update-button-container">
+        <div *ngIf="!readyInEveryZone" class="update-button-container">
           <mdl-button (click)="updateStatus()">{{ 'UPDATE' | translate }}</mdl-button>
         </div>
         <mdl-card *ngFor="let zone of template.zones" class="vm-card" mdl-shadow="2">
