@@ -54,7 +54,7 @@
           mdl-tooltip-position="top"
           (click)="toggleDomain()"
         >
-          <mdl-icon>settings</mdl-icon>
+          <mdl-icon [class.domains-visible]="showDomain">settings</mdl-icon>
         </button>
       </div>
     </form>
