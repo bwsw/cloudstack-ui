@@ -533,5 +533,14 @@
   "API_URL": "URL подключения",
   "API_KEY": "Ключ API",
   "API_SECRET_KEY": "Секретный ключ",
-  "API_DOC_LINK": "Документация"
+  "API_DOC_LINK": "Документация",
+
+  "INSTANCE_GROUP_CHANGE": "Изменить группу",
+  "CREATE_NEW_GROUP": "Создать новую",
+  "CHOOSE_EXISTING_GROUP": "Выбрать существующую",
+  "CHOOSE_GROUP": "Выберите группу",
+  "ENTER_GROUP_NAME": "Введите имя",
+  "REMOVE_FROM_GROUP": "Удалить из группы",
+  "REMOVE": "Удалить",
+  "CLICK_TO_ASSIGN": "Нажмите, чтобы присвоить"
 }

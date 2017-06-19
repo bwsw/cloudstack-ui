@@ -1,0 +1,23 @@
+:host .text-content {
+  display: inline-block;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+:host .text-content:hover {
+  cursor: pointer;
+}
+
+:host .edit-line {
+  display: flex;
+  justify-content: space-between;
+}
+
+:host .edit-line span {
+  overflow: hidden;
+}
+
+:host .edit-button {
+  margin-left: 10px;
+  align-self: center;
+}
