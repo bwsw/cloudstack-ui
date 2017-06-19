@@ -75,6 +75,9 @@ export class TemplateCreationComponent implements OnInit {
       if (this.mode === 'Template') {
         params['passwordEnabled'] = this.passwordEnabled;
         params['isDynamicallyScalable'] = this.dynamicallyScalable;
+        params['entity'] = 'Template';
+      } else {
+        params['entity'] = 'Iso';
       }
     } else {
       params['snapshotId'] = this.snapshot.id;

@@ -320,6 +320,8 @@
   "HYPERVISOR": "Гипервизор",
   "USER_TEMPLATE_TYPE": "Пользовательский",
   "BUILTIN_TEMPLATE_TYPE": "Встроенный",
+  "DOWNLOAD_URL": "Ссылка на скачивание",
+  "ZONES": "Зоны",
 
   "OS_FAMILY": "Выберите ОС",
   "TEMPLATE_FEATURED": "Рекомендованные",

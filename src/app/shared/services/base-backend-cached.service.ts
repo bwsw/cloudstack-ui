@@ -14,12 +14,13 @@ export abstract class BaseBackendCachedService<M extends BaseModel> extends Base
     this.initDataCache();
   }
 
-  public getList(params?: {}, customApiFormat?: ApiFormat): Observable<Array<M>> {
-    const cachedResult = this.cache.get(params);
-    if (cachedResult) {
-      return Observable.of(cachedResult);
+  public getList(params?: {}, customApiFormat?: ApiFormat, useCache = true): Observable<Array<M>> {
+    if (useCache) {
+      const cachedResult = this.cache.get(params);
+      if (cachedResult) {
+        return Observable.of(cachedResult);
+      }
     }
-
     return super.getList(params, customApiFormat)
       .map(result => {
         this.cache.set({ params, result });
