@@ -187,7 +187,9 @@
       "IPS": "IPs",
       "VOLUMES": "Volumes",
       "PRIMARYSTORAGE": "Primary storage"
-    }
+    },
+    "NO_SERVICE_OFFERING": "No service offerings available. Contact your administrator",
+    "NO_DISK_OFFERING": "No disk offerings available. Contact your administrator"
   },
 
   "CREATING_SG": "Creating a security group",

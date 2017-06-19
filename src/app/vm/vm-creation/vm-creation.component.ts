@@ -142,7 +142,6 @@ export class VmCreationComponent implements OnInit {
     this.fetching = true;
     this.enoughResources = true;
     this.resourceUsageService.getResourceUsage()
-      .finally(() => this.fetching = false)
       .subscribe(resourceUsage => {
         Object.keys(resourceUsage.available)
           .filter(key => key !== 'snapshots' && key !== 'secondaryStorage')
@@ -155,6 +154,7 @@ export class VmCreationComponent implements OnInit {
 
         if (this.insufficientResources.length) {
           this.enoughResources = false;
+          this.fetching = false;
         } else {
           this.resetVmCreateData();
         }
@@ -497,6 +497,7 @@ export class VmCreationComponent implements OnInit {
   private setServiceOfferings(serviceOfferings: Array<ServiceOffering>): void {
     if (!serviceOfferings.length) {
       this.enoughResources = false;
+      this.dialogService.alert('VM_CREATION_FORM.NO_SERVICE_OFFERING');
     }
     this.vmCreationData.serviceOfferings = serviceOfferings;
     this.setServiceOffering(serviceOfferings[0]);
@@ -509,6 +510,7 @@ export class VmCreationComponent implements OnInit {
 
     if (!filteredDiskOfferings.length) {
       this.enoughResources = false;
+      this.dialogService.alert('VM_CREATION_FORM.NO_DISK_OFFERING');
     } else {
       this.vmCreationData.diskOfferings = diskOfferings;
       this.setDiskOffering(diskOfferings[0]);
