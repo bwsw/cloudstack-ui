@@ -34,6 +34,18 @@ export class ErrorService extends Subject<any> {
       translation: 'VOLUME_BUSY'
     },
     {
+      regex: /User is not allowed CloudStack login/,
+      translation: 'LOGIN_FORM.INCORRECT_USERNAME'
+    },
+    {
+      regex: /Failed to authenticate user (.*); please provide valid credentials/,
+      translation: 'LOGIN_FORM.INCORRECT_PASSWORD'
+    },
+    {
+      regex: /Unable to find the domain from the path \/(.*)\//,
+      translation: 'LOGIN_FORM.INCORRECT_DOMAIN'
+    },
+    {
       regex: /Value greater than max allowed length (\d+) for param: volumeName/,
       translation: 'VOLUME_NAME_TOO_LONG'
     }

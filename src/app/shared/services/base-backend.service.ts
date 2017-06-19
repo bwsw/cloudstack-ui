@@ -134,6 +134,10 @@ export abstract class BaseBackendService<M extends BaseModel> {
       .catch(error => this.handleCommandError(error));
   }
 
+  protected handleCommandError(error): Observable<any> {
+    return Observable.throw(ErrorService.parseError(this.getResponse(error)));
+  }
+
   protected formatGetListResponse(response: any): Array<M> {
     let entity = this.entity.toLowerCase();
     if (entity === 'asyncjob') { // only if list?
@@ -193,10 +197,6 @@ export abstract class BaseBackendService<M extends BaseModel> {
     let error = response.json();
     this.error.next(response);
     return Observable.throw(error);
-  }
-
-  private handleCommandError(error): Observable<any> {
-    return Observable.throw(ErrorService.parseError(this.getResponse(error)));
   }
 
   private initRequestCache(): void {

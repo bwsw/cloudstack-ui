@@ -9,11 +9,6 @@ if [ -n "$BASE_HREF" ]; then
     sed -i -e 's#"/"#'"$BASE_HREF"'#g' /var/www/dist/index.html
 fi
 
-# load config
-if [ -e '/config/config.json' ]; then
-    mkdir -p /var/www/dist/config && cp /config/config.json /var/www/dist/config
-fi
-
 # check if API is available
 if [ -z $API_BACKEND_URL ]; then
     echo "No API backend address specified"

@@ -1,4 +1,4 @@
-<div class="flex-container">
+<div class="flex-container" *ngIf="!loading">
   <img class="logo" src="img/cloudstack_logo.png">
   <div class="login mdl-color--white" mdl-shadow="2">
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
@@ -24,6 +24,17 @@
           [class.is-invalid]="pass.invalid && !pass.pristine"
         >
         </mdl-textfield>
+        <br/>
+        <mdl-textfield
+          *ngIf="showDomain"
+          type="text"
+          [label]="'DOMAIN' | translate"
+          name="domain"
+          #domainField="ngModel"
+          [(ngModel)]="domain"
+          [class.is-invalid]="domainField.invalid && !domainField.pristine"
+        >
+        </mdl-textfield>
       </div>
       <div class="mdl-dialog__actions">
         <button
@@ -33,6 +44,18 @@
           type="submit"
           [disabled]="!loginForm.valid"
         >{{ 'LOGIN' | translate }}</button>
+        <button
+          class="options-button"
+          mdl-button-type="icon"
+          mdl-button
+          mdl-ripple
+          type="button"
+          [mdl-tooltip]="(showDomain ? 'LOGIN_FORM.HIDE_ADVANCED' : 'LOGIN_FORM.SHOW_ADVANCED') | translate"
+          mdl-tooltip-position="top"
+          (click)="toggleDomain()"
+        >
+          <mdl-icon [class.domains-visible]="showDomain">settings</mdl-icon>
+        </button>
       </div>
     </form>
   </div>

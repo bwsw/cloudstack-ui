@@ -4,6 +4,13 @@
   "LOGIN": "Войти",
   "LOGOUT": "Выйти",
   "NOT_LOGGED_IN": "Вы не вошли в систему",
+  "LOGIN_FORM": {
+    "SHOW_ADVANCED": "Показать дополнительные параметры",
+    "HIDE_ADVANCED": "Скрыть дополнительные параметры",
+    "INCORRECT_USERNAME": "Неверное имя пользователя",
+    "INCORRECT_PASSWORD": "Неверный пароль",
+    "INCORRECT_DOMAIN": "Не удалось найти домен {{val1}}"
+  },
   "WRONG_ARGUMENTS": "Неверные параметры",
   "UNEXPECTED_ERROR": "Неизвестная ошибка",
   "CPU": "CPU",
