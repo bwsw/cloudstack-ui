@@ -178,7 +178,16 @@
     "CREATE_SECURITY": "Создать",
     "KEYBOARD_LAYOUT": "Раскладка клавиатуры",
     "SSH_KEYPAIR": "SSH ключ",
-    "START_VM": "Запустить ВМ"
+    "START_VM": "Запустить ВМ",
+    "YOU_RAN_OUT_OF": "Вам не хватает",
+    "RESOURCES": {
+      "CPUS": "CPU",
+      "MEMORY": "RAM",
+      "INSTANCES": "ВМ",
+      "IPS": "IP",
+      "VOLUMES": "Дисков",
+      "PRIMARYSTORAGE": "Основного хранилища"
+    }
   },
 
   "CREATING_SG": "Создание группы безопасности",

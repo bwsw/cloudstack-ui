@@ -45,7 +45,7 @@ import { MdlDialogReference } from '../../dialog/dialog-module';
 class VmCreationData {
   public vm: VirtualMachine;
   public affinityGroups: Array<AffinityGroup>;
-  public affinityGroupNames: Array<string>;
+  public affinityGroupNames: Array<string> = [];
   public affinityGroupTypes: Array<AffinityGroupType>;
   public instanceGroups: Array<string>;
   public serviceOfferings: Array<ServiceOffering>;
@@ -86,6 +86,7 @@ class VmCreationData {
 export class VmCreationComponent implements OnInit {
   public fetching: boolean;
   public enoughResources: boolean;
+  public insufficientResources: Array<string> = [];
 
   public vmCreationData: VmCreationData;
   public keyboards = ['us', 'uk', 'jp', 'sc'];
@@ -141,18 +142,23 @@ export class VmCreationComponent implements OnInit {
     this.fetching = true;
     this.enoughResources = true;
     this.resourceUsageService.getResourceUsage()
+      .finally(() => this.fetching = false)
       .subscribe(resourceUsage => {
-        if (resourceUsage.available.cpus &&
-          resourceUsage.available.instances &&
-          resourceUsage.available.volumes
-        ) {
-          this.resetVmCreateData();
-        } else {
-          this.fetching = false;
+        Object.keys(resourceUsage.available)
+          .filter(key => key !== 'snapshots' && key !== 'secondaryStorage')
+          .forEach(key => {
+            const available = resourceUsage.available[key];
+            if (available === 0) {
+              this.insufficientResources.push(key);
+            }
+          });
+
+        if (this.insufficientResources.length) {
           this.enoughResources = false;
+        } else {
+          this.resetVmCreateData();
         }
       });
-
   }
 
   public setDiskOffering(offering: DiskOffering): void {
