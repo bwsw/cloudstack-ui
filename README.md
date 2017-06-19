@@ -47,6 +47,8 @@ The project is developed by Bitworks Software Frontend Division within the educa
 
 ## Features Supported
 
+Actual Changelog can be found in GitHub's [wiki](https://github.com/bwsw/cloudstack-ui/wiki/Changelog).
+
 Since we designed the product from the perspective of well-known use cases, which are common to our public cloud deployment, we implemented only ones which are 100% required and cover most of use cases. Other deployments may imply other requirements, which is why it’s an open source product.
 
 So, what is supported:
@@ -56,6 +58,7 @@ So, what is supported:
 * KVM Hypervisor
 * Security group templates
 * Multiple zones
+* Cloudstack Account Domains
 * Virtual machine standard operations supported by Apache Cloudstack
 * Root and Data disks management
 * Ad-hoc snapshots for disks
@@ -66,6 +69,8 @@ So, what is supported:
 * Custom and Fixed service and disk offerings
 * Password management
 * SSH keys management
+* API keys management
+* A lot of small improvements which affect  user experience greatly
 
 ## Features Yet Unsupported
 
@@ -76,10 +81,7 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 
 ## Current To Dos
 
-* Projects
 * Responsive interface for smart devices
-* API keys management
-* A lot of small improvements which affect  user experience greatly
 
 ## Long Term To Dos
 

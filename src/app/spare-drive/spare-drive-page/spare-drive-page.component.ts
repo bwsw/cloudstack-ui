@@ -2,7 +2,6 @@ import { Component, HostBinding, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import {
-  DialogService,
   DiskOffering,
   DiskOfferingService,
   FilterService,
@@ -18,9 +17,9 @@ import { VolumeService } from '../../shared/services/volume.service';
 
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
 
-import debounce = require('lodash/debounce');
 import sortBy = require('lodash/sortBy');
 import { SpareDriveActionsService } from '../spare-drive-actions.service';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -64,9 +63,7 @@ export class SpareDrivePageComponent implements OnInit {
     private userService: UserService,
     private volumeService: VolumeService,
     private zoneService: ZoneService
-  ) {
-    this.update = debounce(this.update, 300);
-  }
+  ) { }
 
   public ngOnInit(): void {
     this.listService.onAction.subscribe(() => {
@@ -173,11 +170,6 @@ export class SpareDrivePageComponent implements OnInit {
       });
   }
 
-
-  public attach(data): void {
-    this.spareDriveActionsService.attach(data);
-  }
-
   public updateVolume(volume: Volume): void {
     this.volumes = this.volumes.map(vol => vol.id === volume.id ? volume : vol);
 
@@ -188,7 +180,7 @@ export class SpareDrivePageComponent implements OnInit {
   }
 
   private onVolumeAttached(): void {
-    this.updateVolumeList();
+    this.updateVolumeList().subscribe();
     this.updateSections();
   }
 

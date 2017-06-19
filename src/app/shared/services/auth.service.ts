@@ -1,11 +1,16 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { BackendResource } from '../decorators';
+import { BaseModelStub } from '../models';
+import { AsyncJobService } from './async-job.service';
 
 import { BaseBackendService } from './base-backend.service';
-import { BaseModelStub } from '../models';
-import { BackendResource } from '../decorators';
+import { CacheService } from './cache.service';
 import { ConfigService } from './config.service';
+import { RouterUtilsService } from './router-utils.service';
 import { StorageService } from './storage.service';
 import { UserService } from './user.service';
 
@@ -20,21 +25,24 @@ const DEFAULT_SESSION_REFRESH_INTERVAL = 60;
   entityModel: BaseModelStub
 })
 export class AuthService extends BaseBackendService<BaseModelStub> {
-  public loggedIn: BehaviorSubject<string>;
+  public loggedIn: BehaviorSubject<boolean>;
   private refreshTimer: any;
   private numberOfRefreshes = 0;
   private inactivityTimeout: number;
   private sessionRefreshInterval = DEFAULT_SESSION_REFRESH_INTERVAL;
 
   constructor(
+    protected asyncJobService: AsyncJobService,
+    protected cacheService: CacheService,
     protected configService: ConfigService,
     protected storage: StorageService,
+    protected router: Router,
     protected userService: UserService,
+    protected routerUtilsService: RouterUtilsService,
     protected zone: NgZone
   ) {
     super();
-
-    this.loggedIn = new BehaviorSubject<string>(!!this.userId ? 'login' : 'logout');
+    this.loggedIn = new BehaviorSubject<boolean>(!!this.userId);
 
     debounce(this.refreshSession, 1000, { leading: true });
     debounce(this.resetTimer, 1000, { leading: true });
@@ -49,6 +57,12 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
         this.resetTimer();
         this.addEventListeners();
       });
+
+    this.loggedIn.subscribe(() => {
+      this.asyncJobService.completeAllJobs();
+      this.cacheService.invalidateAll();
+      this.storage.resetInMemoryStorage();
+    });
   }
 
   public setInactivityTimeout(value: number): Observable<void> {
@@ -118,48 +132,50 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   public login(username: string, password: string, domain?: string): Observable<void> {
     return this.postRequest('login', { username, password, domain })
       .map(res => this.getResponse(res))
-      .map(res => {
+      .do(res => {
         this.setLoggedIn(res.username, `${res.firstname} ${res.lastname}`, res.userid);
-        return res;
       })
       .catch((error) => this.handleCommandError(error));
   }
 
   public logout(): Observable<void> {
-    return this.postRequest('logout')
-      .map(() => this.setLoggedOut('logout'))
+    const obs = new Subject<void>();
+    this.postRequest('logout')
+      .do(() => this.setLoggedOut())
       .catch(error => {
         this.error.send(error);
         return Observable.throw('Unable to log out.');
-      });
+      })
+      .subscribe(() => obs.next());
+    return obs;
   }
 
   public isLoggedIn(): Observable<boolean> {
     return Observable.of(!!this.userId);
   }
 
-  public setLoggedIn(username: string, name: string, userId: string): void {
+  public sendRefreshRequest(): void {
+    this.userService.getList().subscribe();
+  }
+
+  private setLoggedIn(username: string, name: string, userId: string): void {
     this.name = name;
     this.username = username;
     this.userId = userId;
-    this.loggedIn.next('login');
+    this.loggedIn.next(true);
   }
 
-  public setLoggedOut(a: string): void {
+  private setLoggedOut(): void {
     this.name = '';
     this.username = '';
     this.userId = '';
-    this.loggedIn.next(a);
-  }
-
-  public sendRefreshRequest(): void {
-    this.userService.getList().subscribe();
+    this.loggedIn.next(false);
   }
 
   private refreshSession(): void {
     if (++this.numberOfRefreshes * this.sessionRefreshInterval >= this.inactivityTimeout * 60) {
       this.clearTimer();
-      this.zone.run(() => this.logout().subscribe());
+      this.zone.run(() => this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams()));
     } else {
       this.sendRefreshRequest();
     }

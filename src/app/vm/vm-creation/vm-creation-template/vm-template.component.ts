@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, OnInit, OnChanges } from '@angu
 import { Template, TemplateService } from '../../../template/shared';
 import { VmTemplateDialogComponent } from './vm-template-dialog.component';
 import { PRESELECTED_TEMPLATE_TOKEN, ZONE } from './injector-token';
-import { DialogService } from '../../../shared/services/dialog/dialog.service';
+import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 
 
 @Component({

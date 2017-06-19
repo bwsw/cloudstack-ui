@@ -1,66 +1,17 @@
 <cs-top-bar></cs-top-bar>
-<div class="padding flex-container" *loading="loading">
-  <div class="flex-column-left">
-    <div
-      class="settings-control"
-      *ngIf="language"
-    >
-      <h4 class="no-margin">{{ 'LANGUAGE' | translate }}</h4>
-      <mdl-select
-        [(ngModel)]="language"
-        (change)="changeLanguage($event)"
+
+<div class="settings-container">
+  <section>
+    <h4>{{ 'SECURITY' | translate }}</h4>
+    <div class="section-container">
+      <h5>{{ 'CHANGE_PASSWORD' | translate }}</h5>
+      <form
+        class="settings-control"
+        [formGroup]="passwordUpdateForm"
+        (ngSubmit)="updatePassword()"
+        novalidate
       >
-        <mdl-option
-          *ngFor="let l of languages"
-          [value]="l.value"
-        >
-          {{ l.text }}
-        </mdl-option>
-      </mdl-select>
-    </div>
-    <div
-      class="settings-control"
-      *ngIf="firstDayOfWeek != null"
-    >
-      <h4 class="no-margin">{{ 'FIRST_DAY_OF_WEEK' | translate }}</h4>
-      <mdl-select
-        *ngIf="dayTranslations"
-        [ngModel]="firstDayOfWeek"
-        [disabled]="updatingFirstDayOfWeek"
-        (change)="firstDayOfWeekChange($event)"
-      >
-        <mdl-option
-          *ngFor="let d of daysOfTheWeek"
-          [value]="d.value"
-        >
-          {{ d.text | translate }}
-        </mdl-option>
-      </mdl-select>
-    </div>
-    <div class="settings-control">
-      <h4>{{ 'PALETTE' | translate }}</h4>
-      <div>
-        <cs-color-picker
-          *ngIf="primaryColor"
-          [colors]="primaryColors"
-          [formControl]="primaryColorControl"
-          (change)="updatePrimaryColor($event)"
-        ></cs-color-picker>
-      </div>
-      <div>
-        <cs-color-picker
-          *ngIf="accentColor"
-          [colors]="accentColors"
-          [formControl]="accentColorControl"
-          (change)="updateAccentColor($event)"
-        ></cs-color-picker>
-      </div>
-    </div>
-    <div class="settings-control">
-      <form (ngSubmit)="updatePassword()" [formGroup]="passwordUpdateForm" novalidate>
-        <h4>{{ 'CHANGE_PASSWORD' | translate }}</h4>
         <mdl-textfield
-          required
           type="password"
           label="{{ 'NEW_PASSWORD' | translate }}"
           formControlName="password"
@@ -69,14 +20,14 @@
         ></mdl-textfield>
         <br>
         <mdl-textfield
-          required
           type="password"
           label="{{ 'REPEAT_PASSWORD' | translate }}"
           formControlName="passwordRepeat"
           floating-label
+          required
         ></mdl-textfield>
         <br>
-        <div class="password-change-button">
+        <div class="pull-right-button">
           <button
             type="submit"
             mdl-button
@@ -86,10 +37,71 @@
           </button>
         </div>
       </form>
+
+      <cs-inactivity-timeout></cs-inactivity-timeout>
     </div>
-  </div>
-  <div class="flex-column-right">
-    <cs-inactivity-timeout></cs-inactivity-timeout>
-    <cs-api-info></cs-api-info>
-  </div>
+  </section>
+
+  <section>
+    <h4>{{ 'API' | translate }}</h4>
+    <div class="section-container">
+      <cs-api-info></cs-api-info>
+    </div>
+  </section>
+
+  <section>
+    <h4>{{ 'LOOK_AND_FEEL' | translate }}</h4>
+    <div class="section-container">
+      <div *ngIf="language" class="settings-control">
+        <h5 class="no-margin">{{ 'LANGUAGE' | translate }}</h5>
+        <mdl-select
+          [(ngModel)]="language"
+          (change)="changeLanguage($event)"
+        >
+          <mdl-option
+            *ngFor="let l of languages"
+            [value]="l.value"
+          >
+            {{ l.text }}
+          </mdl-option>
+        </mdl-select>
+      </div>
+      <div *ngIf="firstDayOfWeek != null" class="settings-control">
+        <h5 class="no-margin">{{ 'FIRST_DAY_OF_WEEK' | translate }}</h5>
+        <mdl-select
+          *ngIf="dayTranslations"
+          [ngModel]="firstDayOfWeek"
+          [disabled]="updatingFirstDayOfWeek"
+          (change)="firstDayOfWeekChange($event)"
+        >
+          <mdl-option
+            *ngFor="let d of daysOfTheWeek"
+            [value]="d.value"
+          >
+            {{ d.text | translate }}
+          </mdl-option>
+        </mdl-select>
+      </div>
+      <div class="settings-control">
+        <h5>{{ 'PALETTE' | translate }}</h5>
+        <div>
+          <cs-color-picker
+            *ngIf="primaryColor"
+            [colors]="primaryColors"
+            [formControl]="primaryColorControl"
+            (change)="updatePrimaryColor($event)"
+          ></cs-color-picker>
+        </div>
+        <div>
+          <cs-color-picker
+            *ngIf="accentColor"
+            [colors]="accentColors"
+            [formControl]="accentColorControl"
+            (change)="updateAccentColor($event)"
+          ></cs-color-picker>
+        </div>
+      </div>
+
+    </div>
+  </section>
 </div>

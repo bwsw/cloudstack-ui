@@ -24,7 +24,7 @@
     </mdl-layout-title>
     <nav #navigationBar class="mdl-navigation">
       <a
-        (click)="componentSelected(mainLayout)"
+        (click)="linkClick('/instances')"
         class="mdl-navigation__link link-container"
         routerLink="/instances"
         [class.link-hover-light]="isLightTheme"
@@ -36,7 +36,7 @@
       </a>
 
       <a
-        (click)="componentSelected(mainLayout)"
+        (click)="linkClick('/spare-drives')"
         class="mdl-navigation__link link-container"
         routerLink="/spare-drives"
         [class.link-hover-light]="isLightTheme"
@@ -48,7 +48,7 @@
       </a>
 
       <a
-        (click)="componentSelected(mainLayout)"
+        (click)="linkClick('/templates')"
         class="mdl-navigation__link link-container"
         routerLink="/templates"
         [class.link-hover-light]="isLightTheme"
@@ -60,8 +60,8 @@
       </a>
 
       <a
+        (click)="linkClick('/sg-templates')"
         *ngIf="!disableSecurityGroups"
-        (click)="componentSelected(mainLayout)"
         class="mdl-navigation__link link-container"
         routerLink="/sg-templates"
         [class.link-hover-light]="isLightTheme"
@@ -73,7 +73,7 @@
       </a>
 
       <a
-        (click)="componentSelected(mainLayout)"
+        (click)="linkClick('/events')"
         class="mdl-navigation__link link-container"
         routerLink="/events"
         [class.link-hover-light]="isLightTheme"
@@ -85,7 +85,7 @@
       </a>
 
       <a
-        (click)="componentSelected(mainLayout)"
+        (click)="linkClick('/ssh-keys')"
         class="mdl-navigation__link link-container"
         routerLink="/ssh-keys"
         [class.link-hover-light]="isLightTheme"
@@ -97,7 +97,7 @@
       </a>
 
       <a
-        (click)="componentSelected(mainLayout)"
+        (click)="linkClick('/settings')"
         class="mdl-navigation__link link-container"
         routerLink="/settings"
         [class.link-hover-light]="isLightTheme"
@@ -109,10 +109,8 @@
       </a>
 
       <a
-        (click)="componentSelected(mainLayout);"
         class="mdl-navigation__link link-container"
         routerLink="/logout"
-        [queryParams]="{ loggedIn: 'reset' }"
         [class.link-hover-light]="isLightTheme"
         [class.link-hover-dark]="!isLightTheme"
         [routerLinkActive]="linkActiveStyle"

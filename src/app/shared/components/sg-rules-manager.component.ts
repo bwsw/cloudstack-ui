@@ -2,7 +2,7 @@ import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { SgCreationComponent, Rules } from '../../security-group/sg-creation/sg-creation.component';
-import { DialogService } from '../services/dialog/dialog.service';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 
 @Component({
@@ -19,6 +19,7 @@ import { DialogService } from '../services/dialog/dialog.service';
 })
 export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
   @Input() public mode: 'create' | 'edit';
+  @Input() public header = 'VM_CREATION_FORM.SECURITY_GROUPS';
   public savedRules: Rules;
 
   private _rules: Rules;

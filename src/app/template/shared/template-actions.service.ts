@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../shared/services/dialog/dialog.service';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { VmService } from '../../vm/shared/vm.service';
 import { BaseTemplateModel } from './base-template.model';
@@ -18,8 +18,7 @@ export class TemplateActionsService {
     private templateService: TemplateService,
     private isoService: IsoService,
     private vmService: VmService
-  ) { }
-
+  ) {}
 
   public createTemplate(templateData, viewMode): Observable<void> {
     let obs;

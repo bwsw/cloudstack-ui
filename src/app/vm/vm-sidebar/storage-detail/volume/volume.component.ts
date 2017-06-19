@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import {
-  DialogService,
   DiskOffering,
   DiskOfferingService,
   StatsUpdateService,
@@ -14,6 +13,7 @@ import {
 
 import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
 import { VolumeResizeComponent } from '../../volume-resize.component';
+import { DialogService } from '../../../../dialog/dialog-module/dialog.service';
 
 
 @Component({
@@ -85,7 +85,7 @@ export class VolumeComponent implements OnInit {
   }
 
   private onVolumeResize(volume: Volume): void {
-    this.volume.size = volume.size;
+    this.volume = volume;
     this.onResize.next(this.volume);
     this.statsUpdateService.next();
   }
@@ -96,7 +96,7 @@ export class VolumeComponent implements OnInit {
     return this.zoneService.get(this.volume.zoneId)
       .switchMap((_zone: Zone) => {
         zone = _zone;
-        return this.diskOfferingService.getList(zone.id);
+        return this.diskOfferingService.getList({ zoneId: zone.id });
       })
       .map(diskOfferings => {
         return diskOfferings.filter((diskOffering: DiskOffering) => {

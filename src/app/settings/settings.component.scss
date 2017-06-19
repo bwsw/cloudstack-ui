@@ -1,26 +1,39 @@
+$section-width: 320px;
+$section-padding: 20px;
+
 :host {
   width: 100%;
 }
 
-.flex-container {
-  display: flex;
-  flex-wrap: wrap;
+:host /deep/ .settings-container {
+  padding: 20px;
+
+  section {
+    h4 {
+      margin: 20px 0;
+      font-size: 1.4em;
+    }
+
+    .section-container {
+      padding-left: $section-padding;
+
+      h5 {
+        margin: 8px 0;
+        font-size: 1.25em;
+      }
+    }
+
+    .settings-control {
+      width: $section-width - $section-padding;
+    }
+  }
+
+  section:first-of-type h4 {
+    margin-top: 0;
+  }
 }
 
-.flex-column-left {
-  flex: 1;
-  margin-right: 50px;
-}
-
-.flex-column-right {
-  flex: 2;
-}
-
-.settings-control {
-  max-width: 300px;
-}
-
-.password-change-button {
+:host /deep/ .pull-right-button {
   text-align: right;
   width: 100%;
 }

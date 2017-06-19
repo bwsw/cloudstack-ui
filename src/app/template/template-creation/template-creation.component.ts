@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, Optional } from '@angular/core';
-import { MdlDialogReference } from '@angular-mdl/core';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 
 import { OsType, OsTypeService, Zone, ZoneService } from '../../shared';
 import { Snapshot } from '../../shared/models/snapshot.model';

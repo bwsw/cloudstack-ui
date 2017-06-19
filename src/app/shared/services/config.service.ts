@@ -13,8 +13,9 @@ const configUrl = 'config/config.json';
 @Injectable()
 export class ConfigService {
   private config: IConfig;
+  private loadObservable: Observable<void>;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {}
 
   public get(key: string | Array<string>): Observable<any | Array<any>> {
     let isArray = Array.isArray(key);
@@ -23,7 +24,10 @@ export class ConfigService {
       return Observable.of(this.getResult(isArray, key));
     }
 
-    return this.load().map(() => this.getResult(isArray, key));
+    if (!this.loadObservable) {
+      this.loadObservable = this.load().share();
+    }
+    return this.loadObservable.map(() => this.getResult(isArray, key));
   }
 
   private getResult(isArray: boolean, key: string | Array<string>): any {

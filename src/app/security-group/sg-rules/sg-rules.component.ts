@@ -1,17 +1,11 @@
-import {
-  Component,
-  Inject,
-  ViewChild,
-  OnInit,
-  ElementRef
-} from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MdlDialogReference } from '@angular-mdl/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { SecurityGroupService } from '../../shared/services';
 import { SecurityGroup, NetworkRuleType, NetworkRuleTypes, NetworkProtocol, NetworkProtocols } from '../sg.model';
 import { NotificationService } from '../../shared/services';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 
 
 @Component({
@@ -19,7 +13,7 @@ import { NotificationService } from '../../shared/services';
   templateUrl: 'sg-rules.component.html',
   styleUrls: ['sg-rules.component.scss']
 })
-export class SgRulesComponent implements OnInit {
+export class SgRulesComponent {
   @ViewChild('rulesForm') public rulesForm: NgForm;
 
   public type: NetworkRuleType;
@@ -51,8 +45,7 @@ export class SgRulesComponent implements OnInit {
     private securityGroupService: SecurityGroupService,
     private notificationService: NotificationService,
     @Inject('securityGroup') public securityGroup: SecurityGroup,
-    private translateService: TranslateService,
-    private elementRef: ElementRef
+    private translateService: TranslateService
   ) {
     this.cidr = '0.0.0.0/0';
     this.protocol = NetworkProtocols.TCP;
@@ -61,10 +54,6 @@ export class SgRulesComponent implements OnInit {
     this.icmpType = -1;
 
     this.adding = false;
-  }
-
-  public ngOnInit(): void {
-    this.setPadding();
   }
 
   public addRule(e: Event): void {
@@ -93,7 +82,6 @@ export class SgRulesComponent implements OnInit {
           this.securityGroup[`${type.toLowerCase()}Rules`].push(rule);
           this.resetForm();
           this.adding = false;
-          this.setPadding();
         },
         () => {
           this.notificationService.message('FAILED_TO_ADD_RULE');
@@ -128,32 +116,11 @@ export class SgRulesComponent implements OnInit {
           return;
         }
         rules.splice(ind, 1);
-        this.setPadding();
       }, () => {
         this.translateService.get(['FAILED_TO_REMOVE_RULE']).subscribe((translations) => {
           this.notificationService.message(translations['FAILED_TO_REMOVE_RULE']);
         });
       });
-  }
-
-  /*
-   *   This code is fixed blur dialog window caused
-   *   https://bugs.chromium.org/p/chromium/issues/detail?id=521364
-   */
-  public setPadding(): void {
-    let rulesCount = this.securityGroup.ingressRules.length + this.securityGroup.egressRules.length;
-    let dialogElement = this.getDialogElement();
-    if (rulesCount % 2) {
-      dialogElement.classList.add('blur-fix-odd');
-      dialogElement.classList.remove('blur-fix-even');
-    } else {
-      dialogElement.classList.add('blur-fix-even');
-      dialogElement.classList.remove('blur-fix-odd');
-    }
-  }
-
-  private getDialogElement(): HTMLElement {
-    return this.elementRef.nativeElement.parentNode as HTMLElement;
   }
 
   private resetForm(): void {

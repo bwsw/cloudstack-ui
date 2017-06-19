@@ -1,16 +1,11 @@
+import { MdlDialogModule, MdlDialogOutletModule, MdlSnackbaModule } from '@angular-mdl/core';
 import { Component } from '@angular/core';
-import { NotificationService } from './notification.service';
-import { MdlSnackbaModule, MdlDialogOutletModule } from '@angular-mdl/core';
 
-import {
-  inject,
-  TestBed,
-  async,
-  fakeAsync,
-  tick
-} from '@angular/core/testing';
+import { async, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
+import { NotificationService } from './notification.service';
+
 
 @Component({
   selector: 'cs-test-view',
@@ -26,7 +21,9 @@ describe('Service: Notification service', () => {
     TestBed.configureTestingModule({
       declarations: [MdlTestViewComponent],
       imports: [
-        MdlSnackbaModule.forRoot(), MdlDialogOutletModule
+        MdlDialogModule,
+        MdlDialogOutletModule,
+        MdlSnackbaModule.forRoot(),
       ],
       providers: [
         NotificationService,

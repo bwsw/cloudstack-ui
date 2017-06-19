@@ -8,8 +8,6 @@ import {
 import { ConfigService } from '../shared/services/config.service';
 
 
-const fadeIn = 600;
-
 @Component({
   selector: 'cs-login',
   templateUrl: './login.component.html',
@@ -26,8 +24,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private notification: NotificationService,
-    private router: Router,
     private route: ActivatedRoute,
+    private router: Router,
     private configService: ConfigService
   ) {
   }
@@ -38,7 +36,7 @@ export class LoginComponent implements OnInit {
         const domainFromQueryParams = this.route.snapshot.queryParams['domain'];
         this.domain = domainFromQueryParams || domainFromConfig || '';
 
-        setTimeout(() => this.loading = false, fadeIn);
+        this.loading = false;
       });
   }
 
@@ -58,7 +56,8 @@ export class LoginComponent implements OnInit {
   }
 
   private handleLogin(): void {
-    this.router.navigate(['']);
+    const next = this.route.snapshot.queryParams['next'] || '';
+    this.router.navigateByUrl(next);
   }
 
   private handleError(error: any): void {

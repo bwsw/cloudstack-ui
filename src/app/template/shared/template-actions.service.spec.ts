@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
 import { JobsNotificationService } from '../../shared/services';
-import { DialogService } from '../../shared/services/dialog/dialog.service';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 import { VmService } from '../../vm/shared/vm.service';
 import { Iso, IsoService, Template, TemplateService } from './';
 import { TemplateActionsService } from './template-actions.service';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 
 @Injectable()

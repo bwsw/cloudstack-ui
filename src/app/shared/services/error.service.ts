@@ -44,6 +44,10 @@ export class ErrorService extends Subject<any> {
     {
       regex: /Unable to find the domain from the path \/(.*)\//,
       translation: 'LOGIN_FORM.INCORRECT_DOMAIN'
+    },
+    {
+      regex: /Value greater than max allowed length (\d+) for param: volumeName/,
+      translation: 'VOLUME_NAME_TOO_LONG'
     }
   ];
 

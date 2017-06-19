@@ -1,16 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Zone } from '../../shared';
-import { ZoneService } from '../../shared/services/zone.service';
-import { DiskOffering } from '../../shared';
-import { DiskOfferingService } from '../../shared';
-import { ResourceUsageService, ResourceStats } from '../../shared/services/resource-usage.service';
-import { MdlDialogReference } from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
-import { VolumeCreationData } from '../spare-drive-page/spare-drive-page.component';
+import { MdlDialogReference } from '../../dialog/dialog-module';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DiskOffering, DiskOfferingService, Zone } from '../../shared';
 import { Volume } from '../../shared/models';
-import { VolumeService } from '../../shared/services/volume.service';
 import { JobsNotificationService } from '../../shared/services';
-import { DialogService } from '../../shared/services/dialog/dialog.service';
+import { ResourceStats, ResourceUsageService } from '../../shared/services/resource-usage.service';
+import { VolumeService } from '../../shared/services/volume.service';
+import { ZoneService } from '../../shared/services/zone.service';
+import { VolumeCreationData } from '../spare-drive-page/spare-drive-page.component';
 
 
 @Component({
@@ -32,6 +30,7 @@ export class SpareDriveCreationComponent implements OnInit {
   private _zoneId: string;
 
   private notificationId: string;
+  private insufficientResourcesDialog: Observable<any>;
 
   constructor(
     private dialog: MdlDialogReference,
@@ -144,8 +143,12 @@ export class SpareDriveCreationComponent implements OnInit {
   }
 
   private handleInsufficientResources(): void {
-    this.dialogService.alert('VOLUME_LIMIT_EXCEEDED')
-      .subscribe(_ => this.dialog.hide());
+    this.dialog.hide();
+    if (!this.insufficientResourcesDialog) {
+      this.insufficientResourcesDialog = this.dialogService.alert('VOLUME_LIMIT_EXCEEDED');
+      this.insufficientResourcesDialog
+        .subscribe(() => this.insufficientResourcesDialog = undefined);
+    }
   }
 
   private get creationParams(): any {

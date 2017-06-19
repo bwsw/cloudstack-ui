@@ -26,6 +26,10 @@ export class StorageService {
     this.isLocalStorage ? this.localStorageRemove(key) : this.inMemoryRemove(key);
   }
 
+  public resetInMemoryStorage(): void {
+    this.inMemoryStorage = undefined;
+  }
+
   private localStorageWrite(key: string, value: string): void {
     localStorage.setItem(key, value);
   }
