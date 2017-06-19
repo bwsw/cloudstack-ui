@@ -7,8 +7,9 @@
     novalidate
   >
     <div class="mdl-dialog__content">
-      <div *ngIf="anyGroups">
+      <div>
         <mdl-radio
+          *ngIf="anyGroups"
           name="assignExistingGroupRadio"
           [value]="modes.assignExistingGroup"
           [(ngModel)]="mode"
@@ -27,6 +28,7 @@
         </mdl-radio>
 
         <mdl-radio
+          *ngIf="groupName"
           name="removeFromGroup"
           [value]="modes.removeFromGroup"
           [(ngModel)]="mode"

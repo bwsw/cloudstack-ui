@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { VirtualMachine } from '../../shared/vm.model';
-import { MdlDialogService } from '@angular-mdl/core';
 import { InstanceGroupSelectorComponent } from '../instance-group-selector/instance-group-selector.component';
+import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 
 
 @Component({
@@ -12,7 +12,7 @@ import { InstanceGroupSelectorComponent } from '../instance-group-selector/insta
 export class InstanceGroupComponent {
   @Input() public vm: VirtualMachine;
 
-  constructor(private dialogService: MdlDialogService) {}
+  constructor(private dialogService: DialogService) {}
 
   public get groupName(): string {
     return this.vm.instanceGroup && this.vm.instanceGroup.name;

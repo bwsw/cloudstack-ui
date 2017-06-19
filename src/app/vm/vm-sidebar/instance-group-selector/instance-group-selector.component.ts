@@ -1,9 +1,10 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { MdlTextFieldComponent } from '@angular-mdl/core';
 import { VirtualMachine } from '../../shared/vm.model';
 import { InstanceGroupService } from '../../../shared/services';
 import { InstanceGroup } from '../../../shared/models';
 import { VmService } from '../../shared/vm.service';
-import { MdlDialogReference, MdlTextFieldComponent } from '@angular-mdl/core';
+import { MdlDialogReference } from '../../../dialog/dialog-module';
 
 
 enum InstanceGroupAssignmentMode {
@@ -23,9 +24,9 @@ export class InstanceGroupSelectorComponent implements OnInit {
   public maxLength = 255;
   public modes = InstanceGroupAssignmentMode;
   public newGroupName: string;
-  private anyGroups: boolean;
-  private groupNames: Array<string>;
-  private loading: boolean;
+  public anyGroups: boolean;
+  public loading: boolean;
+  public groupNames: Array<string>;
   private _mode: InstanceGroupAssignmentMode;
 
 
@@ -64,7 +65,7 @@ export class InstanceGroupSelectorComponent implements OnInit {
   }
 
   public get isModeNew(): boolean {
-    return this.mode === this.modes.createNewGroup || !this.anyGroups;
+    return this.mode === this.modes.createNewGroup;
   }
 
   public get isModeExisting(): boolean {
