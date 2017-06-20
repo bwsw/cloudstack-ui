@@ -13,6 +13,26 @@ import { MdlDialogReference } from '../../../../../dialog/dialog-module';
       text-overflow: ellipsis;
       overflow: hidden;
     }
+
+    .with-description td {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    
+    tbody:hover {
+      background-color: #eee;
+    }
+
+    .description-row {
+      height: 32px;
+      padding-top: 0;
+    }
+
+    .description-row td {
+      height: 32px;
+      border-top: none;
+      padding-top: 0;
+    }
   `]
 })
 export class SnapshotModalComponent {
