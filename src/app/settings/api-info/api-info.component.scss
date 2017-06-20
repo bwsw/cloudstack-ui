@@ -14,3 +14,12 @@ mdl-textfield {
 mdl-textfield /deep/ input {
   cursor: text;
 }
+
+.header-wrap {
+  display: flex;
+  width: 320px;
+
+  mdl-button {
+    margin-left: auto;
+  }
+}

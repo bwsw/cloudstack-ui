@@ -1,81 +1,91 @@
-<div class="settings-control">
-  <div *loading="loading">
-    <div>
-      <h5 [translate]="linkFields.apiUrl.title"></h5>
-      <a class="mdl-color-text--primary-dark" target="_blank" [href]="linkFields.apiUrl.href">
-        {{ linkFields.apiUrl.href }}
-      </a>
-    </div>
+<section>
+  <div class="header-wrap">
+    <h4>{{ 'API' | translate }}</h4>
+    <mdl-button mdl-button-type="icon" (click)="askToRegenerateKeys()">
+      <mdl-icon>sync</mdl-icon>
+    </mdl-button>
+  </div>
+  <div class="section-container">
+    <div class="settings-control">
+      <div *loading="loading">
+        <div>
+          <h5 [translate]="linkFields.apiUrl.title"></h5>
+          <a class="mdl-color-text--primary-dark" target="_blank" [href]="linkFields.apiUrl.href">
+            {{ linkFields.apiUrl.href }}
+          </a>
+        </div>
 
-    <div *ngIf="linkFields.apiDocLink.href">
-      <h5 [translate]="linkFields.apiDocLink.title"></h5>
-      <a class="mdl-color-text--primary-dark" target="_blank" [href]="linkFields.apiDocLink.href">
-        {{ linkFields.apiDocLink.href }}
-      </a>
-    </div>
+        <div *ngIf="linkFields.apiDocLink.href">
+          <h5 [translate]="linkFields.apiDocLink.title"></h5>
+          <a class="mdl-color-text--primary-dark" target="_blank" [href]="linkFields.apiDocLink.href">
+            {{ linkFields.apiDocLink.href }}
+          </a>
+        </div>
 
-    <div *ngIf="inputFields.apiKey.value">
-      <h5 [translate]="inputFields.apiKey.title"></h5>
-      <cs-input-group>
-        <mdl-textfield
-          cs-input-group-textbox
-          readonly
-          [(ngModel)]="inputFields.apiKey.value"
-        >
-          {{ inputFields.apiKey.value }}
-        </mdl-textfield>
-        <button
-          mdl-button
-          mdl-button-type="icon"
-          cs-input-group-button
-          ngxClipboard
-          [cbContent]="inputFields.apiKey.value"
-          (cbOnSuccess)="onCopySuccess()"
-          (cbOnError)="onCopyFail()"
-        >
-          <mdl-icon
-            mdl-tooltip-position="right"
-            [mdl-tooltip]="apiKeyTooltip"
-          >
-            content_copy
-          </mdl-icon>
-        </button>
-      </cs-input-group>
-      <mdl-tooltip #apiKeyTooltip="mdlTooltip">
-        {{ 'COPY' | translate }}
-      </mdl-tooltip>
-    </div>
+        <div *ngIf="inputFields.apiKey.value">
+          <h5 [translate]="inputFields.apiKey.title"></h5>
+          <cs-input-group>
+            <mdl-textfield
+              cs-input-group-textbox
+              readonly
+              [(ngModel)]="inputFields.apiKey.value"
+            >
+              {{ inputFields.apiKey.value }}
+            </mdl-textfield>
+            <button
+              mdl-button
+              mdl-button-type="icon"
+              cs-input-group-button
+              ngxClipboard
+              [cbContent]="inputFields.apiKey.value"
+              (cbOnSuccess)="onCopySuccess()"
+              (cbOnError)="onCopyFail()"
+            >
+              <mdl-icon
+                mdl-tooltip-position="right"
+                [mdl-tooltip]="apiKeyTooltip"
+              >
+                content_copy
+              </mdl-icon>
+            </button>
+          </cs-input-group>
+          <mdl-tooltip #apiKeyTooltip="mdlTooltip">
+            {{ 'COPY' | translate }}
+          </mdl-tooltip>
+        </div>
 
-    <div *ngIf="inputFields.apiSecretKey.value">
-      <h5 [translate]="inputFields.apiSecretKey.title"></h5>
-      <cs-input-group>
-        <mdl-textfield
-          cs-input-group-textbox
-          readonly
-          [(ngModel)]="inputFields.apiSecretKey.value"
-        >
-          {{ inputFields.apiSecretKey.value }}
-        </mdl-textfield>
-        <button
-          mdl-button
-          mdl-button-type="icon"
-          cs-input-group-button
-          ngxClipboard
-          [cbContent]="inputFields.apiSecretKey.value"
-          (cbOnSuccess)="onCopySuccess()"
-          (cbOnError)="onCopyFail()"
-        >
-          <mdl-icon
-            mdl-tooltip-position="right"
-            [mdl-tooltip]="apiSecretKeyTooltip"
-          >
-            content_copy
-          </mdl-icon>
-        </button>
-      </cs-input-group>
-      <mdl-tooltip #apiSecretKeyTooltip="mdlTooltip">
-        {{ 'COPY' | translate }}
-      </mdl-tooltip>
+        <div *ngIf="inputFields.apiSecretKey.value">
+          <h5 [translate]="inputFields.apiSecretKey.title"></h5>
+          <cs-input-group>
+            <mdl-textfield
+              cs-input-group-textbox
+              readonly
+              [(ngModel)]="inputFields.apiSecretKey.value"
+            >
+              {{ inputFields.apiSecretKey.value }}
+            </mdl-textfield>
+            <button
+              mdl-button
+              mdl-button-type="icon"
+              cs-input-group-button
+              ngxClipboard
+              [cbContent]="inputFields.apiSecretKey.value"
+              (cbOnSuccess)="onCopySuccess()"
+              (cbOnError)="onCopyFail()"
+            >
+              <mdl-icon
+                mdl-tooltip-position="right"
+                [mdl-tooltip]="apiSecretKeyTooltip"
+              >
+                content_copy
+              </mdl-icon>
+            </button>
+          </cs-input-group>
+          <mdl-tooltip #apiSecretKeyTooltip="mdlTooltip">
+            {{ 'COPY' | translate }}
+          </mdl-tooltip>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+</section>

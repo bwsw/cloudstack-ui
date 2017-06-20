@@ -534,6 +534,8 @@
   "API_KEY": "Ключ API",
   "API_SECRET_KEY": "Секретный ключ",
   "API_DOC_LINK": "Документация",
+  "ASK_GENERATE_KEYS": "Вы уверены, что хотите сгенерировать новые ключи API?",
+  "GENERATE": "Сгенерировать",
 
   "INSTANCE_GROUP_CHANGE": "Изменить группу",
   "CREATE_NEW_GROUP": "Создать новую",
