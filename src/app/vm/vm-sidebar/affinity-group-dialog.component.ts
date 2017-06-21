@@ -24,13 +24,9 @@ export class AffinityGroupDialogComponent implements OnInit {
 
   public ngOnInit(): void {
     this.affinityGroupService.getList().subscribe(groups => {
-      this.affinityGroups = groups.filter(
-        _ => !this.vm.affinityGroup.some(ag => ag.id === _.id)
-      );
+      this.affinityGroups = groups;
       if (this.affinityGroups.length) {
         this.selectedAffinityGroup = this.affinityGroups[0].id;
-      } else {
-        this.selectedAffinityGroup = '';
       }
     });
   }
