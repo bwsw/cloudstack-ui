@@ -150,7 +150,7 @@
         <div *ngIf="insufficientResources.length">
           {{ 'VM_CREATION_FORM.YOU_RAN_OUT_OF' | translate }}
           <ng-container *ngFor="let resource of insufficientResources; let l = last">
-            {{ 'VM_CREATION_FORM.RESOURCES.' + resource.toUpperCase() | translate }}<ng-container *ngIf="!l">,</ng-container>
+            {{ insufficientResourcesErrorMap[resource] | translate }}<ng-container *ngIf="!l">,</ng-container>
           </ng-container>
         </div>
       </div>

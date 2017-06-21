@@ -87,6 +87,14 @@ export class VmCreationComponent implements OnInit {
   public fetching: boolean;
   public enoughResources: boolean;
   public insufficientResources: Array<string> = [];
+  public insufficientResourcesErrorMap = {
+    instances: 'VM_CREATION_FORM.RESOURCES.INSTANCES',
+    ips: 'VM_CREATION_FORM.RESOURCES.IPS',
+    volumes: 'VM_CREATION_FORM.RESOURCES.VOLUMES',
+    cpus: 'VM_CREATION_FORM.RESOURCES.CPUS',
+    memory: 'VM_CREATION_FORM.RESOURCES.MEMORY',
+    primaryStorage: 'VM_CREATION_FORM.RESOURCES.PRIMARYSTORAGE',
+  };
 
   public vmCreationData: VmCreationData;
   public keyboards = ['us', 'uk', 'jp', 'sc'];
