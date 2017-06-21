@@ -25,34 +25,7 @@
     </mdl-card-supporting-text>
   </mdl-card>
 
-  <mdl-card
-    class="vm-card overflow-card"
-    *ngIf="groupNames"
-    mdl-shadow="2"
-  >
-    <mdl-card-title>
-      {{ 'GROUP' | translate }}
-    </mdl-card-title>
-    <mdl-card-supporting-text class="overflow-card">
-      <mdl-autocomplete
-        class="details-select"
-        [placeholder]="'NO_GROUP' | translate"
-        [(ngModel)]="groupName"
-        [options]="groupNames"
-      ></mdl-autocomplete>
-    </mdl-card-supporting-text>
-    <mdl-card-actions *ngIf="doShowChangeGroupButton" mdl-card-border>
-      <mdl-button
-        class="button-align-right"
-        type="button"
-        mdl-button
-        mdl-ripple
-        (click)="$event.stopPropagation(); changeGroup()"
-      >
-        {{ 'ASSIGN' | translate }}
-      </mdl-button>
-    </mdl-card-actions>
-  </mdl-card>
+  <cs-instance-group [vm]="vm"></cs-instance-group>
 
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
@@ -285,11 +258,11 @@
         </div>
         <div class="row">
           <div>{{ 'STATISTICS_FIELDS.DISK_READ_IO' | translate }}</div>
-          <div>{{ vm.diskIoRead }}</div>
+          <div>{{ 'IOPS' | translate:{ value: vm.diskIoRead } }}</div>
         </div>
         <div class="row">
           <div>{{ 'STATISTICS_FIELDS.DISK_WRITE_IO' | translate }}</div>
-          <div>{{ vm.diskIoWrite }}</div>
+          <div>{{ 'IOPS' | translate:{ value: vm.diskIoWrite } }}</div>
         </div>
       </div>
     </mdl-card-supporting-text>

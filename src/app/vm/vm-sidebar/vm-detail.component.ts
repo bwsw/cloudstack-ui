@@ -1,13 +1,13 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
+import { Observable } from 'rxjs/Observable';
 
+import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
 import { SecurityGroup } from '../../security-group/sg.model';
 import {
   ServiceOfferingDialogComponent
 } from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
-import { Color, InstanceGroup, ServiceOfferingFields, ServiceOffering } from '../../shared/models';
-import { ConfigService, InstanceGroupService } from '../../shared/services';
-import { TagService } from '../../shared/services/tag.service';
+import { Color, ServiceOfferingFields, ServiceOffering } from '../../shared/models';
+import { ConfigService } from '../../shared/services';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VirtualMachine, VmActions, VmStates } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
@@ -30,14 +30,10 @@ export class VmDetailComponent implements OnChanges, OnInit {
   public disableSecurityGroup = false;
   public expandNIC: boolean;
   public expandServiceOffering: boolean;
-  public groupName: string;
-  public groupNames: Array<string>;
 
   constructor(
     private dialogService: DialogService,
-    private instanceGroupService: InstanceGroupService,
     private serviceOfferingService: ServiceOfferingService,
-    private tagService: TagService,
     private vmService: VmService,
     private zoneService: ZoneService,
     private configService: ConfigService
@@ -47,32 +43,20 @@ export class VmDetailComponent implements OnChanges, OnInit {
   }
 
   public ngOnInit(): void {
-    this.configService.get('vmColors')
-      .subscribe(colors => this.colorList = colors);
+    Observable.forkJoin(
+      this.configService.get('themeColors'),
+      this.configService.get('vmColors')
+    ).subscribe(
+      ([themeColors, vmColors]) => this.colorList = themeColors.concat(vmColors)
+    );
   }
 
   public ngOnChanges(): void {
     this.update();
   }
 
-  public get doShowChangeGroupButton(): boolean {
-    let groupWasEmpty = !this.vm.instanceGroup && !!this.groupName;
-    let groupChanged = this.vm.instanceGroup && this.vm.instanceGroup.name !== this.groupName;
-    return groupWasEmpty || groupChanged;
-  }
-
-  public changeGroup(): void {
-    let instanceGroup = new InstanceGroup(this.groupName);
-    this.instanceGroupService.add(this.vm, instanceGroup)
-      .subscribe(vm => {
-        this.instanceGroupService.groupsUpdates.next();
-        this.vmService.updateVmInfo(vm);
-        this.updateGroups();
-      });
-  }
-
   public changeColor(color: Color): void {
-    this.tagService.update(this.vm, 'UserVm', 'color', color.value)
+    this.vmService.setColor(this.vm, color)
       .subscribe(vm => {
         this.vm = vm;
         this.vmService.updateVmInfo(this.vm);
@@ -185,15 +169,9 @@ export class VmDetailComponent implements OnChanges, OnInit {
 
   private update(): void {
     this.updateColor();
-    this.updateGroups();
     this.updateDescription();
 
     this.checkSecurityGroupDisabled();
-    if (this.vm.instanceGroup) {
-      this.groupName = this.vm.instanceGroup.name;
-    } else {
-      this.groupName = undefined;
-    }
   }
 
   private addSecondaryIp(vm: VirtualMachine): void {
@@ -218,13 +196,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
   }
 
   private updateColor(): void {
-    this.color = this.vmService.getColor(this.vm);
-  }
-
-  private updateGroups(): void {
-    this.vmService.getInstanceGroupList().subscribe(groups => {
-      this.groupNames = groups.map(group => group.name);
-    });
+    this.color = this.vm.getColor();
   }
 
   private updateDescription(): void {

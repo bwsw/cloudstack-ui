@@ -1,12 +1,17 @@
 import isEqual = require('lodash/isEqual');
 
 
+export interface ICache<T> {
+  get({}): T;
+  set(CacheEntry): void;
+}
+
 export interface CacheEntry<T> {
   params: {};
   result: T;
 }
 
-export class Cache<T> {
+export class Cache<T> implements ICache<T> {
   private cache: Array<CacheEntry<T>> = [];
 
   public get(params: {}): T {

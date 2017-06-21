@@ -1,5 +1,4 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
-import debounce = require('lodash/debounce');
 import { Subject } from 'rxjs/Subject';
 
 import { TranslateService } from '@ngx-translate/core';
@@ -60,9 +59,7 @@ export class TemplateFiltersComponent implements OnInit {
     private storageService: StorageService,
     private translateService: TranslateService,
     private zoneService: ZoneService
-  ) {
-    this.updateFilters = debounce(this.updateFilters, 300);
-  }
+  ) { }
 
   public ngOnInit(): void {
     if (!this.dialogMode) {
@@ -148,5 +145,7 @@ export class TemplateFiltersComponent implements OnInit {
     this.selectedZones = this.zones.filter(zone => params['zones'].find(id => id === zone.id));
     this.query = params['query'];
     this.queryStream.next(this.query);
+
+    this.updateFilters();
   }
 }

@@ -1,0 +1,102 @@
+<cs-overlay-loading [active]="loading"></cs-overlay-loading>
+<div class="security-group-template-form">
+  <h3 class="mdl-dialog__title">{{ 'INSTANCE_GROUP_CHANGE' | translate }}</h3>
+  <form
+    (ngSubmit)="changeGroup($event)"
+    #instanceGroupForm="ngForm"
+    novalidate
+  >
+    <div class="mdl-dialog__content">
+      <div>
+        <mdl-radio
+          *ngIf="anyGroups"
+          name="assignExistingGroupRadio"
+          [value]="modes.assignExistingGroup"
+          [(ngModel)]="mode"
+          mdl-ripple
+        >
+          {{ 'CHOOSE_EXISTING_GROUP' | translate }}
+        </mdl-radio>
+
+        <mdl-radio
+          name="createNewGroupRadio"
+          [value]="modes.createNewGroup"
+          [(ngModel)]="mode"
+          mdl-ripple
+        >
+          {{ 'CREATE_NEW_GROUP' | translate }}
+        </mdl-radio>
+
+        <mdl-radio
+          *ngIf="groupName"
+          name="removeFromGroup"
+          [value]="modes.removeFromGroup"
+          [(ngModel)]="mode"
+          mdl-ripple
+        >
+          {{ 'REMOVE_FROM_GROUP' | translate }}
+        </mdl-radio>
+      </div>
+
+      <mdl-textfield
+        *ngIf="isModeNew"
+        type="text"
+        name="groupName"
+        floating-label
+        autofocus
+        required
+        [(ngModel)]="newGroupName"
+        #groupField
+        #groupFieldModel="ngModel"
+        [class.is-invalid]="groupFieldModel.invalid && !groupFieldModel.pristine"
+        [style.width]="'100%'"
+        [placeholder]="'ENTER_GROUP_NAME' | translate"
+        [maxlength]="maxLength"
+      ></mdl-textfield>
+
+      <mdl-select
+        name="groupSelector"
+        *ngIf="isModeExisting"
+        [(ngModel)]="newGroupName"
+        [placeholder]="'CHOOSE_GROUP' | translate"
+      >
+        <mdl-option
+          *ngFor="let g of groupNames"
+          [value]="g"
+        >
+          {{ g }}
+        </mdl-option>
+      </mdl-select>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button
+        *ngIf="!isModeRemove"
+        mdl-colored="primary"
+        mdl-button
+        mdl-ripple
+        type="submit"
+        [disabled]="!groupChanged || !instanceGroupForm.valid"
+      >
+        {{ 'ASSIGN' | translate }}
+      </button>
+      <button
+        *ngIf="isModeRemove"
+        mdl-colored="primary"
+        mdl-button
+        mdl-ripple
+        type="submit"
+      >
+        {{ 'REMOVE' | translate }}
+      </button>
+      <button
+        mdl-colored="primary"
+        mdl-button
+        mdl-ripple
+        type="button"
+        (click)="dialog.hide()"
+      >
+        {{ 'CANCEL' | translate }}
+      </button>
+    </div>
+  </form>
+</div>

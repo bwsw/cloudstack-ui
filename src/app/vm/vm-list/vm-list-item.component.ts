@@ -99,6 +99,6 @@ export class VmListItemComponent implements OnInit, OnChanges {
   }
 
   private updateColor(): void {
-    this.color = this.vmService.getColor(this.vm);
+    this.color = this.vm.getColor();
   }
 }

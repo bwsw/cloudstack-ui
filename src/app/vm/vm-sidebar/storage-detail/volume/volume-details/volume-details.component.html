@@ -17,44 +17,44 @@
       <div>{{ 'SPARE_DRIVE_DETAILS.STORAGE_TYPE' | translate }}</div>
       <div>{{ ('DISK_OFFERING_STORAGE_TYPE.' + volume.storageType.toUpperCase()) | translate }}</div>
     </div>
+    <div class="row"
+         *ngIf="volume?.diskOffering?.name"
+         [mdl-tooltip]="volume?.diskOffering?.displayText"
+         mdl-tooltip-position="top"
+    >
+      <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING_TITLE' | translate }}</div>
+      <div>{{ volume.diskOffering.name }}</div>
+    </div>
   </div>
 
   <div
-    *ngIf="volume?.diskOffering"
+    *ngIf="hasPerformanceInfo()"
     class="detail-section"
   >
-    <div class="detail-section-header">{{ 'DISK_OFFERING' | translate }}</div>
-    <div class="row" *ngIf="volume.diskOffering.name">
-      <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.NAME' | translate }}</div>
-      <div>{{ volume.diskOffering.name }}</div>
-    </div>
-    <div class="row" *ngIf="volume.diskOffering.displayText">
-      <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.DESCRIPTION' | translate }}</div>
-      <div>{{ volume.diskOffering.displayText }}</div>
-    </div>
+    <div class="detail-section-header">{{ 'PERFORMANCE' | translate }}</div>
     <div class="row" *ngIf="volume.diskOffering.minIops">
       <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.MINIOPS' | translate }}</div>
-      <div>{{ volume.diskOffering.minIops }}</div>
+      <div>{{ 'IOPS' | translate:{ value: volume.diskOffering.minIops } }}</div>
     </div>
     <div class="row" *ngIf="volume.diskOffering.maxIops">
       <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.MAXIOPS' | translate }}</div>
-      <div>{{ volume.diskOffering.maxIops }}</div>
+      <div>{{ 'IOPS' | translate:{ value: volume.diskOffering.maxIops } }}</div>
     </div>
     <div class="row" *ngIf="volume.diskOffering.diskBytesReadRate">
-      <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.BYTES_READ_RATE' | translate }}</div>
-      <div>{{ volume.diskOffering.diskBytesReadRate | division:10:6 }}</div>
+      <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.READ_RATE' | translate }}</div>
+      <div>{{ 'MBPS' | translate:{ value: volume.diskOffering.diskBytesReadRate | division:10:6 } }}</div>
     </div>
     <div class="row" *ngIf="volume.diskOffering.diskBytesWriteRate">
-      <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.BYTES_WRITE_RATE' | translate }}</div>
-      <div>{{ volume.diskOffering.diskBytesWriteRate | division:10:6 }}</div>
+      <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.WRITE_RATE' | translate }}</div>
+      <div>{{ 'MBPS' | translate:{ value: volume.diskOffering.diskBytesWriteRate | division:10:6 } }}</div>
     </div>
     <div class="row" *ngIf="volume.diskOffering.diskIopsReadRate">
-      <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.IOPS_READ_RATE' | translate }}</div>
-      <div>{{ volume.diskOffering.diskIopsReadRate }}</div>
+      <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.READ_RATE' | translate }}</div>
+      <div>{{ 'IOPS' | translate:{ value: volume.diskOffering.diskIopsReadRate } }}</div>
     </div>
     <div class="row" *ngIf="volume.diskOffering.diskIopsWriteRate">
-      <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.IOPS_WRITE_RATE' | translate }}</div>
-      <div>{{ volume.diskOffering.diskIopsWriteRate }}</div>
+      <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.WRITE_RATE' | translate }}</div>
+      <div>{{ 'IOPS' | translate:{ value: volume.diskOffering.diskIopsWriteRate } }}</div>
     </div>
   </div>
 </div>

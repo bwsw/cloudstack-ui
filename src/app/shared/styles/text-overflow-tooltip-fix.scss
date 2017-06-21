@@ -1,0 +1,6 @@
+.text-overflow-tooltip-fix {
+  &::before {
+    content: '';
+    display: block;
+  }
+}

@@ -6,7 +6,7 @@ if [ -z "$DEPLOY_PORT" ]; then
 fi
 
 if [ -n "$CONFIG_PATH" ]; then
-  export CONFIG_MOUNT="-v ${CONFIG_PATH}:/config";
+  export CONFIG_MOUNT="-v ${CONFIG_PATH}:/var/www/dist/config/config.json";
 else
   export CONFIG_MOUNT="";
 fi

@@ -11,6 +11,7 @@ import {
 } from '../../shared/models';
 import { BaseTemplateModel } from '../../template/shared';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
+import { Color } from '../../shared/models/color.model';
 
 
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
@@ -81,6 +82,8 @@ export class VirtualMachine extends BaseModel {
   public static actions = Object
     .values(VmActions)
     .map(a => VirtualMachine.getAction(a));
+
+  public static ColorDelimiter = ';';
 
   public id: string;
   public displayName: string;
@@ -158,6 +161,17 @@ export class VirtualMachine extends BaseModel {
       return acc + volume.size;
     }, 0);
     return sizeInBytes / Math.pow(2, 30);
+  }
+
+  public getColor(): Color {
+    if (this.tags) {
+      let colorTag = this.tags.find(tag => tag.key === 'color');
+      if (colorTag) {
+        const [backgroundColor, textColor] = colorTag.value.split(VirtualMachine.ColorDelimiter);
+        return new Color(backgroundColor, backgroundColor, textColor || '');
+      }
+    }
+    return new Color('white', '#FFFFFF', '');
   }
 
   public canApply(command: string): boolean {
