@@ -42,12 +42,7 @@
     </div>
   </section>
 
-  <section>
-    <h4>{{ 'API' | translate }}</h4>
-    <div class="section-container">
-      <cs-api-info></cs-api-info>
-    </div>
-  </section>
+  <cs-api-info [userId]="userId"></cs-api-info>
 
   <section>
     <h4>{{ 'LOOK_AND_FEEL' | translate }}</h4>
