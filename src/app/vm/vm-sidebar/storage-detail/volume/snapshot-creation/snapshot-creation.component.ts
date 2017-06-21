@@ -20,6 +20,7 @@ import { MdlDialogReference } from '../../../../../dialog/dialog-module';
 })
 export class SnapshotCreationComponent implements OnInit {
   public name: string;
+  public description: string;
 
   public loading = true;
   public enoughResources: boolean;
@@ -50,16 +51,16 @@ export class SnapshotCreationComponent implements OnInit {
 
   public onSubmit(): void {
     this.dialog.hide();
-    this.takeSnapshot(this.volume.id, this.name);
+    this.takeSnapshot(this.volume.id, this.name, this.description);
   }
 
   public onHide(): void {
     this.dialog.hide();
   }
 
-  public takeSnapshot(volumeId: string, name: string): void {
+  public takeSnapshot(volumeId: string, name: string, description: string): void {
     let notificationId = this.jobsNotificationService.add('SNAPSHOT_IN_PROGRESS');
-    this.snapshotService.create(volumeId, name)
+    this.snapshotService.create(volumeId, name, description)
       .subscribe(
         (result: any) => {
           this.statsUpdateService.next();

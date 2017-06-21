@@ -1,0 +1,36 @@
+.snapshot-name {
+  max-width: 290px;
+  width: 270px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.with-description td {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+tbody:hover {
+  background-color: #eee;
+}
+
+.with-description:hover,
+.description-row:hover {
+  background: none;
+}
+
+.description-row {
+  height: 32px;
+  padding-top: 0;
+
+  td {
+    max-width: 100px;
+    height: 32px;
+    font-size: 13px;
+    border-top: none;
+    padding-top: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+  }
+}
