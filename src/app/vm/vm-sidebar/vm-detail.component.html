@@ -208,6 +208,17 @@
       <div *ngFor="let affinityGroup of vm.affinityGroup">{{ affinityGroup.name }}</div>
       <div *ngIf="!vm.affinityGroup.length">{{ 'NO_AFFINITY_GROUP' | translate }}</div>
     </mdl-card-supporting-text>
+    <mdl-card-actions mdl-card-border>
+      <button
+        [mdl-tooltip]="'EDIT' | translate"
+        mdl-tooltip-position="top"
+        mdl-button
+        mdl-button-type="icon"
+        (click)="changeAffinityGroup()"
+      >
+        <mdl-icon>edit</mdl-icon>
+      </button>
+    </mdl-card-actions>
   </mdl-card>
 
   <mdl-card class="vm-card" mdl-shadow="2">
