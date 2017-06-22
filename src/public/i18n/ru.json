@@ -9,7 +9,9 @@
     "HIDE_ADVANCED": "Скрыть дополнительные параметры",
     "INCORRECT_USERNAME": "Неверное имя пользователя",
     "INCORRECT_PASSWORD": "Неверный пароль",
-    "INCORRECT_DOMAIN": "Не удалось найти домен {{val1}}"
+    "INCORRECT_DOMAIN": "Не удалось найти домен {{val1}}",
+    "USERNAME_REQUIRED": "Необходимо заполнить имя пользователя",
+    "PASSWORD_REQUIRED": "Необходимо заполнить пароль"
   },
   "WRONG_ARGUMENTS": "Неверные параметры",
   "UNEXPECTED_ERROR": "Неизвестная ошибка",

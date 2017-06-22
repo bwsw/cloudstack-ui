@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractControl } from '@angular/forms';
 
-import {
-  AuthService,
-  NotificationService,
-} from '../shared';
+import { AuthService, NotificationService } from '../shared';
 import { ConfigService } from '../shared/services/config.service';
 
 
@@ -14,6 +12,9 @@ import { ConfigService } from '../shared/services/config.service';
   styleUrls: ['login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+  @ViewChild('user') public usernameField;
+  @ViewChild('pass') public passwordField;
+
   public username = '';
   public password = '';
   public domain = '';
@@ -45,14 +46,27 @@ export class LoginComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    this.login(this.username, this.password, this.domain);
+    if (this.username && this.password) {
+      this.login(this.username, this.password, this.domain);
+      return;
+    }
+    if (!this.username) {
+      this.setErrors(this.usernameField.control);
+    }
+    if (!this.password) {
+      this.setErrors(this.passwordField.control);
+    }
+  }
+
+  private setErrors(control: AbstractControl): void {
+    control.setErrors({ required: true });
+    control.markAsDirty();
   }
 
   private login(username: string, password: string, domain: string): void {
     this.auth
       .login(username, password, domain)
       .subscribe(() => this.handleLogin(), error => this.handleError(error));
-
   }
 
   private handleLogin(): void {
