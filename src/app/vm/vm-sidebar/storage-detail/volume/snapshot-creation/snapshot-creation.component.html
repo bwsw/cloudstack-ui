@@ -10,12 +10,22 @@
       <mdl-textfield
         *ngIf="enoughResources"
         type="text"
-        label="Name"
+        [label]="'NAME' | translate"
         name="name"
         floating-label
         autofocus
         required
         [(ngModel)]="name"
+        [style.width]="'100%'"
+      >
+      </mdl-textfield>
+      <mdl-textfield
+        *ngIf="enoughResources"
+        type="text"
+        [label]="'DESCRIPTION' | translate"
+        name="description"
+        floating-label
+        [(ngModel)]="description"
         [style.width]="'100%'"
       >
       </mdl-textfield>
