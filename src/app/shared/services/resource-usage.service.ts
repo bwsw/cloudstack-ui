@@ -65,35 +65,44 @@ export class ResourceUsageService {
     let consumedResources = new ResourcesData();
     let maxResources;
 
-    let promiseArray = [];
+    let requests = [];
 
-    promiseArray.push(this.vmService.getList()
-      .map((vms: Array<VirtualMachine>) => {
+    requests.push(
+      this.vmService.getList().map((vms: Array<VirtualMachine>) => {
         consumedResources.instances = vms.length;
         vms.forEach(value => {
           consumedResources.ips += value.nic.length;
           consumedResources.cpus += value.cpuNumber;
           consumedResources.memory += value.memory;
         });
-      }));
+      })
+    );
 
-    promiseArray.push(this.volumeService.getList()
-      .map((volumes: Array<Volume>) => {
+    requests.push(
+      this.volumeService.getList().map((volumes: Array<Volume>) => {
         consumedResources.volumes = volumes.length;
-      }));
+      })
+    );
 
-    promiseArray.push(this.snapshotService.getList()
-      .map((snapshots: Array<Snapshot>) => {
+    requests.push(
+      this.snapshotService.getList().map((snapshots: Array<Snapshot>) => {
         consumedResources.snapshots = snapshots.length;
-      }));
+      })
+    );
 
-    promiseArray.push(this.diskStorageService.getConsumedPrimaryStorage()
-      .map(result => consumedResources.primaryStorage = result));
+    requests.push(
+      this.diskStorageService
+        .getConsumedPrimaryStorage()
+        .map(result => consumedResources.primaryStorage = result)
+    );
 
-    promiseArray.push(this.diskStorageService.getConsumedSecondaryStorage()
-      .map(result => consumedResources.secondaryStorage = result));
+    requests.push(
+      this.diskStorageService
+        .getConsumedSecondaryStorage()
+        .map(result => consumedResources.secondaryStorage = result)
+    );
 
-    return Observable.forkJoin(promiseArray)
+    return Observable.forkJoin(requests)
       .switchMap(() => this.resourceLimitService.getList())
       .map(result => {
         maxResources = new ResourcesData(result);

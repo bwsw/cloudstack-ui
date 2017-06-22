@@ -20,7 +20,10 @@ export class UtilsService {
     return value / denominator;
   }
 
-  public convertToGB(value: number): number {
+  public convertToGB(value?: number): number {
+    if (value == null) {
+      return 0;
+    }
     return value / Math.pow(2, 30);
   }
 }

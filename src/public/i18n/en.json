@@ -187,7 +187,18 @@
     "CREATE_SECURITY": "Create",
     "KEYBOARD_LAYOUT": "Keyboard layout",
     "SSH_KEYPAIR": "SSH keypair",
-    "START_VM": "Start VM"
+    "START_VM": "Start VM",
+    "YOU_RAN_OUT_OF": "You ran out of",
+    "RESOURCES": {
+      "CPUS": "CPU",
+      "MEMORY": "RAM",
+      "INSTANCES": "VMs",
+      "IPS": "IPs",
+      "VOLUMES": "Volumes",
+      "PRIMARYSTORAGE": "Primary storage"
+    },
+    "NO_SERVICE_OFFERING": "No service offerings available. Contact your administrator",
+    "NO_DISK_OFFERING": "No disk offerings available. Contact your administrator"
   },
 
   "CREATING_SG": "Creating a security group",
