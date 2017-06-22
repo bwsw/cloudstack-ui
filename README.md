@@ -3,7 +3,7 @@
 Table of Contents
 =================
 
-   * [Cloudstack UI](#cloudstack-ui)
+   * [CloudStack-UI](#cloudstack-ui)
       * [Project Story](#project-story)
       * [Implementation Details](#implementation-details)
       * [Features Supported](#features-supported)
@@ -27,19 +27,19 @@ Table of Contents
       * [How to Contribute](#how-to-contribute)
       * [License](#license)
 
-# Cloudstack UI
+# CloudStack-UI
 
-Cloudstack UI is a project whose purpose is to develop an easy-to-use, light, and user friendly frontend interface for the [Apache Cloudstack](http://cloudstack.apache.org/) virtualization management system. Apache Cloudstack itself is a great product which is used very widely, but its frontend is developed for administrators (from our point of view), not for end cloud users. Some of the interactions are not straightforward and unnatural to an average user and require quite a long time to adapt. Other reasons to develop are connected with a lack of functions like virtual machine statistics & charting, sophisticated resource accounting, and application management. These are in our long-term TODO list.
+CloudStack-UI is a project whose purpose is to develop an easy-to-use, light, and user friendly frontend interface for the [Apache CloudStack](http://cloudstack.apache.org/) virtualization management system. Apache CloudStack itself is a great product which is used very widely, but its frontend is developed for administrators (from our point of view), not for end cloud users. Some of the interactions are not straightforward and unnatural to an average user and require quite a long time to adapt. Other reasons to develop are connected with a lack of functions like virtual machine statistics & charting, sophisticated resource accounting, and application management. These are in our long-term TODO list.
 
 ## Project Story
 
-At [Bitworks Software](https://bitworks.software/), we run an ACS public cloud for 3 years (actually we still run CS 4.3 cloud in production) and we found that average users who are familiar with Digital Ocean, Amazon AWS, and other VPS management systems feel uncomfortable with original Cloudstack UI and make a lot of operational mistakes. That’s why we decided to implement a convenient and neat end-user facing UI covering regular activities, which are important for day-to-day VM management.
+At [Bitworks Software](https://bitworks.software/), we run an ACS public cloud for 3 years (actually we still run CS 4.3 cloud in production) and we found that average users who are familiar with Digital Ocean, Amazon AWS, and other VPS management systems feel uncomfortable with original CloudStack UI and make a lot of operational mistakes. That’s why we decided to implement a convenient and neat end-user facing UI covering regular activities, which are important for day-to-day VM management.
 
 The project is developed by Bitworks Software Frontend Division within the educational marathon, which has the purpose to incorporate our new team members and show them our standard frontend development instrument.
 
 ## Implementation Details
 
-* Designed compatible with [Apache Cloudstack](http://cloudstack.apache.org/) 4.9 and hasn't tested for the previous versions of CS
+* Designed compatible with [Apache CloudStack](http://cloudstack.apache.org/) 4.9 and hasn't tested for the previous versions of CS
 * Powered by [Angular 2](https://angular.io/) and [Google Material Design Lite](https://getmdl.io/)
 * Tested and works fine in next modern browsers
    * Google Chrome 56.0.2924.76
@@ -53,13 +53,13 @@ Since we designed the product from the perspective of well-known use cases, whic
 
 So, what is supported:
 
-* Basic Cloudstack zones with virtual router
+* Basic CloudStack zones with virtual router
 * Security groups
 * KVM Hypervisor
 * Security group templates
 * Multiple zones
-* Cloudstack Account Domains
-* Virtual machine standard operations supported by Apache Cloudstack
+* CloudStackAccount Domains
+* Virtual machine standard operations supported by Apache CloudStack
 * Root and Data disks management
 * Ad-hoc snapshots for disks
 * Affinity groups management
@@ -74,7 +74,7 @@ So, what is supported:
 
 ## Features Yet Unsupported
 
-We intensively use features like projects in our own Cloudstack cloud to manage resources dedicated to project groups, etc. but generic users don’t need them, so we don’t support the following features yet:
+We intensively use features like projects in our own CloudStackcloud to manage resources dedicated to project groups, etc. but generic users don’t need them, so we don’t support the following features yet:
 
 * Advanced Zones
 * Hypervisors other than KVM have not been tested
@@ -100,7 +100,7 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 
 #### Login view
 
-Just a simple login screen. Nothing really new. But it has a nice preloader which can be used to brand it for specific company. By default it shows Apache Cloudstack banner.
+Just a simple login screen. Nothing really new. But it has a nice preloader which can be used to brand it for specific company. By default it shows Apache CloudStack banner.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/loginView.png" target="_blank">![Login screen](./screens/loginView_mini.png)</a>
 
@@ -172,9 +172,9 @@ docker run -d -p 80:80 --name cloudstack-ui \
            bwsw/cloudstack-ui
 ```
 
-`http://link/to/api/endpoint` - URL of Cloudstack API endpoint (e.g. http://host:8080/client/api)
+`http://link/to/api/endpoint` - URL of CloudStackAPI endpoint (e.g. http://host:8080/client/api)
 
-`http://link/to/console/endpoint` - URL of Cloudstack console endpoint (e.g. http://host:8080/client/console)
+`http://link/to/console/endpoint` - URL of CloudStackconsole endpoint (e.g. http://host:8080/client/console)
 
 `base_href` - custom base URL (optional, defaults to "/")
 
