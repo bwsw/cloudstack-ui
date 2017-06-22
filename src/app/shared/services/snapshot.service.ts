@@ -40,7 +40,7 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
       .switchMap(job => {
         const asyncJob = this.asyncJobService.queryJob(job, this.entity, this.entityModel);
         const tag = description
-          ? this.tagService.update({ id: job.id }, 'Snapshot', DESCRIPTION_TAG, description)
+          ? this.tagService.update({ id: job.id }, this.entity, DESCRIPTION_TAG, description)
           : Observable.of(null);
 
         return tag.switchMapTo(asyncJob);
