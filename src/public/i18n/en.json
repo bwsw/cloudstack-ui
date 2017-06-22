@@ -9,7 +9,9 @@
     "HIDE_ADVANCED": "Hide advanced options",
     "INCORRECT_USERNAME": "Incorrect username",
     "INCORRECT_PASSWORD": "Incorrect password",
-    "INCORRECT_DOMAIN": "Unable to find domain {{val1}}"
+    "INCORRECT_DOMAIN": "Unable to find domain {{val1}}",
+    "USERNAME_REQUIRED": "Username is required",
+    "PASSWORD_REQUIRED": "Password is required"
   },
   "WRONG_ARGUMENTS": "Wrong arguments",
   "UNEXPECTED_ERROR": "Unexpected error",
