@@ -9,7 +9,9 @@
     "HIDE_ADVANCED": "Скрыть дополнительные параметры",
     "INCORRECT_USERNAME": "Неверное имя пользователя",
     "INCORRECT_PASSWORD": "Неверный пароль",
-    "INCORRECT_DOMAIN": "Не удалось найти домен {{val1}}"
+    "INCORRECT_DOMAIN": "Не удалось найти домен {{val1}}",
+    "USERNAME_REQUIRED": "Необходимо заполнить имя пользователя",
+    "PASSWORD_REQUIRED": "Необходимо заполнить пароль"
   },
   "WRONG_ARGUMENTS": "Неверные параметры",
   "UNEXPECTED_ERROR": "Неизвестная ошибка",
@@ -185,7 +187,18 @@
     "CREATE_SECURITY": "Создать",
     "KEYBOARD_LAYOUT": "Раскладка клавиатуры",
     "SSH_KEYPAIR": "SSH ключ",
-    "START_VM": "Запустить ВМ"
+    "START_VM": "Запустить ВМ",
+    "YOU_RAN_OUT_OF": "Вам не хватает",
+    "RESOURCES": {
+      "CPUS": "CPU",
+      "MEMORY": "RAM",
+      "INSTANCES": "ВМ",
+      "IPS": "IP",
+      "VOLUMES": "Дисков",
+      "PRIMARYSTORAGE": "Основного хранилища"
+    },
+    "NO_SERVICE_OFFERING": "Нет доступных вычислительных предложений. Обратитесь к администратору",
+    "NO_DISK_OFFERING": "Нет доступных дисковых предложений. Обратитесь к администратору"
   },
 
   "CREATING_SG": "Создание группы безопасности",
@@ -252,6 +265,10 @@
   "OFFERING_CHANGE_FAILED": "Предложение не изменилось",
   "CHANGE_SERVICE_OFFERING": "Изменить предложение",
   "SO_CHANGE_DISABLED": "Необходимо остановить машину",
+
+  "SELECT_AFFINITY_GROUP": "Выберите аффинитетную группу",
+  "NO_AFFINITY_GROUPS": "Нет аффинитетных групп",
+  "STOP_MACHINE_FOR_AG": "Для того чтобы изменить аффинитетную группу, необходимо остановить виртуальную машину. Хотите остановить сейчас?",
 
   "FIREWALL_RULES_FOR_VM": "Правила брандмауэра для ВМ",
   "TEMPLATE_RULES": "Правила шаблона",
@@ -534,6 +551,8 @@
   "API_KEY": "Ключ API",
   "API_SECRET_KEY": "Секретный ключ",
   "API_DOC_LINK": "Документация",
+  "ASK_GENERATE_KEYS": "Вы уверены, что хотите сгенерировать новые ключи API?",
+  "GENERATE": "Сгенерировать",
 
   "INSTANCE_GROUP_CHANGE": "Изменить группу",
   "CREATE_NEW_GROUP": "Создать новую",

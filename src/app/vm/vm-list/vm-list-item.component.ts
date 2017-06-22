@@ -36,7 +36,9 @@ export class VmListItemComponent implements OnInit, OnChanges {
     this.asyncJobService.event.subscribe((job: AsyncJob<any>) => {
       if (job.result && job.result.id === this.vm.id) {
         this.vm.state = job.result.state;
-        this.vm.nic[0] = job.result.nic[0];
+        if (job.result.nic && job.result.nic.length) {
+          this.vm.nic[0] = job.result.nic[0];
+        }
       }
     });
     this.vmService.vmUpdateObservable.subscribe(() => {

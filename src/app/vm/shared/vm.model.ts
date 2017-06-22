@@ -10,15 +10,11 @@ import {
   Volume
 } from '../../shared/models';
 import { BaseTemplateModel } from '../../template/shared';
+import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { Color } from '../../shared/models/color.model';
 
 
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
-
-interface IAffinityGroup {
-  id: string;
-  name: string;
-}
 
 export interface IVmAction {
   name: string;
@@ -107,7 +103,7 @@ export class VirtualMachine extends BaseModel {
   // Security Group
   public securityGroup: Array<SecurityGroup>;
   // Affinity Group
-  public affinityGroup: Array<IAffinityGroup>;
+  public affinityGroup: Array<AffinityGroup>;
   // Zone
   public zoneId: string;
   public zoneName: string;
@@ -191,7 +187,11 @@ export class VirtualMachine extends BaseModel {
 
     // if a vm has no ip address, it can't be reached
     // so reset password fails
-    if (command === 'resetpasswordfor' && !this.nic[0].ipAddress) {
+    if (this.nic && this.nic.length) {
+      if (command === 'resetpasswordfor' && !this.nic[0].ipAddress) {
+        return false;
+      }
+    } else {
       return false;
     }
 

@@ -45,7 +45,7 @@ import { MdlDialogReference } from '../../dialog/dialog-module';
 class VmCreationData {
   public vm: VirtualMachine;
   public affinityGroups: Array<AffinityGroup>;
-  public affinityGroupNames: Array<string>;
+  public affinityGroupNames: Array<string> = [];
   public affinityGroupTypes: Array<AffinityGroupType>;
   public instanceGroups: Array<string>;
   public serviceOfferings: Array<ServiceOffering>;
@@ -86,6 +86,15 @@ class VmCreationData {
 export class VmCreationComponent implements OnInit {
   public fetching: boolean;
   public enoughResources: boolean;
+  public insufficientResources: Array<string> = [];
+  public insufficientResourcesErrorMap = {
+    instances: 'VM_CREATION_FORM.RESOURCES.INSTANCES',
+    ips: 'VM_CREATION_FORM.RESOURCES.IPS',
+    volumes: 'VM_CREATION_FORM.RESOURCES.VOLUMES',
+    cpus: 'VM_CREATION_FORM.RESOURCES.CPUS',
+    memory: 'VM_CREATION_FORM.RESOURCES.MEMORY',
+    primaryStorage: 'VM_CREATION_FORM.RESOURCES.PRIMARYSTORAGE',
+  };
 
   public vmCreationData: VmCreationData;
   public keyboards = ['us', 'uk', 'jp', 'sc'];
@@ -142,17 +151,22 @@ export class VmCreationComponent implements OnInit {
     this.enoughResources = true;
     this.resourceUsageService.getResourceUsage()
       .subscribe(resourceUsage => {
-        if (resourceUsage.available.cpus &&
-          resourceUsage.available.instances &&
-          resourceUsage.available.volumes
-        ) {
-          this.resetVmCreateData();
-        } else {
-          this.fetching = false;
+        Object.keys(resourceUsage.available)
+          .filter(key => key !== 'snapshots' && key !== 'secondaryStorage')
+          .forEach(key => {
+            const available = resourceUsage.available[key];
+            if (available === 0) {
+              this.insufficientResources.push(key);
+            }
+          });
+
+        if (this.insufficientResources.length) {
           this.enoughResources = false;
+          this.fetching = false;
+        } else {
+          this.resetVmCreateData();
         }
       });
-
   }
 
   public setDiskOffering(offering: DiskOffering): void {
@@ -491,6 +505,7 @@ export class VmCreationComponent implements OnInit {
   private setServiceOfferings(serviceOfferings: Array<ServiceOffering>): void {
     if (!serviceOfferings.length) {
       this.enoughResources = false;
+      this.dialogService.alert('VM_CREATION_FORM.NO_SERVICE_OFFERING');
     }
     this.vmCreationData.serviceOfferings = serviceOfferings;
     this.setServiceOffering(serviceOfferings[0]);
@@ -503,6 +518,7 @@ export class VmCreationComponent implements OnInit {
 
     if (!filteredDiskOfferings.length) {
       this.enoughResources = false;
+      this.dialogService.alert('VM_CREATION_FORM.NO_DISK_OFFERING');
     } else {
       this.vmCreationData.diskOfferings = diskOfferings;
       this.setDiskOffering(diskOfferings[0]);

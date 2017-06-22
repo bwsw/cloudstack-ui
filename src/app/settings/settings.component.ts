@@ -13,6 +13,7 @@ import { UserService } from '../shared/services/user.service';
   styleUrls: ['settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
+  public userId: string;
   public accentColor: Color;
   public firstDayOfWeek = 1;
   public language: string;
@@ -46,7 +47,9 @@ export class SettingsComponent implements OnInit {
     private styleService: StyleService,
     private translateService: TranslateService,
     private userService: UserService
-  ) { }
+  ) {
+    this.userId = this.authService.userId;
+  }
 
   public ngOnInit(): void {
     this.getLanguage();

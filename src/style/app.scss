@@ -227,6 +227,16 @@ mdl-simple-tooltip div {
   background-color: transparent;
 }
 
+.mdl-checkbox .mdl-checkbox__box-outline {
+  @include material-animation-default(0.28s);
+  transition-property: box-shadow;
+  box-shadow: inset 0 0 0 0 $checkbox-color;
+}
+
+.mdl-checkbox.is-checked .mdl-checkbox__box-outline {
+  box-shadow: inset 0 0 0 1px $checkbox-color;
+}
+
 .card-popover {
   top: 0;
   right: 50px;

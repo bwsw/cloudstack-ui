@@ -9,10 +9,12 @@ import {
 import { Color, ServiceOfferingFields, ServiceOffering } from '../../shared/models';
 import { ConfigService } from '../../shared/services';
 import { ZoneService } from '../../shared/services/zone.service';
-import { VirtualMachine } from '../shared/vm.model';
+import { VirtualMachine, VmActions, VmStates } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { AffinityGroupDialogComponent } from './affinity-group-dialog.component';
+import { AffinityGroup } from '../../shared/models/affinity-group.model';
 
 
 @Component({
@@ -81,6 +83,31 @@ export class VmDetailComponent implements OnChanges, OnInit {
       .updateDescription(this.vm, newDescription)
       .onErrorResumeNext()
       .subscribe();
+  }
+
+  public changeAffinityGroup(): void {
+    if (this.vm.state === VmStates.Stopped) {
+      this.showAffinityGroupDialog();
+      return;
+    }
+
+    this.dialogService.customConfirm({
+      message: 'STOP_MACHINE_FOR_AG',
+      confirmText: 'STOP',
+      declineText: 'CANCEL',
+      width: '350px',
+      clickOutsideToClose: false
+    })
+      .onErrorResumeNext()
+      .subscribe((result) => {
+        if (result === null) {
+          this.vmService.command({
+            action: VirtualMachine.getAction(VmActions.STOP),
+            vm: this.vm
+          })
+            .subscribe(() => this.showAffinityGroupDialog());
+        }
+      });
   }
 
   public isNotFormattedField(key: string): boolean {
@@ -176,6 +203,20 @@ export class VmDetailComponent implements OnChanges, OnInit {
     this.vmService.getDescription(this.vm)
       .subscribe(description => {
         this.description = description;
+      });
+  }
+
+  private showAffinityGroupDialog(): void {
+    this.dialogService.showCustomDialog({
+      component: AffinityGroupDialogComponent,
+      styles: { width: '350px' },
+      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
+      clickOutsideToClose: false
+    }).switchMap(dialog => dialog.onHide())
+      .subscribe((group?: Array<AffinityGroup>) => {
+        if (group) {
+          this.vm.affinityGroup = group;
+        }
       });
   }
 

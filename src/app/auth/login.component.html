@@ -7,7 +7,9 @@
           required
           type="text"
           [label]="'USERNAME' | translate"
+          floating-label
           name="username"
+          [error-msg]="'LOGIN_FORM.USERNAME_REQUIRED' | translate"
           #user="ngModel"
           [(ngModel)]="username"
           [class.is-invalid]="user.invalid && !user.pristine"
@@ -18,7 +20,9 @@
           required
           type="password"
           [label]="'PASSWORD' | translate"
+          floating-label
           name="password"
+          [error-msg]="'LOGIN_FORM.PASSWORD_REQUIRED' | translate"
           #pass="ngModel"
           [(ngModel)]="password"
           [class.is-invalid]="pass.invalid && !pass.pristine"
@@ -29,6 +33,7 @@
           *ngIf="showDomain"
           type="text"
           [label]="'DOMAIN' | translate"
+          floating-label
           name="domain"
           #domainField="ngModel"
           [(ngModel)]="domain"
@@ -42,7 +47,7 @@
           mdl-button
           mdl-ripple
           type="submit"
-          [disabled]="!loginForm.valid"
+          [disabled]="(pass.invalid && !pass.pristine) || (user.invalid && !user.pristine)"
         >{{ 'LOGIN' | translate }}</button>
         <button
           class="options-button"
