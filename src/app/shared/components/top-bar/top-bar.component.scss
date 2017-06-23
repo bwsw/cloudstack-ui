@@ -1,3 +1,5 @@
+@import '../../../../style/_variables';
+
 .top-bar {
   position: relative !important;
   display: flex;
@@ -18,10 +20,16 @@
   z-index: 2;
   right: 0;
   margin: 19px;
+  transition: right 300ms;
 }
 
 .drawer-button {
   height: 20px;
   padding: 20px 0 20px 20px;
   cursor: pointer;
+}
+
+.sidebar-open {
+  right: $sidebar-width;
+  z-index: 6;
 }

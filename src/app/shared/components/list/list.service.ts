@@ -39,4 +39,8 @@ export class ListService {
   public isSelected(id: string): boolean {
     return id === this.selectedId;
   }
+
+  public hasSelected(): boolean {
+    return !!this.selectedId;
+  }
 }
