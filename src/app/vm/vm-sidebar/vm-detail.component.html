@@ -232,6 +232,27 @@
 
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
+      <h2 mdl-card-title-text>{{ 'SSH_KEY' | translate }}</h2>
+    </mdl-card-title>
+    <mdl-card-supporting-text>
+      <span *ngIf="vm.keyPair; else noKeys">{{ vm.keyPair }}</span>
+      <ng-template #noKeys>{{ 'NO_SSH_KEY' | translate }}</ng-template>
+    </mdl-card-supporting-text>
+    <mdl-card-actions mdl-card-border>
+      <mdl-button
+        [mdl-tooltip]="(vm.keyPair ? 'EDIT': 'ADD') | translate"
+        mdl-tooltip-position="top"
+        mdl-button-type="icon"
+        (click)="resetSshKey()"
+      >
+        <mdl-icon *ngIf="vm.keyPair; else add">edit</mdl-icon>
+        <ng-template #add><mdl-icon>add</mdl-icon></ng-template>
+      </mdl-button>
+    </mdl-card-actions>
+  </mdl-card>
+
+  <mdl-card class="vm-card" mdl-shadow="2">
+    <mdl-card-title>
       <h2 mdl-card-title-text>{{ 'STATISTICS' | translate }}</h2>
     </mdl-card-title>
     <mdl-card-supporting-text>
