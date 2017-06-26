@@ -4,6 +4,7 @@ import { TemplateService } from '../shared';
 import { BaseTemplateSidebarComponent } from './base-template-sidebar.component';
 import { TemplateActionsService } from '../shared/template-actions.service';
 import { ListService } from '../../shared/components/list/list.service';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 @Component({
   selector: 'cs-template-sidebar',
@@ -12,17 +13,12 @@ import { ListService } from '../../shared/components/list/list.service';
 })
 export class TemplateSidebarComponent extends BaseTemplateSidebarComponent {
   constructor(
-    private templateService: TemplateService,
-    private route: ActivatedRoute,
+    templateService: TemplateService,
+    route: ActivatedRoute,
     templateActions: TemplateActionsService,
-    listService: ListService
+    listService: ListService,
+    dialogService: DialogService
   ) {
-    super(templateActions, listService);
-    this.route.params.pluck('id').subscribe((id: string) => {
-      if (id) {
-        this.templateService.get(id)
-          .subscribe(template => this.template = template);
-      }
-    });
+    super(templateService, templateActions, listService, route, dialogService);
   }
 }

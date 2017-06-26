@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { VirtualMachine } from '../../vm/shared/vm.model';
+import { BackendResource } from '../decorators';
 
 import { AffinityGroup } from '../models';
-import { BackendResource } from '../decorators';
-import { BaseBackendCachedService } from './base-backend-cached.service';
-import { AsyncJobService } from './async-job.service';
 import { AffinityGroupType } from '../models/affinity-group.model';
+import { AsyncJobService } from './async-job.service';
+import { BaseBackendCachedService } from './base-backend-cached.service';
 
 
 export interface AffinityGroupCreationData {
@@ -32,5 +33,13 @@ export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup
   public create(params: AffinityGroupCreationData): Observable<AffinityGroup> {
     return super.create(params)
       .switchMap(job => this.asyncJob.queryJob(job.jobid, this.entity, this.entityModel));
+  }
+
+  public updateForVm(vm: VirtualMachine, groupId: string): Observable<VirtualMachine> {
+    return this.sendCommand('updateVM', {
+      id: vm.id,
+      affinityGroupIds: groupId
+    })
+      .switchMap(job => this.asyncJob.queryJob(job.jobid, 'virtualmachine', VirtualMachine));
   }
 }

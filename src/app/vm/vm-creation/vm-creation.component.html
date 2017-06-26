@@ -141,7 +141,15 @@
           </mdl-checkbox>
         </div>
       </div>
-      <div>{{ 'INSUFFICIENT_RESOURCES_VM' | translate }}</div>
+      <div *ngIf="!enoughResources">
+        {{ 'INSUFFICIENT_RESOURCES_VM' | translate }}
+        <div *ngIf="insufficientResources.length">
+          {{ 'VM_CREATION_FORM.YOU_RAN_OUT_OF' | translate }}
+          <ng-container *ngFor="let resource of insufficientResources; let l = last">
+            {{ insufficientResourcesErrorMap[resource] | translate }}<ng-container *ngIf="!l">,</ng-container>
+          </ng-container>
+        </div>
+      </div>
     </div>
     <div class="mdl-dialog__actions">
       <button

@@ -29,7 +29,7 @@ export class FilterService {
   }
 
   public update(key, params): void {
-    if (this.routerUtilsService.routeWithoutQueryParams === '/login') {
+    if (this.routerUtilsService.getRouteWithoutQueryParams() === '/login') {
       return;
     }
 

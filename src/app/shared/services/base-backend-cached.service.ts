@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { BaseModel } from '../models';
-import { CacheService } from './';
+import { ApiFormat, CacheService } from './';
 import { BaseBackendService } from './base-backend.service';
 import { Cache } from './cache';
 import { ServiceLocator } from './service-locator';
@@ -11,20 +11,21 @@ export abstract class BaseBackendCachedService<M extends BaseModel> extends Base
 
   constructor() {
     super();
-    this.cache = ServiceLocator.injector.get(CacheService).get<Array<M>>(this.entity);
+    this.initDataCache();
   }
 
-  public getList(params?: {}): Observable<Array<M>> {
-    const cachedResult = this.cache.get(params);
-    if (cachedResult) {
-      return Observable.of(cachedResult);
-    } else {
-      return super.getList(params)
-        .map(result => {
-          this.cache.set({ params, result });
-          return result;
-        });
+  public getList(params?: {}, customApiFormat?: ApiFormat, useCache = true): Observable<Array<M>> {
+    if (useCache) {
+      const cachedResult = this.cache.get(params);
+      if (cachedResult) {
+        return Observable.of(cachedResult);
+      }
     }
+    return super.getList(params, customApiFormat)
+      .map(result => {
+        this.cache.set({ params, result });
+        return result;
+      });
   }
 
   public create(params?: {}): Observable<any> {
@@ -37,5 +38,12 @@ export abstract class BaseBackendCachedService<M extends BaseModel> extends Base
 
   public invalidateCache(): void {
     this.cache.invalidate();
+  }
+
+  private initDataCache(): void {
+    const cacheTag = `${this.entity}DataCache`;
+    this.cache = ServiceLocator.injector
+      .get(CacheService)
+      .get<Array<M>>(cacheTag);
   }
 }

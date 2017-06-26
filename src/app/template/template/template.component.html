@@ -29,17 +29,6 @@
       </ng-template>
       <ng-template ngSwitchDefault>help</ng-template>
     </mdl-icon>
-    <div
-      class="state-icon"
-      [class.running]="ready"
-      [class.in-progress]="!ready"
-      mdl-tooltip-position="right"
-      [mdl-tooltip]="tt"
-    >
-      <mdl-tooltip #tt="mdlTooltip">
-        {{ (ready ? 'READY' : 'NOT_READY') | translate }}
-      </mdl-tooltip>
-    </div>
     <h2
       [mdl-tooltip]="headerTooltip"
       mdl-tooltip-position="bottom"
@@ -53,7 +42,7 @@
       <div>{{ 'OS' | translate }}:</div>
       <div
         *ngIf="singleLine"
-        class="last single-line"
+        class="last single-line text-overflow-tooltip-fix"
         [mdl-tooltip]="osTooltip"
         mdl-tooltip-position="top"
         [innerHTML]="template.osTypeName | highlight:searchQuery"
@@ -63,14 +52,11 @@
         class="last multiline"
         [innerHTML]="template.osTypeName | highlight:searchQuery"
       ></div>
-      <mdl-tooltip #osTooltip="mdlTooltip">
-        {{ template.osTypeName }}
-      </mdl-tooltip>
     </div>
     <div class="card-wrapper" *ngIf="template">
       <div
         *ngIf="singleLine"
-        class="single-line"
+        class="single-line text-overflow-tooltip-fix"
         [mdl-tooltip]="descriptionTooltip"
         mdl-tooltip-position="top"
       >
@@ -81,11 +67,6 @@
         class="multiline"
         [innerHTML]="template.displayText | highlight:searchQuery"
       ></div>
-      <mdl-tooltip
-        #descriptionTooltip="mdlTooltip"
-      >
-        {{ template.displayText }}
-      </mdl-tooltip>
     </div>
   </mdl-card-supporting-text>
   <mdl-card-menu *ngIf="isSelf">
@@ -118,4 +99,12 @@
 </mdl-card>
 <mdl-tooltip #headerTooltip="mdlTooltip">
   {{ template.name }}
+</mdl-tooltip>
+<mdl-tooltip #osTooltip="mdlTooltip">
+  {{ template.osTypeName }}
+</mdl-tooltip>
+<mdl-tooltip
+  #descriptionTooltip="mdlTooltip"
+>
+  {{ template.displayText }}
 </mdl-tooltip>

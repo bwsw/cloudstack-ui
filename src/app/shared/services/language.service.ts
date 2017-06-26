@@ -27,7 +27,10 @@ export class LanguageService {
   }
 
   public applyLanguage(): void {
-    this.getLanguage().subscribe(lang => this.translate.use(lang));
+    this.getLanguage().subscribe(
+      lang => this.translate.use(lang),
+      () => this.translate.use(this.defaultLanguage)
+    );
   }
 
   public getFirstDayOfWeek(): Observable<number> {

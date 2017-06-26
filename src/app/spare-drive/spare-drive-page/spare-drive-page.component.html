@@ -4,7 +4,7 @@
       class="filter-select"
       *ngIf="zones"
       [(ngModel)]="selectedZones"
-      (ngModelChange)="updateSections()"
+      (change)="updateSections()"
       multiple="true"
       [placeholder]="'SELECT_ZONES' | translate"
     >

@@ -1,4 +1,4 @@
-<div class="flex-container">
+<div class="flex-container" *ngIf="!loading">
   <img class="logo" src="img/cloudstack_logo.png">
   <div class="login mdl-color--white" mdl-shadow="2">
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
@@ -7,7 +7,9 @@
           required
           type="text"
           [label]="'USERNAME' | translate"
+          floating-label
           name="username"
+          [error-msg]="'LOGIN_FORM.USERNAME_REQUIRED' | translate"
           #user="ngModel"
           [(ngModel)]="username"
           [class.is-invalid]="user.invalid && !user.pristine"
@@ -18,10 +20,24 @@
           required
           type="password"
           [label]="'PASSWORD' | translate"
+          floating-label
           name="password"
+          [error-msg]="'LOGIN_FORM.PASSWORD_REQUIRED' | translate"
           #pass="ngModel"
           [(ngModel)]="password"
           [class.is-invalid]="pass.invalid && !pass.pristine"
+        >
+        </mdl-textfield>
+        <br/>
+        <mdl-textfield
+          *ngIf="showDomain"
+          type="text"
+          [label]="'DOMAIN' | translate"
+          floating-label
+          name="domain"
+          #domainField="ngModel"
+          [(ngModel)]="domain"
+          [class.is-invalid]="domainField.invalid && !domainField.pristine"
         >
         </mdl-textfield>
       </div>
@@ -31,8 +47,20 @@
           mdl-button
           mdl-ripple
           type="submit"
-          [disabled]="!loginForm.valid"
+          [disabled]="(pass.invalid && !pass.pristine) || (user.invalid && !user.pristine)"
         >{{ 'LOGIN' | translate }}</button>
+        <button
+          class="options-button"
+          mdl-button-type="icon"
+          mdl-button
+          mdl-ripple
+          type="button"
+          [mdl-tooltip]="(showDomain ? 'LOGIN_FORM.HIDE_ADVANCED' : 'LOGIN_FORM.SHOW_ADVANCED') | translate"
+          mdl-tooltip-position="top"
+          (click)="toggleDomain()"
+        >
+          <mdl-icon [class.domains-visible]="showDomain">settings</mdl-icon>
+        </button>
       </div>
     </form>
   </div>

@@ -1,41 +1,36 @@
 import { Observable } from 'rxjs/Observable';
 
-import { BaseBackendService } from './base-backend.service';
 import { Tag } from '../models/tag.model';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { AsyncJobService } from './async-job.service';
+import { BaseBackendCachedService } from './';
 
 
 @BackendResource({
   entity: 'Tag',
   entityModel: Tag
 })
-export class TagService extends BaseBackendService<Tag> {
+export class TagService extends BaseBackendCachedService<Tag> {
   constructor(private asyncJob: AsyncJobService) {
     super();
   }
 
   public create(params?: {}): Observable<any> {
     return super.create(params)
-      .switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid));
+      .switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid))
+      .do(() => this.invalidateCache());
   }
 
   public remove(params?: {}): Observable<any> {
     return super.remove(params)
       .switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid))
-      .catch(() => Observable.of(null));
+      .catch(() => Observable.of(null))
+      .do(() => this.invalidateCache());
   }
 
   public getList(params?: {}): Observable<Array<Tag>> {
-    return this.sendCommand('list', params, 'Tag')
-      .map(response => {
-        const entity = this.entity.toLowerCase();
-        const result = response[entity];
-        if (!result) {
-          return [];
-        }
-        return result.map(m => this.prepareModel(m)) as Array<Tag>;
-      });
+    const customApiFormat = { command: 'list', entity: 'Tag' };
+    return super.getList(params, customApiFormat);
   }
 
   public getTag(entity: any, key: string): Observable<Tag> {
@@ -63,7 +58,8 @@ export class TagService extends BaseBackendService<Tag> {
           }));
         }
         return entity;
-      });
+      })
+      .do(() => this.invalidateCache());
 
     return this.getTag(entity, key)
       .switchMap(tag => {

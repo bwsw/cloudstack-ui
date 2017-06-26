@@ -26,12 +26,12 @@ export class RouterUtilsService {
   public getRedirectionQueryParams(next?: string): NavigationExtras {
     return {
       queryParams: {
-        next: next || this.routeWithoutQueryParams
+        next: next || this.getRouteWithoutQueryParams()
       }
     };
   }
 
-  public get routeWithoutQueryParams(): string {
+  public getRouteWithoutQueryParams(): string {
     return this.router.routerState.snapshot.url.split('?')[0];
   }
 }

@@ -38,9 +38,12 @@ export class BaseTemplateModel extends BaseModel {
   public osTypeName: string;
   public osType: OsType;
   public size: number;
+  public status: string;
   public tags: Array<Tag>;
   public zoneId: string;
   public zoneName: string;
+
+  public zones?: Array<Partial<BaseTemplateModel>>;
 
   constructor(json) {
     super(json);

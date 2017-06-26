@@ -1,12 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { AuthService } from '../../shared/services';
 import { NgModel } from '@angular/forms';
+import { AuthService } from '../../shared/services';
 
 
 @Component({
   selector: 'cs-inactivity-timeout',
-  templateUrl: 'inactivity-timeout.component.html',
-  styleUrls: ['inactivity-timeout.component.scss']
+  templateUrl: 'inactivity-timeout.component.html'
 })
 export class InactivityTimeoutComponent implements OnInit {
   @Input() public inactivityTimeout: number;

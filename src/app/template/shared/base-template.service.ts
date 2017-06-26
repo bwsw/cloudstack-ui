@@ -5,7 +5,7 @@ import { BaseTemplateModel } from './base-template.model';
 import { AsyncJobService, BaseBackendCachedService } from '../../shared/services';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { UtilsService } from '../../shared/services/utils.service';
-
+import { TagService } from '../../shared/services/tag.service';
 
 export const TemplateFilters = {
   community: 'community',
@@ -15,7 +15,6 @@ export const TemplateFilters = {
   selfExecutable: 'selfexecutable',
   sharedExecutable: 'sharedexecutable'
 };
-
 
 export interface RequestParams {
   filter: string;
@@ -28,7 +27,10 @@ export interface RegisterTemplateBaseParams {
   osTypeId: string;
   url?: string;
   zoneId?: string;
+  entity: 'Iso' | 'Template';
 }
+
+export const DOWNLOAD_URL = 'DOWNLOAD_URL';
 
 @Injectable()
 export abstract class BaseTemplateService extends BaseBackendCachedService<BaseTemplateModel> {
@@ -38,6 +40,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     protected asyncJobService: AsyncJobService,
     protected osTypeService: OsTypeService,
     protected utilsService: UtilsService,
+    protected tagService: TagService
   ) {
     super();
     this._templateFilters = [
@@ -55,7 +58,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       .catch(error => Observable.throw(error));
   }
 
-  public getList(params: RequestParams): Observable<Array<BaseTemplateModel>> {
+  public getList(params: RequestParams, distinct = true, useCache = true): Observable<Array<BaseTemplateModel>> {
     params[`${this.entity}filter`.toLowerCase()] = params.filter;
     delete params.filter;
 
@@ -67,11 +70,13 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     }
 
     return Observable.forkJoin([
-      super.getList(params),
+      super.getList(params, null, useCache),
       this.osTypeService.getList()
     ])
       .map(([templates, osTypes]) => {
-        templates = this.distinctIds(templates);
+        if (distinct) {
+          templates = this.distinctIds(templates);
+        }
         templates.forEach(template => {
           template.osType = osTypes.find(osType => osType.id === template.osTypeId);
         });
@@ -85,10 +90,38 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       });
   }
 
+  public getWithGroupedZones(id: string, params?: RequestParams, useCache = true): Observable<BaseTemplateModel> {
+    const filter = params && params.filter ? params.filter : TemplateFilters.featured;
+    return this.getList(({ id, filter }), false, useCache)
+      .map(templates => {
+        templates[0].zones = [];
+        templates.forEach(template => {
+          templates[0].zones.push({
+            created: template.created,
+            zoneId: template.zoneId,
+            zoneName: template.zoneName,
+            status: template.status,
+            isReady: template.isReady
+          });
+        });
+
+        return templates[0];
+      });
+  }
+
   public register(params: RegisterTemplateBaseParams): Observable<BaseTemplateModel> {
     this.invalidateCache();
+
     return this.sendCommand('register', params)
-      .map(result => this.prepareModel(result[this.entity.toLowerCase()][0]));
+      .map(result => this.prepareModel(result[this.entity.toLowerCase()][0]))
+      .switchMap(template => {
+        return this.tagService.update(template, params.entity, DOWNLOAD_URL, params.url)
+          .catch(() => Observable.of())
+          .map(tag => {
+            template.tags.push(tag);
+            return template;
+          });
+      });
   }
 
   public remove(template: BaseTemplateModel): Observable<any> {
@@ -131,9 +164,13 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       .map(data => {
         for (let filter of this._templateFilters) {
           if (data[filter].length > 0) {
-            return data[filter][0];
+            const readyTemplates = data[filter].filter(_ => _.isReady);
+            if (readyTemplates.length) {
+              return readyTemplates[0];
+            }
           }
         }
+        return undefined;
       })
       .catch(() => Observable.throw(0));
   }
