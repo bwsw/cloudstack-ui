@@ -24,7 +24,7 @@ export class VolumeResizeComponent implements OnInit {
   private notificationId: string;
 
   constructor(
-    private dialog: MdlDialogReference,
+    public dialog: MdlDialogReference,
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private diskStorageService: DiskStorageService,

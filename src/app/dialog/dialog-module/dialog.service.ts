@@ -4,7 +4,7 @@ import {
 } from '@angular-mdl/core';
 import { EventEmitter, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { CustomSimpleDialogComponent, CustomSimpleDialogConfig } from './custom-dialog.component';
 import { MdlDialogService } from './mdl-dialog.service';

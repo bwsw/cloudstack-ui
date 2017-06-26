@@ -32,7 +32,7 @@ export class InstanceGroupSelectorComponent implements OnInit {
 
   constructor(
     @Inject('vm') public vm: VirtualMachine,
-    private dialog: MdlDialogReference,
+    public dialog: MdlDialogReference,
     private instanceGroupService: InstanceGroupService,
     private vmService: VmService
   ) {}
