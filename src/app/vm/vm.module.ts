@@ -3,7 +3,10 @@ import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule
+} from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { routes } from '../app.routing';
@@ -12,6 +15,7 @@ import { ServiceOfferingModule } from '../service-offering/service-offering.modu
 import { SharedModule } from '../shared/shared.module';
 import { TemplateModule } from '../template';
 import { VmService } from './shared/vm.service';
+import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
 import { VmTemplateDialogComponent } from './vm-creation/vm-creation-template/vm-template-dialog.component';
 import { VmTemplateComponent } from './vm-creation/vm-creation-template/vm-template.component';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
@@ -62,6 +66,7 @@ import { VmFormService } from './vm-creation/vm-form.service';
   ],
   declarations: [
     AffinityGroupDialogComponent,
+    KeyboardsComponent,
     SnapshotsComponent,
     SpareDriveAttachmentDetailComponent,
     SpareDriveAttachmentDialogComponent,

@@ -1,5 +1,4 @@
 import { Rules } from '../../../security-group/sg-creation/sg-creation.component';
-import { CustomServiceOffering } from '../../../service-offering/custom-service-offering/custom-service-offering';
 import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, Zone } from '../../../shared/models';
 import { AuthService } from '../../../shared/services';
 import { ServiceLocator } from '../../../shared/services/service-locator';
@@ -29,34 +28,12 @@ export class VmCreationState {
   private utils: UtilsService;
   private vmService: VmService;
 
-  constructor(data: VmCreationData) {
+  constructor(private data: VmCreationData) {
     this.auth = ServiceLocator.injector.get(AuthService);
     this.utils = ServiceLocator.injector.get(UtilsService);
     this.vmService = ServiceLocator.injector.get(VmService);
 
     this.init(data);
-  }
-
-  private init(data: VmCreationData): void {
-    if (data.affinityGroupList.length) {
-      this.affinityGroup = data.affinityGroupList[0];
-    }
-
-    if (data.serviceOfferings.length) {
-      this.serviceOffering = data.serviceOfferings[0];
-    }
-
-    if (data.instanceGroups.length) {
-      this.instanceGroup = data.instanceGroups[0];
-    }
-
-    this.displayName = data.defaultName;
-    this.doStartVm = true;
-
-    this.rootDiskSize = 1;
-    this.keyboard = 'us';
-    this.keyPair = '';
-
   }
 
   public get showSecurityGroups(): boolean {
@@ -81,7 +58,7 @@ export class VmCreationState {
   }
 
   public set template(t: BaseTemplateModel) {
-    if (t && this.utils.convertToGB(t.size || 0) < this.vmCreationData.rootDiskSizeLimit) {
+    if (t && this.utils.convertToGB(t.size || 0) < this.data.rootDiskSizeLimit) {
       this._template = t;
       this.setMinDiskSize();
     } else {
@@ -101,5 +78,26 @@ export class VmCreationState {
     } else {
       this.rootDiskSize = 1;
     }
+  }
+
+  private init(data: VmCreationData): void {
+    if (data.affinityGroupList.length) {
+      this.affinityGroup = data.affinityGroupList[0];
+    }
+
+    if (data.serviceOfferings.length) {
+      this.serviceOffering = data.serviceOfferings[0];
+    }
+
+    if (data.instanceGroups.length) {
+      this.instanceGroup = data.instanceGroups[0];
+    }
+
+    this.displayName = data.defaultName;
+    this.doStartVm = true;
+
+    this.rootDiskSize = 1;
+    this.keyboard = 'us';
+    this.keyPair = '';
   }
 }
