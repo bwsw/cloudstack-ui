@@ -1,20 +1,16 @@
-// tslint:disable-next-line
-import { CustomServiceOffering } from '../../../service-offering/custom-service-offering/custom-service-offering.component';
-import { DiskOffering, InstanceGroup, ServiceOffering, Zone } from '../../../shared/models';
-import { BaseTemplateModel } from '../../../template/shared';
-import { UtilsService } from '../../../shared/services/utils.service';
-import { ServiceLocator } from '../../../shared/services/service-locator';
 import { Rules } from '../../../security-group/sg-creation/sg-creation.component';
-import { Observable } from 'rxjs/Observable';
-import { VmService } from '../../shared/vm.service';
+import { CustomServiceOffering } from '../../../service-offering/custom-service-offering/custom-service-offering';
+import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, Zone } from '../../../shared/models';
 import { AuthService } from '../../../shared/services';
+import { ServiceLocator } from '../../../shared/services/service-locator';
+import { UtilsService } from '../../../shared/services/utils.service';
+import { BaseTemplateModel } from '../../../template/shared';
+import { VmService } from '../../shared/vm.service';
+import { VmCreationData } from './vm-creation-data';
 
 
 export class VmCreationState {
-  public affinityGroupId: string;
-  public affinityGroupName: string;
-  public customServiceOffering: CustomServiceOffering;
-  public defaultName: string;
+  public affinityGroup: AffinityGroup;
   public displayName: string;
   public doStartVm: boolean;
   public instanceGroup: InstanceGroup;
@@ -33,18 +29,34 @@ export class VmCreationState {
   private utils: UtilsService;
   private vmService: VmService;
 
-  constructor() {
+  constructor(data: VmCreationData) {
     this.auth = ServiceLocator.injector.get(AuthService);
     this.utils = ServiceLocator.injector.get(UtilsService);
     this.vmService = ServiceLocator.injector.get(VmService);
 
-    this.affinityGroupId = '';
-    this.rootDiskSize = 1;
+    this.init(data);
+  }
+
+  private init(data: VmCreationData): void {
+    if (data.affinityGroupList.length) {
+      this.affinityGroup = data.affinityGroupList[0];
+    }
+
+    if (data.serviceOfferings.length) {
+      this.serviceOffering = data.serviceOfferings[0];
+    }
+
+    if (data.instanceGroups.length) {
+      this.instanceGroup = data.instanceGroups[0];
+    }
+
+    this.displayName = data.defaultName;
     this.doStartVm = true;
+
+    this.rootDiskSize = 1;
     this.keyboard = 'us';
     this.keyPair = '';
 
-    this.setDefaultVmName();
   }
 
   public get showSecurityGroups(): boolean {
@@ -69,22 +81,12 @@ export class VmCreationState {
   }
 
   public set template(t: BaseTemplateModel) {
-    if (t && this.utils.convertToGB(t.size || 0) < this.rootDiskSizeLimit) {
+    if (t && this.utils.convertToGB(t.size || 0) < this.vmCreationData.rootDiskSizeLimit) {
       this._template = t;
       this.setMinDiskSize();
     } else {
       // this.enoughResources = false;
     }
-  }
-
-  public setDefaultVmName(): void {
-    this.getDefaultVmName()
-      .subscribe(defaultName => {
-        this.defaultName = defaultName;
-        if (!this.displayName) {
-          this.displayName = defaultName;
-        }
-      });
   }
 
   private setMinDiskSize(): void {
@@ -99,12 +101,5 @@ export class VmCreationState {
     } else {
       this.rootDiskSize = 1;
     }
-  }
-
-  private getDefaultVmName(): Observable<string> {
-    return this.vmService.getNumberOfVms()
-      .map(numberOfVms => {
-        return `vm-${this.auth.username}-${numberOfVms + 1}`;
-      });
   }
 }

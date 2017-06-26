@@ -35,7 +35,9 @@ import { VmCreationData } from './vm-creation-data/vm-creation-data';
   styleUrls: ['vm-creation.component.scss']
 })
 export class VmCreationComponent implements OnInit {
+  public vmCreationData: VmCreationData;
   public vmCreationState: VmCreationState;
+
   public fetching: boolean;
   public enoughResources: boolean;
   public insufficientResources: Array<string> = [];
@@ -48,7 +50,6 @@ export class VmCreationComponent implements OnInit {
     primaryStorage: 'VM_CREATION_FORM.RESOURCES.PRIMARYSTORAGE',
   };
 
-  public vmCreationData: VmCreationData;
   public keyboards = ['us', 'uk', 'jp', 'sc'];
   public noAffinityGroupTranslation: string;
   public keyboardTranslations: Object;
@@ -63,6 +64,7 @@ export class VmCreationComponent implements OnInit {
   public defaultName: string;
 
   constructor(
+    public vmCreationDataService: VmCreationDataService,
     private affinityGroupService: AffinityGroupService,
     private changeDetectorRef: ChangeDetectorRef,
     private dialog: MdlDialogReference,
@@ -79,6 +81,9 @@ export class VmCreationComponent implements OnInit {
 
     private formService: VmFormService
   ) {
+    this.vmCreationService.getData(vmCreationData => {
+      this.state = vmCreationData.getState();
+    })
     this.vmCreationState = new VmCreationState();
 
     this.translateService.get('NO_AFFINITY_GROUP').subscribe(str => {
@@ -140,7 +145,7 @@ export class VmCreationComponent implements OnInit {
     let shouldCreateAffinityGroup = false;
     let affinityGroupName = params['affinityGroupNames'];
     if (affinityGroupName) {
-      const ind = this.vmCreationData.affinityGroupList.findIndex(ag => ag.name === affinityGroupName);
+      const ind = this.vmCreationDataService.affinityGroupList.findIndex(ag => ag.name === affinityGroupName);
       if (ind === -1) {
         shouldCreateAffinityGroup = true;
       }
@@ -158,11 +163,11 @@ export class VmCreationComponent implements OnInit {
     if (shouldCreateAffinityGroup) {
       affinityGroupsObservable = this.affinityGroupService.create({
         name: this.vmCreationState.affinityGroupName,
-        type: this.vmCreationData.affinityGroupTypes[0].type
+        type: this.vmCreationDataService.affinityGroupTypes[0].type
       })
         .map(affinityGroup => {
-          this.vmCreationData.affinityGroupList.push(affinityGroup);
-          this.vmCreationData.affinityGroupNames.push(affinityGroup.name);
+          this.vmCreationDataService.affinityGroupList.push(affinityGroup);
+          this.vmCreationDataService.affinityGroupNames.push(affinityGroup.name);
           params['affinityGroupNames'] = affinityGroup.name;
           this.agCreationInProgress = false;
         });
@@ -238,7 +243,7 @@ export class VmCreationComponent implements OnInit {
   private getVmCreateData(): Observable<void> {
     return this.zoneService.getList()
       .switchMap(zoneList => {
-        this.vmCreationData.zones = zoneList;
+        this.vmCreationDataService.zones = zoneList;
         return this.updateZone(zoneList[0]);
       });
   }
@@ -350,14 +355,14 @@ export class VmCreationComponent implements OnInit {
 
   private setDiskOfferings(diskOfferings: Array<DiskOffering>): void {
     let filteredDiskOfferings = diskOfferings.filter((diskOffering: DiskOffering) => {
-      return diskOffering.diskSize < this.vmCreationData.availablePrimaryStorage;
+      return diskOffering.diskSize < this.vmCreationDataService.availablePrimaryStorage;
     });
 
     if (!filteredDiskOfferings.length) {
       this.enoughResources = false;
       this.dialogService.alert('VM_CREATION_FORM.NO_DISK_OFFERING');
     } else {
-      this.vmCreationData.diskOfferings = diskOfferings;
+      this.vmCreationDataService.diskOfferings = diskOfferings;
       this.vmCreationState.diskOffering = diskOfferings[0];
     }
   }
@@ -365,15 +370,14 @@ export class VmCreationComponent implements OnInit {
   private updateZone(zone: Zone): Observable<void> {
     this.vmCreationState.reset();
     this.vmCreationState.zone = zone;
-    if (!zone || !this.vmCreationData || !this.vmCreationData.zones) { return Observable.of(null); }
+    if (!zone || !this.vmCreationDataService || !this.vmCreationDataService.zones) { return Observable.of(null); }
 
     this.vmCreationState.serviceOffering = new ServiceOffering({ id: null });
     this.changeDetectorRef.detectChanges();
     this.vmCreationService.getData().subscribe(vmCreationData => {
-      this.vmCreationData = vmCreationData;
       this.setDiskOfferings(vmCreationData.diskOfferings);
       this.vmCreationState.template = vmCreationData.defaultTemplate;
-      this.vmCreationState.securityRules = this.vmCreationData.preselectedRules;
+      this.vmCreationState.securityRules = this.vmCreationDataService.preselectedRules;
       this.changeDetectorRef.detectChanges();
       this.fetching = false;
     });

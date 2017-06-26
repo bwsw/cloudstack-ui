@@ -10,6 +10,7 @@ import {
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { Template } from '../../../template/shared';
 import { Rules } from '../../../security-group/sg-creation/sg-creation.component';
+import { VmCreationState } from './vm-creation-state';
 
 
 export class VmCreationData {
@@ -21,6 +22,7 @@ export class VmCreationData {
     public defaultTemplate: Template,
     public diskOfferings: Array<DiskOffering>,
     public instanceGroups: Array<InstanceGroup>,
+    public rootDiskSizeLimit: number,
     public securityGroupTemplates: Array<SecurityGroup>,
     public serviceOfferings: Array<ServiceOffering>,
     public sshKeyPairs: Array<SSHKeyPair>,
@@ -39,6 +41,10 @@ export class VmCreationData {
     const preselectedSecurityGroups = this.securityGroupTemplates
       .filter(securityGroup => securityGroup.preselected);
     return Rules.createWithAllRulesSelected(preselectedSecurityGroups);
+  }
+
+  public getState(): VmCreationState {
+    return new VmCreationState(this);
   }
 }
 
