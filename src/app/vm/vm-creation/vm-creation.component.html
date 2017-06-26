@@ -108,20 +108,15 @@
           class="sg-rules-manager"
           [(ngModel)]="securityRules"
         ></cs-security-group-rules-manager>
+
+        {{ keyboard | json }}
         <h5>{{ 'VM_CREATION_FORM.KEYBOARD_LAYOUT' | translate }}</h5>
-        <div *ngIf="keyboardTranslations">
-          <mdl-select
-            name="keyboard"
-            [(ngModel)]="vmCreationData.keyboard"
-          >
-            <mdl-option
-              *ngFor="let k of keyboards"
-              [value]="k"
-            >
-              {{ keyboardTranslations[k] }}
-            </mdl-option>
-          </mdl-select>
-        </div>
+        <cs-keyboards
+          name="keyboard"
+          *ngIf="vmCreationData"
+          [(ngModel)]="vmCreationData.keyboard"
+        ></cs-keyboards>
+
         <h5>{{ 'VM_CREATION_FORM.SSH_KEYPAIR' | translate }}</h5>
         <div>
           <mdl-select

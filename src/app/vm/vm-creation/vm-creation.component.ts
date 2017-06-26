@@ -97,9 +97,7 @@ export class VmCreationComponent implements OnInit {
   };
 
   public vmCreationData: VmCreationData;
-  public keyboards = ['us', 'uk', 'jp', 'sc'];
   public noAffinityGroupTranslation: string;
-  public keyboardTranslations: Object;
   public securityRules: Rules;
 
   public takenName: string;
@@ -135,15 +133,6 @@ export class VmCreationComponent implements OnInit {
     this.translateService.get('NO_AFFINITY_GROUP').subscribe(str => {
       this.noAffinityGroupTranslation = str;
     });
-
-    this.translateService.get(
-      this.keyboards.map(kb => { return 'KB_' + kb.toUpperCase(); })
-    )
-      .subscribe(strs => {
-        let keyboardTranslations = {};
-        this.keyboards.forEach(kb => keyboardTranslations[kb] = strs['KB_' + kb.toUpperCase()]);
-        this.keyboardTranslations = keyboardTranslations;
-      });
   }
 
   public ngOnInit(): void {
