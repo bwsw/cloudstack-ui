@@ -22,11 +22,11 @@ import { UtilsService } from '../../shared/services/utils.service';
 import { Template } from '../../template/shared';
 
 import { VmService } from '../shared/vm.service';
-import { VmCreationData } from './vm-creation-data/vm-creation-data';
 import { VmCreationState } from './vm-creation-data/vm-creation-state';
 import { BaseField } from './vm-creation-field/base-field';
 import { VmCreationService } from './vm-creation.service';
 import { VmFormService } from './vm-form.service';
+import { VmCreationData } from './vm-creation-data/vm-creation-data';
 
 
 @Component({
@@ -49,7 +49,6 @@ export class VmCreationComponent implements OnInit {
   };
 
   public vmCreationData: VmCreationData;
-
   public keyboards = ['us', 'uk', 'jp', 'sc'];
   public noAffinityGroupTranslation: string;
   public keyboardTranslations: Object;
@@ -98,6 +97,7 @@ export class VmCreationComponent implements OnInit {
 
   public ngOnInit(): void {
     this.fetching = true;
+    this.enoughResources = true;
     this.resourceUsageService.getResourceUsage()
       .subscribe(resourceUsage => {
         Object.keys(resourceUsage.available)
