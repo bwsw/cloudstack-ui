@@ -4,9 +4,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
 
-type KeyboardLayout = 'us' | 'uk' | 'jp' | 'sc';
 type NamedLayout = { value: KeyboardLayout, name: string };
-const KeyboardLayouts = {
+export type KeyboardLayout = 'us' | 'uk' | 'jp' | 'sc';
+export const KeyboardLayouts = {
   us: 'us' as KeyboardLayout,
   uk: 'uk' as KeyboardLayout,
   jp: 'jp' as KeyboardLayout,

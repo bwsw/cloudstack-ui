@@ -18,7 +18,7 @@ import { OsType } from '../../shared/models/os-type.model';
   zoneid: 'zoneId',
   zonename: 'zoneName',
 })
-export class BaseTemplateModel extends BaseModel {
+export abstract class BaseTemplateModel extends BaseModel {
   public path: string;
 
   public id: string;
@@ -49,4 +49,6 @@ export class BaseTemplateModel extends BaseModel {
     super(json);
     this.created = moment(json.created).toDate();
   }
+
+  public abstract get isTemplate(): boolean;
 }

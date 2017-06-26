@@ -130,7 +130,7 @@ export class VmCreationComponent implements OnInit {
 
   // todo: move to vmCreationService
   public deployVm(): void {
-    let params: any = this.vmCreateParams;
+    const params = this.vmCreationState.getVmCreationParams();
 
     let shouldCreateAffinityGroup = false;
     let affinityGroupName = params['affinityGroupNames'];
@@ -226,61 +226,12 @@ export class VmCreationComponent implements OnInit {
     return this.vmCreationState.template instanceof Template;
   }
 
-  public setDiskOffering(diskOffering: DiskOffering): void {
-    this.vmCreationState.diskOffering = diskOffering;
-  }
-
   private getVmCreateData(): Observable<void> {
     return this.zoneService.getList()
       .switchMap(zoneList => {
         this.vmCreationData.zones = zoneList;
         return this.updateZone(zoneList[0]);
       });
-  }
-
-  // todo: move to vmCreationState?
-  private get vmCreateParams(): {} {
-    let params = {
-      'serviceOfferingId': this.vmCreationState.serviceOffering.id,
-      'templateId': this.vmCreationState.template.id,
-      'zoneId': this.vmCreationState.zone.id,
-      'keyPair': this.vmCreationState.keyPair,
-      'keyboard': this.vmCreationState.keyboard,
-      'response': 'json'
-    };
-
-    if (this.vmCreationState.serviceOffering.areCustomParamsSet) {
-      params['details'] = [{
-        cpuNumber: this.vmCreationState.serviceOffering.cpuNumber,
-        cpuSpeed: this.vmCreationState.serviceOffering.cpuSpeed,
-        memory: this.vmCreationState.serviceOffering.memory
-      }];
-    }
-
-    const affinityGroupName = this.vmCreationState.affinityGroup.name;
-    params['name'] = this.vmCreationState.displayName || this.defaultName;
-
-    if (affinityGroupName) {
-      params['affinityGroupNames'] = affinityGroupName;
-    }
-    if (this.vmCreationState.diskOffering && !this.templateSelected) {
-      params['diskofferingid'] = this.vmCreationState.diskOffering.id;
-      params['hypervisor'] = 'KVM';
-    }
-    if (this.templateSelected || this.vmCreationState.showRootDiskResize) {
-      const key = this.templateSelected ? 'rootDiskSize' : 'size';
-      params[key] = this.vmCreationState.rootDiskSize;
-    }
-    if (!this.vmCreationState.doStartVm) {
-      params['startVm'] = 'false';
-    }
-    if (this.vmCreationState.securityRules && this.vmCreationState.securityRules.ingress) {
-      params['ingress'] = this.vmCreationState.securityRules.ingress;
-    }
-    if (this.vmCreationState.securityRules && this.vmCreationState.securityRules.egress) {
-      params['egress'] = this.vmCreationState.securityRules.egress;
-    }
-    return params;
   }
 
   // todo: move to vmCreationService and return Subject<VmCreationState>

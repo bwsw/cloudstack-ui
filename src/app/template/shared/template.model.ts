@@ -15,4 +15,8 @@ export class Template extends BaseTemplateModel {
   public status: string;
   public type: string;
   public size: number;
+
+  public get isTemplate(): boolean {
+    return true;
+  }
 }
