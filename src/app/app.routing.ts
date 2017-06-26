@@ -7,6 +7,7 @@ import { SgTemplateListComponent } from './security-group/sg-template-list/sg-te
 import { SettingsComponent } from './settings/settings.component';
 import { AuthGuard, LoginGuard } from './shared/services';
 import { SshKeysPageComponent } from './ssh-keys/ssh-keys-page.component';
+import { ReloadComponent } from './shared/components/reload/reload.component';
 
 
 export const routes: Routes = [
@@ -18,6 +19,10 @@ export const routes: Routes = [
   {
     path: 'logout',
     component: LogoutComponent
+  },
+  {
+    path: 'reload',
+    component: ReloadComponent
   },
   {
     path: 'sg-templates',

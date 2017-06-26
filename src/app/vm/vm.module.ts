@@ -37,8 +37,11 @@ import { SpareDriveAttachmentDetailComponent } from './vm-sidebar/storage-detail
 import { SpareDriveAttachmentDialogComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
 import { routes } from '../app.routing';
 import { RouterModule } from '@angular/router';
+import { InstanceGroupComponent } from './vm-sidebar/instance-group/instance-group.component';
+import { InstanceGroupSelectorComponent } from './vm-sidebar/instance-group-selector/instance-group-selector.component';
 import { SnapshotsComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshots.component';
 import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volume-details/volume-details.component';
+import { AffinityGroupDialogComponent } from './vm-sidebar/affinity-group-dialog.component';
 
 
 @NgModule({
@@ -58,6 +61,7 @@ import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volum
     vmRouting
   ],
   declarations: [
+    AffinityGroupDialogComponent,
     SnapshotsComponent,
     SpareDriveAttachmentDetailComponent,
     SpareDriveAttachmentDialogComponent,
@@ -74,6 +78,8 @@ import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volum
     VmListSubsectionComponent,
     VolumeDetailsComponent,
     VolumeResizeComponent,
+    InstanceGroupComponent,
+    InstanceGroupSelectorComponent,
     IsoComponent,
     VolumeComponent,
     SnapshotCreationComponent,
@@ -84,6 +90,8 @@ import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volum
     SnapshotActionsService
   ],
   entryComponents: [
+    AffinityGroupDialogComponent,
+    InstanceGroupSelectorComponent,
     VmCreationComponent,
     VmTemplateDialogComponent,
     VolumeResizeComponent,

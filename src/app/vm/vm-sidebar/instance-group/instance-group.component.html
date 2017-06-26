@@ -1,0 +1,33 @@
+<mdl-card mdl-shadow="2">
+  <mdl-card-title>
+    {{ 'GROUP' | translate }}
+  </mdl-card-title>
+  <mdl-card-supporting-text class="overflow-card">
+    <div class="edit-line">
+      <span
+        *ngIf="groupName"
+        class="text-content"
+        (click)="changeGroup()"
+      >
+        {{ groupName }}
+      </span>
+      <span
+        *ngIf="!groupName"
+        class="text-content"
+        (click)="changeGroup()"
+      >
+        {{ 'CLICK_TO_ASSIGN' | translate }}
+      </span>
+
+      <button
+        *ngIf="groupName"
+        mdl-button
+        mdl-button-type="icon"
+        (click)="changeGroup()"
+        class="edit-button"
+      >
+        <mdl-icon>edit</mdl-icon>
+      </button>
+    </div>
+  </mdl-card-supporting-text>
+</mdl-card>

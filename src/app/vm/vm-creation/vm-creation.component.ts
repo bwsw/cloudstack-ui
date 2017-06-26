@@ -36,10 +36,19 @@ import { VmFormService } from './vm-form.service';
 })
 export class VmCreationComponent implements OnInit {
   public vmCreationState: VmCreationState;
-  public vmCreationData: VmCreationData;
-
   public fetching: boolean;
-  public enoughResources = true;
+  public enoughResources: boolean;
+  public insufficientResources: Array<string> = [];
+  public insufficientResourcesErrorMap = {
+    instances: 'VM_CREATION_FORM.RESOURCES.INSTANCES',
+    ips: 'VM_CREATION_FORM.RESOURCES.IPS',
+    volumes: 'VM_CREATION_FORM.RESOURCES.VOLUMES',
+    cpus: 'VM_CREATION_FORM.RESOURCES.CPUS',
+    memory: 'VM_CREATION_FORM.RESOURCES.MEMORY',
+    primaryStorage: 'VM_CREATION_FORM.RESOURCES.PRIMARYSTORAGE',
+  };
+
+  public vmCreationData: VmCreationData;
 
   public keyboards = ['us', 'uk', 'jp', 'sc'];
   public noAffinityGroupTranslation: string;
@@ -91,14 +100,20 @@ export class VmCreationComponent implements OnInit {
     this.fetching = true;
     this.resourceUsageService.getResourceUsage()
       .subscribe(resourceUsage => {
-        if (
-          resourceUsage.available.cpus &&
-          resourceUsage.available.instances &&
-          resourceUsage.available.volumes
-        ) {
-          this.resetVmCreateData();
-        } else {
+        Object.keys(resourceUsage.available)
+          .filter(key => key !== 'snapshots' && key !== 'secondaryStorage')
+          .forEach(key => {
+            const available = resourceUsage.available[key];
+            if (available === 0) {
+              this.insufficientResources.push(key);
+            }
+          });
+
+        if (this.insufficientResources.length) {
+          this.enoughResources = false;
           this.fetching = false;
+        } else {
+          this.resetVmCreateData();
         }
       });
     // need to check if enough resources
@@ -333,13 +348,14 @@ export class VmCreationComponent implements OnInit {
       );
   }
 
-  // todo: move to filtering
   private setDiskOfferings(diskOfferings: Array<DiskOffering>): void {
     let filteredDiskOfferings = diskOfferings.filter((diskOffering: DiskOffering) => {
       return diskOffering.diskSize < this.vmCreationData.availablePrimaryStorage;
     });
 
     if (!filteredDiskOfferings.length) {
+      this.enoughResources = false;
+      this.dialogService.alert('VM_CREATION_FORM.NO_DISK_OFFERING');
     } else {
       this.vmCreationData.diskOfferings = diskOfferings;
       this.vmCreationState.diskOffering = diskOfferings[0];

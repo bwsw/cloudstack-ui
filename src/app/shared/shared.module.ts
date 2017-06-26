@@ -42,7 +42,6 @@ import { TableComponent } from './components/table/table.component';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
 
 import { LoadingDirective } from './directives/loading.directive';
-
 import { MaxValueValidatorDirective } from './directives/max-value.directive';
 import { MinValueValidatorDirective } from './directives/min-value.directive';
 
@@ -84,7 +83,9 @@ import { TagService } from './services/tag.service';
 import { UserService } from './services/user.service';
 import { UtilsService } from './services/utils.service';
 import { VolumeService } from './services/volume.service';
+import { MdlTextAreaAutoresizeDirective } from './directives/mdl-textarea-autoresize.directive';
 import { VolumeOfferingService } from './services/volume-offering.service';
+import { ReloadComponent } from './components/reload/reload.component';
 import {
   CharacterCountTextfieldComponent
 } from './components/character-count-textfield/character-count-textfield.component';
@@ -131,7 +132,8 @@ import {
     SliderComponent,
     HighLightPipe,
     ViewValuePipe,
-    LoadingDirective
+    LoadingDirective,
+    MdlTextAreaAutoresizeDirective
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -159,9 +161,11 @@ import {
     MaxValueValidatorDirective,
     MinValueValidatorDirective,
     MdlAutocompleteComponent,
+    MdlTextAreaAutoresizeDirective,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     OverlayLoadingComponent,
+    ReloadComponent,
     SearchComponent,
     SgRulesManagerComponent,
     SidebarComponent,

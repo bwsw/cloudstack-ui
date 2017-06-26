@@ -4,6 +4,15 @@
   "LOGIN": "Login",
   "LOGOUT": "Logout",
   "NOT_LOGGED_IN": "You are not logged in",
+  "LOGIN_FORM": {
+    "SHOW_ADVANCED": "Show advanced options",
+    "HIDE_ADVANCED": "Hide advanced options",
+    "INCORRECT_USERNAME": "Incorrect username",
+    "INCORRECT_PASSWORD": "Incorrect password",
+    "INCORRECT_DOMAIN": "Unable to find domain {{val1}}",
+    "USERNAME_REQUIRED": "Username is required",
+    "PASSWORD_REQUIRED": "Password is required"
+  },
   "WRONG_ARGUMENTS": "Wrong arguments",
   "UNEXPECTED_ERROR": "Unexpected error",
   "CPU": "CPU",
@@ -119,6 +128,8 @@
   "GHZ": "GHz",
   "MHZ": "MHz",
   "CPU_MHZ": "{{count}}x{{speed}} MHz",
+  "IOPS": "{{value}} IOPS",
+  "MBPS": "{{value}} MB/s",
   "STATISTICS_FIELDS": {
     "CPU_UTILIZED": "CPU utilized",
     "NETWORK_READ": "Network read",
@@ -145,8 +156,8 @@
     "hypervisorSnapshotReserve": "Hypervisor Snapshot Reserve",
     "diskBytesReadRate": "Disk read rate (MB/s)",
     "diskBytesWriteRate": "Disk write rate (MB/s)",
-    "diskIopsReadRate": "Disk read rate (IO/s)",
-    "diskIopsWriteRate": "Disk write rate (IO/s)",
+    "diskIopsReadRate": "Disk read rate (IOPs)",
+    "diskIopsWriteRate": "Disk write rate (IOPs)",
     "deploymentPlanner": "Deployment planner",
     "domain": "Domain",
     "created": "Created",
@@ -176,7 +187,18 @@
     "CREATE_SECURITY": "Create",
     "KEYBOARD_LAYOUT": "Keyboard layout",
     "SSH_KEYPAIR": "SSH keypair",
-    "START_VM": "Start VM"
+    "START_VM": "Start VM",
+    "YOU_RAN_OUT_OF": "You ran out of",
+    "RESOURCES": {
+      "CPUS": "CPU",
+      "MEMORY": "RAM",
+      "INSTANCES": "VMs",
+      "IPS": "IPs",
+      "VOLUMES": "Volumes",
+      "PRIMARYSTORAGE": "Primary storage"
+    },
+    "NO_SERVICE_OFFERING": "No service offerings available. Contact your administrator",
+    "NO_DISK_OFFERING": "No disk offerings available. Contact your administrator"
   },
 
   "CREATING_SG": "Creating a security group",
@@ -243,6 +265,10 @@
   "OFFERING_CHANGE_FAILED": "Offering change failed",
   "CHANGE_SERVICE_OFFERING": "Change service offering",
   "SO_CHANGE_DISABLED": "The virtual machine needs to be stopped",
+
+  "SELECT_AFFINITY_GROUP": "Select affinity group",
+  "NO_AFFINITY_GROUPS": "No affinity groups",
+  "STOP_MACHINE_FOR_AG": "You need to stop the virtual machine to change affinity group. Do you want to stop it now?",
 
   "FIREWALL_RULES_FOR_VM": "Firewall rules for VM",
   "TEMPLATE_RULES": "Template rules",
@@ -314,12 +340,14 @@
   "PUBLIC": "Public",
   "RECOMMENDED": "Recommended",
   "CROSS_ZONES": "Cross Zones",
-  "DETAILS": "Details",
+  "DETAILS": "General information",
   "HYPERVISOR": "Hypervisor",
   "USER_TEMPLATE_TYPE": "User",
   "BUILTIN_TEMPLATE_TYPE": "Built-in",
+  "DOWNLOAD_URL": "Download URL",
+  "ZONES": "Zones",
 
-  "OS_FAMILY": "OS Family",
+  "OS_FAMILY": "Select OS families",
   "TEMPLATE_FEATURED": "Featured",
   "TEMPLATE_SELF": "My",
   "TEMPLATE_SELFEXECUTABLE": "My",
@@ -327,6 +355,7 @@
   "TEMPLATE_EXTRACTABLE": "Extractable",
   "TEMPLATE_PASSWORD_ENABLED": "Password enabled",
   "TEMPLATE_DYNAMICALLY_SCALABLE": "Dynamically scalable",
+  "TEMPLATE_TYPES": "Select types",
 
   "DELETE_ISO_IN_PROGRESS": " Deleting an ISO",
   "DELETE_ISO_DONE": "ISO deleted",
@@ -355,6 +384,7 @@
   "ISO_ATTACH_DONE": "ISO has been attached",
   "ISO_ATTACH_FAILED": "Failed to attach an ISO",
 
+  "PERFORMANCE": "Performance",
   "DISK_OFFERING": "Disk offering",
   "INSTALLATION_SOURCE": "Installation source",
 
@@ -384,10 +414,8 @@
       "DESCRIPTION": "Description",
       "MINIOPS": "Min IOPS",
       "MAXIOPS": "Max IOPS",
-      "BYTES_READ_RATE": "Read rate (MB/s)",
-      "BYTES_WRITE_RATE": "Write rate (MB/s)",
-      "IOPS_READ_RATE": "Read rate (IO/s)",
-      "IOPS_WRITE_RATE": "Write rate (IO/s)"
+      "READ_RATE": "Read rate",
+      "WRITE_RATE": "Write rate"
     }
   },
   "RESIZE": "Resize",
@@ -496,7 +524,7 @@
   "CLICK_TO_EDIT": "Click to edit",
   "SELECT_AN_OPTION": "Select an option",
   "ENTER_TEXT": "Enter text",
-  "EVENT_TYPES": "Types",
+  "EVENT_TYPES": "Select types",
   "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Would you like to create a new volume?",
 
   "INACTIVITY_TIMEOUT": "Session timeout (in&nbsp;minutes)",
@@ -516,9 +544,22 @@
     }
   },
 
-  "API": "API",
-  "API_URL": "URL",
-  "API_KEY": "Key",
+  "SECURITY": "Security",
+  "LOOK_AND_FEEL": "Look and Feel",
+  "API": "API configuration",
+  "API_URL": "Connection URL",
+  "API_KEY": "API Key",
   "API_SECRET_KEY": "Secret key",
-  "API_DOC_LINK": "Documentation"
+  "API_DOC_LINK": "Documentation",
+  "ASK_GENERATE_KEYS": "Are you sure you want to generate API keys?",
+  "GENERATE": "Generate",
+
+  "INSTANCE_GROUP_CHANGE": "Change instance group",
+  "CREATE_NEW_GROUP": "Create a new group",
+  "CHOOSE_EXISTING_GROUP": "Choose an existing group",
+  "CHOOSE_GROUP": "Choose a group",
+  "ENTER_GROUP_NAME": "Enter group name",
+  "REMOVE_FROM_GROUP": "Remove from the group",
+  "REMOVE": "Remove",
+  "CLICK_TO_ASSIGN": "Click to assign"
 }

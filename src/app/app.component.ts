@@ -46,8 +46,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.title = this.auth.name;
   }
 
-  public componentSelected(mainLayout: MdlLayoutComponent): void {
-    mainLayout.closeDrawerOnSmallScreens();
+  public linkClick(routerLink: string): void {
+    if (routerLink === this.routerUtilsService.getRouteWithoutQueryParams()) {
+      this.router.navigate(['reload'], {
+        queryParamsHandling: 'preserve'
+      });
+    }
   }
 
   public ngOnInit(): void {
@@ -139,7 +143,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       switch (e.status) {
         case 401:
           this.notification.message('NOT_LOGGED_IN');
-          const route = this.routerUtilsService.routeWithoutQueryParams;
+          const route = this.routerUtilsService.getRouteWithoutQueryParams();
           if (route !== '/login' && route !== '/logout') {
             this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams());
           }

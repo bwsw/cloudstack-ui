@@ -19,7 +19,7 @@
         <span
           class="tooltip-position-fix fixed-width-span"
           *ngIf="securityGroupTemplate.description"
-          [mdl-tooltip]="securityGroupTemplate.description"
+          [mdl-tooltip]="sgDescriptionTooltip"
           mdl-tooltip-position="top"
         >
           {{ securityGroupTemplate.description }}
@@ -80,5 +80,8 @@
 </mdl-card>
 <mdl-tooltip #sgTitleTooltip="mdlTooltip">
   {{ securityGroupTemplate.name }}
+</mdl-tooltip>
+<mdl-tooltip #sgDescriptionTooltip="mdlTooltip">
+  {{ securityGroupTemplate.description }}
 </mdl-tooltip>
 

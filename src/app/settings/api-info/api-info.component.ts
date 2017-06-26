@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { DefaultUrlSerializer, UrlSerializer } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { BACKEND_API_URL, ConfigService, NotificationService } from '../../shared/services';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { UserService } from '../../shared/services/user.service';
-import { DefaultUrlSerializer, UrlSerializer } from '@angular/router';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 
 interface ApiInfoLink {
@@ -37,6 +38,7 @@ interface ApiKeys {
   styleUrls: ['api-info.component.scss']
 })
 export class ApiInfoComponent implements OnInit {
+  @Input() public userId: string;
   public linkFields: ApiInfoLinks;
   public inputFields: ApiInfoTextFields;
   public loading: boolean;
@@ -44,6 +46,7 @@ export class ApiInfoComponent implements OnInit {
 
   constructor(
     private configService: ConfigService,
+    private dialogService: DialogService,
     private notificationService: NotificationService,
     private userService: UserService,
     private routerUtilsService: RouterUtilsService
@@ -69,6 +72,12 @@ export class ApiInfoComponent implements OnInit {
           apiSecretKey: { title: 'API_SECRET_KEY', value: apiKeys.secretKey }
         };
       });
+  }
+
+  public askToRegenerateKeys(): void {
+    this.dialogService.confirm('ASK_GENERATE_KEYS', 'CANCEL', 'GENERATE')
+      .onErrorResumeNext()
+      .subscribe(() => this.regenerateKeys());
   }
 
   private get apiUrl(): string {
@@ -100,6 +109,16 @@ export class ApiInfoComponent implements OnInit {
             secretKey: users[0].secretKey
           };
         }
+      });
+  }
+
+  private regenerateKeys(): void {
+    this.loading = true;
+    this.userService.registerKeys(this.userId)
+      .finally(() => this.loading = false)
+      .subscribe(keys => {
+        this.inputFields.apiKey.value = keys.apikey;
+        this.inputFields.apiSecretKey.value = keys.secretkey;
       });
   }
 }

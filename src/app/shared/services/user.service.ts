@@ -26,6 +26,10 @@ export class UserService extends BaseBackendService<User> {
     return this.postRequest('update', { id, password });
   }
 
+  public registerKeys(id: string): Observable<any> {
+    return this.sendCommand('register;Keys', { id }).map(res => res.userkeys);
+  }
+
   public writeTag(key: string, value: string): Observable<void> {
     const user = { id: this.storageService.read('userId') };
     if (!user.id) {

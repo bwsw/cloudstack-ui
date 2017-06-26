@@ -12,9 +12,10 @@ import {
 } from '@angular/http';
 import { ServiceLocator } from './service-locator';
 import {
-  AsyncJobService,
+  AsyncJobService, CacheService,
   ErrorService,
 } from './';
+import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
 
 
 describe('Async job service', () => {
@@ -75,6 +76,7 @@ describe('Async job service', () => {
         ErrorService,
         MockBackend,
         BaseRequestOptions,
+        { provide: CacheService, useClass: MockCacheService },
         {
           provide: Http,
           deps: [MockBackend, BaseRequestOptions],

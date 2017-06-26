@@ -5,6 +5,8 @@
   [class.error]="vm.state === 'Error'"
   (click)="handleClick($event)"
   [style.background-color]="color.value"
+  [style.color]="color?.textColor"
+  [class.has-text-color]="color?.textColor"
   [class.arrow]="popover.isVisible"
 >
   <mdl-card-title>

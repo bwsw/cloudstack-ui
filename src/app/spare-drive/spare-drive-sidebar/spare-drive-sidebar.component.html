@@ -49,20 +49,20 @@
           <div>{{ volume.diskOffering.maxIops }}</div>
         </div>
         <div class="row" *ngIf="volume.diskOffering.diskBytesReadRate">
-          <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.BYTES_READ_RATE' | translate }}</div>
-          <div>{{ volume.diskOffering.diskBytesReadRate | division:10:6 }}</div>
+          <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.READ_RATE' | translate }}</div>
+          <div>{{ 'MBPS' | translate:{ value: volume.diskOffering.diskBytesReadRate | division:10:6 } }}</div>
         </div>
         <div class="row" *ngIf="volume.diskOffering.diskBytesWriteRate">
-          <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.BYTES_WRITE_RATE' | translate }}</div>
-          <div>{{ volume.diskOffering.diskBytesWriteRate | division:10:6 }}</div>
+          <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.WRITE_RATE' | translate }}</div>
+          <div>{{ 'MBPS' | translate:{ value: volume.diskOffering.diskBytesWriteRate | division:10:6 } }}</div>
         </div>
         <div class="row" *ngIf="volume.diskOffering.diskIopsReadRate">
-          <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.IOPS_READ_RATE' | translate }}</div>
-          <div>{{ volume.diskOffering.diskIopsReadRate }}</div>
+          <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.READ_RATE' | translate }}</div>
+          <div>{{ 'IOPS' | translate:{ value: volume.diskOffering.diskIopsReadRate } }}</div>
         </div>
         <div class="row" *ngIf="volume.diskOffering.diskIopsWriteRate">
-          <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.IOPS_WRITE_RATE' | translate }}</div>
-          <div>{{ volume.diskOffering.diskIopsWriteRate }}</div>
+          <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.WRITE_RATE' | translate }}</div>
+          <div>{{ 'IOPS' | translate:{ value: volume.diskOffering.diskIopsWriteRate } }}</div>
         </div>
       </div>
     </mdl-card-supporting-text>
