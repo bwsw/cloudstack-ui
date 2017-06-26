@@ -9,7 +9,7 @@
   <div class="top-bar-content">
     <ng-content></ng-content>
   </div>
-  <div class="top-bar-notifications">
+  <div class="top-bar-notifications" [class.sidebar-open]="sidebarOpen">
     <cs-notification-box></cs-notification-box>
   </div>
 </div>
