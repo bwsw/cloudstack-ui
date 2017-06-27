@@ -19,6 +19,11 @@ module.exports = function (config) {
     },
     coverageIstanbulReporter: {
       dir: 'reports/coverage',
+      'report-config': {
+        cobertura: {
+          file: 'cobertura/cobertura.xml'
+        }
+      },
       reports: ['html', 'lcovonly', 'cobertura'],
       fixWebpackSourcePaths: true
     },
