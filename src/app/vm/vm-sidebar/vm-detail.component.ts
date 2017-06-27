@@ -15,6 +15,7 @@ import { ServiceOfferingService } from '../../shared/services/service-offering.s
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { AffinityGroupDialogComponent } from './affinity-group-dialog.component';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
+import { SshKeypairResetComponent } from './ssh/ssh-keypair-reset.component';
 
 
 @Component({
@@ -86,28 +87,10 @@ export class VmDetailComponent implements OnChanges, OnInit {
   }
 
   public changeAffinityGroup(): void {
-    if (this.vm.state === VmStates.Stopped) {
-      this.showAffinityGroupDialog();
-      return;
-    }
-
-    this.dialogService.customConfirm({
-      message: 'STOP_MACHINE_FOR_AG',
-      confirmText: 'STOP',
-      declineText: 'CANCEL',
-      width: '350px',
-      clickOutsideToClose: false
-    })
-      .onErrorResumeNext()
-      .subscribe((result) => {
-        if (result === null) {
-          this.vmService.command({
-            action: VirtualMachine.getAction(VmActions.STOP),
-            vm: this.vm
-          })
-            .subscribe(() => this.showAffinityGroupDialog());
-        }
-      });
+    this.askToStopVM(
+      'STOP_MACHINE_FOR_AG',
+      () => this.showAffinityGroupDialog()
+    );
   }
 
   public isNotFormattedField(key: string): boolean {
@@ -167,6 +150,13 @@ export class VmDetailComponent implements OnChanges, OnInit {
       .subscribe(() => this.removeSecondaryIp(secondaryIpId, vm));
   }
 
+  public resetSshKey(): void {
+    this.askToStopVM(
+      'STOP_MACHINE_FOR_SSH',
+      () => this.showSshKeypairResetDialog()
+    );
+  }
+
   private update(): void {
     this.updateColor();
     this.updateDescription();
@@ -206,6 +196,31 @@ export class VmDetailComponent implements OnChanges, OnInit {
       });
   }
 
+  private askToStopVM(message: string, onStopped): void {
+    if (this.vm.state === VmStates.Stopped) {
+      onStopped();
+      return;
+    }
+
+    this.dialogService.customConfirm({
+      message: message,
+      confirmText: 'STOP',
+      declineText: 'CANCEL',
+      width: '350px',
+      clickOutsideToClose: false
+    })
+      .onErrorResumeNext()
+      .subscribe((result) => {
+        if (result === null) {
+          this.vmService.command({
+            action: VirtualMachine.getAction(VmActions.STOP),
+            vm: this.vm
+          })
+            .subscribe(onStopped);
+        }
+      });
+  }
+
   private showAffinityGroupDialog(): void {
     this.dialogService.showCustomDialog({
       component: AffinityGroupDialogComponent,
@@ -216,6 +231,20 @@ export class VmDetailComponent implements OnChanges, OnInit {
       .subscribe((group?: Array<AffinityGroup>) => {
         if (group) {
           this.vm.affinityGroup = group;
+        }
+      });
+  }
+
+  private showSshKeypairResetDialog(): void {
+    this.dialogService.showCustomDialog({
+      component: SshKeypairResetComponent,
+      styles: { width: '350px' },
+      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
+      clickOutsideToClose: false
+    }).switchMap(dialog => dialog.onHide())
+      .subscribe((keyPairName: string) => {
+        if (keyPairName) {
+          this.vm.keyPair = keyPairName;
         }
       });
   }

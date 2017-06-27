@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { RouterModule } from '@angular/router';
 import { MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { SharedModule } from '../shared/shared.module';
@@ -35,12 +36,12 @@ import { SpareDriveAttachmentDetailComponent } from './vm-sidebar/storage-detail
 // tslint:disable-next-line
 import { SpareDriveAttachmentDialogComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
 import { routes } from '../app.routing';
-import { RouterModule } from '@angular/router';
 import { InstanceGroupComponent } from './vm-sidebar/instance-group/instance-group.component';
 import { InstanceGroupSelectorComponent } from './vm-sidebar/instance-group-selector/instance-group-selector.component';
 import { SnapshotsComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshots.component';
 import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volume-details/volume-details.component';
 import { AffinityGroupDialogComponent } from './vm-sidebar/affinity-group-dialog.component';
+import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.component';
 
 
 @NgModule({
@@ -64,6 +65,7 @@ import { AffinityGroupDialogComponent } from './vm-sidebar/affinity-group-dialog
     SpareDriveAttachmentDetailComponent,
     SpareDriveAttachmentDialogComponent,
     StorageDetailComponent,
+    SshKeypairResetComponent,
     VmListComponent,
     VmCreationComponent,
     VmListItemComponent,
@@ -95,7 +97,8 @@ import { AffinityGroupDialogComponent } from './vm-sidebar/affinity-group-dialog
     VolumeResizeComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,
-    SpareDriveAttachmentDialogComponent
+    SpareDriveAttachmentDialogComponent,
+    SshKeypairResetComponent,
   ]
 })
 export class VmModule { }
