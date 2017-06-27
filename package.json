@@ -1,7 +1,7 @@
 {
   "name": "cloudstack-ui",
-  "version": "0.0.0",
-  "license": "MIT",
+  "version": "1.0.4",
+  "license": "Apache-2.0",
   "scripts": {
     "clean": "rimraf node_modules doc dist && npm cache clean",
     "clean-install": "npm run clean && npm install",
