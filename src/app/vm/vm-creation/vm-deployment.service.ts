@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { VmCreationState } from './vm-creation-data/vm-creation-state';
+import { VmCreationState } from './data/vm-creation-state';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { VmService } from '../shared/vm.service';
@@ -12,6 +12,7 @@ import { GROUP_POSTFIX, SecurityGroupService } from '../../shared/services/secur
 
 
 export type VmDeploymentStage =
+  'STARTED' |
   'IN_PROGRESS' |
   'AG_GROUP_CREATION' |
   'AG_GROUP_CREATION_FINISHED' |
@@ -23,7 +24,8 @@ export type VmDeploymentStage =
   'TEMP_VM';
 
 export const VmDeploymentStages = {
-  DEPLOY_IN_PROGRESS: 'IN_PROGRESS' as VmDeploymentStage,
+  STARTED: 'STARTED' as VmDeploymentStage,
+  IN_PROGRESS: 'IN_PROGRESS' as VmDeploymentStage,
   AG_GROUP_CREATION: 'AG_GROUP_CREATION' as VmDeploymentStage,
   AG_GROUP_CREATION_FINISHED: 'AG_GROUP_CREATION_FINISHED' as VmDeploymentStage,
   SG_GROUP_CREATION: 'SG_GROUP_CREATION' as VmDeploymentStage,
@@ -54,6 +56,7 @@ export class VmDeploymentService {
     let deployedVm;
     let tempVm;
 
+    deployObservable.next({ stage: VmDeploymentStages.STARTED });
     Observable
       .concat(...this.getPreDeployActions(deployObservable, state))
       .switchMap(_ => this.sendDeployRequest(deployObservable, state))
@@ -67,7 +70,7 @@ export class VmDeploymentService {
         return Observable.concat(...this.getPostDeployActions(vm, state));
       })
       .subscribe(
-        ()    => this.handleSuccessfulDeployment(deployedVm, deployObservable),
+        () => this.handleSuccessfulDeployment(deployedVm, deployObservable),
         error => this.handleFailedDeployment(error, tempVm, deployObservable)
       );
 
@@ -126,7 +129,7 @@ export class VmDeploymentService {
     let deployResponse;
     let temporaryVm;
     return this.vmService.deploy(params)
-      .do(_ => deployObservable.next({ stage: VmDeploymentStages.DEPLOY_IN_PROGRESS }))
+      .do(_ => deployObservable.next({ stage: VmDeploymentStages.IN_PROGRESS }))
       .switchMap(response => {
         deployResponse = response;
         return this.vmService.get(deployResponse.id);
@@ -155,7 +158,10 @@ export class VmDeploymentService {
     deployObservable: Subject<VmDeploymentMessage>
   ): void {
     this.vmService.updateVmInfo(vm);
-    deployObservable.next({ stage: VmDeploymentStages.FINISHED });
+    deployObservable.next({
+      stage: VmDeploymentStages.FINISHED,
+      vm
+    });
   }
 
   private handleFailedDeployment(

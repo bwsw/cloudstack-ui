@@ -7,7 +7,7 @@ import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { Template, TemplateService } from '../../template/shared';
 import { VmService } from '../shared/vm.service';
-import { VmCreationData } from './vm-creation-data/vm-creation-data';
+import { VmCreationData } from './data/vm-creation-data';
 import {
   AffinityGroup, AffinityGroupType, DiskOffering, InstanceGroup, ServiceOffering,
   SSHKeyPair, Zone

@@ -16,8 +16,8 @@ import { SharedModule } from '../shared/shared.module';
 import { TemplateModule } from '../template';
 import { VmService } from './shared/vm.service';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
-import { VmTemplateDialogComponent } from './vm-creation/vm-creation-template/vm-template-dialog.component';
-import { VmTemplateComponent } from './vm-creation/vm-creation-template/vm-template.component';
+import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-dialog.component';
+import { VmTemplateComponent } from './vm-creation/template/vm-template.component';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmCreationService } from './vm-creation/vm-creation.service';
 import { VmFilterComponent } from './vm-filter/vm-filter.component';
@@ -45,7 +45,9 @@ import { VmDetailComponent } from './vm-sidebar/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 import { vmRouting } from './vm.routing';
-import { VmFormService } from './vm-creation/vm-form.service';
+import { VmFormService } from './vm-creation/form/vm-form.service';
+import { VmDeploymentService } from './vm-creation/vm-deployment.service';
+import { TestComponent } from './vm-creation/test/test.component';
 
 
 @NgModule({
@@ -71,6 +73,7 @@ import { VmFormService } from './vm-creation/vm-form.service';
     SpareDriveAttachmentDetailComponent,
     SpareDriveAttachmentDialogComponent,
     StorageDetailComponent,
+    TestComponent,
     VmListComponent,
     VmCreationComponent,
     VmListItemComponent,
@@ -92,6 +95,7 @@ import { VmFormService } from './vm-creation/vm-form.service';
   ],
   providers: [
     VmCreationService,
+    VmDeploymentService,
     VmFormService,
     VmService,
     SnapshotActionsService

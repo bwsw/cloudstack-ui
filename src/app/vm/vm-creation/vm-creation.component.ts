@@ -13,14 +13,14 @@ import {
 
 import { ServiceOffering, Zone } from '../../shared/models';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
-import { Template } from '../../template/shared';
 
-import { VmCreationState } from './vm-creation-data/vm-creation-state';
-import { BaseField } from './vm-creation-field/base-field';
-import { VmFormService } from './vm-form.service';
+import { VmCreationState } from './data/vm-creation-state';
+import { BaseField } from './form/base-field';
+import { VmFormService } from './form/vm-form.service';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { VmCreationService } from './vm-creation.service';
-import { VmCreationData } from './vm-creation-data/vm-creation-data';
+import { VmCreationData } from './data/vm-creation-data';
+import { VmDeploymentService, VmDeploymentStages } from './vm-deployment.service';
 
 
 @Component({
@@ -62,6 +62,7 @@ export class VmCreationComponent implements OnInit {
     private resourceUsageService: ResourceUsageService,
     private translateService: TranslateService,
     private vmCreationService: VmCreationService,
+    private vmDeploymentService: VmDeploymentService,
     private zoneService: ZoneService,
 
     private formService: VmFormService
@@ -103,7 +104,7 @@ export class VmCreationComponent implements OnInit {
 
   public onVmCreationSubmit(e: any): void {
     e.preventDefault();
-    this.deployVm();
+    this.deploy();
   }
 
   public onCancel(): void {
@@ -114,15 +115,45 @@ export class VmCreationComponent implements OnInit {
     this.getVmCreateData().subscribe();
   }
 
-  public showPassword(vmName: string, vmPassword: string): void {
-    this.dialogService.customAlert({
-      message: {
-        translationToken: 'PASSWORD_DIALOG_MESSAGE',
-        interpolateParams: { vmName, vmPassword }
-      },
-      width: '400px',
-      clickOutsideToClose: false
-    });
+  public get zone(): Zone {
+    return this.vmCreationState.zone;
+  }
+
+  public set zone(zone: Zone) {
+    this.updateZone(zone).subscribe();
+  }
+
+  public deploy(): void {
+    const notificationId = this.jobsNotificationService.add('VM_DEPLOY_IN_PROGRESS');
+    this.vmDeploymentService.deploy(this.vmCreationState)
+      .subscribe(deploymentMessage => {
+        switch (deploymentMessage.stage) {
+          case VmDeploymentStages.AG_GROUP_CREATION:
+            this.agCreationInProgress = true;
+            break;
+          case VmDeploymentStages.AG_GROUP_CREATION_FINISHED:
+            this.agCreationInProgress = false;
+            break;
+          case VmDeploymentStages.SG_GROUP_CREATION:
+            this.sgCreationInProgress = true;
+            break;
+          case VmDeploymentStages.SG_GROUP_CREATION_FINISHED:
+            this.sgCreationInProgress = false;
+            break;
+          case VmDeploymentStages.TEMP_VM:
+            this.dialog.hide();
+            break;
+          case VmDeploymentStages.FINISHED:
+            this.notifyOnDeployDone(notificationId);
+            const name = deploymentMessage.vm.name;
+            const password = deploymentMessage.vm.password;
+            this.showPassword(name, password);
+            break;
+          case VmDeploymentStages.ERROR:
+            this.notifyOnDeployFailed(notificationId);
+            break;
+        }
+      });
   }
 
   public notifyOnDeployDone(notificationId: string): void {
@@ -139,16 +170,15 @@ export class VmCreationComponent implements OnInit {
     });
   }
 
-  public get zone(): Zone {
-    return this.vmCreationState.zone;
-  }
-
-  public set zone(zone: Zone) {
-    this.updateZone(zone).subscribe();
-  }
-
-  public get templateSelected(): boolean {
-    return this.vmCreationState.template instanceof Template;
+  public showPassword(vmName: string, vmPassword: string): void {
+    this.dialogService.customAlert({
+      message: {
+        translationToken: 'PASSWORD_DIALOG_MESSAGE',
+        interpolateParams: { vmName, vmPassword }
+      },
+      width: '400px',
+      clickOutsideToClose: false
+    });
   }
 
   private getVmCreateData(): Observable<void> {

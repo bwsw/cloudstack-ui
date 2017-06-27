@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { BaseField } from './vm-creation-field/base-field';
+import { BaseField } from './base-field';
 
 
 @Injectable()
-export class VmFormService {
+export class FormService {
   public toFormGroup(fields: Array<BaseField<any>>): FormGroup {
     let group: any = {};
 
