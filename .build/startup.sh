@@ -6,7 +6,7 @@ sed -i -e 's#CONSOLE_BACKEND_URL#'"$CONSOLE_BACKEND_URL"'#g' /etc/nginx/conf.d/d
 
 # add base href
 if [ -n "$BASE_HREF" ]; then
-    sed -i -e 's#"/"#'"$BASE_HREF"'#g' /var/www/dist/index.html
+    sed -i -e 's#"/"#'"$BASE_HREF"'#g' /static/index.html
 fi
 
 # check if API is available

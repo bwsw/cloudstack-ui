@@ -8,7 +8,8 @@ RUN apk update && \
     apk add --update nodejs python make g++ curl && \
     cd /tmp/cloudstackui && \
     npm i && npm run build:aot && \
-    mkdir -p /var/www/dist && cp -R dist /var/www/ && chmod 777 /etc/nginx/startup.sh \
+    mkdir -p /static && cp -R dist/. /static/ && \
+    chmod 777 /etc/nginx/startup.sh && chmod 755 /static \
     && rm -rf /tmp/cloudstackui \
     && apk del nodejs python make g++
 
