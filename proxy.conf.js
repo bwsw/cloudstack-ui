@@ -4,7 +4,7 @@ const PROXY_CONFIG = [
       "/client/api",
       "/client/console"
     ],
-    target: "https://cs1.netpoint-dc.com",
+    target: "http://192.168.1.218:8080",
     secure: false
   }
 ];

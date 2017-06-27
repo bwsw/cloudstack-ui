@@ -7,7 +7,7 @@ import { RouterUtilsService } from '../shared/services/router-utils.service';
 
 @Component({
   selector: 'cs-logout',
-  template: ''
+  template: '<div></div>'
 })
 export class LogoutComponent implements OnInit {
   constructor(

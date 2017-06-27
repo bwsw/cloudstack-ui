@@ -50,7 +50,7 @@ export class VolumeResizeComponent implements OnInit {
 
   public resizeVolume(): void {
     const includeDiskOffering = this.diskOffering && !this.volume.isRoot;
-    let params: VolumeResizeData = Object.assign(
+    const params: VolumeResizeData = Object.assign(
       { id: this.volume.id },
       this.newSize ? { size: this.newSize } : {},
       includeDiskOffering ? { diskOfferingId: this.diskOffering.id } : {}

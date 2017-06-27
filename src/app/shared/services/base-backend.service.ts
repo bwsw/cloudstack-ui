@@ -2,7 +2,7 @@ import { Headers, Http, Response, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { BaseModel } from '../models';
-import { CacheService } from './';
+import { CacheService } from './cache.service';
 import { Cache } from './cache';
 import { ErrorService } from './error.service';
 import { ServiceLocator } from './service-locator';
@@ -53,7 +53,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
   public create(params?: {}): Observable<any> {
     return this.sendCommand('create', params)
       .map(response => {
-        let entity = this.entity.toLowerCase();
+        const entity = this.entity.toLowerCase();
         if (entity === 'tag' || entity === 'affinitygroup') {
           return response;
         }
@@ -77,7 +77,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
     const urlParams = new URLSearchParams();
     urlParams.append('command', this.getRequestCommand(command, entity));
 
-    for (let key in params) {
+    for (const key in params) {
       if (!params.hasOwnProperty(key)) {
         continue;
       }
@@ -87,8 +87,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
         continue;
       }
 
-      let result = this.breakParamsArray(params, key);
-      for (let param in result) {
+      const result = this.breakParamsArray(params, key);
+      for (const param in result) {
         if (!result.hasOwnProperty(param)) {
           continue;
         }
@@ -160,16 +160,16 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   private breakParamsArray(params: {}, arrayName: string): any {
-    let array = params[arrayName];
-    let result = {};
+    const array = params[arrayName];
+    const result = {};
 
     array.forEach((elem, index) => {
-      for (let property in elem) {
+      for (const property in elem) {
         if (!elem.hasOwnProperty(property)) {
           continue;
         }
 
-        let indexString = `${arrayName}[${index}].${property}`;
+        const indexString = `${arrayName}[${index}].${property}`;
         result[indexString] = elem[property];
       }
     });
@@ -194,7 +194,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   private handleError(response): Observable<any> {
-    let error = response.json();
+    const error = response.json();
     this.error.next(response);
     return Observable.throw(error);
   }
