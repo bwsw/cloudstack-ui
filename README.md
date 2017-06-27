@@ -168,7 +168,7 @@ docker run -d -p 80:80 --name cloudstack-ui \
            -e API_BACKEND_URL=http://link/to/api/endpoint \
            -e CONSOLE_BACKEND_URL=http://link/to/console/endpoint \
            -e BASE_HREF=base_href \
-           -v /path/to/config.json:/var/www/dist/config/config.json \
+           -v /path/to/config.json:/static/config/config.json \
            bwsw/cloudstack-ui
 ```
 
@@ -182,10 +182,10 @@ docker run -d -p 80:80 --name cloudstack-ui \
 
 Additionally, you can change favicon and Cloudstack logo on login screen and in sidebar:
 ```
--v /path/to/favicon.ico:/var/www/dist/img/favicon.ico \
--v /path/to/cloudstack_logo.png:/var/www/dist/img/cloudstack_logo.png \
--v /path/to/cloudstack_logo_light.png:/var/www/dist/img/cloudstack_logo_light.png \
--v /path/to/cloudstack_logo_dark.png:/var/www/dist/img/cloudstack_logo_dark.png
+-v /path/to/favicon.ico:/static/img/favicon.ico \
+-v /path/to/cloudstack_logo.png:/static/img/cloudstack_logo.png \
+-v /path/to/cloudstack_logo_light.png:/static/img/cloudstack_logo_light.png \
+-v /path/to/cloudstack_logo_dark.png:/static/img/cloudstack_logo_dark.png
 ```
 where the `favicon.ico` is the favicon, `cloudstack_logo.png` is the logo displayed on login screen and `cloudstack_logo_light.png` and `cloudstack_logo_dark.png` are Cloudstack logos displayed in sidebar with dark and light theme respectively.
 ### Assisting object cleanup container
