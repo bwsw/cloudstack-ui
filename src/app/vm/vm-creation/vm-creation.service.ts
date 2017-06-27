@@ -51,46 +51,19 @@ export class VmCreationService {
     return Observable
       .forkJoin(requests)
       .map(([
-        affinityGroupList,
-        affinityGroupTypes,
-        availablePrimaryStorage,
-        defaultName,
-        defaultTemplate,
-        diskOfferings,
-        instanceGroups,
-        rootDiskSizeLimit,
-        securityGroupTemplates,
-        serviceOfferings,
-        sshKeyPairs,
-        zones
-      ]: [
-        Array<AffinityGroup>,
-        Array<AffinityGroupType>,
-        number,
-        string,
-        Template,
-        Array<DiskOffering>,
-        Array<InstanceGroup>,
-        number,
-        Array<SecurityGroup>,
-        Array<ServiceOffering>,
-        Array<SSHKeyPair>,
-        Array<Zone>
-      ]) => new VmCreationData(
-        affinityGroupList,
-        affinityGroupTypes,
-        availablePrimaryStorage,
-        defaultName,
-        defaultTemplate,
-        diskOfferings,
-        instanceGroups,
-        rootDiskSizeLimit,
-        securityGroupTemplates,
-        serviceOfferings,
-        sshKeyPairs,
-        zones
+              affinityGroupList, affinityGroupTypes, availablePrimaryStorage, defaultName, defaultTemplate,
+              diskOfferings, instanceGroups, rootDiskSizeLimit, securityGroupTemplates, serviceOfferings, sshKeyPairs,
+              zones]:
+              [
+                Array<AffinityGroup>, Array<AffinityGroupType>, number, string, Template, Array<DiskOffering>,
+                Array<InstanceGroup>, number, Array<SecurityGroup>, Array<ServiceOffering>, Array<SSHKeyPair>,
+                Array<Zone>]
+      ) => new VmCreationData(
+        affinityGroupList, affinityGroupTypes, availablePrimaryStorage, defaultName, defaultTemplate, diskOfferings,
+        instanceGroups, rootDiskSizeLimit, securityGroupTemplates, serviceOfferings, sshKeyPairs, zones
       ));
   }
+
 
   private getDefaultVmName(): Observable<string> {
     return this.vmService.getNumberOfVms()

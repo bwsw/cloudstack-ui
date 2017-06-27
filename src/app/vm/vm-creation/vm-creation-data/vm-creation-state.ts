@@ -1,5 +1,8 @@
 import { Rules } from '../../../security-group/sg-creation/sg-creation.component';
-import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../../shared/models';
+import {
+  AffinityGroup, AffinityGroupType, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair,
+  Zone
+} from '../../../shared/models';
 import { AuthService } from '../../../shared/services';
 import { ServiceLocator } from '../../../shared/services/service-locator';
 import { UtilsService } from '../../../shared/services/utils.service';
@@ -11,7 +14,7 @@ import { NetworkRule } from '../../../security-group/sg.model';
 
 
 interface VmCreationParams {
-  affinityGroupName?: string;
+  affinityGroupNames?: string;
   details?: Array<any>;
   diskofferingid?: string; // todo: check
   doStartVm?: string;
@@ -21,7 +24,7 @@ interface VmCreationParams {
   keyboard?: string;
   keyPair?: string;
   name?: string;
-  serviceOfferingId?: string;
+  serviceOfferingIds?: string;
   response?: 'json';
   rootDiskSize?: number;
   size?: number;
@@ -57,6 +60,18 @@ export class VmCreationState {
     this.reset(data);
   }
 
+  public get affinityGroupExists(): boolean {
+    return this.data.affinityGroupNames.includes(this.affinityGroup.name);
+  }
+
+  public get affinityGroupType(): AffinityGroupType {
+    return this.data.affinityGroupTypes[0];
+  }
+
+  public get showRootDiskResize(): boolean {
+    return this.diskOffering && this.diskOffering.isCustomized;
+  }
+
   public get showSecurityGroups(): boolean {
     return !this.zone.networkTypeIsBasic;
   };
@@ -72,10 +87,6 @@ export class VmCreationState {
     } else {
       // this.enoughResources = false;
     }
-  }
-
-  public get showRootDiskResize(): boolean {
-    return this.diskOffering && this.diskOffering.isCustomized;
   }
 
   public reset(data?: VmCreationData): void {
@@ -101,23 +112,23 @@ export class VmCreationState {
   public getVmCreationParams(): VmCreationParams {
     let params: VmCreationParams = {};
 
-    params['affinityGroupName'] = this.affinityGroup && this.affinityGroup.name;
-    params['doStartVm'] = this.doStartVm ? undefined : 'false';
-    params['keyboard'] = this.keyboard;
-    params['keyPair'] = this.keyPair.name; // todo: check
-    params['name'] = this.displayName || this.data.defaultName;
-    params['serviceOfferingId'] = this.serviceOffering && this.serviceOffering.id;
-    params['templateId'] = this.template && this.template.id;
-    params['zoneId'] = this.zone && this.zone.id;
-    params['response'] = 'json';
+    params.affinityGroupNames = this.affinityGroup && this.affinityGroup.name;
+    params.doStartVm = this.doStartVm ? undefined : 'false';
+    params.keyboard = this.keyboard;
+    params.keyPair = this.keyPair.name; // todo: check
+    params.name = this.displayName || this.data.defaultName;
+    params.serviceOfferingIds = this.serviceOffering && this.serviceOffering.id;
+    params.templateId = this.template && this.template.id;
+    params.zoneId = this.zone && this.zone.id;
+    params.response = 'json';
 
     if (this.diskOffering && !this.template.isTemplate) {
-      params['diskofferingid'] = this.diskOffering.id;
-      params['hypervisor'] = 'KVM';
+      params.diskofferingid = this.diskOffering.id;
+      params.hypervisor = 'KVM';
     }
 
     if (this.serviceOffering.areCustomParamsSet) {
-      params['details'] = [{
+      params.details = [{
         cpuNumber: this.serviceOffering.cpuNumber,
         cpuSpeed: this.serviceOffering.cpuSpeed,
         memory: this.serviceOffering.memory
@@ -126,18 +137,18 @@ export class VmCreationState {
 
     if (this.template.isTemplate || this.showRootDiskResize) {
       if (this.template.isTemplate) {
-        params['rootDiskSize'] = this.rootDiskSize;
+        params.rootDiskSize = this.rootDiskSize;
       } else {
-        params['size'] = this.rootDiskSize;
+        params.size = this.rootDiskSize;
       }
     }
 
     if (this.securityRules && this.securityRules.ingress) {
-      params['ingress'] = this.securityRules.ingress;
+      params.ingress = this.securityRules.ingress;
     }
 
     if (this.securityRules && this.securityRules.egress) {
-      params['egress'] = this.securityRules.egress;
+      params.egress = this.securityRules.egress;
     }
 
     return params;

@@ -11,7 +11,7 @@ import { BaseBackendCachedService } from './base-backend-cached.service';
 
 export interface AffinityGroupCreationData {
   name: string;
-  type: string;
+  type: AffinityGroupType;
   description?: string;
 }
 

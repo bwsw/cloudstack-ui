@@ -61,7 +61,7 @@
             name="templateSelector"
             class="dialog-select-select template-select"
             [zoneId]="vmCreationState?.zone?.id"
-            [(ngModel)]="vmCreationState?.template"
+            [(ngModel)]="vmCreationState.template"
           ></cs-vm-creation-template>
         </div>
 
@@ -75,7 +75,7 @@
         </div>
         <cs-slider
           *ngIf="templateSelected || showRootDiskResize"
-          [min]="vmCreationData.rootDiskSizeMin"
+          [min]="vmCreationState.rootDiskSizeMin"
           [max]="vmCreationData.rootDiskSizeLimit"
           [label]="'VM_CREATION_FORM.DISK_SIZE' | translate"
           name="rds"
@@ -116,14 +116,14 @@
         <cs-keyboards
           name="keyboard"
           *ngIf="vmCreationData"
-          [(ngModel)]="vmCreationData.keyboard"
+          [(ngModel)]="vmCreationState.keyboard"
         ></cs-keyboards>
 
         <h5>{{ 'VM_CREATION_FORM.SSH_KEYPAIR' | translate }}</h5>
         <div>
           <mdl-select
             name="ssh"
-            [(ngModel)]="vmCreationData.vm.keyPair"
+            [(ngModel)]="vmCreationState.keyPair"
           >
             <mdl-option
               *ngFor="let k of vmCreationData.sshKeyPairs"
@@ -136,7 +136,7 @@
         <div class="start-vm-checkbox">
           <mdl-checkbox
             name="startVm"
-            [(ngModel)]="vmCreationData.doStartVm"
+            [(ngModel)]="vmCreationState.doStartVm"
           >
             {{ 'VM_CREATION_FORM.START_VM' | translate }}
           </mdl-checkbox>
@@ -155,7 +155,7 @@
     <div class="mdl-dialog__actions">
       <button
         mdl-colored="primary"
-        [disabled]="!vmCreateForm.valid || (vmCreationData.displayName === takenName)"
+        [disabled]="!vmCreateForm.valid || (vmCreationState.displayName === takenName)"
         type="submit"
         mdl-button
         mdl-ripple

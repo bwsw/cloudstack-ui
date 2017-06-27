@@ -2,26 +2,19 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 import { MdlDialogReference } from '../../dialog/dialog-module';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 import {
-  AffinityGroupService,
   DiskOffering,
-  GROUP_POSTFIX,
-  InstanceGroupService,
   JobsNotificationService,
-  SecurityGroupService,
   ZoneService
 } from '../../shared';
 
 import { ServiceOffering, Zone } from '../../shared/models';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
-import { UtilsService } from '../../shared/services/utils.service';
 import { Template } from '../../template/shared';
 
-import { VmService } from '../shared/vm.service';
 import { VmCreationState } from './vm-creation-data/vm-creation-state';
 import { BaseField } from './vm-creation-field/base-field';
 import { VmFormService } from './vm-form.service';
@@ -61,21 +54,14 @@ export class VmCreationComponent implements OnInit {
   public fields: Array<BaseField<any>> = [];
   public form: FormGroup;
 
-  public defaultName: string;
-
   constructor(
-    private affinityGroupService: AffinityGroupService,
     private changeDetectorRef: ChangeDetectorRef,
     private dialog: MdlDialogReference,
     private dialogService: DialogService,
-    private instanceGroupService: InstanceGroupService,
     private jobsNotificationService: JobsNotificationService,
     private resourceUsageService: ResourceUsageService,
-    private securityGroupService: SecurityGroupService,
     private translateService: TranslateService,
-    private utils: UtilsService,
     private vmCreationService: VmCreationService,
-    private vmService: VmService,
     private zoneService: ZoneService,
 
     private formService: VmFormService
@@ -128,67 +114,6 @@ export class VmCreationComponent implements OnInit {
     this.getVmCreateData().subscribe();
   }
 
-  // todo: move to vmCreationService
-  public deployVm(): void {
-    const params = this.vmCreationState.getVmCreationParams();
-
-    let shouldCreateAffinityGroup = false;
-    let affinityGroupName = params['affinityGroupNames'];
-    if (affinityGroupName) {
-      const ind = this.vmCreationData.affinityGroupList.findIndex(ag => ag.name === affinityGroupName);
-      if (ind === -1) {
-        shouldCreateAffinityGroup = true;
-      }
-    }
-    let securityGroupObservable = this.securityGroupService.createWithRules(
-      { name: this.utils.getUniqueId() + GROUP_POSTFIX },
-      params.ingress || [],
-      params.egress || []
-    )
-      .map(securityGroup => {
-        params['securityGroupIds'] = securityGroup.id;
-      });
-
-    let affinityGroupsObservable;
-    if (shouldCreateAffinityGroup) {
-      affinityGroupsObservable = this.affinityGroupService.create({
-        name: this.vmCreationState.affinityGroup.name,
-        type: this.vmCreationData.affinityGroupTypes[0].type
-      })
-        .map(affinityGroup => {
-          this.vmCreationData.affinityGroupList.push(affinityGroup);
-          this.vmCreationData.affinityGroupNames.push(affinityGroup.name);
-          params['affinityGroupNames'] = affinityGroup.name;
-          this.agCreationInProgress = false;
-        });
-    } else {
-      affinityGroupsObservable = Observable.of(null);
-    }
-
-    delete params['ingress'];
-    delete params['egress'];
-
-    if (this.vmCreationState.zone.networkTypeIsBasic) {
-      this.agCreationInProgress = shouldCreateAffinityGroup;
-      affinityGroupsObservable
-        .subscribe(() => {
-          this.deploy(params);
-        });
-    } else {
-      this.agCreationInProgress = shouldCreateAffinityGroup;
-      affinityGroupsObservable
-        .switchMap(() => {
-          this.agCreationInProgress = false;
-          this.sgCreationInProgress = true;
-          return securityGroupObservable;
-        })
-        .subscribe(() => {
-          this.sgCreationInProgress = false;
-          this.deploy(params);
-        });
-    }
-  }
-
   public showPassword(vmName: string, vmPassword: string): void {
     this.dialogService.customAlert({
       message: {
@@ -232,66 +157,6 @@ export class VmCreationComponent implements OnInit {
         this.vmCreationData.zones = zoneList;
         return this.updateZone(zoneList[0]);
       });
-  }
-
-  // todo: move to vmCreationService and return Subject<VmCreationState>
-  private deploy(params): void {
-    let deployObservable = new Subject();
-    let notificationId: string;
-    let deployResponseVm: any;
-
-    this.vmService.deploy(params)
-      .switchMap(deployResponse => {
-        notificationId = this.jobsNotificationService.add('VM_DEPLOY_IN_PROGRESS');
-
-        this.vmService.get(deployResponse.id)
-          .subscribe(vm => {
-            deployResponseVm = vm;
-            vm.state = 'Deploying';
-            deployObservable.next(vm);
-            deployObservable.complete();
-          });
-
-        this.vmService.incrementNumberOfVms().subscribe();
-
-        this.sgCreationInProgress = false;
-        this.dialog.hide(deployObservable);
-        return this.vmService.registerVmJob(deployResponse);
-      })
-      .switchMap(vm => {
-        if (this.vmCreationState.instanceGroup) {
-          return this.instanceGroupService.add(vm, this.vmCreationState.instanceGroup);
-        }
-        return Observable.of(vm);
-      })
-      .subscribe(
-        vm => {
-          if (vm.instanceGroup) {
-            this.instanceGroupService.groupsUpdates.next();
-          }
-
-          this.notifyOnDeployDone(notificationId);
-          if (!vm.password) {
-            return;
-          }
-
-          this.showPassword(vm.displayName, vm.password);
-          this.vmService.updateVmInfo(vm);
-        },
-        err => {
-          if (deployResponseVm) {
-            deployResponseVm.state = 'Error';
-            this.vmService.updateVmInfo(deployResponseVm);
-          }
-
-          this.sgCreationInProgress = false;
-          this.agCreationInProgress = false;
-          this.translateService.get(err.message, err.params)
-            .subscribe(str => this.dialogService.alert(str));
-
-          this.notifyOnDeployFailed(notificationId);
-        }
-      );
   }
 
   private setDiskOfferings(diskOfferings: Array<DiskOffering>): void {
