@@ -66,7 +66,7 @@ export class VmCreationComponent implements OnInit {
   ) {
     this.vmCreationService.getData().subscribe(vmCreationData => {
       this.vmCreationData = vmCreationData;
-      this.vmCreationState = vmCreationData.getState();
+      this.vmCreationState = vmCreationData.getInitialState();
     });
 
     this.translateService.get('NO_AFFINITY_GROUP').subscribe(str => {

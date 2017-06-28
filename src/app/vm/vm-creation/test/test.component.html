@@ -1,4 +1,10 @@
 <div>
   <h2>VM Creation</h2>
-  <cs-vm-creation-form [fields]="fields"></cs-vm-creation-form>
+  <ng-container *ngIf="fields">
+    <cs-vm-creation-form
+      #form
+      [fields]="fields"
+      (formEmitter)="subscribeToFormChanges($event)"
+    ></cs-vm-creation-form>
+  </ng-container>
 </div>

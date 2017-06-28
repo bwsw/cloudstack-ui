@@ -1,3 +1,5 @@
+import { Rules } from '../../../security-group/sg-creation/sg-creation.component';
+import { SecurityGroup } from '../../../security-group/sg.model';
 import {
   AffinityGroup,
   AffinityGroupType,
@@ -7,9 +9,7 @@ import {
   SSHKeyPair,
   Zone
 } from '../../../shared/models';
-import { SecurityGroup } from '../../../security-group/sg.model';
 import { Template } from '../../../template/shared';
-import { Rules } from '../../../security-group/sg-creation/sg-creation.component';
 import { VmCreationState } from './vm-creation-state';
 
 
@@ -43,7 +43,7 @@ export class VmCreationData {
     return Rules.createWithAllRulesSelected(preselectedSecurityGroups);
   }
 
-  public getState(): VmCreationState {
+  public getInitialState(): VmCreationState {
     return new VmCreationState(this);
   }
 }

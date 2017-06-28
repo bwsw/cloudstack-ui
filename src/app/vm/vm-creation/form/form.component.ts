@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BaseField } from './fields/base-field';
 import { FieldControlService } from './field-control.service';
@@ -10,12 +10,16 @@ import { FieldControlService } from './field-control.service';
 })
 export class VmCreationFormComponent implements OnInit {
   @Input() public fields: Array<BaseField<any>> = [];
+  @Output() public formEmitter: EventEmitter<FormGroup>;
   public form: FormGroup;
 
-  constructor(private fieldControlService: FieldControlService) {}
+  constructor(private fieldControlService: FieldControlService) {
+    this.formEmitter = new EventEmitter();
+  }
 
   public ngOnInit(): void {
     this.form = this.fieldControlService.toFormGroup(this.fields);
+    this.formEmitter.emit(this.form);
   }
 
   public onSubmit(): string {

@@ -3,53 +3,47 @@ import { BaseField } from './fields/base-field';
 import { TextField } from './fields/text-field';
 import { SelectField } from './fields/select-field';
 import { AutocompleteField } from './fields/autocomplete-field';
+import { VmCreationData } from '../data/vm-creation-data';
 
 
 @Injectable()
 export class FieldService {
-  public getFields(): Array<BaseField<any>> {
+  public getFields(data: VmCreationData): Array<BaseField<any>> {
+    const state = data.getInitialState();
     let fields: Array<BaseField<any>> = [
       new TextField({
         key: 'name',
         label: 'Name',
-        value: 'vm-1',
+        value: state.displayName,
         required: true,
         order: 1
       }),
       new SelectField({
         key: 'zone',
         label: 'Zone',
-        value: 'zone1',
-        options: [
-          { key: 'zone1', value: 'ZONE 1' },
-          { key: 'zone2', value: 'ZONE 2' }
-        ],
+        value: state.zone,
+        options: data.zones.map(zone => ({ key: zone, value: zone.name })),
         order: 2
       }),
       new SelectField({
         key: 'serviceOffering',
         label: 'Service offering',
-        value: 'offering1',
-        options: [
-          { key: 'offering1', value: 'OFFERING 1' },
-          { key: 'offering2', value: 'OFFERING 2' }
-        ],
+        value: state.serviceOffering,
+        options: data.serviceOfferings.map(offering => ({ key: offering, value: offering.name })),
         order: 3
       }),
       new SelectField({
         key: 'diskOffering',
         label: 'Disk offering',
-        value: 'offering1',
-        options: [
-          { key: 'offering1', value: 'OFFERING 1' },
-          { key: 'offering2', value: 'OFFERING 2' }
-        ],
+        value: state.diskOffering,
+        options: data.diskOfferings.map(offering => ({ key: offering, value: offering.name })),
         order: 5
       }),
       new AutocompleteField({
         key: 'group',
         label: 'Group',
-        options: ['GROUP 1', 'GROUP 2'],
+        options: data.instanceGroups.map(group => group.name),
+        value: '',
         order: 6
       })
     ];

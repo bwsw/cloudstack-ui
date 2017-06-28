@@ -1,6 +1,11 @@
 import { Rules } from '../../../security-group/sg-creation/sg-creation.component';
 import {
-  AffinityGroup, AffinityGroupType, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair,
+  AffinityGroup,
+  AffinityGroupType,
+  DiskOffering,
+  InstanceGroup,
+  ServiceOffering,
+  SSHKeyPair,
   Zone
 } from '../../../shared/models';
 import { AuthService } from '../../../shared/services';

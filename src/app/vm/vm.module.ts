@@ -51,6 +51,7 @@ import { VmDetailComponent } from './vm-sidebar/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 import { vmRouting } from './vm.routing';
+import { VmCreationFilterService } from './vm-creation/data/vm-creation-filter.service';
 
 
 @NgModule({
@@ -106,7 +107,8 @@ import { vmRouting } from './vm.routing';
     VmCreationService,
     VmDeploymentService,
     VmService,
-    SnapshotActionsService
+    SnapshotActionsService,
+    VmCreationFilterService
   ],
   entryComponents: [
     AffinityGroupDialogComponent,
