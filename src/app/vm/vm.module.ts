@@ -1,20 +1,12 @@
 import { MdlModule } from '@angular-mdl/core';
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { routes } from '../app.routing';
-import { TranslateModule } from '@ngx-translate/core';
 
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { SharedModule } from '../shared/shared.module';
@@ -25,6 +17,7 @@ import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-di
 import { VmTemplateComponent } from './vm-creation/template/vm-template.component';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmCreationService } from './vm-creation/vm-creation.service';
+import { VmDeploymentService } from './vm-creation/vm-deployment.service';
 import { VmFilterComponent } from './vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list/vm-list-item.component';
 import { VmListSectionComponent } from './vm-list/vm-list-section/vm-list-section.component';
@@ -33,9 +26,12 @@ import { VmListComponent } from './vm-list/vm-list.component';
 import { AffinityGroupDialogComponent } from './vm-sidebar/affinity-group-dialog.component';
 import { InstanceGroupSelectorComponent } from './vm-sidebar/instance-group-selector/instance-group-selector.component';
 import { InstanceGroupComponent } from './vm-sidebar/instance-group/instance-group.component';
+import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.component';
 import { IsoComponent } from './vm-sidebar/storage-detail/iso.component';
 // tslint:disable-next-line
+// tslint:disable-next-line
 import { SpareDriveAttachmentDetailComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attachment-detail/spare-drive-attachment-detail.component';
+// tslint:disable-next-line
 // tslint:disable-next-line
 import { SpareDriveAttachmentDialogComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
 import { StorageDetailComponent } from './vm-sidebar/storage-detail/storage-detail.component';
@@ -50,20 +46,6 @@ import { VmDetailComponent } from './vm-sidebar/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 import { vmRouting } from './vm.routing';
-// tslint:disable-next-line
-import { SpareDriveAttachmentDetailComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attachment-detail/spare-drive-attachment-detail.component';
-// tslint:disable-next-line
-import { SpareDriveAttachmentDialogComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
-import { routes } from '../app.routing';
-import { InstanceGroupComponent } from './vm-sidebar/instance-group/instance-group.component';
-import { InstanceGroupSelectorComponent } from './vm-sidebar/instance-group-selector/instance-group-selector.component';
-import { SnapshotsComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshots.component';
-import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volume-details/volume-details.component';
-import { AffinityGroupDialogComponent } from './vm-sidebar/affinity-group-dialog.component';
-import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.component';
-import { VmFormService } from './vm-creation/form/vm-form.service';
-import { VmDeploymentService } from './vm-creation/vm-deployment.service';
-import { TestComponent } from './vm-creation/test/test.component';
 
 
 @NgModule({
