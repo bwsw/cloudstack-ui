@@ -12,9 +12,14 @@ import { ServiceOfferingModule } from '../service-offering/service-offering.modu
 import { SharedModule } from '../shared/shared.module';
 import { TemplateModule } from '../template';
 import { VmService } from './shared/vm.service';
+import { FieldControlService } from './vm-creation/form/field-control.service';
+import { VmCreationFieldComponent } from './vm-creation/form/field.component';
+import { FieldService } from './vm-creation/form/field.service';
+import { VmCreationFormComponent } from './vm-creation/form/form.component';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
 import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-dialog.component';
 import { VmTemplateComponent } from './vm-creation/template/vm-template.component';
+import { TestComponent } from './vm-creation/test/test.component';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmCreationService } from './vm-creation/vm-creation.service';
 import { VmDeploymentService } from './vm-creation/vm-deployment.service';
@@ -90,12 +95,16 @@ import { vmRouting } from './vm.routing';
     IsoComponent,
     VolumeComponent,
     SnapshotCreationComponent,
-    SnapshotModalComponent
+    SnapshotModalComponent,
+
+    VmCreationFormComponent,
+    VmCreationFieldComponent
   ],
   providers: [
+    FieldService,
+    FieldControlService,
     VmCreationService,
     VmDeploymentService,
-    VmFormService,
     VmService,
     SnapshotActionsService
   ],

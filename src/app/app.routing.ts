@@ -8,9 +8,14 @@ import { SettingsComponent } from './settings/settings.component';
 import { AuthGuard, LoginGuard } from './shared/services';
 import { SshKeysPageComponent } from './ssh-keys/ssh-keys-page.component';
 import { ReloadComponent } from './shared/components/reload/reload.component';
+import { TestComponent } from './vm/vm-creation/test/test.component';
 
 
 export const routes: Routes = [
+  {
+    path: 'test',
+    component: TestComponent
+  },
   {
     path: 'login',
     component: LoginComponent,

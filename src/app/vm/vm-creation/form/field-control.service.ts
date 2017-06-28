@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { BaseField } from './base-field';
+import { BaseField } from './fields/base-field';
 
 
 @Injectable()
-export class FormService {
+export class FieldControlService {
   public toFormGroup(fields: Array<BaseField<any>>): FormGroup {
     let group: any = {};
 

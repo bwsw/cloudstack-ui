@@ -7,8 +7,35 @@
       [formControlName]="field.key"
       [id]="field.key"
       [name]="field.key"
-      [errorMsg
     ></mdl-textfield>
+  </div>
+
+  <div [ngSwitch]="field.controlType">
+    <mdl-select
+      *ngSwitchCase="'select'"
+      [formControlName]="field.key"
+      [id]="field.key"
+    >
+      <mdl-option
+        *ngFor="let option of field.options"
+        [value]="option.key"
+      >
+        {{ option.value }}
+      </mdl-option>
+    </mdl-select>
+  </div>
+
+  <div [ngSwitch]="field.controlType">
+    <mdl-autocomplete
+      *ngSwitchCase="'autocomplete'"
+      [formControlName]="field.key"
+      [id]="field.key"
+      [options]="field.options"
+    ></mdl-autocomplete>
+  </div>
+
+  <div *ngIf="!isValid">
+    {{ question.label }} is required
   </div>
 </div>
 

@@ -15,8 +15,7 @@ import { ServiceOffering, Zone } from '../../shared/models';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 
 import { VmCreationState } from './data/vm-creation-state';
-import { BaseField } from './form/base-field';
-import { VmFormService } from './form/vm-form.service';
+import { BaseField } from './form/fields/base-field';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { VmCreationService } from './vm-creation.service';
 import { VmCreationData } from './data/vm-creation-data';
@@ -64,8 +63,6 @@ export class VmCreationComponent implements OnInit {
     private vmCreationService: VmCreationService,
     private vmDeploymentService: VmDeploymentService,
     private zoneService: ZoneService,
-
-    private formService: VmFormService
   ) {
     this.vmCreationService.getData().subscribe(vmCreationData => {
       this.vmCreationData = vmCreationData;
@@ -98,8 +95,6 @@ export class VmCreationComponent implements OnInit {
           this.resetVmCreateData();
         }
       });
-    // need to check if enough resources
-    this.formService.toFormGroup(this.fields);
   }
 
   public onVmCreationSubmit(e: any): void {
@@ -144,10 +139,11 @@ export class VmCreationComponent implements OnInit {
             this.dialog.hide();
             break;
           case VmDeploymentStages.FINISHED:
-            this.notifyOnDeployDone(notificationId);
             const name = deploymentMessage.vm.name;
             const password = deploymentMessage.vm.password;
+
             this.showPassword(name, password);
+            this.notifyOnDeployDone(notificationId);
             break;
           case VmDeploymentStages.ERROR:
             this.notifyOnDeployFailed(notificationId);
