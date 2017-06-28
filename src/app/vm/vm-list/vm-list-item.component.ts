@@ -47,7 +47,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    for (let propName in changes) {
+    for (const propName in changes) {
       if (changes.hasOwnProperty(propName) && propName === 'isSelected') {
         this.isSelected = changes[propName].currentValue;
       }
@@ -78,7 +78,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
       return;
     }
 
-    let e = {
+    const e = {
       action: this.actions.find(a => a.nameLower === act),
       vm: this.vm
     };

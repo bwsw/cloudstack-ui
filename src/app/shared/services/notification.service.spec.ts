@@ -38,8 +38,8 @@ describe('Service: Notification service', () => {
   );
 
   it('notification appears onscreen and disappears after ~3seconds', fakeAsync(() => {
-    let fixture = TestBed.createComponent(MdlTestViewComponent);
-    let notification = ns.message('test');
+    const fixture = TestBed.createComponent(MdlTestViewComponent);
+    const notification = ns.message('test');
 
     fixture.detectChanges();
     notification.subscribe((mdlSnackbarComponent) => {
@@ -59,10 +59,10 @@ describe('Service: Notification service', () => {
   }));
 
   it('warning appears onscreen and disappears after ~3seconds', fakeAsync(() => {
-    let fixture = TestBed.createComponent(MdlTestViewComponent);
+    const fixture = TestBed.createComponent(MdlTestViewComponent);
     fixture.detectChanges();
 
-    let warning = ns.warning('test', {
+    const warning = ns.warning('test', {
       handler: () => {},
       text: 'test'
     });
@@ -82,10 +82,10 @@ describe('Service: Notification service', () => {
   }));
 
   it('warning disappears immediately after action', async(() => {
-    let fixture = TestBed.createComponent(MdlTestViewComponent);
+    const fixture = TestBed.createComponent(MdlTestViewComponent);
     fixture.detectChanges();
 
-    let p = ns.warning('test', {
+    const p = ns.warning('test', {
       handler: () => {},
       text: 'test'
     });
@@ -100,16 +100,16 @@ describe('Service: Notification service', () => {
   }));
 
   it('warning action handler is called on action button click', fakeAsync(() => {
-    let fixture = TestBed.createComponent(MdlTestViewComponent);
+    const fixture = TestBed.createComponent(MdlTestViewComponent);
     fixture.detectChanges();
 
-    let test = { a: 0 };
+    const test = { a: 0 };
 
-    let f = function(): void {
+    const f = function(): void {
       this.a = 1;
     };
 
-    let warning = ns.error('test', {
+    const warning = ns.error('test', {
       handler: f.bind(test),
       text: 'test'
     });
@@ -129,10 +129,10 @@ describe('Service: Notification service', () => {
   }));
 
   it('error appears onscreen and doesn\'t disappear until clicked', fakeAsync(() => {
-    let fixture = TestBed.createComponent(MdlTestViewComponent);
+    const fixture = TestBed.createComponent(MdlTestViewComponent);
     fixture.detectChanges();
 
-    let err = ns.error('test', {
+    const err = ns.error('test', {
       handler: () => {},
       text: 'test'
     });

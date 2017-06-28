@@ -135,7 +135,7 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
 
   private removeDuplicateRules(rules: Array<NetworkRule>): Array<NetworkRule> {
     return rules.reduce((acc: Array<NetworkRule>, rule: NetworkRule) => {
-      let unique = !acc.some(resultRule => rule.isEqual(resultRule));
+      const unique = !acc.some(resultRule => rule.isEqual(resultRule));
       return unique ? acc.concat(rule) : acc;
     }, []);
   }

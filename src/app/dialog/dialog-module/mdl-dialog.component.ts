@@ -48,16 +48,16 @@ export class MdlDialogComponent {
     }
     this.isShown = true;
 
-    let mergedConfig: IMdlDialogConfiguration = this.config || {};
+    const mergedConfig: IMdlDialogConfiguration = this.config || {};
 
     mergedConfig.isModal = typeof this.modal !== 'undefined' ? this.modal : mergedConfig.isModal;
     if (typeof mergedConfig.isModal === 'undefined') {
       mergedConfig.isModal = true;
     }
 
-    let result: Subject<any> = new Subject();
+    const result: Subject<any> = new Subject();
 
-    let p = this.dialogService.showDialogTemplate(this.template, mergedConfig);
+    const p = this.dialogService.showDialogTemplate(this.template, mergedConfig);
     p.subscribe( (dialogRef: MdlDialogReference) => {
 
       this.dialogRef = dialogRef;

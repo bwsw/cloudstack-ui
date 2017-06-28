@@ -193,12 +193,12 @@ export class MdlDialogService {
         'Please see https://github.com/mseemann/angular2-mdl/wiki/How-to-use-the-MdlDialogService');
     }
 
-    let providers: Array<Provider> = [
+    const providers: Array<Provider> = [
       { provide: MDL_CONFIGUARTION, useValue: dialogConfig },
       { provide: InternalMdlDialogReference, useValue: internalDialogRef}
     ];
 
-    let hostDialogComponent = this.createComponentInstance(viewContainerRef, providers, MdlDialogHostComponent);
+    const hostDialogComponent = this.createComponentInstance(viewContainerRef, providers, MdlDialogHostComponent);
 
     internalDialogRef.hostDialogComponentRef  = hostDialogComponent;
     internalDialogRef.isModal                 = dialogConfig.isModal;
@@ -240,7 +240,7 @@ export class MdlDialogService {
 
     this.mdlDialogOutletService.hideBackdrop();
 
-    let topMostModalDialog: InternalMdlDialogReference = this.getTopMostInternalDialogRef();
+    const topMostModalDialog: InternalMdlDialogReference = this.getTopMostInternalDialogRef();
     if (topMostModalDialog) {
       this.mdlDialogOutletService.showBackdropWithZIndex(topMostModalDialog.hostDialog.zIndex - 1);
     }
@@ -259,7 +259,7 @@ export class MdlDialogService {
   }
 
   private onBackdropClick(): void {
-    let topMostModalDialog: InternalMdlDialogReference = this.getTopMostInternalDialogRef();
+    const topMostModalDialog: InternalMdlDialogReference = this.getTopMostInternalDialogRef();
     if (topMostModalDialog.config.clickOutsideToClose) {
       topMostModalDialog.hide();
     }
@@ -270,11 +270,11 @@ export class MdlDialogService {
     providers: Array<Provider>,
     component: Type<T>
   ): ComponentRef<any> {
-    let cFactory            = this.componentFactoryResolver.resolveComponentFactory(component);
+    const cFactory            = this.componentFactoryResolver.resolveComponentFactory(component);
 
-    let resolvedProviders   = ReflectiveInjector.resolve(providers);
-    let parentInjector      = viewContainerRef.parentInjector;
-    let childInjector       = ReflectiveInjector.fromResolvedProviders(resolvedProviders, parentInjector);
+    const resolvedProviders   = ReflectiveInjector.resolve(providers);
+    const parentInjector      = viewContainerRef.parentInjector;
+    const childInjector       = ReflectiveInjector.fromResolvedProviders(resolvedProviders, parentInjector);
 
     return viewContainerRef.createComponent(cFactory, viewContainerRef.length, childInjector);
   }

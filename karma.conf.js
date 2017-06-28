@@ -40,7 +40,7 @@ module.exports = function (config) {
     },
     colors: true,
     logLevel: config.LOG_INFO,
-    autoWatch: false,
+    autoWatch: true,
     browsers: ['ChromeHeadless'],
     customLaunchers: {
       ChromeHeadless: {
@@ -53,6 +53,6 @@ module.exports = function (config) {
         ]
       }
     },
-    singleRun: true
+    singleRun: false
   });
 };

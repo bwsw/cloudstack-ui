@@ -102,7 +102,7 @@ describe('volume resize for root disks', () => {
     spyOn(volumeService, 'resize').and.callThrough();
     component.newSize = newVolumeSize;
 
-    let diskOffering = new DiskOffering();
+    const diskOffering = new DiskOffering();
     diskOffering.id = 'diskOfferingId';
     component.diskOffering = diskOffering;
 
@@ -168,7 +168,7 @@ describe('volume resize for data disks', () => {
     spyOn(volumeService, 'resize').and.callThrough();
     component.newSize = newVolumeSize;
 
-    let diskOffering = new DiskOffering();
+    const diskOffering = new DiskOffering();
     diskOffering.id = 'diskOfferingId';
     component.diskOffering = diskOffering;
 

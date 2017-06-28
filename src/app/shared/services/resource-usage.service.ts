@@ -62,10 +62,10 @@ export class ResourceUsageService {
   ) {}
 
   public getResourceUsage(): Observable<ResourceStats> {
-    let consumedResources = new ResourcesData();
+    const consumedResources = new ResourcesData();
     let maxResources;
 
-    let requests = [];
+    const requests = [];
 
     requests.push(
       this.vmService.getList().map((vms: Array<VirtualMachine>) => {
@@ -115,8 +115,8 @@ export class ResourceUsageService {
   }
 
   private getAvailableResources(max: ResourcesData, consumed: ResourcesData): ResourcesData {
-    let availableResources = new ResourcesData();
-    for (let prop in max) {
+    const availableResources = new ResourcesData();
+    for (const prop in max) {
       if (max.hasOwnProperty(prop)) {
         if (max[prop] === -1) {
           availableResources[prop] = Number.MAX_SAFE_INTEGER;

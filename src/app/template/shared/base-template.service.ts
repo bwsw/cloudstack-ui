@@ -134,7 +134,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
   }
 
   public getGroupedTemplates(params?: {}, filters?: Array<string>): Observable<Object> {
-    let _params = params || {};
+    const _params = params || {};
     let localFilters = this._templateFilters;
     if (filters) {
       if (filters.includes('all')) {
@@ -143,15 +143,15 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       localFilters = filters;
     }
 
-    let templateObservables = [];
-    for (let filter of localFilters) {
+    const templateObservables = [];
+    for (const filter of localFilters) {
       const requestParams = Object.assign({}, _params, { filter });
       templateObservables.push(this.getList(requestParams as RequestParams));
     }
 
     return Observable.forkJoin(templateObservables)
       .map(data => {
-        let obj = {};
+        const obj = {};
         data.forEach((templateSet, i) => {
           obj[localFilters[i]] = templateSet;
         });
@@ -162,7 +162,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
   public getDefault(zoneId: string, maxSize?: number): Observable<BaseTemplateModel> {
     return this.getGroupedTemplates({ zoneId, maxSize })
       .map(data => {
-        for (let filter of this._templateFilters) {
+        for (const filter of this._templateFilters) {
           if (data[filter].length > 0) {
             const readyTemplates = data[filter].filter(_ => _.isReady);
             if (readyTemplates.length) {
@@ -176,8 +176,8 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
   }
 
   private distinctIds(templates: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
-    let ids = {};
-    let result = [];
+    const ids = {};
+    const result = [];
     for (let i = 0; i < templates.length; i++) {
       if (!ids[templates[i].id]) {
         ids[templates[i].id] = true;
