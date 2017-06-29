@@ -4,11 +4,12 @@ import { TextField } from './fields/text-field';
 import { SelectField } from './fields/select-field';
 import { AutocompleteField } from './fields/autocomplete-field';
 import { VmCreationData } from '../data/vm-creation-data';
+import { FormGroup } from '@angular/forms';
 
 
 @Injectable()
 export class FieldService {
-  public getFields(data: VmCreationData): Array<BaseField<any>> {
+  public getFields(data: VmCreationData, form?: FormGroup): Array<BaseField<any>> {
     const state = data.getInitialState();
     let fields: Array<BaseField<any>> = [
       new TextField({
@@ -22,14 +23,14 @@ export class FieldService {
         key: 'zone',
         label: 'Zone',
         value: state.zone,
-        options: data.zones.map(zone => ({ key: zone, value: zone.name })),
+        options: form && data.zones.map(zone => ({ key: zone, value: zone.name })),
         order: 2
       }),
       new SelectField({
         key: 'serviceOffering',
         label: 'Service offering',
         value: state.serviceOffering,
-        options: data.serviceOfferings.map(offering => ({ key: offering, value: offering.name })),
+        options: form && data.serviceOfferings.map(offering => ({ key: offering, value: offering.name })),
         order: 3
       }),
       new SelectField({
@@ -48,6 +49,12 @@ export class FieldService {
       })
     ];
 
+    fields = fields.map(field => {
+      if (form && form.controls && form.controls[field.key] && form.controls[field.key].value) {
+        field.value = form.controls[field.key].value;
+      }
+      return field;
+    });
     return fields.sort((a, b) => a.order - b.order);
   }
 }
