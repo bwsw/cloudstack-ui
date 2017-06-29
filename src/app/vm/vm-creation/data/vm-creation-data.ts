@@ -11,6 +11,7 @@ import {
 } from '../../../shared/models';
 import { Template } from '../../../template/shared';
 import { VmCreationState } from './vm-creation-state';
+import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
 
 
 export class VmCreationData {
@@ -22,6 +23,7 @@ export class VmCreationData {
     public defaultTemplate: Template,
     public diskOfferings: Array<DiskOffering>,
     public instanceGroups: Array<InstanceGroup>,
+    public resourceUsage: ResourceUsageService,
     public rootDiskSizeLimit: number,
     public securityGroupTemplates: Array<SecurityGroup>,
     public serviceOfferings: Array<ServiceOffering>,

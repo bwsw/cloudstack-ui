@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ServiceOffering } from '../models/service-offering.model';
-import { ResourceUsageService } from './resource-usage.service';
+import { ResourceStats, ResourceUsageService } from './resource-usage.service';
 import { ServiceOfferingService } from './service-offering.service';
 import { Observable } from 'rxjs/Observable';
+import { Zone } from '../models';
+import { OfferingAvailability } from './offering.service';
 
 
 @Injectable()
@@ -18,28 +20,42 @@ export class ServiceOfferingFilterService {
       this.resourceUsageService.getResourceUsage()
     ])
       .map(([serviceOfferings, resourceUsage]) => {
-        let sos = serviceOfferings.filter(elem => {
-          if (elem.isCustomized) {
-            return true;
-          }
-          return resourceUsage.available.cpus >= elem.cpuNumber &&
-            resourceUsage.available.memory >= elem.memory;
-        })
+        return this.getAvailableByResources(serviceOfferings, resourceUsage)
           .sort((a: ServiceOffering, b: ServiceOffering) => {
-            if (!a.isCustomized && b.isCustomized) {
-              return -1;
-            }
-            if (a.isCustomized && !b.isCustomized) {
-              return 1;
-            }
+            if (!a.isCustomized && b.isCustomized) { return -1; }
+            if (a.isCustomized && !b.isCustomized) { return 1; }
             return 0;
           });
+      });
+  }
 
-        if (sos.length) {
-          return sos;
-        }
+  public getAvailableSync(
+    serviceOfferings: Array<ServiceOffering>,
+    offeringAvailability: OfferingAvailability,
+    resourceUsage: ResourceStats,
+    zone: Zone
+  ): Array<ServiceOffering> {
+    const availableInZone = this.serviceOfferingService
+      .getOfferingsAvailableInZone(
+        serviceOfferings,
+        offeringAvailability,
+        zone
+      );
 
-        throw new Error('No available service offerings');
+    return this.getAvailableByResources(availableInZone, resourceUsage);
+  }
+
+  public getAvailableByResources(
+    serviceOfferings: Array<ServiceOffering>,
+    resourceUsage: ResourceStats
+  ): Array<ServiceOffering> {
+    return serviceOfferings
+      .filter(offering => {
+        if (offering.isCustomized) { return true; }
+
+        const enoughCpus = resourceUsage.available.cpus >= offering.cpuNumber;
+        const enoughMemory = resourceUsage.available.memory >= offering.memory;
+        return enoughCpus && enoughMemory;
       });
   }
 }

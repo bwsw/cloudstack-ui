@@ -1,18 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AffinityGroupService, AuthService, DiskOfferingService, DiskStorageService } from '../../shared/services';
+import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { ServiceOfferingFilterService } from '../../shared/services/service-offering-filter.service';
 import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { Template, TemplateService } from '../../template/shared';
+import { TemplateService } from '../../template/shared';
 import { VmService } from '../shared/vm.service';
 import { VmCreationData } from './data/vm-creation-data';
-import {
-  AffinityGroup, AffinityGroupType, DiskOffering, InstanceGroup, ServiceOffering,
-  SSHKeyPair, Zone
-} from '../../shared/models';
-import { SecurityGroup } from '../../security-group/sg.model';
 
 
 @Injectable()
@@ -22,6 +18,7 @@ export class VmCreationService {
     private authService: AuthService,
     private diskOfferingService: DiskOfferingService,
     private diskStorageService: DiskStorageService,
+    private resourceUsageService: ResourceUsageService,
     private securityGroupService: SecurityGroupService,
     private sshService: SSHKeyPairService,
     private serviceOfferingFilterService: ServiceOfferingFilterService,
@@ -31,39 +28,57 @@ export class VmCreationService {
   ) {}
 
   public getData(): Observable<VmCreationData> {
-    const data = {
-      affinityGroupList:        this.affinityGroupService.getList(),
-      affinityGroupTypes:       this.affinityGroupService.getTypes(),
-      availablePrimaryStorage:  this.diskStorageService.getAvailablePrimaryStorage(),
-      defaultName:              this.getDefaultVmName(),
-      // todo: temporary hardcoded zone for debugging
-      defaultTemplate:          this.templateService.getDefault('031a55bb-5d6b-4336-ab93-d5dead28a887'),
-      diskOfferings:            this.diskOfferingService.getList(),
-      instanceGroups:           this.vmService.getInstanceGroupList(),
-      rootDiskSizeLimit:        this.diskStorageService.getAvailablePrimaryStorage(),
-      securityGroupTemplates:   this.securityGroupService.getTemplates(),
-      serviceOfferings:         this.serviceOfferingFilterService.getAvailable(),
-      sshKeyPairs:              this.sshService.getList(),
-      zones:                    this.zoneService.getList()
-    };
-    const requests = Object.values(data);
-
     return Observable
-      .forkJoin(requests)
-      .map(([
-              affinityGroupList, affinityGroupTypes, availablePrimaryStorage, defaultName, defaultTemplate,
-              diskOfferings, instanceGroups, rootDiskSizeLimit, securityGroupTemplates, serviceOfferings, sshKeyPairs,
-              zones]:
-              [
-                Array<AffinityGroup>, Array<AffinityGroupType>, number, string, Template, Array<DiskOffering>,
-                Array<InstanceGroup>, number, Array<SecurityGroup>, Array<ServiceOffering>, Array<SSHKeyPair>,
-                Array<Zone>]
-      ) => new VmCreationData(
-        affinityGroupList, affinityGroupTypes, availablePrimaryStorage, defaultName, defaultTemplate, diskOfferings,
-        instanceGroups, rootDiskSizeLimit, securityGroupTemplates, serviceOfferings, sshKeyPairs, zones
-      ));
-  }
+      .forkJoin(
+        this.affinityGroupService.getList(),
+        this.affinityGroupService.getTypes(),
 
+        this.diskStorageService.getAvailablePrimaryStorage(),
+        this.getDefaultVmName(),
+        // todo: temporary hardcoded zone for debugging
+        this.templateService.getDefault('031a55bb-5d6b-4336-ab93-d5dead28a887'),
+        this.diskOfferingService.getList(),
+        this.vmService.getInstanceGroupList(),
+        this.resourceUsageService.getResourceUsage(),
+        this.diskStorageService.getAvailablePrimaryStorage(),
+        this.securityGroupService.getTemplates(),
+        this.serviceOfferingFilterService.getAvailable(),
+        this.sshService.getList(),
+        this.zoneService.getList()
+      )
+      .map((
+        [
+          affinityGroupList,
+          affinityGroupTypes,
+          availablePrimaryStorage,
+          defaultName,
+          defaultTemplate,
+          diskOfferings,
+          instanceGroups,
+          resourceUsage,
+          rootDiskSizeLimit,
+          securityGroupTemplates,
+          serviceOfferings,
+          sshKeyPairs,
+          zones
+        ]) => {
+        return new VmCreationData(
+          affinityGroupList,
+          affinityGroupTypes,
+          availablePrimaryStorage,
+          defaultName,
+          defaultTemplate,
+          diskOfferings,
+          instanceGroups,
+          resourceUsage,
+          rootDiskSizeLimit,
+          securityGroupTemplates,
+          serviceOfferings,
+          sshKeyPairs,
+          zones
+        );
+      });
+  }
 
   private getDefaultVmName(): Observable<string> {
     return this.vmService.getNumberOfVms()

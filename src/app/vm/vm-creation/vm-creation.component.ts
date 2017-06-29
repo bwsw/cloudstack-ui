@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { MdlDialogReference } from '../../dialog/dialog-module';
@@ -15,12 +14,20 @@ import { ServiceOffering, Zone } from '../../shared/models';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 
 import { VmCreationState } from './data/vm-creation-state';
-import { BaseField } from './form/fields/base-field';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { VmCreationService } from './vm-creation.service';
 import { VmCreationData } from './data/vm-creation-data';
 import { VmDeploymentService, VmDeploymentStages } from './vm-deployment.service';
 
+
+export type VmCreationField = 'serviceOffering' | 'template' | 'diskOffering' | 'diskSize' | 'zone';
+export const VmCreationFields = {
+  diskOffering: 'diskOffering' as VmCreationField,
+  diskSize: 'diskSize' as VmCreationField,
+  serviceOffering: 'serviceOffering' as VmCreationField,
+  template: 'template' as VmCreationField,
+  zone: 'zone' as VmCreationField
+};
 
 @Component({
   selector: 'cs-vm-create',
@@ -30,6 +37,7 @@ import { VmDeploymentService, VmDeploymentStages } from './vm-deployment.service
 export class VmCreationComponent implements OnInit {
   public vmCreationData: VmCreationData;
   public vmCreationState: VmCreationState;
+  public vmCreationFormData: VmCreationData;
 
   public fetching: boolean;
   public enoughResources: boolean;
@@ -49,9 +57,6 @@ export class VmCreationComponent implements OnInit {
   public takenName: string;
   public sgCreationInProgress = false;
   public agCreationInProgress = false;
-
-  public fields: Array<BaseField<any>> = [];
-  public form: FormGroup;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,

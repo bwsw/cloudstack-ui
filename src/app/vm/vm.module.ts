@@ -12,14 +12,9 @@ import { ServiceOfferingModule } from '../service-offering/service-offering.modu
 import { SharedModule } from '../shared/shared.module';
 import { TemplateModule } from '../template';
 import { VmService } from './shared/vm.service';
-import { FieldControlService } from './vm-creation/form/field-control.service';
-import { VmCreationFieldComponent } from './vm-creation/form/field.component';
-import { FieldService } from './vm-creation/form/field.service';
-import { VmCreationFormComponent } from './vm-creation/form/form.component';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
 import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-dialog.component';
 import { VmTemplateComponent } from './vm-creation/template/vm-template.component';
-import { TestComponent } from './vm-creation/test/test.component';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmCreationService } from './vm-creation/vm-creation.service';
 import { VmDeploymentService } from './vm-creation/vm-deployment.service';
@@ -51,7 +46,6 @@ import { VmDetailComponent } from './vm-sidebar/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 import { vmRouting } from './vm.routing';
-import { VmCreationFilterService } from './vm-creation/data/vm-creation-filter.service';
 
 
 @NgModule({
@@ -78,7 +72,6 @@ import { VmCreationFilterService } from './vm-creation/data/vm-creation-filter.s
     SpareDriveAttachmentDialogComponent,
     StorageDetailComponent,
     SshKeypairResetComponent,
-    TestComponent,
     VmListComponent,
     VmCreationComponent,
     VmListItemComponent,
@@ -97,18 +90,12 @@ import { VmCreationFilterService } from './vm-creation/data/vm-creation-filter.s
     VolumeComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,
-
-    VmCreationFormComponent,
-    VmCreationFieldComponent
   ],
   providers: [
-    FieldService,
-    FieldControlService,
     VmCreationService,
     VmDeploymentService,
     VmService,
-    SnapshotActionsService,
-    VmCreationFilterService
+    SnapshotActionsService
   ],
   entryComponents: [
     AffinityGroupDialogComponent,
