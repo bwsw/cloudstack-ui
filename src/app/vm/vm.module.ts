@@ -46,6 +46,7 @@ import { VmDetailComponent } from './vm-sidebar/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 import { vmRouting } from './vm.routing';
+import { FormNormalizationService } from './vm-creation/form-normalization.service';
 
 
 @NgModule({
@@ -92,6 +93,7 @@ import { vmRouting } from './vm.routing';
     SnapshotModalComponent,
   ],
   providers: [
+    FormNormalizationService,
     VmCreationService,
     VmDeploymentService,
     VmService,

@@ -5,22 +5,29 @@ import { ServiceOfferingService } from './service-offering.service';
 import { Observable } from 'rxjs/Observable';
 import { Zone } from '../models';
 import { OfferingAvailability } from './offering.service';
+import { CustomOfferingRestrictions } from '../../service-offering/custom-service-offering/custom-offering-restrictions';
+import { ConfigService } from './';
 
 
 @Injectable()
 export class ServiceOfferingFilterService {
   constructor(
+    private configService: ConfigService,
     private resourceUsageService: ResourceUsageService,
     private serviceOfferingService: ServiceOfferingService
   ) { }
 
-  public getAvailable(params?: any): Observable<Array<ServiceOffering>> {
+  public getAvailableByZoneAndResources(params?: any): Observable<Array<ServiceOffering>> {
+    const offeringRestrictionsRequest: Observable<CustomOfferingRestrictions> =
+      this.configService.get('customOfferingRestrictions');
+
     return Observable.forkJoin([
       this.serviceOfferingService.getList(params),
+      offeringRestrictionsRequest,
       this.resourceUsageService.getResourceUsage()
     ])
-      .map(([serviceOfferings, resourceUsage]) => {
-        return this.getAvailableByResources(serviceOfferings, resourceUsage)
+      .map(([serviceOfferings, offeringRestrictions, resourceUsage]) => {
+        return this.getAvailableByResources(serviceOfferings, offeringRestrictions, resourceUsage)
           .sort((a: ServiceOffering, b: ServiceOffering) => {
             if (!a.isCustomized && b.isCustomized) { return -1; }
             if (a.isCustomized && !b.isCustomized) { return 1; }
@@ -29,9 +36,10 @@ export class ServiceOfferingFilterService {
       });
   }
 
-  public getAvailableSync(
+  public getAvailableByZoneAndResourcesSync(
     serviceOfferings: Array<ServiceOffering>,
     offeringAvailability: OfferingAvailability,
+    offeringRestrictions: CustomOfferingRestrictions,
     resourceUsage: ResourceStats,
     zone: Zone
   ): Array<ServiceOffering> {
@@ -42,20 +50,25 @@ export class ServiceOfferingFilterService {
         zone
       );
 
-    return this.getAvailableByResources(availableInZone, resourceUsage);
+    return this.getAvailableByResources(availableInZone, offeringRestrictions, resourceUsage);
   }
 
   public getAvailableByResources(
     serviceOfferings: Array<ServiceOffering>,
+    offeringRestriction: CustomOfferingRestrictions,
     resourceUsage: ResourceStats
   ): Array<ServiceOffering> {
     return serviceOfferings
       .filter(offering => {
-        if (offering.isCustomized) { return true; }
-
-        const enoughCpus = resourceUsage.available.cpus >= offering.cpuNumber;
-        const enoughMemory = resourceUsage.available.memory >= offering.memory;
-        return enoughCpus && enoughMemory;
+        if (offering.isCustomized) {
+          const enoughCpus = offeringRestriction.cpuNumber.min < resourceUsage.available.cpus;
+          const enoughMemory = offeringRestriction.memory.min < resourceUsage.available.memory;
+          return enoughCpus && enoughMemory;
+        } else {
+          const enoughCpus = resourceUsage.available.cpus >= offering.cpuNumber;
+          const enoughMemory = resourceUsage.available.memory >= offering.memory;
+          return enoughCpus && enoughMemory;
+        }
       });
   }
 }

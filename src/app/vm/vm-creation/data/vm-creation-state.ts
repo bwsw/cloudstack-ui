@@ -1,21 +1,9 @@
 import { Rules } from '../../../security-group/sg-creation/sg-creation.component';
-import {
-  AffinityGroup,
-  AffinityGroupType,
-  DiskOffering,
-  InstanceGroup,
-  ServiceOffering,
-  SSHKeyPair,
-  Zone
-} from '../../../shared/models';
-import { AuthService } from '../../../shared/services';
-import { ServiceLocator } from '../../../shared/services/service-locator';
-import { UtilsService } from '../../../shared/services/utils.service';
+import { NetworkRule } from '../../../security-group/sg.model';
+import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../../shared/models';
 import { BaseTemplateModel } from '../../../template/shared';
-import { VmService } from '../../shared/vm.service';
 import { KeyboardLayouts } from '../keyboards/keyboards.component';
 import { VmCreationData } from './vm-creation-data';
-import { NetworkRule } from '../../../security-group/sg.model';
 
 
 interface VmCreationParams {
@@ -46,31 +34,33 @@ export class VmCreationState {
   public keyboard: string;
   public keyPair: SSHKeyPair;
   public rootDiskSize: number;
-  public rootDiskSizeMin: number;
   public securityRules: Rules;
   public serviceOffering: ServiceOffering;
+  public template: BaseTemplateModel;
   public zone: Zone;
 
-  private _template: BaseTemplateModel;
+  private _rootDiskSizeMin: number;
 
-  private auth: AuthService;
-  private utils: UtilsService;
-  private vmService: VmService;
+  private affinityGroupNames: Array<string>; // we need to know whether the group already exists
+  private defaultName: string; // to get default name if the name is empty
 
-  constructor(private data: VmCreationData) {
-    this.auth = ServiceLocator.injector.get(AuthService);
-    this.utils = ServiceLocator.injector.get(UtilsService);
-    this.vmService = ServiceLocator.injector.get(VmService);
-
-    this.reset(data);
+  constructor(data: VmCreationData) {
+    this.getStateFromData(data);
   }
 
-  public get affinityGroupExists(): boolean {
-    return this.data.affinityGroupNames.includes(this.affinityGroup.name);
+  public affinityGroupExists(): boolean {
+    return this.affinityGroupNames.includes(this.affinityGroup.name);
   }
 
-  public get affinityGroupType(): AffinityGroupType {
-    return this.data.affinityGroupTypes[0];
+  public get rootDiskSizeMin(): number {
+    return this._rootDiskSizeMin;
+  }
+
+  public set rootDiskSizeMin(value: number) {
+    this._rootDiskSizeMin = value;
+    if (this.rootDiskSize < this.rootDiskSizeMin) {
+      this.rootDiskSize = this.rootDiskSizeMin;
+    }
   }
 
   public get showRootDiskResize(): boolean {
@@ -81,25 +71,16 @@ export class VmCreationState {
     return !this.zone.networkTypeIsBasic;
   };
 
-  public get template(): BaseTemplateModel {
-    return this._template;
+  public get diskOfferingsAreAllowed(): boolean {
+    return !this.template.isTemplate;
   }
 
-  public set template(t: BaseTemplateModel) {
-    if (t && this.utils.convertToGB(t.size || 0) < this.data.rootDiskSizeLimit) {
-      this._template = t;
-      this.setMinDiskSize();
-    } else {
-      // this.enoughResources = false;
-    }
-  }
-
-  public reset(data?: VmCreationData): void {
-    if (!data) { data = this.data; }
-
+  public getStateFromData(data: VmCreationData): void {
     const preselectedSecurityGroups = data.securityGroupTemplates.filter(securityGroup => securityGroup.preselected);
     this.securityRules = Rules.createWithAllRulesSelected(preselectedSecurityGroups);
 
+    this.affinityGroupNames = data.affinityGroupNames;
+    this.defaultName = data.defaultName;
     this.displayName = data.defaultName;
     this.doStartVm = true;
     this.keyboard = KeyboardLayouts.us;
@@ -121,7 +102,7 @@ export class VmCreationState {
     params.doStartVm = this.doStartVm ? undefined : 'false';
     params.keyboard = this.keyboard;
     params.keyPair = this.keyPair.name; // todo: check
-    params.name = this.displayName || this.data.defaultName;
+    params.name = this.displayName || this.defaultName;
     params.serviceOfferingIds = this.serviceOffering && this.serviceOffering.id;
     params.templateId = this.template && this.template.id;
     params.zoneId = this.zone && this.zone.id;
@@ -157,21 +138,5 @@ export class VmCreationState {
     }
 
     return params;
-  }
-
-  private setMinDiskSize(): void {
-    const t = this.template;
-    if (!t) {
-      throw new Error('Template was not passed to set disk size');
-    }
-
-    if (t.size != null) {
-      const newSize = t.size / Math.pow(2, 30);
-      this.rootDiskSize = newSize;
-      this.rootDiskSizeMin = newSize;
-    } else {
-      this.rootDiskSize = 1;
-      this.rootDiskSizeMin = 1;
-    }
   }
 }

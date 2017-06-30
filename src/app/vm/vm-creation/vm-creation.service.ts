@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { AffinityGroupService, AuthService, DiskOfferingService, DiskStorageService } from '../../shared/services';
+import {
+  AffinityGroupService, AuthService, ConfigService, DiskOfferingService,
+  DiskStorageService
+} from '../../shared/services';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { ServiceOfferingFilterService } from '../../shared/services/service-offering-filter.service';
@@ -9,13 +12,28 @@ import { ZoneService } from '../../shared/services/zone.service';
 import { TemplateService } from '../../template/shared';
 import { VmService } from '../shared/vm.service';
 import { VmCreationData } from './data/vm-creation-data';
+import { OfferingAvailability } from '../../shared/services/offering.service';
+import {
+  CustomOfferingRestrictions
+} from '../../service-offering/custom-service-offering/custom-offering-restrictions';
 
+
+const vmCreationConfigurationKeys = [
+  'offeringAvailability',
+  'customOfferingRestrictions'
+];
+
+export interface VmCreationConfigurationData {
+  offeringAvailability: OfferingAvailability;
+  customOfferingRestrictions: CustomOfferingRestrictions;
+}
 
 @Injectable()
 export class VmCreationService {
   constructor(
     private affinityGroupService: AffinityGroupService,
     private authService: AuthService,
+    private configService: ConfigService,
     private diskOfferingService: DiskOfferingService,
     private diskStorageService: DiskStorageService,
     private resourceUsageService: ResourceUsageService,
@@ -31,8 +49,7 @@ export class VmCreationService {
     return Observable
       .forkJoin(
         this.affinityGroupService.getList(),
-        this.affinityGroupService.getTypes(),
-
+        this.configService.get(vmCreationConfigurationKeys),
         this.diskStorageService.getAvailablePrimaryStorage(),
         this.getDefaultVmName(),
         // todo: temporary hardcoded zone for debugging
@@ -42,14 +59,14 @@ export class VmCreationService {
         this.resourceUsageService.getResourceUsage(),
         this.diskStorageService.getAvailablePrimaryStorage(),
         this.securityGroupService.getTemplates(),
-        this.serviceOfferingFilterService.getAvailable(),
+        this.serviceOfferingFilterService.getAvailableByZoneAndResources(),
         this.sshService.getList(),
-        this.zoneService.getList()
+        this.zoneService.getList(),
       )
       .map((
         [
           affinityGroupList,
-          affinityGroupTypes,
+          configurationData,
           availablePrimaryStorage,
           defaultName,
           defaultTemplate,
@@ -64,7 +81,7 @@ export class VmCreationService {
         ]) => {
         return new VmCreationData(
           affinityGroupList,
-          affinityGroupTypes,
+          configurationData,
           availablePrimaryStorage,
           defaultName,
           defaultTemplate,

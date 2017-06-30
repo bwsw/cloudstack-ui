@@ -29,6 +29,11 @@ export const VmCreationFields = {
   zone: 'zone' as VmCreationField
 };
 
+export interface FormState {
+  data: VmCreationData;
+  state: VmCreationState;
+}
+
 @Component({
   selector: 'cs-vm-create',
   templateUrl: 'vm-creation.component.html',
@@ -205,7 +210,7 @@ export class VmCreationComponent implements OnInit {
   }
 
   private updateZone(zone: Zone): Observable<void> {
-    this.vmCreationState.reset();
+    this.vmCreationState.getStateFromData(this.vmCreationData);
     this.vmCreationState.zone = zone;
     if (!zone || !this.vmCreationData || !this.vmCreationData.zones) { return Observable.of(null); }
 

@@ -2,7 +2,6 @@ import { Rules } from '../../../security-group/sg-creation/sg-creation.component
 import { SecurityGroup } from '../../../security-group/sg.model';
 import {
   AffinityGroup,
-  AffinityGroupType,
   DiskOffering,
   InstanceGroup,
   ServiceOffering,
@@ -11,19 +10,20 @@ import {
 } from '../../../shared/models';
 import { Template } from '../../../template/shared';
 import { VmCreationState } from './vm-creation-state';
-import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
+import { ResourceStats } from '../../../shared/services/resource-usage.service';
+import { VmCreationConfigurationData } from '../vm-creation.service';
 
 
 export class VmCreationData {
   constructor(
     public affinityGroupList: Array<AffinityGroup>,
-    public affinityGroupTypes: Array<AffinityGroupType>,
+    public configurationData: VmCreationConfigurationData,
     public availablePrimaryStorage: number,
     public defaultName: string,
     public defaultTemplate: Template,
     public diskOfferings: Array<DiskOffering>,
     public instanceGroups: Array<InstanceGroup>,
-    public resourceUsage: ResourceUsageService,
+    public resourceUsage: ResourceStats,
     public rootDiskSizeLimit: number,
     public securityGroupTemplates: Array<SecurityGroup>,
     public serviceOfferings: Array<ServiceOffering>,

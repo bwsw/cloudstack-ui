@@ -2,6 +2,10 @@ import { ServiceOffering } from '../../shared/models';
 
 
 export class CustomServiceOffering extends ServiceOffering {
+  public cpuNumber: number;
+  public cpuSpeed: number;
+  public memory: number;
+
   constructor(params: {
     cpuNumber?: number,
     cpuSpeed?: number,

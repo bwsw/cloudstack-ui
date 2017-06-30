@@ -7,8 +7,8 @@ import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { AffinityGroupService, InstanceGroupService } from '../../shared/services';
 import { AffinityGroup } from '../../shared/models';
 import { SecurityGroup } from '../../security-group/sg.model';
-import { UtilsService } from '../../shared/services/utils.service';
 import { GROUP_POSTFIX, SecurityGroupService } from '../../shared/services/security-group.service';
+import { Utils } from '../../shared/services/utils.service';
 
 
 export type VmDeploymentStage =
@@ -47,7 +47,6 @@ export class VmDeploymentService {
     private affinityGroupService: AffinityGroupService,
     private instanceGroupService: InstanceGroupService,
     private securityGroupObservable: SecurityGroupService,
-    private utils: UtilsService,
     private vmService: VmService
   ) {}
 
@@ -102,7 +101,7 @@ export class VmDeploymentService {
     deployObservable.next({ stage: VmDeploymentStages.AG_GROUP_CREATION });
     return this.affinityGroupService.create({
       name: state.affinityGroup.name,
-      type: state.affinityGroupType
+      type: state.affinityGroup.type
     })
       .do(_ => deployObservable.next({ stage: VmDeploymentStages.AG_GROUP_CREATION_FINISHED }));
   }
@@ -111,7 +110,7 @@ export class VmDeploymentService {
     deployObservable: Subject<VmDeploymentMessage>,
     state: VmCreationState
   ): Observable<SecurityGroup> {
-    const name = this.utils.getUniqueId() + GROUP_POSTFIX;
+    const name = Utils.getUniqueId() + GROUP_POSTFIX;
     deployObservable.next({ stage: VmDeploymentStages.SG_GROUP_CREATION });
     return this.securityGroupObservable.createWithRules(
       { name },
