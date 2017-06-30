@@ -179,7 +179,7 @@ export class MdlDialogHostComponent implements OnInit, AfterViewChecked {
   }
 
   private applyStyle(styles: {[key: string]: string}): void {
-    for (let style in styles) {
+    for (const style in styles) {
       if (styles.hasOwnProperty(style)) {
         this.renderer.setStyle(this.elementRef.nativeElement, style, styles[style]);
       }

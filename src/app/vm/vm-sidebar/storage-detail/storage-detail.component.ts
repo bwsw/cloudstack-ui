@@ -111,7 +111,7 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private attachIso(iso: Iso): void {
-    let notificationId = this.jobNotificationService.add('ISO_ATTACH_IN_PROGRESS');
+    const notificationId = this.jobNotificationService.add('ISO_ATTACH_IN_PROGRESS');
     this.isoService.attach(this.vm.id, iso)
       .subscribe(
         (attachedIso: Iso) => {
@@ -133,7 +133,7 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private detachIso(): void {
-    let notificationId = this.jobNotificationService.add('ISO_DETACH_IN_PROGRESS');
+    const notificationId = this.jobNotificationService.add('ISO_DETACH_IN_PROGRESS');
 
     this.isoService.detach(this.vm.id)
       .subscribe(() => {

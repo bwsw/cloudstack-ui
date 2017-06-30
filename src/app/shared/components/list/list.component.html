@@ -1,6 +1,6 @@
 <div
   class="detail-list margin-right"
-  [class.open]="listService?.selectedId"
+  [class.open]="listService?.hasSelected()"
 >
   <ng-content select="[cs-panels]"></ng-content>
   <ng-content select="[cs-list]"></ng-content>
@@ -8,14 +8,14 @@
 
 <div class="backdrop"
      (click)="onDetailsHide()"
-     *ngIf="listService?.selectedId"></div>
+     *ngIf="listService?.hasSelected()"></div>
 <cs-sidebar
-  [isOpen]="listService?.selectedId"
+  [isOpen]="listService?.hasSelected()"
 >
   <ng-content select="[cs-sidebar]"></ng-content>
 </cs-sidebar>
 
 <cs-fab
-  [isOpen]="listService?.selectedId"
+  [isOpen]="listService?.hasSelected()"
   (click)="onAction()"
 ></cs-fab>

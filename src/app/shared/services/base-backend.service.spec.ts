@@ -20,7 +20,7 @@ import { ServiceLocator } from './service-locator';
 
 describe('Base backend service', () => {
   let mockBackend: MockBackend;
-  let test = [
+  const test = [
     {
       id: 'id1',
       field1: 'rand1'

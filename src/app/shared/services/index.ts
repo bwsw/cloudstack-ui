@@ -20,7 +20,6 @@ export * from './login-guard.service';
 export * from './notification.service';
 export * from './os-type.service';
 export * from './resource-limit.service';
-export * from './resource-limit.service';
 export * from './resource-usage.service';
 export * from './router-utils.service';
 export * from './security-group.service';

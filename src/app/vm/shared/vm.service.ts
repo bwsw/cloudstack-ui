@@ -97,7 +97,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         ]);
       })
       .map(([virtualMachine, osType, serviceOffering, securityGroup]) => {
-        let vm = virtualMachine;
+        const vm = virtualMachine;
         vm.osType = osType;
         vm.serviceOffering = serviceOffering;
         if (securityGroup) {
@@ -133,7 +133,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   public getInstanceGroupList(): Observable<Array<InstanceGroup>> {
     return this.getList()
       .map(vmList => vmList.reduce((groups, vm) => {
-        let group = vm.tags.find(tag => tag.key === 'group');
+        const group = vm.tags.find(tag => tag.key === 'group');
 
         if (!group || !group.value || groups.find(g => g.name === group.value)) {
           return groups;
@@ -149,8 +149,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public resubscribe(): Observable<Array<Observable<AsyncJob<VirtualMachine>>>> {
     return this.asyncJobService.getList().map(jobs => {
-      let filteredJobs = jobs.filter(job => !job.status && job.cmd);
-      let observables = [];
+      const filteredJobs = jobs.filter(job => !job.status && job.cmd);
+      const observables = [];
       filteredJobs.forEach(job => {
         observables.push(this.registerVmJob(job));
       });
@@ -171,7 +171,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public command(e: IVmActionEvent): Observable<any> {
-    let notificationId = this.jobsNotificationService.add(e.action.progressMessage);
+    const notificationId = this.jobsNotificationService.add(e.action.progressMessage);
     if (e.vm) {
       e.vm.state = e.action.vmStateOnAction as any;
     }
@@ -203,7 +203,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public resetPassword(e: IVmActionEvent): void {
-    let showDialog = (vmName: string, vmPassword: string) => {
+    const showDialog = (vmName: string, vmPassword: string) => {
       this.dialogService.customAlert({
         message: {
           translationToken: 'PASSWORD_DIALOG_MESSAGE',
@@ -222,12 +222,12 @@ export class VmService extends BaseBackendService<VirtualMachine> {
           }
         });
     } else {
-      let stop: IVmActionEvent = {
+      const stop: IVmActionEvent = {
         action: VirtualMachine.getAction(VmActions.STOP),
         vm: e.vm,
         templateId: e.templateId
       };
-      let start: IVmActionEvent = {
+      const start: IVmActionEvent = {
         action: VirtualMachine.getAction(VmActions.START),
         vm: e.vm,
         templateId: e.templateId
@@ -308,7 +308,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   private changeOffering(serviceOffering: ServiceOffering, virtualMachine: VirtualMachine): Observable<VirtualMachine> {
-    let params = {};
+    const params = {};
 
     params['id'] = virtualMachine.id;
     params['serviceOfferingId'] = serviceOffering.id;
@@ -341,7 +341,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   private buildCommandParams(id: string, commandName: string): any {
-    let params = {};
+    const params = {};
     if (commandName === 'restore') {
       params['virtualMachineId'] = id;
     } else if (commandName !== 'deploy') {
@@ -351,7 +351,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   private addVolumes(vm: VirtualMachine, volumes: Array<Volume>): VirtualMachine {
-    let filteredVolumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
+    const filteredVolumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
     vm.volumes = this.sortVolumes(filteredVolumes);
     return vm;
   }
