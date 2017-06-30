@@ -47,6 +47,7 @@ import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 import { vmRouting } from './vm.routing';
 import { FormNormalizationService } from './vm-creation/form-normalization.service';
+import { VmCreationService } from './vm-creation/vm-creation.service';
 
 
 @NgModule({

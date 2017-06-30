@@ -131,94 +131,17 @@ export class VirtualMachine extends BaseModel {
   public tags: Array<Tag>;
   public instanceGroup: InstanceGroup;
 
-  constructor(params?: {}) {
-    super(params);
-
-    if (!this.nic || !this.nic.length) {
-      this.nic = [];
-    }
-
-    if (!this.securityGroup || !this.securityGroup.length) {
-      this.securityGroup = [];
-    }
-
-    for (let i = 0; i < this.nic.length; i++) {
-      this.nic[i] = new NIC(this.nic[i]);
-    }
-
-    for (let i = 0; i < this.securityGroup.length; i++) {
-      this.securityGroup[i] = new SecurityGroup(this.securityGroup[i]);
-    }
-
-    if (this.tags) {
-      let group = this.tags.find(tag => tag.key === 'group');
-      this.instanceGroup = group ? new InstanceGroup(group.value) : undefined;
-    }
-  }
-
-  public getDisksSize(): number {
-    const sizeInBytes = this.volumes.reduce((acc: number, volume: Volume) => {
-      return acc + volume.size;
-    }, 0);
-    return sizeInBytes / Math.pow(2, 30);
-  }
-
-  public getColor(): Color {
-    if (this.tags) {
-      let colorTag = this.tags.find(tag => tag.key === 'color');
-      if (colorTag) {
-        const [backgroundColor, textColor] = colorTag.value.split(VirtualMachine.ColorDelimiter);
-        return new Color(backgroundColor, backgroundColor, textColor || '');
-      }
-    }
-    return new Color('white', '#FFFFFF', '');
-  }
-
-  public canApply(command: string): boolean {
-    const state = this.state;
-
-    if (state === 'Error' && command === 'destroy') {
-      return true;
-    }
-
-    if (state !== 'Running' && state !== 'Stopped') {
-      return false;
-    }
-
-    // if a vm has no ip address, it can't be reached
-    // so reset password fails
-    if (this.nic && this.nic.length) {
-      if (command === 'resetpasswordfor' && !this.nic[0].ipAddress) {
-        return false;
-      }
-    } else {
-      return false;
-    }
-
-    switch (command) {
-      case 'start': return state !== 'Running';
-      case 'stop':
-      case 'reboot':
-      case 'console':
-        return state !== 'Stopped';
-      case 'changeOffering':
-        return state === 'Stopped';
-    }
-
-    return true;
-  }
-
   public static getAction(action: string): IVmAction {
-    let name = action.charAt(0).toUpperCase() + action.slice(1);
-    let commandName = action;
-    let nameLower = action.toLowerCase();
-    let nameCaps = action.toUpperCase();
-    let vmStateOnAction = nameCaps + '_IN_PROGRESS';
-    let vmActionCompleted = nameCaps + '_DONE';
+    const name = action.charAt(0).toUpperCase() + action.slice(1);
+    const commandName = action;
+    const nameLower = action.toLowerCase();
+    const nameCaps = action.toUpperCase();
+    const vmStateOnAction = nameCaps + '_IN_PROGRESS';
+    const vmActionCompleted = nameCaps + '_DONE';
     let mdlIcon = '';
-    let confirmMessage = 'CONFIRM_VM_' + nameCaps;
-    let progressMessage = 'VM_' + nameCaps + '_IN_PROGRESS';
-    let successMessage = nameCaps + '_DONE';
+    const confirmMessage = 'CONFIRM_VM_' + nameCaps;
+    const progressMessage = 'VM_' + nameCaps + '_IN_PROGRESS';
+    const successMessage = nameCaps + '_DONE';
     switch (action) {
       case VmActions.START:
         mdlIcon = 'play_arrow';
@@ -255,4 +178,84 @@ export class VirtualMachine extends BaseModel {
       successMessage
     };
   }
+
+  constructor(params?: {}) {
+    super(params);
+
+    if (!this.nic || !this.nic.length) {
+      this.nic = [];
+    }
+
+    if (!this.securityGroup || !this.securityGroup.length) {
+      this.securityGroup = [];
+    }
+
+    for (let i = 0; i < this.nic.length; i++) {
+      this.nic[i] = new NIC(this.nic[i]);
+    }
+
+    for (let i = 0; i < this.securityGroup.length; i++) {
+      this.securityGroup[i] = new SecurityGroup(this.securityGroup[i]);
+    }
+
+    if (this.tags) {
+      const group = this.tags.find(tag => tag.key === 'group');
+      this.instanceGroup = group ? new InstanceGroup(group.value) : undefined;
+    }
+  }
+
+  public getDisksSize(): number {
+    const sizeInBytes = this.volumes.reduce((acc: number, volume: Volume) => {
+      return acc + volume.size;
+    }, 0);
+    return sizeInBytes / Math.pow(2, 30);
+  }
+
+  public getColor(): Color {
+    if (this.tags) {
+      const colorTag = this.tags.find(tag => tag.key === 'color');
+      if (colorTag) {
+        const [backgroundColor, textColor] = colorTag.value.split(VirtualMachine.ColorDelimiter);
+        return new Color(backgroundColor, backgroundColor, textColor || '');
+      }
+    }
+    return new Color('white', '#FFFFFF', '');
+  }
+
+  public canApply(command: string): boolean {
+    const state = this.state;
+
+    if (state === 'Error' && command === 'destroy') {
+      return true;
+    }
+
+    if (state !== 'Running' && state !== 'Stopped') {
+      return false;
+    }
+
+    // if a vm has no ip address, it can't be reached
+    // so reset password fails
+    if (this.nic && this.nic.length) {
+      if (command === 'resetpasswordfor' && !this.nic[0].ipAddress) {
+        return false;
+      }
+    } else {
+      return false;
+    }
+
+    switch (command) {
+      case 'start':
+        return state !== 'Running';
+      case 'stop':
+      case 'reboot':
+      case 'console':
+        return state !== 'Stopped';
+      case 'changeOffering':
+        return state === 'Stopped';
+    }
+
+    return true;
+  }
+
+
 }

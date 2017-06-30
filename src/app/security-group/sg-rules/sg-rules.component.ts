@@ -126,9 +126,9 @@ export class SgRulesComponent {
   private resetForm(): void {
     // reset controls' state. instead of just setting ngModel bound variables to empty string
     // we reset controls to reset the validity state of inputs
-    let controlNames = ['icmpTypeSelect', 'icmpCodeSelect', 'startPort', 'endPort'];
+    const controlNames = ['icmpTypeSelect', 'icmpCodeSelect', 'startPort', 'endPort'];
     controlNames.forEach((key) => {
-      let control = this.rulesForm.controls[key];
+      const control = this.rulesForm.controls[key];
       if (control) {
         control.reset();
       }

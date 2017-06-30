@@ -3,7 +3,7 @@ import { Component, Injector } from '@angular/core';
 import { async, fakeAsync, getTestBed, TestBed, tick } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
 
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { ServiceLocator } from '../../shared/services/service-locator';
 import { DialogService } from './dialog.service';
 import { MdlDialogModule } from './';

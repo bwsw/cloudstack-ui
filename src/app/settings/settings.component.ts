@@ -159,7 +159,7 @@ export class SettingsComponent implements OnInit {
   }
 
   private passwordsNotEqual(formGroup: FormGroup): { passwordsNotEqual: true } | null {
-    let valid = formGroup.controls['password'].value === formGroup.controls['passwordRepeat'].value;
+    const valid = formGroup.controls['password'].value === formGroup.controls['passwordRepeat'].value;
     return valid ? null : { passwordsNotEqual: true };
   }
 }

@@ -111,8 +111,8 @@ export class VmListComponent implements OnInit {
 
     this.filterData = filterData;
 
-    let sectionKey = this.getFilterKey(filterData.mode);
-    let subsectionKey = this.getFilterKey(this.getSubsectionType(filterData.mode));
+    const sectionKey = this.getFilterKey(filterData.mode);
+    const subsectionKey = this.getFilterKey(this.getSubsectionType(filterData.mode));
 
     this.showSections = !!filterData[sectionKey].length;
     this.showSubsections = !!filterData[subsectionKey].length;
@@ -305,8 +305,8 @@ export class VmListComponent implements OnInit {
 
   private sortByColor(vmList: Array<VirtualMachine>): Array<VirtualMachine> {
     return vmList.sort((vmA, vmB) => {
-      let vmAColor = vmA.getColor().value;
-      let vmBColor = vmB.getColor().value;
+      const vmAColor = vmA.getColor().value;
+      const vmBColor = vmB.getColor().value;
 
       if (vmAColor < vmBColor) {
         return -1;
@@ -320,8 +320,8 @@ export class VmListComponent implements OnInit {
 
   private sortByDate(vmList: Array<VirtualMachine>): Array<VirtualMachine> {
     return vmList.sort((vmA, vmB) => {
-      let vmACreated = vmA.created;
-      let vmBCreated = vmB.created;
+      const vmACreated = vmA.created;
+      const vmBCreated = vmB.created;
 
       if (vmACreated > vmBCreated) {
         return 1;
@@ -352,15 +352,15 @@ export class VmListComponent implements OnInit {
   }
 
   private updateSections(vms: Array<VirtualMachine>, filterData: VmFilter): void {
-    let filterDataKey = this.getFilterKey(filterData.mode);
+    const filterDataKey = this.getFilterKey(filterData.mode);
 
     this.sections = filterData[filterDataKey]
       .map((elem): VmListSection => {
-        let vmList = filterData.mode === SectionType.group ?
+        const vmList = filterData.mode === SectionType.group ?
           this.filterVmsByGroup(vms, elem) :
           this.filterVmsByZone(vms, elem);
 
-        let subsectionList = this.getSubsectionList(vmList, filterData);
+        const subsectionList = this.getSubsectionList(vmList, filterData);
 
         if (this.showSubsections) {
           return { name: elem.name, subsectionList };

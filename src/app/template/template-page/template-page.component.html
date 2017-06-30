@@ -1,7 +1,9 @@
 <cs-list>
   <cs-template-filter-list
-    [(selectedTemplate)]="selectedTemplate"
+    *ngIf="templates && isos"
     [(viewMode)]="viewMode"
+    [templates]="templates"
+    [isos]="isos"
     (deleteTemplate)="removeTemplate($event)"
     cs-list
   ></cs-template-filter-list>

@@ -58,10 +58,14 @@
         <div class="dialog-select-wrapper">
           <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.INSTALLATION_SOURCE' | translate }}</h5>
           <cs-vm-creation-template
-            name="templateSelector"
+            *ngIf="vmCreationData.vm.template && templates && isos"
+            name="template"
             class="dialog-select-select template-select"
-            [zoneId]="vmCreationState?.zone?.id"
-            [(ngModel)]="vmCreationState.template"
+            [templates]="templates"
+            [isos]="isos"
+            [zoneId]="zoneId"
+            [ngModel]="vmCreationData.vm.template"
+            (ngModelChange)="setTemplate($event)"
           ></cs-vm-creation-template>
         </div>
 

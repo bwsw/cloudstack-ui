@@ -7,6 +7,7 @@ import { OsTypeService } from '../../shared/services/os-type.service';
 import { UtilsService } from '../../shared/services/utils.service';
 import { TagService } from '../../shared/services/tag.service';
 
+
 export const TemplateFilters = {
   community: 'community',
   executable: 'executable',
@@ -30,6 +31,34 @@ export interface RegisterTemplateBaseParams {
   entity: 'Iso' | 'Template';
 }
 
+export class GroupedTemplates<T extends BaseTemplateModel> {
+  public community: Array<T>;
+  public executable: Array<T>;
+  public featured: Array<T>;
+  public self: Array<T>;
+  public selfExecutable: Array<T>;
+  public sharedExecutable: Array<T>;
+
+  constructor(templates: {}) {
+    this.community = templates[TemplateFilters.community] || [];
+    this.executable = templates[TemplateFilters.executable] || [];
+    this.featured = templates[TemplateFilters.featured] || [];
+    this.self = templates[TemplateFilters.self] || [];
+    this.selfExecutable = templates[TemplateFilters.selfExecutable] || [];
+    this.sharedExecutable = templates[TemplateFilters.sharedExecutable] || [];
+  }
+
+  public toArray(): Array<T> {
+    return []
+      .concat(this.featured)
+      .concat(this.selfExecutable)
+      .concat(this.community)
+      .concat(this.sharedExecutable)
+      .concat(this.executable)
+      .concat(this.self);
+  }
+}
+
 export const DOWNLOAD_URL = 'DOWNLOAD_URL';
 
 @Injectable()
@@ -47,7 +76,9 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       TemplateFilters.featured,
       TemplateFilters.selfExecutable,
       TemplateFilters.community,
-      TemplateFilters.sharedExecutable
+      TemplateFilters.sharedExecutable,
+      TemplateFilters.executable,
+      TemplateFilters.self
     ];
   }
 
@@ -133,8 +164,11 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       .switchMap(job => this.asyncJobService.queryJob(job.jobid));
   }
 
-  public getGroupedTemplates(params?: {}, filters?: Array<string>): Observable<Object> {
-    let _params = params || {};
+  public getGroupedTemplates<T extends BaseTemplateModel>(
+    params?: {},
+    filters?: Array<string>
+  ): Observable<GroupedTemplates<T>> {
+    const _params = params || {};
     let localFilters = this._templateFilters;
     if (filters) {
       if (filters.includes('all')) {
@@ -143,41 +177,30 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       localFilters = filters;
     }
 
-    let templateObservables = [];
-    for (let filter of localFilters) {
+    const templateObservables = [];
+    for (const filter of localFilters) {
       const requestParams = Object.assign({}, _params, { filter });
       templateObservables.push(this.getList(requestParams as RequestParams));
     }
 
     return Observable.forkJoin(templateObservables)
       .map(data => {
-        let obj = {};
+        const obj = {};
         data.forEach((templateSet, i) => {
           obj[localFilters[i]] = templateSet;
         });
-        return obj;
+        return new GroupedTemplates<T>(obj);
       });
   }
 
   public getDefault(zoneId: string, maxSize?: number): Observable<BaseTemplateModel> {
     return this.getGroupedTemplates({ zoneId, maxSize })
-      .map(data => {
-        for (let filter of this._templateFilters) {
-          if (data[filter].length > 0) {
-            const readyTemplates = data[filter].filter(_ => _.isReady);
-            if (readyTemplates.length) {
-              return readyTemplates[0];
-            }
-          }
-        }
-        return undefined;
-      })
-      .catch(() => Observable.throw(0));
+      .map(templates => templates.toArray().filter(_ => _.isReady)[0]);
   }
 
   private distinctIds(templates: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
-    let ids = {};
-    let result = [];
+    const ids = {};
+    const result = [];
     for (let i = 0; i < templates.length; i++) {
       if (!ids[templates[i].id]) {
         ids[templates[i].id] = true;

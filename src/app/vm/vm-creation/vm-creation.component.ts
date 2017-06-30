@@ -191,6 +191,7 @@ export class VmCreationComponent implements OnInit {
     return this.zoneService.getList()
       .switchMap(zoneList => {
         this.vmCreationData.zones = zoneList;
+
         return this.updateZone(zoneList[0]);
       });
   }

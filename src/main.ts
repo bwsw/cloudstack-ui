@@ -1,20 +1,11 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
 import { AppModule } from './app/app.module';
+import { environment } from './environments/environment';
 
-
-// depending on the env mode, enable prod mode or add debugging modules
-if (process.env.ENV === 'build' || process.env.ENV === 'build:aot') {
+if (environment.production) {
   enableProdMode();
 }
 
-// tslint:disable-next-line
-export function main() {
-  platformBrowserDynamic().bootstrapModule(AppModule);
-}
-
-if (document.readyState === 'complete') {
-  main();
-} else {
-  document.addEventListener('DOMContentLoaded', main);
-}
+platformBrowserDynamic().bootstrapModule(AppModule);

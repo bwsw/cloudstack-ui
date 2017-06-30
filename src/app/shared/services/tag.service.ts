@@ -42,7 +42,7 @@ export class TagService extends BaseBackendCachedService<Tag> {
       throw new Error('This entity can\'t have tags');
     }
 
-    let createObs = this.create({
+    const createObs = this.create({
       resourceIds: entity.id,
       resourceType: entityName,
       'tags[0].key': key,

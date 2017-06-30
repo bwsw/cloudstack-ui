@@ -39,7 +39,7 @@ class MockEventService {
 
   constructor() {
     this.fixture = eventServiceFixture;
-    for (let date in this.fixture) {
+    for (const date in this.fixture) {
       if (this.fixture.hasOwnProperty(date)) {
         this.fixture[date] = this.fixture[date].map(event => new Event(event));
       }

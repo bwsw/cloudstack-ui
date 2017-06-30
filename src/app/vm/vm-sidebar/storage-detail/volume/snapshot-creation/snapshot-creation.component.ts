@@ -59,7 +59,7 @@ export class SnapshotCreationComponent implements OnInit {
   }
 
   public takeSnapshot(volumeId: string, name: string, description: string): void {
-    let notificationId = this.jobsNotificationService.add('SNAPSHOT_IN_PROGRESS');
+    const notificationId = this.jobsNotificationService.add('SNAPSHOT_IN_PROGRESS');
     this.snapshotService.create(volumeId, name, description)
       .subscribe(
         (result: any) => {

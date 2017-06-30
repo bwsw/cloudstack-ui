@@ -9,13 +9,14 @@ import { SecurityGroupService } from '../../shared/services/security-group.servi
 import { ServiceOfferingFilterService } from '../../shared/services/service-offering-filter.service';
 import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { TemplateService } from '../../template/shared';
+import { Iso, IsoService, Template, TemplateService } from '../../template/shared';
 import { VmService } from '../shared/vm.service';
 import { VmCreationData } from './data/vm-creation-data';
 import { OfferingAvailability } from '../../shared/services/offering.service';
 import {
   CustomOfferingRestrictions
 } from '../../service-offering/custom-service-offering/custom-offering-restrictions';
+import { TemplateFilters } from '../../template/shared/base-template.service';
 
 
 const vmCreationConfigurationKeys = [
@@ -36,6 +37,7 @@ export class VmCreationService {
     private configService: ConfigService,
     private diskOfferingService: DiskOfferingService,
     private diskStorageService: DiskStorageService,
+    private isoService: IsoService,
     private resourceUsageService: ResourceUsageService,
     private securityGroupService: SecurityGroupService,
     private sshService: SSHKeyPairService,
@@ -95,6 +97,27 @@ export class VmCreationService {
           zones
         );
       });
+  }
+
+  public getTemplates(): Observable<Array<Template>> {
+    const filters = [
+      TemplateFilters.featured,
+      TemplateFilters.selfExecutable
+    ];
+
+    return this.templateService.getGroupedTemplates({}, filters)
+      .map(templates => templates.toArray());
+  }
+
+  public getIsos(): Observable<Array<Iso>> {
+    const params = { bootable: true };
+    const filters = [
+      TemplateFilters.featured,
+      TemplateFilters.selfExecutable
+    ];
+
+    return this.isoService.getGroupedTemplates(params, filters)
+      .map(isos => isos.toArray());
   }
 
   private getDefaultVmName(): Observable<string> {

@@ -42,7 +42,7 @@ export class MdlSimpleDialogComponent {
 
   @HostListener('keydown.esc')
   public onEsc(): void {
-    let closeAction = this.dialogConfiguration.actions.find(action => action.isClosingAction);
+    const closeAction = this.dialogConfiguration.actions.find(action => action.isClosingAction);
     if (closeAction) {
       closeAction.handler();
       this.dialog.hide();

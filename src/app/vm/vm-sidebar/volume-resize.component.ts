@@ -24,7 +24,7 @@ export class VolumeResizeComponent implements OnInit {
   private notificationId: string;
 
   constructor(
-    private dialog: MdlDialogReference,
+    public dialog: MdlDialogReference,
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private diskStorageService: DiskStorageService,
@@ -50,7 +50,7 @@ export class VolumeResizeComponent implements OnInit {
 
   public resizeVolume(): void {
     const includeDiskOffering = this.diskOffering && !this.volume.isRoot;
-    let params: VolumeResizeData = Object.assign(
+    const params: VolumeResizeData = Object.assign(
       { id: this.volume.id },
       this.newSize ? { size: this.newSize } : {},
       includeDiskOffering ? { diskOfferingId: this.diskOffering.id } : {}

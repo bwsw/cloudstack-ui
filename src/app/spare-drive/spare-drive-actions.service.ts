@@ -26,7 +26,7 @@ export class SpareDriveActionsService {
   }
 
   public attach(data: VolumeAttachmentData): Observable<void> {
-    let notificationId = this.jobsNotificationService.add('VOLUME_ATTACH_IN_PROGRESS');
+    const notificationId = this.jobsNotificationService.add('VOLUME_ATTACH_IN_PROGRESS');
     return this.volumeService.attach(data)
       .map(() => {
         this.onVolumeAttachment.next(VolumeAttachmentEvents.ATTACHED);
@@ -49,7 +49,7 @@ export class SpareDriveActionsService {
   }
 
   public detach(volume: Volume): Observable<void> {
-    let notificationId = this.jobsNotificationService.add('VOLUME_DETACH_IN_PROGRESS');
+    const notificationId = this.jobsNotificationService.add('VOLUME_DETACH_IN_PROGRESS');
     return this.volumeService.detach(volume.id)
       .map(() => {
         this.onVolumeAttachment.next(VolumeAttachmentEvents.DETACHED);
