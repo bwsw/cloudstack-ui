@@ -136,13 +136,7 @@ export class TemplateFilterListComponent implements OnInit {
       const selfFilter = this.dialogMode ? TemplateFilters.selfExecutable : TemplateFilters.self;
       return this.templateService.getGroupedTemplates({}, [TemplateFilters.featured, selfFilter])
         .map(templates => {
-          let t = [];
-          for (let filter in templates) {
-            if (templates.hasOwnProperty(filter)) {
-              t = t.concat(templates[filter]);
-            }
-          }
-          this.templateList = t;
+          this.templateList = templates.toArray();
           this.visibleTemplateList = this.templateList;
           this.fetching = false;
         });
