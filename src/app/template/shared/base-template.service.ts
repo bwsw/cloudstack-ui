@@ -7,6 +7,7 @@ import { OsTypeService } from '../../shared/services/os-type.service';
 import { UtilsService } from '../../shared/services/utils.service';
 import { TagService } from '../../shared/services/tag.service';
 
+
 export const TemplateFilters = {
   community: 'community',
   executable: 'executable',
@@ -30,9 +31,7 @@ export interface RegisterTemplateBaseParams {
   entity: 'Iso' | 'Template';
 }
 
-export const DOWNLOAD_URL = 'DOWNLOAD_URL';
-
-class GroupedTemplates<T extends BaseTemplateModel> {
+export class GroupedTemplates<T extends BaseTemplateModel> {
   public community: Array<T>;
   public executable: Array<T>;
   public featured: Array<T>;
@@ -54,9 +53,13 @@ class GroupedTemplates<T extends BaseTemplateModel> {
       .concat(this.featured)
       .concat(this.selfExecutable)
       .concat(this.community)
-      .concat(this.sharedExecutable);
+      .concat(this.sharedExecutable)
+      .concat(this.executable)
+      .concat(this.self);
   }
 }
+
+export const DOWNLOAD_URL = 'DOWNLOAD_URL';
 
 @Injectable()
 export abstract class BaseTemplateService extends BaseBackendCachedService<BaseTemplateModel> {
@@ -73,7 +76,9 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       TemplateFilters.featured,
       TemplateFilters.selfExecutable,
       TemplateFilters.community,
-      TemplateFilters.sharedExecutable
+      TemplateFilters.sharedExecutable,
+      TemplateFilters.executable,
+      TemplateFilters.self
     ];
   }
 
@@ -181,7 +186,6 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     return Observable.forkJoin(templateObservables)
       .map(data => {
         const obj = {};
-        console.log(data);
         data.forEach((templateSet, i) => {
           obj[localFilters[i]] = templateSet;
         });

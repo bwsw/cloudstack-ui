@@ -30,7 +30,7 @@ import {
 } from '../../shared';
 
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
-import { BaseTemplateModel, TemplateService } from '../../template/shared';
+import { BaseTemplateModel, Iso, TemplateService } from '../../template/shared';
 import { VmService } from '../shared/vm.service';
 import {
   CustomServiceOffering
@@ -40,6 +40,7 @@ import { AffinityGroupType } from '../../shared/models/affinity-group.model';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { MdlDialogReference } from '../../dialog/dialog-module';
+import { VmCreationService } from './vm-creation.service';
 
 
 class VmCreationData {
@@ -110,6 +111,9 @@ export class VmCreationComponent implements OnInit {
   public showSecurityGroups = true;
   private selectedDiskOffering: DiskOffering;
 
+  public templates: Array<Template>;
+  public isos: Array<Iso>;
+
   constructor(
     private affinityGroupService: AffinityGroupService,
     private auth: AuthService,
@@ -127,6 +131,7 @@ export class VmCreationComponent implements OnInit {
     private templateService: TemplateService,
     private translateService: TranslateService,
     private utils: UtilsService,
+    private vmCreationService: VmCreationService,
     private vmService: VmService,
     private zoneService: ZoneService
   ) {
@@ -360,12 +365,12 @@ export class VmCreationComponent implements OnInit {
         ]);
       })
       .map(([
-        affinityGroups,
-        affinityGroupTypes,
-        sshKeyPairs,
-        instanceGroups,
-        securityGroupTemplates
-      ]) => {
+              affinityGroups,
+              affinityGroupTypes,
+              sshKeyPairs,
+              instanceGroups,
+              securityGroupTemplates
+            ]) => {
         vmCreationData.affinityGroups = <any>affinityGroups;
         vmCreationData.affinityGroupTypes = <any>affinityGroupTypes;
         vmCreationData.affinityGroupNames = affinityGroups.map(ag => ag.name);
@@ -545,18 +550,29 @@ export class VmCreationComponent implements OnInit {
       this.diskStorageService.getAvailablePrimaryStorage(),
       this.serviceOfferingFilterService.getAvailable({ zone: this.selectedZone }),
       this.diskOfferingService.getList({ zone: this.selectedZone, maxSize: this.vmCreationData.rootDiskSizeLimit }),
-      this.templateService.getDefault(this.selectedZone.id, this.vmCreationData.rootDiskSizeLimit)
+      this.templateService.getDefault(this.selectedZone.id, this.vmCreationData.rootDiskSizeLimit),
+      this.vmCreationService.getTemplates(),
+      this.vmCreationService.getIsos()
     ])
-      .map(([
-        rootDiskSizeLimit,
-        serviceOfferings,
-        diskOfferings,
-        defaultTemplate]: [number, Array<ServiceOffering>, Array<DiskOffering>, BaseTemplateModel]
+      .map((
+        [
+          rootDiskSizeLimit,
+          serviceOfferings,
+          diskOfferings,
+          defaultTemplate,
+
+          templates,
+          isos
+        ]
       ) => {
         this.vmCreationData.rootDiskSizeLimit = rootDiskSizeLimit;
         this.setServiceOfferings(serviceOfferings);
         this.setTemplate(defaultTemplate);
         this.setDiskOfferings(diskOfferings);
+
+        this.templates = templates;
+        this.isos = isos;
+
         this.fetching = false;
       });
   }

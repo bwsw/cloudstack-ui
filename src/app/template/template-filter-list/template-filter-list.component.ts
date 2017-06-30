@@ -1,6 +1,5 @@
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { Iso } from '../shared/iso.model';
-import { Observable } from 'rxjs/Observable';
 import { OsFamily } from '../../shared/models/os-type.model';
 import { TemplateService } from '../shared/template.service';
 import { AuthService } from '../../shared/services/auth.service';
@@ -24,6 +23,9 @@ interface TemplateSection {
   styleUrls: ['template-filter-list.component.scss']
 })
 export class TemplateFilterListComponent implements OnInit {
+  @Input() public templates: Array<Template>;
+  @Input() public isos: Array<Iso>;
+
   @Input() public dialogMode = false;
   @Input() public selectedTemplate: BaseTemplateModel;
   @Input() public showDelimiter = true;
@@ -40,30 +42,30 @@ export class TemplateFilterListComponent implements OnInit {
   public selectedFilters: Array<string> = [];
   public selectedOsFamilies: Array<OsFamily> = [];
   public selectedZones: Array<Zone> = [];
-  public templateList: Array<BaseTemplateModel> = [];
   public visibleTemplateList: Array<BaseTemplateModel> = [];
 
   public sections: Array<TemplateSection>;
 
-  protected templateService = ServiceLocator.injector.get(TemplateService);
   protected authService = ServiceLocator.injector.get(AuthService);
-  protected isoService = ServiceLocator.injector.get(IsoService);
 
   public ngOnInit(): void {
     this.updateList();
+  }
+
+  public get templateList(): Array<BaseTemplateModel> {
+    return this.viewMode === 'Template' ? this.templates : this.isos;
+  }
+
+  public updateList(): void {
+    debugger;
+    this.visibleTemplateList = this.templateList;
+    this.filterResults();
   }
 
   public changeViewMode(mode: string): void {
     this.viewMode = mode;
     this.updateList();
     this.viewModeChange.emit(this.viewMode);
-  }
-
-  public updateList(): void {
-    this.fetchData(this.viewMode)
-      .subscribe(() => {
-        this.filterResults();
-      });
   }
 
   public selectTemplate(template: BaseTemplateModel): void {
@@ -126,40 +128,6 @@ export class TemplateFilterListComponent implements OnInit {
           templates: this.visibleTemplateList.filter(template => template.zoneId === zone.id)
         };
       });
-  }
-
-  private fetchData(mode: string): Observable<any> {
-    this.fetching = true;
-    if (mode === 'Template') {
-      this.templateList = [];
-
-      const selfFilter = this.dialogMode ? TemplateFilters.selfExecutable : TemplateFilters.self;
-      return this.templateService.getGroupedTemplates({}, [TemplateFilters.featured, selfFilter])
-        .map(templates => {
-          this.templateList = templates.toArray();
-          this.visibleTemplateList = this.templateList;
-          this.fetching = false;
-        });
-    } else {
-      this.templateList = [];
-      let params;
-      let selfFilter;
-      if (this.dialogMode) {
-        params = { bootable: true };
-        selfFilter = TemplateFilters.selfExecutable;
-      } else {
-        selfFilter = TemplateFilters.self;
-      }
-      return Observable.forkJoin([
-        this.isoService.getList(Object.assign({}, params, { filter: TemplateFilters.featured })),
-        this.isoService.getList(Object.assign({}, params, { filter: selfFilter })),
-      ])
-        .map(([featuredIsos, selfIsos]) => {
-          this.templateList = (featuredIsos as Array<Iso>).concat(selfIsos as Array<Iso>);
-          this.visibleTemplateList = this.templateList;
-          this.fetching = false;
-        });
-    }
   }
 
   private filterByCategories(templateList: Array<BaseTemplateModel>): Array<BaseTemplateModel> {

@@ -42,6 +42,7 @@ import { SnapshotsComponent } from './vm-sidebar/storage-detail/volume/snapshot/
 import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volume-details/volume-details.component';
 import { AffinityGroupDialogComponent } from './vm-sidebar/affinity-group-dialog.component';
 import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.component';
+import { VmCreationService } from './vm-creation/vm-creation.service';
 
 
 @NgModule({
@@ -86,6 +87,7 @@ import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.com
     SnapshotModalComponent
   ],
   providers: [
+    VmCreationService,
     VmService,
     SnapshotActionsService
   ],
