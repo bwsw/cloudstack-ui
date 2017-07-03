@@ -57,7 +57,6 @@ export class TemplateFilterListComponent implements OnInit {
   }
 
   public updateList(): void {
-    debugger;
     this.visibleTemplateList = this.templateList;
     this.filterResults();
   }

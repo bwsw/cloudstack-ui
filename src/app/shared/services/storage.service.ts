@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UtilsService } from './utils.service';
+import { Utils } from './';
 
 
 @Injectable()
@@ -7,7 +7,7 @@ export class StorageService {
   private isLocalStorage: boolean;
   private inMemoryStorage: Object;
 
-  constructor(private utils: UtilsService) {
+  constructor() {
     this.isLocalStorage = this.isLocalStorageAvailable;
     if (!this.isLocalStorage) {
       this.inMemoryStorage = {};
@@ -35,7 +35,7 @@ export class StorageService {
   }
 
   private localStorageRead(key: string): string {
-    let result = localStorage.getItem(key);
+    const result = localStorage.getItem(key);
     return result !== 'undefined' ? result : undefined;
   }
 
@@ -61,7 +61,7 @@ export class StorageService {
     }
 
     try {
-      const uniq = this.utils.getUniqueId();
+      const uniq = Utils.getUniqueId();
       this.localStorageWrite(uniq, uniq);
       this.localStorageRemove(uniq);
       return true;

@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import {
+  CustomOfferingRestrictions
+} from '../../service-offering/custom-service-offering/custom-offering-restrictions';
+import { Zone } from '../models';
 import { ServiceOffering } from '../models/service-offering.model';
+import { ConfigService } from './';
+import { OfferingAvailability } from './offering.service';
 import { ResourceStats, ResourceUsageService } from './resource-usage.service';
 import { ServiceOfferingService } from './service-offering.service';
-import { Observable } from 'rxjs/Observable';
-import { Zone } from '../models';
-import { OfferingAvailability } from './offering.service';
-import { CustomOfferingRestrictions } from '../../service-offering/custom-service-offering/custom-offering-restrictions';
-import { ConfigService } from './';
 
 
 @Injectable()
@@ -17,17 +19,32 @@ export class ServiceOfferingFilterService {
     private serviceOfferingService: ServiceOfferingService
   ) { }
 
-  public getAvailableByZoneAndResources(params?: any): Observable<Array<ServiceOffering>> {
-    const offeringRestrictionsRequest: Observable<CustomOfferingRestrictions> =
+  public getAvailableByResources(params: Partial<{ zone: Zone }>): Observable<Array<ServiceOffering>> {
+    const availabilityRequest: Observable<OfferingAvailability> = this.configService.get('offeringAvailability');
+    const restrictionsRequest: Observable<CustomOfferingRestrictions> =
       this.configService.get('customOfferingRestrictions');
 
     return Observable.forkJoin([
       this.serviceOfferingService.getList(params),
-      offeringRestrictionsRequest,
+      availabilityRequest,
+      restrictionsRequest,
       this.resourceUsageService.getResourceUsage()
     ])
-      .map(([serviceOfferings, offeringRestrictions, resourceUsage]) => {
-        return this.getAvailableByResources(serviceOfferings, offeringRestrictions, resourceUsage)
+      .map((
+        [
+          serviceOfferings,
+          offeringAvailability,
+          offeringRestrictions,
+          resourceUsage
+        ]
+      ) => {
+        return this.getAvailableByResourcesSync(
+          serviceOfferings,
+          offeringAvailability,
+          offeringRestrictions,
+          resourceUsage,
+          params.zone
+        )
           .sort((a: ServiceOffering, b: ServiceOffering) => {
             if (!a.isCustomized && b.isCustomized) { return -1; }
             if (a.isCustomized && !b.isCustomized) { return 1; }
@@ -36,7 +53,7 @@ export class ServiceOfferingFilterService {
       });
   }
 
-  public getAvailableByZoneAndResourcesSync(
+  public getAvailableByResourcesSync(
     serviceOfferings: Array<ServiceOffering>,
     offeringAvailability: OfferingAvailability,
     offeringRestrictions: CustomOfferingRestrictions,
@@ -50,25 +67,20 @@ export class ServiceOfferingFilterService {
         zone
       );
 
-    return this.getAvailableByResources(availableInZone, offeringRestrictions, resourceUsage);
-  }
-
-  public getAvailableByResources(
-    serviceOfferings: Array<ServiceOffering>,
-    offeringRestriction: CustomOfferingRestrictions,
-    resourceUsage: ResourceStats
-  ): Array<ServiceOffering> {
-    return serviceOfferings
+    return availableInZone
       .filter(offering => {
+        let enoughCpus;
+        let enoughMemory;
+
         if (offering.isCustomized) {
-          const enoughCpus = offeringRestriction.cpuNumber.min < resourceUsage.available.cpus;
-          const enoughMemory = offeringRestriction.memory.min < resourceUsage.available.memory;
-          return enoughCpus && enoughMemory;
+          enoughCpus = offeringRestrictions[zone.id].cpuNumber.min < resourceUsage.available.cpus;
+          enoughMemory = offeringRestrictions[zone.id].memory.min < resourceUsage.available.memory;
         } else {
-          const enoughCpus = resourceUsage.available.cpus >= offering.cpuNumber;
-          const enoughMemory = resourceUsage.available.memory >= offering.memory;
-          return enoughCpus && enoughMemory;
+          enoughCpus = resourceUsage.available.cpus >= offering.cpuNumber;
+          enoughMemory = resourceUsage.available.memory >= offering.memory;
         }
+
+        return enoughCpus && enoughMemory;
       });
   }
 }

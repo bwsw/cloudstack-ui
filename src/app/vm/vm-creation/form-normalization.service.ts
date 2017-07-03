@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
-import { ServiceOfferingFilterService } from '../../shared/services/service-offering-filter.service';
-import { Utils } from '../../shared/services/utils.service';
-import { FormState, VmCreationField, VmCreationFields } from './vm-creation.component';
+import { ServiceOfferingFilterService, Utils } from '../../shared/services';
+import { VmCreationField, VmCreationFields } from './vm-creation-fields';
+import { VmCreationFormState } from './vm-creation.component';
+import cloneDeep = require('lodash/cloneDeep');
 
 
 @Injectable()
-export class FormNormalizationService {
+export class VmCreationFormNormalizationService {
   constructor(private serviceOfferingFilterService: ServiceOfferingFilterService) {}
 
-  public normalize(formState: FormState, changedField?: VmCreationField): FormState {
-    if (!changedField) { return this.getStateFromZone(formState); }
+  public normalize(formState: VmCreationFormState, changedField?: VmCreationField): VmCreationFormState {
+    if (!changedField) { return this.filterZones(formState); }
 
     switch (changedField) {
       case VmCreationFields.zone:
@@ -26,16 +27,23 @@ export class FormNormalizationService {
     }
   }
 
-  public getStateFromZone(formState: FormState): FormState {
-    let modifiedFormState = this.filterServiceOfferings(formState);
-    modifiedFormState = this.filterTemplates(modifiedFormState);
+  private filterZones(formState: VmCreationFormState): VmCreationFormState {
+    const modifiedFormState = this.cloneState(formState);
+    modifiedFormState.state.zone = formState.data.zones[0];
     return modifiedFormState;
   }
 
-  public filterServiceOfferings(formState: FormState): FormState {
-    let modifiedFormState = Object.assign({}, formState);
+  private getStateFromZone(formState: VmCreationFormState): VmCreationFormState {
+    const modifiedFormState = this.filterServiceOfferings(formState);
+
+    return this.filterTemplates(modifiedFormState);
+  }
+
+  private filterServiceOfferings(formState: VmCreationFormState): VmCreationFormState {
+    const modifiedFormState = this.cloneState(formState);
+
     modifiedFormState.data.serviceOfferings = this.serviceOfferingFilterService
-      .getAvailableByZoneAndResourcesSync(
+      .getAvailableByResourcesSync(
         formState.data.serviceOfferings,
         formState.data.configurationData.offeringAvailability,
         formState.data.configurationData.customOfferingRestrictions,
@@ -47,17 +55,30 @@ export class FormNormalizationService {
     return modifiedFormState;
   }
 
-  public filterTemplates(formState: FormState): FormState {
-    const templateFits = formState.state.template.sizeInGB < formState.data.rootDiskSizeLimit;
-    return this.getStateFromTemplate(formState);
+  private filterTemplates(formState: VmCreationFormState): VmCreationFormState {
+    const modifiedState = this.cloneState(formState);
+
+    const filteredTemplates = formState.data.templates.filter(template => {
+      return template.sizeInGB < formState.data.rootDiskSizeLimit;
+    });
+
+    const filteredIsos = formState.data.isos.filter(iso => {
+      return iso.sizeInGB < formState.data.rootDiskSizeLimit;
+    });
+
+    modifiedState.data.templates = filteredTemplates;
+    modifiedState.data.isos  = filteredIsos;
+    modifiedState.state.template = modifiedState.data.defaultTemplate;
+    return this.getStateFromTemplate(modifiedState);
   }
 
-  public getStateFromTemplate(formState: FormState): FormState {
+  private getStateFromTemplate(formState: VmCreationFormState): VmCreationFormState {
     return this.filterDiskOfferings(formState);
   }
 
-  public filterDiskOfferings(formState: FormState): FormState {
-    let modifiedFormState = Object.assign({}, formState);
+  private filterDiskOfferings(formState: VmCreationFormState): VmCreationFormState {
+    const modifiedFormState = this.cloneState(formState);
+
     if (formState.state.diskOfferingsAreAllowed) {
       modifiedFormState.data.diskOfferings = formState.data.diskOfferings.filter(diskOffering => {
         const selectedTemplateFits = diskOffering.diskSize > formState.state.template.sizeInGB;
@@ -70,12 +91,13 @@ export class FormNormalizationService {
     return this.getStateFromDiskOffering(modifiedFormState);
   }
 
-  public getStateFromDiskOffering(formState: FormState): FormState {
+  private getStateFromDiskOffering(formState: VmCreationFormState): VmCreationFormState {
     return this.filterDiskSize(formState);
   }
 
-  public filterDiskSize(formState: FormState): FormState {
-    let modifiedFormState = Object.assign({}, formState);
+  private filterDiskSize(formState: VmCreationFormState): VmCreationFormState {
+    const modifiedFormState = Object.assign({}, formState);
+
     if (!formState.state.showRootDiskResize) { return formState; }
 
     const newSize = formState.state.template.size ? Utils.convertToGB(formState.state.template.size) : 1;
@@ -83,5 +105,9 @@ export class FormNormalizationService {
     modifiedFormState.state.rootDiskSizeMin = newSize;
 
     return modifiedFormState;
+  }
+
+  private cloneState(formState: VmCreationFormState): VmCreationFormState {
+    return cloneDeep(formState);
   }
 }

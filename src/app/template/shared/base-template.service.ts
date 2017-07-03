@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { BaseTemplateModel } from './base-template.model';
-import { AsyncJobService, BaseBackendCachedService } from '../../shared/services';
+import { AsyncJobService, BaseBackendCachedService, Utils } from '../../shared/services';
 import { OsTypeService } from '../../shared/services/os-type.service';
-import { UtilsService } from '../../shared/services/utils.service';
 import { TagService } from '../../shared/services/tag.service';
 
 
@@ -68,7 +67,6 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
   constructor(
     protected asyncJobService: AsyncJobService,
     protected osTypeService: OsTypeService,
-    protected utilsService: UtilsService,
     protected tagService: TagService
   ) {
     super();
@@ -115,7 +113,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       })
       .map(templates => {
         if (maxSize) {
-          return templates.filter(template => this.utilsService.convertToGB(template.size) <= maxSize);
+          return templates.filter(template => Utils.convertToGB(template.size) <= maxSize);
         }
         return templates;
       });
@@ -191,11 +189,6 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
         });
         return new GroupedTemplates<T>(obj);
       });
-  }
-
-  public getDefault(zoneId: string, maxSize?: number): Observable<BaseTemplateModel> {
-    return this.getGroupedTemplates({ zoneId, maxSize })
-      .map(templates => templates.toArray().filter(_ => _.isReady)[0]);
   }
 
   private distinctIds(templates: Array<BaseTemplateModel>): Array<BaseTemplateModel> {

@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import {
-  AffinityGroupService, AuthService, ConfigService, DiskOfferingService,
-  DiskStorageService
+  CustomOfferingRestrictions
+} from '../../service-offering/custom-service-offering/custom-offering-restrictions';
+import {
+  AffinityGroupService,
+  AuthService,
+  ConfigService,
+  DiskOfferingService,
+  DiskStorageService,
+  ServiceOfferingService
 } from '../../shared/services';
+import { OfferingAvailability } from '../../shared/services/offering.service';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { ServiceOfferingFilterService } from '../../shared/services/service-offering-filter.service';
 import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { Iso, IsoService, Template, TemplateService } from '../../template/shared';
+import { TemplateFilters } from '../../template/shared/base-template.service';
 import { VmService } from '../shared/vm.service';
 import { VmCreationData } from './data/vm-creation-data';
-import { OfferingAvailability } from '../../shared/services/offering.service';
-import {
-  CustomOfferingRestrictions
-} from '../../service-offering/custom-service-offering/custom-offering-restrictions';
-import { TemplateFilters } from '../../template/shared/base-template.service';
 
 
 const vmCreationConfigurationKeys = [
@@ -41,7 +44,7 @@ export class VmCreationService {
     private resourceUsageService: ResourceUsageService,
     private securityGroupService: SecurityGroupService,
     private sshService: SSHKeyPairService,
-    private serviceOfferingFilterService: ServiceOfferingFilterService,
+    private serviceOfferingService: ServiceOfferingService,
     private templateService: TemplateService,
     private vmService: VmService,
     private zoneService: ZoneService
@@ -54,15 +57,15 @@ export class VmCreationService {
         this.configService.get(vmCreationConfigurationKeys),
         this.diskStorageService.getAvailablePrimaryStorage(),
         this.getDefaultVmName(),
-        // todo: temporary hardcoded zone for debugging
-        this.templateService.getDefault('031a55bb-5d6b-4336-ab93-d5dead28a887'),
         this.diskOfferingService.getList(),
         this.vmService.getInstanceGroupList(),
         this.resourceUsageService.getResourceUsage(),
         this.diskStorageService.getAvailablePrimaryStorage(),
         this.securityGroupService.getTemplates(),
-        this.serviceOfferingFilterService.getAvailableByZoneAndResources(),
+        this.serviceOfferingService.getList(),
         this.sshService.getList(),
+        this.getTemplates(),
+        this.getIsos(),
         this.zoneService.getList(),
       )
       .map((
@@ -71,7 +74,6 @@ export class VmCreationService {
           configurationData,
           availablePrimaryStorage,
           defaultName,
-          defaultTemplate,
           diskOfferings,
           instanceGroups,
           resourceUsage,
@@ -79,6 +81,8 @@ export class VmCreationService {
           securityGroupTemplates,
           serviceOfferings,
           sshKeyPairs,
+          templates,
+          isos,
           zones
         ]) => {
         return new VmCreationData(
@@ -86,7 +90,6 @@ export class VmCreationService {
           configurationData,
           availablePrimaryStorage,
           defaultName,
-          defaultTemplate,
           diskOfferings,
           instanceGroups,
           resourceUsage,
@@ -94,22 +97,24 @@ export class VmCreationService {
           securityGroupTemplates,
           serviceOfferings,
           sshKeyPairs,
+          templates,
+          isos,
           zones
         );
       });
   }
 
-  public getTemplates(): Observable<Array<Template>> {
+  private getTemplates(): Observable<Array<Template>> {
     const filters = [
       TemplateFilters.featured,
       TemplateFilters.selfExecutable
     ];
 
     return this.templateService.getGroupedTemplates({}, filters)
-      .map(templates => templates.toArray());
+      .map(templates => templates.toArray().filter(template => template.isReady));
   }
 
-  public getIsos(): Observable<Array<Iso>> {
+  private getIsos(): Observable<Array<Iso>> {
     const params = { bootable: true };
     const filters = [
       TemplateFilters.featured,
@@ -117,7 +122,7 @@ export class VmCreationService {
     ];
 
     return this.isoService.getGroupedTemplates(params, filters)
-      .map(isos => isos.toArray());
+      .map(isos => isos.toArray().filter(iso => iso.isReady));
   }
 
   private getDefaultVmName(): Observable<string> {

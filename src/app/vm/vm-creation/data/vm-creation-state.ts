@@ -2,7 +2,7 @@ import { Rules } from '../../../security-group/sg-creation/sg-creation.component
 import { NetworkRule } from '../../../security-group/sg.model';
 import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../../shared/models';
 import { BaseTemplateModel } from '../../../template/shared';
-import { KeyboardLayouts } from '../keyboards/keyboards.component';
+import { KeyboardLayout, KeyboardLayouts } from '../keyboards/keyboards.component';
 import { VmCreationData } from './vm-creation-data';
 
 
@@ -31,11 +31,11 @@ export class VmCreationState {
   public displayName: string;
   public doStartVm: boolean;
   public instanceGroup: InstanceGroup;
-  public keyboard: string;
-  public keyPair: SSHKeyPair;
+  public keyboard: KeyboardLayout;
   public rootDiskSize: number;
   public securityRules: Rules;
   public serviceOffering: ServiceOffering;
+  public sshKeyPair: SSHKeyPair;
   public template: BaseTemplateModel;
   public zone: Zone;
 
@@ -79,10 +79,12 @@ export class VmCreationState {
     const preselectedSecurityGroups = data.securityGroupTemplates.filter(securityGroup => securityGroup.preselected);
     this.securityRules = Rules.createWithAllRulesSelected(preselectedSecurityGroups);
 
+    this.affinityGroup = new AffinityGroup({ name: '' });
     this.affinityGroupNames = data.affinityGroupNames;
     this.defaultName = data.defaultName;
     this.displayName = data.defaultName;
     this.doStartVm = true;
+    this.instanceGroup = new InstanceGroup('');
     this.keyboard = KeyboardLayouts.us;
 
     if (data.affinityGroupList.length) { this.affinityGroup = data.affinityGroupList[0]; }
@@ -90,18 +92,18 @@ export class VmCreationState {
     if (data.diskOfferings.length) { this.diskOffering = data.diskOfferings[0]; }
     if (data.instanceGroups.length) { this.instanceGroup = data.instanceGroups[0]; }
     if (data.serviceOfferings.length) { this.serviceOffering = data.serviceOfferings[0]; }
-    if (data.sshKeyPairs.length) { this.keyPair = data.sshKeyPairs[0]; }
+    if (data.sshKeyPairs.length) { this.sshKeyPair = data.sshKeyPairs[0]; }
     if (data.serviceOfferings.length) { this.serviceOffering = data.serviceOfferings[0]; }
     if (data.zones.length) { this.zone = data.zones[0]; }
   }
 
   public getVmCreationParams(): VmCreationParams {
-    let params: VmCreationParams = {};
+    const params: VmCreationParams = {};
 
     params.affinityGroupNames = this.affinityGroup && this.affinityGroup.name;
     params.doStartVm = this.doStartVm ? undefined : 'false';
     params.keyboard = this.keyboard;
-    params.keyPair = this.keyPair.name; // todo: check
+    params.keyPair = this.sshKeyPair.name; // todo: check
     params.name = this.displayName || this.defaultName;
     params.serviceOfferingIds = this.serviceOffering && this.serviceOffering.id;
     params.templateId = this.template && this.template.id;

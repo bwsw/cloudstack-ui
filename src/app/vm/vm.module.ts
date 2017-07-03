@@ -12,6 +12,7 @@ import { ServiceOfferingModule } from '../service-offering/service-offering.modu
 import { SharedModule } from '../shared/shared.module';
 import { TemplateModule } from '../template';
 import { VmService } from './shared/vm.service';
+import { VmCreationFormNormalizationService } from './vm-creation/form-normalization.service';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
 import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-dialog.component';
 import { VmTemplateComponent } from './vm-creation/template/vm-template.component';
@@ -46,8 +47,6 @@ import { VmDetailComponent } from './vm-sidebar/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 import { vmRouting } from './vm.routing';
-import { FormNormalizationService } from './vm-creation/form-normalization.service';
-import { VmCreationService } from './vm-creation/vm-creation.service';
 
 
 @NgModule({
@@ -94,7 +93,7 @@ import { VmCreationService } from './vm-creation/vm-creation.service';
     SnapshotModalComponent,
   ],
   providers: [
-    FormNormalizationService,
+    VmCreationFormNormalizationService,
     VmCreationService,
     VmDeploymentService,
     VmService,

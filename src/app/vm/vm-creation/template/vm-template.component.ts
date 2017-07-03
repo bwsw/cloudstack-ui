@@ -1,10 +1,10 @@
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { DialogService } from '../../../dialog/dialog-module/dialog.service';
-import { BaseTemplateModel, TemplateService } from '../../../template/shared';
-import { PRESELECTED_TEMPLATE_TOKEN, ZONE } from './injector-token';
-import { VmTemplateDialogComponent } from './vm-template-dialog.component';
+import { Component, forwardRef, Input } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../../../dialog/dialog-module/dialog.service';
+import { BaseTemplateModel, Iso, Template } from '../../../template/shared';
+import { ISOS, PRESELECTED_TEMPLATE_TOKEN, TEMPLATES, ZONE } from './injector-token';
+import { VmTemplateDialogComponent } from './vm-template-dialog.component';
 
 
 @Component({
@@ -18,28 +18,22 @@ import { Observable } from 'rxjs/Observable';
     }
   ]
 })
-export class VmTemplateComponent implements OnInit, ControlValueAccessor {
+export class VmTemplateComponent {
+  @Input() public templates: Array<Template>;
+  @Input() public isos: Array<Iso>;
   @Input() public zoneId: string;
 
   private _template: BaseTemplateModel;
 
-  constructor(
-    private dialogService: DialogService,
-    private templateService: TemplateService
-  ) {}
-
-  public ngOnInit(): void {
-    if (!this.template) {
-      this.loadDefaultTemplate();
-    }
-  }
+  constructor(private dialogService: DialogService) {}
 
   public onClick(): void {
-    this.showTemplateSelectionDialog().subscribe(template => {
-      if (template) {
-        this.template = template;
-      }
-    });
+    this.showTemplateSelectionDialog()
+      .subscribe(template => {
+        if (template) {
+          this.template = template;
+        }
+      });
   }
 
   public propagateChange: any = () => {};
@@ -66,17 +60,14 @@ export class VmTemplateComponent implements OnInit, ControlValueAccessor {
 
   public registerOnTouched(): void {}
 
-  private loadDefaultTemplate(): void {
-    this.templateService.getDefault(this.zoneId)
-      .subscribe(template => this.template = template);
-  }
-
   private showTemplateSelectionDialog(): Observable<BaseTemplateModel> {
     return this.dialogService.showCustomDialog({
       component: VmTemplateDialogComponent,
       classes: 'vm-template-dialog',
       providers: [
         { provide: PRESELECTED_TEMPLATE_TOKEN, useValue: this.template },
+        { provide: TEMPLATES, useValue: this.templates },
+        { provide: ISOS, useValue: this.isos },
         { provide: ZONE, useValue: this.zoneId }
       ],
     })

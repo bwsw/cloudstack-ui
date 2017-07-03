@@ -29,20 +29,23 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
   }
 
   public getList(params?: any): Observable<Array<T>> {
-    const zone = params.zone;
-    delete params.zone;
-
     if (!params || !params.zone) {
       return super.getList(params);
     }
-    const availabilityRequest: Observable<OfferingAvailability> = this.configService.get('offeringAvailability');
+    const zone = params.zone;
+    delete params.zone;
 
+    const availabilityRequest: Observable<OfferingAvailability> = this.configService.get('offeringAvailability');
     return Observable.forkJoin([
       availabilityRequest,
       super.getList(params)
     ])
       .map(([offeringAvailability, offeringList]) => {
-        return this.getOfferingsAvailableInZone(offeringList, offeringAvailability, zone);
+        return this.getOfferingsAvailableInZone(
+          offeringList,
+          offeringAvailability,
+          zone
+        );
       });
   }
 

@@ -8,10 +8,12 @@ import {
   SSHKeyPair,
   Zone
 } from '../../../shared/models';
-import { Template } from '../../../template/shared';
+import { BaseTemplateModel, Iso, Template } from '../../../template/shared';
 import { VmCreationState } from './vm-creation-state';
 import { ResourceStats } from '../../../shared/services/resource-usage.service';
 import { VmCreationConfigurationData } from '../vm-creation.service';
+import { GroupedTemplates } from '../../../template/shared/base-template.service';
+import * as moment from 'moment';
 
 
 export class VmCreationData {
@@ -20,7 +22,6 @@ export class VmCreationData {
     public configurationData: VmCreationConfigurationData,
     public availablePrimaryStorage: number,
     public defaultName: string,
-    public defaultTemplate: Template,
     public diskOfferings: Array<DiskOffering>,
     public instanceGroups: Array<InstanceGroup>,
     public resourceUsage: ResourceStats,
@@ -28,8 +29,23 @@ export class VmCreationData {
     public securityGroupTemplates: Array<SecurityGroup>,
     public serviceOfferings: Array<ServiceOffering>,
     public sshKeyPairs: Array<SSHKeyPair>,
+    public templates: Array<Template>,
+    public isos: Array<Iso>,
     public zones: Array<Zone>
   ) {}
+
+  public getAffinityGroup(name: string): AffinityGroup {
+    return this.affinityGroupList.find(group => group.name === name);
+  }
+
+  public getInstanceGroup(name: string): InstanceGroup {
+    return this.instanceGroups.find(group => group.name === name);
+  }
+
+  public get defaultTemplate(): BaseTemplateModel {
+    const templates: Array<BaseTemplateModel> = this.templates.length ? this.templates : this.isos;
+    return templates.filter(_ => _.isReady)[0];
+  }
 
   public get affinityGroupNames(): Array<string> {
     return this.affinityGroupList.map(_ => _.name);

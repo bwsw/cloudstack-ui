@@ -56,17 +56,17 @@ export class VmDeploymentService {
     let tempVm;
 
     deployObservable.next({ stage: VmDeploymentStages.STARTED });
-    Observable
+    Observable.of(null)
       .concat(...this.getPreDeployActions(deployObservable, state))
       .switchMap(_ => this.sendDeployRequest(deployObservable, state))
       .switchMap(({ deployResponse, temporaryVm }) => {
         tempVm = temporaryVm;
         return this.vmService.registerVmJob(deployResponse);
       })
-      .concatMap(vm => {
+      .switchMap(vm => {
         deployedVm = vm;
         deployObservable.next({ stage: VmDeploymentStages.VM_DEPLOYED });
-        return Observable.concat(...this.getPostDeployActions(vm, state));
+        return Observable.of(null).concat(...this.getPostDeployActions(vm, state));
       })
       .subscribe(
         () => this.handleSuccessfulDeployment(deployedVm, deployObservable),
@@ -80,7 +80,7 @@ export class VmDeploymentService {
     deployObservable: Subject<VmDeploymentMessage>,
     state: VmCreationState
   ): Array<Observable<any>> {
-    let actions = [];
+    const actions = [];
     actions.push(this.getAffinityGroupCreationObservable(deployObservable, state));
     if (!state.zone.networkTypeIsBasic) {
       actions.push(this.getSecurityGroupCreationObservable(deployObservable, state));
