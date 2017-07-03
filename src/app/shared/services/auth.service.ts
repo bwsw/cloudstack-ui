@@ -8,7 +8,6 @@ import { BaseModelStub } from '../models';
 import { AsyncJobService } from './async-job.service';
 
 import { BaseBackendService } from './base-backend.service';
-import { CacheService } from './cache.service';
 import { ConfigService } from './config.service';
 import { RouterUtilsService } from './router-utils.service';
 import { StorageService } from './storage.service';
@@ -33,7 +32,6 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
 
   constructor(
     protected asyncJobService: AsyncJobService,
-    protected cacheService: CacheService,
     protected configService: ConfigService,
     protected storage: StorageService,
     protected router: Router,
@@ -45,8 +43,10 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     this.loggedIn = new BehaviorSubject<boolean>(!!this.userId);
 
     debounce(this.refreshSession, 1000, { leading: true });
-    debounce(this.resetTimer, 1000, { leading: true });
+    debounce(this.resetInactivityTimer, 1000, { leading: true });
+  }
 
+  public startInactivityCounter() {
     Observable.forkJoin(
       this.getInactivityTimeout(),
       this.getSessionRefreshInterval()
@@ -54,22 +54,16 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
       .subscribe(([inactivityTimeout, sessionRefreshInterval]) => {
         this.inactivityTimeout = inactivityTimeout;
         this.sessionRefreshInterval = sessionRefreshInterval;
-        this.resetTimer();
+        this.resetInactivityTimer();
         this.addEventListeners();
       });
-
-    this.loggedIn.subscribe(() => {
-      this.asyncJobService.completeAllJobs();
-      this.cacheService.invalidateAll();
-      this.storage.resetInMemoryStorage();
-    });
   }
 
   public setInactivityTimeout(value: number): Observable<void> {
     return this.userService.writeTag('sessionTimeout', value.toString())
       .map(() => {
         this.inactivityTimeout = value;
-        this.resetTimer();
+        this.resetInactivityTimer();
       });
   }
 
@@ -174,7 +168,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
 
   private refreshSession(): void {
     if (++this.numberOfRefreshes * this.sessionRefreshInterval >= this.inactivityTimeout * 60) {
-      this.clearTimer();
+      this.clearInactivityTimer();
       this.zone.run(() => this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams()));
     } else {
       this.sendRefreshRequest();
@@ -185,23 +179,23 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     const events = 'mousemove keydown DOMMouseScroll mousewheel mousedown touchstart touchmove scroll'.split(' ');
     const observables = events.map(event => Observable.fromEvent(document, event));
     this.zone.runOutsideAngular(() => {
-      Observable.merge(...observables).subscribe(() => this.resetTimer());
+      Observable.merge(...observables).subscribe(() => this.resetInactivityTimer());
     });
   }
 
-  private resetTimer(): void {
-    this.clearTimer();
+  private resetInactivityTimer(): void {
+    this.clearInactivityTimer();
     this.numberOfRefreshes = 0;
     if (this.inactivityTimeout) {
-      this.setTimer();
+      this.setInactivityTimer();
     }
   }
 
-  private clearTimer(): void {
+  public clearInactivityTimer(): void {
     clearInterval(this.refreshTimer);
   }
 
-  private setTimer(): void {
+  private setInactivityTimer(): void {
     if (this.sessionRefreshInterval && this.inactivityTimeout) {
       this.refreshTimer = setInterval(this.refreshSession.bind(this), this.sessionRefreshInterval * 1000);
     }
