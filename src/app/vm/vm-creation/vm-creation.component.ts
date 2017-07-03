@@ -167,6 +167,7 @@ export class VmCreationComponent implements OnInit {
   }
 
   public updateFormState(field: VmCreationField): void {
+    debugger;
     this.formState = this.formNormalizationService.normalize(
       {
         data: this.data,

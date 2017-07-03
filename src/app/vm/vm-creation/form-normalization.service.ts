@@ -11,38 +11,43 @@ export class VmCreationFormNormalizationService {
 
   public normalize(formState: VmCreationFormState, changedField?: VmCreationField): VmCreationFormState {
     if (!changedField) { return this.filterZones(formState); }
+    const modifiedState = this.clone(formState);
 
     switch (changedField) {
       case VmCreationFields.zone:
-        return this.getStateFromZone(formState);
+        return this.getStateFromZone(modifiedState);
 
       case VmCreationFields.template:
-        return this.getStateFromTemplate(formState);
+        return this.getStateFromTemplate(modifiedState);
 
       case VmCreationFields.diskOffering:
-        return this.getStateFromDiskOffering(formState);
+        return this.getStateFromDiskOffering(modifiedState);
 
       default:
-        return formState;
+        return modifiedState;
     }
   }
 
+  private clone(formState: VmCreationFormState): VmCreationFormState {
+    const modifiedState = Object.assign({}, formState);
+    const data = Object.assign({}, formState.data);
+    const state = Object.assign({}, formState.state);
+    modifiedState.data = data;
+    modifiedState.state = state;
+    return modifiedState;
+  }
+
   private filterZones(formState: VmCreationFormState): VmCreationFormState {
-    const modifiedFormState = this.cloneState(formState);
-    modifiedFormState.state.zone = formState.data.zones[0];
-    return modifiedFormState;
+    return formState;
   }
 
   private getStateFromZone(formState: VmCreationFormState): VmCreationFormState {
     const modifiedFormState = this.filterServiceOfferings(formState);
-
     return this.filterTemplates(modifiedFormState);
   }
 
   private filterServiceOfferings(formState: VmCreationFormState): VmCreationFormState {
-    const modifiedFormState = this.cloneState(formState);
-
-    modifiedFormState.data.serviceOfferings = this.serviceOfferingFilterService
+    formState.data.serviceOfferings = this.serviceOfferingFilterService
       .getAvailableByResourcesSync(
         formState.data.serviceOfferings,
         formState.data.configurationData.offeringAvailability,
@@ -51,13 +56,19 @@ export class VmCreationFormNormalizationService {
         formState.state.zone
       );
 
-    modifiedFormState.state.serviceOffering = modifiedFormState.data.serviceOfferings[0];
-    return modifiedFormState;
+    const offeringStillAvailable = !!formState
+      .data.serviceOfferings.find(offering => {
+        return formState.state.serviceOffering.id === offering.id;
+      });
+
+    if (!offeringStillAvailable) {
+      formState.state.serviceOffering = formState.data.serviceOfferings[0];
+    }
+
+    return formState;
   }
 
   private filterTemplates(formState: VmCreationFormState): VmCreationFormState {
-    const modifiedState = this.cloneState(formState);
-
     const filteredTemplates = formState.data.templates.filter(template => {
       return template.sizeInGB < formState.data.rootDiskSizeLimit;
     });
@@ -66,10 +77,18 @@ export class VmCreationFormNormalizationService {
       return iso.sizeInGB < formState.data.rootDiskSizeLimit;
     });
 
-    modifiedState.data.templates = filteredTemplates;
-    modifiedState.data.isos  = filteredIsos;
-    modifiedState.state.template = modifiedState.data.defaultTemplate;
-    return this.getStateFromTemplate(modifiedState);
+    formState.data.templates = filteredTemplates;
+    formState.data.isos  = filteredIsos;
+
+    const templateStillAvailable = !!formState
+      .data.installationSources.find(template => {
+        return formState.state.template.id === template.id;
+      });
+
+    if (!templateStillAvailable) {
+      formState.state.template = formState.data.defaultTemplate;
+    }
+    return this.getStateFromTemplate(formState);
   }
 
   private getStateFromTemplate(formState: VmCreationFormState): VmCreationFormState {
@@ -77,18 +96,23 @@ export class VmCreationFormNormalizationService {
   }
 
   private filterDiskOfferings(formState: VmCreationFormState): VmCreationFormState {
-    const modifiedFormState = this.cloneState(formState);
-
     if (formState.state.diskOfferingsAreAllowed) {
-      modifiedFormState.data.diskOfferings = formState.data.diskOfferings.filter(diskOffering => {
+      formState.data.diskOfferings = formState.data.diskOfferings.filter(diskOffering => {
         const selectedTemplateFits = diskOffering.diskSize > formState.state.template.sizeInGB;
         const diskOfferingFits = diskOffering.diskSize < formState.data.rootDiskSizeLimit;
         return selectedTemplateFits && diskOfferingFits;
       });
     }
 
-    modifiedFormState.state.diskOffering = modifiedFormState.data.diskOfferings[0];
-    return this.getStateFromDiskOffering(modifiedFormState);
+    const diskOfferingStillAvailable = !!formState
+      .data.diskOfferings.find(offering => {
+        return formState.state.diskOffering.id === offering.id;
+      });
+
+    if (!diskOfferingStillAvailable) {
+      formState.state.diskOffering = formState.data.diskOfferings[0];
+    }
+    return this.getStateFromDiskOffering(formState);
   }
 
   private getStateFromDiskOffering(formState: VmCreationFormState): VmCreationFormState {
@@ -105,9 +129,5 @@ export class VmCreationFormNormalizationService {
     modifiedFormState.state.rootDiskSizeMin = newSize;
 
     return modifiedFormState;
-  }
-
-  private cloneState(formState: VmCreationFormState): VmCreationFormState {
-    return cloneDeep(formState);
   }
 }
