@@ -87,10 +87,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
   }
 
   public changeAffinityGroup(): void {
-    this.askToStopVM(
-      'STOP_MACHINE_FOR_AG',
-      () => this.showAffinityGroupDialog()
-    );
+    this.askToStopVM('STOP_MACHINE_FOR_AG').subscribe(() => this.showAffinityGroupDialog());
   }
 
   public isNotFormattedField(key: string): boolean {
@@ -151,10 +148,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
   }
 
   public resetSshKey(): void {
-    this.askToStopVM(
-      'STOP_MACHINE_FOR_SSH',
-      () => this.showSshKeypairResetDialog()
-    );
+    this.askToStopVM('STOP_MACHINE_FOR_SSH').subscribe(() => this.showSshKeypairResetDialog());
   }
 
   private update(): void {
@@ -196,29 +190,29 @@ export class VmDetailComponent implements OnChanges, OnInit {
       });
   }
 
-  private askToStopVM(message: string, onStopped): void {
-    if (this.vm.state === VmStates.Stopped) {
-      onStopped();
-      return;
-    }
+  private askToStopVM(message: string): Observable<any> {
+    return this.vmService.get(this.vm.id).switchMap(vm => {
+      if (vm.state === VmStates.Stopped) {
+        return Observable.of(true);
+      }
 
-    this.dialogService.customConfirm({
-      message: message,
-      confirmText: 'STOP',
-      declineText: 'CANCEL',
-      width: '350px',
-      clickOutsideToClose: false
-    })
-      .onErrorResumeNext()
-      .subscribe((result) => {
-        if (result === null) {
-          this.vmService.command({
-            action: VirtualMachine.getAction(VmActions.STOP),
-            vm: this.vm
-          })
-            .subscribe(onStopped);
-        }
-      });
+      return this.dialogService.customConfirm({
+        message: message,
+        confirmText: 'STOP',
+        declineText: 'CANCEL',
+        width: '350px',
+        clickOutsideToClose: false
+      })
+        .onErrorResumeNext()
+        .switchMap((result) => {
+          if (result === null) {
+            return this.vmService.command({
+              action: VirtualMachine.getAction(VmActions.STOP),
+              vm: vm
+            });
+          }
+        });
+    });
   }
 
   private showAffinityGroupDialog(): void {

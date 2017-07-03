@@ -73,6 +73,19 @@ export class VmListComponent implements OnInit {
     this.subscribeToVmUpdates();
     this.subscribeToVmDestroyed();
     this.subscribeToVmCreationDialog();
+    this.asyncJobService.event.subscribe((job: AsyncJob<any>) => {
+      if (job.result) {
+        const index = this.vmList.findIndex(_ => job.result.id === _.id);
+        if (index > -1) {
+          // todo: may be we need to update more params
+          // todo: need to discuss
+          this.vmList[index].state = job.result.state;
+          if (job.result.nic && job.result.nic.length) {
+            this.vmList[index].nic[0] = job.result.nic[0];
+          }
+        }
+      }
+    });
   }
 
   public get noFilteringResults(): boolean {

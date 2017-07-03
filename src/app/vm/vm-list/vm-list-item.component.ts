@@ -25,7 +25,6 @@ export class VmListItemComponent implements OnInit, OnChanges {
   public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
 
   constructor(
-    private asyncJobService: AsyncJobService,
     private vmService: VmService
   ) { }
 
@@ -33,14 +32,6 @@ export class VmListItemComponent implements OnInit, OnChanges {
     this.updateColor();
 
     this.actions = VirtualMachine.actions;
-    this.asyncJobService.event.subscribe((job: AsyncJob<any>) => {
-      if (job.result && job.result.id === this.vm.id) {
-        this.vm.state = job.result.state;
-        if (job.result.nic && job.result.nic.length) {
-          this.vm.nic[0] = job.result.nic[0];
-        }
-      }
-    });
     this.vmService.vmUpdateObservable.subscribe(() => {
       this.updateColor();
     });
