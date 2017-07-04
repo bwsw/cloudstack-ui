@@ -46,7 +46,6 @@ export class VmCreationComponent implements OnInit {
   public agCreationInProgress = false;
 
   constructor(
-    private cd: ChangeDetectorRef,
     private dialog: MdlDialogReference,
     private dialogService: DialogService,
     private formNormalizationService: VmCreationFormNormalizationService,
