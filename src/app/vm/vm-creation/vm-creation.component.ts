@@ -3,16 +3,13 @@ import { Observable } from 'rxjs/Observable';
 import { MdlDialogReference } from '../../dialog/dialog-module';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
-
 import { DiskOffering, JobsNotificationService } from '../../shared';
-
 import { AffinityGroup, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../shared/models';
 import { BaseTemplateModel } from '../../template/shared';
 import { VmCreationData } from './data/vm-creation-data';
 import { VmCreationState } from './data/vm-creation-state';
 import { VmCreationFormNormalizationService } from './form-normalization.service';
 import { KeyboardLayout } from './keyboards/keyboards.component';
-import { VmCreationField, VmCreationFields } from './vm-creation-fields';
 import { VmCreationService } from './vm-creation.service';
 import { VmDeploymentService, VmDeploymentStages } from './vm-deployment.service';
 import throttle = require('lodash/throttle');
@@ -57,7 +54,9 @@ export class VmCreationComponent implements OnInit {
     private vmCreationService: VmCreationService,
     private vmDeploymentService: VmDeploymentService
   ) {
-    this.updateFormState = throttle(this.updateFormState, 500,
+    this.updateFormState = throttle(
+      this.updateFormState,
+      500,
       {
         leading: true,
         trailing: false
@@ -73,25 +72,6 @@ export class VmCreationComponent implements OnInit {
       this.updateFormState();
       this.fetching = false;
     });
-
-    // this.resourceUsageService.getResourceUsage()
-    //   .subscribe(resourceUsage => {
-    //     Object.keys(resourceUsage.available)
-    //       .filter(key => key !== 'snapshots' && key !== 'secondaryStorage')
-    //       .forEach(key => {
-    //         const available = resourceUsage.available[key];
-    //         if (available === 0) {
-    //           this.insufficientResources.push(key);
-    //         }
-    //       });
-    //
-    //     if (this.insufficientResources.length) {
-    //       this.enoughResources = false;
-    //       this.fetching = false;
-    //     } else {
-    //       this.resetVmCreateData();
-    //     }
-    //   });
   }
 
   public get showResizeSlider(): boolean {
@@ -100,31 +80,32 @@ export class VmCreationComponent implements OnInit {
 
   public displayNameChange(value: string): void {
     this.formState.state.displayName = value;
-    this.updateFormState(VmCreationFields.displayName);
+    this.updateFormState();
   }
 
   public zoneChange(value: Zone) {
     this.formState.state.zone = value;
-    this.updateFormState(VmCreationFields.zone);
+    this.updateFormState();
   }
 
   public serviceOfferingChange(value: ServiceOffering) {
     this.formState.state.serviceOffering = value;
-    this.updateFormState(VmCreationFields.serviceOffering);
+    this.updateFormState();
   }
 
   public templateChange(value: BaseTemplateModel) {
     this.formState.state.template = value;
+    this.updateFormState();
   }
 
   public diskOfferingChange(value: DiskOffering) {
     this.formState.state.diskOffering = value;
-    this.updateFormState(VmCreationFields.diskOffering);
+    this.updateFormState();
   }
 
   public rootDiskSizeChange($event) {
     this.formState.state.rootDiskSize = $event.value;
-    this.updateFormState(VmCreationFields.rootDiskSize);
+    this.updateFormState();
   }
 
   public instanceGroupChange(value: string): void {
@@ -136,7 +117,7 @@ export class VmCreationComponent implements OnInit {
       this.formState.state.instanceGroup = new InstanceGroup(value);
     }
 
-    this.updateFormState(VmCreationFields.instanceGroup);
+    this.updateFormState();
   }
 
   public affinityGroupChange(value: string): void {
@@ -148,12 +129,12 @@ export class VmCreationComponent implements OnInit {
       this.formState.state.affinityGroup = new AffinityGroup({ name: value });
     }
 
-    this.updateFormState(VmCreationFields.affinityGroup);
+    this.updateFormState();
   }
 
   public securityRulesChange(value: Rules) {
     this.formState.state.securityRules = value;
-    this.updateFormState(VmCreationFields.securityGroup);
+    this.updateFormState();
   }
 
   public keyboardChange(value: KeyboardLayout) {
@@ -162,24 +143,22 @@ export class VmCreationComponent implements OnInit {
 
   public sshKeyPairChange(value: SSHKeyPair) {
     this.formState.state.sshKeyPair = value;
-    this.updateFormState(VmCreationFields.sshKeyPair);
+    this.updateFormState();
   }
 
   public doStartVmChange(value: boolean) {
     this.formState.state.doStartVm = value;
-    this.updateFormState(VmCreationFields.doStartVm);
+    this.updateFormState();
   }
 
-  public updateFormState(field?: VmCreationField): void {
+  public updateFormState(): void {
     const state = this.formState && this.formState.state || this.data.getInitialState();
     this.formState = this.formNormalizationService.normalize(
       {
         data: this.data,
         state
-      },
-      field
+      }
     );
-    this.cd.detectChanges();
   }
 
   public onVmCreationSubmit(e: any): void {

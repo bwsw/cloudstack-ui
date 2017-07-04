@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ServiceOfferingFilterService, Utils } from '../../shared/services';
 import { VmCreationData } from './data/vm-creation-data';
 import { VmCreationState } from './data/vm-creation-state';
-import { VmCreationField, VmCreationFields } from './vm-creation-fields';
 import { VmCreationFormState } from './vm-creation.component';
 import cloneDeep = require('lodash/cloneDeep');
 
@@ -11,25 +10,8 @@ import cloneDeep = require('lodash/cloneDeep');
 export class VmCreationFormNormalizationService {
   constructor(private serviceOfferingFilterService: ServiceOfferingFilterService) {}
 
-  public normalize(formState: VmCreationFormState, changedField?: VmCreationField): VmCreationFormState {
-    const modifiedState = this.clone(formState);
-    if (!changedField) {
-      return this.filterZones(modifiedState);
-    }
-
-    switch (changedField) {
-      case VmCreationFields.zone:
-        return this.getStateFromZone(modifiedState);
-
-      case VmCreationFields.template:
-        return this.getStateFromTemplate(modifiedState);
-
-      case VmCreationFields.diskOffering:
-        return this.getStateFromDiskOffering(modifiedState);
-
-      default:
-        return modifiedState;
-    }
+  public normalize(formState: VmCreationFormState): VmCreationFormState {
+    return this.filterZones(this.clone(formState));
   }
 
   private clone(formState: VmCreationFormState): VmCreationFormState {
@@ -126,14 +108,12 @@ export class VmCreationFormNormalizationService {
   }
 
   private filterDiskSize(formState: VmCreationFormState): VmCreationFormState {
-    const modifiedFormState = Object.assign({}, formState);
-
     if (!formState.state.showRootDiskResize) { return formState; }
 
     const newSize = formState.state.template.size ? Utils.convertToGB(formState.state.template.size) : 1;
-    modifiedFormState.state.rootDiskSize = newSize;
-    modifiedFormState.state.rootDiskSizeMin = newSize;
+    formState.state.rootDiskSize = newSize;
+    formState.state.rootDiskSizeMin = newSize;
 
-    return modifiedFormState;
+    return formState;
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, OnChanges, OnInit, forwardRef } from '@angular/core';
+import { Component, Input, SimpleChanges, OnChanges, OnInit, forwardRef, Output, EventEmitter } from '@angular/core';
 import { DiskOffering } from '../..';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -15,27 +15,20 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     }
   ]
 })
-export class DiskOfferingComponent implements OnInit, OnChanges, ControlValueAccessor {
+export class DiskOfferingComponent implements ControlValueAccessor {
   @Input() public diskOfferingList: Array<DiskOffering>;
+  @Output() public change: EventEmitter<DiskOffering>;
 
   private _diskOffering: DiskOffering;
 
-  public ngOnInit(): void {
-    if (!this.diskOfferingList) {
-      throw new Error('diskOfferingList is a required parameter');
-    }
-    this.updateSelectedOffering();
-  }
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    if ('diskOfferingList' in changes) {
-      this.updateSelectedOffering();
-    }
+  constructor() {
+    this.change = new EventEmitter();
   }
 
   public updateDiskOffering(diskOffering: DiskOffering): void {
     if (diskOffering) {
       this.diskOffering = diskOffering;
+      this.change.next(this.diskOffering);
     }
   }
 
@@ -62,11 +55,5 @@ export class DiskOfferingComponent implements OnInit, OnChanges, ControlValueAcc
 
   public registerOnChange(fn): void {
     this.propagateChange = fn;
-  }
-
-  private updateSelectedOffering(): void {
-    if (this.diskOfferingList.length) {
-      this.diskOffering = this.diskOfferingList[0];
-    }
   }
 }

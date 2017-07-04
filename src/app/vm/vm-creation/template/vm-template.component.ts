@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-module/dialog.service';
@@ -22,16 +22,20 @@ export class VmTemplateComponent {
   @Input() public templates: Array<Template>;
   @Input() public isos: Array<Iso>;
   @Input() public zoneId: string;
+  @Output() public change: EventEmitter<BaseTemplateModel>;
 
   private _template: BaseTemplateModel;
 
-  constructor(private dialogService: DialogService) {}
+  constructor(private dialogService: DialogService) {
+    this.change = new EventEmitter();
+  }
 
   public onClick(): void {
     this.showTemplateSelectionDialog()
       .subscribe(template => {
         if (template) {
           this.template = template;
+          this.change.next(this.template);
         }
       });
   }
