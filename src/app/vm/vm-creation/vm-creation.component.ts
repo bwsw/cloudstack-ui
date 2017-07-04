@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { MdlDialogReference } from '../../dialog/dialog-module';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
@@ -8,7 +8,7 @@ import { AffinityGroup, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from 
 import { BaseTemplateModel } from '../../template/shared';
 import { VmCreationData } from './data/vm-creation-data';
 import { VmCreationState } from './data/vm-creation-state';
-import { VmCreationFormNormalizationService } from './form-normalization.service';
+import { VmCreationFormNormalizationService } from './form-normalization/form-normalization.service';
 import { KeyboardLayout } from './keyboards/keyboards.component';
 import { VmCreationService } from './vm-creation.service';
 import { VmDeploymentService, VmDeploymentStages } from './vm-deployment.service';

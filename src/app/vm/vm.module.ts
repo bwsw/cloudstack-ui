@@ -12,7 +12,7 @@ import { ServiceOfferingModule } from '../service-offering/service-offering.modu
 import { SharedModule } from '../shared/shared.module';
 import { TemplateModule } from '../template';
 import { VmService } from './shared/vm.service';
-import { VmCreationFormNormalizationService } from './vm-creation/form-normalization.service';
+import { VmCreationFormNormalizationService } from './vm-creation/form-normalization/form-normalization.service';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
 import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-dialog.component';
 import { VmTemplateComponent } from './vm-creation/template/vm-template.component';

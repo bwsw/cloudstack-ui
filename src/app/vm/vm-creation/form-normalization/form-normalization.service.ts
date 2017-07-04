@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ServiceOfferingFilterService, Utils } from '../../shared/services';
-import { VmCreationData } from './data/vm-creation-data';
-import { VmCreationState } from './data/vm-creation-state';
-import { VmCreationFormState } from './vm-creation.component';
+import { ServiceOfferingFilterService, Utils } from '../../../shared/services';
+import { VmCreationData } from '../data/vm-creation-data';
+import { VmCreationState } from '../data/vm-creation-state';
+import { VmCreationFormState } from '../vm-creation.component';
 import cloneDeep = require('lodash/cloneDeep');
 
 
