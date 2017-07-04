@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { MdlDialogReference } from '../../dialog/dialog-module';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
@@ -12,9 +12,10 @@ import { VmCreationData } from './data/vm-creation-data';
 import { VmCreationState } from './data/vm-creation-state';
 import { VmCreationFormNormalizationService } from './form-normalization.service';
 import { KeyboardLayout } from './keyboards/keyboards.component';
+import { VmCreationField, VmCreationFields } from './vm-creation-fields';
 import { VmCreationService } from './vm-creation.service';
 import { VmDeploymentService, VmDeploymentStages } from './vm-deployment.service';
-import { VmCreationField, VmCreationFields } from './vm-creation-fields';
+import throttle = require('lodash/throttle');
 
 
 export interface VmCreationFormState {
@@ -48,25 +49,28 @@ export class VmCreationComponent implements OnInit {
   public agCreationInProgress = false;
 
   constructor(
+    private cd: ChangeDetectorRef,
     private dialog: MdlDialogReference,
     private dialogService: DialogService,
     private formNormalizationService: VmCreationFormNormalizationService,
     private jobsNotificationService: JobsNotificationService,
     private vmCreationService: VmCreationService,
     private vmDeploymentService: VmDeploymentService
-  ) {}
+  ) {
+    this.updateFormState = throttle(this.updateFormState, 500,
+      {
+        leading: true,
+        trailing: false
+      }
+    );
+  }
 
   public ngOnInit(): void {
     this.fetching = true;
     this.enoughResources = true;
     this.vmCreationService.getData().subscribe(vmCreationData => {
       this.data = vmCreationData;
-      this.formState = this.formNormalizationService.normalize(
-        {
-          data: this.data,
-          state: this.data.getInitialState()
-        }
-      );
+      this.updateFormState();
       this.fetching = false;
     });
 
@@ -141,7 +145,7 @@ export class VmCreationComponent implements OnInit {
     if (existingGroup) {
       this.formState.state.affinityGroup = existingGroup;
     } else {
-      this.formState.state.affinityGroup = new AffinityGroup(value);
+      this.formState.state.affinityGroup = new AffinityGroup({ name: value });
     }
 
     this.updateFormState(VmCreationFields.affinityGroup);
@@ -166,15 +170,16 @@ export class VmCreationComponent implements OnInit {
     this.updateFormState(VmCreationFields.doStartVm);
   }
 
-  public updateFormState(field: VmCreationField): void {
-    debugger;
+  public updateFormState(field?: VmCreationField): void {
+    const state = this.formState && this.formState.state || this.data.getInitialState();
     this.formState = this.formNormalizationService.normalize(
       {
         data: this.data,
-        state: this.formState.state
+        state
       },
       field
     );
+    this.cd.detectChanges();
   }
 
   public onVmCreationSubmit(e: any): void {

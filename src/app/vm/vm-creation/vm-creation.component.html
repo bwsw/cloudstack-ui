@@ -63,7 +63,7 @@
             [serviceOfferings]="formState.data.serviceOfferings"
             [zoneId]="formState.state.zone.id"
             [ngModel]="formState.state.serviceOffering"
-            (ngModelChange)="serviceOfferingChange($event)"
+            (change)="serviceOfferingChange($event)"
           ></cs-service-offering-selector>
         </div>
 
@@ -117,11 +117,10 @@
           </h5>
           <mdl-autocomplete
             name="group"
-            *ngIf="formState.data.instanceGroups"
             [placeholder]="'NO_GROUP' | translate"
-            [options]="formState.data.instanceGroups"
-            [ngModel]="formState.state.affinityGroup.name"
-            (ngModelChange)="affinityGroupChange($event)"
+            [options]="formState.data.instanceGroupNames"
+            [ngModel]="formState.state.instanceGroup.name"
+            (ngModelChange)="instanceGroupChange($event)"
           ></mdl-autocomplete>
         </div>
 
@@ -133,8 +132,8 @@
             name="affinityGroup"
             [placeholder]="'NO_GROUP' | translate"
             [options]="formState.data.affinityGroupNames"
-            [ngModel]="formState.state.instanceGroup.name"
-            (ngModelChange)="instanceGroupChange($event)"
+            [ngModel]="formState.state.affinityGroup.name"
+            (ngModelChange)="affinityGroupChange($event)"
           ></mdl-autocomplete>
         </div>
 

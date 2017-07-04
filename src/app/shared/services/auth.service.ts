@@ -44,8 +44,8 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     super();
     this.loggedIn = new BehaviorSubject<boolean>(!!this.userId);
 
-    debounce(this.refreshSession, 1000, { leading: true });
-    debounce(this.resetTimer, 1000, { leading: true });
+    this.refreshSession = debounce(this.refreshSession, 1000, { leading: true });
+    this.resetTimer = debounce(this.resetTimer, 1000, { leading: true });
 
     Observable.forkJoin(
       this.getInactivityTimeout(),

@@ -45,8 +45,10 @@ export class DiskOfferingComponent implements OnInit, OnChanges, ControlValueAcc
   }
 
   public set diskOffering(diskOffering: DiskOffering) {
-    this._diskOffering = diskOffering;
-    this.propagateChange(this.diskOffering);
+    if (diskOffering) {
+      this._diskOffering = diskOffering;
+      this.propagateChange(this.diskOffering);
+    }
   }
 
   public writeValue(diskOffering: DiskOffering): void {
