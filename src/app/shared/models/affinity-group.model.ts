@@ -3,6 +3,9 @@ import { FieldMapper } from '../decorators';
 
 
 export type AffinityGroupType = string;
+export const AffinityGroupTypes = {
+  hostAntiAffinity: 'host anti-affinity' as AffinityGroupType
+};
 
 @FieldMapper({
   virtualmachineIds: 'virtualMachineIds'

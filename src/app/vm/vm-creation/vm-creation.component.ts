@@ -11,7 +11,7 @@ import { VmCreationState } from './data/vm-creation-state';
 import { VmCreationFormNormalizationService } from './form-normalization/form-normalization.service';
 import { KeyboardLayout } from './keyboards/keyboards.component';
 import { VmCreationService } from './vm-creation.service';
-import { VmDeploymentService, VmDeploymentStages } from './vm-deployment.service';
+import { VmDeploymentMessage, VmDeploymentService, VmDeploymentStages } from './vm-deployment.service';
 import throttle = require('lodash/throttle');
 
 
@@ -19,6 +19,19 @@ export interface VmCreationFormState {
   data: VmCreationData,
   state: VmCreationState
 }
+
+export type VmCreationStage =
+  'agCreationInProgress' |
+  'editing' |
+  'sgCreationInProgress' |
+  'vmDeploymentInProgress';
+
+export const VmCreationStages = {
+  agCreationInProgress: 'agCreationInProgress' as VmCreationStage,
+  editing: 'editing' as VmCreationStage,
+  sgCreationInProgress: 'sgCreationInProgress' as VmCreationStage,
+  vmDeploymentInProgress: 'vmDeployInProgress' as VmCreationStage
+};
 
 @Component({
   selector: 'cs-vm-create',
@@ -42,8 +55,7 @@ export class VmCreationComponent implements OnInit {
   };
 
   public takenName: string;
-  public sgCreationInProgress = false;
-  public agCreationInProgress = false;
+  public creationStage = VmCreationStages.editing;
 
   constructor(
     private dialog: MdlDialogReference,
@@ -64,17 +76,27 @@ export class VmCreationComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.fetching = true;
-    this.enoughResources = true;
-    this.vmCreationService.getData().subscribe(vmCreationData => {
-      this.data = vmCreationData;
-      this.updateFormState();
-      this.fetching = false;
-    });
+    this.loadData();
   }
 
   public get showResizeSlider(): boolean {
     return this.formState.state.template.isTemplate || this.formState.state.showRootDiskResize;
+  }
+
+  public get showOverlay(): boolean {
+    return this.creationStage !== VmCreationStages.editing;
+  }
+
+  public get showAffinityGroupOverlay(): boolean {
+    return this.creationStage === VmCreationStages.agCreationInProgress;
+  }
+
+  public get showSecurityGroupOverlay(): boolean {
+    return this.creationStage === VmCreationStages.sgCreationInProgress;
+  }
+
+  public get showDeploymentOverlay(): boolean {
+    return this.creationStage === VmCreationStages.vmDeploymentInProgress;
   }
 
   public displayNameChange(value: string): void {
@@ -171,36 +193,12 @@ export class VmCreationComponent implements OnInit {
 
   public deploy(): void {
     const notificationId = this.jobsNotificationService.add('VM_DEPLOY_IN_PROGRESS');
-    this.vmDeploymentService.deploy(this.formState.state)
-      .subscribe(deploymentMessage => {
-        switch (deploymentMessage.stage) {
-          case VmDeploymentStages.AG_GROUP_CREATION:
-            this.agCreationInProgress = true;
-            break;
-          case VmDeploymentStages.AG_GROUP_CREATION_FINISHED:
-            this.agCreationInProgress = false;
-            break;
-          case VmDeploymentStages.SG_GROUP_CREATION:
-            this.sgCreationInProgress = true;
-            break;
-          case VmDeploymentStages.SG_GROUP_CREATION_FINISHED:
-            this.sgCreationInProgress = false;
-            break;
-          case VmDeploymentStages.TEMP_VM:
-            this.dialog.hide();
-            break;
-          case VmDeploymentStages.FINISHED:
-            const name = deploymentMessage.vm.name;
-            const password = deploymentMessage.vm.password;
+    const { deployStatusObservable, deployObservable } = this.vmDeploymentService.deploy(this.formState.state);
 
-            this.showPassword(name, password);
-            this.notifyOnDeployDone(notificationId);
-            break;
-          case VmDeploymentStages.ERROR:
-            this.notifyOnDeployFailed(notificationId);
-            break;
-        }
-      });
+    deployStatusObservable.subscribe(deploymentMessage => {
+      this.handleDeploymentMessages(deploymentMessage, notificationId);
+    });
+    deployObservable.subscribe();
   }
 
   public notifyOnDeployDone(notificationId: string): void {
@@ -225,6 +223,51 @@ export class VmCreationComponent implements OnInit {
       },
       width: '400px',
       clickOutsideToClose: false
+    });
+  }
+
+  private handleDeploymentMessages(deploymentMessage: VmDeploymentMessage, notificationId: string): void {
+    switch (deploymentMessage.stage) {
+      case VmDeploymentStages.STARTED:
+        this.creationStage = VmCreationStages.vmDeploymentInProgress;
+        break;
+      case VmDeploymentStages.AG_GROUP_CREATION:
+        this.creationStage = VmCreationStages.agCreationInProgress;
+        break;
+      case VmDeploymentStages.AG_GROUP_CREATION_FINISHED:
+        this.creationStage = VmCreationStages.vmDeploymentInProgress;
+        break;
+      case VmDeploymentStages.SG_GROUP_CREATION:
+        this.creationStage = VmCreationStages.sgCreationInProgress;
+        break;
+      case VmDeploymentStages.SG_GROUP_CREATION_FINISHED:
+        this.creationStage = VmCreationStages.vmDeploymentInProgress;
+        break;
+      case VmDeploymentStages.IN_PROGRESS:
+        this.creationStage = VmCreationStages.vmDeploymentInProgress;
+        break;
+      case VmDeploymentStages.TEMP_VM:
+        this.dialog.hide(deploymentMessage.vm);
+        break;
+      case VmDeploymentStages.FINISHED:
+        const name = deploymentMessage.vm.name;
+        const password = deploymentMessage.vm.password;
+        this.showPassword(name, password);
+        this.notifyOnDeployDone(notificationId);
+        break;
+      case VmDeploymentStages.ERROR:
+        this.notifyOnDeployFailed(notificationId);
+        break;
+    }
+  }
+
+  private loadData(): void {
+    this.fetching = true;
+    this.enoughResources = true;
+    this.vmCreationService.getData().subscribe(vmCreationData => {
+      this.data = vmCreationData;
+      this.updateFormState();
+      this.fetching = false;
     });
   }
 }

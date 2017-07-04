@@ -16,6 +16,9 @@ export class ServiceOfferingService extends OfferingService<ServiceOffering> {
     offeringAvailability: OfferingAvailability,
     zone: Zone
   ): boolean {
+    if (!offeringAvailability[zone.id]) {
+      return true;
+    }
     return offeringAvailability[zone.id].serviceOfferings.includes(offering.id);
   }
 }

@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { VmService } from '../shared/vm.service';
 import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { AffinityGroupService, InstanceGroupService } from '../../shared/services';
-import { AffinityGroup } from '../../shared/models';
+import { AffinityGroup, AffinityGroupTypes } from '../../shared/models';
 import { SecurityGroup } from '../../security-group/sg.model';
 import { GROUP_POSTFIX, SecurityGroupService } from '../../shared/services/security-group.service';
 import { Utils } from '../../shared/services/utils.service';
@@ -41,6 +41,11 @@ export interface VmDeploymentMessage {
   [key: string]: any;
 }
 
+export interface VmDeployObservables {
+  deployStatusObservable: Observable<VmDeploymentMessage>;
+  deployObservable: Observable<any>;
+}
+
 @Injectable()
 export class VmDeploymentService {
   constructor(
@@ -50,60 +55,87 @@ export class VmDeploymentService {
     private vmService: VmService
   ) {}
 
-  public deploy(state: VmCreationState): Observable<VmDeploymentMessage> {
-    const deployObservable = new Subject<VmDeploymentMessage>();
+  public deploy(state: VmCreationState): VmDeployObservables {
+    const deployStatusObservable = new Subject<VmDeploymentMessage>();
+
+    return {
+      deployStatusObservable,
+      deployObservable: this.deployObservable(deployStatusObservable, state)
+    }
+  }
+
+  private deployObservable(deployObservable, state): Observable<any> {
     let deployedVm;
     let tempVm;
-
-    deployObservable.next({ stage: VmDeploymentStages.STARTED });
-    Observable.of(null)
-      .concat(...this.getPreDeployActions(deployObservable, state))
-      .switchMap(_ => this.sendDeployRequest(deployObservable, state))
+    return Observable.of(null)
+      .do(() => {
+        deployObservable.next({
+          stage: VmDeploymentStages.STARTED
+        });
+      })
+      .switchMap(() => this.getPreDeployActions(deployObservable, state))
+      .switchMap(() => this.sendDeployRequest(deployObservable, state))
       .switchMap(({ deployResponse, temporaryVm }) => {
         tempVm = temporaryVm;
         return this.vmService.registerVmJob(deployResponse);
       })
       .switchMap(vm => {
         deployedVm = vm;
-        deployObservable.next({ stage: VmDeploymentStages.VM_DEPLOYED });
-        return Observable.of(null).concat(...this.getPostDeployActions(vm, state));
+        deployObservable.next({
+          stage: VmDeploymentStages.VM_DEPLOYED
+        });
+        return this.getPostDeployActions(vm, state);
       })
-      .subscribe(
-        () => this.handleSuccessfulDeployment(deployedVm, deployObservable),
-        error => this.handleFailedDeployment(error, tempVm, deployObservable)
-      );
-
-    return deployObservable;
+      .map(() => this.handleSuccessfulDeployment(deployedVm, deployObservable))
+      .catch(error => {
+        this.handleFailedDeployment(error, tempVm, deployObservable);
+        return Observable.of(null);
+      })
   }
 
   private getPreDeployActions(
     deployObservable: Subject<VmDeploymentMessage>,
     state: VmCreationState
-  ): Array<Observable<any>> {
-    const actions = [];
-    actions.push(this.getAffinityGroupCreationObservable(deployObservable, state));
-    if (!state.zone.networkTypeIsBasic) {
-      actions.push(this.getSecurityGroupCreationObservable(deployObservable, state));
-    }
-    return actions;
+  ): Observable<any> {
+    return Observable.of(null)
+      .switchMap(() => {
+        return this.getAffinityGroupCreationObservable(deployObservable, state)
+      })
+      .switchMap(() => {
+        if (state.zone.networkTypeIsBasic) { return Observable.of(null); }
+        return this.getSecurityGroupCreationObservable(deployObservable, state)
+      });
   }
 
-  private getPostDeployActions(vm: VirtualMachine, state: VmCreationState): any {
-    return [this.instanceGroupService.add(vm, state.instanceGroup)];
+  private getPostDeployActions(vm: VirtualMachine, state: VmCreationState): Observable<any> {
+    return this.instanceGroupService.add(vm, state.instanceGroup);
   }
 
   private getAffinityGroupCreationObservable(
     deployObservable: Subject<VmDeploymentMessage>,
     state: VmCreationState
   ): Observable<AffinityGroup> {
-    const affinityGroupExists = state.affinityGroupExists;
-    if (!state.affinityGroup || affinityGroupExists) { return Observable.of(null); }
-    deployObservable.next({ stage: VmDeploymentStages.AG_GROUP_CREATION });
-    return this.affinityGroupService.create({
-      name: state.affinityGroup.name,
-      type: state.affinityGroup.type
-    })
-      .do(_ => deployObservable.next({ stage: VmDeploymentStages.AG_GROUP_CREATION_FINISHED }));
+    if (!state.affinityGroup.name || state.affinityGroupExists) {
+      return Observable.of(null);
+    }
+
+    return Observable.of(null)
+      .do(() => {
+        deployObservable.next({
+          stage: VmDeploymentStages.AG_GROUP_CREATION
+        });
+      })
+      .switchMap(() => {
+        return this.affinityGroupService.create({
+          name: state.affinityGroup.name,
+          type: AffinityGroupTypes.hostAntiAffinity
+        });
+      })
+      .do(() => {
+        deployObservable.next({
+          stage: VmDeploymentStages.AG_GROUP_CREATION_FINISHED
+        });
+      });
   }
 
   private getSecurityGroupCreationObservable(
@@ -111,13 +143,24 @@ export class VmDeploymentService {
     state: VmCreationState
   ): Observable<SecurityGroup> {
     const name = Utils.getUniqueId() + GROUP_POSTFIX;
-    deployObservable.next({ stage: VmDeploymentStages.SG_GROUP_CREATION });
-    return this.securityGroupObservable.createWithRules(
-      { name },
-      state.securityRules.ingress,
-      state.securityRules.egress
-    )
-      .do(_ => deployObservable.next({ stage: VmDeploymentStages.SG_GROUP_CREATION_FINISHED }));
+    return Observable.of(null)
+      .do(() => {
+        deployObservable.next({
+          stage: VmDeploymentStages.SG_GROUP_CREATION
+        });
+      })
+      .switchMap(() => {
+        return this.securityGroupObservable.createWithRules(
+          { name },
+          state.securityRules.ingress,
+          state.securityRules.egress
+        );
+      })
+      .do(() => {
+        deployObservable.next({
+          stage: VmDeploymentStages.SG_GROUP_CREATION_FINISHED
+        })
+      })
   }
 
   private sendDeployRequest(
@@ -128,7 +171,11 @@ export class VmDeploymentService {
     let deployResponse;
     let temporaryVm;
     return this.vmService.deploy(params)
-      .do(_ => deployObservable.next({ stage: VmDeploymentStages.IN_PROGRESS }))
+      .do(() => {
+        return deployObservable.next({
+          stage: VmDeploymentStages.IN_PROGRESS
+        })
+      })
       .switchMap(response => {
         deployResponse = response;
         return this.vmService.get(deployResponse.id);

@@ -1,10 +1,9 @@
-<div class="overlay" *ngIf="sgCreationInProgress">
+<div class="overlay" *ngIf="showOverlay">
   <div class="message">
-    <p *ngIf="sgCreationInProgress">{{ 'CREATING_SG' | translate }}</p>
-    <p *ngIf="agCreationInProgress">{{ 'CREATING_AG' | translate }}</p>
-    <mdl-progress
-      [indeterminate]="sgCreationInProgress || agCreationInProgress"
-    ></mdl-progress>
+    <p *ngIf="showSecurityGroupOverlay">{{ 'CREATING_SG' | translate }}</p>
+    <p *ngIf="showAffinityGroupOverlay">{{ 'CREATING_AG' | translate }}</p>
+    <p *ngIf="showDeploymentOverlay">{{ 'DEPLOYING_VM' | translate }}</p>
+    <mdl-progress [indeterminate]="true"></mdl-progress>
   </div>
 </div>
 <div class="vm-creation-container">

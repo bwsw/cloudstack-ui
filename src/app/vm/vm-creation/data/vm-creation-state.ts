@@ -17,7 +17,7 @@ interface VmCreationParams {
   keyboard?: string;
   keyPair?: string;
   name?: string;
-  serviceOfferingIds?: string;
+  serviceOfferingId?: string;
   response?: 'json';
   rootDiskSize?: number;
   size?: number;
@@ -48,7 +48,7 @@ export class VmCreationState {
     this.getStateFromData(data);
   }
 
-  public affinityGroupExists(): boolean {
+  public get affinityGroupExists(): boolean {
     return this.affinityGroupNames.includes(this.affinityGroup.name);
   }
 
@@ -103,9 +103,9 @@ export class VmCreationState {
     params.affinityGroupNames = this.affinityGroup && this.affinityGroup.name;
     params.doStartVm = this.doStartVm ? undefined : 'false';
     params.keyboard = this.keyboard;
-    params.keyPair = this.sshKeyPair.name; // todo: check
+    params.keyPair = this.sshKeyPair && this.sshKeyPair.name; // todo: check
     params.name = this.displayName || this.defaultName;
-    params.serviceOfferingIds = this.serviceOffering && this.serviceOffering.id;
+    params.serviceOfferingId = this.serviceOffering && this.serviceOffering.id;
     params.templateId = this.template && this.template.id;
     params.zoneId = this.zone && this.zone.id;
     params.response = 'json';
@@ -129,14 +129,6 @@ export class VmCreationState {
       } else {
         params.size = this.rootDiskSize;
       }
-    }
-
-    if (this.securityRules && this.securityRules.ingress) {
-      params.ingress = this.securityRules.ingress;
-    }
-
-    if (this.securityRules && this.securityRules.egress) {
-      params.egress = this.securityRules.egress;
     }
 
     return params;
