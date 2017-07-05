@@ -55,7 +55,7 @@ export class EventListComponent implements OnInit {
     this.translate.get(['DESCRIPTION', 'LEVEL', 'TYPE', 'TIME'])
       .subscribe(translations => this.initTableModel(translations));
     this.initFilters();
-    this.getEvents();
+    this.getEvents({ reload: true });
 
     this.languageService.getFirstDayOfWeek()
       .subscribe(day => this.firstDayOfWeek = day);
