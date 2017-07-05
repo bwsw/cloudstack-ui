@@ -1,5 +1,6 @@
 import { MdlSelectComponent } from '@angular-mdl/select';
 import {
+  ChangeDetectorRef,
   Component, EventEmitter, forwardRef, Input, OnChanges, OnInit, Output, SimpleChanges,
   ViewChild
 } from '@angular/core';
@@ -34,6 +35,7 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges, Cont
   private previousOffering: ServiceOffering;
 
   constructor(
+    private cd: ChangeDetectorRef,
     private dialogService: DialogService,
     private translateService: TranslateService
   ) {
@@ -121,6 +123,7 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges, Cont
         return offering;
       }
     });
+    this.cd.detectChanges();
   }
 
   private showCustomOfferingDialog(): Observable<CustomServiceOffering> {

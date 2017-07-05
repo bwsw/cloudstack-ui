@@ -188,7 +188,7 @@ export class VmCreationComponent implements OnInit {
   }
 
   public onCancel(): void {
-    this.dialog.hide(Observable.of());
+    this.dialog.hide();
   }
 
   public deploy(): void {
@@ -208,7 +208,11 @@ export class VmCreationComponent implements OnInit {
     });
   }
 
-  public notifyOnDeployFailed(notificationId: string): void {
+  public notifyOnDeployFailed(error: any, notificationId: string): void {
+    this.dialogService.alert({
+      translationToken: error.message,
+      interpolateParams: error.params
+    });
     this.jobsNotificationService.fail({
       id: notificationId,
       message: 'DEPLOY_FAILED'
@@ -256,7 +260,8 @@ export class VmCreationComponent implements OnInit {
         this.notifyOnDeployDone(notificationId);
         break;
       case VmDeploymentStages.ERROR:
-        this.notifyOnDeployFailed(notificationId);
+        this.dialog.hide();
+        this.notifyOnDeployFailed(deploymentMessage.error, notificationId);
         break;
     }
   }

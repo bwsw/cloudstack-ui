@@ -13,12 +13,12 @@ import { Zone } from '../models/zone.model';
 export class ServiceOfferingService extends OfferingService<ServiceOffering> {
   protected isOfferingAvailableInZone(
     offering: ServiceOffering,
-    offeringAvailability: OfferingAvailability,
+    availability: OfferingAvailability,
     zone: Zone
   ): boolean {
-    if (!offeringAvailability[zone.id]) {
+    if (!availability[zone.id] || !availability[zone.id].filterOfferings) {
       return true;
     }
-    return offeringAvailability[zone.id].serviceOfferings.includes(offering.id);
+    return availability[zone.id].serviceOfferings.includes(offering.id);
   }
 }

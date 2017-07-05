@@ -1,3 +1,0 @@
-const serviceOfferingInput = {};
-
-const serviceOfferingExpectedResult = {};
