@@ -14,6 +14,5 @@ describe('Virtual machine creation form normalization service', () => {
     formNormalization = TestBed.get(VmCreationFormNormalizationService);
   }));
 
-  it('should filter service offerings', () => {
-  });
+  it('test1', () => {});
 });
