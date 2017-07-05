@@ -2,7 +2,9 @@ import {
   Component,
   forwardRef,
   Input,
-  AfterViewInit
+  AfterViewInit,
+  SimpleChanges,
+  OnChanges
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
@@ -32,7 +34,7 @@ interface DatePickerConfig {
     }
   ]
 })
-export class DatePickerComponent implements ControlValueAccessor, AfterViewInit {
+export class DatePickerComponent implements ControlValueAccessor, AfterViewInit, OnChanges {
   @Input() public okLabel = 'Ok';
   @Input() public cancelLabel = 'Cancel';
   @Input() public firstDayOfWeek = 1;
@@ -48,6 +50,14 @@ export class DatePickerComponent implements ControlValueAccessor, AfterViewInit 
 
   public ngAfterViewInit(): void {
     this.date = new Date();
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    const DateTimeFormatChange = changes['DateTimeFormat'];
+    if (DateTimeFormatChange) {
+      // trigger setter to format the date
+      this.date = this._date;
+    }
   }
 
   public propagateChange: any = () => {};
