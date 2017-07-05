@@ -40,7 +40,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
 
     setTimeout(() => {
       this._queryJob(jobId, jobSubject, entity, entityModel);
-      let interval = setInterval(() => {
+      const interval = setInterval(() => {
         if (jobSubject.isStopped) {
           clearInterval(interval);
           return;

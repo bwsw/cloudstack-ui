@@ -33,9 +33,11 @@ export interface IVmActionEvent {
   templateId?: string;
 }
 
+export const VirtualMachineEntityName = 'VirtualMachine';
+
 @Injectable()
 @BackendResource({
-  entity: 'VirtualMachine',
+  entity: VirtualMachineEntityName,
   entityModel: VirtualMachine
 })
 export class VmService extends BaseBackendService<VirtualMachine> {

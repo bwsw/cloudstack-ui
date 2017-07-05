@@ -31,7 +31,8 @@ export class VmDetailComponent implements OnChanges, OnInit {
   public disableSecurityGroup = false;
   public expandNIC: boolean;
   public expandServiceOffering: boolean;
-
+  public affinityGroupLoading: boolean;
+  public sskKeyLoading: boolean;
   constructor(
     private dialogService: DialogService,
     private serviceOfferingService: ServiceOfferingService,
@@ -87,7 +88,10 @@ export class VmDetailComponent implements OnChanges, OnInit {
   }
 
   public changeAffinityGroup(): void {
-    this.askToStopVM('STOP_MACHINE_FOR_AG').subscribe(() => this.showAffinityGroupDialog());
+    this.affinityGroupLoading = true;
+    this.askToStopVM('STOP_MACHINE_FOR_AG')
+      .finally(() => this.affinityGroupLoading = false)
+      .subscribe(() => this.showAffinityGroupDialog());
   }
 
   public isNotFormattedField(key: string): boolean {
@@ -148,7 +152,10 @@ export class VmDetailComponent implements OnChanges, OnInit {
   }
 
   public resetSshKey(): void {
-    this.askToStopVM('STOP_MACHINE_FOR_SSH').subscribe(() => this.showSshKeypairResetDialog());
+    this.sskKeyLoading = true;
+    this.askToStopVM('STOP_MACHINE_FOR_SSH')
+      .finally(() => this.sskKeyLoading = false)
+      .subscribe(() => this.showSshKeypairResetDialog());
   }
 
   private update(): void {
