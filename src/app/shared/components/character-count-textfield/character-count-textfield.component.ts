@@ -30,11 +30,11 @@ import { toBoolean } from '@angular-mdl/core/components/common/boolean-property'
       position: relative;
       display: block;
     }
-    
+
     :host /deep/ mdl-textfield {
       width: 100%;
     }
-    
+
     .character-count {
       position: absolute;
       bottom: 0;

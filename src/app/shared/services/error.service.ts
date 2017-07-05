@@ -8,24 +8,6 @@ interface ErrorTranslation {
 
 @Injectable()
 export class ErrorService extends Subject<any> {
-  public static parseError(error: any): any {
-    const err = ErrorService.ErrorMap.find(_ => _.regex.test(error.errortext));
-    if (!err) {
-      error.message = error.errortext;
-    } else {
-      error.message = err.translation;
-
-      const matches = err.regex.exec(error.errortext);
-      matches.shift();
-      error.params = matches.reduce((map, val, index) => {
-        map[`val${index + 1}`] = val;
-        return map;
-      }, {});
-    }
-
-    return error;
-  }
-
   private static ErrorMap: Array<ErrorTranslation> = [
     {
       regex: /Going from existing size of.*/,
@@ -68,6 +50,24 @@ export class ErrorService extends Subject<any> {
       translation: 'VOLUME_NAME_TOO_LONG'
     }
   ];
+
+  public static parseError(error: any): any {
+    const err = ErrorService.ErrorMap.find(_ => _.regex.test(error.errortext));
+    if (!err) {
+      error.message = error.errortext;
+    } else {
+      error.message = err.translation;
+
+      const matches = err.regex.exec(error.errortext);
+      matches.shift();
+      error.params = matches.reduce((map, val, index) => {
+        map[`val${index + 1}`] = val;
+        return map;
+      }, {});
+    }
+
+    return error;
+  }
 
   // Get Cloudstack error code from response
   public parseCsError(response: any): number {

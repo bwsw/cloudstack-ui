@@ -12,8 +12,6 @@ import { BaseTemplateModel, Iso, Template } from '../../../template/shared';
 import { VmCreationState } from './vm-creation-state';
 import { ResourceStats } from '../../../shared/services/resource-usage.service';
 import { VmCreationConfigurationData } from '../vm-creation.service';
-import { GroupedTemplates } from '../../../template/shared/base-template.service';
-import * as moment from 'moment';
 
 
 export class VmCreationData {
