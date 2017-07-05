@@ -38,7 +38,7 @@ export class ServiceOfferingFilterService {
           resourceUsage
         ]
       ) => {
-        return this.getAvailableByResourcesSync(
+        return this.serviceOfferingService.getAvailableByResourcesSync(
           serviceOfferings,
           offeringAvailability,
           offeringRestrictions,
@@ -50,37 +50,6 @@ export class ServiceOfferingFilterService {
             if (a.isCustomized && !b.isCustomized) { return 1; }
             return 0;
           });
-      });
-  }
-
-  public getAvailableByResourcesSync(
-    serviceOfferings: Array<ServiceOffering>,
-    offeringAvailability: OfferingAvailability,
-    offeringRestrictions: CustomOfferingRestrictions,
-    resourceUsage: ResourceStats,
-    zone: Zone
-  ): Array<ServiceOffering> {
-    const availableInZone = this.serviceOfferingService
-      .getOfferingsAvailableInZone(
-        serviceOfferings,
-        offeringAvailability,
-        zone
-      );
-
-    return availableInZone
-      .filter(offering => {
-        let enoughCpus;
-        let enoughMemory;
-
-        if (offering.isCustomized) {
-          enoughCpus = offeringRestrictions[zone.id].cpuNumber.min < resourceUsage.available.cpus;
-          enoughMemory = offeringRestrictions[zone.id].memory.min < resourceUsage.available.memory;
-        } else {
-          enoughCpus = resourceUsage.available.cpus >= offering.cpuNumber;
-          enoughMemory = resourceUsage.available.memory >= offering.memory;
-        }
-
-        return enoughCpus && enoughMemory;
       });
   }
 }

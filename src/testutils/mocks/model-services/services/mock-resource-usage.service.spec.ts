@@ -4,7 +4,7 @@ import { ResourceStats } from '../../../../app/shared/services';
 
 
 @Injectable()
-export class ResourceUsageService {
+export class MockResourceUsageService {
   constructor(@Inject('mockResourceUsageServiceConfig') public config: { value: any }) {}
 
   public getResourceUsage(): Observable<ResourceStats> {

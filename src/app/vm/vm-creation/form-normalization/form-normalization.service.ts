@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ServiceOfferingFilterService, Utils } from '../../../shared/services';
+import { ServiceOfferingService, Utils } from '../../../shared/services';
 import { VmCreationData } from '../data/vm-creation-data';
 import { VmCreationState } from '../data/vm-creation-state';
 import { VmCreationFormState } from '../vm-creation.component';
@@ -8,7 +8,7 @@ import cloneDeep = require('lodash/cloneDeep');
 
 @Injectable()
 export class VmCreationFormNormalizationService {
-  constructor(private serviceOfferingFilterService: ServiceOfferingFilterService) {}
+  constructor(private serviceOfferingService: ServiceOfferingService) {}
 
   public normalize(formState: VmCreationFormState): VmCreationFormState {
     return this.filterZones(this.clone(formState));
@@ -35,7 +35,7 @@ export class VmCreationFormNormalizationService {
   }
 
   private filterServiceOfferings(formState: VmCreationFormState): VmCreationFormState {
-    formState.data.serviceOfferings = this.serviceOfferingFilterService
+    formState.data.serviceOfferings = this.serviceOfferingService
       .getAvailableByResourcesSync(
         formState.data.serviceOfferings,
         formState.data.configurationData.offeringAvailability,
