@@ -1,0 +1,16 @@
+[
+  {
+    "name":"ssh1",
+    "account":"develop",
+    "domainid":"eee2a0bc-a272-11e6-88da-6557869a736f",
+    "domain":"ROOT",
+    "fingerprint":"54:ef:79:b6:5c:bd:60:69:03:24:2c:dd:7c:ec:ac:20"
+  },
+  {
+    "name":"ssh2",
+    "account":"develop",
+    "domainid":"eee2a0bc-a272-11e6-88da-6557869a736f",
+    "domain":"ROOT",
+    "fingerprint":"41:34:fc:88:40:f2:03:a1:34:d4:59:dc:66:ad:87:71"
+  }
+]
