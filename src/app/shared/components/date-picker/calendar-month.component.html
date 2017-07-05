@@ -3,6 +3,7 @@
     <div
       class="day"
       [class.none]="!day"
+      [class.today]="isToday(day)"
       *ngFor="let day of week"
       (click)="setSelectedDate($event, day)"
     >

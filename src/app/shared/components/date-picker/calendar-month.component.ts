@@ -39,6 +39,10 @@ export class CalendarMonthComponent {
     return isEqualDate(this.selectedDate, date);
   }
 
+  public isToday(date): boolean {
+    return isEqualDate(date, new Date());
+  }
+
   public setSelectedDate(_e: Event, day: Date): void {
     if (!day) {
       return;
