@@ -55,6 +55,7 @@ export class EventListComponent implements OnInit {
     this.translate.get(['DESCRIPTION', 'LEVEL', 'TYPE', 'TIME'])
       .subscribe(translations => this.initTableModel(translations));
     this.initFilters();
+    this.getEvents();
 
     this.languageService.getFirstDayOfWeek()
       .subscribe(day => this.firstDayOfWeek = day);
@@ -148,7 +149,6 @@ export class EventListComponent implements OnInit {
     this.selectedLevels = params['levels'];
     this.selectedTypes = params['types'];
     this.query = params['query'];
-    this.getEvents();
   }
 
   private setDateTimeFormat(): void {
