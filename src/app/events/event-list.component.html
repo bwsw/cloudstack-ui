@@ -8,7 +8,7 @@
         [DateTimeFormat]="dateTimeFormat"
         [cancelLabel]="'CANCEL' | translate"
         [(ngModel)]="date"
-        (ngModelChange)="getEvents({ reload: true })"
+        (change)="getEvents({ reload: true })"
       ></cs-date-picker>
 
       <mdl-select
