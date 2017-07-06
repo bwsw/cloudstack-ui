@@ -111,18 +111,17 @@ export class VmCreationService {
     ];
 
     return this.templateService.getGroupedTemplates({}, filters)
-      .map(templates => templates.toArray().filter(template => template.isReady));
+      .map(templates => templates.toArray());
   }
 
   private getIsos(): Observable<Array<Iso>> {
-    const params = { bootable: true };
     const filters = [
       TemplateFilters.featured,
       TemplateFilters.selfExecutable
     ];
 
-    return this.isoService.getGroupedTemplates(params, filters)
-      .map(isos => isos.toArray().filter(iso => iso.isReady));
+    return this.isoService.getGroupedTemplates({}, filters)
+      .map(isos => isos.toArray());
   }
 
   private getDefaultVmName(): Observable<string> {

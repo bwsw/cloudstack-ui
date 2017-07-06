@@ -12,6 +12,8 @@ import { KeyboardLayout } from './keyboards/keyboards.component';
 import { VmCreationService } from './vm-creation.service';
 import { VmDeploymentMessage, VmDeploymentService, VmDeploymentStages } from './vm-deployment.service';
 import throttle = require('lodash/throttle');
+import { VirtualMachine } from '../shared/vm.model';
+import { ResourceUsageService } from '../../shared/services';
 
 
 export interface VmCreationFormState {
@@ -61,6 +63,7 @@ export class VmCreationComponent implements OnInit {
     private dialogService: DialogService,
     private formNormalizationService: VmCreationFormNormalizationService,
     private jobsNotificationService: JobsNotificationService,
+    private resourceUsageService: ResourceUsageService,
     private vmCreationService: VmCreationService,
     private vmDeploymentService: VmDeploymentService
   ) {
@@ -75,7 +78,26 @@ export class VmCreationComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.loadData();
+    this.fetching = true;
+    this.enoughResources = true;
+    this.resourceUsageService.getResourceUsage()
+      .subscribe(resourceUsage => {
+        Object.keys(resourceUsage.available)
+          .filter(key => key !== 'snapshots' && key !== 'secondaryStorage')
+          .forEach(key => {
+            const available = resourceUsage.available[key];
+            if (available === 0) {
+              this.insufficientResources.push(key);
+            }
+          });
+
+        if (this.insufficientResources.length) {
+          this.enoughResources = false;
+          this.fetching = false;
+        } else {
+          this.loadData();
+        }
+      });
   }
 
   public get showResizeSlider(): boolean {
@@ -218,11 +240,18 @@ export class VmCreationComponent implements OnInit {
     });
   }
 
-  public showPassword(vmName: string, vmPassword: string): void {
+  public showPassword(vm: VirtualMachine): void {
+    if (!vm.passwordEnabled) {
+      return;
+    }
+
     this.dialogService.customAlert({
       message: {
         translationToken: 'PASSWORD_DIALOG_MESSAGE',
-        interpolateParams: { vmName, vmPassword }
+        interpolateParams: {
+          vmName: vm.name,
+          vmPassword: vm.password
+        }
       },
       width: '400px',
       clickOutsideToClose: false
@@ -253,9 +282,7 @@ export class VmCreationComponent implements OnInit {
         this.dialog.hide(deploymentMessage.vm);
         break;
       case VmDeploymentStages.FINISHED:
-        const name = deploymentMessage.vm.name;
-        const password = deploymentMessage.vm.password;
-        this.showPassword(name, password);
+        this.showPassword(deploymentMessage.vm);
         this.notifyOnDeployDone(notificationId);
         break;
       case VmDeploymentStages.ERROR:

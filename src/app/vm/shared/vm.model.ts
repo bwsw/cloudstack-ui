@@ -76,7 +76,8 @@ export const VmActions = {
   diskioread: 'diskIoRead',
   diskiowrite: 'diskIoWrite',
   keypair: 'keyPair',
-  isoid: 'isoId'
+  isoid: 'isoId',
+  passwordenabled: 'passwordEnabled'
 })
 export class VirtualMachine extends BaseModel {
   public static actions = Object
@@ -128,6 +129,7 @@ export class VirtualMachine extends BaseModel {
   public created: string;
   public keyPair: string;
   public password: string;
+  public passwordEnabled: boolean;
   public tags: Array<Tag>;
   public instanceGroup: InstanceGroup;
 

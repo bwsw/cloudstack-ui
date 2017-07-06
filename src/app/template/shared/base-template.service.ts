@@ -178,7 +178,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     const templateObservables = [];
     for (const filter of localFilters) {
       const requestParams = Object.assign({}, _params, { filter });
-      templateObservables.push(this.getList(requestParams as RequestParams));
+      templateObservables.push(this.getList(requestParams, false));
     }
 
     return Observable.forkJoin(templateObservables)

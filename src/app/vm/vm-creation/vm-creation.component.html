@@ -82,7 +82,7 @@
           ></cs-vm-creation-template>
         </div>
 
-        <div>
+        <div *ngIf="formState.state.diskOfferingsAreAllowed">
           <h5>
             {{ 'DISK_OFFERING' | translate }}
           </h5>

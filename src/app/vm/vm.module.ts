@@ -30,9 +30,7 @@ import { InstanceGroupComponent } from './vm-sidebar/instance-group/instance-gro
 import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.component';
 import { IsoComponent } from './vm-sidebar/storage-detail/iso.component';
 // tslint:disable-next-line
-// tslint:disable-next-line
 import { SpareDriveAttachmentDetailComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attachment-detail/spare-drive-attachment-detail.component';
-// tslint:disable-next-line
 // tslint:disable-next-line
 import { SpareDriveAttachmentDialogComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
 import { StorageDetailComponent } from './vm-sidebar/storage-detail/storage-detail.component';
@@ -62,8 +60,8 @@ import { vmRouting } from './vm.routing';
     TemplateModule,
     TranslateModule,
     TranslateModule,
+    vmRouting,
     RouterModule.forRoot(routes),
-    vmRouting
   ],
   declarations: [
     AffinityGroupDialogComponent,

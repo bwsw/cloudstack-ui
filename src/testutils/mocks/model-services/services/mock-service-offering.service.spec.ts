@@ -1,9 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ServiceOffering, Zone } from '../../../../app/shared/models';
-import { OfferingAvailability } from '../../../../app/shared/services/offering.service';
-import { CustomOfferingRestrictions } from '../../../../app/service-offering/custom-service-offering/custom-offering-restrictions';
-import { ResourceStats } from '../../../../app/shared/services';
+import { ServiceOffering } from '../../../../app/shared/models';
 
 
 const _serviceOfferings: Array<Object> = require('../fixtures/serviceOfferings.json');

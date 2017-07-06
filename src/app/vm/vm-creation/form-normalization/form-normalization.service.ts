@@ -58,11 +58,15 @@ export class VmCreationFormNormalizationService {
 
   private filterTemplates(formState: VmCreationFormState): VmCreationFormState {
     const filteredTemplates = formState.data.templates.filter(template => {
-      return template.sizeInGB < formState.data.rootDiskSizeLimit;
+      const templateFits = template.sizeInGB < formState.data.rootDiskSizeLimit;
+      const templateInZone = template.zoneId === formState.state.zone.id;
+      return template.isReady && templateFits && templateInZone;
     });
 
     const filteredIsos = formState.data.isos.filter(iso => {
-      return iso.sizeInGB < formState.data.rootDiskSizeLimit;
+      const isoFits = iso.sizeInGB < formState.data.rootDiskSizeLimit;
+      const isoInZone = iso.zoneId === formState.state.zone.id;
+      return iso.isReady && isoFits && isoInZone && iso.bootable;
     });
 
     formState.data.templates = filteredTemplates;
@@ -86,8 +90,14 @@ export class VmCreationFormNormalizationService {
   private filterDiskOfferings(formState: VmCreationFormState): VmCreationFormState {
     if (formState.state.diskOfferingsAreAllowed) {
       formState.data.diskOfferings = formState.data.diskOfferings.filter(diskOffering => {
-        const selectedTemplateFits = diskOffering.diskSize > formState.state.template.sizeInGB;
-        const diskOfferingFits = diskOffering.diskSize < formState.data.rootDiskSizeLimit;
+        const diskOfferingFits =
+          diskOffering.diskSize < formState.data.rootDiskSizeLimit ||
+          diskOffering.isCustomized;
+
+        const selectedTemplateFits =
+          diskOffering.diskSize > formState.state.template.sizeInGB ||
+          diskOffering.isCustomized;
+
         return selectedTemplateFits && diskOfferingFits;
       });
     }
@@ -108,11 +118,14 @@ export class VmCreationFormNormalizationService {
   }
 
   private filterDiskSize(formState: VmCreationFormState): VmCreationFormState {
-    if (!formState.state.showRootDiskResize) { return formState; }
+    if (!formState.state.showRootDiskResize) {
+      return formState;
+    }
 
-    const newSize = formState.state.template.size ? Utils.convertToGB(formState.state.template.size) : 1;
-    formState.state.rootDiskSize = newSize;
-    formState.state.rootDiskSizeMin = newSize;
+    const size = Math.ceil(Utils.convertToGB(formState.state.template.size)) || 1;
+    // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
+    formState.state.rootDiskSize = size;
+    formState.state.rootDiskSizeMin = size;
 
     return formState;
   }

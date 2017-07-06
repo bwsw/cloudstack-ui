@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ServiceOffering } from '../models/service-offering.model';
+import {
+  CustomOfferingRestrictions
+} from '../../service-offering/custom-service-offering/custom-offering-restrictions';
 import { BackendResource } from '../decorators/backend-resource.decorator';
-import { OfferingService, OfferingAvailability } from './offering.service';
+import { ServiceOffering } from '../models/service-offering.model';
 import { Zone } from '../models/zone.model';
-import { CustomOfferingRestrictions } from "app/service-offering/custom-service-offering/custom-offering-restrictions";
 import { ResourceStats } from './';
+import { OfferingAvailability, OfferingService } from './offering.service';
 
 
 @Injectable()

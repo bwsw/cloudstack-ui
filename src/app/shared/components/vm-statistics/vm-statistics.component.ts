@@ -47,7 +47,7 @@ export class VmStatisticsComponent implements OnInit {
   }
 
   public getStatsString(consumed: number, max: number, units?: string): string {
-    if (max === -1) {
+    if (+max <= 0) {
       return `${consumed} ${units || ''}`;
     } else {
       return `${consumed}/${max} ${units || ''} (${this.getPercents(consumed, max)}%)`;
