@@ -110,7 +110,7 @@ export class VmCreationService {
       TemplateFilters.selfExecutable
     ];
 
-    return this.templateService.getGroupedTemplates({}, filters)
+    return this.templateService.getGroupedTemplates({}, filters, false)
       .map(templates => templates.toArray());
   }
 
@@ -120,7 +120,7 @@ export class VmCreationService {
       TemplateFilters.selfExecutable
     ];
 
-    return this.isoService.getGroupedTemplates({}, filters)
+    return this.isoService.getGroupedTemplates({}, filters, false)
       .map(isos => isos.toArray());
   }
 

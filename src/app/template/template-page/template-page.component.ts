@@ -85,8 +85,8 @@ export class TemplatePageComponent implements OnInit {
     ];
 
     Observable.forkJoin([
-      this.templateService.getGroupedTemplates<Template>({}, filters).map(_ => _.toArray()),
-      this.isoService.getGroupedTemplates<Iso>({}, filters).map(_ => _.toArray())
+      this.templateService.getGroupedTemplates<Template>({}, filters, true).map(_ => _.toArray()),
+      this.isoService.getGroupedTemplates<Iso>({}, filters, true).map(_ => _.toArray())
     ])
       .subscribe(([templates, isos]) => {
         this.templates = templates;

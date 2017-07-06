@@ -164,7 +164,8 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
 
   public getGroupedTemplates<T extends BaseTemplateModel>(
     params?: {},
-    filters?: Array<string>
+    filters?: Array<string>,
+    distinct = true
   ): Observable<GroupedTemplates<T>> {
     const _params = params || {};
     let localFilters = this._templateFilters;
@@ -178,7 +179,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     const templateObservables = [];
     for (const filter of localFilters) {
       const requestParams = Object.assign({}, _params, { filter });
-      templateObservables.push(this.getList(requestParams, false));
+      templateObservables.push(this.getList(requestParams, distinct));
     }
 
     return Observable.forkJoin(templateObservables)
