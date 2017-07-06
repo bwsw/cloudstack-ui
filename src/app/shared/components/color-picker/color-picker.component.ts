@@ -11,6 +11,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MdlPopoverComponent } from '@angular-mdl/popover';
 import { Color } from '../../models';
+import { toBoolean } from '@angular-mdl/core/components/common/boolean-property';
 
 
 @Component({
@@ -35,6 +36,15 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
   public colorWidth: number;
 
   private _selectedColor: Color;
+  private _disabled: boolean;
+
+  @Input() public get disabled(): boolean {
+    return this._disabled;
+  };
+
+  public set disabled(value) {
+    this._disabled = toBoolean(value);
+  }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if ('colors' in changes) {
@@ -50,6 +60,12 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
   public set selectedColor(val) {
     this._selectedColor = val;
     this.propagateChange(this._selectedColor);
+  }
+
+  public toggle(event: Event): void {
+    if (!this._disabled) {
+      this.popover.toggle(event);
+    }
   }
 
   public selectColor(color: Color): void {

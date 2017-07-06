@@ -1,4 +1,8 @@
-<div class="color-preview-container" (click)="popover.toggle($event)">
+<div
+  class="color-preview-container"
+  [class.disabled]="disabled"
+  (click)="toggle($event)"
+>
   <div
     class="color-preview"
     [style.background-color]="selectedColor?.value"
@@ -6,7 +10,8 @@
 </div>
 <mdl-textfield
   [value]="selectedColor?.value"
-  (click)="popover.toggle($event)"
+  [disabled]="disabled"
+  (click)="toggle($event)"
   readonly
 ></mdl-textfield>
 

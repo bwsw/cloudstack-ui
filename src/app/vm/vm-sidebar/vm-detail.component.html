@@ -6,6 +6,7 @@
       class="details-select"
       [colors]="colorList"
       [ngModel]="color"
+      [disabled]="colorUpdateInProgress"
       (change)="changeColor($event)"
     >
     </cs-color-picker>
