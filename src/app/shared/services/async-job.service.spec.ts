@@ -12,7 +12,8 @@ import {
 } from '@angular/http';
 import { ServiceLocator } from './service-locator';
 import {
-  AsyncJobService, CacheService,
+  AsyncJobService,
+  CacheService,
   ErrorService,
 } from './';
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
