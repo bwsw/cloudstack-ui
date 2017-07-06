@@ -558,6 +558,7 @@
   "API_DOC_LINK": "Documentation",
   "ASK_GENERATE_KEYS": "Are you sure you want to generate API keys?",
   "GENERATE": "Generate",
+  "REGENERATE_KEYS": "Regenerate API keys",
 
   "INSTANCE_GROUP_CHANGE": "Change instance group",
   "CREATE_NEW_GROUP": "Create a new group",

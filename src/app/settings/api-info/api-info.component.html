@@ -1,27 +1,18 @@
 <section>
   <div class="header-wrap">
     <h4>{{ 'API' | translate }}</h4>
-    <mdl-button mdl-button-type="icon" (click)="askToRegenerateKeys()">
+    <mdl-button
+      mdl-button-type="icon"
+      mdl-tooltip-position="top"
+      [mdl-tooltip]="'REGENERATE_KEYS' | translate"
+      (click)="askToRegenerateKeys()"
+    >
       <mdl-icon>sync</mdl-icon>
     </mdl-button>
   </div>
   <div class="section-container">
     <div class="settings-control">
       <div *loading="loading">
-        <div>
-          <h5 [translate]="linkFields.apiUrl.title"></h5>
-          <a class="mdl-color-text--primary-dark" target="_blank" [href]="linkFields.apiUrl.href">
-            {{ linkFields.apiUrl.href }}
-          </a>
-        </div>
-
-        <div *ngIf="linkFields.apiDocLink.href">
-          <h5 [translate]="linkFields.apiDocLink.title"></h5>
-          <a class="mdl-color-text--primary-dark" target="_blank" [href]="linkFields.apiDocLink.href">
-            {{ linkFields.apiDocLink.href }}
-          </a>
-        </div>
-
         <div *ngIf="inputFields.apiKey.value">
           <h5 [translate]="inputFields.apiKey.title"></h5>
           <cs-input-group>
@@ -85,6 +76,20 @@
             {{ 'COPY' | translate }}
           </mdl-tooltip>
         </div>
+        <div>
+          <h5 [translate]="linkFields.apiUrl.title"></h5>
+          <a class="mdl-color-text--primary-dark" target="_blank" [href]="linkFields.apiUrl.href">
+            {{ linkFields.apiUrl.href }}
+          </a>
+        </div>
+
+        <div *ngIf="linkFields.apiDocLink.href">
+          <h5 [translate]="linkFields.apiDocLink.title"></h5>
+          <a class="mdl-color-text--primary-dark" target="_blank" [href]="linkFields.apiDocLink.href">
+            {{ linkFields.apiDocLink.href }}
+          </a>
+        </div>
+
       </div>
     </div>
   </div>
