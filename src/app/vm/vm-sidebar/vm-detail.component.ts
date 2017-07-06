@@ -90,7 +90,8 @@ export class VmDetailComponent implements OnChanges, OnInit {
   public changeAffinityGroup(): void {
     this.affinityGroupLoading = true;
     this.askToStopVM('STOP_MACHINE_FOR_AG')
-      .finally(() => this.affinityGroupLoading = false)
+      .do(() => this.affinityGroupLoading = false)
+      .filter(_ => _)
       .subscribe(() => this.showAffinityGroupDialog());
   }
 
@@ -154,7 +155,8 @@ export class VmDetailComponent implements OnChanges, OnInit {
   public resetSshKey(): void {
     this.sskKeyLoading = true;
     this.askToStopVM('STOP_MACHINE_FOR_SSH')
-      .finally(() => this.sskKeyLoading = false)
+      .do(() => this.sskKeyLoading = false)
+      .filter(_ => _)
       .subscribe(() => this.showSshKeypairResetDialog());
   }
 
@@ -218,6 +220,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
               vm: vm
             });
           }
+          return Observable.of(false);
         });
     });
   }
