@@ -88,10 +88,13 @@ export class VmDetailComponent implements OnChanges, OnInit {
   }
 
   public changeAffinityGroup(): void {
-    this.affinityGroupLoading = true;
-    this.askToStopVM('STOP_MACHINE_FOR_AG')
+    this.askToStopVM(this.vm, 'STOP_MACHINE_FOR_AG')
+      .do(() => this.affinityGroupLoading = true)
+      .switchMap((vm) => this.vmService.command({
+        action: VirtualMachine.getAction(VmActions.STOP),
+        vm: vm
+      }))
       .do(() => this.affinityGroupLoading = false)
-      .filter(_ => _)
       .subscribe(() => this.showAffinityGroupDialog());
   }
 
@@ -153,10 +156,13 @@ export class VmDetailComponent implements OnChanges, OnInit {
   }
 
   public resetSshKey(): void {
-    this.sskKeyLoading = true;
-    this.askToStopVM('STOP_MACHINE_FOR_SSH')
+    this.askToStopVM(this.vm, 'STOP_MACHINE_FOR_SSH')
+      .do(() => this.sskKeyLoading = true)
+      .switchMap((vm) => this.vmService.command({
+        action: VirtualMachine.getAction(VmActions.STOP),
+        vm: vm
+      }))
       .do(() => this.sskKeyLoading = false)
-      .filter(_ => _)
       .subscribe(() => this.showSshKeypairResetDialog());
   }
 
@@ -199,10 +205,10 @@ export class VmDetailComponent implements OnChanges, OnInit {
       });
   }
 
-  private askToStopVM(message: string): Observable<any> {
-    return this.vmService.get(this.vm.id).switchMap(vm => {
+  private askToStopVM(currentVM: VirtualMachine, message: string): Observable<any> {
+    return this.vmService.get(currentVM.id).switchMap(vm => {
       if (vm.state === VmStates.Stopped) {
-        return Observable.of(true);
+        return Observable.of(vm);
       }
 
       return this.dialogService.customConfirm({
@@ -213,15 +219,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
         clickOutsideToClose: false
       })
         .onErrorResumeNext()
-        .switchMap((result) => {
-          if (result === null) {
-            return this.vmService.command({
-              action: VirtualMachine.getAction(VmActions.STOP),
-              vm: vm
-            });
-          }
-          return Observable.of(false);
-        });
+        .switchMap(() => Observable.of(vm));
     });
   }
 
