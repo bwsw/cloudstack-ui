@@ -47,7 +47,7 @@ export class UserService extends BaseBackendService<User> {
   }
 
   public removeTag(key: string): Observable<void> {
-    let userId = this.storageService.read('userId');
+    const userId = this.storageService.read('userId');
     if (!userId) {
       return;
     }

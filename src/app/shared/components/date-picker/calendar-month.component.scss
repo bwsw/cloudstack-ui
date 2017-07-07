@@ -36,6 +36,7 @@
   z-index: 1;
   width: 42px;
   background: none;
+  line-height: 25px;
 
   &.none {
     cursor: auto;
@@ -49,6 +50,13 @@
 
     .label {
       color: white;
+    }
+  }
+
+  &.today {
+    .button-state {
+      transform: scale(1);
+      opacity: 0.2;
     }
   }
 }
@@ -83,4 +91,9 @@
   &.selected + .label {
     color: white;
   }
+}
+
+.today {
+  font-weight: bold;
+  //font-size: 15px;
 }

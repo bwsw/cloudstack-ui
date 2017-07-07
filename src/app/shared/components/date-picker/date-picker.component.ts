@@ -1,14 +1,17 @@
 import {
   Component,
+  EventEmitter,
   forwardRef,
   Input,
-  AfterViewInit
+  OnChanges,
+  Output,
+  SimpleChanges
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 
 import { DatePickerDialogComponent } from './date-picker-dialog.component';
 import { dateTimeFormat as DateTimeFormat, formatIso } from './dateUtils';
-import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 
 
 interface DatePickerConfig {
@@ -32,12 +35,13 @@ interface DatePickerConfig {
     }
   ]
 })
-export class DatePickerComponent implements ControlValueAccessor, AfterViewInit {
+export class DatePickerComponent implements ControlValueAccessor, OnChanges {
   @Input() public okLabel = 'Ok';
   @Input() public cancelLabel = 'Cancel';
   @Input() public firstDayOfWeek = 1;
   @Input() public DateTimeFormat = DateTimeFormat;
   @Input() public locale = 'en';
+  @Output() public change = new EventEmitter();
 
   public displayDate: string;
 
@@ -46,8 +50,11 @@ export class DatePickerComponent implements ControlValueAccessor, AfterViewInit 
 
   constructor(private dialogService: DialogService) {}
 
-  public ngAfterViewInit(): void {
-    this.date = new Date();
+  public ngOnChanges(changes: SimpleChanges): void {
+    const DateTimeFormatChange = changes['DateTimeFormat'];
+    if (DateTimeFormatChange) {
+      this.displayDate = this._formatDate();
+    }
   }
 
   public propagateChange: any = () => {};
@@ -59,7 +66,6 @@ export class DatePickerComponent implements ControlValueAccessor, AfterViewInit 
 
   public set date(newDate) {
     this._date = newDate;
-
     this.displayDate = this._formatDate();
 
     this.propagateChange(this.date);
@@ -106,6 +112,7 @@ export class DatePickerComponent implements ControlValueAccessor, AfterViewInit 
         this.isDialogOpen = false;
         if (date) {
           this.date = date;
+          this.change.emit();
         }
       });
   }
