@@ -30,11 +30,13 @@
         <mdl-radio
           *ngIf="groupName"
           name="removeFromGroup"
+          mdl-ripple
           [value]="modes.removeFromGroup"
           [(ngModel)]="mode"
-          mdl-ripple
         >
-          {{ 'REMOVE_FROM_GROUP' | translate }}
+          <div>
+            {{ 'REMOVE_FROM_GROUP' | translate }} "{{ vm.instanceGroup.name }}"
+          </div>
         </mdl-radio>
       </div>
 

@@ -107,10 +107,7 @@ export class InstanceGroupSelectorComponent implements OnInit {
   private updateGroups(): void {
     this.vmService.getInstanceGroupList()
       .subscribe(groups => {
-        this.groupNames = groups
-          .map(group => group.name)
-          .filter(groupName => groupName !== this.groupName);
-
+        this.groupNames = groups.map(group => group.name);
         this.checkIfAnyGroups();
         this.setDefaultGroup();
       });
@@ -127,7 +124,11 @@ export class InstanceGroupSelectorComponent implements OnInit {
 
   private setDefaultGroup(): void {
     if (this.anyGroups) {
-      this.newGroupName = this.groupNames[0];
+      if (this.vm.instanceGroup && this.vm.instanceGroup.name) {
+        this.newGroupName = this.vm.instanceGroup.name;
+      } else {
+        this.newGroupName = this.groupNames[0];
+      }
     }
   }
 }
