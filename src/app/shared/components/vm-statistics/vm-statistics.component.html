@@ -11,17 +11,6 @@
     >
       <mdl-icon>keyboard_arrow_up</mdl-icon>
     </button>
-    <button
-      *ngIf="isOpen"
-      mdl-button
-      mdl-ripple
-      mdl-button-type="icon"
-      mdl-tooltip-position="bottom"
-      [mdl-tooltip]="refreshStatistics"
-      (click)="updateStats()"
-    >
-      <mdl-icon>sync</mdl-icon>
-    </button>
   </h4>
   <div class="stat-list" [class.closed]="!isOpen">
     <div class="stat-card-wrapper">
