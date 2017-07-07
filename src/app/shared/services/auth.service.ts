@@ -13,9 +13,6 @@ import { RouterUtilsService } from './router-utils.service';
 import { StorageService } from './storage.service';
 import { UserService } from './user.service';
 
-import debounce = require('lodash/debounce');
-
-
 const DEFAULT_SESSION_REFRESH_INTERVAL = 60;
 
 @Injectable()
@@ -41,9 +38,6 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   ) {
     super();
     this.loggedIn = new BehaviorSubject<boolean>(!!this.userId);
-
-    debounce(this.refreshSession, 1000, { leading: true });
-    debounce(this.resetInactivityTimer, 1000, { leading: true });
   }
 
   public startInactivityCounter() {
