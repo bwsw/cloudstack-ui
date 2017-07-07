@@ -18,7 +18,7 @@ export class InstanceGroupSelectorComponent implements OnInit {
   public modes = Mode;
 
   constructor(
-    @Inject('vm') public vm: VirtualMachine,
+    @Inject('virtualMachine') public vm: VirtualMachine,
     public dialog: MdlDialogReference,
     private instanceGroupService: InstanceGroupService,
     private vmService: VmService

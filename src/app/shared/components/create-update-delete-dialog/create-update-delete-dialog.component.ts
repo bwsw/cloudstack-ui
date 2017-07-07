@@ -23,6 +23,7 @@ export class CreateUpdateDeleteDialogComponent implements OnInit {
   @Input() public removeLabel: string;
   @Input() public selectPlaceholder: string;
   @Input() public textFieldPlaceholder: string;
+  @Input() public title: string;
   @Output() public onAssigned: EventEmitter<string>;
   @Output() public onCancel: EventEmitter<void>;
   @Output() public onCreated: EventEmitter<string>;

@@ -1,3 +1,10 @@
+<h3
+  *ngIf="title"
+  class="mdl-dialog__title"
+>
+  {{ title | translate }}
+</h3>
+
 <form
   (ngSubmit)="submit()"
   #form="ngForm"
