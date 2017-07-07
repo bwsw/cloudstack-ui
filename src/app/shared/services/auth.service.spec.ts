@@ -215,7 +215,7 @@ describe('Auth service session', () => {
     const inactivityTimeout = 10;
     const logout = spyOn(router, 'navigate').and.callThrough();
     const refresh = spyOn(authService, 'sendRefreshRequest');
-
+    authService.startInactivityCounter();
     authService.setInactivityTimeout(inactivityTimeout).subscribe();
 
     tick(getRefreshInterval() * (inactivityTimeout - 1) * 60 / refreshInterval);
