@@ -175,7 +175,7 @@ export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   public updateStats(): void {
-    this.vmService.get(this.vm.id, true)
+    this.vmService.get(this.vm.id)
       .subscribe(vm => {
         this.vm.cpuUsed = vm.cpuUsed;
         this.vm.networkKbsRead = vm.networkKbsRead;
