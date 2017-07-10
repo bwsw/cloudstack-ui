@@ -12,6 +12,7 @@
 >
   <div class="mdl-dialog__content">
     <mdl-radio
+      *ngIf="enableAssign"
       name="assignExistingRadio"
       [value]="modes.assign"
       [ngModel]="mode"
@@ -22,6 +23,7 @@
     </mdl-radio>
 
     <mdl-radio
+      *ngIf="enableCreate"
       name="createNewRadio"
       [value]="modes.create"
       [ngModel]="mode"
@@ -32,7 +34,7 @@
     </mdl-radio>
 
     <mdl-radio
-      *ngIf="defaultValue"
+      *ngIf="defaultValue && enableRemove"
       name="removeRadio"
       mdl-ripple
       [value]="modes.remove"

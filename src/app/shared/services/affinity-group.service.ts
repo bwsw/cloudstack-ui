@@ -38,7 +38,7 @@ export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup
   public updateForVm(vm: VirtualMachine, affinityGroup?: AffinityGroup): Observable<VirtualMachine> {
     return this.sendCommand('updateVM', {
       id: vm.id,
-      affinityGroupIds: affinityGroup && affinityGroup.id
+      affinityGroupIds: affinityGroup && affinityGroup.id || ''
     })
       .switchMap(job => this.asyncJob.queryJob(job.jobid, 'virtualmachine', VirtualMachine));
   }

@@ -57,8 +57,9 @@ export class AffinityGroupSelectorComponent implements OnInit {
       );
   }
 
-  public changeGroup(): void {
+  public changeGroup(name: string): void {
     this.loading = true;
+    this.selectedAffinityGroupName = name;
     this.affinityGroupService
       .updateForVm(this.vm, this.selectedAffinityGroup)
       .finally(() => this.loading = false)

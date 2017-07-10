@@ -17,13 +17,21 @@ export class CreateUpdateDeleteDialogComponent implements OnInit {
   @Input() public defaultValue: string;
   @Input() public options: Array<string>;
 
+  @Input() public enableAssign = true;
+  @Input() public enableCreate = true;
+  @Input() public enableRemove = true;
+
   @Input() public assignLabel: string;
   @Input() public createLabel: string;
-  @Input() public maxLength: number;
   @Input() public removeLabel: string;
+
+  @Input() public maxLength: number;
+
   @Input() public selectPlaceholder: string;
   @Input() public textFieldPlaceholder: string;
+
   @Input() public title: string;
+
   @Output() public onAssigned: EventEmitter<string>;
   @Output() public onCancel: EventEmitter<void>;
   @Output() public onCreated: EventEmitter<string>;
