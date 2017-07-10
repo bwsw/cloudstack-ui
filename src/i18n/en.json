@@ -567,5 +567,6 @@
   "ENTER_GROUP_NAME": "Enter group name",
   "REMOVE_FROM_GROUP": "Remove from the group",
   "REMOVE": "Remove",
-  "CLICK_TO_ASSIGN": "Click to assign"
+  "CLICK_TO_ASSIGN": "Click to assign",
+  "REFRESH": "Refresh"
 }

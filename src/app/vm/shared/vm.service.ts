@@ -107,7 +107,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
   }
 
-  public getList(params?: {}, lite = false): Observable<Array<VirtualMachine>> {
+  public getList(params?: {}): Observable<Array<VirtualMachine>> {
     if (lite) {
       return super.getList(params);
     }

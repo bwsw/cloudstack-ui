@@ -567,5 +567,6 @@
   "ENTER_GROUP_NAME": "Введите имя",
   "REMOVE_FROM_GROUP": "Удалить из группы",
   "REMOVE": "Удалить",
-  "CLICK_TO_ASSIGN": "Нажмите, чтобы присвоить"
+  "CLICK_TO_ASSIGN": "Нажмите, чтобы присвоить",
+  "REFRESH": "Обновить"
 }

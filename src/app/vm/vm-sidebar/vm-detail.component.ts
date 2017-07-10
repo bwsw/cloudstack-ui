@@ -174,6 +174,19 @@ export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
     );
   }
 
+  public updateStats(): void {
+    this.vmService.get(this.vm.id, true)
+      .subscribe(vm => {
+        this.vm.cpuUsed = vm.cpuUsed;
+        this.vm.networkKbsRead = vm.networkKbsRead;
+        this.vm.networkKbsWrite = vm.networkKbsWrite;
+        this.vm.diskKbsRead = vm.diskKbsRead;
+        this.vm.diskKbsWrite = vm.diskKbsWrite;
+        this.vm.diskIoRead = vm.diskIoRead;
+        this.vm.diskIoWrite = vm.diskIoWrite;
+      });
+  }
+
   private update(): void {
     this.updateColor();
     this.updateDescription();
