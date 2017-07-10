@@ -160,16 +160,12 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
-  public vmAction(e: IVmActionEvent): void {
+  public vmAction(e: IVmActionEvent): Observable<void> {
     switch (e.action.commandName) {
       case VmActions.RESET_PASSWORD: return this.resetPassword(e);
       case VmActions.DESTROY: return this.destroy(e);
     }
-    if (e.action.commandName !== VmActions.RESET_PASSWORD) {
-      this.command(e).subscribe();
-    } else {
-      this.resetPassword(e);
-    }
+    return this.command(e);
   }
 
   public command(e: IVmActionEvent): Observable<any> {
@@ -188,23 +184,26 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
   }
 
-  public destroy(e: IVmActionEvent): void {
-    this.destroyVolumeDeleteConfirmDialog(e.vm).subscribe(
-      () => {
-        this.command(e).subscribe(vm => {
+  public destroy(e: IVmActionEvent): Observable<void> {
+    return this.destroyVolumeDeleteConfirmDialog(e.vm)
+      .switchMap(() => {
+        return this.command(e).map(vm => {
           if (vm && vm.state === VmStates.Destroyed) {
             e.vm.volumes
               .filter(volume => volume.type === VolumeTypes.DATADISK)
-              .forEach(volume => this.volumeService.markForDeletion(volume.id).subscribe());
-            e.vm.securityGroup.forEach(sg => this.securityGroupService.markForDeletion(sg.id).subscribe());
+              .forEach(volume =>
+                this.volumeService.markForDeletion(volume.id).subscribe()
+              );
+            e.vm.securityGroup.forEach(sg =>
+              this.securityGroupService.markForDeletion(sg.id).subscribe()
+            );
           }
         });
-      },
-      () => this.command(e).subscribe()
-    );
+      })
+      .catch(() => this.command(e));
   }
 
-  public resetPassword(e: IVmActionEvent): void {
+  public resetPassword(e: IVmActionEvent): Observable<void> {
     const showDialog = (vmName: string, vmPassword: string) => {
       this.dialogService.customAlert({
         message: {
@@ -235,7 +234,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         templateId: e.templateId
       };
 
-      this.command(stop)
+      return this.command(stop)
         .switchMap(() => this.command(e))
         .map((vm: VirtualMachine) => {
           if (vm && vm.password) {
@@ -243,7 +242,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
           }
         })
         .switchMap(() => this.command(start))
-        .subscribe();
     }
   }
 

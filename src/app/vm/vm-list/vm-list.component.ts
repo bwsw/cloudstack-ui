@@ -165,7 +165,12 @@ export class VmListComponent implements OnInit {
       dialog = this.dialogService.confirm(e.action.confirmMessage, 'NO', 'YES');
     }
 
-    dialog.onErrorResumeNext().subscribe(() => this.vmService.vmAction(e));
+    dialog.onErrorResumeNext()
+      .switchMap(() => this.vmService.vmAction(e))
+      .subscribe(
+        () => {},
+        error => this.dialogService.alert(error.message)
+      );
   }
 
   public onVmCreated(vm: VirtualMachine): void {

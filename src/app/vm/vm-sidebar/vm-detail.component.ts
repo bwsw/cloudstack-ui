@@ -1,5 +1,6 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
 import { SecurityGroup } from '../../security-group/sg.model';
@@ -23,7 +24,7 @@ import { SshKeypairResetComponent } from './ssh/ssh-keypair-reset.component';
   templateUrl: 'vm-detail.component.html',
   styleUrls: ['vm-detail.component.scss']
 })
-export class VmDetailComponent implements OnChanges, OnInit {
+export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
   @Input() public vm: VirtualMachine;
   public color: Color;
   public colorList: Array<Color>;
@@ -33,6 +34,9 @@ export class VmDetailComponent implements OnChanges, OnInit {
   public expandServiceOffering: boolean;
   public affinityGroupLoading: boolean;
   public sskKeyLoading: boolean;
+
+  public colorUpdateInProgress = false;
+  private colorSubject = new Subject<Color>();
   constructor(
     private dialogService: DialogService,
     private serviceOfferingService: ServiceOfferingService,
@@ -51,18 +55,31 @@ export class VmDetailComponent implements OnChanges, OnInit {
     ).subscribe(
       ([themeColors, vmColors]) => this.colorList = themeColors.concat(vmColors)
     );
+
+    this.colorSubject
+      .debounceTime(1000)
+      .switchMap(color => {
+        this.colorUpdateInProgress = true;
+        return this.vmService.setColor(this.vm, color);
+      })
+      .subscribe(vm => {
+        this.colorUpdateInProgress = false;
+        this.vm = vm;
+        this.vmService.updateVmInfo(this.vm);
+      }, () => this.colorUpdateInProgress = false);
+
   }
 
   public ngOnChanges(): void {
     this.update();
   }
 
+  public ngOnDestroy(): void {
+    this.colorSubject.unsubscribe();
+  }
+
   public changeColor(color: Color): void {
-    this.vmService.setColor(this.vm, color)
-      .subscribe(vm => {
-        this.vm = vm;
-        this.vmService.updateVmInfo(this.vm);
-      });
+    this.colorSubject.next(color);
   }
 
   public changeServiceOffering(): void {
