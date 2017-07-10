@@ -1,0 +1,30 @@
+<h3>{{ category.name }}</h3>
+
+
+
+<mdl-card mdl-shadow="2">
+
+  <mdl-card-title>
+    <h2 mdl-card-title-text>{{ category.name }}</h2>
+  </mdl-card-title>
+
+  <mdl-card-supporting-text>
+    <cs-vm-tag
+      *ngFor="let tag of category.tags"
+      [tag]="tag"
+    ></cs-vm-tag>
+  </mdl-card-supporting-text>
+
+  <mdl-card-actions mdl-card-border>
+    <button
+      mdl-button
+      mdl-button-type="icon"
+      mdl-tooltip-position="top"
+      [mdl-tooltip]="'ADD' | translate"
+      (click)="$event.stopPropagation(); addTag()"
+    >
+      <mdl-icon>attach_file</mdl-icon>
+    </button>
+  </mdl-card-actions>
+
+</mdl-card>

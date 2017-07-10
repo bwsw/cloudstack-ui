@@ -310,6 +310,7 @@
 
   "VM_VIEW": "VM",
   "STORAGE_VIEW": "Storage",
+  "VM_TAGS_VIEW": "Tags",
 
   "VOLUME_RESIZE": "Resize",
   "VOLUME_RESIZING": "Resizing volume",
@@ -567,5 +568,12 @@
   "ENTER_GROUP_NAME": "Enter group name",
   "REMOVE_FROM_GROUP": "Remove from the group",
   "REMOVE": "Remove",
-  "CLICK_TO_ASSIGN": "Click to assign"
+  "CLICK_TO_ASSIGN": "Click to assign",
+
+  "CREATE_NEW_TAG": "Create a new tag",
+  "TAG_CATEGORY": "Category",
+  "TAG_KEY": "Key",
+  "TAG_VALUE": "Value",
+  "CREATE_NEW_TAG_CATEGORY": "Create a new category",
+  "TAG_CATEGORY_NAME": "Category name"
 }

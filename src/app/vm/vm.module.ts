@@ -42,6 +42,11 @@ import { SnapshotsComponent } from './vm-sidebar/storage-detail/volume/snapshot/
 import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volume-details/volume-details.component';
 import { AffinityGroupDialogComponent } from './vm-sidebar/affinity-group-dialog.component';
 import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.component';
+import { VmTagComponent } from './vm-sidebar/tags/tag/vm-tag.component';
+import { VmTagCategoryComponent } from './vm-sidebar/tags/tag-category/vm-tag-category.component';
+import { VmTagsComponent } from './vm-sidebar/tags/vm-tags.component';
+import { VmTagCreationDialogComponent } from './vm-sidebar/tags/tag-creation-dialog/vm-tag-creation-dialog.component';
+import { TagCategoryCreationComponent } from './vm-sidebar/tags/tag-category-creation-dialog/tag-category-creation.component';
 
 
 @NgModule({
@@ -66,12 +71,17 @@ import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.com
     SpareDriveAttachmentDialogComponent,
     StorageDetailComponent,
     SshKeypairResetComponent,
+    TagCategoryCreationComponent,
     VmListComponent,
     VmCreationComponent,
     VmListItemComponent,
     VmDetailComponent,
     VmFilterComponent,
     VmSidebarComponent,
+    VmTagCategoryComponent,
+    VmTagComponent,
+    VmTagCreationDialogComponent,
+    VmTagsComponent,
     VmTemplateComponent,
     VmTemplateDialogComponent,
     VmListSectionComponent,
@@ -93,12 +103,14 @@ import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.com
     AffinityGroupDialogComponent,
     InstanceGroupSelectorComponent,
     VmCreationComponent,
+    VmTagCreationDialogComponent,
     VmTemplateDialogComponent,
     VolumeResizeComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,
     SpareDriveAttachmentDialogComponent,
     SshKeypairResetComponent,
+    TagCategoryCreationComponent
   ]
 })
 export class VmModule { }

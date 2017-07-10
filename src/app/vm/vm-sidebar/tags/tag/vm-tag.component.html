@@ -1,0 +1,10 @@
+<div>
+  <b>{{ tag.key }}</b>
+</div>
+
+<div style="width: 300px">
+  <cs-inline-edit
+    [content]="tag.value"
+    (textChange)="onTagValueChange($event)"
+  ></cs-inline-edit>
+</div>

@@ -1,0 +1,52 @@
+<h3 class="mdl-dialog__title">{{ 'CREATE_NEW_TAG' | translate }}</h3>
+
+<div class="mdl-dialog__content">
+
+  <mdl-autocomplete
+    name="category"
+    [placeholder]="'TAG_CATEGORY' | translate"
+    [options]="categoryNames"
+    [(ngModel)]="category"
+  ></mdl-autocomplete>
+
+  <mdl-textfield
+    type="text"
+    [label]="'TAG_KEY' | translate"
+    floating-label
+    name="domain"
+    #keyField="ngModel"
+    [(ngModel)]="key"
+    [class.is-invalid]="keyField.invalid && !keyField.pristine"
+  ></mdl-textfield>
+
+  <mdl-textfield
+    type="text"
+    [label]="'TAG_VALUE' | translate"
+    floating-label
+    name="domain"
+    #keyField="ngModel"
+    [(ngModel)]="value"
+    [class.is-invalid]="keyField.invalid && !keyField.pristine"
+  ></mdl-textfield>
+
+</div>
+
+<div class="mdl-dialog__actions">
+  <button
+    mdl-button
+    mdl-colored="primary"
+    mdl-ripple
+    (click)="onCreate()"
+    [disabled]=""
+  >
+    {{ 'CREATE' | translate }}
+  </button>
+  <button
+    mdl-button
+    mdl-colored="primary"
+    mdl-ripple
+    (click)="onCancel()"
+  >
+    {{ 'CANCEL' | translate }}
+  </button>
+</div>

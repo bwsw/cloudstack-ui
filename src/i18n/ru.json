@@ -310,6 +310,7 @@
 
   "VM_VIEW": "Машина",
   "STORAGE_VIEW": "Диски",
+  "VM_TAGS_VIEW": "Теги",
 
   "VOLUME_RESIZE": "Изменить размер",
   "VOLUME_RESIZING": "Изменение размера диска",
@@ -567,5 +568,12 @@
   "ENTER_GROUP_NAME": "Введите имя",
   "REMOVE_FROM_GROUP": "Удалить из группы",
   "REMOVE": "Удалить",
-  "CLICK_TO_ASSIGN": "Нажмите, чтобы присвоить"
+  "CLICK_TO_ASSIGN": "Нажмите, чтобы присвоить",
+
+  "CREATE_NEW_TAG": "Создать тег",
+  "TAG_CATEGORY": "Категория",
+  "TAG_KEY": "Ключ",
+  "TAG_VALUE": "Значение",
+  "CREATE_NEW_TAG_CATEGORY": "Создать новую категорию",
+  "TAG_CATEGORY_NAME": "Название категории"
 }

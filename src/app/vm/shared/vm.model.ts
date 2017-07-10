@@ -199,6 +199,7 @@ export class VirtualMachine extends BaseModel {
     }
 
     if (this.tags) {
+      this.tags = this.tags.map(tag => new Tag(tag));
       const group = this.tags.find(tag => tag.key === 'group');
       this.instanceGroup = group ? new InstanceGroup(group.value) : undefined;
     }

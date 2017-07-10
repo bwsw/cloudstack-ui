@@ -6,6 +6,8 @@ import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './';
 
 
+type ResourceId = string;
+
 @BackendResource({
   entity: 'Tag',
   entityModel: Tag
@@ -37,13 +39,11 @@ export class TagService extends BaseBackendCachedService<Tag> {
     return this.getList({ resourceId: entity.id, key }).map(tags => tags.length ? tags[0] : undefined);
   }
 
-  public update(entity: any, entityName: string, key: string, value: any): Observable<any> {
-    if (!entity.id) {
-      throw new Error('This entity can\'t have tags');
-    }
+  public update(entity: ResourceId | any, entityName: string, key: string, value: any): Observable<any> {
+    const id = entity.id || entity;
 
     const createObs = this.create({
-      resourceIds: entity.id,
+      resourceIds: id,
       resourceType: entityName,
       'tags[0].key': key,
       'tags[0].value': value,
@@ -51,7 +51,7 @@ export class TagService extends BaseBackendCachedService<Tag> {
       .map(() => {
         if (entity.tags) {
           entity.tags.push(new Tag({
-            resourceId: entity.id,
+            resourceId: id,
             resourceType: entityName,
             key,
             value
@@ -64,7 +64,7 @@ export class TagService extends BaseBackendCachedService<Tag> {
     return this.getTag(entity, key)
       .switchMap(tag => {
         return this.remove({
-          resourceIds: entity.id,
+          resourceIds: id,
           resourceType: entityName,
           'tags[0].key': key,
           'tags[0].value': tag.value || ''

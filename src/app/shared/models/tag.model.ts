@@ -3,13 +3,16 @@ import { FieldMapper } from '../decorators/field-mapper.decorator';
 
 
 export const ResourceTypes = {
-  USER: 'User'
+  USER: 'User',
+  VM: 'UserVm'
 };
 
 export const DeletionMark = {
   TAG: 'status',
   VALUE: 'removed'
 };
+
+const defaultCategoryName = 'Common';
 
 @FieldMapper({
   domainid: 'domainId',
@@ -24,4 +27,11 @@ export class Tag extends BaseModel {
   public resourceId: string;
   public resourceType: string;
   public value: string;
+
+  public get categoryName(): string {
+    const tagParts = this.key.split('.');
+    const categoryNameIsPresent = tagParts.length > 1;
+
+    return categoryNameIsPresent ? tagParts[0] : defaultCategoryName;
+  }
 }
