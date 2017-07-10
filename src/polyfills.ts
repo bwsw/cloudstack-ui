@@ -75,6 +75,7 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/mapTo';
 import 'rxjs/add/operator/onErrorResumeNext';
 import 'rxjs/add/operator/distinctUntilChanged';
