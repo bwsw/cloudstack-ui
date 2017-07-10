@@ -79,7 +79,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     this.vmUpdateObservable.next(vm);
   }
 
-  public get(id: string, lite = false): Observable<VirtualMachine> {
+  public get(id: string): Observable<VirtualMachine> {
     return Observable.forkJoin([
       super.get(id),
       this.volumeService.getList({
@@ -107,7 +107,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
   }
 
-  public getList(params?: {}, lite = false): Observable<Array<VirtualMachine>> {
+  public getList(params?: {}): Observable<Array<VirtualMachine>> {
     if (lite) {
       return super.getList(params);
     }
