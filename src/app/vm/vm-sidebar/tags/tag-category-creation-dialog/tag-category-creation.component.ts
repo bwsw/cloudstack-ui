@@ -1,8 +1,9 @@
-import { MdlDialogReference } from '@angular-mdl/core';
 import { Component, Inject } from '@angular/core';
+import { MdlDialogReference } from '../../../../dialog/dialog-module';
 import { ResourceTypes } from '../../../../shared/models';
 import { TagService } from '../../../../shared/services';
 import { VirtualMachine } from '../../../shared/vm.model';
+import { TagCategory } from '../tag-category/vm-tag-category.component';
 
 
 const categoryTagValue = 'CS_CATEGORY';
@@ -18,10 +19,17 @@ export class TagCategoryCreationComponent {
   public categoryName: string;
 
   constructor(
+    @Inject('categories') private categories: Array<TagCategory>,
     @Inject('virtualMachine') private vm: VirtualMachine,
     private dialog: MdlDialogReference,
     private tagService: TagService
   ) {}
+
+  public get categoryAlreadyExists(): boolean {
+    return !!this.categories.find(category => {
+      return category.name === this.categoryName
+    });
+  }
 
   public onCreate(): void {
     const categoryTagName = this.categoryName + '.';

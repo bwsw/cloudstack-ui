@@ -575,5 +575,6 @@
   "TAG_KEY": "Ключ",
   "TAG_VALUE": "Значение",
   "CREATE_NEW_TAG_CATEGORY": "Создать новую категорию",
-  "TAG_CATEGORY_NAME": "Название категории"
+  "TAG_CATEGORY_NAME": "Название категории",
+  "ADD_TAG_CATEGORY": "Добавить новую категорию"
 }

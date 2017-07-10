@@ -1,7 +1,7 @@
-<div style="display: flex">
-  <cs-vm-tag-category
-    *ngFor="let category of categories"
-    [category]="category"
-    (onNewTag)="addTag($event)"
-  ></cs-vm-tag-category>
-</div>
+<cs-vm-tag-category
+  *ngFor="let category of categories"
+  [category]="category"
+  (onNewTag)="addTag($event)"
+></cs-vm-tag-category>
+
+<cs-fab (click)="addCategory()"></cs-fab>

@@ -575,5 +575,6 @@
   "TAG_KEY": "Key",
   "TAG_VALUE": "Value",
   "CREATE_NEW_TAG_CATEGORY": "Create a new category",
-  "TAG_CATEGORY_NAME": "Category name"
+  "TAG_CATEGORY_NAME": "Category name",
+  "ADD_TAG_CATEGORY": "Add new category"
 }

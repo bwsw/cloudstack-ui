@@ -1,15 +1,15 @@
-import { MdlDialogReference } from '@angular-mdl/core';
 import { Component, Inject } from '@angular/core';
+import { ResourceTypes } from '../../../../shared/models';
+import { TagService } from '../../../../shared/services';
 import { VirtualMachine } from '../../../shared/vm.model';
 import { TagCategory } from '../tag-category/vm-tag-category.component';
-import { TagService } from '../../../../shared/services';
-import { ResourceTypes } from '../../../../shared/models';
+import { MdlDialogReference } from '../../../../dialog/dialog-module';
 
 
 @Component({
   selector: 'cs-vm-tag-creation',
-  templateUrl: 'vm-tag-creation.component.html',
-  styleUrls: ['vm-tag-creation.component.scss']
+  templateUrl: 'vm-tag-creation-dialog.component.html',
+  styleUrls: ['vm-tag-creation-dialog.component.scss']
 })
 export class VmTagCreationDialogComponent {
   public loading: boolean;
