@@ -1,8 +1,9 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import {
   AffinityGroupSelectorComponent
 } from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
@@ -25,7 +26,7 @@ import { SshKeypairResetComponent } from './ssh/ssh-keypair-reset.component';
   templateUrl: 'vm-detail.component.html',
   styleUrls: ['vm-detail.component.scss']
 })
-export class VmDetailComponent implements OnChanges, OnInit {
+export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
   @Input() public vm: VirtualMachine;
   public color: Color;
   public colorList: Array<Color>;
@@ -33,6 +34,9 @@ export class VmDetailComponent implements OnChanges, OnInit {
   public disableSecurityGroup = false;
   public expandNIC: boolean;
   public expandServiceOffering: boolean;
+
+  public colorUpdateInProgress = false;
+  private colorSubject = new Subject<Color>();
 
   constructor(
     private dialogService: DialogService,
@@ -52,18 +56,31 @@ export class VmDetailComponent implements OnChanges, OnInit {
     ).subscribe(
       ([themeColors, vmColors]) => this.colorList = themeColors.concat(vmColors)
     );
+
+    this.colorSubject
+      .debounceTime(1000)
+      .switchMap(color => {
+        this.colorUpdateInProgress = true;
+        return this.vmService.setColor(this.vm, color);
+      })
+      .subscribe(vm => {
+        this.colorUpdateInProgress = false;
+        this.vm = vm;
+        this.vmService.updateVmInfo(this.vm);
+      }, () => this.colorUpdateInProgress = false);
+
   }
 
   public ngOnChanges(): void {
     this.update();
   }
 
+  public ngOnDestroy(): void {
+    this.colorSubject.unsubscribe();
+  }
+
   public changeColor(color: Color): void {
-    this.vmService.setColor(this.vm, color)
-      .subscribe(vm => {
-        this.vm = vm;
-        this.vmService.updateVmInfo(this.vm);
-      });
+    this.colorSubject.next(color);
   }
 
   public changeServiceOffering(): void {
@@ -157,6 +174,19 @@ export class VmDetailComponent implements OnChanges, OnInit {
       'STOP_MACHINE_FOR_SSH',
       () => this.showSshKeypairResetDialog()
     );
+  }
+
+  public updateStats(): void {
+    this.vmService.get(this.vm.id)
+      .subscribe(vm => {
+        this.vm.cpuUsed = vm.cpuUsed;
+        this.vm.networkKbsRead = vm.networkKbsRead;
+        this.vm.networkKbsWrite = vm.networkKbsWrite;
+        this.vm.diskKbsRead = vm.diskKbsRead;
+        this.vm.diskKbsWrite = vm.diskKbsWrite;
+        this.vm.diskIoRead = vm.diskIoRead;
+        this.vm.diskIoWrite = vm.diskIoWrite;
+      });
   }
 
   private update(): void {
