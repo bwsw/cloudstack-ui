@@ -5,6 +5,7 @@ import { InstanceGroupService } from '../../../shared/services';
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 import { Mode } from '../../../shared/components/create-update-delete-dialog/create-update-delete-dialog.component';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { Mode } from '../../../shared/components/create-update-delete-dialog/cre
   styleUrls: ['instance-group-selector.component.scss']
 })
 export class InstanceGroupSelectorComponent implements OnInit {
-  public groupNames: Array<string>;
+  public groupNames$: Observable<Array<string>>;
   public loading: boolean;
   public modes = Mode;
 
@@ -53,10 +54,10 @@ export class InstanceGroupSelectorComponent implements OnInit {
 
   private loadGroups(): void {
     this.loading = true;
-    this.vmService.getInstanceGroupList()
+    this.groupNames$ = this.vmService.getInstanceGroupList()
       .finally(() => this.loading = false)
-      .subscribe(groups => {
-        this.groupNames = groups.map(group => group.name);
+      .map(groups => {
+        return groups.map(group => group.name);
       });
   }
 }
