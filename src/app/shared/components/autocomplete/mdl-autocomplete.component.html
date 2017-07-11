@@ -10,6 +10,7 @@
     (focus)="open($event); addFocus()"
     (blur)="close(); removeFocus()"
   ></span>
+
   <input
     #autocompleteInput
     tabindex="-1"
@@ -23,6 +24,7 @@
     (ngModelChange)="filterResults($event)"
     [(ngModel)]="text"
     (blur)="removeFocus()"
+    [maxlength]="maxLength"
   >
   <span
     class="mdl-select__toggle material-icons"

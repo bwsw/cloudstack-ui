@@ -12,7 +12,7 @@ export const DeletionMark = {
   VALUE: 'removed'
 };
 
-const defaultCategoryName = 'Common';
+export const defaultCategoryName = 'Common';
 
 @FieldMapper({
   domainid: 'domainId',
@@ -33,5 +33,15 @@ export class Tag extends BaseModel {
     const categoryNameIsPresent = tagParts.length > 1;
 
     return categoryNameIsPresent ? tagParts[0] : defaultCategoryName;
+  }
+
+  public get keyWithoutCategory(): string {
+    const tagParts = this.key.split('.');
+
+    if (tagParts.length > 1) {
+      return tagParts.splice(1).join('.');
+    }
+
+    return tagParts.join('.');
   }
 }

@@ -1,7 +1,4 @@
-<cs-vm-tag-category
-  *ngFor="let category of categories"
-  [category]="category"
-  (onNewTag)="addTag($event)"
-></cs-vm-tag-category>
-
-<cs-fab (click)="addCategory()"></cs-fab>
+<cs-tags
+  [entity]="vm"
+  (onTagUpdated)="updateVm($event)"
+></cs-tags>

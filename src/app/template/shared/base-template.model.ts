@@ -48,5 +48,10 @@ export class BaseTemplateModel extends BaseModel {
   constructor(json) {
     super(json);
     this.created = moment(json.created).toDate();
+    this.tags = this.tags.map(tag => new Tag(tag));
+  }
+
+  public get isTemplate(): boolean {
+    return true;
   }
 }

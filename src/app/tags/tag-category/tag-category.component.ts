@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Tag } from '../../../../shared/models';
-import { DialogService } from '../../../../dialog/dialog-module/dialog.service';
+import { Tag } from '../../shared/models';
 
 
 export interface TagCategory {
@@ -9,12 +8,13 @@ export interface TagCategory {
 }
 
 @Component({
-  selector: 'cs-vm-tag-category',
-  templateUrl: 'vm-tag-category.component.html',
-  styleUrls: ['vm-tag-category.component.scss']
+  selector: 'cs-tag-category',
+  templateUrl: 'tag-category.component.html',
+  styleUrls: ['tag-category.component.scss']
 })
-export class VmTagCategoryComponent {
+export class TagCategoryComponent {
   @Input() public category: TagCategory;
+  @Input() public query: string;
   @Output() public onNewTag: EventEmitter<TagCategory>;
 
   constructor() {

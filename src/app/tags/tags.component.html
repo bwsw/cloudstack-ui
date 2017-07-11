@@ -1,0 +1,24 @@
+<div class="flex-container">
+  <button
+    mdl-button
+    mdl-button-type="mini-fab"
+    mdl-colored="accent"
+    (click)="addCategory()"
+  >
+    <mdl-icon>add</mdl-icon>
+  </button>
+
+  <cs-search
+    [(ngModel)]="query"
+    (ngModelChange)="updateSearchResults()"
+  ></cs-search>
+</div>
+
+<cs-tag-category
+  *ngFor="let category of visibleCategories"
+  [category]="category"
+  [query]="query"
+  (onNewTag)="addTag($event)"
+></cs-tag-category>
+
+<cs-no-results *ngIf="!visibleCategories.length"></cs-no-results>

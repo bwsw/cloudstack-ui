@@ -1,0 +1,78 @@
+<h3 class="mdl-dialog__title">{{ 'CREATE_NEW_TAG' | translate }}</h3>
+
+<form
+  (ngSubmit)="onUpdate()"
+  #tagCreationForm="ngForm"
+>
+  <div class="mdl-dialog__content">
+
+    <mdl-autocomplete
+      name="group"
+      [placeholder]="'TAG_CATEGORY' | translate"
+      [options]="categoryNames"
+      [maxLength]="maxCategoryLength"
+      [(ngModel)]="category"
+    ></mdl-autocomplete>
+    <cs-character-count
+      [value]="category"
+      [maxLength]="maxCategoryLength"
+    ></cs-character-count>
+
+    <mdl-textfield
+      type="text"
+      name="key"
+      required
+      autofocus
+      floating-label
+      #keyField="ngModel"
+      [(ngModel)]="key"
+      [maxlength]="maxKeyLength"
+      [forbiddenValues]="tagKeys"
+      [label]="'TAG_KEY' | translate"
+      [error-msg]="keyFieldErrorMessage | translate"
+      [class.is-invalid]="keyField.invalid && !keyField.pristine"
+    ></mdl-textfield>
+    <cs-character-count
+      [value]="key"
+      [maxLength]="maxKeyLength"
+    ></cs-character-count>
+
+    <mdl-textfield
+      type="text"
+      [label]="'TAG_VALUE' | translate"
+      name="value"
+      required
+      floating-label
+      #valueField="ngModel"
+      [(ngModel)]="value"
+      [maxlength]="maxValueLength"
+      [class.is-invalid]="valueField.invalid && !valueField.pristine"
+    ></mdl-textfield>
+    <cs-character-count
+      [value]="value"
+      [maxLength]="maxValueLength"
+    ></cs-character-count>
+
+  </div>
+
+  <div class="mdl-dialog__actions">
+    <button
+      mdl-button
+      mdl-colored="primary"
+      mdl-ripple
+      type="submit"
+      [disabled]="!tagCreationForm.valid"
+    >
+      {{ 'CREATE' | translate }}
+    </button>
+    <button
+      mdl-button
+      mdl-colored="primary"
+      mdl-ripple
+      type="button"
+      (click)="onCancel()"
+    >
+      {{ 'CANCEL' | translate }}
+    </button>
+  </div>
+</form>

@@ -1,14 +1,25 @@
-<mdl-card mdl-shadow="2">
-
+<mdl-card
+  mdl-shadow="2"
+  class="custom-card"
+>
   <mdl-card-title>
-    <h2 mdl-card-title-text>{{ category.name }}</h2>
+    <h2
+      mdl-card-title-text
+      [mdl-tooltip]="categoryTooltip"
+      mdl-tooltip-position="bottom"
+    >
+      <span [innerHTML]="category.name | highlight:query"></span>
+    </h2>
   </mdl-card-title>
 
   <mdl-card-supporting-text>
-    <cs-vm-tag
+    <cs-tag
       *ngFor="let tag of category.tags"
       [tag]="tag"
-    ></cs-vm-tag>
+      [query]="query"
+    ></cs-tag>
+
+    <span *ngIf="!category.tags.length">{{ 'NO_TAGS' | translate }}</span>
   </mdl-card-supporting-text>
 
   <mdl-card-actions mdl-card-border>
@@ -22,5 +33,11 @@
       <mdl-icon>add</mdl-icon>
     </button>
   </mdl-card-actions>
-
 </mdl-card>
+
+<mdl-tooltip #categoryTooltip="mdlTooltip">
+  {{ category.name }}
+</mdl-tooltip>
+
+
+

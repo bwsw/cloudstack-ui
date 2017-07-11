@@ -576,5 +576,8 @@
   "TAG_VALUE": "Значение",
   "CREATE_NEW_TAG_CATEGORY": "Создать новую категорию",
   "TAG_CATEGORY_NAME": "Название категории",
-  "ADD_TAG_CATEGORY": "Добавить новую категорию"
+  "ADD_TAG_CATEGORY": "Добавить новую категорию",
+  "TAG_ALREADY_EXISTS": "Тег уже существует",
+  "TAG_CATEGORY_ALREADY_EXISTS": "Категория уже существует",
+  "NO_TAGS": "Нет тегов"
 }

@@ -1,15 +1,17 @@
 import { Component, Input } from '@angular/core';
-import { ResourceTypes, Tag } from '../../../../shared/models';
-import { TagService } from '../../../../shared/services';
-import { DialogService } from '../../../../dialog/dialog-module/dialog.service';
+import { Tag } from '../../shared/models';
+import { TagService } from '../../shared/services';
+import { Taggable } from '../../shared/interfaces/taggable.interface';
 
 
 @Component({
-  selector: 'cs-vm-tag',
-  templateUrl: 'vm-tag.component.html',
-  styleUrls: ['vm-tag.component.scss']
+  selector: 'cs-tag',
+  templateUrl: 'tag.component.html',
+  styleUrls: ['tag.component.scss']
 })
-export class VmTagComponent {
+export class TagComponent {
+  @Input() public entity: Taggable;
+  @Input() public query: string;
   @Input() public tag: Tag;
 
   public loading: boolean;
@@ -33,8 +35,8 @@ export class VmTagComponent {
     this.loading = true;
 
     this.tagService.remove({
-      resourceIds: this.tag.resourceId,
-      resourceType: ResourceTypes.VM,
+      resourceIds: this.entity.id,
+      resourceType: this.entity.resourceType,
       'tags[0].key': this.tag.key
     })
       .finally(() => this.loading = false)

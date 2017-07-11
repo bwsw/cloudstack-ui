@@ -576,5 +576,8 @@
   "TAG_VALUE": "Value",
   "CREATE_NEW_TAG_CATEGORY": "Create a new category",
   "TAG_CATEGORY_NAME": "Category name",
-  "ADD_TAG_CATEGORY": "Add new category"
+  "ADD_TAG_CATEGORY": "Add new category",
+  "TAG_ALREADY_EXISTS": "Tag already exists",
+  "TAG_CATEGORY_ALREADY_EXISTS": "Category already exists",
+  "NO_TAGS": "No tags"
 }

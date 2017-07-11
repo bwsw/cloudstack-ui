@@ -1,0 +1,49 @@
+<h3 class="mdl-dialog__title">{{ 'CREATE_NEW_TAG_CATEGORY' | translate }}</h3>
+<form
+  (ngSubmit)="onCreate()"
+  #categoryForm="ngForm"
+  novalidate
+>
+  <div class="mdl-dialog__content">
+
+    <mdl-textfield
+      type="text"
+      name="domain"
+      autofocus
+      floating-label
+      #categoryField="ngModel"
+      [maxlength]="maxLength"
+      [(ngModel)]="categoryName"
+      [forbiddenValues]="categoryNames"
+      [label]="'TAG_CATEGORY_NAME' | translate"
+      [error-msg]="categoryNameErrorMessage | translate"
+      [class.is-invalid]="categoryField.invalid && !categoryField.pristine"
+    ></mdl-textfield>
+    <cs-character-count
+      [value]="categoryName"
+      [maxLength]="maxLength"
+    ></cs-character-count>
+
+  </div>
+
+  <div class="mdl-dialog__actions">
+    <button
+      mdl-button
+      mdl-colored="primary"
+      mdl-ripple
+      type="submit"
+      [disabled]="!categoryForm.valid"
+    >
+      {{ 'CREATE' | translate }}
+    </button>
+    <button
+      mdl-button
+      mdl-colored="primary"
+      mdl-ripple
+      type="button"
+      (click)="onCancel()"
+    >
+      {{ 'CANCEL' | translate }}
+    </button>
+  </div>
+</form>

@@ -77,6 +77,7 @@
         </mdl-card>
       </mdl-tab-panel-content>
     </mdl-tab-panel>
+
     <mdl-tab-panel>
       <mdl-tab-panel-title>
         <span>{{ 'ZONES' | translate }}</span>
@@ -100,6 +101,16 @@
             </div>
           </mdl-card-supporting-text>
         </mdl-card>
+      </mdl-tab-panel-content>
+    </mdl-tab-panel>
+
+    <mdl-tab-panel>
+      <mdl-tab-panel-title>
+        {{ 'TAGS' | translate }}
+      </mdl-tab-panel-title>
+
+      <mdl-tab-panel-content>
+        <cs-template-tags [template]="template"></cs-template-tags>
       </mdl-tab-panel-content>
     </mdl-tab-panel>
   </mdl-tabs>

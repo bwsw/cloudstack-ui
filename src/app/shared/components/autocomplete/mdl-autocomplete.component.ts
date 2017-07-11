@@ -48,6 +48,7 @@ export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, A
   @Input() public placeholder = '';
   @Input() public options: Array<string> = [];
   @Input() public text = '';
+  @Input() public maxLength: number;
 
   @Output() public change = new EventEmitter();
   @HostBinding('class.mdl-select') public mdlSelectClass = true;
