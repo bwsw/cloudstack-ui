@@ -22,12 +22,7 @@ export class InstanceGroupComponent {
     this.dialogService.showCustomDialog({
       component: InstanceGroupSelectorComponent,
       classes: 'instance-group-selector-dialog',
-      providers: [
-        {
-          provide: 'vm',
-          useValue: this.vm
-        }
-      ]
+      providers: [{ provide: 'virtualMachine', useValue: this.vm }]
     });
   }
 }

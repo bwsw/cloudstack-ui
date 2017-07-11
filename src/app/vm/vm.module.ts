@@ -40,8 +40,8 @@ import { InstanceGroupComponent } from './vm-sidebar/instance-group/instance-gro
 import { InstanceGroupSelectorComponent } from './vm-sidebar/instance-group-selector/instance-group-selector.component';
 import { SnapshotsComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshots.component';
 import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volume-details/volume-details.component';
-import { AffinityGroupDialogComponent } from './vm-sidebar/affinity-group-dialog.component';
 import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.component';
+import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 
 
 @NgModule({
@@ -60,7 +60,7 @@ import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.com
     RouterModule.forRoot(routes)
   ],
   declarations: [
-    AffinityGroupDialogComponent,
+    AffinityGroupSelectorComponent,
     SnapshotsComponent,
     SpareDriveAttachmentDetailComponent,
     SpareDriveAttachmentDialogComponent,
@@ -90,7 +90,7 @@ import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.com
     SnapshotActionsService
   ],
   entryComponents: [
-    AffinityGroupDialogComponent,
+    AffinityGroupSelectorComponent,
     InstanceGroupSelectorComponent,
     VmCreationComponent,
     VmTemplateDialogComponent,

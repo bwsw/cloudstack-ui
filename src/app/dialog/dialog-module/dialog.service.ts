@@ -110,7 +110,7 @@ export class DialogService {
 
     this.translateService.get(translationParams.translationTokens, translationParams.interpolateParams)
       .subscribe(translations => {
-        let newConfig = this.getMergedConfig(config);
+        const newConfig = this.getMergedConfig(config);
 
         newConfig.message = translations[translationParams.message];
         newConfig.actions = newConfig.actions.map(action => ({
