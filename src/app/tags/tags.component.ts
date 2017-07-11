@@ -41,7 +41,7 @@ export class TagsComponent implements OnChanges {
   public addTag(category: TagCategory): void {
     this.dialogService.showCustomDialog({
       component: TagCreationDialogComponent,
-      classes: 'vm-tag-creation-dialog',
+      classes: 'tag-creation-dialog',
       providers: [
         { provide: 'category', useValue: this.getCategoryByName(category.name) },
         { provide: 'entity', useValue: this.entity }
