@@ -1,5 +1,6 @@
 import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 import {
   AsyncJob,
@@ -12,6 +13,8 @@ import {
 } from '../../shared';
 
 import { ListService } from '../../shared/components/list/list.service';
+import { UserService } from '../../shared/services/user.service';
+import { ZoneService } from '../../shared/services/zone.service';
 import { VirtualMachine, VmActions, VmStates } from '../shared/vm.model';
 
 import { IVmActionEvent, VmService } from '../shared/vm.service';
@@ -20,9 +23,7 @@ import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import { InstanceGroupOrNoGroup, VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListSection } from './vm-list-section/vm-list-section.component';
 import { VmListSubsection } from './vm-list-subsection/vm-list-subsection.component';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { UserService } from '../../shared/services/user.service';
-import { ZoneService } from '../../shared/services/zone.service';
+import { VmListItemComponent } from './vm-list-item.component';
 
 
 export const enum SectionType {
@@ -42,6 +43,23 @@ export class VmListComponent implements OnInit {
   @HostBinding('class.mdl-color--grey-100') public backgroundColorClass = true;
   @HostBinding('class.detail-list-container') public detailListContainer = true;
 
+  public grouppings = [
+    {
+      selector: (item: VirtualMachine) => item.zoneId,
+      name: (item: VirtualMachine) => item.zoneName
+    },
+    {
+      selector: (item: VirtualMachine) => item.instanceGroup.name,
+      name: (item: VirtualMachine) => item.instanceGroup.name
+    },
+    {
+      selector: (item: VirtualMachine) => item.getColor().value,
+      name: (item: VirtualMachine) => item.getColor().name,
+    }
+  ];
+
+  public VmListItemComponent = VmListItemComponent;
+
   public filterData: VmFilter;
   public groupByColors = false;
   public showSections = false;
@@ -55,6 +73,9 @@ export class VmListComponent implements OnInit {
   public vmList: Array<VirtualMachine> = [];
   public visibleVmList: Array<VirtualMachine> = [];
 
+  public inputs;
+  public outputs;
+
   constructor(
     public listService: ListService,
     private vmService: VmService,
@@ -64,7 +85,19 @@ export class VmListComponent implements OnInit {
     private statsUpdateService: StatsUpdateService,
     private userService: UserService,
     private zoneService: ZoneService
-  ) { }
+  ) {
+    this.showDetail = this.showDetail.bind(this);
+    this.vmAction = this.vmAction.bind(this);
+
+    this.inputs = {
+      isSelected: (item) => this.listService.isSelected(item.id)
+    };
+
+    this.outputs = {
+      onVmAction: this.vmAction,
+      onClick: this.showDetail
+    };
+  }
 
   public ngOnInit(): void {
     this.getVmList().subscribe();

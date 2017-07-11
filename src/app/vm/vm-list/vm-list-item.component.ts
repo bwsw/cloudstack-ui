@@ -13,8 +13,8 @@ import { VmService } from '../shared/vm.service';
   styleUrls: ['vm-list-item.component.scss']
 })
 export class VmListItemComponent implements OnInit, OnChanges {
-  @Input() public vm: VirtualMachine;
-  @Input() public isSelected: boolean;
+  @Input() public item: VirtualMachine;
+  @Input() public isSelected: (vm: VirtualMachine) => boolean;
   @Output() public onVmAction = new EventEmitter();
   @Output() public onClick = new EventEmitter();
   @ViewChild(MdlPopoverComponent) public popoverComponent: MdlPopoverComponent;
@@ -34,10 +34,10 @@ export class VmListItemComponent implements OnInit, OnChanges {
 
     this.actions = VirtualMachine.actions;
     this.asyncJobService.event.subscribe((job: AsyncJob<any>) => {
-      if (job.result && job.result.id === this.vm.id) {
-        this.vm.state = job.result.state;
+      if (job.result && job.result.id === this.item.id) {
+        this.item.state = job.result.state;
         if (job.result.nic && job.result.nic.length) {
-          this.vm.nic[0] = job.result.nic[0];
+          this.item.nic[0] = job.result.nic[0];
         }
       }
     });
@@ -57,16 +57,21 @@ export class VmListItemComponent implements OnInit, OnChanges {
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
     if (!this.popoverComponent.isVisible) {
-      this.onClick.emit(this.vm);
+      this.onClick.emit(this.item);
     } else {
       this.popoverComponent.hide();
     }
   }
 
+  public togglePopover(event): void {
+    event.stopPropagation();
+    this.popoverComponent.toggle(event);
+  }
+
   public openConsole(): void {
     window.open(
-      `client/console?cmd=access&vm=${this.vm.id}`,
-      this.vm.displayName,
+      `client/console?cmd=access&vm=${this.item.id}`,
+      this.item.displayName,
       'resizable=0,width=820,height=640'
     );
   }
@@ -80,25 +85,25 @@ export class VmListItemComponent implements OnInit, OnChanges {
 
     const e = {
       action: this.actions.find(a => a.nameLower === act),
-      vm: this.vm
+      vm: this.item
     };
 
     if (act === 'restore') {
-      e['templateId'] = this.vm.templateId;
+      e['templateId'] = this.item.templateId;
     }
 
     this.onVmAction.emit(e);
   }
 
   public getMemoryInMb(): string {
-    return this.vm.memory.toFixed(2);
+    return this.item.memory.toFixed(2);
   }
 
   public getMemoryInGb(): string {
-    return (this.vm.memory / this.gigabyte).toFixed(2);
+    return (this.item.memory / this.gigabyte).toFixed(2);
   }
 
   private updateColor(): void {
-    this.color = this.vm.getColor();
+    this.color = this.item.getColor();
   }
 }

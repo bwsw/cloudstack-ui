@@ -92,10 +92,15 @@ import {
 import {
   CreateUpdateDeleteDialogComponent
 } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
+import { GroupedCardListComponent } from './components/grouped-card-list/grouped-card-list.component';
+import { DynamicModule } from 'ng-dynamic-component';
+import { VmListItemComponent } from '../vm/vm-list/vm-list-item.component';
+import { GroupingsComponent } from './components/groupings/groupings.component';
 
 
 @NgModule({
   imports: [
+    DynamicModule.withComponents([VmListItemComponent]),
     CommonModule,
     FormsModule,
     MdlDialogModule,
@@ -106,6 +111,7 @@ import {
     TranslateModule
   ],
   exports: [
+    GroupedCardListComponent,
     CharacterCountTextfieldComponent,
     ColorPickerComponent,
     CreateUpdateDeleteDialogComponent,
@@ -182,7 +188,9 @@ import {
     HighLightPipe,
     ViewValuePipe,
     LoadingDirective,
-    LoaderComponent
+    LoaderComponent,
+    GroupedCardListComponent,
+    GroupingsComponent
   ],
   providers: [
     AffinityGroupService,
