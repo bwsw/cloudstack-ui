@@ -10,6 +10,9 @@ import { AuthService, ErrorService, LanguageService, LayoutService, Notification
 import { RouterUtilsService } from './shared/services/router-utils.service';
 import { StyleService } from './shared/services/style.service';
 import { ZoneService } from './shared/services/zone.service';
+import { StorageService } from './shared/services/storage.service';
+import { AsyncJobService } from './shared/services/async-job.service';
+import { CacheService } from './shared/services/cache.service';
 
 
 @Component({
@@ -35,6 +38,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     private router: Router,
     private error: ErrorService,
     private languageService: LanguageService,
+    private asyncJobService: AsyncJobService,
+    private cacheService: CacheService,
+    private storage: StorageService,
     private layoutService: LayoutService,
     private mdlDialogService: MdlDialogService,
     private notification: NotificationService,
@@ -58,13 +64,19 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.loadSettings();
 
     this.error.subscribe(e => this.handleError(e));
-    this.auth.loggedIn.subscribe(loggedIn => {
-      this.loggedIn = loggedIn;
+    this.auth.loggedIn.subscribe(isLoggedIn => {
+      this.loggedIn = isLoggedIn;
       this.updateAccount(this.loggedIn);
-      if (loggedIn) {
+      if (isLoggedIn) {
+        this.auth.startInactivityCounter();
         this.loadSettings();
         this.zoneService.areAllZonesBasic().subscribe(basic => this.disableSecurityGroups = basic);
+      } else {
+        this.auth.clearInactivityTimer();
       }
+      this.asyncJobService.completeAllJobs();
+      this.cacheService.invalidateAll();
+      this.storage.resetInMemoryStorage();
     });
 
     this.layoutService.drawerToggled.subscribe(() => {

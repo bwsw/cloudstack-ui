@@ -6,6 +6,7 @@
       class="details-select"
       [colors]="colorList"
       [ngModel]="color"
+      [disabled]="colorUpdateInProgress"
       (change)="changeColor($event)"
     >
     </cs-color-picker>
@@ -287,5 +288,20 @@
         </div>
       </div>
     </mdl-card-supporting-text>
+    <mdl-card-menu>
+      <button
+        mdl-button
+        mdl-ripple
+        mdl-button-type="icon"
+        mdl-tooltip-position="left"
+        [mdl-tooltip]="refreshStatisticsTooltip"
+        (click)="updateStats()"
+      >
+        <mdl-icon>sync</mdl-icon>
+      </button>
+    </mdl-card-menu>
   </mdl-card>
 </div>
+<mdl-tooltip #refreshStatisticsTooltip="mdlTooltip">
+  {{ 'REFRESH' | translate }}
+</mdl-tooltip>

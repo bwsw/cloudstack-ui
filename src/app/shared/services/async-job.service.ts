@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 import { Subject } from 'rxjs/Subject';
 
 import { AsyncJob } from '../models';
@@ -35,21 +36,25 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
 
   public queryJob(job: any, entity = '', entityModel: any = null): Observable<typeof entityModel> {
     const jobId = this.getJobId(job);
-    const jobSubject = new Subject<AsyncJob<typeof entityModel>>();
-    this.jobs.push(jobSubject);
+    const jobObservable = Observable.create(observer => {
+      let interval;
+      setTimeout(() => {
+        this._queryJob(jobId, observer, entity, entityModel);
+        interval = setInterval(() => {
+          if (jobObservable.isStopped) {
+            clearInterval(interval);
+            return;
+          }
+          this._queryJob(jobId, observer, entity, entityModel, interval);
+        }, this.pollingInterval);
+        this.timerIds.push(interval);
+      }, this.immediatePollingInterval);
 
-    setTimeout(() => {
-      this._queryJob(jobId, jobSubject, entity, entityModel);
-      let interval = setInterval(() => {
-        if (jobSubject.isStopped) {
-          clearInterval(interval);
-          return;
-        }
-        this._queryJob(jobId, jobSubject, entity, entityModel, interval);
-      }, this.pollingInterval);
-      this.timerIds.push(interval);
-    }, this.immediatePollingInterval);
-    return jobSubject;
+      return () => clearInterval(interval);
+    });
+    this.jobs.push(jobObservable);
+
+    return jobObservable;
   }
 
   public completeAllJobs(): void {
@@ -61,7 +66,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
 
   private _queryJob(
     jobId: string,
-    jobSubject: Subject<AsyncJob<any>>,
+    observer: Observer<AsyncJob<any>>,
     entity: string,
     entityModel: any,
     interval?: any
@@ -73,10 +78,10 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
           case JobStatus.InProgress:
             return;
           case JobStatus.Completed:
-            jobSubject.next(this.getResult(asyncJob, entity, entityModel));
+            observer.next(this.getResult(asyncJob, entity, entityModel));
             break;
           case JobStatus.Failed: {
-            jobSubject.error(ErrorService.parseError(this.getResponse({ error: asyncJob.result })));
+            observer.error(ErrorService.parseError(this.getResponse({ error: asyncJob.result })));
             break;
           }
         }
@@ -85,7 +90,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
           clearInterval(interval);
           this.timerIds.filter(id => interval !== id);
         }
-        jobSubject.complete();
+        observer.complete();
         this.event.next(asyncJob);
       });
   }

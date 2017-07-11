@@ -22,7 +22,7 @@ export class NotificationService implements NotificationService {
   }
 
   public message(message: string | ParametrizedTranslation): Observable<MdlSnackbarComponent> {
-    let obs = new Subject<MdlSnackbarComponent>();
+    const obs = new Subject<MdlSnackbarComponent>();
     this.getTranslatedMessage(message)
       .switchMap(translatedMessage => {
         return this.snackbar.showSnackbar({
@@ -40,7 +40,7 @@ export class NotificationService implements NotificationService {
       handler: () => {},
       text: 'OK'
     }): Observable<MdlSnackbarComponent> {
-    let obs = new Subject<MdlSnackbarComponent>();
+    const obs = new Subject<MdlSnackbarComponent>();
     this.getTranslatedMessage(message)
       .switchMap(translatedMessage => {
         return this.snackbar.showSnackbar({message: translatedMessage, action});
@@ -60,7 +60,7 @@ export class NotificationService implements NotificationService {
       handler: () => {},
       text: 'OK'
     }): Observable<MdlSnackbarComponent> {
-    let obs = new Subject<MdlSnackbarComponent>();
+    const obs = new Subject<MdlSnackbarComponent>();
     this.getTranslatedMessage(message)
       .switchMap(translatedMessage => {
         return this.snackbar.showSnackbar({

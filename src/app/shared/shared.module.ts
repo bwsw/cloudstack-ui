@@ -88,6 +88,9 @@ import { VolumeOfferingService } from './services/volume-offering.service';
 import { ReloadComponent } from './components/reload/reload.component';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
 import { ForbiddenValuesDirective } from './directives/forbidden-values.directive';
+import {
+  CreateUpdateDeleteDialogComponent
+} from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 
 
 @NgModule({
@@ -104,6 +107,7 @@ import { ForbiddenValuesDirective } from './directives/forbidden-values.directiv
   exports: [
     CharacterCountComponent,
     ColorPickerComponent,
+    CreateUpdateDeleteDialogComponent,
     DatePickerComponent,
     DescriptionComponent,
     DiskOfferingComponent,
@@ -145,6 +149,7 @@ import { ForbiddenValuesDirective } from './directives/forbidden-values.directiv
     CalendarMonthComponent,
     CalendarYearComponent,
     ColorPickerComponent,
+    CreateUpdateDeleteDialogComponent,
     DateDisplayComponent,
     DatePickerComponent,
     DatePickerDialogComponent,

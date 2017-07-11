@@ -66,9 +66,12 @@ export class EventListComponent implements OnInit {
   }
 
   public getEvents(params = { reload: false }): void {
-    if (params.reload) { this.loading = true; }
+    if (params.reload) {
+      this.loading = true;
+    }
     this.getEventsObservable(params)
-      .subscribe(() => this.loading = false);
+      .finally(() => this.loading = false)
+      .subscribe();
   }
 
   public getEventsObservable(params: { reload: boolean }): Observable<Array<Event>> {
@@ -109,7 +112,9 @@ export class EventListComponent implements OnInit {
   }
 
   private filterBySearch(events: Array<Event>): Array<Event> {
-    if (!this.query) { return events; }
+    if (!this.query) {
+      return events;
+    }
 
     const queryLower = this.query.toLowerCase();
     return events.filter((event: Event) => {
@@ -169,12 +174,19 @@ export class EventListComponent implements OnInit {
   }
 
   private getEventTypes(events: Array<Event>): Array<string> {
-    return events.reduce((acc, event) => {
+    const types = events.reduce((acc, event) => {
       if (!acc.includes(event.type)) {
         acc.push(event.type);
       }
       return acc;
     }, []);
+
+    return this.selectedTypes.reduce((acc, type) => {
+      if (!acc.includes(type)) {
+        acc.push(type);
+      }
+      return acc;
+    }, types);
   }
 
   private initTableModel(translations: any): void {
