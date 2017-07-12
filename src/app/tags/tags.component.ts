@@ -66,7 +66,7 @@ export class TagsComponent implements OnChanges {
       ]
     })
       .switchMap(res => res.onHide())
-      .subscribe(() => this.onTagUpdated.emit(),);
+      .subscribe(() => this.onTagUpdated.emit());
   }
 
   public removeTag(): void {

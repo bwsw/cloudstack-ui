@@ -21,7 +21,7 @@
   [query]="query"
   (onNewTag)="addTag($event)"
   (onTagEdit)="editTag($event)"
-  (onTagDelete)="removeTag($event)"
+  (onTagDelete)="removeTag()"
 ></cs-tag-category>
 
 <cs-no-results *ngIf="!visibleCategories.length"></cs-no-results>
