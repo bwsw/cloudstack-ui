@@ -3,7 +3,7 @@
     mdl-button
     mdl-button-type="mini-fab"
     mdl-colored="accent"
-    (click)="addCategory()"
+    (click)="addTag()"
   >
     <mdl-icon>add</mdl-icon>
   </button>
@@ -21,6 +21,7 @@
   [query]="query"
   (onNewTag)="addTag($event)"
   (onTagEdit)="editTag($event)"
+  (onTagDelete)="removeTag($event)"
 ></cs-tag-category>
 
 <cs-no-results *ngIf="!visibleCategories.length"></cs-no-results>

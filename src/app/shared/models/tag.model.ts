@@ -30,18 +30,16 @@ export class Tag extends BaseModel {
 
   public get categoryName(): string {
     const tagParts = this.key.split('.');
-    const categoryNameIsPresent = tagParts.length > 1;
+    const categoryNameIsPresent = tagParts.length > 1 && tagParts[0] && tagParts[1];
 
     return categoryNameIsPresent ? tagParts[0] : defaultCategoryName;
   }
 
   public get keyWithoutCategory(): string {
-    const tagParts = this.key.split('.');
-
-    if (tagParts.length > 1) {
-      return tagParts.splice(1).join('.');
+    if (this.categoryName === defaultCategoryName) {
+      return this.key;
     }
 
-    return tagParts.join('.');
+    return this.key.split('.').splice(1).join('.');
   }
 }

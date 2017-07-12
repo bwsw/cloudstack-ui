@@ -1,23 +1,11 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<h3 class="mdl-dialog__title">{{ 'EDIT_TAG' | translate }}</h3>
+<h3 class="mdl-dialog__title">{{ (title || 'EDIT_TAG') | translate }}</h3>
 
 <form
   (ngSubmit)="onUpdate()"
   #tagCreationForm="ngForm"
 >
   <div class="mdl-dialog__content">
-
-    <mdl-autocomplete
-      name="group"
-      [placeholder]="'TAG_CATEGORY' | translate"
-      [options]="categoryNames"
-      [maxLength]="maxCategoryLength"
-      [(ngModel)]="categoryName"
-    ></mdl-autocomplete>
-    <cs-character-count
-      [value]="category"
-      [maxLength]="maxCategoryLength"
-    ></cs-character-count>
 
     <mdl-textfield
       type="text"
@@ -26,6 +14,8 @@
       autofocus
       floating-label
       #keyField="ngModel"
+      [forbiddenValues]="forbiddenKeys"
+      [error-msg]="keyFieldErrorMessage | translate"
       [(ngModel)]="key"
       [maxlength]="maxKeyLength"
       [label]="'TAG_KEY' | translate"
@@ -62,7 +52,7 @@
       type="submit"
       [disabled]="!tagCreationForm.valid"
     >
-      {{ 'EDIT' | translate }}
+      {{ (confirmButtonText || 'EDIT') | translate }}
     </button>
     <button
       mdl-button

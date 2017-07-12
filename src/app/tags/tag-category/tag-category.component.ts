@@ -19,14 +19,14 @@ export class TagCategoryComponent {
   @Input() public query: string;
   @Output() public onNewTag: EventEmitter<TagCategory>;
   @Output() public onTagEdit: EventEmitter<Tag>;
-  @Output() public onCategoryDelete: EventEmitter<TagCategory>;
+  @Output() public onTagDelete: EventEmitter<Tag>;
 
   public loading: boolean;
 
   constructor() {
     this.onNewTag = new EventEmitter<TagCategory>();
     this.onTagEdit = new EventEmitter<Tag>();
-    this.onCategoryDelete = new EventEmitter<TagCategory>();
+    this.onTagDelete = new EventEmitter<Tag>();
   }
 
   public addTag(): void {
@@ -38,6 +38,6 @@ export class TagCategoryComponent {
   }
 
   public removeTag(tag: Tag): void {
-    this.category.tags = this.category.tags.filter(_ => _.key !== tag.key);
+    this.onTagDelete.emit(tag);
   }
 }

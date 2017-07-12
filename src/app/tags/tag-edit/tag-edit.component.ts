@@ -1,10 +1,12 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, Optional, ViewChild } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { MdlDialogReference } from '../../dialog/dialog-module';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { TagService } from '../../shared/services';
 import { TagCategory } from '../tag-category/tag-category.component';
 import { defaultCategoryName, Tag } from '../../shared/models';
+import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 
 @Component({
@@ -17,65 +19,81 @@ export class TagEditComponent {
 
   public loading: boolean;
 
-  public categoryName: string;
   public key: string;
   public value: string;
 
-  public maxCategoryLength = 250;
+  public maxKeyLength = 255;
   public maxValueLength = 255;
 
   constructor(
-    @Inject('category') public category: TagCategory,
-    @Inject('categories') public categories: Array<TagCategory>,
-    @Inject('tag') private tag: Tag,
+    @Optional() @Inject('forbiddenKeys') public forbiddenKeys: Array<string>,
+    @Optional() @Inject('title') public title: string,
+    @Optional() @Inject('confirmButtonText') public confirmButtonText: string,
+    @Optional() @Inject('tag') private tag: Tag,
+    @Optional() @Inject('entity') private entity: Taggable,
+    @Optional() @Inject('categoryName') private categoryName: string,
     private dialog: MdlDialogReference,
+    private dialogService: DialogService,
     private tagService: TagService
   ) {
-    this.categoryName = category.name;
-    this.key = tag.keyWithoutCategory;
-    this.value = tag.value;
+    if (tag) {
+      this.key = tag.key;
+      this.value = tag.value;
+    } else if (categoryName && categoryName !== defaultCategoryName) {
+      this.key = `${categoryName}.`;
+    }
   }
 
-  public get categoryNames(): Array<string> {
-    return this.categories.map(_ => _.name);
-  }
-
-  public get maxKeyLength(): number {
-    const keyFieldLength = 255;
-    const dot = 1;
-
-    return keyFieldLength - dot - this.category.name.length;
-  }
-
-  public get keyString(): string {
-    if (this.categoryName === defaultCategoryName) {
-      return this.key;
+  public get keyFieldErrorMessage(): string {
+    if (this.keyField.errors && this.keyField.errors.forbiddenValuesValidator) {
+      return 'TAG_ALREADY_EXISTS';
     }
 
-    return `${this.categoryName}.${this.key}`;
+    return '';
   }
 
   public onUpdate(): void {
     this.loading = true;
 
-    this.tagService.remove({
-      resourceIds: this.tag.resourceId,
-      resourceType: this.tag.resourceType,
-      'tags[0].key': this.tag.key,
-    })
+    const resourceIds = this.tag && this.tag.resourceId || this.entity && this.entity.id;
+    const resourceType = this.tag && this.tag.resourceType || this.entity && this.entity.resourceType;
+
+    Observable.of(null)
+      .switchMap(() => {
+        if (!this.tag) {
+          return Observable.of(null);
+        }
+
+        return this.tagService.remove({
+          resourceIds,
+          resourceType,
+          'tags[0].key': this.tag.key,
+          'tags[0].value': this.tag.value
+        });
+      })
       .switchMap(() => {
         return this.tagService.create({
-          resourceIds: this.tag.resourceId,
-          resourceType: this.tag.resourceType,
-          'tags[0].key': this.keyString,
+          resourceIds,
+          resourceType,
+          'tags[0].key': this.key,
           'tags[0].value': this.value
-        })
+        });
       })
-      .finally(() => this.dialog.hide())
-      .subscribe();
+      .finally(() => this.loading = false)
+      .subscribe(
+        () => this.dialog.hide(),
+        error => this.onError(error)
+      );
   }
 
   public onCancel(): void {
     this.dialog.hide();
+  }
+
+  private onError(error: any): void {
+    this.dialogService.alert({
+      translationToken: error.message,
+      interpolateParams: error.params
+    });
   }
 }

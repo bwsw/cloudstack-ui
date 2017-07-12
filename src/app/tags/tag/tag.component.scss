@@ -8,6 +8,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
+  max-width: 34% !important;
+  min-width: 34% !important;
 }
 
 .flex-container {
@@ -17,7 +19,8 @@
 }
 
 .left {
-  width: 66% !important;
+  max-width: 66% !important;
+  min-width: 66% !important;
   margin-right: 15px;
 }
 

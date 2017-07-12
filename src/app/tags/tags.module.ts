@@ -6,12 +6,10 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard/dist';
 import { SharedModule } from '../shared/shared.module';
-import { TagsComponent } from './tags.component';
-import { TagComponent } from './tag/tag.component';
 import { TagCategoryComponent } from './tag-category/tag-category.component';
-import { TagCategoryCreationComponent } from './tag-category-creation/tag-category-creation.component';
-import { TagCreationDialogComponent } from './tag-creation-dialog/tag-creation-dialog.component';
 import { TagEditComponent } from './tag-edit/tag-edit.component';
+import { TagComponent } from './tag/tag.component';
+import { TagsComponent } from './tags.component';
 
 
 @NgModule({
@@ -31,14 +29,10 @@ import { TagEditComponent } from './tag-edit/tag-edit.component';
     TagComponent,
     TagsComponent,
     TagEditComponent,
-    TagCategoryComponent,
-    TagCreationDialogComponent,
-    TagCategoryCreationComponent
+    TagCategoryComponent
   ],
   entryComponents: [
-    TagEditComponent,
-    TagCreationDialogComponent,
-    TagCategoryCreationComponent
+    TagEditComponent
   ]
 })
 export class TagsModule { }

@@ -20,8 +20,6 @@
       (onTagEdit)="editTag($event)"
       (onTagRemove)="removeTag($event)"
     ></cs-tag>
-
-    <span *ngIf="!category.tags.length">{{ 'NO_TAGS' | translate }}</span>
   </mdl-card-supporting-text>
 
   <mdl-card-actions mdl-card-border>
