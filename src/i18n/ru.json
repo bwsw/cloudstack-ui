@@ -580,5 +580,6 @@
   "ADD_TAG_CATEGORY": "Добавить новую категорию",
   "TAG_ALREADY_EXISTS": "Тег уже существует",
   "TAG_CATEGORY_ALREADY_EXISTS": "Категория уже существует",
-  "NO_TAGS": "Нет тегов"
+  "NO_TAGS": "Нет тегов",
+  "EDIT_TAG": "Редактировать тег"
 }

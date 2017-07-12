@@ -17,6 +17,8 @@
       *ngFor="let tag of category.tags"
       [tag]="tag"
       [query]="query"
+      (onTagEdit)="editTag($event)"
+      (onTagRemove)="removeTag($event)"
     ></cs-tag>
 
     <span *ngIf="!category.tags.length">{{ 'NO_TAGS' | translate }}</span>

@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
-import { Tag } from '../../shared/models';
-import { TagService } from '../../shared/services';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
+import { Tag } from '../../shared/models';
+import { NotificationService, TagService } from '../../shared/services';
 
 
 @Component({
@@ -13,41 +13,40 @@ export class TagComponent {
   @Input() public entity: Taggable;
   @Input() public query: string;
   @Input() public tag: Tag;
+  @Output() public onTagEdit: EventEmitter<Tag>;
+  @Output() public onTagRemove: EventEmitter<Tag>;
 
   public loading: boolean;
 
-  constructor(private tagService: TagService) {}
+  constructor(
+    private notificationService: NotificationService,
+    private tagService: TagService
+  ) {
+    this.onTagEdit = new EventEmitter<Tag>();
+    this.onTagRemove = new EventEmitter<Tag>();
+  }
 
-  public update(value: string): void {
-    this.loading = true;
-
-    this.tagService.update(
-      this.tag.resourceId,
-      this.tag.resourceType,
-      this.tag.key,
-      value
-    )
-      .finally(() => this.loading = false)
-      .subscribe();
+  public edit(): void {
+    this.onTagEdit.emit(this.tag);
   }
 
   public remove(): void {
     this.loading = true;
 
     this.tagService.remove({
-      resourceIds: this.entity.id,
-      resourceType: this.entity.resourceType,
+      resourceIds: this.tag.resourceId,
+      resourceType: this.tag.resourceType,
       'tags[0].key': this.tag.key
     })
       .finally(() => this.loading = false)
-      .subscribe();
+      .subscribe(() => this.onTagRemove.emit(this.tag));
   }
 
-  public onTagValueChange(value: string): void {
-    if (value) {
-      this.update(value);
-    } else {
-      this.remove();
-    }
+  public onCopySuccess(): void {
+    this.notificationService.message('COPY_SUCCESS');
+  }
+
+  public onCopyFail(): void {
+    this.notificationService.message('COPY_FAIL');
   }
 }

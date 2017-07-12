@@ -3,9 +3,10 @@ import { DialogService } from '../dialog/dialog-module/dialog.service';
 import { Taggable } from '../shared/interfaces/taggable.interface';
 import { defaultCategoryName, Tag } from '../shared/models';
 import { UtilsService } from '../shared/services';
-import { TagCategoryCreationComponent } from './tag-category-creation-dialog/tag-category-creation.component';
+import { TagCategoryCreationComponent } from './tag-category-creation/tag-category-creation.component';
 import { TagCategory } from './tag-category/tag-category.component';
 import { TagCreationDialogComponent } from './tag-creation-dialog/tag-creation-dialog.component';
+import { TagEditComponent } from './tag-edit/tag-edit.component';
 import cloneDeep = require('lodash/cloneDeep');
 import groupBy = require('lodash/groupBy');
 import sortBy = require('lodash/sortBy');
@@ -61,7 +62,21 @@ export class TagsComponent implements OnChanges {
       ]
     })
       .switchMap(res => res.onHide())
-      .subscribe(vm => this.onTagUpdated.emit());
+      .subscribe(() => this.onTagUpdated.emit());
+  }
+
+  public editTag(tag: Tag): void {
+    this.dialogService.showCustomDialog({
+      component: TagEditComponent,
+      classes: 'tag-edit',
+      providers: [
+        { provide: 'category', useValue: this.getCategoryByName(tag.categoryName) },
+        { provide: 'categories', useValue: this.categories },
+        { provide: 'tag', useValue: tag }
+      ]
+    })
+      .switchMap(res => res.onHide())
+      .subscribe(() => this.onTagUpdated.emit());
   }
 
   public updateResults(): void {

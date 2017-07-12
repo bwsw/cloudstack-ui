@@ -9,7 +9,7 @@ import { SharedModule } from '../shared/shared.module';
 import { TagsComponent } from './tags.component';
 import { TagComponent } from './tag/tag.component';
 import { TagCategoryComponent } from './tag-category/tag-category.component';
-import { TagCategoryCreationComponent } from './tag-category-creation-dialog/tag-category-creation.component';
+import { TagCategoryCreationComponent } from './tag-category-creation/tag-category-creation.component';
 import { TagCreationDialogComponent } from './tag-creation-dialog/tag-creation-dialog.component';
 import { TagEditComponent } from './tag-edit/tag-edit.component';
 

@@ -580,5 +580,6 @@
   "ADD_TAG_CATEGORY": "Add new category",
   "TAG_ALREADY_EXISTS": "Tag already exists",
   "TAG_CATEGORY_ALREADY_EXISTS": "Category already exists",
-  "NO_TAGS": "No tags"
+  "NO_TAGS": "No tags",
+  "EDIT_TAG": "Edit tag"
 }

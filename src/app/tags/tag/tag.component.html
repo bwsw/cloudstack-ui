@@ -1,8 +1,48 @@
-<div class="key" [innerHTML]="tag.key | highlight:query"></div>
-
-<div style="width: 300px">
-  <cs-inline-edit
-    [content]="tag.value"
-    (textChange)="onTagValueChange($event)"
-  ></cs-inline-edit>
+<div class="height-container">
+  <div class="flex-container container">
+    <div class="flex-container left">
+    <span
+      class="key"
+      [mdl-tooltip]="keyTooltip"
+      mdl-tooltip-position="bottom"
+      [innerHTML]="tag.key | highlight:query"
+    ></span>
+      <div class="buttons">
+        <button
+          class="button-18px"
+          mdl-button
+          mdl-button-type="icon"
+          (click)="edit()"
+          [disabled]="loading"
+        >
+          <mdl-icon>edit</mdl-icon>
+        </button>
+        <button
+          class="button-18px"
+          mdl-button
+          mdl-button-type="icon"
+          (click)="remove()"
+          [disabled]="loading"
+        >
+          <mdl-icon>delete</mdl-icon>
+        </button>
+      </div>
+    </div>
+    <div
+      ngxClipboard
+      class="value"
+      mdl-tooltip-position="bottom"
+      [mdl-tooltip]="valueTooltip"
+      [innerHTML]="tag.value | highlight:query"
+      [cbContent]="tag.value"
+      (cbOnSuccess)="onCopySuccess()"
+      (cbOnError)="onCopyFail()"
+    ></div>
+  </div>
 </div>
+<mdl-tooltip #keyTooltip="mdlTooltip">
+  {{ tag.key }}
+</mdl-tooltip>
+<mdl-tooltip #valueTooltip="mdlTooltip">
+  {{ tag.value }}
+</mdl-tooltip>
