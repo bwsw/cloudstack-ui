@@ -79,7 +79,6 @@ export class VmCreationComponent implements OnInit {
 
   public ngOnInit(): void {
     this.fetching = true;
-    this.enoughResources = true;
     this.resourceUsageService.getResourceUsage()
       .subscribe(resourceUsage => {
         Object.keys(resourceUsage.available)
@@ -91,11 +90,12 @@ export class VmCreationComponent implements OnInit {
             }
           });
 
-        if (this.insufficientResources.length) {
-          this.enoughResources = false;
-          this.fetching = false;
-        } else {
+        this.enoughResources = !this.insufficientResources.length;
+
+        if (this.enoughResources) {
           this.loadData();
+        } else {
+          this.fetching = false;
         }
       });
   }
@@ -294,7 +294,6 @@ export class VmCreationComponent implements OnInit {
 
   private loadData(): void {
     this.fetching = true;
-    this.enoughResources = true;
     this.vmCreationService.getData().subscribe(vmCreationData => {
       this.data = vmCreationData;
       this.updateFormState();

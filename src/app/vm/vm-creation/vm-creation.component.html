@@ -15,7 +15,7 @@
     novalidate
   >
     <div class="container">
-      <div class="left-column">
+      <div *ngIf="enoughResources && formState?.state" class="left-column">
 
         <div>
           <h5>
@@ -109,7 +109,7 @@
 
       </div>
 
-      <div class="right-column">
+      <div *ngIf="enoughResources && formState?.state" class="right-column">
 
         <div>
           <h5>
@@ -200,7 +200,7 @@
     <div class="mdl-dialog__actions">
       <button
         mdl-colored="primary"
-        [disabled]="!vmCreateForm.valid || formState.state.displayName === takenName"
+        [disabled]="!vmCreateForm.valid || formState?.state.displayName === takenName"
         type="submit"
         mdl-button
         mdl-ripple
