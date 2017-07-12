@@ -2,6 +2,7 @@
   font-weight: bold;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .value {
@@ -10,6 +11,7 @@
   cursor: pointer;
   max-width: 34% !important;
   text-align: right;
+  white-space: nowrap;
 }
 
 .flex-container {
