@@ -9,21 +9,11 @@
   }
 }
 
-.nic .row > div:nth-child(2n),
 .security-group .row > div:nth-child(2n),
 .service-offering .row > div:nth-child(2n),
 .statistics .row > div:nth-child(2n)
 {
   text-align: right;
-}
-
-.nic-name {
-  font-weight: bolder;
-  padding: 2px;
-}
-
-.secondary-ips {
-  margin-left: 5%;
 }
 
 .vm-details-header {

@@ -6,8 +6,6 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
-import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
-import { SecurityGroup } from '../../security-group/sg.model';
 import {
   ServiceOfferingDialogComponent
 } from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
@@ -15,7 +13,6 @@ import { Color, ServiceOffering, ServiceOfferingFields } from '../../shared/mode
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { ConfigService } from '../../shared/services';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
-import { ZoneService } from '../../shared/services/zone.service';
 import { VirtualMachine, VmActions, VmStates } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { SshKeypairResetComponent } from './ssh/ssh-keypair-reset.component';
@@ -31,8 +28,6 @@ export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
   public color: Color;
   public colorList: Array<Color>;
   public description: string;
-  public disableSecurityGroup = false;
-  public expandNIC: boolean;
   public expandServiceOffering: boolean;
 
   public colorUpdateInProgress = false;
@@ -42,10 +37,8 @@ export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
     private dialogService: DialogService,
     private serviceOfferingService: ServiceOfferingService,
     private vmService: VmService,
-    private zoneService: ZoneService,
     private configService: ConfigService
   ) {
-    this.expandNIC = false;
     this.expandServiceOffering = false;
   }
 
@@ -141,32 +134,8 @@ export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
     ].indexOf(key) > -1;
   }
 
-  public toggleNIC(): void {
-    this.expandNIC = !this.expandNIC;
-  }
-
   public toggleServiceOffering(): void {
     this.expandServiceOffering = !this.expandServiceOffering;
-  }
-
-  public showRulesDialog(securityGroup: SecurityGroup): void {
-    this.dialogService.showCustomDialog({
-      component: SgRulesComponent,
-      providers: [{ provide: 'securityGroup', useValue: securityGroup }],
-      styles: { 'width': '880px' },
-    });
-  }
-
-  public confirmAddSecondaryIp(vm: VirtualMachine): void {
-    this.dialogService.confirm('ARE_YOU_SURE_ADD_SECONDARY_IP', 'NO', 'YES')
-      .onErrorResumeNext()
-      .subscribe(() => this.addSecondaryIp(vm));
-  }
-
-  public confirmRemoveSecondaryIp(secondaryIpId: string, vm: VirtualMachine): void {
-    this.dialogService.confirm('ARE_YOU_SURE_REMOVE_SECONDARY_IP', 'NO', 'YES')
-      .onErrorResumeNext()
-      .subscribe(() => this.removeSecondaryIp(secondaryIpId, vm));
   }
 
   public resetSshKey(): void {
@@ -192,29 +161,6 @@ export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
   private update(): void {
     this.updateColor();
     this.updateDescription();
-
-    this.checkSecurityGroupDisabled();
-  }
-
-  private addSecondaryIp(vm: VirtualMachine): void {
-    this.vmService.addIpToNic(vm.nic[0].id)
-      .subscribe(
-        res => {
-          const ip = res.result.nicsecondaryip;
-          vm.nic[0].secondaryIp.push(ip);
-        },
-        err => this.dialogService.alert(err.errortext)
-      );
-  }
-
-  private removeSecondaryIp(secondaryIpId: string, vm: VirtualMachine): void {
-    this.vmService.removeIpFromNic(secondaryIpId)
-      .subscribe(
-        () => {
-          vm.nic[0].secondaryIp = vm.nic[0].secondaryIp.filter(ip => ip.id !== secondaryIpId);
-        },
-        err => this.dialogService.alert(err.errortext)
-      );
   }
 
   private updateColor(): void {
@@ -281,8 +227,4 @@ export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
       });
   }
 
-  private checkSecurityGroupDisabled(): void {
-    this.zoneService.get(this.vm.zoneId)
-      .subscribe(zone => this.disableSecurityGroup = zone.networkTypeIsBasic);
-  }
 }
