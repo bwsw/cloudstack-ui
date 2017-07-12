@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Type } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Type } from '@angular/core';
 import groupBy = require('lodash/groupBy');
 
 @Component({
@@ -6,7 +6,7 @@ import groupBy = require('lodash/groupBy');
   templateUrl: './grouped-card-list.component.html',
   styleUrls: ['./grouped-card-list.component.scss']
 })
-export class GroupedCardListComponent implements OnInit {
+export class GroupedCardListComponent implements OnInit, OnChanges {
   @Input() public component: Type<any>;
   @Input() public list: Array<any>;
   @Input() public groups: Array<any>;
@@ -16,6 +16,10 @@ export class GroupedCardListComponent implements OnInit {
   public tree: Array<{ items?, name? }>;
 
   ngOnInit(): void {
+    this.updateTree();
+  }
+
+  ngOnChanges(): void {
     this.updateTree();
   }
 

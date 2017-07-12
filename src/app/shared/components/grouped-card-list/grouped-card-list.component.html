@@ -1,4 +1,4 @@
-<div *ngFor="let child of tree">
+<ng-container *ngFor="let child of tree">
   <div class="grouped-section" *ngIf="child.name; else leaf">
     <h4>{{child.name}}</h4>
     <cs-grouped-card-list
@@ -19,4 +19,4 @@
       ></ndc-dynamic>
     </div>
   </ng-template>
-</div>
+</ng-container>
