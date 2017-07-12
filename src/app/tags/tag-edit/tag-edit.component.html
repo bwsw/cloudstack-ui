@@ -14,7 +14,7 @@
       autofocus
       floating-label
       #keyField="ngModel"
-      [forbiddenValues]="forbiddenKeys"
+      [forbiddenValues]="forbiddenKeys || []"
       [error-msg]="keyFieldErrorMessage | translate"
       [(ngModel)]="key"
       [maxlength]="maxKeyLength"
