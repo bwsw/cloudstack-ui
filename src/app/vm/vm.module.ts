@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 import { MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
-// import { DynamicModule } from 'ng-dynamic-component';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';

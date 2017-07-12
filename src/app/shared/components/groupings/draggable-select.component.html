@@ -1,0 +1,38 @@
+<div
+  class="mdl-textfield is-upgraded has-placeholder"
+  [class.is-focused]="this.popoverComponent.isVisible || this.focused"
+  [class.is-disabled]="this.disabled"
+  [class.is-dirty]="text != null && text.length > 0"
+>
+  <span
+    [attr.tabindex]="!this.disabled ? 1 : null"
+    (focus)="open($event);addFocus();"
+    (blur)="removeFocus()">
+    <!-- don't want click to also trigger focus -->
+  </span>
+  <input
+    readonly
+    tabindex="-1"
+    [placeholder]="placeholder"
+    class="mdl-textfield__input"
+    (click)="toggle($event)"
+    [attr.id]="textfieldId"
+    [value]="text"
+  >
+  <span
+    class="mdl-select__toggle material-icons"
+    (click)="toggle($event)">
+    keyboard_arrow_down
+  </span>
+  <label class="mdl-textfield__label" [attr.for]="textfieldId">{{ placeholder }}</label>
+  <span class="mdl-textfield__error"></span>
+  <mdl-popover hide-on-click="!multiple" [style.width.%]="100">
+    <div
+      class="mdl-list mdl-shadow--6dp"
+      [dragula]="textfieldId"
+      [dragulaModel]="dragItems"
+    >
+      <ng-content></ng-content>
+    </div>
+  </mdl-popover>
+</div>
