@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { BackendResource } from '../decorators/backend-resource.decorator';
 import { Zone } from '../models/zone.model';
 import { BaseBackendCachedService } from './base-backend-cached.service';
-import { BackendResource } from '../decorators/backend-resource.decorator';
-import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()
@@ -12,16 +12,9 @@ import { Observable } from 'rxjs/Observable';
 })
 export class ZoneService extends BaseBackendCachedService<Zone> {
   // a basic zone is a zone that doesn't support security groups
-  private allZonesAreBasic: boolean;
 
   public areAllZonesBasic(): Observable<boolean> {
-    if (this.allZonesAreBasic === undefined) {
-      return this.getList()
-        .map(zoneList => {
-          this.allZonesAreBasic = zoneList.every(zone => zone.networkTypeIsBasic);
-          return this.allZonesAreBasic;
-        });
-    }
-    return Observable.of(this.allZonesAreBasic);
+    return this.getList()
+      .map(zoneList => zoneList.every(zone => zone.networkTypeIsBasic));
   }
 }

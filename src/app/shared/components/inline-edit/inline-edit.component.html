@@ -1,11 +1,24 @@
-<form (ngSubmit)="onSubmit($event)" #inlineInputForm="ngForm" novalidate>
-  <span
-    class="text-content"
-    (click)="edit()"
+<form (ngSubmit)="onSubmit()" #inlineInputForm="ngForm" novalidate>
+  <div
+    style="display: flex; justify-content: space-between"
     *ngIf="!editing && !showContentPlaceholder"
   >
-    {{ content }}
-  </span>
+    <span
+      class="text-content"
+      (click)="edit()"
+      style="overflow: hidden"
+    >
+      {{ content }}
+    </span>
+    <button
+      mdl-button
+      mdl-button-type="icon"
+      (click)="edit()"
+      style="margin-left: 10px; align-self: center"
+    >
+      <mdl-icon>edit</mdl-icon>
+    </button>
+  </div>
 
   <span
     class="text-content text-content-empty"
@@ -16,17 +29,15 @@
   </span>
 
   <mdl-textfield
+    mdl-textarea-autoresize
     name="textField"
     *ngIf="editing"
     [ngModel]="textFieldText"
     (ngModelChange)="updateTextFieldText($event)"
     [placeholder]="inputPlaceholder | translate"
     [rows]="rows"
-    [maxrows]="maxrows"
-    (keyup.enter)="onSubmit()"
+    (keyup)="onKeyUp($event)"
   ></mdl-textfield>
-
-  <br>
 
   <div class="buttons">
     <button

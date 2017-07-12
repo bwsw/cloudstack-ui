@@ -1,8 +1,9 @@
 import { Component, OnInit, Inject, Optional } from '@angular/core';
-import { MdlDialogReference } from 'angular2-mdl';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 
 import { OsType, OsTypeService, Zone, ZoneService } from '../../shared';
 import { Snapshot } from '../../shared/models/snapshot.model';
+import { TemplateActionsService } from '../shared/template-actions.service';
 
 
 @Component({
@@ -23,9 +24,12 @@ export class TemplateCreationComponent implements OnInit {
   public osTypes: Array<OsType>;
   public zones: Array<Zone>;
 
+  public loading: boolean;
+
   constructor(
     private dialog: MdlDialogReference,
     private osTypeService: OsTypeService,
+    private templateActions: TemplateActionsService,
     private zoneService: ZoneService,
     @Optional() @Inject('snapshot') public snapshot: Snapshot,
     @Inject('mode') public mode: string
@@ -71,11 +75,20 @@ export class TemplateCreationComponent implements OnInit {
       if (this.mode === 'Template') {
         params['passwordEnabled'] = this.passwordEnabled;
         params['isDynamicallyScalable'] = this.dynamicallyScalable;
+        params['entity'] = 'Template';
+      } else {
+        params['entity'] = 'Iso';
       }
     } else {
       params['snapshotId'] = this.snapshot.id;
     }
 
-    this.dialog.hide(params);
+    this.loading = true;
+    this.templateActions.createTemplate(params, this.mode)
+      .finally(() => this.loading = false)
+      .subscribe(
+        template => this.dialog.hide(template),
+        () => {}
+      );
   }
 }

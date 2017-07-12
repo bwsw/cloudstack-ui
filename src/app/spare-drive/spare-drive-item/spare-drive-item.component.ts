@@ -1,18 +1,15 @@
 import { Component, Input, EventEmitter, Output, ViewChild, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
+import { MdlPopoverComponent } from '@angular-mdl/popover';
 
 import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
 import { VolumeResizeComponent } from '../../vm/vm-sidebar/volume-resize.component';
 import {
   DiskOfferingService,
   VolumeAttachmentData,
-  VolumeResizeData,
-  VolumeService,
   ZoneService
 } from '../../shared/services';
 import { DiskOffering, Volume, Zone } from '../../shared/models';
-import { DialogService } from '../../shared/services/dialog.service';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 
 @Component({
@@ -34,8 +31,6 @@ export class SpareDriveItemComponent implements OnInit {
   constructor(
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
-    private translateService: TranslateService,
-    private volumeService: VolumeService,
     private zoneService: ZoneService
   ) {}
 
@@ -45,7 +40,7 @@ export class SpareDriveItemComponent implements OnInit {
     this.zoneService.get(this.volume.zoneId)
       .switchMap((_zone: Zone) => {
         zone = _zone;
-        return this.diskOfferingService.getList(zone.id);
+        return this.diskOfferingService.getList({ zoneId: zone.id });
       })
       .subscribe(diskOfferings => {
         this.diskOfferings = diskOfferings.filter((diskOffering: DiskOffering) => {
@@ -57,17 +52,20 @@ export class SpareDriveItemComponent implements OnInit {
   public attach(): void {
     this.dialogService.showCustomDialog({
       component: SpareDriveAttachmentComponent,
-      providers: [{ provide: 'zoneId', useValue: this.volume.zoneId }],
+      providers: [
+        { provide: 'volume', useValue: this.volume },
+        { provide: 'zoneId', useValue: this.volume.zoneId }
+      ],
       classes: 'spare-drive-attachment-dialog'
     })
       .switchMap(res => res.onHide())
-      .subscribe((data: string) => {
-        if (!data) {
+      .subscribe(virtualMachineId => {
+        if (!virtualMachineId) {
           return;
         }
         this.onVolumeAttached.emit({
           id: this.volume.id,
-          virtualMachineId: data
+          virtualMachineId
         });
       });
   }
@@ -91,9 +89,9 @@ export class SpareDriveItemComponent implements OnInit {
       ],
     })
       .switchMap(res => res.onHide())
-      .subscribe((volumeResizeData: VolumeResizeData) => {
-        if (volumeResizeData) {
-          this._resize(volumeResizeData);
+      .subscribe(resizedVolume => {
+        if (resizedVolume) {
+          this.onVolumeResize(resizedVolume);
         }
       });
   }
@@ -102,21 +100,8 @@ export class SpareDriveItemComponent implements OnInit {
     this.onDelete.next(this.volume);
   }
 
-  private _resize(data: VolumeResizeData): void {
-    this.volumeService.resize(data)
-      .subscribe(
-        (newVolume: Volume) => {
-          this.diskOfferingService.get(data.diskOfferingId)
-            .subscribe(diskOffering => {
-              this.volume = newVolume;
-              this.volume.diskOffering = diskOffering;
-              this.onResize.emit(this.volume);
-            });
-        },
-        error => {
-          this.translateService.get(error.message)
-            .subscribe(str => this.dialogService.alert(str));
-        }
-      );
+  private onVolumeResize(volume: Volume): void {
+    this.volume.size = volume.size;
+    this.onResize.next(this.volume);
   }
 }

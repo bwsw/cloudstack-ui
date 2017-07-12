@@ -1,28 +1,20 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+
+import {
+  DiskOffering,
+  DiskOfferingService,
+  StatsUpdateService,
+  Volume,
+  VolumeTypes,
+  Zone,
+  ZoneService
+} from '../../../../shared';
 
 import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
 import { VolumeResizeComponent } from '../../volume-resize.component';
+import { DialogService } from '../../../../dialog/dialog-module/dialog.service';
 
-import {
-  JobsNotificationService,
-  StatsUpdateService,
-  VolumeResizeData,
-  VolumeService
-} from '../../../../shared/services';
-
-import { Volume, VolumeTypes } from '../../../../shared/models';
-import { SnapshotModalComponent } from './snapshot/snapshot-modal.component';
-import { SnapshotActionsService } from './snapshot/snapshot-actions.service';
-import { DiskOfferingService } from '../../../../shared/services/disk-offering.service';
-import { ZoneService } from '../../../../shared/services/zone.service';
-import { DiskOffering } from '../../../../shared/models/disk-offering.model';
-import { Zone } from '../../../../shared/models/zone.model';
-import { DialogService } from '../../../../shared/services/dialog.service';
-
-
-const numberOfShownSnapshots = 5;
 
 @Component({
   selector: 'cs-volume',
@@ -32,51 +24,32 @@ const numberOfShownSnapshots = 5;
 export class VolumeComponent implements OnInit {
   @Input() public volume: Volume;
   @Output() public onDetach = new EventEmitter();
+  @Output() public onResize = new EventEmitter();
 
-  public expandStorage: boolean;
-  public loading = false;
+  public expandDetails: boolean;
+  private _loading = false;
 
   constructor(
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
-    private jobNotificationService: JobsNotificationService,
     private statsUpdateService: StatsUpdateService,
-    private volumeService: VolumeService,
-    private translateService: TranslateService,
-    private zoneService: ZoneService,
-    public snapshotActionsService: SnapshotActionsService
-  ) { }
+    private zoneService: ZoneService
+  ) {}
 
-  public ngOnInit(): void {
-    this.expandStorage = false;
+  public get loading(): Boolean {
+    return this._loading || this.volume['loading'];
   }
 
-  public get showVolumeActions(): boolean {
-    if (!this.volume) {
-      return false;
-    }
-
-    return this.showAttachmentActions || this.showSnapshotCollapseButton;
+  public ngOnInit(): void {
+    this.expandDetails = false;
   }
 
   public get showAttachmentActions(): boolean {
     return this.volume.type === VolumeTypes.DATADISK;
   }
 
-  public get showSnapshotCollapseButton(): boolean {
-    return this.volume.snapshots.length > numberOfShownSnapshots;
-  }
-
-  public showSnapshots(): void {
-    this.dialogService.showCustomDialog({
-      component: SnapshotModalComponent,
-      providers: [{ provide: 'volume', useValue: this.volume }],
-      styles: { width: '700px' }
-    });
-  }
-
-  public toggleStorage(): void {
-    this.expandStorage = !this.expandStorage;
+  public toggleDetails(): void {
+    this.expandDetails = !this.expandDetails;
   }
 
   public detach(): void {
@@ -84,11 +57,8 @@ export class VolumeComponent implements OnInit {
   }
 
   public showVolumeResizeDialog(volume: Volume): void {
-    let notificationId: string;
-    this.loading = true;
-
     this.getOfferings().switchMap(diskOfferingList => {
-      this.loading = false;
+      this._loading = false;
       return this.dialogService.showCustomDialog({
         component: VolumeResizeComponent,
         classes: 'volume-resize-dialog',
@@ -99,44 +69,25 @@ export class VolumeComponent implements OnInit {
       });
     })
       .switchMap(res => res.onHide())
-      .switchMap((volumeResizeData: VolumeResizeData) => {
-        if (volumeResizeData) {
-          notificationId = this.jobNotificationService.add('VOLUME_RESIZING');
-          return this.volumeService.resize(volumeResizeData);
+      .subscribe(resizedVolume => {
+        if (resizedVolume) {
+          this.onVolumeResize(resizedVolume);
         }
-        return Observable.of(null);
-      })
-      .subscribe(
-        (newVolume: Volume) => {
-          if (!newVolume) {
-            return;
-          }
-          volume.size = newVolume.size;
-
-          this.jobNotificationService.finish({
-            id: notificationId,
-            message: 'VOLUME_RESIZED'
-          });
-
-          this.statsUpdateService.next();
-        },
-        error => {
-          this.jobNotificationService.fail({
-            id: notificationId,
-            message: 'VOLUME_RESIZE_FAILED'
-          });
-          this.translateService.get(error.message)
-            .subscribe(str => this.dialogService.alert(str));
-        }
-      );
+      });
   }
 
-  public takeSnapshot(volumeId: string): void {
+  public takeSnapshot(volume: Volume): void {
     this.dialogService.showCustomDialog({
       component: SnapshotCreationComponent,
       classes: 'snapshot-creation-dialog',
-      providers: [{ provide: 'volumeId', useValue: volumeId }],
+      providers: [{ provide: 'volume', useValue: volume }],
     });
+  }
+
+  private onVolumeResize(volume: Volume): void {
+    this.volume = volume;
+    this.onResize.next(this.volume);
+    this.statsUpdateService.next();
   }
 
   private getOfferings(): Observable<Array<DiskOffering>> {
@@ -145,7 +96,7 @@ export class VolumeComponent implements OnInit {
     return this.zoneService.get(this.volume.zoneId)
       .switchMap((_zone: Zone) => {
         zone = _zone;
-        return this.diskOfferingService.getList(zone.id);
+        return this.diskOfferingService.getList({ zoneId: zone.id });
       })
       .map(diskOfferings => {
         return diskOfferings.filter((diskOffering: DiskOffering) => {

@@ -1,23 +1,24 @@
+import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import {
-  Component,
-  Input,
-  OnChanges
-} from '@angular/core';
+  AffinityGroupSelectorComponent
+} from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
+import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
 import { SecurityGroup } from '../../security-group/sg.model';
 import {
   ServiceOfferingDialogComponent
 } from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
-import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
-import { VirtualMachine } from '../shared/vm.model';
-import { VmService } from '../shared/vm.service';
-import { Color } from '../../shared/models/color.model';
+import { Color, ServiceOffering, ServiceOfferingFields } from '../../shared/models';
+import { AffinityGroup } from '../../shared/models/affinity-group.model';
+import { ConfigService } from '../../shared/services';
+import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { InstanceGroupService } from '../../shared/services/instance-group.service';
-import { InstanceGroup } from '../../shared/models/instance-group.model';
-import { ServiceOfferingFields } from '../../shared/models/service-offering.model';
-import { DialogService } from '../../shared/services/dialog.service';
-import { TagService } from '../../shared/services/tag.service';
+import { VirtualMachine, VmActions, VmStates } from '../shared/vm.model';
+import { VmService } from '../shared/vm.service';
+import { SshKeypairResetComponent } from './ssh/ssh-keypair-reset.component';
 
 
 @Component({
@@ -25,47 +26,90 @@ import { TagService } from '../../shared/services/tag.service';
   templateUrl: 'vm-detail.component.html',
   styleUrls: ['vm-detail.component.scss']
 })
-export class VmDetailComponent implements OnChanges {
+export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
   @Input() public vm: VirtualMachine;
   public color: Color;
+  public colorList: Array<Color>;
   public description: string;
   public disableSecurityGroup = false;
   public expandNIC: boolean;
   public expandServiceOffering: boolean;
-  public groupName: string;
-  public groupNames: Array<string>;
 
-  public ServiceOfferingFields = ServiceOfferingFields;
+  public colorUpdateInProgress = false;
+  private colorSubject = new Subject<Color>();
 
   constructor(
     private dialogService: DialogService,
-    private instanceGroupService: InstanceGroupService,
-    private tagService: TagService,
+    private serviceOfferingService: ServiceOfferingService,
     private vmService: VmService,
-    private zoneService: ZoneService
+    private zoneService: ZoneService,
+    private configService: ConfigService
   ) {
     this.expandNIC = false;
     this.expandServiceOffering = false;
+  }
+
+  public ngOnInit(): void {
+    Observable.forkJoin(
+      this.configService.get('themeColors'),
+      this.configService.get('vmColors')
+    ).subscribe(
+      ([themeColors, vmColors]) => this.colorList = themeColors.concat(vmColors)
+    );
+
+    this.colorSubject
+      .debounceTime(1000)
+      .switchMap(color => {
+        this.colorUpdateInProgress = true;
+        return this.vmService.setColor(this.vm, color);
+      })
+      .subscribe(vm => {
+        this.colorUpdateInProgress = false;
+        this.vm = vm;
+        this.vmService.updateVmInfo(this.vm);
+      }, () => this.colorUpdateInProgress = false);
+
   }
 
   public ngOnChanges(): void {
     this.update();
   }
 
-  public get doShowChangeGroupButton(): boolean {
-    let groupWasEmpty = !this.vm.instanceGroup && !!this.groupName;
-    let groupChanged = this.vm.instanceGroup && this.vm.instanceGroup.name !== this.groupName;
-    return groupWasEmpty || groupChanged;
+  public ngOnDestroy(): void {
+    this.colorSubject.unsubscribe();
   }
 
-  public changeGroup(): void {
-    let instanceGroup = new InstanceGroup(this.groupName);
-    this.instanceGroupService.add(this.vm, instanceGroup)
-      .subscribe(vm => {
-        this.instanceGroupService.groupsUpdates.next();
-        this.vmService.updateVmInfo(vm);
-        this.updateGroups();
+  public changeColor(color: Color): void {
+    this.colorSubject.next(color);
+  }
+
+  public changeServiceOffering(): void {
+    this.dialogService.showCustomDialog({
+      component: ServiceOfferingDialogComponent,
+      classes: 'service-offering-dialog',
+      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
+    }).switchMap(res => res.onHide())
+      .subscribe((newOffering: ServiceOffering) => {
+        if (newOffering) {
+          this.serviceOfferingService.get(newOffering.id).subscribe(offering => {
+            this.vm.serviceOffering = offering;
+          });
+        }
       });
+  }
+
+  public changeDescription(newDescription: string): void {
+    this.vmService
+      .updateDescription(this.vm, newDescription)
+      .onErrorResumeNext()
+      .subscribe();
+  }
+
+  public changeAffinityGroup(): void {
+    this.askToStopVM(
+      'STOP_MACHINE_FOR_AG',
+      () => this.showAffinityGroupDialog()
+    );
   }
 
   public isNotFormattedField(key: string): boolean {
@@ -97,14 +141,6 @@ export class VmDetailComponent implements OnChanges {
     ].indexOf(key) > -1;
   }
 
-  public changeColor(color: Color): void {
-    this.tagService.update(this.vm, 'UserVm', 'color', color.value)
-      .subscribe(vm => {
-        this.vm = vm;
-        this.vmService.updateVmInfo(this.vm);
-      });
-  }
-
   public toggleNIC(): void {
     this.expandNIC = !this.expandNIC;
   }
@@ -133,32 +169,31 @@ export class VmDetailComponent implements OnChanges {
       .subscribe(() => this.removeSecondaryIp(secondaryIpId, vm));
   }
 
-  public changeServiceOffering(): void {
-    this.dialogService.showCustomDialog({
-      component: ServiceOfferingDialogComponent,
-      classes: 'service-offering-dialog',
-      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
-    });
+  public resetSshKey(): void {
+    this.askToStopVM(
+      'STOP_MACHINE_FOR_SSH',
+      () => this.showSshKeypairResetDialog()
+    );
   }
 
-  public changeDescription(newDescription: string): void {
-    this.vmService
-      .updateDescription(this.vm, newDescription)
-      .onErrorResumeNext()
-      .subscribe();
+  public updateStats(): void {
+    this.vmService.get(this.vm.id)
+      .subscribe(vm => {
+        this.vm.cpuUsed = vm.cpuUsed;
+        this.vm.networkKbsRead = vm.networkKbsRead;
+        this.vm.networkKbsWrite = vm.networkKbsWrite;
+        this.vm.diskKbsRead = vm.diskKbsRead;
+        this.vm.diskKbsWrite = vm.diskKbsWrite;
+        this.vm.diskIoRead = vm.diskIoRead;
+        this.vm.diskIoWrite = vm.diskIoWrite;
+      });
   }
 
   private update(): void {
     this.updateColor();
-    this.updateGroups();
     this.updateDescription();
 
     this.checkSecurityGroupDisabled();
-    if (this.vm.instanceGroup) {
-      this.groupName = this.vm.instanceGroup.name;
-    } else {
-      this.groupName = undefined;
-    }
   }
 
   private addSecondaryIp(vm: VirtualMachine): void {
@@ -183,19 +218,66 @@ export class VmDetailComponent implements OnChanges {
   }
 
   private updateColor(): void {
-    this.color = this.vmService.getColor(this.vm);
-  }
-
-  private updateGroups(): void {
-    this.vmService.getInstanceGroupList().subscribe(groups => {
-      this.groupNames = groups.map(group => group.name);
-    });
+    this.color = this.vm.getColor();
   }
 
   private updateDescription(): void {
     this.vmService.getDescription(this.vm)
       .subscribe(description => {
         this.description = description;
+      });
+  }
+
+  private askToStopVM(message: string, onStopped): void {
+    if (this.vm.state === VmStates.Stopped) {
+      onStopped();
+      return;
+    }
+
+    this.dialogService.customConfirm({
+      message: message,
+      confirmText: 'STOP',
+      declineText: 'CANCEL',
+      width: '350px',
+      clickOutsideToClose: false
+    })
+      .onErrorResumeNext()
+      .subscribe((result) => {
+        if (result === null) {
+          this.vmService.command({
+            action: VirtualMachine.getAction(VmActions.STOP),
+            vm: this.vm
+          })
+            .subscribe(onStopped);
+        }
+      });
+  }
+
+  private showAffinityGroupDialog(): void {
+    this.dialogService.showCustomDialog({
+      component: AffinityGroupSelectorComponent,
+      styles: { width: '350px' },
+      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
+      clickOutsideToClose: false
+    }).switchMap(dialog => dialog.onHide())
+      .subscribe((group?: Array<AffinityGroup>) => {
+        if (group) {
+          this.vm.affinityGroup = group;
+        }
+      });
+  }
+
+  private showSshKeypairResetDialog(): void {
+    this.dialogService.showCustomDialog({
+      component: SshKeypairResetComponent,
+      styles: { width: '350px' },
+      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
+      clickOutsideToClose: false
+    }).switchMap(dialog => dialog.onHide())
+      .subscribe((keyPairName: string) => {
+        if (keyPairName) {
+          this.vm.keyPair = keyPairName;
+        }
       });
   }
 

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 import { Color, LanguageService, StyleService } from '../shared';
 import { AuthService, NotificationService } from '../shared/services';
 import { UserService } from '../shared/services/user.service';
-import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -13,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
+  public userId: string;
   public accentColor: Color;
   public firstDayOfWeek = 1;
   public language: string;
@@ -25,6 +26,19 @@ export class SettingsComponent implements OnInit {
   public dayTranslations: {};
   public loading = false;
 
+  public primaryColorControl = new FormControl();
+  public accentColorControl = new FormControl();
+
+  public languages = [
+    { value: 'en', text: 'English' },
+    { value: 'ru', text: 'Русский' }
+  ];
+
+  public daysOfTheWeek = [
+    { value: 0, text: 'SUNDAY' },
+    { value: 1, text: 'MONDAY' }
+  ];
+
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
@@ -33,7 +47,9 @@ export class SettingsComponent implements OnInit {
     private styleService: StyleService,
     private translateService: TranslateService,
     private userService: UserService
-  ) { }
+  ) {
+    this.userId = this.authService.userId;
+  }
 
   public ngOnInit(): void {
     this.getLanguage();
@@ -82,7 +98,7 @@ export class SettingsComponent implements OnInit {
   public updatePassword(): void {
     this.userService.updatePassword(this.authService.userId, this.password)
       .subscribe(
-        () => {},
+        () => this.notificationService.message('PASSWORD_CHANGED_SUCCESSFULLY'),
         error => this.notificationService.error(error.errortext)
       );
     this.passwordUpdateForm.reset();
@@ -124,6 +140,9 @@ export class SettingsComponent implements OnInit {
           themeData.themeColors[0];
         this.accentColor = this.accentColors.find(color => color.name === themeData.accentColor) ||
           themeData.themeColors[1];
+
+        this.primaryColorControl.setValue(this.primaryColor);
+        this.accentColorControl.setValue(this.accentColor);
       });
   }
 
@@ -140,7 +159,7 @@ export class SettingsComponent implements OnInit {
   }
 
   private passwordsNotEqual(formGroup: FormGroup): { passwordsNotEqual: true } | null {
-    let valid = formGroup.controls['password'].value === formGroup.controls['passwordRepeat'].value;
+    const valid = formGroup.controls['password'].value === formGroup.controls['passwordRepeat'].value;
     return valid ? null : { passwordsNotEqual: true };
   }
 }

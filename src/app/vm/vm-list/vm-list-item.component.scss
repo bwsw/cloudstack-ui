@@ -16,6 +16,17 @@
   }
 }
 
+.custom-card.has-text-color {
+  mdl-card-supporting-text,
+  mdl-card-title {
+    color: inherit;
+  }
+
+  .state-icon {
+    box-shadow: 0 0 1px 1px white;
+  }
+}
+
 .os-type {
   margin-bottom: 5px;
 }

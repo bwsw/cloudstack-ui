@@ -8,14 +8,14 @@
       <tr>
         <th class="mdl-data-table__cell--non-numeric">{{ 'TYPE' | translate }}</th>
         <th>{{ 'PROTOCOL' | translate }}</th>
-        <template [ngIf]="protocol !== NetworkProtocols.ICMP">
+        <ng-template [ngIf]="protocol !== NetworkProtocols.ICMP">
           <th>{{ 'START_PORT' | translate }}</th>
           <th>{{ 'END_PORT' | translate }}</th>
-        </template>
-        <template [ngIf]="protocol === NetworkProtocols.ICMP">
+        </ng-template>
+        <ng-template [ngIf]="protocol === NetworkProtocols.ICMP">
           <th>{{ 'ICMP_TYPE' | translate }}</th>
           <th>{{ 'ICMP_CODE' | translate }}</th>
-        </template>
+        </ng-template>
         <th class="mdl-data-table__cell--non-numeric">CIDR</th>
         <th></th>
       </tr>
@@ -24,15 +24,22 @@
       <tr *ngIf="!securityGroup.isPredefinedTemplate">
         <td class="mdl-data-table__cell--non-numeric">
           <mdl-select class="type" [(ngModel)]="type" name="type">
-            <mdl-option [value]="NetworkRuleTypes.Ingress">{{ 'INGRESS' | translate }}</mdl-option>
-            <mdl-option [value]="NetworkRuleTypes.Egress">{{ 'EGRESS' | translate }}</mdl-option>
+            <mdl-option
+              *ngFor="let t of types"
+              [value]="t.value"
+            >
+              {{ t.text | translate }}
+            </mdl-option>
           </mdl-select>
         </td>
         <td>
           <mdl-select [(ngModel)]="protocol" name="protocol">
-            <mdl-option [value]="NetworkProtocols.TCP">TCP</mdl-option>
-            <mdl-option [value]="NetworkProtocols.UDP">UDP</mdl-option>
-            <mdl-option [value]="NetworkProtocols.ICMP">ICMP</mdl-option>
+            <mdl-option
+              *ngFor="let p of protocols"
+              [value]="p.value"
+            >
+              {{ p.text }}
+            </mdl-option>
           </mdl-select>
         </td>
         <td>

@@ -10,7 +10,7 @@ export class DescriptionComponent {
   @Output() public descriptionChange: EventEmitter<string>;
 
   public maxLength = 255;
-  public rows = 3;
+  public rows = 1;
 
   constructor() {
     this.descriptionChange = new EventEmitter<string>();

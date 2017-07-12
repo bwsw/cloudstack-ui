@@ -10,7 +10,6 @@ import { BaseTemplateModel } from '../shared/base-template.model';
 import { TemplateFilters } from '../shared/base-template.service';
 import { Zone } from '../../shared/models/zone.model';
 import sortBy = require('lodash/sortBy');
-import { TemplateDisplayMode, TemplateDisplayModes } from '../template-list/template-list.component';
 import { Template } from '../shared/template.model';
 
 
@@ -98,10 +97,6 @@ export class TemplateFilterListComponent implements OnInit {
     } else {
       return !this.visibleTemplateList || !this.visibleTemplateList.length;
     }
-  }
-
-  public get displayMode(): TemplateDisplayMode {
-    return this.dialogMode ? TemplateDisplayModes.LIST : TemplateDisplayModes.CARD;
   }
 
   public get anyZoneResults(): boolean {

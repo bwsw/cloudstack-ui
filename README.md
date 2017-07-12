@@ -3,7 +3,7 @@
 Table of Contents
 =================
 
-   * [Cloudstack UI](#cloudstack-ui)
+   * [CloudStack-UI](#cloudstack-ui)
       * [Project Story](#project-story)
       * [Implementation Details](#implementation-details)
       * [Features Supported](#features-supported)
@@ -27,19 +27,19 @@ Table of Contents
       * [How to Contribute](#how-to-contribute)
       * [License](#license)
 
-# Cloudstack UI
+# CloudStack-UI
 
-Cloudstack UI is a project whose purpose is to develop an easy-to-use, light, and user friendly frontend interface for the [Apache Cloudstack](http://cloudstack.apache.org/) virtualization management system. Apache Cloudstack itself is a great product which is used very widely, but its frontend is developed for administrators (from our point of view), not for end cloud users. Some of the interactions are not straightforward and unnatural to an average user and require quite a long time to adapt. Other reasons to develop are connected with a lack of functions like virtual machine statistics & charting, sophisticated resource accounting, and application management. These are in our long-term TODO list.
+CloudStack-UI is a project whose purpose is to develop an easy-to-use, light, and user friendly frontend interface for the [Apache CloudStack](http://cloudstack.apache.org/) virtualization management system. Apache CloudStack itself is a great product which is used very widely, but its frontend is developed for administrators (from our point of view), not for end cloud users. Some of the interactions are not straightforward and unnatural to an average user and require quite a long time to adapt. Other reasons to develop are connected with a lack of functions like virtual machine statistics & charting, sophisticated resource accounting, and application management. These are in our long-term TODO list.
 
 ## Project Story
 
-At [Bitworks Software](https://bitworks.software/), we run an ACS public cloud for 3 years (actually we still run CS 4.3 cloud in production) and we found that average users who are familiar with Digital Ocean, Amazon AWS, and other VPS management systems feel uncomfortable with original Cloudstack UI and make a lot of operational mistakes. That’s why we decided to implement a convenient and neat end-user facing UI covering regular activities, which are important for day-to-day VM management.
+At [Bitworks Software](https://bitworks.software/), we run an ACS public cloud for 3 years (actually we still run CS 4.3 cloud in production) and we found that average users who are familiar with Digital Ocean, Amazon AWS, and other VPS management systems feel uncomfortable with original CloudStack UI and make a lot of operational mistakes. That’s why we decided to implement a convenient and neat end-user facing UI covering regular activities, which are important for day-to-day VM management.
 
 The project is developed by Bitworks Software Frontend Division within the educational marathon, which has the purpose to incorporate our new team members and show them our standard frontend development instrument.
 
 ## Implementation Details
 
-* Designed compatible with [Apache Cloudstack](http://cloudstack.apache.org/) 4.9 and hasn't tested for the previous versions of CS
+* Designed compatible with [Apache CloudStack](http://cloudstack.apache.org/) 4.9 and hasn't tested for the previous versions of CS
 * Powered by [Angular 2](https://angular.io/) and [Google Material Design Lite](https://getmdl.io/)
 * Tested and works fine in next modern browsers
    * Google Chrome 56.0.2924.76
@@ -47,16 +47,19 @@ The project is developed by Bitworks Software Frontend Division within the educa
 
 ## Features Supported
 
+Actual Changelog can be found in GitHub's [wiki](https://github.com/bwsw/cloudstack-ui/wiki/Changelog).
+
 Since we designed the product from the perspective of well-known use cases, which are common to our public cloud deployment, we implemented only ones which are 100% required and cover most of use cases. Other deployments may imply other requirements, which is why it’s an open source product.
 
 So, what is supported:
 
-* Basic Cloudstack zones with virtual router
+* Basic CloudStack zones with virtual router
 * Security groups
 * KVM Hypervisor
 * Security group templates
 * Multiple zones
-* Virtual machine standard operations supported by Apache Cloudstack
+* CloudStackAccount Domains
+* Virtual machine standard operations supported by Apache CloudStack
 * Root and Data disks management
 * Ad-hoc snapshots for disks
 * Affinity groups management
@@ -66,20 +69,19 @@ So, what is supported:
 * Custom and Fixed service and disk offerings
 * Password management
 * SSH keys management
+* API keys management
+* A lot of small improvements which affect  user experience greatly
 
 ## Features Yet Unsupported
 
-We intensively use features like projects in our own Cloudstack cloud to manage resources dedicated to project groups, etc. but generic users don’t need them, so we don’t support the following features yet:
+We intensively use features like projects in our own CloudStackcloud to manage resources dedicated to project groups, etc. but generic users don’t need them, so we don’t support the following features yet:
 
 * Advanced Zones
 * Hypervisors other than KVM have not been tested
 
 ## Current To Dos
 
-* Projects
 * Responsive interface for smart devices
-* API keys management
-* A lot of small improvements which affect  user experience greatly
 
 ## Long Term To Dos
 
@@ -98,7 +100,7 @@ We intensively use features like projects in our own Cloudstack cloud to manage 
 
 #### Login view
 
-Just a simple login screen. Nothing really new. But it has a nice preloader which can be used to brand it for specific company. By default it shows Apache Cloudstack banner.
+Just a simple login screen. Nothing really new. But it has a nice preloader which can be used to brand it for specific company. By default it shows Apache CloudStack banner.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/loginView.png" target="_blank">![Login screen](./screens/loginView_mini.png)</a>
 
@@ -159,27 +161,33 @@ It’s a simplified view for account activities. It lets you choose the date and
 
 ### Main UI container
 
-To run docker container with default configuration options use:
+To run docker container use:
 
 ```
 docker run -d -p 80:80 --name cloudstack-ui \
-           -e API_BACKEND_URL=http://link_to_api_endpoint/ \
+           -e API_BACKEND_URL=http://link/to/api/endpoint \
+           -e CONSOLE_BACKEND_URL=http://link/to/console/endpoint \
+           -e BASE_HREF=base_href \
+           -v /path/to/config.json:/static/config/config.json \
            bwsw/cloudstack-ui
 ```
 
-If you want to override default options use:
+`http://link/to/api/endpoint` - URL of CloudStackAPI endpoint (e.g. http://host:8080/client/api)
 
+`http://link/to/console/endpoint` - URL of CloudStackconsole endpoint (e.g. http://host:8080/client/console)
+
+`base_href` - custom base URL (optional, defaults to "/")
+
+`/path/to/config.json` - path to a custom configuration file named config.json (optional)
+
+Additionally, you can change favicon and Cloudstack logo on login screen and in sidebar:
 ```
-docker run -d -p 80:80 --name cloudstack-ui \
-           -e API_BACKEND_URL=http://link_to_api_endpoint/ \
-           -v /my/config/path:/config \
-           bwsw/cloudstack-ui
+-v /path/to/favicon.ico:/static/img/favicon.ico \
+-v /path/to/cloudstack_logo.png:/static/img/cloudstack_logo.png \
+-v /path/to/cloudstack_logo_light.png:/static/img/cloudstack_logo_light.png \
+-v /path/to/cloudstack_logo_dark.png:/static/img/cloudstack_logo_dark.png
 ```
-
-`http://link_to_api_endpoint` - url of ACS API
-
-`/my/config/path` - path to a directory with a custom configuration file named config.json.
-
+where the `favicon.ico` is the favicon, `cloudstack_logo.png` is the logo displayed on login screen and `cloudstack_logo_light.png` and `cloudstack_logo_dark.png` are Cloudstack logos displayed in sidebar with dark and light theme respectively.
 ### Assisting object cleanup container
 
 Some operations implemented in the UI require "delayed" activities, so we use additional cleaner container that cleans objects marked for the removal.
@@ -189,6 +197,12 @@ Download and start [bwsw/cloudstack-ui-cleaner](https://hub.docker.com/r/bwsw/cl
 ## Configuration Options
 
 You can customize the application by providing your own configuration file (example link).
+
+### Default domain URL
+
+Domain URL used to fill the 'Domain' field in the login form
+
+    "defaultDomain": "domain"
 
 ### securityGroupTemplates:
 

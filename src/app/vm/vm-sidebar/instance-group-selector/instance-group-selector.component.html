@@ -1,0 +1,18 @@
+<cs-overlay-loading [active]="loading"></cs-overlay-loading>
+<div *ngIf="groupNames$ | async as groupNames">
+  <cs-create-update-delete-dialog
+    [defaultValue]="groupName"
+    [options]="groupNames"
+    [assignLabel]="'CHOOSE_EXISTING_GROUP'"
+    [createLabel]="'CREATE_NEW_GROUP'"
+    [maxLength]="255"
+    [removeLabel]="'REMOVE_FROM_GROUP'"
+    [selectPlaceholder]="'CHOOSE_GROUP'"
+    [textFieldPlaceholder]="'ENTER_GROUP_NAME'"
+    [title]="'INSTANCE_GROUP_CHANGE'"
+    (onAssigned)="changeGroup($event)"
+    (onCancel)="onCancel()"
+    (onCreated)="changeGroup($event)"
+    (onRemoved)="removeGroup()"
+  ></cs-create-update-delete-dialog>
+</div>

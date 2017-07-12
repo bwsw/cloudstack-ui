@@ -8,12 +8,12 @@
         [DateTimeFormat]="dateTimeFormat"
         [cancelLabel]="'CANCEL' | translate"
         [(ngModel)]="date"
-        (ngModelChange)="filterEvents($event)"
+        (change)="getEvents({ reload: true })"
       ></cs-date-picker>
+
       <mdl-select
-        class="event-type-select"
         [(ngModel)]="selectedLevels"
-        (change)="filterEvents()"
+        (change)="getEvents()"
         multiple="true"
         [placeholder]="'LEVELS' | translate"
       >
@@ -24,16 +24,36 @@
           {{ level }}
         </mdl-option>
       </mdl-select>
+
+      <mdl-select
+        *ngIf="eventTypes"
+        [(ngModel)]="selectedTypes"
+        (change)="getEvents()"
+        multiple="true"
+        [placeholder]="'EVENT_TYPES' | translate"
+      >
+        <mdl-option
+          *ngFor="let et of eventTypes"
+          [value]="et"
+        >
+          {{ et }}
+        </mdl-option>
+      </mdl-select>
+      <cs-search
+        [(ngModel)]="query"
+        (ngModelChange)="getEvents()"
+      ></cs-search>
     </mdl-card>
   </cs-top-bar>
   <div class="event-list">
     <ng-container *loading="loading">
-      <mdl-table
-        *ngIf="events?.length"
+      <cs-table
+        *ngIf="visibleEvents?.length"
         mdl-shadow="2"
         [table-model]="tableModel"
-      ></mdl-table>
-      <span *ngIf="!events?.length">{{ 'NO_EVENTS' | translate }}</span>
+        [searchQuery]="query"
+      ></cs-table>
+      <span *ngIf="!visibleEvents?.length">{{ 'NO_EVENTS' | translate }}</span>
     </ng-container>
   </div>
 </div>

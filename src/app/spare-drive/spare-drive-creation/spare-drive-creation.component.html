@@ -1,76 +1,70 @@
-<div *loading="loading">
-  <h3 class="mdl-dialog__title">{{ 'VOLUME_CREATION_FORM.NEW_VOLUME' | translate }}</h3>
-  <form (ngSubmit)="onCreate($event)" #volumeCreationForm="ngForm" novalidate>
-    <div class="mdl-dialog__content">
-      <div class="flex-column blur-fix" *ngIf="enoughResources">
-        <mdl-textfield
-          type="text"
-          label="{{ 'NAME' | translate }}"
-          name="name"
-          floating-label
-          autofocus
-          required
-          [(ngModel)]="name"
-          #nameField="ngModel"
-          [class.is-invalid]="nameField.invalid && !nameField.pristine"
+<cs-overlay-loading [active]="loading"></cs-overlay-loading>
+<h3 class="mdl-dialog__title">{{ 'VOLUME_CREATION_FORM.NEW_VOLUME' | translate }}</h3>
+<form (ngSubmit)="onCreate()" #volumeCreationForm="ngForm" novalidate>
+  <div class="mdl-dialog__content">
+    <div class="flex-column">
+      <cs-character-count-textfield
+        type="text"
+        label="{{ 'NAME' | translate }}"
+        name="name"
+        floating-label
+        autofocus
+        required
+        maxlength="255"
+        [(ngModel)]="name"
+      ></cs-character-count-textfield>
+      <div>
+        <h5>{{ 'ZONE' | translate }}</h5>
+        <mdl-select
+          [(ngModel)]="zoneId"
+          id="zone"
+          name="zone"
         >
-        </mdl-textfield>
-        <div>
-          <h5>{{ 'ZONE' | translate }}</h5>
-          <mdl-select
-            [(ngModel)]="zoneId"
-            id="zone"
-            name="zone"
+          <mdl-option
+            *ngFor="let z of zones"
+            [value]="z.id"
           >
-            <mdl-option
-              *ngFor="let z of zones"
-              [value]="z.id"
-            >
-              {{ z.name }}
-            </mdl-option>
-          </mdl-select>
-        </div>
-        <div>
-          <h5>{{ 'DISK_OFFERING' | translate }}</h5>
-          <cs-disk-offering
-            *ngIf="diskOfferings"
-            [diskOfferingList]="diskOfferings"
-            (offeringUpdated)="updateDiskOffering($event)"
-          ></cs-disk-offering>
-        </div>
-        <div class="blur-fix" *ngIf="showResizeSlider && minSize && maxSize">
-          <cs-slider
-            [min]="minSize"
-            [max]="maxSize"
-            [label]="'SIZE' | translate"
-            [units]="'GB' | translate"
-            name="diskSize"
-            [(ngModel)]="size"
-          ></cs-slider>
-        </div>
+            {{ z.name }}
+          </mdl-option>
+        </mdl-select>
       </div>
-      <div *ngIf="!enoughResources">{{ "VOLUME_LIMIT_EXCEEDED" | translate }}</div>
+      <div>
+        <h5>{{ 'DISK_OFFERING' | translate }}</h5>
+        <cs-disk-offering
+          [diskOfferingList]="diskOfferings"
+          (offeringUpdated)="updateDiskOffering($event)"
+        ></cs-disk-offering>
+      </div>
+      <div *ngIf="showResizeSlider && minSize && maxSize">
+        <cs-slider
+          [min]="minSize"
+          [max]="maxSize"
+          [label]="'SIZE' | translate"
+          [units]="'GB' | translate"
+          name="diskSize"
+          [(ngModel)]="size"
+        ></cs-slider>
+      </div>
     </div>
-    <div class="mdl-dialog__actions">
-      <button
-        *ngIf="enoughResources"
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
-        type="submit"
-        [disabled]="!volumeCreationForm.valid"
-      >
-        {{ 'CREATE' | translate }}
-      </button>
-      <button
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
-        type="button"
-        (click)="onCancel()"
-      >
-        {{ 'CANCEL' | translate }}
-      </button>
-    </div>
-  </form>
-</div>
+  </div>
+  <div class="mdl-dialog__actions">
+    <button
+      mdl-colored="primary"
+      mdl-button
+      mdl-ripple
+      type="submit"
+      [disabled]="!volumeCreationForm.valid"
+    >
+      {{ 'CREATE' | translate }}
+    </button>
+    <button
+      mdl-colored="primary"
+      mdl-button
+      mdl-ripple
+      type="button"
+      (click)="onCancel()"
+    >
+      {{ 'CANCEL' | translate }}
+    </button>
+  </div>
+</form>

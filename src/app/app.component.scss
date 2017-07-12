@@ -112,11 +112,12 @@ mdl-layout-drawer {
 
 .logo {
   padding: 20px;
-  width: 100%;
+  max-width: 100%;
 }
 
 mdl-layout-title {
   padding-left: 0 !important;
+  text-align: center;
 }
 
 .title-header {
@@ -142,4 +143,8 @@ mdl-layout-title {
 
 .content-margin {
   margin-left: 240px !important;
+}
+
+/deep/ mdl-tooltip {
+  word-wrap: break-word;
 }

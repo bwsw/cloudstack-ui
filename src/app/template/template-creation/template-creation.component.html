@@ -1,6 +1,7 @@
+<cs-overlay-loading [active]="loading"></cs-overlay-loading>
 <div class="security-group-template-form">
   <h3 class="mdl-dialog__title">{{ 'NEW_'+ mode.toUpperCase() | translate }}</h3>
-  <form (ngSubmit)="onCreate($event)" #templateCreationForm="ngForm" novalidate>
+  <form (ngSubmit)="onCreate()" #templateCreationForm="ngForm" novalidate>
     <div
       class="mdl-dialog__content"
       [class.flex-dialog-content]="!snapshot"
@@ -12,6 +13,7 @@
           name="name"
           floating-label
           autofocus
+          maxlength="255"
           required
           [(ngModel)]="name"
           #nameField="ngModel"
@@ -24,6 +26,7 @@
           label="{{ 'DESCRIPTION' | translate }}"
           name="description"
           floating-label
+          maxlength="255"
           required
           [(ngModel)]="displayText"
           #descriptionField="ngModel"
@@ -37,6 +40,7 @@
           label="{{ 'URL' | translate }}"
           name="url"
           floating-label
+          maxlength="255"
           required
           pattern="^(http|https):\/\/.*$"
           error-msg="{{ 'INVALID_URL' | translate }}"

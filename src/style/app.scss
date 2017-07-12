@@ -1,11 +1,14 @@
 // styles in src/style directory are applied to the whole page
-@import '~angular2-mdl/scss/material-design-lite';
+@import '~@angular-mdl/core/scss/material-design-lite';
 
-@import '~@angular2-mdl-ext/popover/popover';
-@import '~@angular2-mdl-ext/select/select';
+@import '~@angular-mdl/popover/popover';
+@import '~@angular-mdl/select/select';
 
-@import "~angular2-mdl/scss/color-definitions";
+@import "~@angular-mdl/core/scss/color-definitions";
 @import '__variables.scss';
+
+@import '../app/shared/styles/overlay';
+@import '../app/shared/styles/text-overflow-tooltip-fix';
 
 
 * {
@@ -22,6 +25,7 @@
   display: inline-block !important;
   text-overflow: ellipsis;
   width: auto !important;
+  @extend .text-overflow-tooltip-fix;
 }
 
 mdl-card > mdl-card-title + mdl-card-supporting-text {
@@ -145,8 +149,6 @@ mdl-simple-tooltip div {
 }
 
 .grid {
-  margin: 5px auto;
-
   .row {
     display: flex;
     flex-flow: row wrap;
@@ -225,6 +227,16 @@ mdl-simple-tooltip div {
   background-color: transparent;
 }
 
+.mdl-checkbox .mdl-checkbox__box-outline {
+  @include material-animation-default(0.28s);
+  transition-property: box-shadow;
+  box-shadow: inset 0 0 0 0 $checkbox-color;
+}
+
+.mdl-checkbox.is-checked .mdl-checkbox__box-outline {
+  box-shadow: inset 0 0 0 1px $checkbox-color;
+}
+
 .card-popover {
   top: 0;
   right: 50px;
@@ -291,17 +303,30 @@ mdl-simple-tooltip div {
   left: 0;
   right: 0;
   bottom: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: auto;
 }
 
-.mdl-dialog {
-  transform: translate(0, 0);
+.dialog-container-overlay {
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.dialog-container-inner {
   position: absolute;
-  margin: 70px auto;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
-.inner-wrapper {
-  position: relative;
-  width: 100%;
+.dialog-backdrop {
+  position: absolute !important;
+  background: initial !important;
+  width: 100vw;
+  height: 100vh;
+  margin: -20px;
 }
+
+.highlight {
+  background: #ffeb3b;
+}
+

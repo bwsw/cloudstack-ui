@@ -6,15 +6,17 @@ if [ -z "$DEPLOY_PORT" ]; then
 fi
 
 if [ -n "$CONFIG_PATH" ]; then
-  export CONFIG_MOUNT="-v ${CONFIG_PATH}:/config";
+  export CONFIG_MOUNT="-v ${CONFIG_PATH}:/static/config/config.json";
 else
   export CONFIG_MOUNT="";
 fi
 
 if [ $# -eq 0 ]; then
   export API=$API_BACKEND_URL;
+  export CONSOLE=$CONSOLE_BACKEND_URL;
 else
   export API=$1;
+  export CONSOLE=$2;
 fi
 
 # Generate container name unique for port
@@ -30,4 +32,4 @@ fi
 
 # Starting server
 echo ******Starting Nginx******
-docker run -e "API_BACKEND_URL=$API" -d -p $DEPLOY_PORT:80 --name $CONTAINER_NAME $CONFIG_MOUNT bwsw/cloudstack-ui;
+docker run -e "API_BACKEND_URL=$API" -e "CONSOLE_BACKEND_URL=$CONSOLE" -d -p $DEPLOY_PORT:80 --name $CONTAINER_NAME $CONFIG_MOUNT bwsw/cloudstack-ui;

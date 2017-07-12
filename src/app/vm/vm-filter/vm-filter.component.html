@@ -3,19 +3,33 @@
   <mdl-select
     class="filter-select"
     *ngIf="groups && mode === 1"
-    [ngModel]="selectedGroups"
-    (ngModelChange)="updateGroups($event)"
+    [(ngModel)]="selectedGroups"
+    (change)="updateGroups($event)"
     multiple="true"
     [placeholder]="'SELECT_GROUPS' | translate"
   >
-    <mdl-option value="-1"><em>{{ 'NO_GROUP' | translate }}</em></mdl-option>
-    <mdl-option mdl-ripple *ngFor="let g of groups" [value]="g">{{ g.name }}</mdl-option>
+    <mdl-option
+      *ngIf="showNoGroupFilter"
+      value="-1"
+    >
+      <em>
+        {{ 'NO_GROUP' | translate }}
+      </em>
+    </mdl-option>
+
+    <mdl-option
+      mdl-ripple
+      *ngFor="let g of groups"
+      [value]="g"
+    >
+      {{ g.name }}
+    </mdl-option>
   </mdl-select>
   <mdl-select
     class="filter-select"
     *ngIf="zones && mode === 0"
-    [ngModel]="selectedZones"
-    (ngModelChange)="updateZones($event)"
+    [(ngModel)]="selectedZones"
+    (change)="updateZones($event)"
     multiple="true"
     [placeholder]="'SELECT_ZONES' | translate"
   >
@@ -33,8 +47,8 @@
   <mdl-select
     class="filter-select"
     *ngIf="zones && mode === 1"
-    [ngModel]="selectedZones"
-    (ngModelChange)="updateZones($event)"
+    [(ngModel)]="selectedZones"
+    (change)="updateZones($event)"
     multiple="true"
     [placeholder]="'SELECT_ZONES' | translate"
   >
@@ -43,21 +57,34 @@
   <mdl-select
     class="filter-select"
     *ngIf="groups && mode === 0"
-    [ngModel]="selectedGroups"
-    (ngModelChange)="updateGroups($event)"
+    [(ngModel)]="selectedGroups"
+    (change)="updateGroups($event)"
     multiple="true"
     [placeholder]="'SELECT_GROUPS' | translate"
   >
-    <mdl-option value="-1"><em>{{ 'NO_GROUP' | translate }}</em></mdl-option>
-    <mdl-option mdl-ripple *ngFor="let g of groups" [value]="g">{{ g.name }}</mdl-option>
+    <mdl-option
+      *ngIf="showNoGroupFilter"
+      value="-1"
+    >
+      <em>
+        {{ 'NO_GROUP' | translate }}
+      </em>
+    </mdl-option>
+
+    <mdl-option
+      mdl-ripple
+      *ngFor="let g of groups"
+      [value]="g"
+    >
+      {{ g.name }}
+    </mdl-option>
   </mdl-select>
 
 
   <div class="filter-checkbox">
     <mdl-checkbox
-      style="width:0"
-      [ngModel]="doFilterByColor"
-      (ngModelChange)="updateColor($event)"
+      [(ngModel)]="doFilterByColor"
+      (change)="updateColor($event)"
       (click)="$event.stopPropagation()"
     >
       {{ 'GROUP_BY_COLORS' | translate }}
@@ -67,11 +94,11 @@
 
   <mdl-select
     class="filter-select"
-    [ngModel]="selectedStates"
-    (ngModelChange)="updateStates($event)"
+    [(ngModel)]="selectedStates"
+    (change)="updateStates($event)"
     multiple="true"
     [placeholder]="'SELECT_STATES' | translate"
   >
-    <mdl-option mdl-ripple *ngFor="let s of states" [value]="s">{{ s }}</mdl-option>
+    <mdl-option mdl-ripple *ngFor="let s of states" [value]="s.state">{{ s.name | translate }}</mdl-option>
   </mdl-select>
 </mdl-card>

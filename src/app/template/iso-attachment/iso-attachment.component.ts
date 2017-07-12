@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
-import { MdlDialogReference } from 'angular2-mdl';
 
 import { Iso } from '../shared';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 
 
 @Component({

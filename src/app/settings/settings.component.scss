@@ -1,8 +1,39 @@
+$section-width: 320px;
+$section-padding: 20px;
+
 :host {
   width: 100%;
 }
 
-.password-change-button {
+:host /deep/ .settings-container {
+  padding: 20px;
+
+  section {
+    h4 {
+      margin: 20px 0;
+      font-size: 1.4em;
+    }
+
+    .section-container {
+      padding-left: $section-padding;
+
+      h5 {
+        margin: 8px 0;
+        font-size: 1.25em;
+      }
+    }
+
+    .settings-control {
+      width: $section-width - $section-padding;
+    }
+  }
+
+  section:first-of-type h4 {
+    margin-top: 0;
+  }
+}
+
+:host /deep/ .pull-right-button {
   text-align: right;
-  width: 300px;
+  width: 100%;
 }

@@ -1,14 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
-import { Zone, ZoneService } from '../../shared';
+import { Zone } from '../../shared';
 import { InstanceGroup } from '../../shared/models';
 import { FilterService, InstanceGroupService } from '../../shared/services';
 import { VmState, VmStates } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 
 import { SectionType } from '../vm-list/vm-list.component';
-import debounce = require('lodash/debounce');
 import sortBy = require('lodash/sortBy');
 
 
@@ -29,43 +27,40 @@ export type InstanceGroupOrNoGroup = InstanceGroup | noGroup;
   templateUrl: 'vm-filter.component.html',
   styleUrls: ['vm-filter.component.scss']
 })
-export class VmFilterComponent implements OnInit {
+export class VmFilterComponent implements OnInit, OnChanges {
   @Output() public updateFilters = new EventEmitter<VmFilter>();
   public doFilterByColor = false;
   public selectedGroups: Array<InstanceGroupOrNoGroup> = [];
   public selectedStates: Array<VmState> = [];
   public selectedZones: Array<Zone> = [];
-  public groups: Array<InstanceGroup>;
-  public zones: Array<Zone>;
-  public states: Array<VmState> = [
-    VmStates.Running,
-    VmStates.Stopped,
-    VmStates.Error
+  @Input() public groups: Array<InstanceGroup>;
+  @Input() public zones: Array<Zone>;
+  public states = [
+    { state: VmStates.Running, name: 'VM_FILTERS.STATE.RUNNING' },
+    { state: VmStates.Stopped, name: 'VM_FILTERS.STATE.STOPPED' },
+    { state: VmStates.Error,   name: 'VM_FILTERS.STATE.ERROR' }
   ];
   public mode: SectionType = SectionType.zone;
+  public showNoGroupFilter = true;
 
   private filtersKey = 'vmListFilters';
 
   constructor(
     private instanceGroupService: InstanceGroupService,
     private vmService: VmService,
-    private zoneService: ZoneService,
     private filter: FilterService
-  ) {
-    this.update = debounce(this.update, 300);
-  }
+  ) { }
 
   public ngOnInit(): void {
-    Observable.forkJoin(
-      this.vmService.getInstanceGroupList(),
-      this.zoneService.getList()
-    ).subscribe(([groups, zones]) => {
-      this.groups = groups.sort(this.groupSortPredicate);
-      this.zones = zones;
-
-      this.initFilters();
-    });
     this.instanceGroupService.groupsUpdates.subscribe(() => this.loadGroups());
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    const groups = changes['groups'];
+    const zones = changes['zones'];
+    if (groups.currentValue && zones.currentValue) {
+      this.initFilters();
+    }
   }
 
   public initFilters(): void {
@@ -74,7 +69,7 @@ export class VmFilterComponent implements OnInit {
       'mode': { type: 'string', options: ['zone', 'group'], defaultOption: 'zone' },
       'zones': { type: 'array', defaultOption: [] },
       'groups': { type: 'array', defaultOption: [] },
-      'states': { type: 'array', options: this.states, defaultOption: [] }
+      'states': { type: 'array', options: this.states.map(_ => _.state), defaultOption: [] }
     });
     this.doFilterByColor = !!params.byColors;
     this.mode = params['mode'] === 'group' ? SectionType.group : SectionType.zone;
@@ -127,8 +122,8 @@ export class VmFilterComponent implements OnInit {
     this.update();
   }
 
-  public updateStates(statuses: Array<VmState>): void {
-    this.selectedStates = statuses;
+  public updateStates(states: Array<VmState>): void {
+    this.selectedStates = states;
     this.update();
   }
 

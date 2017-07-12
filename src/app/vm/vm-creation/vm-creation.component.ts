@@ -1,5 +1,4 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { MdlDialogReference } from 'angular2-mdl';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
@@ -39,13 +38,14 @@ import {
 import { Template } from '../../template/shared';
 import { AffinityGroupType } from '../../shared/models/affinity-group.model';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
-import { DialogService } from '../../shared/services/dialog.service';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 
 
 class VmCreationData {
   public vm: VirtualMachine;
   public affinityGroups: Array<AffinityGroup>;
-  public affinityGroupNames: Array<string>;
+  public affinityGroupNames: Array<string> = [];
   public affinityGroupTypes: Array<AffinityGroupType>;
   public instanceGroups: Array<string>;
   public serviceOfferings: Array<ServiceOffering>;
@@ -62,6 +62,8 @@ class VmCreationData {
   public rootDiskSize: number;
   public rootDiskSizeMin: number;
   public rootDiskSizeLimit: number;
+
+  public defaultName: string;
 
   constructor() {
     this.vm = new VirtualMachine({
@@ -84,6 +86,15 @@ class VmCreationData {
 export class VmCreationComponent implements OnInit {
   public fetching: boolean;
   public enoughResources: boolean;
+  public insufficientResources: Array<string> = [];
+  public insufficientResourcesErrorMap = {
+    instances: 'VM_CREATION_FORM.RESOURCES.INSTANCES',
+    ips: 'VM_CREATION_FORM.RESOURCES.IPS',
+    volumes: 'VM_CREATION_FORM.RESOURCES.VOLUMES',
+    cpus: 'VM_CREATION_FORM.RESOURCES.CPUS',
+    memory: 'VM_CREATION_FORM.RESOURCES.MEMORY',
+    primaryStorage: 'VM_CREATION_FORM.RESOURCES.PRIMARYSTORAGE',
+  };
 
   public vmCreationData: VmCreationData;
   public keyboards = ['us', 'uk', 'jp', 'sc'];
@@ -140,17 +151,22 @@ export class VmCreationComponent implements OnInit {
     this.enoughResources = true;
     this.resourceUsageService.getResourceUsage()
       .subscribe(resourceUsage => {
-        if (resourceUsage.available.cpus &&
-          resourceUsage.available.instances &&
-          resourceUsage.available.volumes
-        ) {
-          this.resetVmCreateData();
-        } else {
-          this.fetching = false;
+        Object.keys(resourceUsage.available)
+          .filter(key => key !== 'snapshots' && key !== 'secondaryStorage')
+          .forEach(key => {
+            const available = resourceUsage.available[key];
+            if (available === 0) {
+              this.insufficientResources.push(key);
+            }
+          });
+
+        if (this.insufficientResources.length) {
           this.enoughResources = false;
+          this.fetching = false;
+        } else {
+          this.resetVmCreateData();
         }
       });
-
   }
 
   public setDiskOffering(offering: DiskOffering): void {
@@ -177,6 +193,7 @@ export class VmCreationComponent implements OnInit {
         this.zoneId = this.vmCreationData.vm.zoneId;
 
         if (!this.vmCreationData.vm.displayName) {
+          this.vmCreationData.defaultName = defaultName;
           setTimeout(() => this.vmCreationData.vm.displayName = defaultName);
           this.changeDetectorRef.detectChanges();
         }
@@ -207,7 +224,7 @@ export class VmCreationComponent implements OnInit {
     if (shouldCreateAffinityGroup) {
       affinityGroupsObservable = this.affinityGroupService.create({
         name: this.vmCreationData.affinityGroupName,
-        type: this.vmCreationData.affinityGroupTypes[0].type
+        type: this.vmCreationData.affinityGroupTypes[0]
       })
         .map(affinityGroup => {
           this.vmCreationData.affinityGroups.push(affinityGroup);
@@ -244,13 +261,14 @@ export class VmCreationComponent implements OnInit {
   }
 
   public showPassword(vmName: string, vmPassword: string): void {
-    this.translateService.get(
-      'PASSWORD_DIALOG_MESSAGE',
-      { vmName, vmPassword }
-    )
-      .subscribe((passwordMessage: string) => {
-        this.dialogService.alert(passwordMessage);
-      });
+    this.dialogService.customAlert({
+      message: {
+        translationToken: 'PASSWORD_DIALOG_MESSAGE',
+        interpolateParams: { vmName, vmPassword }
+      },
+      width: '400px',
+      clickOutsideToClose: false
+    });
   }
 
   public notifyOnDeployDone(notificationId: string): void {
@@ -348,10 +366,10 @@ export class VmCreationComponent implements OnInit {
         instanceGroups,
         securityGroupTemplates
       ]) => {
-        vmCreationData.affinityGroups = affinityGroups;
-        vmCreationData.affinityGroupTypes = affinityGroupTypes;
+        vmCreationData.affinityGroups = <any>affinityGroups;
+        vmCreationData.affinityGroupTypes = <any>affinityGroupTypes;
         vmCreationData.affinityGroupNames = affinityGroups.map(ag => ag.name);
-        vmCreationData.sshKeyPairs = sshKeyPairs;
+        vmCreationData.sshKeyPairs = <any>sshKeyPairs;
         vmCreationData.instanceGroups = instanceGroups.map(group => group.name);
 
         let preselectedSecurityGroups = securityGroupTemplates.filter(securityGroup => securityGroup.preselected);
@@ -399,9 +417,8 @@ export class VmCreationComponent implements OnInit {
       }];
     }
 
-    if (this.vmCreationData.vm.displayName) {
-      params['name'] = this.vmCreationData.vm.displayName;
-    }
+    params['name'] = this.vmCreationData.vm.displayName || this.vmCreationData.defaultName;
+
     const affinityGroupName = this.vmCreationData.affinityGroupName;
     if (affinityGroupName) {
       params['affinityGroupNames'] = affinityGroupName;
@@ -488,6 +505,7 @@ export class VmCreationComponent implements OnInit {
   private setServiceOfferings(serviceOfferings: Array<ServiceOffering>): void {
     if (!serviceOfferings.length) {
       this.enoughResources = false;
+      this.dialogService.alert('VM_CREATION_FORM.NO_SERVICE_OFFERING');
     }
     this.vmCreationData.serviceOfferings = serviceOfferings;
     this.setServiceOffering(serviceOfferings[0]);
@@ -500,6 +518,7 @@ export class VmCreationComponent implements OnInit {
 
     if (!filteredDiskOfferings.length) {
       this.enoughResources = false;
+      this.dialogService.alert('VM_CREATION_FORM.NO_DISK_OFFERING');
     } else {
       this.vmCreationData.diskOfferings = diskOfferings;
       this.setDiskOffering(diskOfferings[0]);

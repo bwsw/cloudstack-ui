@@ -1,3 +1,4 @@
+<cs-overlay-loading [active]="creationInProgress"></cs-overlay-loading>
 <div class="security-group-template-form">
   <h3 class="mdl-dialog__title">{{ 'CREATE_NEW_TEMPLATE' | translate }}</h3>
   <form (ngSubmit)="onSubmit($event)" #templateCreationForm="ngForm" novalidate>
@@ -21,13 +22,18 @@
         label="{{ 'DESCRIPTION' | translate }}"
         name="description"
         floating-label
-        required
         [(ngModel)]="description"
         #descriptionField="ngModel"
         [class.is-invalid]="descriptionField.invalid && !descriptionField.pristine"
         [style.width]="'100%'"
       >
       </mdl-textfield>
+      <cs-security-group-rules-manager
+        class="basic-rules"
+        [header]="'BASIC_RULES'"
+        name="sgm"
+        [(ngModel)]="securityRules"
+      ></cs-security-group-rules-manager>
     </div>
     <div class="mdl-dialog__actions">
       <button

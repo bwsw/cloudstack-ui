@@ -1,19 +1,21 @@
 <div
   class="detail-list margin-right"
-  [class.open]="isOpen"
+  [class.open]="listService?.hasSelected()"
 >
   <ng-content select="[cs-panels]"></ng-content>
   <ng-content select="[cs-list]"></ng-content>
 </div>
 
+<div class="backdrop"
+     (click)="onDetailsHide()"
+     *ngIf="listService?.hasSelected()"></div>
 <cs-sidebar
-  [isOpen]="isOpen"
-  (onClickOutside)="onDetailsHide()"
+  [isOpen]="listService?.hasSelected()"
 >
   <ng-content select="[cs-sidebar]"></ng-content>
 </cs-sidebar>
 
 <cs-fab
-  [isOpen]="isOpen"
+  [isOpen]="listService?.hasSelected()"
   (click)="onAction()"
 ></cs-fab>

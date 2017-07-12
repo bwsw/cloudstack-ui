@@ -2,16 +2,20 @@ import { inject, TestBed, async, getTestBed, fakeAsync, tick } from '@angular/co
 import { Injector } from '@angular/core';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import {
-  Http,
   BaseRequestOptions,
   XHRBackend,
+  Http,
   HttpModule,
   Response,
   ResponseOptions,
   URLSearchParams
 } from '@angular/http';
 import { ServiceLocator } from './service-locator';
-import { AsyncJobService, ErrorService } from './';
+import {
+  AsyncJobService, CacheService,
+  ErrorService,
+} from './';
+import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
 
 
 describe('Async job service', () => {
@@ -25,7 +29,7 @@ describe('Async job service', () => {
       'listasyncjobsresponse': {
         'asyncjobs': [
           {
-            'jobid': '123',
+            'jobid': 'resolvable-job-id',
             'jobstatus': 0,
             'jobresultcode': 0
           }
@@ -40,7 +44,7 @@ describe('Async job service', () => {
       'listasyncjobsresponse': {
         'asyncjobs': [
           {
-            'jobid': '123',
+            'jobid': 'resolvable-job-id',
             'jobstatus': 1,
             'jobresultcode': 0,
             'jobresult': {}
@@ -54,7 +58,7 @@ describe('Async job service', () => {
     status: 200,
     body: {
       queryasyncjobresultresponse: {
-        jobid: '06d1c912-1273-404f-96d9-7a89ccef4d51',
+        jobid: 'failing-job-id',
         jobresult: {
           errorcode: 530,
           errortext: 'Failed to authorize security group ingress rule(s)'
@@ -72,6 +76,7 @@ describe('Async job service', () => {
         ErrorService,
         MockBackend,
         BaseRequestOptions,
+        { provide: CacheService, useClass: MockCacheService },
         {
           provide: Http,
           deps: [MockBackend, BaseRequestOptions],
@@ -92,24 +97,31 @@ describe('Async job service', () => {
     mockBackend.connections.subscribe((connection: MockConnection) => {
       const url = connection.request.url;
       const params = new URLSearchParams(url.substr(url.indexOf('?') + 1));
-      if (params.has('command') && params.get('command') === 'queryAsyncJobResult') {
+      if (
+        params.get('command') === 'queryAsyncJobResult' &&
+        params.get('jobid') === 'failing-job-id'
+      ) {
         connection.mockRespond(new Response(new ResponseOptions(queryFailedJobResponse)));
         return;
       }
 
-      let options: ResponseOptions;
+      if (params.get('jobid') === 'resolving-job-id') {
+        let options: ResponseOptions;
 
-      if (jobQueries <= 2) {
-        options = new ResponseOptions(mockResponse1);
-        jobQueries++;
-        connection.mockRespond(new Response(options));
-        return;
-      } else {
-        options = new ResponseOptions(mockResponse2);
-        jobQueries = 0;
-        connection.mockRespond(new Response(options));
-        return;
+        if (jobQueries <= 2) {
+          options = new ResponseOptions(mockResponse1);
+          jobQueries++;
+          connection.mockRespond(new Response(options));
+          return;
+        } else {
+          options = new ResponseOptions(mockResponse2);
+          jobQueries = 0;
+          connection.mockRespond(new Response(options));
+          return;
+        }
       }
+
+      throw new Error('Incorrect API request');
     });
   }));
 
@@ -118,21 +130,13 @@ describe('Async job service', () => {
   })));
 
   it('job service polls server until a job is resolved', fakeAsync(() => {
-    let job;
-    asyncJobService.addJob('123').subscribe(result => {
-      job = result;
-    });
-    tick(1000);
-    expect(job).toBeFalsy();
-    expect(asyncJobService.queryJobs()).toBeTruthy();
-    tick(20000);
-    expect(job).toBeTruthy();
-    expect(asyncJobService.queryJobs()).toBeFalsy();
+    asyncJobService.queryJob({ jobid: 'resolving-job-id' })
+      .subscribe(() => expect(true).toBeTruthy());
+    tick(3000);
   }));
 
   it('should parse failed job correctly', fakeAsync(() => {
-    const job = { jobid: '1' };
-    asyncJobService.queryJob(job)
+    asyncJobService.queryJob({ jobid: 'failing-job-id' })
       .subscribe(
         () => {},
         (error) => {

@@ -19,6 +19,8 @@ import { OsType } from '../../shared/models/os-type.model';
   zonename: 'zoneName',
 })
 export class BaseTemplateModel extends BaseModel {
+  public path: string;
+
   public id: string;
   public account: string;
   public created: Date;
@@ -36,9 +38,12 @@ export class BaseTemplateModel extends BaseModel {
   public osTypeName: string;
   public osType: OsType;
   public size: number;
+  public status: string;
   public tags: Array<Tag>;
   public zoneId: string;
   public zoneName: string;
+
+  public zones?: Array<Partial<BaseTemplateModel>>;
 
   constructor(json) {
     super(json);

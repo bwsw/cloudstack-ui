@@ -1,9 +1,11 @@
-import { Component, Inject, OnInit, Optional, Input } from '@angular/core';
-import { MdlDialogReference } from 'angular2-mdl';
+import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 
-import { Volume, DiskStorageService } from '../../shared';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DiskStorageService, Volume } from '../../shared';
 import { DiskOffering } from '../../shared/models';
-import { VolumeResizeData } from '../../shared/services';
+import { DiskOfferingService, JobsNotificationService, VolumeResizeData } from '../../shared/services';
+import { VolumeService } from '../../shared/services/volume.service';
 
 
 @Component({
@@ -18,11 +20,18 @@ export class VolumeResizeComponent implements OnInit {
   public diskOffering: DiskOffering;
   @Input() public diskOfferingList: Array<DiskOffering>;
 
+  public loading: boolean;
+  private notificationId: string;
+
   constructor(
-    @Optional() @Inject('diskOfferingList') public diskOfferingListInjected: Array<DiskOffering>,
-    @Inject('volume') public volume: Volume,
     public dialog: MdlDialogReference,
-    private diskStorageService: DiskStorageService
+    private dialogService: DialogService,
+    private diskOfferingService: DiskOfferingService,
+    private diskStorageService: DiskStorageService,
+    private jobsNotificationService: JobsNotificationService,
+    private volumeService: VolumeService,
+    @Inject('volume') public volume: Volume,
+    @Optional() @Inject('diskOfferingList') public diskOfferingListInjected: Array<DiskOffering>,
   ) {}
 
   public ngOnInit(): void {
@@ -40,16 +49,21 @@ export class VolumeResizeComponent implements OnInit {
   }
 
   public resizeVolume(): void {
-    let params: VolumeResizeData = { id: this.volume.id };
+    const includeDiskOffering = this.diskOffering && !this.volume.isRoot;
+    const params: VolumeResizeData = Object.assign(
+      { id: this.volume.id },
+      this.newSize ? { size: this.newSize } : {},
+      includeDiskOffering ? { diskOfferingId: this.diskOffering.id } : {}
+    );
 
-    if (this.diskOffering) {
-      params.diskOfferingId = this.diskOffering.id;
-    }
-    if (this.newSize) {
-      params.size = this.newSize;
-    }
-
-    this.dialog.hide(params);
+    this.loading = true;
+    this.notificationId = this.jobsNotificationService.add('VOLUME_RESIZING');
+    this.volumeService.resize(params)
+      .finally(() => this.loading = false)
+      .subscribe(
+        (volume: Volume) => this.onVolumeResize(volume),
+        error => this.handleVolumeResizeError(error)
+      );
   }
 
   private setDefaultOffering(): void {
@@ -70,5 +84,26 @@ export class VolumeResizeComponent implements OnInit {
 
     this.diskStorageService.getAvailablePrimaryStorage()
       .subscribe((limit: number) => this.maxSize = limit);
+  }
+
+  private onVolumeResize(volume: Volume): void {
+    this.jobsNotificationService.finish({
+      id: this.notificationId,
+      message: 'VOLUME_RESIZED'
+    });
+
+    this.diskOfferingService.get(volume.diskOfferingId)
+      .subscribe(diskOffering => {
+        volume.diskOffering = diskOffering;
+        this.dialog.hide(volume);
+      });
+  }
+
+  private handleVolumeResizeError(error: Error): void {
+    this.jobsNotificationService.fail({
+      id: this.notificationId,
+      message: 'VOLUME_RESIZE_FAILED'
+    });
+    this.dialogService.alert(error.message);
   }
 }

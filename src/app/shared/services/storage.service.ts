@@ -2,14 +2,8 @@ import { Injectable } from '@angular/core';
 import { UtilsService } from './utils.service';
 
 
-export interface IStorageService {
-  write(key: string, value: string): void;
-  read(key: string): string;
-  remove(key: string): void;
-}
-
 @Injectable()
-export class StorageService implements IStorageService {
+export class StorageService {
   private isLocalStorage: boolean;
   private inMemoryStorage: Object;
 
@@ -30,6 +24,10 @@ export class StorageService implements IStorageService {
 
   public remove(key: string): void {
     this.isLocalStorage ? this.localStorageRemove(key) : this.inMemoryRemove(key);
+  }
+
+  public resetInMemoryStorage(): void {
+    this.inMemoryStorage = undefined;
   }
 
   private localStorageWrite(key: string, value: string): void {

@@ -67,8 +67,7 @@ export class StyleService {
       this.userService.readTag('accentColor')
     ])
       .map(([defaultTheme, themeColors, primaryColor, accentColor]) => {
-        if (!defaultTheme || !defaultTheme.primaryColor || !defaultTheme.accentColor) {
-          defaultTheme = undefined;
+        if (!defaultTheme || !defaultTheme['primaryColor'] || !defaultTheme['accentColor']) {
           defaultTheme = undefined;
         }
 
@@ -80,8 +79,8 @@ export class StyleService {
         }
 
         return {
-          primaryColor: primaryColor || (defaultTheme && defaultTheme.primaryColor) || fallbackTheme.primaryColor,
-          accentColor: accentColor || (defaultTheme && defaultTheme.accentColor) || fallbackTheme.accentColor,
+          primaryColor: primaryColor || (defaultTheme && defaultTheme['primaryColor']) || fallbackTheme['primaryColor'],
+          accentColor: accentColor || (defaultTheme && defaultTheme['accentColor']) || fallbackTheme['accentColor'],
           defaultTheme: defaultTheme || fallbackTheme,
           themeColors: themeColors || fallbackThemeColors
         };

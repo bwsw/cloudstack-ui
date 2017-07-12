@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { MdlPopoverComponent } from '@angular2-mdl-ext/popover';
+import { MdlPopoverComponent } from '@angular-mdl/popover';
 
 import { AsyncJob, Color } from '../../shared/models';
 import { AsyncJobService } from '../../shared/services';
@@ -36,7 +36,9 @@ export class VmListItemComponent implements OnInit, OnChanges {
     this.asyncJobService.event.subscribe((job: AsyncJob<any>) => {
       if (job.result && job.result.id === this.vm.id) {
         this.vm.state = job.result.state;
-        this.vm.nic[0] = job.result.nic[0];
+        if (job.result.nic && job.result.nic.length) {
+          this.vm.nic[0] = job.result.nic[0];
+        }
       }
     });
     this.vmService.vmUpdateObservable.subscribe(() => {
@@ -45,7 +47,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    for (let propName in changes) {
+    for (const propName in changes) {
       if (changes.hasOwnProperty(propName) && propName === 'isSelected') {
         this.isSelected = changes[propName].currentValue;
       }
@@ -63,7 +65,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
 
   public openConsole(): void {
     window.open(
-      `/client/console?cmd=access&vm=${this.vm.id}`,
+      `client/console?cmd=access&vm=${this.vm.id}`,
       this.vm.displayName,
       'resizable=0,width=820,height=640'
     );
@@ -76,7 +78,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
       return;
     }
 
-    let e = {
+    const e = {
       action: this.actions.find(a => a.nameLower === act),
       vm: this.vm
     };
@@ -97,6 +99,6 @@ export class VmListItemComponent implements OnInit, OnChanges {
   }
 
   private updateColor(): void {
-    this.color = this.vmService.getColor(this.vm);
+    this.color = this.vm.getColor();
   }
 }

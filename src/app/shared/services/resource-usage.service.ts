@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ResourceLimitService } from './resource-limit.service';
-import { VmService } from '../../vm/shared/vm.service';
-import { VirtualMachine } from '../../vm/';
-import { VolumeService } from './volume.service';
-import { Volume } from '../models/volume.model';
-import { SnapshotService } from './snapshot.service';
-import { Snapshot } from '../models/snapshot.model';
-import { DiskStorageService } from './disk-storage.service';
-import { ResourceType, ResourceLimit } from '../models/resource-limit.model';
 import { Observable } from 'rxjs/Observable';
+import { VirtualMachine } from '../../vm/';
+import { VmService } from '../../vm/shared/vm.service';
+import { ResourceLimit, ResourceType } from '../models/resource-limit.model';
+import { Snapshot } from '../models/snapshot.model';
+import { Volume } from '../models/volume.model';
+import { DiskStorageService } from './disk-storage.service';
+import { ResourceLimitService } from './resource-limit.service';
+import { SnapshotService } from './snapshot.service';
+import { VolumeService } from './volume.service';
 
 
 export class ResourcesData {
@@ -62,54 +62,61 @@ export class ResourceUsageService {
   ) {}
 
   public getResourceUsage(): Observable<ResourceStats> {
-    let consumedResources = new ResourcesData();
+    const consumedResources = new ResourcesData();
     let maxResources;
 
-    let promiseArray = [];
+    const requests = [];
 
-    promiseArray.push(this.vmService.getList()
-      .map((vms: Array<VirtualMachine>) => {
+    requests.push(
+      this.vmService.getList().map((vms: Array<VirtualMachine>) => {
         consumedResources.instances = vms.length;
         vms.forEach(value => {
           consumedResources.ips += value.nic.length;
           consumedResources.cpus += value.cpuNumber;
           consumedResources.memory += value.memory;
         });
-      }));
+      })
+    );
 
-    promiseArray.push(this.volumeService.getList()
-      .map((volumes: Array<Volume>) => {
+    requests.push(
+      this.volumeService.getList().map((volumes: Array<Volume>) => {
         consumedResources.volumes = volumes.length;
-      }));
+      })
+    );
 
-    promiseArray.push(this.snapshotService.getList()
-      .map((snapshots: Array<Snapshot>) => {
+    requests.push(
+      this.snapshotService.getList().map((snapshots: Array<Snapshot>) => {
         consumedResources.snapshots = snapshots.length;
-      }));
+      })
+    );
 
-    promiseArray.push(this.diskStorageService.getConsumedPrimaryStorage()
-      .map(result => consumedResources.primaryStorage = result));
+    requests.push(
+      this.diskStorageService
+        .getConsumedPrimaryStorage()
+        .map(result => consumedResources.primaryStorage = result)
+    );
 
-    promiseArray.push(this.diskStorageService.getConsumedSecondaryStorage()
-      .map(result => consumedResources.secondaryStorage = result));
+    requests.push(
+      this.diskStorageService
+        .getConsumedSecondaryStorage()
+        .map(result => consumedResources.secondaryStorage = result)
+    );
 
-    return Observable.forkJoin(promiseArray)
-      .switchMap(() => {
-        return this.resourceLimitService.getList()
-          .map(result => {
-            maxResources = new ResourcesData(result);
-            return new ResourceStats(
-              this.getAvailableResources(maxResources, consumedResources),
-              consumedResources,
-              maxResources
-            );
-          });
+    return Observable.forkJoin(requests)
+      .switchMap(() => this.resourceLimitService.getList())
+      .map(result => {
+        maxResources = new ResourcesData(result);
+        return new ResourceStats(
+          this.getAvailableResources(maxResources, consumedResources),
+          consumedResources,
+          maxResources
+        );
       });
   }
 
   private getAvailableResources(max: ResourcesData, consumed: ResourcesData): ResourcesData {
-    let availableResources = new ResourcesData();
-    for (let prop in max) {
+    const availableResources = new ResourcesData();
+    for (const prop in max) {
       if (max.hasOwnProperty(prop)) {
         if (max[prop] === -1) {
           availableResources[prop] = Number.MAX_SAFE_INTEGER;

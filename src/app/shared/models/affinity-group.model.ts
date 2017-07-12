@@ -1,16 +1,17 @@
-import { BaseModel } from './';
-import { FieldMapper } from '../decorators/field-mapper.decorator';
+import { BaseModel } from './base.model';
+import { FieldMapper } from '../decorators';
 
 
-export interface AffinityGroupType {
-  type: string;
-}
+export type AffinityGroupType = string;
+export const AffinityGroupTypes = {
+  hostAntiAffinity: 'host anti-affinity' as AffinityGroupType
+};
 
 @FieldMapper({
   virtualmachineIds: 'virtualMachineIds'
 })
 export class AffinityGroup extends BaseModel {
-  public id: number;
+  public id: string;
   public name: string;
   public description: string;
   public type: string;

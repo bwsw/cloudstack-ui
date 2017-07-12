@@ -1,17 +1,16 @@
-import {
-  Component,
-  Input,
-  OnChanges
-} from '@angular/core';
-
-import { VirtualMachine } from '../../shared/vm.model';
-import { IsoAttachmentComponent } from '../../../template/iso-attachment/iso-attachment.component';
-import { Iso, IsoService } from '../../../template/shared';
-import { IsoEvent } from './iso.component';
+import { Component, Input, OnChanges } from '@angular/core';
+import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 
 import { Volume } from '../../../shared/models';
-import { JobsNotificationService, NotificationService, VolumeService } from '../../../shared/services';
-import { DialogService } from '../../../shared/services/dialog.service';
+import { JobsNotificationService, NotificationService } from '../../../shared/services';
+import { VolumeService } from '../../../shared/services/volume.service';
+import { SpareDriveActionsService } from '../../../spare-drive/spare-drive-actions.service';
+import { IsoAttachmentComponent } from '../../../template/iso-attachment/iso-attachment.component';
+import { Iso, IsoService } from '../../../template/shared';
+
+import { VirtualMachine } from '../../shared/vm.model';
+import { VmService } from '../../shared/vm.service';
+import { IsoEvent } from './iso.component';
 
 
 @Component({
@@ -23,32 +22,42 @@ export class StorageDetailComponent implements OnChanges {
   @Input() public vm: VirtualMachine;
   public iso: Iso;
 
-  constructor(
-    private dialogService: DialogService,
-    private jobNotificationService: JobsNotificationService,
-    private isoService: IsoService,
-    private notificationService: NotificationService,
-    private volumeService: VolumeService
-  ) {}
+  constructor(private dialogService: DialogService,
+              private jobNotificationService: JobsNotificationService,
+              private isoService: IsoService,
+              private notificationService: NotificationService,
+              private spareDriveActionService: SpareDriveActionsService,
+              private vmService: VmService,
+              private volumeService: VolumeService) {
+  }
 
   public ngOnChanges(): void {
     if (this.vm.isoId) {
       this.isoService.get(this.vm.isoId)
-        .subscribe((iso: Iso) => {
-          this.iso = iso;
-        });
+        .subscribe((iso: Iso) => this.iso = iso);
     } else {
       this.iso = null;
     }
     this.subscribeToVolumeAttachments();
   }
 
-  public subscribeToVolumeAttachments(): void {
-    this.volumeService.onVolumeAttached.subscribe((volume: Volume) => {
-      if (volume.virtualMachineId === this.vm.id) {
-        this.vm.volumes.push(volume);
-      }
+  public get volumes(): Array<Volume> {
+    return this.vm.volumes.sort((a, b) => {
+      if (a.isRoot) { return -1; }
+      if (b.isRoot) { return  1; }
+
+      if (a.name < b.name) { return -1; }
+      if (a.name > b.name) { return  1; }
+      return 0;
     });
+  }
+
+  public subscribeToVolumeAttachments(): void {
+    this.spareDriveActionService.onVolumeAttachment
+      .subscribe(() => {
+        this.volumeService.getList({ virtualMachineId: this.vm.id })
+          .subscribe(volumes => this.vm.volumes = volumes);
+      });
   }
 
   public handleIsoAction(event: IsoEvent): void {
@@ -60,6 +69,10 @@ export class StorageDetailComponent implements OnChanges {
     }
   }
 
+  public onVolumeChange(): void {
+    this.vmService.updateVmInfo(this.vm);
+  }
+
   public showVolumeDetachDialog(volume: Volume): void {
     this.dialogService.confirm('CONFIRM_VOLUME_DETACH', 'NO', 'YES')
       .onErrorResumeNext()
@@ -67,26 +80,10 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private detachVolume(volume: Volume): void {
-    let notificationId = this.jobNotificationService.add('VOLUME_DETACH_IN_PROGRESS');
-    this.volumeService.detach(volume.id)
-      .subscribe(
-        () => {
-          this.vm.volumes = this.vm.volumes.filter(vmVolume => {
-            return volume.id !== vmVolume.id;
-          });
-          this.jobNotificationService.finish({
-            id: notificationId,
-            message: 'VOLUME_DETACH_DONE'
-          });
-        },
-        error => {
-          this.notificationService.error(error.errortext);
-          this.jobNotificationService.fail({
-            id: notificationId,
-            message: 'VOLUME_DETACH_FAILED'
-          });
-        }
-      );
+    volume['loading'] = true;
+    this.spareDriveActionService.detach(volume)
+      .finally(() => volume['loading'] = false)
+      .subscribe(() => this.onVolumeChange());
   }
 
   private attachIsoDialog(): void {
@@ -108,12 +105,13 @@ export class StorageDetailComponent implements OnChanges {
     this.dialogService.confirm('CONFIRM_ISO_DETACH', 'NO', 'YES')
       .subscribe(
         () => this.detachIso(),
-        () => {}
+        () => {
+        }
       );
   }
 
   private attachIso(iso: Iso): void {
-    let notificationId = this.jobNotificationService.add('ISO_ATTACH_IN_PROGRESS');
+    const notificationId = this.jobNotificationService.add('ISO_ATTACH_IN_PROGRESS');
     this.isoService.attach(this.vm.id, iso)
       .subscribe(
         (attachedIso: Iso) => {
@@ -135,7 +133,7 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private detachIso(): void {
-    let notificationId = this.jobNotificationService.add('ISO_DETACH_IN_PROGRESS');
+    const notificationId = this.jobNotificationService.add('ISO_DETACH_IN_PROGRESS');
 
     this.isoService.detach(this.vm.id)
       .subscribe(() => {

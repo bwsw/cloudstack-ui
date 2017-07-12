@@ -1,0 +1,8 @@
+:host {
+  position: relative;
+  display: block;
+}
+
+/deep/ .instance-group-selector-dialog {
+  width: 350px;
+}

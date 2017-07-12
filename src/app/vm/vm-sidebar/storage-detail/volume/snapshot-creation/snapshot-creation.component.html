@@ -10,7 +10,7 @@
       <mdl-textfield
         *ngIf="enoughResources"
         type="text"
-        label="Name"
+        [label]="'NAME' | translate"
         name="name"
         floating-label
         autofocus
@@ -19,7 +19,17 @@
         [style.width]="'100%'"
       >
       </mdl-textfield>
-      <div class="blur-fix" *ngIf="!enoughResources">{{ "SNAPSHOT_LIMIT_EXCEEDED" | translate }}</div>
+      <mdl-textfield
+        *ngIf="enoughResources"
+        type="text"
+        [label]="'DESCRIPTION' | translate"
+        name="description"
+        floating-label
+        [(ngModel)]="description"
+        [style.width]="'100%'"
+      >
+      </mdl-textfield>
+      <div *ngIf="!enoughResources">{{ "SNAPSHOT_LIMIT_EXCEEDED" | translate }}</div>
     </div>
     <div class="mdl-dialog__actions">
       <button

@@ -1,12 +1,32 @@
-<mdl-select
-  *ngIf="colorList"
-  [(ngModel)]="selectedColor"
-  (change)="updateColor($event)"
-  [style.background-color]="selectedColor.value"
+<div
+  class="color-preview-container"
+  [class.disabled]="disabled"
+  (click)="toggle($event)"
 >
-  <mdl-option
-    *ngFor="let color of colorList"
-    [value]="color"
-    [style.background-color]="color.value"
-  ></mdl-option>
-</mdl-select>
+  <div
+    class="color-preview"
+    [style.background-color]="selectedColor?.value"
+  ></div>
+</div>
+<mdl-textfield
+  [value]="selectedColor?.value"
+  [disabled]="disabled"
+  (click)="toggle($event)"
+  readonly
+></mdl-textfield>
+
+<div class="popover-container">
+  <mdl-popover #popover mdl-shadow="6">
+    <div class="color-picker-container" [style.width.px]="containerWidth">
+      <div
+        *ngFor="let color of colors"
+        class="color"
+        [class.active]="color.value === selectedColor?.value"
+        [style.background-color]="color.value"
+        [style.width.px]="colorWidth"
+        [style.height.px]="colorWidth"
+        (click)="selectColor(color)"
+      ></div>
+    </div>
+  </mdl-popover>
+</div>

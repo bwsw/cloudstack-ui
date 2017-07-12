@@ -4,7 +4,6 @@ import {
   Inject
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { MdlDialogReference } from 'angular2-mdl';
 
 import {
   SecurityGroup,
@@ -12,9 +11,10 @@ import {
   NetworkRuleTypes
 } from '../sg.model';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 
 
-interface RuleListItem {
+export interface RuleListItem {
   rule: NetworkRule;
   checked: boolean;
 }

@@ -1,4 +1,7 @@
-<h3 class="mdl-dialog__title">{{ 'VOLUME_RESIZE_VOLUME' | translate }}</h3>
+<cs-overlay-loading [active]="loading"></cs-overlay-loading>
+<h3 class="mdl-dialog__title">
+  {{ 'VOLUME_RESIZE_VOLUME' | translate }}
+</h3>
 <div class="mdl-dialog__content">
   <div *ngIf="canResize">
     <form

@@ -1,28 +1,18 @@
-import {
-  Component,
-  Inject,
-  OnInit,
-  ViewChild,
-  ElementRef,
-  AfterViewInit
-} from '@angular/core';
+import { MdlLayoutComponent } from '@angular-mdl/core';
+import { AfterViewInit, Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Response } from '@angular/http';
-
-import { AuthService } from './shared/services';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { ErrorService } from './shared/services/error.service';
-import { INotificationService } from './shared/services/notification.service';
-import { LanguageService } from './shared/services/language.service';
-import { LayoutService } from './shared/services/layout.service';
-import { MdlLayoutComponent } from 'angular2-mdl';
-
 import '../style/app.scss';
+import { MdlDialogService } from './dialog/dialog-module';
+import { Color } from './shared/models';
+import { AuthService, ErrorService, LanguageService, LayoutService, NotificationService } from './shared/services';
+import { RouterUtilsService } from './shared/services/router-utils.service';
 import { StyleService } from './shared/services/style.service';
 import { ZoneService } from './shared/services/zone.service';
-import { Color } from './shared/models/color.model';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { StorageService } from './shared/services/storage.service';
 import { AsyncJobService } from './shared/services/async-job.service';
+import { CacheService } from './shared/services/cache.service';
 
 
 @Component({
@@ -46,43 +36,55 @@ export class AppComponent implements OnInit, AfterViewInit {
     private auth: AuthService,
     private domSanitizer: DomSanitizer,
     private router: Router,
-    private translate: TranslateService,
     private error: ErrorService,
     private languageService: LanguageService,
-    private layoutService: LayoutService,
-    @Inject('INotificationService') private notification: INotificationService,
-    private styleService: StyleService,
     private asyncJobService: AsyncJobService,
-    private zoneService: ZoneService
+    private cacheService: CacheService,
+    private storage: StorageService,
+    private layoutService: LayoutService,
+    private mdlDialogService: MdlDialogService,
+    private notification: NotificationService,
+    private styleService: StyleService,
+    private routerUtilsService: RouterUtilsService,
+    private zoneService: ZoneService,
+    private zone: NgZone
   ) {
     this.title = this.auth.name;
   }
 
-  public componentSelected(mainLayout: MdlLayoutComponent): void {
-    mainLayout.closeDrawerOnSmallScreens();
+  public linkClick(routerLink: string): void {
+    if (routerLink === this.routerUtilsService.getRouteWithoutQueryParams()) {
+      this.router.navigate(['reload'], {
+        queryParamsHandling: 'preserve'
+      });
+    }
   }
 
   public ngOnInit(): void {
     this.loadSettings();
 
     this.error.subscribe(e => this.handleError(e));
-    this.auth.loggedIn.subscribe(loggedIn => {
-      this.loggedIn = loggedIn === 'login';
+    this.auth.loggedIn.subscribe(isLoggedIn => {
+      this.loggedIn = isLoggedIn;
       this.updateAccount(this.loggedIn);
-      if (loggedIn === 'login') {
+      if (isLoggedIn) {
+        this.auth.startInactivityCounter();
         this.loadSettings();
         this.zoneService.areAllZonesBasic().subscribe(basic => this.disableSecurityGroups = basic);
       } else {
-        this.asyncJobService.completeAllJobs();
-        if (this.router.url !== '/login' && this.router.url !== '/') {
-          this.router.navigate(['/logout'], { queryParams: { loggedIn } });
-        }
+        this.auth.clearInactivityTimer();
       }
+      this.asyncJobService.completeAllJobs();
+      this.cacheService.invalidateAll();
+      this.storage.resetInMemoryStorage();
     });
 
     this.layoutService.drawerToggled.subscribe(() => {
       this.toggleDrawer();
     });
+
+    this.captureScrollEvents();
+    this.toggleDialogOverlay();
   }
 
   public ngAfterViewInit(): void {
@@ -139,7 +141,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public get logoSource(): string {
-    return `/img/cloudstack_logo_${ this.isLightTheme ? 'light' : 'dark' }.png`;
+    return `img/cloudstack_logo_${ this.isLightTheme ? 'light' : 'dark' }.png`;
   }
 
   private updateAccount(loggedIn: boolean): void {
@@ -152,8 +154,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (e instanceof Response) {
       switch (e.status) {
         case 401:
-          this.translate.get('NOT_LOGGED_IN').subscribe(result => this.notification.message(result));
-          this.auth.setLoggedOut('reset');
+          this.notification.message('NOT_LOGGED_IN');
+          const route = this.routerUtilsService.getRouteWithoutQueryParams();
+          if (route !== '/login' && route !== '/logout') {
+            this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams());
+          }
           break;
       }
     }
@@ -162,5 +167,27 @@ export class AppComponent implements OnInit, AfterViewInit {
   private loadSettings(): void {
     this.languageService.applyLanguage();
     this.styleService.loadPalette();
+  }
+
+  private captureScrollEvents(): void {
+    const useCapture = true;
+    this.zone.runOutsideAngular(() => {
+      document.querySelector('.dialog-container')
+        .addEventListener(
+          'scroll',
+          e => e.stopPropagation(),
+          useCapture
+        );
+    });
+  }
+
+  private toggleDialogOverlay(): void {
+    this.mdlDialogService.onDialogsOpenChanged.subscribe(open => {
+      if (open) {
+        document.querySelector('.dialog-container').classList.add('dialog-container-overlay');
+      } else {
+        document.querySelector('.dialog-container').classList.remove('dialog-container-overlay');
+      }
+    });
   }
 }

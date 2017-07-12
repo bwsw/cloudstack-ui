@@ -1,19 +1,13 @@
 import { Component, Inject } from '@angular/core';
-import { MdlDialogReference } from 'angular2-mdl';
 
 import { Volume } from '../../../../../shared/models';
 import { SnapshotActionsService } from './snapshot-actions.service';
+import { MdlDialogReference } from '../../../../../dialog/dialog-module';
 
 @Component({
   selector: 'cs-snapshot-modal',
   templateUrl: 'snapshot-modal.component.html',
-  styles: [`
-    .snapshot-name {
-      max-width: 290px;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
-  `]
+  styleUrls: ['snapshot-modal.component.scss']
 })
 export class SnapshotModalComponent {
   constructor(

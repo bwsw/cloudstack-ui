@@ -2,10 +2,14 @@
   <div>
     <h2 class="details-header vm-details-header">{{ 'COLOR' | translate }}</h2>
     <cs-color-picker
+      *ngIf="colorList"
       class="details-select"
-      [selectedColor]="color"
-      (onColorChanged)="changeColor($event)"
-    ></cs-color-picker>
+      [colors]="colorList"
+      [ngModel]="color"
+      [disabled]="colorUpdateInProgress"
+      (change)="changeColor($event)"
+    >
+    </cs-color-picker>
   </div>
 
   <cs-description
@@ -22,34 +26,7 @@
     </mdl-card-supporting-text>
   </mdl-card>
 
-  <mdl-card
-    class="vm-card overflow-card"
-    *ngIf="groupNames"
-    mdl-shadow="2"
-  >
-    <mdl-card-title>
-      {{ 'GROUP' | translate }}
-    </mdl-card-title>
-    <mdl-card-supporting-text class="overflow-card">
-      <mdl-autocomplete
-        class="details-select"
-        [placeholder]="'NO_GROUP' | translate"
-        [(ngModel)]="groupName"
-        [options]="groupNames"
-      ></mdl-autocomplete>
-    </mdl-card-supporting-text>
-    <mdl-card-actions *ngIf="doShowChangeGroupButton" mdl-card-border>
-      <mdl-button
-        class="button-align-right"
-        type="button"
-        mdl-button
-        mdl-ripple
-        (click)="$event.stopPropagation(); changeGroup()"
-      >
-        {{ 'ASSIGN' | translate }}
-      </mdl-button>
-    </mdl-card-actions>
-  </mdl-card>
+  <cs-instance-group [vm]="vm"></cs-instance-group>
 
   <mdl-card class="vm-card" mdl-shadow="2">
     <mdl-card-title>
@@ -58,24 +35,24 @@
     <mdl-card-supporting-text>
       <div class="grid service-offering" [class.open]="expandServiceOffering">
         <div class="row" *ngFor="let key of vm.serviceOffering.keys">
-          <template [ngIf]="isNotFormattedField(key)">
+          <ng-template [ngIf]="isNotFormattedField(key)">
             <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
             <div>{{ vm.serviceOffering[key] | viewValue | async }}</div>
-          </template>
-          <template [ngIf]="isDateField(key)">
+          </ng-template>
+          <ng-template [ngIf]="isDateField(key)">
             <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
             <div>{{ vm.serviceOffering[key] | date:'y-MM-dd H:m:s' }}</div>
-          </template>
-          <template [ngIf]="isDiskStatsField(key)">
+          </ng-template>
+          <ng-template [ngIf]="isDiskStatsField(key)">
             <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
             <div>{{ vm.serviceOffering[key] | division:10:6 }}</div>
-          </template>
-          <template [ngIf]="isTranslatedField(key)">
+          </ng-template>
+          <ng-template [ngIf]="isTranslatedField(key)">
             <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
             <div *ngIf="vm?.serviceOffering[key]">
               {{ 'SERVICE_OFFERING_VALUES.' + vm.serviceOffering[key] | translate }}
             </div>
-          </template>
+          </ng-template>
         </div>
       </div>
     </mdl-card-supporting-text>
@@ -232,6 +209,17 @@
       <div *ngFor="let affinityGroup of vm.affinityGroup">{{ affinityGroup.name }}</div>
       <div *ngIf="!vm.affinityGroup.length">{{ 'NO_AFFINITY_GROUP' | translate }}</div>
     </mdl-card-supporting-text>
+    <mdl-card-actions mdl-card-border>
+      <button
+        [mdl-tooltip]="'EDIT' | translate"
+        mdl-tooltip-position="top"
+        mdl-button
+        mdl-button-type="icon"
+        (click)="changeAffinityGroup()"
+      >
+        <mdl-icon>edit</mdl-icon>
+      </button>
+    </mdl-card-actions>
   </mdl-card>
 
   <mdl-card class="vm-card" mdl-shadow="2">
@@ -241,6 +229,27 @@
     <mdl-card-supporting-text>
       <div>{{ vm.templateName }}</div>
     </mdl-card-supporting-text>
+  </mdl-card>
+
+  <mdl-card class="vm-card" mdl-shadow="2">
+    <mdl-card-title>
+      <h2 mdl-card-title-text>{{ 'SSH_KEY' | translate }}</h2>
+    </mdl-card-title>
+    <mdl-card-supporting-text>
+      <span *ngIf="vm.keyPair; else noKeys">{{ vm.keyPair }}</span>
+      <ng-template #noKeys>{{ 'NO_SSH_KEY' | translate }}</ng-template>
+    </mdl-card-supporting-text>
+    <mdl-card-actions mdl-card-border>
+      <mdl-button
+        [mdl-tooltip]="(vm.keyPair ? 'EDIT': 'ADD') | translate"
+        mdl-tooltip-position="top"
+        mdl-button-type="icon"
+        (click)="resetSshKey()"
+      >
+        <mdl-icon *ngIf="vm.keyPair; else add">edit</mdl-icon>
+        <ng-template #add><mdl-icon>add</mdl-icon></ng-template>
+      </mdl-button>
+    </mdl-card-actions>
   </mdl-card>
 
   <mdl-card class="vm-card" mdl-shadow="2">
@@ -271,13 +280,28 @@
         </div>
         <div class="row">
           <div>{{ 'STATISTICS_FIELDS.DISK_READ_IO' | translate }}</div>
-          <div>{{ vm.diskIoRead }}</div>
+          <div>{{ 'IOPS' | translate:{ value: vm.diskIoRead } }}</div>
         </div>
         <div class="row">
           <div>{{ 'STATISTICS_FIELDS.DISK_WRITE_IO' | translate }}</div>
-          <div>{{ vm.diskIoWrite }}</div>
+          <div>{{ 'IOPS' | translate:{ value: vm.diskIoWrite } }}</div>
         </div>
       </div>
     </mdl-card-supporting-text>
+    <mdl-card-menu>
+      <button
+        mdl-button
+        mdl-ripple
+        mdl-button-type="icon"
+        mdl-tooltip-position="left"
+        [mdl-tooltip]="refreshStatisticsTooltip"
+        (click)="updateStats()"
+      >
+        <mdl-icon>sync</mdl-icon>
+      </button>
+    </mdl-card-menu>
   </mdl-card>
 </div>
+<mdl-tooltip #refreshStatisticsTooltip="mdlTooltip">
+  {{ 'REFRESH' | translate }}
+</mdl-tooltip>

@@ -18,7 +18,7 @@ export class Event extends BaseModel {
   public state: string;
   public parentId: string;
 
-  constructor(json) {
+  constructor(json: any) {
     super(json);
     this.created = moment(json.created).toDate();
   }

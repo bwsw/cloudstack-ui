@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Zone } from '../../shared/models/zone.model';
-import { ZoneService } from '../../shared/services/zone.service';
-import { DiskOffering } from '../../shared/models/disk-offering.model';
-import { DiskOfferingService } from '../../shared/services/disk-offering.service';
-import { ResourceUsageService, ResourceStats } from '../../shared/services/resource-usage.service';
-import { MdlDialogReference } from 'angular2-mdl';
 import { Observable } from 'rxjs/Observable';
+import { MdlDialogReference } from '../../dialog/dialog-module';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DiskOffering, DiskOfferingService, Zone } from '../../shared';
+import { Volume } from '../../shared/models';
+import { JobsNotificationService } from '../../shared/services';
+import { ResourceStats, ResourceUsageService } from '../../shared/services/resource-usage.service';
+import { VolumeService } from '../../shared/services/volume.service';
+import { ZoneService } from '../../shared/services/zone.service';
+import { VolumeCreationData } from '../spare-drive-page/spare-drive-page.component';
 
 
 @Component({
@@ -17,28 +20,35 @@ export class SpareDriveCreationComponent implements OnInit {
   public name: string;
   public zones: Array<Zone>;
   public diskOfferingId: string;
-  public diskOfferings: Array<DiskOffering>;
+  public diskOfferings: Array<DiskOffering> = [];
   public showResizeSlider: boolean;
   public size = 1;
   public minSize = 1;
-  public maxSize: number;
+  public maxSize = 2;
 
   public loading: boolean;
-  public enoughResources: boolean;
   private _zoneId: string;
+
+  private notificationId: string;
+  private insufficientResourcesDialog: Observable<any>;
 
   constructor(
     private dialog: MdlDialogReference,
+    private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
+    private jobsNotificationService: JobsNotificationService,
     private resourceUsageService: ResourceUsageService,
-    private zoneService: ZoneService) {}
+    private volumeService: VolumeService,
+    private zoneService: ZoneService
+  ) {}
 
   public ngOnInit(): void {
     this.loading = true;
 
     this.getZones()
       .switchMap(() => this.getDiskOfferings())
-      .subscribe(() => this.loading = false);
+      .finally(() => this.loading = false)
+      .subscribe();
   }
 
   public get zoneId(): string {
@@ -51,17 +61,14 @@ export class SpareDriveCreationComponent implements OnInit {
   }
 
   public onCreate(): void {
-    let params = {
-      name: this.name,
-      zoneId: this.zoneId,
-      diskOfferingId: this.diskOfferingId
-    };
-
-    if (this.showResizeSlider) {
-      params['size'] = this.size;
-    }
-
-    this.dialog.hide(params);
+    this.loading = true;
+    this.notificationId = this.jobsNotificationService.add('VOLUME_CREATE_IN_PROGRESS');
+    this.createVolume(this.creationParams)
+      .finally(() => this.loading = false)
+      .subscribe(
+        volume => this.onVolumeCreated(volume),
+        error => this.handleError(error)
+      );
   }
 
   public onCancel(): void {
@@ -71,6 +78,25 @@ export class SpareDriveCreationComponent implements OnInit {
   public updateDiskOffering(offering: DiskOffering): void {
     this.diskOfferingId = offering.id;
     this.showResizeSlider = offering.isCustomized;
+  }
+
+  private createVolume(volumeCreationData: VolumeCreationData): Observable<Volume> {
+    return this.volumeService.create(volumeCreationData)
+      .switchMap(volume => this.getVolumeWithDiskOffering(volume));
+  }
+
+  // todo: change to something like volumeService.get(id, { diskOfferings: true });
+  private getVolumeWithDiskOffering(volume: Volume): Observable<Volume> {
+    if (volume && volume.diskOfferingId) {
+      return this.diskOfferingService
+        .get(volume.diskOfferingId)
+        .map((diskOffering: DiskOffering) => {
+          volume.diskOffering = diskOffering;
+          return volume;
+        });
+    } else {
+      return Observable.of(volume);
+    }
   }
 
   private get zone(): Zone {
@@ -97,7 +123,7 @@ export class SpareDriveCreationComponent implements OnInit {
     return this.resourceUsageService.getResourceUsage()
       .map(resourceUsage => {
         if (resourceUsage.available.volumes <= 0 || resourceUsage.available.primaryStorage < 1) {
-          this.enoughResources = false;
+          this.handleInsufficientResources();
           return;
         }
 
@@ -106,14 +132,52 @@ export class SpareDriveCreationComponent implements OnInit {
             this.diskOfferings = offerings;
 
             if (!this.diskOfferings.length) {
-              this.enoughResources = false;
+              this.handleInsufficientResources();
               return;
             }
 
             this.updateDiskOffering(this.diskOfferings[0]);
             this.updateSizeLimits(resourceUsage);
-            this.enoughResources = true;
           });
       });
+  }
+
+  private handleInsufficientResources(): void {
+    this.dialog.hide();
+    if (!this.insufficientResourcesDialog) {
+      this.insufficientResourcesDialog = this.dialogService.alert('VOLUME_LIMIT_EXCEEDED');
+      this.insufficientResourcesDialog
+        .subscribe(() => this.insufficientResourcesDialog = undefined);
+    }
+  }
+
+  private get creationParams(): any {
+    return Object.assign({},
+      {
+        name: this.name,
+        zoneId: this.zoneId,
+        diskOfferingId: this.diskOfferingId
+      },
+      this.showResizeSlider ? { size: this.size } : {}
+    );
+  }
+
+  private onVolumeCreated(volume: Volume): void {
+    this.jobsNotificationService.finish({
+      id: this.notificationId,
+      message: 'VOLUME_CREATE_DONE'
+    });
+    this.dialog.hide(volume);
+  }
+
+  private handleError(error: any): void {
+    this.dialogService.alert({
+      translationToken: error.message,
+      interpolateParams: error.params
+    });
+    this.jobsNotificationService.fail({
+      id: this.notificationId,
+      message: 'VOLUME_CREATE_FAILED',
+    });
   }
 }

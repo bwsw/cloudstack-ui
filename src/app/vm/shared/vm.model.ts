@@ -10,14 +10,11 @@ import {
   Volume
 } from '../../shared/models';
 import { BaseTemplateModel } from '../../template/shared';
+import { AffinityGroup } from '../../shared/models/affinity-group.model';
+import { Color } from '../../shared/models/color.model';
 
 
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
-
-interface IAffinityGroup {
-  id: string;
-  name: string;
-}
 
 export interface IVmAction {
   name: string;
@@ -33,15 +30,27 @@ export interface IVmAction {
 }
 
 type PredefinedStates = 'Running' | 'Stopped' | 'Error' | 'Destroyed' | 'Expunged';
-type CustomStates = 'Deploying';
+type CustomStates = 'Deploying' | 'Expunging';
 export type VmState = PredefinedStates | CustomStates;
-
 export const VmStates = {
   Running: 'Running' as VmState,
   Stopped: 'Stopped' as VmState,
   Error: 'Error' as VmState,
   Destroyed: 'Destroyed' as VmState,
-  Expunged: 'Expunged' as VmState
+  Expunged: 'Expunged' as VmState,
+  Deploying: 'Deploying' as VmState,
+  Expunging: 'Expunging' as VmState
+};
+
+export type VmAction = 'start' | 'stop' | 'reboot' | 'restore' | 'destroy' | 'resetPasswordFor' | 'console';
+export const VmActions = {
+  START: 'start' as VmAction,
+  STOP: 'stop' as VmAction,
+  REBOOT: 'reboot' as VmAction,
+  RESTORE: 'restore' as VmAction,
+  DESTROY: 'destroy' as VmAction,
+  RESET_PASSWORD: 'resetPasswordFor' as VmAction,
+  CONSOLE: 'console' as VmAction
 };
 
 @ZoneName()
@@ -70,18 +79,15 @@ export const VmStates = {
   isoid: 'isoId'
 })
 export class VirtualMachine extends BaseModel {
-  public static actions = [
-    'start',
-    'stop',
-    'reboot',
-    'restore',
-    'destroy',
-    'resetPasswordFor', // name forced by API and action implementation,
-    'console'
-  ].map(a => VirtualMachine.getAction(a));
+  public static actions = Object
+    .values(VmActions)
+    .map(a => VirtualMachine.getAction(a));
+
+  public static ColorDelimiter = ';';
 
   public id: string;
   public displayName: string;
+  public name: string;
   // Status
   public state: VmState;
   // Service Offering
@@ -97,7 +103,7 @@ export class VirtualMachine extends BaseModel {
   // Security Group
   public securityGroup: Array<SecurityGroup>;
   // Affinity Group
-  public affinityGroup: Array<IAffinityGroup>;
+  public affinityGroup: Array<AffinityGroup>;
   // Zone
   public zoneId: string;
   public zoneName: string;
@@ -125,6 +131,54 @@ export class VirtualMachine extends BaseModel {
   public tags: Array<Tag>;
   public instanceGroup: InstanceGroup;
 
+  public static getAction(action: string): IVmAction {
+    const name = action.charAt(0).toUpperCase() + action.slice(1);
+    const commandName = action;
+    const nameLower = action.toLowerCase();
+    const nameCaps = action.toUpperCase();
+    const vmStateOnAction = nameCaps + '_IN_PROGRESS';
+    const vmActionCompleted = nameCaps + '_DONE';
+    let mdlIcon = '';
+    const confirmMessage = 'CONFIRM_VM_' + nameCaps;
+    const progressMessage = 'VM_' + nameCaps + '_IN_PROGRESS';
+    const successMessage = nameCaps + '_DONE';
+    switch (action) {
+      case VmActions.START:
+        mdlIcon = 'play_arrow';
+        break;
+      case VmActions.STOP:
+        mdlIcon = 'stop';
+        break;
+      case VmActions.REBOOT:
+        mdlIcon = 'replay';
+        break;
+      case VmActions.RESTORE:
+        mdlIcon = 'settings_backup_restore';
+        break;
+      case VmActions.DESTROY:
+        mdlIcon = 'delete';
+        break;
+      case VmActions.RESET_PASSWORD:
+        mdlIcon = 'vpn_key';
+        break;
+      case VmActions.CONSOLE:
+        mdlIcon = 'computer';
+        break;
+    }
+    return {
+      name,
+      commandName,
+      nameLower,
+      nameCaps,
+      vmStateOnAction,
+      vmActionCompleted,
+      mdlIcon,
+      confirmMessage,
+      progressMessage,
+      successMessage
+    };
+  }
+
   constructor(params?: {}) {
     super(params);
 
@@ -145,7 +199,7 @@ export class VirtualMachine extends BaseModel {
     }
 
     if (this.tags) {
-      let group = this.tags.find(tag => tag.key === 'group');
+      const group = this.tags.find(tag => tag.key === 'group');
       this.instanceGroup = group ? new InstanceGroup(group.value) : undefined;
     }
   }
@@ -155,6 +209,17 @@ export class VirtualMachine extends BaseModel {
       return acc + volume.size;
     }, 0);
     return sizeInBytes / Math.pow(2, 30);
+  }
+
+  public getColor(): Color {
+    if (this.tags) {
+      const colorTag = this.tags.find(tag => tag.key === 'color');
+      if (colorTag) {
+        const [backgroundColor, textColor] = colorTag.value.split(VirtualMachine.ColorDelimiter);
+        return new Color(backgroundColor, backgroundColor, textColor || '');
+      }
+    }
+    return new Color('white', '#FFFFFF', '');
   }
 
   public canApply(command: string): boolean {
@@ -170,12 +235,17 @@ export class VirtualMachine extends BaseModel {
 
     // if a vm has no ip address, it can't be reached
     // so reset password fails
-    if (command === 'resetpasswordfor' && !this.nic[0].ipAddress) {
+    if (this.nic && this.nic.length) {
+      if (command === 'resetpasswordfor' && !this.nic[0].ipAddress) {
+        return false;
+      }
+    } else {
       return false;
     }
 
     switch (command) {
-      case 'start': return state !== 'Running';
+      case 'start':
+        return state !== 'Running';
       case 'stop':
       case 'reboot':
       case 'console':
@@ -187,51 +257,5 @@ export class VirtualMachine extends BaseModel {
     return true;
   }
 
-  public static getAction(action: string): IVmAction {
-    let name = action.charAt(0).toUpperCase() + action.slice(1);
-    let commandName = action;
-    let nameLower = action.toLowerCase();
-    let nameCaps = action.toUpperCase();
-    let vmStateOnAction = nameCaps + '_IN_PROGRESS';
-    let vmActionCompleted = nameCaps + '_DONE';
-    let mdlIcon = '';
-    let confirmMessage = 'CONFIRM_VM_' + nameCaps;
-    let progressMessage = 'VM_' + nameCaps + '_IN_PROGRESS';
-    let successMessage = nameCaps + '_DONE';
-    switch (action) {
-      case 'start':
-        mdlIcon = 'play_arrow';
-        break;
-      case 'stop':
-        mdlIcon = 'stop';
-        break;
-      case 'reboot':
-        mdlIcon = 'replay';
-        break;
-      case 'restore':
-        mdlIcon = 'settings_backup_restore';
-        break;
-      case 'destroy':
-        mdlIcon = 'delete';
-        break;
-      case 'resetPasswordFor':
-        mdlIcon = 'vpn_key';
-        break;
-      case 'console':
-        mdlIcon = 'computer';
-        break;
-    }
-    return {
-      name,
-      commandName,
-      nameLower,
-      nameCaps,
-      vmStateOnAction,
-      vmActionCompleted,
-      mdlIcon,
-      confirmMessage,
-      progressMessage,
-      successMessage
-    };
-  }
+
 }

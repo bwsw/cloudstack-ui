@@ -2,20 +2,24 @@
   <mdl-card-title>
     <h2
       mdl-card-title-text
-      [mdl-tooltip]="securityGroupTemplate.name"
+      [mdl-tooltip]="sgTitleTooltip"
       mdl-tooltip-position="bottom"
     >
       {{ securityGroupTemplate.name }}
     </h2>
   </mdl-card-title>
   <mdl-card-supporting-text>
-    <div class="card-wrapper">
+    <div class="card-wrapper" *ngIf="!securityGroupTemplate?.description">
+      <div class="description"></div>
+    </div>
+
+    <div class="card-wrapper" *ngIf="securityGroupTemplate?.description">
       <div class="description first">{{ 'DESCRIPTION' | translate }}: </div>
       <div class="description last">
         <span
           class="tooltip-position-fix fixed-width-span"
           *ngIf="securityGroupTemplate.description"
-          [mdl-tooltip]="securityGroupTemplate.description"
+          [mdl-tooltip]="sgDescriptionTooltip"
           mdl-tooltip-position="top"
         >
           {{ securityGroupTemplate.description }}
@@ -74,3 +78,10 @@
     </div>
   </mdl-popover>
 </mdl-card>
+<mdl-tooltip #sgTitleTooltip="mdlTooltip">
+  {{ securityGroupTemplate.name }}
+</mdl-tooltip>
+<mdl-tooltip #sgDescriptionTooltip="mdlTooltip">
+  {{ securityGroupTemplate.description }}
+</mdl-tooltip>
+

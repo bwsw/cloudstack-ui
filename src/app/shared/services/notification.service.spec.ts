@@ -1,14 +1,11 @@
+import { MdlDialogModule, MdlDialogOutletModule, MdlSnackbaModule } from '@angular-mdl/core';
 import { Component } from '@angular/core';
-import { NotificationService } from './notification.service';
-import { MdlSnackbaModule, MdlDialogOutletModule } from 'angular2-mdl';
 
-import {
-  inject,
-  TestBed,
-  async,
-  fakeAsync,
-  tick
-} from '@angular/core/testing';
+import { async, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { TranslateService } from '@ngx-translate/core';
+import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
+import { NotificationService } from './notification.service';
+
 
 @Component({
   selector: 'cs-test-view',
@@ -24,10 +21,13 @@ describe('Service: Notification service', () => {
     TestBed.configureTestingModule({
       declarations: [MdlTestViewComponent],
       imports: [
-        MdlSnackbaModule.forRoot(), MdlDialogOutletModule
+        MdlDialogModule,
+        MdlDialogOutletModule,
+        MdlSnackbaModule.forRoot(),
       ],
       providers: [
         NotificationService,
+        { provide: TranslateService, useClass: MockTranslateService }
       ]
     });
   }));
@@ -38,8 +38,8 @@ describe('Service: Notification service', () => {
   );
 
   it('notification appears onscreen and disappears after ~3seconds', fakeAsync(() => {
-    let fixture = TestBed.createComponent(MdlTestViewComponent);
-    let notification = ns.message('test');
+    const fixture = TestBed.createComponent(MdlTestViewComponent);
+    const notification = ns.message('test');
 
     fixture.detectChanges();
     notification.subscribe((mdlSnackbarComponent) => {
@@ -59,10 +59,10 @@ describe('Service: Notification service', () => {
   }));
 
   it('warning appears onscreen and disappears after ~3seconds', fakeAsync(() => {
-    let fixture = TestBed.createComponent(MdlTestViewComponent);
+    const fixture = TestBed.createComponent(MdlTestViewComponent);
     fixture.detectChanges();
 
-    let warning = ns.warning('test', {
+    const warning = ns.warning('test', {
       handler: () => {},
       text: 'test'
     });
@@ -82,10 +82,10 @@ describe('Service: Notification service', () => {
   }));
 
   it('warning disappears immediately after action', async(() => {
-    let fixture = TestBed.createComponent(MdlTestViewComponent);
+    const fixture = TestBed.createComponent(MdlTestViewComponent);
     fixture.detectChanges();
 
-    let p = ns.warning('test', {
+    const p = ns.warning('test', {
       handler: () => {},
       text: 'test'
     });
@@ -100,16 +100,16 @@ describe('Service: Notification service', () => {
   }));
 
   it('warning action handler is called on action button click', fakeAsync(() => {
-    let fixture = TestBed.createComponent(MdlTestViewComponent);
+    const fixture = TestBed.createComponent(MdlTestViewComponent);
     fixture.detectChanges();
 
-    let test = { a: 0 };
+    const test = { a: 0 };
 
-    let f = function(): void {
+    const f = function(): void {
       this.a = 1;
     };
 
-    let warning = ns.error('test', {
+    const warning = ns.error('test', {
       handler: f.bind(test),
       text: 'test'
     });
@@ -129,10 +129,10 @@ describe('Service: Notification service', () => {
   }));
 
   it('error appears onscreen and doesn\'t disappear until clicked', fakeAsync(() => {
-    let fixture = TestBed.createComponent(MdlTestViewComponent);
+    const fixture = TestBed.createComponent(MdlTestViewComponent);
     fixture.detectChanges();
 
-    let err = ns.error('test', {
+    const err = ns.error('test', {
       handler: () => {},
       text: 'test'
     });

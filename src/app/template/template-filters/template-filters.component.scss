@@ -26,23 +26,6 @@
   display: inline-flex;
 }
 
-.search-bar {
-  display: flex;
-  max-width: 100%;
-  white-space: nowrap;
-  margin: 0;
-  padding: 0 15px;
-
-  mdl-icon {
-    align-self: center;
-  }
-
-  /deep/ mdl-textfield {
-    max-width: 300px;
-    width: 100%;
-  }
-}
-
 .search-bar-white {
   background-color: white;
 }

@@ -1,26 +1,63 @@
-import { NgModule } from '@angular/core';
+import { MdlDialogOutletModule, MdlModule } from '@angular-mdl/core';
+import { MdlPopoverModule } from '@angular-mdl/popover';
+import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
-import { MdlSelectModule } from '@angular2-mdl-ext/select';
-import { MdlModule } from 'angular2-mdl';
 import { TranslateModule } from '@ngx-translate/core';
+import { MdlDialogModule } from '../dialog/dialog-module';
 
 import {
-  DivisionPipe,
-  HighLightPipe,
-  ViewValuePipe
-} from './pipes';
+  CalendarComponent,
+  CalendarMonthComponent,
+  CalendarYearComponent,
+  ColorPickerComponent,
+  DateDisplayComponent,
+  DatePickerComponent,
+  DatePickerDialogComponent,
+  DiskOfferingComponent,
+  FabComponent,
+  ListComponent,
+  NoResultsComponent,
+  NotificationBoxComponent,
+  NotificationBoxItemComponent,
+  SgRulesManagerComponent,
+  SidebarComponent,
+  SliderComponent,
+  TopBarComponent,
+  VmStatisticsComponent
+} from './components';
+import {
+  MDL_SELECT_VALUE_ACCESSOR,
+  MdlAutocompleteComponent
+} from './components/autocomplete/mdl-autocomplete.component';
+import { DescriptionComponent } from './components/description/description.component';
+import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
+import { InlineEditAutocompleteComponent } from './components/inline-edit/inline-edit-autocomplete.component';
+import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
+import { InputGroupComponent } from './components/input-group/input-group.component';
+import { LoaderComponent } from './components/loader.component';
+import { SearchComponent } from './components/search/search.component';
+import { TableComponent } from './components/table/table.component';
+import { IntegerValidatorDirective } from './directives/integer-value.directive';
+
+import { LoadingDirective } from './directives/loading.directive';
+import { MaxValueValidatorDirective } from './directives/max-value.directive';
+import { MinValueValidatorDirective } from './directives/min-value.directive';
+
+import { DivisionPipe, HighLightPipe, ViewValuePipe } from './pipes';
 
 import {
   AffinityGroupService,
   AsyncJobService,
   AuthGuard,
   AuthService,
+  CacheService,
   ConfigService,
   DiskOfferingService,
   DiskStorageService,
   ErrorService,
+  FilterService,
   InstanceGroupService,
   JobsNotificationService,
   LanguageService,
@@ -31,56 +68,30 @@ import {
   ResourceLimitService,
   ResourceUsageService,
   SecurityGroupService,
-  ServiceOfferingService,
   ServiceOfferingFilterService,
-  SnapshotService,
+  ServiceOfferingService,
   SSHKeyPairService,
   StatsUpdateService,
-  StorageService,
   StyleService,
-  TagService,
-  UtilsService,
-  VolumeService,
   ZoneService
 } from './services';
-
-import {
-  CalendarComponent,
-  CalendarMonthComponent,
-  CalendarYearComponent,
-  ColorPickerComponent,
-  DateDisplayComponent,
-  DatePickerComponent,
-  DatePickerDialogComponent,
-  ListComponent,
-  DiskOfferingComponent,
-  FabComponent,
-  NoResultsComponent,
-  NotificationBoxComponent,
-  NotificationBoxItemComponent,
-  SgRulesManagerComponent,
-  SidebarComponent,
-  TopBarComponent,
-  VmStatisticsComponent,
-  SliderComponent
-} from './components';
-
-import { MaxValueValidatorDirective } from './directives/max-value.directive';
-import { MinValueValidatorDirective } from './directives/min-value.directive';
-
-import { LoadingDirective } from './directives/loading.directive';
-import { LoaderComponent } from './components/loader.component';
+import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
+import { RouterUtilsService } from './services/router-utils.service';
+import { SnapshotService } from './services/snapshot.service';
+import { StorageService } from './services/storage.service';
+import { TagService } from './services/tag.service';
 import { UserService } from './services/user.service';
-import { FilterService } from './services/filter.service';
-import { IntegerValidatorDirective } from './directives/integer-value.directive';
-import { DialogService } from './services/dialog.service';
-import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
-import { InlineEditAutocompleteComponent } from './components/inline-edit/inline-edit-autocomplete.component';
+import { UtilsService } from './services/utils.service';
+import { VolumeService } from './services/volume.service';
+import { MdlTextAreaAutoresizeDirective } from './directives/mdl-textarea-autoresize.directive';
+import { VolumeOfferingService } from './services/volume-offering.service';
+import { ReloadComponent } from './components/reload/reload.component';
 import {
-  MDL_SELECT_VALUE_ACCESSOR,
-  MdlAutocompleteComponent
-} from './components/autocomplete/mdl-autocomplete.component';
-import { DescriptionComponent } from './components/description/description.component';
+  CharacterCountTextfieldComponent
+} from './components/character-count-textfield/character-count-textfield.component';
+import {
+  CreateUpdateDeleteDialogComponent
+} from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { TimePickerComponent } from './components/time-picker/time-picker.component';
 
 
@@ -88,19 +99,25 @@ import { TimePickerComponent } from './components/time-picker/time-picker.compon
   imports: [
     CommonModule,
     FormsModule,
+    MdlDialogModule,
+    MdlDialogOutletModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
     TranslateModule
   ],
   exports: [
+    CharacterCountTextfieldComponent,
     ColorPickerComponent,
+    CreateUpdateDeleteDialogComponent,
     DatePickerComponent,
     DescriptionComponent,
     DiskOfferingComponent,
     FabComponent,
+    FancySelectComponent,
     InlineEditComponent,
     InlineEditAutocompleteComponent,
+    InputGroupComponent,
     IntegerValidatorDirective,
     ListComponent,
     NoResultsComponent,
@@ -109,45 +126,58 @@ import { TimePickerComponent } from './components/time-picker/time-picker.compon
     MdlAutocompleteComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
+    OverlayLoadingComponent,
+    SearchComponent,
     SgRulesManagerComponent,
     SidebarComponent,
     TimePickerComponent,
+    TableComponent,
     TopBarComponent,
     VmStatisticsComponent,
     DivisionPipe,
     SliderComponent,
     HighLightPipe,
     ViewValuePipe,
-    LoadingDirective
+    LoadingDirective,
+    MdlTextAreaAutoresizeDirective
   ],
   entryComponents: [
     DatePickerDialogComponent,
     LoaderComponent
   ],
   declarations: [
+    CharacterCountTextfieldComponent,
     CalendarComponent,
     CalendarMonthComponent,
     CalendarYearComponent,
     ColorPickerComponent,
+    CreateUpdateDeleteDialogComponent,
     DateDisplayComponent,
     DatePickerComponent,
     DatePickerDialogComponent,
     DescriptionComponent,
     DiskOfferingComponent,
     FabComponent,
+    FancySelectComponent,
     InlineEditComponent,
     InlineEditAutocompleteComponent,
+    InputGroupComponent,
     IntegerValidatorDirective,
     ListComponent,
     NoResultsComponent,
     MaxValueValidatorDirective,
     MinValueValidatorDirective,
     MdlAutocompleteComponent,
+    MdlTextAreaAutoresizeDirective,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
+    OverlayLoadingComponent,
+    ReloadComponent,
+    SearchComponent,
     SgRulesManagerComponent,
     SidebarComponent,
     TimePickerComponent,
+    TableComponent,
     TopBarComponent,
     VmStatisticsComponent,
     DivisionPipe,
@@ -162,8 +192,8 @@ import { TimePickerComponent } from './components/time-picker/time-picker.compon
     AsyncJobService,
     AuthGuard,
     AuthService,
+    CacheService,
     ConfigService,
-    DialogService,
     DiskOfferingService,
     DiskStorageService,
     ErrorService,
@@ -177,6 +207,7 @@ import { TimePickerComponent } from './components/time-picker/time-picker.compon
     OsTypeService,
     ResourceLimitService,
     ResourceUsageService,
+    RouterUtilsService,
     SecurityGroupService,
     ServiceOfferingService,
     ServiceOfferingFilterService,
@@ -189,9 +220,8 @@ import { TimePickerComponent } from './components/time-picker/time-picker.compon
     UserService,
     UtilsService,
     VolumeService,
+    VolumeOfferingService,
     ZoneService,
-    { provide: 'INotificationService', useClass: NotificationService },
-    { provide: 'IStorageService', useClass: StorageService },
     MDL_SELECT_VALUE_ACCESSOR
   ]
 })

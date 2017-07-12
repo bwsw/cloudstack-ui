@@ -4,7 +4,7 @@
       class="filter-select"
       *ngIf="zones"
       [(ngModel)]="selectedZones"
-      (ngModelChange)="updateSections()"
+      (change)="updateSections()"
       multiple="true"
       [placeholder]="'SELECT_ZONES' | translate"
     >
@@ -19,10 +19,7 @@
         <cs-spare-drive-list
           *loading="!volumes"
           [volumes]="s.spareDrives"
-          [selectedVolume]="selectedVolume"
-          (onSelected)="selectVolume($event)"
           (onDelete)="showRemoveDialog($event)"
-          (onVolumeAttached)="attach($event)"
           (onResize)="updateVolume($event)"
           cs-list
         ></cs-spare-drive-list>
@@ -34,8 +31,6 @@
     <cs-spare-drive-list
       *loading="!volumes"
       [volumes]="volumes"
-      [selectedVolume]="selectedVolume"
-      (onSelected)="selectVolume($event)"
       (onDelete)="showRemoveDialog($event)"
       (onVolumeAttached)="attach($event)"
       (onResize)="updateVolume($event)"
@@ -44,8 +39,5 @@
 
   <cs-no-results *ngIf="noFilteringResults && volumes" cs-list></cs-no-results>
 
-  <cs-spare-drive-sidebar
-    [volume]="selectedVolume"
-    cs-sidebar
-  ></cs-spare-drive-sidebar>
+  <router-outlet cs-sidebar></router-outlet>
 </cs-list>
