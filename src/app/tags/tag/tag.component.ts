@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { Tag } from '../../shared/models';
 import { NotificationService, TagService } from '../../shared/services';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class TagComponent {
   public loading: boolean;
 
   constructor(
+    private dialogService: DialogService,
     private notificationService: NotificationService,
     private tagService: TagService
   ) {
@@ -30,7 +32,23 @@ export class TagComponent {
     this.onTagEdit.emit(this.tag);
   }
 
-  public remove(): void {
+  public showRemoveDialog(): void {
+    this.dialogService.confirm('TAG_DELETE_CONFIRMATION')
+      .subscribe(
+        () => this.remove(),
+        () => {}
+      );
+  }
+
+  public onCopySuccess(): void {
+    this.notificationService.message('COPY_SUCCESS');
+  }
+
+  public onCopyFail(): void {
+    this.notificationService.message('COPY_FAIL');
+  }
+
+  private remove(): void {
     this.loading = true;
 
     this.tagService.remove({
@@ -40,13 +58,5 @@ export class TagComponent {
     })
       .finally(() => this.loading = false)
       .subscribe(() => this.onTagRemove.emit(this.tag));
-  }
-
-  public onCopySuccess(): void {
-    this.notificationService.message('COPY_SUCCESS');
-  }
-
-  public onCopyFail(): void {
-    this.notificationService.message('COPY_FAIL');
   }
 }

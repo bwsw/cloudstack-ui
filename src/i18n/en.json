@@ -578,5 +578,6 @@
   "TAG_CATEGORY_NAME": "Category name",
   "TAG_ALREADY_EXISTS": "Tag already exists",
   "NO_TAGS": "No tags",
-  "EDIT_TAG": "Edit tag"
+  "EDIT_TAG": "Edit tag",
+  "TAG_DELETE_CONFIRMATION": "Are you sure you want to delete this tag?"
 }
