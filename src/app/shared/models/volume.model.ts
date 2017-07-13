@@ -8,12 +8,10 @@ import { ZoneName } from '../decorators/zone-name.decorator';
 import { Tag, DeletionMark } from './tag.model';
 
 
-type VolumeType = 'ROOT' | 'DATADISK';
-
-export const VolumeTypes = {
-  ROOT: 'ROOT' as VolumeType,
-  DATADISK: 'DATADISK' as VolumeType
-};
+export enum VolumeType {
+  ROOT = 'ROOT',
+  DATADISK = 'DATADISK'
+}
 
 @ZoneName()
 @FieldMapper({
@@ -50,7 +48,7 @@ export class Volume extends BaseModel {
   }
 
   public get isRoot(): boolean {
-    return this.type === VolumeTypes.ROOT;
+    return this.type === VolumeType.ROOT;
   }
 
   public get isDeleted(): boolean {

@@ -6,7 +6,7 @@ import {
   DiskOfferingService,
   StatsUpdateService,
   Volume,
-  VolumeTypes,
+  VolumeType,
   Zone,
   ZoneService
 } from '../../../../shared';
@@ -45,7 +45,7 @@ export class VolumeComponent implements OnInit {
   }
 
   public get showAttachmentActions(): boolean {
-    return this.volume.type === VolumeTypes.DATADISK;
+    return this.volume.type === VolumeType.DATADISK;
   }
 
   public toggleDetails(): void {

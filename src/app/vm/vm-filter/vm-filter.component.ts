@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { Zone } from '../../shared';
 import { InstanceGroup } from '../../shared/models';
 import { FilterService, InstanceGroupService } from '../../shared/services';
-import { VmState, VmStates } from '../shared/vm.model';
+import { VmState } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 
 import { SectionType } from '../vm-list/vm-list.component';
@@ -36,9 +36,9 @@ export class VmFilterComponent implements OnInit, OnChanges {
   @Input() public groups: Array<InstanceGroup>;
   @Input() public zones: Array<Zone>;
   public states = [
-    { state: VmStates.Running, name: 'VM_FILTERS.STATE.RUNNING' },
-    { state: VmStates.Stopped, name: 'VM_FILTERS.STATE.STOPPED' },
-    { state: VmStates.Error,   name: 'VM_FILTERS.STATE.ERROR' }
+    { state: VmState.Running, name: 'VM_FILTERS.STATE.RUNNING' },
+    { state: VmState.Stopped, name: 'VM_FILTERS.STATE.STOPPED' },
+    { state: VmState.Error,   name: 'VM_FILTERS.STATE.ERROR' }
   ];
   public mode: SectionType = SectionType.zone;
   public showNoGroupFilter = true;

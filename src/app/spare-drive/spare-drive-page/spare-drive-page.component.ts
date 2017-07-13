@@ -7,7 +7,7 @@ import {
   FilterService,
   JobsNotificationService,
   Volume,
-  VolumeTypes,
+  VolumeType,
   Zone,
   ZoneService
 } from '../../shared';
@@ -222,7 +222,7 @@ export class SpareDrivePageComponent implements OnInit {
   private updateVolumeList(): Observable<void> {
     let diskOfferings: Array<DiskOffering>;
 
-    return this.diskOfferingService.getList({ type: VolumeTypes.DATADISK })
+    return this.diskOfferingService.getList({ type: VolumeType.DATADISK })
       .switchMap((offerings: Array<DiskOffering>) => {
         diskOfferings = offerings;
         return this.volumeService.getSpareList();

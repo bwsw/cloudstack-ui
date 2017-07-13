@@ -16,7 +16,7 @@ import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { ConfigService } from '../../shared/services';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { VirtualMachine, VmActions, VmStates } from '../shared/vm.model';
+import { VirtualMachine, VmAction, VmState } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { SshKeypairResetComponent } from './ssh/ssh-keypair-reset.component';
 
@@ -229,7 +229,7 @@ export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   private askToStopVM(message: string, onStopped): void {
-    if (this.vm.state === VmStates.Stopped) {
+    if (this.vm.state === VmState.Stopped) {
       onStopped();
       return;
     }
@@ -245,7 +245,7 @@ export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
       .subscribe((result) => {
         if (result === null) {
           this.vmService.command({
-            action: VirtualMachine.getAction(VmActions.STOP),
+            action: VirtualMachine.getAction(VmAction.STOP),
             vm: this.vm
           })
             .subscribe(onStopped);

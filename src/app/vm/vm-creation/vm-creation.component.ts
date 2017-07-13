@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
 
-import { VirtualMachine } from '../shared/vm.model';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 
 import {
   AffinityGroup,
@@ -137,10 +137,10 @@ export class VmCreationComponent implements OnInit {
     });
 
     this.translateService.get(
-      this.keyboards.map(kb => { return 'KB_' + kb.toUpperCase(); })
+      this.keyboards.map(kb => 'KB_' + kb.toUpperCase())
     )
       .subscribe(strs => {
-        let keyboardTranslations = {};
+        const keyboardTranslations = {};
         this.keyboards.forEach(kb => keyboardTranslations[kb] = strs['KB_' + kb.toUpperCase()]);
         this.keyboardTranslations = keyboardTranslations;
       });
@@ -184,10 +184,10 @@ export class VmCreationComponent implements OnInit {
   }
 
   public resetVmCreateData(): void {
-    Observable.forkJoin([
+    Observable.forkJoin(
       this.getVmCreateData(),
       this.getDefaultVmName()
-    ])
+    )
       .subscribe(([creationData, defaultName]) => {
         this.vmCreationData = creationData;
         this.zoneId = this.vmCreationData.vm.zoneId;
@@ -201,17 +201,17 @@ export class VmCreationComponent implements OnInit {
   }
 
   public deployVm(): void {
-    let params: any = this.vmCreateParams;
+    const params: any = this.vmCreateParams;
 
     let shouldCreateAffinityGroup = false;
-    let affinityGroupName = params['affinityGroupNames'];
+    const affinityGroupName = params['affinityGroupNames'];
     if (affinityGroupName) {
       const ind = this.vmCreationData.affinityGroups.findIndex(ag => ag.name === affinityGroupName);
       if (ind === -1) {
         shouldCreateAffinityGroup = true;
       }
     }
-    let securityGroupObservable = this.securityGroupService.createWithRules(
+    const securityGroupObservable = this.securityGroupService.createWithRules(
       { name: this.utils.getUniqueId() + GROUP_POSTFIX },
       params.ingress || [],
       params.egress || []
@@ -341,7 +341,7 @@ export class VmCreationComponent implements OnInit {
   }
 
   private getVmCreateData(): Observable<VmCreationData> {
-    let vmCreationData = new VmCreationData();
+    const vmCreationData = new VmCreationData();
 
     return this.zoneService.getList()
       .switchMap(zoneList => {
@@ -351,13 +351,13 @@ export class VmCreationComponent implements OnInit {
         return this.updateZone(zoneList[0].id);
       })
       .switchMap(() => {
-        return Observable.forkJoin([
+        return Observable.forkJoin(
           this.affinityGroupService.getList(),
           this.affinityGroupService.getTypes(),
           this.sshService.getList(),
           this.vmService.getInstanceGroupList(),
           this.securityGroupService.getTemplates()
-        ]);
+        );
       })
       .map(([
         affinityGroups,
@@ -366,13 +366,13 @@ export class VmCreationComponent implements OnInit {
         instanceGroups,
         securityGroupTemplates
       ]) => {
-        vmCreationData.affinityGroups = <any>affinityGroups;
-        vmCreationData.affinityGroupTypes = <any>affinityGroupTypes;
+        vmCreationData.affinityGroups = affinityGroups;
+        vmCreationData.affinityGroupTypes = affinityGroupTypes;
         vmCreationData.affinityGroupNames = affinityGroups.map(ag => ag.name);
-        vmCreationData.sshKeyPairs = <any>sshKeyPairs;
+        vmCreationData.sshKeyPairs = sshKeyPairs;
         vmCreationData.instanceGroups = instanceGroups.map(group => group.name);
 
-        let preselectedSecurityGroups = securityGroupTemplates.filter(securityGroup => securityGroup.preselected);
+        const preselectedSecurityGroups = securityGroupTemplates.filter(securityGroup => securityGroup.preselected);
         this.securityRules = Rules.createWithAllRulesSelected(preselectedSecurityGroups);
 
         if (sshKeyPairs.length) {
@@ -400,7 +400,7 @@ export class VmCreationComponent implements OnInit {
   }
 
   private get vmCreateParams(): {} {
-    let params = {
+    const params = {
       'serviceOfferingId': this.vmCreationData.vm.serviceOfferingId,
       'templateId': this.vmCreationData.vm.template.id,
       'zoneId': this.vmCreationData.vm.zoneId,
@@ -444,7 +444,7 @@ export class VmCreationComponent implements OnInit {
   }
 
   private deploy(params): void {
-    let deployObservable = new Subject();
+    const deployObservable = new Subject();
     let notificationId: string;
     let deployResponseVm: any;
 
@@ -455,7 +455,7 @@ export class VmCreationComponent implements OnInit {
         this.vmService.get(deployResponse.id)
           .subscribe(vm => {
             deployResponseVm = vm;
-            vm.state = 'Deploying';
+            vm.state = VmState.Deploying;
             deployObservable.next(vm);
             deployObservable.complete();
           });
@@ -512,7 +512,7 @@ export class VmCreationComponent implements OnInit {
   }
 
   private setDiskOfferings(diskOfferings: Array<DiskOffering>): void {
-    let filteredDiskOfferings = diskOfferings.filter((diskOffering: DiskOffering) => {
+    const filteredDiskOfferings = diskOfferings.filter((diskOffering: DiskOffering) => {
       return diskOffering.diskSize < this.vmCreationData.rootDiskSizeLimit;
     });
 
@@ -541,17 +541,13 @@ export class VmCreationComponent implements OnInit {
     this.selectedDiskOffering = null;
     this.changeDetectorRef.detectChanges();
 
-    return Observable.forkJoin([
+    return Observable.forkJoin(
       this.diskStorageService.getAvailablePrimaryStorage(),
       this.serviceOfferingFilterService.getAvailable({ zone: this.selectedZone }),
       this.diskOfferingService.getList({ zone: this.selectedZone, maxSize: this.vmCreationData.rootDiskSizeLimit }),
       this.templateService.getDefault(this.selectedZone.id, this.vmCreationData.rootDiskSizeLimit)
-    ])
-      .map(([
-        rootDiskSizeLimit,
-        serviceOfferings,
-        diskOfferings,
-        defaultTemplate]: [number, Array<ServiceOffering>, Array<DiskOffering>, BaseTemplateModel]
+    )
+      .map(([rootDiskSizeLimit, serviceOfferings, diskOfferings, defaultTemplate]
       ) => {
         this.vmCreationData.rootDiskSizeLimit = rootDiskSizeLimit;
         this.setServiceOfferings(serviceOfferings);

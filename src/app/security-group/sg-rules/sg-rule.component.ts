@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
-import { NetworkRule, NetworkRuleType, NetworkProtocols } from '../sg.model';
+import { NetworkRule, NetworkRuleType, NetworkProtocol } from '../sg.model';
 
 
 @Component({
@@ -17,7 +17,7 @@ export class SgRuleComponent {
 
   public deleting = false;
 
-  public NetworkProtocols = NetworkProtocols;
+  public NetworkProtocols = NetworkProtocol;
 
   public handleRemoveClicked(e: Event): void {
     e.stopPropagation();

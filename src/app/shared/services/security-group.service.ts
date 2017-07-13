@@ -5,7 +5,6 @@ import {
   NetworkProtocol,
   NetworkRule,
   NetworkRuleType,
-  NetworkRuleTypes,
   SecurityGroup
 } from '../../security-group/sg.model';
 import { BackendResource } from '../decorators';
@@ -96,8 +95,8 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
           delete r.CIDR;
           addRuleRequests.push(this.addRule(type, r.serialize()));
         };
-        ingressRules.forEach(rule => addRule(NetworkRuleTypes.Ingress, rule));
-        egressRules.forEach(rule => addRule(NetworkRuleTypes.Egress, rule));
+        ingressRules.forEach(rule => addRule(NetworkRuleType.Ingress, rule));
+        egressRules.forEach(rule => addRule(NetworkRuleType.Egress, rule));
 
         return Observable.forkJoin(addRuleRequests);
       })

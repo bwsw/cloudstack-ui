@@ -29,29 +29,27 @@ export interface IVmAction {
   successMessage: string;
 }
 
-type PredefinedStates = 'Running' | 'Stopped' | 'Error' | 'Destroyed' | 'Expunged';
-type CustomStates = 'Deploying' | 'Expunging';
-export type VmState = PredefinedStates | CustomStates;
-export const VmStates = {
-  Running: 'Running' as VmState,
-  Stopped: 'Stopped' as VmState,
-  Error: 'Error' as VmState,
-  Destroyed: 'Destroyed' as VmState,
-  Expunged: 'Expunged' as VmState,
-  Deploying: 'Deploying' as VmState,
-  Expunging: 'Expunging' as VmState
-};
+export enum VmState {
+  Running = 'Running',
+  Stopped = 'Stopped',
+  Error = 'Error',
+  Destroyed = 'Destroyed',
+  Expunged = 'Expunged',
 
-export type VmAction = 'start' | 'stop' | 'reboot' | 'restore' | 'destroy' | 'resetPasswordFor' | 'console';
-export const VmActions = {
-  START: 'start' as VmAction,
-  STOP: 'stop' as VmAction,
-  REBOOT: 'reboot' as VmAction,
-  RESTORE: 'restore' as VmAction,
-  DESTROY: 'destroy' as VmAction,
-  RESET_PASSWORD: 'resetPasswordFor' as VmAction,
-  CONSOLE: 'console' as VmAction
-};
+  // custom states
+  Deploying = 'Deploying',
+  Expunging = 'Expunging'
+}
+
+export enum VmAction {
+  START = 'start',
+  STOP = 'stop',
+  REBOOT = 'reboot',
+  RESTORE = 'restore',
+  DESTROY = 'destroy',
+  RESET_PASSWORD = 'resetPasswordFor',
+  CONSOLE = 'console'
+}
 
 @ZoneName()
 @FieldMapper({
@@ -80,7 +78,7 @@ export const VmActions = {
 })
 export class VirtualMachine extends BaseModel {
   public static actions = Object
-    .values(VmActions)
+    .values(VmAction)
     .map(a => VirtualMachine.getAction(a));
 
   public static ColorDelimiter = ';';
@@ -143,25 +141,25 @@ export class VirtualMachine extends BaseModel {
     const progressMessage = 'VM_' + nameCaps + '_IN_PROGRESS';
     const successMessage = nameCaps + '_DONE';
     switch (action) {
-      case VmActions.START:
+      case VmAction.START:
         mdlIcon = 'play_arrow';
         break;
-      case VmActions.STOP:
+      case VmAction.STOP:
         mdlIcon = 'stop';
         break;
-      case VmActions.REBOOT:
+      case VmAction.REBOOT:
         mdlIcon = 'replay';
         break;
-      case VmActions.RESTORE:
+      case VmAction.RESTORE:
         mdlIcon = 'settings_backup_restore';
         break;
-      case VmActions.DESTROY:
+      case VmAction.DESTROY:
         mdlIcon = 'delete';
         break;
-      case VmActions.RESET_PASSWORD:
+      case VmAction.RESET_PASSWORD:
         mdlIcon = 'vpn_key';
         break;
-      case VmActions.CONSOLE:
+      case VmAction.CONSOLE:
         mdlIcon = 'computer';
         break;
     }

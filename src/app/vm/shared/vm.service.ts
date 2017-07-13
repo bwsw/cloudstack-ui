@@ -16,7 +16,7 @@ import {
 } from '../../shared/services';
 
 import { Iso } from '../../template/shared';
-import { IVmAction, VirtualMachine, VmActions, VmStates } from './vm.model';
+import { IVmAction, VirtualMachine, VmAction, VmState } from './vm.model';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
@@ -24,7 +24,8 @@ import { TagService } from '../../shared/services/tag.service';
 import { UserService } from '../../shared/services/user.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
-import { VolumeTypes } from '../../shared/models/volume.model';
+import { VolumeType } from '../../shared/models/volume.model';
+import { ApiFormat } from '../../shared/services/base-backend.service';
 
 
 export interface IVmActionEvent {
@@ -63,7 +64,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
           return Observable.of(+numberOfVms);
         }
 
-        return this.getList({}, true)
+        return this.getList({}, null, true)
           .switchMap(vmList => {
             return this.writeNumberOfVms(vmList.length);
           });
@@ -80,21 +81,19 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public get(id: string): Observable<VirtualMachine> {
-    return Observable.forkJoin([
+    return Observable.forkJoin(
       super.get(id),
-      this.volumeService.getList({
-        virtualMachineId: id
-      })
-    ])
+      this.volumeService.getList({ virtualMachineId: id })
+    )
       .switchMap(([vm, volumes]) => {
         vm.volumes = this.sortVolumes(volumes);
 
-        return Observable.forkJoin([
+        return Observable.forkJoin(
           Observable.of(vm),
           this.osTypesService.get(vm.guestOsId),
           this.serviceOfferingService.get(vm.serviceOfferingId),
           vm.securityGroup[0] ? this.securityGroupService.get(vm.securityGroup[0].id) : Observable.of(null)
-        ]);
+        );
       })
       .map(([virtualMachine, osType, serviceOffering, securityGroup]) => {
         const vm = virtualMachine;
@@ -107,17 +106,17 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
   }
 
-  public getList(params?: {}, lite = false): Observable<Array<VirtualMachine>> {
+  public getList(params?: {}, customApiFormat?: ApiFormat, lite = false): Observable<Array<VirtualMachine>> {
     if (lite) {
       return super.getList(params);
     }
-    return Observable.forkJoin([
+    return Observable.forkJoin(
       super.getList(params),
       this.volumeService.getList(),
       this.osTypesService.getList(),
       this.serviceOfferingService.getList(),
       this.securityGroupService.getList()
-    ])
+    )
       .map(([vmList, volumes, osTypes, serviceOfferings, securityGroups]) => {
         vmList.forEach((currentVm, index, vms) => {
           currentVm = this.addVolumes(currentVm, volumes);
@@ -160,8 +159,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public vmAction(e: IVmActionEvent): Observable<void> {
     switch (e.action.commandName) {
-      case VmActions.RESET_PASSWORD: return this.resetPassword(e);
-      case VmActions.DESTROY: return this.destroy(e);
+      case VmAction.RESET_PASSWORD: return this.resetPassword(e);
+      case VmAction.DESTROY: return this.destroy(e);
     }
     return this.command(e);
   }
@@ -186,9 +185,9 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return this.destroyVolumeDeleteConfirmDialog(e.vm)
       .switchMap(() => {
         return this.command(e).map(vm => {
-          if (vm && vm.state === VmStates.Destroyed) {
+          if (vm && vm.state === VmState.Destroyed) {
             e.vm.volumes
-              .filter(volume => volume.type === VolumeTypes.DATADISK)
+              .filter(volume => volume.type === VolumeType.DATADISK)
               .forEach(volume =>
                 this.volumeService.markForDeletion(volume.id).subscribe()
               );
@@ -213,7 +212,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       } as any);
     };
 
-    if (e.vm.state === VmStates.Stopped) {
+    if (e.vm.state === VmState.Stopped) {
       this.command(e)
         .subscribe((vm: VirtualMachine) => {
           if (vm && vm.password) {
@@ -222,12 +221,12 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         });
     } else {
       const stop: IVmActionEvent = {
-        action: VirtualMachine.getAction(VmActions.STOP),
+        action: VirtualMachine.getAction(VmAction.STOP),
         vm: e.vm,
         templateId: e.templateId
       };
       const start: IVmActionEvent = {
-        action: VirtualMachine.getAction(VmActions.START),
+        action: VirtualMachine.getAction(VmAction.START),
         vm: e.vm,
         templateId: e.templateId
       };
@@ -260,17 +259,17 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       return Observable.of(virtualMachine);
     }
 
-    if (virtualMachine.state === VmStates.Stopped) {
+    if (virtualMachine.state === VmState.Stopped) {
       return this.changeOffering(serviceOffering, virtualMachine).map(vm => vm);
     }
     return this.command({
-      action: VirtualMachine.getAction(VmActions.STOP),
+      action: VirtualMachine.getAction(VmAction.STOP),
       vm: virtualMachine
     }).switchMap(() => {
       return this.changeOffering(serviceOffering, virtualMachine).map(vm => vm);
     }).switchMap((vm) => {
       return this.command({
-        action: VirtualMachine.getAction(VmActions.START),
+        action: VirtualMachine.getAction(VmAction.START),
         vm: virtualMachine
       }).map(() => vm);
     });

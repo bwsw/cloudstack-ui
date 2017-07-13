@@ -7,11 +7,10 @@ import { DialogService } from '../dialog/dialog-module/dialog.service';
 import { Volume } from '../shared/models';
 
 
-export type VolumeAttachmentEvent = 'attached' | 'detached';
-export const VolumeAttachmentEvents = {
-  ATTACHED: 'attached' as VolumeAttachmentEvent,
-  DETACHED: 'detached' as VolumeAttachmentEvent
-};
+export enum VolumeAttachmentEvent {
+  ATTACHED = 'attached',
+  DETACHED = 'detached'
+}
 
 @Injectable()
 export class SpareDriveActionsService {
@@ -28,8 +27,8 @@ export class SpareDriveActionsService {
   public attach(data: VolumeAttachmentData): Observable<void> {
     const notificationId = this.jobsNotificationService.add('VOLUME_ATTACH_IN_PROGRESS');
     return this.volumeService.attach(data)
-      .map(() => {
-        this.onVolumeAttachment.next(VolumeAttachmentEvents.ATTACHED);
+      .do(() => {
+        this.onVolumeAttachment.next(VolumeAttachmentEvent.ATTACHED);
         this.jobsNotificationService.finish({
           id: notificationId,
           message: 'VOLUME_ATTACH_DONE',
@@ -44,15 +43,15 @@ export class SpareDriveActionsService {
           id: notificationId,
           message: 'VOLUME_ATTACH_FAILED',
         });
-        return error;
+        return Observable.throw(error);
       });
   }
 
   public detach(volume: Volume): Observable<void> {
     const notificationId = this.jobsNotificationService.add('VOLUME_DETACH_IN_PROGRESS');
     return this.volumeService.detach(volume.id)
-      .map(() => {
-        this.onVolumeAttachment.next(VolumeAttachmentEvents.DETACHED);
+      .do(() => {
+        this.onVolumeAttachment.next(VolumeAttachmentEvent.DETACHED);
         this.jobsNotificationService.finish({
           id: notificationId,
           message: 'VOLUME_DETACH_DONE'
@@ -67,7 +66,7 @@ export class SpareDriveActionsService {
           id: notificationId,
           message: 'VOLUME_DETACH_FAILED',
         });
-        return error;
+        return Observable.throw(error);
       });
   }
 }

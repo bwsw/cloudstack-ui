@@ -36,10 +36,10 @@ export class TemplateFiltersComponent implements OnInit {
   public filterTranslations: {};
 
   public osFamilies: Array<OsFamily> = [
-    'Linux',
-    'Windows',
-    'Mac OS',
-    'Other'
+    OsFamily.Linux,
+    OsFamily.Windows,
+    OsFamily.MacOs,
+    OsFamily.Other
   ];
 
   public categoryFilters = [
