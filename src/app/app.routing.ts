@@ -51,6 +51,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'instances'
+    redirectTo: 'test' // todo
   }
 ];

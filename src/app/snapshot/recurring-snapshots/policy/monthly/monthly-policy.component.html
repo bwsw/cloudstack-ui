@@ -1,1 +1,15 @@
-monthly
+<mdl-select
+  name="dayOfMonth"
+  floating-label
+  required
+  [label]="'DAY_OF_MONTH' | translate"
+  [(ngModel)]="dayOfMonth"
+>
+  <mdl-option
+    *ngFor="let d of daysOfMonth"
+    [value]="d"
+  >
+    {{ d }}
+  </mdl-option>
+</mdl-select>
+

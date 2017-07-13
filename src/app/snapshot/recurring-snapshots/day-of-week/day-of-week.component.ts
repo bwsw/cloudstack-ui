@@ -84,10 +84,7 @@ export class DayOfWeekComponent implements OnInit {
     const dayNames = daysOfWeek.map(_ => _.name);
     Observable.forkJoin(
       this.languageService.getFirstDayOfWeek(),
-      Observable.merge(
-        this.translateService.get(dayNames),
-        this.translateService.onLangChange.take(1)
-      )
+      this.translateService.get(dayNames),
     )
       .subscribe(([firstDayOfWeek, lang]) => {
         const translations = lang.translations || lang;

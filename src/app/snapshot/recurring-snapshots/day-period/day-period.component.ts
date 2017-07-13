@@ -67,10 +67,7 @@ export class DayPeriodComponent implements ControlValueAccessor, OnInit {
 
     const periodNames = periods.map(_ => _.name);
 
-    Observable.merge(
-      this.translateService.get(periodNames),
-      this.translateService.onLangChange.take(1)
-    )
+    this.translateService.get(periodNames)
       .subscribe(lang => {
         const translations = lang.translations || lang;
 

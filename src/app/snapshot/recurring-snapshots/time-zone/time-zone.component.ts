@@ -18,11 +18,21 @@ import { TimeZone, TimeZoneService } from './time-zone.service';
 export class TimeZoneComponent implements ControlValueAccessor, OnInit {
   public _timeZone: TimeZone;
   public timeZones: Array<TimeZone>;
+  public visibleTimeZones: Array<TimeZone>;
 
   constructor(private timeZoneService: TimeZoneService) {}
 
   public ngOnInit(): void {
     this.loadTimeZones();
+  }
+
+  public updateVisibleTimeZones(query: string): void {
+    this.visibleTimeZones = this.timeZones && this.timeZones.filter(timeZone => {
+      return this
+        .timeZoneToString(timeZone)
+        .toLowerCase()
+        .includes(query.toLowerCase());
+    });
   }
 
   public propagateChange: any = () => {};
@@ -49,10 +59,15 @@ export class TimeZoneComponent implements ControlValueAccessor, OnInit {
     }
   }
 
+  public timeZoneToString(timeZone: TimeZone): string {
+    return `${timeZone.geo} (${timeZone.zone})`;
+  }
+
   private loadTimeZones(): void {
     this.timeZoneService.get()
       .subscribe(timeZones => {
         this.timeZones = timeZones;
+        this.updateVisibleTimeZones('');
         this.timeZone = this.timeZones[0];
       });
   }

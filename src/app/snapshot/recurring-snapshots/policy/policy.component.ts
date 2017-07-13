@@ -30,6 +30,10 @@ export class PolicyComponent {
   public timeZone: TimeZone;
   public storedSnapshots: number;
 
+  constructor() {
+    this.onPolicySave = new EventEmitter<Policy>();
+  }
+
   public save(): void {
     this.onPolicySave.emit({
       timePolicy: this.policy,

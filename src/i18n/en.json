@@ -583,5 +583,8 @@
   "SUNDAY": "Sunday",
 
   "AM": "AM",
-  "PM": "PM"
+  "PM": "PM",
+
+  "DAY_OF_WEEK": "Day of week",
+  "DAY_OF_MONTH": "Day of month"
 }

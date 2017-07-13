@@ -2,6 +2,7 @@ import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
+import range = require('lodash/range');
 
 
 export interface MonthlyPolicy {
@@ -20,7 +21,10 @@ export interface MonthlyPolicy {
   ]
 })
 export class MonthlyPolicyComponent implements ControlValueAccessor {
-  public _minutes: number;
+  public _policy: MonthlyPolicy;
+
+  public dayOfMonth = 1;
+  public daysOfMonth: Array<number> = range(1, 29);
 
   constructor(private translateService: TranslateService) {}
 
@@ -34,13 +38,13 @@ export class MonthlyPolicyComponent implements ControlValueAccessor {
   public propagateChange: any = () => {};
 
   @Input()
-  public get minutes(): number {
-    return this._minutes;
+  public get policy(): MonthlyPolicy {
+    return this._policy;
   }
 
-  public set minutes(value) {
-    this._minutes = value;
-    this.propagateChange(this.minutes);
+  public set policy(value) {
+    this._policy = value;
+    this.propagateChange(this.policy);
   }
 
   public registerOnChange(fn): void {
@@ -51,7 +55,7 @@ export class MonthlyPolicyComponent implements ControlValueAccessor {
 
   public writeValue(value: any): void {
     if (value) {
-      this.minutes = value;
+      this.policy = value;
     }
   }
 }

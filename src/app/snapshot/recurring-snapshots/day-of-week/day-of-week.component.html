@@ -1,6 +1,9 @@
 <mdl-select
   *ngIf="daysOfWeek"
   name="dayOfWeek"
+  floating-label
+  [label]="'DAY_OF_WEEK' | translate"
+  required
   [(ngModel)]="dayOfWeek"
 >
   <mdl-option
