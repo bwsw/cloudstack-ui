@@ -3,6 +3,7 @@ import { StorageService } from './storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { UserService } from './user.service';
+import { DayOfWeek } from '../types/day-of-week';
 
 
 const DEFAULT_LANGUAGE = 'en';
@@ -33,10 +34,10 @@ export class LanguageService {
     );
   }
 
-  public getFirstDayOfWeek(): Observable<number> {
+  public getFirstDayOfWeek(): Observable<DayOfWeek> {
     return this.userService.readTag('firstDayOfWeek')
       .map(dayRaw => {
-        const fallbackDay = this.storage.read('lang') === 'en' ? 0 : 1;
+        const fallbackDay = this.storage.read('lang') === 'en' ? DayOfWeek.Sunday : DayOfWeek.Monday;
         if (dayRaw === undefined) {
           return fallbackDay;
         }

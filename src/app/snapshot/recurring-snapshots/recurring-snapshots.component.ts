@@ -1,63 +1,14 @@
 import { Component, forwardRef, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SgRulesManagerComponent } from '../../shared';
+import { Policy } from './policy/policy.component';
 
 
-export enum RecurringSnapshotPolicy {
+export enum PolicyMode {
   Hourly,
   Daily,
   Weekly,
   Monthly
-}
-
-export const enum DayPeriod {
-  Am,
-  Pm
-}
-
-const enum DayOfWeek {
-  Monday,
-  Tuesday,
-  Wednesday,
-  Thursday,
-  Friday,
-  Saturday,
-  Sunday
-}
-
-const enum TimeZone { }
-
-export abstract class AbstractPolicy {
-  public timeZone: TimeZone;
-  public storedSnapshots: number;
-}
-
-export class HourlyPolicy extends AbstractPolicy {
-  public minute: number;
-}
-
-export class DailyPolicy extends AbstractPolicy {
-  public time: Time;
-}
-
-export class WeeklyPolicy extends DailyPolicy {
-  public dayOfWeek: DayOfWeek;
-}
-
-export class MonthlyPolicy extends DailyPolicy {
-  public dayOfMonth: number;
-}
-
-export interface Timezone {
-  geo: string;
-  zone: string;
-}
-
-interface Time {
-  hours: number;
-  minutes: number;
-  seconds: number;
-  amPm: DayPeriod;
 }
 
 @Component({
@@ -73,18 +24,37 @@ interface Time {
   ]
 })
 export class RecurringSnapshotsComponent implements OnInit {
-  public currentPolicy: RecurringSnapshotPolicy;
+  public policyMode: PolicyMode;
 
-  public hourlyPolicy: HourlyPolicy;
-  public dailyPolicy: DailyPolicy;
-  public weeklyPolicy: WeeklyPolicy;
-  public monthlyPolicy: MonthlyPolicy;
+  public hourlyPolicy: Policy;
+  public dailyPolicy: Policy;
+  public weeklyPolicy: Policy;
+  public monthlyPolicy: Policy;
 
   public ngOnInit(): void {
-    this.currentPolicy = RecurringSnapshotPolicy.Hourly;
+    this.policyMode = PolicyMode.Hourly;
   }
 
-  public tabChanged(tab): void {
-    this.currentPolicy = tab.index;
+  public tabChanged(tab: any): void {
+    this.policyMode = tab.index;
+  }
+
+  public addPolicy(policy: Policy): void {
+    switch (this.policyMode) {
+      case PolicyMode.Hourly:
+        this.hourlyPolicy = policy;
+        break;
+      case PolicyMode.Daily:
+        this.dailyPolicy = policy;
+        break;
+      case PolicyMode.Weekly:
+        this.weeklyPolicy = policy;
+        break;
+      case PolicyMode.Monthly:
+        this.monthlyPolicy = policy;
+        break;
+      default:
+        break;
+    }
   }
 }

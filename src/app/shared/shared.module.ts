@@ -92,7 +92,6 @@ import {
 import {
   CreateUpdateDeleteDialogComponent
 } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
-import { TimePickerComponent } from './components/time-picker/time-picker.component';
 
 
 @NgModule({
@@ -130,7 +129,6 @@ import { TimePickerComponent } from './components/time-picker/time-picker.compon
     SearchComponent,
     SgRulesManagerComponent,
     SidebarComponent,
-    TimePickerComponent,
     TableComponent,
     TopBarComponent,
     VmStatisticsComponent,
@@ -176,7 +174,6 @@ import { TimePickerComponent } from './components/time-picker/time-picker.compon
     SearchComponent,
     SgRulesManagerComponent,
     SidebarComponent,
-    TimePickerComponent,
     TableComponent,
     TopBarComponent,
     VmStatisticsComponent,

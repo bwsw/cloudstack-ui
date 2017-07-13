@@ -1,0 +1,15 @@
+<mdl-textfield
+  type="number"
+  name="minute"
+  placeholder="{{ 'MINUTE' | translate }}"
+  autofocus
+  required
+  [min]="minValue"
+  [minValue]="minValue"
+  [max]="maxValue"
+  [maxValue]="maxValue"
+  #minuteTextfield="ngModel"
+  [(ngModel)]="minute"
+  [error-msg]="errorMessage | async"
+  [class.is-invalid]="minuteTextfield.invalid && !minuteTextfield.pristine"
+></mdl-textfield>

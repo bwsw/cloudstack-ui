@@ -1,0 +1,17 @@
+<mdl-textfield
+  type="number"
+  step="1"
+  label="{{ 'STORE_SNAPSHOTS' | translate }}"
+  name="store"
+  floating-label
+  autofocus
+  required
+  [(ngModel)]="storedNumber"
+  [min]="minValue"
+  [minValue]="minValue"
+  [max]="maxValue"
+  [maxValue]="maxValue"
+  error-msg="{{ errorMessage | async }}"
+  #storedSnapshots="ngModel"
+  [class.is-invalid]="storedSnapshots.invalid && !storedSnapshots.pristine"
+></mdl-textfield>

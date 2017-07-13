@@ -1,0 +1,12 @@
+<mdl-select
+  *ngIf="daysOfWeek"
+  name="dayOfWeek"
+  [(ngModel)]="dayOfWeek"
+>
+  <mdl-option
+    *ngFor="let day of daysOfWeek"
+    [value]="day.value"
+  >
+    {{ day.name }}
+  </mdl-option>
+</mdl-select>

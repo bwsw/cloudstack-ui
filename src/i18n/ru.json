@@ -461,8 +461,6 @@
   "LANGUAGE": "Язык Интерфейса",
   "COLOR": "Цвет",
   "FIRST_DAY_OF_WEEK": "Первый день недели",
-  "MONDAY": "Понедельник",
-  "SUNDAY": "Воскресенье",
   "GROUP_BY_COLORS": "Группировать по цветам",
   "PALETTE": "Цвета темы интерфейса",
   "SELECT_GROUPS": "Выберите группы",
@@ -573,5 +571,14 @@
   "STORE_SNAPSHOTS": "Количество хранимых снимков",
   "MINUTE": "Минута",
   "AM_PM_FORMAT": "AM/PM",
-  "24_HOURS_FORMAT": "24-часовой формат"
+  "24_HOURS_FORMAT": "24-часовой формат",
+  "TIME_ZONE": "Часовой пояс",
+
+  "MONDAY": "Понедельник",
+  "TUESDAY": "Вторник",
+  "WEDNESDAY": "Среда",
+  "THURSDAY": "Четверг",
+  "FRIDAY": "Пятница",
+  "SATURDAY": "Суббота",
+  "SUNDAY": "Воскресенье"
 }

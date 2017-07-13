@@ -256,6 +256,4 @@ export class VirtualMachine extends BaseModel {
 
     return true;
   }
-
-
 }
