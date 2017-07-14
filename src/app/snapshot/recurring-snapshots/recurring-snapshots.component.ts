@@ -1,7 +1,7 @@
 import { Component, forwardRef, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SgRulesManagerComponent } from '../../shared';
-import { Policy } from './policy/policy.component';
+import { Policy } from './policy-editor/policy-editor.component';
 
 
 export enum PolicyMode {

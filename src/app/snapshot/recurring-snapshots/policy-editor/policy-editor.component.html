@@ -1,0 +1,42 @@
+<div [ngSwitch]="policyMode">
+  <cs-hourly-policy
+    *ngSwitchCase="Policies.Hourly"
+    [(ngModel)]="policy"
+  ></cs-hourly-policy>
+
+  <cs-daily-policy
+    *ngSwitchCase="Policies.Daily"
+    [(ngModel)]="policy"
+  ></cs-daily-policy>
+
+  <cs-weekly-policy
+    *ngSwitchCase="Policies.Weekly"
+    [(ngModel)]="policy"
+  ></cs-weekly-policy>
+
+  <cs-monthly-policy
+    *ngSwitchCase="Policies.Monthly"
+    [(ngModel)]="policy"
+  ></cs-monthly-policy>
+</div>
+
+<cs-time-zone
+  name="timeZone"
+  [(ngModel)]="timeZone"
+></cs-time-zone>
+
+<cs-stored-number
+  name="storedNumber"
+  [(ngModel)]="storedSnapshots"
+></cs-stored-number>
+
+<div class="button-wrapper">
+  <button
+    mdl-button
+    mdl-colored
+    (click)="save()"
+  >
+    {{ 'SAVE' | translate }}
+  </button>
+</div>
+

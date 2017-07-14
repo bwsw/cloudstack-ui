@@ -2,10 +2,12 @@ import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
+import { Time } from '../../time-picker/time-picker.component';
+import isEqual = require('lodash/isEqual');
 import range = require('lodash/range');
 
 
-export interface MonthlyPolicy {
+export interface MonthlyPolicy extends Time {
   dayOfMonth: number;
 }
 
@@ -21,8 +23,7 @@ export interface MonthlyPolicy {
   ]
 })
 export class MonthlyPolicyComponent implements ControlValueAccessor {
-  public _policy: MonthlyPolicy;
-
+  public time: Time;
   public dayOfMonth = 1;
   public daysOfMonth: Array<number> = range(1, 29);
 
@@ -35,15 +36,32 @@ export class MonthlyPolicyComponent implements ControlValueAccessor {
     });
   }
 
+  public updateTime(value: Time): void {
+    if (!isEqual(this.time, value)) {
+      this.time = value;
+      this.writeValue(this.policy);
+    }
+  }
+
+  public updateDayOfMonth(value: number): void {
+    this.dayOfMonth = value;
+    this.writeValue(this.policy);
+  }
+
   public propagateChange: any = () => {};
 
   @Input()
   public get policy(): MonthlyPolicy {
-    return this._policy;
+    return { ...this.time, dayOfMonth: this.dayOfMonth };
   }
 
-  public set policy(value) {
-    this._policy = value;
+  public set policy(value: MonthlyPolicy) {
+    this.time = {
+      hour: value.hour,
+      minute: value.minute,
+      period: value.period
+    };
+    this.dayOfMonth = value.dayOfMonth;
     this.propagateChange(this.policy);
   }
 

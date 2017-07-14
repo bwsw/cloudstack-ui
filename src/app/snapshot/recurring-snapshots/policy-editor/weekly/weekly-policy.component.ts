@@ -1,11 +1,12 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DayOfWeek } from '../../../../shared/types/day-of-week';
-import { TimePolicy } from '../policy.component';
+import { Time } from '../../time-picker/time-picker.component';
+import isEqual = require('lodash/isEqual');
 
 
-export class WeeklyPolicy {
-  public dayOfWeek: DayOfWeek;
+export interface WeeklyPolicy extends Time {
+  dayOfWeek: DayOfWeek;
 }
 
 @Component({
@@ -20,19 +21,35 @@ export class WeeklyPolicy {
   ]
 })
 export class WeeklyPolicyComponent implements ControlValueAccessor {
-  public _policy: TimePolicy;
-
+  public time: Time;
   public dayOfWeek: DayOfWeek;
+
+  public updateTime(value: Time): void {
+    if (!isEqual(value, this.time)) { // todo
+      this.time = value;
+      this.writeValue(this.policy);
+    }
+  }
+
+  public updateDayOfWeek(value: DayOfWeek): void {
+    this.dayOfWeek = value;
+    this.writeValue(this.policy);
+  }
 
   public propagateChange: any = () => {};
 
   @Input()
-  public get policy(): TimePolicy {
-    return this._policy;
+  public get policy(): WeeklyPolicy {
+    return { ...this.time, dayOfWeek: this.dayOfWeek };
   }
 
-  public set policy(value) {
-    this._policy = value;
+  public set policy(value: WeeklyPolicy) {
+    this.time = {
+      hour: value.hour,
+      minute: value.minute,
+      period: value.period
+    };
+    this.dayOfWeek = value.dayOfWeek;
     this.propagateChange(this.policy);
   }
 

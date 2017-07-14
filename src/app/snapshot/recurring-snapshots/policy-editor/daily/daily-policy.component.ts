@@ -2,16 +2,11 @@ import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { DayPeriod, DayPeriodName } from '../../day-period/day-period.component';
+import { DayPeriodName } from '../../day-period/day-period.component';
+import { Time } from '../../time-picker/time-picker.component';
 
 
-export interface DailyPolicy {
-  hour: number;
-  minute: number;
-  second: number;
-  period: DayPeriod;
-}
-
+export type DailyPolicy = Time;
 export type TimeFormat = 12 | 24;
 
 @Component({
@@ -27,14 +22,9 @@ export type TimeFormat = 12 | 24;
   ]
 })
 export class DailyPolicyComponent implements ControlValueAccessor {
-  public hour: number;
-  public minute: number;
-  public second: number;
-  public period: DayPeriod;
+  public _time: Time;
 
   public periods: Array<DayPeriodName>;
-
-  public _policy: DailyPolicy;
 
   public hoursMinValue = 0;
 
@@ -53,16 +43,11 @@ export class DailyPolicyComponent implements ControlValueAccessor {
 
   @Input()
   public get policy(): DailyPolicy {
-    return {
-      hour: this.hour,
-      minute: this.minute,
-      second: this.second,
-      period: this.period
-    };
+    return this._time;
   }
 
   public set policy(value) {
-    this._policy = value;
+    this._time = value;
     this.propagateChange(this.policy);
   }
 
@@ -83,5 +68,4 @@ export class DailyPolicyComponent implements ControlValueAccessor {
       this.policy = value;
     }
   }
-
 }

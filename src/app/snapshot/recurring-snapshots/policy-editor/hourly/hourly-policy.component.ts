@@ -1,4 +1,5 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { MdlTextFieldComponent } from '@angular-mdl/core';
+import { AfterViewInit, Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
@@ -20,9 +21,10 @@ export interface HourlyPolicy {
   ]
 })
 export class HourlyPolicyComponent implements ControlValueAccessor {
-  public minute: number;
+  @ViewChild('minuteField') public minuteField: MdlTextFieldComponent;
   public _policy: HourlyPolicy;
 
+  public _minute = 0;
   public minValue = 0;
   public maxValue = 59;
 
@@ -35,18 +37,53 @@ export class HourlyPolicyComponent implements ControlValueAccessor {
     });
   }
 
+  public get minute(): string {
+    return this._minute.toString();
+  }
+
+  public set minute(value: string) {
+    this._minute = +value;
+  }
+
+  public updateMinute(value: number): void {
+    if (!value) {
+      return;
+    }
+
+    let newValue: string;
+
+    if (Number.isNaN(value) || value == null) {
+      newValue = this.minute;
+    } else {
+      if (value > this.maxValue) {
+        newValue = this.minValue.toString();
+      } else if (value < this.minValue) {
+        newValue = this.maxValue.toString();
+      } else {
+        newValue = value.toString();
+      }
+    }
+
+    this.minute = newValue;
+    this.minuteField.inputEl.nativeElement.value = this.minute;
+    this.minuteField.writeValue(this.minute);
+    this.writeValue(this.minute);
+  }
+
   public propagateChange: any = () => {};
 
   @Input()
   public get policy(): HourlyPolicy {
     return {
-      minute: this.minute
+      minute: +this.minute
     };
   }
 
   public set policy(value) {
-    this._policy = value;
-    this.propagateChange(this.policy);
+    if (value) {
+      this._policy = value;
+      this.propagateChange(this.policy);
+    }
   }
 
   public registerOnChange(fn): void {

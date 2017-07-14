@@ -1,0 +1,11 @@
+<cs-time-picker
+  name="time"
+  [ngModel]="time"
+  (ngModelChange)="updateTime($event)"
+></cs-time-picker>
+
+<cs-day-of-week
+  name="dayOfWeek"
+  [ngModel]="dayOfWeek"
+  (ngModelChange)="updateDayOfWeek($event)"
+></cs-day-of-week>
