@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { MdlDefaultTableModel } from '@angular-mdl/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
-import { dateTimeFormat, formatIso } from '../shared/components/date-picker/dateUtils';
 import { FilterService } from '../shared';
+import { dateTimeFormat, formatIso } from '../shared/components/date-picker/dateUtils';
 import { LanguageService } from '../shared/services';
+import { TimeFormat } from '../shared/services/language.service';
 import { Event } from './event.model';
 import { EventService } from './event.service';
 
@@ -17,7 +19,7 @@ import moment = require('moment');
   templateUrl: 'event-list.component.html',
   styleUrls: ['event-list.component.scss']
 })
-export class EventListComponent implements OnInit {
+export class EventListComponent implements OnInit, OnDestroy {
   public loading = false;
   public tableModel: MdlDefaultTableModel;
 
@@ -27,6 +29,7 @@ export class EventListComponent implements OnInit {
   public dateTimeFormat;
   public dateStringifyDateTimeFormat;
   public firstDayOfWeek: number;
+  public timeFormat: string | null;
 
   public events: Array<Event>;
   public selectedLevels: Array<string>;
@@ -38,6 +41,7 @@ export class EventListComponent implements OnInit {
 
 
   private filtersKey = 'eventListFilters';
+  private langChange: Subscription;
 
   constructor(
     private eventService: EventService,
@@ -51,14 +55,26 @@ export class EventListComponent implements OnInit {
 
   public ngOnInit(): void {
     this.setDateTimeFormat();
-    this.translate.onLangChange.subscribe(() => this.setDateTimeFormat());
+    this.langChange = this.translate.onLangChange.subscribe(() => this.setDateTimeFormat());
     this.translate.get(['DESCRIPTION', 'LEVEL', 'TYPE', 'TIME'])
       .subscribe(translations => this.initTableModel(translations));
     this.initFilters();
-    this.getEvents({ reload: true });
 
-    this.languageService.getFirstDayOfWeek()
-      .subscribe(day => this.firstDayOfWeek = day);
+    Observable.forkJoin(
+      this.languageService.getFirstDayOfWeek(),
+      this.languageService.getTimeFormat()
+    )
+      .subscribe(([day, timeFormat]) => {
+        this.firstDayOfWeek = day;
+        this.timeFormat = timeFormat;
+        this.setDateTimeFormat();
+
+        this.getEvents({ reload: true });
+      });
+  }
+
+  public ngOnDestroy(): void {
+    this.langChange.unsubscribe();
   }
 
   public get locale(): string {
@@ -164,12 +180,16 @@ export class EventListComponent implements OnInit {
       this.dateTimeFormat = Intl.DateTimeFormat;
     }
 
-    const options = {
+    const options: Intl.DateTimeFormatOptions = {
       hour: 'numeric',
       minute: 'numeric',
       second: 'numeric',
       timeZoneName: 'short'
     };
+
+    if (this.timeFormat != null) {
+      options.hour12 = this.timeFormat === TimeFormat['12h'];
+    }
     this.dateStringifyDateTimeFormat = new Intl.DateTimeFormat(this.locale, options);
   }
 

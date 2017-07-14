@@ -7,6 +7,12 @@ import { UserService } from './user.service';
 
 const DEFAULT_LANGUAGE = 'en';
 
+export const TimeFormat = {
+  '12h': '12',
+  '24h': '24',
+  AUTO: null
+};
+
 @Injectable()
 export class LanguageService {
   constructor(
@@ -46,6 +52,24 @@ export class LanguageService {
         }
         return day;
       });
+  }
+
+  public getTimeFormat(): Observable<string | null> {
+    return this.userService.readTag('timeFormat')
+      .map(timeFormat => {
+        switch (timeFormat) {
+          case TimeFormat['12h']:
+          case TimeFormat['24h']:
+            return timeFormat;
+          default: return TimeFormat.AUTO;
+        }
+      });
+  }
+
+  public setTimeFormat(timeFormat: string | null): Observable<string | null> {
+    return (timeFormat == null
+      ? this.userService.removeTag('timeFormat')
+      : this.userService.writeTag('timeFormat', timeFormat)).mapTo(timeFormat);
   }
 
   private get defaultLanguage(): string {

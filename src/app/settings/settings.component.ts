@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs/Subscription';
 
 import { Color, LanguageService, StyleService } from '../shared';
 import { AuthService, NotificationService } from '../shared/services';
+import { TimeFormat } from '../shared/services/language.service';
 import { UserService } from '../shared/services/user.service';
 
 
@@ -12,17 +14,19 @@ import { UserService } from '../shared/services/user.service';
   templateUrl: 'settings.component.html',
   styleUrls: ['settings.component.scss']
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, OnDestroy {
   public userId: string;
   public accentColor: Color;
   public firstDayOfWeek = 1;
   public language: string;
   public primaryColor: Color;
   public primaryColors: Array<Color>;
+  public timeFormat: string | null = null;
 
   public passwordUpdateForm: FormGroup;
 
   public updatingFirstDayOfWeek = false;
+  public updatingTimeFormat = false;
   public dayTranslations: {};
   public loading = false;
 
@@ -38,6 +42,12 @@ export class SettingsComponent implements OnInit {
     { value: 0, text: 'SUNDAY' },
     { value: 1, text: 'MONDAY' }
   ];
+
+  public TimeFormat = TimeFormat;
+  // TODO replace when TypeScript 2.4 string enums land
+  public timeFormats = Object.keys(TimeFormat);
+
+  private langChange: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -57,7 +67,12 @@ export class SettingsComponent implements OnInit {
     this.loadFirstDayOfWeek();
     this.buildForm();
     this.loadDayTranslations();
-    this.translateService.onLangChange.subscribe(() => this.loadDayTranslations());
+    this.loadTimeFormat();
+    this.langChange = this.translateService.onLangChange.subscribe(() => this.loadDayTranslations());
+  }
+
+  public ngOnDestroy(): void {
+    this.langChange.unsubscribe();
   }
 
   public get accentColors(): Array<Color> {
@@ -76,6 +91,13 @@ export class SettingsComponent implements OnInit {
     this.loading = true;
     this.languageService.setLanguage(lang);
     this.loadDayTranslations();
+  }
+
+  public changeTimeFormat(timeFormat: string | null): void {
+    this.updatingTimeFormat = true;
+    this.languageService.setTimeFormat(timeFormat)
+      .finally(() => this.updatingTimeFormat = false)
+      .subscribe();
   }
 
   public updatePrimaryColor(color: Color): void {
@@ -149,6 +171,11 @@ export class SettingsComponent implements OnInit {
   private loadFirstDayOfWeek(): void {
     this.languageService.getFirstDayOfWeek()
       .subscribe((day: number) => this.firstDayOfWeek = day);
+  }
+
+  private loadTimeFormat(): void {
+    this.languageService.getTimeFormat()
+      .subscribe(timeFormat => this.timeFormat = timeFormat);
   }
 
   private buildForm(): void {
