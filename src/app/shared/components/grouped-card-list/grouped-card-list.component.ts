@@ -1,12 +1,13 @@
-import { Component, Input, OnChanges, OnInit, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, Type } from '@angular/core';
 import groupBy = require('lodash/groupBy');
 
 @Component({
   selector: 'cs-grouped-card-list',
   templateUrl: './grouped-card-list.component.html',
-  styleUrls: ['./grouped-card-list.component.scss']
+  styleUrls: ['./grouped-card-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GroupedCardListComponent implements OnInit, OnChanges {
+export class GroupedCardListComponent implements OnChanges {
   @Input() public component: Type<any>;
   @Input() public list: Array<any>;
   @Input() public groups: Array<any>;
@@ -14,10 +15,6 @@ export class GroupedCardListComponent implements OnInit, OnChanges {
   @Input() dynamicOutputs: { [k: string]: Function } = {};
 
   public tree: Array<{ items?, name? }>;
-
-  ngOnInit(): void {
-    this.updateTree();
-  }
 
   ngOnChanges(): void {
     this.updateTree();

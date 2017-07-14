@@ -20,7 +20,7 @@ import { VirtualMachine, VmActions, VmStates } from '../shared/vm.model';
 import { IVmActionEvent, VmService } from '../shared/vm.service';
 
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
-import { InstanceGroupOrNoGroup, VmFilter } from '../vm-filter/vm-filter.component';
+import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListSection } from './vm-list-section/vm-list-section.component';
 import { VmListSubsection } from './vm-list-subsection/vm-list-subsection.component';
 import { VmListItemComponent } from './vm-list-item.component';
@@ -46,8 +46,10 @@ export class VmListComponent implements OnInit {
       name: (item: VirtualMachine) => item.zoneName
     },
     groups: {
-      selector: (item: VirtualMachine) => item.instanceGroup && item.instanceGroup.name,
-      name: (item: VirtualMachine) => item.instanceGroup && item.instanceGroup.name
+      selector: (item: VirtualMachine) =>
+        item.instanceGroup ? item.instanceGroup.name : noGroup,
+      name: (item: VirtualMachine) =>
+        item.instanceGroup ? item.instanceGroup.name : 'NO_GROUP'
     },
     colors: {
       selector: (item: VirtualMachine) => item.getColor().value,
@@ -288,13 +290,15 @@ export class VmListComponent implements OnInit {
     vmList: Array<VirtualMachine>,
     groups: Array<InstanceGroupOrNoGroup>
   ): Array<VirtualMachine> {
-    return !groups.length
-      ? vmList
-      : vmList.filter(
-        vm =>
-          // (!vm.instanceGroup && groups === '-1') ||
-          (vm.instanceGroup && groups.some(g => vm.instanceGroup.name === (g as InstanceGroup).name))
-      );
+    if (!groups.length) {
+      return vmList;
+    }
+    return vmList.filter(
+      vm =>
+        (!vm.instanceGroup && groups.includes(noGroup)) ||
+        (vm.instanceGroup &&
+          groups.some(g => vm.instanceGroup.name === (g as InstanceGroup).name))
+    );
   }
 
   private filterVmsByZones(vmList: Array<VirtualMachine>, zones: Array<Zone>): Array<VirtualMachine> {
