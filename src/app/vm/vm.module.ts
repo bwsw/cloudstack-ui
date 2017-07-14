@@ -16,8 +16,6 @@ import { VmTemplateComponent } from './vm-creation/vm-creation-template/vm-templ
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmFilterComponent } from './vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list/vm-list-item.component';
-import { VmListSectionComponent } from './vm-list/vm-list-section/vm-list-section.component';
-import { VmListSubsectionComponent } from './vm-list/vm-list-subsection/vm-list-subsection.component';
 import { VmListComponent } from './vm-list/vm-list.component';
 import { IsoComponent } from './vm-sidebar/storage-detail/iso.component';
 import { StorageDetailComponent } from './vm-sidebar/storage-detail/storage-detail.component';
@@ -74,8 +72,6 @@ import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-sele
     VmSidebarComponent,
     VmTemplateComponent,
     VmTemplateDialogComponent,
-    VmListSectionComponent,
-    VmListSubsectionComponent,
     VolumeDetailsComponent,
     VolumeResizeComponent,
     InstanceGroupComponent,

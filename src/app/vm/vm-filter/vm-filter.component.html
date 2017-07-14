@@ -3,7 +3,7 @@
     class="filter-select"
     [(ngModel)]="selectedGroupings"
     [dragItems]="groupings"
-    (change)="updateGroupings($event)"
+    (change)="update()"
     multiple="true"
   >
     <mdl-option *ngFor="let g of groupings" [value]="g">{{ g }}</mdl-option>
@@ -12,7 +12,7 @@
   <mdl-select
     class="filter-select"
     [(ngModel)]="selectedZones"
-    (change)="updateZones($event)"
+    (change)="update()"
     multiple="true"
     [placeholder]="'SELECT_ZONES' | translate"
   >
@@ -21,11 +21,11 @@
   <mdl-select
     class="filter-select"
     [(ngModel)]="selectedGroups"
-    (change)="updateGroups($event)"
+    (change)="update()"
     multiple="true"
     [placeholder]="'SELECT_GROUPS' | translate"
   >
-    <mdl-option *ngIf="showNoGroupFilter" value="-1">
+    <mdl-option *ngIf="showNoGroupFilter" [value]="noGroup">
       <em>{{ 'NO_GROUP' | translate }}</em>
     </mdl-option>
 
@@ -37,7 +37,7 @@
   <mdl-select
     class="filter-select"
     [(ngModel)]="selectedStates"
-    (change)="updateStates($event)"
+    (change)="update()"
     multiple="true"
     [placeholder]="'SELECT_STATES' | translate"
   >

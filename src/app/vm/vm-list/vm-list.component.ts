@@ -21,8 +21,6 @@ import { IVmActionEvent, VmService } from '../shared/vm.service';
 
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filter.component';
-import { VmListSection } from './vm-list-section/vm-list-section.component';
-import { VmListSubsection } from './vm-list-subsection/vm-list-subsection.component';
 import { VmListItemComponent } from './vm-list-item.component';
 
 
@@ -59,12 +57,8 @@ export class VmListComponent implements OnInit {
 
   public VmListItemComponent = VmListItemComponent;
 
-  public filterData: VmFilter;
   public groups: Array<InstanceGroup>;
   public zones: Array<Zone>;
-
-  public sections: Array<VmListSection> = [];
-  public subsections: Array<VmListSubsection> = [];
 
   public vmList: Array<VirtualMachine> = [];
   public visibleVmList: Array<VirtualMachine> = [];
@@ -109,29 +103,19 @@ export class VmListComponent implements OnInit {
   }
 
   public updateFilters(filterData?: VmFilter): void {
-    if (!this.vmList.length || (!filterData && !this.filterData)) {
+    if (!this.vmList.length || !filterData) {
       return;
     }
 
-    if (!filterData) {
-      filterData = this.filterData;
-    }
-    if (!this.filterData) {
-      this.filterData = filterData;
-    }
-    this.filterData = filterData;
-
-    ///
     this.selectedGroupings = filterData.groupings.reduce((acc, g) => {
       acc.push(this.groupings[g]);
       return acc;
     }, []);
-    ///
 
-
-    this.visibleVmList = this.filterVmsByZones(this.vmList, filterData.selectedZones);
-    this.visibleVmList = this.filterVmsByGroup(this.visibleVmList, filterData.selectedGroups);
-    this.visibleVmList = this.filterVMsByState(this.visibleVmList, filterData.selectedStates);
+    const { selectedZones, selectedGroups, selectedStates } = filterData;
+    this.visibleVmList = this.filterVmsByZones(this.vmList, selectedZones);
+    this.visibleVmList = this.filterVmsByGroup(this.visibleVmList, selectedGroups);
+    this.visibleVmList = this.filterVMsByState(this.visibleVmList, selectedStates);
     this.vmList = this.sortByDate(this.vmList);
   }
 
@@ -165,7 +149,7 @@ export class VmListComponent implements OnInit {
   }
 
   public showDetail(vm: VirtualMachine): void {
-    if (vm.state !== 'Error') {
+    if (vm.state !== VmStates.Error) {
       this.listService.showDetails(vm.id);
     }
   }
@@ -195,11 +179,12 @@ export class VmListComponent implements OnInit {
       .subscribe(([vmList, groups, zones]) => {
         this.vmList = vmList;
         this.visibleVmList = vmList;
+        this.groups = groups;
+        this.zones = zones;
+
         if (!this.vmList.length) {
           this.showSuggestionDialog();
         }
-        this.groups = groups;
-        this.zones = zones;
       });
   }
 
@@ -308,8 +293,9 @@ export class VmListComponent implements OnInit {
   }
 
   private filterVMsByState(vmList: Array<VirtualMachine>, states): Array<VirtualMachine> {
-    return !states.length ? vmList :
-      vmList.filter(vm => states.some(state => vm.state === state));
+    return !states.length
+      ? vmList
+      : vmList.filter(vm => states.includes(vm.state));
   }
 
   private sortByDate(vmList: Array<VirtualMachine>): Array<VirtualMachine> {

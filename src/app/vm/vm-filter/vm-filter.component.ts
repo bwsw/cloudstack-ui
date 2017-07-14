@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 
 import { Zone } from '../../shared';
 import { InstanceGroup } from '../../shared/models';
@@ -26,13 +34,16 @@ export type InstanceGroupOrNoGroup = InstanceGroup | noGroup;
   styleUrls: ['vm-filter.component.scss']
 })
 export class VmFilterComponent implements OnInit, OnChanges {
+  @Input() public groups: Array<InstanceGroup>;
+  @Input() public zones: Array<Zone>;
   @Output() public updateFilters = new EventEmitter<VmFilter>();
+
+  public noGroup = noGroup;
+
   public selectedGroups: Array<InstanceGroupOrNoGroup> = [];
   public selectedStates: Array<VmState> = [];
   public selectedZones: Array<Zone> = [];
   public selectedGroupings: Array<string> = [];
-  @Input() public groups: Array<InstanceGroup>;
-  @Input() public zones: Array<Zone>;
   public states = [
     { state: VmStates.Running, name: 'VM_FILTERS.STATE.RUNNING' },
     { state: VmStates.Stopped, name: 'VM_FILTERS.STATE.STOPPED' },
@@ -57,10 +68,6 @@ export class VmFilterComponent implements OnInit, OnChanges {
     this.instanceGroupService.groupsUpdates.subscribe(() => this.loadGroups());
   }
 
-  public updateGroupings(event) {
-    this.update();
-  }
-
   public ngOnChanges(changes: SimpleChanges): void {
     const groups = changes['groups'];
     const zones = changes['zones'];
@@ -81,7 +88,7 @@ export class VmFilterComponent implements OnInit, OnChanges {
     this.selectedGroups = this.groups.filter(group => params['groups'].find(name => name === group.name));
     this.selectedStates = params.states;
 
-    const containsNoGroup = params['groups'].findIndex(group => group === '') !== -1;
+    const containsNoGroup = params['groups'].includes('');
     if (containsNoGroup) {
       this.selectedGroups.push(noGroup);
     }
@@ -111,21 +118,6 @@ export class VmFilterComponent implements OnInit, OnChanges {
       'groups': this.selectedGroups.map(_ => (_ as InstanceGroup).name || ''),
       'states': this.selectedStates
     });
-  }
-
-  public updateGroups(selectedGroups: Array<InstanceGroup>): void {
-    this.selectedGroups = selectedGroups;
-    this.update();
-  }
-
-  public updateStates(states: Array<VmState>): void {
-    this.selectedStates = states;
-    this.update();
-  }
-
-  public updateZones(selectedZones: Array<Zone>): void {
-    this.selectedZones = selectedZones;
-    this.update();
   }
 
   private groupSortPredicate(a: InstanceGroupOrNoGroup, b: InstanceGroupOrNoGroup): number {
