@@ -1,14 +1,9 @@
-<div
-  *ngIf="volumes"
-  class="card-list-container"
->
-  <cs-spare-drive-item
-    *ngFor="let volume of volumes"
-    [volume]="volume"
-    [isSelected]="listService.isSelected(volume.id)"
-    (onClick)="selectVolume(volume)"
-    (onVolumeAttached)="attach($event)"
-    (onDelete)="remove($event)"
-    (onResize)="resize($event)"
-  ></cs-spare-drive-item>
-</div>
+<cs-grouped-card-list
+  *ngIf="volumes?.length"
+  [list]="volumes"
+  [groups]="groupings"
+  [component]="SpareDriveItemComponent"
+  [dynamicInputs]="inputs"
+  [dynamicOutputs]="outputs"
+></cs-grouped-card-list>
+<cs-no-results *ngIf="!volumes?.length"></cs-no-results>

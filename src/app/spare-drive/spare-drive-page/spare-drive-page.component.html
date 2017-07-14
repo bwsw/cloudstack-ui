@@ -1,43 +1,36 @@
 <cs-list>
   <cs-top-bar cs-panels>
     <mdl-select
-      class="filter-select"
       *ngIf="zones"
-      [(ngModel)]="selectedZones"
-      (change)="updateSections()"
-      multiple="true"
+      class="filter-select"
       [placeholder]="'SELECT_ZONES' | translate"
+      multiple="true"
+      [(ngModel)]="selectedGroupingNames"
+      (change)="updateGroupings()"
     >
-      <mdl-option mdl-ripple *ngFor="let z of zones" [value]="z">{{ z.name }}</mdl-option>
+      <mdl-option *ngFor="let g of availableGroupingNames" [value]="g">{{ g }}</mdl-option>
+    </mdl-select>
+
+    <mdl-select
+      *ngIf="zones"
+      class="filter-select"
+      [placeholder]="'SELECT_ZONES' | translate"
+      multiple="true"
+      [(ngModel)]="selectedZones"
+      (change)="update()"
+    >
+      <mdl-option *ngFor="let z of zones" [value]="z">{{ z.name }}</mdl-option>
     </mdl-select>
   </cs-top-bar>
 
-  <div *ngIf="selectedZones?.length" cs-list>
-    <ng-container *ngFor="let s of sections">
-      <div class="section" *ngIf="s?.spareDrives?.length">
-        <h4 class="section-header">{{ s.zoneName }}</h4>
-        <cs-spare-drive-list
-          *loading="!volumes"
-          [volumes]="s.spareDrives"
-          (onDelete)="showRemoveDialog($event)"
-          (onResize)="updateVolume($event)"
-          cs-list
-        ></cs-spare-drive-list>
-      </div>
-    </ng-container>
-  </div>
-
-  <div *ngIf="!selectedZones || !selectedZones.length" cs-list>
-    <cs-spare-drive-list
-      *loading="!volumes"
-      [volumes]="volumes"
-      (onDelete)="showRemoveDialog($event)"
-      (onVolumeAttached)="attach($event)"
-      (onResize)="updateVolume($event)"
-    ></cs-spare-drive-list>
-  </div>
-
-  <cs-no-results *ngIf="noFilteringResults && volumes" cs-list></cs-no-results>
+  <cs-spare-drive-list
+    *loading="!volumes"
+    [volumes]="visibleVolumes"
+    [groupings]="selectedGroupings"
+    (onDelete)="showRemoveDialog($event)"
+    (onResize)="updateVolume($event)"
+    cs-list
+  ></cs-spare-drive-list>
 
   <router-outlet cs-sidebar></router-outlet>
 </cs-list>

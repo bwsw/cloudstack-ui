@@ -2,7 +2,7 @@
   class="custom-card spare-drive-card"
   mdl-shadow="2"
   (click)="handleClick($event)"
-  [class.card-selected]="isSelected"
+  [class.card-selected]="isSelected(item)"
   [class.arrow]="popover.isVisible"
 >
   <mdl-card-title>
@@ -11,7 +11,7 @@
       [mdl-tooltip]="spareDriveTitleTooltip"
       mdl-tooltip-position="bottom"
     >
-      {{ volume.name }}
+      {{ item.name }}
     </h2>
   </mdl-card-title>
   <mdl-card-supporting-text>
@@ -22,10 +22,10 @@
       </div>
       <div class="last">
         <div class="row">
-          <span>{{ ('SPARE_DRIVE_STATE.' + volume.state.toUpperCase()) | translate }}</span>
+          <span>{{ ('SPARE_DRIVE_STATE.' + item.state.toUpperCase()) | translate }}</span>
         </div>
         <div class="row">
-          <span>{{ (volume.size | division:2:30:2) }} {{ ('GB' | translate) }}</span>
+          <span>{{ (item.size | division:2:30:2) }} {{ ('GB' | translate) }}</span>
         </div>
       </div>
     </div>
@@ -80,5 +80,5 @@
   </mdl-popover>
 </mdl-card>
 <mdl-tooltip #spareDriveTitleTooltip="mdlTooltip">
-  {{ volume.name }}
+  {{ item.name }}
 </mdl-tooltip>
