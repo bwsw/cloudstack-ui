@@ -452,7 +452,7 @@ export class VmCreationComponent implements OnInit {
       .switchMap(deployResponse => {
         notificationId = this.jobsNotificationService.add('VM_DEPLOY_IN_PROGRESS');
 
-        this.vmService.get(deployResponse.id)
+        this.vmService.getWithDetails(deployResponse.id)
           .subscribe(vm => {
             deployResponseVm = vm;
             vm.state = 'Deploying';

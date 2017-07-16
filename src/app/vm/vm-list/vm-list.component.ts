@@ -203,7 +203,7 @@ export class VmListComponent implements OnInit {
 
   private getVmList(): Observable<VirtualMachine> {
     return Observable.forkJoin(
-      this.vmService.getList(),
+      this.vmService.getListWithDetails(),
       this.vmService.getInstanceGroupList(),
       this.zoneService.getList()
     )
@@ -232,7 +232,7 @@ export class VmListComponent implements OnInit {
         if (index < 0) {
           return;
         }
-        this.vmService.get(updatedVM.id).subscribe((vm) => {
+        this.vmService.getWithDetails(updatedVM.id).subscribe((vm) => {
           this.vmList[index] = vm;
           this.updateFilters();
         });

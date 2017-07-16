@@ -107,13 +107,10 @@ export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   public changeAffinityGroup(): void {
+    this.affinityGroupLoading = true;
     this.askToStopVM(this.vm, 'STOP_MACHINE_FOR_AG')
-      .do(() => this.affinityGroupLoading = true)
-      .switchMap((vm) => this.vmService.command({
-        action: VirtualMachine.getAction(VmActions.STOP),
-        vm: vm
-      }))
       .do(() => this.affinityGroupLoading = false)
+      .filter(stopped => !!stopped)
       .subscribe(() => this.showAffinityGroupDialog());
   }
 
@@ -175,18 +172,15 @@ export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   public resetSshKey(): void {
+    this.sskKeyLoading = true;
     this.askToStopVM(this.vm, 'STOP_MACHINE_FOR_SSH')
-      .do(() => this.sskKeyLoading = true)
-      .switchMap((vm) => this.vmService.command({
-        action: VirtualMachine.getAction(VmActions.STOP),
-        vm: vm
-      }))
       .do(() => this.sskKeyLoading = false)
+      .filter(stopped => !!stopped)
       .subscribe(() => this.showSshKeypairResetDialog());
   }
 
   public updateStats(): void {
-    this.vmService.get(this.vm.id)
+    this.vmService.getWithDetails(this.vm.id)
       .subscribe(vm => {
         this.vm.cpuUsed = vm.cpuUsed;
         this.vm.networkKbsRead = vm.networkKbsRead;
@@ -240,7 +234,7 @@ export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
   private askToStopVM(currentVM: VirtualMachine, message: string): Observable<any> {
     return this.vmService.get(currentVM.id).switchMap(vm => {
       if (vm.state === VmStates.Stopped) {
-        return Observable.of(vm);
+        return Observable.of(true);
       }
 
       return this.dialogService.customConfirm({
@@ -251,7 +245,16 @@ export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
         clickOutsideToClose: false
       })
         .onErrorResumeNext()
-        .switchMap(() => Observable.of(vm));
+        .switchMap((result) => {
+          if (result === null) {
+            return this.vmService.command({
+              action: VirtualMachine.getAction(VmActions.STOP),
+              vm: vm
+            }).switchMap(() => Observable.of(true))
+          } else {
+            return Observable.of(false);
+          }
+        });
     });
   }
 
