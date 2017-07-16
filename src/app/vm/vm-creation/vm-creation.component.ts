@@ -224,7 +224,7 @@ export class VmCreationComponent implements OnInit {
     if (shouldCreateAffinityGroup) {
       affinityGroupsObservable = this.affinityGroupService.create({
         name: this.vmCreationData.affinityGroupName,
-        type: this.vmCreationData.affinityGroupTypes[0].type
+        type: this.vmCreationData.affinityGroupTypes[0]
       })
         .map(affinityGroup => {
           this.vmCreationData.affinityGroups.push(affinityGroup);

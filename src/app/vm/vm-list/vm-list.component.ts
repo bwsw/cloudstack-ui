@@ -52,8 +52,8 @@ export class VmListComponent implements OnInit {
   public sections: Array<VmListSection> = [];
   public subsections: Array<VmListSubsection> = [];
 
-  public vmList: Array<VirtualMachine>;
-  public visibleVmList: Array<VirtualMachine>;
+  public vmList: Array<VirtualMachine> = [];
+  public visibleVmList: Array<VirtualMachine> = [];
 
   constructor(
     public listService: ListService,
@@ -110,7 +110,7 @@ export class VmListComponent implements OnInit {
   }
 
   public updateFilters(filterData?: VmFilter): void {
-    if (!this.vmList) {
+    if (!this.vmList.length) {
       return;
     }
     if (!filterData && !this.filterData) {

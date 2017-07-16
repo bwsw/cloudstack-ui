@@ -1,21 +1,23 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import {
+  AffinityGroupSelectorComponent
+} from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 import { SgRulesComponent } from '../../security-group/sg-rules/sg-rules.component';
 import { SecurityGroup } from '../../security-group/sg.model';
 import {
   ServiceOfferingDialogComponent
 } from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
-import { Color, ServiceOfferingFields, ServiceOffering } from '../../shared/models';
+import { Color, ServiceOffering, ServiceOfferingFields } from '../../shared/models';
+import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { ConfigService } from '../../shared/services';
+import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VirtualMachine, VmActions, VmStates } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
-import { ServiceOfferingService } from '../../shared/services/service-offering.service';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { AffinityGroupDialogComponent } from './affinity-group-dialog.component';
-import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { SshKeypairResetComponent } from './ssh/ssh-keypair-reset.component';
 
 
@@ -183,6 +185,19 @@ export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
       .subscribe(() => this.showSshKeypairResetDialog());
   }
 
+  public updateStats(): void {
+    this.vmService.get(this.vm.id)
+      .subscribe(vm => {
+        this.vm.cpuUsed = vm.cpuUsed;
+        this.vm.networkKbsRead = vm.networkKbsRead;
+        this.vm.networkKbsWrite = vm.networkKbsWrite;
+        this.vm.diskKbsRead = vm.diskKbsRead;
+        this.vm.diskKbsWrite = vm.diskKbsWrite;
+        this.vm.diskIoRead = vm.diskIoRead;
+        this.vm.diskIoWrite = vm.diskIoWrite;
+      });
+  }
+
   private update(): void {
     this.updateColor();
     this.updateDescription();
@@ -242,7 +257,7 @@ export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
 
   private showAffinityGroupDialog(): void {
     this.dialogService.showCustomDialog({
-      component: AffinityGroupDialogComponent,
+      component: AffinityGroupSelectorComponent,
       styles: { width: '350px' },
       providers: [{ provide: 'virtualMachine', useValue: this.vm }],
       clickOutsideToClose: false

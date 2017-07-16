@@ -1,0 +1,110 @@
+<h3
+  *ngIf="title"
+  class="mdl-dialog__title"
+>
+  {{ title | translate }}
+</h3>
+
+<form
+  (ngSubmit)="submit()"
+  #form="ngForm"
+  novalidate
+>
+  <div class="mdl-dialog__content">
+    <mdl-radio
+      *ngIf="enableAssign"
+      name="assignExistingRadio"
+      [value]="modes.assign"
+      [ngModel]="mode"
+      (ngModelChange)="setMode($event)"
+      mdl-ripple
+    >
+      {{ assignLabel | translate }}
+    </mdl-radio>
+
+    <mdl-radio
+      *ngIf="enableCreate"
+      name="createNewRadio"
+      [value]="modes.create"
+      [ngModel]="mode"
+      (ngModelChange)="setMode($event)"
+      mdl-ripple
+    >
+      {{ createLabel | translate }}
+    </mdl-radio>
+
+    <mdl-radio
+      *ngIf="defaultValue && enableRemove"
+      name="removeRadio"
+      mdl-ripple
+      [value]="modes.remove"
+      [ngModel]="mode"
+      (ngModelChange)="setMode($event)"
+    >
+      <div>
+        {{ removeLabel | translate:{ value: defaultValue } }}
+      </div>
+    </mdl-radio>
+
+    <mdl-textfield
+      *ngIf="mode === modes.create"
+      type="text"
+      name="textValue"
+      floating-label
+      autofocus
+      required
+      [(ngModel)]="newValue"
+      #textField
+      #textFieldModel="ngModel"
+      [class.is-invalid]="textFieldModel.invalid && !textFieldModel.pristine"
+      [style.width]="'100%'"
+      [placeholder]="textFieldPlaceholder | translate"
+      [maxlength]="maxLength"
+    ></mdl-textfield>
+
+    <mdl-select
+      name="selectValue"
+      *ngIf="mode === modes.assign"
+      [(ngModel)]="newValue"
+      [placeholder]="selectPlaceholder | translate"
+    >
+      <mdl-option
+        *ngFor="let option of options"
+        [value]="option"
+      >
+        {{ option }}
+      </mdl-option>
+    </mdl-select>
+  </div>
+
+  <div class="mdl-dialog__actions">
+    <button
+      *ngIf="mode !== modes.remove"
+      mdl-colored="primary"
+      mdl-button
+      mdl-ripple
+      type="submit"
+      [disabled]="!valueChanged || !form.valid"
+    >
+      {{ 'ASSIGN' | translate }}
+    </button>
+    <button
+      *ngIf="mode === modes.remove"
+      mdl-colored="primary"
+      mdl-button
+      mdl-ripple
+      type="submit"
+    >
+      {{ 'REMOVE' | translate }}
+    </button>
+    <button
+      mdl-colored="primary"
+      mdl-button
+      mdl-ripple
+      type="button"
+      (click)="cancel()"
+    >
+      {{ 'CANCEL' | translate }}
+    </button>
+  </div>
+</form>
