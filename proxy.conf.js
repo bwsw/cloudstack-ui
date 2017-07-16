@@ -4,7 +4,7 @@ const PROXY_CONFIG = [
       "/client/api",
       "/client/console"
     ],
-    target: "http://localhost:9991",
+    target: "http://localhost:8080",
     secure: false
   }
 ];
