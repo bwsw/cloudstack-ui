@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs/Subscription';
 
 import { Color, LanguageService, StyleService } from '../shared';
 import { AuthService, NotificationService } from '../shared/services';
 import { TimeFormat } from '../shared/services/language.service';
 import { UserService } from '../shared/services/user.service';
+import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 
 
 @Component({
@@ -14,7 +14,7 @@ import { UserService } from '../shared/services/user.service';
   templateUrl: 'settings.component.html',
   styleUrls: ['settings.component.scss']
 })
-export class SettingsComponent implements OnInit, OnDestroy {
+export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public userId: string;
   public accentColor: Color;
   public firstDayOfWeek = 1;
@@ -47,8 +47,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
   // TODO replace when TypeScript 2.4 string enums land
   public timeFormats = Object.keys(TimeFormat);
 
-  private langChange: Subscription;
-
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
@@ -58,6 +56,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private userService: UserService
   ) {
+    super();
     this.userId = this.authService.userId;
   }
 
@@ -68,11 +67,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.buildForm();
     this.loadDayTranslations();
     this.loadTimeFormat();
-    this.langChange = this.translateService.onLangChange.subscribe(() => this.loadDayTranslations());
-  }
-
-  public ngOnDestroy(): void {
-    this.langChange.unsubscribe();
+    this.translateService.onLangChange
+      .takeUntil(this.unsubscribe$)
+      .subscribe(() => this.loadDayTranslations());
   }
 
   public get accentColors(): Array<Color> {

@@ -1,8 +1,7 @@
 import { MdlDefaultTableModel } from '@angular-mdl/core';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
 
 import { FilterService } from '../shared';
 import { dateTimeFormat, formatIso } from '../shared/components/date-picker/dateUtils';
@@ -10,6 +9,7 @@ import { LanguageService } from '../shared/services';
 import { TimeFormat } from '../shared/services/language.service';
 import { Event } from './event.model';
 import { EventService } from './event.service';
+import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 
 import moment = require('moment');
 
@@ -19,7 +19,7 @@ import moment = require('moment');
   templateUrl: 'event-list.component.html',
   styleUrls: ['event-list.component.scss']
 })
-export class EventListComponent implements OnInit, OnDestroy {
+export class EventListComponent extends WithUnsubscribe() implements OnInit {
   public loading = false;
   public tableModel: MdlDefaultTableModel;
 
@@ -41,7 +41,6 @@ export class EventListComponent implements OnInit, OnDestroy {
 
 
   private filtersKey = 'eventListFilters';
-  private langChange: Subscription;
 
   constructor(
     private eventService: EventService,
@@ -49,13 +48,16 @@ export class EventListComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private languageService: LanguageService
   ) {
+    super();
     this.firstDayOfWeek = this.locale === 'en' ? 0 : 1;
     this.updateEvents = this.updateEvents.bind(this);
   }
 
   public ngOnInit(): void {
     this.setDateTimeFormat();
-    this.langChange = this.translate.onLangChange.subscribe(() => this.setDateTimeFormat());
+    this.translate.onLangChange
+      .takeUntil(this.unsubscribe$)
+      .subscribe(() => this.setDateTimeFormat());
     this.translate.get(['DESCRIPTION', 'LEVEL', 'TYPE', 'TIME'])
       .subscribe(translations => this.initTableModel(translations));
     this.initFilters();
@@ -71,10 +73,6 @@ export class EventListComponent implements OnInit, OnDestroy {
 
         this.getEvents({ reload: true });
       });
-  }
-
-  public ngOnDestroy(): void {
-    this.langChange.unsubscribe();
   }
 
   public get locale(): string {
