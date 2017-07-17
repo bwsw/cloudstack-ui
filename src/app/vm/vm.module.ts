@@ -6,6 +6,7 @@ import { MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
 import { TranslateModule } from '@ngx-translate/core';
+import { DynamicModule } from 'ng-dynamic-component';
 
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { SharedModule } from '../shared/shared.module';
@@ -45,6 +46,7 @@ import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-sele
 @NgModule({
   imports: [
     CommonModule,
+    DynamicModule.withComponents([VmListItemComponent]),
     FormsModule,
     MdlModule,
     MdlPopoverModule,
