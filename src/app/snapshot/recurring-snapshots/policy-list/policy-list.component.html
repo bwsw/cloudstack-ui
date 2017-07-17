@@ -1,3 +1,39 @@
-<p>
-  policy-list works!
-</p>
+<table class="mdl-data-table">
+  <thead>
+  <tr>
+    <th>{{ 'TIME' | translate }}</th>
+    <th></th>
+    <th>{{ 'TIME_ZONE' | translate }}</th>
+    <th>{{ 'KEEP' | translate }}</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let p of policies">
+    <td>
+      {{ p.timeToken | translate:{ value: p.timeValue } }}
+    </td>
+    <td>
+      {{ p.periodToken | translate: { value: p.periodValue } }}
+    </td>
+    <td>
+      {{ p.timeZone }}
+    </td>
+    <td>
+      {{ p.keep }}
+    </td>
+    <td>
+      <button
+        (click)="deletePolicy(p)"
+        [mdl-tooltip]="'DELETE' | translate"
+        mdl-tooltip-position="bottom"
+        mdl-button
+        mdl-button-type="icon"
+        mdl-ripple
+      >
+        <mdl-icon>delete</mdl-icon>
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>

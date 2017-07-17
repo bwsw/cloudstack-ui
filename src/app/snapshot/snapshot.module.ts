@@ -16,9 +16,9 @@ import { RecurringSnapshotsComponent } from './recurring-snapshots/recurring-sna
 import { StoredNumberComponent } from './recurring-snapshots/stored-number/stored-number.component';
 import { TimeZoneComponent } from './recurring-snapshots/time-zone/time-zone.component';
 import { TimeZoneService } from './recurring-snapshots/time-zone/time-zone.service';
-import { PolicyComponent } from './recurring-snapshots/policy/policy.component';
 import { TimePickerComponent } from './recurring-snapshots/time-picker/time-picker.component';
 import { PolicyListComponent } from './recurring-snapshots/policy-list/policy-list.component';
+import { SnapshotPolicyService } from './recurring-snapshots/snapshot-policy.service';
 
 
 @NgModule({
@@ -41,7 +41,6 @@ import { PolicyListComponent } from './recurring-snapshots/policy-list/policy-li
     DailyPolicyComponent,
     WeeklyPolicyComponent,
     MonthlyPolicyComponent,
-    PolicyComponent,
     PolicyEditorComponent,
     PolicyListComponent,
     RecurringSnapshotsComponent,
@@ -51,7 +50,11 @@ import { PolicyListComponent } from './recurring-snapshots/policy-list/policy-li
     PolicyListComponent
   ],
   providers: [
+    SnapshotPolicyService,
     TimeZoneService
+  ],
+  entryComponents: [
+    RecurringSnapshotsComponent
   ]
 })
 export class SnapshotModule { }

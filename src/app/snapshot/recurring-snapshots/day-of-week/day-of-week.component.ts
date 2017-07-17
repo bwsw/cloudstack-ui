@@ -1,6 +1,6 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { LanguageService } from '../../../shared/services';
 import { DayOfWeek } from '../../../shared/types/day-of-week';
@@ -10,6 +10,7 @@ export interface DayOfWeekName {
   value: DayOfWeek,
   name: string
 }
+
 
 @Component({
   selector: 'cs-day-of-week',
@@ -26,16 +27,6 @@ export interface DayOfWeekName {
 export class DayOfWeekComponent implements OnInit {
   public _dayOfWeek: DayOfWeek;
   public daysOfWeek: Array<DayOfWeekName>;
-
-  private _daysOfWeek = [
-    { value: DayOfWeek.Sunday, name: 'SUNDAY'},
-    { value: DayOfWeek.Monday, name: 'MONDAY'},
-    { value: DayOfWeek.Tuesday, name: 'TUESDAY'},
-    { value: DayOfWeek.Wednesday, name: 'WEDNESDAY'},
-    { value: DayOfWeek.Thursday, name: 'THURSDAY'},
-    { value: DayOfWeek.Friday, name: 'FRIDAY'},
-    { value: DayOfWeek.Saturday, name: 'SATURDAY'},
-  ];
 
   constructor(
     private languageService: LanguageService,

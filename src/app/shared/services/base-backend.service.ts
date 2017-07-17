@@ -50,8 +50,11 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return result;
   }
 
-  public create(params?: {}): Observable<any> {
-    return this.sendCommand('create', params)
+  public create(params?: {}, customApiFormat?: ApiFormat): Observable<any> {
+    const command = customApiFormat && customApiFormat.command || 'create';
+    const _entity = customApiFormat && customApiFormat.entity;
+
+    return this.sendCommand('create', params, _entity)
       .map(response => {
         const entity = this.entity.toLowerCase();
         if (entity === 'tag' || entity === 'affinitygroup') {
@@ -62,8 +65,11 @@ export abstract class BaseBackendService<M extends BaseModel> {
       });
   }
 
-  public remove(params?: {}): Observable<any> {
-    return this.sendCommand('delete', params);
+  public remove(params?: {}, customApiFormat?: ApiFormat): Observable<any> {
+    const command = customApiFormat && customApiFormat.command || 'delete';
+    const entity = customApiFormat && customApiFormat.entity;
+
+    return this.sendCommand(command, params, entity);
   }
 
   protected prepareModel(res, entityModel?): M {

@@ -586,5 +586,9 @@
   "PM": "PM",
 
   "DAY_OF_WEEK": "Day of week",
-  "DAY_OF_MONTH": "Day of month"
+  "DAY_OF_MONTH": "Day of month",
+
+  "SCHEDULED_SNAPSHOTS": "Scheduled snapshots",
+  "KEEP": "Keep",
+  "RECURRING_SNAPSHOTS": "Recurring snapshots"
 }

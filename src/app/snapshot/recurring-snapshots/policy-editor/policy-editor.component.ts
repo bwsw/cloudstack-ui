@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { PolicyMode } from '../recurring-snapshots.component';
+import { PolicyType } from '../recurring-snapshots.component';
 import { TimeZone } from '../time-zone/time-zone.service';
 import { DailyPolicy } from './daily/daily-policy.component';
 import { HourlyPolicy } from './hourly/hourly-policy.component';
@@ -7,12 +7,14 @@ import { MonthlyPolicy } from './monthly/monthly-policy.component';
 import { WeeklyPolicy } from './weekly/weekly-policy.component';
 
 
-export type TimePolicy = HourlyPolicy | DailyPolicy | WeeklyPolicy | MonthlyPolicy;
+export type TimePolicy = HourlyPolicy & DailyPolicy & WeeklyPolicy & MonthlyPolicy;
 
-export interface Policy {
-  timePolicy: TimePolicy;
-  timeZone: TimeZone;
+export interface Policy<T> {
+  id?: string;
   storedSnapshots: number;
+  timePolicy: T;
+  timeZone: TimeZone;
+  type?: PolicyType
 }
 
 @Component({
@@ -21,17 +23,18 @@ export interface Policy {
   styleUrls: ['policy-editor.component.scss']
 })
 export class PolicyEditorComponent {
-  @Input() policyMode: PolicyMode;
-  @Output() onPolicySave: EventEmitter<Policy>;
+  @Input() policyMode: PolicyType;
+  @Output() onPolicySave: EventEmitter<Policy<TimePolicy>>;
 
-  public Policies = PolicyMode;
+  public Policies = PolicyType;
 
   public policy: TimePolicy;
+
   public timeZone: TimeZone;
   public storedSnapshots = 1;
 
   constructor() {
-    this.onPolicySave = new EventEmitter<Policy>();
+    this.onPolicySave = new EventEmitter<Policy<TimePolicy>>();
   }
 
   public save(): void {

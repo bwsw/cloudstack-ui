@@ -586,5 +586,9 @@
   "PM": "PM",
 
   "DAY_OF_WEEK": "День недели",
-  "DAY_OF_MONTH": "День месяца"
+  "DAY_OF_MONTH": "День месяца",
+
+  "SCHEDULED_SNAPSHOTS": "Расписание снимков",
+  "KEEP": "Сохранять",
+  "RECURRING_SNAPSHOTS": "Повторяемые снимки"
 }

@@ -1,15 +1,41 @@
-<mdl-tabs
-  mdl-ripple
-  mdl-tab-active-index="0"
-  (mdl-tab-active-changed)="tabChanged($event)"
->
-  <mdl-tab-panel mdl-tab-panel-title="Hourly"></mdl-tab-panel>
-  <mdl-tab-panel mdl-tab-panel-title="Daily"></mdl-tab-panel>
-  <mdl-tab-panel mdl-tab-panel-title="Weekly"></mdl-tab-panel>
-  <mdl-tab-panel mdl-tab-panel-title="Monthly"></mdl-tab-panel>
-</mdl-tabs>
+<cs-overlay-loading [active]="loading"></cs-overlay-loading>
+<h3 class="mdl-dialog__title">
+  {{ 'RECURRING_SNAPSHOTS' | translate }}
+</h3>
+<div class="mdl-dialog__content">
 
-<cs-policy-editor
-  [policyMode]="policyMode"
-  (onPolicySave)="addPolicy($event)"
-></cs-policy-editor>
+  <mdl-tabs
+    mdl-ripple
+    mdl-tab-active-index="0"
+    (mdl-tab-active-changed)="tabChanged($event)"
+  >
+    <mdl-tab-panel mdl-tab-panel-title="Hourly"></mdl-tab-panel>
+    <mdl-tab-panel mdl-tab-panel-title="Daily"></mdl-tab-panel>
+    <mdl-tab-panel mdl-tab-panel-title="Weekly"></mdl-tab-panel>
+    <mdl-tab-panel mdl-tab-panel-title="Monthly"></mdl-tab-panel>
+  </mdl-tabs>
+
+  <cs-policy-editor
+    [policyMode]="policyMode"
+    (onPolicySave)="addPolicy($event)"
+  ></cs-policy-editor>
+
+  <cs-policy-list
+    [hourlyPolicy]="hourlyPolicy"
+    [dailyPolicy]="dailyPolicy"
+    [weeklyPolicy]="weeklyPolicy"
+    [monthlyPolicy]="monthlyPolicy"
+    (onPolicyDelete)="deletePolicy($event)"
+  ></cs-policy-list>
+
+</div>
+<div class="mdl-dialog__actions">
+  <button
+    mdl-button
+    mdl-colored="primary"
+    (click)="onClose()"
+  >
+    {{ 'CLOSE' | translate }}
+  </button>
+</div>
+

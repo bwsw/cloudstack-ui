@@ -42,6 +42,7 @@ import { SnapshotsComponent } from './vm-sidebar/storage-detail/volume/snapshot/
 import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volume-details/volume-details.component';
 import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.component';
 import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector.component';
+import { SnapshotModule } from '../snapshot/snapshot.module';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-sele
     MdlPopoverModule,
     MdlSelectModule,
     SharedModule,
+    SnapshotModule,
     TemplateModule,
     TranslateModule,
     vmRouting,

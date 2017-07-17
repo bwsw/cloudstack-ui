@@ -7,7 +7,7 @@ const url = 'config/timezones.json';
 
 export interface TimeZone {
   geo: string;
-  zone: string;
+  zone?: string;
 }
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { MdlTextFieldComponent } from '@angular-mdl/core';
-import { AfterViewInit, Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, forwardRef, Input, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
@@ -20,7 +20,7 @@ export interface HourlyPolicy {
     }
   ]
 })
-export class HourlyPolicyComponent implements ControlValueAccessor {
+export class HourlyPolicyComponent implements ControlValueAccessor, AfterViewInit {
   @ViewChild('minuteField') public minuteField: MdlTextFieldComponent;
   public _policy: HourlyPolicy;
 
@@ -29,6 +29,12 @@ export class HourlyPolicyComponent implements ControlValueAccessor {
   public maxValue = 59;
 
   constructor(private translateService: TranslateService) {}
+
+  public ngAfterViewInit(): void {
+    if (!this.policy) {
+      this.writeValue(this.policy);
+    }
+  }
 
   public get errorMessage(): Observable<string> {
     return this.translateService.get('BETWEEN', {
@@ -46,7 +52,7 @@ export class HourlyPolicyComponent implements ControlValueAccessor {
   }
 
   public updateMinute(value: number): void {
-    if (!value) {
+    if (value == null) {
       return;
     }
 
@@ -67,7 +73,7 @@ export class HourlyPolicyComponent implements ControlValueAccessor {
     this.minute = newValue;
     this.minuteField.inputEl.nativeElement.value = this.minute;
     this.minuteField.writeValue(this.minute);
-    this.writeValue(this.minute);
+    this.writeValue(this.policy);
   }
 
   public propagateChange: any = () => {};
@@ -80,8 +86,9 @@ export class HourlyPolicyComponent implements ControlValueAccessor {
   }
 
   public set policy(value) {
-    if (value) {
+    if (value != null) {
       this._policy = value;
+      this.minute = value.minute.toString();
       this.propagateChange(this.policy);
     }
   }
@@ -93,7 +100,7 @@ export class HourlyPolicyComponent implements ControlValueAccessor {
   public registerOnTouched(): void { }
 
   public writeValue(value: any): void {
-    if (value) {
+    if (value != null) {
       this.policy = value;
     }
   }
