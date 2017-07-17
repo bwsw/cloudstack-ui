@@ -29,6 +29,8 @@ export class TemplateFiltersComponent implements OnInit {
   public query: string;
   public selectedOsFamilies: Array<OsFamily>;
   public selectedFilters: Array<string>;
+  public selectedGroupingNames = [];
+  public groupings = ['zones'];
 
   public zones: Array<Zone>;
   public selectedZones: Array<Zone>;
@@ -103,7 +105,8 @@ export class TemplateFiltersComponent implements OnInit {
       selectedOsFamilies: this.selectedOsFamilies,
       selectedFilters: this.selectedFilters,
       selectedZones: this.selectedZones,
-      query: this.query
+      query: this.query,
+      groupings: this.selectedGroupingNames
     });
 
     if (!this.dialogMode) {

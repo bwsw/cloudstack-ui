@@ -1,22 +1,18 @@
-import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
-import { Iso } from '../shared/iso.model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+
 import { OsFamily } from '../../shared/models/os-type.model';
-import { TemplateService } from '../shared/template.service';
+import { Zone } from '../../shared/models/zone.model';
 import { AuthService } from '../../shared/services/auth.service';
-import { IsoService } from '../shared/iso.service';
 import { ServiceLocator } from '../../shared/services/service-locator';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { TemplateFilters } from '../shared/base-template.service';
-import { Zone } from '../../shared/models/zone.model';
-import sortBy = require('lodash/sortBy');
+import { Iso } from '../shared/iso.model';
+import { IsoService } from '../shared/iso.service';
 import { Template } from '../shared/template.model';
+import { TemplateService } from '../shared/template.service';
+import sortBy = require('lodash/sortBy');
 
-
-interface TemplateSection {
-  zoneName: string;
-  templates: Array<BaseTemplateModel>;
-}
 
 @Component({
   selector: 'cs-template-filter-list',
@@ -43,7 +39,13 @@ export class TemplateFilterListComponent implements OnInit {
   public templateList: Array<BaseTemplateModel> = [];
   public visibleTemplateList: Array<BaseTemplateModel> = [];
 
-  public sections: Array<TemplateSection>;
+  public selectedGroupings = [];
+  public groupings = {
+    'zones': {
+      selector: (item: BaseTemplateModel) => item.zoneId,
+      name: (item: BaseTemplateModel) => item.zoneName
+    }
+  };
 
   protected templateService = ServiceLocator.injector.get(TemplateService);
   protected authService = ServiceLocator.injector.get(AuthService);
@@ -61,9 +63,7 @@ export class TemplateFilterListComponent implements OnInit {
 
   public updateList(): void {
     this.fetchData(this.viewMode)
-      .subscribe(() => {
-        this.filterResults();
-      });
+      .subscribe(() => this.filterResults());
   }
 
   public selectTemplate(template: BaseTemplateModel): void {
@@ -81,51 +81,22 @@ export class TemplateFilterListComponent implements OnInit {
       this.selectedFilters = filters.selectedFilters;
       this.selectedZones = filters.selectedZones;
       this.query = filters.query;
+      this.selectedGroupings = filters.groupings.reduce((acc, g) => {
+        acc.push(this.groupings[g]);
+        return acc;
+      }, []);
     }
 
-    this.visibleTemplateList = this.filterBySearch(this.filterByCategories(this.templateList));
+    this.visibleTemplateList = this.filterByZone(this.templateList);
+    this.visibleTemplateList = this.filterBySearch(this.filterByCategories(this.visibleTemplateList));
     if (this.zoneId) {
       this.visibleTemplateList = this.visibleTemplateList
         .filter(template => template.zoneId === this.zoneId || template.crossZones);
     }
-    this.updateSections();
-  }
-
-  public get noFilteringResults(): boolean {
-    if (this.selectedZones && this.selectedZones.length) {
-      return !this.sectionsLength;
-    } else {
-      return !this.visibleTemplateList || !this.visibleTemplateList.length;
-    }
-  }
-
-  public get anyZoneResults(): boolean {
-    return this.selectedZones && this.selectedZones.length && !this.noFilteringResults;
   }
 
   public removeTemplate(template: Template): void {
     this.deleteTemplate.next(template);
-  }
-
-  private get sectionsLength(): number {
-    if (!this.sections) {
-      return 0;
-    }
-    return this.sections.reduce((acc, section) => acc + section.templates.length, 0);
-  }
-
-  private updateSections(): void {
-    if (!this.selectedZones) {
-      return;
-    }
-
-    this.sections = sortBy(this.selectedZones, 'name')
-      .map(zone => {
-        return {
-          zoneName: zone.name,
-          templates: this.visibleTemplateList.filter(template => template.zoneId === zone.id)
-        };
-      });
   }
 
   private fetchData(mode: string): Observable<any> {
@@ -137,7 +108,7 @@ export class TemplateFilterListComponent implements OnInit {
       return this.templateService.getGroupedTemplates({}, [TemplateFilters.featured, selfFilter])
         .map(templates => {
           let t = [];
-          for (let filter in templates) {
+          for (const filter in templates) {
             if (templates.hasOwnProperty(filter)) {
               t = t.concat(templates[filter]);
             }
@@ -191,5 +162,13 @@ export class TemplateFilterListComponent implements OnInit {
       return template.name.toLowerCase().includes(queryLower) ||
         template.displayText.toLowerCase().includes(queryLower);
     });
+  }
+
+  private filterByZone(templateList: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
+    return (!this.selectedZones || !this.selectedZones.length)
+      ? templateList
+      : templateList.filter(template =>
+        this.selectedZones.some(zone => template.zoneId === zone.id)
+      );
   }
 }

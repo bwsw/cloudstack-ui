@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MdlModule } from '@angular-mdl/core';
 import { MdlSelectModule } from '@angular-mdl/select';
+import { DynamicModule } from 'ng-dynamic-component';
 
 import { SharedModule } from '../shared/shared.module';
 import { IsoAttachmentComponent } from './iso-attachment/iso-attachment.component';
@@ -26,6 +27,7 @@ import { TemplateActionsService } from './shared/template-actions.service';
   imports: [
     CommonModule,
     FormsModule,
+    DynamicModule.withComponents([TemplateComponent]),
     TranslateModule,
     MdlModule,
     MdlPopoverModule,

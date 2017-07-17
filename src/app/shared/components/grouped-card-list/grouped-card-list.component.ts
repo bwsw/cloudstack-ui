@@ -10,7 +10,8 @@ import groupBy = require('lodash/groupBy');
 export class GroupedCardListComponent implements OnChanges {
   @Input() public component: Type<any>;
   @Input() public list: Array<any>;
-  @Input() public groups: Array<any>;
+  @Input() public level = 0;
+  @Input() public groupings: Array<any>;
   @Input() dynamicInputs: { [k: string]: any } = {};
   @Input() dynamicOutputs: { [k: string]: Function } = {};
 
@@ -25,11 +26,12 @@ export class GroupedCardListComponent implements OnChanges {
   }
 
   private updateTree(): void {
-    if (this.groups.length) {
-      const groups = groupBy(this.list, this.groups[0].selector);
+    const groupings = this.groupings;
+    if (groupings.length && this.level < groupings.length) {
+      const groups = groupBy(this.list, groupings[this.level].selector);
       this.tree = Object.keys(groups).map(gn => {
         return {
-          name: this.groups[0].name(groups[gn][0]),
+          name: groupings[this.level].name(groups[gn][0]),
           items: groups[gn]
         };
       });

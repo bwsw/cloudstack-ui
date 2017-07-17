@@ -1,11 +1,11 @@
 <mdl-card
   mdl-shadow="2"
-  [class.card-selected]="isSelected"
+  [class.card-selected]="isSelected && isSelected(item)"
   class="custom-card"
   (click)="handleClick($event)"
 >
   <mdl-card-title>
-    <mdl-icon class="os-icon" [ngSwitch]="template.osType.osFamily">
+    <mdl-icon class="os-icon" [ngSwitch]="item.osType.osFamily">
       <ng-template [ngSwitchCase]="'Linux'">
         <img
           src="img/os/linux.png"
@@ -33,7 +33,7 @@
       [mdl-tooltip]="headerTooltip"
       mdl-tooltip-position="bottom"
       mdl-card-title-text
-      [innerHTML]="template.name | highlight:searchQuery"
+      [innerHTML]="item.name | highlight:query"
       class="template-header"
     ></h2>
   </mdl-card-title>
@@ -45,27 +45,27 @@
         class="last single-line text-overflow-tooltip-fix"
         [mdl-tooltip]="osTooltip"
         mdl-tooltip-position="top"
-        [innerHTML]="template.osTypeName | highlight:searchQuery"
+        [innerHTML]="item.osTypeName | highlight:query"
       ></div>
       <div
         *ngIf="!singleLine"
         class="last multiline"
-        [innerHTML]="template.osTypeName | highlight:searchQuery"
+        [innerHTML]="item.osTypeName | highlight:query"
       ></div>
     </div>
-    <div class="card-wrapper" *ngIf="template">
+    <div class="card-wrapper" *ngIf="item">
       <div
         *ngIf="singleLine"
         class="single-line text-overflow-tooltip-fix"
         [mdl-tooltip]="descriptionTooltip"
         mdl-tooltip-position="top"
       >
-        <span [innerHTML]="template.displayText | highlight:searchQuery"></span>
+        <span [innerHTML]="item.displayText | highlight:query"></span>
       </div>
       <div
         *ngIf="!singleLine"
         class="multiline"
-        [innerHTML]="template.displayText | highlight:searchQuery"
+        [innerHTML]="item.displayText | highlight:query"
       ></div>
     </div>
   </mdl-card-supporting-text>
@@ -98,13 +98,13 @@
   </mdl-popover>
 </mdl-card>
 <mdl-tooltip #headerTooltip="mdlTooltip">
-  {{ template.name }}
+  {{ item.name }}
 </mdl-tooltip>
 <mdl-tooltip #osTooltip="mdlTooltip">
-  {{ template.osTypeName }}
+  {{ item.osTypeName }}
 </mdl-tooltip>
 <mdl-tooltip
   #descriptionTooltip="mdlTooltip"
 >
-  {{ template.displayText }}
+  {{ item.displayText }}
 </mdl-tooltip>

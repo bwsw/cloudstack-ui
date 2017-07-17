@@ -3,7 +3,8 @@
     <h4>{{ child.name | translate }}</h4>
     <cs-grouped-card-list
       [component]="component"
-      [groups]="groups.slice(1)"
+      [groupings]="groupings"
+      [level]="level + 1"
       [list]="child.items"
       [dynamicInputs]="dynamicInputs"
       [dynamicOutputs]="dynamicOutputs"

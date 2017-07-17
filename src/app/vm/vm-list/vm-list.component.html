@@ -13,7 +13,7 @@
   <ng-container *loading="!vmList.length" cs-list>
     <cs-grouped-card-list
       [list]="visibleVmList"
-      [groups]="selectedGroupings"
+      [groupings]="selectedGroupings"
       [component]="VmListItemComponent"
       [dynamicInputs]="inputs"
       [dynamicOutputs]="outputs"

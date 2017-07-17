@@ -61,6 +61,17 @@
     >
       <mdl-option mdl-ripple *ngFor="let z of zones" [value]="z">{{ z.name }}</mdl-option>
     </mdl-select>
+
+    <mdl-select
+      *ngIf="zones"
+      class="filter-select"
+      [placeholder]="'SELECT_ZONES' | translate"
+      multiple="true"
+      [(ngModel)]="selectedGroupingNames"
+      (change)="updateFilters()"
+    >
+      <mdl-option *ngFor="let g of groupings" [value]="g">{{ g }}</mdl-option>
+    </mdl-select>
   </mdl-card>
 </cs-top-bar>
 
