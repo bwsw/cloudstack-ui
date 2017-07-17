@@ -21,6 +21,7 @@ export class TemplateFiltersComponent implements OnInit {
   @Input() public showIso: boolean;
   @Input() public dialogMode = false;
   @Input() public searchPanelWhite: boolean;
+  @Input() public availableGroupings: Array<string>;
 
   @Output() public queries = new EventEmitter();
   @Output() public displayMode = new EventEmitter();
@@ -30,7 +31,6 @@ export class TemplateFiltersComponent implements OnInit {
   public selectedOsFamilies: Array<OsFamily>;
   public selectedFilters: Array<string>;
   public selectedGroupingNames = [];
-  public groupings = ['zones'];
 
   public zones: Array<Zone>;
   public selectedZones: Array<Zone>;

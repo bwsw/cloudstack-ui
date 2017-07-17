@@ -34,6 +34,7 @@ export type InstanceGroupOrNoGroup = InstanceGroup | noGroup;
   styleUrls: ['vm-filter.component.scss']
 })
 export class VmFilterComponent implements OnInit, OnChanges {
+  @Input() public availableGroupings: Array<string>;
   @Input() public groups: Array<InstanceGroup>;
   @Input() public zones: Array<Zone>;
   @Output() public updateFilters = new EventEmitter<VmFilter>();
@@ -48,11 +49,6 @@ export class VmFilterComponent implements OnInit, OnChanges {
     { state: VmStates.Running, name: 'VM_FILTERS.STATE.RUNNING' },
     { state: VmStates.Stopped, name: 'VM_FILTERS.STATE.STOPPED' },
     { state: VmStates.Error,   name: 'VM_FILTERS.STATE.ERROR' }
-  ];
-  public groupings = [
-    'zones',
-    'groups',
-    'colors'
   ];
   public showNoGroupFilter = true;
 

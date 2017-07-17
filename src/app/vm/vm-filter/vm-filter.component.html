@@ -3,12 +3,14 @@
     class="filter-select"
     multiple="true"
     floating-label
-    [label]="'GROUP_BY' | translate"
+    [label]="'GROUP_BY_LABEL' | translate"
     [(ngModel)]="selectedGroupings"
-    [dragItems]="groupings"
+    [dragItems]="availableGroupings"
     (change)="update()"
   >
-    <mdl-option *ngFor="let g of groupings" [value]="g">{{ g }}</mdl-option>
+    <mdl-option *ngFor="let g of availableGroupings" [value]="g">
+      {{ g | translate }}
+    </mdl-option>
   </cs-draggable-select>
 
   <mdl-select

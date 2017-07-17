@@ -41,11 +41,12 @@ export class TemplateFilterListComponent implements OnInit {
 
   public selectedGroupings = [];
   public groupings = {
-    'zones': {
+    'GROUP_BY.ZONES': {
       selector: (item: BaseTemplateModel) => item.zoneId,
       name: (item: BaseTemplateModel) => item.zoneName
     }
   };
+  public availableGroupings = Object.keys(this.groupings);
 
   protected templateService = ServiceLocator.injector.get(TemplateService);
   protected authService = ServiceLocator.injector.get(AuthService);

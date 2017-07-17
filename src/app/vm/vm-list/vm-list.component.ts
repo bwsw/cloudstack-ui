@@ -37,19 +37,19 @@ export class VmListComponent implements OnInit {
   @HostBinding('class.detail-list-container') public detailListContainer = true;
 
   public selectedGroupings = [];
-
+  public availableGroupings: Array<string>;
   public groupings = {
-    zones: {
+    'GROUP_BY.ZONES': {
       selector: (item: VirtualMachine) => item.zoneId,
       name: (item: VirtualMachine) => item.zoneName
     },
-    groups: {
+    'GROUP_BY.GROUPS': {
       selector: (item: VirtualMachine) =>
         item.instanceGroup ? item.instanceGroup.name : noGroup,
       name: (item: VirtualMachine) =>
         item.instanceGroup ? item.instanceGroup.name : 'NO_GROUP'
     },
-    colors: {
+    'GROUP_BY.COLORS': {
       selector: (item: VirtualMachine) => item.getColor().value,
       name: (item: VirtualMachine) => item.getColor().name,
     }
@@ -76,6 +76,8 @@ export class VmListComponent implements OnInit {
     private userService: UserService,
     private zoneService: ZoneService
   ) {
+    this.availableGroupings = Object.keys(this.groupings);
+
     this.showDetail = this.showDetail.bind(this);
     this.vmAction = this.vmAction.bind(this);
 

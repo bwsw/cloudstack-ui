@@ -5,11 +5,13 @@
       class="filter-select"
       multiple="true"
       floating-label
-      [label]="'GROUP_BY' | translate"
+      [label]="'GROUP_BY_LABEL' | translate"
       [(ngModel)]="selectedGroupingNames"
       (change)="updateGroupings()"
     >
-      <mdl-option *ngFor="let g of availableGroupingNames" [value]="g">{{ g }}</mdl-option>
+      <mdl-option *ngFor="let g of availableGroupingNames" [value]="g">
+        {{ g | translate }}
+      </mdl-option>
     </mdl-select>
 
     <mdl-select

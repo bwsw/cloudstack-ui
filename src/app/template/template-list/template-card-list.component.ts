@@ -13,7 +13,7 @@ import { TemplateComponent } from '../template/template.component';
 export class TemplateCardListComponent {
   @Input() public templateList: Array<BaseTemplateModel>;
   @Input() public query: string;
-  @Input() public groupings: any;
+  @Input() public groupings: string;
   @Output() public deleteTemplate = new EventEmitter();
 
   public TemplateComponent = TemplateComponent;

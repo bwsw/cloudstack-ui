@@ -44,11 +44,11 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   public visibleVolumes: Array<Volume>;
 
   public selectedGroupingNames = [];
-  public availableGroupingNames = ['zones'];
+  public availableGroupingNames: Array<string>;
 
   public selectedGroupings = [];
   public groupings = {
-    'zones': {
+    'GROUP_BY.ZONES': {
       selector: (item: Volume) => item.zoneId,
       name: (item: Volume) => item.zoneName
     }
@@ -66,7 +66,9 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private volumeService: VolumeService,
     private zoneService: ZoneService
-  ) {}
+  ) {
+    this.availableGroupingNames = Object.keys(this.groupings);
+  }
 
   public ngOnInit(): void {
     this.listService.onAction
