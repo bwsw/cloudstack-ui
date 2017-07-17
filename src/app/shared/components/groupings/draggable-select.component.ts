@@ -168,11 +168,11 @@ export class DraggableSelectComponent implements ControlValueAccessor, AfterView
     $event.preventDefault();
   }
 
-  private addFocus(): void {
+  public addFocus(): void {
     this.focused = true;
   }
 
-  private removeFocus(): void {
+  public removeFocus(): void {
     this.focused = false;
   }
 
@@ -227,7 +227,7 @@ export class DraggableSelectComponent implements ControlValueAccessor, AfterView
     }
   }
 
-  private toggle($event: Event) {
+  public toggle($event: Event) {
     if (!this.disabled) {
       this.popoverComponent.toggle($event);
       $event.stopPropagation();

@@ -22,7 +22,7 @@ import { BaseTemplateModel } from '../shared';
 export class TemplateComponent implements OnChanges {
   @HostBinding('class.single-line') @Input() public singleLine = true;
   @Input() public item: BaseTemplateModel;
-  @Input() public isSelected: () => boolean;
+  @Input() public isSelected: (item: BaseTemplateModel) => boolean;
   @Input() public searchQuery: () => string;
   @Output() public deleteTemplate = new EventEmitter();
   @Output() public onClick = new EventEmitter();
