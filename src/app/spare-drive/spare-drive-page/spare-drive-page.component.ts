@@ -91,17 +91,24 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
 
   public initFilters(): void {
     const params = this.filter.init(spareDriveListFilters, {
-      'zones': { type: 'array', defaultOption: [] },
+      zones: { type: 'array', defaultOption: [] },
+      groupings: { type: 'array', defaultOption: [] }
     });
-    this.selectedZones = this.zones.filter(zone => params['zones'].find(id => id === zone.id));
+    this.selectedZones = this.zones.filter(zone =>
+      params['zones'].find(id => id === zone.id)
+    );
+    this.selectedGroupingNames = params.groupings;
+
     this.update();
   }
 
   public update(): void {
     this.filterZones();
+    this.updateGroupings();
 
     this.filter.update(spareDriveListFilters, {
-      'zones': this.selectedZones.map(_ => _.id),
+      zones: this.selectedZones.map(_ => _.id),
+      groupings: this.selectedGroupingNames
     });
   }
 

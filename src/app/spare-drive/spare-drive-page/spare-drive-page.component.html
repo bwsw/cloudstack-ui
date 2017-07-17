@@ -7,7 +7,7 @@
       floating-label
       [label]="'GROUP_BY_LABEL' | translate"
       [(ngModel)]="selectedGroupingNames"
-      (change)="updateGroupings()"
+      (change)="update()"
     >
       <mdl-option *ngFor="let g of availableGroupingNames" [value]="g">
         {{ g | translate }}

@@ -74,15 +74,19 @@ export class VmFilterComponent implements OnInit, OnChanges {
 
   public initFilters(): void {
     const params = this.filter.init(this.filtersKey, {
-      'byColors': { type: 'boolean' },
-      'mode': { type: 'string', options: ['zone', 'group'], defaultOption: 'zone' },
-      'zones': { type: 'array', defaultOption: [] },
-      'groups': { type: 'array', defaultOption: [] },
-      'states': { type: 'array', options: this.states.map(_ => _.state), defaultOption: [] }
+      zones: { type: 'array', defaultOption: [] },
+      groups: { type: 'array', defaultOption: [] },
+      groupings: { type: 'array', defaultOption: [] },
+      states: { type: 'array', options: this.states.map(_ => _.state), defaultOption: [] }
     });
-    this.selectedZones = this.zones.filter(zone => params['zones'].find(id => id === zone.id));
-    this.selectedGroups = this.groups.filter(group => params['groups'].find(name => name === group.name));
+    this.selectedZones = this.zones.filter(zone =>
+      params['zones'].find(id => id === zone.id)
+    );
+    this.selectedGroups = this.groups.filter(group =>
+      params['groups'].find(name => name === group.name)
+    );
     this.selectedStates = params.states;
+    this.selectedGroupings = params.groupings;
 
     const containsNoGroup = params['groups'].includes('');
     if (containsNoGroup) {
@@ -110,9 +114,10 @@ export class VmFilterComponent implements OnInit, OnChanges {
     });
 
     this.filter.update(this.filtersKey, {
-      'zones': this.selectedZones.map(_ => _.id),
-      'groups': this.selectedGroups.map(_ => (_ as InstanceGroup).name || ''),
-      'states': this.selectedStates
+      zones: this.selectedZones.map(_ => _.id),
+      groups: this.selectedGroups.map(_ => (_ as InstanceGroup).name || ''),
+      states: this.selectedStates,
+      groupings: this.selectedGroupings
     });
   }
 

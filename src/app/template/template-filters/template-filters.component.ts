@@ -111,10 +111,11 @@ export class TemplateFiltersComponent implements OnInit {
 
     if (!this.dialogMode) {
       this.filter.update(this.filtersKey, {
-        'query': this.query || null,
-        'osFamilies': this.selectedOsFamilies,
-        'categoryFilters': this.selectedFilters,
-        'zones': this.selectedZones.map(_ => _.id)
+        query: this.query || null,
+        osFamilies: this.selectedOsFamilies,
+        categoryFilters: this.selectedFilters,
+        zones: this.selectedZones.map(_ => _.id),
+        groupings: this.selectedGroupingNames
       });
     }
   }
@@ -127,25 +128,27 @@ export class TemplateFiltersComponent implements OnInit {
 
   private initFilters(): void {
     const params = this.filter.init(this.filtersKey, {
-      'osFamilies': {
+      osFamilies: {
         type: 'array',
         options: this.osFamilies,
         defaultOption: []
       },
-      'categoryFilters': {
+      categoryFilters: {
         type: 'array',
         options: this.categoryFilters,
         defaultOption: []
       },
-      'zones': {
+      zones: {
         type: 'array',
         defaultOption: []
       },
-      'query': { type: 'string' }
+      query: { type: 'string' },
+      groupings: { type: 'array', defaultOption: [] }
     });
     this.selectedOsFamilies = params['osFamilies'];
     this.selectedFilters = params['categoryFilters'];
     this.selectedZones = this.zones.filter(zone => params['zones'].find(id => id === zone.id));
+    this.selectedGroupingNames = params['groupings'];
     this.query = params['query'];
     this.queryStream.next(this.query);
 
