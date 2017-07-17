@@ -88,6 +88,11 @@ export class VmFilterComponent implements OnInit, OnChanges {
     this.selectedStates = params.states;
     this.selectedGroupings = params.groupings;
 
+    const sg = this.selectedGroupings;
+    this.availableGroupings.sort((groupingA, groupingB) => {
+      return sg.findIndex(_ => _ === groupingA) - sg.findIndex(_ => _ === groupingB);
+    });
+
     const containsNoGroup = params['groups'].includes('');
     if (containsNoGroup) {
       this.selectedGroups.push(noGroup);
