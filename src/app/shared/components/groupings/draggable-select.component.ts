@@ -5,6 +5,7 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
+  ElementRef,
   EventEmitter,
   forwardRef,
   HostBinding,
@@ -19,6 +20,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs/Subscription';
+import { toBoolean } from '@angular-mdl/core/components/common/boolean-property';
 
 const uniq = (array: any[]) => Array.from(new Set(array));
 
@@ -35,33 +37,47 @@ const VALUE_ACCESSOR: any = {
 
 @Component({
   selector: 'cs-draggable-select',
+  /* tslint:disable */
+  host: {
+    '[class.mdl-select]': 'true',
+    '[class.mdl-select--floating-label]': 'isFloatingLabel',
+    '[class.has-placeholder]': 'placeholder'
+  },
+  /* tslint:enable */
   templateUrl: './draggable-select.component.html',
-  styleUrls: ['../../../../../node_modules/@angular-mdl/select/select.scss'],
+  styleUrls: [
+    '../../../../../node_modules/@angular-mdl/select/select.scss',
+    'draggable-select.component.scss'
+  ],
   encapsulation: ViewEncapsulation.None,
   providers: [VALUE_ACCESSOR]
 })
 export class DraggableSelectComponent implements ControlValueAccessor, AfterViewInit, OnDestroy {
   @Input() ngModel: any;
   @Input() disabled = false;
-  @Input('floating-label') public isFloatingLabel: any; // tslint:disable-line
+  @Input('floating-label')
+  get isFloatingLabel() { return this._isFloatingLabel; }
+  set isFloatingLabel(value) { this._isFloatingLabel = toBoolean(value); } // tslint:disable-line
   @Input() placeholder = '';
+  @Input() label = '';
   @Input() multiple = false;
   @Input() dragItems: Array<any>;
   @Output() private change: EventEmitter<any> = new EventEmitter(true);
 
+  @ViewChild('selectInput') selectInput: ElementRef;
   @ViewChild(MdlPopoverComponent) public popoverComponent: MdlPopoverComponent;
   @ContentChildren(MdlOptionComponent)
   public optionComponents: QueryList<MdlOptionComponent>;
 
-  @HostBinding('class.mdl-select') public mdlSelectClass = true;
-  @HostBinding('class.mdl-select--floating-label') public floatingLable = this.isFloatingLabel != null;
+  @HostBinding('class.draggable-select') public selectClass = true;
 
   public textfieldId: string;
-  private text = '';
+  public text = '';
+  public focused = false;
   private textByValue: any = {};
   private onChange: any = Function.prototype;
   private onTouched: any = Function.prototype;
-  private focused = false;
+  private _isFloatingLabel = false;
 
   private onDrop: Subscription;
 
@@ -114,6 +130,10 @@ export class DraggableSelectComponent implements ControlValueAccessor, AfterView
         }
       }
     }
+  }
+
+  isDirty(): boolean {
+    return Boolean(this.selectInput.nativeElement.value);
   }
 
   private onArrowUp($event: KeyboardEvent) {

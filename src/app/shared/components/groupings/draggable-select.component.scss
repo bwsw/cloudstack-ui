@@ -1,0 +1,10 @@
+.draggable-select .mdl-list__item {
+  cursor: move;
+  cursor: grab !important;
+}
+
+.gu-mirror .mdl-list__item {
+  cursor: move;
+  cursor: grabbing !important;
+  background-color: rgba(0, 0, 0, 0.1);
+}

@@ -468,6 +468,7 @@
   "SELECT_GROUPS": "Выберите группы",
   "SELECT_ZONES": "Выберите зоны",
   "SELECT_STATES": "Выберите статусы",
+  "GROUP_BY": "Группировать по",
   "NETWORK_RULES": "Сетевые правила",
 
   "LICENSE_1": "© {{ year }}, ",

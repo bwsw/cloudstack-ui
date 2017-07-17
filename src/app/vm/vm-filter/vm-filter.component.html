@@ -1,29 +1,33 @@
 <mdl-card class="options-panel delimiter">
   <cs-draggable-select
     class="filter-select"
+    multiple="true"
+    floating-label
+    [label]="'GROUP_BY' | translate"
     [(ngModel)]="selectedGroupings"
     [dragItems]="groupings"
     (change)="update()"
-    multiple="true"
   >
     <mdl-option *ngFor="let g of groupings" [value]="g">{{ g }}</mdl-option>
   </cs-draggable-select>
 
   <mdl-select
     class="filter-select"
+    multiple="true"
+    floating-label
+    [label]="'SELECT_ZONES' | translate"
     [(ngModel)]="selectedZones"
     (change)="update()"
-    multiple="true"
-    [placeholder]="'SELECT_ZONES' | translate"
   >
     <mdl-option mdl-ripple *ngFor="let z of zones" [value]="z">{{ z.name }}</mdl-option>
   </mdl-select>
   <mdl-select
     class="filter-select"
+    multiple="true"
+    floating-label
+    [label]="'SELECT_GROUPS' | translate"
     [(ngModel)]="selectedGroups"
     (change)="update()"
-    multiple="true"
-    [placeholder]="'SELECT_GROUPS' | translate"
   >
     <mdl-option *ngIf="showNoGroupFilter" [value]="noGroup">
       <em>{{ 'NO_GROUP' | translate }}</em>
@@ -36,10 +40,11 @@
 
   <mdl-select
     class="filter-select"
+    multiple="true"
+    floating-label
+    [label]="'SELECT_STATES' | translate"
     [(ngModel)]="selectedStates"
     (change)="update()"
-    multiple="true"
-    [placeholder]="'SELECT_STATES' | translate"
   >
     <mdl-option
       *ngFor="let s of states"

@@ -3,8 +3,9 @@
     <mdl-select
       *ngIf="zones"
       class="filter-select"
-      [placeholder]="'SELECT_ZONES' | translate"
       multiple="true"
+      floating-label
+      [label]="'GROUP_BY' | translate"
       [(ngModel)]="selectedGroupingNames"
       (change)="updateGroupings()"
     >
@@ -14,8 +15,9 @@
     <mdl-select
       *ngIf="zones"
       class="filter-select"
-      [placeholder]="'SELECT_ZONES' | translate"
       multiple="true"
+      floating-label
+      [label]="'SELECT_ZONES' | translate"
       [(ngModel)]="selectedZones"
       (change)="update()"
     >

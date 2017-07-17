@@ -468,6 +468,7 @@
   "SELECT_GROUPS": "Select groups",
   "SELECT_ZONES": "Select zones",
   "SELECT_STATES": "Select states",
+  "GROUP_BY": "Group by",
   "NETWORK_RULES": "Network rules",
 
   "LICENSE_1": "© {{ year }}, ",

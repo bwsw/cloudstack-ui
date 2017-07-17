@@ -23,10 +23,11 @@
 
     <mdl-select
       class="filter-select"
+      multiple="true"
+      floating-label
+      [label]="'OS_FAMILY' | translate"
       [(ngModel)]="selectedOsFamilies"
       (change)="updateFilters()"
-      multiple="true"
-      placeholder="{{ 'OS_FAMILY' | translate }}"
     >
       <mdl-option
         *ngFor="let family of osFamilies"
@@ -38,10 +39,11 @@
     <div *ngIf="filterTranslations" class="filter-select-container">
       <mdl-select
         class="filter-select"
+        multiple="true"
+        floating-label
+        [label]="'TEMPLATE_TYPES' | translate"
         [(ngModel)]="selectedFilters"
         (change)="updateFilters()"
-        multiple="true"
-        placeholder="{{ 'TEMPLATE_TYPES' | translate }}"
       >
         <mdl-option
           *ngFor="let f of categoryFilters"
@@ -52,12 +54,13 @@
       </mdl-select>
     </div>
     <mdl-select
-      class="filter-select"
       *ngIf="zones"
+      class="filter-select"
+      multiple="true"
+      floating-label
+      [label]="'SELECT_ZONES' | translate"
       [(ngModel)]="selectedZones"
       (change)="updateFilters()"
-      multiple="true"
-      [placeholder]="'SELECT_ZONES' | translate"
     >
       <mdl-option mdl-ripple *ngFor="let z of zones" [value]="z">{{ z.name }}</mdl-option>
     </mdl-select>
@@ -65,8 +68,9 @@
     <mdl-select
       *ngIf="zones"
       class="filter-select"
-      [placeholder]="'SELECT_ZONES' | translate"
       multiple="true"
+      floating-label
+      [label]="'GROUP_BY' | translate"
       [(ngModel)]="selectedGroupingNames"
       (change)="updateFilters()"
     >

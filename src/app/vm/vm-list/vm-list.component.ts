@@ -177,7 +177,7 @@ export class VmListComponent implements OnInit {
       this.zoneService.getList()
     )
       .subscribe(([vmList, groups, zones]) => {
-        this.vmList = vmList;
+        this.vmList = this.sortByDate(vmList);
         this.visibleVmList = vmList;
         this.groups = groups;
         this.zones = zones;

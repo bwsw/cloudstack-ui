@@ -1,8 +1,8 @@
 <div
-  class="mdl-textfield is-upgraded has-placeholder"
-  [class.is-focused]="this.popoverComponent.isVisible || this.focused"
-  [class.is-disabled]="this.disabled"
-  [class.is-dirty]="text != null && text.length > 0"
+  class="mdl-textfield is-upgraded"
+  [class.is-focused]="popoverComponent.isVisible || focused"
+  [class.is-disabled]="disabled"
+  [class.is-dirty]="isDirty()"
 >
   <span
     [attr.tabindex]="!this.disabled ? 1 : null"
@@ -11,6 +11,7 @@
     <!-- don't want click to also trigger focus -->
   </span>
   <input
+    #selectInput
     readonly
     tabindex="-1"
     [placeholder]="placeholder"
@@ -21,10 +22,11 @@
   >
   <span
     class="mdl-select__toggle material-icons"
-    (click)="toggle($event)">
+    (click)="toggle($event)"
+  >
     keyboard_arrow_down
   </span>
-  <label class="mdl-textfield__label" [attr.for]="textfieldId">{{ placeholder }}</label>
+  <label class="mdl-textfield__label" [attr.for]="textfieldId">{{ label }}</label>
   <span class="mdl-textfield__error"></span>
   <mdl-popover hide-on-click="!multiple" [style.width.%]="100">
     <div
