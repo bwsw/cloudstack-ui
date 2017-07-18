@@ -1,18 +1,4 @@
 <mdl-card class="options-panel delimiter">
-  <cs-draggable-select
-    class="filter-select"
-    multiple="true"
-    floating-label
-    [label]="'GROUP_BY_LABEL' | translate"
-    [(ngModel)]="selectedGroupings"
-    [dragItems]="availableGroupings"
-    (change)="update()"
-  >
-    <mdl-option *ngFor="let g of availableGroupings" [value]="g">
-      {{ g | translate }}
-    </mdl-option>
-  </cs-draggable-select>
-
   <mdl-select
     class="filter-select"
     multiple="true"
@@ -54,4 +40,18 @@
       [value]="s.state"
     >{{ s.name | translate }}</mdl-option>
   </mdl-select>
+
+  <cs-draggable-select
+    class="filter-select"
+    multiple="true"
+    floating-label
+    [label]="'GROUP_BY_LABEL' | translate"
+    [(ngModel)]="selectedGroupings"
+    [dragItems]="availableGroupings"
+    (change)="update()"
+  >
+    <mdl-option *ngFor="let g of availableGroupings" [value]="g">
+      {{ g | translate }}
+    </mdl-option>
+  </cs-draggable-select>
 </mdl-card>
