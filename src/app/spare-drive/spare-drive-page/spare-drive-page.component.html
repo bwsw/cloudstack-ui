@@ -5,25 +5,24 @@
       class="filter-select"
       multiple="true"
       floating-label
-      [label]="'GROUP_BY_LABEL' | translate"
-      [(ngModel)]="selectedGroupingNames"
-      (change)="update()"
-    >
-      <mdl-option *ngFor="let g of availableGroupingNames" [value]="g">
-        {{ g | translate }}
-      </mdl-option>
-    </mdl-select>
-
-    <mdl-select
-      *ngIf="zones"
-      class="filter-select"
-      multiple="true"
-      floating-label
       [label]="'SELECT_ZONES' | translate"
       [(ngModel)]="selectedZones"
       (change)="update()"
     >
       <mdl-option *ngFor="let z of zones" [value]="z">{{ z.name }}</mdl-option>
+    </mdl-select>
+    <mdl-select
+      *ngIf="zones"
+      class="filter-select"
+      multiple="true"
+      floating-label
+      [label]="'GROUP_BY_LABEL' | translate"
+      [(ngModel)]="selectedGroupingNames"
+      (change)="update()"
+    >
+      <mdl-option *ngFor="let g of groupings" [value]="g">
+        {{ g.label | translate }}
+      </mdl-option>
     </mdl-select>
   </cs-top-bar>
 

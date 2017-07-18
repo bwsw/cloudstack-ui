@@ -51,7 +51,7 @@
     (change)="update()"
   >
     <mdl-option *ngFor="let g of availableGroupings" [value]="g">
-      {{ g | translate }}
+      {{ g.label | translate }}
     </mdl-option>
   </cs-draggable-select>
 </mdl-card>

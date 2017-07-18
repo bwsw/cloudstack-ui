@@ -37,23 +37,28 @@ export class VmListComponent implements OnInit {
   @HostBinding('class.detail-list-container') public detailListContainer = true;
 
   public selectedGroupings = [];
-  public availableGroupings: Array<string>;
-  public groupings = {
-    'GROUP_BY.ZONES': {
+  public groupings = [
+    {
+      key: 'zones',
+      label: 'GROUP_BY.ZONES',
       selector: (item: VirtualMachine) => item.zoneId,
       name: (item: VirtualMachine) => item.zoneName
     },
-    'GROUP_BY.GROUPS': {
+    {
+      key: 'groups',
+      label: 'GROUP_BY.GROUPS',
       selector: (item: VirtualMachine) =>
         item.instanceGroup ? item.instanceGroup.name : noGroup,
       name: (item: VirtualMachine) =>
         item.instanceGroup ? item.instanceGroup.name : 'NO_GROUP'
     },
-    'GROUP_BY.COLORS': {
+    {
+      key: 'colors',
+      label: 'GROUP_BY.COLORS',
       selector: (item: VirtualMachine) => item.getColor().value,
       name: (item: VirtualMachine) => item.getColor().name,
     }
-  };
+  ];
 
   public VmListItemComponent = VmListItemComponent;
 
@@ -76,8 +81,6 @@ export class VmListComponent implements OnInit {
     private userService: UserService,
     private zoneService: ZoneService
   ) {
-    this.availableGroupings = Object.keys(this.groupings);
-
     this.showDetail = this.showDetail.bind(this);
     this.vmAction = this.vmAction.bind(this);
 
@@ -110,7 +113,7 @@ export class VmListComponent implements OnInit {
     }
 
     this.selectedGroupings = filterData.groupings.reduce((acc, g) => {
-      acc.push(this.groupings[g]);
+      acc.push(this.groupings.find(_ => _ === g));
       return acc;
     }, []);
 

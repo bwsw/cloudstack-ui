@@ -11,7 +11,6 @@ import { Iso } from '../shared/iso.model';
 import { IsoService } from '../shared/iso.service';
 import { Template } from '../shared/template.model';
 import { TemplateService } from '../shared/template.service';
-import sortBy = require('lodash/sortBy');
 
 
 @Component({
@@ -40,13 +39,14 @@ export class TemplateFilterListComponent implements OnInit {
   public visibleTemplateList: Array<BaseTemplateModel> = [];
 
   public selectedGroupings = [];
-  public groupings = {
-    'GROUP_BY.ZONES': {
+  public groupings = [
+    {
+      key: 'zones',
+      label: 'GROUP_BY.ZONES',
       selector: (item: BaseTemplateModel) => item.zoneId,
       name: (item: BaseTemplateModel) => item.zoneName
     }
-  };
-  public availableGroupings = Object.keys(this.groupings);
+  ];
 
   protected templateService = ServiceLocator.injector.get(TemplateService);
   protected authService = ServiceLocator.injector.get(AuthService);
@@ -83,7 +83,7 @@ export class TemplateFilterListComponent implements OnInit {
       this.selectedZones = filters.selectedZones;
       this.query = filters.query;
       this.selectedGroupings = filters.groupings.reduce((acc, g) => {
-        acc.push(this.groupings[g]);
+        acc.push(this.groupings.find(_ => _ === g));
         return acc;
       }, []);
     }

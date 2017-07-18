@@ -44,15 +44,15 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   public visibleVolumes: Array<Volume>;
 
   public selectedGroupingNames = [];
-  public availableGroupingNames: Array<string>;
-
   public selectedGroupings = [];
-  public groupings = {
-    'GROUP_BY.ZONES': {
+  public groupings = [
+    {
+      key: 'zones',
+      label: 'GROUP_BY.ZONES',
       selector: (item: Volume) => item.zoneId,
       name: (item: Volume) => item.zoneName
     }
-  };
+  ];
 
   private onDestroy = new Subject();
 
@@ -67,7 +67,6 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     private volumeService: VolumeService,
     private zoneService: ZoneService
   ) {
-    this.availableGroupingNames = Object.keys(this.groupings);
   }
 
   public ngOnInit(): void {
@@ -97,7 +96,13 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     this.selectedZones = this.zones.filter(zone =>
       params['zones'].find(id => id === zone.id)
     );
-    this.selectedGroupingNames = params.groupings;
+    this.selectedGroupingNames = params.groupings.reduce((acc, _) => {
+      const grouping = this.groupings.find(g => g.key === _);
+      if (grouping) {
+        acc.push(grouping);
+      }
+      return acc;
+    }, []);
 
     this.update();
   }
@@ -108,13 +113,13 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
 
     this.filter.update(spareDriveListFilters, {
       zones: this.selectedZones.map(_ => _.id),
-      groupings: this.selectedGroupingNames
+      groupings: this.selectedGroupingNames.map(_ => _.key)
     });
   }
 
   public updateGroupings(): void {
     this.selectedGroupings = this.selectedGroupingNames.reduce((acc, g) => {
-      acc.push(this.groupings[g]);
+      acc.push(this.groupings.find(_ => _ === g));
       return acc;
     }, []);
   }

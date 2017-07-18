@@ -34,7 +34,7 @@ export type InstanceGroupOrNoGroup = InstanceGroup | noGroup;
   styleUrls: ['vm-filter.component.scss']
 })
 export class VmFilterComponent implements OnInit, OnChanges {
-  @Input() public availableGroupings: Array<string>;
+  @Input() public availableGroupings: Array<any>;
   @Input() public groups: Array<InstanceGroup>;
   @Input() public zones: Array<Zone>;
   @Output() public updateFilters = new EventEmitter<VmFilter>();
@@ -44,7 +44,7 @@ export class VmFilterComponent implements OnInit, OnChanges {
   public selectedGroups: Array<InstanceGroupOrNoGroup> = [];
   public selectedStates: Array<VmState> = [];
   public selectedZones: Array<Zone> = [];
-  public selectedGroupings: Array<string> = [];
+  public selectedGroupings: Array<any> = [];
   public states = [
     { state: VmStates.Running, name: 'VM_FILTERS.STATE.RUNNING' },
     { state: VmStates.Stopped, name: 'VM_FILTERS.STATE.STOPPED' },
@@ -86,7 +86,13 @@ export class VmFilterComponent implements OnInit, OnChanges {
       params['groups'].find(name => name === group.name)
     );
     this.selectedStates = params.states;
-    this.selectedGroupings = params.groupings;
+    this.selectedGroupings = params.groupings.reduce((acc, _) => {
+      const grouping = this.availableGroupings.find(g => g.key === _);
+      if (grouping) {
+        acc.push(grouping);
+      }
+      return acc;
+    }, []);
 
     const sg = this.selectedGroupings;
     this.availableGroupings.sort((groupingA, groupingB) => {
@@ -122,7 +128,7 @@ export class VmFilterComponent implements OnInit, OnChanges {
       zones: this.selectedZones.map(_ => _.id),
       groups: this.selectedGroups.map(_ => (_ as InstanceGroup).name || ''),
       states: this.selectedStates,
-      groupings: this.selectedGroupings
+      groupings: this.selectedGroupings.map(_ => _.key)
     });
   }
 

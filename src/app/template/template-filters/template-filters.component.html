@@ -75,7 +75,7 @@
       (change)="updateFilters()"
     >
       <mdl-option *ngFor="let g of availableGroupings" [value]="g">
-        {{ g | translate }}
+        {{ g.label | translate }}
       </mdl-option>
     </mdl-select>
   </mdl-card>
