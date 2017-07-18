@@ -92,7 +92,12 @@ export class TagsComponent implements OnChanges {
 
     categories = categories.map(category => {
       category.tags = this.filterTags(category.tags);
-      return category.tags.length ? category : false;
+
+      if (category.tags.length) {
+        return category;
+      }
+
+      return false;
     })
       .filter(_ => _);
 

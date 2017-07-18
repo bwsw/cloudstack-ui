@@ -1,6 +1,6 @@
 <form (ngSubmit)="onSubmit()" #inlineInputForm="ngForm" novalidate>
   <div
-    style="display: flex; justify-content: space-between; align-items: center"
+    class="container"
     *ngIf="!editing && !showContentPlaceholder"
   >
     <span
@@ -11,10 +11,10 @@
       {{ content }}
     </span>
     <button
+      class="edit-button"
       mdl-button
       mdl-button-type="icon"
       (click)="edit()"
-      style="margin-left: 10px; align-self: center"
     >
       <mdl-icon>edit</mdl-icon>
     </button>

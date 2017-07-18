@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
-import cloneDeep = require('lodash/cloneDeep');
+import clone = require('lodash/clone');
 
 
 @Component({
@@ -16,7 +16,7 @@ export class VmTagsComponent {
   public updateVm(): void {
     this.vmService.get(this.vm.id)
       .subscribe(vm => {
-        const updatedVm = cloneDeep(this.vm);
+        const updatedVm = clone(this.vm);
         updatedVm.tags = vm.tags;
         this.vm = updatedVm;
       });

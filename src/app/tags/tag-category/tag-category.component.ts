@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
-import { Tag } from '../../shared/models';
+import { Tag } from '../../shared/models/tag.model';
 
 
 export interface TagCategory {

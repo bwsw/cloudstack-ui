@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { BaseTemplateModel, IsoService, TemplateService } from '../shared';
-import cloneDeep = require('lodash/cloneDeep');
+import clone = require('lodash/clone');
 
 
 @Component({
@@ -23,7 +23,7 @@ export class TemplateTagsComponent {
     service.invalidateCache();
     service.get(this.template.id)
       .subscribe(template => {
-        const updatedTemplate = cloneDeep(this.template);
+        const updatedTemplate = clone(this.template);
         updatedTemplate.tags = template.tags;
         this.template = updatedTemplate;
       });
