@@ -2,19 +2,12 @@
 
 .stat-card-mdl {
   display: inline-flex;
-  margin: 15px 0 15px 15px;
+  margin:  0 15px 15px 0;
   min-height: 156px;
-}
 
-.progress {
-  margin-left: 16px;
-  padding-left: 0;
-  padding-right: 0;
-  padding-top: 8px;
-}
-
-.progress-title {
-  padding-bottom: 16px;
+  mdl-card-supporting-text {
+    width: 100%;
+  }
 }
 
 .single-bar {
@@ -22,12 +15,17 @@
 }
 
 .bar {
-  padding-bottom: 4px;
+  width: 100%;
   display: inline-block;
-}
+  margin-bottom: 20px;
 
-.second-bar {
-  margin-top: 20px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  md-progress-bar {
+    margin-top: 4px;
+  }
 }
 
 .stat-list {
@@ -40,18 +38,7 @@
 }
 
 .stat-values {
-  position: absolute;
-  padding-right: 16px;
-  right: 0;
-  display: inline-block;
-}
-
-.stat-card-wrapper {
-  display: inline-block;
-}
-
-.footnote {
-  color: red;
+  float: right;
 }
 
 .toggle {
@@ -70,6 +57,7 @@ div.closed {
 }
 
 .stat-section {
+  padding: 0 15px;
   width: 100%;
   flex-direction: column !important;
 }
@@ -80,10 +68,5 @@ div.closed {
 
 .stat-header {
   margin: 18px 0;
-  padding-left: 15px;
   align-self: auto;
-}
-
-:host /deep/ mdl-card-actions {
-  padding: 0;
 }
