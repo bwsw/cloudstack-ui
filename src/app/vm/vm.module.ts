@@ -46,6 +46,7 @@ import { NetworkDetailComponent } from './vm-sidebar/network-detail/network-deta
 // tslint:disable-next-line
 import { FirewallRulesDetailComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.component';
 import { NicDetailComponent } from './vm-sidebar/network-detail/nic/nic-detail.component';
+import { VmColorComponent } from './vm-sidebar/color/vm-color.component';
 
 
 @NgModule({
@@ -74,6 +75,7 @@ import { NicDetailComponent } from './vm-sidebar/network-detail/nic/nic-detail.c
     StorageDetailComponent,
     SshKeypairResetComponent,
     VmListComponent,
+    VmColorComponent,
     VmCreationComponent,
     VmListItemComponent,
     VmDetailComponent,

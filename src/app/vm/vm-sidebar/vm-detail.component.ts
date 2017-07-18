@@ -1,17 +1,13 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import {
   AffinityGroupSelectorComponent
 } from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-
 import {
   ServiceOfferingDialogComponent
 } from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
-import { Color, ServiceOffering, ServiceOfferingFields } from '../../shared/models';
+import { ServiceOffering, ServiceOfferingFields } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
-import { ConfigService } from '../../shared/services';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { VirtualMachine, VmActions, VmStates } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
@@ -23,57 +19,26 @@ import { SshKeypairResetComponent } from './ssh/ssh-keypair-reset.component';
   templateUrl: 'vm-detail.component.html',
   styleUrls: ['vm-detail.component.scss']
 })
-export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
+export class VmDetailComponent implements OnChanges, OnInit {
   @Input() public vm: VirtualMachine;
-  public color: Color;
-  public colorList: Array<Color>;
   public description: string;
   public expandServiceOffering: boolean;
 
-  public colorUpdateInProgress = false;
-  private colorSubject = new Subject<Color>();
 
   constructor(
     private dialogService: DialogService,
     private serviceOfferingService: ServiceOfferingService,
-    private vmService: VmService,
-    private configService: ConfigService
+    private vmService: VmService
   ) {
     this.expandServiceOffering = false;
   }
 
   public ngOnInit(): void {
-    Observable.forkJoin(
-      this.configService.get('themeColors'),
-      this.configService.get('vmColors')
-    ).subscribe(
-      ([themeColors, vmColors]) => this.colorList = themeColors.concat(vmColors)
-    );
-
-    this.colorSubject
-      .debounceTime(1000)
-      .switchMap(color => {
-        this.colorUpdateInProgress = true;
-        return this.vmService.setColor(this.vm, color);
-      })
-      .subscribe(vm => {
-        this.colorUpdateInProgress = false;
-        this.vm = vm;
-        this.vmService.updateVmInfo(this.vm);
-      }, () => this.colorUpdateInProgress = false);
 
   }
 
   public ngOnChanges(): void {
     this.update();
-  }
-
-  public ngOnDestroy(): void {
-    this.colorSubject.unsubscribe();
-  }
-
-  public changeColor(color: Color): void {
-    this.colorSubject.next(color);
   }
 
   public changeServiceOffering(): void {
@@ -159,12 +124,7 @@ export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   private update(): void {
-    this.updateColor();
     this.updateDescription();
-  }
-
-  private updateColor(): void {
-    this.color = this.vm.getColor();
   }
 
   private updateDescription(): void {
@@ -226,5 +186,4 @@ export class VmDetailComponent implements OnChanges, OnInit, OnDestroy {
         }
       });
   }
-
 }
