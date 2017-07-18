@@ -5,7 +5,7 @@
 
       <mdl-tab-panel>
         <mdl-tab-panel-title>
-          <mdl-icon>desktop_windows</mdl-icon>
+          <mdl-icon [mdl-tooltip]="vmTooltip">computer</mdl-icon>
         </mdl-tab-panel-title>
         <mdl-tab-panel-content>
           <cs-vm-detail [vm]="vm"></cs-vm-detail>
@@ -14,7 +14,7 @@
 
       <mdl-tab-panel>
         <mdl-tab-panel-title>
-          <mdl-icon>storage</mdl-icon>
+          <mdl-icon [mdl-tooltip]="storageTooltip">storage</mdl-icon>
         </mdl-tab-panel-title>
         <mdl-tab-panel-content>
           <cs-storage-detail [vm]="vm"></cs-storage-detail>
@@ -22,8 +22,8 @@
       </mdl-tab-panel>
 
       <mdl-tab-panel>
-        <mdl-tab-panel-title>
-          <mdl-icon>network_check</mdl-icon>
+        <mdl-tab-panel-title [mdl-tooltip]="networkTooltip">
+          <mdl-icon>router</mdl-icon>
         </mdl-tab-panel-title>
         <mdl-tab-panel-content>
           <cs-network-detail [vm]="vm"></cs-network-detail>
@@ -38,4 +38,6 @@
 <mdl-tooltip #storageTooltip="mdlTooltip">
   {{ 'STORAGE' | translate }}
 </mdl-tooltip>
-<mdl-tooltip #networkTooltip="mdlTooltip"></mdl-tooltip>
+<mdl-tooltip #networkTooltip="mdlTooltip">
+  {{ 'NETWORK' | translate }}
+</mdl-tooltip>
