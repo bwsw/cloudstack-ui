@@ -9,7 +9,7 @@ import { SharedModule } from '../shared/shared.module';
 import { TagCategoryComponent } from './tag-category/tag-category.component';
 import { TagEditComponent } from './tag-edit/tag-edit.component';
 import { TagComponent } from './tag/tag.component';
-import { TagsComponent } from './tags.component';
+import { TagsViewComponent } from './tags-view/tags-view.component';
 
 
 @NgModule({
@@ -22,17 +22,17 @@ import { TagsComponent } from './tags.component';
     SharedModule,
     ClipboardModule
   ],
-  exports: [
-    TagsComponent
-  ],
   declarations: [
     TagComponent,
-    TagsComponent,
+    TagsViewComponent,
     TagEditComponent,
     TagCategoryComponent
   ],
   entryComponents: [
     TagEditComponent
+  ],
+  exports: [
+    TagsViewComponent
   ]
 })
 export class TagsModule { }

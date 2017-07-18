@@ -43,7 +43,7 @@ import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volum
 import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.component';
 import { TagsModule } from '../tags/tags.module';
 import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector.component';
-import { VmTagsComponent } from './vm-sidebar/tags/vm-tags.component';
+import { VmTagsComponent } from './vm-tags/vm-tags.component';
 
 
 @NgModule({

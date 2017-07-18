@@ -5,14 +5,14 @@ import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { Tag } from '../../shared/models';
 import { TagService } from '../../shared/services';
 import { TagsComponent } from '../../tags/tags.component';
-import { VmService } from '../../vm/shared/vm.service';
+import { VmService } from '../shared/vm.service';
 
 
 @Component({
-  selector: 'cs-template-tags',
-  templateUrl: 'template-tags.component.html'
+  selector: 'cs-vm-tags',
+  templateUrl: 'vm-tags.component.html'
 })
-export class TemplateTagsComponent extends TagsComponent {
+export class VmTagsComponent extends TagsComponent {
   @Input() public entity: Taggable;
 
   constructor(

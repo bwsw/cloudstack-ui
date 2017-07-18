@@ -15,22 +15,22 @@ export interface TagCategory {
 })
 export class TagCategoryComponent {
   @Input() public category: TagCategory;
-  @Input() public entity: Taggable;
+  @Input() public tags: Array<Tag>;
   @Input() public query: string;
-  @Output() public onNewTag: EventEmitter<TagCategory>;
+  @Output() public onTagAdd: EventEmitter<TagCategory>;
   @Output() public onTagEdit: EventEmitter<Tag>;
   @Output() public onTagDelete: EventEmitter<Tag>;
 
   public loading: boolean;
 
   constructor() {
-    this.onNewTag = new EventEmitter<TagCategory>();
+    this.onTagAdd = new EventEmitter<TagCategory>();
     this.onTagEdit = new EventEmitter<Tag>();
     this.onTagDelete = new EventEmitter<Tag>();
   }
 
   public addTag(): void {
-    this.onNewTag.emit(this.category);
+    this.onTagAdd.emit(this.category);
   }
 
   public editTag(tag: Tag): void {

@@ -17,11 +17,11 @@
 <cs-tag-category
   *ngFor="let category of visibleCategories"
   [category]="category"
-  [entity]="entity"
+  [tags]="tags"
   [query]="query"
   (onNewTag)="addTag($event)"
   (onTagEdit)="editTag($event)"
   (onTagDelete)="removeTag()"
 ></cs-tag-category>
 
-<cs-no-results *ngIf="!visibleCategories.length"></cs-no-results>
+<cs-no-results *ngIf="!visibleCategories?.length"></cs-no-results>

@@ -1,12 +1,11 @@
 import { Component, Inject, Optional, ViewChild } from '@angular/core';
 import { NgModel } from '@angular/forms';
-import { MdlDialogReference } from '../../dialog/dialog-module';
-import { Taggable } from '../../shared/interfaces/taggable.interface';
-import { TagService } from '../../shared/services';
-import { TagCategory } from '../tag-category/tag-category.component';
-import { defaultCategoryName, Tag } from '../../shared/models';
 import { Observable } from 'rxjs/Observable';
+import { MdlDialogReference } from '../../dialog/dialog-module';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { Taggable } from '../../shared/interfaces/taggable.interface';
+import { defaultCategoryName, Tag } from '../../shared/models';
+import { TagService } from '../../shared/services';
 
 
 @Component({
@@ -52,48 +51,7 @@ export class TagEditComponent {
     return '';
   }
 
-  public onUpdate(): void {
-    this.loading = true;
-
-    const resourceIds = this.tag && this.tag.resourceId || this.entity && this.entity.id;
-    const resourceType = this.tag && this.tag.resourceType || this.entity && this.entity.resourceType;
-
-    Observable.of(null)
-      .switchMap(() => {
-        if (!this.tag) {
-          return Observable.of(null);
-        }
-
-        return this.tagService.remove({
-          resourceIds,
-          resourceType,
-          'tags[0].key': this.tag.key,
-          'tags[0].value': this.tag.value
-        });
-      })
-      .switchMap(() => {
-        return this.tagService.create({
-          resourceIds,
-          resourceType,
-          'tags[0].key': this.key,
-          'tags[0].value': this.value
-        });
-      })
-      .finally(() => this.loading = false)
-      .subscribe(
-        () => this.dialog.hide(),
-        error => this.onError(error)
-      );
-  }
-
   public onCancel(): void {
     this.dialog.hide();
-  }
-
-  private onError(error: any): void {
-    this.dialogService.alert({
-      translationToken: error.message,
-      interpolateParams: error.params
-    });
   }
 }

@@ -1,152 +1,89 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../dialog/dialog-module/dialog.service';
 import { Taggable } from '../shared/interfaces/taggable.interface';
-import { defaultCategoryName, Tag } from '../shared/models';
-import { UtilsService } from '../shared/services';
-import { TagCategory } from './tag-category/tag-category.component';
-import { TagEditComponent } from './tag-edit/tag-edit.component';
-import cloneDeep = require('lodash/cloneDeep');
-import groupBy = require('lodash/groupBy');
-import sortBy = require('lodash/sortBy');
+import { Tag } from '../shared/models';
+import { TagService } from '../shared/services';
+import { KeyValuePair, TagEditAction } from './tags-view/tags-view.component';
 
 
-@Component({
-  selector: 'cs-tags',
-  templateUrl: 'tags.component.html',
-  styleUrls: ['tags.component.scss']
-})
-export class TagsComponent implements OnChanges {
-  @Input() public entity: Taggable;
-  @Output() public onTagUpdated: EventEmitter<void>;
+export abstract class TagsComponent implements OnInit {
+  public abstract entity: Taggable;
 
-  public categories: Array<TagCategory>;
-  public query: string;
-  public visibleCategories: Array<TagCategory>;
+  public tags: BehaviorSubject<Array<Tag>>;
 
   constructor(
-    private cd: ChangeDetectorRef,
-    private dialogService: DialogService,
-    private utilsService: UtilsService
+    protected dialogService: DialogService,
+    protected tagService: TagService,
   ) {
-    this.onTagUpdated = new EventEmitter<void>();
+    this.tags = new BehaviorSubject<Array<Tag>>([]);
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
-    if ('entity' in changes) {
-      this.updateResults();
-    }
+  public ngOnInit(): void {
+    this.tags.next(this.entity.tags);
+    this.tags.subscribe(tags => this.entity.tags = tags);
   }
 
-  public addTag(category?: TagCategory): void {
-    const forbiddenKeys = category ? category.tags.map(_ => _.key) : [];
-    this.dialogService.showCustomDialog({
-      component: TagEditComponent,
-      classes: 'tag-edit',
-      providers: [
-        { provide: 'forbiddenKeys', useValue: forbiddenKeys },
-        { provide: 'title', useValue: 'CREATE_NEW_TAG' },
-        { provide: 'confirmButtonText', useValue: 'CREATE' },
-        { provide: 'entity', useValue: this.entity },
-        { provide: 'categoryName', useValue: category && category.name }
-      ]
+  public onTagAdd(tag: KeyValuePair): void {
+    this.tagService.create({
+      resourceIds: this.entity.id,
+      resourceType: this.entity.resourceType,
+      'tags[0].key': tag.key,
+      'tags[0].value': tag.value
     })
-      .switchMap(res => res.onHide())
-      .subscribe(() => this.onTagUpdated.emit());
+      .switchMap(() => this.entityTags)
+      .subscribe(
+        tags => this.tags.next(tags),
+        error => this.onError(error)
+      );
   }
 
-  public editTag(tag: Tag): void {
-    this.dialogService.showCustomDialog({
-      component: TagEditComponent,
-      classes: 'tag-edit',
-      providers: [
-        { provide: 'title', useValue: 'EDIT_TAG' },
-        { provide: 'confirmButtonText', useValue: 'EDIT' },
-        { provide: 'categoryName', useValue: tag.categoryName },
-        { provide: 'tag', useValue: tag }
-      ]
+  public onTagEdit(tagEditAction: TagEditAction): void {
+    Observable.of(null)
+      .switchMap(() => {
+        return this.tagService.remove({
+          resourceIds: tagEditAction.oldTag.resourceId,
+          resourceType: tagEditAction.oldTag.resourceType,
+          'tags[0].key': tagEditAction.oldTag.key,
+          'tags[0].value': tagEditAction.oldTag.value
+        });
+      })
+      .switchMap(() => {
+        return this.tagService.create({
+          resourceIds: tagEditAction.oldTag.resourceId,
+          resourceType: tagEditAction.oldTag.resourceType,
+          'tags[0].key': tagEditAction.newTag.key,
+          'tags[0].value': tagEditAction.newTag
+        });
+      })
+      .switchMap(() => this.entityTags)
+      .subscribe(
+        tags => this.tags.next(tags),
+        error => this.onError(error)
+      );
+
+  }
+
+  public onTagDelete(tag: Tag): void {
+    this.tagService.remove({
+      resourceIds: tag.resourceId,
+      resourceType: tag.resourceType,
+      'tags[0].key': tag.key
     })
-      .switchMap(res => res.onHide())
-      .subscribe(() => this.onTagUpdated.emit());
+      .switchMap(() => this.entityTags)
+      .subscribe(
+        tags => this.tags.next(tags),
+        error => this.onError(event)
+      );
   }
 
-  public removeTag(): void {
-    this.onTagUpdated.emit();
-  }
-
-  public updateResults(): void {
-    this.categories = this.getCategories();
-    this.updateSearchResults();
-  }
-
-  public updateSearchResults(): void {
-    this.visibleCategories = this.getSearchResults();
-    this.cd.detectChanges();
-  }
-
-  private getSearchResults(): Array<TagCategory> {
-    let categories = cloneDeep(this.categories);
-
-    if (!this.query) {
-      return categories;
-    }
-
-    categories = categories.map(category => {
-      category.tags = this.filterTags(category.tags);
-
-      if (category.tags.length) {
-        return category;
-      }
-
-      return false;
-    })
-      .filter(_ => _);
-
-    categories.sort(this.compareCategories);
-
-    return categories;
-  }
-
-  private filterTags(tags: Array<Tag>): Array<Tag> {
-    return tags.filter(tag => {
-      const keyMatch = this.utilsService.matchLower(tag.key, this.query);
-      const valueMatch = this.utilsService.matchLower(tag.value, this.query);
-
-      return keyMatch || valueMatch;
+  protected onError(error: any): void {
+    this.dialogService.alert({
+      translationToken: error.message,
+      interpolateParams: error.params
     });
   }
 
-  private getCategories(): Array<TagCategory> {
-    const groupedTags = groupBy(this.entity.tags, 'categoryName');
-
-    const categories = Object.keys(groupedTags)
-      .map(categoryName => this.getCategory(groupedTags, categoryName))
-      .filter(_ => _.tags.length);
-
-    categories.sort(this.compareCategories);
-
-    return categories;
-  }
-
-  private compareCategories(a: TagCategory, b: TagCategory): number {
-    const aName = a.name.toLowerCase();
-    const bName = b.name.toLowerCase();
-
-    if (a.name === defaultCategoryName) { return -1; }
-    if (b.name === defaultCategoryName) { return  1; }
-
-    if (aName < bName) { return -1; }
-    if (aName > bName) { return  1; }
-
-    return 0;
-  }
-
-  private getCategory(groupedTags: any, name: string): TagCategory {
-    const tags = groupedTags[name].filter(_ => _.keyWithoutCategory);
-    const sortedTags = sortBy(tags, [_ => _.key.toLowerCase()]);
-
-    return {
-      name,
-      tags: sortedTags
-    }
-  }
+  protected abstract get entityTags(): Observable<Array<Tag>>;
 }

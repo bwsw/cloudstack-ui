@@ -12,6 +12,7 @@ import { NotificationService } from '../../shared/services/notification.service'
 })
 export class VmSidebarComponent {
   @Input() public vm: VirtualMachine;
+
   constructor(
     private vmService: VmService,
     private notificationService: NotificationService,

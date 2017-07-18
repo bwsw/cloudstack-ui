@@ -11,7 +11,6 @@ import { DialogService } from '../../dialog/dialog-module/dialog.service';
   styleUrls: ['tag.component.scss']
 })
 export class TagComponent {
-  @Input() public entity: Taggable;
   @Input() public query: string;
   @Input() public tag: Tag;
   @Output() public onTagEdit: EventEmitter<Tag>;
@@ -50,13 +49,6 @@ export class TagComponent {
 
   private remove(): void {
     this.loading = true;
-
-    this.tagService.remove({
-      resourceIds: this.tag.resourceId,
-      resourceType: this.tag.resourceType,
-      'tags[0].key': this.tag.key
-    })
-      .finally(() => this.loading = false)
-      .subscribe(() => this.onTagRemove.emit(this.tag));
+    this.onTagRemove.emit(this.tag);
   }
 }
