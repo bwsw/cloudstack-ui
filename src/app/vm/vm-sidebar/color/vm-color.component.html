@@ -1,0 +1,15 @@
+<mdl-card class="vm-card" mdl-shadow="2">
+  <mdl-card-title>
+    <h2 mdl-card-title-text>{{ 'COLOR' | translate }}</h2>
+  </mdl-card-title>
+  <mdl-card-supporting-text>
+    <cs-color-picker
+      *ngIf="colorList"
+      class="color-picker"
+      [colors]="colorList"
+      [ngModel]="color"
+      [disabled]="colorUpdateInProgress"
+      (change)="changeColor($event)"
+    ></cs-color-picker>
+  </mdl-card-supporting-text>
+</mdl-card>

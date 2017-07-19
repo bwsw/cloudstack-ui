@@ -24,8 +24,13 @@ import { VmListSectionComponent } from './vm-list/vm-list-section/vm-list-sectio
 import { VmListSubsectionComponent } from './vm-list/vm-list-subsection/vm-list-subsection.component';
 import { VmListComponent } from './vm-list/vm-list.component';
 import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector.component';
+import { VmColorComponent } from './vm-sidebar/color/vm-color.component';
 import { InstanceGroupSelectorComponent } from './vm-sidebar/instance-group-selector/instance-group-selector.component';
 import { InstanceGroupComponent } from './vm-sidebar/instance-group/instance-group.component';
+// tslint:disable-next-line
+import { FirewallRulesDetailComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.component';
+import { NetworkDetailComponent } from './vm-sidebar/network-detail/network-detail.component';
+import { NicDetailComponent } from './vm-sidebar/network-detail/nic/nic-detail.component';
 import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.component';
 import { IsoComponent } from './vm-sidebar/storage-detail/iso.component';
 // tslint:disable-next-line
@@ -65,12 +70,16 @@ import { vmRouting } from './vm.routing';
   declarations: [
     AffinityGroupSelectorComponent,
     KeyboardsComponent,
+    FirewallRulesDetailComponent,
+    NetworkDetailComponent,
+    NicDetailComponent,
     SnapshotsComponent,
     SpareDriveAttachmentDetailComponent,
     SpareDriveAttachmentDialogComponent,
     StorageDetailComponent,
     SshKeypairResetComponent,
     VmListComponent,
+    VmColorComponent,
     VmCreationComponent,
     VmListItemComponent,
     VmDetailComponent,

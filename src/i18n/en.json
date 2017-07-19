@@ -311,6 +311,7 @@
 
   "VM_VIEW": "VM",
   "STORAGE_VIEW": "Storage",
+  "NETWORK_VIEW": "Network",
 
   "VOLUME_RESIZE": "Resize",
   "VOLUME_RESIZING": "Resizing volume",
