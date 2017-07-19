@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClipboardModule } from 'ngx-clipboard/dist';
 import { TranslateModule } from '@ngx-translate/core';
+import { MdTooltipModule } from '@angular/material';
 import { MdlModule } from '@angular-mdl/core';
 import { MdlSelectModule } from '@angular-mdl/select';
 import { SettingsComponent } from './settings.component';
@@ -16,6 +17,7 @@ import { InactivityTimeoutComponent } from './inactivity-timeout/inactivity-time
     CommonModule,
     FormsModule,
     TranslateModule,
+    MdTooltipModule,
     MdlModule,
     MdlSelectModule,
     SharedModule,
