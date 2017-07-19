@@ -3,6 +3,21 @@
   display: block;
 }
 
+:host .overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .message {
+    position: static;
+    transform: none;
+  }
+
+  md-progress-bar {
+    width: 500px;
+  }
+}
+
 :host mdl-textfield {
   padding-top: 15px;
 }

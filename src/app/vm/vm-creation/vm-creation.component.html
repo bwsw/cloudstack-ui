@@ -2,7 +2,9 @@
   <div class="message">
     <p *ngIf="sgCreationInProgress">{{ 'CREATING_SG' | translate }}</p>
     <p *ngIf="agCreationInProgress">{{ 'CREATING_AG' | translate }}</p>
-    <mdl-progress [indeterminate]="sgCreationInProgress || agCreationInProgress"></mdl-progress>
+    <md-progress-bar
+      [mode]="(sgCreationInProgress || agCreationInProgress) && 'indeterminate'"
+    ></md-progress-bar>
   </div>
 </div>
 <div [class.vm-creation-container]="enoughResources !== false">
