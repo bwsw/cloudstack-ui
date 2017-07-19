@@ -17,4 +17,8 @@ export class Template extends BaseTemplateModel implements Taggable {
   public status: string;
   public type: string;
   public size: number;
+
+  public get isTemplate(): boolean {
+    return true;
+  }
 }

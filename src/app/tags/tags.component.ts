@@ -26,6 +26,10 @@ export abstract class TagsComponent implements OnInit {
   }
 
   public onTagAdd(tag: KeyValuePair): void {
+    if (!tag) {
+      return;
+    }
+
     this.tagService.create({
       resourceIds: this.entity.id,
       resourceType: this.entity.resourceType,
@@ -40,6 +44,10 @@ export abstract class TagsComponent implements OnInit {
   }
 
   public onTagEdit(tagEditAction: TagEditAction): void {
+    if (!tagEditAction) {
+      return;
+    }
+
     Observable.of(null)
       .switchMap(() => {
         return this.tagService.remove({
@@ -54,7 +62,7 @@ export abstract class TagsComponent implements OnInit {
           resourceIds: tagEditAction.oldTag.resourceId,
           resourceType: tagEditAction.oldTag.resourceType,
           'tags[0].key': tagEditAction.newTag.key,
-          'tags[0].value': tagEditAction.newTag
+          'tags[0].value': tagEditAction.newTag.value
         });
       })
       .switchMap(() => this.entityTags)

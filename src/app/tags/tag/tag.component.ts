@@ -20,8 +20,7 @@ export class TagComponent {
 
   constructor(
     private dialogService: DialogService,
-    private notificationService: NotificationService,
-    private tagService: TagService
+    private notificationService: NotificationService
   ) {
     this.onTagEdit = new EventEmitter<Tag>();
     this.onTagRemove = new EventEmitter<Tag>();

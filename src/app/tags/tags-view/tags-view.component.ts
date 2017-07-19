@@ -45,7 +45,7 @@ export class TagsViewComponent implements OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if ('entity' in changes) {
+    if ('tags' in changes) {
       this.updateResults();
     }
   }
@@ -59,7 +59,6 @@ export class TagsViewComponent implements OnChanges {
         { provide: 'forbiddenKeys', useValue: forbiddenKeys },
         { provide: 'title', useValue: 'CREATE_NEW_TAG' },
         { provide: 'confirmButtonText', useValue: 'CREATE' },
-        { provide: 'tags', useValue: this.tags },
         { provide: 'categoryName', useValue: category && category.name }
       ]
     })

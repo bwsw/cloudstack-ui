@@ -3,6 +3,7 @@ import moment = require('moment');
 import { BaseModel, Tag } from '../../shared/models';
 import { FieldMapper } from '../../shared/decorators/field-mapper.decorator';
 import { OsType } from '../../shared/models/os-type.model';
+import { Taggable } from '../../shared/interfaces/taggable.interface';
 
 
 @FieldMapper({
@@ -18,7 +19,8 @@ import { OsType } from '../../shared/models/os-type.model';
   zoneid: 'zoneId',
   zonename: 'zoneName',
 })
-export class BaseTemplateModel extends BaseModel {
+export abstract class BaseTemplateModel extends BaseModel {
+  public resourceType: string;
   public path: string;
 
   public id: string;
@@ -51,7 +53,5 @@ export class BaseTemplateModel extends BaseModel {
     this.tags = this.tags ? this.tags.map(tag => new Tag(tag)) : [];
   }
 
-  public get isTemplate(): boolean {
-    return true;
-  }
+  public abstract get isTemplate(): boolean;
 }

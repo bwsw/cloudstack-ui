@@ -19,9 +19,9 @@
   [category]="category"
   [tags]="tags"
   [query]="query"
-  (onNewTag)="addTag($event)"
+  (onTagAdd)="addTag($event)"
   (onTagEdit)="editTag($event)"
-  (onTagDelete)="removeTag()"
+  (onTagDelete)="removeTag($event)"
 ></cs-tag-category>
 
 <cs-no-results *ngIf="!visibleCategories?.length"></cs-no-results>

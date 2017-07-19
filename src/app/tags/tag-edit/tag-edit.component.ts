@@ -29,11 +29,8 @@ export class TagEditComponent {
     @Optional() @Inject('title') public title: string,
     @Optional() @Inject('confirmButtonText') public confirmButtonText: string,
     @Optional() @Inject('tag') private tag: Tag,
-    @Optional() @Inject('entity') private entity: Taggable,
     @Optional() @Inject('categoryName') private categoryName: string,
-    private dialog: MdlDialogReference,
-    private dialogService: DialogService,
-    private tagService: TagService
+    private dialog: MdlDialogReference
   ) {
     if (tag) {
       this.key = tag.key;
@@ -49,6 +46,19 @@ export class TagEditComponent {
     }
 
     return '';
+  }
+
+  public onTagUpdate(): void {
+    const newTag = {
+      key: this.key,
+      value: this.value
+    };
+
+    if (this.tag) {
+      this.dialog.hide({ oldTag: this.tag, newTag });
+    } else {
+      this.dialog.hide(newTag);
+    }
   }
 
   public onCancel(): void {
