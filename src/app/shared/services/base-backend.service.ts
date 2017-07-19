@@ -2,10 +2,11 @@ import { Headers, Http, Response, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { BaseModel } from '../models';
-import { CacheService } from './cache.service';
 import { Cache } from './cache';
+import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
 import { ServiceLocator } from './service-locator';
+import { CustomQueryEncoder } from '../custom-query-encoder';
 
 
 export const BACKEND_API_URL = 'client/api';
@@ -80,7 +81,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   protected buildParams(command: string, params?: {}, entity?: string): URLSearchParams {
-    const urlParams = new URLSearchParams();
+    const urlParams = new URLSearchParams(undefined, new CustomQueryEncoder());
     urlParams.append('command', this.getRequestCommand(command, entity));
 
     for (const key in params) {
@@ -89,7 +90,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
       }
 
       if (!Array.isArray(params[key])) {
-        urlParams.set(key.toLowerCase(), params[key]);
+        urlParams.set(key.toLowerCase(), encodeURI(params[key]));
         continue;
       }
 
@@ -107,9 +108,16 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   protected getRequest(command: string, params?: {}, entity?: string): Observable<any> {
-    return this.http.get(BACKEND_API_URL, {
-      search: this.buildParams(command, params, entity)
-    })
+    const headers = new Headers({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    return this.http.get(BACKEND_API_URL,
+      {
+        headers,
+        search: this.buildParams(command, params, entity)
+      }
+    )
       .map((res: Response) => res.json())
       .catch(error => this.handleError(error));
   }

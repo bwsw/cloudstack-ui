@@ -7,10 +7,10 @@
   autofocus
   required
   [(ngModel)]="storedNumber"
-  [min]="minValue"
-  [minValue]="minValue"
-  [max]="maxValue"
-  [maxValue]="maxValue"
+  [min]="min"
+  [minValue]="min"
+  [max]="max"
+  [maxValue]="max"
   error-msg="{{ errorMessage | async }}"
   #storedSnapshots="ngModel"
   [class.is-invalid]="storedSnapshots.invalid && !storedSnapshots.pristine"

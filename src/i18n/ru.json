@@ -584,6 +584,14 @@
   "SATURDAY": "Суббота",
   "SUNDAY": "Воскресенье",
 
+  "MONDAY_LOWER": "понедельник",
+  "TUESDAY_LOWER": "вторник",
+  "WEDNESDAY_LOWER": "среда",
+  "THURSDAY_LOWER": "четверг",
+  "FRIDAY_LOWER": "пятница",
+  "SATURDAY_LOWER": "суббота",
+  "SUNDAY_LOWER": "воскресенье",
+
   "AM": "AM",
   "PM": "PM",
 

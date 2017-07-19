@@ -28,13 +28,13 @@ export class TimePickerComponent implements ControlValueAccessor {
   @ViewChild('hourField') public hourField: MdlTextFieldComponent;
   @ViewChild('minuteField') public minuteField: MdlTextFieldComponent;
 
-  public _hour = 0;
+  public _hour = 1;
   public _minute = 0;
   public period = DayPeriod.Am;
 
   public minMinuteValue = 0;
   public maxMinuteValue = 59;
-  public minHourValue = 0;
+  public minHourValue = 1;
 
   private timeFormat: TimeFormat = 12;
 
@@ -57,7 +57,7 @@ export class TimePickerComponent implements ControlValueAccessor {
   }
 
   public get maxHourValue(): number {
-    return this.timeFormat - 1;
+    return this.timeFormat;
   }
 
   public updateHour(value: number): void {

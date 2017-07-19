@@ -1,22 +1,23 @@
-<cs-time-picker
-  name="time"
-  [ngModel]="time"
-  (ngModelChange)="updateTime($event)"
-></cs-time-picker>
+<div class="flex-container">
+  <cs-time-picker
+    name="time"
+    [ngModel]="time"
+    (ngModelChange)="updateTime($event)"
+  ></cs-time-picker>
 
-<mdl-select
-  name="dayOfMonth"
-  floating-label
-  required
-  [label]="'DAY_OF_MONTH' | translate"
-  [ngModel]="dayOfMonth"
-  (ngModelChange)="updateDayOfMonth($event)"
->
-  <mdl-option
-    *ngFor="let d of daysOfMonth"
-    [value]="d"
+  <mdl-select
+    name="dayOfMonth"
+    floating-label
+    required
+    [label]="'DAY_OF_MONTH' | translate"
+    [ngModel]="dayOfMonth"
+    (ngModelChange)="updateDayOfMonth($event)"
   >
-    {{ d }}
-  </mdl-option>
-</mdl-select>
-
+    <mdl-option
+      *ngFor="let d of daysOfMonth"
+      [value]="d"
+    >
+      {{ d }}
+    </mdl-option>
+  </mdl-select>
+</div>

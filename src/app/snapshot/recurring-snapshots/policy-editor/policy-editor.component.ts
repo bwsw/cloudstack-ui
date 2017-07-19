@@ -5,7 +5,6 @@ import { DailyPolicy } from './daily/daily-policy.component';
 import { HourlyPolicy } from './hourly/hourly-policy.component';
 import { MonthlyPolicy } from './monthly/monthly-policy.component';
 import { WeeklyPolicy } from './weekly/weekly-policy.component';
-import { Time } from '../time-picker/time-picker.component';
 
 
 export type TimePolicy = HourlyPolicy & DailyPolicy & WeeklyPolicy & MonthlyPolicy;
@@ -32,6 +31,9 @@ export class PolicyEditorComponent {
   public policy = { minute: 0 };
 
   public timeZone: TimeZone;
+
+  public minStoredSnapshots = 1;
+  public maxStoredSnapshots = 8;
   public storedSnapshots = 1;
 
   constructor() {

@@ -16,17 +16,17 @@ import { Observable } from 'rxjs/Observable';
   ]
 })
 export class StoredNumberComponent implements ControlValueAccessor {
-  public _storedNumber: number;
+  @Input() public min: number;
+  @Input() public max: number;
 
-  public minValue = 1;
-  public maxValue = 8; // investigate if this is configurable
+  public _storedNumber: number;
 
   constructor(private translateService: TranslateService) {}
 
   public get errorMessage(): Observable<string> {
     return this.translateService.get('BETWEEN', {
-      lowerLimit: this.minValue,
-      upperLimit: this.maxValue
+      lowerLimit: this.min,
+      upperLimit: this.max
     });
   }
 

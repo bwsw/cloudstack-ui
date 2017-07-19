@@ -583,6 +583,14 @@
   "SATURDAY": "Saturday",
   "SUNDAY": "Sunday",
 
+  "MONDAY_LOWER": "monday",
+  "TUESDAY_LOWER": "tuesday",
+  "WEDNESDAY_LOWER": "wednesday",
+  "THURSDAY_LOWER": "thursday",
+  "FRIDAY_LOWER": "friday",
+  "SATURDAY_LOWER": "saturday",
+  "SUNDAY_LOWER": "sunday",
+
   "AM": "AM",
   "PM": "PM",
 

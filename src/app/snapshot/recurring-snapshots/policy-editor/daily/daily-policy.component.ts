@@ -12,7 +12,6 @@ export type TimeFormat = 12 | 24;
 @Component({
   selector: 'cs-daily-policy',
   templateUrl: 'daily-policy.component.html',
-  styleUrls: ['daily-policy.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

@@ -1,4 +1,3 @@
-<cs-overlay-loading [active]="loading"></cs-overlay-loading>
 <h3 class="mdl-dialog__title">
   {{ 'RECURRING_SNAPSHOTS' | translate }}
 </h3>
@@ -22,13 +21,18 @@
     ></cs-policy-editor>
   </div>
 
-  <cs-policy-list
-    [hourlyPolicy]="hourlyPolicy"
-    [dailyPolicy]="dailyPolicy"
-    [weeklyPolicy]="weeklyPolicy"
-    [monthlyPolicy]="monthlyPolicy"
-    (onPolicyDelete)="deletePolicy($event)"
-  ></cs-policy-list>
+  <div
+    *ngIf="hourlyPolicy || dailyPolicy || weeklyPolicy || monthlyPolicy"
+    class="list"
+  >
+    <cs-policy-list
+      [hourlyPolicy]="hourlyPolicy"
+      [dailyPolicy]="dailyPolicy"
+      [weeklyPolicy]="weeklyPolicy"
+      [monthlyPolicy]="monthlyPolicy"
+      (onPolicyDelete)="deletePolicy($event)"
+    ></cs-policy-list>
+  </div>
 
 </div>
 <div class="mdl-dialog__actions">

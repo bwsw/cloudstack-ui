@@ -14,6 +14,7 @@ export interface MonthlyPolicy extends Time {
 @Component({
   selector: 'cs-monthly-policy',
   templateUrl: 'monthly-policy.component.html',
+  styleUrls: ['monthly-policy.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

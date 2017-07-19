@@ -34,7 +34,7 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
     const policyCreationParams = {
       intervalType: this.transformPolicyTypeToString(params.policyType),
       maxSnaps: params.policy.storedSnapshots,
-      schedule: this.transformTimePolicyToSchedule(params.policy.timePolicy),
+      schedule: this.transformTimePolicyToSchedule(params.policy),
       timeZone: params.policy.timeZone.geo,
       volumeId: params.volumeId
     };
@@ -44,22 +44,6 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
 
   public remove(id: string): Observable<void> {
     return super.remove({ id }, { entity: 'SnapshotPolicies' });
-  }
-
-  private transformTimePolicyToSchedule(timePolicy: TimePolicy): string {
-    if (timePolicy.hour == null) {
-      return timePolicy.minute.toString();
-    } else {
-      const minutes = this.pad(timePolicy.minute);
-      const hours = timePolicy.hour.toString();
-      const pm = '1';
-
-      if (timePolicy.period === DayPeriod.Am) {
-        return `${minutes}:${hours}`;
-      } else {
-        return `${minutes}:${hours}:${pm}`;
-      }
-    }
   }
 
   private transformPolicyTypeToString(type: PolicyType): string {
@@ -77,7 +61,22 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
     }
   }
 
-  private transformScheduleToTimePolicy(schedule: string): Partial<TimePolicy> {
+  private transformTimePolicyToSchedule(policy: Policy<TimePolicy>): string {
+    if (policy.timePolicy.hour == null) {
+      return policy.timePolicy.minute.toString();
+    } else {
+      const minutes = this.pad(policy.timePolicy.minute);
+      const hours = this.amPmTo24(policy.timePolicy.hour, policy.timePolicy.period);
+      const weekDay = policy.timePolicy.dayOfWeek;
+      const monthDay = policy.timePolicy.dayOfMonth;
+
+      return [minutes, hours, weekDay, monthDay]
+        .filter(_ => _ != null)
+        .join(':');
+    }
+  }
+
+  private transformScheduleToTimePolicy(schedule: string, policyType: PolicyType): Partial<TimePolicy> {
     const parsedSchedule = schedule.split(':');
 
     switch (parsedSchedule.length) {
@@ -86,20 +85,19 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
           minute: +parsedSchedule[0]
         };
       case 2:
-        return {
-          hour: +parsedSchedule[1],
-          minute: +parsedSchedule[0],
-          period: DayPeriod.Am
-        };
+        return this._24toAmPm(+parsedSchedule[1], +parsedSchedule[0]);
       case 3:
-        if (+parsedSchedule[2] === 1) {
-          return {
-            hour: +parsedSchedule[1],
-            minute: +parsedSchedule[0],
-            period: DayPeriod.Pm
-          };
+        const timePolicy = this._24toAmPm(+parsedSchedule[1], +parsedSchedule[0]);
+
+        if (policyType === PolicyType.Weekly) {
+          timePolicy.dayOfWeek = +parsedSchedule[2];
         }
-        break;
+
+        if (policyType === PolicyType.Monthly) {
+          timePolicy.dayOfMonth = +parsedSchedule[2];
+        }
+
+        return timePolicy;
       default:
         throw new Error('Incorrect snapshot policy format');
     }
@@ -109,13 +107,47 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
     return {
       id: policy.id,
       storedSnapshots: policy.maxSnaps,
-      timePolicy: this.transformScheduleToTimePolicy(policy.schedule),
-      timeZone: {geo: policy.timeZone},
+      timePolicy: this.transformScheduleToTimePolicy(policy.schedule, policy.intervalType),
+      timeZone: { geo: policy.timeZone },
       type: policy.intervalType
     };
   }
 
   private pad(value: any): string {
     return +value < 10 ? `0${+value}` : `${+value}`;
+  }
+
+  private amPmTo24(hour: number, dayPeriod: DayPeriod): number {
+    if (dayPeriod == null) {
+      return hour;
+    } else if (dayPeriod === DayPeriod.Am) {
+      return hour % 12;
+    } else {
+      return (hour % 12) + 12;
+    }
+  }
+
+  private _24toAmPm(hour: number, minute: number): Partial<TimePolicy> {
+    let period: DayPeriod;
+
+    if (hour >= 12 || hour === 12 && minute) {
+      period = DayPeriod.Pm;
+    } else {
+      period = DayPeriod.Am;
+    }
+
+    let _hour: number;
+
+    if (hour === 0 || hour === 12) {
+      _hour = 12;
+    } else {
+      _hour = hour % 12;
+    }
+
+    return {
+      hour: _hour,
+      minute,
+      period
+    }
   }
 }

@@ -1,22 +1,24 @@
 <table class="mdl-data-table">
   <thead>
   <tr>
-    <th>{{ 'TIME' | translate }}</th>
-    <th></th>
-    <th>{{ 'TIME_ZONE' | translate }}</th>
+    <th class="mdl-data-table__cell--non-numeric">
+      {{ 'TIME' | translate }}
+    </th>
+    <th class="mdl-data-table__cell--non-numeric"></th>
+    <th class="mdl-data-table__cell--non-numeric">{{ 'TIME_ZONE' | translate }}</th>
     <th>{{ 'KEEP' | translate }}</th>
     <th></th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let p of policies">
-    <td>
-      {{ p.timeToken | translate:{ value: p.timeValue } }}
+    <td class="mdl-data-table__cell--non-numeric">
+      {{ p.timeToken | translate:{ value: p.timeValue | async } }}
     </td>
-    <td>
-      {{ p.periodToken | translate: { value: p.periodValue } }}
+    <td class="mdl-data-table__cell--non-numeric">
+      {{ p.periodToken | translate: { value: p.periodValue | translate } }}
     </td>
-    <td>
+    <td class="mdl-data-table__cell--non-numeric">
       {{ p.timeZone }}
     </td>
     <td>

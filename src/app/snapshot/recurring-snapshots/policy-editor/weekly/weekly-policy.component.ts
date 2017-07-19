@@ -12,6 +12,7 @@ export interface WeeklyPolicy extends Time {
 @Component({
   selector: 'cs-weekly-policy',
   templateUrl: 'weekly-policy.component.html',
+  styleUrls: ['weekly-policy.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

@@ -15,7 +15,6 @@ export interface DayOfWeekName {
 @Component({
   selector: 'cs-day-of-week',
   templateUrl: 'day-of-week.component.html',
-  styleUrls: ['day-of-week.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
