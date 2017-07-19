@@ -1,0 +1,14 @@
+.color-picker {
+  margin: -20px 0;
+  width: 330px;
+}
+
+mdl-card {
+  z-index: 2;
+}
+
+mdl-card,
+mdl-card-supporting-text
+{
+  overflow: visible;
+}

@@ -43,6 +43,11 @@ import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volum
 import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.component';
 import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { SnapshotModule } from '../snapshot/snapshot.module';
+import { NetworkDetailComponent } from './vm-sidebar/network-detail/network-detail.component';
+// tslint:disable-next-line
+import { FirewallRulesDetailComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.component';
+import { NicDetailComponent } from './vm-sidebar/network-detail/nic/nic-detail.component';
+import { VmColorComponent } from './vm-sidebar/color/vm-color.component';
 
 
 @NgModule({
@@ -63,12 +68,16 @@ import { SnapshotModule } from '../snapshot/snapshot.module';
   ],
   declarations: [
     AffinityGroupSelectorComponent,
+    FirewallRulesDetailComponent,
+    NetworkDetailComponent,
+    NicDetailComponent,
     SnapshotsComponent,
     SpareDriveAttachmentDetailComponent,
     SpareDriveAttachmentDialogComponent,
     StorageDetailComponent,
     SshKeypairResetComponent,
     VmListComponent,
+    VmColorComponent,
     VmCreationComponent,
     VmListItemComponent,
     VmDetailComponent,

@@ -310,6 +310,7 @@
 
   "VM_VIEW": "Машина",
   "STORAGE_VIEW": "Диски",
+  "NETWORK_VIEW": "Сеть",
 
   "VOLUME_RESIZE": "Изменить размер",
   "VOLUME_RESIZING": "Изменение размера диска",
