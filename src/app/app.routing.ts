@@ -46,11 +46,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'test',
-    component: RecurringSnapshotsComponent
-  },
-  {
     path: '**',
-    redirectTo: 'test' // todo
+    redirectTo: 'instances'
   }
 ];
