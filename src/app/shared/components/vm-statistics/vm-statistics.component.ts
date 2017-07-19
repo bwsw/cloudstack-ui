@@ -10,6 +10,7 @@ import { StorageService } from '../../services/storage.service';
 import { UtilsService } from '../../services/utils.service';
 
 const showStatistics = 'showStatistics';
+const statisticsMode = 'statisticsMode';
 
 const enum StatsMode {
   Used,
@@ -119,10 +120,21 @@ export class VmStatisticsComponent implements OnInit {
       this.wasOpened = true;
       this.updateStats();
     }
+
+    const modeRaw = this.storageService.read(statisticsMode);
+    switch (parseInt(modeRaw, 10)) {
+      case StatsMode.Free:
+        this.mode = StatsMode.Free;
+        break;
+      case StatsMode.Used:
+      default:
+        this.mode = StatsMode.Used;
+    }
   }
 
   public switchMode() {
     this.mode = this.mode === StatsMode.Used ? StatsMode.Free : StatsMode.Used;
+    this.storageService.write(statisticsMode, this.mode.toString());
   }
 
   public getPercents(consumed: number, max: number): string {
