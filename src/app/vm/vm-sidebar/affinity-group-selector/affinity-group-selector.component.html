@@ -1,5 +1,5 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<div *ngIf="groupNames$ | async as groupNames">
+<div *ngIf="affinityGroups">
   <cs-create-update-delete-dialog
     [defaultValue]="groupName"
     [options]="groupNames"
@@ -9,10 +9,10 @@
     [removeLabel]="'REMOVE_FROM_GROUP'"
     [selectPlaceholder]="'CHOOSE_GROUP'"
     [textFieldPlaceholder]="'ENTER_GROUP_NAME'"
-    [title]="'INSTANCE_GROUP_CHANGE'"
+    [title]="'SELECT_AFFINITY_GROUP'"
     (onAssigned)="changeGroup($event)"
     (onCancel)="onCancel()"
-    (onCreated)="changeGroup($event)"
+    (onCreated)="createGroup($event)"
     (onRemoved)="removeGroup()"
   ></cs-create-update-delete-dialog>
 </div>

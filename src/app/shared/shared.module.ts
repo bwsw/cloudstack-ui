@@ -88,6 +88,9 @@ import { ReloadComponent } from './components/reload/reload.component';
 import {
   CharacterCountTextfieldComponent
 } from './components/character-count-textfield/character-count-textfield.component';
+import {
+  CreateUpdateDeleteDialogComponent
+} from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 
 
 @NgModule({
@@ -104,6 +107,7 @@ import {
   exports: [
     CharacterCountTextfieldComponent,
     ColorPickerComponent,
+    CreateUpdateDeleteDialogComponent,
     DatePickerComponent,
     DescriptionComponent,
     DiskOfferingComponent,
@@ -144,6 +148,7 @@ import {
     CalendarMonthComponent,
     CalendarYearComponent,
     ColorPickerComponent,
+    CreateUpdateDeleteDialogComponent,
     DateDisplayComponent,
     DatePickerComponent,
     DatePickerDialogComponent,

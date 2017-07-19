@@ -18,7 +18,6 @@ interface VmCreationParams {
   keyPair?: string;
   name?: string;
   serviceOfferingId?: string;
-  response?: 'json';
   rootDiskSize?: number;
   size?: number;
   templateId?: string;
@@ -106,7 +105,6 @@ export class VmCreationState {
     params.serviceOfferingId = this.serviceOffering.id;
     params.templateId = this.template.id;
     params.zoneId = this.zone.id;
-    params.response = 'json';
 
     if (this.diskOffering && !this.template.isTemplate) {
       params.diskofferingid = this.diskOffering.id;

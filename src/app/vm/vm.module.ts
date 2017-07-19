@@ -7,7 +7,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { routes } from '../app.routing';
-
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { SharedModule } from '../shared/shared.module';
 import { TemplateModule } from '../template';
@@ -24,7 +23,7 @@ import { VmListItemComponent } from './vm-list/vm-list-item.component';
 import { VmListSectionComponent } from './vm-list/vm-list-section/vm-list-section.component';
 import { VmListSubsectionComponent } from './vm-list/vm-list-subsection/vm-list-subsection.component';
 import { VmListComponent } from './vm-list/vm-list.component';
-import { AffinityGroupDialogComponent } from './vm-sidebar/affinity-group-dialog.component';
+import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { InstanceGroupSelectorComponent } from './vm-sidebar/instance-group-selector/instance-group-selector.component';
 import { InstanceGroupComponent } from './vm-sidebar/instance-group/instance-group.component';
 import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.component';
@@ -64,7 +63,7 @@ import { vmRouting } from './vm.routing';
     RouterModule.forRoot(routes),
   ],
   declarations: [
-    AffinityGroupDialogComponent,
+    AffinityGroupSelectorComponent,
     KeyboardsComponent,
     SnapshotsComponent,
     SpareDriveAttachmentDetailComponent,
@@ -98,7 +97,7 @@ import { vmRouting } from './vm.routing';
     SnapshotActionsService
   ],
   entryComponents: [
-    AffinityGroupDialogComponent,
+    AffinityGroupSelectorComponent,
     InstanceGroupSelectorComponent,
     VmCreationComponent,
     VmTemplateDialogComponent,
