@@ -31,7 +31,7 @@ export class TimeZoneComponent implements ControlValueAccessor, OnInit {
       return this
         .timeZoneToString(timeZone)
         .toLowerCase()
-        .includes(query.toLowerCase());
+        .includes(query && query.toLowerCase());
     });
   }
 

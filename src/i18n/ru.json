@@ -572,6 +572,7 @@
   "MINUTE": "Минута",
   "AM_PM_FORMAT": "AM/PM",
   "24_HOURS_FORMAT": "24-часовой формат",
+
   "TIME_ZONE": "Часовой пояс",
 
   "MONDAY": "Понедельник",
@@ -590,5 +591,11 @@
 
   "SCHEDULED_SNAPSHOTS": "Расписание снимков",
   "KEEP": "Сохранять",
-  "RECURRING_SNAPSHOTS": "Повторяемые снимки"
+  "RECURRING_SNAPSHOTS": "Повторяемые снимки",
+  "POLICY_HOURLY_TIME": "{{ value }} минута каждого часа",
+  "POLICY_DAILY_TIME": "{{ value }}",
+  "POLICY_WEEKLY_TIME": "{{ value }}",
+  "POLICY_MONTHLY_TIME": "{{ value }}",
+  "POLICY_WEEKLY_PERIOD": "{{ value }}",
+  "POLICY_MONTHLY_PERIOD": "Каждый {{ value }} день месяца"
 }

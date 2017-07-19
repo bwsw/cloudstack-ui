@@ -83,7 +83,7 @@ export class RecurringSnapshotsComponent implements OnInit {
   private loadPolicies(): void {
     this.loading = true;
 
-    this.snapshotPolicyService.getList(this.volume.id)
+    this.snapshotPolicyService.getPolicyList(this.volume.id)
       .finally(() => this.loading = false)
       .subscribe(
         policies => {

@@ -1,5 +1,5 @@
 import { MdlTextFieldComponent } from '@angular-mdl/core';
-import { AfterViewInit, ChangeDetectorRef, Component, forwardRef, Input, ViewChild } from '@angular/core';
+import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
@@ -20,7 +20,7 @@ export interface HourlyPolicy {
     }
   ]
 })
-export class HourlyPolicyComponent implements ControlValueAccessor, AfterViewInit {
+export class HourlyPolicyComponent implements ControlValueAccessor {
   @ViewChild('minuteField') public minuteField: MdlTextFieldComponent;
   public _policy: HourlyPolicy;
 
@@ -29,12 +29,6 @@ export class HourlyPolicyComponent implements ControlValueAccessor, AfterViewIni
   public maxValue = 59;
 
   constructor(private translateService: TranslateService) {}
-
-  public ngAfterViewInit(): void {
-    if (!this.policy) {
-      this.writeValue(this.policy);
-    }
-  }
 
   public get errorMessage(): Observable<string> {
     return this.translateService.get('BETWEEN', {

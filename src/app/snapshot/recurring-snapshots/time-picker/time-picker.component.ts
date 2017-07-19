@@ -3,7 +3,6 @@ import { Component, forwardRef, Input, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DayPeriod } from '../day-period/day-period.component';
 import { TimeFormat } from '../policy-editor/daily/daily-policy.component';
-import _pad = require('lodash/pad');
 import throttle = require('lodash/throttle');
 
 
@@ -139,6 +138,6 @@ export class TimePickerComponent implements ControlValueAccessor {
   }
 
   private pad(value: any): string {
-    return _pad(value, 2, '0');
+    return +value < 10 ? `0${+value}` : `${+value}`;
   }
 }

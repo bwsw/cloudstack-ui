@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { BackendResource } from '../../shared/decorators';
 import { BaseBackendService } from '../../shared/services';
 import { DayPeriod } from './day-period/day-period.component';
 import { Policy, TimePolicy } from './policy-editor/policy-editor.component';
 import { PolicyType } from './recurring-snapshots.component';
 import { SnapshotPolicy } from './snapshot-policy.model';
-import pad = require('lodash/pad');
 
 
 export interface SnapshotPolicyCreationParams {
@@ -15,8 +15,12 @@ export interface SnapshotPolicyCreationParams {
 }
 
 @Injectable()
-export class SnapshotPolicyService extends BaseBackendService<any> {
-  public getList(volumeId: string): Observable<Array<Policy<TimePolicy>>> {
+@BackendResource({
+  entity: 'SnapshotPolicy',
+  entityModel: SnapshotPolicy
+})
+export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
+  public getPolicyList(volumeId: string): Observable<Array<Policy<TimePolicy>>> {
     return super.getList(
       { volumeId },
       { command: 'list', entity: 'SnapshotPolicies' }
@@ -46,7 +50,7 @@ export class SnapshotPolicyService extends BaseBackendService<any> {
     if (timePolicy.hour == null) {
       return timePolicy.minute.toString();
     } else {
-      const minutes = pad(timePolicy.minute.toString(), 2, '0');
+      const minutes = this.pad(timePolicy.minute);
       const hours = timePolicy.hour.toString();
       const pm = '1';
 
@@ -109,5 +113,9 @@ export class SnapshotPolicyService extends BaseBackendService<any> {
       timeZone: {geo: policy.timeZone},
       type: policy.intervalType
     };
+  }
+
+  private pad(value: any): string {
+    return +value < 10 ? `0${+value}` : `${+value}`;
   }
 }

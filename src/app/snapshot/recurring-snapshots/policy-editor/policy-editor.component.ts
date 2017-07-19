@@ -5,6 +5,7 @@ import { DailyPolicy } from './daily/daily-policy.component';
 import { HourlyPolicy } from './hourly/hourly-policy.component';
 import { MonthlyPolicy } from './monthly/monthly-policy.component';
 import { WeeklyPolicy } from './weekly/weekly-policy.component';
+import { Time } from '../time-picker/time-picker.component';
 
 
 export type TimePolicy = HourlyPolicy & DailyPolicy & WeeklyPolicy & MonthlyPolicy;
@@ -28,7 +29,7 @@ export class PolicyEditorComponent {
 
   public Policies = PolicyType;
 
-  public policy: TimePolicy;
+  public policy = { minute: 0 };
 
   public timeZone: TimeZone;
   public storedSnapshots = 1;
@@ -39,7 +40,7 @@ export class PolicyEditorComponent {
 
   public save(): void {
     this.onPolicySave.emit({
-      timePolicy: this.policy,
+      timePolicy: this.policy as TimePolicy,
       timeZone: this.timeZone,
       storedSnapshots: this.storedSnapshots
     });

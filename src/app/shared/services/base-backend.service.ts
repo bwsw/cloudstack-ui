@@ -54,7 +54,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
     const command = customApiFormat && customApiFormat.command || 'create';
     const _entity = customApiFormat && customApiFormat.entity;
 
-    return this.sendCommand('create', params, _entity)
+    return this.sendCommand(command, params, _entity)
       .map(response => {
         const entity = this.entity.toLowerCase();
         if (entity === 'tag' || entity === 'affinitygroup') {

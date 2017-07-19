@@ -590,5 +590,11 @@
 
   "SCHEDULED_SNAPSHOTS": "Scheduled snapshots",
   "KEEP": "Keep",
-  "RECURRING_SNAPSHOTS": "Recurring snapshots"
+  "RECURRING_SNAPSHOTS": "Recurring snapshots",
+  "POLICY_HOURLY_TIME": "{{ value }} min every hour",
+  "POLICY_DAILY_TIME": "{{ value }}",
+  "POLICY_WEEKLY_TIME": "{{ value }}",
+  "POLICY_MONTHLY_TIME": "{{ value }}",
+  "POLICY_WEEKLY_PERIOD": "Every {{ value }}",
+  "POLICY_MONTHLY_PERIOD": "Day {{ value }} of month"
 }

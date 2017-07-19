@@ -15,10 +15,12 @@
     <mdl-tab-panel mdl-tab-panel-title="Monthly"></mdl-tab-panel>
   </mdl-tabs>
 
-  <cs-policy-editor
-    [policyMode]="policyMode"
-    (onPolicySave)="addPolicy($event)"
-  ></cs-policy-editor>
+  <div class="editor">
+    <cs-policy-editor
+      [policyMode]="policyMode"
+      (onPolicySave)="addPolicy($event)"
+    ></cs-policy-editor>
+  </div>
 
   <cs-policy-list
     [hourlyPolicy]="hourlyPolicy"
@@ -38,4 +40,3 @@
     {{ 'CLOSE' | translate }}
   </button>
 </div>
-
