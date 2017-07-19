@@ -117,6 +117,8 @@
   "SELECT_SSH_KEY": "Select SSH key",
   "SSH_KEY": "SSH key",
   "IP_NA": "IP N/A",
+  "USED": "Used",
+  "FREE": "Free",
   "VMS": "Virtual machines",
   "DEPLOYED": "Deployed",
   "DEPLOYED_STATS": "Deployed",

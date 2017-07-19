@@ -11,14 +11,33 @@
       <mdl-icon>keyboard_arrow_up</mdl-icon>
     </button>
   </h4>
-  <button (click)="switchMode()">Switch</button>
   <div class="stat-list" [class.closed]="!isOpen">
-    <mdl-card *ngFor="let stat of list" class="stat-card-mdl" mdl-shadow="2">
+    <mdl-tabs
+      class="tab-switch"
+      [mdl-tab-active-index]="mode"
+      (mdl-tab-active-changed)="switchMode()"
+    >
+      <mdl-tab-panel>
+        <mdl-tab-panel-title>
+          <span>{{ 'USED' | translate }}</span>
+        </mdl-tab-panel-title>
+      </mdl-tab-panel>
+      <mdl-tab-panel>
+        <mdl-tab-panel-title>
+          <span>{{ 'FREE' | translate }}</span>
+        </mdl-tab-panel-title>
+      </mdl-tab-panel>
+    </mdl-tabs>
+    <mdl-card *ngFor="let stat of statsList" class="stat-card-mdl" mdl-shadow="2">
       <mdl-card-title>
         <h2 mdl-card-title-text>{{ stat.header | translate }}</h2>
       </mdl-card-title>
       <mdl-card-supporting-text *loading="fetching">
-        <div *ngFor="let bar of stat.bars" class="bar">
+        <div
+          *ngFor="let bar of stat.bars; first as f; last as l"
+          class="bar"
+          [class.single-bar]="f && l"
+        >
           {{ bar.title | translate }}
           <div class="stat-values">{{ bar.value() | async}}</div>
           <md-progress-bar [value]="bar.progress()"></md-progress-bar>
