@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { AuthService, Utils } from './';
+import { AuthService } from './auth.service';
+import { Utils } from './utils.service';
 
 
 export enum INotificationStatus {

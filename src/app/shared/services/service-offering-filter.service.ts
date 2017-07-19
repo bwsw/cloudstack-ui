@@ -5,9 +5,9 @@ import {
 } from '../../service-offering/custom-service-offering/custom-offering-restrictions';
 import { Zone } from '../models';
 import { ServiceOffering } from '../models/service-offering.model';
-import { ConfigService } from './';
+import { ConfigService } from './config.service';
 import { OfferingAvailability } from './offering.service';
-import { ResourceStats, ResourceUsageService } from './resource-usage.service';
+import { ResourceUsageService } from './resource-usage.service';
 import { ServiceOfferingService } from './service-offering.service';
 
 
@@ -24,12 +24,12 @@ export class ServiceOfferingFilterService {
     const restrictionsRequest: Observable<CustomOfferingRestrictions> =
       this.configService.get('customOfferingRestrictions');
 
-    return Observable.forkJoin([
+    return Observable.forkJoin(
       this.serviceOfferingService.getList(params),
       availabilityRequest,
       restrictionsRequest,
       this.resourceUsageService.getResourceUsage()
-    ])
+    )
       .map((
         [
           serviceOfferings,

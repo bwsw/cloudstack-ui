@@ -19,6 +19,6 @@ export class CustomServiceOffering extends ServiceOffering {
   }
 
   public get areCustomParamsSet(): boolean {
-    return [this.cpuNumber, this.cpuSpeed, this.memory].every(el => el !== undefined);
+    return [this.cpuNumber, this.cpuSpeed, this.memory].every(_ => _ != null);
   }
 }

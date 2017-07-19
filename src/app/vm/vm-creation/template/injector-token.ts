@@ -1,6 +1,7 @@
-import { OpaqueToken } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
-export const PRESELECTED_TEMPLATE_TOKEN = new OpaqueToken('template');
-export const TEMPLATES = new OpaqueToken('templates');
-export const ISOS = new OpaqueToken('isos');
-export const ZONE = new OpaqueToken('zoneId');
+
+export const PRESELECTED_TEMPLATE_TOKEN = new InjectionToken('template');
+export const TEMPLATES = new InjectionToken('templates');
+export const ISOS = new InjectionToken('isos');
+export const ZONE = new InjectionToken('zoneId');

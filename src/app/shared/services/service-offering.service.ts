@@ -5,8 +5,8 @@ import {
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { ServiceOffering } from '../models/service-offering.model';
 import { Zone } from '../models/zone.model';
-import { ResourceStats } from './';
 import { OfferingAvailability, OfferingService } from './offering.service';
+import { ResourceStats } from './resource-usage.service';
 
 
 @Injectable()

@@ -9,7 +9,7 @@ import { VmCreationData } from './vm-creation-data';
 interface VmCreationParams {
   affinityGroupNames?: string;
   details?: Array<any>;
-  diskofferingid?: string; // todo: check
+  diskofferingid?: string;
   doStartVm?: string;
   hypervisor?: string;
   ingress?: Array<NetworkRule>;
@@ -76,9 +76,7 @@ export class VmCreationState {
   }
 
   public getStateFromData(data: VmCreationData): void {
-    const preselectedSecurityGroups = data.securityGroupTemplates.filter(securityGroup => securityGroup.preselected);
-    this.securityRules = Rules.createWithAllRulesSelected(preselectedSecurityGroups);
-
+    this.securityRules = data.preselectedRules;
     this.affinityGroup = new AffinityGroup({ name: '' });
     this.affinityGroupNames = data.affinityGroupNames;
     this.defaultName = data.defaultName;
@@ -103,11 +101,11 @@ export class VmCreationState {
     params.affinityGroupNames = this.affinityGroup && this.affinityGroup.name;
     params.doStartVm = this.doStartVm ? undefined : 'false';
     params.keyboard = this.keyboard;
-    params.keyPair = this.sshKeyPair && this.sshKeyPair.name; // todo: check
+    params.keyPair = this.sshKeyPair && this.sshKeyPair.name;
     params.name = this.displayName || this.defaultName;
-    params.serviceOfferingId = this.serviceOffering && this.serviceOffering.id;
-    params.templateId = this.template && this.template.id;
-    params.zoneId = this.zone && this.zone.id;
+    params.serviceOfferingId = this.serviceOffering.id;
+    params.templateId = this.template.id;
+    params.zoneId = this.zone.id;
     params.response = 'json';
 
     if (this.diskOffering && !this.template.isTemplate) {

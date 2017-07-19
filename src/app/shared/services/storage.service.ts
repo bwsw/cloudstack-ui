@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Utils } from './';
+import { Utils } from './utils.service';
 
 
 @Injectable()

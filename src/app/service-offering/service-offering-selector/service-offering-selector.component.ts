@@ -1,7 +1,14 @@
 import { MdlSelectComponent } from '@angular-mdl/select';
 import {
   ChangeDetectorRef,
-  Component, EventEmitter, forwardRef, Input, OnChanges, OnInit, Output, SimpleChanges,
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
   ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
