@@ -65,8 +65,8 @@ export class VmListComponent implements OnInit {
   public groups: Array<InstanceGroup>;
   public zones: Array<Zone>;
 
-  public vmList: Array<VirtualMachine> = [];
-  public visibleVmList: Array<VirtualMachine> = [];
+  public vmList: Array<VirtualMachine>;
+  public visibleVmList: Array<VirtualMachine>;
 
   public inputs;
   public outputs;
@@ -109,6 +109,7 @@ export class VmListComponent implements OnInit {
 
   public updateFilters(filterData?: VmFilter): void {
     if (!this.vmList.length || !filterData) {
+      this.visibleVmList = this.vmList;
       return;
     }
 
@@ -121,7 +122,7 @@ export class VmListComponent implements OnInit {
     this.visibleVmList = this.filterVmsByZones(this.vmList, selectedZones);
     this.visibleVmList = this.filterVmsByGroup(this.visibleVmList, selectedGroups);
     this.visibleVmList = this.filterVMsByState(this.visibleVmList, selectedStates);
-    this.vmList = this.sortByDate(this.vmList);
+    this.visibleVmList = this.sortByDate(this.visibleVmList);
   }
 
   public updateStats(): void {
@@ -142,7 +143,8 @@ export class VmListComponent implements OnInit {
     dialog.onErrorResumeNext()
       .switchMap(() => this.vmService.vmAction(e))
       .subscribe(
-        () => {},
+        () => {
+        },
         error => this.dialogService.alert(error.message)
       );
   }
@@ -207,7 +209,11 @@ export class VmListComponent implements OnInit {
           return;
         }
         this.vmService.get(updatedVM.id).subscribe((vm) => {
-          this.vmList[index] = vm;
+          this.vmList = [
+            ...this.vmList.slice(0, index),
+            vm,
+            ...this.vmList.slice(index + 1),
+          ];
           this.updateFilters();
         });
         this.updateStats();
