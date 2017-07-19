@@ -96,6 +96,7 @@ import {
   CreateUpdateDeleteDialogComponent
 } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { GroupedCardListComponent } from './components/grouped-card-list/grouped-card-list.component';
+import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
 
 @NgModule({
   imports: [
@@ -116,6 +117,7 @@ import { GroupedCardListComponent } from './components/grouped-card-list/grouped
     ColorPickerComponent,
     CreateUpdateDeleteDialogComponent,
     DatePickerComponent,
+    DividerVerticalComponent,
     DraggableSelectComponent,
     DescriptionComponent,
     DiskOfferingComponent,
@@ -163,6 +165,7 @@ import { GroupedCardListComponent } from './components/grouped-card-list/grouped
     DatePickerDialogComponent,
     DescriptionComponent,
     DiskOfferingComponent,
+    DividerVerticalComponent,
     FabComponent,
     FancySelectComponent,
     InlineEditComponent,

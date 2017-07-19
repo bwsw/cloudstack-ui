@@ -65,6 +65,7 @@
       <mdl-option mdl-ripple *ngFor="let z of zones" [value]="z">{{ z.name }}</mdl-option>
     </mdl-select>
 
+    <cs-divider-vertical></cs-divider-vertical>
     <mdl-select
       *ngIf="zones"
       class="filter-select"
