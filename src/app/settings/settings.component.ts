@@ -21,7 +21,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public language: string;
   public primaryColor: Color;
   public primaryColors: Array<Color>;
-  public timeFormat: string | null = null;
+  public timeFormat: string = TimeFormat.AUTO;
 
   public passwordUpdateForm: FormGroup;
 
@@ -90,7 +90,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
     this.loadDayTranslations();
   }
 
-  public changeTimeFormat(timeFormat: string | null): void {
+  public changeTimeFormat(timeFormat: string): void {
     this.updatingTimeFormat = true;
     this.languageService.setTimeFormat(timeFormat)
       .finally(() => this.updatingTimeFormat = false)

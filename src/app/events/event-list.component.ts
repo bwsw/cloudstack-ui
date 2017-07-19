@@ -29,7 +29,7 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
   public dateTimeFormat;
   public dateStringifyDateTimeFormat;
   public firstDayOfWeek: number;
-  public timeFormat: string | null;
+  public timeFormat: string;
 
   public events: Array<Event>;
   public selectedLevels: Array<string>;
@@ -185,7 +185,7 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
       timeZoneName: 'short'
     };
 
-    if (this.timeFormat != null) {
+    if (this.timeFormat !== TimeFormat.AUTO) {
       options.hour12 = this.timeFormat === TimeFormat['12h'];
     }
     this.dateStringifyDateTimeFormat = new Intl.DateTimeFormat(this.locale, options);

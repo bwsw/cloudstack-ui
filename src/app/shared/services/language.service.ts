@@ -8,9 +8,9 @@ import { UserService } from './user.service';
 const DEFAULT_LANGUAGE = 'en';
 
 export const TimeFormat = {
-  '12h': '12',
-  '24h': '24',
-  AUTO: null
+  '12h': '12h',
+  '24h': '24h',
+  AUTO: 'auto'
 };
 
 @Injectable()
@@ -54,7 +54,7 @@ export class LanguageService {
       });
   }
 
-  public getTimeFormat(): Observable<string | null> {
+  public getTimeFormat(): Observable<string> {
     return this.userService.readTag('timeFormat')
       .map(timeFormat => {
         switch (timeFormat) {
@@ -66,8 +66,8 @@ export class LanguageService {
       });
   }
 
-  public setTimeFormat(timeFormat: string | null): Observable<string | null> {
-    return (timeFormat == null
+  public setTimeFormat(timeFormat: string): Observable<string> {
+    return (timeFormat === TimeFormat.AUTO
       ? this.userService.removeTag('timeFormat')
       : this.userService.writeTag('timeFormat', timeFormat)).mapTo(timeFormat);
   }
