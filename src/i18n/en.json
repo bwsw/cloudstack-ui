@@ -309,7 +309,8 @@
   "REVERT_TO_SNAPSHOT": "Revert disk to this snapshot",
 
   "VM_VIEW": "VM",
-  "STORAGE_VIEW": "Storage",
+  "VM_STORAGE_VIEW": "Storage",
+  "VM_NETWORK_VIEW": "Network",
   "VM_TAGS_VIEW": "Tags",
 
   "VOLUME_RESIZE": "Resize",

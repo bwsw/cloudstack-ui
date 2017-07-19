@@ -44,6 +44,11 @@ import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.com
 import { TagsModule } from '../tags/tags.module';
 import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
+import { NetworkDetailComponent } from './vm-sidebar/network-detail/network-detail.component';
+// tslint:disable-next-line
+import { FirewallRulesDetailComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.component';
+import { NicDetailComponent } from './vm-sidebar/network-detail/nic/nic-detail.component';
+import { VmColorComponent } from './vm-sidebar/color/vm-color.component';
 
 
 @NgModule({
@@ -64,12 +69,16 @@ import { VmTagsComponent } from './vm-tags/vm-tags.component';
   ],
   declarations: [
     AffinityGroupSelectorComponent,
+    FirewallRulesDetailComponent,
+    NetworkDetailComponent,
+    NicDetailComponent,
     SnapshotsComponent,
     SpareDriveAttachmentDetailComponent,
     SpareDriveAttachmentDialogComponent,
     StorageDetailComponent,
     SshKeypairResetComponent,
     VmListComponent,
+    VmColorComponent,
     VmCreationComponent,
     VmListItemComponent,
     VmDetailComponent,
