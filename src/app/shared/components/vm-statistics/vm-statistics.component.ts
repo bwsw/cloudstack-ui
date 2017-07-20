@@ -112,13 +112,12 @@ export class VmStatisticsComponent implements OnInit {
     // no such key in the local storage, just show the stats
     if (!shouldShowStatistics) {
       this.updateStats();
-      return;
-    }
-
-    this.isOpen = shouldShowStatistics === 'true';
-    if (this.isOpen) {
-      this.wasOpened = true;
-      this.updateStats();
+    } else {
+      this.isOpen = shouldShowStatistics === 'true';
+      if (this.isOpen) {
+        this.wasOpened = true;
+        this.updateStats();
+      }
     }
 
     const modeRaw = this.storageService.read(statisticsMode);
