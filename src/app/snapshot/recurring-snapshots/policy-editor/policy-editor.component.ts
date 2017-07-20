@@ -5,6 +5,7 @@ import { DailyPolicy } from './daily/daily-policy.component';
 import { HourlyPolicy } from './hourly/hourly-policy.component';
 import { MonthlyPolicy } from './monthly/monthly-policy.component';
 import { WeeklyPolicy } from './weekly/weekly-policy.component';
+import { TimeFormat } from '../../../shared/services';
 
 
 export type TimePolicy = HourlyPolicy & DailyPolicy & WeeklyPolicy & MonthlyPolicy;
@@ -23,6 +24,7 @@ export interface Policy<T> {
   styleUrls: ['policy-editor.component.scss']
 })
 export class PolicyEditorComponent {
+  @Input() public timeFormat: TimeFormat;
   @Input() policyMode: PolicyType;
   @Output() onPolicySave: EventEmitter<Policy<TimePolicy>>;
 

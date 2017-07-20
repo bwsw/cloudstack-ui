@@ -8,9 +8,10 @@ import { DayOfWeek } from '../types/day-of-week';
 
 const DEFAULT_LANGUAGE = 'en';
 
-export const TimeFormat = {
-  '12h': '12h',
-  '24h': '24h',
+export type TimeFormat = 'hour12' | 'hour24' | 'auto';
+export const TimeFormats = {
+  'hour12': 'hour12' as TimeFormat,
+  'hour24': 'hour24' as TimeFormat,
   AUTO: 'auto'
 };
 
@@ -59,16 +60,17 @@ export class LanguageService {
     return this.userService.readTag('timeFormat')
       .map(timeFormat => {
         switch (timeFormat) {
-          case TimeFormat['12h']:
-          case TimeFormat['24h']:
+          case TimeFormats.hour12:
+          case TimeFormats.hour24:
             return timeFormat;
-          default: return TimeFormat.AUTO;
+          default:
+            return TimeFormats.AUTO;
         }
       });
   }
 
   public setTimeFormat(timeFormat: string): Observable<string> {
-    return (timeFormat === TimeFormat.AUTO
+    return (timeFormat === TimeFormats.AUTO
       ? this.userService.removeTag('timeFormat')
       : this.userService.writeTag('timeFormat', timeFormat)).mapTo(timeFormat);
   }

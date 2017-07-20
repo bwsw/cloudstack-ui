@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
+import { TimeFormat, TimeFormats } from '../../../shared/services';
 import { DayOfWeek } from '../../../shared/types/day-of-week';
 import { DailyPolicy } from '../policy-editor/daily/daily-policy.component';
 import { HourlyPolicy } from '../policy-editor/hourly/hourly-policy.component';
@@ -9,6 +10,7 @@ import { Policy, TimePolicy } from '../policy-editor/policy-editor.component';
 import { WeeklyPolicy } from '../policy-editor/weekly/weekly-policy.component';
 import { PolicyType } from '../recurring-snapshots.component';
 import { Time } from '../time-picker/time-picker.component';
+import DateTimeFormat = Intl.DateTimeFormat;
 
 
 interface PolicyView {
@@ -27,21 +29,31 @@ interface PolicyView {
   templateUrl: 'policy-list.component.html',
   styleUrls: ['policy-list.component.scss']
 })
-export class PolicyListComponent implements OnChanges {
-  @Input() hourlyPolicy: Policy<HourlyPolicy>;
-  @Input() dailyPolicy: Policy<DailyPolicy>;
-  @Input() weeklyPolicy: Policy<WeeklyPolicy>;
-  @Input() monthlyPolicy: Policy<MonthlyPolicy>;
-  @Output() onPolicyDelete: EventEmitter<Policy<TimePolicy>>;
+export class PolicyListComponent implements OnInit, OnChanges {
+  @Input() public timeFormat: TimeFormat;
+  @Input() public hourlyPolicy: Policy<HourlyPolicy>;
+  @Input() public dailyPolicy: Policy<DailyPolicy>;
+  @Input() public weeklyPolicy: Policy<WeeklyPolicy>;
+  @Input() public monthlyPolicy: Policy<MonthlyPolicy>;
+  @Output() public onPolicyDelete: EventEmitter<Policy<TimePolicy>>;
 
   public policies: Array<PolicyView>;
+  public dateStringifyDateTimeFormat: DateTimeFormat;
 
   constructor(private translateService: TranslateService) {
     this.onPolicyDelete = new EventEmitter<Policy<TimePolicy>>();
   }
 
+  public ngOnInit(): void {
+    this.setDateTimeFormat();
+  }
+
   public ngOnChanges(): void {
     this.updatePolicies();
+  }
+
+  private get locale(): string {
+    return this.translateService.currentLang;
   }
 
   public deletePolicy(policy: Policy<TimePolicy>): void {
@@ -126,6 +138,19 @@ export class PolicyListComponent implements OnChanges {
       .map(translations => {
         return `${time.hour}:${this.pad(time.minute)} ${translations[amPm[time.period]]}`;
       });
+  }
+
+  private setDateTimeFormat(): void {
+    const options: Intl.DateTimeFormatOptions = {
+      hour: 'numeric',
+      minute: 'numeric'
+    };
+
+    if (this.timeFormat === TimeFormats.hour12 || this.timeFormat === TimeFormats.AUTO) {
+      options.hour12 = true;
+    }
+
+    this.dateStringifyDateTimeFormat = new Intl.DateTimeFormat(this.locale, options);
   }
 
   private pad(value: any): string {

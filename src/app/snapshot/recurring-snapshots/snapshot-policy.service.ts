@@ -55,28 +55,36 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
     if (time.period === DayPeriod.Am) {
       if (time.hour === 12) {
         return {
-          hour: 24,
+          hour: 0,
           minute: time.minute
         }
       } else {
         return time;
       }
-    }
-
-    return {
-      hour: time.hour + 12,
-      minute: time.minute
+    } else {
+      if (time.hour === 12) {
+        return {
+          hour: 12,
+          minute: time.minute
+        }
+      } else {
+        return {
+          hour: time.hour + 12,
+          minute: time.minute
+        }
+      }
     }
   }
 
   private convert24toAmPm(time: Time): Time {
+    debugger;
     if (time.period) {
       return time;
     }
 
     let period: DayPeriod;
 
-    if (time.hour >= 12 || time.hour === 12 && time.minute) {
+    if (time.hour >= 12) {
       period = DayPeriod.Pm;
     } else {
       period = DayPeriod.Am;

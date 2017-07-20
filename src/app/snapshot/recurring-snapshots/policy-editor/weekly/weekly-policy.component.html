@@ -1,6 +1,7 @@
 <div class="flex-container">
   <cs-time-picker
     name="time"
+    [timeFormat]="timeFormat"
     [ngModel]="time"
     (ngModelChange)="updateTime($event)"
   ></cs-time-picker>

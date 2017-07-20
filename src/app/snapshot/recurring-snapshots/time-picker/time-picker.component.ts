@@ -1,10 +1,9 @@
 import { MdlTextFieldComponent } from '@angular-mdl/core';
-import { Component, forwardRef, Input, ViewChild } from '@angular/core';
+import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { TimeFormat, TimeFormats } from '../../../shared/services';
 import { DayPeriod } from '../day-period/day-period.component';
-import { TimeFormat } from '../policy-editor/daily/daily-policy.component';
 import throttle = require('lodash/throttle');
-import { SnapshotPolicyService } from '../snapshot-policy.service';
 
 
 export interface Time {
@@ -25,22 +24,33 @@ export interface Time {
     }
   ]
 })
-export class TimePickerComponent implements ControlValueAccessor {
+export class TimePickerComponent implements ControlValueAccessor, OnInit {
+  @Input() public timeFormat: TimeFormat;
   @ViewChild('hourField') public hourField: MdlTextFieldComponent;
   @ViewChild('minuteField') public minuteField: MdlTextFieldComponent;
 
-  public _hour = 1;
-  public _minute = 0;
-  public period = DayPeriod.Am;
+  public _hour: number;
+  public _minute: number;
+  public period: DayPeriod;
 
   public minMinuteValue = 0;
   public maxMinuteValue = 59;
-  public minHourValue = 1;
 
-  public timeFormat: TimeFormat = 12;
+  public ngOnInit(): void {
+    this._hour = this.minHourValue;
+    this._minute = this.minMinuteValue;
+
+    if (this.timeFormat === TimeFormats.hour12) {
+      this.period = DayPeriod.Am;
+    }
+  }
+
+  public get showPeriodSelector(): boolean {
+    return this.timeFormat === TimeFormats.hour12;
+  }
 
   public get hour(): string {
-    return this._hour.toString();
+    return this._hour && this._hour.toString();
   }
 
   public set hour(value: string) {
@@ -55,8 +65,20 @@ export class TimePickerComponent implements ControlValueAccessor {
     this._minute = +value;
   }
 
+  public get minHourValue(): number {
+    if (this.timeFormat === TimeFormats.hour12) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
   public get maxHourValue(): number {
-    return this.timeFormat;
+    if (this.timeFormat === TimeFormats.hour12) {
+      return 12;
+    } else {
+      return 23;
+    }
   }
 
   public updateHour(value: number): void {
@@ -72,7 +94,7 @@ export class TimePickerComponent implements ControlValueAccessor {
       } else if (value < this.minHourValue) {
         newValue = this.maxHourValue.toString();
       } else {
-        newValue = value.toString();
+        newValue = value && value.toString();
       }
     }
 
@@ -120,10 +142,13 @@ export class TimePickerComponent implements ControlValueAccessor {
   }
 
   public set time(value: Time) {
-    this.hour = value.hour.toString();
-    this.minute = value.minute.toString();
-    this.period = value.period;
-    this.propagateChange(this.time);
+    if (value) {
+      this.hour = (value.hour || this.minHourValue).toString();
+      this.minute = (value.minute || this.minMinuteValue).toString();
+      this.period = value.period;
+
+      this.propagateChange(this.time);
+    }
   }
 
   public registerOnChange(fn): void {

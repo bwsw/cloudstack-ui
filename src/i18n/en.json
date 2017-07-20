@@ -464,8 +464,8 @@
   "COLOR": "Color",
   "FIRST_DAY_OF_WEEK": "First day of the week",
   "TIME_FORMAT": "Time format",
-  "12h": "12-Hours Time",
-  "24h": "24-Hours Time",
+  "hour12": "12-Hours Time",
+  "hour24": "24-Hours Time",
   "AUTO": "Auto",
   "GROUP_BY_COLORS": "Group by colors",
   "PALETTE": "Interface Theme Colors",
@@ -615,10 +615,10 @@
   "SCHEDULED_SNAPSHOTS": "Scheduled snapshots",
   "KEEP": "Keep",
   "RECURRING_SNAPSHOTS": "Recurring snapshots",
-  "POLICY_HOURLY_TIME": "{{ value }} min every hour",
+  "POLICY_HOURLY_TIME": "{{ value }} minute",
   "POLICY_DAILY_TIME": "{{ value }}",
   "POLICY_WEEKLY_TIME": "{{ value }}",
   "POLICY_MONTHLY_TIME": "{{ value }}",
   "POLICY_WEEKLY_PERIOD": "Every {{ value }}",
-  "POLICY_MONTHLY_PERIOD": "Day {{ value }} of month"
+  "POLICY_MONTHLY_PERIOD": "day {{ value }} of month"
 }

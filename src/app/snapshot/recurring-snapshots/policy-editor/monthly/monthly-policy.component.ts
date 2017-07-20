@@ -2,6 +2,7 @@ import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
+import { TimeFormat } from '../../../../shared/services';
 import { Time } from '../../time-picker/time-picker.component';
 import isEqual = require('lodash/isEqual');
 import range = require('lodash/range');
@@ -24,6 +25,7 @@ export interface MonthlyPolicy extends Time {
   ]
 })
 export class MonthlyPolicyComponent implements ControlValueAccessor {
+  @Input() public timeFormat: TimeFormat;
   public time: Time;
   public dayOfMonth = 1;
   public daysOfMonth: Array<number> = range(1, 29);

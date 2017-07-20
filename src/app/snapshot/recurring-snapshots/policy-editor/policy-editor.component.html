@@ -14,18 +14,21 @@
       name="dailyPolicy"
       *ngSwitchCase="Policies.Daily"
       [(ngModel)]="policy"
+      [timeFormat]="timeFormat"
     ></cs-daily-policy>
 
     <cs-weekly-policy
       name="weeklyPolicy"
       *ngSwitchCase="Policies.Weekly"
       [(ngModel)]="policy"
+      [timeFormat]="timeFormat"
     ></cs-weekly-policy>
 
     <cs-monthly-policy
       name="monthlyPolicy"
       *ngSwitchCase="Policies.Monthly"
       [(ngModel)]="policy"
+      [timeFormat]="timeFormat"
     ></cs-monthly-policy>
   </div>
 

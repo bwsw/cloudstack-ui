@@ -5,8 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { FilterService } from '../shared';
 import { dateTimeFormat, formatIso } from '../shared/components/date-picker/dateUtils';
-import { LanguageService } from '../shared/services';
-import { TimeFormat } from '../shared/services/language.service';
+import { LanguageService, TimeFormats } from '../shared/services';
 import { Event } from './event.model';
 import { EventService } from './event.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
@@ -185,8 +184,8 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
       timeZoneName: 'short'
     };
 
-    if (this.timeFormat !== TimeFormat.AUTO) {
-      options.hour12 = this.timeFormat === TimeFormats.hour24;
+    if (this.timeFormat !== TimeFormats.AUTO) {
+      options.hour12 = this.timeFormat === TimeFormats.hour12;
     }
     this.dateStringifyDateTimeFormat = new Intl.DateTimeFormat(this.locale, options);
   }

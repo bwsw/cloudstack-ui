@@ -16,6 +16,7 @@
 
   <div class="editor">
     <cs-policy-editor
+      [timeFormat]="timeFormat | async"
       [policyMode]="policyMode"
       (onPolicySave)="addPolicy($event)"
     ></cs-policy-editor>
@@ -26,6 +27,7 @@
     class="list"
   >
     <cs-policy-list
+      [timeFormat]="timeFormat | async"
       [hourlyPolicy]="hourlyPolicy"
       [dailyPolicy]="dailyPolicy"
       [weeklyPolicy]="weeklyPolicy"

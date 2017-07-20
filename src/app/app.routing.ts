@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 
 import { LoginComponent } from './auth/login.component';
-import { RecurringSnapshotsComponent } from './snapshot/recurring-snapshots/recurring-snapshots.component';
 import { LogoutComponent } from './auth/logout.component';
 import { EventListComponent } from './events/event-list.component';
 import { SgTemplateListComponent } from './security-group/sg-template-list/sg-template-list.component';

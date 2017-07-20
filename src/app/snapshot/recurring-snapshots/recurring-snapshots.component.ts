@@ -11,6 +11,7 @@ import { MonthlyPolicy } from './policy-editor/monthly/monthly-policy.component'
 import { Policy, TimePolicy } from './policy-editor/policy-editor.component';
 import { WeeklyPolicy } from './policy-editor/weekly/weekly-policy.component';
 import { SnapshotPolicyService } from './snapshot-policy.service';
+import { LanguageService, TimeFormat, TimeFormats } from '../../shared/services';
 
 
 export enum PolicyType {
@@ -46,6 +47,7 @@ export class RecurringSnapshotsComponent implements OnInit {
     @Inject('volume') public volume: Volume,
     private dialog: MdlDialogReference,
     private dialogService: DialogService,
+    private languageService: LanguageService,
     private snapshotPolicyService: SnapshotPolicyService
   ) {}
 
@@ -57,6 +59,17 @@ export class RecurringSnapshotsComponent implements OnInit {
         () => {},
         error => this.onError(error)
       );
+  }
+
+  public get timeFormat(): Observable<TimeFormat> {
+    return this.languageService.getTimeFormat()
+      .map(format => {
+        if (format === TimeFormats.hour24) {
+          return format;
+        }
+
+        return TimeFormats.hour12;
+      })
   }
 
   public tabChanged(tab: any): void {

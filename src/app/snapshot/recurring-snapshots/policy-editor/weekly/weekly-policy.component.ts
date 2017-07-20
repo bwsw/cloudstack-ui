@@ -3,6 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DayOfWeek } from '../../../../shared/types/day-of-week';
 import { Time } from '../../time-picker/time-picker.component';
 import isEqual = require('lodash/isEqual');
+import { TimeFormat } from '../../../../shared/services';
 
 
 export interface WeeklyPolicy extends Time {
@@ -22,6 +23,8 @@ export interface WeeklyPolicy extends Time {
   ]
 })
 export class WeeklyPolicyComponent implements ControlValueAccessor {
+  @Input() public timeFormat: TimeFormat;
+
   public time: Time;
   public dayOfWeek: DayOfWeek;
 
