@@ -186,7 +186,7 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
     };
 
     if (this.timeFormat !== TimeFormat.AUTO) {
-      options.hour12 = this.timeFormat === TimeFormat['12h'];
+      options.hour12 = this.timeFormat === TimeFormats.hour24;
     }
     this.dateStringifyDateTimeFormat = new Intl.DateTimeFormat(this.locale, options);
   }

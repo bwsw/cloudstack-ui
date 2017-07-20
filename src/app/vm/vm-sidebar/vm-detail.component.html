@@ -49,8 +49,8 @@
       <mdl-card-actions mdl-card-border>
         <div class="card-left-button">
           <button
-            [mdl-tooltip]="'CHANGE' | translate"
-            mdl-tooltip-position="top"
+            [mdTooltip]="'CHANGE' | translate"
+            mdTooltipPosition="above"
             mdl-button
             mdl-button-type="icon"
             (click)="changeServiceOffering()"
@@ -84,8 +84,8 @@
       </mdl-card-supporting-text>
       <mdl-card-actions mdl-card-border>
         <button
-          [mdl-tooltip]="'EDIT' | translate"
-          mdl-tooltip-position="top"
+          [mdTooltip]="'EDIT' | translate"
+          mdTooltipPosition="above"
           mdl-button
           mdl-button-type="icon"
           (click)="changeAffinityGroup()"
@@ -114,8 +114,8 @@
       </mdl-card-supporting-text>
       <mdl-card-actions mdl-card-border>
         <mdl-button
-          [mdl-tooltip]="(vm.keyPair ? 'EDIT': 'ADD') | translate"
-          mdl-tooltip-position="top"
+          [mdTooltip]="(vm.keyPair ? 'EDIT': 'ADD') | translate"
+          mdTooltipPosition="above"
           mdl-button-type="icon"
           (click)="resetSshKey()"
         >
@@ -166,8 +166,8 @@
           mdl-button
           mdl-ripple
           mdl-button-type="icon"
-          mdl-tooltip-position="left"
-          [mdl-tooltip]="refreshStatisticsTooltip"
+          mdTooltipPosition="before"
+          [mdTooltip]="'REFRESH' | translate"
           (click)="updateStats()"
         >
           <mdl-icon>sync</mdl-icon>
@@ -175,7 +175,4 @@
       </mdl-card-menu>
     </mdl-card>
   </div>
-  <mdl-tooltip #refreshStatisticsTooltip="mdlTooltip">
-    {{ 'REFRESH' | translate }}
-  </mdl-tooltip>
 </div>

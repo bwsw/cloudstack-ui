@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
+import { MdTooltipModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
@@ -55,6 +56,7 @@ import { VmColorComponent } from './vm-sidebar/color/vm-color.component';
     CommonModule,
     FormsModule,
     ServiceOfferingModule,
+    MdTooltipModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,

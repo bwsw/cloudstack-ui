@@ -32,8 +32,7 @@
   >
     <div mdl-shadow="6" class="popover-actions">
       <button
-        [mdl-tooltip]="'TAKE_SNAPSHOT_BUTTON' | translate "
-        mdl-tooltip-position="bottom"
+        [mdTooltip]="'TAKE_SNAPSHOT_BUTTON' | translate"
         mdl-button
         mdl-button-type="icon"
         (click)="takeSnapshot(volume)"
@@ -55,8 +54,7 @@
         mdl-button
         mdl-button-type="icon"
         (click)="showVolumeResizeDialog()"
-        [mdl-tooltip]="'VOLUME_RESIZE' | translate"
-        mdl-tooltip-position="bottom"
+        [mdTooltip]="'VOLUME_RESIZE' | translate"
       >
         <mdl-icon >photo_size_select_small</mdl-icon>
       </button>
@@ -71,8 +69,8 @@
         *ngIf="showAttachmentActions"
         mdl-button
         mdl-button-type="icon"
-        mdl-tooltip-position="top"
-        [mdl-tooltip]="'DETACH' | translate"
+        mdTooltipPosition="above"
+        [mdTooltip]="'DETACH' | translate"
         (click)="detach()"
       >
         <mdl-icon>remove</mdl-icon>
