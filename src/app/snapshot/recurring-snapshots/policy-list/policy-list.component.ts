@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
 import { TimeFormat, TimeFormats } from '../../../shared/services';
 import { DayOfWeek } from '../../../shared/types/day-of-week';
 import { DailyPolicy } from '../policy-editor/daily/daily-policy.component';
