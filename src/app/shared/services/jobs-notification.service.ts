@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { UtilsService } from './utils.service';
-import { AuthService } from './';
+import { AuthService } from './auth.service';
+import { Utils } from './utils.service';
+
 
 export enum INotificationStatus {
   Pending,
@@ -22,10 +23,7 @@ export class JobsNotificationService {
   private _pendingJobsCount: number;
   private _unseenJobs: Subject<number>;
 
-  constructor(
-    private authService: AuthService,
-    private utilsService: UtilsService
-  ) {
+  constructor(private authService: AuthService) {
     this.reset();
     this.authService.loggedIn.subscribe(() => this.reset());
   }
@@ -40,7 +38,7 @@ export class JobsNotificationService {
 
   public add(notification: INotification | string): string {
     if (typeof notification === 'string') {
-      const id = this.utilsService.getUniqueId();
+      const id = Utils.getUniqueId();
       const n: INotification = {
         id,
         message: notification,
@@ -55,7 +53,7 @@ export class JobsNotificationService {
     }
 
     if (!notification.id) {
-      notification.id = this.utilsService.getUniqueId();
+      notification.id = Utils.getUniqueId();
     }
 
     const ind = this.notifications.findIndex((el: INotification) => el.id === notification.id);

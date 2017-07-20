@@ -208,6 +208,7 @@
 
   "CREATING_SG": "Creating a security group",
   "CREATING_AG": "Creating an affinity group",
+  "DEPLOYING_VM": "Deploying the virtual machine",
   "CREATING_SG_TEMPLATE": "Creating a security group template",
 
   "CREATE_NEW_TEMPLATE": "Create new template",

@@ -1,0 +1,60 @@
+[
+  {
+    "id": "b785e23e-5159-4968-ba6e-3ddb9fa1d58e",
+    "name": "Disk",
+    "displaytext": "Disk",
+    "disksize": 0,
+    "created": "2016-11-06T14:03:30+0700",
+    "iscustomized": true,
+    "storagetype": "shared",
+    "provisioningtype": "thin",
+    "diskBytesReadRate": 100000000,
+    "diskBytesWriteRate": 100000000,
+    "diskIopsReadRate": 5000,
+    "diskIopsWriteRate": 10000,
+    "displayoffering": true
+  },
+  {
+    "id": "f26bce86-c32a-4792-8697-5d69307205d7",
+    "domainid": "eee2a0bc-a272-11e6-88da-6557869a736f",
+    "domain": "ROOT",
+    "name": "test",
+    "displaytext": "test shrink",
+    "disksize": 4,
+    "created": "2017-02-03T12:51:04+0700",
+    "iscustomized": false,
+    "storagetype": "shared",
+    "provisioningtype": "thin",
+    "displayoffering": true
+  },
+  {
+    "id": "6d135a79-cf3b-4eae-86c5-89884255c90d",
+    "name": "Local Disk 120",
+    "displaytext": "Local Disk 120",
+    "disksize": 120,
+    "created": "2017-03-22T13:42:01+0700",
+    "iscustomized": false,
+    "storagetype": "local",
+    "provisioningtype": "thin",
+    "diskBytesReadRate": 100000000,
+    "diskBytesWriteRate": 100000000,
+    "diskIopsReadRate": 10000,
+    "diskIopsWriteRate": 10000,
+    "displayoffering": true
+  },
+  {
+    "id": "c201d261-16bb-46ba-b831-e1715e5238e3",
+    "name": "Local Disk 10",
+    "displaytext": "Local Disk 10",
+    "disksize": 10,
+    "created": "2017-03-27T10:00:14+0700",
+    "iscustomized": false,
+    "storagetype": "local",
+    "provisioningtype": "thin",
+    "diskBytesReadRate": 10000000,
+    "diskBytesWriteRate": 10000000,
+    "diskIopsReadRate": 1000,
+    "diskIopsWriteRate": 1000,
+    "displayoffering": true
+  }
+]

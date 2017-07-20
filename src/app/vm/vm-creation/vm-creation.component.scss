@@ -3,14 +3,10 @@
   display: block;
 }
 
-:host mdl-textfield {
-  padding-top: 15px;
-}
-
 .vm-creation-container {
   position: relative;
   padding: 0.9em;
-  min-height: 500px;
+  min-height: 120px;
 
   /deep/ cs-loader {
     position: absolute;
