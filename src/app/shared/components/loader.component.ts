@@ -9,7 +9,7 @@ import { Component, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/
       margin: 20px auto;
       text-align: center;
     }
-    
+
     cs-loader .spinner {
       width: 40px;
       height: 40px;

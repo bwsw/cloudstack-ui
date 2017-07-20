@@ -11,10 +11,11 @@ import {
   URLSearchParams
 } from '@angular/http';
 import { ServiceLocator } from './service-locator';
-import {
-  AsyncJobService, CacheService,
-  ErrorService,
-} from './';
+
+import { AsyncJobService } from './async-job.service';
+import { CacheService } from './cache.service';
+import { ErrorService } from './error.service';
+
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
 
 
@@ -149,4 +150,3 @@ describe('Async job service', () => {
     tick(3000);
   }));
 });
-

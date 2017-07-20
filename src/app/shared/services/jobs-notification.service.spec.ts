@@ -2,9 +2,8 @@ import { MdlDialogOutletModule } from '@angular-mdl/core';
 import { Injectable } from '@angular/core';
 import { async, inject, TestBed } from '@angular/core/testing';
 import { Subject } from 'rxjs/Subject';
-import { AuthService } from './';
+import { AuthService } from './auth.service';
 import { INotificationStatus, JobsNotificationService } from './jobs-notification.service';
-import { UtilsService } from './utils.service';
 
 
 @Injectable()
@@ -20,7 +19,6 @@ describe('Jobs notification service', () => {
       ],
       providers: [
         AuthService,
-        UtilsService,
         JobsNotificationService,
         { provide: AuthService, useClass: MockAuthService }
       ]

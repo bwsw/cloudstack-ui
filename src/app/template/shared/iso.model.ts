@@ -7,4 +7,8 @@ export class Iso extends BaseTemplateModel {
   public bootable: boolean;
   public checksum: string;
   public size: number;
+
+  public get isTemplate(): boolean {
+    return false;
+  }
 }

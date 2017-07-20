@@ -6,7 +6,6 @@ import { RouterUtilsService } from './router-utils.service';
 
 import { StorageService } from './storage.service';
 import { TagService } from './tag.service';
-import { UtilsService } from './utils.service';
 
 
 describe('Filter service', () => {
@@ -46,7 +45,6 @@ describe('Filter service', () => {
             getRouteWithoutQueryParams: _ => _
           }
         },
-        UtilsService,
         StorageService,
         Injector
       ],

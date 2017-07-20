@@ -1,0 +1,12 @@
+<mdl-select
+  name="keyboard"
+  *ngIf="translatedLayouts"
+  [(ngModel)]="keyboardLayout"
+>
+  <mdl-option
+    *ngFor="let l of translatedLayouts"
+    [value]="l.value"
+  >
+    {{ l.name }}
+  </mdl-option>
+</mdl-select>

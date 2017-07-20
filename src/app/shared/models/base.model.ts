@@ -30,13 +30,13 @@ export abstract class BaseModel {
       return model;
     }
 
-    for (let key in this._mapper) {
+    for (const key in this._mapper) {
       if (this._mapper.hasOwnProperty(key)) {
         reverseMap[this._mapper[key]] = key;
       }
     }
 
-    for (let key in this) {
+    for (const key in this) {
       if (this.hasOwnProperty(key) && typeof key !== 'function' && !key.startsWith('_')) {
         if (!reverseMap[key]) {
           model[key] = this[key];
@@ -54,7 +54,7 @@ export abstract class BaseModel {
   }
 
   protected parse(params: {}): void {
-    for (let key in params) {
+    for (const key in params) {
       if (params.hasOwnProperty(key)) {
         this.set(key, params[key]);
       }
