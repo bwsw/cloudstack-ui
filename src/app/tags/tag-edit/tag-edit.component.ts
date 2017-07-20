@@ -1,11 +1,7 @@
 import { Component, Inject, Optional, ViewChild } from '@angular/core';
 import { NgModel } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
 import { MdlDialogReference } from '../../dialog/dialog-module';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { defaultCategoryName, Tag } from '../../shared/models';
-import { TagService } from '../../shared/services';
 
 
 @Component({
