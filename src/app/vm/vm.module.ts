@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { MdTooltipModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { routes } from '../app.routing';
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
@@ -55,6 +56,8 @@ import { vmRouting } from './vm.routing';
   imports: [
     CommonModule,
     FormsModule,
+    ServiceOfferingModule,
+    MdTooltipModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MdTooltipModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
@@ -21,6 +22,7 @@ import { SgCreationRuleComponent } from './sg-creation/sg-creation-rule.componen
     CommonModule,
     FormsModule,
     TranslateModule,
+    MdTooltipModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
