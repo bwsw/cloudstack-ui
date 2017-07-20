@@ -76,35 +76,6 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
     }
   }
 
-  private convert24toAmPm(time: Time): Time {
-    debugger;
-    if (time.period) {
-      return time;
-    }
-
-    let period: DayPeriod;
-
-    if (time.hour >= 12) {
-      period = DayPeriod.Pm;
-    } else {
-      period = DayPeriod.Am;
-    }
-
-    let _hour: number;
-
-    if (time.hour === 0 || time.hour === 12) {
-      _hour = 12;
-    } else {
-      _hour = time.hour % 12;
-    }
-
-    return {
-      hour: _hour,
-      minute: time.minute,
-      period
-    }
-  }
-
   private transformPolicyTypeToString(type: PolicyType): string {
     switch (type) {
       case PolicyType.Hourly:
@@ -146,15 +117,15 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
           minute: +parsedSchedule[0]
         };
       case 2:
-        return this.convert24toAmPm({
+        return {
           hour: +parsedSchedule[1],
           minute: +parsedSchedule[0]
-        });
+        };
       case 3:
-        const timePolicy: Partial<TimePolicy> = this.convert24toAmPm({
+        const timePolicy: Partial<TimePolicy> = {
           hour: +parsedSchedule[1],
           minute: +parsedSchedule[0]
-        });
+        };
 
         if (policyType === PolicyType.Weekly) {
           timePolicy.dayOfWeek = +parsedSchedule[2];

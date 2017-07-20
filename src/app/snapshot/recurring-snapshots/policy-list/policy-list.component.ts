@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { TimeFormat, TimeFormats } from '../../../shared/services';
@@ -17,7 +17,7 @@ interface PolicyView {
   id: string;
   type: PolicyType;
   timeToken: string;
-  timeValue: Observable<string>;
+  timeValue: string;
   periodToken: string;
   periodValue: string;
   timeZone: string;
@@ -29,7 +29,7 @@ interface PolicyView {
   templateUrl: 'policy-list.component.html',
   styleUrls: ['policy-list.component.scss']
 })
-export class PolicyListComponent implements OnInit, OnChanges {
+export class PolicyListComponent implements OnChanges {
   @Input() public timeFormat: TimeFormat;
   @Input() public hourlyPolicy: Policy<HourlyPolicy>;
   @Input() public dailyPolicy: Policy<DailyPolicy>;
@@ -44,11 +44,10 @@ export class PolicyListComponent implements OnInit, OnChanges {
     this.onPolicyDelete = new EventEmitter<Policy<TimePolicy>>();
   }
 
-  public ngOnInit(): void {
-    this.setDateTimeFormat();
-  }
-
-  public ngOnChanges(): void {
+  public ngOnChanges(changes: SimpleChanges): void {
+    if ('timeFormat' in changes) {
+      this.setDateTimeFormat();
+    }
     this.updatePolicies();
   }
 
@@ -78,7 +77,7 @@ export class PolicyListComponent implements OnInit, OnChanges {
         id: this.hourlyPolicy.id,
         type: PolicyType.Hourly,
         timeToken: 'POLICY_HOURLY_TIME',
-        timeValue: Observable.of((this.hourlyPolicy.timePolicy.minute || 0).toString()),
+        timeValue: (this.hourlyPolicy.timePolicy.minute || 0).toString(),
         periodToken: '',
         periodValue: '',
         timeZone: this.hourlyPolicy.timeZone.geo,
@@ -128,16 +127,12 @@ export class PolicyListComponent implements OnInit, OnChanges {
     this.policies = policies;
   }
 
-  private getTimeString(time: Time): Observable<string> {
-    const amPm = [
-      'AM',
-      'PM'
-    ];
+  private getTimeString(time: Time): string {
+    const date = new Date();
+    date.setHours(time.hour);
+    date.setMinutes(time.minute);
 
-    return this.translateService.get(['AM', 'PM'])
-      .map(translations => {
-        return `${time.hour}:${this.pad(time.minute)} ${translations[amPm[time.period]]}`;
-      });
+    return this.dateStringifyDateTimeFormat.format(date);
   }
 
   private setDateTimeFormat(): void {
@@ -146,14 +141,8 @@ export class PolicyListComponent implements OnInit, OnChanges {
       minute: 'numeric'
     };
 
-    if (this.timeFormat === TimeFormats.hour12 || this.timeFormat === TimeFormats.AUTO) {
-      options.hour12 = true;
-    }
+    options.hour12 = this.timeFormat === TimeFormats.hour12 || this.timeFormat === TimeFormats.AUTO;
 
     this.dateStringifyDateTimeFormat = new Intl.DateTimeFormat(this.locale, options);
-  }
-
-  private pad(value: any): string {
-    return +value < 10 ? `0${+value}` : `${+value}`;
   }
 }

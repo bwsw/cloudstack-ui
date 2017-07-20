@@ -13,7 +13,7 @@
   <tbody>
   <tr *ngFor="let p of policies">
     <td class="mdl-data-table__cell--non-numeric">
-      {{ p.timeToken | translate:{ value: p.timeValue | async } }}
+      {{ p.timeToken | translate:{ value: p.timeValue } }}
     </td>
     <td class="mdl-data-table__cell--non-numeric">
       {{ p.periodToken | translate: { value: p.periodValue | translate } }}

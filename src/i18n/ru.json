@@ -616,7 +616,7 @@
   "SCHEDULED_SNAPSHOTS": "Расписание снимков",
   "KEEP": "Сохранять",
   "RECURRING_SNAPSHOTS": "Повторяемые снимки",
-  "POLICY_HOURLY_TIME": "{{ value }} минута",
+  "POLICY_HOURLY_TIME": "{{ value }}-я минута",
   "POLICY_DAILY_TIME": "{{ value }}",
   "POLICY_WEEKLY_TIME": "{{ value }}",
   "POLICY_MONTHLY_TIME": "{{ value }}",
