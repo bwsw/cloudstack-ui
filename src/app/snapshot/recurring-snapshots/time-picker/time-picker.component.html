@@ -21,6 +21,7 @@
 <span class="delimiter"></span>
 
 <cs-day-period
+  *ngIf="timeFormat === 12"
   name="period"
   [ngModel]="period"
   (ngModelChange)="updatePeriod($event)"

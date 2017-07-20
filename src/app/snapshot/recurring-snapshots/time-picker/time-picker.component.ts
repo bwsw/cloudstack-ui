@@ -4,12 +4,13 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DayPeriod } from '../day-period/day-period.component';
 import { TimeFormat } from '../policy-editor/daily/daily-policy.component';
 import throttle = require('lodash/throttle');
+import { SnapshotPolicyService } from '../snapshot-policy.service';
 
 
 export interface Time {
   hour: number;
   minute: number;
-  period: DayPeriod;
+  period?: DayPeriod;
 }
 
 @Component({
@@ -36,9 +37,7 @@ export class TimePickerComponent implements ControlValueAccessor {
   public maxMinuteValue = 59;
   public minHourValue = 1;
 
-  private timeFormat: TimeFormat = 12;
-
-  constructor() {}
+  public timeFormat: TimeFormat = 12;
 
   public get hour(): string {
     return this._hour.toString();
@@ -66,8 +65,10 @@ export class TimePickerComponent implements ControlValueAccessor {
     if (Number.isNaN(value) || value == null) {
       newValue = this.hour;
     } else {
-      if (value > this.maxHourValue) {
+      if (value === this.maxHourValue + 1) {
         newValue = this.minHourValue.toString();
+      } else if (value > this.maxHourValue) {
+        newValue = value.toString().substr(-1);
       } else if (value < this.minHourValue) {
         newValue = this.maxHourValue.toString();
       } else {
