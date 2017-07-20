@@ -21,8 +21,7 @@
     "isextractable":false,
     "checksum":"5daafab1363fd25c7855764b7c6acda8",
     "isdynamicallyscalable":false,
-    "tags":{
-    }
+    "tags":[]
   },
   {
     "id":"aae96a0c-6c33-41d6-99ec-c9bb4ea3a974",
@@ -46,8 +45,7 @@
     "isextractable":false,
     "checksum":"c697a4eaf8ad9df28b7a6053d117146e",
     "isdynamicallyscalable":false,
-    "tags":{
-    }
+    "tags":[]
   },
   {
     "id":"188bc550-7216-42fb-9d24-520e835b31b9",
@@ -71,8 +69,7 @@
     "isextractable":false,
     "checksum":"95de0481701c0ce7872477e878e79a6d",
     "isdynamicallyscalable":false,
-    "tags":{
-    }
+    "tags":[]
   },
   {
     "id":"6a5fc80b-6fc6-4865-8b0e-b3bfc986c9a0",
@@ -96,8 +93,7 @@
     "isextractable":false,
     "checksum":"c697a4eaf8ad9df28b7a6053d117146e",
     "isdynamicallyscalable":false,
-    "tags":{
-    }
+    "tags":[]
   },
   {
     "id":"f8230f72-13e1-4be5-baac-0a45d1619286",
@@ -120,8 +116,7 @@
     "isextractable":false,
     "checksum":"7fe170771f3c5ce20b239093421da3ba",
     "isdynamicallyscalable":false,
-    "tags":{
-    }
+    "tags":[]
   },
   {
     "id":"75c74254-44a1-49e0-bb6a-ca7f98431738",
@@ -139,7 +134,6 @@
     "domainid":"eee2a0bc-a272-11e6-88da-6557869a736f",
     "isextractable":false,
     "isdynamicallyscalable":false,
-    "tags":{
-    }
+    "tags":[]
   }
 ]
