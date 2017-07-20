@@ -30,8 +30,8 @@ export class LoadingDirective {
       this.hasView = true;
     } else if (condition) {
       this.hasView = false;
-      let cFactory = this.componentFactoryResolver.resolveComponentFactory(LoaderComponent);
-      let cRef: ComponentRef<LoaderComponent> = this.viewContainer.createComponent(cFactory);
+      const cFactory = this.componentFactoryResolver.resolveComponentFactory(LoaderComponent);
+      const cRef: ComponentRef<LoaderComponent> = this.viewContainer.createComponent(cFactory);
 
       this.loaderComponent = <LoaderComponent> cRef.instance;
     }

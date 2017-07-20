@@ -1,9 +1,9 @@
 import moment = require('moment');
 
-import { BaseModel, Tag } from '../../shared/models';
 import { FieldMapper } from '../../shared/decorators/field-mapper.decorator';
+import { BaseModel, Tag } from '../../shared/models';
 import { OsType } from '../../shared/models/os-type.model';
-import { Taggable } from '../../shared/interfaces/taggable.interface';
+import { Utils } from '../../shared/services/utils.service';
 
 
 @FieldMapper({
@@ -51,7 +51,12 @@ export abstract class BaseTemplateModel extends BaseModel {
     super(json);
     this.created = moment(json.created).toDate();
     this.tags = this.tags ? this.tags.map(tag => new Tag(tag)) : [];
+    this.size = this.size || 0;
   }
 
   public abstract get isTemplate(): boolean;
+
+  public get sizeInGB(): number {
+    return Utils.convertToGB(this.size);
+  }
 }

@@ -81,7 +81,6 @@ import { SnapshotService } from './services/snapshot.service';
 import { StorageService } from './services/storage.service';
 import { TagService } from './services/tag.service';
 import { UserService } from './services/user.service';
-import { UtilsService } from './services/utils.service';
 import { VolumeService } from './services/volume.service';
 import { MdlTextAreaAutoresizeDirective } from './directives/mdl-textarea-autoresize.directive';
 import { VolumeOfferingService } from './services/volume-offering.service';
@@ -216,7 +215,6 @@ import {
     StyleService,
     TagService,
     UserService,
-    UtilsService,
     VolumeService,
     VolumeOfferingService,
     ZoneService,

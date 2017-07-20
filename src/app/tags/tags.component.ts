@@ -11,18 +11,18 @@ import { KeyValuePair, TagEditAction } from './tags-view/tags-view.component';
 export abstract class TagsComponent implements OnInit {
   public abstract entity: Taggable;
 
-  public tags: BehaviorSubject<Array<Tag>>;
+  public tags$: BehaviorSubject<Array<Tag>>;
 
   constructor(
     protected dialogService: DialogService,
     protected tagService: TagService,
   ) {
-    this.tags = new BehaviorSubject<Array<Tag>>([]);
+    this.tags$ = new BehaviorSubject<Array<Tag>>([]);
   }
 
   public ngOnInit(): void {
-    this.tags.next(this.entity.tags);
-    this.tags.subscribe(tags => this.entity.tags = tags);
+    this.tags$.next(this.entity.tags);
+    this.tags$.subscribe(tags => this.entity.tags = tags);
   }
 
   public onTagAdd(tag: KeyValuePair): void {
@@ -38,7 +38,7 @@ export abstract class TagsComponent implements OnInit {
     })
       .switchMap(() => this.entityTags)
       .subscribe(
-        tags => this.tags.next(tags),
+        tags => this.tags$.next(tags),
         error => this.onError(error)
       );
   }
@@ -67,7 +67,7 @@ export abstract class TagsComponent implements OnInit {
       })
       .switchMap(() => this.entityTags)
       .subscribe(
-        tags => this.tags.next(tags),
+        tags => this.tags$.next(tags),
         error => this.onError(error)
       );
 
@@ -81,7 +81,7 @@ export abstract class TagsComponent implements OnInit {
     })
       .switchMap(() => this.entityTags)
       .subscribe(
-        tags => this.tags.next(tags),
+        tags => this.tags$.next(tags),
         error => this.onError(event)
       );
   }

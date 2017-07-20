@@ -1,5 +1,5 @@
 <cs-tags-view
-  [tags]="tags.getValue()"
+  [tags]="tags$ | async"
   (onTagAdd)="onTagAdd($event)"
   (onTagEdit)="onTagEdit($event)"
   (onTagDelete)="onTagDelete($event)"

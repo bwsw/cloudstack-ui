@@ -17,6 +17,46 @@ export interface FilterItemConfig {
 
 @Injectable()
 export class FilterService {
+  private static setDefaultOrRemove(filter, config: FilterConfig, output): void {
+    if (config[filter].defaultOption) {
+      output[filter] = config[filter].defaultOption;
+    } else {
+      delete output[filter];
+    }
+  }
+
+  private static getValue(param, conf: FilterItemConfig): any {
+    let res;
+    if (param != null) {
+      switch (conf.type) {
+        case 'boolean':
+          if (typeof param === 'boolean' || param === 'true' || param === 'false') {
+            res = JSON.parse(param);
+          }
+          break;
+        case 'string':
+          if (!conf.options || conf.options.some(_ => _ === param)) {
+            res = param.toString();
+          }
+          break;
+        case 'array':
+          let par = param;
+          if (typeof param === 'string') {
+            par = param.split(',');
+          } else if (!Array.isArray(param)) {
+            break;
+          }
+          if (!conf.options) {
+            res = par;
+          } else {
+            res = par.filter(p => conf.options.some(_ => _ === p));
+          }
+          break;
+      }
+    }
+    return res;
+  }
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -71,45 +111,5 @@ export class FilterService {
 
       return memo;
     }, {});
-  }
-
-  private static setDefaultOrRemove(filter, config: FilterConfig, output): void {
-    if (config[filter].defaultOption) {
-      output[filter] = config[filter].defaultOption;
-    } else {
-      delete output[filter];
-    }
-  }
-
-  private static getValue(param, conf: FilterItemConfig): any {
-    let res;
-    if (param != null) {
-      switch (conf.type) {
-        case 'boolean':
-          if (typeof param === 'boolean' || param === 'true' || param === 'false') {
-            res = JSON.parse(param);
-          }
-          break;
-        case 'string':
-          if (!conf.options || conf.options.some(_ => _ === param)) {
-            res = param.toString();
-          }
-          break;
-        case 'array':
-          let par = param;
-          if (typeof param === 'string') {
-            par = param.split(',');
-          } else if (!Array.isArray(param)) {
-            break;
-          }
-          if (!conf.options) {
-            res = par;
-          } else {
-            res = par.filter(p => conf.options.some(_ => _ === p));
-          }
-          break;
-      }
-    }
-    return res;
   }
 }

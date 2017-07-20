@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { StorageService } from './storage.service';
-import { UtilsService } from './utils.service';
 
 
 describe('Storage service with local storage', () => {
@@ -8,10 +7,7 @@ describe('Storage service with local storage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        StorageService,
-        UtilsService
-      ]
+      providers: [StorageService]
     });
 
     storageService = TestBed.get(StorageService);
@@ -31,10 +27,7 @@ describe('Storage service without local storage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        StorageService,
-        UtilsService
-      ]
+      providers: [StorageService]
     });
 
     spyOn(localStorage, 'setItem').and.callFake(() => { throw new Error(); });

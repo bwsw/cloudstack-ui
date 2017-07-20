@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { defaultCategoryName, Tag } from '../../shared/models';
-import { UtilsService } from '../../shared/services';
+import { Utils } from '../../shared/services';
 import { TagCategory } from '../tag-category/tag-category.component';
 import { TagEditComponent } from '../tag-edit/tag-edit.component';
 import cloneDeep = require('lodash/cloneDeep');
@@ -36,8 +36,7 @@ export class TagsViewComponent implements OnChanges {
 
   constructor(
     private cd: ChangeDetectorRef,
-    private dialogService: DialogService,
-    private utilsService: UtilsService
+    private dialogService: DialogService
   ) {
     this.onTagAdd = new EventEmitter<Tag>();
     this.onTagEdit = new EventEmitter<TagEditAction>();
@@ -87,31 +86,24 @@ export class TagsViewComponent implements OnChanges {
 
   public updateResults(): void {
     this.categories = this.getCategories();
-    this.updateSearchResults();
+    this.updateSearchResults(this.query);
   }
 
-  public updateSearchResults(): void {
-    this.visibleCategories = this.getSearchResults();
+  public updateSearchResults(query: string): void {
+    this.visibleCategories = this.getSearchResults(query);
     this.cd.detectChanges();
   }
 
-  private getSearchResults(): Array<TagCategory> {
+  private getSearchResults(query: string): Array<TagCategory> {
     let categories = cloneDeep(this.categories);
 
-    if (!this.query) {
+    if (!query) {
       return categories;
     }
 
-    categories = categories.map(category => {
-      category.tags = this.filterTags(category.tags);
-
-      if (category.tags.length) {
-        return category;
-      }
-
-      return false;
-    })
-      .filter(_ => _);
+    categories = categories.filter(category => {
+      return this.filterTags(category.tags).length;
+    });
 
     categories.sort(this.compareCategories);
 
@@ -120,8 +112,8 @@ export class TagsViewComponent implements OnChanges {
 
   private filterTags(tags: Array<Tag>): Array<Tag> {
     return tags.filter(tag => {
-      const keyMatch = this.utilsService.matchLower(tag.key, this.query);
-      const valueMatch = this.utilsService.matchLower(tag.value, this.query);
+      const keyMatch = Utils.matchLower(tag.key, this.query);
+      const valueMatch = Utils.matchLower(tag.value, this.query);
 
       return keyMatch || valueMatch;
     });
