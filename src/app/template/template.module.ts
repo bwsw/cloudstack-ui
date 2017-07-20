@@ -21,6 +21,8 @@ import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.co
 import { IsoSidebarComponent } from './template-sidebar/iso-sidebar.component';
 import { TemplateCardListComponent } from './template-list/template-card-list.component';
 import { TemplateActionsService } from './shared/template-actions.service';
+import { TemplateTagsComponent } from './template-tags/template-tags.component';
+import { TagsModule } from '../tags/tags.module';
 
 
 @NgModule({
@@ -33,6 +35,7 @@ import { TemplateActionsService } from './shared/template-actions.service';
     MdlPopoverModule,
     MdlSelectModule,
     SharedModule,
+    TagsModule,
     templatesRouting
   ],
   declarations: [
@@ -45,7 +48,8 @@ import { TemplateActionsService } from './shared/template-actions.service';
     TemplateListComponent,
     TemplateCardListComponent,
     TemplateFilterListComponent,
-    TemplatePageComponent
+    TemplatePageComponent,
+    TemplateTagsComponent
   ],
   exports: [
     TemplateFilterListComponent

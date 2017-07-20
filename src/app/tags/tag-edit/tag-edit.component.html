@@ -1,0 +1,67 @@
+<cs-overlay-loading [active]="loading"></cs-overlay-loading>
+<h3 class="mdl-dialog__title">{{ (title || 'EDIT_TAG') | translate }}</h3>
+
+<form
+  (ngSubmit)="onTagUpdate($event)"
+  #tagCreationForm="ngForm"
+>
+  <div class="mdl-dialog__content">
+
+    <mdl-textfield
+      type="text"
+      name="key"
+      required
+      autofocus
+      floating-label
+      #keyField="ngModel"
+      [forbiddenValues]="forbiddenKeys || []"
+      [error-msg]="keyFieldErrorMessage | translate"
+      [(ngModel)]="key"
+      [maxlength]="maxKeyLength"
+      [label]="'TAG_KEY' | translate"
+      [class.is-invalid]="keyField.invalid && !keyField.pristine"
+    ></mdl-textfield>
+    <cs-character-count
+      [value]="key"
+      [maxLength]="maxKeyLength"
+    ></cs-character-count>
+
+    <mdl-textfield
+      type="text"
+      [label]="'TAG_VALUE' | translate"
+      name="value"
+      required
+      floating-label
+      #valueField="ngModel"
+      [(ngModel)]="value"
+      [maxlength]="maxValueLength"
+      [class.is-invalid]="valueField.invalid && !valueField.pristine"
+    ></mdl-textfield>
+    <cs-character-count
+      [value]="value"
+      [maxLength]="maxValueLength"
+    ></cs-character-count>
+
+  </div>
+
+  <div class="mdl-dialog__actions">
+    <button
+      mdl-button
+      mdl-colored="primary"
+      mdl-ripple
+      type="submit"
+      [disabled]="!tagCreationForm.valid"
+    >
+      {{ (confirmButtonText || 'EDIT') | translate }}
+    </button>
+    <button
+      mdl-button
+      mdl-colored="primary"
+      mdl-ripple
+      type="button"
+      (click)="onCancel()"
+    >
+      {{ 'CANCEL' | translate }}
+    </button>
+  </div>
+</form>

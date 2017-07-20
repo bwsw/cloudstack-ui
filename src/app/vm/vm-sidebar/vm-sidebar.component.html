@@ -29,6 +29,28 @@
           <cs-network-detail [vm]="vm"></cs-network-detail>
         </mdl-tab-panel-content>
       </mdl-tab-panel>
+
+      <mdl-tab-panel>
+        <mdl-tab-panel-title>
+          <mdl-icon>local_offer</mdl-icon>
+        </mdl-tab-panel-title>
+        <mdl-tab-panel-content>
+          <cs-vm-tags [entity]="vm"></cs-vm-tags>
+        </mdl-tab-panel-content>
+      </mdl-tab-panel>
+
     </mdl-tabs>
   </div>
 </div>
+<mdl-tooltip #vmTooltip="mdlTooltip">
+  {{ 'VM_VIEW' | translate }}
+</mdl-tooltip>
+<mdl-tooltip #storageTooltip="mdlTooltip">
+  {{ 'VM_STORAGE_VIEW' | translate }}
+</mdl-tooltip>
+<mdl-tooltip #networkTooltip="mdlTooltip">
+  {{ 'VM_NETWORK_VIEW' | translate }}
+</mdl-tooltip>
+<mdl-tooltip #tagsTooltip="mdlTooltip">
+  {{ 'VM_TAGS_VIEW' | translate }}
+</mdl-tooltip>

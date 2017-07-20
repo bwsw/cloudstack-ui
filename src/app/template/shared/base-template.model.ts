@@ -20,6 +20,7 @@ import { Utils } from '../../shared/services/utils.service';
   zonename: 'zoneName',
 })
 export abstract class BaseTemplateModel extends BaseModel {
+  public resourceType: string;
   public path: string;
 
   public id: string;
@@ -49,6 +50,7 @@ export abstract class BaseTemplateModel extends BaseModel {
   constructor(json) {
     super(json);
     this.created = moment(json.created).toDate();
+    this.tags = this.tags ? this.tags.map(tag => new Tag(tag)) : [];
     this.size = this.size || 0;
   }
 

@@ -85,9 +85,8 @@ import { VolumeService } from './services/volume.service';
 import { MdlTextAreaAutoresizeDirective } from './directives/mdl-textarea-autoresize.directive';
 import { VolumeOfferingService } from './services/volume-offering.service';
 import { ReloadComponent } from './components/reload/reload.component';
-import {
-  CharacterCountTextfieldComponent
-} from './components/character-count-textfield/character-count-textfield.component';
+import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
+import { ForbiddenValuesDirective } from './directives/forbidden-values.directive';
 import {
   CreateUpdateDeleteDialogComponent
 } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
@@ -105,7 +104,7 @@ import {
     TranslateModule
   ],
   exports: [
-    CharacterCountTextfieldComponent,
+    CharacterCountComponent,
     ColorPickerComponent,
     CreateUpdateDeleteDialogComponent,
     DatePickerComponent,
@@ -113,6 +112,7 @@ import {
     DiskOfferingComponent,
     FabComponent,
     FancySelectComponent,
+    ForbiddenValuesDirective,
     InlineEditComponent,
     InlineEditAutocompleteComponent,
     InputGroupComponent,
@@ -143,7 +143,7 @@ import {
     LoaderComponent
   ],
   declarations: [
-    CharacterCountTextfieldComponent,
+    CharacterCountComponent,
     CalendarComponent,
     CalendarMonthComponent,
     CalendarYearComponent,
@@ -156,6 +156,7 @@ import {
     DiskOfferingComponent,
     FabComponent,
     FancySelectComponent,
+    ForbiddenValuesDirective,
     InlineEditComponent,
     InlineEditAutocompleteComponent,
     InputGroupComponent,

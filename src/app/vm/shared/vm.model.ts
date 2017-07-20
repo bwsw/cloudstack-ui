@@ -12,6 +12,7 @@ import {
 import { BaseTemplateModel } from '../../template/shared';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { Color } from '../../shared/models/color.model';
+import { Taggable } from '../../shared/interfaces/taggable.interface';
 
 
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
@@ -79,12 +80,13 @@ export const VmActions = {
   isoid: 'isoId',
   passwordenabled: 'passwordEnabled'
 })
-export class VirtualMachine extends BaseModel {
+export class VirtualMachine extends BaseModel implements Taggable {
   public static actions = Object
     .values(VmActions)
     .map(a => VirtualMachine.getAction(a));
 
   public static ColorDelimiter = ';';
+  public resourceType = 'UserVm';
 
   public id: string;
   public displayName: string;
@@ -201,6 +203,7 @@ export class VirtualMachine extends BaseModel {
     }
 
     if (this.tags) {
+      this.tags = this.tags.map(tag => new Tag(tag));
       const group = this.tags.find(tag => tag.key === 'group');
       this.instanceGroup = group ? new InstanceGroup(group.value) : undefined;
     }

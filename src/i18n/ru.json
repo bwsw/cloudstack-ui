@@ -310,8 +310,9 @@
   "REVERT_TO_SNAPSHOT": "Восстановить диск",
 
   "VM_VIEW": "Машина",
-  "STORAGE_VIEW": "Диски",
-  "NETWORK_VIEW": "Сеть",
+  "VM_STORAGE_VIEW": "Диски",
+  "VM_NETWORK_VIEW": "Сеть",
+  "VM_TAGS_VIEW": "Теги",
 
   "VOLUME_RESIZE": "Изменить размер",
   "VOLUME_RESIZING": "Изменение размера диска",
@@ -574,5 +575,15 @@
   "REMOVE_FROM_GROUP": "Удалить из группы",
   "REMOVE": "Удалить",
   "CLICK_TO_ASSIGN": "Нажмите, чтобы присвоить",
-  "REFRESH": "Обновить"
+  "REFRESH": "Обновить",
+
+  "CREATE_NEW_TAG": "Создать тег",
+  "TAG_CATEGORY": "Категория",
+  "TAG_KEY": "Ключ",
+  "TAG_VALUE": "Значение",
+  "TAG_CATEGORY_NAME": "Название категории",
+  "TAG_ALREADY_EXISTS": "Тег уже существует",
+  "NO_TAGS": "Нет тегов",
+  "EDIT_TAG": "Редактировать тег",
+  "TAG_DELETE_CONFIRMATION": "Вы действительно хотите удалить этот тег?"
 }

@@ -24,4 +24,8 @@ export class Utils {
     }
     return value / Math.pow(2, 30);
   }
+
+  public static matchLower(string: string, subString: string): boolean {
+    return string.toLowerCase().includes(subString.toLowerCase());
+  }
 }
