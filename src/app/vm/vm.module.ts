@@ -47,7 +47,7 @@ import { NetworkDetailComponent } from './vm-sidebar/network-detail/network-deta
 import { FirewallRulesDetailComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.component';
 import { NicDetailComponent } from './vm-sidebar/network-detail/nic/nic-detail.component';
 import { VmColorComponent } from './vm-sidebar/color/vm-color.component';
-import { DraggableSelectModule } from '../shared/components/groupings/draggable-select.module';
+import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 
 
 @NgModule({
