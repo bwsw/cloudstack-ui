@@ -2,8 +2,7 @@
   <mdl-card-title>
     <h2
       mdl-card-title-text
-      [mdl-tooltip]="sgTitleTooltip"
-      mdl-tooltip-position="bottom"
+      [mdTooltip]="securityGroupTemplate.name"
     >
       {{ securityGroupTemplate.name }}
     </h2>
@@ -19,8 +18,8 @@
         <span
           class="tooltip-position-fix fixed-width-span"
           *ngIf="securityGroupTemplate.description"
-          [mdl-tooltip]="sgDescriptionTooltip"
-          mdl-tooltip-position="top"
+          [mdTooltip]="securityGroupTemplate.description"
+          mdTooltipPosition="above"
         >
           {{ securityGroupTemplate.description }}
         </span>
@@ -32,8 +31,8 @@
       mdl-button
       (click)="$event.stopPropagation(); myPopover.toggle($event)"
       mdl-button-type="icon"
-      mdl-tooltip-position="bottom"
-      mdl-ripple>
+      mdl-ripple
+    >
       <mdl-icon>more_vert</mdl-icon>
     </button>
   </mdl-card-menu>
@@ -48,8 +47,8 @@
           *ngIf="securityGroupTemplate.isPredefinedTemplate"
           mdl-button
           mdl-button-type="icon"
-          mdl-tooltip-position="bottom"
-          [mdl-tooltip]="'VIEW' | translate"
+
+          [mdTooltip]="'VIEW' | translate"
           (click)="onClick.emit()"
         >
           <mdl-icon>visibility</mdl-icon>
@@ -59,8 +58,7 @@
         <button
           mdl-button
           mdl-button-type="icon"
-          mdl-tooltip-position="bottom"
-          [mdl-tooltip]="'EDIT' | translate"
+          [mdTooltip]="'EDIT' | translate"
           (click)="onClick.emit()"
         >
           <mdl-icon>edit</mdl-icon>
@@ -68,8 +66,7 @@
         <button
           mdl-button
           mdl-button-type="icon"
-          mdl-tooltip-position="bottom"
-          [mdl-tooltip]="'DELETE' | translate"
+          [mdTooltip]="'DELETE' | translate"
           (click)="$event.stopPropagation(); onDelete.emit(securityGroupTemplate)"
         >
           <mdl-icon>delete</mdl-icon>
@@ -78,10 +75,3 @@
     </div>
   </mdl-popover>
 </mdl-card>
-<mdl-tooltip #sgTitleTooltip="mdlTooltip">
-  {{ securityGroupTemplate.name }}
-</mdl-tooltip>
-<mdl-tooltip #sgDescriptionTooltip="mdlTooltip">
-  {{ securityGroupTemplate.description }}
-</mdl-tooltip>
-

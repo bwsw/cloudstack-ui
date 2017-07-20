@@ -8,8 +8,7 @@
   <mdl-card-title>
     <h2
       mdl-card-title-text
-      [mdl-tooltip]="spareDriveTitleTooltip"
-      mdl-tooltip-position="bottom"
+      [mdTooltip]="volume.name"
     >
       {{ item.name }}
     </h2>
@@ -47,8 +46,8 @@
   >
     <div mdl-shadow="6" class="popover-actions">
       <button
-        [mdl-tooltip]="'ATTACH' | translate"
-        mdl-tooltip-position="bottom"
+        [mdTooltip]="'ATTACH' | translate"
+
         mdl-button
         mdl-button-type="icon"
         mdl-ripple
@@ -57,8 +56,8 @@
         <mdl-icon>attach_file</mdl-icon>
       </button>
       <button
-        [mdl-tooltip]="'RESIZE' | translate"
-        mdl-tooltip-position="bottom"
+        [mdTooltip]="'RESIZE' | translate"
+
         mdl-button
         mdl-button-type="icon"
         mdl-ripple
@@ -67,8 +66,8 @@
         <mdl-icon>photo_size_select_small</mdl-icon>
       </button>
       <button
-        [mdl-tooltip]="'DELETE' | translate"
-        mdl-tooltip-position="bottom"
+        [mdTooltip]="'DELETE' | translate"
+
         mdl-button
         mdl-button-type="icon"
         mdl-ripple
@@ -79,6 +78,3 @@
     </div>
   </mdl-popover>
 </mdl-card>
-<mdl-tooltip #spareDriveTitleTooltip="mdlTooltip">
-  {{ item.name }}
-</mdl-tooltip>

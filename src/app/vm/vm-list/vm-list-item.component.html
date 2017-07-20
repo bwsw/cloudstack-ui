@@ -16,15 +16,11 @@
       [class.stopped]="item.state === 'Stopped'"
       [class.error]="item.state === 'Error'"
       [class.in-progress]="item.state !== 'Running' && item.state !== 'Stopped'"
-      [mdl-tooltip]="tt"
-      mdl-tooltip-position="right"
+      [mdTooltip]="vm.state.toUpperCase() | translate"
     ></div>
-    <mdl-tooltip #tt="mdlTooltip" >
-      {{ item.state.toUpperCase() | translate }}
-    </mdl-tooltip>
     <h2
       mdl-card-title-text
-      [mdl-tooltip]="item.name"
+      [mdTooltip]="item.name"
     >
       {{ item.name }}
     </h2>
@@ -74,8 +70,7 @@
         *ngFor="let a of actions"
         (click)="getAction($event, a.nameLower)"
         [disabled]="!item.canApply(a.nameLower)"
-        [mdl-tooltip]="a.nameCaps | translate"
-        mdl-tooltip-position="bottom"
+        [mdTooltip]="a.nameCaps | translate"
         mdl-button
         mdl-button-type="icon"
         mdl-ripple

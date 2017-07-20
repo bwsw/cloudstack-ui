@@ -30,8 +30,7 @@
       <ng-template ngSwitchDefault>help</ng-template>
     </mdl-icon>
     <h2
-      [mdl-tooltip]="headerTooltip"
-      mdl-tooltip-position="bottom"
+      [mdTooltip]="template.name"
       mdl-card-title-text
       [innerHTML]="item.name | highlight:query"
       class="template-header"
@@ -43,8 +42,8 @@
       <div
         *ngIf="singleLine"
         class="last single-line text-overflow-tooltip-fix"
-        [mdl-tooltip]="osTooltip"
-        mdl-tooltip-position="top"
+        [mdTooltip]="template.osTypeName"
+        mdTooltipPosition="above"
         [innerHTML]="item.osTypeName | highlight:query"
       ></div>
       <div
@@ -57,8 +56,8 @@
       <div
         *ngIf="singleLine"
         class="single-line text-overflow-tooltip-fix"
-        [mdl-tooltip]="descriptionTooltip"
-        mdl-tooltip-position="top"
+        [mdTooltip]="template.displayText"
+        mdTooltipPosition="above"
       >
         <span [innerHTML]="item.displayText | highlight:query"></span>
       </div>
@@ -86,8 +85,7 @@
   >
     <div mdl-shadow="6" class="popover-actions">
       <button
-        [mdl-tooltip]="'DELETE' | translate"
-        mdl-tooltip-position="bottom"
+        [mdTooltip]="'DELETE' | translate"
         mdl-button
         mdl-button-type="icon"
         (click)="removeTemplate()"
@@ -97,14 +95,3 @@
     </div>
   </mdl-popover>
 </mdl-card>
-<mdl-tooltip #headerTooltip="mdlTooltip">
-  {{ item.name }}
-</mdl-tooltip>
-<mdl-tooltip #osTooltip="mdlTooltip">
-  {{ item.osTypeName }}
-</mdl-tooltip>
-<mdl-tooltip
-  #descriptionTooltip="mdlTooltip"
->
-  {{ item.displayText }}
-</mdl-tooltip>
