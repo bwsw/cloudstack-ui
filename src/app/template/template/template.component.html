@@ -30,7 +30,7 @@
       <ng-template ngSwitchDefault>help</ng-template>
     </mdl-icon>
     <h2
-      [mdTooltip]="template.name"
+      [mdTooltip]="item.name"
       mdl-card-title-text
       [innerHTML]="item.name | highlight:query"
       class="template-header"
@@ -42,7 +42,7 @@
       <div
         *ngIf="singleLine"
         class="last single-line text-overflow-tooltip-fix"
-        [mdTooltip]="template.osTypeName"
+        [mdTooltip]="item.osTypeName"
         mdTooltipPosition="above"
         [innerHTML]="item.osTypeName | highlight:query"
       ></div>
@@ -56,7 +56,7 @@
       <div
         *ngIf="singleLine"
         class="single-line text-overflow-tooltip-fix"
-        [mdTooltip]="template.displayText"
+        [mdTooltip]="item.displayText"
         mdTooltipPosition="above"
       >
         <span [innerHTML]="item.displayText | highlight:query"></span>
