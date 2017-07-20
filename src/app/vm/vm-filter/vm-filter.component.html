@@ -1,58 +1,52 @@
 <mdl-card class="options-panel delimiter">
-  <mdl-select
+  <md-select
     class="filter-select"
     multiple="true"
-    floating-label
-    [label]="'SELECT_ZONES' | translate"
+    [placeholder]="'SELECT_ZONES' | translate"
     [(ngModel)]="selectedZones"
     (change)="update()"
   >
-    <mdl-option mdl-ripple *ngFor="let z of zones" [value]="z">{{ z.name }}</mdl-option>
-  </mdl-select>
-  <mdl-select
+    <md-option *ngFor="let z of zones" [value]="z">{{ z.name }}</md-option>
+  </md-select>
+  <md-select
     class="filter-select"
     multiple="true"
-    floating-label
-    [label]="'SELECT_GROUPS' | translate"
+    [placeholder]="'SELECT_GROUPS' | translate"
     [(ngModel)]="selectedGroups"
     (change)="update()"
   >
-    <mdl-option *ngIf="showNoGroupFilter" [value]="noGroup">
+    <md-option
+      *ngIf="showNoGroupFilter"
+      [value]="noGroup"
+    >
       <em>{{ 'NO_GROUP' | translate }}</em>
-    </mdl-option>
+    </md-option>
 
-    <mdl-option *ngFor="let g of groups" mdl-ripple [value]="g">
+    <md-option *ngFor="let g of groups" [value]="g">
       {{ g.name }}
-    </mdl-option>
-  </mdl-select>
+    </md-option>
+  </md-select>
 
-  <mdl-select
+  <md-select
     class="filter-select"
     multiple="true"
-    floating-label
-    [label]="'SELECT_STATES' | translate"
+    [placeholder]="'SELECT_STATES' | translate"
     [(ngModel)]="selectedStates"
     (change)="update()"
   >
-    <mdl-option
-      *ngFor="let s of states"
-      mdl-ripple
-      [value]="s.state"
-    >{{ s.name | translate }}</mdl-option>
-  </mdl-select>
-
+    <md-option *ngFor="let s of states" [value]="s.state">{{ s.name | translate }}</md-option>
+  </md-select>
   <cs-divider-vertical></cs-divider-vertical>
   <cs-draggable-select
     class="filter-select"
     multiple="true"
-    floating-label
-    [label]="'GROUP_BY_LABEL' | translate"
+    [placeholder]="'GROUP_BY_LABEL' | translate"
     [(ngModel)]="selectedGroupings"
     [dragItems]="availableGroupings"
     (change)="update()"
   >
-    <mdl-option *ngFor="let g of availableGroupings" [value]="g">
+    <md-option *ngFor="let g of availableGroupings" [value]="g">
       {{ g.label | translate }}
-    </mdl-option>
+    </md-option>
   </cs-draggable-select>
 </mdl-card>

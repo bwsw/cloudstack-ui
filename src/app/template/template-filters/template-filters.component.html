@@ -21,64 +21,60 @@
       </mdl-tab-panel>
     </mdl-tabs>
 
-    <mdl-select
+    <md-select
       class="filter-select"
       multiple="true"
-      floating-label
-      [label]="'OS_FAMILY' | translate"
+      [placeholder]="'OS_FAMILY' | translate"
       [(ngModel)]="selectedOsFamilies"
       (change)="updateFilters()"
     >
-      <mdl-option
+      <md-option
         *ngFor="let family of osFamilies"
         [value]="family"
       >
         {{ family }}
-      </mdl-option>
-    </mdl-select>
+      </md-option>
+    </md-select>
     <div *ngIf="filterTranslations" class="filter-select-container">
-      <mdl-select
+      <md-select
         class="filter-select"
         multiple="true"
-        floating-label
-        [label]="'TEMPLATE_TYPES' | translate"
+        [placeholder]="'TEMPLATE_TYPES' | translate"
         [(ngModel)]="selectedFilters"
         (change)="updateFilters()"
       >
-        <mdl-option
+        <md-option
           *ngFor="let f of categoryFilters"
           [value]="f"
         >
           {{ filterTranslations[f] }}
-        </mdl-option>
-      </mdl-select>
+        </md-option>
+      </md-select>
     </div>
-    <mdl-select
+    <md-select
       *ngIf="zones"
       class="filter-select"
       multiple="true"
-      floating-label
-      [label]="'SELECT_ZONES' | translate"
+      [placeholder]="'SELECT_ZONES' | translate"
       [(ngModel)]="selectedZones"
       (change)="updateFilters()"
     >
-      <mdl-option mdl-ripple *ngFor="let z of zones" [value]="z">{{ z.name }}</mdl-option>
-    </mdl-select>
+      <md-option mdl-ripple *ngFor="let z of zones" [value]="z">{{ z.name }}</md-option>
+    </md-select>
 
     <cs-divider-vertical></cs-divider-vertical>
-    <mdl-select
+    <md-select
       *ngIf="zones"
       class="filter-select"
       multiple="true"
-      floating-label
-      [label]="'GROUP_BY_LABEL' | translate"
+      [placeholder]="'GROUP_BY_LABEL' | translate"
       [(ngModel)]="selectedGroupingNames"
       (change)="updateFilters()"
     >
-      <mdl-option *ngFor="let g of availableGroupings" [value]="g">
+      <md-option *ngFor="let g of availableGroupings" [value]="g">
         {{ g.label | translate }}
-      </mdl-option>
-    </mdl-select>
+      </md-option>
+    </md-select>
   </mdl-card>
 </cs-top-bar>
 
@@ -106,35 +102,35 @@
     </mdl-tab-panel>
   </mdl-tabs>
 
-  <mdl-select
+  <md-select
     class="filter-select"
-    [(ngModel)]="selectedOsFamilies"
-    (change)="updateFilters()"
     multiple="true"
     placeholder="{{ 'OS_FAMILY' | translate }}"
+    [(ngModel)]="selectedOsFamilies"
+    (change)="updateFilters()"
   >
-    <mdl-option
+    <md-option
       *ngFor="let family of osFamilies"
       [value]="family"
     >
       {{ family }}
-    </mdl-option>
-  </mdl-select>
+    </md-option>
+  </md-select>
   <div *ngIf="filterTranslations" class="filter-select-container">
-    <mdl-select
+    <md-select
       class="filter-select"
-      [(ngModel)]="selectedFilters"
-      (change)="updateFilters()"
       multiple="true"
       placeholder="{{ 'TYPE' | translate }}"
+      [(ngModel)]="selectedFilters"
+      (change)="updateFilters()"
     >
-      <mdl-option
+      <md-option
         *ngFor="let f of categoryFilters"
         [value]="f"
       >
         {{ filterTranslations[f] }}
-      </mdl-option>
-    </mdl-select>
+      </md-option>
+    </md-select>
   </div>
 </mdl-card>
 

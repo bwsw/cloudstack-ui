@@ -1,13 +1,13 @@
-<mdl-select
+<md-select
   name="selectedDiskOffering"
   *ngIf="diskOfferingList"
   [(ngModel)]="selectedDiskOffering"
   (change)="updateDiskOffering($event)"
 >
-  <mdl-option
+  <md-option
     *ngFor="let diskOffering of diskOfferingList"
     [value]="diskOffering"
   >
     {{ diskOffering.name }}
-  </mdl-option>
-</mdl-select>
+  </md-option>
+</md-select>

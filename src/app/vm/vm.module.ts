@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
-import { MdTooltipModule } from '@angular/material';
+import { MdSelectModule, MdTooltipModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 
@@ -47,6 +47,7 @@ import { NetworkDetailComponent } from './vm-sidebar/network-detail/network-deta
 import { FirewallRulesDetailComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.component';
 import { NicDetailComponent } from './vm-sidebar/network-detail/nic/nic-detail.component';
 import { VmColorComponent } from './vm-sidebar/color/vm-color.component';
+import { DraggableSelectModule } from '../shared/components/groupings/draggable-select.module';
 
 
 @NgModule({
@@ -55,7 +56,9 @@ import { VmColorComponent } from './vm-sidebar/color/vm-color.component';
     DynamicModule.withComponents([VmListItemComponent]),
     FormsModule,
     ServiceOfferingModule,
+    DraggableSelectModule,
     MdTooltipModule,
+    MdSelectModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,

@@ -1,30 +1,28 @@
 <cs-list>
   <cs-top-bar cs-panels>
-    <mdl-select
+    <md-select
       *ngIf="zones"
       class="filter-select"
       multiple="true"
-      floating-label
-      [label]="'SELECT_ZONES' | translate"
+      [placeholder]="'SELECT_ZONES' | translate"
       [(ngModel)]="selectedZones"
       (change)="update()"
     >
-      <mdl-option *ngFor="let z of zones" [value]="z">{{ z.name }}</mdl-option>
-    </mdl-select>
+      <md-option *ngFor="let z of zones" [value]="z">{{ z.name }}</md-option>
+    </md-select>
     <cs-divider-vertical></cs-divider-vertical>
-    <mdl-select
+    <md-select
       *ngIf="zones"
       class="filter-select"
       multiple="true"
-      floating-label
-      [label]="'GROUP_BY_LABEL' | translate"
+      [placeholder]="'GROUP_BY_LABEL' | translate"
       [(ngModel)]="selectedGroupingNames"
       (change)="update()"
     >
-      <mdl-option *ngFor="let g of groupings" [value]="g">
+      <md-option *ngFor="let g of groupings" [value]="g">
         {{ g.label | translate }}
-      </mdl-option>
-    </mdl-select>
+      </md-option>
+    </md-select>
   </cs-top-bar>
 
   <cs-spare-drive-list

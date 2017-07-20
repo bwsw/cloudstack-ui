@@ -49,46 +49,46 @@
     <div class="section-container">
       <div *ngIf="language" class="settings-control">
         <h5 class="no-margin">{{ 'LANGUAGE' | translate }}</h5>
-        <mdl-select
+        <md-select
           [(ngModel)]="language"
           (change)="changeLanguage($event)"
         >
-          <mdl-option
+          <md-option
             *ngFor="let l of languages"
             [value]="l.value"
           >
             {{ l.text }}
-          </mdl-option>
-        </mdl-select>
+          </md-option>
+        </md-select>
       </div>
       <div *ngIf="firstDayOfWeek != null" class="settings-control">
         <h5 class="no-margin">{{ 'FIRST_DAY_OF_WEEK' | translate }}</h5>
-        <mdl-select
+        <md-select
           *ngIf="dayTranslations"
           [ngModel]="firstDayOfWeek"
           [disabled]="updatingFirstDayOfWeek"
           (change)="firstDayOfWeekChange($event)"
         >
-          <mdl-option
+          <md-option
             *ngFor="let d of daysOfTheWeek"
             [value]="d.value"
           >
             {{ d.text | translate }}
-          </mdl-option>
-        </mdl-select>
+          </md-option>
+        </md-select>
       </div>
       <div class="settings-control">
         <h5 class="no-margin">{{ 'TIME_FORMAT' | translate }}</h5>
-        <mdl-select
+        <md-select
           [ngModel]="timeFormat"
           [disabled]="updatingTimeFormat"
           (change)="changeTimeFormat($event)"
         >
-          <mdl-option
+          <md-option
             *ngFor="let format of timeFormats"
             [value]="TimeFormat[format]"
-          >{{ format | translate }}</mdl-option>
-        </mdl-select>
+          >{{ format | translate }}</md-option>
+        </md-select>
       </div>
       <div class="settings-control">
         <h5>{{ 'PALETTE' | translate }}</h5>
