@@ -529,6 +529,7 @@
   "INSUFFICIENT_RESOURCES_VM": "Недостаточно ресурсов",
 
   "NO_GROUP": "Без группы",
+  "NO_ZONE": "Вне зоны",
   "NO_SNAPSHOTS": "Нет снимков",
   "LAST_SNAPSHOT": "Последний снимок",
 

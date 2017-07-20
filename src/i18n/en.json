@@ -529,6 +529,7 @@
   "INSUFFICIENT_RESOURCES_VM": "Insufficient resources",
 
   "NO_GROUP": "No group",
+  "NO_ZONE": "No zone",
   "NO_SNAPSHOTS": "No snapshots",
   "LAST_SNAPSHOT": "Last snapshot",
 

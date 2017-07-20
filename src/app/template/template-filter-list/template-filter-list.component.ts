@@ -43,8 +43,8 @@ export class TemplateFilterListComponent implements OnInit {
     {
       key: 'zones',
       label: 'GROUP_BY.ZONES',
-      selector: (item: BaseTemplateModel) => item.zoneId,
-      name: (item: BaseTemplateModel) => item.zoneName
+      selector: (item: BaseTemplateModel) => item.zoneId || '',
+      name: (item: BaseTemplateModel) => item.zoneName || 'NO_ZONE'
     }
   ];
 
