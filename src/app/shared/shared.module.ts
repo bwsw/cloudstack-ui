@@ -1,4 +1,3 @@
-import { MdProgressBarModule } from '@angular/material';
 import { MdlDialogOutletModule, MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
@@ -99,7 +98,6 @@ import {
   imports: [
     CommonModule,
     FormsModule,
-    MdProgressBarModule,
     MdlDialogModule,
     MdlDialogOutletModule,
     MdlModule,

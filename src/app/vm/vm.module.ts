@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { MdProgressBarModule } from '@angular/material';
 import { MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
@@ -50,7 +49,6 @@ import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-sele
     CommonModule,
     FormsModule,
     ServiceOfferingModule,
-    MdProgressBarModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
