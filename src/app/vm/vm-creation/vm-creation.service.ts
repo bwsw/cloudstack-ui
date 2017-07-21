@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import {
   CustomOfferingRestrictions
@@ -20,6 +21,7 @@ import { Iso, IsoService, Template, TemplateService } from '../../template/share
 import { TemplateFilters } from '../../template/shared/base-template.service';
 import { VmService } from '../shared/vm.service';
 import { VmCreationData } from './data/vm-creation-data';
+import { SSHKeyPair } from '../../shared/models';
 
 
 const vmCreationConfigurationKeys = [
@@ -30,6 +32,11 @@ const vmCreationConfigurationKeys = [
 export interface VmCreationConfigurationData {
   offeringAvailability: OfferingAvailability;
   customOfferingRestrictions: CustomOfferingRestrictions;
+}
+
+export interface NotSelected {
+  name: string;
+  ignore: true;
 }
 
 @Injectable()
@@ -46,11 +53,14 @@ export class VmCreationService {
     private sshService: SSHKeyPairService,
     private serviceOfferingService: ServiceOfferingService,
     private templateService: TemplateService,
+    private translateService: TranslateService,
     private vmService: VmService,
     private zoneService: ZoneService
   ) {}
 
   public getData(): Observable<VmCreationData> {
+    const translationKeys = ['NO_SSH_KEY'];
+
     return Observable
       .forkJoin(
         this.affinityGroupService.getList(),
@@ -64,6 +74,7 @@ export class VmCreationService {
         this.securityGroupService.getTemplates(),
         this.serviceOfferingService.getList(),
         this.sshService.getList(),
+        this.translateService.get(translationKeys),
         this.getTemplates(),
         this.getIsos(),
         this.zoneService.getList(),
@@ -81,10 +92,16 @@ export class VmCreationService {
           securityGroupTemplates,
           serviceOfferings,
           sshKeyPairs,
+          translations,
           templates,
           isos,
           zones
         ]) => {
+        const sshKeysWithNoKeyOption = this.getSSHKeysWithNoKeyOption(
+          sshKeyPairs,
+          translations['NO_SSH_KEY']
+        );
+
         return new VmCreationData(
           affinityGroupList,
           configurationData,
@@ -96,12 +113,23 @@ export class VmCreationService {
           rootDiskSizeLimit,
           securityGroupTemplates,
           serviceOfferings,
-          sshKeyPairs,
+          sshKeysWithNoKeyOption,
           templates,
           isos,
           zones
         );
       });
+  }
+
+  private getSSHKeysWithNoKeyOption(
+    sshKeyPairs: Array<SSHKeyPair>,
+    noSSHKeyText: string
+  ): Array<SSHKeyPair & NotSelected> {
+    const sshKeyNotSelected = {
+      name: noSSHKeyText,
+      ignore: true
+    };
+    return [].concat([sshKeyNotSelected], sshKeyPairs);
   }
 
   private getTemplates(): Observable<Array<Template>> {

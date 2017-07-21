@@ -4,16 +4,16 @@ import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { DiskOffering, JobsNotificationService } from '../../shared';
 import { AffinityGroup, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../shared/models';
+import { ResourceUsageService } from '../../shared/services';
 import { BaseTemplateModel } from '../../template/shared';
+import { VirtualMachine } from '../shared/vm.model';
 import { VmCreationData } from './data/vm-creation-data';
 import { VmCreationState } from './data/vm-creation-state';
 import { VmCreationFormNormalizationService } from './form-normalization/form-normalization.service';
 import { KeyboardLayout } from './keyboards/keyboards.component';
-import { VmCreationService } from './vm-creation.service';
+import { NotSelected, VmCreationService } from './vm-creation.service';
 import { VmDeploymentMessage, VmDeploymentService, VmDeploymentStages } from './vm-deployment.service';
 import throttle = require('lodash/throttle');
-import { VirtualMachine } from '../shared/vm.model';
-import { ResourceUsageService } from '../../shared/services';
 
 
 export interface VmCreationFormState {
@@ -183,7 +183,7 @@ export class VmCreationComponent implements OnInit {
     this.formState.state.keyboard = value;
   }
 
-  public sshKeyPairChange(value: SSHKeyPair) {
+  public sshKeyPairChange(value: SSHKeyPair & NotSelected) {
     this.formState.state.sshKeyPair = value;
     this.updateFormState();
   }
@@ -282,6 +282,7 @@ export class VmCreationComponent implements OnInit {
         this.dialog.hide(deploymentMessage.vm);
         break;
       case VmDeploymentStages.FINISHED:
+        this.dialog.hide();
         this.showPassword(deploymentMessage.vm);
         this.notifyOnDeployDone(notificationId);
         break;
