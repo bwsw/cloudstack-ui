@@ -132,8 +132,13 @@ export class VmCreationComponent implements OnInit {
     this.updateFormState();
   }
 
-  public serviceOfferingChange(value: ServiceOffering) {
-    this.formState.state.serviceOffering = value;
+  public serviceOfferingChange(offering: ServiceOffering) {
+    this.formState.state.serviceOffering = offering;
+    if (offering.areCustomParamsSet) {
+      this.data.serviceOfferings = this.data.serviceOfferings.map(_ =>
+        _.id === offering.id ? offering : _
+      );
+    }
     this.updateFormState();
   }
 

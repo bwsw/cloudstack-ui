@@ -7,20 +7,17 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges,
-  ViewChild
+  SimpleChanges
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MdSelect, MdSelectChange } from '@angular/material';
+import { MdSelectChange } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { CustomServiceOffering } from '../custom-service-offering/custom-service-offering';
-import {
-  CustomServiceOfferingComponent
-} from '../custom-service-offering/custom-service-offering.component';
+import { CustomServiceOfferingComponent } from '../custom-service-offering/custom-service-offering.component';
 
 
 @Component({
@@ -39,7 +36,6 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges, Cont
   @Input() public zoneId: string;
   @Input() public serviceOfferings: Array<ServiceOffering>;
   @Output() public change: EventEmitter<ServiceOffering>;
-  @ViewChild(MdSelect) public selectComponent: MdSelect;
 
   private _serviceOffering: ServiceOffering;
   private previousOffering: ServiceOffering;
@@ -160,6 +156,5 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges, Cont
 
   private restorePreviousOffering(): void {
     this.serviceOffering = this.previousOffering;
-    this.selectComponent.writeValue(this.serviceOffering);
   }
 }

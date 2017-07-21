@@ -7,9 +7,6 @@
   </md-option>
 </md-select>
 
-<div
-  class="custom-offering-info"
-  *ngIf="customOfferingDescription"
->
+<div *ngIf="customOfferingDescription" class="custom-offering-info">
   {{ customOfferingDescription | async }}
 </div>
