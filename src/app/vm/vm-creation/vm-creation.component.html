@@ -28,14 +28,11 @@
         <div>
           <h5>{{ 'VM_CREATION_FORM.ZONE' | translate }}</h5>
           <div>
-            <mdl-select
-              [(ngModel)]="zoneId"
-              name="zone"
-            >
-              <mdl-option *ngFor="let z of vmCreationData.zones" [value]="z.id" >
+            <md-select [(ngModel)]="zoneId" name="zone">
+              <md-option *ngFor="let z of vmCreationData.zones" [value]="z.id">
                 {{ z.name }}
-              </mdl-option>
-            </mdl-select>
+              </md-option>
+            </md-select>
           </div>
         </div>
 
@@ -110,31 +107,31 @@
         ></cs-security-group-rules-manager>
         <h5>{{ 'VM_CREATION_FORM.KEYBOARD_LAYOUT' | translate }}</h5>
         <div *ngIf="keyboardTranslations">
-          <mdl-select
+          <md-select
             name="keyboard"
             [(ngModel)]="vmCreationData.keyboard"
           >
-            <mdl-option
+            <md-option
               *ngFor="let k of keyboards"
               [value]="k"
             >
               {{ keyboardTranslations[k] }}
-            </mdl-option>
-          </mdl-select>
+            </md-option>
+          </md-select>
         </div>
         <h5>{{ 'VM_CREATION_FORM.SSH_KEYPAIR' | translate }}</h5>
         <div>
-          <mdl-select
+          <md-select
             name="ssh"
             [(ngModel)]="vmCreationData.vm.keyPair"
           >
-            <mdl-option
+            <md-option
               *ngFor="let k of vmCreationData.sshKeyPairs"
               [value]="k.name"
             >
               {{ k.name }}
-            </mdl-option>
-          </mdl-select>
+            </md-option>
+          </md-select>
         </div>
         <div class="start-vm-checkbox">
           <mdl-checkbox

@@ -2,10 +2,7 @@
   [ngModel]="serviceOffering"
   (change)="changeValue($event)"
 >
-  <md-option
-    *ngFor="let so of serviceOfferings"
-    [value]="so"
-  >
+  <md-option *ngFor="let so of serviceOfferings" [value]="so">
     {{ so.name }}
   </md-option>
 </md-select>

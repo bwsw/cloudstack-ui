@@ -4,7 +4,12 @@
 }
 
 :host mdl-textfield {
-  padding-top: 15px;
+  padding-top: 20px;
+}
+
+:host md-select {
+  width: 300px;
+  margin: 20px 0;
 }
 
 .vm-creation-container {

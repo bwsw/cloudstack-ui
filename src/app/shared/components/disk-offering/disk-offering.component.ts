@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output, Input, SimpleChanges, OnChanges, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { MdSelectChange } from '@angular/material';
 import { DiskOffering } from '../..';
 
 
@@ -26,8 +27,8 @@ export class DiskOfferingComponent implements OnInit, OnChanges {
     }
   }
 
-  public updateDiskOffering(offering): void {
-    this.offeringUpdated.emit(offering);
+  public updateDiskOffering(change: MdSelectChange): void {
+    this.offeringUpdated.emit(change.value);
   }
 
   private updateSelectedOffering(): void {

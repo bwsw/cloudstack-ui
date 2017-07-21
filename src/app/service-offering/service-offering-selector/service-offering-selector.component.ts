@@ -1,23 +1,15 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core';
 import { MdlSelectComponent } from '@angular-mdl/select';
-
-import {
-  CustomServiceOfferingComponent,
-  CustomServiceOffering
-} from '../custom-service-offering/custom-service-offering.component';
-import { ServiceOffering } from '../../shared/models/service-offering.model';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { MdSelectChange } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
+
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { ServiceOffering } from '../../shared/models/service-offering.model';
+import {
+  CustomServiceOffering,
+  CustomServiceOfferingComponent
+} from '../custom-service-offering/custom-service-offering.component';
 
 
 @Component({
@@ -52,7 +44,7 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges {
   public set serviceOffering(value) {
     this._serviceOffering = value;
 
-    let result = Object.assign({}, this.serviceOffering);
+    const result = Object.assign({}, this.serviceOffering);
 
     if (this.serviceOffering.isCustomized) {
       result.cpuNumber = this.cpuNumber;
@@ -92,7 +84,8 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges {
       .map(strings => `${this.cpuNumber}x${this.cpuSpeed} ${strings['MHZ']}, ${this.memory} ${strings['MB']}`);
   }
 
-  public changeValue(newValue: ServiceOffering): void {
+  public changeValue(change: MdSelectChange): void {
+    const newValue = change.value as ServiceOffering;
     if (newValue.isCustomized) {
       this.dialogService.showCustomDialog({
         component: CustomServiceOfferingComponent,

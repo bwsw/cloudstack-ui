@@ -117,7 +117,6 @@ export class VmFilterComponent implements OnInit, OnChanges {
   }
 
   public update(): void {
-    debugger;
     this.updateFilters.emit({
       selectedGroups: this.selectedGroups.sort(this.groupSortPredicate),
       selectedStates: this.selectedStates,
