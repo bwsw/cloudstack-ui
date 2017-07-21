@@ -121,7 +121,7 @@
   "FREE": "Доступно",
   "VMS": "Виртуальные машины",
   "DEPLOYED": "Развернута",
-  "DEPLOYED_STATS": "Всего развернуто",
+  "VM_AMOUNT": "Количество",
   "COMPUTATIONAL_RESOURCES": "Вычислительные ресурсы",
   "CPUS": "CPU",
   "SNAPSHOTS": "Снимки",

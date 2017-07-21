@@ -45,7 +45,7 @@ export class VmStatisticsComponent implements OnInit {
       header: 'VMS',
       bars: [
         {
-          title: 'DEPLOYED_STATS',
+          title: 'VM_AMOUNT',
           value: () => this.getStatsStringFor('instances'),
           progress: () => this.progressFor('instances')
         }

@@ -121,7 +121,7 @@
   "FREE": "Free",
   "VMS": "Virtual machines",
   "DEPLOYED": "Deployed",
-  "DEPLOYED_STATS": "Deployed",
+  "VM_AMOUNT": "Number",
   "COMPUTATIONAL_RESOURCES": "Computational resources",
   "CPUS": "CPUs",
   "SNAPSHOTS": "Snapshots",
