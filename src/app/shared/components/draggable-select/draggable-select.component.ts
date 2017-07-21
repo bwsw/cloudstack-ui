@@ -1,4 +1,3 @@
-import * as uuid from 'uuid';
 import { Directionality } from '@angular/cdk';
 import {
   AfterContentInit,
@@ -8,6 +7,7 @@ import {
   ElementRef,
   Inject,
   Input,
+  OnDestroy,
   Optional,
   Renderer2,
   Self,
@@ -24,6 +24,8 @@ import {
   ViewportRuler
 } from '@angular/material';
 import { DragulaService } from 'ng2-dragula';
+import { Subscription } from 'rxjs/Subscription';
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'cs-draggable-select',
@@ -52,9 +54,11 @@ import { DragulaService } from 'ng2-dragula';
     fadeInContent
   ]
 })
-export class DraggableSelectComponent extends MdSelect implements AfterContentInit {
+export class DraggableSelectComponent extends MdSelect implements AfterContentInit, OnDestroy {
   @Input() public dragItems: Array<any>;
   public bagId: string = uuid.v4();
+
+  private onDrop: Subscription;
 
   constructor(
     private dragula: DragulaService,
@@ -84,5 +88,11 @@ export class DraggableSelectComponent extends MdSelect implements AfterContentIn
     this.dragula.dropModel.subscribe(() =>
       setTimeout(() => (this as any)._propagateChanges())
     );
+  }
+
+  public ngOnDestroy(): void {
+    if (this.onDrop) {
+      this.onDrop.unsubscribe();
+    }
   }
 }
