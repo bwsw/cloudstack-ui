@@ -5,7 +5,7 @@
   <div class="mdl-dialog__content" *loading="!serviceOfferings">
     <cs-service-offering-selector
       class="service-offering-selector"
-      (offeringChanged)="updateOffering($event)"
+      (change)="updateOffering($event)"
       [serviceOfferings]="serviceOfferings"
       [zoneId]="virtualMachine.zoneId"
       *ngIf="serviceOfferings?.length"

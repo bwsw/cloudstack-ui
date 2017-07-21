@@ -1,13 +1,13 @@
 <md-select
   name="selectedDiskOffering"
   *ngIf="diskOfferingList"
-  [(ngModel)]="selectedDiskOffering"
+  [(ngModel)]="diskOffering"
   (change)="updateDiskOffering($event)"
 >
   <md-option
-    *ngFor="let diskOffering of diskOfferingList"
-    [value]="diskOffering"
+    *ngFor="let offering of diskOfferingList"
+    [value]="offering"
   >
-    {{ diskOffering.name }}
+    {{ offering.name }}
   </md-option>
 </md-select>

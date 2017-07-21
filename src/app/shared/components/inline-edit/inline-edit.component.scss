@@ -9,3 +9,14 @@
     line-height: 18px;
   }
 }
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-button {
+  margin-left: 10px;
+  align-self: center;
+}

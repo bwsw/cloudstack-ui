@@ -1,39 +1,61 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MdSelectChange } from '@angular/material';
-import { DiskOffering } from '../..';
+import { DiskOffering } from '../../models/disk-offering.model';
 
 
 @Component({
   selector: 'cs-disk-offering',
   templateUrl: 'disk-offering.component.html',
-  styleUrls: ['disk-offering.component.scss']
+  styleUrls: ['disk-offering.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => DiskOfferingComponent),
+      multi: true
+    }
+  ]
 })
-export class DiskOfferingComponent implements OnInit, OnChanges {
+export class DiskOfferingComponent implements ControlValueAccessor {
   @Input() public diskOfferingList: Array<DiskOffering>;
-  @Output() public offeringUpdated = new EventEmitter();
+  @Output() public change: EventEmitter<DiskOffering>;
 
-  public selectedDiskOffering: DiskOffering;
+  private _diskOffering: DiskOffering;
 
-  public ngOnInit(): void {
-    if (!this.diskOfferingList) {
-      throw new Error('diskOfferingList is a required parameter');
-    }
-    this.updateSelectedOffering();
-  }
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    if ('diskOfferingList' in changes) {
-      this.updateSelectedOffering();
-    }
+  constructor() {
+    this.change = new EventEmitter();
   }
 
   public updateDiskOffering(change: MdSelectChange): void {
-    this.offeringUpdated.emit(change.value);
+    const diskOffering = change.value as DiskOffering;
+    if (diskOffering) {
+      this.diskOffering = diskOffering;
+      this.change.next(this.diskOffering);
+    }
   }
 
-  private updateSelectedOffering(): void {
-    if (this.diskOfferingList.length) {
-      this.selectedDiskOffering = this.diskOfferingList[0];
+  @Input()
+  public get diskOffering(): DiskOffering {
+    return this._diskOffering;
+  }
+
+  public set diskOffering(diskOffering: DiskOffering) {
+    if (diskOffering) {
+      this._diskOffering = diskOffering;
+      this.propagateChange(this.diskOffering);
     }
+  }
+
+  public writeValue(diskOffering: DiskOffering): void {
+    if (diskOffering) {
+      this.diskOffering = diskOffering;
+    }
+  }
+
+  public propagateChange: any = () => {};
+  public registerOnTouched(): any {}
+
+  public registerOnChange(fn): void {
+    this.propagateChange = fn;
   }
 }

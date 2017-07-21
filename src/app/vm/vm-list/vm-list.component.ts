@@ -168,12 +168,10 @@ export class VmListComponent implements OnInit {
       styles: { 'width': '755px', 'padding': '0' },
     })
       .switchMap(res => res.onHide())
-      .switchMap(res => res)
-      .subscribe((vm: VirtualMachine) => {
+      .subscribe(vm => {
         if (vm) {
           this.onVmCreated(vm);
         }
-      }, () => {
       });
   }
 

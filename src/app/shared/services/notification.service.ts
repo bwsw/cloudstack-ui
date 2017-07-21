@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ParametrizedTranslation } from '../../dialog/dialog-module/dialog.service';
 import { Subject } from 'rxjs/Subject';
 
+
 interface INotificationAction {
   handler: () => void;
   text: string;

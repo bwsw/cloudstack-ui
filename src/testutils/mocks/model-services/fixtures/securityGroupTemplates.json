@@ -1,0 +1,74 @@
+[
+  {
+    "id": "templateTCP",
+    "name": "TCP Permit All",
+    "description": "Permits all TPC traffic",
+    "preselected": true,
+    "ingressRules": [
+      {
+        "ruleId": "9552c7e9-9421-4a16-8a09-00a6bab4aa5a",
+        "protocol": "tcp",
+        "startPort": 1,
+        "endPort": 65535,
+        "CIDR": "0.0.0.0/0"
+      }
+    ],
+    "egressRules": [
+      {
+        "ruleId": "dcaeefe0-0014-4431-b21d-db2e66f9162d",
+        "protocol": "tcp",
+        "startPort": 1,
+        "endPort": 65535,
+        "CIDR": "0.0.0.0/0"
+      }
+    ]
+  },
+  {
+    "id": "templateUDP",
+    "name": "UDP Permit All",
+    "description": "Permits all UDP traffic",
+    "preselected": true,
+    "ingressRules": [
+      {
+        "ruleId": "871aa876-a9cd-4a14-b5d6-1eed4078ee20",
+        "protocol": "udp",
+        "startPort": 1,
+        "endPort": 65535,
+        "CIDR": "0.0.0.0/0"
+      }
+    ],
+    "egressRules": [
+      {
+        "ruleId": "070a8ec4-14a0-4a02-be8e-79cd699fd1a4",
+        "protocol": "udp",
+        "startPort": 1,
+        "endPort": 65535,
+        "CIDR": "0.0.0.0/0"
+      }
+    ]
+  },
+  {
+    "id": "templateICMP",
+    "name": "ICMP Permit All",
+    "description": "Permits all ICMP traffic",
+    "preselected": true,
+    "ingressRules": [
+      {
+        "ruleId": "e1826579-d4b2-415b-833f-24f0c4094074",
+        "icmpCode": -1,
+        "icmpType": -1,
+        "protocol": "icmp",
+        "CIDR": "0.0.0.0/0"
+      }
+    ],
+    "egressRules": [
+      {
+        "ruleId": "d0a0125a-b719-424b-80d3-41a695fa1219",
+        "icmpCode": -1,
+        "icmpType": -1,
+        "protocol": "icmp",
+        "CIDR": "0.0.0.0/0"
+      }
+    ]
+  }
+]

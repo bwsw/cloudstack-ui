@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { ResourceStats, ResourceUsageService } from '../../services/resource-usage.service';
 import { StorageService } from '../../services/storage.service';
-import { UtilsService } from '../../services/utils.service';
+import { Utils } from '../../services/utils.service';
 
 
 const showStatistics = 'showStatistics';
@@ -21,7 +21,6 @@ export class VmStatisticsComponent implements OnInit {
 
   constructor(
     private translateService: TranslateService,
-    private utilsService: UtilsService,
     private storageService: StorageService,
     private resourceUsageService: ResourceUsageService
   ) {
@@ -48,7 +47,7 @@ export class VmStatisticsComponent implements OnInit {
   }
 
   public getStatsString(consumed: number, max: number, units?: string): string {
-    if (max === -1) {
+    if (+max <= 0) {
       return `${consumed} ${units || ''}`;
     } else {
       return `${consumed}/${max} ${units || ''} (${this.getPercents(consumed, max)}%)`;
@@ -64,8 +63,8 @@ export class VmStatisticsComponent implements OnInit {
   }
 
   public get memory(): Observable<string> {
-    const consumed = this.utilsService.divide(this.resourceUsage.consumed.memory, 2, '10', '1');
-    const max = this.utilsService.divide(this.resourceUsage.max.memory, 2, '10', '1');
+    const consumed = Utils.divide(this.resourceUsage.consumed.memory, 2, '10', '1');
+    const max = Utils.divide(this.resourceUsage.max.memory, 2, '10', '1');
 
     return this.translateService.get('GB')
       .map(gb => this.getStatsString(consumed as number, max as number, gb));

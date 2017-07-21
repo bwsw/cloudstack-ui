@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, forwardRef } from '@angular/core';
+import { Component, Input, OnInit, forwardRef, EventEmitter, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 
@@ -20,8 +20,13 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
   @Input() public min: number;
   @Input() public max: number;
   @Input() public units: string;
+  @Output() public change: EventEmitter<number>;
 
   public _size: number;
+
+  constructor() {
+    this.change = new EventEmitter();
+  }
 
   public ngOnInit(): void {
     if (this.min == null) {
@@ -90,6 +95,7 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
       return;
     }
     this.size = newValue;
+    this.change.next(this.size);
   }
 
   public onVolumeChangeExp(newValue: number): void {

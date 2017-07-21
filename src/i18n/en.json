@@ -208,6 +208,7 @@
 
   "CREATING_SG": "Creating a security group",
   "CREATING_AG": "Creating an affinity group",
+  "DEPLOYING_VM": "Deploying the virtual machine",
   "CREATING_SG_TEMPLATE": "Creating a security group template",
 
   "CREATE_NEW_TEMPLATE": "Create new template",
@@ -309,8 +310,9 @@
   "REVERT_TO_SNAPSHOT": "Revert disk to this snapshot",
 
   "VM_VIEW": "VM",
-  "STORAGE_VIEW": "Storage",
-  "NETWORK_VIEW": "Network",
+  "VM_STORAGE_VIEW": "Storage",
+  "VM_NETWORK_VIEW": "Network",
+  "VM_TAGS_VIEW": "Tags",
 
   "VOLUME_RESIZE": "Resize",
   "VOLUME_RESIZING": "Resizing volume",
@@ -580,5 +582,15 @@
   "REMOVE_FROM_GROUP": "Remove from the group \"{{ value }}\"",
   "REMOVE": "Remove",
   "CLICK_TO_ASSIGN": "Click to assign",
-  "REFRESH": "Refresh"
+  "REFRESH": "Refresh",
+
+  "CREATE_NEW_TAG": "Create a new tag",
+  "TAG_CATEGORY": "Category",
+  "TAG_KEY": "Key",
+  "TAG_VALUE": "Value",
+  "TAG_CATEGORY_NAME": "Category name",
+  "TAG_ALREADY_EXISTS": "Tag already exists",
+  "NO_TAGS": "No tags",
+  "EDIT_TAG": "Edit tag",
+  "TAG_DELETE_CONFIRMATION": "Are you sure you want to delete this tag?"
 }

@@ -13,10 +13,12 @@ import { NotificationService } from '../../shared/services/notification.service'
 })
 export class VmSidebarComponent {
   @Input() public vm: VirtualMachine;
+
   constructor(
     private vmService: VmService,
     private notificationService: NotificationService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute
+  ) {
     this.route.params.pluck('id')
       .subscribe((id: string) => {
         if (id) {

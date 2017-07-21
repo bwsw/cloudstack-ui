@@ -1,9 +1,15 @@
 <md-select
   [ngModel]="serviceOffering"
-  (change)="changeValue($event)"
+  (change)="changeOffering($event)"
 >
   <md-option *ngFor="let so of serviceOfferings" [value]="so">
     {{ so.name }}
   </md-option>
 </md-select>
-<div class="custom-offering-info" *ngIf="serviceOffering?.isCustomized">{{ customOfferingData | async }}</div>
+
+<div
+  class="custom-offering-info"
+  *ngIf="customOfferingDescription"
+>
+  {{ customOfferingDescription | async }}
+</div>
