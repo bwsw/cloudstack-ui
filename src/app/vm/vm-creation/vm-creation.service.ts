@@ -2,8 +2,13 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import {
-  CustomOfferingRestrictions
+  ICustomOfferingRestrictionsByZone
 } from '../../service-offering/custom-service-offering/custom-offering-restrictions';
+import {
+  CustomServiceOfferingService,
+  DefaultServiceOfferingConfigurationByZone
+} from '../../service-offering/custom-service-offering/custom-service-offering.service';
+import { ServiceOffering, SSHKeyPair } from '../../shared/models';
 import {
   AffinityGroupService,
   AuthService,
@@ -21,17 +26,18 @@ import { Iso, IsoService, Template, TemplateService } from '../../template/share
 import { TemplateFilters } from '../../template/shared/base-template.service';
 import { VmService } from '../shared/vm.service';
 import { VmCreationData } from './data/vm-creation-data';
-import { SSHKeyPair } from '../../shared/models';
 
 
 const vmCreationConfigurationKeys = [
+  'defaultServiceOfferingConfig',
   'offeringAvailability',
   'customOfferingRestrictions'
 ];
 
 export interface VmCreationConfigurationData {
+  defaultServiceOfferingConfigurationByZone: DefaultServiceOfferingConfigurationByZone;
   offeringAvailability: OfferingAvailability;
-  customOfferingRestrictions: CustomOfferingRestrictions;
+  customOfferingRestrictions: ICustomOfferingRestrictionsByZone;
 }
 
 export interface NotSelected {
@@ -45,6 +51,7 @@ export class VmCreationService {
     private affinityGroupService: AffinityGroupService,
     private authService: AuthService,
     private configService: ConfigService,
+    private customServiceOfferingService: CustomServiceOfferingService,
     private diskOfferingService: DiskOfferingService,
     private diskStorageService: DiskStorageService,
     private isoService: IsoService,
@@ -102,9 +109,16 @@ export class VmCreationService {
           translations['NO_SSH_KEY']
         );
 
+        const customServiceOfferingRestrictionsByZone =
+          this.customServiceOfferingService.getCustomOfferingRestrictionsByZone(
+            configurationData.customOfferingRestrictions,
+            resourceUsage
+          );
+
         return new VmCreationData(
           affinityGroupList,
           configurationData,
+          customServiceOfferingRestrictionsByZone,
           availablePrimaryStorage,
           defaultName,
           diskOfferings,

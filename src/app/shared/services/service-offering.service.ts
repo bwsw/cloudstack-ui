@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  CustomOfferingRestrictions
-} from '../../service-offering/custom-service-offering/custom-offering-restrictions';
+import { ICustomOfferingRestrictions } from '../../service-offering/custom-service-offering/custom-offering-restrictions';
+import { DefaultServiceOfferingConfigurationByZone } from '../../service-offering/custom-service-offering/custom-service-offering.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { ServiceOffering } from '../models/service-offering.model';
 import { Zone } from '../models/zone.model';
@@ -15,10 +14,19 @@ import { ResourceStats } from './resource-usage.service';
   entityModel: ServiceOffering
 })
 export class ServiceOfferingService extends OfferingService<ServiceOffering> {
+  public getDefaultServiceOffering(
+    offerings: Array<ServiceOffering>,
+    configuration: DefaultServiceOfferingConfigurationByZone,
+    zone: Zone
+  ): ServiceOffering {
+    const defaultOfferingId = configuration[zone.id].offering;
+    return offerings.find(_ => _.id === defaultOfferingId);
+  }
+
   public getAvailableByResourcesSync(
     serviceOfferings: Array<ServiceOffering>,
     offeringAvailability: OfferingAvailability,
-    offeringRestrictions: CustomOfferingRestrictions,
+    offeringRestrictions: ICustomOfferingRestrictions,
     resourceUsage: ResourceStats,
     zone: Zone
   ): Array<ServiceOffering> {

@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import {
+  CustomServiceOfferingService
+} from '../../../service-offering/custom-service-offering/custom-service-offering.service';
 import { ServiceOfferingService, Utils } from '../../../shared/services';
 import { VmCreationData } from '../data/vm-creation-data';
 import { VmCreationState } from '../data/vm-creation-state';
@@ -8,7 +11,10 @@ import cloneDeep = require('lodash/cloneDeep');
 
 @Injectable()
 export class VmCreationFormNormalizationService {
-  constructor(private serviceOfferingService: ServiceOfferingService) {}
+  constructor(
+    private customServiceOfferingService: CustomServiceOfferingService,
+    private serviceOfferingService: ServiceOfferingService
+  ) {}
 
   public normalize(formState: VmCreationFormState): VmCreationFormState {
     return this.filterZones(this.clone(formState));
@@ -44,14 +50,34 @@ export class VmCreationFormNormalizationService {
         formState.state.zone
       );
 
+    formState = this.initializeCustomServiceOfferings(formState);
+
     const offeringStillAvailable = !!formState
       .data.serviceOfferings.find(offering => {
         return formState.state.serviceOffering.id === offering.id;
       });
 
     if (!offeringStillAvailable) {
-      formState.state.serviceOffering = formState.data.serviceOfferings[0];
+      formState.state.serviceOffering = formState.data.getDefaultServiceOffering(formState.state.zone);
     }
+
+    return formState;
+  }
+
+  private initializeCustomServiceOfferings(formState: VmCreationFormState): VmCreationFormState {
+    formState.data.serviceOfferings = formState.data.serviceOfferings.map(offering => {
+      if (!offering.isCustomized) {
+        return offering;
+      }
+
+      return this.customServiceOfferingService.getCustomOfferingWithSetParamsSync(
+        offering,
+        formState.data.getCustomOfferingParams(formState.state.zone),
+        formState.data.configurationData.customOfferingRestrictions,
+        formState.data.resourceUsage
+      );
+    })
+      .filter(_ => _); // todo: test
 
     return formState;
   }

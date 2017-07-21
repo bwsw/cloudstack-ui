@@ -1,10 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Zone } from '../../shared/models';
 import { ConfigService, ResourceStats, ResourceUsageService } from '../../shared/services';
-import { CustomOfferingRestrictions } from './custom-offering-restrictions';
+import {
+  CustomOfferingRestrictions,
+  ICustomOfferingRestrictions,
+  ICustomOfferingRestrictionsByZone
+} from './custom-offering-restrictions';
 import { CustomServiceOffering, ICustomServiceOffering } from './custom-service-offering';
 import clone = require('lodash/clone');
 
+
+export interface DefaultServiceOfferingConfigurationByZone {
+  [zone: string]: DefaultServiceOfferingConfiguration;
+}
 
 export interface DefaultServiceOfferingConfiguration {
   offering: string;
@@ -24,12 +33,15 @@ export class CustomServiceOfferingService {
     public resourceUsageService: ResourceUsageService
   ) {}
 
-  public getCustomServiceOfferingWithSetParams(offering: CustomServiceOffering): Observable<CustomServiceOffering> {
+  public getCustomOfferingWithSetParams(
+    offering: CustomServiceOffering,
+    zone: Zone
+  ): Observable<CustomServiceOffering> {
     const defaultConfigRequest =
-      this.configService.get<DefaultServiceOfferingConfiguration>('defaultServiceOfferingConfig');
+      this.configService.get<DefaultServiceOfferingConfigurationByZone>('defaultServiceOfferingConfig');
 
     const customOfferingRestrictionsRequest =
-      this.configService.get<CustomOfferingRestrictions>('customOfferingRestrictions');
+      this.configService.get<ICustomOfferingRestrictions>('customOfferingRestrictions');
 
     const resourceUsageRequest = this.resourceUsageService.getResourceUsage();
 
@@ -48,30 +60,45 @@ export class CustomServiceOfferingService {
       ) => {
         return this.getCustomOfferingWithSetParamsSync(
           offering,
-          defaultParams.customOfferingParams,
+          defaultParams[zone.id].customOfferingParams,
           customOfferingRestrictions,
           resourceStats
         );
       });
   }
 
+  public getCustomOfferingRestrictionsByZone(
+    customOfferingRestrictionsByZone: ICustomOfferingRestrictionsByZone,
+    resourceStats: ResourceStats
+  ): ICustomOfferingRestrictionsByZone {
+    return Object.keys(customOfferingRestrictionsByZone)
+      .reduce((acc, zone) => {
+        return Object.assign(acc, {
+          [zone]: this.getRestrictionIntersection(customOfferingRestrictionsByZone[zone], resourceStats)
+        });
+      }, {});
+  }
+
   public getCustomOfferingWithSetParamsSync(
     serviceOffering:            CustomServiceOffering,
     defaultParams:              ICustomServiceOffering,
-    customOfferingRestrictions: CustomOfferingRestrictions,
+    customOfferingRestrictions: ICustomOfferingRestrictions,
     resourceStats:              ResourceStats
   ): CustomServiceOffering {
-    const cpuNumber = defaultParams.cpuNumber
-       || customOfferingRestrictions.memory.min
-       || fallbackParams.cpuNumber;
+    const cpuNumber =
+      defaultParams.cpuNumber
+      || customOfferingRestrictions.memory.min
+      || fallbackParams.cpuNumber;
 
-    const cpuSpeed = defaultParams.cpuSpeed
-       || customOfferingRestrictions.cpuSpeed.min
-       || fallbackParams.cpuSpeed;
+    const cpuSpeed =
+      defaultParams.cpuSpeed
+      || customOfferingRestrictions.cpuSpeed.min
+      || fallbackParams.cpuSpeed;
 
-    const memory = defaultParams.memory
-       || customOfferingRestrictions.memory.min
-       || fallbackParams.memory;
+    const memory =
+      defaultParams.memory
+      || customOfferingRestrictions.memory.min
+      || fallbackParams.memory;
 
     const restrictions = this.getRestrictionIntersection(
       customOfferingRestrictions,
@@ -92,7 +119,7 @@ export class CustomServiceOfferingService {
 
   private clipOfferingParamsToRestrictions(
     offeringParams: ICustomServiceOffering,
-    restrictions: CustomOfferingRestrictions
+    restrictions: ICustomOfferingRestrictions
   ): ICustomServiceOffering {
     let cpuNumber: number;
     let cpuSpeed:  number;
@@ -126,7 +153,7 @@ export class CustomServiceOfferingService {
   }
 
   private getRestrictionIntersection(
-    customOfferingRestrictions: CustomOfferingRestrictions,
+    customOfferingRestrictions: ICustomOfferingRestrictions,
     resourceStats: ResourceStats
   ): CustomOfferingRestrictions {
     return {

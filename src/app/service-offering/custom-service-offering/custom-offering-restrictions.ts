@@ -3,7 +3,11 @@ export interface CustomOfferingRestriction {
   max?: number;
 }
 
-interface ICustomOfferingRestrictions {
+export interface ICustomOfferingRestrictionsByZone {
+  [zone: string]: ICustomOfferingRestrictions;
+}
+
+export interface ICustomOfferingRestrictions {
   cpuNumber?: CustomOfferingRestriction;
   cpuSpeed?:  CustomOfferingRestriction;
   memory?:    CustomOfferingRestriction;
