@@ -242,5 +242,14 @@
     }
   },
   "apiDocLink": "https://cloudstack.apache.org/api/apidocs-4.9/",
-  "sessionRefreshInterval": 60
+  "sessionRefreshInterval": 60,
+
+  "defaultServiceOfferingConfiguration": {
+    "offering": "3fcdb37c-1c0b-4728-b62f-970c765c3fbc",
+    "customOfferingParams": {
+      "cpuNumber": 1,
+      "cpuSpeed": 1000,
+      "memory": 512
+    }
+  }
 }
