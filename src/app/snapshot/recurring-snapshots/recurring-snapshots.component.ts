@@ -1,4 +1,4 @@
-import { Component, forwardRef, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, Inject, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { MdlDialogReference } from '../../dialog/dialog-module';
@@ -25,6 +25,7 @@ export enum PolicyType {
   selector: 'cs-recurring-snapshots',
   templateUrl: 'recurring-snapshots.component.html',
   styleUrls: ['recurring-snapshots.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -43,6 +44,14 @@ export class RecurringSnapshotsComponent implements OnInit {
 
   public loading: boolean;
 
+  readonly timeFormat$: Observable<TimeFormat> = this.languageService.getTimeFormat()
+    .map(format => {
+      if (format === TimeFormats.hour24) {
+        return format;
+      }
+      return TimeFormats.hour12;
+    });
+
   constructor(
     @Inject('volume') public volume: Volume,
     private dialog: MdlDialogReference,
@@ -59,17 +68,6 @@ export class RecurringSnapshotsComponent implements OnInit {
         () => {},
         error => this.onError(error)
       );
-  }
-
-  public get timeFormat(): Observable<TimeFormat> {
-    return this.languageService.getTimeFormat()
-      .map(format => {
-        if (format === TimeFormats.hour24) {
-          return format;
-        }
-
-        return TimeFormats.hour12;
-      })
   }
 
   public tabChanged(tab: any): void {
@@ -105,9 +103,9 @@ export class RecurringSnapshotsComponent implements OnInit {
   private loadPolicies(): Observable<void> {
     return this.snapshotPolicyService.getPolicyList(this.volume.id)
       .map(policies => {
-        this.hourlyPolicy  = undefined;
-        this.dailyPolicy   = undefined;
-        this.weeklyPolicy  = undefined;
+        this.hourlyPolicy = undefined;
+        this.dailyPolicy = undefined;
+        this.weeklyPolicy = undefined;
         this.monthlyPolicy = undefined;
         policies.forEach(policy => {
           this.setPolicyValue(policy, policy.type);

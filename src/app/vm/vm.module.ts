@@ -1,7 +1,6 @@
 import { MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
-import { MdTooltipModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -51,10 +50,7 @@ import { vmRouting } from './vm.routing';
 import { SpareDriveAttachmentDialogComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
 import { SnapshotsComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshots.component';
 import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volume-details/volume-details.component';
-import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.component';
-import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { SnapshotModule } from '../snapshot/snapshot.module';
-import { NetworkDetailComponent } from './vm-sidebar/network-detail/network-detail.component';
 import { TagsModule } from '../tags/tags.module';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
 // tslint:disable-next-line

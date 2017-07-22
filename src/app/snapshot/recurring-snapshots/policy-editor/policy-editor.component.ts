@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { PolicyType } from '../recurring-snapshots.component';
 import { TimeZone } from '../time-zone/time-zone.service';
 import { DailyPolicy } from './daily/daily-policy.component';
@@ -21,7 +21,8 @@ export interface Policy<T> {
 @Component({
   selector: 'cs-policy-editor',
   templateUrl: 'policy-editor.component.html',
-  styleUrls: ['policy-editor.component.scss']
+  styleUrls: ['policy-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PolicyEditorComponent {
   @Input() public timeFormat: TimeFormat;
