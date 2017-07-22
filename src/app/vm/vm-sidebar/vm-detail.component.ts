@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import {
   AffinityGroupSelectorComponent
 } from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
+import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import {
   ServiceOfferingDialogComponent
@@ -65,10 +66,16 @@ export class VmDetailComponent implements OnChanges, OnInit {
       .subscribe();
   }
 
+  private setAffinityGroupLoading(value: boolean) {
+    this.affinityGroupLoading = value;
+  }
+
+  private setSshKeyLoading(value: boolean) {
+    this.sskKeyLoading = value;
+  }
+
   public changeAffinityGroup(): void {
-    this.affinityGroupLoading = true;
-    this.askToStopVM(this.vm, 'STOP_MACHINE_FOR_AG')
-      .do(() => this.affinityGroupLoading = false)
+    this.askToStopVM(this.vm, 'STOP_MACHINE_FOR_AG', this.setAffinityGroupLoading.bind(this))
       .filter(stopped => !!stopped)
       .subscribe(() => this.showAffinityGroupDialog());
   }
@@ -107,9 +114,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
   }
 
   public resetSshKey(): void {
-    this.sskKeyLoading = true;
-    this.askToStopVM(this.vm, 'STOP_MACHINE_FOR_SSH')
-      .do(() => this.sskKeyLoading = false)
+    this.askToStopVM(this.vm, 'STOP_MACHINE_FOR_SSH', this.setSshKeyLoading.bind(this))
       .filter(stopped => !!stopped)
       .subscribe(() => this.showSshKeypairResetDialog());
   }
@@ -138,31 +143,38 @@ export class VmDetailComponent implements OnChanges, OnInit {
       });
   }
 
-  private askToStopVM(currentVM: VirtualMachine, message: string): Observable<any> {
-    return this.vmService.get(currentVM.id).switchMap(vm => {
-      if (vm.state === VmStates.Stopped) {
-        return Observable.of(true);
-      }
+  private askToStopVM(currentVM: VirtualMachine, message: string, loadingFunction: Function = () => {
+  }): Observable<any> {
+    loadingFunction(true);
+    return this.vmService.get(currentVM.id)
+      .do(() => loadingFunction(false))
+      .switchMap(vm => {
+        if (vm.state === VmStates.Stopped) {
+          return Observable.of(true);
+        }
 
-      return this.dialogService.customConfirm({
-        message: message,
-        confirmText: 'STOP',
-        declineText: 'CANCEL',
-        width: '350px',
-        clickOutsideToClose: false
-      })
-        .onErrorResumeNext()
-        .switchMap((result) => {
-          if (result === null) {
-            return this.vmService.command({
-              action: VirtualMachine.getAction(VmActions.STOP),
-              vm: vm
-            }).switchMap(() => Observable.of(true))
-          } else {
-            return Observable.of(false);
-          }
-        });
-    });
+        return this.dialogService.customConfirm({
+          message: message,
+          confirmText: 'STOP',
+          declineText: 'CANCEL',
+          width: '350px',
+          clickOutsideToClose: false
+        })
+          .onErrorResumeNext()
+          .switchMap((result) => {
+            if (result === null) {
+              loadingFunction(true);
+              return this.vmService.command({
+                action: VirtualMachine.getAction(VmActions.STOP),
+                vm: vm
+              })
+                .do(() => loadingFunction(false))
+                .switchMap(() => Observable.of(true))
+            } else {
+              return Observable.of(false);
+            }
+          });
+      });
   }
 
   private showAffinityGroupDialog(): void {
