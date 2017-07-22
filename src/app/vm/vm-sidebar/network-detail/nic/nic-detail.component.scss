@@ -1,0 +1,13 @@
+.nic-name {
+  font-weight: bolder;
+  padding: 2px;
+}
+
+.secondary-ips {
+  margin-left: 5%;
+}
+
+.nic .row > div:nth-child(2n)
+{
+  text-align: right;
+}

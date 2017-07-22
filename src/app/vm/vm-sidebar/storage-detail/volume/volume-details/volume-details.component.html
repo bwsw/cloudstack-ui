@@ -19,8 +19,8 @@
     </div>
     <div class="row"
          *ngIf="volume?.diskOffering?.name"
-         [mdl-tooltip]="volume?.diskOffering?.displayText"
-         mdl-tooltip-position="top"
+         [mdTooltip]="volume?.diskOffering?.displayText"
+         mdTooltipPosition="above"
     >
       <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING_TITLE' | translate }}</div>
       <div>{{ volume.diskOffering.name }}</div>

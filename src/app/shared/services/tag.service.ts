@@ -38,10 +38,6 @@ export class TagService extends BaseBackendCachedService<Tag> {
   }
 
   public update(entity: any, entityName: string, key: string, value: any): Observable<any> {
-    if (!entity.id) {
-      throw new Error('This entity can\'t have tags');
-    }
-
     const createObs = this.create({
       resourceIds: entity.id,
       resourceType: entityName,

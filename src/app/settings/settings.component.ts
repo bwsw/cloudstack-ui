@@ -4,7 +4,9 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { Color, LanguageService, StyleService } from '../shared';
 import { AuthService, NotificationService } from '../shared/services';
+import { TimeFormat } from '../shared/services/language.service';
 import { UserService } from '../shared/services/user.service';
+import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 
 
 @Component({
@@ -12,17 +14,19 @@ import { UserService } from '../shared/services/user.service';
   templateUrl: 'settings.component.html',
   styleUrls: ['settings.component.scss']
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public userId: string;
   public accentColor: Color;
   public firstDayOfWeek = 1;
   public language: string;
   public primaryColor: Color;
   public primaryColors: Array<Color>;
+  public timeFormat: string = TimeFormat.AUTO;
 
   public passwordUpdateForm: FormGroup;
 
   public updatingFirstDayOfWeek = false;
+  public updatingTimeFormat = false;
   public dayTranslations: {};
   public loading = false;
 
@@ -39,6 +43,10 @@ export class SettingsComponent implements OnInit {
     { value: 1, text: 'MONDAY' }
   ];
 
+  public TimeFormat = TimeFormat;
+  // TODO replace when TypeScript 2.4 string enums land
+  public timeFormats = Object.keys(TimeFormat);
+
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
@@ -48,6 +56,7 @@ export class SettingsComponent implements OnInit {
     private translateService: TranslateService,
     private userService: UserService
   ) {
+    super();
     this.userId = this.authService.userId;
   }
 
@@ -57,7 +66,10 @@ export class SettingsComponent implements OnInit {
     this.loadFirstDayOfWeek();
     this.buildForm();
     this.loadDayTranslations();
-    this.translateService.onLangChange.subscribe(() => this.loadDayTranslations());
+    this.loadTimeFormat();
+    this.translateService.onLangChange
+      .takeUntil(this.unsubscribe$)
+      .subscribe(() => this.loadDayTranslations());
   }
 
   public get accentColors(): Array<Color> {
@@ -76,6 +88,13 @@ export class SettingsComponent implements OnInit {
     this.loading = true;
     this.languageService.setLanguage(lang);
     this.loadDayTranslations();
+  }
+
+  public changeTimeFormat(timeFormat: string): void {
+    this.updatingTimeFormat = true;
+    this.languageService.setTimeFormat(timeFormat)
+      .finally(() => this.updatingTimeFormat = false)
+      .subscribe();
   }
 
   public updatePrimaryColor(color: Color): void {
@@ -149,6 +168,11 @@ export class SettingsComponent implements OnInit {
   private loadFirstDayOfWeek(): void {
     this.languageService.getFirstDayOfWeek()
       .subscribe((day: number) => this.firstDayOfWeek = day);
+  }
+
+  private loadTimeFormat(): void {
+    this.languageService.getTimeFormat()
+      .subscribe(timeFormat => this.timeFormat = timeFormat);
   }
 
   private buildForm(): void {

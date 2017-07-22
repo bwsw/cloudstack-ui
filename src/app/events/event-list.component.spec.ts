@@ -14,6 +14,7 @@ import { SharedModule } from '../shared/shared.module';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
 import { EventService } from './event.service';
+import { TimeFormat } from '../shared/services/language.service';
 
 
 const eventServiceFixture = require('./event.service.fixture.json');
@@ -71,6 +72,10 @@ class MockFilterService {
 class MockLanguageService {
   public getFirstDayOfWeek(): Observable<number> {
     return Observable.of(0);
+  }
+
+  public getTimeFormat(): Observable<string | null> {
+    return Observable.of(TimeFormat.AUTO);
   }
 }
 

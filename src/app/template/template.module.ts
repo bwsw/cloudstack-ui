@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MdTooltipModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { MdlModule } from '@angular-mdl/core';
 import { MdlSelectModule } from '@angular-mdl/select';
@@ -20,6 +21,8 @@ import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.co
 import { IsoSidebarComponent } from './template-sidebar/iso-sidebar.component';
 import { TemplateCardListComponent } from './template-list/template-card-list.component';
 import { TemplateActionsService } from './shared/template-actions.service';
+import { TemplateTagsComponent } from './template-tags/template-tags.component';
+import { TagsModule } from '../tags/tags.module';
 
 
 @NgModule({
@@ -27,10 +30,12 @@ import { TemplateActionsService } from './shared/template-actions.service';
     CommonModule,
     FormsModule,
     TranslateModule,
+    MdTooltipModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
     SharedModule,
+    TagsModule,
     templatesRouting
   ],
   declarations: [
@@ -43,7 +48,8 @@ import { TemplateActionsService } from './shared/template-actions.service';
     TemplateListComponent,
     TemplateCardListComponent,
     TemplateFilterListComponent,
-    TemplatePageComponent
+    TemplatePageComponent,
+    TemplateTagsComponent
   ],
   exports: [
     TemplateFilterListComponent

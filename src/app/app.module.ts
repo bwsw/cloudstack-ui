@@ -1,3 +1,4 @@
+import { MdTooltipModule } from '@angular/material';
 import { DISABLE_NATIVE_VALIDITY_CHECKING, MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
@@ -5,6 +6,7 @@ import { Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -33,10 +35,12 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
 @NgModule({
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpModule,
     FormsModule,
     TranslateModule.forRoot(),
     EventsModule,
+    MdTooltipModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,

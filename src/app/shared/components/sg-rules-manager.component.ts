@@ -41,12 +41,12 @@ export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
     return this._rules;
   }
 
-  public set rules(value) {
+  public set rules(value: Rules) {
     this._rules = value;
     this.propagateChange(value);
   }
 
-  public writeValue(value): void {
+  public writeValue(value: Rules): void {
     this.updateRules(value);
   }
 
@@ -68,7 +68,7 @@ export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
       });
   }
 
-  private onDialogHide(data?): void {
+  private onDialogHide(data?: Rules): void {
     this.updateRules(data);
   }
 
@@ -78,10 +78,7 @@ export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
     }
 
     this.savedRules = rules;
-
-    const temp = Object.assign({}, rules);
-    delete temp.templates;
-    this.rules = temp;
+    this.rules = this.savedRules;
   }
 }
 

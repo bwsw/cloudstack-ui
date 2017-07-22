@@ -34,9 +34,9 @@
     <button
       mdl-button
       mdl-button-type="icon"
-      mdl-tooltip-position="top"
+      mdTooltipPosition="above"
       *ngIf="!loading"
-      [mdl-tooltip]="'ATTACH' | translate"
+      [mdTooltip]="'ATTACH' | translate"
       (click)="$event.stopPropagation(); attachVolume()"
     >
       <mdl-icon>attach_file</mdl-icon>

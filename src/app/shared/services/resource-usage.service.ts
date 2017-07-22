@@ -11,7 +11,7 @@ import { SnapshotService } from './snapshot.service';
 import { VolumeService } from './volume.service';
 
 
-export class ResourcesData {
+class ResourcesData {
   public instances = 0;
   public ips = 0;
   public volumes = 0;

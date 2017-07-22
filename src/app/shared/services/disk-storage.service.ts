@@ -67,17 +67,17 @@ export class DiskStorageService {
   }
 
   private getAvailableStorage(resourceType: ResourceType): Observable<number> {
-    let limitRequest = this.resourceLimits.getList({ resourceType })
+    const limitRequest = this.resourceLimits.getList({ resourceType })
       .map(res => res[0].max);
 
-    let consumedStorageRequest = this.getConsumedStorage(resourceType);
+    const consumedStorageRequest = this.getConsumedStorage(resourceType);
 
     return Observable.forkJoin([limitRequest, consumedStorageRequest])
       .map(values => {
         if (values[0] === -1) {
           return -1;
         }
-        let space = values[0] - values[1];
+        const space = values[0] - values[1];
         return space > 0 ? space : 0;
       })
       .catch(error => Observable.throw(error));
