@@ -14,7 +14,7 @@ import {
 import { ListService } from '../../shared/components/list/list.service';
 import { VirtualMachine, VmActions, VmStates } from '../shared/vm.model';
 
-import { IVmActionEvent, VmService } from '../shared/vm.service';
+import { IVmActionEvent, VirtualMachineEntityName, VmService } from '../shared/vm.service';
 
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import { InstanceGroupOrNoGroup, VmFilter } from '../vm-filter/vm-filter.component';
@@ -73,6 +73,20 @@ export class VmListComponent implements OnInit {
     this.subscribeToVmUpdates();
     this.subscribeToVmDestroyed();
     this.subscribeToVmCreationDialog();
+    this.asyncJobService.event
+      .filter(j => j.instanceType === VirtualMachineEntityName)
+      .filter(j => j.result)
+      .subscribe((job: AsyncJob<any>) => {
+        const index = this.vmList.findIndex(_ => job.result.id === _.id);
+        if (index > -1) {
+          // todo: may be we need to update more params
+          // todo: need to discuss
+          this.vmList[index].state = job.result.state;
+          if (job.result.nic && job.result.nic.length) {
+            this.vmList[index].nic[0] = job.result.nic[0];
+          }
+        }
+      });
   }
 
   public get noFilteringResults(): boolean {
@@ -187,7 +201,7 @@ export class VmListComponent implements OnInit {
 
   private getVmList(): Observable<VirtualMachine> {
     return Observable.forkJoin(
-      this.vmService.getList(),
+      this.vmService.getListWithDetails(),
       this.vmService.getInstanceGroupList(),
       this.zoneService.getList()
     )
@@ -216,7 +230,7 @@ export class VmListComponent implements OnInit {
         if (index < 0) {
           return;
         }
-        this.vmService.get(updatedVM.id).subscribe((vm) => {
+        this.vmService.getWithDetails(updatedVM.id).subscribe((vm) => {
           this.vmList[index] = vm;
           this.updateFilters();
         });
@@ -237,21 +251,18 @@ export class VmListComponent implements OnInit {
   }
 
   private subscribeToVmDestroyed(): void {
-    this.asyncJobService.event.subscribe((job: AsyncJob<any>) => {
-      if (!job.result) {
-        return;
-      }
-
-      const state = job.result.state;
-      if (job.instanceType === 'VirtualMachine' && (state === VmStates.Destroyed || state === VmStates.Expunging)) {
+    this.asyncJobService.event
+      .filter(j => j.instanceType === VirtualMachineEntityName)
+      .filter(j => j.result)
+      .filter(j => j.result.state === VmStates.Destroyed || j.result.state === VmStates.Expunging)
+      .subscribe((job: AsyncJob<any>) => {
         this.vmList = this.vmList.filter(vm => vm.id !== job.result.id);
         if (this.listService.isSelected(job.result.id)) {
           this.listService.deselectItem();
         }
         this.updateFilters();
         this.updateStats();
-      }
-    });
+      });
   }
 
   private subscribeToVmCreationDialog(): void {
