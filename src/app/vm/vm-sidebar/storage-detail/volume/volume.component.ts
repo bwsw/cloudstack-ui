@@ -85,11 +85,11 @@ export class VolumeComponent implements OnInit {
     });
   }
 
-  public takeSnapshot(): void {
+  public takeSnapshot(volume: Volume): void {
     this.dialogService.showCustomDialog({
       component: SnapshotCreationComponent,
       classes: 'snapshot-creation-dialog',
-      providers: [{ provide: 'volume', useValue: this.volume }],
+      providers: [{ provide: 'volume', useValue: volume }],
     });
   }
 

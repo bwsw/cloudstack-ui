@@ -6,7 +6,7 @@ import { Cache } from './cache';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
 import { ServiceLocator } from './service-locator';
-import { CustomQueryEncoder } from '../custom-query-encoder';
+import { CustomQueryEncoder } from '../utils/custom-query-encoder';
 
 
 export const BACKEND_API_URL = 'client/api';
