@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { Iso } from '../shared/iso.model';
-import { Template } from '../shared/template.model';
 import { OsFamily } from '../../shared/models/os-type.model';
 import { Zone } from '../../shared/models/zone.model';
 import { AuthService } from '../../shared/services/auth.service';
 import { ServiceLocator } from '../../shared/services/service-locator';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { TemplateFilters } from '../shared/base-template.service';
+import { Iso } from '../shared/iso.model';
+import { Template } from '../shared/template.model';
 
 
 @Component({
@@ -83,10 +83,9 @@ export class TemplateFilterListComponent implements OnInit {
       this.selectedFilters = filters.selectedFilters;
       this.selectedZones = filters.selectedZones;
       this.query = filters.query;
-      this.selectedGroupings = filters.groupings.reduce((acc, g) => {
-        acc.push(this.groupings.find(_ => _ === g));
-        return acc;
-      }, []);
+      this.selectedGroupings = filters.groupings
+        .map(g => this.groupings.find(_ => _ === g))
+        .filter(g => g);
     }
 
     this.visibleTemplateList = this.filterByZone(this.templateList);

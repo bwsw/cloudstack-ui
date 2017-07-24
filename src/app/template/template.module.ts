@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdTooltipModule } from '@angular/material';
+import { MdSelectModule, MdTooltipModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { MdlModule } from '@angular-mdl/core';
-import { MdlSelectModule } from '@angular-mdl/select';
 import { DynamicModule } from 'ng-dynamic-component';
 
 import { SharedModule } from '../shared/shared.module';
@@ -35,7 +34,7 @@ import { TagsModule } from '../tags/tags.module';
     MdTooltipModule,
     MdlModule,
     MdlPopoverModule,
-    MdlSelectModule,
+    MdSelectModule,
     SharedModule,
     TagsModule,
     templatesRouting

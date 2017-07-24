@@ -9,12 +9,12 @@
   overflow: auto;
 }
 
-:host mdl-select /deep/ .mdl-textfield {
+:host md-select /deep/ .mdl-textfield {
   width: 200px;
 }
 
 cs-date-picker,
-mdl-select {
+md-select {
   margin: 0 15px;
 }
 

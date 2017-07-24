@@ -1,13 +1,10 @@
 @import '../../../style/__variables.scss';
 
 :host .tab-switch {
-  margin: 0 19px;
-}
-
-.filter-select {
   display: inline-flex;
-  width: $template-filter-select-width;
-  margin: 0 20px;
+  width: auto;
+  position: relative;
+  margin: 0 19px;
 }
 
 .filter-select-container {

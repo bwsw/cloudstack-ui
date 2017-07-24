@@ -21,7 +21,7 @@ export class TemplateFiltersComponent implements OnInit {
   @Input() public showIso: boolean;
   @Input() public dialogMode = false;
   @Input() public searchPanelWhite: boolean;
-  @Input() public availableGroupings: Array<any>;
+  @Input() public availableGroupings: Array<any> = [];
 
   @Output() public queries = new EventEmitter();
   @Output() public displayMode = new EventEmitter();
@@ -68,7 +68,7 @@ export class TemplateFiltersComponent implements OnInit {
       this.zoneService.getList()
         .subscribe(zones => {
           this.zones = zones;
-          this.initFilters();
+          setTimeout(() => this.initFilters(), 0);
         });
     } else {
       this.selectedOsFamilies = this.osFamilies.concat();
@@ -148,10 +148,9 @@ export class TemplateFiltersComponent implements OnInit {
     this.selectedOsFamilies = params['osFamilies'];
     this.selectedFilters = params['categoryFilters'];
     this.selectedZones = this.zones.filter(zone => params['zones'].find(id => id === zone.id));
-    this.selectedGroupingNames = params['groupings'].reduce((acc, g) => {
-      acc.push(this.availableGroupings.find(_ => _.key === g));
-      return acc;
-    }, []);
+    this.selectedGroupingNames = params['groupings']
+      .map(g => this.availableGroupings.find(_ => _.key === g))
+      .filter(g => g);
     this.query = params['query'];
     this.queryStream.next(this.query);
 

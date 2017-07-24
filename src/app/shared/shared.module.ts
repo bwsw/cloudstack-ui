@@ -4,6 +4,7 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MdSelectModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { DragulaModule } from 'ng2-dragula';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -34,7 +35,6 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { DescriptionComponent } from './components/description/description.component';
-import { DraggableSelectComponent } from './components/groupings/draggable-select.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
 import { InlineEditAutocompleteComponent } from './components/inline-edit/inline-edit-autocomplete.component';
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
@@ -102,6 +102,7 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     DynamicModule.withComponents([GroupedCardListComponent]),
     FormsModule,
     DragulaModule,
+    MdSelectModule,
     MdlDialogModule,
     MdlDialogOutletModule,
     MdlModule,
@@ -116,7 +117,7 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     CreateUpdateDeleteDialogComponent,
     DatePickerComponent,
     DividerVerticalComponent,
-    DraggableSelectComponent,
+    DividerVerticalComponent,
     DescriptionComponent,
     DiskOfferingComponent,
     FabComponent,
@@ -158,7 +159,6 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     CalendarYearComponent,
     ColorPickerComponent,
     CreateUpdateDeleteDialogComponent,
-    DraggableSelectComponent,
     DateDisplayComponent,
     DatePickerComponent,
     DatePickerDialogComponent,

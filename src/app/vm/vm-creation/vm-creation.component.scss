@@ -22,6 +22,11 @@
   padding-top: 15px;
 }
 
+:host /deep/ md-select {
+  width: 300px;
+  margin: 20px 0;
+}
+
 .vm-creation-container {
   position: relative;
   padding: 0.9em;
