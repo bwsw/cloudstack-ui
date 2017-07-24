@@ -80,28 +80,28 @@ export class CustomServiceOfferingService {
   }
 
   public getCustomOfferingWithSetParamsSync(
-    serviceOffering:            CustomServiceOffering,
-    defaultParams:              ICustomServiceOffering,
-    customOfferingRestrictions: ICustomOfferingRestrictions,
-    resourceStats:              ResourceStats
+    serviceOffering: CustomServiceOffering,
+    defaultParams: ICustomServiceOffering,
+    customRestrictions: ICustomOfferingRestrictions,
+    resourceStats: ResourceStats
   ): CustomServiceOffering {
     const cpuNumber =
-      defaultParams.cpuNumber
-      || customOfferingRestrictions.memory.min
-      || fallbackParams.cpuNumber;
+      defaultParams && defaultParams.cpuNumber
+      || customRestrictions && customRestrictions.memory && customRestrictions.memory.min
+      || fallbackParams && fallbackParams.cpuNumber;
 
     const cpuSpeed =
-      defaultParams.cpuSpeed
-      || customOfferingRestrictions.cpuSpeed.min
-      || fallbackParams.cpuSpeed;
+      defaultParams && defaultParams.cpuSpeed
+      || customRestrictions && customRestrictions.cpuSpeed && customRestrictions.cpuSpeed.min
+      || fallbackParams && fallbackParams.cpuSpeed;
 
     const memory =
-      defaultParams.memory
-      || customOfferingRestrictions.memory.min
-      || fallbackParams.memory;
+      defaultParams && defaultParams.memory
+      || customRestrictions && customRestrictions.memory && customRestrictions.memory.min
+      || fallbackParams && fallbackParams.memory;
 
     const restrictions = this.getRestrictionIntersection(
-      customOfferingRestrictions,
+      customRestrictions,
       resourceStats
     );
 
@@ -111,7 +111,7 @@ export class CustomServiceOfferingService {
 
     const normalizedParams = this.clipOfferingParamsToRestrictions(
       { cpuNumber, cpuSpeed, memory },
-      customOfferingRestrictions
+      customRestrictions
     );
 
     return new CustomServiceOffering({ ...normalizedParams, serviceOffering });
@@ -153,23 +153,55 @@ export class CustomServiceOfferingService {
   }
 
   private getRestrictionIntersection(
-    customOfferingRestrictions: ICustomOfferingRestrictions,
+    customRestrictions: ICustomOfferingRestrictions,
     resourceStats: ResourceStats
   ): CustomOfferingRestrictions {
-    return {
+    const result = {
       cpuNumber: {
-        min: customOfferingRestrictions.cpuNumber.min,
-        max: Math.min(customOfferingRestrictions.cpuNumber.max, resourceStats.available.cpus)
+        min: undefined,
+        max: resourceStats.available.cpus
       },
       cpuSpeed: {
-        min: customOfferingRestrictions.cpuSpeed.min,
-        max: customOfferingRestrictions.cpuSpeed.max
+        min: undefined,
+        max: undefined
       },
       memory: {
-        min: customOfferingRestrictions.memory.min,
-        max: Math.min(customOfferingRestrictions.memory.max, resourceStats.available.memory)
+        min: undefined,
+        max: resourceStats.available.memory
+      }
+    };
+
+    if (customRestrictions.cpuNumber) {
+      if (customRestrictions.cpuNumber.min) {
+        result.cpuNumber.min = customRestrictions.cpuNumber.min;
+      }
+
+      if (customRestrictions.cpuNumber.max) {
+        result.cpuNumber.max = Math.min(customRestrictions.cpuNumber.max, result.cpuNumber.max)
       }
     }
+
+    if (customRestrictions.cpuSpeed) {
+      if (customRestrictions.cpuSpeed.min) {
+        result.cpuSpeed.min = customRestrictions.cpuSpeed.min;
+      }
+
+      if (customRestrictions.cpuSpeed.max) {
+        result.cpuSpeed.max = Math.min(customRestrictions.cpuSpeed.max, result.cpuSpeed.max);
+      }
+    }
+
+    if (customRestrictions.memory) {
+      if (customRestrictions.memory.min) {
+        result.memory.min = customRestrictions.memory.min;
+      }
+
+      if (customRestrictions.memory.max) {
+        result.memory.max = Math.min(customRestrictions.memory.max, result.memory.max);
+      }
+    }
+
+    return result;
   }
 
   private restrictionsAreCompatible(restrictions: CustomOfferingRestrictions): boolean {
