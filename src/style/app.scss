@@ -6,6 +6,9 @@
 @import '~@angular-mdl/select/select';
 
 @import "~@angular-mdl/core/scss/color-definitions";
+
+@import "~dragula/dist/dragula.css";
+
 @import '__variables.scss';
 
 @import '../app/shared/styles/overlay';
@@ -253,7 +256,7 @@ mdl-simple-tooltip div {
   overflow: visible !important;
 }
 
-.card-list-container > * {
+.card-list-container  mdl-card {
   margin-top: 15px;
   margin-left: 15px;
 }
@@ -272,14 +275,6 @@ mdl-simple-tooltip div {
 
 .arrow {
   cursor: initial;
-}
-
-.section {
-  width: 100%;
-  min-height: 0;
-  border-bottom: 1px solid #dedede;
-  background-color: white;
-  padding-bottom: 15px;
 }
 
 .state-icon {

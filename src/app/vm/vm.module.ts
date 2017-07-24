@@ -7,6 +7,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MdTooltipModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
+import { DynamicModule } from 'ng-dynamic-component';
+
 import { routes } from '../app.routing';
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { SharedModule } from '../shared/shared.module';
@@ -21,8 +23,6 @@ import { VmCreationService } from './vm-creation/vm-creation.service';
 import { VmDeploymentService } from './vm-creation/vm-deployment.service';
 import { VmFilterComponent } from './vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list/vm-list-item.component';
-import { VmListSectionComponent } from './vm-list/vm-list-section/vm-list-section.component';
-import { VmListSubsectionComponent } from './vm-list/vm-list-subsection/vm-list-subsection.component';
 import { VmListComponent } from './vm-list/vm-list.component';
 import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { VmColorComponent } from './vm-sidebar/color/vm-color.component';
@@ -58,6 +58,7 @@ import { VmTagsComponent } from './vm-tags/vm-tags.component';
 @NgModule({
   imports: [
     CommonModule,
+    DynamicModule.withComponents([VmListItemComponent]),
     FormsModule,
     ServiceOfferingModule,
     MdTooltipModule,
@@ -65,6 +66,7 @@ import { VmTagsComponent } from './vm-tags/vm-tags.component';
     MdlPopoverModule,
     MdlSelectModule,
     ReactiveFormsModule,
+    ServiceOfferingModule,
     ServiceOfferingModule,
     SharedModule,
     TagsModule,
@@ -94,8 +96,6 @@ import { VmTagsComponent } from './vm-tags/vm-tags.component';
     VmSidebarComponent,
     VmTemplateComponent,
     VmTemplateDialogComponent,
-    VmListSectionComponent,
-    VmListSubsectionComponent,
     VolumeDetailsComponent,
     VolumeResizeComponent,
     InstanceGroupComponent,

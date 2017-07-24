@@ -1,10 +1,7 @@
-<div class="card-list-container">
-  <cs-template
-    [template]="template"
-    [isSelected]="listService.isSelected(template.id)"
-    [searchQuery]="query"
-    *ngFor="let template of templateList"
-    (onClick)="selectTemplate(template)"
-    (deleteTemplate)="removeTemplate($event)"
-  ></cs-template>
-</div>
+<cs-grouped-card-list
+  [list]="templateList"
+  [groupings]="groupings"
+  [component]="TemplateComponent"
+  [dynamicInputs]="inputs"
+  [dynamicOutputs]="outputs"
+></cs-grouped-card-list>

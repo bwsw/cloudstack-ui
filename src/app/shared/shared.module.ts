@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { DragulaModule } from 'ng2-dragula';
+import { DynamicModule } from 'ng-dynamic-component';
 import { MdlDialogModule } from '../dialog/dialog-module';
 
 import {
@@ -32,6 +34,7 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { DescriptionComponent } from './components/description/description.component';
+import { DraggableSelectComponent } from './components/groupings/draggable-select.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
 import { InlineEditAutocompleteComponent } from './components/inline-edit/inline-edit-autocomplete.component';
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
@@ -90,12 +93,15 @@ import { ForbiddenValuesDirective } from './directives/forbidden-values.directiv
 import {
   CreateUpdateDeleteDialogComponent
 } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
-
+import { GroupedCardListComponent } from './components/grouped-card-list/grouped-card-list.component';
+import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
 
 @NgModule({
   imports: [
     CommonModule,
+    DynamicModule.withComponents([GroupedCardListComponent]),
     FormsModule,
+    DragulaModule,
     MdlDialogModule,
     MdlDialogOutletModule,
     MdlModule,
@@ -104,10 +110,13 @@ import {
     TranslateModule
   ],
   exports: [
+    GroupedCardListComponent,
     CharacterCountComponent,
     ColorPickerComponent,
     CreateUpdateDeleteDialogComponent,
     DatePickerComponent,
+    DividerVerticalComponent,
+    DraggableSelectComponent,
     DescriptionComponent,
     DiskOfferingComponent,
     FabComponent,
@@ -149,11 +158,13 @@ import {
     CalendarYearComponent,
     ColorPickerComponent,
     CreateUpdateDeleteDialogComponent,
+    DraggableSelectComponent,
     DateDisplayComponent,
     DatePickerComponent,
     DatePickerDialogComponent,
     DescriptionComponent,
     DiskOfferingComponent,
+    DividerVerticalComponent,
     FabComponent,
     FancySelectComponent,
     ForbiddenValuesDirective,
@@ -182,7 +193,8 @@ import {
     HighLightPipe,
     ViewValuePipe,
     LoadingDirective,
-    LoaderComponent
+    LoaderComponent,
+    GroupedCardListComponent,
   ],
   providers: [
     AffinityGroupService,
