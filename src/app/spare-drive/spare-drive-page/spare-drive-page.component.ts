@@ -1,5 +1,7 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
+import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 import {
   DiskOffering,
@@ -14,12 +16,9 @@ import {
 import { ListService } from '../../shared/components/list/list.service';
 import { UserService } from '../../shared/services/user.service';
 import { VolumeService } from '../../shared/services/volume.service';
-
-import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
-
-import sortBy = require('lodash/sortBy');
 import { SpareDriveActionsService } from '../spare-drive-actions.service';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
+import sortBy = require('lodash/sortBy');
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -54,6 +53,7 @@ export class SpareDrivePageComponent implements OnInit {
   @HostBinding('class.detail-list-container') public detailListContainer = true;
 
   constructor(
+    private dialog: MdDialog,
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private filter: FilterService,
@@ -156,12 +156,11 @@ export class SpareDrivePageComponent implements OnInit {
   }
 
   public showCreationDialog(): void {
-    this.dialogService.showCustomDialog({
-      component: SpareDriveCreationComponent,
-      classes: 'spare-drive-creation-dialog',
-      clickOutsideToClose: false
+    this.dialog.open(SpareDriveCreationComponent, {
+      panelClass: 'spare-drive-creation-dialog',
+      disableClose: true
     })
-      .switchMap(res => res.onHide())
+      .afterClosed()
       .subscribe((volume: Volume) => {
         if (volume) {
           this.volumes.push(volume);

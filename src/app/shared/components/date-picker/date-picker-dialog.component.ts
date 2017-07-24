@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MdlDialogReference } from '../../../dialog/dialog-module';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 
 
 @Component({
@@ -11,8 +11,8 @@ export class DatePickerDialogComponent {
   private selectedDate: Date;
 
   constructor(
-    private dialog: MdlDialogReference,
-    @Inject('datePickerConfig') public config
+    private dialogRef: MdDialogRef<DatePickerDialogComponent>,
+    @Inject(MD_DIALOG_DATA) public config
   ) { }
 
   public setSelectedDate(date: Date): void {
@@ -21,10 +21,10 @@ export class DatePickerDialogComponent {
 
   public hide(setDate = true): void {
     if (!setDate || !this.selectedDate) {
-      this.dialog.hide();
+      this.dialogRef.close();
     }
     if (this.selectedDate) {
-      this.dialog.hide(this.selectedDate);
+      this.dialogRef.close(this.selectedDate);
     }
   }
 }

@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MdDialog } from '@angular/material';
 
-import { SgCreationComponent, Rules } from '../../security-group/sg-creation/sg-creation.component';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { Rules, SgCreationComponent } from '../../security-group/sg-creation/sg-creation.component';
 
 
 @Component({
@@ -24,7 +24,7 @@ export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
 
   private _rules: Rules;
 
-  constructor(private dialogService: DialogService) {
+  constructor(private dialog: MdDialog) {
     this.savedRules = new Rules();
   }
 
@@ -57,12 +57,11 @@ export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
   public registerOnTouched(): void { }
 
   public showDialog(): void {
-    this.dialogService.showCustomDialog({
-      component: SgCreationComponent,
-      classes: 'sg-creation-dialog',
-      providers: [{ provide: 'rules', useValue: this.savedRules }]
+    this.dialog.open(SgCreationComponent, {
+      panelClass: 'sg-creation-dialog',
+      data: this.savedRules
     })
-      .switchMap(res => res.onHide())
+      .afterClosed()
       .subscribe((data: any) => {
         this.onDialogHide(data);
       });

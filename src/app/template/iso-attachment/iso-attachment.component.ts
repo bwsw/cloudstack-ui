@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 
 import { Iso } from '../shared';
-import { MdlDialogReference } from '../../dialog/dialog-module';
 
 
 @Component({
@@ -14,15 +14,15 @@ export class IsoAttachmentComponent {
   public showIso = true;
 
   constructor(
-    @Inject('zoneId') public zoneId: string,
-    private dialog: MdlDialogReference
+    @Inject(MD_DIALOG_DATA) public zoneId: string,
+    private dialogRef: MdDialogRef<IsoAttachmentComponent>
   ) { }
 
   public onAttach(): void {
-    this.dialog.hide(this.selectedIso);
+    this.dialogRef.close(this.selectedIso);
   }
 
   public onCancel(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
   }
 }

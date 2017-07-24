@@ -12,6 +12,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MdDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
@@ -43,6 +44,7 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges, Cont
 
   constructor(
     private cd: ChangeDetectorRef,
+    private dialog: MdDialog,
     private dialogService: DialogService,
     private translateService: TranslateService
   ) {
@@ -134,20 +136,13 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges, Cont
   }
 
   private showCustomOfferingDialog(): Observable<CustomServiceOffering> {
-    return this.dialogService.showCustomDialog({
-      component: CustomServiceOfferingComponent,
-      classes: 'custom-offering-dialog',
-      providers: [
-        {
-          provide: 'zoneId',
-          useValue: this.zoneId
-        },
-        {
-          provide: 'offering',
-          useValue: this.serviceOffering
-        }
-      ]
-    }).switchMap(res => res.onHide());
+    return this.dialog.open(CustomServiceOfferingComponent, {
+      panelClass: 'custom-offering-dialog',
+      data: {
+        zoneId: this.zoneId,
+        offering: this.serviceOffering
+      }
+    }).afterClosed();
   }
 
   private saveOffering(): void {

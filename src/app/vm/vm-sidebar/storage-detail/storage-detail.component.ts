@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { MdDialog } from '@angular/material';
 import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 
 import { Volume } from '../../../shared/models';
@@ -7,7 +8,6 @@ import { VolumeService } from '../../../shared/services/volume.service';
 import { SpareDriveActionsService } from '../../../spare-drive/spare-drive-actions.service';
 import { IsoAttachmentComponent } from '../../../template/iso-attachment/iso-attachment.component';
 import { Iso, IsoService } from '../../../template/shared';
-
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 import { IsoEvent } from './iso.component';
@@ -22,13 +22,16 @@ export class StorageDetailComponent implements OnChanges {
   @Input() public vm: VirtualMachine;
   public iso: Iso;
 
-  constructor(private dialogService: DialogService,
-              private jobNotificationService: JobsNotificationService,
-              private isoService: IsoService,
-              private notificationService: NotificationService,
-              private spareDriveActionService: SpareDriveActionsService,
-              private vmService: VmService,
-              private volumeService: VolumeService) {
+  constructor(
+    private dialog: MdDialog,
+    private dialogService: DialogService,
+    private jobNotificationService: JobsNotificationService,
+    private isoService: IsoService,
+    private notificationService: NotificationService,
+    private spareDriveActionService: SpareDriveActionsService,
+    private vmService: VmService,
+    private volumeService: VolumeService
+  ) {
   }
 
   public ngOnChanges(): void {
@@ -87,17 +90,15 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private attachIsoDialog(): void {
-    this.dialogService.showCustomDialog({
-      component: IsoAttachmentComponent,
-      classes: 'iso-attachment-dialog',
-      providers: [{ provide: 'zoneId', useValue: this.vm.zoneId }]
+    this.dialog.open(IsoAttachmentComponent, {
+      panelClass: 'iso-attachment-dialog',
+      data: this.vm.zoneId
     })
-      .switchMap(res => res.onHide())
+      .afterClosed()
       .subscribe((iso: Iso) => {
-        if (!iso) {
-          return;
+        if (iso) {
+          this.attachIso(iso);
         }
-        this.attachIso(iso);
       });
   }
 
@@ -105,8 +106,7 @@ export class StorageDetailComponent implements OnChanges {
     this.dialogService.confirm('CONFIRM_ISO_DETACH', 'NO', 'YES')
       .subscribe(
         () => this.detachIso(),
-        () => {
-        }
+        () => { }
       );
   }
 

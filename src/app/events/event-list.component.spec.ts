@@ -2,6 +2,7 @@ import { MdlModule } from '@angular-mdl/core';
 import { MdlSelectModule } from '@angular-mdl/select';
 import { Component, EventEmitter, NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
+import { MdDialogModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
@@ -10,11 +11,11 @@ import { TopBarComponent } from '../shared/components/top-bar/top-bar.component'
 import { LanguageService } from '../shared/services';
 
 import { FilterService } from '../shared/services/';
+import { TimeFormat } from '../shared/services/language.service';
 import { SharedModule } from '../shared/shared.module';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
 import { EventService } from './event.service';
-import { TimeFormat } from '../shared/services/language.service';
 
 
 const eventServiceFixture = require('./event.service.fixture.json');
@@ -103,6 +104,7 @@ describe('event list component', () => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
+        MdDialogModule,
         MdlModule,
         MdlSelectModule
       ],

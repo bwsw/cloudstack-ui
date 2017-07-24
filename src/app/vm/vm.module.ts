@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { MdTooltipModule } from '@angular/material';
+import { MdDialogModule, MdTooltipModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { routes } from '../app.routing';
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
@@ -60,6 +60,7 @@ import { VmTagsComponent } from './vm-tags/vm-tags.component';
     CommonModule,
     FormsModule,
     ServiceOfferingModule,
+    MdDialogModule,
     MdTooltipModule,
     MdlModule,
     MdlPopoverModule,

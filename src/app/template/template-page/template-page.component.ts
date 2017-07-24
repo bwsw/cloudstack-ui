@@ -9,6 +9,7 @@ import { TemplateFilters } from '../shared/base-template.service';
 import { TemplateActionsService } from '../shared/template-actions.service';
 import { TemplateCreationComponent } from '../template-creation/template-creation.component';
 import { TemplateFilterListComponent } from '../template-filter-list/template-filter-list.component';
+import { MdDialog } from '@angular/material';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class TemplatePageComponent implements OnInit {
   @ViewChild(TemplateFilterListComponent) private filterList;
 
   constructor(
+    private dialog: MdDialog,
     private dialogService: DialogService,
     private storageService: StorageService,
     private listService: ListService,
@@ -41,13 +43,12 @@ export class TemplatePageComponent implements OnInit {
   }
 
   public showCreationDialog(): void {
-    this.dialogService.showCustomDialog({
-      component: TemplateCreationComponent,
-      classes: 'template-creation-dialog dialog-overflow-visible',
-      providers: [{ provide: 'mode', useValue: this.viewMode }],
-      clickOutsideToClose: false
+    this.dialog.open(TemplateCreationComponent, {
+      data: { mode: this.viewMode },
+      disableClose: true,
+      panelClass: 'template-creation-dialog'
     })
-      .switchMap(res => res.onHide())
+      .afterClosed()
       .subscribe(templateData => {
         if (templateData) {
           this.updateList();

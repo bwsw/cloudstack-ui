@@ -1,5 +1,5 @@
 <div>
-  <div class="mdl-dialog__content" [style.padding-bottom.px]="0">
+  <div class="mat-dialog-content" [style.padding-bottom.px]="0">
     <p>{{ 'SAVE_THIS_KEY' | translate }}</p>
     <mdl-textfield
       type="text"
@@ -11,12 +11,12 @@
       [style.width.%]="100"
     ></mdl-textfield>
   </div>
-  <div class="mdl-dialog__actions">
+  <div class="mat-dialog-actions">
     <button
       mdl-button
       mdl-colored="primary"
       mdl-ripple
-      (click)="dialog.hide()"
+      (click)="dialogRef.close()"
     >
       {{ 'OK' | translate }}
     </button>

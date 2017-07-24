@@ -1,11 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { ConfigService } from '../../shared/services/config.service';
-import { Observable } from 'rxjs/Observable';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-import { MdlDialogReference } from '../../dialog/dialog-module';
+import { Observable } from 'rxjs/Observable';
 import { ServiceOffering } from '../../shared/models';
-import { CustomServiceOffering } from './custom-service-offering';
+import { ConfigService } from '../../shared/services/config.service';
 import { CustomOfferingRestrictions } from './custom-offering-restrictions';
+import { CustomServiceOffering } from './custom-service-offering';
 
 
 @Component({
@@ -15,14 +15,18 @@ import { CustomOfferingRestrictions } from './custom-offering-restrictions';
 })
 export class CustomServiceOfferingComponent implements OnInit {
   public restrictions: CustomOfferingRestrictions;
+  public offering: ServiceOffering;
+  public zoneId: string;
 
   constructor(
-    @Inject('offering') public offering: ServiceOffering,
-    @Inject('zoneId') public zoneId: string,
-    public dialog: MdlDialogReference,
+    @Inject(MD_DIALOG_DATA) data,
+    public dialogRef: MdDialogRef<CustomServiceOfferingComponent>,
     private configService: ConfigService,
     private translateService: TranslateService
-  ) {}
+  ) {
+    this.offering = data.offering;
+    this.zoneId = data.zoneId;
+  }
 
   public ngOnInit(): void {
     if (this.zoneId == null) { throw new Error('Attribute \'zoneId\' is required'); }
@@ -47,11 +51,11 @@ export class CustomServiceOfferingComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    this.dialog.hide(this.offering);
+    this.dialogRef.close(this.offering);
   }
 
   public onCancel(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
   }
 
   private loadCustomOfferingRestrictions(): Observable<void> {

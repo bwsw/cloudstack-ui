@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
+import { MdDialog } from '@angular/material';
 import { VirtualMachine } from '../../shared/vm.model';
 import { InstanceGroupSelectorComponent } from '../instance-group-selector/instance-group-selector.component';
-import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 
 
 @Component({
@@ -12,17 +12,16 @@ import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 export class InstanceGroupComponent {
   @Input() public vm: VirtualMachine;
 
-  constructor(private dialogService: DialogService) {}
+  constructor(private dialog: MdDialog) {}
 
   public get groupName(): string {
     return this.vm.instanceGroup && this.vm.instanceGroup.name;
   }
 
   public changeGroup(): void {
-    this.dialogService.showCustomDialog({
-      component: InstanceGroupSelectorComponent,
-      classes: 'instance-group-selector-dialog',
-      providers: [{ provide: 'virtualMachine', useValue: this.vm }]
+    this.dialog.open(InstanceGroupSelectorComponent, {
+      panelClass: 'instance-group-selector-dialog',
+      data: this.vm
     });
   }
 }

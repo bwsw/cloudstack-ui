@@ -23,6 +23,7 @@ import { VmListSubsection } from './vm-list-subsection/vm-list-subsection.compon
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { UserService } from '../../shared/services/user.service';
 import { ZoneService } from '../../shared/services/zone.service';
+import { MdDialog } from '@angular/material';
 
 
 export const enum SectionType {
@@ -58,6 +59,7 @@ export class VmListComponent implements OnInit {
   constructor(
     public listService: ListService,
     private vmService: VmService,
+    private dialog: MdDialog,
     private dialogService: DialogService,
     private jobsNotificationService: JobsNotificationService,
     private asyncJobService: AsyncJobService,
@@ -172,12 +174,11 @@ export class VmListComponent implements OnInit {
   }
 
   public showVmCreationDialog(): void {
-    this.dialogService.showCustomDialog({
-      component: VmCreationComponent,
-      clickOutsideToClose: false,
-      styles: { 'width': '755px', 'padding': '0' },
+    this.dialog.open(VmCreationComponent, {
+      disableClose: true,
+      width: '755px'
     })
-      .switchMap(res => res.onHide())
+      .afterClosed()
       .subscribe(vm => {
         if (vm) {
           this.onVmCreated(vm);

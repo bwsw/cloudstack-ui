@@ -8,7 +8,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { DialogService } from '../../../dialog/dialog-module/dialog.service';
+import { MdDialog } from '@angular/material';
 
 import { DatePickerDialogComponent } from './date-picker-dialog.component';
 import { dateTimeFormat as DateTimeFormat, formatIso } from './dateUtils';
@@ -48,7 +48,7 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
   public _date: Date = new Date();
   private isDialogOpen = false;
 
-  constructor(private dialogService: DialogService) {}
+  constructor(private dialog: MdDialog) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
     const DateTimeFormatChange = changes['DateTimeFormat'];
@@ -99,14 +99,11 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
       DateTimeFormat: this.DateTimeFormat,
       locale: this.locale
     };
-    this.dialogService.showCustomDialog({
-      component: DatePickerDialogComponent,
-      classes: 'date-picker-dialog',
-      providers: [
-        { provide: 'datePickerConfig', useValue: config }
-      ]
+    this.dialog.open(DatePickerDialogComponent, {
+      panelClass: 'date-picker-dialog',
+      data: config
     })
-      .switchMap(res => res.onHide())
+      .afterClosed()
       .onErrorResumeNext()
       .subscribe((date: Date) => {
         this.isDialogOpen = false;

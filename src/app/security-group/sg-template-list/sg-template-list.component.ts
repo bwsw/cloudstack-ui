@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 import { ListService } from '../../shared/components/list/list.service';
 import { NotificationService } from '../../shared/services';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
 import { SgTemplateCreationComponent } from '../sg-template-creation/sg-template-creation.component';
@@ -23,6 +24,7 @@ export class SgTemplateListComponent implements OnInit {
   constructor(
     private securityGroupService: SecurityGroupService,
     private dialogService: DialogService,
+    private dialog: MdDialog,
     private notificationService: NotificationService,
     private listService: ListService
   ) { }
@@ -61,12 +63,11 @@ export class SgTemplateListComponent implements OnInit {
   }
 
   public showCreationDialog(): void {
-    this.dialogService.showCustomDialog({
-      component: SgTemplateCreationComponent,
-      clickOutsideToClose: false,
-      classes: 'sg-template-creation-dialog'
+    this.dialog.open(SgTemplateCreationComponent, {
+      disableClose: true,
+      panelClass: 'sg-template-creation-dialog'
     })
-      .switchMap(res => res.onHide())
+      .afterClosed()
       .subscribe((template: SecurityGroup) => {
         if (!template) {
           return;
@@ -81,10 +82,9 @@ export class SgTemplateListComponent implements OnInit {
   }
 
   public showRulesDialog(group: SecurityGroup): void {
-    this.dialogService.showCustomDialog({
-      component: SgRulesComponent,
-      classes: 'sg-rules-dialog',
-      providers: [{ provide: 'securityGroup', useValue: group }],
+    this.dialog.open(SgRulesComponent, {
+      panelClass: 'sg-rules-dialog',
+      data: group
     });
   }
 }

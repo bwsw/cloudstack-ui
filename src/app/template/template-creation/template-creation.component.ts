@@ -1,6 +1,5 @@
-import { Component, OnInit, Inject, Optional } from '@angular/core';
-import { MdlDialogReference } from '../../dialog/dialog-module';
-
+import { Component, Inject, OnInit } from '@angular/core';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { OsType, OsTypeService, Zone, ZoneService } from '../../shared';
 import { Snapshot } from '../../shared/models/snapshot.model';
 import { TemplateActionsService } from '../shared/template-actions.service';
@@ -12,6 +11,8 @@ import { TemplateActionsService } from '../shared/template-actions.service';
   styleUrls: ['template-creation.component.scss']
 })
 export class TemplateCreationComponent implements OnInit {
+  public mode: string;
+  public snapshot?: Snapshot;
   public name: string;
   public displayText: string;
   public osTypeId: string;
@@ -27,13 +28,15 @@ export class TemplateCreationComponent implements OnInit {
   public loading: boolean;
 
   constructor(
-    private dialog: MdlDialogReference,
+    private dialogRef: MdDialogRef<TemplateCreationComponent>,
     private osTypeService: OsTypeService,
     private templateActions: TemplateActionsService,
     private zoneService: ZoneService,
-    @Optional() @Inject('snapshot') public snapshot: Snapshot,
-    @Inject('mode') public mode: string
-  ) { }
+    @Inject(MD_DIALOG_DATA) data: any
+  ) {
+    this.mode = data.mode;
+    this.snapshot = data.snapshot;
+  }
 
   public ngOnInit(): void {
     this.passwordEnabled = this.dynamicallyScalable = false;
@@ -58,7 +61,7 @@ export class TemplateCreationComponent implements OnInit {
   }
 
   public onCancel(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
   }
 
   public onCreate(): void {
@@ -87,7 +90,7 @@ export class TemplateCreationComponent implements OnInit {
     this.templateActions.createTemplate(params, this.mode)
       .finally(() => this.loading = false)
       .subscribe(
-        template => this.dialog.hide(template),
+        template => this.dialogRef.close(template),
         () => {}
       );
   }

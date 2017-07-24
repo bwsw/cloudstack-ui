@@ -1,4 +1,13 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges
+} from '@angular/core';
+import { MdDialog } from '@angular/material';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { defaultCategoryName, Tag } from '../../shared/models';
 import { Utils } from '../../shared/services';
@@ -36,6 +45,7 @@ export class TagsViewComponent implements OnChanges {
 
   constructor(
     private cd: ChangeDetectorRef,
+    private dialog: MdDialog,
     private dialogService: DialogService
   ) {
     this.onTagAdd = new EventEmitter<Tag>();
@@ -51,32 +61,30 @@ export class TagsViewComponent implements OnChanges {
 
   public addTag(category?: TagCategory): void {
     const forbiddenKeys = category ? category.tags.map(_ => _.key) : [];
-    this.dialogService.showCustomDialog({
-      component: TagEditComponent,
-      classes: 'tag-edit',
-      providers: [
-        { provide: 'forbiddenKeys', useValue: forbiddenKeys },
-        { provide: 'title', useValue: 'CREATE_NEW_TAG' },
-        { provide: 'confirmButtonText', useValue: 'CREATE' },
-        { provide: 'categoryName', useValue: category && category.name }
-      ]
+    this.dialog.open(TagEditComponent, {
+      panelClass: 'tag-edit',
+      data: {
+        forbiddenKeys: forbiddenKeys,
+        title: 'CREATE_NEW_TAG',
+        confirmButtonText: 'CREATE',
+        categoryName: category && category.name
+      }
     })
-      .switchMap(res => res.onHide())
+      .afterClosed()
       .subscribe(tag => this.onTagAdd.emit(tag));
   }
 
   public editTag(tag: Tag): void {
-    this.dialogService.showCustomDialog({
-      component: TagEditComponent,
-      classes: 'tag-edit',
-      providers: [
-        { provide: 'title', useValue: 'EDIT_TAG' },
-        { provide: 'confirmButtonText', useValue: 'EDIT' },
-        { provide: 'categoryName', useValue: tag.categoryName },
-        { provide: 'tag', useValue: tag }
-      ]
+    this.dialog.open(TagEditComponent, {
+      panelClass: 'tag-edit',
+      data: {
+        title: 'EDIT_TAG',
+        confirmButtonText: 'EDIT',
+        categoryName: tag.categoryName,
+        tag
+      }
     })
-      .switchMap(res => res.onHide())
+      .afterClosed()
       .subscribe(tagEditAction => this.onTagEdit.emit(tagEditAction));
   }
 

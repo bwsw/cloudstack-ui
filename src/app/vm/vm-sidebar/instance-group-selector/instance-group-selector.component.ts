@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MdlDialogReference } from '../../../dialog/dialog-module';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
+import { Mode } from '../../../shared/components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { InstanceGroup } from '../../../shared/models';
 import { InstanceGroupService } from '../../../shared/services';
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
-import { Mode } from '../../../shared/components/create-update-delete-dialog/create-update-delete-dialog.component';
-import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -19,8 +19,8 @@ export class InstanceGroupSelectorComponent implements OnInit {
   public modes = Mode;
 
   constructor(
-    @Inject('virtualMachine') public vm: VirtualMachine,
-    public dialog: MdlDialogReference,
+    @Inject(MD_DIALOG_DATA) public vm: VirtualMachine,
+    public dialogRef: MdDialogRef<InstanceGroupSelectorComponent>,
     private instanceGroupService: InstanceGroupService,
     private vmService: VmService
   ) {}
@@ -37,7 +37,7 @@ export class InstanceGroupSelectorComponent implements OnInit {
     this.loading = true;
     const instanceGroup = new InstanceGroup(name);
     this.instanceGroupService.add(this.vm, instanceGroup)
-      .finally(() => this.dialog.hide())
+      .finally(() => this.dialogRef.close())
       .subscribe(vm => {
         this.instanceGroupService.groupsUpdates.next();
         this.vmService.updateVmInfo(vm);
@@ -49,7 +49,7 @@ export class InstanceGroupSelectorComponent implements OnInit {
   }
 
   public onCancel(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
   }
 
   private loadGroups(): void {

@@ -1,13 +1,11 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<h3 class="mdl-dialog__title">
-  {{ 'CREATE_SSH_KEY' | translate }}
-</h3>
+<h3 class="mat-dialog-title">{{ 'CREATE_SSH_KEY' | translate }}</h3>
 <form
   (ngSubmit)="onSubmit($event)"
   #sshCreationForm="ngForm"
   novalidate
 >
-  <div class="mdl-dialog__content">
+  <div class="mat-dialog-content">
     <mdl-textfield
       type="text"
       floating-label
@@ -37,7 +35,7 @@
     >
     </mdl-textfield>
   </div>
-  <div class="mdl-dialog__actions">
+  <div class="mat-dialog-actions">
     <button
       mdl-colored="primary"
       mdl-button

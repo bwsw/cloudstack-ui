@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MdDialog } from '@angular/material';
 import { DialogService } from '../dialog/dialog-module/dialog.service';
 import { SSHKeyPair } from '../shared/models';
 import { SSHKeyPairService } from '../shared/services/ssh-keypair.service';
@@ -17,6 +18,7 @@ export class SshKeysPageComponent implements OnInit {
 
   constructor(
     private dialogService: DialogService,
+    private dialog: MdDialog,
     private sshKeyService: SSHKeyPairService
   ) {}
 
@@ -26,14 +28,11 @@ export class SshKeysPageComponent implements OnInit {
   }
 
   public showCreationDialog(): void {
-    this.dialogService.showCustomDialog({
-      component: SShKeyCreationDialogComponent,
-      clickOutsideToClose: false,
-      styles: {
-        width: '400px'
-      }
+    this.dialog.open(SShKeyCreationDialogComponent, {
+      disableClose: true,
+      width: '400px'
     })
-      .switchMap(res => res.onHide())
+      .afterClosed()
       .subscribe((sshKey: SSHKeyPair) => {
         if (sshKey) {
           this.sshKeyList = sortBy(this.sshKeyList.concat(sshKey), 'name');
@@ -49,13 +48,9 @@ export class SshKeysPageComponent implements OnInit {
   }
 
   private showPrivateKey(privateKey: string): void {
-    this.dialogService.showCustomDialog({
-      component: SshPrivateKeyDialogComponent,
-      providers: [{ provide: 'privateKey', useValue: privateKey }],
-      styles: {
-        width: '400px',
-        'word-break': 'break-all'
-      }
+    this.dialog.open(SshPrivateKeyDialogComponent, {
+      data: privateKey,
+      width: '400px',
     });
   }
 

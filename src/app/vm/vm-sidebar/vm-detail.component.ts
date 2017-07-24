@@ -1,4 +1,5 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
+import { MdDialog } from '@angular/material';
 import {
   AffinityGroupSelectorComponent
 } from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
@@ -19,13 +20,14 @@ import { SshKeypairResetComponent } from './ssh/ssh-keypair-reset.component';
   templateUrl: 'vm-detail.component.html',
   styleUrls: ['vm-detail.component.scss']
 })
-export class VmDetailComponent implements OnChanges, OnInit {
+export class VmDetailComponent implements OnChanges {
   @Input() public vm: VirtualMachine;
   public description: string;
   public expandServiceOffering: boolean;
 
 
   constructor(
+    private dialog: MdDialog,
     private dialogService: DialogService,
     private serviceOfferingService: ServiceOfferingService,
     private vmService: VmService
@@ -33,20 +35,15 @@ export class VmDetailComponent implements OnChanges, OnInit {
     this.expandServiceOffering = false;
   }
 
-  public ngOnInit(): void {
-
-  }
-
   public ngOnChanges(): void {
     this.update();
   }
 
   public changeServiceOffering(): void {
-    this.dialogService.showCustomDialog({
-      component: ServiceOfferingDialogComponent,
-      classes: 'service-offering-dialog',
-      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
-    }).switchMap(res => res.onHide())
+    this.dialog.open(ServiceOfferingDialogComponent, {
+      panelClass: 'service-offering-dialog',
+      data: this.vm,
+    }).afterClosed()
       .subscribe((newOffering: ServiceOffering) => {
         if (newOffering) {
           this.serviceOfferingService.get(newOffering.id).subscribe(offering => {
@@ -160,12 +157,11 @@ export class VmDetailComponent implements OnChanges, OnInit {
   }
 
   private showAffinityGroupDialog(): void {
-    this.dialogService.showCustomDialog({
-      component: AffinityGroupSelectorComponent,
-      styles: { width: '350px' },
-      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
-      clickOutsideToClose: false
-    }).switchMap(dialog => dialog.onHide())
+    this.dialog.open(AffinityGroupSelectorComponent, {
+      width: '350px',
+      data: this.vm,
+      disableClose: true
+    }).afterClosed()
       .subscribe((group?: Array<AffinityGroup>) => {
         if (group) {
           this.vm.affinityGroup = group;
@@ -174,12 +170,11 @@ export class VmDetailComponent implements OnChanges, OnInit {
   }
 
   private showSshKeypairResetDialog(): void {
-    this.dialogService.showCustomDialog({
-      component: SshKeypairResetComponent,
-      styles: { width: '350px' },
-      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
-      clickOutsideToClose: false
-    }).switchMap(dialog => dialog.onHide())
+    this.dialog.open(SshKeypairResetComponent, {
+      width: '350px',
+      data: this.vm,
+      disableClose: true
+    }).afterClosed()
       .subscribe((keyPairName: string) => {
         if (keyPairName) {
           this.vm.keyPair = keyPairName;

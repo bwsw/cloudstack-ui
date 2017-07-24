@@ -1,9 +1,9 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
 <ng-container *loading="!virtualMachines">
-  <h3 *ngIf="virtualMachineId" class="mdl-dialog__title">{{ 'VOLUME_ATTACHMENT_CHOOSE' | translate }}</h3>
-  <h3 *ngIf="!virtualMachineId" class="mdl-dialog__title">{{ 'VOLUME_ATTACHMENT_NO_VMS' | translate }}</h3>
+  <h3 *ngIf="virtualMachineId" class="mat-dialog-title">{{ 'VOLUME_ATTACHMENT_CHOOSE' | translate }}</h3>
+  <h3 *ngIf="!virtualMachineId" class="mat-dialog-title">{{ 'VOLUME_ATTACHMENT_NO_VMS' | translate }}</h3>
   <form (ngSubmit)="attach($event)" #volumeAttachmentForm="ngForm" novalidate>
-    <div class="mdl-dialog__content">
+    <div class="mat-dialog-content">
       <div>
         <mdl-select
           *ngIf="virtualMachineId"
@@ -11,17 +11,14 @@
           id="vm"
           name="vm"
         >
-          <mdl-option
-            *ngFor="let vm of virtualMachines"
-            [value]="vm.id"
-          >
+          <mdl-option *ngFor="let vm of virtualMachines" [value]="vm.id">
             {{ vm.name }}
           </mdl-option>
         </mdl-select>
       </div>
       <div *ngIf="!virtualMachineId">{{ 'VOLUME_ATTACHMENT_NO_VMS_IN_ZONE' | translate }}</div>
     </div>
-    <div class="mdl-dialog__actions">
+    <div class="mat-dialog-actions">
       <button
         *ngIf="virtualMachines"
         mdl-colored="primary"
@@ -32,7 +29,7 @@
         {{ (virtualMachineId ? 'ATTACH' : 'OK') | translate }}
       </button>
       <button
-      *ngIf="virtualMachineId"
+        *ngIf="virtualMachineId"
         mdl-colored="primary"
         mdl-button
         mdl-ripple

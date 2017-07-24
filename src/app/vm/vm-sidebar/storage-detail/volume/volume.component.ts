@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../../../../dialog/dialog-module/dialog.service';
 
 import {
   DiskOffering,
@@ -10,10 +12,8 @@ import {
   Zone,
   ZoneService
 } from '../../../../shared';
-
-import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
 import { VolumeResizeComponent } from '../../volume-resize.component';
-import { DialogService } from '../../../../dialog/dialog-module/dialog.service';
+import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
 
 
 @Component({
@@ -30,6 +30,7 @@ export class VolumeComponent implements OnInit {
   private _loading = false;
 
   constructor(
+    private dialog: MdDialog,
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private statsUpdateService: StatsUpdateService,
@@ -59,16 +60,14 @@ export class VolumeComponent implements OnInit {
   public showVolumeResizeDialog(volume: Volume): void {
     this.getOfferings().switchMap(diskOfferingList => {
       this._loading = false;
-      return this.dialogService.showCustomDialog({
-        component: VolumeResizeComponent,
-        classes: 'volume-resize-dialog',
-        providers: [
-          { provide: 'volume', useValue: volume },
-          { provide: 'diskOfferingList', useValue: diskOfferingList }
-        ]
-      });
+      return this.dialog.open(VolumeResizeComponent, {
+        panelClass: 'volume-resize-dialog',
+        data: {
+          volume,
+          diskOfferingList
+        }
+      }).afterClosed();
     })
-      .switchMap(res => res.onHide())
       .subscribe(resizedVolume => {
         if (resizedVolume) {
           this.onVolumeResize(resizedVolume);
@@ -77,10 +76,9 @@ export class VolumeComponent implements OnInit {
   }
 
   public takeSnapshot(volume: Volume): void {
-    this.dialogService.showCustomDialog({
-      component: SnapshotCreationComponent,
-      classes: 'snapshot-creation-dialog',
-      providers: [{ provide: 'volume', useValue: volume }],
+    this.dialog.open(SnapshotCreationComponent, {
+      panelClass: 'snapshot-creation-dialog',
+      data: volume
     });
   }
 

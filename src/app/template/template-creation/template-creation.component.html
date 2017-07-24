@@ -1,11 +1,8 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
 <div class="security-group-template-form">
-  <h3 class="mdl-dialog__title">{{ 'NEW_'+ mode.toUpperCase() | translate }}</h3>
+  <h3 class="mat-dialog-title">{{ 'NEW_'+ mode.toUpperCase() | translate }}</h3>
   <form (ngSubmit)="onCreate()" #templateCreationForm="ngForm" novalidate>
-    <div
-      class="mdl-dialog__content"
-      [class.flex-dialog-content]="!snapshot"
-    >
+    <div class="mat-dialog-content" [class.flex-dialog-content]="!snapshot">
       <div [class.column]="!snapshot">
         <mdl-textfield
           type="text"
@@ -102,7 +99,7 @@
         </div>
       </div>
     </div>
-    <div class="mdl-dialog__actions">
+    <div class="mat-dialog-actions">
       <button
         mdl-colored="primary"
         mdl-button

@@ -1,8 +1,8 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<h3 class="mdl-dialog__title">
+<h3 class="mat-dialog-title">
   {{ 'VOLUME_RESIZE_VOLUME' | translate }}
 </h3>
-<div class="mdl-dialog__content">
+<div class="mat-dialog-content">
   <div *ngIf="canResize">
     <form
       (ngSubmit)="resizeVolume()"
@@ -12,8 +12,10 @@
       <div *ngIf="!volume?.isRoot">
         <h5>{{ 'DISK_OFFERING' | translate }}</h5>
         <cs-disk-offering
+          name="diskOffering"
+          [ngModel]="diskOffering"
           [diskOfferingList]="diskOfferingList"
-          (offeringUpdated)="updateDiskOffering($event)"
+          (change)="updateDiskOffering($event)"
         ></cs-disk-offering>
       </div>
       <cs-slider
@@ -29,7 +31,7 @@
   </div>
   <div *ngIf="!canResize">{{ 'NO_AVAILABLE_OFFERINGS' | translate }}</div>
 </div>
-<div class="mdl-dialog__actions">
+<div class="mat-dialog-actions">
   <button
     *ngIf="canResize"
     mdl-button
@@ -44,7 +46,7 @@
     mdl-button
     mdl-colored="primary"
     mdl-ripple
-    (click)="dialog.hide()"
+    (click)="dialogRef.close()"
   >
     {{ 'CANCEL' | translate }}
   </button>

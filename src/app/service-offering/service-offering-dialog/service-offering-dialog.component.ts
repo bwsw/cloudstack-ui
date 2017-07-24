@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
-import { VmService } from '../../vm/shared/vm.service';
 import { ServiceOfferingFilterService } from '../../shared/services/service-offering-filter.service';
-import { VirtualMachine } from '../../vm/shared/vm.model';
 import { ZoneService } from '../../shared/services/zone.service';
-import { MdlDialogReference } from '../../dialog/dialog-module';
+import { VirtualMachine } from '../../vm/shared/vm.model';
+import { VmService } from '../../vm/shared/vm.service';
 
 
 @Component({
@@ -18,8 +18,8 @@ export class ServiceOfferingDialogComponent implements OnInit {
   public loading: Boolean;
 
   constructor(
-    public dialog: MdlDialogReference,
-    @Inject('virtualMachine') public virtualMachine: VirtualMachine,
+    public dialogRef: MdDialogRef<ServiceOfferingDialogComponent>,
+    @Inject(MD_DIALOG_DATA) public virtualMachine: VirtualMachine,
     private vmService: VmService,
     private serviceOfferingService: ServiceOfferingFilterService,
     private zoneService: ZoneService
@@ -37,11 +37,11 @@ export class ServiceOfferingDialogComponent implements OnInit {
     this.loading = true;
     this.vmService.changeServiceOffering(this.serviceOffering, this.virtualMachine)
       .finally(() => this.loading = false)
-      .subscribe(() => this.dialog.hide(this.serviceOffering));
+      .subscribe(() => this.dialogRef.close(this.serviceOffering));
   }
 
   public onCancel(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
   }
 
   private fetchData(params?: {}): void {

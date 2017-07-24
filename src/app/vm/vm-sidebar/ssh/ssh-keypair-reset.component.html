@@ -1,6 +1,6 @@
 <div *loading="resettingKeyInProgress">
-  <h3 class="mdl-dialog__title">{{ 'SELECT_SSH_KEY' | translate }}</h3>
-  <div *loading="!sshKeyList" class="mdl-dialog__content">
+  <h3 class="mat-dialog-title">{{ 'SELECT_SSH_KEY' | translate }}</h3>
+  <div *loading="!sshKeyList" class="mat-dialog-content">
     <mdl-select
       *ngIf="sshKeyList?.length; else noGroups"
       [(ngModel)]="selectedSshKeyName"
@@ -11,7 +11,7 @@
     </mdl-select>
     <ng-template #noGroups>{{ 'NO_SSH_KEYS' | translate }}</ng-template>
   </div>
-  <div class="mdl-dialog__actions">
+  <div class="mat-dialog-actions">
     <button
       (click)="resetSshKey()"
       [disabled]="!selectedSshKeyName"

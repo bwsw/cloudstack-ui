@@ -7,7 +7,7 @@
   </div>
 </div>
 <div class="vm-creation-container">
-  <h3 class="mdl-dialog__title">{{ 'NEW_VM' | translate }}</h3>
+  <h3 class="mat-dialog-title">{{ 'NEW_VM' | translate }}</h3>
   <form
     (ngSubmit)="onVmCreationSubmit($event)"
     #vmCreateForm="ngForm"
@@ -20,8 +20,7 @@
         <div>
           <h5>
             {{ 'VM_CREATION_FORM.NAME' | translate }}
-          </h5>
-          <mdl-textfield
+          </h5> <mdl-textfield
             type="text"
             [label]="'VM_CREATION_FORM.NAME' | translate"
             name="name"
@@ -197,7 +196,7 @@
         </div>
       </div>
     </div>
-    <div class="mdl-dialog__actions">
+    <div class="mat-dialog-actions">
       <button
         mdl-colored="primary"
         [disabled]="!vmCreateForm.valid || formState?.state.displayName === takenName"

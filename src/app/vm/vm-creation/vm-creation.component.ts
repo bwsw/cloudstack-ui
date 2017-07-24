@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { MdlDialogReference } from '../../dialog/dialog-module';
+import { MdDialogRef } from '@angular/material';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { DiskOffering, JobsNotificationService } from '../../shared';
 import { AffinityGroup, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../shared/models';
+import { ResourceUsageService } from '../../shared/services';
 import { BaseTemplateModel } from '../../template/shared';
+import { VirtualMachine } from '../shared/vm.model';
 import { VmCreationData } from './data/vm-creation-data';
 import { VmCreationState } from './data/vm-creation-state';
 import { VmCreationFormNormalizationService } from './form-normalization/form-normalization.service';
@@ -12,8 +14,6 @@ import { KeyboardLayout } from './keyboards/keyboards.component';
 import { VmCreationService } from './vm-creation.service';
 import { VmDeploymentMessage, VmDeploymentService, VmDeploymentStages } from './vm-deployment.service';
 import throttle = require('lodash/throttle');
-import { VirtualMachine } from '../shared/vm.model';
-import { ResourceUsageService } from '../../shared/services';
 
 
 export interface VmCreationFormState {
@@ -35,7 +35,7 @@ export const VmCreationStages = {
 };
 
 @Component({
-  selector: 'cs-vm-create',
+  selector: 'cs-vm-creation',
   templateUrl: 'vm-creation.component.html',
   styleUrls: ['vm-creation.component.scss']
 })
@@ -59,7 +59,7 @@ export class VmCreationComponent implements OnInit {
   public creationStage = VmCreationStages.editing;
 
   constructor(
-    private dialog: MdlDialogReference,
+    private dialogRef: MdDialogRef<VmCreationComponent>,
     private dialogService: DialogService,
     private formNormalizationService: VmCreationFormNormalizationService,
     private jobsNotificationService: JobsNotificationService,
@@ -209,7 +209,7 @@ export class VmCreationComponent implements OnInit {
   }
 
   public onCancel(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
   }
 
   public deploy(): void {
@@ -279,14 +279,14 @@ export class VmCreationComponent implements OnInit {
         this.creationStage = VmCreationStages.vmDeploymentInProgress;
         break;
       case VmDeploymentStages.TEMP_VM:
-        this.dialog.hide(deploymentMessage.vm);
+        this.dialogRef.close(deploymentMessage.vm);
         break;
       case VmDeploymentStages.FINISHED:
         this.showPassword(deploymentMessage.vm);
         this.notifyOnDeployDone(notificationId);
         break;
       case VmDeploymentStages.ERROR:
-        this.dialog.hide();
+        this.dialogRef.close();
         this.notifyOnDeployFailed(deploymentMessage.error, notificationId);
         break;
     }

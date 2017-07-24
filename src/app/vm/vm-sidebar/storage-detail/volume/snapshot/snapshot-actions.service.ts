@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { DialogService } from '../../../../../dialog/dialog-module/dialog.service';
+import { MdDialog } from '@angular/material';
 
+import { DialogService } from '../../../../../dialog/dialog-module/dialog.service';
 import { JobsNotificationService, NotificationService } from '../../../../../shared/services';
 import { TemplateCreationComponent } from '../../../../../template/template-creation/template-creation.component';
 import { Snapshot, Volume } from '../../../../../shared/models';
@@ -30,6 +31,7 @@ export class SnapshotActionsService {
   ];
 
   constructor(
+    private dialog: MdDialog,
     private dialogService: DialogService,
     private jobNotificationService: JobsNotificationService,
     private notificationService: NotificationService,
@@ -38,13 +40,12 @@ export class SnapshotActionsService {
   ) { }
 
   public showCreationDialog(snapshot: Snapshot): void {
-    this.dialogService.showCustomDialog({
-      component: TemplateCreationComponent,
-      classes: 'template-creation-dialog-snapshot dialog-overflow-visible',
-      providers: [
-        { provide: 'mode', useValue: 'Template' },
-        { provide: 'snapshot', useValue: snapshot }
-      ]
+    this.dialog.open(TemplateCreationComponent, {
+      data: {
+        mode: 'Template',
+        snapshot: snapshot
+      },
+      panelClass: 'template-creation-dialog-snapshot'
     });
   }
 

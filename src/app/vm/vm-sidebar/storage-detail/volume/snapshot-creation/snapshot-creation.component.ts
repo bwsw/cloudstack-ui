@@ -1,16 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import moment = require('moment');
-
-
-import {
-  JobsNotificationService,
-  SnapshotService,
-  StatsUpdateService
-} from '../../../../../shared/services';
-import { ResourceUsageService, ResourceStats } from '../../../../../shared/services/resource-usage.service';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { DialogService } from '../../../../../dialog/dialog-module/dialog.service';
 import { Volume } from '../../../../../shared/models/volume.model';
-import { MdlDialogReference } from '../../../../../dialog/dialog-module';
+
+import { JobsNotificationService, SnapshotService, StatsUpdateService } from '../../../../../shared/services';
+import { ResourceStats, ResourceUsageService } from '../../../../../shared/services/resource-usage.service';
+import moment = require('moment');
 
 
 @Component({
@@ -26,12 +21,12 @@ export class SnapshotCreationComponent implements OnInit {
   public enoughResources: boolean;
 
   constructor(
-    private dialog: MdlDialogReference,
+    private dialogRef: MdDialogRef<SnapshotCreationComponent>,
     private dialogService: DialogService,
     private snapshotService: SnapshotService,
     private jobsNotificationService: JobsNotificationService,
     private statsUpdateService: StatsUpdateService,
-    @Inject('volume') private volume: Volume,
+    @Inject(MD_DIALOG_DATA) private volume: Volume,
     private resourceUsageService: ResourceUsageService,
   ) {}
 
@@ -50,12 +45,12 @@ export class SnapshotCreationComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
     this.takeSnapshot(this.volume.id, this.name, this.description);
   }
 
   public onHide(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
   }
 
   public takeSnapshot(volumeId: string, name: string, description: string): void {

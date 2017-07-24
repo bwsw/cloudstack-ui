@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SecurityGroupService } from '../../shared/services';
 import { SecurityGroup, NetworkRuleType, NetworkRuleTypes, NetworkProtocol, NetworkProtocols } from '../sg.model';
 import { NotificationService } from '../../shared/services';
-import { MdlDialogReference } from '../../dialog/dialog-module';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 
 
 @Component({
@@ -16,6 +16,7 @@ import { MdlDialogReference } from '../../dialog/dialog-module';
 export class SgRulesComponent {
   @ViewChild('rulesForm') public rulesForm: NgForm;
 
+  public securityGroup: SecurityGroup;
   public type: NetworkRuleType;
   public protocol: NetworkProtocol;
   public startPort: number;
@@ -41,12 +42,14 @@ export class SgRulesComponent {
   ];
 
   constructor(
-    public dialog: MdlDialogReference,
+    public dialogRef: MdDialogRef<SgRulesComponent>,
     private securityGroupService: SecurityGroupService,
     private notificationService: NotificationService,
-    @Inject('securityGroup') public securityGroup: SecurityGroup,
+    @Inject(MD_DIALOG_DATA) data: SecurityGroup,
     private translateService: TranslateService
   ) {
+    this.securityGroup = data;
+
     this.cidr = '0.0.0.0/0';
     this.protocol = NetworkProtocols.TCP;
     this.type = NetworkRuleTypes.Ingress;

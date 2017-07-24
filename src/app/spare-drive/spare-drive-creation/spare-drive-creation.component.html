@@ -1,7 +1,7 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<h3 class="mdl-dialog__title">{{ 'VOLUME_CREATION_FORM.NEW_VOLUME' | translate }}</h3>
+<h3 class="mat-dialog-title">{{ 'VOLUME_CREATION_FORM.NEW_VOLUME' | translate }}</h3>
 <form (ngSubmit)="onCreate()" #volumeCreationForm="ngForm" novalidate>
-  <div class="mdl-dialog__content">
+  <div class="mat-dialog-content">
     <div class="flex-column">
       <mdl-textfield
         type="text"
@@ -26,10 +26,7 @@
           id="zone"
           name="zone"
         >
-          <mdl-option
-            *ngFor="let z of zones"
-            [value]="z.id"
-          >
+          <mdl-option *ngFor="let z of zones" [value]="z.id">
             {{ z.name }}
           </mdl-option>
         </mdl-select>
@@ -53,7 +50,7 @@
       </div>
     </div>
   </div>
-  <div class="mdl-dialog__actions">
+  <div class="mat-dialog-actions">
     <button
       mdl-colored="primary"
       mdl-button

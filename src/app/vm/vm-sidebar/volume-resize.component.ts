@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
-import { MdlDialogReference } from '../../dialog/dialog-module';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { DiskStorageService, Volume } from '../../shared';
@@ -14,6 +14,9 @@ import { VolumeService } from '../../shared/services/volume.service';
   styleUrls: ['volume-resize.component.scss']
 })
 export class VolumeResizeComponent implements OnInit {
+  public volume: Volume;
+  public diskOfferingListInjected?: Array<DiskOffering>;
+
   public newSize: number;
   public maxSize: number;
 
@@ -24,15 +27,17 @@ export class VolumeResizeComponent implements OnInit {
   private notificationId: string;
 
   constructor(
-    public dialog: MdlDialogReference,
+    public dialogRef: MdDialogRef<VolumeResizeComponent>,
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private diskStorageService: DiskStorageService,
     private jobsNotificationService: JobsNotificationService,
     private volumeService: VolumeService,
-    @Inject('volume') public volume: Volume,
-    @Optional() @Inject('diskOfferingList') public diskOfferingListInjected: Array<DiskOffering>,
-  ) {}
+    @Inject(MD_DIALOG_DATA) data,
+  ) {
+    this.volume = data.volume;
+    this.diskOfferingListInjected = data.diskOfferingList;
+  }
 
   public ngOnInit(): void {
     this.getInjectedOfferingList();
@@ -95,7 +100,7 @@ export class VolumeResizeComponent implements OnInit {
     this.diskOfferingService.get(volume.diskOfferingId)
       .subscribe(diskOffering => {
         volume.diskOffering = diskOffering;
-        this.dialog.hide(volume);
+        this.dialogRef.close(volume);
       });
   }
 

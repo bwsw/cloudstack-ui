@@ -1,9 +1,8 @@
 import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 import { BaseTemplateModel, Iso, Template } from '../../../template/shared';
-import { ISOS, PRESELECTED_TEMPLATE_TOKEN, TEMPLATES, ZONE } from './injector-token';
 import { VmTemplateDialogComponent } from './vm-template-dialog.component';
 
 
@@ -26,7 +25,7 @@ export class VmTemplateComponent {
 
   private _template: BaseTemplateModel;
 
-  constructor(private dialogService: DialogService) {
+  constructor(private dialog: MdDialog) {
     this.change = new EventEmitter();
   }
 
@@ -65,16 +64,15 @@ export class VmTemplateComponent {
   public registerOnTouched(): void {}
 
   private showTemplateSelectionDialog(): Observable<BaseTemplateModel> {
-    return this.dialogService.showCustomDialog({
-      component: VmTemplateDialogComponent,
-      classes: 'vm-template-dialog',
-      providers: [
-        { provide: PRESELECTED_TEMPLATE_TOKEN, useValue: this.template },
-        { provide: TEMPLATES, useValue: this.templates },
-        { provide: ISOS, useValue: this.isos },
-        { provide: ZONE, useValue: this.zoneId }
-      ],
+    return this.dialog.open(VmTemplateDialogComponent, {
+      panelClass: 'vm-template-dialog',
+      data: {
+        template: this.template,
+        templates: this.templates,
+        isos: this.isos,
+        zoneId: this.zoneId
+      },
     })
-      .switchMap(res => res.onHide());
+      .afterClosed();
   }
 }

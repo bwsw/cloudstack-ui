@@ -1,15 +1,10 @@
-import { Component, Input, EventEmitter, Output, ViewChild, OnInit } from '@angular/core';
 import { MdlPopoverComponent } from '@angular-mdl/popover';
-
-import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
-import { VolumeResizeComponent } from '../../vm/vm-sidebar/volume-resize.component';
-import {
-  DiskOfferingService,
-  VolumeAttachmentData,
-  ZoneService
-} from '../../shared/services';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MdDialog } from '@angular/material';
 import { DiskOffering, Volume, Zone } from '../../shared/models';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DiskOfferingService, VolumeAttachmentData, ZoneService } from '../../shared/services';
+import { VolumeResizeComponent } from '../../vm/vm-sidebar/volume-resize.component';
+import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
 
 
 @Component({
@@ -29,7 +24,7 @@ export class SpareDriveItemComponent implements OnInit {
   public diskOfferings: Array<DiskOffering>;
 
   constructor(
-    private dialogService: DialogService,
+    private dialog: MdDialog,
     private diskOfferingService: DiskOfferingService,
     private zoneService: ZoneService
   ) {}
@@ -50,15 +45,14 @@ export class SpareDriveItemComponent implements OnInit {
   }
 
   public attach(): void {
-    this.dialogService.showCustomDialog({
-      component: SpareDriveAttachmentComponent,
-      providers: [
-        { provide: 'volume', useValue: this.volume },
-        { provide: 'zoneId', useValue: this.volume.zoneId }
-      ],
-      classes: 'spare-drive-attachment-dialog'
-    })
-      .switchMap(res => res.onHide())
+    this.dialog
+      .open(SpareDriveAttachmentComponent, {
+        data: {
+          volume: this.volume,
+          zoneId: this.volume.zoneId
+        }
+      })
+      .afterClosed()
       .subscribe(virtualMachineId => {
         if (!virtualMachineId) {
           return;
@@ -80,15 +74,13 @@ export class SpareDriveItemComponent implements OnInit {
   }
 
   public resize(): void {
-    this.dialogService.showCustomDialog({
-      component: VolumeResizeComponent,
-      classes: 'volume-resize-dialog',
-      providers: [
-        { provide: 'volume', useValue: this.volume },
-        { provide: 'diskOfferingList', useValue: this.diskOfferings }
-      ],
+    this.dialog.open(VolumeResizeComponent, {
+      data: {
+        volume: this.volume,
+        diskOfferingList: this.diskOfferings
+      }
     })
-      .switchMap(res => res.onHide())
+      .afterClosed()
       .subscribe(resizedVolume => {
         if (resizedVolume) {
           this.onVolumeResize(resizedVolume);

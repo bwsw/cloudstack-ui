@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { VirtualMachine } from '../../../shared/vm.model';
-import { DialogService } from '../../../../dialog/dialog-module/dialog.service';
 import { SgRulesComponent } from '../../../../security-group/sg-rules/sg-rules.component';
 import { SecurityGroup } from '../../../../security-group/sg.model';
+import { MdDialog } from '@angular/material';
 
 
 @Component({
@@ -12,13 +12,12 @@ import { SecurityGroup } from '../../../../security-group/sg.model';
 export class FirewallRulesDetailComponent {
   @Input() public vm: VirtualMachine;
 
-  constructor(private dialogService: DialogService) {}
+  constructor(private dialog: MdDialog) {}
 
   public showRulesDialog(securityGroup: SecurityGroup): void {
-    this.dialogService.showCustomDialog({
-      component: SgRulesComponent,
-      providers: [{ provide: 'securityGroup', useValue: securityGroup }],
-      styles: { 'width': '880px' },
+    this.dialog.open(SgRulesComponent, {
+      data: securityGroup,
+      width: '880px'
     });
   }
 }

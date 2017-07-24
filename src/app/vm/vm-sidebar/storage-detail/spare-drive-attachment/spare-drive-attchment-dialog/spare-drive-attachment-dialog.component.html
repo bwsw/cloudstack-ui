@@ -1,14 +1,8 @@
 <div class="dialog">
-  <h3 class="mdl-dialog__title">{{ 'SELECT_VOLUME' | translate }}</h3>
-  <div class="mdl-dialog__content">
-    <mdl-select
-      *ngIf="volumes?.length"
-      [(ngModel)]="selectedVolume"
-    >
-      <mdl-option
-        *ngFor="let v of volumes"
-        [value]="v"
-      >
+  <h3 class="mat-dialog-title">{{ 'SELECT_VOLUME' | translate }}</h3>
+  <div class="mat-dialog-content">
+    <mdl-select *ngIf="volumes?.length" [(ngModel)]="selectedVolume">
+      <mdl-option *ngFor="let v of volumes" [value]="v">
         {{ v.name }}
       </mdl-option>
     </mdl-select>
@@ -16,7 +10,7 @@
       {{ 'NO_AVAILABLE_VOLUMES' | translate }}
     </div>
   </div>
-  <div class="mdl-dialog__actions">
+  <div class="mat-dialog-actions">
     <button
       *ngIf="volumes?.length"
       mdl-button

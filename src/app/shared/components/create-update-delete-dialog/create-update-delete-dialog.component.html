@@ -1,7 +1,4 @@
-<h3
-  *ngIf="title"
-  class="mdl-dialog__title"
->
+<h3 *ngIf="title" class="mat-dialog-title">
   {{ title | translate }}
 </h3>
 
@@ -10,7 +7,7 @@
   #form="ngForm"
   novalidate
 >
-  <div class="mdl-dialog__content">
+  <div class="mat-dialog-content">
     <mdl-radio
       *ngIf="enableAssign"
       name="assignExistingRadio"
@@ -77,7 +74,7 @@
     </mdl-select>
   </div>
 
-  <div class="mdl-dialog__actions">
+  <div class="mat-dialog-actions">
     <button
       *ngIf="mode !== modes.remove"
       mdl-colored="primary"
