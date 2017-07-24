@@ -313,6 +313,7 @@
   "VM_STORAGE_VIEW": "Диски",
   "VM_NETWORK_VIEW": "Сеть",
   "VM_TAGS_VIEW": "Теги",
+  "TEMPLATE_TAGS_VIEW": "Теги",
 
   "VOLUME_RESIZE": "Изменить размер",
   "VOLUME_RESIZING": "Изменение размера диска",
