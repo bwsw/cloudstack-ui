@@ -83,10 +83,9 @@ export class TemplateFilterListComponent implements OnInit {
       this.selectedFilters = filters.selectedFilters;
       this.selectedZones = filters.selectedZones;
       this.query = filters.query;
-      this.selectedGroupings = filters.groupings.reduce((acc, g) => {
-        acc.push(this.groupings.find(_ => _ === g));
-        return acc;
-      }, []);
+      this.selectedGroupings = filters.groupings
+        .map(g => this.groupings.find(_ => _ === g))
+        .filter(g => g);
     }
 
     this.visibleTemplateList = this.filterByZone(this.templateList);
