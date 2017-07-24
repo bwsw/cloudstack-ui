@@ -1,4 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output,
+  SimpleChanges
+} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TimeFormat, TimeFormats } from '../../../shared/services';
 import { DayOfWeek } from '../../../shared/types/day-of-week';
@@ -26,6 +29,7 @@ interface PolicyView {
 @Component({
   selector: 'cs-policy-list',
   templateUrl: 'policy-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['policy-list.component.scss']
 })
 export class PolicyListComponent implements OnChanges {
