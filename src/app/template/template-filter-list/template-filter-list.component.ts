@@ -1,16 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 
+import { Iso } from '../shared/iso.model';
+import { Template } from '../shared/template.model';
 import { OsFamily } from '../../shared/models/os-type.model';
 import { Zone } from '../../shared/models/zone.model';
 import { AuthService } from '../../shared/services/auth.service';
 import { ServiceLocator } from '../../shared/services/service-locator';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { TemplateFilters } from '../shared/base-template.service';
-import { Iso } from '../shared/iso.model';
-import { IsoService } from '../shared/iso.service';
-import { Template } from '../shared/template.model';
-import { TemplateService } from '../shared/template.service';
 
 
 @Component({
@@ -19,6 +16,9 @@ import { TemplateService } from '../shared/template.service';
   styleUrls: ['template-filter-list.component.scss']
 })
 export class TemplateFilterListComponent implements OnInit {
+  @Input() public templates: Array<Template>;
+  @Input() public isos: Array<Iso>;
+
   @Input() public dialogMode = false;
   @Input() public selectedTemplate: BaseTemplateModel;
   @Input() public showDelimiter = true;
@@ -35,7 +35,6 @@ export class TemplateFilterListComponent implements OnInit {
   public selectedFilters: Array<string> = [];
   public selectedOsFamilies: Array<OsFamily> = [];
   public selectedZones: Array<Zone> = [];
-  public templateList: Array<BaseTemplateModel> = [];
   public visibleTemplateList: Array<BaseTemplateModel> = [];
 
   public selectedGroupings = [];
@@ -48,23 +47,25 @@ export class TemplateFilterListComponent implements OnInit {
     }
   ];
 
-  protected templateService = ServiceLocator.injector.get(TemplateService);
   protected authService = ServiceLocator.injector.get(AuthService);
-  protected isoService = ServiceLocator.injector.get(IsoService);
 
   public ngOnInit(): void {
     this.updateList();
+  }
+
+  public get templateList(): Array<BaseTemplateModel> {
+    return this.viewMode === 'Template' ? this.templates : this.isos;
+  }
+
+  public updateList(): void {
+    this.visibleTemplateList = this.templateList;
+    this.filterResults();
   }
 
   public changeViewMode(mode: string): void {
     this.viewMode = mode;
     this.updateList();
     this.viewModeChange.emit(this.viewMode);
-  }
-
-  public updateList(): void {
-    this.fetchData(this.viewMode)
-      .subscribe(() => this.filterResults());
   }
 
   public selectTemplate(template: BaseTemplateModel): void {
@@ -98,46 +99,6 @@ export class TemplateFilterListComponent implements OnInit {
 
   public removeTemplate(template: Template): void {
     this.deleteTemplate.next(template);
-  }
-
-  private fetchData(mode: string): Observable<any> {
-    this.fetching = true;
-    if (mode === 'Template') {
-      this.templateList = [];
-
-      const selfFilter = this.dialogMode ? TemplateFilters.selfExecutable : TemplateFilters.self;
-      return this.templateService.getGroupedTemplates({}, [TemplateFilters.featured, selfFilter])
-        .map(templates => {
-          let t = [];
-          for (const filter in templates) {
-            if (templates.hasOwnProperty(filter)) {
-              t = t.concat(templates[filter]);
-            }
-          }
-          this.templateList = t;
-          this.visibleTemplateList = this.templateList;
-          this.fetching = false;
-        });
-    } else {
-      this.templateList = [];
-      let params;
-      let selfFilter;
-      if (this.dialogMode) {
-        params = { bootable: true };
-        selfFilter = TemplateFilters.selfExecutable;
-      } else {
-        selfFilter = TemplateFilters.self;
-      }
-      return Observable.forkJoin([
-        this.isoService.getList(Object.assign({}, params, { filter: TemplateFilters.featured })),
-        this.isoService.getList(Object.assign({}, params, { filter: selfFilter })),
-      ])
-        .map(([featuredIsos, selfIsos]) => {
-          this.templateList = (featuredIsos as Array<Iso>).concat(selfIsos as Array<Iso>);
-          this.visibleTemplateList = this.templateList;
-          this.fetching = false;
-        });
-    }
   }
 
   private filterByCategories(templateList: Array<BaseTemplateModel>): Array<BaseTemplateModel> {

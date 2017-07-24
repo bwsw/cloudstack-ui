@@ -18,7 +18,7 @@ export class ConfigService {
   constructor(private http: Http) {}
 
   public get(key: string | Array<string>): Observable<any | Array<any>> {
-    let isArray = Array.isArray(key);
+    const isArray = Array.isArray(key);
 
     if (this.config) {
       return Observable.of(this.getResult(isArray, key));
@@ -34,12 +34,12 @@ export class ConfigService {
     return isArray ? this.getArrayResult(key as Array<string>) : this.config[key as string];
   }
 
-  private getArrayResult(keyArray: Array<string>): Array<any> {
-    let result = [];
+  private getArrayResult(keyArray: Array<string>): Object {
+    const result = {};
 
-    for (let key in this.config) {
-      if ((this.config as Object).hasOwnProperty(key) && keyArray.includes(key)) {
-        result.push(this.config[key]);
+    for (const key in this.config) {
+      if (this.config.hasOwnProperty(key) && keyArray.includes(key)) {
+        result[key] = this.config[key];
       }
     }
 

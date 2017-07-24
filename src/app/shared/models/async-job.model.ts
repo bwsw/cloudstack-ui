@@ -42,7 +42,7 @@ export class AsyncJob<T> extends BaseModel {
   }
 
   private formatCommand(): void {
-    let indexOfVmSubstr = this.cmd.indexOf('vm');
+    const indexOfVmSubstr = this.cmd.indexOf('vm');
     if (indexOfVmSubstr !== -1) {
       this.cmd = this.cmd.substring(0, this.cmd.length - 2);
     }

@@ -20,6 +20,13 @@ export interface RuleListItem {
 }
 
 export class Rules { // defines what should be passed to inputRules
+  public static createWithAllRulesSelected(securityGroups: Array<SecurityGroup>): Rules {
+    const ingress = securityGroups.reduce((acc, securityGroup) => acc.concat(securityGroup.ingressRules), []);
+    const egress = securityGroups.reduce((acc, securityGroup) => acc.concat(securityGroup.egressRules), []);
+
+    return new Rules(securityGroups, ingress, egress);
+  }
+
   constructor(
     public templates?: Array<SecurityGroup>,
     public ingress?: Array<NetworkRule>,
@@ -28,13 +35,6 @@ export class Rules { // defines what should be passed to inputRules
     this.ingress = ingress || [];
     this.egress = egress || [];
     this.templates = templates || [];
-  }
-
-  public static createWithAllRulesSelected(securityGroups: Array<SecurityGroup>): Rules {
-    let ingress = securityGroups.reduce((acc, securityGroup) => acc.concat(securityGroup.ingressRules), []);
-    let egress = securityGroups.reduce((acc, securityGroup) => acc.concat(securityGroup.egressRules), []);
-
-    return new Rules(securityGroups, ingress, egress);
   }
 }
 

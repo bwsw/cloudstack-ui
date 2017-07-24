@@ -1,6 +1,9 @@
+import { MdlSelectComponent } from '@angular-mdl/select';
 import {
+  ChangeDetectorRef,
   Component,
   EventEmitter,
+  forwardRef,
   Input,
   OnChanges,
   OnInit,
@@ -8,59 +11,42 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import { MdlSelectComponent } from '@angular-mdl/select';
-
-import {
-  CustomServiceOfferingComponent,
-  CustomServiceOffering
-} from '../custom-service-offering/custom-service-offering.component';
-import { ServiceOffering } from '../../shared/models/service-offering.model';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { ServiceOffering } from '../../shared/models/service-offering.model';
+import { CustomServiceOffering } from '../custom-service-offering/custom-service-offering';
+import { CustomServiceOfferingComponent } from '../custom-service-offering/custom-service-offering.component';
 
 
 @Component({
   selector: 'cs-service-offering-selector',
   templateUrl: 'service-offering-selector.component.html',
-  styleUrls: ['service-offering-selector.component.scss']
+  styleUrls: ['service-offering-selector.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ServiceOfferingSelectorComponent),
+      multi: true
+    }
+  ]
 })
-export class ServiceOfferingSelectorComponent implements OnInit, OnChanges {
+export class ServiceOfferingSelectorComponent implements OnInit, OnChanges, ControlValueAccessor {
   @Input() public zoneId: string;
-  @Input() public offering: CustomServiceOffering;
   @Input() public serviceOfferings: Array<ServiceOffering>;
-  @Output() public offeringChanged = new EventEmitter();
+  @Output() public change: EventEmitter<ServiceOffering>;
   @ViewChild(MdlSelectComponent) public selectComponent: MdlSelectComponent;
 
-  public cpuNumber: number;
-  public cpuSpeed: number;
-  public memory: number;
-
   private _serviceOffering: ServiceOffering;
-
+  private previousOffering: ServiceOffering;
 
   constructor(
+    private cd: ChangeDetectorRef,
     private dialogService: DialogService,
     private translateService: TranslateService
-  ) { }
-
-  @Input()
-  public get serviceOffering(): ServiceOffering {
-    return this._serviceOffering;
-  }
-
-  public set serviceOffering(value) {
-    this._serviceOffering = value;
-
-    let result = Object.assign({}, this.serviceOffering);
-
-    if (this.serviceOffering.isCustomized) {
-      result.cpuNumber = this.cpuNumber;
-      result.cpuSpeed = this.cpuSpeed;
-      result.memory = this.memory;
-    }
-
-    this.offeringChanged.emit(result);
+  ) {
+    this.change = new EventEmitter();
   }
 
   public ngOnInit(): void {
@@ -72,55 +58,104 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges {
     }
   }
 
+  @Input()
+  public get serviceOffering(): ServiceOffering {
+    return this._serviceOffering;
+  }
+
+  public set serviceOffering(serviceOffering: ServiceOffering) {
+    this._serviceOffering = serviceOffering;
+    this.propagateChange(this.serviceOffering);
+  }
+
   public ngOnChanges(changes: SimpleChanges): void {
-    if ('serviceOfferings' in changes) {
-      if (this.serviceOfferings.length) {
-        this.serviceOffering = this.serviceOfferings[0];
-        this.offering = undefined;
-        this.cpuNumber = undefined;
-        this.cpuSpeed = undefined;
-        this.memory = undefined;
-      }
+    if ('serviceOfferings' in changes && this.serviceOfferings.length) {
+      this.serviceOffering = this.serviceOfferings[0];
     }
   }
 
-  public get customOfferingData(): Observable<string> {
-    if (!this.cpuSpeed || !this.cpuNumber || !this.memory) {
-      return Observable.of('');
-    }
+  public get customOfferingDescription(): Observable<string> {
+    if (!this.serviceOffering.areCustomParamsSet) { return Observable.of(''); }
+
+    const cpuNumber = this.serviceOffering.cpuNumber;
+    const cpuSpeed = this.serviceOffering.cpuSpeed;
+    const memory = this.serviceOffering.memory;
+
     return this.translateService.get(['MB', 'MHZ'])
-      .map(strings => `${this.cpuNumber}x${this.cpuSpeed} ${strings['MHZ']}, ${this.memory} ${strings['MB']}`);
+      .map(({ MB, MHZ }) => `${cpuNumber}x${cpuSpeed} ${MHZ}, ${memory} ${MB}`);
   }
 
-  public changeValue(newValue: ServiceOffering): void {
-    if (newValue.isCustomized) {
-      this.dialogService.showCustomDialog({
-        component: CustomServiceOfferingComponent,
-        classes: 'custom-offering-dialog',
-        providers: [
-          {
-            provide: 'zoneId',
-            useValue: this.zoneId
-          },
-          {
-            provide: 'offering',
-            useValue: this.offering
-          }
-        ]
-      })
-        .switchMap(res => res.onHide())
-        .subscribe(result => {
-          if (result) {
-            this.cpuNumber = result.cpuNumber;
-            this.cpuSpeed = result.cpuSpeed;
-            this.memory = result.memory;
-            this.serviceOffering = newValue;
-          } else {
-            this.selectComponent.writeValue(this.serviceOffering);
-          }
+  public changeOffering(newOffering: ServiceOffering): void {
+    this.saveOffering();
+    this.serviceOffering = newOffering;
+    if (newOffering.isCustomized) {
+      this.showCustomOfferingDialog()
+        .subscribe(customOffering => {
+          this.setCustomOffering(customOffering);
+          this.change.next(this.serviceOffering);
         });
     } else {
-      this.serviceOffering = newValue;
+      this.change.next(this.serviceOffering);
     }
+  }
+
+  public registerOnChange(fn): void {
+    this.propagateChange = fn;
+  }
+
+  public registerOnTouched(): void {}
+
+  public propagateChange: any = () => {};
+
+  public writeValue(serviceOffering: ServiceOffering): void {
+    if (serviceOffering) {
+      this.serviceOffering = serviceOffering;
+    }
+  }
+
+  private setCustomOffering(customOffering: CustomServiceOffering): void {
+    if (customOffering) {
+      this.updateCustomOfferingInList(customOffering);
+      this.serviceOffering = customOffering;
+    } else {
+      this.restorePreviousOffering();
+    }
+  }
+
+  private updateCustomOfferingInList(customOffering: CustomServiceOffering): void {
+    this.serviceOfferings = this.serviceOfferings.map(offering => {
+      if (offering.id === customOffering.id) {
+        return customOffering;
+      } else {
+        return offering;
+      }
+    });
+    this.cd.detectChanges();
+  }
+
+  private showCustomOfferingDialog(): Observable<CustomServiceOffering> {
+    return this.dialogService.showCustomDialog({
+      component: CustomServiceOfferingComponent,
+      classes: 'custom-offering-dialog',
+      providers: [
+        {
+          provide: 'zoneId',
+          useValue: this.zoneId
+        },
+        {
+          provide: 'offering',
+          useValue: this.serviceOffering
+        }
+      ]
+    }).switchMap(res => res.onHide());
+  }
+
+  private saveOffering(): void {
+    this.previousOffering = this.serviceOffering;
+  }
+
+  private restorePreviousOffering(): void {
+    this.serviceOffering = this.previousOffering;
+    this.selectComponent.writeValue(this.serviceOffering);
   }
 }

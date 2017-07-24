@@ -84,14 +84,12 @@ import { SnapshotService } from './services/snapshot.service';
 import { StorageService } from './services/storage.service';
 import { TagService } from './services/tag.service';
 import { UserService } from './services/user.service';
-import { UtilsService } from './services/utils.service';
 import { VolumeService } from './services/volume.service';
 import { MdlTextAreaAutoresizeDirective } from './directives/mdl-textarea-autoresize.directive';
 import { VolumeOfferingService } from './services/volume-offering.service';
 import { ReloadComponent } from './components/reload/reload.component';
-import {
-  CharacterCountTextfieldComponent
-} from './components/character-count-textfield/character-count-textfield.component';
+import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
+import { ForbiddenValuesDirective } from './directives/forbidden-values.directive';
 import {
   CreateUpdateDeleteDialogComponent
 } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
@@ -113,7 +111,7 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
   ],
   exports: [
     GroupedCardListComponent,
-    CharacterCountTextfieldComponent,
+    CharacterCountComponent,
     ColorPickerComponent,
     CreateUpdateDeleteDialogComponent,
     DatePickerComponent,
@@ -123,6 +121,7 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     DiskOfferingComponent,
     FabComponent,
     FancySelectComponent,
+    ForbiddenValuesDirective,
     InlineEditComponent,
     InlineEditAutocompleteComponent,
     InputGroupComponent,
@@ -153,7 +152,7 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     LoaderComponent
   ],
   declarations: [
-    CharacterCountTextfieldComponent,
+    CharacterCountComponent,
     CalendarComponent,
     CalendarMonthComponent,
     CalendarYearComponent,
@@ -168,6 +167,7 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     DividerVerticalComponent,
     FabComponent,
     FancySelectComponent,
+    ForbiddenValuesDirective,
     InlineEditComponent,
     InlineEditAutocompleteComponent,
     InputGroupComponent,
@@ -227,7 +227,6 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     StyleService,
     TagService,
     UserService,
-    UtilsService,
     VolumeService,
     VolumeOfferingService,
     ZoneService,

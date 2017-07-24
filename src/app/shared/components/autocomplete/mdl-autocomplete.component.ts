@@ -48,6 +48,7 @@ export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, A
   @Input() public placeholder = '';
   @Input() public options: Array<string> = [];
   @Input() public text = '';
+  @Input() public maxLength: number;
 
   @Output() public change = new EventEmitter();
   @HostBinding('class.mdl-select') public mdlSelectClass = true;
@@ -111,8 +112,8 @@ export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, A
   @HostListener('document:keydown', ['$event'])
   public onKeyDown($event: KeyboardEvent): void {
     if (!this.disabled && this.popover.isVisible) {
-      let closeKeys: Array<string> = ['Escape', 'Tab', 'Enter'];
-      let closeKeyCodes: Array<Number> = [13, 27, 9];
+      const closeKeys: Array<string> = ['Escape', 'Tab', 'Enter'];
+      const closeKeyCodes: Array<Number> = [13, 27, 9];
       if (closeKeyCodes.indexOf($event.keyCode) !== -1 || ($event.key && closeKeys.indexOf($event.key) !== -1)) {
         this.popover.hide();
         this.onSelect(this.getNewValueOnEnter());
@@ -192,8 +193,8 @@ export class MdlAutocompleteComponent implements ControlValueAccessor, OnInit, A
   }
 
   public onSelect(value: any): void {
-    let popover: any = this.popover.elementRef.nativeElement;
-    let list: any = popover.querySelector('.mdl-list');
+    const popover: any = this.popover.elementRef.nativeElement;
+    const list: any = popover.querySelector('.mdl-list');
     let option: any = null;
 
     this.optionComponents.forEach(o => {

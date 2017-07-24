@@ -13,19 +13,18 @@ import { NotificationService } from '../../shared/services/notification.service'
 })
 export class VmSidebarComponent {
   @Input() public vm: VirtualMachine;
+
   constructor(
     private vmService: VmService,
     private notificationService: NotificationService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute
+  ) {
     this.route.params.pluck('id')
-      .subscribe((id: string) => {
-        if (id) {
-          this.vmService.get(id)
-            .subscribe(
-              vm => this.vm = vm,
-              (error) => this.notificationService.error(error.message)
-            );
-        }
-      });
+      .filter(id => !!id)
+      .switchMap((id: string) => this.vmService.getWithDetails(id))
+      .subscribe(
+        vm => this.vm = vm,
+        (error) => this.notificationService.error(error.message)
+      );
   }
 }

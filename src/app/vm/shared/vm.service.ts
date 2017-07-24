@@ -33,9 +33,11 @@ export interface IVmActionEvent {
   templateId?: string;
 }
 
+export const VirtualMachineEntityName = 'VirtualMachine';
+
 @Injectable()
 @BackendResource({
-  entity: 'VirtualMachine',
+  entity: VirtualMachineEntityName,
   entityModel: VirtualMachine
 })
 export class VmService extends BaseBackendService<VirtualMachine> {
@@ -63,7 +65,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
           return Observable.of(+numberOfVms);
         }
 
-        return this.getList({}, true)
+        return this.getListWithDetails({}, true)
           .switchMap(vmList => {
             return this.writeNumberOfVms(vmList.length);
           });
@@ -79,7 +81,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     this.vmUpdateObservable.next(vm);
   }
 
-  public get(id: string): Observable<VirtualMachine> {
+  public getWithDetails(id: string): Observable<VirtualMachine> {
     return Observable.forkJoin([
       super.get(id),
       this.volumeService.getList({
@@ -107,7 +109,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
   }
 
-  public getList(params?: {}, lite = false): Observable<Array<VirtualMachine>> {
+  public getListWithDetails(params?: {}, lite = false): Observable<Array<VirtualMachine>> {
     if (lite) {
       return super.getList(params);
     }
@@ -131,7 +133,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public getInstanceGroupList(): Observable<Array<InstanceGroup>> {
-    return this.getList()
+    return this.getListWithDetails()
       .map(vmList => vmList.reduce((groups, vm) => {
         const group = vm.tags.find(tag => tag.key === 'group');
 
@@ -248,7 +250,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public getListOfVmsThatUseIso(iso: Iso): Observable<Array<VirtualMachine>> {
-    return this.getList()
+    return this.getListWithDetails()
       .map(vmList => vmList.filter(vm => vm.isoId === iso.id));
   }
 
