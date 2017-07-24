@@ -623,5 +623,10 @@
   "POLICY_WEEKLY_TIME": "{{ value }}",
   "POLICY_MONTHLY_TIME": "{{ value }}",
   "POLICY_WEEKLY_PERIOD": "{{ value }}",
-  "POLICY_MONTHLY_PERIOD": "каждый {{ value }} день месяца"
+  "POLICY_MONTHLY_PERIOD": "каждый {{ value }} день месяца",
+
+  "RECURRING_SNAPSHOTS_HOURLY": "Ежечасно",
+  "RECURRING_SNAPSHOTS_DAILY": "Ежедневно",
+  "RECURRING_SNAPSHOTS_WEEKLY": "Еженедельно",
+  "RECURRING_SNAPSHOTS_MONTHLY": "Ежемесячно"
 }

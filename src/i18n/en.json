@@ -622,5 +622,10 @@
   "POLICY_WEEKLY_TIME": "{{ value }}",
   "POLICY_MONTHLY_TIME": "{{ value }}",
   "POLICY_WEEKLY_PERIOD": "Every {{ value }}",
-  "POLICY_MONTHLY_PERIOD": "day {{ value }} of month"
+  "POLICY_MONTHLY_PERIOD": "day {{ value }} of month",
+
+  "RECURRING_SNAPSHOTS_HOURLY": "Hourly",
+  "RECURRING_SNAPSHOTS_DAILY": "Daily",
+  "RECURRING_SNAPSHOTS_WEEKLY": "Weekly",
+  "RECURRING_SNAPSHOTS_MONTHLY": "Monthly"
 }
