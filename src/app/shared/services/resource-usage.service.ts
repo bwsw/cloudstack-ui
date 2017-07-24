@@ -11,7 +11,7 @@ import { SnapshotService } from './snapshot.service';
 import { VolumeService } from './volume.service';
 
 
-class ResourcesData {
+export class ResourcesData {
   public instances = 0;
   public ips = 0;
   public volumes = 0;
@@ -68,7 +68,7 @@ export class ResourceUsageService {
     const requests = [];
 
     requests.push(
-      this.vmService.getList().map((vms: Array<VirtualMachine>) => {
+      this.vmService.getListWithDetails().map((vms: Array<VirtualMachine>) => {
         consumedResources.instances = vms.length;
         vms.forEach(value => {
           consumedResources.ips += value.nic.length;

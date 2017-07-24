@@ -1,9 +1,7 @@
 <cs-top-bar *ngIf="!dialogMode">
-  <mdl-card
-    class="options-panel top-bar-height"
-  >
+  <mdl-card class="options-panel top-bar-height">
     <mdl-tabs
-      class="template-iso-switch"
+      class="tab-switch"
       mdl-ripple
       [mdl-tab-active-index]="templateSwitchPosition"
       (mdl-tab-active-changed)="setMode($event.index)"
@@ -84,7 +82,7 @@
   *ngIf="dialogMode"
 >
   <mdl-tabs
-    class="template-iso-switch"
+    class="tab-switch"
     mdl-ripple
     [mdl-tab-active-index]="templateSwitchPosition"
     (mdl-tab-active-changed)="setMode($event.index)"

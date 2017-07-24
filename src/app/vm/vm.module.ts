@@ -69,6 +69,7 @@ import { vmRouting } from './vm.routing';
     MdlSelectModule,
     ReactiveFormsModule,
     ServiceOfferingModule,
+    ServiceOfferingModule,
     SharedModule,
     TagsModule,
     TemplateModule,

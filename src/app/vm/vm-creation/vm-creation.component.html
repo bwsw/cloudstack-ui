@@ -16,11 +16,8 @@
   >
     <div class="container">
       <div *ngIf="enoughResources && formState?.state" class="left-column">
-
         <div>
-          <h5>
-            {{ 'VM_CREATION_FORM.NAME' | translate }}
-          </h5>
+          <h5>{{ 'VM_CREATION_FORM.NAME' | translate }}</h5>
           <mdl-textfield
             type="text"
             [label]="'VM_CREATION_FORM.NAME' | translate"
@@ -37,27 +34,20 @@
         </div>
 
         <div>
-          <h5>
-            {{ 'VM_CREATION_FORM.ZONE' | translate }}
-          </h5>
+          <h5>{{ 'VM_CREATION_FORM.ZONE' | translate }}</h5>
           <md-select
             name="zone"
             [ngModel]="formState.state.zone"
             (change)="zoneChange($event)"
           >
-            <md-option
-              *ngFor="let z of formState.data.zones"
-              [value]="z"
-            >
+            <md-option *ngFor="let z of formState.data.zones" [value]="z">
               {{ z.name }}
             </md-option>
           </md-select>
         </div>
 
         <div>
-          <h5>
-            {{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}
-          </h5>
+          <h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>
           <cs-service-offering-selector
             name="serviceOffering"
             [serviceOfferings]="formState.data.serviceOfferings"
@@ -68,9 +58,7 @@
         </div>
 
         <div class="dialog-select-wrapper">
-          <h5 class="dialog-select-header">
-            {{ 'VM_CREATION_FORM.INSTALLATION_SOURCE' | translate }}
-          </h5>
+          <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.INSTALLATION_SOURCE' | translate }}</h5>
           <cs-vm-creation-template
             name="template"
             class="dialog-select-select template-select"
@@ -83,9 +71,7 @@
         </div>
 
         <div *ngIf="formState.state.diskOfferingsAreAllowed">
-          <h5>
-            {{ 'DISK_OFFERING' | translate }}
-          </h5>
+          <h5>{{ 'DISK_OFFERING' | translate }}</h5>
           <cs-disk-offering
             name="diskOfferingSelector"
             [diskOfferingList]="formState.data.diskOfferings"
@@ -110,11 +96,8 @@
       </div>
 
       <div *ngIf="enoughResources && formState?.state" class="right-column">
-
         <div>
-          <h5>
-            {{ 'VM_CREATION_FORM.GROUP' | translate }}
-          </h5>
+          <h5>{{ 'VM_CREATION_FORM.GROUP' | translate }}</h5>
           <mdl-autocomplete
             name="group"
             [placeholder]="'NO_GROUP' | translate"
@@ -125,9 +108,7 @@
         </div>
 
         <div>
-          <h5>
-            {{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}
-          </h5>
+          <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
           <mdl-autocomplete
             name="affinityGroup"
             [placeholder]="'NO_GROUP' | translate"
@@ -148,9 +129,7 @@
         </div>
 
         <div>
-          <h5>
-            {{ 'VM_CREATION_FORM.KEYBOARD_LAYOUT' | translate }}
-          </h5>
+          <h5>{{ 'VM_CREATION_FORM.KEYBOARD_LAYOUT' | translate }}</h5>
           <cs-keyboards
             name="keyboard"
             [ngModel]="formState.state.keyboard"
@@ -159,9 +138,7 @@
         </div>
 
         <div>
-          <h5>
-            {{ 'VM_CREATION_FORM.SSH_KEYPAIR' | translate }}
-          </h5>
+          <h5>{{ 'VM_CREATION_FORM.SSH_KEYPAIR' | translate }}</h5>
           <md-select
             name="ssh"
             [ngModel]="formState.state.sshKeyPair"

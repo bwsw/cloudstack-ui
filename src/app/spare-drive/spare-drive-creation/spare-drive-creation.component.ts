@@ -85,7 +85,7 @@ export class SpareDriveCreationComponent implements OnInit {
       .switchMap(volume => this.getVolumeWithDiskOffering(volume));
   }
 
-  // todo: change to something like volumeService.get(id, { diskOfferings: true });
+  // todo: change to something like volumeService.getWithDetails(id, { diskOfferings: true });
   private getVolumeWithDiskOffering(volume: Volume): Observable<Volume> {
     if (volume && volume.diskOfferingId) {
       return this.diskOfferingService

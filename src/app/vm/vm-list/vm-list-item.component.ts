@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MdlPopoverComponent } from '@angular-mdl/popover';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 
-import { AsyncJob, Color } from '../../shared/models';
-import { AsyncJobService } from '../../shared/services';
+import { Color } from '../../shared/models';
 import { IVmAction, VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 
@@ -25,7 +24,6 @@ export class VmListItemComponent implements OnInit, OnChanges {
   public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
 
   constructor(
-    private asyncJobService: AsyncJobService,
     private vmService: VmService
   ) { }
 
@@ -33,14 +31,6 @@ export class VmListItemComponent implements OnInit, OnChanges {
     this.updateColor();
 
     this.actions = VirtualMachine.actions;
-    this.asyncJobService.event.subscribe((job: AsyncJob<any>) => {
-      if (job.result && job.result.id === this.item.id) {
-        this.item.state = job.result.state;
-        if (job.result.nic && job.result.nic.length) {
-          this.item.nic[0] = job.result.nic[0];
-        }
-      }
-    });
     this.vmService.vmUpdateObservable.subscribe(() => {
       this.updateColor();
     });

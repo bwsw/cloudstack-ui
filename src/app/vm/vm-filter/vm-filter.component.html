@@ -1,4 +1,5 @@
 <mdl-card class="options-panel delimiter">
+
   <md-select
     class="filter-select"
     multiple="true"
@@ -15,14 +16,15 @@
     [(ngModel)]="selectedGroups"
     (change)="update()"
   >
-    <md-option
-      *ngIf="showNoGroupFilter"
-      [value]="noGroup"
-    >
+    <md-option *ngIf="showNoGroupFilter" [value]="noGroup">
       <em>{{ 'NO_GROUP' | translate }}</em>
     </md-option>
 
-    <md-option *ngFor="let g of groups" [value]="g">
+    <md-option
+
+      *ngFor="let g of groups"
+     mdl-ripple [value]="g"
+    >
       {{ g.name }}
     </md-option>
   </md-select>

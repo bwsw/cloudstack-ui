@@ -117,6 +117,7 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     CreateUpdateDeleteDialogComponent,
     DatePickerComponent,
     DividerVerticalComponent,
+    DividerVerticalComponent,
     DescriptionComponent,
     DiskOfferingComponent,
     FabComponent,
