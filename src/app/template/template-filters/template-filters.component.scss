@@ -1,19 +1,7 @@
 @import '../../../style/__variables.scss';
 
-.template-iso-switch {
-  display: inline-flex;
-  width: initial;
-  position: relative;
-  margin: 19px;
-}
-
-:host /deep/ .mdl-tabs__tab-bar {
-  height: 32px;
-}
-
-:host /deep/ .mdl-tabs__tab {
-  height: 32px;
-  line-height: 32px;
+:host .tab-switch {
+  margin: 0 19px;
 }
 
 .filter-select {
