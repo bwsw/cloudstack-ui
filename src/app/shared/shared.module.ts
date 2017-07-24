@@ -9,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DragulaModule } from 'ng2-dragula';
 import { DynamicModule } from 'ng-dynamic-component';
 import { MdlDialogModule } from '../dialog/dialog-module';
+import { MdListModule } from '@angular/material';
 
 import {
   CalendarComponent,
@@ -108,7 +109,8 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
-    TranslateModule
+    TranslateModule,
+    MdListModule
   ],
   exports: [
     GroupedCardListComponent,
@@ -146,7 +148,8 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     HighLightPipe,
     ViewValuePipe,
     LoadingDirective,
-    MdlTextAreaAutoresizeDirective
+    MdlTextAreaAutoresizeDirective,
+    MdListModule
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -233,4 +236,5 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     MDL_SELECT_VALUE_ACCESSOR
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+}
