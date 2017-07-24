@@ -5,7 +5,7 @@ import { Template } from '../../../template/shared';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { Iso } from '../../../template/shared/iso.model';
 import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
-import { PRESELECTED_TEMPLATE_TOKEN, ZONE } from './injector-token';
+import { ISOS, PRESELECTED_TEMPLATE_TOKEN, TEMPLATES, ZONE } from './injector-token';
 
 
 @Component({
@@ -18,6 +18,8 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
 
   constructor(
     @Inject(PRESELECTED_TEMPLATE_TOKEN) public preselectedTemplate: Template,
+    @Inject(TEMPLATES) public templates: Array<Template>,
+    @Inject(ISOS) public isos: Array<Iso>,
     @Inject(ZONE) public zoneId: string,
     private dialog: MdlDialogReference
   ) {

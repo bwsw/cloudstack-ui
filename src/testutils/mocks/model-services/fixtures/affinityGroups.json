@@ -1,0 +1,18 @@
+[
+  {
+    "id":"f4ddc5b9-0cdb-4074-9df9-6269d5969b3b",
+    "name":"Application1",
+    "account":"develop",
+    "domainid":"eee2a0bc-a272-11e6-88da-6557869a736f",
+    "domain":"ROOT",
+    "type":"host anti-affinity"
+  },
+  {
+    "id":"d13e93f7-7599-4065-9c65-5925ee41c2f2",
+    "name":"test",
+    "account":"develop",
+    "domainid":"eee2a0bc-a272-11e6-88da-6557869a736f",
+    "domain":"ROOT",
+    "type":"host anti-affinity"
+  }
+]

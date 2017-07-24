@@ -45,7 +45,7 @@ export class ServiceOfferingDialogComponent implements OnInit {
   }
 
   private fetchData(params?: {}): void {
-    this.serviceOfferingService.getAvailable(params)
+    this.serviceOfferingService.getAvailableByResources(params)
       .subscribe(availableOfferings => {
         this.serviceOfferings = availableOfferings.filter(offering => {
           return offering.id !== this.virtualMachine.serviceOfferingId;

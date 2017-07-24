@@ -8,14 +8,17 @@ import { NotificationService } from '../../shared/services/notification.service'
 
 @Component({
   selector: 'cs-vm-sidebar',
-  templateUrl: 'vm-sidebar.component.html'
+  templateUrl: 'vm-sidebar.component.html',
+  styleUrls: ['vm-sidebar.component.scss']
 })
 export class VmSidebarComponent {
   @Input() public vm: VirtualMachine;
+
   constructor(
     private vmService: VmService,
     private notificationService: NotificationService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute
+  ) {
     this.route.params.pluck('id')
       .subscribe((id: string) => {
         if (id) {

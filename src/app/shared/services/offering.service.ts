@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { BaseModel } from '../models/base.model';
-import { DiskOffering } from '../models/disk-offering.model';
-import { ServiceOffering } from '../models/service-offering.model';
 import { Zone } from '../models/zone.model';
 import { BaseBackendService } from './base-backend.service';
 import { ConfigService } from './config.service';
 import { ServiceLocator } from './service-locator';
+import { Offering } from '../models/offering.model';
 
 
 export interface OfferingAvailability {
@@ -18,7 +16,7 @@ export interface OfferingAvailability {
 }
 
 @Injectable()
-export abstract class OfferingService<T extends BaseModel> extends BaseBackendService<BaseModel> {
+export abstract class OfferingService<T extends Offering> extends BaseBackendService<Offering> {
   protected configService: ConfigService;
 
   constructor() {
@@ -31,40 +29,46 @@ export abstract class OfferingService<T extends BaseModel> extends BaseBackendSe
   }
 
   public getList(params?: any): Observable<Array<T>> {
-    const availabilityObservable: Observable<OfferingAvailability> = this.configService.get('offeringAvailability');
-    let zoneId;
-    let zoneLocal;
-
     if (!params || !params.zone) {
       return super.getList(params);
-    } else {
-      zoneId = params.zone.id;
-      zoneLocal = params.zone.localStorageEnabled;
-      delete params.zone;
+    }
+    const zone = params.zone;
+    const modifiedParams = Object.assign({}, params);
+    delete modifiedParams.zone;
+
+    const availabilityRequest: Observable<OfferingAvailability> = this.configService.get('offeringAvailability');
+    return Observable.forkJoin([
+      availabilityRequest,
+      super.getList(modifiedParams)
+    ])
+      .map(([offeringAvailability, offeringList]) => {
+        return this.getOfferingsAvailableInZone(
+          offeringList,
+          offeringAvailability,
+          zone
+        );
+      });
+  }
+
+  public getOfferingsAvailableInZone(
+    offeringList: Array<T>,
+    offeringAvailability: OfferingAvailability,
+    zone: Zone
+  ): Array<T> {
+    if (!offeringAvailability.filterOfferings) {
+      return offeringList;
     }
 
-    return Observable.forkJoin([
-      availabilityObservable,
-      super.getList(params)
-    ])
-      .map(([offeringAvailability, list]) => {
-        if (!offeringAvailability.filterOfferings) {
-          return list;
-        }
-        return list.filter(offering => {
-          return this.isOfferingAvailableInZone(offering, offeringAvailability, zoneId);
-        });
-      })
-      .map(list => {
-        if (!zoneId) {
-          return list;
-        }
-        return list.filter(offering => zoneLocal || !offering.isLocal);
+    return offeringList
+      .filter(offering => {
+        const offeringAvailableInZone = this.isOfferingAvailableInZone(offering, offeringAvailability, zone);
+        const localStorageCompatibility = zone.localStorageEnabled || !offering.isLocal;
+        return offeringAvailableInZone && localStorageCompatibility;
       });
   }
 
   protected abstract isOfferingAvailableInZone(
-    offering: ServiceOffering | DiskOffering,
+    offering: T,
     offeringAvailability: OfferingAvailability,
     zone: Zone
   ): boolean;

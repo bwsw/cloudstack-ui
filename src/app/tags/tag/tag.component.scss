@@ -1,0 +1,47 @@
+.key {
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  max-width: 34% !important;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left {
+  max-width: 66% !important;
+  min-width: 66% !important;
+  margin-right: 15px;
+}
+
+.buttons {
+  display: none;
+  min-width: 68px;
+  margin-left: 10px;
+}
+
+.height-container {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+}
+
+.container {
+  width: 100%;
+}
+
+.container:hover .buttons {
+  display: inline-block;
+}

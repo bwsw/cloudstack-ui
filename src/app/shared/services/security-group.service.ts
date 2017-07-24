@@ -35,12 +35,7 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
 
   public getTemplates(): Observable<Array<SecurityGroup>> {
     return this.configService.get('securityGroupTemplates')
-      .map(groups => {
-        for (let i = 0; i < groups.length; i++) {
-          groups[i] = new SecurityGroup(groups[i]);
-        }
-        return groups;
-      });
+      .map(groups => groups.map(group => new SecurityGroup(group)));
   }
 
   public createTemplate(data: any, rules?: Rules): Observable<any> {

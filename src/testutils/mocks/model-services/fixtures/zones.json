@@ -1,0 +1,29 @@
+[
+  {
+    "id":"031a55bb-5d6b-4336-ab93-d5dead28a887",
+    "name":"RU1.Compute",
+    "networktype":"Basic",
+    "securitygroupsenabled":true,
+    "allocationstate":"Enabled",
+    "zonetoken":"cc963d20-4213-336b-9706-a861d4277e0f",
+    "dhcpprovider":"VirtualRouter",
+    "localstorageenabled":false,
+    "tags":{
+    }
+  },
+  {
+    "id":"3fcdb37c-1c0b-4728-b62f-970c765c3fbc",
+    "name":"US1.HighIO",
+    "networktype":"Basic",
+    "securitygroupsenabled":true,
+    "allocationstate":"Enabled",
+    "zonetoken":"e21eb900-9834-3143-950e-8a51b0b629b4",
+    "dhcpprovider":"VirtualRouter",
+    "localstorageenabled":true,
+    "tags":{
+    },
+    "resourcedetails":{
+      "system.vm.use.local.storage":"true"
+    }
+  }
+]

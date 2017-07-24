@@ -78,6 +78,19 @@
         </mdl-select>
       </div>
       <div class="settings-control">
+        <h5 class="no-margin">{{ 'TIME_FORMAT' | translate }}</h5>
+        <mdl-select
+          [ngModel]="timeFormat"
+          [disabled]="updatingTimeFormat"
+          (change)="changeTimeFormat($event)"
+        >
+          <mdl-option
+            *ngFor="let format of timeFormats"
+            [value]="TimeFormat[format]"
+          >{{ format | translate }}</mdl-option>
+        </mdl-select>
+      </div>
+      <div class="settings-control">
         <h5>{{ 'PALETTE' | translate }}</h5>
         <div>
           <cs-color-picker

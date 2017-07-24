@@ -74,7 +74,7 @@ describe('Jobs notification service', () => {
   });
 
   it('should detach volume', done => {
-    let volume = new Volume({});
+    const volume = new Volume({});
     volume.id = 'testId';
 
     spareDriveActionsService.detach(volume)
