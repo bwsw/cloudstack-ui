@@ -26,7 +26,7 @@
     </h2>
   </mdl-card-title>
   <mdl-card-supporting-text>
-    <div class="os-type">OS {{ item.osType.description }}</div>
+    <div class="os-type">OS {{ item?.osType?.description }}</div>
     <div class="vm-ip-address">{{ item.nic[0].ipAddress ? item.nic[0].ipAddress : ("IP_NA" | translate) }}</div>
     <table style="width: 100%; text-align: center;">
       <thead>

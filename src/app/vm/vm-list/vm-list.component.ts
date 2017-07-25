@@ -170,7 +170,7 @@ export class VmListComponent implements OnInit {
   }
 
   public showDetail(vm: VirtualMachine): void {
-    if (vm.state !== VmStates.Error) {
+    if (vm.state !== VmStates.Error && vm.state !== VmStates.Deploying) {
       this.listService.showDetails(vm.id);
     }
   }

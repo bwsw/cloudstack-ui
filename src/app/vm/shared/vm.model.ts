@@ -210,9 +210,9 @@ export class VirtualMachine extends BaseModel implements Taggable {
   }
 
   public getDisksSize(): number {
-    const sizeInBytes = this.volumes.reduce((acc: number, volume: Volume) => {
+    const sizeInBytes = this.volumes && this.volumes.reduce((acc: number, volume: Volume) => {
       return acc + volume.size;
-    }, 0);
+    }, 0) || 0;
     return sizeInBytes / Math.pow(2, 30);
   }
 
