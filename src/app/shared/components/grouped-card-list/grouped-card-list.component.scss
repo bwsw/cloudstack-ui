@@ -1,0 +1,27 @@
+.grouped-section {
+  background: white;
+  width: 100%;
+  border-bottom: 1px solid #dedede;
+  padding-bottom: 15px;
+
+  .grouped-section {
+    border: none;
+    padding-bottom: 0;
+  }
+
+  h4 {
+    font-size: 24px;
+    margin: 0;
+    padding: 15px 15px 0 15px;
+  }
+
+  & & h4 {
+    font-size: 20px;
+    padding-top: 5px;
+  }
+
+  & & & h4 {
+    font-size: 16px;
+    padding-top: 5px;
+  }
+}

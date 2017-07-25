@@ -82,7 +82,7 @@
         <div *ngFor="let affinityGroup of vm.affinityGroup">{{ affinityGroup.name }}</div>
         <div *ngIf="!vm.affinityGroup.length">{{ 'NO_AFFINITY_GROUP' | translate }}</div>
       </mdl-card-supporting-text>
-      <mdl-card-actions mdl-card-border>
+      <mdl-card-actions *loading="affinityGroupLoading" mdl-card-border>
         <button
           [mdTooltip]="'EDIT' | translate"
           mdTooltipPosition="above"
@@ -112,7 +112,7 @@
         <span *ngIf="vm.keyPair; else noKeys">{{ vm.keyPair }}</span>
         <ng-template #noKeys>{{ 'NO_SSH_KEY' | translate }}</ng-template>
       </mdl-card-supporting-text>
-      <mdl-card-actions mdl-card-border>
+      <mdl-card-actions *loading="sskKeyLoading" mdl-card-border>
         <mdl-button
           [mdTooltip]="(vm.keyPair ? 'EDIT': 'ADD') | translate"
           mdTooltipPosition="above"

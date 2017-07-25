@@ -62,19 +62,19 @@
       [maxlength]="maxLength"
     ></mdl-textfield>
 
-    <mdl-select
+    <md-select
       name="selectValue"
       *ngIf="mode === modes.assign"
       [(ngModel)]="newValue"
       [placeholder]="selectPlaceholder | translate"
     >
-      <mdl-option
+      <md-option
         *ngFor="let option of options"
         [value]="option"
       >
         {{ option }}
-      </mdl-option>
-    </mdl-select>
+      </md-option>
+    </md-select>
   </div>
 
   <div class="mdl-dialog__actions">

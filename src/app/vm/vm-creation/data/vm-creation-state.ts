@@ -35,7 +35,7 @@ export class VmCreationState {
   public rootDiskSize: number;
   public securityRules: Rules;
   public serviceOffering: ServiceOffering;
-  public sshKeyPair: SSHKeyPair & NotSelected;
+  public sshKeyPair: SSHKeyPair | NotSelected;
   public template: BaseTemplateModel;
   public zone: Zone;
 
@@ -105,7 +105,7 @@ export class VmCreationState {
     params.templateId = this.template.id;
     params.zoneId = this.zone.id;
 
-    if (this.sshKeyPair && !this.sshKeyPair.ignore) {
+    if (this.sshKeyPair && !(this.sshKeyPair as NotSelected).ignore) {
       params.keyPair = this.sshKeyPair.name;
     }
 

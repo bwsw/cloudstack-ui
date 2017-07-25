@@ -11,7 +11,7 @@ import {
 import { BaseTemplateModel, Iso, Template } from '../../../template/shared';
 import { VmCreationState } from './vm-creation-state';
 import { ResourceStats } from '../../../shared/services/resource-usage.service';
-import { NotSelected, VmCreationConfigurationData } from '../vm-creation.service';
+import { VmCreationConfigurationData } from '../vm-creation.service';
 
 
 export class VmCreationData {
@@ -26,7 +26,7 @@ export class VmCreationData {
     public rootDiskSizeLimit: number,
     public securityGroupTemplates: Array<SecurityGroup>,
     public serviceOfferings: Array<ServiceOffering>,
-    public sshKeyPairs: Array<SSHKeyPair & NotSelected>,
+    public sshKeyPairs: Array<SSHKeyPair>,
     public templates: Array<Template>,
     public isos: Array<Iso>,
     public zones: Array<Zone>

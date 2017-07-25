@@ -21,7 +21,7 @@ export class VolumeOfferingService {
     }
 
     if (volume.virtualMachineId) {
-      return this.vmService.get(volume.virtualMachineId)
+      return this.vmService.getWithDetails(volume.virtualMachineId)
         .switchMap(vm => this.serviceOfferingService.get(vm.serviceOfferingId));
     }
 
