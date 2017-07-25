@@ -81,7 +81,7 @@ describe('Service: Notification service', () => {
     tick(1000); // wait for subscribe
   }));
 
-  it('warning disappears immediately after action', async(() => {
+  it('warning disappears immediately after action', fakeAsync(() => {
     const fixture = TestBed.createComponent(MdlTestViewComponent);
     fixture.detectChanges();
 
@@ -95,8 +95,11 @@ describe('Service: Notification service', () => {
       // snackbar appeared, proceed
       expect(mdlSnackbarComponent.isActive()).toBe(true);
       fixture.nativeElement.querySelectorAll('button')[0].click();
+      tick(3500);
+      fixture.detectChanges();
       expect(mdlSnackbarComponent.isActive()).toBe(false);
     });
+    tick(1000);
   }));
 
   it('warning action handler is called on action button click', fakeAsync(() => {
