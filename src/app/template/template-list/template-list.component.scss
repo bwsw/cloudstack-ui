@@ -16,6 +16,10 @@ md-list-item {
   font-weight: bold;
 }
 
+md-list-item .md-line-secondary {
+  color: rgba(0, 0, 0, 0.54);
+}
+
 .inline-block {
   display: inline-block;
 }

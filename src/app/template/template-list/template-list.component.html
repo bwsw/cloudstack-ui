@@ -42,7 +42,7 @@
           ></div>
         </ng-container>
       </h4>
-      <p md-line [innerHTML]="template.displayText | highlight:query"></p>
+      <p md-line class="md-line-secondary" [innerHTML]="template.displayText | highlight:query"></p>
       <span *ngIf="radio">
         <mdl-radio
           *ngIf="selectedTemplate"
