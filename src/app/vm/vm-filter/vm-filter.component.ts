@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 
 import { Zone } from '../../shared';
 import { InstanceGroup } from '../../shared/models';
@@ -6,16 +14,14 @@ import { FilterService, InstanceGroupService } from '../../shared/services';
 import { VmState, VmStates } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 
-import { SectionType } from '../vm-list/vm-list.component';
 import sortBy = require('lodash/sortBy');
 
 
 export interface VmFilter {
-  doFilterByColor: boolean;
   selectedGroups: Array<InstanceGroup | noGroup>;
   selectedStates: Array<VmState>;
   selectedZones: Array<Zone>;
-  mode: SectionType;
+  groupings: Array<any>;
 }
 
 export type noGroup = '-1';
@@ -28,19 +34,22 @@ export type InstanceGroupOrNoGroup = InstanceGroup | noGroup;
   styleUrls: ['vm-filter.component.scss']
 })
 export class VmFilterComponent implements OnInit, OnChanges {
+  @Input() public availableGroupings: Array<any>;
+  @Input() public groups: Array<InstanceGroup>;
+  @Input() public zones: Array<Zone>;
   @Output() public updateFilters = new EventEmitter<VmFilter>();
-  public doFilterByColor = false;
+
+  public noGroup = noGroup;
+
   public selectedGroups: Array<InstanceGroupOrNoGroup> = [];
   public selectedStates: Array<VmState> = [];
   public selectedZones: Array<Zone> = [];
-  @Input() public groups: Array<InstanceGroup>;
-  @Input() public zones: Array<Zone>;
+  public selectedGroupings: Array<any> = [];
   public states = [
     { state: VmStates.Running, name: 'VM_FILTERS.STATE.RUNNING' },
     { state: VmStates.Stopped, name: 'VM_FILTERS.STATE.STOPPED' },
     { state: VmStates.Error,   name: 'VM_FILTERS.STATE.ERROR' }
   ];
-  public mode: SectionType = SectionType.zone;
   public showNoGroupFilter = true;
 
   private filtersKey = 'vmListFilters';
@@ -65,19 +74,32 @@ export class VmFilterComponent implements OnInit, OnChanges {
 
   public initFilters(): void {
     const params = this.filter.init(this.filtersKey, {
-      'byColors': { type: 'boolean' },
-      'mode': { type: 'string', options: ['zone', 'group'], defaultOption: 'zone' },
-      'zones': { type: 'array', defaultOption: [] },
-      'groups': { type: 'array', defaultOption: [] },
-      'states': { type: 'array', options: this.states.map(_ => _.state), defaultOption: [] }
+      zones: { type: 'array', defaultOption: [] },
+      groups: { type: 'array', defaultOption: [] },
+      groupings: { type: 'array', defaultOption: [] },
+      states: { type: 'array', options: this.states.map(_ => _.state), defaultOption: [] }
     });
-    this.doFilterByColor = !!params.byColors;
-    this.mode = params['mode'] === 'group' ? SectionType.group : SectionType.zone;
-    this.selectedZones = this.zones.filter(zone => params['zones'].find(id => id === zone.id));
-    this.selectedGroups = this.groups.filter(group => params['groups'].find(name => name === group.name));
+    this.selectedZones = this.zones.filter(zone =>
+      params['zones'].find(id => id === zone.id)
+    );
+    this.selectedGroups = this.groups.filter(group =>
+      params['groups'].find(name => name === group.name)
+    );
     this.selectedStates = params.states;
+    this.selectedGroupings = params.groupings.reduce((acc, _) => {
+      const grouping = this.availableGroupings.find(g => g.key === _);
+      if (grouping) {
+        acc.push(grouping);
+      }
+      return acc;
+    }, []);
 
-    const containsNoGroup = params['groups'].findIndex(group => group === '') !== -1;
+    const sg = this.selectedGroupings;
+    this.availableGroupings.sort((groupingA, groupingB) => {
+      return sg.findIndex(_ => _ === groupingA) - sg.findIndex(_ => _ === groupingB);
+    });
+
+    const containsNoGroup = params['groups'].includes('');
     if (containsNoGroup) {
       this.selectedGroups.push(noGroup);
     }
@@ -96,49 +118,18 @@ export class VmFilterComponent implements OnInit, OnChanges {
 
   public update(): void {
     this.updateFilters.emit({
-      doFilterByColor: this.doFilterByColor,
       selectedGroups: this.selectedGroups.sort(this.groupSortPredicate),
       selectedStates: this.selectedStates,
       selectedZones: sortBy(this.selectedZones, 'name'),
-      mode: this.mode
+      groupings: this.selectedGroupings
     });
 
     this.filter.update(this.filtersKey, {
-      'byColors': this.doFilterByColor,
-      'mode': this.mode === SectionType.group ? 'group' : 'zone',
-      'zones': this.selectedZones.map(_ => _.id),
-      'groups': this.selectedGroups.map(_ => (_ as InstanceGroup).name || ''),
-      'states': this.selectedStates
+      zones: this.selectedZones.map(_ => _.id),
+      groups: this.selectedGroups.map(_ => (_ as InstanceGroup).name || ''),
+      states: this.selectedStates,
+      groupings: this.selectedGroupings.map(_ => _.key)
     });
-  }
-
-  public updateColor(doFilterByColor: boolean): void {
-    this.doFilterByColor = doFilterByColor;
-    this.update();
-  }
-
-  public updateGroups(selectedGroups: Array<InstanceGroup>): void {
-    this.selectedGroups = selectedGroups;
-    this.update();
-  }
-
-  public updateStates(states: Array<VmState>): void {
-    this.selectedStates = states;
-    this.update();
-  }
-
-  public updateZones(selectedZones: Array<Zone>): void {
-    this.selectedZones = selectedZones;
-    this.update();
-  }
-
-  public changeMode(): void {
-    if (this.mode === SectionType.group) {
-      this.mode = SectionType.zone;
-    } else {
-      this.mode = SectionType.group;
-    }
-    this.update();
   }
 
   private groupSortPredicate(a: InstanceGroupOrNoGroup, b: InstanceGroupOrNoGroup): number {

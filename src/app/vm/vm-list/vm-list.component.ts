@@ -1,5 +1,6 @@
 import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 import {
   AsyncJob,
@@ -12,23 +13,16 @@ import {
 } from '../../shared';
 
 import { ListService } from '../../shared/components/list/list.service';
-import { VirtualMachine, VmActions, VmStates } from '../shared/vm.model';
-
-import { IVmActionEvent, VmService } from '../shared/vm.service';
-
-import { VmCreationComponent } from '../vm-creation/vm-creation.component';
-import { InstanceGroupOrNoGroup, VmFilter } from '../vm-filter/vm-filter.component';
-import { VmListSection } from './vm-list-section/vm-list-section.component';
-import { VmListSubsection } from './vm-list-subsection/vm-list-subsection.component';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { UserService } from '../../shared/services/user.service';
 import { ZoneService } from '../../shared/services/zone.service';
+import { VirtualMachine, VmActions, VmStates } from '../shared/vm.model';
 
+import { IVmActionEvent, VirtualMachineEntityName, VmService } from '../shared/vm.service';
 
-export const enum SectionType {
-  zone,
-  group
-}
+import { VmCreationComponent } from '../vm-creation/vm-creation.component';
+import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filter.component';
+import { VmListItemComponent } from './vm-list-item.component';
+
 
 const askToCreateVm = 'askToCreateVm';
 
@@ -42,18 +36,40 @@ export class VmListComponent implements OnInit {
   @HostBinding('class.mdl-color--grey-100') public backgroundColorClass = true;
   @HostBinding('class.detail-list-container') public detailListContainer = true;
 
-  public filterData: VmFilter;
-  public groupByColors = false;
-  public showSections = false;
-  public showSubsections = false;
+  public selectedGroupings = [];
+  public groupings = [
+    {
+      key: 'zones',
+      label: 'GROUP_BY.ZONES',
+      selector: (item: VirtualMachine) => item.zoneId,
+      name: (item: VirtualMachine) => item.zoneName
+    },
+    {
+      key: 'groups',
+      label: 'GROUP_BY.GROUPS',
+      selector: (item: VirtualMachine) =>
+        item.instanceGroup ? item.instanceGroup.name : noGroup,
+      name: (item: VirtualMachine) =>
+        item.instanceGroup ? item.instanceGroup.name : 'NO_GROUP'
+    },
+    {
+      key: 'colors',
+      label: 'GROUP_BY.COLORS',
+      selector: (item: VirtualMachine) => item.getColor().value,
+      name: (item: VirtualMachine) => item.getColor().name,
+    }
+  ];
+
+  public VmListItemComponent = VmListItemComponent;
+
   public groups: Array<InstanceGroup>;
   public zones: Array<Zone>;
 
-  public sections: Array<VmListSection> = [];
-  public subsections: Array<VmListSubsection> = [];
+  public vmList: Array<VirtualMachine>;
+  public visibleVmList: Array<VirtualMachine>;
 
-  public vmList: Array<VirtualMachine> = [];
-  public visibleVmList: Array<VirtualMachine> = [];
+  public inputs;
+  public outputs;
 
   constructor(
     public listService: ListService,
@@ -64,76 +80,63 @@ export class VmListComponent implements OnInit {
     private statsUpdateService: StatsUpdateService,
     private userService: UserService,
     private zoneService: ZoneService
-  ) { }
+  ) {
+    this.showDetail = this.showDetail.bind(this);
+    this.vmAction = this.vmAction.bind(this);
+
+    this.inputs = {
+      isSelected: (item) => this.listService.isSelected(item.id)
+    };
+
+    this.outputs = {
+      onVmAction: this.vmAction,
+      onClick: this.showDetail
+    };
+  }
 
   public ngOnInit(): void {
-    this.getVmList().subscribe();
+    this.getVmList();
     this.resubscribeToJobs();
     this.subscribeToStatsUpdates();
     this.subscribeToVmUpdates();
     this.subscribeToVmDestroyed();
     this.subscribeToVmCreationDialog();
+    this.asyncJobService.event
+      .filter(j => j.instanceType === VirtualMachineEntityName)
+      .filter(j => j.result)
+      .subscribe((job: AsyncJob<any>) => {
+        const index = this.vmList.findIndex(_ => job.result.id === _.id);
+        if (index > -1) {
+          // todo: may be we need to update more params
+          // todo: need to discuss
+          this.vmList[index].state = job.result.state;
+          if (job.result.nic && job.result.nic.length) {
+            this.vmList[index].nic[0] = job.result.nic[0];
+          }
+        }
+      });
   }
 
   public get noFilteringResults(): boolean {
-    return (this.showSections && !this.sectionsLength) ||
-      (!this.showSections && this.showSubsections && !this.subsectionsLength);
-  }
-
-  public get sectionsLength(): number {
-    return this.sections.reduce((acc, section) => {
-      if (section.vmList) {
-        return acc + section.vmList.length;
-      }
-      if (section.subsectionList) {
-        return acc + this.getSubsectionListLength(section.subsectionList);
-      }
-    }, 0);
-  }
-
-  public get subsectionsLength(): number {
-    return this.getSubsectionListLength(this.subsections);
+    return !this.visibleVmList.length;
   }
 
   public updateFilters(filterData?: VmFilter): void {
-    if (!this.vmList.length) {
+    if (!this.vmList.length || !filterData) {
+      this.visibleVmList = this.vmList;
       return;
     }
-    if (!filterData && !this.filterData) {
-      return;
-    }
-    if (!filterData) {
-      filterData = this.filterData;
-    }
-    if (!this.filterData) {
-      this.filterData = filterData;
-    }
 
-    this.filterData = filterData;
+    this.selectedGroupings = filterData.groupings.reduce((acc, g) => {
+      acc.push(this.groupings.find(_ => _ === g));
+      return acc;
+    }, []);
 
-    const sectionKey = this.getFilterKey(filterData.mode);
-    const subsectionKey = this.getFilterKey(this.getSubsectionType(filterData.mode));
-
-    this.showSections = !!filterData[sectionKey].length;
-    this.showSubsections = !!filterData[subsectionKey].length;
-    this.groupByColors = filterData.doFilterByColor;
-    this.sections = [];
-    this.subsections = [];
-
-    this.visibleVmList = this.filterVMsByState(this.vmList, filterData.selectedStates);
-    if (filterData.doFilterByColor) {
-      this.vmList = this.sortByColor(this.vmList);
-    } else {
-      this.vmList = this.sortByDate(this.vmList);
-    }
-
-    if (this.showSections) {
-      this.updateSections(this.visibleVmList, filterData);
-    }
-
-    if (!this.showSections && this.showSubsections) {
-      this.updateSubsections(this.visibleVmList, filterData);
-    }
+    const { selectedZones, selectedGroups, selectedStates } = filterData;
+    this.visibleVmList = this.filterVmsByZones(this.vmList, selectedZones);
+    this.visibleVmList = this.filterVmsByGroup(this.visibleVmList, selectedGroups);
+    this.visibleVmList = this.filterVMsByState(this.visibleVmList, selectedStates);
+    this.visibleVmList = this.sortByDate(this.visibleVmList);
   }
 
   public updateStats(): void {
@@ -154,7 +157,8 @@ export class VmListComponent implements OnInit {
     dialog.onErrorResumeNext()
       .switchMap(() => this.vmService.vmAction(e))
       .subscribe(
-        () => {},
+        () => {
+        },
         error => this.dialogService.alert(error.message)
       );
   }
@@ -166,7 +170,7 @@ export class VmListComponent implements OnInit {
   }
 
   public showDetail(vm: VirtualMachine): void {
-    if (vm.state !== 'Error') {
+    if (vm.state !== VmStates.Error && vm.state !== VmStates.Deploying) {
       this.listService.showDetails(vm.id);
     }
   }
@@ -185,21 +189,21 @@ export class VmListComponent implements OnInit {
       });
   }
 
-  private getVmList(): Observable<VirtualMachine> {
-    return Observable.forkJoin(
-      this.vmService.getList(),
+  private getVmList(): void {
+    Observable.forkJoin(
+      this.vmService.getListWithDetails(),
       this.vmService.getInstanceGroupList(),
       this.zoneService.getList()
     )
-      .switchMap(([vmList, groups, zones]) => {
-        this.vmList = vmList;
+      .subscribe(([vmList, groups, zones]) => {
+        this.vmList = this.sortByDate(vmList);
         this.visibleVmList = vmList;
+        this.groups = groups;
+        this.zones = zones;
+
         if (!this.vmList.length) {
           this.showSuggestionDialog();
         }
-        this.groups = groups;
-        this.zones = zones;
-        return this.vmList;
       });
   }
 
@@ -216,8 +220,12 @@ export class VmListComponent implements OnInit {
         if (index < 0) {
           return;
         }
-        this.vmService.get(updatedVM.id).subscribe((vm) => {
-          this.vmList[index] = vm;
+        this.vmService.getWithDetails(updatedVM.id).subscribe((vm) => {
+          this.vmList = [
+            ...this.vmList.slice(0, index),
+            vm,
+            ...this.vmList.slice(index + 1),
+          ];
           this.updateFilters();
         });
         this.updateStats();
@@ -237,21 +245,18 @@ export class VmListComponent implements OnInit {
   }
 
   private subscribeToVmDestroyed(): void {
-    this.asyncJobService.event.subscribe((job: AsyncJob<any>) => {
-      if (!job.result) {
-        return;
-      }
-
-      const state = job.result.state;
-      if (job.instanceType === 'VirtualMachine' && (state === VmStates.Destroyed || state === VmStates.Expunging)) {
+    this.asyncJobService.event
+      .filter(j => j.instanceType === VirtualMachineEntityName)
+      .filter(j => j.result)
+      .filter(j => j.result.state === VmStates.Destroyed || j.result.state === VmStates.Expunging)
+      .subscribe((job: AsyncJob<any>) => {
         this.vmList = this.vmList.filter(vm => vm.id !== job.result.id);
         if (this.listService.isSelected(job.result.id)) {
           this.listService.deselectItem();
         }
         this.updateFilters();
         this.updateStats();
-      }
-    });
+      });
   }
 
   private subscribeToVmCreationDialog(): void {
@@ -272,9 +277,7 @@ export class VmListComponent implements OnInit {
               handler: () => this.showVmCreationDialog(),
               text: 'YES'
             },
-            {
-              text: 'NO'
-            },
+            { text: 'NO' },
             {
               handler: () => this.userService.writeTag(askToCreateVm, 'false').subscribe(),
               text: 'NO_DONT_ASK'
@@ -285,40 +288,34 @@ export class VmListComponent implements OnInit {
           clickOutsideToClose: true,
           styles: { 'width': '320px' }
         });
-
       });
   }
 
-  private filterVmsByGroup(vmList: Array<VirtualMachine>, group: InstanceGroupOrNoGroup): Array<VirtualMachine> {
+  private filterVmsByGroup(
+    vmList: Array<VirtualMachine>,
+    groups: Array<InstanceGroupOrNoGroup>
+  ): Array<VirtualMachine> {
+    if (!groups.length) {
+      return vmList;
+    }
     return vmList.filter(
       vm =>
-      (!vm.instanceGroup && group === '-1') ||
-      (vm.instanceGroup && vm.instanceGroup.name === (group as InstanceGroup).name)
+        (!vm.instanceGroup && groups.includes(noGroup)) ||
+        (vm.instanceGroup &&
+          groups.some(g => vm.instanceGroup.name === (g as InstanceGroup).name))
     );
   }
 
-  private filterVmsByZone(vmList: Array<VirtualMachine>, zone: Zone): Array<VirtualMachine> {
-    return vmList.filter(vm => vm.zoneId === zone.id);
+  private filterVmsByZones(vmList: Array<VirtualMachine>, zones: Array<Zone>): Array<VirtualMachine> {
+    return !zones.length
+      ? vmList
+      : vmList.filter(vm => zones.some(z => vm.zoneId === z.id));
   }
 
   private filterVMsByState(vmList: Array<VirtualMachine>, states): Array<VirtualMachine> {
-    return !states.length ? vmList :
-      vmList.filter(vm => states.some(state => vm.state === state));
-  }
-
-  private sortByColor(vmList: Array<VirtualMachine>): Array<VirtualMachine> {
-    return vmList.sort((vmA, vmB) => {
-      const vmAColor = vmA.getColor().value;
-      const vmBColor = vmB.getColor().value;
-
-      if (vmAColor < vmBColor) {
-        return -1;
-      }
-      if (vmAColor > vmBColor) {
-        return 1;
-      }
-      return 0;
-    });
+    return !states.length
+      ? vmList
+      : vmList.filter(vm => states.includes(vm.state));
   }
 
   private sortByDate(vmList: Array<VirtualMachine>): Array<VirtualMachine> {
@@ -334,67 +331,5 @@ export class VmListComponent implements OnInit {
       }
       return 0;
     });
-  }
-
-  private getFilterKey(sectionType: SectionType): string {
-    if (sectionType === SectionType.group) {
-      return 'selectedGroups';
-    }
-    if (sectionType === SectionType.zone) {
-      return 'selectedZones';
-    }
-  }
-
-  private getSubsectionType(sectionType: SectionType): SectionType {
-    if (sectionType === SectionType.group) {
-      return SectionType.zone;
-    }
-    if (sectionType === SectionType.zone) {
-      return SectionType.group;
-    }
-  }
-
-  private updateSections(vms: Array<VirtualMachine>, filterData: VmFilter): void {
-    const filterDataKey = this.getFilterKey(filterData.mode);
-
-    this.sections = filterData[filterDataKey]
-      .map((elem): VmListSection => {
-        const vmList = filterData.mode === SectionType.group ?
-          this.filterVmsByGroup(vms, elem) :
-          this.filterVmsByZone(vms, elem);
-
-        const subsectionList = this.getSubsectionList(vmList, filterData);
-
-        if (this.showSubsections) {
-          return { name: elem.name, subsectionList };
-        }
-        return { name: elem.name, vmList };
-      });
-  }
-
-  private updateSubsections(vms: Array<VirtualMachine>, filterData: VmFilter): void {
-    this.subsections = this.getSubsectionList(vms, filterData);
-  }
-
-  private getSubsectionList(vmList: Array<VirtualMachine>,
-                            filterData: VmFilter): Array<VmListSubsection> {
-    const subsectionType = this.getSubsectionType(filterData.mode);
-    const filterDataKey = this.getFilterKey(subsectionType);
-
-    return filterData[filterDataKey]
-      .map(elem => {
-        return {
-          name: elem.name,
-          vmList: subsectionType === SectionType.group ?
-            this.filterVmsByGroup(vmList, elem) :
-            this.filterVmsByZone(vmList, elem)
-        };
-      });
-  }
-
-  private getSubsectionListLength(subsectionList: Array<VmListSubsection>): number {
-    return subsectionList.reduce((acc, subsection) => {
-      return acc + subsection.vmList.length;
-    }, 0);
   }
 }

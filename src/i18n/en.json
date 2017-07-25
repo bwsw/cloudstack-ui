@@ -117,9 +117,11 @@
   "SELECT_SSH_KEY": "Select SSH key",
   "SSH_KEY": "SSH key",
   "IP_NA": "IP N/A",
+  "USED": "Used",
+  "FREE": "Free",
   "VMS": "Virtual machines",
   "DEPLOYED": "Deployed",
-  "DEPLOYED_STATS": "Deployed",
+  "VM_AMOUNT": "Number",
   "COMPUTATIONAL_RESOURCES": "Computational resources",
   "CPUS": "CPUs",
   "SNAPSHOTS": "Snapshots",
@@ -475,6 +477,12 @@
   "SELECT_GROUPS": "Select groups",
   "SELECT_ZONES": "Select zones",
   "SELECT_STATES": "Select states",
+  "GROUP_BY_LABEL": "Group by",
+  "GROUP_BY": {
+    "ZONES": "Zones",
+    "GROUPS": "Groups",
+    "COLORS": "Colors"
+  },
   "NETWORK_RULES": "Network rules",
 
   "LICENSE_1": "© {{ year }}, ",
@@ -530,6 +538,7 @@
   "INSUFFICIENT_RESOURCES_VM": "Insufficient resources",
 
   "NO_GROUP": "No group",
+  "NO_ZONE": "No zone",
   "NO_SNAPSHOTS": "No snapshots",
   "LAST_SNAPSHOT": "Last snapshot",
 

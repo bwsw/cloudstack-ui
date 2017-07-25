@@ -3,6 +3,30 @@
   display: block;
 }
 
+:host .overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .message {
+    position: static;
+    transform: none;
+  }
+
+  mdl-progress {
+    width: 500px;
+  }
+}
+
+:host mdl-textfield {
+  padding-top: 15px;
+}
+
+:host /deep/ md-select {
+  width: 300px;
+  margin: 20px 0;
+}
+
 .vm-creation-container {
   position: relative;
   padding: 0.9em;

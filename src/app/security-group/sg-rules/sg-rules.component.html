@@ -23,24 +23,24 @@
       <tbody>
       <tr *ngIf="!securityGroup.isPredefinedTemplate">
         <td class="mdl-data-table__cell--non-numeric">
-          <mdl-select class="type" [(ngModel)]="type" name="type">
-            <mdl-option
+          <md-select class="type" [(ngModel)]="type" name="type">
+            <md-option
               *ngFor="let t of types"
               [value]="t.value"
             >
               {{ t.text | translate }}
-            </mdl-option>
-          </mdl-select>
+            </md-option>
+          </md-select>
         </td>
         <td>
-          <mdl-select [(ngModel)]="protocol" name="protocol">
-            <mdl-option
+          <md-select [(ngModel)]="protocol" name="protocol">
+            <md-option
               *ngFor="let p of protocols"
               [value]="p.value"
             >
               {{ p.text }}
-            </mdl-option>
-          </mdl-select>
+            </md-option>
+          </md-select>
         </td>
         <td>
           <mdl-textfield

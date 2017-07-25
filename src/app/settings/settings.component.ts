@@ -7,6 +7,7 @@ import { AuthService, NotificationService } from '../shared/services';
 import { TimeFormat } from '../shared/services/language.service';
 import { UserService } from '../shared/services/user.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
+import { MdSelectChange } from '@angular/material';
 
 
 @Component({
@@ -84,15 +85,15 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
     }
   }
 
-  public changeLanguage(lang: string): void {
+  public changeLanguage(change: MdSelectChange): void {
     this.loading = true;
-    this.languageService.setLanguage(lang);
+    this.languageService.setLanguage(change.value);
     this.loadDayTranslations();
   }
 
-  public changeTimeFormat(timeFormat: string): void {
+  public changeTimeFormat(change: MdSelectChange): void {
     this.updatingTimeFormat = true;
-    this.languageService.setTimeFormat(timeFormat)
+    this.languageService.setTimeFormat(change.value)
       .finally(() => this.updatingTimeFormat = false)
       .subscribe();
   }
@@ -123,10 +124,10 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
     this.passwordUpdateForm.reset();
   }
 
-  public firstDayOfWeekChange(day: number): void {
-    this.firstDayOfWeek = day;
+  public firstDayOfWeekChange(change: MdSelectChange): void {
+    this.firstDayOfWeek = change.value;
     this.updatingFirstDayOfWeek = true;
-    this.userService.writeTag('firstDayOfWeek', '' + day)
+    this.userService.writeTag('firstDayOfWeek', '' + change.value)
       .finally(() => this.updatingFirstDayOfWeek = false)
       .subscribe();
   }

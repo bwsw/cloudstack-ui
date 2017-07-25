@@ -7,7 +7,7 @@ import { ICustomServiceOffering } from '../../../service-offering/custom-service
 import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../../shared/models';
 import { ResourceStats } from '../../../shared/services/resource-usage.service';
 import { BaseTemplateModel, Iso, Template } from '../../../template/shared';
-import { NotSelected, VmCreationConfigurationData } from '../vm-creation.service';
+import { VmCreationConfigurationData } from '../vm-creation.service';
 import { VmCreationState } from './vm-creation-state';
 
 
@@ -24,7 +24,7 @@ export class VmCreationData {
     public rootDiskSizeLimit: number,
     public securityGroupTemplates: Array<SecurityGroup>,
     public serviceOfferings: Array<ServiceOffering>,
-    public sshKeyPairs: Array<SSHKeyPair & NotSelected>,
+    public sshKeyPairs: Array<SSHKeyPair>,
     public templates: Array<Template>,
     public isos: Array<Iso>,
     public zones: Array<Zone>

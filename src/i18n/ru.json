@@ -117,9 +117,11 @@
   "SELECT_SSH_KEY": "Выберите SSH ключ",
   "SSH_KEY": "SSH ключ",
   "IP_NA": "IP недоступен",
+  "USED": "Использовано",
+  "FREE": "Доступно",
   "VMS": "Виртуальные машины",
   "DEPLOYED": "Развернута",
-  "DEPLOYED_STATS": "Всего развернуто",
+  "VM_AMOUNT": "Количество",
   "COMPUTATIONAL_RESOURCES": "Вычислительные ресурсы",
   "CPUS": "CPU",
   "SNAPSHOTS": "Снимки",
@@ -475,6 +477,12 @@
   "SELECT_GROUPS": "Выберите группы",
   "SELECT_ZONES": "Выберите зоны",
   "SELECT_STATES": "Выберите статусы",
+  "GROUP_BY_LABEL": "Группировать по",
+  "GROUP_BY": {
+    "ZONES": "Зонам",
+    "GROUPS": "Группам",
+    "COLORS": "Цветам"
+  },
   "NETWORK_RULES": "Сетевые правила",
 
   "LICENSE_1": "© {{ year }}, ",
@@ -530,6 +538,7 @@
   "INSUFFICIENT_RESOURCES_VM": "Недостаточно ресурсов",
 
   "NO_GROUP": "Без группы",
+  "NO_ZONE": "Вне зоны",
   "NO_SNAPSHOTS": "Нет снимков",
   "LAST_SNAPSHOT": "Последний снимок",
 

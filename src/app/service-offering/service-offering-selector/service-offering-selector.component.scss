@@ -2,6 +2,7 @@
   text-align: right;
 }
 
-mdl-select /deep/ .mdl-textfield {
+:host md-select {
   width: 100%;
+  margin: 20px 0;
 }
