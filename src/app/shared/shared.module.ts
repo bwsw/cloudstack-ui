@@ -4,12 +4,11 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdSelectModule } from '@angular/material';
+import { MdSelectModule, MdProgressSpinnerModule, MdListModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { DragulaModule } from 'ng2-dragula';
 import { DynamicModule } from 'ng-dynamic-component';
 import { MdlDialogModule } from '../dialog/dialog-module';
-import { MdListModule } from '@angular/material';
 
 import {
   CalendarComponent,
@@ -110,7 +109,9 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     MdlPopoverModule,
     MdlSelectModule,
     TranslateModule,
-    MdListModule
+    MdListModule,
+    TranslateModule,
+    MdProgressSpinnerModule
   ],
   exports: [
     GroupedCardListComponent,
