@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ICustomOfferingRestrictions } from '../../service-offering/custom-service-offering/custom-offering-restrictions';
-import { DefaultServiceOfferingConfigurationByZone } from '../../service-offering/custom-service-offering/custom-service-offering.service';
+import { Observable } from 'rxjs/Observable';
+import {
+  ICustomOfferingRestrictions
+} from '../../service-offering/custom-service-offering/custom-offering-restrictions';
+import {
+  DefaultServiceOfferingConfigurationByZone
+} from '../../service-offering/custom-service-offering/custom-service-offering.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { ServiceOffering } from '../models/service-offering.model';
 import { Zone } from '../models/zone.model';
@@ -14,7 +19,25 @@ import { ResourceStats } from './resource-usage.service';
   entityModel: ServiceOffering
 })
 export class ServiceOfferingService extends OfferingService<ServiceOffering> {
-  public getDefaultServiceOffering(
+  public getDefaultServiceOffering(zone: Zone): Observable<ServiceOffering> {
+    const defaultOfferingConfigRequest = this.configService
+      .get<DefaultServiceOfferingConfigurationByZone>('defaultServiceOfferingConfig');
+    const offeringsRequest = this.getList({ zone });
+
+    return Observable.forkJoin(
+      defaultOfferingConfigRequest,
+      offeringsRequest
+    )
+      .map(([defaultOfferingConfig, offerings]) => {
+        const defaultOfferingId = defaultOfferingConfig[zone.id].offering;
+        const defaultOffering = offerings.find(offering => {
+          return offering.id === defaultOfferingId;
+        });
+        return defaultOffering || offerings[0];
+      });
+  }
+
+  public getDefaultServiceOfferingSync(
     offerings: Array<ServiceOffering>,
     configuration: DefaultServiceOfferingConfigurationByZone,
     zone: Zone

@@ -61,6 +61,10 @@ export class VmCreationFormNormalizationService {
       formState.state.serviceOffering = formState.data.getDefaultServiceOffering(formState.state.zone);
     }
 
+    formState.state.serviceOffering = formState.data.serviceOfferings.find(_ => {
+      return _.id === formState.state.serviceOffering.id;
+    });
+
     return formState;
   }
 
@@ -73,11 +77,11 @@ export class VmCreationFormNormalizationService {
       return this.customServiceOfferingService.getCustomOfferingWithSetParamsSync(
         offering,
         formState.data.getCustomOfferingParams(formState.state.zone),
-        formState.data.configurationData.customOfferingRestrictions,
+        formState.data.configurationData.customOfferingRestrictions[formState.state.zone.id],
         formState.data.resourceUsage
       );
     })
-      .filter(_ => _); // todo: test
+      .filter(_ => _);
 
     return formState;
   }

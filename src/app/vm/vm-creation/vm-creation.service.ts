@@ -35,7 +35,7 @@ const vmCreationConfigurationKeys = [
 ];
 
 export interface VmCreationConfigurationData {
-  defaultServiceOfferingConfigurationByZone: DefaultServiceOfferingConfigurationByZone;
+  defaultServiceOfferingConfig: DefaultServiceOfferingConfigurationByZone;
   offeringAvailability: OfferingAvailability;
   customOfferingRestrictions: ICustomOfferingRestrictionsByZone;
 }
@@ -110,7 +110,7 @@ export class VmCreationService {
         );
 
         const customServiceOfferingRestrictionsByZone =
-          this.customServiceOfferingService.getCustomOfferingRestrictionsByZone(
+          this.customServiceOfferingService.getCustomOfferingRestrictionsByZoneSync(
             configurationData.customOfferingRestrictions,
             resourceUsage
           );

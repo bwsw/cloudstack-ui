@@ -1,6 +1,7 @@
 import { Rules } from '../../../security-group/sg-creation/sg-creation.component';
 import { SecurityGroup } from '../../../security-group/sg.model';
 import {
+  ICustomOfferingRestrictions,
   ICustomOfferingRestrictionsByZone
 } from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
 import { ICustomServiceOffering } from '../../../service-offering/custom-service-offering/custom-service-offering';
@@ -31,7 +32,7 @@ export class VmCreationData {
   ) {}
 
   public getDefaultServiceOffering(zone: Zone): ServiceOffering {
-    const config = this.configurationData.defaultServiceOfferingConfigurationByZone;
+    const config = this.configurationData.defaultServiceOfferingConfig;
     const defaultServiceOfferingId = config && config[zone.id] && config[zone.id].offering;
     const defaultServiceOffering = this.serviceOfferings.find(_ => _.id === defaultServiceOfferingId);
 
@@ -39,10 +40,15 @@ export class VmCreationData {
   }
 
   public getCustomOfferingParams(zone: Zone): ICustomServiceOffering {
-    const config = this.configurationData.defaultServiceOfferingConfigurationByZone;
+    const config = this.configurationData.defaultServiceOfferingConfig;
+
     return config && config[zone.id] && config[zone.id].customOfferingParams;
   }
 
+  public getCustomOfferingRestrictions(zone: Zone): ICustomOfferingRestrictions {
+    const restrictions = this.customOfferingRestrictionsByZone;
+    return restrictions && restrictions[zone.id];
+  }
 
   public get defaultTemplate(): BaseTemplateModel {
     const templates: Array<BaseTemplateModel> = this.templates.length ? this.templates : this.isos;

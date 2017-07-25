@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Zone } from '../../shared/models';
 import { ConfigService, ResourceStats, ResourceUsageService } from '../../shared/services';
 import {
   CustomOfferingRestrictions,
@@ -35,7 +34,7 @@ export class CustomServiceOfferingService {
 
   public getCustomOfferingWithSetParams(
     offering: CustomServiceOffering,
-    zone: Zone
+    zoneId: string
   ): Observable<CustomServiceOffering> {
     const defaultConfigRequest =
       this.configService.get<DefaultServiceOfferingConfigurationByZone>('defaultServiceOfferingConfig');
@@ -60,23 +59,11 @@ export class CustomServiceOfferingService {
       ) => {
         return this.getCustomOfferingWithSetParamsSync(
           offering,
-          defaultParams[zone.id].customOfferingParams,
-          customOfferingRestrictions,
+          defaultParams[zoneId].customOfferingParams,
+          customOfferingRestrictions[zoneId],
           resourceStats
         );
       });
-  }
-
-  public getCustomOfferingRestrictionsByZone(
-    customOfferingRestrictionsByZone: ICustomOfferingRestrictionsByZone,
-    resourceStats: ResourceStats
-  ): ICustomOfferingRestrictionsByZone {
-    return Object.keys(customOfferingRestrictionsByZone)
-      .reduce((acc, zone) => {
-        return Object.assign(acc, {
-          [zone]: this.getRestrictionIntersection(customOfferingRestrictionsByZone[zone], resourceStats)
-        });
-      }, {});
   }
 
   public getCustomOfferingWithSetParamsSync(
@@ -115,6 +102,37 @@ export class CustomServiceOfferingService {
     );
 
     return new CustomServiceOffering({ ...normalizedParams, serviceOffering });
+  }
+
+  public getCustomOfferingRestrictionsByZone(): Observable<ICustomOfferingRestrictionsByZone> {
+    const restrictionsRequest = this.configService.get<ICustomOfferingRestrictionsByZone>('customOfferingRestrictions');
+    const resourceStatsRequest = this.resourceUsageService.getResourceUsage();
+
+    return Observable.forkJoin(
+      restrictionsRequest,
+      resourceStatsRequest
+    )
+      .map(([restrictions, resourceStats]) => {
+        return this.getCustomOfferingRestrictionsByZoneSync(
+          restrictions,
+          resourceStats
+        )
+      });
+  }
+
+  public getCustomOfferingRestrictionsByZoneSync(
+    customOfferingRestrictionsByZone: ICustomOfferingRestrictionsByZone,
+    resourceStats: ResourceStats
+  ): ICustomOfferingRestrictionsByZone {
+    return Object.keys(customOfferingRestrictionsByZone)
+      .reduce((acc, zone) => {
+        return Object.assign(acc, {
+          [zone]: this.getRestrictionIntersection(
+            customOfferingRestrictionsByZone[zone],
+            resourceStats
+          )
+        })
+      }, {});
   }
 
   private clipOfferingParamsToRestrictions(
@@ -187,7 +205,7 @@ export class CustomServiceOfferingService {
       }
 
       if (customRestrictions.cpuSpeed.max) {
-        result.cpuSpeed.max = Math.min(customRestrictions.cpuSpeed.max, result.cpuSpeed.max);
+        result.cpuSpeed.max = customRestrictions.cpuSpeed.max;
       }
     }
 
