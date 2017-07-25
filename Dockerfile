@@ -7,7 +7,7 @@ COPY . /tmp/cloudstackui
 RUN apk update && \
     apk add --update curl && \
     cd /tmp/cloudstackui && \
-    yarn && yarn run build:aot && \
+    yarn && yarn run build:aot && yarn cache clean && \
     mkdir -p /static && cp -R dist/. /static/ && \
     chmod 777 /etc/nginx/startup.sh && chmod 755 /static \
     && rm -rf /tmp/cloudstackui
