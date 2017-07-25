@@ -21,6 +21,7 @@ export class TemplateFiltersComponent implements OnInit {
   @Input() public showIso: boolean;
   @Input() public dialogMode = false;
   @Input() public searchPanelWhite: boolean;
+  @Input() public availableGroupings: Array<any> = [];
 
   @Output() public queries = new EventEmitter();
   @Output() public displayMode = new EventEmitter();
@@ -29,6 +30,7 @@ export class TemplateFiltersComponent implements OnInit {
   public query: string;
   public selectedOsFamilies: Array<OsFamily>;
   public selectedFilters: Array<string>;
+  public selectedGroupingNames = [];
 
   public zones: Array<Zone>;
   public selectedZones: Array<Zone>;
@@ -66,7 +68,7 @@ export class TemplateFiltersComponent implements OnInit {
       this.zoneService.getList()
         .subscribe(zones => {
           this.zones = zones;
-          this.initFilters();
+          setTimeout(() => this.initFilters(), 0);
         });
     } else {
       this.selectedOsFamilies = this.osFamilies.concat();
@@ -103,15 +105,17 @@ export class TemplateFiltersComponent implements OnInit {
       selectedOsFamilies: this.selectedOsFamilies,
       selectedFilters: this.selectedFilters,
       selectedZones: this.selectedZones,
-      query: this.query
+      query: this.query,
+      groupings: this.selectedGroupingNames
     });
 
     if (!this.dialogMode) {
       this.filter.update(this.filtersKey, {
-        'query': this.query || null,
-        'osFamilies': this.selectedOsFamilies,
-        'categoryFilters': this.selectedFilters,
-        'zones': this.selectedZones.map(_ => _.id)
+        query: this.query || null,
+        osFamilies: this.selectedOsFamilies,
+        categoryFilters: this.selectedFilters,
+        zones: this.selectedZones.map(_ => _.id),
+        groupings: this.selectedGroupingNames.map(_ => _.key)
       });
     }
   }
@@ -124,25 +128,29 @@ export class TemplateFiltersComponent implements OnInit {
 
   private initFilters(): void {
     const params = this.filter.init(this.filtersKey, {
-      'osFamilies': {
+      osFamilies: {
         type: 'array',
         options: this.osFamilies,
         defaultOption: []
       },
-      'categoryFilters': {
+      categoryFilters: {
         type: 'array',
         options: this.categoryFilters,
         defaultOption: []
       },
-      'zones': {
+      zones: {
         type: 'array',
         defaultOption: []
       },
-      'query': { type: 'string' }
+      query: { type: 'string' },
+      groupings: { type: 'array', defaultOption: [] }
     });
     this.selectedOsFamilies = params['osFamilies'];
     this.selectedFilters = params['categoryFilters'];
     this.selectedZones = this.zones.filter(zone => params['zones'].find(id => id === zone.id));
+    this.selectedGroupingNames = params['groupings']
+      .map(g => this.availableGroupings.find(_ => _.key === g))
+      .filter(g => g);
     this.query = params['query'];
     this.queryStream.next(this.query);
 

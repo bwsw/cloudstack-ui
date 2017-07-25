@@ -27,7 +27,7 @@ export class SpareDriveAttachmentComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.vmService.getList({ zoneId: this.zoneId })
+    this.vmService.getListWithDetails({ zoneId: this.zoneId })
       .subscribe(vmList => {
         this.virtualMachines = vmList;
         if (this.virtualMachines.length) {

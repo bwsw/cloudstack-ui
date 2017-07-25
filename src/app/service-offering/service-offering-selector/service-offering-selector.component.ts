@@ -1,4 +1,3 @@
-import { MdlSelectComponent } from '@angular-mdl/select';
 import {
   ChangeDetectorRef,
   Component,
@@ -8,12 +7,13 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges,
-  ViewChild
+  SimpleChanges
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MdSelectChange } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
+
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { CustomServiceOffering } from '../custom-service-offering/custom-service-offering';
@@ -36,7 +36,6 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges, Cont
   @Input() public zoneId: string;
   @Input() public serviceOfferings: Array<ServiceOffering>;
   @Output() public change: EventEmitter<ServiceOffering>;
-  @ViewChild(MdlSelectComponent) public selectComponent: MdlSelectComponent;
 
   private _serviceOffering: ServiceOffering;
   private previousOffering: ServiceOffering;
@@ -85,7 +84,8 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges, Cont
       .map(({ MB, MHZ }) => `${cpuNumber}x${cpuSpeed} ${MHZ}, ${memory} ${MB}`);
   }
 
-  public changeOffering(newOffering: ServiceOffering): void {
+  public changeOffering(change: MdSelectChange): void {
+    const newOffering = change.value as ServiceOffering;
     this.saveOffering();
     this.serviceOffering = newOffering;
     if (newOffering.isCustomized) {
@@ -156,6 +156,5 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges, Cont
 
   private restorePreviousOffering(): void {
     this.serviceOffering = this.previousOffering;
-    this.selectComponent.writeValue(this.serviceOffering);
   }
 }

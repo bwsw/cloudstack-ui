@@ -7,32 +7,18 @@
   [showIsoSwitch]="showIsoSwitch"
   [showDelimiter]="showDelimiter"
   [dialogMode]="dialogMode"
-  [searchPanelWhite]="anyZoneResults"
+  [searchPanelWhite]="selectedGroupings?.length"
+  [availableGroupings]="groupings"
 ></cs-template-filters>
 
 <ng-container *ngIf="!dialogMode">
-  <ng-container *ngIf="selectedZones?.length" cs-list>
-    <ng-container *ngFor="let s of sections">
-      <div class="section" *ngIf="s?.templates?.length">
-        <h4 class="section-header">{{ s.zoneName }}</h4>
-        <cs-template-card-list
-          *loading="fetching"
-          class="template-list"
-          [query]="query"
-          [templateList]="s.templates"
-          (deleteTemplate)="removeTemplate($event)"
-        >
-        </cs-template-card-list>
-      </div>
-    </ng-container>
-  </ng-container>
-
-  <ng-container *ngIf="!selectedZones || !selectedZones.length" cs-list>
+  <ng-container *loading="!templateList?.length" cs-list>
     <cs-template-card-list
       *loading="fetching"
       class="template-list"
       [query]="query"
       [templateList]="visibleTemplateList"
+      [groupings]="selectedGroupings"
       (deleteTemplate)="removeTemplate($event)"
     >
     </cs-template-card-list>
@@ -53,4 +39,4 @@
   ></cs-template-list>
 </ng-container>
 
-<cs-no-results *ngIf="noFilteringResults && !fetching"></cs-no-results>
+<cs-no-results *ngIf="!visibleTemplateList?.length && !fetching"></cs-no-results>

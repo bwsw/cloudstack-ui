@@ -4,7 +4,10 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MdSelectModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
+import { DragulaModule } from 'ng2-dragula';
+import { DynamicModule } from 'ng-dynamic-component';
 import { MdlDialogModule } from '../dialog/dialog-module';
 
 import {
@@ -90,12 +93,16 @@ import { ForbiddenValuesDirective } from './directives/forbidden-values.directiv
 import {
   CreateUpdateDeleteDialogComponent
 } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
-
+import { GroupedCardListComponent } from './components/grouped-card-list/grouped-card-list.component';
+import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
 
 @NgModule({
   imports: [
     CommonModule,
+    DynamicModule.withComponents([GroupedCardListComponent]),
     FormsModule,
+    DragulaModule,
+    MdSelectModule,
     MdlDialogModule,
     MdlDialogOutletModule,
     MdlModule,
@@ -104,10 +111,13 @@ import {
     TranslateModule
   ],
   exports: [
+    GroupedCardListComponent,
     CharacterCountComponent,
     ColorPickerComponent,
     CreateUpdateDeleteDialogComponent,
     DatePickerComponent,
+    DividerVerticalComponent,
+    DividerVerticalComponent,
     DescriptionComponent,
     DiskOfferingComponent,
     FabComponent,
@@ -154,6 +164,7 @@ import {
     DatePickerDialogComponent,
     DescriptionComponent,
     DiskOfferingComponent,
+    DividerVerticalComponent,
     FabComponent,
     FancySelectComponent,
     ForbiddenValuesDirective,
@@ -182,7 +193,8 @@ import {
     HighLightPipe,
     ViewValuePipe,
     LoadingDirective,
-    LoaderComponent
+    LoaderComponent,
+    GroupedCardListComponent,
   ],
   providers: [
     AffinityGroupService,

@@ -21,18 +21,18 @@
       ></cs-character-count>
       <div>
         <h5>{{ 'ZONE' | translate }}</h5>
-        <mdl-select
+        <md-select
           [(ngModel)]="zoneId"
           id="zone"
           name="zone"
         >
-          <mdl-option
+          <md-option
             *ngFor="let z of zones"
             [value]="z.id"
           >
             {{ z.name }}
-          </mdl-option>
-        </mdl-select>
+          </md-option>
+        </md-select>
       </div>
       <div>
         <h5>{{ 'DISK_OFFERING' | translate }}</h5>

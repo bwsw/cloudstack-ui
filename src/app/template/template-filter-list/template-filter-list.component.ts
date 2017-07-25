@@ -1,21 +1,14 @@
-import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
-import { Iso } from '../shared/iso.model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
 import { OsFamily } from '../../shared/models/os-type.model';
-import { TemplateService } from '../shared/template.service';
+import { Zone } from '../../shared/models/zone.model';
 import { AuthService } from '../../shared/services/auth.service';
-import { IsoService } from '../shared/iso.service';
 import { ServiceLocator } from '../../shared/services/service-locator';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { TemplateFilters } from '../shared/base-template.service';
-import { Zone } from '../../shared/models/zone.model';
-import sortBy = require('lodash/sortBy');
+import { Iso } from '../shared/iso.model';
 import { Template } from '../shared/template.model';
 
-
-interface TemplateSection {
-  zoneName: string;
-  templates: Array<BaseTemplateModel>;
-}
 
 @Component({
   selector: 'cs-template-filter-list',
@@ -44,7 +37,15 @@ export class TemplateFilterListComponent implements OnInit {
   public selectedZones: Array<Zone> = [];
   public visibleTemplateList: Array<BaseTemplateModel> = [];
 
-  public sections: Array<TemplateSection>;
+  public selectedGroupings = [];
+  public groupings = [
+    {
+      key: 'zones',
+      label: 'GROUP_BY.ZONES',
+      selector: (item: BaseTemplateModel) => item.zoneId || '',
+      name: (item: BaseTemplateModel) => item.zoneName || 'NO_ZONE'
+    }
+  ];
 
   protected authService = ServiceLocator.injector.get(AuthService);
 
@@ -82,51 +83,21 @@ export class TemplateFilterListComponent implements OnInit {
       this.selectedFilters = filters.selectedFilters;
       this.selectedZones = filters.selectedZones;
       this.query = filters.query;
+      this.selectedGroupings = filters.groupings
+        .map(g => this.groupings.find(_ => _ === g))
+        .filter(g => g);
     }
 
-    this.visibleTemplateList = this.filterBySearch(this.filterByCategories(this.templateList));
+    this.visibleTemplateList = this.filterByZone(this.templateList);
+    this.visibleTemplateList = this.filterBySearch(this.filterByCategories(this.visibleTemplateList));
     if (this.zoneId) {
       this.visibleTemplateList = this.visibleTemplateList
         .filter(template => template.zoneId === this.zoneId || template.crossZones);
     }
-    this.updateSections();
-  }
-
-  public get noFilteringResults(): boolean {
-    if (this.selectedZones && this.selectedZones.length) {
-      return !this.sectionsLength;
-    } else {
-      return !this.visibleTemplateList || !this.visibleTemplateList.length;
-    }
-  }
-
-  public get anyZoneResults(): boolean {
-    return this.selectedZones && this.selectedZones.length && !this.noFilteringResults;
   }
 
   public removeTemplate(template: Template): void {
     this.deleteTemplate.next(template);
-  }
-
-  private get sectionsLength(): number {
-    if (!this.sections) {
-      return 0;
-    }
-    return this.sections.reduce((acc, section) => acc + section.templates.length, 0);
-  }
-
-  private updateSections(): void {
-    if (!this.selectedZones) {
-      return;
-    }
-
-    this.sections = sortBy(this.selectedZones, 'name')
-      .map(zone => {
-        return {
-          zoneName: zone.name,
-          templates: this.visibleTemplateList.filter(template => template.zoneId === zone.id)
-        };
-      });
   }
 
   private filterByCategories(templateList: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
@@ -152,5 +123,13 @@ export class TemplateFilterListComponent implements OnInit {
       return template.name.toLowerCase().includes(queryLower) ||
         template.displayText.toLowerCase().includes(queryLower);
     });
+  }
+
+  private filterByZone(templateList: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
+    return (!this.selectedZones || !this.selectedZones.length)
+      ? templateList
+      : templateList.filter(template =>
+        this.selectedZones.some(zone => template.zoneId === zone.id)
+      );
   }
 }
