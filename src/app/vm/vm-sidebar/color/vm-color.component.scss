@@ -3,12 +3,12 @@
   width: 330px;
 }
 
-mdl-card {
+md-card {
   z-index: 2;
 }
 
-mdl-card,
-mdl-card-supporting-text
+md-card,
+md-card-content
 {
   overflow: visible;
 }

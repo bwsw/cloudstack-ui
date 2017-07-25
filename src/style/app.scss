@@ -1,20 +1,16 @@
 // styles in src/style directory are applied to the whole page
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import '~@angular-mdl/core/scss/material-design-lite';
-
 @import '~@angular-mdl/popover/popover';
 @import '~@angular-mdl/select/select';
-
 @import "~@angular-mdl/core/scss/color-definitions";
 
 @import "~dragula/dist/dragula.css";
 
 @import '__variables.scss';
-
 @import '../app/shared/styles/overlay';
 @import '../app/shared/styles/text-overflow-tooltip-fix';
 @import '../app/shared/styles/tab-switch';
-
 
 * {
   box-sizing: border-box;
@@ -38,14 +34,42 @@
   @extend .text-overflow-tooltip-fix;
 }
 
-mdl-card > mdl-card-title + mdl-card-supporting-text {
-  padding-top: 0 !important;
+md-card {
+  padding: 0px !important;
+  width: 330px;
+  margin: 15px 0px 0px 15px;
 }
 
-mdl-card .mdl-card__title-text,
-.details-header {
+cs-sidebar md-card {
+  width: auto;
+  margin: 5px;
+}
+
+md-card md-card-header {
+  padding: 16px;
+}
+
+md-card md-card-title,
+md-card .mat-card-header-text {
+  margin: 0px !important;
+}
+
+md-card md-card-header h2 {
+  margin: 0px;
   font-size: 18px;
-  width: 100%;
+  line-height: normal;
+}
+
+md-card md-card-header .md-card-header-menu {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+md-card md-card-content {
+  color: rgba(0, 0, 0, 0.54);
+  padding: 0px 16px 16px 16px;
+  margin-bottom: 0px !important;
 }
 
 mdl-card mdl-card-menu {
@@ -53,26 +77,29 @@ mdl-card mdl-card-menu {
   right: 5px !important;
 }
 
-mdl-card.custom-card {
+md-card.custom-card {
   min-height: 0;
 
-  & .mdl-card__title-text {
+  & .mat-card-header-text {
+    max-width: 85%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  & .md-card-title-text {
     @extend .tooltip-position-fix;
-    max-width: 95%;
   }
 
-  & mdl-card-supporting-text {
-    width: 100%;
+  & md-card-actions {
+    border-top: 1px solid rgba(0, 0, 0, .1);
   }
 
-  & mdl-card-actions {
-    border-top: 1px solid rgba(0,0,0,.1);
-  }
-
-  & mdl-card-title > h2 {
+  & md-card-title > h2 {
     display: block;
     text-overflow: ellipsis;
     white-space: nowrap;
+    line-height: normal;
+    height: 1.2em;
   }
 
   & table {
@@ -176,8 +203,8 @@ mdl-simple-tooltip div {
 
 .card-selected {
   box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14),
-              0 3px 14px 2px rgba(0, 0, 0, 0.12),
-              0 5px 5px -3px rgba(0, 0, 0, 0.2) !important;
+  0 3px 14px 2px rgba(0, 0, 0, 0.12),
+  0 5px 5px -3px rgba(0, 0, 0, 0.2) !important;
   transition: 0.25s, box-shadow 0.25s;
 }
 
@@ -220,11 +247,11 @@ mdl-simple-tooltip div {
   padding: 1rem;
 }
 
-.mdl-layout--fixed-drawer>.mdl-layout__drawer {
+.mdl-layout--fixed-drawer > .mdl-layout__drawer {
   transform: translateX(-240px) !important;
 }
 
-.mdl-layout--fixed-drawer>.mdl-layout__content {
+.mdl-layout--fixed-drawer > .mdl-layout__content {
   margin-left: 0 !important;
 }
 
@@ -237,7 +264,7 @@ mdl-simple-tooltip div {
 }
 
 .mdl-button[disabled] mdl-icon, .mdl-button.mdl-button--disabled mdl-icon {
-  color: rgba(0,0,0,.26) !important;
+  color: rgba(0, 0, 0, .26) !important;
   cursor: default;
   background-color: transparent;
 }

@@ -2,14 +2,18 @@
   display: inline-flex
 }
 
-:host mdl-card {
+:host md-card {
   width: 340px
 }
 
-:host mdl-card-title mdl-icon {
+:host md-card-title {
+  line-height: normal;
+}
+
+:host md-card-title mdl-icon {
   margin-right: 10px;
 }
 
-:host .mdl-card__title-text {
+:host .md-card-title-text {
   max-width: 80%;
 }

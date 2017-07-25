@@ -24,12 +24,6 @@
   margin: 0 5px;
 }
 
-:host /deep/ mdl-card {
-  min-height: 0;
-  width: auto;
-  margin: 5px;
-}
-
 :host /deep/ .grid {
   .row {
     display: flex;
@@ -59,7 +53,7 @@
   }
 }
 
-:host /deep/ mdl-card-supporting-text {
+:host /deep/ md-card-content {
   width: 100%
 }
 

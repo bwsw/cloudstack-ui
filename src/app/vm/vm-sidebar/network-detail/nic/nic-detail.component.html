@@ -1,8 +1,10 @@
-<mdl-card class="vm-card" mdl-shadow="2">
-  <mdl-card-title>
-    <h2 mdl-card-title-text>{{ 'NETWORK_CONFIGURATION' | translate }}</h2>
-  </mdl-card-title>
-  <mdl-card-supporting-text>
+<md-card class="vm-card" mdl-shadow="2">
+ <md-card-header>
+   <md-card-title>
+     <h2 class="md-card-title-text">{{ 'NETWORK_CONFIGURATION' | translate }}</h2>
+   </md-card-title>
+ </md-card-header>
+  <md-card-content>
     <div class="collapsed-panel grid nic" *ngIf="!expandNIC">
       <div class="row" *ngFor="let nic of vm.nic; let i = index">
         <div>
@@ -68,8 +70,8 @@
         </ng-container>
       </div>
     </div>
-  </mdl-card-supporting-text>
-  <mdl-card-actions mdl-card-border style="text-align: right;">
+  </md-card-content>
+  <md-card-actions mdl-card-border style="text-align: right;">
     <button
       mdl-button
       mdl-ripple
@@ -79,5 +81,5 @@
     >
       <mdl-icon>keyboard_arrow_down</mdl-icon>
     </button>
-  </mdl-card-actions>
-</mdl-card>
+  </md-card-actions>
+</md-card>

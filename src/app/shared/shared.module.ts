@@ -4,12 +4,16 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdSelectModule, MdSnackBarModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { DragulaModule } from 'ng2-dragula';
 import { DynamicModule } from 'ng-dynamic-component';
 import { MdlDialogModule } from '../dialog/dialog-module';
-import { MdListModule } from '@angular/material';
+import {
+  MdCardModule,
+  MdListModule,
+  MdSelectModule,
+  MdSnackBarModule
+} from '@angular/material';
 
 import {
   CalendarComponent,
@@ -111,7 +115,8 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     MdlSelectModule,
     TranslateModule,
     MdListModule,
-    MdSnackBarModule
+    MdSnackBarModule,
+    MdCardModule
   ],
   exports: [
     GroupedCardListComponent,
@@ -151,6 +156,7 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     LoadingDirective,
     MdlTextAreaAutoresizeDirective,
     MdListModule,
+    MdCardModule,
     MdSnackBarModule
   ],
   entryComponents: [

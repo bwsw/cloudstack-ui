@@ -1,8 +1,12 @@
-<mdl-card mdl-shadow="2">
-  <mdl-card-title>
-    <h2 mdl-card-title-text>{{ 'GROUP' | translate }}</h2>
-  </mdl-card-title>
-  <mdl-card-supporting-text class="overflow-card">
+<md-card mdl-shadow="2">
+  <md-card-header>
+    <md-card-title>
+      <h2 class="md-card-title-text">
+        {{ 'GROUP' | translate }}
+      </h2>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content class="overflow-card">
     <div class="edit-line">
       <span
         *ngIf="groupName"
@@ -29,5 +33,5 @@
         <mdl-icon>edit</mdl-icon>
       </button>
     </div>
-  </mdl-card-supporting-text>
-</mdl-card>
+  </md-card-content>
+</md-card>

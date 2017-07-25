@@ -1,4 +1,4 @@
-<mdl-card
+<md-card
   class="custom-card"
   mdl-shadow="2"
   [class.card-selected]="isSelected(item)"
@@ -9,32 +9,43 @@
   [class.has-text-color]="color?.textColor"
   [class.arrow]="popover.isVisible"
 >
-  <mdl-card-title>
-    <div
-      class="state-icon"
-      [class.running]="item.state === 'Running'"
-      [class.stopped]="item.state === 'Stopped'"
-      [class.error]="item.state === 'Error'"
-      [class.in-progress]="item.state !== 'Running' && item.state !== 'Stopped'"
-      [mdTooltip]="item.state.toUpperCase() | translate"
-    ></div>
-    <h2
-      mdl-card-title-text
-      [mdTooltip]="item.name"
-    >
-      {{ item.name }}
-    </h2>
-  </mdl-card-title>
-  <mdl-card-supporting-text>
+  <md-card-header>
+    <md-card-title>
+      <h2
+        class="md-card-title-text"
+        [mdTooltip]="item.name"
+      >
+        <span
+          class="state-icon"
+          [class.running]="item.state === 'Running'"
+          [class.stopped]="item.state === 'Stopped'"
+          [class.error]="item.state === 'Error'"
+          [class.in-progress]="item.state !== 'Running' && item.state !== 'Stopped'"
+          [mdTooltip]="item.state.toUpperCase() | translate"
+        ></span>
+        {{ item.name }}
+      </h2>
+    </md-card-title>
+    <div class="md-card-header-menu">
+      <button
+        mdl-button
+        (click)="$event.stopPropagation(); popover.toggle($event)"
+        mdl-button-type="icon"
+        mdl-ripple>
+        <mdl-icon>more_vert</mdl-icon>
+      </button>
+    </div>
+  </md-card-header>
+  <md-card-content>
     <div class="os-type">OS {{ item?.osType?.description }}</div>
     <div class="vm-ip-address">{{ item.nic[0].ipAddress ? item.nic[0].ipAddress : ("IP_NA" | translate) }}</div>
     <table style="width: 100%; text-align: center;">
       <thead>
-      <tr>
-        <th>{{ 'CPU' | translate }}</th>
-        <th>{{ 'RAM' | translate }}</th>
-        <th>{{ 'DISKS' | translate }}</th>
-      </tr>
+        <tr>
+          <th>{{ 'CPU' | translate }}</th>
+          <th>{{ 'RAM' | translate }}</th>
+          <th>{{ 'DISKS' | translate }}</th>
+        </tr>
       </thead>
       <tr>
         <td>{{ 'CPU_MHZ' | translate:({ count: item.cpuNumber, speed: item.cpuSpeed }) }}</td>
@@ -49,16 +60,8 @@
         <td>{{ 'GB_VALUE' | translate:({ value: item.getDisksSize().toFixed(2) }) }}</td>
       </tr>
     </table>
-  </mdl-card-supporting-text>
-  <mdl-card-menu>
-    <button
-      mdl-button
-      (click)="togglePopover($event)"
-      mdl-button-type="icon"
-      mdl-ripple>
-      <mdl-icon>more_vert</mdl-icon>
-    </button>
-  </mdl-card-menu>
+
+  </md-card-content>
   <mdl-popover
     class="card-popover vm-popover"
     #popover
@@ -79,4 +82,4 @@
       </button>
     </div>
   </mdl-popover>
-</mdl-card>
+</md-card>

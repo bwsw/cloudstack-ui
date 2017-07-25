@@ -1,19 +1,31 @@
-<mdl-card class="custom-card" mdl-shadow="2">
-  <mdl-card-title>
-    <h2
-      mdl-card-title-text
-      [mdTooltip]="securityGroupTemplate.name"
-    >
-      {{ securityGroupTemplate.name }}
-    </h2>
-  </mdl-card-title>
-  <mdl-card-supporting-text>
+<md-card class="custom-card" mdl-shadow="2">
+  <md-card-header>
+    <md-card-title>
+      <h2
+        class="md-card-title-text"
+        [mdTooltip]="securityGroupTemplate.name"
+      >
+        {{ securityGroupTemplate.name }}
+      </h2>
+      <div class="md-card-header-menu">
+        <button
+          mdl-button
+          (click)="$event.stopPropagation(); myPopover.toggle($event)"
+          mdl-button-type="icon"
+          mdl-ripple
+        >
+          <mdl-icon>more_vert</mdl-icon>
+        </button>
+      </div>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content>
     <div class="card-wrapper" *ngIf="!securityGroupTemplate?.description">
       <div class="description"></div>
     </div>
 
     <div class="card-wrapper" *ngIf="securityGroupTemplate?.description">
-      <div class="description first">{{ 'DESCRIPTION' | translate }}: </div>
+      <div class="description first">{{ 'DESCRIPTION' | translate }}:</div>
       <div class="description last">
         <span
           class="tooltip-position-fix fixed-width-span"
@@ -25,17 +37,8 @@
         </span>
       </div>
     </div>
-  </mdl-card-supporting-text>
-  <mdl-card-menu>
-    <button
-      mdl-button
-      (click)="$event.stopPropagation(); myPopover.toggle($event)"
-      mdl-button-type="icon"
-      mdl-ripple
-    >
-      <mdl-icon>more_vert</mdl-icon>
-    </button>
-  </mdl-card-menu>
+  </md-card-content>
+
   <mdl-popover
     class="card-popover"
     #myPopover
@@ -74,4 +77,4 @@
       </ng-container>
     </div>
   </mdl-popover>
-</mdl-card>
+</md-card>
