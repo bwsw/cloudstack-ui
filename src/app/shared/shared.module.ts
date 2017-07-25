@@ -4,7 +4,10 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdSelectModule } from '@angular/material';
+import {
+  MdSelectModule,
+  MdProgressBarModule
+} from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { DragulaModule } from 'ng2-dragula';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -108,7 +111,8 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
-    TranslateModule
+    TranslateModule,
+    MdProgressBarModule
   ],
   exports: [
     GroupedCardListComponent,
