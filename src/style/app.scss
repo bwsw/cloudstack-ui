@@ -194,6 +194,11 @@ mdl-simple-tooltip div {
   margin-bottom: 15px;
 }
 
+.form-select-control {
+  width: 100%;
+  margin: 20px 0;
+}
+
 .filter-select {
   display: inline-block;
   width: $template-filter-select-width;

@@ -37,8 +37,10 @@
       <div>
         <h5>{{ 'DISK_OFFERING' | translate }}</h5>
         <cs-disk-offering
+          name="diskOffering"
+          [ngModel]="diskOffering"
           [diskOfferingList]="diskOfferings"
-          (offeringUpdated)="updateDiskOffering($event)"
+          (change)="updateDiskOffering($event)"
         ></cs-disk-offering>
       </div>
       <div *ngIf="showResizeSlider && minSize && maxSize">

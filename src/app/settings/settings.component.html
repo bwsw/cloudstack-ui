@@ -50,6 +50,7 @@
       <div *ngIf="language" class="settings-control">
         <h5 class="no-margin">{{ 'LANGUAGE' | translate }}</h5>
         <md-select
+          class="form-select-control"
           [(ngModel)]="language"
           (change)="changeLanguage($event)"
         >
@@ -65,6 +66,7 @@
         <h5 class="no-margin">{{ 'FIRST_DAY_OF_WEEK' | translate }}</h5>
         <md-select
           *ngIf="dayTranslations"
+          class="form-select-control"
           [ngModel]="firstDayOfWeek"
           [disabled]="updatingFirstDayOfWeek"
           (change)="firstDayOfWeekChange($event)"
@@ -80,6 +82,7 @@
       <div class="settings-control">
         <h5 class="no-margin">{{ 'TIME_FORMAT' | translate }}</h5>
         <md-select
+          class="form-select-control"
           [ngModel]="timeFormat"
           [disabled]="updatingTimeFormat"
           (change)="changeTimeFormat($event)"

@@ -36,6 +36,7 @@
         <div>
           <h5>{{ 'VM_CREATION_FORM.ZONE' | translate }}</h5>
           <md-select
+            class="form-select-control"
             name="zone"
             [ngModel]="formState.state.zone"
             (change)="zoneChange($event)"
@@ -140,6 +141,7 @@
         <div>
           <h5>{{ 'VM_CREATION_FORM.SSH_KEYPAIR' | translate }}</h5>
           <md-select
+            class="form-select-control"
             name="ssh"
             [ngModel]="formState.state.sshKeyPair"
             (change)="sshKeyPairChange($event)"
