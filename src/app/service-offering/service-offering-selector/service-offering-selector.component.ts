@@ -35,7 +35,6 @@ import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-o
 })
 export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
   @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
-  @Input() public defaultServiceOffering: ServiceOffering;
   @Input() public serviceOfferings: Array<ServiceOffering>;
   @Input() public zoneId: string;
   @Output() public change: EventEmitter<ServiceOffering>;

@@ -7,6 +7,17 @@
   </md-option>
 </md-select>
 
-<div *ngIf="customOfferingDescription" class="custom-offering-info">
-  {{ customOfferingDescription | async }}
+<div class="flex-container">
+  <span *ngIf="customOfferingDescription" class="custom-offering-info">
+    {{ customOfferingDescription | async }}
+  </span>
+  <button
+    *ngIf="serviceOffering?.isCustomized"
+    mdl-button
+    mdl-button-type="text"
+    type="button"
+    (click)="changeOffering({ value: serviceOffering })"
+  >
+    {{ 'CHANGE' | translate }}
+  </button>
 </div>
