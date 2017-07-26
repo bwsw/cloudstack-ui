@@ -1,6 +1,6 @@
 <div class="event-list-container">
   <cs-top-bar cs-panels>
-    <mdl-card class="options-panel top-bar-height">
+    <div class="options-panel top-bar-height">
       <cs-date-picker
         [okLabel]="'OK' | translate"
         [locale]="locale"
@@ -43,7 +43,7 @@
         [(ngModel)]="query"
         (ngModelChange)="getEvents()"
       ></cs-search>
-    </mdl-card>
+    </div>
   </cs-top-bar>
   <div class="event-list">
     <ng-container *loading="loading">

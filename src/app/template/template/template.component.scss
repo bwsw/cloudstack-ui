@@ -1,10 +1,6 @@
 :host {
   display: inline-flex;
   z-index: -1;
-
-  & mdl-card {
-    z-index: 0;
-  }
 }
 
 :host(.single-line) {

@@ -1,5 +1,5 @@
 <div *ngIf="volume">
-  <md-card mdl-shadow="2">
+  <md-card>
     <md-card-header>
       <md-card-title>
         <h2 class="md-card-title-text">{{ volume.name }}</h2>
@@ -28,7 +28,7 @@
     (descriptionChange)="changeDescription($event)"
   ></cs-description>
 
-  <md-card mdl-shadow="2" *ngIf="volume.diskOffering">
+  <md-card *ngIf="volume.diskOffering">
     <md-card-header>
       <md-card-title>
         <h2 class="md-card-title-text">{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING_TITLE' | translate }}</h2>
