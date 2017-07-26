@@ -4,7 +4,8 @@
   (filters)="filterResults($event)"
   (displayMode)="changeViewMode($event)"
   [showIso]="viewMode === 'Iso'"
-  [showDelimiter]="showDelimiter"
+  [showIsoSwitch]="false"
+  [dialogMode]="true"
   [searchPanelWhite]="selectedGroupings?.length"
   [availableGroupings]="groupings"
 ></cs-template-filters>
@@ -14,16 +15,16 @@
     <cs-no-results></cs-no-results>
   </ng-template>
   <ng-template ngSwitchDefault>
-    <ng-container *loading="!templateList?.length" cs-list>
-      <cs-template-card-list
-        *loading="fetching"
-        class="template-list"
-        [query]="query"
-        [templateList]="visibleTemplateList"
-        [groupings]="selectedGroupings"
-        (deleteTemplate)="removeTemplate($event)"
-      >
-      </cs-template-card-list>
-    </ng-container>
+    <cs-template-list
+      *loading="fetching"
+      class="template-list"
+      [selectedTemplate]="selectedTemplate"
+      (selectedTemplateChange)="selectTemplate($event)"
+      (deleteTemplate)="removeTemplate($event)"
+      [templateList]="visibleTemplateList"
+      [query]="query"
+      [radio]="true"
+      [dialogMode]="true"
+    ></cs-template-list>
   </ng-template>
 </ng-container>

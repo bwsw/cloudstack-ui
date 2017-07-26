@@ -96,6 +96,7 @@ import {
 } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { GroupedCardListComponent } from './components/grouped-card-list/grouped-card-list.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
+import { ListService } from './components/list/list.service';
 
 @NgModule({
   imports: [
@@ -214,6 +215,7 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     JobsNotificationService,
     LanguageService,
     LayoutService,
+    ListService,
     LoginGuard,
     NotificationService,
     OsTypeService,

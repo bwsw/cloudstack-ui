@@ -11,19 +11,17 @@ import { Template } from '../shared/template.model';
 
 
 @Component({
-  selector: 'cs-template-filter-list',
-  templateUrl: 'template-filter-list.component.html',
+  selector: 'cs-template-filter-list-dialog',
+  templateUrl: 'template-filter-list-dialog.component.html',
   styleUrls: ['template-filter-list.component.scss']
 })
-export class TemplateFilterListComponent implements OnChanges {
+export class TemplateFilterListDialogComponent implements OnChanges {
   @Input() public templates: Array<Template>;
   @Input() public isos: Array<Iso>;
 
-  @Input() public dialogMode = false;
   @Input() public selectedTemplate: BaseTemplateModel;
   @Input() public showDelimiter = true;
   @Input() public showIsoSwitch = true;
-  @Input() public showRadio = false;
   @Input() public viewMode: string;
   @Input() public zoneId: string;
   @Output() public deleteTemplate = new EventEmitter();

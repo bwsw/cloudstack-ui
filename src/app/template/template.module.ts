@@ -23,6 +23,7 @@ import { TemplateCardListComponent } from './template-list/template-card-list.co
 import { TemplateActionsService } from './shared/template-actions.service';
 import { TemplateTagsComponent } from './template-tags/template-tags.component';
 import { TagsModule } from '../tags/tags.module';
+import { TemplateFilterListDialogComponent } from './template-filter-list/template-filter-list-dialog.component';
 
 
 @NgModule({
@@ -49,11 +50,13 @@ import { TagsModule } from '../tags/tags.module';
     TemplateListComponent,
     TemplateCardListComponent,
     TemplateFilterListComponent,
+    TemplateFilterListDialogComponent,
     TemplatePageComponent,
     TemplateTagsComponent
   ],
   exports: [
-    TemplateFilterListComponent
+    TemplateFilterListComponent,
+    TemplateFilterListDialogComponent
   ],
   providers: [
     IsoService,
