@@ -17,14 +17,14 @@
   <div class="mdl-card__title">
     <h2 class="mdl-card__title-text">{{ 'CURRENT_OPERATIONS' | translate }}</h2>
   </div>
-  <mdl-list style="line-height: 20px;">
+  <md-list style="line-height: 20px;">
     <cs-notification-box-item
       *ngFor="let notification of jobsNotificationService.notifications"
       [notification]="notification"
       (onClose)="close($event)"
     >
     </cs-notification-box-item>
-  </mdl-list>
+  </md-list>
   <div class="actions">
     <button
       mdl-button

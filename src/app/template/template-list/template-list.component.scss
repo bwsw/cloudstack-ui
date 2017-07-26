@@ -1,4 +1,4 @@
-mdl-list {
+md-list {
   flex: 1 1 auto;
   overflow-y: auto;
 }
@@ -8,12 +8,16 @@ mdl-list {
   background: transparent;
 }
 
-mdl-list-item {
+md-list-item {
   cursor: pointer;
 }
 
 .selected-template span {
   font-weight: bold;
+}
+
+md-list-item .md-line-secondary {
+  color: rgba(0, 0, 0, 0.54);
 }
 
 .inline-block {
