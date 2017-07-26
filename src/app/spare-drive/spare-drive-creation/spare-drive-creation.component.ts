@@ -19,7 +19,7 @@ import { VolumeCreationData } from '../spare-drive-page/spare-drive-page.compone
 export class SpareDriveCreationComponent implements OnInit {
   public name: string;
   public zones: Array<Zone>;
-  public diskOfferingId: string;
+  public diskOffering: DiskOffering;
   public diskOfferings: Array<DiskOffering> = [];
   public showResizeSlider: boolean;
   public size = 1;
@@ -76,7 +76,7 @@ export class SpareDriveCreationComponent implements OnInit {
   }
 
   public updateDiskOffering(offering: DiskOffering): void {
-    this.diskOfferingId = offering.id;
+    this.diskOffering = offering;
     this.showResizeSlider = offering.isCustomized;
   }
 
@@ -156,7 +156,7 @@ export class SpareDriveCreationComponent implements OnInit {
       {
         name: this.name,
         zoneId: this.zoneId,
-        diskOfferingId: this.diskOfferingId
+        diskOfferingId: this.diskOffering.id
       },
       this.showResizeSlider ? { size: this.size } : {}
     );
