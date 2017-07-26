@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
 import { OsFamily } from '../../shared/models/os-type.model';
 import { Zone } from '../../shared/models/zone.model';
@@ -15,7 +15,7 @@ import { Template } from '../shared/template.model';
   templateUrl: 'template-filter-list.component.html',
   styleUrls: ['template-filter-list.component.scss']
 })
-export class TemplateFilterListComponent implements OnInit {
+export class TemplateFilterListComponent implements OnChanges {
   @Input() public templates: Array<Template>;
   @Input() public isos: Array<Iso>;
 
@@ -49,8 +49,10 @@ export class TemplateFilterListComponent implements OnInit {
 
   protected authService = ServiceLocator.injector.get(AuthService);
 
-  public ngOnInit(): void {
-    this.updateList();
+  public ngOnChanges(changes: SimpleChanges) {
+    if (changes['isos']) {
+      this.updateList();
+    }
   }
 
   public get templateList(): Array<BaseTemplateModel> {

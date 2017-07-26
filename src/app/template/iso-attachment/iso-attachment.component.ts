@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 
 import { Iso } from '../shared';
 import { MdlDialogReference } from '../../dialog/dialog-module';
+import { IsoService } from '../shared/iso.service';
 
 
 @Component({
@@ -12,11 +13,22 @@ import { MdlDialogReference } from '../../dialog/dialog-module';
 export class IsoAttachmentComponent {
   public selectedIso: Iso;
   public showIso = true;
+  public isos: Array<Iso> = [];
 
   constructor(
     @Inject('zoneId') public zoneId: string,
-    private dialog: MdlDialogReference
-  ) { }
+    private dialog: MdlDialogReference,
+    private isoService: IsoService
+  ) {
+    this.load();
+  }
+
+  public load() {
+    this.isoService.getGroupedTemplates<Iso>({}, null, true)
+      .subscribe((isos) => {
+        this.isos = isos.toArray();
+      });
+  }
 
   public onAttach(): void {
     this.dialog.hide(this.selectedIso);
