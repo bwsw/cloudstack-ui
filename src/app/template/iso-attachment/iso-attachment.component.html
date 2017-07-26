@@ -1,16 +1,15 @@
 <div class="dialog">
   <h3 class="mdl-dialog__title">{{ 'ATTACH_AN_ISO' | translate }}</h3>
   <div class="mdl-dialog__content">
-    <cs-template-filter-list
+    <cs-template-filter-list-dialog
+      *ngIf="isos$ | async as isos"
       [viewMode]="'Iso'"
       [showDelimiter]="false"
       [showIsoSwitch]="false"
-      [showRadio]="true"
-      [isos]="isos"
+      [isos]="isos$ | async"
       [(selectedTemplate)]="selectedIso"
-      [dialogMode]="true"
       [zoneId]="zoneId"
-    ></cs-template-filter-list>
+    ></cs-template-filter-list-dialog>
   </div>
   <div class="mdl-dialog__actions">
     <button

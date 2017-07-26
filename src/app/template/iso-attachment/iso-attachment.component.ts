@@ -3,6 +3,8 @@ import { Component, Inject } from '@angular/core';
 import { Iso } from '../shared';
 import { MdlDialogReference } from '../../dialog/dialog-module';
 import { IsoService } from '../shared/iso.service';
+import { Observable } from 'rxjs/Observable';
+import { TemplateFilters } from '../shared/base-template.service';
 
 
 @Component({
@@ -12,23 +14,20 @@ import { IsoService } from '../shared/iso.service';
 })
 export class IsoAttachmentComponent {
   public selectedIso: Iso;
-  public showIso = true;
-  public isos: Array<Iso> = [];
+  public filters = [
+    TemplateFilters.featured,
+    TemplateFilters.self
+  ];
+
+  readonly isos$: Observable<Array<Iso>> = this.isoService.getGroupedTemplates<Iso>({}, this.filters, true)
+    .map(isos => isos.toArray());
 
   constructor(
     @Inject('zoneId') public zoneId: string,
     private dialog: MdlDialogReference,
     private isoService: IsoService
-  ) {
-    this.load();
-  }
+  ) {}
 
-  public load() {
-    this.isoService.getGroupedTemplates<Iso>({}, null, true)
-      .subscribe((isos) => {
-        this.isos = isos.toArray();
-      });
-  }
 
   public onAttach(): void {
     this.dialog.hide(this.selectedIso);
