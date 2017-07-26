@@ -5,7 +5,7 @@ import {
 } from '../../service-offering/custom-service-offering/custom-offering-restrictions';
 import {
   DefaultServiceOfferingConfigurationByZone
-} from '../../service-offering/custom-service-offering/custom-service-offering.service';
+} from '../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { ServiceOffering } from '../models/service-offering.model';
 import { Zone } from '../models/zone.model';

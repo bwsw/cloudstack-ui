@@ -2,9 +2,9 @@ import { ServiceOffering } from '../../shared/models';
 
 
 export interface ICustomServiceOffering {
-  cpuNumber: number;
-  cpuSpeed: number;
-  memory: number;
+  cpuNumber?: number;
+  cpuSpeed?: number;
+  memory?: number;
 }
 
 export class CustomServiceOffering extends ServiceOffering implements ICustomServiceOffering {

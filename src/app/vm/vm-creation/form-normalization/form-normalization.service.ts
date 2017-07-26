@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   CustomServiceOfferingService
-} from '../../../service-offering/custom-service-offering/custom-service-offering.service';
+} from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { ServiceOfferingService, Utils } from '../../../shared/services';
 import { VmCreationData } from '../data/vm-creation-data';
 import { VmCreationState } from '../data/vm-creation-state';

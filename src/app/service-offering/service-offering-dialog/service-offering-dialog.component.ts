@@ -5,7 +5,7 @@ import { ServiceOfferingFilterService } from '../../shared/services/service-offe
 import { VirtualMachine } from '../../vm/shared/vm.model';
 import { ZoneService } from '../../shared/services/zone.service';
 import { MdlDialogReference } from '../../dialog/dialog-module';
-import { CustomServiceOfferingService } from '../custom-service-offering/custom-service-offering.service';
+import { CustomServiceOfferingService } from '../custom-service-offering/service/custom-service-offering.service';
 import { Observable } from 'rxjs/Observable';
 import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
 import { ServiceOfferingService } from '../../shared/services';

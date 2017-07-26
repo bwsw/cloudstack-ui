@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ConfigService, ResourceStats, ResourceUsageService } from '../../shared/services';
+import { ConfigService, ResourceStats, ResourceUsageService } from '../../../shared/services';
 import {
   CustomOfferingRestrictions,
   ICustomOfferingRestrictions,
   ICustomOfferingRestrictionsByZone
-} from './custom-offering-restrictions';
-import { CustomServiceOffering, ICustomServiceOffering } from './custom-service-offering';
-import clone = require('lodash/clone');
+} from '../custom-offering-restrictions';
+import { CustomServiceOffering, ICustomServiceOffering } from '../custom-service-offering';
 
 
 export interface DefaultServiceOfferingConfigurationByZone {
@@ -28,8 +27,8 @@ const fallbackParams = {
 @Injectable()
 export class CustomServiceOfferingService {
   constructor(
-    public configService: ConfigService,
-    public resourceUsageService: ResourceUsageService
+    private configService: ConfigService,
+    private resourceUsageService: ResourceUsageService
   ) {}
 
   public getCustomOfferingWithSetParams(
@@ -74,18 +73,18 @@ export class CustomServiceOfferingService {
   ): CustomServiceOffering {
     const cpuNumber =
       defaultParams && defaultParams.cpuNumber
-      || customRestrictions && customRestrictions.memory && customRestrictions.memory.min
-      || fallbackParams && fallbackParams.cpuNumber;
+      || customRestrictions && customRestrictions.cpuNumber && customRestrictions.cpuNumber.min
+      || fallbackParams.cpuNumber;
 
     const cpuSpeed =
       defaultParams && defaultParams.cpuSpeed
       || customRestrictions && customRestrictions.cpuSpeed && customRestrictions.cpuSpeed.min
-      || fallbackParams && fallbackParams.cpuSpeed;
+      || fallbackParams.cpuSpeed;
 
     const memory =
       defaultParams && defaultParams.memory
       || customRestrictions && customRestrictions.memory && customRestrictions.memory.min
-      || fallbackParams && fallbackParams.memory;
+      || fallbackParams.memory;
 
     const restrictions = this.getRestrictionIntersection(
       customRestrictions,
@@ -121,7 +120,7 @@ export class CustomServiceOfferingService {
   }
 
   public getCustomOfferingRestrictionsByZoneSync(
-    customOfferingRestrictionsByZone: ICustomOfferingRestrictionsByZone,
+    customOfferingRestrictionsByZone: ICustomOfferingRestrictionsByZone = {},
     resourceStats: ResourceStats
   ): ICustomOfferingRestrictionsByZone {
     return Object.keys(customOfferingRestrictionsByZone)
@@ -173,56 +172,58 @@ export class CustomServiceOfferingService {
   private getRestrictionIntersection(
     customRestrictions: ICustomOfferingRestrictions,
     resourceStats: ResourceStats
-  ): CustomOfferingRestrictions {
+  ): ICustomOfferingRestrictions {
     const result = {
       cpuNumber: {
-        min: undefined,
         max: resourceStats.available.cpus
       },
-      cpuSpeed: {
-        min: undefined,
-        max: undefined
-      },
       memory: {
-        min: undefined,
         max: resourceStats.available.memory
       }
     };
 
-    if (customRestrictions.cpuNumber) {
-      if (customRestrictions.cpuNumber.min) {
-        result.cpuNumber.min = customRestrictions.cpuNumber.min;
+    if (customRestrictions.cpuNumber != null) {
+      if (customRestrictions.cpuNumber.min != null) {
+        result.cpuNumber['min'] = customRestrictions.cpuNumber.min;
       }
 
-      if (customRestrictions.cpuNumber.max) {
-        result.cpuNumber.max = Math.min(customRestrictions.cpuNumber.max, result.cpuNumber.max)
-      }
-    }
-
-    if (customRestrictions.cpuSpeed) {
-      if (customRestrictions.cpuSpeed.min) {
-        result.cpuSpeed.min = customRestrictions.cpuSpeed.min;
-      }
-
-      if (customRestrictions.cpuSpeed.max) {
-        result.cpuSpeed.max = customRestrictions.cpuSpeed.max;
+      if (customRestrictions.cpuNumber.max != null) {
+        result.cpuNumber['max'] = Math.min(customRestrictions.cpuNumber.max, result.cpuNumber.max)
       }
     }
 
-    if (customRestrictions.memory) {
-      if (customRestrictions.memory.min) {
-        result.memory.min = customRestrictions.memory.min;
+    if (customRestrictions.cpuSpeed != null) {
+      if (customRestrictions.cpuSpeed.min != null) {
+        if (!result['cpuSpeed']) {
+          result['cpuSpeed'] = {};
+        }
+
+        result['cpuSpeed']['min'] = customRestrictions.cpuSpeed.min;
       }
 
-      if (customRestrictions.memory.max) {
-        result.memory.max = Math.min(customRestrictions.memory.max, result.memory.max);
+      if (customRestrictions.cpuSpeed.max != null) {
+        if (!result['cpuSpeed']) {
+          result['cpuSpeed'] = {};
+        }
+
+        result['cpuSpeed']['max'] = customRestrictions.cpuSpeed.max;
+      }
+    }
+
+    if (customRestrictions.memory != null) {
+      if (customRestrictions.memory.min != null) {
+        result.memory['min'] = customRestrictions.memory.min;
+      }
+
+      if (customRestrictions.memory.max != null) {
+        result.memory['max'] = Math.min(customRestrictions.memory.max, result.memory.max);
       }
     }
 
     return result;
   }
 
-  private restrictionsAreCompatible(restrictions: CustomOfferingRestrictions): boolean {
+  private restrictionsAreCompatible(restrictions: ICustomOfferingRestrictions): boolean {
     return (
       restrictions.cpuSpeed.min <= restrictions.cpuSpeed.max &&
       restrictions.cpuNumber.min <= restrictions.cpuNumber.max &&

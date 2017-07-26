@@ -7,7 +7,7 @@ import {
 import {
   CustomServiceOfferingService,
   DefaultServiceOfferingConfigurationByZone
-} from '../../service-offering/custom-service-offering/custom-service-offering.service';
+} from '../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { ServiceOffering, SSHKeyPair } from '../../shared/models';
 import {
   AffinityGroupService,
