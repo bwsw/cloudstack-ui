@@ -23,15 +23,12 @@
   </div>
 
   <div
-    *ngIf="hourlyPolicy || dailyPolicy || weeklyPolicy || monthlyPolicy"
+    *ngIf="policies?.length"
     class="list"
   >
     <cs-policy-list
       [timeFormat]="timeFormat$ | async"
-      [hourlyPolicy]="hourlyPolicy"
-      [dailyPolicy]="dailyPolicy"
-      [weeklyPolicy]="weeklyPolicy"
-      [monthlyPolicy]="monthlyPolicy"
+      [policies]="policies"
       (onPolicyDelete)="deletePolicy($event)"
     ></cs-policy-list>
   </div>

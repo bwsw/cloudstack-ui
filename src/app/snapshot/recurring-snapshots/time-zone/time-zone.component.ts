@@ -1,6 +1,8 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TimeZone, TimeZoneService } from './time-zone.service';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 
 @Component({
@@ -17,21 +19,24 @@ import { TimeZone, TimeZoneService } from './time-zone.service';
 })
 export class TimeZoneComponent implements ControlValueAccessor, OnInit {
   public _timeZone: TimeZone;
-  public timeZones: Array<TimeZone>;
-  public visibleTimeZones: Array<TimeZone>;
+
+  readonly query$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  readonly timeZones$: Observable<Array<TimeZone>> = this.timeZoneService.get();
+  readonly visibleTimeZones$ = this.timeZones$.combineLatest(this.query$)
+    .map(([timeZones, query]) => {
+      return timeZones.filter(timeZone => {
+        return this
+          .timeZoneToString(timeZone)
+          .toLowerCase()
+          .includes(query && query.toLowerCase());
+      });
+    });
 
   constructor(private timeZoneService: TimeZoneService) {}
 
   public ngOnInit(): void {
-    this.loadTimeZones();
-  }
-
-  public updateVisibleTimeZones(query: string): void {
-    this.visibleTimeZones = this.timeZones && this.timeZones.filter(timeZone => {
-      return this
-        .timeZoneToString(timeZone)
-        .toLowerCase()
-        .includes(query && query.toLowerCase());
+    this.timeZones$.subscribe(timeZones => {
+      this.timeZone = timeZones[0];
     });
   }
 
@@ -63,12 +68,7 @@ export class TimeZoneComponent implements ControlValueAccessor, OnInit {
     return `${timeZone.geo} (${timeZone.zone})`;
   }
 
-  private loadTimeZones(): void {
-    this.timeZoneService.get()
-      .subscribe(timeZones => {
-        this.timeZones = timeZones;
-        this.updateVisibleTimeZones('');
-        this.timeZone = this.timeZones[0];
-      });
+  public updateQuery(query: string): void {
+    this.query$.next(query);
   }
 }

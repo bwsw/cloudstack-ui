@@ -3,10 +3,10 @@
   label="{{ 'TIME_ZONE' | translate }}"
   [autocomplete]="true"
   [(ngModel)]="timeZone"
-  (inputChange)="updateVisibleTimeZones($event)"
+  (inputChange)="updateQuery($event)"
 >
   <mdl-option
-    *ngFor="let tz of visibleTimeZones"
+    *ngFor="let tz of visibleTimeZones$ | async"
     [value]="tz"
   >
     {{ timeZoneToString(tz) }}

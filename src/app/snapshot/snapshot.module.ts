@@ -20,6 +20,7 @@ import { StoredNumberComponent } from './recurring-snapshots/stored-number/store
 import { TimePickerComponent } from './recurring-snapshots/time-picker/time-picker.component';
 import { TimeZoneComponent } from './recurring-snapshots/time-zone/time-zone.component';
 import { TimeZoneService } from './recurring-snapshots/time-zone/time-zone.service';
+import { PolicyViewBuilderService } from './recurring-snapshots/policy-list/policy-view-builder.service';
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import { TimeZoneService } from './recurring-snapshots/time-zone/time-zone.servi
     PolicyListComponent
   ],
   providers: [
+    PolicyViewBuilderService,
     SnapshotPolicyService,
     TimeZoneService
   ],
