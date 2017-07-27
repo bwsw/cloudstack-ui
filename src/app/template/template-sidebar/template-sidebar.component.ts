@@ -5,6 +5,7 @@ import { BaseTemplateSidebarComponent } from './base-template-sidebar.component'
 import { TemplateActionsService } from '../shared/template-actions.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { NotificationService } from '../../shared/services/notification.service';
 
 @Component({
   selector: 'cs-template-sidebar',
@@ -17,8 +18,9 @@ export class TemplateSidebarComponent extends BaseTemplateSidebarComponent {
     route: ActivatedRoute,
     templateActions: TemplateActionsService,
     listService: ListService,
-    dialogService: DialogService
+    dialogService: DialogService,
+    notificationService: NotificationService
   ) {
-    super(templateService, templateActions, listService, route, dialogService);
+    super(templateService, templateActions, listService, route, dialogService, notificationService);
   }
 }
