@@ -2,9 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClipboardModule } from 'ngx-clipboard/dist';
 import { TranslateModule } from '@ngx-translate/core';
-import { MdTooltipModule } from '@angular/material';
+import { MdSelectModule, MdTooltipModule } from '@angular/material';
 import { MdlModule } from '@angular-mdl/core';
-import { MdlSelectModule } from '@angular-mdl/select';
 import { SettingsComponent } from './settings.component';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -19,7 +18,7 @@ import { InactivityTimeoutComponent } from './inactivity-timeout/inactivity-time
     TranslateModule,
     MdTooltipModule,
     MdlModule,
-    MdlSelectModule,
+    MdSelectModule,
     SharedModule,
     ReactiveFormsModule,
     ClipboardModule

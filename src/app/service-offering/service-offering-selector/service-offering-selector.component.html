@@ -1,18 +1,13 @@
-<mdl-select
+<md-select
+  class="form-select-control"
   [ngModel]="serviceOffering"
   (change)="changeOffering($event)"
 >
-  <mdl-option
-    *ngFor="let so of serviceOfferings"
-    [value]="so"
-  >
+  <md-option *ngFor="let so of serviceOfferings" [value]="so">
     {{ so.name }}
-  </mdl-option>
-</mdl-select>
+  </md-option>
+</md-select>
 
-<div
-  class="custom-offering-info"
-  *ngIf="customOfferingDescription"
->
+<div *ngIf="customOfferingDescription" class="custom-offering-info">
   {{ customOfferingDescription | async }}
 </div>

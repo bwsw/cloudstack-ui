@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MdlSelectModule } from '@angular-mdl/select';
+import { MdSelectModule } from '@angular/material';
 import { MdlModule } from '@angular-mdl/core';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -14,7 +14,7 @@ import { EventService } from './event.service';
     CommonModule,
     FormsModule,
     MdlModule,
-    MdlSelectModule,
+    MdSelectModule,
     SharedModule,
     TranslateModule
   ],
