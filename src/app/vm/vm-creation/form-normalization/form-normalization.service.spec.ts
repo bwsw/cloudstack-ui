@@ -28,7 +28,7 @@ interface VmCreationFixture {
 
 const fixture: VmCreationFixture = require('./form-normalization.service.fixture.json');
 
-describe('Virtual machine creation form normalization service', () => {
+xdescribe('Virtual machine creation form normalization service', () => {
   let formNormalizationService: VmCreationFormNormalizationService;
   let vmCreationData: VmCreationData;
   let vmCreationState: VmCreationState;

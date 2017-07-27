@@ -18,7 +18,7 @@ export interface DefaultServiceOfferingConfiguration {
   customOfferingParams: ICustomServiceOffering;
 }
 
-const fallbackParams = {
+export const customServiceOfferingFallbackParams = {
   cpuNumber: 1,
   cpuSpeed: 1000,
   memory: 512
@@ -74,17 +74,17 @@ export class CustomServiceOfferingService {
     const cpuNumber =
       defaultParams && defaultParams.cpuNumber
       || customRestrictions && customRestrictions.cpuNumber && customRestrictions.cpuNumber.min
-      || fallbackParams.cpuNumber;
+      || customServiceOfferingFallbackParams.cpuNumber;
 
     const cpuSpeed =
       defaultParams && defaultParams.cpuSpeed
       || customRestrictions && customRestrictions.cpuSpeed && customRestrictions.cpuSpeed.min
-      || fallbackParams.cpuSpeed;
+      || customServiceOfferingFallbackParams.cpuSpeed;
 
     const memory =
       defaultParams && defaultParams.memory
       || customRestrictions && customRestrictions.memory && customRestrictions.memory.min
-      || fallbackParams.memory;
+      || customServiceOfferingFallbackParams.memory;
 
     const restrictions = this.getRestrictionIntersection(
       customRestrictions,
@@ -97,7 +97,7 @@ export class CustomServiceOfferingService {
 
     const normalizedParams = this.clipOfferingParamsToRestrictions(
       { cpuNumber, cpuSpeed, memory },
-      customRestrictions
+      restrictions
     );
 
     return new CustomServiceOffering({ ...normalizedParams, serviceOffering });
@@ -138,30 +138,46 @@ export class CustomServiceOfferingService {
     offeringParams: ICustomServiceOffering,
     restrictions: ICustomOfferingRestrictions
   ): ICustomServiceOffering {
+    if (!restrictions) {
+      return offeringParams;
+    }
+
     let cpuNumber: number;
     let cpuSpeed:  number;
     let memory:    number;
 
-    if (offeringParams.cpuNumber > restrictions.cpuNumber.max) {
-      cpuNumber = restrictions.cpuNumber.max;
-    } else if (offeringParams.cpuNumber < restrictions.cpuNumber.min) {
-      cpuNumber = restrictions.cpuNumber.min;
+    if (restrictions.cpuNumber) {
+      if (offeringParams.cpuNumber > restrictions.cpuNumber.max) {
+        cpuNumber = restrictions.cpuNumber.max;
+      } else if (offeringParams.cpuNumber < restrictions.cpuNumber.min) {
+        cpuNumber = restrictions.cpuNumber.min;
+      } else {
+        cpuNumber = offeringParams.cpuNumber;
+      }
     } else {
       cpuNumber = offeringParams.cpuNumber;
     }
 
-    if (offeringParams.cpuSpeed > restrictions.cpuSpeed.max) {
-      cpuSpeed = restrictions.cpuSpeed.max;
-    } else if (offeringParams.cpuSpeed < restrictions.cpuSpeed.min) {
-      cpuSpeed = restrictions.cpuSpeed.min;
+    if (restrictions.cpuSpeed) {
+      if (offeringParams.cpuSpeed > restrictions.cpuSpeed.max) {
+        cpuSpeed = restrictions.cpuSpeed.max;
+      } else if (offeringParams.cpuSpeed < restrictions.cpuSpeed.min) {
+        cpuSpeed = restrictions.cpuSpeed.min;
+      } else {
+        cpuSpeed = offeringParams.cpuSpeed;
+      }
     } else {
       cpuSpeed = offeringParams.cpuSpeed;
     }
 
-    if (offeringParams.memory > restrictions.memory.max) {
-      memory = restrictions.memory.max;
-    } else if (offeringParams.memory < restrictions.memory.min) {
-      memory = restrictions.memory.min;
+    if (restrictions.memory) {
+      if (offeringParams.memory > restrictions.memory.max) {
+        memory = restrictions.memory.max;
+      } else if (offeringParams.memory < restrictions.memory.min) {
+        memory = restrictions.memory.min;
+      } else {
+        memory = offeringParams.memory;
+      }
     } else {
       memory = offeringParams.memory;
     }
@@ -181,6 +197,10 @@ export class CustomServiceOfferingService {
         max: resourceStats.available.memory
       }
     };
+
+    if (customRestrictions == null) {
+      return result;
+    }
 
     if (customRestrictions.cpuNumber != null) {
       if (customRestrictions.cpuNumber.min != null) {
@@ -225,9 +245,21 @@ export class CustomServiceOfferingService {
 
   private restrictionsAreCompatible(restrictions: ICustomOfferingRestrictions): boolean {
     return (
-      restrictions.cpuSpeed.min <= restrictions.cpuSpeed.max &&
-      restrictions.cpuNumber.min <= restrictions.cpuNumber.max &&
-      restrictions.memory.min <= restrictions.memory.max
+      (restrictions.cpuSpeed == null
+        || restrictions.cpuSpeed.min == null
+        || restrictions.cpuSpeed.max == null
+        || restrictions.cpuSpeed.min <= restrictions.cpuSpeed.max
+      )
+      && (restrictions.cpuNumber == null
+        || restrictions.cpuNumber.min == null
+        || restrictions.cpuNumber.max == null
+        || restrictions.cpuNumber.min <= restrictions.cpuNumber.max
+      )
+      && (restrictions.memory == null
+        || restrictions.memory.min == null
+        || restrictions.memory.max == null
+        || restrictions.memory.min <= restrictions.memory.max
+      )
     );
   }
 }
