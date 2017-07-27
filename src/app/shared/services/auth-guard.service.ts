@@ -3,15 +3,14 @@ import { CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from './auth.service';
-import { RouterUtilsService } from './router-utils.service';
+import { Utils } from './utils.service';
 
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private auth: AuthService,
-    private router: Router,
-    private routerUtilsService: RouterUtilsService
+    private router: Router
   ) { }
 
   public canActivate(_, state: RouterStateSnapshot): Observable<boolean> {
@@ -19,7 +18,7 @@ export class AuthGuard implements CanActivate {
       if (!result) {
         this.router.navigate(
           ['/logout'],
-          this.routerUtilsService.getRedirectionQueryParams(state.url)
+          Utils.getRedirectionQueryParams(state.url, this.router.routerState)
         );
       }
       return result;

@@ -8,9 +8,10 @@ import { Observable } from 'rxjs/Observable';
 import { AsyncJobService, AuthService, CacheService, ConfigService, ErrorService } from './';
 import { RouterUtilsService } from './router-utils.service';
 import { ServiceLocator } from './service-locator';
-import { StorageService } from './storage.service';
+import { LocalStorageService } from './local-storage.service';
 import { UserService } from './user.service';
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
+import { Utils } from './utils.service';
 
 
 @Component({
@@ -99,16 +100,30 @@ class MockRouter {
   }
 }
 
-@Injectable()
-class MockRouterUtilsService {
-  public get locationOrigin(): string {
-    return '';
-  }
-
-  public getRedirectionQueryParams(next?: string): NavigationExtras {
-    return { queryParams: { next } };
+class UtilsStub {
+  public getLocationOrigin(): string {
+    return 'https://cloudstack.ui';
   }
 }
+
+class ActivateRouteStub {
+  private _testQueryParams: {};
+
+  get testParams(): {} {
+    return this._testQueryParams;
+  }
+
+  set testParams(params: {}) {
+    this._testQueryParams = params;
+  }
+
+  get snapshot(): {} {
+    return { queryParams: this.testParams };
+  }
+}
+
+const testRoute: ActivateRouteStub = new ActivateRouteStub();
+
 
 const testBedConfig = {
   declarations: [TestViewComponent],
@@ -122,8 +137,8 @@ const testBedConfig = {
     { provide: ErrorService, useClass: MockErrorService },
     { provide: UserService, useClass: MockUserService },
     { provide: Router, useClass: MockRouter },
-    { provide: RouterUtilsService, useClass: MockRouterUtilsService },
-    { provide: StorageService, useClass: MockStorageService },
+    { provide: LocalStorageService, useClass: MockStorageService },
+    { provide: Utils, useClass: UtilsStub },
     { provide: Http,
       deps: [MockBackend, BaseRequestOptions],
       useFactory:
@@ -208,7 +223,7 @@ describe('Auth service session', () => {
     authService = TestBed.get(AuthService);
     configService = TestBed.get(ConfigService);
     router = TestBed.get(Router);
-    routerUtils = TestBed.get(RouterUtilsService);
+    routerUtils = TestBed.get(Utils);
   }));
 
   it('should logout after session expires', fakeAsync(() => {
@@ -224,6 +239,6 @@ describe('Auth service session', () => {
 
     tick(getRefreshInterval() * 60);
     expect(logout).toHaveBeenCalledTimes(1);
-    expect(logout).toHaveBeenCalledWith(['/logout'], routerUtils.getRedirectionQueryParams());
+    expect(logout).toHaveBeenCalledWith(['/logout'], Utils.getRedirectionQueryParams());
   }));
 });

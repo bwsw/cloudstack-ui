@@ -10,9 +10,10 @@ import { AuthService, ErrorService, LanguageService, LayoutService, Notification
 import { RouterUtilsService } from './shared/services/router-utils.service';
 import { StyleService } from './shared/services/style.service';
 import { ZoneService } from './shared/services/zone.service';
-import { StorageService } from './shared/services/storage.service';
+import { LocalStorageService } from './shared/services/local-storage.service';
 import { AsyncJobService } from './shared/services/async-job.service';
 import { CacheService } from './shared/services/cache.service';
+import { Utils } from './shared/services/utils.service';
 
 
 @Component({
@@ -40,7 +41,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private languageService: LanguageService,
     private asyncJobService: AsyncJobService,
     private cacheService: CacheService,
-    private storage: StorageService,
+    private storage: LocalStorageService,
     private layoutService: LayoutService,
     private mdlDialogService: MdlDialogService,
     private notification: NotificationService,
@@ -53,7 +54,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public linkClick(routerLink: string): void {
-    if (routerLink === this.routerUtilsService.getRouteWithoutQueryParams()) {
+    if (routerLink === Utils.getRouteWithoutQueryParams(this.router.routerState)) {
       this.router.navigate(['reload'], {
         queryParamsHandling: 'preserve'
       });
@@ -155,9 +156,9 @@ export class AppComponent implements OnInit, AfterViewInit {
       switch (e.status) {
         case 401:
           this.notification.message('NOT_LOGGED_IN');
-          const route = this.routerUtilsService.getRouteWithoutQueryParams();
+          const route = Utils.getRouteWithoutQueryParams(this.router.routerState);
           if (route !== '/login' && route !== '/logout') {
-            this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams());
+            this.router.navigate(['/logout'], Utils.getRedirectionQueryParams());
           }
           break;
       }
