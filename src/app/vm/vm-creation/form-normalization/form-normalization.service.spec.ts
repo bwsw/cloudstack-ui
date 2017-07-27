@@ -14,6 +14,8 @@ import { VmCreationFormNormalizationService } from './form-normalization.service
 import { VmCreationState } from '../data/vm-creation-state';
 import { VmCreationFormState } from '../vm-creation.component';
 import { ServiceOffering } from '../../../shared/models';
+import { CustomServiceOfferingService } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
+import { MockCustomServiceOfferingService } from '../../../../testutils/mocks/model-services/services/mock-custom-service-offering.service.spec';
 
 
 interface VmCreationFixture {
@@ -28,7 +30,7 @@ interface VmCreationFixture {
 
 const fixture: VmCreationFixture = require('./form-normalization.service.fixture.json');
 
-xdescribe('Virtual machine creation form normalization service', () => {
+describe('Virtual machine creation form normalization service', () => {
   let formNormalizationService: VmCreationFormNormalizationService;
   let vmCreationData: VmCreationData;
   let vmCreationState: VmCreationState;
@@ -73,9 +75,16 @@ xdescribe('Virtual machine creation form normalization service', () => {
         { provide: ConfigService, useClass: MockConfigService },
         { provide: ResourceUsageService, useClass: MockResourceUsageService },
         { provide: ServiceOfferingService, useClass: MockServiceOfferingService },
+        { provide: CustomServiceOfferingService, useClass: MockCustomServiceOfferingService },
         { provide: 'mockConfigServiceConfig', useValue: { value: {} } },
         { provide: 'mockResourceUsageServiceConfig', useValue: { value: {} } },
         { provide: 'mockServiceOfferingServiceConfig', useValue: { value: mockEntityData.serviceOfferings } },
+        { provide: 'mockCustomServiceOfferingServiceConfig', useValue:
+          {
+            customOffering: {},
+            customOfferingRestrictionsByZone: {}
+          }
+        },
         VmCreationFormNormalizationService
       ]
     });

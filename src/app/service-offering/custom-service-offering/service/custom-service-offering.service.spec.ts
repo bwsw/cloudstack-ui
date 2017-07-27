@@ -49,7 +49,7 @@ interface ServiceOfferingFixture {
 
 const fixture: CustomServiceOfferingFixture = require('./custom-service-offering.service.fixture.json');
 
-fdescribe('Custom service offering service', () => {
+describe('Custom service offering service', () => {
   let customServiceOfferingService: CustomServiceOfferingService;
 
   function configureTestBed(params?: {
