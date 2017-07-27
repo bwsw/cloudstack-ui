@@ -107,16 +107,6 @@ fdescribe('Custom service offering service', () => {
     );
   }
 
-  function getRegularServiceOffering(): ServiceOffering {
-    const id = '4fbec0f2-e03a-4135-8f0e-a13abca3c2e2';
-
-    return new MockEntityData()
-      .serviceOfferings
-      .find(_ => {
-        return _.id === id;
-      });
-  }
-
   function getCustomServiceOffering(): ServiceOffering {
     const id = '3890f81e-62aa-4a50-971a-f066223d623d';
 
@@ -221,5 +211,27 @@ fdescribe('Custom service offering service', () => {
     const key = 'returnUndefinedIfRestrictionsAreNotCompatibleByMemory';
     const offering = getCustomOfferingWithSetParamsForTest(key);
     expect(offering).toBeUndefined();
+  });
+
+  it('should return custom offering with set params async', done => {
+    const key = 'customOfferingAsync';
+    const config = fixture.defaultParamsTests[key].config;
+    const resources = fixture.defaultParamsTests[key].resources;
+    const serviceOffering = getCustomServiceOffering();
+    const zoneId = 'zone1';
+
+    configureTestBed({
+      mockConfigServiceConfig: config,
+      mockResourceUsageServiceConfig: resources
+    });
+
+    return customServiceOfferingService.getCustomOfferingWithSetParams(
+      serviceOffering,
+      zoneId
+    )
+      .subscribe(offering => {
+        expect(isCustomOfferingCorrect(key, offering)).toBeTruthy();
+        done();
+      });
   });
 });

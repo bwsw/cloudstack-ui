@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ConfigService, ResourceStats, ResourceUsageService } from '../../../shared/services';
-import {
-  CustomOfferingRestrictions,
-  ICustomOfferingRestrictions,
-  ICustomOfferingRestrictionsByZone
-} from '../custom-offering-restrictions';
+import { ICustomOfferingRestrictions, ICustomOfferingRestrictionsByZone } from '../custom-offering-restrictions';
 import { CustomServiceOffering, ICustomServiceOffering } from '../custom-service-offering';
 
 

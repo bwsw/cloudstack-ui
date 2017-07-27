@@ -407,6 +407,47 @@
           "memory": 512
         }
       }
+    },
+    "customOfferingAsync": {
+      "config": {
+        "defaultServiceOfferingConfig": {
+          "zone1": {
+            "offering": "3890f81e-62aa-4a50-971a-f066223d623d",
+            "customOfferingParams": {
+              "cpuNumber": 2,
+              "cpuSpeed": 1000,
+              "memory": 1024
+            }
+          }
+        },
+        "customOfferingRestrictions": {
+          "zone1": {
+            "cpuNumber": {
+              "min": 1,
+              "max": 4
+            },
+            "cpuSpeed": {
+              "min": 1000,
+              "max": 2000
+            },
+            "memory": {
+              "min": 32,
+              "max": 8192
+            }
+          }
+        }
+      },
+      "resources": {
+        "available": {
+          "cpus": 4,
+          "memory": 8192
+        }
+      },
+      "expected": {
+        "cpuNumber": 2,
+        "cpuSpeed": 1000,
+        "memory": 1024
+      }
     }
   }
 }
