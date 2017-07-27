@@ -3,7 +3,7 @@ import { NetworkRule } from '../../../security-group/sg.model';
 import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../../shared/models';
 import { BaseTemplateModel } from '../../../template/shared';
 import { KeyboardLayout, KeyboardLayouts } from '../keyboards/keyboards.component';
-import { NotSelected } from '../vm-creation.service';
+import { NotSelected } from '../services/vm-creation.service';
 import { VmCreationData } from './vm-creation-data';
 
 

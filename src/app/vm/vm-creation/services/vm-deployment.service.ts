@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { VmCreationState } from './data/vm-creation-state';
+import { VmCreationState } from '../data/vm-creation-state';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { VmService } from '../shared/vm.service';
-import { VirtualMachine, VmStates } from '../shared/vm.model';
-import { AffinityGroupService, InstanceGroupService } from '../../shared/services';
-import { AffinityGroup, AffinityGroupTypes } from '../../shared/models';
-import { SecurityGroup } from '../../security-group/sg.model';
-import { GROUP_POSTFIX, SecurityGroupService } from '../../shared/services/security-group.service';
-import { Utils } from '../../shared/services/utils.service';
+import { VmService } from '../../shared/vm.service';
+import { VirtualMachine, VmStates } from '../../shared/vm.model';
+import { AffinityGroupService, InstanceGroupService } from '../../../shared/services';
+import { AffinityGroup, AffinityGroupTypes } from '../../../shared/models';
+import { SecurityGroup } from '../../../security-group/sg.model';
+import { GROUP_POSTFIX, SecurityGroupService } from '../../../shared/services/security-group.service';
+import { Utils } from '../../../shared/services/utils.service';
+import { TagService } from '../../../shared/services/tag.service';
 
 
 export type VmDeploymentStage =
@@ -52,6 +53,7 @@ export class VmDeploymentService {
     private affinityGroupService: AffinityGroupService,
     private instanceGroupService: InstanceGroupService,
     private securityGroupObservable: SecurityGroupService,
+    private tagService: TagService,
     private vmService: VmService
   ) {}
 
@@ -108,7 +110,9 @@ export class VmDeploymentService {
   }
 
   private getPostDeployActions(vm: VirtualMachine, state: VmCreationState): Observable<any> {
-    return this.instanceGroupService.add(vm, state.instanceGroup);
+    return Observable.of(null)
+      .switchMap(() => this.instanceGroupService.add(vm, state.instanceGroup))
+      .switchMap(() => this.tagService.copyTagsToEntity(state.template.tags, vm));
   }
 
   private getAffinityGroupCreationObservable(

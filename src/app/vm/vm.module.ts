@@ -21,8 +21,8 @@ import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component'
 import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-dialog.component';
 import { VmTemplateComponent } from './vm-creation/template/vm-template.component';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
-import { VmCreationService } from './vm-creation/vm-creation.service';
-import { VmDeploymentService } from './vm-creation/vm-deployment.service';
+import { VmCreationService } from './vm-creation/services/vm-creation.service';
+import { VmDeploymentService } from './vm-creation/services/vm-deployment.service';
 import { VmFilterComponent } from './vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list/vm-list-item.component';
 import { VmListComponent } from './vm-list/vm-list.component';

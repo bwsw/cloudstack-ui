@@ -4,6 +4,7 @@ import { Tag } from '../models/tag.model';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './';
+import { Taggable } from '../interfaces/taggable.interface';
 
 
 @BackendResource({
@@ -69,5 +70,18 @@ export class TagService extends BaseBackendCachedService<Tag> {
           .switchMap(() => createObs);
       })
       .catch(() => createObs);
+  }
+
+  public copyTagsToEntity(tags: Array<Tag>, entity: Taggable): Observable<any> {
+    const copyRequests = tags.map(tag => {
+      return this.update(
+        entity,
+        entity.resourceType,
+        tag.key,
+        tag.value
+      );
+    });
+
+    return Observable.forkJoin(...copyRequests);
   }
 }

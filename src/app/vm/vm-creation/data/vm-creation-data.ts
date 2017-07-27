@@ -11,7 +11,7 @@ import {
 import { BaseTemplateModel, Iso, Template } from '../../../template/shared';
 import { VmCreationState } from './vm-creation-state';
 import { ResourceStats } from '../../../shared/services/resource-usage.service';
-import { VmCreationConfigurationData } from '../vm-creation.service';
+import { VmCreationConfigurationData } from '../services/vm-creation.service';
 
 
 export class VmCreationData {

@@ -9,7 +9,7 @@ import {
 } from '../../../../testutils/mocks/model-services/services/mock-service-offering.service.spec';
 import { ConfigService, ResourceStats, ResourceUsageService, ServiceOfferingService } from '../../../shared/services';
 import { VmCreationData } from '../data/vm-creation-data';
-import { VmCreationConfigurationData } from '../vm-creation.service';
+import { VmCreationConfigurationData } from '../services/vm-creation.service';
 import { VmCreationFormNormalizationService } from './form-normalization.service';
 import { VmCreationState } from '../data/vm-creation-state';
 import { VmCreationFormState } from '../vm-creation.component';
