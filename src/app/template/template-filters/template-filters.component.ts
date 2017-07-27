@@ -3,12 +3,11 @@ import { Subject } from 'rxjs/Subject';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { OsFamily, LocalStorageService } from '../../shared';
+import { OsFamily, StorageService } from '../../shared';
 import { FilterService } from '../../shared/services';
 import { Zone } from '../../shared/models/zone.model';
 import { ZoneService } from '../../shared/services/zone.service';
 import { TemplateFilters } from '../shared/base-template.service';
-import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -59,10 +58,9 @@ export class TemplateFiltersComponent implements OnInit {
 
   constructor(
     private filter: FilterService,
-    private storageService: LocalStorageService,
+    private storageService: StorageService,
     private translateService: TranslateService,
-    private zoneService: ZoneService,
-    private route: ActivatedRoute
+    private zoneService: ZoneService
   ) { }
 
   public ngOnInit(): void {
@@ -146,7 +144,7 @@ export class TemplateFiltersComponent implements OnInit {
       },
       query: { type: 'string' },
       groupings: { type: 'array', defaultOption: [] }
-    }, this.route);
+    });
     this.selectedOsFamilies = params['osFamilies'];
     this.selectedFilters = params['categoryFilters'];
     this.selectedZones = this.zones.filter(zone => params['zones'].find(id => id === zone.id));

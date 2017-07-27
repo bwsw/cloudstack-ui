@@ -9,9 +9,9 @@ import { AsyncJobService } from './async-job.service';
 
 import { BaseBackendService } from './base-backend.service';
 import { ConfigService } from './config.service';
-import { LocalStorageService } from './local-storage.service';
+import { RouterUtilsService } from './router-utils.service';
+import { StorageService } from './storage.service';
 import { UserService } from './user.service';
-import { Utils } from './utils.service';
 
 const DEFAULT_SESSION_REFRESH_INTERVAL = 60;
 
@@ -27,12 +27,15 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   private inactivityTimeout: number;
   private sessionRefreshInterval = DEFAULT_SESSION_REFRESH_INTERVAL;
 
-  constructor(protected asyncJobService: AsyncJobService,
-              protected configService: ConfigService,
-              protected storage: LocalStorageService,
-              protected router: Router,
-              protected userService: UserService,
-              protected zone: NgZone) {
+  constructor(
+    protected asyncJobService: AsyncJobService,
+    protected configService: ConfigService,
+    protected storage: StorageService,
+    protected router: Router,
+    protected userService: UserService,
+    protected routerUtilsService: RouterUtilsService,
+    protected zone: NgZone
+  ) {
     super();
     this.loggedIn = new BehaviorSubject<boolean>(!!this.userId);
   }
@@ -160,8 +163,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   private refreshSession(): void {
     if (++this.numberOfRefreshes * this.sessionRefreshInterval >= this.inactivityTimeout * 60) {
       this.clearInactivityTimer();
-      this.zone.run(() =>
-        this.router.navigate(['/logout'], Utils.getRedirectionQueryParams(undefined, this.router.routerState)));
+      this.zone.run(() => this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams()));
     } else {
       this.sendRefreshRequest();
     }

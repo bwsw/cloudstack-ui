@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LocalStorageService } from './local-storage.service';
+import { StorageService } from './storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { UserService } from './user.service';
@@ -16,7 +16,7 @@ export const TimeFormat = {
 @Injectable()
 export class LanguageService {
   constructor(
-    private storage: LocalStorageService,
+    private storage: StorageService,
     private translate: TranslateService,
     private userService: UserService
   ) {}

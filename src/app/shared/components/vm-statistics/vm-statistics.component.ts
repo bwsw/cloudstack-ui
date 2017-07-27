@@ -6,7 +6,7 @@ import {
   ResourceStats,
   ResourceUsageService
 } from '../../services/resource-usage.service';
-import { LocalStorageService } from '../../services/local-storage.service';
+import { StorageService } from '../../services/storage.service';
 import { Utils } from '../../services/utils.service';
 
 const showStatistics = 'showStatistics';
@@ -100,7 +100,7 @@ export class VmStatisticsComponent implements OnInit {
 
   constructor(
     private translateService: TranslateService,
-    private storageService: LocalStorageService,
+    private storageService: StorageService,
     private resourceUsageService: ResourceUsageService
   ) {
     this.resourceUsage = new ResourceStats();

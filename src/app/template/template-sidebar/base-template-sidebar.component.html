@@ -104,16 +104,7 @@
       </mdl-tab-panel-title>
       <mdl-tab-panel-content *loading="updating">
         <div *ngIf="!readyInEveryZone" class="update-button-container">
-          <button
-            mdl-button
-            mdl-ripple
-            mdl-button-type="icon"
-            mdTooltipPosition="before"
-            [mdTooltip]="'UPDATE' | translate"
-            (click)="updateStatus()"
-          >
-            <mdl-icon>sync</mdl-icon>
-          </button>
+          <mdl-button (click)="updateStatus()">{{ 'UPDATE' | translate }}</mdl-button>
         </div>
         <mdl-card *ngFor="let zone of template.zones" class="vm-card" mdl-shadow="2">
           <mdl-card-title>

@@ -6,39 +6,41 @@ import { Utils } from './utils.service';
 export class StorageService {
   private isLocalStorage: boolean;
   private inMemoryStorage: Object;
-  protected isStorage: Storage;
 
   constructor() {
-    this.init();
+    this.isLocalStorage = this.isLocalStorageAvailable;
+    if (!this.isLocalStorage) {
+      this.inMemoryStorage = {};
+    }
   }
 
   public write(key: string, value: string): void {
-    this.isLocalStorage ? this.storageWrite(key, value) : this.inMemoryWrite(key, value);
+    this.isLocalStorage ? this.localStorageWrite(key, value) : this.inMemoryWrite(key, value);
   }
 
   public read(key: string): string {
-    return this.isLocalStorage ? this.storageRead(key) : this.inMemoryRead(key);
+    return this.isLocalStorage ? this.localStorageRead(key) : this.inMemoryRead(key);
   }
 
   public remove(key: string): void {
-    this.isLocalStorage ? this.storageRemove(key) : this.inMemoryRemove(key);
+    this.isLocalStorage ? this.localStorageRemove(key) : this.inMemoryRemove(key);
   }
 
   public resetInMemoryStorage(): void {
     this.inMemoryStorage = undefined;
   }
 
-  protected storageWrite(key: string, value: string): void {
-    this.isStorage.setItem(key, value);
+  private localStorageWrite(key: string, value: string): void {
+    localStorage.setItem(key, value);
   }
 
-  protected storageRead(key: string): string {
-    const result = this.isStorage.getItem(key);
+  private localStorageRead(key: string): string {
+    const result = localStorage.getItem(key);
     return result !== 'undefined' ? result : undefined;
   }
 
-  protected storageRemove(key: string): void {
-    this.isStorage.removeItem(key);
+  private localStorageRemove(key: string): void {
+    localStorage.removeItem(key);
   }
 
   private inMemoryWrite(key: string, value: string): void {
@@ -53,13 +55,6 @@ export class StorageService {
     delete this.inMemoryStorage[key];
   }
 
-  protected init() {
-    this.isLocalStorage = this.isLocalStorageAvailable;
-    if (!this.isLocalStorage) {
-      this.inMemoryStorage = {};
-    }
-  }
-
   private get isLocalStorageAvailable(): boolean {
     if (!localStorage) {
       return false;
@@ -67,8 +62,8 @@ export class StorageService {
 
     try {
       const uniq = Utils.getUniqueId();
-      this.storageWrite(uniq, uniq);
-      this.storageRemove(uniq);
+      this.localStorageWrite(uniq, uniq);
+      this.localStorageRemove(uniq);
       return true;
     } catch (e) {
       return false;
