@@ -52,7 +52,9 @@ export class ServiceOfferingDialogComponent implements OnInit {
     this.loading = true;
     this.vmService.changeServiceOffering(this.serviceOffering, this.virtualMachine)
       .finally(() => this.loading = false)
-      .subscribe(() => this.dialog.hide(this.serviceOffering));
+      .subscribe(() => {
+        this.dialog.hide(this.serviceOffering);
+      });
   }
 
   public onCancel(): void {
@@ -63,7 +65,7 @@ export class ServiceOfferingDialogComponent implements OnInit {
     return this.serviceOfferingFilterService.getAvailableByResources({ zone })
       .map(availableOfferings => {
         return availableOfferings.filter(offering => {
-          return offering.id !== this.virtualMachine.serviceOfferingId;
+          return offering.id !== this.virtualMachine.serviceOffering.id;
         });
       })
       .switchMap(offerings => {

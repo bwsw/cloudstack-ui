@@ -265,14 +265,6 @@
         "cpuSpeed": 1000,
         "memory": 1024
       }
-    },
-    "3fcdb37c-1c0b-4728-b62f-970c765c3fbc": {
-      "offering": "d0e8ce1c-5112-4fe0-95ac-29b39551ff16",
-      "customOfferingParams": {
-        "cpuNumber": 1,
-        "cpuSpeed": 2000,
-        "memory": 2048
-      }
     }
   }
 }
