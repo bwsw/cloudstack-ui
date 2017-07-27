@@ -55,7 +55,7 @@
             mdl-button-type="icon"
             (click)="changeServiceOffering()"
           >
-            <mdl-icon>edit</mdl-icon>
+            <md-icon>edit</md-icon>
           </button>
         </div>
         <div class="card-right-button">
@@ -66,7 +66,7 @@
             (click)="toggleServiceOffering()"
             [class.open]="expandServiceOffering"
           >
-            <mdl-icon>keyboard_arrow_down</mdl-icon>
+            <md-icon>keyboard_arrow_down</md-icon>
           </button>
         </div>
       </mdl-card-actions>
@@ -90,7 +90,7 @@
           mdl-button-type="icon"
           (click)="changeAffinityGroup()"
         >
-          <mdl-icon>edit</mdl-icon>
+          <md-icon>edit</md-icon>
         </button>
       </mdl-card-actions>
     </mdl-card>
@@ -119,8 +119,8 @@
           mdl-button-type="icon"
           (click)="resetSshKey()"
         >
-          <mdl-icon *ngIf="vm.keyPair; else add">edit</mdl-icon>
-          <ng-template #add><mdl-icon>add</mdl-icon></ng-template>
+          <md-icon *ngIf="vm.keyPair; else add">edit</md-icon>
+          <ng-template #add><md-icon>add</md-icon></ng-template>
         </mdl-button>
       </mdl-card-actions>
     </mdl-card>
@@ -170,7 +170,7 @@
           [mdTooltip]="'REFRESH' | translate"
           (click)="updateStats()"
         >
-          <mdl-icon>sync</mdl-icon>
+          <md-icon>sync</md-icon>
         </button>
       </mdl-card-menu>
     </mdl-card>

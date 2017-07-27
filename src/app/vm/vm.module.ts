@@ -4,7 +4,7 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MdSelectModule, MdTooltipModule } from '@angular/material';
+import { MdIconModule, MdSelectModule, MdTooltipModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -64,6 +64,7 @@ import { vmRouting } from './vm.routing';
     DraggableSelectModule,
     MdTooltipModule,
     MdSelectModule,
+    MdIconModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,

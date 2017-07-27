@@ -1,4 +1,4 @@
-import { MdTooltipModule } from '@angular/material';
+import { MdIconModule, MdTooltipModule } from '@angular/material';
 import { DISABLE_NATIVE_VALIDITY_CHECKING, MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
@@ -40,6 +40,7 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
     FormsModule,
     TranslateModule.forRoot(),
     EventsModule,
+    MdIconModule,
     MdTooltipModule,
     MdlModule,
     MdlPopoverModule,

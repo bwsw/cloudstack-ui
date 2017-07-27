@@ -5,7 +5,7 @@
 
       <mdl-tab-panel>
         <mdl-tab-panel-title>
-          <mdl-icon [mdTooltip]="'VM' | translate">computer</mdl-icon>
+          <md-icon [mdTooltip]="'VM' | translate">computer</md-icon>
         </mdl-tab-panel-title>
         <mdl-tab-panel-content>
           <cs-vm-detail [vm]="vm"></cs-vm-detail>
@@ -14,7 +14,7 @@
 
       <mdl-tab-panel>
         <mdl-tab-panel-title>
-          <mdl-icon [mdTooltip]="'STORAGE' | translate">storage</mdl-icon>
+          <md-icon [mdTooltip]="'STORAGE' | translate">storage</md-icon>
         </mdl-tab-panel-title>
         <mdl-tab-panel-content>
           <cs-storage-detail [vm]="vm"></cs-storage-detail>
@@ -23,7 +23,7 @@
 
       <mdl-tab-panel>
         <mdl-tab-panel-title [mdTooltip]="'NETWORK' | translate">
-          <mdl-icon>router</mdl-icon>
+          <md-icon>router</md-icon>
         </mdl-tab-panel-title>
         <mdl-tab-panel-content>
           <cs-network-detail [vm]="vm"></cs-network-detail>
@@ -32,7 +32,7 @@
 
       <mdl-tab-panel>
         <mdl-tab-panel-title>
-          <mdl-icon>local_offer</mdl-icon>
+          <md-icon>local_offer</md-icon>
         </mdl-tab-panel-title>
         <mdl-tab-panel-content>
           <cs-vm-tags [entity]="vm"></cs-vm-tags>
@@ -42,15 +42,3 @@
     </mdl-tabs>
   </div>
 </div>
-<mdl-tooltip #vmTooltip="mdlTooltip">
-  {{ 'VM_VIEW' | translate }}
-</mdl-tooltip>
-<mdl-tooltip #storageTooltip="mdlTooltip">
-  {{ 'VM_STORAGE_VIEW' | translate }}
-</mdl-tooltip>
-<mdl-tooltip #networkTooltip="mdlTooltip">
-  {{ 'VM_NETWORK_VIEW' | translate }}
-</mdl-tooltip>
-<mdl-tooltip #tagsTooltip="mdlTooltip">
-  {{ 'VM_TAGS_VIEW' | translate }}
-</mdl-tooltip>

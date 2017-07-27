@@ -4,17 +4,18 @@
 }
 
 :host mdl-spinner {
+  background: transparent !important;
   margin-right: 16px;
   width: 40px;
   height: 40px;
 }
 
-:host mdl-icon.mdl-list__item-avatar {
-  background: transparent;
+:host md-icon.mdl-list__item-avatar {
+  background: transparent !important;
   color: black;
 }
 
-:host mdl-icon.close {
+:host md-icon.close {
   float: right;
   cursor: pointer;
 }
