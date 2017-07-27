@@ -95,7 +95,7 @@ describe('Api Info component', () => {
       title: 'API_DOC_LINK'
     });
     expect(component.linkFields.apiUrl).toEqual({
-      title: 'API_URL', href: 'http://localhost:9876/client/api'
+      title: 'API_URL', href: 'https://cloudstack.ui/client/api'
     });
 
     expect(component.inputFields).toEqual({

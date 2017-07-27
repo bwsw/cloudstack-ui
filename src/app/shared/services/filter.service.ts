@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RouterUtilsService } from './router-utils.service';
 
-import { LocalStorageService } from './local-storage.service';
-import { Utils } from './utils.service';
+import { StorageService } from './storage.service';
 
 
 export interface FilterConfig {
@@ -58,16 +58,18 @@ export class FilterService {
   }
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
-    private storage: LocalStorageService,
+    private storage: StorageService,
+    private routerUtilsService: RouterUtilsService
   ) { }
 
-  public init(key: string, paramsWhitelist: FilterConfig, route: ActivatedRoute): any {
-    return this.getParams(key, paramsWhitelist, route);
+  public init(key: string, paramsWhitelist: FilterConfig): any {
+    return this.getParams(key, paramsWhitelist);
   }
 
   public update(key, params): void {
-    if (Utils.getRouteWithoutQueryParams(this.router.routerState) === '/login') {
+    if (this.routerUtilsService.getRouteWithoutQueryParams() === '/login') {
       return;
     }
 
@@ -84,8 +86,8 @@ export class FilterService {
       .then(() => this.storage.write(key, JSON.stringify(queryParams)));
   }
 
-  private getParams(key: string, config: FilterConfig, route: ActivatedRoute): any {
-    const queryParams = route.snapshot.queryParams;
+  private getParams(key: string, config: FilterConfig): any {
+    const queryParams = this.route.snapshot.queryParams;
     let storage = {};
     try {
       storage = JSON.parse(this.storage.read(key)) || {};

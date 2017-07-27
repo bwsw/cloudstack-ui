@@ -29,7 +29,7 @@ export * from './service-offering-filter.service';
 export * from './snapshot.service';
 export * from './ssh-keypair.service';
 export * from './stats-update.service';
-export * from './local-storage.service';
+export * from './storage.service';
 export * from './style.service';
 export * from './tag.service';
 export * from './user.service';
