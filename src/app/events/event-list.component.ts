@@ -12,12 +12,18 @@ import { EventService } from './event.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 
 import moment = require('moment');
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { SessionStorageService } from '../shared/services/session-storage.service';
 
 @Component({
   selector: 'cs-event-list',
   templateUrl: 'event-list.component.html',
-  styleUrls: ['event-list.component.scss']
+  styleUrls: ['event-list.component.scss'],
+  providers: [{
+    provide: FilterService,
+    useClass: FilterService,
+    deps: [ Router, SessionStorageService ]
+  }]
 })
 export class EventListComponent extends WithUnsubscribe() implements OnInit {
   public loading = false;
@@ -46,7 +52,8 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
     private eventService: EventService,
     private filterService: FilterService,
     private translate: TranslateService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private route: ActivatedRoute
   ) {
     super();
     this.firstDayOfWeek = this.locale === 'en' ? 0 : 1;
@@ -162,7 +169,7 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
       'levels': { type: 'array', options: this.levels, defaultOption: [] },
       'types': { type: 'array', defaultOption: [] },
       'query': { type: 'string' }
-    });
+    }, this.route);
 
     this.date = moment(params['date']).toDate();
     this.selectedLevels = params['levels'];
