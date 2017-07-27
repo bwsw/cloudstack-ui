@@ -4,39 +4,21 @@
   (filters)="filterResults($event)"
   (displayMode)="changeViewMode($event)"
   [showIso]="viewMode === 'Iso'"
-  [showIsoSwitch]="showIsoSwitch"
   [showDelimiter]="showDelimiter"
-  [dialogMode]="dialogMode"
   [searchPanelWhite]="selectedGroupings?.length"
   [availableGroupings]="groupings"
 ></cs-template-filters>
 
-<ng-container *ngIf="!dialogMode">
-  <ng-container *loading="!templateList?.length" cs-list>
-    <cs-template-card-list
-      *loading="fetching"
-      class="template-list"
-      [query]="query"
-      [templateList]="visibleTemplateList"
-      [groupings]="selectedGroupings"
-      (deleteTemplate)="removeTemplate($event)"
-    >
-    </cs-template-card-list>
-  </ng-container>
-</ng-container>
-
-<ng-container *ngIf="dialogMode">
-  <cs-template-list
+<ng-container *loading="!templateList?.length" cs-list>
+  <cs-template-card-list
     *loading="fetching"
     class="template-list"
-    [selectedTemplate]="selectedTemplate"
-    (selectedTemplateChange)="selectTemplate($event)"
-    (deleteTemplate)="removeTemplate($event)"
-    [templateList]="visibleTemplateList"
     [query]="query"
-    [radio]="showRadio"
-    [dialogMode]="dialogMode"
-  ></cs-template-list>
+    [templateList]="visibleTemplateList"
+    [groupings]="selectedGroupings"
+    (deleteTemplate)="removeTemplate($event)"
+  >
+  </cs-template-card-list>
 </ng-container>
 
 <cs-no-results *ngIf="!visibleTemplateList?.length && !fetching"></cs-no-results>

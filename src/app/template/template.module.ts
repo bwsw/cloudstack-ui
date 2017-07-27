@@ -24,6 +24,7 @@ import { TemplateActionsService } from './shared/template-actions.service';
 import { TemplateTagsComponent } from './template-tags/template-tags.component';
 import { TagsModule } from '../tags/tags.module';
 import { ClipboardModule } from 'ngx-clipboard/dist';
+import { TemplateFilterListSelectorComponent } from './template-filter-list/template-filter-list-selector.component';
 
 
 @NgModule({
@@ -51,10 +52,12 @@ import { ClipboardModule } from 'ngx-clipboard/dist';
     TemplateListComponent,
     TemplateCardListComponent,
     TemplateFilterListComponent,
+    TemplateFilterListSelectorComponent,
     TemplatePageComponent,
     TemplateTagsComponent
   ],
   exports: [
+    TemplateFilterListSelectorComponent,
     TemplateFilterListComponent
   ],
   providers: [
