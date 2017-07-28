@@ -285,9 +285,6 @@ export class VmCreationComponent implements OnInit {
       case VmDeploymentStages.IN_PROGRESS:
         this.creationStage = VmCreationStages.vmDeploymentInProgress;
         break;
-      case VmDeploymentStages.TEMP_VM:
-        this.dialog.hide(deploymentMessage.vm);
-        break;
       case VmDeploymentStages.FINISHED:
         this.dialog.hide();
         this.showPassword(deploymentMessage.vm);

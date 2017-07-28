@@ -110,9 +110,10 @@ export class VmDeploymentService {
   }
 
   private getPostDeployActions(vm: VirtualMachine, state: VmCreationState): Observable<any> {
-    return Observable.of(null)
-      .switchMap(() => this.instanceGroupService.add(vm, state.instanceGroup))
-      .switchMap(() => this.tagService.copyTagsToEntity(state.template.tags, vm));
+    return Observable.forkJoin(
+      this.instanceGroupService.add(vm, state.instanceGroup),
+      this.tagService.copyTagsToEntity(state.template.tags, vm)
+    );
   }
 
   private getAffinityGroupCreationObservable(
@@ -186,13 +187,13 @@ export class VmDeploymentService {
       })
       .do(vm => {
         temporaryVm = vm;
-        this.nextTemporaryVm(vm, deployObservable);
+        this.handleTemporaryVm(vm, deployObservable);
       })
       .switchMap(() => this.vmService.incrementNumberOfVms())
       .map(() => ({ deployResponse, temporaryVm }));
   }
 
-  private nextTemporaryVm(
+  private handleTemporaryVm(
     temporaryVm: VirtualMachine,
     deployObservable: Subject<VmDeploymentMessage>
   ): void {
@@ -201,6 +202,7 @@ export class VmDeploymentService {
       stage: VmDeploymentStages.TEMP_VM,
       vm: temporaryVm
     });
+    this.vmService.updateVmInfo(temporaryVm);
   }
 
   private handleSuccessfulDeployment(
