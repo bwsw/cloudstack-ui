@@ -5,7 +5,7 @@
 
   <mdl-tabs
     mdl-ripple
-    mdl-tab-active-index="0"
+    [mdl-tab-active-index]="policyMode"
     (mdl-tab-active-changed)="tabChanged($event)"
   >
     <mdl-tab-panel mdl-tab-panel-title="{{ 'RECURRING_SNAPSHOTS_HOURLY' | translate }}"></mdl-tab-panel>
@@ -30,6 +30,7 @@
       [timeFormat]="timeFormat$ | async"
       [policies]="policies"
       (onPolicyDelete)="deletePolicy($event)"
+      (onPolicyRowClick)="changeTab($event)"
     ></cs-policy-list>
   </div>
 

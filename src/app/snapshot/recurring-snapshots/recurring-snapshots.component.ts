@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, forwardRef, Inject, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { MdlDialogReference } from '../../dialog/dialog-module';
@@ -21,7 +21,6 @@ export enum PolicyType {
   selector: 'cs-recurring-snapshots',
   templateUrl: 'recurring-snapshots.component.html',
   styleUrls: ['recurring-snapshots.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -62,12 +61,14 @@ export class RecurringSnapshotsComponent implements OnInit {
         () => {},
         error => this.onError(error)
       );
-    this.tabChanged(this.policyMode);
   }
 
   public tabChanged(tab: any): void {
     this.policyMode = tab.index;
-    setTimeout(() => this.cd.markForCheck());
+  }
+
+  public changeTab(type: PolicyType): void {
+    this.policyMode = type;
   }
 
   public addPolicy(policy: Policy<any>): void {

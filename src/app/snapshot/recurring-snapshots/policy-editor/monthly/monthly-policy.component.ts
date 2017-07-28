@@ -32,13 +32,6 @@ export class MonthlyPolicyComponent implements ControlValueAccessor {
 
   constructor(private translateService: TranslateService) {}
 
-  public get errorMessage(): Observable<string> {
-    return this.translateService.get('BETWEEN', {
-      lowerLimit: 0,
-      upperLimit: 59
-    });
-  }
-
   public updateTime(value: Time): void {
     if (!isEqual(this.time, value)) {
       this.time = value;
@@ -75,7 +68,7 @@ export class MonthlyPolicyComponent implements ControlValueAccessor {
   public registerOnTouched(): void { }
 
   public writeValue(value: any): void {
-    if (value) {
+    if (value != null) {
       this.policy = value;
     }
   }

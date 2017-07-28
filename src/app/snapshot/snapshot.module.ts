@@ -1,9 +1,8 @@
 import { MdlModule } from '@angular-mdl/core';
-import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MdTooltipModule } from '@angular/material';
+import { MdSelectModule, MdTooltipModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../shared/shared.module';
 import { DayOfWeekComponent } from './recurring-snapshots/day-of-week/day-of-week.component';
@@ -21,6 +20,7 @@ import { TimePickerComponent } from './recurring-snapshots/time-picker/time-pick
 import { TimeZoneComponent } from './recurring-snapshots/time-zone/time-zone.component';
 import { TimeZoneService } from './recurring-snapshots/time-zone/time-zone.service';
 import { PolicyViewBuilderService } from './recurring-snapshots/policy-list/policy-view-builder.service';
+import { MdlSelectModule } from '@angular-mdl/select';
 
 
 @NgModule({

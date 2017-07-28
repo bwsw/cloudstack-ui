@@ -1,5 +1,5 @@
 <mdl-select
-  *ngIf="daysOfWeek"
+  *ngIf="daysOfWeek$ | async as daysOfWeek"
   name="dayOfWeek"
   floating-label
   [label]="'DAY_OF_WEEK' | translate"

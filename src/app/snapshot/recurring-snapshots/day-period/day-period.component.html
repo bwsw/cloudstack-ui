@@ -1,5 +1,5 @@
 <mdl-select
-  *ngIf="periods"
+  *ngIf="periods$ | async as periods"
   name="period"
   [(ngModel)]="period"
 >

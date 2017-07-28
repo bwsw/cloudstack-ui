@@ -29,7 +29,7 @@ export class WeeklyPolicyComponent implements ControlValueAccessor {
   public dayOfWeek: DayOfWeek;
 
   public updateTime(value: Time): void {
-    if (!isEqual(value, this.time)) { // todo
+    if (!isEqual(value, this.time)) {
       this.time = value;
       this.writeValue(this.policy);
     }

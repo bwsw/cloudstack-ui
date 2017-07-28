@@ -27,12 +27,12 @@ export interface DayPeriodName {
 })
 export class DayPeriodComponent implements ControlValueAccessor, OnInit {
   public _period: DayPeriod;
-  public periods: Array<DayPeriodName>;
+  public periods$: Observable<Array<DayPeriodName>> = this.getPeriods();
 
   constructor(private translateService: TranslateService) {}
 
   public ngOnInit(): void {
-    this.loadDayPeriods();
+    this.periods$.subscribe(periods => this.period = periods[0].value);
   }
 
   public propagateChange: any = () => {};
@@ -59,7 +59,7 @@ export class DayPeriodComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  private loadDayPeriods(): void {
+  private getPeriods(): Observable<Array<DayPeriodName>> {
     const periods = [
       { value: DayPeriod.Am, name: 'AM' },
       { value: DayPeriod.Pm, name: 'PM' }
@@ -67,16 +67,14 @@ export class DayPeriodComponent implements ControlValueAccessor, OnInit {
 
     const periodNames = periods.map(_ => _.name);
 
-    this.translateService.get(periodNames)
-      .subscribe(lang => {
+    return this.translateService.get(periodNames)
+      .map(lang => {
         const translations = lang.translations || lang;
 
-        this.periods = periods.map(_ => {
-          _.name = translations[_.name];
-          return _;
+        return periods.map(period => {
+          period.name = translations[period.name];
+          return period;
         });
-
-        this.period = this.periods[0].value;
       });
   }
 }

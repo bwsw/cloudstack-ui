@@ -37,6 +37,7 @@ export class PolicyListComponent implements OnChanges {
 
   @Input() public policies: Array<Policy<TimePolicy>>;
   @Output() public onPolicyDelete: EventEmitter<Policy<TimePolicy>>;
+  @Output() public onPolicyRowClick: EventEmitter<PolicyType>;
 
   public policyViews: Array<PolicyView>;
 
@@ -45,6 +46,7 @@ export class PolicyListComponent implements OnChanges {
     private translateService: TranslateService
   ) {
     this.onPolicyDelete = new EventEmitter<Policy<TimePolicy>>();
+    this.onPolicyRowClick = new EventEmitter<PolicyType>();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -74,12 +76,36 @@ export class PolicyListComponent implements OnChanges {
     this.policyViews = this.getPolicyViews(this.policies, this.dateTimeFormat);
   }
 
+  public handlePolicyRowClick(policyView: PolicyView): void {
+    this.onPolicyRowClick.emit(policyView.type);
+  }
+
   private getPolicyViews(
     policies: Array<Policy<TimePolicy>>,
     dateTimeFormat: DateTimeFormat
   ): Array<PolicyView> {
     return policies.map(policy => {
       return this.policyViewBuilderService.buildPolicyViewFromPolicy(policy, dateTimeFormat);
-    });
+    })
+      .sort((a, b) => this.policyViewComparator(a, b));
+  }
+
+  private policyViewComparator(a: PolicyView, b: PolicyView): number {
+    return this.convertPolicyTypeToNumber(a.type) - this.convertPolicyTypeToNumber(b.type);
+  }
+
+  private convertPolicyTypeToNumber(type: PolicyType): number {
+    switch (type) {
+      case PolicyType.Hourly:
+        return 0;
+      case PolicyType.Daily:
+        return 1;
+      case PolicyType.Weekly:
+        return 2;
+      case PolicyType.Monthly:
+        return 3;
+      default:
+        throw new Error('Invalid policy type');
+    }
   }
 }

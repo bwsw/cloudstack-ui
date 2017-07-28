@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, Input, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
@@ -10,7 +10,6 @@ export interface DayOfWeekName {
   value: DayOfWeek,
   name: string
 }
-
 
 @Component({
   selector: 'cs-day-of-week',
@@ -25,7 +24,7 @@ export interface DayOfWeekName {
 })
 export class DayOfWeekComponent implements OnInit {
   public _dayOfWeek: DayOfWeek;
-  public daysOfWeek: Array<DayOfWeekName>;
+  public daysOfWeek$: Observable<Array<DayOfWeekName>> = this.getDaysOfWeek();
 
   constructor(
     private languageService: LanguageService,
@@ -33,7 +32,21 @@ export class DayOfWeekComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.loadDaysOfWeek();
+    this.daysOfWeek$.subscribe(daysOfWeek => {
+      this.dayOfWeek = daysOfWeek[0].value;
+    });
+  }
+
+  private get daysOfWeekList(): Array<DayOfWeekName> {
+    return [
+      { value: DayOfWeek.Sunday, name: 'SUNDAY'},
+      { value: DayOfWeek.Monday, name: 'MONDAY'},
+      { value: DayOfWeek.Tuesday, name: 'TUESDAY'},
+      { value: DayOfWeek.Wednesday, name: 'WEDNESDAY'},
+      { value: DayOfWeek.Thursday, name: 'THURSDAY'},
+      { value: DayOfWeek.Friday, name: 'FRIDAY'},
+      { value: DayOfWeek.Saturday, name: 'SATURDAY'},
+    ];
   }
 
   public propagateChange: any = () => {};
@@ -60,35 +73,24 @@ export class DayOfWeekComponent implements OnInit {
     }
   }
 
-  private loadDaysOfWeek(): void {
-    const daysOfWeek = [
-      { value: DayOfWeek.Sunday, name: 'SUNDAY'},
-      { value: DayOfWeek.Monday, name: 'MONDAY'},
-      { value: DayOfWeek.Tuesday, name: 'TUESDAY'},
-      { value: DayOfWeek.Wednesday, name: 'WEDNESDAY'},
-      { value: DayOfWeek.Thursday, name: 'THURSDAY'},
-      { value: DayOfWeek.Friday, name: 'FRIDAY'},
-      { value: DayOfWeek.Saturday, name: 'SATURDAY'},
-    ];
+  private getDaysOfWeek(): Observable<Array<DayOfWeekName>> {
+    const dayNames = this.daysOfWeekList.map(_ => _.name);
 
-    const dayNames = daysOfWeek.map(_ => _.name);
-    Observable.forkJoin(
+    return Observable.forkJoin(
       this.languageService.getFirstDayOfWeek(),
       this.translateService.get(dayNames),
     )
-      .subscribe(([firstDayOfWeek, lang]) => {
-        const translations = lang.translations || lang;
+      .map(([firstDayOfWeek, translations]) => {
+        const daysOfWeek = this.daysOfWeekList;
 
         if (firstDayOfWeek === DayOfWeek.Monday) {
           daysOfWeek.push(daysOfWeek.shift());
         }
 
-        this.daysOfWeek = daysOfWeek.map(_ => {
-          _.name = translations[_.name];
-          return _;
+        return daysOfWeek.map(dayOfWeek => {
+          dayOfWeek.name = translations[dayOfWeek.name];
+          return dayOfWeek;
         });
-
-        this.dayOfWeek = this.daysOfWeek[0].value;
       });
   }
 }
