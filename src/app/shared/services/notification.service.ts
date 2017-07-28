@@ -12,20 +12,16 @@ export class NotificationService implements NotificationService {
     private snackBar: MdSnackBar,
     private translateService: TranslateService
   ) {
-    this.snackBarConfig = { duration: 3000 };
+    this.snackBarConfig = { duration: 2750 };
   }
 
   public message(
     message: string | ParametrizedTranslation,
     config?: MdSnackBarConfig
   ): any {
-    if (config) {
-      this.snackBarConfig = config;
-    }
-
     return this.getTranslatedMessage(message)
       .subscribe(translatedMessage => this.snackBar
-        .open(translatedMessage, null, this.snackBarConfig));
+        .open(translatedMessage, null, this.getConfig(config)));
   }
 
   public warning(
@@ -33,13 +29,9 @@ export class NotificationService implements NotificationService {
     action: string,
     config?: MdSnackBarConfig
   ) {
-    if (config) {
-      this.snackBarConfig = config;
-    }
-
     return this.getTranslatedMessage(message)
       .subscribe(translatedMessage => this.snackBar
-        .open(translatedMessage, action, this.snackBarConfig));
+        .open(translatedMessage, action, this.getConfig(config)));
   }
 
   public error(
@@ -47,13 +39,9 @@ export class NotificationService implements NotificationService {
     action?: string,
     config?: MdSnackBarConfig
   ) {
-    if (config) {
-      this.snackBarConfig = config;
-    }
-
     return this.getTranslatedMessage(message)
       .subscribe(translatedMessage => this.snackBar
-        .open(translatedMessage, action, this.snackBarConfig));
+        .open(translatedMessage, action, this.getConfig(config)));
   }
 
   private getTranslatedMessage(message: string | ParametrizedTranslation): Observable<string> {
@@ -65,5 +53,9 @@ export class NotificationService implements NotificationService {
         message.interpolateParams
       );
     }
+  }
+
+  private getConfig(config): MdSnackBarConfig {
+    return config ? config : this.snackBarConfig;
   }
 }
