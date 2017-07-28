@@ -27,7 +27,6 @@ export class TemplateFilterListSelectorComponent implements OnChanges {
   @Input() public showIsoSwitch = true;
   @Input() public viewMode: string;
   @Input() public zoneId: string;
-  @Output() public deleteTemplate = new EventEmitter();
   @Output() public selectedTemplateChange = new EventEmitter();
   @Output() public viewModeChange = new EventEmitter();
 
@@ -97,10 +96,6 @@ export class TemplateFilterListSelectorComponent implements OnChanges {
       this.visibleTemplateList = this.visibleTemplateList
         .filter(template => template.zoneId === this.zoneId || template.crossZones);
     }
-  }
-
-  public removeTemplate(template: Template): void {
-    this.deleteTemplate.next(template);
   }
 
   private filterByCategories(templateList: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
