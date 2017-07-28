@@ -130,7 +130,7 @@ We changed the new virtual machine screen a lot. Now it’s one-step and it allo
 
 We also decided to place resource usage bar on the same virtual machine view screen. It can be collapsed or displayed. You also can see that the interface is in chocolate and blue colors. It’s because we enabled instant theme changing in the settings area. Material Design allows doing it natively, default theme colors can be specified in configuration json file.
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/resourceUsageBar.png" target="_blank">![New Virtual Machine View](./screens/resourceUsageBar_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/resourceUsageBar.PNG" target="_blank">![New Virtual Machine View](./screens/resourceUsageBar_mini.png)</a>
 
 #### Templates & ISOs view
 
