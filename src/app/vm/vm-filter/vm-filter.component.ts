@@ -15,6 +15,7 @@ import { VmState, VmStates } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 
 import sortBy = require('lodash/sortBy');
+import { ActivatedRoute } from '@angular/router';
 
 
 export interface VmFilter {
@@ -57,7 +58,8 @@ export class VmFilterComponent implements OnInit, OnChanges {
   constructor(
     private instanceGroupService: InstanceGroupService,
     private vmService: VmService,
-    private filter: FilterService
+    private filter: FilterService,
+    private route: ActivatedRoute
   ) { }
 
   public ngOnInit(): void {
@@ -78,7 +80,7 @@ export class VmFilterComponent implements OnInit, OnChanges {
       groups: { type: 'array', defaultOption: [] },
       groupings: { type: 'array', defaultOption: [] },
       states: { type: 'array', options: this.states.map(_ => _.state), defaultOption: [] }
-    });
+    }, this.route);
     this.selectedZones = this.zones.filter(zone =>
       params['zones'].find(id => id === zone.id)
     );
