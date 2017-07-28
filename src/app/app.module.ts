@@ -26,6 +26,7 @@ import { SpareDriveModule } from './spare-drive';
 import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
+import { WebShellModule } from './web-shell/web-shell.module';
 
 
 export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
@@ -52,6 +53,7 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
     SshKeysModule,
     TemplateModule,
     VmModule,
+    WebShellModule,
     SharedModule,
     TranslateModule.forRoot({
       loader: {

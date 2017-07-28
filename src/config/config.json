@@ -242,5 +242,6 @@
     }
   },
   "apiDocLink": "https://cloudstack.apache.org/api/apidocs-4.9/",
-  "sessionRefreshInterval": 60
+  "sessionRefreshInterval": 60,
+  "webSSHAddress": "http://192.168.2.88:8018"
 }

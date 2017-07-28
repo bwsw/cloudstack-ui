@@ -594,5 +594,7 @@
   "TAG_ALREADY_EXISTS": "Тег уже существует",
   "NO_TAGS": "Нет тегов",
   "EDIT_TAG": "Редактировать тег",
-  "TAG_DELETE_CONFIRMATION": "Вы действительно хотите удалить этот тег?"
+  "TAG_DELETE_CONFIRMATION": "Вы действительно хотите удалить этот тег?",
+
+  "WEB_SHELL": "WebShell"
 }

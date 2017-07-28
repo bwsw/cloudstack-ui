@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { Tag } from '../../shared/models';
 import { TagService } from '../../shared/services';
 import { TagsComponent } from '../../tags/tags.component';
 import { VmService } from '../shared/vm.service';
+import { VirtualMachine } from '../shared/vm.model';
 
 
 @Component({
@@ -13,7 +13,7 @@ import { VmService } from '../shared/vm.service';
   templateUrl: 'vm-tags.component.html'
 })
 export class VmTagsComponent extends TagsComponent {
-  @Input() public entity: Taggable;
+  @Input() public entity: VirtualMachine;
 
   constructor(
     protected dialogService: DialogService,

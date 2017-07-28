@@ -216,20 +216,21 @@ export class VmListComponent implements OnInit {
   private subscribeToVmUpdates(): void {
     this.vmService.vmUpdateObservable
       .subscribe((updatedVM) => {
-        this.vmService.getWithDetails(updatedVM.id).subscribe((vm) => {
-          const index = this.vmList.findIndex(_ => _.id === updatedVM.id);
+        this.vmService.getWithDetails(updatedVM.id)
+          .subscribe(vm => {
+            const index = this.vmList.findIndex(_ => _.id === updatedVM.id);
 
-          if (index < 0) {
-            this.vmList.push(vm);
-          } else {
-            this.vmList = [
-              ...this.vmList.slice(0, index),
-              vm,
-              ...this.vmList.slice(index + 1),
-            ];
-          }
-          this.updateFilters();
-        });
+            if (index < 0) {
+              this.vmList.push(vm);
+            } else {
+              this.vmList = [
+                ...this.vmList.slice(0, index),
+                vm,
+                ...this.vmList.slice(index + 1),
+              ];
+            }
+            this.updateFilters();
+          });
         this.updateStats();
       });
   }

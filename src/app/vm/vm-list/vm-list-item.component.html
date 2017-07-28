@@ -77,6 +77,12 @@
       >
         <mdl-icon>{{ a.mdlIcon }}</mdl-icon>
       </button>
+
+      <cs-web-shell
+        *ngIf="showWebShell"
+        [vm]="item"
+      ></cs-web-shell>
+
     </div>
   </mdl-popover>
 </mdl-card>

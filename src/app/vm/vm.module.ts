@@ -53,6 +53,7 @@ import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
 import { vmRouting } from './vm.routing';
+import { WebShellModule } from '../web-shell/web-shell.module';
 
 
 @NgModule({
@@ -75,6 +76,7 @@ import { vmRouting } from './vm.routing';
     TemplateModule,
     TranslateModule,
     TranslateModule,
+    WebShellModule,
     vmRouting,
     RouterModule.forRoot(routes),
   ],
