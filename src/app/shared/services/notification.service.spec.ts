@@ -31,10 +31,8 @@ describe('Service: Notification service', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [MdSnackBarModule, NotificationTestModule, NoopAnimationsModule],
-      // declarations: [NotificationTestComponent],
       providers: [
         NotificationService,
-        // { provide: MdSnackBar, useClass: MockMdSnackBar },
         { provide: TranslateService, useClass: MockTranslateService },
         {
           provide: OverlayContainer, useFactory: () => {
