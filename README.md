@@ -116,7 +116,7 @@ We added a feature to brush a virtual machine with a specific color to make it l
 Also we moved most of VM information to the sidebar, which now has two tabs - the first one is for the general view and virtual-machine related activities (like security groups, additional ips) and the second one is for virtual machine storage management (disks, snapshots, and ISO).
 From the system behavior standpoint, we have changed it sometimes, e.g. when the user wants to change service offering for running VM, the interface says that VM will be stopped and started, and it doesn’t make the user do it separately. So we replaced disconnected action sequences with connected ones.
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/vmView1.png" target="_blank">![Virtual Machine View screen 1](./screens/vmView1_mini.png)</a>&nbsp;&nbsp;
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/304-update-Readme/screens/vmView1.png" target="_blank">![Virtual Machine View screen 1](./screens/vmView1_mini.png)</a>&nbsp;&nbsp;
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/vmView2.png" target="_blank">![Virtual Machine View screen 2](./screens/vmView2_mini.png)</a>&nbsp;&nbsp;
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/vmView3.png" target="_blank">![Virtual Machine View screen 3](./screens/vmView3_mini.png)</a>
 
