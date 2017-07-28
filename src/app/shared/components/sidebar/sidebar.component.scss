@@ -54,7 +54,13 @@
 }
 
 :host /deep/ md-card-content {
-  width: 100%
+  width: 100%;
+  line-height: 18px;
+
+  & .md-card-content-container {
+    padding-bottom: 0px;
+    margin-bottom: 16px;
+  }
 }
 
 .details-header {
