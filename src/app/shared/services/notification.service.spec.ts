@@ -20,7 +20,7 @@ import { LiveAnnouncer } from '@angular/cdk';
 import { CommonModule } from '@angular/common';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-fdescribe('Service: Notification service', () => {
+describe('Service: Notification service', () => {
   let notificationService: NotificationService;
   let mdSnackBar: MdSnackBar;
   let liveAnnouncer: LiveAnnouncer;
