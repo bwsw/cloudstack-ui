@@ -1,22 +1,21 @@
 import { MdlModule } from '@angular-mdl/core';
 import { MdlSelectModule } from '@angular-mdl/select';
 import { Component, EventEmitter, Injectable, NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
-import { async, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
+
 import { DatePickerComponent } from '../shared/components/date-picker';
 import { TopBarComponent } from '../shared/components/top-bar/top-bar.component';
 import { LanguageService } from '../shared/services';
-
 import { FilterService } from '../shared/services/';
+import { TimeFormat } from '../shared/services/language.service';
 import { SharedModule } from '../shared/shared.module';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
 import { EventService } from './event.service';
-import { TimeFormat } from '../shared/services/language.service';
-import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
 
 const eventServiceFixture = require('./event.service.fixture.json');
 
@@ -73,8 +72,6 @@ class MockFilterService {
 
 @Injectable()
 class MockRouter {
-  public
-
   public navigate(route: any): Promise<any> {
     return Promise.resolve(route);
   }
@@ -125,8 +122,8 @@ class MockNotificationBoxComponent {
 }
 
 describe('event list component', () => {
-  let fixture;
   let comp;
+  let fixture: ComponentFixture<EventListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -149,26 +146,28 @@ describe('event list component', () => {
         { provide: FilterService, useClass: MockFilterService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
-    });
-    fixture = TestBed
+    })
       .overrideComponent(TopBarComponent, {
         set: { template: '<ng-content></ng-content>' }
       })
       .overrideComponent(DatePickerComponent, {
         set: { template: '' }
       })
-      .createComponent(EventListComponent);
-    comp = fixture.componentInstance;
+      .compileComponents();
   }));
 
-  afterEach(() => comp = null);
+  beforeEach(() => {
+    sessionStorage.clear();
 
-  it('should grab events by date', fakeAsync(() => {
+    fixture = TestBed.createComponent(EventListComponent);
+    comp = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should grab events by date', () => {
     fixture.detectChanges();
     comp.date = new Date('1970-01-02');
     comp.getEvents({ reload: true });
-
-    tick(1000);
 
     fixture.detectChanges();
     expect(comp.tableModel.data[0].id).toBe('1');
@@ -178,8 +177,6 @@ describe('event list component', () => {
     comp.date = new Date('1970-01-03');
     comp.getEvents({ reload: true });
 
-    tick(1000);
-
     fixture.detectChanges();
     expect(comp.tableModel.data[0].id).toBe('4');
 
@@ -188,19 +185,15 @@ describe('event list component', () => {
     expect(comp.tableModel.data[3].id).toBe('7');
     expect(comp.tableModel.data[4].id).toBe('8');
     expect(comp.tableModel.data[5].id).toBe('9');
-  }));
+  });
 
-  it('should filter events by level', fakeAsync(() => {
+  it('should filter events by level', () => {
     fixture.detectChanges();
     comp.date = new Date('1970-01-03');
     comp.getEvents({ reload: true });
 
-    tick(1000);
-
     comp.selectedLevels = ['INFO'];
     comp.getEvents();
-
-    tick(1000);
 
     fixture.detectChanges();
     expect(comp.tableModel.data[0].id).toBe('4');
@@ -208,33 +201,25 @@ describe('event list component', () => {
     comp.selectedLevels = ['INFO', 'WARN'];
     comp.getEvents();
 
-    tick(1000);
-
     fixture.detectChanges();
     expect(comp.tableModel.data.length).toBe(4);
     comp.selectedLevels = [];
     comp.getEvents();
 
-    tick(1000);
-
     fixture.detectChanges();
     expect(comp.tableModel.data.length).toBe(6);
-  }));
+  });
 
-  it('should filter events by type', fakeAsync(() => {
+  it('should filter events by type', () => {
     fixture.detectChanges();
     comp.date = new Date('1970-01-02');
     comp.getEvents({ reload: true });
-
-    tick(1000);
 
     fixture.detectChanges();
 
     expect(comp.eventTypes).toEqual(['USER.LOGIN', 'USER.LOGOUT', 'SG.CREATE']);
     comp.date = new Date('1970-01-03');
     comp.getEvents({ reload: true });
-
-    tick(1000);
 
     fixture.detectChanges();
 
@@ -246,25 +231,19 @@ describe('event list component', () => {
     comp.selectedTypes = ['SG.AUTH.INGRESS', 'CREATE_TAGS'];
     comp.getEvents();
 
-    tick(1000);
-
     fixture.detectChanges();
     expect(comp.tableModel.data.length).toBe(4);
-  }));
+  });
 
-  it('should filter by all filters', fakeAsync(() => {
+  it('should filter by all filters', () => {
     fixture.detectChanges();
     comp.date = new Date('1970-01-03');
     comp.getEvents({ reload: true });
-
-    tick(1000);
 
     fixture.detectChanges();
     comp.selectedTypes = ['SG.AUTH.INGRESS'];
     comp.selectedLevels = ['WARN'];
     comp.getEvents();
-
-    tick(1000);
 
     fixture.detectChanges();
     expect(comp.tableModel.data[0].id).toBe('5');
@@ -273,50 +252,36 @@ describe('event list component', () => {
     comp.selectedLevels = ['ERROR'];
     comp.getEvents();
 
-    tick(1000);
-
     fixture.detectChanges();
     expect(comp.tableModel.data[0].id).toBe('9');
     expect(comp.tableModel.data.length).toBe(1);
-  }));
+  });
 
-  it('should filter by search field', fakeAsync(() => {
+  it('should filter by search field', () => {
     fixture.detectChanges();
     comp.date = new Date('1970-01-02');
     comp.getEvents({ reload: true });
 
-    tick(1000);
-
     comp.query = 'failed';
     comp.getEvents();
 
-    tick(1000);
-
     fixture.detectChanges();
-    tick(1000);
     expect(comp.tableModel.data[0].id).toBe('3');
 
     comp.date = new Date('1970-01-03');
     comp.getEvents({ reload: true });
 
-    tick(1000);
-
     comp.query = 'authorized';
     comp.getEvents();
 
-    tick(1000);
-
     fixture.detectChanges();
-    tick(1000);
     expect(comp.tableModel.data.length).toBe(4);
-  }));
+  });
 
-  it('should render table correctly', fakeAsync(() => {
+  it('should render table correctly', () => {
     fixture.detectChanges();
     comp.date = new Date('1970-01-02');
-    comp.getEvents({reload: true});
-
-    tick();
+    comp.getEvents({ reload: true });
 
     fixture.detectChanges();
     const td = fixture.debugElement.queryAll(By.css('td'));
@@ -327,5 +292,5 @@ describe('event list component', () => {
     expect(td[4].nativeElement.textContent).toBe('user_logged_out');
     expect(td[5].nativeElement.textContent).toBe('WARN');
     expect(td[6].nativeElement.textContent).toBe('USER.LOGOUT');
-  }));
+  });
 });
