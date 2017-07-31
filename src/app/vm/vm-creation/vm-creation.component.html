@@ -3,7 +3,7 @@
     <p *ngIf="showSecurityGroupOverlay">{{ 'CREATING_SG' | translate }}</p>
     <p *ngIf="showAffinityGroupOverlay">{{ 'CREATING_AG' | translate }}</p>
     <p *ngIf="showDeploymentOverlay">{{ 'DEPLOYING_VM' | translate }}</p>
-    <mdl-progress [indeterminate]="true"></mdl-progress>
+    <md-progress-bar mode="indeterminate"></md-progress-bar>
   </div>
 </div>
 <div class="vm-creation-container">

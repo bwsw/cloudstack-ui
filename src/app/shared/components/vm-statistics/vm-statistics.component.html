@@ -40,7 +40,7 @@
         >
           {{ bar.title | translate }}
           <div class="stat-values">{{ bar.value() | async}}</div>
-          <mdl-progress [progress]="bar.progress()"></mdl-progress>
+          <md-progress-bar [value]="bar.progress()"></md-progress-bar>
         </div>
       </mdl-card-supporting-text>
     </mdl-card>

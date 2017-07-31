@@ -4,7 +4,11 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdSelectModule, MdListModule, MdProgressSpinnerModule } from '@angular/material';
+import { 
+  MdSelectModule,
+  MdListModule,
+  MdProgressSpinnerModule
+} from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { DragulaModule } from 'ng2-dragula';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -110,7 +114,6 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     MdlSelectModule,
     TranslateModule,
     MdListModule,
-    TranslateModule,
     MdProgressSpinnerModule
   ],
   exports: [
