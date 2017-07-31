@@ -23,6 +23,8 @@ import { TemplateCardListComponent } from './template-list/template-card-list.co
 import { TemplateActionsService } from './shared/template-actions.service';
 import { TemplateTagsComponent } from './template-tags/template-tags.component';
 import { TagsModule } from '../tags/tags.module';
+import { ClipboardModule } from 'ngx-clipboard/dist';
+import { TemplateFilterListSelectorComponent } from './template-filter-list/template-filter-list-selector.component';
 
 
 @NgModule({
@@ -37,6 +39,7 @@ import { TagsModule } from '../tags/tags.module';
     MdSelectModule,
     SharedModule,
     TagsModule,
+    ClipboardModule,
     templatesRouting
   ],
   declarations: [
@@ -49,10 +52,12 @@ import { TagsModule } from '../tags/tags.module';
     TemplateListComponent,
     TemplateCardListComponent,
     TemplateFilterListComponent,
+    TemplateFilterListSelectorComponent,
     TemplatePageComponent,
     TemplateTagsComponent
   ],
   exports: [
+    TemplateFilterListSelectorComponent,
     TemplateFilterListComponent
   ],
   providers: [
