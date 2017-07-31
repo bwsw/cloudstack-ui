@@ -54,6 +54,8 @@ import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
 import { vmRouting } from './vm.routing';
 import { WebShellModule } from '../web-shell/web-shell.module';
+import { VmActionsService } from './shared/vm-actions.service';
+import { VmActionsCheckerService } from './shared/vm-actions-checker.service';
 
 
 @NgModule({
@@ -111,6 +113,8 @@ import { WebShellModule } from '../web-shell/web-shell.module';
     SnapshotModalComponent,
   ],
   providers: [
+    VmActionsService,
+    VmActionsCheckerService,
     VmCreationFormNormalizationService,
     VmCreationService,
     VmDeploymentService,

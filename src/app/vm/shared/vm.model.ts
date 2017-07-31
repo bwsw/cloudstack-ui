@@ -24,7 +24,7 @@ export interface IVmAction {
   nameCaps: string;
   vmStateOnAction: string;
   vmActionCompleted: string;
-  mdlIcon: string;
+  mdlIcon?: string;
   confirmMessage: string;
   progressMessage: string;
   successMessage: string;
@@ -43,7 +43,16 @@ export const VmStates = {
   Expunging: 'Expunging' as VmState
 };
 
-export type VmAction = 'start' | 'stop' | 'reboot' | 'restore' | 'destroy' | 'resetPasswordFor' | 'console';
+export type VmAction =
+    'start'
+  | 'stop'
+  | 'reboot'
+  | 'restore'
+  | 'destroy'
+  | 'resetPasswordFor'
+  | 'console'
+  | 'webShell';
+
 export const VmActions = {
   START: 'start' as VmAction,
   STOP: 'stop' as VmAction,
@@ -51,7 +60,8 @@ export const VmActions = {
   RESTORE: 'restore' as VmAction,
   DESTROY: 'destroy' as VmAction,
   RESET_PASSWORD: 'resetPasswordFor' as VmAction,
-  CONSOLE: 'console' as VmAction
+  CONSOLE: 'console' as VmAction,
+  WEB_SHELL: 'webShell' as VmAction
 };
 
 @ZoneName()
@@ -81,10 +91,6 @@ export const VmActions = {
   passwordenabled: 'passwordEnabled'
 })
 export class VirtualMachine extends BaseModel implements Taggable {
-  public static actions = Object
-    .values(VmActions)
-    .map(a => VirtualMachine.getAction(a));
-
   public static ColorDelimiter = ';';
   public resourceType = 'UserVm';
 
@@ -135,54 +141,6 @@ export class VirtualMachine extends BaseModel implements Taggable {
   public tags: Array<Tag>;
   public instanceGroup: InstanceGroup;
 
-  public static getAction(action: string): IVmAction {
-    const name = action.charAt(0).toUpperCase() + action.slice(1);
-    const commandName = action;
-    const nameLower = action.toLowerCase();
-    const nameCaps = action.toUpperCase();
-    const vmStateOnAction = nameCaps + '_IN_PROGRESS';
-    const vmActionCompleted = nameCaps + '_DONE';
-    let mdlIcon = '';
-    const confirmMessage = 'CONFIRM_VM_' + nameCaps;
-    const progressMessage = 'VM_' + nameCaps + '_IN_PROGRESS';
-    const successMessage = nameCaps + '_DONE';
-    switch (action) {
-      case VmActions.START:
-        mdlIcon = 'play_arrow';
-        break;
-      case VmActions.STOP:
-        mdlIcon = 'stop';
-        break;
-      case VmActions.REBOOT:
-        mdlIcon = 'replay';
-        break;
-      case VmActions.RESTORE:
-        mdlIcon = 'settings_backup_restore';
-        break;
-      case VmActions.DESTROY:
-        mdlIcon = 'delete';
-        break;
-      case VmActions.RESET_PASSWORD:
-        mdlIcon = 'vpn_key';
-        break;
-      case VmActions.CONSOLE:
-        mdlIcon = 'computer';
-        break;
-    }
-    return {
-      name,
-      commandName,
-      nameLower,
-      nameCaps,
-      vmStateOnAction,
-      vmActionCompleted,
-      mdlIcon,
-      confirmMessage,
-      progressMessage,
-      successMessage
-    };
-  }
-
   constructor(params?: {}) {
     super(params);
 
@@ -209,6 +167,10 @@ export class VirtualMachine extends BaseModel implements Taggable {
     }
   }
 
+  public get ipIsAvailable(): boolean {
+    return this.nic.length && !!this.nic[0].ipAddress;
+  }
+
   public getDisksSize(): number {
     const sizeInBytes = this.volumes && this.volumes.reduce((acc: number, volume: Volume) => {
       return acc + volume.size;
@@ -226,41 +188,4 @@ export class VirtualMachine extends BaseModel implements Taggable {
     }
     return new Color('white', '#FFFFFF', '');
   }
-
-  public canApply(command: string): boolean {
-    const state = this.state;
-
-    if (state === 'Error' && command === 'destroy') {
-      return true;
-    }
-
-    if (state !== 'Running' && state !== 'Stopped') {
-      return false;
-    }
-
-    // if a vm has no ip address, it can't be reached
-    // so reset password fails
-    if (this.nic && this.nic.length) {
-      if (command === 'resetpasswordfor' && !this.nic[0].ipAddress) {
-        return false;
-      }
-    } else {
-      return false;
-    }
-
-    switch (command) {
-      case 'start':
-        return state !== 'Running';
-      case 'stop':
-      case 'reboot':
-      case 'console':
-        return state !== 'Stopped';
-      case 'changeOffering':
-        return state === 'Stopped';
-    }
-
-    return true;
-  }
-
-
 }

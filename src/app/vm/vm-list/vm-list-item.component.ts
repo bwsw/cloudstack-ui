@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { Color } from '../../shared/models';
 import { IVmAction, VirtualMachine } from '../shared/vm.model';
 import { WebShellService } from '../../web-shell/web-shell.service';
+import { VmActionsService } from '../shared/vm-actions.service';
 
 
 @Component({
@@ -22,11 +23,10 @@ export class VmListItemComponent implements OnInit, OnChanges {
   public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
   public isWebShellEnabled: boolean;
 
-  constructor(private webShellService: WebShellService) {}
+  constructor(public vmActionsService: VmActionsService) {}
 
   public ngOnInit(): void {
     this.updateColor();
-    this.actions = VirtualMachine.actions;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -49,32 +49,16 @@ export class VmListItemComponent implements OnInit, OnChanges {
   public togglePopover(event): void {
     event.stopPropagation();
     this.popoverComponent.toggle(event);
-    this.updateWebShellAvailability();
-  }
-
-  public openConsole(): void {
-    window.open(
-      `client/console?cmd=access&vm=${this.item.id}`,
-      this.item.displayName,
-      'resizable=0,width=820,height=640'
-    );
   }
 
   public getAction(event: MouseEvent, act: string): void {
     event.stopPropagation();
-    if (act === 'console') {
-      this.openConsole();
-      return;
-    }
 
     const e = {
       action: this.actions.find(a => a.nameLower === act),
-      vm: this.item
+      vm: this.item,
+      templateId: this.item.templateId
     };
-
-    if (act === 'restore') {
-      e['templateId'] = this.item.templateId;
-    }
 
     this.onVmAction.emit(e);
   }
@@ -89,10 +73,5 @@ export class VmListItemComponent implements OnInit, OnChanges {
 
   private updateColor(): void {
     this.color = this.item.getColor();
-  }
-
-  private updateWebShellAvailability(): void {
-    this.webShellService.isWebShellEnabled(this.item)
-      .subscribe(enabled => this.isWebShellEnabled = enabled);
   }
 }

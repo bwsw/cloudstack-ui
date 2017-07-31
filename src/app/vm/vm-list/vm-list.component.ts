@@ -22,6 +22,7 @@ import { IVmActionEvent, VirtualMachineEntityName, VmService } from '../shared/v
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list-item.component';
+import { VmActionsService } from '../shared/vm-actions.service';
 
 
 const askToCreateVm = 'askToCreateVm';
@@ -79,6 +80,7 @@ export class VmListComponent implements OnInit {
     private asyncJobService: AsyncJobService,
     private statsUpdateService: StatsUpdateService,
     private userService: UserService,
+    private vmActionsService: VmActionsService,
     private zoneService: ZoneService
   ) {
     this.showDetail = this.showDetail.bind(this);
@@ -145,13 +147,11 @@ export class VmListComponent implements OnInit {
 
   public vmAction(e: IVmActionEvent): void {
     let dialog;
-    if (e.action.commandName === VmActions.RESET_PASSWORD) {
-      dialog = this.dialogService.customConfirm({
-        message: e.action.confirmMessage,
-        width: '400px'
-      });
+
+    if (e.action.tokens.commandName === VmActions.RESET_PASSWORD) {
+      dialog = this.showResetPasswordDialog(e);
     } else {
-      dialog = this.dialogService.confirm(e.action.confirmMessage, 'NO', 'YES');
+      dialog = this.showRegularDialog(e);
     }
 
     dialog.onErrorResumeNext()
@@ -244,8 +244,10 @@ export class VmListComponent implements OnInit {
       .subscribe(observables => {
         observables.forEach(observable => {
           observable.subscribe(job => {
-            const action = VirtualMachine.getAction(job.cmd);
-            this.jobsNotificationService.finish({ message: action.successMessage });
+            const action = this.vmActionsService.getAction(job.cmd);
+            this.jobsNotificationService.finish({
+              message: action.tokens.successMessage
+            });
           });
         });
       });
@@ -338,5 +340,16 @@ export class VmListComponent implements OnInit {
       }
       return 0;
     });
+  }
+
+  private showResetPasswordDialog(e: IVmActionEvent): Observable<void> {
+    return this.dialogService.customConfirm({
+      message: e.action.tokens.confirmMessage,
+      width: '400px'
+    });
+  }
+
+  private showRegularDialog(e: IVmActionEvent): Observable<void> {
+    return this.dialogService.confirm(e.action.tokens.confirmMessage, 'NO', 'YES');
   }
 }

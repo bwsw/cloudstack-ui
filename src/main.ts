@@ -8,4 +8,7 @@ if (environment.production) {
   enableProdMode();
 }
 
+export let config = {};
+
+
 platformBrowserDynamic().bootstrapModule(AppModule);

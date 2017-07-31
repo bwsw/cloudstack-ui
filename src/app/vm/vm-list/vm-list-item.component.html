@@ -67,15 +67,15 @@
   >
     <div mdl-shadow="6" class="popover-actions">
       <button
-        *ngFor="let a of actions"
-        (click)="getAction($event, a.nameLower)"
-        [disabled]="!item.canApply(a.nameLower)"
-        [mdTooltip]="a.nameCaps | translate"
+        *ngFor="let action of vmActionsService.Actions"
+        (click)="action.activate(item)"
+        [disabled]="action.canActivate(item)"
+        [mdTooltip]="action.name | translate"
         mdl-button
         mdl-button-type="icon"
         mdl-ripple
       >
-        <mdl-icon>{{ a.mdlIcon }}</mdl-icon>
+        <mdl-icon>{{ action.icon }}</mdl-icon>
       </button>
 
       <cs-web-shell

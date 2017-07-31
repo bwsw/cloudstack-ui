@@ -25,10 +25,11 @@ import { UserService } from '../../shared/services/user.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { VolumeTypes } from '../../shared/models/volume.model';
+import { VirtualMachineAction, VmActionsService } from './vm-actions.service';
 
 
 export interface IVmActionEvent {
-  action: IVmAction;
+  action: VirtualMachineAction;
   vm: VirtualMachine;
   templateId?: string;
 }
@@ -53,6 +54,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     private securityGroupService: SecurityGroupService,
     private tagService: TagService,
     private userService: UserService,
+    private vmActionsService: VmActionsService,
     private volumeService: VolumeService
   ) {
     super();
@@ -139,7 +141,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public vmAction(e: IVmActionEvent): Observable<void> {
-    switch (e.action.commandName) {
+    switch (e.action.tokens.commandName) {
       case VmActions.RESET_PASSWORD: return this.resetPassword(e);
       case VmActions.DESTROY: return this.destroy(e);
     }
@@ -147,16 +149,22 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public command(e: IVmActionEvent): Observable<any> {
-    const notificationId = this.jobsNotificationService.add(e.action.progressMessage);
+    const notificationId = this.jobsNotificationService.add(e.action.tokens.progressMessage);
     if (e.vm) {
-      e.vm.state = e.action.vmStateOnAction as any;
+      e.vm.state = e.action.tokens.vmStateOnAction as any;
     }
-    return this.sendCommand(e.action.commandName, this.buildCommandParams(e.vm.id, e.action.commandName))
+    return this.sendCommand(
+      e.action.tokens.commandName,
+      this.buildCommandParams(
+        e.vm.id,
+        e.action.tokens.commandName
+      )
+    )
       .switchMap(job => this.registerVmJob(job))
       .map(job => {
         this.jobsNotificationService.finish({
           id: notificationId,
-          message: e.action.successMessage
+          message: e.action.tokens.successMessage
         });
         return job;
       });
@@ -202,12 +210,12 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         });
     } else {
       const stop: IVmActionEvent = {
-        action: VirtualMachine.getAction(VmActions.STOP),
+        action: this.vmActionsService.getAction(VmActions.STOP),
         vm: e.vm,
         templateId: e.templateId
       };
       const start: IVmActionEvent = {
-        action: VirtualMachine.getAction(VmActions.START),
+        action: this.vmActionsService.getAction(VmActions.START),
         vm: e.vm,
         templateId: e.templateId
       };
@@ -244,13 +252,13 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       return this.changeOffering(serviceOffering, virtualMachine).map(vm => vm);
     }
     return this.command({
-      action: VirtualMachine.getAction(VmActions.STOP),
+      action: this.vmActionsService.getAction(VmActions.STOP),
       vm: virtualMachine
     }).switchMap(() => {
       return this.changeOffering(serviceOffering, virtualMachine).map(vm => vm);
     }).switchMap((vm) => {
       return this.command({
-        action: VirtualMachine.getAction(VmActions.START),
+        action: this.vmActionsService.getAction(VmActions.START),
         vm: virtualMachine
       }).map(() => vm);
     });
