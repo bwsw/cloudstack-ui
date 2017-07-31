@@ -26,9 +26,8 @@ export class CustomServiceOfferingComponent implements OnInit {
 
   public ngOnInit(): void {
     if (this.zoneId == null) { throw new Error('Attribute \'zoneId\' is required'); }
-    this.loadCustomOfferingRestrictions().subscribe(() => {
-      this.initOffering();
-    });
+    this.loadCustomOfferingRestrictions();
+    this.initOffering();
   }
 
   public errorMessage(lowerLimit: any, upperLimit: any): Observable<string> {
@@ -54,15 +53,14 @@ export class CustomServiceOfferingComponent implements OnInit {
     this.dialog.hide();
   }
 
-  private loadCustomOfferingRestrictions(): Observable<void> {
-    return this.configService.get('customOfferingRestrictions')
-      .map(restrictions => {
-        try {
-          this.restrictions = new CustomOfferingRestrictions(restrictions[this.zoneId]);
-        } catch (e) {
-          throw new Error('Custom offering settings must be specified. Contact your administrator.');
-        }
-      });
+  private loadCustomOfferingRestrictions(): void {
+    const restrictions = this.configService.get('customOfferingRestrictions');
+
+    try {
+      this.restrictions = new CustomOfferingRestrictions(restrictions[this.zoneId]);
+    } catch (e) {
+      throw new Error('Custom offering settings must be specified. Contact your administrator.');
+    }
   }
 
   private initOffering(): void {

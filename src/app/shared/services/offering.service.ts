@@ -36,12 +36,11 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
     const modifiedParams = Object.assign({}, params);
     delete modifiedParams.zone;
 
-    const availabilityRequest: Observable<OfferingAvailability> = this.configService.get('offeringAvailability');
+    const offeringAvailability = this.configService.get('offeringAvailability');
     return Observable.forkJoin([
-      availabilityRequest,
       super.getList(modifiedParams)
     ])
-      .map(([offeringAvailability, offeringList]) => {
+      .map(([offeringList]) => {
         return this.getOfferingsAvailableInZone(
           offeringList,
           offeringAvailability,
@@ -51,10 +50,10 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
   }
 
   public getOfferingsAvailableInZone(
-    offeringList: Array<T>,
+    offeringList: Array<Offering>,
     offeringAvailability: OfferingAvailability,
     zone: Zone
-  ): Array<T> {
+  ): Array<Offering> {
     if (!offeringAvailability.filterOfferings) {
       return offeringList;
     }
@@ -68,7 +67,7 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
   }
 
   protected abstract isOfferingAvailableInZone(
-    offering: T,
+    offering: Offering,
     offeringAvailability: OfferingAvailability,
     zone: Zone
   ): boolean;

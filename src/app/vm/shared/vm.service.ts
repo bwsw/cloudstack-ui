@@ -54,7 +54,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     private securityGroupService: SecurityGroupService,
     private tagService: TagService,
     private userService: UserService,
-    private vmActionsService: VmActionsService,
     private volumeService: VolumeService
   ) {
     super();
@@ -142,8 +141,10 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public vmAction(e: IVmActionEvent): Observable<void> {
     switch (e.action.tokens.commandName) {
-      case VmActions.RESET_PASSWORD: return this.resetPassword(e);
-      case VmActions.DESTROY: return this.destroy(e);
+      // case VmActions.RESET_PASSWORD:
+      //   return this.resetPassword(e);
+      case VmActions.DESTROY:
+        return this.destroy(e);
     }
     return this.command(e);
   }
@@ -189,46 +190,48 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       .catch(() => this.command(e));
   }
 
-  public resetPassword(e: IVmActionEvent): Observable<void> {
-    const showDialog = (vmName: string, vmPassword: string) => {
-      this.dialogService.customAlert({
-        message: {
-          translationToken: 'PASSWORD_DIALOG_MESSAGE',
-          interpolateParams: { vmName, vmPassword }
-        },
-        width: '400px',
-        clickOutsideToClose: false
-      } as any);
-    };
-
-    if (e.vm.state === VmStates.Stopped) {
-      this.command(e)
-        .subscribe((vm: VirtualMachine) => {
-          if (vm && vm.password) {
-            showDialog(vm.displayName, vm.password);
-          }
-        });
-    } else {
-      const stop: IVmActionEvent = {
-        action: this.vmActionsService.getAction(VmActions.STOP),
-        vm: e.vm,
-        templateId: e.templateId
-      };
-      const start: IVmActionEvent = {
-        action: this.vmActionsService.getAction(VmActions.START),
-        vm: e.vm,
-        templateId: e.templateId
-      };
-
-      return this.command(stop)
-        .switchMap(() => this.command(e))
-        .map((vm: VirtualMachine) => {
-          if (vm && vm.password) {
-            showDialog(vm.displayName, vm.password);
-          }
-        })
-        .switchMap(() => this.command(start))
-    }
+  public resetPassword(e: IVmActionEvent): void {
+    // const showDialog = (vmName: string, vmPassword: string) => {
+    //   this.dialogService.customAlert({
+    //     message: {
+    //       translationToken: 'PASSWORD_DIALOG_MESSAGE',
+    //       interpolateParams: { vmName, vmPassword }
+    //     },
+    //     width: '400px',
+    //     clickOutsideToClose: false
+    //   } as any);
+    // };
+    //
+    // if (e.vm.state === VmStates.Stopped) {
+    //   this.command(e)
+    //     .subscribe((vm: VirtualMachine) => {
+    //       if (vm && vm.password) {
+    //         showDialog(vm.displayName, vm.password);
+    //       }
+    //     });
+    // } else {
+      // todo: move to vm actions service
+      //
+      // const stop: IVmActionEvent = {
+      //   action: this.vmActionsService.getAction(VmActions.STOP),
+      //   vm: e.vm,
+      //   templateId: e.templateId
+      // };
+      // const start: IVmActionEvent = {
+      //   action: this.vmActionsService.getAction(VmActions.START),
+      //   vm: e.vm,
+      //   templateId: e.templateId
+      // };
+      //
+      // return this.command(stop)
+      //   .switchMap(() => this.command(e))
+      //   .map((vm: VirtualMachine) => {
+      //     if (vm && vm.password) {
+      //       showDialog(vm.displayName, vm.password);
+      //     }
+      //   })
+      //   .switchMap(() => this.command(start))
+    // }
   }
 
   public registerVmJob(job: any): Observable<any> {
@@ -244,24 +247,25 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     serviceOffering: ServiceOffering,
     virtualMachine: VirtualMachine
   ): Observable<VirtualMachine> {
-    if (virtualMachine.serviceOfferingId === serviceOffering.id) {
-      return Observable.of(virtualMachine);
-    }
-
-    if (virtualMachine.state === VmStates.Stopped) {
-      return this.changeOffering(serviceOffering, virtualMachine).map(vm => vm);
-    }
-    return this.command({
-      action: this.vmActionsService.getAction(VmActions.STOP),
-      vm: virtualMachine
-    }).switchMap(() => {
-      return this.changeOffering(serviceOffering, virtualMachine).map(vm => vm);
-    }).switchMap((vm) => {
-      return this.command({
-        action: this.vmActionsService.getAction(VmActions.START),
-        vm: virtualMachine
-      }).map(() => vm);
-    });
+    return Observable.of(virtualMachine);
+    // if (virtualMachine.serviceOfferingId === serviceOffering.id) {
+    //   return Observable.of(virtualMachine);
+    // }
+    //
+    // if (virtualMachine.state === VmStates.Stopped) {
+    //   return this.changeOffering(serviceOffering, virtualMachine).map(vm => vm);
+    // }
+    // return this.command({
+    //   action: this.vmActionsService.getAction(VmActions.STOP),
+    //   vm: virtualMachine
+    // }).switchMap(() => {
+    //   return this.changeOffering(serviceOffering, virtualMachine).map(vm => vm);
+    // }).switchMap((vm) => {
+    //   return this.command({
+    //     action: this.vmActionsService.getAction(VmActions.START),
+    //     vm: virtualMachine
+    //   }).map(() => vm);
+    // });
   }
 
   public addIpToNic(nicId: string, ipAddress?: string): Observable<any> {

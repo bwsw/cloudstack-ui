@@ -69,7 +69,7 @@
       <button
         *ngFor="let action of vmActionsService.Actions"
         (click)="action.activate(item)"
-        [disabled]="action.canActivate(item)"
+        [disabled]="!action.canActivate(item)"
         [mdTooltip]="action.name | translate"
         mdl-button
         mdl-button-type="icon"

@@ -27,12 +27,9 @@ export class VmColorComponent implements OnChanges, OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    Observable.forkJoin(
-      this.configService.get('themeColors'),
-      this.configService.get('vmColors')
-    ).subscribe(
-      ([themeColors, vmColors]) => this.colorList = themeColors.concat(vmColors)
-    );
+    const themeColors = this.configService.get('themeColors');
+    const vmColors = this.configService.get('vmColors');
+    this.colorList = themeColors.concat(vmColors);
 
     this.colorSubject
       .debounceTime(1000)

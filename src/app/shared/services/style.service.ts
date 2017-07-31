@@ -60,13 +60,14 @@ export class StyleService {
   }
 
   public getThemeData(): Observable<ThemeData> {
-    return Observable.forkJoin([
-      this.configService.get('defaultTheme'),
-      this.configService.get('themeColors'),
+    return Observable.forkJoin(
       this.userService.readTag('primaryColor'),
       this.userService.readTag('accentColor')
-    ])
-      .map(([defaultTheme, themeColors, primaryColor, accentColor]) => {
+    )
+      .map(([primaryColor, accentColor]) => {
+        let defaultTheme = this.configService.get('defaultTheme');
+        let themeColors = this.configService.get('themeColors');
+
         if (!defaultTheme || !defaultTheme['primaryColor'] || !defaultTheme['accentColor']) {
           defaultTheme = undefined;
         }

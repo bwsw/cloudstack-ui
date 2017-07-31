@@ -5,6 +5,7 @@ import { Action } from '../../shared/interfaces/action.interface';
 import { BaseTemplateModel } from '../../template/shared/base-template.model';
 import { WebShellService } from '../../web-shell/web-shell.service';
 import { VmActionsCheckerService } from './vm-actions-checker.service';
+import { VmService } from './vm.service';
 
 
 export interface VirtualMachineAction extends Action<VirtualMachine> {
@@ -145,6 +146,7 @@ export class VmActionsService implements ActionsService<VirtualMachine, VirtualM
 
   constructor(
     private vmActionCheckerService: VmActionsCheckerService,
+    private vmService: VmService,
     private webShellService: WebShellService
   ) {}
 
@@ -152,11 +154,29 @@ export class VmActionsService implements ActionsService<VirtualMachine, VirtualM
     return this.Actions.find(_ => _.action === actionName);
   }
 
-  private start(vm: VirtualMachine): void {}
+  private start(vm: VirtualMachine): void {
+    this.vmService.command({
+      action: this.getAction(VmActions.START),
+      vm
+    })
+      .subscribe();
+  }
 
-  private stop(vm: VirtualMachine): void {}
+  private stop(vm: VirtualMachine): void {
+    this.vmService.command({
+      action: this.getAction(VmActions.STOP),
+      vm
+    })
+      .subscribe();
+  }
 
-  private reboot(vm: VirtualMachine): void {}
+  private reboot(vm: VirtualMachine): void {
+    this.vmService.command({
+      action: this.getAction(VmActions.REBOOT),
+      vm
+    })
+      .subscribe();
+  }
 
   private restore(vm: VirtualMachine, template: BaseTemplateModel): void {}
 

@@ -22,9 +22,13 @@ const AuthModeTypes = {
 export class WebShellService {
   constructor(public configService: ConfigService) {}
 
-  public isWebShellEnabled(vm: VirtualMachine): Observable<boolean> {
+  private get isWebShellAddressSpecified(): boolean {
+    return !!this.configService.get(webSSHAddressToken);
+  }
+
+  public isWebShellEnabled(vm: VirtualMachine): boolean {
     if (!vm) {
-      return Observable.of(false);
+      return false;
     }
 
     const authModeTag = vm.tags.find(tag => tag.key === AuthModeToken);
@@ -32,27 +36,21 @@ export class WebShellService {
     const sshEnabledOnVm = authMode === AuthModeTypes.SSH;
     const vmIsRunning = vm.state === VmStates.Running;
 
-    return this.isWebShellAddressSpecified()
-      .map(addressIsSpecified => {
-        return addressIsSpecified && sshEnabledOnVm && vmIsRunning;
-      })
+    return this.isWebShellAddressSpecified && sshEnabledOnVm && vmIsRunning;
   }
 
-  public getWebShellAddress(vm: VirtualMachine): Observable<string> {
-    const webSSHAddressRequest = this.configService.get(webSSHAddressToken);
+  public getWebShellAddress(vm: VirtualMachine): string {
+    const baseAddress = this.configService.get(webSSHAddressToken);
 
-    return webSSHAddressRequest
-      .map(baseAddress => {
-        if (!baseAddress) {
-          return undefined;
-        }
+    if (!baseAddress) {
+      return undefined;
+    }
 
-        const ip = vm.nic[0].ipAddress;
-        const port = this.getPort(vm);
-        const user = this.getUser(vm);
+    const ip = vm.nic[0].ipAddress;
+    const port = this.getPort(vm);
+    const user = this.getUser(vm);
 
-        return `${baseAddress}/?${ip}/${port}/${user}`;
-      });
+    return `${baseAddress}/?${ip}/${port}/${user}`;
   }
 
   private getPort(vm: VirtualMachine): string {
@@ -65,7 +63,4 @@ export class WebShellService {
     return userTag && userTag.value || defaultUser;
   }
 
-  private isWebShellAddressSpecified(): Observable<boolean> {
-    return this.configService.get(webSSHAddressToken).map(_ => !!_);
-  }
 }

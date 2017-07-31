@@ -24,6 +24,7 @@ import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filte
 import { VmListItemComponent } from './vm-list-item.component';
 import { VmActionsService } from '../shared/vm-actions.service';
 
+import { config } from '../../../main';
 
 const askToCreateVm = 'askToCreateVm';
 
@@ -36,6 +37,8 @@ export class VmListComponent implements OnInit {
   @ViewChild(VmStatisticsComponent) public vmStats: VmStatisticsComponent;
   @HostBinding('class.mdl-color--grey-100') public backgroundColorClass = true;
   @HostBinding('class.detail-list-container') public detailListContainer = true;
+
+  public config = config;
 
   public selectedGroupings = [];
   public groupings = [
