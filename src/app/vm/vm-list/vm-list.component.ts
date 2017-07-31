@@ -215,24 +215,28 @@ export class VmListComponent implements OnInit {
 
   private subscribeToVmUpdates(): void {
     this.vmService.vmUpdateObservable
-      .subscribe((updatedVM) => {
+      .switchMap(updatedVM =>
         this.vmService.getWithDetails(updatedVM.id)
-          .subscribe(vm => {
-            const index = this.vmList.findIndex(_ => _.id === updatedVM.id);
-
-            if (index < 0) {
-              this.vmList.push(vm);
-            } else {
-              this.vmList = [
-                ...this.vmList.slice(0, index),
-                vm,
-                ...this.vmList.slice(index + 1),
-              ];
-            }
-            this.updateFilters();
-          });
+      )
+      .subscribe(vm => {
+        this.replaceVmInList(vm);
+        this.updateFilters();
         this.updateStats();
       });
+  }
+
+  private replaceVmInList(vm: VirtualMachine): void {
+    const index = this.vmList.findIndex(_ => _.id === vm.id);
+
+    if (index < 0) {
+      this.vmList.push(vm);
+    } else {
+      this.vmList = [
+        ...this.vmList.slice(0, index),
+        vm,
+        ...this.vmList.slice(index + 1),
+      ];
+    }
   }
 
   private resubscribeToJobs(): void {

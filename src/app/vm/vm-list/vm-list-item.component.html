@@ -79,7 +79,7 @@
       </button>
 
       <cs-web-shell
-        *ngIf="showWebShell"
+        [disabled]="!isWebShellEnabled"
         [vm]="item"
       ></cs-web-shell>
 

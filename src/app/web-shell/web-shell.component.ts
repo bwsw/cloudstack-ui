@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { WebShellService } from './web-shell.service';
 import { VirtualMachine } from '../vm/shared/vm.model';
-import { Router } from '@angular/router';
 
 
 @Component({
@@ -9,12 +8,10 @@ import { Router } from '@angular/router';
   templateUrl: 'web-shell.component.html'
 })
 export class WebShellComponent {
+  @Input() public disabled: boolean;
   @Input() private vm: VirtualMachine;
 
-  constructor(
-    private router: Router,
-    private webShellService: WebShellService
-  ) {}
+  constructor(private webShellService: WebShellService) {}
 
   public onActivate(): void {
     this.webShellService

@@ -2,9 +2,7 @@ import { MdlPopoverComponent } from '@angular-mdl/popover';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Color } from '../../shared/models';
 import { IVmAction, VirtualMachine } from '../shared/vm.model';
-import { AuthModeToken, WebShellService } from '../../web-shell/web-shell.service';
-import { TagService } from '../../shared/services/tag.service';
-import { VmService } from '../shared/vm.service';
+import { WebShellService } from '../../web-shell/web-shell.service';
 
 
 @Component({
@@ -22,12 +20,9 @@ export class VmListItemComponent implements OnInit, OnChanges {
   public actions: Array<IVmAction>;
   public color: Color;
   public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
-  public showWebShell: boolean;
+  public isWebShellEnabled: boolean;
 
-  constructor(
-    private vmService: VmService,
-    private webShellService: WebShellService
-  ) {}
+  constructor(private webShellService: WebShellService) {}
 
   public ngOnInit(): void {
     this.updateColor();
@@ -54,12 +49,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
   public togglePopover(event): void {
     event.stopPropagation();
     this.popoverComponent.toggle(event);
-
-    this.vmService.get(this.item.id)
-      .switchMap(vm => {
-        return this.webShellService.isWebShellEnabled(vm)
-      })
-      .subscribe(show => this.showWebShell = show);
+    this.updateWebShellAvailability();
   }
 
   public openConsole(): void {
@@ -99,5 +89,10 @@ export class VmListItemComponent implements OnInit, OnChanges {
 
   private updateColor(): void {
     this.color = this.item.getColor();
+  }
+
+  private updateWebShellAvailability(): void {
+    this.webShellService.isWebShellEnabled(this.item)
+      .subscribe(enabled => this.isWebShellEnabled = enabled);
   }
 }

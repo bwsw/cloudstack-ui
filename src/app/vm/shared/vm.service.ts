@@ -82,31 +82,9 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public getWithDetails(id: string): Observable<VirtualMachine> {
-    return Observable.forkJoin([
-      super.get(id),
-      this.volumeService.getList({
-        virtualMachineId: id
-      })
-    ])
-      .switchMap(([vm, volumes]) => {
-        vm.volumes = this.sortVolumes(volumes);
-
-        return Observable.forkJoin([
-          Observable.of(vm),
-          this.osTypesService.get(vm.guestOsId),
-          this.serviceOfferingService.get(vm.serviceOfferingId),
-          vm.securityGroup[0] ? this.securityGroupService.get(vm.securityGroup[0].id) : Observable.of(null)
-        ]);
-      })
-      .map(([virtualMachine, osType, serviceOffering, securityGroup]) => {
-        const vm = virtualMachine;
-        vm.osType = osType;
-        vm.serviceOffering = serviceOffering;
-        if (securityGroup) {
-          vm.securityGroup[0] = securityGroup;
-        }
-        return vm;
-      });
+    return this.getListWithDetails().map(list =>
+      list.find(vm => vm.id === id)
+    );
   }
 
   public getListWithDetails(params?: {}, lite = false): Observable<Array<VirtualMachine>> {

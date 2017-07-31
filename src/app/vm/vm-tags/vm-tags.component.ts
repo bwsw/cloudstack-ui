@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { Tag } from '../../shared/models';
@@ -12,7 +12,7 @@ import { VirtualMachine } from '../shared/vm.model';
   selector: 'cs-vm-tags',
   templateUrl: 'vm-tags.component.html'
 })
-export class VmTagsComponent extends TagsComponent {
+export class VmTagsComponent extends TagsComponent implements OnInit {
   @Input() public entity: VirtualMachine;
 
   constructor(
@@ -21,6 +21,13 @@ export class VmTagsComponent extends TagsComponent {
     private vmService: VmService
   ) {
     super(dialogService, tagService);
+  }
+
+  public ngOnInit(): void {
+    super.ngOnInit();
+    this.tags$.subscribe(() => {
+      this.vmService.vmUpdateObservable.next(this.entity);
+    })
   }
 
   protected get entityTags(): Observable<Array<Tag>> {
