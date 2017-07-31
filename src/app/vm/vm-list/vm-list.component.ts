@@ -56,7 +56,7 @@ export class VmListComponent implements OnInit {
       key: 'colors',
       label: 'GROUP_BY.COLORS',
       selector: (item: VirtualMachine) => item.getColor().value,
-      name: (item: VirtualMachine) => item.getColor().name,
+      name: (item: VirtualMachine) => ' ',
     }
   ];
 

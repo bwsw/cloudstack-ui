@@ -19,6 +19,6 @@
     [hidden]="!canRemove"
   >
     <mdl-icon *ngIf="!deleting">delete</mdl-icon>
-    <mdl-spinner single-color active *ngIf="deleting"></mdl-spinner>
+    <md-spinner *ngIf="deleting"></md-spinner>
   </button>
 </td>

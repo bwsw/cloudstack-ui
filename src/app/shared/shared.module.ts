@@ -4,9 +4,10 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
+import { 
   MdSelectModule,
-  MdProgressBarModule
+  MdListModule,
+  MdProgressSpinnerModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { DragulaModule } from 'ng2-dragula';
@@ -112,7 +113,8 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     MdlPopoverModule,
     MdlSelectModule,
     TranslateModule,
-    MdProgressBarModule
+    MdListModule,
+    MdProgressSpinnerModule
   ],
   exports: [
     GroupedCardListComponent,
@@ -150,7 +152,8 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     HighLightPipe,
     ViewValuePipe,
     LoadingDirective,
-    MdlTextAreaAutoresizeDirective
+    MdlTextAreaAutoresizeDirective,
+    MdListModule
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -237,4 +240,5 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     MDL_SELECT_VALUE_ACCESSOR
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+}

@@ -1,7 +1,6 @@
-<mdl-list class="card-list-container">
+<md-list class="card-list-container">
   <cs-ssh-key-list-item
-    *ngFor="let key of keys"
     [key]="key"
-    (onRemove)="onRemove.emit($event)"
-  ></cs-ssh-key-list-item>
-</mdl-list>
+    *ngFor="let key of keys"
+    (onRemove)="onRemove.emit($event)"></cs-ssh-key-list-item>
+</md-list>

@@ -3,18 +3,17 @@
   <div class="list-builder">
     <div class="left-list">
       <h5>{{ 'ALL_GROUPS' | translate }}</h5>
-      <mdl-list>
-        <mdl-list-item
-          *ngFor="let secuityGroup of items[0]; let i=index"
+      <md-list>
+        <md-list-item
+          *ngFor="let securityGroup of items[0]; let i=index"
           [class.active]="selectedColumnIndex === 0 && selectedGroupIndex === i"
           (click)="selectGroup(i, true)"
-          mdl-ripple
         >
-          <mdl-list-item-primary-content>
-            {{ secuityGroup.name }}
-          </mdl-list-item-primary-content>
-        </mdl-list-item>
-      </mdl-list>
+          <h4 md-line>
+            {{ securityGroup.name }}
+          </h4>
+        </md-list-item>
+      </md-list>
     </div>
     <div class="buttons-container">
       <button
@@ -36,23 +35,22 @@
     </div>
     <div class="right-list">
       <h5>{{ 'SELECTED_GROUPS' | translate }}</h5>
-      <mdl-list>
-        <mdl-list-item
-          *ngFor="let secuityGroup of items[1]; let i=index"
+      <md-list>
+        <md-list-item
+          *ngFor="let securityGroup of items[1]; let i=index"
           [class.active]="selectedColumnIndex === 1 && selectedGroupIndex === i"
           (click)="selectGroup(i, false)"
-          mdl-ripple
         >
-          <mdl-list-item-primary-content>
-            {{ secuityGroup.name }}
-          </mdl-list-item-primary-content>
-        </mdl-list-item>
-      </mdl-list>
+          <h4 md-line>
+            {{ securityGroup.name }}
+          </h4>
+        </md-list-item>
+      </md-list>
     </div>
   </div>
   <div class="rules-list">
     <h5>{{ 'NETWORK_RULES' | translate }}</h5>
-    <mdl-list>
+    <md-list>
       <cs-sg-creation-rule
         *ngFor="let item of selectedRules[0]"
         [item]="item"
@@ -63,7 +61,7 @@
         [item]="item"
         [type]="NetworkRuleTypes.Egress"
       ></cs-sg-creation-rule>
-    </mdl-list>
+    </md-list>
   </div>
 </div>
 <div class="mdl-dialog__actions" style="text-align: right;">
