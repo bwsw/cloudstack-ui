@@ -1,155 +1,136 @@
-import { MdlDialogModule, MdlDialogOutletModule, MdlSnackbaModule } from '@angular-mdl/core';
-import { Component } from '@angular/core';
-
-import { async, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  inject,
+  TestBed
+} from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
 import { NotificationService } from './notification.service';
+import { MdSnackBar, MdSnackBarModule, OverlayContainer } from '@angular/material';
 
-
-@Component({
-  selector: 'cs-test-view',
-  template: '<div></div><dialog-outlet></dialog-outlet>',
-  providers: [NotificationService]
-})
-class MdlTestViewComponent {}
+import {
+  Component,
+  Directive,
+  NgModule,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
+import { LiveAnnouncer } from '@angular/cdk';
+import { CommonModule } from '@angular/common';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('Service: Notification service', () => {
-  let ns: NotificationService;
+  let notificationService: NotificationService;
+  let mdSnackBar: MdSnackBar;
+  let liveAnnouncer: LiveAnnouncer;
+  let overlayContainerElement: HTMLElement;
+  let testViewContainerRef: ViewContainerRef;
+  let viewContainerFixture: ComponentFixture<TestComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MdlTestViewComponent],
-      imports: [
-        MdlDialogModule,
-        MdlDialogOutletModule,
-        MdlSnackbaModule.forRoot(),
-      ],
+      imports: [MdSnackBarModule, NotificationTestModule, NoopAnimationsModule],
       providers: [
         NotificationService,
-        { provide: TranslateService, useClass: MockTranslateService }
+        { provide: TranslateService, useClass: MockTranslateService },
+        {
+          provide: OverlayContainer, useFactory: () => {
+          overlayContainerElement = document.createElement('div');
+          return { getContainerElement: () => overlayContainerElement };
+        }
+        }
       ]
     });
   }));
 
-  beforeEach(async(inject([NotificationService], (service: NotificationService) => {
-      ns = service;
-    }))
+  beforeEach(async(inject(
+    [NotificationService, MdSnackBar, LiveAnnouncer],
+    (
+      service: NotificationService,
+      snackBar: MdSnackBar,
+      lAnnouncer: LiveAnnouncer
+    ) => {
+      notificationService = service;
+      mdSnackBar = snackBar;
+      liveAnnouncer = lAnnouncer;
+    }
+    ))
   );
 
-  it('notification appears onscreen and disappears after ~3seconds', fakeAsync(() => {
-    const fixture = TestBed.createComponent(MdlTestViewComponent);
-    const notification = ns.message('test');
+  afterEach(() => {
+    overlayContainerElement.innerHTML = '';
+    liveAnnouncer = undefined;
+    mdSnackBar = undefined;
+    notificationService = undefined;
+  });
 
-    fixture.detectChanges();
-    notification.subscribe((mdlSnackbarComponent) => {
-      // snackbar appeared'
-      expect(mdlSnackbarComponent.isActive()).toBe(true);
-      expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar').length).toBe(1);
-      expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar')[0].textContent).toContain('test');
+  beforeEach(() => {
+    viewContainerFixture = TestBed.createComponent(TestComponent);
 
-      tick(3500);
-      fixture.detectChanges();
+    viewContainerFixture.detectChanges();
+    testViewContainerRef = viewContainerFixture.componentInstance.childViewContainer;
+  });
 
-      expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar').length).toBe(0);
-      expect(mdlSnackbarComponent.isActive()).toBe(false);
+  it('should be defined', () => {
+    expect(NotificationService).toBeDefined();
+    expect(notificationService instanceof NotificationService).toBeTruthy();
+  });
 
-    });
-    tick(1000); // wait for subscribe
-  }));
+  it('should call MdSnackBar method to show the notification', () => {
+    const testMessage = spyOn(mdSnackBar, 'open');
+    notificationService.message('test');
+    expect(testMessage).toHaveBeenCalled();
+  });
 
-  it('warning appears onscreen and disappears after ~3seconds', fakeAsync(() => {
-    const fixture = TestBed.createComponent(MdlTestViewComponent);
-    fixture.detectChanges();
+  it('should support 3 types of notifications', () => {
+    const testNotification = spyOn(mdSnackBar, 'open');
+    notificationService.message('test');
+    notificationService.warning('test', 'test');
+    notificationService.error('test');
+    expect(testNotification).toHaveBeenCalledTimes(3);
+  });
 
-    const warning = ns.warning('test', {
-      handler: () => {},
-      text: 'test'
-    });
+  it('should add the notification to the DOM', () => {
 
-    fixture.detectChanges();
-    warning.subscribe((mdlSnackbarComponent) => {
-      // snackbar appeared
-      expect(mdlSnackbarComponent.isActive()).toBe(true);
-      expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar').length).toBe(1);
-      expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar')[0].textContent).toContain('test');
 
-      tick(3500);
-      fixture.detectChanges();
-      expect(mdlSnackbarComponent.isActive()).toBe(false);
-    });
-    tick(1000); // wait for subscribe
-  }));
+    Object.assign(
+      notificationService.snackBarConfig,
+      { viewContainerRef: testViewContainerRef }
+    );
 
-  it('warning disappears immediately after action', fakeAsync(() => {
-    const fixture = TestBed.createComponent(MdlTestViewComponent);
-    fixture.detectChanges();
+    expect(overlayContainerElement.querySelector('snack-bar-container')).toBeNull();
 
-    const p = ns.warning('test', {
-      handler: () => {},
-      text: 'test'
-    });
-
-    fixture.detectChanges();
-    p.subscribe( (mdlSnackbarComponent) => {
-      // snackbar appeared, proceed
-      expect(mdlSnackbarComponent.isActive()).toBe(true);
-      fixture.nativeElement.querySelectorAll('button')[0].click();
-      tick(3500);
-      fixture.detectChanges();
-      expect(mdlSnackbarComponent.isActive()).toBe(false);
-    });
-    tick(1000);
-  }));
-
-  it('warning action handler is called on action button click', fakeAsync(() => {
-    const fixture = TestBed.createComponent(MdlTestViewComponent);
-    fixture.detectChanges();
-
-    const test = { a: 0 };
-
-    const f = function(): void {
-      this.a = 1;
-    };
-
-    const warning = ns.error('test', {
-      handler: f.bind(test),
-      text: 'test'
-    });
-
-    fixture.detectChanges();
-
-    warning.subscribe((MdlSnackbarComponent) => {
-      // snackbar appeared
-      MdlSnackbarComponent.onClick.call(MdlSnackbarComponent);
-      expect(MdlSnackbarComponent.isActive()).toBe(false);
-
-      tick(1000);
-      fixture.detectChanges();
-      expect(test.a).toBe(1);
-    });
-    tick(1000); // wait for subscribe
-  }));
-
-  it('error appears onscreen and doesn\'t disappear until clicked', fakeAsync(() => {
-    const fixture = TestBed.createComponent(MdlTestViewComponent);
-    fixture.detectChanges();
-
-    const err = ns.error('test', {
-      handler: () => {},
-      text: 'test'
-    });
-
-    fixture.detectChanges();
-    err.subscribe((mdlSnackbarComponent) => {
-      // snackbar appeared
-      expect(mdlSnackbarComponent.isActive()).toBe(true);
-
-      tick(3500);
-      fixture.detectChanges();
-      expect(fixture.nativeElement.querySelectorAll('.mdl-snackbar').length).toBe(1);
-    });
-    tick(1000); // wait for subscribe
-  }));
+    notificationService.message('test');
+    expect(overlayContainerElement.querySelector('snack-bar-container')).not.toBeNull();
+  });
 });
+
+@Directive({ selector: '[csViewContainer]' })
+class ViewContainerDirective {
+  constructor(public viewContainerRef: ViewContainerRef) {
+  }
+}
+
+@Component({
+  selector: 'cs-test-component',
+  template: `
+    <div csViewContainer></div>`,
+})
+class TestComponent {
+  @ViewChild(ViewContainerDirective) viewContainer: ViewContainerDirective;
+
+  get childViewContainer() {
+    return this.viewContainer.viewContainerRef;
+  }
+}
+
+@NgModule({
+  imports: [CommonModule, MdSnackBarModule],
+  exports: [TestComponent, ViewContainerDirective],
+  declarations: [TestComponent, ViewContainerDirective],
+  entryComponents: [TestComponent],
+})
+class NotificationTestModule {
+}
 
