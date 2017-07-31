@@ -44,7 +44,7 @@ export class WebShellService {
     return webSSHAddressRequest
       .map(baseAddress => {
         if (!baseAddress) {
-          throw new Error('WebShell address is not specified');
+          return undefined;
         }
 
         const ip = vm.nic[0].ipAddress;

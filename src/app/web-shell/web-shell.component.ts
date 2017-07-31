@@ -8,7 +8,6 @@ import { VirtualMachine } from '../vm/shared/vm.model';
   templateUrl: 'web-shell.component.html'
 })
 export class WebShellComponent {
-  @Input() public disabled: boolean;
   @Input() private vm: VirtualMachine;
 
   constructor(private webShellService: WebShellService) {}
