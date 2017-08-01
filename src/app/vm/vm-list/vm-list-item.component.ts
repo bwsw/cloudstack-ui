@@ -34,6 +34,12 @@ export class VmListItemComponent implements OnInit, OnChanges {
     this.vmService.vmUpdateObservable.subscribe(() => {
       this.updateColor();
     });
+
+    this.vmService.vmStateChangeObservable.subscribe(vm => {
+      if (this.item.id === vm.id) {
+        this.item = vm;
+      }
+    });
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
