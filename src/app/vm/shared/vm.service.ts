@@ -16,23 +16,15 @@ import {
 } from '../../shared/services';
 
 import { Iso } from '../../template/shared';
-import { IVmAction, VirtualMachine, VmActions, VmStates } from './vm.model';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { VirtualMachine } from './vm.model';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { TagService } from '../../shared/services/tag.service';
 import { UserService } from '../../shared/services/user.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
-import { VolumeTypes } from '../../shared/models/volume.model';
-import { VirtualMachineAction, VmActionsService } from './vm-actions.service';
+import { VirtualMachineAction } from '../vm-actions/vm-action';
 
-
-export interface IVmActionEvent {
-  action: VirtualMachineAction;
-  vm: VirtualMachine;
-  templateId?: string;
-}
 
 export const VirtualMachineEntityName = 'VirtualMachine';
 
@@ -46,7 +38,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   constructor(
     private asyncJobService: AsyncJobService,
-    private dialogService: DialogService,
     private jobsNotificationService: JobsNotificationService,
     private notificationService: NotificationService,
     private osTypesService: OsTypeService,
@@ -139,99 +130,26 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
-  public vmAction(e: IVmActionEvent): Observable<void> {
-    switch (e.action.tokens.commandName) {
-      // case VmActions.RESET_PASSWORD:
-      //   return this.resetPassword(e);
-      case VmActions.DESTROY:
-        return this.destroy(e);
-    }
-    return this.command(e);
-  }
-
-  public command(e: IVmActionEvent): Observable<any> {
-    const notificationId = this.jobsNotificationService.add(e.action.tokens.progressMessage);
-    if (e.vm) {
-      e.vm.state = e.action.tokens.vmStateOnAction as any;
+  public command(action: VirtualMachineAction): Observable<any> {
+    const notificationId = this.jobsNotificationService.add(action.tokens.progressMessage);
+    if (action.vm) {
+      action.vm.state = action.tokens.vmStateOnAction as any;
     }
     return this.sendCommand(
-      e.action.tokens.commandName,
+      action.tokens.commandName,
       this.buildCommandParams(
-        e.vm.id,
-        e.action.tokens.commandName
+        action.vm.id,
+        action.tokens.commandName
       )
     )
       .switchMap(job => this.registerVmJob(job))
       .map(job => {
         this.jobsNotificationService.finish({
           id: notificationId,
-          message: e.action.tokens.successMessage
+          message: action.tokens.successMessage
         });
         return job;
       });
-  }
-
-  public destroy(e: IVmActionEvent): Observable<void> {
-    return this.destroyVolumeDeleteConfirmDialog(e.vm)
-      .switchMap(() => {
-        return this.command(e).map(vm => {
-          if (vm && vm.state === VmStates.Destroyed) {
-            e.vm.volumes
-              .filter(volume => volume.type === VolumeTypes.DATADISK)
-              .forEach(volume =>
-                this.volumeService.markForDeletion(volume.id).subscribe()
-              );
-            e.vm.securityGroup.forEach(sg =>
-              this.securityGroupService.markForDeletion(sg.id).subscribe()
-            );
-          }
-        });
-      })
-      .catch(() => this.command(e));
-  }
-
-  public resetPassword(e: IVmActionEvent): void {
-    // const showDialog = (vmName: string, vmPassword: string) => {
-    //   this.dialogService.customAlert({
-    //     message: {
-    //       translationToken: 'PASSWORD_DIALOG_MESSAGE',
-    //       interpolateParams: { vmName, vmPassword }
-    //     },
-    //     width: '400px',
-    //     clickOutsideToClose: false
-    //   } as any);
-    // };
-    //
-    // if (e.vm.state === VmStates.Stopped) {
-    //   this.command(e)
-    //     .subscribe((vm: VirtualMachine) => {
-    //       if (vm && vm.password) {
-    //         showDialog(vm.displayName, vm.password);
-    //       }
-    //     });
-    // } else {
-      // todo: move to vm actions service
-      //
-      // const stop: IVmActionEvent = {
-      //   action: this.vmActionsService.getAction(VmActions.STOP),
-      //   vm: e.vm,
-      //   templateId: e.templateId
-      // };
-      // const start: IVmActionEvent = {
-      //   action: this.vmActionsService.getAction(VmActions.START),
-      //   vm: e.vm,
-      //   templateId: e.templateId
-      // };
-      //
-      // return this.command(stop)
-      //   .switchMap(() => this.command(e))
-      //   .map((vm: VirtualMachine) => {
-      //     if (vm && vm.password) {
-      //       showDialog(vm.displayName, vm.password);
-      //     }
-      //   })
-      //   .switchMap(() => this.command(start))
-    // }
   }
 
   public registerVmJob(job: any): Observable<any> {
@@ -241,31 +159,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   public getListOfVmsThatUseIso(iso: Iso): Observable<Array<VirtualMachine>> {
     return this.getListWithDetails()
       .map(vmList => vmList.filter(vm => vm.isoId === iso.id));
-  }
-
-  public changeServiceOffering(
-    serviceOffering: ServiceOffering,
-    virtualMachine: VirtualMachine
-  ): Observable<VirtualMachine> {
-    return Observable.of(virtualMachine);
-    // if (virtualMachine.serviceOfferingId === serviceOffering.id) {
-    //   return Observable.of(virtualMachine);
-    // }
-    //
-    // if (virtualMachine.state === VmStates.Stopped) {
-    //   return this.changeOffering(serviceOffering, virtualMachine).map(vm => vm);
-    // }
-    // return this.command({
-    //   action: this.vmActionsService.getAction(VmActions.STOP),
-    //   vm: virtualMachine
-    // }).switchMap(() => {
-    //   return this.changeOffering(serviceOffering, virtualMachine).map(vm => vm);
-    // }).switchMap((vm) => {
-    //   return this.command({
-    //     action: this.vmActionsService.getAction(VmActions.START),
-    //     vm: virtualMachine
-    //   }).map(() => vm);
-    // });
   }
 
   public addIpToNic(nicId: string, ipAddress?: string): Observable<any> {
@@ -297,7 +190,10 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return this.tagService.update(vm, 'UserVm', 'description', description);
   }
 
-  private changeOffering(serviceOffering: ServiceOffering, virtualMachine: VirtualMachine): Observable<VirtualMachine> {
+  public changeServiceOffering(
+    serviceOffering: ServiceOffering,
+    virtualMachine: VirtualMachine
+  ): Observable<VirtualMachine> {
     const params = {};
 
     params['id'] = virtualMachine.id;
@@ -321,13 +217,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         this.jobsNotificationService.fail({ message: 'OFFERING_CHANGE_FAILED' });
         this.notificationService.error('UNEXPECTED_ERROR');
       });
-  }
-
-  private destroyVolumeDeleteConfirmDialog(vm: VirtualMachine): any {
-    if (vm.volumes.length === 1) {
-      return Observable.of(false);
-    }
-    return this.dialogService.confirm('CONFIRM_VM_DELETE_DRIVES', 'NO', 'YES');
   }
 
   private buildCommandParams(id: string, commandName: string): any {

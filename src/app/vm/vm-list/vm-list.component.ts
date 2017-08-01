@@ -87,14 +87,12 @@ export class VmListComponent implements OnInit {
     private zoneService: ZoneService
   ) {
     this.showDetail = this.showDetail.bind(this);
-    this.vmAction = this.vmAction.bind(this);
 
     this.inputs = {
       isSelected: (item) => this.listService.isSelected(item.id)
     };
 
     this.outputs = {
-      onVmAction: this.vmAction,
       onClick: this.showDetail
     };
   }
@@ -146,24 +144,6 @@ export class VmListComponent implements OnInit {
 
   public updateStats(): void {
     this.vmStats.updateStats();
-  }
-
-  public vmAction(e: IVmActionEvent): void {
-    let dialog;
-
-    if (e.action.tokens.commandName === VmActions.RESET_PASSWORD) {
-      dialog = this.showResetPasswordDialog(e);
-    } else {
-      dialog = this.showRegularDialog(e);
-    }
-
-    dialog.onErrorResumeNext()
-      .switchMap(() => this.vmService.vmAction(e))
-      .subscribe(
-        () => {
-        },
-        error => this.dialogService.alert(error.message)
-      );
   }
 
   public onVmCreated(vm: VirtualMachine): void {
@@ -289,7 +269,9 @@ export class VmListComponent implements OnInit {
               handler: () => this.showVmCreationDialog(),
               text: 'YES'
             },
-            { text: 'NO' },
+            {
+              text: 'NO'
+            },
             {
               handler: () => this.userService.writeTag(askToCreateVm, 'false').subscribe(),
               text: 'NO_DONT_ASK'
@@ -343,16 +325,5 @@ export class VmListComponent implements OnInit {
       }
       return 0;
     });
-  }
-
-  private showResetPasswordDialog(e: IVmActionEvent): Observable<void> {
-    return this.dialogService.customConfirm({
-      message: e.action.tokens.confirmMessage,
-      width: '400px'
-    });
-  }
-
-  private showRegularDialog(e: IVmActionEvent): Observable<void> {
-    return this.dialogService.confirm(e.action.tokens.confirmMessage, 'NO', 'YES');
   }
 }

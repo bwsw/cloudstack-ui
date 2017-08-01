@@ -36,9 +36,9 @@ export class SgTemplateListComponent implements OnInit {
 
     this.listService.onAction.subscribe(() => this.showCreationDialog());
 
-    Observable.forkJoin([securityGroupTemplates, accountSecurityGroups])
-      .subscribe(([templates, groups]) => {
-        this.predefinedSecurityGroupList = templates;
+    accountSecurityGroups
+      .subscribe(groups => {
+        this.predefinedSecurityGroupList = securityGroupTemplates;
         this.customSecurityGroupList = groups;
       });
   }

@@ -2,7 +2,7 @@ import { MdlPopoverComponent } from '@angular-mdl/popover';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Color } from '../../shared/models';
 import { IVmAction, VirtualMachine } from '../shared/vm.model';
-import { WebShellService } from '../../web-shell/web-shell.service';
+import { WebShellService } from '../web-shell/web-shell.service';
 import { VmActionsService } from '../shared/vm-actions.service';
 
 
@@ -14,14 +14,12 @@ import { VmActionsService } from '../shared/vm-actions.service';
 export class VmListItemComponent implements OnInit, OnChanges {
   @Input() public item: VirtualMachine;
   @Input() public isSelected: (vm: VirtualMachine) => boolean;
-  @Output() public onVmAction = new EventEmitter();
   @Output() public onClick = new EventEmitter();
   @ViewChild(MdlPopoverComponent) public popoverComponent: MdlPopoverComponent;
 
   public actions: Array<IVmAction>;
   public color: Color;
   public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
-  public isWebShellEnabled: boolean;
 
   constructor(public vmActionsService: VmActionsService) {}
 
@@ -49,18 +47,6 @@ export class VmListItemComponent implements OnInit, OnChanges {
   public togglePopover(event): void {
     event.stopPropagation();
     this.popoverComponent.toggle(event);
-  }
-
-  public getAction(event: MouseEvent, act: string): void {
-    event.stopPropagation();
-
-    const e = {
-      action: this.actions.find(a => a.nameLower === act),
-      vm: this.item,
-      templateId: this.item.templateId
-    };
-
-    this.onVmAction.emit(e);
   }
 
   public getMemoryInMb(): string {

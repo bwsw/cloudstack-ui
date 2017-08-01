@@ -43,26 +43,6 @@ export const VmStates = {
   Expunging: 'Expunging' as VmState
 };
 
-export type VmAction =
-    'start'
-  | 'stop'
-  | 'reboot'
-  | 'restore'
-  | 'destroy'
-  | 'resetPasswordFor'
-  | 'console'
-  | 'webShell';
-
-export const VmActions = {
-  START: 'start' as VmAction,
-  STOP: 'stop' as VmAction,
-  REBOOT: 'reboot' as VmAction,
-  RESTORE: 'restore' as VmAction,
-  DESTROY: 'destroy' as VmAction,
-  RESET_PASSWORD: 'resetPasswordFor' as VmAction,
-  CONSOLE: 'console' as VmAction,
-  WEB_SHELL: 'webShell' as VmAction
-};
 
 @ZoneName()
 @FieldMapper({

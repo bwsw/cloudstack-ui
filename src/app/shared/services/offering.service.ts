@@ -16,7 +16,7 @@ export interface OfferingAvailability {
 }
 
 @Injectable()
-export abstract class OfferingService<T extends Offering> extends BaseBackendService<Offering> {
+export abstract class OfferingService<T extends Offering> extends BaseBackendService<T> {
   protected configService: ConfigService;
 
   constructor() {
@@ -37,10 +37,8 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
     delete modifiedParams.zone;
 
     const offeringAvailability = this.configService.get('offeringAvailability');
-    return Observable.forkJoin([
-      super.getList(modifiedParams)
-    ])
-      .map(([offeringList]) => {
+    super.getList(modifiedParams)
+      .map(offeringList => {
         return this.getOfferingsAvailableInZone(
           offeringList,
           offeringAvailability,
@@ -50,10 +48,10 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
   }
 
   public getOfferingsAvailableInZone(
-    offeringList: Array<Offering>,
+    offeringList: Array<T>,
     offeringAvailability: OfferingAvailability,
     zone: Zone
-  ): Array<Offering> {
+  ): Array<T> {
     if (!offeringAvailability.filterOfferings) {
       return offeringList;
     }

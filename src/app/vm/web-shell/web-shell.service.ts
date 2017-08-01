@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { VirtualMachine, VmStates } from '../vm/shared/vm.model';
-import { Observable } from 'rxjs/Observable';
-import { ConfigService } from '../shared/services/config.service';
+import { VirtualMachine, VmStates } from '../shared/vm.model';
+import { ConfigService } from '../../shared/services/config.service';
 
 
 const webSSHAddressToken = 'webSSHAddress';

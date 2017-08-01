@@ -1,23 +1,22 @@
 import { Injectable } from '@angular/core';
-import { SecurityGroup } from '../../security-group/sg.model';
-
-
-interface IConfig {
-  securityGroupTemplates: Array<SecurityGroup>;
-}
+import { config } from '../../../main';
 
 
 @Injectable()
 export class ConfigService {
-  private config: IConfig;
+  private config = config.config;
 
   public get(key: string | Array<string>): any | Array<any> {
     const isArray = Array.isArray(key);
-    this.getResult(isArray, key)
+    return this.getResult(isArray, key)
   }
 
   private getResult(isArray: boolean, key: string | Array<string>): any {
-    return isArray ? this.getArrayResult(key as Array<string>) : this.config[key as string];
+    if (isArray) {
+      return this.getArrayResult(key as Array<string>);
+    }
+
+    return this.config[key as string];
   }
 
   private getArrayResult(keyArray: Array<string>): Object {
