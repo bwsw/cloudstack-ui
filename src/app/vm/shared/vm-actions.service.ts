@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { VirtualMachineAction } from '../vm-actions/vm-action';
+import { VirtualMachineAction, VirtualMachineActionType, VmActions } from '../vm-actions/vm-action';
 import { VirtualMachine } from './vm.model';
 import { ActionsService } from '../../shared/interfaces/action-service.interface';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
@@ -39,6 +39,29 @@ export class VmActionsService implements ActionsService<VirtualMachine, VirtualM
     private vmService: VmService,
     private webShellService: WebShellService
   ) {}
+
+  public getActionByName(name: VirtualMachineActionType): VirtualMachineAction {
+    switch (name) {
+      case VmActions.START:
+        return this.getStartAction();
+      case VmActions.STOP:
+        return this.getStopAction();
+      case VmActions.REBOOT:
+        return this.getRebootAction();
+      case VmActions.RESTORE:
+        return this.getRestoreAction();
+      case VmActions.DESTROY:
+        return this.getDestroyAction();
+      case VmActions.RESET_PASSWORD:
+        return this.getResetPasswordAction();
+      case VmActions.CONSOLE:
+        return this.getConsoleAction();
+      case VmActions.WEB_SHELL:
+        return this.getWebShellAction();
+      default:
+        throw new Error('Unknown VM action');
+    }
+  }
 
   public getStartAction(): VmStartAction {
     return new VmStartAction(this.dialogService, this.vmService);

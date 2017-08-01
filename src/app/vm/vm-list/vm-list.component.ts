@@ -25,6 +25,7 @@ import { VmListItemComponent } from './vm-list-item.component';
 import { VmActionsService } from '../shared/vm-actions.service';
 
 import { config } from '../../../main';
+import { VirtualMachineActionType } from '../vm-actions/vm-action';
 
 const askToCreateVm = 'askToCreateVm';
 
@@ -79,9 +80,11 @@ export class VmListComponent implements OnInit {
     public listService: ListService,
     private vmService: VmService,
     private dialogService: DialogService,
+    private jobsNotificationService: JobsNotificationService,
     private asyncJobService: AsyncJobService,
     private statsUpdateService: StatsUpdateService,
     private userService: UserService,
+    private vmActionsService: VmActionsService,
     private zoneService: ZoneService
   ) {
     this.showDetail = this.showDetail.bind(this);
@@ -221,17 +224,17 @@ export class VmListComponent implements OnInit {
   }
 
   private resubscribeToJobs(): void {
-    // this.vmService.resubscribe()
-    //   .subscribe(observables => {
-    //     observables.forEach(observable => {
-    //       observable.subscribe(job => {
-    //         const action = this.vmActionsService.getAction(job.cmd);
-    //         this.jobsNotificationService.finish({
-    //           message: action.tokens.successMessage
-    //         });
-    //       });
-    //     });
-    //   });
+    this.vmService.resubscribe()
+      .subscribe(observables => {
+        observables.forEach(observable => {
+          observable.subscribe(job => {
+            const action = this.vmActionsService.getActionByName(job.cmd as VirtualMachineActionType);
+            this.jobsNotificationService.finish({
+              message: action.tokens.successMessage
+            });
+          });
+        });
+      });
   }
 
   private subscribeToVmDestroyed(): void {
