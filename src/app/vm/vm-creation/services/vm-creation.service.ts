@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import {
   CustomOfferingRestrictions
-} from '../../service-offering/custom-service-offering/custom-offering-restrictions';
+} from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
 import {
   AffinityGroupService,
   AuthService,
@@ -11,17 +11,17 @@ import {
   DiskOfferingService,
   DiskStorageService,
   ServiceOfferingService
-} from '../../shared/services';
-import { OfferingAvailability } from '../../shared/services/offering.service';
-import { ResourceUsageService } from '../../shared/services/resource-usage.service';
-import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
-import { ZoneService } from '../../shared/services/zone.service';
-import { Iso, IsoService, Template, TemplateService } from '../../template/shared';
-import { TemplateFilters } from '../../template/shared/base-template.service';
-import { VmService } from '../shared/vm.service';
-import { VmCreationData } from './data/vm-creation-data';
-import { SSHKeyPair } from '../../shared/models';
+} from '../../../shared/services';
+import { OfferingAvailability } from '../../../shared/services/offering.service';
+import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
+import { SecurityGroupService } from '../../../shared/services/security-group.service';
+import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
+import { ZoneService } from '../../../shared/services/zone.service';
+import { Iso, IsoService, Template, TemplateService } from '../../../template/shared';
+import { TemplateFilters } from '../../../template/shared/base-template.service';
+import { VmService } from '../../shared/vm.service';
+import { VmCreationData } from '../data/vm-creation-data';
+import { SSHKeyPair } from '../../../shared/models';
 
 
 const vmCreationConfigurationKeys = [
