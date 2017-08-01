@@ -19,6 +19,5 @@ export class CacheService {
 
   public invalidateAll(): void {
     Object.keys(this.caches).forEach(c => this.caches[c].invalidate());
-    this.caches = {};
   }
 }
