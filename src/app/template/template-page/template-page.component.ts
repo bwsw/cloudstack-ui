@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
@@ -8,7 +8,6 @@ import { BaseTemplateModel, Iso, IsoService, Template, TemplateService } from '.
 import { TemplateFilters } from '../shared/base-template.service';
 import { TemplateActionsService } from '../shared/template-actions.service';
 import { TemplateCreationComponent } from '../template-creation/template-creation.component';
-import { TemplateFilterListComponent } from '../template-filter-list/template-filter-list.component';
 
 
 @Component({
@@ -20,9 +19,6 @@ export class TemplatePageComponent implements OnInit {
   public templates: Array<Template>;
   public isos: Array<Iso>;
   public viewMode: string;
-
-  @HostBinding('class.detail-list-container') public detailListContainer = true;
-  @ViewChild(TemplateFilterListComponent) private filterList;
 
   constructor(
     private dialogService: DialogService,
@@ -55,14 +51,6 @@ export class TemplatePageComponent implements OnInit {
       });
   }
 
-  public createTemplate(templateData): void {
-    this.templateActions.createTemplate(templateData, this.viewMode)
-      .subscribe(
-        () => this.updateList(),
-        () => {}
-      );
-  }
-
   public removeTemplate(template: BaseTemplateModel): void {
     this.templateActions.removeTemplate(template)
       .subscribe(
@@ -72,7 +60,7 @@ export class TemplatePageComponent implements OnInit {
   }
 
   private updateList(template?: BaseTemplateModel): void {
-    this.filterList.updateList();
+    this.getTemplates();
     if (template && this.listService.isSelected(template.id)) {
       this.listService.deselectItem();
     }

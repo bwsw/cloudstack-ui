@@ -48,7 +48,7 @@ export class TemplateFilterListComponent implements OnChanges {
   protected authService = ServiceLocator.injector.get(AuthService);
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes['isos']) {
+    if (changes['isos'] || changes['templates']) {
       this.updateList();
     }
   }
