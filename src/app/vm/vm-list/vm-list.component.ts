@@ -15,9 +15,9 @@ import {
 import { ListService } from '../../shared/components/list/list.service';
 import { UserService } from '../../shared/services/user.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { VirtualMachine, VmActions, VmStates } from '../shared/vm.model';
+import { VirtualMachine, VmStates } from '../shared/vm.model';
 
-import { IVmActionEvent, VirtualMachineEntityName, VmService } from '../shared/vm.service';
+import { VirtualMachineEntityName, VmService } from '../shared/vm.service';
 
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filter.component';
@@ -79,11 +79,9 @@ export class VmListComponent implements OnInit {
     public listService: ListService,
     private vmService: VmService,
     private dialogService: DialogService,
-    private jobsNotificationService: JobsNotificationService,
     private asyncJobService: AsyncJobService,
     private statsUpdateService: StatsUpdateService,
     private userService: UserService,
-    private vmActionsService: VmActionsService,
     private zoneService: ZoneService
   ) {
     this.showDetail = this.showDetail.bind(this);
@@ -223,17 +221,17 @@ export class VmListComponent implements OnInit {
   }
 
   private resubscribeToJobs(): void {
-    this.vmService.resubscribe()
-      .subscribe(observables => {
-        observables.forEach(observable => {
-          observable.subscribe(job => {
-            const action = this.vmActionsService.getAction(job.cmd);
-            this.jobsNotificationService.finish({
-              message: action.tokens.successMessage
-            });
-          });
-        });
-      });
+    // this.vmService.resubscribe()
+    //   .subscribe(observables => {
+    //     observables.forEach(observable => {
+    //       observable.subscribe(job => {
+    //         const action = this.vmActionsService.getAction(job.cmd);
+    //         this.jobsNotificationService.finish({
+    //           message: action.tokens.successMessage
+    //         });
+    //       });
+    //     });
+    //   });
   }
 
   private subscribeToVmDestroyed(): void {

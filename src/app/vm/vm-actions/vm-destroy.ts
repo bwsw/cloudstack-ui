@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { VmService } from '../shared/vm.service';
 import { VmEntityDeletionService } from '../shared/vm-entity-deletion.service';
+import { Volume } from '../../shared/models/volume.model';
 
 
 export class VmDestroyAction extends VirtualMachineAction {
@@ -24,24 +25,23 @@ export class VmDestroyAction extends VirtualMachineAction {
   };
 
   constructor(
-    public vm: VirtualMachine,
     protected dialogService: DialogService,
     protected vmService: VmService,
     protected vmEntityDeletionService: VmEntityDeletionService
   ) {
-    super(vm, dialogService, vmService);
+    super(dialogService, vmService);
   }
 
-  public canActivate(): boolean {
+  public canActivate(vm: VirtualMachine): boolean {
     return [
       VmStates.Running,
       VmStates.Stopped,
       VmStates.Error
     ]
-      .includes(this.vm.state);
+      .includes(vm.state);
   }
 
-  public activate(): Observable<void> {
+  public activate(vm: VirtualMachine): Observable<void> {
     const dialog = this.dialogService.confirm(
       this.tokens.confirmMessage,
       'NO',
@@ -49,14 +49,14 @@ export class VmDestroyAction extends VirtualMachineAction {
     );
 
     return dialog
-      .switchMap(() => this.volumeDeleteConfirmDialog())
-      .switchMap(() => this.vmService.command(this))
-      .map(() => this.vmEntityDeletionService.markVmEntitiesForDeletion(this.vm))
-      .catch(() => this.vmService.command(this));
+      .switchMap(() => this.volumeDeleteConfirmDialog(vm.volumes))
+      .switchMap(() => this.vmService.command(vm, this))
+      .map(() => this.vmEntityDeletionService.markVmEntitiesForDeletion(vm))
+      .catch(() => this.vmService.command(vm, this));
   }
 
-  private volumeDeleteConfirmDialog(): any {
-    if (this.vm.volumes.length === 1) {
+  private volumeDeleteConfirmDialog(volumes: Array<Volume>): any {
+    if (volumes.length === 1) {
       return Observable.of(false);
     }
 

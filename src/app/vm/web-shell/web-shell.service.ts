@@ -21,7 +21,7 @@ const AuthModeTypes = {
 export class WebShellService {
   constructor(public configService: ConfigService) {}
 
-  private get isWebShellAddressSpecified(): boolean {
+  public get isWebShellAddressSpecified(): boolean {
     return !!this.configService.get(webSSHAddressToken);
   }
 

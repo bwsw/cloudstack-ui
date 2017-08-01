@@ -4,6 +4,7 @@ import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { VmService } from '../shared/vm.service';
 import { WebShellService } from '../web-shell/web-shell.service';
 import { Observable } from 'rxjs/Observable';
+import { AfterViewInit } from '@angular/core';
 
 
 export class VmWebShellAction extends VirtualMachineAction {
@@ -12,21 +13,25 @@ export class VmWebShellAction extends VirtualMachineAction {
   public icon = 'computer';
 
   constructor(
-    public vm: VirtualMachine,
     protected dialogService: DialogService,
     protected vmService: VmService,
     protected webShellService: WebShellService
   ) {
-    super(vm, dialogService, vmService);
+    super(dialogService, vmService);
   }
 
-  public activate(): Observable<void> {
-    const address = this.webShellService.getWebShellAddress(this.vm);
+  public activate(vm: VirtualMachine): Observable<void> {
+    const address = this.webShellService.getWebShellAddress(vm);
     window.open(address);
     return Observable.of(null);
   }
 
-  public canActivate(): boolean {
-    return this.webShellService.isWebShellEnabled(this.vm);
+  public canActivate(vm: VirtualMachine): boolean {
+    return this.webShellService.isWebShellEnabled(vm);
+  }
+
+  public hidden(vm: VirtualMachine): boolean {
+    // todo: change to extensions
+    return !this.webShellService.isWebShellAddressSpecified;
   }
 }

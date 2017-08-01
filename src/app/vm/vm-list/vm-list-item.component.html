@@ -66,17 +66,19 @@
     [style.width.px]="300"
   >
     <div mdl-shadow="6" class="popover-actions">
-      <button
-        *ngFor="let action of vmActionsService.Actions"
-        (click)="action.activate(item)"
-        [disabled]="!action.canActivate(item)"
-        [mdTooltip]="action.name | translate"
-        mdl-button
-        mdl-button-type="icon"
-        mdl-ripple
-      >
-        <mdl-icon>{{ action.icon }}</mdl-icon>
-      </button>
+      <ng-container *ngFor="let action of vmActionsService.Actions">
+        <button
+          *ngIf="!action.hidden(item)"
+          (click)="action.activate(item).subscribe()"
+          [disabled]="!action.canActivate(item)"
+          [mdTooltip]="action.name | translate"
+          mdl-button
+          mdl-button-type="icon"
+          mdl-ripple
+        >
+          <mdl-icon>{{ action.icon }}</mdl-icon>
+        </button>
+      </ng-container>
     </div>
   </mdl-popover>
 </mdl-card>

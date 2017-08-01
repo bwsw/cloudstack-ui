@@ -16,7 +16,7 @@ import {
 } from '../../shared/services';
 
 import { Iso } from '../../template/shared';
-import { VirtualMachine } from './vm.model';
+import { VirtualMachine, VmState } from './vm.model';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { TagService } from '../../shared/services/tag.service';
@@ -130,15 +130,15 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
-  public command(action: VirtualMachineAction): Observable<any> {
+  public command(vm: VirtualMachine, action: VirtualMachineAction): Observable<any> {
     const notificationId = this.jobsNotificationService.add(action.tokens.progressMessage);
-    if (action.vm) {
-      action.vm.state = action.tokens.vmStateOnAction as any;
+    if (vm) {
+      vm.state = action.tokens.vmStateOnAction as any;
     }
     return this.sendCommand(
       action.tokens.commandName,
       this.buildCommandParams(
-        action.vm.id,
+        vm.id,
         action.tokens.commandName
       )
     )

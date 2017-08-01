@@ -1,5 +1,5 @@
 import { VirtualMachineAction, VmActions } from './vm-action';
-import { VmStates } from '../shared/vm.model';
+import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
 
 
@@ -8,14 +8,14 @@ export class VmConsoleAction extends VirtualMachineAction {
   public name = 'CONSOLE';
   public icon = 'computer';
 
-  public canActivate(): boolean {
-    return this.vm.state === VmStates.Running;
+  public canActivate(vm: VirtualMachine): boolean {
+    return vm.state === VmStates.Running;
   }
 
-  public activate(): Observable<void> {
+  public activate(vm: VirtualMachine): Observable<void> {
     window.open(
-      `client/console?cmd=access&vm=${this.vm.id}`,
-      this.vm.displayName,
+      `client/console?cmd=access&vm=${vm.id}`,
+      vm.displayName,
       'resizable=0,width=820,height=640'
     );
 

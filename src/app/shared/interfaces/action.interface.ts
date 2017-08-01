@@ -1,10 +1,10 @@
 import { BaseModel } from '../models/base.model';
 
 
-export interface Action<T extends BaseModel> {
+export interface Action<M extends BaseModel> {
   name: string;
   icon?: string;
-  hidden?(model: T): boolean;
-  canActivate?(model: T): boolean;
-  activate(model: T, ...rest: Array<any>): void;
+  isHidden?(model: M): boolean;
+  canActivate?(model: M): boolean;
+  activate(model: M, ...rest: Array<any>): void;
 }

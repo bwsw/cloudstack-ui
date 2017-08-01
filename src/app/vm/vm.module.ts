@@ -54,7 +54,6 @@ import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
 import { vmRouting } from './vm.routing';
 import { VmActionsService } from './shared/vm-actions.service';
-import { VmActionsCheckerService } from './shared/vm-actions-checker.service';
 import { WebShellService } from './web-shell/web-shell.service';
 import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
 
@@ -114,7 +113,6 @@ import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
   ],
   providers: [
     VmActionsService,
-    VmActionsCheckerService,
     VmCreationFormNormalizationService,
     VmCreationService,
     VmDeploymentService,

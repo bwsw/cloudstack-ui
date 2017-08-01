@@ -1,5 +1,5 @@
 import { VirtualMachineAction, VmActions } from './vm-action';
-import { VmStates } from '../shared/vm.model';
+import { VirtualMachine, VmStates } from '../shared/vm.model';
 
 
 export class VmStartAction extends VirtualMachineAction {
@@ -19,7 +19,7 @@ export class VmStartAction extends VirtualMachineAction {
     successMessage: 'START_DONE'
   };
 
-  public canActivate(): boolean {
-    return this.vm.state === VmStates.Stopped;
+  public canActivate(vm: VirtualMachine): boolean {
+    return vm.state === VmStates.Stopped;
   }
 }

@@ -3,7 +3,7 @@ import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { VmService } from '../shared/vm.service';
-import { VmActionBuilderService } from './vm-action-builder.service';
+import { VmActionsService } from '../shared/vm-actions.service';
 
 
 export class VmResetPasswordAction extends VirtualMachineAction {
@@ -24,53 +24,52 @@ export class VmResetPasswordAction extends VirtualMachineAction {
   };
 
   constructor(
-    public vm: VirtualMachine,
     protected dialogService: DialogService,
     protected vmService: VmService,
-    protected vmActionBuilderService: VmActionBuilderService
+    protected vmActionsService: VmActionsService
   ) {
-    super(vm, dialogService, vmService);
+    super(dialogService, vmService);
   }
 
-  public canActivate(): boolean {
-    const ipAvailable = this.vm.ipIsAvailable;
+  public canActivate(vm: VirtualMachine): boolean {
+    const ipAvailable = vm.ipIsAvailable;
     const stateIsOk = [
       VmStates.Running,
       VmStates.Stopped
     ]
-      .includes(this.vm.state);
+      .includes(vm.state);
 
     return ipAvailable && stateIsOk;
   }
 
-  public activate(): Observable<void> {
+  public activate(vm: VirtualMachine): Observable<void> {
     return this.showConfirmDialog()
       .switchMap(() => {
-        if (this.vm.state === VmStates.Stopped) {
-          return this.resetPasswordForStoppedVirtualMachine();
+        if (vm.state === VmStates.Stopped) {
+          return this.resetPasswordForStoppedVirtualMachine(vm);
         }
 
-        return this.resetPasswordForRunningVirtualMachine();
+        return this.resetPasswordForRunningVirtualMachine(vm);
       });
   }
 
-  private resetPasswordForStoppedVirtualMachine(): Observable<void> {
-    return this.vmService.command(this)
-      .map(vm => {
-        if (vm && vm.password) {
-          this.showPasswordDialog(vm.displayName, vm.password);
+  private resetPasswordForStoppedVirtualMachine(vm: VirtualMachine): Observable<void> {
+    return this.vmService.command(vm, this)
+      .map(vmWithPassword => {
+        if (vmWithPassword && vmWithPassword.password) {
+          this.showPasswordDialog(vmWithPassword.displayName, vmWithPassword.password);
         }
       })
       .catch(error => this.dialogService.alert(error.message));
   }
 
-  private resetPasswordForRunningVirtualMachine(): Observable<void> {
-    const stop = this.vmActionBuilderService.getStopAction(this.vm);
-    const start = this.vmActionBuilderService.getStartAction(this.vm);
+  private resetPasswordForRunningVirtualMachine(vm: VirtualMachine): Observable<void> {
+    const stop = this.vmActionsService.getStopActionSilent();
+    const start = this.vmActionsService.getStartActionSilent();
 
-    return this.vmService.command(stop)
-      .switchMap(() => this.resetPasswordForStoppedVirtualMachine())
-      .switchMap(() => this.vmService.command(start))
+    return this.vmService.command(vm, stop)
+      .switchMap(() => this.resetPasswordForStoppedVirtualMachine(vm))
+      .switchMap(() => this.vmService.command(vm, start))
       .catch(error => this.dialogService.alert(error.message));
   }
 

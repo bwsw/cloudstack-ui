@@ -35,25 +35,28 @@ export abstract class VirtualMachineAction implements Action<VirtualMachine> {
   public tokens?: { [key: string]: string; };
 
   constructor(
-    public vm: VirtualMachine,
     protected dialogService: DialogService,
     protected vmService: VmService
   ) {}
 
-  public activate(): Observable<any> {
+  public activate(vm: VirtualMachine): Observable<any> {
     const dialog = this.dialogService.confirm(
       this.tokens.confirmMessage,
       'NO',
       'YES'
     );
 
-    return this.handleAction(dialog);
+    return this.handleAction(vm, dialog);
   }
 
-  protected handleAction(dialog: any): Observable<void> {
+  public hidden(vm: VirtualMachine): boolean {
+    return false;
+  }
+
+  protected handleAction(vm: VirtualMachine, dialog: any): Observable<void> {
     return dialog
       .onErrorResumeNext()
-      .switchMap(() => this.vmService.command(this))
+      .switchMap(() => this.vmService.command(vm, this))
       .catch(error => this.dialogService.alert(error.message));
   }
 }

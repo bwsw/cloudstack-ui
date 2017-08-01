@@ -22,18 +22,18 @@ export class VmRestoreAction extends VirtualMachineAction {
   };
 
   constructor(
-    public vm: VirtualMachine,
     protected dialogService: DialogService,
     protected vmService: VmService
   ) {
-    super(vm, dialogService, vmService);
+    super(dialogService, vmService);
   }
 
-  public canActivate(): boolean {
+  public canActivate(vm: VirtualMachine): boolean {
     return [
       VmStates.Running,
       VmStates.Stopped
     ]
-      .includes(this.vm.state);
+      .includes(vm.state);
   }
 }
+// todo

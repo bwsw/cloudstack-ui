@@ -17,7 +17,7 @@ export interface SnapshotAction extends Action<Snapshot> {
 }
 
 @Injectable()
-export class SnapshotActionsService implements ActionsService<Snapshot, SnapshotAction> {
+export class SnapshotActionsService {
   public Actions: Array<SnapshotAction> = [
     {
       name: 'CREATE_TEMPLATE_BUTTON',
