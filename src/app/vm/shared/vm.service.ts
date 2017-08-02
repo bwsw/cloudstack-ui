@@ -42,7 +42,6 @@ export const VirtualMachineEntityName = 'VirtualMachine';
 })
 export class VmService extends BaseBackendService<VirtualMachine> {
   public vmUpdateObservable = new Subject<VirtualMachine>();
-  public vmStateChangeObservable = new Subject<VirtualMachine>();
 
   constructor(
     private asyncJobService: AsyncJobService,
@@ -83,7 +82,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public changeVmState(vm: VirtualMachine): void {
-    this.vmStateChangeObservable.next(vm);
+    this.vmUpdateObservable.next(vm);
   }
 
   public getWithDetails(id: string): Observable<VirtualMachine> {
