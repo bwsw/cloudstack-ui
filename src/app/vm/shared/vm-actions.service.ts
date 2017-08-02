@@ -2,10 +2,6 @@ import { Injectable } from '@angular/core';
 import { VirtualMachineAction, VirtualMachineActionType, VmActions } from '../vm-actions/vm-action';
 import { VirtualMachine } from './vm.model';
 import { ActionsService } from '../../shared/interfaces/action-service.interface';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { VmEntityDeletionService } from './vm-entity-deletion.service';
-import { VmService } from './vm.service';
-import { WebShellService } from '../web-shell/web-shell.service';
 import { VmStartAction } from '../vm-actions/vm-start';
 import { VmStopAction } from '../vm-actions/vm-stop';
 import { VmRebootAction } from '../vm-actions/vm-reboot';
@@ -15,10 +11,8 @@ import { VmResetPasswordAction } from '../vm-actions/vm-reset-password';
 import { VmConsoleAction } from '../vm-actions/vm-console';
 import { VmWebShellAction } from '../vm-actions/vm-webshell';
 import { VmChangeServiceOfferingAction } from '../vm-actions/vm-change-service-offering';
-import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { VmStartActionSilent } from '../vm-actions/silent/vm-start-silent';
 import { VmStopActionSilent } from '../vm-actions/silent/vm-stop-silent';
-import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 
 
 @Injectable()

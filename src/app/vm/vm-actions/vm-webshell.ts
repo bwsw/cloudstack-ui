@@ -4,7 +4,7 @@ import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { VmService } from '../shared/vm.service';
 import { WebShellService } from '../web-shell/web-shell.service';
 import { Observable } from 'rxjs/Observable';
-import { AfterViewInit, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 
 

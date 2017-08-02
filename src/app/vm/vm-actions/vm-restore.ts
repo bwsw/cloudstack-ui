@@ -1,7 +1,5 @@
 import { VirtualMachineAction, VmActions } from './vm-action';
 import { VirtualMachine, VmStates } from '../shared/vm.model';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { VmService } from '../shared/vm.service';
 import { Injectable } from '@angular/core';
 
 

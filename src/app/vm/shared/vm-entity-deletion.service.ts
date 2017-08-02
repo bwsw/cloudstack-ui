@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { VirtualMachine, VmStates } from './vm.model';
-import { Volume, VolumeTypes } from '../../shared/models/volume.model';
+import { VirtualMachine } from './vm.model';
+import { VolumeTypes } from '../../shared/models/volume.model';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { VolumeService } from '../../shared/services/volume.service';
-import { SecurityGroup } from '../../security-group/sg.model';
 import { VmService } from './vm.service';
-import { VirtualAction } from 'rxjs/scheduler/VirtualTimeScheduler';
 
 
 @Injectable()

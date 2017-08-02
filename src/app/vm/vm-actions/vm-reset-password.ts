@@ -3,10 +3,8 @@ import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { VmService } from '../shared/vm.service';
-import { VmActionsService } from '../shared/vm-actions.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { Injectable } from '@angular/core';
-import { VmStartAction } from './vm-start';
 import { VmStartActionSilent } from './silent/vm-start-silent';
 import { VmStopActionSilent } from './silent/vm-stop-silent';
 
