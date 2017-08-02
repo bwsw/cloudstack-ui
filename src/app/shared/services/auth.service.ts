@@ -10,7 +10,7 @@ import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
 import { ConfigService } from './config.service';
 import { RouterUtilsService } from './router-utils.service';
-import { StorageService } from './storage.service';
+import { LocalStorageService } from './storage.service';
 import { UserService } from './user.service';
 
 const DEFAULT_SESSION_REFRESH_INTERVAL = 60;
@@ -30,7 +30,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   constructor(
     protected asyncJobService: AsyncJobService,
     protected configService: ConfigService,
-    protected storage: StorageService,
+    protected storage: LocalStorageService,
     protected router: Router,
     protected userService: UserService,
     protected routerUtilsService: RouterUtilsService,

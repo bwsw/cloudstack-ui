@@ -82,7 +82,10 @@ import {
 import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
 import { RouterUtilsService } from './services/router-utils.service';
 import { SnapshotService } from './services/snapshot.service';
-import { StorageService } from './services/storage.service';
+import {
+  StorageService, MemoryStorageService,
+  SessionStorageService, LocalStorageService
+} from './services/storage.service';
 import { TagService } from './services/tag.service';
 import { UserService } from './services/user.service';
 import { VolumeService } from './services/volume.service';
@@ -229,6 +232,9 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     SSHKeyPairService,
     StatsUpdateService,
     StorageService,
+    MemoryStorageService,
+    SessionStorageService,
+    LocalStorageService,
     StyleService,
     TagService,
     UserService,

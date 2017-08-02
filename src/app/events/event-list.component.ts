@@ -9,6 +9,7 @@ import { LanguageService, TimeFormats } from '../shared/services';
 import { Event } from './event.model';
 import { EventService } from './event.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
+import { SessionStorageService } from '../shared/services/storage.service';
 
 import moment = require('moment');
 
@@ -43,6 +44,7 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
 
   constructor(
     private eventService: EventService,
+    private sessionStorage: SessionStorageService,
     private filterService: FilterService,
     private translate: TranslateService,
     private languageService: LanguageService
@@ -139,7 +141,7 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
   }
 
   private updateQueryParams(): void {
-    this.filterService.update(this.filtersKey, {
+    this.filterService.update(this.sessionStorage, this.filtersKey, {
       'date': moment(this.date).format('YYYY-MM-DD'),
       'levels': this.selectedLevels,
       'types': this.selectedTypes,
@@ -156,7 +158,7 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
   }
 
   private initFilters(): void {
-    const params = this.filterService.init(this.filtersKey, {
+    const params = this.filterService.init(this.sessionStorage, this.filtersKey, {
       'date': { type: 'string' },
       'levels': { type: 'array', options: this.levels, defaultOption: [] },
       'types': { type: 'array', defaultOption: [] },

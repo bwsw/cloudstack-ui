@@ -2,9 +2,6 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterUtilsService } from './router-utils.service';
 
-import { StorageService } from './storage.service';
-
-
 export interface FilterConfig {
   [propName: string]: FilterItemConfig;
 }
@@ -60,15 +57,15 @@ export class FilterService {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private storage: StorageService,
     private routerUtilsService: RouterUtilsService
-  ) { }
-
-  public init(key: string, paramsWhitelist: FilterConfig): any {
-    return this.getParams(key, paramsWhitelist);
+  ) {
   }
 
-  public update(key, params): void {
+  public init(storageService: any, key: string, paramsWhitelist: FilterConfig): any {
+    return this.getParams(storageService, key, paramsWhitelist);
+  }
+
+  public update(storageService, key, params): void {
     if (this.routerUtilsService.getRouteWithoutQueryParams() === '/login') {
       return;
     }
@@ -83,16 +80,16 @@ export class FilterService {
       }
     }, {});
     this.router.navigate([], { queryParams })
-      .then(() => this.storage.write(key, JSON.stringify(queryParams)));
+      .then(() => storageService.write(key, JSON.stringify(queryParams)));
   }
 
-  private getParams(key: string, config: FilterConfig): any {
+  private getParams(storageService: any, key: string, config: FilterConfig): any {
     const queryParams = this.route.snapshot.queryParams;
     let storage = {};
     try {
-      storage = JSON.parse(this.storage.read(key)) || {};
+      storage = JSON.parse(storageService.read(key)) || {};
     } catch (e) {
-      this.storage.remove(key);
+      storageService.remove(key);
     }
 
     return Object.keys(config).reduce((memo, filter) => {

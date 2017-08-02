@@ -15,6 +15,7 @@ import { VmState, VmStates } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 
 import sortBy = require('lodash/sortBy');
+import { LocalStorageService } from '../../shared/services/storage.service';
 
 
 export interface VmFilter {
@@ -57,7 +58,8 @@ export class VmFilterComponent implements OnInit, OnChanges {
   constructor(
     private instanceGroupService: InstanceGroupService,
     private vmService: VmService,
-    private filter: FilterService
+    private filter: FilterService,
+    private storage: LocalStorageService
   ) { }
 
   public ngOnInit(): void {
@@ -73,7 +75,7 @@ export class VmFilterComponent implements OnInit, OnChanges {
   }
 
   public initFilters(): void {
-    const params = this.filter.init(this.filtersKey, {
+    const params = this.filter.init(this.storage, this.filtersKey, {
       zones: { type: 'array', defaultOption: [] },
       groups: { type: 'array', defaultOption: [] },
       groupings: { type: 'array', defaultOption: [] },
@@ -124,7 +126,7 @@ export class VmFilterComponent implements OnInit, OnChanges {
       groupings: this.selectedGroupings
     });
 
-    this.filter.update(this.filtersKey, {
+    this.filter.update(this.storage, this.filtersKey, {
       zones: this.selectedZones.map(_ => _.id),
       groups: this.selectedGroups.map(_ => (_ as InstanceGroup).name || ''),
       states: this.selectedStates,

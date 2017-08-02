@@ -1,72 +1,55 @@
-import { Injectable } from '@angular/core';
-import { Utils } from './utils.service';
+export abstract class StorageService {
+  public storage: Storage | Object;
 
+  public abstract write(key: string, value: string): void;
 
-@Injectable()
-export class StorageService {
-  private isLocalStorage: boolean;
-  private inMemoryStorage: Object;
+  public abstract read(key: string): string ;
 
-  constructor() {
-    this.isLocalStorage = this.isLocalStorageAvailable;
-    if (!this.isLocalStorage) {
-      this.inMemoryStorage = {};
-    }
-  }
+  public abstract remove(key: string): void;
+}
+
+export class MemoryStorageService implements StorageService {
+  public storage = {};
 
   public write(key: string, value: string): void {
-    this.isLocalStorage ? this.localStorageWrite(key, value) : this.inMemoryWrite(key, value);
+    if (this.storage instanceof Storage) {
+      this.storage.setItem(key, value);
+    } else {
+      this.storage[key] = value;
+    }
   }
 
   public read(key: string): string {
-    return this.isLocalStorage ? this.localStorageRead(key) : this.inMemoryRead(key);
-  }
-
-  public remove(key: string): void {
-    this.isLocalStorage ? this.localStorageRemove(key) : this.inMemoryRemove(key);
-  }
-
-  public resetInMemoryStorage(): void {
-    this.inMemoryStorage = undefined;
-  }
-
-  private localStorageWrite(key: string, value: string): void {
-    localStorage.setItem(key, value);
-  }
-
-  private localStorageRead(key: string): string {
-    const result = localStorage.getItem(key);
+    let result;
+    if (this.storage instanceof Storage) {
+      result = this.storage.getItem(key);
+    } else {
+      result = this.storage[key];
+    }
     return result !== 'undefined' ? result : undefined;
   }
 
-  private localStorageRemove(key: string): void {
-    localStorage.removeItem(key);
-  }
-
-  private inMemoryWrite(key: string, value: string): void {
-    this.inMemoryStorage[key] = value;
-  }
-
-  private inMemoryRead(key: string): string {
-    return this.inMemoryStorage[key] || null;
-  }
-
-  private inMemoryRemove(key: string): void {
-    delete this.inMemoryStorage[key];
-  }
-
-  private get isLocalStorageAvailable(): boolean {
-    if (!localStorage) {
-      return false;
-    }
-
-    try {
-      const uniq = Utils.getUniqueId();
-      this.localStorageWrite(uniq, uniq);
-      this.localStorageRemove(uniq);
-      return true;
-    } catch (e) {
-      return false;
+  public remove(key: string): void {
+    if (this.storage instanceof Storage) {
+      this.storage.removeItem(key)
+    } else {
+      delete this.storage[key];
     }
   }
+
+  public reset() {
+    if (this.storage instanceof Storage) {
+      this.storage.clear();
+    } else {
+      this.storage = {};
+    }
+  }
+}
+
+export class SessionStorageService extends MemoryStorageService {
+  public storage = sessionStorage;
+}
+
+export class LocalStorageService extends MemoryStorageService {
+  public storage = localStorage;
 }

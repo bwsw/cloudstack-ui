@@ -3,7 +3,7 @@ import { Subject } from 'rxjs/Subject';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { OsFamily, StorageService } from '../../shared';
+import { OsFamily, LocalStorageService } from '../../shared';
 import { FilterService } from '../../shared/services';
 import { Zone } from '../../shared/models/zone.model';
 import { ZoneService } from '../../shared/services/zone.service';
@@ -58,7 +58,7 @@ export class TemplateFiltersComponent implements OnInit {
 
   constructor(
     private filter: FilterService,
-    private storageService: StorageService,
+    private storageService: LocalStorageService,
     private translateService: TranslateService,
     private zoneService: ZoneService
   ) { }
@@ -110,7 +110,7 @@ export class TemplateFiltersComponent implements OnInit {
     });
 
     if (!this.dialogMode) {
-      this.filter.update(this.filtersKey, {
+      this.filter.update(this.storageService, this.filtersKey, {
         query: this.query || null,
         osFamilies: this.selectedOsFamilies,
         categoryFilters: this.selectedFilters,
@@ -127,7 +127,7 @@ export class TemplateFiltersComponent implements OnInit {
   }
 
   private initFilters(): void {
-    const params = this.filter.init(this.filtersKey, {
+    const params = this.filter.init(this.storageService, this.filtersKey, {
       osFamilies: {
         type: 'array',
         options: this.osFamilies,

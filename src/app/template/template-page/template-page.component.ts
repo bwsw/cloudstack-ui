@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
 
-import { StorageService } from '../../shared/services/storage.service';
+import { LocalStorageService } from '../../shared/services/storage.service';
 import { BaseTemplateModel, Iso, IsoService, Template, TemplateService } from '../shared';
 import { TemplateFilters } from '../shared/base-template.service';
 import { TemplateActionsService } from '../shared/template-actions.service';
@@ -22,7 +22,7 @@ export class TemplatePageComponent implements OnInit {
 
   constructor(
     private dialogService: DialogService,
-    private storageService: StorageService,
+    private storageService: LocalStorageService,
     private listService: ListService,
     private templateActions: TemplateActionsService,
     private templateService: TemplateService,
