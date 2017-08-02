@@ -187,7 +187,7 @@
     "accentColor": "red"
   },
   "offeringAvailability": {
-    "filterOfferings": true,
+    "filterOfferings": false,
     "031a55bb-5d6b-4336-ab93-d5dead28a887": {
       "serviceOfferings": [
         "4fbec0f2-e03a-4135-8f0e-a13abca3c2e2",
@@ -243,5 +243,9 @@
   },
   "apiDocLink": "https://cloudstack.apache.org/api/apidocs-4.9/",
   "sessionRefreshInterval": 60,
-  "webSSHAddress": "http://192.168.2.88:8018"
+  "extensions": {
+    "webShell": {
+      "address": "http://192.168.2.88:8018"
+    }
+  }
 }

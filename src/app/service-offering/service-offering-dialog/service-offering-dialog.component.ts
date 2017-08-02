@@ -26,6 +26,7 @@ export class ServiceOfferingDialogComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
+    debugger;
     this.zoneService.get(this.virtualMachine.zoneId).subscribe(zone => this.fetchData({ zone }));
   }
 

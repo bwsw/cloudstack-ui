@@ -4,8 +4,14 @@ import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { VmService } from '../shared/vm.service';
 import { VmActionsService } from '../shared/vm-actions.service';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
+import { Injectable } from '@angular/core';
+import { VmStartAction } from './vm-start';
+import { VmStartActionSilent } from './silent/vm-start-silent';
+import { VmStopActionSilent } from './silent/vm-stop-silent';
 
 
+@Injectable()
 export class VmResetPasswordAction extends VirtualMachineAction {
   public action = VmActions.RESET_PASSWORD;
   public name = 'RESETPASSWORDFOR';
@@ -20,15 +26,18 @@ export class VmResetPasswordAction extends VirtualMachineAction {
     vmActionCompleted: 'RESETPASSWORDFOR_DONE',
     confirmMessage: 'CONFIRM_VM_RESETPASSWORDFOR',
     progressMessage: 'VM_RESETPASSWORDFOR_IN_PROGRESS',
-    successMessage: 'RESETPASSWORDFOR_DONE'
+    successMessage: 'RESETPASSWORDFOR_DONE',
+    failMessage: 'VM_RESET_PASSWORD_FAILED'
   };
 
   constructor(
     protected dialogService: DialogService,
+    protected jobsNotificationService: JobsNotificationService,
     protected vmService: VmService,
-    protected vmActionsService: VmActionsService
+    protected vmStartActionSilent: VmStartActionSilent,
+    protected vmStopActionSilent: VmStopActionSilent
   ) {
-    super(dialogService, vmService);
+    super(dialogService, jobsNotificationService, vmService);
   }
 
   public canActivate(vm: VirtualMachine): boolean {
@@ -42,42 +51,42 @@ export class VmResetPasswordAction extends VirtualMachineAction {
     return ipAvailable && stateIsOk;
   }
 
-  public activate(vm: VirtualMachine): Observable<void> {
-    return this.showConfirmDialog()
-      .switchMap(() => {
-        if (vm.state === VmStates.Stopped) {
-          return this.resetPasswordForStoppedVirtualMachine(vm);
-        }
-
-        return this.resetPasswordForRunningVirtualMachine(vm);
-      });
+  protected onActionConfirmed(vm: VirtualMachine): Observable<any> {
+    if (vm.state === VmStates.Stopped) {
+      return this.addNotifications(
+        this.resetPasswordForStoppedVirtualMachine(vm)
+      );
+    } else {
+      return this.addNotifications(
+        this.resetPasswordForRunningVirtualMachine(vm)
+      );
+    }
   }
 
-  private resetPasswordForStoppedVirtualMachine(vm: VirtualMachine): Observable<void> {
+  private resetPasswordForStoppedVirtualMachine(vm: VirtualMachine): Observable<any> {
     return this.vmService.command(vm, this)
       .map(vmWithPassword => {
         if (vmWithPassword && vmWithPassword.password) {
           this.showPasswordDialog(vmWithPassword.displayName, vmWithPassword.password);
         }
       })
-      .catch(error => this.dialogService.alert(error.message));
+      .catch(error => {
+        this.vmService.setStateForVm(vm, VmStates.Stopped);
+        return Observable.throw(error);
+      });
   }
 
-  private resetPasswordForRunningVirtualMachine(vm: VirtualMachine): Observable<void> {
-    const stop = this.vmActionsService.getStopActionSilent();
-    const start = this.vmActionsService.getStartActionSilent();
+  private resetPasswordForRunningVirtualMachine(vm: VirtualMachine): Observable<any> {
+    const stop = this.vmStopActionSilent;
+    const start = this.vmStartActionSilent;
 
     return this.vmService.command(vm, stop)
       .switchMap(() => this.resetPasswordForStoppedVirtualMachine(vm))
       .switchMap(() => this.vmService.command(vm, start))
-      .catch(error => this.dialogService.alert(error.message));
-  }
-
-  private showConfirmDialog(): Observable<void> {
-    return this.dialogService.customConfirm({
-      message: this.tokens.confirmMessage,
-      width: '400px'
-    });
+      .catch(error => {
+        this.vmService.command(vm, start).subscribe();
+        return Observable.throw(error);
+      });
   }
 
   private showPasswordDialog(vmName: string, vmPassword: string): Observable<void> {
@@ -91,6 +100,13 @@ export class VmResetPasswordAction extends VirtualMachineAction {
       },
       width: '400px',
       clickOutsideToClose: false
+    });
+  }
+
+  protected showConfirmationDialog(): Observable<void> {
+    return this.dialogService.customConfirm({
+      message: this.tokens.confirmMessage,
+      width: '400px'
     });
   }
 }

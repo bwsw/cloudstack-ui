@@ -18,115 +18,56 @@ import { VmChangeServiceOfferingAction } from '../vm-actions/vm-change-service-o
 import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { VmStartActionSilent } from '../vm-actions/silent/vm-start-silent';
 import { VmStopActionSilent } from '../vm-actions/silent/vm-stop-silent';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 
 
 @Injectable()
 export class VmActionsService implements ActionsService<VirtualMachine, VirtualMachineAction> {
   public Actions = [
-    this.getStartAction(),
-    this.getStopAction(),
-    this.getRebootAction(),
-    this.getRestoreAction(),
-    this.getDestroyAction(),
-    this.getResetPasswordAction(),
-    this.getConsoleAction(),
-    this.getWebShellAction()
+    this.vmStartAction,
+    this.vmStopAction,
+    this.vmRebootAction,
+    this.vmRestoreAction,
+    this.vmDestroyAction,
+    this.vmResetPasswordAction,
+    this.vmConsoleAction,
+    this.vmWebShellAction
   ];
 
   constructor(
-    private dialogService: DialogService,
-    private vmEntityDeletionService: VmEntityDeletionService,
-    private vmService: VmService,
-    private webShellService: WebShellService
+    public vmStartAction: VmStartAction,
+    public vmStartActionSilent: VmStartActionSilent,
+    public vmStopAction: VmStopAction,
+    public vmStopActionSilent: VmStopActionSilent,
+    public vmRebootAction: VmRebootAction,
+    public vmRestoreAction: VmRestoreAction,
+    public vmDestroyAction: VmDestroyAction,
+    public vmResetPasswordAction: VmResetPasswordAction,
+    public vmConsoleAction: VmConsoleAction,
+    public vmWebShellAction: VmWebShellAction,
+    public vmChangeServiceOfferingAction: VmChangeServiceOfferingAction
   ) {}
 
   public getActionByName(name: VirtualMachineActionType): VirtualMachineAction {
     switch (name) {
       case VmActions.START:
-        return this.getStartAction();
+        return this.vmStartAction;
       case VmActions.STOP:
-        return this.getStopAction();
+        return this.vmStopAction;
       case VmActions.REBOOT:
-        return this.getRebootAction();
+        return this.vmRebootAction;
       case VmActions.RESTORE:
-        return this.getRestoreAction();
+        return this.vmRestoreAction;
       case VmActions.DESTROY:
-        return this.getDestroyAction();
+        return this.vmDestroyAction;
       case VmActions.RESET_PASSWORD:
-        return this.getResetPasswordAction();
+        return this.vmResetPasswordAction;
       case VmActions.CONSOLE:
-        return this.getConsoleAction();
+        return this.vmConsoleAction;
       case VmActions.WEB_SHELL:
-        return this.getWebShellAction();
+        return this.vmWebShellAction;
       default:
         throw new Error('Unknown VM action');
     }
-  }
-
-  public getStartAction(): VmStartAction {
-    return new VmStartAction(this.dialogService, this.vmService);
-  }
-
-  public getStopAction(): VmStopAction {
-    return new VmStopAction(this.dialogService, this.vmService);
-  }
-
-  public getRebootAction(): VmRebootAction {
-    return new VmRebootAction(this.dialogService, this.vmService);
-  }
-
-  public getRestoreAction(): VmRestoreAction {
-    return new VmRestoreAction(this.dialogService, this.vmService);
-  }
-
-  public getDestroyAction(): VmDestroyAction {
-    return new VmDestroyAction(
-      this.dialogService,
-      this.vmService,
-      this.vmEntityDeletionService
-    );
-  }
-
-  public getResetPasswordAction(): VmResetPasswordAction {
-    return new VmResetPasswordAction(
-      this.dialogService,
-      this.vmService,
-      this
-    );
-  }
-
-  public getConsoleAction(): VmConsoleAction {
-    return new VmConsoleAction(this.dialogService, this.vmService);
-  }
-
-  public getWebShellAction(): VmWebShellAction {
-    return new VmWebShellAction(
-      this.dialogService,
-      this.vmService,
-      this.webShellService
-    );
-  }
-
-  public getChangeServiceOfferingAction(serviceOffering: ServiceOffering): VmChangeServiceOfferingAction {
-    return new VmChangeServiceOfferingAction(
-      serviceOffering,
-      this.dialogService,
-      this.vmService,
-      this,
-    );
-  }
-
-  public getStartActionSilent(): VmStartActionSilent {
-    return new VmStartActionSilent(
-      this.dialogService,
-      this.vmService
-    );
-  }
-
-  public getStopActionSilent(): VmStopActionSilent {
-    return new VmStopActionSilent(
-      this.dialogService,
-      this.vmService
-    );
   }
 }

@@ -1,8 +1,10 @@
 import { VirtualMachineAction, VmActions } from './vm-action';
 import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
 
 
+@Injectable()
 export class VmConsoleAction extends VirtualMachineAction {
   public action = VmActions.CONSOLE;
   public name = 'CONSOLE';

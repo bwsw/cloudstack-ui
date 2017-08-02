@@ -29,6 +29,7 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
   }
 
   public getList(params?: any): Observable<Array<T>> {
+
     if (!params || !params.zone) {
       return super.getList(params);
     }
@@ -37,6 +38,7 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
     delete modifiedParams.zone;
 
     const offeringAvailability = this.configService.get('offeringAvailability');
+
     super.getList(modifiedParams)
       .map(offeringList => {
         return this.getOfferingsAvailableInZone(

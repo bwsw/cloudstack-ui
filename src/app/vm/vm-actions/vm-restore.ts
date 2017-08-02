@@ -2,8 +2,10 @@ import { VirtualMachineAction, VmActions } from './vm-action';
 import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { VmService } from '../shared/vm.service';
+import { Injectable } from '@angular/core';
 
 
+@Injectable()
 export class VmRestoreAction extends VirtualMachineAction {
   public action = VmActions.RESTORE;
   public name = 'RESTORE';
@@ -18,15 +20,9 @@ export class VmRestoreAction extends VirtualMachineAction {
     vmActionCompleted: 'RESTORE_DONE',
     confirmMessage: 'CONFIRM_VM_RESTORE',
     progressMessage: 'VM_RESTORE_IN_PROGRESS',
-    successMessage: 'RESTORE_DONE'
+    successMessage: 'RESTORE_DONE',
+    failMessage: 'VM_RESTORE_FAILED'
   };
-
-  constructor(
-    protected dialogService: DialogService,
-    protected vmService: VmService
-  ) {
-    super(dialogService, vmService);
-  }
 
   public canActivate(vm: VirtualMachine): boolean {
     return [
@@ -36,4 +32,3 @@ export class VmRestoreAction extends VirtualMachineAction {
       .includes(vm.state);
   }
 }
-// todo

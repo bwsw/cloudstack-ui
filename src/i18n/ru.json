@@ -596,5 +596,12 @@
   "EDIT_TAG": "Редактировать тег",
   "TAG_DELETE_CONFIRMATION": "Вы действительно хотите удалить этот тег?",
 
-  "WEB_SHELL": "WebShell"
+  "WEB_SHELL": "WebShell",
+
+  "VM_START_FAILED": "Не удалось запустить ВМ",
+  "VM_STOP_FAILED": "Не удалось остановить ВМ",
+  "VM_REBOOT_FAILED": "Не удалось перезагрузить ВМ",
+  "VM_RESTORE_FAILED": "Не удалось переустановить ВМ",
+  "VM_RESET_PASSWORD_FAILED": "Не удалось сбросить пароль",
+  "VM_DESTROY_FAILED": "Не удалось уничтожить ВМ"
 }

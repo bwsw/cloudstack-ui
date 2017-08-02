@@ -1,9 +1,12 @@
 import { MdlPopoverComponent } from '@angular-mdl/popover';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { Color } from '../../shared/models';
 import { IVmAction, VirtualMachine } from '../shared/vm.model';
-import { WebShellService } from '../web-shell/web-shell.service';
 import { VmActionsService } from '../shared/vm-actions.service';
+import { VirtualMachineAction } from '../vm-actions/vm-action';
 
 
 @Component({
@@ -21,7 +24,8 @@ export class VmListItemComponent implements OnInit, OnChanges {
   public color: Color;
   public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
 
-  constructor(public vmActionsService: VmActionsService) {}
+  constructor(public cd: ChangeDetectorRef,
+    public vmActionsService: VmActionsService) {}
 
   public ngOnInit(): void {
     this.updateColor();
@@ -33,6 +37,10 @@ export class VmListItemComponent implements OnInit, OnChanges {
         this.isSelected = changes[propName].currentValue;
       }
     }
+  }
+
+  public onAction(action: VirtualMachineAction, vm: VirtualMachine): void {
+    action.activate(vm).subscribe();
   }
 
   public handleClick(e: MouseEvent): void {

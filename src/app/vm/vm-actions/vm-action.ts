@@ -3,6 +3,8 @@ import { Action } from '../../shared/interfaces/action.interface';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { VmService } from '../shared/vm.service';
 import { Observable } from 'rxjs/Observable';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
+import { Injectable } from '@angular/core';
 
 
 export type VirtualMachineActionType =
@@ -28,6 +30,7 @@ export const VmActions = {
   CHANGE_SERVICE_OFFERING: 'changeServiceOfering' as VirtualMachineActionType
 };
 
+@Injectable()
 export abstract class VirtualMachineAction implements Action<VirtualMachine> {
   public name: string;
   public action: VirtualMachineActionType;
@@ -36,27 +39,59 @@ export abstract class VirtualMachineAction implements Action<VirtualMachine> {
 
   constructor(
     protected dialogService: DialogService,
+    protected jobsNotificationService: JobsNotificationService,
     protected vmService: VmService
   ) {}
 
-  public activate(vm: VirtualMachine): Observable<any> {
-    const dialog = this.dialogService.confirm(
-      this.tokens.confirmMessage,
-      'NO',
-      'YES'
-    );
-
-    return this.handleAction(vm, dialog);
+  public activate(vm: VirtualMachine, params?: {}): Observable<any> {
+    return this.showConfirmationDialog()
+      .switchMap(() => this.onActionConfirmed(vm))
+      .catch(() => this.onActionDeclined());
   }
 
   public hidden(vm: VirtualMachine): boolean {
     return false;
   }
 
-  protected handleAction(vm: VirtualMachine, dialog: any): Observable<void> {
-    return dialog
-      .onErrorResumeNext()
-      .switchMap(() => this.vmService.command(vm, this))
-      .catch(error => this.dialogService.alert(error.message));
+  protected onActionConfirmed(vm: VirtualMachine): Observable<any> {
+    const command = this.vmService.command(vm, this);
+    return this.addNotifications(command);
+  }
+
+  protected onActionDeclined(): Observable<void> {
+    return Observable.of(null);
+  }
+
+  protected addNotifications(actionObservable: Observable<any>): Observable<any> {
+    const notificationId = this.jobsNotificationService.add(this.tokens.progressMessage);
+
+    return actionObservable
+      .do(() => this.onActionFinished(notificationId))
+      .catch(job => this.onActionFailed(notificationId, job));
+  }
+
+  protected onActionFinished(notificationId: any): void {
+    this.jobsNotificationService.finish({
+      id: notificationId,
+      message: this.tokens.successMessage
+    });
+  }
+
+  protected onActionFailed(notificationId: any, job: any): Observable<any> {
+    this.dialogService.alert(job.message);
+    this.jobsNotificationService.fail({
+      id: notificationId,
+      message: this.tokens.failMessage
+    });
+
+    return job;
+  }
+
+  protected showConfirmationDialog(): Observable<void> {
+    return this.dialogService.confirm(
+      this.tokens.confirmMessage,
+      'NO',
+      'YES'
+    );
   }
 }

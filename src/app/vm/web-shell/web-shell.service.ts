@@ -3,8 +3,6 @@ import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { ConfigService } from '../../shared/services/config.service';
 
 
-const webSSHAddressToken = 'webSSHAddress';
-
 export const AuthModeToken = 'AUTH_MODE';
 const portToken = 'SSH_PORT';
 const userToken = 'SSH_USER';
@@ -22,10 +20,15 @@ export class WebShellService {
   constructor(public configService: ConfigService) {}
 
   public get isWebShellAddressSpecified(): boolean {
-    return !!this.configService.get(webSSHAddressToken);
+    return !!this.webShellAddress;
   }
 
-  public isWebShellEnabled(vm: VirtualMachine): boolean {
+  private get webShellAddress(): string {
+    const extensions = this.configService.get('extensions');
+    return extensions && extensions.webShell && extensions.webShell.address;
+  }
+
+  public isWebShellEnabledForVm(vm: VirtualMachine): boolean {
     if (!vm) {
       return false;
     }
@@ -35,13 +38,11 @@ export class WebShellService {
     const sshEnabledOnVm = authMode === AuthModeTypes.SSH;
     const vmIsRunning = vm.state === VmStates.Running;
 
-    return this.isWebShellAddressSpecified && sshEnabledOnVm && vmIsRunning;
+    return !!this.webShellAddress && sshEnabledOnVm && vmIsRunning;
   }
 
   public getWebShellAddress(vm: VirtualMachine): string {
-    const baseAddress = this.configService.get(webSSHAddressToken);
-
-    if (!baseAddress) {
+    if (!this.webShellAddress) {
       return undefined;
     }
 
@@ -49,7 +50,7 @@ export class WebShellService {
     const port = this.getPort(vm);
     const user = this.getUser(vm);
 
-    return `${baseAddress}/?${ip}/${port}/${user}`;
+    return `${this.webShellAddress}/?${ip}/${port}/${user}`;
   }
 
   private getPort(vm: VirtualMachine): string {
@@ -61,5 +62,4 @@ export class WebShellService {
     const userTag = vm.tags.find(tag => tag.key === userToken);
     return userTag && userTag.value || defaultUser;
   }
-
 }

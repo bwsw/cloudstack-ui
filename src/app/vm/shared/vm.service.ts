@@ -23,7 +23,7 @@ import { TagService } from '../../shared/services/tag.service';
 import { UserService } from '../../shared/services/user.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
-import { VirtualMachineAction } from '../vm-actions/vm-action';
+import { VirtualMachineAction, VirtualMachineActionType, VmActions } from '../vm-actions/vm-action';
 
 
 export const VirtualMachineEntityName = 'VirtualMachine';
@@ -131,25 +131,14 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public command(vm: VirtualMachine, action: VirtualMachineAction): Observable<any> {
-    const notificationId = this.jobsNotificationService.add(action.tokens.progressMessage);
-    if (vm) {
-      vm.state = action.tokens.vmStateOnAction as any;
-    }
+    const commandName = action.tokens.commandName as VirtualMachineActionType;
+    this.setStateForVm(vm, action.tokens.vmStateOnAction as VmState);
+
     return this.sendCommand(
-      action.tokens.commandName,
-      this.buildCommandParams(
-        vm.id,
-        action.tokens.commandName
-      )
+      commandName,
+      this.buildCommandParams(vm.id, commandName)
     )
-      .switchMap(job => this.registerVmJob(job))
-      .map(job => {
-        this.jobsNotificationService.finish({
-          id: notificationId,
-          message: action.tokens.successMessage
-        });
-        return job;
-      });
+      .switchMap(job => this.registerVmJob(job));
   }
 
   public registerVmJob(job: any): Observable<any> {
@@ -219,13 +208,19 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
   }
 
+  public setStateForVm(vm: VirtualMachine, state: VmState): void {
+    vm.state = state;
+  }
+
   private buildCommandParams(id: string, commandName: string): any {
     const params = {};
+
     if (commandName === 'restore') {
       params['virtualMachineId'] = id;
     } else if (commandName !== 'deploy') {
       params['id'] = id;
     }
+
     return params;
   }
 

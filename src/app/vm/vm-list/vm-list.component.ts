@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
@@ -26,6 +26,8 @@ import { VmActionsService } from '../shared/vm-actions.service';
 
 import { config } from '../../../main';
 import { VirtualMachineActionType } from '../vm-actions/vm-action';
+import clone = require('lodash/clone');
+
 
 const askToCreateVm = 'askToCreateVm';
 
@@ -78,6 +80,7 @@ export class VmListComponent implements OnInit {
 
   constructor(
     public listService: ListService,
+    private cd: ChangeDetectorRef,
     private vmService: VmService,
     private dialogService: DialogService,
     private jobsNotificationService: JobsNotificationService,
@@ -105,20 +108,7 @@ export class VmListComponent implements OnInit {
     this.subscribeToVmUpdates();
     this.subscribeToVmDestroyed();
     this.subscribeToVmCreationDialog();
-    this.asyncJobService.event
-      .filter(j => j.instanceType === VirtualMachineEntityName)
-      .filter(j => j.result)
-      .subscribe((job: AsyncJob<any>) => {
-        const index = this.vmList.findIndex(_ => job.result.id === _.id);
-        if (index > -1) {
-          // todo: may be we need to update more params
-          // todo: need to discuss
-          this.vmList[index].state = job.result.state;
-          if (job.result.nic && job.result.nic.length) {
-            this.vmList[index].nic[0] = job.result.nic[0];
-          }
-        }
-      });
+    this.subscribeToAsyncJobUpdates();
   }
 
   public get noFilteringResults(): boolean {
@@ -239,9 +229,8 @@ export class VmListComponent implements OnInit {
 
   private subscribeToVmDestroyed(): void {
     this.asyncJobService.event
-      .filter(j => j.instanceType === VirtualMachineEntityName)
-      .filter(j => j.result)
-      .filter(j => j.result.state === VmStates.Destroyed || j.result.state === VmStates.Expunging)
+      .filter(job => this.isAsyncJobAVirtualMachineJobWithResult(job))
+      .filter(job => job.result.state === VmStates.Destroyed || job.result.state === VmStates.Expunging)
       .subscribe((job: AsyncJob<any>) => {
         this.vmList = this.vmList.filter(vm => vm.id !== job.result.id);
         if (this.listService.isSelected(job.result.id)) {
@@ -254,6 +243,43 @@ export class VmListComponent implements OnInit {
 
   private subscribeToVmCreationDialog(): void {
     this.listService.onAction.subscribe(() => this.showVmCreationDialog());
+  }
+
+  private subscribeToAsyncJobUpdates(): void {
+    this.asyncJobService.event
+      .filter(job => this.isAsyncJobAVirtualMachineJobWithResult(job))
+      .subscribe(job => {
+        this.updateVmInListWithAsyncJobResult(job);
+      });
+  }
+
+  private updateVmInListWithAsyncJobResult(job: AsyncJob<any>): void {
+    const vm = this.vmList.find(listVm => {
+      return job.result.id === listVm.id;
+    });
+
+    if (vm) {
+      // todo: may be we need to update more params
+      // todo: need to discuss
+
+      const newVm = clone(vm);
+
+      newVm.state = job.result.state;
+      if (job.result.nic && job.result.nic.length) {
+        newVm.nic[0] = job.result.nic[0];
+      }
+
+      this.vmList = this.vmList.map(listVm => {
+        if (listVm.id === newVm.id) {
+          return newVm;
+        } else {
+          return listVm;
+        }
+      });
+
+      this.updateFilters();
+      this.updateStats();
+    }
   }
 
   private showSuggestionDialog(): void {
@@ -326,5 +352,16 @@ export class VmListComponent implements OnInit {
       }
       return 0;
     });
+  }
+
+  private isAsyncJobAVirtualMachineJobWithResult(job: AsyncJob<any>): boolean {
+    // instanceof check is needed because API response for
+    // VM restore doesn't contain the instanceType field
+
+    return (
+      job.result &&
+      (job.instanceType === VirtualMachineEntityName ||
+        job.result instanceof VirtualMachine)
+    );
   }
 }

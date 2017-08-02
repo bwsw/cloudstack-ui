@@ -1,23 +1,25 @@
-import { VirtualMachineAction, VmActions } from './vm-action';
 import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { VmService } from '../shared/vm.service';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
-import { VmActionsService } from '../shared/vm-actions.service';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
+import { Injectable } from '@angular/core';
+import { VirtualMachineAction } from './vm-action';
+import { VmStartActionSilent } from './silent/vm-start-silent';
+import { VmStopActionSilent } from './silent/vm-stop-silent';
 
 
+@Injectable()
 export class VmChangeServiceOfferingAction extends VirtualMachineAction {
-  public action = VmActions.CHANGE_SERVICE_OFFERING;
-  public name = 'CHANGE_SERVICE_OFFERING';
-
   constructor(
-    public serviceOffering: ServiceOffering,
     protected dialogService: DialogService,
+    protected jobsNotificationService: JobsNotificationService,
     protected vmService: VmService,
-    protected vmActionsService: VmActionsService,
+    protected vmStartActionSilent: VmStartActionSilent,
+    protected vmStopActionSilent: VmStopActionSilent
   ) {
-    super(dialogService, vmService);
+    super(dialogService, jobsNotificationService, vmService);
   }
 
   public canActivate(vm: VirtualMachine): boolean {
@@ -28,28 +30,42 @@ export class VmChangeServiceOfferingAction extends VirtualMachineAction {
       .includes(vm.state);
   }
 
-  public activate(vm: VirtualMachine): Observable<VirtualMachine> {
-    if (this.serviceOffering.id === vm.id) {
+  public activate(vm: VirtualMachine, params: { serviceOffering: ServiceOffering }): Observable<VirtualMachine> {
+    if (params.serviceOffering.id === vm.id) {
       return Observable.of(null);
     }
 
     if (vm.state === VmStates.Stopped) {
-      return this.changeServiceOfferingForStoppedVirtualMachine(vm);
+      return this.addNotifications(
+        this.changeServiceOfferingForStoppedVirtualMachine(vm, params)
+      );
     }
 
-    return this.changeServiceOfferingForRunningVirtualMachine(vm);
+    return this.addNotifications(
+      this.changeServiceOfferingForRunningVirtualMachine(vm, params)
+    );
   }
 
-  private changeServiceOfferingForStoppedVirtualMachine(vm: VirtualMachine): Observable<VirtualMachine> {
-    return this.vmService.changeServiceOffering(this.serviceOffering, vm);
+  private changeServiceOfferingForStoppedVirtualMachine(
+    vm: VirtualMachine,
+    params: { serviceOffering: ServiceOffering }
+  ): Observable<VirtualMachine> {
+    return this.vmService.changeServiceOffering(params.serviceOffering, vm);
   }
 
-  private changeServiceOfferingForRunningVirtualMachine(vm: VirtualMachine): Observable<VirtualMachine> {
-    const stop = this.vmActionsService.getStopAction();
-    const start = this.vmActionsService.getStartAction();
+  private changeServiceOfferingForRunningVirtualMachine(
+    vm: VirtualMachine,
+    params: { serviceOffering: ServiceOffering }
+  ): Observable<VirtualMachine> {
+    const stop = this.vmStopActionSilent;
+    const start = this.vmStartActionSilent;
 
     return this.vmService.command(vm, stop)
-      .switchMap(() => this.vmService.command(vm, this))
-      .switchMap(() => this.vmService.command(vm, start));
+      .switchMap(() => this.vmService.changeServiceOffering(params.serviceOffering, vm))
+      .switchMap(() => this.vmService.command(vm, start))
+      .catch(error => {
+        this.vmService.command(vm, start).subscribe();
+        return Observable.throw(error);
+      });
   }
 }

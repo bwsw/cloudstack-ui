@@ -69,7 +69,7 @@
       <ng-container *ngFor="let action of vmActionsService.Actions">
         <button
           *ngIf="!action.hidden(item)"
-          (click)="action.activate(item).subscribe()"
+          (click)="onAction(action, item)"
           [disabled]="!action.canActivate(item)"
           [mdTooltip]="action.name | translate"
           mdl-button

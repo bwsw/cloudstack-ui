@@ -47,7 +47,6 @@ export class VmDetailComponent implements OnChanges, OnInit {
   }
 
   public changeServiceOffering(): void {
-    // todo
     this.dialogService.showCustomDialog({
       component: ServiceOfferingDialogComponent,
       classes: 'service-offering-dialog',
@@ -167,7 +166,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
           .switchMap((result) => {
             if (result === null) {
               loadingFunction(true);
-              return this.vmService.command(vm, this.vmActionsService.getStopAction())
+              return this.vmActionsService.vmStopActionSilent.activate(vm)
                 .do(() => loadingFunction(false))
                 .switchMap(() => Observable.of(true))
             } else {

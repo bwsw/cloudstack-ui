@@ -4,9 +4,11 @@ import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { VmService } from '../shared/vm.service';
 import { WebShellService } from '../web-shell/web-shell.service';
 import { Observable } from 'rxjs/Observable';
-import { AfterViewInit } from '@angular/core';
+import { AfterViewInit, Injectable } from '@angular/core';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 
 
+@Injectable()
 export class VmWebShellAction extends VirtualMachineAction {
   public action = VmActions.WEB_SHELL;
   public name = 'WEB_SHELL';
@@ -14,10 +16,11 @@ export class VmWebShellAction extends VirtualMachineAction {
 
   constructor(
     protected dialogService: DialogService,
+    protected jobsNotificationService: JobsNotificationService,
     protected vmService: VmService,
     protected webShellService: WebShellService
   ) {
-    super(dialogService, vmService);
+    super(dialogService, jobsNotificationService, vmService);
   }
 
   public activate(vm: VirtualMachine): Observable<void> {
@@ -27,11 +30,10 @@ export class VmWebShellAction extends VirtualMachineAction {
   }
 
   public canActivate(vm: VirtualMachine): boolean {
-    return this.webShellService.isWebShellEnabled(vm);
+    return this.webShellService.isWebShellEnabledForVm(vm);
   }
 
   public hidden(vm: VirtualMachine): boolean {
-    // todo: change to extensions
     return !this.webShellService.isWebShellAddressSpecified;
   }
 }

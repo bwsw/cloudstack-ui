@@ -1,7 +1,9 @@
 import { VirtualMachineAction, VmActions } from './vm-action';
 import { VirtualMachine, VmStates } from '../shared/vm.model';
+import { Injectable } from '@angular/core';
 
 
+@Injectable()
 export class VmStartAction extends VirtualMachineAction {
   public action = VmActions.START;
   public name = 'START';
@@ -16,7 +18,8 @@ export class VmStartAction extends VirtualMachineAction {
     vmActionCompleted: 'START_DONE',
     confirmMessage: 'CONFIRM_VM_START',
     progressMessage: 'VM_START_IN_PROGRESS',
-    successMessage: 'START_DONE'
+    successMessage: 'START_DONE',
+    failMessage: 'VM_START_FAILED'
   };
 
   public canActivate(vm: VirtualMachine): boolean {
