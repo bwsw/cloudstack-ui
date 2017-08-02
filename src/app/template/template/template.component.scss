@@ -7,10 +7,6 @@
   cursor: pointer;
 }
 
-.os-icon {
-  margin-right: 4px;
-}
-
 .last {
   margin-left: 20px;
 }
@@ -32,5 +28,6 @@
 
 .template-header {
   align-self: center;
-  max-width: 75% !important;
+  line-height: normal !important;
+  max-width: 85% !important;
 }

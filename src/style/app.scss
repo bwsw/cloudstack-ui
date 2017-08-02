@@ -68,6 +68,7 @@ md-card md-card-content {
   color: rgba(0, 0, 0, 0.54);
   padding: 0px 16px 16px 16px;
   margin-bottom: 0px !important;
+  line-height: 18px;
 }
 
 md-card .md-card-content-with-actions {
@@ -80,12 +81,6 @@ md-card .md-card-content-container {
 
 md-card.custom-card {
   min-height: 0;
-
-  & .mat-card-header-text {
-    max-width: 85%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 
   & .md-card-title-text {
     @extend .tooltip-position-fix;
