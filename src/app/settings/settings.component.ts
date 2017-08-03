@@ -50,7 +50,6 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private cd: ChangeDetectorRef,
     private formBuilder: FormBuilder,
     private languageService: LanguageService,
     private notificationService: NotificationService,

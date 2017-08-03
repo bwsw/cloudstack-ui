@@ -4,7 +4,7 @@ const PROXY_CONFIG = [
       "/client/api",
       "/client/console"
     ],
-    target: "http://192.168.2.22:8888/",
+    target: "http://192.168.1.218:8080/",
     secure: false
   }
 ];
