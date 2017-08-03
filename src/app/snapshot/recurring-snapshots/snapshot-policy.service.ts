@@ -78,18 +78,14 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
   }
 
   private transformPolicyTypeToString(type: PolicyType): string {
-    switch (type) {
-      case PolicyType.Hourly:
-        return 'hourly';
-      case PolicyType.Daily:
-        return 'daily';
-      case PolicyType.Weekly:
-        return 'weekly';
-      case PolicyType.Monthly:
-        return 'monthly';
-      default:
-        throw new Error('Incorrect policy mode');
-    }
+    const policyTypes = {
+      [PolicyType.Hourly]: 'hourly',
+      [PolicyType.Daily]: 'daily',
+      [PolicyType.Weekly]: 'weekly',
+      [PolicyType.Monthly]: 'monthly'
+    };
+
+    return policyTypes[type];
   }
 
   private transformTimePolicyToSchedule(policy: Policy<TimePolicy>): string {

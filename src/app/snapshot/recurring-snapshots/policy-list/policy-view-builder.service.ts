@@ -92,23 +92,14 @@ export class PolicyViewBuilderService {
   }
 
   private getTimeToken(policy: Policy<TimePolicy>): string {
-    if (policy.type === PolicyType.Hourly) {
-      return 'POLICY_HOURLY_TIME';
-    }
+    const timeTokens = {
+      [PolicyType.Hourly]: 'POLICY_HOURLY_TIME',
+      [PolicyType.Daily]: 'POLICY_DAILY_TIME',
+      [PolicyType.Weekly]: 'POLICY_WEEKLY_TIME',
+      [PolicyType.Monthly]: 'POLICY_MONTHLY_TIME'
+    };
 
-    if (policy.type === PolicyType.Daily) {
-      return 'POLICY_DAILY_TIME';
-    }
-
-    if (policy.type === PolicyType.Weekly) {
-      return 'POLICY_WEEKLY_TIME';
-    }
-
-    if (policy.type === PolicyType.Monthly) {
-      return 'POLICY_MONTHLY_TIME';
-    }
-
-    return '';
+    return timeTokens[policy.type];
   }
 
   private getTimeZone(policy: Policy<TimePolicy>): string {
