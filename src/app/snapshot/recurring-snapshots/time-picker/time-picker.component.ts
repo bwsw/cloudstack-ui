@@ -3,7 +3,7 @@ import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TimeFormat, TimeFormats } from '../../../shared/services';
 import { DayPeriod } from '../day-period/day-period.component';
-import throttle = require('lodash/throttle');
+import { padStart } from '../../../shared/utils/padStart';
 
 
 export interface Time {
@@ -58,7 +58,7 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
   }
 
   public get minute(): string {
-    return this.pad(this._minute.toString());
+    return padStart(this._minute.toString(), 2);
   }
 
   public set minute(value: string) {
@@ -111,11 +111,11 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
       newValue = this.minute;
     } else {
       if (value > this.maxMinuteValue) {
-        newValue = this.pad(this.minMinuteValue);
+        newValue = padStart(this.minMinuteValue, 2);
       } else if (value < this.minMinuteValue) {
-        newValue = this.pad(this.maxMinuteValue);
+        newValue = padStart(this.maxMinuteValue, 2);
       } else {
-        newValue = this.pad(value);
+        newValue = padStart(value, 2);
       }
     }
 
@@ -161,9 +161,5 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
     if (value) {
       this.time = value;
     }
-  }
-
-  private pad(value: any): string {
-    return +value < 10 ? `0${+value}` : `${+value}`;
   }
 }

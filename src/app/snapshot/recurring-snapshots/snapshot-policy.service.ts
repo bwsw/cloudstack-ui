@@ -7,6 +7,7 @@ import { Policy, TimePolicy } from './policy-editor/policy-editor.component';
 import { PolicyType } from './recurring-snapshots.component';
 import { SnapshotPolicy } from './snapshot-policy.model';
 import { Time } from './time-picker/time-picker.component';
+import { padStart } from '../../shared/utils/padStart';
 
 
 export interface SnapshotPolicyCreationParams {
@@ -99,7 +100,7 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
     const timePolicy24 = this.convertAmPmTo24(policy.timePolicy);
 
     const hours = timePolicy24.hour;
-    const minutes = this.pad(timePolicy24.minute);
+    const minutes = padStart(timePolicy24.minute, 2);
     const weekDay = policy.timePolicy.dayOfWeek;
     const monthDay = policy.timePolicy.dayOfMonth;
 
@@ -149,9 +150,5 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
       timeZone: { geo: policy.timeZone },
       type: policy.intervalType
     };
-  }
-
-  private pad(value: any): string {
-    return +value < 10 ? `0${+value}` : `${+value}`;
   }
 }
