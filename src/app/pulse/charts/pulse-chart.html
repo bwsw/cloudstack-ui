@@ -1,0 +1,10 @@
+<cs-aggregation-selector
+  [permittedIntervals]="permittedIntervals"
+  [(scale)]="selectedScale"
+  (aggregationChange)="update($event)"
+></cs-aggregation-selector>
+<!--<md-option *ngFor="let shift of permittedIntervals?.shifts" [value]="shift">-->
+<!--{{ shift }}-->
+<!--</md-option>-->
+<!--</md-select>-->
+<cs-chart-area-component [charts]="charts"></cs-chart-area-component>

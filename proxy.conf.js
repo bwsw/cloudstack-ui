@@ -6,6 +6,12 @@ const PROXY_CONFIG = [
     ],
     target: "http://192.168.1.218:8080/",
     secure: false
+  },
+  {
+    context: ["/pulse/**"],
+    target: "http://192.168.1.218:8082/",
+    secure: false,
+    pathRewrite: {'^/pulse' : ''}
   }
 ];
 

@@ -1,0 +1,11 @@
+<cs-aggregation-selector
+  [permittedIntervals]="permittedIntervals"
+  [(scale)]="selectedScale"
+  (aggregationChange)="update($event)"
+></cs-aggregation-selector>
+<md-select [(ngModel)]="selectedVolume">
+  <md-option *ngFor="let volume of availableVolumes" [value]="volume">
+    {{ volume.id }}
+  </md-option>
+</md-select>
+<cs-chart-area-component [charts]="charts"></cs-chart-area-component>
