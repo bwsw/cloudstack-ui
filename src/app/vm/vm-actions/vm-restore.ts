@@ -1,20 +1,22 @@
-import { VirtualMachineAction, VmActions } from './vm-action';
+import { VmActions } from './vm-action';
 import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { Injectable } from '@angular/core';
+import { VirtualMachineCommand } from './vm-command';
 
 
 @Injectable()
-export class VmRestoreAction extends VirtualMachineAction {
+export class VmRestoreAction extends VirtualMachineCommand {
+  public commandName = 'restore';
+  public vmStateOnAction = 'RESTORE_IN_PROGRESS';
+
   public action = VmActions.RESTORE;
   public name = 'RESTORE';
   public icon = 'settings_backup_restore';
 
   public tokens = {
     name: 'Restore',
-    commandName: 'restore',
     nameLower: 'restore',
     nameCaps: 'RESTORE',
-    vmStateOnAction: 'RESTORE_IN_PROGRESS',
     vmActionCompleted: 'RESTORE_DONE',
     confirmMessage: 'CONFIRM_VM_RESTORE',
     progressMessage: 'VM_RESTORE_IN_PROGRESS',

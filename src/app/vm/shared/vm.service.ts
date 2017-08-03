@@ -21,7 +21,8 @@ import { TagService } from '../../shared/services/tag.service';
 import { UserService } from '../../shared/services/user.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
-import { VirtualMachineAction, VirtualMachineActionType } from '../vm-actions/vm-action';
+import { VirtualMachineActionType } from '../vm-actions/vm-action';
+import { IVirtualMachineCommand } from '../vm-actions/vm-command';
 
 
 export const VirtualMachineEntityName = 'VirtualMachine';
@@ -126,9 +127,9 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
-  public command(vm: VirtualMachine, action: VirtualMachineAction): Observable<any> {
-    const commandName = action.tokens.commandName as VirtualMachineActionType;
-    this.setStateForVm(vm, action.tokens.vmStateOnAction as VmState);
+  public command(vm: VirtualMachine, command: IVirtualMachineCommand): Observable<any> {
+    const commandName = command.commandName as VirtualMachineActionType;
+    this.setStateForVm(vm, command.vmStateOnAction as VmState);
 
     return this.sendCommand(
       commandName,

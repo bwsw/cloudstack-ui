@@ -1,20 +1,22 @@
-import { VirtualMachineAction, VmActions } from './vm-action';
+import { VmActions } from './vm-action';
 import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { Injectable } from '@angular/core';
+import { VirtualMachineCommand } from './vm-command';
 
 
 @Injectable()
-export class VmStartAction extends VirtualMachineAction {
+export class VmStartAction extends VirtualMachineCommand {
+  public commandName = 'start';
+  public vmStateOnAction = 'START_IN_PROGRESS';
+
   public action = VmActions.START;
   public name = 'START';
   public icon = 'play_arrow';
 
   public tokens = {
     name: 'Start',
-    commandName: 'start',
     nameLower: 'start',
     nameCaps: 'START',
-    vmStateOnAction: 'START_IN_PROGRESS',
     vmActionCompleted: 'START_DONE',
     confirmMessage: 'CONFIRM_VM_START',
     progressMessage: 'VM_START_IN_PROGRESS',

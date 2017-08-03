@@ -1,4 +1,4 @@
-import { VirtualMachineAction, VmActions } from './vm-action';
+import { VmActions } from './vm-action';
 import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
@@ -7,20 +7,23 @@ import { VmEntityDeletionService } from '../shared/vm-entity-deletion.service';
 import { Volume } from '../../shared/models/volume.model';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { Injectable } from '@angular/core';
+import { VirtualMachineCommand } from './vm-command';
 
 
 @Injectable()
-export class VmDestroyAction extends VirtualMachineAction {
+export class VmDestroyAction extends VirtualMachineCommand {
+  public commandName = 'destroy';
+  public vmStateOnAction = 'DESTROY_IN_PROGRESS';
+
   public action = VmActions.DESTROY;
   public name = 'DESTROY';
   public icon = 'delete';
 
   public tokens = {
     name: 'Destroy',
-    commandName: 'destroy',
+
     nameLower: 'destroy',
     nameCaps: 'DESTROY',
-    vmStateOnAction: 'DESTROY_IN_PROGRESS',
     vmActionCompleted: 'DESTROY_DONE',
     confirmMessage: 'CONFIRM_VM_DESTROY',
     progressMessage: 'VM_DESTROY_IN_PROGRESS',

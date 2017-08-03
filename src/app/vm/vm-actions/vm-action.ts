@@ -35,7 +35,10 @@ export abstract class VirtualMachineAction implements Action<VirtualMachine> {
   public name: string;
   public action: VirtualMachineActionType;
   public icon?: string;
-  public tokens?: { [key: string]: string; };
+
+  public tokens?: {
+    [key: string]: string;
+  };
 
   constructor(
     protected dialogService: DialogService,
@@ -54,8 +57,7 @@ export abstract class VirtualMachineAction implements Action<VirtualMachine> {
   }
 
   protected onActionConfirmed(vm: VirtualMachine): Observable<any> {
-    const command = this.vmService.command(vm, this);
-    return this.addNotifications(command);
+    return Observable.of(null);
   }
 
   protected onActionDeclined(): Observable<void> {

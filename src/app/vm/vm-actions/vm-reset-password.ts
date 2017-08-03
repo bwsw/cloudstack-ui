@@ -1,4 +1,4 @@
-import { VirtualMachineAction, VmActions } from './vm-action';
+import { VmActions } from './vm-action';
 import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
@@ -7,20 +7,22 @@ import { JobsNotificationService } from '../../shared/services/jobs-notification
 import { Injectable } from '@angular/core';
 import { VmStartActionSilent } from './silent/vm-start-silent';
 import { VmStopActionSilent } from './silent/vm-stop-silent';
+import { VirtualMachineCommand } from './vm-command';
 
 
 @Injectable()
-export class VmResetPasswordAction extends VirtualMachineAction {
+export class VmResetPasswordAction extends VirtualMachineCommand {
+  public commandName = 'resetPasswordFor';
+  public vmStateOnAction = 'RESETPASSWORDFOR_IN_PROGRESS';
+
   public action = VmActions.RESET_PASSWORD;
   public name = 'RESETPASSWORDFOR';
   public icon = 'vpn_key';
 
   public tokens = {
     name: 'ResetPasswordFor',
-    commandName: 'resetPasswordFor',
     nameLower: 'resetpasswordfor',
     nameCaps: 'RESETPASSWORDFOR',
-    vmStateOnAction: 'RESETPASSWORDFOR_IN_PROGRESS',
     vmActionCompleted: 'RESETPASSWORDFOR_DONE',
     confirmMessage: 'CONFIRM_VM_RESETPASSWORDFOR',
     progressMessage: 'VM_RESETPASSWORDFOR_IN_PROGRESS',

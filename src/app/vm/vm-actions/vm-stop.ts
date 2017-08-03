@@ -1,20 +1,22 @@
-import { VirtualMachineAction, VmActions } from './vm-action';
+import { VmActions } from './vm-action';
 import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { Injectable } from '@angular/core';
+import { VirtualMachineCommand } from './vm-command';
 
 
 @Injectable()
-export class VmStopAction extends VirtualMachineAction {
+export class VmStopAction extends VirtualMachineCommand {
+  public commandName = 'stop';
+  public vmStateOnAction = 'STOP_IN_PROGRESS';
+
   public action = VmActions.STOP;
   public name = 'STOP';
   public icon = 'stop';
 
   public tokens = {
     name: 'Stop',
-    commandName: 'stop',
     nameLower: 'stop',
     nameCaps: 'STOP',
-    vmStateOnAction: 'STOP_IN_PROGRESS',
     vmActionCompleted: 'STOP_DONE',
     confirmMessage: 'CONFIRM_VM_STOP',
     progressMessage: 'VM_STOP_IN_PROGRESS',
