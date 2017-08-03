@@ -10,8 +10,6 @@ import { AsyncJob, Color, OsType, ServiceOffering, Volume } from '../../shared/m
 import {
   AsyncJobService,
   BaseBackendService,
-  JobsNotificationService,
-  NotificationService,
   OsTypeService,
 } from '../../shared/services';
 
@@ -23,7 +21,7 @@ import { TagService } from '../../shared/services/tag.service';
 import { UserService } from '../../shared/services/user.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
-import { VirtualMachineAction, VirtualMachineActionType, VmActions } from '../vm-actions/vm-action';
+import { VirtualMachineAction, VirtualMachineActionType } from '../vm-actions/vm-action';
 
 
 export const VirtualMachineEntityName = 'VirtualMachine';
@@ -38,8 +36,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   constructor(
     private asyncJobService: AsyncJobService,
-    private jobsNotificationService: JobsNotificationService,
-    private notificationService: NotificationService,
     private osTypesService: OsTypeService,
     private serviceOfferingService: ServiceOfferingService,
     private securityGroupService: SecurityGroupService,
@@ -83,13 +79,13 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     if (lite) {
       return super.getList(params);
     }
-    return Observable.forkJoin([
+    return Observable.forkJoin(
       super.getList(params),
       this.volumeService.getList(),
       this.osTypesService.getList(),
       this.serviceOfferingService.getList(),
       this.securityGroupService.getList()
-    ])
+    )
       .map(([vmList, volumes, osTypes, serviceOfferings, securityGroups]) => {
         vmList.forEach((currentVm, index, vms) => {
           currentVm = this.addVolumes(currentVm, volumes);
@@ -198,14 +194,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
     return this.sendCommand('changeServiceFor', params)
       .map(result => this.prepareModel(result['virtualmachine']))
-      .map(result => {
-        this.jobsNotificationService.finish({ message: 'OFFERING_CHANGED' });
-        this.updateVmInfo(result);
-        return result;
-      }, () => {
-        this.jobsNotificationService.fail({ message: 'OFFERING_CHANGE_FAILED' });
-        this.notificationService.error('UNEXPECTED_ERROR');
-      });
+      .do(result => this.updateVmInfo(result));
   }
 
   public setStateForVm(vm: VirtualMachine, state: VmState): void {

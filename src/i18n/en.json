@@ -269,8 +269,6 @@
   "PASSWORD_DIALOG_MESSAGE": "Password for {{ vmName }} has been reset to <b>{{ vmPassword }}</b>",
 
   "CHOOSE_SERVICE_OFFERING": "Choose service offering",
-  "OFFERING_CHANGED": "Offering changed",
-  "OFFERING_CHANGE_FAILED": "Offering change failed",
   "CHANGE_SERVICE_OFFERING": "Change service offering",
   "SO_CHANGE_DISABLED": "The virtual machine needs to be stopped",
 
@@ -603,5 +601,9 @@
   "VM_REBOOT_FAILED": "Failed to reboot VM",
   "VM_RESTORE_FAILED": "Failed to restore VM",
   "VM_RESET_PASSWORD_FAILED": "Failed to reset password",
-  "VM_DESTROY_FAILED": "Failed to destroy VM"
+  "VM_DESTROY_FAILED": "Failed to destroy VM",
+
+  "VM_CHANGE_SERVICE_OFFERING_IN_PROGRESS": "Changing offering",
+  "VM_CHANGE_SERVICE_OFFERING_DONE": "Offering changed",
+  "VM_CHANGE_SERVICE_OFFERING_FAILED": "Failed to change offering"
 }

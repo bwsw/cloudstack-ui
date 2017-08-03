@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
-import { VmService } from '../../vm/shared/vm.service';
 import { ServiceOfferingFilterService } from '../../shared/services/service-offering-filter.service';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 import { ZoneService } from '../../shared/services/zone.service';
 import { MdlDialogReference } from '../../dialog/dialog-module';
+import { VmChangeServiceOfferingAction } from '../../vm/vm-actions/vm-change-service-offering';
 
 
 @Component({
@@ -18,15 +18,18 @@ export class ServiceOfferingDialogComponent implements OnInit {
   public loading: Boolean;
 
   constructor(
-    public dialog: MdlDialogReference,
     @Inject('virtualMachine') public virtualMachine: VirtualMachine,
-    private vmService: VmService,
+    private dialog: MdlDialogReference,
     private serviceOfferingService: ServiceOfferingFilterService,
+    private vmChangeServiceOfferingAction: VmChangeServiceOfferingAction,
     private zoneService: ZoneService
   ) { }
 
   public ngOnInit(): void {
-    this.zoneService.get(this.virtualMachine.zoneId).subscribe(zone => this.fetchData({ zone }));
+    this.zoneService.get(this.virtualMachine.zoneId)
+      .subscribe(zone => {
+        return this.fetchData({ zone });
+      });
   }
 
   public updateOffering(offering: ServiceOffering): void {
@@ -35,7 +38,10 @@ export class ServiceOfferingDialogComponent implements OnInit {
 
   public onChange(): void {
     this.loading = true;
-    this.vmService.changeServiceOffering(this.serviceOffering, this.virtualMachine)
+    this.vmChangeServiceOfferingAction.activate(
+      this.virtualMachine,
+      { serviceOffering: this.serviceOffering }
+    )
       .finally(() => this.loading = false)
       .subscribe(() => this.dialog.hide(this.serviceOffering));
   }

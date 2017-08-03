@@ -269,8 +269,6 @@
   "PASSWORD_DIALOG_MESSAGE": "Пароль для машины {{ vmName }} был сброшен в  <b>{{ vmPassword }}</b>",
 
   "CHOOSE_SERVICE_OFFERING": "Выберите предложение",
-  "OFFERING_CHANGED": "Предложение изменилось",
-  "OFFERING_CHANGE_FAILED": "Предложение не изменилось",
   "CHANGE_SERVICE_OFFERING": "Изменить предложение",
   "SO_CHANGE_DISABLED": "Необходимо остановить машину",
 
@@ -603,5 +601,9 @@
   "VM_REBOOT_FAILED": "Не удалось перезагрузить ВМ",
   "VM_RESTORE_FAILED": "Не удалось переустановить ВМ",
   "VM_RESET_PASSWORD_FAILED": "Не удалось сбросить пароль",
-  "VM_DESTROY_FAILED": "Не удалось уничтожить ВМ"
+  "VM_DESTROY_FAILED": "Не удалось уничтожить ВМ",
+
+  "VM_CHANGE_SERVICE_OFFERING_IN_PROGRESS": "Изменение предложения",
+  "VM_CHANGE_SERVICE_OFFERING_DONE": "Предложение изменено",
+  "VM_CHANGE_SERVICE_OFFERING_FAILED": "Не удалось изменить предложение"
 }
