@@ -25,7 +25,11 @@ export class VmWebShellAction extends VirtualMachineAction {
 
   public activate(vm: VirtualMachine): Observable<void> {
     const address = this.webShellService.getWebShellAddress(vm);
-    window.open(address);
+    window.open(
+      address,
+      vm.displayName,
+      'resizable=0,width=820,height=640'
+    );
     return Observable.of(null);
   }
 
