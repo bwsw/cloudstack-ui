@@ -82,6 +82,10 @@ export class TagService extends BaseBackendCachedService<Tag> {
       );
     });
 
-    return Observable.forkJoin(...copyRequests);
+    if (!copyRequests.length) {
+      return Observable.of(null);
+    } else {
+      return Observable.forkJoin(...copyRequests);
+    }
   }
 }
