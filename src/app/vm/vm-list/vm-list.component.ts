@@ -24,7 +24,6 @@ import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filte
 import { VmListItemComponent } from './vm-list-item.component';
 import { VmActionsService } from '../shared/vm-actions.service';
 
-import { config } from '../../../main';
 import { VirtualMachineActionType } from '../vm-actions/vm-action';
 import clone = require('lodash/clone');
 
@@ -40,8 +39,6 @@ export class VmListComponent implements OnInit {
   @ViewChild(VmStatisticsComponent) public vmStats: VmStatisticsComponent;
   @HostBinding('class.mdl-color--grey-100') public backgroundColorClass = true;
   @HostBinding('class.detail-list-container') public detailListContainer = true;
-
-  public config = config;
 
   public selectedGroupings = [];
   public groupings = [
@@ -80,7 +77,6 @@ export class VmListComponent implements OnInit {
 
   constructor(
     public listService: ListService,
-    private cd: ChangeDetectorRef,
     private vmService: VmService,
     private dialogService: DialogService,
     private jobsNotificationService: JobsNotificationService,

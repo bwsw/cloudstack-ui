@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { config } from '../../../main';
+import { CONFIG } from '../../config/config';
 
 
 @Injectable()
 export class ConfigService {
-  private config = config.config;
+  private config = CONFIG.config;
 
   public get(key: string | Array<string>): any | Array<any> {
     const isArray = Array.isArray(key);
