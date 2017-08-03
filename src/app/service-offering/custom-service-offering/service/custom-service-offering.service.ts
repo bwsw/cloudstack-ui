@@ -134,51 +134,21 @@ export class CustomServiceOfferingService {
     offeringParams: ICustomServiceOffering,
     restrictions: ICustomOfferingRestrictions
   ): ICustomServiceOffering {
-    if (!restrictions) {
-      return offeringParams;
-    }
-
-    let cpuNumber: number;
-    let cpuSpeed:  number;
-    let memory:    number;
-
-    if (restrictions.cpuNumber) {
-      if (offeringParams.cpuNumber > restrictions.cpuNumber.max) {
-        cpuNumber = restrictions.cpuNumber.max;
-      } else if (offeringParams.cpuNumber < restrictions.cpuNumber.min) {
-        cpuNumber = restrictions.cpuNumber.min;
-      } else {
-        cpuNumber = offeringParams.cpuNumber;
+    return Object.keys(offeringParams).reduce((acc, key) => {
+      if (!restrictions[key]) {
+        return Object.assign(acc, { [key]: offeringParams[key] });
       }
-    } else {
-      cpuNumber = offeringParams.cpuNumber;
-    }
 
-    if (restrictions.cpuSpeed) {
-      if (offeringParams.cpuSpeed > restrictions.cpuSpeed.max) {
-        cpuSpeed = restrictions.cpuSpeed.max;
-      } else if (offeringParams.cpuSpeed < restrictions.cpuSpeed.min) {
-        cpuSpeed = restrictions.cpuSpeed.min;
-      } else {
-        cpuSpeed = offeringParams.cpuSpeed;
+      if (offeringParams[key] > restrictions[key].max) {
+        return Object.assign(acc, { [key]: restrictions[key].max });
       }
-    } else {
-      cpuSpeed = offeringParams.cpuSpeed;
-    }
 
-    if (restrictions.memory) {
-      if (offeringParams.memory > restrictions.memory.max) {
-        memory = restrictions.memory.max;
-      } else if (offeringParams.memory < restrictions.memory.min) {
-        memory = restrictions.memory.min;
-      } else {
-        memory = offeringParams.memory;
+      if (offeringParams[key] < restrictions[key].min) {
+        return Object.assign(acc, { [key]: restrictions[key].min })
       }
-    } else {
-      memory = offeringParams.memory;
-    }
 
-    return { cpuNumber, cpuSpeed, memory };
+      return Object.assign(acc, { [key]: offeringParams[key] });
+    }, {});
   }
 
   private getRestrictionIntersection(
@@ -240,22 +210,13 @@ export class CustomServiceOfferingService {
   }
 
   private restrictionsAreCompatible(restrictions: ICustomOfferingRestrictions): boolean {
-    return (
-      (restrictions.cpuSpeed == null
-        || restrictions.cpuSpeed.min == null
-        || restrictions.cpuSpeed.max == null
-        || restrictions.cpuSpeed.min <= restrictions.cpuSpeed.max
-      )
-      && (restrictions.cpuNumber == null
-        || restrictions.cpuNumber.min == null
-        || restrictions.cpuNumber.max == null
-        || restrictions.cpuNumber.min <= restrictions.cpuNumber.max
-      )
-      && (restrictions.memory == null
-        || restrictions.memory.min == null
-        || restrictions.memory.max == null
-        || restrictions.memory.min <= restrictions.memory.max
-      )
-    );
+    return Object.keys(restrictions).reduce((acc, key) => {
+      return (
+        restrictions[key] == null ||
+        restrictions[key].min == null ||
+        restrictions[key].max == null ||
+        restrictions[key].min < restrictions[key].max
+      );
+    }, true);
   }
 }
