@@ -14,18 +14,20 @@ import { Template } from '../shared/template.model';
 
 
 @Component({
-  selector: 'cs-template-filter-list',
-  templateUrl: 'template-filter-list.component.html',
+  selector: 'cs-template-filter-list-selector',
+  templateUrl: 'template-filter-list-selector.component.html',
   styleUrls: ['template-filter-list.component.scss']
 })
-export class TemplateFilterListComponent implements OnChanges {
+export class TemplateFilterListSelectorComponent implements OnChanges {
   @Input() public templates: Array<Template>;
   @Input() public isos: Array<Iso>;
 
-  @Input() public showDelimiter = true;
+  @Input() public dialogMode = true;
+  @Input() public selectedTemplate: BaseTemplateModel;
+  @Input() public showIsoSwitch = true;
   @Input() public viewMode: string;
   @Input() public zoneId: string;
-  @Output() public deleteTemplate = new EventEmitter();
+  @Output() public selectedTemplateChange = new EventEmitter();
   @Output() public viewModeChange = new EventEmitter();
 
   public fetching = false;
@@ -48,7 +50,7 @@ export class TemplateFilterListComponent implements OnChanges {
   protected authService = ServiceLocator.injector.get(AuthService);
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes['isos'] || changes['templates']) {
+    if (changes['isos']) {
       this.updateList();
     }
   }
@@ -66,6 +68,11 @@ export class TemplateFilterListComponent implements OnChanges {
     this.viewMode = mode;
     this.updateList();
     this.viewModeChange.emit(this.viewMode);
+  }
+
+  public selectTemplate(template: BaseTemplateModel): void {
+    this.selectedTemplate = template;
+    this.selectedTemplateChange.emit(this.selectedTemplate);
   }
 
   public filterResults(filters?: any): void {
@@ -89,10 +96,6 @@ export class TemplateFilterListComponent implements OnChanges {
       this.visibleTemplateList = this.visibleTemplateList
         .filter(template => template.zoneId === this.zoneId || template.crossZones);
     }
-  }
-
-  public removeTemplate(template: Template): void {
-    this.deleteTemplate.next(template);
   }
 
   private filterByCategories(templateList: Array<BaseTemplateModel>): Array<BaseTemplateModel> {

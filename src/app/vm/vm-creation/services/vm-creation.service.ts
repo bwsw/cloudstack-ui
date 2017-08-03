@@ -3,29 +3,30 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import {
   ICustomOfferingRestrictionsByZone
-} from '../../service-offering/custom-service-offering/custom-offering-restrictions';
+} from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
+import { OfferingAvailability } from '../../../shared/services/offering.service';
+import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
+import { AuthService } from '../../../shared/services/auth.service';
+import { ConfigService } from '../../../shared/services/config.service';
+import { DiskOfferingService } from '../../../shared/services/disk-offering.service';
+import { DiskStorageService } from '../../../shared/services/disk-storage.service';
+import { IsoService } from '../../../template/shared/iso.service';
+import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
+import { SecurityGroupService } from '../../../shared/services/security-group.service';
+import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
+import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
+import { TemplateService } from '../../../template/shared/template.service';
+import { ZoneService } from '../../../shared/services/zone.service';
+import { VmService } from '../../shared/vm.service';
+import { VmCreationData } from '../data/vm-creation-data';
+import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
+import { Template } from '../../../template/shared/template.model';
+import { TemplateFilters } from '../../../template/shared/base-template.service';
+import { Iso } from '../../../template/shared/iso.model';
 import {
   CustomServiceOfferingService,
   DefaultServiceOfferingConfigurationByZone
-} from '../../service-offering/custom-service-offering/service/custom-service-offering.service';
-import { ServiceOffering, SSHKeyPair } from '../../shared/models';
-import {
-  AffinityGroupService,
-  AuthService,
-  ConfigService,
-  DiskOfferingService,
-  DiskStorageService,
-  ServiceOfferingService
-} from '../../shared/services';
-import { OfferingAvailability } from '../../shared/services/offering.service';
-import { ResourceUsageService } from '../../shared/services/resource-usage.service';
-import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
-import { ZoneService } from '../../shared/services/zone.service';
-import { Iso, IsoService, Template, TemplateService } from '../../template/shared';
-import { TemplateFilters } from '../../template/shared/base-template.service';
-import { VmService } from '../shared/vm.service';
-import { VmCreationData } from './data/vm-creation-data';
+} from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
 
 
 const vmCreationConfigurationKeys = [

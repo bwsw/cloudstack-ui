@@ -68,11 +68,31 @@
             <h2 mdl-card-title-text>{{ 'DOWNLOAD_URL' | translate }}</h2>
           </mdl-card-title>
           <mdl-card-supporting-text>
-            <a
-              [href]="templateDownloadUrl"
-              target="_blank"
-              class="mdl-color-text--primary-dark"
-            >{{ templateDownloadUrl }}</a>
+            <cs-input-group>
+              <mdl-textfield
+                class="md-card-input-copy"
+                cs-input-group-textbox
+                readonly
+                [ngModel]="templateDownloadUrl"
+              >
+              </mdl-textfield>
+              <button
+                mdl-button
+                mdl-button-type="icon"
+                cs-input-group-button
+                ngxClipboard
+                [cbContent]="templateDownloadUrl"
+                (cbOnSuccess)="onCopySuccess()"
+                (cbOnError)="onCopyFail()"
+              >
+                <mdl-icon
+                  mdTooltipPosition="below"
+                  [mdTooltip]="'COPY' | translate"
+                >
+                  content_copy
+                </mdl-icon>
+              </button>
+            </cs-input-group>
           </mdl-card-supporting-text>
         </mdl-card>
       </mdl-tab-panel-content>

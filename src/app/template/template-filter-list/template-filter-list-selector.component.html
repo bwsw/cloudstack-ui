@@ -4,21 +4,21 @@
   (filters)="filterResults($event)"
   (displayMode)="changeViewMode($event)"
   [showIso]="viewMode === 'Iso'"
-  [showDelimiter]="showDelimiter"
+  [showIsoSwitch]="showIsoSwitch"
+  [dialogMode]="dialogMode"
   [searchPanelWhite]="selectedGroupings?.length"
   [availableGroupings]="groupings"
 ></cs-template-filters>
 
-<ng-container *loading="!templateList?.length" cs-list>
-  <cs-template-card-list
-    *loading="fetching"
-    class="template-list"
-    [query]="query"
-    [templateList]="visibleTemplateList"
-    [groupings]="selectedGroupings"
-    (deleteTemplate)="removeTemplate($event)"
-  >
-  </cs-template-card-list>
-</ng-container>
+<cs-template-list
+  *loading="fetching"
+  class="template-list"
+  [selectedTemplate]="selectedTemplate"
+  (selectedTemplateChange)="selectTemplate($event)"
+  [templateList]="visibleTemplateList"
+  [query]="query"
+  [radio]="dialogMode"
+  [dialogMode]="dialogMode"
+></cs-template-list>
 
 <cs-no-results *ngIf="!visibleTemplateList?.length && !fetching"></cs-no-results>

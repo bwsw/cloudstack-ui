@@ -13,8 +13,8 @@ import { VmCreationData } from './data/vm-creation-data';
 import { VmCreationState } from './data/vm-creation-state';
 import { VmCreationFormNormalizationService } from './form-normalization/form-normalization.service';
 import { KeyboardLayout } from './keyboards/keyboards.component';
-import { NotSelected, VmCreationService } from './vm-creation.service';
-import { VmDeploymentMessage, VmDeploymentService, VmDeploymentStages } from './vm-deployment.service';
+import { VmCreationService } from './services/vm-creation.service';
+import { VmDeploymentMessage, VmDeploymentService, VmDeploymentStages } from './services/vm-deployment.service';
 import throttle = require('lodash/throttle');
 
 
@@ -284,9 +284,6 @@ export class VmCreationComponent implements OnInit {
         break;
       case VmDeploymentStages.IN_PROGRESS:
         this.creationStage = VmCreationStages.vmDeploymentInProgress;
-        break;
-      case VmDeploymentStages.TEMP_VM:
-        this.dialog.hide(deploymentMessage.vm);
         break;
       case VmDeploymentStages.FINISHED:
         this.dialog.hide();

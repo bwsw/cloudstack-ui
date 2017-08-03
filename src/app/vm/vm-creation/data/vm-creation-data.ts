@@ -8,7 +8,7 @@ import { ICustomServiceOffering } from '../../../service-offering/custom-service
 import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../../shared/models';
 import { ResourceStats } from '../../../shared/services/resource-usage.service';
 import { BaseTemplateModel, Iso, Template } from '../../../template/shared';
-import { VmCreationConfigurationData } from '../vm-creation.service';
+import { VmCreationConfigurationData } from '../services/vm-creation.service';
 import { VmCreationState } from './vm-creation-state';
 
 
