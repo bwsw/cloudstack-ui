@@ -43,25 +43,17 @@ export class VmActionsService implements ActionsService<VirtualMachine, VirtualM
   ) {}
 
   public getActionByName(name: VirtualMachineActionType): VirtualMachineAction {
-    switch (name) {
-      case VmActions.START:
-        return this.vmStartAction;
-      case VmActions.STOP:
-        return this.vmStopAction;
-      case VmActions.REBOOT:
-        return this.vmRebootAction;
-      case VmActions.RESTORE:
-        return this.vmRestoreAction;
-      case VmActions.DESTROY:
-        return this.vmDestroyAction;
-      case VmActions.RESET_PASSWORD:
-        return this.vmResetPasswordAction;
-      case VmActions.CONSOLE:
-        return this.vmConsoleAction;
-      case VmActions.WEB_SHELL:
-        return this.vmWebShellAction;
-      default:
-        throw new Error('Unknown VM action');
-    }
+    const actions = {
+      [VmActions.START]: this.vmStartAction,
+      [VmActions.STOP]: this.vmStopAction,
+      [VmActions.REBOOT]: this.vmRebootAction,
+      [VmActions.RESTORE]: this.vmRestoreAction,
+      [VmActions.DESTROY]: this.vmDestroyAction,
+      [VmActions.RESET_PASSWORD]: this.vmResetPasswordAction,
+      [VmActions.CONSOLE]: this.vmConsoleAction,
+      [VmActions.WEB_SHELL]: this.vmWebShellAction
+    };
+
+    return actions[name];
   }
 }
