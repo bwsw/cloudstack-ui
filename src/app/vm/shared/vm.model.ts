@@ -124,27 +124,10 @@ export class VirtualMachine extends BaseModel implements Taggable {
   constructor(params?: {}) {
     super(params);
 
-    if (!this.nic || !this.nic.length) {
-      this.nic = [];
-    }
-
-    if (!this.securityGroup || !this.securityGroup.length) {
-      this.securityGroup = [];
-    }
-
-    for (let i = 0; i < this.nic.length; i++) {
-      this.nic[i] = new NIC(this.nic[i]);
-    }
-
-    for (let i = 0; i < this.securityGroup.length; i++) {
-      this.securityGroup[i] = new SecurityGroup(this.securityGroup[i]);
-    }
-
-    if (this.tags) {
-      this.tags = this.tags.map(tag => new Tag(tag));
-      const group = this.tags.find(tag => tag.key === 'group');
-      this.instanceGroup = group ? new InstanceGroup(group.value) : undefined;
-    }
+    this.initializeNic();
+    this.initializeSecurityGroups();
+    this.initializeTags();
+    this.initializeInstanceGroup();
   }
 
   public get ipIsAvailable(): boolean {
@@ -167,5 +150,39 @@ export class VirtualMachine extends BaseModel implements Taggable {
       }
     }
     return new Color('white', '#FFFFFF', '');
+  }
+
+  private initializeNic(): void {
+    if (!this.nic) {
+      this.nic = [];
+    }
+
+    this.nic = this.nic.map(nic => new NIC(nic));
+  }
+
+  private initializeSecurityGroups(): void {
+    if (!this.securityGroup) {
+      this.securityGroup = [];
+    }
+
+    this.securityGroup = this.securityGroup.map(securityGroup => {
+      return new SecurityGroup(securityGroup);
+    });
+  }
+
+  private initializeTags(): void {
+    if (!this.tags) {
+      this.tags = [];
+    }
+
+    this.tags = this.tags.map(tag => new Tag(tag));
+  }
+
+  private initializeInstanceGroup(): void {
+    const group = this.tags.find(tag => tag.key === 'group');
+
+    if (group) {
+      this.instanceGroup = new InstanceGroup(group.value);
+    }
   }
 }
