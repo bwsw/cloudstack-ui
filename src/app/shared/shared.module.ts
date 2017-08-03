@@ -96,6 +96,8 @@ import {
 } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { GroupedCardListComponent } from './components/grouped-card-list/grouped-card-list.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
+import { DateTimeFormatterService } from './services/date-time-formatter.service';
+
 
 @NgModule({
   imports: [
@@ -208,6 +210,7 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     AuthService,
     CacheService,
     ConfigService,
+    DateTimeFormatterService,
     DiskOfferingService,
     DiskStorageService,
     ErrorService,

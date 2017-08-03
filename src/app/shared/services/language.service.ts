@@ -3,6 +3,7 @@ import { StorageService } from './storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { UserService } from './user.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 
 const DEFAULT_LANGUAGE = 'en';
@@ -15,6 +16,8 @@ export const TimeFormat = {
 
 @Injectable()
 export class LanguageService {
+  public onTimeFormatChange = new BehaviorSubject<string>(TimeFormat.AUTO);
+
   constructor(
     private storage: StorageService,
     private translate: TranslateService,
@@ -67,9 +70,13 @@ export class LanguageService {
   }
 
   public setTimeFormat(timeFormat: string): Observable<string> {
-    return (timeFormat === TimeFormat.AUTO
-      ? this.userService.removeTag('timeFormat')
-      : this.userService.writeTag('timeFormat', timeFormat)).mapTo(timeFormat);
+    return (
+      timeFormat === TimeFormat.AUTO
+        ? this.userService.removeTag('timeFormat')
+        : this.userService.writeTag('timeFormat', timeFormat)
+    )
+      .map(() => timeFormat)
+      .do(_ => this.onTimeFormatChange.next(_));
   }
 
   private get defaultLanguage(): string {

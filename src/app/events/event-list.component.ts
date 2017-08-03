@@ -4,13 +4,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
 import { FilterService } from '../shared';
-import { dateTimeFormat, formatIso } from '../shared/components/date-picker/dateUtils';
-import { LanguageService } from '../shared/services';
-import { TimeFormat } from '../shared/services/language.service';
+import { formatIso } from '../shared/components/date-picker/dateUtils';
 import { Event } from './event.model';
 import { EventService } from './event.service';
-import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
-
+import { DateTimeFormatterService } from '../shared/services/date-time-formatter.service';
 import moment = require('moment');
 
 
@@ -19,17 +16,13 @@ import moment = require('moment');
   templateUrl: 'event-list.component.html',
   styleUrls: ['event-list.component.scss']
 })
-export class EventListComponent extends WithUnsubscribe() implements OnInit {
+export class EventListComponent implements OnInit {
   public loading = false;
   public tableModel: MdlDefaultTableModel;
 
   public visibleEvents: Array<Event>;
 
   public date;
-  public dateTimeFormat;
-  public dateStringifyDateTimeFormat;
-  public firstDayOfWeek: number;
-  public timeFormat: string;
 
   public events: Array<Event>;
   public selectedLevels: Array<string>;
@@ -43,36 +36,19 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
   private filtersKey = 'eventListFilters';
 
   constructor(
+    private dateService: DateTimeFormatterService,
     private eventService: EventService,
     private filterService: FilterService,
-    private translate: TranslateService,
-    private languageService: LanguageService
+    private translate: TranslateService
   ) {
-    super();
-    this.firstDayOfWeek = this.locale === 'en' ? 0 : 1;
     this.updateEvents = this.updateEvents.bind(this);
   }
 
   public ngOnInit(): void {
-    this.setDateTimeFormat();
-    this.translate.onLangChange
-      .takeUntil(this.unsubscribe$)
-      .subscribe(() => this.setDateTimeFormat());
     this.translate.get(['DESCRIPTION', 'LEVEL', 'TYPE', 'TIME'])
       .subscribe(translations => this.initTableModel(translations));
     this.initFilters();
 
-    Observable.forkJoin(
-      this.languageService.getFirstDayOfWeek(),
-      this.languageService.getTimeFormat()
-    )
-      .subscribe(([day, timeFormat]) => {
-        this.firstDayOfWeek = day;
-        this.timeFormat = timeFormat;
-        this.setDateTimeFormat();
-
-        this.getEvents({ reload: true });
-      });
   }
 
   public get locale(): string {
@@ -135,7 +111,7 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
       return event.description.toLowerCase().includes(queryLower) ||
         event.level.toLowerCase().includes(queryLower) ||
         event.type.toLowerCase().includes(queryLower) ||
-        this.stringifyDate(event.created).toLowerCase().includes(queryLower);
+        this.dateService.stringifyDate(event.created).toLowerCase().includes(queryLower);
     });
   }
 
@@ -146,10 +122,6 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
       'types': this.selectedTypes,
       'query': this.query
     });
-  }
-
-  private stringifyDate(date: Date): string {
-    return this.dateStringifyDateTimeFormat.format(date);
   }
 
   private updateEventTypes(events: Array<Event>): void {
@@ -168,27 +140,6 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
     this.selectedLevels = params['levels'];
     this.selectedTypes = params['types'];
     this.query = params['query'];
-  }
-
-  private setDateTimeFormat(): void {
-    if (this.translate.currentLang === 'en') {
-      this.dateTimeFormat = dateTimeFormat;
-    }
-    if (this.translate.currentLang === 'ru') {
-      this.dateTimeFormat = Intl.DateTimeFormat;
-    }
-
-    const options: Intl.DateTimeFormatOptions = {
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
-      timeZoneName: 'short'
-    };
-
-    if (this.timeFormat !== TimeFormat.AUTO) {
-      options.hour12 = this.timeFormat === TimeFormat['12h'];
-    }
-    this.dateStringifyDateTimeFormat = new Intl.DateTimeFormat(this.locale, options);
   }
 
   private getEventTypes(events: Array<Event>): Array<string> {
@@ -224,7 +175,7 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
   private createTableModel(): void {
     this.tableModel.data = this.visibleEvents.map(event => Object.assign({}, event, {
       selected: false,
-      time: this.stringifyDate(event.created)
+      time: this.dateService.stringifyDate(event.created)
     }));
   }
 }
