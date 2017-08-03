@@ -7,14 +7,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { DatePickerComponent } from '../shared/components/date-picker';
 import { TopBarComponent } from '../shared/components/top-bar/top-bar.component';
-import { LanguageService } from '../shared/services';
+import { LanguageService, TimeFormats } from '../shared/services';
 
 import { FilterService } from '../shared/services/';
 import { SharedModule } from '../shared/shared.module';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
 import { EventService } from './event.service';
-import { TimeFormat } from '../shared/services/language.service';
 
 
 const eventServiceFixture = require('./event.service.fixture.json');
@@ -75,7 +74,7 @@ class MockLanguageService {
   }
 
   public getTimeFormat(): Observable<string | null> {
-    return Observable.of(TimeFormat.AUTO);
+    return Observable.of(TimeFormats.AUTO);
   }
 }
 

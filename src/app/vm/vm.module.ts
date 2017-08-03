@@ -51,8 +51,10 @@ import { VolumeComponent } from './vm-sidebar/storage-detail/volume/volume.compo
 import { VmDetailComponent } from './vm-sidebar/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
-import { VmTagsComponent } from './vm-tags/vm-tags.component';
 import { vmRouting } from './vm.routing';
+// tslint:disable-next-line
+import { SnapshotModule } from '../snapshot/snapshot.module';
+import { VmTagsComponent } from './vm-tags/vm-tags.component';
 
 
 @NgModule({
@@ -71,6 +73,7 @@ import { vmRouting } from './vm.routing';
     ServiceOfferingModule,
     ServiceOfferingModule,
     SharedModule,
+    SnapshotModule,
     TagsModule,
     TemplateModule,
     TranslateModule,

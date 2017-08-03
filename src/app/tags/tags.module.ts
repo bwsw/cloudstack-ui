@@ -10,6 +10,7 @@ import { TagCategoryComponent } from './tag-category/tag-category.component';
 import { TagEditComponent } from './tag-edit/tag-edit.component';
 import { TagComponent } from './tag/tag.component';
 import { TagsViewComponent } from './tags-view/tags-view.component';
+import { MdTooltipModule } from '@angular/material';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { TagsViewComponent } from './tags-view/tags-view.component';
     CommonModule,
     FormsModule,
     TranslateModule,
+    MdTooltipModule,
     MdlModule,
     MdlSelectModule,
     SharedModule,

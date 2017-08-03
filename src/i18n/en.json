@@ -315,6 +315,7 @@
   "VM_STORAGE_VIEW": "Storage",
   "VM_NETWORK_VIEW": "Network",
   "VM_TAGS_VIEW": "Tags",
+  "TEMPLATE_TAGS_VIEW": "Tags",
 
   "VOLUME_RESIZE": "Resize",
   "VOLUME_RESIZING": "Resizing volume",
@@ -467,11 +468,9 @@
   "COLOR": "Color",
   "FIRST_DAY_OF_WEEK": "First day of the week",
   "TIME_FORMAT": "Time format",
-  "12h": "12-Hours Time",
-  "24h": "24-Hours Time",
+  "hour12": "12-Hours Time",
+  "hour24": "24-Hours Time",
   "AUTO": "Auto",
-  "MONDAY": "Monday",
-  "SUNDAY": "Sunday",
   "GROUP_BY_COLORS": "Group by colors",
   "PALETTE": "Interface Theme Colors",
   "SELECT_GROUPS": "Select groups",
@@ -594,5 +593,48 @@
   "TAG_ALREADY_EXISTS": "Tag already exists",
   "NO_TAGS": "No tags",
   "EDIT_TAG": "Edit tag",
-  "TAG_DELETE_CONFIRMATION": "Are you sure you want to delete this tag?"
+  "TAG_DELETE_CONFIRMATION": "Are you sure you want to delete this tag?",
+
+  "STORE_SNAPSHOTS": "Number of stored snapshots",
+  "MINUTE": "Minute",
+  "AM_PM_FORMAT": "AM/PM",
+  "24_HOURS_FORMAT": "24-hour clock",
+  "TIME_ZONE": "Time zone",
+
+  "MONDAY": "Monday",
+  "TUESDAY": "Tuesday",
+  "WEDNESDAY": "Wednesday",
+  "THURSDAY": "Thursday",
+  "FRIDAY": "Friday",
+  "SATURDAY": "Saturday",
+  "SUNDAY": "Sunday",
+
+  "MONDAY_LOWER": "monday",
+  "TUESDAY_LOWER": "tuesday",
+  "WEDNESDAY_LOWER": "wednesday",
+  "THURSDAY_LOWER": "thursday",
+  "FRIDAY_LOWER": "friday",
+  "SATURDAY_LOWER": "saturday",
+  "SUNDAY_LOWER": "sunday",
+
+  "AM": "AM",
+  "PM": "PM",
+
+  "DAY_OF_WEEK": "Day of week",
+  "DAY_OF_MONTH": "Day of month",
+
+  "SCHEDULED_SNAPSHOTS": "Scheduled snapshots",
+  "KEEP": "Keep",
+  "RECURRING_SNAPSHOTS": "Recurring snapshots",
+  "POLICY_HOURLY_TIME": "{{ value }} minute",
+  "POLICY_DAILY_TIME": "{{ value }}",
+  "POLICY_WEEKLY_TIME": "{{ value }}",
+  "POLICY_MONTHLY_TIME": "{{ value }}",
+  "POLICY_WEEKLY_PERIOD": "Every {{ value }}",
+  "POLICY_MONTHLY_PERIOD": "day {{ value }} of month",
+
+  "RECURRING_SNAPSHOTS_HOURLY": "Hourly",
+  "RECURRING_SNAPSHOTS_DAILY": "Daily",
+  "RECURRING_SNAPSHOTS_WEEKLY": "Weekly",
+  "RECURRING_SNAPSHOTS_MONTHLY": "Monthly"
 }

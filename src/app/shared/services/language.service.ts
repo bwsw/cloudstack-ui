@@ -3,13 +3,15 @@ import { StorageService } from './storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { UserService } from './user.service';
+import { DayOfWeek } from '../types/day-of-week';
 
 
 const DEFAULT_LANGUAGE = 'en';
 
-export const TimeFormat = {
-  '12h': '12h',
-  '24h': '24h',
+export type TimeFormat = 'hour12' | 'hour24' | 'auto';
+export const TimeFormats = {
+  'hour12': 'hour12' as TimeFormat,
+  'hour24': 'hour24' as TimeFormat,
   AUTO: 'auto'
 };
 
@@ -39,10 +41,10 @@ export class LanguageService {
     );
   }
 
-  public getFirstDayOfWeek(): Observable<number> {
+  public getFirstDayOfWeek(): Observable<DayOfWeek> {
     return this.userService.readTag('firstDayOfWeek')
       .map(dayRaw => {
-        const fallbackDay = this.storage.read('lang') === 'en' ? 0 : 1;
+        const fallbackDay = this.storage.read('lang') === 'en' ? DayOfWeek.Sunday : DayOfWeek.Monday;
         if (dayRaw === undefined) {
           return fallbackDay;
         }
@@ -58,16 +60,17 @@ export class LanguageService {
     return this.userService.readTag('timeFormat')
       .map(timeFormat => {
         switch (timeFormat) {
-          case TimeFormat['12h']:
-          case TimeFormat['24h']:
+          case TimeFormats.hour12:
+          case TimeFormats.hour24:
             return timeFormat;
-          default: return TimeFormat.AUTO;
+          default:
+            return TimeFormats.AUTO;
         }
       });
   }
 
   public setTimeFormat(timeFormat: string): Observable<string> {
-    return (timeFormat === TimeFormat.AUTO
+    return (timeFormat === TimeFormats.AUTO
       ? this.userService.removeTag('timeFormat')
       : this.userService.writeTag('timeFormat', timeFormat)).mapTo(timeFormat);
   }
