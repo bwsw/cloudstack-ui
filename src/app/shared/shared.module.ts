@@ -82,7 +82,7 @@ import {
 import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
 import { RouterUtilsService } from './services/router-utils.service';
 import { SnapshotService } from './services/snapshot.service';
-import { StorageService } from './services/storage.service';
+import { LocalStorageService } from './services/local-storage.service';
 import { TagService } from './services/tag.service';
 import { UserService } from './services/user.service';
 import { VolumeService } from './services/volume.service';
@@ -96,6 +96,8 @@ import {
 } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { GroupedCardListComponent } from './components/grouped-card-list/grouped-card-list.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
+import { SessionStorageService } from './services/session-storage.service';
+import { StorageService } from './services/storage.service';
 
 @NgModule({
   imports: [
@@ -229,6 +231,8 @@ import { DividerVerticalComponent } from './components/divider-vertical/divider-
     SSHKeyPairService,
     StatsUpdateService,
     StorageService,
+    LocalStorageService,
+    SessionStorageService,
     StyleService,
     TagService,
     UserService,

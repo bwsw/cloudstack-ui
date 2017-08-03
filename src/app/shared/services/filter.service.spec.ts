@@ -2,14 +2,14 @@ import { Injector } from '@angular/core';
 import { async, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FilterConfig, FilterService } from './filter.service';
-import { RouterUtilsService } from './router-utils.service';
 
-import { StorageService } from './storage.service';
+import { LocalStorageService } from './local-storage.service';
 import { TagService } from './tag.service';
 
 
 describe('Filter service', () => {
   const testKey = 'testKey';
+
   class RouterStub {
     public navigate(): Promise<any> {
       return Promise.resolve();
@@ -17,7 +17,7 @@ describe('Filter service', () => {
   }
 
   class ActivateRouteStub {
-    private _testQueryParams: {};
+    private _testQueryParams: {} = {};
 
     get testParams(): {} {
       return this._testQueryParams;
@@ -32,6 +32,8 @@ describe('Filter service', () => {
     }
   }
 
+  const testRoute: ActivateRouteStub = new ActivateRouteStub();
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -39,27 +41,37 @@ describe('Filter service', () => {
         { provide: ActivatedRoute, useClass: ActivateRouteStub },
         { provide: Router, useClass: RouterStub },
         { provide: TagService, useValue: {} },
-        {
-          provide: RouterUtilsService,
-          useValue: {
-            getRouteWithoutQueryParams: _ => _
-          }
-        },
-        StorageService,
+        LocalStorageService,
         Injector
       ],
     });
   }));
 
 
-  it('should update filters', fakeAsync(inject([FilterService, StorageService], (filterService, storage) => {
+  it('should update filters', fakeAsync(inject([FilterService, LocalStorageService], (filterService, storage) => {
     const params = { asd: 4, dsa: 5 };
+    const whiteList: FilterConfig = {
+      'filterString': { type: 'string' },
+      'filterString1': {
+        type: 'string',
+        options: ['filter1', 'filter2']
+      },
+      'filterString2': {
+        type: 'string',
+        options: ['filter1', 'filter2'],
+        defaultOption: 'filter1'
+      },
+      'filterString3': {
+        type: 'string',
+        options: ['filter1', 'filter2']
+      },
+    };
     filterService.update(testKey, params);
     tick(5);
     expect(storage.read(testKey)).toBe(JSON.stringify(params));
   })));
 
-  it('should not put empty arrays', fakeAsync(inject([FilterService, StorageService], (filterService, storage) => {
+  it('should not put empty arrays', fakeAsync(inject([FilterService, LocalStorageService], (filterService, storage) => {
     const params = { asd: [], dsa: [5] };
     filterService.update(testKey, params);
     tick(5);
@@ -77,14 +89,15 @@ describe('Filter service', () => {
         'filterBool4': { type: 'boolean' },
       };
 
-      activatedRoute.testParams = {
+      testRoute.testParams = {
         filterBool: true,
         filterBool1: false,
         filterBool2: 'true',
         filterBool3: 'false',
         filterBool4: 'notABoolean',
       };
-      const filters = filterService.init(testKey, whiteList);
+
+      const filters = filterService.init(testKey, whiteList, testRoute);
       expect(filters.filterBool).toBe(true);
       expect(filters.filterBool1).toBe(false);
       expect(filters.filterBool2).toBe(true);
@@ -119,8 +132,9 @@ describe('Filter service', () => {
         filterString2: 'shouldFallbackToDefaultOption',
         filterString3: whiteList['filterString3'].options[0],
       };
-      activatedRoute.testParams = testParams;
-      const filters = filterService.init(testKey, whiteList);
+
+      testRoute.testParams = testParams;
+      const filters = filterService.init(testKey, whiteList, testRoute);
       expect(filters.filterString).toBe(testParams.filterString);
       expect(filters.filterString1).toBeUndefined();
       expect(filters.filterString2).toBe(whiteList['filterString2'].defaultOption);
@@ -151,7 +165,8 @@ describe('Filter service', () => {
         }
       };
 
-      activatedRoute.testParams = {
+      // debugger;
+      testRoute.testParams = {
         serializedArray: 'anyValue,anotherValue',
         array: ['anyValue', 'anotherValue'],
         withOptions: 'option2',
@@ -159,7 +174,8 @@ describe('Filter service', () => {
         unknownValue: 'option3',
         notAnArray: 123
       };
-      const filters = filterService.init(testKey, whiteList);
+
+      const filters = filterService.init(testKey, whiteList, testRoute);
       expect(filters.serializedArray).toEqual(['anyValue', 'anotherValue']);
       expect(filters.array).toEqual(['anyValue', 'anotherValue']);
       expect(filters.withOptions).toEqual(['option2']);
@@ -181,15 +197,15 @@ describe('Filter service', () => {
       };
 
       const queryParams = { filter1: 'privet' };
-      activatedRoute.testParams = queryParams;
-      const filters = filterService.init(testKey, whiteList);
+      testRoute.testParams = queryParams;
+      const filters = filterService.init(testKey, whiteList, testRoute);
       expect(filters).toEqual(queryParams);
     })
   );
 
   it(
     'should get missing filters from localStorage',
-    inject([ActivatedRoute, FilterService, StorageService], (activatedRoute, filterService, storage) => {
+    inject([ActivatedRoute, FilterService, LocalStorageService], (activatedRoute, filterService, storage) => {
       const whiteList: FilterConfig = {
         'filter1': {
           type: 'string'
@@ -202,15 +218,15 @@ describe('Filter service', () => {
       const queryParams = { filter1: 'privet' };
       const storageFilters = { filter2: ['asd', 'dsa'] };
       storage.write(testKey, JSON.stringify(storageFilters));
-      activatedRoute.testParams = queryParams;
-      const filters = filterService.init(testKey, whiteList);
+      testRoute.testParams = queryParams;
+      const filters = filterService.init(testKey, whiteList, testRoute);
       expect(filters).toEqual(Object.assign({}, queryParams, storageFilters));
     })
   );
 
   it(
     'should ignore invalid JSON from localStorage',
-    inject([ActivatedRoute, FilterService, StorageService], (activatedRoute, filterService, storage) => {
+    inject([ActivatedRoute, FilterService, LocalStorageService], (activatedRoute, filterService, storage) => {
       const whiteList: FilterConfig = {
         'filter1': {
           type: 'string'
@@ -222,29 +238,27 @@ describe('Filter service', () => {
 
       const queryParams = { filter1: 'privet' };
       storage.write(testKey, 'invalidJSON');
-      activatedRoute.testParams = queryParams;
-      const filters = filterService.init(testKey, whiteList);
+      testRoute.testParams = queryParams;
+      const filters = filterService.init(testKey, whiteList, testRoute);
       expect(filters).toEqual(queryParams);
       expect(storage.read(testKey)).toBeNull();
     })
   );
 
-  it(
-    'should return default option if requested filter is not present in url or localStorage',
+  it('should return default option if requested filter is not present in url or localStorage',
     inject([ActivatedRoute, FilterService], (activatedRoute, filterService) => {
       const whiteList: FilterConfig = {
         'filter': { type: 'string', defaultOption: 'default' }
       };
 
       localStorage.setItem(testKey, JSON.stringify({ asd: 5 }));
-      activatedRoute.testParams = { unknownFilter: 5 };
-      const filters = filterService.init(testKey, whiteList);
+      testRoute.testParams = { unknownFilter: 5 };
+      const filters = filterService.init(testKey, whiteList, testRoute);
       expect(filters).toEqual({ filter: 'default' });
     })
   );
 
-  it(
-    'should not lookup localStorage if all params are set in the url',
+  it('should not lookup localStorage if all params are set in the url',
     inject([ActivatedRoute, FilterService], (activatedRoute, filterService) => {
       const whiteList: FilterConfig = {
         'filter': { type: 'string', defaultOption: 'default' },
@@ -259,8 +273,9 @@ describe('Filter service', () => {
         filter: 'fromUrl',
         filter1: true
       };
-      activatedRoute.testParams = urlParams;
-      const filters = filterService.init(testKey, whiteList);
+
+      testRoute.testParams = urlParams;
+      const filters = filterService.init(testKey, whiteList, testRoute);
       expect(filters).toEqual(urlParams);
     })
   );

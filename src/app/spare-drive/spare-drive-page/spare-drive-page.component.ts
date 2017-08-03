@@ -18,6 +18,7 @@ import { UserService } from '../../shared/services/user.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { SpareDriveActionsService } from '../spare-drive-actions.service';
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
+import { ActivatedRoute } from '@angular/router';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -65,7 +66,8 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     private spareDriveActionsService: SpareDriveActionsService,
     private userService: UserService,
     private volumeService: VolumeService,
-    private zoneService: ZoneService
+    private zoneService: ZoneService,
+    private route: ActivatedRoute
   ) {
   }
 
@@ -92,7 +94,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     const params = this.filter.init(spareDriveListFilters, {
       zones: { type: 'array', defaultOption: [] },
       groupings: { type: 'array', defaultOption: [] }
-    });
+    }, this.route);
     this.selectedZones = this.zones.filter(zone =>
       params['zones'].find(id => id === zone.id)
     );

@@ -5,7 +5,7 @@ import { BackendResource } from '../decorators';
 import { ResourceTypes } from '../models';
 import { User } from '../models/user.model';
 import { BaseBackendService } from './base-backend.service';
-import { StorageService } from './storage.service';
+import { LocalStorageService } from './local-storage.service';
 import { TagService } from './tag.service';
 
 
@@ -16,7 +16,7 @@ import { TagService } from './tag.service';
 })
 export class UserService extends BaseBackendService<User> {
   constructor(
-    private storageService: StorageService,
+    private storageService: LocalStorageService,
     private tagService: TagService
   ) {
     super();

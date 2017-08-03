@@ -5,7 +5,7 @@ import { BACKEND_API_URL, ConfigService, NotificationService } from '../../share
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { UserService } from '../../shared/services/user.service';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-
+import { Utils } from '../../shared/services/utils.service';
 
 interface ApiInfoLink {
   title: string;
@@ -82,7 +82,7 @@ export class ApiInfoComponent implements OnInit {
 
   private get apiUrl(): string {
     return [
-      this.routerUtilsService.getLocationOrigin().replace(/\/$/, ''),
+      Utils.getLocationOrigin().replace(/\/$/, ''),
       this.routerUtilsService.getBaseHref().replace(/^\//, '').replace(/\/$/, ''),
       BACKEND_API_URL
     ]
