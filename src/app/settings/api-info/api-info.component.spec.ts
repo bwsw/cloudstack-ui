@@ -47,8 +47,8 @@ describe('Api Info component', () => {
   }
 
   class FakeConfigService {
-    public get(_key: string): Observable<any> {
-      return Observable.of('https://api.url');
+    public get(key: string) {
+      return 'https://api.url';
     }
   }
 

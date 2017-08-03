@@ -44,7 +44,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     const sessionRefreshInterval = this.getSessionRefreshInterval();
 
     this.getInactivityTimeout()
-      .subscribe((inactivityTimeout) => {
+      .subscribe(inactivityTimeout => {
         this.inactivityTimeout = inactivityTimeout;
         this.sessionRefreshInterval = sessionRefreshInterval;
         this.resetInactivityTimer();
