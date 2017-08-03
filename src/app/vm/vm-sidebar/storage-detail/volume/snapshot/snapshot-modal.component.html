@@ -15,7 +15,7 @@
           <td class="mdl-data-table__cell--non-numeric">{{ snapshot.created | date:'y-MM-dd H:m:s' }}</td>
           <td class="mdl-data-table__cell--non-numeric">
             <button
-              *ngFor="let action of snapshotActionsService.Actions"
+              *ngFor="let action of snapshotActionsService.actions"
               class="button-18px"
               mdl-button
               mdl-button-type="icon"

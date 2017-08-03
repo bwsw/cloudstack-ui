@@ -66,7 +66,21 @@
     [style.width.px]="300"
   >
     <div mdl-shadow="6" class="popover-actions">
-      <ng-container *ngFor="let action of vmActionsService.Actions">
+      <ng-container *ngFor="let action of firstRowActions">
+        <button
+          *ngIf="!action.hidden(item)"
+          (click)="onAction(action, item)"
+          [disabled]="!action.canActivate(item)"
+          [mdTooltip]="action.name | translate"
+          mdl-button
+          mdl-button-type="icon"
+          mdl-ripple
+        >
+          <mdl-icon>{{ action.icon }}</mdl-icon>
+        </button>
+      </ng-container>
+      <md-divider></md-divider>
+      <ng-container *ngFor="let action of secondRowActions">
         <button
           *ngIf="!action.hidden(item)"
           (click)="onAction(action, item)"

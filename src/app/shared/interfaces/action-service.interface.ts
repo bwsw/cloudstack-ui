@@ -3,5 +3,5 @@ import { BaseModel } from '../models/base.model';
 
 
 export interface ActionsService<M extends BaseModel, A extends Action<M>> {
-  Actions: Array<A>;
+  actions: Array<A>;
 }

@@ -17,7 +17,7 @@ import { VmStopActionSilent } from '../vm-actions/silent/vm-stop-silent';
 
 @Injectable()
 export class VmActionsService implements ActionsService<VirtualMachine, VirtualMachineAction> {
-  public Actions = [
+  public actions = [
     this.vmStartAction,
     this.vmStopAction,
     this.vmRebootAction,

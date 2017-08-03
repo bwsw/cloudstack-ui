@@ -17,11 +17,16 @@ export class VmListItemComponent implements OnInit, OnChanges {
   @Output() public onClick = new EventEmitter();
   @ViewChild(MdlPopoverComponent) public popoverComponent: MdlPopoverComponent;
 
-  public actions: Array<IVmAction>;
+  public firstRowActions: Array<VirtualMachineAction>;
+  public secondRowActions: Array<VirtualMachineAction>;
+
   public color: Color;
   public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
 
-  constructor(public vmActionsService: VmActionsService) {}
+  constructor(public vmActionsService: VmActionsService) {
+    this.firstRowActions = this.vmActionsService.actions.slice(0, 7);
+    this.secondRowActions = this.vmActionsService.actions.slice(7, 8);
+  }
 
   public ngOnInit(): void {
     this.updateColor();
