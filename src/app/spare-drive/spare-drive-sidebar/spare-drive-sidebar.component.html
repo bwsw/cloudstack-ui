@@ -11,7 +11,7 @@
         </div>
         <div class="row" *ngIf="volume.created">
           <div>{{ 'SPARE_DRIVE_DETAILS.CREATED' | translate }}</div>
-          <div>{{ dateTimeFormatterService.stringifyToDate(volume.created) }}</div>
+          <div>{{ volume.created | stringifyDate }}</div>
         </div>
         <div class="row"  *ngIf="volume.storageType">
           <div>{{ 'SPARE_DRIVE_DETAILS.STORAGE_TYPE' | translate }}</div>

@@ -97,6 +97,8 @@ import {
 import { GroupedCardListComponent } from './components/grouped-card-list/grouped-card-list.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
 import { DateTimeFormatterService } from './services/date-time-formatter.service';
+import { StringifyDatePipe } from './pipes/stringifyDate.pipe';
+import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
 
 
 @NgModule({
@@ -146,9 +148,11 @@ import { DateTimeFormatterService } from './services/date-time-formatter.service
     TableComponent,
     TopBarComponent,
     VmStatisticsComponent,
-    DivisionPipe,
     SliderComponent,
+    DivisionPipe,
     HighLightPipe,
+    StringifyDatePipe,
+    StringifyTimePipe,
     ViewValuePipe,
     LoadingDirective,
     MdlTextAreaAutoresizeDirective,
@@ -195,9 +199,11 @@ import { DateTimeFormatterService } from './services/date-time-formatter.service
     TableComponent,
     TopBarComponent,
     VmStatisticsComponent,
-    DivisionPipe,
     SliderComponent,
+    DivisionPipe,
     HighLightPipe,
+    StringifyDatePipe,
+    StringifyTimePipe,
     ViewValuePipe,
     LoadingDirective,
     LoaderComponent,

@@ -11,7 +11,7 @@
     <div class="row snapshot-name">{{ volume.snapshots[0].name }}</div>
     <div class="row">
       <div style="width: 70%;">
-        {{ dateTimeFormatterService.stringifyToDate(volume.snapshots[0].created) }}
+        {{ volume.snapshots[0].created | stringifyDate }}
       </div>
       <div style="width: 30%;">
         <button
