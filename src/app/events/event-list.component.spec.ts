@@ -12,7 +12,6 @@ import { DatePickerComponent } from '../shared/components/date-picker';
 import { TopBarComponent } from '../shared/components/top-bar/top-bar.component';
 import { LanguageService, TimeFormats } from '../shared/services';
 
-import { FilterService } from '../shared/services/';
 import { SharedModule } from '../shared/shared.module';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
@@ -59,17 +58,6 @@ class MockEventService {
 
     return Observable.of(result || []);
   }
-}
-
-class MockFilterService {
-  public init(): any {
-    return {
-      levels: [],
-      types: []
-    };
-  }
-
-  public update(): void {}
 }
 
 @Injectable()
@@ -144,7 +132,6 @@ describe('event list component', () => {
         { provide: LanguageService, useClass: MockLanguageService },
         { provide: Router, useClass: MockRouter },
         { provide: ActivatedRoute, useClass: ActivatedRouteStub },
-        { provide: FilterService, useClass: MockFilterService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })
