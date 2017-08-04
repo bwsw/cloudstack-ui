@@ -40,8 +40,13 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
   public eventTypes: Array<string>;
   public levels = ['INFO', 'WARN', 'ERROR'];
 
-private filterService = new FilterService(this.router, this.sessionStorage);
   private filtersKey = 'eventListFilters';
+  private filterService = new FilterService({
+    'date': { type: 'string' },
+    'levels': { type: 'array', options: this.levels, defaultOption: [] },
+    'types': { type: 'array', defaultOption: [] },
+    'query': { type: 'string' }
+  }, this.router, this.sessionStorage, this.filtersKey, this.activatedRoute);
 
   constructor(
     private router: Router,
@@ -97,9 +102,9 @@ private filterService = new FilterService(this.router, this.sessionStorage);
       endDate: formatIso(this.date)
     };
 
-    const eventObservable = this.events && !params.reload ?
-      Observable.of(this.events) :
-      this.eventService.getList(dateParams);
+    const eventObservable = this.events && !params.reload
+      ? Observable.of(this.events)
+      : this.eventService.getList(dateParams);
 
     return eventObservable
       .do(events => this.updateEventTypes(events))
@@ -160,12 +165,7 @@ private filterService = new FilterService(this.router, this.sessionStorage);
   }
 
   private initFilters(): void {
-    const params = this.filterService.init(this.filtersKey, {
-      'date': { type: 'string' },
-      'levels': { type: 'array', options: this.levels, defaultOption: [] },
-      'types': { type: 'array', defaultOption: [] },
-      'query': { type: 'string' }
-    }, this.activatedRoute);
+    const params = this.filterService.getParams();
 
     this.date = moment(params['date']).toDate();
     this.selectedLevels = params['levels'];

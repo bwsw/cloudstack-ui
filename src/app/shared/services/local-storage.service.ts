@@ -11,7 +11,7 @@ export class LocalStorageService extends MemoryStorageService {
     super();
 
     this.localStorage = localStorage;
-    this.isLocalStorage = this.isLocalStorageAvailable;
+    this.isLocalStorage = this.isLocalStorageAvailable();
   }
 
   public write(key: string, value: string): void {
@@ -41,7 +41,7 @@ export class LocalStorageService extends MemoryStorageService {
     }
   }
 
-  private get isLocalStorageAvailable(): boolean {
+  private isLocalStorageAvailable(): boolean {
     if (!localStorage) {
       return false;
     }

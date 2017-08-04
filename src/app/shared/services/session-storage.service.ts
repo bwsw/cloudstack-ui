@@ -11,7 +11,7 @@ export class SessionStorageService extends MemoryStorageService {
     super();
 
     this.sessionStorage = sessionStorage;
-    this.isSessionStorage = this.isSessionStorageAvailable;
+    this.isSessionStorage = this.isSessionStorageAvailable();
   }
 
   public write(key: string, value: string): void {
@@ -42,7 +42,7 @@ export class SessionStorageService extends MemoryStorageService {
     }
   }
 
-  private get isSessionStorageAvailable(): boolean {
+  private isSessionStorageAvailable(): boolean {
     if (!sessionStorage) {
       return false;
     }

@@ -51,8 +51,25 @@ export class TemplateFiltersComponent implements OnInit {
     TemplateFilters.self
   ];
 
-  private filterService = new FilterService(this.router, this.storageService);
   private filtersKey = 'imageListFilters';
+  private filterService = new FilterService({
+    osFamilies: {
+      type: 'array',
+      options: this.osFamilies,
+      defaultOption: []
+    },
+    categoryFilters: {
+      type: 'array',
+      options: this.categoryFilters,
+      defaultOption: []
+    },
+    zones: {
+      type: 'array',
+      defaultOption: []
+    },
+    query: { type: 'string' },
+    groupings: { type: 'array', defaultOption: [] }
+  }, this.router, this.storageService, this.filtersKey, this.activatedRoute);
 
   private templateTabIndex = 0;
   private isoTabIndex = 1;
@@ -65,7 +82,8 @@ export class TemplateFiltersComponent implements OnInit {
     private storageService: LocalStorageService,
     private translateService: TranslateService,
     private zoneService: ZoneService
-  ) { }
+  ) {
+  }
 
   public ngOnInit(): void {
     if (!this.dialogMode) {
@@ -131,27 +149,11 @@ export class TemplateFiltersComponent implements OnInit {
   }
 
   private initFilters(): void {
-    const params = this.filterService.init(this.filtersKey, {
-      osFamilies: {
-        type: 'array',
-        options: this.osFamilies,
-        defaultOption: []
-      },
-      categoryFilters: {
-        type: 'array',
-        options: this.categoryFilters,
-        defaultOption: []
-      },
-      zones: {
-        type: 'array',
-        defaultOption: []
-      },
-      query: { type: 'string' },
-      groupings: { type: 'array', defaultOption: [] }
-    }, this.activatedRoute);
+    const params = this.filterService.getParams();
     this.selectedOsFamilies = params['osFamilies'];
     this.selectedFilters = params['categoryFilters'];
-    this.selectedZones = this.zones.filter(zone => params['zones'].find(id => id === zone.id));
+    this.selectedZones = this.zones.filter(
+      zone => params['zones'].find(id => id === zone.id));
     this.selectedGroupingNames = params['groupings']
       .map(g => this.availableGroupings.find(_ => _.key === g))
       .filter(g => g);

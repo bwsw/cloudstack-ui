@@ -50,12 +50,17 @@ export class VmFilterComponent implements OnInit, OnChanges {
   public states = [
     { state: VmStates.Running, name: 'VM_FILTERS.STATE.RUNNING' },
     { state: VmStates.Stopped, name: 'VM_FILTERS.STATE.STOPPED' },
-    { state: VmStates.Error,   name: 'VM_FILTERS.STATE.ERROR' }
+    { state: VmStates.Error, name: 'VM_FILTERS.STATE.ERROR' }
   ];
   public showNoGroupFilter = true;
 
   private filtersKey = 'vmListFilters';
-  private filterService = new FilterService(this.router, this.storage);
+  private filterService = new FilterService({
+    zones: { type: 'array', defaultOption: [] },
+    groups: { type: 'array', defaultOption: [] },
+    groupings: { type: 'array', defaultOption: [] },
+    states: { type: 'array', options: this.states.map(_ => _.state), defaultOption: [] }
+  }, this.router, this.storage, this.filtersKey, this.activatedRoute);
 
   constructor(
     private router: Router,
@@ -78,12 +83,7 @@ export class VmFilterComponent implements OnInit, OnChanges {
   }
 
   public initFilters(): void {
-    const params = this.filterService.init(this.filtersKey, {
-      zones: { type: 'array', defaultOption: [] },
-      groups: { type: 'array', defaultOption: [] },
-      groupings: { type: 'array', defaultOption: [] },
-      states: { type: 'array', options: this.states.map(_ => _.state), defaultOption: [] }
-    }, this.activatedRoute);
+    const params = this.filterService.getParams();
     this.selectedZones = this.zones.filter(zone =>
       params['zones'].find(id => id === zone.id)
     );
@@ -116,7 +116,8 @@ export class VmFilterComponent implements OnInit, OnChanges {
     this.vmService.getInstanceGroupList().subscribe(groupList => {
       this.groups = groupList.sort(this.groupSortPredicate);
       this.selectedGroups = this.selectedGroups.filter(selectedGroup => {
-        return groupList.some(group => group.name === (selectedGroup as InstanceGroup).name);
+        return groupList.some(
+          group => group.name === (selectedGroup as InstanceGroup).name);
       });
     });
   }
@@ -137,7 +138,10 @@ export class VmFilterComponent implements OnInit, OnChanges {
     });
   }
 
-  private groupSortPredicate(a: InstanceGroupOrNoGroup, b: InstanceGroupOrNoGroup): number {
+  private groupSortPredicate(
+    a: InstanceGroupOrNoGroup,
+    b: InstanceGroupOrNoGroup
+  ): number {
     if (a === noGroup || a.name < (b as InstanceGroup).name) {
       return -1;
     }
