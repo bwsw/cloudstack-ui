@@ -1,0 +1,13 @@
+:host {
+  position: relative;
+  display: block;
+}
+
+/deep/ .recurring-snapshots-dialog {
+  width: 730px;
+}
+
+.editor,
+.list {
+  margin-top: 10px;
+}

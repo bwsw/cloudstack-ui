@@ -73,6 +73,7 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  */
 // import 'intl/locale-data/jsonp/en';
 
+// instance operator imports ( e.g. observable.map )
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/do';
@@ -85,8 +86,11 @@ import 'rxjs/add/operator/pluck';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/switchMapTo';
+
+// static operator imports ( e.g. Observable.merge )
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/observable/throw';
+import 'rxjs/add/observable/combineLatest';

@@ -51,7 +51,6 @@ import { VolumeComponent } from './vm-sidebar/storage-detail/volume/volume.compo
 import { VmDetailComponent } from './vm-sidebar/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
-import { VmTagsComponent } from './vm-tags/vm-tags.component';
 import { vmRouting } from './vm.routing';
 import { VmActionsService } from './shared/vm-actions.service';
 import { WebShellService } from './web-shell/web-shell.service';
@@ -67,6 +66,9 @@ import { VmResetPasswordAction } from './vm-actions/vm-reset-password';
 import { VmConsoleAction } from './vm-actions/vm-console';
 import { VmWebShellAction } from './vm-actions/vm-webshell';
 import { VmChangeServiceOfferingAction } from './vm-actions/vm-change-service-offering';
+// tslint:disable-next-line
+import { SnapshotModule } from '../snapshot/snapshot.module';
+import { VmTagsComponent } from './vm-tags/vm-tags.component';
 
 
 @NgModule({
@@ -85,6 +87,7 @@ import { VmChangeServiceOfferingAction } from './vm-actions/vm-change-service-of
     ServiceOfferingModule,
     ServiceOfferingModule,
     SharedModule,
+    SnapshotModule,
     TagsModule,
     TemplateModule,
     TranslateModule,

@@ -74,13 +74,27 @@
     }
   ],
   "vmColors": [
-    { "value": "#FFEBEE" },
-    { "value": "#E1F5FE" },
-    { "value": "#E8F5E9" },
-    { "value": "#FFFDE7" },
-    { "value": "#FFF3E0" },
-    { "value": "#FFFFFF" },
-    { "value": "#ECEFF1" }
+    {
+      "value": "#FFEBEE"
+    },
+    {
+      "value": "#E1F5FE"
+    },
+    {
+      "value": "#E8F5E9"
+    },
+    {
+      "value": "#FFFDE7"
+    },
+    {
+      "value": "#FFF3E0"
+    },
+    {
+      "value": "#FFFFFF"
+    },
+    {
+      "value": "#ECEFF1"
+    }
   ],
   "themeColors": [
     {
@@ -243,6 +257,16 @@
   },
   "apiDocLink": "https://cloudstack.apache.org/api/apidocs-4.9/",
   "sessionRefreshInterval": 60,
+  "defaultServiceOfferingConfig": {
+    "031a55bb-5d6b-4336-ab93-d5dead28a887": {
+      "offering": "3890f81e-62aa-4a50-971a-f066223d623d",
+      "customOfferingParams": {
+        "cpuNumber": 2,
+        "cpuSpeed": 1000,
+        "memory": 1024
+      }
+    }
+  },
   "extensions": {
     "webShell": {
       "address": "http://192.168.2.88:8018"

@@ -14,6 +14,8 @@ import { VmCreationFormNormalizationService } from './form-normalization.service
 import { VmCreationState } from '../data/vm-creation-state';
 import { VmCreationFormState } from '../vm-creation.component';
 import { ServiceOffering } from '../../../shared/models';
+import { CustomServiceOfferingService } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
+import { MockCustomServiceOfferingService } from '../../../../testutils/mocks/model-services/services/mock-custom-service-offering.service.spec';
 
 
 interface VmCreationFixture {
@@ -46,6 +48,7 @@ describe('Virtual machine creation form normalization service', () => {
     vmCreationData = new VmCreationData(
       mockEntityData.affinityGroups,
       configurationData,
+      {},
       availablePrimaryStorage,
       defaultName,
       mockEntityData.diskOfferings,
@@ -72,9 +75,16 @@ describe('Virtual machine creation form normalization service', () => {
         { provide: ConfigService, useClass: MockConfigService },
         { provide: ResourceUsageService, useClass: MockResourceUsageService },
         { provide: ServiceOfferingService, useClass: MockServiceOfferingService },
+        { provide: CustomServiceOfferingService, useClass: MockCustomServiceOfferingService },
         { provide: 'mockConfigServiceConfig', useValue: { value: {} } },
         { provide: 'mockResourceUsageServiceConfig', useValue: { value: {} } },
         { provide: 'mockServiceOfferingServiceConfig', useValue: { value: mockEntityData.serviceOfferings } },
+        { provide: 'mockCustomServiceOfferingServiceConfig', useValue:
+          {
+            customOffering: {},
+            customOfferingRestrictionsByZone: {}
+          }
+        },
         VmCreationFormNormalizationService
       ]
     });

@@ -6,7 +6,7 @@ import { CONFIG } from '../../config/config';
 export class ConfigService {
   private config = CONFIG.config;
 
-  public get(key: string | Array<string>): any | Array<any> {
+  public get<T = any>(key: string | Array<string>): T {
     const isArray = Array.isArray(key);
     return this.getResult(isArray, key)
   }

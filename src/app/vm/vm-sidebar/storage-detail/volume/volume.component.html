@@ -39,19 +39,20 @@
       >
         <mdl-icon >camera_alt</mdl-icon>
       </button>
-      <!--todo: recurring snapshots-->
-      <!--<button-->
-        <!--[mdTooltip]="'SNAPSHOT_SCHEDULE_BUTTON' | translate "-->
-        <!---->
-        <!--mdl-button-->
-        <!--mdl-button-type="icon"-->
-      <!--&gt;-->
-        <!--<mdl-icon >schedule</mdl-icon>-->
-      <!--</button>-->
+
+      <button
+        [mdTooltip]="'SNAPSHOT_SCHEDULE_BUTTON' | translate "
+        mdl-button
+        mdl-button-type="icon"
+        (click)="showRecurringSnapshotsDialog()"
+      >
+        <mdl-icon >schedule</mdl-icon>
+      </button>
+
       <button
         mdl-button
         mdl-button-type="icon"
-        (click)="showVolumeResizeDialog(volume)"
+        (click)="showVolumeResizeDialog()"
         [mdTooltip]="'VOLUME_RESIZE' | translate"
       >
         <mdl-icon >photo_size_select_small</mdl-icon>
