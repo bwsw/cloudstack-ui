@@ -21,7 +21,7 @@ import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
-const askToCreateVolume = 'askToCreateVolume';
+const askToCreateVolume = 'csui.user.ask-to-create-volume';
 
 export interface VolumeCreationData {
   name: string;

@@ -116,19 +116,19 @@ export class VolumeService extends BaseBackendService<Volume> {
     return this.tagService.create({
       resourceIds: id,
       resourceType: this.entity,
-      'tags[0].key': DeletionMark.TAG,
-      'tags[0].value': DeletionMark.VALUE
+      'tags[0].key': 'csui.volume.status',
+      'tags[0].value': 'removed'
     });
   }
 
   public getDescription(volume: Volume): Observable<string> {
-    return this.tagService.getTag(volume, 'description')
+    return this.tagService.getTag(volume, 'csui.volume.description')
       .map(tag => {
         return tag ? tag.value : undefined;
       });
   }
 
   public updateDescription(vm: Volume, description: string): Observable<void> {
-    return this.tagService.update(vm, 'Volume', 'description', description);
+    return this.tagService.update(vm, 'Volume', 'csui.volume.description', description);
   }
 }

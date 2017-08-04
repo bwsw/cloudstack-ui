@@ -53,7 +53,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   }
 
   public setInactivityTimeout(value: number): Observable<void> {
-    return this.userService.writeTag('sessionTimeout', value.toString())
+    return this.userService.writeTag('csui.user.session-timeout', value.toString())
       .map(() => {
         this.inactivityTimeout = value;
         this.resetInactivityTimer();
@@ -65,7 +65,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
       return Observable.of(this.inactivityTimeout);
     }
 
-    return this.userService.readTag('sessionTimeout')
+    return this.userService.readTag('csui.user.session-timeout')
       .switchMap(timeout => {
         const convertedTimeout = +timeout;
 

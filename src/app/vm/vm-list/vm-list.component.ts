@@ -28,7 +28,7 @@ import { VirtualMachineActionType } from '../vm-actions/vm-action';
 import clone = require('lodash/clone');
 
 
-const askToCreateVm = 'askToCreateVm';
+const askToCreateVm = 'csui.user.ask-to-create-vm';
 
 @Component({
   selector: 'cs-vm-list',
