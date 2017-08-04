@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../../shared/models/volume.model';
 import { VolumeService } from '../../../shared/services/volume.service';
 import { PulseService } from '../../pulse.service';
@@ -28,67 +29,73 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
     ]);
 
     this.volumeService
-      .getList({ virtualMachineId: '523a20a8-ef13-4090-988b-be978dd74a59' })
+      .getList({ virtualMachineId: this.vmId })
       .subscribe(volumes => {
         this.availableVolumes = volumes;
         this.selectedVolume = this.availableVolumes[0];
       });
   }
 
-  public updateData(aggregation: any) {
-    this.pulse
-      .disk('523a20a8-ef13-4090-988b-be978dd74a59', this.selectedVolume.id, {
+  public update() {
+    const requests = this.selectedAggregations.map(_ =>
+      this.pulse.disk(this.vmId, this.selectedVolume.id, {
         range: this.selectedScale.range,
-        aggregation: aggregation,
-        shift: '0w'
+        aggregation: _,
+        shift: `${this.shift}${this.selectedShift || 'w'}`
       })
-      .subscribe(res => {
-        const readBytes = {
-          data: res.map(_ => ({
-            x: new Date(_.time),
-            y: +_.readBytes
-          })),
-          label: `Disk read ${aggregation}`,
-          aggregation
+    );
+
+    Observable.forkJoin(...requests)
+      .subscribe(data => {
+        const sets = {
+          bytes: [],
+          iops: [],
+          errors: []
         };
-        const writeBytes = {
-          data: res.map(_ => ({
-            x: new Date(_.time),
-            y: +_.writeBytes
-          })),
-          label: `Disk write ${aggregation}`,
-          aggregation
-        };
-        this.addDataset('bytes', [readBytes, writeBytes]);
+        data.forEach((res: any, ind) => {
+          const readBytes = {
+            data: res.map(_ => ({
+              x: new Date(_.time),
+              y: +_.readBytes
+            })),
+            label: `Disk read ${this.selectedAggregations[ind]}`
+          };
+          const writeBytes = {
+            data: res.map(_ => ({
+              x: new Date(_.time),
+              y: +_.writeBytes
+            })),
+            label: `Disk write ${this.selectedAggregations[ind]}`
+          };
+          sets.bytes.push(readBytes, writeBytes);
 
 
-        const readIops = {
-          data: res.map(_ => ({
-            x: new Date(_.time),
-            y: +_.readIOPS
-          })),
-          label: `Disk read iops ${aggregation}`,
-          aggregation
-        };
-        const writeIops = {
-          data: res.map(_ => ({
-            x: new Date(_.time),
-            y: +_.writeIOPS
-          })),
-          label: `Disk write iops ${aggregation}`,
-          aggregation
-        };
+          const readIops = {
+            data: res.map(_ => ({
+              x: new Date(_.time),
+              y: +_.readIOPS
+            })),
+            label: `Disk read iops ${this.selectedAggregations[ind]}`
+          };
+          const writeIops = {
+            data: res.map(_ => ({
+              x: new Date(_.time),
+              y: +_.writeIOPS
+            })),
+            label: `Disk write iops ${this.selectedAggregations[ind]}`
+          };
 
-        this.addDataset('iops', [readIops, writeIops]);
+          sets.iops.push(readIops, writeIops);
 
 
-        this.charts[2].labels = res.map(_ => new Date(_.time)); // TODO
-        const errors = {
-          data: res.map(_ => +_.ioErrors),
-          label: `Disk io errors ${aggregation}`,
-          aggregation
-        };
-        this.addDataset('errors', errors);
+          this.charts[2].labels = res.map(_ => new Date(_.time)); // TODO
+          const errors = {
+            data: res.map(_ => +_.ioErrors),
+            label: `Disk io errors ${this.selectedAggregations[ind]}`
+          };
+          sets.errors.push(errors);
+        });
+        Object.keys(sets).forEach(_ => this.updateDatasets(_, sets[_]));
       });
   }
 }

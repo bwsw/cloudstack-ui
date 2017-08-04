@@ -1,6 +1,8 @@
 import { Injectable, Input } from '@angular/core';
-import { MdOptionSelectionChange } from '@angular/material';
 import { PulseService } from '../pulse.service';
+import Chart = require('chart.js');
+
+Chart.defaults.global.elements.line.cubicInterpolationMode = 'monotone';
 
 export interface PulseChart {
   id: string;
@@ -55,13 +57,16 @@ export function getChart(config: Array<any>) {
 
 @Injectable()
 export abstract class PulseChartComponent {
+  @Input() public vmId: string;
   @Input() public permittedIntervals;
 
-  private _selectedScale;
-  public selectedAggregations;
-  public selectedShift;
-
+  public _selectedAggregations;
   public charts: Array<PulseChart>;
+
+  public shift = 0;
+
+  private _selectedScale;
+  private _selectedShift;
 
   constructor(protected pulse: PulseService) {}
 
@@ -74,23 +79,34 @@ export abstract class PulseChartComponent {
     this._selectedScale = value;
   }
 
-  public update(change: MdOptionSelectionChange) {
-    if (change.isUserInput) {
-      if (change.source.selected) {
-        this.updateData(change.source.value);
-      } else {
-        this.charts.forEach(c => {
-          const datasets = c.datasets.filter(
-            _ => _.aggregation !== change.source.value
-          );
-          c.datasets = null;
-          setTimeout(() => (c.datasets = datasets));
-        });
-      }
-    }
+  public get selectedShift() {
+    return this._selectedShift;
   }
 
-  protected addDataset(setId: string, dataset: any) {
+  public set selectedShift(value) {
+    this._selectedShift = value;
+  }
+
+  public get selectedAggregations() {
+    return this._selectedAggregations;
+  }
+
+  public set selectedAggregations(value) {
+    this._selectedAggregations = value;
+    this.update();
+  }
+
+  public previous() {
+    this.shift++;
+    this.update();
+  }
+
+  public next() {
+    this.shift--;
+    this.update();
+  }
+
+  protected updateDatasets(setId: string, datasets: Array<any>) {
     if (!this.charts) {
       return;
     }
@@ -99,12 +115,8 @@ export abstract class PulseChartComponent {
       return;
     }
 
-    const datasets = Array.isArray(c.datasets)
-      ? c.datasets.concat(dataset)
-      : [].concat(dataset);
-
     c.datasets = [];
-    setTimeout(() => (c.datasets = datasets));
+    setTimeout(() => c.datasets = datasets);
   }
 
   protected resetDatasets() {
@@ -113,5 +125,5 @@ export abstract class PulseChartComponent {
     }
   }
 
-  abstract updateData(value: any);
+  public abstract update();
 }

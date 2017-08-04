@@ -1,15 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdSelectModule } from '@angular/material';
+import { MdIconModule, MdSelectModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ChartsModule } from 'ng2-charts';
 import {
-  PulseCpuChartComponent,
+  PulseCpuRamChartComponent,
   PulseDiskChartComponent,
   PulseNetworkChartComponent,
-  PulseRamChartComponent
 } from './charts/';
 import { AggregationSelectorComponent } from './charts/aggregation-selector.component';
 import { ChartAreaComponent } from './charts/chart-area.component';
@@ -20,12 +19,12 @@ import { PulseService } from './pulse.service';
     CommonModule,
     ChartsModule,
     FormsModule,
+    MdIconModule,
     MdSelectModule,
     TranslateModule
   ],
   exports: [
-    PulseCpuChartComponent,
-    PulseRamChartComponent,
+    PulseCpuRamChartComponent,
     PulseNetworkChartComponent,
     PulseDiskChartComponent
   ],
@@ -33,8 +32,7 @@ import { PulseService } from './pulse.service';
   declarations: [
     AggregationSelectorComponent,
     ChartAreaComponent,
-    PulseCpuChartComponent,
-    PulseRamChartComponent,
+    PulseCpuRamChartComponent,
     PulseNetworkChartComponent,
     PulseDiskChartComponent
   ]

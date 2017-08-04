@@ -3,20 +3,21 @@
     {{ scale.range }}
   </md-option>
 </md-select>
-<md-select [(ngModel)]="selectedAggregations" multiple #aggregationSelect="ngModel">
+<md-select
+  [(ngModel)]="selectedAggregations"
+  multiple
+  #aggregationSelect="ngModel"
+  (change)="handleAggregationsChange($event)"
+>
   <md-option
     *ngFor="let aggregation of selectedScale?.aggregations"
     [value]="aggregation"
-    (onSelectionChange)="handleAggregationChange($event)"
   >
     {{ aggregation }}
   </md-option>
 </md-select>
-<!--<md-select-->
-  <!--[(ngModel)]="selectedShift"-->
-  <!--(change)="update($event)"-->
-<!--&gt;-->
-  <!--<md-option *ngFor="let shift of permittedIntervals?.shifts" [value]="shift">-->
-    <!--{{ shift }}-->
-  <!--</md-option>-->
-<!--</md-select>-->
+<md-select [(ngModel)]="selectedShift" (change)="handleShiftChange($event)">
+  <md-option *ngFor="let shift of permittedIntervals?.shifts" [value]="shift">
+    {{ shift }}
+  </md-option>
+</md-select>

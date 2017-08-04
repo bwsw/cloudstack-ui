@@ -1,11 +1,17 @@
 <cs-aggregation-selector
   [permittedIntervals]="permittedIntervals"
   [(scale)]="selectedScale"
-  (aggregationChange)="update($event)"
+  [(shift)]="selectedShift"
+  [(aggregations)]="selectedAggregations"
 ></cs-aggregation-selector>
 <md-select [(ngModel)]="selectedVolume">
   <md-option *ngFor="let volume of availableVolumes" [value]="volume">
-    {{ volume.id }}
+    {{ volume.name }} ({{ volume.id }})
   </md-option>
 </md-select>
-<cs-chart-area-component [charts]="charts"></cs-chart-area-component>
+<cs-chart-area-component
+  [charts]="charts"
+  [hasNext]="shift > 0"
+  (previous)="previous()"
+  (next)="next()"
+></cs-chart-area-component>

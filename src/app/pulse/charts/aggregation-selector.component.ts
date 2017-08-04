@@ -9,11 +9,13 @@ import { MdOptionSelectionChange, MdSelectChange } from '@angular/material';
 export class AggregationSelectorComponent {
   @Input() permittedIntervals: any;
   @Output() scaleChange = new EventEmitter();
-  @Output() aggregationChange = new EventEmitter<MdOptionSelectionChange>();
+  @Output() aggregationsChange = new EventEmitter<MdOptionSelectionChange>();
+  @Output() shiftChange = new EventEmitter<string>();
 
   @ViewChild('aggregationSelect') aggregationSelectControl: AbstractControl;
 
   selectedScale: string;
+  selectedShift: string;
   selectedAggregations: Array<string>;
 
   @Input()
@@ -26,12 +28,36 @@ export class AggregationSelectorComponent {
     this.scaleChange.emit(value);
   }
 
+  @Input()
+  public get shift() {
+    return this.selectedShift;
+  }
+
+  public set shift(value) {
+    this.selectedShift = value;
+  }
+
+  @Input()
+  public get aggregations() {
+    return this.selectedAggregations;
+  }
+
+  public set aggregations(value) {
+    this.selectedAggregations = value;
+  }
+
   public handleScaleChange(change: MdSelectChange) {
     this.aggregationSelectControl.reset();
     this.scale = change.value;
   }
 
-  public handleAggregationChange(change: MdOptionSelectionChange) {
-    this.aggregationChange.emit(change);
+  public handleAggregationsChange(change: MdSelectChange) {
+    this.selectedAggregations = change.value;
+    this.aggregationsChange.emit(change.value);
+  }
+
+  public handleShiftChange(change: MdSelectChange) {
+    this.shift = change.value;
+    this.shiftChange.emit(change.value);
   }
 }
