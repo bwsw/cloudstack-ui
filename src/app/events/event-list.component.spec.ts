@@ -89,7 +89,11 @@ class MockDateTimeFormatterService {
     return enDateTimeFormat;
   }
 
-  public stringifyDate(date: Date): string {
+  public stringifyToTime(date: Date): string {
+    return '';
+  }
+
+  public stringifyToDate(date: Date): string {
     return '';
   }
 }
