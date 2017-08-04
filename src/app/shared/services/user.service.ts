@@ -5,7 +5,7 @@ import { BackendResource } from '../decorators';
 import { ResourceTypes } from '../models';
 import { User } from '../models/user.model';
 import { BaseBackendService } from './base-backend.service';
-import { LocalStorageService } from './storage.service';
+import { LocalStorageService } from './local-storage.service';
 import { TagService } from './tag.service';
 
 

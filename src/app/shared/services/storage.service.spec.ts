@@ -1,8 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  LocalStorageService, MemoryStorageService,
-  SessionStorageService
-} from './storage.service';
+import { LocalStorageService } from './local-storage.service';
+import { SessionStorageService } from './session-storage.service';
+import { MemoryStorageService } from './memory-storage.service';
 
 
 describe('Storage services (Local Storage)', () => {

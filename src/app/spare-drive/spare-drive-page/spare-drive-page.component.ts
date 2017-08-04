@@ -18,7 +18,8 @@ import { UserService } from '../../shared/services/user.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { SpareDriveActionsService } from '../spare-drive-actions.service';
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
-import { LocalStorageService } from '../../shared/services/storage.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -55,12 +56,14 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     }
   ];
 
+  private filterService = new FilterService(this.router, this.localStorage);
   private onDestroy = new Subject();
 
   constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
-    private filter: FilterService,
     private jobsNotificationService: JobsNotificationService,
     private listService: ListService,
     private spareDriveActionsService: SpareDriveActionsService,
@@ -91,10 +94,10 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   }
 
   public initFilters(): void {
-    const params = this.filter.init(this.localStorage, spareDriveListFilters, {
+    const params = this.filterService.init(spareDriveListFilters, {
       zones: { type: 'array', defaultOption: [] },
       groupings: { type: 'array', defaultOption: [] }
-    });
+    }, this.activatedRoute);
     this.selectedZones = this.zones.filter(zone =>
       params['zones'].find(id => id === zone.id)
     );
@@ -113,7 +116,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     this.filterZones();
     this.updateGroupings();
 
-    this.filter.update(this.localStorage, spareDriveListFilters, {
+    this.filterService.update(spareDriveListFilters, {
       zones: this.selectedZones.map(_ => _.id),
       groupings: this.selectedGroupingNames.map(_ => _.key)
     });

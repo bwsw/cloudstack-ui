@@ -10,7 +10,7 @@ import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
 import { ConfigService } from './config.service';
 import { RouterUtilsService } from './router-utils.service';
-import { LocalStorageService } from './storage.service';
+import { LocalStorageService } from './local-storage.service';
 import { UserService } from './user.service';
 
 const DEFAULT_SESSION_REFRESH_INTERVAL = 60;

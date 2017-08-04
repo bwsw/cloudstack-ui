@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RouterUtilsService } from './router-utils.service';
+import { StorageService } from './storage.service';
+import { Utils } from './utils.service';
+import { Injectable } from '@angular/core';
 
 export interface FilterConfig {
   [propName: string]: FilterItemConfig;
@@ -55,18 +56,16 @@ export class FilterService {
   }
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
-    private routerUtilsService: RouterUtilsService
-  ) {
+    private storage: StorageService
+  ) {}
+
+  public init(key: string, paramsWhitelist: FilterConfig, route: ActivatedRoute): any {
+    return this.getParams(key, paramsWhitelist, route);
   }
 
-  public init(storageService: any, key: string, paramsWhitelist: FilterConfig): any {
-    return this.getParams(storageService, key, paramsWhitelist);
-  }
-
-  public update(storageService, key, params): void {
-    if (this.routerUtilsService.getRouteWithoutQueryParams() === '/login') {
+  public update(key, params): void {
+    if (Utils.getRouteWithoutQueryParams(this.router.routerState) === '/login') {
       return;
     }
 
@@ -80,16 +79,17 @@ export class FilterService {
       }
     }, {});
     this.router.navigate([], { queryParams })
-      .then(() => storageService.write(key, JSON.stringify(queryParams)));
+      .then(() => this.storage.write(key, JSON.stringify(queryParams)));
   }
 
-  private getParams(storageService: any, key: string, config: FilterConfig): any {
-    const queryParams = this.route.snapshot.queryParams;
+  private getParams(key: string, config: FilterConfig, route: ActivatedRoute): any {
+    const queryParams = route.snapshot.queryParams;
+
     let storage = {};
     try {
-      storage = JSON.parse(storageService.read(key)) || {};
+      storage = JSON.parse(this.storage.read(key)) || {};
     } catch (e) {
-      storageService.remove(key);
+      this.storage.remove(key);
     }
 
     return Object.keys(config).reduce((memo, filter) => {
@@ -99,7 +99,10 @@ export class FilterService {
       }
 
       if (memo[filter] == null && storage.hasOwnProperty(filter)) {
-        memo[filter] = FilterService.getValue(storage[filter], config[filter]);
+        memo[filter] = FilterService.getValue(
+          storage[filter],
+          config[filter]
+        );
       }
 
       if (memo[filter] == null) {

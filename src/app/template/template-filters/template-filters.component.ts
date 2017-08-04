@@ -3,11 +3,13 @@ import { Subject } from 'rxjs/Subject';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { OsFamily, LocalStorageService } from '../../shared';
+import { OsFamily } from '../../shared';
 import { FilterService } from '../../shared/services';
 import { Zone } from '../../shared/models/zone.model';
 import { ZoneService } from '../../shared/services/zone.service';
 import { TemplateFilters } from '../shared/base-template.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -49,6 +51,7 @@ export class TemplateFiltersComponent implements OnInit {
     TemplateFilters.self
   ];
 
+  private filterService = new FilterService(this.router, this.storageService);
   private filtersKey = 'imageListFilters';
 
   private templateTabIndex = 0;
@@ -57,7 +60,8 @@ export class TemplateFiltersComponent implements OnInit {
   private queryStream = new Subject<string>();
 
   constructor(
-    private filter: FilterService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
     private storageService: LocalStorageService,
     private translateService: TranslateService,
     private zoneService: ZoneService
@@ -110,7 +114,7 @@ export class TemplateFiltersComponent implements OnInit {
     });
 
     if (!this.dialogMode) {
-      this.filter.update(this.storageService, this.filtersKey, {
+      this.filterService.update(this.filtersKey, {
         query: this.query || null,
         osFamilies: this.selectedOsFamilies,
         categoryFilters: this.selectedFilters,
@@ -127,7 +131,7 @@ export class TemplateFiltersComponent implements OnInit {
   }
 
   private initFilters(): void {
-    const params = this.filter.init(this.storageService, this.filtersKey, {
+    const params = this.filterService.init(this.filtersKey, {
       osFamilies: {
         type: 'array',
         options: this.osFamilies,
@@ -144,7 +148,7 @@ export class TemplateFiltersComponent implements OnInit {
       },
       query: { type: 'string' },
       groupings: { type: 'array', defaultOption: [] }
-    });
+    }, this.activatedRoute);
     this.selectedOsFamilies = params['osFamilies'];
     this.selectedFilters = params['categoryFilters'];
     this.selectedZones = this.zones.filter(zone => params['zones'].find(id => id === zone.id));

@@ -10,7 +10,8 @@ import { AuthService, ErrorService, LanguageService, LayoutService, Notification
 import { RouterUtilsService } from './shared/services/router-utils.service';
 import { StyleService } from './shared/services/style.service';
 import { ZoneService } from './shared/services/zone.service';
-import { SessionStorageService, MemoryStorageService } from './shared/services/storage.service';
+import { SessionStorageService } from './shared/services/session-storage.service';
+import { MemoryStorageService } from './shared/services/memory-storage.service';
 import { AsyncJobService } from './shared/services/async-job.service';
 import { CacheService } from './shared/services/cache.service';
 

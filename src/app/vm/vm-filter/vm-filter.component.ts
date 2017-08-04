@@ -15,7 +15,8 @@ import { VmState, VmStates } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 
 import sortBy = require('lodash/sortBy');
-import { LocalStorageService } from '../../shared/services/storage.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 export interface VmFilter {
@@ -54,13 +55,15 @@ export class VmFilterComponent implements OnInit, OnChanges {
   public showNoGroupFilter = true;
 
   private filtersKey = 'vmListFilters';
+  private filterService = new FilterService(this.router, this.storage);
 
   constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
     private instanceGroupService: InstanceGroupService,
     private vmService: VmService,
-    private filter: FilterService,
     private storage: LocalStorageService
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.instanceGroupService.groupsUpdates.subscribe(() => this.loadGroups());
@@ -75,12 +78,12 @@ export class VmFilterComponent implements OnInit, OnChanges {
   }
 
   public initFilters(): void {
-    const params = this.filter.init(this.storage, this.filtersKey, {
+    const params = this.filterService.init(this.filtersKey, {
       zones: { type: 'array', defaultOption: [] },
       groups: { type: 'array', defaultOption: [] },
       groupings: { type: 'array', defaultOption: [] },
       states: { type: 'array', options: this.states.map(_ => _.state), defaultOption: [] }
-    });
+    }, this.activatedRoute);
     this.selectedZones = this.zones.filter(zone =>
       params['zones'].find(id => id === zone.id)
     );
@@ -126,7 +129,7 @@ export class VmFilterComponent implements OnInit, OnChanges {
       groupings: this.selectedGroupings
     });
 
-    this.filter.update(this.storage, this.filtersKey, {
+    this.filterService.update(this.filtersKey, {
       zones: this.selectedZones.map(_ => _.id),
       groups: this.selectedGroups.map(_ => (_ as InstanceGroup).name || ''),
       states: this.selectedStates,

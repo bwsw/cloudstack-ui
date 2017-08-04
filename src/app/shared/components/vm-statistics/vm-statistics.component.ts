@@ -6,7 +6,7 @@ import {
   ResourceStats,
   ResourceUsageService
 } from '../../services/resource-usage.service';
-import { LocalStorageService } from '../../services/storage.service';
+import { LocalStorageService } from '../../services/local-storage.service';
 import { Utils } from '../../services/utils.service';
 
 const showStatistics = 'showStatistics';
