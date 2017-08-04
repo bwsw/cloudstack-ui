@@ -2,19 +2,20 @@ import { MdlModule } from '@angular-mdl/core';
 import { MdlSelectModule } from '@angular-mdl/select';
 import { Component, EventEmitter, NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { DatePickerComponent } from '../shared/components/date-picker';
 import { TopBarComponent } from '../shared/components/top-bar/top-bar.component';
 import { LanguageService } from '../shared/services';
-
 import { FilterService } from '../shared/services/';
 import { SharedModule } from '../shared/shared.module';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
 import { EventService } from './event.service';
-import { TimeFormat } from '../shared/services/language.service';
+import { DateTimeFormatterService } from '../shared/services/date-time-formatter.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { dateTimeFormat as enDateTimeFormat } from '../shared/components/date-picker/dateUtils';
+import { By } from '@angular/platform-browser';
 
 
 const eventServiceFixture = require('./event.service.fixture.json');
@@ -70,13 +71,7 @@ class MockFilterService {
 }
 
 class MockLanguageService {
-  public getFirstDayOfWeek(): Observable<number> {
-    return Observable.of(0);
-  }
-
-  public getTimeFormat(): Observable<string | null> {
-    return Observable.of(TimeFormat.AUTO);
-  }
+  public firstDayOfWeek = new BehaviorSubject<number>(0);
 }
 
 @Pipe({
@@ -86,6 +81,16 @@ class MockLanguageService {
 class MockTranslatePipe implements PipeTransform {
   public transform(value: any): Observable<any> {
     return value;
+  }
+}
+
+class MockDateTimeFormatterService {
+  public get dateTimeFormat(): any {
+    return enDateTimeFormat;
+  }
+
+  public stringifyDate(date: Date): string {
+    return '';
   }
 }
 
@@ -112,10 +117,11 @@ describe('event list component', () => {
         MockNotificationBoxComponent
       ],
       providers: [
+        { provide: DateTimeFormatterService, useClass: MockDateTimeFormatterService },
+        { provide: LanguageService, useClass: MockLanguageService },
         { provide: EventService, useClass: MockEventService },
         { provide: FilterService, useClass: MockFilterService },
-        { provide: TranslateService, useClass: MockTranslateService },
-        { provide: LanguageService, useClass: MockLanguageService }
+        { provide: TranslateService, useClass: MockTranslateService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });

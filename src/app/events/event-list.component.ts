@@ -38,7 +38,6 @@ export class EventListComponent implements OnInit {
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
     public languageService: LanguageService,
-    private dateService: DateTimeFormatterService,
     private eventService: EventService,
     private filterService: FilterService,
     private translate: TranslateService
@@ -113,7 +112,7 @@ export class EventListComponent implements OnInit {
       return event.description.toLowerCase().includes(queryLower) ||
         event.level.toLowerCase().includes(queryLower) ||
         event.type.toLowerCase().includes(queryLower) ||
-        this.dateService.stringifyDate(event.created).toLowerCase().includes(queryLower);
+        this.dateTimeFormatterService.stringifyDate(event.created).toLowerCase().includes(queryLower);
     });
   }
 
@@ -177,7 +176,7 @@ export class EventListComponent implements OnInit {
   private createTableModel(): void {
     this.tableModel.data = this.visibleEvents.map(event => Object.assign({}, event, {
       selected: false,
-      time: this.dateService.stringifyDate(event.created)
+      time: this.dateTimeFormatterService.stringifyDate(event.created)
     }));
   }
 }
