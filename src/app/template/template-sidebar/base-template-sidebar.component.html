@@ -50,7 +50,7 @@
               </div>
               <div class="row">
                 <div>{{ 'CREATED_MASC' | translate }}</div>
-                <div>{{ template.created | date:'y-MM-dd H:m:s' }}</div>
+                <div>{{ dateTimeFormatterService.stringifyToDate(template.created) }}</div>
               </div>
               <div *ngIf="template.type" class="row">
                 <div>{{ 'TYPE' | translate }}</div>

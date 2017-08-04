@@ -31,7 +31,7 @@
             </ng-template>
             <ng-template [ngIf]="isDateField(key)">
               <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
-              <div>{{ vm.serviceOffering[key] | date:'y-MM-dd H:m:s' }}</div>
+              <div>{{ dateTimeFormatterService.stringifyToDate(vm.serviceOffering[key]) }}</div>
             </ng-template>
             <ng-template [ngIf]="isDiskStatsField(key)">
               <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>

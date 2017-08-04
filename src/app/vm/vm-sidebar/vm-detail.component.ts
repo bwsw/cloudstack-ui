@@ -13,6 +13,7 @@ import { ServiceOfferingService } from '../../shared/services/service-offering.s
 import { VirtualMachine, VmActions, VmStates } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { SshKeypairResetComponent } from './ssh/ssh-keypair-reset.component';
+import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
 
 
   constructor(
+    public dateTimeFormatterService: DateTimeFormatterService,
     private dialogService: DialogService,
     private serviceOfferingService: ServiceOfferingService,
     private vmService: VmService

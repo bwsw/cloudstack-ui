@@ -10,7 +10,9 @@
     </div>
     <div class="row snapshot-name">{{ volume.snapshots[0].name }}</div>
     <div class="row">
-      <div style="width: 70%;">{{ volume.snapshots[0].created | date:'y-MM-dd H:m:s' }}</div>
+      <div style="width: 70%;">
+        {{ dateTimeFormatterService.stringifyToDate(volume.snapshots[0].created) }}
+      </div>
       <div style="width: 30%;">
         <button
           *ngFor="let action of snapshotActionsService.Actions"

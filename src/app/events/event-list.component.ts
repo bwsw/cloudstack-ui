@@ -20,19 +20,14 @@ import { LanguageService } from '../shared/services/language.service';
 export class EventListComponent implements OnInit {
   public loading = false;
   public tableModel: MdlDefaultTableModel;
-
   public visibleEvents: Array<Event>;
-
   public date;
-
   public events: Array<Event>;
   public selectedLevels: Array<string>;
   public selectedTypes: Array<string>;
   public query: string;
-
   public eventTypes: Array<string>;
   public levels = ['INFO', 'WARN', 'ERROR'];
-
   private filtersKey = 'eventListFilters';
 
   constructor(
@@ -112,7 +107,7 @@ export class EventListComponent implements OnInit {
       return event.description.toLowerCase().includes(queryLower) ||
         event.level.toLowerCase().includes(queryLower) ||
         event.type.toLowerCase().includes(queryLower) ||
-        this.dateTimeFormatterService.stringifyDate(event.created).toLowerCase().includes(queryLower);
+        this.dateTimeFormatterService.stringifyToTime(event.created).toLowerCase().includes(queryLower);
     });
   }
 
@@ -176,7 +171,7 @@ export class EventListComponent implements OnInit {
   private createTableModel(): void {
     this.tableModel.data = this.visibleEvents.map(event => Object.assign({}, event, {
       selected: false,
-      time: this.dateTimeFormatterService.stringifyDate(event.created)
+      time: this.dateTimeFormatterService.stringifyToTime(event.created)
     }));
   }
 }
