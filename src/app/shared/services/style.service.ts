@@ -61,8 +61,8 @@ export class StyleService {
 
   public getThemeData(): Observable<ThemeData> {
     return Observable.forkJoin(
-      this.userService.readTag('primaryColor'),
-      this.userService.readTag('accentColor')
+      this.userService.readTag('csui.user.primary-color'),
+      this.userService.readTag('csui.user.accent-color')
     )
       .map(([primaryColor, accentColor]) => {
         let defaultTheme = this.configService.get('defaultTheme');
@@ -89,8 +89,8 @@ export class StyleService {
   }
 
   public setPalette(primaryColor: Color, accentColor: Color): void {
-    this.userService.writeTag('primaryColor', primaryColor.name).subscribe();
-    this.userService.writeTag('accentColor', accentColor.name).subscribe();
+    this.userService.writeTag('csui.user.primary-color', primaryColor.name).subscribe();
+    this.userService.writeTag('csui.user.accent-color', accentColor.name).subscribe();
     this.updatePalette(primaryColor, accentColor);
   }
 
