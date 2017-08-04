@@ -31,7 +31,8 @@ export class DateTimeFormatterService {
 
   public stringifyToTime(date: Date): string {
     if (this.timeFormatter) {
-      return this.timeFormatter.format(date);
+      const formattedTime = this.timeFormatter.format(date);
+      return this.removeAmPmLocalization(formattedTime);
     }
 
     return '';
@@ -39,7 +40,8 @@ export class DateTimeFormatterService {
 
   public stringifyToDate(date: Date): string {
     if (this.dateFormatter) {
-      return this.dateFormatter.format(date);
+      const formattedDate = this.dateFormatter.format(date);
+      return this.removeAmPmLocalization(formattedDate);
     }
 
     return '';
@@ -115,5 +117,11 @@ export class DateTimeFormatterService {
       .subscribe(timeFormat => {
         this.updateFormatters(timeFormat);
       });
+  }
+
+  private removeAmPmLocalization(date: string): string {
+    return date
+      .replace('ПП', 'PM')
+      .replace('ДП', 'AM');
   }
 }
