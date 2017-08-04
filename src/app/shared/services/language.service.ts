@@ -16,13 +16,17 @@ export const TimeFormat = {
 
 @Injectable()
 export class LanguageService {
-  public onTimeFormatChange = new BehaviorSubject<string>(TimeFormat.AUTO);
+  public firstDayOfWeek = new BehaviorSubject<number>(undefined);
+  public timeFormat = new BehaviorSubject<string>(undefined);
 
   constructor(
     private storage: StorageService,
     private translate: TranslateService,
     private userService: UserService
-  ) {}
+  ) {
+    this.initializeFirstDayOfWeek();
+    this.initializeTimeFormat();
+  }
 
   public getLanguage(): Observable<string> {
     return this.userService.readTag('lang').map(lang => {
@@ -57,6 +61,12 @@ export class LanguageService {
       });
   }
 
+  public setFirstDayOfWeek(day: number): Observable<number> {
+    return this.userService.writeTag('firstDayOfWeek', '' + day)
+      .mapTo(day)
+      .do(_ => this.firstDayOfWeek.next(day))
+  }
+
   public getTimeFormat(): Observable<string> {
     return this.userService.readTag('timeFormat')
       .map(timeFormat => {
@@ -64,7 +74,8 @@ export class LanguageService {
           case TimeFormat['12h']:
           case TimeFormat['24h']:
             return timeFormat;
-          default: return TimeFormat.AUTO;
+          default:
+            return TimeFormat.AUTO;
         }
       });
   }
@@ -76,7 +87,7 @@ export class LanguageService {
         : this.userService.writeTag('timeFormat', timeFormat)
     )
       .map(() => timeFormat)
-      .do(_ => this.onTimeFormatChange.next(_));
+      .do(_ => this.timeFormat.next(_));
   }
 
   private get defaultLanguage(): string {
@@ -85,5 +96,17 @@ export class LanguageService {
       return language;
     }
     return DEFAULT_LANGUAGE;
+  }
+
+  private initializeFirstDayOfWeek(): void {
+    this.getFirstDayOfWeek().subscribe(firstDayOfWeek => {
+      this.firstDayOfWeek.next(firstDayOfWeek);
+    });
+  }
+
+  private initializeTimeFormat(): void {
+    this.getTimeFormat().subscribe(timeFormat => {
+      this.timeFormat.next(timeFormat);
+    });
   }
 }

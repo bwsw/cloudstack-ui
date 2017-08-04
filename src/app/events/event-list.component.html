@@ -4,14 +4,15 @@
       <cs-date-picker
         [okLabel]="'OK' | translate"
         [locale]="locale"
-        [firstDayOfWeek]="firstDayOfWeek"
-        [DateTimeFormat]="dateTimeFormat"
+        [firstDayOfWeek]="languageService.firstDayOfWeek.getValue()"
+        [DateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
         [cancelLabel]="'CANCEL' | translate"
         [(ngModel)]="date"
         (change)="getEvents({ reload: true })"
       ></cs-date-picker>
 
       <md-select
+        class="level-selector"
         [(ngModel)]="selectedLevels"
         (change)="getEvents()"
         multiple="true"

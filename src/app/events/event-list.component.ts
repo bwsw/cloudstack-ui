@@ -9,6 +9,7 @@ import { Event } from './event.model';
 import { EventService } from './event.service';
 import { DateTimeFormatterService } from '../shared/services/date-time-formatter.service';
 import moment = require('moment');
+import { LanguageService } from '../shared/services/language.service';
 
 
 @Component({
@@ -32,10 +33,11 @@ export class EventListComponent implements OnInit {
   public eventTypes: Array<string>;
   public levels = ['INFO', 'WARN', 'ERROR'];
 
-
   private filtersKey = 'eventListFilters';
 
   constructor(
+    public dateTimeFormatterService: DateTimeFormatterService,
+    public languageService: LanguageService,
     private dateService: DateTimeFormatterService,
     private eventService: EventService,
     private filterService: FilterService,
@@ -48,7 +50,7 @@ export class EventListComponent implements OnInit {
     this.translate.get(['DESCRIPTION', 'LEVEL', 'TYPE', 'TIME'])
       .subscribe(translations => this.initTableModel(translations));
     this.initFilters();
-
+    this.getEvents({ reload: true });
   }
 
   public get locale(): string {

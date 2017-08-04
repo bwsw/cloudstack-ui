@@ -1,33 +1,20 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService, TimeFormats } from './language.service';
+import { LanguageService, TimeFormat } from './language.service';
 import { dateTimeFormat as enDateTimeFormat } from '../../shared/components/date-picker/dateUtils';
 
 
 @Injectable()
 export class DateTimeFormatterService {
   public formatter: any;
-  public timeFormat: string;
 
   constructor(
     private languageService: LanguageService,
     private translateService: TranslateService
   ) {
-    this.setDateTimeFormat();
-    this.translateService.onLangChange
-      .subscribe(() => this.setDateTimeFormat());
-
-    this.languageService.onTimeFormatChange
-      .subscribe(timeFormat => {
-        this.timeFormat = timeFormat;
-        this.setDateTimeFormat();
-
-        // this.getEvents({ reload: true });
-      });
-
-    this.translateService.onLangChange
-      .subscribe(() => this.setDateTimeFormat());
-
+    this.initializeFormatter();
+    this.subscribeToLanguageUpdates();
+    this.subscribeToTimeFormatUpdates();
   }
 
   public get dateTimeFormat(): any {
@@ -40,7 +27,22 @@ export class DateTimeFormatterService {
     }
   }
 
-  private get formatterOptions(): any {
+  public stringifyDate(date: Date): string {
+    if (this.formatter) {
+      return this.formatter.format(date);
+    }
+
+    return '';
+  }
+
+  private updateFormatter(timeFormat: any): void {
+    this.formatter = new Intl.DateTimeFormat(
+      this.translateService.currentLang,
+      this.getFormatterOptions(timeFormat)
+    );
+  }
+
+  private getFormatterOptions(timeFormat: any): any {
     const options: Intl.DateTimeFormatOptions = {
       hour: 'numeric',
       minute: 'numeric',
@@ -48,21 +50,31 @@ export class DateTimeFormatterService {
       timeZoneName: 'short'
     };
 
-    if (this.timeFormat !== TimeFormats.AUTO) {
-      options.hour12 = this.timeFormat === TimeFormats['12h'];
+    if (timeFormat !== TimeFormat.AUTO) {
+      options.hour12 = timeFormat === TimeFormat['12h'];
     }
 
     return options;
   }
 
-  public stringifyDate(date: Date): string {
-    return this.formatter.format(date);
+  private initializeFormatter(): void {
+    this.languageService.getTimeFormat()
+      .subscribe(timeFormat => {
+        this.updateFormatter(timeFormat);
+      });
   }
 
-  private setDateTimeFormat(): void {
-    this.formatter = new Intl.DateTimeFormat(
-      this.translateService.currentLang,
-      this.formatterOptions
-    );
+  private subscribeToLanguageUpdates(): void {
+    this.translateService.onLangChange
+      .subscribe(() => {
+        this.updateFormatter(this.languageService.timeFormat.getValue());
+      });
+  }
+
+  private subscribeToTimeFormatUpdates(): void {
+    this.languageService.timeFormat
+      .subscribe(timeFormat => {
+        this.updateFormatter(timeFormat);
+      });
   }
 }
