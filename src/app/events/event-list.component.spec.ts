@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { DatePickerComponent } from '../shared/components/date-picker';
 import { TopBarComponent } from '../shared/components/top-bar/top-bar.component';
-import { LanguageService } from '../shared/services';
+import { LanguageService, TimeFormats } from '../shared/services';
 import { FilterService } from '../shared/services/';
 import { SharedModule } from '../shared/shared.module';
 import { EventListComponent } from './event-list.component';

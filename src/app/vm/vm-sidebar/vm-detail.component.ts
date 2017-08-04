@@ -1,12 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import {
-  AffinityGroupSelectorComponent
-} from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
+import { AffinityGroupSelectorComponent } from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import {
-  ServiceOfferingDialogComponent
-} from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
+import { ServiceOfferingDialogComponent } from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
 import { ServiceOffering, ServiceOfferingFields } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
@@ -51,11 +47,14 @@ export class VmDetailComponent implements OnChanges, OnInit {
       component: ServiceOfferingDialogComponent,
       classes: 'service-offering-dialog',
       providers: [{ provide: 'virtualMachine', useValue: this.vm }],
-    }).switchMap(res => res.onHide())
+      clickOutsideToClose: false
+    })
+      .switchMap(res => res.onHide())
       .subscribe((newOffering: ServiceOffering) => {
         if (newOffering) {
           this.serviceOfferingService.get(newOffering.id).subscribe(offering => {
             this.vm.serviceOffering = offering;
+            this.vm.serviceOfferingId = offering.id;
           });
         }
       });

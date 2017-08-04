@@ -1,14 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  forwardRef,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges
-} from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MdSelectChange } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,6 +8,7 @@ import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { CustomServiceOffering } from '../custom-service-offering/custom-service-offering';
 import { CustomServiceOfferingComponent } from '../custom-service-offering/custom-service-offering.component';
+import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
 
 
 @Component({
@@ -32,9 +23,10 @@ import { CustomServiceOfferingComponent } from '../custom-service-offering/custo
     }
   ]
 })
-export class ServiceOfferingSelectorComponent implements OnInit, OnChanges, ControlValueAccessor {
-  @Input() public zoneId: string;
+export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
+  @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
   @Input() public serviceOfferings: Array<ServiceOffering>;
+  @Input() public zoneId: string;
   @Output() public change: EventEmitter<ServiceOffering>;
 
   private _serviceOffering: ServiceOffering;
@@ -48,15 +40,6 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges, Cont
     this.change = new EventEmitter();
   }
 
-  public ngOnInit(): void {
-    if (this.zoneId == null) {
-      throw new Error('Attribute \'zoneId\' is required');
-    }
-    if (this.serviceOfferings == null) {
-      throw new Error('Attribute \'serviceOfferings\' is required');
-    }
-  }
-
   @Input()
   public get serviceOffering(): ServiceOffering {
     return this._serviceOffering;
@@ -67,14 +50,10 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges, Cont
     this.propagateChange(this.serviceOffering);
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
-    if ('serviceOfferings' in changes && this.serviceOfferings.length) {
-      this.serviceOffering = this.serviceOfferings[0];
-    }
-  }
-
   public get customOfferingDescription(): Observable<string> {
-    if (!this.serviceOffering.areCustomParamsSet) { return Observable.of(''); }
+    if (!this.serviceOffering || !this.serviceOffering.areCustomParamsSet) {
+      return Observable.of('');
+    }
 
     const cpuNumber = this.serviceOffering.cpuNumber;
     const cpuSpeed = this.serviceOffering.cpuSpeed;
@@ -139,12 +118,16 @@ export class ServiceOfferingSelectorComponent implements OnInit, OnChanges, Cont
       classes: 'custom-offering-dialog',
       providers: [
         {
-          provide: 'zoneId',
-          useValue: this.zoneId
-        },
-        {
           provide: 'offering',
           useValue: this.serviceOffering
+        },
+        {
+          provide: 'restrictions',
+          useValue: this.customOfferingRestrictions
+        },
+        {
+          provide: 'zoneId',
+          useValue: this.zoneId
         }
       ]
     }).switchMap(res => res.onHide());

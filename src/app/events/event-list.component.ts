@@ -2,14 +2,13 @@ import { MdlDefaultTableModel } from '@angular-mdl/core';
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-
 import { FilterService } from '../shared';
 import { formatIso } from '../shared/components/date-picker/dateUtils';
+import { LanguageService } from '../shared/services';
 import { Event } from './event.model';
 import { EventService } from './event.service';
 import { DateTimeFormatterService } from '../shared/services/date-time-formatter.service';
 import moment = require('moment');
-import { LanguageService } from '../shared/services/language.service';
 
 
 @Component({

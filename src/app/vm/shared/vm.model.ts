@@ -261,6 +261,4 @@ export class VirtualMachine extends BaseModel implements Taggable {
 
     return true;
   }
-
-
 }

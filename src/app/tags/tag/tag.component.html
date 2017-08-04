@@ -3,8 +3,7 @@
     <div class="flex-container left">
     <span
       class="key"
-      [mdl-tooltip]="keyTooltip"
-      mdl-tooltip-position="bottom"
+      [mdTooltip]="tag.key"
       [innerHTML]="tag.key | highlight:query"
     ></span>
       <div class="buttons">
@@ -31,8 +30,7 @@
     <div
       ngxClipboard
       class="value"
-      mdl-tooltip-position="bottom"
-      [mdl-tooltip]="valueTooltip"
+      [mdTooltip]="tag.value"
       [innerHTML]="tag.value | highlight:query"
       [cbContent]="tag.value"
       (cbOnSuccess)="onCopySuccess()"
@@ -40,9 +38,3 @@
     ></div>
   </div>
 </div>
-<mdl-tooltip style="z-index: 10000000000000" #keyTooltip="mdlTooltip">
-  {{ tag.key }}
-</mdl-tooltip>
-<mdl-tooltip style="z-index: 10000000000000" #valueTooltip="mdlTooltip">
-  {{ tag.value }}
-</mdl-tooltip>

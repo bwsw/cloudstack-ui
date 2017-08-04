@@ -1,0 +1,43 @@
+<table class="mdl-data-table">
+  <thead>
+  <tr>
+    <th class="mdl-data-table__cell--non-numeric">
+      {{ 'TIME' | translate }}
+    </th>
+    <th class="mdl-data-table__cell--non-numeric"></th>
+    <th class="mdl-data-table__cell--non-numeric">{{ 'TIME_ZONE' | translate }}</th>
+    <th>{{ 'KEEP' | translate }}</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr
+    *ngFor="let p of policyViews"
+    (click)="handlePolicyRowClick(p)"
+  >
+    <td class="mdl-data-table__cell--non-numeric">
+      {{ p.timeToken | translate:{ value: p.timeValue } }}
+    </td>
+    <td class="mdl-data-table__cell--non-numeric">
+      {{ p.periodToken | translate: { value: p.periodValue | translate } }}
+    </td>
+    <td class="mdl-data-table__cell--non-numeric">
+      {{ p.timeZone }}
+    </td>
+    <td>
+      {{ p.keep }}
+    </td>
+    <td>
+      <button
+        (click)="deletePolicy(p)"
+        [mdTooltip]="'DELETE' | translate"
+        mdl-button
+        mdl-button-type="icon"
+        mdl-ripple
+      >
+        <mdl-icon>delete</mdl-icon>
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>
