@@ -17,7 +17,7 @@ export class ConfigService {
 
   constructor(private http: Http) {}
 
-  public get(key: string | Array<string>): Observable<any | Array<any>> {
+  public get<T = any>(key: string | Array<string>): Observable<T> {
     const isArray = Array.isArray(key);
 
     if (this.config) {
