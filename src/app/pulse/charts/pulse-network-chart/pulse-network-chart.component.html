@@ -3,6 +3,7 @@
   [(scale)]="selectedScale"
   [(shift)]="selectedShift"
   [(aggregations)]="selectedAggregations"
+  (shiftReset)="resetShift()"
 ></cs-aggregation-selector>
 <md-select [(ngModel)]="selectedNic">
   <md-option *ngFor="let nic of availableNics; index as i" [value]="nic">

@@ -11,6 +11,7 @@ export class AggregationSelectorComponent {
   @Output() scaleChange = new EventEmitter();
   @Output() aggregationsChange = new EventEmitter<MdOptionSelectionChange>();
   @Output() shiftChange = new EventEmitter<string>();
+  @Output() shiftReset = new EventEmitter();
 
   @ViewChild('aggregationSelect') aggregationSelectControl: AbstractControl;
 

@@ -106,6 +106,11 @@ export abstract class PulseChartComponent {
     this.update();
   }
 
+  public resetShift() {
+    this.shift = 0;
+    this.update();
+  }
+
   protected updateDatasets(setId: string, datasets: Array<any>) {
     if (!this.charts) {
       return;

@@ -3,6 +3,7 @@
   [(scale)]="selectedScale"
   [(shift)]="selectedShift"
   [(aggregations)]="selectedAggregations"
+  (shiftReset)="resetShift()"
 ></cs-aggregation-selector>
 <md-select [(ngModel)]="selectedVolume">
   <md-option *ngFor="let volume of availableVolumes" [value]="volume">
