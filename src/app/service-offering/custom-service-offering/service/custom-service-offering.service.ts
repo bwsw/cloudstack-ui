@@ -212,10 +212,11 @@ export class CustomServiceOfferingService {
   private restrictionsAreCompatible(restrictions: ICustomOfferingRestrictions): boolean {
     return Object.keys(restrictions).reduce((acc, key) => {
       return (
-        restrictions[key] == null ||
-        restrictions[key].min == null ||
-        restrictions[key].max == null ||
-        restrictions[key].min < restrictions[key].max
+        acc &&
+        (restrictions[key] == null ||
+          restrictions[key].min == null ||
+          restrictions[key].max == null ||
+          restrictions[key].min < restrictions[key].max)
       );
     }, true);
   }
