@@ -595,7 +595,7 @@
 
   "WEB_SHELL": "WebShell",
 
-  "VM_START_FAILED": "Failed to stared VM",
+  "VM_START_FAILED": "Failed to start VM",
   "VM_STOP_FAILED": "Failed to stop VM",
   "VM_REBOOT_FAILED": "Failed to reboot VM",
   "VM_RESTORE_FAILED": "Failed to restore VM",
