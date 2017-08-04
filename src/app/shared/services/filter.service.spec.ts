@@ -6,8 +6,6 @@ import { RouterUtilsService } from './router-utils.service';
 import { LocalStorageService } from './local-storage.service';
 import { TagService } from './tag.service';
 import { MemoryStorageService } from './memory-storage.service';
-import { StorageService } from './storage.service';
-
 
 describe('Filter service', () => {
   const testKey = 'testKey';
@@ -46,7 +44,6 @@ describe('Filter service', () => {
             getRouteWithoutQueryParams: _ => _
           }
         },
-        StorageService,
         MemoryStorageService,
         LocalStorageService,
         Injector
