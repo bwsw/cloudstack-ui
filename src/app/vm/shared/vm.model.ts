@@ -43,7 +43,7 @@ export const VmStates = {
   Expunging: 'Expunging' as VmState
 };
 
-export type VmAction = 'start' | 'stop' | 'reboot' | 'restore' | 'destroy' | 'resetPasswordFor' | 'console';
+export type VmAction = 'start' | 'stop' | 'reboot' | 'restore' | 'destroy' | 'resetPasswordFor' | 'console' | 'pulse';
 export const VmActions = {
   START: 'start' as VmAction,
   STOP: 'stop' as VmAction,
@@ -51,7 +51,8 @@ export const VmActions = {
   RESTORE: 'restore' as VmAction,
   DESTROY: 'destroy' as VmAction,
   RESET_PASSWORD: 'resetPasswordFor' as VmAction,
-  CONSOLE: 'console' as VmAction
+  CONSOLE: 'console' as VmAction,
+  PULSE: 'pulse' as VmAction
 };
 
 @ZoneName()
@@ -167,6 +168,9 @@ export class VirtualMachine extends BaseModel implements Taggable {
         break;
       case VmActions.CONSOLE:
         mdlIcon = 'computer';
+        break;
+      case VmActions.PULSE:
+        mdlIcon = 'timeline';
         break;
     }
     return {

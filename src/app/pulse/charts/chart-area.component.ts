@@ -6,7 +6,7 @@ import { PulseChart } from './pulse-chart';
   template: `
     <div style="display: block;">
       <div *ngFor="let chart of charts" class="chart">
-        <div class="arrow" (click)="previous.emit()">
+        <div *ngIf="chart.datasets?.length" class="arrow" (click)="previous.emit()">
           <md-icon>keyboard_arrow_left</md-icon>
         </div>
         <canvas
@@ -27,17 +27,23 @@ import { PulseChart } from './pulse-chart';
     .chart {
       display: flex;
       position: relative;
-      align-items: center;
-
+      margin: auto;
+      height: 19vh;
     }
 
     .arrow {
-      width: 50px;
-      height: 100px;
-      position: absolute;
-      background: rgba(0, 0, 0, 0.2);
       display: flex;
-      margin: auto;
+      align-self: center;
+      position: absolute;
+      width: 30px;
+      height: 50px;
+      background: rgba(0, 0, 0, 0.2);
+      opacity: 0.2;
+      cursor: pointer;
+    }
+
+    .arrow:hover {
+      opacity: 1;
     }
 
     .arrow:last-child {

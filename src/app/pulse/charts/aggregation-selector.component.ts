@@ -1,10 +1,19 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { MdOptionSelectionChange, MdSelectChange } from '@angular/material';
 
 @Component({
   selector: 'cs-aggregation-selector',
-  templateUrl: 'aggregation-selector.component.html'
+  templateUrl: 'aggregation-selector.component.html',
+  styles: [`.aggregation-select { margin: 20px 10px }`],
+  encapsulation: ViewEncapsulation.None
 })
 export class AggregationSelectorComponent {
   @Input() permittedIntervals: any;

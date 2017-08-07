@@ -5,7 +5,7 @@
   [(aggregations)]="selectedAggregations"
   (shiftReset)="resetShift()"
 ></cs-aggregation-selector>
-<md-select [(ngModel)]="selectedNic">
+<md-select class="aggregation-select" [(ngModel)]="selectedNic">
   <md-option *ngFor="let nic of availableNics; index as i" [value]="nic">
     NIC{{ i + 1 }} ({{ nic.macAddress }})
   </md-option>

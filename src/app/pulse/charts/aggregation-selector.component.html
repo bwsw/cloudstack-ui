@@ -1,11 +1,18 @@
-<md-select [(ngModel)]="selectedScale" (change)="handleScaleChange($event)">
+<md-select
+  class="aggregation-select"
+  [(ngModel)]="selectedScale"
+  (change)="handleScaleChange($event)"
+  [placeholder]="'RANGE' | translate"
+>
   <md-option *ngFor="let scale of permittedIntervals?.scales" [value]="scale">
     {{ scale.range }}
   </md-option>
 </md-select>
 <md-select
-  [(ngModel)]="selectedAggregations"
+  class="aggregation-select"
   multiple
+  [placeholder]="'AGGREGATION' | translate"
+  [(ngModel)]="selectedAggregations"
   #aggregationSelect="ngModel"
   (change)="handleAggregationsChange($event)"
 >
@@ -16,7 +23,12 @@
     {{ aggregation }}
   </md-option>
 </md-select>
-<md-select [(ngModel)]="selectedShift" (change)="handleShiftChange($event)">
+<md-select
+  class="aggregation-select"
+  [(ngModel)]="selectedShift"
+  (change)="handleShiftChange($event)"
+  [placeholder]="'SHIFT' | translate"
+>
   <md-option *ngFor="let shift of permittedIntervals?.shifts" [value]="shift">
     {{ shift }}
   </md-option>

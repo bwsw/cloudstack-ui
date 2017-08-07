@@ -22,6 +22,8 @@ import { IVmActionEvent, VirtualMachineEntityName, VmService } from '../shared/v
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list-item.component';
+import { MdDialog } from '@angular/material';
+import { VmPulseComponent } from '../vm-pulse/vm-pulse.component';
 
 
 const askToCreateVm = 'askToCreateVm';
@@ -75,6 +77,7 @@ export class VmListComponent implements OnInit {
     public listService: ListService,
     private vmService: VmService,
     private dialogService: DialogService,
+    private dialog: MdDialog,
     private jobsNotificationService: JobsNotificationService,
     private asyncJobService: AsyncJobService,
     private statsUpdateService: StatsUpdateService,
@@ -83,6 +86,7 @@ export class VmListComponent implements OnInit {
   ) {
     this.showDetail = this.showDetail.bind(this);
     this.vmAction = this.vmAction.bind(this);
+    this.onPulse = this.onPulse.bind(this);
 
     this.inputs = {
       isSelected: (item) => this.listService.isSelected(item.id)
@@ -90,7 +94,8 @@ export class VmListComponent implements OnInit {
 
     this.outputs = {
       onVmAction: this.vmAction,
-      onClick: this.showDetail
+      onClick: this.showDetail,
+      onPulse: this.onPulse
     };
   }
 
@@ -161,6 +166,10 @@ export class VmListComponent implements OnInit {
         },
         error => this.dialogService.alert(error.message)
       );
+  }
+
+  public onPulse(vmId: string) {
+    this.dialog.open(VmPulseComponent, { data: vmId });
   }
 
   public onVmCreated(vm: VirtualMachine): void {

@@ -17,10 +17,11 @@ export interface PulseChart {
 
 
 export const defaultChartOptions = {
-  responsive: true,
+  maintainAspectRatio: false,
   layout: {
     padding: {
-      top: 5
+      left: 10,
+      right: 10
     }
   },
   tooltips: {

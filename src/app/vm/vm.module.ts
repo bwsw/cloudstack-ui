@@ -4,12 +4,16 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MdSelectModule, MdTooltipModule } from '@angular/material';
+import {
+  MdDialogModule, MdSelectModule, MdTabsModule,
+  MdTooltipModule
+} from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 
 import { routes } from '../app.routing';
+import { PulseModule } from '../pulse/pulse.module';
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 import { SharedModule } from '../shared/shared.module';
@@ -18,14 +22,15 @@ import { TemplateModule } from '../template';
 import { VmService } from './shared/vm.service';
 import { VmCreationFormNormalizationService } from './vm-creation/form-normalization/form-normalization.service';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
+import { VmCreationService } from './vm-creation/services/vm-creation.service';
+import { VmDeploymentService } from './vm-creation/services/vm-deployment.service';
 import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-dialog.component';
 import { VmTemplateComponent } from './vm-creation/template/vm-template.component';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
-import { VmCreationService } from './vm-creation/services/vm-creation.service';
-import { VmDeploymentService } from './vm-creation/services/vm-deployment.service';
 import { VmFilterComponent } from './vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list/vm-list-item.component';
 import { VmListComponent } from './vm-list/vm-list.component';
+import { VmPulseComponent } from './vm-pulse/vm-pulse.component';
 import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { VmColorComponent } from './vm-sidebar/color/vm-color.component';
 import { InstanceGroupSelectorComponent } from './vm-sidebar/instance-group-selector/instance-group-selector.component';
@@ -63,8 +68,10 @@ import { vmRouting } from './vm.routing';
     ServiceOfferingModule,
     DraggableSelectModule,
     MdTooltipModule,
+    MdTabsModule,
     MdSelectModule,
     MdlModule,
+    MdDialogModule,
     MdlPopoverModule,
     MdlSelectModule,
     ReactiveFormsModule,
@@ -75,6 +82,7 @@ import { vmRouting } from './vm.routing';
     TemplateModule,
     TranslateModule,
     TranslateModule,
+    PulseModule,
     vmRouting,
     RouterModule.forRoot(routes),
   ],
@@ -107,6 +115,7 @@ import { vmRouting } from './vm.routing';
     VolumeComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,
+    VmPulseComponent,
   ],
   providers: [
     VmCreationFormNormalizationService,
@@ -120,6 +129,7 @@ import { vmRouting } from './vm.routing';
     InstanceGroupSelectorComponent,
     VmCreationComponent,
     VmTemplateDialogComponent,
+    VmPulseComponent,
     VolumeResizeComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,

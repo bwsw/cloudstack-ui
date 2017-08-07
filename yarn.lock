@@ -847,6 +847,13 @@ chart.js@^2.6.0:
     chartjs-color "^2.1.0"
     moment "^2.10.6"
 
+"chart.js@github:zolotyx/Chart.js#v2.6.0-csui":
+  version "2.6.0-csui"
+  resolved "https://codeload.github.com/zolotyx/Chart.js/tar.gz/d73eb13c5bbc3ae8e03c3003dcd1571968bb299b"
+  dependencies:
+    chartjs-color "^2.1.0"
+    moment "^2.18.1"
+
 chartjs-color-string@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/chartjs-color-string/-/chartjs-color-string-0.4.0.tgz#57748d4530ae28d8db0a5492182ba06dfdf2f468"

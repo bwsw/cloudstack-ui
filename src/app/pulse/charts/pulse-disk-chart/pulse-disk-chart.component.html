@@ -5,7 +5,7 @@
   [(aggregations)]="selectedAggregations"
   (shiftReset)="resetShift()"
 ></cs-aggregation-selector>
-<md-select [(ngModel)]="selectedVolume">
+<md-select class="aggregation-select" [(ngModel)]="selectedVolume">
   <md-option *ngFor="let volume of availableVolumes" [value]="volume">
     {{ volume.name }} ({{ volume.id }})
   </md-option>

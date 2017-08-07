@@ -16,6 +16,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
   @Input() public isSelected: (vm: VirtualMachine) => boolean;
   @Output() public onVmAction = new EventEmitter();
   @Output() public onClick = new EventEmitter();
+  @Output() public onPulse = new EventEmitter<string>();
   @ViewChild(MdlPopoverComponent) public popoverComponent: MdlPopoverComponent;
 
   public actions: Array<IVmAction>;
@@ -70,6 +71,10 @@ export class VmListItemComponent implements OnInit, OnChanges {
     event.stopPropagation();
     if (act === 'console') {
       this.openConsole();
+      return;
+    }
+    if (act === 'pulse') {
+      this.onPulse.emit(this.item.id);
       return;
     }
 
