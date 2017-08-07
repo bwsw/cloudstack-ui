@@ -109,7 +109,7 @@ export class CustomServiceOfferingService {
             customOfferingRestrictionsByZone[zone],
             resourceStats
           )
-        })
+        });
       }, {});
   }
 
@@ -127,7 +127,7 @@ export class CustomServiceOfferingService {
       }
 
       if (offeringParams[key] < restrictions[key].min) {
-        return Object.assign(acc, { [key]: restrictions[key].min })
+        return Object.assign(acc, { [key]: restrictions[key].min });
       }
 
       return Object.assign(acc, { [key]: offeringParams[key] });

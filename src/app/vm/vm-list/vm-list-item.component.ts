@@ -1,7 +1,7 @@
 import { MdlPopoverComponent } from '@angular-mdl/popover';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Color } from '../../shared/models';
-import { IVmAction, VirtualMachine } from '../shared/vm.model';
+import { VirtualMachine } from '../shared/vm.model';
 import { VmActionsService } from '../shared/vm-actions.service';
 import { VirtualMachineAction } from '../vm-actions/vm-action';
 
