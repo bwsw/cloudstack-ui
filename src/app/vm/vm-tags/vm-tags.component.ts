@@ -12,7 +12,7 @@ import { VirtualMachine } from '../shared/vm.model';
   selector: 'cs-vm-tags',
   templateUrl: 'vm-tags.component.html'
 })
-export class VmTagsComponent extends TagsComponent implements OnInit {
+export class VmTagsComponent extends TagsComponent<VirtualMachine> implements OnInit {
   @Input() public entity: VirtualMachine;
 
   constructor(
@@ -24,6 +24,7 @@ export class VmTagsComponent extends TagsComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    // todo: remove unsubscribe after migration to ngrx
     super.ngOnInit();
     this.tags$
       .takeUntil(this.unsubscribe$)
