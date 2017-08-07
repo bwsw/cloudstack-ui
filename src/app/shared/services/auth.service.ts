@@ -41,11 +41,10 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   }
 
   public startInactivityCounter() {
-    Observable.forkJoin(
-      this.getInactivityTimeout(),
-      this.getSessionRefreshInterval()
-    )
-      .subscribe(([inactivityTimeout, sessionRefreshInterval]) => {
+    const sessionRefreshInterval = this.getSessionRefreshInterval();
+
+    this.getInactivityTimeout()
+      .subscribe(inactivityTimeout => {
         this.inactivityTimeout = inactivityTimeout;
         this.sessionRefreshInterval = sessionRefreshInterval;
         this.resetInactivityTimer();
@@ -195,14 +194,13 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     }
   }
 
-  private getSessionRefreshInterval(): Observable<number> {
-    return this.configService.get('sessionRefreshInterval')
-      .map(refreshInterval => {
-        if (Number.isInteger(refreshInterval) && refreshInterval > 0) {
-          return refreshInterval;
-        } else {
-          return DEFAULT_SESSION_REFRESH_INTERVAL;
-        }
-      });
+  private getSessionRefreshInterval(): number {
+    const refreshInterval = this.configService.get('sessionRefreshInterval');
+
+    if (Number.isInteger(refreshInterval) && refreshInterval > 0) {
+      return refreshInterval;
+    }
+
+    return DEFAULT_SESSION_REFRESH_INTERVAL;
   }
 }

@@ -4,15 +4,16 @@ import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { Tag } from '../../shared/models';
 import { TagService } from '../../shared/services';
 import { TagsComponent } from '../../tags/tags.component';
-import { BaseTemplateModel, IsoService, TemplateService } from '../shared';
+import { IsoService, TemplateService } from '../shared';
 import { BaseTemplateService } from '../shared/base-template.service';
+import { BaseTemplateModel } from '../shared/base-template.model';
 
 
 @Component({
   selector: 'cs-template-tags',
   templateUrl: 'template-tags.component.html'
 })
-export class TemplateTagsComponent extends TagsComponent {
+export class TemplateTagsComponent extends TagsComponent<BaseTemplateModel> {
   @Input() public entity: BaseTemplateModel;
 
   constructor(

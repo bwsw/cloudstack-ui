@@ -7,7 +7,7 @@ export const WithUnsubscribe = <TBase extends Constructor<{}>>(Base: TBase = Sim
   return class extends Base implements OnDestroy {
     protected unsubscribe$ = new Subject<never>();
 
-    ngOnDestroy() {
+    public ngOnDestroy(): void {
       this.unsubscribe$.next();
       this.unsubscribe$.complete();
     }

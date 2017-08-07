@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
-import { VmService } from '../../vm/shared/vm.service';
 import { ServiceOfferingFilterService } from '../../shared/services/service-offering-filter.service';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 import { ZoneService } from '../../shared/services/zone.service';
 import { MdlDialogReference } from '../../dialog/dialog-module';
+import { VmChangeServiceOfferingAction } from '../../vm/vm-actions/vm-change-service-offering';
 import { CustomServiceOfferingService } from '../custom-service-offering/service/custom-service-offering.service';
 import { Observable } from 'rxjs/Observable';
 import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
@@ -28,9 +28,9 @@ export class ServiceOfferingDialogComponent implements OnInit {
     @Inject('virtualMachine') public virtualMachine: VirtualMachine,
     public customServiceOfferingService: CustomServiceOfferingService,
     public dialog: MdlDialogReference,
-    private vmService: VmService,
     private serviceOfferingService: ServiceOfferingService,
     private serviceOfferingFilterService: ServiceOfferingFilterService,
+    private vmChangeServiceOfferingAction: VmChangeServiceOfferingAction,
     private zoneService: ZoneService
   ) {
     this.restrictions$ = this.getRestrictions();
@@ -50,11 +50,12 @@ export class ServiceOfferingDialogComponent implements OnInit {
 
   public onChange(): void {
     this.loading = true;
-    this.vmService.changeServiceOffering(this.serviceOffering, this.virtualMachine)
+    this.vmChangeServiceOfferingAction.activate(
+      this.virtualMachine,
+      { serviceOffering: this.serviceOffering }
+    )
       .finally(() => this.loading = false)
-      .subscribe(() => {
-        this.dialog.hide(this.serviceOffering);
-      });
+      .subscribe(() => this.dialog.hide(this.serviceOffering));
   }
 
   public onCancel(): void {

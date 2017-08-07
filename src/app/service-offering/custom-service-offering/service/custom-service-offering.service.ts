@@ -31,27 +31,14 @@ export class CustomServiceOfferingService {
     offering: CustomServiceOffering,
     zoneId: string
   ): Observable<CustomServiceOffering> {
-    const defaultConfigRequest =
+    const defaultParams =
       this.configService.get<DefaultServiceOfferingConfigurationByZone>('defaultServiceOfferingConfig');
 
-    const customOfferingRestrictionsRequest =
+    const customOfferingRestrictions =
       this.configService.get<ICustomOfferingRestrictions>('customOfferingRestrictions');
 
-    const resourceUsageRequest = this.resourceUsageService.getResourceUsage();
-
-    return Observable
-      .forkJoin(
-        defaultConfigRequest,
-        customOfferingRestrictionsRequest,
-        resourceUsageRequest
-      )
-      .map((
-        [
-          defaultParams,
-          customOfferingRestrictions,
-          resourceStats
-        ]
-      ) => {
+    return this.resourceUsageService.getResourceUsage()
+      .map(resourceStats => {
         return this.getCustomOfferingWithSetParamsSync(
           offering,
           defaultParams[zoneId].customOfferingParams,
@@ -100,14 +87,10 @@ export class CustomServiceOfferingService {
   }
 
   public getCustomOfferingRestrictionsByZone(): Observable<ICustomOfferingRestrictionsByZone> {
-    const restrictionsRequest = this.configService.get<ICustomOfferingRestrictionsByZone>('customOfferingRestrictions');
-    const resourceStatsRequest = this.resourceUsageService.getResourceUsage();
+    const restrictions = this.configService.get<ICustomOfferingRestrictionsByZone>('customOfferingRestrictions');
 
-    return Observable.forkJoin(
-      restrictionsRequest,
-      resourceStatsRequest
-    )
-      .map(([restrictions, resourceStats]) => {
+    return this.resourceUsageService.getResourceUsage()
+      .map(resourceStats => {
         return this.getCustomOfferingRestrictionsByZoneSync(
           restrictions,
           resourceStats

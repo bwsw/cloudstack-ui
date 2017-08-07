@@ -266,5 +266,10 @@
         "memory": 1024
       }
     }
+  },
+  "extensions": {
+    "webShell": {
+      "address": "http://192.168.2.88:8018"
+    }
   }
 }
