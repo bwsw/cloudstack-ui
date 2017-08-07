@@ -61,14 +61,14 @@ export class SgCreationComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    const securityGroupTemplates = this.securityGroupService.getTemplates();
+    const templates = this.securityGroupService.getTemplates();
     const accountSecurityGroups = this.securityGroupService.getList({
       'tags[0].key': 'template',
       'tags[0].value': 'true'
     });
 
-    Observable.forkJoin([securityGroupTemplates, accountSecurityGroups])
-      .subscribe(([templates, groups]) => {
+    accountSecurityGroups
+      .subscribe(groups => {
         this.items[0] = templates.concat(groups);
 
         this.initRulesList();

@@ -24,12 +24,11 @@ import { InactivityTimeoutComponent } from './inactivity-timeout/inactivity-time
     ClipboardModule
   ],
   exports: [
-    SettingsComponent
-  ],
+    SettingsComponent],
+
   declarations: [
     ApiInfoComponent,
-    InactivityTimeoutComponent,
-    SettingsComponent
+    InactivityTimeoutComponent,SettingsComponent
   ]
 })
 export class SettingsModule { }

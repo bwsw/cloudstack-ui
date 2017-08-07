@@ -10,7 +10,7 @@ import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
 import { ConfigService } from './config.service';
 import { RouterUtilsService } from './router-utils.service';
-import { StorageService } from './storage.service';
+import { LocalStorageService } from './local-storage.service';
 import { UserService } from './user.service';
 
 const DEFAULT_SESSION_REFRESH_INTERVAL = 60;
@@ -30,7 +30,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   constructor(
     protected asyncJobService: AsyncJobService,
     protected configService: ConfigService,
-    protected storage: StorageService,
+    protected storage: LocalStorageService,
     protected router: Router,
     protected userService: UserService,
     protected routerUtilsService: RouterUtilsService,
@@ -41,11 +41,10 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   }
 
   public startInactivityCounter() {
-    Observable.forkJoin(
-      this.getInactivityTimeout(),
-      this.getSessionRefreshInterval()
-    )
-      .subscribe(([inactivityTimeout, sessionRefreshInterval]) => {
+    const sessionRefreshInterval = this.getSessionRefreshInterval();
+
+    this.getInactivityTimeout()
+      .subscribe(inactivityTimeout => {
         this.inactivityTimeout = inactivityTimeout;
         this.sessionRefreshInterval = sessionRefreshInterval;
         this.resetInactivityTimer();
@@ -195,14 +194,13 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     }
   }
 
-  private getSessionRefreshInterval(): Observable<number> {
-    return this.configService.get('sessionRefreshInterval')
-      .map(refreshInterval => {
-        if (Number.isInteger(refreshInterval) && refreshInterval > 0) {
-          return refreshInterval;
-        } else {
-          return DEFAULT_SESSION_REFRESH_INTERVAL;
-        }
-      });
+  private getSessionRefreshInterval(): number {
+    const refreshInterval = this.configService.get('sessionRefreshInterval');
+
+    if (Number.isInteger(refreshInterval) && refreshInterval > 0) {
+      return refreshInterval;
+    }
+
+    return DEFAULT_SESSION_REFRESH_INTERVAL;
   }
 }
