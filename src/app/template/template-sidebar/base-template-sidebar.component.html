@@ -1,8 +1,10 @@
 <div *ngIf="template">
   <mdl-tabs mdl-ripple mdl-tab-active-index="0">
     <mdl-tab-panel>
-      <mdl-tab-panel-title>
-        <span>{{ 'TEMPLATE' | translate }}</span>
+      <mdl-tab-panel-title class="panel-title-container">
+        <div class="disc-icon-container">
+          <div class="disc-icon"></div>
+        </div>
       </mdl-tab-panel-title>
       <mdl-tab-panel-content>
         <cs-template
@@ -100,7 +102,7 @@
 
     <mdl-tab-panel>
       <mdl-tab-panel-title>
-        <span>{{ 'ZONES' | translate }}</span>
+        <mdl-icon>public</mdl-icon>
       </mdl-tab-panel-title>
       <mdl-tab-panel-content *loading="updating">
         <div *ngIf="!readyInEveryZone" class="update-button-container">
@@ -126,7 +128,7 @@
 
     <mdl-tab-panel>
       <mdl-tab-panel-title>
-        {{ 'TEMPLATE_TAGS_VIEW' | translate }}
+        <mdl-icon>local_offer</mdl-icon>
       </mdl-tab-panel-title>
 
       <mdl-tab-panel-content>
