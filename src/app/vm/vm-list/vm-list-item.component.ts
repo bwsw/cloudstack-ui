@@ -1,8 +1,17 @@
 import { MdlPopoverComponent } from '@angular-mdl/popover';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { Color } from '../../shared/models';
-import { IVmAction, VirtualMachine } from '../shared/vm.model';
 import { VmActionsService } from '../shared/vm-actions.service';
+import { VirtualMachine } from '../shared/vm.model';
 import { VirtualMachineAction } from '../vm-actions/vm-action';
 
 
@@ -25,8 +34,9 @@ export class VmListItemComponent implements OnInit, OnChanges {
   public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
 
   constructor(public vmActionsService: VmActionsService) {
-    this.firstRowActions = this.vmActionsService.actions.slice(0, 7);
-    this.secondRowActions = this.vmActionsService.actions.slice(7, 8);
+    const { actions } = this.vmActionsService;
+    this.firstRowActions = actions.slice(0, 7);
+    this.secondRowActions = actions.slice(7, actions.length);
   }
 
   public ngOnInit(): void {

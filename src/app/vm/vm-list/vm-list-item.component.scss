@@ -1,3 +1,6 @@
+$popover-padding: 14px;
+$action-button-size: 32px;
+
 :host {
   display: inline-flex;
   cursor: pointer;
@@ -44,7 +47,7 @@ mdl-card.error {
 }
 
 .vm-popover {
-  width: 280px !important;
+  width: $action-button-size * 7 + 2 * $popover-padding !important;
 }
 
 button {
@@ -55,12 +58,16 @@ button {
 .popover-actions {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+
+  .plugins {
+    display: flex;
+    flex: 1;
+    button:first-child {
+      margin-left: auto;
+    }
+  }
 }
 
-.popover-actions button:last-child {
-  margin-left: auto;
-}
 
 md-divider {
   flex: 1 0 100%;
