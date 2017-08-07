@@ -77,6 +77,11 @@ So, what is supported:
 * API keys management
 * A lot of small improvements which affect  user experience greatly
 
+## Plugins Supported
+
+* [Pulse Plugin](/bwsw/cloudstack-ui/wiki/Pulse-Plugin-Deployment) - supports visualization of VM runtime stats (CPU, RAM, IO, network traffic) on charts;
+* [WebShell Plugin](/bwsw/cloudstack-ui/wiki/WebShell-Plugin-Deployment) - supports clientless SSH access to VMs.
+
 ## Features Yet Unsupported
 
 We intensively use features like projects in our own CloudStackcloud to manage resources dedicated to project groups, etc. but generic users don’t need them, so we don’t support the following features yet:
@@ -91,10 +96,9 @@ We intensively use features like projects in our own CloudStackcloud to manage r
 ## Long Term To Dos
 
 * Plugins
-   * VM metrics a.k.a. Pulse (charts and availability information)
    * Resource utilization stats, traffic, IO stats, CS entities stats a.k.a. Accounting
    * Self registration for public cloud
-   * Web SSH/RDP (guacamole)
+   * RDP/VNC (guacamole)
 
 ## Far Away To Dos
 * Plugins
@@ -174,7 +178,7 @@ docker run -d -p 80:80 --name cloudstack-ui \
            -e CONSOLE_BACKEND_URL=http://link/to/console/endpoint \
            -e BASE_HREF=base_href \
            -v /path/to/config.json:/static/config/config.json \
-           bwsw/cloudstack-ui
+           bwsw/cloudstack-ui:1.0.6
 ```
 
 `http://link/to/api/endpoint` - URL of CloudStackAPI endpoint (e.g. http://host:8080/client/api)
