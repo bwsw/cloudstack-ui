@@ -6,9 +6,10 @@ import { Taggable } from '../shared/interfaces/taggable.interface';
 import { Tag } from '../shared/models';
 import { TagService } from '../shared/services';
 import { KeyValuePair, TagEditAction } from './tags-view/tags-view.component';
+import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 
 
-export abstract class TagsComponent implements OnInit {
+export abstract class TagsComponent extends WithUnsubscribe() implements OnInit {
   public abstract entity: Taggable;
 
   public tags$: BehaviorSubject<Array<Tag>>;
@@ -17,12 +18,15 @@ export abstract class TagsComponent implements OnInit {
     protected dialogService: DialogService,
     protected tagService: TagService,
   ) {
+    super();
     this.tags$ = new BehaviorSubject<Array<Tag>>([]);
   }
 
   public ngOnInit(): void {
     this.tags$.next(this.entity.tags);
-    this.tags$.subscribe(tags => this.entity.tags = tags);
+    this.tags$
+      .takeUntil(this.unsubscribe$)
+      .subscribe(tags => this.entity.tags = tags);
   }
 
   public onTagAdd(tag: KeyValuePair): void {
