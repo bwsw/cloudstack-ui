@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { StorageService } from './storage.service';
+import { LocalStorageService } from './local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { UserService } from './user.service';
@@ -22,7 +22,7 @@ export class LanguageService {
   public timeFormat = new BehaviorSubject<string>(undefined);
 
   constructor(
-    private storage: StorageService,
+    private storage: LocalStorageService,
     private translate: TranslateService,
     private userService: UserService
   ) {

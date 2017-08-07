@@ -61,7 +61,6 @@ import {
   DiskOfferingService,
   DiskStorageService,
   ErrorService,
-  FilterService,
   InstanceGroupService,
   JobsNotificationService,
   LanguageService,
@@ -82,7 +81,9 @@ import {
 import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
 import { RouterUtilsService } from './services/router-utils.service';
 import { SnapshotService } from './services/snapshot.service';
-import { StorageService } from './services/storage.service';
+import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
+import { SessionStorageService } from './services/session-storage.service';
+import { LocalStorageService } from './services/local-storage.service';
 import { TagService } from './services/tag.service';
 import { UserService } from './services/user.service';
 import { VolumeService } from './services/volume.service';
@@ -207,7 +208,7 @@ import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
     ViewValuePipe,
     LoadingDirective,
     LoaderComponent,
-    GroupedCardListComponent,
+    GroupedCardListComponent
   ],
   providers: [
     AffinityGroupService,
@@ -220,7 +221,6 @@ import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
     DiskOfferingService,
     DiskStorageService,
     ErrorService,
-    FilterService,
     InstanceGroupService,
     JobsNotificationService,
     LanguageService,
@@ -237,7 +237,9 @@ import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
     SnapshotService,
     SSHKeyPairService,
     StatsUpdateService,
-    StorageService,
+    MemoryStorageService,
+    SessionStorageService,
+    LocalStorageService,
     StyleService,
     TagService,
     UserService,

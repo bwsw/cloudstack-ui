@@ -111,7 +111,7 @@ export class CustomServiceOfferingService {
         return this.getCustomOfferingRestrictionsByZoneSync(
           restrictions,
           resourceStats
-        )
+        );
       });
   }
 
@@ -126,7 +126,7 @@ export class CustomServiceOfferingService {
             customOfferingRestrictionsByZone[zone],
             resourceStats
           )
-        })
+        });
       }, {});
   }
 
@@ -144,7 +144,7 @@ export class CustomServiceOfferingService {
       }
 
       if (offeringParams[key] < restrictions[key].min) {
-        return Object.assign(acc, { [key]: restrictions[key].min })
+        return Object.assign(acc, { [key]: restrictions[key].min });
       }
 
       return Object.assign(acc, { [key]: offeringParams[key] });
@@ -212,10 +212,11 @@ export class CustomServiceOfferingService {
   private restrictionsAreCompatible(restrictions: ICustomOfferingRestrictions): boolean {
     return Object.keys(restrictions).reduce((acc, key) => {
       return (
-        restrictions[key] == null ||
-        restrictions[key].min == null ||
-        restrictions[key].max == null ||
-        restrictions[key].min < restrictions[key].max
+        acc &&
+        (restrictions[key] == null ||
+          restrictions[key].min == null ||
+          restrictions[key].max == null ||
+          restrictions[key].min < restrictions[key].max)
       );
     }, true);
   }
