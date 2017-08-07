@@ -129,13 +129,19 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public command(vm: VirtualMachine, command: IVirtualMachineCommand): Observable<any> {
     const commandName = command.commandName as VirtualMachineActionType;
+    const initialState = vm.state;
+
     this.setStateForVm(vm, command.vmStateOnAction as VmState);
 
     return this.sendCommand(
       commandName,
       this.buildCommandParams(vm.id, commandName)
     )
-      .switchMap(job => this.registerVmJob(job));
+      .switchMap(job => this.registerVmJob(job))
+      .catch(error => {
+        this.setStateForVm(vm, initialState);
+        return Observable.throw(error);
+      })
   }
 
   public registerVmJob(job: any): Observable<any> {
