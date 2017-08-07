@@ -1,10 +1,10 @@
 import { Observable } from 'rxjs/Observable';
 
-import { Tag } from '../models/tag.model';
-import { BackendResource } from '../decorators/backend-resource.decorator';
-import { AsyncJobService } from './async-job.service';
-import { BaseBackendCachedService } from './';
-import { Taggable } from '../interfaces/taggable.interface';
+import { Tag } from '../../models/tag.model';
+import { BackendResource } from '../../decorators/backend-resource.decorator';
+import { AsyncJobService } from '../async-job.service';
+import { BaseBackendCachedService } from '../';
+import { Taggable } from '../../interfaces/taggable.interface';
 
 
 @BackendResource({
@@ -35,7 +35,8 @@ export class TagService extends BaseBackendCachedService<Tag> {
   }
 
   public getTag(entity: any, key: string): Observable<Tag> {
-    return this.getList({ resourceId: entity.id, key }).map(tags => tags.length ? tags[0] : undefined);
+    return this.getList({ resourceId: entity.id, key })
+      .map(tags => tags[0]);
   }
 
   public update(entity: any, entityName: string, key: string, value: any): Observable<any> {

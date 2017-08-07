@@ -11,7 +11,7 @@ import {
 import { BackendResource } from '../decorators';
 import { DeletionMark } from '../models';
 
-import { TagService } from './tag.service';
+import { TagService } from './tags/tag.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
 import { AsyncJobService } from './async-job.service';
 import { ConfigService } from './config.service';

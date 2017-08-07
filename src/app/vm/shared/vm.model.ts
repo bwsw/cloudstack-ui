@@ -141,17 +141,6 @@ export class VirtualMachine extends BaseModel implements Taggable {
     return sizeInBytes / Math.pow(2, 30);
   }
 
-  public getColor(): Color {
-    if (this.tags) {
-      const colorTag = this.tags.find(tag => tag.key === 'color');
-      if (colorTag) {
-        const [backgroundColor, textColor] = colorTag.value.split(VirtualMachine.ColorDelimiter);
-        return new Color(backgroundColor, backgroundColor, textColor || '');
-      }
-    }
-    return new Color('white', '#FFFFFF', '');
-  }
-
   private initializeNic(): void {
     if (!this.nic) {
       this.nic = [];

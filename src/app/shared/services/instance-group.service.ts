@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { VirtualMachine } from '../../vm/shared/vm.model';
-import { TagService } from './tag.service';
+import { TagService } from './tags/tag.service';
 import { InstanceGroup } from '../models';
 
 @Injectable()

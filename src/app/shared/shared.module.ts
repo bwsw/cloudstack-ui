@@ -83,7 +83,7 @@ import { OverlayLoadingComponent } from './components/overlay-loading/overlay-lo
 import { RouterUtilsService } from './services/router-utils.service';
 import { SnapshotService } from './services/snapshot.service';
 import { StorageService } from './services/storage.service';
-import { TagService } from './services/tag.service';
+import { TagService } from './services/tags/tag.service';
 import { UserService } from './services/user.service';
 import { VolumeService } from './services/volume.service';
 import { MdlTextAreaAutoresizeDirective } from './directives/mdl-textarea-autoresize.directive';

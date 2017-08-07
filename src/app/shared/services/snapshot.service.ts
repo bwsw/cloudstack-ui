@@ -6,7 +6,7 @@ import { AsyncJob } from '../models/async-job.model';
 import { DESCRIPTION_TAG, Snapshot } from '../models/snapshot.model';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
-import { TagService } from './tag.service';
+import { TagService } from './tags/tag.service';
 
 
 @Injectable()

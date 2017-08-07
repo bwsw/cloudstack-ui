@@ -20,7 +20,6 @@ import { Utils } from '../../shared/services/utils.service';
   zonename: 'zoneName',
 })
 export abstract class BaseTemplateModel extends BaseModel {
-  public resourceType: string;
   public path: string;
 
   public id: string;

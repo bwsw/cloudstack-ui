@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { BaseTemplateModel } from './base-template.model';
 import { AsyncJobService, BaseBackendCachedService, Utils } from '../../shared/services';
 import { OsTypeService } from '../../shared/services/os-type.service';
-import { TagService } from '../../shared/services/tag.service';
+import { TagService } from '../../shared/services/tags/tag.service';
 
 
 export const TemplateFilters = {

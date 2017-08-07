@@ -6,7 +6,7 @@ import { ResourceTypes } from '../models';
 import { User } from '../models/user.model';
 import { BaseBackendService } from './base-backend.service';
 import { StorageService } from './storage.service';
-import { TagService } from './tag.service';
+import { TagService } from './tags/tag.service';
 
 
 @Injectable()

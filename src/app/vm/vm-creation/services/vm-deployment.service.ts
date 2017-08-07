@@ -9,7 +9,7 @@ import { AffinityGroup, AffinityGroupTypes } from '../../../shared/models';
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { GROUP_POSTFIX, SecurityGroupService } from '../../../shared/services/security-group.service';
 import { Utils } from '../../../shared/services/utils.service';
-import { TagService } from '../../../shared/services/tag.service';
+import { TagService } from '../../../shared/services/tags/tag.service';
 
 
 export type VmDeploymentStage =

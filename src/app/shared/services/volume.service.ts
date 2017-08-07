@@ -7,7 +7,7 @@ import { BaseBackendService } from './base-backend.service';
 import { BackendResource } from '../decorators';
 import { SnapshotService } from './snapshot.service';
 import { AsyncJobService } from './async-job.service';
-import { TagService } from './tag.service';
+import { TagService } from './tags/tag.service';
 
 
 interface VolumeCreationData {

@@ -17,7 +17,7 @@ import { Iso } from '../../template/shared';
 import { VirtualMachine, VmState } from './vm.model';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { TagService } from '../../shared/services/tag.service';
+import { TagService } from '../../shared/services/tags/tag.service';
 import { UserService } from '../../shared/services/user.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
@@ -161,14 +161,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   public removeIpFromNic(ipId: string): Observable<any> {
     return this.sendCommand('removeIpFrom', { id: ipId }, 'Nic')
       .switchMap(job => this.asyncJobService.queryJob(job.jobid));
-  }
-
-  public setColor(vm: VirtualMachine, color: Color): Observable<VirtualMachine> {
-    let tagValue = color.value;
-    if (color.textColor) {
-      tagValue += `${VirtualMachine.ColorDelimiter}${color.textColor}`;
-    }
-    return this.tagService.update(vm, 'UserVm', 'csui.vm.color', tagValue);
   }
 
   public getDescription(vm: VirtualMachine): Observable<string> {

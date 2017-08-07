@@ -26,6 +26,7 @@ import { VmActionsService } from '../shared/vm-actions.service';
 
 import { VirtualMachineActionType } from '../vm-actions/vm-action';
 import clone = require('lodash/clone');
+import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 
 
 const askToCreateVm = 'csui.user.ask-to-create-vm';
@@ -59,7 +60,7 @@ export class VmListComponent implements OnInit {
     {
       key: 'colors',
       label: 'GROUP_BY.COLORS',
-      selector: (item: VirtualMachine) => item.getColor().value,
+      selector: (item: VirtualMachine) => this.vmTagService.getColorSync(item).value,
       name: (item: VirtualMachine) => ' ',
     }
   ];
@@ -84,6 +85,7 @@ export class VmListComponent implements OnInit {
     private statsUpdateService: StatsUpdateService,
     private userService: UserService,
     private vmActionsService: VmActionsService,
+    private vmTagService: VmTagService,
     private zoneService: ZoneService
   ) {
     this.showDetail = this.showDetail.bind(this);

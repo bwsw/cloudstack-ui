@@ -5,7 +5,7 @@ import { FilterConfig, FilterService } from './filter.service';
 import { RouterUtilsService } from './router-utils.service';
 
 import { StorageService } from './storage.service';
-import { TagService } from './tag.service';
+import { TagService } from './tags/tag.service';
 
 
 describe('Filter service', () => {

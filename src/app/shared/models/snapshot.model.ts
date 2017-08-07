@@ -3,6 +3,7 @@ import moment = require('moment');
 import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators';
 import { Tag } from './tag.model';
+import { Taggable } from '../interfaces/taggable.interface';
 
 
 export const DESCRIPTION_TAG = 'csui.snapshot.description';
@@ -11,7 +12,9 @@ export const DESCRIPTION_TAG = 'csui.snapshot.description';
   physicalsize: 'physicalSize',
   volumeid: 'volumeId'
 })
-export class Snapshot extends BaseModel {
+export class Snapshot extends BaseModel implements Taggable {
+  public resourceType = 'Snapshot';
+
   public id: string;
   public created: Date;
   public description: string;
