@@ -80,7 +80,7 @@ So, what is supported:
 
 ## Plugins Supported
 
-* [Pulse Plugin](https://github.com/bwsw/cloudstack-ui/wiki/Pulse-Plugin-Deployment) - supports visualization of VM runtime stats (CPU, RAM, IO, network traffic) on charts;
+* [Pulse Plugin](https://github.com/bwsw/cloudstack-ui/wiki/Pulse-Plugin-Deployment) - supports visualization of VM runtime stats (CPU, RAM, IO, network traffic) with charts;
 * [WebShell Plugin](https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin-Deployment) - supports clientless SSH access to VMs.
 
 ## Features Yet Unsupported
