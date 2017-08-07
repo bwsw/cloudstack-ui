@@ -81,6 +81,10 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     this.vmUpdateObservable.next(vm);
   }
 
+  public changeVmState(vm: VirtualMachine): void {
+    this.vmUpdateObservable.next(vm);
+  }
+
   public getWithDetails(id: string): Observable<VirtualMachine> {
     return Observable.forkJoin([
       super.get(id),

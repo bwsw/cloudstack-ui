@@ -158,6 +158,9 @@ export class VmListComponent implements OnInit {
       .switchMap(() => this.vmService.vmAction(e))
       .subscribe(
         () => {
+          this.vmService.get(e.vm.id).subscribe(vm => {
+            this.vmService.changeVmState(vm);
+          });
         },
         error => this.dialogService.alert(error.message)
       );

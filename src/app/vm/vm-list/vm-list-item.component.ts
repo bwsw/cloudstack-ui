@@ -31,7 +31,11 @@ export class VmListItemComponent implements OnInit, OnChanges {
     this.updateColor();
 
     this.actions = VirtualMachine.actions;
-    this.vmService.vmUpdateObservable.subscribe(() => {
+    this.vmService.vmUpdateObservable.subscribe(vm => {
+      if (this.item.id === vm.id) {
+        this.item.state = vm.state;
+      }
+
       this.updateColor();
     });
   }

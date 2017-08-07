@@ -77,7 +77,7 @@ export class VmFilterComponent implements OnInit, OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     const groups = changes['groups'];
     const zones = changes['zones'];
-    if (groups.currentValue && zones.currentValue) {
+    if (groups && zones && groups.currentValue && zones.currentValue) {
       this.initFilters();
     }
   }
