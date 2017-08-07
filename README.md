@@ -7,6 +7,7 @@ Table of Contents
       * [Project Story](#project-story)
       * [Implementation Details](#implementation-details)
       * [Features Supported](#features-supported)
+      * [Plugins Supported](#plugins-supported)
       * [Features Yet Unsupported](#features-yet-unsupported)
       * [Current To Do's](#current-to-dos)
       * [Long Term To Do's](#long-term-to-dos)
