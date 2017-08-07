@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-chart';
 import { Observable } from 'rxjs/Observable';
+import { humanReadableSize } from '../../unitsUtils';
+import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-chart';
+
 
 @Component({
   selector: 'cs-pulse-cpu-chart',
@@ -12,15 +14,40 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
       {
         id: 'cpu',
         options: Object.assign({}, defaultChartOptions, {
-          yAxes: [{
-            ticks: {
-              suggestedMin: 0,
-              suggestedMax: 100
-            }
-          }]
+          scales: {
+            xAxes: [{
+              type: 'time',
+              position: 'bottom'
+            }],
+            yAxes: [{
+              ticks: {
+                suggestedMin: 0,
+                suggestedMax: 100,
+                userCallback(val) {
+                  return `${val}%`;
+                }
+              }
+            }],
+          }
         })
       },
-      { id: 'ram' }
+      {
+        id: 'ram',
+        options: {
+          ...defaultChartOptions,
+          scales: {
+            ...defaultChartOptions.scales,
+            yAxes: [{
+              ticks: {
+                suggestedMin: 0,
+                userCallback(val) {
+                  return humanReadableSize(val * 1024);
+                }
+              }
+            }]
+          }
+        }
+      }
     ]);
   }
 

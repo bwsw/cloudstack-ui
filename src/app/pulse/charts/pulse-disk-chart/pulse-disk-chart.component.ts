@@ -3,7 +3,9 @@ import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../../shared/models/volume.model';
 import { VolumeService } from '../../../shared/services/volume.service';
 import { PulseService } from '../../pulse.service';
-import { getChart, PulseChartComponent } from '../pulse-chart';
+import { humanReadableSize } from '../../unitsUtils';
+import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-chart';
+
 
 @Component({
   selector: 'cs-pulse-disk-chart',
@@ -19,7 +21,23 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
 
   public ngOnInit() {
     this.charts = getChart([
-      { id: 'bytes' },
+      {
+        id: 'bytes',
+        options: {
+          ...defaultChartOptions,
+          scales: {
+            ...defaultChartOptions.scales,
+            yAxes: [{
+              ticks: {
+                suggestedMin: 0,
+                userCallback(val) {
+                  return humanReadableSize(val * 1024, true);
+                }
+              }
+            }]
+          }
+        }
+      },
       { id: 'iops' },
       {
         id: 'errors',

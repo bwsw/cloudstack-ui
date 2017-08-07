@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { VmService } from '../../../vm/shared/vm.service';
-import { PulseService } from '../../pulse.service';
-import { getChart, PulseChartComponent } from '../pulse-chart';
 import { Observable } from 'rxjs/Observable';
 import { NIC } from '../../../shared/models/nic.model';
+import { VmService } from '../../../vm/shared/vm.service';
+import { PulseService } from '../../pulse.service';
+import { humanReadableSizeInBits } from '../../unitsUtils';
+import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-chart';
+
 
 @Component({
   selector: 'cs-pulse-network-chart',
@@ -19,7 +21,23 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
 
   public ngOnInit() {
     this.charts = getChart([
-      { id: 'bits' },
+      {
+        id: 'bits',
+        options: {
+          ...defaultChartOptions,
+          scales: {
+            ...defaultChartOptions.scales,
+            yAxes: [{
+              ticks: {
+                suggestedMin: 0,
+                userCallback(val) {
+                  return humanReadableSizeInBits(val * 1024);
+                }
+              }
+            }]
+          }
+        }
+      },
       { id: 'packets' },
       {
         id: 'drops',
