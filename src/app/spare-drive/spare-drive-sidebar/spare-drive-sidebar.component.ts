@@ -5,6 +5,7 @@ import { Volume } from '../../shared/models';
 import { VolumeTypes } from '../../shared/models/volume.model';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { VolumeService } from '../../shared/services/volume.service';
+import { VolumeTagService } from '../../shared/services/tags/volume-tag.service';
 
 
 @Component({
@@ -18,18 +19,23 @@ export class SpareDriveSidebarComponent {
   @HostBinding('class.grid') public grid = true;
 
   constructor(
+    private diskOfferingService: DiskOfferingService,
     private route: ActivatedRoute,
     private volumeService: VolumeService,
-    private diskOfferingService: DiskOfferingService
+    private volumeTagService: VolumeTagService,
   ) {
     this.route.params.pluck('id')
       .subscribe((id: string) => {
-        if (id) {
-          Observable.forkJoin(
-            this.diskOfferingService.getList({ type: VolumeTypes.DATADISK }),
-            this.volumeService.get(id)
-          ).subscribe(([diskOfferings, volume]) => {
-            this.volumeService.getDescription(volume)
+        if (!id) {
+          return;
+        }
+
+        Observable.forkJoin(
+          this.diskOfferingService.getList({ type: VolumeTypes.DATADISK }),
+          this.volumeService.get(id)
+        )
+          .subscribe(([diskOfferings, volume]) => {
+            this.volumeTagService.getDescription(volume)
               .subscribe(description => {
                 volume.diskOffering = diskOfferings.find(
                   offering => offering.id === volume.diskOfferingId
@@ -38,13 +44,11 @@ export class SpareDriveSidebarComponent {
                 this.description = description;
               });
           });
-        }
-    });
+      });
   }
 
   public changeDescription(newDescription: string): void {
-    this.volumeService
-      .updateDescription(this.volume, newDescription)
+    this.volumeTagService.setDescription(this.volume, newDescription)
       .onErrorResumeNext()
       .subscribe();
   }

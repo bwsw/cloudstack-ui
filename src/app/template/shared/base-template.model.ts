@@ -5,6 +5,7 @@ import { BaseModel, Tag } from '../../shared/models';
 import { OsType } from '../../shared/models/os-type.model';
 import { Utils } from '../../shared/services/utils.service';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
+import { TemplateTagKeys } from '../../shared/services/tags/template-tag.service';
 
 
 @FieldMapper({
@@ -60,5 +61,13 @@ export abstract class BaseTemplateModel extends BaseModel implements Taggable {
 
   public get sizeInGB(): number {
     return Utils.convertToGB(this.size);
+  }
+
+  public get downloadUrl(): string {
+    const tag = this.tags.find(_ => _.key === TemplateTagKeys.downloadUrl);
+
+    if (tag) {
+      return tag.value;
+    }
   }
 }

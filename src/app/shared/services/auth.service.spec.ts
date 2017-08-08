@@ -142,7 +142,7 @@ describe('Auth service session', () => {
     authService.getInactivityTimeout()
       .subscribe(timeout => expect(timeout).toBe(0));
     authService.setInactivityTimeout(1)
-      .switchMapTo(authService.getInactivityTimeout())
+      .switchMap(() => authService.getInactivityTimeout())
       .subscribe(timeout => expect(timeout).toBe(1));
   });
 

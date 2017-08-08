@@ -1,37 +1,36 @@
 import { Injectable } from '@angular/core';
-import { EntityTagService } from './entity-tag.service';
 import { Observable } from 'rxjs/Observable';
-import { StatusTagService } from './common-tags/status-tag.service';
-import { TagService } from './tag.service';
+import { MarkForRemovalService } from './common-tags/mark-for-removal.service';
 import { SecurityGroup } from '../../../security-group/sg.model';
+import { EntityTagService } from './entity-tag.service';
+import { TagService } from './tag.service';
+import { Utils } from '../utils.service';
 
-
-type SecurityGroupTag = 'status';
-
-type SecurityGroupStatus = 'removed';
-const SecurityGroupStatuses = {
-  removed: 'removed' as SecurityGroupStatus
-};
 
 @Injectable()
 export class SecurityGroupTagService extends EntityTagService {
+  public entityPrefix = 'security-group';
   public keys = {
-    status: 'status' as SecurityGroupTag
+    template: 'template'
   };
-  protected entityPrefix = 'security-group';
 
   constructor(
-    private statusTagService: StatusTagService,
+    private markForRemovalService: MarkForRemovalService,
     protected tagService: TagService
   ) {
     super(tagService);
   }
 
-  public getStatus(securityGroup: SecurityGroup): Observable<SecurityGroupStatus> {
-    return this.statusTagService.getStatus(securityGroup, this);
+  public markForRemoval(securityGroup: SecurityGroup): Observable<SecurityGroup> {
+    return this.markForRemovalService.markForRemoval(securityGroup);
   }
 
-  public setStatus(securityGroup: SecurityGroup, status: SecurityGroupStatus): Observable<SecurityGroup> {
-    return this.statusTagService.setStatus(securityGroup, status, this);
+  public markAsTemplate(securityGroup: SecurityGroup): Observable<SecurityGroup> {
+    return this.tagService.update(
+      securityGroup,
+      securityGroup.resourceType,
+      this.keys.template,
+      Utils.convertBooleanToBooleanString(true)
+    );
   }
 }

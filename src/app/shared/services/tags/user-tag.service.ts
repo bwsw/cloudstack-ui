@@ -8,7 +8,6 @@ import { Color } from '../../models/color.model';
 import { Utils } from '../utils.service';
 import { DayOfWeek } from '../../types/day-of-week';
 import { Language, TimeFormat } from '../language.service';
-import { Time } from '../../../snapshot/recurring-snapshots/time-picker/time-picker.component';
 
 
 type UserTagKey =
@@ -59,7 +58,7 @@ export class UserTagService extends EntityTagService {
 
   public setAccentColor(color: Color): Observable<Color> {
     return this.writeTag(this.keys.accentColor, color.name)
-      .mapTo(color);
+      .map(() => color);
   }
 
   public getAskToCreateVm(): Observable<boolean> {
@@ -72,7 +71,7 @@ export class UserTagService extends EntityTagService {
       this.keys.askToCreateVm,
       Utils.convertBooleanToBooleanString(ask)
     )
-      .mapTo(ask);
+      .map(() => ask);
   }
 
   public getAskToCreateVolume(): Observable<boolean> {
@@ -85,7 +84,7 @@ export class UserTagService extends EntityTagService {
       this.keys.askToCreateVolume,
       Utils.convertBooleanToBooleanString(ask)
     )
-      .mapTo(ask);
+      .map(() => ask);
   }
 
   public getFirstDayOfWeek(): Observable<DayOfWeek> {
@@ -94,7 +93,7 @@ export class UserTagService extends EntityTagService {
 
   public setFirstDayOfWeek(dayOfWeek: DayOfWeek): Observable<DayOfWeek> {
     return this.writeTag(this.keys.firstDayOfWeek, dayOfWeek.toString())
-      .mapTo(dayOfWeek);
+      .map(() => dayOfWeek);
   }
 
   public getLang(): Observable<Language> {
@@ -112,7 +111,7 @@ export class UserTagService extends EntityTagService {
 
   public setLastVmId(id: number): Observable<number> {
     return this.writeTag(this.keys.lastVmId, id.toString())
-      .mapTo(id);
+      .map(() => id);
   }
 
   public getPrimaryColor(): Observable<string> {
@@ -121,7 +120,7 @@ export class UserTagService extends EntityTagService {
 
   public setPrimaryColor(color: Color): Observable<Color> {
     return this.writeTag(this.keys.primaryColor, color.name)
-      .mapTo(color);
+      .map(() => color);
   }
 
   public getSessionTimeout(): Observable<number> {
@@ -131,7 +130,7 @@ export class UserTagService extends EntityTagService {
 
   public setSessionTimeout(timeout: number): Observable<number> {
     return this.writeTag(this.keys.sessionTimeout, timeout.toString())
-      .mapTo(+timeout);
+      .map(() => +timeout);
   }
 
   public getTimeFormat(): Observable<TimeFormat> {
@@ -151,7 +150,7 @@ export class UserTagService extends EntityTagService {
 
     if (user) {
       return this.tagService.update(user, 'User', key, value)
-        .mapTo(value);
+        .map(() => value);
     }
 
     return Observable.of(null);

@@ -1,12 +1,10 @@
-import moment = require('moment');
-
 import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators';
 import { Tag } from './tag.model';
 import { Taggable } from '../interfaces/taggable.interface';
+import moment = require('moment');
+import { SnapshotTagKeys } from '../services/tags/snapshot-tag.service';
 
-
-export const DESCRIPTION_TAG = 'csui.snapshot.description';
 
 @FieldMapper({
   physicalsize: 'physicalSize',
@@ -26,12 +24,15 @@ export class Snapshot extends BaseModel implements Taggable {
   constructor(json) {
     super(json);
     this.created = moment(json.created).toDate();
+    this.initializeDescription();
+  }
 
-    if (!this.tags || !this.tags.length) {
+  private initializeDescription(): void {
+    if (!this.tags) {
       return;
     }
 
-    const description = this.tags.find(tag => tag.key === DESCRIPTION_TAG);
+    const description = this.tags.find(tag => tag.key === SnapshotTagKeys.description);
     if (description) {
       this.description = description.value;
     }

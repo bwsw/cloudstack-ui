@@ -94,7 +94,5 @@ export class TagService extends BaseBackendCachedService<Tag> {
     if (tag) {
       return tag.value;
     }
-
-    return undefined;
   }
 }

@@ -1,7 +1,6 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import {
   DiskOffering,
@@ -23,7 +22,6 @@ import { UserTagService } from '../../shared/services/tags/user-tag.service';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
-const askToCreateVolume = 'csui.user.ask-to-create-volume';
 
 export interface VolumeCreationData {
   name: string;

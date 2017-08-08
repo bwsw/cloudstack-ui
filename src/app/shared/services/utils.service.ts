@@ -58,8 +58,6 @@ export class Utils {
     if (booleanString === 'false') {
       return false;
     }
-
-    return undefined;
   }
 
   public static convertBooleanToBooleanString(boolean: boolean): string {

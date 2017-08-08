@@ -76,7 +76,7 @@ export class LanguageService {
 
   public setTimeFormat(timeFormat: TimeFormat): Observable<string> {
     if (timeFormat === TimeFormats.AUTO) {
-      return this.userTagService.removeTimeFormat().mapTo(TimeFormats.AUTO);
+      return this.userTagService.removeTimeFormat().map(() => TimeFormats.AUTO);
     }
 
     return this.userTagService.setTimeFormat(timeFormat);

@@ -86,7 +86,5 @@ export class VmTagService extends EntityTagService {
     if (groupTag) {
       return new InstanceGroup(groupTag.value);
     }
-
-    return undefined;
   }
 }

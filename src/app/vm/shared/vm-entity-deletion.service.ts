@@ -20,14 +20,14 @@ export class VmEntityDeletionService {
         volumes
           .filter(volume => volume.type === VolumeTypes.DATADISK)
           .forEach(volume =>
-            this.volumeService.markForDeletion(volume.id).subscribe()
+            this.volumeService.markForRemoval(volume).subscribe()
           );
       })
   }
 
   public markSecurityGroupsForDeletion(vm: VirtualMachine): void {
     vm.securityGroup.forEach(sg =>
-      this.securityGroupService.markForDeletion(sg.id).subscribe()
+      this.securityGroupService.markForRemoval(sg).subscribe()
     );
   }
 }

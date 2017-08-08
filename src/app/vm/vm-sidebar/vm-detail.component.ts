@@ -63,8 +63,7 @@ export class VmDetailComponent implements OnChanges {
   }
 
   public changeDescription(newDescription: string): void {
-    this.vmService
-      .updateDescription(this.vm, newDescription)
+    this.vmTagService.setDescription(this.vm, newDescription)
       .onErrorResumeNext()
       .subscribe();
   }

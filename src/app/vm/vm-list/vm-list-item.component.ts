@@ -5,8 +5,6 @@ import { VirtualMachine } from '../shared/vm.model';
 import { VmActionsService } from '../shared/vm-actions.service';
 import { VirtualMachineAction } from '../vm-actions/vm-action';
 import { VmTagService } from '../../shared/services/tags/vm-tag.service';
-import { VmActionsService } from '../shared/vm-actions.service';
-import { VirtualMachineAction } from '../vm-actions/vm-action';
 
 
 @Component({

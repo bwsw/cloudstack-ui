@@ -8,6 +8,7 @@ import { BackendResource } from '../decorators';
 import { SnapshotService } from './snapshot.service';
 import { AsyncJobService } from './async-job.service';
 import { TagService } from './tags/tag.service';
+import { VolumeTagService } from './tags/volume-tag.service';
 
 
 interface VolumeCreationData {
@@ -39,7 +40,7 @@ export class VolumeService extends BaseBackendService<Volume> {
   constructor(
     private asyncJobService: AsyncJobService,
     private snapshotService: SnapshotService,
-    private tagService: TagService
+    private volumeTagService: VolumeTagService
   ) {
     super();
     this.onVolumeAttached = new Subject<Volume>();
@@ -112,23 +113,7 @@ export class VolumeService extends BaseBackendService<Volume> {
       });
   }
 
-  public markForDeletion(id: string): Observable<any> {
-    return this.tagService.create({
-      resourceIds: id,
-      resourceType: this.entity,
-      'tags[0].key': 'status',
-      'tags[0].value': 'removed'
-    });
-  }
-
-  public getDescription(volume: Volume): Observable<string> {
-    return this.tagService.getTag(volume, 'csui.volume.description')
-      .map(tag => {
-        return tag ? tag.value : undefined;
-      });
-  }
-
-  public updateDescription(vm: Volume, description: string): Observable<void> {
-    return this.tagService.update(vm, 'Volume', 'csui.volume.description', description);
+  public markForRemoval(volume: Volume): Observable<Volume> {
+    return this.volumeTagService.markForRemoval(volume);
   }
 }

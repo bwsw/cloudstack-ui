@@ -65,7 +65,7 @@
             </div>
           </mdl-card-supporting-text>
         </mdl-card>
-        <mdl-card *ngIf="templateDownloadUrl" mdl-shadow="2">
+        <mdl-card *ngIf="template?.downloadUrl" mdl-shadow="2">
           <mdl-card-title>
             <h2 mdl-card-title-text>{{ 'DOWNLOAD_URL' | translate }}</h2>
           </mdl-card-title>
@@ -75,7 +75,7 @@
                 class="md-card-input-copy"
                 cs-input-group-textbox
                 readonly
-                [ngModel]="templateDownloadUrl"
+                [ngModel]="template?.downloadUrl"
               >
               </mdl-textfield>
               <button
@@ -83,7 +83,7 @@
                 mdl-button-type="icon"
                 cs-input-group-button
                 ngxClipboard
-                [cbContent]="templateDownloadUrl"
+                [cbContent]="template?.downloadUrl"
                 (cbOnSuccess)="onCopySuccess()"
                 (cbOnError)="onCopyFail()"
               >

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { TagService } from './tag.service';
-import { Tag } from '../../models/tag.model';
 
 
 @Injectable()
