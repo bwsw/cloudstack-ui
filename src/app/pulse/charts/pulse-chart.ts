@@ -2,7 +2,7 @@ import { Injectable, Input } from '@angular/core';
 import { PulseService } from '../pulse.service';
 import Chart = require('chart.js');
 
-Chart.defaults.global.elements.line.cubicInterpolationMode = 'monotone';
+(Chart.defaults.global.elements.line as any).cubicInterpolationMode = 'monotone';
 
 export interface PulseChart {
   id: string;
@@ -121,8 +121,7 @@ export abstract class PulseChartComponent {
       return;
     }
 
-    c.datasets = [];
-    setTimeout(() => c.datasets = datasets);
+    c.datasets = datasets;
   }
 
   protected resetDatasets() {

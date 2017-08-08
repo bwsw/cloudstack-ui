@@ -31,7 +31,7 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
               ticks: {
                 suggestedMin: 0,
                 userCallback(val) {
-                  return humanReadableSize(val * 1024, true);
+                  return humanReadableSize(val, true);
                 }
               }
             }]

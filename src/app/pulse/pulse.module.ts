@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { MdIconModule, MdSelectModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { ChartsModule } from 'ng2-charts';
+import { ChartsModule } from 'ng2-charts/src/charts/charts';
 import {
   PulseCpuRamChartComponent,
   PulseDiskChartComponent,
