@@ -2,7 +2,6 @@ import { MdlDefaultTableModel } from '@angular-mdl/core';
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-
 import { FilterService } from '../shared';
 import { dateTimeFormat, formatIso } from '../shared/components/date-picker/dateUtils';
 import { LanguageService, TimeFormats } from '../shared/services';
@@ -10,10 +9,10 @@ import { Event } from './event.model';
 import { EventService } from './event.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 import { SessionStorageService } from '../shared/services/session-storage.service';
-
-import moment = require('moment');
-import { Languages } from '../shared/services/language.service';
+import { Language, Languages } from '../shared/services/language.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DayOfWeek } from '../shared/types/day-of-week';
+import moment = require('moment');
 
 
 @Component({
@@ -58,7 +57,7 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
     private languageService: LanguageService
   ) {
     super();
-    this.firstDayOfWeek = this.locale === Languages.en ? 0 : 1;
+    this.firstDayOfWeek = this.getFirstDayOfWeekFromLocale(this.locale);
     this.updateEvents = this.updateEvents.bind(this);
   }
 
@@ -84,8 +83,8 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
       });
   }
 
-  public get locale(): string {
-    return this.translate.currentLang;
+  public get locale(): Language {
+    return this.translate.currentLang as Language;
   }
 
   public getEvents(params = { reload: false }): void {
@@ -230,5 +229,13 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
       selected: false,
       time: this.stringifyDate(event.created)
     }));
+  }
+
+  private getFirstDayOfWeekFromLocale(locale: Language): DayOfWeek {
+    if (locale === Languages.en) {
+      return DayOfWeek.Sunday;
+    }
+
+    return DayOfWeek.Monday;
   }
 }

@@ -2,8 +2,8 @@ import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators';
 import { Tag } from './tag.model';
 import { Taggable } from '../interfaces/taggable.interface';
-import moment = require('moment');
 import { SnapshotTagKeys } from '../services/tags/snapshot-tag.service';
+import moment = require('moment');
 
 
 @FieldMapper({
