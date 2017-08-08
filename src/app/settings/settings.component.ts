@@ -7,6 +7,7 @@ import { AuthService, NotificationService, TimeFormats } from '../shared/service
 import { UserService } from '../shared/services/user.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 import { MdSelectChange } from '@angular/material';
+import { Languages } from '../shared/services/language.service';
 
 
 @Component({
@@ -34,8 +35,8 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public accentColorControl = new FormControl();
 
   public languages = [
-    { value: 'en', text: 'English' },
-    { value: 'ru', text: 'Русский' }
+    { value: Languages.en, text: 'English' },
+    { value: Languages.ru, text: 'Русский' }
   ];
 
   public daysOfTheWeek = [

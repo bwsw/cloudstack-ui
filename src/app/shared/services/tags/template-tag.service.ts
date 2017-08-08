@@ -16,7 +16,7 @@ export class TemplateTagService extends EntityTagService {
 
   public getDownloadUrl(template: BaseTemplateModel): Observable<string> {
     return this.tagService.getTag(template, this.keys.downloadUrl)
-      .map(tag => this.getDownloadUrlFromTag(tag));
+      .map(tag => this.tagService.getValueFromTag(tag));
   }
 
   public setDownloadUrl(template, downloadUrl: string): Observable<BaseTemplateModel> {
@@ -26,13 +26,5 @@ export class TemplateTagService extends EntityTagService {
       this.keys.downloadUrl,
       downloadUrl
     );
-  }
-
-  private getDownloadUrlFromTag(downloadUrlTag: Tag): string {
-    if (downloadUrlTag) {
-      return downloadUrlTag.value;
-    }
-
-    return '';
   }
 }

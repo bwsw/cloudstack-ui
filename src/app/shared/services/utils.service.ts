@@ -28,4 +28,28 @@ export class Utils {
   public static matchLower(string: string, subString: string): boolean {
     return string.toLowerCase().includes(subString.toLowerCase());
   }
+
+  public static convertBooleanStringToBoolean(booleanString: string): boolean {
+    if (booleanString === 'true') {
+      return true;
+    }
+
+    if (booleanString === 'false') {
+      return false;
+    }
+
+    return undefined;
+  }
+
+  public static convertBooleanToBooleanString(boolean: boolean): string {
+    if (boolean === true) {
+      return 'true';
+    }
+
+    if (boolean === false) {
+      return 'false';
+    }
+
+    throw new Error('Invalid argument');
+  }
 }

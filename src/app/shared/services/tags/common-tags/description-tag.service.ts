@@ -12,7 +12,7 @@ export class DescriptionTagService {
 
   public getDescription(entity: Taggable, entityTagService: EntityTagService): Observable<string> {
     return this.tagService.getTag(entity, entityTagService.keys.description)
-      .map(tag => this.getDescriptionFromTag(tag));
+      .map(tag => this.tagService.getValueFromTag(tag));
   }
 
   public setDescription(
@@ -26,13 +26,5 @@ export class DescriptionTagService {
       entityTagService.keys.description,
       description
     );
-  }
-
-  private getDescriptionFromTag(descriptionTag: Tag): string {
-    if (descriptionTag) {
-      return descriptionTag.value;
-    }
-
-    return '';
   }
 }

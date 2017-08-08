@@ -11,6 +11,7 @@ import { EventService } from './event.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 
 import moment = require('moment');
+import { Languages } from '../shared/services/language.service';
 
 
 @Component({
@@ -48,7 +49,7 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
     private languageService: LanguageService
   ) {
     super();
-    this.firstDayOfWeek = this.locale === 'en' ? 0 : 1;
+    this.firstDayOfWeek = this.locale === Languages.en ? 0 : 1;
     this.updateEvents = this.updateEvents.bind(this);
   }
 
@@ -170,10 +171,10 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
   }
 
   private setDateTimeFormat(): void {
-    if (this.translate.currentLang === 'en') {
+    if (this.translate.currentLang === Languages.en) {
       this.dateTimeFormat = dateTimeFormat;
     }
-    if (this.translate.currentLang === 'ru') {
+    if (this.translate.currentLang === Languages.ru) {
       this.dateTimeFormat = Intl.DateTimeFormat;
     }
 

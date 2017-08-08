@@ -89,4 +89,12 @@ export class TagService extends BaseBackendCachedService<Tag> {
       return Observable.forkJoin(...copyRequests);
     }
   }
+
+  public getValueFromTag(tag: Tag): any {
+    if (tag) {
+      return tag.value;
+    }
+
+    return undefined;
+  }
 }

@@ -12,7 +12,7 @@ export class StatusTagService {
 
   public getStatus(entity: Taggable, entityTagService: EntityTagService): Observable<any> {
     return this.tagService.getTag(entity, entityTagService.keys.status)
-      .map(tag => this.getStatusFromTag(tag));
+      .map(tag => this.tagService.getValueFromTag(tag));
   }
 
   public setStatus(entity: Taggable, status: any, entityTagService: EntityTagService): Observable<any> {
@@ -22,13 +22,5 @@ export class StatusTagService {
       entityTagService.keys.status,
       status
     );
-  }
-
-  private getStatusFromTag(statusTag: Tag): any {
-    if (statusTag) {
-      return statusTag.value;
-    }
-
-    return undefined;
   }
 }

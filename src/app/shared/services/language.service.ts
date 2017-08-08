@@ -5,8 +5,13 @@ import { Observable } from 'rxjs/Observable';
 import { UserService } from './user.service';
 import { DayOfWeek } from '../types/day-of-week';
 
+export type Language = 'en' | 'ru';
+export const Languages = {
+  en: 'en' as Language,
+  ru: 'ru' as Language
+};
 
-const DEFAULT_LANGUAGE = 'en';
+const DEFAULT_LANGUAGE = Languages.en;
 
 export type TimeFormat = 'hour12' | 'hour24' | 'auto';
 export const TimeFormats = {
@@ -44,7 +49,7 @@ export class LanguageService {
   public getFirstDayOfWeek(): Observable<DayOfWeek> {
     return this.userService.readTag('csui.user.first-day-of-week')
       .map(dayRaw => {
-        const fallbackDay = this.storage.read('lang') === 'en' ? DayOfWeek.Sunday : DayOfWeek.Monday;
+        const fallbackDay = this.storage.read('lang') === Languages.en ? DayOfWeek.Sunday : DayOfWeek.Monday;
         if (dayRaw === undefined) {
           return fallbackDay;
         }
@@ -77,7 +82,7 @@ export class LanguageService {
 
   private get defaultLanguage(): string {
     const language = navigator.language && navigator.language.substr(0, 2);
-    if (language === 'ru' || language === 'en') {
+    if (language === Languages.ru || language === Languages.en) {
       return language;
     }
     return DEFAULT_LANGUAGE;

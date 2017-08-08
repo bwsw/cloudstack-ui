@@ -14,6 +14,7 @@ import { SharedModule } from '../shared/shared.module';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
 import { EventService } from './event.service';
+import { Languages } from '../shared/services/language.service';
 
 
 const eventServiceFixture = require('./event.service.fixture.json');
@@ -26,7 +27,7 @@ class MockTranslateService {
   }
 
   public get currentLang(): string {
-    return 'en';
+    return Languages.en;
   }
 
   public get(key: string | Array<string>): Observable<string | any> {
