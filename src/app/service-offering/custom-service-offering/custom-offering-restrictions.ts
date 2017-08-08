@@ -1,12 +1,16 @@
 export interface CustomOfferingRestriction {
-  min: number;
-  max: number;
+  min?: number;
+  max?: number;
 }
 
-interface ICustomOfferingRestrictions {
-  cpuNumber: CustomOfferingRestriction;
-  cpuSpeed:  CustomOfferingRestriction;
-  memory:    CustomOfferingRestriction;
+export interface ICustomOfferingRestrictionsByZone {
+  [zone: string]: ICustomOfferingRestrictions;
+}
+
+export interface ICustomOfferingRestrictions {
+  cpuNumber?: CustomOfferingRestriction;
+  cpuSpeed?:  CustomOfferingRestriction;
+  memory?:    CustomOfferingRestriction;
 }
 
 export class CustomOfferingRestrictions {

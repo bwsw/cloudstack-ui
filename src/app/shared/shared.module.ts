@@ -4,7 +4,7 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdIconModule, MdListModule, MdSelectModule } from '@angular/material';
+import { MdIconModule, MdListModule, MdSelectModule, MdSnackBarModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
@@ -70,7 +70,6 @@ import {
   DiskOfferingService,
   DiskStorageService,
   ErrorService,
-  FilterService,
   InstanceGroupService,
   JobsNotificationService,
   LanguageService,
@@ -90,7 +89,9 @@ import {
 } from './services';
 import { RouterUtilsService } from './services/router-utils.service';
 import { SnapshotService } from './services/snapshot.service';
-import { StorageService } from './services/storage.service';
+import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
+import { SessionStorageService } from './services/session-storage.service';
+import { LocalStorageService } from './services/local-storage.service';
 import { TagService } from './services/tag.service';
 import { UserService } from './services/user.service';
 import { VolumeOfferingService } from './services/volume-offering.service';
@@ -110,7 +111,8 @@ import { VolumeService } from './services/volume.service';
     MdlPopoverModule,
     MdlSelectModule,
     TranslateModule,
-    MdListModule
+    MdListModule,
+    MdSnackBarModule
   ],
   exports: [
     GroupedCardListComponent,
@@ -149,7 +151,8 @@ import { VolumeService } from './services/volume.service';
     ViewValuePipe,
     LoadingDirective,
     MdlTextAreaAutoresizeDirective,
-    MdListModule
+    MdListModule,
+    MdSnackBarModule
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -197,7 +200,7 @@ import { VolumeService } from './services/volume.service';
     ViewValuePipe,
     LoadingDirective,
     LoaderComponent,
-    GroupedCardListComponent,
+    GroupedCardListComponent
   ],
   providers: [
     AffinityGroupService,
@@ -209,7 +212,6 @@ import { VolumeService } from './services/volume.service';
     DiskOfferingService,
     DiskStorageService,
     ErrorService,
-    FilterService,
     InstanceGroupService,
     JobsNotificationService,
     LanguageService,
@@ -226,7 +228,9 @@ import { VolumeService } from './services/volume.service';
     SnapshotService,
     SSHKeyPairService,
     StatsUpdateService,
-    StorageService,
+    MemoryStorageService,
+    SessionStorageService,
+    LocalStorageService,
     StyleService,
     TagService,
     UserService,

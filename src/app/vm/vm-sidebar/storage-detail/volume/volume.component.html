@@ -2,7 +2,7 @@
   <mdl-card-title>
     <h2 mdl-card-title-text>{{ volume.name }}</h2>
   </mdl-card-title>
-  <mdl-card-supporting-text *loading="loading"  >
+  <mdl-card-supporting-text *loading="loading">
     <div
       *ngIf="!expandDetails"
       class="disk-size"
@@ -15,7 +15,7 @@
     ></cs-volume-details>
     <cs-snapshots [volume]="volume"></cs-snapshots>
   </mdl-card-supporting-text>
-  <mdl-card-menu *ngIf="!loading" >
+  <mdl-card-menu *ngIf="!loading">
     <button
       mdl-button
       (click)="popover.toggle($event)"
@@ -39,19 +39,20 @@
       >
         <md-icon >camera_alt</md-icon>
       </button>
-      <!--todo: recurring snapshots-->
-      <!--<button-->
-        <!--[mdTooltip]="'SNAPSHOT_SCHEDULE_BUTTON' | translate "-->
-        <!---->
-        <!--mdl-button-->
-        <!--mdl-button-type="icon"-->
-      <!--&gt;-->
-        <!--<md-icon >schedule</md-icon>-->
-      <!--</button>-->
+
+      <button
+        [mdTooltip]="'SNAPSHOT_SCHEDULE_BUTTON' | translate "
+        mdl-button
+        mdl-button-type="icon"
+        (click)="showRecurringSnapshotsDialog()"
+      >
+        <md-icon >schedule</md-icon>
+      </button>
+
       <button
         mdl-button
         mdl-button-type="icon"
-        (click)="showVolumeResizeDialog(volume)"
+        (click)="showVolumeResizeDialog()"
         [mdTooltip]="'VOLUME_RESIZE' | translate"
       >
         <md-icon >photo_size_select_small</md-icon>

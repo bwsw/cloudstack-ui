@@ -1,8 +1,10 @@
 <div *ngIf="template">
   <mdl-tabs mdl-ripple mdl-tab-active-index="0">
     <mdl-tab-panel>
-      <mdl-tab-panel-title>
-        <span>{{ 'TEMPLATE' | translate }}</span>
+      <mdl-tab-panel-title class="panel-title-container">
+        <div class="disc-icon-container">
+          <div class="disc-icon"></div>
+        </div>
       </mdl-tab-panel-title>
       <mdl-tab-panel-content>
         <cs-template
@@ -68,11 +70,31 @@
             <h2 mdl-card-title-text>{{ 'DOWNLOAD_URL' | translate }}</h2>
           </mdl-card-title>
           <mdl-card-supporting-text>
-            <a
-              [href]="templateDownloadUrl"
-              target="_blank"
-              class="mdl-color-text--primary-dark"
-            >{{ templateDownloadUrl }}</a>
+            <cs-input-group>
+              <mdl-textfield
+                class="md-card-input-copy"
+                cs-input-group-textbox
+                readonly
+                [ngModel]="templateDownloadUrl"
+              >
+              </mdl-textfield>
+              <button
+                mdl-button
+                mdl-button-type="icon"
+                cs-input-group-button
+                ngxClipboard
+                [cbContent]="templateDownloadUrl"
+                (cbOnSuccess)="onCopySuccess()"
+                (cbOnError)="onCopyFail()"
+              >
+                <md-icon
+                  mdTooltipPosition="below"
+                  [mdTooltip]="'COPY' | translate"
+                >
+                  content_copy
+                </md-icon>
+              </button>
+            </cs-input-group>
           </mdl-card-supporting-text>
         </mdl-card>
       </mdl-tab-panel-content>
@@ -80,7 +102,7 @@
 
     <mdl-tab-panel>
       <mdl-tab-panel-title>
-        <span>{{ 'ZONES' | translate }}</span>
+        <md-icon>public</md-icon>
       </mdl-tab-panel-title>
       <mdl-tab-panel-content *loading="updating">
         <div *ngIf="!readyInEveryZone" class="update-button-container">
@@ -106,7 +128,7 @@
 
     <mdl-tab-panel>
       <mdl-tab-panel-title>
-        {{ 'TAGS' | translate }}
+        <md-icon>local_offer</md-icon>
       </mdl-tab-panel-title>
 
       <mdl-tab-panel-content>

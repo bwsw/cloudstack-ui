@@ -75,8 +75,8 @@ describe('Sg creation component', () => {
   const mockRules = new Rules();
 
   class SecurityGroupServiceMock {
-    public getTemplates(): Observable<Array<SecurityGroup>> {
-      return Observable.of([mockSg1]);
+    public getTemplates(): Array<SecurityGroup> {
+      return [mockSg1];
     }
 
     public getList(): Observable<Array<SecurityGroup>> {

@@ -59,7 +59,6 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
 
   public completeAllJobs(): void {
     this.timerIds.forEach(id => clearInterval(id));
-    this.jobs.forEach(job => job.complete());
     this.jobs = [];
     this.timerIds = [];
   }

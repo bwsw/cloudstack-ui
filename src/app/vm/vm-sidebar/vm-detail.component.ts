@@ -1,18 +1,15 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import {
-  AffinityGroupSelectorComponent
-} from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
+import { AffinityGroupSelectorComponent } from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import {
-  ServiceOfferingDialogComponent
-} from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
+import { ServiceOfferingDialogComponent } from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
 import { ServiceOffering, ServiceOfferingFields } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
-import { VirtualMachine, VmActions, VmStates } from '../shared/vm.model';
+import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { SshKeypairResetComponent } from './ssh/ssh-keypair-reset.component';
+import { VmActionsService } from '../shared/vm-actions.service';
 
 
 @Component({
@@ -31,6 +28,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
   constructor(
     private dialogService: DialogService,
     private serviceOfferingService: ServiceOfferingService,
+    private vmActionsService: VmActionsService,
     private vmService: VmService
   ) {
     this.expandServiceOffering = false;
@@ -49,11 +47,14 @@ export class VmDetailComponent implements OnChanges, OnInit {
       component: ServiceOfferingDialogComponent,
       classes: 'service-offering-dialog',
       providers: [{ provide: 'virtualMachine', useValue: this.vm }],
-    }).switchMap(res => res.onHide())
+      clickOutsideToClose: false
+    })
+      .switchMap(res => res.onHide())
       .subscribe((newOffering: ServiceOffering) => {
         if (newOffering) {
           this.serviceOfferingService.get(newOffering.id).subscribe(offering => {
             this.vm.serviceOffering = offering;
+            this.vm.serviceOfferingId = offering.id;
           });
         }
       });
@@ -164,10 +165,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
           .switchMap((result) => {
             if (result === null) {
               loadingFunction(true);
-              return this.vmService.command({
-                action: VirtualMachine.getAction(VmActions.STOP),
-                vm: vm
-              })
+              return this.vmActionsService.vmStopActionSilent.activate(vm)
                 .do(() => loadingFunction(false))
                 .switchMap(() => Observable.of(true))
             } else {

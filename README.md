@@ -7,6 +7,7 @@ Table of Contents
       * [Project Story](#project-story)
       * [Implementation Details](#implementation-details)
       * [Features Supported](#features-supported)
+      * [Plugins Supported](#plugins-supported)
       * [Features Yet Unsupported](#features-yet-unsupported)
       * [Current To Do's](#current-to-dos)
       * [Long Term To Do's](#long-term-to-dos)
@@ -42,10 +43,13 @@ The project is developed by Bitworks Software Frontend Division within the educa
 ## Implementation Details
 
 * Designed compatible with [Apache CloudStack](http://cloudstack.apache.org/) 4.9 and hasn't tested for the previous versions of CS
-* Powered by [Angular 2](https://angular.io/) and [Google Material Design Lite](https://getmdl.io/)
+* Powered by [Angular](https://angular.io/), [Google Material Design Lite](https://getmdl.io/) and [Material 2](https://material.angular.io/).
 * Tested and works fine in next modern browsers
-   * Google Chrome 56.0.2924.76
-   * Chromium 53.0.2785.143
+   * Google Chrome 60.0.3112.78
+   * Chromium 60.0.3169.0
+   * Mozilla Firefox 54.0.1
+   * Safari 5.1.7
+   * Internet Explorer 11.483.150630
 
 ## Features Supported
 
@@ -74,6 +78,11 @@ So, what is supported:
 * API keys management
 * A lot of small improvements which affect  user experience greatly
 
+## Plugins Supported
+
+* [Pulse Plugin](https://github.com/bwsw/cloudstack-ui/wiki/Pulse-Plugin-Deployment) - supports visualization of VM runtime stats (CPU, RAM, IO, network traffic) with charts;
+* [WebShell Plugin](https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin-Deployment) - supports clientless SSH access to VMs.
+
 ## Features Yet Unsupported
 
 We intensively use features like projects in our own CloudStackcloud to manage resources dedicated to project groups, etc. but generic users don’t need them, so we don’t support the following features yet:
@@ -88,10 +97,9 @@ We intensively use features like projects in our own CloudStackcloud to manage r
 ## Long Term To Dos
 
 * Plugins
-   * VM metrics a.k.a. Pulse (charts and availability information)
    * Resource utilization stats, traffic, IO stats, CS entities stats a.k.a. Accounting
    * Self registration for public cloud
-   * Web SSH/RDP (guacamole)
+   * RDP/VNC (guacamole)
 
 ## Far Away To Dos
 * Plugins
@@ -171,7 +179,7 @@ docker run -d -p 80:80 --name cloudstack-ui \
            -e CONSOLE_BACKEND_URL=http://link/to/console/endpoint \
            -e BASE_HREF=base_href \
            -v /path/to/config.json:/static/config/config.json \
-           bwsw/cloudstack-ui
+           bwsw/cloudstack-ui:1.0.6
 ```
 
 `http://link/to/api/endpoint` - URL of CloudStackAPI endpoint (e.g. http://host:8080/client/api)
@@ -297,6 +305,17 @@ In this sections you can specify limits for custom offerings in the following fo
     }
     
 Any of these parameters may be left unspecified, in which case 0 will be used for min and infinity will be used for max.
+
+### extensions
+Extension options:
+```
+  "extensions": {
+    "webShell": {
+      "address": "http://192.168.1.1:8018"
+    }
+  }
+```
+`webShell.address` is the address of a WebShell server. WebShell will not be available unless an address is specified.
 
 ## Project Sponsors
 
