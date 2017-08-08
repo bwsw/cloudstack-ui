@@ -1,4 +1,5 @@
 import * as uuid from 'uuid';
+import { NavigationExtras } from '@angular/router';
 
 
 export class Utils {
@@ -6,7 +7,12 @@ export class Utils {
     return uuid.v4();
   }
 
-  public static divide(value: number, base: number, exponent: string, precision?: string): number|string {
+  public static divide(
+    value: number,
+    base: number,
+    exponent: string,
+    precision?: string
+  ): number | string {
     const exp = parseInt(exponent, 10);
     const denominator = Math.pow(base, isNaN(exp) ? 1 : exp);
     let prec;
@@ -27,6 +33,21 @@ export class Utils {
 
   public static matchLower(string: string, subString: string): boolean {
     return string.toLowerCase().includes(subString.toLowerCase());
+  }
+
+  public static getRedirectionQueryParams(next?: string, routerState?): NavigationExtras {
+    return {
+      queryParams: {
+        next: next || this.getRouteWithoutQueryParams(routerState)
+      }
+    };
+  }
+
+  public static getRouteWithoutQueryParams(routerState): string {
+    if (routerState) {
+      return routerState.snapshot.url.split('?')[0];
+    }
+    return '/';
   }
 
   public static convertBooleanStringToBoolean(booleanString: string): boolean {

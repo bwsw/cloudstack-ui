@@ -8,9 +8,9 @@ import { Observable } from 'rxjs/Observable';
 import { AsyncJobService, AuthService, CacheService, ConfigService, ErrorService } from './';
 import { RouterUtilsService } from './router-utils.service';
 import { ServiceLocator } from './service-locator';
-import { StorageService } from './storage.service';
 import { UserService } from './user.service';
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
+import { LocalStorageService } from './local-storage.service';
 
 
 @Component({
@@ -123,7 +123,7 @@ const testBedConfig = {
     { provide: UserService, useClass: MockUserService },
     { provide: Router, useClass: MockRouter },
     { provide: RouterUtilsService, useClass: MockRouterUtilsService },
-    { provide: StorageService, useClass: MockStorageService },
+    { provide: LocalStorageService, useClass: MockStorageService },
     { provide: Http,
       deps: [MockBackend, BaseRequestOptions],
       useFactory:

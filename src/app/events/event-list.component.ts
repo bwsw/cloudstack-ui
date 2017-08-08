@@ -9,9 +9,11 @@ import { LanguageService, TimeFormats } from '../shared/services';
 import { Event } from './event.model';
 import { EventService } from './event.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
+import { SessionStorageService } from '../shared/services/session-storage.service';
 
 import moment = require('moment');
 import { Languages } from '../shared/services/language.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -39,12 +41,19 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
   public eventTypes: Array<string>;
   public levels = ['INFO', 'WARN', 'ERROR'];
 
-
   private filtersKey = 'eventListFilters';
+  private filterService = new FilterService({
+    'date': { type: 'string' },
+    'levels': { type: 'array', options: this.levels, defaultOption: [] },
+    'types': { type: 'array', defaultOption: [] },
+    'query': { type: 'string' }
+  }, this.router, this.sessionStorage, this.filtersKey, this.activatedRoute);
 
   constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
     private eventService: EventService,
-    private filterService: FilterService,
+    private sessionStorage: SessionStorageService,
     private translate: TranslateService,
     private languageService: LanguageService
   ) {
@@ -94,9 +103,9 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
       endDate: formatIso(this.date)
     };
 
-    const eventObservable = this.events && !params.reload ?
-      Observable.of(this.events) :
-      this.eventService.getList(dateParams);
+    const eventObservable = this.events && !params.reload
+      ? Observable.of(this.events)
+      : this.eventService.getList(dateParams);
 
     return eventObservable
       .do(events => this.updateEventTypes(events))
@@ -157,12 +166,7 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
   }
 
   private initFilters(): void {
-    const params = this.filterService.init(this.filtersKey, {
-      'date': { type: 'string' },
-      'levels': { type: 'array', options: this.levels, defaultOption: [] },
-      'types': { type: 'array', defaultOption: [] },
-      'query': { type: 'string' }
-    });
+    const params = this.filterService.getParams();
 
     this.date = moment(params['date']).toDate();
     this.selectedLevels = params['levels'];

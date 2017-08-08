@@ -67,7 +67,6 @@ export class StyleService {
       .map(([primaryColor, accentColor]) => {
         let defaultTheme = this.configService.get('defaultTheme');
         let themeColors = this.configService.get('themeColors');
-
         if (!defaultTheme || !defaultTheme['primaryColor'] || !defaultTheme['accentColor']) {
           defaultTheme = undefined;
         }

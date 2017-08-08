@@ -2,11 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { BackendResource } from '../decorators';
-import { ResourceTypes } from '../models';
 import { User } from '../models/user.model';
 import { BaseBackendService } from './base-backend.service';
-import { StorageService } from './storage.service';
-import { TagService } from './tags/tag.service';
 
 
 @Injectable()

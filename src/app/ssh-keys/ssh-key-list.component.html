@@ -4,3 +4,4 @@
     *ngFor="let key of keys"
     (onRemove)="onRemove.emit($event)"></cs-ssh-key-list-item>
 </md-list>
+<cs-no-results *ngIf="!keys?.length"></cs-no-results>
