@@ -1,13 +1,13 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-
 import { Color, LanguageService, StyleService } from '../shared';
 import { AuthService, NotificationService, TimeFormats } from '../shared/services';
-import { UserService } from '../shared/services/user.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 import { MdSelectChange } from '@angular/material';
 import { Languages } from '../shared/services/language.service';
+import { UserTagService } from '../shared/services/tags/user-tag.service';
+import { UserService } from '../shared/services/user.service';
 
 
 @Component({
@@ -55,7 +55,8 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
     private notificationService: NotificationService,
     private styleService: StyleService,
     private translateService: TranslateService,
-    private userService: UserService
+    private userService: UserService,
+    private userTagService: UserTagService
   ) {
     super();
     this.userId = this.authService.userId;
@@ -128,7 +129,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public firstDayOfWeekChange(change: MdSelectChange): void {
     this.firstDayOfWeek = change.value;
     this.updatingFirstDayOfWeek = true;
-    this.userService.writeTag('csui.user.first-day-of-week', '' + change.value)
+    this.userTagService.setFirstDayOfWeek(change.value)
       .finally(() => this.updatingFirstDayOfWeek = false)
       .subscribe();
   }

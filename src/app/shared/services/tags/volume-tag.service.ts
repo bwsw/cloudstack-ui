@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { EntityTagService } from './entity-tag.service';
 import { Volume } from '../../models/volume.model';
 import { Observable } from 'rxjs/Observable';
-import { Tag } from '../../models/tag.model';
 import { DescriptionTagService } from './common-tags/description-tag.service';
 import { StatusTagService } from './common-tags/status-tag.service';
 import { TagService } from './tag.service';

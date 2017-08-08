@@ -3,7 +3,6 @@ import { TagService } from '../tag.service';
 import { EntityTagService } from '../entity-tag.service';
 import { Taggable } from '../../../interfaces/taggable.interface';
 import { Observable } from 'rxjs/Observable';
-import { Tag } from '../../../models/tag.model';
 
 
 @Injectable()

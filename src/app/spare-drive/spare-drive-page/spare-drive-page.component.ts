@@ -14,12 +14,12 @@ import {
   ZoneService
 } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
-import { UserService } from '../../shared/services/user.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { SpareDriveActionsService } from '../spare-drive-actions.service';
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserTagService } from '../../shared/services/tags/user-tag.service';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -70,7 +70,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     private jobsNotificationService: JobsNotificationService,
     private listService: ListService,
     private spareDriveActionsService: SpareDriveActionsService,
-    private userService: UserService,
+    private userTagService: UserTagService,
     private volumeService: VolumeService,
     private zoneService: ZoneService,
     private localStorage: LocalStorageService
@@ -195,9 +195,9 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   }
 
   private showSuggestionDialog(): void {
-    this.userService.readTag(askToCreateVolume)
+    this.userTagService.getAskToCreateVolume()
       .subscribe(tag => {
-        if (tag === 'false') {
+        if (tag === false) {
           return;
         }
 
@@ -210,8 +210,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
             },
             { text: 'NO' },
             {
-              handler: () => this.userService.writeTag(askToCreateVolume, 'false')
-                .subscribe(),
+              handler: () => this.userTagService.setAskToCreateVolume(false).subscribe(),
               text: 'NO_DONT_ASK'
             }
           ],

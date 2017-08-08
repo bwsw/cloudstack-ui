@@ -2,21 +2,21 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { VirtualMachine } from '../../vm/shared/vm.model';
-import { TagService } from './tags/tag.service';
 import { InstanceGroup } from '../models';
+import { VmTagService } from './tags/vm-tag.service';
 
 @Injectable()
 export class InstanceGroupService {
   public groupsUpdates: Subject<void>;
 
-  constructor(private tagService: TagService) {
+  constructor(private vmTagService: VmTagService) {
     this.groupsUpdates = new Subject<void>();
   }
 
   public add(vm: VirtualMachine, group: InstanceGroup): Observable<VirtualMachine> {
     vm.instanceGroup = group;
     this.groupsUpdates.next();
-    return this.tagService.update(vm, 'UserVm', 'cs.vm.group', group && group.name)
+    return this.vmTagService.setGroup(vm, group)
       .catch(() => Observable.of(vm));
   }
 }

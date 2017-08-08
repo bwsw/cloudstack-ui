@@ -11,20 +11,18 @@ import {
   Zone
 } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
-import { UserService } from '../../shared/services/user.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { VirtualMachineEntityName, VmService } from '../shared/vm.service';
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list-item.component';
-import { VirtualMachineActionType } from '../vm-actions/vm-action';
-import clone = require('lodash/clone');
 import { VmActionsService } from '../shared/vm-actions.service';
+import { VirtualMachineActionType } from '../vm-actions/vm-action';
 import { VmTagService } from '../../shared/services/tags/vm-tag.service';
+import { UserTagService } from '../../shared/services/tags/user-tag.service';
+import clone = require('lodash/clone');
 
-
-const askToCreateVm = 'csui.user.ask-to-create-vm';
 
 @Component({
   selector: 'cs-vm-list',
@@ -78,7 +76,7 @@ export class VmListComponent implements OnInit {
     private jobsNotificationService: JobsNotificationService,
     private asyncJobService: AsyncJobService,
     private statsUpdateService: StatsUpdateService,
-    private userService: UserService,
+    private userTagService: UserTagService,
     private vmActionsService: VmActionsService,
     private vmTagService: VmTagService,
     private zoneService: ZoneService
@@ -193,6 +191,10 @@ export class VmListComponent implements OnInit {
   }
 
   private replaceVmInList(vm: VirtualMachine): void {
+    if (!this.vmList) {
+      return;
+    }
+
     const index = this.vmList.findIndex(_ => _.id === vm.id);
 
     if (index < 0) {
@@ -276,9 +278,9 @@ export class VmListComponent implements OnInit {
   }
 
   private showSuggestionDialog(): void {
-    this.userService.readTag(askToCreateVm)
+    this.userTagService.getAskToCreateVm()
       .subscribe(tag => {
-        if (tag === 'false') {
+        if (tag === false) {
           return;
         }
 
@@ -293,7 +295,7 @@ export class VmListComponent implements OnInit {
               text: 'NO'
             },
             {
-              handler: () => this.userService.writeTag(askToCreateVm, 'false').subscribe(),
+              handler: () => this.userTagService.setAskToCreateVm(false).subscribe(),
               text: 'NO_DONT_ASK'
             }
           ],

@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EntityTagService } from './entity-tag.service';
-import { Volume } from '../../models/volume.model';
 import { Observable } from 'rxjs/Observable';
-import { Tag } from '../../models/tag.model';
 import { StatusTagService } from './common-tags/status-tag.service';
 import { TagService } from './tag.service';
 import { SecurityGroup } from '../../../security-group/sg.model';
@@ -33,7 +31,7 @@ export class SecurityGroupTagService extends EntityTagService {
     return this.statusTagService.getStatus(securityGroup, this);
   }
 
-  public setStatus(securityGroup: SecurityGroup, status: SecurityGroupStatus): Observable<Volume> {
+  public setStatus(securityGroup: SecurityGroup, status: SecurityGroupStatus): Observable<SecurityGroup> {
     return this.statusTagService.setStatus(securityGroup, status, this);
   }
 }

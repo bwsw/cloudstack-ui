@@ -21,9 +21,8 @@
     </md-option>
 
     <md-option
-
       *ngFor="let g of groups"
-     mdl-ripple [value]="g"
+      [value]="g"
     >
       {{ g.name }}
     </md-option>
@@ -36,7 +35,9 @@
     [(ngModel)]="selectedStates"
     (change)="update()"
   >
-    <md-option *ngFor="let s of states" [value]="s.state">{{ s.name | translate }}</md-option>
+    <md-option *ngFor="let s of states" [value]="s.state">
+      {{ s.name | translate }}
+    </md-option>
   </md-select>
   <cs-divider-vertical></cs-divider-vertical>
   <cs-draggable-select

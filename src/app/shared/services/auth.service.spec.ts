@@ -33,19 +33,7 @@ class Tag {
 
 @Injectable()
 class MockUserService {
-  private tags = [];
-
   public getList(): Observable<any> {
-    return Observable.of(null);
-  }
-
-  public readTag(key: string): Observable<string> {
-    const result = this.tags.find(tag => tag.key === key);
-    return Observable.of(result && result.value || null);
-  }
-
-  public writeTag(key: string, value: string): Observable<void> {
-    this.tags.push(new Tag(key, value));
     return Observable.of(null);
   }
 }

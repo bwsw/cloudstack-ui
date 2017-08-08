@@ -1,8 +1,12 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AffinityGroupSelectorComponent } from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
+import { Component, Input, OnChanges } from '@angular/core';
+import {
+  AffinityGroupSelectorComponent
+} from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { ServiceOfferingDialogComponent } from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
+import {
+  ServiceOfferingDialogComponent
+} from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
 import { ServiceOffering, ServiceOfferingFields } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
@@ -10,6 +14,7 @@ import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { SshKeypairResetComponent } from './ssh/ssh-keypair-reset.component';
 import { VmActionsService } from '../shared/vm-actions.service';
+import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 
 
 @Component({
@@ -17,7 +22,7 @@ import { VmActionsService } from '../shared/vm-actions.service';
   templateUrl: 'vm-detail.component.html',
   styleUrls: ['vm-detail.component.scss']
 })
-export class VmDetailComponent implements OnChanges, OnInit {
+export class VmDetailComponent implements OnChanges {
   @Input() public vm: VirtualMachine;
   public description: string;
   public expandServiceOffering: boolean;
@@ -29,13 +34,10 @@ export class VmDetailComponent implements OnChanges, OnInit {
     private dialogService: DialogService,
     private serviceOfferingService: ServiceOfferingService,
     private vmActionsService: VmActionsService,
-    private vmService: VmService
+    private vmService: VmService,
+    private vmTagService: VmTagService
   ) {
     this.expandServiceOffering = false;
-  }
-
-  public ngOnInit(): void {
-
   }
 
   public ngOnChanges(): void {
@@ -138,7 +140,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
   }
 
   private updateDescription(): void {
-    this.vmService.getDescription(this.vm)
+    this.vmTagService.getDescription(this.vm)
       .subscribe(description => {
         this.description = description;
       });

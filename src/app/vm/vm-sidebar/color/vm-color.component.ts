@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Color } from '../../../shared/models';
 import { ConfigService } from '../../../shared/services';

@@ -3,7 +3,6 @@ import { TagService } from '../tag.service';
 import { Taggable } from '../../../interfaces/taggable.interface';
 import { Observable } from 'rxjs/Observable';
 import { EntityTagService } from '../entity-tag.service';
-import { Tag } from '../../../models/tag.model';
 
 
 @Injectable()
@@ -15,7 +14,7 @@ export class StatusTagService {
       .map(tag => this.tagService.getValueFromTag(tag));
   }
 
-  public setStatus(entity: Taggable, status: any, entityTagService: EntityTagService): Observable<any> {
+  public setStatus(entity: Taggable, status: any, entityTagService: EntityTagService): Observable<Taggable> {
     return this.tagService.update(
       entity,
       entity.resourceType,

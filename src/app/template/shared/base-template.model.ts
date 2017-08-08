@@ -4,6 +4,7 @@ import { FieldMapper } from '../../shared/decorators/field-mapper.decorator';
 import { BaseModel, Tag } from '../../shared/models';
 import { OsType } from '../../shared/models/os-type.model';
 import { Utils } from '../../shared/services/utils.service';
+import { Taggable } from '../../shared/interfaces/taggable.interface';
 
 
 @FieldMapper({
@@ -19,7 +20,9 @@ import { Utils } from '../../shared/services/utils.service';
   zoneid: 'zoneId',
   zonename: 'zoneName',
 })
-export abstract class BaseTemplateModel extends BaseModel {
+export abstract class BaseTemplateModel extends BaseModel implements Taggable {
+  public abstract resourceType: string;
+
   public path: string;
 
   public id: string;

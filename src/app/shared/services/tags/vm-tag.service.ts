@@ -32,6 +32,11 @@ export class VmTagService extends EntityTagService {
       .map(tag => this.getColorFromColorTag(tag));
   }
 
+  public getColorSync(vm: VirtualMachine): Color {
+    const tag = vm.tags.find(_ => _.key === this.keys.color);
+    return this.getColorFromColorTag(tag);
+  }
+
   public setColor(vm: VirtualMachine, color: Color): Observable<VirtualMachine> {
     let tagValue = color.value;
     if (color.textColor) {
@@ -63,7 +68,7 @@ export class VmTagService extends EntityTagService {
       vm,
       vm.resourceType,
       this.keys.group,
-      group.name
+      group && group.name
     );
   }
 
