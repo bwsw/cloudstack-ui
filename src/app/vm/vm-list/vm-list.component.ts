@@ -196,6 +196,10 @@ export class VmListComponent implements OnInit {
   }
 
   private replaceVmInList(vm: VirtualMachine): void {
+    if (!this.vmList) {
+      return;
+    }
+
     const index = this.vmList.findIndex(_ => _.id === vm.id);
 
     if (index < 0) {
