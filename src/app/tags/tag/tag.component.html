@@ -1,11 +1,11 @@
 <div class="height-container">
   <div class="flex-container container">
     <div class="flex-container left">
-    <span
-      class="key"
-      [mdTooltip]="tag.key"
-      [innerHTML]="tag.key | highlight:query"
-    ></span>
+      <span
+        class="key"
+        [mdTooltip]="tag.key"
+        [innerHTML]="tag.key | highlight:query"
+      ></span>
       <div class="buttons">
         <button
           class="button-18px"
@@ -14,7 +14,7 @@
           (click)="edit()"
           [disabled]="loading"
         >
-          <mdl-icon>edit</mdl-icon>
+          <md-icon>edit</md-icon>
         </button>
         <button
           class="button-18px"
@@ -23,7 +23,7 @@
           (click)="showRemoveDialog()"
           [disabled]="loading"
         >
-          <mdl-icon>delete</mdl-icon>
+          <md-icon>delete</md-icon>
         </button>
       </div>
     </div>

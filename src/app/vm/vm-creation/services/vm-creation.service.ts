@@ -72,14 +72,12 @@ export class VmCreationService {
     return Observable
       .forkJoin(
         this.affinityGroupService.getList(),
-        this.configService.get(vmCreationConfigurationKeys),
         this.diskStorageService.getAvailablePrimaryStorage(),
         this.getDefaultVmName(),
         this.diskOfferingService.getList(),
         this.vmService.getInstanceGroupList(),
         this.resourceUsageService.getResourceUsage(),
         this.diskStorageService.getAvailablePrimaryStorage(),
-        this.securityGroupService.getTemplates(),
         this.serviceOfferingService.getList(),
         this.sshService.getList(),
         this.translateService.get(translationKeys),
@@ -90,14 +88,12 @@ export class VmCreationService {
       .map((
         [
           affinityGroupList,
-          configurationData,
           availablePrimaryStorage,
           defaultName,
           diskOfferings,
           instanceGroups,
           resourceUsage,
           rootDiskSizeLimit,
-          securityGroupTemplates,
           serviceOfferings,
           sshKeyPairs,
           translations,
@@ -105,6 +101,8 @@ export class VmCreationService {
           isos,
           zones
         ]) => {
+        const configurationData = this.configService.get(vmCreationConfigurationKeys);
+        const securityGroupTemplates = this.securityGroupService.getTemplates();
         const sshKeysWithNoKeyOption = this.getSSHKeysWithNoKeyOption(
           sshKeyPairs,
           translations['NO_SSH_KEY']

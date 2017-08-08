@@ -20,15 +20,11 @@ import { ResourceStats } from './resource-usage.service';
 })
 export class ServiceOfferingService extends OfferingService<ServiceOffering> {
   public getDefaultServiceOffering(zone: Zone): Observable<ServiceOffering> {
-    const defaultOfferingConfigRequest = this.configService
+    const defaultOfferingConfig = this.configService
       .get<DefaultServiceOfferingConfigurationByZone>('defaultServiceOfferingConfig');
-    const offeringsRequest = this.getList({ zone });
 
-    return Observable.forkJoin(
-      defaultOfferingConfigRequest,
-      offeringsRequest
-    )
-      .map(([defaultOfferingConfig, offerings]) => {
+    return this.getList({ zone })
+      .map(offerings => {
         const defaultOfferingId = defaultOfferingConfig[zone.id].offering;
         const defaultOffering = offerings.find(offering => {
           return offering.id === defaultOfferingId;

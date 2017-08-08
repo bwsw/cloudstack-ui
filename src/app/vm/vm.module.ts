@@ -4,7 +4,7 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MdSelectModule, MdTooltipModule } from '@angular/material';
+import { MdIconModule, MdSelectModule, MdTooltipModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -52,6 +52,20 @@ import { VmDetailComponent } from './vm-sidebar/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 import { vmRouting } from './vm.routing';
+import { VmActionsService } from './shared/vm-actions.service';
+import { WebShellService } from './web-shell/web-shell.service';
+import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
+import { VmStartAction } from './vm-actions/vm-start';
+import { VmStartActionSilent } from './vm-actions/silent/vm-start-silent';
+import { VmStopAction } from './vm-actions/vm-stop';
+import { VmStopActionSilent } from './vm-actions/silent/vm-stop-silent';
+import { VmRebootAction } from './vm-actions/vm-reboot';
+import { VmRestoreAction } from './vm-actions/vm-restore';
+import { VmDestroyAction } from './vm-actions/vm-destroy';
+import { VmResetPasswordAction } from './vm-actions/vm-reset-password';
+import { VmConsoleAction } from './vm-actions/vm-console';
+import { VmWebShellAction } from './vm-actions/vm-webshell';
+import { VmChangeServiceOfferingAction } from './vm-actions/vm-change-service-offering';
 // tslint:disable-next-line
 import { SnapshotModule } from '../snapshot/snapshot.module';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
@@ -66,6 +80,7 @@ import { VmTagsComponent } from './vm-tags/vm-tags.component';
     DraggableSelectModule,
     MdTooltipModule,
     MdSelectModule,
+    MdIconModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
@@ -112,10 +127,24 @@ import { VmTagsComponent } from './vm-tags/vm-tags.component';
     SnapshotModalComponent,
   ],
   providers: [
+    VmStartAction,
+    VmStartActionSilent,
+    VmStopAction,
+    VmStopActionSilent,
+    VmRebootAction,
+    VmRestoreAction,
+    VmDestroyAction,
+    VmResetPasswordAction,
+    VmConsoleAction,
+    VmWebShellAction,
+    VmChangeServiceOfferingAction,
+    VmActionsService,
     VmCreationFormNormalizationService,
     VmCreationService,
     VmDeploymentService,
+    VmEntityDeletionService,
     VmService,
+    WebShellService,
     SnapshotActionsService
   ],
   entryComponents: [

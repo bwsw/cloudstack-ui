@@ -5,7 +5,7 @@
   (click)="handleClick($event)"
 >
   <mdl-card-title>
-    <mdl-icon class="os-icon" [ngSwitch]="item.osType.osFamily">
+    <div class="os-icon" [ngSwitch]="item.osType.osFamily">
       <ng-template [ngSwitchCase]="'Linux'">
         <img
           src="img/os/linux.png"
@@ -28,7 +28,7 @@
         >
       </ng-template>
       <ng-template ngSwitchDefault>help</ng-template>
-    </mdl-icon>
+    </div>
     <h2
       [mdTooltip]="item.name"
       mdl-card-title-text
@@ -75,7 +75,7 @@
       mdl-button-type="icon"
       mdl-ripple
     >
-      <mdl-icon>more_vert</mdl-icon>
+      <md-icon>more_vert</md-icon>
     </button>
   </mdl-card-menu>
   <mdl-popover
@@ -90,7 +90,7 @@
         mdl-button-type="icon"
         (click)="removeTemplate()"
       >
-        <mdl-icon>delete</mdl-icon>
+        <md-icon>delete</md-icon>
       </button>
     </div>
   </mdl-popover>

@@ -2,7 +2,7 @@
   <mdl-card-title>
     <h2 mdl-card-title-text>{{ volume.name }}</h2>
   </mdl-card-title>
-  <mdl-card-supporting-text *loading="loading"  >
+  <mdl-card-supporting-text *loading="loading">
     <div
       *ngIf="!expandDetails"
       class="disk-size"
@@ -15,13 +15,13 @@
     ></cs-volume-details>
     <cs-snapshots [volume]="volume"></cs-snapshots>
   </mdl-card-supporting-text>
-  <mdl-card-menu *ngIf="!loading" >
+  <mdl-card-menu *ngIf="!loading">
     <button
       mdl-button
       (click)="popover.toggle($event)"
       mdl-button-type="icon"
       mdl-ripple>
-      <mdl-icon>more_vert</mdl-icon>
+      <md-icon>more_vert</md-icon>
     </button>
   </mdl-card-menu>
   <mdl-popover
@@ -37,7 +37,7 @@
         mdl-button-type="icon"
         (click)="takeSnapshot(volume)"
       >
-        <mdl-icon >camera_alt</mdl-icon>
+        <md-icon >camera_alt</md-icon>
       </button>
 
       <button
@@ -46,7 +46,7 @@
         mdl-button-type="icon"
         (click)="showRecurringSnapshotsDialog()"
       >
-        <mdl-icon >schedule</mdl-icon>
+        <md-icon >schedule</md-icon>
       </button>
 
       <button
@@ -55,7 +55,7 @@
         (click)="showVolumeResizeDialog()"
         [mdTooltip]="'VOLUME_RESIZE' | translate"
       >
-        <mdl-icon >photo_size_select_small</mdl-icon>
+        <md-icon >photo_size_select_small</md-icon>
       </button>
     </div>
   </mdl-popover>
@@ -72,7 +72,7 @@
         [mdTooltip]="'DETACH' | translate"
         (click)="detach()"
       >
-        <mdl-icon>remove</mdl-icon>
+        <md-icon>remove</md-icon>
       </button>
     </div>
     <div class="card-right-button">
@@ -83,7 +83,7 @@
         (click)="toggleDetails()"
         [class.open]="expandDetails"
       >
-        <mdl-icon>keyboard_arrow_down</mdl-icon>
+        <md-icon>keyboard_arrow_down</md-icon>
       </button>
     </div>
   </mdl-card-actions>

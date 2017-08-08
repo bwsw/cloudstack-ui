@@ -1,11 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { ConfigService } from '../../shared/services/config.service';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 import { MdlDialogReference } from '../../dialog/dialog-module';
 import { ServiceOffering } from '../../shared/models';
-import { CustomServiceOffering } from './custom-service-offering';
-import { CustomOfferingRestrictions, ICustomOfferingRestrictions } from './custom-offering-restrictions';
+import { ICustomOfferingRestrictions } from './custom-offering-restrictions';
 
 
 @Component({

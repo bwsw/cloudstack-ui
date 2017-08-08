@@ -99,6 +99,7 @@
           <cs-color-picker
             *ngIf="primaryColor"
             [colors]="primaryColors"
+            [selectedColor]="primaryColor"
             [formControl]="primaryColorControl"
             (change)="updatePrimaryColor($event)"
           ></cs-color-picker>
@@ -107,12 +108,12 @@
           <cs-color-picker
             *ngIf="accentColor"
             [colors]="accentColors"
+            [selectedColor]="accentColor"
             [formControl]="accentColorControl"
             (change)="updateAccentColor($event)"
           ></cs-color-picker>
         </div>
       </div>
-
     </div>
   </section>
 </div>

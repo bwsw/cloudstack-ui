@@ -32,13 +32,10 @@ export class LoginComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.configService.get('defaultDomain')
-      .subscribe(domainFromConfig => {
-        const domainFromQueryParams = this.route.snapshot.queryParams['domain'];
-        this.domain = domainFromQueryParams || domainFromConfig || '';
-
-        this.loading = false;
-      });
+    const domainFromConfig = this.configService.get('defaultDomain');
+    const domainFromQueryParams = this.route.snapshot.queryParams['domain'];
+    this.domain = domainFromQueryParams || domainFromConfig || '';
+    this.loading = false;
   }
 
   public toggleDomain(): void {

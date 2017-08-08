@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -102,6 +102,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
     if (this.primaryColor.value === this.accentColor.value) {
       this.accentColor = this.firstAvailableAccentColor;
     }
+
     this.updatePalette();
   }
 

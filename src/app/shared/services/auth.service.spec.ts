@@ -82,8 +82,8 @@ function setRefreshInterval(value: number): void {
 
 @Injectable()
 class MockConfigService {
-  public get(key: string): Observable<string> {
-    return Observable.of(configStorage[key]);
+  public get(key: string): string {
+    return configStorage[key];
   }
 }
 

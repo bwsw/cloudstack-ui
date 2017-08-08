@@ -56,7 +56,7 @@
       (click)="togglePopover($event)"
       mdl-button-type="icon"
       mdl-ripple>
-      <mdl-icon>more_vert</mdl-icon>
+      <md-icon>more_vert</md-icon>
     </button>
   </mdl-card-menu>
   <mdl-popover
@@ -66,17 +66,33 @@
     [style.width.px]="300"
   >
     <div mdl-shadow="6" class="popover-actions">
-      <button
-        *ngFor="let a of actions"
-        (click)="getAction($event, a.nameLower)"
-        [disabled]="!item.canApply(a.nameLower)"
-        [mdTooltip]="a.nameCaps | translate"
-        mdl-button
-        mdl-button-type="icon"
-        mdl-ripple
-      >
-        <mdl-icon>{{ a.mdlIcon }}</mdl-icon>
-      </button>
+      <ng-container *ngFor="let action of firstRowActions">
+        <button
+          *ngIf="!action.hidden(item)"
+          (click)="onAction(action, item)"
+          [disabled]="!action.canActivate(item)"
+          [mdTooltip]="action.name | translate"
+          mdl-button
+          mdl-button-type="icon"
+          mdl-ripple
+        >
+          <md-icon>{{ action.icon }}</md-icon>
+        </button>
+      </ng-container>
+      <md-divider></md-divider>
+      <ng-container *ngFor="let action of secondRowActions">
+        <button
+          *ngIf="!action.hidden(item)"
+          (click)="onAction(action, item)"
+          [disabled]="!action.canActivate(item)"
+          [mdTooltip]="action.name | translate"
+          mdl-button
+          mdl-button-type="icon"
+          mdl-ripple
+        >
+          <md-icon>{{ action.icon }}</md-icon>
+        </button>
+      </ng-container>
     </div>
   </mdl-popover>
 </mdl-card>

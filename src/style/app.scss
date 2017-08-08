@@ -218,6 +218,7 @@ mdl-simple-tooltip div {
 
 .popover-actions {
   padding: 1rem;
+  color: rgba(0,0,0,.87);
 }
 
 .mdl-layout--fixed-drawer>.mdl-layout__drawer {
@@ -232,11 +233,12 @@ mdl-simple-tooltip div {
   margin-top: 6px !important;
 }
 
-.mdl-button mdl-icon {
+.mdl-button md-icon {
   color: black !important;
 }
 
-.mdl-button[disabled] mdl-icon, .mdl-button.mdl-button--disabled mdl-icon {
+.mdl-button[disabled] md-icon,
+.mdl-button.mdl-button--disabled md-icon {
   color: rgba(0,0,0,.26) !important;
   cursor: default;
   background-color: transparent;
@@ -337,3 +339,9 @@ mdl-simple-tooltip div {
   background: #ffeb3b;
 }
 
+.disc-icon {
+  width: 24px;
+  height: 24px;
+  border: 9px solid #757575;
+  border-radius: 50%;
+}

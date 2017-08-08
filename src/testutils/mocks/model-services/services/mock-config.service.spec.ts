@@ -6,9 +6,9 @@ import { Observable } from 'rxjs/Observable';
 export class MockConfigService {
   constructor(@Inject('mockConfigServiceConfig') public config: { value: any }) {}
 
-  public get(key: string | Array<string>): Observable<any | Array<any>> {
+  public get<T = any>(key: string | Array<string>): T {
     if (!Array.isArray(key)) {
-      return Observable.of(this.config.value[key]);
+      return this.config.value[key];
     }
 
     const result = {};
@@ -17,6 +17,6 @@ export class MockConfigService {
         result[configKey] = this.config.value[configKey];
       }
     }
-    return Observable.of(result);
+    return result as T;
   }
 }

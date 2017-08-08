@@ -6,10 +6,11 @@ import { ServiceOfferingDialogComponent } from '../../service-offering/service-o
 import { ServiceOffering, ServiceOfferingFields } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
-import { VirtualMachine, VmActions, VmStates } from '../shared/vm.model';
+import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { SshKeypairResetComponent } from './ssh/ssh-keypair-reset.component';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
+import { VmActionsService } from '../shared/vm-actions.service';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
     public dateTimeFormatterService: DateTimeFormatterService,
     private dialogService: DialogService,
     private serviceOfferingService: ServiceOfferingService,
+    private vmActionsService: VmActionsService,
     private vmService: VmService
   ) {
     this.expandServiceOffering = false;
@@ -165,10 +167,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
           .switchMap((result) => {
             if (result === null) {
               loadingFunction(true);
-              return this.vmService.command({
-                action: VirtualMachine.getAction(VmActions.STOP),
-                vm: vm
-              })
+              return this.vmActionsService.vmStopActionSilent.activate(vm)
                 .do(() => loadingFunction(false))
                 .switchMap(() => Observable.of(true))
             } else {
