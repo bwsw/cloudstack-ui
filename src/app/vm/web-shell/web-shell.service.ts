@@ -3,9 +3,9 @@ import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { ConfigService } from '../../shared/services/config.service';
 
 
-export const AuthModeToken = 'AUTH_MODE';
-const portToken = 'SSH_PORT';
-const userToken = 'SSH_USER';
+export const AuthModeToken = 'csext.webshell.auth-mode';
+const portToken = 'csext.webshell.port';
+const userToken = 'csext.webshell.user';
 
 const defaultPort = '22';
 const defaultUser = 'root';

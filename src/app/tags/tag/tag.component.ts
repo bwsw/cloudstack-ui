@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { Tag } from '../../shared/models';
-import { NotificationService, TagService } from '../../shared/services';
+import { NotificationService } from '../../shared/services';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 

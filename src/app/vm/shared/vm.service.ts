@@ -48,7 +48,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public getNumberOfVms(): Observable<number> {
-    return this.userService.readTag('numberOfVms')
+    return this.userService.readTag('csui.user.last-vm-id')
       .switchMap(numberOfVms => {
         if (numberOfVms !== undefined && !Number.isNaN(+numberOfVms)) {
           return Observable.of(+numberOfVms);
@@ -168,18 +168,18 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     if (color.textColor) {
       tagValue += `${VirtualMachine.ColorDelimiter}${color.textColor}`;
     }
-    return this.tagService.update(vm, 'UserVm', 'color', tagValue);
+    return this.tagService.update(vm, 'UserVm', 'csui.vm.color', tagValue);
   }
 
   public getDescription(vm: VirtualMachine): Observable<string> {
-    return this.tagService.getTag(vm, 'description')
+    return this.tagService.getTag(vm, 'csui.vm.description')
       .map(tag => {
         return tag ? tag.value : undefined;
       });
   }
 
   public updateDescription(vm: VirtualMachine, description: string): Observable<void> {
-    return this.tagService.update(vm, 'UserVm', 'description', description);
+    return this.tagService.update(vm, 'UserVm', 'csui.vm.description', description);
   }
 
   public changeServiceOffering(
@@ -261,7 +261,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   private writeNumberOfVms(number: number): Observable<number> {
     return this.userService
-      .writeTag('numberOfVms', number.toString())
+      .writeTag('csui.user.last-vm-id', number.toString())
       .mapTo(number);
   }
 }

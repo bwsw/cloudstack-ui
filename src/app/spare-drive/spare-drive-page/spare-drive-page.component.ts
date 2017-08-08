@@ -23,7 +23,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
-const askToCreateVolume = 'askToCreateVolume';
+const askToCreateVolume = 'csui.user.ask-to-create-volume';
 
 export interface VolumeCreationData {
   name: string;

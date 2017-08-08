@@ -33,7 +33,7 @@
       mdl-button-type="icon"
       mdl-ripple
     >
-      <mdl-icon>more_vert</mdl-icon>
+      <md-icon>more_vert</md-icon>
     </button>
   </mdl-card-menu>
   <mdl-popover
@@ -51,7 +51,7 @@
           [mdTooltip]="'VIEW' | translate"
           (click)="onClick.emit()"
         >
-          <mdl-icon>visibility</mdl-icon>
+          <md-icon>visibility</md-icon>
         </button>
       </ng-container>
       <ng-container *ngIf="!securityGroupTemplate.isPredefinedTemplate">
@@ -61,7 +61,7 @@
           [mdTooltip]="'EDIT' | translate"
           (click)="onClick.emit()"
         >
-          <mdl-icon>edit</mdl-icon>
+          <md-icon>edit</md-icon>
         </button>
         <button
           mdl-button
@@ -69,7 +69,7 @@
           [mdTooltip]="'DELETE' | translate"
           (click)="$event.stopPropagation(); onDelete.emit(securityGroupTemplate)"
         >
-          <mdl-icon>delete</mdl-icon>
+          <md-icon>delete</md-icon>
         </button>
       </ng-container>
     </div>

@@ -58,7 +58,7 @@ export class GroupedTemplates<T extends BaseTemplateModel> {
   }
 }
 
-export const DOWNLOAD_URL = 'DOWNLOAD_URL';
+export const DOWNLOAD_URL = 'csui.template.download-url';
 
 @Injectable()
 export abstract class BaseTemplateService extends BaseBackendCachedService<BaseTemplateModel> {
