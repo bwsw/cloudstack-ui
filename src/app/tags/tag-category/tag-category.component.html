@@ -26,9 +26,10 @@
       mdl-button
       mdl-button-type="icon"
       [mdTooltip]="'ADD' | translate"
+      mdTooltipPosition="above"
       (click)="$event.stopPropagation(); addTag()"
     >
-      <mdl-icon>add</mdl-icon>
+      <md-icon>add</md-icon>
     </button>
   </mdl-card-actions>
 </mdl-card>

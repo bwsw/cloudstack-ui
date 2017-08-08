@@ -2,7 +2,7 @@ import { MdlModule } from '@angular-mdl/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MdSelectModule, MdTooltipModule } from '@angular/material';
+import { MdIconModule, MdSelectModule, MdTooltipModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../shared/shared.module';
 import { DayOfWeekComponent } from './recurring-snapshots/day-of-week/day-of-week.component';
@@ -29,7 +29,9 @@ import { MdlSelectModule } from '@angular-mdl/select';
     FormsModule,
     TranslateModule,
     MdTooltipModule,
+    MdSelectModule,
     MdlModule,
+    MdIconModule,
     MdlSelectModule,
     SharedModule,
     ReactiveFormsModule
