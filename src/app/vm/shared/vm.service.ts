@@ -48,7 +48,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public getNumberOfVms(): Observable<number> {
-    return this.userService.readTag('csui.user.number-of-vms')
+    return this.userService.readTag('csui.user.last-vm-id')
       .switchMap(numberOfVms => {
         if (numberOfVms !== undefined && !Number.isNaN(+numberOfVms)) {
           return Observable.of(+numberOfVms);
@@ -261,7 +261,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   private writeNumberOfVms(number: number): Observable<number> {
     return this.userService
-      .writeTag('numberOfVms', number.toString())
+      .writeTag('csui.user.last-vm-id', number.toString())
       .mapTo(number);
   }
 }

@@ -116,7 +116,7 @@ export class VolumeService extends BaseBackendService<Volume> {
     return this.tagService.create({
       resourceIds: id,
       resourceType: this.entity,
-      'tags[0].key': 'csui.volume.status',
+      'tags[0].key': 'status',
       'tags[0].value': 'removed'
     });
   }
