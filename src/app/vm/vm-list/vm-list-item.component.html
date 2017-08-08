@@ -7,7 +7,6 @@
   [style.background-color]="color.value"
   [style.color]="color?.textColor"
   [class.has-text-color]="color?.textColor"
-  [class.arrow]="popover.isVisible"
 >
   <mdl-card-title>
     <div
@@ -51,48 +50,31 @@
     </table>
   </mdl-card-supporting-text>
   <mdl-card-menu>
-    <button
-      mdl-button
-      (click)="togglePopover($event)"
-      mdl-button-type="icon"
-      mdl-ripple>
-      <mdl-icon>more_vert</mdl-icon>
+    <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
+      <md-icon>more_vert</md-icon>
     </button>
   </mdl-card-menu>
-  <mdl-popover
-    class="card-popover vm-popover"
-    #popover
-    [hide-on-click]="true"
-    [style.width.px]="300"
-  >
-    <div mdl-shadow="6" class="popover-actions">
-      <ng-container *ngFor="let action of firstRowActions">
-        <button
-          *ngIf="!action.hidden(item)"
-          (click)="onAction(action, item)"
-          [disabled]="!action.canActivate(item)"
-          [mdTooltip]="action.name | translate"
-          mdl-button
-          mdl-button-type="icon"
-          mdl-ripple
-        >
-          <mdl-icon>{{ action.icon }}</mdl-icon>
-        </button>
-      </ng-container>
-      <md-divider></md-divider>
-      <ng-container *ngFor="let action of secondRowActions">
-        <button
-          *ngIf="!action.hidden(item)"
-          (click)="onAction(action, item)"
-          [disabled]="!action.canActivate(item)"
-          [mdTooltip]="action.name | translate"
-          mdl-button
-          mdl-button-type="icon"
-          mdl-ripple
-        >
-          <mdl-icon>{{ action.icon }}</mdl-icon>
-        </button>
-      </ng-container>
-    </div>
-  </mdl-popover>
+  <md-menu #actionsMenu="mdMenu">
+    <ng-container *ngFor="let action of firstRowActions">
+      <button md-menu-item
+        *ngIf="!action.hidden(item)"
+        (click)="onAction(action, item)"
+        [disabled]="!action.canActivate(item)"
+      >
+        <md-icon>{{ action.icon }}</md-icon>
+        <span>{{ action.name | translate }}</span>
+      </button>
+    </ng-container>
+    <md-divider></md-divider>
+    <ng-container *ngFor="let action of secondRowActions">
+      <button md-menu-item
+        *ngIf="!action.hidden(item)"
+        (click)="onAction(action, item)"
+        [disabled]="!action.canActivate(item)"
+      >
+        <md-icon>{{ action.icon }}</md-icon>
+        <span>{{ action.name | translate }}</span>
+      </button>
+    </ng-container>
+  </md-menu>
 </mdl-card>
