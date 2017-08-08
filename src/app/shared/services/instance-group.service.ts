@@ -16,7 +16,7 @@ export class InstanceGroupService {
   public add(vm: VirtualMachine, group: InstanceGroup): Observable<VirtualMachine> {
     vm.instanceGroup = group;
     this.groupsUpdates.next();
-    return this.tagService.update(vm, 'UserVm', 'cs.vm.group', group && group.name)
+    return this.tagService.update(vm, 'UserVm', 'csui.vm.group', group && group.name)
       .catch(() => Observable.of(vm));
   }
 }
