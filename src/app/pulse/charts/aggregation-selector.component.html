@@ -23,6 +23,17 @@
     {{ aggregation }}
   </md-option>
 </md-select>
+<md-input-container class="shift-input">
+  <input
+    [(ngModel)]="shiftAmount"
+    mdInput
+    type="number"
+    value="0"
+    [min]="0"
+    [max]="100"
+    (input)="handleShiftAmountChange($event)"
+  >
+</md-input-container>
 <md-select
   class="aggregation-select"
   [(ngModel)]="selectedShift"
@@ -33,4 +44,3 @@
     {{ shift }}
   </md-option>
 </md-select>
-<button mdl-button (click)="shiftReset.emit()">{{ 'RESET' | translate }}</button>

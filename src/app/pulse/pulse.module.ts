@@ -2,7 +2,7 @@ import { MdlButtonModule } from '@angular-mdl/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdIconModule, MdSelectModule } from '@angular/material';
+import { MdIconModule, MdInputModule, MdSelectModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ChartsModule } from 'ng2-charts/src/charts/charts';
@@ -22,6 +22,7 @@ import { PulseService } from './pulse.service';
     FormsModule,
     MdlButtonModule,
     MdIconModule,
+    MdInputModule,
     MdSelectModule,
     TranslateModule
   ],

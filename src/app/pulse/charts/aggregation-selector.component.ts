@@ -1,32 +1,63 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { MdOptionSelectionChange, MdSelectChange } from '@angular/material';
+import * as debounce from 'lodash/debounce';
 
 @Component({
   selector: 'cs-aggregation-selector',
   templateUrl: 'aggregation-selector.component.html',
-  styles: [`.aggregation-select { margin: 20px 10px }`],
-  encapsulation: ViewEncapsulation.None
+  styles: [
+    `
+    .aggregation-select {
+      margin: 20px 10px;
+    }
+
+    .shift-input {
+      width: 55px;
+    }
+  `
+  ],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AggregationSelectorComponent {
+export class AggregationSelectorComponent implements OnChanges {
   @Input() permittedIntervals: any;
   @Output() scaleChange = new EventEmitter();
   @Output() aggregationsChange = new EventEmitter<MdOptionSelectionChange>();
   @Output() shiftChange = new EventEmitter<string>();
-  @Output() shiftReset = new EventEmitter();
+  @Output() shiftAmountChange = new EventEmitter<number>();
 
   @ViewChild('aggregationSelect') aggregationSelectControl: AbstractControl;
 
   selectedScale: string;
   selectedShift: string;
+  @Input() public shiftAmount: number;
   selectedAggregations: Array<string>;
+
+  constructor() {
+    this.emitShiftChange = debounce(this.emitShiftChange, 300);
+  }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    if ('permittedIntervals' in changes) {
+      if (this.permittedIntervals) {
+        setTimeout(() => {
+          this.selectedShift = this.permittedIntervals.shifts[0];
+          this.shiftChange.emit(this.selectedShift);
+        });
+      }
+    }
+  }
 
   @Input()
   public get scale() {
@@ -69,5 +100,15 @@ export class AggregationSelectorComponent {
   public handleShiftChange(change: MdSelectChange) {
     this.shift = change.value;
     this.shiftChange.emit(change.value);
+  }
+
+  public handleShiftAmountChange(change) {
+    const amount = parseInt(change.target.value, 10);
+    this.shiftAmount = amount;
+    this.emitShiftChange(amount);
+  }
+
+  private emitShiftChange(amount: number) {
+    this.shiftAmountChange.emit(amount);
   }
 }

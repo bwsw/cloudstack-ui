@@ -80,14 +80,6 @@ export abstract class PulseChartComponent {
     this._selectedScale = value;
   }
 
-  public get selectedShift() {
-    return this._selectedShift;
-  }
-
-  public set selectedShift(value) {
-    this._selectedShift = value;
-  }
-
   public get selectedAggregations() {
     return this._selectedAggregations;
   }
@@ -95,6 +87,18 @@ export abstract class PulseChartComponent {
   public set selectedAggregations(value) {
     this._selectedAggregations = value;
     this.update();
+  }
+
+  public get selectedShift() {
+    return this._selectedShift;
+  }
+
+  public set selectedShift(value) {
+    this._selectedShift = value;
+    // TODO
+    if (this._selectedAggregations && this._selectedScale) {
+      this.update();
+    }
   }
 
   public previous() {
@@ -107,8 +111,8 @@ export abstract class PulseChartComponent {
     this.update();
   }
 
-  public resetShift() {
-    this.shift = 0;
+  public updateShift(amount: number) {
+    this.shift = amount;
     this.update();
   }
 
