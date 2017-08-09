@@ -1,4 +1,10 @@
-import { Injectable, Input } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  EventEmitter,
+  Injectable,
+  Input,
+  Output
+} from '@angular/core';
 import { PulseService } from '../pulse.service';
 import Chart = require('chart.js');
 
@@ -58,63 +64,12 @@ export function getChart(config: Array<any>) {
 
 @Injectable()
 export abstract class PulseChartComponent {
-  @Input() public vmId: string;
-  @Input() public permittedIntervals;
+  @Input() public charts: Array<PulseChart>;
+  @Input() public shift: number;
+  @Output() public previous = new EventEmitter();
+  @Output() public next = new EventEmitter();
 
-  public _selectedAggregations;
-  public charts: Array<PulseChart>;
-
-  public shift = 0;
-
-  private _selectedScale;
-  private _selectedShift;
-
-  constructor(protected pulse: PulseService) {}
-
-  public get selectedScale() {
-    return this._selectedScale;
-  }
-
-  public set selectedScale(value: any) {
-    this.resetDatasets();
-    this._selectedScale = value;
-  }
-
-  public get selectedAggregations() {
-    return this._selectedAggregations;
-  }
-
-  public set selectedAggregations(value) {
-    this._selectedAggregations = value;
-    this.update();
-  }
-
-  public get selectedShift() {
-    return this._selectedShift;
-  }
-
-  public set selectedShift(value) {
-    this._selectedShift = value;
-    // TODO
-    if (this._selectedAggregations && this._selectedScale) {
-      this.update();
-    }
-  }
-
-  public previous() {
-    this.shift++;
-    this.update();
-  }
-
-  public next() {
-    this.shift--;
-    this.update();
-  }
-
-  public updateShift(amount: number) {
-    this.shift = amount;
-    this.update();
-  }
+  constructor(protected pulse: PulseService, protected cd: ChangeDetectorRef) {}
 
   protected updateDatasets(setId: string, datasets: Array<any>) {
     if (!this.charts) {
@@ -134,5 +89,5 @@ export abstract class PulseChartComponent {
     }
   }
 
-  public abstract update();
+  public abstract update(params);
 }

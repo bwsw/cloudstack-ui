@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit
+} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { NIC } from '../../../shared/models/nic.model';
 import { VmService } from '../../../vm/shared/vm.service';
@@ -9,14 +15,20 @@ import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-cha
 
 @Component({
   selector: 'cs-pulse-network-chart',
-  templateUrl: './pulse-network-chart.component.html'
+  templateUrl: './pulse-network-chart.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PulseNetworkChartComponent extends PulseChartComponent implements OnInit {
+  @Input() vmId: string;
   public selectedNic: NIC;
   public availableNics: Array<NIC> = [];
 
-  constructor(pulse: PulseService, private vmService: VmService) {
-    super(pulse);
+  constructor(
+    pulse: PulseService,
+    cd: ChangeDetectorRef,
+    private vmService: VmService
+  ) {
+    super(pulse, cd);
   }
 
   public ngOnInit() {
@@ -27,14 +39,16 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
           ...defaultChartOptions,
           scales: {
             ...defaultChartOptions.scales,
-            yAxes: [{
-              ticks: {
-                suggestedMin: 0,
-                userCallback(val) {
-                  return humanReadableSizeInBits(val);
+            yAxes: [
+              {
+                ticks: {
+                  suggestedMin: 0,
+                  userCallback(val) {
+                    return humanReadableSizeInBits(val);
+                  }
                 }
               }
-            }]
+            ]
           }
         }
       },
@@ -59,12 +73,12 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
       });
   }
 
-  public update() {
-    const requests = this.selectedAggregations.map(_ =>
+  public update(params) {
+    const requests = params.selectedAggregations.map(_ =>
       this.pulse.network(this.vmId, this.selectedNic.macAddress, {
-        range: this.selectedScale.range,
+        range: params.selectedScale.range,
         aggregation: _,
-        shift: `${this.shift}${this.selectedShift || 'w'}`
+        shift: `${params.shiftAmount}${params.selectedShift || 'w'}`
       })
     );
 
@@ -83,14 +97,14 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
               x: new Date(_.time),
               y: +_.readBits
             })),
-            label: `Network read ${this.selectedAggregations[ind]}`
+            label: `Network read ${params.selectedAggregations[ind]}`
           };
           const writeBits = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writeBits
             })),
-            label: `Network write ${this.selectedAggregations[ind]}`
+            label: `Network write ${params.selectedAggregations[ind]}`
           };
           sets.bits.push(readBits, writeBits);
 
@@ -99,41 +113,43 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
               x: new Date(_.time),
               y: +_.readPackets
             })),
-            label: `Network read packets ${this.selectedAggregations[ind]}`
+            label: `Network read packets ${params.selectedAggregations[ind]}`
           };
           const writePackets = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writePackets
             })),
-            label: `Network write packets ${this.selectedAggregations[ind]}`
+            label: `Network write packets ${params.selectedAggregations[ind]}`
           };
           sets.packets.push(readPackets, writePackets);
 
           const readDrops = {
             data: res.map(_ => +_.readDrops),
-            label: `Network read drops ${this.selectedAggregations[ind]}`
+            label: `Network read drops ${params.selectedAggregations[ind]}`
           };
           const writeDrops = {
             data: res.map(_ => +_.writeDrops),
-            label: `Network write drops ${this.selectedAggregations[ind]}`
+            label: `Network write drops ${params.selectedAggregations[ind]}`
           };
           this.charts[2].labels = res.map(_ => new Date(_.time));
           sets.drops.push(readDrops, writeDrops);
 
           const readErrors = {
             data: res.map(_ => +_.readErrors),
-            label: `Network read errors ${this.selectedAggregations[ind]}`
+            label: `Network read errors ${params.selectedAggregations[ind]}`
           };
           const writeErrors = {
             data: res.map(_ => +_.writeErrors),
-            label: `Network write errors ${this.selectedAggregations[ind]}`
+            label: `Network write errors ${params.selectedAggregations[ind]}`
           };
           this.charts[3].labels = res.map(_ => new Date(_.time));
           sets.errors.push(readErrors, writeErrors);
         });
 
         Object.keys(sets).forEach(_ => this.updateDatasets(_, sets[_]));
+
+        this.cd.markForCheck();
       });
   }
 }

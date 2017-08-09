@@ -1,0 +1,39 @@
+<ng-template #selector>
+  <cs-aggregation-selector
+    [permittedIntervals]="permittedIntervals"
+    [(scale)]="selectedScale"
+    [(shift)]="selectedShift"
+    [(aggregations)]="selectedAggregations"
+    [(shiftAmount)]="shiftAmount"
+  ></cs-aggregation-selector>
+</ng-template>
+<md-tab-group
+  [dynamicHeight]="true"
+  [(selectedIndex)]="tabIndex"
+  (selectChange)="handleSelectChange($event)"
+>
+  <md-tab [label]="'CPU / RAM' | translate">
+    <ng-container *ngTemplateOutlet="selector"></ng-container>
+    <cs-pulse-cpu-chart
+      [shift]="shiftAmount"
+      (previous)="handlePrevious()"
+      (next)="handleNext()"
+    ></cs-pulse-cpu-chart>
+  </md-tab>
+  <md-tab [label]="'NETWORK' | translate">
+    <ng-container *ngTemplateOutlet="selector"></ng-container>
+    <cs-pulse-network-chart
+      [vmId]="vmId" [shift]="shiftAmount"
+      (previous)="handlePrevious()"
+      (next)="handleNext()"
+    ></cs-pulse-network-chart>
+  </md-tab>
+  <md-tab [label]="'DISK' | translate">
+    <ng-container *ngTemplateOutlet="selector"></ng-container>
+    <cs-pulse-disk-chart
+      [vmId]="vmId" [shift]="shiftAmount"
+      (previous)="handlePrevious()"
+      (next)="handleNext()"
+    ></cs-pulse-disk-chart>
+  </md-tab>
+</md-tab-group>

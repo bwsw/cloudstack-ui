@@ -1,11 +1,3 @@
-<cs-aggregation-selector
-  [permittedIntervals]="permittedIntervals"
-  [(scale)]="selectedScale"
-  [(shift)]="selectedShift"
-  [(aggregations)]="selectedAggregations"
-  [shiftAmount]="shift"
-  (shiftAmountChange)="updateShift($event)"
-></cs-aggregation-selector>
 <md-select class="aggregation-select" [(ngModel)]="selectedNic">
   <md-option *ngFor="let nic of availableNics; index as i" [value]="nic">
     NIC{{ i + 1 }} ({{ nic.macAddress }})
@@ -14,6 +6,6 @@
 <cs-chart-area-component
   [charts]="charts"
   [hasNext]="shift > 0"
-  (previous)="previous()"
-  (next)="next()"
+  (previous)="previous.emit()"
+  (next)="next.emit()"
 ></cs-chart-area-component>

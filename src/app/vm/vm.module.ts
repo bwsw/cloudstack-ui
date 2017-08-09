@@ -4,12 +4,7 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  MdDialogModule,
-  MdSelectModule,
-  MdTabsModule,
-  MdTooltipModule
-} from '@angular/material';
+import { MdDialogModule, MdSelectModule, MdTooltipModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -37,7 +32,6 @@ import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmFilterComponent } from './vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list/vm-list-item.component';
 import { VmListComponent } from './vm-list/vm-list.component';
-import { VmPulseComponent } from './vm-pulse/vm-pulse.component';
 import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { VmColorComponent } from './vm-sidebar/color/vm-color.component';
 import { InstanceGroupSelectorComponent } from './vm-sidebar/instance-group-selector/instance-group-selector.component';
@@ -76,7 +70,6 @@ import { WebShellService } from './web-shell/web-shell.service';
     ServiceOfferingModule,
     DraggableSelectModule,
     MdTooltipModule,
-    MdTabsModule,
     MdSelectModule,
     MdlModule,
     MdDialogModule,
@@ -124,7 +117,6 @@ import { WebShellService } from './web-shell/web-shell.service';
     VolumeComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,
-    VmPulseComponent,
   ],
   providers: [
     VmActionsService,
@@ -142,7 +134,6 @@ import { WebShellService } from './web-shell/web-shell.service';
     InstanceGroupSelectorComponent,
     VmCreationComponent,
     VmTemplateDialogComponent,
-    VmPulseComponent,
     VolumeResizeComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,

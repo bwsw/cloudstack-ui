@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { humanReadableSize } from '../../unitsUtils';
 import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-chart';
@@ -6,7 +6,8 @@ import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-cha
 
 @Component({
   selector: 'cs-pulse-cpu-chart',
-  templateUrl: '../pulse-chart.html'
+  templateUrl: '../pulse-chart.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PulseCpuRamChartComponent extends PulseChartComponent implements OnInit {
   public ngOnInit() {
@@ -51,20 +52,20 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
     ]);
   }
 
-  public update() {
-    const cpuRequests = this.selectedAggregations.map(_ =>
-      this.pulse.cpuTime(this.vmId, {
-        range: this.selectedScale.range,
+  public update(params) {
+    const cpuRequests = params.selectedAggregations.map(_ =>
+      this.pulse.cpuTime(params.vmId, {
+        range: params.selectedScale.range,
         aggregation: _,
-        shift: `${this.shift}${this.selectedShift || 'w'}`
+        shift: `${params.shiftAmount}${params.selectedShift || 'w'}`
       })
     );
 
-    const ramRequests = this.selectedAggregations.map(_ =>
-      this.pulse.ram(this.vmId, {
-        range: this.selectedScale.range,
+    const ramRequests = params.selectedAggregations.map(_ =>
+      this.pulse.ram(params.vmId, {
+        range: params.selectedScale.range,
         aggregation: _,
-        shift: `${this.shift}${this.selectedShift || 'w'}`
+        shift: `${params.shiftAmount}${params.selectedShift || 'w'}`
       })
     );
     if (cpuRequests.length) {
@@ -79,7 +80,7 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
                 x: new Date(_.time),
                 y: Math.min(+_.cpuTime, 100)
               })),
-              label: `CPU ${this.selectedAggregations[ind]}`,
+              label: `CPU ${params.selectedAggregations[ind]}`,
             };
           });
           this.updateDatasets('cpu', datasets);
@@ -91,10 +92,12 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
                 x: new Date(_.time),
                 y: +_.ram
               })),
-              label: `RAM ${this.selectedAggregations[ind]}`,
+              label: `RAM ${params.selectedAggregations[ind]}`,
             };
           });
           this.updateDatasets('ram', asd);
+
+          this.cd.markForCheck();
         });
     }
   }

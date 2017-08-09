@@ -1,14 +1,6 @@
-<cs-aggregation-selector
-  [permittedIntervals]="permittedIntervals"
-  [(scale)]="selectedScale"
-  [(shift)]="selectedShift"
-  [(aggregations)]="selectedAggregations"
-  [shiftAmount]="shift"
-  (shiftAmountChange)="updateShift($event)"
-></cs-aggregation-selector>
 <cs-chart-area-component
   [charts]="charts"
   [hasNext]="shift > 0"
-  (previous)="previous()"
-  (next)="next()"
+  (previous)="previous.emit()"
+  (next)="next.emit()"
 ></cs-chart-area-component>

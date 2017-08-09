@@ -6,7 +6,7 @@ import { JobsNotificationService } from '../../shared/services/jobs-notification
 import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { VirtualMachineAction, VmActions } from './vm-action';
-import { VmPulseComponent } from '../vm-pulse/vm-pulse.component';
+import { VmPulseComponent } from '../../pulse/vm-pulse/vm-pulse.component';
 
 
 @Injectable()

@@ -2,7 +2,13 @@ import { MdlButtonModule } from '@angular-mdl/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdIconModule, MdInputModule, MdSelectModule } from '@angular/material';
+import {
+  MdDialogModule,
+  MdIconModule,
+  MdInputModule,
+  MdSelectModule,
+  MdTabsModule
+} from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ChartsModule } from 'ng2-charts/src/charts/charts';
@@ -14,6 +20,7 @@ import {
 import { AggregationSelectorComponent } from './charts/aggregation-selector.component';
 import { ChartAreaComponent } from './charts/chart-area.component';
 import { PulseService } from './pulse.service';
+import { VmPulseComponent } from './vm-pulse/vm-pulse.component';
 
 @NgModule({
   imports: [
@@ -22,14 +29,14 @@ import { PulseService } from './pulse.service';
     FormsModule,
     MdlButtonModule,
     MdIconModule,
+    MdDialogModule,
     MdInputModule,
+    MdTabsModule,
     MdSelectModule,
     TranslateModule
   ],
   exports: [
-    PulseCpuRamChartComponent,
-    PulseNetworkChartComponent,
-    PulseDiskChartComponent
+    VmPulseComponent
   ],
   providers: [PulseService],
   declarations: [
@@ -37,8 +44,10 @@ import { PulseService } from './pulse.service';
     ChartAreaComponent,
     PulseCpuRamChartComponent,
     PulseNetworkChartComponent,
-    PulseDiskChartComponent
-  ]
+    PulseDiskChartComponent,
+    VmPulseComponent
+  ],
+  entryComponents: [VmPulseComponent]
 })
 export class PulseModule {
 }
