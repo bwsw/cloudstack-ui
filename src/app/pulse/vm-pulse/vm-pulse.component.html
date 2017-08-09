@@ -6,6 +6,7 @@
     [(aggregations)]="selectedAggregations"
     [(shiftAmount)]="shiftAmount"
   ></cs-aggregation-selector>
+  <button mdl-button (click)="refresh()">{{ 'REFRESH' | translate }}</button>
 </ng-template>
 <md-tab-group
   [dynamicHeight]="true"
@@ -13,12 +14,14 @@
   (selectChange)="handleSelectChange($event)"
 >
   <md-tab [label]="'CPU / RAM' | translate">
-    <ng-container *ngTemplateOutlet="selector"></ng-container>
-    <cs-pulse-cpu-chart
-      [shift]="shiftAmount"
-      (previous)="handlePrevious()"
-      (next)="handleNext()"
-    ></cs-pulse-cpu-chart>
+    <div>
+      <ng-container *ngTemplateOutlet="selector"></ng-container>
+      <cs-pulse-cpu-chart
+        [shift]="shiftAmount"
+        (previous)="handlePrevious()"
+        (next)="handleNext()"
+      ></cs-pulse-cpu-chart>
+    </div>
   </md-tab>
   <md-tab [label]="'NETWORK' | translate">
     <ng-container *ngTemplateOutlet="selector"></ng-container>

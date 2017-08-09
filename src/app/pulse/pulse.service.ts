@@ -45,7 +45,7 @@ export class PulseService {
     const t = `${timeParams.range}/${timeParams.aggregation}/${timeParams.shift}`;
 
     return this.http
-      .get(`pulse/${endpoint}/${params}/${t}`)
+      .get(`pulse/${endpoint}/${params}/${t}?_=${new Date().getTime()}`)
       .map(res => res.json())
       .map(res => res.result);
   }

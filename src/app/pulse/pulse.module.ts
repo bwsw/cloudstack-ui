@@ -12,6 +12,7 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ChartsModule } from 'ng2-charts/src/charts/charts';
+import { SharedModule } from '../shared/shared.module';
 import {
   PulseCpuRamChartComponent,
   PulseDiskChartComponent,
@@ -24,6 +25,7 @@ import { VmPulseComponent } from './vm-pulse/vm-pulse.component';
 
 @NgModule({
   imports: [
+    SharedModule,
     CommonModule,
     ChartsModule,
     FormsModule,

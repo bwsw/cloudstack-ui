@@ -70,6 +70,7 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
       .subscribe(vm => {
         this.availableNics = vm.nic;
         this.selectedNic = this.availableNics[0];
+        this.cd.markForCheck();
       });
   }
 

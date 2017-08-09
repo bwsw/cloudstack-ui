@@ -1,4 +1,5 @@
-<md-select class="aggregation-select" [(ngModel)]="selectedVolume">
+<cs-divider-vertical></cs-divider-vertical>
+<md-select class="aggregation-select entity-select" [(ngModel)]="selectedVolume">
   <md-option *ngFor="let volume of availableVolumes" [value]="volume">
     {{ volume.name }} ({{ volume.id }})
   </md-option>

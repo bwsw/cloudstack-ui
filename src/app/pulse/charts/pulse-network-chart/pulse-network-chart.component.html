@@ -1,4 +1,5 @@
-<md-select class="aggregation-select" [(ngModel)]="selectedNic">
+<cs-divider-vertical></cs-divider-vertical>
+<md-select class="aggregation-select entity-select" [(ngModel)]="selectedNic">
   <md-option *ngFor="let nic of availableNics; index as i" [value]="nic">
     NIC{{ i + 1 }} ({{ nic.macAddress }})
   </md-option>

@@ -2,8 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   Inject,
+  OnDestroy,
   OnInit,
-  ViewChild
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import { MD_DIALOG_DATA, MdTabChangeEvent } from '@angular/material';
 import { PulseCpuRamChartComponent } from '../charts/pulse-cpu-ram-chart/pulse-cpu-ram-chart.component';
@@ -21,21 +23,23 @@ const enum TabIndex {
   selector: 'cs-vm-pulse',
   templateUrl: './vm-pulse.component.html',
   styleUrls: ['./vm-pulse.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
-export class VmPulseComponent implements OnInit {
+export class VmPulseComponent implements OnInit, OnDestroy {
   @ViewChild(PulseCpuRamChartComponent) cpuRamChart: PulseCpuRamChartComponent;
   @ViewChild(PulseNetworkChartComponent) networkChart: PulseNetworkChartComponent;
   @ViewChild(PulseDiskChartComponent) diskChart: PulseDiskChartComponent;
 
   public tabIndex = 0;
-
   public permittedIntervals;
 
-  public _selectedScale;
-  public _selectedAggregations;
-  public _selectedShift;
-  public _shiftAmount = 0;
+  private _selectedScale;
+  private _selectedAggregations;
+  private _selectedShift;
+  private _shiftAmount = 0;
+
+  private updateInterval;
 
   constructor(
     @Inject(MD_DIALOG_DATA) public vmId: string,
@@ -47,7 +51,12 @@ export class VmPulseComponent implements OnInit {
     this.pulse.getPermittedIntervals().subscribe(intervals => {
       intervals.scales = Object.values(intervals.scales);
       this.permittedIntervals = intervals;
+      this.scheduleAutoRefresh();
     });
+  }
+
+  public ngOnDestroy() {
+    clearInterval(this.updateInterval);
   }
 
   public get selectedScale() {
@@ -90,6 +99,14 @@ export class VmPulseComponent implements OnInit {
     this.updateChart(this.tabIndex);
   }
 
+  public refresh() {
+    if (this._selectedAggregations && this._selectedScale) {
+      clearInterval(this.updateInterval);
+      this.updateChart();
+    }
+    this.scheduleAutoRefresh();
+  }
+
   public handleSelectChange(change: MdTabChangeEvent) {
     if (this.selectedAggregations) {
       this.updateChart(change.index);
@@ -129,5 +146,9 @@ export class VmPulseComponent implements OnInit {
       selectedShift: this.selectedShift,
       shiftAmount: this.shiftAmount
     });
+  }
+
+  private scheduleAutoRefresh() {
+    this.updateInterval = setTimeout(() => this.refresh(), 60000);
   }
 }

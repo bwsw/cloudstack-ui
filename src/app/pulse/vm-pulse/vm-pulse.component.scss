@@ -2,3 +2,13 @@
   display: block;
   min-width: 550px;
 }
+
+.entity-select {
+  vertical-align: bottom;
+  margin-left: 20px !important;
+  margin-right: 0 !important;
+}
+
+.aggregation-select:first-child {
+  margin-left: 0;
+}

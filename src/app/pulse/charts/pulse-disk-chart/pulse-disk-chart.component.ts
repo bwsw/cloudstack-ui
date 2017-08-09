@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit
+} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../../shared/models/volume.model';
 import { VolumeService } from '../../../shared/services/volume.service';
@@ -9,7 +15,8 @@ import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-cha
 
 @Component({
   selector: 'cs-pulse-disk-chart',
-  templateUrl: './pulse-disk-chart.component.html'
+  templateUrl: './pulse-disk-chart.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PulseDiskChartComponent extends PulseChartComponent implements OnInit {
   @Input() public vmId: string;
@@ -58,6 +65,7 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
       .subscribe(volumes => {
         this.availableVolumes = volumes;
         this.selectedVolume = this.availableVolumes[0];
+        this.cd.markForCheck();
       });
   }
 
