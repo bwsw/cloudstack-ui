@@ -6,7 +6,6 @@ import { Tag } from '../../models/tag.model';
 import { AsyncJobService } from '../async-job.service';
 import { BaseBackendCachedService } from '../base-backend-cached.service';
 
-console.log(BackendResource, Tag,  AsyncJobService, BaseBackendCachedService);
 
 @Injectable()
 @BackendResource({

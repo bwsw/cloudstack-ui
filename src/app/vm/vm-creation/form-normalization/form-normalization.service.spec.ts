@@ -14,8 +14,12 @@ import { VmCreationFormNormalizationService } from './form-normalization.service
 import { VmCreationState } from '../data/vm-creation-state';
 import { VmCreationFormState } from '../vm-creation.component';
 import { ServiceOffering } from '../../../shared/models';
-import { CustomServiceOfferingService } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
-import { MockCustomServiceOfferingService } from '../../../../testutils/mocks/model-services/services/mock-custom-service-offering.service.spec';
+import {
+  CustomServiceOfferingService
+} from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
+import {
+  MockCustomServiceOfferingService
+} from '../../../../testutils/mocks/model-services/services/mock-custom-service-offering.service.spec';
 
 
 interface VmCreationFixture {

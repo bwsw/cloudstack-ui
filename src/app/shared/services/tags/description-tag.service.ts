@@ -4,8 +4,6 @@ import { Taggable } from '../../interfaces/taggable.interface';
 import { EntityTagService } from './entity-tag-service.interface';
 import { TagService } from './tag.service';
 
-debugger;
-console.log(TagService);
 
 @Injectable()
 export class DescriptionTagService {

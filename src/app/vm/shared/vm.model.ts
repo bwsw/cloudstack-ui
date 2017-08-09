@@ -1,18 +1,9 @@
 import { SecurityGroup } from '../../security-group/sg.model';
 import { FieldMapper, ZoneName } from '../../shared/decorators';
-import {
-  BaseModel,
-  InstanceGroup,
-  NIC,
-  OsType,
-  ServiceOffering,
-  Tag,
-  Volume
-} from '../../shared/models';
-import { BaseTemplateModel } from '../../template/shared';
-import { AffinityGroup } from '../../shared/models/affinity-group.model';
-import { Color } from '../../shared/models/color.model';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
+import { BaseModel, InstanceGroup, NIC, OsType, ServiceOffering, Tag, Volume } from '../../shared/models';
+import { AffinityGroup } from '../../shared/models/affinity-group.model';
+import { BaseTemplateModel } from '../../template/shared';
 
 
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
