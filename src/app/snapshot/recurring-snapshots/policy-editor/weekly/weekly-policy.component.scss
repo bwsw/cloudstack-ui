@@ -1,0 +1,8 @@
+.flex-container {
+  display: flex;
+  align-content: space-between;
+}
+
+.flex-container *:first-child {
+  flex: 1;
+}

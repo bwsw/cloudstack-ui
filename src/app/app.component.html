@@ -9,16 +9,16 @@
     [attr.style]="drawerStyles"
     [class.drawer-open]="isDrawerOpen"
   >
-    <mdl-icon
+    <md-icon
       (click)="toggleDrawer()"
       class="hide-button"
     >
       keyboard_arrow_left
-    </mdl-icon>
+    </md-icon>
     <mdl-layout-title>
       <img class="logo" [src]="logoSource">
       <div class="title-header">
-        <mdl-icon class="link-element">person</mdl-icon>
+        <md-icon class="link-element">person</md-icon>
         <div class="link-element">{{ 'WELCOME' | translate:{ name: title } }}</div>
       </div>
     </mdl-layout-title>
@@ -31,7 +31,7 @@
         [class.link-hover-dark]="!isLightTheme"
         [routerLinkActive]="linkActiveStyle"
       >
-        <mdl-icon class="link-element">cloud</mdl-icon>
+        <md-icon class="link-element">cloud</md-icon>
         <div class="link-element" [innerHTML]="'VM_NAVBAR' | translate"></div>
       </a>
 
@@ -43,7 +43,7 @@
         [class.link-hover-dark]="!isLightTheme"
         [routerLinkActive]="linkActiveStyle"
       >
-        <mdl-icon class="link-element">dns</mdl-icon>
+        <md-icon class="link-element">dns</md-icon>
         <div class="link-element" [innerHTML]="'SPARE_DRIVES_NAVBAR' | translate"></div>
       </a>
 
@@ -55,7 +55,7 @@
         [class.link-hover-dark]="!isLightTheme"
         [routerLinkActive]="linkActiveStyle"
       >
-        <span class="link-element disc-icon"></span>
+        <span class="link-element disc-icon" style="margin-right: 10px"></span>
         <div class="link-element" [innerHTML]="'IMAGES' | translate"></div>
       </a>
 
@@ -68,7 +68,7 @@
         [class.link-hover-dark]="!isLightTheme"
         [routerLinkActive]="linkActiveStyle"
       >
-        <mdl-icon class="link-element">security</mdl-icon>
+        <md-icon class="link-element">security</md-icon>
         <div class="link-element" [innerHTML]="'FIREWALL' | translate"></div>
       </a>
 
@@ -80,7 +80,7 @@
         [class.link-hover-dark]="!isLightTheme"
         [routerLinkActive]="linkActiveStyle"
       >
-        <mdl-icon>event_note</mdl-icon>
+        <md-icon>event_note</md-icon>
         <div class="link-element" [innerHTML]="'ACTIVITY_LOG' | translate"></div>
       </a>
 
@@ -92,7 +92,7 @@
         [class.link-hover-dark]="!isLightTheme"
         [routerLinkActive]="linkActiveStyle"
       >
-        <mdl-icon>vpn_key</mdl-icon>
+        <md-icon>vpn_key</md-icon>
         <div class="link-element" [innerHTML]="'SSH_KEYS' | translate"></div>
       </a>
 
@@ -104,7 +104,7 @@
         [class.link-hover-dark]="!isLightTheme"
         [routerLinkActive]="linkActiveStyle"
       >
-        <mdl-icon>settings</mdl-icon>
+        <md-icon>settings</md-icon>
         <div class="link-element" [innerHTML]="'SETTINGS' | translate"></div>
       </a>
 
@@ -115,7 +115,7 @@
         [class.link-hover-dark]="!isLightTheme"
         [routerLinkActive]="linkActiveStyle"
       >
-        <mdl-icon>exit_to_app</mdl-icon>
+        <md-icon>exit_to_app</md-icon>
         <div class="link-element" [innerHTML]="'LOGOUT' | translate"></div>
       </a>
     </nav>

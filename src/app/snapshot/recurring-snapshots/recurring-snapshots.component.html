@@ -1,0 +1,46 @@
+<h3 class="mdl-dialog__title">
+  {{ 'RECURRING_SNAPSHOTS' | translate }}
+</h3>
+<div class="mdl-dialog__content">
+
+  <mdl-tabs
+    mdl-ripple
+    [mdl-tab-active-index]="policyMode"
+    (mdl-tab-active-changed)="tabChanged($event)"
+  >
+    <mdl-tab-panel mdl-tab-panel-title="{{ 'RECURRING_SNAPSHOTS_HOURLY' | translate }}"></mdl-tab-panel>
+    <mdl-tab-panel mdl-tab-panel-title="{{ 'RECURRING_SNAPSHOTS_DAILY' | translate }}"></mdl-tab-panel>
+    <mdl-tab-panel mdl-tab-panel-title="{{ 'RECURRING_SNAPSHOTS_WEEKLY' | translate }}"></mdl-tab-panel>
+    <mdl-tab-panel mdl-tab-panel-title="{{ 'RECURRING_SNAPSHOTS_MONTHLY' | translate }}"></mdl-tab-panel>
+  </mdl-tabs>
+
+  <div class="editor">
+    <cs-policy-editor
+      [timeFormat]="timeFormat$ | async"
+      [policyMode]="policyMode"
+      (onPolicySave)="addPolicy($event)"
+    ></cs-policy-editor>
+  </div>
+
+  <div
+    *ngIf="policies?.length"
+    class="list"
+  >
+    <cs-policy-list
+      [timeFormat]="timeFormat$ | async"
+      [policies]="policies"
+      (onPolicyDelete)="deletePolicy($event)"
+      (onPolicyRowClick)="changeTab($event)"
+    ></cs-policy-list>
+  </div>
+
+</div>
+<div class="mdl-dialog__actions">
+  <button
+    mdl-button
+    mdl-colored="primary"
+    (click)="onClose()"
+  >
+    {{ 'CLOSE' | translate }}
+  </button>
+</div>

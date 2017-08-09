@@ -33,9 +33,10 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
     super();
   }
 
-  public getTemplates(): Observable<Array<SecurityGroup>> {
-    return this.configService.get('securityGroupTemplates')
-      .map(groups => groups.map(group => new SecurityGroup(group)));
+  public getTemplates(): Array<SecurityGroup> {
+    return this.configService
+      .get('securityGroupTemplates')
+      .map(group => new SecurityGroup(group));
   }
 
   public createTemplate(data: any, rules?: Rules): Observable<any> {
@@ -116,8 +117,8 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
     return this.tagService.create({
       resourceIds: id,
       resourceType: this.entity,
-      'tags[0].key': DeletionMark.TAG,
-      'tags[0].value': DeletionMark.VALUE
+      'tags[0].key': 'status',
+      'tags[0].value': 'removed'
     });
   }
 

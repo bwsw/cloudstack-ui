@@ -34,7 +34,7 @@
 
 md-card {
   padding: 0px !important;
-  width: 330px;
+  width: 320px;
   margin: 15px 0px 0px 15px;
 }
 
@@ -56,6 +56,12 @@ md-card md-card-header h2 {
   margin: 0px;
   font-size: 18px;
   line-height: normal;
+
+  &.md-card-title-text {
+    max-width: 250px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 md-card md-card-header .md-card-header-menu {
@@ -77,6 +83,7 @@ md-card .md-card-content-with-actions {
 
 md-card .md-card-content-container {
   padding-bottom: 16px;
+  word-wrap: break-word;
 }
 
 md-card.custom-card {
@@ -247,6 +254,7 @@ mdl-simple-tooltip div {
 
 .popover-actions {
   padding: 1rem;
+  color: rgba(0,0,0,.87);
 }
 
 .mdl-layout--fixed-drawer > .mdl-layout__drawer {
@@ -261,11 +269,12 @@ mdl-simple-tooltip div {
   margin-top: 6px !important;
 }
 
-.mdl-button mdl-icon {
+.mdl-button md-icon {
   color: black !important;
 }
 
-.mdl-button[disabled] mdl-icon, .mdl-button.mdl-button--disabled mdl-icon {
+.mdl-button[disabled] md-icon,
+.mdl-button.mdl-button--disabled md-icon {
   color: rgba(0, 0, 0, .26) !important;
   cursor: default;
   background-color: transparent;
@@ -373,3 +382,9 @@ md-card-actions {
   background: #ffeb3b;
 }
 
+.disc-icon {
+  width: 24px;
+  height: 24px;
+  border: 9px solid #757575;
+  border-radius: 50%;
+}

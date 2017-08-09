@@ -4,14 +4,14 @@
   mdl-button-type="icon"
   style="overflow: visible;"
 >
-  <mdl-icon
+  <md-icon
     *ngIf="unseenCount"
     mdl-badge="{{ unseenCount }}"
     mdl-badge-overlap
   >
     notifications
-  </mdl-icon>
-  <mdl-icon *ngIf="!unseenCount">notifications</mdl-icon>
+  </md-icon>
+  <md-icon *ngIf="!unseenCount">notifications</md-icon>
 </button>
 <mdl-popover #popover mdl-shadow="6" [style.width.px]="300" [style.right.px]="20">
   <md-card-header class="md-card-header">

@@ -6,7 +6,7 @@
 >
   <md-card-header>
     <md-card-title>
-      <mdl-icon class="os-icon"
+      <md-icon class="os-icon"
                 [ngSwitch]="item.osType.osFamily"
                 md-card-avatar>
         <ng-template [ngSwitchCase]="'Linux'">
@@ -31,7 +31,7 @@
           >
         </ng-template>
         <ng-template ngSwitchDefault>help</ng-template>
-      </mdl-icon>
+      </md-icon>
       <h2
         [mdTooltip]="item.name"
         [innerHTML]="item.name | highlight:query"
@@ -46,7 +46,7 @@
         mdl-button-type="icon"
         mdl-ripple
       >
-        <mdl-icon>more_vert</mdl-icon>
+        <md-icon>more_vert</md-icon>
       </button>
     </div>
   </md-card-header>
@@ -94,7 +94,7 @@
         mdl-button-type="icon"
         (click)="removeTemplate()"
       >
-        <mdl-icon>delete</mdl-icon>
+        <md-icon>delete</md-icon>
       </button>
     </div>
   </mdl-popover>

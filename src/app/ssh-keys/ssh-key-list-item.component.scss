@@ -10,10 +10,6 @@
   line-height: normal;
 }
 
-:host md-card-title mdl-icon {
+:host md-card-title md-icon {
   margin-right: 10px;
-}
-
-:host .md-card-title-text {
-  max-width: 80%;
 }

@@ -5,7 +5,7 @@
     <md-card-title>
       <h2
         class="md-card-title-text"
-        [mdl-tooltip]="categoryTooltip"
+        [mdl-tooltip]="category.name"
         mdl-tooltip-position="bottom"
       >
         <span [innerHTML]="category.name | highlight:query"></span>
@@ -30,15 +30,8 @@
         [mdl-tooltip]="'ADD' | translate"
         (click)="$event.stopPropagation(); addTag()"
       >
-        <mdl-icon>add</mdl-icon>
+        <md-icon>add</md-icon>
       </button>
     </md-card-actions>
   </md-card-content>
 </md-card>
-
-<mdl-tooltip #categoryTooltip="mdlTooltip">
-  {{ category.name }}
-</mdl-tooltip>
-
-
-

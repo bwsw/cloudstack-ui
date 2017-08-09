@@ -3,11 +3,13 @@ import { Subject } from 'rxjs/Subject';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { OsFamily, StorageService } from '../../shared';
+import { OsFamily } from '../../shared';
 import { FilterService } from '../../shared/services';
 import { Zone } from '../../shared/models/zone.model';
 import { ZoneService } from '../../shared/services/zone.service';
 import { TemplateFilters } from '../shared/base-template.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -50,6 +52,24 @@ export class TemplateFiltersComponent implements OnInit {
   ];
 
   private filtersKey = 'imageListFilters';
+  private filterService = new FilterService({
+    osFamilies: {
+      type: 'array',
+      options: this.osFamilies,
+      defaultOption: []
+    },
+    categoryFilters: {
+      type: 'array',
+      options: this.categoryFilters,
+      defaultOption: []
+    },
+    zones: {
+      type: 'array',
+      defaultOption: []
+    },
+    query: { type: 'string' },
+    groupings: { type: 'array', defaultOption: [] }
+  }, this.router, this.storageService, this.filtersKey, this.activatedRoute);
 
   private templateTabIndex = 0;
   private isoTabIndex = 1;
@@ -57,11 +77,13 @@ export class TemplateFiltersComponent implements OnInit {
   private queryStream = new Subject<string>();
 
   constructor(
-    private filter: FilterService,
-    private storageService: StorageService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private storageService: LocalStorageService,
     private translateService: TranslateService,
     private zoneService: ZoneService
-  ) { }
+  ) {
+  }
 
   public ngOnInit(): void {
     if (!this.dialogMode) {
@@ -110,7 +132,7 @@ export class TemplateFiltersComponent implements OnInit {
     });
 
     if (!this.dialogMode) {
-      this.filter.update(this.filtersKey, {
+      this.filterService.update(this.filtersKey, {
         query: this.query || null,
         osFamilies: this.selectedOsFamilies,
         categoryFilters: this.selectedFilters,
@@ -127,27 +149,11 @@ export class TemplateFiltersComponent implements OnInit {
   }
 
   private initFilters(): void {
-    const params = this.filter.init(this.filtersKey, {
-      osFamilies: {
-        type: 'array',
-        options: this.osFamilies,
-        defaultOption: []
-      },
-      categoryFilters: {
-        type: 'array',
-        options: this.categoryFilters,
-        defaultOption: []
-      },
-      zones: {
-        type: 'array',
-        defaultOption: []
-      },
-      query: { type: 'string' },
-      groupings: { type: 'array', defaultOption: [] }
-    });
+    const params = this.filterService.getParams();
     this.selectedOsFamilies = params['osFamilies'];
     this.selectedFilters = params['categoryFilters'];
-    this.selectedZones = this.zones.filter(zone => params['zones'].find(id => id === zone.id));
+    this.selectedZones = this.zones.filter(
+      zone => params['zones'].find(id => id === zone.id));
     this.selectedGroupingNames = params['groupings']
       .map(g => this.availableGroupings.find(_ => _.key === g))
       .filter(g => g);

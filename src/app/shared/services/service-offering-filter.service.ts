@@ -20,28 +20,23 @@ export class ServiceOfferingFilterService {
   ) { }
 
   public getAvailableByResources(params: Partial<{ zone: Zone }>): Observable<Array<ServiceOffering>> {
-    const availabilityRequest: Observable<OfferingAvailability> = this.configService.get('offeringAvailability');
-    const restrictionsRequest: Observable<CustomOfferingRestrictions> =
-      this.configService.get('customOfferingRestrictions');
+    const offeringAvailability = this.configService.get('offeringAvailability');
+    const customOfferingRestrictions = this.configService.get('customOfferingRestrictions');
 
     return Observable.forkJoin(
       this.serviceOfferingService.getList(params),
-      availabilityRequest,
-      restrictionsRequest,
       this.resourceUsageService.getResourceUsage()
     )
       .map((
         [
           serviceOfferings,
-          offeringAvailability,
-          offeringRestrictions,
           resourceUsage
         ]
       ) => {
         return this.serviceOfferingService.getAvailableByResourcesSync(
           serviceOfferings,
           offeringAvailability,
-          offeringRestrictions,
+          customOfferingRestrictions,
           resourceUsage,
           params.zone
         )

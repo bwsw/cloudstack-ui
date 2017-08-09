@@ -18,10 +18,12 @@ import { UserService } from '../../shared/services/user.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { SpareDriveActionsService } from '../spare-drive-actions.service';
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
-const askToCreateVolume = 'askToCreateVolume';
+const askToCreateVolume = 'csui.user.ask-to-create-volume';
 
 export interface VolumeCreationData {
   name: string;
@@ -54,18 +56,24 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     }
   ];
 
+  private filterService = new FilterService({
+    zones: { type: 'array', defaultOption: [] },
+    groupings: { type: 'array', defaultOption: [] }
+  }, this.router, this.localStorage, spareDriveListFilters, this.activatedRoute);
   private onDestroy = new Subject();
 
   constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
-    private filter: FilterService,
     private jobsNotificationService: JobsNotificationService,
     private listService: ListService,
     private spareDriveActionsService: SpareDriveActionsService,
     private userService: UserService,
     private volumeService: VolumeService,
-    private zoneService: ZoneService
+    private zoneService: ZoneService,
+    private localStorage: LocalStorageService
   ) {
   }
 
@@ -89,10 +97,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   }
 
   public initFilters(): void {
-    const params = this.filter.init(spareDriveListFilters, {
-      zones: { type: 'array', defaultOption: [] },
-      groupings: { type: 'array', defaultOption: [] }
-    });
+    const params = this.filterService.getParams();
     this.selectedZones = this.zones.filter(zone =>
       params['zones'].find(id => id === zone.id)
     );
@@ -111,7 +116,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     this.filterZones();
     this.updateGroupings();
 
-    this.filter.update(spareDriveListFilters, {
+    this.filterService.update(spareDriveListFilters, {
       zones: this.selectedZones.map(_ => _.id),
       groupings: this.selectedGroupingNames.map(_ => _.key)
     });
@@ -205,7 +210,8 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
             },
             { text: 'NO' },
             {
-              handler: () => this.userService.writeTag(askToCreateVolume, 'false').subscribe(),
+              handler: () => this.userService.writeTag(askToCreateVolume, 'false')
+                .subscribe(),
               text: 'NO_DONT_ASK'
             }
           ],
@@ -235,7 +241,8 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
       .map(volumes => {
         this.volumes = volumes
           .map(volume => {
-            volume.diskOffering = diskOfferings.find(offering => offering.id === volume.diskOfferingId);
+            volume.diskOffering = diskOfferings.find(
+              offering => offering.id === volume.diskOfferingId);
             return volume;
           });
 

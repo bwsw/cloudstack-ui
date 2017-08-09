@@ -9,7 +9,7 @@
         (click)="popover.toggle($event)"
         mdl-button-type="icon"
         mdl-ripple>
-        <mdl-icon>more_vert</mdl-icon>
+        <md-icon>more_vert</md-icon>
       </button>
     </div>
   </md-card-header>
@@ -39,7 +39,7 @@
           [mdTooltip]="'DETACH' | translate"
           (click)="detach()"
         >
-          <mdl-icon>remove</mdl-icon>
+          <md-icon>remove</md-icon>
         </button>
       </div>
       <div class="card-right-button">
@@ -50,7 +50,7 @@
           (click)="toggleDetails()"
           [class.open]="expandDetails"
         >
-          <mdl-icon>keyboard_arrow_down</mdl-icon>
+          <md-icon>keyboard_arrow_down</md-icon>
         </button>
       </div>
     </md-card-actions>
@@ -68,24 +68,25 @@
         mdl-button-type="icon"
         (click)="takeSnapshot(volume)"
       >
-        <mdl-icon>camera_alt</mdl-icon>
+        <md-icon>camera_alt</md-icon>
       </button>
-      <!--todo: recurring snapshots-->
-      <!--<button-->
-      <!--[mdTooltip]="'SNAPSHOT_SCHEDULE_BUTTON' | translate "-->
-      <!---->
-      <!--mdl-button-->
-      <!--mdl-button-type="icon"-->
-      <!--&gt;-->
-      <!--<mdl-icon >schedule</mdl-icon>-->
-      <!--</button>-->
+
+      <button
+        [mdTooltip]="'SNAPSHOT_SCHEDULE_BUTTON' | translate "
+        mdl-button
+        mdl-button-type="icon"
+        (click)="showRecurringSnapshotsDialog()"
+      >
+        <md-icon >schedule</md-icon>
+      </button>
+
       <button
         mdl-button
         mdl-button-type="icon"
-        (click)="showVolumeResizeDialog(volume)"
+        (click)="showVolumeResizeDialog()"
         [mdTooltip]="'VOLUME_RESIZE' | translate"
       >
-        <mdl-icon>photo_size_select_small</mdl-icon>
+        <md-icon>photo_size_select_small</md-icon>
       </button>
     </div>
   </mdl-popover>

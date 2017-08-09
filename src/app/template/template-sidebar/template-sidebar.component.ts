@@ -6,6 +6,7 @@ import { TemplateActionsService } from '../shared/template-actions.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { NotificationService } from '../../shared/services/notification.service';
+import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 
 @Component({
   selector: 'cs-template-sidebar',
@@ -15,12 +16,21 @@ import { NotificationService } from '../../shared/services/notification.service'
 export class TemplateSidebarComponent extends BaseTemplateSidebarComponent {
   constructor(
     templateService: TemplateService,
+    dateTimeFormatterService: DateTimeFormatterService,
     route: ActivatedRoute,
     templateActions: TemplateActionsService,
     listService: ListService,
     dialogService: DialogService,
     notificationService: NotificationService
   ) {
-    super(templateService, templateActions, listService, route, dialogService, notificationService);
+    super(
+      templateService,
+      dateTimeFormatterService,
+      route,
+      dialogService,
+      notificationService,
+      templateActions,
+      listService
+    );
   }
 }

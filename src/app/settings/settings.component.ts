@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Color, LanguageService, StyleService } from '../shared';
-import { AuthService, NotificationService } from '../shared/services';
-import { TimeFormat } from '../shared/services/language.service';
+import { AuthService, NotificationService, TimeFormats } from '../shared/services';
 import { UserService } from '../shared/services/user.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 import { MdSelectChange } from '@angular/material';
@@ -22,7 +21,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public language: string;
   public primaryColor: Color;
   public primaryColors: Array<Color>;
-  public timeFormat: string = TimeFormat.AUTO;
+  public timeFormat: string = TimeFormats.AUTO;
 
   public passwordUpdateForm: FormGroup;
 
@@ -44,9 +43,9 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
     { value: 1, text: 'MONDAY' }
   ];
 
-  public TimeFormat = TimeFormat;
+  public TimeFormat = TimeFormats;
   // TODO replace when TypeScript 2.4 string enums land
-  public timeFormats = Object.keys(TimeFormat);
+  public timeFormats = Object.keys(TimeFormats);
 
   constructor(
     private authService: AuthService,
@@ -103,6 +102,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
     if (this.primaryColor.value === this.accentColor.value) {
       this.accentColor = this.firstAvailableAccentColor;
     }
+
     this.updatePalette();
   }
 
@@ -127,7 +127,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public firstDayOfWeekChange(change: MdSelectChange): void {
     this.firstDayOfWeek = change.value;
     this.updatingFirstDayOfWeek = true;
-    this.userService.writeTag('firstDayOfWeek', '' + change.value)
+    this.languageService.setFirstDayOfWeek(change.value)
       .finally(() => this.updatingFirstDayOfWeek = false)
       .subscribe();
   }
