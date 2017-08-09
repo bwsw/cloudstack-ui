@@ -6,6 +6,7 @@ import { TemplateActionsService } from '../shared/template-actions.service';
 import { BaseTemplateSidebarComponent } from './base-template-sidebar.component';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { NotificationService } from '../../shared/services/notification.service';
+import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 
 @Component({
   selector: 'cs-iso-sidebar',
@@ -15,12 +16,21 @@ import { NotificationService } from '../../shared/services/notification.service'
 export class IsoSidebarComponent extends BaseTemplateSidebarComponent {
   constructor(
     isoService: IsoService,
+    dateTimeFormatterService: DateTimeFormatterService,
     route: ActivatedRoute,
     templateActions: TemplateActionsService,
     listService: ListService,
     dialogService: DialogService,
     notificationService: NotificationService
   ) {
-    super(isoService, templateActions, listService, route, dialogService, notificationService);
+    super(
+      isoService,
+      dateTimeFormatterService,
+      route,
+      dialogService,
+      notificationService,
+      templateActions,
+      listService
+    );
   }
 }

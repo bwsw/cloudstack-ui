@@ -306,6 +306,17 @@ In this sections you can specify limits for custom offerings in the following fo
     
 Any of these parameters may be left unspecified, in which case 0 will be used for min and infinity will be used for max.
 
+### extensions
+Extension options:
+```
+  "extensions": {
+    "webShell": {
+      "address": "http://192.168.1.1:8018"
+    }
+  }
+```
+`webShell.address` is the address of a WebShell server. WebShell will not be available unless an address is specified.
+
 ## Project Sponsors
 
 The project is currently supported by [Bitworks Software](https://bitworks.software/).

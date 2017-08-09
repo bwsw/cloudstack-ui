@@ -1,8 +1,8 @@
 import { MdlModule } from '@angular-mdl/core';
-import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MdIconModule, MdTooltipModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard/dist';
 import { SharedModule } from '../shared/shared.module';
@@ -10,7 +10,6 @@ import { TagCategoryComponent } from './tag-category/tag-category.component';
 import { TagEditComponent } from './tag-edit/tag-edit.component';
 import { TagComponent } from './tag/tag.component';
 import { TagsViewComponent } from './tags-view/tags-view.component';
-import { MdTooltipModule } from '@angular/material';
 
 
 @NgModule({
@@ -18,9 +17,9 @@ import { MdTooltipModule } from '@angular/material';
     CommonModule,
     FormsModule,
     TranslateModule,
+    MdIconModule,
     MdTooltipModule,
     MdlModule,
-    MdlSelectModule,
     SharedModule,
     ClipboardModule
   ],

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MdMenuTrigger } from '@angular/material';
 import { Color } from '../../shared/models';
-import { IVmAction, VirtualMachine } from '../shared/vm.model';
+import { VirtualMachine } from '../shared/vm.model';
 import { VmActionsService } from '../shared/vm-actions.service';
 import { VirtualMachineAction } from '../vm-actions/vm-action';
 

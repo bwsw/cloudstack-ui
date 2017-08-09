@@ -1,7 +1,6 @@
-import { ChangeDetectorRef, Component, HostBinding, OnInit, ViewChild } from '@angular/core';
+import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-
 import {
   AsyncJob,
   AsyncJobService,
@@ -11,24 +10,20 @@ import {
   VmStatisticsComponent,
   Zone
 } from '../../shared';
-
 import { ListService } from '../../shared/components/list/list.service';
 import { UserService } from '../../shared/services/user.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VirtualMachine, VmStates } from '../shared/vm.model';
-
 import { VirtualMachineEntityName, VmService } from '../shared/vm.service';
-
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list-item.component';
 import { VmActionsService } from '../shared/vm-actions.service';
-
 import { VirtualMachineActionType } from '../vm-actions/vm-action';
 import clone = require('lodash/clone');
 
 
-const askToCreateVm = 'askToCreateVm';
+const askToCreateVm = 'csui.user.ask-to-create-vm';
 
 @Component({
   selector: 'cs-vm-list',
@@ -112,6 +107,10 @@ export class VmListComponent implements OnInit {
   }
 
   public updateFilters(filterData?: VmFilter): void {
+    if (!this.vmList) {
+      return;
+    }
+
     if (!this.vmList.length || !filterData) {
       this.visibleVmList = this.vmList;
       return;
@@ -196,6 +195,10 @@ export class VmListComponent implements OnInit {
   }
 
   private replaceVmInList(vm: VirtualMachine): void {
+    if (!this.vmList) {
+      return;
+    }
+
     const index = this.vmList.findIndex(_ => _.id === vm.id);
 
     if (index < 0) {

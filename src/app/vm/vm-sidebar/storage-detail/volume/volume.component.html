@@ -2,7 +2,7 @@
   <mdl-card-title>
     <h2 mdl-card-title-text>{{ volume.name }}</h2>
   </mdl-card-title>
-  <mdl-card-supporting-text *loading="loading"  >
+  <mdl-card-supporting-text *loading="loading">
     <div
       *ngIf="!expandDetails"
       class="disk-size"
@@ -56,7 +56,7 @@
         [mdTooltip]="'DETACH' | translate"
         (click)="detach()"
       >
-        <mdl-icon>remove</mdl-icon>
+        <md-icon>remove</md-icon>
       </button>
     </div>
     <div class="card-right-button">
@@ -67,7 +67,7 @@
         (click)="toggleDetails()"
         [class.open]="expandDetails"
       >
-        <mdl-icon>keyboard_arrow_down</mdl-icon>
+        <md-icon>keyboard_arrow_down</md-icon>
       </button>
     </div>
   </mdl-card-actions>

@@ -57,7 +57,7 @@
       [(ngModel)]="selectedZones"
       (change)="updateFilters()"
     >
-      <md-option mdl-ripple *ngFor="let z of zones" [value]="z">{{ z.name }}</md-option>
+      <md-option *ngFor="let z of zones" [value]="z">{{ z.name }}</md-option>
     </md-select>
 
     <cs-divider-vertical></cs-divider-vertical>
