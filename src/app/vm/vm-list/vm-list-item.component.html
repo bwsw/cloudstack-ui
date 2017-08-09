@@ -49,11 +49,9 @@
       </tr>
     </table>
   </mdl-card-supporting-text>
-  <mdl-card-menu>
-    <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
-      <md-icon>more_vert</md-icon>
-    </button>
-  </mdl-card-menu>
+  <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
+    <md-icon>more_vert</md-icon>
+  </button>
   <md-menu #actionsMenu="mdMenu">
     <ng-container *ngFor="let action of firstRowActions">
       <button md-menu-item

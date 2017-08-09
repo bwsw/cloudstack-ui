@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MdSelectModule, MdTooltipModule } from '@angular/material';
+import { MdSelectModule, MdTooltipModule,  MdMenuModule, MdButtonModule, MdIconModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { MdlModule } from '@angular-mdl/core';
-import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
 
 import { SgCreationComponent } from './sg-creation/sg-creation.component';
@@ -25,9 +24,11 @@ import { SgCreationRuleComponent } from './sg-creation/sg-creation-rule.componen
     MdSelectModule,
     MdTooltipModule,
     MdlModule,
-    MdlPopoverModule,
     MdlSelectModule,
-    SharedModule
+    SharedModule,
+    MdMenuModule,
+    MdButtonModule,
+    MdIconModule,
   ],
   exports: [
     SgCreationComponent,

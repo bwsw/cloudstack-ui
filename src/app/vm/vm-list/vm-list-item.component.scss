@@ -54,16 +54,15 @@ button {
   &.mat-menu-item {
     padding: 0 10px;
   }
-}
 
-.popover-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
+  &.mat-icon-button {
+    position: absolute;
+    left: 285px;
 
-.popover-actions button:last-child {
-  margin-left: auto;
+    md-icon {
+      vertical-align: top;
+    }
+  }
 }
 
 md-divider {

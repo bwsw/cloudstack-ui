@@ -12,8 +12,15 @@
   text-overflow: ellipsis;
 }
 
-.spare-drive-popover {
-  width: 135px !important;
+button {
+  &.mat-menu-item {
+    padding: 0 10px;
+  }
+
+  &.mat-icon-button {
+    position: absolute;
+    left: 285px;
+  }
 }
 
 /deep/ .spare-drive-attachment-dialog {

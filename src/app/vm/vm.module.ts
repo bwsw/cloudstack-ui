@@ -1,5 +1,4 @@
 import { MdlModule } from '@angular-mdl/core';
-import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -81,7 +80,6 @@ import { VmTagsComponent } from './vm-tags/vm-tags.component';
     MdTooltipModule,
     MdSelectModule,
     MdlModule,
-    MdlPopoverModule,
     MdlSelectModule,
     ReactiveFormsModule,
     ServiceOfferingModule,

@@ -16,3 +16,14 @@
 .description span {
   width: auto;
 }
+
+button {
+  &.mat-menu-item {
+    padding: 0 10px;
+  }
+
+  &.mat-icon-button {
+    position: absolute;
+    left: 285px;
+  }
+}

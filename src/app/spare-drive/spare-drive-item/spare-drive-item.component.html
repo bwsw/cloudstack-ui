@@ -3,7 +3,6 @@
   mdl-shadow="2"
   (click)="handleClick($event)"
   [class.card-selected]="isSelected(item)"
-  [class.arrow]="popover.isVisible"
 >
   <mdl-card-title>
     <h2
@@ -29,52 +28,29 @@
       </div>
     </div>
   </mdl-card-supporting-text>
-  <mdl-card-menu>
-    <button
-      mdl-button
-      (click)="$event.stopPropagation(); popover.toggle($event)"
-      mdl-button-type="icon"
-      mdl-ripple>
-      <mdl-icon>more_vert</mdl-icon>
-    </button>
-  </mdl-card-menu>
-  <mdl-popover
-    class="card-popover spare-drive-popover"
-    #popover
-    [hide-on-click]="true"
+  <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
+    <md-icon>more_vert</md-icon>
+  </button>
+  <md-menu #actionsMenu="mdMenu"
     [style.width.px]="300"
   >
-    <div mdl-shadow="6" class="popover-actions">
-      <button
-        [mdTooltip]="'ATTACH' | translate"
-
-        mdl-button
-        mdl-button-type="icon"
-        mdl-ripple
-        (click)="$event.stopPropagation(); attach()"
-      >
-        <mdl-icon>attach_file</mdl-icon>
-      </button>
-      <button
-        [mdTooltip]="'RESIZE' | translate"
-
-        mdl-button
-        mdl-button-type="icon"
-        mdl-ripple
-        (click)="$event.stopPropagation(); resize()"
-      >
-        <mdl-icon>photo_size_select_small</mdl-icon>
-      </button>
-      <button
-        [mdTooltip]="'DELETE' | translate"
-
-        mdl-button
-        mdl-button-type="icon"
-        mdl-ripple
-        (click)="$event.stopPropagation(); remove()"
-      >
-        <mdl-icon>delete</mdl-icon>
-      </button>
-    </div>
-  </mdl-popover>
+    <button md-menu-item
+      (click)="$event.stopPropagation(); attach()"
+    >
+      <md-icon>attach_file</md-icon>
+      <span>{{ 'ATTACH' | translate }}</span>
+    </button>
+    <button md-menu-item
+      (click)="$event.stopPropagation(); resize()"
+    >
+      <md-icon>photo_size_select_small</md-icon>
+      <span>{{ 'RESIZE' | translate }}</span>
+    </button>
+    <button md-menu-item
+      (click)="$event.stopPropagation(); remove()"
+    >
+      <md-icon>delete</md-icon>
+      <span>{{ 'DELETE' | translate }}</span>
+    </button>
+  </md-menu>
 </mdl-card>

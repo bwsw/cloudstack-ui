@@ -30,8 +30,15 @@
   overflow: hidden;
 }
 
-.template-popover {
-  width: 60px !important;
+button {
+  &.mat-menu-item {
+    padding: 0 10px;
+  }
+
+  &.mat-icon-button {
+    position: absolute;
+    left: 285px;
+  }
 }
 
 .template-header {

@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MdlModule } from '@angular-mdl/core';
-import { MdlPopoverModule } from '@angular-mdl/popover';
-import { MdTooltipModule } from '@angular/material';
+import { MdTooltipModule, MdMenuModule, MdButtonModule, MdIconModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard/dist';
 
@@ -24,7 +23,9 @@ import { SshKeyListItemComponent } from './ssh-key-list-item.component';
     TranslateModule,
     MdTooltipModule,
     MdlModule,
-    MdlPopoverModule
+    MdMenuModule,
+    MdButtonModule,
+    MdIconModule,
   ],
   exports: [SshKeysPageComponent],
   declarations: [
