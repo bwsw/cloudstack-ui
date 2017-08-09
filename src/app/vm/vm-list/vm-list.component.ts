@@ -70,6 +70,8 @@ export class VmListComponent implements OnInit {
   public inputs;
   public outputs;
 
+  public filterData: any;
+
   constructor(
     public listService: ListService,
     private vmService: VmService,
@@ -106,22 +108,27 @@ export class VmListComponent implements OnInit {
     return !this.visibleVmList.length;
   }
 
-  public updateFilters(filterData?: VmFilter): void {
-    if (!this.vmList) {
+  public updateFiltersAndFilter(filterData: VmFilter): void {
+    this.filterData = filterData;
+    this.filter();
+  }
+
+  public filter(): void {
+    if (!this.vmList || !this.vmList.length) {
       return;
     }
 
-    if (!this.vmList.length || !filterData) {
+    if (!this.filterData) {
       this.visibleVmList = this.vmList;
       return;
     }
 
-    this.selectedGroupings = filterData.groupings.reduce((acc, g) => {
+    this.selectedGroupings = this.filterData.groupings.reduce((acc, g) => {
       acc.push(this.groupings.find(_ => _ === g));
       return acc;
     }, []);
 
-    const { selectedZones, selectedGroups, selectedStates } = filterData;
+    const { selectedZones, selectedGroups, selectedStates } = this.filterData;
     this.visibleVmList = this.filterVmsByZones(this.vmList, selectedZones);
     this.visibleVmList = this.filterVmsByGroup(this.visibleVmList, selectedGroups);
     this.visibleVmList = this.filterVMsByState(this.visibleVmList, selectedStates);
@@ -134,7 +141,7 @@ export class VmListComponent implements OnInit {
 
   public onVmCreated(vm: VirtualMachine): void {
     this.vmList.push(vm);
-    this.updateFilters();
+    this.filter();
     this.updateStats();
   }
 
@@ -189,7 +196,7 @@ export class VmListComponent implements OnInit {
       )
       .subscribe(vm => {
         this.replaceVmInList(vm);
-        this.updateFilters();
+        this.filter();
         this.updateStats();
       });
   }
@@ -235,7 +242,7 @@ export class VmListComponent implements OnInit {
         if (this.listService.isSelected(job.result.id)) {
           this.listService.deselectItem();
         }
-        this.updateFilters();
+        this.filter();
         this.updateStats();
       });
   }
@@ -276,7 +283,7 @@ export class VmListComponent implements OnInit {
         }
       });
 
-      this.updateFilters();
+      this.filter();
       this.updateStats();
     }
   }
