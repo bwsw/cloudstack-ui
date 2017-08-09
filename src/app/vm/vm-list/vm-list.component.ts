@@ -70,6 +70,8 @@ export class VmListComponent implements OnInit {
   public inputs;
   public outputs;
 
+  public filterData: any;
+
   constructor(
     public listService: ListService,
     private vmService: VmService,
@@ -107,13 +109,14 @@ export class VmListComponent implements OnInit {
   }
 
   public updateFilters(filterData?: VmFilter): void {
-    if (!this.vmList) {
+    if (!this.vmList || !this.vmList.length) {
       return;
     }
 
-    if (!this.vmList.length || !filterData) {
-      this.visibleVmList = this.vmList;
-      return;
+    if (!filterData) {
+      filterData = this.filterData;
+    } else {
+      this.filterData = filterData;
     }
 
     this.selectedGroupings = filterData.groupings.reduce((acc, g) => {
