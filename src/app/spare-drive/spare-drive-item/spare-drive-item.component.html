@@ -2,7 +2,6 @@
   class="custom-card spare-drive-card"
   (click)="handleClick($event)"
   [class.card-selected]="isSelected(item)"
-  [class.arrow]="popover.isVisible"
 >
   <md-card-header>
     <md-card-title>
@@ -14,13 +13,9 @@
       </h2>
     </md-card-title>
     <div class="md-card-header-menu">
-      <button
-        mdl-button
-        (click)="$event.stopPropagation(); popover.toggle($event)"
-        mdl-button-type="icon"
-        mdl-ripple>
-        <md-icon>more_vert</md-icon>
-      </button>
+        <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
+            <md-icon>more_vert</md-icon>
+        </button>
     </div>
   </md-card-header>
   <md-card-content>
@@ -39,43 +34,26 @@
       </div>
     </div>
   </md-card-content>
-  <mdl-popover
-    class="card-popover spare-drive-popover"
-    #popover
-    [hide-on-click]="true"
-    [style.width.px]="300"
-  >
-    <div mdl-shadow="6" class="popover-actions">
-      <button
-        [mdTooltip]="'ATTACH' | translate"
-
-        mdl-button
-        mdl-button-type="icon"
-        mdl-ripple
-        (click)="$event.stopPropagation(); attach()"
-      >
-        <md-icon>attach_file</md-icon>
-      </button>
-      <button
-        [mdTooltip]="'RESIZE' | translate"
-
-        mdl-button
-        mdl-button-type="icon"
-        mdl-ripple
-        (click)="$event.stopPropagation(); resize()"
-      >
-        <md-icon>photo_size_select_small</md-icon>
-      </button>
-      <button
-        [mdTooltip]="'DELETE' | translate"
-
-        mdl-button
-        mdl-button-type="icon"
-        mdl-ripple
-        (click)="$event.stopPropagation(); remove()"
-      >
-        <md-icon>delete</md-icon>
-      </button>
-    </div>
-  </mdl-popover>
+    <md-menu #actionsMenu="mdMenu"
+             [style.width.px]="300"
+    >
+        <button md-menu-item
+                (click)="$event.stopPropagation(); attach()"
+        >
+            <md-icon>attach_file</md-icon>
+            <span>{{ 'ATTACH' | translate }}</span>
+        </button>
+        <button md-menu-item
+                (click)="$event.stopPropagation(); resize()"
+        >
+            <md-icon>photo_size_select_small</md-icon>
+            <span>{{ 'RESIZE' | translate }}</span>
+        </button>
+        <button md-menu-item
+                (click)="$event.stopPropagation(); remove()"
+        >
+            <md-icon>delete</md-icon>
+            <span>{{ 'DELETE' | translate }}</span>
+        </button>
+    </md-menu>
 </md-card>

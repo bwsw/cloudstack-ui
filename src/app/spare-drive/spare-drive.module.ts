@@ -1,9 +1,8 @@
 import { MdlModule } from '@angular-mdl/core';
-import { MdlPopoverModule } from '@angular-mdl/popover';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdIconModule, MdSelectModule, MdTooltipModule } from '@angular/material';
+import { MdSelectModule, MdTooltipModule, MdMenuModule, MdButtonModule, MdIconModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 
@@ -23,14 +22,15 @@ import { spareDrivesRouting } from './spare-drive.routing';
     CommonModule,
     FormsModule,
     TranslateModule,
-    MdIconModule,
-    MdTooltipModule,
     MdSelectModule,
+    MdTooltipModule,
     MdlModule,
-    MdlPopoverModule,
     SharedModule,
     spareDrivesRouting,
     DynamicModule.withComponents([SpareDriveItemComponent]),
+    MdMenuModule,
+    MdButtonModule,
+    MdIconModule,
   ],
   declarations: [
     SpareDrivePageComponent,

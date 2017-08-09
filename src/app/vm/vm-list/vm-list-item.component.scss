@@ -44,21 +44,6 @@ md-card.error {
   width: 280px !important;
 }
 
-button {
-  padding: 10px;
-  display: block;
-}
-
-.popover-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.popover-actions button:last-child {
-  margin-left: auto;
-}
-
 md-divider {
   flex: 1 0 100%;
   margin: 10px 0;
