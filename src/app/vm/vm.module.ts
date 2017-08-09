@@ -1,10 +1,9 @@
 import { MdlModule } from '@angular-mdl/core';
-import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MdIconModule, MdSelectModule, MdTooltipModule } from '@angular/material';
+import { MdSelectModule, MdTooltipModule, MdMenuModule, MdButtonModule, MdIconModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -80,9 +79,7 @@ import { VmTagsComponent } from './vm-tags/vm-tags.component';
     DraggableSelectModule,
     MdTooltipModule,
     MdSelectModule,
-    MdIconModule,
     MdlModule,
-    MdlPopoverModule,
     MdlSelectModule,
     ReactiveFormsModule,
     ServiceOfferingModule,
@@ -95,6 +92,9 @@ import { VmTagsComponent } from './vm-tags/vm-tags.component';
     TranslateModule,
     vmRouting,
     RouterModule.forRoot(routes),
+    MdMenuModule,
+    MdButtonModule,
+    MdIconModule,
   ],
   declarations: [
     AffinityGroupSelectorComponent,

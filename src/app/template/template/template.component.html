@@ -68,30 +68,16 @@
       ></div>
     </div>
   </mdl-card-supporting-text>
-  <mdl-card-menu *ngIf="isSelf">
-    <button
-      mdl-button
-      (click)="$event.stopPropagation(); popover.toggle($event)"
-      mdl-button-type="icon"
-      mdl-ripple
-    >
-      <md-icon>more_vert</md-icon>
-    </button>
-  </mdl-card-menu>
-  <mdl-popover
-    class="card-popover template-popover"
-    #popover
-    [hide-on-click]="true"
+  <button *ngIf="isSelf" md-icon-button [mdMenuTriggerFor]="actionsMenu">
+    <md-icon>more_vert</md-icon>
+  </button>
+  <md-menu #actionsMenu="mdMenu"
   >
-    <div mdl-shadow="6" class="popover-actions">
-      <button
-        [mdTooltip]="'DELETE' | translate"
-        mdl-button
-        mdl-button-type="icon"
-        (click)="removeTemplate()"
-      >
-        <md-icon>delete</md-icon>
-      </button>
-    </div>
-  </mdl-popover>
+    <button md-menu-item
+      (click)="removeTemplate()"
+    >
+      <md-icon>delete</md-icon>
+      <span>{{ 'DELETE' | translate }}</span>
+    </button>
+  </md-menu>
 </mdl-card>

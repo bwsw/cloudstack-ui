@@ -1,4 +1,4 @@
-import { MdlPopoverComponent } from '@angular-mdl/popover';
+import { MdMenuTrigger } from '@angular/material';
 import {
   Component,
   EventEmitter,
@@ -26,7 +26,7 @@ export class TemplateComponent implements OnChanges {
   @Input() public searchQuery: () => string;
   @Output() public deleteTemplate = new EventEmitter();
   @Output() public onClick = new EventEmitter();
-  @ViewChild(MdlPopoverComponent) public popoverComponent: MdlPopoverComponent;
+  @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
 
   public query: string;
 
@@ -41,10 +41,8 @@ export class TemplateComponent implements OnChanges {
 
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
-    if (!this.popoverComponent.isVisible) {
+    if (!this.mdMenuTrigger.menuOpen) {
       this.onClick.emit(this.item);
-    } else {
-      this.popoverComponent.hide();
     }
   }
 
