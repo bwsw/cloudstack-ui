@@ -8,13 +8,14 @@ import { TagService } from './tag.service';
 
 
 type VolumeTagKey = 'description';
+const VolumeTagKeys = {
+  description: 'description' as VolumeTagKey,
+};
 
 @Injectable()
 export class VolumeTagService extends EntityTagService {
-  public keys = {
-    description: 'description' as VolumeTagKey,
-  };
-  protected entityPrefix = 'volume';
+  public entityPrefix = 'volume';
+  public keys = VolumeTagKeys;
 
   constructor(
     protected descriptionTagService: DescriptionTagService,
@@ -22,6 +23,7 @@ export class VolumeTagService extends EntityTagService {
     protected tagService: TagService
   ) {
     super(tagService);
+    this.initKeys();
   }
 
   public getDescription(volume: Volume): Observable<string> {

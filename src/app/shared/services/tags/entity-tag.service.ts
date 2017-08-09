@@ -4,11 +4,13 @@ import { TagService } from './tag.service';
 
 @Injectable()
 export abstract class EntityTagService {
-  public abstract keys: any;
-  protected abstract entityPrefix: string;
+  public keys: any;
+  public abstract entityPrefix: string;
   protected globalPrefix = 'csui';
 
-  constructor(protected tagService: TagService) {
+  constructor(protected tagService: TagService) {}
+
+  protected initKeys(): void {
     this.keys = this.getPrefixedKeys(this.keys);
   }
 

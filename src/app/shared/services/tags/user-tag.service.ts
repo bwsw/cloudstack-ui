@@ -3,11 +3,11 @@ import { EntityTagService } from './entity-tag.service';
 import { TagService } from './tag.service';
 import { Observable } from 'rxjs/Observable';
 import { ResourceTypes } from '../../models/tag.model';
-import { StorageService } from '../storage.service';
 import { Color } from '../../models/color.model';
 import { Utils } from '../utils.service';
 import { DayOfWeek } from '../../types/day-of-week';
 import { Language, TimeFormat } from '../language.service';
+import { LocalStorageService } from '../local-storage.service';
 
 
 type UserTagKey =
@@ -20,6 +20,18 @@ type UserTagKey =
   'primary-color' |
   'session-timeout' |
   'time-format';
+const UserTagKeys = {
+  accentColor: 'accent-color' as UserTagKey,
+  askToCreateVm: 'ask-to-create-vm' as UserTagKey,
+  askToCreateVolume: 'ask-to-create-volume' as UserTagKey,
+  firstDayOfWeek: 'first-day-of-week' as UserTagKey,
+  lang: 'lang' as UserTagKey,
+  lastVmId: 'last-vm-id' as UserTagKey,
+  primaryColor: 'primary-color' as UserTagKey,
+  sessionTimeout: 'session-timeout' as UserTagKey,
+  timeFormat: 'time-format' as UserTagKey
+};
+
 
 interface UserIdObject {
   id: string;
@@ -28,23 +40,14 @@ interface UserIdObject {
 @Injectable()
 export class UserTagService extends EntityTagService {
   public entityPrefix = 'User';
-  public keys = {
-    accentColor: 'accent-color' as UserTagKey,
-    askToCreateVm: 'ask-to-create-vm' as UserTagKey,
-    askToCreateVolume: 'ask-to-create-volume' as UserTagKey,
-    firstDayOfWeek: 'first-day-of-week' as UserTagKey,
-    lang: 'lang' as UserTagKey,
-    lastVmId: 'last-vm-id' as UserTagKey,
-    primaryColor: 'primary-color' as UserTagKey,
-    sessionTimeout: 'session-timeout' as UserTagKey,
-    timeFormat: 'time-format' as UserTagKey
-  };
+  public keys = UserTagKeys;
 
   constructor(
-    private storageService: StorageService,
+    private storageService: LocalStorageService,
     protected tagService: TagService
   ) {
     super(tagService);
+    this.initKeys();
   }
 
   private get user(): UserIdObject {

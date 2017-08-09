@@ -2,17 +2,23 @@ import { Injectable } from '@angular/core';
 import { EntityTagService } from './entity-tag.service';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { Observable } from 'rxjs/Observable';
+import { TagService } from './tag.service';
 
 
 type TemplateTagKey = 'download-url';
-export const TemplateTagKeys = {
+const TemplateTagKeys = {
   downloadUrl: 'download-url' as TemplateTagKey
 };
 
 @Injectable()
 export class TemplateTagService extends EntityTagService {
+  public entityPrefix = 'template';
   public keys = TemplateTagKeys;
-  protected entityPrefix = 'template';
+
+  constructor(protected tagService: TagService) {
+    super(tagService);
+    this.initKeys();
+  }
 
   public getDownloadUrl(template: BaseTemplateModel): Observable<string> {
     return this.tagService.getTag(template, this.keys.downloadUrl)

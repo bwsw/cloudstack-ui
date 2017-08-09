@@ -7,18 +7,22 @@ import { TagService } from './tag.service';
 import { Utils } from '../utils.service';
 
 
+type SecurityGroupTagKey = 'template';
+const SecurityGroupTagKeys = {
+  template: 'template' as SecurityGroupTagKey
+};
+
 @Injectable()
 export class SecurityGroupTagService extends EntityTagService {
   public entityPrefix = 'security-group';
-  public keys = {
-    template: 'template'
-  };
+  public keys = SecurityGroupTagKeys;
 
   constructor(
     private markForRemovalService: MarkForRemovalService,
     protected tagService: TagService
   ) {
     super(tagService);
+    this.initKeys();
   }
 
   public markForRemoval(securityGroup: SecurityGroup): Observable<SecurityGroup> {

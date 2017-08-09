@@ -7,20 +7,21 @@ import { Snapshot } from '../../models/snapshot.model';
 
 
 type SnapshotTagKey = 'description';
-export const SnapshotTagKeys = {
+const SnapshotTagKeys = {
   description: 'description' as SnapshotTagKey
 };
 
 @Injectable()
 export class SnapshotTagService extends EntityTagService {
+  public entityPrefix = 'snapshot';
   public keys = SnapshotTagKeys;
-  protected entityPrefix = 'snapshot';
 
   constructor(
     protected descriptionTagService: DescriptionTagService,
     protected tagService: TagService
   ) {
     super(tagService);
+    this.initKeys();
   }
 
   public getDescription(snapshot: Snapshot): Observable<string> {

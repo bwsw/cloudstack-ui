@@ -5,8 +5,10 @@ import { BackendResource } from '../../decorators/backend-resource.decorator';
 import { AsyncJobService } from '../async-job.service';
 import { BaseBackendCachedService } from '../';
 import { Taggable } from '../../interfaces/taggable.interface';
+import { Injectable } from '@angular/core';
 
 
+@Injectable()
 @BackendResource({
   entity: 'Tag',
   entityModel: Tag

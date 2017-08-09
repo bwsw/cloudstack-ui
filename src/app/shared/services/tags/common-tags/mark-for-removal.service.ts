@@ -6,7 +6,7 @@ import { EntityTagService } from '../entity-tag.service';
 
 
 const deletionMarkKey = 'status';
-const deletionMarkValue = 'removed'
+const deletionMarkValue = 'removed';
 
 @Injectable()
 export class MarkForRemovalService {

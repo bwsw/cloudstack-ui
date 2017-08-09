@@ -10,21 +10,23 @@ import { DescriptionTagService } from './common-tags/description-tag.service';
 
 
 type VirtualMachineTagKey = 'color' | 'description' | 'group';
+const VirtualMachineTagKeys = {
+  color: 'color' as VirtualMachineTagKey,
+  description: 'description' as VirtualMachineTagKey,
+  group: 'group' as VirtualMachineTagKey
+};
 
 @Injectable()
 export class VmTagService extends EntityTagService {
-  public keys = {
-    color: 'color' as VirtualMachineTagKey,
-    description: 'description' as VirtualMachineTagKey,
-    group: 'group' as VirtualMachineTagKey
-  };
-  protected entityPrefix = 'vm';
+  public entityPrefix = 'vm';
+  public keys = VirtualMachineTagKeys;
 
   constructor(
     protected descriptionTagService: DescriptionTagService,
     protected tagService: TagService
   ) {
     super(tagService);
+    this.initKeys();
   }
 
   public getColor(vm: VirtualMachine): Observable<Color> {
