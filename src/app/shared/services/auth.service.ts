@@ -11,8 +11,9 @@ import { BaseBackendService } from './base-backend.service';
 import { ConfigService } from './config.service';
 import { RouterUtilsService } from './router-utils.service';
 import { LocalStorageService } from './local-storage.service';
-import { UserTagService } from './tags/user-tag.service';
 import { UserService } from './user.service';
+import { UserTagService } from './tags/user-tag.service';
+
 
 const DEFAULT_SESSION_REFRESH_INTERVAL = 60;
 

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { TagService } from '../tag.service';
-import { EntityTagService } from '../entity-tag.service';
-import { Taggable } from '../../../interfaces/taggable.interface';
 import { Observable } from 'rxjs/Observable';
+import { Taggable } from '../../interfaces/taggable.interface';
+import { EntityTagService } from './entity-tag-service.interface';
+import { TagService } from './tag.service';
 
+debugger;
+console.log(TagService);
 
 @Injectable()
 export class DescriptionTagService {

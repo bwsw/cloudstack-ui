@@ -1,23 +1,25 @@
 import { MdlModule } from '@angular-mdl/core';
 import { MdlSelectModule } from '@angular-mdl/select';
-import {
-  Component, EventEmitter, Injectable, NO_ERRORS_SCHEMA, Pipe,
-  PipeTransform
-} from '@angular/core';
+import { Component, EventEmitter, Injectable, NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
+import { MockTagService } from '../../testutils/mocks/tag-services/mock-tag.service';
 import { DatePickerComponent } from '../shared/components/date-picker';
 import { TopBarComponent } from '../shared/components/top-bar/top-bar.component';
 import { LanguageService, TimeFormats } from '../shared/services';
-
-import { SharedModule } from '../shared/shared.module';
+import { Languages } from '../shared/services/language.service';
+import { TagService } from '../shared/services/tags/tag.service';
+// import { SharedModule } from '../shared/shared.module';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
 import { EventService } from './event.service';
-import { Languages } from '../shared/services/language.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { LoadingDirective } from '../shared/directives/loading.directive';
+import { SessionStorageService } from '../shared/services/session-storage.service';
+import { TableComponent } from '../shared/components/table/table.component';
+import { HighLightPipe } from '../shared/pipes/highlight.pipe';
 
 
 const eventServiceFixture = require('./event.service.fixture.json');
@@ -118,21 +120,25 @@ describe('event list component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
         MdlModule,
         MdlSelectModule
       ],
       declarations: [
+        HighLightPipe,
+        TableComponent,
+        LoadingDirective,
         MockTranslatePipe,
         EventListComponent,
         MockNotificationBoxComponent
       ],
       providers: [
+        SessionStorageService,
+        { provide: Router, useClass: MockRouter },
+        { provide: ActivatedRoute, useClass: ActivatedRouteStub },
         { provide: EventService, useClass: MockEventService },
         { provide: TranslateService, useClass: MockTranslateService },
         { provide: LanguageService, useClass: MockLanguageService },
-        { provide: Router, useClass: MockRouter },
-        { provide: ActivatedRoute, useClass: ActivatedRouteStub },
+        { provide: TagService, useClass: MockTagService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })

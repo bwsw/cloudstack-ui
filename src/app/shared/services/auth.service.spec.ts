@@ -11,6 +11,8 @@ import { ServiceLocator } from './service-locator';
 import { UserService } from './user.service';
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
 import { LocalStorageService } from './local-storage.service';
+import { UserTagService } from './tags/user-tag.service';
+import { MockUserTagService } from '../../../testutils/mocks/tag-services/mock-user-tag.service';
 
 
 @Component({
@@ -109,6 +111,7 @@ const testBedConfig = {
     { provide: ConfigService, useClass: MockConfigService },
     { provide: ErrorService, useClass: MockErrorService },
     { provide: UserService, useClass: MockUserService },
+    { provide: UserTagService, useClass: MockUserTagService },
     { provide: Router, useClass: MockRouter },
     { provide: RouterUtilsService, useClass: MockRouterUtilsService },
     { provide: LocalStorageService, useClass: MockStorageService },

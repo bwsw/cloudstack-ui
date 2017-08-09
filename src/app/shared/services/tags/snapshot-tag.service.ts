@@ -1,28 +1,23 @@
 import { Injectable } from '@angular/core';
-import { EntityTagService } from './entity-tag.service';
 import { Observable } from 'rxjs/Observable';
-import { DescriptionTagService } from './common-tags/description-tag.service';
 import { TagService } from './tag.service';
 import { Snapshot } from '../../models/snapshot.model';
+import { EntityTagService } from './entity-tag-service.interface';
+import { DescriptionTagService } from './description-tag.service';
 
 
-type SnapshotTagKey = 'description';
-const SnapshotTagKeys = {
-  description: 'description' as SnapshotTagKey
+export const SnapshotTagKeys = {
+  description: 'csui.snapshot.description'
 };
 
 @Injectable()
-export class SnapshotTagService extends EntityTagService {
-  public entityPrefix = 'snapshot';
+export class SnapshotTagService implements EntityTagService {
   public keys = SnapshotTagKeys;
 
   constructor(
     protected descriptionTagService: DescriptionTagService,
     protected tagService: TagService
-  ) {
-    super(tagService);
-    this.initKeys();
-  }
+  ) {}
 
   public getDescription(snapshot: Snapshot): Observable<string> {
     return this.descriptionTagService.getDescription(snapshot, this);

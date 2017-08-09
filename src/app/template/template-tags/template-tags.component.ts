@@ -2,11 +2,12 @@ import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { Tag } from '../../shared/models';
-import { TagService } from '../../shared/services';
+// import { TagService } from '../../shared/services';
 import { TagsComponent } from '../../tags/tags.component';
 import { IsoService, TemplateService } from '../shared';
 import { BaseTemplateService } from '../shared/base-template.service';
 import { BaseTemplateModel } from '../shared/base-template.model';
+import { TagService } from '../../shared/services/tags/tag.service';
 
 
 @Component({

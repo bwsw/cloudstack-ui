@@ -19,7 +19,7 @@ import { ErrorService } from './error.service';
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
 
 
-fdescribe('Async job service', () => {
+describe('Async job service', () => {
   let mockBackend: MockBackend;
   let jobQueries = 0;
   let asyncJobService: AsyncJobService;

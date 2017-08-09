@@ -1,33 +1,28 @@
 import { Injectable } from '@angular/core';
-import { EntityTagService } from './entity-tag.service';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
 import { Observable } from 'rxjs/Observable';
 import { Color } from '../../models/color.model';
 import { Tag } from '../../models/tag.model';
 import { InstanceGroup } from '../../models/instance-group.model';
 import { TagService } from './tag.service';
-import { DescriptionTagService } from './common-tags/description-tag.service';
+import { EntityTagService } from './entity-tag-service.interface';
+import { DescriptionTagService } from './description-tag.service';
 
 
-type VirtualMachineTagKey = 'color' | 'description' | 'group';
-const VirtualMachineTagKeys = {
-  color: 'color' as VirtualMachineTagKey,
-  description: 'description' as VirtualMachineTagKey,
-  group: 'group' as VirtualMachineTagKey
+export const VirtualMachineTagKeys = {
+  color: 'csui.vm.color',
+  description: 'csui.vm.description',
+  group: 'csui.vm.group'
 };
 
 @Injectable()
-export class VmTagService extends EntityTagService {
-  public entityPrefix = 'vm';
+export class VmTagService implements EntityTagService {
   public keys = VirtualMachineTagKeys;
 
   constructor(
     protected descriptionTagService: DescriptionTagService,
     protected tagService: TagService
-  ) {
-    super(tagService);
-    this.initKeys();
-  }
+  ) {}
 
   public getColor(vm: VirtualMachine): Observable<Color> {
     return this.tagService.getTag(vm, this.keys.color)

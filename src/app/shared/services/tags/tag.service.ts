@@ -1,12 +1,12 @@
-import { Observable } from 'rxjs/Observable';
-
-import { Tag } from '../../models/tag.model';
-import { BackendResource } from '../../decorators/backend-resource.decorator';
-import { AsyncJobService } from '../async-job.service';
-import { BaseBackendCachedService } from '../';
-import { Taggable } from '../../interfaces/taggable.interface';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { BackendResource } from '../../decorators/backend-resource.decorator';
+import { Taggable } from '../../interfaces/taggable.interface';
+import { Tag } from '../../models/tag.model';
+import { AsyncJobService } from '../async-job.service';
+import { BaseBackendCachedService } from '../base-backend-cached.service';
 
+console.log(BackendResource, Tag,  AsyncJobService, BaseBackendCachedService);
 
 @Injectable()
 @BackendResource({
@@ -32,12 +32,12 @@ export class TagService extends BaseBackendCachedService<Tag> {
   }
 
   public getList(params?: {}): Observable<Array<Tag>> {
-    const customApiFormat = { command: 'list', entity: 'Tag' };
+    const customApiFormat = {command: 'list', entity: 'Tag'};
     return super.getList(params, customApiFormat);
   }
 
   public getTag(entity: any, key: string): Observable<Tag> {
-    return this.getList({ resourceId: entity.id, key })
+    return this.getList({resourceId: entity.id, key})
       .map(tags => tags[0]);
   }
 

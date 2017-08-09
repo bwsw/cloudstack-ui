@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { EntityTagService } from './entity-tag.service';
 import { TagService } from './tag.service';
 import { Observable } from 'rxjs/Observable';
 import { ResourceTypes } from '../../models/tag.model';
@@ -8,47 +7,33 @@ import { Utils } from '../utils.service';
 import { DayOfWeek } from '../../types/day-of-week';
 import { Language, TimeFormat } from '../language.service';
 import { LocalStorageService } from '../local-storage.service';
+import { EntityTagService } from './entity-tag-service.interface';
 
 
-type UserTagKey =
-  'accent-color' |
-  'ask-to-create-vm' |
-  'ask-to-create-volume' |
-  'first-day-of-week' |
-  'lang' |
-  'last-vm-id' |
-  'primary-color' |
-  'session-timeout' |
-  'time-format';
-const UserTagKeys = {
-  accentColor: 'accent-color' as UserTagKey,
-  askToCreateVm: 'ask-to-create-vm' as UserTagKey,
-  askToCreateVolume: 'ask-to-create-volume' as UserTagKey,
-  firstDayOfWeek: 'first-day-of-week' as UserTagKey,
-  lang: 'lang' as UserTagKey,
-  lastVmId: 'last-vm-id' as UserTagKey,
-  primaryColor: 'primary-color' as UserTagKey,
-  sessionTimeout: 'session-timeout' as UserTagKey,
-  timeFormat: 'time-format' as UserTagKey
+export const UserTagKeys = {
+  accentColor: 'csui.user.accent-color',
+  askToCreateVm: 'csui.user.ask-to-create-vm',
+  askToCreateVolume: 'csui.user.ask-to-create-volume',
+  firstDayOfWeek: 'csui.user.first-day-of-week',
+  lang: 'csui.user.lang',
+  lastVmId: 'csui.user.last-vm-id',
+  primaryColor: 'csui.user.primary-color',
+  sessionTimeout: 'csui.user.session-timeout',
+  timeFormat: 'csui.user.time-format'
 };
-
 
 interface UserIdObject {
   id: string;
 }
 
 @Injectable()
-export class UserTagService extends EntityTagService {
-  public entityPrefix = 'User';
+export class UserTagService implements EntityTagService {
   public keys = UserTagKeys;
 
   constructor(
     private storageService: LocalStorageService,
     protected tagService: TagService
-  ) {
-    super(tagService);
-    this.initKeys();
-  }
+  ) {}
 
   private get user(): UserIdObject {
     const id = this.storageService.read('userId');
