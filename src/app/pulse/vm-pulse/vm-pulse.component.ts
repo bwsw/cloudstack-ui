@@ -85,7 +85,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
   public set selectedShift(value) {
     this._selectedShift = value;
     // TODO
-    if (this._selectedAggregations && this._selectedScale) {
+    if (this._selectedAggregations && this._selectedScale && this._shiftAmount) {
       this.updateChart();
     }
   }
@@ -102,7 +102,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
   public refresh() {
     if (this._selectedAggregations && this._selectedScale) {
       clearInterval(this.updateInterval);
-      this.updateChart();
+      this.updateChart(this.tabIndex, true);
     }
     this.scheduleAutoRefresh();
   }
@@ -123,7 +123,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
     this.updateChart();
   }
 
-  private updateChart(index: number = this.tabIndex) {
+  private updateChart(index: number = this.tabIndex, forceUpdate = false) {
     let chart;
     switch (index) {
       case TabIndex.CpuRam:
@@ -145,7 +145,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
       selectedScale: this.selectedScale,
       selectedShift: this.selectedShift,
       shiftAmount: this.shiftAmount
-    });
+    }, forceUpdate);
   }
 
   private scheduleAutoRefresh() {

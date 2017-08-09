@@ -89,5 +89,5 @@ export abstract class PulseChartComponent {
     }
   }
 
-  public abstract update(params);
+  public abstract update(params, forceUpdate: boolean);
 }

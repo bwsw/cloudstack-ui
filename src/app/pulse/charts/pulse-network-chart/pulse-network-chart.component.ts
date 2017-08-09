@@ -74,13 +74,13 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
       });
   }
 
-  public update(params) {
+  public update(params, forceUpdate) {
     const requests = params.selectedAggregations.map(_ =>
       this.pulse.network(this.vmId, this.selectedNic.macAddress, {
         range: params.selectedScale.range,
         aggregation: _,
         shift: `${params.shiftAmount}${params.selectedShift || 'w'}`
-      })
+      }, forceUpdate)
     );
 
     Observable.forkJoin(...requests)

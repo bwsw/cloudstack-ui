@@ -16,10 +16,7 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
         id: 'cpu',
         options: Object.assign({}, defaultChartOptions, {
           scales: {
-            xAxes: [{
-              type: 'time',
-              position: 'bottom'
-            }],
+            ...defaultChartOptions.scales,
             yAxes: [{
               ticks: {
                 suggestedMin: 0,
@@ -52,13 +49,13 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
     ]);
   }
 
-  public update(params) {
+  public update(params, forceUpdate = false) {
     const cpuRequests = params.selectedAggregations.map(_ =>
       this.pulse.cpuTime(params.vmId, {
         range: params.selectedScale.range,
         aggregation: _,
         shift: `${params.shiftAmount}${params.selectedShift || 'w'}`
-      })
+      }, forceUpdate)
     );
 
     const ramRequests = params.selectedAggregations.map(_ =>
@@ -66,7 +63,7 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
         range: params.selectedScale.range,
         aggregation: _,
         shift: `${params.shiftAmount}${params.selectedShift || 'w'}`
-      })
+      }, forceUpdate)
     );
     if (cpuRequests.length) {
       Observable.forkJoin(

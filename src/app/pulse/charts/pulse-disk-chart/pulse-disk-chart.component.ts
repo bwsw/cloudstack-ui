@@ -69,13 +69,13 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
       });
   }
 
-  public update(params) {
+  public update(params, forceUpdate) {
     const requests = params.selectedAggregations.map(_ =>
       this.pulse.disk(params.vmId, this.selectedVolume.id, {
         range: params.selectedScale.range,
         aggregation: _,
         shift: `${params.shiftAmount}${params.selectedShift || 'w'}`
-      })
+      }, forceUpdate)
     );
 
     Observable.forkJoin(...requests)
