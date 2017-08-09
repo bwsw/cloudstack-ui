@@ -90,7 +90,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
       }
 
       if (!Array.isArray(params[key])) {
-        urlParams.set(key.toLowerCase(), encodeURI(params[key]));
+        urlParams.set(key.toLowerCase(), params[key]);
         continue;
       }
 
@@ -108,13 +108,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   protected getRequest(command: string, params?: {}, entity?: string): Observable<any> {
-    const headers = new Headers({
-      'Content-Type': 'application/x-www-form-urlencoded'
-    });
-
     return this.http.get(BACKEND_API_URL,
       {
-        headers,
         search: this.buildParams(command, params, entity)
       }
     )
