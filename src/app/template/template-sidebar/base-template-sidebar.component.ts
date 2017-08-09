@@ -6,6 +6,7 @@ import { ListService } from '../../shared/components/list/list.service';
 import { BaseTemplateService } from '../shared/base-template.service';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { NotificationService } from '../../shared/services/notification.service';
+import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 
 
 export abstract class BaseTemplateSidebarComponent implements OnInit {
@@ -17,11 +18,12 @@ export abstract class BaseTemplateSidebarComponent implements OnInit {
 
   constructor(
     service: BaseTemplateService,
-    protected templateActions: TemplateActionsService,
-    protected listService: ListService,
+    public dateTimeFormatterService: DateTimeFormatterService,
     private route: ActivatedRoute,
     private dialogService: DialogService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    protected templateActions: TemplateActionsService,
+    protected listService: ListService,
   ) {
     this.service = service;
   }

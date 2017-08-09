@@ -92,7 +92,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   public getInstanceGroupList(): Observable<Array<InstanceGroup>> {
     return this.getListWithDetails()
       .map(vmList => vmList.reduce((groups, vm) => {
-        const group = vm.tags.find(tag => tag.key === 'group');
+        const group = vm.tags.find(tag => tag.key === 'csui.vm.group');
 
         if (!group || !group.value || groups.find(g => g.name === group.value)) {
           return groups;

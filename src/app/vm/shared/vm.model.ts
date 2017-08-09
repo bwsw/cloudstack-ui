@@ -4,6 +4,7 @@ import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { BaseModel, InstanceGroup, NIC, OsType, ServiceOffering, Tag, Volume } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { BaseTemplateModel } from '../../template/shared';
+import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag.service';
 
 
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
@@ -159,7 +160,7 @@ export class VirtualMachine extends BaseModel implements Taggable {
   }
 
   private initializeInstanceGroup(): void {
-    const group = this.tags.find(tag => tag.key === 'group');
+    const group = this.tags.find(tag => tag.key === VirtualMachineTagKeys.group);
 
     if (group) {
       this.instanceGroup = new InstanceGroup(group.value);

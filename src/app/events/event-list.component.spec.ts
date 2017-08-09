@@ -5,21 +5,23 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { MockTagService } from '../../testutils/mocks/tag-services/mock-tag.service';
 import { DatePickerComponent } from '../shared/components/date-picker';
+import { dateTimeFormat as enDateTimeFormat } from '../shared/components/date-picker/dateUtils';
+import { TableComponent } from '../shared/components/table/table.component';
 import { TopBarComponent } from '../shared/components/top-bar/top-bar.component';
-import { LanguageService, TimeFormats } from '../shared/services';
+import { LoadingDirective } from '../shared/directives/loading.directive';
+import { HighLightPipe } from '../shared/pipes/highlight.pipe';
+import { LanguageService } from '../shared/services';
+import { DateTimeFormatterService } from '../shared/services/date-time-formatter.service';
 import { Languages } from '../shared/services/language.service';
+import { SessionStorageService } from '../shared/services/session-storage.service';
 import { TagService } from '../shared/services/tags/tag.service';
-// import { SharedModule } from '../shared/shared.module';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
 import { EventService } from './event.service';
-import { LoadingDirective } from '../shared/directives/loading.directive';
-import { SessionStorageService } from '../shared/services/session-storage.service';
-import { TableComponent } from '../shared/components/table/table.component';
-import { HighLightPipe } from '../shared/pipes/highlight.pipe';
 
 
 const eventServiceFixture = require('./event.service.fixture.json');
@@ -86,15 +88,8 @@ class ActivatedRouteStub {
   }
 }
 
-
 class MockLanguageService {
-  public getFirstDayOfWeek(): Observable<number> {
-    return Observable.of(0);
-  }
-
-  public getTimeFormat(): Observable<string | null> {
-    return Observable.of(TimeFormats.AUTO);
-  }
+  public firstDayOfWeek = new BehaviorSubject<number>(0);
 }
 
 @Pipe({
@@ -104,6 +99,20 @@ class MockLanguageService {
 class MockTranslatePipe implements PipeTransform {
   public transform(value: any): Observable<any> {
     return value;
+  }
+}
+
+class MockDateTimeFormatterService {
+  public get dateTimeFormat(): any {
+    return enDateTimeFormat;
+  }
+
+  public stringifyToTime(date: Date): string {
+    return '';
+  }
+
+  public stringifyToDate(date: Date): string {
+    return '';
   }
 }
 
@@ -135,9 +144,10 @@ describe('event list component', () => {
         SessionStorageService,
         { provide: Router, useClass: MockRouter },
         { provide: ActivatedRoute, useClass: ActivatedRouteStub },
+        { provide: DateTimeFormatterService, useClass: MockDateTimeFormatterService },
         { provide: EventService, useClass: MockEventService },
-        { provide: TranslateService, useClass: MockTranslateService },
         { provide: LanguageService, useClass: MockLanguageService },
+        { provide: TranslateService, useClass: MockTranslateService },
         { provide: TagService, useClass: MockTagService }
       ],
       schemas: [NO_ERRORS_SCHEMA]

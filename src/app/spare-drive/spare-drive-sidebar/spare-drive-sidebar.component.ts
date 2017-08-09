@@ -3,9 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../shared/models';
 import { VolumeTypes } from '../../shared/models/volume.model';
+import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
-import { VolumeService } from '../../shared/services/volume.service';
 import { VolumeTagService } from '../../shared/services/tags/volume-tag.service';
+import { VolumeService } from '../../shared/services/volume.service';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class SpareDriveSidebarComponent {
   @HostBinding('class.grid') public grid = true;
 
   constructor(
+    public dateTimeFormatterService: DateTimeFormatterService,
     private diskOfferingService: DiskOfferingService,
     private route: ActivatedRoute,
     private volumeService: VolumeService,

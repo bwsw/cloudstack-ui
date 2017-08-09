@@ -107,6 +107,10 @@ export class VmListComponent implements OnInit {
   }
 
   public updateFilters(filterData?: VmFilter): void {
+    if (!this.vmList) {
+      return;
+    }
+
     if (!this.vmList.length || !filterData) {
       this.visibleVmList = this.vmList;
       return;

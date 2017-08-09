@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { LocalStorageService } from './local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DayOfWeek } from '../types/day-of-week';
 import { UserTagService } from './tags/user-tag.service';
+
 
 export type Language = 'en' | 'ru';
 export const Languages = {
@@ -22,11 +24,17 @@ export const TimeFormats = {
 
 @Injectable()
 export class LanguageService {
+  public firstDayOfWeek = new BehaviorSubject<number>(undefined);
+  public timeFormat = new BehaviorSubject<string>(undefined);
+
   constructor(
     private storage: LocalStorageService,
     private translate: TranslateService,
     private userTagService: UserTagService
-  ) {}
+  ) {
+    this.initializeFirstDayOfWeek();
+    this.initializeTimeFormat();
+  }
 
   public getLanguage(): Observable<Language> {
     return this.userTagService.getLang()
@@ -61,6 +69,11 @@ export class LanguageService {
       });
   }
 
+  public setFirstDayOfWeek(day: DayOfWeek): Observable<DayOfWeek> {
+    return this.userTagService.setFirstDayOfWeek(day)
+      .do(_ => this.firstDayOfWeek.next(day));
+  }
+
   public getTimeFormat(): Observable<TimeFormat> {
     return this.userTagService.getTimeFormat()
       .map(timeFormat => {
@@ -88,5 +101,17 @@ export class LanguageService {
       return language;
     }
     return DEFAULT_LANGUAGE;
+  }
+
+  private initializeFirstDayOfWeek(): void {
+    this.getFirstDayOfWeek().subscribe(firstDayOfWeek => {
+      this.firstDayOfWeek.next(firstDayOfWeek);
+    });
+  }
+
+  private initializeTimeFormat(): void {
+    this.getTimeFormat().subscribe(timeFormat => {
+      this.timeFormat.next(timeFormat);
+    });
   }
 }

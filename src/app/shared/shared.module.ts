@@ -57,12 +57,15 @@ import { MaxValueValidatorDirective } from './directives/max-value.directive';
 import { MdlTextAreaAutoresizeDirective } from './directives/mdl-textarea-autoresize.directive';
 import { MinValueValidatorDirective } from './directives/min-value.directive';
 import { DivisionPipe, HighLightPipe, ViewValuePipe } from './pipes';
+import { StringifyDatePipe } from './pipes/stringifyDate.pipe';
+import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
 import { AffinityGroupService } from './services/affinity-group.service';
 import { AsyncJobService } from './services/async-job.service';
 import { AuthGuard } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { CacheService } from './services/cache.service';
 import { ConfigService } from './services/config.service';
+import { DateTimeFormatterService } from './services/date-time-formatter.service';
 import { DiskOfferingService } from './services/disk-offering.service';
 import { DiskStorageService } from './services/disk-storage.service';
 import { ErrorService } from './services/error.service';
@@ -76,7 +79,6 @@ import { NotificationService } from './services/notification.service';
 import { OsTypeService } from './services/os-type.service';
 import { ResourceLimitService } from './services/resource-limit.service';
 import { ResourceUsageService } from './services/resource-usage.service';
-
 import { RouterUtilsService } from './services/router-utils.service';
 import { SecurityGroupService } from './services/security-group.service';
 import { ServiceOfferingFilterService } from './services/service-offering-filter.service';
@@ -149,9 +151,11 @@ import { ZoneService } from './services/zone.service';
     TableComponent,
     TopBarComponent,
     VmStatisticsComponent,
-    DivisionPipe,
     SliderComponent,
+    DivisionPipe,
     HighLightPipe,
+    StringifyDatePipe,
+    StringifyTimePipe,
     ViewValuePipe,
     LoadingDirective,
     MdlTextAreaAutoresizeDirective,
@@ -198,9 +202,11 @@ import { ZoneService } from './services/zone.service';
     TableComponent,
     TopBarComponent,
     VmStatisticsComponent,
-    DivisionPipe,
     SliderComponent,
+    DivisionPipe,
     HighLightPipe,
+    StringifyDatePipe,
+    StringifyTimePipe,
     ViewValuePipe,
     LoadingDirective,
     LoaderComponent,
@@ -221,6 +227,7 @@ import { ZoneService } from './services/zone.service';
     AuthService,
     CacheService,
     ConfigService,
+    DateTimeFormatterService,
     DiskOfferingService,
     DiskStorageService,
     ErrorService,
