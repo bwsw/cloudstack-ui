@@ -96,6 +96,9 @@ import { TagService } from './services/tag.service';
 import { UserService } from './services/user.service';
 import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
+import { DateTimeFormatterService } from './services/date-time-formatter.service';
+import { StringifyDatePipe } from './pipes/stringifyDate.pipe';
+import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
 
 @NgModule({
   imports: [
@@ -145,9 +148,11 @@ import { VolumeService } from './services/volume.service';
     TableComponent,
     TopBarComponent,
     VmStatisticsComponent,
-    DivisionPipe,
     SliderComponent,
+    DivisionPipe,
     HighLightPipe,
+    StringifyDatePipe,
+    StringifyTimePipe,
     ViewValuePipe,
     LoadingDirective,
     MdlTextAreaAutoresizeDirective,
@@ -194,9 +199,11 @@ import { VolumeService } from './services/volume.service';
     TableComponent,
     TopBarComponent,
     VmStatisticsComponent,
-    DivisionPipe,
     SliderComponent,
+    DivisionPipe,
     HighLightPipe,
+    StringifyDatePipe,
+    StringifyTimePipe,
     ViewValuePipe,
     LoadingDirective,
     LoaderComponent,
@@ -209,6 +216,7 @@ import { VolumeService } from './services/volume.service';
     AuthService,
     CacheService,
     ConfigService,
+    DateTimeFormatterService,
     DiskOfferingService,
     DiskStorageService,
     ErrorService,
