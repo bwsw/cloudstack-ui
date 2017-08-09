@@ -26,7 +26,7 @@ export const defaultChartOptions = {
   maintainAspectRatio: false,
   layout: {
     padding: {
-      left: 10,
+      left: 20,
       right: 10
     }
   },
