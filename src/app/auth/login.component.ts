@@ -67,7 +67,8 @@ export class LoginComponent implements OnInit {
   }
 
   private handleLogin(): void {
-    const next = this.route.snapshot.queryParams['next'] || '';
+    const next = this.route.snapshot.queryParams['next'] && this.route.snapshot.queryParams['next'] !== '/login' ?
+        this.route.snapshot.queryParams['next'] : '';
     this.router.navigateByUrl(next);
   }
 
