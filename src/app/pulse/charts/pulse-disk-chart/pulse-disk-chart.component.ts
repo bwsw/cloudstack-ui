@@ -78,7 +78,9 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
       }, forceUpdate)
     );
 
+    this.setLoading(!forceUpdate);
     Observable.forkJoin(...requests)
+      .finally(() => this.setLoading(false))
       .subscribe(data => {
         const sets = {
           bytes: [],

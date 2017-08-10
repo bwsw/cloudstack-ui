@@ -66,10 +66,12 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
       }, forceUpdate)
     );
     if (cpuRequests.length) {
+      this.setLoading(!forceUpdate);
       Observable.forkJoin(
         Observable.forkJoin(...cpuRequests),
         Observable.forkJoin(...ramRequests)
       )
+        .finally(() => this.setLoading(false))
         .subscribe(([data, ram]) => {
           const datasets = data.map((res: any, ind) => {
             return {

@@ -69,7 +69,14 @@ export abstract class PulseChartComponent {
   @Output() public previous = new EventEmitter();
   @Output() public next = new EventEmitter();
 
+  public loading = false;
+
   constructor(protected pulse: PulseService, protected cd: ChangeDetectorRef) {}
+
+  protected setLoading(loading = true) {
+    this.loading = loading;
+    this.cd.markForCheck();
+  }
 
   protected updateDatasets(setId: string, datasets: Array<any>) {
     if (!this.charts) {

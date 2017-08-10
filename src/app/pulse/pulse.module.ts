@@ -6,8 +6,10 @@ import {
   MdDialogModule,
   MdIconModule,
   MdInputModule,
+  MdProgressSpinnerModule,
   MdSelectModule,
-  MdTabsModule
+  MdTabsModule,
+  MdTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -31,10 +33,12 @@ import { VmPulseComponent } from './vm-pulse/vm-pulse.component';
     FormsModule,
     MdlButtonModule,
     MdIconModule,
+    MdTooltipModule,
     MdDialogModule,
     MdInputModule,
     MdTabsModule,
     MdSelectModule,
+    MdProgressSpinnerModule,
     TranslateModule
   ],
   exports: [

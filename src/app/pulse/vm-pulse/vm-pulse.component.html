@@ -6,7 +6,9 @@
     [(aggregations)]="selectedAggregations"
     [(shiftAmount)]="shiftAmount"
   ></cs-aggregation-selector>
-  <button mdl-button (click)="refresh()">{{ 'REFRESH' | translate }}</button>
+  <button mdl-button mdl-button-type="icon" (click)="refresh()">
+    <md-icon [mdTooltip]="'REFRESH' | translate">sync</md-icon>
+  </button>
 </ng-template>
 <md-tab-group
   [dynamicHeight]="true"

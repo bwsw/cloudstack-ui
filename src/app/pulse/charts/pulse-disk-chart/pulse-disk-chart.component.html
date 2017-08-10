@@ -7,6 +7,8 @@
 <cs-chart-area-component
   [charts]="charts"
   [hasNext]="shift > 0"
+  [fetching]="loading"
   (previous)="previous.emit()"
   (next)="next.emit()"
 ></cs-chart-area-component>
+

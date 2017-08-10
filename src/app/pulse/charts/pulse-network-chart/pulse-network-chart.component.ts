@@ -83,7 +83,9 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
       }, forceUpdate)
     );
 
+    this.setLoading(!forceUpdate);
     Observable.forkJoin(...requests)
+      .finally(() => this.setLoading(false))
       .subscribe(data => {
         const sets = {
           bits: [],
