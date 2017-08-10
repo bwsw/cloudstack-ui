@@ -10,6 +10,7 @@ import {
 import { MD_DIALOG_DATA, MdTabChangeEvent } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { PulseChartComponent } from '../charts/pulse-chart';
 import { PulseCpuRamChartComponent } from '../charts/pulse-cpu-ram-chart/pulse-cpu-ram-chart.component';
 import { PulseDiskChartComponent } from '../charts/pulse-disk-chart/pulse-disk-chart.component';
 import { PulseNetworkChartComponent } from '../charts/pulse-network-chart/pulse-network-chart.component';
@@ -73,8 +74,9 @@ export class VmPulseComponent implements OnInit, OnDestroy {
   }
 
   public set selectedScale(value: any) {
-    // this.resetDatasets();
+    this.resetDatasets();
     this._selectedScale = value;
+    this.selectedAggregations = null;
   }
 
   public get selectedAggregations() {
@@ -84,7 +86,11 @@ export class VmPulseComponent implements OnInit, OnDestroy {
   public set selectedAggregations(value) {
     this._selectedAggregations = value;
 
-    this.updateChart();
+    if (Array.isArray(value) && !value.length) {
+      this.resetDatasets();
+    } else if (value) {
+      this.updateChart();
+    }
   }
 
   public get selectedShift() {
@@ -133,34 +139,43 @@ export class VmPulseComponent implements OnInit, OnDestroy {
   }
 
   private updateChart(index: number = this.tabIndex, forceUpdate = false) {
-    let chart;
-    switch (index) {
-      case TabIndex.CpuRam:
-        chart = this.cpuRamChart;
-        break;
-      case TabIndex.Network:
-        chart = this.networkChart;
-        break;
-      case TabIndex.Disk:
-        chart = this.diskChart;
-        break;
-      default:
-        return;
+    const chart = this.getChart(index);
+    if (chart) {
+      chart.update(
+        {
+          vmId: this.vmId,
+          selectedAggregations: this.selectedAggregations,
+          selectedScale: this.selectedScale,
+          selectedShift: this.selectedShift,
+          shiftAmount: this.shiftAmount
+        },
+        forceUpdate
+      );
     }
 
-    chart.update(
-      {
-        vmId: this.vmId,
-        selectedAggregations: this.selectedAggregations,
-        selectedScale: this.selectedScale,
-        selectedShift: this.selectedShift,
-        shiftAmount: this.shiftAmount
-      },
-      forceUpdate
-    );
+  }
+
+  private resetDatasets() {
+    const chart = this.getChart();
+    if (chart) {
+      chart.resetDatasets();
+    }
   }
 
   private scheduleAutoRefresh() {
     this.updateInterval = setTimeout(() => this.refresh(), 60000);
+  }
+
+  private getChart(index = this.tabIndex): PulseChartComponent | undefined {
+    switch (index) {
+      case TabIndex.CpuRam:
+        return this.cpuRamChart;
+      case TabIndex.Network:
+        return this.networkChart;
+      case TabIndex.Disk:
+        return this.diskChart;
+      default:
+        return;
+    }
   }
 }

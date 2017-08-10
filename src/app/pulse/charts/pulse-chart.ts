@@ -99,10 +99,11 @@ export abstract class PulseChartComponent {
     c.datasets = datasets;
   }
 
-  protected resetDatasets() {
+  public resetDatasets() {
     if (this.charts) {
       this.charts.forEach(c => c.datasets = []);
     }
+    this.cd.markForCheck();
   }
 
   public abstract update(params, forceUpdate: boolean);
