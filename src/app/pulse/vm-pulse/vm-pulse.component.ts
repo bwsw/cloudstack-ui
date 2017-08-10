@@ -158,9 +158,11 @@ export class VmPulseComponent implements OnInit, OnDestroy {
   }
 
   private resetDatasets() {
-    const chart = this.getChart();
-    if (chart) {
-      chart.resetDatasets();
+    for (let i = TabIndex.CpuRam; i < TabIndex.Disk; i++) {
+      const chart = this.getChart(i);
+      if (chart) {
+        chart.resetDatasets();
+      }
     }
   }
 

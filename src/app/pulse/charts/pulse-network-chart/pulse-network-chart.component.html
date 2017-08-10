@@ -1,13 +1,16 @@
-<cs-divider-vertical></cs-divider-vertical>
-<md-select
-  class="aggregation-select entity-select"
-  [(ngModel)]="selectedNic"
-  (change)="nicChange.emit()"
->
-  <md-option *ngFor="let nic of availableNics; index as i" [value]="nic">
-    NIC{{ i + 1 }} ({{ nic.macAddress }})
-  </md-option>
-</md-select>
+<div class="entity-select-container">
+  <md-select
+    class="aggregation-select entity-select"
+    [placeholder]="'NIC' | translate"
+    [(ngModel)]="selectedNic"
+    (change)="nicChange.emit()"
+  >
+    <md-option *ngFor="let nic of availableNics; index as i" [value]="nic">
+      NIC{{ i + 1 }} ({{ nic.macAddress }})
+    </md-option>
+  </md-select>
+  <cs-divider-vertical></cs-divider-vertical>
+</div>
 <cs-chart-area-component
   [charts]="charts"
   [hasNext]="shift > 0"
