@@ -648,5 +648,7 @@
   "RECURRING_SNAPSHOTS_HOURLY": "Ежечасно",
   "RECURRING_SNAPSHOTS_DAILY": "Ежедневно",
   "RECURRING_SNAPSHOTS_WEEKLY": "Еженедельно",
-  "RECURRING_SNAPSHOTS_MONTHLY": "Ежемесячно"
+  "RECURRING_SNAPSHOTS_MONTHLY": "Ежемесячно",
+
+  "VM_NOT_FOUND": "Виртуальная машина не найдена"
 }
