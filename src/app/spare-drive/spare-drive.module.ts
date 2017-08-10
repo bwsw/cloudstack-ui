@@ -15,6 +15,10 @@ import { SpareDriveListComponent } from './spare-drive-list/spare-drive-list.com
 import { SpareDrivePageComponent } from './spare-drive-page/spare-drive-page.component';
 import { SpareDriveSidebarComponent } from './spare-drive-sidebar/spare-drive-sidebar.component';
 import { spareDrivesRouting } from './spare-drive.routing';
+import { SpareDriveAttachAction } from './spare-drive-actions/spare-drive-attach';
+import { SpareDriveResizeAction } from './spare-drive-actions/spare-drive-resize';
+import { SpareDriveRemoveAction } from './spare-drive-actions/spare-drive-remove';
+import { SpareDriveAction } from './spare-drive-actions/spare-drive-action';
 
 
 @NgModule({
@@ -48,7 +52,10 @@ import { spareDrivesRouting } from './spare-drive.routing';
     SpareDriveCreationComponent
   ],
   providers: [
-    SpareDriveActionsService
+    SpareDriveActionsService,
+    SpareDriveAttachAction,
+    SpareDriveResizeAction,
+    SpareDriveRemoveAction
   ]
 })
 export class SpareDriveModule { }

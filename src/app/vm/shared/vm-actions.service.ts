@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { VirtualMachineAction, VirtualMachineActionType, VmActions } from '../vm-actions/vm-action';
-import { VirtualMachine } from './vm.model';
 import { ActionsService } from '../../shared/interfaces/action-service.interface';
-import { VmStartAction } from '../vm-actions/vm-start';
-import { VmStopAction } from '../vm-actions/vm-stop';
-import { VmRebootAction } from '../vm-actions/vm-reboot';
-import { VmRestoreAction } from '../vm-actions/vm-restore';
-import { VmDestroyAction } from '../vm-actions/vm-destroy';
-import { VmResetPasswordAction } from '../vm-actions/vm-reset-password';
-import { VmConsoleAction } from '../vm-actions/vm-console';
-import { VmWebShellAction } from '../vm-actions/vm-webshell';
-import { VmChangeServiceOfferingAction } from '../vm-actions/vm-change-service-offering';
 import { VmStartActionSilent } from '../vm-actions/silent/vm-start-silent';
 import { VmStopActionSilent } from '../vm-actions/silent/vm-stop-silent';
+import { VirtualMachineAction, VirtualMachineActionType, VmActions } from '../vm-actions/vm-action';
+import { VmChangeServiceOfferingAction } from '../vm-actions/vm-change-service-offering';
+import { VmConsoleAction } from '../vm-actions/vm-console';
+import { VmDestroyAction } from '../vm-actions/vm-destroy';
+import { VmRebootAction } from '../vm-actions/vm-reboot';
+import { VmResetPasswordAction } from '../vm-actions/vm-reset-password';
+import { VmRestoreAction } from '../vm-actions/vm-restore';
+import { VmStartAction } from '../vm-actions/vm-start';
+import { VmStopAction } from '../vm-actions/vm-stop';
+import { VmWebShellAction } from '../vm-actions/vm-webshell';
+import { VirtualMachine } from './vm.model';
 
 
 @Injectable()
