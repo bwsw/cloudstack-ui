@@ -8,10 +8,10 @@ const PROXY_CONFIG = [
     secure: false
   },
   {
-    context: ["/pulse/**"],
+    context: ["/cs-extensions/pulse/**"],
     target: "http://192.168.1.218:8082/",
     secure: false,
-    pathRewrite: {'^/pulse' : ''}
+    pathRewrite: {'^/cs-extensions/pulse' : ''}
   }
 ];
 

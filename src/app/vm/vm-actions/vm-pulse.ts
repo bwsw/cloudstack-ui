@@ -3,6 +3,7 @@ import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { VmPulseComponent } from '../../pulse/vm-pulse/vm-pulse.component';
+import { ConfigService } from '../../shared/services/config.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
@@ -19,7 +20,8 @@ export class VmPulseAction extends VirtualMachineAction {
     dialogService: DialogService,
     jobsNotificationService: JobsNotificationService,
     vmService: VmService,
-    private dialog: MdDialog
+    private dialog: MdDialog,
+    private configService: ConfigService
   ) {
     super(dialogService, jobsNotificationService, vmService);
   }
@@ -32,5 +34,10 @@ export class VmPulseAction extends VirtualMachineAction {
     this.dialog.open(VmPulseComponent, { data: vm.id });
 
     return Observable.of(null);
+  }
+
+  public hidden(): boolean {
+    const extensions = this.configService.get('extensions');
+    return !(extensions && extensions.pulse);
   }
 }

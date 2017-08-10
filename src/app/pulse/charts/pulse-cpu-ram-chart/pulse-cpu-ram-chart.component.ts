@@ -81,7 +81,6 @@ export class PulseCpuRamChartComponent extends PulseChartComponent
       )
         .finally(() => this.setLoading(false))
         .subscribe(([data, ram]) => {
-          console.log(data, ram);
           this.error = false;
           const datasets = data.map((res: any, ind) => {
             const aggregation = params.selectedAggregations[ind];

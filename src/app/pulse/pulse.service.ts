@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { ConfigService } from '../shared/services/config.service';
 import { CpuStats, DiskStats, NetworkStats, RamStats } from './stats';
 
 interface TimeParams {
@@ -11,11 +12,12 @@ interface TimeParams {
 
 @Injectable()
 export class PulseService {
-  constructor(protected http: Http) {
+  private pulseUrl: string;
+  constructor(protected http: Http, protected config: ConfigService) {
   }
 
   public getPermittedIntervals() {
-    return this.http.get('pulse/permitted-intervals').map(res => res.json());
+    return this.http.get(`cs-extensions/pulse/permitted-intervals`).map(res => res.json());
   }
 
   public cpuTime(
@@ -71,7 +73,7 @@ export class PulseService {
     }
 
     return this.http
-      .get(`pulse/${endpoint}/${params}/${t}`, { search })
+      .get(`cs-extensions/pulse/${endpoint}/${params}/${t}`, { search })
       .map(res => res.json())
       .map(res => res.result);
   }
