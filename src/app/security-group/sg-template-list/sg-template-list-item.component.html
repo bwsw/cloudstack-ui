@@ -1,19 +1,26 @@
-<mdl-card class="custom-card" mdl-shadow="2">
-  <mdl-card-title>
-    <h2
-      mdl-card-title-text
-      [mdTooltip]="securityGroupTemplate.name"
-    >
-      {{ securityGroupTemplate.name }}
-    </h2>
-  </mdl-card-title>
-  <mdl-card-supporting-text>
+<md-card class="custom-card">
+  <md-card-header>
+    <md-card-title>
+      <h2
+        class="md-card-title-text"
+        [mdTooltip]="securityGroupTemplate.name"
+      >
+        {{ securityGroupTemplate.name }}
+      </h2>
+      <div class="md-card-header-menu">
+          <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
+              <md-icon>more_vert</md-icon>
+          </button>
+      </div>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content>
     <div class="card-wrapper" *ngIf="!securityGroupTemplate?.description">
       <div class="description"></div>
     </div>
 
     <div class="card-wrapper" *ngIf="securityGroupTemplate?.description">
-      <div class="description first">{{ 'DESCRIPTION' | translate }}: </div>
+      <div class="description first">{{ 'DESCRIPTION' | translate }}:</div>
       <div class="description last">
         <span
           class="tooltip-position-fix fixed-width-span"
@@ -25,33 +32,31 @@
         </span>
       </div>
     </div>
-  </mdl-card-supporting-text>
-    <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
-      <md-icon>more_vert</md-icon>
-    </button>
-  <md-menu #actionsMenu="mdMenu">
-    <ng-container *ngIf="securityGroupTemplate.isPredefinedTemplate">
-        <button md-menu-item
-          *ngIf="securityGroupTemplate.isPredefinedTemplate"
-          (click)="onClick.emit()"
-        >
-          <md-icon>visibility</md-icon>
-          <span>{{ 'VIEW' | translate }}</span>
-        </button>
-      </ng-container>
-      <ng-container *ngIf="!securityGroupTemplate.isPredefinedTemplate">
-        <button md-menu-item
-          (click)="onClick.emit()"
-        >
-          <md-icon>edit</md-icon>
-          <span>{{ 'EDIT' | translate }}</span>
-        </button>
-        <button md-menu-item
-          (click)="$event.stopPropagation(); onDelete.emit(securityGroupTemplate)"
-        >
-          <md-icon>delete</md-icon>
-          <span>{{ 'DELETE' | translate }}</span>
-        </button>
-      </ng-container>
-  </md-menu>
-</mdl-card>
+  </md-card-content>
+
+    <md-menu #actionsMenu="mdMenu">
+        <ng-container *ngIf="securityGroupTemplate.isPredefinedTemplate">
+            <button md-menu-item
+                    *ngIf="securityGroupTemplate.isPredefinedTemplate"
+                    (click)="onClick.emit()"
+            >
+                <md-icon>visibility</md-icon>
+                <span>{{ 'VIEW' | translate }}</span>
+            </button>
+        </ng-container>
+        <ng-container *ngIf="!securityGroupTemplate.isPredefinedTemplate">
+            <button md-menu-item
+                    (click)="onClick.emit()"
+            >
+                <md-icon>edit</md-icon>
+                <span>{{ 'EDIT' | translate }}</span>
+            </button>
+            <button md-menu-item
+                    (click)="$event.stopPropagation(); onDelete.emit(securityGroupTemplate)"
+            >
+                <md-icon>delete</md-icon>
+                <span>{{ 'DELETE' | translate }}</span>
+            </button>
+        </ng-container>
+    </md-menu>
+</md-card>
