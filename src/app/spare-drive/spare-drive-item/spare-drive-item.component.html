@@ -35,19 +35,19 @@
     [style.width.px]="300"
   >
     <button md-menu-item
-      (click)="$event.stopPropagation(); attach()"
+      (click)="attach()"
     >
       <md-icon>attach_file</md-icon>
       <span>{{ 'ATTACH' | translate }}</span>
     </button>
     <button md-menu-item
-      (click)="$event.stopPropagation(); resize()"
+      (click)="resize()"
     >
       <md-icon>photo_size_select_small</md-icon>
       <span>{{ 'RESIZE' | translate }}</span>
     </button>
     <button md-menu-item
-      (click)="$event.stopPropagation(); remove()"
+      (click)="remove()"
     >
       <md-icon>delete</md-icon>
       <span>{{ 'DELETE' | translate }}</span>
