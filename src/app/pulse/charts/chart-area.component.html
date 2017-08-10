@@ -1,7 +1,7 @@
 <div *ngIf="!charts[0]?.datasets?.length" class="no-charts">
   <img src="img/no-charts.svg" alt="">
   <md-spinner *ngIf="fetching; else selectCharts" [strokeWidth]="8"></md-spinner>
-  <ng-template #selectCharts><span>{{ 'SELECT_CHARTS' | translate }}</span></ng-template>
+  <ng-template #selectCharts><span>{{ 'PULSE.SELECT_DATA' | translate }}</span></ng-template>
 </div>
 <div *ngIf="fetching && charts[0]?.datasets?.length" class="overlay">
   <md-spinner [strokeWidth]="8"></md-spinner>

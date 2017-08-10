@@ -2,8 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
-  OnInit
+  OnInit,
+  Output
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { NIC } from '../../../shared/models/nic.model';
@@ -20,6 +22,7 @@ import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-cha
 })
 export class PulseNetworkChartComponent extends PulseChartComponent implements OnInit {
   @Input() vmId: string;
+  @Output() public nicChange = new EventEmitter();
   public selectedNic: NIC;
   public availableNics: Array<NIC> = [];
 
@@ -95,19 +98,20 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
         };
 
         data.forEach((res: any, ind) => {
+          const aggregation = params.selectedAggregations[ind];
           const readBits = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.readBits
             })),
-            label: `Network read ${params.selectedAggregations[ind]}`
+            label: `${this.translations['NETWORK_READ']} ${aggregation}`
           };
           const writeBits = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writeBits
             })),
-            label: `Network write ${params.selectedAggregations[ind]}`
+            label: `${this.translations['NETWORK_WRITE']} ${aggregation}`
           };
           sets.bits.push(readBits, writeBits);
 
@@ -116,35 +120,35 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
               x: new Date(_.time),
               y: +_.readPackets
             })),
-            label: `Network read packets ${params.selectedAggregations[ind]}`
+            label: `${this.translations['NETWORK_READ_PACKETS']} ${aggregation}`
           };
           const writePackets = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writePackets
             })),
-            label: `Network write packets ${params.selectedAggregations[ind]}`
+            label: `${this.translations['NETWORK_WRITE_PACKETS']} ${aggregation}`
           };
           sets.packets.push(readPackets, writePackets);
 
           const readDrops = {
             data: res.map(_ => +_.readDrops),
-            label: `Network read drops ${params.selectedAggregations[ind]}`
+            label: `${this.translations['NETWORK_READ_DROPS']} ${aggregation}`
           };
           const writeDrops = {
             data: res.map(_ => +_.writeDrops),
-            label: `Network write drops ${params.selectedAggregations[ind]}`
+            label: `${this.translations['NETWORK_WRITE_DROPS']} ${aggregation}`
           };
           this.charts[2].labels = res.map(_ => new Date(_.time));
           sets.drops.push(readDrops, writeDrops);
 
           const readErrors = {
             data: res.map(_ => +_.readErrors),
-            label: `Network read errors ${params.selectedAggregations[ind]}`
+            label: `${this.translations['NETWORK_READ_ERRORS']} ${aggregation}`
           };
           const writeErrors = {
             data: res.map(_ => +_.writeErrors),
-            label: `Network write errors ${params.selectedAggregations[ind]}`
+            label: `${this.translations['NETWORK_WRITE_ERRORS']} ${aggregation}`
           };
           this.charts[3].labels = res.map(_ => new Date(_.time));
           sets.errors.push(readErrors, writeErrors);

@@ -19,11 +19,15 @@ import * as debounce from 'lodash/debounce';
   styles: [
     `
     .aggregation-select {
-      margin: 20px 10px;
+      margin: 30px 10px 20px;
     }
 
     .shift-input {
       width: 55px;
+    }
+
+    .shift-select {
+      width: 100px;
     }
   `
   ],

@@ -37,7 +37,15 @@ export const defaultChartOptions = {
   scales: {
     xAxes: [{
       type: 'time',
-      position: 'bottom'
+      position: 'bottom',
+      time: {
+        tooltipFormat: 'llll',
+        displayFormats: {
+          second: 'LTS',
+          minute: 'LT',
+          hour: 'LT'
+        }
+      }
     }],
     yAxes: [{
       ticks: { suggestedMin: 0 }
@@ -58,12 +66,13 @@ export function getChart(config: Array<any>) {
   return config.map(_ => {
     const options = Object.assign({}, defaultChartOptions, _.options);
     return Object.assign({}, defaultChartConfig, { ..._, options })
-  })
+  });
 }
 
 
 @Injectable()
 export abstract class PulseChartComponent {
+  @Input() public translations;
   @Input() public charts: Array<PulseChart>;
   @Input() public shift: number;
   @Output() public previous = new EventEmitter();

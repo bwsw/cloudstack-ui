@@ -11,32 +11,38 @@
   </button>
 </ng-template>
 <md-tab-group
+  *ngIf="translations"
   [dynamicHeight]="true"
   [(selectedIndex)]="tabIndex"
   (selectChange)="handleSelectChange($event)"
 >
-  <md-tab [label]="'CPU / RAM' | translate">
-    <div>
-      <ng-container *ngTemplateOutlet="selector"></ng-container>
-      <cs-pulse-cpu-chart
-        [shift]="shiftAmount"
-        (previous)="handlePrevious()"
-        (next)="handleNext()"
-      ></cs-pulse-cpu-chart>
-    </div>
+  <md-tab [label]="'PULSE.CPU_RAM' | translate">
+    <ng-container *ngTemplateOutlet="selector"></ng-container>
+    <cs-pulse-cpu-chart
+      [translations]="translations"
+      [shift]="shiftAmount"
+      (previous)="handlePrevious()"
+      (next)="handleNext()"
+    ></cs-pulse-cpu-chart>
   </md-tab>
-  <md-tab [label]="'NETWORK' | translate">
+  <md-tab [label]="'PULSE.NETWORK' | translate">
     <ng-container *ngTemplateOutlet="selector"></ng-container>
     <cs-pulse-network-chart
-      [vmId]="vmId" [shift]="shiftAmount"
+      [translations]="translations"
+      [vmId]="vmId"
+      [shift]="shiftAmount"
+      (nicChange)="refresh(false)"
       (previous)="handlePrevious()"
       (next)="handleNext()"
     ></cs-pulse-network-chart>
   </md-tab>
-  <md-tab [label]="'DISK' | translate">
+  <md-tab [label]="'PULSE.DISK' | translate">
     <ng-container *ngTemplateOutlet="selector"></ng-container>
     <cs-pulse-disk-chart
-      [vmId]="vmId" [shift]="shiftAmount"
+      [translations]="translations"
+      [vmId]="vmId"
+      [shift]="shiftAmount"
+      (volumeChange)="refresh(false)"
       (previous)="handlePrevious()"
       (next)="handleNext()"
     ></cs-pulse-disk-chart>

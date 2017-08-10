@@ -2,8 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
-  OnInit
+  OnInit,
+  Output
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../../shared/models/volume.model';
@@ -20,6 +22,7 @@ import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-cha
 })
 export class PulseDiskChartComponent extends PulseChartComponent implements OnInit {
   @Input() public vmId: string;
+  @Output() public volumeChange = new EventEmitter();
   public selectedVolume: Volume;
   public availableVolumes: Array<Volume>;
 
@@ -63,6 +66,12 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
     this.volumeService
       .getList({ virtualMachineId: this.vmId })
       .subscribe(volumes => {
+        const rootDiskInd = volumes.findIndex(_ => _.isRoot);
+        if (rootDiskInd !== -1) {
+          const temp = volumes[0];
+          volumes[0] = volumes[rootDiskInd];
+          volumes[rootDiskInd] = temp;
+        }
         this.availableVolumes = volumes;
         this.selectedVolume = this.availableVolumes[0];
         this.cd.markForCheck();
@@ -88,19 +97,20 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
           errors: []
         };
         data.forEach((res: any, ind) => {
+          const aggregation = params.selectedAggregations[ind];
           const readBytes = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.readBytes
             })),
-            label: `Disk read ${params.selectedAggregations[ind]}`
+            label: `${this.translations['DISK_READ']} ${aggregation}`
           };
           const writeBytes = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writeBytes
             })),
-            label: `Disk write ${params.selectedAggregations[ind]}`
+            label: `${this.translations['DISK_WRITE']} ${aggregation}`
           };
           sets.bytes.push(readBytes, writeBytes);
 
@@ -110,14 +120,14 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
               x: new Date(_.time),
               y: +_.readIOPS
             })),
-            label: `Disk read iops ${params.selectedAggregations[ind]}`
+            label: `${this.translations['DISK_READ_IOPS']} ${aggregation}`
           };
           const writeIops = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writeIOPS
             })),
-            label: `Disk write iops ${params.selectedAggregations[ind]}`
+            label: `${this.translations['DISK_WRITE_IOPS']} ${aggregation}`
           };
 
           sets.iops.push(readIops, writeIops);
@@ -126,7 +136,7 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
           this.charts[2].labels = res.map(_ => new Date(_.time)); // TODO
           const errors = {
             data: res.map(_ => +_.ioErrors),
-            label: `Disk io errors ${params.selectedAggregations[ind]}`
+            label: `${this.translations['DISK_IO_ERRORS']} ${aggregation}`
           };
           sets.errors.push(errors);
         });

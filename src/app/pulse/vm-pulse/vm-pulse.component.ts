@@ -8,6 +8,8 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { MD_DIALOG_DATA, MdTabChangeEvent } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
 import { PulseCpuRamChartComponent } from '../charts/pulse-cpu-ram-chart/pulse-cpu-ram-chart.component';
 import { PulseDiskChartComponent } from '../charts/pulse-disk-chart/pulse-disk-chart.component';
 import { PulseNetworkChartComponent } from '../charts/pulse-network-chart/pulse-network-chart.component';
@@ -34,6 +36,8 @@ export class VmPulseComponent implements OnInit, OnDestroy {
   public tabIndex = 0;
   public permittedIntervals;
 
+  public translations;
+
   private _selectedScale;
   private _selectedAggregations;
   private _selectedShift;
@@ -43,16 +47,21 @@ export class VmPulseComponent implements OnInit, OnDestroy {
 
   constructor(
     @Inject(MD_DIALOG_DATA) public vmId: string,
-    private pulse: PulseService
-  ) {
-  }
+    private pulse: PulseService,
+    private translateService: TranslateService
+  ) {}
 
   public ngOnInit() {
+    moment.locale(this.translateService.currentLang);
     this.pulse.getPermittedIntervals().subscribe(intervals => {
       intervals.scales = Object.values(intervals.scales);
       this.permittedIntervals = intervals;
       this.scheduleAutoRefresh();
     });
+
+    this.translateService
+      .get('PULSE.LABELS')
+      .subscribe(translations => (this.translations = translations));
   }
 
   public ngOnDestroy() {
@@ -99,10 +108,10 @@ export class VmPulseComponent implements OnInit, OnDestroy {
     this.updateChart(this.tabIndex);
   }
 
-  public refresh() {
+  public refresh(forceUpdate = true) {
     if (this._selectedAggregations && this._selectedScale) {
       clearInterval(this.updateInterval);
-      this.updateChart(this.tabIndex, true);
+      this.updateChart(this.tabIndex, forceUpdate);
     }
     this.scheduleAutoRefresh();
   }
@@ -139,13 +148,16 @@ export class VmPulseComponent implements OnInit, OnDestroy {
         return;
     }
 
-    chart.update({
-      vmId: this.vmId,
-      selectedAggregations: this.selectedAggregations,
-      selectedScale: this.selectedScale,
-      selectedShift: this.selectedShift,
-      shiftAmount: this.shiftAmount
-    }, forceUpdate);
+    chart.update(
+      {
+        vmId: this.vmId,
+        selectedAggregations: this.selectedAggregations,
+        selectedScale: this.selectedScale,
+        selectedShift: this.selectedShift,
+        shiftAmount: this.shiftAmount
+      },
+      forceUpdate
+    );
   }
 
   private scheduleAutoRefresh() {

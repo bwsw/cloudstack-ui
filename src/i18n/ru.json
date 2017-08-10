@@ -648,5 +648,34 @@
   "RECURRING_SNAPSHOTS_HOURLY": "Ежечасно",
   "RECURRING_SNAPSHOTS_DAILY": "Ежедневно",
   "RECURRING_SNAPSHOTS_WEEKLY": "Еженедельно",
-  "RECURRING_SNAPSHOTS_MONTHLY": "Ежемесячно"
+  "RECURRING_SNAPSHOTS_MONTHLY": "Ежемесячно",
+
+  "PULSE": {
+    "PULSE": "Pulse",
+    "CPU_RAM": "ЦП / ОЗУ",
+    "NETWORK": "Сеть",
+    "DISK": "Диск",
+    "RANGE": "Диапозон",
+    "AGGREGATION": "Агрегация",
+    "SHIFT": "Сдвиг",
+    "SELECT_DATA": "Выберите данные",
+
+    "LABELS": {
+      "CPU": "ЦП",
+      "RAM": "ОЗУ",
+      "NETWORK_READ": "Прочитано по сети",
+      "NETWORK_WRITE": "Отправлено по сети",
+      "NETWORK_READ_PACKETS": "Прочитано по сети (пакетов)",
+      "NETWORK_WRITE_PACKETS": "Отправлено по сети (пакетов)",
+      "NETWORK_READ_DROPS": "Потери при чтении",
+      "NETWORK_WRITE_DROPS": "Потери при записи",
+      "NETWORK_READ_ERRORS": "Ошибки при чтении",
+      "NETWORK_WRITE_ERRORS": "Ошибки при записи",
+      "DISK_READ": "Чтение с диска",
+      "DISK_WRITE": "Запись на диск",
+      "DISK_READ_IOPS": "Чтение с диска (IOPS)",
+      "DISK_WRITE_IOPS": "Запись на диск (IOPS)",
+      "DISK_IO_ERRORS": "Ошибки IO"
+    }
+  }
 }

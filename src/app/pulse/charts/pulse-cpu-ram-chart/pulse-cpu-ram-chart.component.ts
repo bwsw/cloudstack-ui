@@ -74,24 +74,26 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
         .finally(() => this.setLoading(false))
         .subscribe(([data, ram]) => {
           const datasets = data.map((res: any, ind) => {
+            const aggregation = params.selectedAggregations[ind];
             return {
               data: res.map(_ => ({
                 x: new Date(_.time),
                 y: Math.min(+_.cpuTime, 100)
               })),
-              label: `CPU ${params.selectedAggregations[ind]}`,
+              label: `${this.translations['CPU']} ${aggregation}`
             };
           });
           this.updateDatasets('cpu', datasets);
 
 
           const asd = ram.map((res: any, ind) => {
+            const aggregation = params.selectedAggregations[ind];
             return {
               data: res.map(_ => ({
                 x: new Date(_.time),
                 y: +_.ram
               })),
-              label: `RAM ${params.selectedAggregations[ind]}`,
+              label: `${this.translations['RAM']} ${aggregation}`
             };
           });
           this.updateDatasets('ram', asd);

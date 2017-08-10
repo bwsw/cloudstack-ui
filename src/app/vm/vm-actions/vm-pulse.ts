@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { VmPulseComponent } from '../../pulse/vm-pulse/vm-pulse.component';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
-import { VirtualMachine, VmStates } from '../shared/vm.model';
+import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { VirtualMachineAction, VmActions } from './vm-action';
-import { VmPulseComponent } from '../../pulse/vm-pulse/vm-pulse.component';
 
 
 @Injectable()
 export class VmPulseAction extends VirtualMachineAction {
   public action = VmActions.CONSOLE;
-  public name = 'PULSE';
+  public name = 'PULSE.PULSE';
   public icon = 'timeline';
 
   constructor(
@@ -25,7 +25,7 @@ export class VmPulseAction extends VirtualMachineAction {
   }
 
   public canActivate(vm: VirtualMachine): boolean {
-    return vm.state === VmStates.Running;
+    return true;
   }
 
   public activate(vm: VirtualMachine): Observable<void> {
