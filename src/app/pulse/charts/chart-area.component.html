@@ -18,7 +18,7 @@
     [options]="chart.options"
     [labels]="chart.labels"
   ></canvas>
-  <div *ngIf="hasNext" class="arrow" (click)="next.emit()">
+  <div *ngIf="hasNext && chart.datasets?.length" class="arrow" (click)="next.emit()">
     <md-icon>keyboard_arrow_right</md-icon>
   </div>
 </div>

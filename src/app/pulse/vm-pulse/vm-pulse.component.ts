@@ -111,7 +111,9 @@ export class VmPulseComponent implements OnInit, OnDestroy {
 
   public set shiftAmount(value) {
     this._shiftAmount = value;
-    this.updateChart(this.tabIndex);
+    if (this._selectedAggregations && this._selectedScale && this._shiftAmount) {
+      this.updateChart(this.tabIndex);
+    }
   }
 
   public refresh(forceUpdate = true) {
