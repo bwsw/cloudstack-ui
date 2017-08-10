@@ -47,7 +47,7 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
                 ticks: {
                   suggestedMin: 0,
                   userCallback(val) {
-                    return humanReadableSizeInBits(val);
+                    return `${humanReadableSizeInBits(val)}/s`;
                   }
                 }
               }
