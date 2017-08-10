@@ -1,22 +1,28 @@
-<mdl-card
+<md-card
   class="custom-card spare-drive-card"
-  mdl-shadow="2"
   (click)="handleClick($event)"
   [class.card-selected]="isSelected(item)"
 >
-  <mdl-card-title>
-    <h2
-      mdl-card-title-text
-      [mdTooltip]="item.name"
-    >
-      {{ item.name }}
-    </h2>
-  </mdl-card-title>
-  <mdl-card-supporting-text>
+  <md-card-header>
+    <md-card-title>
+      <h2
+        class="md-card-title-text"
+        [mdTooltip]="item.name"
+      >
+        {{ item.name }}
+      </h2>
+    </md-card-title>
+    <div class="md-card-header-menu">
+        <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
+            <md-icon>more_vert</md-icon>
+        </button>
+    </div>
+  </md-card-header>
+  <md-card-content>
     <div class="card-wrapper">
       <div class="first">
-        <div class="row">{{ 'STATE' | translate }}: </div>
-        <div class="row">{{ 'SIZE' | translate }}: </div>
+        <div class="row">{{ 'STATE' | translate }}:</div>
+        <div class="row">{{ 'SIZE' | translate }}:</div>
       </div>
       <div class="last">
         <div class="row">
@@ -27,30 +33,27 @@
         </div>
       </div>
     </div>
-  </mdl-card-supporting-text>
-  <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
-    <md-icon>more_vert</md-icon>
-  </button>
-  <md-menu #actionsMenu="mdMenu"
-    [style.width.px]="300"
-  >
-    <button md-menu-item
-      (click)="$event.stopPropagation(); attach()"
+  </md-card-content>
+    <md-menu #actionsMenu="mdMenu"
+             [style.width.px]="300"
     >
-      <md-icon>attach_file</md-icon>
-      <span>{{ 'ATTACH' | translate }}</span>
-    </button>
-    <button md-menu-item
-      (click)="$event.stopPropagation(); resize()"
-    >
-      <md-icon>photo_size_select_small</md-icon>
-      <span>{{ 'RESIZE' | translate }}</span>
-    </button>
-    <button md-menu-item
-      (click)="$event.stopPropagation(); remove()"
-    >
-      <md-icon>delete</md-icon>
-      <span>{{ 'DELETE' | translate }}</span>
-    </button>
-  </md-menu>
-</mdl-card>
+        <button md-menu-item
+                (click)="$event.stopPropagation(); attach()"
+        >
+            <md-icon>attach_file</md-icon>
+            <span>{{ 'ATTACH' | translate }}</span>
+        </button>
+        <button md-menu-item
+                (click)="$event.stopPropagation(); resize()"
+        >
+            <md-icon>photo_size_select_small</md-icon>
+            <span>{{ 'RESIZE' | translate }}</span>
+        </button>
+        <button md-menu-item
+                (click)="$event.stopPropagation(); remove()"
+        >
+            <md-icon>delete</md-icon>
+            <span>{{ 'DELETE' | translate }}</span>
+        </button>
+    </md-menu>
+</md-card>

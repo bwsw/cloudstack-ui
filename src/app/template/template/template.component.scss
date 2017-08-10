@@ -1,18 +1,10 @@
 :host {
   display: inline-flex;
   z-index: -1;
-
-  & mdl-card {
-    z-index: 0;
-  }
 }
 
 :host(.single-line) {
   cursor: pointer;
-}
-
-.os-icon {
-  margin-right: 4px;
 }
 
 .last {
@@ -31,6 +23,5 @@
 }
 
 .template-header {
-  align-self: center;
-  max-width: 75% !important;
+  max-width: 235px !important;
 }
