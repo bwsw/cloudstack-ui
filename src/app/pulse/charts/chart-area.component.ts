@@ -10,6 +10,7 @@ export class ChartAreaComponent {
   @Input() public charts: Array<PulseChart>;
   @Input() public hasNext: boolean;
   @Input() public fetching;
+  @Input() public error;
   @Output() previous = new EventEmitter();
   @Output() next = new EventEmitter();
 }

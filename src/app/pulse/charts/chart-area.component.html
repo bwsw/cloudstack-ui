@@ -1,24 +1,27 @@
-<div *ngIf="!charts[0]?.datasets?.length" class="no-charts">
+<div *ngIf="!charts[0]?.datasets?.length || error" class="no-charts">
   <img src="img/no-charts.svg" alt="">
-  <md-spinner *ngIf="fetching; else selectCharts" [strokeWidth]="8"></md-spinner>
-  <ng-template #selectCharts><span>{{ 'PULSE.SELECT_DATA' | translate }}</span></ng-template>
+  <md-spinner *ngIf="fetching" [strokeWidth]="8"></md-spinner>
+  <span *ngIf="!fetching && !error">{{ 'PULSE.SELECT_DATA' | translate }}</span>
+  <span *ngIf="!fetching && error">{{ 'PULSE.ERROR' | translate }}</span>
 </div>
 <div *ngIf="fetching && charts[0]?.datasets?.length" class="overlay">
   <md-spinner [strokeWidth]="8"></md-spinner>
 </div>
-<div *ngFor="let chart of charts" class="chart">
-  <div *ngIf="chart.datasets?.length" class="arrow" (click)="previous.emit()">
-    <md-icon>keyboard_arrow_left</md-icon>
+<ng-container *ngIf="!error">
+  <div *ngFor="let chart of charts" class="chart">
+    <div *ngIf="chart.datasets?.length" class="arrow" (click)="previous.emit()">
+      <md-icon>keyboard_arrow_left</md-icon>
+    </div>
+    <canvas
+      *ngIf="chart.datasets?.length"
+      baseChart
+      [datasets]="chart.datasets"
+      [chartType]="chart.chartType"
+      [options]="chart.options"
+      [labels]="chart.labels"
+    ></canvas>
+    <div *ngIf="hasNext && chart.datasets?.length" class="arrow" (click)="next.emit()">
+      <md-icon>keyboard_arrow_right</md-icon>
+    </div>
   </div>
-  <canvas
-    *ngIf="chart.datasets?.length"
-    baseChart
-    [datasets]="chart.datasets"
-    [chartType]="chart.chartType"
-    [options]="chart.options"
-    [labels]="chart.labels"
-  ></canvas>
-  <div *ngIf="hasNext && chart.datasets?.length" class="arrow" (click)="next.emit()">
-    <md-icon>keyboard_arrow_right</md-icon>
-  </div>
-</div>
+</ng-container>

@@ -3,13 +3,13 @@ import { Observable } from 'rxjs/Observable';
 import { humanReadableSize } from '../../unitsUtils';
 import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-chart';
 
-
 @Component({
   selector: 'cs-pulse-cpu-chart',
   templateUrl: '../pulse-chart.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PulseCpuRamChartComponent extends PulseChartComponent implements OnInit {
+export class PulseCpuRamChartComponent extends PulseChartComponent
+  implements OnInit {
   public ngOnInit() {
     this.charts = getChart([
       {
@@ -25,7 +25,7 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
                   return `${val}%`;
                 }
               }
-            }],
+            }]
           }
         })
       },
@@ -51,19 +51,27 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
 
   public update(params, forceUpdate = false) {
     const cpuRequests = params.selectedAggregations.map(_ =>
-      this.pulse.cpuTime(params.vmId, {
-        range: params.selectedScale.range,
-        aggregation: _,
-        shift: `${params.shiftAmount}${params.selectedShift || 'w'}`
-      }, forceUpdate)
+      this.pulse.cpuTime(
+        params.vmId,
+        {
+          range: params.selectedScale.range,
+          aggregation: _,
+          shift: `${params.shiftAmount}${params.selectedShift || 'w'}`
+        },
+        forceUpdate
+      )
     );
 
     const ramRequests = params.selectedAggregations.map(_ =>
-      this.pulse.ram(params.vmId, {
-        range: params.selectedScale.range,
-        aggregation: _,
-        shift: `${params.shiftAmount}${params.selectedShift || 'w'}`
-      }, forceUpdate)
+      this.pulse.ram(
+        params.vmId,
+        {
+          range: params.selectedScale.range,
+          aggregation: _,
+          shift: `${params.shiftAmount}${params.selectedShift || 'w'}`
+        },
+        forceUpdate
+      )
     );
     if (cpuRequests.length) {
       this.setLoading(!forceUpdate);
@@ -73,6 +81,8 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
       )
         .finally(() => this.setLoading(false))
         .subscribe(([data, ram]) => {
+          console.log(data, ram);
+          this.error = false;
           const datasets = data.map((res: any, ind) => {
             const aggregation = params.selectedAggregations[ind];
             return {
@@ -84,7 +94,6 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
             };
           });
           this.updateDatasets('cpu', datasets);
-
 
           const asd = ram.map((res: any, ind) => {
             const aggregation = params.selectedAggregations[ind];
@@ -99,7 +108,7 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
           this.updateDatasets('ram', asd);
 
           this.cd.markForCheck();
-        });
+        }, () => (this.error = true));
     }
   }
 }

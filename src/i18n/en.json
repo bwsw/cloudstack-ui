@@ -658,6 +658,7 @@
     "AGGREGATION": "Aggregation",
     "SHIFT": "Shift",
     "SELECT_DATA": "Select data",
+    "ERROR": "An error occurred, please try again",
 
     "LABELS": {
       "CPU": "CPU",

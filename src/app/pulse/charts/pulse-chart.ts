@@ -79,11 +79,15 @@ export abstract class PulseChartComponent {
   @Output() public next = new EventEmitter();
 
   public loading = false;
+  public error = false;
 
   constructor(protected pulse: PulseService, protected cd: ChangeDetectorRef) {}
 
   protected setLoading(loading = true) {
     this.loading = loading;
+    if (this.loading) {
+      this.error = false;
+    }
     this.cd.markForCheck();
   }
 
