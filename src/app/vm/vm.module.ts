@@ -3,7 +3,7 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MdSelectModule, MdTooltipModule, MdMenuModule, MdButtonModule, MdIconModule } from '@angular/material';
+import { MdSelectModule, MdTooltipModule, MdMenuModule, MdButtonModule, MdIconModule, MdTabsModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -95,6 +95,7 @@ import { VmTagsComponent } from './vm-tags/vm-tags.component';
     MdMenuModule,
     MdButtonModule,
     MdIconModule,
+    MdTabsModule,
   ],
   declarations: [
     AffinityGroupSelectorComponent,
