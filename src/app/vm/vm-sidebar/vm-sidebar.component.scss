@@ -10,3 +10,7 @@ h4.details-header {
   height: inherit;
   overflow: hidden;
 }
+
+:host .md-tab-tooltip {
+  height: 40px;
+}
