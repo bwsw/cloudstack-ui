@@ -11,7 +11,13 @@ const PROXY_CONFIG = [
     context: ["/cs-extensions/pulse/**"],
     target: "http://192.168.1.218:8082/",
     secure: false,
-    pathRewrite: {'^/cs-extensions/pulse' : ''}
+    pathRewrite: {'^/cs-extensions/pulse': ''}
+  },
+  {
+    context: ["/cs-extensions/webshell/**"],
+    target: "http://192.168.1.218:8018/",
+    secure: false,
+    pathRewrite: {'^/cs-extensions/webshell': ''}
   }
 ];
 
