@@ -1,10 +1,12 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { MdlDialogReference } from '../../dialog/dialog-module';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { Volume } from '../../shared/models';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
+import { VolumeService } from '../../shared/services/volume.service';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 import { VmService } from '../../vm/shared/vm.service';
-import { MdlDialogReference } from '../../dialog/dialog-module';
-import { Volume } from '../../shared/models';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { SpareDriveActionsService } from '../spare-drive-actions.service';
 
 
 @Component({
@@ -18,12 +20,13 @@ export class SpareDriveAttachmentComponent implements OnInit {
   public loading: boolean;
 
   constructor(
+    @Inject('volume') private volume: Volume,
+    @Inject('zoneId') private zoneId: string,
     private dialog: MdlDialogReference,
     private dialogService: DialogService,
-    private spareDriveActionsService: SpareDriveActionsService,
+    private jobsNotificationService: JobsNotificationService,
     private vmService: VmService,
-    @Inject('volume') private volume: Volume,
-    @Inject('zoneId') private zoneId: string
+    private volumeService: VolumeService
   ) {}
 
   public ngOnInit(): void {
@@ -43,18 +46,31 @@ export class SpareDriveAttachmentComponent implements OnInit {
     }
 
     this.loading = true;
-    this.spareDriveActionsService.attach({
+    const notificationId = this.jobsNotificationService.add('VOLUME_ATTACH_IN_PROGRESS');
+
+    this.volumeService.attach({
       id: this.volume.id,
       virtualMachineId: this.virtualMachineId
     })
-      .finally(() => this.loading = false)
-      .subscribe(
-        () => this.dialog.hide(this.virtualMachineId),
-        error => this.dialogService.alert({
+      .do(() => {
+        this.jobsNotificationService.finish({
+          id: notificationId,
+          message: 'VOLUME_ATTACH_DONE',
+        });
+      })
+      .catch(error => {
+        this.dialogService.alert({
           translationToken: error.message,
           interpolateParams: error.params
-        })
-      );
+        });
+        this.jobsNotificationService.fail({
+          id: notificationId,
+          message: 'VOLUME_ATTACH_FAILED',
+        });
+        return Observable.throw(error);
+      })
+      .finally(() => this.loading = false)
+      .subscribe(() => this.dialog.hide(this.virtualMachineId));
   }
 
   public onCancel(): void {

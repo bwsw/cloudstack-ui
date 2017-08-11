@@ -18,7 +18,7 @@ export class VolumeResizeComponent implements OnInit {
   public maxSize: number;
 
   public diskOffering: DiskOffering;
-  @Input() public diskOfferingList: Array<DiskOffering>;
+  @Input() public diskOfferings: Array<DiskOffering>;
 
   public loading: boolean;
   private notificationId: string;
@@ -31,7 +31,7 @@ export class VolumeResizeComponent implements OnInit {
     private jobsNotificationService: JobsNotificationService,
     private volumeService: VolumeService,
     @Inject('volume') public volume: Volume,
-    @Optional() @Inject('diskOfferingList') public diskOfferingListInjected: Array<DiskOffering>,
+    @Optional() @Inject('diskOfferings') public diskOfferingListInjected: Array<DiskOffering>,
   ) {}
 
   public ngOnInit(): void {
@@ -41,7 +41,7 @@ export class VolumeResizeComponent implements OnInit {
   }
 
   public get canResize(): boolean {
-    return (this.diskOfferingList && this.diskOfferingList.length > 0) || this.volume.isRoot;
+    return (this.diskOfferings && this.diskOfferings.length > 0) || this.volume.isRoot;
   }
 
   public updateDiskOffering(diskOffering: DiskOffering): void {
@@ -67,14 +67,14 @@ export class VolumeResizeComponent implements OnInit {
   }
 
   private setDefaultOffering(): void {
-    if (this.diskOfferingList.length) {
-      this.diskOffering = this.diskOfferingList[0];
+    if (this.diskOfferings.length) {
+      this.diskOffering = this.diskOfferings[0];
     }
   }
 
   private getInjectedOfferingList(): void {
-    if (this.diskOfferingListInjected && !this.diskOfferingList) {
-      this.diskOfferingList = this.diskOfferingListInjected;
+    if (this.diskOfferingListInjected && !this.diskOfferings) {
+      this.diskOfferings = this.diskOfferingListInjected;
     }
   }
 

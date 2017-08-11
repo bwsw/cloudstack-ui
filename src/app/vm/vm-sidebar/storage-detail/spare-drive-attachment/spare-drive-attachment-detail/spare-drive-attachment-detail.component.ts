@@ -25,7 +25,6 @@ export class SpareDriveAttachmentDetailComponent implements OnInit {
 
   constructor(
     private dialogService: DialogService,
-    private spareDriveActionsService: SpareDriveActionsService,
     private volumeService: VolumeService
   ) {}
 
@@ -34,11 +33,8 @@ export class SpareDriveAttachmentDetailComponent implements OnInit {
       throw new Error('the virtualMachine property is missing in cs-spare-drive-attachment-detail');
     }
     this.loadVolumes().subscribe();
-    this.spareDriveActionsService
-      .onVolumeAttachment
-      .subscribe(() => {
-        this.loadVolumes().subscribe();
-      });
+    this.volumeService.onVolumeAttachment
+      .subscribe(() => this.loadVolumes().subscribe());
   }
 
   public showDialog(): void {
@@ -59,7 +55,7 @@ export class SpareDriveAttachmentDetailComponent implements OnInit {
 
   public attachVolume(): void {
     this.loading = true;
-    this.spareDriveActionsService.attach({
+    this.volumeService.attach({
       id: this.selectedVolume.id,
       virtualMachineId: this.virtualMachine.id
     })

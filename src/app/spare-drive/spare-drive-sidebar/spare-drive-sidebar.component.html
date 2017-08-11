@@ -1,26 +1,44 @@
-<div *ngIf="volume">
+<div *ngIf="item">
   <md-card>
     <md-card-header>
       <md-card-title>
-        <h2 class="md-card-title-text">{{ volume.name }}</h2>
+        <h2 class="md-card-title-text">{{ item.name }}</h2>
       </md-card-title>
+      <div class="md-card-header-menu">
+        <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
+          <md-icon>more_vert</md-icon>
+        </button>
+      </div>
     </md-card-header>
     <md-card-content>
       <div class="grid grid-right">
-        <div class="row" *ngIf="volume.size">
+        <div class="row" *ngIf="item.size">
           <div>{{ 'SIZE' | translate }}</div>
-          <div>{{ (volume.size | division:2:30:2) }} {{ ('GB' | translate) }}</div>
+          <div>{{ (item.size | division:2:30:2) }} {{ ('GB' | translate) }}</div>
         </div>
-        <div class="row" *ngIf="volume.created">
+        <div class="row" *ngIf="item.created">
           <div>{{ 'SPARE_DRIVE_DETAILS.CREATED' | translate }}</div>
-          <div>{{ volume.created | stringifyDate }}</div>
+          <div>{{ item.created | stringifyDate }}</div>
         </div>
-        <div class="row" *ngIf="volume.storageType">
+        <div class="row" *ngIf="item.storageType">
           <div>{{ 'SPARE_DRIVE_DETAILS.STORAGE_TYPE' | translate }}</div>
-          <div>{{ ('DISK_OFFERING_STORAGE_TYPE.' + volume.storageType.toUpperCase()) | translate }}</div>
+          <div>{{ ('DISK_OFFERING_STORAGE_TYPE.' + item.storageType.toUpperCase()) | translate }}</div>
         </div>
       </div>
     </md-card-content>
+    <md-menu
+      #actionsMenu="mdMenu"
+      [style.width.px]="300"
+    >
+      <button
+        *ngFor="let action of spareDriveActionsService.actions"
+        md-menu-item
+        (click)="action.activate(item, { diskOfferings: diskOfferings }).subscribe()"
+      >
+        <md-icon>{{ action.icon }}</md-icon>
+        <span>{{ action.name | translate }}</span>
+      </button>
+    </md-menu>
   </md-card>
 
   <cs-description
@@ -28,45 +46,47 @@
     (descriptionChange)="changeDescription($event)"
   ></cs-description>
 
-  <md-card *ngIf="volume.diskOffering">
+  <md-card *ngIf="item.diskOffering">
     <md-card-header>
       <md-card-title>
-        <h2 class="md-card-title-text">{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING_TITLE' | translate }}</h2>
+        <h2 class="md-card-title-text">
+          {{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING_TITLE' | translate }}
+        </h2>
       </md-card-title>
     </md-card-header>
     <md-card-content>
       <div class="grid grid-right">
-        <div class="row" *ngIf="volume.diskOffering.name">
+        <div class="row" *ngIf="item.diskOffering.name">
           <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.NAME' | translate }}</div>
-          <div>{{ volume.diskOffering.name }}</div>
+          <div>{{ item.diskOffering.name }}</div>
         </div>
-        <div class="row" *ngIf="volume.diskOffering.displayText">
+        <div class="row" *ngIf="item.diskOffering.displayText">
           <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.DESCRIPTION' | translate }}</div>
-          <div>{{ volume.diskOffering.displayText }}</div>
+          <div>{{ item.diskOffering.displayText }}</div>
         </div>
-        <div class="row" *ngIf="volume.diskOffering.minIops">
+        <div class="row" *ngIf="item.diskOffering.minIops">
           <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.MINIOPS' | translate }}</div>
-          <div>{{ volume.diskOffering.minIops }}</div>
+          <div>{{ item.diskOffering.minIops }}</div>
         </div>
-        <div class="row" *ngIf="volume.diskOffering.maxIops">
+        <div class="row" *ngIf="item.diskOffering.maxIops">
           <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.MAXIOPS' | translate }}</div>
-          <div>{{ volume.diskOffering.maxIops }}</div>
+          <div>{{ item.diskOffering.maxIops }}</div>
         </div>
-        <div class="row" *ngIf="volume.diskOffering.diskBytesReadRate">
+        <div class="row" *ngIf="item.diskOffering.diskBytesReadRate">
           <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.READ_RATE' | translate }}</div>
-          <div>{{ 'MBPS' | translate:{ value: volume.diskOffering.diskBytesReadRate | division:10:6 } }}</div>
+          <div>{{ 'MBPS' | translate:{ value: item.diskOffering.diskBytesReadRate | division:10:6 } }}</div>
         </div>
-        <div class="row" *ngIf="volume.diskOffering.diskBytesWriteRate">
+        <div class="row" *ngIf="item.diskOffering.diskBytesWriteRate">
           <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.WRITE_RATE' | translate }}</div>
-          <div>{{ 'MBPS' | translate:{ value: volume.diskOffering.diskBytesWriteRate | division:10:6 } }}</div>
+          <div>{{ 'MBPS' | translate:{ value: item.diskOffering.diskBytesWriteRate | division:10:6 } }}</div>
         </div>
-        <div class="row" *ngIf="volume.diskOffering.diskIopsReadRate">
+        <div class="row" *ngIf="item.diskOffering.diskIopsReadRate">
           <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.READ_RATE' | translate }}</div>
-          <div>{{ 'IOPS' | translate:{ value: volume.diskOffering.diskIopsReadRate } }}</div>
+          <div>{{ 'IOPS' | translate:{ value: item.diskOffering.diskIopsReadRate } }}</div>
         </div>
-        <div class="row" *ngIf="volume.diskOffering.diskIopsWriteRate">
+        <div class="row" *ngIf="item.diskOffering.diskIopsWriteRate">
           <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.WRITE_RATE' | translate }}</div>
-          <div>{{ 'IOPS' | translate:{ value: volume.diskOffering.diskIopsWriteRate } }}</div>
+          <div>{{ 'IOPS' | translate:{ value: item.diskOffering.diskIopsWriteRate } }}</div>
         </div>
       </div>
     </md-card-content>

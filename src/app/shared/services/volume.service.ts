@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-
-import { DeletionMark, Volume, Snapshot } from '../models';
-import { BaseBackendService } from './base-backend.service';
+import { VirtualMachine } from '../../vm/shared/vm.model';
 import { BackendResource } from '../decorators';
-import { SnapshotService } from './snapshot.service';
+import { Snapshot, Volume } from '../models';
 import { AsyncJobService } from './async-job.service';
+import { BaseBackendService } from './base-backend.service';
+import { SnapshotService } from './snapshot.service';
 import { TagService } from './tag.service';
 
 
@@ -28,13 +28,27 @@ export interface VolumeResizeData {
   size?: number;
 }
 
+export interface VolumeAttachmentEvent {
+  volumeId: string,
+  virtualMachineId?: string,
+  event: VolumeAttachmentEventType
+}
+
+export type VolumeAttachmentEventType = 'attached' | 'detached';
+export const VolumeAttachmentEventsTypes = {
+  ATTACHED: 'attached' as VolumeAttachmentEventType,
+  DETACHED: 'detached' as VolumeAttachmentEventType
+};
+
 @Injectable()
 @BackendResource({
   entity: 'Volume',
   entityModel: Volume
 })
 export class VolumeService extends BaseBackendService<Volume> {
-  public onVolumeAttached: Subject<Volume>;
+  public onVolumeAttachment = new Subject<VolumeAttachmentEvent>();
+  public onVolumeResized = new Subject<Volume>();
+  public onVolumeRemoved = new Subject<Volume>();
 
   constructor(
     private asyncJobService: AsyncJobService,
@@ -42,7 +56,6 @@ export class VolumeService extends BaseBackendService<Volume> {
     private tagService: TagService
   ) {
     super();
-    this.onVolumeAttached = new Subject<Volume>();
   }
 
   public get(id: string): Observable<Volume> {
@@ -80,13 +93,15 @@ export class VolumeService extends BaseBackendService<Volume> {
 
   public resize(params: VolumeResizeData): Observable<Volume> {
     return this.sendCommand('resize', params)
-      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel));
+      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
+      .do(jobResult => this.onVolumeResized.next(jobResult));
   }
 
-  public remove(id: string): Observable<null> {
-    return super.remove({ id })
+  public remove(volume: Volume): Observable<null> {
+    return super.remove({ id: volume.id })
       .map(response => {
         if (response['success'] === 'true') {
+          this.onVolumeRemoved.next(volume);
           return Observable.of(null);
         }
         return Observable.throw(response);
@@ -98,18 +113,23 @@ export class VolumeService extends BaseBackendService<Volume> {
       .switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel));
   }
 
-  public detach(id: string): Observable<null> {
-    return this.sendCommand('detach', { id })
-      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel));
+  public detach(volume: Volume): Observable<null> {
+    return this.sendCommand('detach', { id: volume.id })
+      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
+      .do(jobResult => this.onVolumeAttachment.next({
+        volumeId: volume.id,
+        event: VolumeAttachmentEventsTypes.DETACHED
+      }));
   }
 
   public attach(data: VolumeAttachmentData): Observable<Volume> {
     return this.sendCommand('attach', data)
       .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
-      .map(jobResult => {
-        this.onVolumeAttached.next(jobResult); // todo
-        return jobResult;
-      });
+      .do(jobResult => this.onVolumeAttachment.next({
+        volumeId: data.id,
+        virtualMachineId: data.virtualMachineId,
+        event: VolumeAttachmentEventsTypes.ATTACHED
+      }));
   }
 
   public markForDeletion(id: string): Observable<any> {
@@ -123,9 +143,7 @@ export class VolumeService extends BaseBackendService<Volume> {
 
   public getDescription(volume: Volume): Observable<string> {
     return this.tagService.getTag(volume, 'csui.volume.description')
-      .map(tag => {
-        return tag ? tag.value : undefined;
-      });
+      .map(tag => tag ? tag.value : undefined);
   }
 
   public updateDescription(vm: Volume, description: string): Observable<void> {

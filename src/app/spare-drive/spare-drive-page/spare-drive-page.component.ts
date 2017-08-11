@@ -1,25 +1,14 @@
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import {
-  DiskOffering,
-  DiskOfferingService,
-  FilterService,
-  JobsNotificationService,
-  Volume,
-  VolumeTypes,
-  Zone,
-  ZoneService
-} from '../../shared';
+import { DiskOffering, DiskOfferingService, FilterService, Volume, VolumeTypes, Zone, ZoneService } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { UserService } from '../../shared/services/user.service';
 import { VolumeService } from '../../shared/services/volume.service';
-import { SpareDriveActionsService } from '../spare-drive-actions.service';
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { ActivatedRoute, Router } from '@angular/router';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -67,9 +56,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
-    private jobsNotificationService: JobsNotificationService,
     private listService: ListService,
-    private spareDriveActionsService: SpareDriveActionsService,
     private userService: UserService,
     private volumeService: VolumeService,
     private zoneService: ZoneService,
@@ -82,14 +69,25 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
       .takeUntil(this.onDestroy)
       .subscribe(() => this.showCreationDialog());
 
-    this.spareDriveActionsService.onVolumeAttachment
-      .takeUntil(this.onDestroy)
-      .subscribe(() => this.onVolumeAttached());
+    Observable.merge(
+      this.volumeService.onVolumeAttachment.takeUntil(this.onDestroy)
+        .do(e => {
+          if (this.listService.isSelected(e.volumeId)) {
+            this.listService.deselectItem();
+          }
+        }),
+      this.volumeService.onVolumeResized.takeUntil(this.onDestroy),
+      this.volumeService.onVolumeRemoved.takeUntil(this.onDestroy)
+    )
+      .subscribe(() => this.onVolumeUpdated());
+
+
 
     Observable.forkJoin(
       this.updateVolumeList(),
       this.updateZones()
-    ).subscribe(() => this.initFilters());
+    )
+      .subscribe(() => this.initFilters());
   }
 
   public ngOnDestroy(): void {
@@ -139,32 +137,6 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     }
   }
 
-  public showRemoveDialog(volume: Volume): void {
-    this.dialogService.confirm('CONFIRM_DELETE_VOLUME', 'NO', 'YES')
-      .onErrorResumeNext()
-      .subscribe(() => this.remove(volume));
-  }
-
-  public remove(volume: Volume): void {
-    this.volumeService.remove(volume.id)
-      .subscribe(
-        () => {
-          this.volumes = this.volumes.filter(listVolume => {
-            return listVolume.id !== volume.id;
-          });
-          if (this.listService.isSelected(volume.id)) {
-            this.listService.deselectItem();
-          }
-          this.jobsNotificationService.finish({ message: 'VOLUME_DELETE_DONE' });
-          this.update();
-        },
-        error => {
-          this.dialogService.alert(error);
-          this.jobsNotificationService.fail({ message: 'VOLUME_DELETE_FAILED' });
-        }
-      );
-  }
-
   public showCreationDialog(): void {
     this.dialogService.showCustomDialog({
       component: SpareDriveCreationComponent,
@@ -180,16 +152,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
       });
   }
 
-  public updateVolume(volume: Volume): void {
-    this.volumes = this.volumes.map(vol => vol.id === volume.id ? volume : vol);
-
-    if (this.listService.isSelected(volume.id)) {
-      this.listService.showDetails(volume.id);
-    }
-    this.update();
-  }
-
-  private onVolumeAttached(): void {
+  private onVolumeUpdated(): void {
     this.updateVolumeList().subscribe();
     this.update();
   }
