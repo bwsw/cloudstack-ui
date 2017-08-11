@@ -1,13 +1,17 @@
 <div class="template-list">
   <md-list>
-    <md-list-item *ngFor="let template of templateList"
-                  lines="2"
-                  (click)="$event.stopPropagation(); selectTemplate(template)"
-                  [class.selected-template]="selectedTemplate?.id === template?.id"
-                  [class.inline-block]="!radio">
-      <md-icon class="os-icon"
-               md-list-avatar
-               [ngSwitch]="template.osType.osFamily">
+    <md-list-item
+      *ngFor="let template of templateList"
+      lines="2"
+      (click)="$event.stopPropagation(); selectTemplate(template)"
+      [class.selected-template]="selectedTemplate?.id === template?.id"
+      [class.inline-block]="!radio"
+    >
+      <md-icon
+        class="os-icon"
+        md-list-avatar
+        [ngSwitch]="template.osType.osFamily"
+      >
         <ng-template [ngSwitchCase]="'Linux'">
           <img
             src="img/os/linux.png"
@@ -42,7 +46,11 @@
           ></div>
         </ng-container>
       </h4>
-      <p md-line class="md-line-secondary" [innerHTML]="template.displayText | highlight:query"></p>
+      <p
+        md-line
+        class="md-line-secondary"
+        [innerHTML]="template.displayText | highlight:query"
+      ></p>
       <span *ngIf="radio">
         <mdl-radio
           *ngIf="selectedTemplate"

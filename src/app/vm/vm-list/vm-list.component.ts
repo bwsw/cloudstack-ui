@@ -1,7 +1,6 @@
 import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-
 import {
   AsyncJob,
   AsyncJobService,
@@ -11,13 +10,11 @@ import {
   VmStatisticsComponent,
   Zone
 } from '../../shared';
-
 import { ListService } from '../../shared/components/list/list.service';
 import { UserService } from '../../shared/services/user.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VmActionsService } from '../shared/vm-actions.service';
 import { VirtualMachine, VmStates } from '../shared/vm.model';
-
 import { VirtualMachineEntityName, VmService } from '../shared/vm.service';
 
 import { VirtualMachineActionType } from '../vm-actions/vm-action';
@@ -32,7 +29,7 @@ import { VmListItemComponent } from './vm-list-item.component';
 import clone = require('lodash/clone');
 
 
-const askToCreateVm = 'askToCreateVm';
+const askToCreateVm = 'csui.user.ask-to-create-vm';
 
 @Component({
   selector: 'cs-vm-list',
@@ -79,6 +76,8 @@ export class VmListComponent implements OnInit {
   public inputs;
   public outputs;
 
+  public filterData: any;
+
   constructor(
     public listService: ListService,
     private vmService: VmService,
@@ -115,18 +114,27 @@ export class VmListComponent implements OnInit {
     return !this.visibleVmList.length;
   }
 
-  public updateFilters(filterData?: VmFilter): void {
-    if (!this.vmList.length || !filterData) {
+  public updateFiltersAndFilter(filterData: VmFilter): void {
+    this.filterData = filterData;
+    this.filter();
+  }
+
+  public filter(): void {
+    if (!this.vmList || !this.vmList.length) {
+      return;
+    }
+
+    if (!this.filterData) {
       this.visibleVmList = this.vmList;
       return;
     }
 
-    this.selectedGroupings = filterData.groupings.reduce((acc, g) => {
+    this.selectedGroupings = this.filterData.groupings.reduce((acc, g) => {
       acc.push(this.groupings.find(_ => _ === g));
       return acc;
     }, []);
 
-    const { selectedZones, selectedGroups, selectedStates } = filterData;
+    const { selectedZones, selectedGroups, selectedStates } = this.filterData;
     this.visibleVmList = this.filterVmsByZones(this.vmList, selectedZones);
     this.visibleVmList = this.filterVmsByGroup(this.visibleVmList, selectedGroups);
     this.visibleVmList = this.filterVMsByState(this.visibleVmList, selectedStates);
@@ -139,7 +147,7 @@ export class VmListComponent implements OnInit {
 
   public onVmCreated(vm: VirtualMachine): void {
     this.vmList.push(vm);
-    this.updateFilters();
+    this.filter();
     this.updateStats();
   }
 
@@ -194,12 +202,16 @@ export class VmListComponent implements OnInit {
       )
       .subscribe(vm => {
         this.replaceVmInList(vm);
-        this.updateFilters();
+        this.filter();
         this.updateStats();
       });
   }
 
   private replaceVmInList(vm: VirtualMachine): void {
+    if (!this.vmList) {
+      return;
+    }
+
     const index = this.vmList.findIndex(_ => _.id === vm.id);
 
     if (index < 0) {
@@ -236,7 +248,7 @@ export class VmListComponent implements OnInit {
         if (this.listService.isSelected(job.result.id)) {
           this.listService.deselectItem();
         }
-        this.updateFilters();
+        this.filter();
         this.updateStats();
       });
   }
@@ -277,7 +289,7 @@ export class VmListComponent implements OnInit {
         }
       });
 
-      this.updateFilters();
+      this.filter();
       this.updateStats();
     }
   }

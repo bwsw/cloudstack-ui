@@ -1,35 +1,41 @@
-<mdl-card *ngIf="iso" mdl-shadow="2">
-  <mdl-card-title>
-    <h2 mdl-card-title-text>{{ 'ISO' | translate }}</h2>
-  </mdl-card-title>
-  <mdl-card-supporting-text>{{ iso.name }}</mdl-card-supporting-text>
-  <mdl-card-actions mdl-card-border>
-    <button
-      mdl-button
-      mdl-button-type="icon"
-      mdTooltipPosition="above"
-      [mdTooltip]="'DETACH' | translate"
-      (click)="detachIso()"
-    >
-      <mdl-icon>remove</mdl-icon>
-    </button>
-  </mdl-card-actions>
-</mdl-card>
-
-<mdl-card *ngIf="!iso" mdl-shadow="2">
-  <mdl-card-title>
-    <h2 mdl-card-title-text>{{ 'ISO' | translate }}</h2>
-  </mdl-card-title>
-  <mdl-card-supporting-text>{{ 'NO_MEDIUM' | translate }}</mdl-card-supporting-text>
-  <mdl-card-actions mdl-card-border>
-    <button
-      mdl-button
-      mdl-button-type="icon"
-      mdTooltipPosition="above"
-      [mdTooltip]="'ATTACH' | translate"
-      (click)="attachIso()"
-    >
-      <mdl-icon>add</mdl-icon>
-    </button>
-  </mdl-card-actions>
-</mdl-card>
+<md-card>
+  <md-card-header>
+    <md-card-title>
+      <h2 class="md-card-title-text">{{ 'ISO' | translate }}</h2>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content class="md-card-content-with-actions" [ngSwitch]="!!iso">
+    <ng-template [ngSwitchCase]="true">
+      <div class="md-card-content-container">
+        {{ iso.name }}
+      </div>
+      <md-card-actions>
+        <button
+          mdl-button
+          mdl-button-type="icon"
+          mdTooltipPosition="above"
+          [mdTooltip]="'DETACH' | translate"
+          (click)="detachIso()"
+        >
+          <md-icon>remove</md-icon>
+        </button>
+      </md-card-actions>
+    </ng-template>
+    <ng-template ngSwitchDefault>
+      <div class="md-card-content-container">
+        {{ 'NO_MEDIUM' | translate }}
+      </div>
+      <md-card-actions>
+        <button
+          mdl-button
+          mdl-button-type="icon"
+          mdTooltipPosition="above"
+          [mdTooltip]="'ATTACH' | translate"
+          (click)="attachIso()"
+        >
+          <md-icon>add</md-icon>
+        </button>
+      </md-card-actions>
+    </ng-template>
+  </md-card-content>
+</md-card>

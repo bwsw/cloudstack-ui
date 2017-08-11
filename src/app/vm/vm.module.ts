@@ -1,10 +1,16 @@
 import { MdlModule } from '@angular-mdl/core';
-import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MdDialogModule, MdSelectModule, MdTooltipModule } from '@angular/material';
+import {
+  MdButtonModule,
+  MdDialogModule,
+  MdIconModule,
+  MdMenuModule,
+  MdSelectModule,
+  MdTooltipModule
+} from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -73,7 +79,6 @@ import { WebShellService } from './web-shell/web-shell.service';
     MdSelectModule,
     MdlModule,
     MdDialogModule,
-    MdlPopoverModule,
     MdlSelectModule,
     ReactiveFormsModule,
     ServiceOfferingModule,
@@ -87,6 +92,9 @@ import { WebShellService } from './web-shell/web-shell.service';
     PulseModule,
     vmRouting,
     RouterModule.forRoot(routes),
+    MdMenuModule,
+    MdButtonModule,
+    MdIconModule,
   ],
   declarations: [
     AffinityGroupSelectorComponent,

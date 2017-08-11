@@ -143,7 +143,7 @@ export class VirtualMachine extends BaseModel implements Taggable {
 
   public getColor(): Color {
     if (this.tags) {
-      const colorTag = this.tags.find(tag => tag.key === 'color');
+      const colorTag = this.tags.find(tag => tag.key === 'csui.vm.color');
       if (colorTag) {
         const [backgroundColor, textColor] = colorTag.value.split(VirtualMachine.ColorDelimiter);
         return new Color(backgroundColor, backgroundColor, textColor || '');
@@ -179,7 +179,7 @@ export class VirtualMachine extends BaseModel implements Taggable {
   }
 
   private initializeInstanceGroup(): void {
-    const group = this.tags.find(tag => tag.key === 'group');
+    const group = this.tags.find(tag => tag.key === 'csui.vm.group');
 
     if (group) {
       this.instanceGroup = new InstanceGroup(group.value);

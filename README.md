@@ -80,7 +80,7 @@ So, what is supported:
 
 ## Plugins Supported
 
-* [Pulse Plugin](https://github.com/bwsw/cloudstack-ui/wiki/Pulse-Plugin-Deployment) - supports visualization of VM runtime stats (CPU, RAM, IO, network traffic) on charts;
+* [Pulse Plugin](https://github.com/bwsw/cloudstack-ui/wiki/Pulse-Plugin-Deployment) - supports visualization of VM runtime stats (CPU, RAM, IO, network traffic) with charts;
 * [WebShell Plugin](https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin-Deployment) - supports clientless SSH access to VMs.
 
 ## Features Yet Unsupported
@@ -305,6 +305,17 @@ In this sections you can specify limits for custom offerings in the following fo
     }
     
 Any of these parameters may be left unspecified, in which case 0 will be used for min and infinity will be used for max.
+
+### extensions
+Extension options:
+```
+  "extensions": {
+    "webShell": {
+      "address": "http://192.168.1.1:8018"
+    }
+  }
+```
+`webShell.address` is the address of a WebShell server. WebShell will not be available unless an address is specified.
 
 ## Project Sponsors
 

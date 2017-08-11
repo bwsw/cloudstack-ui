@@ -1,9 +1,11 @@
 <div *ngIf="volume">
-  <mdl-card mdl-shadow="2">
-    <mdl-card-title>
-      <h2 mdl-card-title-text>{{ volume.name }}</h2>
-    </mdl-card-title>
-    <mdl-card-supporting-text>
+  <md-card>
+    <md-card-header>
+      <md-card-title>
+        <h2 class="md-card-title-text">{{ volume.name }}</h2>
+      </md-card-title>
+    </md-card-header>
+    <md-card-content>
       <div class="grid grid-right">
         <div class="row" *ngIf="volume.size">
           <div>{{ 'SIZE' | translate }}</div>
@@ -11,26 +13,28 @@
         </div>
         <div class="row" *ngIf="volume.created">
           <div>{{ 'SPARE_DRIVE_DETAILS.CREATED' | translate }}</div>
-          <div>{{ volume.created | date:'y-MM-dd H:m:s' }}</div>
+          <div>{{ volume.created | stringifyDate }}</div>
         </div>
-        <div class="row"  *ngIf="volume.storageType">
+        <div class="row" *ngIf="volume.storageType">
           <div>{{ 'SPARE_DRIVE_DETAILS.STORAGE_TYPE' | translate }}</div>
           <div>{{ ('DISK_OFFERING_STORAGE_TYPE.' + volume.storageType.toUpperCase()) | translate }}</div>
         </div>
       </div>
-    </mdl-card-supporting-text>
-  </mdl-card>
+    </md-card-content>
+  </md-card>
 
   <cs-description
     [description]="description"
     (descriptionChange)="changeDescription($event)"
   ></cs-description>
 
-  <mdl-card mdl-shadow="2" *ngIf="volume.diskOffering">
-    <mdl-card-title>
-      <h2 mdl-card-title-text>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING_TITLE' | translate }}</h2>
-    </mdl-card-title>
-    <mdl-card-supporting-text>
+  <md-card *ngIf="volume.diskOffering">
+    <md-card-header>
+      <md-card-title>
+        <h2 class="md-card-title-text">{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING_TITLE' | translate }}</h2>
+      </md-card-title>
+    </md-card-header>
+    <md-card-content>
       <div class="grid grid-right">
         <div class="row" *ngIf="volume.diskOffering.name">
           <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.NAME' | translate }}</div>
@@ -65,6 +69,6 @@
           <div>{{ 'IOPS' | translate:{ value: volume.diskOffering.diskIopsWriteRate } }}</div>
         </div>
       </div>
-    </mdl-card-supporting-text>
-  </mdl-card>
+    </md-card-content>
+  </md-card>
 </div>

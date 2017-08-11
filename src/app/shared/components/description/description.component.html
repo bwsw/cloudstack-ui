@@ -1,11 +1,12 @@
-<mdl-card
+<md-card
   class="vm-card"
-  mdl-shadow="2"
 >
-  <mdl-card-title>
-    <h2 mdl-card-title-text>{{ 'DESCRIPTION' | translate }}</h2>
-  </mdl-card-title>
-  <mdl-card-supporting-text>
+  <md-card-header>
+    <md-card-title>
+      <h2 class="md-card-title-text">{{ 'DESCRIPTION' | translate }}</h2>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content>
     <cs-inline-edit
       (click)="$event.stopPropagation()"
       (textChange)="updateDescription($event)"
@@ -13,5 +14,5 @@
       [maxLength]="maxLength"
       [rows]="rows"
     ></cs-inline-edit>
-  </mdl-card-supporting-text>
-</mdl-card>
+  </md-card-content>
+</md-card>

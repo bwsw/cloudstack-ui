@@ -127,7 +127,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public firstDayOfWeekChange(change: MdSelectChange): void {
     this.firstDayOfWeek = change.value;
     this.updatingFirstDayOfWeek = true;
-    this.userService.writeTag('firstDayOfWeek', '' + change.value)
+    this.languageService.setFirstDayOfWeek(change.value)
       .finally(() => this.updatingFirstDayOfWeek = false)
       .subscribe();
   }

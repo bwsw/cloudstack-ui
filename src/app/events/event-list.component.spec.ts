@@ -1,21 +1,20 @@
 import { MdlModule } from '@angular-mdl/core';
 import { MdlSelectModule } from '@angular-mdl/select';
-import {
-  Component, EventEmitter, Injectable, NO_ERRORS_SCHEMA, Pipe,
-  PipeTransform
-} from '@angular/core';
+import { Component, EventEmitter, Injectable, NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { DatePickerComponent } from '../shared/components/date-picker';
 import { TopBarComponent } from '../shared/components/top-bar/top-bar.component';
-import { LanguageService, TimeFormats } from '../shared/services';
-
+import { LanguageService } from '../shared/services';
 import { SharedModule } from '../shared/shared.module';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
 import { EventService } from './event.service';
+import { DateTimeFormatterService } from '../shared/services/date-time-formatter.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { dateTimeFormat as enDateTimeFormat } from '../shared/components/date-picker/dateUtils';
+import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 
 
@@ -83,15 +82,8 @@ class ActivatedRouteStub {
   }
 }
 
-
 class MockLanguageService {
-  public getFirstDayOfWeek(): Observable<number> {
-    return Observable.of(0);
-  }
-
-  public getTimeFormat(): Observable<string | null> {
-    return Observable.of(TimeFormats.AUTO);
-  }
+  public firstDayOfWeek = new BehaviorSubject<number>(0);
 }
 
 @Pipe({
@@ -101,6 +93,20 @@ class MockLanguageService {
 class MockTranslatePipe implements PipeTransform {
   public transform(value: any): Observable<any> {
     return value;
+  }
+}
+
+class MockDateTimeFormatterService {
+  public get dateTimeFormat(): any {
+    return enDateTimeFormat;
+  }
+
+  public stringifyToTime(date: Date): string {
+    return '';
+  }
+
+  public stringifyToDate(date: Date): string {
+    return '';
   }
 }
 
@@ -127,6 +133,8 @@ describe('event list component', () => {
         MockNotificationBoxComponent
       ],
       providers: [
+        { provide: DateTimeFormatterService, useClass: MockDateTimeFormatterService },
+        { provide: LanguageService, useClass: MockLanguageService },
         { provide: EventService, useClass: MockEventService },
         { provide: TranslateService, useClass: MockTranslateService },
         { provide: LanguageService, useClass: MockLanguageService },

@@ -1,34 +1,37 @@
-<mdl-card
-  mdl-shadow="2"
+<md-card
   class="custom-card"
 >
-  <mdl-card-title>
-    <h2
-      mdl-card-title-text
-      [mdTooltip]="category.name"
-    >
-      <span [innerHTML]="category.name | highlight:query"></span>
-    </h2>
-  </mdl-card-title>
-
-  <mdl-card-supporting-text>
-    <cs-tag
-      *ngFor="let tag of category.tags"
-      [tag]="tag"
-      [query]="query"
-      (onTagEdit)="editTag($event)"
-      (onTagRemove)="removeTag($event)"
-    ></cs-tag>
-  </mdl-card-supporting-text>
-
-  <mdl-card-actions mdl-card-border>
-    <button
-      mdl-button
-      mdl-button-type="icon"
-      [mdTooltip]="'ADD' | translate"
-      (click)="$event.stopPropagation(); addTag()"
-    >
-      <mdl-icon>add</mdl-icon>
-    </button>
-  </mdl-card-actions>
-</mdl-card>
+  <md-card-header>
+    <md-card-title>
+      <h2
+        class="md-card-title-text"
+        [mdl-tooltip]="category.name"
+        mdl-tooltip-position="bottom"
+      >
+        <span [innerHTML]="category.name | highlight:query"></span>
+      </h2>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content class="md-card-content-with-actions">
+    <div class="md-card-content-container">
+      <cs-tag
+        *ngFor="let tag of category.tags"
+        [tag]="tag"
+        [query]="query"
+        (onTagEdit)="editTag($event)"
+        (onTagRemove)="removeTag($event)"
+      ></cs-tag>
+    </div>
+    <md-card-actions>
+      <button
+        mdl-button
+        mdl-button-type="icon"
+        mdl-tooltip-position="top"
+        [mdl-tooltip]="'ADD' | translate"
+        (click)="$event.stopPropagation(); addTag()"
+      >
+        <md-icon>add</md-icon>
+      </button>
+    </md-card-actions>
+  </md-card-content>
+</md-card>

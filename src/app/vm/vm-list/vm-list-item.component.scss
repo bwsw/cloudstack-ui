@@ -1,27 +1,21 @@
-$popover-padding: 14px;
-$action-button-size: 32px;
-
 :host {
   display: inline-flex;
   cursor: pointer;
   z-index: -1;
 
-  & mdl-card {
+  & md-card {
     z-index: 0;
+    line-height: normal;
   }
 }
 
-.custom-card .mdl-card__title {
+.custom-card md-card-header {
   padding-bottom: 5px;
-
-  .mdl-card__title-text {
-    max-width: 85%;
-  }
 }
 
 .custom-card.has-text-color {
-  mdl-card-supporting-text,
-  mdl-card-title {
+  md-card-content,
+  md-card-title {
     color: inherit;
   }
 
@@ -34,7 +28,7 @@ $action-button-size: 32px;
   margin-bottom: 5px;
 }
 
-mdl-card.error {
+md-card.error {
   cursor: auto;
 }
 
@@ -45,29 +39,6 @@ mdl-card.error {
 .vm-state {
   float: right;
 }
-
-.vm-popover {
-  width: $action-button-size * 7 + 2 * $popover-padding !important;
-}
-
-button {
-  padding: 10px;
-  display: block;
-}
-
-.popover-actions {
-  display: flex;
-  flex-wrap: wrap;
-
-  .plugins {
-    display: flex;
-    flex: 1;
-    button:first-child {
-      margin-left: auto;
-    }
-  }
-}
-
 
 md-divider {
   flex: 1 0 100%;

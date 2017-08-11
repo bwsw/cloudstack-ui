@@ -1,5 +1,5 @@
 import { Component, Input, EventEmitter, Output, ViewChild, OnInit } from '@angular/core';
-import { MdlPopoverComponent } from '@angular-mdl/popover';
+import { MdMenuTrigger } from '@angular/material';
 
 import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
 import { VolumeResizeComponent } from '../../vm/vm-sidebar/volume-resize.component';
@@ -24,7 +24,7 @@ export class SpareDriveItemComponent implements OnInit {
   @Output() public onVolumeAttached = new EventEmitter<VolumeAttachmentData>();
   @Output() public onDelete = new EventEmitter();
   @Output() public onResize = new EventEmitter();
-  @ViewChild(MdlPopoverComponent) public popoverComponent: MdlPopoverComponent;
+  @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
 
   public diskOfferings: Array<DiskOffering>;
 
@@ -78,10 +78,8 @@ export class SpareDriveItemComponent implements OnInit {
 
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
-    if (!this.popoverComponent.isVisible) {
+    if (!this.mdMenuTrigger.menuOpen) {
       this.onClick.emit(this.item);
-    } else {
-      this.popoverComponent.hide();
     }
   }
 

@@ -1,4 +1,3 @@
-import { MdlPopoverComponent } from '@angular-mdl/popover';
 import {
   Component,
   EventEmitter,
@@ -9,6 +8,7 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
+import { MdMenuTrigger } from '@angular/material';
 import { Color } from '../../shared/models';
 import { VmActionsService } from '../shared/vm-actions.service';
 import { VirtualMachine } from '../shared/vm.model';
@@ -25,7 +25,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
   @Input() public isSelected: (vm: VirtualMachine) => boolean;
   @Output() public onClick = new EventEmitter();
   @Output() public onPulse = new EventEmitter<string>();
-  @ViewChild(MdlPopoverComponent) public popoverComponent: MdlPopoverComponent;
+  @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
 
   public firstRowActions: Array<VirtualMachineAction>;
   public secondRowActions: Array<VirtualMachineAction>;
@@ -57,16 +57,9 @@ export class VmListItemComponent implements OnInit, OnChanges {
 
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
-    if (!this.popoverComponent.isVisible) {
+    if (!this.mdMenuTrigger.menuOpen) {
       this.onClick.emit(this.item);
-    } else {
-      this.popoverComponent.hide();
     }
-  }
-
-  public togglePopover(event): void {
-    event.stopPropagation();
-    this.popoverComponent.toggle(event);
   }
 
   public getMemoryInMb(): string {

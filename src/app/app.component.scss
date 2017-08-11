@@ -30,8 +30,8 @@ footer {
   padding-left: 16px;
 }
 
-.mdl-navigation__link mdl-icon {
-  padding-right: 10px;
+.mdl-navigation__link md-icon {
+  margin-right: 10px;
 }
 
 .link-container {
@@ -135,4 +135,15 @@ mdl-layout-title {
 
 .content-margin {
   margin-left: 240px !important;
+}
+
+/deep/ button {
+  &.mat-menu-item {
+    padding: 0 10px;
+  }
+
+  &.mat-icon-button {
+    position: absolute !important;
+    right: 0px !important;
+  }
 }

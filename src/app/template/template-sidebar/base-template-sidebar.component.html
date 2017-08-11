@@ -12,11 +12,13 @@
           [singleLine]="false"
           (deleteTemplate)="remove()"
         ></cs-template>
-        <mdl-card mdl-shadow="2">
-          <mdl-card-title>
-            <h2 mdl-card-title-text>{{ "DETAILS" | translate }}</h2>
-          </mdl-card-title>
-          <mdl-card-supporting-text>
+        <md-card>
+          <md-card-header>
+            <md-card-title>
+              <h2 class="md-card-title-text">{{ "DETAILS" | translate }}</h2>
+            </md-card-title>
+          </md-card-header>
+          <md-card-content>
             <div class="grid grid-right">
               <div class="row" *ngIf="template.size">
                 <div>{{ 'SIZE' | translate }}</div>
@@ -52,7 +54,7 @@
               </div>
               <div class="row">
                 <div>{{ 'CREATED_MASC' | translate }}</div>
-                <div>{{ template.created | date:'y-MM-dd H:m:s' }}</div>
+                <div>{{ template.created | stringifyDate }}</div>
               </div>
               <div *ngIf="template.type" class="row">
                 <div>{{ 'TYPE' | translate }}</div>
@@ -63,13 +65,13 @@
                 <div>{{ template.hypervisor }}</div>
               </div>
             </div>
-          </mdl-card-supporting-text>
-        </mdl-card>
-        <mdl-card *ngIf="templateDownloadUrl" mdl-shadow="2">
-          <mdl-card-title>
-            <h2 mdl-card-title-text>{{ 'DOWNLOAD_URL' | translate }}</h2>
-          </mdl-card-title>
-          <mdl-card-supporting-text>
+          </md-card-content>
+        </md-card>
+        <md-card *ngIf="templateDownloadUrl" mdl-shadow="2">
+          <md-card-header>
+            <md-card-title><h2>{{ 'DOWNLOAD_URL' | translate }}</h2></md-card-title>
+          </md-card-header>
+          <md-card-content>
             <cs-input-group>
               <mdl-textfield
                 class="md-card-input-copy"
@@ -87,32 +89,34 @@
                 (cbOnSuccess)="onCopySuccess()"
                 (cbOnError)="onCopyFail()"
               >
-                <mdl-icon
+                <md-icon
                   mdTooltipPosition="below"
                   [mdTooltip]="'COPY' | translate"
                 >
                   content_copy
-                </mdl-icon>
+                </md-icon>
               </button>
             </cs-input-group>
-          </mdl-card-supporting-text>
-        </mdl-card>
+          </md-card-content>
+        </md-card>
       </mdl-tab-panel-content>
     </mdl-tab-panel>
 
     <mdl-tab-panel>
       <mdl-tab-panel-title>
-        <mdl-icon>public</mdl-icon>
+        <md-icon>public</md-icon>
       </mdl-tab-panel-title>
       <mdl-tab-panel-content *loading="updating">
         <div *ngIf="!readyInEveryZone" class="update-button-container">
           <mdl-button (click)="updateStatus()">{{ 'UPDATE' | translate }}</mdl-button>
         </div>
-        <mdl-card *ngFor="let zone of template.zones" class="vm-card" mdl-shadow="2">
-          <mdl-card-title>
-            <h2 mdl-card-title-text>{{ zone.zoneName }}</h2>
-          </mdl-card-title>
-          <mdl-card-supporting-text class="grid">
+        <md-card *ngFor="let zone of template.zones" class="vm-card" mdl-shadow="2">
+          <md-card-header>
+            <md-card-title>
+              <h2 class="md-card-title-text">{{ zone.zoneName }}</h2>
+            </md-card-title>
+          </md-card-header>
+          <md-card-content class="grid">
             <div class="row">
               <div>{{ 'READY' | translate }}</div>
               <div>{{ zone.isReady | viewValue | async }}</div>
@@ -121,14 +125,14 @@
               <div>{{ 'STATUS' | translate }}</div>
               <div>{{ zone.status }}</div>
             </div>
-          </mdl-card-supporting-text>
-        </mdl-card>
+          </md-card-content>
+        </md-card>
       </mdl-tab-panel-content>
     </mdl-tab-panel>
 
     <mdl-tab-panel>
       <mdl-tab-panel-title>
-        <mdl-icon>local_offer</mdl-icon>
+        <md-icon>local_offer</md-icon>
       </mdl-tab-panel-title>
 
       <mdl-tab-panel-content>

@@ -55,17 +55,20 @@ export class CustomServiceOfferingService {
     resourceStats: ResourceStats
   ): CustomServiceOffering {
     const cpuNumber =
-      defaultParams && defaultParams.cpuNumber
+      serviceOffering.cpuNumber
+      || defaultParams && defaultParams.cpuNumber
       || customRestrictions && customRestrictions.cpuNumber && customRestrictions.cpuNumber.min
       || customServiceOfferingFallbackParams.cpuNumber;
 
     const cpuSpeed =
-      defaultParams && defaultParams.cpuSpeed
+      serviceOffering.cpuSpeed
+      || defaultParams && defaultParams.cpuSpeed
       || customRestrictions && customRestrictions.cpuSpeed && customRestrictions.cpuSpeed.min
       || customServiceOfferingFallbackParams.cpuSpeed;
 
     const memory =
-      defaultParams && defaultParams.memory
+      serviceOffering.memory
+      || defaultParams && defaultParams.memory
       || customRestrictions && customRestrictions.memory && customRestrictions.memory.min
       || customServiceOfferingFallbackParams.memory;
 

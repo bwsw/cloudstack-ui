@@ -1,5 +1,5 @@
 <cs-top-bar *ngIf="!dialogMode">
-  <mdl-card class="options-panel top-bar-height">
+  <div class="options-panel">
     <mdl-tabs
       class="tab-switch"
       mdl-ripple
@@ -57,7 +57,7 @@
       [(ngModel)]="selectedZones"
       (change)="updateFilters()"
     >
-      <md-option mdl-ripple *ngFor="let z of zones" [value]="z">{{ z.name }}</md-option>
+      <md-option *ngFor="let z of zones" [value]="z">{{ z.name }}</md-option>
     </md-select>
 
     <cs-divider-vertical></cs-divider-vertical>
@@ -73,10 +73,10 @@
         {{ g.label | translate }}
       </md-option>
     </md-select>
-  </mdl-card>
+  </div>
 </cs-top-bar>
 
-<mdl-card
+<div
   class="options-panel"
   [class.delimiter]="showDelimiter"
   *ngIf="dialogMode"
@@ -130,7 +130,7 @@
       </md-option>
     </md-select>
   </div>
-</mdl-card>
+</div>
 
 <div [class.search-bar-white]="searchPanelWhite">
   <cs-search
