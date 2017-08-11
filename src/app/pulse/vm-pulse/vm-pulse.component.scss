@@ -1,0 +1,23 @@
+:host {
+  display: block;
+  min-width: 550px;
+}
+
+.entity-select-container {
+  float: left;
+  display: flex;
+}
+
+.entity-select {
+  vertical-align: bottom;
+  margin-right: 20px !important;
+  margin-left: 0 !important;
+
+  & + cs-divider-vertical {
+    margin-right: 20px;
+  }
+}
+
+.aggregation-select:first-child {
+  margin-left: 0;
+}

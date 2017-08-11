@@ -1,0 +1,21 @@
+<div class="entity-select-container">
+  <md-select
+    class="aggregation-select entity-select"
+    [placeholder]="'PULSE.DISK' | translate"
+    [(ngModel)]="selectedVolume"
+    (change)="volumeChange.emit()"
+  >
+    <md-option *ngFor="let volume of availableVolumes" [value]="volume">
+      {{ volume.name }} ({{ volume.id }})
+    </md-option>
+  </md-select>
+  <cs-divider-vertical></cs-divider-vertical>
+</div>
+<cs-chart-area-component
+  [charts]="charts"
+  [hasNext]="shift > 0"
+  [fetching]="loading"
+  (previous)="previous.emit()"
+  (next)="next.emit()"
+></cs-chart-area-component>
+

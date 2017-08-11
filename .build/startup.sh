@@ -1,8 +1,10 @@
 #! /bin/sh
 
+PULSE_URL=${PULSE_PLUGIN_ENDPOINT-"http://cs-extensions/pulse"}
 # replace placeholders
 sed -i -e 's#API_BACKEND_URL#'"$API_BACKEND_URL"'#g' /etc/nginx/conf.d/default.conf
 sed -i -e 's#CONSOLE_BACKEND_URL#'"$CONSOLE_BACKEND_URL"'#g' /etc/nginx/conf.d/default.conf
+sed -i -e 's#PULSE_PLUGIN_ENDPOINT#'"$PULSE_URL"'#g' /etc/nginx/conf.d/default.conf
 
 # add base href
 if [ -n "$BASE_HREF" ]; then
