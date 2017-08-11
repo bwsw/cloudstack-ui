@@ -4,7 +4,7 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdIconModule, MdListModule, MdSelectModule, MdSnackBarModule } from '@angular/material';
+import { MdIconModule, MdListModule, MdSelectModule, MdSnackBarModule, MdCardModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
@@ -115,7 +115,8 @@ import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
     MdlSelectModule,
     TranslateModule,
     MdListModule,
-    MdSnackBarModule
+    MdSnackBarModule,
+    MdCardModule
   ],
   exports: [
     GroupedCardListComponent,
@@ -157,6 +158,7 @@ import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
     LoadingDirective,
     MdlTextAreaAutoresizeDirective,
     MdListModule,
+    MdCardModule,
     MdSnackBarModule
   ],
   entryComponents: [

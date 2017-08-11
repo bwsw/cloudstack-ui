@@ -1,24 +1,28 @@
-<mdl-card class="vm-card" mdl-shadow="2">
-  <mdl-card-title>
-    <h2 mdl-card-title-text>{{ 'GROUP' | translate }}</h2>
-  </mdl-card-title>
-  <mdl-card-supporting-text>
-    <div *ngIf="groupName">
-      {{ vm.instanceGroup.name }}
+<md-card class="vm-card" mdl-shadow="2">
+  <md-card-header>
+    <h2 class="md-card-title-text">
+      {{ 'GROUP' | translate }}
+    </h2>
+  </md-card-header>
+  <md-card-content class="overflow-card md-card-content-with-actions">
+    <div class="md-card-content-container">
+      <div *ngIf="groupName">
+        {{ vm.instanceGroup.name }}
+      </div>
+      <div *ngIf="!groupName">
+        {{ 'NO_GROUP' | translate }}
+      </div>
     </div>
-    <div *ngIf="!groupName">
-      {{ 'NO_GROUP' | translate }}
-    </div>
-  </mdl-card-supporting-text>
-  <mdl-card-actions mdl-card-border>
-    <button
-      [mdTooltip]="'EDIT' | translate"
-      mdTooltipPosition="above"
-      mdl-button
-      mdl-button-type="icon"
-      (click)="changeGroup()"
-    >
-      <md-icon>edit</md-icon>
-    </button>
-  </mdl-card-actions>
-</mdl-card>
+    <md-card-actions>
+      <button
+        [mdTooltip]="'EDIT' | translate"
+        mdTooltipPosition="above"
+        mdl-button
+        mdl-button-type="icon"
+        (click)="changeGroup()"
+      >
+        <md-icon>edit</md-icon>
+      </button>
+    </md-card-actions>
+  </md-card-content>
+</md-card>

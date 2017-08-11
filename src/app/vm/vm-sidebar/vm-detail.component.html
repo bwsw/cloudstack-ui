@@ -7,23 +7,27 @@
       (descriptionChange)="changeDescription($event)"
     ></cs-description>
 
-    <mdl-card class="vm-card" mdl-shadow="2">
-      <mdl-card-title>
-        <h2 mdl-card-title-text>{{ 'ZONE' | translate }}</h2>
-      </mdl-card-title>
-      <mdl-card-supporting-text>
+    <md-card class="vm-card">
+      <md-card-header>
+        <md-card-title>
+          <h2 class="md-card-title-text">{{ 'ZONE' | translate }}</h2>
+        </md-card-title>
+      </md-card-header>
+      <md-card-content>
         <div>{{ vm.zoneName }}</div>
-      </mdl-card-supporting-text>
-    </mdl-card>
+      </md-card-content>
+    </md-card>
 
     <cs-instance-group [vm]="vm"></cs-instance-group>
 
-    <mdl-card class="vm-card" mdl-shadow="2">
-      <mdl-card-title>
-        <h2 mdl-card-title-text>{{ 'SERVICE_OFFERING' | translate }}</h2>
-      </mdl-card-title>
-      <mdl-card-supporting-text>
-        <div class="grid service-offering" [class.open]="expandServiceOffering">
+    <md-card class="vm-card">
+      <md-card-header>
+        <md-card-title>
+          <h2 class="md-card-title-text">{{ 'SERVICE_OFFERING' | translate }}</h2>
+        </md-card-title>
+      </md-card-header>
+      <md-card-content class="md-card-content-with-actions">
+        <div class="grid service-offering md-card-content-container" [class.open]="expandServiceOffering">
           <div class="row" *ngFor="let key of vm.serviceOffering.keys">
             <ng-template [ngIf]="isNotFormattedField(key)">
               <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
@@ -45,91 +49,115 @@
             </ng-template>
           </div>
         </div>
-      </mdl-card-supporting-text>
-      <mdl-card-actions mdl-card-border>
-        <div class="card-left-button">
+        <md-card-actions>
+          <div class="card-left-button">
+            <button
+              [mdTooltip]="'CHANGE' | translate"
+              mdTooltipPosition="above"
+              mdl-button
+              mdl-button-type="icon"
+              (click)="changeServiceOffering()"
+            >
+              <md-icon>edit</md-icon>
+            </button>
+          </div>
+          <div class="card-right-button">
+            <button
+              mdl-button
+              mdl-ripple
+              mdl-button-type="icon"
+              (click)="toggleServiceOffering()"
+              [class.open]="expandServiceOffering"
+            >
+              <md-icon>keyboard_arrow_down</md-icon>
+            </button>
+          </div>
+        </md-card-actions>
+      </md-card-content>
+    </md-card>
+
+    <md-card class="vm-card">
+      <md-card-header>
+        <md-card-title>
+          <h2 class="md-card-title-text">{{ 'AFFINITY_GROUP' | translate }}</h2>
+        </md-card-title>
+      </md-card-header>
+      <md-card-content class="md-card-content-with-actions">
+        <div class="md-card-content-container">
+          <div *ngFor="let affinityGroup of vm.affinityGroup">{{ affinityGroup.name }}</div>
+          <div *ngIf="!vm.affinityGroup.length">{{ 'NO_AFFINITY_GROUP' | translate }}</div>
+        </div>
+        <md-card-actions *loading="affinityGroupLoading">
           <button
-            [mdTooltip]="'CHANGE' | translate"
+            [mdTooltip]="'EDIT' | translate"
             mdTooltipPosition="above"
             mdl-button
             mdl-button-type="icon"
-            (click)="changeServiceOffering()"
+            (click)="changeAffinityGroup()"
           >
             <md-icon>edit</md-icon>
           </button>
+        </md-card-actions>
+      </md-card-content>
+    </md-card>
+
+    <md-card class="vm-card">
+      <md-card-header>
+        <md-card-title>
+          <h2 class="md-card-title-text">{{ 'TEMPLATE' | translate }}</h2>
+        </md-card-title>
+      </md-card-header>
+      <md-card-content>
+        <div>{{ vm.templateName }}</div>
+      </md-card-content>
+    </md-card>
+
+    <md-card class="vm-card">
+      <md-card-header>
+        <md-card-title>
+          <h2 class="md-card-title-text">{{ 'SSH_KEY' | translate }}</h2>
+        </md-card-title>
+      </md-card-header>
+      <md-card-content class="md-card-content-with-actions">
+        <div class="md-card-content-container">
+          <span *ngIf="vm.keyPair; else noKeys">{{ vm.keyPair }}</span>
+          <ng-template #noKeys>{{ 'NO_SSH_KEY' | translate }}</ng-template>
         </div>
-        <div class="card-right-button">
+        <md-card-actions *loading="sskKeyLoading">
+          <mdl-button
+            [mdTooltip]="(vm.keyPair ? 'EDIT': 'ADD') | translate"
+            mdTooltipPosition="above"
+            mdl-button-type="icon"
+            (click)="resetSshKey()"
+          >
+            <md-icon *ngIf="vm.keyPair; else add">edit</md-icon>
+            <ng-template #add>
+              <md-icon>add</md-icon>
+            </ng-template>
+          </mdl-button>
+        </md-card-actions>
+      </md-card-content>
+    </md-card>
+
+    <md-card class="vm-card">
+      <md-card-header>
+        <md-card-title>
+          <h2 class="md-card-title-text">{{ 'STATISTICS' | translate }}</h2>
+        </md-card-title>
+        <div class="md-card-header-menu">
           <button
             mdl-button
             mdl-ripple
             mdl-button-type="icon"
-            (click)="toggleServiceOffering()"
-            [class.open]="expandServiceOffering"
+            mdTooltipPosition="before"
+            [mdTooltip]="'REFRESH' | translate"
+            (click)="updateStats()"
           >
-            <md-icon>keyboard_arrow_down</md-icon>
+            <md-icon>sync</md-icon>
           </button>
         </div>
-      </mdl-card-actions>
-      <mdl-card-menu>
-      </mdl-card-menu>
-    </mdl-card>
-
-    <mdl-card class="vm-card" mdl-shadow="2">
-      <mdl-card-title>
-        <h2 mdl-card-title-text>{{ 'AFFINITY_GROUP' | translate }}</h2>
-      </mdl-card-title>
-      <mdl-card-supporting-text>
-        <div *ngFor="let affinityGroup of vm.affinityGroup">{{ affinityGroup.name }}</div>
-        <div *ngIf="!vm.affinityGroup.length">{{ 'NO_AFFINITY_GROUP' | translate }}</div>
-      </mdl-card-supporting-text>
-      <mdl-card-actions *loading="affinityGroupLoading" mdl-card-border>
-        <button
-          [mdTooltip]="'EDIT' | translate"
-          mdTooltipPosition="above"
-          mdl-button
-          mdl-button-type="icon"
-          (click)="changeAffinityGroup()"
-        >
-          <md-icon>edit</md-icon>
-        </button>
-      </mdl-card-actions>
-    </mdl-card>
-
-    <mdl-card class="vm-card" mdl-shadow="2">
-      <mdl-card-title>
-        <h2 mdl-card-title-text>{{ 'TEMPLATE' | translate }}</h2>
-      </mdl-card-title>
-      <mdl-card-supporting-text>
-        <div>{{ vm.templateName }}</div>
-      </mdl-card-supporting-text>
-    </mdl-card>
-
-    <mdl-card class="vm-card" mdl-shadow="2">
-      <mdl-card-title>
-        <h2 mdl-card-title-text>{{ 'SSH_KEY' | translate }}</h2>
-      </mdl-card-title>
-      <mdl-card-supporting-text>
-        <span *ngIf="vm.keyPair; else noKeys">{{ vm.keyPair }}</span>
-        <ng-template #noKeys>{{ 'NO_SSH_KEY' | translate }}</ng-template>
-      </mdl-card-supporting-text>
-      <mdl-card-actions *loading="sskKeyLoading" mdl-card-border>
-        <mdl-button
-          [mdTooltip]="(vm.keyPair ? 'EDIT': 'ADD') | translate"
-          mdTooltipPosition="above"
-          mdl-button-type="icon"
-          (click)="resetSshKey()"
-        >
-          <md-icon *ngIf="vm.keyPair; else add">edit</md-icon>
-          <ng-template #add><md-icon>add</md-icon></ng-template>
-        </mdl-button>
-      </mdl-card-actions>
-    </mdl-card>
-
-    <mdl-card class="vm-card" mdl-shadow="2">
-      <mdl-card-title>
-        <h2 mdl-card-title-text>{{ 'STATISTICS' | translate }}</h2>
-      </mdl-card-title>
-      <mdl-card-supporting-text>
+      </md-card-header>
+      <md-card-content>
         <div class="grid statistics">
           <div class="row">
             <div>{{ 'STATISTICS_FIELDS.CPU_UTILIZED' | translate }}</div>
@@ -160,19 +188,7 @@
             <div>{{ 'IOPS' | translate:{ value: vm.diskIoWrite || 0 } }}</div>
           </div>
         </div>
-      </mdl-card-supporting-text>
-      <mdl-card-menu>
-        <button
-          mdl-button
-          mdl-ripple
-          mdl-button-type="icon"
-          mdTooltipPosition="before"
-          [mdTooltip]="'REFRESH' | translate"
-          (click)="updateStats()"
-        >
-          <md-icon>sync</md-icon>
-        </button>
-      </mdl-card-menu>
-    </mdl-card>
+      </md-card-content>
+    </md-card>
   </div>
 </div>
