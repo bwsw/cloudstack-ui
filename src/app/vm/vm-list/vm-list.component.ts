@@ -20,7 +20,7 @@ import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filte
 import { VmListItemComponent } from './vm-list-item.component';
 import { VmActionsService } from '../shared/vm-actions.service';
 import { VirtualMachineActionType } from '../vm-actions/vm-action';
-import clone = require('lodash/clone');
+import * as clone from 'lodash/clone';
 
 
 const askToCreateVm = 'csui.user.ask-to-create-vm';
