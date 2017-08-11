@@ -105,7 +105,7 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
       .join(':');
   }
 
-  private transformScheduleToTimePolicy(schedule: string, policyType: PolicyType): Partial<TimePolicy> {
+  private transformScheduleToTimePolicy(schedule: string, policyType: PolicyType): TimePolicy {
     const parsedSchedule = schedule.split(':');
 
     switch (parsedSchedule.length) {
@@ -119,7 +119,7 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
           minute: +parsedSchedule[0]
         };
       case 3:
-        const timePolicy: Partial<TimePolicy> = {
+        const timePolicy: TimePolicy = {
           hour: +parsedSchedule[1],
           minute: +parsedSchedule[0]
         };
@@ -138,7 +138,7 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
     }
   }
 
-  private transformPolicy(policy: SnapshotPolicy): Policy<Partial<TimePolicy>> {
+  private transformPolicy(policy: SnapshotPolicy): Policy<TimePolicy> {
     return {
       id: policy.id,
       storedSnapshots: policy.maxSnaps,

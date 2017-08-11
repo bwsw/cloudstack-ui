@@ -8,7 +8,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TimeFormat, TimeFormats } from '../../../shared/services';
+import { TimeFormat } from '../../../shared/services';
 import { Policy, TimePolicy } from '../policy-editor/policy-editor.component';
 import { PolicyType } from '../recurring-snapshots.component';
 import { PolicyViewBuilderService } from './policy-view-builder.service';
@@ -63,7 +63,7 @@ export class PolicyListComponent implements OnChanges {
       minute: 'numeric'
     };
 
-    options.hour12 = this.timeFormat === TimeFormats.hour12 || this.timeFormat === TimeFormats.AUTO;
+    options.hour12 = this.timeFormat === TimeFormat.hour12 || this.timeFormat === TimeFormat.AUTO;
 
     return new Intl.DateTimeFormat(this.locale, options);
   }

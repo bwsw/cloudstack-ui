@@ -15,14 +15,13 @@ import { ListService } from '../../shared/components/list/list.service';
 import { UserService } from '../../shared/services/user.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VmActionsService } from '../shared/vm-actions.service';
-import { VirtualMachine, VmAction, VmState, VmStates } from '../shared/vm.model';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 
 import {
-  IVmActionEvent,
   VirtualMachineEntityName,
   VmService
 } from '../shared/vm.service';
-import { VirtualMachineActionType } from '../vm-actions/vm-action';
+import { VmActions } from '../vm-actions/vm-action';
 
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import {
@@ -31,8 +30,6 @@ import {
   VmFilter
 } from '../vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list-item.component';
-import { VmListSection } from './vm-list-section/vm-list-section.component';
-import { VmListSubsection } from './vm-list-subsection/vm-list-subsection.component';
 
 
 const askToCreateVm = 'csui.user.ask-to-create-vm';
@@ -158,7 +155,7 @@ export class VmListComponent implements OnInit {
   }
 
   public showDetail(vm: VirtualMachine): void {
-    if (vm.state !== VmStates.Error && vm.state !== VmStates.Deploying) {
+    if (vm.state !== VmState.Error && vm.state !== VmState.Deploying) {
       this.listService.showDetails(vm.id);
     }
   }
@@ -236,7 +233,7 @@ export class VmListComponent implements OnInit {
       .subscribe(observables => {
         observables.forEach(observable => {
           observable.subscribe(job => {
-            const action = this.vmActionsService.getActionByName(job.cmd as VirtualMachineActionType);
+            const action = this.vmActionsService.getActionByName(job.cmd as VmActions);
             this.jobsNotificationService.finish({
               message: action.tokens.successMessage
             });

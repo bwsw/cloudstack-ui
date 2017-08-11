@@ -7,7 +7,6 @@ import { DiskOffering } from './disk-offering.model';
 import { ZoneName } from '../decorators/zone-name.decorator';
 import { Tag, DeletionMark } from './tag.model';
 
-
 export enum VolumeType {
   ROOT = 'ROOT',
   DATADISK = 'DATADISK'
@@ -52,6 +51,8 @@ export class Volume extends BaseModel {
   }
 
   public get isDeleted(): boolean {
-    return !!this.tags.find(tag => tag.key === DeletionMark.TAG && tag.value === DeletionMark.VALUE);
+    return !!this.tags.find(
+      tag => tag.key === DeletionMark.TAG && tag.value === DeletionMark.VALUE
+    );
   }
 }

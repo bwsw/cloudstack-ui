@@ -82,12 +82,17 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
 
   public get(id: string, params?: RequestParams): Observable<BaseTemplateModel> {
     const filter = params && params.filter ? params.filter : TemplateFilters.featured;
-    return this.getList(({ id, filter }))
+    return this.getList({ id, filter })
       .map(templates => templates[0])
       .catch(error => Observable.throw(error));
   }
 
-  public getList(params: RequestParams, distinct = true, useCache = true): Observable<Array<BaseTemplateModel>> {
+  public getList(params: RequestParams, customApiFormat?: {}, useCache = true): Observable<Array<BaseTemplateModel>> {
+    return this.getListWithDuplicates(params, useCache)
+      .map(templates => this.distinctIds(templates));
+  }
+
+  public getListWithDuplicates(params: RequestParams, useCache = true): Observable<Array<BaseTemplateModel>> {
     params[`${this.entity}filter`.toLowerCase()] = params.filter;
     delete params.filter;
 
@@ -98,14 +103,11 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       delete params['maxSize'];
     }
 
-    return Observable.forkJoin([
+    return Observable.forkJoin(
       super.getList(params, null, useCache),
       this.osTypeService.getList()
-    ])
+    )
       .map(([templates, osTypes]) => {
-        if (distinct) {
-          templates = this.distinctIds(templates);
-        }
         templates.forEach(template => {
           template.osType = osTypes.find(osType => osType.id === template.osTypeId);
         });
@@ -121,7 +123,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
 
   public getWithGroupedZones(id: string, params?: RequestParams, useCache = true): Observable<BaseTemplateModel> {
     const filter = params && params.filter ? params.filter : TemplateFilters.featured;
-    return this.getList(({ id, filter }), false, useCache)
+    return this.getListWithDuplicates({ id, filter }, useCache)
       .map(templates => {
         templates[0].zones = [];
         templates.forEach(template => {
@@ -179,7 +181,11 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     const templateObservables = [];
     for (const filter of localFilters) {
       const requestParams = Object.assign({}, _params, { filter });
-      templateObservables.push(this.getList(requestParams, distinct));
+      const templates = distinct
+        ? this.getList(requestParams)
+        : this.getListWithDuplicates(requestParams);
+
+      templateObservables.push(templates);
     }
 
     return Observable.forkJoin(templateObservables)

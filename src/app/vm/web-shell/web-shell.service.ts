@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { VirtualMachine, VmStates } from '../shared/vm.model';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 import { ConfigService } from '../../shared/services/config.service';
 
 
@@ -10,10 +10,9 @@ const userToken = 'csext.webshell.user';
 const defaultPort = '22';
 const defaultUser = 'root';
 
-type AuthModeType = 'SSH';
-const AuthModeTypes = {
-  SSH: 'SSH' as AuthModeType
-};
+enum AuthModeType {
+  SSH = 'SSH'
+}
 
 @Injectable()
 export class WebShellService {
@@ -35,8 +34,8 @@ export class WebShellService {
 
     const authModeTag = vm.tags.find(tag => tag.key === AuthModeToken);
     const authMode = authModeTag && authModeTag.value;
-    const sshEnabledOnVm = authMode === AuthModeTypes.SSH;
-    const vmIsRunning = vm.state === VmStates.Running;
+    const sshEnabledOnVm = authMode === AuthModeType.SSH;
+    const vmIsRunning = vm.state === VmState.Running;
 
     return !!this.webShellAddress && sshEnabledOnVm && vmIsRunning;
   }

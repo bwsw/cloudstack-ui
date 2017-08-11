@@ -7,12 +7,14 @@ import { BackendResource } from '../../shared/decorators';
 
 import { AsyncJob, Color, OsType, ServiceOffering, Volume } from '../../shared/models';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
+import { VolumeType } from '../../shared/models/volume.model';
 
 import {
   AsyncJobService,
   BaseBackendService,
   OsTypeService,
 } from '../../shared/services';
+import { ApiFormat } from '../../shared/services/base-backend.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { TagService } from '../../shared/services/tag.service';
@@ -20,7 +22,7 @@ import { UserService } from '../../shared/services/user.service';
 import { VolumeService } from '../../shared/services/volume.service';
 
 import { Iso } from '../../template/shared';
-import { VirtualMachineActionType } from '../vm-actions/vm-action';
+import { VmActions } from '../vm-actions/vm-action';
 import { IVirtualMachineCommand } from '../vm-actions/vm-command';
 import { VirtualMachine, VmState } from './vm.model';
 
@@ -128,7 +130,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public command(vm: VirtualMachine, command: IVirtualMachineCommand): Observable<any> {
-    const commandName = command.commandName as VirtualMachineActionType;
+    const commandName = command.commandName as VmActions;
     const initialState = vm.state;
 
     this.setStateForVm(vm, command.vmStateOnAction as VmState);
@@ -228,8 +230,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   private sortVolumes(volumes: Array<Volume>): Array<Volume> {
     return volumes.sort((a: Volume, b) => {
-      const aIsRoot = a.type === 'ROOT';
-      const bIsRoot = b.type === 'ROOT';
+      const aIsRoot = a.type === VolumeType.ROOT;
+      const bIsRoot = b.type === VolumeType.ROOT;
       if (aIsRoot && !bIsRoot) {
         return -1;
       }

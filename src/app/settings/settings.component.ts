@@ -1,12 +1,13 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MdSelectChange } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Color, LanguageService, StyleService } from '../shared';
-import { AuthService, NotificationService, TimeFormats } from '../shared/services';
+import { AuthService, NotificationService } from '../shared/services';
+import { TimeFormat } from '../shared/services/language.service';
 import { UserService } from '../shared/services/user.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
-import { MdSelectChange } from '@angular/material';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public language: string;
   public primaryColor: Color;
   public primaryColors: Array<Color>;
-  public timeFormat: string = TimeFormats.AUTO;
+  public timeFormat: string = TimeFormat.AUTO;
 
   public passwordUpdateForm: FormGroup;
 
@@ -43,9 +44,8 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
     { value: 1, text: 'MONDAY' }
   ];
 
-  public TimeFormat = TimeFormats;
-  // TODO replace when TypeScript 2.4 string enums land
-  public timeFormats = Object.keys(TimeFormats);
+  public TimeFormat = TimeFormat;
+  public timeFormats = Object.keys(TimeFormat);
 
   constructor(
     private authService: AuthService,

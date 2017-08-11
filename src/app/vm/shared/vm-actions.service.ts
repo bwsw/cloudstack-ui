@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { VirtualMachineAction, VirtualMachineActionType, VmActions } from '../vm-actions/vm-action';
+import { VirtualMachineAction, VmActions } from '../vm-actions/vm-action';
 import { VirtualMachine } from './vm.model';
 import { ActionsService } from '../../shared/interfaces/action-service.interface';
 import { VmStartAction } from '../vm-actions/vm-start';
@@ -42,7 +42,7 @@ export class VmActionsService implements ActionsService<VirtualMachine, VirtualM
     public vmChangeServiceOfferingAction: VmChangeServiceOfferingAction
   ) {}
 
-  public getActionByName(name: VirtualMachineActionType): VirtualMachineAction {
+  public getActionByName(name: VmActions): VirtualMachineAction {
     const actions = {
       [VmActions.START]: this.vmStartAction,
       [VmActions.STOP]: this.vmStopAction,

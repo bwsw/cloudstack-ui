@@ -1,7 +1,7 @@
 import { MdlTextFieldComponent } from '@angular-mdl/core';
 import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TimeFormat, TimeFormats } from '../../../shared/services';
+import { TimeFormat } from '../../../shared/services';
 import { DayPeriod } from '../day-period/day-period.component';
 import { padStart } from '../../../shared/utils/padStart';
 
@@ -40,13 +40,13 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
     this._hour = this.minHourValue;
     this._minute = this.minMinuteValue;
 
-    if (this.timeFormat === TimeFormats.hour12) {
+    if (this.timeFormat === TimeFormat.hour12) {
       this.period = DayPeriod.Am;
     }
   }
 
   public get showPeriodSelector(): boolean {
-    return this.timeFormat === TimeFormats.hour12;
+    return this.timeFormat === TimeFormat.hour12;
   }
 
   public get hour(): string {
@@ -66,7 +66,7 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
   }
 
   public get minHourValue(): number {
-    if (this.timeFormat === TimeFormats.hour12) {
+    if (this.timeFormat === TimeFormat.hour12) {
       return 1;
     } else {
       return 0;
@@ -74,7 +74,7 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
   }
 
   public get maxHourValue(): number {
-    if (this.timeFormat === TimeFormats.hour12) {
+    if (this.timeFormat === TimeFormat.hour12) {
       return 12;
     } else {
       return 23;
