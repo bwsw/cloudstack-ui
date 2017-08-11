@@ -43,7 +43,7 @@ export class AggregationSelectorComponent implements OnChanges {
 
   @ViewChild('aggregationSelect') aggregationSelectControl: AbstractControl;
 
-  selectedScale: string;
+  selectedScale: { aggregations: Array<any> };
   selectedShift: string;
   @Input() public shiftAmount: number;
   selectedAggregations: Array<string>;
