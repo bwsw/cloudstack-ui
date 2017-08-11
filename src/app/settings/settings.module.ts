@@ -1,14 +1,14 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ClipboardModule } from 'ngx-clipboard/dist';
-import { TranslateModule } from '@ngx-translate/core';
 import { MdlModule } from '@angular-mdl/core';
-import { MdlSelectModule } from '@angular-mdl/select';
-import { SettingsComponent } from './settings.component';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MdIconModule, MdSelectModule, MdTooltipModule } from '@angular/material';
+import { TranslateModule } from '@ngx-translate/core';
+import { ClipboardModule } from 'ngx-clipboard/dist';
 import { SharedModule } from '../shared/shared.module';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ApiInfoComponent } from './api-info/api-info.component';
 import { InactivityTimeoutComponent } from './inactivity-timeout/inactivity-timeout.component';
+import { SettingsComponent } from './settings.component';
 
 
 @NgModule({
@@ -16,19 +16,20 @@ import { InactivityTimeoutComponent } from './inactivity-timeout/inactivity-time
     CommonModule,
     FormsModule,
     TranslateModule,
+    MdTooltipModule,
+    MdIconModule,
     MdlModule,
-    MdlSelectModule,
+    MdSelectModule,
     SharedModule,
     ReactiveFormsModule,
     ClipboardModule
   ],
   exports: [
-    SettingsComponent
-  ],
+    SettingsComponent],
+
   declarations: [
     ApiInfoComponent,
-    InactivityTimeoutComponent,
-    SettingsComponent
+    InactivityTimeoutComponent,SettingsComponent
   ]
 })
 export class SettingsModule { }

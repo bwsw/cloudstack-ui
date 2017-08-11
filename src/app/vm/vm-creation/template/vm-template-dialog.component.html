@@ -1,0 +1,30 @@
+<div class="dialog">
+  <h3 class="mdl-dialog__title">{{ 'INSTALLATION_SOURCE' | translate }}</h3>
+  <div class="mdl-dialog__content">
+    <cs-template-filter-list-selector
+      [viewMode]="typeOfSelectedSource"
+      [showIsoSwitch]="true"
+      [(selectedTemplate)]="selectedTemplate"
+      [templates]="templates"
+      [isos]="isos"
+      [zoneId]="zoneId"
+    ></cs-template-filter-list-selector>
+  </div>
+  <div class="mdl-dialog__actions">
+    <button
+      mdl-button
+      mdl-colored="primary"
+      (click)="onOk()"
+    >
+      {{ 'SELECT' | translate }}
+    </button>
+
+    <button
+      mdl-button
+      mdl-colored="primary"
+      (click)="onCancel()"
+    >
+      {{ 'CANCEL' | translate }}
+    </button>
+  </div>
+</div>

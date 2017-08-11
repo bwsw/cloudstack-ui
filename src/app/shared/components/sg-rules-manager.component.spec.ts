@@ -147,30 +147,26 @@ describe('Sg Rules manager component', () => {
   it('updates rules', () => {
     const emptyRules = new Rules();
     expect(comp.savedRules).toEqual(emptyRules);
-
     expect(comp.rules).toBeUndefined();
+
     const dialogService = TestBed.get(DialogService);
     spyOn(dialogService, 'showCustomDialog').and.callThrough();
     f.detectChanges();
     f.debugElement.query(By.css('mdl-button')).triggerEventHandler('click');
 
     const expectedSavedRules = new Rules([mockSg], mockIngressRules, mockEgressRules);
-    const expectedRules = Object.assign({}, expectedSavedRules);
-    delete expectedRules.templates;
     expect(comp.savedRules).toEqual(expectedSavedRules);
-    expect(comp.rules).toEqual(expectedRules);
+    expect(comp.rules).toEqual(expectedSavedRules);
   });
 
   it('sets rules using ngModel', fakeAsync(() => {
     f.detectChanges();
     const expectedSavedRules = new Rules([mockSg], mockIngressRules, mockEgressRules);
-    const expectedRules = Object.assign({}, expectedSavedRules);
-    delete expectedRules.templates;
     comp.writeValue(expectedSavedRules);
 
     tick();
     f.detectChanges();
     expect(comp.savedRules).toEqual(expectedSavedRules);
-    expect(comp.rules).toEqual(expectedRules);
+    expect(comp.rules).toEqual(expectedSavedRules);
   }));
 });

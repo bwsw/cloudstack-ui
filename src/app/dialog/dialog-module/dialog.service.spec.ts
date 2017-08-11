@@ -30,7 +30,7 @@ describe('Custom dialog', () => {
 
     public get(key: string | Array<string>, interpolateParams?: Object): Observable<string | any> {
       let interpolateString = '';
-      for (let k in interpolateParams) {
+      for (const k in interpolateParams) {
         if (interpolateParams.hasOwnProperty(k)) {
           interpolateString += interpolateParams[k];
         }

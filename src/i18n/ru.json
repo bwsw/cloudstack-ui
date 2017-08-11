@@ -117,9 +117,11 @@
   "SELECT_SSH_KEY": "Выберите SSH ключ",
   "SSH_KEY": "SSH ключ",
   "IP_NA": "IP недоступен",
+  "USED": "Использовано",
+  "FREE": "Доступно",
   "VMS": "Виртуальные машины",
   "DEPLOYED": "Развернута",
-  "DEPLOYED_STATS": "Всего развернуто",
+  "VM_AMOUNT": "Количество",
   "COMPUTATIONAL_RESOURCES": "Вычислительные ресурсы",
   "CPUS": "CPU",
   "SNAPSHOTS": "Снимки",
@@ -208,6 +210,7 @@
 
   "CREATING_SG": "Создание группы безопасности",
   "CREATING_AG": "Создание аффинитетной группы",
+  "DEPLOYING_VM": "Создание виртуальной машины",
   "CREATING_SG_TEMPLATE": "Создание шаблона группы безопасности",
 
   "CREATE_NEW_TEMPLATE": "Создать новый шаблон",
@@ -266,8 +269,6 @@
   "PASSWORD_DIALOG_MESSAGE": "Пароль для машины {{ vmName }} был сброшен в  <b>{{ vmPassword }}</b>",
 
   "CHOOSE_SERVICE_OFFERING": "Выберите предложение",
-  "OFFERING_CHANGED": "Предложение изменилось",
-  "OFFERING_CHANGE_FAILED": "Предложение не изменилось",
   "CHANGE_SERVICE_OFFERING": "Изменить предложение",
   "SO_CHANGE_DISABLED": "Необходимо остановить машину",
 
@@ -309,7 +310,10 @@
   "REVERT_TO_SNAPSHOT": "Восстановить диск",
 
   "VM_VIEW": "Машина",
-  "STORAGE_VIEW": "Диски",
+  "VM_STORAGE_VIEW": "Диски",
+  "VM_NETWORK_VIEW": "Сеть",
+  "VM_TAGS_VIEW": "Теги",
+  "TEMPLATE_TAGS_VIEW": "Теги",
 
   "VOLUME_RESIZE": "Изменить размер",
   "VOLUME_RESIZING": "Изменение размера диска",
@@ -461,13 +465,21 @@
   "LANGUAGE": "Язык Интерфейса",
   "COLOR": "Цвет",
   "FIRST_DAY_OF_WEEK": "Первый день недели",
-  "MONDAY": "Понедельник",
-  "SUNDAY": "Воскресенье",
+  "TIME_FORMAT": "Формат времени",
+  "hour12": "12-часовой формат",
+  "hour24": "24-часовой формат",
+  "AUTO": "Автоматически",
   "GROUP_BY_COLORS": "Группировать по цветам",
   "PALETTE": "Цвета темы интерфейса",
   "SELECT_GROUPS": "Выберите группы",
   "SELECT_ZONES": "Выберите зоны",
   "SELECT_STATES": "Выберите статусы",
+  "GROUP_BY_LABEL": "Группировать по",
+  "GROUP_BY": {
+    "ZONES": "Зонам",
+    "GROUPS": "Группам",
+    "COLORS": "Цветам"
+  },
   "NETWORK_RULES": "Сетевые правила",
 
   "LICENSE_1": "© {{ year }}, ",
@@ -523,6 +535,7 @@
   "INSUFFICIENT_RESOURCES_VM": "Недостаточно ресурсов",
 
   "NO_GROUP": "Без группы",
+  "NO_ZONE": "Вне зоны",
   "NO_SNAPSHOTS": "Нет снимков",
   "LAST_SNAPSHOT": "Последний снимок",
 
@@ -568,5 +581,72 @@
   "REMOVE_FROM_GROUP": "Удалить из группы",
   "REMOVE": "Удалить",
   "CLICK_TO_ASSIGN": "Нажмите, чтобы присвоить",
-  "REFRESH": "Обновить"
+  "REFRESH": "Обновить",
+
+  "CREATE_NEW_TAG": "Создать тег",
+  "TAG_CATEGORY": "Категория",
+  "TAG_KEY": "Ключ",
+  "TAG_VALUE": "Значение",
+  "TAG_CATEGORY_NAME": "Название категории",
+  "TAG_ALREADY_EXISTS": "Тег уже существует",
+  "NO_TAGS": "Нет тегов",
+  "EDIT_TAG": "Редактировать тег",
+  "TAG_DELETE_CONFIRMATION": "Вы действительно хотите удалить этот тег?",
+
+  "WEB_SHELL": "WebShell",
+
+  "VM_START_FAILED": "Не удалось запустить ВМ",
+  "VM_STOP_FAILED": "Не удалось остановить ВМ",
+  "VM_REBOOT_FAILED": "Не удалось перезагрузить ВМ",
+  "VM_RESTORE_FAILED": "Не удалось переустановить ВМ",
+  "VM_RESET_PASSWORD_FAILED": "Не удалось сбросить пароль",
+  "VM_DESTROY_FAILED": "Не удалось уничтожить ВМ",
+
+  "VM_CHANGE_SERVICE_OFFERING_IN_PROGRESS": "Изменение предложения",
+  "VM_CHANGE_SERVICE_OFFERING_DONE": "Предложение изменено",
+  "VM_CHANGE_SERVICE_OFFERING_FAILED": "Не удалось изменить предложение",
+
+  "STORE_SNAPSHOTS": "Количество хранимых снимков",
+  "MINUTE": "Минута",
+  "AM_PM_FORMAT": "AM/PM",
+  "24_HOURS_FORMAT": "24-часовой формат",
+
+  "TIME_ZONE": "Часовой пояс",
+
+  "MONDAY": "Понедельник",
+  "TUESDAY": "Вторник",
+  "WEDNESDAY": "Среда",
+  "THURSDAY": "Четверг",
+  "FRIDAY": "Пятница",
+  "SATURDAY": "Суббота",
+  "SUNDAY": "Воскресенье",
+
+  "MONDAY_LOWER": "понедельник",
+  "TUESDAY_LOWER": "вторник",
+  "WEDNESDAY_LOWER": "среда",
+  "THURSDAY_LOWER": "четверг",
+  "FRIDAY_LOWER": "пятница",
+  "SATURDAY_LOWER": "суббота",
+  "SUNDAY_LOWER": "воскресенье",
+
+  "AM": "AM",
+  "PM": "PM",
+
+  "DAY_OF_WEEK": "День недели",
+  "DAY_OF_MONTH": "День месяца",
+
+  "SCHEDULED_SNAPSHOTS": "Расписание снимков",
+  "KEEP": "Сохранять",
+  "RECURRING_SNAPSHOTS": "Повторяемые снимки",
+  "POLICY_HOURLY_TIME": "{{ value }}-я минута",
+  "POLICY_DAILY_TIME": "{{ value }}",
+  "POLICY_WEEKLY_TIME": "{{ value }}",
+  "POLICY_MONTHLY_TIME": "{{ value }}",
+  "POLICY_WEEKLY_PERIOD": "{{ value }}",
+  "POLICY_MONTHLY_PERIOD": "каждый {{ value }} день месяца",
+
+  "RECURRING_SNAPSHOTS_HOURLY": "Ежечасно",
+  "RECURRING_SNAPSHOTS_DAILY": "Ежедневно",
+  "RECURRING_SNAPSHOTS_WEEKLY": "Еженедельно",
+  "RECURRING_SNAPSHOTS_MONTHLY": "Ежемесячно"
 }

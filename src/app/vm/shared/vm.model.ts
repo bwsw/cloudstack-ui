@@ -1,5 +1,6 @@
 import { SecurityGroup } from '../../security-group/sg.model';
 import { FieldMapper, ZoneName } from '../../shared/decorators';
+import { Taggable } from '../../shared/interfaces/taggable.interface';
 import {
   BaseModel,
   InstanceGroup,
@@ -9,9 +10,9 @@ import {
   Tag,
   Volume
 } from '../../shared/models';
-import { BaseTemplateModel } from '../../template/shared';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { Color } from '../../shared/models/color.model';
+import { BaseTemplateModel } from '../../template/shared';
 
 
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
@@ -23,7 +24,7 @@ export interface IVmAction {
   nameCaps: string;
   vmStateOnAction: string;
   vmActionCompleted: string;
-  mdlIcon: string;
+  mdlIcon?: string;
   confirmMessage: string;
   progressMessage: string;
   successMessage: string;
@@ -39,16 +40,6 @@ export enum VmState {
   // custom states
   Deploying = 'Deploying',
   Expunging = 'Expunging'
-}
-
-export enum VmAction {
-  START = 'start',
-  STOP = 'stop',
-  REBOOT = 'reboot',
-  RESTORE = 'restore',
-  DESTROY = 'destroy',
-  RESET_PASSWORD = 'resetPasswordFor',
-  CONSOLE = 'console'
 }
 
 @ZoneName()
@@ -74,14 +65,12 @@ export enum VmAction {
   diskioread: 'diskIoRead',
   diskiowrite: 'diskIoWrite',
   keypair: 'keyPair',
-  isoid: 'isoId'
+  isoid: 'isoId',
+  passwordenabled: 'passwordEnabled'
 })
-export class VirtualMachine extends BaseModel {
-  public static actions = Object
-    .values(VmAction)
-    .map(a => VirtualMachine.getAction(a));
-
+export class VirtualMachine extends BaseModel implements Taggable {
   public static ColorDelimiter = ';';
+  public resourceType = 'UserVm';
 
   public id: string;
   public displayName: string;
@@ -126,92 +115,33 @@ export class VirtualMachine extends BaseModel {
   public created: string;
   public keyPair: string;
   public password: string;
+  public passwordEnabled: boolean;
   public tags: Array<Tag>;
   public instanceGroup: InstanceGroup;
-
-  public static getAction(action: string): IVmAction {
-    const name = action.charAt(0).toUpperCase() + action.slice(1);
-    const commandName = action;
-    const nameLower = action.toLowerCase();
-    const nameCaps = action.toUpperCase();
-    const vmStateOnAction = nameCaps + '_IN_PROGRESS';
-    const vmActionCompleted = nameCaps + '_DONE';
-    let mdlIcon = '';
-    const confirmMessage = 'CONFIRM_VM_' + nameCaps;
-    const progressMessage = 'VM_' + nameCaps + '_IN_PROGRESS';
-    const successMessage = nameCaps + '_DONE';
-    switch (action) {
-      case VmAction.START:
-        mdlIcon = 'play_arrow';
-        break;
-      case VmAction.STOP:
-        mdlIcon = 'stop';
-        break;
-      case VmAction.REBOOT:
-        mdlIcon = 'replay';
-        break;
-      case VmAction.RESTORE:
-        mdlIcon = 'settings_backup_restore';
-        break;
-      case VmAction.DESTROY:
-        mdlIcon = 'delete';
-        break;
-      case VmAction.RESET_PASSWORD:
-        mdlIcon = 'vpn_key';
-        break;
-      case VmAction.CONSOLE:
-        mdlIcon = 'computer';
-        break;
-    }
-    return {
-      name,
-      commandName,
-      nameLower,
-      nameCaps,
-      vmStateOnAction,
-      vmActionCompleted,
-      mdlIcon,
-      confirmMessage,
-      progressMessage,
-      successMessage
-    };
-  }
 
   constructor(params?: {}) {
     super(params);
 
-    if (!this.nic || !this.nic.length) {
-      this.nic = [];
-    }
+    this.initializeNic();
+    this.initializeSecurityGroups();
+    this.initializeTags();
+    this.initializeInstanceGroup();
+  }
 
-    if (!this.securityGroup || !this.securityGroup.length) {
-      this.securityGroup = [];
-    }
-
-    for (let i = 0; i < this.nic.length; i++) {
-      this.nic[i] = new NIC(this.nic[i]);
-    }
-
-    for (let i = 0; i < this.securityGroup.length; i++) {
-      this.securityGroup[i] = new SecurityGroup(this.securityGroup[i]);
-    }
-
-    if (this.tags) {
-      const group = this.tags.find(tag => tag.key === 'group');
-      this.instanceGroup = group ? new InstanceGroup(group.value) : undefined;
-    }
+  public get ipIsAvailable(): boolean {
+    return this.nic.length && !!this.nic[0].ipAddress;
   }
 
   public getDisksSize(): number {
-    const sizeInBytes = this.volumes.reduce((acc: number, volume: Volume) => {
+    const sizeInBytes = this.volumes && this.volumes.reduce((acc: number, volume: Volume) => {
       return acc + volume.size;
-    }, 0);
+    }, 0) || 0;
     return sizeInBytes / Math.pow(2, 30);
   }
 
   public getColor(): Color {
     if (this.tags) {
-      const colorTag = this.tags.find(tag => tag.key === 'color');
+      const colorTag = this.tags.find(tag => tag.key === 'csui.vm.color');
       if (colorTag) {
         const [backgroundColor, textColor] = colorTag.value.split(VirtualMachine.ColorDelimiter);
         return new Color(backgroundColor, backgroundColor, textColor || '');
@@ -220,40 +150,37 @@ export class VirtualMachine extends BaseModel {
     return new Color('white', '#FFFFFF', '');
   }
 
-  public canApply(command: string): boolean {
-    const state = this.state;
-
-    if (state === 'Error' && command === 'destroy') {
-      return true;
+  private initializeNic(): void {
+    if (!this.nic) {
+      this.nic = [];
     }
 
-    if (state !== 'Running' && state !== 'Stopped') {
-      return false;
-    }
-
-    // if a vm has no ip address, it can't be reached
-    // so reset password fails
-    if (this.nic && this.nic.length) {
-      if (command === 'resetpasswordfor' && !this.nic[0].ipAddress) {
-        return false;
-      }
-    } else {
-      return false;
-    }
-
-    switch (command) {
-      case 'start':
-        return state !== 'Running';
-      case 'stop':
-      case 'reboot':
-      case 'console':
-        return state !== 'Stopped';
-      case 'changeOffering':
-        return state === 'Stopped';
-    }
-
-    return true;
+    this.nic = this.nic.map(nic => new NIC(nic));
   }
 
+  private initializeSecurityGroups(): void {
+    if (!this.securityGroup) {
+      this.securityGroup = [];
+    }
 
+    this.securityGroup = this.securityGroup.map(securityGroup => {
+      return new SecurityGroup(securityGroup);
+    });
+  }
+
+  private initializeTags(): void {
+    if (!this.tags) {
+      this.tags = [];
+    }
+
+    this.tags = this.tags.map(tag => new Tag(tag));
+  }
+
+  private initializeInstanceGroup(): void {
+    const group = this.tags.find(tag => tag.key === 'csui.vm.group');
+
+    if (group) {
+      this.instanceGroup = new InstanceGroup(group.value);
+    }
+  }
 }

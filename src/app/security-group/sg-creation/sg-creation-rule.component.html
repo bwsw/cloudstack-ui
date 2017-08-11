@@ -1,5 +1,5 @@
-<mdl-list-item>
-  <mdl-list-item-primary-content>
+<md-list-item class="flex-container">
+  <h4 md-line>
     {{ type.toUpperCase() | translate }}
     {{ item.rule.CIDR }}
     {{ item.rule.protocol.toUpperCase() }}
@@ -11,8 +11,8 @@
       {{ item.rule.startPort }}
       {{ item.rule.endPort }}
     </ng-container>
-  </mdl-list-item-primary-content>
-  <mdl-list-item-secondary-action>
-    <mdl-checkbox mdl-ripple [(ngModel)]="item.checked"></mdl-checkbox>
-  </mdl-list-item-secondary-action>
-</mdl-list-item>
+  </h4>
+  <span>
+    <mdl-checkbox [(ngModel)]="item.checked"></mdl-checkbox>
+  </span>
+</md-list-item>

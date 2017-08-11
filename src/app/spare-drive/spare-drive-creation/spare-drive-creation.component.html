@@ -3,36 +3,44 @@
 <form (ngSubmit)="onCreate()" #volumeCreationForm="ngForm" novalidate>
   <div class="mdl-dialog__content">
     <div class="flex-column">
-      <cs-character-count-textfield
+      <mdl-textfield
         type="text"
         label="{{ 'NAME' | translate }}"
         name="name"
         floating-label
         autofocus
-        required
         maxlength="255"
+        required
         [(ngModel)]="name"
-      ></cs-character-count-textfield>
+        #nameField="ngModel"
+        [class.is-invalid]="nameField.invalid && !nameField.pristine"
+      ></mdl-textfield>
+      <cs-character-count
+        [maxLength]="255"
+        [value]="name"
+      ></cs-character-count>
       <div>
         <h5>{{ 'ZONE' | translate }}</h5>
-        <mdl-select
+        <md-select
           [(ngModel)]="zoneId"
           id="zone"
           name="zone"
         >
-          <mdl-option
+          <md-option
             *ngFor="let z of zones"
             [value]="z.id"
           >
             {{ z.name }}
-          </mdl-option>
-        </mdl-select>
+          </md-option>
+        </md-select>
       </div>
       <div>
         <h5>{{ 'DISK_OFFERING' | translate }}</h5>
         <cs-disk-offering
+          name="diskOffering"
+          [ngModel]="diskOffering"
           [diskOfferingList]="diskOfferings"
-          (offeringUpdated)="updateDiskOffering($event)"
+          (change)="updateDiskOffering($event)"
         ></cs-disk-offering>
       </div>
       <div *ngIf="showResizeSlider && minSize && maxSize">

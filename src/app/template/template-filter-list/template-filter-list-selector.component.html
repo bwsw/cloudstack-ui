@@ -1,0 +1,24 @@
+<cs-template-filters
+  class="options"
+  (queries)="filterResults($event)"
+  (filters)="filterResults($event)"
+  (displayMode)="changeViewMode($event)"
+  [showIso]="viewMode === 'Iso'"
+  [showIsoSwitch]="showIsoSwitch"
+  [dialogMode]="dialogMode"
+  [searchPanelWhite]="selectedGroupings?.length"
+  [availableGroupings]="groupings"
+></cs-template-filters>
+
+<cs-template-list
+  *loading="fetching"
+  class="template-list"
+  [selectedTemplate]="selectedTemplate"
+  (selectedTemplateChange)="selectTemplate($event)"
+  [templateList]="visibleTemplateList"
+  [query]="query"
+  [radio]="dialogMode"
+  [dialogMode]="dialogMode"
+></cs-template-list>
+
+<cs-no-results *ngIf="!visibleTemplateList?.length && !fetching"></cs-no-results>

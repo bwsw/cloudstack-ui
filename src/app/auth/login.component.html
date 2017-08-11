@@ -55,11 +55,11 @@
           mdl-button
           mdl-ripple
           type="button"
-          [mdl-tooltip]="(showDomain ? 'LOGIN_FORM.HIDE_ADVANCED' : 'LOGIN_FORM.SHOW_ADVANCED') | translate"
-          mdl-tooltip-position="top"
+          [mdTooltip]="(showDomain ? 'LOGIN_FORM.HIDE_ADVANCED' : 'LOGIN_FORM.SHOW_ADVANCED') | translate"
+          mdTooltipPosition="above"
           (click)="toggleDomain()"
         >
-          <mdl-icon [class.domains-visible]="showDomain">settings</mdl-icon>
+          <md-icon [class.domains-visible]="showDomain">settings</md-icon>
         </button>
       </div>
     </form>

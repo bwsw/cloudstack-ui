@@ -1,9 +1,6 @@
-import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RouterUtilsService } from './router-utils.service';
-
 import { StorageService } from './storage.service';
-
+import { Utils } from './utils.service';
 
 export interface FilterConfig {
   [propName: string]: FilterItemConfig;
@@ -15,64 +12,7 @@ export interface FilterItemConfig {
   defaultOption?: any;
 }
 
-@Injectable()
 export class FilterService {
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private storage: StorageService,
-    private routerUtilsService: RouterUtilsService
-  ) { }
-
-  public init(key: string, paramsWhitelist: FilterConfig): any {
-    return this.getParams(key, paramsWhitelist);
-  }
-
-  public update(key, params): void {
-    if (this.routerUtilsService.getRouteWithoutQueryParams() === '/login') {
-      return;
-    }
-
-    const queryParams = Object.keys(params).reduce((memo, field) => {
-      if (params.hasOwnProperty(field)) {
-        const val = params[field];
-        if (!Array.isArray(val) || val.length) {
-          memo[field] = val;
-        }
-        return memo;
-      }
-    }, {});
-    this.router.navigate([], { queryParams })
-      .then(() => this.storage.write(key, JSON.stringify(queryParams)));
-  }
-
-  private getParams(key: string, config: FilterConfig): any {
-    const queryParams = this.route.snapshot.queryParams;
-    let storage = {};
-    try {
-      storage = JSON.parse(this.storage.read(key)) || {};
-    } catch (e) {
-      this.storage.remove(key);
-    }
-
-    return Object.keys(config).reduce((memo, filter) => {
-      const param = queryParams[filter];
-      if (config.hasOwnProperty(filter)) {
-        memo[filter] = FilterService.getValue(param, config[filter]);
-      }
-
-      if (memo[filter] == null && storage.hasOwnProperty(filter)) {
-        memo[filter] = FilterService.getValue(storage[filter], config[filter]);
-      }
-
-      if (memo[filter] == null) {
-        FilterService.setDefaultOrRemove(filter, config, memo);
-      }
-
-      return memo;
-    }, {});
-  }
-
   private static setDefaultOrRemove(filter, config: FilterConfig, output): void {
     if (config[filter].defaultOption) {
       output[filter] = config[filter].defaultOption;
@@ -111,5 +51,62 @@ export class FilterService {
       }
     }
     return res;
+  }
+
+  constructor(
+    private config: FilterConfig,
+    private router: Router,
+    private storage: StorageService,
+    private key: string,
+    private activatedRoute: ActivatedRoute) {
+  }
+
+  public update(key, params): void {
+    if (Utils.getRouteWithoutQueryParams(this.router.routerState) === '/login') {
+      return;
+    }
+
+    const queryParams = Object.keys(params).reduce((memo, field) => {
+      if (params.hasOwnProperty(field)) {
+        const val = params[field];
+        if (!Array.isArray(val) || val.length) {
+          memo[field] = val;
+        }
+        return memo;
+      }
+    }, {});
+    this.router.navigate([], { queryParams })
+      .then(() => this.storage.write(key, JSON.stringify(queryParams)));
+  }
+
+  public getParams(): any {
+    const queryParams = this.activatedRoute.snapshot.queryParams;
+
+    let storage = {};
+    try {
+      storage = JSON.parse(this.storage.read(this.key)) || {};
+    } catch (e) {
+      this.storage.remove(this.key);
+    }
+
+    return Object.keys(this.config).reduce((memo, filter) => {
+      const param = queryParams[filter];
+      if (this.config.hasOwnProperty(filter)) {
+        memo[filter] = FilterService.getValue(param, this.config[filter]);
+      }
+
+      if (memo[filter] == null && storage.hasOwnProperty(filter)) {
+        memo[filter] = FilterService.getValue(
+          storage[filter],
+          this.config[filter]
+        );
+      }
+
+      if (memo[filter] == null) {
+        FilterService.setDefaultOrRemove(filter, this.config, memo);
+      }
+
+      return memo;
+    }, {});
   }
 }

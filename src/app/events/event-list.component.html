@@ -1,49 +1,50 @@
 <div class="event-list-container">
   <cs-top-bar cs-panels>
-    <mdl-card class="options-panel top-bar-height">
+    <div class="options-panel top-bar-height">
       <cs-date-picker
         [okLabel]="'OK' | translate"
         [locale]="locale"
-        [firstDayOfWeek]="firstDayOfWeek"
-        [DateTimeFormat]="dateTimeFormat"
+        [firstDayOfWeek]="languageService.firstDayOfWeek.getValue()"
+        [DateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
         [cancelLabel]="'CANCEL' | translate"
         [(ngModel)]="date"
         (change)="getEvents({ reload: true })"
       ></cs-date-picker>
 
-      <mdl-select
+      <md-select
+        class="level-selector"
         [(ngModel)]="selectedLevels"
         (change)="getEvents()"
         multiple="true"
         [placeholder]="'LEVELS' | translate"
       >
-        <mdl-option
+        <md-option
           *ngFor="let level of levels"
           [value]="level"
         >
           {{ level }}
-        </mdl-option>
-      </mdl-select>
+        </md-option>
+      </md-select>
 
-      <mdl-select
+      <md-select
         *ngIf="eventTypes"
         [(ngModel)]="selectedTypes"
         (change)="getEvents()"
         multiple="true"
         [placeholder]="'EVENT_TYPES' | translate"
       >
-        <mdl-option
+        <md-option
           *ngFor="let et of eventTypes"
           [value]="et"
         >
           {{ et }}
-        </mdl-option>
-      </mdl-select>
+        </md-option>
+      </md-select>
       <cs-search
         [(ngModel)]="query"
         (ngModelChange)="getEvents()"
       ></cs-search>
-    </mdl-card>
+    </div>
   </cs-top-bar>
   <div class="event-list">
     <ng-container *loading="loading">

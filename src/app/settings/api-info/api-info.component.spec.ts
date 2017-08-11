@@ -1,4 +1,5 @@
 import { MdlModule } from '@angular-mdl/core';
+import { MdTooltipModule } from '@angular/material';
 import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -46,8 +47,8 @@ describe('Api Info component', () => {
   }
 
   class FakeConfigService {
-    public get(_key: string): Observable<any> {
-      return Observable.of('https://api.url');
+    public get(key: string) {
+      return 'https://api.url';
     }
   }
 
@@ -66,6 +67,7 @@ describe('Api Info component', () => {
 
     TestBed.configureTestingModule({
       imports: [
+        MdTooltipModule,
         MdlModule,
         FormsModule,
         TranslateModule,

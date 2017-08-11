@@ -4,6 +4,7 @@ import { Tag } from '../models/tag.model';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './';
+import { Taggable } from '../interfaces/taggable.interface';
 
 
 @BackendResource({
@@ -38,10 +39,6 @@ export class TagService extends BaseBackendCachedService<Tag> {
   }
 
   public update(entity: any, entityName: string, key: string, value: any): Observable<any> {
-    if (!entity.id) {
-      throw new Error('This entity can\'t have tags');
-    }
-
     const createObs = this.create({
       resourceIds: entity.id,
       resourceType: entityName,
@@ -73,5 +70,22 @@ export class TagService extends BaseBackendCachedService<Tag> {
           .switchMap(() => createObs);
       })
       .catch(() => createObs);
+  }
+
+  public copyTagsToEntity(tags: Array<Tag>, entity: Taggable): Observable<any> {
+    const copyRequests = tags.map(tag => {
+      return this.update(
+        entity,
+        entity.resourceType,
+        tag.key,
+        tag.value
+      );
+    });
+
+    if (!copyRequests.length) {
+      return Observable.of(null);
+    } else {
+      return Observable.forkJoin(...copyRequests);
+    }
   }
 }

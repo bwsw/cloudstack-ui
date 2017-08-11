@@ -10,19 +10,21 @@
     </div>
     <div class="row snapshot-name">{{ volume.snapshots[0].name }}</div>
     <div class="row">
-      <div style="width: 70%;">{{ volume.snapshots[0].created | date:'y-MM-dd H:m:s' }}</div>
+      <div style="width: 70%;">
+        {{ volume.snapshots[0].created | stringifyDate }}
+      </div>
       <div style="width: 30%;">
         <button
-          *ngFor="let action of snapshotActionsService.Actions"
-          class="button-18px snapshot-button"
-          [mdl-tooltip]="action.name | translate"
-          mdl-tooltip-position="top"
+          *ngFor="let action of snapshotActionsService.actions"
+          class="button-18px"
+          [mdTooltip]="action.name | translate"
+          mdTooltipPosition="above"
           mdl-button
           mdl-button-type="icon"
           (click)="action.activate(volume.snapshots[0], volume)"
           [disabled]="volume.snapshots[0]['loading']"
         >
-          <mdl-icon>{{ action.icon }}</mdl-icon>
+          <md-icon>{{ action.icon }}</md-icon>
         </button>
       </div>
     </div>

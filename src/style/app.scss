@@ -1,15 +1,14 @@
 // styles in src/style directory are applied to the whole page
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import '~@angular-mdl/core/scss/material-design-lite';
-
 @import '~@angular-mdl/popover/popover';
 @import '~@angular-mdl/select/select';
-
 @import "~@angular-mdl/core/scss/color-definitions";
+@import "~dragula/dist/dragula.css";
 @import '__variables.scss';
-
 @import '../app/shared/styles/overlay';
 @import '../app/shared/styles/text-overflow-tooltip-fix';
-
+@import '../app/shared/styles/tab-switch';
 
 * {
   box-sizing: border-box;
@@ -17,6 +16,11 @@
 
 .disabled-link {
   cursor: pointer;
+}
+
+.mat-tooltip {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tooltip-position-fix {
@@ -28,41 +32,77 @@
   @extend .text-overflow-tooltip-fix;
 }
 
-mdl-card > mdl-card-title + mdl-card-supporting-text {
-  padding-top: 0 !important;
+md-card {
+  padding: 0px !important;
+  width: 320px;
+  margin: 15px 0px 0px 15px;
 }
 
-mdl-card .mdl-card__title-text,
-.details-header {
+cs-sidebar md-card {
+  width: auto;
+  margin: 5px;
+}
+
+md-card md-card-header {
+  padding: 16px;
+}
+
+md-card md-card-title,
+md-card .mat-card-header-text {
+  margin: 0px !important;
+}
+
+md-card md-card-header h2 {
+  margin: 0px;
   font-size: 18px;
-  width: 100%;
+  line-height: normal;
+
+  &.md-card-title-text {
+    max-width: 250px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
-mdl-card mdl-card-menu {
+md-card md-card-header .md-card-header-menu {
+  position: absolute;
   top: 5px !important;
   right: 5px !important;
 }
 
-mdl-card.custom-card {
+md-card md-card-content {
+  color: rgba(0, 0, 0, 0.54);
+  padding: 0px 16px 16px 16px;
+  margin-bottom: 0px !important;
+  line-height: 18px;
+}
+
+md-card .md-card-content-with-actions {
+  padding-bottom: 0px;
+}
+
+md-card .md-card-content-container {
+  padding-bottom: 16px;
+  word-wrap: break-word;
+}
+
+md-card.custom-card {
   min-height: 0;
 
-  & .mdl-card__title-text {
+  & .md-card-title-text {
     @extend .tooltip-position-fix;
-    max-width: 95%;
   }
 
-  & mdl-card-supporting-text {
-    width: 100%;
+  & md-card-actions {
+    border-top: 1px solid rgba(0, 0, 0, .1);
   }
 
-  & mdl-card-actions {
-    border-top: 1px solid rgba(0,0,0,.1);
-  }
-
-  & mdl-card-title > h2 {
+  & md-card-title > h2 {
     display: block;
     text-overflow: ellipsis;
     white-space: nowrap;
+    line-height: normal;
+    height: 1.2em;
   }
 
   & table {
@@ -97,12 +137,18 @@ mdl-card.custom-card {
 }
 
 .options-panel {
+  box-sizing: border-box;
+  z-index: 1;
   display: flex;
+  background-color: #fff;
   flex-direction: row !important;
   width: 100% !important;
   min-height: initial !important;
   overflow: visible !important;
   flex-wrap: wrap;
+  margin: 0px !important;
+  position: relative;
+  box-shadow: none !important;
 
   & > * {
     align-self: center;
@@ -166,8 +212,8 @@ mdl-simple-tooltip div {
 
 .card-selected {
   box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14),
-              0 3px 14px 2px rgba(0, 0, 0, 0.12),
-              0 5px 5px -3px rgba(0, 0, 0, 0.2) !important;
+  0 3px 14px 2px rgba(0, 0, 0, 0.12),
+  0 5px 5px -3px rgba(0, 0, 0, 0.2) !important;
   transition: 0.25s, box-shadow 0.25s;
 }
 
@@ -184,10 +230,15 @@ mdl-simple-tooltip div {
   margin-bottom: 15px;
 }
 
+.form-select-control {
+  width: 100%;
+  margin: 20px 0;
+}
+
 .filter-select {
   display: inline-block;
   width: $template-filter-select-width;
-  margin: 0 20px;
+  margin: 20px;
 }
 
 .section-header {
@@ -203,13 +254,14 @@ mdl-simple-tooltip div {
 
 .popover-actions {
   padding: 1rem;
+  color: rgba(0,0,0,.87);
 }
 
-.mdl-layout--fixed-drawer>.mdl-layout__drawer {
+.mdl-layout--fixed-drawer > .mdl-layout__drawer {
   transform: translateX(-240px) !important;
 }
 
-.mdl-layout--fixed-drawer>.mdl-layout__content {
+.mdl-layout--fixed-drawer > .mdl-layout__content {
   margin-left: 0 !important;
 }
 
@@ -217,12 +269,13 @@ mdl-simple-tooltip div {
   margin-top: 6px !important;
 }
 
-.mdl-button mdl-icon {
+.mdl-button md-icon {
   color: black !important;
 }
 
-.mdl-button[disabled] mdl-icon, .mdl-button.mdl-button--disabled mdl-icon {
-  color: rgba(0,0,0,.26) !important;
+.mdl-button[disabled] md-icon,
+.mdl-button.mdl-button--disabled md-icon {
+  color: rgba(0, 0, 0, .26) !important;
   cursor: default;
   background-color: transparent;
 }
@@ -246,13 +299,20 @@ mdl-simple-tooltip div {
   overflow: visible !important;
 }
 
-.card-list-container > * {
+.card-list-container md-card {
   margin-top: 15px;
   margin-left: 15px;
 }
 
 .card-list-container:last-child {
   margin-bottom: 15px;
+}
+
+md-card-actions {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 8px !important;
+  min-height: 49px;
+  background-color: transparent;
 }
 
 .card-left-button {
@@ -265,14 +325,6 @@ mdl-simple-tooltip div {
 
 .arrow {
   cursor: initial;
-}
-
-.section {
-  width: 100%;
-  min-height: 0;
-  border-bottom: 1px solid #dedede;
-  background-color: white;
-  padding-bottom: 15px;
 }
 
 .state-icon {
@@ -330,3 +382,9 @@ mdl-simple-tooltip div {
   background: #ffeb3b;
 }
 
+.disc-icon {
+  width: 24px;
+  height: 24px;
+  border: 9px solid #757575;
+  border-radius: 50%;
+}

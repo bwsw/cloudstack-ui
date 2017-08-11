@@ -42,7 +42,7 @@ describe('Sg creation rule component', () => {
     f.detectChanges();
 
     const listContent = f.debugElement.query(
-      By.css('mdl-list-item-primary-content')
+      By.css('md-list-item h4')
     ).nativeElement.textContent;
 
     expect(listContent).toContain('INGRESS');

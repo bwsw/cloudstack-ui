@@ -2,6 +2,8 @@
   text-align: right;
 }
 
-mdl-select /deep/ .mdl-textfield {
-  width: 100%;
+.flex-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

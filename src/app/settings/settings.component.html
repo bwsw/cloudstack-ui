@@ -49,33 +49,49 @@
     <div class="section-container">
       <div *ngIf="language" class="settings-control">
         <h5 class="no-margin">{{ 'LANGUAGE' | translate }}</h5>
-        <mdl-select
+        <md-select
+          class="form-select-control"
           [(ngModel)]="language"
           (change)="changeLanguage($event)"
         >
-          <mdl-option
+          <md-option
             *ngFor="let l of languages"
             [value]="l.value"
           >
             {{ l.text }}
-          </mdl-option>
-        </mdl-select>
+          </md-option>
+        </md-select>
       </div>
       <div *ngIf="firstDayOfWeek != null" class="settings-control">
         <h5 class="no-margin">{{ 'FIRST_DAY_OF_WEEK' | translate }}</h5>
-        <mdl-select
+        <md-select
           *ngIf="dayTranslations"
+          class="form-select-control"
           [ngModel]="firstDayOfWeek"
           [disabled]="updatingFirstDayOfWeek"
           (change)="firstDayOfWeekChange($event)"
         >
-          <mdl-option
+          <md-option
             *ngFor="let d of daysOfTheWeek"
             [value]="d.value"
           >
             {{ d.text | translate }}
-          </mdl-option>
-        </mdl-select>
+          </md-option>
+        </md-select>
+      </div>
+      <div class="settings-control">
+        <h5 class="no-margin">{{ 'TIME_FORMAT' | translate }}</h5>
+        <md-select
+          class="form-select-control"
+          [ngModel]="timeFormat"
+          [disabled]="updatingTimeFormat"
+          (change)="changeTimeFormat($event)"
+        >
+          <md-option
+            *ngFor="let format of timeFormats"
+            [value]="TimeFormat[format]"
+          >{{ format | translate }}</md-option>
+        </md-select>
       </div>
       <div class="settings-control">
         <h5>{{ 'PALETTE' | translate }}</h5>
@@ -83,6 +99,7 @@
           <cs-color-picker
             *ngIf="primaryColor"
             [colors]="primaryColors"
+            [selectedColor]="primaryColor"
             [formControl]="primaryColorControl"
             (change)="updatePrimaryColor($event)"
           ></cs-color-picker>
@@ -91,12 +108,12 @@
           <cs-color-picker
             *ngIf="accentColor"
             [colors]="accentColors"
+            [selectedColor]="accentColor"
             [formControl]="accentColorControl"
             (change)="updateAccentColor($event)"
           ></cs-color-picker>
         </div>
       </div>
-
     </div>
   </section>
 </div>

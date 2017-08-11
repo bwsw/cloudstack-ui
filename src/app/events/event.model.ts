@@ -1,6 +1,6 @@
 import { BaseModel } from '../shared/models';
 import { FieldMapper } from '../shared/decorators';
-import moment = require('moment');
+import * as moment from 'moment';
 
 @FieldMapper({
   domainid: 'domainId',

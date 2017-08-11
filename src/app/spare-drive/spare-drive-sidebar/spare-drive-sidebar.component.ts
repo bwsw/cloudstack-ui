@@ -5,6 +5,7 @@ import { Volume } from '../../shared/models';
 import { VolumeType } from '../../shared/models/volume.model';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { VolumeService } from '../../shared/services/volume.service';
+import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 
 
 @Component({
@@ -18,6 +19,7 @@ export class SpareDriveSidebarComponent {
   @HostBinding('class.grid') public grid = true;
 
   constructor(
+    public dateTimeFormatterService: DateTimeFormatterService,
     private route: ActivatedRoute,
     private volumeService: VolumeService,
     private diskOfferingService: DiskOfferingService

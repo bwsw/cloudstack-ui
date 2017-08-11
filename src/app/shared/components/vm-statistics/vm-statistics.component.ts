@@ -1,12 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { ResourceStats, ResourceUsageService } from '../../services/resource-usage.service';
-import { StorageService } from '../../services/storage.service';
-import { UtilsService } from '../../services/utils.service';
-
+import {
+  ResourcesData,
+  ResourceStats,
+  ResourceUsageService
+} from '../../services/resource-usage.service';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { Utils } from '../../services/utils.service';
 
 const showStatistics = 'showStatistics';
+const statisticsMode = 'statisticsMode';
+
+const enum StatsMode {
+  Used,
+  Free
+}
+
+interface StatsItem {
+  header: string;
+  bars: Array<StatsBar>;
+}
+
+interface StatsBar {
+  title: string;
+  value(): Observable<string>;
+  progress(): number;
+}
 
 @Component({
   selector: 'cs-vm-statistics',
@@ -17,12 +37,70 @@ export class VmStatisticsComponent implements OnInit {
   public fetching = false;
   public resourceUsage: ResourceStats;
   public isOpen = true;
+  public mode = StatsMode.Used;
   private wasOpened = false;
+
+  public statsList: Array<StatsItem> = [
+    {
+      header: 'VMS',
+      bars: [
+        {
+          title: 'VM_AMOUNT',
+          value: () => this.getStatsStringFor('instances'),
+          progress: () => this.progressFor('instances')
+        }
+      ]
+    },
+    {
+      header: 'COMPUTATIONAL_RESOURCES',
+      bars: [
+        {
+          title: 'CPUS',
+          value: () => this.getStatsStringFor('cpus'),
+          progress: () => this.progressFor('cpus')
+        },
+        {
+          title: 'RAM',
+          value: () => this.memory,
+          progress: () => this.progressFor('memory')
+        }
+      ]
+    },
+    {
+      header: 'VOLUMES',
+      bars: [
+        {
+          title: 'VOLUMES',
+          value: () => this.getStatsStringFor('volumes'),
+          progress: () => this.progressFor('volumes')
+        },
+        {
+          title: 'SNAPSHOTS',
+          value: () => this.getStatsStringFor('snapshots'),
+          progress: () => this.progressFor('snapshots')
+        }
+      ]
+    },
+    {
+      header: 'STORAGE',
+      bars: [
+        {
+          title: 'PRIMARY_(STORAGE)',
+          value: () => this.primaryStorage,
+          progress: () => this.progressFor('primaryStorage')
+        },
+        {
+          title: 'SECONDARY_(STORAGE)',
+          value: () => this.secondaryStorage,
+          progress: () => this.progressFor('secondaryStorage')
+        }
+      ]
+    }
+  ];
 
   constructor(
     private translateService: TranslateService,
-    private utilsService: UtilsService,
-    private storageService: StorageService,
+    private storageService: LocalStorageService,
     private resourceUsageService: ResourceUsageService
   ) {
     this.resourceUsage = new ResourceStats();
@@ -33,96 +111,97 @@ export class VmStatisticsComponent implements OnInit {
     // no such key in the local storage, just show the stats
     if (!shouldShowStatistics) {
       this.updateStats();
-      return;
+    } else {
+      this.isOpen = shouldShowStatistics === 'true';
+      if (this.isOpen) {
+        this.wasOpened = true;
+        this.updateStats();
+      }
     }
 
-    this.isOpen = shouldShowStatistics === 'true';
-    if (this.isOpen) {
-      this.wasOpened = true;
-      this.updateStats();
+    const modeRaw = this.storageService.read(statisticsMode);
+    switch (parseInt(modeRaw, 10)) {
+      case StatsMode.Free:
+        this.mode = StatsMode.Free;
+        break;
+      case StatsMode.Used:
+      default:
+        this.mode = StatsMode.Used;
     }
+  }
+
+  public switchMode() {
+    this.mode = this.mode === StatsMode.Used ? StatsMode.Free : StatsMode.Used;
+    this.storageService.write(statisticsMode, this.mode.toString());
   }
 
   public getPercents(consumed: number, max: number): string {
     return this.getProgress(consumed, max).toFixed(0);
   }
 
-  public getStatsString(consumed: number, max: number, units?: string): string {
-    if (max === -1) {
-      return `${consumed} ${units || ''}`;
+  public getStatsString(consumed: number, max: number, units?: string): Observable<string> {
+    if (+max <= 0) {
+      return Observable.of(`${consumed} ${units || ''}`);
     } else {
-      return `${consumed}/${max} ${units || ''} (${this.getPercents(consumed, max)}%)`;
+      return Observable.of(`${consumed}/${max} ${units || ''} (${this.getPercents(
+        consumed,
+        max
+      )}%)`);
     }
   }
 
-  public get instances(): string {
-    return this.getStatsString(this.resourceUsage.consumed.instances, this.resourceUsage.max.instances);
-  }
-
-  public get cpus(): string {
-    return this.getStatsString(this.resourceUsage.consumed.cpus, this.resourceUsage.max.cpus);
+  public getStatsStringFor(resource: keyof ResourcesData, units?: string): Observable<string> {
+    const consumed = this.resourceUsage[this.getModeKey()][resource];
+    const max = this.resourceUsage.max[resource];
+    return this.getStatsString(consumed, max, units);
   }
 
   public get memory(): Observable<string> {
-    const consumed = this.utilsService.divide(this.resourceUsage.consumed.memory, 2, '10', '1');
-    const max = this.utilsService.divide(this.resourceUsage.max.memory, 2, '10', '1');
+    const consumed = Utils.divide(
+      this.resourceUsage[this.getModeKey()].memory,
+      2,
+      '10',
+      '1'
+    );
+    const max = Utils.divide(
+      this.resourceUsage.max.memory,
+      2,
+      '10',
+      '1'
+    );
 
-    return this.translateService.get('GB')
-      .map(gb => this.getStatsString(consumed as number, max as number, gb));
-  }
-
-  public get volumes(): string {
-    return this.getStatsString(this.resourceUsage.consumed.volumes, this.resourceUsage.max.volumes);
-  }
-
-  public get snapshots(): string {
-    return this.getStatsString(this.resourceUsage.consumed.snapshots, this.resourceUsage.max.snapshots);
+    return this.translateService
+      .get('GB')
+      .switchMap(gb => this.getStatsString(consumed as number, max as number, gb));
   }
 
   public get primaryStorage(): Observable<string> {
-    return this.translateService.get('GB')
-      .map(gb => this.getStatsString(
-        this.resourceUsage.consumed.primaryStorage,
-        this.resourceUsage.max.primaryStorage,
-        gb
-      ));
+    return this.translateService
+      .get('GB')
+      .switchMap(gb =>
+        this.getStatsStringFor(
+          'primaryStorage',
+          gb
+        )
+      );
   }
 
   public get secondaryStorage(): Observable<string> {
-    return this.translateService.get('GB')
-      .map(gb => this.getStatsString(
-        this.resourceUsage.consumed.secondaryStorage,
-        this.resourceUsage.max.secondaryStorage,
-        gb
-      ));
+    return this.translateService
+      .get('GB')
+      .switchMap(gb =>
+        this.getStatsStringFor(
+          'secondaryStorage',
+          gb
+        )
+      );
   }
 
-  public get progressForInstances(): number {
-    return this.getProgress(this.resourceUsage.consumed.instances, this.resourceUsage.max.instances);
-  }
-
-  public get progressForCpus(): number {
-    return this.getProgress(this.resourceUsage.consumed.cpus, this.resourceUsage.max.cpus);
-  }
-
-  public get progressForMemory(): number {
-    return this.getProgress(this.resourceUsage.consumed.memory, this.resourceUsage.max.memory);
-  }
-
-  public get progressForVolumes(): number {
-    return this.getProgress(this.resourceUsage.consumed.volumes, this.resourceUsage.max.volumes);
-  }
-
-  public get progressForSnapshots(): number {
-    return this.getProgress(this.resourceUsage.consumed.snapshots, this.resourceUsage.max.snapshots);
-  }
-
-  public get progressForPrimaryStorage(): number {
-    return this.getProgress(this.resourceUsage.consumed.primaryStorage, this.resourceUsage.max.primaryStorage);
-  }
-
-  public get progressForSecondaryStorage(): number {
-    return this.getProgress(this.resourceUsage.consumed.secondaryStorage, this.resourceUsage.max.secondaryStorage);
+  public progressFor(resource: keyof ResourcesData): number {
+    return this.getProgress(
+      this.resourceUsage[this.getModeKey()][resource],
+      this.resourceUsage.max[resource],
+    );
   }
 
   public handleCollapse(e: Event): void {
@@ -139,15 +218,18 @@ export class VmStatisticsComponent implements OnInit {
 
   public updateStats(): void {
     this.fetching = true;
-    this.resourceUsageService.getResourceUsage()
-      .subscribe(result => {
-        // to keep progress bar animation
-        setTimeout(() => this.resourceUsage = result);
-        this.fetching = false;
-      });
+    this.resourceUsageService.getResourceUsage().subscribe(result => {
+      // to keep progress bar animation
+      setTimeout(() => (this.resourceUsage = result));
+      this.fetching = false;
+    });
   }
 
   private getProgress(consumed: number, max: number): number {
-    return (consumed / max * 100) || 0;
+    return consumed / max * 100 || 0;
+  }
+
+  private getModeKey(): keyof ResourceStats {
+    return this.mode === StatsMode.Used ? 'consumed' : 'available';
   }
 }

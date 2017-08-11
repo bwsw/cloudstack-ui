@@ -1,9 +1,7 @@
 <cs-top-bar *ngIf="!dialogMode">
-  <mdl-card
-    class="options-panel top-bar-height"
-  >
+  <div class="options-panel">
     <mdl-tabs
-      class="template-iso-switch"
+      class="tab-switch"
       mdl-ripple
       [mdl-tab-active-index]="templateSwitchPosition"
       (mdl-tab-active-changed)="setMode($event.index)"
@@ -21,56 +19,70 @@
       </mdl-tab-panel>
     </mdl-tabs>
 
-    <mdl-select
+    <md-select
       class="filter-select"
+      multiple="true"
+      [placeholder]="'OS_FAMILY' | translate"
       [(ngModel)]="selectedOsFamilies"
       (change)="updateFilters()"
-      multiple="true"
-      placeholder="{{ 'OS_FAMILY' | translate }}"
     >
-      <mdl-option
+      <md-option
         *ngFor="let family of osFamilies"
         [value]="family"
       >
         {{ family }}
-      </mdl-option>
-    </mdl-select>
+      </md-option>
+    </md-select>
     <div *ngIf="filterTranslations" class="filter-select-container">
-      <mdl-select
+      <md-select
         class="filter-select"
+        multiple="true"
+        [placeholder]="'TEMPLATE_TYPES' | translate"
         [(ngModel)]="selectedFilters"
         (change)="updateFilters()"
-        multiple="true"
-        placeholder="{{ 'TEMPLATE_TYPES' | translate }}"
       >
-        <mdl-option
+        <md-option
           *ngFor="let f of categoryFilters"
           [value]="f"
         >
           {{ filterTranslations[f] }}
-        </mdl-option>
-      </mdl-select>
+        </md-option>
+      </md-select>
     </div>
-    <mdl-select
-      class="filter-select"
+    <md-select
       *ngIf="zones"
-      [(ngModel)]="selectedZones"
-      (change)="updateFilters()"
+      class="filter-select"
       multiple="true"
       [placeholder]="'SELECT_ZONES' | translate"
+      [(ngModel)]="selectedZones"
+      (change)="updateFilters()"
     >
-      <mdl-option mdl-ripple *ngFor="let z of zones" [value]="z">{{ z.name }}</mdl-option>
-    </mdl-select>
-  </mdl-card>
+      <md-option *ngFor="let z of zones" [value]="z">{{ z.name }}</md-option>
+    </md-select>
+
+    <cs-divider-vertical></cs-divider-vertical>
+    <md-select
+      *ngIf="zones"
+      class="filter-select"
+      multiple="true"
+      [placeholder]="'GROUP_BY_LABEL' | translate"
+      [(ngModel)]="selectedGroupingNames"
+      (change)="updateFilters()"
+    >
+      <md-option *ngFor="let g of availableGroupings" [value]="g">
+        {{ g.label | translate }}
+      </md-option>
+    </md-select>
+  </div>
 </cs-top-bar>
 
-<mdl-card
+<div
   class="options-panel"
   [class.delimiter]="showDelimiter"
   *ngIf="dialogMode"
 >
   <mdl-tabs
-    class="template-iso-switch"
+    class="tab-switch"
     mdl-ripple
     [mdl-tab-active-index]="templateSwitchPosition"
     (mdl-tab-active-changed)="setMode($event.index)"
@@ -88,37 +100,37 @@
     </mdl-tab-panel>
   </mdl-tabs>
 
-  <mdl-select
+  <md-select
     class="filter-select"
-    [(ngModel)]="selectedOsFamilies"
-    (change)="updateFilters()"
     multiple="true"
     placeholder="{{ 'OS_FAMILY' | translate }}"
+    [(ngModel)]="selectedOsFamilies"
+    (change)="updateFilters()"
   >
-    <mdl-option
+    <md-option
       *ngFor="let family of osFamilies"
       [value]="family"
     >
       {{ family }}
-    </mdl-option>
-  </mdl-select>
+    </md-option>
+  </md-select>
   <div *ngIf="filterTranslations" class="filter-select-container">
-    <mdl-select
+    <md-select
       class="filter-select"
-      [(ngModel)]="selectedFilters"
-      (change)="updateFilters()"
       multiple="true"
       placeholder="{{ 'TYPE' | translate }}"
+      [(ngModel)]="selectedFilters"
+      (change)="updateFilters()"
     >
-      <mdl-option
+      <md-option
         *ngFor="let f of categoryFilters"
         [value]="f"
       >
         {{ filterTranslations[f] }}
-      </mdl-option>
-    </mdl-select>
+      </md-option>
+    </md-select>
   </div>
-</mdl-card>
+</div>
 
 <div [class.search-bar-white]="searchPanelWhite">
   <cs-search

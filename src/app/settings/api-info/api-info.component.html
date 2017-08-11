@@ -3,11 +3,11 @@
     <h4>{{ 'API' | translate }}</h4>
     <mdl-button
       mdl-button-type="icon"
-      mdl-tooltip-position="top"
-      [mdl-tooltip]="'REGENERATE_KEYS' | translate"
+      mdTooltipPosition="above"
+      [mdTooltip]="'REGENERATE_KEYS' | translate"
       (click)="askToRegenerateKeys()"
     >
-      <mdl-icon>sync</mdl-icon>
+      <md-icon>sync</md-icon>
     </mdl-button>
   </div>
   <div class="section-container">
@@ -32,17 +32,14 @@
               (cbOnSuccess)="onCopySuccess()"
               (cbOnError)="onCopyFail()"
             >
-              <mdl-icon
-                mdl-tooltip-position="right"
-                [mdl-tooltip]="apiKeyTooltip"
+              <md-icon
+                mdTooltipPosition="after"
+                [mdTooltip]="'COPY' | translate"
               >
                 content_copy
-              </mdl-icon>
+              </md-icon>
             </button>
           </cs-input-group>
-          <mdl-tooltip #apiKeyTooltip="mdlTooltip">
-            {{ 'COPY' | translate }}
-          </mdl-tooltip>
         </div>
 
         <div *ngIf="inputFields.apiSecretKey.value">
@@ -64,17 +61,14 @@
               (cbOnSuccess)="onCopySuccess()"
               (cbOnError)="onCopyFail()"
             >
-              <mdl-icon
-                mdl-tooltip-position="right"
-                [mdl-tooltip]="apiSecretKeyTooltip"
+              <md-icon
+                mdTooltipPosition="after"
+                [mdTooltip]="'COPY' | translate"
               >
                 content_copy
-              </mdl-icon>
+              </md-icon>
             </button>
           </cs-input-group>
-          <mdl-tooltip #apiSecretKeyTooltip="mdlTooltip">
-            {{ 'COPY' | translate }}
-          </mdl-tooltip>
         </div>
         <div>
           <h5 [translate]="linkFields.apiUrl.title"></h5>

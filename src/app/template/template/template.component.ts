@@ -1,5 +1,14 @@
-import { Component, EventEmitter, HostBinding, Input, Output, ViewChild } from '@angular/core';
-import { MdlPopoverComponent } from '@angular-mdl/popover';
+import { MdMenuTrigger } from '@angular/material';
+import {
+  Component,
+  EventEmitter,
+  HostBinding,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 
 import { AuthService } from '../../shared';
 import { BaseTemplateModel } from '../shared';
@@ -10,35 +19,42 @@ import { BaseTemplateModel } from '../shared';
   templateUrl: 'template.component.html',
   styleUrls: ['template.component.scss']
 })
-export class TemplateComponent {
-  @Input() public template: BaseTemplateModel;
-  @Input() public isSelected: boolean;
+export class TemplateComponent implements OnChanges {
   @HostBinding('class.single-line') @Input() public singleLine = true;
-  @Input() public searchQuery: string;
+  @Input() public item: BaseTemplateModel;
+  @Input() public isSelected: (item: BaseTemplateModel) => boolean;
+  @Input() public searchQuery: () => string;
   @Output() public deleteTemplate = new EventEmitter();
   @Output() public onClick = new EventEmitter();
-  @ViewChild(MdlPopoverComponent) public popoverComponent: MdlPopoverComponent;
+  @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
+
+  public query: string;
 
   constructor(private authService: AuthService) {}
 
+  public ngOnChanges(changes: SimpleChanges): void {
+    const query = changes.searchQuery;
+    if (query) {
+      this.query = this.searchQuery();
+    }
+  }
+
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
-    if (!this.popoverComponent.isVisible) {
-      this.onClick.emit(this.template);
-    } else {
-      this.popoverComponent.hide();
+    if (!this.mdMenuTrigger.menuOpen) {
+      this.onClick.emit(this.item);
     }
   }
 
   public get ready(): boolean {
-    return this.template.isReady;
+    return this.item.isReady;
   }
 
   public get isSelf(): boolean {
-    return this.authService.username === this.template.account;
+    return this.authService.username === this.item.account;
   }
 
   public removeTemplate(): void {
-    this.deleteTemplate.next(this.template);
+    this.deleteTemplate.next(this.item);
   }
 }

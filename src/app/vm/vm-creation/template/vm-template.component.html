@@ -1,0 +1,13 @@
+<button
+  type="button"
+  mdl-button
+  mdl-ripple
+  (click)="onClick()"
+>
+  {{ 'SELECT' | translate }}
+</button>
+<div class="mdl-textfield template-list">
+  <div class="mdl-textfield__input">
+    {{ 'VM_CREATION_TEMPLATE.OS_TEMPLATE' | translate }}: {{ template?.name }}
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import moment = require('moment');
+import * as moment from 'moment';
 
 import { FieldMapper } from '../decorators/field-mapper.decorator';
 import { Offering } from './offering.model';
@@ -53,9 +53,14 @@ export class ServiceOffering extends Offering {
   public deploymentPlanner: string;
   public domain: string;
 
-  constructor(json) {
-    super(json);
+  constructor(params: any | ServiceOffering) {
+    super(params);
+    if (!(params instanceof ServiceOffering)) {
+      this.created = moment(params.created).toDate();
+    }
+  }
 
-    this.created = moment(json.created).toDate();
+  public get areCustomParamsSet(): boolean {
+    return false;
   }
 }

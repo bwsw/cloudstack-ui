@@ -1,149 +1,171 @@
-<div class="overlay" *ngIf="sgCreationInProgress">
+<div class="overlay" *ngIf="showOverlay">
   <div class="message">
-    <p *ngIf="sgCreationInProgress">{{ 'CREATING_SG' | translate }}</p>
-    <p *ngIf="agCreationInProgress">{{ 'CREATING_AG' | translate }}</p>
-    <mdl-progress [indeterminate]="sgCreationInProgress || agCreationInProgress"></mdl-progress>
+    <p *ngIf="showSecurityGroupOverlay">{{ 'CREATING_SG' | translate }}</p>
+    <p *ngIf="showAffinityGroupOverlay">{{ 'CREATING_AG' | translate }}</p>
+    <p *ngIf="showDeploymentOverlay">{{ 'DEPLOYING_VM' | translate }}</p>
+    <mdl-progress [indeterminate]="true"></mdl-progress>
   </div>
 </div>
-<div [class.vm-creation-container]="enoughResources !== false">
+<div class="vm-creation-container">
   <h3 class="mdl-dialog__title">{{ 'NEW_VM' | translate }}</h3>
-  <form #vmCreateForm="ngForm" *loading="fetching" novalidate>
+  <form
+    (ngSubmit)="onVmCreationSubmit($event)"
+    #vmCreateForm="ngForm"
+    *loading="fetching"
+    novalidate
+  >
     <div class="container">
-      <div *ngIf="enoughResources" class="left-column">
-        <h5>{{ 'VM_CREATION_FORM.NAME' | translate }}</h5>
+      <div *ngIf="enoughResources && formState?.state" class="left-column">
         <div>
+          <h5>{{ 'VM_CREATION_FORM.NAME' | translate }}</h5>
           <mdl-textfield
             type="text"
             [label]="'VM_CREATION_FORM.NAME' | translate"
             name="name"
+            required
             pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
             [error-msg]="(takenName ? 'THIS_NAME_IS_TAKEN' : '') | translate"
-            #vmname="ngModel"
-            [(ngModel)]="vmCreationData.vm.displayName"
-            [class.is-invalid]="!vmname.valid || (vmCreationData.vm.displayName === takenName)"
+            #vmName="ngModel"
+            [ngModel]="formState.state.displayName"
+            (ngModelChange)="displayNameChange($event)"
+            [class.is-invalid]="!vmName.valid || formState.state.displayName === takenName"
           >
           </mdl-textfield>
         </div>
 
         <div>
           <h5>{{ 'VM_CREATION_FORM.ZONE' | translate }}</h5>
-          <div>
-            <mdl-select
-              [(ngModel)]="zoneId"
-              name="zone"
-            >
-              <mdl-option *ngFor="let z of vmCreationData.zones" [value]="z.id" >
-                {{ z.name }}
-              </mdl-option>
-            </mdl-select>
-          </div>
+          <md-select
+            class="form-select-control"
+            name="zone"
+            [ngModel]="formState.state.zone"
+            (change)="zoneChange($event)"
+          >
+            <md-option *ngFor="let z of formState.data.zones" [value]="z">
+              {{ z.name }}
+            </md-option>
+          </md-select>
         </div>
 
-        <div *ngIf="zoneId && vmCreationData.serviceOfferings">
+        <div>
           <h5>{{ 'VM_CREATION_FORM.SERVICE_OFFERING' | translate }}</h5>
           <cs-service-offering-selector
             name="serviceOffering"
-            [serviceOfferings]="vmCreationData.serviceOfferings"
-            [zoneId]="vmCreationData.vm.zoneId"
-            [offering]="vmCreationData.customServiceOffering"
-            (offeringChanged)="setServiceOffering($event)"
+            [serviceOfferings]="formState.data.serviceOfferings"
+            [customOfferingRestrictions]="formState.data.getCustomOfferingRestrictions(formState.state.zone)"
+            [zoneId]="formState.state.zone.id"
+            [ngModel]="formState.state.serviceOffering"
+            (change)="serviceOfferingChange($event)"
           ></cs-service-offering-selector>
         </div>
 
         <div class="dialog-select-wrapper">
           <h5 class="dialog-select-header">{{ 'VM_CREATION_FORM.INSTALLATION_SOURCE' | translate }}</h5>
           <cs-vm-creation-template
-            *ngIf="vmCreationData.vm.template"
+            name="template"
             class="dialog-select-select template-select"
-            [selectedIn]="vmCreationData.vm.template"
-            [zoneId]="zoneId"
-            (selectedOut)="setTemplate($event)"
+            [templates]="formState.data.templates"
+            [isos]="formState.data.isos"
+            [zoneId]="formState.state.zone.id"
+            [ngModel]="formState.state.template"
+            (change)="templateChange($event)"
           ></cs-vm-creation-template>
         </div>
 
-        <div *ngIf="!templateSelected && vmCreationData.diskOfferings">
+        <div *ngIf="formState.state.diskOfferingsAreAllowed">
           <h5>{{ 'DISK_OFFERING' | translate }}</h5>
           <cs-disk-offering
-            [diskOfferingList]="vmCreationData.diskOfferings"
-            (offeringUpdated)="setDiskOffering($event)"
+            name="diskOfferingSelector"
+            [diskOfferingList]="formState.data.diskOfferings"
+            [ngModel]="formState.state.diskOffering"
+            (change)="diskOfferingChange($event)"
           ></cs-disk-offering>
         </div>
-        <cs-slider
-          *ngIf="templateSelected || showRootDiskResize"
-          [min]="vmCreationData.rootDiskSizeMin"
-          [max]="vmCreationData.rootDiskSizeLimit"
-          [label]="'VM_CREATION_FORM.DISK_SIZE' | translate"
-          name="rds"
-          [(ngModel)]="vmCreationData.rootDiskSize"
-          [units]="'GB' | translate"
-        ></cs-slider>
-      </div>
-      <div *ngIf="enoughResources" class="right-column">
 
-        <h5>{{ 'VM_CREATION_FORM.GROUP' | translate }}</h5>
-        <div *ngIf="vmCreationData.instanceGroups">
+        <div *ngIf="formState.state.rootDiskSizeMin">
+          <cs-slider
+            name="rds"
+            *ngIf="showResizeSlider"
+            [min]="formState.state.rootDiskSizeMin"
+            [max]="formState.data.rootDiskSizeLimit"
+            [label]="'VM_CREATION_FORM.DISK_SIZE' | translate"
+            [ngModel]="formState.state.rootDiskSize"
+            (change)="rootDiskSizeChange($event)"
+            [units]="'GB' | translate"
+          ></cs-slider>
+        </div>
+
+      </div>
+
+      <div *ngIf="enoughResources && formState?.state" class="right-column">
+        <div>
+          <h5>{{ 'VM_CREATION_FORM.GROUP' | translate }}</h5>
           <mdl-autocomplete
-            *ngIf="vmCreationData.instanceGroups"
             name="group"
             [placeholder]="'NO_GROUP' | translate"
-            [options]="vmCreationData.instanceGroups"
-            [ngModel]="null"
-            (ngModelChange)="setGroup($event)"
+            [options]="formState.data.instanceGroupNames"
+            [ngModel]="formState.state.instanceGroup.name"
+            (ngModelChange)="instanceGroupChange($event)"
           ></mdl-autocomplete>
         </div>
 
-        <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
-        <div *ngIf="noAffinityGroupTranslation">
+        <div>
+          <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
           <mdl-autocomplete
             name="affinityGroup"
             [placeholder]="'NO_GROUP' | translate"
-            [options]="vmCreationData.affinityGroupNames"
-            [ngModel]="vmCreationData.affinityGroupName"
+            [options]="formState.data.affinityGroupNames"
+            [ngModel]="formState.state.affinityGroup.name"
             (ngModelChange)="affinityGroupChange($event)"
           ></mdl-autocomplete>
         </div>
-        <cs-security-group-rules-manager
-          *ngIf="showSecurityGroups"
-          name="sgm"
-          class="sg-rules-manager"
-          [(ngModel)]="securityRules"
-        ></cs-security-group-rules-manager>
-        <h5>{{ 'VM_CREATION_FORM.KEYBOARD_LAYOUT' | translate }}</h5>
-        <div *ngIf="keyboardTranslations">
-          <mdl-select
-            name="keyboard"
-            [(ngModel)]="vmCreationData.keyboard"
-          >
-            <mdl-option
-              *ngFor="let k of keyboards"
-              [value]="k"
-            >
-              {{ keyboardTranslations[k] }}
-            </mdl-option>
-          </mdl-select>
-        </div>
-        <h5>{{ 'VM_CREATION_FORM.SSH_KEYPAIR' | translate }}</h5>
+
         <div>
-          <mdl-select
-            name="ssh"
-            [(ngModel)]="vmCreationData.vm.keyPair"
-          >
-            <mdl-option
-              *ngFor="let k of vmCreationData.sshKeyPairs"
-              [value]="k.name"
-            >
-              {{ k.name }}
-            </mdl-option>
-          </mdl-select>
+          <cs-security-group-rules-manager
+            name="sgm"
+            class="sg-rules-manager"
+            *ngIf="formState.state.showSecurityGroups"
+            [ngModel]="formState.state.securityRules"
+            (ngModelChange)="securityRulesChange($event)"
+          ></cs-security-group-rules-manager>
         </div>
+
+        <div>
+          <h5>{{ 'VM_CREATION_FORM.KEYBOARD_LAYOUT' | translate }}</h5>
+          <cs-keyboards
+            name="keyboard"
+            [ngModel]="formState.state.keyboard"
+            (ngModelChange)="keyboardChange($event)"
+          ></cs-keyboards>
+        </div>
+
+        <div>
+          <h5>{{ 'VM_CREATION_FORM.SSH_KEYPAIR' | translate }}</h5>
+          <md-select
+            class="form-select-control"
+            name="ssh"
+            [ngModel]="formState.state.sshKeyPair"
+            (change)="sshKeyPairChange($event)"
+          >
+            <md-option
+              *ngFor="let keyPair of formState.data.sshKeyPairs"
+              [value]="keyPair"
+            >
+              {{ keyPair.name }}
+            </md-option>
+          </md-select>
+        </div>
+
         <div class="start-vm-checkbox">
           <mdl-checkbox
             name="startVm"
-            [(ngModel)]="vmCreationData.doStartVm"
+            [ngModel]="formState.state.doStartVm"
+            (ngModelChange)="doStartVmChange($event)"
           >
             {{ 'VM_CREATION_FORM.START_VM' | translate }}
           </mdl-checkbox>
         </div>
+
       </div>
       <div *ngIf="!enoughResources">
         {{ 'INSUFFICIENT_RESOURCES_VM' | translate }}
@@ -157,12 +179,10 @@
     </div>
     <div class="mdl-dialog__actions">
       <button
-        *ngIf="enoughResources"
         mdl-colored="primary"
-        [disabled]="!vmCreateForm.valid || (vmCreationData.vm.displayName === takenName)"
-        type="button"
+        [disabled]="!vmCreateForm.valid || formState?.state.displayName === takenName"
+        type="submit"
         mdl-button
-        (click)="onVmCreationSubmit($event)"
         mdl-ripple
       >
         {{ 'CREATE' | translate }}

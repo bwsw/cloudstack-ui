@@ -48,7 +48,7 @@ import 'core-js/es7/object';
 import 'reflect-metadata';
 
 /** ALL Firefox browsers require the following to support `@angular/animation`. **/
-// import 'web-animations-js';  // Run `npm install --save web-animations-js`.
+import 'web-animations-js';  // Run `npm install --save web-animations-js`.
 
 
 
@@ -73,7 +73,9 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  */
 // import 'intl/locale-data/jsonp/en';
 
+// instance operator imports ( e.g. observable.map )
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/mapTo';
@@ -82,9 +84,13 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/pluck';
 import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/switchMapTo';
+
+// static operator imports ( e.g. Observable.merge )
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/forkJoin';
-
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/observable/combineLatest';

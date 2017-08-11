@@ -2,22 +2,43 @@
   <div *ngIf="vm">
     <h4 class="details-header">{{ vm.displayName }}</h4>
     <mdl-tabs mdl-ripple mdl-tab-active-index="0">
+
       <mdl-tab-panel>
         <mdl-tab-panel-title>
-          <span>{{ 'VM_VIEW' | translate }}</span>
+          <md-icon [mdTooltip]="'VM_VIEW' | translate">computer</md-icon>
         </mdl-tab-panel-title>
         <mdl-tab-panel-content>
           <cs-vm-detail [vm]="vm"></cs-vm-detail>
         </mdl-tab-panel-content>
       </mdl-tab-panel>
+
       <mdl-tab-panel>
         <mdl-tab-panel-title>
-          <span>{{ 'STORAGE_VIEW' | translate }}</span>
+          <md-icon [mdTooltip]="'VM_STORAGE_VIEW' | translate">storage</md-icon>
         </mdl-tab-panel-title>
         <mdl-tab-panel-content>
           <cs-storage-detail [vm]="vm"></cs-storage-detail>
         </mdl-tab-panel-content>
       </mdl-tab-panel>
+
+      <mdl-tab-panel>
+        <mdl-tab-panel-title [mdTooltip]="'VM_NETWORK_VIEW' | translate">
+          <md-icon>router</md-icon>
+        </mdl-tab-panel-title>
+        <mdl-tab-panel-content>
+          <cs-network-detail [vm]="vm"></cs-network-detail>
+        </mdl-tab-panel-content>
+      </mdl-tab-panel>
+
+      <mdl-tab-panel>
+        <mdl-tab-panel-title [mdTooltip]="'VM_TAGS_VIEW' | translate">
+          <md-icon>local_offer</md-icon>
+        </mdl-tab-panel-title>
+        <mdl-tab-panel-content>
+          <cs-vm-tags [entity]="vm"></cs-vm-tags>
+        </mdl-tab-panel-content>
+      </mdl-tab-panel>
+
     </mdl-tabs>
   </div>
 </div>
