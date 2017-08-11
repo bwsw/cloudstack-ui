@@ -208,6 +208,17 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     vm.state = state;
   }
 
+  public isAsyncJobAVirtualMachineJobWithResult(job: AsyncJob<any>): boolean {
+    // instanceof check is needed because API response for
+    // VM restore doesn't contain the instanceType field
+
+    return (
+      job.result &&
+      (job.instanceType === VirtualMachineEntityName ||
+        job.result instanceof VirtualMachine)
+    );
+  }
+
   private buildCommandParams(id: string, commandName: string): any {
     const params = {};
 

@@ -25,9 +25,9 @@
       </h2>
     </md-card-title>
     <div class="md-card-header-menu">
-        <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
-            <md-icon>more_vert</md-icon>
-        </button>
+      <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
+        <md-icon>more_vert</md-icon>
+      </button>
     </div>
   </md-card-header>
   <md-card-content>
@@ -35,11 +35,11 @@
     <div class="vm-ip-address">{{ item.nic[0].ipAddress ? item.nic[0].ipAddress : ("IP_NA" | translate) }}</div>
     <table style="width: 100%; text-align: center;">
       <thead>
-        <tr>
-          <th>{{ 'CPU' | translate }}</th>
-          <th>{{ 'RAM' | translate }}</th>
-          <th>{{ 'DISKS' | translate }}</th>
-        </tr>
+      <tr>
+        <th>{{ 'CPU' | translate }}</th>
+        <th>{{ 'RAM' | translate }}</th>
+        <th>{{ 'DISKS' | translate }}</th>
+      </tr>
       </thead>
       <tr>
         <td>{{ 'CPU_MHZ' | translate:({ count: item.cpuNumber, speed: item.cpuSpeed }) }}</td>
@@ -56,27 +56,7 @@
     </table>
 
   </md-card-content>
-    <md-menu #actionsMenu="mdMenu">
-        <ng-container *ngFor="let action of firstRowActions">
-            <button md-menu-item
-                    *ngIf="!action.hidden(item)"
-                    (click)="onAction(action, item)"
-                    [disabled]="!action.canActivate(item)"
-            >
-                <md-icon>{{ action.icon }}</md-icon>
-                <span>{{ action.name | translate }}</span>
-            </button>
-        </ng-container>
-        <md-divider></md-divider>
-        <ng-container *ngFor="let action of secondRowActions">
-            <button md-menu-item
-                    *ngIf="!action.hidden(item)"
-                    (click)="onAction(action, item)"
-                    [disabled]="!action.canActivate(item)"
-            >
-                <md-icon>{{ action.icon }}</md-icon>
-                <span>{{ action.name | translate }}</span>
-            </button>
-        </ng-container>
-    </md-menu>
+  <md-menu #actionsMenu="mdMenu">
+    <cs-vm-actions [vm]="item"></cs-vm-actions>
+  </md-menu>
 </md-card>

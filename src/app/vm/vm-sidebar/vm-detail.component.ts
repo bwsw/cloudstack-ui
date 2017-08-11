@@ -5,12 +5,14 @@ import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { ServiceOfferingDialogComponent } from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
 import { ServiceOffering, ServiceOfferingFields } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
+import { AsyncJobService } from '../../shared/services/async-job.service';
+import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
+import { VmActionsService } from '../shared/vm-actions.service';
 import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { SshKeypairResetComponent } from './ssh/ssh-keypair-reset.component';
-import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
-import { VmActionsService } from '../shared/vm-actions.service';
+import { AsyncJob } from '../../shared/models/async-job.model';
 
 
 @Component({
@@ -26,18 +28,17 @@ export class VmDetailComponent implements OnChanges, OnInit {
   public sskKeyLoading: boolean;
 
 
-  constructor(
-    public dateTimeFormatterService: DateTimeFormatterService,
-    private dialogService: DialogService,
-    private serviceOfferingService: ServiceOfferingService,
-    private vmActionsService: VmActionsService,
-    private vmService: VmService
-  ) {
+  constructor(public dateTimeFormatterService: DateTimeFormatterService,
+              private asyncJobService: AsyncJobService,
+              private dialogService: DialogService,
+              private serviceOfferingService: ServiceOfferingService,
+              private vmActionsService: VmActionsService,
+              private vmService: VmService) {
     this.expandServiceOffering = false;
   }
 
   public ngOnInit(): void {
-
+    this.subscribeToAsyncJobUpdates();
   }
 
   public ngOnChanges(): void {
@@ -48,7 +49,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
     this.dialogService.showCustomDialog({
       component: ServiceOfferingDialogComponent,
       classes: 'service-offering-dialog',
-      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
+      providers: [{provide: 'virtualMachine', useValue: this.vm}],
       clickOutsideToClose: false
     })
       .switchMap(res => res.onHide())
@@ -180,8 +181,8 @@ export class VmDetailComponent implements OnChanges, OnInit {
   private showAffinityGroupDialog(): void {
     this.dialogService.showCustomDialog({
       component: AffinityGroupSelectorComponent,
-      styles: { width: '350px' },
-      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
+      styles: {width: '350px'},
+      providers: [{provide: 'virtualMachine', useValue: this.vm}],
       clickOutsideToClose: false
     }).switchMap(dialog => dialog.onHide())
       .subscribe((group?: Array<AffinityGroup>) => {
@@ -194,8 +195,8 @@ export class VmDetailComponent implements OnChanges, OnInit {
   private showSshKeypairResetDialog(): void {
     this.dialogService.showCustomDialog({
       component: SshKeypairResetComponent,
-      styles: { width: '350px' },
-      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
+      styles: {width: '350px'},
+      providers: [{provide: 'virtualMachine', useValue: this.vm}],
       clickOutsideToClose: false
     }).switchMap(dialog => dialog.onHide())
       .subscribe((keyPairName: string) => {
@@ -203,5 +204,17 @@ export class VmDetailComponent implements OnChanges, OnInit {
           this.vm.keyPair = keyPairName;
         }
       });
+  }
+
+  private subscribeToAsyncJobUpdates(): void {
+    this.asyncJobService.event
+      .filter(job => this.vmService.isAsyncJobAVirtualMachineJobWithResult(job))
+      .subscribe(job => this.updateVm(job));
+  }
+
+  private updateVm(job: AsyncJob<VirtualMachine>): void {
+    if (job) {
+      this.vm.state = job.result.state;
+    }
   }
 }

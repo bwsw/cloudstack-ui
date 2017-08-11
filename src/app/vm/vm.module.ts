@@ -3,7 +3,7 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MdSelectModule, MdTooltipModule, MdMenuModule, MdButtonModule, MdIconModule } from '@angular/material';
+import { MdButtonModule, MdIconModule, MdMenuModule, MdSelectModule, MdTooltipModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -12,16 +12,32 @@ import { routes } from '../app.routing';
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 import { SharedModule } from '../shared/shared.module';
+// tslint:disable-next-line
+import { SnapshotModule } from '../snapshot/snapshot.module';
 import { TagsModule } from '../tags/tags.module';
 import { TemplateModule } from '../template';
+import { VmActionsService } from './shared/vm-actions.service';
+import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
 import { VmService } from './shared/vm.service';
+import { VmStartActionSilent } from './vm-actions/silent/vm-start-silent';
+import { VmStopActionSilent } from './vm-actions/silent/vm-stop-silent';
+import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions.component';
+import { VmChangeServiceOfferingAction } from './vm-actions/vm-change-service-offering';
+import { VmConsoleAction } from './vm-actions/vm-console';
+import { VmDestroyAction } from './vm-actions/vm-destroy';
+import { VmRebootAction } from './vm-actions/vm-reboot';
+import { VmResetPasswordAction } from './vm-actions/vm-reset-password';
+import { VmRestoreAction } from './vm-actions/vm-restore';
+import { VmStartAction } from './vm-actions/vm-start';
+import { VmStopAction } from './vm-actions/vm-stop';
+import { VmWebShellAction } from './vm-actions/vm-webshell';
 import { VmCreationFormNormalizationService } from './vm-creation/form-normalization/form-normalization.service';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
+import { VmCreationService } from './vm-creation/services/vm-creation.service';
+import { VmDeploymentService } from './vm-creation/services/vm-deployment.service';
 import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-dialog.component';
 import { VmTemplateComponent } from './vm-creation/template/vm-template.component';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
-import { VmCreationService } from './vm-creation/services/vm-creation.service';
-import { VmDeploymentService } from './vm-creation/services/vm-deployment.service';
 import { VmFilterComponent } from './vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list/vm-list-item.component';
 import { VmListComponent } from './vm-list/vm-list.component';
@@ -47,27 +63,13 @@ import { SnapshotModalComponent } from './vm-sidebar/storage-detail/volume/snaps
 import { SnapshotsComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshots.component';
 import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volume-details/volume-details.component';
 import { VolumeComponent } from './vm-sidebar/storage-detail/volume/volume.component';
+import { VmActionsSidebarComponent } from './vm-sidebar/vm-actions-sidebar/vm-actions-sidebar.component';
 import { VmDetailComponent } from './vm-sidebar/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
-import { vmRouting } from './vm.routing';
-import { VmActionsService } from './shared/vm-actions.service';
-import { WebShellService } from './web-shell/web-shell.service';
-import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
-import { VmStartAction } from './vm-actions/vm-start';
-import { VmStartActionSilent } from './vm-actions/silent/vm-start-silent';
-import { VmStopAction } from './vm-actions/vm-stop';
-import { VmStopActionSilent } from './vm-actions/silent/vm-stop-silent';
-import { VmRebootAction } from './vm-actions/vm-reboot';
-import { VmRestoreAction } from './vm-actions/vm-restore';
-import { VmDestroyAction } from './vm-actions/vm-destroy';
-import { VmResetPasswordAction } from './vm-actions/vm-reset-password';
-import { VmConsoleAction } from './vm-actions/vm-console';
-import { VmWebShellAction } from './vm-actions/vm-webshell';
-import { VmChangeServiceOfferingAction } from './vm-actions/vm-change-service-offering';
-// tslint:disable-next-line
-import { SnapshotModule } from '../snapshot/snapshot.module';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
+import { vmRouting } from './vm.routing';
+import { WebShellService } from './web-shell/web-shell.service';
 
 
 @NgModule({
@@ -108,6 +110,8 @@ import { VmTagsComponent } from './vm-tags/vm-tags.component';
     StorageDetailComponent,
     SshKeypairResetComponent,
     VmListComponent,
+    VmActionsComponent,
+    VmActionsSidebarComponent,
     VmColorComponent,
     VmCreationComponent,
     VmListItemComponent,

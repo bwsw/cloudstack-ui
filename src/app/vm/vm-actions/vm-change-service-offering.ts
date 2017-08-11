@@ -29,6 +29,10 @@ export class VmChangeServiceOfferingAction extends VirtualMachineAction {
   }
 
   public canActivate(vm: VirtualMachine): boolean {
+    if (!vm) {
+      return false;
+    }
+
     return [
       VmStates.Running,
       VmStates.Stopped

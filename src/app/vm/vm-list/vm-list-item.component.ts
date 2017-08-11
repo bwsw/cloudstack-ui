@@ -2,8 +2,6 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { MdMenuTrigger } from '@angular/material';
 import { Color } from '../../shared/models';
 import { VirtualMachine } from '../shared/vm.model';
-import { VmActionsService } from '../shared/vm-actions.service';
-import { VirtualMachineAction } from '../vm-actions/vm-action';
 
 
 @Component({
@@ -17,16 +15,9 @@ export class VmListItemComponent implements OnInit, OnChanges {
   @Output() public onClick = new EventEmitter();
   @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
 
-  public firstRowActions: Array<VirtualMachineAction>;
-  public secondRowActions: Array<VirtualMachineAction>;
-
   public color: Color;
   public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
 
-  constructor(public vmActionsService: VmActionsService) {
-    this.firstRowActions = this.vmActionsService.actions.slice(0, 7);
-    this.secondRowActions = this.vmActionsService.actions.slice(7, 8);
-  }
 
   public ngOnInit(): void {
     this.updateColor();
@@ -38,10 +29,6 @@ export class VmListItemComponent implements OnInit, OnChanges {
         this.isSelected = changes[propName].currentValue;
       }
     }
-  }
-
-  public onAction(action: VirtualMachineAction, vm: VirtualMachine): void {
-    action.activate(vm).subscribe();
   }
 
   public handleClick(e: MouseEvent): void {
