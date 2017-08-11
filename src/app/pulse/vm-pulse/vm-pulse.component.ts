@@ -50,7 +50,8 @@ export class VmPulseComponent implements OnInit, OnDestroy {
     @Inject(MD_DIALOG_DATA) public vmId: string,
     private pulse: PulseService,
     private translateService: TranslateService
-  ) {}
+  ) {
+  }
 
   public ngOnInit() {
     moment.locale(this.translateService.currentLang);
@@ -100,7 +101,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
   public set selectedShift(value) {
     this._selectedShift = value;
     // TODO
-    if (this._selectedAggregations && this._selectedScale && this._shiftAmount) {
+    if (this.shouldUpdate()) {
       this.updateChart();
     }
   }
@@ -111,7 +112,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
 
   public set shiftAmount(value) {
     this._shiftAmount = value;
-    if (this._selectedAggregations && this._selectedScale && this._shiftAmount) {
+    if (this.shouldUpdate()) {
       this.updateChart(this.tabIndex);
     }
   }
@@ -138,6 +139,10 @@ export class VmPulseComponent implements OnInit, OnDestroy {
   public handleNext() {
     this.shiftAmount--;
     this.updateChart();
+  }
+
+  private shouldUpdate(): boolean {
+    return this._selectedAggregations && this._selectedScale && this._shiftAmount != null;
   }
 
   private updateChart(index: number = this.tabIndex, forceUpdate = false) {
