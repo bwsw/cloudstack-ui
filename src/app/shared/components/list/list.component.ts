@@ -10,10 +10,6 @@ import { ListService } from './list.service';
 export class ListComponent {
   constructor(@Optional() public listService: ListService) {}
 
-  public onDetailsHide(): void {
-    this.listService.deselectItem();
-  }
-
   public onAction(): void {
     this.listService.onAction.next();
   }
