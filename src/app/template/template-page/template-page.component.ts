@@ -23,15 +23,15 @@ export class TemplatePageComponent implements OnInit {
   constructor(
     private dialogService: DialogService,
     private storageService: LocalStorageService,
-    private listService: ListService,
+    public listService: ListService,
     private templateActions: TemplateActionsService,
     private templateService: TemplateService,
     private isoService: IsoService
-  ) {}
+  ) {
+  }
 
   public ngOnInit(): void {
     this.viewMode = this.storageService.read('templateDisplayMode') || 'Template';
-    this.listService.onAction.subscribe(() => this.showCreationDialog());
     this.listService.onDelete.subscribe((template) => this.updateList(template));
     this.getTemplates();
   }
@@ -55,7 +55,8 @@ export class TemplatePageComponent implements OnInit {
     this.templateActions.removeTemplate(template)
       .subscribe(
         () => this.updateList(template),
-        () => {}
+        () => {
+        }
       );
   }
 
@@ -73,7 +74,8 @@ export class TemplatePageComponent implements OnInit {
     ];
 
     Observable.forkJoin(
-      this.templateService.getGroupedTemplates<Template>({}, filters, true).map(_ => _.toArray()),
+      this.templateService.getGroupedTemplates<Template>({}, filters, true)
+        .map(_ => _.toArray()),
       this.isoService.getGroupedTemplates<Iso>({}, filters, true).map(_ => _.toArray())
     )
       .subscribe(([templates, isos]) => {

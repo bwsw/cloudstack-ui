@@ -1,6 +1,5 @@
 import {
-  Component,
-  OnInit,
+  Component, Input
 } from '@angular/core';
 import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,8 +10,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: 'sidebar.component.html',
   styleUrls: ['sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit {
-  public isOpen = false;
+export class SidebarComponent {
+  @Input() public isOpen = false;
 
   private dialogsOpen: boolean; // true if any mdl dialog is open
   private dialogWasOpen: boolean; // true if last dialog was closed
@@ -29,10 +28,6 @@ export class SidebarComponent implements OnInit {
           this.dialogWasOpen = true;
         }
       });
-  }
-
-  ngOnInit() {
-    setTimeout(() => this.isOpen = true);
   }
 
   public onDetailsHide(): void {

@@ -97,7 +97,6 @@ export class VmListComponent implements OnInit {
     this.subscribeToStatsUpdates();
     this.subscribeToVmUpdates();
     this.subscribeToVmDestroyed();
-    this.subscribeToVmCreationDialog();
     this.subscribeToAsyncJobUpdates();
   }
 
@@ -242,10 +241,6 @@ export class VmListComponent implements OnInit {
         this.filter();
         this.updateStats();
       });
-  }
-
-  private subscribeToVmCreationDialog(): void {
-    this.listService.onAction.subscribe(() => this.showVmCreationDialog());
   }
 
   private subscribeToAsyncJobUpdates(): void {

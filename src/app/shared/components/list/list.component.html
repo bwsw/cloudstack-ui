@@ -1,18 +1,11 @@
-<div
-  class="detail-list margin-right"
-  [class.open]="listService?.hasSelected()"
->
+<div class="detail-list margin-right">
   <ng-content select="[cs-panels]"></ng-content>
   <ng-content select="[cs-list]"></ng-content>
 </div>
 
-<cs-sidebar
-  *ngIf="listService?.hasSelected()"
->
-  <ng-content select="[cs-sidebar]"></ng-content>
-</cs-sidebar>
+<ng-content select="[cs-sidebar]"></ng-content>
 
 <cs-fab
-  [isOpen]="listService?.hasSelected()"
-  (click)="onAction()"
+  [isOpen]="isOpen"
+  (click)="onAction.next()"
 ></cs-fab>

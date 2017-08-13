@@ -33,8 +33,6 @@ export class SgTemplateListComponent implements OnInit {
       'tags[0].value': 'true'
     });
 
-    this.listService.onAction.subscribe(() => this.showCreationDialog());
-
     accountSecurityGroups
       .subscribe(groups => {
         this.predefinedSecurityGroupList = securityGroupTemplates;

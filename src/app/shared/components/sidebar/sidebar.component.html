@@ -2,6 +2,7 @@
   <ng-content></ng-content>
 </div>
 <div
+  *ngIf="isOpen"
   class="backdrop"
   (click)="onDetailsHide()"
 >
