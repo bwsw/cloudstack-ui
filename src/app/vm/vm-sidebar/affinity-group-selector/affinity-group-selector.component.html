@@ -1,6 +1,7 @@
-<cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<div *ngIf="affinityGroups">
+<div *loading="!affinityGroups || loading">
   <cs-create-update-delete-dialog
+    [enableAssign]="affinityGroups?.length"
+    [enableRemove]="!!groupName"
     [defaultValue]="groupName"
     [options]="groupNames"
     [assignLabel]="'CHOOSE_EXISTING_GROUP'"

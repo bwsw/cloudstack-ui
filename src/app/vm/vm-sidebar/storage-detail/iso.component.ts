@@ -2,6 +2,11 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { Iso } from '../../../template/shared';
 
 
+export const enum IsoEvent {
+  isoAttach,
+  isoDetach
+}
+
 @Component({
   selector: 'cs-iso',
   templateUrl: 'iso.component.html',
@@ -9,6 +14,7 @@ import { Iso } from '../../../template/shared';
 })
 export class IsoComponent {
   @Input() public iso: Iso;
+  @Input() public isoOperationInProgress: boolean;
   @Output() public onIsoAction = new EventEmitter<IsoEvent>();
 
   public attachIso(): void {
@@ -20,7 +26,3 @@ export class IsoComponent {
   }
 }
 
-export const enum IsoEvent {
-  isoAttach,
-  isoDetach
-}

@@ -19,7 +19,7 @@ export class ConfigService {
     return this.config[key as string];
   }
 
-  private getArrayResult(keyArray: Array<string>): Object {
+  private getArrayResult(keyArray: Array<string>): object {
     const result = {};
 
     for (const key in this.config) {
