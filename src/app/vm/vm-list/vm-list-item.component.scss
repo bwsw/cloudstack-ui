@@ -3,22 +3,19 @@
   cursor: pointer;
   z-index: -1;
 
-  & mdl-card {
+  & md-card {
     z-index: 0;
+    line-height: normal;
   }
 }
 
-.custom-card .mdl-card__title {
+.custom-card md-card-header {
   padding-bottom: 5px;
-
-  .mdl-card__title-text {
-    max-width: 85%;
-  }
 }
 
 .custom-card.has-text-color {
-  mdl-card-supporting-text,
-  mdl-card-title {
+  md-card-content,
+  md-card-title {
     color: inherit;
   }
 
@@ -31,7 +28,7 @@
   margin-bottom: 5px;
 }
 
-mdl-card.error {
+md-card.error {
   cursor: auto;
 }
 
@@ -41,25 +38,6 @@ mdl-card.error {
 
 .vm-state {
   float: right;
-}
-
-.vm-popover {
-  width: 280px !important;
-}
-
-button {
-  padding: 10px;
-  display: block;
-}
-
-.popover-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.popover-actions button:last-child {
-  margin-left: auto;
 }
 
 md-divider {

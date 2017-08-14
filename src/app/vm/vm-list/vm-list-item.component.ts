@@ -1,8 +1,17 @@
-import { MdlPopoverComponent } from '@angular-mdl/popover';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
+import { MdMenuTrigger } from '@angular/material';
 import { Color } from '../../shared/models';
-import { VirtualMachine } from '../shared/vm.model';
 import { VmActionsService } from '../shared/vm-actions.service';
+import { VirtualMachine } from '../shared/vm.model';
 import { VirtualMachineAction } from '../vm-actions/vm-action';
 import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 
@@ -16,7 +25,8 @@ export class VmListItemComponent implements OnInit, OnChanges {
   @Input() public item: VirtualMachine;
   @Input() public isSelected: (vm: VirtualMachine) => boolean;
   @Output() public onClick = new EventEmitter();
-  @ViewChild(MdlPopoverComponent) public popoverComponent: MdlPopoverComponent;
+  @Output() public onPulse = new EventEmitter<string>();
+  @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
 
   public firstRowActions: Array<VirtualMachineAction>;
   public secondRowActions: Array<VirtualMachineAction>;
@@ -28,8 +38,9 @@ export class VmListItemComponent implements OnInit, OnChanges {
     public vmActionsService: VmActionsService,
     private vmTagService: VmTagService
   ) {
-    this.firstRowActions = this.vmActionsService.actions.slice(0, 7);
-    this.secondRowActions = this.vmActionsService.actions.slice(7, 8);
+    const { actions } = this.vmActionsService;
+    this.firstRowActions = actions.slice(0, 7);
+    this.secondRowActions = actions.slice(7, actions.length);
   }
 
   public ngOnInit(): void {
@@ -50,16 +61,9 @@ export class VmListItemComponent implements OnInit, OnChanges {
 
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
-    if (!this.popoverComponent.isVisible) {
+    if (!this.mdMenuTrigger.menuOpen) {
       this.onClick.emit(this.item);
-    } else {
-      this.popoverComponent.hide();
     }
-  }
-
-  public togglePopover(event): void {
-    event.stopPropagation();
-    this.popoverComponent.toggle(event);
   }
 
   public getMemoryInMb(): string {

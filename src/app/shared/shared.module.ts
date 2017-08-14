@@ -4,7 +4,7 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdIconModule, MdListModule, MdSelectModule, MdSnackBarModule } from '@angular/material';
+import { MdIconModule, MdListModule, MdSelectModule, MdSnackBarModule, MdCardModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -118,7 +118,8 @@ import { ZoneService } from './services/zone.service';
     MdlSelectModule,
     TranslateModule,
     MdListModule,
-    MdSnackBarModule
+    MdSnackBarModule,
+    MdCardModule
   ],
   exports: [
     GroupedCardListComponent,
@@ -160,6 +161,7 @@ import { ZoneService } from './services/zone.service';
     LoadingDirective,
     MdlTextAreaAutoresizeDirective,
     MdListModule,
+    MdCardModule,
     MdSnackBarModule
   ],
   entryComponents: [
