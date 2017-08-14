@@ -16,6 +16,7 @@ export type VirtualMachineActionType =
   | 'resetPasswordFor'
   | 'console'
   | 'webShell'
+  | 'pulse'
   | 'changeServiceOffering';
 
 export const VmActions = {
@@ -27,6 +28,7 @@ export const VmActions = {
   RESET_PASSWORD: 'resetPasswordFor' as VirtualMachineActionType,
   CONSOLE: 'console' as VirtualMachineActionType,
   WEB_SHELL: 'webShell' as VirtualMachineActionType,
+  PULSE: 'pulse' as VirtualMachineActionType,
   CHANGE_SERVICE_OFFERING: 'changeServiceOfering' as VirtualMachineActionType
 };
 

@@ -32,4 +32,4 @@ fi
 
 # Starting server
 echo ******Starting Nginx******
-docker run -e "API_BACKEND_URL=$API" -e "CONSOLE_BACKEND_URL=$CONSOLE" -d -p $DEPLOY_PORT:80 --name $CONTAINER_NAME $CONFIG_MOUNT bwsw/cloudstack-ui;
+docker run -e "API_BACKEND_URL=$API" -e "CONSOLE_BACKEND_URL=$CONSOLE" -e "PULSE_PLUGIN_ENDPOINT=$PULSE_PLUGIN_ENDPOINT" -d -p $DEPLOY_PORT:80 --name $CONTAINER_NAME $CONFIG_MOUNT bwsw/cloudstack-ui;
