@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BackendResource } from '../../shared/decorators';
-import { BaseBackendService } from '../../shared/services';
+import { BaseBackendService } from '../../shared/services/base-backend.service';
+import { padStart } from '../../shared/utils/padStart';
 import { DayPeriod } from './day-period/day-period.component';
 import { Policy, TimePolicy } from './policy-editor/policy-editor.component';
 import { PolicyType } from './recurring-snapshots.component';
 import { SnapshotPolicy } from './snapshot-policy.model';
 import { Time } from './time-picker/time-picker.component';
-import { padStart } from '../../shared/utils/padStart';
 
 
 export interface SnapshotPolicyCreationParams {

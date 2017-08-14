@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { VolumeAttachmentData, VolumeService } from '../shared/services/volume.service';
-import { JobsNotificationService } from '../shared/services';
 import { Subject } from 'rxjs/Subject';
 import { DialogService } from '../dialog/dialog-module/dialog.service';
 import { Volume } from '../shared/models';
+import { JobsNotificationService } from '../shared/services/jobs-notification.service';
+import { VolumeAttachmentData, VolumeService } from '../shared/services/volume.service';
 
 
 export enum VolumeAttachmentEvent {

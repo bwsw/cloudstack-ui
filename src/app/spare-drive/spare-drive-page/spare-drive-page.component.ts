@@ -1,25 +1,20 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import {
-  DiskOffering,
-  DiskOfferingService,
-  FilterService,
-  JobsNotificationService,
-  Volume,
-  VolumeType,
-  Zone,
-  ZoneService
-} from '../../shared';
+import { DiskOffering, Volume, VolumeType, Zone, } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
+import { DiskOfferingService } from '../../shared/services/disk-offering.service';
+import { FilterService } from '../../shared/services/filter.service';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { UserService } from '../../shared/services/user.service';
 import { VolumeService } from '../../shared/services/volume.service';
+import { ZoneService } from '../../shared/services/zone.service';
 import { SpareDriveActionsService } from '../spare-drive-actions.service';
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { ActivatedRoute, Router } from '@angular/router';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';

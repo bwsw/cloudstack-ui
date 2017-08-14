@@ -7,16 +7,15 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as sortBy from 'lodash/sortBy';
 
-import { Zone } from '../../shared';
-import { InstanceGroup } from '../../shared/models';
-import { FilterService, InstanceGroupService } from '../../shared/services';
+import { InstanceGroup, Zone } from '../../shared/models';
+import { FilterService } from '../../shared/services/filter.service';
+import { InstanceGroupService } from '../../shared/services/instance-group.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { VmState } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
-
-import * as sortBy from 'lodash/sortBy';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { ActivatedRoute, Router } from '@angular/router';
 
 
 export interface VmFilter {

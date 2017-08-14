@@ -5,9 +5,9 @@ import { MdlDialogReference } from '../../dialog/dialog-module';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { SgRulesManagerComponent } from '../../shared';
 import { Volume } from '../../shared/models';
+import { LanguageService, TimeFormat } from '../../shared/services/language.service';
 import { Policy, TimePolicy } from './policy-editor/policy-editor.component';
 import { SnapshotPolicyService } from './snapshot-policy.service';
-import { LanguageService, TimeFormat } from '../../shared/services';
 
 
 export enum PolicyType {

@@ -8,7 +8,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TimeFormat } from '../../../shared/services';
+import { TimeFormat } from '../../../shared/services/language.service';
 import { Policy, TimePolicy } from '../policy-editor/policy-editor.component';
 import { PolicyType } from '../recurring-snapshots.component';
 import { PolicyViewBuilderService } from './policy-view-builder.service';

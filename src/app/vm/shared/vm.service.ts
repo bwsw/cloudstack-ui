@@ -8,13 +8,13 @@ import { BackendResource } from '../../shared/decorators';
 import { AsyncJob, Color, OsType, ServiceOffering, Volume } from '../../shared/models';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { VolumeType } from '../../shared/models/volume.model';
+import { AsyncJobService } from '../../shared/services/async-job.service';
 
 import {
-  AsyncJobService,
-  BaseBackendService,
-  OsTypeService,
-} from '../../shared/services';
-import { ApiFormat } from '../../shared/services/base-backend.service';
+  ApiFormat,
+  BaseBackendService
+} from '../../shared/services/base-backend.service';
+import { OsTypeService } from '../../shared/services/os-type.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { TagService } from '../../shared/services/tag.service';

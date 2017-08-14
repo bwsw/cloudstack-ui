@@ -1,15 +1,14 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
 
-import { TranslateService } from '@ngx-translate/core';
-
-import { OsFamily } from '../../shared';
-import { FilterService } from '../../shared/services';
+import { OsFamily } from '../../shared/models/os-type.model';
 import { Zone } from '../../shared/models/zone.model';
+import { FilterService } from '../../shared/services/filter.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { TemplateFilters } from '../shared/base-template.service';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({

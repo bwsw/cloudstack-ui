@@ -1,16 +1,11 @@
 import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import {
-  AsyncJob,
-  AsyncJobService,
-  InstanceGroup,
-  JobsNotificationService,
-  StatsUpdateService,
-  VmStatisticsComponent,
-  Zone
-} from '../../shared';
+import { AsyncJob, InstanceGroup, VmStatisticsComponent, Zone } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
+import { AsyncJobService } from '../../shared/services/async-job.service';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
+import { StatsUpdateService } from '../../shared/services/stats-update.service';
 import { UserService } from '../../shared/services/user.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VmActionsService } from '../shared/vm-actions.service';

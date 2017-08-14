@@ -1,9 +1,9 @@
 import { MdlTextFieldComponent } from '@angular-mdl/core';
 import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TimeFormat } from '../../../shared/services';
-import { DayPeriod } from '../day-period/day-period.component';
+import { TimeFormat } from '../../../shared/services/language.service';
 import { padStart } from '../../../shared/utils/padStart';
+import { DayPeriod } from '../day-period/day-period.component';
 
 
 export interface Time {

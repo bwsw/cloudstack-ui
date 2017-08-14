@@ -8,10 +8,11 @@ import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { DiskOfferingComponent } from '../../shared/components/disk-offering/disk-offering.component';
 import { OverlayLoadingComponent } from '../../shared/components/overlay-loading/overlay-loading.component';
 import { SliderComponent } from '../../shared/components/slider/slider.component';
-import { DiskStorageService } from '../../shared/index';
 import { DiskOffering, Volume } from '../../shared/models';
 import { VolumeType } from '../../shared/models/volume.model';
-import { DiskOfferingService, JobsNotificationService } from '../../shared/services';
+import { DiskOfferingService } from '../../shared/services/disk-offering.service';
+import { DiskStorageService } from '../../shared/services/disk-storage.service';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { VolumeResizeComponent } from './volume-resize.component';
 

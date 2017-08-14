@@ -1,20 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../../../../dialog/dialog-module/dialog.service';
 
-import {
-  DiskOffering,
-  DiskOfferingService,
-  StatsUpdateService,
-  Volume,
-  VolumeType,
-  Zone,
-  ZoneService
-} from '../../../../shared';
+import { DiskOffering, Volume, VolumeType, Zone, } from '../../../../shared';
+import { DiskOfferingService } from '../../../../shared/services/disk-offering.service';
+import { StatsUpdateService } from '../../../../shared/services/stats-update.service';
+import { ZoneService } from '../../../../shared/services/zone.service';
+import { RecurringSnapshotsComponent } from '../../../../snapshot/recurring-snapshots/recurring-snapshots.component';
+import { VolumeResizeComponent } from '../../volume-resize.component';
 
 import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
-import { VolumeResizeComponent } from '../../volume-resize.component';
-import { DialogService } from '../../../../dialog/dialog-module/dialog.service';
-import { RecurringSnapshotsComponent } from '../../../../snapshot/recurring-snapshots/recurring-snapshots.component';
 
 
 @Component({

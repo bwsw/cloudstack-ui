@@ -3,7 +3,8 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
-import { AffinityGroupService, InstanceGroupService } from '../../../shared/services';
+import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
+import { InstanceGroupService } from '../../../shared/services/instance-group.service';
 import {
   GROUP_POSTFIX,
   SecurityGroupService

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { BaseBackendService } from '.';
 import { BackendResource } from '../decorators';
-import { OsType, OsFamily } from '../models/os-type.model';
+import { OsFamily, OsType } from '../models/os-type.model';
+import { BaseBackendService } from './base-backend.service';
 
 
 @Injectable()

@@ -1,11 +1,10 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-
-import { SecurityGroupService } from '../../shared/services';
-import { SecurityGroup, NetworkRuleType, NetworkProtocol } from '../sg.model';
-import { NotificationService } from '../../shared/services';
 import { MdlDialogReference } from '../../dialog/dialog-module';
+import { NotificationService } from '../../shared/services/notification.service';
+import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { NetworkProtocol, NetworkRuleType, SecurityGroup } from '../sg.model';
 
 
 @Component({

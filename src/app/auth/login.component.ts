@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../shared/services/auth.service';
 
-import { AuthService, NotificationService } from '../shared';
 import { ConfigService } from '../shared/services/config.service';
+import { NotificationService } from '../shared/services/notification.service';
 
 
 @Component({

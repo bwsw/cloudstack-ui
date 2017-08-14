@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MdlDialogReference } from '../../../dialog/dialog-module';
 import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
-import { AffinityGroupService } from '../../../shared/services';
+import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { VirtualMachine } from '../../shared/vm.model';
 
 

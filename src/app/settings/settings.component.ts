@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MdSelectChange } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
+import { Color } from '../shared/models/color.model';
+import { AuthService } from '../shared/services/auth.service';
 
-import { Color, LanguageService, StyleService } from '../shared';
-import { AuthService, NotificationService } from '../shared/services';
-import { TimeFormat } from '../shared/services/language.service';
+import { LanguageService, TimeFormat } from '../shared/services/language.service';
+import { NotificationService } from '../shared/services/notification.service';
+import { StyleService } from '../shared/services/style.service';
 import { UserService } from '../shared/services/user.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 
