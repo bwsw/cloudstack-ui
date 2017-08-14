@@ -3,12 +3,12 @@ import { By } from '@angular/platform-browser';
 import { MdlModule } from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
 
-import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
+import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.mock';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { NetworkRule, SecurityGroup } from '../../security-group/sg.model';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { SgRulesManagerComponent } from './';
 import { FancySelectComponent } from './fancy-select/fancy-select.component';
+import { SgRulesManagerComponent } from './sg-rules-manager.component';
 
 
 const mockSg = new SecurityGroup({
@@ -168,5 +168,6 @@ describe('Sg Rules manager component', () => {
     f.detectChanges();
     expect(comp.savedRules).toEqual(expectedSavedRules);
     expect(comp.rules).toEqual(expectedSavedRules);
+    expect.assertions(2);
   }));
 });

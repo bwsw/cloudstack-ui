@@ -2,7 +2,7 @@ import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
+import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.mock';
 import { MdlDialogReference } from '../../dialog/dialog-module';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { DiskOfferingComponent } from '../../shared/components/disk-offering/disk-offering.component';
@@ -55,9 +55,13 @@ describe('volume resize for root disks', () => {
   beforeEach(async(() => {
     let fixture;
 
-    const dialog = jasmine.createSpyObj('MdlDialogReference', ['hide']);
-    const dialogService = jasmine.createSpyObj('DialogService', ['alert']);
-    const jobsNotificationService = jasmine.createSpyObj('JobsNotificationService', ['add', 'finish', 'fail']);
+    const dialog = { hide: jest.fn() };
+    const dialogService = { alert: jest.fn() };
+    const jobsNotificationService = {
+      add: jest.fn(),
+      finish: jest.fn(),
+      fail: jest.fn()
+    };
 
     const testVolume = new Volume('');
     testVolume.id = '1';
@@ -121,9 +125,13 @@ describe('volume resize for data disks', () => {
   beforeEach(async(() => {
     let fixture;
 
-    const dialog = jasmine.createSpyObj('MdlDialogReference', ['hide']);
-    const dialogService = jasmine.createSpyObj('DialogService', ['alert']);
-    const jobsNotificationService = jasmine.createSpyObj('JobsNotificationService', ['add', 'finish', 'fail']);
+    const dialog = { hide: jest.fn() };
+    const dialogService = { alert: jest.fn() };
+    const jobsNotificationService = {
+      add: jest.fn(),
+      finish: jest.fn(),
+      fail: jest.fn()
+    };
 
     const testVolume = new Volume('');
     testVolume.id = '1';

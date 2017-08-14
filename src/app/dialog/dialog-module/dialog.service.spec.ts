@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { ServiceLocator } from '../../shared/services/service-locator';
 import { DialogService } from './dialog.service';
-import { MdlDialogModule } from './';
+import { MdlDialogModule } from './dialog.module';
 
 
 @Component({

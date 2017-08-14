@@ -1,19 +1,25 @@
 import { TestBed } from '@angular/core/testing';
+import { MockEntityData } from '../../../../testutils/mocks/model-services/entity-data.mock';
+import { MockConfigService } from '../../../../testutils/mocks/model-services/services/mock-config.service.mock';
+import {
+  MockResourceUsageService
+} from '../../../../testutils/mocks/model-services/services/mock-resource-usage.service.mock';
+import { ServiceOffering } from '../../../shared/models/service-offering.model';
+import { ConfigService } from '../../../shared/services/config.service';
+import {
+  ResourceStats,
+  ResourceUsageService
+} from '../../../shared/services/resource-usage.service';
+import { ICustomOfferingRestrictionsByZone } from '../custom-offering-restrictions';
+import {
+  CustomServiceOffering,
+  ICustomServiceOffering
+} from '../custom-service-offering';
 import {
   CustomServiceOfferingService,
   DefaultServiceOfferingConfigurationByZone
 } from './custom-service-offering.service';
-import { ConfigService } from '../../../shared/services/config.service';
-import { MockConfigService } from '../../../../testutils/mocks/model-services/services/mock-config.service.spec';
-import { ResourceStats, ResourceUsageService } from '../../../shared/services/resource-usage.service';
-import {
-  MockResourceUsageService
-} from '../../../../testutils/mocks/model-services/services/mock-resource-usage.service.spec';
-import { ICustomOfferingRestrictionsByZone } from '../custom-offering-restrictions';
-import { CustomServiceOffering, ICustomServiceOffering } from '../custom-service-offering';
 import isEqual = require('lodash/isEqual');
-import { ServiceOffering } from '../../../shared/models/service-offering.model';
-import { MockEntityData } from '../../../../testutils/mocks/model-services/entity-data.spec';
 
 
 interface CustomServiceOfferingFixture {

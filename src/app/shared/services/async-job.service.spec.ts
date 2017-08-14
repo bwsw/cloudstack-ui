@@ -1,22 +1,22 @@
-import { inject, TestBed, async, getTestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Injector } from '@angular/core';
-import { MockBackend, MockConnection } from '@angular/http/testing';
+import { async, fakeAsync, getTestBed, inject, TestBed } from '@angular/core/testing';
 import {
   BaseRequestOptions,
-  XHRBackend,
   Http,
   HttpModule,
   Response,
   ResponseOptions,
-  URLSearchParams
+  URLSearchParams,
+  XHRBackend
 } from '@angular/http';
-import { ServiceLocator } from './service-locator';
+import { MockBackend, MockConnection } from '@angular/http/testing';
+
+import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.mock';
 
 import { AsyncJobService } from './async-job.service';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
-
-import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
+import { ServiceLocator } from './service-locator';
 
 
 describe('Async job service', () => {
@@ -27,14 +27,10 @@ describe('Async job service', () => {
   const mockResponse1 = {
     status: 200,
     body: {
-      'listasyncjobsresponse': {
-        'asyncjobs': [
-          {
-            'jobid': 'resolvable-job-id',
-            'jobstatus': 0,
-            'jobresultcode': 0
-          }
-        ]
+      'queryasyncjobresultresponse': {
+        'jobid': 'resolvable-job-id',
+        'jobstatus': 0,
+        'jobresultcode': 0
       }
     }
   };
@@ -42,15 +38,11 @@ describe('Async job service', () => {
   const mockResponse2 = {
     status: 200,
     body: {
-      'listasyncjobsresponse': {
-        'asyncjobs': [
-          {
-            'jobid': 'resolvable-job-id',
-            'jobstatus': 1,
-            'jobresultcode': 0,
-            'jobresult': {}
-          }
-        ]
+      'queryasyncjobresultresponse': {
+        'jobid': 'resolvable-job-id',
+        'jobstatus': 1,
+        'jobresultcode': 0,
+        'jobresult': {}
       }
     }
   };
@@ -71,6 +63,7 @@ describe('Async job service', () => {
   };
 
   beforeEach(async(() => {
+    jobQueries = 0;
     TestBed.configureTestingModule({
       providers: [
         AsyncJobService,
@@ -109,7 +102,7 @@ describe('Async job service', () => {
       if (params.get('jobid') === 'resolving-job-id') {
         let options: ResponseOptions;
 
-        if (jobQueries <= 2) {
+        if (jobQueries < 2) {
           options = new ResponseOptions(mockResponse1);
           jobQueries++;
           connection.mockRespond(new Response(options));
@@ -131,12 +124,18 @@ describe('Async job service', () => {
   })));
 
   it('job service polls server until a job is resolved', fakeAsync(() => {
+    jest.useFakeTimers();
     asyncJobService.queryJob({ jobid: 'resolving-job-id' })
-      .subscribe(() => expect(true).toBeTruthy());
-    tick(3000);
+      .subscribe(() => {
+        expect(true).toBeTruthy();
+      });
+    jest.runTimersToTime(6000);
+    expect.assertions(1);
+    jest.useRealTimers();
   }));
 
   it('should parse failed job correctly', fakeAsync(() => {
+    jest.useFakeTimers();
     asyncJobService.queryJob({ jobid: 'failing-job-id' })
       .subscribe(
         () => {},
@@ -147,6 +146,8 @@ describe('Async job service', () => {
           expect(error.message).toBeDefined();
         }
       );
-    tick(3000);
+    jest.runTimersToTime(3000);
+    jest.useRealTimers();
+    expect.assertions(4);
   }));
 });

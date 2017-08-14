@@ -1,12 +1,12 @@
 import { async, TestBed } from '@angular/core/testing';
-import { MockEntityData } from '../../../../testutils/mocks/model-services/entity-data.spec';
-import { MockConfigService } from '../../../../testutils/mocks/model-services/services/mock-config.service.spec';
+import { MockEntityData } from '../../../../testutils/mocks/model-services/entity-data.mock';
+import { MockConfigService } from '../../../../testutils/mocks/model-services/services/mock-config.service.mock';
 import {
   MockResourceUsageService
-} from '../../../../testutils/mocks/model-services/services/mock-resource-usage.service.spec';
+} from '../../../../testutils/mocks/model-services/services/mock-resource-usage.service.mock';
 import {
   MockServiceOfferingService
-} from '../../../../testutils/mocks/model-services/services/mock-service-offering.service.spec';
+} from '../../../../testutils/mocks/model-services/services/mock-service-offering.service.mock';
 import { ConfigService, ResourceStats, ResourceUsageService, ServiceOfferingService } from '../../../shared/services';
 import { VmCreationData } from '../data/vm-creation-data';
 import { VmCreationConfigurationData } from '../services/vm-creation.service';
@@ -14,8 +14,12 @@ import { VmCreationFormNormalizationService } from './form-normalization.service
 import { VmCreationState } from '../data/vm-creation-state';
 import { VmCreationFormState } from '../vm-creation.component';
 import { ServiceOffering } from '../../../shared/models';
-import { CustomServiceOfferingService } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
-import { MockCustomServiceOfferingService } from '../../../../testutils/mocks/model-services/services/mock-custom-service-offering.service.spec';
+import {
+  CustomServiceOfferingService
+} from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
+import {
+  MockCustomServiceOfferingService
+} from '../../../../testutils/mocks/model-services/services/mock-custom-service-offering.service.mock';
 
 
 interface VmCreationFixture {

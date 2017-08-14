@@ -4,9 +4,12 @@ import { Observable } from 'rxjs/Observable';
 import { JobsNotificationService } from '../../shared/services';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 import { VmService } from '../../vm/shared/vm.service';
-import { Iso, IsoService, Template, TemplateService } from './';
 import { TemplateActionsService } from './template-actions.service';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { Template } from './template.model';
+import { IsoService } from './iso.service';
+import { TemplateService } from './template.service';
+import { Iso } from './iso.model';
 
 
 @Injectable()
@@ -55,6 +58,10 @@ describe('Template actions service', () => {
   let templateService: TemplateService;
   let isoService: IsoService;
 
+  let templateRegister;
+  let templateCreate;
+  let isoRegister;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -70,13 +77,13 @@ describe('Template actions service', () => {
     templateActionsService = TestBed.get(TemplateActionsService);
     templateService = TestBed.get(TemplateService);
     isoService = TestBed.get(IsoService);
+
+    templateRegister = jest.spyOn(templateService, 'register');
+    templateCreate = jest.spyOn(templateService, 'create');
+    isoRegister = jest.spyOn(isoService, 'register');
   }));
 
   it('should call template register with correct params', () => {
-    const templateRegister = spyOn(templateService, 'register').and.callThrough();
-    const templateCreate = spyOn(templateService, 'create').and.callThrough();
-    const isoRegister = spyOn(isoService, 'register').and.callThrough();
-
     const viewMode = 'Template';
     const templateCreationParams = {
       url: 'testUrl',
@@ -92,10 +99,6 @@ describe('Template actions service', () => {
   });
 
   it('should call template create with correct params', () => {
-    const templateRegister = spyOn(templateService, 'register').and.callThrough();
-    const templateCreate = spyOn(templateService, 'create').and.callThrough();
-    const isoRegister = spyOn(isoService, 'register').and.callThrough();
-
     const viewMode = 'Template';
     const templateCreationParams = {
       snapshotId: 'testSnapshotId',
@@ -110,10 +113,6 @@ describe('Template actions service', () => {
   });
 
   it('should call iso register with correct params', () => {
-    const templateRegister = spyOn(templateService, 'register').and.callThrough();
-    const templateCreate = spyOn(templateService, 'create').and.callThrough();
-    const isoRegister = spyOn(isoService, 'register').and.callThrough();
-
     const viewMode = 'Iso';
     const templateCreationParams = {
       url: 'testUrl',

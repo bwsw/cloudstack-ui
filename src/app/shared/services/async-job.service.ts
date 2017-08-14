@@ -41,7 +41,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
       setTimeout(() => {
         this._queryJob(jobId, observer, entity, entityModel);
         interval = setInterval(() => {
-          if (jobObservable.isStopped) {
+          if (observer.closed) {
             clearInterval(interval);
             return;
           }

@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { BaseTemplateModel } from './base-template.model';
-import { AsyncJobService, BaseBackendCachedService, Utils } from '../../shared/services';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { TagService } from '../../shared/services/tag.service';
+import { Utils } from '../../shared/services/utils.service';
+import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
+import { AsyncJobService } from '../../shared/services/async-job.service';
 
 
 export const TemplateFilters = {

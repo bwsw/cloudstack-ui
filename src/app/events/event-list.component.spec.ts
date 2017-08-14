@@ -1,21 +1,29 @@
-import { MdlModule } from '@angular-mdl/core';
-import { MdlSelectModule } from '@angular-mdl/select';
-import { Component, EventEmitter, Injectable, NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Injectable,
+  NO_ERRORS_SCHEMA,
+  Pipe,
+  PipeTransform
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { DatePickerComponent } from '../shared/components/date-picker';
+import { DatePickerComponent } from '../shared/components/date-picker/date-picker.component';
+import { dateTimeFormat as enDateTimeFormat } from '../shared/components/date-picker/dateUtils';
+import { TableComponent } from '../shared/components/table/table.component';
 import { TopBarComponent } from '../shared/components/top-bar/top-bar.component';
-import { LanguageService } from '../shared/services';
-import { SharedModule } from '../shared/shared.module';
+import { LoadingDirective } from '../shared/directives/loading.directive';
+import { HighLightPipe } from '../shared/pipes/highlight.pipe';
+import { DateTimeFormatterService } from '../shared/services/date-time-formatter.service';
+import { LanguageService } from '../shared/services/language.service';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
 import { EventService } from './event.service';
-import { DateTimeFormatterService } from '../shared/services/date-time-formatter.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { dateTimeFormat as enDateTimeFormat } from '../shared/components/date-picker/dateUtils';
-import { By } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
+import { SessionStorageService } from '../shared/services/session-storage.service';
 
 
 const eventServiceFixture = require('./event.service.fixture.json');
@@ -123,23 +131,23 @@ describe('event list component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
-        MdlModule,
-        MdlSelectModule
       ],
       declarations: [
         MockTranslatePipe,
         EventListComponent,
-        MockNotificationBoxComponent
+        MockNotificationBoxComponent,
+        LoadingDirective,
+        TableComponent,
+        HighLightPipe
       ],
       providers: [
         { provide: DateTimeFormatterService, useClass: MockDateTimeFormatterService },
         { provide: LanguageService, useClass: MockLanguageService },
         { provide: EventService, useClass: MockEventService },
         { provide: TranslateService, useClass: MockTranslateService },
-        { provide: LanguageService, useClass: MockLanguageService },
         { provide: Router, useClass: MockRouter },
         { provide: ActivatedRoute, useClass: ActivatedRouteStub },
+        SessionStorageService
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })
@@ -154,6 +162,7 @@ describe('event list component', () => {
 
   beforeEach(() => {
     sessionStorage.clear();
+    localStorage.clear();
 
     fixture = TestBed.createComponent(EventListComponent);
     comp = fixture.componentInstance;
