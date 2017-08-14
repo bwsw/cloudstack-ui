@@ -2,6 +2,7 @@ import { MdlDefaultTableModel } from '@angular-mdl/core';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
 import { FilterService } from '../shared';
 import { formatIso } from '../shared/components/date-picker/dateUtils';
@@ -10,7 +11,6 @@ import { Language, LanguageService } from '../shared/services/language.service';
 import { SessionStorageService } from '../shared/services/session-storage.service';
 import { Event } from './event.model';
 import { EventService } from './event.service';
-import moment = require('moment');
 
 
 @Component({

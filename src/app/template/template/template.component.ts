@@ -41,7 +41,7 @@ export class TemplateComponent implements OnChanges {
 
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
-    if (this.mdMenuTrigger && !this.mdMenuTrigger.menuOpen) {
+    if (!this.mdMenuTrigger || !this.mdMenuTrigger.menuOpen) {
       this.onClick.emit(this.item);
     }
   }

@@ -21,7 +21,7 @@ import { VirtualMachineActionType } from '../vm-actions/vm-action';
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list-item.component';
-import clone = require('lodash/clone');
+import * as clone from 'lodash/clone';
 
 
 @Component({
