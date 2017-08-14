@@ -1,13 +1,14 @@
-<div *ngIf="!charts[0]?.datasets?.length || error" class="no-charts">
+<div *ngIf="!charts[0]?.datasets?.length || error || !charts[0]?.datasets[0]?.data.length" class="no-charts">
   <img src="img/no-charts.svg" alt="">
   <md-spinner *ngIf="fetching" [strokeWidth]="8"></md-spinner>
-  <span *ngIf="!fetching && !error">{{ 'PULSE.SELECT_DATA' | translate }}</span>
+  <span *ngIf="!fetching && charts[0]?.datasets?.length && !charts[0]?.datasets[0]?.data.length && !error">{{ 'PULSE.NO_DATA' | translate }}</span>
+  <span *ngIf="!fetching && !error && !charts[0]?.datasets?.length">{{ 'PULSE.SELECT_DATA' | translate }}</span>
   <span *ngIf="!fetching && error">{{ 'PULSE.ERROR' | translate }}</span>
 </div>
 <div *ngIf="fetching && charts[0]?.datasets?.length" class="overlay">
   <md-spinner [strokeWidth]="8"></md-spinner>
 </div>
-<ng-container *ngIf="!error">
+<ng-container *ngIf="!error && charts[0]?.datasets[0]?.data.length">
   <div *ngFor="let chart of charts" class="chart">
     <div *ngIf="chart.datasets?.length" class="arrow" (click)="previous.emit()">
       <md-icon>keyboard_arrow_left</md-icon>
