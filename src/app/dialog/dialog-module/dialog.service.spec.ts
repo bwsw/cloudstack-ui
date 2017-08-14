@@ -28,7 +28,7 @@ describe('Custom dialog', () => {
 
   class MockTranslateService {
 
-    public get(key: string | Array<string>, interpolateParams?: Object): Observable<string | any> {
+    public get(key: string | Array<string>, interpolateParams?: object): Observable<string | any> {
       let interpolateString = '';
       for (const k in interpolateParams) {
         if (interpolateParams.hasOwnProperty(k)) {

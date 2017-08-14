@@ -177,9 +177,19 @@
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@ngx-translate/http-loader/-/http-loader-0.1.0.tgz#6029325561d7868fe325a419de2770e98ff1502e"
 
+"@types/chart.js@2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.6.1.tgz#ebb7759403d8b71ceede9188985548896a2ac86f"
+  dependencies:
+    "@types/jquery" "*"
+
 "@types/jasmine@2.5.45":
   version "2.5.45"
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.5.45.tgz#58928a621d014ce6ab59c5a9c41071f7328b0ca9"
+
+"@types/jquery@*":
+  version "3.2.11"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.2.11.tgz#9119f91bb103b16ae8c4375b019a9b341b409f50"
 
 "@types/node@^6.0.46":
   version "6.0.84"
@@ -853,6 +863,26 @@ chalk@^2.0.0, chalk@^2.0.1:
     escape-string-regexp "^1.0.5"
     supports-color "^4.0.0"
 
+"chart.js@github:zolotyx/Chart.js#v2.6.0-csui":
+  version "2.6.0-csui"
+  resolved "https://codeload.github.com/zolotyx/Chart.js/tar.gz/d73eb13c5bbc3ae8e03c3003dcd1571968bb299b"
+  dependencies:
+    chartjs-color "^2.1.0"
+    moment "^2.18.1"
+
+chartjs-color-string@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/chartjs-color-string/-/chartjs-color-string-0.4.0.tgz#57748d4530ae28d8db0a5492182ba06dfdf2f468"
+  dependencies:
+    color-name "^1.0.0"
+
+chartjs-color@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/chartjs-color/-/chartjs-color-2.1.0.tgz#9c39ac830ccd98996ae80c9f11086ff12c98a756"
+  dependencies:
+    chartjs-color-string "^0.4.0"
+    color-convert "^0.5.3"
+
 chokidar@^1.4.1, chokidar@^1.6.0, chokidar@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-1.7.0.tgz#798e689778151c8076b4b360e5edd28cda2bb468"
@@ -958,6 +988,10 @@ codelyzer@~3.0.1:
     semver-dsl "^1.0.1"
     source-map "^0.5.6"
     sprintf-js "^1.0.3"
+
+color-convert@^0.5.3:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-0.5.3.tgz#bdb6c69ce660fadffe0b0007cc447e1b9f7282bd"
 
 color-convert@^1.0.0, color-convert@^1.3.0:
   version "1.9.0"
@@ -3136,14 +3170,14 @@ karma-cli@~1.0.1:
   dependencies:
     resolve "^1.1.6"
 
-karma-coverage-istanbul-reporter@^1.2.1:
+karma-coverage-istanbul-reporter@1.3.0, karma-coverage-istanbul-reporter@^1.2.1:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/karma-coverage-istanbul-reporter/-/karma-coverage-istanbul-reporter-1.3.0.tgz#d142cd9c55731c9e363ef7374e8ef1a31bebfadb"
   dependencies:
     istanbul-api "^1.1.8"
     minimatch "^3.0.4"
 
-karma-jasmine-html-reporter@^0.2.2:
+karma-jasmine-html-reporter@0.2.2, karma-jasmine-html-reporter@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/karma-jasmine-html-reporter/-/karma-jasmine-html-reporter-0.2.2.tgz#48a8e5ef18807617ee2b5e33c1194c35b439524c"
   dependencies:
@@ -3608,6 +3642,14 @@ negotiator@0.6.1:
 ng-dynamic-component@1.0.8:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/ng-dynamic-component/-/ng-dynamic-component-1.0.8.tgz#2383bd260f5bc9d0fd5b935cf1a551f3dc611100"
+
+"ng2-charts@github:andrewbents/ng2-charts#v1.6.2-CSUI":
+  version "1.6.1-CSUI"
+  resolved "https://codeload.github.com/andrewbents/ng2-charts/tar.gz/483c86a1f21a57523d10361605268ebae9139158"
+  dependencies:
+    "@types/chart.js" "2.6.1"
+    karma-coverage-istanbul-reporter "1.3.0"
+    karma-jasmine-html-reporter "0.2.2"
 
 ng2-dragula@1.5.0:
   version "1.5.0"

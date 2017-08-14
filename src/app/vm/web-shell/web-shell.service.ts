@@ -16,15 +16,16 @@ enum AuthModeType {
 
 @Injectable()
 export class WebShellService {
-  constructor(public configService: ConfigService) {}
+  constructor(public configService: ConfigService) {
+  }
 
-  public get isWebShellAddressSpecified(): boolean {
-    return !!this.webShellAddress;
+  public get isWebShellEnabled(): boolean {
+    const extensions = this.configService.get('extensions');
+    return extensions && extensions.webShell;
   }
 
   private get webShellAddress(): string {
-    const extensions = this.configService.get('extensions');
-    return extensions && extensions.webShell && extensions.webShell.address;
+    return 'cs-extensions/webshell';
   }
 
   public isWebShellEnabledForVm(vm: VirtualMachine): boolean {

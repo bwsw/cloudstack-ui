@@ -92,11 +92,8 @@ export class VolumeResizeComponent implements OnInit {
       message: 'VOLUME_RESIZED'
     });
 
-    this.diskOfferingService.get(volume.diskOfferingId)
-      .subscribe(diskOffering => {
-        volume.diskOffering = diskOffering;
-        this.dialog.hide(volume);
-      });
+    volume.diskOffering = this.diskOffering;
+    this.dialog.hide(volume);
   }
 
   private handleVolumeResizeError(error: Error): void {

@@ -37,7 +37,7 @@ export class VolumeComponent implements OnInit {
     private zoneService: ZoneService
   ) {}
 
-  public get loading(): Boolean {
+  public get loading(): boolean {
     return this._loading || this.volume['loading'];
   }
 

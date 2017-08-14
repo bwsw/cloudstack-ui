@@ -1,5 +1,4 @@
 import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
-import * as clone from 'lodash/clone';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import {
@@ -17,11 +16,7 @@ import { ZoneService } from '../../shared/services/zone.service';
 import { VmActionsService } from '../shared/vm-actions.service';
 import { VirtualMachine, VmState } from '../shared/vm.model';
 
-import {
-  VirtualMachineEntityName,
-  VmService
-} from '../shared/vm.service';
-import { VmActions } from '../vm-actions/vm-action';
+import { VirtualMachineEntityName, VmService } from '../shared/vm.service';
 
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import {
@@ -30,6 +25,7 @@ import {
   VmFilter
 } from '../vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list-item.component';
+import clone = require('lodash/clone');
 
 
 const askToCreateVm = 'csui.user.ask-to-create-vm';
@@ -233,7 +229,7 @@ export class VmListComponent implements OnInit {
       .subscribe(observables => {
         observables.forEach(observable => {
           observable.subscribe(job => {
-            const action = this.vmActionsService.getActionByName(job.cmd as VmActions);
+            const action = this.vmActionsService.getActionByName(job.cmd as any);
             this.jobsNotificationService.finish({
               message: action.tokens.successMessage
             });

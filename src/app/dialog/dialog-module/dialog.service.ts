@@ -175,7 +175,7 @@ export class DialogService {
   }
 
   private getConfirmParams(
-    translations: Object,
+    translations: object,
     message: string | ParametrizedTranslation,
     declineText?: string,
     confirmText?: string,

@@ -1,6 +1,6 @@
 {
   "name": "cloudstack-ui",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "license": "Apache-2.0",
   "scripts": {
     "ng": "ng",
@@ -31,10 +31,12 @@
     "@angular/router": "4.1.3",
     "@ngx-translate/core": "^7.0.0",
     "@ngx-translate/http-loader": "^0.1.0",
+    "chart.js": "github:zolotyx/Chart.js#v2.6.0-csui",
     "core-js": "^2.4.1",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "ng-dynamic-component": "1.0.8",
+    "ng2-charts": "github:andrewbents/ng2-charts#v1.6.2-CSUI",
     "ng2-dragula": "1.5.0",
     "ngx-clipboard": "^8.0.2",
     "reflect-metadata": "^0.1.10",

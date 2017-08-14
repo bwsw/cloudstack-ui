@@ -15,8 +15,9 @@ export enum VmActions {
   DESTROY = 'destroy',
   RESET_PASSWORD = 'resetPasswordFor',
   CONSOLE = 'console',
+  CHANGE_SERVICE_OFFERING = 'changeServiceOfering',
   WEB_SHELL = 'webShell',
-  CHANGE_SERVICE_OFFERING = 'changeServiceOfering'
+  PULSE = 'pulse'
 }
 
 @Injectable()
