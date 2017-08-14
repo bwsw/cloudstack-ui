@@ -6,11 +6,6 @@ h4.details-header {
   font-size: 18px;
 }
 
-:host /deep/ .mat-tab-body-content {
-  height: inherit;
-  overflow: hidden;
-}
-
-:host .md-tab-tooltip {
-  height: 40px;
+:host /deep/ .mat-tab-label {
+  min-width: 84px !important;
 }
