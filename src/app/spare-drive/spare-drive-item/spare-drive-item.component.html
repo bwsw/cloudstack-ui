@@ -13,9 +13,9 @@
       </h2>
     </md-card-title>
     <div class="md-card-header-menu">
-        <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
-            <md-icon>more_vert</md-icon>
-        </button>
+      <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
+        <md-icon>more_vert</md-icon>
+      </button>
     </div>
   </md-card-header>
   <md-card-content>
@@ -34,26 +34,30 @@
       </div>
     </div>
   </md-card-content>
-    <md-menu #actionsMenu="mdMenu"
-             [style.width.px]="300"
+  <md-menu
+    #actionsMenu="mdMenu"
+    [style.width.px]="300"
+  >
+    <button
+      md-menu-item
+      (click)="attach()"
     >
-        <button md-menu-item
-                (click)="$event.stopPropagation(); attach()"
-        >
-            <md-icon>attach_file</md-icon>
-            <span>{{ 'ATTACH' | translate }}</span>
-        </button>
-        <button md-menu-item
-                (click)="$event.stopPropagation(); resize()"
-        >
-            <md-icon>photo_size_select_small</md-icon>
-            <span>{{ 'RESIZE' | translate }}</span>
-        </button>
-        <button md-menu-item
-                (click)="$event.stopPropagation(); remove()"
-        >
-            <md-icon>delete</md-icon>
-            <span>{{ 'DELETE' | translate }}</span>
-        </button>
-    </md-menu>
+      <md-icon>attach_file</md-icon>
+      <span>{{ 'ATTACH' | translate }}</span>
+    </button>
+    <button
+      md-menu-item
+      (click)="resize()"
+    >
+      <md-icon>photo_size_select_small</md-icon>
+      <span>{{ 'RESIZE' | translate }}</span>
+    </button>
+    <button
+      md-menu-item
+      (click)="remove()"
+    >
+      <md-icon>delete</md-icon>
+      <span>{{ 'DELETE' | translate }}</span>
+    </button>
+  </md-menu>
 </md-card>
