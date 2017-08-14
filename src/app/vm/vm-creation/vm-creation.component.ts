@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
+import { MdSelectChange, MdDialogRef } from '@angular/material';
+
+import { MdlDialogReference } from '../../dialog/dialog-module';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { DiskOffering, JobsNotificationService } from '../../shared';
-import { AffinityGroup, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../shared/models';
+import { AffinityGroup, InstanceGroup, ServiceOffering } from '../../shared/models';
 import { ResourceUsageService } from '../../shared/services';
 import { BaseTemplateModel } from '../../template/shared';
 import { VirtualMachine } from '../shared/vm.model';
@@ -11,8 +13,8 @@ import { VmCreationData } from './data/vm-creation-data';
 import { VmCreationState } from './data/vm-creation-state';
 import { VmCreationFormNormalizationService } from './form-normalization/form-normalization.service';
 import { KeyboardLayout } from './keyboards/keyboards.component';
-import { VmCreationService } from './vm-creation.service';
-import { VmDeploymentMessage, VmDeploymentService, VmDeploymentStages } from './vm-deployment.service';
+import { VmCreationService } from './services/vm-creation.service';
+import { VmDeploymentMessage, VmDeploymentService, VmDeploymentStages } from './services/vm-deployment.service';
 import throttle = require('lodash/throttle');
 
 
@@ -35,7 +37,7 @@ export const VmCreationStages = {
 };
 
 @Component({
-  selector: 'cs-vm-creation',
+  selector: 'cs-vm-create',
   templateUrl: 'vm-creation.component.html',
   styleUrls: ['vm-creation.component.scss']
 })
@@ -125,13 +127,18 @@ export class VmCreationComponent implements OnInit {
     this.updateFormState();
   }
 
-  public zoneChange(value: Zone) {
-    this.formState.state.zone = value;
+  public zoneChange(change: MdSelectChange) {
+    this.formState.state.zone = change.value;
     this.updateFormState();
   }
 
-  public serviceOfferingChange(value: ServiceOffering) {
-    this.formState.state.serviceOffering = value;
+  public serviceOfferingChange(offering: ServiceOffering) {
+    this.formState.state.serviceOffering = offering;
+    if (offering.areCustomParamsSet) {
+      this.data.serviceOfferings = this.data.serviceOfferings.map(_ =>
+        _.id === offering.id ? offering : _
+      );
+    }
     this.updateFormState();
   }
 
@@ -183,8 +190,8 @@ export class VmCreationComponent implements OnInit {
     this.formState.state.keyboard = value;
   }
 
-  public sshKeyPairChange(value: SSHKeyPair) {
-    this.formState.state.sshKeyPair = value;
+  public sshKeyPairChange(change: MdSelectChange) {
+    this.formState.state.sshKeyPair = change.value;
     this.updateFormState();
   }
 
@@ -278,10 +285,8 @@ export class VmCreationComponent implements OnInit {
       case VmDeploymentStages.IN_PROGRESS:
         this.creationStage = VmCreationStages.vmDeploymentInProgress;
         break;
-      case VmDeploymentStages.TEMP_VM:
-        this.dialogRef.close(deploymentMessage.vm);
-        break;
       case VmDeploymentStages.FINISHED:
+        this.dialogRef.close();
         this.showPassword(deploymentMessage.vm);
         this.notifyOnDeployDone(notificationId);
         break;

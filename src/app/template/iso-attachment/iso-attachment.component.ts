@@ -1,7 +1,10 @@
 import { Component, Inject } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 
 import { Iso } from '../shared';
+import { IsoService } from '../shared/iso.service';
+import { TemplateFilters } from '../shared/base-template.service';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -11,12 +14,27 @@ import { Iso } from '../shared';
 })
 export class IsoAttachmentComponent {
   public selectedIso: Iso;
-  public showIso = true;
+  private filters = [
+    TemplateFilters.featured,
+    TemplateFilters.self
+  ];
+  public zoneId: string;
+
+  readonly isos$: Observable<Array<Iso>> = this.isoService.getGroupedTemplates<Iso>(
+    {},
+    this.filters,
+    true
+  )
+    .map(isos => isos.toArray());
 
   constructor(
-    @Inject(MD_DIALOG_DATA) public zoneId: string,
-    private dialogRef: MdDialogRef<IsoAttachmentComponent>
-  ) { }
+    @Inject(MD_DIALOG_DATA) data,
+    private dialogRef: MdDialogRef<IsoAttachmentComponent>,
+    private isoService: IsoService
+  ) {
+    this.zoneId = data.zoneId;
+  }
+
 
   public onAttach(): void {
     this.dialogRef.close(this.selectedIso);

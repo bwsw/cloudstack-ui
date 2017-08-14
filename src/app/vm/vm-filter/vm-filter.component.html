@@ -1,104 +1,54 @@
-<mdl-card class="options-panel delimiter">
-
-  <mdl-select
+<div class="options-panel delimiter">
+  <md-select
     class="filter-select"
-    *ngIf="groups && mode === 1"
-    [(ngModel)]="selectedGroups"
-    (change)="updateGroups($event)"
+    multiple="true"
+    [placeholder]="'SELECT_ZONES' | translate"
+    [(ngModel)]="selectedZones"
+    (change)="update()"
+  >
+    <md-option *ngFor="let z of zones" [value]="z">{{ z.name }}</md-option>
+  </md-select>
+  <md-select
+    class="filter-select"
     multiple="true"
     [placeholder]="'SELECT_GROUPS' | translate"
+    [(ngModel)]="selectedGroups"
+    (change)="update()"
   >
-    <mdl-option
-      *ngIf="showNoGroupFilter"
-      value="-1"
-    >
-      <em>
-        {{ 'NO_GROUP' | translate }}
-      </em>
-    </mdl-option>
+    <md-option *ngIf="showNoGroupFilter" [value]="noGroup">
+      <em>{{ 'NO_GROUP' | translate }}</em>
+    </md-option>
 
-    <mdl-option
-      mdl-ripple
+    <md-option
       *ngFor="let g of groups"
       [value]="g"
     >
       {{ g.name }}
-    </mdl-option>
-  </mdl-select>
-  <mdl-select
+    </md-option>
+  </md-select>
+
+  <md-select
     class="filter-select"
-    *ngIf="zones && mode === 0"
-    [(ngModel)]="selectedZones"
-    (change)="updateZones($event)"
-    multiple="true"
-    [placeholder]="'SELECT_ZONES' | translate"
-  >
-    <mdl-option mdl-ripple *ngFor="let z of zones" [value]="z">{{ z.name }}</mdl-option>
-  </mdl-select>
-
-  <button
-    (click)="changeMode()"
-    mdl-button
-    mdl-button-type="icon"
-  >
-    <mdl-icon>swap_horiz</mdl-icon>
-  </button>
-
-  <mdl-select
-    class="filter-select"
-    *ngIf="zones && mode === 1"
-    [(ngModel)]="selectedZones"
-    (change)="updateZones($event)"
-    multiple="true"
-    [placeholder]="'SELECT_ZONES' | translate"
-  >
-    <mdl-option mdl-ripple *ngFor="let z of zones" [value]="z">{{ z.name }}</mdl-option>
-  </mdl-select>
-  <mdl-select
-    class="filter-select"
-    *ngIf="groups && mode === 0"
-    [(ngModel)]="selectedGroups"
-    (change)="updateGroups($event)"
-    multiple="true"
-    [placeholder]="'SELECT_GROUPS' | translate"
-  >
-    <mdl-option
-      *ngIf="showNoGroupFilter"
-      value="-1"
-    >
-      <em>
-        {{ 'NO_GROUP' | translate }}
-      </em>
-    </mdl-option>
-
-    <mdl-option
-      mdl-ripple
-      *ngFor="let g of groups"
-      [value]="g"
-    >
-      {{ g.name }}
-    </mdl-option>
-  </mdl-select>
-
-
-  <div class="filter-checkbox">
-    <mdl-checkbox
-      [(ngModel)]="doFilterByColor"
-      (change)="updateColor($event)"
-      (click)="$event.stopPropagation()"
-    >
-      {{ 'GROUP_BY_COLORS' | translate }}
-    </mdl-checkbox>
-  </div>
-
-
-  <mdl-select
-    class="filter-select"
-    [(ngModel)]="selectedStates"
-    (change)="updateStates($event)"
     multiple="true"
     [placeholder]="'SELECT_STATES' | translate"
+    [(ngModel)]="selectedStates"
+    (change)="update()"
   >
-    <mdl-option mdl-ripple *ngFor="let s of states" [value]="s.state">{{ s.name | translate }}</mdl-option>
-  </mdl-select>
-</mdl-card>
+    <md-option *ngFor="let s of states" [value]="s.state">
+      {{ s.name | translate }}
+    </md-option>
+  </md-select>
+  <cs-divider-vertical></cs-divider-vertical>
+  <cs-draggable-select
+    class="filter-select"
+    multiple="true"
+    [placeholder]="'GROUP_BY_LABEL' | translate"
+    [(ngModel)]="selectedGroupings"
+    [dragItems]="availableGroupings"
+    (change)="update()"
+  >
+    <md-option *ngFor="let g of availableGroupings" [value]="g">
+      {{ g.label | translate }}
+    </md-option>
+  </cs-draggable-select>
+</div>

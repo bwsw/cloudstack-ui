@@ -1,33 +1,28 @@
-<div class="dialog">
-  <h3 class="mat-dialog-title">{{ 'INSTALLATION_SOURCE' | translate }}</h3>
-  <div class="mat-dialog-content">
-    <cs-template-filter-list
-      [viewMode]="typeOfSelectedSource"
-      [showDelimiter]="false"
-      [showIsoSwitch]="true"
-      [showRadio]="true"
-      [(selectedTemplate)]="selectedTemplate"
-      [templates]="templates"
-      [isos]="isos"
-      [zoneId]="zoneId"
-      [dialogMode]="true"
-    ></cs-template-filter-list>
-  </div>
-  <div class="mat-dialog-actions">
-    <button
-      mdl-button
-      mdl-colored="primary"
-      (click)="onOk()"
-    >
-      {{ 'SELECT' | translate }}
-    </button>
+<h3 class="mat-dialog-title">{{ 'INSTALLATION_SOURCE' | translate }}</h3>
+<div class="mat-dialog-content">
+  <cs-template-filter-list-selector
+    [viewMode]="typeOfSelectedSource"
+    [showIsoSwitch]="true"
+    [(selectedTemplate)]="selectedTemplate"
+    [templates]="templates"
+    [isos]="isos"
+    [zoneId]="zoneId"
+  ></cs-template-filter-list-selector>
+</div>
+<div class="mat-dialog-actions">
+  <button
+    mdl-button
+    mdl-colored="primary"
+    (click)="onOk()"
+  >
+    {{ 'SELECT' | translate }}
+  </button>
 
-    <button
-      mdl-button
-      mdl-colored="primary"
-      (click)="onCancel()"
-    >
-      {{ 'CANCEL' | translate }}
-    </button>
-  </div>
+  <button
+    mdl-button
+    mdl-colored="primary"
+    (click)="onCancel()"
+  >
+    {{ 'CANCEL' | translate }}
+  </button>
 </div>

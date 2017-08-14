@@ -10,7 +10,8 @@ import { AuthService, ErrorService, LanguageService, LayoutService, Notification
 import { RouterUtilsService } from './shared/services/router-utils.service';
 import { StyleService } from './shared/services/style.service';
 import { ZoneService } from './shared/services/zone.service';
-import { StorageService } from './shared/services/storage.service';
+import { SessionStorageService } from './shared/services/session-storage.service';
+import { MemoryStorageService } from './shared/services/memory-storage.service';
 import { AsyncJobService } from './shared/services/async-job.service';
 import { CacheService } from './shared/services/cache.service';
 
@@ -40,7 +41,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     private languageService: LanguageService,
     private asyncJobService: AsyncJobService,
     private cacheService: CacheService,
-    private storage: StorageService,
+    private sessionStorage: SessionStorageService,
+    private memoryStorage: MemoryStorageService,
     private layoutService: LayoutService,
     private mdlDialogService: MdlDialogService,
     private notification: NotificationService,
@@ -76,7 +78,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
       this.asyncJobService.completeAllJobs();
       this.cacheService.invalidateAll();
-      this.storage.resetInMemoryStorage();
+      this.storageReset();
     });
 
     this.layoutService.drawerToggled.subscribe(() => {
@@ -189,5 +191,10 @@ export class AppComponent implements OnInit, AfterViewInit {
         document.querySelector('.dialog-container').classList.remove('dialog-container-overlay');
       }
     });
+  }
+
+  private storageReset() {
+    this.sessionStorage.reset();
+    this.memoryStorage.reset();
   }
 }

@@ -8,12 +8,15 @@ import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
   styleUrls: ['date-picker-dialog.component.scss']
 })
 export class DatePickerDialogComponent {
+  public config;
   private selectedDate: Date;
 
   constructor(
     private dialogRef: MdDialogRef<DatePickerDialogComponent>,
-    @Inject(MD_DIALOG_DATA) public config
-  ) { }
+    @Inject(MD_DIALOG_DATA) public data
+  ) {
+    this.config = data.datePickerConfig;
+  }
 
   public setSelectedDate(date: Date): void {
     this.selectedDate = date;

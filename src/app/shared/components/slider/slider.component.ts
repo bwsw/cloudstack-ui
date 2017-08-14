@@ -15,7 +15,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ]
 })
 export class SliderComponent implements OnInit, ControlValueAccessor {
-  @Input() public isLogarithmic = true;
+  @Input() public isLogarithmic = false;
   @Input() public label: string;
   @Input() public min: number;
   @Input() public max: number;

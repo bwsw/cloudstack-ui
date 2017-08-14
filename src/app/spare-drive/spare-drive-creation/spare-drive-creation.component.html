@@ -21,21 +21,26 @@
       ></cs-character-count>
       <div>
         <h5>{{ 'ZONE' | translate }}</h5>
-        <mdl-select
+        <md-select
           [(ngModel)]="zoneId"
           id="zone"
           name="zone"
         >
-          <mdl-option *ngFor="let z of zones" [value]="z.id">
+          <md-option
+            *ngFor="let z of zones"
+            [value]="z.id"
+          >
             {{ z.name }}
-          </mdl-option>
-        </mdl-select>
+          </md-option>
+        </md-select>
       </div>
       <div>
         <h5>{{ 'DISK_OFFERING' | translate }}</h5>
         <cs-disk-offering
+          name="diskOffering"
+          [ngModel]="diskOffering"
           [diskOfferingList]="diskOfferings"
-          (offeringUpdated)="updateDiskOffering($event)"
+          (change)="updateDiskOffering($event)"
         ></cs-disk-offering>
       </div>
       <div *ngIf="showResizeSlider && minSize && maxSize">

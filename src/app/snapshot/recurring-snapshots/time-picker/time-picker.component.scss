@@ -1,0 +1,19 @@
+:host mdl-textfield {
+  /deep/ .mdl-textfield__input {
+    text-align: center;
+  }
+  width: 60px;
+}
+
+:host /deep/ cs-day-period mdl-select > div {
+  /deep/ .mdl-textfield__input {
+    text-align: center;
+  }
+  width: 80px;
+}
+
+.delimiter {
+  display: inline-block;
+  width: 4px;
+  text-align: center;
+}

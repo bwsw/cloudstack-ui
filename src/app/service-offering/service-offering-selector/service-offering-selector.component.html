@@ -1,18 +1,23 @@
-<mdl-select
+<md-select
+  class="form-select-control"
   [ngModel]="serviceOffering"
   (change)="changeOffering($event)"
 >
-  <mdl-option
-    *ngFor="let so of serviceOfferings"
-    [value]="so"
-  >
+  <md-option *ngFor="let so of serviceOfferings" [value]="so">
     {{ so.name }}
-  </mdl-option>
-</mdl-select>
+  </md-option>
+</md-select>
 
-<div
-  class="custom-offering-info"
-  *ngIf="customOfferingDescription"
->
-  {{ customOfferingDescription | async }}
+<div class="flex-container">
+  <span *ngIf="customOfferingDescription" class="custom-offering-info">
+    {{ customOfferingDescription | async }}
+  </span>
+  <button
+    *ngIf="serviceOffering?.isCustomized"
+    mdl-button
+    type="button"
+    (click)="changeOffering({ value: serviceOffering })"
+  >
+    {{ 'CHANGE' | translate }}
+  </button>
 </div>

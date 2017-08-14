@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialog } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 import { ListService } from '../../shared/components/list/list.service';
@@ -38,9 +37,9 @@ export class SgTemplateListComponent implements OnInit {
 
     this.listService.onAction.subscribe(() => this.showCreationDialog());
 
-    Observable.forkJoin([securityGroupTemplates, accountSecurityGroups])
-      .subscribe(([templates, groups]) => {
-        this.predefinedSecurityGroupList = templates;
+    accountSecurityGroups
+      .subscribe(groups => {
+        this.predefinedSecurityGroupList = securityGroupTemplates;
         this.customSecurityGroupList = groups;
       });
   }
@@ -64,10 +63,9 @@ export class SgTemplateListComponent implements OnInit {
 
   public showCreationDialog(): void {
     this.dialog.open(SgTemplateCreationComponent, {
-      disableClose: true,
-      panelClass: 'sg-template-creation-dialog'
-    })
-      .afterClosed()
+       disableClose: true,
+       panelClass: 'sg-template-creation-dialog'
+    }).afterClosed()
       .subscribe((template: SecurityGroup) => {
         if (!template) {
           return;
@@ -84,7 +82,7 @@ export class SgTemplateListComponent implements OnInit {
   public showRulesDialog(group: SecurityGroup): void {
     this.dialog.open(SgRulesComponent, {
       panelClass: 'sg-rules-dialog',
-      data: group
+      data: { securityGroup: group }
     });
   }
 }

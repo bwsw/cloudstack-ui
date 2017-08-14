@@ -1,33 +1,29 @@
-<div class="dialog">
-  <h3 class="mat-dialog-title">{{ 'ATTACH_AN_ISO' | translate }}</h3>
-  <div class="mat-dialog-content">
-    <cs-template-filter-list
-      [viewMode]="'Iso'"
-      [showDelimiter]="false"
-      [showIsoSwitch]="false"
-      [showRadio]="true"
-      [(selectedTemplate)]="selectedIso"
-      [dialogMode]="true"
-      [zoneId]="zoneId"
-    ></cs-template-filter-list>
-  </div>
-  <div class="mat-dialog-actions">
-    <button
-      mdl-button
-      mdl-colored="primary"
-      mdl-ripple
-      (click)="onAttach()"
-      [disabled]="!selectedIso"
-    >
-      {{ 'ATTACH' | translate }}
-    </button>
-    <button
-      mdl-button
-      mdl-colored="primary"
-      mdl-ripple
-      (click)="onCancel()"
-    >
-      {{ 'CANCEL' | translate }}
-    </button>
-  </div>
+<h3 class="mat-dialog-title">{{ 'ATTACH_AN_ISO' | translate }}</h3>
+<div class="mat-dialog-content">
+  <cs-template-filter-list-selector
+    [viewMode]="'Iso'"
+    [showIsoSwitch]="false"
+    [(selectedTemplate)]="selectedIso"
+    [isos]="isos$ | async"
+    [zoneId]="zoneId"
+  ></cs-template-filter-list-selector>
+</div>
+<div class="mat-dialog-actions">
+  <button
+    mdl-button
+    mdl-colored="primary"
+    mdl-ripple
+    (click)="onAttach()"
+    [disabled]="!selectedIso"
+  >
+    {{ 'ATTACH' | translate }}
+  </button>
+  <button
+    mdl-button
+    mdl-colored="primary"
+    mdl-ripple
+    (click)="onCancel()"
+  >
+    {{ 'CANCEL' | translate }}
+  </button>
 </div>

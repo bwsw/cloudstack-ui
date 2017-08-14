@@ -1,70 +1,71 @@
 <div class="template-list">
-  <mdl-list>
-    <div *ngFor="let template of templateList">
-      <mdl-list-item
-        lines="2"
-        (click)="$event.stopPropagation(); selectTemplate(template)"
-        [class.selected-template]="selectedTemplate?.id === template?.id"
-        [class.inline-block]="!radio"
+  <md-list>
+    <md-list-item
+      *ngFor="let template of templateList"
+      lines="2"
+      (click)="$event.stopPropagation(); selectTemplate(template)"
+      [class.selected-template]="selectedTemplate?.id === template?.id"
+      [class.inline-block]="!radio"
+    >
+      <md-icon
+        class="os-icon"
+        md-list-avatar
+        [ngSwitch]="template.osType.osFamily"
       >
-        <mdl-list-item-primary-content>
-          <mdl-icon class="os-icon" mdl-list-item-avatar [ngSwitch]="template.osType.osFamily">
-            <ng-template [ngSwitchCase]="'Linux'">
-              <img
-                src="img/os/linux.png"
-                width="40"
-                height="40"
-              >
-            </ng-template>
-            <ng-template [ngSwitchCase]="'Windows'">
-              <img
-                src="img/os/windows.png"
-                width="40"
-                height="40"
-              >
-            </ng-template>
-            <ng-template [ngSwitchCase]="'Mac OS'">
-              <img
-                src="img/os/osx.png"
-                width="40"
-                height="40"
-              >
-            </ng-template>
-            <ng-template ngSwitchDefault>help</ng-template>
-          </mdl-icon>
-          <span
-            class="template-text"
-            [innerHTML]="template.name | highlight:query"
-          ></span>
-          <ng-container *ngIf="!template.isReady">
-            <div
-              class="state-icon"
-              [class.in-progress]="true"
-              [mdTooltip]="'NOT_READY' | translate"
-              mdTooltipPosition="before"
-            ></div>
-          </ng-container>
-          <mdl-list-item-sub-title
-            class="template-text"
-            [innerHTML]="template.displayText | highlight:query"
-          ></mdl-list-item-sub-title>
-        </mdl-list-item-primary-content>
-        <mdl-list-item-secondary-action *ngIf="radio">
-          <mdl-radio
-            *ngIf="selectedTemplate"
-            name="radio"
-            [value]="template.id"
-            [ngModel]="selectedTemplate.id"
-            mdl-ripple
+        <ng-template [ngSwitchCase]="'Linux'">
+          <img
+            src="img/os/linux.png"
+            width="40"
+            height="40"
           >
-          </mdl-radio>
-          <mdl-radio
-            *ngIf="!selectedTemplate"
-            name="radio"
-            mdl-ripple
-          ></mdl-radio>
-        </mdl-list-item-secondary-action>
-      </mdl-list-item>
-    </div>
-  </mdl-list>
+        </ng-template>
+        <ng-template [ngSwitchCase]="'Windows'">
+          <img
+            src="img/os/windows.png"
+            width="40"
+            height="40"
+          >
+        </ng-template>
+        <ng-template [ngSwitchCase]="'Mac OS'">
+          <img
+            src="img/os/osx.png"
+            width="40"
+            height="40"
+          >
+        </ng-template>
+        <ng-template ngSwitchDefault>help</ng-template>
+      </md-icon>
+      <h4 md-line>
+        <span [innerHTML]="template.name | highlight:query"></span>
+        <ng-container *ngIf="!template.isReady">
+          <div
+            class="state-icon"
+            [class.in-progress]="true"
+            [mdTooltip]="'NOT_READY' | translate"
+            mdTooltipPosition="before"
+          ></div>
+        </ng-container>
+      </h4>
+      <p
+        md-line
+        class="md-line-secondary"
+        [innerHTML]="template.displayText | highlight:query"
+      ></p>
+      <span *ngIf="radio">
+        <mdl-radio
+          *ngIf="selectedTemplate"
+          name="radio"
+          [value]="template.id"
+          [ngModel]="selectedTemplate.id"
+          mdl-ripple
+        >
+        </mdl-radio>
+        <mdl-radio
+          *ngIf="!selectedTemplate"
+          name="radio"
+          mdl-ripple
+        ></mdl-radio>
+      </span>
+    </md-list-item>
+  </md-list>
 </div>

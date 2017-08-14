@@ -1,21 +1,22 @@
 import { MdlModule } from '@angular-mdl/core';
 import { MdlSelectModule } from '@angular-mdl/select';
-import { Component, EventEmitter, NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { Component, EventEmitter, Injectable, NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MdDialogModule } from '@angular/material';
-import { By } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { DatePickerComponent } from '../shared/components/date-picker';
 import { TopBarComponent } from '../shared/components/top-bar/top-bar.component';
 import { LanguageService } from '../shared/services';
-
-import { FilterService } from '../shared/services/';
-import { TimeFormat } from '../shared/services/language.service';
 import { SharedModule } from '../shared/shared.module';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
 import { EventService } from './event.service';
+import { DateTimeFormatterService } from '../shared/services/date-time-formatter.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { dateTimeFormat as enDateTimeFormat } from '../shared/components/date-picker/dateUtils';
+import { By } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 const eventServiceFixture = require('./event.service.fixture.json');
@@ -59,25 +60,31 @@ class MockEventService {
   }
 }
 
-class MockFilterService {
-  public init(): any {
-    return {
-      levels: [],
-      types: []
-    };
+@Injectable()
+class MockRouter {
+  public navigate(route: any): Promise<any> {
+    return Promise.resolve(route);
+  }
+}
+
+class ActivatedRouteStub {
+  private _testQueryParams: {} = {};
+
+  get testParams(): {} {
+    return this._testQueryParams;
   }
 
-  public update(): void {}
+  set testParams(params: {}) {
+    this._testQueryParams = params;
+  }
+
+  get snapshot(): {} {
+    return { queryParams: this.testParams };
+  }
 }
 
 class MockLanguageService {
-  public getFirstDayOfWeek(): Observable<number> {
-    return Observable.of(0);
-  }
-
-  public getTimeFormat(): Observable<string | null> {
-    return Observable.of(TimeFormat.AUTO);
-  }
+  public firstDayOfWeek = new BehaviorSubject<number>(0);
 }
 
 @Pipe({
@@ -90,6 +97,20 @@ class MockTranslatePipe implements PipeTransform {
   }
 }
 
+class MockDateTimeFormatterService {
+  public get dateTimeFormat(): any {
+    return enDateTimeFormat;
+  }
+
+  public stringifyToTime(date: Date): string {
+    return '';
+  }
+
+  public stringifyToDate(date: Date): string {
+    return '';
+  }
+}
+
 @Component({
   selector: 'cs-notification-box',
   template: ''
@@ -97,8 +118,8 @@ class MockTranslatePipe implements PipeTransform {
 class MockNotificationBoxComponent {}
 
 describe('event list component', () => {
-  let fixture;
   let comp;
+  let fixture: ComponentFixture<EventListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -114,25 +135,31 @@ describe('event list component', () => {
         MockNotificationBoxComponent
       ],
       providers: [
+        { provide: DateTimeFormatterService, useClass: MockDateTimeFormatterService },
+        { provide: LanguageService, useClass: MockLanguageService },
         { provide: EventService, useClass: MockEventService },
-        { provide: FilterService, useClass: MockFilterService },
         { provide: TranslateService, useClass: MockTranslateService },
-        { provide: LanguageService, useClass: MockLanguageService }
+        { provide: LanguageService, useClass: MockLanguageService },
+        { provide: Router, useClass: MockRouter },
+        { provide: ActivatedRoute, useClass: ActivatedRouteStub },
       ],
       schemas: [NO_ERRORS_SCHEMA]
-    });
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed
+    })
       .overrideComponent(TopBarComponent, {
         set: { template: '<ng-content></ng-content>' }
       })
       .overrideComponent(DatePickerComponent, {
         set: { template: '' }
       })
-      .createComponent(EventListComponent);
+      .compileComponents();
+  }));
+
+  beforeEach(() => {
+    sessionStorage.clear();
+
+    fixture = TestBed.createComponent(EventListComponent);
     comp = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should grab events by date', () => {

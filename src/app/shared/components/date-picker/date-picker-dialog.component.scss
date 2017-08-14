@@ -1,15 +1,8 @@
 /deep/ .date-picker-dialog {
   width: 310px;
-
-  md-dialog-container {
-    padding: 0;
-
-    .mat-dialog-actions:last-child {
-      margin-bottom: 0;
-    }
-  }
+  padding: 0;
 }
 
-:host /deep/ .mat-dialog-actions {
+:host /deep/ .mdl-dialog__actions {
   padding-top: 0;
 }

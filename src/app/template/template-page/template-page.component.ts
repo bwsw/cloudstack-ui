@@ -1,16 +1,12 @@
-import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
-
-import { StorageService } from '../../shared/services/storage.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { BaseTemplateModel, Iso, IsoService, Template, TemplateService } from '../shared';
 import { TemplateFilters } from '../shared/base-template.service';
 import { TemplateActionsService } from '../shared/template-actions.service';
 import { TemplateCreationComponent } from '../template-creation/template-creation.component';
-import { TemplateFilterListComponent } from '../template-filter-list/template-filter-list.component';
 import { MdDialog } from '@angular/material';
-
 
 @Component({
   selector: 'cs-template-page',
@@ -18,17 +14,14 @@ import { MdDialog } from '@angular/material';
   providers: [ListService]
 })
 export class TemplatePageComponent implements OnInit {
+  @HostBinding('class.detail-list-container') public detailListContainer = true;
   public templates: Array<Template>;
   public isos: Array<Iso>;
   public viewMode: string;
 
-  @HostBinding('class.detail-list-container') public detailListContainer = true;
-  @ViewChild(TemplateFilterListComponent) private filterList;
-
   constructor(
     private dialog: MdDialog,
-    private dialogService: DialogService,
-    private storageService: StorageService,
+    private storageService: LocalStorageService,
     private listService: ListService,
     private templateActions: TemplateActionsService,
     private templateService: TemplateService,
@@ -44,24 +37,15 @@ export class TemplatePageComponent implements OnInit {
 
   public showCreationDialog(): void {
     this.dialog.open(TemplateCreationComponent, {
-      data: { mode: this.viewMode },
-      disableClose: true,
-      panelClass: 'template-creation-dialog'
-    })
-      .afterClosed()
+       data: { mode: this.viewMode },
+       disableClose: true,
+       panelClass: 'template-creation-dialog'
+    }).afterClosed()
       .subscribe(templateData => {
         if (templateData) {
           this.updateList();
         }
       });
-  }
-
-  public createTemplate(templateData): void {
-    this.templateActions.createTemplate(templateData, this.viewMode)
-      .subscribe(
-        () => this.updateList(),
-        () => {}
-      );
   }
 
   public removeTemplate(template: BaseTemplateModel): void {
@@ -73,7 +57,7 @@ export class TemplatePageComponent implements OnInit {
   }
 
   private updateList(template?: BaseTemplateModel): void {
-    this.filterList.updateList();
+    this.getTemplates();
     if (template && this.listService.isSelected(template.id)) {
       this.listService.deselectItem();
     }

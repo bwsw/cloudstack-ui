@@ -16,7 +16,7 @@ export class FirewallRulesDetailComponent {
 
   public showRulesDialog(securityGroup: SecurityGroup): void {
     this.dialog.open(SgRulesComponent, {
-      data: securityGroup,
+      data: { securityGroup },
       width: '880px'
     });
   }

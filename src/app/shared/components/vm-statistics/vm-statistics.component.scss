@@ -1,9 +1,8 @@
 @import '../../../../style/__variables.scss';
 
-.stat-card-mdl {
-  display: inline-flex;
-  margin: 15px 0 15px 15px;
-  min-height: 156px;
+.tab-switch {
+  margin: 0 auto 0px 15px;
+  width: 100% !important;
 }
 
 .progress {
@@ -18,12 +17,18 @@
 }
 
 .single-bar {
-  margin-top: 24px;
+  margin-top: 24px !important;
 }
 
 .bar {
   padding-bottom: 4px;
   display: inline-block;
+  max-width: 100%;
+  margin-bottom: 20px;
+
+  &.bar:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .second-bar {
@@ -37,6 +42,12 @@
   &.open {
     margin-right: $sidebar-width;
   }
+
+  & .stat-list-container {
+    min-height: 156px;
+    max-width: 100%;
+    margin: 0 15px 15px 0;
+  }
 }
 
 .stat-values {
@@ -46,8 +57,11 @@
   display: inline-block;
 }
 
-.stat-card-wrapper {
-  display: inline-block;
+.stat-list-container md-card {
+  display: inline-flex;
+  min-height: 156px;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .footnote {
@@ -72,6 +86,8 @@ div.closed {
 .stat-section {
   width: 100%;
   flex-direction: column !important;
+  box-shadow: none !important;
+  margin: 0px;
 }
 
 .stat-collapse {
@@ -79,11 +95,16 @@ div.closed {
 }
 
 .stat-header {
-  margin: 18px 0;
+  margin: 18px  0 8px 0 !important;
   padding-left: 15px;
   align-self: auto;
 }
 
-:host /deep/ mdl-card-actions {
+:host /deep/ md-card-actions {
   padding: 0;
+}
+
+md-card md-card-content {
+  padding: 0px 16px 16px 16px;
+  margin: 0px;
 }

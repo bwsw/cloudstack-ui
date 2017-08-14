@@ -1,112 +1,52 @@
-<mdl-card class="stat-section options-panel">
+<div class="stat-section options-panel">
   <h4 class="stat-header">
     {{ 'RESOURCE_USAGE' | translate }}
     <button
       mdl-button
-      mdl-ripple
       mdl-button-type="icon"
       class="toggle"
       [class.closed]="!isOpen"
       (click)="handleCollapse($event)"
     >
-      <mdl-icon>keyboard_arrow_up</mdl-icon>
+      <md-icon>keyboard_arrow_up</md-icon>
     </button>
   </h4>
   <div class="stat-list" [class.closed]="!isOpen">
-    <div class="stat-card-wrapper">
-      <mdl-card class="stat-card-mdl" mdl-shadow="2">
-        <mdl-card-title class="progress-title">
-          <h2 mdl-card-title-text>{{ 'VMS' | translate }}</h2>
-        </mdl-card-title>
-        <mdl-card-supporting-text class="progress single-bar" *loading="fetching">
-          <div class="bar">{{ 'DEPLOYED_STATS' | translate }}</div>
-          <div class="stat-values">
-            {{ instances }}
+    <mdl-tabs
+      class="tab-switch"
+      [mdl-tab-active-index]="mode"
+      (mdl-tab-active-changed)="switchMode()"
+    >
+      <mdl-tab-panel>
+        <mdl-tab-panel-title>
+          <span>{{ 'USED' | translate }}</span>
+        </mdl-tab-panel-title>
+      </mdl-tab-panel>
+      <mdl-tab-panel>
+        <mdl-tab-panel-title>
+          <span>{{ 'FREE' | translate }}</span>
+        </mdl-tab-panel-title>
+      </mdl-tab-panel>
+    </mdl-tabs>
+    <div class="stat-list-container">
+      <md-card *ngFor="let stat of statsList" class="stat-card-md">
+        <md-card-header>
+          <md-card-title>
+            <h2 class="md-card-title-text">{{ stat.header | translate }}</h2>
+          </md-card-title>
+        </md-card-header>
+        <md-card-content *loading="fetching">
+          <div
+            *ngFor="let bar of stat.bars; first as f; last as l"
+            class="bar"
+            [class.single-bar]="f && l"
+          >
+            {{ bar.title | translate }}
+            <div class="stat-values">{{ bar.value() | async}}</div>
+            <mdl-progress [progress]="bar.progress()"></mdl-progress>
           </div>
-          <div>
-            <mdl-progress
-              [progress]="progressForInstances">
-            </mdl-progress>
-          </div>
-        </mdl-card-supporting-text>
-      </mdl-card>
-      <mdl-card class="stat-card-mdl" mdl-shadow="2">
-        <mdl-card-title class="progress-title">
-          <h2 mdl-card-title-text>{{ 'COMPUTATIONAL_RESOURCES' | translate }}</h2>
-        </mdl-card-title>
-        <mdl-card-supporting-text class="progress" *loading="fetching">
-          <div class="bar">{{ 'CPUS' | translate }}</div>
-          <div class="stat-values">
-            {{ cpus }}
-          </div>
-          <div>
-            <mdl-progress [progress]="progressForCpus"></mdl-progress>
-          </div>
-          <div class="bar second-bar">{{ 'RAM' | translate }}</div>
-          <div class="stat-values second-bar">
-            {{ memory | async }}
-          </div>
-          <div>
-            <mdl-progress
-              [progress]="progressForMemory">
-            </mdl-progress>
-          </div>
-        </mdl-card-supporting-text>
-      </mdl-card>
-    </div>
-    <div class="stat-card-wrapper">
-      <mdl-card class="stat-card-mdl" mdl-shadow="2">
-        <mdl-card-title class="progress-title">
-          <h2 mdl-card-title-text>{{ 'VOLUMES' | translate }}</h2>
-        </mdl-card-title>
-        <mdl-card-supporting-text class="progress" *loading="fetching">
-          <div class="bar">{{ 'VOLUMES' | translate }}</div>
-          <div class="stat-values">
-            {{ volumes }}
-          </div>
-          <div>
-            <mdl-progress
-              [progress]="progressForVolumes"
-            ></mdl-progress>
-          </div>
-          <div class="bar second-bar">{{ 'SNAPSHOTS' | translate }}</div>
-          <div class="stat-values second-bar">
-            {{ snapshots }}
-          </div>
-          <div>
-            <mdl-progress
-              [progress]="progressForSnapshots">
-            </mdl-progress>
-          </div>
-        </mdl-card-supporting-text>
-      </mdl-card>
-
-      <mdl-card class="stat-card-mdl" mdl-shadow="2">
-        <mdl-card-title class="progress-title">
-          <h2 mdl-card-title-text>{{ 'STORAGE' | translate }}</h2>
-        </mdl-card-title>
-        <mdl-card-supporting-text class="progress" *loading="fetching">
-          <div class="bar">{{ 'PRIMARY_(STORAGE)' | translate }}</div>
-          <div class="stat-values">
-            {{ primaryStorage | async }}
-          </div>
-          <div>
-            <mdl-progress
-              [progress]="progressForPrimaryStorage">
-            </mdl-progress>
-          </div>
-          <div class="bar second-bar">{{ 'SECONDARY_(STORAGE)' | translate }}</div>
-          <div class="stat-values second-bar">
-            {{ secondaryStorage | async }}
-          </div>
-          <div>
-            <mdl-progress
-              [progress]="progressForSecondaryStorage">
-            </mdl-progress>
-          </div>
-        </mdl-card-supporting-text>
-      </mdl-card>
+        </md-card-content>
+      </md-card>
     </div>
   </div>
-  <mdl-card-actions class="stat-collapse"></mdl-card-actions>
-</mdl-card>
+</div>

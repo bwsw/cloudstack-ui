@@ -6,3 +6,22 @@ cs-template {
   text-align: right;
   margin: 5px;
 }
+
+.md-card-input-copy {
+  max-width: 80%;
+}
+
+md-icon {
+  line-height: 48px;
+}
+
+.disc-icon-container {
+  display: flex;
+  align-items: center;
+  height: 48px;
+}
+
+.panel-title-container {
+  display: flex;
+  justify-content: center;
+}

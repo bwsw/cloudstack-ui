@@ -16,7 +16,6 @@ import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 export class SgRulesComponent {
   @ViewChild('rulesForm') public rulesForm: NgForm;
 
-  public securityGroup: SecurityGroup;
   public type: NetworkRuleType;
   public protocol: NetworkProtocol;
   public startPort: number;
@@ -24,6 +23,7 @@ export class SgRulesComponent {
   public icmpCode: number;
   public endPort: number;
   public cidr: string;
+  public securityGroup: SecurityGroup;
 
   public adding: boolean;
 
@@ -43,13 +43,12 @@ export class SgRulesComponent {
 
   constructor(
     public dialogRef: MdDialogRef<SgRulesComponent>,
+    @Inject(MD_DIALOG_DATA) data,
     private securityGroupService: SecurityGroupService,
     private notificationService: NotificationService,
-    @Inject(MD_DIALOG_DATA) data: SecurityGroup,
     private translateService: TranslateService
   ) {
-    this.securityGroup = data;
-
+    this.securityGroup = data.securityGroup;
     this.cidr = '0.0.0.0/0';
     this.protocol = NetworkProtocols.TCP;
     this.type = NetworkRuleTypes.Ingress;

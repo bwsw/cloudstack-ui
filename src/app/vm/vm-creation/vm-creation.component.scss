@@ -3,9 +3,29 @@
   display: block;
 }
 
+:host .overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .message {
+    position: static;
+    transform: none;
+  }
+
+  mdl-progress {
+    width: 500px;
+  }
+}
+
+:host mdl-textfield {
+  padding-top: 15px;
+}
+
 .vm-creation-container {
   position: relative;
-  min-height: 120px;
+  padding: 0.9em;
+  min-height: 200px;
 
   /deep/ cs-loader {
     position: absolute;
@@ -18,7 +38,7 @@
 
 .container {
   display: flex;
-  padding: 15px 16px 0;
+  padding: 15px 0;
   justify-content: space-between;
 }
 

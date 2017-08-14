@@ -1,11 +1,14 @@
-import { MdlPopoverComponent } from '@angular-mdl/popover';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MdDialog } from '@angular/material';
-import { DiskOffering, Volume, Zone } from '../../shared/models';
-import { DiskOfferingService, VolumeAttachmentData, ZoneService } from '../../shared/services';
-import { VolumeResizeComponent } from '../../vm/vm-sidebar/volume-resize.component';
-import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
+import { Component, Input, EventEmitter, Output, ViewChild, OnInit } from '@angular/core';
+import { MdMenuTrigger, MdDialog } from '@angular/material';
 
+import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
+import { VolumeResizeComponent } from '../../vm/vm-sidebar/volume-resize.component';
+import {
+  DiskOfferingService,
+  VolumeAttachmentData,
+  ZoneService
+} from '../../shared/services';
+import { DiskOffering, Volume, Zone } from '../../shared/models';
 
 @Component({
   selector: 'cs-spare-drive-item',
@@ -13,13 +16,13 @@ import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-d
   styleUrls: ['spare-drive-item.component.scss']
 })
 export class SpareDriveItemComponent implements OnInit {
-  @Input() public isSelected: boolean;
-  @Input() public volume: Volume;
+  @Input() public isSelected: (volume) => boolean;
+  @Input() public item: Volume;
   @Output() public onClick = new EventEmitter();
   @Output() public onVolumeAttached = new EventEmitter<VolumeAttachmentData>();
   @Output() public onDelete = new EventEmitter();
   @Output() public onResize = new EventEmitter();
-  @ViewChild(MdlPopoverComponent) public popoverComponent: MdlPopoverComponent;
+  @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
 
   public diskOfferings: Array<DiskOffering>;
 
@@ -32,33 +35,38 @@ export class SpareDriveItemComponent implements OnInit {
   public ngOnInit(): void {
     let zone;
 
-    this.zoneService.get(this.volume.zoneId)
+    this.zoneService
+      .get(this.item.zoneId)
       .switchMap((_zone: Zone) => {
         zone = _zone;
         return this.diskOfferingService.getList({ zoneId: zone.id });
       })
       .subscribe(diskOfferings => {
         this.diskOfferings = diskOfferings.filter((diskOffering: DiskOffering) => {
-          return this.diskOfferingService.isOfferingAvailableForVolume(diskOffering, this.volume, zone);
+          return this.diskOfferingService.isOfferingAvailableForVolume(
+            diskOffering,
+            this.item,
+            zone
+          );
         });
       });
+
   }
 
   public attach(): void {
     this.dialog
-      .open(SpareDriveAttachmentComponent, {
-        data: {
-          volume: this.volume,
-          zoneId: this.volume.zoneId
-        }
-      })
-      .afterClosed()
+     .open(SpareDriveAttachmentComponent, {
+       data: {
+         volume: this.item,
+         zoneId: this.item.zoneId
+       }
+     }).afterClosed()
       .subscribe(virtualMachineId => {
         if (!virtualMachineId) {
           return;
         }
         this.onVolumeAttached.emit({
-          id: this.volume.id,
+          id: this.item.id,
           virtualMachineId
         });
       });
@@ -66,21 +74,18 @@ export class SpareDriveItemComponent implements OnInit {
 
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
-    if (!this.popoverComponent.isVisible) {
-      this.onClick.emit(this.volume);
-    } else {
-      this.popoverComponent.hide();
+    if (!this.mdMenuTrigger.menuOpen) {
+      this.onClick.emit(this.item);
     }
   }
 
   public resize(): void {
     this.dialog.open(VolumeResizeComponent, {
-      data: {
-        volume: this.volume,
-        diskOfferingList: this.diskOfferings
-      }
-    })
-      .afterClosed()
+       data: {
+         volume: this.item,
+         diskOfferingList: this.diskOfferings
+       }
+    }).afterClosed()
       .subscribe(resizedVolume => {
         if (resizedVolume) {
           this.onVolumeResize(resizedVolume);
@@ -89,11 +94,11 @@ export class SpareDriveItemComponent implements OnInit {
   }
 
   public remove(): void {
-    this.onDelete.next(this.volume);
+    this.onDelete.next(this.item);
   }
 
   private onVolumeResize(volume: Volume): void {
-    this.volume.size = volume.size;
-    this.onResize.next(this.volume);
+    this.item.size = volume.size;
+    this.onResize.next(this.item);
   }
 }

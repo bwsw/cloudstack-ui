@@ -49,36 +49,36 @@
       </div>
       <div [class.column]="!snapshot">
         <div>
-          <mdl-select
-            [label]="'OS_TYPE' | translate"
-            floating-label
+          <md-select
+            class="form-select-control"
+            [placeholder]="'OS_TYPE' | translate"
             [(ngModel)]="osTypeId"
             id="osType"
             name="osType"
           >
-            <mdl-option
+            <md-option
               *ngFor="let osType of osTypes"
               [value]="osType.id"
             >
               {{ osType.description }}
-            </mdl-option>
-          </mdl-select>
+            </md-option>
+          </md-select>
         </div>
         <div *ngIf="!snapshot">
-          <mdl-select
-            [label]="'ZONE' | translate"
-            floating-label
+          <md-select
+            class="form-select-control"
+            [placeholder]="'ZONE' | translate"
             [(ngModel)]="zoneId"
             id="serviceOffering"
             name="serviceOffering"
           >
-            <mdl-option
+            <md-option
               *ngFor="let zone of zones"
               [value]="zone.id"
             >
               {{ zone.name }}
-            </mdl-option>
-          </mdl-select>
+            </md-option>
+          </md-select>
         </div>
         <div>
           <mdl-checkbox

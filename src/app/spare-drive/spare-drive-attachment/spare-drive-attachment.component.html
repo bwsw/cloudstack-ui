@@ -5,16 +5,19 @@
   <form (ngSubmit)="attach($event)" #volumeAttachmentForm="ngForm" novalidate>
     <div class="mat-dialog-content">
       <div>
-        <mdl-select
+        <md-select
           *ngIf="virtualMachineId"
           [(ngModel)]="virtualMachineId"
           id="vm"
           name="vm"
         >
-          <mdl-option *ngFor="let vm of virtualMachines" [value]="vm.id">
+          <md-option
+            *ngFor="let vm of virtualMachines"
+            [value]="vm.id"
+          >
             {{ vm.name }}
-          </mdl-option>
-        </mdl-select>
+          </md-option>
+        </md-select>
       </div>
       <div *ngIf="!virtualMachineId">{{ 'VOLUME_ATTACHMENT_NO_VMS_IN_ZONE' | translate }}</div>
     </div>
@@ -29,7 +32,7 @@
         {{ (virtualMachineId ? 'ATTACH' : 'OK') | translate }}
       </button>
       <button
-        *ngIf="virtualMachineId"
+      *ngIf="virtualMachineId"
         mdl-colored="primary"
         mdl-button
         mdl-ripple

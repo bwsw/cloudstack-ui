@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../../../dialog/dialog-module/dialog.service';
+import { MdDialog } from '@angular/material';
 
 import {
   DiskOffering,
@@ -12,8 +11,10 @@ import {
   Zone,
   ZoneService
 } from '../../../../shared';
-import { VolumeResizeComponent } from '../../volume-resize.component';
+
 import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
+import { VolumeResizeComponent } from '../../volume-resize.component';
+import { RecurringSnapshotsComponent } from '../../../../snapshot/recurring-snapshots/recurring-snapshots.component';
 
 
 @Component({
@@ -31,13 +32,12 @@ export class VolumeComponent implements OnInit {
 
   constructor(
     private dialog: MdDialog,
-    private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private statsUpdateService: StatsUpdateService,
     private zoneService: ZoneService
   ) {}
 
-  public get loading(): Boolean {
+  public get loading(): boolean {
     return this._loading || this.volume['loading'];
   }
 
@@ -57,27 +57,28 @@ export class VolumeComponent implements OnInit {
     this.onDetach.emit(this.volume);
   }
 
-  public showVolumeResizeDialog(volume: Volume): void {
+  public showVolumeResizeDialog(): void {
     this.getOfferings().switchMap(diskOfferingList => {
       this._loading = false;
       return this.dialog.open(VolumeResizeComponent, {
-        panelClass: 'volume-resize-dialog',
-        data: {
-          volume,
-          diskOfferingList
-        }
+         panelClass: 'volume-resize-dialog',
+         data: { volume: this.volume, diskOfferingList: diskOfferingList }
       }).afterClosed();
-    })
-      .subscribe(resizedVolume => {
-        if (resizedVolume) {
-          this.onVolumeResize(resizedVolume);
-        }
-      });
+    }).subscribe(resizedVolume => {
+       if (resizedVolume) {
+         this.onVolumeResize(resizedVolume);
+       }
+     });
+  }
+
+  public showRecurringSnapshotsDialog(): void {
+    this.dialog.open(RecurringSnapshotsComponent, {
+      data: this.volume
+    });
   }
 
   public takeSnapshot(volume: Volume): void {
     this.dialog.open(SnapshotCreationComponent, {
-      panelClass: 'snapshot-creation-dialog',
       data: volume
     });
   }

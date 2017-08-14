@@ -7,17 +7,19 @@ import { TemplateCreationComponent } from '../../../../../template/template-crea
 import { Snapshot, Volume } from '../../../../../shared/models';
 import { StatsUpdateService } from '../../../../../shared/services/stats-update.service';
 import { SnapshotService } from '../../../../../shared/services/snapshot.service';
+import { Action } from '../../../../../shared/interfaces/action.interface';
+import { ActionsService } from '../../../../../shared/interfaces/action-service.interface';
 
 
-export interface SnapshotAction {
+export interface SnapshotAction extends Action<Snapshot> {
   name: string;
   icon: string;
   activate(snapshot: Snapshot, volume?: Volume): void;
 }
 
 @Injectable()
-export class SnapshotActionsService {
-  public Actions: Array<SnapshotAction> = [
+export class SnapshotActionsService implements ActionsService<Snapshot, SnapshotAction> {
+  public actions: Array<SnapshotAction> = [
     {
       name: 'CREATE_TEMPLATE_BUTTON',
       icon: 'add',
@@ -78,7 +80,6 @@ export class SnapshotActionsService {
             id: notificationId,
             message: 'SNAPSHOT_DELETE_FAILED'
           });
-        }
-      );
+        });
   }
 }

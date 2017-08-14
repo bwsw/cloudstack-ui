@@ -1,33 +1,38 @@
-<mdl-card
+<md-card
   class="custom-card"
-  mdl-shadow="2"
-  [class.card-selected]="isSelected"
-  [class.error]="vm.state === 'Error'"
+  [class.card-selected]="isSelected(item)"
+  [class.error]="item.state === 'Error'"
   (click)="handleClick($event)"
   [style.background-color]="color.value"
   [style.color]="color?.textColor"
   [class.has-text-color]="color?.textColor"
-  [class.arrow]="popover.isVisible"
 >
-  <mdl-card-title>
-    <div
-      class="state-icon"
-      [class.running]="vm.state === 'Running'"
-      [class.stopped]="vm.state === 'Stopped'"
-      [class.error]="vm.state === 'Error'"
-      [class.in-progress]="vm.state !== 'Running' && vm.state !== 'Stopped'"
-      [mdTooltip]="vm.state.toUpperCase() | translate"
-    ></div>
-    <h2
-      mdl-card-title-text
-      [mdTooltip]="vm.name"
-    >
-      {{ vm.name }}
-    </h2>
-  </mdl-card-title>
-  <mdl-card-supporting-text>
-    <div class="os-type">OS {{ vm.osType.description }}</div>
-    <div class="vm-ip-address">{{ vm.nic[0].ipAddress ? vm.nic[0].ipAddress : ("IP_NA" | translate) }}</div>
+  <md-card-header>
+    <md-card-title>
+      <h2
+        class="md-card-title-text"
+        [mdTooltip]="item.name"
+      >
+        <span
+          class="state-icon"
+          [class.running]="item.state === 'Running'"
+          [class.stopped]="item.state === 'Stopped'"
+          [class.error]="item.state === 'Error'"
+          [class.in-progress]="item.state !== 'Running' && item.state !== 'Stopped'"
+          [mdTooltip]="item.state.toUpperCase() | translate"
+        ></span>
+        {{ item.name }}
+      </h2>
+    </md-card-title>
+    <div class="md-card-header-menu">
+      <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
+        <md-icon>more_vert</md-icon>
+      </button>
+    </div>
+  </md-card-header>
+  <md-card-content>
+    <div class="os-type">OS {{ item?.osType?.description }}</div>
+    <div class="vm-ip-address">{{ item.nic[0].ipAddress ? item.nic[0].ipAddress : ("IP_NA" | translate) }}</div>
     <table style="width: 100%; text-align: center;">
       <thead>
       <tr>
@@ -37,46 +42,43 @@
       </tr>
       </thead>
       <tr>
-        <td>{{ 'CPU_MHZ' | translate:({ count: vm.cpuNumber, speed: vm.cpuSpeed }) }}</td>
+        <td>{{ 'CPU_MHZ' | translate:({ count: item.cpuNumber, speed: item.cpuSpeed }) }}</td>
         <td>
-          <ng-container *ngIf="vm.memory < gigabyte">
+          <ng-container *ngIf="item.memory < gigabyte">
             {{ 'MB_VALUE' | translate:({ value: getMemoryInMb() }) }}
           </ng-container>
-          <ng-container *ngIf="vm.memory >= gigabyte">
+          <ng-container *ngIf="item.memory >= gigabyte">
             {{ 'GB_VALUE' | translate:({ value: getMemoryInGb() }) }}
           </ng-container>
         </td>
-        <td>{{ 'GB_VALUE' | translate:({ value: vm.getDisksSize().toFixed(2) }) }}</td>
+        <td>{{ 'GB_VALUE' | translate:({ value: item.getDisksSize().toFixed(2) }) }}</td>
       </tr>
     </table>
-  </mdl-card-supporting-text>
-  <mdl-card-menu>
-    <button
-      mdl-button
-      (click)="$event.stopPropagation(); popover.toggle($event)"
-      mdl-button-type="icon"
-      mdl-ripple>
-      <mdl-icon>more_vert</mdl-icon>
-    </button>
-  </mdl-card-menu>
-  <mdl-popover
-    class="card-popover vm-popover"
-    #popover
-    [hide-on-click]="true"
-    [style.width.px]="300"
-  >
-    <div mdl-shadow="6" class="popover-actions">
+
+  </md-card-content>
+  <md-menu #actionsMenu="mdMenu">
+    <ng-container *ngFor="let action of firstRowActions">
       <button
-        *ngFor="let a of actions"
-        (click)="getAction($event, a.nameLower)"
-        [disabled]="!vm.canApply(a.nameLower)"
-        [mdTooltip]="a.nameCaps | translate"
-        mdl-button
-        mdl-button-type="icon"
-        mdl-ripple
+        md-menu-item
+        *ngIf="!action.hidden(item)"
+        (click)="onAction(action, item)"
+        [disabled]="!action.canActivate(item)"
       >
-        <mdl-icon>{{ a.mdlIcon }}</mdl-icon>
+        <md-icon>{{ action.icon }}</md-icon>
+        <span>{{ action.name | translate }}</span>
       </button>
-    </div>
-  </mdl-popover>
-</mdl-card>
+    </ng-container>
+    <md-divider></md-divider>
+    <ng-container *ngFor="let action of secondRowActions">
+      <button
+        md-menu-item
+        *ngIf="!action.hidden(item)"
+        (click)="onAction(action, item)"
+        [disabled]="!action.canActivate(item)"
+      >
+        <md-icon>{{ action.icon }}</md-icon>
+        <span>{{ action.name | translate }}</span>
+      </button>
+    </ng-container>
+  </md-menu>
+</md-card>

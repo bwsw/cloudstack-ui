@@ -14,11 +14,11 @@ import { VolumeService } from '../../shared/services/volume.service';
   styleUrls: ['volume-resize.component.scss']
 })
 export class VolumeResizeComponent implements OnInit {
+  public newSize: number;
+  public maxSize: number;
   public volume: Volume;
   public diskOfferingListInjected?: Array<DiskOffering>;
 
-  public newSize: number;
-  public maxSize: number;
 
   public diskOffering: DiskOffering;
   @Input() public diskOfferingList: Array<DiskOffering>;
@@ -97,11 +97,8 @@ export class VolumeResizeComponent implements OnInit {
       message: 'VOLUME_RESIZED'
     });
 
-    this.diskOfferingService.get(volume.diskOfferingId)
-      .subscribe(diskOffering => {
-        volume.diskOffering = diskOffering;
-        this.dialogRef.close(volume);
-      });
+    volume.diskOffering = this.diskOffering;
+    this.dialogRef.close(volume);
   }
 
   private handleVolumeResizeError(error: Error): void {

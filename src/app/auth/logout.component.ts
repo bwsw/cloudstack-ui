@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MdDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MdlDialogService } from '../dialog/dialog-module';
 import { AuthService } from '../shared/services';
@@ -14,6 +15,7 @@ export class LogoutComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     private dialogService: MdlDialogService,
+    private dialog: MdDialog,
     private router: Router,
     private routerUtilsService: RouterUtilsService
   ) {}
@@ -24,6 +26,7 @@ export class LogoutComponent implements OnInit {
       const redirectionParams = next ? this.routerUtilsService.getRedirectionQueryParams(next) : {};
       this.router.navigate(['/login'], redirectionParams);
       this.dialogService.hideAllDialogs();
+      this.dialog.closeAll();
     });
   }
 }

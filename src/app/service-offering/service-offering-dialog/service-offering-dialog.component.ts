@@ -2,9 +2,14 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { ServiceOfferingFilterService } from '../../shared/services/service-offering-filter.service';
-import { ZoneService } from '../../shared/services/zone.service';
 import { VirtualMachine } from '../../vm/shared/vm.model';
-import { VmService } from '../../vm/shared/vm.service';
+import { ZoneService } from '../../shared/services/zone.service';
+import { VmChangeServiceOfferingAction } from '../../vm/vm-actions/vm-change-service-offering';
+import { CustomServiceOfferingService } from '../custom-service-offering/service/custom-service-offering.service';
+import { Observable } from 'rxjs/Observable';
+import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
+import { ServiceOfferingService } from '../../shared/services';
+import { Zone } from '../../shared/models';
 
 
 @Component({
@@ -15,18 +20,30 @@ import { VmService } from '../../vm/shared/vm.service';
 export class ServiceOfferingDialogComponent implements OnInit {
   public serviceOffering: ServiceOffering;
   public serviceOfferings: Array<ServiceOffering>;
-  public loading: Boolean;
+  public loading: boolean;
+  public virtualMachine: VirtualMachine;
+
+  public restrictions$: Observable<ICustomOfferingRestrictions>;
 
   constructor(
+    @Inject(MD_DIALOG_DATA) data,
     public dialogRef: MdDialogRef<ServiceOfferingDialogComponent>,
-    @Inject(MD_DIALOG_DATA) public virtualMachine: VirtualMachine,
-    private vmService: VmService,
-    private serviceOfferingService: ServiceOfferingFilterService,
+    public customServiceOfferingService: CustomServiceOfferingService,
+    private serviceOfferingService: ServiceOfferingService,
+    private serviceOfferingFilterService: ServiceOfferingFilterService,
+    private vmChangeServiceOfferingAction: VmChangeServiceOfferingAction,
     private zoneService: ZoneService
-  ) { }
+  ) {
+    this.restrictions$ = this.getRestrictions();
+    this.virtualMachine = data.virtualMachine;
+  }
 
   public ngOnInit(): void {
-    this.zoneService.get(this.virtualMachine.zoneId).subscribe(zone => this.fetchData({ zone }));
+    this.zoneService.get(this.virtualMachine.zoneId)
+      .switchMap(zone => this.fetchData(zone))
+      .do(offerings => this.serviceOfferings = offerings)
+      .switchMap(offerings => this.getDefaultServiceOffering(offerings))
+      .subscribe(offering => this.serviceOffering = offering);
   }
 
   public updateOffering(offering: ServiceOffering): void {
@@ -35,7 +52,10 @@ export class ServiceOfferingDialogComponent implements OnInit {
 
   public onChange(): void {
     this.loading = true;
-    this.vmService.changeServiceOffering(this.serviceOffering, this.virtualMachine)
+    this.vmChangeServiceOfferingAction.activate(
+      this.virtualMachine,
+      { serviceOffering: this.serviceOffering }
+    )
       .finally(() => this.loading = false)
       .subscribe(() => this.dialogRef.close(this.serviceOffering));
   }
@@ -44,15 +64,41 @@ export class ServiceOfferingDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  private fetchData(params?: {}): void {
-    this.serviceOfferingService.getAvailableByResources(params)
-      .subscribe(availableOfferings => {
-        this.serviceOfferings = availableOfferings.filter(offering => {
-          return offering.id !== this.virtualMachine.serviceOfferingId;
+  private fetchData(zone: Zone): Observable<Array<ServiceOffering>> {
+    return this.serviceOfferingFilterService.getAvailableByResources({ zone })
+      .map(availableOfferings => {
+        return availableOfferings.filter(offering => {
+          return offering.id !== this.virtualMachine.serviceOffering.id;
         });
-        if (this.serviceOfferings.length) {
-          this.serviceOffering = this.serviceOfferings[0];
-        }
+      })
+      .switchMap(offerings => {
+        const offeringsWithSetParams = offerings.map(offering => {
+          if (!offering.isCustomized) {
+            return Observable.of(offering);
+          }
+
+          return this.customServiceOfferingService.getCustomOfferingWithSetParams(
+            offering,
+            zone.id
+          );
+        });
+
+        return Observable.forkJoin(offeringsWithSetParams);
+      });
+  }
+
+  private getRestrictions(): Observable<ICustomOfferingRestrictions> {
+    return this.customServiceOfferingService
+      .getCustomOfferingRestrictionsByZone()
+      .map(restrictions => restrictions[this.virtualMachine.zoneId]);
+  }
+
+  private getDefaultServiceOffering(offerings: Array<ServiceOffering>): Observable<ServiceOffering> {
+    return this.zoneService.get(this.virtualMachine.zoneId)
+      .switchMap(zone => this.serviceOfferingService.getDefaultServiceOffering(zone))
+      .map(offering => {
+        const defaultOffering = offerings.find(_ => _.id === offering.id);
+        return defaultOffering || offerings[0];
       });
   }
 }

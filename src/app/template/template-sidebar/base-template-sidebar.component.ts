@@ -5,6 +5,8 @@ import { TemplateActionsService } from '../shared/template-actions.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { BaseTemplateService, DOWNLOAD_URL } from '../shared/base-template.service';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { NotificationService } from '../../shared/services/notification.service';
+import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 
 export abstract class BaseTemplateSidebarComponent implements OnInit {
   @Input() public template: BaseTemplateModel;
@@ -16,10 +18,12 @@ export abstract class BaseTemplateSidebarComponent implements OnInit {
 
   constructor(
     service: BaseTemplateService,
+    public dateTimeFormatterService: DateTimeFormatterService,
+    private route: ActivatedRoute,
+    private dialogService: DialogService,
+    private notificationService: NotificationService,
     protected templateActions: TemplateActionsService,
     protected listService: ListService,
-    private route: ActivatedRoute,
-    private dialogService: DialogService
   ) {
     this.service = service;
   }
@@ -62,5 +66,13 @@ export abstract class BaseTemplateSidebarComponent implements OnInit {
 
   private checkZones(): void {
     this.readyInEveryZone = this.template.zones.every(template => template.isReady);
+  }
+
+  public onCopySuccess(): void {
+    this.notificationService.message('COPY_SUCCESS');
+  }
+
+  public onCopyFail(): void {
+    this.notificationService.message('COPY_FAIL');
   }
 }

@@ -1,0 +1,28 @@
+<mdl-textfield
+  name="hour"
+  type="number"
+  [label]="'TIME' | translate"
+  floating-label
+  [ngModel]="hour"
+  (ngModelChange)="updateHour($event)"
+  #hourField
+></mdl-textfield>
+
+<span class="delimiter">:</span>
+
+<mdl-textfield
+  name="minute"
+  type="number"
+  [ngModel]="minute"
+  (ngModelChange)="updateMinute($event)"
+  #minuteField
+></mdl-textfield>
+
+<span class="delimiter"></span>
+
+<cs-day-period
+  *ngIf="showPeriodSelector"
+  name="period"
+  [ngModel]="period"
+  (ngModelChange)="updatePeriod($event)"
+></cs-day-period>

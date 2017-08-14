@@ -12,8 +12,7 @@
       <div *ngIf="!volume?.isRoot">
         <h5>{{ 'DISK_OFFERING' | translate }}</h5>
         <cs-disk-offering
-          name="diskOffering"
-          [ngModel]="diskOffering"
+          [diskOffering]="diskOffering"
           [diskOfferingList]="diskOfferingList"
           (change)="updateDiskOffering($event)"
         ></cs-disk-offering>

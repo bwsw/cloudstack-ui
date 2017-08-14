@@ -56,12 +56,10 @@ export class ApiInfoComponent implements OnInit {
 
   public ngOnInit(): void {
     this.loading = true;
-    Observable.forkJoin(
-      this.getApiKeys(),
-      this.configService.get('apiDocLink')
-    )
+    const apiDocLink = this.configService.get('apiDocLink');
+    this.getApiKeys()
       .finally(() => this.loading = false)
-      .subscribe(([apiKeys, apiDocLink]) => {
+      .subscribe(apiKeys => {
         this.linkFields = {
           apiUrl: { title: 'API_URL', href: this.apiUrl },
           apiDocLink: { title: 'API_DOC_LINK', href: apiDocLink }

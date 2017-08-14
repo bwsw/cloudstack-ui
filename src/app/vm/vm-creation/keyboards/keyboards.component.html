@@ -1,12 +1,13 @@
-<mdl-select
+<md-select
+  class="form-select-control"
   name="keyboard"
   *ngIf="translatedLayouts"
   [(ngModel)]="keyboardLayout"
 >
-  <mdl-option
+  <md-option
     *ngFor="let l of translatedLayouts"
     [value]="l.value"
   >
     {{ l.name }}
-  </mdl-option>
-</mdl-select>
+  </md-option>
+</md-select>
