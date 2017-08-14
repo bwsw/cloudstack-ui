@@ -42,6 +42,6 @@ export class VmWebShellAction extends VirtualMachineAction {
   }
 
   public hidden(vm: VirtualMachine): boolean {
-    return !this.webShellService.isWebShellAddressSpecified;
+    return !this.webShellService.isWebShellEnabled;
   }
 }

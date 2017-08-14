@@ -20,7 +20,7 @@ import { Zone } from '../../shared/models';
 export class ServiceOfferingDialogComponent implements OnInit {
   public serviceOffering: ServiceOffering;
   public serviceOfferings: Array<ServiceOffering>;
-  public loading: Boolean;
+  public loading: boolean;
 
   public restrictions$: Observable<ICustomOfferingRestrictions>;
 

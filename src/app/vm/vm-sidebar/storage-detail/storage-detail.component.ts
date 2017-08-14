@@ -21,6 +21,7 @@ import { IsoEvent } from './iso.component';
 export class StorageDetailComponent implements OnChanges {
   @Input() public vm: VirtualMachine;
   public iso: Iso;
+  public isoOperationInProgress = false;
 
   constructor(private dialogService: DialogService,
               private jobNotificationService: JobsNotificationService,
@@ -111,7 +112,9 @@ export class StorageDetailComponent implements OnChanges {
 
   private attachIso(iso: Iso): void {
     const notificationId = this.jobNotificationService.add('ISO_ATTACH_IN_PROGRESS');
+    this.isoOperationInProgress = true;
     this.isoService.attach(this.vm.id, iso)
+      .finally(() => this.isoOperationInProgress = false)
       .subscribe(
         (attachedIso: Iso) => {
           this.iso = attachedIso;
@@ -133,8 +136,10 @@ export class StorageDetailComponent implements OnChanges {
 
   private detachIso(): void {
     const notificationId = this.jobNotificationService.add('ISO_DETACH_IN_PROGRESS');
+    this.isoOperationInProgress = true;
 
     this.isoService.detach(this.vm.id)
+      .finally(() => this.isoOperationInProgress = false)
       .subscribe(() => {
         this.iso = undefined;
         this.vm.isoId = undefined;

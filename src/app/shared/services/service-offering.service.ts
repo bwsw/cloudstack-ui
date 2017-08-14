@@ -25,11 +25,11 @@ export class ServiceOfferingService extends OfferingService<ServiceOffering> {
 
     return this.getList({ zone })
       .map(offerings => {
-        const defaultOfferingId = defaultOfferingConfig[zone.id].offering;
-        const defaultOffering = offerings.find(offering => {
-          return offering.id === defaultOfferingId;
-        });
-        return defaultOffering || offerings[0];
+        return this.getDefaultServiceOfferingSync(
+          offerings,
+          defaultOfferingConfig,
+          zone
+        );
       });
   }
 
@@ -38,8 +38,9 @@ export class ServiceOfferingService extends OfferingService<ServiceOffering> {
     configuration: DefaultServiceOfferingConfigurationByZone,
     zone: Zone
   ): ServiceOffering {
-    const defaultOfferingId = configuration[zone.id].offering;
-    return offerings.find(_ => _.id === defaultOfferingId);
+    const defaultOfferingId = configuration && configuration[zone.id] && configuration[zone.id].offering;
+    const defaultOffering = offerings.find(_ => _.id === defaultOfferingId);
+    return defaultOffering || offerings[0];
   }
 
   public getAvailableByResourcesSync(

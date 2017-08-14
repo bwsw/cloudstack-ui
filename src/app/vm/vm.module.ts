@@ -3,12 +3,13 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MdButtonModule, MdIconModule, MdMenuModule, MdSelectModule, MdTooltipModule } from '@angular/material';
+import {  MdButtonModule,MdDialogModule, MdIconModule , MdMenuModule, MdSelectModule, MdTooltipModule} from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 
 import { routes } from '../app.routing';
+import { PulseModule } from '../pulse/pulse.module';
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 import { SharedModule } from '../shared/shared.module';
@@ -31,6 +32,7 @@ import { VmRestoreAction } from './vm-actions/vm-restore';
 import { VmStartAction } from './vm-actions/vm-start';
 import { VmStopAction } from './vm-actions/vm-stop';
 import { VmWebShellAction } from './vm-actions/vm-webshell';
+import { VmActionProviders } from './vm-actions/index';
 import { VmCreationFormNormalizationService } from './vm-creation/form-normalization/form-normalization.service';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
 import { VmCreationService } from './vm-creation/services/vm-creation.service';
@@ -82,6 +84,7 @@ import { WebShellService } from './web-shell/web-shell.service';
     MdTooltipModule,
     MdSelectModule,
     MdlModule,
+    MdDialogModule,
     MdlSelectModule,
     ReactiveFormsModule,
     ServiceOfferingModule,
@@ -92,6 +95,7 @@ import { WebShellService } from './web-shell/web-shell.service';
     TemplateModule,
     TranslateModule,
     TranslateModule,
+    PulseModule,
     vmRouting,
     RouterModule.forRoot(routes),
     MdMenuModule,
@@ -131,17 +135,6 @@ import { WebShellService } from './web-shell/web-shell.service';
     SnapshotModalComponent,
   ],
   providers: [
-    VmStartAction,
-    VmStartActionSilent,
-    VmStopAction,
-    VmStopActionSilent,
-    VmRebootAction,
-    VmRestoreAction,
-    VmDestroyAction,
-    VmResetPasswordAction,
-    VmConsoleAction,
-    VmWebShellAction,
-    VmChangeServiceOfferingAction,
     VmActionsService,
     VmCreationFormNormalizationService,
     VmCreationService,
@@ -149,7 +142,8 @@ import { WebShellService } from './web-shell/web-shell.service';
     VmEntityDeletionService,
     VmService,
     WebShellService,
-    SnapshotActionsService
+    SnapshotActionsService,
+    ...VmActionProviders
   ],
   entryComponents: [
     AffinityGroupSelectorComponent,
