@@ -1,0 +1,50 @@
+<ng-template #selector>
+  <cs-aggregation-selector
+    [permittedIntervals]="permittedIntervals"
+    [(scale)]="selectedScale"
+    [(shift)]="selectedShift"
+    [(aggregations)]="selectedAggregations"
+    [(shiftAmount)]="shiftAmount"
+  ></cs-aggregation-selector>
+  <button mdl-button mdl-button-type="icon" (click)="refresh()">
+    <md-icon [mdTooltip]="'REFRESH' | translate">sync</md-icon>
+  </button>
+</ng-template>
+<md-tab-group
+  *ngIf="translations"
+  [dynamicHeight]="true"
+  [(selectedIndex)]="tabIndex"
+  (selectChange)="handleSelectChange($event)"
+>
+  <md-tab [label]="'PULSE.CPU_RAM' | translate">
+    <ng-container *ngTemplateOutlet="selector"></ng-container>
+    <cs-pulse-cpu-chart
+      [translations]="translations"
+      [shift]="shiftAmount"
+      (previous)="handlePrevious()"
+      (next)="handleNext()"
+    ></cs-pulse-cpu-chart>
+  </md-tab>
+  <md-tab [label]="'PULSE.NETWORK' | translate">
+    <ng-container *ngTemplateOutlet="selector"></ng-container>
+    <cs-pulse-network-chart
+      [translations]="translations"
+      [vmId]="vmId"
+      [shift]="shiftAmount"
+      (nicChange)="refresh(false)"
+      (previous)="handlePrevious()"
+      (next)="handleNext()"
+    ></cs-pulse-network-chart>
+  </md-tab>
+  <md-tab [label]="'PULSE.DISK' | translate">
+    <ng-container *ngTemplateOutlet="selector"></ng-container>
+    <cs-pulse-disk-chart
+      [translations]="translations"
+      [vmId]="vmId"
+      [shift]="shiftAmount"
+      (volumeChange)="refresh(false)"
+      (previous)="handlePrevious()"
+      (next)="handleNext()"
+    ></cs-pulse-disk-chart>
+  </md-tab>
+</md-tab-group>

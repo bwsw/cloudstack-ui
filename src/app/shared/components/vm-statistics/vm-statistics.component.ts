@@ -135,19 +135,16 @@ export class VmStatisticsComponent implements OnInit {
     this.storageService.write(statisticsMode, this.mode.toString());
   }
 
-  public getPercents(consumed: number, max: number): string {
-    return this.getProgress(consumed, max).toFixed(0);
+  public getPercents(value: number, max: number): string {
+    return this.getProgress(value, max).toFixed(0);
   }
 
-  public getStatsString(consumed: number, max: number, units?: string): Observable<string> {
-    if (+max <= 0) {
-      return Observable.of(`${consumed} ${units || ''}`);
-    } else {
-      return Observable.of(`${consumed}/${max} ${units || ''} (${this.getPercents(
-        consumed,
-        max
-      )}%)`);
+  public getStatsString(value: number, max: number, units?: string): Observable<string> {
+    if (max > 0) {
+      return this.getStatsStringWithRestrictions(value, max, units);
     }
+
+    return this.getStatsStringWithNoRestrictions(value, units);
   }
 
   public getStatsStringFor(resource: keyof ResourcesData, units?: string): Observable<string> {
@@ -231,5 +228,20 @@ export class VmStatisticsComponent implements OnInit {
 
   private getModeKey(): keyof ResourceStats {
     return this.mode === StatsMode.Used ? 'consumed' : 'available';
+  }
+
+  private getStatsStringWithRestrictions(value: number, max: number, units?: string): Observable<string> {
+    const percents = this.getPercents(value, max);
+    return Observable.of(`${value}/${max} ${units || ''} (${percents}%)`);
+  }
+
+  private getStatsStringWithNoRestrictions(value: number, units?: string): Observable<string> {
+    if (this.mode === StatsMode.Free) {
+      return Observable.of ('∞');
+    }
+
+    if (this.mode === StatsMode.Used) {
+      return Observable.of(`${value} ${units || ''}`);
+    }
   }
 }

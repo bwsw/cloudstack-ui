@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
-
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { BaseTemplateModel, Iso, IsoService, Template, TemplateService } from '../shared';
 import { TemplateFilters } from '../shared/base-template.service';
@@ -16,6 +15,7 @@ import { TemplateCreationComponent } from '../template-creation/template-creatio
   providers: [ListService]
 })
 export class TemplatePageComponent implements OnInit {
+  @HostBinding('class.detail-list-container') public detailListContainer = true;
   public templates: Array<Template>;
   public isos: Array<Iso>;
   public viewMode: string;
