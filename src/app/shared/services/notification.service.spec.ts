@@ -5,7 +5,7 @@ import {
   TestBed
 } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
-import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
+import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.mock';
 import { NotificationService } from './notification.service';
 import { MdSnackBar, MdSnackBarModule, OverlayContainer } from '@angular/material';
 

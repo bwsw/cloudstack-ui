@@ -100,5 +100,6 @@ describe('Color picker component', () => {
         colors[colors.length - 1]
       );
     });
+    expect.assertions(1);
   }));
 });

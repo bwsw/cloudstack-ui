@@ -6,7 +6,6 @@ import { Subject } from 'rxjs/Subject';
 import { BackendResource } from '../decorators';
 import { BaseModelStub } from '../models';
 import { AsyncJobService } from './async-job.service';
-
 import { BaseBackendService } from './base-backend.service';
 import { ConfigService } from './config.service';
 import { RouterUtilsService } from './router-utils.service';
@@ -43,17 +42,17 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   public startInactivityCounter() {
     const sessionRefreshInterval = this.getSessionRefreshInterval();
 
-    this.getInactivityTimeout()
-      .subscribe(inactivityTimeout => {
-        this.inactivityTimeout = inactivityTimeout;
-        this.sessionRefreshInterval = sessionRefreshInterval;
-        this.resetInactivityTimer();
-        this.addEventListeners();
-      });
+    this.getInactivityTimeout().subscribe(inactivityTimeout => {
+      this.inactivityTimeout = inactivityTimeout;
+      this.sessionRefreshInterval = sessionRefreshInterval;
+      this.resetInactivityTimer();
+      this.addEventListeners();
+    });
   }
 
   public setInactivityTimeout(value: number): Observable<void> {
-    return this.userService.writeTag('csui.user.session-timeout', value.toString())
+    return this.userService
+      .writeTag('csui.user.session-timeout', value.toString())
       .map(() => {
         this.inactivityTimeout = value;
         this.resetInactivityTimer();
@@ -65,7 +64,8 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
       return Observable.of(this.inactivityTimeout);
     }
 
-    return this.userService.readTag('csui.user.session-timeout')
+    return this.userService
+      .readTag('csui.user.session-timeout')
       .switchMap(timeout => {
         const convertedTimeout = +timeout;
 
@@ -116,13 +116,21 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     }
   }
 
-  public login(username: string, password: string, domain?: string): Observable<void> {
+  public login(
+    username: string,
+    password: string,
+    domain?: string
+  ): Observable<void> {
     return this.postRequest('login', { username, password, domain })
       .map(res => this.getResponse(res))
       .do(res => {
-        this.setLoggedIn(res.username, `${res.firstname} ${res.lastname}`, res.userid);
+        this.setLoggedIn(
+          res.username,
+          `${res.firstname} ${res.lastname}`,
+          res.userid
+        );
       })
-      .catch((error) => this.handleCommandError(error));
+      .catch(error => this.handleCommandError(error));
   }
 
   public logout(): Observable<void> {
@@ -160,16 +168,26 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   }
 
   private refreshSession(): void {
-    if (++this.numberOfRefreshes * this.sessionRefreshInterval >= this.inactivityTimeout * 60) {
+    if (
+      ++this.numberOfRefreshes * this.sessionRefreshInterval >=
+      this.inactivityTimeout * 60
+    ) {
       this.clearInactivityTimer();
-      this.zone.run(() => this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams()));
+      this.zone.run(() =>
+        this.router.navigate(
+          ['/logout'],
+          this.routerUtilsService.getRedirectionQueryParams()
+        )
+      );
     } else {
       this.sendRefreshRequest();
     }
   }
 
   private addEventListeners(): void {
-    const events = 'mousemove keydown DOMMouseScroll mousewheel mousedown touchstart touchmove scroll'.split(' ');
+    const events = 'mousemove keydown DOMMouseScroll mousewheel mousedown touchstart touchmove scroll'.split(
+      ' '
+    );
     const observables = events.map(event => Observable.fromEvent(document, event));
     this.zone.runOutsideAngular(() => {
       Observable.merge(...observables).subscribe(() => this.resetInactivityTimer());
@@ -190,7 +208,10 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
 
   private setInactivityTimer(): void {
     if (this.sessionRefreshInterval && this.inactivityTimeout) {
-      this.refreshTimer = setInterval(this.refreshSession.bind(this), this.sessionRefreshInterval * 1000);
+      this.refreshTimer = setInterval(
+        this.refreshSession.bind(this),
+        this.sessionRefreshInterval * 1000
+      );
     }
   }
 

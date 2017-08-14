@@ -1,34 +1,47 @@
 import { Component, Injectable, Injector } from '@angular/core';
-import { async, discardPeriodicTasks, fakeAsync, getTestBed, TestBed, tick } from '@angular/core/testing';
+import {
+  async,
+  discardPeriodicTasks,
+  fakeAsync,
+  getTestBed,
+  TestBed
+} from '@angular/core/testing';
 import { BaseRequestOptions, Http, HttpModule, XHRBackend } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { NavigationExtras, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.mock';
+import { AsyncJobService } from './async-job.service';
+import { AuthService } from './auth.service';
+import { CacheService } from './cache.service';
+import { ConfigService } from './config.service';
+import { ErrorService } from './error.service';
+import { LocalStorageService } from './local-storage.service';
 
-import { AsyncJobService, AuthService, CacheService, ConfigService, ErrorService } from './';
 import { RouterUtilsService } from './router-utils.service';
 import { ServiceLocator } from './service-locator';
 import { UserService } from './user.service';
-import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
-import { LocalStorageService } from './local-storage.service';
 
 
 @Component({
   selector: 'cs-test-view',
   template: '<div></div>'
 })
-class TestViewComponent {}
+class TestViewComponent {
+}
 
 @Injectable()
 class MockErrorService {
-  public send(): void {}
+  public send(): void {
+  }
 }
 
 class Tag {
   constructor(
     public key: string,
     public value: string
-  ) {}
+  ) {
+  }
 }
 
 @Injectable()
@@ -72,6 +85,7 @@ class MockStorageService {
 }
 
 const configStorage = {};
+
 function getRefreshInterval(): number {
   return +configStorage['sessionRefreshInterval'] * 1000;
 }
@@ -82,14 +96,15 @@ function setRefreshInterval(value: number): void {
 
 @Injectable()
 class MockConfigService {
-  public get(key: string): string {
+  public get (key: string): string {
     return configStorage[key];
   }
 }
 
 @Injectable()
 class MockAsyncJobService {
-  public completeAllJobs(): void {}
+  public completeAllJobs(): void {
+  }
 }
 
 @Injectable()
@@ -124,7 +139,8 @@ const testBedConfig = {
     { provide: Router, useClass: MockRouter },
     { provide: RouterUtilsService, useClass: MockRouterUtilsService },
     { provide: LocalStorageService, useClass: MockStorageService },
-    { provide: Http,
+    {
+      provide: Http,
       deps: [MockBackend, BaseRequestOptions],
       useFactory:
         (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
@@ -159,37 +175,51 @@ describe('Auth service session', () => {
   });
 
   it('should refresh session', fakeAsync(() => {
-    const refresh = spyOn(authService, 'sendRefreshRequest');
+    jest.useFakeTimers();
+    const refresh = jest.spyOn(authService, 'sendRefreshRequest');
     const inactivityTimeout = 10;
     const refreshInterval = 60;
 
     setRefreshInterval(refreshInterval);
     authService.setInactivityTimeout(inactivityTimeout).subscribe();
 
-    tick(getRefreshInterval() * inactivityTimeout * 60 / refreshInterval);
+    jest.runTimersToTime(getRefreshInterval() * inactivityTimeout * 60 / refreshInterval);
     expect(refresh).toHaveBeenCalledTimes(inactivityTimeout - 1);
+    jest.useRealTimers();
+    refresh.mockRestore();
+    jest.resetAllMocks();
   }));
 
   it('should stop refreshing if inactivity interval=0', fakeAsync(() => {
-    const refresh = spyOn(authService, 'sendRefreshRequest');
+    jest.useFakeTimers();
+    const refresh = jest.spyOn(authService, 'sendRefreshRequest');
     const inactivityTimeout = 10;
 
     authService.setInactivityTimeout(inactivityTimeout).subscribe();
-    tick(getRefreshInterval());
+    setRefreshInterval(60);
+    jest.runTimersToTime(getRefreshInterval());
     expect(refresh).toHaveBeenCalledTimes(1);
     authService.setInactivityTimeout(0).subscribe();
-    tick(getRefreshInterval() * 10);
+    jest.runTimersToTime(getRefreshInterval() * 10);
     expect(refresh).toHaveBeenCalledTimes(1);
+    jest.useRealTimers();
+    refresh.mockRestore();
   }));
 
   it('should extend logout delay on user input', fakeAsync(() => {
-    const logout = spyOn(authService, 'logout').and.returnValue(Observable.of(null));
+    jest.useFakeTimers();
+    const logout = jest.spyOn(authService, 'logout')
+      .mockImplementation(() => Observable.of(null));
     authService.setInactivityTimeout(1).subscribe();
-    tick(getRefreshInterval() - 100);
+    jest.runTimersToTime(getRefreshInterval() - 100);
     document.dispatchEvent(new MouseEvent('mousemove', {}));
-    tick(200);
+    jest.runTimersToTime(200);
     expect(logout).toHaveBeenCalledTimes(0);
     discardPeriodicTasks();
+    jest.useRealTimers();
+    // logout.mockRestore();
+    (authService.logout as any).mockRestore();
+    jest.resetAllMocks();
   }));
 });
 
@@ -212,18 +242,22 @@ describe('Auth service session', () => {
   }));
 
   it('should logout after session expires', fakeAsync(() => {
+    jest.useFakeTimers();
     const inactivityTimeout = 10;
-    const logout = spyOn(router, 'navigate').and.callThrough();
-    const refresh = spyOn(authService, 'sendRefreshRequest');
+    const logout = jest.spyOn(router, 'navigate');
+    const refresh = jest.spyOn(authService, 'sendRefreshRequest');
     authService.startInactivityCounter();
     authService.setInactivityTimeout(inactivityTimeout).subscribe();
 
-    tick(getRefreshInterval() * (inactivityTimeout - 1) * 60 / refreshInterval);
+    jest.runTimersToTime(getRefreshInterval() * (inactivityTimeout - 1) * 60 / refreshInterval);
     expect(refresh).toHaveBeenCalledTimes(540);
     expect(logout).toHaveBeenCalledTimes(0);
 
-    tick(getRefreshInterval() * 60);
+    jest.runTimersToTime(getRefreshInterval() * 60);
     expect(logout).toHaveBeenCalledTimes(1);
-    expect(logout).toHaveBeenCalledWith(['/logout'], routerUtils.getRedirectionQueryParams());
+    expect(logout)
+      .toHaveBeenCalledWith(['/logout'], routerUtils.getRedirectionQueryParams());
+    jest.useRealTimers();
+    refresh.mockRestore();
   }));
 });

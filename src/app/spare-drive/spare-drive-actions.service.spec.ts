@@ -31,8 +31,17 @@ describe('Jobs notification service', () => {
   let spareDriveActionsService: SpareDriveActionsService;
 
   beforeEach(async(() => {
-    const dialogService = jasmine.createSpyObj('DialogService', ['alert']);
-    const jobsNotificationService = jasmine.createSpyObj('JobsNotificationService', ['add', 'finish', 'fail']);
+    // const dialogService = jest.fn({ alert: jest.fn() });
+    const dialogService = {
+      alert: jest.fn()
+    };
+    // const dialogService = jasmine.createSpyObj('DialogService', ['alert']);
+    const jobsNotificationService = {
+      add: jest.fn(),
+      finish: jest.fn(),
+      fail: jest.fn()
+    };
+    // const jobsNotificationService = jasmine.createSpyObj('JobsNotificationService', ['add', 'finish', 'fail']);
 
     TestBed.configureTestingModule({
       providers: [

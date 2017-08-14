@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
-import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
+import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.mock';
 
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { NetworkRule, SecurityGroup } from '../sg.model';

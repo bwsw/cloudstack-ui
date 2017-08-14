@@ -1,17 +1,20 @@
 import { MdlModule } from '@angular-mdl/core';
-import { MdTooltipModule } from '@angular/material';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { MdSnackBarModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard/dist';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { MdlDialogService } from '../../dialog/dialog-module/mdl-dialog.service';
+import { LoadingDirective } from '../../shared/directives/loading.directive';
 import { ConfigService } from '../../shared/services/config.service';
+import { NotificationService } from '../../shared/services/notification.service';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { UserService } from '../../shared/services/user.service';
-import { SharedModule } from '../../shared/shared.module';
 import { ApiInfoComponent } from './api-info.component';
 
 describe('Api Info component', () => {
@@ -63,24 +66,27 @@ describe('Api Info component', () => {
 
   beforeEach(async(() => {
     dialogObservable = new Subject();
-    dialogSpy = spyOn(DialogService.prototype, 'confirm').and.returnValue(dialogObservable);
+    dialogSpy = jest.spyOn(DialogService.prototype, 'confirm').mockImplementation(() => dialogObservable);
 
     TestBed.configureTestingModule({
       imports: [
-        MdTooltipModule,
         MdlModule,
+        MdSnackBarModule,
         FormsModule,
         TranslateModule,
-        ClipboardModule,
-        SharedModule
+        ClipboardModule
       ],
-      declarations: [ApiInfoComponent],
+      declarations: [ApiInfoComponent, LoadingDirective],
       providers: [
+        DialogService,
+        MdlDialogService,
+        NotificationService,
         { provide: RouterUtilsService, useClass: FakeRouterUtilsService },
         { provide: ConfigService, useClass: FakeConfigService },
         { provide: TranslateService, useClass: MockTranslateService },
         { provide: UserService, useClass: FakeUserService }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     });
 
     fixture = TestBed.createComponent(ApiInfoComponent);
@@ -112,6 +118,7 @@ describe('Api Info component', () => {
       expect(inputFields[0].nativeElement.value).toBe('apiKey');
       expect(inputFields[1].nativeElement.value).toBe('secretKey');
     });
+    expect.assertions(5);
   }));
 
   it('it regenerates API keys', fakeAsync(() => {

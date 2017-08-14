@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Tag } from '../models/tag.model';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { AsyncJobService } from './async-job.service';
-import { BaseBackendCachedService } from './';
+import { BaseBackendCachedService } from './base-backend-cached.service';
 import { Taggable } from '../interfaces/taggable.interface';
 
 

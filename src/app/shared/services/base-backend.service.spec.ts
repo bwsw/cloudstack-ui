@@ -1,7 +1,6 @@
 import { inject, TestBed, async, getTestBed } from '@angular/core/testing';
 import { Injector } from '@angular/core';
 
-import { BaseBackendService, CacheService } from './';
 import { BaseModel } from '../models';
 import { BackendResource } from '../decorators';
 import { MockBackend, MockConnection } from '@angular/http/testing';
@@ -16,6 +15,8 @@ import {
 } from '@angular/http';
 import { ErrorService } from '../services';
 import { ServiceLocator } from './service-locator';
+import { BaseBackendService } from './base-backend.service';
+import { CacheService } from './cache.service';
 
 
 describe('Base backend service', () => {
