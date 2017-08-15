@@ -14,3 +14,8 @@
 .search-bar-white {
   background-color: white;
 }
+
+:host /deep/ .mat-tab-label {
+  line-height: 30px !important;
+  height: 30px !important;
+}
