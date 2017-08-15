@@ -3,9 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   Output,
-  SimpleChanges,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -34,7 +32,7 @@ import * as debounce from 'lodash/debounce';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AggregationSelectorComponent implements OnChanges {
+export class AggregationSelectorComponent {
   @Input() permittedIntervals: any;
   @Output() scaleChange = new EventEmitter();
   @Output() aggregationsChange = new EventEmitter<MdOptionSelectionChange>();
@@ -50,17 +48,6 @@ export class AggregationSelectorComponent implements OnChanges {
 
   constructor() {
     this.emitShiftChange = debounce(this.emitShiftChange, 300);
-  }
-
-  public ngOnChanges(changes: SimpleChanges) {
-    if ('permittedIntervals' in changes) {
-      if (this.permittedIntervals) {
-        setTimeout(() => {
-          this.selectedShift = this.permittedIntervals.shifts[0];
-          this.shiftChange.emit(this.selectedShift);
-        });
-      }
-    }
   }
 
   @Input()
