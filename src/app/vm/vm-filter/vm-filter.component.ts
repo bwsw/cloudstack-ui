@@ -8,6 +8,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import * as sortBy from 'lodash/sortBy';
 
 import { InstanceGroup, Zone } from '../../shared/models';
