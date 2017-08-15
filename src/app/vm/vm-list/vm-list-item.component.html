@@ -11,7 +11,6 @@
     <md-card-title>
       <h2
         class="md-card-title-text"
-        [mdTooltip]="item.name"
       >
         <span
           class="state-icon"
@@ -21,7 +20,9 @@
           [class.in-progress]="item.state !== 'Running' && item.state !== 'Stopped'"
           [mdTooltip]="item.state.toUpperCase() | translate"
         ></span>
-        {{ item.name }}
+        <span
+          [mdTooltip]="item.name"
+        > {{ item.name }} </span>
       </h2>
     </md-card-title>
     <div class="md-card-header-menu">
