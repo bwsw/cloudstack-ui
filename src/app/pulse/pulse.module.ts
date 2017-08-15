@@ -22,6 +22,8 @@ import {
 } from './charts/';
 import { AggregationSelectorComponent } from './charts/aggregation-selector.component';
 import { ChartAreaComponent } from './charts/chart-area.component';
+import { PulseLazyComponent } from './pulse-lazy.component';
+import { PulseRouting } from './pulse.routing';
 import { PulseService } from './pulse.service';
 import { VmPulseComponent } from './vm-pulse/vm-pulse.component';
 
@@ -39,7 +41,8 @@ import { VmPulseComponent } from './vm-pulse/vm-pulse.component';
     MdTabsModule,
     MdSelectModule,
     MdProgressSpinnerModule,
-    TranslateModule
+    TranslateModule,
+    PulseRouting
   ],
   exports: [
     VmPulseComponent
@@ -51,6 +54,7 @@ import { VmPulseComponent } from './vm-pulse/vm-pulse.component';
     PulseCpuRamChartComponent,
     PulseNetworkChartComponent,
     PulseDiskChartComponent,
+    PulseLazyComponent,
     VmPulseComponent
   ],
   entryComponents: [VmPulseComponent]
