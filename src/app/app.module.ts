@@ -1,10 +1,10 @@
-import { MdIconModule, MdTooltipModule } from '@angular/material';
 import { DISABLE_NATIVE_VALIDITY_CHECKING, MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
 import { Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
+import { MdIconModule, MdTooltipModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -16,17 +16,12 @@ import { routes } from './app.routing';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
 import { MdlDialogModule } from './dialog/dialog-module';
-import { EventsModule } from './events/events.module';
-import { SecurityGroupModule } from './security-group/sg.module';
 import { ServiceOfferingModule } from './service-offering/service-offering.module';
-import { SettingsModule } from './settings/settings.module';
 import { ServiceLocator } from './shared/services/service-locator';
 import { SharedModule } from './shared/shared.module';
-import { SpareDriveModule } from './spare-drive';
-import { SshKeysModule } from './ssh-keys/ssh-keys.module';
+import { SnapshotModule } from './snapshot/snapshot.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
-import { SnapshotModule } from './snapshot/snapshot.module';
 
 
 export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
@@ -41,18 +36,13 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
     HttpModule,
     FormsModule,
     TranslateModule.forRoot(),
-    EventsModule,
     MdIconModule,
     MdTooltipModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
     MdlDialogModule,
-    SecurityGroupModule,
     ServiceOfferingModule,
-    SettingsModule,
-    SpareDriveModule,
-    SshKeysModule,
     TemplateModule,
     VmModule,
     SharedModule,

@@ -9,6 +9,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ApiInfoComponent } from './api-info/api-info.component';
 import { InactivityTimeoutComponent } from './inactivity-timeout/inactivity-timeout.component';
 import { SettingsComponent } from './settings.component';
+import { SettingsRouting } from './settings.routing';
 
 
 @NgModule({
@@ -22,14 +23,16 @@ import { SettingsComponent } from './settings.component';
     MdSelectModule,
     SharedModule,
     ReactiveFormsModule,
-    ClipboardModule
+    ClipboardModule,
+    SettingsRouting
   ],
   exports: [
-    SettingsComponent],
-
+    SettingsComponent
+  ],
   declarations: [
     ApiInfoComponent,
-    InactivityTimeoutComponent,SettingsComponent
+    InactivityTimeoutComponent,
+    SettingsComponent
   ]
 })
 export class SettingsModule { }

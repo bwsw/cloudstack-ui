@@ -5,7 +5,7 @@ import { SpareDriveSidebarComponent } from './spare-drive-sidebar/spare-drive-si
 
 const routes: Routes = [
   {
-    path: 'spare-drives',
+    path: '',
     component: SpareDrivePageComponent,
     canActivate: [AuthGuard],
     children: [{

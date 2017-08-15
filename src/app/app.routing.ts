@@ -2,12 +2,8 @@ import { Routes } from '@angular/router';
 
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
-import { EventListComponent } from './events/event-list.component';
-import { SgTemplateListComponent } from './security-group/sg-template-list/sg-template-list.component';
-import { SettingsComponent } from './settings/settings.component';
-import { AuthGuard, LoginGuard } from './shared/services';
-import { SshKeysPageComponent } from './ssh-keys/ssh-keys-page.component';
 import { ReloadComponent } from './shared/components/reload/reload.component';
+import { LoginGuard } from './shared/services';
 
 
 export const routes: Routes = [
@@ -25,24 +21,24 @@ export const routes: Routes = [
     component: ReloadComponent
   },
   {
+    path: 'spare-drives',
+    loadChildren: './spare-drive/spare-drive.module#SpareDriveModule'
+  },
+  {
     path: 'sg-templates',
-    component: SgTemplateListComponent,
-    canActivate: [AuthGuard]
+    loadChildren: './security-group/sg.module#SecurityGroupModule'
   },
   {
     path: 'events',
-    component: EventListComponent,
-    canActivate: [AuthGuard]
+    loadChildren: './events/events.module#EventsModule'
   },
   {
     path: 'settings',
-    component: SettingsComponent,
-    canActivate: [AuthGuard]
+    loadChildren: './settings/settings.module#SettingsModule'
   },
   {
     path: 'ssh-keys',
-    component: SshKeysPageComponent,
-    canActivate: [AuthGuard]
+    loadChildren: './ssh-keys/ssh-keys.module#SshKeysModule'
   },
   {
     path: '**',
