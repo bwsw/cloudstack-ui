@@ -23,7 +23,7 @@ export class ErrorService extends Subject<any> {
     },
     {
       regex: /A key pair with name '(.*)' already exists/,
-      translation: 'KEYPAIR_ALREADY_EXISTS'
+      translation: 'ERRORS.SSH.KEY_PAIR_ALREADY_EXISTS'
     },
     {
       regex: /Unable to find suitable primary storage when creating volume (.*)/,
@@ -35,15 +35,15 @@ export class ErrorService extends Subject<any> {
     },
     {
       regex: /User is not allowed CloudStack login/,
-      translation: 'AUTH.INCORRECT_USERNAME'
+      translation: 'ERRORS.AUTH.INCORRECT_USERNAME'
     },
     {
       regex: /Failed to authenticate user (.*); please provide valid credentials/,
-      translation: 'AUTH.INCORRECT_PASSWORD'
+      translation: 'ERRORS.AUTH.INCORRECT_PASSWORD'
     },
     {
       regex: /Unable to find the domain from the path \/(.*)\//,
-      translation: 'AUTH.INCORRECT_DOMAIN'
+      translation: 'ERRORS.AUTH.INCORRECT_DOMAIN'
     },
     {
       regex: /Value greater than max allowed length (\d+) for param: volumeName/,

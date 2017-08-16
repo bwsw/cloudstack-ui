@@ -60,7 +60,11 @@ export class SshKeysPageComponent implements OnInit {
   }
 
   private showRemovalDialog(name: string): void {
-    this.dialogService.confirm('REMOVE_THIS_KEY', 'COMMON.NO', 'COMMON.YES')
+    this.dialogService.confirm(
+      'SSH_KEYS.REMOVE_THIS_KEY',
+      'COMMON.NO',
+      'COMMON.YES'
+    )
       .onErrorResumeNext()
       .switchMap(() => {
         this.setLoading(name);
@@ -70,7 +74,7 @@ export class SshKeysPageComponent implements OnInit {
         () => this.sshKeyList = this.sshKeyList.filter(key => key.name !== name),
         () => {
           this.setLoading(name, false);
-          this.dialogService.alert('KEY_REMOVAL_FAILED');
+          this.dialogService.alert('SSH_KEYS.KEY_REMOVAL_FAILED');
         }
       );
   }

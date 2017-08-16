@@ -3,7 +3,7 @@
     <div class="detail-section-header">{{ 'DETAILS' | translate }}</div>
     <div class="row" *ngIf="volume.size">
       <div>{{ 'SIZE' | translate }}</div>
-      <div>{{ (volume.size | division:2:30:2) }} {{ ('GB' | translate) }}</div>
+      <div>{{ (volume.size | division:2:30:2) }} {{ ('UNITS.GB' | translate) }}</div>
     </div>
     <div class="row" *ngIf="description">
       <div>{{ 'DESCRIPTION' | translate }}</div>

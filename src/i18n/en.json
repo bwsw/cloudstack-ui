@@ -68,12 +68,22 @@
       "THE_NAME_IS_TAKEN": "The name {{val1}} is taken"
     },
 
+    "AUTH": {
+      "INCORRECT_USERNAME": "Incorrect username",
+      "INCORRECT_PASSWORD": "Incorrect password",
+      "INCORRECT_DOMAIN": "Unable to find domain {{val1}}"
+    },
+
     "ISO": {
       "VMS_IN_USE": "Unable to delete the ISO as it's used by the following VMs:<br>{{ vms }}"
     },
 
     "SNAPSHOT": {
       "LIMIT_EXCEEDED": "Snapshot limit has been exceeded. You need to delete some of your previous snapshots first."
+    },
+
+    "SSH": {
+      "KEY_PAIR_ALREADY_EXISTS": "SSH key with name '{{val1}}' already exists"
     },
 
     "VM": {
@@ -203,9 +213,6 @@
     "NOT_LOGGED_IN": "You are not logged in",
     "SHOW_ADVANCED": "Show advanced options",
     "HIDE_ADVANCED": "Hide advanced options",
-    "INCORRECT_USERNAME": "Incorrect username",
-    "INCORRECT_PASSWORD": "Incorrect password",
-    "INCORRECT_DOMAIN": "Unable to find domain {{val1}}",
     "USERNAME_REQUIRED": "Username is required",
     "PASSWORD_REQUIRED": "Password is required"
   },
@@ -513,28 +520,28 @@
     },
 
     "FILTERS": {
-      "SELECT_OS_FAMILIES": "Select OS families", // OS_FAMILY
-      "SELECT_TYPES": "Select types", // TEMPLATE_TYPES
+      "SELECT_OS_FAMILIES": "Select OS families",
+      "SELECT_TYPES": "Select types",
       "SELECT_ZONES": "Select zones",
 
       "GROUP_BY": "Group by",
       "GROUP_BY_ZONES": "Zones",
       "NO_ZONE": "No zone",
 
-      "FEATURED": "Featured", // TEMPLATE_FEATURED
-      "SELF": "My", // TEMPLATE_SELF
-      "SELFEXECUTABLE": "My", // TEMPLATE_SELFEXECUTABLE
-      "ALL": "All" // TEMPALTE_ALL
+      "FEATURED": "Featured",
+      "SELF": "My",
+      "SELFEXECUTABLE": "My",
+      "ALL": "All"
     },
 
     "CARD": {
-      "OS": "OS" // not yet in code
+      "OS": "OS"
     },
 
     "SIDEBAR": {
-      "TEMPLATE": "Template", // not in code yet
+      "TEMPLATE": "Template",
       "ZONES": "Zones",
-      "TAGS": "Tags", // TEMPLATE_TAGS_VIEW
+      "TAGS": "Tags"
     },
 
     "TEMPLATE_DETAILS": {
@@ -543,14 +550,14 @@
       "EXTRACTABLE": "Extractable",
       "PUBLIC": "Public",
       "RECOMMENDED": "Recommended",
-      "PASSWORD_ENABLED": "Password enabled", // not in code yet
+      "PASSWORD_ENABLED": "Password enabled",
       "DYNAMICALLY_SCALABLE" : "Dynamically scalable",
       "CROSS_ZONES": "Cross Zones",
       "DOMAIN": "Domain",
-      "CREATED": "Created", // renamed from CREATED_MASC
+      "CREATED": "Created",
       "TYPE": "Type",
-      "BUILTIN": "Built-in", // BUILTIN_TEMPLATE_TYPE
-      "USER": "User", // USER_TEMPLATE_TYPE
+      "BUILTIN": "Built-in",
+      "USER": "User",
       "HYPERVISOR": "Hypervisor",
       "DOWNLOAD_URL": "Download URL"
     },
@@ -568,9 +575,9 @@
       "INVALID_URL": "Invalid URL (only http or https)",
       "OS_TYPE": "OS type",
       "ZONE": "Zone",
-      "EXTRACTABLE": "Extractable", // TEMPLATE_EXTRACTABLE
-      "PASSWORD_ENABLED": "Password enabled", // TEMPLATE_PASSWORD_ENABLED
-      "DYNAMICALLY_SCALABLE": "Dynamically scalable" // TEMPLATE_DYNAMICALLY_SCALABLE
+      "EXTRACTABLE": "Extractable",
+      "PASSWORD_ENABLED": "Password enabled",
+      "DYNAMICALLY_SCALABLE": "Dynamically scalable"
     }
   },
 
@@ -621,8 +628,8 @@
   },
 
   "EVENT_PAGE": {
-    "SELECT_LEVELS": "Select levels", // LEVELS
-    "SELECT_TYPES": "Select types", // EVENT_TYPES
+    "SELECT_LEVELS": "Select levels",
+    "SELECT_TYPES": "Select types",
     "NO_EVENTS": "No events for the selected date",
     "DESCRIPTION": "Description",
     "LEVEL": "Level",
@@ -636,7 +643,6 @@
     "PUBLIC_KEY": "Public key",
     "AUTO_GENERATED": "auto generated",
 
-    "KEYPAIR_ALREADY_EXISTS": "SSH key with name '{{val1}}' already exists",
     "SAVE_THIS_KEY": "Please, save this private key as it will not be kept",
     "REMOVE_THIS_KEY": "Are you sure you want to remove this key?",
     "KEY_REMOVAL_FAILED": "Key removal failed"
@@ -644,7 +650,7 @@
 
   "SETTINGS": {
     "SECURITY": {
-      "SECURITY": "Security",
+      "TITLE": "Security",
       "CHANGE_PASSWORD": "Change password",
       "NEW_PASSWORD": "New password",
       "REPEAT_PASSWORD": "Repeat password",
@@ -653,8 +659,8 @@
       "INACTIVITY_LIMITS": "Between 0 and 300"
     },
 
-    "API": {
-      "API_CONFIGURATION": "API configuration", // renamed from API
+    "API_CONFIGURATION": {
+      "TITLE": "API configuration",
       "API_KEY": "API Key",
       "API_SECRET_KEY": "Secret key",
       "API_URL": "Connection URL",
@@ -665,7 +671,7 @@
     },
 
     "LOOK_AND_FEEL": {
-      "LOOK_AND_FEEL": "Look and Feel",
+      "TITLE": "Look and Feel",
       "LANGUAGE": "Interface Language",
       "FIRST_DAY_OF_WEEK": "First day of the week",
       "TIME_FORMAT": "Time format",
@@ -735,11 +741,15 @@
   },
 
   "SNAPSHOT_POLICIES": {
+    "TITLE": "Recurring snapshots",
+    "SCHEDULED_SNAPSHOTS": "Scheduled snapshots",
+
     "KEEP": "Keep",
     "STORE_SNAPSHOTS": "Number of stored snapshots",
 
-    "RECURRING_SNAPSHOTS": "Recurring snapshots",
-    "SCHEDULED_SNAPSHOTS": "Scheduled snapshots",
+    "MINUTE": "Minute",
+    "TIME": "Time",
+    "TIME_ZONE": "Time zone",
 
     "HOURLY_TIME": "{{ value }} minute", // POLICY_HOURLY_TIME
     "DAILY_TIME": "{{ value }}", // POLICY_DAILY_TIME
@@ -762,12 +772,9 @@
 
   "TAGS": {
     "CREATE_NEW_TAG": "Create a new tag",
-    "CATEGORY": "Category", // TAG_CATEGORY
     "TAG_KEY": "Key", // TAG_KEY
     "TAG_VALUE": "Value", // TAG_VALUE
-    "TAG_CATEGORY_NAME": "Category name", // CATEGORY_NAME
     "TAG_ALREADY_EXISTS": "Tag already exists",
-    "NO_TAGS": "No tags",
     "EDIT_TAG": "Edit tag"
   },
 
@@ -842,10 +849,6 @@
   },
 
   "DATE_TIME": {
-    "24_HOURS_FORMAT": "24-hour clock",
-    "TIME_ZONE": "Time zone",
-    "MINUTE": "Minute",
-    "AM_PM_FORMAT": "AM/PM",
     "AM": "AM",
     "PM": "PM",
     "DAY_OF_WEEK": "Day of week",

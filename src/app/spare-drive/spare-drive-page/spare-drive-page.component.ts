@@ -206,7 +206,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
         }
 
         this.dialogService.showDialog({
-          message: 'WOULD_YOU_LIKE_TO_CREATE_VOLUME',
+          message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VOLUME',
           actions: [
             {
               handler: () => this.showCreationDialog(),
@@ -216,7 +216,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
             {
               handler: () => this.userService.writeTag(askToCreateVolume, 'false')
                 .subscribe(),
-              text: 'NO_DONT_ASK'
+              text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
             }
           ],
           fullWidthAction: true,

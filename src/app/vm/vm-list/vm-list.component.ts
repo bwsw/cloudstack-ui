@@ -302,7 +302,7 @@ export class VmListComponent implements OnInit {
         }
 
         this.dialogService.showDialog({
-          message: 'WOULD_YOU_LIKE_TO_CREATE_VM',
+          message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VM',
           actions: [
             {
               handler: () => this.showVmCreationDialog(),
@@ -313,7 +313,7 @@ export class VmListComponent implements OnInit {
             },
             {
               handler: () => this.userService.writeTag(askToCreateVm, 'false').subscribe(),
-              text: 'COMMON.NO_DONT_ASK'
+              text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
             }
           ],
           fullWidthAction: true,
