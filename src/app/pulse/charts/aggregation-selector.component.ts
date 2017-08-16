@@ -2,37 +2,40 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
-  Output,
+  Input, OnChanges,
+  Output, SimpleChanges,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { MdOptionSelectionChange, MdSelectChange } from '@angular/material';
 import * as debounce from 'lodash/debounce';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
+import { PulseChart } from './pulse-chart';
+import { PulseParameters } from '../vm-pulse/vm-pulse.component';
 
 @Component({
   selector: 'cs-aggregation-selector',
   templateUrl: 'aggregation-selector.component.html',
   styles: [
+      `
+      .aggregation-select {
+        margin: 30px 10px 20px;
+      }
+
+      .shift-input {
+        width: 55px;
+      }
+
+      .shift-select {
+        width: 100px;
+      }
     `
-    .aggregation-select {
-      margin: 30px 10px 20px;
-    }
-
-    .shift-input {
-      width: 55px;
-    }
-
-    .shift-select {
-      width: 100px;
-    }
-  `
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AggregationSelectorComponent {
+export class AggregationSelectorComponent implements OnChanges {
   @Input() permittedIntervals: any;
   @Output() scaleChange = new EventEmitter();
   @Output() aggregationsChange = new EventEmitter<MdOptionSelectionChange>();
@@ -46,8 +49,22 @@ export class AggregationSelectorComponent {
   @Input() public shiftAmount: number;
   selectedAggregations: Array<string>;
 
-  constructor() {
+  constructor(private storage: LocalStorageService) {
     this.emitShiftChange = debounce(this.emitShiftChange, 300);
+  }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    if ('permittedIntervals' in changes) {
+      if (this.permittedIntervals) {
+        setTimeout(() => {
+          const storedShift = this.storage.read(PulseParameters.Shift);
+          this.selectedShift = !!storedShift
+            ? storedShift
+            : this.permittedIntervals.shifts[0];
+          this.shiftChange.emit(this.selectedShift);
+        });
+      }
+    }
   }
 
   @Input()
