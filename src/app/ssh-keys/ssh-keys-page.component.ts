@@ -60,7 +60,7 @@ export class SshKeysPageComponent implements OnInit {
   }
 
   private showRemovalDialog(name: string): void {
-    this.dialogService.confirm('REMOVE_THIS_KEY', 'NO', 'YES')
+    this.dialogService.confirm('REMOVE_THIS_KEY', 'COMMON.NO', 'COMMON.YES')
       .onErrorResumeNext()
       .switchMap(() => {
         this.setLoading(name);

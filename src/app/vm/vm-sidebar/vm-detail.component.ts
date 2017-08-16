@@ -78,7 +78,11 @@ export class VmDetailComponent implements OnChanges, OnInit {
   }
 
   public changeAffinityGroup(): void {
-    this.askToStopVM(this.vm, 'STOP_MACHINE_FOR_AG', this.setAffinityGroupLoading.bind(this))
+    this.askToStopVM(
+      this.vm,
+      'VM_PAGE.VM_DETAIL.AFFINITY_GROUP.STOP_MACHINE_FOR_AG',
+      this.setAffinityGroupLoading.bind(this)
+    )
       .filter(stopped => !!stopped)
       .subscribe(() => this.showAffinityGroupDialog());
   }
@@ -117,7 +121,11 @@ export class VmDetailComponent implements OnChanges, OnInit {
   }
 
   public resetSshKey(): void {
-    this.askToStopVM(this.vm, 'STOP_MACHINE_FOR_SSH', this.setSshKeyLoading.bind(this))
+    this.askToStopVM(
+      this.vm,
+      'VM_PAGE.VM_DETAIL.SSH_KEY.STOP_MACHINE_FOR_SSH',
+      this.setSshKeyLoading.bind(this)
+    )
       .filter(stopped => !!stopped)
       .subscribe(() => this.showSshKeypairResetDialog());
   }
@@ -158,8 +166,8 @@ export class VmDetailComponent implements OnChanges, OnInit {
 
         return this.dialogService.customConfirm({
           message: message,
-          confirmText: 'STOP',
-          declineText: 'CANCEL',
+          confirmText: 'VM_PAGE.COMMANDS.STOP',
+          declineText: 'COMMON.CANCEL',
           width: '350px',
           clickOutsideToClose: false
         })

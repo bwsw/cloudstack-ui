@@ -42,55 +42,55 @@ export class VmStatisticsComponent implements OnInit {
 
   public statsList: Array<StatsItem> = [
     {
-      header: 'VMS',
+      header: 'VM_PAGE.RESOURCE_USAGE.VMS',
       bars: [
         {
-          title: 'VM_AMOUNT',
+          title: 'VM_PAGE.RESOURCE_USAGE.NUMBER_OF_VMS',
           value: () => this.getStatsStringFor('instances'),
           progress: () => this.progressFor('instances')
         }
       ]
     },
     {
-      header: 'COMPUTATIONAL_RESOURCES',
+      header: 'VM_PAGE.RESOURCE_USAGE.COMPUTATIONAL_RESOURCES',
       bars: [
         {
-          title: 'CPUS',
+          title: 'VM_PAGE.RESOURCE_USAGE.CPUS',
           value: () => this.getStatsStringFor('cpus'),
           progress: () => this.progressFor('cpus')
         },
         {
-          title: 'RAM',
+          title: 'VM_PAGE.RESOURCE_USAGE.RAM',
           value: () => this.memory,
           progress: () => this.progressFor('memory')
         }
       ]
     },
     {
-      header: 'VOLUMES',
+      header: 'VM_PAGE.RESOURCE_USAGE.VOLUMES',
       bars: [
         {
-          title: 'VOLUMES',
+          title: 'VM_PAGE.RESOURCE_USAGE.VOLUMES',
           value: () => this.getStatsStringFor('volumes'),
           progress: () => this.progressFor('volumes')
         },
         {
-          title: 'SNAPSHOTS',
+          title: 'VM_PAGE.RESOURCE_USAGE.SNAPSHOTS',
           value: () => this.getStatsStringFor('snapshots'),
           progress: () => this.progressFor('snapshots')
         }
       ]
     },
     {
-      header: 'STORAGE',
+      header: 'VM_PAGE.RESOURCE_USAGE.STORAGE',
       bars: [
         {
-          title: 'PRIMARY_(STORAGE)',
+          title: 'VM_PAGE.RESOURCE_USAGE.PRIMARY',
           value: () => this.primaryStorage,
           progress: () => this.progressFor('primaryStorage')
         },
         {
-          title: 'SECONDARY_(STORAGE)',
+          title: 'VM_PAGE.RESOURCE_USAGE.SECONDARY',
           value: () => this.secondaryStorage,
           progress: () => this.progressFor('secondaryStorage')
         }

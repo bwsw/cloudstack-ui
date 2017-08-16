@@ -30,10 +30,10 @@
       [disabled]="serviceOffering?.id === virtualMachine.serviceOfferingId"
       *ngIf="serviceOfferings?.length"
     >
-      {{ 'CHANGE' | translate }}
+      {{ 'COMMON.CHANGE' | translate }}
     </button>
     <button mdl-button (click)="onCancel()" mdl-colored="primary">
-      {{ 'CANCEL' | translate }}
+      {{ 'COMMON.CANCEL' | translate }}
     </button>
   </div>
 </div>

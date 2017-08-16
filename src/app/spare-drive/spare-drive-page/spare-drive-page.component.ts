@@ -140,7 +140,11 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   }
 
   public showRemoveDialog(volume: Volume): void {
-    this.dialogService.confirm('CONFIRM_DELETE_VOLUME', 'NO', 'YES')
+    this.dialogService.confirm(
+      'DIALOG_MESSAGES.VOLUME.CONFIRM_DELETION',
+      'COMMON.NO',
+      'COMMON.YES'
+    )
       .onErrorResumeNext()
       .subscribe(() => this.remove(volume));
   }
@@ -155,12 +159,12 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
           if (this.listService.isSelected(volume.id)) {
             this.listService.deselectItem();
           }
-          this.jobsNotificationService.finish({ message: 'VOLUME_DELETE_DONE' });
+          this.jobsNotificationService.finish({ message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_DONE' });
           this.update();
         },
         error => {
           this.dialogService.alert(error);
-          this.jobsNotificationService.fail({ message: 'VOLUME_DELETE_FAILED' });
+          this.jobsNotificationService.fail({ message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_FAILED' });
         }
       );
   }
@@ -206,9 +210,9 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
           actions: [
             {
               handler: () => this.showCreationDialog(),
-              text: 'YES'
+              text: 'COMMON.YES'
             },
-            { text: 'NO' },
+            { text: 'COMMON.NO' },
             {
               handler: () => this.userService.writeTag(askToCreateVolume, 'false')
                 .subscribe(),

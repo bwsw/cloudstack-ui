@@ -29,7 +29,7 @@
         mdl-ripple
         type="submit"
       >
-        {{ (virtualMachineId ? 'ATTACH' : 'OK') | translate }}
+        {{ (virtualMachineId ? 'ATTACH' : 'COMMON.OK') | translate }}
       </button>
       <button
       *ngIf="virtualMachineId"
@@ -39,7 +39,7 @@
         type="button"
         (click)="onCancel()"
       >
-        {{ 'CANCEL' | translate }}
+        {{ 'COMMON.CANCEL' | translate }}
       </button>
     </div>
   </form>

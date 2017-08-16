@@ -11,7 +11,7 @@ import { JobsNotificationService } from '../../shared/services/jobs-notification
 @Injectable()
 export class VmWebShellAction extends VirtualMachineAction {
   public action = VmActions.WEB_SHELL;
-  public name = 'WEB_SHELL';
+  public name = 'VM_PAGE.COMMANDS.WEB_SHELL';
   public icon = 'computer';
 
   constructor(

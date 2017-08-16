@@ -220,7 +220,7 @@ export class VmCreationComponent implements OnInit {
   }
 
   public deploy(): void {
-    const notificationId = this.jobsNotificationService.add('VM_DEPLOY_IN_PROGRESS');
+    const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
     const { deployStatusObservable, deployObservable } = this.vmDeploymentService.deploy(this.formState.state);
 
     deployStatusObservable.subscribe(deploymentMessage => {
@@ -232,7 +232,7 @@ export class VmCreationComponent implements OnInit {
   public notifyOnDeployDone(notificationId: string): void {
     this.jobsNotificationService.finish({
       id: notificationId,
-      message: 'DEPLOY_DONE'
+      message: 'JOB_NOTIFICATIONS.VM.DEPLOY_DONE'
     });
   }
 
@@ -243,7 +243,7 @@ export class VmCreationComponent implements OnInit {
     });
     this.jobsNotificationService.fail({
       id: notificationId,
-      message: 'DEPLOY_FAILED'
+      message: 'JOB_NOTIFICATIONS.VM.DEPLOY_FAILED'
     });
   }
 
@@ -254,7 +254,7 @@ export class VmCreationComponent implements OnInit {
 
     this.dialogService.customAlert({
       message: {
-        translationToken: 'PASSWORD_DIALOG_MESSAGE',
+        translationToken: 'DIALOG_MESSAGES.VM.PASSWORD_DIALOG_MESSAGE',
         interpolateParams: {
           vmName: vm.name,
           vmPassword: vm.password

@@ -10,18 +10,18 @@ export class VmRestoreAction extends VirtualMachineCommand {
   public vmStateOnAction = 'RESTORE_IN_PROGRESS';
 
   public action = VmActions.RESTORE;
-  public name = 'RESTORE';
+  public name = 'VM_PAGE.COMMANDS.RESTORE';
   public icon = 'settings_backup_restore';
 
   public tokens = {
     name: 'Restore',
     nameLower: 'restore',
-    nameCaps: 'RESTORE',
-    vmActionCompleted: 'RESTORE_DONE',
-    confirmMessage: 'CONFIRM_VM_RESTORE',
-    progressMessage: 'VM_RESTORE_IN_PROGRESS',
-    successMessage: 'RESTORE_DONE',
-    failMessage: 'VM_RESTORE_FAILED'
+    nameCaps: 'VM_PAGE.COMMANDS.RESTORE',
+    vmActionCompleted: 'JOB_NOTIFICATIONS.VM.RESTORE_DONE',
+    confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_RESTORE',
+    progressMessage: 'JOB_NOTIFICATIONS.VM.RESTORE_IN_PROGRESS',
+    successMessage: 'JOB_NOTIFICATIONS.VM.RESTORE_DONE',
+    failMessage: 'JOB_NOTIFICATIONS.VM.RESTORE_FAILED'
   };
 
   public canActivate(vm: VirtualMachine): boolean {

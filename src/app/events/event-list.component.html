@@ -2,11 +2,11 @@
   <cs-top-bar cs-panels>
     <div class="options-panel top-bar-height">
       <cs-date-picker
-        [okLabel]="'OK' | translate"
+        [okLabel]="'COMMON.OK' | translate"
         [locale]="locale"
         [firstDayOfWeek]="languageService.firstDayOfWeek.getValue()"
         [DateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
-        [cancelLabel]="'CANCEL' | translate"
+        [cancelLabel]="'COMMON.CANCEL' | translate"
         [(ngModel)]="date"
         (change)="getEvents({ reload: true })"
       ></cs-date-picker>

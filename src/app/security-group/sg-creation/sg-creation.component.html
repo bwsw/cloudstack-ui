@@ -9,7 +9,7 @@
           mdl-button
           (click)="selectAll()"
         >
-          {{ 'SELECT_ALL' | translate }}
+          {{ 'COMMON.SELECT_ALL' | translate }}
         </button>
       </div>
       <md-list>
@@ -49,7 +49,7 @@
           *ngIf="items[1].length"
           mdl-button
           (click)="reset()"
-        >{{ 'RESET' | translate }}</button>
+        >{{ 'COMMON.RESET' | translate }}</button>
       </div>
       <md-list>
         <md-list-item
@@ -82,9 +82,9 @@
 </div>
 <div class="mdl-dialog__actions" style="text-align: right;">
   <button mdl-button (click)="onSave()" mdl-colored="primary">
-    {{ 'SAVE' | translate }}
+    {{ 'COMMON.SAVE' | translate }}
   </button>
   <button mdl-button (click)="onCancel()" mdl-colored="primary">
-    {{ 'CANCEL' | translate }}
+    {{ 'COMMON.CANCEL' | translate }}
   </button>
 </div>

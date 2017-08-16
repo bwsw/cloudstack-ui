@@ -29,7 +29,7 @@
         [style.width]="'100%'"
       >
       </mdl-textfield>
-      <div *ngIf="!enoughResources">{{ "SNAPSHOT_LIMIT_EXCEEDED" | translate }}</div>
+      <div *ngIf="!enoughResources">{{ "ERRORS.SNAPSHOT.LIMIT_EXCEEDED" | translate }}</div>
     </div>
     <div class="mdl-dialog__actions">
       <button
@@ -40,7 +40,7 @@
         type="button"
         (click)="onSubmit()"
       >
-        {{ 'CREATE' | translate }}
+        {{ 'COMMON.CREATE' | translate }}
       </button>
       <button
         mdl-colored="primary"
@@ -49,7 +49,7 @@
         type="button"
         (click)="onHide()"
       >
-        {{ 'CANCEL' | translate }}
+        {{ 'COMMON.CANCEL' | translate }}
       </button>
     </div>
   </form>

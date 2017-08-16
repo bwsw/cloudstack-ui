@@ -31,7 +31,7 @@
     *ngIf="hasPerformanceInfo()"
     class="detail-section"
   >
-    <div class="detail-section-header">{{ 'PERFORMANCE' | translate }}</div>
+    <div class="detail-section-header">{{ 'VM_PAGE.STORAGE_DETAILS.PERFORMANCE' | translate }}</div>
     <div class="row" *ngIf="volume.diskOffering.minIops">
       <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.MINIOPS' | translate }}</div>
       <div>{{ 'IOPS' | translate:{ value: volume.diskOffering.minIops } }}</div>

@@ -94,8 +94,8 @@ export abstract class VirtualMachineAction implements Action<VirtualMachine> {
   protected showConfirmationDialog(): Observable<void> {
     return this.dialogService.confirm(
       this.tokens.confirmMessage,
-      'NO',
-      'YES'
+      'COMMON.NO',
+      'COMMON.YES'
     );
   }
 }

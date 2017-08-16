@@ -25,7 +25,7 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
       activate: (snapshot) => this.showCreationDialog(snapshot)
     },
     {
-      name: 'DELETE',
+      name: 'COMMON.DELETE',
       icon: 'delete',
       activate: (snapshot, volume) => this.handleSnapshotDelete(snapshot, volume)
     },
@@ -53,10 +53,14 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
   public handleSnapshotDelete(snapshot: Snapshot, volume): void {
     let notificationId: string;
 
-    this.dialogService.confirm('CONFIRM_SNAPSHOT_DELETE', 'NO', 'YES')
+    this.dialogService.confirm(
+      'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION',
+      'COMMON.NO',
+      'COMMON.YES'
+    )
       .switchMap(() => {
         snapshot['loading'] = true;
-        notificationId = this.jobNotificationService.add('SNAPSHOT_DELETE_IN_PROGRESS');
+        notificationId = this.jobNotificationService.add('JOB_NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');
         return this.snapshotService.remove(snapshot.id);
       })
       .finally(() => snapshot['loading'] = false)
@@ -66,7 +70,7 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
           volume.snapshots = volume.snapshots.filter(_ => _.id !== snapshot.id);
           this.jobNotificationService.finish({
             id: notificationId,
-            message: 'SNAPSHOT_DELETE_DONE'
+            message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_DONE'
           });
         },
         error => {
@@ -77,7 +81,7 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
           this.notificationService.error(error);
           this.jobNotificationService.fail({
             id: notificationId,
-            message: 'SNAPSHOT_DELETE_FAILED'
+            message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_FAILED'
           });
         });
   }

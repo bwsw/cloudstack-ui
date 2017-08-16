@@ -10,18 +10,18 @@ export class VmStopAction extends VirtualMachineCommand {
   public vmStateOnAction = 'STOP_IN_PROGRESS';
 
   public action = VmActions.STOP;
-  public name = 'STOP';
+  public name = 'VM_PAGE.COMMANDS.STOP';
   public icon = 'stop';
 
   public tokens = {
     name: 'Stop',
     nameLower: 'stop',
-    nameCaps: 'STOP',
-    vmActionCompleted: 'STOP_DONE',
-    confirmMessage: 'CONFIRM_VM_STOP',
-    progressMessage: 'VM_STOP_IN_PROGRESS',
-    successMessage: 'STOP_DONE',
-    failMessage: 'VM_STOP_FAILED'
+    nameCaps: 'VM_PAGE.COMMANDS.STOP',
+    vmActionCompleted: 'JOB_NOTIFICATIONS.VM.STOP_DONE',
+    confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_STOP',
+    progressMessage: 'JOB_NOTIFICATIONS.VM.STOP_IN_PROGRESS',
+    successMessage: 'JOB_NOTIFICATIONS.VM.STOP_DONE',
+    failMessage: 'JOB_NOTIFICATIONS.VM.STOP_FAILED'
   };
 
   public canActivate(vm: VirtualMachine): boolean {

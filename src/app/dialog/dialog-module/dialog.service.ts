@@ -42,9 +42,9 @@ export const DialogTypes = {
   CONFIRM: 'CONFIRM' as DialogType
 };
 
-const defaultAlertDialogConfirmText = 'OK';
-const defaultConfirmDialogConfirmText = 'YES';
-const defaultConfirmDialogDeclineText = 'NO';
+const defaultAlertDialogConfirmText = 'COMMON.OK';
+const defaultConfirmDialogConfirmText = 'COMMON.YES';
+const defaultConfirmDialogDeclineText = 'COMMON.NO';
 
 @Injectable()
 export class DialogService {

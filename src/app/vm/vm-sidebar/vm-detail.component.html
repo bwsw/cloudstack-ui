@@ -10,7 +10,7 @@
     <md-card class="vm-card">
       <md-card-header>
         <md-card-title>
-          <h2 class="md-card-title-text">{{ 'ZONE' | translate }}</h2>
+          <h2 class="md-card-title-text">{{ 'VM_PAGE.VM_DETAILS.ZONE' | translate }}</h2>
         </md-card-title>
       </md-card-header>
       <md-card-content>
@@ -23,28 +23,28 @@
     <md-card class="vm-card">
       <md-card-header>
         <md-card-title>
-          <h2 class="md-card-title-text">{{ 'SERVICE_OFFERING' | translate }}</h2>
+          <h2 class="md-card-title-text">{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.TITLE' | translate }}</h2>
         </md-card-title>
       </md-card-header>
       <md-card-content class="md-card-content-with-actions">
         <div class="grid service-offering md-card-content-container" [class.open]="expandServiceOffering">
           <div class="row" *ngFor="let key of vm.serviceOffering.keys">
             <ng-template [ngIf]="isNotFormattedField(key)">
-              <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
+              <div>{{ ('VM_PAGE.VM_DETAILS.SERVICE_OFFERING.' + key) | translate }}</div>
               <div>{{ vm.serviceOffering[key] | viewValue | async }}</div>
             </ng-template>
             <ng-template [ngIf]="isDateField(key)">
-              <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
+              <div>{{ ('VM_PAGE.VM_DETAILS.SERVICE_OFFERING.' + key) | translate }}</div>
               <div>{{ vm.serviceOffering[key] | stringifyDate }}</div>
             </ng-template>
             <ng-template [ngIf]="isDiskStatsField(key)">
-              <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
+              <div>{{ ('VM_PAGE.VM_DETAILS.SERVICE_OFFERING.' + key) | translate }}</div>
               <div>{{ vm.serviceOffering[key] | division:10:6 }}</div>
             </ng-template>
             <ng-template [ngIf]="isTranslatedField(key)">
-              <div>{{ ('SERVICE_OFFERING_FIELDS.' + key) | translate }}</div>
+              <div>{{ ('VM_PAGE.VM_DETAILS.SERVICE_OFFERING.' + key) | translate }}</div>
               <div *ngIf="vm?.serviceOffering[key]">
-                {{ 'SERVICE_OFFERING_VALUES.' + vm.serviceOffering[key] | translate }}
+                {{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.' + vm.serviceOffering[key] | translate }}
               </div>
             </ng-template>
           </div>
@@ -52,7 +52,7 @@
         <md-card-actions>
           <div class="card-left-button">
             <button
-              [mdTooltip]="'CHANGE' | translate"
+              [mdTooltip]="'COMMON.CHANGE' | translate"
               mdTooltipPosition="above"
               mdl-button
               mdl-button-type="icon"
@@ -79,17 +79,19 @@
     <md-card class="vm-card">
       <md-card-header>
         <md-card-title>
-          <h2 class="md-card-title-text">{{ 'AFFINITY_GROUP' | translate }}</h2>
+          <h2 class="md-card-title-text">{{ 'VM_PAGE.VM_DETAIL.AFFINITY_GROUP.TITLE' | translate }}</h2>
         </md-card-title>
       </md-card-header>
       <md-card-content class="md-card-content-with-actions">
         <div class="md-card-content-container">
           <div *ngFor="let affinityGroup of vm.affinityGroup">{{ affinityGroup.name }}</div>
-          <div *ngIf="!vm.affinityGroup.length">{{ 'NO_AFFINITY_GROUP' | translate }}</div>
+          <div *ngIf="!vm.affinityGroup.length">
+            {{ 'VM_PAGE.VM_DETAIL.AFFINITY_GROUP.NO_AFFINITY_GROUP' | translate }}
+          </div>
         </div>
         <md-card-actions *loading="affinityGroupLoading">
           <button
-            [mdTooltip]="'EDIT' | translate"
+            [mdTooltip]="'COMMON.EDIT' | translate"
             mdTooltipPosition="above"
             mdl-button
             mdl-button-type="icon"
@@ -104,7 +106,7 @@
     <md-card class="vm-card">
       <md-card-header>
         <md-card-title>
-          <h2 class="md-card-title-text">{{ 'TEMPLATE' | translate }}</h2>
+          <h2 class="md-card-title-text">{{ 'VM_PAGE.VM_DETAIL.TEMPLATE' | translate }}</h2>
         </md-card-title>
       </md-card-header>
       <md-card-content>
@@ -115,17 +117,17 @@
     <md-card class="vm-card">
       <md-card-header>
         <md-card-title>
-          <h2 class="md-card-title-text">{{ 'SSH_KEY' | translate }}</h2>
+          <h2 class="md-card-title-text">{{ 'VM_PAGE.VM_DETAIL.SSH_KEY.TITLE' | translate }}</h2>
         </md-card-title>
       </md-card-header>
       <md-card-content class="md-card-content-with-actions">
         <div class="md-card-content-container">
           <span *ngIf="vm.keyPair; else noKeys">{{ vm.keyPair }}</span>
-          <ng-template #noKeys>{{ 'NO_SSH_KEY' | translate }}</ng-template>
+          <ng-template #noKeys>{{ 'VM_PAGE.VM_DETAIL.SSH_KEY.NO_SSH_KEY' | translate }}</ng-template>
         </div>
         <md-card-actions *loading="sskKeyLoading">
           <mdl-button
-            [mdTooltip]="(vm.keyPair ? 'EDIT': 'ADD') | translate"
+            [mdTooltip]="(vm.keyPair ? 'COMMON.EDIT': 'COMMON.ADD') | translate"
             mdTooltipPosition="above"
             mdl-button-type="icon"
             (click)="resetSshKey()"
@@ -142,7 +144,7 @@
     <md-card class="vm-card">
       <md-card-header>
         <md-card-title>
-          <h2 class="md-card-title-text">{{ 'STATISTICS' | translate }}</h2>
+          <h2 class="md-card-title-text">{{ 'VM_PAGE.VM_DETAILS.STATISTICS.TITLE' | translate }}</h2>
         </md-card-title>
         <div class="md-card-header-menu">
           <button
@@ -150,7 +152,7 @@
             mdl-ripple
             mdl-button-type="icon"
             mdTooltipPosition="before"
-            [mdTooltip]="'REFRESH' | translate"
+            [mdTooltip]="'COMMON.REFRESH' | translate"
             (click)="updateStats()"
           >
             <md-icon>sync</md-icon>
@@ -160,31 +162,31 @@
       <md-card-content>
         <div class="grid statistics">
           <div class="row">
-            <div>{{ 'STATISTICS_FIELDS.CPU_UTILIZED' | translate }}</div>
+            <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.CPU_UTILIZED' | translate }}</div>
             <div>{{ vm.cpuUsed || 0 }}</div>
           </div>
           <div class="row">
-            <div>{{ 'STATISTICS_FIELDS.NETWORK_READ' | translate }}</div>
+            <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.NETWORK_READ' | translate }}</div>
             <div>{{ vm.networkKbsRead || 0 }} KB</div>
           </div>
           <div class="row">
-            <div>{{ 'STATISTICS_FIELDS.NETWORK_WRITE' | translate }}</div>
+            <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.NETWORK_WRITE' | translate }}</div>
             <div>{{ vm.networkKbsWrite || 0 }} KB</div>
           </div>
           <div class="row">
-            <div>{{ 'STATISTICS_FIELDS.DISK_READ' | translate }}</div>
+            <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.DISK_READ' | translate }}</div>
             <div>{{ vm.diskKbsRead || 0 }} KB</div>
           </div>
           <div class="row">
-            <div>{{ 'STATISTICS_FIELDS.DISK_WRITE' | translate }}</div>
+            <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.DISK_WRITE' | translate }}</div>
             <div>{{ vm.diskKbsWrite || 0 }} KB</div>
           </div>
           <div class="row">
-            <div>{{ 'STATISTICS_FIELDS.DISK_READ_IO' | translate }}</div>
+            <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.DISK_READ_IO' | translate }}</div>
             <div>{{ 'IOPS' | translate:{ value: vm.diskIoRead || 0 } }}</div>
           </div>
           <div class="row">
-            <div>{{ 'STATISTICS_FIELDS.DISK_WRITE_IO' | translate }}</div>
+            <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.DISK_WRITE_IO' | translate }}</div>
             <div>{{ 'IOPS' | translate:{ value: vm.diskIoWrite || 0 } }}</div>
           </div>
         </div>

@@ -48,9 +48,9 @@ export class VmFilterComponent implements OnInit, OnChanges {
   public selectedZones: Array<Zone> = [];
   public selectedGroupings: Array<any> = [];
   public states = [
-    { state: VmStates.Running, name: 'VM_FILTERS.STATE.RUNNING' },
-    { state: VmStates.Stopped, name: 'VM_FILTERS.STATE.STOPPED' },
-    { state: VmStates.Error, name: 'VM_FILTERS.STATE.ERROR' }
+    { state: VmStates.Running, name: 'VM_PAGE.FILTERS.STATE_RUNNING' },
+    { state: VmStates.Stopped, name: 'VM_PAGE.FILTERS.STATE_STOPPED' },
+    { state: VmStates.Error, name: 'VM_PAGE.FILTERS.STATE_ERROR' }
   ];
   public showNoGroupFilter = true;
 

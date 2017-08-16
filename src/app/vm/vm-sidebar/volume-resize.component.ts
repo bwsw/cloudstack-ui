@@ -57,7 +57,7 @@ export class VolumeResizeComponent implements OnInit {
     );
 
     this.loading = true;
-    this.notificationId = this.jobsNotificationService.add('VOLUME_RESIZING');
+    this.notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.RESIZE_IN_PROGRESS');
     this.volumeService.resize(params)
       .finally(() => this.loading = false)
       .subscribe(
@@ -89,7 +89,7 @@ export class VolumeResizeComponent implements OnInit {
   private onVolumeResize(volume: Volume): void {
     this.jobsNotificationService.finish({
       id: this.notificationId,
-      message: 'VOLUME_RESIZED'
+      message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_DONE'
     });
 
     volume.diskOffering = this.diskOffering;
@@ -99,7 +99,7 @@ export class VolumeResizeComponent implements OnInit {
   private handleVolumeResizeError(error: Error): void {
     this.jobsNotificationService.fail({
       id: this.notificationId,
-      message: 'VOLUME_RESIZE_FAILED'
+      message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_FAILED'
     });
     this.dialogService.alert(error.message);
   }

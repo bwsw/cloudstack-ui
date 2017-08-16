@@ -62,7 +62,7 @@ export class SpareDriveCreationComponent implements OnInit {
 
   public onCreate(): void {
     this.loading = true;
-    this.notificationId = this.jobsNotificationService.add('VOLUME_CREATE_IN_PROGRESS');
+    this.notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.CREATION_IN_PROGRESS');
     this.createVolume(this.creationParams)
       .finally(() => this.loading = false)
       .subscribe(
@@ -145,7 +145,7 @@ export class SpareDriveCreationComponent implements OnInit {
   private handleInsufficientResources(): void {
     this.dialog.hide();
     if (!this.insufficientResourcesDialog) {
-      this.insufficientResourcesDialog = this.dialogService.alert('VOLUME_LIMIT_EXCEEDED');
+      this.insufficientResourcesDialog = this.dialogService.alert('ERRORS.VOLUME.VOLUME_LIMIT_EXCEEDED');
       this.insufficientResourcesDialog
         .subscribe(() => this.insufficientResourcesDialog = undefined);
     }
@@ -165,7 +165,7 @@ export class SpareDriveCreationComponent implements OnInit {
   private onVolumeCreated(volume: Volume): void {
     this.jobsNotificationService.finish({
       id: this.notificationId,
-      message: 'VOLUME_CREATE_DONE'
+      message: 'JOB_NOTIFICATIONS.VOLUME.CREATION_DONE'
     });
     this.dialog.hide(volume);
   }
@@ -177,7 +177,7 @@ export class SpareDriveCreationComponent implements OnInit {
     });
     this.jobsNotificationService.fail({
       id: this.notificationId,
-      message: 'VOLUME_CREATE_FAILED',
+      message: 'JOB_NOTIFICATIONS.VOLUME.CREATION_FAILED',
     });
   }
 }

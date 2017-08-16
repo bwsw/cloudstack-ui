@@ -13,9 +13,9 @@ import { VmStopActionSilent } from './silent/vm-stop-silent';
 @Injectable()
 export class VmChangeServiceOfferingAction extends VirtualMachineAction {
   public tokens = {
-    progressMessage: 'VM_CHANGE_SERVICE_OFFERING_IN_PROGRESS',
-    successMessage: 'VM_CHANGE_SERVICE_OFFERING_DONE',
-    failMessage: 'VM_CHANGE_SERVICE_OFFERING_FAILED'
+    progressMessage: 'JOB_NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_IN_PROGRESS',
+    successMessage: 'JOB_NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_DONE',
+    failMessage: 'JOB_NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_FAILED'
   };
 
   constructor(

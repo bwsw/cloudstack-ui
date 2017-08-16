@@ -108,7 +108,7 @@
       </mdl-tab-panel-title>
       <mdl-tab-panel-content *loading="updating">
         <div *ngIf="!readyInEveryZone" class="update-button-container">
-          <mdl-button (click)="updateStatus()">{{ 'UPDATE' | translate }}</mdl-button>
+          <mdl-button (click)="updateStatus()">{{ 'COMMON.UPDATE' | translate }}</mdl-button>
         </div>
         <md-card *ngFor="let zone of template.zones" class="vm-card" mdl-shadow="2">
           <md-card-header>
@@ -122,7 +122,7 @@
               <div>{{ zone.isReady | viewValue | async }}</div>
             </div>
             <div *ngIf="!zone.isReady && zone.status" class="row">
-              <div>{{ 'STATUS' | translate }}</div>
+              <div>{{ 'COMMON.STATUS' | translate }}</div>
               <div>{{ zone.status }}</div>
             </div>
           </md-card-content>

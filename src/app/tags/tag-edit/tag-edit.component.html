@@ -52,7 +52,7 @@
       type="submit"
       [disabled]="!tagCreationForm.valid"
     >
-      {{ (confirmButtonText || 'EDIT') | translate }}
+      {{ (confirmButtonText || 'COMMON.EDIT') | translate }}
     </button>
     <button
       mdl-button
@@ -61,7 +61,7 @@
       type="button"
       (click)="onCancel()"
     >
-      {{ 'CANCEL' | translate }}
+      {{ 'COMMON.CANCEL' | translate }}
     </button>
   </div>
 </form>

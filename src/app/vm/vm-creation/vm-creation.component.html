@@ -24,7 +24,7 @@
             name="name"
             required
             pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
-            [error-msg]="(takenName ? 'THIS_NAME_IS_TAKEN' : '') | translate"
+            [error-msg]="(takenName ? 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' : '') | translate"
             #vmName="ngModel"
             [ngModel]="formState.state.displayName"
             (ngModelChange)="displayNameChange($event)"
@@ -168,7 +168,7 @@
 
       </div>
       <div *ngIf="!enoughResources">
-        {{ 'INSUFFICIENT_RESOURCES_VM' | translate }}
+        {{ 'ERRORS.VM.INSUFFICIENT_RESOURCES' | translate }}
         <div *ngIf="insufficientResources.length">
           {{ 'VM_CREATION_FORM.YOU_RAN_OUT_OF' | translate }}
           <ng-container *ngFor="let resource of insufficientResources; let l = last">
@@ -185,7 +185,7 @@
         mdl-button
         mdl-ripple
       >
-        {{ 'CREATE' | translate }}
+        {{ 'COMMON.CREATE' | translate }}
       </button>
       <button
         mdl-colored="primary"
@@ -194,7 +194,7 @@
         (click)="onCancel()"
         mdl-ripple
       >
-        {{ 'CANCEL' | translate }}
+        {{ 'COMMON.CANCEL' | translate }}
       </button>
     </div>
   </form>

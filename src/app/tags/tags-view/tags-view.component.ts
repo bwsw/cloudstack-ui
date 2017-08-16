@@ -62,7 +62,7 @@ export class TagsViewComponent implements OnChanges {
         providers: [
           { provide: 'forbiddenKeys', useValue: forbiddenKeys },
           { provide: 'title', useValue: 'CREATE_NEW_TAG' },
-          { provide: 'confirmButtonText', useValue: 'CREATE' },
+          { provide: 'confirmButtonText', useValue: 'COMMON.CREATE' },
           { provide: 'categoryName', useValue: category && category.name }
         ]
       })
@@ -77,7 +77,7 @@ export class TagsViewComponent implements OnChanges {
         classes: 'tag-edit',
         providers: [
           { provide: 'title', useValue: 'EDIT_TAG' },
-          { provide: 'confirmButtonText', useValue: 'EDIT' },
+          { provide: 'confirmButtonText', useValue: 'COMMON.EDIT' },
           { provide: 'categoryName', useValue: tag.categoryName },
           { provide: 'tag', useValue: tag }
         ]

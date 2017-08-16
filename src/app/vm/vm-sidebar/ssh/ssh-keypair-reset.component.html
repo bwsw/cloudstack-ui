@@ -1,5 +1,5 @@
 <div *loading="resettingKeyInProgress">
-  <h3 class="mdl-dialog__title">{{ 'SELECT_SSH_KEY' | translate }}</h3>
+  <h3 class="mdl-dialog__title">{{ 'VM_PAGE.VM_DETAIL.SSH_KEY.SELECT_SSH_KEY' | translate }}</h3>
   <div *loading="!sshKeyList" class="mdl-dialog__content">
     <md-select
       *ngIf="sshKeyList?.length; else noGroups"
@@ -9,7 +9,7 @@
         {{ key.name }}
       </md-option>
     </md-select>
-    <ng-template #noGroups>{{ 'NO_SSH_KEYS' | translate }}</ng-template>
+    <ng-template #noGroups>{{ 'VM_PAGE.VM_DETAIL.SSH_KEY.NO_SSH_KEYS' | translate }}</ng-template>
   </div>
   <div class="mdl-dialog__actions">
     <button
@@ -18,10 +18,10 @@
       mdl-button
       mdl-colored="primary"
     >
-      {{ 'CHANGE' | translate }}
+      {{ 'COMMON.CHANGE' | translate }}
     </button>
     <button (click)="hide()" mdl-button mdl-colored="primary">
-      {{ 'CANCEL' | translate }}
+      {{ 'COMMON.CANCEL' | translate }}
     </button>
   </div>
 </div>

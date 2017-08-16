@@ -73,7 +73,7 @@ export class ApiInfoComponent implements OnInit {
   }
 
   public askToRegenerateKeys(): void {
-    this.dialogService.confirm('ASK_GENERATE_KEYS', 'CANCEL', 'GENERATE')
+    this.dialogService.confirm('ASK_GENERATE_KEYS', 'COMMON.CANCEL', 'GENERATE')
       .onErrorResumeNext()
       .subscribe(() => this.regenerateKeys());
   }

@@ -11,15 +11,15 @@ export class ErrorService extends Subject<any> {
   private static ErrorMap: Array<ErrorTranslation> = [
     {
       regex: /Going from existing size of.*/,
-      translation: 'VOLUME_NEWSIZE_LOWER'
+      translation: 'ERRORS.VOLUME.NEW_SIZE_IS_LOWER'
     },
     {
       regex: /Maximum number of resources of type \'primary_storage\'.*/,
-      translation: 'VOLUME_PRIMARY_STORAGE_EXCEEDED'
+      translation: 'ERRORS.VOLUME.PRIMARY_STORAGE_EXCEEDED'
     },
     {
       regex: /The vm with hostName (.*) already exists.*/,
-      translation: 'THE_NAME_IS_TAKEN'
+      translation: 'ERRORS.COMMON.THE_NAME_IS_TAKEN'
     },
     {
       regex: /A key pair with name '(.*)' already exists/,
@@ -27,27 +27,27 @@ export class ErrorService extends Subject<any> {
     },
     {
       regex: /Unable to find suitable primary storage when creating volume (.*)/,
-      translation: 'UNABLE_FIND_PRIMARY_STORAGE'
+      translation: 'ERRORS.VOLUME.UNABLE_TO_FIND_PRIMARY_STORAGE'
     },
     {
       regex: /There is other active snapshot tasks on the instance (.*)/,
-      translation: 'VOLUME_BUSY'
+      translation: 'ERRORS.VOLUME.VOLUME_BUSY'
     },
     {
       regex: /User is not allowed CloudStack login/,
-      translation: 'LOGIN_FORM.INCORRECT_USERNAME'
+      translation: 'AUTH.INCORRECT_USERNAME'
     },
     {
       regex: /Failed to authenticate user (.*); please provide valid credentials/,
-      translation: 'LOGIN_FORM.INCORRECT_PASSWORD'
+      translation: 'AUTH.INCORRECT_PASSWORD'
     },
     {
       regex: /Unable to find the domain from the path \/(.*)\//,
-      translation: 'LOGIN_FORM.INCORRECT_DOMAIN'
+      translation: 'AUTH.INCORRECT_DOMAIN'
     },
     {
       regex: /Value greater than max allowed length (\d+) for param: volumeName/,
-      translation: 'VOLUME_NAME_TOO_LONG'
+      translation: 'ERRORS.VOLUME.NAME_TOO_LONG'
     }
   ];
 

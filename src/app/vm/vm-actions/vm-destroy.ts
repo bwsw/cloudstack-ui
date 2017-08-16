@@ -16,19 +16,19 @@ export class VmDestroyAction extends VirtualMachineCommand {
   public vmStateOnAction = 'DESTROY_IN_PROGRESS';
 
   public action = VmActions.DESTROY;
-  public name = 'DESTROY';
+  public name = 'VM_PAGE.COMMANDS.DESTROY';
   public icon = 'delete';
 
   public tokens = {
     name: 'Destroy',
 
     nameLower: 'destroy',
-    nameCaps: 'DESTROY',
-    vmActionCompleted: 'DESTROY_DONE',
-    confirmMessage: 'CONFIRM_VM_DESTROY',
-    progressMessage: 'VM_DESTROY_IN_PROGRESS',
-    successMessage: 'DESTROY_DONE',
-    failMessage: 'VM_DESTROY_FAILED'
+    nameCaps: 'VM_PAGE.COMMANDS.DESTROY',
+    vmActionCompleted: 'JOB_NOTIFICATIONS.VM.DESTROY_DONE',
+    confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_DESTROY',
+    progressMessage: 'JOB_NOTIFICATIONS.VM.DESTROY_IN_PROGRESS',
+    successMessage: 'JOB_NOTIFICATIONS.VM.DESTROY_DONE',
+    failMessage: 'JOB_NOTIFICATIONS.VM.DESTROY_FAILED'
   };
 
   constructor(
@@ -81,9 +81,9 @@ export class VmDestroyAction extends VirtualMachineCommand {
     }
 
     return this.dialogService.confirm(
-      'CONFIRM_VM_DELETE_DRIVES',
-      'NO',
-      'YES'
+      'DIALOG_MESSAGES.VM.CONFIRM_DRIVES_DELETION',
+      'COMMON.NO',
+      'COMMON.YES'
     );
   }
 }
