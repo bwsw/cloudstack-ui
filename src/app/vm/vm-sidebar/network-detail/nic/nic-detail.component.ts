@@ -24,13 +24,21 @@ export class NicDetailComponent {
   }
 
   public confirmAddSecondaryIp(vm: VirtualMachine): void {
-    this.dialogService.confirm('ARE_YOU_SURE_ADD_SECONDARY_IP', 'COMMON.NO', 'COMMON.YES')
+    this.dialogService.confirm(
+      'VM_PAGE.NETWORK_DETAILS.ARE_YOU_SURE_ADD_SECONDARY_IP',
+      'COMMON.NO',
+      'COMMON.YES'
+    )
       .onErrorResumeNext()
       .subscribe(() => this.addSecondaryIp(vm));
   }
 
   public confirmRemoveSecondaryIp(secondaryIpId: string, vm: VirtualMachine): void {
-    this.dialogService.confirm('ARE_YOU_SURE_REMOVE_SECONDARY_IP', 'COMMON.NO', 'COMMON.YES')
+    this.dialogService.confirm(
+      'VM_PAGE.NETWORK_DETAILS.ARE_YOU_SURE_REMOVE_SECONDARY_IP',
+      'COMMON.NO',
+      'COMMON.YES'
+    )
       .onErrorResumeNext()
       .subscribe(() => this.removeSecondaryIp(secondaryIpId, vm));
   }

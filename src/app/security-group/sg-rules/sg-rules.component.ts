@@ -1,11 +1,9 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-
-import { SecurityGroupService } from '../../shared/services';
-import { SecurityGroup, NetworkRuleType, NetworkRuleTypes, NetworkProtocol, NetworkProtocols } from '../sg.model';
-import { NotificationService } from '../../shared/services';
 import { MdlDialogReference } from '../../dialog/dialog-module';
+import { NotificationService, SecurityGroupService } from '../../shared/services';
+import { NetworkProtocol, NetworkProtocols, NetworkRuleType, NetworkRuleTypes, SecurityGroup } from '../sg.model';
 
 
 @Component({
@@ -30,8 +28,8 @@ export class SgRulesComponent {
   public NetworkRuleTypes = NetworkRuleTypes;
 
   public types = [
-    { value: NetworkRuleTypes.Ingress, text: 'INGRESS' },
-    { value: NetworkRuleTypes.Egress, text: 'EGRESS' },
+    { value: NetworkRuleTypes.Ingress, text: 'SECURITY_GROUP_PAGE.RULES.INGRESS' },
+    { value: NetworkRuleTypes.Egress, text: 'SECURITY_GROUP_PAGE.RULES.EGRESS' },
   ];
 
   public protocols = [
@@ -54,6 +52,14 @@ export class SgRulesComponent {
     this.icmpType = -1;
 
     this.adding = false;
+  }
+
+  public get title(): string {
+    if (this.securityGroup.isPredefinedTemplate) {
+      return 'SECURITY_GROUP_PAGE.RULES.TEMPLATE_RULES';
+    }
+
+    return 'SECURITY_GROUP_PAGE.TEMPLATE.FIREWALL_RULES_FOR_VM';
   }
 
   public addRule(e: Event): void {
@@ -84,7 +90,7 @@ export class SgRulesComponent {
           this.adding = false;
         },
         () => {
-          this.notificationService.message('FAILED_TO_ADD_RULE');
+          this.notificationService.message('SECURITY_GROUP_PAGE.RULES.FAILED_TO_ADD_RULE');
           this.adding = false;
         });
   }
@@ -117,9 +123,10 @@ export class SgRulesComponent {
         }
         rules.splice(ind, 1);
       }, () => {
-        this.translateService.get(['FAILED_TO_REMOVE_RULE']).subscribe((translations) => {
-          this.notificationService.message(translations['FAILED_TO_REMOVE_RULE']);
-        });
+        this.translateService.get(['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE'])
+          .subscribe((translations) => {
+            this.notificationService.message(translations['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE']);
+          });
       });
   }
 

@@ -49,12 +49,12 @@ export class VmCreationComponent implements OnInit {
   public enoughResources: boolean;
   public insufficientResources: Array<string> = [];
   public insufficientResourcesErrorMap = {
-    instances: 'VM_CREATION_FORM.RESOURCES.INSTANCES',
-    ips: 'VM_CREATION_FORM.RESOURCES.IPS',
-    volumes: 'VM_CREATION_FORM.RESOURCES.VOLUMES',
-    cpus: 'VM_CREATION_FORM.RESOURCES.CPUS',
-    memory: 'VM_CREATION_FORM.RESOURCES.MEMORY',
-    primaryStorage: 'VM_CREATION_FORM.RESOURCES.PRIMARYSTORAGE',
+    instances: 'VM_PAGE.VM_CREATION.INSTANCES',
+    ips: 'VM_PAGE.VM_CREATION.IPS',
+    volumes: 'VM_PAGE.VM_CREATION.VOLUMES',
+    cpus: 'VM_PAGE.VM_CREATION.CPUS',
+    memory: 'VM_PAGE.VM_CREATION.MEMORY',
+    primaryStorage: 'VM_PAGE.VM_CREATION.PRIMARY_STORAGE',
   };
 
   public takenName: string;

@@ -1,16 +1,16 @@
 import { MdlDefaultTableModel } from '@angular-mdl/core';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
 import { FilterService } from '../shared';
 import { formatIso } from '../shared/components/date-picker/dateUtils';
 import { LanguageService } from '../shared/services';
-import { Event } from './event.model';
-import { EventService } from './event.service';
 import { DateTimeFormatterService } from '../shared/services/date-time-formatter.service';
 import { SessionStorageService } from '../shared/services/session-storage.service';
-import * as moment from 'moment';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Event } from './event.model';
+import { EventService } from './event.service';
 
 
 @Component({
@@ -30,12 +30,18 @@ export class EventListComponent implements OnInit {
   public eventTypes: Array<string>;
   public levels = ['INFO', 'WARN', 'ERROR'];
   private filtersKey = 'eventListFilters';
-  private filterService = new FilterService({
-    'date': { type: 'string' },
-    'levels': { type: 'array', options: this.levels, defaultOption: [] },
-    'types': { type: 'array', defaultOption: [] },
-    'query': { type: 'string' }
-  }, this.router, this.sessionStorage, this.filtersKey, this.activatedRoute);
+  private filterService = new FilterService(
+    {
+      'date': { type: 'string' },
+      'levels': { type: 'array', options: this.levels, defaultOption: [] },
+      'types': { type: 'array', defaultOption: [] },
+      'query': { type: 'string' }
+    },
+    this.router,
+    this.sessionStorage,
+    this.filtersKey,
+    this.activatedRoute
+  );
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
@@ -50,8 +56,14 @@ export class EventListComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.translate.get(['DESCRIPTION', 'LEVEL', 'TYPE', 'TIME'])
+    this.translate.get([
+      'EVENT_PAGE.DESCRIPTION',
+      'EVENT_PAGE.LEVEL',
+      'EVENT_PAGE.TYPE',
+      'EVENT_PAGE.TIME'
+    ])
       .subscribe(translations => this.initTableModel(translations));
+
     this.initFilters();
     this.getEvents({ reload: true });
   }
@@ -160,10 +172,10 @@ export class EventListComponent implements OnInit {
 
   private initTableModel(translations: any): void {
     this.tableModel = new MdlDefaultTableModel([
-      { key: 'description', name: translations['DESCRIPTION'] },
-      { key: 'level', name: translations['LEVEL'] },
-      { key: 'type', name: translations['TYPE'] },
-      { key: 'time', name: translations['TIME'] }
+      { key: 'description', name: translations['EVENT_PAGE.DESCRIPTION'] },
+      { key: 'level', name: translations['EVENT_PAGE.LEVEL'] },
+      { key: 'type', name: translations['EVENT_PAGE.TYPE'] },
+      { key: 'time', name: translations['EVENT_PAGE.TIME'] }
     ]);
   }
 

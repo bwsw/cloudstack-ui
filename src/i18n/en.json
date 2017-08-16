@@ -377,13 +377,15 @@
     },
 
     "STORAGE_DETAILS": {
-      "DISK_OFFERING": "Disk offering",
+      "GENERAL_INFORMATION": "General information",
       "PERFORMANCE": "Performance",
 
       "ISO": "ISO",
       "ATTACH": "Attach",
       "DETACH": "Detach",
       "NO_MEDIUM": "No medium attached",
+
+      "CREATE_TEMPLATE": "Create a template",
 
       "ATTACH_VOLUME": "Attach a volume",
       "SELECT_VOLUME": "Select a volume",
@@ -428,60 +430,55 @@
       "SERVICE_OFFERING": "Service offering",
       "INSTALLATION_SOURCE": "Installation source",
       "DISK_SIZE": "Disk size",
+
       "GROUP": "Group",
+      "NO_GROUP": "No group",
+
       "AFFINITY_GROUPS": "Affinity groups",
       "SECURITY_GROUPS": "Firewall rules",
 
-      "KEYBOARDS": {
-        "KEYBOARD_LAYOUT": "Keyboard layout",
-        "KB_US": "Standard (US) keyboard",
-        "KB_UK": "UK keyboard",
-        "KB_JP": "Japanese keyboard",
-        "KB_SC": "Simplified Chinese keyboard"
-      },
+      "KEYBOARD_LAYOUT": "Keyboard layout",
+      "KB_US": "Standard (US) keyboard",
+      "KB_UK": "UK keyboard",
+      "KB_JP": "Japanese keyboard",
+      "KB_SC": "Simplified Chinese keyboard",
 
       "SSH_KEYPAIR": "SSH keypair",
       "START_VM": "Start VM",
       "YOU_RAN_OUT_OF": "You ran out of",
 
-      "RESOURCES": {
-        "CPUS": "CPU",
-        "MEMORY": "RAM",
-        "INSTANCES": "VMs",
-        "IPS": "IPs",
-        "VOLUMES": "Volumes",
-        "PRIMARYSTORAGE": "Primary storage"
-      },
+      "CPUS": "CPU",
+      "MEMORY": "RAM",
+      "INSTANCES": "VMs",
+      "IPS": "IPs",
+      "VOLUMES": "Volumes",
+      "PRIMARY_STORAGE": "Primary storage",
 
       "CREATING_AG": "Creating an affinity group",
       "CREATING_SG": "Creating a security group",
       "DEPLOYING_VM": "Deploying the virtual machine",
 
-      "INSUFFICIENT_RESOURCES": "Insufficient resources",
-      "NO_DISK_OFFERING": "No disk offerings available. Contact your administrator",
-      "NO_SERVICE_OFFERING": "No service offerings available. Contact your administrator"
+      "OS_TEMPLATE": "OS template"
     }
   },
 
   "SPARE_DRIVE_PAGE": {
     "FILTERS": {
       "SELECT_ZONES": "Select zones",
-      "GROUP_BY_LABEL": "Group by",
 
-      "GROUP_BY": {
-        "COLORS": "Colors",
-        "GROUPS": "Groups",
-        "ZONES": "Zones"
-      }
+      "GROUP_BY": "Group by",
+      "GROUP_BY_ZONES": "Zones"
     },
 
     "CARD": {
-      "STATE": "State",
-      "SIZE": "Size"
+      "ATTACH": "Attach",
+      "RESIZE": "Resize",
+      "SIZE": "Size",
+      "STATE": "State"
     },
 
     "SPARE_DRIVE_CREATION": {
-      "NEW_VOLUME": "New volume",
+      "TITLE": "New volume",
       "NAME": "Name",
       "ZONE": "Zone",
       "DISK_OFFERING": "DISK_OFFERING",
@@ -494,15 +491,12 @@
       "STORAGE_TYPE": "Storage type",
       "DESCRIPTION": "Description",
 
-      "DISK_OFFERING": {
-        "DISK_OFFERING": "Disk offering", // DISK_OFFERING_TITLE
-        "NAME": "Name",
-        "DESCRIPTION": "Description",
-        "READ_RATE_MB": "Read rate", // READ_RATE
-        "WRITE_RATE_MB": "Write rate", // WRITE_RATE
-        "READ_RATE_IOPS": "Min IOPS", // MINIOPS (not used)
-        "WRITE_RATE_IOPS": "Max IOPS" // MAXIOPS (not used)
-      }
+      "DISK_OFFERING": "Disk offering", // DISK_OFFERING_TITLE
+      "NAME": "Name",
+      "READ_RATE_MB": "Read rate", // READ_RATE
+      "WRITE_RATE_MB": "Write rate", // WRITE_RATE
+      "READ_RATE_IOPS": "Min IOPS", // MINIOPS (not used)
+      "WRITE_RATE_IOPS": "Max IOPS" // MAXIOPS (not used)
     },
 
     "ATTACHMENT": {
@@ -523,19 +517,19 @@
       "SELECT_TYPES": "Select types", // TEMPLATE_TYPES
       "SELECT_ZONES": "Select zones",
 
+      "GROUP_BY": "Group by",
+      "GROUP_BY_ZONES": "Zones",
+      "NO_ZONE": "No zone",
+
       "FEATURED": "Featured", // TEMPLATE_FEATURED
       "SELF": "My", // TEMPLATE_SELF
       "SELFEXECUTABLE": "My", // TEMPLATE_SELFEXECUTABLE
-      "ALL": "All", // TEMPALTE_ALL
-
-      "NO_ZONE": "No zone"
+      "ALL": "All" // TEMPALTE_ALL
     },
 
     "CARD": {
       "OS": "OS" // not yet in code
     },
-
-    "CREATE_TEMPLATE_BUTTON": "Create a template",
 
     "SIDEBAR": {
       "TEMPLATE": "Template", // not in code yet
@@ -555,15 +549,14 @@
       "DOMAIN": "Domain",
       "CREATED": "Created", // renamed from CREATED_MASC
       "TYPE": "Type",
-      "BUILT_IN_TYPE": "Built-in", // BUILTIN_TEMPLATE_TYPE
-      "USER_TYPE": "User", // USER_TEMPLATE_TYPE
+      "BUILTIN": "Built-in", // BUILTIN_TEMPLATE_TYPE
+      "USER": "User", // USER_TEMPLATE_TYPE
       "HYPERVISOR": "Hypervisor",
-      "DOWNLOAD_URL": "Download URL",
+      "DOWNLOAD_URL": "Download URL"
     },
 
     "ZONE_DETAILS": {
-      "READY": "Ready",
-      "NOT_READY": "Not ready",
+      "READY": "Ready"
     },
 
     "TEMPLATE_CREATION": {
@@ -592,6 +585,7 @@
       "TEMPLATE_RULES": "Template rules",
       "TYPE": "Type",
       "PROTOCOL": "Protocol",
+      "CIDR": "CIDR",
       "START_PORT": "Start port",
       "END_PORT": "End port",
       "INGRESS": "Ingress",
@@ -607,14 +601,15 @@
       "FAILED_TO_REMOVE_RULE": "Failed to remove the rule"
     },
 
+    "RULES_MANAGER": {
+      "BASED_ON": "based on"
+    },
+
     "TEMPLATE_CREATION": {
       "CREATE_NEW_TEMPLATE": "Create new template",
       "NAME": "Name",
       "DESCRIPTION": "Description",
-      "BASIC_RULES": "Basic rules",
-      "OS_TEMPLATE": "OS template",
-      "YOU_DONT_HAVE_TEMPLATES": "You don't have any templates", // VM_CREATION_TEMPLATE -> SECURITY_GROUP_TEMPLATE_CREATION
-      "BASED_ON": "based on"
+      "BASIC_RULES": "Basic rules"
     },
 
     "BUILDER": {
@@ -884,5 +879,5 @@
     "MB_VALUE": "{{value}} MB",
     "MBPS": "{{value}} MB/s",
     "MHZ": "MHz"
-  },
+  }
 }

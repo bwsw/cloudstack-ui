@@ -12,7 +12,7 @@
       <div class="mdl-textfield template-list">
         <div class="mdl-textfield__input">
           <ng-container *ngIf="savedRules.templates?.length">
-            {{ 'BASED_ON' | translate }}
+            {{ 'SECURITY_GROUP_PAGE.RULES_MANAGER.BASED_ON' | translate }}
             <span *ngFor="let sg of savedRules?.templates; let i=index">
               {{ sg.name }}{{ i === savedRules?.templates?.length - 1 ? '' : ',' }}
             </span>

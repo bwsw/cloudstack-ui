@@ -21,15 +21,15 @@
   <md-card-content>
     <div class="card-wrapper">
       <div class="first">
-        <div class="row">{{ 'STATE' | translate }}:</div>
-        <div class="row">{{ 'SIZE' | translate }}:</div>
+        <div class="row">{{ 'SPARE_DRIVE_PAGE.CARD.STATE' | translate }}:</div>
+        <div class="row">{{ 'CARD.SIZE' | translate }}:</div>
       </div>
       <div class="last">
         <div class="row">
           <span>{{ ('SPARE_DRIVE_STATE.' + item.state.toUpperCase()) | translate }}</span>
         </div>
         <div class="row">
-          <span>{{ (item.size | division:2:30:2) }} {{ ('GB' | translate) }}</span>
+          <span>{{ (item.size | division:2:30:2) }} {{ ('UNITS.GB' | translate) }}</span>
         </div>
       </div>
     </div>
@@ -43,14 +43,14 @@
       (click)="attach()"
     >
       <md-icon>attach_file</md-icon>
-      <span>{{ 'ATTACH' | translate }}</span>
+      <span>{{ 'CARD.ATTACH' | translate }}</span>
     </button>
     <button
       md-menu-item
       (click)="resize()"
     >
       <md-icon>photo_size_select_small</md-icon>
-      <span>{{ 'RESIZE' | translate }}</span>
+      <span>{{ 'CARD.RESIZE' | translate }}</span>
     </button>
     <button
       md-menu-item

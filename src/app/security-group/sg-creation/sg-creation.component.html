@@ -1,9 +1,11 @@
-<h3 class="mdl-dialog__title">{{ 'SECURITY_GROUP_TEMPLATES' | translate }}</h3>
+<h3 class="mdl-dialog__title">
+  {{ 'SECURITY_GROUP_PAGE.BUILDER.SECURITY_GROUP_TEMPLATES' | translate }}
+</h3>
 <div class="mdl-dialog__content">
   <div class="list-builder">
     <div class="left-list">
       <div class="flex-container">
-        <h5>{{ 'ALL_GROUPS' | translate }}</h5>
+        <h5>{{ 'SECURITY_GROUP_PAGE.BUILDER.ALL_GROUPS' | translate }}</h5>
         <button
           *ngIf="items[0].length"
           mdl-button
@@ -44,7 +46,7 @@
     </div>
     <div class="right-list">
       <div class="flex-container">
-        <h5>{{ 'SELECTED_GROUPS' | translate }}</h5>
+        <h5>{{ 'SECURITY_GROUP_PAGE.BUILDER.SELECTED_GROUPS' | translate }}</h5>
         <button
           *ngIf="items[1].length"
           mdl-button
@@ -65,7 +67,7 @@
     </div>
   </div>
   <div class="rules-list">
-    <h5>{{ 'NETWORK_RULES' | translate }}</h5>
+    <h5>{{ 'SECURITY_GROUP_PAGE.BUILDER.NETWORK_RULES' | translate }}</h5>
     <md-list>
       <cs-sg-creation-rule
         *ngFor="let item of selectedRules[0]"

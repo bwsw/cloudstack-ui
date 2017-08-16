@@ -16,7 +16,7 @@
         [(ngModel)]="selectedLevels"
         (change)="getEvents()"
         multiple="true"
-        [placeholder]="'LEVELS' | translate"
+        [placeholder]="'EVENT_PAGE.LEVELS' | translate"
       >
         <md-option
           *ngFor="let level of levels"
@@ -31,7 +31,7 @@
         [(ngModel)]="selectedTypes"
         (change)="getEvents()"
         multiple="true"
-        [placeholder]="'EVENT_TYPES' | translate"
+        [placeholder]="'EVENT_PAGE.TYPES' | translate"
       >
         <md-option
           *ngFor="let et of eventTypes"
@@ -54,7 +54,7 @@
         [table-model]="tableModel"
         [searchQuery]="query"
       ></cs-table>
-      <span *ngIf="!visibleEvents?.length">{{ 'NO_EVENTS' | translate }}</span>
+      <span *ngIf="!visibleEvents?.length">{{ 'EVENT_PAGE.NO_EVENTS' | translate }}</span>
     </ng-container>
   </div>
 </div>

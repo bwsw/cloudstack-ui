@@ -1,11 +1,11 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<h3 class="mdl-dialog__title">{{ 'VOLUME_CREATION_FORM.NEW_VOLUME' | translate }}</h3>
+<h3 class="mdl-dialog__title">{{ 'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.TITLE' | translate }}</h3>
 <form (ngSubmit)="onCreate()" #volumeCreationForm="ngForm" novalidate>
   <div class="mdl-dialog__content">
     <div class="flex-column">
       <mdl-textfield
         type="text"
-        label="{{ 'NAME' | translate }}"
+        label="{{ 'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.NAME' | translate }}"
         name="name"
         floating-label
         autofocus
@@ -20,7 +20,7 @@
         [value]="name"
       ></cs-character-count>
       <div>
-        <h5>{{ 'ZONE' | translate }}</h5>
+        <h5>{{ 'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.ZONE' | translate }}</h5>
         <md-select
           [(ngModel)]="zoneId"
           id="zone"
@@ -35,7 +35,7 @@
         </md-select>
       </div>
       <div>
-        <h5>{{ 'DISK_OFFERING' | translate }}</h5>
+        <h5>{{ 'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.DISK_OFFERING' | translate }}</h5>
         <cs-disk-offering
           name="diskOffering"
           [ngModel]="diskOffering"
@@ -47,8 +47,8 @@
         <cs-slider
           [min]="minSize"
           [max]="maxSize"
-          [label]="'SIZE' | translate"
-          [units]="'GB' | translate"
+          [label]="'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.SIZE' | translate"
+          [units]="'UNITS.GB' | translate"
           name="diskSize"
           [(ngModel)]="size"
         ></cs-slider>
