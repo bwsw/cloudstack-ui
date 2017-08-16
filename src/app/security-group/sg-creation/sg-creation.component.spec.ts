@@ -143,7 +143,7 @@ describe('Sg creation component', () => {
     comp.ngOnInit();
 
     comp.selectGroup(0, false);
-    comp.move(true);
+    comp.moveLeft();
 
     const buttons = f.debugElement.queryAll(By.css('.mat-dialog-actions button'));
     buttons[1].triggerEventHandler('click');
@@ -157,7 +157,7 @@ describe('Sg creation component', () => {
     mockRules.ingress = mockRulesIngress;
     comp.ngOnInit();
     comp.selectGroup(0, false);
-    comp.move(true);
+    comp.moveLeft();
     buttons[0].triggerEventHandler('click');
     expect(dialogReferenceMock.close).toHaveBeenCalledTimes(2);
     expect(dialogReferenceMock.close).toHaveBeenCalledWith({

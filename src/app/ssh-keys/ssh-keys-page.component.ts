@@ -5,7 +5,7 @@ import { SSHKeyPair } from '../shared/models';
 import { SSHKeyPairService } from '../shared/services/ssh-keypair.service';
 import { SShKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creation-dialog.component';
 import { SshPrivateKeyDialogComponent } from './ssh-key-creation/ssh-private-key-dialog.component';
-import sortBy = require('lodash/sortBy');
+import * as sortBy from 'lodash/sortBy';
 
 
 @Component({

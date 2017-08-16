@@ -13,10 +13,9 @@ import { defaultCategoryName, Tag } from '../../shared/models';
 import { Utils } from '../../shared/services';
 import { TagCategory } from '../tag-category/tag-category.component';
 import { TagEditComponent } from '../tag-edit/tag-edit.component';
-import cloneDeep = require('lodash/cloneDeep');
-import groupBy = require('lodash/groupBy');
-import sortBy = require('lodash/sortBy');
-
+import * as cloneDeep from 'lodash/cloneDeep';
+import * as groupBy from 'lodash/groupBy';
+import * as sortBy from 'lodash/sortBy';
 
 export interface TagEditAction {
   oldTag: Tag;
@@ -143,11 +142,19 @@ export class TagsViewComponent implements OnChanges {
     const aName = a.name.toLowerCase();
     const bName = b.name.toLowerCase();
 
-    if (a.name === defaultCategoryName) { return -1; }
-    if (b.name === defaultCategoryName) { return  1; }
+    if (a.name === defaultCategoryName) {
+      return -1;
+    }
+    if (b.name === defaultCategoryName) {
+      return 1;
+    }
 
-    if (aName < bName) { return -1; }
-    if (aName > bName) { return  1; }
+    if (aName < bName) {
+      return -1;
+    }
+    if (aName > bName) {
+      return 1;
+    }
 
     return 0;
   }
@@ -159,6 +166,6 @@ export class TagsViewComponent implements OnChanges {
     return {
       name,
       tags: sortedTags
-    }
+    };
   }
 }

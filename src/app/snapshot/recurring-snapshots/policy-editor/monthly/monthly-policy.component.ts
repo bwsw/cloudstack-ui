@@ -4,8 +4,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { TimeFormat } from '../../../../shared/services';
 import { Time } from '../../time-picker/time-picker.component';
-import isEqual = require('lodash/isEqual');
-import range = require('lodash/range');
+import * as isEqual from 'lodash/isEqual';
+import * as range from 'lodash/range';
 
 
 export interface MonthlyPolicy extends Time {

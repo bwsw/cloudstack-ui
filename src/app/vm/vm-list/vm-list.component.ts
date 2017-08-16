@@ -27,7 +27,7 @@ import {
   VmFilter
 } from '../vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list-item.component';
-import clone = require('lodash/clone');
+import * as clone from 'lodash/clone';
 
 
 const askToCreateVm = 'csui.user.ask-to-create-vm';
