@@ -13,4 +13,14 @@ export class ChartAreaComponent {
   @Input() public error;
   @Output() previous = new EventEmitter();
   @Output() next = new EventEmitter();
+
+  public haveChartDataset(chart: PulseChart) {
+    return !!chart && !!chart.datasets && !!chart.datasets.length;
+  }
+
+  public haveChartData(chart: PulseChart) {
+    return this.haveChartDataset(chart) &&
+      !!chart.datasets[0].data &&
+      !!chart.datasets[0].data.length;
+  }
 }

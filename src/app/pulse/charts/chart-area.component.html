@@ -1,27 +1,36 @@
-<div *ngIf="!charts[0]?.datasets?.length || error || !charts[0]?.datasets[0]?.data.length" class="no-charts">
+<div
+  *ngIf="!haveChartDataset(charts[0]) || error"
+  class="no-charts"
+>
   <img src="img/no-charts.svg" alt="">
   <md-spinner *ngIf="fetching" [strokeWidth]="8"></md-spinner>
-  <span *ngIf="!fetching && charts[0]?.datasets?.length && !charts[0]?.datasets[0]?.data.length && !error">{{ 'PULSE.NO_DATA' | translate }}</span>
-  <span *ngIf="!fetching && !error && !charts[0]?.datasets?.length">{{ 'PULSE.SELECT_DATA' | translate }}</span>
+  <span *ngIf="!fetching && !error && !haveChartDataset(charts[0])">{{ 'PULSE.SELECT_DATA' | translate }}</span>
   <span *ngIf="!fetching && error">{{ 'PULSE.ERROR' | translate }}</span>
 </div>
-<div *ngIf="fetching && charts[0]?.datasets?.length" class="overlay">
+<div *ngIf="fetching && haveChartDataset(charts[0])" class="overlay">
   <md-spinner [strokeWidth]="8"></md-spinner>
 </div>
-<ng-container *ngIf="!error && charts[0]?.datasets[0]?.data.length">
+<ng-container *ngIf="!error">
   <div *ngFor="let chart of charts" class="chart">
-    <div *ngIf="chart.datasets?.length" class="arrow" (click)="previous.emit()">
+    <div *ngIf="haveChartDataset(chart)" class="arrow" (click)="previous.emit()">
       <md-icon>keyboard_arrow_left</md-icon>
     </div>
+    <div
+      *ngIf="haveChartDataset(chart) && !haveChartData(chart)"
+      class="no-data-chart"
+    >
+      <img src="img/no-charts.svg" alt="">
+      <span>{{ 'PULSE.NO_DATA' | translate }}</span>
+    </div>
     <canvas
-      *ngIf="chart.datasets?.length"
+      *ngIf="haveChartDataset(chart) && haveChartData(chart)"
       baseChart
       [datasets]="chart.datasets"
       [chartType]="chart.chartType"
       [options]="chart.options"
       [labels]="chart.labels"
     ></canvas>
-    <div *ngIf="hasNext && chart.datasets?.length" class="arrow" (click)="next.emit()">
+    <div *ngIf="hasNext && haveChartDataset(chart)" class="arrow" (click)="next.emit()">
       <md-icon>keyboard_arrow_right</md-icon>
     </div>
   </div>
