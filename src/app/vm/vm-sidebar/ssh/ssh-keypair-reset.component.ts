@@ -6,7 +6,8 @@ import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service'
 
 @Component({
   selector: 'cs-ssh-keypair-reset',
-  templateUrl: 'ssh-keypair-reset.component.html'
+  templateUrl: 'ssh-keypair-reset.component.html',
+  styleUrls: ['ssh-keypair-reset.component.scss']
 })
 export class SshKeypairResetComponent implements OnInit {
   public resettingKeyInProgress = false;

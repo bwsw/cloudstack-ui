@@ -75,49 +75,49 @@ export class SgCreationComponent implements OnInit {
       });
   }
 
+  public selectAll(): void {
+    while (this.items[0].length) {
+      this.selectedGroupIndex = 0;
+      this.moveRight();
+    }
+  }
+
+  public reset(): void {
+    while (this.items[1].length) {
+      this.selectedGroupIndex = 0;
+      this.moveLeft();
+    }
+  }
+
   public selectGroup(index: number, left: boolean): void {
     this.selectedGroupIndex = index;
     this.selectedColumnIndex = left ? 0 : 1;
   }
 
-  public move(left: boolean): void {
+  public moveLeft(): void {
     if (this.selectedGroupIndex === -1) {
       return;
     }
 
-    const moveToIndex = left ? 0 : 1;
-    const moveFromIndex = this.items.length - moveToIndex - 1;
+    this.removeIngressRulesOfSelectedGroup();
+    this.removeEgressRulesOfSelectedGroup();
+    this.moveSelectedGroupLeft();
+    this.resetSelectedGroup();
+    this.resetSelectedColumn();
+  }
 
-    if (!left) {
-      const group = this.items[0][this.selectedGroupIndex];
-      for (let i = 0; i < group.ingressRules.length; i++) {
-        this.pushIngressRule(group.ingressRules[i], true);
-      }
-
-      for (let i = 0; i < group.egressRules.length; i++) {
-        this.pushEgressRule(group.egressRules[i], true);
-      }
-    } else {
-      const group = this.items[1][this.selectedGroupIndex];
-
-      let startIndex = 0;
-      for (let i = 0; i < this.selectedGroupIndex; i++) {
-        startIndex += this.items[1][i].ingressRules.length;
-      }
-      this.selectedRules[0].splice(startIndex, group.ingressRules.length);
-
-      startIndex = 0;
-      for (let i = 0; i < this.selectedGroupIndex; i++) {
-        startIndex += this.items[1][i].egressRules.length;
-      }
-      this.selectedRules[1].splice(startIndex, group.egressRules.length);
+  public moveRight(): void {
+    if (this.selectedGroupIndex === -1) {
+      return;
     }
 
-    this.items[moveToIndex].push(this.items[moveFromIndex][this.selectedGroupIndex]);
-    this.items[moveFromIndex].splice(this.selectedGroupIndex, 1);
+    const group = this.items[0][this.selectedGroupIndex];
 
-    this.selectedGroupIndex = -1;
-    this.selectedColumnIndex = -1;
+    this.pushAllIngressRulesOfGroup(group);
+    this.pushAllEgressRulesOfGroup(group);
+    this.moveSelectedGroupRight();
+    this.resetSelectedGroup();
+    this.resetSelectedColumn();
   }
 
   public onSave(): void {
@@ -166,6 +166,18 @@ export class SgCreationComponent implements OnInit {
     }
   }
 
+  private pushAllIngressRulesOfGroup(group: SecurityGroup): void {
+    group.ingressRules.forEach(rule => {
+      this.pushIngressRule(rule, true);
+    });
+  }
+
+  private pushAllEgressRulesOfGroup(group: SecurityGroup): void {
+    group.egressRules.forEach(rule => {
+      this.pushEgressRule(rule, true);
+    });
+  }
+
   private pushIngressRule(rule, checked): void {
     this.selectedRules[0].push({
       rule,
@@ -178,5 +190,45 @@ export class SgCreationComponent implements OnInit {
       rule,
       checked
     });
+  }
+
+  private removeIngressRulesOfSelectedGroup(): void {
+    const group = this.items[1][this.selectedGroupIndex];
+    let startIndex = 0;
+
+    for (let i = 0; i < this.selectedGroupIndex; i++) {
+      startIndex += this.items[1][i].ingressRules.length;
+    }
+
+    this.selectedRules[0].splice(startIndex, group.ingressRules.length);
+  }
+
+  private removeEgressRulesOfSelectedGroup(): void {
+    const group = this.items[1][this.selectedGroupIndex];
+    let startIndex = 0;
+
+    for (let i = 0; i < this.selectedGroupIndex; i++) {
+      startIndex += this.items[1][i].egressRules.length;
+    }
+
+    this.selectedRules[1].splice(startIndex, group.egressRules.length);
+  }
+
+  private resetSelectedGroup(): void {
+    this.selectedGroupIndex = -1;
+  }
+
+  private resetSelectedColumn(): void {
+    this.selectedColumnIndex = -1;
+  }
+
+  private moveSelectedGroupLeft(): void {
+    this.items[0].push(this.items[1][this.selectedGroupIndex]);
+    this.items[1].splice(this.selectedGroupIndex, 1);
+  }
+
+  private moveSelectedGroupRight(): void {
+    this.items[1].push(this.items[0][this.selectedGroupIndex]);
+    this.items[0].splice(this.selectedGroupIndex, 1);
   }
 }

@@ -678,5 +678,8 @@
       "DISK_WRITE_IOPS": "Запись на диск (IOPS)",
       "DISK_IO_ERRORS": "Ошибки IO"
     }
-  }
+  },
+
+  "SELECT_ALL": "Выбрать все",
+  "RESET": "Сбросить"
 }

@@ -11,7 +11,7 @@ import {
 } from '../../../../testutils/mocks/model-services/services/mock-resource-usage.service.spec';
 import { ICustomOfferingRestrictionsByZone } from '../custom-offering-restrictions';
 import { CustomServiceOffering, ICustomServiceOffering } from '../custom-service-offering';
-import isEqual = require('lodash/isEqual');
+import * as isEqual from 'lodash/isEqual';
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
 import { MockEntityData } from '../../../../testutils/mocks/model-services/entity-data.spec';
 

@@ -6,7 +6,7 @@ import { ServiceOfferingService, Utils } from '../../../shared/services';
 import { VmCreationData } from '../data/vm-creation-data';
 import { VmCreationState } from '../data/vm-creation-state';
 import { VmCreationFormState } from '../vm-creation.component';
-import cloneDeep = require('lodash/cloneDeep');
+import * as cloneDeep from 'lodash/cloneDeep';
 
 
 @Injectable()

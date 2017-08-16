@@ -14,7 +14,7 @@ import { FilterService, InstanceGroupService } from '../../shared/services';
 import { VmState, VmStates } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 
-import sortBy = require('lodash/sortBy');
+import * as sortBy from 'lodash/sortBy';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
 

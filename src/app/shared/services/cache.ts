@@ -1,4 +1,4 @@
-import isEqual = require('lodash/isEqual');
+import * as isEqual from 'lodash/isEqual';
 
 
 export interface ICache<T> {

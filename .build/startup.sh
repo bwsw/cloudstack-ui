@@ -1,7 +1,7 @@
 #! /bin/sh
 
-EXTENSION_PULSE_URL=${PULSE_PLUGIN_ENDPOINT-"http://cs-extensions/pulse"}
-EXTENSION_WEBSHELL_URL=${WEBSHELL_PLUGIN_ENDPOINT-"http://cs-extensions/webshell"}
+EXTENSION_PULSE_URL=${PULSE_PLUGIN_ENDPOINT-"http://localhost/cs-extensions/pulse"}
+EXTENSION_WEBSHELL_URL=${WEBSHELL_PLUGIN_ENDPOINT-"http://localhost/cs-extensions/webshell"}
 # replace placeholders
 sed -i -e 's#API_BACKEND_URL#'"$API_BACKEND_URL"'#g' /etc/nginx/conf.d/default.conf
 sed -i -e 's#CONSOLE_BACKEND_URL#'"$CONSOLE_BACKEND_URL"'#g' /etc/nginx/conf.d/default.conf
