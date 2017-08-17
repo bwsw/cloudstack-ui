@@ -415,6 +415,12 @@
         "NO_AVAILABLE_OFFERINGS": "No available offerings"
       },
 
+      "SNAPSHOT_CREATION": {
+        "TAKE_SNAPSHOT": "Take a snapshot",
+        "NAME": "Name",
+        "DESCRIPTION": "Description"
+      },
+
       "SNAPSHOTS_LIST": {
         "LAST_SNAPSHOT": "Last snapshot",
         "VIEW_ALL": "View all",
@@ -528,36 +534,41 @@
     },
 
     "CARD": {
-      "ATTACH": "Attach",
-      "RESIZE": "Resize",
+      "STATE": "State",
       "SIZE": "Size",
-      "STATE": "State"
+      "ATTACH": "Attach",
+      "RESIZE": "Resize"
     },
 
     "SPARE_DRIVE_CREATION": {
       "TITLE": "New volume",
       "NAME": "Name",
       "ZONE": "Zone",
-      "DISK_OFFERING": "DISK_OFFERING",
+      "DISK_OFFERING": "Disk offering",
       "SIZE": "Size"
     },
 
     "DETAILS": {
       "SIZE": "Size", // not yet in code
       "CREATED": "Created",
-      "DESCRIPTION": "Description",
+      "STORAGE_TYPE": "Storage type",
 
-      "NAME": "Name",
+      "DISK_OFFERING": "Disk offering",
+      "DISK_OFFERING_NAME": "Name",
+      "DESCRIPTION": "Description",
+      "MIN_IOPS": "Min IOPS", // MINIOPS (not used)
+      "MAX_IOPS": "Max IOPS", // MAXIOPS (not used)
       "READ_RATE_MB": "Read rate", // READ_RATE
       "WRITE_RATE_MB": "Write rate", // WRITE_RATE
-      "READ_RATE_IOPS": "Min IOPS", // MINIOPS (not used)
-      "WRITE_RATE_IOPS": "Max IOPS" // MAXIOPS (not used)
+      "READ_RATE_IOPS": "Read rate", // MINIOPS (not used)
+      "WRITE_RATE_IOPS": "Write rate" // MAXIOPS (not used)
     },
 
     "ATTACHMENT": {
       "CHOOSE_VIRTUAL_MACHINE": "Choose a virtual machine", // VOLUME_ATTACHMENT_CHOOSE
       "NO_VMS": "No virtual machines", // VOLUME_ATTACHMENT_NO_VMS
-      "NO_VMS_IN_ZONE": "No virtual machines in this volume's zone" // VOLUME_ATTACHMENT_NO_VMS_IN_ZONE
+      "NO_VMS_IN_ZONE": "No virtual machines in this volume's zone", // VOLUME_ATTACHMENT_NO_VMS_IN_ZONE
+      "ATTACH": "Attach"
     }
   },
 
@@ -824,39 +835,6 @@
     "TAG_VALUE": "Value", // TAG_VALUE
     "TAG_ALREADY_EXISTS": "Tag already exists",
     "EDIT_TAG": "Edit tag"
-  },
-
-  "VOLUME": {
-    "STATE": "State",
-
-    "ACTIONS": {
-      "TAKE_SNAPSHOT": "Take a snapshot", // TAKE_SNAPSHOT_BUTTON
-      "SNAPSHOT_SCHEDULE": "Set up snapshot schedule", // SNAPSHOT_SCHEDULE
-      "RESIZE_DISK": "Resize the disk", // RESIZE_DISK
-      "REVERT_TO_SNAPSHOT": "Revert disk to this snapshot"
-    },
-
-    "RESIZE": {
-      "NEW_SIZE": "New size", // VOLUME_NEW_SIZE
-      "SHRINK": "Shrink", // VOLUME_SHRINK
-      "RESIZE_VOLUME": "Resize volume", // RESIZE_VOLUME
-      "NO_AVAILABLE_OFFERINGS": "No available offerings",
-      "RESIZE": "Resize", // deleted VOLUME_RESIZE
-    },
-
-    "SNAPSHOTS_PREVIEW": {
-      "TAKE_SNAPSHOT": "Take a snapshot", // TAKE_SNAPSHOT_SNAPSHOT_CREATION_FORM
-      "NO_SNAPSHOTS": "No snapshots",
-      "LAST_SNAPSHOT": "Last snapshot",
-    },
-
-    "SNAPSHOTS_MODAL": {
-      "NAME": "Name",
-      "DESCRIPTION": "Description",
-      "DATE": "Date",
-      "ACTIONS": "Actions",
-      "VIEW_ALL": "View all"
-    }
   },
 
   "DISK_OFFERING_STORAGE_TYPE": {
