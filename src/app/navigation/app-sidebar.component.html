@@ -1,0 +1,86 @@
+<div class="top-buttons">
+  <button
+    class="hide-button"
+    mdl-button
+    mdl-button-type="icon"
+    (click)="toggleDrawer()"
+  >
+    <md-icon>keyboard_arrow_left</md-icon>
+  </button>
+  <button
+    class="lock-button"
+    mdl-button
+    mdl-button-type="icon"
+    [disabled]="updatingOrder"
+    (click)="toggleEditing()"
+  >
+    <mdl-spinner *ngIf="updatingOrder; else icon" active></mdl-spinner>
+    <ng-template #icon>
+      <md-icon *ngIf="editing">lock_outline</md-icon>
+      <md-icon *ngIf="!editing">lock_open</md-icon>
+    </ng-template>
+  </button>
+</div>
+<mdl-layout-title>
+  <img class="logo" [src]="logoSource" >
+  <div class="title-header">
+    <md-icon class="link-element">person</md-icon>
+    <div class="link-element">{{ 'WELCOME' | translate:{ name: title } }}</div>
+  </div>
+</mdl-layout-title>
+
+<ng-template #links>
+</ng-template>
+<nav
+  #navigationBar
+  class="mdl-navigation"
+  [dragula]="dragulaContainerName"
+  [dragulaModel]="routes"
+>
+  <div *ngFor="let route of routes" style="position: relative;">
+    <span
+      *ngIf="editing"
+      class="handle"
+      [@handleSlide]="'in'"
+    ></span>
+    <a
+      *ngIf="!editing"
+      class="mdl-navigation__link link-container"
+      [routerLink]="route.path"
+      [class.link-hover-light]="isLightTheme"
+      [class.link-hover-dark]="!isLightTheme"
+      [routerLinkActive]="linkActiveStyle"
+      (click)="linkClick(route.path)"
+    >
+      <div style="display: inline-block" [@linkSlide]="'in'">
+        <md-icon class="link-element" [ngClass]="route.className">
+          {{ route.icon }}
+        </md-icon>
+        <div class="link-element" [innerHTML]="route.text | translate"></div>
+      </div>
+    </a>
+    <div
+      *ngIf="editing"
+      class="drag mdl-navigation__link link-container"
+    >
+      <div style="display: inline-block" [@linkSlide]="'out'">
+        <md-icon class="link-element" [ngClass]="route.className">
+          {{ route.icon }}
+        </md-icon>
+        <div class="link-element" [innerHTML]="route.text | translate"></div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+<div class="license-container">
+  <div class="license">
+    {{ 'LICENSE_1' | translate: { year: currentYear } }}
+    <a href="https://bitworks.software/" target="_blank">
+      {{ 'LICENSE_2' | translate }}
+    </a>
+    <br>
+    {{ 'LICENSE_3' | translate }}
+  </div>
+</div>

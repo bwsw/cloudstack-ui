@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DragulaModule } from 'ng2-dragula';
-import { AppSidebarComponent } from './app-sidebar.component';
+import { AppSidebarComponent } from './navigation/app-sidebar.component';
 
 import { AppComponent } from './app.component';
 import { routes } from './app.routing';
