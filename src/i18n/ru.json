@@ -606,196 +606,197 @@
     },
 
     "SIDEBAR": {
-      "TEMPLATE": "Template",
-      "ZONES": "Zones",
-      "TAGS": "Tags"
+      "TEMPLATE": "Шаблон",
+      "ZONES": "Зоны",
+      "TAGS": "Теги"
     },
 
     "TEMPLATE_DETAILS": {
-      "DETAILS": "General information",
-      "SIZE": "Size",
-      "EXTRACTABLE": "Extractable",
-      "PUBLIC": "Public",
-      "RECOMMENDED": "Recommended",
-      "PASSWORD_ENABLED": "Password enabled",
-      "DYNAMICALLY_SCALABLE" : "Dynamically scalable",
-      "CROSS_ZONES": "Cross Zones",
-      "DOMAIN": "Domain",
-      "CREATED": "Created",
-      "TYPE": "Type",
-      "BUILTIN": "Built-in",
-      "USER": "User",
-      "HYPERVISOR": "Hypervisor",
-      "DOWNLOAD_URL": "Download URL"
+      "DETAILS": "Общая информация",
+      "SIZE": "Размер",
+      "EXTRACTABLE": "Извлекаемый",
+      "PUBLIC": "Публичный",
+      "RECOMMENDED": "Рекоммендуемый",
+      "PASSWORD_ENABLED": "Пароль включен",
+      "DYNAMICALLY_SCALABLE" : "Динамическое масштабирование",
+      "CROSS_ZONES": "Общий для зон",
+      "DOMAIN": "Домен",
+      "CREATED": "Создан",
+      "TYPE": "Тип",
+      "BUILTIN": "Встроенный",
+      "USER": "Пользовательский",
+      "HYPERVISOR": "Гипервизор",
+      "DOWNLOAD_URL": "Ссылка на скачивание"
     },
 
     "ZONE_DETAILS": {
-      "READY": "Ready"
+      "READY": "Готов"
     },
 
     "TEMPLATE_CREATION": {
-      "NEW_TEMPLATE": "Register a new template",
-      "NEW_ISO": "Register a new ISO",
-      "NAME": "Name",
-      "DESCRIPTION": "Description",
+      "NEW_TEMPLATE": "Регистрация нового шаблона",
+      "NEW_ISO": "Регистрация нового ISO",
+      "NAME": "Название",
+      "DESCRIPTION": "Описание",
       "URL": "URL",
-      "INVALID_URL": "Invalid URL (only http or https)",
-      "OS_TYPE": "OS type",
-      "ZONE": "Zone",
-      "EXTRACTABLE": "Extractable",
-      "PASSWORD_ENABLED": "Password enabled",
-      "DYNAMICALLY_SCALABLE": "Dynamically scalable"
+      "INVALID_URL": "Неподдерживаемый URL (только http or https)",
+      "OS_TYPE": "Тип ОС",
+      "ZONE": "Зона",
+      "EXTRACTABLE": "Извлекаемый",
+      "PASSWORD_ENABLED": "Пароль включен",
+      "DYNAMICALLY_SCALABLE": "Динамическое масштабирование"
     }
   },
 
   "SECURITY_GROUP_PAGE": {
     "LIST": {
-      "SYSTEM_SECURITY_GROUPS": "System",
-      "CUSTOM_SECURITY_GROUPS": "Custom"
+      "SYSTEM_SECURITY_GROUPS": "Системные",
+      "CUSTOM_SECURITY_GROUPS": "Пользовательские"
     },
 
     "CARD": {
-      "DESCRIPTION": "Description"
+      "DESCRIPTION": "Описание"
     },
 
     "RULES": {
-      "FIREWALL_RULES_FOR_VM": "Firewall rules for VM",
-      "TEMPLATE_RULES": "Template rules",
-      "TYPE": "Type",
-      "PROTOCOL": "Protocol",
+      "FIREWALL_RULES_FOR_VM": "Правила брандмауэра для ВМ",
+      "TEMPLATE_RULES": "Правила шаблона",
+      "TYPE": "Тип",
+      "PROTOCOL": "Протокол",
       "CIDR": "CIDR",
-      "START_PORT": "Start port",
-      "END_PORT": "End port",
-      "INGRESS": "Ingress",
-      "EGRESS": "Egress",
+      "START_PORT": "Начальный порт",
+      "END_PORT": "Конечный порт",
+      "INGRESS": "Входящее",
+      "EGRESS": "Исходящее",
       "TCP": "TCP",
       "UDP": "UDP",
       "ICMP": "ICMP",
-      "ICMP_TYPE": "ICMP type",
-      "ICMP_CODE": "ICMP code",
-      "ICMP_ANY": "Any",
-      "ENTER_VALID_PORT": "Enter a valid port",
-      "ENTER_VALID_TYPE": "Enter a valid type",
-      "ENTER_VALID_CODE": "Enter a valid code",
-      "ENTER_VALID_CIDR": "Enter a valid CIDR",
-      "FAILED_TO_ADD_RULE": "Failed to add the rule",
-      "FAILED_TO_REMOVE_RULE": "Failed to remove the rule"
+      "ICMP_TYPE": "Тип ICMP",
+      "ICMP_CODE": "Код ICMP",
+      "ICMP_ANY": "Все",
+      "ENTER_VALID_PORT": "Некорректный порт",
+      "ENTER_VALID_TYPE": "Некорректный тип",
+      "ENTER_VALID_CODE": "Некорректный код",
+      "ENTER_VALID_CIDR": "Некорректный CIDR",
+      "FAILED_TO_ADD_RULE": "Не удалось добавить правило",
+      "FAILED_TO_REMOVE_RULE": "Не удалось удалить правило"
     },
 
     "RULES_MANAGER": {
-      "BASED_ON": "based on"
+      "BASED_ON": "основан на"
     },
 
     "TEMPLATE_CREATION": {
-      "CREATE_NEW_TEMPLATE": "Create new template",
-      "NAME": "Name",
-      "DESCRIPTION": "Description",
-      "BASIC_RULES": "Basic rules"
+      "CREATE_NEW_TEMPLATE": "Создать новый шаблон",
+      "NAME": "Название",
+      "DESCRIPTION": "Описание",
+      "BASIC_RULES": "Базовые правила"
     },
 
     "BUILDER": {
-      "SECURITY_GROUP_TEMPLATES": "Security Group Templates",
-      "ALL_GROUPS": "All templates",
-      "SELECTED_GROUPS": "Selected templates",
-      "NETWORK_RULES": "Network rules"
+      "SECURITY_GROUP_TEMPLATES": "Шаблоны групп безопасности",
+      "ALL_GROUPS": "Все шаблоны",
+      "SELECTED_GROUPS": "Выбранные шаблоны",
+      "NETWORK_RULES": "Сетевые правила"
     }
   },
 
   "EVENT_PAGE": {
-    "SELECT_LEVELS": "Select levels",
-    "SELECT_TYPES": "Select types",
-    "NO_EVENTS": "No events for the selected date",
+    "SELECT_LEVELS": "Выберите уровни",
+    "SELECT_TYPES": "Выберите типы",
+    "NO_EVENTS": "Нет событий на выбранной дате",
 
-    "DESCRIPTION": "Description",
-    "LEVEL": "Level",
-    "TYPE": "Type",
-    "TIME": "Time"
+    "DESCRIPTION": "Описание",
+    "LEVEL": "Уровень",
+    "TYPE": "Тип",
+    "TIME": "Время"
   },
 
   "SSH_KEYS": {
-    "CREATE_SSH_KEY": "Create SSH key",
-    "NAME": "Name",
-    "PUBLIC_KEY": "Public key",
-    "AUTO_GENERATED": "auto generated",
+    "CREATE_SSH_KEY": "Создать SSH ключ",
+    "NAME": "Название",
+    "PUBLIC_KEY": "Открытый ключ",
+    "AUTO_GENERATED": "автогенерируемый",
 
-    "SAVE_THIS_KEY": "Please, save this private key as it will not be kept",
-    "REMOVE_THIS_KEY": "Are you sure you want to remove this key?",
-    "KEY_REMOVAL_FAILED": "Key removal failed"
+    "SAVE_THIS_KEY": "Пожалуйста, скопируйте этот ключ, так как он не будет сохранен",
+    "REMOVE_THIS_KEY": "Вы уверены, что хотите удалить этот ключ?",
+    "KEY_REMOVAL_FAILED": "Не удалось удалить ключ"
   },
 
   "SETTINGS": {
     "SECURITY": {
-      "TITLE": "Security",
-      "CHANGE_PASSWORD": "Change password",
-      "NEW_PASSWORD": "New password",
-      "REPEAT_PASSWORD": "Repeat password",
-      "PASSWORD_CHANGED_SUCCESSFULLY": "Password has been changed successfully",
-      "INACTIVITY_TIMEOUT": "Session timeout (in&nbsp;minutes)",
-      "INACTIVITY_LIMITS": "Between 0 and 300"
+      "TITLE": "Безопасность",
+      "CHANGE_PASSWORD": "Изменение пароля",
+      "NEW_PASSWORD": "Новый пароль",
+      "REPEAT_PASSWORD": "Повторите пароль",
+      "PASSWORD_CHANGED_SUCCESSFULLY": "Пароль был успешно изменен",
+      "INACTIVITY_TIMEOUT": "Лимит времени сеанса (в&nbsp;минутах)",
+      "INACTIVITY_LIMITS": "От 0 до 300"
     },
 
     "API_CONFIGURATION": {
-      "TITLE": "API configuration",
-      "API_KEY": "API Key",
-      "API_SECRET_KEY": "Secret key",
-      "API_URL": "Connection URL",
-      "API_DOC_LINK": "Documentation",
-      "REGENERATE_KEYS": "Regenerate API keys",
-      "ASK_GENERATE_KEYS": "Are you sure you want to generate API keys?",
-      "GENERATE": "Generate"
+      "TITLE": "Конфигурация API",
+      "API_KEY": "Ключ API",
+      "API_SECRET_KEY": "Секретный ключ",
+      "API_URL": "URL подключения",
+      "API_DOC_LINK": "Документация",
+      "REGENERATE_KEYS": "Сгенерировать новые ключи API",
+      "ASK_GENERATE_KEYS": "Вы уверены, что хотите сгенерировать новые ключи API?",
+      "GENERATE": "Сгенерировать"
     },
 
     "LOOK_AND_FEEL": {
-      "TITLE": "Look and Feel",
-      "LANGUAGE": "Interface Language",
-      "FIRST_DAY_OF_WEEK": "First day of the week",
-      "TIME_FORMAT": "Time format",
-      "hour12": "12-Hours Time",
-      "hour24": "24-Hours Time",
-      "AUTO": "Auto",
-      "PALETTE": "Interface Theme Colors"
+      "TITLE": "Настройки интерфейса",
+      "LANGUAGE": "Язык Интерфейса",
+      "FIRST_DAY_OF_WEEK": "Первый день недели",
+      "TIME_FORMAT": "Формат времени",
+      "hour12": "12-часовой формат",
+      "hour24": "24-часовой формат",
+      "AUTO": "Автоматически",
+      "PALETTE": "Цвета темы интерфейса"
     }
   },
 
   "CLIPBOARD": {
-    "COPY": "Copy",
-    "COPY_SUCCESS": "Copied successfully",
-    "COPY_FAIL": "Failed to copy to clipboard"
+    "COPY": "Копировать",
+    "COPY_SUCCESS": "Успешно скопировано",
+    "COPY_FAIL": "Ошибка при копировании"
   },
 
   "INLINE_EDIT": {
-    "CLICK_TO_EDIT": "Click to edit",
-    "ENTER_TEXT": "Enter text",
-    "SELECT_AN_OPTION": "Select an option"
+    "CLICK_TO_EDIT": "Нажмите для редактирования",
+    "ENTER_TEXT": "Введите текст",
+    "SELECT_AN_OPTION": "Выберите опцию"
   },
 
   "PULSE": {
     "PULSE": "Pulse",
-    "CPU_RAM": "CPU / RAM",
-    "NETWORK": "Network",
-    "DISK": "Disk",
-    "RANGE": "Range",
-    "AGGREGATION": "Aggregation",
-    "SHIFT": "Shift",
-    "SELECT_DATA": "Select data",
-    "ERROR": "An error occurred, please try again",
+    "CPU_RAM": "ЦП / ОЗУ",
+    "NETWORK": "Сеть",
+    "DISK": "Диск",
+    "RANGE": "Диапозон",
+    "AGGREGATION": "Агрегация",
+    "SHIFT": "Сдвиг",
+    "NO_DATA": "Нет данных",
+    "SELECT_DATA": "Выберите данные",
+    "ERROR": "Произошла ошибка, попробуйте еще раз",
 
     "LABELS": {
-      "CPU": "CPU",
-      "RAM": "RAM",
-      "NETWORK_READ": "Network read",
-      "NETWORK_WRITE": "Network write",
-      "NETWORK_READ_PACKETS": "Network read packets",
-      "NETWORK_WRITE_PACKETS": "Network write packets",
-      "NETWORK_READ_DROPS": "Network read drops",
-      "NETWORK_WRITE_DROPS": "Network write drops",
-      "NETWORK_READ_ERRORS": "Network read errors",
-      "NETWORK_WRITE_ERRORS": "Network write errors",
-      "DISK_READ": "Disk read",
-      "DISK_WRITE": "Disk write",
-      "DISK_READ_IO": "Disk read (IO)",
-      "DISK_WRITE_IO": "Disk write (IO)",
-      "DISK_IO_ERRORS": "Disk IO errors"
+      "CPU": "ЦП",
+      "RAM": "ОЗУ",
+      "NETWORK_READ": "Прочитано по сети",
+      "NETWORK_WRITE": "Отправлено по сети",
+      "NETWORK_READ_PACKETS": "Прочитано по сети (пакетов)",
+      "NETWORK_WRITE_PACKETS": "Отправлено по сети (пакетов)",
+      "NETWORK_READ_DROPS": "Потери при чтении",
+      "NETWORK_WRITE_DROPS": "Потери при записи",
+      "NETWORK_READ_ERRORS": "Ошибки при чтении",
+      "NETWORK_WRITE_ERRORS": "Ошибки при записи",
+      "DISK_READ": "Чтение с диска",
+      "DISK_WRITE": "Запись на диск",
+      "DISK_READ_IOPS": "Чтение с диска (IO/s)",
+      "DISK_WRITE_IOPS": "Запись на диск (IO/s)",
+      "DISK_IO_ERRORS": "Ошибки IO"
     }
   },
 
