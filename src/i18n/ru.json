@@ -801,132 +801,132 @@
   },
 
   "SERVICE_OFFERING": {
-    "CHANGE_SERVICE_OFFERING": "Change service offering",
-    "CHOOSE_SERVICE_OFFERING": "Choose service offering",
-    "CPU_MHZ": "{{count}}x{{speed}} MHz",
-    "VM_WILL_BE_REBOOTED": "Virtual machine will be rebooted",
+    "CHANGE_SERVICE_OFFERING": "Изменить предложение",
+    "CHOOSE_SERVICE_OFFERING": "Выберите предложение",
+    "CPU_MHZ": "{{count}}x{{speed}} МГц",
+    "VM_WILL_BE_REBOOTED": "Машина будет перезагружена",
 
     "CUSTOM_SERVICE_OFFERING": {
-      "TITLE": "Custom offering",
+      "TITLE": "Настраиваемое предложение",
 
-      "CPU_NUMBER": "CPU cores",
-      "CPU_SPEED": "CPU (MHz)",
-      "MEMORY": "Memory (MB)",
+      "CPU_NUMBER": "Ядра CPU",
+      "CPU_SPEED": "CPU (МГц)",
+      "MEMORY": "Память (МБ)",
 
-      "BETWEEN": "Between {{ lowerLimit }} and {{ upperLimit }}",
-      "UP_TO": "Up to {{ upperLimit }}",
-      "FROM": "From {{ lowerLimit }}"
+      "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}",
+      "UP_TO": "До {{ upperLimit }}",
+      "FROM": "От {{ lowerLimit }}"
     }
   },
 
   "SNAPSHOT_POLICIES": {
-    "TITLE": "Recurring snapshots",
-    "SCHEDULED_SNAPSHOTS": "Scheduled snapshots",
+    "TITLE": "Повторяемые снимки",
+    "SCHEDULED_SNAPSHOTS": "Расписание снимков",
 
-    "KEEP": "Keep",
-    "STORE_SNAPSHOTS": "Number of stored snapshots",
+    "KEEP": "Сохранять",
+    "STORE_SNAPSHOTS": "Количество хранимых снимков",
 
-    "MINUTE": "Minute",
-    "TIME": "Time",
-    "TIME_ZONE": "Time zone",
+    "MINUTE": "Минута",
+    "TIME": "Время",
+    "TIME_ZONE": "Часовой пояс",
 
-    "HOURLY_TIME": "{{ value }} minute",
+    "HOURLY_TIME": "{{ value }}-я минута",
     "DAILY_TIME": "{{ value }}",
     "WEEKLY_TIME": "{{ value }}",
     "MONTHLY_TIME": "{{ value }}",
-    "WEEKLY_PERIOD": "Every {{ value }}",
-    "MONTHLY_PERIOD": "day {{ value }} of month",
+    "WEEKLY_PERIOD": "{{ value }}",
+    "MONTHLY_PERIOD": "каждый {{ value }} день месяца",
 
-    "HOURLY": "Hourly",
-    "DAILY": "Daily",
-    "WEEKLY": "Weekly",
-    "MONTHLY": "Monthly"
+    "HOURLY": "Ежечасно",
+    "DAILY": "Ежедневно",
+    "WEEKLY": "Еженедельно",
+    "MONTHLY": "Ежемесячно"
   },
 
   "SUGGESTION_DIALOG": {
-    "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",
-    "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Would you like to create a new volume?",
-    "NO_DONT_ASK": "No, don't ask"
+    "WOULD_YOU_LIKE_TO_CREATE_VM": "Хотите создать виртуальную машину?",
+    "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Хотите создать новый диск?",
+    "NO_DONT_ASK": "Нет, больше не спрашивать"
   },
 
   "TAGS": {
-    "CREATE_NEW_TAG": "Create a new tag",
-    "TAG_KEY": "Key",
-    "TAG_VALUE": "Value",
-    "TAG_ALREADY_EXISTS": "Tag already exists",
-    "EDIT_TAG": "Edit tag"
+    "CREATE_NEW_TAG": "Создать тег",
+    "TAG_KEY": "Ключ",
+    "TAG_VALUE": "Значение",
+    "TAG_ALREADY_EXISTS": "Тег уже существует",
+    "EDIT_TAG": "Редактировать тег"
   },
 
   "DISK_OFFERING_STORAGE_TYPE": {
-    "SHARED": "Shared",
-    "LOCAL": "Local"
+    "SHARED": "Общее",
+    "LOCAL": "Локальное"
   },
 
   "SPARE_DRIVE_STATE": {
-    "ALLOCATED": "Allocated",
-    "READY": "Ready"
+    "ALLOCATED": "Аллоцирован",
+    "READY": "Готов"
   },
 
   "SNAPSHOT_STATE" : {
     "BACKEDUP": "Backed up",
-    "CREATING": "Creating",
+    "CREATING": "Создается",
     "BACKINGUP": "Backing up",
-    "ALLOCATED": "Allocated",
-    "ERROR": "Error"
+    "ALLOCATED": "Аллоцирован",
+    "ERROR": "Ошибка"
   },
 
   "VM_STATE": {
-    "RUNNING": "Running",
-    "STOPPED": "Stopped",
-    "STARTING": "Starting",
-    "STOPPING": "Stopping",
-    "REBOOTING": "Rebooting",
-    "RESTORING": "Restoring",
-    "DESTROYING": "Destroying",
-    "DEPLOYING": "Deploying",
-    "ERROR": "Error",
-    "START_IN_PROGRESS": "Starting",
-    "STOP_IN_PROGRESS": "Stopping",
-    "REBOOT_IN_PROGRESS": "Rebooting",
-    "RESTORE_IN_PROGRESS": "Reinstalling",
-    "DESTROY_IN_PROGRESS": "Destroying",
-    "DEPLOY_IN_PROGRESS": "Deploying",
-    "RESET_PASSWORD_IN_PROGRESS": "Resetting password"
+    "RUNNING": "Запущена",
+    "STOPPED": "Остановлена",
+    "STARTING": "Запуск",
+    "STOPPING": "Остановка",
+    "REBOOTING": "Перезапуск",
+    "RESTORING": "Переустановка",
+    "DESTROYING": "Уничтожение",
+    "DEPLOYING": "Развертывание",
+    "ERROR": "Ошибка",
+    "START_IN_PROGRESS": "Запуск",
+    "STOP_IN_PROGRESS": "Остановка",
+    "REBOOT_IN_PROGRESS": "Перезапуск",
+    "RESTORE_IN_PROGRESS": "Переустановка",
+    "DESTROY_IN_PROGRESS": "Уничтожение",
+    "DEPLOY_IN_PROGRESS": "Развертывание",
+    "RESET_PASSWORD_IN_PROGRESS": "Сброс пароля"
   },
 
   "DATE_TIME": {
     "AM": "AM",
     "PM": "PM",
-    "DAY_OF_WEEK": "Day of week",
-    "DAY_OF_MONTH": "Day of month",
+    "DAY_OF_WEEK": "День недели",
+    "DAY_OF_MONTH": "День месяца",
 
     "DAYS_OF_WEEK": {
-      "MONDAY": "Monday",
-      "TUESDAY": "Tuesday",
-      "WEDNESDAY": "Wednesday",
-      "THURSDAY": "Thursday",
-      "FRIDAY": "Friday",
-      "SATURDAY": "Saturday",
-      "SUNDAY": "Sunday",
+      "MONDAY": "Понедельник",
+      "TUESDAY": "Вторник",
+      "WEDNESDAY": "Среда",
+      "THURSDAY": "Четверг",
+      "FRIDAY": "Пятница",
+      "SATURDAY": "Суббота",
+      "SUNDAY": "Воскресенье",
 
-      "MONDAY_LOWER": "monday",
-      "TUESDAY_LOWER": "tuesday",
-      "WEDNESDAY_LOWER": "wednesday",
-      "THURSDAY_LOWER": "thursday",
-      "FRIDAY_LOWER": "friday",
-      "SATURDAY_LOWER": "saturday",
-      "SUNDAY_LOWER": "sunday"
+      "MONDAY_LOWER": "понедельник",
+      "TUESDAY_LOWER": "вторник",
+      "WEDNESDAY_LOWER": "среда",
+      "THURSDAY_LOWER": "четверг",
+      "FRIDAY_LOWER": "пятница",
+      "SATURDAY_LOWER": "суббота",
+      "SUNDAY_LOWER": "воскресенье"
     }
   },
 
   "UNITS": {
-    "GB": "GB",
-    "GB_VALUE": "{{value}} GB",
-    "GHZ": "GHz",
-    "IOPS": "{{value}} IOPS",
-    "MB": "MB",
-    "MB_VALUE": "{{value}} MB",
-    "MBPS": "{{value}} MB/s",
-    "MHZ": "MHz"
+    "GB": "ГБ",
+    "GB_VALUE": "{{value}} ГБ",
+    "GHZ": "ГГц",
+    "IOPS": "{{value}} IO/s",
+    "MB": "MБ",
+    "MB_VALUE": "{{value}} MБ",
+    "MBPS": "{{value}} MБ/сек",
+    "MHZ": "МГц"
   }
 }
