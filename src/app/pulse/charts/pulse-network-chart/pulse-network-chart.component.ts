@@ -45,6 +45,8 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
             yAxes: [
               {
                 ticks: {
+                  mirror: true,
+                  padding: 55,
                   suggestedMin: 0,
                   userCallback(val) {
                     return `${humanReadableSizeInBits(val)}/s`;
