@@ -16,7 +16,7 @@
         [(ngModel)]="selectedLevels"
         (change)="getEvents()"
         multiple="true"
-        [placeholder]="'EVENT_PAGE.LEVELS' | translate"
+        [placeholder]="'EVENT_PAGE.SELECT_LEVELS' | translate"
       >
         <md-option
           *ngFor="let level of levels"
@@ -31,7 +31,7 @@
         [(ngModel)]="selectedTypes"
         (change)="getEvents()"
         multiple="true"
-        [placeholder]="'EVENT_PAGE.TYPES' | translate"
+        [placeholder]="'EVENT_PAGE.SELECT_TYPES' | translate"
       >
         <md-option
           *ngFor="let et of eventTypes"

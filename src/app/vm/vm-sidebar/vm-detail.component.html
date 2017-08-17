@@ -79,14 +79,14 @@
     <md-card class="vm-card">
       <md-card-header>
         <md-card-title>
-          <h2 class="md-card-title-text">{{ 'VM_PAGE.VM_DETAIL.AFFINITY_GROUP.TITLE' | translate }}</h2>
+          <h2 class="md-card-title-text">{{ 'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.TITLE' | translate }}</h2>
         </md-card-title>
       </md-card-header>
       <md-card-content class="md-card-content-with-actions">
         <div class="md-card-content-container">
           <div *ngFor="let affinityGroup of vm.affinityGroup">{{ affinityGroup.name }}</div>
           <div *ngIf="!vm.affinityGroup.length">
-            {{ 'VM_PAGE.VM_DETAIL.AFFINITY_GROUP.NO_AFFINITY_GROUP' | translate }}
+            {{ 'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.NO_AFFINITY_GROUP' | translate }}
           </div>
         </div>
         <md-card-actions *loading="affinityGroupLoading">
@@ -106,7 +106,7 @@
     <md-card class="vm-card">
       <md-card-header>
         <md-card-title>
-          <h2 class="md-card-title-text">{{ 'VM_PAGE.VM_DETAIL.TEMPLATE' | translate }}</h2>
+          <h2 class="md-card-title-text">{{ 'VM_PAGE.VM_DETAILS.TEMPLATE' | translate }}</h2>
         </md-card-title>
       </md-card-header>
       <md-card-content>
@@ -117,13 +117,13 @@
     <md-card class="vm-card">
       <md-card-header>
         <md-card-title>
-          <h2 class="md-card-title-text">{{ 'VM_PAGE.VM_DETAIL.SSH_KEY.TITLE' | translate }}</h2>
+          <h2 class="md-card-title-text">{{ 'VM_PAGE.VM_DETAILS.SSH_KEY.TITLE' | translate }}</h2>
         </md-card-title>
       </md-card-header>
       <md-card-content class="md-card-content-with-actions">
         <div class="md-card-content-container">
           <span *ngIf="vm.keyPair; else noKeys">{{ vm.keyPair }}</span>
-          <ng-template #noKeys>{{ 'VM_PAGE.VM_DETAIL.SSH_KEY.NO_SSH_KEY' | translate }}</ng-template>
+          <ng-template #noKeys>{{ 'VM_PAGE.VM_DETAILS.SSH_KEY.NO_SSH_KEY' | translate }}</ng-template>
         </div>
         <md-card-actions *loading="sskKeyLoading">
           <mdl-button

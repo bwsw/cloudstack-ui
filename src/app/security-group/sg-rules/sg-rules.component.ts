@@ -33,9 +33,9 @@ export class SgRulesComponent {
   ];
 
   public protocols = [
-    { value: NetworkProtocols.TCP, text: 'TCP' },
-    { value: NetworkProtocols.UDP, text: 'UDP' },
-    { value: NetworkProtocols.ICMP, text: 'ICMP' }
+    { value: NetworkProtocols.TCP, text: 'SECURITY_GROUP_PAGE.RULES.TCP' },
+    { value: NetworkProtocols.UDP, text: 'SECURITY_GROUP_PAGE.RULES.UDP' },
+    { value: NetworkProtocols.ICMP, text: 'SECURITY_GROUP_PAGE.RULES.ICMP' }
   ];
 
   constructor(
@@ -59,7 +59,7 @@ export class SgRulesComponent {
       return 'SECURITY_GROUP_PAGE.RULES.TEMPLATE_RULES';
     }
 
-    return 'SECURITY_GROUP_PAGE.TEMPLATE.FIREWALL_RULES_FOR_VM';
+    return 'SECURITY_GROUP_PAGE.RULES.FIREWALL_RULES_FOR_VM';
   }
 
   public addRule(e: Event): void {

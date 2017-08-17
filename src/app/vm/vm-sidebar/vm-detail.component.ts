@@ -80,7 +80,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
   public changeAffinityGroup(): void {
     this.askToStopVM(
       this.vm,
-      'VM_PAGE.VM_DETAIL.AFFINITY_GROUP.STOP_MACHINE_FOR_AG',
+      'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.STOP_MACHINE_FOR_AG',
       this.setAffinityGroupLoading.bind(this)
     )
       .filter(stopped => !!stopped)
@@ -123,7 +123,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
   public resetSshKey(): void {
     this.askToStopVM(
       this.vm,
-      'VM_PAGE.VM_DETAIL.SSH_KEY.STOP_MACHINE_FOR_SSH',
+      'VM_PAGE.VM_DETAILS.SSH_KEY.STOP_MACHINE_FOR_SSH',
       this.setSshKeyLoading.bind(this)
     )
       .filter(stopped => !!stopped)

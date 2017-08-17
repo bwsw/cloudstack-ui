@@ -51,7 +51,7 @@ export class VmListComponent implements OnInit {
     },
     {
       key: 'groups',
-      label: 'VM_PAGE.FILTERS.GROUP_BY.GROUPS',
+      label: 'VM_PAGE.FILTERS.GROUP_BY_GROUPS',
       selector: (item: VirtualMachine) =>
         item.instanceGroup ? item.instanceGroup.name : noGroup,
       name: (item: VirtualMachine) =>

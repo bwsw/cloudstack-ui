@@ -50,7 +50,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   public groupings = [
     {
       key: 'zones',
-      label: 'SPARE_DRIVE_PAGE.FILTERS.GROUP_BY.ZONES',
+      label: 'SPARE_DRIVE_PAGE.FILTERS.GROUP_BY_ZONES',
       selector: (item: Volume) => item.zoneId,
       name: (item: Volume) => item.zoneName
     }

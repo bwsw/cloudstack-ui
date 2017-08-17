@@ -5,7 +5,7 @@
   </h3>
 
   <h3 *ngIf="!virtualMachineId" class="mdl-dialog__title">
-    {{ 'SPARE_DRIVE_PAGE.CARD.ATTACHMENT.NO_VMS' | translate }}
+    {{ 'SPARE_DRIVE_PAGE.ATTACHMENT.NO_VMS' | translate }}
   </h3>
 
   <form (ngSubmit)="attach($event)" #volumeAttachmentForm="ngForm" novalidate>
@@ -27,7 +27,7 @@
       </div>
 
       <div *ngIf="!virtualMachineId">
-        {{ 'SPARE_DRIVE_PAGE.CARD.ATTACHMENT.NO_VMS_IN_ZONE' | translate }}
+        {{ 'SPARE_DRIVE_PAGE.ATTACHMENT.NO_VMS_IN_ZONE' | translate }}
       </div>
     </div>
 
