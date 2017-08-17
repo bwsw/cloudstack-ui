@@ -2,7 +2,7 @@
   <md-card-header>
     <md-card-title>
       <h2 class="md-card-title-text">
-        {{ 'ATTACH_VOLUME' | translate }}
+        {{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.ATTACH_VOLUME' | translate }}
       </h2>
     </md-card-title>
   </md-card-header>
@@ -10,15 +10,15 @@
     <div class="md-card-content-container">
       <ng-container *ngIf="volumes?.length">
         <ng-container *ngIf="!selectedVolume">
-          {{ 'SELECT_VOLUME' | translate }}
+          {{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.SELECT_VOLUME' | translate }}
         </ng-container>
         <ng-container *ngIf="selectedVolume">
           {{ selectedVolume.name }}
         </ng-container>
       </ng-container>
       <ng-container *ngIf="!volumes?.length">
-        {{ 'NO_AVAILABLE_VOLUMES' | translate }} <a class="mdl-navigation__link" routerLink="/spare-drives">{{
-        'NAVIGATE_TO_VOLUME_CREATION_PAGE' | translate }}</a>
+        {{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.NO_AVAILABLE_VOLUMES_1' | translate }} <a class="mdl-navigation__link" routerLink="/spare-drives">{{
+        'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.NO_AVAILABLE_VOLUMES_2' | translate }}</a>
       </ng-container>
     </div>
     <md-card-actions *ngIf="selectedVolume">
@@ -27,7 +27,7 @@
         mdl-button-type="icon"
         mdTooltipPosition="above"
         *ngIf="!loading"
-        [mdTooltip]="'ATTACH' | translate"
+        [mdTooltip]="'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.ATTACH' | translate"
         (click)="$event.stopPropagation(); attachVolume()"
       >
         <md-icon>attach_file</md-icon>

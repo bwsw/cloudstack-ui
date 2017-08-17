@@ -9,7 +9,7 @@
       <div class="grid grid-right">
         <div class="row" *ngIf="volume.size">
           <div>{{ 'SIZE' | translate }}</div>
-          <div>{{ (volume.size | division:2:30:2) }} {{ ('GB' | translate) }}</div>
+          <div>{{ (volume.size | division:2:30:2) }} {{ ('UNITS.GB' | translate) }}</div>
         </div>
         <div class="row" *ngIf="volume.created">
           <div>{{ 'SPARE_DRIVE_DETAILS.CREATED' | translate }}</div>
@@ -54,19 +54,19 @@
         </div>
         <div class="row" *ngIf="volume.diskOffering.diskBytesReadRate">
           <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.READ_RATE' | translate }}</div>
-          <div>{{ 'MBPS' | translate:{ value: volume.diskOffering.diskBytesReadRate | division:10:6 } }}</div>
+          <div>{{ 'UNITS.MBPS' | translate:{ value: volume.diskOffering.diskBytesReadRate | division:10:6 } }}</div>
         </div>
         <div class="row" *ngIf="volume.diskOffering.diskBytesWriteRate">
           <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.WRITE_RATE' | translate }}</div>
-          <div>{{ 'MBPS' | translate:{ value: volume.diskOffering.diskBytesWriteRate | division:10:6 } }}</div>
+          <div>{{ 'UNITS.MBPS' | translate:{ value: volume.diskOffering.diskBytesWriteRate | division:10:6 } }}</div>
         </div>
         <div class="row" *ngIf="volume.diskOffering.diskIopsReadRate">
           <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.READ_RATE' | translate }}</div>
-          <div>{{ 'IOPS' | translate:{ value: volume.diskOffering.diskIopsReadRate } }}</div>
+          <div>{{ 'UNITS.IOPS' | translate:{ value: volume.diskOffering.diskIopsReadRate } }}</div>
         </div>
         <div class="row" *ngIf="volume.diskOffering.diskIopsWriteRate">
           <div>{{ 'SPARE_DRIVE_DETAILS.DISK_OFFERING.WRITE_RATE' | translate }}</div>
-          <div>{{ 'IOPS' | translate:{ value: volume.diskOffering.diskIopsWriteRate } }}</div>
+          <div>{{ 'UNITS.IOPS' | translate:{ value: volume.diskOffering.diskIopsWriteRate } }}</div>
         </div>
       </div>
     </md-card-content>

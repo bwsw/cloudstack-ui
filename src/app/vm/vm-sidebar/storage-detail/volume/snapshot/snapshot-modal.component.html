@@ -3,9 +3,17 @@
   <table *ngIf="volume?.snapshots?.length" class="mdl-data-table" style="width: 100%">
     <thead>
     <tr>
-      <th class="mdl-data-table__cell--non-numeric snapshot-name">{{ 'NAME' | translate}}</th>
-      <th class="mdl-data-table__cell--non-numeric">{{ 'DATE' | translate }}</th>
-      <th class="mdl-data-table__cell--non-numeric">{{ 'ACTIONS' | translate }}</th>
+      <th class="mdl-data-table__cell--non-numeric snapshot-name">
+        {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.NAME' | translate}}
+      </th>
+
+      <th class="mdl-data-table__cell--non-numeric">
+        {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.DATE' | translate }}
+      </th>
+
+      <th class="mdl-data-table__cell--non-numeric">
+        {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.ACTIONS' | translate }}
+      </th>
     </tr>
     </thead>
     <tbody *ngFor="let snapshot of volume.snapshots">
@@ -33,7 +41,9 @@
     </tr>
     </tbody>
   </table>
-  <div class="row" *ngIf="!volume.snapshots?.length">{{ 'NO_SNAPSHOTS' | translate }}</div>
+  <div class="row" *ngIf="!volume.snapshots?.length">
+    {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.NO_SNAPSHOTS' | translate }}
+  </div>
 </div>
 <div class="mdl-dialog__actions">
   <button

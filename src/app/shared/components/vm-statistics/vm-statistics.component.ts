@@ -168,13 +168,13 @@ export class VmStatisticsComponent implements OnInit {
     );
 
     return this.translateService
-      .get('GB')
+      .get('UNITS.GB')
       .switchMap(gb => this.getStatsString(consumed as number, max as number, gb));
   }
 
   public get primaryStorage(): Observable<string> {
     return this.translateService
-      .get('GB')
+      .get('UNITS.GB')
       .switchMap(gb =>
         this.getStatsStringFor(
           'primaryStorage',
@@ -185,7 +185,7 @@ export class VmStatisticsComponent implements OnInit {
 
   public get secondaryStorage(): Observable<string> {
     return this.translateService
-      .get('GB')
+      .get('UNITS.GB')
       .switchMap(gb =>
         this.getStatsStringFor(
           'secondaryStorage',

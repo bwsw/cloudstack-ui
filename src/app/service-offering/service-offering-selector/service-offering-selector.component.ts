@@ -59,7 +59,7 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
     const cpuSpeed = this.serviceOffering.cpuSpeed;
     const memory = this.serviceOffering.memory;
 
-    return this.translateService.get(['MB', 'MHZ'])
+    return this.translateService.get(['UNITS.MB', 'UNITS.MHZ'])
       .map(({ MB, MHZ }) => `${cpuNumber}x${cpuSpeed} ${MHZ}, ${memory} ${MB}`);
   }
 

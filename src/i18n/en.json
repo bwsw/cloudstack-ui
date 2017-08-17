@@ -384,20 +384,70 @@
     },
 
     "STORAGE_DETAILS": {
-      "GENERAL_INFORMATION": "General information",
-      "PERFORMANCE": "Performance",
+      "VOLUME_DETAILS": {
+        "GENERAL_INFORMATION": "General information",
+        "SIZE": "Size",
+        "DESCRIPTION": "Description",
+        "CREATED": "Created",
+        "STORAGE_TYPE": "Storage type",
+        "DISK_OFFERING": "Disk offering", // DISK_OFFERING_TITLE
+        "PERFORMANCE": "Performance",
+        "MIN_IOPS": "Min IOPS", // MINIOPS (not used)
+        "MAX_IOPS": "Max IOPS", // MAXIOPS (not used)
+        "READ_RATE_MB": "Read rate", // READ_RATE
+        "WRITE_RATE_MB": "Write rate", // WRITE_RATE
+        "READ_RATE_IOPS": "Read rate",
+        "WRITE_RATE_IOPS": "Write rate"
+      },
 
-      "ISO": "ISO",
-      "ATTACH": "Attach",
-      "DETACH": "Detach",
-      "NO_MEDIUM": "No medium attached",
+      "VOLUME_ACTIONS": {
+        "TAKE_SNAPSHOT": "Take a snapshot", // TAKE_SNAPSHOT_BUTTON
+        "SNAPSHOT_SCHEDULE": "Set up snapshot schedule", // SNAPSHOT_SCHEDULE
+        "RESIZE": "Resize the disk", // RESIZE_DISK
+        "DETACH": "Detach"
+      },
 
-      "CREATE_TEMPLATE": "Create a template",
+      "VOLUME_RESIZE": {
+        "RESIZE": "Resize", // deleted VOLUME_RESIZE
+        "NEW_SIZE": "New size", // VOLUME_NEW_SIZE
+        "SHRINK": "Shrink", // VOLUME_SHRINK
+        "RESIZE_VOLUME": "Resize volume", // RESIZE_VOLUME
+        "NO_AVAILABLE_OFFERINGS": "No available offerings"
+      },
 
-      "ATTACH_VOLUME": "Attach a volume",
-      "SELECT_VOLUME": "Select a volume",
-      "NO_AVAILABLE_VOLUMES_1": "No available volumes. Detach a volume or", // NO_AVAILABLE_VOLUMES
-      "NO_AVAILABLE_VOLUMES_2": "create a new one" // NAVIGATE_TO_VOLUME_CREATION_PAGE
+      "SNAPSHOTS_LIST": {
+        "LAST_SNAPSHOT": "Last snapshot",
+        "VIEW_ALL": "View all",
+        "NO_SNAPSHOTS": "No snapshots"
+      },
+
+      "SNAPSHOT_ACTIONS": {
+        "CREATE_TEMPLATE": "Create a template",
+        "REVERT_TO_SNAPSHOT": "Revert disk to this snapshot"
+      },
+
+      "SNAPSHOTS_MODAL": {
+        "NAME": "Name",
+        "DESCRIPTION": "Description",
+        "DATE": "Date",
+        "ACTIONS": "Actions",
+        "NO_SNAPSHOTS": "No snapshots"
+      },
+
+      "SPARE_DRIVE_ATTACHMENT": {
+        "ATTACH_VOLUME": "Attach a volume",
+        "SELECT_VOLUME": "Select a volume",
+        "NO_AVAILABLE_VOLUMES_1": "No available volumes. Detach a volume or", // NO_AVAILABLE_VOLUMES
+        "NO_AVAILABLE_VOLUMES_2": "create a new one", // NAVIGATE_TO_VOLUME_CREATION_PAGE
+        "ATTACH": "Attach"
+      },
+
+      "ISO": {
+        "TITLE": "ISO",
+        "DETACH": "Detach",
+        "NO_MEDIUM": "No medium attached",
+        "ATTACH": "Attach"
+      }
     },
 
     "NETWORK_DETAILS": {
@@ -495,10 +545,8 @@
     "DETAILS": {
       "SIZE": "Size", // not yet in code
       "CREATED": "Created",
-      "STORAGE_TYPE": "Storage type",
       "DESCRIPTION": "Description",
 
-      "DISK_OFFERING": "Disk offering", // DISK_OFFERING_TITLE
       "NAME": "Name",
       "READ_RATE_MB": "Read rate", // READ_RATE
       "WRITE_RATE_MB": "Write rate", // WRITE_RATE

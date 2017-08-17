@@ -1,5 +1,7 @@
 <div class="dialog">
-  <h3 class="mdl-dialog__title">{{ 'SELECT_VOLUME' | translate }}</h3>
+  <h3 class="mdl-dialog__title">
+    {{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.SELECT_VOLUME' | translate }}
+  </h3>
   <div class="mdl-dialog__content">
     <md-select
       *ngIf="volumes?.length"
@@ -12,9 +14,6 @@
         {{ v.name }}
       </md-option>
     </md-select>
-    <div *ngIf="!volumes?.length">
-      {{ 'NO_AVAILABLE_VOLUMES' | translate }}
-    </div>
   </div>
   <div class="mdl-dialog__actions">
     <button

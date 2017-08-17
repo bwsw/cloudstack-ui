@@ -20,7 +20,7 @@ export interface SnapshotAction extends Action<Snapshot> {
 export class SnapshotActionsService implements ActionsService<Snapshot, SnapshotAction> {
   public actions: Array<SnapshotAction> = [
     {
-      name: 'CREATE_TEMPLATE_BUTTON',
+      name: 'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_ACTIONS.CREATE_TEMPLATE_BUTTON',
       icon: 'add',
       activate: (snapshot) => this.showCreationDialog(snapshot)
     },
