@@ -37,7 +37,7 @@
   [dragula]="dragulaContainerName"
   [dragulaModel]="routes"
 >
-  <div *ngFor="let route of routes" style="position: relative;">
+  <div *ngFor="let route of routes">
     <span
       *ngIf="editing"
       class="handle"
@@ -52,7 +52,7 @@
       [routerLinkActive]="linkActiveStyle"
       (click)="linkClick(route.path)"
     >
-      <div style="display: inline-block" [@linkSlide]="'in'">
+      <div [@linkSlide]="'in'">
         <md-icon class="link-element" [ngClass]="route.className">
           {{ route.icon }}
         </md-icon>
@@ -63,14 +63,13 @@
       *ngIf="editing"
       class="drag mdl-navigation__link link-container"
     >
-      <div style="display: inline-block" [@linkSlide]="'out'">
+      <div [@linkSlide]="'out'">
         <md-icon class="link-element" [ngClass]="route.className">
           {{ route.icon }}
         </md-icon>
         <div class="link-element" [innerHTML]="route.text | translate"></div>
       </div>
     </div>
-
   </div>
 </nav>
 

@@ -8,6 +8,14 @@
   margin-right: 10px;
 }
 
+.mdl-navigation > div {
+  position: relative;
+}
+
+.mdl-navigation__link > div {
+  display: inline-block;
+}
+
 .link {
   &-container {
     padding-left: 30px !important;
@@ -71,7 +79,6 @@ a {
     color: white !important;
   }
   .hide-button {
-    display: inline-block;
     margin: 15px 0 0 15px;
   }
 
