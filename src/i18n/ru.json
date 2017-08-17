@@ -408,11 +408,11 @@
       },
 
       "VOLUME_RESIZE": {
-        "RESIZE": "Resize",
+        "TITLE": "Resize volume",
+        "DISK_OFFERING": "Disk offering",
         "NEW_SIZE": "New size",
-        "SHRINK": "Shrink",
-        "RESIZE_VOLUME": "Resize volume",
-        "NO_AVAILABLE_OFFERINGS": "No available offerings"
+        "NO_AVAILABLE_OFFERINGS": "No available offerings",
+        "RESIZE": "Resize"
       },
 
       "SNAPSHOT_CREATION": {
@@ -433,6 +433,7 @@
       },
 
       "SNAPSHOTS_MODAL": {
+        "TITLE": "Snapshots",
         "NAME": "Name",
         "DESCRIPTION": "Description",
         "DATE": "Date",
@@ -452,6 +453,11 @@
         "TITLE": "ISO",
         "DETACH": "Detach",
         "NO_MEDIUM": "No medium attached",
+        "ATTACH": "Attach"
+      },
+
+      "ISO_MODAL": {
+        "TITLE": "ISO attachment",
         "ATTACH": "Attach"
       }
     },
@@ -482,7 +488,7 @@
 
       "FIREWALL_RULES": "Firewall rules",
       "INGRESS": "Ingress",
-      "EGRESS": "EGRESS"
+      "EGRESS": "Egress"
     },
 
     "VM_CREATION": {
@@ -549,7 +555,7 @@
     },
 
     "DETAILS": {
-      "SIZE": "Size", // not yet in code
+      "SIZE": "Size",
       "CREATED": "Created",
       "STORAGE_TYPE": "Storage type",
 
@@ -646,6 +652,10 @@
       "CUSTOM_SECURITY_GROUPS": "Custom"
     },
 
+    "CARD": {
+      "DESCRIPTION": "Description"
+    },
+
     "RULES": {
       "FIREWALL_RULES_FOR_VM": "Firewall rules for VM",
       "TEMPLATE_RULES": "Template rules",
@@ -656,6 +666,9 @@
       "END_PORT": "End port",
       "INGRESS": "Ingress",
       "EGRESS": "Egress",
+      "TCP": "TCP",
+      "UDP": "UDP",
+      "ICMP": "ICMP",
       "ICMP_TYPE": "ICMP type",
       "ICMP_CODE": "ICMP code",
       "ICMP_ANY": "Any",
@@ -690,6 +703,7 @@
     "SELECT_LEVELS": "Select levels",
     "SELECT_TYPES": "Select types",
     "NO_EVENTS": "No events for the selected date",
+
     "DESCRIPTION": "Description",
     "LEVEL": "Level",
     "TYPE": "Type",
@@ -736,6 +750,7 @@
       "TIME_FORMAT": "Time format",
       "hour12": "12-Hours Time",
       "hour24": "24-Hours Time",
+      "AUTO": "Auto",
       "PALETTE": "Interface Theme Colors"
     }
   },
@@ -786,13 +801,15 @@
     "CHANGE_SERVICE_OFFERING": "Change service offering",
     "CHOOSE_SERVICE_OFFERING": "Choose service offering",
     "CPU_MHZ": "{{count}}x{{speed}} MHz",
-    "THIS_IS_YOU_CURRENT_OFFERING": "This is your current offering",
     "VM_WILL_BE_REBOOTED": "Virtual machine will be rebooted",
 
     "CUSTOM_SERVICE_OFFERING": {
-      "CUSTOM_SERVICE_OFFERING": "Custom offering",
-      "CUSTOM_SERVICE_OFFERING_CPU": "CPU",
-      "CUSTOM_SERVICE_OFFERING_MEMORY": "Memory",
+      "TITLE": "Custom offering",
+
+      "CPU_NUMBER": "CPU cores",
+      "CPU_SPEED": "CPU (MHz)",
+      "MEMORY": "Memory (MB)",
+
       "BETWEEN": "Between {{ lowerLimit }} and {{ upperLimit }}",
       "UP_TO": "Up to {{ upperLimit }}",
       "FROM": "From {{ lowerLimit }}"
@@ -842,7 +859,7 @@
     "LOCAL": "Local"
   },
 
-  "SPARE_DRIVE_STATES": {
+  "SPARE_DRIVE_STATE": {
     "ALLOCATED": "Allocated",
     "READY": "Ready"
   },

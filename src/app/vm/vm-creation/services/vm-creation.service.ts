@@ -67,7 +67,7 @@ export class VmCreationService {
   ) {}
 
   public getData(): Observable<VmCreationData> {
-    const translationKeys = ['NO_SSH_KEY'];
+    const translationKeys = ['VM_PAGE.VM_CREATION.NO_SSH_KEY'];
 
     return Observable
       .forkJoin(
@@ -105,7 +105,7 @@ export class VmCreationService {
         const securityGroupTemplates = this.securityGroupService.getTemplates();
         const sshKeysWithNoKeyOption = this.getSSHKeysWithNoKeyOption(
           sshKeyPairs,
-          translations['NO_SSH_KEY']
+          translations['VM_PAGE.VM_CREATION.NO_SSH_KEY']
         );
 
         const customServiceOfferingRestrictionsByZone =

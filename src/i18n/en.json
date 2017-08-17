@@ -513,6 +513,8 @@
       "KB_SC": "Simplified Chinese keyboard",
 
       "SSH_KEYPAIR": "SSH keypair",
+      "NO_SSH_KEY": "No SSH key",
+
       "START_VM": "Start VM",
       "YOU_RAN_OUT_OF": "You ran out of",
 

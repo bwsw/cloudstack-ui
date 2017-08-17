@@ -6,17 +6,28 @@
     <table class="mdl-data-table">
       <thead>
       <tr>
-        <th class="mdl-data-table__cell--non-numeric">{{ 'SECURITY_GROUP_PAGE.RULES.TYPE' | translate }}</th>
-        <th>{{ 'SECURITY_GROUP_PAGE.RULES.PROTOCOL' | translate }}</th>
+        <th class="mdl-data-table__cell--non-numeric">
+          {{ 'SECURITY_GROUP_PAGE.RULES.TYPE' | translate }}
+        </th>
+
+        <th>
+          {{ 'SECURITY_GROUP_PAGE.RULES.PROTOCOL' | translate }}
+        </th>
+
         <ng-template [ngIf]="protocol !== NetworkProtocols.ICMP">
           <th>{{ 'SECURITY_GROUP_PAGE.RULES.START_PORT' | translate }}</th>
           <th>{{ 'SECURITY_GROUP_PAGE.RULES.END_PORT' | translate }}</th>
         </ng-template>
+
         <ng-template [ngIf]="protocol === NetworkProtocols.ICMP">
           <th>{{ 'SECURITY_GROUP_PAGE.RULES.ICMP_TYPE' | translate }}</th>
           <th>{{ 'SECURITY_GROUP_PAGE.RULES.ICMP_CODE' | translate }}</th>
         </ng-template>
-        <th class="mdl-data-table__cell--non-numeric">{{ 'SECURITY_GROUP_PAGE.RULES.CIDR' | translate }}</th>
+
+        <th class="mdl-data-table__cell--non-numeric">
+          {{ 'SECURITY_GROUP_PAGE.RULES.CIDR' | translate }}
+        </th>
+
         <th></th>
       </tr>
       </thead>
@@ -38,7 +49,7 @@
               *ngFor="let p of protocols"
               [value]="p.value"
             >
-              {{ p.text }}
+              {{ p.text | translate }}
             </md-option>
           </md-select>
         </td>

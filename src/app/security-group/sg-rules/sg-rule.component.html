@@ -1,4 +1,6 @@
-<td class="mdl-data-table__cell--non-numeric">{{ type.toUpperCase() | translate }}</td>
+<td class="mdl-data-table__cell--non-numeric">
+  {{ ('SECURITY_GROUP_PAGE.RULES.' + type.toUpperCase()) | translate }}
+</td>
 <td>{{ rule.protocol.toUpperCase() }}</td>
 <ng-template [ngIf]="rule.protocol === NetworkProtocols.ICMP">
   <td>{{ rule.icmpType }}</td>
