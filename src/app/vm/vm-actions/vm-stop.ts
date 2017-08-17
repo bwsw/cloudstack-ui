@@ -7,7 +7,7 @@ import { VirtualMachineCommand } from './vm-command';
 @Injectable()
 export class VmStopAction extends VirtualMachineCommand {
   public commandName = 'stop';
-  public vmStateOnAction = 'STOP_IN_PROGRESS';
+  public vmStateOnAction = 'VM_STATE.STOP_IN_PROGRESS';
 
   public action = VmActions.STOP;
   public name = 'VM_PAGE.COMMANDS.STOP';

@@ -43,7 +43,7 @@
     },
 
     "TEMPLATE": {
-      "CONFIRM_DELETION": "Are you sure you want to delete this template?" // CHECK WHY NOT USED
+      "CONFIRM_DELETION": "Are you sure you want to delete this template?"
     },
 
     "VM": {
@@ -390,28 +390,28 @@
         "DESCRIPTION": "Description",
         "CREATED": "Created",
         "STORAGE_TYPE": "Storage type",
-        "DISK_OFFERING": "Disk offering", // DISK_OFFERING_TITLE
+        "DISK_OFFERING": "Disk offering",
         "PERFORMANCE": "Performance",
-        "MIN_IOPS": "Min IOPS", // MINIOPS (not used)
-        "MAX_IOPS": "Max IOPS", // MAXIOPS (not used)
-        "READ_RATE_MB": "Read rate", // READ_RATE
-        "WRITE_RATE_MB": "Write rate", // WRITE_RATE
+        "MIN_IOPS": "Min IO/s",
+        "MAX_IOPS": "Max IO/s",
+        "READ_RATE_MB": "Read rate",
+        "WRITE_RATE_MB": "Write rate",
         "READ_RATE_IOPS": "Read rate",
         "WRITE_RATE_IOPS": "Write rate"
       },
 
       "VOLUME_ACTIONS": {
-        "TAKE_SNAPSHOT": "Take a snapshot", // TAKE_SNAPSHOT_BUTTON
-        "SNAPSHOT_SCHEDULE": "Set up snapshot schedule", // SNAPSHOT_SCHEDULE
-        "RESIZE": "Resize the disk", // RESIZE_DISK
+        "TAKE_SNAPSHOT": "Take a snapshot",
+        "SNAPSHOT_SCHEDULE": "Set up snapshot schedule",
+        "RESIZE": "Resize the disk",
         "DETACH": "Detach"
       },
 
       "VOLUME_RESIZE": {
-        "RESIZE": "Resize", // deleted VOLUME_RESIZE
-        "NEW_SIZE": "New size", // VOLUME_NEW_SIZE
-        "SHRINK": "Shrink", // VOLUME_SHRINK
-        "RESIZE_VOLUME": "Resize volume", // RESIZE_VOLUME
+        "RESIZE": "Resize",
+        "NEW_SIZE": "New size",
+        "SHRINK": "Shrink",
+        "RESIZE_VOLUME": "Resize volume",
         "NO_AVAILABLE_OFFERINGS": "No available offerings"
       },
 
@@ -443,8 +443,8 @@
       "SPARE_DRIVE_ATTACHMENT": {
         "ATTACH_VOLUME": "Attach a volume",
         "SELECT_VOLUME": "Select a volume",
-        "NO_AVAILABLE_VOLUMES_1": "No available volumes. Detach a volume or", // NO_AVAILABLE_VOLUMES
-        "NO_AVAILABLE_VOLUMES_2": "create a new one", // NAVIGATE_TO_VOLUME_CREATION_PAGE
+        "NO_AVAILABLE_VOLUMES_1": "No available volumes. Detach a volume or",
+        "NO_AVAILABLE_VOLUMES_2": "create a new one",
         "ATTACH": "Attach"
       },
 
@@ -556,18 +556,18 @@
       "DISK_OFFERING": "Disk offering",
       "DISK_OFFERING_NAME": "Name",
       "DESCRIPTION": "Description",
-      "MIN_IOPS": "Min IOPS", // MINIOPS (not used)
-      "MAX_IOPS": "Max IOPS", // MAXIOPS (not used)
-      "READ_RATE_MB": "Read rate", // READ_RATE
-      "WRITE_RATE_MB": "Write rate", // WRITE_RATE
-      "READ_RATE_IOPS": "Read rate", // MINIOPS (not used)
-      "WRITE_RATE_IOPS": "Write rate" // MAXIOPS (not used)
+      "MIN_IOPS": "Min IOPS",
+      "MAX_IOPS": "Max IOPS",
+      "READ_RATE_MB": "Read rate",
+      "WRITE_RATE_MB": "Write rate",
+      "READ_RATE_IOPS": "Read rate",
+      "WRITE_RATE_IOPS": "Write rate"
     },
 
     "ATTACHMENT": {
-      "CHOOSE_VIRTUAL_MACHINE": "Choose a virtual machine", // VOLUME_ATTACHMENT_CHOOSE
-      "NO_VMS": "No virtual machines", // VOLUME_ATTACHMENT_NO_VMS
-      "NO_VMS_IN_ZONE": "No virtual machines in this volume's zone", // VOLUME_ATTACHMENT_NO_VMS_IN_ZONE
+      "CHOOSE_VIRTUAL_MACHINE": "Choose a virtual machine",
+      "NO_VMS": "No virtual machines",
+      "NO_VMS_IN_ZONE": "No virtual machines in this volume's zone",
       "ATTACH": "Attach"
     }
   },
@@ -795,7 +795,7 @@
       "CUSTOM_SERVICE_OFFERING_MEMORY": "Memory",
       "BETWEEN": "Between {{ lowerLimit }} and {{ upperLimit }}",
       "UP_TO": "Up to {{ upperLimit }}",
-      "FROM": "From {{ lowerLimit }}",
+      "FROM": "From {{ lowerLimit }}"
     }
   },
 
@@ -810,29 +810,29 @@
     "TIME": "Time",
     "TIME_ZONE": "Time zone",
 
-    "HOURLY_TIME": "{{ value }} minute", // POLICY_HOURLY_TIME
-    "DAILY_TIME": "{{ value }}", // POLICY_DAILY_TIME
-    "WEEKLY_TIME": "{{ value }}", // POLICY_WEEKLY_TIME
-    "MONTHLY_TIME": "{{ value }}", // POLICY_MONTHLY_TIME
-    "WEEKLY_PERIOD": "Every {{ value }}", // POLICY_WEEKLY_PERIOD
-    "MONTHLY_PERIOD": "day {{ value }} of month", // POLICY_MONTHLY_PERIOD
+    "HOURLY_TIME": "{{ value }} minute",
+    "DAILY_TIME": "{{ value }}",
+    "WEEKLY_TIME": "{{ value }}",
+    "MONTHLY_TIME": "{{ value }}",
+    "WEEKLY_PERIOD": "Every {{ value }}",
+    "MONTHLY_PERIOD": "day {{ value }} of month",
 
-    "HOURLY": "Hourly", // RECURRING_SNAPSHOTS_HOURLY
-    "DAILY": "Daily", // RECURRING_SNAPSHOTS_DAILY
-    "WEEKLY": "Weekly", // RECURRING_SNAPSHOTS_WEEKLY
-    "MONTHLY": "Monthly" // RECURRING_SNAPSHOTS_MONTHLY
+    "HOURLY": "Hourly",
+    "DAILY": "Daily",
+    "WEEKLY": "Weekly",
+    "MONTHLY": "Monthly"
   },
 
   "SUGGESTION_DIALOG": {
     "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",
     "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Would you like to create a new volume?",
-    "NO_DONT_ASK": "No, don't ask",
+    "NO_DONT_ASK": "No, don't ask"
   },
 
   "TAGS": {
     "CREATE_NEW_TAG": "Create a new tag",
-    "TAG_KEY": "Key", // TAG_KEY
-    "TAG_VALUE": "Value", // TAG_VALUE
+    "TAG_KEY": "Key",
+    "TAG_VALUE": "Value",
     "TAG_ALREADY_EXISTS": "Tag already exists",
     "EDIT_TAG": "Edit tag"
   },
@@ -842,12 +842,12 @@
     "LOCAL": "Local"
   },
 
-  "SPARE_DRIVE_STATES": { // S
+  "SPARE_DRIVE_STATES": {
     "ALLOCATED": "Allocated",
     "READY": "Ready"
   },
 
-  "SNAPSHOT_STATE" : { // SNAPSHOT -> SNAPSHOT_STATES
+  "SNAPSHOT_STATE" : {
     "BACKEDUP": "Backed up",
     "CREATING": "Creating",
     "BACKINGUP": "Backing up",

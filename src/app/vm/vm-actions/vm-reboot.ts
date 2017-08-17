@@ -7,7 +7,7 @@ import { VirtualMachineCommand } from './vm-command';
 @Injectable()
 export class VmRebootAction extends VirtualMachineCommand {
   public commandName = 'reboot';
-  public vmStateOnAction = 'REBOOT_IN_PROGRESS';
+  public vmStateOnAction = 'VM_STATE.REBOOT_IN_PROGRESS';
 
   public action = VmActions.REBOOT;
   public name = 'VM_PAGE.COMMANDS.REBOOT';

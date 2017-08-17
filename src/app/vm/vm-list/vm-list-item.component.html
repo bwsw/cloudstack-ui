@@ -19,7 +19,7 @@
           [class.stopped]="item.state === 'Stopped'"
           [class.error]="item.state === 'Error'"
           [class.in-progress]="item.state !== 'Running' && item.state !== 'Stopped'"
-          [mdTooltip]="item.state.toUpperCase() | translate"
+          [mdTooltip]="('VM_STATE.' + item.state.toUpperCase()) | translate"
         ></span>
         {{ item.name }}
       </h2>

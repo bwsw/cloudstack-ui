@@ -13,7 +13,7 @@ import { VirtualMachineCommand } from './vm-command';
 @Injectable()
 export class VmResetPasswordAction extends VirtualMachineCommand {
   public commandName = 'resetPasswordFor';
-  public vmStateOnAction = 'RESETPASSWORDFOR_IN_PROGRESS';
+  public vmStateOnAction = 'VM_STATE.RESET_PASSWORD_IN_PROGRESS';
 
   public action = VmActions.RESET_PASSWORD;
   public name = 'VM_PAGE.COMMANDS.RESET_PASSWORD';

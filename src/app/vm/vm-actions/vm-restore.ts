@@ -7,7 +7,7 @@ import { VirtualMachineCommand } from './vm-command';
 @Injectable()
 export class VmRestoreAction extends VirtualMachineCommand {
   public commandName = 'restore';
-  public vmStateOnAction = 'RESTORE_IN_PROGRESS';
+  public vmStateOnAction = 'VM_STATE.RESTORE_IN_PROGRESS';
 
   public action = VmActions.RESTORE;
   public name = 'VM_PAGE.COMMANDS.RESTORE';

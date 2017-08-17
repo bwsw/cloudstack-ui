@@ -7,7 +7,7 @@ import { VirtualMachineCommand } from './vm-command';
 @Injectable()
 export class VmStartAction extends VirtualMachineCommand {
   public commandName = 'start';
-  public vmStateOnAction = 'START_IN_PROGRESS';
+  public vmStateOnAction = 'VM_STATE.START_IN_PROGRESS';
 
   public action = VmActions.START;
   public name = 'VM_PAGE.COMMANDS.START';

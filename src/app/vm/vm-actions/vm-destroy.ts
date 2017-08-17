@@ -13,7 +13,7 @@ import { VirtualMachineCommand } from './vm-command';
 @Injectable()
 export class VmDestroyAction extends VirtualMachineCommand {
   public commandName = 'destroy';
-  public vmStateOnAction = 'DESTROY_IN_PROGRESS';
+  public vmStateOnAction = 'VM_STATE.DESTROY_IN_PROGRESS';
 
   public action = VmActions.DESTROY;
   public name = 'VM_PAGE.COMMANDS.DESTROY';
