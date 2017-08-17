@@ -1,232 +1,232 @@
 {
   "COMMON": {
-    "ADD": "Add",
-    "ASSIGN": "Assign",
-    "AUTO": "Auto",
-    "CANCEL": "Cancel",
-    "CHANGE": "Change",
-    "CLEAR_ALL": "Clear all",
-    "CLOSE": "CLOSE",
-    "CONFIRM": "Confirm",
-    "CREATE": "Create",
-    "DELETE": "Delete",
-    "DESCRIPTION": "Description",
-    "EDIT": "Edit",
-    "NO": "No",
-    "NO_RESULTS": "No results",
-    "NONE": "None",
-    "OK": "Ok",
-    "REFRESH": "Refresh",
-    "RESET": "Reset",
-    "SAVE": "Save",
-    "SELECT": "Select",
-    "SELECT_ALL": "Select all",
-    "STATUS": "Status",
-    "TYPE": "Type",
-    "UPDATE": "Update",
-    "VIEW": "View",
-    "YES": "Yes"
+    "ADD": "Добавить",
+    "ASSIGN": "Присвоить",
+    "AUTO": "Автоматически",
+    "CANCEL": "Отмена",
+    "CHANGE": "Изменить",
+    "CLEAR_ALL": "Очистить",
+    "CLOSE": "Закрыть",
+    "CONFIRM": "Принять",
+    "CREATE": "Создать",
+    "DELETE": "Удалить",
+    "DESCRIPTION": "Описание",
+    "EDIT": "Редактировать",
+    "NO": "Нет",
+    "NO_RESULTS": "Поиск не дал результатов",
+    "NONE": "Не выбрано",
+    "OK": "Ок",
+    "REFRESH": "Обновить",
+    "RESET": "Сбросить",
+    "SAVE": "Сохранить",
+    "SELECT": "Выбрать",
+    "SELECT_ALL": "Выбрать все",
+    "STATUS": "Статус",
+    "TYPE": "Тип",
+    "UPDATE": "Обновить",
+    "VIEW": "Просмотреть",
+    "YES": "Да"
   },
 
   "DIALOG_MESSAGES": {
     "ISO": {
-      "CONFIRM_DETACHMENT": "Are you sure you want ot detach this ISO?",
-      "CONFIRM_DELETION": "Are you sure you want to delete this ISO?"
+      "CONFIRM_DETACHMENT": "Вы уверены, что хотите открепить этот ISO файл?",
+      "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот ISO файл?"
     },
 
     "SNAPSHOT": {
-      "CONFIRM_DELETION": "Are you sure you want to delete this snapshot?"
+      "CONFIRM_DELETION": "Вы действительно хотите удалить этот снимок?"
     },
 
     "TAG": {
-      "CONFIRM_DELETION": "Are you sure you want to delete this tag?"
+      "CONFIRM_DELETION": "Вы действительно хотите удалить этот тег?"
     },
 
     "TEMPLATE": {
-      "CONFIRM_DELETION": "Are you sure you want to delete this template?"
+      "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот шаблон?"
     },
 
     "VM": {
-      "CONFIRM_START": "Are you sure you want to start this virtual machine?",
-      "CONFIRM_STOP": "Are you sure you want to stop this virtual machine?",
-      "CONFIRM_REBOOT": "Are you sure you want to reboot this virtual machine?",
-      "CONFIRM_RESTORE": "Are you sure you want to reinstall this virtual machine?",
-      "CONFIRM_DESTROY": "Are you sure you want to destroy this virtual machine?",
-      "CONFIRM_RESET_PASSWORD": "Are you sure you want to reset password?<br>If your Virtual Machine is running it will be rebooted.",
-      "PASSWORD_DIALOG_MESSAGE": "Password for {{ vmName }} has been reset to <b>{{ vmPassword }}</b>",
-      "CONFIRM_DRIVES_DELETION": "Delete this VM's data drives?"
+      "CONFIRM_START": "Вы уверены, что хотите запустить виртуальную машину?",
+      "CONFIRM_STOP": "Вы уверены, что хотите остановить виртуальную машину?",
+      "CONFIRM_REBOOT": "Вы уверены, что хотите перезапустить виртуальную машину?",
+      "CONFIRM_RESTORE": "Вы уверены, что хотите переустановить виртуальную машину?",
+      "CONFIRM_DESTROY": "Вы уверены, что хотите уничтожить виртуальную машину?",
+      "CONFIRM_RESET_PASSWORD": "Вы уверены, что хотите сбросить пароль?<br>Если ваша виртуальная машина запущена, то она будет перезагружена.",
+      "PASSWORD_DIALOG_MESSAGE": "Пароль для машины {{ vmName }} был сброшен в  <b>{{ vmPassword }}</b>",
+      "CONFIRM_DRIVES_DELETION": "Удалить диски с данными этой ВМ?"
     },
 
     "VOLUME": {
-      "CONFIRM_DELETION": "Are you sure you want to delete this volume?",
-      "CONFIRM_DETACHMENT": "Are you sure you want to detach this volume?"
+      "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот диск?",
+      "CONFIRM_DETACHMENT": "Вы уверены, что хотите открепить этот диск?"
     }
   },
 
   "ERRORS": {
     "COMMON": {
-      "THE_NAME_IS_TAKEN": "The name {{val1}} is taken"
+      "THE_NAME_IS_TAKEN": "Имя {{val1}} уже занято"
     },
 
     "AUTH": {
-      "INCORRECT_USERNAME": "Incorrect username",
-      "INCORRECT_PASSWORD": "Incorrect password",
-      "INCORRECT_DOMAIN": "Unable to find domain {{val1}}"
+      "INCORRECT_USERNAME": "Неверное имя пользователя",
+      "INCORRECT_PASSWORD": "Неверный пароль",
+      "INCORRECT_DOMAIN": "Не удалось найти домен {{val1}}"
     },
 
     "ISO": {
-      "VMS_IN_USE": "Unable to delete the ISO as it's used by the following VMs:<br>{{ vms }}"
+      "VMS_IN_USE": "Невозможно удалить ISO файл, так как он используется слудющими машинами:<br>{{ vms }}"
     },
 
     "SNAPSHOT": {
-      "LIMIT_EXCEEDED": "Snapshot limit has been exceeded. You need to delete some of your previous snapshots first."
+      "LIMIT_EXCEEDED": "Лимит снимков превышен. Для создания новых снимков Вам необходимо удалить какие-либо из ранее созданных снимков."
     },
 
     "SSH": {
-      "KEY_PAIR_ALREADY_EXISTS": "SSH key with name '{{val1}}' already exists"
+      "KEY_PAIR_ALREADY_EXISTS": "SSH ключ с именем \"{{val1}}\" уже существует"
     },
 
     "VM": {
-      "INSUFFICIENT_RESOURCES": "Insufficient resources"
+      "INSUFFICIENT_RESOURCES": "Недостаточно ресурсов"
     },
 
     "VOLUME": {
-      "NAME_TOO_LONG": "Volume name cannot be longer than {{val1}} characters",
-      "NEW_SIZE_IS_LOWER": "New size is lower than the current, you need to shrink the volume",
-      "PRIMARY_STORAGE_EXCEEDED": "Primary storage capacity exceeded",
-      "UNABLE_TO_FIND_PRIMARY_STORAGE": "Unable to find suitable primary storage when creating volume {{val1}}",
-      "VOLUME_BUSY": "There is other active snapshot tasks on the instance to which the volume is attached, please try again later",
-      "VOLUME_LIMIT_EXCEEDED": "Volume limit has been exceeded. You need to delete some of your volumes to create a new one."
+      "NAME_TOO_LONG": "Имя диска не может быть длиннее {{val1}} символов",
+      "NEW_SIZE_IS_LOWER": "Новый размер меньше текущего, необходимо сжать диск",
+      "PRIMARY_STORAGE_EXCEEDED": "Лимит основного хранилища превышен",
+      "UNABLE_TO_FIND_PRIMARY_STORAGE": "Не удалось найти подходящее основное хранилище при создании диска {{val1}}",
+      "VOLUME_BUSY": "На виртуальной машине, к которой прикреплен этот диск, уже выполняется другое действие над снимками. Повторите попытку позже.",
+      "VOLUME_LIMIT_EXCEEDED": "Лимит дисков превышен. Для создания новых дисков вам нужно удалить какие-либо из ранее созданных дисков."
     }
   },
 
   "JOB_NOTIFICATIONS": {
-    "PENDING_OPERATIONS": "Pending operations",
+    "PENDING_OPERATIONS": "Текущие операции",
 
     "ISO": {
-      "ATTACHMENT_IN_PROGRESS": "Attaching an ISO",
-      "ATTACHMENT_DONE": "ISO has been attached",
-      "ATTACHMENT_FAILED": "Failed to attach an ISO",
+      "ATTACHMENT_IN_PROGRESS": "Прикрепление ISO файла",
+      "ATTACHMENT_DONE": "ISO файл прикреплен",
+      "ATTACHMENT_FAILED": "Не удалось прикрепить ISO файл",
 
-      "DETACHMENT_IN_PROGRESS": "Detaching an ISO",
-      "DETACHMENT_DONE": "ISO has been detached",
-      "DETACHMENT_FAILED": "Failed to detach an ISO",
+      "DETACHMENT_IN_PROGRESS": "Открепление ISO диска",
+      "DETACHMENT_DONE": "ISO диск откреплен",
+      "DETACHMENT_FAILED": "Не удалось открепить ISO диск",
 
-      "REGISTER_IN_PROGRESS": "Registering an ISO",
-      "REGISTER_DONE": "ISO registered",
-      "REGISTER_FAILED": "ISO failed",
+      "REGISTER_IN_PROGRESS": "Регистрация ISO",
+      "REGISTER_DONE": "ISO зарегистрирован",
+      "REGISTER_FAILED": "ISO не добавлен",
 
-      "DELETION_IN_PROGRESS": " Deleting an ISO",
-      "DELETION_DONE": "ISO deleted",
-      "DELETION_FAILED": "Failed to delete an ISO"
+      "DELETION_IN_PROGRESS": " Удаление ISO",
+      "DELETION_DONE": "ISO удален",
+      "DELETION_FAILED": "Не удалось удалить ISO"
     },
 
     "SNAPSHOT": {
-      "TAKE_IN_PROGRESS": "Taking a snapshot",
-      "TAKE_DONE": "Snapshot taken",
-      "TAKE_FAILED": "Snapshot failed",
+      "TAKE_IN_PROGRESS": "Создается снимок",
+      "TAKE_DONE": "Снимок создан",
+      "TAKE_FAILED": "Не удалось создать снимок",
 
-      "DELETION_IN_PROGRESS": "Deleting a snapshot",
-      "DELETION_DONE": "Snapshot deleted successfully",
-      "DELETION_FAILED": "Failed to delete a snapshot"
+      "DELETION_IN_PROGRESS": "Снимок удаляется",
+      "DELETION_DONE": "Снимок удален",
+      "DELETION_FAILED": "Не удалось удалить снимок"
     },
 
     "TEMPLATE": {
-      "REGISTER_IN_PROGRESS": "Registering a template",
-      "REGISTER_DONE": "Template registered",
-      "REGISTER_FAILED": "Template register failed",
+      "REGISTER_IN_PROGRESS": "Регистрация шаблона",
+      "REGISTER_DONE": "Шаблон зарегистрирован",
+      "REGISTER_FAILED": "Шаблон не зарегистрирован",
 
-      "DELETION_IN_PROGRESS": "Deleting a template",
-      "DELETION_DONE": "Template deleted",
-      "DELETION_FAILED": "Failed to delete an template"
+      "DELETION_IN_PROGRESS": "Удаление шаблона",
+      "DELETION_DONE": "Шаблон удален",
+      "DELETION_FAILED": "Не удалось удалить шаблон"
     },
 
     "VM": {
-      "START_IN_PROGRESS": "Starting a VM",
-      "START_DONE": "VM has started",
+      "START_IN_PROGRESS": "Запуск ВМ",
+      "START_DONE": "ВМ была запущена",
       "START_FAILED": "Failed to start VM",
 
-      "STOP_IN_PROGRESS": "Stopping a VM",
-      "STOP_DONE": "VM has been stopped",
+      "STOP_IN_PROGRESS": "Остановка ВМ",
+      "STOP_DONE": "ВМ была остановлена",
       "STOP_FAILED": "Failed to stop VM",
 
-      "REBOOT_IN_PROGRESS": "Rebooting a VM",
-      "REBOOT_DONE": "VM has been rebooted",
+      "REBOOT_IN_PROGRESS": "Перезапуск ВМ",
+      "REBOOT_DONE": "ВМ была перезапущена",
       "REBOOT_FAILED": "Failed to reboot VM",
 
-      "RESTORE_IN_PROGRESS": "Reinstalling a VM",
-      "RESTORE_DONE": "VM has been reinstalled",
+      "RESTORE_IN_PROGRESS": "Переустановка ВМ",
+      "RESTORE_DONE": "ВМ была переустановлена",
       "RESTORE_FAILED": "Failed to restore VM",
 
-      "RESET_PASSWORD_IN_PROGRESS": "Resetting VM password",
-      "RESET_PASSWORD_DONE": "Password has been reset",
-      "RESET_PASSWORD_FAILED": "Failed to reset password",
+      "RESET_PASSWORD_IN_PROGRESS": "Сброс пароля",
+      "RESET_PASSWORD_DONE": "Пароль сброшен",
+      "RESET_PASSWORD_FAILED": "Не удалось сбросить пароль",
 
-      "DESTROY_IN_PROGRESS": "Destroying a VM",
-      "DESTROY_DONE": "VM has been destroyed",
-      "DESTROY_FAILED": "Failed to destroy VM",
+      "DESTROY_IN_PROGRESS": "Уничтожение ВМ",
+      "DESTROY_DONE": "ВМ была уничтожена",
+      "DESTROY_FAILED": "Не удалось уничтожить ВМ",
 
-      "DEPLOY_IN_PROGRESS": "Deploying a VM",
-      "DEPLOY_DONE": "VM has been deployed",
-      "DEPLOY_FAILED": "Failed to deploy a VM",
+      "DEPLOY_IN_PROGRESS": "Развертывание ВМ",
+      "DEPLOY_DONE": "ВМ была развернута",
+      "DEPLOY_FAILED": "Не удалось развернуть ВМ",
 
-      "CHANGE_SERVICE_OFFERING_IN_PROGRESS": "Changing offering",
-      "CHANGE_SERVICE_OFFERING_DONE": "Offering changed",
-      "CHANGE_SERVICE_OFFERING_FAILED": "Failed to change offering"
+      "CHANGE_SERVICE_OFFERING_IN_PROGRESS": "Изменение предложения",
+      "CHANGE_SERVICE_OFFERING_DONE": "Предложение изменено",
+      "CHANGE_SERVICE_OFFERING_FAILED": "Не удалось изменить предложение"
     },
 
     "VOLUME": {
-      "DETACHMENT_IN_PROGRESS": "Volume is being detached",
-      "DETACHMENT_DONE": "Volume has been detached",
-      "DETACHMENT_FAILED": "Failed to detach a volume",
+      "DETACHMENT_IN_PROGRESS": "Открепление диска",
+      "DETACHMENT_DONE": "Диск успешно откреплен",
+      "DETACHMENT_FAILED": "Не удалось открепить диск",
 
-      "DELETION_IN_PROGRESS": "Deleting a volume",
-      "DELETION_DONE": "Volume has been deleted",
-      "DELETION_FAILED": "Failed to delete a volume",
+      "DELETION_IN_PROGRESS": "Удаление диска",
+      "DELETION_DONE": "Диск успешно удален",
+      "DELETION_FAILED": "Не удалось удалить диск",
 
-      "RESIZE_IN_PROGRESS": "Resizing volume",
-      "RESIZE_DONE": "Volume has been resized",
-      "RESIZE_FAILED": "Volume resize failed",
+      "RESIZE_IN_PROGRESS": "Изменение размера диска",
+      "RESIZE_DONE": "Размер диска изменен",
+      "RESIZE_FAILED": "Изменение размера диска не удалось",
 
-      "ATTACHMENT_IN_PROGRESS": "Attaching a volume",
-      "ATTACHMENT_DONE": "Volume has been attached",
-      "ATTACHMENT_FAILED": "Failed to attach a volume",
+      "ATTACHMENT_IN_PROGRESS": "Прикрепление диска",
+      "ATTACHMENT_DONE": "Диск прикреплен",
+      "ATTACHMENT_FAILED": "Не удалось прикрепить диск",
 
-      "CREATION_IN_PROGRESS": "Volume is being created",
-      "CREATION_DONE": "Volume has been created",
-      "CREATION_FAILED": "Failed to create a volume"
+      "CREATION_IN_PROGRESS": "Диск создается",
+      "CREATION_DONE": "Диск создан",
+      "CREATION_FAILED": "Не удалось создать диск"
     }
   },
 
   "NOTIFICATIONS": {
     "TEMPLATE": {
-      "CREATED": "Template {{ name }} created successfully",
-      "DELETED": "Template {{ name }} deleted successfully"
+      "CREATED": "Шаблон {{ name }} успешно создан",
+      "DELETED": "Шаблон {{ name }} успешно удален"
     }
   },
 
   "AUTH": {
-    "USERNAME": "Username",
-    "PASSWORD": "Password",
-    "DOMAIN": "Domain",
-    "LOGIN": "Login",
-    "NOT_LOGGED_IN": "You are not logged in",
-    "SHOW_ADVANCED": "Show advanced options",
-    "HIDE_ADVANCED": "Hide advanced options",
-    "USERNAME_REQUIRED": "Username is required",
-    "PASSWORD_REQUIRED": "Password is required"
+    "USERNAME": "Имя пользователя",
+    "PASSWORD": "Пароль",
+    "DOMAIN": "Домен",
+    "LOGIN": "Войти",
+    "NOT_LOGGED_IN": "Вы не вошли в систему",
+    "SHOW_ADVANCED": "Показать дополнительные параметры",
+    "HIDE_ADVANCED": "Скрыть дополнительные параметры",
+    "USERNAME_REQUIRED": "Необходимо заполнить имя пользователя",
+    "PASSWORD_REQUIRED": "Необходимо заполнить пароль"
   },
 
   "NAVIGATION_SIDEBAR": {
-    "WELCOME": "Welcome, {{ name }}",
-    "VMS": "Virtual machines",
-    "SPARE_DRIVES": "Spare drives",
-    "IMAGES": "Images",
-    "FIREWALL_TEMPLATES": "Firewall Templates",
-    "ACTIVITY_LOG": "Activity log",
-    "SSH_KEYS": "SSH keys",
-    "SETTINGS": "Settings",
-    "LOGOUT": "Logout",
+    "WELCOME": "Здравствуйте, {{ name }}",
+    "VMS": "Виртуальные машины",
+    "SPARE_DRIVES": "Свободные диски",
+    "IMAGES": "Образы",
+    "FIREWALL_TEMPLATES": "Шаблоны<br>брандмауэра",
+    "ACTIVITY_LOG": "Журнал событий",
+    "SSH_KEYS": "SSH ключи",
+    "SETTINGS": "Настройки",
+    "LOGOUT": "Выйти",
 
     "LICENSE": {
       "LICENSE_1": "© {{ year }}, ",
@@ -237,370 +237,372 @@
 
   "VM_PAGE": {
     "COMMANDS": {
-      "START": "Start",
-      "STOP": "Stop",
-      "REBOOT": "Reboot",
-      "RESTORE": "Reinstall",
-      "DESTROY": "Destroy",
-      "RESET_PASSWORD": "Reset password",
-      "CONSOLE": "Console",
+      "START": "Запустить",
+      "STOP": "Остановить",
+      "REBOOT": "Перезапустить",
+      "RESTORE": "Переустановить",
+      "DESTROY": "Уничтожить",
+      "RESET_PASSWORD": "Сбросить пароль",
+      "CONSOLE": "Консоль",
       "WEB_SHELL": "WebShell"
     },
 
     "RESOURCE_USAGE": {
-      "TITLE": "Resource usage",
-      "USED": "Used",
-      "FREE": "Free",
-      "VMS": "Virtual machines",
-      "NUMBER_OF_VMS": "Number",
-      "COMPUTATIONAL_RESOURCES": "Computational resources",
-      "CPUS": "CPUs",
+      "TITLE": "Использование ресурсов",
+      "USED": "Использовано",
+      "FREE": "Доступно",
+      "VMS": "Виртуальные машины",
+      "NUMBER_OF_VMS": "Количество",
+      "COMPUTATIONAL_RESOURCES": "Вычислительные ресурсы",
+      "CPUS": "CPU",
       "RAM": "RAM",
-      "VOLUMES": "Volumes",
-      "SNAPSHOTS": "Snapshots",
-      "STORAGE": "Storage",
-      "PRIMARY": "Primary",
-      "SECONDARY": "Secondary"
+      "VOLUMES": "Диски",
+      "SNAPSHOTS": "Снимки",
+      "STORAGE": "Хранилище",
+      "PRIMARY": "Основное",
+      "SECONDARY": "Дополнительное"
     },
 
     "FILTERS": {
-      "SELECT_ZONES": "Select zones",
-      "SELECT_GROUPS": "Select groups",
-      "SELECT_STATES": "Select states",
+      "SELECT_ZONES": "Выберите зоны",
+      "SELECT_GROUPS": "Выберите группы",
+      "SELECT_STATES": "Выберите статусы",
 
-      "NO_GROUP": "No group",
+      "NO_GROUP": "Без группы",
 
-      "STATE_RUNNING": "Running",
-      "STATE_STOPPED": "Stopped",
-      "STATE_ERROR": "Error",
+      "STATE_RUNNING": "Запущенные",
+      "STATE_STOPPED": "Остановленные",
+      "STATE_ERROR": "Ошибка",
 
-      "GROUP_BY": "Group by",
-      "GROUP_BY_ZONES": "Zones",
-      "GROUP_BY_COLORS": "Colors",
-      "GROUP_BY_GROUPS": "Groups"
+      "GROUP_BY": "Группировать по",
+      "GROUP_BY_ZONES": "Зонам",
+      "GROUP_BY_COLORS": "Цветам",
+      "GROUP_BY_GROUPS": "Группам"
     },
 
     "CARD": {
-      "IP_NA": "IP N/A",
+      "IP_NA": "IP недоступен",
       "CPU": "CPU",
       "RAM": "RAM",
-      "DISKS": "DISKS"
+      "DISKS": "Диски"
     },
 
     "SIDEBAR": {
-      "VM": "Virtual machine",
-      "STORAGE": "Storage",
-      "NETWORK": "Network",
-      "TAGS": "Tags"
+      "VM": "Машина",
+      "STORAGE": "Диски",
+      "NETWORK": "Сеть",
+      "TAGS": "Теги"
     },
 
     "VM_DETAILS": {
-      "COLOR": "Color",
-      "DESCRIPTION": "Description",
-      "ZONE": "Zone",
+      "COLOR": "Цвет",
+      "DESCRIPTION": "Описание",
+      "ZONE": "Зона",
 
       "INSTANCE_GROUP": {
-        "TITLE": "Group",
-        "NO_GROUP": "No group",
+        "TITLE": "Группа",
+        "NO_GROUP": "Без группы",
 
-        "CHANGE_INSTANCE_GROUP": "Change instance group",
-        "CREATE_NEW_GROUP": "Create a new group",
-        "CHOOSE_EXISTING_GROUP": "Choose an existing group",
-        "CHOOSE_GROUP": "Choose a group",
-        "ENTER_GROUP_NAME": "Enter group name",
-        "REMOVE_FROM_GROUP": "Remove from the group \"{{ value }}\""
+        "CHANGE_INSTANCE_GROUP": "Изменение группы",
+        "CREATE_NEW_GROUP": "Создать новую",
+        "CHOOSE_EXISTING_GROUP": "Выбрать существующую",
+        "CHOOSE_GROUP": "Выберите группу",
+        "ENTER_GROUP_NAME": "Введите имя",
+        "REMOVE_FROM_GROUP": "Удалить из группы \"{{ value }}\""
       },
 
       "SERVICE_OFFERING": {
-        "TITLE": "Service offering",
+        "TITLE": "Вычислительное предложение",
 
-        "name": "Name",
-        "cpuNumber": "CPU cores",
-        "cpuSpeed": "CPU (MHz)",
-        "memory": "Memory (MB)",
-        "displayText": "Description",
-        "storageType": "Storage type",
-        "provisioningType": "Provisioning type",
-        "offerHa": "High availability",
-        "networkRate": "Network rate",
-        "minIops": "Min IOPS",
-        "maxIops": "Max IOPS",
-        "limitCpu": "CPU cap",
-        "isVolatile": "Volatile",
+        "name": "Имя",
+        "cpuNumber": "Ядра CPU",
+        "cpuSpeed": "CPU (МГц)",
+        "memory": "Память (МБ)",
+        "displayText": "Описание",
+        "storageType": "Тип хранилища",
+        "provisioningType": "Выделение емкости",
+        "offerHa": "Повышенная отказоустойчивость",
+        "networkRate": "Скорость сети",
+        "minIops": "Мин. IO/сек",
+        "maxIops": "Макс. IO/сек",
+        "limitCpu": "Ограничение использования CPU",
+        "isVolatile": "Очищать диски при перезагрузке",
         "hypervisorSnapshotReserve": "Hypervisor Snapshot Reserve",
-        "diskBytesReadRate": "Disk read rate (MB/s)",
-        "diskBytesWriteRate": "Disk write rate (MB/s)",
-        "diskIopsReadRate": "Disk read rate (IOPs)",
-        "diskIopsWriteRate": "Disk write rate (IOPs)",
+        "diskBytesReadRate": "Скорость чтения диска (МБайт/сек)",
+        "diskBytesWriteRate": "Скорость записи диска (МБайт/сек)",
+        "diskIopsReadRate": "Скорость чтения диска (IO/сек)",
+        "diskIopsWriteRate": "Скорость записи диска (IO/сек)",
         "deploymentPlanner": "Deployment planner",
-        "domain": "Domain",
-        "created": "Created",
-        "isSystem": "System",
-        "defaultUse": "Default",
-        "isCustomized": "Customized",
+        "domain": "Домен",
+        "created": "Создано",
+        "isSystem": "Системное",
+        "defaultUse": "По умолчанию",
+        "isCustomized": "Настраиваемое",
 
-        "thin": "Thin",
-        "thick": "Thick",
-        "sparse": "Sparse",
-        "shared": "Shared",
-        "local": "Local"
+        "thin": "Динамическое",
+        "thick": "Статическое",
+        "sparse": "Разреженное",
+        "shared": "Общее",
+        "local": "Локальное"
       },
 
       "AFFINITY_GROUP": {
-        "TITLE": "Affinity Group",
-        "NO_AFFINITY_GROUP": "No affinity group",
-        "NO_AFFINITY_GROUPS": "No affinity groups",
+        "TITLE": "Аффинитетная группа",
+        "NO_AFFINITY_GROUP": "Нет аффинитетных групп",
+        "NO_AFFINITY_GROUPS": "Нет аффинитетных групп",
 
-        "SELECT_AFFINITY_GROUP": "Select affinity group",
-        "CREATE_NEW_GROUP": "Create a new group",
-        "CHOOSE_EXISTING_GROUP": "Choose an existing group",
-        "CHOOSE_GROUP": "Choose a group",
-        "ENTER_GROUP_NAME": "Enter group name",
-        "REMOVE_FROM_GROUP": "Remove from the group \"{{ value }}\"",
-        "STOP_MACHINE_FOR_AG": "You need to stop the virtual machine to change affinity group. Do you want to stop it now?"
+        "SELECT_AFFINITY_GROUP": "Изменение группы",
+        "CREATE_NEW_GROUP": "Создать новую",
+        "CHOOSE_EXISTING_GROUP": "Выбрать существующую",
+        "CHOOSE_GROUP": "Выберите группу",
+        "ENTER_GROUP_NAME": "Введите имя",
+        "REMOVE_FROM_GROUP": "Удалить из группы \"{{ value }}\"",
+        "STOP_MACHINE_FOR_AG": "Для того, чтобы изменить аффинитетную группу, необходимо остановить виртуальную машину. Хотите остановить сейчас?"
       },
 
-      "TEMPLATE": "Template",
+      "TEMPLATE": "Шаблон",
 
       "SSH_KEY": {
-        "TITLE": "SSH key",
-        "NO_SSH_KEY": "No SSH key",
-        "NO_SSH_KEYS": "No SSH keys",
+        "TITLE": "SSH ключ",
+        "NO_SSH_KEY": "Нет SSH ключа",
+        "NO_SSH_KEYS": "Нет SSH ключей",
 
-        "SELECT_SSH_KEY": "Select SSH key",
-        "STOP_MACHINE_FOR_SSH": "You need to stop the virtual machine to reset SSH key. Do you want to stop it now?"
+        "SELECT_SSH_KEY": "Выберите SSH ключ",
+        "STOP_MACHINE_FOR_SSH": "Для того, чтобы изменить SSH ключ, необходимо остановить виртуальную машину. Хотите остановить сейчас?"
       },
 
       "STATISTICS": {
-        "TITLE": "Statistics",
-        "CPU_UTILIZED": "CPU utilized",
-        "NETWORK_READ": "Network read",
-        "NETWORK_WRITE": "Network write",
-        "DISK_READ": "Disk read",
-        "DISK_WRITE": "Disk write",
-        "DISK_READ_IO": "Disk read (IO)",
-        "DISK_WRITE_IO": "Disk write (IO)"
+        "TITLE": "Статистика",
+        "CPU_UTILIZED": "Загружено CPU",
+        "NETWORK_READ": "Прочитано через сеть",
+        "NETWORK_WRITE": "Записано через сеть",
+        "DISK_READ": "Прочитано с диска",
+        "DISK_WRITE": "Записано на диск",
+        "DISK_READ_IO": "Прочитано с диска (IO)",
+        "DISK_WRITE_IO": "Записано на диск (IO)"
       }
     },
 
     "STORAGE_DETAILS": {
       "VOLUME_DETAILS": {
-        "GENERAL_INFORMATION": "General information",
-        "SIZE": "Size",
-        "DESCRIPTION": "Description",
-        "CREATED": "Created",
-        "STORAGE_TYPE": "Storage type",
-        "DISK_OFFERING": "Disk offering",
-        "PERFORMANCE": "Performance",
-        "MIN_IOPS": "Min IO/s",
-        "MAX_IOPS": "Max IO/s",
-        "READ_RATE_MB": "Read rate",
-        "WRITE_RATE_MB": "Write rate",
-        "READ_RATE_IOPS": "Read rate",
-        "WRITE_RATE_IOPS": "Write rate"
+        "GENERAL_INFORMATION": "Общая информация",
+        "SIZE": "Размер",
+        "DESCRIPTION": "Описание",
+        "CREATED": "Создан",
+        "STORAGE_TYPE": "Тип хранилища",
+        "DISK_OFFERING": "Дисковое предложение",
+        "PERFORMANCE": "Производительность",
+        "MIN_IOPS": "Мин. IO/сек",
+        "MAX_IOPS": "Макс. IO/сек",
+        "READ_RATE_MB": "Скорость чтения",
+        "WRITE_RATE_MB": "Скорость записи",
+        "READ_RATE_IO": "Скорость чтения (IO/сек)",
+        "WRITE_RATE_IO": "Скорость записи (IO/сек)"
       },
 
       "VOLUME_ACTIONS": {
-        "TAKE_SNAPSHOT": "Take a snapshot",
-        "SNAPSHOT_SCHEDULE": "Set up snapshot schedule",
-        "RESIZE": "Resize the disk",
-        "DETACH": "Detach"
+        "TAKE_SNAPSHOT": "Создать снимок",
+        "SNAPSHOT_SCHEDULE": "Настроить создание снимков",
+        "RESIZE": "Изменить размер диска",
+        "DETACH": "Открепить"
       },
 
       "VOLUME_RESIZE": {
-        "TITLE": "Resize volume",
-        "DISK_OFFERING": "Disk offering",
-        "NEW_SIZE": "New size",
-        "NO_AVAILABLE_OFFERINGS": "No available offerings",
-        "RESIZE": "Resize"
+        "TITLE": "Изменить размер диска",
+        "DISK_OFFERING": "Дисковое предложение",
+        "NEW_SIZE": "Новый размер",
+        "NO_AVAILABLE_OFFERINGS": "Нет доступных предложений",
+        "RESIZE": "Изменить размер"
       },
 
       "SNAPSHOT_CREATION": {
-        "TAKE_SNAPSHOT": "Take a snapshot",
-        "NAME": "Name",
-        "DESCRIPTION": "Description"
+        "TAKE_SNAPSHOT": "Создание снимка",
+        "NAME": "Название",
+        "DESCRIPTION": "Описание"
       },
 
       "SNAPSHOTS_LIST": {
-        "LAST_SNAPSHOT": "Last snapshot",
-        "VIEW_ALL": "View all",
-        "NO_SNAPSHOTS": "No snapshots"
+        "LAST_SNAPSHOT": "Последний снимок",
+        "VIEW_ALL": "Все",
+        "NO_SNAPSHOTS": "Нет снимков"
       },
 
       "SNAPSHOT_ACTIONS": {
-        "CREATE_TEMPLATE": "Create a template",
-        "REVERT_TO_SNAPSHOT": "Revert disk to this snapshot"
+        "CREATE_TEMPLATE": "Создать шаблон",
+        "REVERT_TO_SNAPSHOT": "Восстановить диск"
       },
 
       "SNAPSHOTS_MODAL": {
-        "TITLE": "Snapshots",
-        "NAME": "Name",
-        "DESCRIPTION": "Description",
-        "DATE": "Date",
-        "ACTIONS": "Actions",
-        "NO_SNAPSHOTS": "No snapshots"
+        "TITLE": "Снимки",
+        "NAME": "Название",
+        "DESCRIPTION": "Описание",
+        "DATE": "Дата",
+        "ACTIONS": "Действия",
+        "NO_SNAPSHOTS": "Нет снимков"
       },
 
       "SPARE_DRIVE_ATTACHMENT": {
-        "ATTACH_VOLUME": "Attach a volume",
-        "SELECT_VOLUME": "Select a volume",
-        "NO_AVAILABLE_VOLUMES_1": "No available volumes. Detach a volume or",
-        "NO_AVAILABLE_VOLUMES_2": "create a new one",
-        "ATTACH": "Attach"
+        "ATTACH_VOLUME": "Прикрепление диска",
+        "SELECT_VOLUME": "Выберите диск",
+        "NO_AVAILABLE_VOLUMES_1": "Нет доступных дисков. Открепите диск или",
+        "NO_AVAILABLE_VOLUMES_2": "создайте новый",
+        "ATTACH": "Прикрепить"
       },
 
       "ISO": {
         "TITLE": "ISO",
-        "DETACH": "Detach",
-        "NO_MEDIUM": "No medium attached",
-        "ATTACH": "Attach"
+        "DETACH": "Открепить",
+        "NO_MEDIUM": "Диск не прикреплен",
+        "ATTACH": "Прикрепить"
       },
 
       "ISO_MODAL": {
-        "TITLE": "ISO attachment",
-        "ATTACH": "Attach"
+        "TITLE": "Прикрепление ISO",
+        "ATTACH": "Прикрепить"
       }
     },
 
     "NETWORK_DETAILS": {
-      "NETWORK_CONFIGURATION": "Network configuration",
+      "NETWORK_CONFIGURATION": "Конфигурация сети",
       "NIC": "NIC",
       "IP": "IP",
-      "ARE_YOU_SURE_ADD_SECONDARY_IP": "Are you sure you want to add a secondary IP?",
-      "ARE_YOU_SURE_REMOVE_SECONDARY_IP": "Are you sure you want to remove this secondary IP?",
+      "ARE_YOU_SURE_ADD_SECONDARY_IP": "Вы уверены, что хотите добавить дополнительный IP?",
+      "ARE_YOU_SURE_REMOVE_SECONDARY_IP": "Вы уверены, что хотите удалить дополнительный IP?",
 
       "broadcastUri":  "Broadcast URI",
-      "gateway": "Gateway",
-      "ip6Address": "IPv6 address",
+      "gateway": "Шлюз",
+      "ip6Address": "IPv6 адрес",
       "ip6Cidr": "IPv6 CIDR",
-      "ip6Gateway": "IPv6 gateway",
+      "ip6Gateway": "IPv6 шлюз",
       "ipAddress": "IP",
-      "isDefault": "Default",
+      "isDefault": "По умолчанию",
       "isolationUri": "Isolation URI",
-      "macAddress": "MAC address",
-      "netmask": "Netmask",
-      "networkName": "Network name",
+      "macAddress": "MAC адрес",
+      "netmask": "Маска подсети",
+      "networkName": "Имя сети",
       "nsxLogicalSwitch": "NSX Logical Switch",
       "nsxLogicalSwitchPort": "NSX Logical Switch Port",
-      "secondaryIp": "Secondary IP",
-      "trafficType": "Traffic Type",
-      "type": "Type",
+      "secondaryIp": "Дополнительный IP",
+      "trafficType": "Тип трафика",
+      "type": "Тип",
 
-      "FIREWALL_RULES": "Firewall rules",
-      "INGRESS": "Ingress",
-      "EGRESS": "Egress"
+      "FIREWALL_RULES": "Правила брандмауэра",
+      "INGRESS": "Входящее",
+      "EGRESS": "Исходящее"
     },
 
     "VM_CREATION": {
-      "NEW_VM": "New virtual machine",
-      "NAME": "Name",
-      "THIS_NAME_IS_TAKEN": "This name is taken",
-      "ZONE": "Zone",
-      "SERVICE_OFFERING": "Service offering",
-      "INSTALLATION_SOURCE": "Installation source",
-      "DISK_SIZE": "Disk size",
+      "NEW_VM": "Новая виртуальная машина",
+      "NAME": "Название",
+      "THIS_NAME_IS_TAKEN": "Это имя занято",
+      "ZONE": "Зона",
+      "SERVICE_OFFERING": "Вычислительное предложение",
+      "INSTALLATION_SOURCE": "Источник установки",
+      "DISK_SIZE": "Размер диска",
 
-      "GROUP": "Group",
-      "NO_GROUP": "No group",
+      "GROUP": "Группа",
+      "NO_GROUP": "Без группы",
 
-      "AFFINITY_GROUPS": "Affinity groups",
-      "SECURITY_GROUPS": "Firewall rules",
+      "AFFINITY_GROUPS": "Аффинитетные группы",
+      "SECURITY_GROUPS": "Брандмауэр",
 
-      "KEYBOARD_LAYOUT": "Keyboard layout",
+      "KEYBOARD_LAYOUT": "Раскладка клавиатуры",
       "KB_US": "Standard (US) keyboard",
       "KB_UK": "UK keyboard",
       "KB_JP": "Japanese keyboard",
       "KB_SC": "Simplified Chinese keyboard",
 
-      "SSH_KEYPAIR": "SSH keypair",
-      "START_VM": "Start VM",
-      "YOU_RAN_OUT_OF": "You ran out of",
+      "SSH_KEY_PAIR": "SSH ключ",
+      "NO_SSH_KEY": "Нет SSH ключа",
+
+      "START_VM": "Запустить ВМ",
+      "YOU_RAN_OUT_OF": "Вам не хватает",
 
       "CPUS": "CPU",
       "MEMORY": "RAM",
-      "INSTANCES": "VMs",
-      "IPS": "IPs",
-      "VOLUMES": "Volumes",
-      "PRIMARY_STORAGE": "Primary storage",
+      "INSTANCES": "ВМ",
+      "IPS": "IP",
+      "VOLUMES": "Дисков",
+      "PRIMARY_STORAGE": "Основного хранилища",
 
-      "CREATING_AG": "Creating an affinity group",
-      "CREATING_SG": "Creating a security group",
-      "DEPLOYING_VM": "Deploying the virtual machine",
+      "CREATING_SG": "Создание группы безопасности",
+      "CREATING_AG": "Создание аффинитетной группы",
+      "DEPLOYING_VM": "Создание виртуальной машины",
 
-      "OS_TEMPLATE": "OS template"
+      "OS_TEMPLATE": "ОС шаблон"
     }
   },
 
   "SPARE_DRIVE_PAGE": {
     "FILTERS": {
-      "SELECT_ZONES": "Select zones",
+      "SELECT_ZONES": "Выберите зоны",
 
-      "GROUP_BY": "Group by",
-      "GROUP_BY_ZONES": "Zones"
+      "GROUP_BY": "Группировать по",
+      "GROUP_BY_ZONES": "Зонам"
     },
 
     "CARD": {
-      "STATE": "State",
-      "SIZE": "Size",
-      "ATTACH": "Attach",
-      "RESIZE": "Resize"
+      "STATE": "Состояние",
+      "SIZE": "Размер",
+      "ATTACH": "Прикрепить",
+      "RESIZE": "Изменить размер"
     },
 
     "SPARE_DRIVE_CREATION": {
-      "TITLE": "New volume",
-      "NAME": "Name",
-      "ZONE": "Zone",
-      "DISK_OFFERING": "Disk offering",
-      "SIZE": "Size"
+      "TITLE": "Новый диск",
+      "NAME": "Название",
+      "ZONE": "Зона",
+      "DISK_OFFERING": "Дисковое предложение",
+      "SIZE": "Размер"
     },
 
     "DETAILS": {
-      "SIZE": "Size",
-      "CREATED": "Created",
-      "STORAGE_TYPE": "Storage type",
+      "SIZE": "Размер",
+      "CREATED": "Создан",
+      "STORAGE_TYPE": "Тип хранилища",
 
-      "DISK_OFFERING": "Disk offering",
-      "DISK_OFFERING_NAME": "Name",
-      "DESCRIPTION": "Description",
-      "MIN_IOPS": "Min IOPS",
-      "MAX_IOPS": "Max IOPS",
-      "READ_RATE_MB": "Read rate",
-      "WRITE_RATE_MB": "Write rate",
-      "READ_RATE_IOPS": "Read rate",
-      "WRITE_RATE_IOPS": "Write rate"
+      "DISK_OFFERING": "Дисковое предложение",
+      "DISK_OFFERING_NAME": "Название",
+      "DESCRIPTION": "Описание",
+      "MIN_IOPS": "Мин. IO/сек",
+      "MAX_IOPS": "Макс. IO/сек",
+      "READ_RATE_MB": "Скорость чтения",
+      "WRITE_RATE_MB": "Скорость записи",
+      "READ_RATE_IO": "Скорость чтения (IO/сек)",
+      "WRITE_RATE_IO": "Скорость записи (IO/сек)"
     },
 
     "ATTACHMENT": {
-      "CHOOSE_VIRTUAL_MACHINE": "Choose a virtual machine",
-      "NO_VMS": "No virtual machines",
-      "NO_VMS_IN_ZONE": "No virtual machines in this volume's zone",
-      "ATTACH": "Attach"
+      "CHOOSE_VIRTUAL_MACHINE": "Выберите машину",
+      "NO_VMS": "Нет машин",
+      "NO_VMS_IN_ZONE": "В зоне этого диска нет виртуальных машин",
+      "ATTACH": "Прикрепить"
     }
   },
 
   "TEMPLATE_PAGE": {
     "DISPLAY_MODES": {
-      "TEMPLATES": "Templates",
+      "TEMPLATES": "Шаблоны",
       "ISO": "ISO"
     },
 
     "FILTERS": {
-      "SELECT_OS_FAMILIES": "Select OS families",
-      "SELECT_TYPES": "Select types",
-      "SELECT_ZONES": "Select zones",
+      "SELECT_OS_FAMILIES": "Выберите ОС",
+      "SELECT_TYPES": "Выберите типы",
+      "SELECT_ZONES": "Выберите зоны",
 
-      "GROUP_BY": "Group by",
-      "GROUP_BY_ZONES": "Zones",
-      "NO_ZONE": "No zone",
+      "GROUP_BY": "Группировать по",
+      "GROUP_BY_ZONES": "Зонам",
+      "NO_ZONE": "Вне зоны",
 
-      "FEATURED": "Featured",
-      "SELF": "My",
-      "SELFEXECUTABLE": "My",
-      "ALL": "All"
+      "FEATURED": "Рекомендованные",
+      "SELF": "Мои",
+      "SELFEXECUTABLE": "Мои",
+      "ALL": "Все"
     },
 
     "CARD": {
-      "OS": "OS"
+      "OS": "ОС"
     },
 
     "SIDEBAR": {
@@ -791,8 +793,8 @@
       "NETWORK_WRITE_ERRORS": "Network write errors",
       "DISK_READ": "Disk read",
       "DISK_WRITE": "Disk write",
-      "DISK_READ_IOPS": "Disk read IOPS",
-      "DISK_WRITE_IOPS": "Disk write IOPS",
+      "DISK_READ_IO": "Disk read (IO)",
+      "DISK_WRITE_IO": "Disk write (IO)",
       "DISK_IO_ERRORS": "Disk IO errors"
     }
   },

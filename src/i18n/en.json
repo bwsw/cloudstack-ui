@@ -793,8 +793,8 @@
       "NETWORK_WRITE_ERRORS": "Network write errors",
       "DISK_READ": "Disk read",
       "DISK_WRITE": "Disk write",
-      "DISK_READ_IOPS": "Disk read IOPS",
-      "DISK_WRITE_IOPS": "Disk write IOPS",
+      "DISK_READ_IO": "Disk read (IO)",
+      "DISK_WRITE_IO": "Disk write (IO)",
       "DISK_IO_ERRORS": "Disk IO errors"
     }
   },

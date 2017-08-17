@@ -38,12 +38,12 @@
     </div>
 
     <div class="row" *ngIf="volume.diskOffering.minIops">
-      <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.MIN_IOPS' | translate }}</div>
+      <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.MIN_IO' | translate }}</div>
       <div>{{ 'UNITS.IOPS' | translate:{ value: volume.diskOffering.minIops } }}</div>
     </div>
 
     <div class="row" *ngIf="volume.diskOffering.maxIops">
-      <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.MAX_IOPS' | translate }}</div>
+      <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.MAX_IO' | translate }}</div>
       <div>{{ 'UNITS.IOPS' | translate:{ value: volume.diskOffering.maxIops } }}</div>
     </div>
 
@@ -58,12 +58,12 @@
     </div>
 
     <div class="row" *ngIf="volume.diskOffering.diskIopsReadRate">
-      <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.READ_RATE_IOPS' | translate }}</div>
+      <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.READ_RATE_IO' | translate }}</div>
       <div>{{ 'UNITS.IOPS' | translate:{ value: volume.diskOffering.diskIopsReadRate } }}</div>
     </div>
 
     <div class="row" *ngIf="volume.diskOffering.diskIopsWriteRate">
-      <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.WRITE_RATE_IOPS' | translate }}</div>
+      <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.WRITE_RATE_IO' | translate }}</div>
       <div>{{ 'UNITS.IOPS' | translate:{ value: volume.diskOffering.diskIopsWriteRate } }}</div>
     </div>
   </div>
