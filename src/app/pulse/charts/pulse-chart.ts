@@ -47,14 +47,23 @@ export const defaultChartOptions = {
             hour: 'LT'
           }
         }
-      }],
-    yAxes: [{
+      }
+    ],
+    yAxes: [
+      {
         ticks: {
+          autoSkip: false,
           padding: 40,
           mirror: true,
-          suggestedMin: 0
+          suggestedMin: 0,
+          userCallback(val) {
+            if (val % 1 === 0) {
+              return val;
+            }
+          }
         }
-      }]
+      }
+    ]
   }
 };
 
@@ -70,7 +79,7 @@ export const defaultChartConfig = {
 export function getChart(config: Array<any>) {
   return config.map(_ => {
     const options = Object.assign({}, defaultChartOptions, _.options);
-    return Object.assign({}, defaultChartConfig, { ..._, options })
+    return Object.assign({}, defaultChartConfig, { ..._, options });
   });
 }
 
@@ -86,7 +95,8 @@ export abstract class PulseChartComponent {
   public loading = false;
   public error = false;
 
-  constructor(protected pulse: PulseService, protected cd: ChangeDetectorRef) {}
+  constructor(protected pulse: PulseService, protected cd: ChangeDetectorRef) {
+  }
 
   protected setLoading(loading = true) {
     this.loading = loading;
