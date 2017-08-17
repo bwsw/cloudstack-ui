@@ -11,7 +11,6 @@ import { AbstractControl } from '@angular/forms';
 import { MdOptionSelectionChange, MdSelectChange } from '@angular/material';
 import * as debounce from 'lodash/debounce';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { PulseChart } from './pulse-chart';
 import { PulseParameters } from '../vm-pulse/vm-pulse.component';
 
 @Component({

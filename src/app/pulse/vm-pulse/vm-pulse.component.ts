@@ -16,6 +16,7 @@ import { PulseDiskChartComponent } from '../charts/pulse-disk-chart/pulse-disk-c
 import { PulseNetworkChartComponent } from '../charts/pulse-network-chart/pulse-network-chart.component';
 import { PulseService } from '../pulse.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
+import * as debounce from 'lodash/debounce';
 
 const enum TabIndex {
   CpuRam,
@@ -60,6 +61,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private storage: LocalStorageService
   ) {
+    this.updateChart = debounce(this.updateChart, 300);
   }
 
   public ngOnInit() {
@@ -90,7 +92,22 @@ export class VmPulseComponent implements OnInit, OnDestroy {
 
     if (this._selectedScale) {
       this.storage.write(PulseParameters.ScaleRange, this._selectedScale.range);
-      this.selectedAggregations = [this._selectedScale.aggregations[0]];
+      if (this._selectedAggregations) {
+        const available = [];
+
+        this._selectedAggregations.forEach(val => {
+          const aggregation = this._selectedScale.aggregations.find(v => v === val);
+          if (!!aggregation) {
+            available.push(aggregation);
+          }
+        });
+
+        if (!available.length) {
+          this.selectedAggregations.push(this._selectedScale.aggregations[0]);
+        } else {
+          this.selectedAggregations = available;
+        }
+      }
     }
   }
 
