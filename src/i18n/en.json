@@ -549,7 +549,7 @@
     },
 
     "DETAILS": {
-      "SIZE": "Size", // not yet in code
+      "SIZE": "Size",
       "CREATED": "Created",
       "STORAGE_TYPE": "Storage type",
 
