@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import {
   DiskOffering,
   DiskOfferingService,
@@ -67,6 +68,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private dialogService: DialogService,
+    private dialogsService: DialogsService,
     private dialog: MdDialog,
     private diskOfferingService: DiskOfferingService,
     private jobsNotificationService: JobsNotificationService,
@@ -142,9 +144,11 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   }
 
   public showRemoveDialog(volume: Volume): void {
-    this.dialogService.confirm('CONFIRM_DELETE_VOLUME', 'NO', 'YES')
+    this.dialogsService.confirm({
+      message: 'CONFIRM_DELETE_VOLUME'
+    })
       .onErrorResumeNext()
-      .subscribe(() => this.remove(volume));
+      .subscribe((res) => { if (res) { this.remove(volume); } });
   }
 
   public remove(volume: Volume): void {

@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { AffinityGroupSelectorComponent } from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { ServiceOfferingDialogComponent } from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
 import { ServiceOffering, ServiceOfferingFields } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
@@ -29,7 +29,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
-    private dialogService: DialogService,
+    private dialogsService: DialogsService,
     private dialog: MdDialog,
     private serviceOfferingService: ServiceOfferingService,
     private vmActionsService: VmActionsService,
@@ -156,16 +156,14 @@ export class VmDetailComponent implements OnChanges, OnInit {
           return Observable.of(true);
         }
 
-        return this.dialogService.customConfirm({
+        return this.dialogsService.confirm({
           message: message,
           confirmText: 'STOP',
-          declineText: 'CANCEL',
-          width: '350px',
-          clickOutsideToClose: false
+          declineText: 'CANCEL'
         })
           .onErrorResumeNext()
-          .switchMap((result) => {
-            if (result === null) {
+          .switchMap((res) => {
+            if (res) {
               loadingFunction(true);
               return this.vmActionsService.vmStopActionSilent.activate(vm)
                 .do(() => loadingFunction(false))

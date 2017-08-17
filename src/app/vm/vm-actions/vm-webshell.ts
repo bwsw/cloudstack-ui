@@ -1,6 +1,7 @@
 import { VirtualMachineAction, VmActions } from './vm-action';
 import { VirtualMachine } from '../shared/vm.model';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { VmService } from '../shared/vm.service';
 import { WebShellService } from '../web-shell/web-shell.service';
 import { Observable } from 'rxjs/Observable';
@@ -16,11 +17,12 @@ export class VmWebShellAction extends VirtualMachineAction {
 
   constructor(
     protected dialogService: DialogService,
+    protected dialogsService: DialogsService,
     protected jobsNotificationService: JobsNotificationService,
     protected vmService: VmService,
     protected webShellService: WebShellService
   ) {
-    super(dialogService, jobsNotificationService, vmService);
+    super(dialogService, dialogsService, jobsNotificationService, vmService);
   }
 
   public activate(vm: VirtualMachine): Observable<void> {

@@ -1,6 +1,7 @@
 import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { VmService } from '../shared/vm.service';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
@@ -20,12 +21,13 @@ export class VmChangeServiceOfferingAction extends VirtualMachineAction {
 
   constructor(
     protected dialogService: DialogService,
+    protected dialogsService: DialogsService,
     protected jobsNotificationService: JobsNotificationService,
     protected vmService: VmService,
     protected vmStartActionSilent: VmStartActionSilent,
     protected vmStopActionSilent: VmStopActionSilent
   ) {
-    super(dialogService, jobsNotificationService, vmService);
+    super(dialogService, dialogsService, jobsNotificationService, vmService);
   }
 
   public canActivate(vm: VirtualMachine): boolean {

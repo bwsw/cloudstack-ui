@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MdDialog } from '@angular/material';
 
-import { DialogService } from '../../../../../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../../../../../dialog/dialog-service/dialog.service';
 import { JobsNotificationService, NotificationService } from '../../../../../shared/services';
 import { TemplateCreationComponent } from '../../../../../template/template-creation/template-creation.component';
 import { Snapshot, Volume } from '../../../../../shared/models';
@@ -9,6 +9,7 @@ import { StatsUpdateService } from '../../../../../shared/services/stats-update.
 import { SnapshotService } from '../../../../../shared/services/snapshot.service';
 import { Action } from '../../../../../shared/interfaces/action.interface';
 import { ActionsService } from '../../../../../shared/interfaces/action-service.interface';
+import { Observable } from 'rxjs';
 
 
 export interface SnapshotAction extends Action<Snapshot> {
@@ -34,7 +35,7 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
 
   constructor(
     private dialog: MdDialog,
-    private dialogService: DialogService,
+    private dialogsService: DialogsService,
     private jobNotificationService: JobsNotificationService,
     private notificationService: NotificationService,
     private snapshotService: SnapshotService,
@@ -54,11 +55,15 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
   public handleSnapshotDelete(snapshot: Snapshot, volume): void {
     let notificationId: string;
 
-    this.dialogService.confirm('CONFIRM_SNAPSHOT_DELETE', 'NO', 'YES')
-      .switchMap(() => {
-        snapshot['loading'] = true;
-        notificationId = this.jobNotificationService.add('SNAPSHOT_DELETE_IN_PROGRESS');
-        return this.snapshotService.remove(snapshot.id);
+    this.dialogsService.confirm({ message: 'CONFIRM_SNAPSHOT_DELETE' })
+      .switchMap((res) => {
+        if (res) {
+          snapshot['loading'] = true;
+          notificationId = this.jobNotificationService.add('SNAPSHOT_DELETE_IN_PROGRESS');
+          return this.snapshotService.remove(snapshot.id);
+        } else {
+          return Observable.throw(null);
+        }
       })
       .finally(() => snapshot['loading'] = false)
       .subscribe(

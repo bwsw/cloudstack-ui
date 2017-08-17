@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { VirtualMachine } from '../../../shared/vm.model';
+import { DialogsService } from '../../../../dialog/dialog-service/dialog.service';
 import { DialogService } from '../../../../dialog/dialog-module/dialog.service';
 import { VmService } from '../../../shared/vm.service';
 
@@ -16,6 +17,7 @@ export class NicDetailComponent {
 
   constructor(
     private dialogService: DialogService,
+    private dialogsService: DialogsService,
     private vmService: VmService
   ) {}
 
@@ -24,15 +26,17 @@ export class NicDetailComponent {
   }
 
   public confirmAddSecondaryIp(vm: VirtualMachine): void {
-    this.dialogService.confirm('ARE_YOU_SURE_ADD_SECONDARY_IP', 'NO', 'YES')
-      .onErrorResumeNext()
-      .subscribe(() => this.addSecondaryIp(vm));
+    this.dialogsService.confirm({
+      message: 'ARE_YOU_SURE_ADD_SECONDARY_IP'
+    }).onErrorResumeNext()
+      .subscribe((res) => { if (res) { this.addSecondaryIp(vm); } });
   }
 
   public confirmRemoveSecondaryIp(secondaryIpId: string, vm: VirtualMachine): void {
-    this.dialogService.confirm('ARE_YOU_SURE_REMOVE_SECONDARY_IP', 'NO', 'YES')
-      .onErrorResumeNext()
-      .subscribe(() => this.removeSecondaryIp(secondaryIpId, vm));
+    this.dialogsService.confirm({
+      message: 'ARE_YOU_SURE_REMOVE_SECONDARY_IP'
+    }).onErrorResumeNext()
+      .subscribe((res) => { if (res) { this.removeSecondaryIp(secondaryIpId, vm); } });
   }
 
   private addSecondaryIp(vm: VirtualMachine): void {

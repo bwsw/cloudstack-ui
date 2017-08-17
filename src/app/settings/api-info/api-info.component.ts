@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { BACKEND_API_URL, ConfigService, NotificationService } from '../../shared/services';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { UserService } from '../../shared/services/user.service';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 
 
 interface ApiInfoLink {
@@ -46,7 +46,7 @@ export class ApiInfoComponent implements OnInit {
 
   constructor(
     private configService: ConfigService,
-    private dialogService: DialogService,
+    private dialogsService: DialogsService,
     private notificationService: NotificationService,
     private userService: UserService,
     private routerUtilsService: RouterUtilsService
@@ -73,9 +73,11 @@ export class ApiInfoComponent implements OnInit {
   }
 
   public askToRegenerateKeys(): void {
-    this.dialogService.confirm('ASK_GENERATE_KEYS', 'CANCEL', 'GENERATE')
+    this.dialogsService.confirm({
+      message: 'ASK_GENERATE_KEYS'
+    })
       .onErrorResumeNext()
-      .subscribe(() => this.regenerateKeys());
+      .subscribe((res) => { if (res) { this.regenerateKeys(); } });
   }
 
   private get apiUrl(): string {

@@ -1,0 +1,11 @@
+<div>
+    <h3 class="mat-dialog-title">{{ config.title | translate }}</h3>
+    <div class="mat-dialog-content" [innerHTML]="config.message  | translate">
+    </div>
+    <div class="mat-dialog-actions">
+        <button md-button
+                (click)="dialogRef.close(true)">{{ config.confirmText | translate }}</button>
+        <button md-button
+                (click)="dialogRef.close()">{{ config.declineText | translate }}</button>
+    </div>
+</div>

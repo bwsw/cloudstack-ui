@@ -1,6 +1,7 @@
 import { VirtualMachine } from '../shared/vm.model';
 import { Action } from '../../shared/interfaces/action.interface';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { VmService } from '../shared/vm.service';
 import { Observable } from 'rxjs/Observable';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
@@ -44,14 +45,14 @@ export abstract class VirtualMachineAction implements Action<VirtualMachine> {
 
   constructor(
     protected dialogService: DialogService,
+    protected dialogsService: DialogsService,
     protected jobsNotificationService: JobsNotificationService,
     protected vmService: VmService
   ) {}
 
   public activate(vm: VirtualMachine, params?: {}): Observable<any> {
     return this.showConfirmationDialog()
-      .switchMap(() => this.onActionConfirmed(vm))
-      .catch(() => this.onActionDeclined());
+      .switchMap((res) => res ? this.onActionConfirmed(vm) : this.onActionDeclined());
   }
 
   public hidden(vm: VirtualMachine): boolean {
@@ -92,10 +93,6 @@ export abstract class VirtualMachineAction implements Action<VirtualMachine> {
   }
 
   protected showConfirmationDialog(): Observable<void> {
-    return this.dialogService.confirm(
-      this.tokens.confirmMessage,
-      'NO',
-      'YES'
-    );
+    return this.dialogsService.confirm({ message: this.tokens.confirmMessage });
   }
 }

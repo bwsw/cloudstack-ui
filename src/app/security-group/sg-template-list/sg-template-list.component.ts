@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialog } from '@angular/material';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { Observable } from 'rxjs';
+import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 
 import { ListService } from '../../shared/components/list/list.service';
 import { NotificationService } from '../../shared/services';
@@ -22,7 +23,7 @@ export class SgTemplateListComponent implements OnInit {
 
   constructor(
     private securityGroupService: SecurityGroupService,
-    private dialogService: DialogService,
+    private dialogsService: DialogsService,
     private dialog: MdDialog,
     private notificationService: NotificationService,
     private listService: ListService
@@ -45,9 +46,15 @@ export class SgTemplateListComponent implements OnInit {
   }
 
   public deleteSecurityGroupTemplate(securityGroup: SecurityGroup): void {
-    this.dialogService.confirm('CONFIRM_DELETE_TEMPLATE', 'NO', 'YES')
+    this.dialogsService.confirm({ message: 'CONFIRM_DELETE_TEMPLATE' })
       .onErrorResumeNext()
-      .switchMap(() => this.securityGroupService.deleteTemplate(securityGroup.id))
+      .switchMap((res) => {
+        if (res) {
+          return this.securityGroupService.deleteTemplate(securityGroup.id);
+        } else {
+          return Observable.of(null);
+        }
+      })
       .subscribe(
         res => {
           if (res && res.success === 'true') {

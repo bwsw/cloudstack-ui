@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { VmService } from '../../vm/shared/vm.service';
 import { BaseTemplateModel } from './base-template.model';
@@ -14,6 +15,7 @@ import { TemplateService } from './template.service';
 export class TemplateActionsService {
   constructor(
     private dialogService: DialogService,
+    private dialogsService: DialogsService,
     private jobNotificationService: JobsNotificationService,
     private templateService: TemplateService,
     private isoService: IsoService,
@@ -68,24 +70,28 @@ export class TemplateActionsService {
       ? 'DELETE_ISO_CONFIRM'
       : 'DELETE_TEMPLATE_CONFIRM';
 
-    return this.dialogService.confirm(confirmTranslation, 'NO', 'YES')
+     return this.dialogsService.confirm({ message: confirmTranslation })
       .onErrorResumeNext()
-      .switchMap(() => {
-        if (template instanceof Template) {
-          notificationId = this.jobNotificationService.add('DELETE_TEMPLATE_IN_PROGRESS');
-          return this.templateService.remove(template);
+      .switchMap((res) => {
+        if (res) {
+          if (template instanceof Template) {
+            notificationId = this.jobNotificationService.add('DELETE_TEMPLATE_IN_PROGRESS');
+            return this.templateService.remove(template);
+          }
+          return this.vmService.getListOfVmsThatUseIso(template as Iso)
+            .switchMap(vmList => {
+              if (vmList.length) {
+                return Observable.throw({
+                  type: 'vmsInUse',
+                  vms: vmList
+                });
+              }
+              notificationId = this.jobNotificationService.add('DELETE_ISO_IN_PROGRESS');
+              return this.isoService.remove(template);
+            });
+        } else {
+          return Observable.throw(null);
         }
-        return this.vmService.getListOfVmsThatUseIso(template as Iso)
-          .switchMap(vmList => {
-            if (vmList.length) {
-              return Observable.throw({
-                type: 'vmsInUse',
-                vms: vmList
-              });
-            }
-            notificationId = this.jobNotificationService.add('DELETE_ISO_IN_PROGRESS');
-            return this.isoService.remove(template);
-          });
       })
       .map(() => {
         const doneTranslation = template.path === 'iso'

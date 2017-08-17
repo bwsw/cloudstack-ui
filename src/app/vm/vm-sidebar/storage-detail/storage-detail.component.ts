@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { MdDialog } from '@angular/material';
-import { DialogService } from '../../../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../../../dialog/dialog-service/dialog.service';
 
 import { Volume } from '../../../shared/models';
 import { JobsNotificationService, NotificationService } from '../../../shared/services';
@@ -25,7 +25,7 @@ export class StorageDetailComponent implements OnChanges {
 
   constructor(
     private dialog: MdDialog,
-    private dialogService: DialogService,
+    private dialogsService: DialogsService,
     private jobNotificationService: JobsNotificationService,
     private isoService: IsoService,
     private notificationService: NotificationService,
@@ -78,9 +78,11 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   public showVolumeDetachDialog(volume: Volume): void {
-    this.dialogService.confirm('CONFIRM_VOLUME_DETACH', 'NO', 'YES')
+    this.dialogsService.confirm({
+      message: 'CONFIRM_VOLUME_DETACH'
+    })
       .onErrorResumeNext()
-      .subscribe(() => this.detachVolume(volume));
+      .subscribe((res) => { if (res) { this.detachVolume(volume); } });
   }
 
   private detachVolume(volume: Volume): void {
@@ -104,11 +106,11 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private detachIsoDialog(): void {
-    this.dialogService.confirm('CONFIRM_ISO_DETACH', 'NO', 'YES')
-      .subscribe(
-        () => this.detachIso(),
-        () => { }
-      );
+    this.dialogsService.confirm({
+      message: 'CONFIRM_ISO_DETACH'
+    })
+      .onErrorResumeNext()
+      .subscribe((res) => { if (res) { this.detachIso(); } });
   }
 
   private attachIso(iso: Iso): void {
