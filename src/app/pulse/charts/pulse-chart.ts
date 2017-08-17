@@ -26,8 +26,8 @@ export const defaultChartOptions = {
   maintainAspectRatio: false,
   layout: {
     padding: {
-      left: 20,
-      right: 10
+      left: 80,
+      right: 40
     }
   },
   tooltips: {
@@ -35,21 +35,26 @@ export const defaultChartOptions = {
     mode: 'x'
   },
   scales: {
-    xAxes: [{
-      type: 'time',
-      position: 'bottom',
-      time: {
-        tooltipFormat: 'llll',
-        displayFormats: {
-          second: 'LTS',
-          minute: 'LT',
-          hour: 'LT'
+    xAxes: [
+      {
+        type: 'time',
+        position: 'bottom',
+        time: {
+          tooltipFormat: 'llll',
+          displayFormats: {
+            second: 'LTS',
+            minute: 'LT',
+            hour: 'LT'
+          }
         }
-      }
-    }],
+      }],
     yAxes: [{
-      ticks: { suggestedMin: 0 }
-    }]
+        ticks: {
+          padding: 40,
+          mirror: true,
+          suggestedMin: 0
+        }
+      }]
   }
 };
 
