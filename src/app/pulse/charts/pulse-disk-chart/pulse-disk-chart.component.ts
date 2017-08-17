@@ -49,7 +49,9 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
                   mirror: true,
                   suggestedMin: 0,
                   userCallback(val) {
-                    return `${humanReadableSize(val, true)}/s`;
+                    return !!humanReadableSize(val)
+                      ? `${humanReadableSize(val)}/s`
+                      : null;
                   }
                 }
               }

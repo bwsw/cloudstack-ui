@@ -16,6 +16,9 @@ function getSize(size: number, units: Array<string>, kB: number) {
   let u = 0;
 
   if (Math.abs(size) < kB) {
+    if (Math.abs(size) <= 1) {
+      return (Math.abs(size) % 1 === 0) ? `${size.toFixed(0)} ${units[u]}` : null;
+    }
     return `${size.toFixed(1)} ${units[u]}`;
   }
   do {
@@ -23,7 +26,7 @@ function getSize(size: number, units: Array<string>, kB: number) {
     ++u;
   } while (Math.abs(size) >= kB && u < units.length - 1);
 
-  return `${size.toFixed(0)} ${units[u]}`;
+  return `${size.toFixed(1)} ${units[u]}`;
 }
 
 // size in bytes

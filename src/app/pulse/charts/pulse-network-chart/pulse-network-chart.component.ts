@@ -49,7 +49,9 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
                   padding: 55,
                   suggestedMin: 0,
                   userCallback(val) {
-                    return `${humanReadableSizeInBits(val)}/s`;
+                    return !!humanReadableSizeInBits(val)
+                      ? `${humanReadableSizeInBits(val)}/s`
+                      : null;
                   }
                 }
               }
