@@ -254,7 +254,7 @@ mdl-simple-tooltip div {
 
 .popover-actions {
   padding: 1rem;
-  color: rgba(0,0,0,.87);
+  color: rgba(0, 0, 0, .87);
 }
 
 .mdl-layout--fixed-drawer > .mdl-layout__drawer {
@@ -387,6 +387,48 @@ md-card-actions {
   height: 24px;
   border: 9px solid #757575;
   border-radius: 50%;
+}
+
+.mat-row:hover {
+  background-color: #eeeeee;
+}
+
+md-table,
+.mat-table {
+  font-family: "Helvetica", "Arial", sans-serif;
+  font-size: 13px;
+}
+
+md-table md-row,
+.mat-table .mat-row {
+  min-height: 48px;
+  height: 100%;
+}
+
+md-table md-cell,
+.mat-table .mat-cell {
+  min-height: 48px;
+  height: 100%;
+  padding: 12px 18px;
+}
+
+md-table md-header-cell,
+.mat-table .mat-header-cell {
+  padding: 12px 18px;
+}
+
+md-cell, .mat-cell {
+  font-size: 13px;
+}
+
+.table-form {
+  height: 95px !important;
+}
+
+.mat-header-row,
+.mat-row {
+  height: 48px;
+  border-bottom: 1px solid rgba(0, 0, 0, .12) !important;
 }
 
 /* md-dialog

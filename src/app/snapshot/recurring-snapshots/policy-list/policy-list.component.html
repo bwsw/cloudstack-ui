@@ -1,35 +1,42 @@
-<table class="mdl-data-table">
-  <thead>
-  <tr>
-    <th class="mdl-data-table__cell--non-numeric">
+<md-table [dataSource]="policyViewsDS" mdSort>
+  <!--Time Column-->
+  <ng-container cdkColumnDef="time">
+    <md-header-cell *cdkHeaderCellDef md-sort-header>
       {{ 'SNAPSHOT_POLICIES.TIME' | translate }}
-    </th>
-    <th class="mdl-data-table__cell--non-numeric"></th>
-    <th class="mdl-data-table__cell--non-numeric">{{ 'SNAPSHOT_POLICIES.TIME_ZONE' | translate }}</th>
-    <th>{{ 'SNAPSHOT_POLICIES.KEEP' | translate }}</th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr
-    *ngFor="let p of policyViews"
-    (click)="handlePolicyRowClick(p)"
-  >
-    <td class="mdl-data-table__cell--non-numeric">
-      {{ p.timeToken | translate:{ value: p.timeValue } }}
-    </td>
-    <td class="mdl-data-table__cell--non-numeric">
-      {{ p.periodToken | translate: { value: p.periodValue | translate } }}
-    </td>
-    <td class="mdl-data-table__cell--non-numeric">
-      {{ p.timeZone }}
-    </td>
-    <td>
-      {{ p.keep }}
-    </td>
-    <td>
+    </md-header-cell>
+    <md-cell *cdkCellDef="let row">{{ row.timeValue }}</md-cell>
+  </ng-container>
+
+  <!--Period Column-->
+  <ng-container cdkColumnDef="period">
+    <md-header-cell *cdkHeaderCellDef md-sort-header></md-header-cell>
+    <md-cell *cdkCellDef="let row">{{ row.periodToken | translate: { value:
+      row.periodValue | translate } }}
+    </md-cell>
+  </ng-container>
+
+  <!--Time Zone Column-->
+  <ng-container cdkColumnDef="timeZone">
+    <md-header-cell *cdkHeaderCellDef md-sort-header>
+      {{ 'SNAPSHOT_POLICIES.TIME_ZONE' | translate }}
+    </md-header-cell>
+    <md-cell *cdkCellDef="let row">{{ row.timeZone }}</md-cell>
+  </ng-container>
+
+  <!--Keep Column-->
+  <ng-container cdkColumnDef="keep">
+    <md-header-cell *cdkHeaderCellDef md-sort-header>
+      {{ 'SNAPSHOT_POLICIES.KEEP' | translate }}
+    </md-header-cell>
+    <md-cell *cdkCellDef="let row">{{ row.keep }}</md-cell>
+  </ng-container>
+
+  <!--Actions Column-->
+  <ng-container cdkColumnDef="actions">
+    <md-header-cell *cdkHeaderCellDef md-sort-header></md-header-cell>
+    <md-cell *cdkCellDef="let row">
       <button
-        (click)="deletePolicy(p)"
+        (click)="deletePolicy(row)"
         [mdTooltip]="'COMMON.DELETE' | translate"
         mdl-button
         mdl-button-type="icon"
@@ -37,7 +44,9 @@
       >
         <md-icon>delete</md-icon>
       </button>
-    </td>
-  </tr>
-  </tbody>
-</table>
+    </md-cell>
+  </ng-container>
+
+  <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+  <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
+</md-table>
