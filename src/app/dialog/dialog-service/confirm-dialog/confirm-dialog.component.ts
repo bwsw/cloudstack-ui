@@ -1,28 +1,21 @@
-import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
-import {Component, Inject} from '@angular/core';
-import {DialogAction, ParametrizedTranslation} from '../../dialog-module/dialog.service';
+import { Component, HostListener } from '@angular/core';
+import { BaseDialogComponent, BaseDialogConfiguration } from '../base-dialog.component';
 
-export interface ConfirmDialogConfiguration {
-    message: string | ParametrizedTranslation;
+export interface ConfirmDialogConfiguration extends BaseDialogConfiguration{
     confirmText?: string;
     declineText?: string;
-    title?: string;
-    clickOutsideToClose?: boolean;
 }
 
 @Component({
     selector: 'cs-confirm-dialog',
-    templateUrl: 'confirm-dialog.component.html',
-    styleUrls: ['confirm-dialog.component.scss']
+    templateUrl: 'confirm-dialog.component.html'
 })
-export class ConfirmDialogComponent {
+export class ConfirmDialogComponent extends BaseDialogComponent<ConfirmDialogComponent> {
 
-    public config: ConfirmDialogConfiguration;
+  public config: ConfirmDialogConfiguration;
 
-    constructor(
-      public dialogRef: MdDialogRef<ConfirmDialogComponent>,
-      @Inject(MD_DIALOG_DATA) data
-    ) {
-        this.config = data.config;
-    }
+  @HostListener('keydown.esc')
+  public onEsc(): void {
+    this.dialogRef.close();
+  }
 }

@@ -3,7 +3,6 @@ import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import {
   DiskOffering,
@@ -67,7 +66,6 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private dialogService: DialogService,
     private dialogsService: DialogsService,
     private dialog: MdDialog,
     private diskOfferingService: DiskOfferingService,
@@ -165,7 +163,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
           this.update();
         },
         error => {
-          this.dialogService.alert(error);
+          this.dialogsService.alert({ message: error });
           this.jobsNotificationService.fail({ message: 'VOLUME_DELETE_FAILED' });
         }
       );
@@ -205,7 +203,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.dialogService.showDialog({
+        this.dialogsService.askDialog({
           message: 'WOULD_YOU_LIKE_TO_CREATE_VOLUME',
           actions: [
             {
@@ -220,9 +218,8 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
             }
           ],
           fullWidthAction: true,
-          isModal: true,
-          clickOutsideToClose: true,
-          styles: { 'width': '320px' }
+          disableClose: false,
+          width: '320px'
         });
 
       });

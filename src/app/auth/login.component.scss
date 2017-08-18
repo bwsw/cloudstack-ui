@@ -24,3 +24,9 @@
     color: rgba(0,0,0,.26) !important;
   }
 }
+
+:host .mat-dialog-actions {
+  padding: 8px 8px 8px 24px;
+  display: flex;
+  flex-direction: row-reverse;
+}

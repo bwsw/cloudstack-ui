@@ -3,7 +3,7 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { MdlDialogReference } from '../../dialog/dialog-module';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { SgRulesManagerComponent } from '../../shared';
 import { Volume } from '../../shared/models';
 import { Policy, TimePolicy } from './policy-editor/policy-editor.component';
@@ -47,7 +47,7 @@ export class RecurringSnapshotsComponent implements OnInit {
     @Inject(MD_DIALOG_DATA) public volume: Volume,
     private cd: ChangeDetectorRef,
     private dialogRef: MdDialogRef<RecurringSnapshotsComponent>,
-    private dialogService: DialogService,
+    private dialogsService: DialogsService,
     private languageService: LanguageService,
     private snapshotPolicyService: SnapshotPolicyService
   ) {
@@ -107,9 +107,11 @@ export class RecurringSnapshotsComponent implements OnInit {
   }
 
   private onError(error: any): void {
-    this.dialogService.alert({
-      translationToken: error.message,
-      interpolateParams: error.params
+    this.dialogsService.alert({
+      message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
     });
   }
 }

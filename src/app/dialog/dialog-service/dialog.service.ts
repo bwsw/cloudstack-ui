@@ -1,78 +1,77 @@
 import { Observable } from 'rxjs/Rx';
-import { ConfirmDialogComponent, ConfirmDialogConfiguration } from './confirm-dialog/confirm-dialog.component';
 import { MdDialogRef, MdDialog } from '@angular/material';
 import { Injectable } from '@angular/core';
 
-import {TranslateService} from '@ngx-translate/core';
-import {} from '../dialog-module/dialog.service';
+import { AlertDialogComponent, AlertDialogConfiguration } from './alert-dialog/alert-dialog.component';
+import { ConfirmDialogComponent, ConfirmDialogConfiguration } from './confirm-dialog/confirm-dialog.component';
+import { AskDialogConfiguration, AskDialogComponent } from './ask-dialog/ask-dialog.component';
+import { isUndefined } from 'util';
+import {BaseDialogConfiguration} from './base-dialog.component';
 
 const defaultConfirmDialogConfirmText = 'YES';
 const defaultConfirmDialogDeclineText = 'NO';
+const defaultAlertDialogConfirmText = 'OK';
+const defaultDisableClose = true;
 
-export interface ParametrizedTranslation {
-    translationToken: string;
-    interpolateParams: { [key: string]: string; };
-}
-
-export interface DialogTranslationParams {
-    message: string;
-    translationTokens: Array<string>;
-    interpolateParams: { [key: string]: string; };
-}
 
 @Injectable()
 export class DialogsService {
 
-    constructor(private dialog: MdDialog) { }
+  constructor(private dialog: MdDialog) { }
 
-    public confirm(config: ConfirmDialogConfiguration): Observable<void> {
-        let dialogRef: MdDialogRef<ConfirmDialogComponent>;
-        if (!config.confirmText) {
-            config.confirmText = defaultConfirmDialogConfirmText;
-        }
-        if (!config.declineText) {
-            config.declineText = defaultConfirmDialogDeclineText;
-        }
-        dialogRef = this.dialog.open(ConfirmDialogComponent, {
-            data: { config }
-        });
-        return dialogRef.afterClosed();
+  public confirm(config: ConfirmDialogConfiguration): Observable<void> {
+    let dialogRef: MdDialogRef<ConfirmDialogComponent>;
+    if (!config.confirmText) {
+      config.confirmText = defaultConfirmDialogConfirmText;
+    }
+    if (!config.declineText) {
+      config.declineText = defaultConfirmDialogDeclineText;
+    }
+    if (isUndefined(config.disableClose)) {
+      config.disableClose = defaultDisableClose;
+    }
+    dialogRef = this.dialog.open(ConfirmDialogComponent, this.getDialogConfiguration(config));
+    return dialogRef.afterClosed();
+  }
+
+  public alert(config: AlertDialogConfiguration): Observable<void> {
+    let dialogRef: MdDialogRef<AlertDialogComponent>;
+    if (!config.okText) {
+      config.okText = defaultAlertDialogConfirmText;
     }
 
-    private getTranslationParams(
-        message: string | ParametrizedTranslation,
-        strings: Array<string> = []
-    ): DialogTranslationParams {
-        const filteredStrings = strings.filter(str => str);
-        if (typeof message === 'string') {
-            return {
-                message,
-                translationTokens: [message].concat(filteredStrings),
-                interpolateParams: {}
-            };
-        } else {
-            return {
-                message: message.translationToken,
-                translationTokens: [message.translationToken].concat(filteredStrings),
-                interpolateParams: message.interpolateParams
-            };
-        }
+    if (isUndefined(config.disableClose)) {
+      config.disableClose = defaultDisableClose;
     }
+    dialogRef = this.dialog.open(AlertDialogComponent,  this.getDialogConfiguration(config));
+    return dialogRef.afterClosed();
+  }
 
-    private getConfirmParams(
-      translations: object,
-      message: string | ParametrizedTranslation,
-      declineText?: string,
-      confirmText?: string,
-      title?: string
-    ): Array<string> {
-        const extractedMessage = typeof message === 'string' ? message : message.translationToken;
-        return [
-            translations[extractedMessage],
-            translations[declineText],
-            translations[confirmText],
-            translations[title]
-        ];
+  public askDialog(config: AskDialogConfiguration): Observable<void> {
+    let dialogRef: MdDialogRef<AskDialogComponent>;
+    if (isUndefined(config.disableClose)) {
+      config.disableClose = defaultDisableClose;
     }
+    config.actions = config.actions.map(action => ({
+      handler: action.handler || (() => {}),
+      text: action.text,
+      isClosingAction: action.isClosingAction
+    }));
 
+    dialogRef = this.dialog.open(AskDialogComponent, this.getDialogConfiguration(config));
+    return dialogRef.afterClosed();
+  }
+
+  private getDialogConfiguration(config: BaseDialogConfiguration) {
+    return config.width ?
+      {
+        data: { config },
+        disableClose: config.disableClose,
+        width: config.width,
+      } :
+      {
+        data: { config },
+        disableClose: config.disableClose
+      };
+  }
 }

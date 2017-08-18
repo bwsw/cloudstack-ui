@@ -8,7 +8,6 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { MdDialog } from '@angular/material';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { defaultCategoryName, Tag } from '../../shared/models';
 import { Utils } from '../../shared/services';
 import { TagCategory } from '../tag-category/tag-category.component';
@@ -45,7 +44,6 @@ export class TagsViewComponent implements OnChanges {
   constructor(
     private cd: ChangeDetectorRef,
     private dialog: MdDialog,
-    private dialogService: DialogService
   ) {
     this.onTagAdd = new EventEmitter<Tag>();
     this.onTagEdit = new EventEmitter<TagEditAction>();

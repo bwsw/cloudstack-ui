@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { DiskOffering, DiskOfferingService, Zone } from '../../shared';
 import { Volume } from '../../shared/models';
 import { JobsNotificationService } from '../../shared/services';
@@ -34,7 +34,7 @@ export class SpareDriveCreationComponent implements OnInit {
 
   constructor(
     private dialogRef: MdDialogRef<SpareDriveCreationComponent>,
-    private dialogService: DialogService,
+    private dialogsService: DialogsService,
     private diskOfferingService: DiskOfferingService,
     private jobsNotificationService: JobsNotificationService,
     private resourceUsageService: ResourceUsageService,
@@ -145,7 +145,7 @@ export class SpareDriveCreationComponent implements OnInit {
   private handleInsufficientResources(): void {
     this.dialogRef.close();
     if (!this.insufficientResourcesDialog) {
-      this.insufficientResourcesDialog = this.dialogService.alert('VOLUME_LIMIT_EXCEEDED');
+      this.insufficientResourcesDialog = this.dialogsService.alert({ message: 'VOLUME_LIMIT_EXCEEDED' });
       this.insufficientResourcesDialog
         .subscribe(() => this.insufficientResourcesDialog = undefined);
     }
@@ -171,9 +171,11 @@ export class SpareDriveCreationComponent implements OnInit {
   }
 
   private handleError(error: any): void {
-    this.dialogService.alert({
-      translationToken: error.message,
-      interpolateParams: error.params
+    this.dialogsService.alert({
+      message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
     });
     this.jobsNotificationService.fail({
       id: this.notificationId,

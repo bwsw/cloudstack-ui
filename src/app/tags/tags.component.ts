@@ -1,7 +1,7 @@
 import { OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../dialog/dialog-service/dialog.service';
 import { Taggable } from '../shared/interfaces/taggable.interface';
 import { Tag } from '../shared/models';
 import { TagService } from '../shared/services';
@@ -15,7 +15,7 @@ export abstract class TagsComponent<T extends Taggable> extends WithUnsubscribe(
   public tags$: BehaviorSubject<Array<Tag>>;
 
   constructor(
-    protected dialogService: DialogService,
+    protected dialogsService: DialogsService,
     protected tagService: TagService,
   ) {
     super();
@@ -92,9 +92,11 @@ export abstract class TagsComponent<T extends Taggable> extends WithUnsubscribe(
   }
 
   protected onError(error: any): void {
-    this.dialogService.alert({
-      translationToken: error.message,
-      interpolateParams: error.params
+    this.dialogsService.alert({
+      message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
     });
   }
 

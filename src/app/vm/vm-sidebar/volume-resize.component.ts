@@ -1,7 +1,7 @@
 import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { DiskStorageService, Volume } from '../../shared';
 import { DiskOffering } from '../../shared/models';
 import { DiskOfferingService, JobsNotificationService, VolumeResizeData } from '../../shared/services';
@@ -28,7 +28,7 @@ export class VolumeResizeComponent implements OnInit {
 
   constructor(
     public dialogRef: MdDialogRef<VolumeResizeComponent>,
-    private dialogService: DialogService,
+    private dialogsService: DialogsService,
     private diskOfferingService: DiskOfferingService,
     private diskStorageService: DiskStorageService,
     private jobsNotificationService: JobsNotificationService,
@@ -106,6 +106,6 @@ export class VolumeResizeComponent implements OnInit {
       id: this.notificationId,
       message: 'VOLUME_RESIZE_FAILED'
     });
-    this.dialogService.alert(error.message);
+    this.dialogsService.alert({ message: error.message });
   }
 }

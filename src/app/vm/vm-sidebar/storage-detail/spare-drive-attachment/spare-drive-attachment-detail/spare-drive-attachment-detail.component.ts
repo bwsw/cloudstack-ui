@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../../../../dialog/dialog-module/dialog.service';
 import { Volume } from '../../../../../shared/models';
 import { VolumeService } from '../../../../../shared/services/volume.service';
 import { SpareDriveActionsService } from '../../../../../spare-drive/spare-drive-actions.service';
@@ -24,7 +23,6 @@ export class SpareDriveAttachmentDetailComponent implements OnInit {
 
   constructor(
     private dialog: MdDialog,
-    private dialogService: DialogService,
     private spareDriveActionsService: SpareDriveActionsService,
     private volumeService: VolumeService
   ) {}

@@ -1,0 +1,20 @@
+<h3
+    class="mat-dialog-title"
+    *ngIf="config?.title"
+>
+    {{dialogConfiguration?.title  | translate}}
+</h3>
+<div
+    class="mat-dialog-content"
+    [innerHTML]="translatedMessage | async"
+></div>
+<div
+    class="mat-dialog-actions"
+    [ngClass]="{'mdl-dialog__actions--full-width': config?.fullWidthAction}">
+    <button
+        md-button
+        *ngFor="let action of config?.actions"
+        (click)="actionClicked(action)"
+        [ngClass]="{'close': action.isClosingAction}">{{action.text | translate}}
+    </button>
+</div>

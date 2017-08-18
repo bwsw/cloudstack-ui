@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { VolumeAttachmentData, VolumeService } from '../shared/services/volume.service';
 import { JobsNotificationService } from '../shared/services';
 import { Subject } from 'rxjs/Subject';
-import { DialogService } from '../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../dialog/dialog-service/dialog.service';
 import { Volume } from '../shared/models';
 
 
@@ -18,7 +18,7 @@ export class SpareDriveActionsService {
   public onVolumeAttachment: Subject<VolumeAttachmentEvent>;
 
   constructor(
-    private dialogService: DialogService,
+    private dialogsService: DialogsService,
     private jobsNotificationService: JobsNotificationService,
     private volumeService: VolumeService
   ) {
@@ -36,9 +36,11 @@ export class SpareDriveActionsService {
         });
       })
       .catch(error => {
-        this.dialogService.alert({
-          translationToken: error.message,
-          interpolateParams: error.params
+        this.dialogsService.alert({
+          message: {
+            translationToken: error.message,
+            interpolateParams: error.params
+          }
         });
         this.jobsNotificationService.fail({
           id: notificationId,
@@ -59,9 +61,11 @@ export class SpareDriveActionsService {
         });
       })
       .catch(error => {
-        this.dialogService.alert({
-          translationToken: error.message,
-          interpolateParams: error.params
+        this.dialogsService.alert({
+          message: {
+            translationToken: error.message,
+            interpolateParams: error.params
+          }
         });
         this.jobsNotificationService.fail({
           id: notificationId,

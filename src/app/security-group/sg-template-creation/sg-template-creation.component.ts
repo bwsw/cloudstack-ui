@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { Rules } from '../sg-creation/sg-creation.component';
 
@@ -20,7 +20,7 @@ export class SgTemplateCreationComponent {
 
   constructor(
     public dialogRef: MdDialogRef<SgTemplateCreationComponent>,
-    public dialogService: DialogService,
+    public dialogsService: DialogsService,
     private sgService: SecurityGroupService
   ) { }
 
@@ -47,9 +47,11 @@ export class SgTemplateCreationComponent {
   }
 
   private handleError(error): void {
-    this.dialogService.alert({
-      translationToken: error.message,
-      interpolateParams: error.params
+    this.dialogsService.alert({
+      message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
     });
   }
 }

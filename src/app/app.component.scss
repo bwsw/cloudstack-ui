@@ -150,8 +150,19 @@ mdl-layout-title {
 
 /deep/ .mat-dialog-actions {
   justify-content: flex-end;
+
+  button {
+    color: #3f51b5;
+    text-transform: uppercase;
+  }
 }
 
 /deep/ .mat-dialog-content {
   overflow: visible !important;
+}
+
+/deep/ .mat-dialog-content {
+  color: rgba(0, 0, 0, .54);
+  font-size: 14pt;
+  padding: 20px 24px 24px;
 }

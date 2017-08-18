@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { VmService } from '../../vm/shared/vm.service';
@@ -14,7 +13,6 @@ import { TemplateService } from './template.service';
 @Injectable()
 export class TemplateActionsService {
   constructor(
-    private dialogService: DialogService,
     private dialogsService: DialogsService,
     private jobNotificationService: JobsNotificationService,
     private templateService: TemplateService,
@@ -52,9 +50,11 @@ export class TemplateActionsService {
       });
     })
       .catch(error => {
-        this.dialogService.alert({
-          translationToken: error.message,
-          interpolateParams: error.params
+        this.dialogsService.alert({
+          message: {
+            translationToken: error.message,
+            interpolateParams: error.params
+          }
         });
         this.jobNotificationService.fail({
           id: notificationId,
@@ -108,9 +108,11 @@ export class TemplateActionsService {
         }
         if (error.type === 'vmsInUse') {
           const listOfUsedVms = error.vms.map(vm => vm.name).join(', ');
-          this.dialogService.alert({
-            translationToken: 'DELETE_ISO_VMS_IN_USE',
-            interpolateParams: { vms: listOfUsedVms }
+          this.dialogsService.alert({
+            message: {
+              translationToken: 'DELETE_ISO_VMS_IN_USE',
+              interpolateParams: {vms: listOfUsedVms}
+            }
           });
         } else {
           const failedTranslation = template.path === 'iso'

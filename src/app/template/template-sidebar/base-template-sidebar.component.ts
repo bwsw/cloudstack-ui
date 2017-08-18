@@ -4,7 +4,7 @@ import { BaseTemplateModel } from '../shared/base-template.model';
 import { TemplateActionsService } from '../shared/template-actions.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { BaseTemplateService, DOWNLOAD_URL } from '../shared/base-template.service';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 
@@ -20,7 +20,7 @@ export abstract class BaseTemplateSidebarComponent implements OnInit {
     service: BaseTemplateService,
     public dateTimeFormatterService: DateTimeFormatterService,
     private route: ActivatedRoute,
-    private dialogService: DialogService,
+    private dialogsService: DialogsService,
     private notificationService: NotificationService,
     protected templateActions: TemplateActionsService,
     protected listService: ListService,
@@ -59,7 +59,7 @@ export abstract class BaseTemplateSidebarComponent implements OnInit {
             this.template = template;
             this.checkZones();
           },
-          error => this.dialogService.alert(error.message)
+          error => this.dialogsService.alert({ message: error.message })
         );
     }
   }

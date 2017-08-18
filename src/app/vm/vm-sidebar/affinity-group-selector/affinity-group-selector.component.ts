@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
-import { DialogService } from '../../../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../../../dialog/dialog-service/dialog.service';
 import { AffinityGroup, AffinityGroupTypes } from '../../../shared/models';
 import { AffinityGroupService } from '../../../shared/services';
 import { VirtualMachine } from '../../shared/vm.model';
@@ -19,7 +19,7 @@ export class AffinityGroupSelectorComponent implements OnInit {
   constructor(
     private affinityGroupService: AffinityGroupService,
     private dialogRef: MdDialogRef<AffinityGroupSelectorComponent>,
-    private dialogService: DialogService,
+    private dialogsService: DialogsService,
     @Inject(MD_DIALOG_DATA) public vm: VirtualMachine
   ) {}
 
@@ -53,7 +53,7 @@ export class AffinityGroupSelectorComponent implements OnInit {
       .finally(() => this.loading = false)
       .subscribe(
         vm => this.dialogRef.close(vm.affinityGroup),
-        error => this.dialogService.alert(error.message)
+        error => this.dialogsService.alert({ message: error.message })
       );
   }
 
@@ -65,7 +65,7 @@ export class AffinityGroupSelectorComponent implements OnInit {
       .finally(() => this.loading = false)
       .subscribe(
         vm => this.dialogRef.close(vm.affinityGroup),
-        error => this.dialogService.alert(error.message)
+        error => this.dialogsService.alert({ message: error.message })
       );
   }
 
@@ -76,7 +76,7 @@ export class AffinityGroupSelectorComponent implements OnInit {
       .finally(() => this.loading = false)
       .subscribe(
         vm => this.dialogRef.close(vm.affinityGroup),
-        error => this.dialogService.alert(error.message)
+        error => this.dialogsService.alert({ message: error.message })
       );
   }
 

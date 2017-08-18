@@ -9,7 +9,7 @@ import {
   StatsUpdateService
 } from '../../../../../shared/services';
 import { ResourceUsageService, ResourceStats } from '../../../../../shared/services/resource-usage.service';
-import { DialogService } from '../../../../../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../../../../../dialog/dialog-service/dialog.service';
 import { Volume } from '../../../../../shared/models/volume.model';
 
 
@@ -27,7 +27,7 @@ export class SnapshotCreationComponent implements OnInit {
 
   constructor(
     private dialogRef: MdDialogRef<SnapshotCreationComponent>,
-    private dialogService: DialogService,
+    private dialogsService: DialogsService,
     private snapshotService: SnapshotService,
     private jobsNotificationService: JobsNotificationService,
     private statsUpdateService: StatsUpdateService,
@@ -76,9 +76,11 @@ export class SnapshotCreationComponent implements OnInit {
             message: 'SNAPSHOT_FAILED'
           });
 
-          this.dialogService.alert({
-            translationToken: e.message,
-            interpolateParams: e.params
+          this.dialogsService.alert({
+            message: {
+              translationToken: e.message,
+              interpolateParams: e.params
+            }
           });
         });
   }

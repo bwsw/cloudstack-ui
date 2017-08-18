@@ -4,7 +4,7 @@ import { ListService } from '../../shared/components/list/list.service';
 import { IsoService } from '../shared';
 import { TemplateActionsService } from '../shared/template-actions.service';
 import { BaseTemplateSidebarComponent } from './base-template-sidebar.component';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 
@@ -20,14 +20,14 @@ export class IsoSidebarComponent extends BaseTemplateSidebarComponent {
     route: ActivatedRoute,
     templateActions: TemplateActionsService,
     listService: ListService,
-    dialogService: DialogService,
+    dialogsService: DialogsService,
     notificationService: NotificationService
   ) {
     super(
       isoService,
       dateTimeFormatterService,
       route,
-      dialogService,
+      dialogsService,
       notificationService,
       templateActions,
       listService

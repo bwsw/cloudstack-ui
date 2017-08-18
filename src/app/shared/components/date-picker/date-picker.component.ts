@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MdDialog } from '@angular/material';
-import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 
 import { DatePickerDialogComponent } from './date-picker-dialog.component';
 import { dateTimeFormat as DateTimeFormat, formatIso } from './dateUtils';
@@ -50,7 +49,6 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
   private isDialogOpen = false;
 
   constructor(
-      private dialogService: DialogService,
       private dialog: MdDialog
   ) {}
 

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { VmPulseComponent } from '../../pulse/vm-pulse/vm-pulse.component';
 import { ConfigService } from '../../shared/services/config.service';
@@ -18,14 +17,13 @@ export class VmPulseAction extends VirtualMachineAction {
   public icon = 'timeline';
 
   constructor(
-    dialogService: DialogService,
     dialogsService: DialogsService,
     jobsNotificationService: JobsNotificationService,
     vmService: VmService,
     private dialog: MdDialog,
     private configService: ConfigService
   ) {
-    super(dialogService, dialogsService, jobsNotificationService, vmService);
+    super(dialogsService, jobsNotificationService, vmService);
   }
 
   public canActivate(vm: VirtualMachine): boolean {

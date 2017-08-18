@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MdSelectChange, MdDialogRef } from '@angular/material';
 
 import { MdlDialogReference } from '../../dialog/dialog-module';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { DiskOffering, JobsNotificationService } from '../../shared';
 import { AffinityGroup, InstanceGroup, ServiceOffering } from '../../shared/models';
@@ -62,7 +62,7 @@ export class VmCreationComponent implements OnInit {
 
   constructor(
     private dialogRef: MdDialogRef<VmCreationComponent>,
-    private dialogService: DialogService,
+    private dialogsService: DialogsService,
     private formNormalizationService: VmCreationFormNormalizationService,
     private jobsNotificationService: JobsNotificationService,
     private resourceUsageService: ResourceUsageService,
@@ -237,9 +237,11 @@ export class VmCreationComponent implements OnInit {
   }
 
   public notifyOnDeployFailed(error: any, notificationId: string): void {
-    this.dialogService.alert({
-      translationToken: error.message,
-      interpolateParams: error.params
+    this.dialogsService.alert({
+      message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
     });
     this.jobsNotificationService.fail({
       id: notificationId,
@@ -252,7 +254,7 @@ export class VmCreationComponent implements OnInit {
       return;
     }
 
-    this.dialogService.customAlert({
+    this.dialogsService.alert({
       message: {
         translationToken: 'PASSWORD_DIALOG_MESSAGE',
         interpolateParams: {
@@ -261,7 +263,7 @@ export class VmCreationComponent implements OnInit {
         }
       },
       width: '400px',
-      clickOutsideToClose: false
+      disableClose: true
     });
   }
 

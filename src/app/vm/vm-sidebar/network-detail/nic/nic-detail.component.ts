@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { VirtualMachine } from '../../../shared/vm.model';
 import { DialogsService } from '../../../../dialog/dialog-service/dialog.service';
-import { DialogService } from '../../../../dialog/dialog-module/dialog.service';
 import { VmService } from '../../../shared/vm.service';
 
 
@@ -16,7 +15,6 @@ export class NicDetailComponent {
   public expandNIC = false;
 
   constructor(
-    private dialogService: DialogService,
     private dialogsService: DialogsService,
     private vmService: VmService
   ) {}
@@ -46,7 +44,7 @@ export class NicDetailComponent {
           const ip = res.result.nicsecondaryip;
           vm.nic[0].secondaryIp.push(ip);
         },
-        err => this.dialogService.alert(err.errortext)
+        err => this.dialogsService.alert({ message: err.errortext })
       );
   }
 
@@ -56,7 +54,7 @@ export class NicDetailComponent {
         () => {
           vm.nic[0].secondaryIp = vm.nic[0].secondaryIp.filter(ip => ip.id !== secondaryIpId);
         },
-        err => this.dialogService.alert(err.errortext)
+        err => this.dialogsService.alert({ message: err.errortext })
       );
   }
 }

@@ -1,7 +1,6 @@
 import { VmActions } from './vm-action';
 import { VirtualMachine, VmStates } from '../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { VmService } from '../shared/vm.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
@@ -32,14 +31,13 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
   };
 
   constructor(
-    protected dialogService: DialogService,
     protected dialogsService: DialogsService,
     protected jobsNotificationService: JobsNotificationService,
     protected vmService: VmService,
     protected vmStartActionSilent: VmStartActionSilent,
     protected vmStopActionSilent: VmStopActionSilent
   ) {
-    super(dialogService, dialogsService, jobsNotificationService, vmService);
+    super(dialogsService, jobsNotificationService, vmService);
   }
 
   public canActivate(vm: VirtualMachine): boolean {
@@ -92,7 +90,7 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
   }
 
   private showPasswordDialog(vmName: string, vmPassword: string): Observable<void> {
-    return this.dialogService.customAlert({
+    return this.dialogsService.alert({
       message: {
         translationToken: 'PASSWORD_DIALOG_MESSAGE',
         interpolateParams: {
@@ -100,12 +98,16 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
           vmPassword
         },
       },
-      width: '400px',
-      clickOutsideToClose: false
+      disableClose: true,
+      width: '400px'
     });
   }
 
   protected showConfirmationDialog(): Observable<void> {
-    return this.dialogsService.confirm({ message: this.tokens.confirmMessage});
+    return this.dialogsService.confirm({
+      message: this.tokens.confirmMessage,
+      disableClose: true,
+      width: '400px'
+    });
   }
 }
