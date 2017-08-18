@@ -4,12 +4,13 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  MdButtonModule,
-  MdDialogModule,
-  MdIconModule,
-  MdMenuModule,
-  MdSelectModule,
-  MdTooltipModule
+    MdSelectModule,
+    MdTooltipModule,
+    MdMenuModule,
+    MdButtonModule,
+    MdIconModule,
+    MdDialogModule,
+    MdTabsModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -95,6 +96,7 @@ import { WebShellService } from './web-shell/web-shell.service';
     MdMenuModule,
     MdButtonModule,
     MdIconModule,
+    MdTabsModule,
   ],
   declarations: [
     AffinityGroupSelectorComponent,

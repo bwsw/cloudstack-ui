@@ -19,9 +19,14 @@ md-icon {
   display: flex;
   align-items: center;
   height: 48px;
+  justify-content: center;
 }
 
 .panel-title-container {
   display: flex;
   justify-content: center;
+}
+
+:host /deep/ .mat-tab-label {
+  min-width: 115px !important;
 }
