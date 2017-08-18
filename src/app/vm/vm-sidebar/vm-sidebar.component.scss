@@ -10,3 +10,7 @@ h4.details-header {
   margin: 16px;
   font-size: 16px;
 }
+
+:host /deep/ .mat-tab-label {
+  min-width: 83px !important;
+}

@@ -1,44 +1,39 @@
 <div *ngIf="vm">
   <h4 class="details-header">{{ vm.displayName }}</h4>
-  <mdl-tabs mdl-ripple mdl-tab-active-index="0">
-
-    <mdl-tab-panel>
-      <mdl-tab-panel-title>
-        <md-icon [mdTooltip]="'VM_VIEW' | translate">computer</md-icon>
-      </mdl-tab-panel-title>
-      <mdl-tab-panel-content>
-        <cs-vm-detail [vm]="vm"></cs-vm-detail>
-      </mdl-tab-panel-content>
-    </mdl-tab-panel>
-
-    <mdl-tab-panel>
-      <mdl-tab-panel-title>
-        <md-icon [mdTooltip]="'VM_STORAGE_VIEW' | translate">storage</md-icon>
-      </mdl-tab-panel-title>
-      <mdl-tab-panel-content>
-        <cs-storage-detail [vm]="vm"></cs-storage-detail>
-      </mdl-tab-panel-content>
-    </mdl-tab-panel>
-
-    <mdl-tab-panel>
-      <mdl-tab-panel-title [mdTooltip]="'VM_NETWORK_VIEW' | translate">
-        <md-icon>router</md-icon>
-      </mdl-tab-panel-title>
-      <mdl-tab-panel-content>
-        <cs-network-detail [vm]="vm"></cs-network-detail>
-      </mdl-tab-panel-content>
-    </mdl-tab-panel>
-
-    <mdl-tab-panel>
-      <mdl-tab-panel-title [mdTooltip]="'VM_TAGS_VIEW' | translate">
-        <md-icon>local_offer</md-icon>
-      </mdl-tab-panel-title>
-      <mdl-tab-panel-content>
-        <cs-vm-tags [entity]="vm"></cs-vm-tags>
-      </mdl-tab-panel-content>
-    </mdl-tab-panel>
-
-  </mdl-tabs>
+  <md-tab-group md-selected="0" md-no-pagination="true">
+    <md-tab>
+      <ng-template md-tab-label>
+        <div [mdTooltip]="'VM_VIEW' | translate" class="md-tab-tooltip">
+          <md-icon >computer</md-icon>
+        </div>
+      </ng-template>
+      <cs-vm-detail [vm]="vm"></cs-vm-detail>
+    </md-tab>
+    <md-tab>
+      <ng-template md-tab-label>
+        <div [mdTooltip]="'VM_STORAGE_VIEW' | translate" class="md-tab-tooltip">
+          <md-icon>storage</md-icon>
+        </div>
+      </ng-template>
+      <cs-storage-detail [vm]="vm"></cs-storage-detail>
+    </md-tab>
+    <md-tab>
+      <ng-template md-tab-label>
+        <div [mdTooltip]="'VM_NETWORK_VIEW' | translate" class="md-tab-tooltip">
+          <md-icon>router</md-icon>
+        </div>
+      </ng-template>
+      <cs-network-detail [vm]="vm"></cs-network-detail>
+    </md-tab>
+    <md-tab>
+      <ng-template md-tab-label>
+        <div [mdTooltip]="'VM_TAGS_VIEW' | translate" class="md-tab-tooltip">
+          <md-icon>local_offer</md-icon>
+        </div>
+      </ng-template>
+      <cs-vm-tags [entity]="vm"></cs-vm-tags>
+    </md-tab>
+  </md-tab-group>
 </div>
 
 <div

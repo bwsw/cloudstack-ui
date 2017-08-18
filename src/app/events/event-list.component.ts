@@ -9,7 +9,7 @@ import { Event } from './event.model';
 import { EventService } from './event.service';
 import { DateTimeFormatterService } from '../shared/services/date-time-formatter.service';
 import { SessionStorageService } from '../shared/services/session-storage.service';
-import moment = require('moment');
+import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 
 

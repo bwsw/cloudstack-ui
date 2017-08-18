@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, Type } from '@angular/core';
-import groupBy = require('lodash/groupBy');
+import * as groupBy from 'lodash/groupBy';
 
 @Component({
   selector: 'cs-grouped-card-list',

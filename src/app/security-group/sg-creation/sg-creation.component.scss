@@ -48,4 +48,11 @@ md-list-item.active {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: 60px;
+}
+
+.flex-container {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
 }

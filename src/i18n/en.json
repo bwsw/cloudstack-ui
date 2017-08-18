@@ -659,6 +659,7 @@
     "RANGE": "Range",
     "AGGREGATION": "Aggregation",
     "SHIFT": "Shift",
+    "NO_DATA": "No data",
     "SELECT_DATA": "Select data",
     "ERROR": "An error occurred, please try again",
 
@@ -679,5 +680,8 @@
       "DISK_WRITE_IOPS": "Disk write IOPS",
       "DISK_IO_ERRORS": "Disk IO errors"
     }
-  }
+  },
+
+  "SELECT_ALL": "Select all",
+  "RESET": "Reset"
 }

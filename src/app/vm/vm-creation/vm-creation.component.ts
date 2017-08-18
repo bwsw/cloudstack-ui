@@ -15,7 +15,7 @@ import { VmCreationFormNormalizationService } from './form-normalization/form-no
 import { KeyboardLayout } from './keyboards/keyboards.component';
 import { VmCreationService } from './services/vm-creation.service';
 import { VmDeploymentMessage, VmDeploymentService, VmDeploymentStages } from './services/vm-deployment.service';
-import throttle = require('lodash/throttle');
+import * as throttle from 'lodash/throttle';
 
 
 export interface VmCreationFormState {
@@ -153,8 +153,10 @@ export class VmCreationComponent implements OnInit {
   }
 
   public rootDiskSizeChange($event) {
-    this.formState.state.rootDiskSize = $event.value;
-    this.updateFormState();
+    if (!isNaN($event)) {
+      this.formState.state.rootDiskSize = $event;
+      this.updateFormState();
+    }
   }
 
   public instanceGroupChange(value: string): void {

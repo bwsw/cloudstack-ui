@@ -1,13 +1,20 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { defaultCategoryName, Tag } from '../../shared/models';
 import { Utils } from '../../shared/services';
 import { TagCategory } from '../tag-category/tag-category.component';
 import { TagEditComponent } from '../tag-edit/tag-edit.component';
-import cloneDeep = require('lodash/cloneDeep');
-import groupBy = require('lodash/groupBy');
-import sortBy = require('lodash/sortBy');
-
+import * as cloneDeep from 'lodash/cloneDeep';
+import * as groupBy from 'lodash/groupBy';
+import * as sortBy from 'lodash/sortBy';
 
 export interface TagEditAction {
   oldTag: Tag;
@@ -34,10 +41,7 @@ export class TagsViewComponent implements OnChanges {
   public query: string;
   public visibleCategories: Array<TagCategory>;
 
-  constructor(
-    private cd: ChangeDetectorRef,
-    private dialogService: DialogService
-  ) {
+  constructor(private cd: ChangeDetectorRef, private dialogService: DialogService) {
     this.onTagAdd = new EventEmitter<Tag>();
     this.onTagEdit = new EventEmitter<TagEditAction>();
     this.onTagDelete = new EventEmitter<Tag>();
@@ -51,31 +55,33 @@ export class TagsViewComponent implements OnChanges {
 
   public addTag(category?: TagCategory): void {
     const forbiddenKeys = category ? category.tags.map(_ => _.key) : [];
-    this.dialogService.showCustomDialog({
-      component: TagEditComponent,
-      classes: 'tag-edit',
-      providers: [
-        { provide: 'forbiddenKeys', useValue: forbiddenKeys },
-        { provide: 'title', useValue: 'CREATE_NEW_TAG' },
-        { provide: 'confirmButtonText', useValue: 'CREATE' },
-        { provide: 'categoryName', useValue: category && category.name }
-      ]
-    })
+    this.dialogService
+      .showCustomDialog({
+        component: TagEditComponent,
+        classes: 'tag-edit',
+        providers: [
+          { provide: 'forbiddenKeys', useValue: forbiddenKeys },
+          { provide: 'title', useValue: 'CREATE_NEW_TAG' },
+          { provide: 'confirmButtonText', useValue: 'CREATE' },
+          { provide: 'categoryName', useValue: category && category.name }
+        ]
+      })
       .switchMap(res => res.onHide())
       .subscribe(tag => this.onTagAdd.emit(tag));
   }
 
   public editTag(tag: Tag): void {
-    this.dialogService.showCustomDialog({
-      component: TagEditComponent,
-      classes: 'tag-edit',
-      providers: [
-        { provide: 'title', useValue: 'EDIT_TAG' },
-        { provide: 'confirmButtonText', useValue: 'EDIT' },
-        { provide: 'categoryName', useValue: tag.categoryName },
-        { provide: 'tag', useValue: tag }
-      ]
-    })
+    this.dialogService
+      .showCustomDialog({
+        component: TagEditComponent,
+        classes: 'tag-edit',
+        providers: [
+          { provide: 'title', useValue: 'EDIT_TAG' },
+          { provide: 'confirmButtonText', useValue: 'EDIT' },
+          { provide: 'categoryName', useValue: tag.categoryName },
+          { provide: 'tag', useValue: tag }
+        ]
+      })
       .switchMap(res => res.onHide())
       .subscribe(tagEditAction => this.onTagEdit.emit(tagEditAction));
   }
@@ -135,11 +141,19 @@ export class TagsViewComponent implements OnChanges {
     const aName = a.name.toLowerCase();
     const bName = b.name.toLowerCase();
 
-    if (a.name === defaultCategoryName) { return -1; }
-    if (b.name === defaultCategoryName) { return  1; }
+    if (a.name === defaultCategoryName) {
+      return -1;
+    }
+    if (b.name === defaultCategoryName) {
+      return 1;
+    }
 
-    if (aName < bName) { return -1; }
-    if (aName > bName) { return  1; }
+    if (aName < bName) {
+      return -1;
+    }
+    if (aName > bName) {
+      return 1;
+    }
 
     return 0;
   }
@@ -151,6 +165,6 @@ export class TagsViewComponent implements OnChanges {
     return {
       name,
       tags: sortedTags
-    }
+    };
   }
 }
