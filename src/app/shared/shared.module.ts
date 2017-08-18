@@ -4,7 +4,10 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdIconModule, MdListModule, MdSelectModule, MdSnackBarModule, MdCardModule } from '@angular/material';
+import {
+  MdIconModule, MdListModule, MdSelectModule, MdSnackBarModule, MdCardModule,
+  MdRadioModule
+} from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
@@ -112,6 +115,7 @@ import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
     MdlDialogOutletModule,
     MdlModule,
     MdlPopoverModule,
+    MdRadioModule,
     MdlSelectModule,
     TranslateModule,
     MdListModule,
