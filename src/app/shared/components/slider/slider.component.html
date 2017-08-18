@@ -8,18 +8,17 @@
       min="{{ min }}"
       max="{{ max }}"
       [ngModel]="size"
-      (ngModelChange)="onVolumeChange($event)"
+      (ngModelChange)="handleSliderChange($event)"
       (blur)="onBlur($event)"
     ></mdl-textfield>
     <div class="custom-slider-label">{{ units }}</div>
   </div>
 </div>
-<mdl-slider
-  min="{{ sliderMinValue || 0 }}"
-  max="{{ sliderMaxValue || 0 }}"
-  value="0"
-  step="0.0001"
-  mdTooltipPosition="above"
+
+<md-slider
+  [min]="min"
+  [max]="max"
+  [thumb-label]="true"
   [ngModel]="sliderValue"
   (ngModelChange)="handleSliderChange($event)"
-></mdl-slider>
+></md-slider>
