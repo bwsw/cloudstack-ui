@@ -29,7 +29,8 @@ import { SettingsComponent } from './settings.component';
 
   declarations: [
     ApiInfoComponent,
-    InactivityTimeoutComponent,SettingsComponent
+    InactivityTimeoutComponent,
+    SettingsComponent
   ]
 })
 export class SettingsModule { }

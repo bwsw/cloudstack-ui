@@ -1,9 +1,8 @@
 <mdl-textfield
   type="number"
   name="minute"
-  label="{{ 'SNAPSHOT_POLICIES.MINUTE' | translate }}"
+  [label]="'SNAPSHOT_POLICIES.MINUTE' | translate"
   floating-label
-  autofocus
   required
   #minuteField
   [ngModel]="minute"

@@ -87,6 +87,7 @@ export class HourlyPolicyComponent implements ControlValueAccessor {
       this.minute = value.minute.toString();
       this.propagateChange(this.policy);
     }
+    this.minuteField.setFocus();
   }
 
   public registerOnChange(fn): void {

@@ -1,23 +1,14 @@
 <cs-top-bar *ngIf="!dialogMode">
   <div class="options-panel">
-    <mdl-tabs
+    <md-tab-group
       class="tab-switch"
-      mdl-ripple
-      [mdl-tab-active-index]="templateSwitchPosition"
-      (mdl-tab-active-changed)="setMode($event.index)"
+      md-selected="templateSwitchPosition"
+      (selectChange)="setMode($event.index)"
       *ngIf="showIsoSwitch"
     >
-      <mdl-tab-panel>
-        <mdl-tab-panel-title>
-          <span>{{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}</span>
-        </mdl-tab-panel-title>
-      </mdl-tab-panel>
-      <mdl-tab-panel>
-        <mdl-tab-panel-title>
-          <span>{{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}</span>
-        </mdl-tab-panel-title>
-      </mdl-tab-panel>
-    </mdl-tabs>
+      <md-tab label="{{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}"></md-tab>
+      <md-tab label="{{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}"></md-tab>
+    </md-tab-group>
 
     <md-select
       class="filter-select"
@@ -81,24 +72,15 @@
   [class.delimiter]="showDelimiter"
   *ngIf="dialogMode"
 >
-  <mdl-tabs
+  <md-tab-group
     class="tab-switch"
-    mdl-ripple
-    [mdl-tab-active-index]="templateSwitchPosition"
-    (mdl-tab-active-changed)="setMode($event.index)"
+    md-selected="templateSwitchPosition"
+    (selectChange)="setMode($event.index)"
     *ngIf="showIsoSwitch"
   >
-    <mdl-tab-panel>
-      <mdl-tab-panel-title>
-        <span>{{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}</span>
-      </mdl-tab-panel-title>
-    </mdl-tab-panel>
-    <mdl-tab-panel>
-      <mdl-tab-panel-title>
-        <span>{{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}</span>
-      </mdl-tab-panel-title>
-    </mdl-tab-panel>
-  </mdl-tabs>
+    <md-tab label="{{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}"></md-tab>
+    <md-tab label="{{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}"></md-tab>
+  </md-tab-group>
 
   <md-select
     class="filter-select"
