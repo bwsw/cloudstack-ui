@@ -1,10 +1,11 @@
-import moment = require('moment');
+import * as moment from 'moment';
 
 import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators';
 import { Tag } from './tag.model';
 
-export const DESCRIPTION_TAG = 'DESCRIPTION';
+
+export const DESCRIPTION_TAG = 'csui.snapshot.description';
 
 @FieldMapper({
   physicalsize: 'physicalSize',

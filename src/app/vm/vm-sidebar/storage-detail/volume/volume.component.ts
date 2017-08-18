@@ -14,6 +14,7 @@ import {
 import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
 import { VolumeResizeComponent } from '../../volume-resize.component';
 import { DialogService } from '../../../../dialog/dialog-module/dialog.service';
+import { RecurringSnapshotsComponent } from '../../../../snapshot/recurring-snapshots/recurring-snapshots.component';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class VolumeComponent implements OnInit {
     private zoneService: ZoneService
   ) {}
 
-  public get loading(): Boolean {
+  public get loading(): boolean {
     return this._loading || this.volume['loading'];
   }
 
@@ -56,14 +57,14 @@ export class VolumeComponent implements OnInit {
     this.onDetach.emit(this.volume);
   }
 
-  public showVolumeResizeDialog(volume: Volume): void {
+  public showVolumeResizeDialog(): void {
     this.getOfferings().switchMap(diskOfferingList => {
       this._loading = false;
       return this.dialogService.showCustomDialog({
         component: VolumeResizeComponent,
         classes: 'volume-resize-dialog',
         providers: [
-          { provide: 'volume', useValue: volume },
+          { provide: 'volume', useValue: this.volume },
           { provide: 'diskOfferingList', useValue: diskOfferingList }
         ]
       });
@@ -74,6 +75,14 @@ export class VolumeComponent implements OnInit {
           this.onVolumeResize(resizedVolume);
         }
       });
+  }
+
+  public showRecurringSnapshotsDialog(): void {
+    this.dialogService.showCustomDialog({
+      component: RecurringSnapshotsComponent,
+      classes: 'recurring-snapshots-dialog',
+      providers: [{ provide: 'volume', useValue: this.volume }]
+    });
   }
 
   public takeSnapshot(volume: Volume): void {

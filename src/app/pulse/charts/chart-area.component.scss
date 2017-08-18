@@ -1,0 +1,73 @@
+:host {
+  display: block;
+  position: relative;
+  min-height: 350px;
+}
+
+.chart {
+  display: flex;
+  position: relative;
+  margin: auto;
+  height: 19vh;
+}
+
+.arrow {
+  display: flex;
+  align-self: center;
+  position: absolute;
+  width: 30px;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.2);
+  opacity: 0.2;
+  cursor: pointer;
+  &:hover {
+    opacity: 1;
+  }
+  &:last-child {
+    right: 0;
+  }
+  md-icon {
+    margin: auto;
+  }
+}
+
+.no-charts > {
+  * {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  img {
+    width: 100%;
+  }
+}
+
+.no-data-chart > {
+  * {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  img {
+    width: 100%;
+    z-index: -1;
+  }
+}
+
+.overlay {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+}
+
+md-spinner {
+  width: 50px;
+  height: 50px;
+}

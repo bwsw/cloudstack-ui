@@ -1,18 +1,13 @@
-<mdl-card mdl-shadow="2" class="card">
-  <cs-fancy-select *loading="loading">
-    <mdl-card-title class="fancy-select-header">
-      <h2 mdl-card-title-text>
+<md-card class="card">
+  <md-card-header>
+    <md-card-title>
+      <h2 class="md-card-title-text">
         {{ 'ATTACH_VOLUME' | translate }}
       </h2>
-    </mdl-card-title>
-    <mdl-button
-      *ngIf="volumes?.length"
-      (click)="$event.stopPropagation(); showDialog()"
-      class="fancy-select-button"
-    >
-      {{ 'SELECT' | translate }}
-    </mdl-button>
-    <mdl-card-supporting-text class="fancy-select-content">
+    </md-card-title>
+  </md-card-header>
+  <md-card-content [class.md-card-content-with-actions]="selectedVolume || !selectedVolume && volumes?.length">
+    <div class="md-card-content-container">
       <ng-container *ngIf="volumes?.length">
         <ng-container *ngIf="!selectedVolume">
           {{ 'SELECT_VOLUME' | translate }}
@@ -25,29 +20,37 @@
         {{ 'NO_AVAILABLE_VOLUMES' | translate }} <a class="mdl-navigation__link" routerLink="/spare-drives">{{
         'NAVIGATE_TO_VOLUME_CREATION_PAGE' | translate }}</a>
       </ng-container>
-    </mdl-card-supporting-text>
-  </cs-fancy-select>
-  <mdl-card-actions
-    mdl-card-border
-    *ngIf="selectedVolume"
-  >
-    <button
-      mdl-button
-      mdl-button-type="icon"
-      mdTooltipPosition="above"
-      *ngIf="!loading"
-      [mdTooltip]="'ATTACH' | translate"
-      (click)="$event.stopPropagation(); attachVolume()"
-    >
-      <mdl-icon>attach_file</mdl-icon>
-    </button>
-    <button
-      mdl-button
-      mdl-button-type="icon"
-      *ngIf="loading"
-      disabled
-    >
-      <mdl-icon>attach_file</mdl-icon>
-    </button>
-  </mdl-card-actions>
-</mdl-card>
+    </div>
+    <md-card-actions *ngIf="selectedVolume">
+      <button
+        mdl-button
+        mdl-button-type="icon"
+        mdTooltipPosition="above"
+        *ngIf="!loading"
+        [mdTooltip]="'ATTACH' | translate"
+        (click)="$event.stopPropagation(); attachVolume()"
+      >
+        <md-icon>attach_file</md-icon>
+      </button>
+      <button
+        mdl-button
+        mdl-button-type="icon"
+        *ngIf="loading"
+        disabled
+      >
+        <md-icon>attach_file</md-icon>
+      </button>
+    </md-card-actions>
+    <md-card-actions *ngIf="!selectedVolume && volumes?.length">
+      <button
+        mdl-button
+        mdl-button-type="icon"
+        mdTooltipPosition="above"
+        [mdTooltip]="'SELECT' | translate"
+        (click)="$event.stopPropagation(); showDialog()"
+      >
+        <md-icon>add</md-icon>
+      </button>
+    </md-card-actions>
+  </md-card-content>
+</md-card>

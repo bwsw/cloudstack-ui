@@ -7,6 +7,7 @@ Table of Contents
       * [Project Story](#project-story)
       * [Implementation Details](#implementation-details)
       * [Features Supported](#features-supported)
+      * [Plugins Supported](#plugins-supported)
       * [Features Yet Unsupported](#features-yet-unsupported)
       * [Current To Do's](#current-to-dos)
       * [Long Term To Do's](#long-term-to-dos)
@@ -77,6 +78,11 @@ So, what is supported:
 * API keys management
 * A lot of small improvements which affect  user experience greatly
 
+## Plugins Supported
+
+* [Pulse Plugin](https://github.com/bwsw/cloudstack-ui/wiki/Pulse-Plugin-Deployment) - supports visualization of VM runtime stats (CPU, RAM, IO, network traffic) with charts;
+* [WebShell Plugin](https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin-Deployment) - supports clientless SSH access to VMs.
+
 ## Features Yet Unsupported
 
 We intensively use features like projects in our own CloudStackcloud to manage resources dedicated to project groups, etc. but generic users don’t need them, so we don’t support the following features yet:
@@ -91,10 +97,9 @@ We intensively use features like projects in our own CloudStackcloud to manage r
 ## Long Term To Dos
 
 * Plugins
-   * VM metrics a.k.a. Pulse (charts and availability information)
    * Resource utilization stats, traffic, IO stats, CS entities stats a.k.a. Accounting
    * Self registration for public cloud
-   * Web SSH/RDP (guacamole)
+   * RDP/VNC (guacamole)
 
 ## Far Away To Dos
 * Plugins
@@ -174,7 +179,7 @@ docker run -d -p 80:80 --name cloudstack-ui \
            -e CONSOLE_BACKEND_URL=http://link/to/console/endpoint \
            -e BASE_HREF=base_href \
            -v /path/to/config.json:/static/config/config.json \
-           bwsw/cloudstack-ui
+           bwsw/cloudstack-ui:1.0.7
 ```
 
 `http://link/to/api/endpoint` - URL of CloudStackAPI endpoint (e.g. http://host:8080/client/api)
@@ -201,7 +206,7 @@ Download and start [bwsw/cloudstack-ui-cleaner](https://hub.docker.com/r/bwsw/cl
 
 ## Configuration Options
 
-You can customize the application by providing your own configuration file (example link).
+You can customize the application by providing your own configuration file ([config.json](https://github.com/bwsw/cloudstack-ui/blob/master/src/config/config.json)).
 
 ### Default domain URL
 
@@ -300,6 +305,9 @@ In this sections you can specify limits for custom offerings in the following fo
     }
     
 Any of these parameters may be left unspecified, in which case 0 will be used for min and infinity will be used for max.
+
+### Extensions
+Please check [Wiki](https://github.com/bwsw/cloudstack-ui/wiki/Plugins) for extension configuration options.
 
 ## Project Sponsors
 

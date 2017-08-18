@@ -1,28 +1,41 @@
 import { MdlModule } from '@angular-mdl/core';
-import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MdSelectModule, MdTooltipModule } from '@angular/material';
+import {
+    MdSelectModule,
+    MdTooltipModule,
+    MdMenuModule,
+    MdButtonModule,
+    MdIconModule,
+    MdDialogModule,
+    MdTabsModule
+} from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 
 import { routes } from '../app.routing';
+import { PulseModule } from '../pulse/pulse.module';
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 import { SharedModule } from '../shared/shared.module';
+// tslint:disable-next-line
+import { SnapshotModule } from '../snapshot/snapshot.module';
 import { TagsModule } from '../tags/tags.module';
 import { TemplateModule } from '../template';
+import { VmActionsService } from './shared/vm-actions.service';
+import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
 import { VmService } from './shared/vm.service';
+import { VmActionProviders } from './vm-actions/index';
 import { VmCreationFormNormalizationService } from './vm-creation/form-normalization/form-normalization.service';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
+import { VmCreationService } from './vm-creation/services/vm-creation.service';
+import { VmDeploymentService } from './vm-creation/services/vm-deployment.service';
 import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-dialog.component';
 import { VmTemplateComponent } from './vm-creation/template/vm-template.component';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
-import { VmCreationService } from './vm-creation/vm-creation.service';
-import { VmDeploymentService } from './vm-creation/vm-deployment.service';
 import { VmFilterComponent } from './vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list/vm-list-item.component';
 import { VmListComponent } from './vm-list/vm-list.component';
@@ -53,6 +66,7 @@ import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize.component';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
 import { vmRouting } from './vm.routing';
+import { WebShellService } from './web-shell/web-shell.service';
 
 
 @NgModule({
@@ -65,18 +79,24 @@ import { vmRouting } from './vm.routing';
     MdTooltipModule,
     MdSelectModule,
     MdlModule,
-    MdlPopoverModule,
+    MdDialogModule,
     MdlSelectModule,
     ReactiveFormsModule,
     ServiceOfferingModule,
     ServiceOfferingModule,
     SharedModule,
+    SnapshotModule,
     TagsModule,
     TemplateModule,
     TranslateModule,
     TranslateModule,
+    PulseModule,
     vmRouting,
     RouterModule.forRoot(routes),
+    MdMenuModule,
+    MdButtonModule,
+    MdIconModule,
+    MdTabsModule,
   ],
   declarations: [
     AffinityGroupSelectorComponent,
@@ -109,11 +129,15 @@ import { vmRouting } from './vm.routing';
     SnapshotModalComponent,
   ],
   providers: [
+    VmActionsService,
     VmCreationFormNormalizationService,
     VmCreationService,
     VmDeploymentService,
+    VmEntityDeletionService,
     VmService,
-    SnapshotActionsService
+    WebShellService,
+    SnapshotActionsService,
+    ...VmActionProviders
   ],
   entryComponents: [
     AffinityGroupSelectorComponent,

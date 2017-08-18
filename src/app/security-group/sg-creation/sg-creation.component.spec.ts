@@ -75,8 +75,8 @@ describe('Sg creation component', () => {
   const mockRules = new Rules();
 
   class SecurityGroupServiceMock {
-    public getTemplates(): Observable<Array<SecurityGroup>> {
-      return Observable.of([mockSg1]);
+    public getTemplates(): Array<SecurityGroup> {
+      return [mockSg1];
     }
 
     public getList(): Observable<Array<SecurityGroup>> {
@@ -143,7 +143,7 @@ describe('Sg creation component', () => {
     comp.ngOnInit();
 
     comp.selectGroup(0, false);
-    comp.move(true);
+    comp.moveLeft();
 
     const buttons = f.debugElement.queryAll(By.css('.mdl-dialog__actions button'));
     buttons[1].triggerEventHandler('click');
@@ -157,7 +157,7 @@ describe('Sg creation component', () => {
     mockRules.ingress = mockRulesIngress;
     comp.ngOnInit();
     comp.selectGroup(0, false);
-    comp.move(true);
+    comp.moveLeft();
     buttons[0].triggerEventHandler('click');
     expect(dialogReferenceMock.hide).toHaveBeenCalledTimes(2);
     expect(dialogReferenceMock.hide).toHaveBeenCalledWith({

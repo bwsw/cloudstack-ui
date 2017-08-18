@@ -1,0 +1,10 @@
+<mdl-textfield
+  type="number"
+  name="minute"
+  [label]="'MINUTE' | translate"
+  floating-label
+  required
+  #minuteField
+  [ngModel]="minute"
+  (ngModelChange)="updateMinute($event)"
+></mdl-textfield>

@@ -8,6 +8,10 @@ export class MockResourceUsageService {
   constructor(@Inject('mockResourceUsageServiceConfig') public config: { value: any }) {}
 
   public getResourceUsage(): Observable<ResourceStats> {
-    return Observable.of(this.config.value);
+    return Observable.of(new ResourceStats(
+      this.config.value.available,
+      this.config.value.consumed,
+      this.config.value.max
+    ));
   }
 }

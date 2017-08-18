@@ -1,3 +1,11 @@
-mdl-icon {
+md-icon {
   line-height: 48px;
+}
+
+h4.details-header {
+  font-size: 18px;
+}
+
+:host /deep/ .mat-tab-label {
+  min-width: 83px !important;
 }

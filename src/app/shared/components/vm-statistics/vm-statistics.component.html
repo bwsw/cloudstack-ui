@@ -1,4 +1,4 @@
-<mdl-card class="stat-section options-panel">
+<div class="stat-section options-panel">
   <h4 class="stat-header">
     {{ 'RESOURCE_USAGE' | translate }}
     <button
@@ -8,41 +8,37 @@
       [class.closed]="!isOpen"
       (click)="handleCollapse($event)"
     >
-      <mdl-icon>keyboard_arrow_up</mdl-icon>
+      <md-icon>keyboard_arrow_up</md-icon>
     </button>
   </h4>
   <div class="stat-list" [class.closed]="!isOpen">
-    <mdl-tabs
+    <md-tab-group
       class="tab-switch"
-      [mdl-tab-active-index]="mode"
-      (mdl-tab-active-changed)="switchMode()"
+      md-selected="mode"
+      (selectChange)="switchMode()"
     >
-      <mdl-tab-panel>
-        <mdl-tab-panel-title>
-          <span>{{ 'USED' | translate }}</span>
-        </mdl-tab-panel-title>
-      </mdl-tab-panel>
-      <mdl-tab-panel>
-        <mdl-tab-panel-title>
-          <span>{{ 'FREE' | translate }}</span>
-        </mdl-tab-panel-title>
-      </mdl-tab-panel>
-    </mdl-tabs>
-    <mdl-card *ngFor="let stat of statsList" class="stat-card-mdl" mdl-shadow="2">
-      <mdl-card-title>
-        <h2 mdl-card-title-text>{{ stat.header | translate }}</h2>
-      </mdl-card-title>
-      <mdl-card-supporting-text *loading="fetching">
-        <div
-          *ngFor="let bar of stat.bars; first as f; last as l"
-          class="bar"
-          [class.single-bar]="f && l"
-        >
-          {{ bar.title | translate }}
-          <div class="stat-values">{{ bar.value() | async}}</div>
-          <md-progress-bar [value]="bar.progress()"></md-progress-bar>
-        </div>
-      </mdl-card-supporting-text>
-    </mdl-card>
+      <md-tab label="{{ 'USED' | translate }}"></md-tab>
+      <md-tab label="{{ 'FREE' | translate }}"></md-tab>
+    </md-tab-group>
+    <div class="stat-list-container">
+      <md-card *ngFor="let stat of statsList" class="stat-card-md">
+        <md-card-header>
+          <md-card-title>
+            <h2 class="md-card-title-text">{{ stat.header | translate }}</h2>
+          </md-card-title>
+        </md-card-header>
+        <md-card-content *loading="fetching">
+          <div
+            *ngFor="let bar of stat.bars; first as f; last as l"
+            class="bar"
+            [class.single-bar]="f && l"
+          >
+            {{ bar.title | translate }}
+            <div class="stat-values">{{ bar.value() | async}}</div>
+            <md-progress-bar [value]="bar.progress()"></md-progress-bar>
+          </div>
+        </md-card-content>
+      </md-card>
+    </div>
   </div>
-</mdl-card>
+</div>

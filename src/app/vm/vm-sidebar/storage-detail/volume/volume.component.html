@@ -1,89 +1,86 @@
-<mdl-card class="vm-card" mdl-shadow="2">
-  <mdl-card-title>
-    <h2 mdl-card-title-text>{{ volume.name }}</h2>
-  </mdl-card-title>
-  <mdl-card-supporting-text *loading="loading"  >
-    <div
-      *ngIf="!expandDetails"
-      class="disk-size"
+<md-card class="vm-card" mdl-shadow="2">
+  <md-card-header>
+    <md-card-title>
+      <h2 class="md-card-title-text">{{ volume.name }}</h2>
+    </md-card-title>
+    <div *ngIf="!loading" class="md-card-header-menu">
+        <button *ngIf="!loading"
+                md-icon-button [mdMenuTriggerFor]="actionsMenu">
+            <md-icon>more_vert</md-icon>
+        </button>
+    </div>
+  </md-card-header>
+  <md-card-content class="md-card-content-with-actions">
+    <div class="md-card-content-container">
+      <div
+        *ngIf="!expandDetails"
+        class="disk-size"
+      >
+        {{ (volume.size | division:2:30:2) + ' ' + ('GB' | translate) }}
+      </div>
+      <cs-volume-details
+        *ngIf="expandDetails"
+        [volume]="volume"
+      ></cs-volume-details>
+      <cs-snapshots [volume]="volume"></cs-snapshots>
+    </div>
+    <md-card-actions>
+      <div class="card-left-button">
+        <button
+          *ngIf="showAttachmentActions"
+          mdl-button
+          mdl-button-type="icon"
+          mdTooltipPosition="above"
+          [mdTooltip]="'DETACH' | translate"
+          [disabled]="loading"
+          (click)="detach()"
+        >
+          <md-icon>remove</md-icon>
+        </button>
+      </div>
+      <div class="card-right-button">
+        <button
+          mdl-button
+          mdl-ripple
+          mdl-button-type="icon"
+          [class.open]="expandDetails"
+          [disabled]="loading"
+          (click)="toggleDetails()"
+        >
+          <md-icon>keyboard_arrow_down</md-icon>
+        </button>
+      </div>
+    </md-card-actions>
+  </md-card-content>
+    <md-menu
+      #actionsMenu="mdMenu"
+      [style.width.px]="300"
     >
-      {{ (volume.size | division:2:30:2) + ' ' + ('GB' | translate) }}
-    </div>
-    <cs-volume-details
-      *ngIf="expandDetails"
-      [volume]="volume"
-    ></cs-volume-details>
-    <cs-snapshots [volume]="volume"></cs-snapshots>
-  </mdl-card-supporting-text>
-  <mdl-card-menu *ngIf="!loading" >
-    <button
-      mdl-button
-      (click)="popover.toggle($event)"
-      mdl-button-type="icon"
-      mdl-ripple>
-      <mdl-icon>more_vert</mdl-icon>
-    </button>
-  </mdl-card-menu>
-  <mdl-popover
-    class="card-popover volume-popover"
-    #popover
-    [hide-on-click]="true"
-    [style.width.px]="300"
-  >
-    <div mdl-shadow="6" class="popover-actions">
-      <button
-        [mdTooltip]="'TAKE_SNAPSHOT_BUTTON' | translate"
-        mdl-button
-        mdl-button-type="icon"
-        (click)="takeSnapshot(volume)"
-      >
-        <mdl-icon >camera_alt</mdl-icon>
-      </button>
-      <!--todo: recurring snapshots-->
-      <!--<button-->
-        <!--[mdTooltip]="'SNAPSHOT_SCHEDULE_BUTTON' | translate "-->
-        <!---->
-        <!--mdl-button-->
-        <!--mdl-button-type="icon"-->
-      <!--&gt;-->
-        <!--<mdl-icon >schedule</mdl-icon>-->
-      <!--</button>-->
-      <button
-        mdl-button
-        mdl-button-type="icon"
-        (click)="showVolumeResizeDialog(volume)"
-        [mdTooltip]="'VOLUME_RESIZE' | translate"
-      >
-        <mdl-icon >photo_size_select_small</mdl-icon>
-      </button>
-    </div>
-  </mdl-popover>
-  <mdl-card-actions
-    *ngIf="!loading"
-    mdl-card-border
-  >
-    <div class="card-left-button">
-      <button
-        *ngIf="showAttachmentActions"
-        mdl-button
-        mdl-button-type="icon"
-        mdTooltipPosition="above"
-        [mdTooltip]="'DETACH' | translate"
-        (click)="detach()"
-      >
-        <mdl-icon>remove</mdl-icon>
-      </button>
-    </div>
-    <div class="card-right-button">
-      <button
-        mdl-button
-        mdl-ripple
-        mdl-button-type="icon"
-        (click)="toggleDetails()"
-        [class.open]="expandDetails"
-      >
-        <mdl-icon>keyboard_arrow_down</mdl-icon>
-      </button>
-    </div>
-  </mdl-card-actions>
-</mdl-card>
+        <button
+          md-menu-item
+          [disabled]="loading"
+          (click)="takeSnapshot(volume)"
+        >
+          <md-icon >camera_alt</md-icon>
+          <span>{{ 'TAKE_SNAPSHOT_BUTTON' | translate }}</span>
+        </button>
+
+        <button
+          md-menu-item
+          [disabled]="loading"
+          (click)="showRecurringSnapshotsDialog()"
+        >
+          <md-icon >schedule</md-icon>
+          <span>{{ 'SNAPSHOT_SCHEDULE_BUTTON' | translate }}</span>
+        </button>
+
+        <button
+          md-menu-item
+          [disabled]="loading"
+          (click)="showVolumeResizeDialog()"
+        >
+          <md-icon >photo_size_select_small</md-icon>
+          <span>{{ 'VOLUME_RESIZE' | translate }}</span>
+        </button>
+    </md-menu>
+</md-card>

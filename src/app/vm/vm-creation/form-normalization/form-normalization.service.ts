@@ -1,14 +1,20 @@
 import { Injectable } from '@angular/core';
+import {
+  CustomServiceOfferingService
+} from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { ServiceOfferingService, Utils } from '../../../shared/services';
 import { VmCreationData } from '../data/vm-creation-data';
 import { VmCreationState } from '../data/vm-creation-state';
 import { VmCreationFormState } from '../vm-creation.component';
-import cloneDeep = require('lodash/cloneDeep');
+import * as cloneDeep from 'lodash/cloneDeep';
 
 
 @Injectable()
 export class VmCreationFormNormalizationService {
-  constructor(private serviceOfferingService: ServiceOfferingService) {}
+  constructor(
+    private customServiceOfferingService: CustomServiceOfferingService,
+    private serviceOfferingService: ServiceOfferingService
+  ) {}
 
   public normalize(formState: VmCreationFormState): VmCreationFormState {
     return this.filterZones(this.clone(formState));
@@ -44,14 +50,38 @@ export class VmCreationFormNormalizationService {
         formState.state.zone
       );
 
+    formState = this.initializeCustomServiceOfferings(formState);
+
     const offeringStillAvailable = !!formState
       .data.serviceOfferings.find(offering => {
         return formState.state.serviceOffering.id === offering.id;
       });
 
     if (!offeringStillAvailable) {
-      formState.state.serviceOffering = formState.data.serviceOfferings[0];
+      formState.state.serviceOffering = formState.data.getDefaultServiceOffering(formState.state.zone);
     }
+
+    formState.state.serviceOffering = formState.data.serviceOfferings.find(_ => {
+      return _.id === formState.state.serviceOffering.id;
+    });
+
+    return formState;
+  }
+
+  private initializeCustomServiceOfferings(formState: VmCreationFormState): VmCreationFormState {
+    formState.data.serviceOfferings = formState.data.serviceOfferings.map(offering => {
+      if (!offering.isCustomized) {
+        return offering;
+      }
+
+      return this.customServiceOfferingService.getCustomOfferingWithSetParamsSync(
+        offering,
+        formState.data.getCustomOfferingParams(formState.state.zone),
+        formState.data.configurationData.customOfferingRestrictions[formState.state.zone.id],
+        formState.data.resourceUsage
+      );
+    })
+      .filter(_ => _);
 
     return formState;
   }
@@ -123,10 +153,15 @@ export class VmCreationFormNormalizationService {
     }
 
     const defaultDiskSize = 1;
-    const size = Math.ceil(Utils.convertToGB(formState.state.template.size)) || defaultDiskSize;
+    const minSize = Math.ceil(Utils.convertToGB(formState.state.template.size)) || defaultDiskSize;
     // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
-    formState.state.rootDiskSize = size;
-    formState.state.rootDiskSizeMin = size;
+    formState.state.rootDiskSizeMin = minSize;
+    if (
+      formState.state.rootDiskSize == null ||
+      formState.state.rootDiskSize < formState.state.rootDiskSizeMin
+    ) {
+      formState.state.rootDiskSize = formState.state.rootDiskSizeMin;
+    }
 
     return formState;
   }

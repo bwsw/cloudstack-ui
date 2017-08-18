@@ -2,16 +2,15 @@ import { MdlDefaultTableModel } from '@angular-mdl/core';
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-
 import { FilterService } from '../shared';
-import { dateTimeFormat, formatIso } from '../shared/components/date-picker/dateUtils';
+import { formatIso } from '../shared/components/date-picker/dateUtils';
 import { LanguageService } from '../shared/services';
-import { TimeFormat } from '../shared/services/language.service';
 import { Event } from './event.model';
 import { EventService } from './event.service';
-import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
-
-import moment = require('moment');
+import { DateTimeFormatterService } from '../shared/services/date-time-formatter.service';
+import { SessionStorageService } from '../shared/services/session-storage.service';
+import * as moment from 'moment';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -19,60 +18,42 @@ import moment = require('moment');
   templateUrl: 'event-list.component.html',
   styleUrls: ['event-list.component.scss']
 })
-export class EventListComponent extends WithUnsubscribe() implements OnInit {
+export class EventListComponent implements OnInit {
   public loading = false;
   public tableModel: MdlDefaultTableModel;
-
   public visibleEvents: Array<Event>;
-
   public date;
-  public dateTimeFormat;
-  public dateStringifyDateTimeFormat;
-  public firstDayOfWeek: number;
-  public timeFormat: string;
-
   public events: Array<Event>;
   public selectedLevels: Array<string>;
   public selectedTypes: Array<string>;
   public query: string;
-
   public eventTypes: Array<string>;
   public levels = ['INFO', 'WARN', 'ERROR'];
-
-
   private filtersKey = 'eventListFilters';
+  private filterService = new FilterService({
+    'date': { type: 'string' },
+    'levels': { type: 'array', options: this.levels, defaultOption: [] },
+    'types': { type: 'array', defaultOption: [] },
+    'query': { type: 'string' }
+  }, this.router, this.sessionStorage, this.filtersKey, this.activatedRoute);
 
   constructor(
+    public dateTimeFormatterService: DateTimeFormatterService,
+    public languageService: LanguageService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
     private eventService: EventService,
-    private filterService: FilterService,
-    private translate: TranslateService,
-    private languageService: LanguageService
+    private sessionStorage: SessionStorageService,
+    private translate: TranslateService
   ) {
-    super();
-    this.firstDayOfWeek = this.locale === 'en' ? 0 : 1;
     this.updateEvents = this.updateEvents.bind(this);
   }
 
   public ngOnInit(): void {
-    this.setDateTimeFormat();
-    this.translate.onLangChange
-      .takeUntil(this.unsubscribe$)
-      .subscribe(() => this.setDateTimeFormat());
     this.translate.get(['DESCRIPTION', 'LEVEL', 'TYPE', 'TIME'])
       .subscribe(translations => this.initTableModel(translations));
     this.initFilters();
-
-    Observable.forkJoin(
-      this.languageService.getFirstDayOfWeek(),
-      this.languageService.getTimeFormat()
-    )
-      .subscribe(([day, timeFormat]) => {
-        this.firstDayOfWeek = day;
-        this.timeFormat = timeFormat;
-        this.setDateTimeFormat();
-
-        this.getEvents({ reload: true });
-      });
+    this.getEvents({ reload: true });
   }
 
   public get locale(): string {
@@ -94,9 +75,9 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
       endDate: formatIso(this.date)
     };
 
-    const eventObservable = this.events && !params.reload ?
-      Observable.of(this.events) :
-      this.eventService.getList(dateParams);
+    const eventObservable = this.events && !params.reload
+      ? Observable.of(this.events)
+      : this.eventService.getList(dateParams);
 
     return eventObservable
       .do(events => this.updateEventTypes(events))
@@ -135,7 +116,7 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
       return event.description.toLowerCase().includes(queryLower) ||
         event.level.toLowerCase().includes(queryLower) ||
         event.type.toLowerCase().includes(queryLower) ||
-        this.stringifyDate(event.created).toLowerCase().includes(queryLower);
+        this.dateTimeFormatterService.stringifyToTime(event.created).toLowerCase().includes(queryLower);
     });
   }
 
@@ -148,47 +129,17 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
     });
   }
 
-  private stringifyDate(date: Date): string {
-    return this.dateStringifyDateTimeFormat.format(date);
-  }
-
   private updateEventTypes(events: Array<Event>): void {
     this.eventTypes = this.getEventTypes(events);
   }
 
   private initFilters(): void {
-    const params = this.filterService.init(this.filtersKey, {
-      'date': { type: 'string' },
-      'levels': { type: 'array', options: this.levels, defaultOption: [] },
-      'types': { type: 'array', defaultOption: [] },
-      'query': { type: 'string' }
-    });
+    const params = this.filterService.getParams();
 
     this.date = moment(params['date']).toDate();
     this.selectedLevels = params['levels'];
     this.selectedTypes = params['types'];
     this.query = params['query'];
-  }
-
-  private setDateTimeFormat(): void {
-    if (this.translate.currentLang === 'en') {
-      this.dateTimeFormat = dateTimeFormat;
-    }
-    if (this.translate.currentLang === 'ru') {
-      this.dateTimeFormat = Intl.DateTimeFormat;
-    }
-
-    const options: Intl.DateTimeFormatOptions = {
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
-      timeZoneName: 'short'
-    };
-
-    if (this.timeFormat !== TimeFormat.AUTO) {
-      options.hour12 = this.timeFormat === TimeFormat['12h'];
-    }
-    this.dateStringifyDateTimeFormat = new Intl.DateTimeFormat(this.locale, options);
   }
 
   private getEventTypes(events: Array<Event>): Array<string> {
@@ -224,7 +175,7 @@ export class EventListComponent extends WithUnsubscribe() implements OnInit {
   private createTableModel(): void {
     this.tableModel.data = this.visibleEvents.map(event => Object.assign({}, event, {
       selected: false,
-      time: this.stringifyDate(event.created)
+      time: this.dateTimeFormatterService.stringifyToTime(event.created)
     }));
   }
 }

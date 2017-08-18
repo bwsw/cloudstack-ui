@@ -1,4 +1,4 @@
-import { MdTooltipModule } from '@angular/material';
+import { MdIconModule, MdTooltipModule } from '@angular/material';
 import { DISABLE_NATIVE_VALIDITY_CHECKING, MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
@@ -26,6 +26,7 @@ import { SpareDriveModule } from './spare-drive';
 import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
+import { SnapshotModule } from './snapshot/snapshot.module';
 
 
 export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
@@ -34,12 +35,14 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
 
 @NgModule({
   imports: [
+    SnapshotModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
     FormsModule,
     TranslateModule.forRoot(),
     EventsModule,
+    MdIconModule,
     MdTooltipModule,
     MdlModule,
     MdlPopoverModule,

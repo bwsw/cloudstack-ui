@@ -1,23 +1,22 @@
 import { Rules } from '../../../security-group/sg-creation/sg-creation.component';
 import { SecurityGroup } from '../../../security-group/sg.model';
 import {
-  AffinityGroup,
-  DiskOffering,
-  InstanceGroup,
-  ServiceOffering,
-  SSHKeyPair,
-  Zone
-} from '../../../shared/models';
-import { BaseTemplateModel, Iso, Template } from '../../../template/shared';
-import { VmCreationState } from './vm-creation-state';
+  ICustomOfferingRestrictions,
+  ICustomOfferingRestrictionsByZone
+} from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
+import { ICustomServiceOffering } from '../../../service-offering/custom-service-offering/custom-service-offering';
+import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../../shared/models';
 import { ResourceStats } from '../../../shared/services/resource-usage.service';
-import { VmCreationConfigurationData } from '../vm-creation.service';
+import { BaseTemplateModel, Iso, Template } from '../../../template/shared';
+import { VmCreationConfigurationData } from '../services/vm-creation.service';
+import { VmCreationState } from './vm-creation-state';
 
 
 export class VmCreationData {
   constructor(
     public affinityGroupList: Array<AffinityGroup>,
     public configurationData: VmCreationConfigurationData,
+    public customOfferingRestrictionsByZone: ICustomOfferingRestrictionsByZone,
     public availablePrimaryStorage: number,
     public defaultName: string,
     public diskOfferings: Array<DiskOffering>,
@@ -31,6 +30,25 @@ export class VmCreationData {
     public isos: Array<Iso>,
     public zones: Array<Zone>
   ) {}
+
+  public getDefaultServiceOffering(zone: Zone): ServiceOffering {
+    const config = this.configurationData.defaultServiceOfferingConfig;
+    const defaultServiceOfferingId = config && config[zone.id] && config[zone.id].offering;
+    const defaultServiceOffering = this.serviceOfferings.find(_ => _.id === defaultServiceOfferingId);
+
+    return defaultServiceOffering || this.serviceOfferings[0];
+  }
+
+  public getCustomOfferingParams(zone: Zone): ICustomServiceOffering {
+    const config = this.configurationData.defaultServiceOfferingConfig;
+
+    return config && config[zone.id] && config[zone.id].customOfferingParams;
+  }
+
+  public getCustomOfferingRestrictions(zone: Zone): ICustomOfferingRestrictions {
+    const restrictions = this.customOfferingRestrictionsByZone;
+    return restrictions && restrictions[zone.id];
+  }
 
   public get defaultTemplate(): BaseTemplateModel {
     const templates: Array<BaseTemplateModel> = this.templates.length ? this.templates : this.isos;

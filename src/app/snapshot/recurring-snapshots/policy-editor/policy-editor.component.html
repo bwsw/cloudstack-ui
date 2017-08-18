@@ -1,0 +1,60 @@
+<form
+  (ngSubmit)="save()"
+  #policyEditorForm="ngForm"
+  novalidate
+>
+  <div [ngSwitch]="policyMode">
+    <cs-hourly-policy
+      name="hourlyPolicy"
+      *ngSwitchCase="Policies.Hourly"
+      [(ngModel)]="policy"
+    ></cs-hourly-policy>
+
+    <cs-daily-policy
+      name="dailyPolicy"
+      *ngSwitchCase="Policies.Daily"
+      [(ngModel)]="policy"
+      [timeFormat]="timeFormat"
+    ></cs-daily-policy>
+
+    <cs-weekly-policy
+      name="weeklyPolicy"
+      *ngSwitchCase="Policies.Weekly"
+      [(ngModel)]="policy"
+      [timeFormat]="timeFormat"
+    ></cs-weekly-policy>
+
+    <cs-monthly-policy
+      name="monthlyPolicy"
+      *ngSwitchCase="Policies.Monthly"
+      [(ngModel)]="policy"
+      [timeFormat]="timeFormat"
+    ></cs-monthly-policy>
+  </div>
+
+  <div class="flex-container">
+    <cs-time-zone
+      name="timeZone"
+      [(ngModel)]="timeZone"
+    ></cs-time-zone>
+
+    <cs-stored-number
+      name="storedNumber"
+      [(ngModel)]="storedSnapshots"
+      [min]="minStoredSnapshots"
+      [max]="maxStoredSnapshots"
+      [minValue]="minStoredSnapshots"
+      [maxValue]="maxStoredSnapshots"
+    ></cs-stored-number>
+  </div>
+
+  <div class="button-wrapper">
+    <button
+      mdl-button
+      mdl-colored="primary"
+      [disabled]="!policyEditorForm.valid"
+    >
+      {{ 'SAVE' | translate }}
+    </button>
+  </div>
+</form>

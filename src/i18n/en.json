@@ -269,8 +269,6 @@
   "PASSWORD_DIALOG_MESSAGE": "Password for {{ vmName }} has been reset to <b>{{ vmPassword }}</b>",
 
   "CHOOSE_SERVICE_OFFERING": "Choose service offering",
-  "OFFERING_CHANGED": "Offering changed",
-  "OFFERING_CHANGE_FAILED": "Offering change failed",
   "CHANGE_SERVICE_OFFERING": "Change service offering",
   "SO_CHANGE_DISABLED": "The virtual machine needs to be stopped",
 
@@ -315,6 +313,7 @@
   "VM_STORAGE_VIEW": "Storage",
   "VM_NETWORK_VIEW": "Network",
   "VM_TAGS_VIEW": "Tags",
+  "TEMPLATE_TAGS_VIEW": "Tags",
 
   "VOLUME_RESIZE": "Resize",
   "VOLUME_RESIZING": "Resizing volume",
@@ -467,11 +466,9 @@
   "COLOR": "Color",
   "FIRST_DAY_OF_WEEK": "First day of the week",
   "TIME_FORMAT": "Time format",
-  "12h": "12-Hours Time",
-  "24h": "24-Hours Time",
+  "hour12": "12-Hours Time",
+  "hour24": "24-Hours Time",
   "AUTO": "Auto",
-  "MONDAY": "Monday",
-  "SUNDAY": "Sunday",
   "GROUP_BY_COLORS": "Group by colors",
   "PALETTE": "Interface Theme Colors",
   "SELECT_GROUPS": "Select groups",
@@ -594,5 +591,95 @@
   "TAG_ALREADY_EXISTS": "Tag already exists",
   "NO_TAGS": "No tags",
   "EDIT_TAG": "Edit tag",
-  "TAG_DELETE_CONFIRMATION": "Are you sure you want to delete this tag?"
+  "TAG_DELETE_CONFIRMATION": "Are you sure you want to delete this tag?",
+
+  "WEB_SHELL": "WebShell",
+
+  "VM_START_FAILED": "Failed to start VM",
+  "VM_STOP_FAILED": "Failed to stop VM",
+  "VM_REBOOT_FAILED": "Failed to reboot VM",
+  "VM_RESTORE_FAILED": "Failed to restore VM",
+  "VM_RESET_PASSWORD_FAILED": "Failed to reset password",
+  "VM_DESTROY_FAILED": "Failed to destroy VM",
+
+  "VM_CHANGE_SERVICE_OFFERING_IN_PROGRESS": "Changing offering",
+  "VM_CHANGE_SERVICE_OFFERING_DONE": "Offering changed",
+  "VM_CHANGE_SERVICE_OFFERING_FAILED": "Failed to change offering",
+
+  "STORE_SNAPSHOTS": "Number of stored snapshots",
+  "MINUTE": "Minute",
+  "AM_PM_FORMAT": "AM/PM",
+  "24_HOURS_FORMAT": "24-hour clock",
+  "TIME_ZONE": "Time zone",
+
+  "MONDAY": "Monday",
+  "TUESDAY": "Tuesday",
+  "WEDNESDAY": "Wednesday",
+  "THURSDAY": "Thursday",
+  "FRIDAY": "Friday",
+  "SATURDAY": "Saturday",
+  "SUNDAY": "Sunday",
+
+  "MONDAY_LOWER": "monday",
+  "TUESDAY_LOWER": "tuesday",
+  "WEDNESDAY_LOWER": "wednesday",
+  "THURSDAY_LOWER": "thursday",
+  "FRIDAY_LOWER": "friday",
+  "SATURDAY_LOWER": "saturday",
+  "SUNDAY_LOWER": "sunday",
+
+  "AM": "AM",
+  "PM": "PM",
+
+  "DAY_OF_WEEK": "Day of week",
+  "DAY_OF_MONTH": "Day of month",
+
+  "SCHEDULED_SNAPSHOTS": "Scheduled snapshots",
+  "KEEP": "Keep",
+  "RECURRING_SNAPSHOTS": "Recurring snapshots",
+  "POLICY_HOURLY_TIME": "{{ value }} minute",
+  "POLICY_DAILY_TIME": "{{ value }}",
+  "POLICY_WEEKLY_TIME": "{{ value }}",
+  "POLICY_MONTHLY_TIME": "{{ value }}",
+  "POLICY_WEEKLY_PERIOD": "Every {{ value }}",
+  "POLICY_MONTHLY_PERIOD": "day {{ value }} of month",
+
+  "RECURRING_SNAPSHOTS_HOURLY": "Hourly",
+  "RECURRING_SNAPSHOTS_DAILY": "Daily",
+  "RECURRING_SNAPSHOTS_WEEKLY": "Weekly",
+  "RECURRING_SNAPSHOTS_MONTHLY": "Monthly",
+
+  "PULSE": {
+    "PULSE": "Pulse",
+    "CPU_RAM": "CPU / RAM",
+    "NETWORK": "Network",
+    "DISK": "Disk",
+    "RANGE": "Range",
+    "AGGREGATION": "Aggregation",
+    "SHIFT": "Shift",
+    "NO_DATA": "No data",
+    "SELECT_DATA": "Select data",
+    "ERROR": "An error occurred, please try again",
+
+    "LABELS": {
+      "CPU": "CPU",
+      "RAM": "RAM",
+      "NETWORK_READ": "Network read",
+      "NETWORK_WRITE": "Network write",
+      "NETWORK_READ_PACKETS": "Network read packets",
+      "NETWORK_WRITE_PACKETS": "Network write packets",
+      "NETWORK_READ_DROPS": "Network read drops",
+      "NETWORK_WRITE_DROPS": "Network write drops",
+      "NETWORK_READ_ERRORS": "Network read errors",
+      "NETWORK_WRITE_ERRORS": "Network write errors",
+      "DISK_READ": "Disk read",
+      "DISK_WRITE": "Disk write",
+      "DISK_READ_IOPS": "Disk read IOPS",
+      "DISK_WRITE_IOPS": "Disk write IOPS",
+      "DISK_IO_ERRORS": "Disk IO errors"
+    }
+  },
+
+  "SELECT_ALL": "Select all",
+  "RESET": "Reset"
 }

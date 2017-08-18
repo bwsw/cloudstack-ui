@@ -124,7 +124,7 @@
             (click)="addRule($event)"
             disabled="{{ securityGroup.isPredefinedTemplate || adding || rulesForm.form.invalid }}"
           >
-            <mdl-icon *ngIf="!adding">add</mdl-icon>
+            <md-icon *ngIf="!adding">add</md-icon>
             <md-spinner *ngIf="adding"></md-spinner>
           </button>
         </td>

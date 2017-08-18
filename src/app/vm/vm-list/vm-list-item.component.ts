@@ -1,9 +1,18 @@
-import { MdlPopoverComponent } from '@angular-mdl/popover';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
+import { MdMenuTrigger } from '@angular/material';
 import { Color } from '../../shared/models';
-import { IVmAction, VirtualMachine } from '../shared/vm.model';
-import { VmService } from '../shared/vm.service';
+import { VmActionsService } from '../shared/vm-actions.service';
+import { VirtualMachine } from '../shared/vm.model';
+import { VirtualMachineAction } from '../vm-actions/vm-action';
 
 
 @Component({
@@ -14,26 +23,24 @@ import { VmService } from '../shared/vm.service';
 export class VmListItemComponent implements OnInit, OnChanges {
   @Input() public item: VirtualMachine;
   @Input() public isSelected: (vm: VirtualMachine) => boolean;
-  @Output() public onVmAction = new EventEmitter();
   @Output() public onClick = new EventEmitter();
-  @ViewChild(MdlPopoverComponent) public popoverComponent: MdlPopoverComponent;
+  @Output() public onPulse = new EventEmitter<string>();
+  @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
 
-  public actions: Array<IVmAction>;
+  public firstRowActions: Array<VirtualMachineAction>;
+  public secondRowActions: Array<VirtualMachineAction>;
+
   public color: Color;
-
   public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
 
-  constructor(
-    private vmService: VmService
-  ) { }
+  constructor(public vmActionsService: VmActionsService) {
+    const { actions } = this.vmActionsService;
+    this.firstRowActions = actions.slice(0, 7);
+    this.secondRowActions = actions.slice(7, actions.length);
+  }
 
   public ngOnInit(): void {
     this.updateColor();
-
-    this.actions = VirtualMachine.actions;
-    this.vmService.vmUpdateObservable.subscribe(() => {
-      this.updateColor();
-    });
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -44,45 +51,15 @@ export class VmListItemComponent implements OnInit, OnChanges {
     }
   }
 
+  public onAction(action: VirtualMachineAction, vm: VirtualMachine): void {
+    action.activate(vm).subscribe();
+  }
+
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
-    if (!this.popoverComponent.isVisible) {
+    if (!this.mdMenuTrigger.menuOpen) {
       this.onClick.emit(this.item);
-    } else {
-      this.popoverComponent.hide();
     }
-  }
-
-  public togglePopover(event): void {
-    event.stopPropagation();
-    this.popoverComponent.toggle(event);
-  }
-
-  public openConsole(): void {
-    window.open(
-      `client/console?cmd=access&vm=${this.item.id}`,
-      this.item.displayName,
-      'resizable=0,width=820,height=640'
-    );
-  }
-
-  public getAction(event: MouseEvent, act: string): void {
-    event.stopPropagation();
-    if (act === 'console') {
-      this.openConsole();
-      return;
-    }
-
-    const e = {
-      action: this.actions.find(a => a.nameLower === act),
-      vm: this.item
-    };
-
-    if (act === 'restore') {
-      e['templateId'] = this.item.templateId;
-    }
-
-    this.onVmAction.emit(e);
   }
 
   public getMemoryInMb(): string {

@@ -1,12 +1,11 @@
 <div class="height-container">
   <div class="flex-container container">
     <div class="flex-container left">
-    <span
-      class="key"
-      [mdl-tooltip]="keyTooltip"
-      mdl-tooltip-position="bottom"
-      [innerHTML]="tag.key | highlight:query"
-    ></span>
+      <span
+        class="key"
+        [mdTooltip]="tag.key"
+        [innerHTML]="tag.key | highlight:query"
+      ></span>
       <div class="buttons">
         <button
           class="button-18px"
@@ -15,7 +14,7 @@
           (click)="edit()"
           [disabled]="loading"
         >
-          <mdl-icon>edit</mdl-icon>
+          <md-icon>edit</md-icon>
         </button>
         <button
           class="button-18px"
@@ -24,15 +23,14 @@
           (click)="showRemoveDialog()"
           [disabled]="loading"
         >
-          <mdl-icon>delete</mdl-icon>
+          <md-icon>delete</md-icon>
         </button>
       </div>
     </div>
     <div
       ngxClipboard
       class="value"
-      mdl-tooltip-position="bottom"
-      [mdl-tooltip]="valueTooltip"
+      [mdTooltip]="tag.value"
       [innerHTML]="tag.value | highlight:query"
       [cbContent]="tag.value"
       (cbOnSuccess)="onCopySuccess()"
@@ -40,9 +38,3 @@
     ></div>
   </div>
 </div>
-<mdl-tooltip style="z-index: 10000000000000" #keyTooltip="mdlTooltip">
-  {{ tag.key }}
-</mdl-tooltip>
-<mdl-tooltip style="z-index: 10000000000000" #valueTooltip="mdlTooltip">
-  {{ tag.value }}
-</mdl-tooltip>

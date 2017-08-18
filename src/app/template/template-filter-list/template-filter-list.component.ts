@@ -1,4 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component, EventEmitter, Input, OnChanges, Output,
+  SimpleChanges
+} from '@angular/core';
 
 import { OsFamily } from '../../shared/models/os-type.model';
 import { Zone } from '../../shared/models/zone.model';
@@ -15,19 +18,14 @@ import { Template } from '../shared/template.model';
   templateUrl: 'template-filter-list.component.html',
   styleUrls: ['template-filter-list.component.scss']
 })
-export class TemplateFilterListComponent implements OnInit {
+export class TemplateFilterListComponent implements OnChanges {
   @Input() public templates: Array<Template>;
   @Input() public isos: Array<Iso>;
 
-  @Input() public dialogMode = false;
-  @Input() public selectedTemplate: BaseTemplateModel;
   @Input() public showDelimiter = true;
-  @Input() public showIsoSwitch = true;
-  @Input() public showRadio = false;
   @Input() public viewMode: string;
   @Input() public zoneId: string;
   @Output() public deleteTemplate = new EventEmitter();
-  @Output() public selectedTemplateChange = new EventEmitter();
   @Output() public viewModeChange = new EventEmitter();
 
   public fetching = false;
@@ -49,8 +47,10 @@ export class TemplateFilterListComponent implements OnInit {
 
   protected authService = ServiceLocator.injector.get(AuthService);
 
-  public ngOnInit(): void {
-    this.updateList();
+  public ngOnChanges(changes: SimpleChanges) {
+    if (changes['isos'] || changes['templates']) {
+      this.updateList();
+    }
   }
 
   public get templateList(): Array<BaseTemplateModel> {
@@ -66,11 +66,6 @@ export class TemplateFilterListComponent implements OnInit {
     this.viewMode = mode;
     this.updateList();
     this.viewModeChange.emit(this.viewMode);
-  }
-
-  public selectTemplate(template: BaseTemplateModel): void {
-    this.selectedTemplate = template;
-    this.selectedTemplateChange.emit(this.selectedTemplate);
   }
 
   public filterResults(filters?: any): void {

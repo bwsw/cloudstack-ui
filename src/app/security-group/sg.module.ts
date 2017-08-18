@@ -1,20 +1,19 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MdSelectModule, MdTooltipModule } from '@angular/material';
-import { TranslateModule } from '@ngx-translate/core';
 import { MdlModule } from '@angular-mdl/core';
-import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MdSelectModule, MdTooltipModule,  MdMenuModule, MdButtonModule, MdIconModule } from '@angular/material';
+import { TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from '../shared/shared.module';
 
 import { SgCreationComponent } from './sg-creation/sg-creation.component';
-import { SgTemplateListComponent } from './sg-template-list/sg-template-list.component';
-import { SgTemplateListItemComponent } from './sg-template-list/sg-template-list-item.component';
-import { SgTemplateCreationComponent } from './sg-template-creation/sg-template-creation.component';
-import { SgRulesComponent } from './sg-rules/sg-rules.component';
-import { SgRuleComponent } from './sg-rules/sg-rule.component';
-import { SharedModule } from '../shared/shared.module';
 import { SgCreationRuleComponent } from './sg-creation/sg-creation-rule.component';
+import { SgRuleComponent } from './sg-rules/sg-rule.component';
+import { SgRulesComponent } from './sg-rules/sg-rules.component';
+import { SgTemplateCreationComponent } from './sg-template-creation/sg-template-creation.component';
+import { SgTemplateListItemComponent } from './sg-template-list/sg-template-list-item.component';
+import { SgTemplateListComponent } from './sg-template-list/sg-template-list.component';
 
 
 @NgModule({
@@ -25,9 +24,11 @@ import { SgCreationRuleComponent } from './sg-creation/sg-creation-rule.componen
     MdSelectModule,
     MdTooltipModule,
     MdlModule,
-    MdlPopoverModule,
     MdlSelectModule,
-    SharedModule
+    SharedModule,
+    MdMenuModule,
+    MdButtonModule,
+    MdIconModule,
   ],
   exports: [
     SgCreationComponent,

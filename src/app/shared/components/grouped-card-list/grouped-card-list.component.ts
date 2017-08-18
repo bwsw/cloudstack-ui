@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, Type } from '@angular/core';
-import groupBy = require('lodash/groupBy');
+import * as groupBy from 'lodash/groupBy';
 
 @Component({
   selector: 'cs-grouped-card-list',
   templateUrl: './grouped-card-list.component.html',
-  styleUrls: ['./grouped-card-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./grouped-card-list.component.scss']
 })
 export class GroupedCardListComponent implements OnChanges {
   @Input() public component: Type<any>;

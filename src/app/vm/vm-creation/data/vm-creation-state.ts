@@ -3,7 +3,7 @@ import { NetworkRule } from '../../../security-group/sg.model';
 import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../../shared/models';
 import { BaseTemplateModel } from '../../../template/shared';
 import { KeyboardLayout, KeyboardLayouts } from '../keyboards/keyboards.component';
-import { NotSelected } from '../vm-creation.service';
+import { NotSelected } from '../services/vm-creation.service';
 import { VmCreationData } from './vm-creation-data';
 
 
@@ -88,10 +88,14 @@ export class VmCreationState {
     if (data.defaultTemplate) { this.template = data.defaultTemplate; }
     if (data.diskOfferings.length) { this.diskOffering = data.diskOfferings[0]; }
     if (data.instanceGroups.length) { this.instanceGroup = data.instanceGroups[0]; }
-    if (data.serviceOfferings.length) { this.serviceOffering = data.serviceOfferings[0]; }
     if (data.sshKeyPairs.length) { this.sshKeyPair = data.sshKeyPairs[0]; }
-    if (data.serviceOfferings.length) { this.serviceOffering = data.serviceOfferings[0]; }
-    if (data.zones.length) { this.zone = data.zones[0]; }
+
+    if (data.zones.length) {
+      this.zone = data.zones[0];
+      if (data.serviceOfferings.length) {
+        this.serviceOffering = data.getDefaultServiceOffering(this.zone);
+      }
+    }
   }
 
   public getVmCreationParams(): VmCreationParams {

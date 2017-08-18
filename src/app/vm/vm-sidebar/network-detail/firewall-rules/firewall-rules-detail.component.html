@@ -1,12 +1,13 @@
-<mdl-card
+<md-card
   class="vm-card"
-  mdl-shadow="2"
 >
-  <mdl-card-title>
-    <h2 mdl-card-title-text>{{ 'FIREWALL_RULES' | translate }}</h2>
-  </mdl-card-title>
-  <mdl-card-supporting-text>
-    <div class="grid security-group">
+  <md-card-header>
+    <md-card-title>
+      <h2 class="md-card-title-text">{{ 'FIREWALL_RULES' | translate }}</h2>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content class="md-card-content-with-actions">
+    <div class="grid security-group md-card-content-container">
       <div class="row">
         <div>{{ 'INGRESS' | translate }}</div>
         <div>{{ vm.securityGroup[0]?.ingressRules.length }}</div>
@@ -16,16 +17,16 @@
         <div>{{ vm.securityGroup[0]?.egressRules.length }}</div>
       </div>
     </div>
-  </mdl-card-supporting-text>
-  <mdl-card-actions mdl-card-border>
-    <button
-      [mdTooltip]="'EDIT' | translate"
-      mdTooltipPosition="above"
-      mdl-button
-      mdl-button-type="icon"
-      (click)="showRulesDialog(vm.securityGroup[0])"
-    >
-      <mdl-icon>edit</mdl-icon>
-    </button>
-  </mdl-card-actions>
-</mdl-card>
+    <md-card-actions>
+      <button
+        [mdTooltip]="'EDIT' | translate"
+        mdTooltipPosition="above"
+        mdl-button
+        mdl-button-type="icon"
+        (click)="showRulesDialog(vm.securityGroup[0])"
+      >
+        <md-icon>edit</md-icon>
+      </button>
+    </md-card-actions>
+  </md-card-content>
+</md-card>

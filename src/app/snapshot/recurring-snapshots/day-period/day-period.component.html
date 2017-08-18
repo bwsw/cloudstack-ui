@@ -1,0 +1,12 @@
+<mdl-select
+  *ngIf="periods$ | async as periods"
+  name="period"
+  [(ngModel)]="period"
+>
+  <mdl-option
+    *ngFor="let p of periods"
+    [value]="p.value"
+  >
+    {{ p.name }}
+  </mdl-option>
+</mdl-select>

@@ -1,137 +1,143 @@
 <div *ngIf="template">
-  <mdl-tabs mdl-ripple mdl-tab-active-index="0">
-    <mdl-tab-panel>
-      <mdl-tab-panel-title>
-        <span>{{ 'TEMPLATE' | translate }}</span>
-      </mdl-tab-panel-title>
-      <mdl-tab-panel-content>
-        <cs-template
-          [item]="template"
-          [singleLine]="false"
-          (deleteTemplate)="remove()"
-        ></cs-template>
-        <mdl-card mdl-shadow="2">
-          <mdl-card-title>
-            <h2 mdl-card-title-text>{{ "DETAILS" | translate }}</h2>
-          </mdl-card-title>
-          <mdl-card-supporting-text>
-            <div class="grid grid-right">
-              <div class="row" *ngIf="template.size">
-                <div>{{ 'SIZE' | translate }}</div>
-                <div>{{ template.size | division:2:30:2 }} {{ 'GB' | translate }}</div>
-              </div>
-              <div class="row">
-                <div>{{ 'EXTRACTABLE' | translate }}</div>
-                <div>{{ template.isExtractable | viewValue | async }}</div>
-              </div>
-              <div class="row">
-                <div>{{ 'PUBLIC' | translate }}</div>
-                <div>{{ template.isPublic | viewValue | async }}</div>
-              </div>
-              <div class="row">
-                <div>{{ 'RECOMMENDED' | translate }}</div>
-                <div>{{ template.isFeatured | viewValue | async }}</div>
-              </div>
-              <div class="row" *ngIf="template.isPasswordEnabled !== undefined">
-                <div>{{ 'TEMPLATE_PASSWORD_ENABLED' | translate }}</div>
-                <div>{{ template.isPasswordEnabled | viewValue | async }}</div>
-              </div>
-              <div class="row" *ngIf="template.isDynamicallyScalable !== undefined">
-                <div>{{ 'TEMPLATE_DYNAMICALLY_SCALABLE' | translate }}</div>
-                <div>{{ template.isDynamicallyScalable | viewValue | async }}</div>
-              </div>
-              <div class="row">
-                <div>{{ 'CROSS_ZONES' | translate }}</div>
-                <div>{{ template.crossZones | viewValue | async }}</div>
-              </div>
-              <div class="row">
-                <div>{{ 'DOMAIN' | translate }}</div>
-                <div>{{ template.domain }}</div>
-              </div>
-              <div class="row">
-                <div>{{ 'CREATED_MASC' | translate }}</div>
-                <div>{{ template.created | date:'y-MM-dd H:m:s' }}</div>
-              </div>
-              <div *ngIf="template.type" class="row">
-                <div>{{ 'TYPE' | translate }}</div>
-                <div>{{ (template.type + '_TEMPLATE_TYPE') | translate }}</div>
-              </div>
-              <div *ngIf="template.hypervisor" class="row">
-                <div>{{ 'HYPERVISOR' | translate }}</div>
-                <div>{{ template.hypervisor }}</div>
-              </div>
+  <md-tab-group md-selected="0">
+    <md-tab>
+      <ng-template md-tab-label>
+        <div [mdTooltip]="'TEMPLATE' | translate" class="md-tab-tooltip">
+            <div class="disc-icon-container">
+                <div class="disc-icon"></div>
             </div>
-          </mdl-card-supporting-text>
-        </mdl-card>
-        <mdl-card *ngIf="templateDownloadUrl" mdl-shadow="2">
-          <mdl-card-title>
-            <h2 mdl-card-title-text>{{ 'DOWNLOAD_URL' | translate }}</h2>
-          </mdl-card-title>
-          <mdl-card-supporting-text>
-            <cs-input-group>
-              <mdl-textfield
-                class="md-card-input-copy"
-                cs-input-group-textbox
-                readonly
-                [ngModel]="templateDownloadUrl"
-              >
-              </mdl-textfield>
-              <button
-                mdl-button
-                mdl-button-type="icon"
-                cs-input-group-button
-                ngxClipboard
-                [cbContent]="templateDownloadUrl"
-                (cbOnSuccess)="onCopySuccess()"
-                (cbOnError)="onCopyFail()"
-              >
-                <mdl-icon
-                  mdTooltipPosition="below"
-                  [mdTooltip]="'COPY' | translate"
-                >
-                  content_copy
-                </mdl-icon>
-              </button>
-            </cs-input-group>
-          </mdl-card-supporting-text>
-        </mdl-card>
-      </mdl-tab-panel-content>
-    </mdl-tab-panel>
-
-    <mdl-tab-panel>
-      <mdl-tab-panel-title>
-        <span>{{ 'ZONES' | translate }}</span>
-      </mdl-tab-panel-title>
-      <mdl-tab-panel-content *loading="updating">
-        <div *ngIf="!readyInEveryZone" class="update-button-container">
-          <mdl-button (click)="updateStatus()">{{ 'UPDATE' | translate }}</mdl-button>
         </div>
-        <mdl-card *ngFor="let zone of template.zones" class="vm-card" mdl-shadow="2">
-          <mdl-card-title>
-            <h2 mdl-card-title-text>{{ zone.zoneName }}</h2>
-          </mdl-card-title>
-          <mdl-card-supporting-text class="grid">
+      </ng-template>
+
+      <cs-template
+        [item]="template"
+        [singleLine]="false"
+        (deleteTemplate)="remove()"
+      ></cs-template>
+      <md-card>
+        <md-card-header>
+          <md-card-title>
+            <h2 class="md-card-title-text">{{ "DETAILS" | translate }}</h2>
+          </md-card-title>
+        </md-card-header>
+        <md-card-content>
+          <div class="grid grid-right">
+            <div class="row" *ngIf="template.size">
+              <div>{{ 'SIZE' | translate }}</div>
+              <div>{{ template.size | division:2:30:2 }} {{ 'GB' | translate }}</div>
+            </div>
             <div class="row">
-              <div>{{ 'READY' | translate }}</div>
-              <div>{{ zone.isReady | viewValue | async }}</div>
+              <div>{{ 'EXTRACTABLE' | translate }}</div>
+              <div>{{ template.isExtractable | viewValue | async }}</div>
             </div>
-            <div *ngIf="!zone.isReady && zone.status" class="row">
-              <div>{{ 'STATUS' | translate }}</div>
-              <div>{{ zone.status }}</div>
+            <div class="row">
+              <div>{{ 'PUBLIC' | translate }}</div>
+              <div>{{ template.isPublic | viewValue | async }}</div>
             </div>
-          </mdl-card-supporting-text>
-        </mdl-card>
-      </mdl-tab-panel-content>
-    </mdl-tab-panel>
+            <div class="row">
+              <div>{{ 'RECOMMENDED' | translate }}</div>
+              <div>{{ template.isFeatured | viewValue | async }}</div>
+            </div>
+            <div class="row" *ngIf="template.isPasswordEnabled !== undefined">
+              <div>{{ 'TEMPLATE_PASSWORD_ENABLED' | translate }}</div>
+              <div>{{ template.isPasswordEnabled | viewValue | async }}</div>
+            </div>
+            <div class="row" *ngIf="template.isDynamicallyScalable !== undefined">
+              <div>{{ 'TEMPLATE_DYNAMICALLY_SCALABLE' | translate }}</div>
+              <div>{{ template.isDynamicallyScalable | viewValue | async }}</div>
+            </div>
+            <div class="row">
+              <div>{{ 'CROSS_ZONES' | translate }}</div>
+              <div>{{ template.crossZones | viewValue | async }}</div>
+            </div>
+            <div class="row">
+              <div>{{ 'DOMAIN' | translate }}</div>
+              <div>{{ template.domain }}</div>
+            </div>
+            <div class="row">
+              <div>{{ 'CREATED_MASC' | translate }}</div>
+              <div>{{ template.created | stringifyDate }}</div>
+            </div>
+            <div *ngIf="template.type" class="row">
+              <div>{{ 'TYPE' | translate }}</div>
+              <div>{{ (template.type + '_TEMPLATE_TYPE') | translate }}</div>
+            </div>
+            <div *ngIf="template.hypervisor" class="row">
+              <div>{{ 'HYPERVISOR' | translate }}</div>
+              <div>{{ template.hypervisor }}</div>
+            </div>
+          </div>
+        </md-card-content>
+      </md-card>
+      <md-card *ngIf="templateDownloadUrl" mdl-shadow="2">
+        <md-card-header>
+          <md-card-title><h2>{{ 'DOWNLOAD_URL' | translate }}</h2></md-card-title>
+        </md-card-header>
+        <md-card-content>
+          <cs-input-group>
+            <mdl-textfield
+              class="md-card-input-copy"
+              cs-input-group-textbox
+              readonly
+              [ngModel]="templateDownloadUrl"
+            >
+            </mdl-textfield>
+            <button
+              mdl-button
+              mdl-button-type="icon"
+              cs-input-group-button
+              ngxClipboard
+              [cbContent]="templateDownloadUrl"
+              (cbOnSuccess)="onCopySuccess()"
+              (cbOnError)="onCopyFail()"
+            >
+              <md-icon
+                mdTooltipPosition="below"
+                [mdTooltip]="'COPY' | translate"
+              >
+                content_copy
+              </md-icon>
+            </button>
+          </cs-input-group>
+        </md-card-content>
+      </md-card>
+    </md-tab>
 
-    <mdl-tab-panel>
-      <mdl-tab-panel-title>
-        {{ 'TAGS' | translate }}
-      </mdl-tab-panel-title>
+    <md-tab>
+      <ng-template md-tab-label>
+        <div [mdTooltip]="'ZONES' | translate" class="md-tab-tooltip">
+          <md-icon>public</md-icon>
+        </div>
+      </ng-template>
+      <div *ngIf="!readyInEveryZone" class="update-button-container">
+        <mdl-button (click)="updateStatus()">{{ 'UPDATE' | translate }}</mdl-button>
+      </div>
+      <md-card *ngFor="let zone of template.zones" class="vm-card" mdl-shadow="2">
+        <md-card-header>
+          <md-card-title>
+            <h2 class="md-card-title-text">{{ zone.zoneName }}</h2>
+          </md-card-title>
+        </md-card-header>
+        <md-card-content class="grid">
+          <div class="row">
+            <div>{{ 'READY' | translate }}</div>
+            <div>{{ zone.isReady | viewValue | async }}</div>
+          </div>
+          <div *ngIf="!zone.isReady && zone.status" class="row">
+            <div>{{ 'STATUS' | translate }}</div>
+            <div>{{ zone.status }}</div>
+          </div>
+        </md-card-content>
+      </md-card>
+    </md-tab>
 
-      <mdl-tab-panel-content>
-        <cs-template-tags [entity]="template"></cs-template-tags>
-      </mdl-tab-panel-content>
-    </mdl-tab-panel>
-  </mdl-tabs>
+    <md-tab>
+      <ng-template md-tab-label>
+        <div [mdTooltip]="'TEMPLATE_TAGS_VIEW' | translate" class="md-tab-tooltip">
+          <md-icon>local_offer</md-icon>
+        </div>
+      </ng-template>
+      <cs-template-tags [entity]="template"></cs-template-tags>
+    </md-tab>
+  </md-tab-group>
 </div>

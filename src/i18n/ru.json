@@ -269,8 +269,6 @@
   "PASSWORD_DIALOG_MESSAGE": "Пароль для машины {{ vmName }} был сброшен в  <b>{{ vmPassword }}</b>",
 
   "CHOOSE_SERVICE_OFFERING": "Выберите предложение",
-  "OFFERING_CHANGED": "Предложение изменилось",
-  "OFFERING_CHANGE_FAILED": "Предложение не изменилось",
   "CHANGE_SERVICE_OFFERING": "Изменить предложение",
   "SO_CHANGE_DISABLED": "Необходимо остановить машину",
 
@@ -315,6 +313,7 @@
   "VM_STORAGE_VIEW": "Диски",
   "VM_NETWORK_VIEW": "Сеть",
   "VM_TAGS_VIEW": "Теги",
+  "TEMPLATE_TAGS_VIEW": "Теги",
 
   "VOLUME_RESIZE": "Изменить размер",
   "VOLUME_RESIZING": "Изменение размера диска",
@@ -467,11 +466,9 @@
   "COLOR": "Цвет",
   "FIRST_DAY_OF_WEEK": "Первый день недели",
   "TIME_FORMAT": "Формат времени",
-  "12h": "12-часовой формат",
-  "24h": "24-часовой формат",
+  "hour12": "12-часовой формат",
+  "hour24": "24-часовой формат",
   "AUTO": "Автоматически",
-  "MONDAY": "Понедельник",
-  "SUNDAY": "Воскресенье",
   "GROUP_BY_COLORS": "Группировать по цветам",
   "PALETTE": "Цвета темы интерфейса",
   "SELECT_GROUPS": "Выберите группы",
@@ -594,5 +591,96 @@
   "TAG_ALREADY_EXISTS": "Тег уже существует",
   "NO_TAGS": "Нет тегов",
   "EDIT_TAG": "Редактировать тег",
-  "TAG_DELETE_CONFIRMATION": "Вы действительно хотите удалить этот тег?"
+  "TAG_DELETE_CONFIRMATION": "Вы действительно хотите удалить этот тег?",
+
+  "WEB_SHELL": "WebShell",
+
+  "VM_START_FAILED": "Не удалось запустить ВМ",
+  "VM_STOP_FAILED": "Не удалось остановить ВМ",
+  "VM_REBOOT_FAILED": "Не удалось перезагрузить ВМ",
+  "VM_RESTORE_FAILED": "Не удалось переустановить ВМ",
+  "VM_RESET_PASSWORD_FAILED": "Не удалось сбросить пароль",
+  "VM_DESTROY_FAILED": "Не удалось уничтожить ВМ",
+
+  "VM_CHANGE_SERVICE_OFFERING_IN_PROGRESS": "Изменение предложения",
+  "VM_CHANGE_SERVICE_OFFERING_DONE": "Предложение изменено",
+  "VM_CHANGE_SERVICE_OFFERING_FAILED": "Не удалось изменить предложение",
+
+  "STORE_SNAPSHOTS": "Количество хранимых снимков",
+  "MINUTE": "Минута",
+  "AM_PM_FORMAT": "AM/PM",
+  "24_HOURS_FORMAT": "24-часовой формат",
+
+  "TIME_ZONE": "Часовой пояс",
+
+  "MONDAY": "Понедельник",
+  "TUESDAY": "Вторник",
+  "WEDNESDAY": "Среда",
+  "THURSDAY": "Четверг",
+  "FRIDAY": "Пятница",
+  "SATURDAY": "Суббота",
+  "SUNDAY": "Воскресенье",
+
+  "MONDAY_LOWER": "понедельник",
+  "TUESDAY_LOWER": "вторник",
+  "WEDNESDAY_LOWER": "среда",
+  "THURSDAY_LOWER": "четверг",
+  "FRIDAY_LOWER": "пятница",
+  "SATURDAY_LOWER": "суббота",
+  "SUNDAY_LOWER": "воскресенье",
+
+  "AM": "AM",
+  "PM": "PM",
+
+  "DAY_OF_WEEK": "День недели",
+  "DAY_OF_MONTH": "День месяца",
+
+  "SCHEDULED_SNAPSHOTS": "Расписание снимков",
+  "KEEP": "Сохранять",
+  "RECURRING_SNAPSHOTS": "Повторяемые снимки",
+  "POLICY_HOURLY_TIME": "{{ value }}-я минута",
+  "POLICY_DAILY_TIME": "{{ value }}",
+  "POLICY_WEEKLY_TIME": "{{ value }}",
+  "POLICY_MONTHLY_TIME": "{{ value }}",
+  "POLICY_WEEKLY_PERIOD": "{{ value }}",
+  "POLICY_MONTHLY_PERIOD": "каждый {{ value }} день месяца",
+
+  "RECURRING_SNAPSHOTS_HOURLY": "Ежечасно",
+  "RECURRING_SNAPSHOTS_DAILY": "Ежедневно",
+  "RECURRING_SNAPSHOTS_WEEKLY": "Еженедельно",
+  "RECURRING_SNAPSHOTS_MONTHLY": "Ежемесячно",
+
+  "PULSE": {
+    "PULSE": "Pulse",
+    "CPU_RAM": "ЦП / ОЗУ",
+    "NETWORK": "Сеть",
+    "DISK": "Диск",
+    "RANGE": "Диапозон",
+    "AGGREGATION": "Агрегация",
+    "SHIFT": "Сдвиг",
+    "NO_DATA": "Нет данных",
+    "SELECT_DATA": "Выберите данные",
+    "ERROR": "Произошла ошибка, попробуйте еще раз",
+
+    "LABELS": {
+      "CPU": "ЦП",
+      "RAM": "ОЗУ",
+      "NETWORK_READ": "Прочитано по сети",
+      "NETWORK_WRITE": "Отправлено по сети",
+      "NETWORK_READ_PACKETS": "Прочитано по сети (пакетов)",
+      "NETWORK_WRITE_PACKETS": "Отправлено по сети (пакетов)",
+      "NETWORK_READ_DROPS": "Потери при чтении",
+      "NETWORK_WRITE_DROPS": "Потери при записи",
+      "NETWORK_READ_ERRORS": "Ошибки при чтении",
+      "NETWORK_WRITE_ERRORS": "Ошибки при записи",
+      "DISK_READ": "Чтение с диска",
+      "DISK_WRITE": "Запись на диск",
+      "DISK_READ_IOPS": "Чтение с диска (IOPS)",
+      "DISK_WRITE_IOPS": "Запись на диск (IOPS)",
+      "DISK_IO_ERRORS": "Ошибки IO"
+    }
+  },
+
+  "SELECT_ALL": "Выбрать все",
+  "RESET": "Сбросить"
 }

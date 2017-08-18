@@ -18,7 +18,7 @@
     disabled="{{ !canRemove || deleting }}"
     [hidden]="!canRemove"
   >
-    <mdl-icon *ngIf="!deleting">delete</mdl-icon>
+    <md-icon *ngIf="!deleting">delete</md-icon>
     <md-spinner *ngIf="deleting"></md-spinner>
   </button>
 </td>
