@@ -578,7 +578,7 @@
   "CHOOSE_EXISTING_GROUP": "Выбрать существующую",
   "CHOOSE_GROUP": "Выберите группу",
   "ENTER_GROUP_NAME": "Введите имя",
-  "REMOVE_FROM_GROUP": "Удалить из группы",
+  "REMOVE_FROM_GROUP": "Удалить из группы \"{{ value }}\"",
   "REMOVE": "Удалить",
   "CLICK_TO_ASSIGN": "Нажмите, чтобы присвоить",
   "REFRESH": "Обновить",

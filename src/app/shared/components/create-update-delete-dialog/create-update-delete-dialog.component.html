@@ -11,40 +11,32 @@
   novalidate
 >
   <div class="mdl-dialog__content">
-    <mdl-radio
-      *ngIf="enableAssign"
-      name="assignExistingRadio"
-      [value]="modes.assign"
+    <md-radio-group
+      name="radio"
       [ngModel]="mode"
       (ngModelChange)="setMode($event)"
-      mdl-ripple
     >
-      {{ assignLabel | translate }}
-    </mdl-radio>
+      <md-radio-button
+        *ngIf="enableAssign"
+        [value]="modes.assign"
+      >
+        {{ assignLabel | translate }}
+      </md-radio-button>
 
-    <mdl-radio
-      *ngIf="enableCreate"
-      name="createNewRadio"
-      [value]="modes.create"
-      [ngModel]="mode"
-      (ngModelChange)="setMode($event)"
-      mdl-ripple
-    >
-      {{ createLabel | translate }}
-    </mdl-radio>
+      <md-radio-button
+        *ngIf="enableCreate"
+        [value]="modes.create"
+      >
+        {{ createLabel | translate }}
+      </md-radio-button>
 
-    <mdl-radio
-      *ngIf="defaultValue && enableRemove"
-      name="removeRadio"
-      mdl-ripple
-      [value]="modes.remove"
-      [ngModel]="mode"
-      (ngModelChange)="setMode($event)"
-    >
-      <div>
-        {{ removeLabel | translate:{ value: defaultValue } }}
-      </div>
-    </mdl-radio>
+      <md-radio-button
+        *ngIf="defaultValue && enableRemove"
+        [value]="modes.remove"
+      >
+        <div>{{ removeLabel | translate:{ value: defaultValue } }}</div>
+      </md-radio-button>
+    </md-radio-group>
 
     <mdl-textfield
       *ngIf="mode === modes.create"
