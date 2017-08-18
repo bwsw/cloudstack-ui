@@ -1,5 +1,5 @@
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '../shared/services';
+import { AuthGuard } from '../shared/services/auth-guard.service';
 import { VmListComponent } from './vm-list/vm-list.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 

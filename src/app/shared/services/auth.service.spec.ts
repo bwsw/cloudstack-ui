@@ -5,12 +5,16 @@ import { MockBackend } from '@angular/http/testing';
 import { NavigationExtras, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
-import { AsyncJobService, AuthService, CacheService, ConfigService, ErrorService } from './';
 import { RouterUtilsService } from './router-utils.service';
 import { ServiceLocator } from './service-locator';
 import { UserService } from './user.service';
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
 import { LocalStorageService } from './local-storage.service';
+import { CacheService } from './cache.service';
+import { AsyncJobService } from './async-job.service';
+import { AuthService } from './auth.service';
+import { ConfigService } from './config.service';
+import { ErrorService } from './error.service';
 
 
 @Component({
