@@ -35,9 +35,11 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
 
 @NgModule({
   imports: [
-    SnapshotModule,
+    // Be sure to import the Angular Material modules after Angular's
+    // BrowserModule, as the import order matters for NgModules.
     BrowserModule,
     BrowserAnimationsModule,
+    SnapshotModule,
     HttpModule,
     FormsModule,
     TranslateModule.forRoot(),

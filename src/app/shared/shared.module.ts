@@ -7,9 +7,11 @@ import { FormsModule } from '@angular/forms';
 import {
   MdCardModule,
   MdIconModule,
-  MdListModule, MdProgressBarModule,
+  MdListModule,
+  MdProgressBarModule,
   MdProgressSpinnerModule,
   MdSelectModule,
+  MdSliderModule,
   MdSnackBarModule,
   MdTabsModule
 } from '@angular/material';
@@ -121,10 +123,15 @@ import { VolumeService } from './services/volume.service';
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
+    MdSliderModule,
     TranslateModule,
     MdListModule,
     MdProgressSpinnerModule,
     MdProgressBarModule,
+    MdListModule,
+    MdSnackBarModule,
+    MdCardModule,
+    MdTabsModule,
     MdListModule,
     MdSnackBarModule,
     MdCardModule,
