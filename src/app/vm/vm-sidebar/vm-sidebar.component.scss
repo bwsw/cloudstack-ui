@@ -5,3 +5,7 @@ md-icon {
 h4.details-header {
   font-size: 18px;
 }
+
+:host /deep/ .mat-tab-label {
+  min-width: 83px !important;
+}
