@@ -12,17 +12,14 @@ import {
     MdDialogModule,
     MdTabsModule
 } from '@angular/material';
-import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
-
-import { routes } from '../app.routing';
-import { PulseModule } from '../pulse/pulse.module';
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 import { SharedModule } from '../shared/shared.module';
 // tslint:disable-next-line
 import { SnapshotModule } from '../snapshot/snapshot.module';
+import { SpareDriveActionsService } from '../spare-drive/spare-drive-actions.service';
 import { TagsModule } from '../tags/tags.module';
 import { TemplateModule } from '../template';
 import { VmActionsService } from './shared/vm-actions.service';
@@ -90,9 +87,7 @@ import { WebShellService } from './web-shell/web-shell.service';
     TemplateModule,
     TranslateModule,
     TranslateModule,
-    PulseModule,
     vmRouting,
-    RouterModule.forRoot(routes),
     MdMenuModule,
     MdButtonModule,
     MdIconModule,
@@ -137,6 +132,7 @@ import { WebShellService } from './web-shell/web-shell.service';
     VmService,
     WebShellService,
     SnapshotActionsService,
+    SpareDriveActionsService,
     ...VmActionProviders
   ],
   entryComponents: [

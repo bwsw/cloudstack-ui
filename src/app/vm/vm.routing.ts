@@ -8,12 +8,18 @@ const routes: Routes = [
     path: 'instances',
     component: VmListComponent,
     canActivate: [AuthGuard],
-    children: [{
-      path: ':id',
-      component: VmSidebarComponent,
-      canActivate: [AuthGuard]
-    }]
-  }
+    children: [
+      {
+        path: ':id',
+        component: VmSidebarComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'pulse',
+        loadChildren: '../pulse/pulse.module#PulseModule'
+      }
+    ]
+  },
 ];
 
 export const vmRouting = RouterModule.forChild(routes);

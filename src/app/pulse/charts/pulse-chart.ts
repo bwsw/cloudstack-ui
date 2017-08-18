@@ -6,7 +6,7 @@ import {
   Output
 } from '@angular/core';
 import { PulseService } from '../pulse.service';
-import Chart = require('chart.js');
+import * as Chart from 'chart.js';
 
 (Chart.defaults.global.elements.line as any).cubicInterpolationMode = 'monotone';
 

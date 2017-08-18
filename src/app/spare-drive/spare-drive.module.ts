@@ -2,7 +2,13 @@ import { MdlModule } from '@angular-mdl/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdSelectModule, MdTooltipModule, MdMenuModule, MdButtonModule, MdIconModule } from '@angular/material';
+import {
+  MdButtonModule,
+  MdIconModule,
+  MdMenuModule,
+  MdSelectModule,
+  MdTooltipModule
+} from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 

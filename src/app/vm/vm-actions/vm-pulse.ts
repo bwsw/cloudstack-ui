@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { VmPulseComponent } from '../../pulse/vm-pulse/vm-pulse.component';
 import { ConfigService } from '../../shared/services/config.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { VirtualMachineAction, VmActions } from './vm-action';
-
 
 @Injectable()
 export class VmPulseAction extends VirtualMachineAction {
@@ -20,8 +18,9 @@ export class VmPulseAction extends VirtualMachineAction {
     dialogService: DialogService,
     jobsNotificationService: JobsNotificationService,
     vmService: VmService,
-    private dialog: MdDialog,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private router: Router,
+    private activeRoute: ActivatedRoute
   ) {
     super(dialogService, jobsNotificationService, vmService);
   }
@@ -31,7 +30,12 @@ export class VmPulseAction extends VirtualMachineAction {
   }
 
   public activate(vm: VirtualMachine): Observable<void> {
-    this.dialog.open(VmPulseComponent, { data: vm.id });
+    this.router.navigate(['instances/pulse', { outlets: {
+      'pulse': [vm.id]
+    }}], {
+      relativeTo: this.activeRoute,
+      queryParamsHandling: 'preserve'
+    });
 
     return Observable.of(null);
   }

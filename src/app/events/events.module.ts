@@ -1,13 +1,14 @@
-import { NgModule } from '@angular/core';
+import { MdlModule } from '@angular-mdl/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MdSelectModule } from '@angular/material';
-import { MdlModule } from '@angular-mdl/core';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { EventListComponent } from './event-list.component';
 import { SharedModule } from '../shared/shared.module';
+import { EventListComponent } from './event-list.component';
 import { EventService } from './event.service';
+import { EventsRouting } from './events.routing';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { EventService } from './event.service';
     MdlModule,
     MdSelectModule,
     SharedModule,
-    TranslateModule
+    TranslateModule,
+    EventsRouting
   ],
   declarations: [EventListComponent],
   providers: [EventService]
