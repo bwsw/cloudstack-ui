@@ -141,3 +141,9 @@
     </md-tab>
   </md-tab-group>
 </div>
+
+<cs-no-results
+  *ngIf="templateNotFound"
+  [text]="'TEMPLATE_NOT_FOUND'"
+></cs-no-results>
+

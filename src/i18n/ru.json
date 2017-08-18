@@ -651,6 +651,8 @@
   "RECURRING_SNAPSHOTS_MONTHLY": "Ежемесячно",
 
   "VM_NOT_FOUND": "Виртуальная машина не найдена",
+  "VOLUME_NOT_FOUND": "Диск не найден",
+  "TEMPLATE_NOT_FOUND": "Шаблон не найден",
 
   "PULSE": {
     "PULSE": "Pulse",

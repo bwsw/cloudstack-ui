@@ -650,6 +650,8 @@
   "RECURRING_SNAPSHOTS_MONTHLY": "Monthly",
 
   "VM_NOT_FOUND": "Virtual machine not found",
+  "VOLUME_NOT_FOUND": "Volume not found",
+  "TEMPLATE_NOT_FOUND": "Template not found",
 
   "PULSE": {
     "PULSE": "Pulse",

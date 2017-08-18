@@ -36,9 +36,7 @@
   </md-tab-group>
 </div>
 
-<div
-  class="vm-not-found"
+<cs-no-results
   *ngIf="vmNotFound"
->
-  {{ 'VM_NOT_FOUND' | translate }}
-</div>
+  [text]="'VM_NOT_FOUND'"
+></cs-no-results>

@@ -72,3 +72,8 @@
     </md-card-content>
   </md-card>
 </div>
+
+<cs-no-results
+  *ngIf="volumeNotFound"
+  [text]="'VOLUME_NOT_FOUND'"
+></cs-no-results>
