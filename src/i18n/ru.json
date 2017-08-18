@@ -35,11 +35,11 @@
     },
 
     "SNAPSHOT": {
-      "CONFIRM_DELETION": "Вы действительно хотите удалить этот снимок?"
+      "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот снимок?"
     },
 
     "TAG": {
-      "CONFIRM_DELETION": "Вы действительно хотите удалить этот тег?"
+      "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот тег?"
     },
 
     "TEMPLATE": {
@@ -53,7 +53,7 @@
       "CONFIRM_RESTORE": "Вы уверены, что хотите переустановить виртуальную машину?",
       "CONFIRM_DESTROY": "Вы уверены, что хотите уничтожить виртуальную машину?",
       "CONFIRM_RESET_PASSWORD": "Вы уверены, что хотите сбросить пароль?<br>Если ваша виртуальная машина запущена, то она будет перезагружена.",
-      "PASSWORD_DIALOG_MESSAGE": "Пароль для машины {{ vmName }} был сброшен в  <b>{{ vmPassword }}</b>",
+      "PASSWORD_DIALOG_MESSAGE": "Пароль для машины {{ vmName }} был сброшен в <b>{{ vmPassword }}</b>",
       "CONFIRM_DRIVES_DELETION": "Удалить диски с данными этой ВМ?"
     },
 
@@ -75,7 +75,7 @@
     },
 
     "ISO": {
-      "VMS_IN_USE": "Невозможно удалить ISO файл, так как он используется слудющими машинами:<br>{{ vms }}"
+      "VMS_IN_USE": "Невозможно удалить ISO файл, так как он используется следующими машинами:<br>{{ vms }}"
     },
 
     "SNAPSHOT": {
@@ -104,29 +104,29 @@
     "PENDING_OPERATIONS": "Текущие операции",
 
     "ISO": {
-      "ATTACHMENT_IN_PROGRESS": "Прикрепление ISO файла",
-      "ATTACHMENT_DONE": "ISO файл прикреплен",
-      "ATTACHMENT_FAILED": "Не удалось прикрепить ISO файл",
+      "ATTACHMENT_IN_PROGRESS": "Прикрепление ISO",
+      "ATTACHMENT_DONE": "ISO прикреплен",
+      "ATTACHMENT_FAILED": "Не удалось прикрепить ISO",
 
-      "DETACHMENT_IN_PROGRESS": "Открепление ISO диска",
-      "DETACHMENT_DONE": "ISO диск откреплен",
-      "DETACHMENT_FAILED": "Не удалось открепить ISO диск",
+      "DETACHMENT_IN_PROGRESS": "Открепление ISO",
+      "DETACHMENT_DONE": "ISO откреплен",
+      "DETACHMENT_FAILED": "Не удалось открепить ISO",
 
       "REGISTER_IN_PROGRESS": "Регистрация ISO",
       "REGISTER_DONE": "ISO зарегистрирован",
       "REGISTER_FAILED": "ISO не добавлен",
 
-      "DELETION_IN_PROGRESS": " Удаление ISO",
+      "DELETION_IN_PROGRESS": "Удаление ISO",
       "DELETION_DONE": "ISO удален",
       "DELETION_FAILED": "Не удалось удалить ISO"
     },
 
     "SNAPSHOT": {
-      "TAKE_IN_PROGRESS": "Создается снимок",
+      "TAKE_IN_PROGRESS": "Создание снимка",
       "TAKE_DONE": "Снимок создан",
       "TAKE_FAILED": "Не удалось создать снимок",
 
-      "DELETION_IN_PROGRESS": "Снимок удаляется",
+      "DELETION_IN_PROGRESS": "Удаление снимка",
       "DELETION_DONE": "Снимок удален",
       "DELETION_FAILED": "Не удалось удалить снимок"
     },
@@ -134,7 +134,7 @@
     "TEMPLATE": {
       "REGISTER_IN_PROGRESS": "Регистрация шаблона",
       "REGISTER_DONE": "Шаблон зарегистрирован",
-      "REGISTER_FAILED": "Шаблон не зарегистрирован",
+      "REGISTER_FAILED": "Не удалось зарегистрировать шаблон",
 
       "DELETION_IN_PROGRESS": "Удаление шаблона",
       "DELETION_DONE": "Шаблон удален",
@@ -144,19 +144,19 @@
     "VM": {
       "START_IN_PROGRESS": "Запуск ВМ",
       "START_DONE": "ВМ была запущена",
-      "START_FAILED": "Failed to start VM",
+      "START_FAILED": "Не удалось запустить ВМ",
 
       "STOP_IN_PROGRESS": "Остановка ВМ",
       "STOP_DONE": "ВМ была остановлена",
-      "STOP_FAILED": "Failed to stop VM",
+      "STOP_FAILED": "Не удалось остановить ВМ",
 
       "REBOOT_IN_PROGRESS": "Перезапуск ВМ",
       "REBOOT_DONE": "ВМ была перезапущена",
-      "REBOOT_FAILED": "Failed to reboot VM",
+      "REBOOT_FAILED": "Не удалось перезапустить ВМ",
 
       "RESTORE_IN_PROGRESS": "Переустановка ВМ",
       "RESTORE_DONE": "ВМ была переустановлена",
-      "RESTORE_FAILED": "Failed to restore VM",
+      "RESTORE_FAILED": "Не удалось переустановить ВМ",
 
       "RESET_PASSWORD_IN_PROGRESS": "Сброс пароля",
       "RESET_PASSWORD_DONE": "Пароль сброшен",
@@ -186,13 +186,13 @@
 
       "RESIZE_IN_PROGRESS": "Изменение размера диска",
       "RESIZE_DONE": "Размер диска изменен",
-      "RESIZE_FAILED": "Изменение размера диска не удалось",
+      "RESIZE_FAILED": "Не удалось изменить размер диска",
 
       "ATTACHMENT_IN_PROGRESS": "Прикрепление диска",
       "ATTACHMENT_DONE": "Диск прикреплен",
       "ATTACHMENT_FAILED": "Не удалось прикрепить диск",
 
-      "CREATION_IN_PROGRESS": "Диск создается",
+      "CREATION_IN_PROGRESS": "Создание диска",
       "CREATION_DONE": "Диск создан",
       "CREATION_FAILED": "Не удалось создать диск"
     }
@@ -219,7 +219,7 @@
 
   "NAVIGATION_SIDEBAR": {
     "WELCOME": "Здравствуйте, {{ name }}",
-    "VMS": "Виртуальные машины",
+    "VMS": "Виртуальные<br>машины",
     "SPARE_DRIVES": "Свободные диски",
     "IMAGES": "Образы",
     "FIREWALL_TEMPLATES": "Шаблоны<br>брандмауэра",
@@ -373,7 +373,7 @@
 
       "STATISTICS": {
         "TITLE": "Статистика",
-        "CPU_UTILIZED": "Загружено CPU",
+        "CPU_UTILIZED": "Загрузка CPU",
         "NETWORK_READ": "Прочитано через сеть",
         "NETWORK_WRITE": "Записано через сеть",
         "DISK_READ": "Прочитано с диска",
@@ -747,7 +747,7 @@
 
     "LOOK_AND_FEEL": {
       "TITLE": "Настройки интерфейса",
-      "LANGUAGE": "Язык Интерфейса",
+      "LANGUAGE": "Язык интерфейса",
       "FIRST_DAY_OF_WEEK": "Первый день недели",
       "TIME_FORMAT": "Формат времени",
       "hour12": "12-часовой формат",
@@ -774,7 +774,7 @@
     "CPU_RAM": "ЦП / ОЗУ",
     "NETWORK": "Сеть",
     "DISK": "Диск",
-    "RANGE": "Диапозон",
+    "RANGE": "Диапазон",
     "AGGREGATION": "Агрегация",
     "SHIFT": "Сдвиг",
     "NO_DATA": "Нет данных",
@@ -794,8 +794,8 @@
       "NETWORK_WRITE_ERRORS": "Ошибки при записи",
       "DISK_READ": "Чтение с диска",
       "DISK_WRITE": "Запись на диск",
-      "DISK_READ_IOPS": "Чтение с диска (IO/s)",
-      "DISK_WRITE_IOPS": "Запись на диск (IO/s)",
+      "DISK_READ_IOPS": "Чтение с диска (IO/сек)",
+      "DISK_WRITE_IOPS": "Запись на диск (IO/сек)",
       "DISK_IO_ERRORS": "Ошибки IO"
     }
   },
@@ -923,7 +923,7 @@
     "GB": "ГБ",
     "GB_VALUE": "{{value}} ГБ",
     "GHZ": "ГГц",
-    "IOPS": "{{value}} IO/s",
+    "IOPS": "{{value}} IO/сек",
     "MB": "MБ",
     "MB_VALUE": "{{value}} MБ",
     "MBPS": "{{value}} MБ/сек",
