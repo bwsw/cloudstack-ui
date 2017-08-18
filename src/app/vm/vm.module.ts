@@ -4,9 +4,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+  MdAutocompleteModule,
   MdButtonModule,
   MdDialogModule,
   MdIconModule,
+  MdInputModule,
   MdMenuModule,
   MdSelectModule,
   MdTooltipModule
@@ -82,19 +84,19 @@ import { WebShellService } from './web-shell/web-shell.service';
     MdlSelectModule,
     ReactiveFormsModule,
     ServiceOfferingModule,
-    ServiceOfferingModule,
     SharedModule,
     SnapshotModule,
     TagsModule,
     TemplateModule,
-    TranslateModule,
     TranslateModule,
     PulseModule,
     vmRouting,
     RouterModule.forRoot(routes),
     MdMenuModule,
     MdButtonModule,
+    MdInputModule,
     MdIconModule,
+    MdAutocompleteModule
   ],
   declarations: [
     AffinityGroupSelectorComponent,

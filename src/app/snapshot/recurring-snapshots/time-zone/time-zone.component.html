@@ -1,14 +1,8 @@
-<mdl-select
-  floating-label
-  label="{{ 'TIME_ZONE' | translate }}"
-  [autocomplete]="true"
-  [(ngModel)]="timeZone"
-  (inputChange)="updateQuery($event)"
->
-  <mdl-option
-    *ngFor="let tz of visibleTimeZones$ | async"
+<md-select [(ngModel)]="timeZone">
+  <md-option
+    *ngFor="let tz of timeZones"
     [value]="tz"
   >
     {{ timeZoneToString(tz) }}
-  </mdl-option>
-</mdl-select>
+  </md-option>
+</md-select>

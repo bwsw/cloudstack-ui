@@ -100,24 +100,45 @@
       <div *ngIf="enoughResources && formState?.state" class="right-column">
         <div>
           <h5>{{ 'VM_CREATION_FORM.GROUP' | translate }}</h5>
-          <mdl-autocomplete
-            name="group"
-            [placeholder]="'NO_GROUP' | translate"
-            [options]="formState.data.instanceGroupNames"
-            [ngModel]="formState.state.instanceGroup.name"
-            (ngModelChange)="instanceGroupChange($event)"
-          ></mdl-autocomplete>
+          <md-input-container>
+            <input
+              name="group"
+              mdInput
+              [mdAutocomplete]="instanceGroups"
+              [ngModel]="formState.state.instanceGroup.name"
+              (ngModelChange)="instanceGroupChange($event)"
+            >
+          </md-input-container>
+          <md-autocomplete #instanceGroups>
+            <md-option
+              *ngFor="let group of visibleInstanceGroups"
+              [value]="group.name"
+            >
+              {{ group.name }}
+            </md-option>
+          </md-autocomplete>
         </div>
 
         <div>
           <h5>{{ 'VM_CREATION_FORM.AFFINITY_GROUPS' | translate }}</h5>
-          <mdl-autocomplete
-            name="affinityGroup"
-            [placeholder]="'NO_GROUP' | translate"
-            [options]="formState.data.affinityGroupNames"
-            [ngModel]="formState.state.affinityGroup.name"
-            (ngModelChange)="affinityGroupChange($event)"
-          ></mdl-autocomplete>
+          <md-input-container floatPlaceholder="never">
+            <input
+              name="group"
+              mdInput
+              [placeholder]="'NO_GROUP' | translate"
+              [mdAutocomplete]="affinityGroups"
+              [(ngModel)]="formState.state.affinityGroup.name"
+              (ngModelChange)="affinityGroupChange($event)"
+            >
+          </md-input-container>
+          <md-autocomplete #affinityGroups>
+            <md-option
+              *ngFor="let group of visibleAffinityGroups"
+              [value]="group.name"
+            >
+              {{ group.name }}
+            </md-option>
+          </md-autocomplete>
         </div>
 
         <div>

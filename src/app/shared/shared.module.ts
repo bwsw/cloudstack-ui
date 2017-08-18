@@ -4,8 +4,17 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdIconModule, MdListModule, MdSelectModule, MdSnackBarModule, MdCardModule } from '@angular/material';
+import {
+  MdAutocompleteModule,
+  MdCardModule,
+  MdIconModule,
+  MdInputModule,
+  MdListModule,
+  MdSelectModule,
+  MdSnackBarModule
+} from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
+import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
 import { MdlDialogModule } from '../dialog/dialog-module';
@@ -30,10 +39,6 @@ import {
   TopBarComponent,
   VmStatisticsComponent
 } from './components';
-import {
-  MDL_SELECT_VALUE_ACCESSOR,
-  MdlAutocompleteComponent
-} from './components/autocomplete/mdl-autocomplete.component';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
 import {
   CreateUpdateDeleteDialogComponent
@@ -42,7 +47,6 @@ import { DescriptionComponent } from './components/description/description.compo
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
 import { GroupedCardListComponent } from './components/grouped-card-list/grouped-card-list.component';
-import { InlineEditAutocompleteComponent } from './components/inline-edit/inline-edit-autocomplete.component';
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
 import { InputGroupComponent } from './components/input-group/input-group.component';
 import { LoaderComponent } from './components/loader.component';
@@ -59,6 +63,8 @@ import { MdlTextAreaAutoresizeDirective } from './directives/mdl-textarea-autore
 import { MinValueValidatorDirective } from './directives/min-value.directive';
 
 import { DivisionPipe, HighLightPipe, ViewValuePipe } from './pipes';
+import { StringifyDatePipe } from './pipes/stringifyDate.pipe';
+import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
 
 import {
   AffinityGroupService,
@@ -87,18 +93,15 @@ import {
   StyleService,
   ZoneService
 } from './services';
-import { RouterUtilsService } from './services/router-utils.service';
-import { SnapshotService } from './services/snapshot.service';
-import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
-import { SessionStorageService } from './services/session-storage.service';
+import { DateTimeFormatterService } from './services/date-time-formatter.service';
 import { LocalStorageService } from './services/local-storage.service';
+import { RouterUtilsService } from './services/router-utils.service';
+import { SessionStorageService } from './services/session-storage.service';
+import { SnapshotService } from './services/snapshot.service';
 import { TagService } from './services/tag.service';
 import { UserService } from './services/user.service';
 import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
-import { DateTimeFormatterService } from './services/date-time-formatter.service';
-import { StringifyDatePipe } from './pipes/stringifyDate.pipe';
-import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
 
 @NgModule({
   imports: [
@@ -108,6 +111,8 @@ import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
     DragulaModule,
     MdSelectModule,
     MdIconModule,
+    MdInputModule,
+    MdAutocompleteModule,
     MdlDialogModule,
     MdlDialogOutletModule,
     MdlModule,
@@ -132,14 +137,12 @@ import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
     FancySelectComponent,
     ForbiddenValuesDirective,
     InlineEditComponent,
-    InlineEditAutocompleteComponent,
     InputGroupComponent,
     IntegerValidatorDirective,
     ListComponent,
     NoResultsComponent,
     MaxValueValidatorDirective,
     MinValueValidatorDirective,
-    MdlAutocompleteComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     OverlayLoadingComponent,
@@ -182,14 +185,12 @@ import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
     FancySelectComponent,
     ForbiddenValuesDirective,
     InlineEditComponent,
-    InlineEditAutocompleteComponent,
     InputGroupComponent,
     IntegerValidatorDirective,
     ListComponent,
     NoResultsComponent,
     MaxValueValidatorDirective,
     MinValueValidatorDirective,
-    MdlAutocompleteComponent,
     MdlTextAreaAutoresizeDirective,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
@@ -246,8 +247,7 @@ import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
     UserService,
     VolumeService,
     VolumeOfferingService,
-    ZoneService,
-    MDL_SELECT_VALUE_ACCESSOR
+    ZoneService
   ]
 })
 export class SharedModule {
