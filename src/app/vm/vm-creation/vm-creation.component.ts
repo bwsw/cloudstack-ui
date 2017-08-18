@@ -153,7 +153,7 @@ export class VmCreationComponent implements OnInit {
   }
 
   public rootDiskSizeChange($event) {
-    this.formState.state.rootDiskSize = $event.value;
+    this.formState.state.rootDiskSize = $event;
     this.updateFormState();
   }
 
