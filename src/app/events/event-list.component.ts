@@ -1,4 +1,3 @@
-import { MdlDefaultTableModel } from '@angular-mdl/core';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,7 +19,8 @@ import { EventService } from './event.service';
 })
 export class EventListComponent implements OnInit {
   public loading = false;
-  public tableModel: MdlDefaultTableModel;
+  public tableColumns: Array<string>;
+  public tableModel: Array<Event>;
   public visibleEvents: Array<Event>;
   public date;
   public events: Array<Event>;
@@ -57,14 +57,7 @@ export class EventListComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.translate.get([
-      'EVENT_PAGE.DESCRIPTION',
-      'EVENT_PAGE.LEVEL',
-      'EVENT_PAGE.TYPE',
-      'EVENT_PAGE.TIME'
-    ])
-      .subscribe(translations => this.initTableModel(translations));
-
+    this.initTableModel();
     this.initFilters();
     this.getEvents({ reload: true });
   }
@@ -129,7 +122,9 @@ export class EventListComponent implements OnInit {
       return event.description.toLowerCase().includes(queryLower) ||
         event.level.toLowerCase().includes(queryLower) ||
         event.type.toLowerCase().includes(queryLower) ||
-        this.dateTimeFormatterService.stringifyToTime(event.created).toLowerCase().includes(queryLower);
+        this.dateTimeFormatterService.stringifyToTime(event.created)
+          .toLowerCase()
+          .includes(queryLower);
     });
   }
 
@@ -172,12 +167,7 @@ export class EventListComponent implements OnInit {
   }
 
   private initTableModel(translations: any): void {
-    this.tableModel = new MdlDefaultTableModel([
-      { key: 'description', name: translations['EVENT_PAGE.DESCRIPTION'] },
-      { key: 'level', name: translations['EVENT_PAGE.LEVEL'] },
-      { key: 'type', name: translations['EVENT_PAGE.TYPE'] },
-      { key: 'time', name: translations['EVENT_PAGE.TIME'] }
-    ]);
+    this.tableColumns = ['description', 'level', 'type', 'time'];
   }
 
   private updateEvents(events: Array<Event>): void {
@@ -186,7 +176,7 @@ export class EventListComponent implements OnInit {
   }
 
   private createTableModel(): void {
-    this.tableModel.data = this.visibleEvents.map(event => Object.assign({}, event, {
+    this.tableModel = this.visibleEvents.map(event => Object.assign({}, event, {
       selected: false,
       time: this.dateTimeFormatterService.stringifyToTime(event.created)
     }));

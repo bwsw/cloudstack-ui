@@ -16,12 +16,13 @@
     </md-cell>
   </ng-container>
 
-  <ng-container *ngFor="let attr of meta.attributes">
-    <ng-container [cdkColumnDef]="attr?.key">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>{{attr?.name | translate}}
+  <ng-container *ngFor="let column of columns">
+    <ng-container [cdkColumnDef]="column">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>
+        {{ column.toUpperCase() | translate }}
       </md-header-cell>
       <md-cell *cdkCellDef="let row">
-        {{row[attr?.key]}}
+        {{ row[column] }}
       </md-cell>
     </ng-container>
   </ng-container>
