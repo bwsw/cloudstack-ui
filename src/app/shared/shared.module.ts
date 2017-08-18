@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   MdCardModule,
+  MdCheckboxModule,
   MdIconModule,
   MdListModule,
   MdProgressBarModule,
@@ -47,9 +48,7 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
-import {
-  CreateUpdateDeleteDialogComponent
-} from './components/create-update-delete-dialog/create-update-delete-dialog.component';
+import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
@@ -117,6 +116,7 @@ import { VolumeService } from './services/volume.service';
     DynamicModule.withComponents([GroupedCardListComponent]),
     FormsModule,
     DragulaModule,
+    MdCheckboxModule,
     MdSelectModule,
     MdIconModule,
     MdlDialogModule,

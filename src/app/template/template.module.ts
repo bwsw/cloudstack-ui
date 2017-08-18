@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   MdButtonModule,
+  MdCheckboxModule,
   MdIconModule,
   MdMenuModule,
   MdRadioModule,
@@ -14,7 +15,6 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { ClipboardModule } from 'ngx-clipboard/dist';
-
 import { SharedModule } from '../shared/shared.module';
 import { TagsModule } from '../tags/tags.module';
 import { IsoAttachmentComponent } from './iso-attachment/iso-attachment.component';
@@ -41,6 +41,7 @@ import { TemplateComponent } from './template/template.component';
     DynamicModule.withComponents([TemplateComponent]),
     TranslateModule,
     MdRadioModule,
+    MdCheckboxModule,
     MdTooltipModule,
     MdlModule,
     MdSelectModule,

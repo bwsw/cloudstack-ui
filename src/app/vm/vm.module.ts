@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-    MdSelectModule,
+    MdSelectModule, MdCheckboxModule,
     MdTooltipModule,
     MdMenuModule,
     MdButtonModule,
@@ -76,6 +76,7 @@ import { WebShellService } from './web-shell/web-shell.service';
     FormsModule,
     ServiceOfferingModule,
     DraggableSelectModule,
+    MdCheckboxModule,
     MdTooltipModule,
     MdSelectModule,
     MdlModule,
