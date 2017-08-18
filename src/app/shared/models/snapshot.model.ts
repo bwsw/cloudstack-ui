@@ -1,4 +1,4 @@
-import moment = require('moment');
+import * as moment from 'moment';
 
 import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators';
