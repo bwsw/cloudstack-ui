@@ -148,6 +148,20 @@ mdl-layout-title {
   }
 }
 
+:host /deep/ .mat-tab-body-content {
+  height: inherit;
+  overflow: hidden;
+}
+
+/deep/ .mat-tab-labels {
+  justify-content: space-around;
+}
+
+/deep/ .md-tab-tooltip {
+  height: 40px;
+}
+
+
 /deep/ .mat-dialog-actions {
   justify-content: flex-end;
 
@@ -166,3 +180,4 @@ mdl-layout-title {
   font-size: 14pt;
   padding: 20px 24px 24px;
 }
+
