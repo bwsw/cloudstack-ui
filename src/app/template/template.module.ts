@@ -2,7 +2,7 @@ import { MdlModule } from '@angular-mdl/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdSelectModule, MdTooltipModule, MdMenuModule, MdButtonModule, MdIconModule } from '@angular/material';
+import { MdSelectModule, MdTooltipModule, MdMenuModule, MdButtonModule, MdIconModule, MdTabsModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 
@@ -42,6 +42,7 @@ import { TemplateFilterListSelectorComponent } from './template-filter-list/temp
     MdMenuModule,
     MdButtonModule,
     MdIconModule,
+    MdTabsModule,
   ],
   declarations: [
     TemplateSidebarComponent,

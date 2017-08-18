@@ -12,6 +12,7 @@ import {
   MdCardModule,
   MdSliderModule
 } from '@angular/material';
+import { MdIconModule, MdListModule, MdSelectModule, MdSnackBarModule, MdCardModule, MdTabsModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
@@ -124,7 +125,8 @@ import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
     TranslateModule,
     MdListModule,
     MdSnackBarModule,
-    MdCardModule
+    MdCardModule,
+    MdTabsModule,
   ],
   exports: [
     GroupedCardListComponent,
