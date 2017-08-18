@@ -2,11 +2,11 @@
   <thead>
   <tr>
     <th *ngIf="selectable">
-      <mdl-checkbox
-        mdl-ripple
+      <md-checkbox
+        name="select-all-checkbox"
         [ngModel]="isAllSelected()"
         (ngModelChange)="toogleAll()"
-      ></mdl-checkbox>
+      ></md-checkbox>
     </th>
     <th
       *ngFor="let column of model.columns"
@@ -21,11 +21,11 @@
     [ngClass]="{'is-selected': selectable && data.selected}"
   >
     <td *ngIf="selectable">
-      <mdl-checkbox
-        mdl-ripple
+      <md-checkbox
+        name="select-item-checkbox"
         [(ngModel)]="data.selected"
         (ngModelChange)="selectionChanged(data)"
-      ></mdl-checkbox>
+      ></md-checkbox>
     </td>
     <td
       *ngFor="let column of model.columns"

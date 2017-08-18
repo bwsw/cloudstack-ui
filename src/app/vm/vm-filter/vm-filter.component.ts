@@ -32,8 +32,7 @@ export type InstanceGroupOrNoGroup = InstanceGroup | noGroup;
 
 @Component({
   selector: 'cs-vm-filter',
-  templateUrl: 'vm-filter.component.html',
-  styleUrls: ['vm-filter.component.scss']
+  templateUrl: 'vm-filter.component.html'
 })
 export class VmFilterComponent implements OnInit, OnChanges {
   @Input() public availableGroupings: Array<any>;
