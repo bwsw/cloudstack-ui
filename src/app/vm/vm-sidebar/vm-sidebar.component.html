@@ -1,6 +1,10 @@
 <div>
   <div *ngIf="vm">
-    <h4 class="details-header">{{ vm.displayName }}</h4>
+    <div class="title-container">
+      <h4 class="details-header">{{ vm.displayName }}</h4>
+      <cs-vm-actions-sidebar [vm]="vm"></cs-vm-actions-sidebar>
+    </div>
+
     <mdl-tabs mdl-ripple mdl-tab-active-index="0">
 
       <mdl-tab-panel>
