@@ -3,16 +3,15 @@
 </h3>
 <div class="mdl-dialog__content">
 
-  <mdl-tabs
-    mdl-ripple
-    [mdl-tab-active-index]="policyMode"
-    (mdl-tab-active-changed)="tabChanged($event)"
+  <md-tab-group
+    md-selected="policyMode"
+    (selectChange)="tabChanged($event)"
   >
-    <mdl-tab-panel mdl-tab-panel-title="{{ 'RECURRING_SNAPSHOTS_HOURLY' | translate }}"></mdl-tab-panel>
-    <mdl-tab-panel mdl-tab-panel-title="{{ 'RECURRING_SNAPSHOTS_DAILY' | translate }}"></mdl-tab-panel>
-    <mdl-tab-panel mdl-tab-panel-title="{{ 'RECURRING_SNAPSHOTS_WEEKLY' | translate }}"></mdl-tab-panel>
-    <mdl-tab-panel mdl-tab-panel-title="{{ 'RECURRING_SNAPSHOTS_MONTHLY' | translate }}"></mdl-tab-panel>
-  </mdl-tabs>
+    <md-tab label="{{ 'RECURRING_SNAPSHOTS_HOURLY' | translate }}"></md-tab>
+    <md-tab label="{{ 'RECURRING_SNAPSHOTS_DAILY' | translate }}"></md-tab>
+    <md-tab label="{{ 'RECURRING_SNAPSHOTS_WEEKLY' | translate }}"></md-tab>
+    <md-tab label="{{ 'RECURRING_SNAPSHOTS_MONTHLY' | translate }}"></md-tab>
+  </md-tab-group>
 
   <div class="editor">
     <cs-policy-editor

@@ -8,6 +8,7 @@ import {
   MdIconModule,
   MdMenuModule,
   MdSelectModule,
+  MdTabsModule,
   MdTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
@@ -49,6 +50,7 @@ import { TemplateComponent } from './template/template.component';
     MdMenuModule,
     MdButtonModule,
     MdIconModule,
+    MdTabsModule,
   ],
   declarations: [
     TemplateSidebarComponent,
