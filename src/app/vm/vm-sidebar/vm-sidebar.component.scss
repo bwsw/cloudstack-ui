@@ -17,3 +17,7 @@ h4.details-header {
   justify-content: space-between;
   align-items: center;
 }
+
+:host /deep/ .mat-tab-label {
+  min-width: 83px !important;
+}
