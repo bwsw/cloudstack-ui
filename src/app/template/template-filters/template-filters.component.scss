@@ -5,6 +5,7 @@
   width: auto;
   position: relative;
   margin: 0 19px;
+  text-transform: uppercase;
 }
 
 .filter-select-container {
@@ -13,4 +14,10 @@
 
 .search-bar-white {
   background-color: white;
+}
+
+:host /deep/ .mat-tab-label {
+  line-height: 30px !important;
+  height: 30px !important;
+  min-width: 60px !important;
 }

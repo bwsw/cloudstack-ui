@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import {Component, forwardRef, Input, ChangeDetectorRef} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TimeFormat } from '../../../../shared/services/language.service';
 import { DayPeriodName } from '../../day-period/day-period.component';
@@ -31,8 +31,11 @@ export class DailyPolicyComponent implements ControlValueAccessor {
 
   public set policy(value) {
     this._time = value;
+    this.cd.detectChanges();
     this.propagateChange(this.policy);
   }
+
+  constructor(private cd: ChangeDetectorRef) {}
 
   public propagateChange: any = () => {};
 

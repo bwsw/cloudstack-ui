@@ -9,7 +9,8 @@ import {
   MdIconModule,
   MdListModule,
   MdSelectModule,
-  MdSnackBarModule
+  MdSnackBarModule,
+  MdTabsModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
@@ -118,7 +119,8 @@ import { ZoneService } from './services/zone.service';
     TranslateModule,
     MdListModule,
     MdSnackBarModule,
-    MdCardModule
+    MdCardModule,
+    MdTabsModule,
   ],
   exports: [
     GroupedCardListComponent,
