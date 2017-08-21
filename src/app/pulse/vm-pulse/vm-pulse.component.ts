@@ -25,10 +25,10 @@ const enum TabIndex {
 }
 
 export const PulseParameters = {
-  ScaleRange: 'pulse.scale.range',
-  Aggregations: 'pulse.aggregations',
-  Shift: 'pulse.shift',
-  ShiftAmount: 'pulse.shift.amount',
+  ScaleRange: 'pulseScaleRange',
+  Aggregations: 'pulseAggregations',
+  Shift: 'pulseShift',
+  ShiftAmount: 'pulseShiftAmount',
 };
 
 @Component({
@@ -49,7 +49,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
   public translations;
 
   private _selectedScale;
-  private _selectedAggregations;
+  private _selectedAggregations = [];
   private _selectedShift;
   private _shiftAmount = 0;
 
@@ -93,19 +93,25 @@ export class VmPulseComponent implements OnInit, OnDestroy {
     if (this._selectedScale) {
       this.storage.write(PulseParameters.ScaleRange, this._selectedScale.range);
       if (this._selectedAggregations) {
-        const available = [];
 
-        this._selectedAggregations.forEach(val => {
-          const aggregation = this._selectedScale.aggregations.find(v => v === val);
-          if (!!aggregation) {
-            available.push(aggregation);
+        const arrays = [
+          this._selectedAggregations,
+          this._selectedScale.aggregations
+        ];
+
+        const available = arrays.shift().reduce((res, val) => {
+          if (res.indexOf(val) === -1 && arrays.every((a) => {
+              return a.indexOf(val) !== -1;
+            })) {
+            res.push(val);
           }
-        });
+          return res;
+        }, []);
 
-        if (!available.length) {
-          this.selectedAggregations.push(this._selectedScale.aggregations[0]);
-        } else {
+        if (!!available.length) {
           this.selectedAggregations = available;
+        } else {
+          this.selectedAggregations.push(this._selectedScale.aggregations[0]);
         }
       }
     }
@@ -128,6 +134,8 @@ export class VmPulseComponent implements OnInit, OnDestroy {
     } else if (value) {
       this.updateChart();
     }
+
+
   }
 
   public get selectedShift() {
@@ -229,32 +237,45 @@ export class VmPulseComponent implements OnInit, OnDestroy {
   }
 
   private initParameters() {
+    this.getScale();
+    this.getAggregations();
+    this.getShift();
+    this.getShiftAmount();
+
+    this.refresh();
+  }
+
+  private getScale() {
     const scale = this.storage.read(PulseParameters.ScaleRange);
     if (scale) {
       this._selectedScale = this.permittedIntervals.scales.find(_ => _.range === scale);
     } else {
       this._selectedScale = this.permittedIntervals.scales[0];
     }
+  }
 
+  private getAggregations() {
     const aggregations = this.storage.read(PulseParameters.Aggregations);
     if (aggregations) {
       this._selectedAggregations = aggregations.split(',');
     } else if (this._selectedScale && !!this._selectedScale.aggregations.length) {
       this._selectedAggregations.push(this._selectedScale.aggregations[0]);
     }
+  }
 
+  private getShift() {
     const shift = this.storage.read(PulseParameters.Shift);
     if (shift) {
       this._selectedShift = shift;
     } else {
       this._selectedShift = this.permittedIntervals.shifts[0];
     }
+  }
 
+  private getShiftAmount() {
     const shiftAmount = this.storage.read(PulseParameters.ShiftAmount);
     if (shiftAmount) {
       this._shiftAmount = +shiftAmount;
     }
-
-    this.refresh();
   }
 }

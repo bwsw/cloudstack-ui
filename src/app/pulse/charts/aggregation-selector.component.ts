@@ -2,16 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input, OnChanges,
-  Output, SimpleChanges,
+  Input,
+  Output,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { MdOptionSelectionChange, MdSelectChange } from '@angular/material';
 import * as debounce from 'lodash/debounce';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { PulseParameters } from '../vm-pulse/vm-pulse.component';
 
 @Component({
   selector: 'cs-aggregation-selector',
@@ -34,7 +32,7 @@ import { PulseParameters } from '../vm-pulse/vm-pulse.component';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AggregationSelectorComponent implements OnChanges {
+export class AggregationSelectorComponent {
   @Input() permittedIntervals: any;
   @Output() scaleChange = new EventEmitter();
   @Output() aggregationsChange = new EventEmitter<MdOptionSelectionChange>();
@@ -48,22 +46,8 @@ export class AggregationSelectorComponent implements OnChanges {
   @Input() public shiftAmount: number;
   selectedAggregations: Array<string>;
 
-  constructor(private storage: LocalStorageService) {
+  constructor() {
     this.emitShiftChange = debounce(this.emitShiftChange, 300);
-  }
-
-  public ngOnChanges(changes: SimpleChanges) {
-    if ('permittedIntervals' in changes) {
-      if (this.permittedIntervals) {
-        setTimeout(() => {
-          const storedShift = this.storage.read(PulseParameters.Shift);
-          this.selectedShift = !!storedShift
-            ? storedShift
-            : this.permittedIntervals.shifts[0];
-          this.shiftChange.emit(this.selectedShift);
-        });
-      }
-    }
   }
 
   @Input()
