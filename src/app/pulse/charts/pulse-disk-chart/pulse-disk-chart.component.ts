@@ -139,8 +139,11 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
 
           this.charts[2].labels = res.map(_ => new Date(_.time)); // TODO
           const errors = {
-            data: res.map(_ => +_.ioErrors),
-            label: `${this.translations['PULSE.LABELS.DISK_IO_ERRORS']} ${aggregation}`
+            data: res.map(_ => ({
+              x: new Date(_.time),
+              y: +_.ioErrors
+            })),
+            label: `${this.translations['DISK_IO_ERRORS']} ${aggregation}`
           };
           sets.errors.push(errors);
         });
