@@ -5,13 +5,9 @@ import { Subject } from 'rxjs/Subject';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import {
   DiskOffering,
-  DiskOfferingService,
-  FilterService,
   Volume,
   VolumeType,
-  VolumeTypes,
-  Zone,
-  ZoneService
+  Zone
 } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
