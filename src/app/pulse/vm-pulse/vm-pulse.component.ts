@@ -92,26 +92,17 @@ export class VmPulseComponent implements OnInit, OnDestroy {
 
     if (this._selectedScale) {
       this.storage.write(PulseParameters.ScaleRange, this._selectedScale.range);
-      if (this._selectedAggregations) {
+      if (this.selectedAggregations) {
 
-        const arrays = [
-          this._selectedAggregations,
-          this._selectedScale.aggregations
-        ];
-
-        const available = arrays.shift().reduce((res, val) => {
-          if (res.indexOf(val) === -1 && arrays.every((a) => {
-              return a.indexOf(val) !== -1;
-            })) {
-            res.push(val);
-          }
-          return res;
+        const available = this.selectedAggregations.reduce((res, val) => {
+          return this._selectedScale.aggregations.find((a) => a === val)
+            ? res.concat(val) : res;
         }, []);
 
         if (!!available.length) {
           this.selectedAggregations = available;
         } else {
-          this.selectedAggregations.push(this._selectedScale.aggregations[0]);
+          this.selectedAggregations = [this._selectedScale.aggregations[0]];
         }
       }
     }
@@ -237,45 +228,39 @@ export class VmPulseComponent implements OnInit, OnDestroy {
   }
 
   private initParameters() {
-    this.getScale();
-    this.getAggregations();
-    this.getShift();
-    this.getShiftAmount();
+    this._selectedScale = this.getScale();
+    this._selectedAggregations = this.getAggregations();
+    this._selectedShift = this.getShift();
+    this._shiftAmount = this.getShiftAmount();
 
     this.refresh();
   }
 
-  private getScale() {
+  private getScale(): { range: string, aggregations: string[] } {
     const scale = this.storage.read(PulseParameters.ScaleRange);
-    if (scale) {
-      this._selectedScale = this.permittedIntervals.scales.find(_ => _.range === scale);
-    } else {
-      this._selectedScale = this.permittedIntervals.scales[0];
-    }
+    return (!!scale)
+      ? this.permittedIntervals.scales.find(_ => _.range === scale)
+      : this._selectedScale = this.permittedIntervals.scales[0];
   }
 
-  private getAggregations() {
+  private getAggregations(): string[] {
     const aggregations = this.storage.read(PulseParameters.Aggregations);
     if (aggregations) {
-      this._selectedAggregations = aggregations.split(',');
+      return aggregations.split(',');
     } else if (this._selectedScale && !!this._selectedScale.aggregations.length) {
-      this._selectedAggregations.push(this._selectedScale.aggregations[0]);
-    }
-  }
-
-  private getShift() {
-    const shift = this.storage.read(PulseParameters.Shift);
-    if (shift) {
-      this._selectedShift = shift;
+      return [this._selectedScale.aggregations[0]];
     } else {
-      this._selectedShift = this.permittedIntervals.shifts[0];
+      return [];
     }
   }
 
-  private getShiftAmount() {
+  private getShift(): string {
+    const shift = this.storage.read(PulseParameters.Shift);
+    return (!!shift) ? shift : this.permittedIntervals.shifts[0];
+  }
+
+  private getShiftAmount(): number {
     const shiftAmount = this.storage.read(PulseParameters.ShiftAmount);
-    if (shiftAmount) {
-      this._shiftAmount = +shiftAmount;
-    }
+    return (shiftAmount) ? +shiftAmount : 0;
   }
 }
