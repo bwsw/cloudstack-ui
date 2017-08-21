@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../dialog/dialog-service/dialog.service';
 import { Volume } from '../shared/models';
 import { JobsNotificationService } from '../shared/services/jobs-notification.service';
 import { VolumeService } from '../shared/services/volume.service';
@@ -27,17 +27,17 @@ class MockVolumeService {
   }
 }
 
-describe('Jobs notification service', () => {
+describe('Spare drive action service', () => {
   let spareDriveActionsService: SpareDriveActionsService;
 
   beforeEach(async(() => {
-    const dialogService = jasmine.createSpyObj('DialogService', ['alert']);
+    const dialogsService = jasmine.createSpyObj('DialogsService', ['alert']);
     const jobsNotificationService = jasmine.createSpyObj('JobsNotificationService', ['add', 'finish', 'fail']);
 
     TestBed.configureTestingModule({
       providers: [
         SpareDriveActionsService,
-        { provide: DialogService, useValue: dialogService },
+        { provide: DialogsService, useValue: dialogsService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: VolumeService, useClass: MockVolumeService }
       ]

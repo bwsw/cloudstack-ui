@@ -7,11 +7,12 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard/dist';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { ConfigService } from '../../shared/services/config.service';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { UserService } from '../../shared/services/user.service';
 import { SharedModule } from '../../shared/shared.module';
+import { DialogModule } from '../../dialog/dialog-service/dialog.module';
 import { ApiInfoComponent } from './api-info.component';
 
 describe('Api Info component', () => {
@@ -62,8 +63,8 @@ describe('Api Info component', () => {
   }
 
   beforeEach(async(() => {
-    dialogObservable = new Subject();
-    dialogSpy = spyOn(DialogService.prototype, 'confirm').and.returnValue(dialogObservable);
+    dialogObservable = Observable.of(true);
+    dialogSpy = spyOn(DialogsService.prototype, 'confirm').and.returnValue(dialogObservable);
 
     TestBed.configureTestingModule({
       imports: [
@@ -72,7 +73,8 @@ describe('Api Info component', () => {
         FormsModule,
         TranslateModule,
         ClipboardModule,
-        SharedModule
+        SharedModule,
+        DialogModule
       ],
       declarations: [ApiInfoComponent],
       providers: [
@@ -120,7 +122,6 @@ describe('Api Info component', () => {
 
     const syncButton = fixture.debugElement.query(By.css('mdl-button[mdl-button-type="icon"]'));
     syncButton.triggerEventHandler('click');
-    dialogObservable.next();
 
     tick();
     fixture.detectChanges();
