@@ -91,18 +91,18 @@ export class LanguageService {
       .do(_ => this.timeFormat.next(_));
   }
 
+  public initializeFirstDayOfWeek(): void {
+    this.getFirstDayOfWeek().subscribe(firstDayOfWeek => {
+      this.firstDayOfWeek.next(firstDayOfWeek);
+    });
+  }
+
   private get defaultLanguage(): string {
     const language = navigator.language && navigator.language.substr(0, 2);
     if (language === 'ru' || language === 'en') {
       return language;
     }
     return DEFAULT_LANGUAGE;
-  }
-
-  private initializeFirstDayOfWeek(): void {
-    this.getFirstDayOfWeek().subscribe(firstDayOfWeek => {
-      this.firstDayOfWeek.next(firstDayOfWeek);
-    });
   }
 
   private initializeTimeFormat(): void {
