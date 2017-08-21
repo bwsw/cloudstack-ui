@@ -7,7 +7,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmDialogComponent }   from './confirm-dialog/confirm-dialog.component';
 import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
 import { AskDialogComponent } from './ask-dialog/ask-dialog.component';
-import { BaseDialogComponent } from './base-dialog.component';
 
 @NgModule({
   imports: [
@@ -19,14 +18,12 @@ import { BaseDialogComponent } from './base-dialog.component';
   exports: [
     ConfirmDialogComponent,
     AlertDialogComponent,
-    AskDialogComponent,
-    BaseDialogComponent
+    AskDialogComponent
   ],
   declarations: [
     ConfirmDialogComponent,
     AlertDialogComponent,
-    AskDialogComponent,
-    BaseDialogComponent
+    AskDialogComponent
   ],
   providers: [
     DialogsService,
@@ -34,8 +31,7 @@ import { BaseDialogComponent } from './base-dialog.component';
   entryComponents: [
     ConfirmDialogComponent,
     AlertDialogComponent,
-    AskDialogComponent,
-    BaseDialogComponent
+    AskDialogComponent
   ],
 })
 export class DialogModule { }

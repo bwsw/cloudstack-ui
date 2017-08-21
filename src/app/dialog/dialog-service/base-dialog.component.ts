@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Inject } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
@@ -12,7 +12,6 @@ export interface BaseDialogConfiguration {
 }
 
 
-@Component({})
 export class BaseDialogComponent<M> {
 
   public config: BaseDialogConfiguration;
