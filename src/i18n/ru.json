@@ -498,6 +498,7 @@
       "ZONE": "Зона",
       "SERVICE_OFFERING": "Вычислительное предложение",
       "INSTALLATION_SOURCE": "Источник установки",
+      "DISK_OFFERING": "Дисковое предложение",
       "DISK_SIZE": "Размер диска",
 
       "GROUP": "Группа",

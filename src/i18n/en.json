@@ -498,6 +498,7 @@
       "ZONE": "Zone",
       "SERVICE_OFFERING": "Service offering",
       "INSTALLATION_SOURCE": "Installation source",
+      "DISK_OFFERING": "Disk offering",
       "DISK_SIZE": "Disk size",
 
       "GROUP": "Group",

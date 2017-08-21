@@ -73,7 +73,7 @@
         </div>
 
         <div *ngIf="formState.state.diskOfferingsAreAllowed">
-          <h5>{{ 'DISK_OFFERING' | translate }}</h5>
+          <h5>{{ 'VM_PAGE.VM_CREATION.DISK_OFFERING' | translate }}</h5>
           <cs-disk-offering
             name="diskOfferingSelector"
             [diskOfferingList]="formState.data.diskOfferings"
