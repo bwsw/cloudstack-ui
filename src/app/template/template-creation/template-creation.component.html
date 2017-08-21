@@ -1,7 +1,7 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
 <div class="security-group-template-form">
   <h3 class="mdl-dialog__title">
-    {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.NEW_'+ mode.toUpperCase() | translate }}
+    {{ modeTranslationToken | translate }}
   </h3>
   <form (ngSubmit)="onCreate()" #templateCreationForm="ngForm" novalidate>
     <div
