@@ -12,22 +12,14 @@
     </button>
   </h4>
   <div class="stat-list" [class.closed]="!isOpen">
-    <mdl-tabs
+    <md-tab-group
       class="tab-switch"
-      [mdl-tab-active-index]="mode"
-      (mdl-tab-active-changed)="switchMode()"
+      md-selected="mode"
+      (selectChange)="switchMode()"
     >
-      <mdl-tab-panel>
-        <mdl-tab-panel-title>
-          <span>{{ 'USED' | translate }}</span>
-        </mdl-tab-panel-title>
-      </mdl-tab-panel>
-      <mdl-tab-panel>
-        <mdl-tab-panel-title>
-          <span>{{ 'FREE' | translate }}</span>
-        </mdl-tab-panel-title>
-      </mdl-tab-panel>
-    </mdl-tabs>
+      <md-tab label="{{ 'USED' | translate }}"></md-tab>
+      <md-tab label="{{ 'FREE' | translate }}"></md-tab>
+    </md-tab-group>
     <div class="stat-list-container">
       <md-card *ngFor="let stat of statsList" class="stat-card-md">
         <md-card-header>

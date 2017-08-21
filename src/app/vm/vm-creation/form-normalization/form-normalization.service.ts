@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import {
   CustomServiceOfferingService
 } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
-import { ServiceOfferingService, Utils } from '../../../shared/services';
+import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
+import { Utils } from '../../../shared/services/utils.service';
 import { VmCreationData } from '../data/vm-creation-data';
 import { VmCreationState } from '../data/vm-creation-state';
 import { VmCreationFormState } from '../vm-creation.component';
-import * as cloneDeep from 'lodash/cloneDeep';
 
 
 @Injectable()
@@ -153,10 +153,15 @@ export class VmCreationFormNormalizationService {
     }
 
     const defaultDiskSize = 1;
-    const size = Math.ceil(Utils.convertToGB(formState.state.template.size)) || defaultDiskSize;
+    const minSize = Math.ceil(Utils.convertToGB(formState.state.template.size)) || defaultDiskSize;
     // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
-    formState.state.rootDiskSize = size;
-    formState.state.rootDiskSizeMin = size;
+    formState.state.rootDiskSizeMin = minSize;
+    if (
+      formState.state.rootDiskSize == null ||
+      formState.state.rootDiskSize < formState.state.rootDiskSizeMin
+    ) {
+      formState.state.rootDiskSize = formState.state.rootDiskSizeMin;
+    }
 
     return formState;
   }

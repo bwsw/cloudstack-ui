@@ -57,3 +57,16 @@ mdl-layout-title {
     right: 0 !important;
   }
 }
+
+:host /deep/ .mat-tab-body-content {
+  height: inherit;
+  overflow: hidden;
+}
+
+/deep/ .mat-tab-labels {
+  justify-content: space-around;
+}
+
+/deep/ .md-tab-tooltip {
+  height: 40px;
+}

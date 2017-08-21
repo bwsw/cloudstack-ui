@@ -5,9 +5,10 @@ import { LogoutComponent } from './auth/logout.component';
 import { EventListComponent } from './events/event-list.component';
 import { SgTemplateListComponent } from './security-group/sg-template-list/sg-template-list.component';
 import { SettingsComponent } from './settings/settings.component';
-import { AuthGuard, LoginGuard } from './shared/services';
-import { SshKeysPageComponent } from './ssh-keys/ssh-keys-page.component';
 import { ReloadComponent } from './shared/components/reload/reload.component';
+import { AuthGuard } from './shared/services/auth-guard.service';
+import { LoginGuard } from './shared/services/login-guard.service';
+import { SshKeysPageComponent } from './ssh-keys/ssh-keys-page.component';
 
 
 export const routes: Routes = [

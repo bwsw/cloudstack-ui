@@ -2,20 +2,16 @@ import { BaseModel } from '../shared/models/base.model';
 import { FieldMapper } from '../shared/decorators/field-mapper.decorator';
 
 
-export type NetworkRuleType = 'Ingress' | 'Egress';
+export enum NetworkRuleType {
+  Ingress = 'Ingress',
+  Egress = 'Egress'
+}
 
-export const NetworkRuleTypes = {
-  Ingress: 'Ingress' as NetworkRuleType,
-  Egress: 'Egress' as NetworkRuleType
-};
-
-export type NetworkProtocol = 'tcp' | 'udp' | 'icmp';
-
-export const NetworkProtocols = {
-  TCP: 'tcp' as NetworkProtocol,
-  UDP: 'udp' as NetworkProtocol,
-  ICMP: 'icmp' as NetworkProtocol
-};
+export enum NetworkProtocol {
+  TCP = 'tcp',
+  UDP = 'udp',
+  ICMP = 'icmp'
+}
 
 @FieldMapper({
   ruleid: 'ruleId',
@@ -39,11 +35,11 @@ export class NetworkRule extends BaseModel {
       return false;
     }
 
-    if (this.protocol === NetworkProtocols.TCP || this.protocol === NetworkProtocols.UDP) {
+    if (this.protocol === NetworkProtocol.TCP || this.protocol === NetworkProtocol.UDP) {
       return this.startPort === networkRule.startPort && this.endPort === networkRule.endPort;
     }
 
-    if (this.protocol === NetworkProtocols.ICMP) {
+    if (this.protocol === NetworkProtocol.ICMP) {
       return this.icmpCode === networkRule.icmpCode && this.icmpType === networkRule.icmpType;
     }
   }

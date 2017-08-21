@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { VirtualMachine } from './vm.model';
-import { VolumeTypes } from '../../shared/models/volume.model';
+import { VolumeType } from '../../shared/models/volume.model';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { VmService } from './vm.service';
@@ -18,7 +18,7 @@ export class VmEntityDeletionService {
     this.volumeService.getList({ virtualMachineId: vm.id })
       .subscribe(volumes => {
         volumes
-          .filter(volume => volume.type === VolumeTypes.DATADISK)
+          .filter(volume => volume.type === VolumeType.DATADISK)
           .forEach(volume =>
             this.volumeService.markForDeletion(volume.id).subscribe()
           );

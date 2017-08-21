@@ -1,5 +1,5 @@
 export function ZoneName(): ClassDecorator {
-  return function (target: Function): typeof target {
+  return function<T extends Function>(target: T): typeof target {
     Object.defineProperty(target.prototype, 'nameWithZone', {
       get: function(): string {
         return `${this.zoneName} / ${this.name}`;

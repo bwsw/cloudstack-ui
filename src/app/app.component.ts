@@ -1,11 +1,9 @@
 import { MdlLayoutComponent } from '@angular-mdl/core';
 import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Response } from '@angular/http';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import '../style/app.scss';
 import { MdlDialogService } from './dialog/dialog-module';
-import { Color } from './shared/models';
 import {
   ErrorService,
   LanguageService,
@@ -15,11 +13,16 @@ import {
 import { AsyncJobService } from './shared/services/async-job.service';
 import { AuthService } from './shared/services/auth.service';
 import { CacheService } from './shared/services/cache.service';
+import { ErrorService } from './shared/services/error.service';
+import { LanguageService } from './shared/services/language.service';
+import { LayoutService } from './shared/services/layout.service';
 import { MemoryStorageService } from './shared/services/memory-storage.service';
+import { NotificationService } from './shared/services/notification.service';
 import { RouterUtilsService } from './shared/services/router-utils.service';
 import { SessionStorageService } from './shared/services/session-storage.service';
 import { StyleService } from './shared/services/style.service';
 import { ZoneService } from './shared/services/zone.service';
+
 
 @Component({
   selector: 'cs-app',

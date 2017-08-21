@@ -1,8 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ConfigService, ResourceStats, ResourceUsageService } from '../../../shared/services';
-import { ICustomOfferingRestrictions, ICustomOfferingRestrictionsByZone } from '../custom-offering-restrictions';
-import { CustomServiceOffering, ICustomServiceOffering } from '../custom-service-offering';
+import { ConfigService } from '../../../shared/services/config.service';
+import {
+  ResourceStats,
+  ResourceUsageService
+} from '../../../shared/services/resource-usage.service';
+import {
+  ICustomOfferingRestrictions,
+  ICustomOfferingRestrictionsByZone
+} from '../custom-offering-restrictions';
+import {
+  CustomServiceOffering,
+  ICustomServiceOffering
+} from '../custom-service-offering';
 
 
 export interface DefaultServiceOfferingConfigurationByZone {

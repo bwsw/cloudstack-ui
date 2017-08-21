@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { ZoneService } from '../../../shared/services';
+import { ZoneService } from '../../../shared/services/zone.service';
 import { VirtualMachine } from '../../shared/vm.model';
 
 
