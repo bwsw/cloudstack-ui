@@ -24,7 +24,7 @@ export class TemplateService extends BaseTemplateService {
     params['format'] = 'QCOW2';
     params['requiresHvm'] = true;
 
-    return super.register(params)
+    return <Observable<Template>>super.register(params)
       .do(() => this.invalidateCache());
   }
 }

@@ -4,16 +4,19 @@ import { Subject } from 'rxjs/Subject';
 import { SecurityGroup } from '../../security-group/sg.model';
 import { BackendResource } from '../../shared/decorators';
 import { AsyncJob, OsType, ServiceOffering, Volume } from '../../shared/models';
-import { AsyncJobService, BaseBackendService, OsTypeService, } from '../../shared/services';
-import { Iso } from '../../template/shared';
-import { VirtualMachine, VmState } from './vm.model';
-import { ServiceOfferingService } from '../../shared/services/service-offering.service';
-import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { VolumeService } from '../../shared/services/volume.service';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
-import { VirtualMachineActionType } from '../vm-actions/vm-action';
-import { IVirtualMachineCommand } from '../vm-actions/vm-command';
+import { VolumeType } from '../../shared/models/volume.model';
+import { AsyncJobService } from '../../shared/services/async-job.service';
+import { ApiFormat, BaseBackendService } from '../../shared/services/base-backend.service';
+import { OsTypeService } from '../../shared/services/os-type.service';
+import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
+import { VolumeService } from '../../shared/services/volume.service';
+import { Iso } from '../../template/shared';
+import { VmActions } from '../vm-actions/vm-action';
+import { IVirtualMachineCommand } from '../vm-actions/vm-command';
+import { VirtualMachine, VmState } from './vm.model';
 
 
 export const VirtualMachineEntityName = 'VirtualMachine';
@@ -44,7 +47,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
           return Observable.of(+numberOfVms);
         }
 
-        return this.getListWithDetails({}, true)
+        return this.getListWithDetails({}, null, true)
           .switchMap(vmList => {
             return this.userTagService.setLastVmId(vmList.length);
           });
@@ -66,7 +69,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     );
   }
 
-  public getListWithDetails(params?: {}, lite = false): Observable<Array<VirtualMachine>> {
+  public getListWithDetails(params?: {}, customApiFormat?: ApiFormat, lite = false): Observable<Array<VirtualMachine>> {
     if (lite) {
       return super.getList(params);
     }
@@ -118,7 +121,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public command(vm: VirtualMachine, command: IVirtualMachineCommand): Observable<any> {
-    const commandName = command.commandName as VirtualMachineActionType;
+    const commandName = command.commandName as VmActions;
     const initialState = vm.state;
 
     this.setStateForVm(vm, command.vmStateOnAction as VmState);
@@ -199,8 +202,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   private sortVolumes(volumes: Array<Volume>): Array<Volume> {
     return volumes.sort((a: Volume, b) => {
-      const aIsRoot = a.type === 'ROOT';
-      const bIsRoot = b.type === 'ROOT';
+      const aIsRoot = a.type === VolumeType.ROOT;
+      const bIsRoot = b.type === VolumeType.ROOT;
       if (aIsRoot && !bIsRoot) {
         return -1;
       }

@@ -3,38 +3,23 @@ import { FieldMapper, ZoneName } from '../../shared/decorators';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { BaseModel, InstanceGroup, NIC, OsType, ServiceOffering, Tag, Volume } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
-import { BaseTemplateModel } from '../../template/shared';
 import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag.service';
+import { BaseTemplateModel } from '../../template/shared';
 
 
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
 
-export interface IVmAction {
-  name: string;
-  commandName: string;
-  nameLower: string;
-  nameCaps: string;
-  vmStateOnAction: string;
-  vmActionCompleted: string;
-  mdlIcon?: string;
-  confirmMessage: string;
-  progressMessage: string;
-  successMessage: string;
+export enum VmState {
+  Running = 'Running',
+  Stopped = 'Stopped',
+  Error = 'Error',
+  Destroyed = 'Destroyed',
+  Expunged = 'Expunged',
+
+  // custom states
+  Deploying = 'Deploying',
+  Expunging = 'Expunging'
 }
-
-type PredefinedStates = 'Running' | 'Stopped' | 'Error' | 'Destroyed' | 'Expunged';
-type CustomStates = 'Deploying' | 'Expunging';
-export type VmState = PredefinedStates | CustomStates;
-export const VmStates = {
-  Running: 'Running' as VmState,
-  Stopped: 'Stopped' as VmState,
-  Error: 'Error' as VmState,
-  Destroyed: 'Destroyed' as VmState,
-  Expunged: 'Expunged' as VmState,
-  Deploying: 'Deploying' as VmState,
-  Expunging: 'Expunging' as VmState
-};
-
 
 @ZoneName()
 @FieldMapper({

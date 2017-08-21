@@ -1,8 +1,8 @@
 import {Component, forwardRef, Input, ChangeDetectorRef} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { TimeFormat } from '../../../../shared/services/language.service';
 import { DayPeriodName } from '../../day-period/day-period.component';
 import { Time } from '../../time-picker/time-picker.component';
-import { TimeFormat } from '../../../../shared/services';
 
 
 export type DailyPolicy = Time;

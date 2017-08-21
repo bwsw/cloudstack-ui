@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ListService } from '../../shared/components/list/list.service';
-import { NotificationService } from '../../shared/services';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { ListService } from '../../shared/components/list/list.service';
+import { NotificationService } from '../../shared/services/notification.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag.service';
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
 import { SgTemplateCreationComponent } from '../sg-template-creation/sg-template-creation.component';
 import { SecurityGroup } from '../sg.model';
-import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag.service';
 
 
 @Component({

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { TagService } from './tag.service';
+import { Taggable } from '../../interfaces/taggable.interface';
 import { Snapshot } from '../../models/snapshot.model';
-import { EntityTagService } from './entity-tag-service.interface';
 import { DescriptionTagService } from './description-tag.service';
+import { EntityTagService } from './entity-tag-service.interface';
+import { TagService } from './tag.service';
 
 
 export const SnapshotTagKeys = {
@@ -23,7 +24,7 @@ export class SnapshotTagService implements EntityTagService {
     return this.descriptionTagService.getDescription(snapshot, this);
   }
 
-  public setDescription(snapshot: Snapshot, description: string): Observable<Snapshot> {
+  public setDescription(snapshot: Snapshot, description: string): Observable<Taggable> {
     return this.descriptionTagService.setDescription(snapshot, description, this);
   }
 }

@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { Color } from '../../../app/shared/models/color.model';
+import { Language, Languages, TimeFormat } from '../../../app/shared/services/language.service';
 import { DayOfWeek } from '../../../app/shared/types/day-of-week';
-import { Language, Languages, TimeFormat, TimeFormats } from '../../../app/shared/services/language.service';
 
 
 interface UserIdObject {
@@ -80,11 +80,11 @@ export class MockUserTagService {
   }
 
   public getTimeFormat(): Observable<TimeFormat> {
-    return Observable.of(TimeFormats.AUTO);
+    return Observable.of(TimeFormat.AUTO);
   }
 
   public setTimeFormat(timeFormat: TimeFormat): Observable<TimeFormat> {
-    return Observable.of(TimeFormats.AUTO);
+    return Observable.of(TimeFormat.AUTO);
   }
 
   public removeTimeFormat(): Observable<void> {

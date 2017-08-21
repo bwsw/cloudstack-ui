@@ -52,7 +52,7 @@ export class VmTagService implements EntityTagService {
   }
 
   public setDescription(vm: VirtualMachine, description: string): Observable<VirtualMachine> {
-    return this.descriptionTagService.setDescription(vm, description, this);
+    return this.descriptionTagService.setDescription(vm, description, this) as Observable<VirtualMachine>;
   }
 
   public getGroup(vm: VirtualMachine): Observable<InstanceGroup> {

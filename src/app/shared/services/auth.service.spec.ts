@@ -4,15 +4,18 @@ import { BaseRequestOptions, Http, HttpModule, XHRBackend } from '@angular/http'
 import { MockBackend } from '@angular/http/testing';
 import { NavigationExtras, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-
-import { AsyncJobService, AuthService, CacheService, ConfigService, ErrorService } from './';
+import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
+import { MockUserTagService } from '../../../testutils/mocks/tag-services/mock-user-tag.service';
+import { AsyncJobService } from './async-job.service';
+import { AuthService } from './auth.service';
+import { CacheService } from './cache.service';
+import { ConfigService } from './config.service';
+import { ErrorService } from './error.service';
+import { LocalStorageService } from './local-storage.service';
 import { RouterUtilsService } from './router-utils.service';
 import { ServiceLocator } from './service-locator';
-import { UserService } from './user.service';
-import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
-import { LocalStorageService } from './local-storage.service';
 import { UserTagService } from './tags/user-tag.service';
-import { MockUserTagService } from '../../../testutils/mocks/tag-services/mock-user-tag.service';
+import { UserService } from './user.service';
 
 
 @Component({

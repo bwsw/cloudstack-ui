@@ -4,7 +4,14 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdIconModule, MdListModule, MdSelectModule, MdSnackBarModule, MdCardModule, MdTabsModule } from '@angular/material';
+import {
+  MdCardModule,
+  MdIconModule,
+  MdListModule,
+  MdSelectModule,
+  MdSnackBarModule,
+  MdTabsModule
+} from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -35,9 +42,7 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
-import {
-  CreateUpdateDeleteDialogComponent
-} from './components/create-update-delete-dialog/create-update-delete-dialog.component';
+import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';

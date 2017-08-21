@@ -9,13 +9,13 @@ import {
 } from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
 import { ServiceOffering, ServiceOfferingFields } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
+import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
-import { VirtualMachine, VmStates } from '../shared/vm.model';
+import { VmTagService } from '../../shared/services/tags/vm-tag.service';
+import { VmActionsService } from '../shared/vm-actions.service';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { SshKeypairResetComponent } from './ssh/ssh-keypair-reset.component';
-import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
-import { VmActionsService } from '../shared/vm-actions.service';
-import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 
 
 @Component({
@@ -153,7 +153,7 @@ export class VmDetailComponent implements OnChanges {
     return this.vmService.get(currentVM.id)
       .do(() => loadingFunction(false))
       .switchMap(vm => {
-        if (vm.state === VmStates.Stopped) {
+        if (vm.state === VmState.Stopped) {
           return Observable.of(true);
         }
 

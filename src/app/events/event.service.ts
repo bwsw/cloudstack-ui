@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BackendResource } from '../shared/decorators';
+import { BaseBackendService } from '../shared/services/base-backend.service';
 
-import { BaseBackendService } from '../shared/services';
 import { Event } from './event.model';
 
 @Injectable()

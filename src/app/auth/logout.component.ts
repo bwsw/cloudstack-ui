@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MdlDialogService } from '../dialog/dialog-module';
-import { AuthService } from '../shared/services';
+import { AuthService } from '../shared/services/auth.service';
 import { RouterUtilsService } from '../shared/services/router-utils.service';
 
 

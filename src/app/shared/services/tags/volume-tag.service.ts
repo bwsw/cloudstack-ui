@@ -25,10 +25,10 @@ export class VolumeTagService {
   }
 
   public setDescription(volume: Volume, description: string): Observable<Volume> {
-    return this.descriptionTagService.setDescription(volume, description, this);
+    return this.descriptionTagService.setDescription(volume, description, this) as Observable<Volume>;
   }
 
   public markForRemoval(volume: Volume): Observable<Volume> {
-    return this.markForRemovalService.markForRemoval(volume);
+    return this.markForRemovalService.markForRemoval(volume) as Observable<Volume>;
   }
 }

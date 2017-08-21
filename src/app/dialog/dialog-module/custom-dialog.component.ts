@@ -2,7 +2,7 @@ import { Component, HostListener, Inject, OnInit, ViewChild } from '@angular/cor
 import { TranslateService } from '@ngx-translate/core';
 import { MdlButtonComponent } from '@angular-mdl/core';
 import { Observable } from 'rxjs/Observable';
-import { DialogType, DialogTypes, ParametrizedTranslation } from './dialog.service';
+import { DialogType, ParametrizedTranslation } from './dialog.service';
 import { MdlDialogReference } from './mdl-dialog.service';
 
 
@@ -52,7 +52,7 @@ export class CustomSimpleDialogComponent implements OnInit {
   }
 
   public get showDeclineButton(): boolean {
-    return this.config.dialogType === DialogTypes.CONFIRM;
+    return this.config.dialogType === DialogType.CONFIRM;
   }
 
   public confirm(): void {

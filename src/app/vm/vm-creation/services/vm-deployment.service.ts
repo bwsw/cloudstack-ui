@@ -1,41 +1,30 @@
 import { Injectable } from '@angular/core';
-import { VmCreationState } from '../data/vm-creation-state';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { VmService } from '../../shared/vm.service';
-import { VirtualMachine, VmStates } from '../../shared/vm.model';
-import { AffinityGroupService, InstanceGroupService } from '../../../shared/services';
-import { AffinityGroup, AffinityGroupTypes } from '../../../shared/models';
 import { SecurityGroup } from '../../../security-group/sg.model';
+import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
+import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
+import { InstanceGroupService } from '../../../shared/services/instance-group.service';
 import { GROUP_POSTFIX, SecurityGroupService } from '../../../shared/services/security-group.service';
-import { Utils } from '../../../shared/services/utils.service';
 import { TagService } from '../../../shared/services/tags/tag.service';
+import { Utils } from '../../../shared/services/utils.service';
+import { VirtualMachine, VmState } from '../../shared/vm.model';
+import { VmService } from '../../shared/vm.service';
+import { VmCreationState } from '../data/vm-creation-state';
 
 
-export type VmDeploymentStage =
-  'STARTED' |
-  'IN_PROGRESS' |
-  'AG_GROUP_CREATION' |
-  'AG_GROUP_CREATION_FINISHED' |
-  'SG_GROUP_CREATION' |
-  'SG_GROUP_CREATION_FINISHED' |
-  'VM_DEPLOYED' |
-  'FINISHED' |
-  'ERROR' |
-  'TEMP_VM';
-
-export const VmDeploymentStages = {
-  STARTED: 'STARTED' as VmDeploymentStage,
-  IN_PROGRESS: 'IN_PROGRESS' as VmDeploymentStage,
-  AG_GROUP_CREATION: 'AG_GROUP_CREATION' as VmDeploymentStage,
-  AG_GROUP_CREATION_FINISHED: 'AG_GROUP_CREATION_FINISHED' as VmDeploymentStage,
-  SG_GROUP_CREATION: 'SG_GROUP_CREATION' as VmDeploymentStage,
-  SG_GROUP_CREATION_FINISHED: 'SG_GROUP_CREATION_FINISHED' as VmDeploymentStage,
-  VM_DEPLOYED: 'VM_DEPLOYED' as VmDeploymentStage,
-  FINISHED: 'FINISHED' as VmDeploymentStage,
-  ERROR: 'ERROR' as VmDeploymentStage,
-  TEMP_VM: 'TEMP_VM' as VmDeploymentStage
-};
+export enum VmDeploymentStage {
+  STARTED = 'STARTED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  AG_GROUP_CREATION = 'AG_GROUP_CREATION',
+  AG_GROUP_CREATION_FINISHED = 'AG_GROUP_CREATION_FINISHED',
+  SG_GROUP_CREATION = 'SG_GROUP_CREATION',
+  SG_GROUP_CREATION_FINISHED = 'SG_GROUP_CREATION_FINISHED',
+  VM_DEPLOYED = 'VM_DEPLOYED',
+  FINISHED = 'FINISHED',
+  ERROR = 'ERROR',
+  TEMP_VM = 'TEMP_VM'
+}
 
 export interface VmDeploymentMessage {
   stage: VmDeploymentStage;
@@ -72,7 +61,7 @@ export class VmDeploymentService {
     return Observable.of(null)
       .do(() => {
         deployObservable.next({
-          stage: VmDeploymentStages.STARTED
+          stage: VmDeploymentStage.STARTED
         });
       })
       .switchMap(() => this.getPreDeployActions(deployObservable, state))
@@ -84,7 +73,7 @@ export class VmDeploymentService {
       .switchMap(vm => {
         deployedVm = vm;
         deployObservable.next({
-          stage: VmDeploymentStages.VM_DEPLOYED
+          stage: VmDeploymentStage.VM_DEPLOYED
         });
         return this.getPostDeployActions(vm, state);
       })
@@ -127,18 +116,18 @@ export class VmDeploymentService {
     return Observable.of(null)
       .do(() => {
         deployObservable.next({
-          stage: VmDeploymentStages.AG_GROUP_CREATION
+          stage: VmDeploymentStage.AG_GROUP_CREATION
         });
       })
       .switchMap(() => {
         return this.affinityGroupService.create({
           name: state.affinityGroup.name,
-          type: AffinityGroupTypes.hostAntiAffinity
+          type: AffinityGroupType.hostAntiAffinity
         });
       })
       .do(() => {
         deployObservable.next({
-          stage: VmDeploymentStages.AG_GROUP_CREATION_FINISHED
+          stage: VmDeploymentStage.AG_GROUP_CREATION_FINISHED
         });
       });
   }
@@ -151,7 +140,7 @@ export class VmDeploymentService {
     return Observable.of(null)
       .do(() => {
         deployObservable.next({
-          stage: VmDeploymentStages.SG_GROUP_CREATION
+          stage: VmDeploymentStage.SG_GROUP_CREATION
         });
       })
       .switchMap(() => {
@@ -163,7 +152,7 @@ export class VmDeploymentService {
       })
       .do(() => {
         deployObservable.next({
-          stage: VmDeploymentStages.SG_GROUP_CREATION_FINISHED
+          stage: VmDeploymentStage.SG_GROUP_CREATION_FINISHED
         })
       })
   }
@@ -178,7 +167,7 @@ export class VmDeploymentService {
     return this.vmService.deploy(params)
       .do(() => {
         return deployObservable.next({
-          stage: VmDeploymentStages.IN_PROGRESS
+          stage: VmDeploymentStage.IN_PROGRESS
         })
       })
       .switchMap(response => {
@@ -197,9 +186,9 @@ export class VmDeploymentService {
     temporaryVm: VirtualMachine,
     deployObservable: Subject<VmDeploymentMessage>
   ): void {
-    temporaryVm.state = VmStates.Deploying;
+    temporaryVm.state = VmState.Deploying;
     deployObservable.next({
-      stage: VmDeploymentStages.TEMP_VM,
+      stage: VmDeploymentStage.TEMP_VM,
       vm: temporaryVm
     });
     this.vmService.updateVmInfo(temporaryVm);
@@ -211,7 +200,7 @@ export class VmDeploymentService {
   ): void {
     this.vmService.updateVmInfo(vm);
     deployObservable.next({
-      stage: VmDeploymentStages.FINISHED,
+      stage: VmDeploymentStage.FINISHED,
       vm
     });
   }
@@ -222,12 +211,12 @@ export class VmDeploymentService {
     deployObservable: Subject<VmDeploymentMessage>
   ): void {
     if (temporaryVm) {
-      temporaryVm.state = VmStates.Error;
+      temporaryVm.state = VmState.Error;
       this.vmService.updateVmInfo(temporaryVm);
     }
 
     deployObservable.next({
-      stage: VmDeploymentStages.ERROR,
+      stage: VmDeploymentStage.ERROR,
       error
     });
   }

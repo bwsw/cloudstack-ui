@@ -8,6 +8,7 @@ import { DayOfWeek } from '../../types/day-of-week';
 import { Language, TimeFormat } from '../language.service';
 import { LocalStorageService } from '../local-storage.service';
 import { EntityTagService } from './entity-tag-service.interface';
+import { Time } from '../../../snapshot/recurring-snapshots/time-picker/time-picker.component';
 
 
 export const UserTagKeys = {
@@ -85,11 +86,11 @@ export class UserTagService implements EntityTagService {
   }
 
   public getLang(): Observable<Language> {
-    return this.readTag(this.keys.lang);
+    return this.readTag(this.keys.lang) as Observable<Language>;
   }
 
   public setLang(language: Language): Observable<Language> {
-    return this.writeTag(this.keys.lang, language);
+    return this.writeTag(this.keys.lang, language) as Observable<Language>;
   }
 
   public getLastVmId(): Observable<number> {
@@ -122,11 +123,11 @@ export class UserTagService implements EntityTagService {
   }
 
   public getTimeFormat(): Observable<TimeFormat> {
-    return this.readTag(this.keys.timeFormat);
+    return this.readTag(this.keys.timeFormat) as Observable<TimeFormat>;
   }
 
   public setTimeFormat(timeFormat: TimeFormat): Observable<TimeFormat> {
-    return this.writeTag(this.keys.timeFormat, timeFormat);
+    return this.writeTag(this.keys.timeFormat, timeFormat) as Observable<TimeFormat>;
   }
 
   public removeTimeFormat(): Observable<void> {

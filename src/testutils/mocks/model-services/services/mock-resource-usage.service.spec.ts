@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ResourceStats } from '../../../../app/shared/services';
+import { ResourceStats } from '../../../../app/shared/services/resource-usage.service';
 
 
 @Injectable()

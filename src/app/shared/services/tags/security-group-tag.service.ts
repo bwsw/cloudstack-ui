@@ -21,7 +21,7 @@ export class SecurityGroupTagService implements EntityTagService {
   ) {}
 
   public markForRemoval(securityGroup: SecurityGroup): Observable<SecurityGroup> {
-    return this.markForRemovalService.markForRemoval(securityGroup);
+    return this.markForRemovalService.markForRemoval(securityGroup) as Observable<SecurityGroup>;
   }
 
   public markAsTemplate(securityGroup: SecurityGroup): Observable<SecurityGroup> {

@@ -15,12 +15,11 @@ export const Languages = {
 
 const DEFAULT_LANGUAGE = Languages.en;
 
-export type TimeFormat = 'hour12' | 'hour24' | 'auto';
-export const TimeFormats = {
-  'hour12': 'hour12' as TimeFormat,
-  'hour24': 'hour24' as TimeFormat,
-  AUTO: 'auto'
-};
+export enum TimeFormat {
+  hour12 = 'hour12',
+  hour24 = 'hour24',
+  AUTO = 'auto'
+}
 
 @Injectable()
 export class LanguageService {
@@ -78,18 +77,18 @@ export class LanguageService {
     return this.userTagService.getTimeFormat()
       .map(timeFormat => {
         switch (timeFormat) {
-          case TimeFormats.hour12:
-          case TimeFormats.hour24:
+          case TimeFormat.hour12:
+          case TimeFormat.hour24:
             return timeFormat;
           default:
-            return TimeFormats.AUTO;
+            return TimeFormat.AUTO;
         }
       });
   }
 
   public setTimeFormat(timeFormat: TimeFormat): Observable<string> {
-    if (timeFormat === TimeFormats.AUTO) {
-      return this.userTagService.removeTimeFormat().map(() => TimeFormats.AUTO);
+    if (timeFormat === TimeFormat.AUTO) {
+      return this.userTagService.removeTimeFormat().map(() => TimeFormat.AUTO);
     }
 
     return this.userTagService.setTimeFormat(timeFormat);
