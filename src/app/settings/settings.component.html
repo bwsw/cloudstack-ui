@@ -91,7 +91,7 @@
             *ngFor="let format of timeFormats"
             [value]="TimeFormat[format]"
           >
-            {{ 'SETTINGS.LOOK_AND_FEEL.' + format | translate }}
+            {{ getTimeFormatTranslationToken(format) | translate }}
           </md-option>
         </md-select>
       </div>

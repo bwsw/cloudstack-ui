@@ -315,6 +315,7 @@
         "TITLE": "Вычислительное предложение",
 
         "name": "Имя",
+        "description": "Описание",
         "cpuNumber": "Ядра CPU",
         "cpuSpeed": "CPU (МГц)",
         "memory": "Память (МБ)",

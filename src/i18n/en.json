@@ -315,6 +315,7 @@
         "TITLE": "Service offering",
 
         "name": "Name",
+        "description": "Description",
         "cpuNumber": "CPU cores",
         "cpuSpeed": "CPU (MHz)",
         "memory": "Memory (MB)",

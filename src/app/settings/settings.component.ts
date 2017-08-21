@@ -78,6 +78,16 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
     return this.primaryColors.filter(color => color.name !== this.primaryColor.name && !color.primaryOnly);
   }
 
+  public getTimeFormatTranslationToken(format: TimeFormat): string {
+    const timeFormatTranslations = {
+      'hour12': 'SETTINGS.LOOK_AND_FEEL.hour12',
+      'hour24': 'SETTINGS.LOOK_AND_FEEL.hour24',
+      'AUTO': 'SETTINGS.LOOK_AND_FEEL.AUTO'
+    };
+
+    return timeFormatTranslations[format];
+  }
+
   private get firstAvailableAccentColor(): Color {
     try {
       return this.primaryColor !== this.accentColors[0] ? this.accentColors[0] : this.accentColors[1];

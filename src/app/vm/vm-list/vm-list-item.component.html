@@ -18,7 +18,7 @@
           [class.stopped]="item.state === 'Stopped'"
           [class.error]="item.state === 'Error'"
           [class.in-progress]="item.state !== 'Running' && item.state !== 'Stopped'"
-          [mdTooltip]="('VM_STATE.' + item.state.toUpperCase()) | translate"
+          [mdTooltip]="stateTranslationToken | translate"
         ></span>
         <span
           [mdTooltip]="item.name"

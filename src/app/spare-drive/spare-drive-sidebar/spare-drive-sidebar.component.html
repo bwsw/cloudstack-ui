@@ -1,27 +1,5 @@
 <div *ngIf="volume">
-  <md-card>
-    <md-card-header>
-      <md-card-title>
-        <h2 class="md-card-title-text">{{ volume.name }}</h2>
-      </md-card-title>
-    </md-card-header>
-    <md-card-content>
-      <div class="grid grid-right">
-        <div class="row" *ngIf="volume.size">
-          <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.SIZE' | translate }}</div>
-          <div>{{ (volume.size | division:2:30:2) }} {{ ('UNITS.GB' | translate) }}</div>
-        </div>
-        <div class="row" *ngIf="volume.created">
-          <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.CREATED' | translate }}</div>
-          <div>{{ volume.created | stringifyDate }}</div>
-        </div>
-        <div class="row" *ngIf="volume.storageType">
-          <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.STORAGE_TYPE' | translate }}</div>
-          <div>{{ ('DISK_OFFERING_STORAGE_TYPE.' + volume.storageType.toUpperCase()) | translate }}</div>
-        </div>
-      </div>
-    </md-card-content>
-  </md-card>
+  <cs-spare-drive-sidebar-volume [volume]="volume"></cs-spare-drive-sidebar-volume>
 
   <cs-description
     [description]="description"

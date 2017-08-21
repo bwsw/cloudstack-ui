@@ -1,21 +1,3 @@
-@import '../../../style/__variables';
-
-.grid.service-offering {
-  overflow: hidden;
-  height: 5 * $sidebar-card-line-height;
-
-  &.open {
-    height: auto;
-  }
-}
-
-.security-group .row > div:nth-child(2n),
-.service-offering .row > div:nth-child(2n),
-.statistics .row > div:nth-child(2n)
-{
-  text-align: right;
-}
-
 .vm-details-header {
   height: 30px;
   margin: 0 0 6px 6px;

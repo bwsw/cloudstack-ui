@@ -60,7 +60,7 @@
             </div>
             <div *ngIf="template.type" class="row">
               <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.TYPE' | translate }}</div>
-              <div>{{ ('TEMPLATE_PAGE.TEMPLATE_DETAILS.' + template.type) | translate }}</div>
+              <div>{{ templateTypeTranslationToken | translate }}</div>
             </div>
             <div *ngIf="template.hypervisor" class="row">
               <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.HYPERVISOR' | translate }}</div>

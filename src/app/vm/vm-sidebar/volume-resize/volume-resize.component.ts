@@ -1,13 +1,11 @@
 import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
-import { MdlDialogReference } from '../../dialog/dialog-module';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
-
-import { DiskOffering } from '../../shared/models';
-import { Volume } from '../../shared/models/volume.model';
-import { DiskOfferingService } from '../../shared/services/disk-offering.service';
-import { DiskStorageService } from '../../shared/services/disk-storage.service';
-import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
-import { VolumeResizeData, VolumeService } from '../../shared/services/volume.service';
+import { MdlDialogReference } from '../../../dialog/dialog-module';
+import { DialogService } from '../../../dialog/dialog-module/dialog.service';
+import { DiskOffering } from '../../../shared/models';
+import { Volume } from '../../../shared/models/volume.model';
+import { DiskStorageService } from '../../../shared/services/disk-storage.service';
+import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
+import { VolumeResizeData, VolumeService } from '../../../shared/services/volume.service';
 
 
 @Component({
@@ -28,7 +26,6 @@ export class VolumeResizeComponent implements OnInit {
   constructor(
     public dialog: MdlDialogReference,
     private dialogService: DialogService,
-    private diskOfferingService: DiskOfferingService,
     private diskStorageService: DiskStorageService,
     private jobsNotificationService: JobsNotificationService,
     private volumeService: VolumeService,

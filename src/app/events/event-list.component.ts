@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
 import { formatIso } from '../shared/components/date-picker/dateUtils';
-import { LanguageService } from '../shared/services';
 import { DateTimeFormatterService } from '../shared/services/date-time-formatter.service';
 import { FilterService } from '../shared/services/filter.service';
 import { LanguageService } from '../shared/services/language.service';
