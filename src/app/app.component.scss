@@ -172,12 +172,40 @@ mdl-layout-title {
 }
 
 /deep/ .mat-dialog-content {
-  overflow: visible !important;
-}
-
-/deep/ .mat-dialog-content {
   color: rgba(0, 0, 0, .54);
   font-size: 14pt;
   padding: 20px 24px 24px;
 }
 
+
+/deep/ html {
+  position: initial !important;
+  overflow-y: initial !important;
+}
+
+/deep/ html.cdk-global-scrollblock body {
+  overflow: hidden;
+}
+/deep/ .cdk-overlay-container {
+  overflow: auto;
+}
+
+/deep/ .cdk-global-overlay-wrapper {
+  justify-content: center;
+  align-items: flex-start !important;
+  padding: 20px;
+}
+
+/deep/ .cdk-overlay-backdrop {
+  position: fixed !important;
+}
+
+/deep/ .cdk-overlay-pane {
+  margin: 20px;
+}
+
+.container {
+  display: flex;
+  padding: 15px 0;
+  justify-content: space-between;
+}

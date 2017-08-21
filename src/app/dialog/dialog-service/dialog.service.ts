@@ -12,6 +12,7 @@ const defaultConfirmDialogConfirmText = 'YES';
 const defaultConfirmDialogDeclineText = 'NO';
 const defaultAlertDialogConfirmText = 'OK';
 const defaultDisableClose = true;
+const defaultWidth = '400px';
 
 
 @Injectable()
@@ -71,7 +72,8 @@ export class DialogsService {
       } :
       {
         data: { config },
-        disableClose: config.disableClose
+        disableClose: config.disableClose,
+        width: defaultWidth
       };
   }
 }

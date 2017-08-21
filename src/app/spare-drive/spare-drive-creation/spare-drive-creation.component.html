@@ -1,8 +1,8 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
+
 <h3 class="mat-dialog-title">{{ 'VOLUME_CREATION_FORM.NEW_VOLUME' | translate }}</h3>
 <form (ngSubmit)="onCreate()" #volumeCreationForm="ngForm" novalidate>
-  <div class="mat-dialog-content">
-    <div class="flex-column">
+  <div md-dialog-content>
       <mdl-textfield
         type="text"
         label="{{ 'NAME' | translate }}"
@@ -53,7 +53,6 @@
           [(ngModel)]="size"
         ></cs-slider>
       </div>
-    </div>
   </div>
   <div class="mat-dialog-actions">
     <button
