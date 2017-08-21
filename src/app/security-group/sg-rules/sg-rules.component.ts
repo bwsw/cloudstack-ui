@@ -2,9 +2,9 @@ import { Component, Inject, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
-import { SecurityGroupService } from '../../shared/services';
-import { SecurityGroup, NetworkRuleType, NetworkRuleTypes, NetworkProtocol, NetworkProtocols } from '../sg.model';
-import { NotificationService } from '../../shared/services';
+import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { SecurityGroup, NetworkRuleType, NetworkProtocol } from '../sg.model';
+import { NotificationService } from '../../shared/services/notification.service';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 
 
@@ -27,18 +27,18 @@ export class SgRulesComponent {
 
   public adding: boolean;
 
-  public NetworkProtocols = NetworkProtocols;
-  public NetworkRuleTypes = NetworkRuleTypes;
+  public NetworkProtocols = NetworkProtocol;
+  public NetworkRuleTypes = NetworkRuleType;
 
   public types = [
-    { value: NetworkRuleTypes.Ingress, text: 'INGRESS' },
-    { value: NetworkRuleTypes.Egress, text: 'EGRESS' },
+    { value: NetworkRuleType.Ingress, text: 'INGRESS' },
+    { value: NetworkRuleType.Egress, text: 'EGRESS' },
   ];
 
   public protocols = [
-    { value: NetworkProtocols.TCP, text: 'TCP' },
-    { value: NetworkProtocols.UDP, text: 'UDP' },
-    { value: NetworkProtocols.ICMP, text: 'ICMP' }
+    { value: NetworkProtocol.TCP, text: 'TCP' },
+    { value: NetworkProtocol.UDP, text: 'UDP' },
+    { value: NetworkProtocol.ICMP, text: 'ICMP' }
   ];
 
   constructor(
@@ -50,8 +50,8 @@ export class SgRulesComponent {
   ) {
     this.securityGroup = data.securityGroup;
     this.cidr = '0.0.0.0/0';
-    this.protocol = NetworkProtocols.TCP;
-    this.type = NetworkRuleTypes.Ingress;
+    this.protocol = NetworkProtocol.TCP;
+    this.type = NetworkRuleType.Ingress;
     this.icmpCode = -1;
     this.icmpType = -1;
 
@@ -68,7 +68,7 @@ export class SgRulesComponent {
       cidrList: this.cidr
     };
 
-    if (this.protocol === NetworkProtocols.ICMP) {
+    if (this.protocol === NetworkProtocol.ICMP) {
       params.icmptype = this.icmpType;
       params.icmpcode = this.icmpCode;
     } else {

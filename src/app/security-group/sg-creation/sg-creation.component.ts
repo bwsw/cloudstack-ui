@@ -1,9 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
 
 import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { NetworkRule, NetworkRuleTypes, SecurityGroup } from '../sg.model';
+import { NetworkRule, NetworkRuleType, SecurityGroup } from '../sg.model';
 
 
 export interface RuleListItem {
@@ -41,7 +40,7 @@ export class SgCreationComponent implements OnInit {
   public selectedColumnIndex: number;
   public selectedRules: Array<Array<RuleListItem>>;
 
-  public NetworkRuleTypes = NetworkRuleTypes;
+  public NetworkRuleTypes = NetworkRuleType;
 
   constructor(
     private dialogRef: MdDialogRef<SgCreationComponent>,

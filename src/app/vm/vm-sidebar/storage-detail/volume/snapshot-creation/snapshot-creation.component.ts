@@ -2,15 +2,15 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import * as moment from 'moment';
 
-
-import {
-  JobsNotificationService,
-  SnapshotService,
-  StatsUpdateService
-} from '../../../../../shared/services';
-import { ResourceUsageService, ResourceStats } from '../../../../../shared/services/resource-usage.service';
 import { DialogsService } from '../../../../../dialog/dialog-service/dialog.service';
 import { Volume } from '../../../../../shared/models/volume.model';
+import { JobsNotificationService } from '../../../../../shared/services/jobs-notification.service';
+import {
+  ResourceStats,
+  ResourceUsageService
+} from '../../../../../shared/services/resource-usage.service';
+import { SnapshotService } from '../../../../../shared/services/snapshot.service';
+import { StatsUpdateService } from '../../../../../shared/services/stats-update.service';
 
 
 @Component({

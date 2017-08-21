@@ -7,16 +7,16 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-
-import { Zone } from '../../shared';
-import { InstanceGroup } from '../../shared/models';
-import { FilterService, InstanceGroupService } from '../../shared/services';
-import { VmState, VmStates } from '../shared/vm.model';
-import { VmService } from '../shared/vm.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import * as sortBy from 'lodash/sortBy';
+
+import { InstanceGroup, Zone } from '../../shared/models';
+import { FilterService } from '../../shared/services/filter.service';
+import { InstanceGroupService } from '../../shared/services/instance-group.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { VmState } from '../shared/vm.model';
+import { VmService } from '../shared/vm.service';
 
 
 export interface VmFilter {
@@ -48,9 +48,9 @@ export class VmFilterComponent implements OnInit, OnChanges {
   public selectedZones: Array<Zone> = [];
   public selectedGroupings: Array<any> = [];
   public states = [
-    { state: VmStates.Running, name: 'VM_FILTERS.STATE.RUNNING' },
-    { state: VmStates.Stopped, name: 'VM_FILTERS.STATE.STOPPED' },
-    { state: VmStates.Error, name: 'VM_FILTERS.STATE.ERROR' }
+    { state: VmState.Running, name: 'VM_FILTERS.STATE.RUNNING' },
+    { state: VmState.Stopped, name: 'VM_FILTERS.STATE.STOPPED' },
+    { state: VmState.Error, name: 'VM_FILTERS.STATE.ERROR' }
   ];
   public showNoGroupFilter = true;
 

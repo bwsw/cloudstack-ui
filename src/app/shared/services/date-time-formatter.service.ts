@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService, TimeFormats } from './language.service';
-import { dateTimeFormat as enDateTimeFormat } from '../../shared/components/date-picker/dateUtils';
+import { LanguageService, TimeFormat } from './language.service';
+import { dateTimeFormat as enDateTimeFormat } from '../components/date-picker/dateUtils';
 import DateTimeFormat = Intl.DateTimeFormat;
 
 
@@ -76,8 +76,8 @@ export class DateTimeFormatterService {
       timeZoneName: 'short'
     };
 
-    if (timeFormat !== TimeFormats.AUTO) {
-      options.hour12 = timeFormat === TimeFormats.hour12;
+    if (timeFormat !== TimeFormat.AUTO) {
+      options.hour12 = timeFormat === TimeFormat.hour12;
     }
 
     return options;
@@ -91,8 +91,8 @@ export class DateTimeFormatterService {
       timeZoneName: 'short'
     };
 
-    if (timeFormat !== TimeFormats.AUTO) {
-      options.hour12 = timeFormat === TimeFormats.hour12;
+    if (timeFormat !== TimeFormat.AUTO) {
+      options.hour12 = timeFormat === TimeFormat.hour12;
     }
 
     return options;

@@ -1,7 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DefaultUrlSerializer, UrlSerializer } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { BACKEND_API_URL, ConfigService, NotificationService } from '../../shared/services';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { BACKEND_API_URL } from '../../shared/services/base-backend.service';
+import { ConfigService } from '../../shared/services/config.service';
+import { NotificationService } from '../../shared/services/notification.service';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { UserService } from '../../shared/services/user.service';
 import { DialogsService } from '../../dialog/dialog-service/dialog.service';

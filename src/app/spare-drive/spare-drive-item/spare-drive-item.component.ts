@@ -1,14 +1,12 @@
-import { Component, Input, EventEmitter, Output, ViewChild, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MdMenuTrigger, MdDialog } from '@angular/material';
-
-import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
-import { VolumeResizeComponent } from '../../vm/vm-sidebar/volume-resize.component';
-import {
-  DiskOfferingService,
-  VolumeAttachmentData,
-  ZoneService
-} from '../../shared/services';
 import { DiskOffering, Volume, Zone } from '../../shared/models';
+import { DiskOfferingService } from '../../shared/services/disk-offering.service';
+import { VolumeAttachmentData } from '../../shared/services/volume.service';
+import { ZoneService } from '../../shared/services/zone.service';
+import { VolumeResizeComponent } from '../../vm/vm-sidebar/volume-resize.component';
+import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
+
 
 @Component({
   selector: 'cs-spare-drive-item',

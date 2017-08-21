@@ -3,7 +3,7 @@ import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Mode } from '../../../shared/components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { InstanceGroup } from '../../../shared/models';
-import { InstanceGroupService } from '../../../shared/services';
+import { InstanceGroupService } from '../../../shared/services/instance-group.service';
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 

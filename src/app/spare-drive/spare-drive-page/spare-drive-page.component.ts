@@ -1,26 +1,21 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { MdDialog } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 import { DialogsService } from '../../dialog/dialog-service/dialog.service';
-import {
-  DiskOffering,
-  DiskOfferingService,
-  FilterService,
-  JobsNotificationService,
-  Volume,
-  VolumeTypes,
-  Zone,
-  ZoneService
-} from '../../shared';
+import { DiskOffering, Volume, VolumeType, Zone, } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
+import { DiskOfferingService } from '../../shared/services/disk-offering.service';
+import { FilterService } from '../../shared/services/filter.service';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { UserService } from '../../shared/services/user.service';
 import { VolumeService } from '../../shared/services/volume.service';
+import { ZoneService } from '../../shared/services/zone.service';
 import { SpareDriveActionsService } from '../spare-drive-actions.service';
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { ActivatedRoute, Router } from '@angular/router';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -234,7 +229,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   private updateVolumeList(): Observable<void> {
     let diskOfferings: Array<DiskOffering>;
 
-    return this.diskOfferingService.getList({ type: VolumeTypes.DATADISK })
+    return this.diskOfferingService.getList({ type: VolumeType.DATADISK })
       .switchMap((offerings: Array<DiskOffering>) => {
         diskOfferings = offerings;
         return this.volumeService.getSpareList();

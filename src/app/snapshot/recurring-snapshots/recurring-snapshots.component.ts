@@ -6,9 +6,9 @@ import { MdlDialogReference } from '../../dialog/dialog-module';
 import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { SgRulesManagerComponent } from '../../shared';
 import { Volume } from '../../shared/models';
+import { LanguageService, TimeFormat } from '../../shared/services/language.service';
 import { Policy, TimePolicy } from './policy-editor/policy-editor.component';
 import { SnapshotPolicyService } from './snapshot-policy.service';
-import { LanguageService, TimeFormat, TimeFormats } from '../../shared/services';
 
 
 export enum PolicyType {
@@ -37,10 +37,10 @@ export class RecurringSnapshotsComponent implements OnInit {
 
   readonly timeFormat$: Observable<TimeFormat> = this.languageService.getTimeFormat()
     .map(format => {
-      if (format === TimeFormats.hour24) {
+      if (format === TimeFormat.hour24) {
         return format;
       }
-      return TimeFormats.hour12;
+      return TimeFormat.hour12;
     });
 
   constructor(

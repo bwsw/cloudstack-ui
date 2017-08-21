@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { MdDialog } from '@angular/material';
 
 import { DialogsService } from '../../../../../dialog/dialog-service/dialog.service';
-import { JobsNotificationService, NotificationService } from '../../../../../shared/services';
 import { TemplateCreationComponent } from '../../../../../template/template-creation/template-creation.component';
 import { Snapshot, Volume } from '../../../../../shared/models';
-import { StatsUpdateService } from '../../../../../shared/services/stats-update.service';
+import { JobsNotificationService } from '../../../../../shared/services/jobs-notification.service';
+import { NotificationService } from '../../../../../shared/services/notification.service';
 import { SnapshotService } from '../../../../../shared/services/snapshot.service';
+import { StatsUpdateService } from '../../../../../shared/services/stats-update.service';
 import { Action } from '../../../../../shared/interfaces/action.interface';
 import { ActionsService } from '../../../../../shared/interfaces/action-service.interface';
 import { Observable } from 'rxjs';

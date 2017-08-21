@@ -1,7 +1,12 @@
 import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators/field-mapper.decorator';
 
-export type OsFamily = 'Linux' | 'Windows' | 'Mac OS' | 'Other';
+export enum OsFamily {
+  Linux = 'Linux',
+  Windows = 'Windows',
+  MacOs = 'Mac OS',
+  Other = 'Other'
+}
 
 @FieldMapper({
   isuserdefined: 'isUserDefined',

@@ -8,13 +8,13 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { MdDialog } from '@angular/material';
-import { defaultCategoryName, Tag } from '../../shared/models';
-import { Utils } from '../../shared/services';
-import { TagCategory } from '../tag-category/tag-category.component';
-import { TagEditComponent } from '../tag-edit/tag-edit.component';
 import * as cloneDeep from 'lodash/cloneDeep';
 import * as groupBy from 'lodash/groupBy';
 import * as sortBy from 'lodash/sortBy';
+import { defaultCategoryName, Tag } from '../../shared/models';
+import { Utils } from '../../shared/services/utils.service';
+import { TagCategory } from '../tag-category/tag-category.component';
+import { TagEditComponent } from '../tag-edit/tag-edit.component';
 
 export interface TagEditAction {
   oldTag: Tag;

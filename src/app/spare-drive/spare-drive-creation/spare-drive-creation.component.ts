@@ -2,10 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { DialogsService } from '../../dialog/dialog-service/dialog.service';
-import { DiskOffering, DiskOfferingService, Zone } from '../../shared';
 import { Volume } from '../../shared/models';
-import { JobsNotificationService } from '../../shared/services';
-import { ResourceStats, ResourceUsageService } from '../../shared/services/resource-usage.service';
+import { DiskOffering } from '../../shared/models/disk-offering.model';
+import { DiskOfferingService } from '../../shared/services/disk-offering.service';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
+import {
+  ResourceStats,
+  ResourceUsageService
+} from '../../shared/services/resource-usage.service';
+import { Zone } from '../../shared/models';
 import { VolumeService } from '../../shared/services/volume.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VolumeCreationData } from '../spare-drive-page/spare-drive-page.component';

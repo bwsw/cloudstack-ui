@@ -1,5 +1,5 @@
 import { VmActions } from './vm-action';
-import { VirtualMachine, VmStates } from '../shared/vm.model';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
 import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { VmService } from '../shared/vm.service';
@@ -42,9 +42,9 @@ export class VmDestroyAction extends VirtualMachineCommand {
 
   public canActivate(vm: VirtualMachine): boolean {
     return [
-      VmStates.Running,
-      VmStates.Stopped,
-      VmStates.Error
+      VmState.Running,
+      VmState.Stopped,
+      VmState.Error
     ]
       .includes(vm.state);
   }

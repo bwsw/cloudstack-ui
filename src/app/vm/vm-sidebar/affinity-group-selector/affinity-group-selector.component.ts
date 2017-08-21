@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { DialogsService } from '../../../dialog/dialog-service/dialog.service';
-import { AffinityGroup, AffinityGroupTypes } from '../../../shared/models';
-import { AffinityGroupService } from '../../../shared/services';
+import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
+import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
+
 import { VirtualMachine } from '../../shared/vm.model';
 
 
@@ -44,7 +45,7 @@ export class AffinityGroupSelectorComponent implements OnInit {
     this.affinityGroupService
       .create({
         name,
-        type: AffinityGroupTypes.hostAntiAffinity
+        type: AffinityGroupType.hostAntiAffinity
       })
       .switchMap(affinityGroup => {
         return this.affinityGroupService

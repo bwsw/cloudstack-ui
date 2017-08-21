@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MdSelectChange, MdDialogRef } from '@angular/material';
+import * as throttle from 'lodash/throttle';
 
 import { MdlDialogReference } from '../../dialog/dialog-module';
 import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
-import { DiskOffering, JobsNotificationService } from '../../shared';
 import { AffinityGroup, InstanceGroup, ServiceOffering } from '../../shared/models';
-import { ResourceUsageService } from '../../shared/services';
+import { DiskOffering } from '../../shared/models/disk-offering.model';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
+import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 import { BaseTemplateModel } from '../../template/shared';
 import { VirtualMachine } from '../shared/vm.model';
 import { VmCreationData } from './data/vm-creation-data';
@@ -14,8 +16,11 @@ import { VmCreationState } from './data/vm-creation-state';
 import { VmCreationFormNormalizationService } from './form-normalization/form-normalization.service';
 import { KeyboardLayout } from './keyboards/keyboards.component';
 import { VmCreationService } from './services/vm-creation.service';
-import { VmDeploymentMessage, VmDeploymentService, VmDeploymentStages } from './services/vm-deployment.service';
-import * as throttle from 'lodash/throttle';
+import {
+  VmDeploymentMessage,
+  VmDeploymentService,
+  VmDeploymentStage
+} from './services/vm-deployment.service';
 
 
 export interface VmCreationFormState {
@@ -23,18 +28,12 @@ export interface VmCreationFormState {
   state: VmCreationState
 }
 
-export type VmCreationStage =
-  'agCreationInProgress' |
-  'editing' |
-  'sgCreationInProgress' |
-  'vmDeploymentInProgress';
-
-export const VmCreationStages = {
-  agCreationInProgress: 'agCreationInProgress' as VmCreationStage,
-  editing: 'editing' as VmCreationStage,
-  sgCreationInProgress: 'sgCreationInProgress' as VmCreationStage,
-  vmDeploymentInProgress: 'vmDeployInProgress' as VmCreationStage
-};
+export enum VmCreationStage {
+  agCreationInProgress = 'agCreationInProgress',
+  editing = 'editing',
+  sgCreationInProgress = 'sgCreationInProgress',
+  vmDeploymentInProgress = 'vmDeployInProgress'
+}
 
 @Component({
   selector: 'cs-vm-create',
@@ -58,7 +57,7 @@ export class VmCreationComponent implements OnInit {
   };
 
   public takenName: string;
-  public creationStage = VmCreationStages.editing;
+  public creationStage = VmCreationStage.editing;
 
   constructor(
     private dialogRef: MdDialogRef<VmCreationComponent>,
@@ -107,19 +106,19 @@ export class VmCreationComponent implements OnInit {
   }
 
   public get showOverlay(): boolean {
-    return this.creationStage !== VmCreationStages.editing;
+    return this.creationStage !== VmCreationStage.editing;
   }
 
   public get showAffinityGroupOverlay(): boolean {
-    return this.creationStage === VmCreationStages.agCreationInProgress;
+    return this.creationStage === VmCreationStage.agCreationInProgress;
   }
 
   public get showSecurityGroupOverlay(): boolean {
-    return this.creationStage === VmCreationStages.sgCreationInProgress;
+    return this.creationStage === VmCreationStage.sgCreationInProgress;
   }
 
   public get showDeploymentOverlay(): boolean {
-    return this.creationStage === VmCreationStages.vmDeploymentInProgress;
+    return this.creationStage === VmCreationStage.vmDeploymentInProgress;
   }
 
   public displayNameChange(value: string): void {
@@ -271,30 +270,30 @@ export class VmCreationComponent implements OnInit {
 
   private handleDeploymentMessages(deploymentMessage: VmDeploymentMessage, notificationId: string): void {
     switch (deploymentMessage.stage) {
-      case VmDeploymentStages.STARTED:
-        this.creationStage = VmCreationStages.vmDeploymentInProgress;
+      case VmDeploymentStage.STARTED:
+        this.creationStage = VmCreationStage.vmDeploymentInProgress;
         break;
-      case VmDeploymentStages.AG_GROUP_CREATION:
-        this.creationStage = VmCreationStages.agCreationInProgress;
+      case VmDeploymentStage.AG_GROUP_CREATION:
+        this.creationStage = VmCreationStage.agCreationInProgress;
         break;
-      case VmDeploymentStages.AG_GROUP_CREATION_FINISHED:
-        this.creationStage = VmCreationStages.vmDeploymentInProgress;
+      case VmDeploymentStage.AG_GROUP_CREATION_FINISHED:
+        this.creationStage = VmCreationStage.vmDeploymentInProgress;
         break;
-      case VmDeploymentStages.SG_GROUP_CREATION:
-        this.creationStage = VmCreationStages.sgCreationInProgress;
+      case VmDeploymentStage.SG_GROUP_CREATION:
+        this.creationStage = VmCreationStage.sgCreationInProgress;
         break;
-      case VmDeploymentStages.SG_GROUP_CREATION_FINISHED:
-        this.creationStage = VmCreationStages.vmDeploymentInProgress;
+      case VmDeploymentStage.SG_GROUP_CREATION_FINISHED:
+        this.creationStage = VmCreationStage.vmDeploymentInProgress;
         break;
-      case VmDeploymentStages.IN_PROGRESS:
-        this.creationStage = VmCreationStages.vmDeploymentInProgress;
+      case VmDeploymentStage.IN_PROGRESS:
+        this.creationStage = VmCreationStage.vmDeploymentInProgress;
         break;
-      case VmDeploymentStages.FINISHED:
+      case VmDeploymentStage.FINISHED:
         this.dialogRef.close();
         this.showPassword(deploymentMessage.vm);
         this.notifyOnDeployDone(notificationId);
         break;
-      case VmDeploymentStages.ERROR:
+      case VmDeploymentStage.ERROR:
         this.dialogRef.close();
         this.notifyOnDeployFailed(deploymentMessage.error, notificationId);
         break;

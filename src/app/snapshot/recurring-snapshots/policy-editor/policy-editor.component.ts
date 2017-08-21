@@ -1,14 +1,16 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
+import { TimeFormat } from '../../../shared/services/language.service';
 import { PolicyType } from '../recurring-snapshots.component';
 import { TimeZone } from '../time-zone/time-zone.service';
-import { DailyPolicy } from './daily/daily-policy.component';
-import { HourlyPolicy } from './hourly/hourly-policy.component';
-import { MonthlyPolicy } from './monthly/monthly-policy.component';
-import { WeeklyPolicy } from './weekly/weekly-policy.component';
-import { TimeFormat } from '../../../shared/services';
 
 
-export type TimePolicy = HourlyPolicy & DailyPolicy & WeeklyPolicy & MonthlyPolicy;
+export type TimePolicy = any;
 
 export interface Policy<T> {
   id?: string;

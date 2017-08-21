@@ -1,11 +1,13 @@
 import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
-
 import { DialogsService } from '../../dialog/dialog-service/dialog.service';
-import { DiskStorageService, Volume } from '../../shared';
+
 import { DiskOffering } from '../../shared/models';
-import { DiskOfferingService, JobsNotificationService, VolumeResizeData } from '../../shared/services';
-import { VolumeService } from '../../shared/services/volume.service';
+import { Volume } from '../../shared/models/volume.model';
+import { DiskOfferingService } from '../../shared/services/disk-offering.service';
+import { DiskStorageService } from '../../shared/services/disk-storage.service';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
+import { VolumeResizeData, VolumeService } from '../../shared/services/volume.service';
 
 
 @Component({

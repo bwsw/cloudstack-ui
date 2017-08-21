@@ -2,10 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { Tag } from '../../shared/models';
-import { TagService } from '../../shared/services';
+import { TagService } from '../../shared/services/tag.service';
 import { TagsComponent } from '../../tags/tags.component';
-import { VmService } from '../shared/vm.service';
 import { VirtualMachine } from '../shared/vm.model';
+import { VmService } from '../shared/vm.service';
 
 
 @Component({

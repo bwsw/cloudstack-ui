@@ -1,5 +1,5 @@
 import { VmActions } from './vm-action';
-import { VirtualMachine, VmStates } from '../shared/vm.model';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
 import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { VmService } from '../shared/vm.service';
@@ -43,8 +43,8 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
   public canActivate(vm: VirtualMachine): boolean {
     const ipAvailable = vm.ipIsAvailable;
     const stateIsOk = [
-      VmStates.Running,
-      VmStates.Stopped
+      VmState.Running,
+      VmState.Stopped
     ]
       .includes(vm.state);
 
@@ -52,7 +52,7 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
   }
 
   protected onActionConfirmed(vm: VirtualMachine): Observable<any> {
-    if (vm.state === VmStates.Stopped) {
+    if (vm.state === VmState.Stopped) {
       return this.addNotifications(
         this.resetPasswordForStoppedVirtualMachine(vm)
       );
@@ -71,7 +71,7 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
         }
       })
       .catch(error => {
-        this.vmService.setStateForVm(vm, VmStates.Stopped);
+        this.vmService.setStateForVm(vm, VmState.Stopped);
         return Observable.throw(error);
       });
   }
