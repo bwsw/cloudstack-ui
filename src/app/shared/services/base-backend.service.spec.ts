@@ -1,20 +1,21 @@
-import { inject, TestBed, async, getTestBed } from '@angular/core/testing';
 import { Injector } from '@angular/core';
-
-import { BaseBackendService, CacheService } from './';
-import { BaseModel } from '../models';
-import { BackendResource } from '../decorators';
-import { MockBackend, MockConnection } from '@angular/http/testing';
+import { async, getTestBed, inject, TestBed } from '@angular/core/testing';
 import {
   BaseRequestOptions,
-  XHRBackend,
   Http,
   HttpModule,
   Response,
   ResponseOptions,
-  URLSearchParams
+  URLSearchParams,
+  XHRBackend
 } from '@angular/http';
-import { ErrorService } from '../services';
+import { MockBackend, MockConnection } from '@angular/http/testing';
+import { BackendResource } from '../decorators';
+
+import { BaseModel } from '../models';
+import { BaseBackendService } from './base-backend.service';
+import { CacheService } from './cache.service';
+import { ErrorService } from './error.service';
 import { ServiceLocator } from './service-locator';
 
 

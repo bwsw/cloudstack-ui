@@ -1,15 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { MdlDialogReference } from '../../dialog/dialog-module';
+import { Zone } from '../../shared/models';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { ServiceOfferingFilterService } from '../../shared/services/service-offering-filter.service';
-import { VirtualMachine } from '../../vm/shared/vm.model';
+import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { MdlDialogReference } from '../../dialog/dialog-module';
+import { VirtualMachine } from '../../vm/shared/vm.model';
 import { VmChangeServiceOfferingAction } from '../../vm/vm-actions/vm-change-service-offering';
-import { CustomServiceOfferingService } from '../custom-service-offering/service/custom-service-offering.service';
-import { Observable } from 'rxjs/Observable';
 import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
-import { ServiceOfferingService } from '../../shared/services';
-import { Zone } from '../../shared/models';
+import { CustomServiceOfferingService } from '../custom-service-offering/service/custom-service-offering.service';
 
 
 @Component({

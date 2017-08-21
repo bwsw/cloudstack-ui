@@ -1,5 +1,6 @@
 import { SecurityGroup } from '../../security-group/sg.model';
 import { FieldMapper, ZoneName } from '../../shared/decorators';
+import { Taggable } from '../../shared/interfaces/taggable.interface';
 import {
   BaseModel,
   InstanceGroup,
@@ -9,10 +10,9 @@ import {
   Tag,
   Volume
 } from '../../shared/models';
-import { BaseTemplateModel } from '../../template/shared';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { Color } from '../../shared/models/color.model';
-import { Taggable } from '../../shared/interfaces/taggable.interface';
+import { BaseTemplateModel } from '../../template/shared';
 
 
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
@@ -30,19 +30,17 @@ export interface IVmAction {
   successMessage: string;
 }
 
-type PredefinedStates = 'Running' | 'Stopped' | 'Error' | 'Destroyed' | 'Expunged';
-type CustomStates = 'Deploying' | 'Expunging';
-export type VmState = PredefinedStates | CustomStates;
-export const VmStates = {
-  Running: 'Running' as VmState,
-  Stopped: 'Stopped' as VmState,
-  Error: 'Error' as VmState,
-  Destroyed: 'Destroyed' as VmState,
-  Expunged: 'Expunged' as VmState,
-  Deploying: 'Deploying' as VmState,
-  Expunging: 'Expunging' as VmState
-};
+export enum VmState {
+  Running = 'Running',
+  Stopped = 'Stopped',
+  Error = 'Error',
+  Destroyed = 'Destroyed',
+  Expunged = 'Expunged',
 
+  // custom states
+  Deploying = 'Deploying',
+  Expunging = 'Expunging'
+}
 
 @ZoneName()
 @FieldMapper({

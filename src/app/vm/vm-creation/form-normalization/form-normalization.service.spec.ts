@@ -2,24 +2,29 @@ import { async, TestBed } from '@angular/core/testing';
 import { MockEntityData } from '../../../../testutils/mocks/model-services/entity-data.spec';
 import { MockConfigService } from '../../../../testutils/mocks/model-services/services/mock-config.service.spec';
 import {
+  MockCustomServiceOfferingService
+} from '../../../../testutils/mocks/model-services/services/mock-custom-service-offering.service.spec';
+import {
   MockResourceUsageService
 } from '../../../../testutils/mocks/model-services/services/mock-resource-usage.service.spec';
 import {
   MockServiceOfferingService
 } from '../../../../testutils/mocks/model-services/services/mock-service-offering.service.spec';
-import { ConfigService, ResourceStats, ResourceUsageService, ServiceOfferingService } from '../../../shared/services';
-import { VmCreationData } from '../data/vm-creation-data';
-import { VmCreationConfigurationData } from '../services/vm-creation.service';
-import { VmCreationFormNormalizationService } from './form-normalization.service';
-import { VmCreationState } from '../data/vm-creation-state';
-import { VmCreationFormState } from '../vm-creation.component';
-import { ServiceOffering } from '../../../shared/models';
 import {
   CustomServiceOfferingService
 } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
+import { ServiceOffering } from '../../../shared/models';
+import { ConfigService } from '../../../shared/services/config.service';
 import {
-  MockCustomServiceOfferingService
-} from '../../../../testutils/mocks/model-services/services/mock-custom-service-offering.service.spec';
+  ResourceStats,
+  ResourceUsageService
+} from '../../../shared/services/resource-usage.service';
+import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
+import { VmCreationData } from '../data/vm-creation-data';
+import { VmCreationState } from '../data/vm-creation-state';
+import { VmCreationConfigurationData } from '../services/vm-creation.service';
+import { VmCreationFormState } from '../vm-creation.component';
+import { VmCreationFormNormalizationService } from './form-normalization.service';
 
 
 interface VmCreationFixture {
@@ -76,18 +81,41 @@ describe('Virtual machine creation form normalization service', () => {
   }): void {
     TestBed.configureTestingModule({
       providers: [
-        { provide: ConfigService, useClass: MockConfigService },
-        { provide: ResourceUsageService, useClass: MockResourceUsageService },
-        { provide: ServiceOfferingService, useClass: MockServiceOfferingService },
-        { provide: CustomServiceOfferingService, useClass: MockCustomServiceOfferingService },
-        { provide: 'mockConfigServiceConfig', useValue: { value: {} } },
-        { provide: 'mockResourceUsageServiceConfig', useValue: { value: {} } },
-        { provide: 'mockServiceOfferingServiceConfig', useValue: { value: mockEntityData.serviceOfferings } },
-        { provide: 'mockCustomServiceOfferingServiceConfig', useValue:
-          {
-            customOffering: {},
-            customOfferingRestrictionsByZone: {}
-          }
+        {
+          provide: ConfigService,
+          useClass: MockConfigService
+        },
+        {
+          provide: ResourceUsageService,
+          useClass: MockResourceUsageService
+        },
+        {
+          provide: ServiceOfferingService,
+          useClass: MockServiceOfferingService
+        },
+        {
+          provide: CustomServiceOfferingService,
+          useClass: MockCustomServiceOfferingService
+        },
+        {
+          provide: 'mockConfigServiceConfig',
+          useValue: { value: {} }
+        },
+        {
+          provide: 'mockResourceUsageServiceConfig',
+          useValue: { value: {} }
+        },
+        {
+          provide: 'mockServiceOfferingServiceConfig',
+          useValue: { value: mockEntityData.serviceOfferings }
+        },
+        {
+          provide: 'mockCustomServiceOfferingServiceConfig',
+          useValue:
+            {
+              customOffering: {},
+              customOfferingRestrictionsByZone: {}
+            }
         },
         VmCreationFormNormalizationService
       ]
@@ -166,7 +194,8 @@ describe('Virtual machine creation form normalization service', () => {
     const zoneId = '031a55bb-5d6b-4336-ab93-d5dead28a887';
     const templateId = '5a8328bc-ac77-4b64-8be8-df8512442799';
     formState.state.zone = formState.data.zones.find(zone => zone.id === zoneId);
-    formState.state.template = formState.data.templates.find(template => template.id === templateId);
+    formState.state.template = formState.data.templates.find(
+      template => template.id === templateId);
     formState = formNormalizationService.normalize(formState);
     expect(formState.state.diskOfferingsAreAllowed).toBe(false);
   });
@@ -208,7 +237,8 @@ describe('Virtual machine creation form normalization service', () => {
     formState.data.rootDiskSizeLimit = 1000000000000; // otherwise iso will change because it doesn't fit
     const diskOfferings = formNormalizationService.normalize(formState).data.diskOfferings;
     expect(diskOfferings.length).toBe(1);
-    expect(formState.data.diskOfferings[0].id).toBe('b785e23e-5159-4968-ba6e-3ddb9fa1d58e');
+    expect(formState.data.diskOfferings[0].id)
+      .toBe('b785e23e-5159-4968-ba6e-3ddb9fa1d58e');
   });
 
   it('filters disk size 1', () => {
