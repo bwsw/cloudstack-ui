@@ -1,8 +1,10 @@
-import { Component, OnInit, Inject, Optional } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MdlDialogReference } from '../../dialog/dialog-module';
 
-import { OsType, OsTypeService, Zone, ZoneService } from '../../shared';
+import { OsType, Zone } from '../../shared';
 import { Snapshot } from '../../shared/models/snapshot.model';
+import { OsTypeService } from '../../shared/services/os-type.service';
+import { ZoneService } from '../../shared/services/zone.service';
 import { TemplateActionsService } from '../shared/template-actions.service';
 
 

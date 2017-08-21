@@ -1,13 +1,25 @@
-import { ChangeDetectorRef, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { DiskOffering, DiskOfferingService, FilterService, Volume, VolumeTypes, Zone, ZoneService } from '../../shared';
+import {
+  DiskOffering,
+  DiskOfferingService,
+  FilterService,
+  Volume,
+  VolumeType,
+  VolumeTypes,
+  Zone,
+  ZoneService
+} from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
+import { DiskOfferingService } from '../../shared/services/disk-offering.service';
+import { FilterService } from '../../shared/services/filter.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { UserService } from '../../shared/services/user.service';
 import { VolumeService } from '../../shared/services/volume.service';
+import { ZoneService } from '../../shared/services/zone.service';
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
 
 
@@ -196,7 +208,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   private updateVolumeList(): Observable<void> {
     let diskOfferings: Array<DiskOffering>;
 
-    return this.diskOfferingService.getList({ type: VolumeTypes.DATADISK })
+    return this.diskOfferingService.getList({ type: VolumeType.DATADISK })
       .switchMap((offerings: Array<DiskOffering>) => {
         diskOfferings = offerings;
         return this.volumeService.getSpareList();

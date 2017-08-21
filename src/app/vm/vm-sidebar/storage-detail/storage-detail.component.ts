@@ -2,7 +2,8 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 
 import { Volume } from '../../../shared/models';
-import { JobsNotificationService, NotificationService } from '../../../shared/services';
+import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 import { VolumeService } from '../../../shared/services/volume.service';
 import { SpareDriveActionsService } from '../../../spare-drive/spare-drive-actions.service';
 import { IsoAttachmentComponent } from '../../../template/iso-attachment/iso-attachment.component';
@@ -27,7 +28,7 @@ export class StorageDetailComponent implements OnChanges {
               private jobNotificationService: JobsNotificationService,
               private isoService: IsoService,
               private notificationService: NotificationService,
-              private vmService: VmService,
+              private  vmService: VmService,
               private volumeService: VolumeService) {
   }
 
@@ -43,11 +44,19 @@ export class StorageDetailComponent implements OnChanges {
 
   public get volumes(): Array<Volume> {
     return this.vm.volumes.sort((a, b) => {
-      if (a.isRoot) { return -1; }
-      if (b.isRoot) { return  1; }
+      if (a.isRoot) {
+        return -1;
+      }
+      if (b.isRoot) {
+        return 1;
+      }
 
-      if (a.name < b.name) { return -1; }
-      if (a.name > b.name) { return  1; }
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
       return 0;
     });
   }
@@ -131,7 +140,8 @@ export class StorageDetailComponent implements OnChanges {
             id: notificationId,
             message: 'ISO_ATTACH_FAILED'
           });
-        });
+        }
+      );
   }
 
   private detachIso(): void {

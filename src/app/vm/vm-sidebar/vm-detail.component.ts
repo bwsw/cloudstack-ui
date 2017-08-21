@@ -1,15 +1,19 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AffinityGroupSelectorComponent } from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
+import {
+  AffinityGroupSelectorComponent
+} from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { ServiceOfferingDialogComponent } from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
+import {
+  ServiceOfferingDialogComponent
+} from '../../service-offering/service-offering-dialog/service-offering-dialog.component';
 import { ServiceOffering, ServiceOfferingFields } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { VmActionsService } from '../shared/vm-actions.service';
-import { VirtualMachine, VmStates } from '../shared/vm.model';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { SshKeypairResetComponent } from './ssh/ssh-keypair-reset.component';
 import { AsyncJob } from '../../shared/models/async-job.model';
@@ -153,7 +157,7 @@ export class VmDetailComponent implements OnChanges, OnInit {
     return this.vmService.get(currentVM.id)
       .do(() => loadingFunction(false))
       .switchMap(vm => {
-        if (vm.state === VmStates.Stopped) {
+        if (vm.state === VmState.Stopped) {
           return Observable.of(true);
         }
 

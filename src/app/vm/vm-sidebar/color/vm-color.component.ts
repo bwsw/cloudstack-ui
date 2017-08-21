@@ -1,8 +1,7 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Color } from '../../../shared/models';
-import { ConfigService } from '../../../shared/services';
+import { ConfigService } from '../../../shared/services/config.service';
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 

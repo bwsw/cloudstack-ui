@@ -4,8 +4,16 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdIconModule, MdListModule, MdSelectModule, MdSnackBarModule, MdCardModule, MdTabsModule } from '@angular/material';
+import {
+  MdCardModule,
+  MdIconModule,
+  MdListModule,
+  MdSelectModule,
+  MdSnackBarModule,
+  MdTabsModule
+} from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
+import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
 import { MdlDialogModule } from '../dialog/dialog-module';
@@ -35,9 +43,7 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
-import {
-  CreateUpdateDeleteDialogComponent
-} from './components/create-update-delete-dialog/create-update-delete-dialog.component';
+import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
@@ -59,46 +65,43 @@ import { MdlTextAreaAutoresizeDirective } from './directives/mdl-textarea-autore
 import { MinValueValidatorDirective } from './directives/min-value.directive';
 
 import { DivisionPipe, HighLightPipe, ViewValuePipe } from './pipes';
-
-import {
-  AffinityGroupService,
-  AsyncJobService,
-  AuthGuard,
-  AuthService,
-  CacheService,
-  ConfigService,
-  DiskOfferingService,
-  DiskStorageService,
-  ErrorService,
-  InstanceGroupService,
-  JobsNotificationService,
-  LanguageService,
-  LayoutService,
-  LoginGuard,
-  NotificationService,
-  OsTypeService,
-  ResourceLimitService,
-  ResourceUsageService,
-  SecurityGroupService,
-  ServiceOfferingFilterService,
-  ServiceOfferingService,
-  SSHKeyPairService,
-  StatsUpdateService,
-  StyleService,
-  ZoneService
-} from './services';
-import { RouterUtilsService } from './services/router-utils.service';
-import { SnapshotService } from './services/snapshot.service';
-import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
-import { SessionStorageService } from './services/session-storage.service';
+import { StringifyDatePipe } from './pipes/stringifyDate.pipe';
+import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
+import { AffinityGroupService } from './services/affinity-group.service';
+import { AsyncJobService } from './services/async-job.service';
+import { AuthGuard } from './services/auth-guard.service';
+import { AuthService } from './services/auth.service';
+import { CacheService } from './services/cache.service';
+import { ConfigService } from './services/config.service';
+import { DateTimeFormatterService } from './services/date-time-formatter.service';
+import { DiskOfferingService } from './services/disk-offering.service';
+import { DiskStorageService } from './services/disk-storage.service';
+import { ErrorService } from './services/error.service';
+import { InstanceGroupService } from './services/instance-group.service';
+import { JobsNotificationService } from './services/jobs-notification.service';
+import { LanguageService } from './services/language.service';
+import { LayoutService } from './services/layout.service';
 import { LocalStorageService } from './services/local-storage.service';
+import { LoginGuard } from './services/login-guard.service';
+import { NotificationService } from './services/notification.service';
+import { OsTypeService } from './services/os-type.service';
+import { ResourceLimitService } from './services/resource-limit.service';
+import { ResourceUsageService } from './services/resource-usage.service';
+
+import { RouterUtilsService } from './services/router-utils.service';
+import { SecurityGroupService } from './services/security-group.service';
+import { ServiceOfferingFilterService } from './services/service-offering-filter.service';
+import { ServiceOfferingService } from './services/service-offering.service';
+import { SessionStorageService } from './services/session-storage.service';
+import { SnapshotService } from './services/snapshot.service';
+import { SSHKeyPairService } from './services/ssh-keypair.service';
+import { StatsUpdateService } from './services/stats-update.service';
+import { StyleService } from './services/style.service';
 import { TagService } from './services/tag.service';
 import { UserService } from './services/user.service';
 import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
-import { DateTimeFormatterService } from './services/date-time-formatter.service';
-import { StringifyDatePipe } from './pipes/stringifyDate.pipe';
-import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
+import { ZoneService } from './services/zone.service';
 
 @NgModule({
   imports: [

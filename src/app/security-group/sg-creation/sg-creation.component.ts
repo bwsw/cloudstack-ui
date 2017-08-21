@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import {
   SecurityGroup,
   NetworkRule,
-  NetworkRuleTypes
+  NetworkRuleType
 } from '../sg.model';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { MdlDialogReference } from '../../dialog/dialog-module';
@@ -49,7 +49,7 @@ export class SgCreationComponent implements OnInit {
   public selectedColumnIndex: number;
   public selectedRules: Array<Array<RuleListItem>>;
 
-  public NetworkRuleTypes = NetworkRuleTypes;
+  public NetworkRuleTypes = NetworkRuleType;
 
   constructor(
     private dialog: MdlDialogReference,

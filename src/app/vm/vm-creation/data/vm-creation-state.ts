@@ -1,8 +1,15 @@
 import { Rules } from '../../../security-group/sg-creation/sg-creation.component';
 import { NetworkRule } from '../../../security-group/sg.model';
-import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../../shared/models';
+import {
+  AffinityGroup,
+  DiskOffering,
+  InstanceGroup,
+  ServiceOffering,
+  SSHKeyPair,
+  Zone
+} from '../../../shared/models';
 import { BaseTemplateModel } from '../../../template/shared';
-import { KeyboardLayout, KeyboardLayouts } from '../keyboards/keyboards.component';
+import { KeyboardLayout } from '../keyboards/keyboards.component';
 import { NotSelected } from '../services/vm-creation.service';
 import { VmCreationData } from './vm-creation-data';
 
@@ -83,7 +90,7 @@ export class VmCreationState {
     this.displayName = data.defaultName;
     this.doStartVm = true;
     this.instanceGroup = new InstanceGroup('');
-    this.keyboard = KeyboardLayouts.us;
+    this.keyboard = KeyboardLayout.us;
 
     if (data.defaultTemplate) { this.template = data.defaultTemplate; }
     if (data.diskOfferings.length) { this.diskOffering = data.diskOfferings[0]; }

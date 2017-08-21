@@ -2,7 +2,7 @@ import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../shared/models';
-import { VolumeTypes } from '../../shared/models/volume.model';
+import { VolumeType } from '../../shared/models/volume.model';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { VolumeService } from '../../shared/services/volume.service';
@@ -55,7 +55,7 @@ export class SpareDriveSidebarComponent extends SpareDriveItem implements OnInit
     }
 
     Observable.forkJoin(
-      this.diskOfferingService.getList({ type: VolumeTypes.DATADISK }),
+      this.diskOfferingService.getList({ type: VolumeType.DATADISK }),
       this.volumeService.get(id)
     )
       .subscribe(([diskOfferings, volume]) => {

@@ -2,10 +2,9 @@ import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators';
 
 
-export type AffinityGroupType = string;
-export const AffinityGroupTypes = {
-  hostAntiAffinity: 'host anti-affinity' as AffinityGroupType
-};
+export enum AffinityGroupType {
+  hostAntiAffinity = 'host anti-affinity'
+}
 
 @FieldMapper({
   virtualmachineIds: 'virtualMachineIds'
