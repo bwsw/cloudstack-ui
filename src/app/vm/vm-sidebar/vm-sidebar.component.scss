@@ -8,16 +8,6 @@ h4 {
   text-overflow: ellipsis;
 }
 
-h4.details-header {
-  font-size: 18px;
-}
-
-.title-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 :host /deep/ .mat-tab-label {
   min-width: 83px !important;
 }

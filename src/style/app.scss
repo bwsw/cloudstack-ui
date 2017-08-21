@@ -388,3 +388,17 @@ md-card-actions {
   border: 9px solid #757575;
   border-radius: 50%;
 }
+
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.details-header {
+  width: 340px;
+}
+
+h4.details-header {
+  font-size: 18px;
+}

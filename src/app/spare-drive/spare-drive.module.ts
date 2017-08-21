@@ -19,6 +19,9 @@ import { SpareDriveListComponent } from './spare-drive-list/spare-drive-list.com
 import { SpareDrivePageComponent } from './spare-drive-page/spare-drive-page.component';
 import { SpareDriveSidebarComponent } from './spare-drive-sidebar/spare-drive-sidebar.component';
 import { spareDrivesRouting } from './spare-drive.routing';
+import { SpareDriveSidebarDiskOfferingComponent } from './spare-drive-sidebar/disk-offering/spare-drive-sidebar-disk-offering.component';
+import { SpareDriveActionsComponent } from './spare-drive-actions/spare-drive-actions-component/spare-drive-actions.component';
+import { SpareDriveActionsSidebarComponent } from './spare-drive-sidebar/spare-drive-actions-sidebar/spare-drive-actions-sidebar.component';
 
 
 @NgModule({
@@ -37,8 +40,11 @@ import { spareDrivesRouting } from './spare-drive.routing';
     MdIconModule,
   ],
   declarations: [
+    SpareDriveActionsComponent,
+    SpareDriveActionsSidebarComponent,
     SpareDrivePageComponent,
     SpareDriveSidebarComponent,
+    SpareDriveSidebarDiskOfferingComponent,
     SpareDriveAttachmentComponent,
     SpareDriveCreationComponent,
     SpareDriveItemComponent,

@@ -1,0 +1,6 @@
+<ng-container *ngFor="let action of spareDriveActionsService.actions">
+  <button md-menu-item (click)="onAction(action, volume)">
+    <md-icon>{{ action.icon }}</md-icon>
+    <span>{{ action.name | translate }}</span>
+  </button>
+</ng-container>
