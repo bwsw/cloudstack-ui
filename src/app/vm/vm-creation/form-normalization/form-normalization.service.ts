@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import {
   CustomServiceOfferingService
 } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
-import { ServiceOfferingService, Utils } from '../../../shared/services';
+import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
+import { Utils } from '../../../shared/services/utils.service';
 import { VmCreationData } from '../data/vm-creation-data';
 import { VmCreationState } from '../data/vm-creation-state';
 import { VmCreationFormState } from '../vm-creation.component';
-import * as cloneDeep from 'lodash/cloneDeep';
 
 
 @Injectable()

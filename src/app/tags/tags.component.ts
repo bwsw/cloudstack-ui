@@ -4,9 +4,9 @@ import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../dialog/dialog-module/dialog.service';
 import { Taggable } from '../shared/interfaces/taggable.interface';
 import { Tag } from '../shared/models';
-import { TagService } from '../shared/services';
-import { KeyValuePair, TagEditAction } from './tags-view/tags-view.component';
+import { TagService } from '../shared/services/tag.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
+import { KeyValuePair, TagEditAction } from './tags-view/tags-view.component';
 
 
 export abstract class TagsComponent<T extends Taggable> extends WithUnsubscribe() implements OnInit {

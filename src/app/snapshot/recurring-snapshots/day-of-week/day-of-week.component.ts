@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, forwardRef, Input, OnInit } from '@angular/core';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { LanguageService } from '../../../shared/services';
+import { LanguageService } from '../../../shared/services/language.service';
 import { DayOfWeek } from '../../../shared/types/day-of-week';
 
 

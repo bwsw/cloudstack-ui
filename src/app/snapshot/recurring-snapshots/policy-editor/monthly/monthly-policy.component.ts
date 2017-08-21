@@ -1,11 +1,10 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
-import { TimeFormat } from '../../../../shared/services';
-import { Time } from '../../time-picker/time-picker.component';
 import * as isEqual from 'lodash/isEqual';
 import * as range from 'lodash/range';
+import { TimeFormat } from '../../../../shared/services/language.service';
+import { Time } from '../../time-picker/time-picker.component';
 
 
 export interface MonthlyPolicy extends Time {

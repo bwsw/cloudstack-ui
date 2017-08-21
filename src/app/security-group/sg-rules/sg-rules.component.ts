@@ -2,8 +2,9 @@ import { Component, Inject, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { MdlDialogReference } from '../../dialog/dialog-module';
-import { NotificationService, SecurityGroupService } from '../../shared/services';
-import { NetworkProtocol, NetworkProtocols, NetworkRuleType, NetworkRuleTypes, SecurityGroup } from '../sg.model';
+import { NotificationService } from '../../shared/services/notification.service';
+import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { NetworkProtocol, NetworkRuleType, SecurityGroup } from '../sg.model';
 
 
 @Component({
@@ -24,18 +25,18 @@ export class SgRulesComponent {
 
   public adding: boolean;
 
-  public NetworkProtocols = NetworkProtocols;
-  public NetworkRuleTypes = NetworkRuleTypes;
+  public NetworkProtocols = NetworkProtocol;
+  public NetworkRuleTypes = NetworkRuleType;
 
   public types = [
-    { value: NetworkRuleTypes.Ingress, text: 'SECURITY_GROUP_PAGE.RULES.INGRESS' },
-    { value: NetworkRuleTypes.Egress, text: 'SECURITY_GROUP_PAGE.RULES.EGRESS' },
+    { value: NetworkRuleType.Ingress, text: 'SECURITY_GROUP_PAGE.RULES.INGRESS' },
+    { value: NetworkRuleType.Egress, text: 'SECURITY_GROUP_PAGE.RULES.EGRESS' },
   ];
 
   public protocols = [
-    { value: NetworkProtocols.TCP, text: 'SECURITY_GROUP_PAGE.RULES.TCP' },
-    { value: NetworkProtocols.UDP, text: 'SECURITY_GROUP_PAGE.RULES.UDP' },
-    { value: NetworkProtocols.ICMP, text: 'SECURITY_GROUP_PAGE.RULES.ICMP' }
+    { value: NetworkProtocol.TCP, text: 'SECURITY_GROUP_PAGE.RULES.TCP' },
+    { value: NetworkProtocol.UDP, text: 'SECURITY_GROUP_PAGE.RULES.UDP' },
+    { value: NetworkProtocol.ICMP, text: 'SECURITY_GROUP_PAGE.RULES.ICMP' }
   ];
 
   constructor(
@@ -46,8 +47,8 @@ export class SgRulesComponent {
     private translateService: TranslateService
   ) {
     this.cidr = '0.0.0.0/0';
-    this.protocol = NetworkProtocols.TCP;
-    this.type = NetworkRuleTypes.Ingress;
+    this.protocol = NetworkProtocol.TCP;
+    this.type = NetworkRuleType.Ingress;
     this.icmpCode = -1;
     this.icmpType = -1;
 
@@ -72,7 +73,7 @@ export class SgRulesComponent {
       cidrList: this.cidr
     };
 
-    if (this.protocol === NetworkProtocols.ICMP) {
+    if (this.protocol === NetworkProtocol.ICMP) {
       params.icmptype = this.icmpType;
       params.icmpcode = this.icmpCode;
     } else {

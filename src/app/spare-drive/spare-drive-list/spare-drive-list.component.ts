@@ -2,7 +2,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { ListService } from '../../shared/components/list/list.service';
 import { Volume } from '../../shared/models';
-import { VolumeAttachmentData, VolumeResizeData } from '../../shared/services';
+import {
+  VolumeAttachmentData,
+  VolumeResizeData
+} from '../../shared/services/volume.service';
 import { SpareDriveItemComponent } from '../spare-drive-item/spare-drive-item.component';
 
 

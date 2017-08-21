@@ -1,5 +1,5 @@
 import { VmActions } from './vm-action';
-import { VirtualMachine, VmStates } from '../shared/vm.model';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 import { Injectable } from '@angular/core';
 import { VirtualMachineCommand } from './vm-command';
 
@@ -26,8 +26,8 @@ export class VmRestoreAction extends VirtualMachineCommand {
 
   public canActivate(vm: VirtualMachine): boolean {
     return [
-      VmStates.Running,
-      VmStates.Stopped
+      VmState.Running,
+      VmState.Stopped
     ]
       .includes(vm.state);
   }

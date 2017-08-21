@@ -1,23 +1,17 @@
 import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import {
-  AsyncJob,
-  AsyncJobService,
-  InstanceGroup,
-  JobsNotificationService,
-  StatsUpdateService,
-  VmStatisticsComponent,
-  Zone
-} from '../../shared';
+import { AsyncJob, InstanceGroup, VmStatisticsComponent, Zone } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
+import { AsyncJobService } from '../../shared/services/async-job.service';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
+import { StatsUpdateService } from '../../shared/services/stats-update.service';
 import { UserService } from '../../shared/services/user.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VmActionsService } from '../shared/vm-actions.service';
-import { VirtualMachine, VmStates } from '../shared/vm.model';
-import { VirtualMachineEntityName, VmService } from '../shared/vm.service';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 
-import { VirtualMachineActionType } from '../vm-actions/vm-action';
+import { VirtualMachineEntityName, VmService } from '../shared/vm.service';
 
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import {
@@ -152,7 +146,7 @@ export class VmListComponent implements OnInit {
   }
 
   public showDetail(vm: VirtualMachine): void {
-    if (vm.state !== VmStates.Error && vm.state !== VmStates.Deploying) {
+    if (vm.state !== VmState.Error && vm.state !== VmState.Deploying) {
       this.listService.showDetails(vm.id);
     }
   }
@@ -230,7 +224,7 @@ export class VmListComponent implements OnInit {
       .subscribe(observables => {
         observables.forEach(observable => {
           observable.subscribe(job => {
-            const action = this.vmActionsService.getActionByName(job.cmd as VirtualMachineActionType);
+            const action = this.vmActionsService.getActionByName(job.cmd as any);
             this.jobsNotificationService.finish({
               message: action.tokens.successMessage
             });
@@ -242,7 +236,7 @@ export class VmListComponent implements OnInit {
   private subscribeToVmDestroyed(): void {
     this.asyncJobService.event
       .filter(job => this.isAsyncJobAVirtualMachineJobWithResult(job))
-      .filter(job => job.result.state === VmStates.Destroyed || job.result.state === VmStates.Expunging)
+      .filter(job => job.result.state === VmState.Destroyed || job.result.state === VmState.Expunging)
       .subscribe((job: AsyncJob<any>) => {
         this.vmList = this.vmList.filter(vm => vm.id !== job.result.id);
         if (this.listService.isSelected(job.result.id)) {

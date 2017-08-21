@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgModel } from '@angular/forms';
-import { AuthService } from '../../shared/services';
+import { AuthService } from '../../shared/services/auth.service';
 
 
 @Component({

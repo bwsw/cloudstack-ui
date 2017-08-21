@@ -1,13 +1,13 @@
-import { VirtualMachine, VmStates } from '../shared/vm.model';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { VmService } from '../shared/vm.service';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
-import { Injectable } from '@angular/core';
-import { VirtualMachineAction } from './vm-action';
+import { VirtualMachine, VmState } from '../shared/vm.model';
+import { VmService } from '../shared/vm.service';
 import { VmStartActionSilent } from './silent/vm-start-silent';
 import { VmStopActionSilent } from './silent/vm-stop-silent';
+import { VirtualMachineAction } from './vm-action';
 
 
 @Injectable()
@@ -30,8 +30,8 @@ export class VmChangeServiceOfferingAction extends VirtualMachineAction {
 
   public canActivate(vm: VirtualMachine): boolean {
     return [
-      VmStates.Running,
-      VmStates.Stopped
+      VmState.Running,
+      VmState.Stopped
     ]
       .includes(vm.state);
   }
@@ -41,7 +41,7 @@ export class VmChangeServiceOfferingAction extends VirtualMachineAction {
       return Observable.of(null);
     }
 
-    if (vm.state === VmStates.Stopped) {
+    if (vm.state === VmState.Stopped) {
       return this.addNotifications(
         this.changeServiceOfferingForStoppedVirtualMachine(vm, params)
       );

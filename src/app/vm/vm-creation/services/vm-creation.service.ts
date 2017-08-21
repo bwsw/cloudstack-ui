@@ -145,6 +145,7 @@ export class VmCreationService {
     return [].concat([sshKeyNotSelected], sshKeyPairs);
   }
 
+  // TODO fix return type
   private getTemplates(): Observable<Array<Template>> {
     const filters = [
       TemplateFilters.featured,
@@ -152,9 +153,10 @@ export class VmCreationService {
     ];
 
     return this.templateService.getGroupedTemplates({}, filters, false)
-      .map(templates => templates.toArray());
+      .map(templates => templates.toArray() as Array<Template>);
   }
 
+  // TODO fix return type
   private getIsos(): Observable<Array<Iso>> {
     const filters = [
       TemplateFilters.featured,
@@ -162,7 +164,7 @@ export class VmCreationService {
     ];
 
     return this.isoService.getGroupedTemplates({}, filters, false)
-      .map(isos => isos.toArray());
+      .map(isos => isos.toArray() as Array<Iso>);
   }
 
   private getDefaultVmName(): Observable<string> {

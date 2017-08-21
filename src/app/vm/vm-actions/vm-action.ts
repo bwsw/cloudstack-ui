@@ -7,35 +7,23 @@ import { JobsNotificationService } from '../../shared/services/jobs-notification
 import { Injectable } from '@angular/core';
 
 
-export type VirtualMachineActionType =
-    'start'
-  | 'stop'
-  | 'reboot'
-  | 'restore'
-  | 'destroy'
-  | 'resetPasswordFor'
-  | 'console'
-  | 'webShell'
-  | 'pulse'
-  | 'changeServiceOffering';
-
-export const VmActions = {
-  START: 'start' as VirtualMachineActionType,
-  STOP: 'stop' as VirtualMachineActionType,
-  REBOOT: 'reboot' as VirtualMachineActionType,
-  RESTORE: 'restore' as VirtualMachineActionType,
-  DESTROY: 'destroy' as VirtualMachineActionType,
-  RESET_PASSWORD: 'resetPasswordFor' as VirtualMachineActionType,
-  CONSOLE: 'console' as VirtualMachineActionType,
-  WEB_SHELL: 'webShell' as VirtualMachineActionType,
-  PULSE: 'pulse' as VirtualMachineActionType,
-  CHANGE_SERVICE_OFFERING: 'changeServiceOfering' as VirtualMachineActionType
-};
+export enum VmActions {
+  START = 'start',
+  STOP = 'stop',
+  REBOOT = 'reboot',
+  RESTORE = 'restore',
+  DESTROY = 'destroy',
+  RESET_PASSWORD = 'resetPasswordFor',
+  CONSOLE = 'console',
+  CHANGE_SERVICE_OFFERING = 'changeServiceOfering',
+  WEB_SHELL = 'webShell',
+  PULSE = 'pulse'
+}
 
 @Injectable()
 export abstract class VirtualMachineAction implements Action<VirtualMachine> {
   public name: string;
-  public action: VirtualMachineActionType;
+  public action: VmActions;
   public icon?: string;
 
   public tokens?: {

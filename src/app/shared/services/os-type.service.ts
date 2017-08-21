@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { BaseBackendService } from '.';
 import { BackendResource } from '../decorators';
-import { OsType, OsFamily } from '../models/os-type.model';
+import { OsFamily, OsType } from '../models/os-type.model';
+import { BaseBackendService } from './base-backend.service';
 
 
 @Injectable()
@@ -45,17 +45,17 @@ export class OsTypeService extends BaseBackendService<OsType> {
   }
 
   private mapOsFamily(osName): OsFamily {
-    const windows: OsFamily = 'Windows';
+    const windows = OsFamily.Windows;
     if (osName.includes(windows) || osName.includes('Microsoft')) {
       return windows;
     }
 
-    const macOs: OsFamily = 'Mac OS';
+    const macOs = OsFamily.MacOs;
     if (osName.includes(macOs)) {
       return macOs;
     }
 
-    const linux: OsFamily = 'Linux';
+    const linux = OsFamily.Linux;
     if (osName.includes(linux)) {
       return linux;
     }
@@ -65,6 +65,6 @@ export class OsTypeService extends BaseBackendService<OsType> {
       return linux;
     }
 
-    return 'Other';
+    return OsFamily.Other;
   }
 }

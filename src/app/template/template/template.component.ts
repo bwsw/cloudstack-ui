@@ -1,4 +1,3 @@
-import { MdMenuTrigger } from '@angular/material';
 import {
   Component,
   EventEmitter,
@@ -9,8 +8,8 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-
-import { AuthService } from '../../shared';
+import { MdMenuTrigger } from '@angular/material';
+import { AuthService } from '../../shared/services/auth.service';
 import { BaseTemplateModel } from '../shared';
 
 

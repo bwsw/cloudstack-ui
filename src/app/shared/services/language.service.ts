@@ -9,12 +9,11 @@ import { DayOfWeek } from '../types/day-of-week';
 
 const DEFAULT_LANGUAGE = 'en';
 
-export type TimeFormat = 'hour12' | 'hour24' | 'auto';
-export const TimeFormats = {
-  'hour12': 'hour12' as TimeFormat,
-  'hour24': 'hour24' as TimeFormat,
-  AUTO: 'auto'
-};
+export enum TimeFormat {
+  hour12 = 'hour12',
+  hour24 = 'hour24',
+  AUTO = 'auto'
+}
 
 @Injectable()
 export class LanguageService {
@@ -73,18 +72,18 @@ export class LanguageService {
     return this.userService.readTag('csui.user.time-format')
       .map(timeFormat => {
         switch (timeFormat) {
-          case TimeFormats.hour12:
-          case TimeFormats.hour24:
+          case TimeFormat.hour12:
+          case TimeFormat.hour24:
             return timeFormat;
           default:
-            return TimeFormats.AUTO;
+            return TimeFormat.AUTO;
         }
       });
   }
 
   public setTimeFormat(timeFormat: string): Observable<string> {
     return (
-      timeFormat === TimeFormats.AUTO
+      timeFormat === TimeFormat.AUTO
         ? this.userService.removeTag('csui.user.time-format')
         : this.userService.writeTag('csui.user.time-format', timeFormat)
     )

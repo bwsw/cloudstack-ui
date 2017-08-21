@@ -3,18 +3,17 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
-
 interface NamedLayout {
-  value: KeyboardLayout, name: string
+  value: KeyboardLayout;
+  name: string;
 }
 
-export type KeyboardLayout = 'us' | 'uk' | 'jp' | 'sc';
-export const KeyboardLayouts = {
-  us: 'us' as KeyboardLayout,
-  uk: 'uk' as KeyboardLayout,
-  jp: 'jp' as KeyboardLayout,
-  sc: 'sc' as KeyboardLayout
-};
+export enum KeyboardLayout {
+  us = 'us',
+  uk = 'uk',
+  jp = 'jp',
+  sc = 'sc'
+}
 
 @Component({
   selector: 'cs-keyboards',
@@ -33,19 +32,19 @@ export class KeyboardsComponent implements ControlValueAccessor, OnInit {
   private _keyboardLayout: KeyboardLayout;
   private keyboardLayouts = [
     {
-      value: KeyboardLayouts.us,
+      value: KeyboardLayout.us,
       name: 'VM_PAGE.VM_CREATION.KB_US'
     },
     {
-      value: KeyboardLayouts.uk,
+      value: KeyboardLayout.uk,
       name: 'VM_PAGE.VM_CREATION.KB_UK'
     },
     {
-      value: KeyboardLayouts.jp,
+      value: KeyboardLayout.jp,
       name: 'VM_PAGE.VM_CREATION.KB_JP'
     },
     {
-      value: KeyboardLayouts.sc,
+      value: KeyboardLayout.sc,
       name: 'VM_PAGE.VM_CREATION.KB_SC'
     }
   ];
@@ -82,16 +81,15 @@ export class KeyboardsComponent implements ControlValueAccessor, OnInit {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void { }
+  public registerOnTouched(): void {}
 
   private getTranslatedLayouts(): Observable<Array<NamedLayout>> {
     const layouts = this.keyboardLayouts.map(_ => _.name);
-    return this.translateService.get(layouts)
-      .map(translatedLayouts => {
-        return this.keyboardLayouts.map(layout => {
-          layout['name'] = translatedLayouts[layout['name']];
-          return layout;
-        });
+    return this.translateService.get(layouts).map(translatedLayouts => {
+      return this.keyboardLayouts.map(layout => {
+        layout['name'] = translatedLayouts[layout['name']];
+        return layout;
       });
+    });
   }
 }

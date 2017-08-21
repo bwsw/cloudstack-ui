@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { VmService } from '../../vm/shared/vm.service';
 import { Volume } from '../models';
 import { Offering } from '../models/offering.model';
-import { DiskOfferingService } from './';
+import { DiskOfferingService } from './disk-offering.service';
 import { ServiceOfferingService } from './service-offering.service';
 
 
