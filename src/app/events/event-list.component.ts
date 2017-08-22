@@ -47,6 +47,7 @@ export class EventListComponent implements OnInit {
     private translate: TranslateService
   ) {
     this.updateEvents = this.updateEvents.bind(this);
+    this.languageService.initializeFirstDayOfWeek();
   }
 
   public ngOnInit(): void {
