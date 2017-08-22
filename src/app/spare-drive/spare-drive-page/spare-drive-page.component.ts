@@ -13,7 +13,6 @@ import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { SpareDriveActionsService } from '../spare-drive-actions.service';
-import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -75,6 +74,13 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     this.spareDriveActionsService.onVolumeAttachment
       .takeUntil(this.onDestroy)
       .subscribe(() => this.onVolumeAttached());
+
+    this.listService.onCreation
+      .takeUntil(this.onDestroy)
+      .subscribe(volume => {
+        this.volumes.push(volume);
+        this.update();
+      });
 
     Observable.forkJoin(
       this.updateVolumeList(),
@@ -160,18 +166,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   }
 
   public showCreationDialog(): void {
-    this.dialogService.showCustomDialog({
-      component: SpareDriveCreationComponent,
-      classes: 'spare-drive-creation-dialog',
-      clickOutsideToClose: false
-    })
-      .switchMap(res => res.onHide())
-      .subscribe((volume: Volume) => {
-        if (volume) {
-          this.volumes.push(volume);
-          this.update();
-        }
-      });
+    this.router.navigate(['/spare-drives/create']);
   }
 
   public updateVolume(volume: Volume): void {

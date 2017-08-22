@@ -1,12 +1,11 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { BaseTemplateModel, Iso, IsoService, Template, TemplateService } from '../shared';
 import { TemplateFilters } from '../shared/base-template.service';
 import { TemplateActionsService } from '../shared/template-actions.service';
-import { TemplateCreationComponent } from '../template-creation/template-creation.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -21,12 +20,12 @@ export class TemplatePageComponent implements OnInit {
   public viewMode: string;
 
   constructor(
-    private dialogService: DialogService,
     private storageService: LocalStorageService,
     public listService: ListService,
     private templateActions: TemplateActionsService,
     private templateService: TemplateService,
-    private isoService: IsoService
+    private isoService: IsoService,
+    private router: Router
   ) {
   }
 
@@ -37,18 +36,7 @@ export class TemplatePageComponent implements OnInit {
   }
 
   public showCreationDialog(): void {
-    this.dialogService.showCustomDialog({
-      component: TemplateCreationComponent,
-      classes: 'template-creation-dialog dialog-overflow-visible',
-      providers: [{ provide: 'mode', useValue: this.viewMode }],
-      clickOutsideToClose: false
-    })
-      .switchMap(res => res.onHide())
-      .subscribe(templateData => {
-        if (templateData) {
-          this.updateList();
-        }
-      });
+    this.router.navigate(['/templates/create']);
   }
 
   public removeTemplate(template: BaseTemplateModel): void {
