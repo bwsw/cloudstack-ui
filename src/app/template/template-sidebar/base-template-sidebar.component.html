@@ -1,4 +1,10 @@
 <div *ngIf="template">
+  <div class="title-container">
+    <cs-template-os-icon [template]="template"></cs-template-os-icon>
+    <h4 class="details-header">{{ template.name }}</h4>
+    <cs-template-actions-sidebar [template]="template"></cs-template-actions-sidebar>
+  </div>
+
   <md-tab-group md-selected="0">
     <md-tab>
       <ng-template md-tab-label>
@@ -9,11 +15,10 @@
         </div>
       </ng-template>
 
-      <cs-template
-        [item]="template"
-        [singleLine]="false"
-        (deleteTemplate)="remove()"
-      ></cs-template>
+      <cs-template-description [template]="template"></cs-template-description>
+
+      <cs-template-os [template]="template"></cs-template-os>
+
       <md-card>
         <md-card-header>
           <md-card-title>

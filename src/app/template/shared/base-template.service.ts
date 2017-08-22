@@ -7,6 +7,7 @@ import { TagService } from '../../shared/services/tag.service';
 import { Utils } from '../../shared/services/utils.service';
 
 import { BaseTemplateModel } from './base-template.model';
+import { Subject } from 'rxjs/Subject';
 
 
 export const TemplateFilters = {
@@ -64,6 +65,7 @@ export const DOWNLOAD_URL = 'csui.template.download-url';
 
 @Injectable()
 export abstract class BaseTemplateService extends BaseBackendCachedService<BaseTemplateModel> {
+  public onTemplateRemoved = new Subject<BaseTemplateModel>();
   private _templateFilters: Array<string>;
 
   constructor(
@@ -163,7 +165,8 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       id: template.id,
       zoneId: template.zoneId
     })
-      .switchMap(job => this.asyncJobService.queryJob(job.jobid));
+      .switchMap(job => this.asyncJobService.queryJob(job.jobid))
+      .map(() => this.onTemplateRemoved.next(template));
   }
 
   public getGroupedTemplates<T extends BaseTemplateModel>(
