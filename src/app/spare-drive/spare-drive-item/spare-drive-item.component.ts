@@ -32,6 +32,15 @@ export class SpareDriveItemComponent extends SpareDriveItem implements OnInit {
     this.loadDiskOfferings();
   }
 
+  public get stateTranslationToken(): string {
+    const stateTranslations = {
+      'ALLOCATED': 'SPARE_DRIVE_STATE.ALLOCATED',
+      'READY': 'SPARE_DRIVE_STATE.READY'
+    };
+
+    return stateTranslations[this.item.state.toUpperCase()];
+  }
+
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
     if (!this.mdMenuTrigger.menuOpen) {
