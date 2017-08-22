@@ -26,6 +26,15 @@ export class VolumeDetailsComponent implements OnInit {
     this.getDescription();
   }
 
+  public get storageTypeTranslationToken(): string {
+    const storageTypeTranslations = {
+      'SHARED': 'DISK_OFFERING_STORAGE_TYPE.SHARED',
+      'LOCAL': 'DISK_OFFERING_STORAGE_TYPE.LOCAL'
+    };
+
+    return storageTypeTranslations[this.volume.storageType.toUpperCase()];
+  }
+
   public hasPerformanceInfo(): boolean {
     if (!this.volume || !this.volume.diskOffering) {
       return false;

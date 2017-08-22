@@ -29,14 +29,14 @@ export class SgRulesComponent {
   public NetworkRuleTypes = NetworkRuleType;
 
   public types = [
-    { value: NetworkRuleType.Ingress, text: 'INGRESS' },
-    { value: NetworkRuleType.Egress, text: 'EGRESS' },
+    { value: NetworkRuleType.Ingress, text: 'SECURITY_GROUP_PAGE.RULES.INGRESS' },
+    { value: NetworkRuleType.Egress, text: 'SECURITY_GROUP_PAGE.RULES.EGRESS' },
   ];
 
   public protocols = [
-    { value: NetworkProtocol.TCP, text: 'TCP' },
-    { value: NetworkProtocol.UDP, text: 'UDP' },
-    { value: NetworkProtocol.ICMP, text: 'ICMP' }
+    { value: NetworkProtocol.TCP, text: 'SECURITY_GROUP_PAGE.RULES.TCP' },
+    { value: NetworkProtocol.UDP, text: 'SECURITY_GROUP_PAGE.RULES.UDP' },
+    { value: NetworkProtocol.ICMP, text: 'SECURITY_GROUP_PAGE.RULES.ICMP' }
   ];
 
   constructor(
@@ -53,6 +53,14 @@ export class SgRulesComponent {
     this.icmpType = -1;
 
     this.adding = false;
+  }
+
+  public get title(): string {
+    if (this.securityGroup.isPredefinedTemplate) {
+      return 'SECURITY_GROUP_PAGE.RULES.TEMPLATE_RULES';
+    }
+
+    return 'SECURITY_GROUP_PAGE.RULES.FIREWALL_RULES_FOR_VM';
   }
 
   public addRule(e: Event): void {
@@ -83,7 +91,7 @@ export class SgRulesComponent {
           this.adding = false;
         },
         () => {
-          this.notificationService.message('FAILED_TO_ADD_RULE');
+          this.notificationService.message('SECURITY_GROUP_PAGE.RULES.FAILED_TO_ADD_RULE');
           this.adding = false;
         });
   }
@@ -116,9 +124,10 @@ export class SgRulesComponent {
         }
         rules.splice(ind, 1);
       }, () => {
-        this.translateService.get(['FAILED_TO_REMOVE_RULE']).subscribe((translations) => {
-          this.notificationService.message(translations['FAILED_TO_REMOVE_RULE']);
-        });
+        this.translateService.get(['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE'])
+          .subscribe((translations) => {
+            this.notificationService.message(translations['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE']);
+          });
       });
   }
 

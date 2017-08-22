@@ -1,5 +1,7 @@
 <div class="dialog">
-  <h3 class="mdl-dialog__title">{{ 'INSTALLATION_SOURCE' | translate }}</h3>
+  <h3 class="mdl-dialog__title">
+    {{ 'VM_PAGE.VM_CREATION.INSTALLATION_SOURCE' | translate }}
+  </h3>
   <div class="mdl-dialog__content">
     <cs-template-filter-list-selector
       [viewMode]="typeOfSelectedSource"
@@ -16,7 +18,7 @@
       mdl-colored="primary"
       (click)="onOk()"
     >
-      {{ 'SELECT' | translate }}
+      {{ 'COMMON.SELECT' | translate }}
     </button>
 
     <button
@@ -24,7 +26,7 @@
       mdl-colored="primary"
       (click)="onCancel()"
     >
-      {{ 'CANCEL' | translate }}
+      {{ 'COMMON.CANCEL' | translate }}
     </button>
   </div>
 </div>

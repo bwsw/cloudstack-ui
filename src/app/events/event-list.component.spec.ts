@@ -89,6 +89,10 @@ class ActivatedRouteStub {
 
 class MockLanguageService {
   public firstDayOfWeek = new BehaviorSubject<number>(0);
+
+  public initializeFirstDayOfWeek(): void {
+    this.firstDayOfWeek.next(0);
+  }
 }
 
 @Pipe({
@@ -119,7 +123,8 @@ class MockDateTimeFormatterService {
   selector: 'cs-notification-box',
   template: ''
 })
-class MockNotificationBoxComponent {}
+class MockNotificationBoxComponent {
+}
 
 describe('event list component', () => {
   let comp;

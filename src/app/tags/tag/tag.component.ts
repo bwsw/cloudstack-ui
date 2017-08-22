@@ -30,7 +30,7 @@ export class TagComponent {
   }
 
   public showRemoveDialog(): void {
-    this.dialogService.confirm('TAG_DELETE_CONFIRMATION')
+    this.dialogService.confirm('DIALOG_MESSAGES.TAG.CONFIRM_DELETION')
       .subscribe(
         () => this.remove(),
         () => {}

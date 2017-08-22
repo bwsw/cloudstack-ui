@@ -1,10 +1,10 @@
 <div class="grid volumes snapshots">
   <div *ngIf="volume?.snapshots?.length" class="last-snapshot">
     <div class="row">
-      <div>{{ 'LAST_SNAPSHOT' | translate }}:</div>
+      <div>{{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_LIST.LAST_SNAPSHOT' | translate }}:</div>
       <div >
         <button mdl-button mdl-colored="primary" (click)="showSnapshots()">
-          {{ 'VIEW_ALL' | translate }} ({{ volume.snapshots.length }})
+          {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_LIST.VIEW_ALL' | translate }} ({{ volume.snapshots.length }})
         </button>
       </div>
     </div>
@@ -28,7 +28,9 @@
         </button>
       </div>
     </div>
-
   </div>
-  <div class="row" *ngIf="!volume?.snapshots?.length">{{ 'NO_SNAPSHOTS' | translate }}</div>
+
+  <div class="row" *ngIf="!volume?.snapshots?.length">
+    {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_LIST.NO_SNAPSHOTS' | translate }}
+  </div>
 </div>

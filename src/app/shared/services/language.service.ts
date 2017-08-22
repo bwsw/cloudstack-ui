@@ -94,18 +94,18 @@ export class LanguageService {
     return this.userTagService.setTimeFormat(timeFormat);
   }
 
-  private get defaultLanguage(): Language {
+  public initializeFirstDayOfWeek(): void {
+    this.getFirstDayOfWeek().subscribe(firstDayOfWeek => {
+      this.firstDayOfWeek.next(firstDayOfWeek);
+    });
+  }
+
+  private get defaultLanguage(): string {
     const language = navigator.language && navigator.language.substr(0, 2);
     if (language === Languages.ru || language === Languages.en) {
       return language;
     }
     return DEFAULT_LANGUAGE;
-  }
-
-  private initializeFirstDayOfWeek(): void {
-    this.getFirstDayOfWeek().subscribe(firstDayOfWeek => {
-      this.firstDayOfWeek.next(firstDayOfWeek);
-    });
   }
 
   private initializeTimeFormat(): void {

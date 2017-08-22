@@ -2,11 +2,11 @@
   <cs-top-bar cs-panels>
     <div class="options-panel top-bar-height">
       <cs-date-picker
-        [okLabel]="'OK' | translate"
+        [okLabel]="'COMMON.OK' | translate"
         [locale]="locale"
         [firstDayOfWeek]="languageService.firstDayOfWeek.getValue()"
         [DateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
-        [cancelLabel]="'CANCEL' | translate"
+        [cancelLabel]="'COMMON.CANCEL' | translate"
         [(ngModel)]="date"
         (change)="getEvents({ reload: true })"
       ></cs-date-picker>
@@ -16,7 +16,7 @@
         [(ngModel)]="selectedLevels"
         (change)="getEvents()"
         multiple="true"
-        [placeholder]="'LEVELS' | translate"
+        [placeholder]="'EVENT_PAGE.SELECT_LEVELS' | translate"
       >
         <md-option
           *ngFor="let level of levels"
@@ -31,7 +31,7 @@
         [(ngModel)]="selectedTypes"
         (change)="getEvents()"
         multiple="true"
-        [placeholder]="'EVENT_TYPES' | translate"
+        [placeholder]="'EVENT_PAGE.SELECT_TYPES' | translate"
       >
         <md-option
           *ngFor="let et of eventTypes"
@@ -54,7 +54,7 @@
         [table-model]="tableModel"
         [searchQuery]="query"
       ></cs-table>
-      <span *ngIf="!visibleEvents?.length">{{ 'NO_EVENTS' | translate }}</span>
+      <span *ngIf="!visibleEvents?.length">{{ 'EVENT_PAGE.NO_EVENTS' | translate }}</span>
     </ng-container>
   </div>
 </div>

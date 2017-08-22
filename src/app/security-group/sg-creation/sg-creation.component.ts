@@ -3,7 +3,7 @@ import {
   OnInit,
   Inject
 } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+
 
 import {
   SecurityGroup,

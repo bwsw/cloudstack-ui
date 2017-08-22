@@ -37,6 +37,16 @@ export abstract class BaseTemplateSidebarComponent implements OnInit {
     });
   }
 
+  public get templateTypeTranslationToken(): string {
+    const type = this.template && (this.template as any).type || '';
+    const templateTypeTranslations = {
+      'BUILTIN': 'Built-in',
+      'USER': 'User'
+    };
+
+    return templateTypeTranslations[type];
+  }
+
   public remove(): void {
     this.templateActions.removeTemplate(this.template).subscribe(() => {
       this.listService.onDelete.emit(this.template);

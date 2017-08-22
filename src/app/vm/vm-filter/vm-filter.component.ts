@@ -1,16 +1,6 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import * as sortBy from 'lodash/sortBy';
-
 import { InstanceGroup, Zone } from '../../shared/models';
 import { FilterService } from '../../shared/services/filter.service';
 import { InstanceGroupService } from '../../shared/services/instance-group.service';
@@ -48,9 +38,9 @@ export class VmFilterComponent implements OnInit, OnChanges {
   public selectedZones: Array<Zone> = [];
   public selectedGroupings: Array<any> = [];
   public states = [
-    { state: VmState.Running, name: 'VM_FILTERS.STATE.RUNNING' },
-    { state: VmState.Stopped, name: 'VM_FILTERS.STATE.STOPPED' },
-    { state: VmState.Error, name: 'VM_FILTERS.STATE.ERROR' }
+    { state: VmState.Running, name: 'VM_PAGE.FILTERS.STATE_RUNNING' },
+    { state: VmState.Stopped, name: 'VM_PAGE.FILTERS.STATE_STOPPED' },
+    { state: VmState.Error, name: 'VM_PAGE.FILTERS.STATE_ERROR' }
   ];
   public showNoGroupFilter = true;
 

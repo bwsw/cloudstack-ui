@@ -55,6 +55,29 @@ export class VmListItemComponent implements OnInit, OnChanges {
     }
   }
 
+  public get stateTranslationToken(): string {
+    const stateTranslations = {
+      'RUNNING': 'VM_STATE.RUNNING',
+      'STOPPED': 'VM_STATE.STOPPED',
+      'STARTING': 'VM_STATE.STARTING',
+      'STOPPING': 'VM_STATE.STOPPING',
+      'REBOOTING': 'VM_STATE.REBOOTING',
+      'RESTORING': 'VM_STATE.RESTORING',
+      'DESTROYING': 'VM_STATE.DESTROYING',
+      'DEPLOYING': 'VM_STATE.DEPLOYING',
+      'ERROR': 'VM_STATE.ERROR',
+      'START_IN_PROGRESS': 'VM_STATE.START_IN_PROGRESS',
+      'STOP_IN_PROGRESS': 'VM_STATE.STOP_IN_PROGRESS',
+      'REBOOT_IN_PROGRESS': 'VM_STATE.REBOOT_IN_PROGRESS',
+      'RESTORE_IN_PROGRESS': 'VM_STATE.RESTORE_IN_PROGRESS',
+      'DESTROY_IN_PROGRESS': 'VM_STATE.DESTROY_IN_PROGRESS',
+      'DEPLOY_IN_PROGRESS': 'VM_STATE.DEPLOY_IN_PROGRESS',
+      'RESET_PASSWORD_IN_PROGRESS': 'VM_STATE.RESET_PASSWORD_IN_PROGRESS'
+    };
+
+    return stateTranslations[this.item.state.toUpperCase()];
+  }
+
   public onAction(action: VirtualMachineAction, vm: VirtualMachine): void {
     action.activate(vm).subscribe();
   }

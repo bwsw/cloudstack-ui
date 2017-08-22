@@ -29,13 +29,26 @@ export class CustomServiceOfferingComponent implements OnInit {
     const lowerBound = Number.isInteger(lowerLimit);
 
     if (lowerBound && upperBound) {
-      return this.translateService.get('BETWEEN', { lowerLimit, upperLimit });
+      return this.translateService.get(
+        'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.BETWEEN',
+        {
+          lowerLimit,
+          upperLimit
+        });
     }
     if (!lowerBound && upperBound) {
-      return this.translateService.get('UP_TO', { upperLimit });
+      return this.translateService.get(
+        'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.UP_TO',
+        {
+          upperLimit
+        });
     }
     if (lowerBound && !upperBound) {
-      return this.translateService.get('FROM', { lowerLimit });
+      return this.translateService.get(
+        'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.FROM',
+        {
+          lowerLimit
+        });
     }
   }
 
