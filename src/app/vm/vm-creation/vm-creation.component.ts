@@ -48,12 +48,12 @@ export class VmCreationComponent implements OnInit {
   public enoughResources: boolean;
   public insufficientResources: Array<string> = [];
   public insufficientResourcesErrorMap = {
-    instances: 'VM_CREATION_FORM.RESOURCES.INSTANCES',
-    ips: 'VM_CREATION_FORM.RESOURCES.IPS',
-    volumes: 'VM_CREATION_FORM.RESOURCES.VOLUMES',
-    cpus: 'VM_CREATION_FORM.RESOURCES.CPUS',
-    memory: 'VM_CREATION_FORM.RESOURCES.MEMORY',
-    primaryStorage: 'VM_CREATION_FORM.RESOURCES.PRIMARYSTORAGE',
+    instances: 'VM_PAGE.VM_CREATION.INSTANCES',
+    ips: 'VM_PAGE.VM_CREATION.IPS',
+    volumes: 'VM_PAGE.VM_CREATION.VOLUMES',
+    cpus: 'VM_PAGE.VM_CREATION.CPUS',
+    memory: 'VM_PAGE.VM_CREATION.MEMORY',
+    primaryStorage: 'VM_PAGE.VM_CREATION.PRIMARY_STORAGE',
   };
 
   public takenName: string;
@@ -221,7 +221,7 @@ export class VmCreationComponent implements OnInit {
   }
 
   public deploy(): void {
-    const notificationId = this.jobsNotificationService.add('VM_DEPLOY_IN_PROGRESS');
+    const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
     const { deployStatusObservable, deployObservable } = this.vmDeploymentService.deploy(this.formState.state);
 
     deployStatusObservable.subscribe(deploymentMessage => {
@@ -233,7 +233,7 @@ export class VmCreationComponent implements OnInit {
   public notifyOnDeployDone(notificationId: string): void {
     this.jobsNotificationService.finish({
       id: notificationId,
-      message: 'DEPLOY_DONE'
+      message: 'JOB_NOTIFICATIONS.VM.DEPLOY_DONE'
     });
   }
 
@@ -244,7 +244,7 @@ export class VmCreationComponent implements OnInit {
     });
     this.jobsNotificationService.fail({
       id: notificationId,
-      message: 'DEPLOY_FAILED'
+      message: 'JOB_NOTIFICATIONS.VM.DEPLOY_FAILED'
     });
   }
 
@@ -255,7 +255,7 @@ export class VmCreationComponent implements OnInit {
 
     this.dialogService.customAlert({
       message: {
-        translationToken: 'PASSWORD_DIALOG_MESSAGE',
+        translationToken: 'DIALOG_MESSAGES.VM.PASSWORD_DIALOG_MESSAGE',
         interpolateParams: {
           vmName: vm.name,
           vmPassword: vm.password

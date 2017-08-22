@@ -86,7 +86,11 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   public showVolumeDetachDialog(volume: Volume): void {
-    this.dialogService.confirm('CONFIRM_VOLUME_DETACH', 'NO', 'YES')
+    this.dialogService.confirm(
+      'DIALOG_MESSAGES.VOLUME.CONFIRM_DETACHMENT',
+      'COMMON.NO',
+      'COMMON.YES'
+    )
       .onErrorResumeNext()
       .subscribe(() => this.detachVolume(volume));
   }
@@ -114,7 +118,11 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private detachIsoDialog(): void {
-    this.dialogService.confirm('CONFIRM_ISO_DETACH', 'NO', 'YES')
+    this.dialogService.confirm(
+      'DIALOG_MESSAGES.ISO.CONFIRM_DETACHMENT',
+      'COMMON.NO',
+      'COMMON.YES'
+    )
       .subscribe(
         () => this.detachIso(),
         () => {
@@ -123,7 +131,7 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private attachIso(iso: Iso): void {
-    const notificationId = this.jobNotificationService.add('ISO_ATTACH_IN_PROGRESS');
+    const notificationId = this.jobNotificationService.add('JOB_NOTIFICATIONS.ISO.ATTACHMENT_IN_PROGRESS');
     this.isoOperationInProgress = true;
     this.isoService.attach(this.vm.id, iso)
       .finally(() => this.isoOperationInProgress = false)
@@ -133,7 +141,7 @@ export class StorageDetailComponent implements OnChanges {
           this.vm.isoId = this.iso.id;
           this.jobNotificationService.finish({
             id: notificationId,
-            message: 'ISO_ATTACH_DONE'
+            message: 'JOB_NOTIFICATIONS.ISO.ATTACHMENT_DONE'
           });
         },
         error => {
@@ -141,14 +149,14 @@ export class StorageDetailComponent implements OnChanges {
           this.notificationService.error(error.errortext);
           this.jobNotificationService.fail({
             id: notificationId,
-            message: 'ISO_ATTACH_FAILED'
+            message: 'JOB_NOTIFICATIONS.ISO.ATTACHMENT_FAILED'
           });
         }
       );
   }
 
   private detachIso(): void {
-    const notificationId = this.jobNotificationService.add('ISO_DETACH_IN_PROGRESS');
+    const notificationId = this.jobNotificationService.add('JOB_NOTIFICATIONS.ISO.DETACHMENT_IN_PROGRESS');
     this.isoOperationInProgress = true;
 
     this.isoService.detach(this.vm.id)
@@ -158,13 +166,13 @@ export class StorageDetailComponent implements OnChanges {
         this.vm.isoId = undefined;
         this.jobNotificationService.finish({
           id: notificationId,
-          message: 'ISO_DETACH_DONE'
+          message: 'JOB_NOTIFICATIONS.ISO.DETACHMENT_DONE'
         });
       }, () => {
         this.iso = null;
         this.jobNotificationService.fail({
           id: notificationId,
-          message: 'ISO_DETACH_FAILED'
+          message: 'JOB_NOTIFICATIONS.ISO.DETACHMENT_FAILED'
         });
       });
   }

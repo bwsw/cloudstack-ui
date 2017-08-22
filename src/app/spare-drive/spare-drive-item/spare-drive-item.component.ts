@@ -5,7 +5,7 @@ import { DiskOffering, Volume, Zone } from '../../shared/models';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { VolumeAttachmentData } from '../../shared/services/volume.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { VolumeResizeComponent } from '../../vm/vm-sidebar/volume-resize.component';
+import { VolumeResizeComponent } from '../../vm/vm-sidebar/volume-resize/volume-resize.component';
 import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
 
 
@@ -49,7 +49,15 @@ export class SpareDriveItemComponent implements OnInit {
           );
         });
       });
+  }
 
+  public get stateTranslationToken(): string {
+    const stateTranslations = {
+      'ALLOCATED': 'SPARE_DRIVE_STATE.ALLOCATED',
+      'READY': 'SPARE_DRIVE_STATE.READY'
+    };
+
+    return stateTranslations[this.item.state.toUpperCase()];
   }
 
   public attach(): void {

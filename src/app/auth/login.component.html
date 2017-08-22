@@ -6,10 +6,10 @@
         <mdl-textfield
           required
           type="text"
-          [label]="'USERNAME' | translate"
+          [label]="'AUTH.USERNAME' | translate"
           floating-label
           name="username"
-          [error-msg]="'LOGIN_FORM.USERNAME_REQUIRED' | translate"
+          [error-msg]="'AUTH.USERNAME_REQUIRED' | translate"
           #user="ngModel"
           [(ngModel)]="username"
           [class.is-invalid]="user.invalid && !user.pristine"
@@ -19,10 +19,10 @@
         <mdl-textfield
           required
           type="password"
-          [label]="'PASSWORD' | translate"
+          [label]="'AUTH.PASSWORD' | translate"
           floating-label
           name="password"
-          [error-msg]="'LOGIN_FORM.PASSWORD_REQUIRED' | translate"
+          [error-msg]="'AUTH.PASSWORD_REQUIRED' | translate"
           #pass="ngModel"
           [(ngModel)]="password"
           [class.is-invalid]="pass.invalid && !pass.pristine"
@@ -32,7 +32,7 @@
         <mdl-textfield
           *ngIf="showDomain"
           type="text"
-          [label]="'DOMAIN' | translate"
+          [label]="'AUTH.DOMAIN' | translate"
           floating-label
           name="domain"
           #domainField="ngModel"
@@ -48,14 +48,14 @@
           mdl-ripple
           type="submit"
           [disabled]="(pass.invalid && !pass.pristine) || (user.invalid && !user.pristine)"
-        >{{ 'LOGIN' | translate }}</button>
+        >{{ 'AUTH.LOGIN' | translate }}</button>
         <button
           class="options-button"
           mdl-button-type="icon"
           mdl-button
           mdl-ripple
           type="button"
-          [mdTooltip]="(showDomain ? 'LOGIN_FORM.HIDE_ADVANCED' : 'LOGIN_FORM.SHOW_ADVANCED') | translate"
+          [mdTooltip]="(showDomain ? 'AUTH.HIDE_ADVANCED' : 'AUTH.SHOW_ADVANCED') | translate"
           mdTooltipPosition="above"
           (click)="toggleDomain()"
         >

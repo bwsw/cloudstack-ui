@@ -25,13 +25,13 @@ export class SpareDriveActionsService {
   }
 
   public attach(data: VolumeAttachmentData): Observable<void> {
-    const notificationId = this.jobsNotificationService.add('VOLUME_ATTACH_IN_PROGRESS');
+    const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_IN_PROGRESS');
     return this.volumeService.attach(data)
       .do(() => {
         this.onVolumeAttachment.next(VolumeAttachmentEvent.ATTACHED);
         this.jobsNotificationService.finish({
           id: notificationId,
-          message: 'VOLUME_ATTACH_DONE',
+          message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_DONE',
         });
       })
       .catch(error => {
@@ -41,20 +41,20 @@ export class SpareDriveActionsService {
         });
         this.jobsNotificationService.fail({
           id: notificationId,
-          message: 'VOLUME_ATTACH_FAILED',
+          message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED',
         });
         return Observable.throw(error);
       });
   }
 
   public detach(volume: Volume): Observable<void> {
-    const notificationId = this.jobsNotificationService.add('VOLUME_DETACH_IN_PROGRESS');
+    const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DETACHMENT_IN_PROGRESS');
     return this.volumeService.detach(volume.id)
       .do(() => {
         this.onVolumeAttachment.next(VolumeAttachmentEvent.DETACHED);
         this.jobsNotificationService.finish({
           id: notificationId,
-          message: 'VOLUME_DETACH_DONE'
+          message: 'JOB_NOTIFICATIONS.VM.DETACHMENT_DONE'
         });
       })
       .catch(error => {
@@ -64,7 +64,7 @@ export class SpareDriveActionsService {
         });
         this.jobsNotificationService.fail({
           id: notificationId,
-          message: 'VOLUME_DETACH_FAILED',
+          message: 'JOB_NOTIFICATIONS.VM.DETACHMENT_FAILED',
         });
         return Observable.throw(error);
       });

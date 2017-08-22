@@ -86,7 +86,7 @@
       type="submit"
       [disabled]="!valueChanged || !form.valid"
     >
-      {{ 'ASSIGN' | translate }}
+      {{ 'COMMON.ASSIGN' | translate }}
     </button>
     <button
       *ngIf="mode === modes.remove"
@@ -95,7 +95,7 @@
       mdl-ripple
       type="submit"
     >
-      {{ 'REMOVE' | translate }}
+      {{ 'COMMON.REMOVE' | translate }}
     </button>
     <button
       mdl-colored="primary"
@@ -104,7 +104,7 @@
       type="button"
       (click)="cancel()"
     >
-      {{ 'CANCEL' | translate }}
+      {{ 'COMMON.CANCEL' | translate }}
     </button>
   </div>
 </form>

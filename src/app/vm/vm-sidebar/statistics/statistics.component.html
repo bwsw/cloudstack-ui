@@ -1,0 +1,51 @@
+<md-card class="vm-card">
+  <md-card-header>
+    <md-card-title>
+      <h2 class="md-card-title-text">{{ 'VM_PAGE.VM_DETAILS.STATISTICS.TITLE' | translate }}</h2>
+    </md-card-title>
+    <div class="md-card-header-menu">
+      <button
+        mdl-button
+        mdl-ripple
+        mdl-button-type="icon"
+        mdTooltipPosition="before"
+        [mdTooltip]="'COMMON.REFRESH' | translate"
+        (click)="updateStats()"
+      >
+        <md-icon>sync</md-icon>
+      </button>
+    </div>
+  </md-card-header>
+  <md-card-content>
+    <div class="grid statistics">
+      <div class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.CPU_UTILIZED' | translate }}</div>
+        <div>{{ vm.cpuUsed || 0 }}</div>
+      </div>
+      <div class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.NETWORK_READ' | translate }}</div>
+        <div>{{ vm.networkKbsRead || 0 }} KB</div>
+      </div>
+      <div class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.NETWORK_WRITE' | translate }}</div>
+        <div>{{ vm.networkKbsWrite || 0 }} KB</div>
+      </div>
+      <div class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.DISK_READ' | translate }}</div>
+        <div>{{ vm.diskKbsRead || 0 }} KB</div>
+      </div>
+      <div class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.DISK_WRITE' | translate }}</div>
+        <div>{{ vm.diskKbsWrite || 0 }} KB</div>
+      </div>
+      <div class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.DISK_READ_IO' | translate }}</div>
+        <div>{{ 'IOPS' | translate:{ value: vm.diskIoRead || 0 } }}</div>
+      </div>
+      <div class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.DISK_WRITE_IO' | translate }}</div>
+        <div>{{ 'IOPS' | translate:{ value: vm.diskIoWrite || 0 } }}</div>
+      </div>
+    </div>
+  </md-card-content>
+</md-card>

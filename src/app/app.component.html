@@ -19,7 +19,7 @@
       <img class="logo" [src]="logoSource">
       <div class="title-header">
         <md-icon class="link-element">person</md-icon>
-        <div class="link-element">{{ 'WELCOME' | translate:{ name: title } }}</div>
+        <div class="link-element">{{ 'NAVIGATION_SIDEBAR.WELCOME' | translate:{ name: title } }}</div>
       </div>
     </mdl-layout-title>
     <nav #navigationBar class="mdl-navigation">
@@ -32,7 +32,7 @@
         [routerLinkActive]="linkActiveStyle"
       >
         <md-icon class="link-element">cloud</md-icon>
-        <div class="link-element" [innerHTML]="'VM_NAVBAR' | translate"></div>
+        <div class="link-element" [innerHTML]="'NAVIGATION_SIDEBAR.VMS' | translate"></div>
       </a>
 
       <a
@@ -44,7 +44,7 @@
         [routerLinkActive]="linkActiveStyle"
       >
         <md-icon class="link-element">dns</md-icon>
-        <div class="link-element" [innerHTML]="'SPARE_DRIVES_NAVBAR' | translate"></div>
+        <div class="link-element" [innerHTML]="'NAVIGATION_SIDEBAR.SPARE_DRIVES' | translate"></div>
       </a>
 
       <a
@@ -56,7 +56,7 @@
         [routerLinkActive]="linkActiveStyle"
       >
         <span class="link-element disc-icon" style="margin-right: 10px"></span>
-        <div class="link-element" [innerHTML]="'IMAGES' | translate"></div>
+        <div class="link-element" [innerHTML]="'NAVIGATION_SIDEBAR.IMAGES' | translate"></div>
       </a>
 
       <a
@@ -69,7 +69,7 @@
         [routerLinkActive]="linkActiveStyle"
       >
         <md-icon class="link-element">security</md-icon>
-        <div class="link-element" [innerHTML]="'FIREWALL' | translate"></div>
+        <div class="link-element" [innerHTML]="'NAVIGATION_SIDEBAR.FIREWALL_TEMPLATES' | translate"></div>
       </a>
 
       <a
@@ -81,7 +81,7 @@
         [routerLinkActive]="linkActiveStyle"
       >
         <md-icon>event_note</md-icon>
-        <div class="link-element" [innerHTML]="'ACTIVITY_LOG' | translate"></div>
+        <div class="link-element" [innerHTML]="'NAVIGATION_SIDEBAR.ACTIVITY_LOG' | translate"></div>
       </a>
 
       <a
@@ -93,7 +93,7 @@
         [routerLinkActive]="linkActiveStyle"
       >
         <md-icon>vpn_key</md-icon>
-        <div class="link-element" [innerHTML]="'SSH_KEYS' | translate"></div>
+        <div class="link-element" [innerHTML]="'NAVIGATION_SIDEBAR.SSH_KEYS' | translate"></div>
       </a>
 
       <a
@@ -105,7 +105,7 @@
         [routerLinkActive]="linkActiveStyle"
       >
         <md-icon>settings</md-icon>
-        <div class="link-element" [innerHTML]="'SETTINGS' | translate"></div>
+        <div class="link-element" [innerHTML]="'NAVIGATION_SIDEBAR.SETTINGS' | translate"></div>
       </a>
 
       <a
@@ -116,16 +116,16 @@
         [routerLinkActive]="linkActiveStyle"
       >
         <md-icon>exit_to_app</md-icon>
-        <div class="link-element" [innerHTML]="'LOGOUT' | translate"></div>
+        <div class="link-element" [innerHTML]="'NAVIGATION_SIDEBAR.LOGOUT' | translate"></div>
       </a>
     </nav>
 
     <div class="license-container">
       <div class="license">
-        {{ 'LICENSE_1' | translate: { year: currentYear } }}
-        <a href="https://bitworks.software/" target="_blank">{{ 'LICENSE_2' | translate }}</a>
+        {{ 'NAVIGATION_SIDEBAR.LICENSE.LICENSE_1' | translate: { year: currentYear } }}
+        <a href="https://bitworks.software/" target="_blank">{{ 'NAVIGATION_SIDEBAR.LICENSE.LICENSE_2' | translate }}</a>
         <br>
-        {{ 'LICENSE_3' | translate }}
+        {{ 'NAVIGATION_SIDEBAR.LICENSE.LICENSE_3' | translate }}
       </div>
     </div>
 

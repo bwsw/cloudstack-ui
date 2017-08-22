@@ -33,19 +33,19 @@ export class KeyboardsComponent implements ControlValueAccessor, OnInit {
   private keyboardLayouts = [
     {
       value: KeyboardLayout.us,
-      name: 'KB_US'
+      name: 'VM_PAGE.VM_CREATION.KB_US'
     },
     {
       value: KeyboardLayout.uk,
-      name: 'KB_UK'
+      name: 'VM_PAGE.VM_CREATION.KB_UK'
     },
     {
       value: KeyboardLayout.jp,
-      name: 'KB_JP'
+      name: 'VM_PAGE.VM_CREATION.KB_JP'
     },
     {
       value: KeyboardLayout.sc,
-      name: 'KB_SC'
+      name: 'VM_PAGE.VM_CREATION.KB_SC'
     }
   ];
 
