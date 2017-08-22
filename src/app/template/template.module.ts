@@ -24,6 +24,8 @@ import { IsoSidebarComponent } from './template-sidebar/iso-sidebar.component';
 import { TemplateTagsComponent } from './template-tags/template-tags.component';
 import { ClipboardModule } from 'ngx-clipboard/dist';
 import { TemplateFilterListSelectorComponent } from './template-filter-list/template-filter-list-selector.component';
+import { TemplateDescriptionComponent } from './template-sidebar/template-description/template-description.component';
+import { TemplateOsComponent } from './template-sidebar/template-os/template-os.component';
 
 
 @NgModule({
@@ -50,8 +52,10 @@ import { TemplateFilterListSelectorComponent } from './template-filter-list/temp
     IsoAttachmentComponent,
     TemplateComponent,
     TemplateCreationComponent,
+    TemplateDescriptionComponent,
     TemplateFiltersComponent,
     TemplateListComponent,
+    TemplateOsComponent,
     TemplateCardListComponent,
     TemplateFilterListComponent,
     TemplateFilterListSelectorComponent,
