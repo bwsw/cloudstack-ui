@@ -178,9 +178,9 @@ export class VmListComponent implements OnInit {
         this.groups = groups;
         this.zones = zones;
 
-        //if (!this.vmList.length) {
+        if (!this.vmList.length) {
           this.showSuggestionDialog();
-        //}
+        }
       });
   }
 
