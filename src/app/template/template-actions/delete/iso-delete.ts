@@ -10,7 +10,7 @@ import { Iso } from '../../shared/iso.model';
 
 @Injectable()
 export class IsoDeleteAction extends BaseTemplateDeleteAction {
-  protected confirmMessage = 'DIALOG_MESSAGE.ISO.CONFIRM_DELETION';
+  protected confirmMessage = 'DIALOG_MESSAGES.ISO.CONFIRM_DELETION';
   protected progressMessage = 'JOB_NOTIFICATIONS.ISO.DELETION_IN_PROGRESS';
   protected successMessage = 'JOB_NOTIFICATIONS.ISO.DELETION_DONE';
   protected failMessage = 'JOB_NOTIFICATIONS.ISO.DELETION_FAILED';
@@ -42,7 +42,7 @@ export class IsoDeleteAction extends BaseTemplateDeleteAction {
     if (error.type === 'vmsInUse') {
       const listOfUsedVms = error.vms.map(vm => vm.name).join(', ');
       this.dialogService.alert({
-        translationToken: 'DELETE_ISO_VMS_IN_USE',
+        translationToken: 'ERRORS.ISO.VMS_IN_USE',
         interpolateParams: { vms: listOfUsedVms }
       });
     } else {

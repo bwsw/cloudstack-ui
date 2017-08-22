@@ -560,6 +560,7 @@
     },
 
     "DETAILS": {
+      "GENERAL_INFORMATION": "Общая информация",
       "SIZE": "Размер",
       "CREATED": "Создан",
       "STORAGE_TYPE": "Тип хранилища",

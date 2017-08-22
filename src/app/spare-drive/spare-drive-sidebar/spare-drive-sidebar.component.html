@@ -1,5 +1,10 @@
-<div *ngIf="volume">
-  <cs-spare-drive-sidebar-volume [volume]="volume"></cs-spare-drive-sidebar-volume>
+<div *ngIf="item">
+  <div class="title-container">
+    <h4 class="details-header">{{ item.name }}</h4>
+    <cs-spare-drive-actions-sidebar [volume]="item"></cs-spare-drive-actions-sidebar>
+  </div>
+
+  <cs-spare-drive-sidebar-volume [volume]="item"></cs-spare-drive-sidebar-volume>
 
   <cs-description
     [description]="description"

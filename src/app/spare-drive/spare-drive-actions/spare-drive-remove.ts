@@ -6,18 +6,28 @@ import { SpareDriveAction } from './spare-drive-action';
 
 @Injectable()
 export class SpareDriveRemoveAction extends SpareDriveAction {
-  public name = 'DELETE';
+  public name = 'COMMON.DELETE';
   public icon = 'delete';
 
   public activate(volume: Volume): Observable<any> {
-    return this.dialogService.confirm('CONFIRM_DELETE_VOLUME', 'NO', 'YES')
+    return this.dialogService.confirm(
+      'DIALOG_MESSAGES.VOLUME.CONFIRM_DELETION',
+      'COMMON.NO',
+      'COMMON.YES'
+    )
       .onErrorResumeNext()
-      .do(() => this.jobsNotificationService.finish({message: 'VOLUME_DELETE_IN_PROGRESS'}))
+      .do(() => this.jobsNotificationService.finish({
+        message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_IN_PROGRESS'
+      }))
       .switchMap(() => this.volumeService.remove(volume))
-      .map(() => this.jobsNotificationService.finish({message: 'VOLUME_DELETE_DONE'}))
+      .map(() => this.jobsNotificationService.finish({
+        message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_DONE'
+      }))
       .catch(error => {
         this.dialogService.alert(error);
-        this.jobsNotificationService.fail({message: 'VOLUME_DELETE_FAILED'});
+        this.jobsNotificationService.fail({
+          message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_FAILED'
+        });
         return Observable.throw(error);
       });
   }

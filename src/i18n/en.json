@@ -560,6 +560,7 @@
     },
 
     "DETAILS": {
+      "GENERAL_INFORMATION": "General information",
       "SIZE": "Size",
       "CREATED": "Created",
       "STORAGE_TYPE": "Storage type",
