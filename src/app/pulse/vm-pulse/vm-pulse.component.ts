@@ -238,7 +238,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
     const scale = this.storage.read(PulseParameters.ScaleRange);
     return (!!scale)
       ? this.permittedIntervals.scales.find(_ => _.range === scale)
-      : this._selectedScale = this.permittedIntervals.scales[0];
+      : this.permittedIntervals.scales[0];
   }
 
   private getAggregations(): string[] {
