@@ -16,8 +16,8 @@
   >
     <mdl-spinner *ngIf="updatingOrder; else icon" active></mdl-spinner>
     <ng-template #icon>
-      <md-icon *ngIf="editing">lock_outline</md-icon>
-      <md-icon *ngIf="!editing">lock_open</md-icon>
+      <md-icon *ngIf="editing">lock_open</md-icon>
+      <md-icon *ngIf="!editing">lock_outline</md-icon>
     </ng-template>
   </button>
 </div>
@@ -29,22 +29,53 @@
   </div>
 </mdl-layout-title>
 
-<ng-template #links>
-</ng-template>
 <nav
   #navigationBar
   class="mdl-navigation"
-  [dragula]="dragulaContainerName"
-  [dragulaModel]="routes"
 >
-  <div *ngFor="let route of routes">
-    <span
-      *ngIf="editing"
-      class="handle"
-      [@handleSlide]="'in'"
-    ></span>
+  <div
+    [dragula]="dragulaContainerName"
+    [dragulaModel]="routes"
+  >
+    <ng-container *ngFor="let route of routes">
+      <a
+        *ngIf="!editing && route.enabled"
+        class="mdl-navigation__link link-container"
+        [routerLink]="route.path"
+        [class.link-hover-light]="isLightTheme"
+        [class.link-hover-dark]="!isLightTheme"
+        [routerLinkActive]="linkActiveStyle"
+        (click)="linkClick(route.path)"
+      >
+        <div [@linkSlide]="'in'">
+          <md-icon class="link-element" [ngClass]="route.className">
+            {{ route.icon }}
+          </md-icon>
+          <div class="link-element" [innerHTML]="route.text | translate"></div>
+        </div>
+      </a>
+      <div
+        *ngIf="editing"
+        class="drag mdl-navigation__link link-container"
+      >
+        <span
+          class="handle"
+          [@handleSlide]="'in'"
+        ></span>
+        <md-checkbox
+          [(ngModel)]="route.enabled"
+          (change)="handleRouteChecked($event)"
+          [@handleSlide]="!editing ? 'in' : ''"
+        ></md-checkbox>
+        <div [@linkSlide]="'out'">
+          <div class="link-element" [innerHTML]="route.text | translate"></div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <ng-container *ngFor="let route of nonDraggableRoutes">
     <a
-      *ngIf="!editing"
+      *ngIf="!editing && route.enabled"
       class="mdl-navigation__link link-container"
       [routerLink]="route.path"
       [class.link-hover-light]="isLightTheme"
@@ -52,25 +83,12 @@
       [routerLinkActive]="linkActiveStyle"
       (click)="linkClick(route.path)"
     >
-      <div [@linkSlide]="'in'">
-        <md-icon class="link-element" [ngClass]="route.className">
-          {{ route.icon }}
-        </md-icon>
-        <div class="link-element" [innerHTML]="route.text | translate"></div>
-      </div>
+      <md-icon class="link-element" [ngClass]="route.className">
+        {{ route.icon }}
+      </md-icon>
+      <div class="link-element" [innerHTML]="route.text | translate"></div>
     </a>
-    <div
-      *ngIf="editing"
-      class="drag mdl-navigation__link link-container"
-    >
-      <div [@linkSlide]="'out'">
-        <md-icon class="link-element" [ngClass]="route.className">
-          {{ route.icon }}
-        </md-icon>
-        <div class="link-element" [innerHTML]="route.text | translate"></div>
-      </div>
-    </div>
-  </div>
+  </ng-container>
 </nav>
 
 <div class="license-container">

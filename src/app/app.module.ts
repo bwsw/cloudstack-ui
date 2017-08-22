@@ -4,14 +4,13 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
-import { MdIconModule, MdTooltipModule } from '@angular/material';
+import { MdCheckboxModule, MdIconModule, MdTooltipModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DragulaModule } from 'ng2-dragula';
-import { AppSidebarComponent } from './navigation/app-sidebar.component';
 
 import { AppComponent } from './app.component';
 import { routes } from './app.routing';
@@ -19,6 +18,7 @@ import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
 import { MdlDialogModule } from './dialog/dialog-module';
 import { EventsModule } from './events/events.module';
+import { AppSidebarComponent } from './navigation/app-sidebar.component';
 import { SecurityGroupModule } from './security-group/sg.module';
 import { ServiceOfferingModule } from './service-offering/service-offering.module';
 import { SettingsModule } from './settings/settings.module';
@@ -46,6 +46,7 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
     EventsModule,
     DragulaModule,
     MdIconModule,
+    MdCheckboxModule,
     MdTooltipModule,
     MdlModule,
     MdlPopoverModule,

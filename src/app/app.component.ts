@@ -4,12 +4,6 @@ import { Response } from '@angular/http';
 import { Router } from '@angular/router';
 import '../style/app.scss';
 import { MdlDialogService } from './dialog/dialog-module';
-import {
-  ErrorService,
-  LanguageService,
-  LayoutService,
-  NotificationService
-} from './shared/services';
 import { AsyncJobService } from './shared/services/async-job.service';
 import { AuthService } from './shared/services/auth.service';
 import { CacheService } from './shared/services/cache.service';

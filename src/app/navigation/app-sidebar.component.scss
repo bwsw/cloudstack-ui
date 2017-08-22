@@ -8,7 +8,7 @@
   margin-right: 10px;
 }
 
-.mdl-navigation > div {
+.mdl-navigation .drag {
   position: relative;
 }
 
@@ -141,13 +141,22 @@ div.link-container {
   }
 }
 
+md-checkbox {
+  display: inline-block;
+  position: absolute;
+  left: 55px;
+  z-index: 50;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .gu-mirror .mdl-navigation__link {
   display: block;
   padding: 16px 40px;
   background: rgba(0, 0, 0, 0.2) !important;
 }
 
-div.link-container {
+div.drag.link-container {
   cursor: move !important;
   cursor: grabbing !important;
 }

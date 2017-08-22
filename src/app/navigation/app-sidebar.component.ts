@@ -10,31 +10,23 @@ import {
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { DragulaService } from 'ng2-dragula';
+import { Color } from '../shared/models/color.model';
 import { LayoutService } from '../shared/services/layout.service';
 import { RouterUtilsService } from '../shared/services/router-utils.service';
 import { StyleService } from '../shared/services/style.service';
 import { UserService } from '../shared/services/user.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 import { transformHandle, transformLinks } from './sidebar-animations';
-import { sideBarRoutes } from './sidebar-routes';
-import { Color } from '../shared/models/color.model';
+import {
+  NavigationItem,
+  navigationPredicate,
+  nonDraggableRoutes,
+  sideBarRoutes,
+  validateNavigationOrder
+} from './sidebar-routes';
 
 const navigationOrderTag = 'csui.user.navigation-order';
 
-function navigationPredicate(order) {
-  return (a, b) => {
-    let positionA = order.indexOf(a.id);
-    if (positionA === -1) {
-      positionA = Infinity;
-    }
-    let positionB = order.indexOf(b.id);
-    if (positionB === -1) {
-      positionB = Infinity;
-    }
-
-    return positionA - positionB;
-  };
-}
 
 @Component({
   selector: 'cs-app-sidebar',
@@ -44,10 +36,7 @@ function navigationPredicate(order) {
   host: {
     '[style]': 'drawerStyles'
   },
-  animations: [
-    transformHandle,
-    transformLinks
-  ]
+  animations: [transformHandle, transformLinks]
 })
 export class AppSidebarComponent extends WithUnsubscribe()
   implements AfterViewInit, OnInit, OnDestroy {
@@ -56,7 +45,8 @@ export class AppSidebarComponent extends WithUnsubscribe()
   @Input() public open: boolean;
   @Input() public title: string;
 
-  public routes = sideBarRoutes;
+  public routes = sideBarRoutes.slice();
+  public nonDraggableRoutes = nonDraggableRoutes;
 
   public themeColor;
   public updatingOrder = false;
@@ -136,12 +126,21 @@ export class AppSidebarComponent extends WithUnsubscribe()
     if (this.editing && this.hasChanges) {
       this.hasChanges = false;
       this.updatingOrder = true;
+
+      const newOrder: Array<NavigationItem> = this.routes.map(({ id, enabled }) => ({
+        id,
+        enabled
+      }));
       this.userService
-        .writeTag(navigationOrderTag, this.routes.map(_ => _.id).join(';'))
+        .writeTag(navigationOrderTag, JSON.stringify(newOrder))
         .finally(() => (this.updatingOrder = false))
         .subscribe();
     }
     this.toggleState();
+  }
+
+  public handleRouteChecked() {
+    this.hasChanges = true;
   }
 
   public get drawerStyles(): SafeStyle {
@@ -167,9 +166,17 @@ export class AppSidebarComponent extends WithUnsubscribe()
   private fetchNavigationOrder() {
     this.userService.readTag(navigationOrderTag).subscribe(tag => {
       if (tag) {
-        const order = tag.split(';');
-        const predicate = navigationPredicate(order);
-        this.routes.sort(predicate);
+        let order;
+        try {
+          order = JSON.parse(tag);
+        } catch (e) {
+          return;
+        }
+        if (validateNavigationOrder(order)) {
+          const predicate = navigationPredicate(order);
+          this.routes.sort(predicate);
+          this.routes.forEach((route, i) => route.enabled = order[i].enabled);
+        }
       }
     });
   }
