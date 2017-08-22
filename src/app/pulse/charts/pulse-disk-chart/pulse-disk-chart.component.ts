@@ -45,12 +45,12 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
             yAxes: [
               {
                 ticks: {
-                  padding: 50,
+                  padding: 40,
                   mirror: true,
                   suggestedMin: 0,
                   userCallback(val) {
-                    return !!humanReadableSize(val)
-                      ? `${humanReadableSize(val)}/s`
+                    return !!humanReadableSize(val, true)
+                      ? `${humanReadableSize(val, true)}/s`
                       : null;
                   }
                 }

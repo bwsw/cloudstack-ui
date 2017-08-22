@@ -46,7 +46,7 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
               {
                 ticks: {
                   mirror: true,
-                  padding: 55,
+                  padding: 40,
                   suggestedMin: 0,
                   userCallback(val) {
                     return !!humanReadableSizeInBits(val)

@@ -39,7 +39,7 @@ export class PulseCpuRamChartComponent extends PulseChartComponent
             ...defaultChartOptions.scales,
             yAxes: [{
               ticks: {
-                padding: 50,
+                padding: 40,
                 mirror: true,
                 suggestedMin: 0,
                 userCallback(val) {
