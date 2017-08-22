@@ -8,7 +8,7 @@ import { SpareDriveAction } from './spare-drive-action';
 
 @Injectable()
 export class SpareDriveResizeAction extends SpareDriveAction {
-  public name = 'RESIZE';
+  public name = 'SPARE_DRIVE_PAGE.CARD.RESIZE';
   public icon = 'photo_size_select_small';
 
   public activate(volume: Volume, params: { diskOfferings: Array<DiskOffering> }): Observable<any> {

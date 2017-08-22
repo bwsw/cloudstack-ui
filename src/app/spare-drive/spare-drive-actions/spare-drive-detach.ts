@@ -6,8 +6,8 @@ import { SpareDriveAction } from './spare-drive-action';
 
 @Injectable()
 export class SpareDriveDetachAction extends SpareDriveAction {
-  public name = 'DELETE';
-  public icon = 'delete';
+  public name = 'VM_PAGE.STORAGE_DETAILS.DETACH';
+  public icon = 'remove';
 
   public activate(volume: Volume): Observable<any> {
     return this.dialogService.confirm('CONFIRM_VOLUME_DETACH', 'NO', 'YES')

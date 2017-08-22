@@ -46,7 +46,7 @@ export class SpareDriveAttachmentComponent implements OnInit {
     }
 
     this.loading = true;
-    const notificationId = this.jobsNotificationService.add('VOLUME_ATTACH_IN_PROGRESS');
+    const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_IN_PROGRESS');
 
     this.volumeService.attach({
       id: this.volume.id,
@@ -55,7 +55,7 @@ export class SpareDriveAttachmentComponent implements OnInit {
       .do(() => {
         this.jobsNotificationService.finish({
           id: notificationId,
-          message: 'VOLUME_ATTACH_DONE',
+          message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_DONE',
         });
       })
       .catch(error => {
@@ -65,7 +65,7 @@ export class SpareDriveAttachmentComponent implements OnInit {
         });
         this.jobsNotificationService.fail({
           id: notificationId,
-          message: 'VOLUME_ATTACH_FAILED',
+          message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED',
         });
         return Observable.throw(error);
       })

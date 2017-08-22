@@ -6,7 +6,7 @@ import { BaseTemplateModel } from '../../shared/base-template.model';
 
 @Injectable()
 export abstract class BaseTemplateDeleteAction extends BaseTemplateAction {
-  public name = 'DELETE';
+  public name = 'COMMON.DELETE';
   public icon = 'delete';
 
   protected abstract confirmMessage;

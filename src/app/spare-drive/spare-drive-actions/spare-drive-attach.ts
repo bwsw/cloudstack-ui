@@ -7,7 +7,7 @@ import { SpareDriveAction } from './spare-drive-action';
 
 @Injectable()
 export class SpareDriveAttachAction extends SpareDriveAction {
-  public name = 'ATTACH';
+  public name = 'SPARE_DRIVE_PAGE.CARD.ATTACH';
   public icon = 'attach_file';
 
   public activate(volume: Volume): Observable<any> {

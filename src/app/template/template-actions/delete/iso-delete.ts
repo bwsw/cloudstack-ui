@@ -10,13 +10,10 @@ import { Iso } from '../../shared/iso.model';
 
 @Injectable()
 export class IsoDeleteAction extends BaseTemplateDeleteAction {
-  public name = 'DELETE';
-  public icon = 'delete';
-
-  protected confirmMessage = 'DELETE_ISO_CONFIRM';
-  protected progressMessage = 'DELETE_ISO_IN_PROGRESS';
-  protected successMessage = 'DELETE_ISO_DONE';
-  protected failMessage = 'DELETE_ISO_FAILED';
+  protected confirmMessage = 'DIALOG_MESSAGE.ISO.CONFIRM_DELETION';
+  protected progressMessage = 'JOB_NOTIFICATIONS.ISO.DELETION_IN_PROGRESS';
+  protected successMessage = 'JOB_NOTIFICATIONS.ISO.DELETION_DONE';
+  protected failMessage = 'JOB_NOTIFICATIONS.ISO.DELETION_FAILED';
 
   constructor(
     protected dialogService: DialogService,

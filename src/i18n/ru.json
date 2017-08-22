@@ -615,6 +615,7 @@
     },
 
     "TEMPLATE_DETAILS": {
+      "OS": "ОС",
       "DETAILS": "Общая информация",
       "SIZE": "Размер",
       "EXTRACTABLE": "Извлекаемый",

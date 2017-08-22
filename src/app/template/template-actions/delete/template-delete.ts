@@ -9,13 +9,10 @@ import { TemplateService } from '../../shared/template.service';
 
 @Injectable()
 export class TemplateDeleteAction extends BaseTemplateDeleteAction {
-  public name = 'DELETE';
-  public icon = 'delete';
-
-  protected confirmMessage = 'DELETE_TEMPLATE_CONFIRM';
-  protected progressMessage = 'DELETE_TEMPLATE_IN_PROGRESS';
-  protected successMessage = 'DELETE_TEMPLATE_DONE';
-  protected failMessage = 'DELETE_TEMPLATE_FAILED';
+  protected confirmMessage = 'DIALOG_MESSAGE.TEMPLATE.CONFIRM_DELETION';
+  protected progressMessage = 'JOB_NOTIFICATIONS.TEMPLATE.DELETION_IN_PROGRESS';
+  protected successMessage = 'JOB_NOTIFICATIONS.TEMPLATE.DELETION_DONE';
+  protected failMessage = 'JOB_NOTIFICATIONS.TEMPLATE.DELETION_FAILED';
 
   constructor(
     protected dialogService: DialogService,

@@ -615,6 +615,7 @@
     },
 
     "TEMPLATE_DETAILS": {
+      "OS": "OS",
       "DETAILS": "General information",
       "SIZE": "Size",
       "EXTRACTABLE": "Extractable",

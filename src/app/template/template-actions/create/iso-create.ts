@@ -11,10 +11,10 @@ import { BaseTemplateCreateAction } from './base-template-create';
 export class IsoCreateAction extends BaseTemplateCreateAction {
   public name = 'CREATE';
 
-  protected confirmMessage = 'DELETE_ISO_CONFIRM';
-  protected progressMessage = 'DELETE_ISO_IN_PROGRESS';
-  protected successMessage = 'DELETE_ISO_DONE';
-  protected failMessage = 'DELETE_ISO_FAILED';
+  protected confirmMessage = 'DIALOG_MESSAGES.ISO.CONFIRM_DELETION';
+  protected progressMessage = 'JOB_NOTIFICATIONS.ISO.DELETION_IN_PROGRESS';
+  protected successMessage = 'JOB_NOTIFICATIONS.ISO.DELETION_DONE';
+  protected failMessage = 'JOB_NOTIFICATIONS.ISO.DELETION_FAILED';
 
   constructor(
     protected dialogService: DialogService,
