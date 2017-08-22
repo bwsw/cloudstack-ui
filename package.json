@@ -25,6 +25,7 @@
     "transformIgnorePatterns": [
       "node_modules/(?!@ngrx|@angular-mdl|ngx-clipboard|ngx-window-token)"
     ],
+    "coverageDirectory": "reports",
     "coveragePathIgnorePatterns": ["src/testutils"],
     "coverageReporters": ["json", "lcov", "cobertura"]
   },

@@ -34,7 +34,6 @@ Thumbs.db
 
 # Coverage #
 /reports/
-coverage
 
 # Typing #
 /src/typings/tsd/
