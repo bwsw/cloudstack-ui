@@ -1,5 +1,5 @@
 <h3 class="mat-dialog-title">
-  {{ 'RECURRING_SNAPSHOTS' | translate }}
+  {{ 'SNAPSHOT_POLICIES.TITLE' | translate }}
 </h3>
 <div class="mat-dialog-content">
 
@@ -7,10 +7,10 @@
     md-selected="policyMode"
     (selectChange)="tabChanged($event)"
   >
-    <md-tab label="{{ 'RECURRING_SNAPSHOTS_HOURLY' | translate }}"></md-tab>
-    <md-tab label="{{ 'RECURRING_SNAPSHOTS_DAILY' | translate }}"></md-tab>
-    <md-tab label="{{ 'RECURRING_SNAPSHOTS_WEEKLY' | translate }}"></md-tab>
-    <md-tab label="{{ 'RECURRING_SNAPSHOTS_MONTHLY' | translate }}"></md-tab>
+    <md-tab label="{{ 'SNAPSHOT_POLICIES.HOURLY' | translate }}"></md-tab>
+    <md-tab label="{{ 'SNAPSHOT_POLICIES.DAILY' | translate }}"></md-tab>
+    <md-tab label="{{ 'SNAPSHOT_POLICIES.WEEKLY' | translate }}"></md-tab>
+    <md-tab label="{{ 'SNAPSHOT_POLICIES.MONTHLY' | translate }}"></md-tab>
   </md-tab-group>
 
   <div class="editor">
@@ -40,6 +40,6 @@
     mdl-colored="primary"
     (click)="onClose()"
   >
-    {{ 'CLOSE' | translate }}
+    {{ 'COMMON.CLOSE' | translate }}
   </button>
 </div>

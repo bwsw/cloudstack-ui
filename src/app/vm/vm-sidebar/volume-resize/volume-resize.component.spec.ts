@@ -3,17 +3,17 @@ import { async, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
-import { DialogsService } from '../../dialog/dialog-service/dialog.service';
-import { DiskOfferingComponent } from '../../shared/components/disk-offering/disk-offering.component';
-import { OverlayLoadingComponent } from '../../shared/components/overlay-loading/overlay-loading.component';
-import { SliderComponent } from '../../shared/components/slider/slider.component';
-import { DiskOffering, Volume } from '../../shared/models';
-import { VolumeType } from '../../shared/models/volume.model';
-import { DiskOfferingService } from '../../shared/services/disk-offering.service';
-import { DiskStorageService } from '../../shared/services/disk-storage.service';
-import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
-import { VolumeService } from '../../shared/services/volume.service';
+import { MockTranslatePipe } from '../../../../testutils/mocks/mock-translate.pipe.spec';
+import { DialogsService } from '../../../dialog/dialog-service/dialog.service';
+import { DiskOfferingComponent } from '../../../shared/components/disk-offering/disk-offering.component';
+import { OverlayLoadingComponent } from '../../../shared/components/overlay-loading/overlay-loading.component';
+import { SliderComponent } from '../../../shared/components/slider/slider.component';
+import { DiskOffering, Volume } from '../../../shared/models';
+import { VolumeType } from '../../../shared/models/volume.model';
+import { DiskOfferingService } from '../../../shared/services/disk-offering.service';
+import { DiskStorageService } from '../../../shared/services/disk-storage.service';
+import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
+import { VolumeService } from '../../../shared/services/volume.service';
 import { VolumeResizeComponent } from './volume-resize.component';
 
 

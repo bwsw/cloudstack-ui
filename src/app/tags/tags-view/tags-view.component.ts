@@ -62,8 +62,8 @@ export class TagsViewComponent implements OnChanges {
       panelClass: 'tag-edit',
       data: {
         forbiddenKeys: forbiddenKeys,
-        title: 'CREATE_NEW_TAG',
-        confirmButtonText: 'CREATE',
+        title: 'TAGS.CREATE_NEW_TAG',
+        confirmButtonText: 'COMMON.CREATE',
         categoryName: category && category.name
       }
     })
@@ -75,8 +75,8 @@ export class TagsViewComponent implements OnChanges {
     this.dialog.open(TagEditComponent, {
       panelClass: 'tag-edit',
       data: {
-        title: 'EDIT_TAG',
-        confirmButtonText: 'EDIT',
+        title: 'TAGS.EDIT_TAG',
+        confirmButtonText: 'COMMON.EDIT',
         categoryName: tag.categoryName,
         tag
       }

@@ -101,12 +101,12 @@ export class TemplateFiltersComponent implements OnInit {
       .subscribe(query => this.queries.emit(query));
 
     this.translateService.get(
-      this.categoryFilters.map(filter => `TEMPLATE_${filter.toUpperCase()}`)
+      this.categoryFilters.map(filter => `TEMPLATE_PAGE.FILTERS.${filter.toUpperCase()}`)
     )
       .subscribe(translations => {
         const strs = {};
         this.categoryFilters.forEach(f => {
-          strs[f] = translations[`TEMPLATE_${f.toUpperCase()}`];
+          strs[f] = translations[`TEMPLATE_PAGE.FILTERS.${f.toUpperCase()}`];
         });
         this.filterTranslations = strs;
       });

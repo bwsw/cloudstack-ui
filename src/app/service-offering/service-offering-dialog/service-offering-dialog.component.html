@@ -1,5 +1,5 @@
 <h3 class="mat-dialog-title">
-  {{ "CHOOSE_SERVICE_OFFERING" | translate }}
+  {{ 'SERVICE_OFFERING.CHOOSE_SERVICE_OFFERING' | translate }}
 </h3>
 <div *loading="loading">
   <div class="mat-dialog-content" *loading="!serviceOffering || !serviceOfferings">
@@ -15,11 +15,11 @@
     <div
       class="message warning"
       *ngIf="virtualMachine?.state !== 'Stopped' && serviceOffering.id !== virtualMachine.serviceOfferingId"
-    >{{ "VM_WILL_BE_REBOOTED" | translate }}
+    >{{ "SERVICE_OFFERING.VM_WILL_BE_REBOOTED" | translate }}
     </div>
     <div
       *ngIf="!serviceOfferings?.length"
-    >{{ "NO_AVAILABLE_OFFERINGS" | translate }}
+    >{{ "SERVICE_OFFERING.NO_AVAILABLE_OFFERINGS" | translate }}
     </div>
   </div>
   <div class="mat-dialog-actions">
@@ -30,10 +30,10 @@
       [disabled]="serviceOffering?.id === virtualMachine.serviceOfferingId"
       *ngIf="serviceOfferings?.length"
     >
-      {{ 'CHANGE' | translate }}
+      {{ 'COMMON.CHANGE' | translate }}
     </button>
     <button mdl-button (click)="onCancel()" mdl-colored="primary">
-      {{ 'CANCEL' | translate }}
+      {{ 'COMMON.CANCEL' | translate }}
     </button>
   </div>
 </div>

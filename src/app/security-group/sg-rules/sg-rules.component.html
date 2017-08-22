@@ -1,22 +1,33 @@
 <h3 class="mat-dialog-title">
-  {{ (securityGroup.isPredefinedTemplate ? 'TEMPLATE_RULES' : 'FIREWALL_RULES_FOR_VM') | translate }}
+  {{ title | translate }}
 </h3>
 <div class="mat-dialog-content">
   <form #rulesForm="ngForm" novalidate>
     <table class="mdl-data-table">
       <thead>
       <tr>
-        <th class="mdl-data-table__cell--non-numeric">{{ 'TYPE' | translate }}</th>
-        <th>{{ 'PROTOCOL' | translate }}</th>
+        <th class="mdl-data-table__cell--non-numeric">
+          {{ 'SECURITY_GROUP_PAGE.RULES.TYPE' | translate }}
+        </th>
+
+        <th>
+          {{ 'SECURITY_GROUP_PAGE.RULES.PROTOCOL' | translate }}
+        </th>
+
         <ng-template [ngIf]="protocol !== NetworkProtocols.ICMP">
-          <th>{{ 'START_PORT' | translate }}</th>
-          <th>{{ 'END_PORT' | translate }}</th>
+          <th>{{ 'SECURITY_GROUP_PAGE.RULES.START_PORT' | translate }}</th>
+          <th>{{ 'SECURITY_GROUP_PAGE.RULES.END_PORT' | translate }}</th>
         </ng-template>
+
         <ng-template [ngIf]="protocol === NetworkProtocols.ICMP">
-          <th>{{ 'ICMP_TYPE' | translate }}</th>
-          <th>{{ 'ICMP_CODE' | translate }}</th>
+          <th>{{ 'SECURITY_GROUP_PAGE.RULES.ICMP_TYPE' | translate }}</th>
+          <th>{{ 'SECURITY_GROUP_PAGE.RULES.ICMP_CODE' | translate }}</th>
         </ng-template>
-        <th class="mdl-data-table__cell--non-numeric">CIDR</th>
+
+        <th class="mdl-data-table__cell--non-numeric">
+          {{ 'SECURITY_GROUP_PAGE.RULES.CIDR' | translate }}
+        </th>
+
         <th></th>
       </tr>
       </thead>
@@ -38,7 +49,7 @@
               *ngFor="let p of protocols"
               [value]="p.value"
             >
-              {{ p.text }}
+              {{ p.text | translate }}
             </md-option>
           </md-select>
         </td>
@@ -50,8 +61,8 @@
             type="number"
             minValue="-1"
             integerValue
-            error-msg="{{ 'ENTER_VALID_TYPE' | translate }}"
-            [label]="(icmpType === -1 ? 'ICMP_ANY' : '') | translate"
+            error-msg="{{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_TYPE' | translate }}"
+            [label]="(icmpType === -1 ? 'SECURITY_GROUP_PAGE.RULES.ICMP_ANY' : '') | translate"
             floating-label
             required
             [(ngModel)]="icmpType"
@@ -66,7 +77,7 @@
             minValue="0"
             maxValue="65536"
             integerValue
-            error-msg="{{ 'ENTER_VALID_PORT' | translate }}"
+            error-msg="{{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_PORT' | translate }}"
             required
             [(ngModel)]="startPort"
             #startPortField="ngModel"
@@ -80,9 +91,9 @@
             type="number"
             minValue="-1"
             integerValue
-            [label]="(icmpCode === -1 ? 'ICMP_ANY' : '') | translate"
+            [label]="(icmpCode === -1 ? 'SECURITY_GROUP_PAGE.RULES.ICMP_ANY' : '') | translate"
             floating-label
-            error-msg="{{ 'ENTER_VALID_CODE' | translate }}"
+            error-msg="{{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CODE' | translate }}"
             required
             [(ngModel)]="icmpCode"
             #icmpCodeField="ngModel"
@@ -96,7 +107,7 @@
             minValue="0"
             maxValue="65536"
             integerValue
-            error-msg="{{ 'ENTER_VALID_PORT' | translate }}"
+            error-msg="{{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_PORT' | translate }}"
             required
             [(ngModel)]="endPort"
             #endPortField="ngModel"
@@ -108,7 +119,7 @@
             name="cidr"
             type="text"
             pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$"
-            error-msg="{{ 'ENTER_VALID_CIDR' | translate }}"
+            error-msg="{{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CIDR' | translate }}"
             required
             [(ngModel)]="cidr"
             #cidrField="ngModel"
@@ -155,5 +166,5 @@
     mdl-ripple
     mdl-colored="primary"
     (click)="dialogRef.close()"
-  >{{ 'CLOSE' | translate }}</button>
+  >{{ 'COMMON.CLOSE' | translate }}</button>
 </div>

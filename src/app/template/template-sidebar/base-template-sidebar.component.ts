@@ -8,6 +8,7 @@ import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 
+
 export abstract class BaseTemplateSidebarComponent implements OnInit {
   @Input() public template: BaseTemplateModel;
   public templateDownloadUrl: string;
@@ -41,6 +42,16 @@ export abstract class BaseTemplateSidebarComponent implements OnInit {
         this.checkZones();
       });
     });
+  }
+
+  public get templateTypeTranslationToken(): string {
+    const type = this.template && (this.template as any).type || '';
+    const templateTypeTranslations = {
+      'BUILTIN': 'Built-in',
+      'USER': 'User'
+    };
+
+    return templateTypeTranslations[type];
   }
 
   public remove(): void {

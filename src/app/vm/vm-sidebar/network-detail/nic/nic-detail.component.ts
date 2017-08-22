@@ -25,14 +25,14 @@ export class NicDetailComponent {
 
   public confirmAddSecondaryIp(vm: VirtualMachine): void {
     this.dialogsService.confirm({
-      message: 'ARE_YOU_SURE_ADD_SECONDARY_IP'
+      message: 'VM_PAGE.NETWORK_DETAILS.ARE_YOU_SURE_ADD_SECONDARY_IP'
     }).onErrorResumeNext()
       .subscribe((res) => { if (res) { this.addSecondaryIp(vm); } });
   }
 
   public confirmRemoveSecondaryIp(secondaryIpId: string, vm: VirtualMachine): void {
     this.dialogsService.confirm({
-      message: 'ARE_YOU_SURE_REMOVE_SECONDARY_IP'
+      message: 'VM_PAGE.NETWORK_DETAILS.ARE_YOU_SURE_REMOVE_SECONDARY_IP'
     }).onErrorResumeNext()
       .subscribe((res) => { if (res) { this.removeSecondaryIp(secondaryIpId, vm); } });
   }

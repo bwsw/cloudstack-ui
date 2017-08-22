@@ -103,14 +103,14 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
               x: new Date(_.time),
               y: +_.readBytes
             })),
-            label: `${this.translations['DISK_READ']} ${aggregation}`
+            label: `${this.translations['PULSE.LABELS.DISK_READ']} ${aggregation}`
           };
           const writeBytes = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writeBytes
             })),
-            label: `${this.translations['DISK_WRITE']} ${aggregation}`
+            label: `${this.translations['PULSE.LABELS.DISK_WRITE']} ${aggregation}`
           };
           sets.bytes.push(readBytes, writeBytes);
 
@@ -120,14 +120,14 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
               x: new Date(_.time),
               y: +_.readIOPS
             })),
-            label: `${this.translations['DISK_READ_IOPS']} ${aggregation}`
+            label: `${this.translations['PULSE.LABELS.DISK_READ_IO']} ${aggregation}`
           };
           const writeIops = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writeIOPS
             })),
-            label: `${this.translations['DISK_WRITE_IOPS']} ${aggregation}`
+            label: `${this.translations['PULSE.LABELS.DISK_WRITE_IO']} ${aggregation}`
           };
 
           sets.iops.push(readIops, writeIops);
@@ -136,7 +136,7 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
           this.charts[2].labels = res.map(_ => new Date(_.time)); // TODO
           const errors = {
             data: res.map(_ => +_.ioErrors),
-            label: `${this.translations['DISK_IO_ERRORS']} ${aggregation}`
+            label: `${this.translations['PULSE.LABELS.DISK_IO_ERRORS']} ${aggregation}`
           };
           sets.errors.push(errors);
         });

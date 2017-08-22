@@ -56,7 +56,7 @@ export class SshKeysPageComponent implements OnInit {
   }
 
   private showRemovalDialog(name: string): void {
-     this.dialogsService.confirm({ message: 'REMOVE_THIS_KEY'})
+     this.dialogsService.confirm({ message: 'SSH_KEYS.REMOVE_THIS_KEY'})
       .onErrorResumeNext()
       .switchMap((res) => {
         if (res) {
@@ -73,7 +73,7 @@ export class SshKeysPageComponent implements OnInit {
             return;
           }
           this.setLoading(name, false);
-          this.dialogsService.alert({ message: 'KEY_REMOVAL_FAILED' });
+          this.dialogsService.alert({ message: 'SSH_KEYS.KEY_REMOVAL_FAILED' });
         }
       );
   }

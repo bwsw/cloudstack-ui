@@ -7,7 +7,7 @@ import { DiskOfferingService } from '../../../../shared/services/disk-offering.s
 import { StatsUpdateService } from '../../../../shared/services/stats-update.service';
 import { ZoneService } from '../../../../shared/services/zone.service';
 import { RecurringSnapshotsComponent } from '../../../../snapshot/recurring-snapshots/recurring-snapshots.component';
-import { VolumeResizeComponent } from '../../volume-resize.component';
+import { VolumeResizeComponent } from '../../volume-resize/volume-resize.component';
 
 import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
 

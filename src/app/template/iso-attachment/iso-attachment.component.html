@@ -1,4 +1,4 @@
-<h3 class="mat-dialog-title">{{ 'ATTACH_AN_ISO' | translate }}</h3>
+<h3 class="mat-dialog-title">{{ 'VM_PAGE.STORAGE_DETAILS.ISO_MODAL.TITLE' | translate }}</h3>
 <div class="mat-dialog-content">
   <cs-template-filter-list-selector
     [viewMode]="'Iso'"
@@ -16,7 +16,7 @@
     (click)="onAttach()"
     [disabled]="!selectedIso"
   >
-    {{ 'ATTACH' | translate }}
+    {{ 'VM_PAGE.STORAGE_DETAILS.ISO_MODAL.ATTACH' | translate }}
   </button>
   <button
     mdl-button
@@ -24,6 +24,6 @@
     mdl-ripple
     (click)="onCancel()"
   >
-    {{ 'CANCEL' | translate }}
+    {{ 'COMMON.CANCEL' | translate }}
   </button>
 </div>

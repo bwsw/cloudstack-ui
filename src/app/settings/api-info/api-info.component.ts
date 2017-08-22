@@ -63,20 +63,34 @@ export class ApiInfoComponent implements OnInit {
       .finally(() => this.loading = false)
       .subscribe(apiKeys => {
         this.linkFields = {
-          apiUrl: { title: 'API_URL', href: this.apiUrl },
-          apiDocLink: { title: 'API_DOC_LINK', href: apiDocLink }
+          apiUrl: {
+            title: 'SETTINGS.API_CONFIGURATION.API_URL',
+            href: this.apiUrl
+          },
+          apiDocLink: {
+            title: 'SETTINGS.API_CONFIGURATION.API_DOC_LINK',
+            href: apiDocLink
+          }
         };
 
         this.inputFields = {
-          apiKey: { title: 'API_KEY', value: apiKeys.apiKey },
-          apiSecretKey: { title: 'API_SECRET_KEY', value: apiKeys.secretKey }
+          apiKey: {
+            title: 'SETTINGS.API_CONFIGURATION.API_KEY',
+            value: apiKeys.apiKey
+          },
+          apiSecretKey: {
+            title: 'SETTINGS.API_CONFIGURATION.API_SECRET_KEY',
+            value: apiKeys.secretKey
+          }
         };
       });
   }
 
   public askToRegenerateKeys(): void {
     this.dialogsService.confirm({
-      message: 'ASK_GENERATE_KEYS'
+      message: 'SETTINGS.API_CONFIGURATION.ASK_GENERATE_KEYS',
+      confirmText: 'GENERATE',
+      declineText: 'COMMON.CANCEL'
     })
       .onErrorResumeNext()
       .subscribe((res) => { if (res) { this.regenerateKeys(); } });
@@ -84,8 +98,11 @@ export class ApiInfoComponent implements OnInit {
 
   private get apiUrl(): string {
     return [
-      this.routerUtilsService.getLocationOrigin().replace(/\/$/, ''),
-      this.routerUtilsService.getBaseHref().replace(/^\//, '').replace(/\/$/, ''),
+      this.routerUtilsService.getLocationOrigin()
+        .replace(/\/$/, ''),
+      this.routerUtilsService.getBaseHref()
+        .replace(/^\//, '')
+        .replace(/\/$/, ''),
       BACKEND_API_URL
     ]
       .filter(s => s)
@@ -93,11 +110,11 @@ export class ApiInfoComponent implements OnInit {
   }
 
   public onCopySuccess(): void {
-    this.notificationService.message('COPY_SUCCESS');
+    this.notificationService.message('CLIPBOARD.COPY_SUCCESS');
   }
 
   public onCopyFail(): void {
-    this.notificationService.message('COPY_FAIL');
+    this.notificationService.message('CLIPBOARD.COPY_FAIL');
   }
 
   private getApiKeys(): Observable<ApiKeys> {

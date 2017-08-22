@@ -3,7 +3,7 @@
 
   <ng-container *loading="!predefinedSecurityGroupList || !customSecurityGroupList" cs-list>
     <ng-container *ngIf="predefinedSecurityGroupList.length">
-      <h4 class="section-header">{{ "SYSTEM_SECURITY_GROUPS" | translate }}</h4>
+      <h4 class="section-header">{{ "SECURITY_GROUP_PAGE.LIST.SYSTEM_SECURITY_GROUPS" | translate }}</h4>
       <div class="card-list-container">
         <cs-security-group-template-list-item
           *ngFor="let group of predefinedSecurityGroupList"
@@ -14,7 +14,7 @@
     </ng-container>
 
     <ng-container *ngIf="customSecurityGroupList.length">
-      <h4 class="section-header">{{ "CUSTOM_SECURITY_GROUPS" | translate }}</h4>
+      <h4 class="section-header">{{ "SECURITY_GROUP_PAGE.LIST.CUSTOM_SECURITY_GROUPS" | translate }}</h4>
       <div class="card-list-container">
         <cs-security-group-template-list-item
           *ngFor="let group of customSecurityGroupList"

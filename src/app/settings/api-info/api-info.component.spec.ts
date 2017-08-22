@@ -94,15 +94,22 @@ describe('Api Info component', () => {
     fixture.detectChanges();
     expect(component.linkFields.apiDocLink).toEqual({
       href: 'https://api.url',
-      title: 'API_DOC_LINK'
+      title: 'SETTINGS.API_CONFIGURATION.API_DOC_LINK'
     });
     expect(component.linkFields.apiUrl).toEqual({
-      title: 'API_URL', href: 'https://cloudstack.ui/client/api'
+      title: 'SETTINGS.API_CONFIGURATION.API_URL',
+      href: 'https://cloudstack.ui/client/api'
     });
 
     expect(component.inputFields).toEqual({
-      apiKey: { title: 'API_KEY', value: 'apiKey' },
-      apiSecretKey: { title: 'API_SECRET_KEY', value: 'secretKey' }
+      apiKey: {
+        title: 'SETTINGS.API_CONFIGURATION.API_KEY',
+        value: 'apiKey'
+      },
+      apiSecretKey: {
+        title: 'SETTINGS.API_CONFIGURATION.API_SECRET_KEY',
+        value: 'secretKey'
+      }
     });
 
     tick();
@@ -129,8 +136,14 @@ describe('Api Info component', () => {
       tick();
       fixture.detectChanges();
       expect(component.inputFields).toEqual({
-        apiKey: { title: 'API_KEY', value: 'newApiKey' },
-        apiSecretKey: { title: 'API_SECRET_KEY', value: 'newSecretKey' }
+        apiKey: {
+          title: 'SETTINGS.API_CONFIGURATION.API_KEY',
+          value: 'newApiKey'
+        },
+        apiSecretKey: {
+          title: 'SETTINGS.API_CONFIGURATION.API_SECRET_KEY',
+          value: 'newSecretKey'
+        }
       });
 
       tick();

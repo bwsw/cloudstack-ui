@@ -62,6 +62,15 @@ export class TemplateCreationComponent implements OnInit {
     }
   }
 
+  public get modeTranslationToken(): string {
+    const modeTranslations = {
+      'TEMPLATE': 'TEMPLATE_PAGE.TEMPLATE_CREATION.NEW_TEMPLATE',
+      'ISO': 'TEMPLATE_PAGE.TEMPLATE_CREATION.NEW_ISO'
+    };
+
+    return modeTranslations[this.mode.toUpperCase()];
+  }
+
   public onCancel(): void {
     this.dialogRef.close();
   }

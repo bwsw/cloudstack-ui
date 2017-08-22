@@ -6,7 +6,6 @@ import { BaseDialogConfiguration } from '../dialog.service';
 
 export interface AskDialogConfiguration extends BaseDialogConfiguration {
   actions: Array<DialogAction>;
-  fullWidthAction?: boolean;
 }
 
 export interface DialogAction {

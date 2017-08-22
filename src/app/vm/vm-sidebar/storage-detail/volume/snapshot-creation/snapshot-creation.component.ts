@@ -59,21 +59,21 @@ export class SnapshotCreationComponent implements OnInit {
   }
 
   public takeSnapshot(volumeId: string, name: string, description: string): void {
-    const notificationId = this.jobsNotificationService.add('SNAPSHOT_IN_PROGRESS');
+    const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS');
     this.snapshotService.create(volumeId, name, description)
       .subscribe(
         (result: any) => {
           this.statsUpdateService.next();
           this.jobsNotificationService.finish({
             id: notificationId,
-            message: 'SNAPSHOT_DONE'
+            message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
           });
           this.volume.snapshots.unshift(result);
         },
         e => {
           this.jobsNotificationService.fail({
             id: notificationId,
-            message: 'SNAPSHOT_FAILED'
+            message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
           });
 
           this.dialogsService.alert({

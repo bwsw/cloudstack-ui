@@ -9,8 +9,7 @@
     [innerHTML]="translatedMessage | async"
 ></div>
 <div
-    class="mat-dialog-actions"
-    [ngClass]="{'mdl-dialog__actions--full-width': config?.fullWidthAction}">
+    class="mat-dialog-actions">
     <button
         md-button
         *ngFor="let action of config?.actions"

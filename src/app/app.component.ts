@@ -164,7 +164,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (e instanceof Response) {
       switch (e.status) {
         case 401:
-          this.notification.message('NOT_LOGGED_IN');
+          this.notification.message('AUTH.NOT_LOGGED_IN');
           const route = this.routerUtilsService.getRouteWithoutQueryParams();
           if (route !== '/login' && route !== '/logout') {
             this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams());

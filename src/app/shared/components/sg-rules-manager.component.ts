@@ -19,7 +19,7 @@ import { Rules, SgCreationComponent } from '../../security-group/sg-creation/sg-
 })
 export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
   @Input() public mode: 'create' | 'edit';
-  @Input() public header = 'VM_CREATION_FORM.SECURITY_GROUPS';
+  @Input() public header = 'VM_PAGE.VM_CREATION.SECURITY_GROUPS';
   public savedRules: Rules;
 
   private _rules: Rules;

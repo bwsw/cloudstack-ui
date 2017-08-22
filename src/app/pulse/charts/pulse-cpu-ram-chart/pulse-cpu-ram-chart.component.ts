@@ -89,7 +89,7 @@ export class PulseCpuRamChartComponent extends PulseChartComponent
                 x: new Date(_.time),
                 y: Math.min(+_.cpuTime, 100)
               })),
-              label: `${this.translations['CPU']} ${aggregation}`
+              label: `${this.translations['PULSE.LABELS.CPU']} ${aggregation}`
             };
           });
           this.updateDatasets('cpu', datasets);
@@ -101,7 +101,7 @@ export class PulseCpuRamChartComponent extends PulseChartComponent
                 x: new Date(_.time),
                 y: +_.ram
               })),
-              label: `${this.translations['RAM']} ${aggregation}`
+              label: `${this.translations['PULSE.LABELS.RAM']} ${aggregation}`
             };
           });
           this.updateDatasets('ram', asd);

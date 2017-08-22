@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MdDialog, MdDialogConfig } from '@angular/material';
 import { Observable } from 'rxjs';
 import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 
@@ -60,7 +60,7 @@ export class SgTemplateListComponent implements OnInit {
           if (res && res.success === 'true') {
             this.customSecurityGroupList = this.customSecurityGroupList.filter(sg => sg.id !== securityGroup.id);
             this.notificationService.message({
-              translationToken: 'TEMPLATE_DELETED',
+              translationToken: 'NOTIFICATIONS.TEMPLATE.DELETED',
               interpolateParams: { name: securityGroup.name }
             });
           }
@@ -69,7 +69,7 @@ export class SgTemplateListComponent implements OnInit {
   }
 
   public showCreationDialog(): void {
-    this.dialog.open(SgTemplateCreationComponent, {
+    this.dialog.open(SgTemplateCreationComponent, <MdDialogConfig>{
        disableClose: true,
        panelClass: 'sg-template-creation-dialog'
     }).afterClosed()
@@ -79,7 +79,7 @@ export class SgTemplateListComponent implements OnInit {
         }
         this.customSecurityGroupList.push(template);
         this.notificationService.message({
-          translationToken: 'TEMPLATE_CREATED',
+          translationToken: 'NOTIFICATIONS.TEMPLATE.CREATED',
           interpolateParams: { name: template.name }
         });
         this.showRulesDialog(template);
@@ -87,7 +87,7 @@ export class SgTemplateListComponent implements OnInit {
   }
 
   public showRulesDialog(group: SecurityGroup): void {
-    this.dialog.open(SgRulesComponent, {
+    this.dialog.open(SgRulesComponent, <MdDialogConfig>{
       panelClass: 'sg-rules-dialog',
       data: { securityGroup: group }
     });

@@ -46,7 +46,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   public groupings = [
     {
       key: 'zones',
-      label: 'GROUP_BY.ZONES',
+      label: 'SPARE_DRIVE_PAGE.FILTERS.GROUP_BY_ZONES',
       selector: (item: Volume) => item.zoneId,
       name: (item: Volume) => item.zoneName
     }
@@ -138,7 +138,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
 
   public showRemoveDialog(volume: Volume): void {
     this.dialogsService.confirm({
-      message: 'CONFIRM_DELETE_VOLUME'
+      message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_DELETION'
     })
       .onErrorResumeNext()
       .subscribe((res) => { if (res) { this.remove(volume); } });
@@ -154,12 +154,12 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
           if (this.listService.isSelected(volume.id)) {
             this.listService.deselectItem();
           }
-          this.jobsNotificationService.finish({ message: 'VOLUME_DELETE_DONE' });
+          this.jobsNotificationService.finish({ message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_DONE' });
           this.update();
         },
         error => {
           this.dialogsService.alert({ message: error });
-          this.jobsNotificationService.fail({ message: 'VOLUME_DELETE_FAILED' });
+          this.jobsNotificationService.fail({ message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_FAILED' });
         }
       );
   }
@@ -199,20 +199,19 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
         }
 
         this.dialogsService.askDialog({
-          message: 'WOULD_YOU_LIKE_TO_CREATE_VOLUME',
+          message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VOLUME',
           actions: [
             {
               handler: () => this.showCreationDialog(),
-              text: 'YES'
+              text: 'COMMON.YES'
             },
-            { text: 'NO' },
+            { text: 'COMMON.NO' },
             {
               handler: () => this.userService.writeTag(askToCreateVolume, 'false')
                 .subscribe(),
-              text: 'NO_DONT_ASK'
+              text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
             }
           ],
-          fullWidthAction: true,
           disableClose: false,
           width: '320px'
         });

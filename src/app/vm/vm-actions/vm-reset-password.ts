@@ -13,21 +13,21 @@ import { VirtualMachineCommand } from './vm-command';
 @Injectable()
 export class VmResetPasswordAction extends VirtualMachineCommand {
   public commandName = 'resetPasswordFor';
-  public vmStateOnAction = 'RESETPASSWORDFOR_IN_PROGRESS';
+  public vmStateOnAction = 'VM_STATE.RESET_PASSWORD_IN_PROGRESS';
 
   public action = VmActions.RESET_PASSWORD;
-  public name = 'RESETPASSWORDFOR';
+  public name = 'VM_PAGE.COMMANDS.RESET_PASSWORD';
   public icon = 'vpn_key';
 
   public tokens = {
     name: 'ResetPasswordFor',
     nameLower: 'resetpasswordfor',
-    nameCaps: 'RESETPASSWORDFOR',
-    vmActionCompleted: 'RESETPASSWORDFOR_DONE',
-    confirmMessage: 'CONFIRM_VM_RESETPASSWORDFOR',
-    progressMessage: 'VM_RESETPASSWORDFOR_IN_PROGRESS',
-    successMessage: 'RESETPASSWORDFOR_DONE',
-    failMessage: 'VM_RESET_PASSWORD_FAILED'
+    nameCaps: 'VM_PAGE.COMMANDS.RESET_PASSWORD',
+    vmActionCompleted: 'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_DONE',
+    confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_RESET_PASSWORD',
+    progressMessage: 'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_IN_PROGRESS',
+    successMessage: 'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_DONE',
+    failMessage: 'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_FAILED'
   };
 
   constructor(
@@ -92,7 +92,7 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
   private showPasswordDialog(vmName: string, vmPassword: string): Observable<void> {
     return this.dialogsService.alert({
       message: {
-        translationToken: 'PASSWORD_DIALOG_MESSAGE',
+        translationToken: 'DIALOG_MESSAGES.VM.PASSWORD_DIALOG_MESSAGE',
         interpolateParams: {
           vmName,
           vmPassword

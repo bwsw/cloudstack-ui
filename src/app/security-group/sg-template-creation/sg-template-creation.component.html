@@ -1,11 +1,11 @@
 <cs-overlay-loading [active]="creationInProgress"></cs-overlay-loading>
 <div class="security-group-template-form">
-  <h3 class="mat-dialog-title">{{ 'CREATE_NEW_TEMPLATE' | translate }}</h3>
+  <h3 class="mat-dialog-title">{{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.CREATE_NEW_TEMPLATE' | translate }}</h3>
   <form (ngSubmit)="onSubmit($event)" #templateCreationForm="ngForm" novalidate>
     <div class="mat-dialog-content">
       <mdl-textfield
         type="text"
-        label="{{ 'NAME' | translate }}"
+        label="{{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.NAME' | translate }}"
         name="name"
         floating-label
         autofocus
@@ -19,7 +19,7 @@
       <br/>
       <mdl-textfield
         type="text"
-        label="{{ 'DESCRIPTION' | translate }}"
+        label="{{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.DESCRIPTION' | translate }}"
         name="description"
         floating-label
         [(ngModel)]="description"
@@ -30,7 +30,7 @@
       </mdl-textfield>
       <cs-security-group-rules-manager
         class="basic-rules"
-        [header]="'BASIC_RULES'"
+        [header]="'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.BASIC_RULES'"
         name="sgm"
         [(ngModel)]="securityRules"
       ></cs-security-group-rules-manager>
@@ -43,7 +43,7 @@
         type="submit"
         [disabled]="!templateCreationForm.valid"
       >
-        {{ 'CREATE' | translate }}
+        {{ 'COMMON.CREATE' | translate }}
       </button>
       <button
         mdl-colored="primary"
@@ -52,7 +52,7 @@
         type="button"
         (click)="dialogRef.close()"
       >
-        {{ 'CANCEL' | translate }}
+        {{ 'COMMON.CANCEL' | translate }}
       </button>
     </div>
   </form>

@@ -7,9 +7,9 @@ import { ConfirmDialogComponent, ConfirmDialogConfiguration } from './confirm-di
 import { AskDialogConfiguration, AskDialogComponent } from './ask-dialog/ask-dialog.component';
 import { isUndefined } from 'util';
 
-const defaultConfirmDialogConfirmText = 'YES';
-const defaultConfirmDialogDeclineText = 'NO';
-const defaultAlertDialogConfirmText = 'OK';
+const defaultConfirmDialogConfirmText = 'COMMON.YES';
+const defaultConfirmDialogDeclineText = 'COMMON.NO';
+const defaultAlertDialogConfirmText = 'COMMON.OK';
 const defaultDisableClose = true;
 const defaultWidth = '400px';
 

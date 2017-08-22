@@ -1,5 +1,5 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<h3 class="mat-dialog-title">{{ 'CREATE_SSH_KEY' | translate }}</h3>
+<h3 class="mat-dialog-title">{{ 'SSH_KEYS.CREATE_SSH_KEY' | translate }}</h3>
 <form
   (ngSubmit)="onSubmit($event)"
   #sshCreationForm="ngForm"
@@ -9,7 +9,7 @@
     <mdl-textfield
       type="text"
       floating-label
-      label="{{ 'NAME' | translate }}"
+      label="{{ 'SSH_KEYS.NAME' | translate }}"
       name="name"
       [(ngModel)]="name"
       #nameField="ngModel"
@@ -20,11 +20,11 @@
     >
     </mdl-textfield>
     <br/>
-    <span class="public-key-label mdl-color-text--primary">{{ 'PUBLIC_KEY' | translate }}</span>
+    <span class="public-key-label mdl-color-text--primary">{{ 'SSH_KEYS.PUBLIC_KEY' | translate }}</span>
     <mdl-textfield
       class="public-key-input"
       type="text"
-      label="{{ 'AUTO_GENERATED' | translate }}"
+      label="{{ 'SSH_KEYS.AUTO_GENERATED' | translate }}"
       name="public-key"
       [(ngModel)]="publicKey"
       #publicKeyField="ngModel"
@@ -43,7 +43,7 @@
       type="submit"
       [disabled]="!sshCreationForm.valid"
     >
-      {{ 'CREATE' | translate }}
+      {{ 'COMMON.CREATE' | translate }}
     </button>
     <button
       mdl-colored="primary"
@@ -52,7 +52,7 @@
       type="button"
       (click)="dialogRef.close()"
     >
-      {{ 'CANCEL' | translate }}
+      {{ 'COMMON.CANCEL' | translate }}
     </button>
   </div>
 </form>

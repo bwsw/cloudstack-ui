@@ -47,7 +47,7 @@
   </md-card-header>
   <md-card-content>
     <div class="card-wrapper">
-      <div>{{ 'OS' | translate }}:</div>
+      <div>{{ 'TEMPLATE_PAGE.CARD.OS' | translate }}:</div>
       <div
         *ngIf="singleLine"
         class="last single-line text-overflow-tooltip-fix"
@@ -83,7 +83,7 @@
                 (click)="removeTemplate()"
         >
             <md-icon>delete</md-icon>
-            <span>{{ 'DELETE' | translate }}</span>
+            <span>{{ 'COMMON.DELETE' | translate }}</span>
         </button>
     </md-menu>
 </md-card>

@@ -1,5 +1,5 @@
 <ng-container *loading="loading">
-  <h3 class="mat-dialog-title">{{ 'TAKE_SNAPSHOT_SNAPSHOT_CREATION_FORM' | translate }}</h3>
+  <h3 class="mat-dialog-title">{{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.TAKE_SNAPSHOT' | translate }}</h3>
 
   <form
     (ngSubmit)="onSubmit($event)"
@@ -10,7 +10,7 @@
       <mdl-textfield
         *ngIf="enoughResources"
         type="text"
-        [label]="'NAME' | translate"
+        [label]="'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.NAME' | translate"
         name="name"
         floating-label
         autofocus
@@ -22,14 +22,14 @@
       <mdl-textfield
         *ngIf="enoughResources"
         type="text"
-        [label]="'DESCRIPTION' | translate"
+        [label]="'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.DESCRIPTION' | translate"
         name="description"
         floating-label
         [(ngModel)]="description"
         [style.width]="'100%'"
       >
       </mdl-textfield>
-      <div *ngIf="!enoughResources">{{ "SNAPSHOT_LIMIT_EXCEEDED" | translate }}</div>
+      <div *ngIf="!enoughResources">{{ "ERRORS.SNAPSHOT.LIMIT_EXCEEDED" | translate }}</div>
     </div>
     <div class="mat-dialog-actions">
       <button
@@ -40,7 +40,7 @@
         type="button"
         (click)="onSubmit()"
       >
-        {{ 'CREATE' | translate }}
+        {{ 'COMMON.CREATE' | translate }}
       </button>
       <button
         mdl-colored="primary"
@@ -49,7 +49,7 @@
         type="button"
         (click)="onHide()"
       >
-        {{ 'CANCEL' | translate }}
+        {{ 'COMMON.CANCEL' | translate }}
       </button>
     </div>
   </form>

@@ -1,13 +1,11 @@
 import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
-import { DialogsService } from '../../dialog/dialog-service/dialog.service';
-
-import { DiskOffering } from '../../shared/models';
-import { Volume } from '../../shared/models/volume.model';
-import { DiskOfferingService } from '../../shared/services/disk-offering.service';
-import { DiskStorageService } from '../../shared/services/disk-storage.service';
-import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
-import { VolumeResizeData, VolumeService } from '../../shared/services/volume.service';
+import { DialogsService } from '../../../dialog/dialog-service/dialog.service';
+import { DiskOffering } from '../../../shared/models';
+import { Volume } from '../../../shared/models/volume.model';
+import { DiskStorageService } from '../../../shared/services/disk-storage.service';
+import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
+import { VolumeResizeData, VolumeService } from '../../../shared/services/volume.service';
 
 
 @Component({
@@ -31,7 +29,6 @@ export class VolumeResizeComponent implements OnInit {
   constructor(
     public dialogRef: MdDialogRef<VolumeResizeComponent>,
     private dialogsService: DialogsService,
-    private diskOfferingService: DiskOfferingService,
     private diskStorageService: DiskStorageService,
     private jobsNotificationService: JobsNotificationService,
     private volumeService: VolumeService,
@@ -64,7 +61,7 @@ export class VolumeResizeComponent implements OnInit {
     );
 
     this.loading = true;
-    this.notificationId = this.jobsNotificationService.add('VOLUME_RESIZING');
+    this.notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.RESIZE_IN_PROGRESS');
     this.volumeService.resize(params)
       .finally(() => this.loading = false)
       .subscribe(
@@ -96,7 +93,7 @@ export class VolumeResizeComponent implements OnInit {
   private onVolumeResize(volume: Volume): void {
     this.jobsNotificationService.finish({
       id: this.notificationId,
-      message: 'VOLUME_RESIZED'
+      message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_DONE'
     });
 
     volume.diskOffering = this.diskOffering;
@@ -106,7 +103,7 @@ export class VolumeResizeComponent implements OnInit {
   private handleVolumeResizeError(error: Error): void {
     this.jobsNotificationService.fail({
       id: this.notificationId,
-      message: 'VOLUME_RESIZE_FAILED'
+      message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_FAILED'
     });
     this.dialogsService.alert({ message: error.message });
   }
