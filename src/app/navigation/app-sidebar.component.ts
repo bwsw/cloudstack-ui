@@ -49,6 +49,7 @@ export class AppSidebarComponent extends WithUnsubscribe()
   public nonDraggableRoutes = nonDraggableRoutes;
 
   public themeColor;
+  public navigationLoaded = false;
   public updatingOrder = false;
   public dragulaContainerName = 'sidebar-bag';
 
@@ -165,6 +166,7 @@ export class AppSidebarComponent extends WithUnsubscribe()
 
   private fetchNavigationOrder() {
     this.userService.readTag(navigationOrderTag).subscribe(tag => {
+      this.navigationLoaded = true;
       if (tag) {
         let order;
         try {
