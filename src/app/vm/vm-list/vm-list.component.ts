@@ -39,13 +39,13 @@ export class VmListComponent implements OnInit {
   public groupings = [
     {
       key: 'zones',
-      label: 'GROUP_BY.ZONES',
+      label: 'VM_PAGE.FILTERS.GROUP_BY_ZONES',
       selector: (item: VirtualMachine) => item.zoneId,
       name: (item: VirtualMachine) => item.zoneName
     },
     {
       key: 'groups',
-      label: 'GROUP_BY.GROUPS',
+      label: 'VM_PAGE.FILTERS.GROUP_BY_GROUPS',
       selector: (item: VirtualMachine) =>
         item.instanceGroup ? item.instanceGroup.name : noGroup,
       name: (item: VirtualMachine) =>
@@ -53,7 +53,7 @@ export class VmListComponent implements OnInit {
     },
     {
       key: 'colors',
-      label: 'GROUP_BY.COLORS',
+      label: 'VM_PAGE.FILTERS.GROUP_BY_COLORS',
       selector: (item: VirtualMachine) => item.getColor().value,
       name: (item: VirtualMachine) => ' ',
     }
@@ -294,18 +294,18 @@ export class VmListComponent implements OnInit {
         }
 
         this.dialogService.showDialog({
-          message: 'WOULD_YOU_LIKE_TO_CREATE_VM',
+          message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VM',
           actions: [
             {
               handler: () => this.showVmCreationDialog(),
-              text: 'YES'
+              text: 'COMMON.YES'
             },
             {
-              text: 'NO'
+              text: 'COMMON.NO'
             },
             {
               handler: () => this.userService.writeTag(askToCreateVm, 'false').subscribe(),
-              text: 'NO_DONT_ASK'
+              text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
             }
           ],
           fullWidthAction: true,

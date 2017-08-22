@@ -1,45 +1,5 @@
-<div *ngIf="item">
-  <div class="title-container">
-    <h4 class="details-header">{{ item.name }}</h4>
-    <cs-spare-drive-actions-sidebar [volume]="item"></cs-spare-drive-actions-sidebar>
-  </div>
-
-  <md-card>
-    <md-card-header>
-      <md-card-title>
-        <h2 class="md-card-title-text">{{ 'DETAILS' | translate }}</h2>
-      </md-card-title>
-    </md-card-header>
-    <md-card-content>
-      <div class="grid grid-right">
-        <div class="row" *ngIf="item.size">
-          <div>{{ 'SIZE' | translate }}</div>
-          <div>{{ (item.size | division:2:30:2) }} {{ ('GB' | translate) }}</div>
-        </div>
-        <div class="row" *ngIf="item.created">
-          <div>{{ 'SPARE_DRIVE_DETAILS.CREATED' | translate }}</div>
-          <div>{{ item.created | stringifyDate }}</div>
-        </div>
-        <div class="row" *ngIf="item.storageType">
-          <div>{{ 'SPARE_DRIVE_DETAILS.STORAGE_TYPE' | translate }}</div>
-          <div>{{ ('DISK_OFFERING_STORAGE_TYPE.' + item.storageType.toUpperCase()) | translate }}</div>
-        </div>
-      </div>
-    </md-card-content>
-    <md-menu
-      #actionsMenu="mdMenu"
-      [style.width.px]="300"
-    >
-      <button
-        *ngFor="let action of spareDriveActionsService.actions"
-        md-menu-item
-        (click)="action.activate(item, { diskOfferings: diskOfferings }).subscribe()"
-      >
-        <md-icon>{{ action.icon }}</md-icon>
-        <span>{{ action.name | translate }}</span>
-      </button>
-    </md-menu>
-  </md-card>
+<div *ngIf="volume">
+  <cs-spare-drive-sidebar-volume [volume]="volume"></cs-spare-drive-sidebar-volume>
 
   <cs-description
     [description]="description"

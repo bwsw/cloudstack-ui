@@ -19,11 +19,9 @@
     {{ key.fingerPrint }}
   </md-card-content>
   <md-menu #actionsMenu="mdMenu">
-    <button md-menu-item
-            (click)="onRemoveClicked()"
-    >
+    <button md-menu-item (click)="onRemoveClicked()">
       <md-icon>delete</md-icon>
-      <span>{{ 'DELETE' | translate }}</span>
+      <span>{{ 'COMMON.DELETE' | translate }}</span>
     </button>
   </md-menu>
 </md-card>

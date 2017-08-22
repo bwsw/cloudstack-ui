@@ -38,7 +38,7 @@ export class TagEditComponent {
 
   public get keyFieldErrorMessage(): string {
     if (this.keyField.errors && this.keyField.errors.forbiddenValuesValidator) {
-      return 'TAG_ALREADY_EXISTS';
+      return 'TAGS.TAG_ALREADY_EXISTS';
     }
 
     return '';

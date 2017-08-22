@@ -22,6 +22,7 @@ import { spareDrivesRouting } from './spare-drive.routing';
 import { SpareDriveSidebarDiskOfferingComponent } from './spare-drive-sidebar/disk-offering/spare-drive-sidebar-disk-offering.component';
 import { SpareDriveActionsComponent } from './spare-drive-actions/spare-drive-actions-component/spare-drive-actions.component';
 import { SpareDriveActionsSidebarComponent } from './spare-drive-sidebar/spare-drive-actions-sidebar/spare-drive-actions-sidebar.component';
+import { SpareDriveSidebarVolumeComponent } from './spare-drive-sidebar/spare-drive-sidebar-volume/spare-drive-sidebar-volume.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { SpareDriveActionsSidebarComponent } from './spare-drive-sidebar/spare-d
     SpareDrivePageComponent,
     SpareDriveSidebarComponent,
     SpareDriveSidebarDiskOfferingComponent,
+    SpareDriveSidebarVolumeComponent,
     SpareDriveAttachmentComponent,
     SpareDriveCreationComponent,
     SpareDriveItemComponent,

@@ -397,6 +397,9 @@ md-card-actions {
 
 .details-header {
   width: 340px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 h4.details-header {

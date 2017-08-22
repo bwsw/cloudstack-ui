@@ -1,0 +1,74 @@
+<div *ngIf="vm">
+  <div>
+    <cs-vm-color [vm]="vm"></cs-vm-color>
+
+    <cs-description
+      [description]="description"
+      (descriptionChange)="changeDescription($event)"
+    ></cs-description>
+
+    <cs-zone [vm]="vm"></cs-zone>
+
+    <cs-instance-group [vm]="vm"></cs-instance-group>
+
+    <cs-service-offering-details [vm]="vm"></cs-service-offering-details>
+
+    <md-card class="vm-card">
+      <md-card-header>
+        <md-card-title>
+          <h2 class="md-card-title-text">{{ 'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.TITLE' | translate }}</h2>
+        </md-card-title>
+      </md-card-header>
+      <md-card-content class="md-card-content-with-actions">
+        <div class="md-card-content-container">
+          <div *ngFor="let affinityGroup of vm.affinityGroup">{{ affinityGroup.name }}</div>
+          <div *ngIf="!vm.affinityGroup.length">
+            {{ 'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.NO_AFFINITY_GROUP' | translate }}
+          </div>
+        </div>
+        <md-card-actions *loading="affinityGroupLoading">
+          <button
+            [mdTooltip]="'COMMON.EDIT' | translate"
+            mdTooltipPosition="above"
+            mdl-button
+            mdl-button-type="icon"
+            (click)="changeAffinityGroup()"
+          >
+            <md-icon>edit</md-icon>
+          </button>
+        </md-card-actions>
+      </md-card-content>
+    </md-card>
+
+    <cs-vm-detail-template [vm]="vm"></cs-vm-detail-template>
+
+    <md-card class="vm-card">
+      <md-card-header>
+        <md-card-title>
+          <h2 class="md-card-title-text">{{ 'VM_PAGE.VM_DETAILS.SSH_KEY.TITLE' | translate }}</h2>
+        </md-card-title>
+      </md-card-header>
+      <md-card-content class="md-card-content-with-actions">
+        <div class="md-card-content-container">
+          <span *ngIf="vm.keyPair; else noKeys">{{ vm.keyPair }}</span>
+          <ng-template #noKeys>{{ 'VM_PAGE.VM_DETAILS.SSH_KEY.NO_SSH_KEY' | translate }}</ng-template>
+        </div>
+        <md-card-actions *loading="sskKeyLoading">
+          <mdl-button
+            [mdTooltip]="(vm.keyPair ? 'COMMON.EDIT': 'COMMON.ADD') | translate"
+            mdTooltipPosition="above"
+            mdl-button-type="icon"
+            (click)="resetSshKey()"
+          >
+            <md-icon *ngIf="vm.keyPair; else add">edit</md-icon>
+            <ng-template #add>
+              <md-icon>add</md-icon>
+            </ng-template>
+          </mdl-button>
+        </md-card-actions>
+      </md-card-content>
+    </md-card>
+
+    <cs-statistics [vm]="vm"></cs-statistics>
+  </div>
+</div>

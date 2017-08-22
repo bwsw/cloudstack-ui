@@ -41,7 +41,7 @@ export class TemplateFilterListSelectorComponent implements OnChanges {
   public groupings = [
     {
       key: 'zones',
-      label: 'GROUP_BY.ZONES',
+      label: 'GROUP_BY_ZONES',
       selector: (item: BaseTemplateModel) => item.zoneId || '',
       name: (item: BaseTemplateModel) => item.zoneName || 'NO_ZONE'
     }

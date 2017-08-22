@@ -21,15 +21,17 @@
   <md-card-content>
     <div class="card-wrapper">
       <div class="first">
-        <div class="row">{{ 'STATE' | translate }}:</div>
-        <div class="row">{{ 'SIZE' | translate }}:</div>
+        <div class="row">{{ 'SPARE_DRIVE_PAGE.CARD.STATE' | translate }}:</div>
+        <div class="row">{{ 'SPARE_DRIVE_PAGE.CARD.SIZE' | translate }}:</div>
       </div>
       <div class="last">
         <div class="row">
-          <span>{{ ('SPARE_DRIVE_STATE.' + item.state.toUpperCase()) | translate }}</span>
+          <span>
+            {{ stateTranslationToken | translate }}
+          </span>
         </div>
         <div class="row">
-          <span>{{ (item.size | division:2:30:2) }} {{ ('GB' | translate) }}</span>
+          <span>{{ (item.size | division:2:30:2) }} {{ ('UNITS.GB' | translate) }}</span>
         </div>
       </div>
     </div>

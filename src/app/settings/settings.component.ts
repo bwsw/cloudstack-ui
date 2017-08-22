@@ -42,8 +42,8 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   ];
 
   public daysOfTheWeek = [
-    { value: 0, text: 'SUNDAY' },
-    { value: 1, text: 'MONDAY' }
+    { value: 0, text: 'DATE_TIME.DAYS_OF_WEEK.SUNDAY' },
+    { value: 1, text: 'DATE_TIME.DAYS_OF_WEEK.MONDAY' }
   ];
 
   public TimeFormat = TimeFormat;
@@ -76,6 +76,16 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
 
   public get accentColors(): Array<Color> {
     return this.primaryColors.filter(color => color.name !== this.primaryColor.name && !color.primaryOnly);
+  }
+
+  public getTimeFormatTranslationToken(format: TimeFormat): string {
+    const timeFormatTranslations = {
+      'hour12': 'SETTINGS.LOOK_AND_FEEL.hour12',
+      'hour24': 'SETTINGS.LOOK_AND_FEEL.hour24',
+      'AUTO': 'SETTINGS.LOOK_AND_FEEL.AUTO'
+    };
+
+    return timeFormatTranslations[format];
   }
 
   private get firstAvailableAccentColor(): Color {
@@ -120,7 +130,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public updatePassword(): void {
     this.userService.updatePassword(this.authService.userId, this.password)
       .subscribe(
-        () => this.notificationService.message('PASSWORD_CHANGED_SUCCESSFULLY'),
+        () => this.notificationService.message('SETTINGS.SECURITY.PASSWORD_CHANGED_SUCCESSFULLY'),
         error => this.notificationService.error(error.errortext)
       );
     this.passwordUpdateForm.reset();
@@ -139,7 +149,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   }
 
   private loadDayTranslations(): void {
-    this.translateService.get(['SUNDAY', 'MONDAY'])
+    this.translateService.get(['DATE_TIME.DAYS_OF_WEEK.SUNDAY', 'DATE_TIME.DAYS_OF_WEEK.MONDAY'])
       .subscribe(translations => {
         // workaround for queryList change bug (https://git.io/v9R69)
         this.dayTranslations = undefined;

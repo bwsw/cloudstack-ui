@@ -2,11 +2,11 @@
   <thead>
   <tr>
     <th class="mdl-data-table__cell--non-numeric">
-      {{ 'TIME' | translate }}
+      {{ 'SNAPSHOT_POLICIES.TIME' | translate }}
     </th>
     <th class="mdl-data-table__cell--non-numeric"></th>
-    <th class="mdl-data-table__cell--non-numeric">{{ 'TIME_ZONE' | translate }}</th>
-    <th>{{ 'KEEP' | translate }}</th>
+    <th class="mdl-data-table__cell--non-numeric">{{ 'SNAPSHOT_POLICIES.TIME_ZONE' | translate }}</th>
+    <th>{{ 'SNAPSHOT_POLICIES.KEEP' | translate }}</th>
     <th></th>
   </tr>
   </thead>
@@ -30,7 +30,7 @@
     <td>
       <button
         (click)="deletePolicy(p)"
-        [mdTooltip]="'DELETE' | translate"
+        [mdTooltip]="'COMMON.DELETE' | translate"
         mdl-button
         mdl-button-type="icon"
         mdl-ripple

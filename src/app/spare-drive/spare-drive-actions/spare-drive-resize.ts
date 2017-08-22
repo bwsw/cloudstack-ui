@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { Volume } from '../../shared/models/volume.model';
-import { VolumeResizeComponent } from '../../vm/vm-sidebar/volume-resize.component';
+import { VolumeResizeComponent } from '../../vm/vm-sidebar/volume-resize/volume-resize.component';
 import { SpareDriveAction } from './spare-drive-action';
 
 

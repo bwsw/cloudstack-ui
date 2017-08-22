@@ -47,7 +47,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   public groupings = [
     {
       key: 'zones',
-      label: 'GROUP_BY.ZONES',
+      label: 'SPARE_DRIVE_PAGE.FILTERS.GROUP_BY_ZONES',
       selector: (item: Volume) => item.zoneId,
       name: (item: Volume) => item.zoneName
     }
@@ -173,17 +173,17 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
         }
 
         this.dialogService.showDialog({
-          message: 'WOULD_YOU_LIKE_TO_CREATE_VOLUME',
+          message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VOLUME',
           actions: [
             {
               handler: () => this.showCreationDialog(),
-              text: 'YES'
+              text: 'COMMON.YES'
             },
-            { text: 'NO' },
+            { text: 'COMMON.NO' },
             {
               handler: () => this.userService.writeTag(askToCreateVolume, 'false')
                 .subscribe(),
-              text: 'NO_DONT_ASK'
+              text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
             }
           ],
           fullWidthAction: true,
