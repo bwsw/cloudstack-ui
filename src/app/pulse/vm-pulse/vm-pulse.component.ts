@@ -90,20 +90,18 @@ export class VmPulseComponent implements OnInit, OnDestroy {
     this.resetDatasets();
     this._selectedScale = value;
 
-    if (this._selectedScale) {
+    if (this.selectedScale) {
       this.storage.write(PulseParameters.ScaleRange, this._selectedScale.range);
-      if (this.selectedAggregations) {
 
-        const available = this.selectedAggregations.reduce((res, val) => {
-          return this._selectedScale.aggregations.find((a) => a === val)
-            ? res.concat(val) : res;
-        }, []);
+      const available = this.selectedAggregations.reduce((res, val) => {
+        return this._selectedScale.aggregations.find((a) => a === val)
+          ? res.concat(val) : res;
+      }, []);
 
-        if (!!available.length) {
-          this.selectedAggregations = available;
-        } else {
-          this.selectedAggregations = [this._selectedScale.aggregations[0]];
-        }
+      if (!!available.length) {
+        this.selectedAggregations = available;
+      } else {
+        this.selectedAggregations = [this._selectedScale.aggregations[0]];
       }
     }
   }
