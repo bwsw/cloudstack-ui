@@ -41,11 +41,11 @@
           <div>{{ 'UNITS.MBPS' | translate:{ value: volume.diskOffering.diskBytesWriteRate | division:10:6 } }}</div>
         </div>
         <div class="row" *ngIf="volume.diskOffering.diskIopsReadRate">
-          <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.READ_RATE_IO' | translate }}</div>
+          <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.READ_RATE_IOPS' | translate }}</div>
           <div>{{ 'UNITS.IOPS' | translate:{ value: volume.diskOffering.diskIopsReadRate } }}</div>
         </div>
         <div class="row" *ngIf="volume.diskOffering.diskIopsWriteRate">
-          <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.WRITE_RATE_IO' | translate }}</div>
+          <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.WRITE_RATE_IOPS' | translate }}</div>
           <div>{{ 'UNITS.IOPS' | translate:{ value: volume.diskOffering.diskIopsWriteRate } }}</div>
         </div>
       </div>
