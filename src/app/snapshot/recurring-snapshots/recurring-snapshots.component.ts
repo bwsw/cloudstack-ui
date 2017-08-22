@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, forwardRef, Inject, OnInit } from '@angul
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { MdlDialogReference } from '../../dialog/dialog-module';
 import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { SgRulesManagerComponent } from '../../shared';
 import { Volume } from '../../shared/models';

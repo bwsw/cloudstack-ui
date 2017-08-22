@@ -1,18 +1,29 @@
 import { Observable } from 'rxjs/Rx';
-import { MdDialogRef, MdDialog } from '@angular/material';
+import { MdDialogRef, MdDialog, MdDialogConfig } from '@angular/material';
 import { Injectable } from '@angular/core';
 
 import { AlertDialogComponent, AlertDialogConfiguration } from './alert-dialog/alert-dialog.component';
 import { ConfirmDialogComponent, ConfirmDialogConfiguration } from './confirm-dialog/confirm-dialog.component';
 import { AskDialogConfiguration, AskDialogComponent } from './ask-dialog/ask-dialog.component';
 import { isUndefined } from 'util';
-import {BaseDialogConfiguration} from './base-dialog.component';
 
 const defaultConfirmDialogConfirmText = 'YES';
 const defaultConfirmDialogDeclineText = 'NO';
 const defaultAlertDialogConfirmText = 'OK';
 const defaultDisableClose = true;
 const defaultWidth = '400px';
+
+export interface ParametrizedTranslation {
+  translationToken: string;
+  interpolateParams: { [key: string]: string; };
+}
+
+export interface BaseDialogConfiguration {
+  title?: string;
+  message: string | ParametrizedTranslation;
+  disableClose?: boolean;
+  width?: string;
+}
 
 
 @Injectable()
@@ -31,7 +42,7 @@ export class DialogsService {
     if (isUndefined(config.disableClose)) {
       config.disableClose = defaultDisableClose;
     }
-    dialogRef = this.dialog.open(ConfirmDialogComponent, this.getDialogConfiguration(config));
+    dialogRef = this.dialog.open(ConfirmDialogComponent, <MdDialogConfig>this.getDialogConfiguration(config));
     return dialogRef.afterClosed();
   }
 
@@ -44,7 +55,7 @@ export class DialogsService {
     if (isUndefined(config.disableClose)) {
       config.disableClose = defaultDisableClose;
     }
-    dialogRef = this.dialog.open(AlertDialogComponent,  this.getDialogConfiguration(config));
+    dialogRef = this.dialog.open(AlertDialogComponent,  <MdDialogConfig>this.getDialogConfiguration(config));
     return dialogRef.afterClosed();
   }
 
@@ -59,7 +70,7 @@ export class DialogsService {
       isClosingAction: action.isClosingAction
     }));
 
-    dialogRef = this.dialog.open(AskDialogComponent, this.getDialogConfiguration(config));
+    dialogRef = this.dialog.open(AskDialogComponent, <MdDialogConfig>this.getDialogConfiguration(config));
     return dialogRef.afterClosed();
   }
 

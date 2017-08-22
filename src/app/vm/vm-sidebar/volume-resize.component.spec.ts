@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
-import { MdlDialogReference } from '../../dialog/dialog-module';
 import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { DiskOfferingComponent } from '../../shared/components/disk-offering/disk-offering.component';
 import { OverlayLoadingComponent } from '../../shared/components/overlay-loading/overlay-loading.component';

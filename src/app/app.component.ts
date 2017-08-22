@@ -11,7 +11,6 @@ import { Response } from '@angular/http';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import '../style/app.scss';
-import { MdlDialogService } from './dialog/dialog-module';
 import { Color } from './shared/models';
 import { AsyncJobService } from './shared/services/async-job.service';
 import { AuthService } from './shared/services/auth.service';
@@ -55,7 +54,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     private sessionStorage: SessionStorageService,
     private memoryStorage: MemoryStorageService,
     private layoutService: LayoutService,
-    private mdlDialogService: MdlDialogService,
     private notification: NotificationService,
     private styleService: StyleService,
     private routerUtilsService: RouterUtilsService,
@@ -97,7 +95,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
     this.captureScrollEvents();
-    this.toggleDialogOverlay();
   }
 
   public ngAfterViewInit(): void {
@@ -191,16 +188,6 @@ export class AppComponent implements OnInit, AfterViewInit {
           e => e.stopPropagation(),
           useCapture
         );
-    });
-  }
-
-  private toggleDialogOverlay(): void {
-    this.mdlDialogService.onDialogsOpenChanged.subscribe(open => {
-      if (open) {
-        document.querySelector('.dialog-container').classList.add('dialog-container-overlay');
-      } else {
-        document.querySelector('.dialog-container').classList.remove('dialog-container-overlay');
-      }
     });
   }
 

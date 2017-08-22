@@ -3,7 +3,6 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 
 
 @Component({
@@ -14,19 +13,7 @@ import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 export class SidebarComponent {
   @Input() @HostBinding('class.open') private isOpen;
 
-  private dialogsOpen: boolean; // true if any mdl dialog is open
-  private dialogWasOpen: boolean; // true if last dialog was closed
-
-  constructor(
-    private dialogService: DialogService
-  ) {
+  constructor() {
     this.isOpen = false;
-    this.dialogService.onDialogsOpenChanged
-      .subscribe(dialogsOpen => {
-        this.dialogsOpen = dialogsOpen;
-        if (dialogsOpen) {
-          this.dialogWasOpen = true;
-        }
-      });
   }
 }

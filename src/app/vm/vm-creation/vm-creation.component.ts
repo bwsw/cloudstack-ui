@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MdSelectChange, MdDialogRef } from '@angular/material';
 import * as throttle from 'lodash/throttle';
 
-import { MdlDialogReference } from '../../dialog/dialog-module';
 import { DialogsService } from '../../dialog/dialog-service/dialog.service';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { AffinityGroup, InstanceGroup, ServiceOffering } from '../../shared/models';
