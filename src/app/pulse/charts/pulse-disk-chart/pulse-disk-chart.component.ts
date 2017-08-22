@@ -137,7 +137,6 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
           sets.iops.push(readIops, writeIops);
 
 
-          this.charts[2].labels = res.map(_ => new Date(_.time)); // TODO
           const errors = {
             data: res.map(_ => ({
               x: new Date(_.time),

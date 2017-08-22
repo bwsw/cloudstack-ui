@@ -149,7 +149,6 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
             })),
             label: `${this.translations['PULSE.LABELS.NETWORK_WRITE_DROPS']} ${aggregation}`
           };
-          this.charts[2].labels = res.map(_ => new Date(_.time));
           sets.drops.push(readDrops, writeDrops);
 
           const readErrors = {
@@ -166,7 +165,6 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
             })),
             label: `${this.translations['PULSE.LABELS.NETWORK_WRITE_ERRORS']} ${aggregation}`
           };
-          this.charts[3].labels = res.map(_ => new Date(_.time));
           sets.errors.push(readErrors, writeErrors);
         });
 
