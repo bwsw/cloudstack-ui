@@ -11,18 +11,22 @@ import { SliderComponent } from '../../../shared/components/slider/slider.compon
 import { DiskOffering, Volume } from '../../../shared/models';
 import { VolumeType } from '../../../shared/models/volume.model';
 import { DiskOfferingService } from '../../../shared/services/disk-offering.service';
-import { DiskStorageService } from '../../../shared/services/disk-storage.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { VolumeService } from '../../../shared/services/volume.service';
 import { VolumeResizeComponent } from './volume-resize.component';
+import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
 
 
 @Injectable()
-class MockDiskStorageService {
+class MockResourceUsageService {
   public availableStorage = 1000000;
 
-  public getAvailablePrimaryStorage(): Observable<number> {
-    return Observable.of(this.availableStorage);
+  public getResourceUsage(): Observable<any> {
+    return Observable.of({
+      available: {
+        primaryStorage: this.availableStorage
+      }
+    });
   }
 }
 
@@ -81,7 +85,7 @@ describe('volume resize for root disks', () => {
       providers: [
         { provide: DialogService, useValue: dialogService },
         { provide: DiskOfferingService, useClass: MockDiskOfferingService },
-        { provide: DiskStorageService, useClass: MockDiskStorageService },
+        { provide: ResourceUsageService, useClass: MockResourceUsageService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: MdlDialogReference, useValue: dialog },
         { provide: VolumeService, useClass: MockVolumeService },
@@ -147,7 +151,7 @@ describe('volume resize for data disks', () => {
       providers: [
         { provide: DialogService, useValue: dialogService },
         { provide: DiskOfferingService, useClass: MockDiskOfferingService },
-        { provide: DiskStorageService, useClass: MockDiskStorageService },
+        { provide: ResourceUsageService, useClass: MockResourceUsageService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: MdlDialogReference, useValue: dialog },
         { provide: VolumeService, useClass: MockVolumeService },

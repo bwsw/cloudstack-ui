@@ -43,17 +43,17 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   public startInactivityCounter() {
     const sessionRefreshInterval = this.getSessionRefreshInterval();
 
-    this.getInactivityTimeout()
-      .subscribe(inactivityTimeout => {
-        this.inactivityTimeout = inactivityTimeout;
-        this.sessionRefreshInterval = sessionRefreshInterval;
-        this.resetInactivityTimer();
-        this.addEventListeners();
-      });
+    this.getInactivityTimeout().subscribe(inactivityTimeout => {
+      this.inactivityTimeout = inactivityTimeout;
+      this.sessionRefreshInterval = sessionRefreshInterval;
+      this.resetInactivityTimer();
+      this.addEventListeners();
+    });
   }
 
   public setInactivityTimeout(value: number): Observable<void> {
-    return this.userService.writeTag('csui.user.session-timeout', value.toString())
+    return this.userService
+      .writeTag('csui.user.session-timeout', value.toString())
       .map(() => {
         this.inactivityTimeout = value;
         this.resetInactivityTimer();
@@ -65,7 +65,8 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
       return Observable.of(this.inactivityTimeout);
     }
 
-    return this.userService.readTag('csui.user.session-timeout')
+    return this.userService
+      .readTag('csui.user.session-timeout')
       .switchMap(timeout => {
         const convertedTimeout = +timeout;
 
@@ -81,48 +82,46 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   }
 
   public get name(): string {
-    return this.storage.read('name') || '';
+    return this.getKeyFromStorage('name');
   }
 
   public get username(): string {
-    return this.storage.read('username') || '';
+    return this.getKeyFromStorage('username');
   }
 
   public get userId(): string {
-    return this.storage.read('userId') || '';
+    return this.getKeyFromStorage('userId');
+  }
+
+  public get account(): string {
+    return this.getKeyFromStorage('account');
+  }
+
+  public set account(account: string) {
+    this.setKeyInStorage('account', account);
   }
 
   public set name(name: string) {
-    if (!name) {
-      this.storage.remove('name');
-    } else {
-      this.storage.write('name', name);
-    }
+    this.setKeyInStorage('name', name);
   }
 
   public set username(username: string) {
-    if (!username) {
-      this.storage.remove('username');
-    } else {
-      this.storage.write('username', username);
-    }
+    this.setKeyInStorage('username', username);
   }
 
   public set userId(userId: string) {
-    if (!userId) {
-      this.storage.remove('userId');
-    } else {
-      this.storage.write('userId', userId);
-    }
+    this.setKeyInStorage('userId', userId);
   }
 
-  public login(username: string, password: string, domain?: string): Observable<void> {
+  public login(
+    username: string,
+    password: string,
+    domain?: string
+  ): Observable<void> {
     return this.postRequest('login', { username, password, domain })
       .map(res => this.getResponse(res))
-      .do(res => {
-        this.setLoggedIn(res.username, `${res.firstname} ${res.lastname}`, res.userid);
-      })
-      .catch((error) => this.handleCommandError(error));
+      .do(res => this.setLoggedIn(res))
+      .catch(error => this.handleCommandError(error));
   }
 
   public logout(): Observable<void> {
@@ -145,10 +144,12 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     this.userService.getList().subscribe();
   }
 
-  private setLoggedIn(username: string, name: string, userId: string): void {
-    this.name = name;
+  private setLoggedIn(loginRes): void {
+    const { username, userid, account, firstname, lastname } = loginRes;
+    this.name = `${firstname} ${lastname}`;
+    this.account = account;
     this.username = username;
-    this.userId = userId;
+    this.userId = userid;
     this.loggedIn.next(true);
   }
 
@@ -160,9 +161,17 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   }
 
   private refreshSession(): void {
-    if (++this.numberOfRefreshes * this.sessionRefreshInterval >= this.inactivityTimeout * 60) {
+    if (
+      ++this.numberOfRefreshes * this.sessionRefreshInterval >=
+      this.inactivityTimeout * 60
+    ) {
       this.clearInactivityTimer();
-      this.zone.run(() => this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams()));
+      this.zone.run(() =>
+        this.router.navigate(
+          ['/logout'],
+          this.routerUtilsService.getRedirectionQueryParams()
+        )
+      );
     } else {
       this.sendRefreshRequest();
     }
@@ -190,7 +199,10 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
 
   private setInactivityTimer(): void {
     if (this.sessionRefreshInterval && this.inactivityTimeout) {
-      this.refreshTimer = setInterval(this.refreshSession.bind(this), this.sessionRefreshInterval * 1000);
+      this.refreshTimer = setInterval(
+        this.refreshSession.bind(this),
+        this.sessionRefreshInterval * 1000
+      );
     }
   }
 
@@ -202,5 +214,17 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     }
 
     return DEFAULT_SESSION_REFRESH_INTERVAL;
+  }
+
+  private getKeyFromStorage(key: string): string {
+    return this.storage.read(key) || '';
+  }
+
+  private setKeyInStorage(key: string, value: any): void {
+    if (!value) {
+      this.storage.remove(key);
+    } else {
+      this.storage.write(key, value);
+    }
   }
 }

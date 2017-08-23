@@ -3,8 +3,8 @@ import { MdlDialogReference } from '../../../dialog/dialog-module';
 import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 import { DiskOffering } from '../../../shared/models';
 import { Volume } from '../../../shared/models/volume.model';
-import { DiskStorageService } from '../../../shared/services/disk-storage.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
+import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
 import { VolumeResizeData, VolumeService } from '../../../shared/services/volume.service';
 
 
@@ -26,8 +26,8 @@ export class VolumeResizeComponent implements OnInit {
   constructor(
     public dialog: MdlDialogReference,
     private dialogService: DialogService,
-    private diskStorageService: DiskStorageService,
     private jobsNotificationService: JobsNotificationService,
+    private resourceUsageService: ResourceUsageService,
     private volumeService: VolumeService,
     @Inject('volume') public volume: Volume,
     @Optional() @Inject('diskOfferingList') public diskOfferingListInjected: Array<DiskOffering>,
@@ -81,7 +81,8 @@ export class VolumeResizeComponent implements OnInit {
     this.newSize = this.volume.size / Math.pow(2, 30);
     this.maxSize = 0; // to prevent mdl-slider from incorrect initial rendering
 
-    this.diskStorageService.getAvailablePrimaryStorage()
+    this.resourceUsageService.getResourceUsage()
+      .map(usage => usage.available.primaryStorage)
       .subscribe((limit: number) => this.maxSize = limit);
   }
 

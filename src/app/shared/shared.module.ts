@@ -43,7 +43,9 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
-import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
+import {
+  CreateUpdateDeleteDialogComponent
+} from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
@@ -67,6 +69,7 @@ import { MinValueValidatorDirective } from './directives/min-value.directive';
 import { DivisionPipe, HighLightPipe, ViewValuePipe } from './pipes';
 import { StringifyDatePipe } from './pipes/stringifyDate.pipe';
 import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
+import { AccountService } from './services/account.service';
 import { AffinityGroupService } from './services/affinity-group.service';
 import { AsyncJobService } from './services/async-job.service';
 import { AuthGuard } from './services/auth-guard.service';
@@ -75,7 +78,6 @@ import { CacheService } from './services/cache.service';
 import { ConfigService } from './services/config.service';
 import { DateTimeFormatterService } from './services/date-time-formatter.service';
 import { DiskOfferingService } from './services/disk-offering.service';
-import { DiskStorageService } from './services/disk-storage.service';
 import { ErrorService } from './services/error.service';
 import { InstanceGroupService } from './services/instance-group.service';
 import { JobsNotificationService } from './services/jobs-notification.service';
@@ -216,6 +218,7 @@ import { ZoneService } from './services/zone.service';
     GroupedCardListComponent
   ],
   providers: [
+    AccountService,
     AffinityGroupService,
     AsyncJobService,
     AuthGuard,
@@ -224,7 +227,6 @@ import { ZoneService } from './services/zone.service';
     ConfigService,
     DateTimeFormatterService,
     DiskOfferingService,
-    DiskStorageService,
     ErrorService,
     InstanceGroupService,
     JobsNotificationService,
