@@ -5,7 +5,7 @@ import { SgTemplateCreationComponent } from './sg-template-creation.component';
 import { SecurityGroup } from '../sg.model';
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
 import { NotificationService } from '../../shared/services/notification.service';
-import { ListService } from '../../shared/components/list/list.service';
+import { SecurityGroupService } from '../../shared/services/security-group.service';
 
 @Component({
   selector: 'cs-sg-template-create-dialog',
@@ -13,10 +13,10 @@ import { ListService } from '../../shared/components/list/list.service';
 })
 export class SgTemplateCreationDialogComponent implements OnInit {
   constructor(
-    private listService: ListService,
     private dialogService: DialogService,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private securityGroupService: SecurityGroupService
   ) {
   }
 
@@ -31,7 +31,7 @@ export class SgTemplateCreationDialogComponent implements OnInit {
         if (!template) {
           return;
         }
-        this.listService.onCreation.next(template);
+        this.securityGroupService.onCreation.next(template);
         this.notificationService.message({
           translationToken: 'TEMPLATE_CREATED',
           interpolateParams: { name: template.name }

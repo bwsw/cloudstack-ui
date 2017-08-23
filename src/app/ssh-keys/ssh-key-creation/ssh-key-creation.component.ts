@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { SShKeyCreationDialogComponent } from './ssh-key-creation-dialog.component';
 import { SshPrivateKeyDialogComponent } from './ssh-private-key-dialog.component';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
-import { ListService } from '../../shared/components/list/list.service';
+import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
 
 @Component({
   selector: 'cs-ssh-create-dialog',
@@ -14,7 +14,7 @@ export class SshKeyCreationComponent implements OnInit {
   constructor(
     private dialogService: DialogService,
     private router: Router,
-    private listService: ListService
+    private sshKeyService: SSHKeyPairService
   ) {
   }
 
@@ -29,7 +29,7 @@ export class SshKeyCreationComponent implements OnInit {
       .switchMap(res => res.onHide())
       .subscribe((sshKey: SSHKeyPair) => {
         if (sshKey) {
-          this.listService.onCreation.next(sshKey);
+          this.sshKeyService.onCreation.next(sshKey);
           if (sshKey.privateKey) {
             this.showPrivateKey(sshKey.privateKey);
           }

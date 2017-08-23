@@ -55,7 +55,7 @@ export class SgTemplateListComponent implements OnInit {
   }
 
   public showCreationDialog(): void {
-    this.listService.onCreation.subscribe(() => {
+    this.securityGroupService.onCreation.subscribe(() => {
       this.update();
     });
 

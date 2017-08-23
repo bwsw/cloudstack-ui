@@ -75,7 +75,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
       .takeUntil(this.onDestroy)
       .subscribe(() => this.onVolumeAttached());
 
-    this.listService.onCreation
+    this.zoneService.onCreation
       .takeUntil(this.onDestroy)
       .subscribe(volume => {
         this.volumes.push(volume);

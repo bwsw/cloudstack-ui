@@ -4,10 +4,12 @@ import { CacheService } from './cache.service';
 import { ApiFormat, BaseBackendService } from './base-backend.service';
 import { Cache } from './cache';
 import { ServiceLocator } from './service-locator';
+import { Subject } from 'rxjs/Subject';
 
 
 export abstract class BaseBackendCachedService<M extends BaseModel> extends BaseBackendService<M> {
   private cache: Cache<Array<M>>;
+  public onCreation = new Subject<any>();
 
   constructor() {
     super();
