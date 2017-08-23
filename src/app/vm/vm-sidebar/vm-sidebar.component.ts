@@ -1,8 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { NotificationService } from '../../shared/services/notification.service';
 import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -10,27 +12,16 @@ import { VmService } from '../shared/vm.service';
   templateUrl: 'vm-sidebar.component.html',
   styleUrls: ['vm-sidebar.component.scss']
 })
-export class VmSidebarComponent {
-  @Input() public vm: VirtualMachine;
-  public vmNotFound: boolean;
-
+export class VmSidebarComponent extends SidebarComponent<VirtualMachine> {
   constructor(
-    private vmService: VmService,
-    private notificationService: NotificationService,
-    private route: ActivatedRoute
+    protected vmService: VmService,
+    protected notificationService: NotificationService,
+    protected route: ActivatedRoute
   ) {
-    this.vmNotFound = false;
-    this.route.params.pluck('id')
-      .filter(id => !!id)
-      .switchMap((id: string) => this.vmService.getWithDetails(id))
-      .subscribe(
-        vm => {
-          if (vm) {
-            this.vm = vm;
-          } else {
-            this.vmNotFound = true;
-          }
-        },
-        (error) => this.notificationService.error(error.message));
+    super(vmService, notificationService, route);
+  }
+
+  protected loadEntity(id: string): Observable<VirtualMachine> {
+    return this.vmService.getWithDetails(id);
   }
 }

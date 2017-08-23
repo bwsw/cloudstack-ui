@@ -1,5 +1,5 @@
-<div *ngIf="vm">
-  <h4 class="details-header">{{ vm.displayName }}</h4>
+<ng-container *ngIf="entity">
+  <h4 class="details-header">{{ entity.displayName }}</h4>
   <md-tab-group md-selected="0" md-no-pagination="true">
     <md-tab>
       <ng-template md-tab-label>
@@ -7,7 +7,7 @@
           <md-icon >computer</md-icon>
         </div>
       </ng-template>
-      <cs-vm-detail [vm]="vm"></cs-vm-detail>
+      <cs-vm-detail *ngIf="entity" [vm]="entity"></cs-vm-detail>
     </md-tab>
     <md-tab>
       <ng-template md-tab-label>
@@ -15,7 +15,7 @@
           <md-icon>storage</md-icon>
         </div>
       </ng-template>
-      <cs-storage-detail [vm]="vm"></cs-storage-detail>
+      <cs-storage-detail [vm]="entity"></cs-storage-detail>
     </md-tab>
     <md-tab>
       <ng-template md-tab-label>
@@ -23,7 +23,7 @@
           <md-icon>router</md-icon>
         </div>
       </ng-template>
-      <cs-network-detail [vm]="vm"></cs-network-detail>
+      <cs-network-detail [vm]="entity"></cs-network-detail>
     </md-tab>
     <md-tab>
       <ng-template md-tab-label>
@@ -31,12 +31,12 @@
           <md-icon>local_offer</md-icon>
         </div>
       </ng-template>
-      <cs-vm-tags [entity]="vm"></cs-vm-tags>
+      <cs-vm-tags [entity]="entity"></cs-vm-tags>
     </md-tab>
   </md-tab-group>
-</div>
+</ng-container>
 
 <cs-no-results
-  *ngIf="vmNotFound"
+  *ngIf="notFound"
   [text]="'VM_NOT_FOUND'"
 ></cs-no-results>

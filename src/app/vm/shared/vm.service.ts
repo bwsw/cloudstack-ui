@@ -80,10 +80,11 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public getListWithDetails(params?: {}, customApiFormat?: ApiFormat, lite = false): Observable<Array<VirtualMachine>> {
     if (lite) {
-      return super.getList(params);
+      return this.getList(params);
     }
+
     return Observable.forkJoin(
-      super.getList(params),
+      this.getList(params),
       this.volumeService.getList(),
       this.osTypesService.getList(),
       this.serviceOfferingService.getList(),
