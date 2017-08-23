@@ -70,15 +70,16 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-
     this.spareDriveActionsService.onVolumeAttachment
       .takeUntil(this.onDestroy)
       .subscribe(() => this.onVolumeAttached());
 
-    this.zoneService.onCreation
+    this.listService.onUpdate
       .takeUntil(this.onDestroy)
-      .subscribe(volume => {
-        this.volumes.push(volume);
+      .subscribe((volume: Volume) => {
+        if (volume) {
+          this.volumes.push(volume);
+        }
         this.update();
       });
 

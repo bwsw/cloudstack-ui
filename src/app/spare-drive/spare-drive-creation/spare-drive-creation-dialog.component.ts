@@ -3,7 +3,7 @@ import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { Router } from '@angular/router';
 import { SpareDriveCreationComponent } from './spare-drive-creation.component';
 import { Volume } from '../../shared/models/volume.model';
-import { ZoneService } from '../../shared/services/zone.service';
+import { ListService } from '../../shared/components/list/list.service';
 
 @Component({
   selector: 'cs-spare-drive-create-dialog',
@@ -13,7 +13,7 @@ export class SpareDriveCreationDialogComponent implements OnInit {
   constructor(
     private dialogService: DialogService,
     private router: Router,
-    private zoneService: ZoneService,
+    private listService: ListService,
   ) {
   }
 
@@ -26,7 +26,7 @@ export class SpareDriveCreationDialogComponent implements OnInit {
       .switchMap(res => res.onHide())
       .subscribe((volume: Volume) => {
         if (volume) {
-          this.zoneService.onCreation.next(volume);
+          this.listService.onUpdate.emit(volume);
         }
         this.router.navigate(['/spare-drives']);
       });

@@ -55,7 +55,7 @@ export class SgTemplateListComponent implements OnInit {
   }
 
   public showCreationDialog(): void {
-    this.securityGroupService.onCreation.subscribe(() => {
+    this.listService.onUpdate.subscribe(() => {
       this.update();
     });
 
@@ -68,8 +68,6 @@ export class SgTemplateListComponent implements OnInit {
       'tags[0].key': SecurityGroupTagKeys.template,
       'tags[0].value': 'true'
     });
-
-    this.listService.onAction.subscribe(() => this.showCreationDialog());
 
     accountSecurityGroups
       .subscribe(groups => {

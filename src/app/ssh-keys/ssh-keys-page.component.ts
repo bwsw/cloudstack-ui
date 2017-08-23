@@ -4,12 +4,14 @@ import { SSHKeyPair } from '../shared/models';
 import { SSHKeyPairService } from '../shared/services/ssh-keypair.service';
 import * as sortBy from 'lodash/sortBy';
 import { Router } from '@angular/router';
+import { ListService } from '../shared/components/list/list.service';
 
 
 @Component({
   selector: 'cs-ssh-keys-page',
   templateUrl: 'ssh-keys-page.component.html',
-  styleUrls: ['ssh-keys-page.component.scss']
+  styleUrls: ['ssh-keys-page.component.scss'],
+  providers: [ListService]
 })
 export class SshKeysPageComponent implements OnInit {
   public sshKeyList: Array<SSHKeyPair>;
@@ -17,6 +19,7 @@ export class SshKeysPageComponent implements OnInit {
   constructor(
     private dialogService: DialogService,
     private sshKeyService: SSHKeyPairService,
+    private listService: ListService,
     private router: Router,
   ) {
   }
@@ -24,7 +27,7 @@ export class SshKeysPageComponent implements OnInit {
   public ngOnInit(): void {
     this.update();
 
-    this.sshKeyService.onCreation.subscribe(() => this.update());
+    this.listService.onUpdate.subscribe(() => this.update());
   }
 
   public showCreationDialog(): void {

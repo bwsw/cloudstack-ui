@@ -49,7 +49,7 @@ export abstract class BaseTemplateSidebarComponent implements OnInit {
 
   public remove(): void {
     this.templateActions.removeTemplate(this.template).subscribe(() => {
-      this.listService.onDelete.emit(this.template);
+      this.listService.onUpdate.emit(this.template);
     });
   }
 

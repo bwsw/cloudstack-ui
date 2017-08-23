@@ -3,7 +3,7 @@ import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { Router } from '@angular/router';
 import { TemplateCreationComponent } from './template-creation.component';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { TemplateService } from '../shared/template.service';
+import { ListService } from '../../shared/components/list/list.service';
 
 @Component({
   selector: 'cs-template-create-dialog',
@@ -11,7 +11,7 @@ import { TemplateService } from '../shared/template.service';
 })
 export class TemplateCreationDialogComponent implements OnInit {
   constructor(
-    private templateService: TemplateService,
+    private listService: ListService,
     private dialogService: DialogService,
     private router: Router,
     private storageService: LocalStorageService
@@ -31,7 +31,7 @@ export class TemplateCreationDialogComponent implements OnInit {
       .switchMap(res => res.onHide())
       .subscribe(templateData => {
         if (templateData) {
-          this.templateService.onCreation.next(templateData);
+          this.listService.onUpdate.emit(templateData);
         }
 
         this.router.navigate(['/templates']);

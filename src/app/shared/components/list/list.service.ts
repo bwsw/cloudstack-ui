@@ -4,7 +4,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 @Injectable()
 export class ListService {
-  public onDelete = new EventEmitter();
+  public onUpdate = new EventEmitter();
 
   private selectedId: string;
 

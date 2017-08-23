@@ -31,7 +31,7 @@ export class TemplatePageComponent implements OnInit {
 
   public ngOnInit(): void {
     this.viewMode = this.storageService.read('templateDisplayMode') || 'Template';
-    this.listService.onDelete.subscribe((template) => this.updateList(template));
+    this.listService.onUpdate.subscribe((template) => this.updateList(template));
     this.getTemplates();
   }
 
