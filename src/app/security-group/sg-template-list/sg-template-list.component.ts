@@ -43,13 +43,19 @@ export class SgTemplateListComponent implements OnInit {
   }
 
   public deleteSecurityGroupTemplate(securityGroup: SecurityGroup): void {
-    this.dialogService.confirm('CONFIRM_DELETE_TEMPLATE', 'COMMON.NO', 'COMMON.YES')
+    this.dialogService.confirm(
+      'DIALOG_MESSAGES.TEMPLATE.CONFIRM_DELETION',
+      'COMMON.NO',
+      'COMMON.YES'
+    )
       .onErrorResumeNext()
       .switchMap(() => this.securityGroupService.deleteTemplate(securityGroup.id))
       .subscribe(
         res => {
           if (res && res.success === 'true') {
-            this.customSecurityGroupList = this.customSecurityGroupList.filter(sg => sg.id !== securityGroup.id);
+            this.customSecurityGroupList = this.customSecurityGroupList
+              .filter(sg => sg.id !== securityGroup.id);
+
             this.notificationService.message({
               translationToken: 'NOTIFICATIONS.TEMPLATE.DELETED',
               interpolateParams: { name: securityGroup.name }
