@@ -56,7 +56,7 @@ export class SpareDriveActionsService {
         this.onVolumeAttachment.next(VolumeAttachmentEvent.DETACHED);
         this.jobsNotificationService.finish({
           id: notificationId,
-          message: 'JOB_NOTIFICATIONS.VM.DETACHMENT_DONE'
+          message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
         });
       })
       .catch(error => {
@@ -68,7 +68,7 @@ export class SpareDriveActionsService {
         });
         this.jobsNotificationService.fail({
           id: notificationId,
-          message: 'JOB_NOTIFICATIONS.VM.DETACHMENT_FAILED',
+          message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_FAILED',
         });
         return Observable.throw(error);
       });

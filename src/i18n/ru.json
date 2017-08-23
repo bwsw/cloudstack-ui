@@ -17,6 +17,7 @@
     "NONE": "Не выбрано",
     "OK": "Ок",
     "REFRESH": "Обновить",
+    "REMOVE": "Удалить",
     "RESET": "Сбросить",
     "SAVE": "Сохранить",
     "SELECT": "Выбрать",
@@ -397,8 +398,8 @@
         "MAX_IOPS": "Макс. IO/сек",
         "READ_RATE_MB": "Скорость чтения",
         "WRITE_RATE_MB": "Скорость записи",
-        "READ_RATE_IO": "Скорость чтения (IO/сек)",
-        "WRITE_RATE_IO": "Скорость записи (IO/сек)"
+        "READ_RATE_IOPS": "Скорость чтения (IO/сек)",
+        "WRITE_RATE_IOPS": "Скорость записи (IO/сек)"
       },
 
       "VOLUME_ACTIONS": {
@@ -570,8 +571,8 @@
       "MAX_IOPS": "Макс. IO/сек",
       "READ_RATE_MB": "Скорость чтения",
       "WRITE_RATE_MB": "Скорость записи",
-      "READ_RATE_IO": "Скорость чтения (IO/сек)",
-      "WRITE_RATE_IO": "Скорость записи (IO/сек)"
+      "READ_RATE_IOPS": "Скорость чтения (IO/сек)",
+      "WRITE_RATE_IOPS": "Скорость записи (IO/сек)"
     },
 
     "ATTACHMENT": {
