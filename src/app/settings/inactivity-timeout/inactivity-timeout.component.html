@@ -1,4 +1,4 @@
-<h5 [innerHTML]="'INACTIVITY_TIMEOUT' | translate"></h5>
+<h5 [innerHTML]="'SETTINGS.SECURITY.INACTIVITY_TIMEOUT' | translate"></h5>
 <form
   class="settings-control"
   (ngSubmit)="changeInactivityTimeout($event)"
@@ -16,7 +16,7 @@
     step="1"
     required
     integerValue
-    error-msg="{{ 'INACTIVITY_LIMITS' | translate }}"
+    error-msg="{{ 'SETTINGS.SECURITY.INACTIVITY_LIMITS' | translate }}"
     [(ngModel)]="tempInactivityTimeout"
     [class.is-invalid]="inactivityTimeoutField.dirty && inactivityTimeoutField.invalid"
     (blur)="onBlur()"
@@ -26,7 +26,7 @@
       type="submit"
       mdl-button
       [disabled]="changeButtonDisabled"
-      [translate]="'UPDATE'"
+      [translate]="'COMMON.UPDATE'"
     ></button>
   </div>
 </form>

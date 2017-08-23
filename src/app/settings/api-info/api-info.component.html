@@ -1,10 +1,10 @@
 <section>
   <div class="header-wrap">
-    <h4>{{ 'API' | translate }}</h4>
+    <h4>{{ 'SETTINGS.API_CONFIGURATION.TITLE' | translate }}</h4>
     <mdl-button
       mdl-button-type="icon"
       mdTooltipPosition="above"
-      [mdTooltip]="'REGENERATE_KEYS' | translate"
+      [mdTooltip]="'SETTINGS.API_CONFIGURATION.REGENERATE_KEYS' | translate"
       (click)="askToRegenerateKeys()"
     >
       <md-icon>sync</md-icon>
@@ -34,7 +34,7 @@
             >
               <md-icon
                 mdTooltipPosition="after"
-                [mdTooltip]="'COPY' | translate"
+                [mdTooltip]="'CLIPBOARD.COPY' | translate"
               >
                 content_copy
               </md-icon>
@@ -63,7 +63,7 @@
             >
               <md-icon
                 mdTooltipPosition="after"
-                [mdTooltip]="'COPY' | translate"
+                [mdTooltip]="'CLIPBOARD.COPY' | translate"
               >
                 content_copy
               </md-icon>

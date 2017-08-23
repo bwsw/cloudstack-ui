@@ -17,53 +17,53 @@
       <md-card>
         <md-card-header>
           <md-card-title>
-            <h2 class="md-card-title-text">{{ "DETAILS" | translate }}</h2>
+            <h2 class="md-card-title-text">{{ "TEMPLATE_PAGE.TEMPLATE_DETAILS.DETAILS" | translate }}</h2>
           </md-card-title>
         </md-card-header>
         <md-card-content>
           <div class="grid grid-right">
             <div class="row" *ngIf="entity.size">
-              <div>{{ 'SIZE' | translate }}</div>
-              <div>{{ entity.size | division:2:30:2 }} {{ 'GB' | translate }}</div>
+              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.SIZE' | translate }}</div>
+              <div>{{ entity.size | division:2:30:2 }} {{ 'UNITS.GB' | translate }}</div>
             </div>
             <div class="row">
-              <div>{{ 'EXTRACTABLE' | translate }}</div>
+              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.EXTRACTABLE' | translate }}</div>
               <div>{{ entity.isExtractable | viewValue | async }}</div>
             </div>
             <div class="row">
-              <div>{{ 'PUBLIC' | translate }}</div>
+              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.PUBLIC' | translate }}</div>
               <div>{{ entity.isPublic | viewValue | async }}</div>
             </div>
             <div class="row">
-              <div>{{ 'RECOMMENDED' | translate }}</div>
+              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.RECOMMENDED' | translate }}</div>
               <div>{{ entity.isFeatured | viewValue | async }}</div>
             </div>
             <div class="row" *ngIf="entity.isPasswordEnabled !== undefined">
-              <div>{{ 'TEMPLATE_PASSWORD_ENABLED' | translate }}</div>
+              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.PASSWORD_ENABLED' | translate }}</div>
               <div>{{ entity.isPasswordEnabled | viewValue | async }}</div>
             </div>
             <div class="row" *ngIf="entity.isDynamicallyScalable !== undefined">
-              <div>{{ 'TEMPLATE_DYNAMICALLY_SCALABLE' | translate }}</div>
+              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.DYNAMICALLY_SCALABLE' | translate }}</div>
               <div>{{ entity.isDynamicallyScalable | viewValue | async }}</div>
             </div>
             <div class="row">
-              <div>{{ 'CROSS_ZONES' | translate }}</div>
+              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.CROSS_ZONES' | translate }}</div>
               <div>{{ entity.crossZones | viewValue | async }}</div>
             </div>
             <div class="row">
-              <div>{{ 'DOMAIN' | translate }}</div>
+              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.DOMAIN' | translate }}</div>
               <div>{{ entity.domain }}</div>
             </div>
             <div class="row">
-              <div>{{ 'CREATED_MASC' | translate }}</div>
+              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.CREATED' | translate }}</div>
               <div>{{ entity.created | stringifyDate }}</div>
             </div>
             <div *ngIf="entity.type" class="row">
-              <div>{{ 'TYPE' | translate }}</div>
-              <div>{{ (entity.type + '_TEMPLATE_TYPE') | translate }}</div>
+              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.TYPE' | translate }}</div>
+              <div>{{ templateTypeTranslationToken | translate }}</div>
             </div>
             <div *ngIf="entity.hypervisor" class="row">
-              <div>{{ 'HYPERVISOR' | translate }}</div>
+              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.HYPERVISOR' | translate }}</div>
               <div>{{ entity.hypervisor }}</div>
             </div>
           </div>
@@ -71,7 +71,7 @@
       </md-card>
       <md-card *ngIf="templateDownloadUrl" mdl-shadow="2">
         <md-card-header>
-          <md-card-title><h2>{{ 'DOWNLOAD_URL' | translate }}</h2></md-card-title>
+          <md-card-title><h2>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.DOWNLOAD_URL' | translate }}</h2></md-card-title>
         </md-card-header>
         <md-card-content>
           <cs-input-group>
@@ -93,7 +93,7 @@
             >
               <md-icon
                 mdTooltipPosition="below"
-                [mdTooltip]="'COPY' | translate"
+                [mdTooltip]="'CLIPBOARD.COPY' | translate"
               >
                 content_copy
               </md-icon>
@@ -110,7 +110,7 @@
         </div>
       </ng-template>
       <div *ngIf="!readyInEveryZone" class="update-button-container">
-        <mdl-button (click)="updateStatus()">{{ 'UPDATE' | translate }}</mdl-button>
+        <mdl-button (click)="updateStatus()">{{ 'COMMON.UPDATE' | translate }}</mdl-button>
       </div>
       <md-card *ngFor="let zone of entity.zones" class="vm-card" mdl-shadow="2">
         <md-card-header>
@@ -120,11 +120,11 @@
         </md-card-header>
         <md-card-content class="grid">
           <div class="row">
-            <div>{{ 'READY' | translate }}</div>
+            <div>{{ 'TEMPLATE_PAGE.ZONE_DETAILS.READY' | translate }}</div>
             <div>{{ zone.isReady | viewValue | async }}</div>
           </div>
           <div *ngIf="!zone.isReady && zone.status" class="row">
-            <div>{{ 'STATUS' | translate }}</div>
+            <div>{{ 'COMMON.STATUS' | translate }}</div>
             <div>{{ zone.status }}</div>
           </div>
         </md-card-content>

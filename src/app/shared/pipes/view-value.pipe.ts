@@ -13,11 +13,11 @@ export class ViewValuePipe implements PipeTransform {
   constructor(private translateService: TranslateService) {}
 
   public transform(value: any): Observable<string> {
-    return this.translateService.get(['YES', 'NO'])
+    return this.translateService.get(['COMMON.YES', 'COMMON.NO'])
       .map(strings => {
         switch (value) {
-          case true: return strings['YES'];
-          case false: return strings['NO'];
+          case true: return strings['COMMON.YES'];
+          case false: return strings['COMMON.NO'];
           default: return value;
         }
       });

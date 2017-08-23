@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['no-results.component.scss']
 })
 export class NoResultsComponent {
-  @Input() public text = 'NO_RESULTS';
+  @Input() public text = 'COMMON.NO_RESULTS';
 }

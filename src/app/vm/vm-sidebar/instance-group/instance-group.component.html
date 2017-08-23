@@ -1,7 +1,7 @@
 <md-card class="vm-card" mdl-shadow="2">
   <md-card-header>
     <h2 class="md-card-title-text">
-      {{ 'GROUP' | translate }}
+      {{ 'VM_PAGE.VM_DETAILS.INSTANCE_GROUP.TITLE' | translate }}
     </h2>
   </md-card-header>
   <md-card-content class="overflow-card md-card-content-with-actions">
@@ -10,12 +10,12 @@
         {{ vm.instanceGroup.name }}
       </div>
       <div *ngIf="!groupName">
-        {{ 'NO_GROUP' | translate }}
+        {{ 'VM_PAGE.VM_DETAILS.INSTANCE_GROUP.NO_GROUP' | translate }}
       </div>
     </div>
     <md-card-actions>
       <button
-        [mdTooltip]="'EDIT' | translate"
+        [mdTooltip]="'COMMON.EDIT' | translate"
         mdTooltipPosition="above"
         mdl-button
         mdl-button-type="icon"

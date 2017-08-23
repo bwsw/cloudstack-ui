@@ -16,7 +16,7 @@
 <mdl-popover #popover mdl-shadow="6" [style.width.px]="300" [style.right.px]="20">
   <md-card-header class="md-card-header">
     <md-card-title>
-      <h2 class="md-card-title-text">{{ 'CURRENT_OPERATIONS' | translate }}</h2>
+      <h2 class="md-card-title-text">{{ 'JOB_NOTIFICATIONS.PENDING_OPERATIONS' | translate }}</h2>
     </md-card-title>
   </md-card-header>
   <md-list style="line-height: 20px;">
@@ -34,7 +34,7 @@
       mdl-ripple
       (click)="removeCompleted()"
     >
-      {{ 'CLEAR_ALL' | translate }}
+      {{ 'COMMON.CLEAR_ALL' | translate }}
     </button>
   </div>
 </mdl-popover>

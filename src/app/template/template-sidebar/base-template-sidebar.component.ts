@@ -30,6 +30,16 @@ export abstract class BaseTemplateSidebarComponent extends SidebarComponent<Base
     this.service = service;
   }
 
+  public get templateTypeTranslationToken(): string {
+    const type = this.entity && (this.entity as any).type || '';
+    const templateTypeTranslations = {
+      'BUILTIN': 'Built-in',
+      'USER': 'User'
+    };
+
+    return templateTypeTranslations[type];
+  }
+
   public remove(): void {
     this.templateActions.removeTemplate(this.entity).subscribe(() => {
       this.listService.onDelete.emit(this.entity);
