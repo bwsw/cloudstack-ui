@@ -26,11 +26,11 @@ export class IsoSidebarComponent extends BaseTemplateSidebarComponent {
     super(
       isoService,
       dateTimeFormatterService,
-      route,
       dialogService,
+      route,
+      listService,
       notificationService,
-      templateActions,
-      listService
+      templateActions
     );
   }
 }

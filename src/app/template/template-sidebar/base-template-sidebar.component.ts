@@ -1,56 +1,50 @@
-import { Input, OnInit } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
+import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { BaseTemplateService, DOWNLOAD_URL } from '../shared/base-template.service';
 import { TemplateActionsService } from '../shared/template-actions.service';
 
-export abstract class BaseTemplateSidebarComponent implements OnInit {
-  @Input() public template: BaseTemplateModel;
+
+export abstract class BaseTemplateSidebarComponent extends SidebarComponent<BaseTemplateModel> implements OnInit {
   public templateDownloadUrl: string;
   public readyInEveryZone: boolean;
   public updating: boolean;
-  public templateNotFound: boolean;
-
   private service: BaseTemplateService;
 
   constructor(
     service: BaseTemplateService,
     public dateTimeFormatterService: DateTimeFormatterService,
-    private route: ActivatedRoute,
     private dialogService: DialogService,
-    private notificationService: NotificationService,
-    protected templateActions: TemplateActionsService,
+    protected route: ActivatedRoute,
     protected listService: ListService,
+    protected notificationService: NotificationService,
+    protected templateActions: TemplateActionsService,
   ) {
+    super(service, notificationService, route);
     this.service = service;
   }
 
-  public ngOnInit(): void {
-    this.templateNotFound = false;
-    this.route.params.pluck('id').filter(id => !!id).subscribe((id: string) => {
-      this.loadTemplate(id);
-    });
-  }
-
   public remove(): void {
-    this.templateActions.removeTemplate(this.template).subscribe(() => {
-      this.listService.onDelete.emit(this.template);
+    this.templateActions.removeTemplate(this.entity).subscribe(() => {
+      this.listService.onDelete.emit(this.entity);
     });
   }
 
   public updateStatus(): void {
-    if (this.template) {
+    if (this.entity) {
       this.updating = true;
-      this.service.getWithGroupedZones(this.template.id, null, false)
+      this.service.getWithGroupedZones(this.entity.id, null, false)
         .finally(() => this.updating = false)
         .subscribe(
           template => {
-            this.template = template;
-            this.checkZones();
+            this.entity = template;
+            this.checkZones(template);
           },
           error => this.dialogService.alert(error.message)
         );
@@ -65,26 +59,27 @@ export abstract class BaseTemplateSidebarComponent implements OnInit {
     this.notificationService.message('COPY_FAIL');
   }
 
-  private checkZones(): void {
-    this.readyInEveryZone = this.template.zones.every(template => template.isReady);
+  private checkZones(template: BaseTemplateModel): void {
+    this.readyInEveryZone = template && template.zones.every(_ => _.isReady);
   }
 
-  private loadTemplate(id: string): void {
-    this.service.getWithGroupedZones(id)
-      .subscribe(
-        template => this.onTemplateFound(template),
-        () => this.templateNotFound = true
-      );
-  }
-
-  private onTemplateFound(template: BaseTemplateModel): void {
-    this.template = template;
-    const downloadUrlTag = this.template.tags.find(
-      tag => tag.key === DOWNLOAD_URL
-    );
-    if (downloadUrlTag) {
-      this.templateDownloadUrl = downloadUrlTag.value;
-    }
-    this.checkZones();
+  protected loadEntity(id: string): Observable<BaseTemplateModel> {
+    return this.service.getWithGroupedZones(id)
+      .switchMap(template => {
+        if (template) {
+          return Observable.of(template);
+        } else {
+          return Observable.throw('ENTITY_DOES_NOT_EXIST');
+        }
+      })
+      .do(template => {
+        const downloadUrlTag = template.tags.find(
+          tag => tag.key === DOWNLOAD_URL
+        );
+        if (downloadUrlTag) {
+          this.templateDownloadUrl = downloadUrlTag.value;
+        }
+        this.checkZones(template);
+      });
   }
 }

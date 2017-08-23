@@ -6,54 +6,54 @@ import { VolumeType } from '../../shared/models/volume.model';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { VolumeService } from '../../shared/services/volume.service';
+import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
+import { NotificationService } from '../../shared/services/notification.service';
 
 
 @Component({
   selector: 'cs-spare-drive-sidebar',
   templateUrl: 'spare-drive-sidebar.component.html'
 })
-export class SpareDriveSidebarComponent {
-  public description: string;
-  public volumeNotFound: boolean;
-
-  @Input() public volume: Volume;
+export class SpareDriveSidebarComponent extends SidebarComponent<Volume> {
   @HostBinding('class.grid') public grid = true;
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
-    private route: ActivatedRoute,
-    private volumeService: VolumeService,
+    protected notificationService: NotificationService,
+    protected route: ActivatedRoute,
+    protected volumeService: VolumeService,
     private diskOfferingService: DiskOfferingService
   ) {
-    this.volumeNotFound = false;
-    this.route.params.pluck('id')
-      .subscribe((id: string) => this.loadVolume(id));
+    super(volumeService, notificationService, route);
   }
 
   public changeDescription(newDescription: string): void {
     this.volumeService
-      .updateDescription(this.volume, newDescription)
+      .updateDescription(this.entity, newDescription)
       .onErrorResumeNext()
       .subscribe();
   }
 
-  private loadVolume(id: string): void {
-    Observable.forkJoin(
-      this.diskOfferingService.getList({ type: VolumeType.DATADISK }),
-      this.volumeService.get(id)
-    )
-      .subscribe(
-        ([diskOfferings, volume]) => {
+  protected loadEntity(id: string): Observable<Volume> {
+    return this.volumeService.get(id)
+      .switchMap(volume => {
+        if (volume) {
+          return Observable.of(volume);
+        } else {
+          return Observable.throw('ENTITY_DOES_NOT_EXIST');
+        }
+      })
+      .switchMap(volume => {
+        return Observable.forkJoin(
+          Observable.of(volume),
+          this.diskOfferingService.getList({ type: VolumeType.DATADISK }),
           this.volumeService.getDescription(volume)
-            .subscribe(description => {
-              volume.diskOffering = diskOfferings.find(
-                offering => offering.id === volume.diskOfferingId
-              );
-              this.volume = volume;
-              this.description = description;
-            });
-        },
-        () => this.volumeNotFound = true
-      );
+        );
+      })
+      .map(([volume, diskOfferings, description]) => {
+        volume.diskOffering = diskOfferings.find(_ => _.id === volume.diskOfferingId);
+        volume.description = description;
+        return volume;
+      });
   }
 }

@@ -1,4 +1,4 @@
-<div *ngIf="template">
+<div *ngIf="entity">
   <md-tab-group md-selected="0">
     <md-tab>
       <ng-template md-tab-label>
@@ -10,7 +10,7 @@
       </ng-template>
 
       <cs-template
-        [item]="template"
+        [item]="entity"
         [singleLine]="false"
         (deleteTemplate)="remove()"
       ></cs-template>
@@ -22,49 +22,49 @@
         </md-card-header>
         <md-card-content>
           <div class="grid grid-right">
-            <div class="row" *ngIf="template.size">
+            <div class="row" *ngIf="entity.size">
               <div>{{ 'SIZE' | translate }}</div>
-              <div>{{ template.size | division:2:30:2 }} {{ 'GB' | translate }}</div>
+              <div>{{ entity.size | division:2:30:2 }} {{ 'GB' | translate }}</div>
             </div>
             <div class="row">
               <div>{{ 'EXTRACTABLE' | translate }}</div>
-              <div>{{ template.isExtractable | viewValue | async }}</div>
+              <div>{{ entity.isExtractable | viewValue | async }}</div>
             </div>
             <div class="row">
               <div>{{ 'PUBLIC' | translate }}</div>
-              <div>{{ template.isPublic | viewValue | async }}</div>
+              <div>{{ entity.isPublic | viewValue | async }}</div>
             </div>
             <div class="row">
               <div>{{ 'RECOMMENDED' | translate }}</div>
-              <div>{{ template.isFeatured | viewValue | async }}</div>
+              <div>{{ entity.isFeatured | viewValue | async }}</div>
             </div>
-            <div class="row" *ngIf="template.isPasswordEnabled !== undefined">
+            <div class="row" *ngIf="entity.isPasswordEnabled !== undefined">
               <div>{{ 'TEMPLATE_PASSWORD_ENABLED' | translate }}</div>
-              <div>{{ template.isPasswordEnabled | viewValue | async }}</div>
+              <div>{{ entity.isPasswordEnabled | viewValue | async }}</div>
             </div>
-            <div class="row" *ngIf="template.isDynamicallyScalable !== undefined">
+            <div class="row" *ngIf="entity.isDynamicallyScalable !== undefined">
               <div>{{ 'TEMPLATE_DYNAMICALLY_SCALABLE' | translate }}</div>
-              <div>{{ template.isDynamicallyScalable | viewValue | async }}</div>
+              <div>{{ entity.isDynamicallyScalable | viewValue | async }}</div>
             </div>
             <div class="row">
               <div>{{ 'CROSS_ZONES' | translate }}</div>
-              <div>{{ template.crossZones | viewValue | async }}</div>
+              <div>{{ entity.crossZones | viewValue | async }}</div>
             </div>
             <div class="row">
               <div>{{ 'DOMAIN' | translate }}</div>
-              <div>{{ template.domain }}</div>
+              <div>{{ entity.domain }}</div>
             </div>
             <div class="row">
               <div>{{ 'CREATED_MASC' | translate }}</div>
-              <div>{{ template.created | stringifyDate }}</div>
+              <div>{{ entity.created | stringifyDate }}</div>
             </div>
-            <div *ngIf="template.type" class="row">
+            <div *ngIf="entity.type" class="row">
               <div>{{ 'TYPE' | translate }}</div>
-              <div>{{ (template.type + '_TEMPLATE_TYPE') | translate }}</div>
+              <div>{{ (entity.type + '_TEMPLATE_TYPE') | translate }}</div>
             </div>
-            <div *ngIf="template.hypervisor" class="row">
+            <div *ngIf="entity.hypervisor" class="row">
               <div>{{ 'HYPERVISOR' | translate }}</div>
-              <div>{{ template.hypervisor }}</div>
+              <div>{{ entity.hypervisor }}</div>
             </div>
           </div>
         </md-card-content>
@@ -112,7 +112,7 @@
       <div *ngIf="!readyInEveryZone" class="update-button-container">
         <mdl-button (click)="updateStatus()">{{ 'UPDATE' | translate }}</mdl-button>
       </div>
-      <md-card *ngFor="let zone of template.zones" class="vm-card" mdl-shadow="2">
+      <md-card *ngFor="let zone of entity.zones" class="vm-card" mdl-shadow="2">
         <md-card-header>
           <md-card-title>
             <h2 class="md-card-title-text">{{ zone.zoneName }}</h2>
@@ -137,13 +137,11 @@
           <md-icon>local_offer</md-icon>
         </div>
       </ng-template>
-      <cs-template-tags [entity]="template"></cs-template-tags>
+      <cs-template-tags [entity]="entity"></cs-template-tags>
     </md-tab>
   </md-tab-group>
 </div>
 
-<cs-no-results
-  *ngIf="templateNotFound"
-  [text]="'TEMPLATE_NOT_FOUND'"
-></cs-no-results>
+<cs-no-results *ngIf="notFound" [text]="'TEMPLATE_NOT_FOUND'"></cs-no-results>
 
+<cs-overlay-loading [active]="!entity && !notFound"></cs-overlay-loading>

@@ -22,6 +22,13 @@ export class VmSidebarComponent extends SidebarComponent<VirtualMachine> {
   }
 
   protected loadEntity(id: string): Observable<VirtualMachine> {
-    return this.vmService.getWithDetails(id);
+    return this.vmService.getWithDetails(id)
+      .switchMap(vm => {
+        if (vm) {
+          return Observable.of(vm);
+        } else {
+          return Observable.throw('ENTITY_DOES_NOT_EXIST');
+        }
+      })
   }
 }

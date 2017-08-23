@@ -26,11 +26,11 @@ export class TemplateSidebarComponent extends BaseTemplateSidebarComponent {
     super(
       templateService,
       dateTimeFormatterService,
-      route,
       dialogService,
+      route,
+      listService,
       notificationService,
-      templateActions,
-      listService
+      templateActions
     );
   }
 }

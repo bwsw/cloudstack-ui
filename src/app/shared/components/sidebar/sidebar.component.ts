@@ -19,13 +19,6 @@ export abstract class SidebarComponent<M extends BaseModel> implements OnInit {
   public ngOnInit(): void {
     this.pluckId()
       .switchMap(id => this.loadEntity(id))
-      .switchMap(entity => {
-        if (entity) {
-          return this.modifyEntity(entity);
-        } else {
-          return Observable.throw('ENTITY_DOES_NOT_EXIST');
-        }
-      })
       .subscribe(
         entity => this.entity = entity,
         error => {
@@ -44,10 +37,6 @@ export abstract class SidebarComponent<M extends BaseModel> implements OnInit {
 
   protected loadEntity(id: string): Observable<M> {
     return this.entityService.get(id);
-  }
-
-  protected modifyEntity(entity: M): Observable<M> {
-    return Observable.of(entity);
   }
 
   private onEntityDoesNotExist(): void {

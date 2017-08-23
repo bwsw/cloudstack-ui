@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-
-import { DeletionMark, Volume, Snapshot } from '../models';
-import { BaseBackendService } from './base-backend.service';
 import { BackendResource } from '../decorators';
-import { SnapshotService } from './snapshot.service';
+import { Snapshot, Volume } from '../models';
 import { AsyncJobService } from './async-job.service';
+import { BaseBackendService } from './base-backend.service';
+import { SnapshotService } from './snapshot.service';
 import { TagService } from './tag.service';
 
 interface VolumeCreationData {
@@ -44,19 +43,6 @@ export class VolumeService extends BaseBackendService<Volume> {
     this.onVolumeAttached = new Subject<Volume>();
   }
 
-  public get(id: string): Observable<Volume> {
-    const snapshotsRequest = this.snapshotService.getList(id);
-    const volumeRequest = super.get(id);
-
-    return Observable.forkJoin(
-      volumeRequest,
-      snapshotsRequest
-    ).map(([volume, snapshots]) => {
-      volume.snapshots = snapshots;
-      return volume;
-    });
-  }
-
   public getList(params?: {}): Observable<Array<Volume>> {
     const volumesRequest = super.getList(params);
     const snapshotsRequest = this.snapshotService.getList();
@@ -64,14 +50,15 @@ export class VolumeService extends BaseBackendService<Volume> {
     return Observable.forkJoin(
       volumesRequest,
       snapshotsRequest
-    ).map(([volumes, snapshots]) => {
-      volumes.forEach(volume => {
-        volume.snapshots = snapshots.filter(
-          (snapshot: Snapshot) => snapshot.volumeId === volume.id
-        );
+    )
+      .map(([volumes, snapshots]) => {
+        volumes.forEach(volume => {
+          volume.snapshots = snapshots.filter(
+            (snapshot: Snapshot) => snapshot.volumeId === volume.id
+          );
+        });
+        return volumes;
       });
-      return volumes;
-    });
   }
 
   public getSpareList(params?: {}): Observable<Array<Volume>> {

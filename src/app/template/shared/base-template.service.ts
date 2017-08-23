@@ -91,7 +91,8 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
 
   public getList(params: RequestParams, customApiFormat?: {}, useCache = true): Observable<Array<BaseTemplateModel>> {
     return this.getListWithDuplicates(params, useCache)
-      .map(templates => this.distinctIds(templates));
+      .map(templates => this.distinctIds(templates))
+      .catch(() => Observable.of([]));
   }
 
   public getListWithDuplicates(params: RequestParams, useCache = true): Observable<Array<BaseTemplateModel>> {
@@ -120,23 +121,27 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
           return templates.filter(template => Utils.convertToGB(template.size) <= maxSize);
         }
         return templates;
-      });
+      })
+      .catch(() => Observable.of([]));
   }
 
   public getWithGroupedZones(id: string, params?: RequestParams, useCache = true): Observable<BaseTemplateModel> {
     const filter = params && params.filter ? params.filter : TemplateFilters.featured;
     return this.getListWithDuplicates({ id, filter }, useCache)
       .map(templates => {
-        templates[0].zones = [];
-        templates.forEach(template => {
-          templates[0].zones.push({
-            created: template.created,
-            zoneId: template.zoneId,
-            zoneName: template.zoneName,
-            status: template.status,
-            isReady: template.isReady
+        if (templates.length) {
+          templates[0].zones = [];
+
+          templates.forEach(template => {
+            templates[0].zones.push({
+              created: template.created,
+              zoneId: template.zoneId,
+              zoneName: template.zoneName,
+              status: template.status,
+              isReady: template.isReady
+            });
           });
-        });
+        }
 
         return templates[0];
       });
