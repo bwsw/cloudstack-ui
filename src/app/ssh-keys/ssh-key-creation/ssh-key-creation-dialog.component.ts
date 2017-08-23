@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { DialogsService } from '../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { SSHKeyPair } from '../../shared/models';
 import { SshKeyCreationData, SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
 
@@ -18,7 +18,7 @@ export class SShKeyCreationDialogComponent {
 
   constructor(
     public dialogRef: MdDialogRef<SShKeyCreationDialogComponent>,
-    public dialogsService: DialogsService,
+    public dialogService: DialogService,
     public sshKeyPairService: SSHKeyPairService
   ) { }
 
@@ -45,7 +45,7 @@ export class SShKeyCreationDialogComponent {
   }
 
   private handleError(error): void {
-    this.dialogsService.alert({
+    this.dialogService.alert({
       message: {
         translationToken: error.message,
         interpolateParams: error.params

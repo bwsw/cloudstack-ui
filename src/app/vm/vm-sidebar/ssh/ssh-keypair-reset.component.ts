@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
-import { DialogsService } from '../../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
 import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
 
@@ -15,7 +15,7 @@ export class SshKeypairResetComponent implements OnInit {
   public selectedSshKeyName: string;
 
   constructor(
-    private dialogsService: DialogsService,
+    private dialogService: DialogService,
     private dialogRef: MdDialogRef<SshKeypairResetComponent>,
     @Inject(MD_DIALOG_DATA) private vm,
     private sshService: SSHKeyPairService
@@ -40,7 +40,7 @@ export class SshKeypairResetComponent implements OnInit {
       .finally(() => this.resettingKeyInProgress = false)
       .subscribe(
         vm => this.dialogRef.close(vm.keyPair),
-        error => this.dialogsService.alert({ message: error.message })
+        error => this.dialogService.alert({ message: error.message })
       );
   }
 }

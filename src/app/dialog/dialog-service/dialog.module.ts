@@ -1,4 +1,4 @@
-import { DialogsService } from './dialog.service';
+import { DialogService } from './dialog.service';
 import { MdDialogModule, MdButtonModule  } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -26,7 +26,7 @@ import { AskDialogComponent } from './ask-dialog/ask-dialog.component';
     AskDialogComponent
   ],
   providers: [
-    DialogsService,
+    DialogService,
   ],
   entryComponents: [
     ConfirmDialogComponent,

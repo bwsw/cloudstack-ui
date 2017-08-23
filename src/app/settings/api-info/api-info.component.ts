@@ -6,7 +6,7 @@ import { ConfigService } from '../../shared/services/config.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { UserService } from '../../shared/services/user.service';
-import { DialogsService } from '../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 
 
 interface ApiInfoLink {
@@ -48,7 +48,7 @@ export class ApiInfoComponent implements OnInit {
 
   constructor(
     private configService: ConfigService,
-    private dialogsService: DialogsService,
+    private dialogService: DialogService,
     private notificationService: NotificationService,
     private userService: UserService,
     private routerUtilsService: RouterUtilsService
@@ -87,7 +87,7 @@ export class ApiInfoComponent implements OnInit {
   }
 
   public askToRegenerateKeys(): void {
-    this.dialogsService.confirm({
+    this.dialogService.confirm({
       message: 'SETTINGS.API_CONFIGURATION.ASK_GENERATE_KEYS',
       confirmText: 'GENERATE',
       declineText: 'COMMON.CANCEL'

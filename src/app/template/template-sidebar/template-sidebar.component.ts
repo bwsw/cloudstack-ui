@@ -4,7 +4,7 @@ import { TemplateService } from '../shared';
 import { BaseTemplateSidebarComponent } from './base-template-sidebar.component';
 import { TemplateActionsService } from '../shared/template-actions.service';
 import { ListService } from '../../shared/components/list/list.service';
-import { DialogsService } from '../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 
@@ -20,14 +20,14 @@ export class TemplateSidebarComponent extends BaseTemplateSidebarComponent {
     route: ActivatedRoute,
     templateActions: TemplateActionsService,
     listService: ListService,
-    dialogsService: DialogsService,
+    dialogService: DialogService,
     notificationService: NotificationService
   ) {
     super(
       templateService,
       dateTimeFormatterService,
       route,
-      dialogsService,
+      dialogService,
       notificationService,
       templateActions,
       listService

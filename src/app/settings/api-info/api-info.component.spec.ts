@@ -7,7 +7,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard/dist';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { DialogsService } from '../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { ConfigService } from '../../shared/services/config.service';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { UserService } from '../../shared/services/user.service';
@@ -64,7 +64,7 @@ describe('Api Info component', () => {
 
   beforeEach(async(() => {
     dialogObservable = Observable.of(true);
-    dialogSpy = spyOn(DialogsService.prototype, 'confirm').and.returnValue(dialogObservable);
+    dialogSpy = spyOn(DialogService.prototype, 'confirm').and.returnValue(dialogObservable);
 
     TestBed.configureTestingModule({
       imports: [

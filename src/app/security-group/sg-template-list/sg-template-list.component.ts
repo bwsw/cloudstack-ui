@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialog, MdDialogConfig } from '@angular/material';
 import { Observable } from 'rxjs';
-import { DialogsService } from '../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 
 import { ListService } from '../../shared/components/list/list.service';
 import { NotificationService } from '../../shared/services/notification.service';
@@ -23,7 +23,7 @@ export class SgTemplateListComponent implements OnInit {
 
   constructor(
     private securityGroupService: SecurityGroupService,
-    private dialogsService: DialogsService,
+    private dialogService: DialogService,
     private dialog: MdDialog,
     private notificationService: NotificationService,
     private listService: ListService
@@ -46,7 +46,7 @@ export class SgTemplateListComponent implements OnInit {
   }
 
   public deleteSecurityGroupTemplate(securityGroup: SecurityGroup): void {
-    this.dialogsService.confirm({ message: 'DIALOG_MESSAGES.TEMPLATE.CONFIRM_DELETION' })
+    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.TEMPLATE.CONFIRM_DELETION' })
       .onErrorResumeNext()
       .switchMap((res) => {
         if (res) {
@@ -72,8 +72,8 @@ export class SgTemplateListComponent implements OnInit {
 
   public showCreationDialog(): void {
     this.dialog.open(SgTemplateCreationComponent, <MdDialogConfig>{
-       disableClose: true,
-       panelClass: 'sg-template-creation-dialog'
+      disableClose: true,
+      width: '450px'
     }).afterClosed()
       .subscribe((template: SecurityGroup) => {
         if (!template) {
@@ -90,7 +90,7 @@ export class SgTemplateListComponent implements OnInit {
 
   public showRulesDialog(group: SecurityGroup): void {
     this.dialog.open(SgRulesComponent, <MdDialogConfig>{
-      panelClass: 'sg-rules-dialog',
+      width: '880px',
       data: { securityGroup: group }
     });
   }

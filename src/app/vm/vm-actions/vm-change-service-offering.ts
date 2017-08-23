@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { DialogsService } from '../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { VirtualMachine, VmState } from '../shared/vm.model';
@@ -19,13 +19,13 @@ export class VmChangeServiceOfferingAction extends VirtualMachineAction {
   };
 
   constructor(
-    protected dialogsService: DialogsService,
+    protected dialogService: DialogService,
     protected jobsNotificationService: JobsNotificationService,
     protected vmService: VmService,
     protected vmStartActionSilent: VmStartActionSilent,
     protected vmStopActionSilent: VmStopActionSilent
   ) {
-    super(dialogsService, jobsNotificationService, vmService);
+    super(dialogService, jobsNotificationService, vmService);
   }
 
   public canActivate(vm: VirtualMachine): boolean {

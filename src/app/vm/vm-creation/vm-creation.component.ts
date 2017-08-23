@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MdSelectChange, MdDialogRef } from '@angular/material';
 import * as throttle from 'lodash/throttle';
 
-import { DialogsService } from '../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { AffinityGroup, InstanceGroup, ServiceOffering } from '../../shared/models';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
@@ -60,7 +60,7 @@ export class VmCreationComponent implements OnInit {
 
   constructor(
     private dialogRef: MdDialogRef<VmCreationComponent>,
-    private dialogsService: DialogsService,
+    private dialogService: DialogService,
     private formNormalizationService: VmCreationFormNormalizationService,
     private jobsNotificationService: JobsNotificationService,
     private resourceUsageService: ResourceUsageService,
@@ -237,7 +237,7 @@ export class VmCreationComponent implements OnInit {
   }
 
   public notifyOnDeployFailed(error: any, notificationId: string): void {
-    this.dialogsService.alert({
+    this.dialogService.alert({
       message: {
         translationToken: error.message,
         interpolateParams: error.params
@@ -254,7 +254,7 @@ export class VmCreationComponent implements OnInit {
       return;
     }
 
-    this.dialogsService.alert({
+    this.dialogService.alert({
       message: {
         translationToken: 'DIALOG_MESSAGES.VM.PASSWORD_DIALOG_MESSAGE',
         interpolateParams: {

@@ -65,7 +65,7 @@ export class VmTemplateComponent {
 
   private showTemplateSelectionDialog(): Observable<BaseTemplateModel> {
     return this.dialog.open(VmTemplateDialogComponent, {
-      panelClass: 'vm-template-dialog',
+      width: '780px',
       data: {
         template: this.template,
         templates: this.templates,

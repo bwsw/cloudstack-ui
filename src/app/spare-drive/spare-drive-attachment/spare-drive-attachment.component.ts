@@ -3,7 +3,7 @@ import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 import { VmService } from '../../vm/shared/vm.service';
 import { Volume } from '../../shared/models';
-import { DialogsService } from '../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { SpareDriveActionsService } from '../spare-drive-actions.service';
 
 
@@ -22,7 +22,7 @@ export class SpareDriveAttachmentComponent implements OnInit {
 
   constructor(
     private dialogRef: MdDialogRef<SpareDriveAttachmentComponent>,
-    private dialogsService: DialogsService,
+    private dialogService: DialogService,
     private spareDriveActionsService: SpareDriveActionsService,
     private vmService: VmService,
     @Inject(MD_DIALOG_DATA) data
@@ -55,7 +55,7 @@ export class SpareDriveAttachmentComponent implements OnInit {
       .finally(() => this.loading = false)
       .subscribe(
         () => this.dialogRef.close(this.virtualMachineId),
-        error => this.dialogsService.alert({
+        error => this.dialogService.alert({
           message: {
             translationToken: error.message,
             interpolateParams: error.params

@@ -1,7 +1,7 @@
-<div class="security-group-template-form">
-  <cs-overlay-loading [active]="loading"></cs-overlay-loading>
-  <h3 class="mat-dialog-title">{{ modeTranslationToken | translate }}</h3>
-  <form (ngSubmit)="onCreate()" #templateCreationForm="ngForm" novalidate>
+<cs-overlay-loading [active]="loading"></cs-overlay-loading>
+<h3 class="mat-dialog-title">{{ modeTranslationToken | translate }}</h3>
+<form (ngSubmit)="onCreate()" #templateCreationForm="ngForm" novalidate>
+  <div class="mat-dialog-content">
     <div [class.flex-dialog-content]="!snapshot">
       <div [class.column]="!snapshot">
         <mdl-textfield
@@ -99,25 +99,25 @@
         </div>
       </div>
     </div>
-    <div class="mat-dialog-actions">
-      <button
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
-        type="submit"
-        [disabled]="!templateCreationForm.valid"
-      >
-        {{ 'COMMON.CREATE' | translate }}
-      </button>
-      <button
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
-        type="button"
-        (click)="onCancel()"
-      >
-        {{ 'COMMON.CANCEL' | translate }}
-      </button>
-    </div>
-  </form>
-</div>
+  </div>
+  <div class="mat-dialog-actions">
+    <button
+      mdl-colored="primary"
+      mdl-button
+      mdl-ripple
+      type="submit"
+      [disabled]="!templateCreationForm.valid"
+    >
+      {{ 'COMMON.CREATE' | translate }}
+    </button>
+    <button
+      mdl-colored="primary"
+      mdl-button
+      mdl-ripple
+      type="button"
+      (click)="onCancel()"
+    >
+      {{ 'COMMON.CANCEL' | translate }}
+    </button>
+  </div>
+</form>

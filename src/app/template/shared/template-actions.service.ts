@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { DialogsService } from '../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { VmService } from '../../vm/shared/vm.service';
 import { BaseTemplateModel } from './base-template.model';
@@ -13,7 +13,7 @@ import { TemplateService } from './template.service';
 @Injectable()
 export class TemplateActionsService {
   constructor(
-    private dialogsService: DialogsService,
+    private dialogService: DialogService,
     private jobNotificationService: JobsNotificationService,
     private templateService: TemplateService,
     private isoService: IsoService,
@@ -50,7 +50,7 @@ export class TemplateActionsService {
       });
     })
       .catch(error => {
-        this.dialogsService.alert({
+        this.dialogService.alert({
           message: {
             translationToken: error.message,
             interpolateParams: error.params
@@ -70,7 +70,7 @@ export class TemplateActionsService {
       ? 'DIALOG_MESSAGES.ISO.CONFIRM_DELETION'
       : 'DIALOG_MESSAGES.TEMPLATE.CONFIRM_DELETION';
 
-     return this.dialogsService.confirm({ message: confirmTranslation })
+     return this.dialogService.confirm({ message: confirmTranslation })
       .onErrorResumeNext()
       .switchMap((res) => {
         if (res) {
@@ -108,7 +108,7 @@ export class TemplateActionsService {
         }
         if (error.type === 'vmsInUse') {
           const listOfUsedVms = error.vms.map(vm => vm.name).join(', ');
-          this.dialogsService.alert({
+          this.dialogService.alert({
             message: {
               translationToken: 'ERRORS.ISO.VMS_IN_USE',
               interpolateParams: {vms: listOfUsedVms}

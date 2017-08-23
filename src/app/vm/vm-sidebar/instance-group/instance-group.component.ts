@@ -20,7 +20,7 @@ export class InstanceGroupComponent {
 
   public changeGroup(): void {
     this.dialog.open(InstanceGroupSelectorComponent, {
-      panelClass: 'instance-group-selector-dialog',
+      width: '350px',
       data: this.vm
     });
   }

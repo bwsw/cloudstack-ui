@@ -58,7 +58,7 @@ export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
 
   public showDialog(): void {
     this.dialog.open(SgCreationComponent, {
-      panelClass: 'sg-creation-dialog',
+      width: '800px',
       data: this.savedRules
     })
       .afterClosed()

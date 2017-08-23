@@ -1,7 +1,7 @@
 import { VmActions } from './vm-action';
 import { VirtualMachine, VmState } from '../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
-import { DialogsService } from '../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { VmService } from '../shared/vm.service';
 import { VmEntityDeletionService } from '../shared/vm-entity-deletion.service';
 import { Volume } from '../../shared/models/volume.model';
@@ -32,12 +32,12 @@ export class VmDestroyAction extends VirtualMachineCommand {
   };
 
   constructor(
-    protected dialogsService: DialogsService,
+    protected dialogService: DialogService,
     protected jobsNotificationService: JobsNotificationService,
     protected vmService: VmService,
     protected vmEntityDeletionService: VmEntityDeletionService
   ) {
-    super(dialogsService, jobsNotificationService, vmService);
+    super(dialogService, jobsNotificationService, vmService);
   }
 
   public canActivate(vm: VirtualMachine): boolean {
@@ -83,6 +83,6 @@ export class VmDestroyAction extends VirtualMachineCommand {
       return Observable.of(false);
     }
 
-    return this.dialogsService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_DRIVES_DELETION'});
+    return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_DRIVES_DELETION'});
   }
 }

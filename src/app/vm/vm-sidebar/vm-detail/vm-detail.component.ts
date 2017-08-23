@@ -4,7 +4,7 @@ import {
   AffinityGroupSelectorComponent
 } from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { Observable } from 'rxjs/Observable';
-import { DialogsService } from '../../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { AffinityGroup } from '../../../shared/models/affinity-group.model';
 import { DateTimeFormatterService } from '../../../shared/services/date-time-formatter.service';
 import { VmActionsService } from '../../shared/vm-actions.service';
@@ -28,7 +28,7 @@ export class VmDetailComponent implements OnChanges {
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
-    private dialogsService: DialogsService,
+    private dialogService: DialogService,
     private dialog: MdDialog,
     private vmActionsService: VmActionsService,
     private vmService: VmService
@@ -96,7 +96,7 @@ export class VmDetailComponent implements OnChanges {
           return Observable.of(true);
         }
 
-        return this.dialogsService.confirm({
+        return this.dialogService.confirm({
           message: message,
           confirmText: 'VM_PAGE.COMMANDS.STOP',
           declineText: 'COMMON.CANCEL'

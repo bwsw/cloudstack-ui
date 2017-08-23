@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MdDialog } from '@angular/material';
 
-import { DialogsService } from '../../../../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../../../../dialog/dialog-service/dialog.service';
 import { TemplateCreationComponent } from '../../../../../template/template-creation/template-creation.component';
 import { Snapshot, Volume } from '../../../../../shared/models';
 import { JobsNotificationService } from '../../../../../shared/services/jobs-notification.service';
@@ -36,7 +36,7 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
 
   constructor(
     private dialog: MdDialog,
-    private dialogsService: DialogsService,
+    private dialogService: DialogService,
     private jobNotificationService: JobsNotificationService,
     private notificationService: NotificationService,
     private snapshotService: SnapshotService,
@@ -49,14 +49,14 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
         mode: 'Template',
         snapshot: snapshot
       },
-      panelClass: 'template-creation-dialog-snapshot'
+      width: '376px'
     });
   }
 
   public handleSnapshotDelete(snapshot: Snapshot, volume): void {
     let notificationId: string;
 
-    this.dialogsService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
+    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
       .switchMap((res) => {
         if (res) {
           snapshot['loading'] = true;

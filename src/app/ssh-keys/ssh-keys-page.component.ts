@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs';
-import { DialogsService } from '../dialog/dialog-service/dialog.service';
+import { DialogService } from '../dialog/dialog-service/dialog.service';
 import { SSHKeyPair } from '../shared/models';
 import { SSHKeyPairService } from '../shared/services/ssh-keypair.service';
 import { SShKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creation-dialog.component';
@@ -18,7 +18,7 @@ export class SshKeysPageComponent implements OnInit {
   public sshKeyList: Array<SSHKeyPair>;
 
   constructor(
-    private dialogsService: DialogsService,
+    private dialogService: DialogService,
     private dialog: MdDialog,
     private sshKeyService: SSHKeyPairService
   ) {}
@@ -56,7 +56,7 @@ export class SshKeysPageComponent implements OnInit {
   }
 
   private showRemovalDialog(name: string): void {
-     this.dialogsService.confirm({ message: 'SSH_KEYS.REMOVE_THIS_KEY'})
+     this.dialogService.confirm({ message: 'SSH_KEYS.REMOVE_THIS_KEY'})
       .onErrorResumeNext()
       .switchMap((res) => {
         if (res) {
@@ -73,7 +73,7 @@ export class SshKeysPageComponent implements OnInit {
             return;
           }
           this.setLoading(name, false);
-          this.dialogsService.alert({ message: 'SSH_KEYS.KEY_REMOVAL_FAILED' });
+          this.dialogService.alert({ message: 'SSH_KEYS.KEY_REMOVAL_FAILED' });
         }
       );
   }

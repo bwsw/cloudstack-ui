@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { VirtualMachine } from '../../../shared/vm.model';
-import { DialogsService } from '../../../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
 import { VmService } from '../../../shared/vm.service';
 
 
@@ -15,7 +15,7 @@ export class NicDetailComponent {
   public expandNIC = false;
 
   constructor(
-    private dialogsService: DialogsService,
+    private dialogService: DialogService,
     private vmService: VmService
   ) {}
 
@@ -24,14 +24,14 @@ export class NicDetailComponent {
   }
 
   public confirmAddSecondaryIp(vm: VirtualMachine): void {
-    this.dialogsService.confirm({
+    this.dialogService.confirm({
       message: 'VM_PAGE.NETWORK_DETAILS.ARE_YOU_SURE_ADD_SECONDARY_IP'
     }).onErrorResumeNext()
       .subscribe((res) => { if (res) { this.addSecondaryIp(vm); } });
   }
 
   public confirmRemoveSecondaryIp(secondaryIpId: string, vm: VirtualMachine): void {
-    this.dialogsService.confirm({
+    this.dialogService.confirm({
       message: 'VM_PAGE.NETWORK_DETAILS.ARE_YOU_SURE_REMOVE_SECONDARY_IP'
     }).onErrorResumeNext()
       .subscribe((res) => { if (res) { this.removeSecondaryIp(secondaryIpId, vm); } });
@@ -44,7 +44,7 @@ export class NicDetailComponent {
           const ip = res.result.nicsecondaryip;
           vm.nic[0].secondaryIp.push(ip);
         },
-        err => this.dialogsService.alert({ message: err.errortext })
+        err => this.dialogService.alert({ message: err.errortext })
       );
   }
 
@@ -54,7 +54,7 @@ export class NicDetailComponent {
         () => {
           vm.nic[0].secondaryIp = vm.nic[0].secondaryIp.filter(ip => ip.id !== secondaryIpId);
         },
-        err => this.dialogsService.alert({ message: err.errortext })
+        err => this.dialogService.alert({ message: err.errortext })
       );
   }
 }

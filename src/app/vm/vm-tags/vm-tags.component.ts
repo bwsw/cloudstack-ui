@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { DialogsService } from '../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Tag } from '../../shared/models';
 import { TagService } from '../../shared/services/tag.service';
 import { TagsComponent } from '../../tags/tags.component';
@@ -16,11 +16,11 @@ export class VmTagsComponent extends TagsComponent<VirtualMachine> implements On
   @Input() public entity: VirtualMachine;
 
   constructor(
-    protected dialogsService: DialogsService,
+    protected dialogService: DialogService,
     protected tagService: TagService,
     private vmService: VmService
   ) {
-    super(dialogsService, tagService);
+    super(dialogService, tagService);
   }
 
   public ngOnInit(): void {

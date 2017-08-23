@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
 import { AlertDialogComponent, AlertDialogConfiguration } from './alert-dialog/alert-dialog.component';
 import { ConfirmDialogComponent, ConfirmDialogConfiguration } from './confirm-dialog/confirm-dialog.component';
 import { AskDialogConfiguration, AskDialogComponent } from './ask-dialog/ask-dialog.component';
-import { isUndefined } from 'util';
 
 const defaultConfirmDialogConfirmText = 'COMMON.YES';
 const defaultConfirmDialogDeclineText = 'COMMON.NO';
@@ -27,7 +26,7 @@ export interface BaseDialogConfiguration {
 
 
 @Injectable()
-export class DialogsService {
+export class DialogService {
 
   constructor(private dialog: MdDialog) { }
 
@@ -39,10 +38,10 @@ export class DialogsService {
     if (!config.declineText) {
       config.declineText = defaultConfirmDialogDeclineText;
     }
-    if (isUndefined(config.disableClose)) {
+    if (config.disableClose === undefined) {
       config.disableClose = defaultDisableClose;
     }
-    dialogRef = this.dialog.open(ConfirmDialogComponent, <MdDialogConfig>this.getDialogConfiguration(config));
+    dialogRef = this.dialog.open(ConfirmDialogComponent, this.getDialogConfiguration(config));
     return dialogRef.afterClosed();
   }
 
@@ -52,16 +51,16 @@ export class DialogsService {
       config.okText = defaultAlertDialogConfirmText;
     }
 
-    if (isUndefined(config.disableClose)) {
+    if (config.disableClose === undefined) {
       config.disableClose = defaultDisableClose;
     }
-    dialogRef = this.dialog.open(AlertDialogComponent,  <MdDialogConfig>this.getDialogConfiguration(config));
+    dialogRef = this.dialog.open(AlertDialogComponent, this.getDialogConfiguration(config));
     return dialogRef.afterClosed();
   }
 
   public askDialog(config: AskDialogConfiguration): Observable<void> {
     let dialogRef: MdDialogRef<AskDialogComponent>;
-    if (isUndefined(config.disableClose)) {
+    if (config.disableClose === undefined) {
       config.disableClose = defaultDisableClose;
     }
     config.actions = config.actions.map(action => ({
@@ -70,21 +69,17 @@ export class DialogsService {
       isClosingAction: action.isClosingAction
     }));
 
-    dialogRef = this.dialog.open(AskDialogComponent, <MdDialogConfig>this.getDialogConfiguration(config));
+    dialogRef = this.dialog.open(AskDialogComponent, this.getDialogConfiguration(config));
     return dialogRef.afterClosed();
   }
 
   private getDialogConfiguration(config: BaseDialogConfiguration) {
+    let configuration =  <MdDialogConfig>{
+      data: { config },
+      disableClose: config.disableClose
+    };
     return config.width ?
-      {
-        data: { config },
-        disableClose: config.disableClose,
-        width: config.width,
-      } :
-      {
-        data: { config },
-        disableClose: config.disableClose,
-        width: defaultWidth
-      };
+      Object.assign(configuration, { width: config.width }) :
+      Object.assign(configuration, { width: defaultWidth });
   }
 }

@@ -43,7 +43,7 @@ export class SpareDriveAttachmentDetailComponent implements OnInit {
     this.loadVolumes()
       .switchMap(() => {
         return this.dialog.open(SpareDriveAttachmentDialogComponent, {
-          panelClass: 'spare-drive-attachment-dialog',
+          width: '375px',
           data: this.volumes
         }).afterClosed();
       })

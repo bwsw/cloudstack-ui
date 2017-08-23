@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import * as moment from 'moment';
 
-import { DialogsService } from '../../../../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../../../../dialog/dialog-service/dialog.service';
 import { Volume } from '../../../../../shared/models/volume.model';
 import { JobsNotificationService } from '../../../../../shared/services/jobs-notification.service';
 import {
@@ -27,7 +27,7 @@ export class SnapshotCreationComponent implements OnInit {
 
   constructor(
     private dialogRef: MdDialogRef<SnapshotCreationComponent>,
-    private dialogsService: DialogsService,
+    private dialogService: DialogService,
     private snapshotService: SnapshotService,
     private jobsNotificationService: JobsNotificationService,
     private statsUpdateService: StatsUpdateService,
@@ -76,7 +76,7 @@ export class SnapshotCreationComponent implements OnInit {
             message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
           });
 
-          this.dialogsService.alert({
+          this.dialogService.alert({
             message: {
               translationToken: e.message,
               interpolateParams: e.params

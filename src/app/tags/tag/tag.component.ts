@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DialogsService } from '../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Tag } from '../../shared/models';
 import { NotificationService } from '../../shared/services/notification.service';
 
@@ -18,7 +18,7 @@ export class TagComponent {
   public loading: boolean;
 
   constructor(
-    private dialogsService: DialogsService,
+    private dialogService: DialogService,
     private notificationService: NotificationService
   ) {
     this.onTagEdit = new EventEmitter<Tag>();
@@ -30,7 +30,7 @@ export class TagComponent {
   }
 
   public showRemoveDialog(): void {
-    this.dialogsService.confirm({ message: 'DIALOG_MESSAGES.TAG.CONFIRM_DELETION'})
+    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.TAG.CONFIRM_DELETION'})
       .subscribe(
         (res) => { if (res) { this.remove(); } });
   }

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-import { DialogsService } from '../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { DiskOffering, Volume, VolumeType, Zone, } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
@@ -31,7 +31,6 @@ export interface VolumeCreationData {
 @Component({
   selector: 'cs-spare-drive-page',
   templateUrl: 'spare-drive-page.component.html',
-  styleUrls: ['spare-drive-page.component.scss'],
   providers: [ListService]
 })
 export class SpareDrivePageComponent implements OnInit, OnDestroy {
@@ -61,7 +60,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private dialogsService: DialogsService,
+    private dialogService: DialogService,
     private dialog: MdDialog,
     private diskOfferingService: DiskOfferingService,
     private jobsNotificationService: JobsNotificationService,
@@ -137,7 +136,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   }
 
   public showRemoveDialog(volume: Volume): void {
-    this.dialogsService.confirm({
+    this.dialogService.confirm({
       message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_DELETION'
     })
       .onErrorResumeNext()
@@ -158,7 +157,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
           this.update();
         },
         error => {
-          this.dialogsService.alert({ message: error });
+          this.dialogService.alert({ message: error });
           this.jobsNotificationService.fail({ message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_FAILED' });
         }
       );
@@ -166,7 +165,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
 
   public showCreationDialog(): void {
     this.dialog.open(SpareDriveCreationComponent, {
-       panelClass: 'spare-drive-creation-dialog',
+       width: '450px',
        disableClose: true
     }).afterClosed()
         .subscribe((volume: Volume) => {
@@ -198,7 +197,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.dialogsService.askDialog({
+        this.dialogService.askDialog({
           message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VOLUME',
           actions: [
             {

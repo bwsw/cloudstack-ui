@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { MdDialog } from '@angular/material';
-import { DialogsService } from '../../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 
 import { Volume } from '../../../shared/models';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
@@ -26,7 +26,7 @@ export class StorageDetailComponent implements OnChanges {
 
   constructor(
     private dialog: MdDialog,
-    private dialogsService: DialogsService,
+    private dialogService: DialogService,
     private jobNotificationService: JobsNotificationService,
     private isoService: IsoService,
     private notificationService: NotificationService,
@@ -87,7 +87,7 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   public showVolumeDetachDialog(volume: Volume): void {
-    this.dialogsService.confirm({
+    this.dialogService.confirm({
       message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_DETACHMENT'
     })
       .onErrorResumeNext()
@@ -103,7 +103,7 @@ export class StorageDetailComponent implements OnChanges {
 
   private attachIsoDialog(): void {
     this.dialog.open(IsoAttachmentComponent, {
-      panelClass: 'iso-attachment-dialog',
+      width: '720px',
       data: this.vm.zoneId
     })
       .afterClosed()
@@ -115,7 +115,7 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private detachIsoDialog(): void {
-    this.dialogsService.confirm({
+    this.dialogService.confirm({
       message: 'DIALOG_MESSAGES.ISO.CONFIRM_DETACHMENT'
     })
       .onErrorResumeNext()

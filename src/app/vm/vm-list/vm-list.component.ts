@@ -1,7 +1,7 @@
 import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { DialogsService } from '../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { AsyncJob, InstanceGroup, VmStatisticsComponent, Zone } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
 import { AsyncJobService } from '../../shared/services/async-job.service';
@@ -76,7 +76,7 @@ export class VmListComponent implements OnInit {
   constructor(
     public listService: ListService,
     private vmService: VmService,
-    private dialogsService: DialogsService,
+    private dialogService: DialogService,
     private dialog: MdDialog,
     private jobsNotificationService: JobsNotificationService,
     private asyncJobService: AsyncJobService,
@@ -296,7 +296,7 @@ export class VmListComponent implements OnInit {
           return;
         }
 
-        this.dialogsService.askDialog({
+        this.dialogService.askDialog({
           message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VM',
           actions: [
             {

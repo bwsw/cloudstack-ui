@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { DialogsService } from '../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Tag } from '../../shared/models';
 import { TagService } from '../../shared/services/tag.service';
 import { TagsComponent } from '../../tags/tags.component';
@@ -17,12 +17,12 @@ export class TemplateTagsComponent extends TagsComponent<BaseTemplateModel> {
   @Input() public entity: BaseTemplateModel;
 
   constructor(
-    protected dialogsService: DialogsService,
+    protected dialogService: DialogService,
     protected tagService: TagService,
     private templateService: TemplateService,
     private isoService: IsoService
   ) {
-    super(dialogsService, tagService);
+    super(dialogService, tagService);
   }
 
   protected get entityTags(): Observable<Array<Tag>> {

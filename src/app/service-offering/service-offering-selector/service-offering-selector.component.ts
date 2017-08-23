@@ -115,7 +115,7 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
 
   private showCustomOfferingDialog(): Observable<CustomServiceOffering> {
      return this.dialog.open(CustomServiceOfferingComponent, {
-       panelClass: 'custom-offering-dialog',
+       width: '370px',
        data: {
          zoneId: this.zoneId,
          offering: this.serviceOffering,

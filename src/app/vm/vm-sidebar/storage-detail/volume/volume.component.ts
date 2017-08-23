@@ -56,7 +56,7 @@ export class VolumeComponent implements OnInit {
     this.getOfferings().switchMap(diskOfferingList => {
       this._loading = false;
       return this.dialog.open(VolumeResizeComponent, {
-         panelClass: 'volume-resize-dialog',
+         width: '370px',
          data: { volume: this.volume, diskOfferingList: diskOfferingList }
       }).afterClosed();
     }).subscribe(resizedVolume => {

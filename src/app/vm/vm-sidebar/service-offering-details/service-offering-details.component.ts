@@ -27,7 +27,7 @@ export class ServiceOfferingDetailsComponent {
 
   public changeServiceOffering(): void {
     this.dialog.open(ServiceOfferingDialogComponent, <MdDialogConfig>{
-      panelClass: 'service-offering-dialog',
+      width: '350px',
       data: { virtualMachine: this.vm },
       disableClose: true
     })

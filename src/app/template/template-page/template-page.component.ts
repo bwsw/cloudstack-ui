@@ -39,7 +39,7 @@ export class TemplatePageComponent implements OnInit {
     this.dialog.open(TemplateCreationComponent, {
        data: { mode: this.viewMode },
        disableClose: true,
-       panelClass: 'template-creation-dialog'
+       width: '720px'
     }).afterClosed()
       .subscribe(templateData => {
         if (templateData) {

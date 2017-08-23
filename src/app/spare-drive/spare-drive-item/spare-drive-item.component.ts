@@ -66,7 +66,7 @@ export class SpareDriveItemComponent implements OnInit {
          volume: this.item,
          zoneId: this.item.zoneId
        },
-       panelClass: 'spare-drive-attachment-dialog'
+       width: '375px'
      }).afterClosed()
       .subscribe(virtualMachineId => {
         if (!virtualMachineId) {
@@ -92,7 +92,7 @@ export class SpareDriveItemComponent implements OnInit {
          volume: this.item,
          diskOfferingList: this.diskOfferings
        },
-      panelClass: 'volume-resize-dialog'
+      width: '370px'
     }).afterClosed()
       .subscribe(resizedVolume => {
         if (resizedVolume) {

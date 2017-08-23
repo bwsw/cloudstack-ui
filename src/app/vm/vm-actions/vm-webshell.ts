@@ -1,6 +1,6 @@
 import { VirtualMachineAction, VmActions } from './vm-action';
 import { VirtualMachine } from '../shared/vm.model';
-import { DialogsService } from '../../dialog/dialog-service/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { VmService } from '../shared/vm.service';
 import { WebShellService } from '../web-shell/web-shell.service';
 import { Observable } from 'rxjs/Observable';
@@ -15,12 +15,12 @@ export class VmWebShellAction extends VirtualMachineAction {
   public icon = 'computer';
 
   constructor(
-    protected dialogsService: DialogsService,
+    protected dialogService: DialogService,
     protected jobsNotificationService: JobsNotificationService,
     protected vmService: VmService,
     protected webShellService: WebShellService
   ) {
-    super(dialogsService, jobsNotificationService, vmService);
+    super(dialogService, jobsNotificationService, vmService);
   }
 
   public activate(vm: VirtualMachine): Observable<void> {

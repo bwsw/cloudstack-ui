@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'cs-iso-attachment',
   templateUrl: 'iso-attachment.component.html',
-  styleUrls: ['iso-attachment.component.scss', '../../shared/styles/iso-dialog.scss']
+  styleUrls: ['../../shared/styles/iso-dialog.scss']
 })
 export class IsoAttachmentComponent {
   public selectedIso: Iso;

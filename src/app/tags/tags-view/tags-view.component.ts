@@ -59,7 +59,7 @@ export class TagsViewComponent implements OnChanges {
   public addTag(category?: TagCategory): void {
     const forbiddenKeys = category ? category.tags.map(_ => _.key) : [];
     this.dialog.open(TagEditComponent, {
-      panelClass: 'tag-edit',
+      width: '375px',
       data: {
         forbiddenKeys: forbiddenKeys,
         title: 'TAGS.CREATE_NEW_TAG',
@@ -73,7 +73,7 @@ export class TagsViewComponent implements OnChanges {
 
   public editTag(tag: Tag): void {
     this.dialog.open(TagEditComponent, {
-      panelClass: 'tag-edit',
+      width: '375px',
       data: {
         title: 'TAGS.EDIT_TAG',
         confirmButtonText: 'COMMON.EDIT',
