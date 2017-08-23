@@ -166,7 +166,7 @@ export class EventListComponent implements OnInit {
     }, types);
   }
 
-  private initTableModel(translations: any): void {
+  private initTableModel(): void {
     this.tableColumns = ['description', 'level', 'type', 'time'];
   }
 

@@ -1,42 +1,35 @@
-<md-table [dataSource]="policyViewsDS" mdSort>
-  <!--Time Column-->
-  <ng-container cdkColumnDef="time">
-    <md-header-cell *cdkHeaderCellDef md-sort-header>
+<table class="mat-table">
+  <thead>
+  <tr class="mat-header-row">
+    <th class="mat-header-cell">
       {{ 'SNAPSHOT_POLICIES.TIME' | translate }}
-    </md-header-cell>
-    <md-cell *cdkCellDef="let row">{{ row.timeValue }}</md-cell>
-  </ng-container>
-
-  <!--Period Column-->
-  <ng-container cdkColumnDef="period">
-    <md-header-cell *cdkHeaderCellDef md-sort-header></md-header-cell>
-    <md-cell *cdkCellDef="let row">{{ row.periodToken | translate: { value:
-      row.periodValue | translate } }}
-    </md-cell>
-  </ng-container>
-
-  <!--Time Zone Column-->
-  <ng-container cdkColumnDef="timeZone">
-    <md-header-cell *cdkHeaderCellDef md-sort-header>
-      {{ 'SNAPSHOT_POLICIES.TIME_ZONE' | translate }}
-    </md-header-cell>
-    <md-cell *cdkCellDef="let row">{{ row.timeZone }}</md-cell>
-  </ng-container>
-
-  <!--Keep Column-->
-  <ng-container cdkColumnDef="keep">
-    <md-header-cell *cdkHeaderCellDef md-sort-header>
-      {{ 'SNAPSHOT_POLICIES.KEEP' | translate }}
-    </md-header-cell>
-    <md-cell *cdkCellDef="let row">{{ row.keep }}</md-cell>
-  </ng-container>
-
-  <!--Actions Column-->
-  <ng-container cdkColumnDef="actions">
-    <md-header-cell *cdkHeaderCellDef md-sort-header></md-header-cell>
-    <md-cell *cdkCellDef="let row">
+    </th>
+    <th class="mat-header-cell"></th>
+    <th class="mat-header-cell">{{ 'SNAPSHOT_POLICIES.TIME_ZONE' | translate }}</th>
+    <th class="mat-header-cell">{{ 'SNAPSHOT_POLICIES.KEEP' | translate }}</th>
+    <th class="mat-header-cell"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr class="mat-row"
+    *ngFor="let p of policyViews"
+    (click)="handlePolicyRowClick(p)"
+  >
+    <td class="mat-cell">
+      {{ p.timeToken | translate:{ value: p.timeValue } }}
+    </td>
+    <td class="mat-cell">
+      {{ p.periodToken | translate: { value: p.periodValue | translate } }}
+    </td>
+    <td class="mat-cell">
+      {{ p.timeZone }}
+    </td>
+    <td class="mat-cell">
+      {{ p.keep }}
+    </td>
+    <td class="mat-cell">
       <button
-        (click)="deletePolicy(row)"
+        (click)="deletePolicy(p)"
         [mdTooltip]="'COMMON.DELETE' | translate"
         mdl-button
         mdl-button-type="icon"
@@ -44,9 +37,7 @@
       >
         <md-icon>delete</md-icon>
       </button>
-    </md-cell>
-  </ng-container>
-
-  <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-  <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
-</md-table>
+    </td>
+  </tr>
+  </tbody>
+</table>

@@ -51,6 +51,7 @@
       <cs-table
         *ngIf="visibleEvents?.length"
         mdl-shadow="2"
+        [tableId]="'EVENT_PAGE'"
         [columns]="tableColumns"
         [table-model]="tableModel"
         [searchQuery]="query"

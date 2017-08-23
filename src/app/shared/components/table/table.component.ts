@@ -10,6 +10,7 @@ export class TableComponent implements OnChanges {
   @Input('table-model') public model: any[];
   @Input() public columns: string[];
   @Input('table-model-selected') public selected: any;
+  @Input() public tableId: string;
   @Input() public selectable = false;
   @Input() public searchQuery: string;
   @Output() public selectionChange = new EventEmitter();

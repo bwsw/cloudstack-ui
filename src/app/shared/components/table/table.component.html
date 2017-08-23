@@ -19,7 +19,7 @@
   <ng-container *ngFor="let column of columns">
     <ng-container [cdkColumnDef]="column">
       <md-header-cell *cdkHeaderCellDef md-sort-header>
-        {{ column.toUpperCase() | translate }}
+        {{ tableId.toUpperCase() + '.' + column.toUpperCase() | translate }}
       </md-header-cell>
       <md-cell *cdkCellDef="let row">
         {{ row[column] }}
