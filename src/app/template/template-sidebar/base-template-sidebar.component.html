@@ -1,5 +1,5 @@
 <div *ngIf="template">
-  <md-tab-group md-selected="0">
+  <md-tab-group [selectedIndex]="0">
     <md-tab>
       <ng-template md-tab-label>
         <div [mdTooltip]="'TEMPLATE_PAGE.SIDEBAR.TEMPLATE' | translate" class="md-tab-tooltip">
