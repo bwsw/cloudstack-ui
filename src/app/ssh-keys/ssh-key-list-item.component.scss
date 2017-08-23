@@ -13,3 +13,8 @@
 :host md-card-title md-icon {
   margin-right: 10px;
 }
+
+:host md-card-content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
