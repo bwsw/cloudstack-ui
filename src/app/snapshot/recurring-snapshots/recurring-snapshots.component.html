@@ -4,7 +4,7 @@
 <div class="mat-dialog-content">
 
   <md-tab-group
-    md-selected="policyMode"
+    [selectedIndex]="policyMode"
     (selectChange)="tabChanged($event)"
   >
     <md-tab label="{{ 'SNAPSHOT_POLICIES.HOURLY' | translate }}"></md-tab>
