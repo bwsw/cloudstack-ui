@@ -1,11 +1,11 @@
 <cs-list>
-  <cs-top-bar cs-panels>
-    <cs-spare-drive-filter
-      [zones]="zones"
-      [groupings]="groupings"
-      (updateFilters)="updateFiltersAndFilter($event)"
-    ></cs-spare-drive-filter>
-  </cs-top-bar>
+  <cs-spare-drive-filter
+    [zones]="zones"
+    [groupings]="groupings"
+    [searchPanelWhite]="selectedGroupings?.length"
+    (updateFilters)="updateFiltersAndFilter($event)"
+    cs-list
+  ></cs-spare-drive-filter>
 
   <cs-spare-drive-list
     *loading="!volumes"

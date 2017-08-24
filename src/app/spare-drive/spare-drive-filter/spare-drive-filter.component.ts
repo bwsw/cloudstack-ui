@@ -22,6 +22,7 @@ export const spareDriveListFilters = 'spareDriveListFilters';
 export class SpareDriveFilterComponent implements OnChanges {
   @Input() public zones: Array<Zone>;
   @Input() public groupings: Array<any>;
+  @Input() public searchPanelWhite: boolean;
   @Output() public updateFilters: EventEmitter<SpareDriveFilter>;
 
   private filtersKey = 'vmListFilters';
@@ -29,6 +30,7 @@ export class SpareDriveFilterComponent implements OnChanges {
   public spareOnly: boolean;
   public selectedZones: Array<Zone> = [];
   public selectedGroupingNames = [];
+  public query: string;
 
   private filterService = new FilterService({
     spareOnly: { type: 'boolean', defaultOption: false },
