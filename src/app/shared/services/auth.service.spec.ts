@@ -4,17 +4,18 @@ import { BaseRequestOptions, Http, HttpModule, XHRBackend } from '@angular/http'
 import { MockBackend } from '@angular/http/testing';
 import { NavigationExtras, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-
-import { RouterUtilsService } from './router-utils.service';
-import { ServiceLocator } from './service-locator';
-import { UserService } from './user.service';
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
-import { LocalStorageService } from './local-storage.service';
-import { CacheService } from './cache.service';
+import { MockUserTagService } from '../../../testutils/mocks/tag-services/mock-user-tag.service';
 import { AsyncJobService } from './async-job.service';
 import { AuthService } from './auth.service';
+import { CacheService } from './cache.service';
 import { ConfigService } from './config.service';
 import { ErrorService } from './error.service';
+import { LocalStorageService } from './local-storage.service';
+import { RouterUtilsService } from './router-utils.service';
+import { ServiceLocator } from './service-locator';
+import { UserTagService } from './tags/user-tag.service';
+import { UserService } from './user.service';
 
 
 @Component({
@@ -37,19 +38,7 @@ class Tag {
 
 @Injectable()
 class MockUserService {
-  private tags = [];
-
   public getList(): Observable<any> {
-    return Observable.of(null);
-  }
-
-  public readTag(key: string): Observable<string> {
-    const result = this.tags.find(tag => tag.key === key);
-    return Observable.of(result && result.value || null);
-  }
-
-  public writeTag(key: string, value: string): Observable<void> {
-    this.tags.push(new Tag(key, value));
     return Observable.of(null);
   }
 }
@@ -125,6 +114,7 @@ const testBedConfig = {
     { provide: ConfigService, useClass: MockConfigService },
     { provide: ErrorService, useClass: MockErrorService },
     { provide: UserService, useClass: MockUserService },
+    { provide: UserTagService, useClass: MockUserTagService },
     { provide: Router, useClass: MockRouter },
     { provide: RouterUtilsService, useClass: MockRouterUtilsService },
     { provide: LocalStorageService, useClass: MockStorageService },
@@ -158,7 +148,7 @@ describe('Auth service session', () => {
     authService.getInactivityTimeout()
       .subscribe(timeout => expect(timeout).toBe(0));
     authService.setInactivityTimeout(1)
-      .switchMapTo(authService.getInactivityTimeout())
+      .switchMap(() => authService.getInactivityTimeout())
       .subscribe(timeout => expect(timeout).toBe(1));
   });
 

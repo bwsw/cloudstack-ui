@@ -2,12 +2,17 @@ import { Injectable } from '@angular/core';
 import { LocalStorageService } from './local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { UserService } from './user.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DayOfWeek } from '../types/day-of-week';
+import { UserTagService } from './tags/user-tag.service';
 
 
-const DEFAULT_LANGUAGE = 'en';
+export enum Language {
+  en = 'en',
+  ru = 'ru'
+}
+
+const DEFAULT_LANGUAGE = Language.en;
 
 export enum TimeFormat {
   hour12 = 'hour12',
@@ -23,21 +28,21 @@ export class LanguageService {
   constructor(
     private storage: LocalStorageService,
     private translate: TranslateService,
-    private userService: UserService
+    private userTagService: UserTagService
   ) {
     this.initializeFirstDayOfWeek();
     this.initializeTimeFormat();
   }
 
-  public getLanguage(): Observable<string> {
-    return this.userService.readTag('csui.user.lang').map(lang => {
-      return lang || this.defaultLanguage;
-    });
+  public getLanguage(): Observable<Language> {
+    return this.userTagService.getLang()
+      .map(lang => lang || this.defaultLanguage);
   }
 
-  public setLanguage(lang: string): void {
+  public setLanguage(lang: Language): void {
     this.storage.write('lang', lang);
-    this.userService.writeTag('csui.user.lang', lang).subscribe(() => this.applyLanguage());
+    this.userTagService.setLang(lang)
+      .subscribe(() => this.applyLanguage());
   }
 
   public applyLanguage(): void {
@@ -48,9 +53,9 @@ export class LanguageService {
   }
 
   public getFirstDayOfWeek(): Observable<DayOfWeek> {
-    return this.userService.readTag('csui.user.first-day-of-week')
+    return this.userTagService.getFirstDayOfWeek()
       .map(dayRaw => {
-        const fallbackDay = this.storage.read('lang') === 'en' ? DayOfWeek.Sunday : DayOfWeek.Monday;
+        const fallbackDay = this.storage.read('lang') === Language.en ? DayOfWeek.Sunday : DayOfWeek.Monday;
         if (dayRaw === undefined) {
           return fallbackDay;
         }
@@ -62,14 +67,13 @@ export class LanguageService {
       });
   }
 
-  public setFirstDayOfWeek(day: number): Observable<number> {
-    return this.userService.writeTag('csui.user.first-day-of-week', '' + day)
-      .mapTo(day)
-      .do(_ => this.firstDayOfWeek.next(day))
+  public setFirstDayOfWeek(day: DayOfWeek): Observable<DayOfWeek> {
+    return this.userTagService.setFirstDayOfWeek(day)
+      .do(_ => this.firstDayOfWeek.next(day));
   }
 
-  public getTimeFormat(): Observable<string> {
-    return this.userService.readTag('csui.user.time-format')
+  public getTimeFormat(): Observable<TimeFormat> {
+    return this.userTagService.getTimeFormat()
       .map(timeFormat => {
         switch (timeFormat) {
           case TimeFormat.hour12:
@@ -81,14 +85,12 @@ export class LanguageService {
       });
   }
 
-  public setTimeFormat(timeFormat: string): Observable<string> {
-    return (
-      timeFormat === TimeFormat.AUTO
-        ? this.userService.removeTag('csui.user.time-format')
-        : this.userService.writeTag('csui.user.time-format', timeFormat)
-    )
-      .map(() => timeFormat)
-      .do(_ => this.timeFormat.next(_));
+  public setTimeFormat(timeFormat: TimeFormat): Observable<string> {
+    if (timeFormat === TimeFormat.AUTO) {
+      return this.userTagService.removeTimeFormat().map(() => TimeFormat.AUTO);
+    }
+
+    return this.userTagService.setTimeFormat(timeFormat);
   }
 
   public initializeFirstDayOfWeek(): void {
@@ -97,9 +99,9 @@ export class LanguageService {
     });
   }
 
-  private get defaultLanguage(): string {
+  private get defaultLanguage(): Language {
     const language = navigator.language && navigator.language.substr(0, 2);
-    if (language === 'ru' || language === 'en') {
+    if (language === Language.ru || language === Language.en) {
       return language;
     }
     return DEFAULT_LANGUAGE;

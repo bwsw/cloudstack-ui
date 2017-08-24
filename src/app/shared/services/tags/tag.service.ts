@@ -1,12 +1,13 @@
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { BackendResource } from '../decorators/backend-resource.decorator';
-import { Taggable } from '../interfaces/taggable.interface';
+import { BackendResource } from '../../decorators/backend-resource.decorator';
+import { Taggable } from '../../interfaces/taggable.interface';
+import { Tag } from '../../models/tag.model';
+import { AsyncJobService } from '../async-job.service';
+import { BaseBackendCachedService } from '../base-backend-cached.service';
 
-import { Tag } from '../models/tag.model';
-import { AsyncJobService } from './async-job.service';
-import { BaseBackendCachedService } from './base-backend-cached.service';
 
-
+@Injectable()
 @BackendResource({
   entity: 'Tag',
   entityModel: Tag
@@ -30,12 +31,13 @@ export class TagService extends BaseBackendCachedService<Tag> {
   }
 
   public getList(params?: {}): Observable<Array<Tag>> {
-    const customApiFormat = { command: 'list', entity: 'Tag' };
+    const customApiFormat = {command: 'list', entity: 'Tag'};
     return super.getList(params, customApiFormat);
   }
 
   public getTag(entity: any, key: string): Observable<Tag> {
-    return this.getList({ resourceId: entity.id, key }).map(tags => tags.length ? tags[0] : undefined);
+    return this.getList({resourceId: entity.id, key})
+      .map(tags => tags[0]);
   }
 
   public update(entity: any, entityName: string, key: string, value: any): Observable<any> {
@@ -86,6 +88,12 @@ export class TagService extends BaseBackendCachedService<Tag> {
       return Observable.of(null);
     } else {
       return Observable.forkJoin(...copyRequests);
+    }
+  }
+
+  public getValueFromTag(tag: Tag): any {
+    if (tag) {
+      return tag.value;
     }
   }
 }

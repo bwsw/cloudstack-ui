@@ -1,21 +1,18 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { DiskOffering, Volume, VolumeType, Zone, } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
-import { UserService } from '../../shared/services/user.service';
+import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { SpareDriveActionsService } from '../spare-drive-actions.service';
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
 import { SpareDriveFilter } from '../spare-drive-filter/spare-drive-filter.component';
 
-
-const askToCreateVolume = 'csui.user.ask-to-create-volume';
 
 export interface VolumeCreationData {
   name: string;
@@ -56,7 +53,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     private jobsNotificationService: JobsNotificationService,
     private listService: ListService,
     private spareDriveActionsService: SpareDriveActionsService,
-    private userService: UserService,
+    private userTagService: UserTagService,
     private volumeService: VolumeService,
     private zoneService: ZoneService
   ) {}
@@ -186,9 +183,9 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   }
 
   private showSuggestionDialog(): void {
-    this.userService.readTag(askToCreateVolume)
+    this.userTagService.getAskToCreateVolume()
       .subscribe(tag => {
-        if (tag === 'false') {
+        if (tag === false) {
           return;
         }
 
@@ -201,8 +198,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
             },
             { text: 'COMMON.NO' },
             {
-              handler: () => this.userService.writeTag(askToCreateVolume, 'false')
-                .subscribe(),
+              handler: () => this.userTagService.setAskToCreateVolume(false).subscribe(),
               text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
             }
           ],

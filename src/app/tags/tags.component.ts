@@ -4,8 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../dialog/dialog-module/dialog.service';
 import { Taggable } from '../shared/interfaces/taggable.interface';
 import { Tag } from '../shared/models';
-import { TagService } from '../shared/services/tag.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
+import { TagService } from '../shared/services/tags/tag.service';
 import { KeyValuePair, TagEditAction } from './tags-view/tags-view.component';
 
 
