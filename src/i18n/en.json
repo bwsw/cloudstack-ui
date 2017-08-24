@@ -538,6 +538,7 @@
 
   "SPARE_DRIVE_PAGE": {
     "FILTERS": {
+      "SPARE_DRIVES_ONLY": "Spare drives only",
       "SELECT_ZONES": "Select zones",
 
       "GROUP_BY": "Group by",

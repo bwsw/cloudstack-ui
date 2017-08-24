@@ -70,16 +70,17 @@ export class VolumeService extends BaseBackendService<Volume> {
           (snapshot: Snapshot) => snapshot.volumeId === volume.id
         );
       });
+      volumes = volumes.filter(volume => !volume.isDeleted);
       return volumes;
     });
   }
 
   public getSpareList(params?: {}): Observable<Array<Volume>> {
-    return this.getList(params).map(volumes => {
-      return volumes.filter((volume: Volume) => {
-        return !volume.virtualMachineId && !volume.isDeleted;
-      });
-    });
+    return this.getList(params).map(volumes => this.getSpareListSync(volumes));
+  }
+
+  public getSpareListSync(volumes: Array<Volume>): Array<Volume> {
+    return volumes.filter(volume => !volume.virtualMachineId);
   }
 
   public resize(params: VolumeResizeData): Observable<Volume> {

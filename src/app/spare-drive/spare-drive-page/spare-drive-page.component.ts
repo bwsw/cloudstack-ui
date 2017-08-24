@@ -1,5 +1,4 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
@@ -7,17 +6,15 @@ import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { DiskOffering, Volume, VolumeType, Zone, } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
-import { FilterService } from '../../shared/services/filter.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { UserService } from '../../shared/services/user.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { SpareDriveActionsService } from '../spare-drive-actions.service';
 import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
+import { SpareDriveFilter } from '../spare-drive-filter/spare-drive-filter.component';
 
 
-const spareDriveListFilters = 'spareDriveListFilters';
 const askToCreateVolume = 'csui.user.ask-to-create-volume';
 
 export interface VolumeCreationData {
@@ -37,10 +34,8 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   @HostBinding('class.detail-list-container') public detailListContainer = true;
   public volumes: Array<Volume>;
   public zones: Array<Zone>;
-  public selectedZones: Array<Zone> = [];
   public visibleVolumes: Array<Volume>;
 
-  public selectedGroupingNames = [];
   public selectedGroupings = [];
   public groupings = [
     {
@@ -51,15 +46,11 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     }
   ];
 
-  private filterService = new FilterService({
-    zones: { type: 'array', defaultOption: [] },
-    groupings: { type: 'array', defaultOption: [] }
-  }, this.router, this.localStorage, spareDriveListFilters, this.activatedRoute);
+  public filterData: any;
+
   private onDestroy = new Subject();
 
   constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private jobsNotificationService: JobsNotificationService,
@@ -67,10 +58,8 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     private spareDriveActionsService: SpareDriveActionsService,
     private userService: UserService,
     private volumeService: VolumeService,
-    private zoneService: ZoneService,
-    private localStorage: LocalStorageService
-  ) {
-  }
+    private zoneService: ZoneService
+  ) {}
 
   public ngOnInit(): void {
     this.listService.onAction
@@ -84,53 +73,56 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     Observable.forkJoin(
       this.updateVolumeList(),
       this.updateZones()
-    ).subscribe(() => this.initFilters());
+    )
+      .subscribe(() => this.filter());
   }
 
   public ngOnDestroy(): void {
     this.onDestroy.next();
   }
 
-  public initFilters(): void {
-    const params = this.filterService.getParams();
-    this.selectedZones = this.zones.filter(zone =>
-      params['zones'].find(id => id === zone.id)
-    );
-    this.selectedGroupingNames = params.groupings.reduce((acc, _) => {
-      const grouping = this.groupings.find(g => g.key === _);
-      if (grouping) {
-        acc.push(grouping);
-      }
-      return acc;
-    }, []);
-
-    this.update();
+  public updateFiltersAndFilter(filterData: SpareDriveFilter): void {
+    this.filterData = filterData;
+    this.filter();
   }
 
-  public update(): void {
-    this.filterZones();
+  public filter(): void {
+    if (!this.volumes || !this.volumes.length) {
+      return;
+    }
+
+    if (!this.filterData) {
+      this.visibleVolumes = this.volumes;
+      return;
+    }
+
     this.updateGroupings();
 
-    this.filterService.update(spareDriveListFilters, {
-      zones: this.selectedZones.map(_ => _.id),
-      groupings: this.selectedGroupingNames.map(_ => _.key)
-    });
+    const { selectedZones, spareOnly } = this.filterData;
+    this.visibleVolumes = this.filterVolumesByZones(this.volumes, selectedZones);
+    this.visibleVolumes = this.filterVolumesBySpare(this.visibleVolumes, spareOnly);
   }
 
   public updateGroupings(): void {
-    this.selectedGroupings = this.selectedGroupingNames.reduce((acc, g) => {
+    this.selectedGroupings = this.filterData.groupings.reduce((acc, g) => {
       acc.push(this.groupings.find(_ => _ === g));
       return acc;
     }, []);
   }
 
-  public filterZones(): void {
-    if (this.selectedZones.length) {
-      this.visibleVolumes = this.volumes.filter(volume =>
-        this.selectedZones.some(z => volume.zoneId === z.id)
-      );
+  public filterVolumesByZones(volumes: Array<Volume>, selectedZones: Array<Zone>): Array<Volume> {
+    if (selectedZones.length) {
+      return volumes.filter(volume => selectedZones.some(z => volume.zoneId === z.id));
     } else {
-      this.visibleVolumes = this.volumes;
+      return volumes;
+    }
+  }
+
+  public filterVolumesBySpare(volumes: Array<Volume>, spareOnly = false): Array<Volume> {
+    if (spareOnly) {
+      return this.volumeService.getSpareListSync(this.volumes);
+    } else {
+      return volumes;
     }
   }
 
@@ -155,7 +147,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
             this.listService.deselectItem();
           }
           this.jobsNotificationService.finish({ message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_DONE' });
-          this.update();
+          this.filter();
         },
         error => {
           this.dialogService.alert(error);
@@ -174,7 +166,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
       .subscribe((volume: Volume) => {
         if (volume) {
           this.volumes.push(volume);
-          this.update();
+          this.filter();
         }
       });
   }
@@ -185,12 +177,12 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     if (this.listService.isSelected(volume.id)) {
       this.listService.showDetails(volume.id);
     }
-    this.update();
+    this.filter();
   }
 
   private onVolumeAttached(): void {
     this.updateVolumeList().subscribe();
-    this.update();
+    this.filter();
   }
 
   private showSuggestionDialog(): void {
@@ -235,7 +227,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     return this.diskOfferingService.getList({ type: VolumeType.DATADISK })
       .switchMap((offerings: Array<DiskOffering>) => {
         diskOfferings = offerings;
-        return this.volumeService.getSpareList();
+        return this.volumeService.getList();
       })
       .map(volumes => {
         this.volumes = volumes
@@ -247,7 +239,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
 
         this.visibleVolumes = volumes;
         if (this.volumes.length) {
-          this.update();
+          this.filter();
         } else {
           this.showSuggestionDialog();
         }

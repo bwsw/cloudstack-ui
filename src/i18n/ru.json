@@ -538,6 +538,7 @@
 
   "SPARE_DRIVE_PAGE": {
     "FILTERS": {
+      "SPARE_DRIVES_ONLY": "Только свободные диски",
       "SELECT_ZONES": "Выберите зоны",
 
       "GROUP_BY": "Группировать по",

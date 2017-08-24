@@ -2,7 +2,10 @@ import { MdlModule } from '@angular-mdl/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdSelectModule, MdTooltipModule, MdMenuModule, MdButtonModule, MdIconModule } from '@angular/material';
+import {
+  MdSelectModule, MdTooltipModule, MdMenuModule, MdButtonModule, MdIconModule,
+  MdCheckboxModule
+} from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 
@@ -15,7 +18,10 @@ import { SpareDriveListComponent } from './spare-drive-list/spare-drive-list.com
 import { SpareDrivePageComponent } from './spare-drive-page/spare-drive-page.component';
 import { SpareDriveSidebarComponent } from './spare-drive-sidebar/spare-drive-sidebar.component';
 import { spareDrivesRouting } from './spare-drive.routing';
-import { SpareDriveSidebarVolumeComponent } from './spare-drive-sidebar/spare-drive-sidebar-volume/spare-drive-sidebar-volume.component';
+import {
+  SpareDriveSidebarVolumeComponent
+} from './spare-drive-sidebar/spare-drive-sidebar-volume/spare-drive-sidebar-volume.component';
+import { SpareDriveFilterComponent } from './spare-drive-filter/spare-drive-filter.component';
 
 
 @NgModule({
@@ -23,6 +29,7 @@ import { SpareDriveSidebarVolumeComponent } from './spare-drive-sidebar/spare-dr
     CommonModule,
     FormsModule,
     TranslateModule,
+    MdCheckboxModule,
     MdSelectModule,
     MdTooltipModule,
     MdlModule,
@@ -39,6 +46,7 @@ import { SpareDriveSidebarVolumeComponent } from './spare-drive-sidebar/spare-dr
     SpareDriveSidebarVolumeComponent,
     SpareDriveAttachmentComponent,
     SpareDriveCreationComponent,
+    SpareDriveFilterComponent,
     SpareDriveItemComponent,
     SpareDriveListComponent
   ],

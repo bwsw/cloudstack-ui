@@ -1,0 +1,31 @@
+<md-checkbox
+  name="spareDriveOnly"
+  [(ngModel)]="spareOnly"
+  (change)="update()"
+>
+  {{ 'SPARE_DRIVE_PAGE.FILTERS.SPARE_DRIVES_ONLY' | translate }}
+</md-checkbox>
+
+<md-select
+  *ngIf="zones"
+  class="filter-select"
+  multiple="true"
+  [placeholder]="'SPARE_DRIVE_PAGE.FILTERS.SELECT_ZONES' | translate"
+  [(ngModel)]="selectedZones"
+  (change)="update()"
+>
+  <md-option *ngFor="let z of zones" [value]="z">{{ z.name }}</md-option>
+</md-select>
+<cs-divider-vertical></cs-divider-vertical>
+<md-select
+  *ngIf="zones"
+  class="filter-select"
+  multiple="true"
+  [placeholder]="'SPARE_DRIVE_PAGE.FILTERS.GROUP_BY' | translate"
+  [(ngModel)]="selectedGroupingNames"
+  (change)="update()"
+>
+  <md-option *ngFor="let g of groupings" [value]="g">
+    {{ g.label | translate }}
+  </md-option>
+</md-select>
