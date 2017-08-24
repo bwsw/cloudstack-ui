@@ -4,8 +4,8 @@ import { ListService } from '../../shared/components/list/list.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { SecurityGroup } from '../sg.model';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag-keys';
-import { Router } from '@angular/router';
 
 
 @Component({
@@ -23,8 +23,10 @@ export class SgTemplateListComponent implements OnInit {
     private listService: ListService,
     private notificationService: NotificationService,
     private securityGroupService: SecurityGroupService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {
+  }
 
   public ngOnInit(): void {
     this.update();
@@ -59,7 +61,10 @@ export class SgTemplateListComponent implements OnInit {
       this.update();
     });
 
-    this.router.navigate(['/sg-templates/create']);
+    this.router.navigate(['./create'], {
+      preserveQueryParams: true,
+      relativeTo: this.activatedRoute
+    });
   }
 
   private update() {

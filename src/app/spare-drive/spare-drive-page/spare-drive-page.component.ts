@@ -13,6 +13,7 @@ import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { SpareDriveActionsService } from '../spare-drive-actions.service';
+import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -30,7 +31,7 @@ export interface VolumeCreationData {
   styleUrls: ['spare-drive-page.component.scss'],
   providers: [ListService]
 })
-export class SpareDrivePageComponent implements OnInit, OnDestroy {
+export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit, OnDestroy {
   @HostBinding('class.detail-list-container') public detailListContainer = true;
   public volumes: Array<Volume>;
   public zones: Array<Zone>;
@@ -67,15 +68,16 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     private zoneService: ZoneService,
     private localStorage: LocalStorageService
   ) {
+    super();
   }
 
   public ngOnInit(): void {
     this.spareDriveActionsService.onVolumeAttachment
-      .takeUntil(this.onDestroy)
+      .takeUntil(this.unsubscribe$)
       .subscribe(() => this.onVolumeAttached());
 
     this.listService.onUpdate
-      .takeUntil(this.onDestroy)
+      .takeUntil(this.unsubscribe$)
       .subscribe((volume: Volume) => {
         if (volume) {
           this.volumes.push(volume);
@@ -87,10 +89,6 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
       this.updateVolumeList(),
       this.updateZones()
     ).subscribe(() => this.initFilters());
-  }
-
-  public ngOnDestroy(): void {
-    this.onDestroy.next();
   }
 
   public initFilters(): void {
@@ -167,8 +165,10 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
   }
 
   public showCreationDialog(): void {
-    this.router.navigate(['/spare-drives/create']);
-  }
+    this.router.navigate(['./create'], {
+      preserveQueryParams: true,
+      relativeTo: this.activatedRoute
+    });  }
 
   public updateVolume(volume: Volume): void {
     this.volumes = this.volumes.map(vol => vol.id === volume.id ? volume : vol);

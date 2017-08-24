@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SpareDriveCreationComponent } from './spare-drive-creation.component';
 import { Volume } from '../../shared/models/volume.model';
 import { ListService } from '../../shared/components/list/list.service';
@@ -13,7 +13,8 @@ export class SpareDriveCreationDialogComponent implements OnInit {
   constructor(
     private dialogService: DialogService,
     private router: Router,
-    private listService: ListService,
+    private activatedRoute: ActivatedRoute,
+    private listService: ListService
   ) {
   }
 
@@ -28,7 +29,10 @@ export class SpareDriveCreationDialogComponent implements OnInit {
         if (volume) {
           this.listService.onUpdate.emit(volume);
         }
-        this.router.navigate(['/spare-drives']);
+        this.router.navigate(['../'], {
+          preserveQueryParams: true,
+          relativeTo: this.activatedRoute
+        });
       });
   }
 }

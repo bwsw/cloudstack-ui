@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { VmCreationComponent } from './vm-creation.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'cs-vm-create-dialog',
@@ -10,7 +10,8 @@ import { Router } from '@angular/router';
 export class VmCreationDialogComponent implements OnInit {
   constructor(
     private dialogService: DialogService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
   }
 
@@ -22,7 +23,10 @@ export class VmCreationDialogComponent implements OnInit {
     })
       .switchMap(res => res.onHide())
       .subscribe(() => {
-         this.router.navigate(['/instances']);
+         this.router.navigate(['../'], {
+           preserveQueryParams: true,
+           relativeTo: this.activatedRoute
+         });
       });
 
   }

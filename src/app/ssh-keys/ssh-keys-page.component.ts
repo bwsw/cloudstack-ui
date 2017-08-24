@@ -3,7 +3,7 @@ import { DialogService } from '../dialog/dialog-module/dialog.service';
 import { SSHKeyPair } from '../shared/models';
 import { SSHKeyPairService } from '../shared/services/ssh-keypair.service';
 import * as sortBy from 'lodash/sortBy';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ListService } from '../shared/components/list/list.service';
 
 
@@ -21,6 +21,7 @@ export class SshKeysPageComponent implements OnInit {
     private sshKeyService: SSHKeyPairService,
     private listService: ListService,
     private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
   }
 
@@ -31,8 +32,10 @@ export class SshKeysPageComponent implements OnInit {
   }
 
   public showCreationDialog(): void {
-    this.router.navigate(['/ssh-keys/create']);
-  }
+    this.router.navigate(['./create'], {
+      preserveQueryParams: true,
+      relativeTo: this.activatedRoute
+    });  }
 
   public removeKey(name: string): void {
     this.showRemovalDialog(name);

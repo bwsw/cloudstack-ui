@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SShKeyCreationDialogComponent } from './ssh-key-creation-dialog.component';
 import { SshPrivateKeyDialogComponent } from './ssh-private-key-dialog.component';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
@@ -14,6 +14,7 @@ export class SshKeyCreationComponent implements OnInit {
   constructor(
     private dialogService: DialogService,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private listService: ListService
   ) {
   }
@@ -48,7 +49,10 @@ export class SshKeyCreationComponent implements OnInit {
     })
       .switchMap(res => res.onHide())
       .subscribe(() => {
-        this.router.navigate(['/ssh-keys']);
+        this.router.navigate(['../'], {
+          preserveQueryParams: true,
+          relativeTo: this.activatedRoute
+        });
       });
   }
 }

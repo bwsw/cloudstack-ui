@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TemplateCreationComponent } from './template-creation.component';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { ListService } from '../../shared/components/list/list.service';
@@ -14,15 +14,15 @@ export class TemplateCreationDialogComponent implements OnInit {
     private listService: ListService,
     private dialogService: DialogService,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private storageService: LocalStorageService
   ) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     const viewMode = this.storageService.read('templateDisplayMode') || 'Template';
 
     this.dialogService.showCustomDialog({
-
       component: TemplateCreationComponent,
       classes: 'template-creation-dialog dialog-overflow-visible',
       providers: [{ provide: 'mode', useValue: viewMode }],
@@ -34,7 +34,10 @@ export class TemplateCreationDialogComponent implements OnInit {
           this.listService.onUpdate.emit(templateData);
         }
 
-        this.router.navigate(['/templates']);
+        this.router.navigate(['../'], {
+          preserveQueryParams: true,
+          relativeTo: this.activatedRoute
+        });
       });
   }
 }

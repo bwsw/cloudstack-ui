@@ -5,7 +5,7 @@ import { LocalStorageService } from '../../shared/services/local-storage.service
 import { BaseTemplateModel, Iso, IsoService, Template, TemplateService } from '../shared';
 import { TemplateFilters } from '../shared/base-template.service';
 import { TemplateActionsService } from '../shared/template-actions.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -25,7 +25,8 @@ export class TemplatePageComponent implements OnInit {
     private templateActions: TemplateActionsService,
     private templateService: TemplateService,
     private isoService: IsoService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
   }
 
@@ -36,7 +37,10 @@ export class TemplatePageComponent implements OnInit {
   }
 
   public showCreationDialog(): void {
-    this.router.navigate(['/templates/create']);
+    this.router.navigate(['./create'], {
+      preserveQueryParams: true,
+      relativeTo: this.activatedRoute
+    });
   }
 
   public removeTemplate(template: BaseTemplateModel): void {

@@ -11,7 +11,7 @@ import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VmActionsService } from '../shared/vm-actions.service';
 import { VirtualMachine, VmState } from '../shared/vm.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { VirtualMachineEntityName, VmService } from '../shared/vm.service';
 import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list-item.component';
@@ -76,6 +76,7 @@ export class VmListComponent implements OnInit {
     private vmActionsService: VmActionsService,
     private vmTagService: VmTagService,
     private zoneService: ZoneService,
+    private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
     this.showDetail = this.showDetail.bind(this);
@@ -140,7 +141,11 @@ export class VmListComponent implements OnInit {
   }
 
   public showVmCreationDialog(): void {
-    this.router.navigate(['/instances/create']);
+    console.log(this.activatedRoute);
+    this.router.navigate(['./create'], {
+      preserveQueryParams: true,
+      relativeTo: this.activatedRoute
+    });
   }
 
   private getVmList(): void {

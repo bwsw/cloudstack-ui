@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SgTemplateCreationComponent } from './sg-template-creation.component';
 import { SecurityGroup } from '../sg.model';
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
@@ -15,6 +15,7 @@ export class SgTemplateCreationDialogComponent implements OnInit {
   constructor(
     private dialogService: DialogService,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private notificationService: NotificationService,
     private listService: ListService
   ) {
@@ -48,7 +49,10 @@ export class SgTemplateCreationDialogComponent implements OnInit {
     })
       .switchMap(res => res.onHide())
       .subscribe(() => {
-        this.router.navigate(['/sg-templates']);
+        this.router.navigate(['../'], {
+          preserveQueryParams: true,
+          relativeTo: this.activatedRoute
+        });
       });
   }
 }
