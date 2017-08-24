@@ -1,7 +1,8 @@
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../shared/models';
+import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { VolumeType } from '../../shared/models/volume.model';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
@@ -9,7 +10,7 @@ import { VolumeService } from '../../shared/services/volume.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { SpareDriveActionsService } from '../spare-drive-actions.service';
 import { SpareDriveItem } from '../spare-drive-item';
-import { DiskOffering } from '../../shared/models/disk-offering.model';
+import { VolumeTagService } from '../../shared/services/tags/volume-tag.service';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class SpareDriveSidebarComponent extends SpareDriveItem implements OnInit
     public spareDriveActionsService: SpareDriveActionsService,
     private route: ActivatedRoute,
     private volumeService: VolumeService,
+    private volumeTagService: VolumeTagService,
     protected diskOfferingService: DiskOfferingService,
     protected zoneService: ZoneService
   ) {
@@ -43,8 +45,8 @@ export class SpareDriveSidebarComponent extends SpareDriveItem implements OnInit
   }
 
   public changeDescription(newDescription: string): void {
-    this.volumeService
-      .updateDescription(this.item, newDescription)
+    this.volumeTagService
+      .setDescription(this.item, newDescription)
       .onErrorResumeNext()
       .subscribe();
   }
@@ -59,7 +61,7 @@ export class SpareDriveSidebarComponent extends SpareDriveItem implements OnInit
       this.volumeService.get(id)
     )
       .subscribe(([diskOfferings, volume]) => {
-        this.volumeService.getDescription(volume)
+        this.volumeTagService.getDescription(volume)
           .subscribe(description => {
             this.setVolume(volume, diskOfferings, description);
             this.loadDiskOfferings();

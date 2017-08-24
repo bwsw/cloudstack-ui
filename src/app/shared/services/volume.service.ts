@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { VirtualMachine } from '../../vm/shared/vm.model';
 import { BackendResource } from '../decorators';
 import { Snapshot, Volume } from '../models';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
 import { SnapshotService } from './snapshot.service';
-import { TagService } from './tag.service';
+import { VolumeTagService } from './tags/volume-tag.service';
+
 
 interface VolumeCreationData {
   name: string;
@@ -52,7 +52,7 @@ export class VolumeService extends BaseBackendService<Volume> {
   constructor(
     private asyncJobService: AsyncJobService,
     private snapshotService: SnapshotService,
-    private tagService: TagService
+    private volumeTagService: VolumeTagService
   ) {
     super();
   }
@@ -141,26 +141,7 @@ export class VolumeService extends BaseBackendService<Volume> {
       }));
   }
 
-  public markForDeletion(id: string): Observable<any> {
-    return this.tagService.create({
-      resourceIds: id,
-      resourceType: this.entity,
-      'tags[0].key': 'status',
-      'tags[0].value': 'removed'
-    });
-  }
-
-  public getDescription(volume: Volume): Observable<string> {
-    return this.tagService.getTag(volume, 'csui.volume.description')
-      .map(tag =>  tag ? tag.value : undefined);
-  }
-
-  public updateDescription(vm: Volume, description: string): Observable<void> {
-    return this.tagService.update(
-      vm,
-      'Volume',
-      'csui.volume.description',
-      description
-    );
+  public markForRemoval(volume: Volume): Observable< Volume> {
+    return this.volumeTagService.markForRemoval(volume);
   }
 }

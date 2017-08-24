@@ -5,7 +5,7 @@
       <cs-vm-actions-sidebar [vm]="vm"></cs-vm-actions-sidebar>
     </div>
 
-    <md-tab-group md-selected="0" md-no-pagination="true">
+    <md-tab-group [selectedIndex]="0" md-no-pagination="true">
       <md-tab>
         <ng-template md-tab-label >
           <div [mdTooltip]="'VM_PAGE.SIDEBAR.VM' | translate" class="md-tab-tooltip">

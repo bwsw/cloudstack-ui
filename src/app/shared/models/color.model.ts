@@ -3,7 +3,7 @@ export class Color {
 
   constructor(
     public name = '',
-    public value: string,
+    public value = '',
     public textColor = '#FFFFFF'
   ) {
     this.primaryOnly = false;

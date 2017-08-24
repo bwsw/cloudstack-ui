@@ -5,13 +5,11 @@ import { ListService } from '../../shared/components/list/list.service';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { BaseTemplateModel } from '../shared/base-template.model';
-import { BaseTemplateService, DOWNLOAD_URL } from '../shared/base-template.service';
-
+import { BaseTemplateService } from '../shared/base-template.service';
 
 
 export abstract class BaseTemplateSidebarComponent implements OnInit {
   @Input() public template: BaseTemplateModel;
-  public templateDownloadUrl: string;
   public readyInEveryZone: boolean;
   public updating: boolean;
 
@@ -32,12 +30,6 @@ export abstract class BaseTemplateSidebarComponent implements OnInit {
     this.route.params.pluck('id').filter(id => !!id).subscribe((id: string) => {
       this.service.getWithGroupedZones(id).subscribe(template => {
         this.template = template;
-        const downloadUrlTag = this.template.tags.find(
-          tag => tag.key === DOWNLOAD_URL
-        );
-        if (downloadUrlTag) {
-          this.templateDownloadUrl = downloadUrlTag.value;
-        }
         this.checkZones();
       });
     });

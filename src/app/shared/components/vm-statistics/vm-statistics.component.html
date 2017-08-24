@@ -14,7 +14,7 @@
   <div class="stat-list" [class.closed]="!isOpen">
     <md-tab-group
       class="tab-switch"
-      md-selected="mode"
+      [selectedIndex]="mode"
       (selectChange)="switchMode()"
     >
       <md-tab label="{{ 'VM_PAGE.RESOURCE_USAGE.USED' | translate }}"></md-tab>

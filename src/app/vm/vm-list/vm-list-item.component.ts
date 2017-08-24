@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { MdMenuTrigger } from '@angular/material';
 import { Color } from '../../shared/models';
 import { VirtualMachine } from '../shared/vm.model';
+import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
   public color: Color;
   public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
 
+  constructor(private vmTagService: VmTagService) {}
 
   public ngOnInit(): void {
     this.updateColor();
@@ -71,6 +73,6 @@ export class VmListItemComponent implements OnInit, OnChanges {
   }
 
   private updateColor(): void {
-    this.color = this.item.getColor();
+    this.color = this.vmTagService.getColorSync(this.item);
   }
 }

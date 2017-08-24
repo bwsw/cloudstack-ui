@@ -3,9 +3,8 @@ import { Observable } from 'rxjs/Observable';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
-import { TagService } from '../../shared/services/tag.service';
+import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
 import { Utils } from '../../shared/services/utils.service';
-
 import { BaseTemplateModel } from './base-template.model';
 import { Subject } from 'rxjs/Subject';
 
@@ -61,7 +60,6 @@ export class GroupedTemplates<T extends BaseTemplateModel> {
   }
 }
 
-export const DOWNLOAD_URL = 'csui.template.download-url';
 
 @Injectable()
 export abstract class BaseTemplateService extends BaseBackendCachedService<BaseTemplateModel> {
@@ -71,7 +69,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
   constructor(
     protected asyncJobService: AsyncJobService,
     protected osTypeService: OsTypeService,
-    protected tagService: TagService
+    protected templateTagService: TemplateTagService
   ) {
     super();
     this._templateFilters = [
@@ -150,12 +148,9 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     return this.sendCommand('register', params)
       .map(result => this.prepareModel(result[this.entity.toLowerCase()][0]))
       .switchMap(template => {
-        return this.tagService.update(template, params.entity, DOWNLOAD_URL, params.url)
-          .catch(() => Observable.of())
-          .map(tag => {
-            template.tags.push(tag);
-            return template;
-          });
+        return this.templateTagService.setDownloadUrl(template, params.url)
+          .catch(() => Observable.of(null))
+          .do(tag => template.tags.push(tag));
       });
   }
 
