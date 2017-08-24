@@ -1,6 +1,10 @@
 import { OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { BaseTemplateModel } from '../shared/base-template.model';
+import { TemplateActionsService } from '../shared/template-actions.service';
+import { ListService } from '../../shared/components/list/list.service';
+import { BaseTemplateService } from '../shared/base-template.service';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';

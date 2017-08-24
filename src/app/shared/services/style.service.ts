@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Color } from '../models';
 import { ConfigService } from './config.service';
-import { UserService } from './user.service';
+import { UserTagService } from './tags/user-tag.service';
 
 
 interface Theme {
@@ -43,7 +43,7 @@ export class StyleService {
 
   constructor(
     private configService: ConfigService,
-    private userService: UserService
+    private userTagService: UserTagService
   ) {}
 
   public loadPalette(): void {
@@ -61,8 +61,8 @@ export class StyleService {
 
   public getThemeData(): Observable<ThemeData> {
     return Observable.forkJoin(
-      this.userService.readTag('csui.user.primary-color'),
-      this.userService.readTag('csui.user.accent-color')
+      this.userTagService.getPrimaryColor(),
+      this.userTagService.getAccentColor()
     )
       .map(([primaryColor, accentColor]) => {
         let defaultTheme = this.configService.get('defaultTheme');
@@ -88,8 +88,8 @@ export class StyleService {
   }
 
   public setPalette(primaryColor: Color, accentColor: Color): void {
-    this.userService.writeTag('csui.user.primary-color', primaryColor.name).subscribe();
-    this.userService.writeTag('csui.user.accent-color', accentColor.name).subscribe();
+    this.userTagService.setPrimaryColor(primaryColor).subscribe();
+    this.userTagService.setAccentColor(accentColor).subscribe();
     this.updatePalette(primaryColor, accentColor);
   }
 

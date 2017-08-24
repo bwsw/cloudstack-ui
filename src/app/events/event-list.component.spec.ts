@@ -1,25 +1,23 @@
 import { MdlModule } from '@angular-mdl/core';
 import { MdlSelectModule } from '@angular-mdl/select';
-import {
-  Component,
-  EventEmitter,
-  Injectable,
-  NO_ERRORS_SCHEMA,
-  Pipe,
-  PipeTransform
-} from '@angular/core';
+import { Component, EventEmitter, Injectable, NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { MockTagService } from '../../testutils/mocks/tag-services/mock-tag.service';
 import { DatePickerComponent } from '../shared/components/date-picker';
 import { dateTimeFormat as enDateTimeFormat } from '../shared/components/date-picker/dateUtils';
+import { TableComponent } from '../shared/components/table/table.component';
 import { TopBarComponent } from '../shared/components/top-bar/top-bar.component';
+import { LoadingDirective } from '../shared/directives/loading.directive';
+import { HighLightPipe } from '../shared/pipes/highlight.pipe';
 import { DateTimeFormatterService } from '../shared/services/date-time-formatter.service';
-import { LanguageService } from '../shared/services/language.service';
-import { SharedModule } from '../shared/shared.module';
+import { Language, LanguageService } from '../shared/services/language.service';
+import { SessionStorageService } from '../shared/services/session-storage.service';
+import { TagService } from '../shared/services/tags/tag.service';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
 import { EventService } from './event.service';
@@ -35,7 +33,7 @@ class MockTranslateService {
   }
 
   public get currentLang(): string {
-    return 'en';
+    return Language.en;
   }
 
   public get(key: string | Array<string>): Observable<string | any> {
@@ -135,22 +133,26 @@ describe('event list component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
         MdlModule,
         MdlSelectModule
       ],
       declarations: [
+        HighLightPipe,
+        TableComponent,
+        LoadingDirective,
         MockTranslatePipe,
         EventListComponent,
         MockNotificationBoxComponent
       ],
       providers: [
-        { provide: DateTimeFormatterService, useClass: MockDateTimeFormatterService },
-        { provide: EventService, useClass: MockEventService },
-        { provide: TranslateService, useClass: MockTranslateService },
-        { provide: LanguageService, useClass: MockLanguageService },
+        SessionStorageService,
         { provide: Router, useClass: MockRouter },
         { provide: ActivatedRoute, useClass: ActivatedRouteStub },
+        { provide: DateTimeFormatterService, useClass: MockDateTimeFormatterService },
+        { provide: EventService, useClass: MockEventService },
+        { provide: LanguageService, useClass: MockLanguageService },
+        { provide: TranslateService, useClass: MockTranslateService },
+        { provide: TagService, useClass: MockTagService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })

@@ -1,13 +1,14 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { Volume } from '../../shared/models';
 import { VolumeType } from '../../shared/models/volume.model';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
-import { VolumeService } from '../../shared/services/volume.service';
-import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { NotificationService } from '../../shared/services/notification.service';
+import { VolumeService } from '../../shared/services/volume.service';
+import { VolumeTagService } from '../../shared/services/tags/volume-tag.service';
 
 
 @Component({
@@ -22,14 +23,14 @@ export class SpareDriveSidebarComponent extends SidebarComponent<Volume> {
     protected notificationService: NotificationService,
     protected route: ActivatedRoute,
     protected volumeService: VolumeService,
+    protected volumeTagService: VolumeTagService,
     private diskOfferingService: DiskOfferingService
   ) {
     super(volumeService, notificationService, route);
   }
 
   public changeDescription(newDescription: string): void {
-    this.volumeService
-      .updateDescription(this.entity, newDescription)
+    this.volumeTagService.setDescription(this.entity, newDescription)
       .onErrorResumeNext()
       .subscribe();
   }
@@ -47,7 +48,7 @@ export class SpareDriveSidebarComponent extends SidebarComponent<Volume> {
         return Observable.forkJoin(
           Observable.of(volume),
           this.diskOfferingService.getList({ type: VolumeType.DATADISK }),
-          this.volumeService.getDescription(volume)
+          this.volumeTagService.getDescription(volume)
         );
       })
       .map(([volume, diskOfferings, description]) => {

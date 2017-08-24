@@ -4,6 +4,7 @@ import { Color } from '../../../shared/models';
 import { ConfigService } from '../../../shared/services/config.service';
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
+import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class VmColorComponent implements OnChanges, OnInit, OnDestroy {
 
   constructor(
     private configService: ConfigService,
-    private vmService: VmService
+    private vmService: VmService,
+    private vmTagService: VmTagService
   ) {}
 
   public ngOnInit(): void {
@@ -34,7 +36,7 @@ export class VmColorComponent implements OnChanges, OnInit, OnDestroy {
       .debounceTime(1000)
       .switchMap(color => {
         this.colorUpdateInProgress = true;
-        return this.vmService.setColor(this.vm, color);
+        return this.vmTagService.setColor(this.vm, color);
       })
       .subscribe(vm => {
         this.colorUpdateInProgress = false;
@@ -44,7 +46,7 @@ export class VmColorComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   public ngOnChanges(): void {
-    this.color = this.vm.getColor();
+    this.color = this.vmTagService.getColorSync(this.vm);
   }
 
   public ngOnDestroy(): void {

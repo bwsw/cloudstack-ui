@@ -4,10 +4,10 @@ import { MdSelectChange } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Color } from '../shared/models/color.model';
 import { AuthService } from '../shared/services/auth.service';
-
-import { LanguageService, TimeFormat } from '../shared/services/language.service';
+import { Language, LanguageService, TimeFormat } from '../shared/services/language.service';
 import { NotificationService } from '../shared/services/notification.service';
 import { StyleService } from '../shared/services/style.service';
+import { UserTagService } from '../shared/services/tags/user-tag.service';
 import { UserService } from '../shared/services/user.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 
@@ -37,8 +37,8 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public accentColorControl = new FormControl();
 
   public languages = [
-    { value: 'en', text: 'English' },
-    { value: 'ru', text: 'Русский' }
+    { value: Language.en, text: 'English' },
+    { value: Language.ru, text: 'Русский' }
   ];
 
   public daysOfTheWeek = [
@@ -56,7 +56,8 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
     private notificationService: NotificationService,
     private styleService: StyleService,
     private translateService: TranslateService,
-    private userService: UserService
+    private userService: UserService,
+    private userTagService: UserTagService
   ) {
     super();
     this.userId = this.authService.userId;
@@ -139,7 +140,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public firstDayOfWeekChange(change: MdSelectChange): void {
     this.firstDayOfWeek = change.value;
     this.updatingFirstDayOfWeek = true;
-    this.languageService.setFirstDayOfWeek(change.value)
+    this.userTagService.setFirstDayOfWeek(change.value)
       .finally(() => this.updatingFirstDayOfWeek = false)
       .subscribe();
   }
