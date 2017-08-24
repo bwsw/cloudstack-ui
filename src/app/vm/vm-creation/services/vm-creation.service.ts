@@ -164,7 +164,7 @@ export class VmCreationService {
   private getDefaultVmName(): Observable<string> {
     return this.vmService.getNumberOfVms()
       .map(numberOfVms => {
-        return `vm-${this.authService.username}-${numberOfVms + 1}`;
+        return `vm-${this.authService.user.username}-${numberOfVms + 1}`;
       });
   }
 }

@@ -50,7 +50,7 @@ export class TemplateComponent implements OnChanges {
   }
 
   public get isSelf(): boolean {
-    return this.authService.username === this.item.account;
+    return this.authService.user.username === this.item.account;
   }
 
   public removeTemplate(): void {

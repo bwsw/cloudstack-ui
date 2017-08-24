@@ -1,20 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
+import { AccountType } from '../../models/account.model';
+import { AuthService } from '../../services/auth.service';
+import { LocalStorageService } from '../../services/local-storage.service';
 import {
   ResourcesData,
   ResourceStats,
   ResourceUsageService
 } from '../../services/resource-usage.service';
-import { LocalStorageService } from '../../services/local-storage.service';
 import { Utils } from '../../services/utils.service';
 
 const showStatistics = 'showStatistics';
 const statisticsMode = 'statisticsMode';
+const statisticsType = 'statisticsType';
 
 const enum StatsMode {
   Used,
   Free
+}
+
+const enum StatsType {
+  Account,
+  Domain
 }
 
 interface StatsItem {
@@ -24,7 +32,9 @@ interface StatsItem {
 
 interface StatsBar {
   title: string;
+
   value(): Observable<string>;
+
   progress(): number;
 }
 
@@ -38,6 +48,9 @@ export class VmStatisticsComponent implements OnInit {
   public resourceUsage: ResourceStats;
   public isOpen = true;
   public mode = StatsMode.Used;
+  public statsType = StatsType.Account;
+
+
   private wasOpened = false;
 
   public statsList: Array<StatsItem> = [
@@ -99,6 +112,7 @@ export class VmStatisticsComponent implements OnInit {
   ];
 
   constructor(
+    private authService: AuthService,
     private translateService: TranslateService,
     private storageService: LocalStorageService,
     private resourceUsageService: ResourceUsageService
@@ -130,9 +144,22 @@ export class VmStatisticsComponent implements OnInit {
     }
   }
 
+  public get isAdmin(): boolean {
+    return this.authService.user.type !== AccountType.User;
+  }
+
   public switchMode() {
     this.mode = this.mode === StatsMode.Used ? StatsMode.Free : StatsMode.Used;
     this.storageService.write(statisticsMode, this.mode.toString());
+  }
+
+  public switchType() {
+    this.statsType = this.statsType === StatsType.Account
+      ? StatsType.Domain
+      : StatsType.Account;
+    this.storageService.write(statisticsType, this.statsType.toString());
+
+    this.updateStats();
   }
 
   public getPercents(value: number, max: number): string {
@@ -206,8 +233,10 @@ export class VmStatisticsComponent implements OnInit {
   }
 
   public updateStats(): void {
+    const forDomain = this.statsType === StatsType.Domain;
+
     this.fetching = true;
-    this.resourceUsageService.getResourceUsage().subscribe(result => {
+    this.resourceUsageService.getResourceUsage(forDomain).subscribe(result => {
       // to keep progress bar animation
       setTimeout(() => (this.resourceUsage = result));
       this.fetching = false;

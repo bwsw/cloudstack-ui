@@ -251,6 +251,8 @@
     "RESOURCE_USAGE": {
       "TITLE": "Resource usage",
       "USED": "Used",
+      "ACCOUNT": "Account",
+      "DOMAIN": "Domain",
       "FREE": "Free",
       "VMS": "Virtual machines",
       "NUMBER_OF_VMS": "Number",

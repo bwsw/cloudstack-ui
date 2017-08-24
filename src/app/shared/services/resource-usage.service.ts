@@ -49,50 +49,49 @@ export class ResourceUsageService {
   constructor(
     private authService: AuthService,
     private accountService: AccountService
-  ) {}
+  ) {
+  }
 
-  public getResourceUsage(): Observable<ResourceStats> {
-    return this.accountService
-      .getList({ account: this.authService.account })
-      .map(res => {
-        const account = res[0];
+  public getResourceUsage(forDomain = false): Observable<ResourceStats> {
+    const params = forDomain
+      ? { domainId: this.authService.user.domainid }
+      : { account: this.authService.user.account };
 
-        const consumedResources = new ResourcesData();
-        const maxResources = new ResourcesData();
-        const availableResources = new ResourcesData();
+    return this.accountService.getList(params).map(accounts => {
+      const consumedResources = new ResourcesData();
+      const maxResources = new ResourcesData();
+      const availableResources = new ResourcesData();
 
-        consumedResources.instances = +account.vmtotal;
-        consumedResources.cpus = +account.cputotal;
-        consumedResources.ips = +account.iptotal;
-        consumedResources.memory = +account.memorytotal;
-        consumedResources.volumes = +account.volumetotal;
-        consumedResources.snapshots = +account.snapshottotal;
-        consumedResources.primaryStorage = +account.primarystoragetotal;
-        consumedResources.secondaryStorage = +account.secondarystoragetotal;
+      accounts.forEach(account => {
+        consumedResources.instances += +account.vmtotal;
+        consumedResources.cpus += +account.cputotal;
+        consumedResources.ips += +account.iptotal;
+        consumedResources.memory += +account.memorytotal;
+        consumedResources.volumes += +account.volumetotal;
+        consumedResources.snapshots += +account.snapshottotal;
+        consumedResources.primaryStorage += +account.primarystoragetotal;
+        consumedResources.secondaryStorage += +account.secondarystoragetotal;
 
-        maxResources.instances = +account.vmlimit;
-        maxResources.cpus = +account.cpulimit;
-        maxResources.ips = +account.iplimit;
-        maxResources.memory = +account.memorylimit;
-        maxResources.volumes = +account.volumelimit;
-        maxResources.snapshots = +account.snapshotlimit;
-        maxResources.primaryStorage = +account.primarystoragelimit;
-        maxResources.secondaryStorage = +account.secondarystoragelimit;
+        maxResources.instances += +account.vmlimit;
+        maxResources.cpus += +account.cpulimit;
+        maxResources.ips += +account.iplimit;
+        maxResources.memory += +account.memorylimit;
+        maxResources.volumes += +account.volumelimit;
+        maxResources.snapshots += +account.snapshotlimit;
+        maxResources.primaryStorage += +account.primarystoragelimit;
+        maxResources.secondaryStorage += +account.secondarystoragelimit;
 
-        availableResources.instances = +account.vmavailable;
-        availableResources.cpus = +account.cpuavailable;
-        availableResources.ips = +account.ipavailable;
-        availableResources.memory = +account.memoryavailable;
-        availableResources.volumes = +account.volumeavailable;
-        availableResources.snapshots = +account.snapshotavailable;
-        availableResources.primaryStorage = +account.primarystorageavailable;
-        availableResources.secondaryStorage = +account.secondarystorageavailable;
-
-        return new ResourceStats(
-          availableResources,
-          consumedResources,
-          maxResources
-        );
+        availableResources.instances += +account.vmavailable;
+        availableResources.cpus += +account.cpuavailable;
+        availableResources.ips += +account.ipavailable;
+        availableResources.memory += +account.memoryavailable;
+        availableResources.volumes += +account.volumeavailable;
+        availableResources.snapshots += +account.snapshotavailable;
+        availableResources.primaryStorage += +account.primarystorageavailable;
+        availableResources.secondaryStorage += +account.secondarystorageavailable;
       });
+
+      return new ResourceStats(availableResources, consumedResources, maxResources);
+    });
   }
 }

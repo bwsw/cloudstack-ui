@@ -62,7 +62,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private zoneService: ZoneService,
     private zone: NgZone
   ) {
-    this.title = this.auth.name;
+    this.title = (this.auth.user && this.auth.user.name) || '';
   }
 
   public linkClick(routerLink: string): void {
@@ -159,7 +159,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   private updateAccount(loggedIn: boolean): void {
     if (loggedIn) {
-      this.title = this.auth.name;
+      this.title = this.auth.user.name;
     }
   }
 

@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MdlDialogReference } from '../../../dialog/dialog-module';
+import { AuthService } from '../../../shared/services/auth.service';
 
 import { Template } from '../../../template/shared';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
@@ -21,9 +22,10 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
     @Inject(TEMPLATES) public templates: Array<Template>,
     @Inject(ISOS) public isos: Array<Iso>,
     @Inject(ZONE) public zoneId: string,
-    private dialog: MdlDialogReference
+    private dialog: MdlDialogReference,
+    authService: AuthService
   ) {
-    super();
+    super(authService);
   }
 
   public ngOnInit(): void {
