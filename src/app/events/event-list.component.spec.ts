@@ -15,7 +15,7 @@ import { TopBarComponent } from '../shared/components/top-bar/top-bar.component'
 import { LoadingDirective } from '../shared/directives/loading.directive';
 import { HighLightPipe } from '../shared/pipes/highlight.pipe';
 import { DateTimeFormatterService } from '../shared/services/date-time-formatter.service';
-import { Languages, LanguageService } from '../shared/services/language.service';
+import { Language, LanguageService } from '../shared/services/language.service';
 import { SessionStorageService } from '../shared/services/session-storage.service';
 import { TagService } from '../shared/services/tags/tag.service';
 import { EventListComponent } from './event-list.component';
@@ -33,7 +33,7 @@ class MockTranslateService {
   }
 
   public get currentLang(): string {
-    return Languages.en;
+    return Language.en;
   }
 
   public get(key: string | Array<string>): Observable<string | any> {

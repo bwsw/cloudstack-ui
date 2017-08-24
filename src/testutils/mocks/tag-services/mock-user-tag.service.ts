@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { Color } from '../../../app/shared/models/color.model';
-import { Language, Languages, TimeFormat } from '../../../app/shared/services/language.service';
+import { Language, TimeFormat } from '../../../app/shared/services/language.service';
 import { DayOfWeek } from '../../../app/shared/types/day-of-week';
 
 
@@ -48,11 +48,11 @@ export class MockUserTagService {
   }
 
   public getLang(): Observable<Language> {
-    return Observable.of(Languages.en);
+    return Observable.of(Language.en);
   }
 
   public setLang(language: Language): Observable<Language> {
-    return Observable.of(Languages.en);
+    return Observable.of(Language.en);
   }
 
   public getLastVmId(): Observable<number> {

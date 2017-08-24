@@ -5,11 +5,8 @@ import { SecurityGroup } from '../../../security-group/sg.model';
 import { TagService } from './tag.service';
 import { Utils } from '../utils.service';
 import { EntityTagService } from './entity-tag-service.interface';
+import { SecurityGroupTagKeys } from './security-group-tag-keys';
 
-
-export const SecurityGroupTagKeys = {
-  template: 'csui.security-group.template'
-};
 
 @Injectable()
 export class SecurityGroupTagService implements EntityTagService {

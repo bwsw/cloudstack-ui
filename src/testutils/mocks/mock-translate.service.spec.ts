@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Languages } from '../../app/shared/services/language.service';
+import { Language } from '../../app/shared/services/language.service';
 
 
 export class MockTranslateService {
@@ -11,7 +11,7 @@ export class MockTranslateService {
   }
 
   public get currentLang(): string {
-    return Languages.en;
+    return Language.en;
   }
 
   public get(key: string | Array<string>): Observable<string | any> {

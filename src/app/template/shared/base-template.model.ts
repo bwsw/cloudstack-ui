@@ -5,7 +5,7 @@ import { BaseModel, Tag } from '../../shared/models';
 import { OsType } from '../../shared/models/os-type.model';
 import { Utils } from '../../shared/services/utils.service';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
-import { TemplateTagKeys } from '../../shared/services/tags/template-tag.service';
+import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
 
 
 @FieldMapper({

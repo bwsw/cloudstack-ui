@@ -6,11 +6,11 @@ import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 import { AffinityGroup } from '../../../shared/models/affinity-group.model';
 import { DateTimeFormatterService } from '../../../shared/services/date-time-formatter.service';
-import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 import { VmActionsService } from '../../shared/vm-actions.service';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 import { SshKeypairResetComponent } from '../ssh/ssh-keypair-reset.component';
+import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 
 
 @Component({

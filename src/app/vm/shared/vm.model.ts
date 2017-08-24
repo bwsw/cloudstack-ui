@@ -3,8 +3,8 @@ import { FieldMapper, ZoneName } from '../../shared/decorators';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { BaseModel, InstanceGroup, NIC, OsType, ServiceOffering, Tag, Volume } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
-import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag.service';
 import { BaseTemplateModel } from '../../template/shared';
+import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 
 
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;

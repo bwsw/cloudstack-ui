@@ -1,9 +1,9 @@
 import * as moment from 'moment';
 import { FieldMapper } from '../decorators';
 import { Taggable } from '../interfaces/taggable.interface';
-import { SnapshotTagKeys } from '../services/tags/snapshot-tag.service';
 import { BaseModel } from './base.model';
 import { Tag } from './tag.model';
+import { SnapshotTagKeys } from '../services/tags/snapshot-tag-keys';
 
 
 @FieldMapper({

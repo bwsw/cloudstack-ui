@@ -4,7 +4,7 @@ import { MdSelectChange } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Color } from '../shared/models/color.model';
 import { AuthService } from '../shared/services/auth.service';
-import { Languages, LanguageService, TimeFormat } from '../shared/services/language.service';
+import { Language, LanguageService, TimeFormat } from '../shared/services/language.service';
 import { NotificationService } from '../shared/services/notification.service';
 import { StyleService } from '../shared/services/style.service';
 import { UserTagService } from '../shared/services/tags/user-tag.service';
@@ -37,8 +37,8 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public accentColorControl = new FormControl();
 
   public languages = [
-    { value: Languages.en, text: 'English' },
-    { value: Languages.ru, text: 'Русский' }
+    { value: Language.en, text: 'English' },
+    { value: Language.ru, text: 'Русский' }
   ];
 
   public daysOfTheWeek = [

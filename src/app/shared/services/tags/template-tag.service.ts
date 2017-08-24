@@ -3,11 +3,8 @@ import { BaseTemplateModel } from '../../../template/shared/base-template.model'
 import { Observable } from 'rxjs/Observable';
 import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
+import { TemplateTagKeys } from './template-tag-keys';
 
-
-export const TemplateTagKeys = {
-  downloadUrl: 'csui.template.download-url'
-};
 
 @Injectable()
 export class TemplateTagService implements EntityTagService {

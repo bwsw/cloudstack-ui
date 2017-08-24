@@ -7,13 +7,12 @@ import { DayOfWeek } from '../types/day-of-week';
 import { UserTagService } from './tags/user-tag.service';
 
 
-export type Language = 'en' | 'ru';
-export const Languages = {
-  en: 'en' as Language,
-  ru: 'ru' as Language
-};
+export enum Language {
+  en = 'en',
+  ru = 'ru'
+}
 
-const DEFAULT_LANGUAGE = Languages.en;
+const DEFAULT_LANGUAGE = Language.en;
 
 export enum TimeFormat {
   hour12 = 'hour12',
@@ -56,7 +55,7 @@ export class LanguageService {
   public getFirstDayOfWeek(): Observable<DayOfWeek> {
     return this.userTagService.getFirstDayOfWeek()
       .map(dayRaw => {
-        const fallbackDay = this.storage.read('lang') === Languages.en ? DayOfWeek.Sunday : DayOfWeek.Monday;
+        const fallbackDay = this.storage.read('lang') === Language.en ? DayOfWeek.Sunday : DayOfWeek.Monday;
         if (dayRaw === undefined) {
           return fallbackDay;
         }
@@ -100,9 +99,9 @@ export class LanguageService {
     });
   }
 
-  private get defaultLanguage(): string {
+  private get defaultLanguage(): Language {
     const language = navigator.language && navigator.language.substr(0, 2);
-    if (language === Languages.ru || language === Languages.en) {
+    if (language === Language.ru || language === Language.en) {
       return language;
     }
     return DEFAULT_LANGUAGE;

@@ -5,11 +5,8 @@ import { Snapshot } from '../../models/snapshot.model';
 import { DescriptionTagService } from './description-tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { TagService } from './tag.service';
+import { SnapshotTagKeys } from './snapshot-tag-keys';
 
-
-export const SnapshotTagKeys = {
-  description: 'csui.snapshot.description'
-};
 
 @Injectable()
 export class SnapshotTagService implements EntityTagService {

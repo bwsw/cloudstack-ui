@@ -12,7 +12,7 @@ import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 
 import { DatePickerDialogComponent } from './date-picker-dialog.component';
 import { dateTimeFormat as DateTimeFormat, formatIso } from './dateUtils';
-import { Languages } from '../../services/language.service';
+import { Language } from '../../services/language.service';
 
 
 interface DatePickerConfig {
@@ -41,7 +41,7 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
   @Input() public cancelLabel = 'Cancel';
   @Input() public firstDayOfWeek = 1;
   @Input() public DateTimeFormat = DateTimeFormat;
-  @Input() public locale = Languages.en;
+  @Input() public locale = Language.en;
   @Output() public change = new EventEmitter();
 
   public displayDate: string;

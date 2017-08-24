@@ -3,10 +3,10 @@ import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag.service';
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
 import { SgTemplateCreationComponent } from '../sg-template-creation/sg-template-creation.component';
 import { SecurityGroup } from '../sg.model';
+import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag-keys';
 
 
 @Component({
@@ -43,13 +43,18 @@ export class SgTemplateListComponent implements OnInit {
   }
 
   public deleteSecurityGroupTemplate(securityGroup: SecurityGroup): void {
-    this.dialogService.confirm('CONFIRM_DELETE_TEMPLATE', 'COMMON.NO', 'COMMON.YES')
+    this.dialogService.confirm(
+      'DIALOG_MESSAGES.TEMPLATE.CONFIRM_DELETION',
+      'COMMON.NO',
+      'COMMON.YES'
+    )
       .onErrorResumeNext()
       .switchMap(() => this.securityGroupService.deleteTemplate(securityGroup.id))
       .subscribe(
         res => {
           if (res && res.success === 'true') {
-            this.customSecurityGroupList = this.customSecurityGroupList.filter(sg => {
+            this.customSecurityGroupList = this.customSecurityGroupList
+              .filter(sg => {
               return sg.id !== securityGroup.id;
             });
             this.notificationService.message({

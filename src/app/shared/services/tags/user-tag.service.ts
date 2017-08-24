@@ -9,19 +9,8 @@ import { Language, TimeFormat } from '../language.service';
 import { LocalStorageService } from '../local-storage.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { Time } from '../../../snapshot/recurring-snapshots/time-picker/time-picker.component';
+import { UserTagKeys } from './user-tag-keys';
 
-
-export const UserTagKeys = {
-  accentColor: 'csui.user.accent-color',
-  askToCreateVm: 'csui.user.ask-to-create-vm',
-  askToCreateVolume: 'csui.user.ask-to-create-volume',
-  firstDayOfWeek: 'csui.user.first-day-of-week',
-  lang: 'csui.user.lang',
-  lastVmId: 'csui.user.last-vm-id',
-  primaryColor: 'csui.user.primary-color',
-  sessionTimeout: 'csui.user.session-timeout',
-  timeFormat: 'csui.user.time-format'
-};
 
 interface UserIdObject {
   id: string;

@@ -7,13 +7,8 @@ import { InstanceGroup } from '../../models/instance-group.model';
 import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { DescriptionTagService } from './description-tag.service';
+import { VirtualMachineTagKeys } from './vm-tag-keys';
 
-
-export const VirtualMachineTagKeys = {
-  color: 'csui.vm.color',
-  description: 'csui.vm.description',
-  group: 'csui.vm.group'
-};
 
 @Injectable()
 export class VmTagService implements EntityTagService {

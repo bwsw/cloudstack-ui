@@ -2,7 +2,7 @@
   <div class="options-panel">
     <md-tab-group
       class="tab-switch"
-      md-selected="templateSwitchPosition"
+      [selectedIndex]="templateSwitchPosition"
       (selectChange)="setMode($event.index)"
       *ngIf="showIsoSwitch"
     >
@@ -74,7 +74,7 @@
 >
   <md-tab-group
     class="tab-switch"
-    md-selected="templateSwitchPosition"
+    [selectedIndex]="templateSwitchPosition"
     (selectChange)="setMode($event.index)"
     *ngIf="showIsoSwitch"
   >

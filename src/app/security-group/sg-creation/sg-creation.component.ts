@@ -12,7 +12,7 @@ import {
 } from '../sg.model';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { MdlDialogReference } from '../../dialog/dialog-module';
-import { SecurityGroupTagKeys, SecurityGroupTagService } from '../../shared/services/tags/security-group-tag.service';
+import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag-keys';
 
 
 export interface RuleListItem {
