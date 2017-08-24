@@ -1,8 +1,8 @@
 <div *ngIf="template">
-  <md-tab-group md-selected="0">
+  <md-tab-group [selectedIndex]="0">
     <md-tab>
       <ng-template md-tab-label>
-        <div [mdTooltip]="'TEMPLATE' | translate" class="md-tab-tooltip">
+        <div [mdTooltip]="'TEMPLATE_PAGE.SIDEBAR.TEMPLATE' | translate" class="md-tab-tooltip">
             <div class="disc-icon-container">
                 <div class="disc-icon"></div>
             </div>
@@ -69,7 +69,7 @@
           </div>
         </md-card-content>
       </md-card>
-      <md-card *ngIf="templateDownloadUrl" mdl-shadow="2">
+      <md-card *ngIf="template?.downloadUrl" mdl-shadow="2">
         <md-card-header>
           <md-card-title><h2>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.DOWNLOAD_URL' | translate }}</h2></md-card-title>
         </md-card-header>
@@ -79,7 +79,7 @@
               class="md-card-input-copy"
               cs-input-group-textbox
               readonly
-              [ngModel]="templateDownloadUrl"
+              [ngModel]="template?.downloadUrl"
             >
             </mdl-textfield>
             <button
@@ -87,7 +87,7 @@
               mdl-button-type="icon"
               cs-input-group-button
               ngxClipboard
-              [cbContent]="templateDownloadUrl"
+              [cbContent]="template?.downloadUrl"
               (cbOnSuccess)="onCopySuccess()"
               (cbOnError)="onCopyFail()"
             >
@@ -105,7 +105,7 @@
 
     <md-tab>
       <ng-template md-tab-label>
-        <div [mdTooltip]="'ZONES' | translate" class="md-tab-tooltip">
+        <div [mdTooltip]="'TEMPLATE_PAGE.SIDEBAR.ZONES' | translate" class="md-tab-tooltip">
           <md-icon>public</md-icon>
         </div>
       </ng-template>
@@ -133,7 +133,7 @@
 
     <md-tab>
       <ng-template md-tab-label>
-        <div [mdTooltip]="'TEMPLATE_TAGS_VIEW' | translate" class="md-tab-tooltip">
+        <div [mdTooltip]="'TEMPLATE_PAGE.SIDEBAR.TAGS' | translate" class="md-tab-tooltip">
           <md-icon>local_offer</md-icon>
         </div>
       </ng-template>

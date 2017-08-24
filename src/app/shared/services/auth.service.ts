@@ -12,7 +12,9 @@ import { BaseBackendService } from './base-backend.service';
 import { ConfigService } from './config.service';
 import { LocalStorageService } from './local-storage.service';
 import { RouterUtilsService } from './router-utils.service';
+import { UserTagService } from './tags/user-tag.service';
 import { UserService } from './user.service';
+
 
 const DEFAULT_SESSION_REFRESH_INTERVAL = 60;
 
@@ -36,6 +38,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     protected storage: LocalStorageService,
     protected router: Router,
     protected userService: UserService,
+    protected userTagService: UserTagService,
     protected routerUtilsService: RouterUtilsService,
     protected zone: NgZone
   ) {
@@ -55,8 +58,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   }
 
   public setInactivityTimeout(value: number): Observable<void> {
-    return this.userService
-      .writeTag('csui.user.session-timeout', value.toString())
+    return this.userTagService.setSessionTimeout( value)
       .map(() => {
         this.inactivityTimeout = value;
         this.resetInactivityTimer();
@@ -68,19 +70,13 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
       return Observable.of(this.inactivityTimeout);
     }
 
-    return this.userService
-      .readTag('csui.user.session-timeout')
+    return this.userTagService.getSessionTimeout()
       .switchMap(timeout => {
-        const convertedTimeout = +timeout;
-
-        if (Number.isNaN(convertedTimeout)) {
-          const newTimeout = 0;
-          return this.userService
-            .writeTag('sessionTimeout', newTimeout.toString())
-            .map(() => newTimeout);
-        } else {
-          return Observable.of(convertedTimeout);
+        if (Number.isNaN(timeout)) {
+          return this.userTagService.setSessionTimeout(0);
         }
+
+        return Observable.of(timeout);
       });
   }
 

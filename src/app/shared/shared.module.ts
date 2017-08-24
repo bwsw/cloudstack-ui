@@ -17,7 +17,6 @@ import { MemoryStorageService } from 'app/shared/services/memory-storage.service
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
 import { MdlDialogModule } from '../dialog/dialog-module';
-
 import {
   CalendarComponent,
   CalendarMonthComponent,
@@ -43,9 +42,7 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
-import {
-  CreateUpdateDeleteDialogComponent
-} from './components/create-update-delete-dialog/create-update-delete-dialog.component';
+import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
@@ -60,12 +57,10 @@ import { SearchComponent } from './components/search/search.component';
 import { TableComponent } from './components/table/table.component';
 import { ForbiddenValuesDirective } from './directives/forbidden-values.directive';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
-
 import { LoadingDirective } from './directives/loading.directive';
 import { MaxValueValidatorDirective } from './directives/max-value.directive';
 import { MdlTextAreaAutoresizeDirective } from './directives/mdl-textarea-autoresize.directive';
 import { MinValueValidatorDirective } from './directives/min-value.directive';
-
 import { DivisionPipe, HighLightPipe, ViewValuePipe } from './pipes';
 import { StringifyDatePipe } from './pipes/stringifyDate.pipe';
 import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
@@ -89,7 +84,6 @@ import { NotificationService } from './services/notification.service';
 import { OsTypeService } from './services/os-type.service';
 import { ResourceLimitService } from './services/resource-limit.service';
 import { ResourceUsageService } from './services/resource-usage.service';
-
 import { RouterUtilsService } from './services/router-utils.service';
 import { SecurityGroupService } from './services/security-group.service';
 import { ServiceOfferingFilterService } from './services/service-offering-filter.service';
@@ -99,11 +93,20 @@ import { SnapshotService } from './services/snapshot.service';
 import { SSHKeyPairService } from './services/ssh-keypair.service';
 import { StatsUpdateService } from './services/stats-update.service';
 import { StyleService } from './services/style.service';
-import { TagService } from './services/tag.service';
+import { DescriptionTagService } from './services/tags/description-tag.service';
+import { MarkForRemovalService } from './services/tags/mark-for-removal.service';
+import { SecurityGroupTagService } from './services/tags/security-group-tag.service';
+import { SnapshotTagService } from './services/tags/snapshot-tag.service';
+import { TagService } from './services/tags/tag.service';
+import { TemplateTagService } from './services/tags/template-tag.service';
+import { UserTagService } from './services/tags/user-tag.service';
+import { VmTagService } from './services/tags/vm-tag.service';
+import { VolumeTagService } from './services/tags/volume-tag.service';
 import { UserService } from './services/user.service';
 import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
+
 
 @NgModule({
   imports: [
@@ -219,6 +222,14 @@ import { ZoneService } from './services/zone.service';
   ],
   providers: [
     AccountService,
+    DescriptionTagService,
+    MarkForRemovalService,
+    SecurityGroupTagService,
+    SnapshotTagService,
+    TemplateTagService,
+    UserTagService,
+    VmTagService,
+    VolumeTagService,
     AffinityGroupService,
     AsyncJobService,
     AuthGuard,

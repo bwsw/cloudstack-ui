@@ -65,9 +65,11 @@ export class ServiceOfferingDialogComponent implements OnInit {
   private fetchData(zone: Zone): Observable<Array<ServiceOffering>> {
     return this.serviceOfferingFilterService.getAvailableByResources({ zone })
       .map(availableOfferings => {
-        return availableOfferings.filter(offering => {
-          return offering.id !== this.virtualMachine.serviceOffering.id;
-        });
+        return !!this.virtualMachine.serviceOffering
+          ? availableOfferings.filter(
+            offering =>
+              offering.id !== this.virtualMachine.serviceOffering.id)
+          : availableOfferings;
       })
       .switchMap(offerings => {
         const offeringsWithSetParams = offerings.map(offering => {

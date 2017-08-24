@@ -23,6 +23,8 @@ export enum VolumeType {
   zonename: 'zoneName'
 })
 export class Volume extends BaseModel {
+  public resourceType = 'Volume';
+
   public id: string;
   public created: Date;
   public domain: string;
@@ -44,6 +46,8 @@ export class Volume extends BaseModel {
   constructor(json) {
     super(json);
     this.created = moment(json.created).toDate();
+
+    this.initializeTags();
   }
 
   public get isRoot(): boolean {
@@ -54,5 +58,13 @@ export class Volume extends BaseModel {
     return !!this.tags.find(
       tag => tag.key === DeletionMark.TAG && tag.value === DeletionMark.VALUE
     );
+  }
+
+  private initializeTags(): void {
+    if (!this.tags) {
+      this.tags = [];
+    }
+
+    this.tags = this.tags.map(tag => new Tag(tag));
   }
 }
