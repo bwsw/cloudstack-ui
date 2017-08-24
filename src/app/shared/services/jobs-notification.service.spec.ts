@@ -18,7 +18,6 @@ describe('Jobs notification service', () => {
         MdlDialogOutletModule
       ],
       providers: [
-        AuthService,
         JobsNotificationService,
         { provide: AuthService, useClass: MockAuthService }
       ]

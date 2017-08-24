@@ -10,6 +10,7 @@ import { VmActionsService } from '../../shared/vm-actions.service';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 import { SshKeypairResetComponent } from '../ssh/ssh-keypair-reset.component';
+import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 
 
 @Component({
@@ -29,7 +30,8 @@ export class VmDetailComponent implements OnChanges {
     public dateTimeFormatterService: DateTimeFormatterService,
     private dialogService: DialogService,
     private vmActionsService: VmActionsService,
-    private vmService: VmService
+    private vmService: VmService,
+    private vmTagService: VmTagService
   ) {
     this.expandServiceOffering = false;
   }
@@ -39,8 +41,7 @@ export class VmDetailComponent implements OnChanges {
   }
 
   public changeDescription(newDescription: string): void {
-    this.vmService
-      .updateDescription(this.vm, newDescription)
+    this.vmTagService.setDescription(this.vm, newDescription)
       .onErrorResumeNext()
       .subscribe();
   }
@@ -78,7 +79,7 @@ export class VmDetailComponent implements OnChanges {
   }
 
   private updateDescription(): void {
-    this.vmService.getDescription(this.vm)
+    this.vmTagService.getDescription(this.vm)
       .subscribe(description => {
         this.description = description;
       });

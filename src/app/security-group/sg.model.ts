@@ -1,5 +1,7 @@
 import { BaseModel } from '../shared/models/base.model';
 import { FieldMapper } from '../shared/decorators/field-mapper.decorator';
+import { Taggable } from '../shared/interfaces/taggable.interface';
+import { Tag } from '../shared/models/tag.model';
 
 
 export enum NetworkRuleType {
@@ -45,17 +47,14 @@ export class NetworkRule extends BaseModel {
   }
 }
 
-interface ITag {
-  key: string;
-  value: string;
-}
-
 @FieldMapper({
   ingressrule: 'ingressRules',
   egressrule: 'egressRules',
   virtualmachineids: 'virtualMachineIds'
 })
-export class SecurityGroup extends BaseModel {
+export class SecurityGroup extends BaseModel implements Taggable {
+  public resourceType = 'SecurityGroup';
+
   public id: string;
   public name: string;
   public description: string;
@@ -64,22 +63,46 @@ export class SecurityGroup extends BaseModel {
   public ingressRules: Array<NetworkRule>;
   public egressRules: Array<NetworkRule>;
   public virtualMachineIds: Array<string>;
-  public tags: Array<ITag>;
+  public tags: Array<Tag>;
   public preselected: boolean;
 
   constructor(params?: {}) {
     super(params);
 
-    for (let i = 0; i < this.ingressRules.length; i++) {
-      this.ingressRules[i] = new NetworkRule(this.ingressRules[i]);
-    }
-
-    for (let i = 0; i < this.egressRules.length; i++) {
-      this.egressRules[i] = new NetworkRule(this.egressRules[i]);
-    }
+    this.initializeIngressRules();
+    this.initializeEgressRules();
+    this.initializeTags();
   }
 
   public get isPredefinedTemplate(): boolean {
     return this.id.startsWith('template');
+  }
+
+  private initializeIngressRules(): void {
+    if (!this.ingressRules) {
+      this.ingressRules = [];
+    }
+
+    this.ingressRules = this.ingressRules.map(rule => {
+      return new NetworkRule(rule);
+    });
+  }
+
+  private initializeEgressRules(): void {
+    if (!this.egressRules) {
+      this.egressRules = [];
+    }
+
+    this.egressRules = this.egressRules.map(rule => {
+      return new NetworkRule(rule);
+    });
+  }
+
+  private initializeTags(): void {
+    if (!this.tags) {
+      this.tags = [];
+    }
+
+    this.tags = this.tags.map(tag => new Tag(tag));
   }
 }

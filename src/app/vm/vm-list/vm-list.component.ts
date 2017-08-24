@@ -6,24 +6,20 @@ import { ListService } from '../../shared/components/list/list.service';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { StatsUpdateService } from '../../shared/services/stats-update.service';
-import { UserService } from '../../shared/services/user.service';
+import { UserTagService } from '../../shared/services/tags/user-tag.service';
+import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VmActionsService } from '../shared/vm-actions.service';
 import { VirtualMachine, VmState } from '../shared/vm.model';
 
 import { VirtualMachineEntityName, VmService } from '../shared/vm.service';
 
+
 import { VmCreationComponent } from '../vm-creation/vm-creation.component';
-import {
-  InstanceGroupOrNoGroup,
-  noGroup,
-  VmFilter
-} from '../vm-filter/vm-filter.component';
+import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list-item.component';
 import * as clone from 'lodash/clone';
 
-
-const askToCreateVm = 'csui.user.ask-to-create-vm';
 
 @Component({
   selector: 'cs-vm-list',
@@ -54,7 +50,7 @@ export class VmListComponent implements OnInit {
     {
       key: 'colors',
       label: 'VM_PAGE.FILTERS.GROUP_BY_COLORS',
-      selector: (item: VirtualMachine) => item.getColor().value,
+      selector: (item: VirtualMachine) => this.vmTagService.getColorSync(item).value,
       name: (item: VirtualMachine) => ' ',
     }
   ];
@@ -79,8 +75,9 @@ export class VmListComponent implements OnInit {
     private jobsNotificationService: JobsNotificationService,
     private asyncJobService: AsyncJobService,
     private statsUpdateService: StatsUpdateService,
-    private userService: UserService,
+    private userTagService: UserTagService,
     private vmActionsService: VmActionsService,
+    private vmTagService: VmTagService,
     private zoneService: ZoneService
   ) {
     this.showDetail = this.showDetail.bind(this);
@@ -289,9 +286,9 @@ export class VmListComponent implements OnInit {
   }
 
   private showSuggestionDialog(): void {
-    this.userService.readTag(askToCreateVm)
+    this.userTagService.getAskToCreateVm()
       .subscribe(tag => {
-        if (tag === 'false') {
+        if (tag === false) {
           return;
         }
 
@@ -306,7 +303,7 @@ export class VmListComponent implements OnInit {
               text: 'COMMON.NO'
             },
             {
-              handler: () => this.userService.writeTag(askToCreateVm, 'false').subscribe(),
+              handler: () => this.userTagService.setAskToCreateVm(false).subscribe(),
               text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
             }
           ],

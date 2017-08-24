@@ -8,12 +8,10 @@ import {
   SecurityGroup
 } from '../../security-group/sg.model';
 import { BackendResource } from '../decorators';
-import { DeletionMark } from '../models';
-
-import { TagService } from './tag.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
 import { AsyncJobService } from './async-job.service';
 import { ConfigService } from './config.service';
+import { SecurityGroupTagService } from './tags/security-group-tag.service';
 
 
 export const GROUP_POSTFIX = '-cs-sg';
@@ -27,7 +25,7 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
   constructor(
     private asyncJobService: AsyncJobService,
     private configService: ConfigService,
-    private tagService: TagService,
+    private securityGroupTagService: SecurityGroupTagService
   ) {
     super();
   }
@@ -38,26 +36,13 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
       .map(group => new SecurityGroup(group));
   }
 
-  public createTemplate(data: any, rules?: Rules): Observable<any> {
+  public createTemplate(data: any, rules?: Rules): Observable<SecurityGroup> {
     this.invalidateCache();
-    let template;
-    return (rules
-      ? this.createWithRules(data, rules.ingress, rules.egress)
-      : this.create(data))
-      .switchMap(res => {
-        template = res;
+    const ingressRules = rules && rules.ingress || [];
+    const egressRules = rules && rules.egress || [];
 
-        const id = res.id;
-        const params = {
-          resourceIds: id,
-          resourceType: this.entity,
-          'tags[0].key': 'template',
-          'tags[0].value': 'true'
-        };
-
-        return this.tagService.create(params);
-      })
-      .map(() => template);
+    return this.createWithRules(data, ingressRules, egressRules)
+      .switchMap(template => this.securityGroupTagService.markAsTemplate(template));
   }
 
   public deleteTemplate(id: string): Observable<any> {
@@ -96,9 +81,7 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
 
         return Observable.forkJoin(addRuleRequests);
       })
-      .map(() => {
-        return sg;
-      });
+      .map(() => sg);
   }
 
   public addRule(type: NetworkRuleType, data): Observable<NetworkRule> {
@@ -112,13 +95,8 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
       });
   }
 
-  public markForDeletion(id: string): Observable<any> {
-    return this.tagService.create({
-      resourceIds: id,
-      resourceType: this.entity,
-      'tags[0].key': 'status',
-      'tags[0].value': 'removed'
-    });
+  public markForRemoval(securityGroup: SecurityGroup): Observable<any> {
+    return this.securityGroupTagService.markForRemoval(securityGroup);
   }
 
   public removeRule(type: NetworkRuleType, data): Observable<null> {
