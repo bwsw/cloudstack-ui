@@ -1,61 +1,60 @@
 <cs-overlay-loading [active]="creationInProgress"></cs-overlay-loading>
-<div *ngIf="!creationInProgress">
-<h3 class="mat-dialog-title">{{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.CREATE_NEW_TEMPLATE' | translate }}</h3>
+<div [hidden]="creationInProgress">
+  <h3 class="mat-dialog-title">{{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.CREATE_NEW_TEMPLATE' | translate }}</h3>
 
-<form (ngSubmit)="onSubmit($event)" #templateCreationForm="ngForm" novalidate>
-  <div class="mat-dialog-content">
-    <mdl-textfield
-      type="text"
-      label="{{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.NAME' | translate }}"
-      name="name"
-      floating-label
-      autofocus
-      required
-      [(ngModel)]="name"
-      #nameField="ngModel"
-      [class.is-invalid]="nameField.invalid && !nameField.pristine"
-      [style.width]="'100%'"
-    >
-    </mdl-textfield>
-    <br/>
-    <mdl-textfield
-      type="text"
-      label="{{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.DESCRIPTION' | translate }}"
-      name="description"
-      floating-label
-      [(ngModel)]="description"
-      #descriptionField="ngModel"
-      [class.is-invalid]="descriptionField.invalid && !descriptionField.pristine"
-      [style.width]="'100%'"
-    >
-    </mdl-textfield>
-    <cs-security-group-rules-manager
-      class="basic-rules"
-      [header]="'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.BASIC_RULES'"
-      name="sgm"
-      [(ngModel)]="securityRules"
-    ></cs-security-group-rules-manager>
-  </div>
-  <div class="mat-dialog-actions">
-    <button
-      mdl-colored="primary"
-      mdl-button
-      mdl-ripple
-      type="submit"
-      [disabled]="!templateCreationForm.valid"
-    >
-      {{ 'COMMON.CREATE' | translate }}
-    </button>
-    <button
-      mdl-colored="primary"
-      mdl-button
-      mdl-ripple
-      type="button"
-      (click)="dialogRef.close()"
-    >
-      {{ 'COMMON.CANCEL' | translate }}
-    </button>
-  </div>
-</form>
-
+  <form (ngSubmit)="onSubmit($event)" #templateCreationForm="ngForm" novalidate>
+    <div class="mat-dialog-content">
+      <mdl-textfield
+        type="text"
+        label="{{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.NAME' | translate }}"
+        name="name"
+        floating-label
+        autofocus
+        required
+        [(ngModel)]="name"
+        #nameField="ngModel"
+        [class.is-invalid]="nameField.invalid && !nameField.pristine"
+        [style.width]="'100%'"
+      >
+      </mdl-textfield>
+      <br/>
+      <mdl-textfield
+        type="text"
+        label="{{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.DESCRIPTION' | translate }}"
+        name="description"
+        floating-label
+        [(ngModel)]="description"
+        #descriptionField="ngModel"
+        [class.is-invalid]="descriptionField.invalid && !descriptionField.pristine"
+        [style.width]="'100%'"
+      >
+      </mdl-textfield>
+      <cs-security-group-rules-manager
+        class="basic-rules"
+        [header]="'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.BASIC_RULES'"
+        name="sgm"
+        [(ngModel)]="securityRules"
+      ></cs-security-group-rules-manager>
+    </div>
+    <div class="mat-dialog-actions">
+      <button
+        mdl-colored="primary"
+        mdl-button
+        mdl-ripple
+        type="submit"
+        [disabled]="!templateCreationForm.valid"
+      >
+        {{ 'COMMON.CREATE' | translate }}
+      </button>
+      <button
+        mdl-colored="primary"
+        mdl-button
+        mdl-ripple
+        type="button"
+        (click)="dialogRef.close()"
+      >
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+    </div>
+  </form>
 </div>

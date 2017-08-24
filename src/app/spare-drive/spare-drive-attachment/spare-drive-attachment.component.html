@@ -1,5 +1,5 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<div *ngIf="!loading">
+<div [hidden]="loading">
   <ng-container *loading="!virtualMachines">
     <h3 *ngIf="virtualMachineId" class="mat-dialog-title">{{ 'SPARE_DRIVE_PAGE.ATTACHMENT.CHOOSE_VIRTUAL_MACHINE' | translate }}</h3>
     <h3 *ngIf="!virtualMachineId" class="mat-dialog-title">{{ 'SPARE_DRIVE_PAGE.ATTACHMENT.NO_VMS' | translate }}</h3>
