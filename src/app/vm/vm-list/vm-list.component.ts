@@ -11,11 +11,8 @@ import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VmActionsService } from '../shared/vm-actions.service';
 import { VirtualMachine, VmState } from '../shared/vm.model';
-
+import { ActivatedRoute, Router } from '@angular/router';
 import { VirtualMachineEntityName, VmService } from '../shared/vm.service';
-
-
-import { VmCreationComponent } from '../vm-creation/vm-creation.component';
 import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list-item.component';
 import * as clone from 'lodash/clone';
@@ -78,7 +75,9 @@ export class VmListComponent implements OnInit {
     private userTagService: UserTagService,
     private vmActionsService: VmActionsService,
     private vmTagService: VmTagService,
-    private zoneService: ZoneService
+    private zoneService: ZoneService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {
     this.showDetail = this.showDetail.bind(this);
 
@@ -97,7 +96,6 @@ export class VmListComponent implements OnInit {
     this.subscribeToStatsUpdates();
     this.subscribeToVmUpdates();
     this.subscribeToVmDestroyed();
-    this.subscribeToVmCreationDialog();
     this.subscribeToAsyncJobUpdates();
   }
 
@@ -136,12 +134,6 @@ export class VmListComponent implements OnInit {
     this.vmStats.updateStats();
   }
 
-  public onVmCreated(vm: VirtualMachine): void {
-    this.vmList.push(vm);
-    this.filter();
-    this.updateStats();
-  }
-
   public showDetail(vm: VirtualMachine): void {
     if (vm.state !== VmState.Error && vm.state !== VmState.Deploying) {
       this.listService.showDetails(vm.id);
@@ -149,17 +141,10 @@ export class VmListComponent implements OnInit {
   }
 
   public showVmCreationDialog(): void {
-    this.dialogService.showCustomDialog({
-      component: VmCreationComponent,
-      clickOutsideToClose: false,
-      styles: { 'width': '755px', 'padding': '0' },
-    })
-      .switchMap(res => res.onHide())
-      .subscribe(vm => {
-        if (vm) {
-          this.onVmCreated(vm);
-        }
-      });
+    this.router.navigate(['./create'], {
+      preserveQueryParams: true,
+      relativeTo: this.activatedRoute
+    });
   }
 
   private getVmList(): void {
@@ -242,10 +227,6 @@ export class VmListComponent implements OnInit {
         this.filter();
         this.updateStats();
       });
-  }
-
-  private subscribeToVmCreationDialog(): void {
-    this.listService.onAction.subscribe(() => this.showVmCreationDialog());
   }
 
   private subscribeToAsyncJobUpdates(): void {

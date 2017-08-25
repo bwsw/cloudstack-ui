@@ -1,1 +1,9 @@
-<ng-content></ng-content>
+<div class="sidebar" [class.open]="isOpen">
+  <ng-content></ng-content>
+</div>
+<div
+  *ngIf="isOpen"
+  class="backdrop"
+  (click)="onDetailsHide()"
+>
+</div>
