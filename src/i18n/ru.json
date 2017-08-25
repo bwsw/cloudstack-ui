@@ -221,7 +221,7 @@
   "NAVIGATION_SIDEBAR": {
     "WELCOME": "Здравствуйте, {{ name }}",
     "VMS": "Виртуальные<br>машины",
-    "SPARE_DRIVES": "Свободные диски",
+    "SPARE_DRIVES": "Хранилище",
     "IMAGES": "Образы",
     "FIREWALL_TEMPLATES": "Шаблоны<br>брандмауэра",
     "ACTIVITY_LOG": "Журнал событий",

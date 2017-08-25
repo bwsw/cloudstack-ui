@@ -221,7 +221,7 @@
   "NAVIGATION_SIDEBAR": {
     "WELCOME": "Welcome, {{ name }}",
     "VMS": "Virtual machines",
-    "SPARE_DRIVES": "Spare drives",
+    "SPARE_DRIVES": "Storage",
     "IMAGES": "Images",
     "FIREWALL_TEMPLATES": "Firewall Templates",
     "ACTIVITY_LOG": "Activity log",
