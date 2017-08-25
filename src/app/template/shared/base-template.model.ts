@@ -4,6 +4,8 @@ import { FieldMapper } from '../../shared/decorators/field-mapper.decorator';
 import { BaseModel, Tag } from '../../shared/models';
 import { OsType } from '../../shared/models/os-type.model';
 import { Utils } from '../../shared/services/utils.service';
+import { Taggable } from '../../shared/interfaces/taggable.interface';
+import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
 
 
 @FieldMapper({
@@ -19,8 +21,9 @@ import { Utils } from '../../shared/services/utils.service';
   zoneid: 'zoneId',
   zonename: 'zoneName',
 })
-export abstract class BaseTemplateModel extends BaseModel {
-  public resourceType: string;
+export abstract class BaseTemplateModel extends BaseModel implements Taggable {
+  public abstract resourceType: string;
+
   public path: string;
 
   public id: string;
@@ -58,5 +61,13 @@ export abstract class BaseTemplateModel extends BaseModel {
 
   public get sizeInGB(): number {
     return Utils.convertToGB(this.size);
+  }
+
+  public get downloadUrl(): string {
+    const tag = this.tags.find(_ => _.key === TemplateTagKeys.downloadUrl);
+
+    if (tag) {
+      return tag.value;
+    }
   }
 }

@@ -15,6 +15,7 @@ import { SpareDriveListComponent } from './spare-drive-list/spare-drive-list.com
 import { SpareDrivePageComponent } from './spare-drive-page/spare-drive-page.component';
 import { SpareDriveSidebarComponent } from './spare-drive-sidebar/spare-drive-sidebar.component';
 import { spareDrivesRouting } from './spare-drive.routing';
+import { SpareDriveCreationDialogComponent } from './spare-drive-creation/spare-drive-creation-dialog.component';
 import { SpareDriveSidebarVolumeComponent } from './spare-drive-sidebar/spare-drive-sidebar-volume/spare-drive-sidebar-volume.component';
 
 
@@ -40,6 +41,7 @@ import { SpareDriveSidebarVolumeComponent } from './spare-drive-sidebar/spare-dr
     SpareDriveSidebarVolumeComponent,
     SpareDriveAttachmentComponent,
     SpareDriveCreationComponent,
+    SpareDriveCreationDialogComponent,
     SpareDriveItemComponent,
     SpareDriveListComponent
   ],

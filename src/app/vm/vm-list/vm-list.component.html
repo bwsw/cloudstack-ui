@@ -1,4 +1,7 @@
-<cs-list>
+<cs-list
+  (onAction)="showVmCreationDialog()"
+  [isOpen]="listService?.hasSelected()"
+>
   <ng-container cs-panels>
     <cs-top-bar>
       <cs-vm-statistics></cs-vm-statistics>
@@ -22,5 +25,9 @@
     </cs-grouped-card-list>
     <cs-no-results *ngIf="noFilteringResults"></cs-no-results>
   </ng-container>
-  <router-outlet cs-sidebar></router-outlet>
+  <ng-container cs-sidebar>
+    <cs-sidebar [isOpen]="listService?.hasSelected()">
+      <router-outlet></router-outlet>
+    </cs-sidebar>
+  </ng-container>
 </cs-list>

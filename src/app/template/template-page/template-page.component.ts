@@ -7,6 +7,7 @@ import { TemplateFilters } from '../shared/base-template.service';
 import { TemplateActionsService } from '../shared/template-actions.service';
 import { TemplateCreationComponent } from '../template-creation/template-creation.component';
 import { MdDialog } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'cs-template-page',
@@ -22,37 +23,34 @@ export class TemplatePageComponent implements OnInit {
   constructor(
     private dialog: MdDialog,
     private storageService: LocalStorageService,
-    private listService: ListService,
+    public listService: ListService,
     private templateActions: TemplateActionsService,
     private templateService: TemplateService,
-    private isoService: IsoService
-  ) {}
+    private isoService: IsoService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {
+  }
 
   public ngOnInit(): void {
     this.viewMode = this.storageService.read('templateDisplayMode') || 'Template';
-    this.listService.onAction.subscribe(() => this.showCreationDialog());
-    this.listService.onDelete.subscribe((template) => this.updateList(template));
+    this.listService.onUpdate.subscribe((template) => this.updateList(template));
     this.getTemplates();
   }
 
   public showCreationDialog(): void {
-    this.dialog.open(TemplateCreationComponent, {
-       data: { mode: this.viewMode },
-       disableClose: true,
-       width: '720px'
-    }).afterClosed()
-      .subscribe(templateData => {
-        if (templateData) {
-          this.updateList();
-        }
-      });
+    this.router.navigate(['./create'], {
+      preserveQueryParams: true,
+      relativeTo: this.activatedRoute
+    });
   }
 
   public removeTemplate(template: BaseTemplateModel): void {
     this.templateActions.removeTemplate(template)
       .subscribe(
         () => this.updateList(template),
-        () => {}
+        () => {
+        }
       );
   }
 
@@ -70,7 +68,8 @@ export class TemplatePageComponent implements OnInit {
     ];
 
     Observable.forkJoin(
-      this.templateService.getGroupedTemplates<Template>({}, filters, true).map(_ => _.toArray()),
+      this.templateService.getGroupedTemplates<Template>({}, filters, true)
+        .map(_ => _.toArray()),
       this.isoService.getGroupedTemplates<Iso>({}, filters, true).map(_ => _.toArray())
     )
       .subscribe(([templates, isos]) => {

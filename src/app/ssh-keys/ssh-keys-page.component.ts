@@ -4,15 +4,16 @@ import { Observable } from 'rxjs';
 import { DialogService } from '../dialog/dialog-service/dialog.service';
 import { SSHKeyPair } from '../shared/models';
 import { SSHKeyPairService } from '../shared/services/ssh-keypair.service';
-import { SShKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creation-dialog.component';
-import { SshPrivateKeyDialogComponent } from './ssh-key-creation/ssh-private-key-dialog.component';
 import * as sortBy from 'lodash/sortBy';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ListService } from '../shared/components/list/list.service';
 
 
 @Component({
   selector: 'cs-ssh-keys-page',
   templateUrl: 'ssh-keys-page.component.html',
-  styleUrls: ['ssh-keys-page.component.scss']
+  styleUrls: ['ssh-keys-page.component.scss'],
+  providers: [ListService]
 })
 export class SshKeysPageComponent implements OnInit {
   public sshKeyList: Array<SSHKeyPair>;
@@ -20,39 +21,27 @@ export class SshKeysPageComponent implements OnInit {
   constructor(
     private dialogService: DialogService,
     private dialog: MdDialog,
-    private sshKeyService: SSHKeyPairService
+    private sshKeyService: SSHKeyPairService,
+    private listService: ListService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   public ngOnInit(): void {
-    this.sshKeyService.getList()
-      .subscribe(keyList => this.sshKeyList = sortBy(keyList, 'name'));
+    this.update();
+
+    this.listService.onUpdate.subscribe(() => this.update());
   }
 
   public showCreationDialog(): void {
-    this.dialog.open(SShKeyCreationDialogComponent, {
-      disableClose: true,
-      width: '400px'
-    })
-      .afterClosed()
-      .subscribe((sshKey: SSHKeyPair) => {
-        if (sshKey) {
-          this.sshKeyList = sortBy(this.sshKeyList.concat(sshKey), 'name');
-          if (sshKey.privateKey) {
-            this.showPrivateKey(sshKey.privateKey);
-          }
-        }
-      });
+    this.router.navigate(['./create'], {
+      preserveQueryParams: true,
+      relativeTo: this.activatedRoute
+    });
   }
 
   public removeKey(name: string): void {
     this.showRemovalDialog(name);
-  }
-
-  private showPrivateKey(privateKey: string): void {
-    this.dialog.open(SshPrivateKeyDialogComponent, {
-      data: privateKey,
-      width: '400px',
-    });
   }
 
   private showRemovalDialog(name: string): void {
@@ -76,6 +65,11 @@ export class SshKeysPageComponent implements OnInit {
           this.dialogService.alert({ message: 'SSH_KEYS.KEY_REMOVAL_FAILED' });
         }
       );
+  }
+
+  private update() {
+    this.sshKeyService.getList()
+      .subscribe(keyList => this.sshKeyList = sortBy(keyList, 'name'));
   }
 
   private setLoading(name, value = true): void {

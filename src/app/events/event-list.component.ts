@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { formatIso } from '../shared/components/date-picker/dateUtils';
 import { DateTimeFormatterService } from '../shared/services/date-time-formatter.service';
 import { FilterService } from '../shared/services/filter.service';
-import { LanguageService } from '../shared/services/language.service';
+import { Language, LanguageService } from '../shared/services/language.service';
 import { SessionStorageService } from '../shared/services/session-storage.service';
 import { Event } from './event.model';
 import { EventService } from './event.service';
@@ -69,8 +69,8 @@ export class EventListComponent implements OnInit {
     this.getEvents({ reload: true });
   }
 
-  public get locale(): string {
-    return this.translate.currentLang;
+  public get locale(): Language {
+    return this.translate.currentLang as Language;
   }
 
   public getEvents(params = { reload: false }): void {

@@ -3,6 +3,7 @@ import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { NetworkRule, NetworkRuleType, SecurityGroup } from '../sg.model';
+import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag-keys';
 
 
 export interface RuleListItem {
@@ -54,7 +55,7 @@ export class SgCreationComponent implements OnInit {
   public ngOnInit(): void {
     const templates = this.securityGroupService.getTemplates();
     const accountSecurityGroups = this.securityGroupService.getList({
-      'tags[0].key': 'template',
+      'tags[0].key': SecurityGroupTagKeys.template,
       'tags[0].value': 'true'
     });
 

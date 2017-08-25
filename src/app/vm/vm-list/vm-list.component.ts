@@ -1,5 +1,4 @@
 import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
-import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { AsyncJob, InstanceGroup, VmStatisticsComponent, Zone } from '../../shared';
@@ -7,24 +6,17 @@ import { ListService } from '../../shared/components/list/list.service';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { StatsUpdateService } from '../../shared/services/stats-update.service';
-import { UserService } from '../../shared/services/user.service';
+import { UserTagService } from '../../shared/services/tags/user-tag.service';
+import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VmActionsService } from '../shared/vm-actions.service';
 import { VirtualMachine, VmState } from '../shared/vm.model';
-
+import { ActivatedRoute, Router } from '@angular/router';
 import { VirtualMachineEntityName, VmService } from '../shared/vm.service';
-
-import { VmCreationComponent } from '../vm-creation/vm-creation.component';
-import {
-  InstanceGroupOrNoGroup,
-  noGroup,
-  VmFilter
-} from '../vm-filter/vm-filter.component';
+import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list-item.component';
 import * as clone from 'lodash/clone';
 
-
-const askToCreateVm = 'csui.user.ask-to-create-vm';
 
 @Component({
   selector: 'cs-vm-list',
@@ -55,7 +47,7 @@ export class VmListComponent implements OnInit {
     {
       key: 'colors',
       label: 'VM_PAGE.FILTERS.GROUP_BY_COLORS',
-      selector: (item: VirtualMachine) => item.getColor().value,
+      selector: (item: VirtualMachine) => this.vmTagService.getColorSync(item).value,
       name: (item: VirtualMachine) => ' ',
     }
   ];
@@ -77,13 +69,15 @@ export class VmListComponent implements OnInit {
     public listService: ListService,
     private vmService: VmService,
     private dialogService: DialogService,
-    private dialog: MdDialog,
     private jobsNotificationService: JobsNotificationService,
     private asyncJobService: AsyncJobService,
     private statsUpdateService: StatsUpdateService,
-    private userService: UserService,
+    private userTagService: UserTagService,
     private vmActionsService: VmActionsService,
-    private zoneService: ZoneService
+    private vmTagService: VmTagService,
+    private zoneService: ZoneService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {
     this.showDetail = this.showDetail.bind(this);
 
@@ -102,7 +96,6 @@ export class VmListComponent implements OnInit {
     this.subscribeToStatsUpdates();
     this.subscribeToVmUpdates();
     this.subscribeToVmDestroyed();
-    this.subscribeToVmCreationDialog();
     this.subscribeToAsyncJobUpdates();
   }
 
@@ -141,12 +134,6 @@ export class VmListComponent implements OnInit {
     this.vmStats.updateStats();
   }
 
-  public onVmCreated(vm: VirtualMachine): void {
-    this.vmList.push(vm);
-    this.filter();
-    this.updateStats();
-  }
-
   public showDetail(vm: VirtualMachine): void {
     if (vm.state !== VmState.Error && vm.state !== VmState.Deploying) {
       this.listService.showDetails(vm.id);
@@ -154,15 +141,9 @@ export class VmListComponent implements OnInit {
   }
 
   public showVmCreationDialog(): void {
-    this.dialog.open(VmCreationComponent, {
-    disableClose: true,
-    width: '755px'
-    })
-    .afterClosed()
-    .subscribe(vm => {
-     if (vm) {
-       this.onVmCreated(vm);
-     }
+    this.router.navigate(['./create'], {
+      preserveQueryParams: true,
+      relativeTo: this.activatedRoute
     });
   }
 
@@ -248,10 +229,6 @@ export class VmListComponent implements OnInit {
       });
   }
 
-  private subscribeToVmCreationDialog(): void {
-    this.listService.onAction.subscribe(() => this.showVmCreationDialog());
-  }
-
   private subscribeToAsyncJobUpdates(): void {
     this.asyncJobService.event
       .filter(job => this.isAsyncJobAVirtualMachineJobWithResult(job))
@@ -290,9 +267,9 @@ export class VmListComponent implements OnInit {
   }
 
   private showSuggestionDialog(): void {
-    this.userService.readTag(askToCreateVm)
+    this.userTagService.getAskToCreateVm()
       .subscribe(tag => {
-        if (tag === 'false') {
+        if (tag === false) {
           return;
         }
 
@@ -307,7 +284,7 @@ export class VmListComponent implements OnInit {
               text: 'COMMON.NO'
             },
             {
-              handler: () => this.userService.writeTag(askToCreateVm, 'false').subscribe(),
+              handler: () => this.userTagService.setAskToCreateVm(false).subscribe(),
               text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
             }
           ],
