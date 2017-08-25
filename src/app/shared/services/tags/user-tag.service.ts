@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { TagService } from './tag.service';
 import { Observable } from 'rxjs/Observable';
-import { ResourceTypes } from '../../models/tag.model';
 import { Color } from '../../models/color.model';
-import { Utils } from '../utils.service';
+import { ResourceTypes } from '../../models/tag.model';
 import { DayOfWeek } from '../../types/day-of-week';
+import { AuthService } from '../auth.service';
 import { Language, TimeFormat } from '../language.service';
-import { LocalStorageService } from '../local-storage.service';
+import { Utils } from '../utils.service';
 import { EntityTagService } from './entity-tag-service.interface';
-import { Time } from '../../../snapshot/recurring-snapshots/time-picker/time-picker.component';
+import { TagService } from './tag.service';
 import { UserTagKeys } from './user-tag-keys';
 
 
@@ -21,13 +20,13 @@ export class UserTagService implements EntityTagService {
   public keys = UserTagKeys;
 
   constructor(
-    private storageService: LocalStorageService,
+    private authService: AuthService,
     protected tagService: TagService
   ) {}
 
   private get user(): UserIdObject {
-    const id = this.storageService.read('userId');
-    return id ? { id } : undefined;
+    const user = this.authService.user;
+    return user ? { id: user.userId } : undefined;
   }
 
   public getAccentColor(): Observable<string> {

@@ -24,18 +24,17 @@ import { NotificationService } from './shared/services/notification.service';
 import { RouterUtilsService } from './shared/services/router-utils.service';
 import { SessionStorageService } from './shared/services/session-storage.service';
 import { StyleService } from './shared/services/style.service';
+import { UserService } from './shared/services/user.service';
 import { ZoneService } from './shared/services/zone.service';
-
 
 @Component({
   selector: 'cs-app',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, AfterViewInit {
   // todo: make a wrapper for link and use @ViewChildren(LinkWrapper)
   @ViewChild('navigationBar') public navigationBar: ElementRef;
-
 
   @ViewChild(MdlLayoutComponent) public layoutComponent: MdlLayoutComponent;
   public loggedIn: boolean;
@@ -58,6 +57,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private mdlDialogService: MdlDialogService,
     private notification: NotificationService,
     private styleService: StyleService,
+    private userService: UserService,
     private routerUtilsService: RouterUtilsService,
     private zoneService: ZoneService,
     private zone: NgZone
@@ -81,11 +81,13 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.loggedIn = isLoggedIn;
       this.updateAccount(this.loggedIn);
       if (isLoggedIn) {
-        this.auth.startInactivityCounter();
+        this.userService.startInactivityCounter();
         this.loadSettings();
-        this.zoneService.areAllZonesBasic().subscribe(basic => this.disableSecurityGroups = basic);
+        this.zoneService
+          .areAllZonesBasic()
+          .subscribe(basic => (this.disableSecurityGroups = basic));
       } else {
-        this.auth.clearInactivityTimer();
+        this.userService.clearInactivityTimer();
       }
       this.asyncJobService.completeAllJobs();
       this.cacheService.invalidateAll();
@@ -118,7 +120,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public get currentYear(): string {
-    return (new Date).getFullYear().toString();
+    return new Date().getFullYear().toString();
   }
 
   public get drawerStyles(): SafeStyle {
@@ -154,7 +156,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public get logoSource(): string {
-    return `img/cloudstack_logo_${ this.isLightTheme ? 'light' : 'dark' }.png`;
+    return `img/cloudstack_logo_${this.isLightTheme ? 'light' : 'dark'}.png`;
   }
 
   private updateAccount(loggedIn: boolean): void {
@@ -170,7 +172,10 @@ export class AppComponent implements OnInit, AfterViewInit {
           this.notification.message('AUTH.NOT_LOGGED_IN');
           const route = this.routerUtilsService.getRouteWithoutQueryParams();
           if (route !== '/login' && route !== '/logout') {
-            this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams());
+            this.router.navigate(
+              ['/logout'],
+              this.routerUtilsService.getRedirectionQueryParams()
+            );
           }
           break;
       }
@@ -185,21 +190,22 @@ export class AppComponent implements OnInit, AfterViewInit {
   private captureScrollEvents(): void {
     const useCapture = true;
     this.zone.runOutsideAngular(() => {
-      document.querySelector('.dialog-container')
-        .addEventListener(
-          'scroll',
-          e => e.stopPropagation(),
-          useCapture
-        );
+      document
+        .querySelector('.dialog-container')
+        .addEventListener('scroll', e => e.stopPropagation(), useCapture);
     });
   }
 
   private toggleDialogOverlay(): void {
     this.mdlDialogService.onDialogsOpenChanged.subscribe(open => {
       if (open) {
-        document.querySelector('.dialog-container').classList.add('dialog-container-overlay');
+        document
+          .querySelector('.dialog-container')
+          .classList.add('dialog-container-overlay');
       } else {
-        document.querySelector('.dialog-container').classList.remove('dialog-container-overlay');
+        document
+          .querySelector('.dialog-container')
+          .classList.remove('dialog-container-overlay');
       }
     });
   }
