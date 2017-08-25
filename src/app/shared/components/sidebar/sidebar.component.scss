@@ -1,6 +1,6 @@
 @import '../../../../style/__variables';
 
-:host {
+.sidebar {
   height: 100%;
   position: absolute;
   top: 0;
@@ -13,18 +13,18 @@
   background: #fafafa;
   padding: 10px 5px;
   border-left: 1px solid #E0E0E0;
-  z-index: 5;
+  z-index: 2;
 }
 
-:host.open {
+.sidebar.open {
   right: 0;
 }
 
-:host /deep/ h4 {
+.sidebar /deep/ h4 {
   margin: 0 5px;
 }
 
-:host /deep/ .grid {
+.sidebar /deep/ .grid {
   .row {
     display: flex;
     flex-flow: row wrap;
@@ -36,15 +36,15 @@
   }
 }
 
-:host /deep/ button {
+.sidebar /deep/ button {
   transition: transform 0.3s;
 }
 
-:host /deep/ button.open {
+.sidebar /deep/ button.open {
   transform: rotate(180deg);
 }
 
-:host /deep/ .mdl-tabs__tab-bar {
+.sidebar /deep/ .mdl-tabs__tab-bar {
   & > div {
     width: 50%;
   }
@@ -53,7 +53,7 @@
   }
 }
 
-:host /deep/ md-card-content {
+.sidebar /deep/ md-card-content {
   width: 100%;
   line-height: 18px;
 
@@ -63,8 +63,22 @@
   }
 }
 
-:host /deep/ .collapsed-panel .row,
-:host /deep/ .expanded-panel .row {
+.details-header {
+  width: 340px;
+}
+
+.sidebar /deep/ .collapsed-panel .row,
+.sidebar /deep/ .expanded-panel .row {
   display: flex;
   justify-content: space-between;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0,0,0,0.1);
+  z-index: 1;
 }

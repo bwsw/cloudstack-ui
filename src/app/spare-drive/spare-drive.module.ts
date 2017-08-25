@@ -13,7 +13,6 @@ import {
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
-
 import { SharedModule } from '../shared/shared.module';
 import { SpareDriveActionsService } from './spare-drive-actions.service';
 import { SpareDriveActionsComponent } from './spare-drive-actions/spare-drive-actions-component/spare-drive-actions.component';
@@ -22,6 +21,7 @@ import { SpareDriveDetachAction } from './spare-drive-actions/spare-drive-detach
 import { SpareDriveRemoveAction } from './spare-drive-actions/spare-drive-remove';
 import { SpareDriveResizeAction } from './spare-drive-actions/spare-drive-resize';
 import { SpareDriveAttachmentComponent } from './spare-drive-attachment/spare-drive-attachment.component';
+import { SpareDriveCreationDialogComponent } from './spare-drive-creation/spare-drive-creation-dialog.component';
 import { SpareDriveCreationComponent } from './spare-drive-creation/spare-drive-creation.component';
 import { SpareDriveFilterComponent } from './spare-drive-filter/spare-drive-filter.component';
 import { SpareDriveItemComponent } from './spare-drive-item/spare-drive-item.component';
@@ -69,6 +69,7 @@ import { spareDrivesRouting } from './spare-drive.routing';
     SpareDriveAttachmentComponent,
     SpareDriveCreationComponent,
     SpareDriveFilterComponent,
+    SpareDriveCreationDialogComponent,
     SpareDriveItemComponent,
     SpareDriveListComponent
   ],

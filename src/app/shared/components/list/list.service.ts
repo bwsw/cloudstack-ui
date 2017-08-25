@@ -1,12 +1,10 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Subject } from 'rxjs/Subject';
 
 
 @Injectable()
 export class ListService {
-  public onAction = new Subject<void>();
-  public onDelete = new EventEmitter();
+  public onUpdate = new EventEmitter();
 
   private selectedId: string;
 

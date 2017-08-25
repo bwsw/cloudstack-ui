@@ -14,7 +14,6 @@ export class VmListItemComponent implements OnInit, OnChanges {
   @Input() public item: VirtualMachine;
   @Input() public isSelected: (vm: VirtualMachine) => boolean;
   @Output() public onClick = new EventEmitter();
-  @Output() public onPulse = new EventEmitter<string>();
   @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
 
   public color: Color;

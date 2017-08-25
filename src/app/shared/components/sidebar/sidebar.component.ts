@@ -1,9 +1,8 @@
 import {
-  Component,
-  HostBinding,
-  Input,
+  Component, Input
 } from '@angular/core';
 import { DialogService } from '../../../dialog/dialog-module/dialog.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -12,15 +11,16 @@ import { DialogService } from '../../../dialog/dialog-module/dialog.service';
   styleUrls: ['sidebar.component.scss']
 })
 export class SidebarComponent {
-  @Input() @HostBinding('class.open') private isOpen;
+  @Input() public isOpen = false;
 
   private dialogsOpen: boolean; // true if any mdl dialog is open
   private dialogWasOpen: boolean; // true if last dialog was closed
 
   constructor(
+    private router: Router,
+    private route: ActivatedRoute,
     private dialogService: DialogService
   ) {
-    this.isOpen = false;
     this.dialogService.onDialogsOpenChanged
       .subscribe(dialogsOpen => {
         this.dialogsOpen = dialogsOpen;
@@ -28,5 +28,11 @@ export class SidebarComponent {
           this.dialogWasOpen = true;
         }
       });
+  }
+
+  public onDetailsHide(): void {
+    this.router.navigate([this.route.parent.snapshot.url], {
+      queryParamsHandling: 'preserve'
+    });
   }
 }
