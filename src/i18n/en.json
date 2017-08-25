@@ -691,8 +691,8 @@
       "FAILED_TO_ADD_RULE": "Failed to add the rule",
       "FAILED_TO_REMOVE_RULE": "Failed to remove the rule",
       "DEFAULT_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }} to port {{ port }}</b>",
-      "DEFAULT_RULE_PORT_RANGE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}to port range {{ startPort }}-{{ endPort }}",
-      "ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> of {{ icmpType }} ICMP type and {{ icmpCode }} ICMP code"
+      "DEFAULT_RULE_PORT_RANGE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }} to port range {{ startPort }}-{{ endPort }}</b>",
+      "ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> of <b>{{ icmpType }}</b> ICMP type and <b>{{ icmpCode }}</b> ICMP code"
     },
     "RULES_MANAGER": {
       "BASED_ON": "based on"
