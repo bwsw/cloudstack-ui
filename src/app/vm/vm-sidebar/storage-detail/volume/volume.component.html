@@ -4,10 +4,10 @@
       <h2 class="md-card-title-text">{{ volume.name }}</h2>
     </md-card-title>
     <div *ngIf="!loading" class="md-card-header-menu">
-        <button *ngIf="!loading"
-                md-icon-button [mdMenuTriggerFor]="actionsMenu">
-            <md-icon>more_vert</md-icon>
-        </button>
+      <button *ngIf="!loading"
+              md-icon-button [mdMenuTriggerFor]="actionsMenu">
+        <md-icon>more_vert</md-icon>
+      </button>
     </div>
   </md-card-header>
   <md-card-content class="md-card-content-with-actions">
@@ -52,35 +52,35 @@
       </div>
     </md-card-actions>
   </md-card-content>
-    <md-menu
-      #actionsMenu="mdMenu"
-      [style.width.px]="300"
+  <md-menu
+    #actionsMenu="mdMenu"
+    [style.width.px]="300"
+  >
+    <button
+      md-menu-item
+      [disabled]="loading"
+      (click)="takeSnapshot(volume)"
     >
-        <button
-          md-menu-item
-          [disabled]="loading"
-          (click)="takeSnapshot(volume)"
-        >
-          <md-icon >camera_alt</md-icon>
-          <span>{{ 'VOLUME_ACTIONS.TAKE_SNAPSHOT' | translate }}</span>
-        </button>
+      <md-icon >camera_alt</md-icon>
+      <span>{{ 'VOLUME_ACTIONS.TAKE_SNAPSHOT' | translate }}</span>
+    </button>
 
-        <button
-          md-menu-item
-          [disabled]="loading"
-          (click)="showRecurringSnapshotsDialog()"
-        >
-          <md-icon >schedule</md-icon>
-          <span>{{ 'VOLUME_ACTIONS.SNAPSHOT_SCHEDULE' | translate }}</span>
-        </button>
+    <button
+      md-menu-item
+      [disabled]="loading"
+      (click)="showRecurringSnapshotsDialog()"
+    >
+      <md-icon >schedule</md-icon>
+      <span>{{ 'VOLUME_ACTIONS.SNAPSHOT_SCHEDULE' | translate }}</span>
+    </button>
 
-        <button
-          md-menu-item
-          [disabled]="loading"
-          (click)="showVolumeResizeDialog()"
-        >
-          <md-icon >photo_size_select_small</md-icon>
-          <span>{{ 'VOLUME_ACTIONS.RESIZE' | translate }}</span>
-        </button>
-    </md-menu>
+    <button
+      md-menu-item
+      [disabled]="loading"
+      (click)="showVolumeResizeDialog()"
+    >
+      <md-icon >photo_size_select_small</md-icon>
+      <span>{{ 'VOLUME_ACTIONS.RESIZE' | translate }}</span>
+    </button>
+  </md-menu>
 </md-card>

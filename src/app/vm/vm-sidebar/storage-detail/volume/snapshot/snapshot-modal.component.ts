@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 
 import { Volume } from '../../../../../shared/models';
-import { SnapshotActionsService } from './snapshot-actions.service';
+import { SnapshotActionsService } from '../../../../../snapshot/snapshot-actions.service';
 import { MdlDialogReference } from '../../../../../dialog/dialog-module';
 
 @Component({

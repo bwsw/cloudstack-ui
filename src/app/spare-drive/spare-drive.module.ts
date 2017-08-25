@@ -36,6 +36,7 @@ import { SpareDriveSnapshotComponent } from './spare-drive-sidebar/snapshot-deta
 import { SpareDriveSnapshotDetailsComponent } from './spare-drive-sidebar/snapshot-details/spare-drive-snapshot-details.component';
 import { SpareDriveSidebarComponent } from './spare-drive-sidebar/spare-drive-sidebar.component';
 import { spareDrivesRouting } from './spare-drive.routing';
+import { SnapshotActionsComponent } from './spare-drive-sidebar/snapshot-details/snapshot/snapshot-actions/snapshot-actions.component';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { spareDrivesRouting } from './spare-drive.routing';
     MdTabsModule
   ],
   declarations: [
+    SnapshotActionsComponent,
     SpareDriveDetailsComponent,
     SpareDriveSnapshotComponent,
     SpareDriveSnapshotCreationComponent,

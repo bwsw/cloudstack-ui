@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Volume } from '../../../../../shared/models';
-import { SnapshotActionsService } from './snapshot-actions.service';
+import { SnapshotActionsService } from '../../../../../snapshot/snapshot-actions.service';
 import { SnapshotModalComponent } from './snapshot-modal.component';
 import { DialogService } from '../../../../../dialog/dialog-module/dialog.service';
 

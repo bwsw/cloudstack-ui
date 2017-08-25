@@ -28,7 +28,7 @@
           class="button-18px"
           mdl-button
           mdl-button-type="icon"
-          (click)="action.activate(snapshot, volume)"
+          (click)="action.activate(snapshot, volume).subscribe()"
           [disabled]="snapshot['loading']"
         >
           <md-icon>{{ action.icon }}</md-icon>
