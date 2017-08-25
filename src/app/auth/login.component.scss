@@ -13,7 +13,8 @@
 }
 
 .login {
-  max-width: 100%;
+  width: auto;
+  height: 18vh;
 }
 
 .options-button {
@@ -29,4 +30,9 @@
   padding: 8px 8px 8px 24px;
   display: flex;
   flex-direction: row-reverse;
+}
+
+:host .mat-dialog-content {
+  margin: 15px auto !important;
+  overflow: hidden;
 }
