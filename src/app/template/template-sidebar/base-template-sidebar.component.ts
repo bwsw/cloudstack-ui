@@ -46,7 +46,7 @@ export abstract class BaseTemplateSidebarComponent extends SidebarComponent<Base
 
   public remove(): void {
     this.templateActions.removeTemplate(this.entity).subscribe(() => {
-      this.listService.onDelete.emit(this.entity);
+      this.listService.onUpdate.emit(this.entity);
     });
   }
 

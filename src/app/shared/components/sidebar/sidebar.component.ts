@@ -1,5 +1,5 @@
 import { OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { BaseModel } from '../../models/base.model';
 import { BaseBackendService } from '../../services/base-backend.service';
@@ -13,7 +13,8 @@ export abstract class SidebarComponent<M extends BaseModel> implements OnInit {
   constructor(
     protected entityService: BaseBackendService<M>,
     protected notificationService: NotificationService,
-    protected route: ActivatedRoute
+    protected route: ActivatedRoute,
+    protected router: Router
   ) {}
 
   public ngOnInit(): void {
@@ -29,6 +30,12 @@ export abstract class SidebarComponent<M extends BaseModel> implements OnInit {
           }
         }
       );
+  }
+
+  public onDetailsHide(): void {
+    this.router.navigate([this.route.parent.snapshot.url], {
+      queryParamsHandling: 'preserve'
+    });
   }
 
   private pluckId(): Observable<string> {
