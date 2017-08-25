@@ -64,6 +64,10 @@ export class SpareDriveItemComponent implements OnInit, OnChanges {
     }
   }
 
+  public get descriptionIncludesQuery(): boolean {
+    return this.query && this.item.description.includes(this.query);
+  }
+
   public get stateTranslationToken(): string {
     const stateTranslations = {
       'ALLOCATED': 'SPARE_DRIVE_STATE.ALLOCATED',

@@ -546,8 +546,9 @@
     },
 
     "CARD": {
-      "STATE": "State",
+      "DESCRIPTION": "Description",
       "SIZE": "Size",
+      "STATE": "State",
       "ATTACH": "Attach",
       "RESIZE": "Resize"
     },

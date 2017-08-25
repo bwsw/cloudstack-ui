@@ -52,6 +52,9 @@ export class SpareDriveSidebarComponent {
   public changeDescription(newDescription: string): void {
     this.volumeTagService.setDescription(this.volume, newDescription)
       .onErrorResumeNext()
-      .subscribe();
+      .subscribe((volume: Volume) => {
+        this.volume.tags = volume.tags;
+        this.volumeService.onVolumeTagsChanged.next(volume);
+      });
   }
 }

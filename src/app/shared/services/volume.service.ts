@@ -34,6 +34,7 @@ export interface VolumeResizeData {
 })
 export class VolumeService extends BaseBackendService<Volume> {
   public onVolumeAttached: Subject<Volume>;
+  public onVolumeTagsChanged: Subject<Volume>;
 
   constructor(
     private asyncJobService: AsyncJobService,
@@ -42,6 +43,7 @@ export class VolumeService extends BaseBackendService<Volume> {
   ) {
     super();
     this.onVolumeAttached = new Subject<Volume>();
+    this.onVolumeTagsChanged = new Subject<Volume>();
   }
 
   public get(id: string): Observable<Volume> {

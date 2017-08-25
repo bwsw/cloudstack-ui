@@ -15,7 +15,6 @@ export class Snapshot extends BaseModel implements Taggable {
 
   public id: string;
   public created: Date;
-  public description: string;
   public physicalSize: number;
   public volumeId: string;
   public name: string;
@@ -24,17 +23,18 @@ export class Snapshot extends BaseModel implements Taggable {
   constructor(json) {
     super(json);
     this.created = moment(json.created).toDate();
-    this.initializeDescription();
   }
 
-  private initializeDescription(): void {
+  public get description(): string {
     if (!this.tags) {
-      return;
+      return '';
     }
 
     const description = this.tags.find(tag => tag.key === SnapshotTagKeys.description);
     if (description) {
-      this.description = description.value;
+      return description.value;
+    } else {
+      return '';
     }
   }
 }

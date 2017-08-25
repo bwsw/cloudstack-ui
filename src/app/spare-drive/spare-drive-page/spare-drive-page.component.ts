@@ -68,6 +68,13 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
       .takeUntil(this.onDestroy)
       .subscribe(() => this.onVolumeAttached());
 
+    this.volumeService.onVolumeTagsChanged
+      .takeUntil(this.onDestroy)
+      .subscribe(volume => {
+        this.volumes.find(_ => _.id === volume.id).tags = volume.tags;
+        this.filter();
+      });
+
     Observable.forkJoin(
       this.updateVolumeList(),
       this.updateZones()
@@ -134,7 +141,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     const queryLower = this.query.toLowerCase();
     return volumes.filter(volume => {
       return volume.name.toLowerCase().includes(queryLower) ||
-             volume.size.toString().toLowerCase().includes(queryLower);
+             volume.description.toLowerCase().includes(queryLower);
     });
   }
 
