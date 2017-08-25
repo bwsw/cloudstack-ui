@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Volume } from '../../../shared/models/volume.model';
+import { Volume } from '../../../../shared/models/volume.model';
 
 
 @Component({

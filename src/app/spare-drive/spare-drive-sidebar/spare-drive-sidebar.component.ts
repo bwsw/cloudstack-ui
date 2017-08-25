@@ -15,11 +15,11 @@ import { VolumeTagService } from '../../shared/services/tags/volume-tag.service'
 
 @Component({
   selector: 'cs-spare-drive-sidebar',
-  templateUrl: 'spare-drive-sidebar.component.html'
+  templateUrl: 'spare-drive-sidebar.component.html',
+  styleUrls: ['spare-drive-sidebar.component.scss']
 })
 export class SpareDriveSidebarComponent extends SpareDriveItem implements OnInit {
   @HostBinding('class.grid') public grid = true;
-  public description: string;
   public item: Volume;
 
   constructor(
@@ -42,16 +42,6 @@ export class SpareDriveSidebarComponent extends SpareDriveItem implements OnInit
       this.volumeService.onVolumeRemoved
     )
       .subscribe(() => this.loadVolume(this.item.id));
-  }
-
-  public changeDescription(newDescription: string): void {
-    this.volumeTagService
-      .setDescription(this.item, newDescription)
-      .onErrorResumeNext()
-      .subscribe((volume: Volume) => {
-        this.item.tags = volume.tags;
-        this.volumeService.onVolumeTagsChanged.next(volume);
-      });
   }
 
   private loadVolume(id: string): void {
@@ -77,6 +67,5 @@ export class SpareDriveSidebarComponent extends SpareDriveItem implements OnInit
       offering => offering.id === volume.diskOfferingId
     );
     this.item = volume;
-    this.description = description;
   }
 }

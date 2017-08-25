@@ -4,12 +4,28 @@
     <cs-spare-drive-actions-sidebar [volume]="item"></cs-spare-drive-actions-sidebar>
   </div>
 
-  <cs-spare-drive-sidebar-volume [volume]="item"></cs-spare-drive-sidebar-volume>
-
-  <cs-description
-    [description]="description"
-    (descriptionChange)="changeDescription($event)"
-  ></cs-description>
-
-  <cs-spare-drive-sidebar-disk-offering [volume]="item"></cs-spare-drive-sidebar-disk-offering>
+  <md-tab-group [selectedIndex]="0" md-no-pagination="true">
+    <md-tab>
+      <ng-template md-tab-label >
+        <div [mdTooltip]="'SPARE_DRIVE_PAGE.SIDEBAR.VOLUME' | translate" class="md-tab-tooltip">
+          <md-icon>storage</md-icon>
+        </div>
+      </ng-template>
+      <cs-spare-drive-details [volume]="item"></cs-spare-drive-details>
+    </md-tab>
+    <md-tab>
+      <ng-template md-tab-label>
+        <div [mdTooltip]="'SPARE_DRIVE_PAGE.SIDEBAR.SNAPSHOTS' | translate" class="md-tab-tooltip">
+          <md-icon>photo_camera</md-icon>
+        </div>
+      </ng-template>
+      <cs-spare-drive-snapshot-details [volume]="item"></cs-spare-drive-snapshot-details>
+    </md-tab>
+  </md-tab-group>
 </div>
+
+
+
+
+
+

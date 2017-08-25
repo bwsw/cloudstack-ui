@@ -114,7 +114,7 @@ import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-templ
     MdMenuModule,
     MdButtonModule,
     MdIconModule,
-    MdTabsModule,
+    MdTabsModule
   ],
   declarations: [
     AffinityGroupSelectorComponent,

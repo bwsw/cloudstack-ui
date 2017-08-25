@@ -552,6 +552,11 @@
       "SIZE": "Size"
     },
 
+    "SIDEBAR": {
+      "VOLUME": "Volume",
+      "SNAPSHOTS": "Snapshots"
+    },
+
     "DETAILS": {
       "GENERAL_INFORMATION": "General information",
       "SIZE": "Size",
@@ -567,6 +572,11 @@
       "WRITE_RATE_MB": "Write rate",
       "READ_RATE_IOPS": "Read rate",
       "WRITE_RATE_IOPS": "Write rate"
+    },
+
+    "SNAPSHOTS": {
+      "DESCRIPTION": "Description",
+      "DATE": "Date"
     },
 
     "ATTACHMENT": {

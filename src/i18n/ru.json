@@ -552,6 +552,11 @@
       "SIZE": "Размер"
     },
 
+    "SIDEBAR": {
+      "VOLUME": "Диск",
+      "SNAPSHOTS": "Снимки"
+    },
+
     "DETAILS": {
       "GENERAL_INFORMATION": "Общая информация",
       "SIZE": "Размер",
