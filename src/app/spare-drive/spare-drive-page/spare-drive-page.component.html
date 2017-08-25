@@ -1,4 +1,7 @@
-<cs-list>
+<cs-list
+  (onAction)="showCreationDialog()"
+  [isOpen]="listService?.hasSelected()"
+>
   <cs-top-bar cs-panels>
     <md-select
       *ngIf="zones"
@@ -32,5 +35,9 @@
     cs-list
   ></cs-spare-drive-list>
 
-  <router-outlet cs-sidebar></router-outlet>
+  <ng-container cs-sidebar>
+    <cs-sidebar [isOpen]="listService?.hasSelected()">
+      <router-outlet></router-outlet>
+    </cs-sidebar>
+  </ng-container>
 </cs-list>

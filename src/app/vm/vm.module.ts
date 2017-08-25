@@ -83,6 +83,7 @@ import { VmDetailZoneComponent } from './vm-sidebar/zone/zone.component';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
 import { vmRouting } from './vm.routing';
 import { WebShellService } from './web-shell/web-shell.service';
+import { VmCreationDialogComponent } from './vm-creation/vm-creation-dialog.component';
 import { StatisticsComponent } from './vm-sidebar/statistics/statistics.component';
 import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-template.component';
 
@@ -136,6 +137,7 @@ import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-templ
     VmActionsSidebarComponent,
     VmColorComponent,
     VmCreationComponent,
+    VmCreationDialogComponent,
     VmListItemComponent,
     VmDetailComponent,
     VmFilterComponent,

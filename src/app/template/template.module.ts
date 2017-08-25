@@ -42,6 +42,7 @@ import { IsoActionsService } from './template-actions/iso-actions.service';
 import { TemplateDescriptionComponent } from './template-sidebar/template-description/template-description.component';
 import { TemplateOsComponent } from './template-sidebar/template-os/template-os.component';
 import { TemplateOsIconComponent } from './template-sidebar/template-os-icon/template-os-icon.component';
+import { TemplateCreationDialogComponent } from './template-creation/template-creation-dialog.component';
 
 
 @NgModule({
@@ -71,6 +72,7 @@ import { TemplateOsIconComponent } from './template-sidebar/template-os-icon/tem
     TemplateComponent,
     TemplateCreationComponent,
     TemplateDescriptionComponent,
+    TemplateCreationDialogComponent,
     TemplateFiltersComponent,
     TemplateListComponent,
     TemplateOsComponent,
