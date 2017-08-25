@@ -33,8 +33,12 @@ export const defaultChartOptions = {
     }
   },
   tooltips: {
+    mode: 'x',
     intersect: false,
-    mode: 'x'
+  },
+  hover: {
+    mode: 'nearest',
+    intersect: false
   },
   scales: {
     xAxes: [{
