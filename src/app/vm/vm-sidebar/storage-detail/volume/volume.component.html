@@ -31,7 +31,7 @@
           mdl-button
           mdl-button-type="icon"
           mdTooltipPosition="above"
-          [mdTooltip]="'VM_PAGE.STORAGE_DETAILS.VOLUME_ACTIONS.DETACH' | translate"
+          [mdTooltip]="'VOLUME_ACTIONS.DETACH' | translate"
           [disabled]="loading"
           (click)="detach()"
         >
@@ -62,7 +62,7 @@
           (click)="takeSnapshot(volume)"
         >
           <md-icon >camera_alt</md-icon>
-          <span>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_ACTIONS.TAKE_SNAPSHOT' | translate }}</span>
+          <span>{{ 'VOLUME_ACTIONS.TAKE_SNAPSHOT' | translate }}</span>
         </button>
 
         <button
@@ -71,7 +71,7 @@
           (click)="showRecurringSnapshotsDialog()"
         >
           <md-icon >schedule</md-icon>
-          <span>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_ACTIONS.SNAPSHOT_SCHEDULE' | translate }}</span>
+          <span>{{ 'VOLUME_ACTIONS.SNAPSHOT_SCHEDULE' | translate }}</span>
         </button>
 
         <button
@@ -80,7 +80,7 @@
           (click)="showVolumeResizeDialog()"
         >
           <md-icon >photo_size_select_small</md-icon>
-          <span>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_ACTIONS.RESIZE' | translate }}</span>
+          <span>{{ 'VOLUME_ACTIONS.RESIZE' | translate }}</span>
         </button>
     </md-menu>
 </md-card>

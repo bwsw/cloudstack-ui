@@ -402,13 +402,6 @@
         "WRITE_RATE_IOPS": "Скорость записи (IO/сек)"
       },
 
-      "VOLUME_ACTIONS": {
-        "TAKE_SNAPSHOT": "Создать снимок",
-        "SNAPSHOT_SCHEDULE": "Настроить создание снимков",
-        "RESIZE": "Изменить размер диска",
-        "DETACH": "Открепить"
-      },
-
       "VOLUME_RESIZE": {
         "TITLE": "Изменить размер диска",
         "DISK_OFFERING": "Дисковое предложение",
@@ -548,9 +541,7 @@
     "CARD": {
       "DESCRIPTION": "Описание",
       "SIZE": "Размер",
-      "STATE": "Состояние",
-      "ATTACH": "Прикрепить",
-      "RESIZE": "Изменить размер"
+      "STATE": "Состояние"
     },
 
     "SPARE_DRIVE_CREATION": {
@@ -562,6 +553,7 @@
     },
 
     "DETAILS": {
+      "GENERAL_INFORMATION": "Общая информация",
       "SIZE": "Размер",
       "CREATED": "Создан",
       "STORAGE_TYPE": "Тип хранилища",
@@ -617,6 +609,7 @@
     },
 
     "TEMPLATE_DETAILS": {
+      "OS": "ОС",
       "DETAILS": "Общая информация",
       "SIZE": "Размер",
       "EXTRACTABLE": "Извлекаемый",
@@ -933,5 +926,13 @@
     "MB_VALUE": "{{value}} MБ",
     "MBPS": "{{value}} MБ/сек",
     "MHZ": "МГц"
+  },
+
+  "VOLUME_ACTIONS": {
+    "TAKE_SNAPSHOT": "Создать снимок",
+    "SNAPSHOT_SCHEDULE": "Настроить создание снимков",
+    "RESIZE": "Изменить размер диска",
+    "ATTACH": "Прикрепить",
+    "DETACH": "Открепить"
   }
 }

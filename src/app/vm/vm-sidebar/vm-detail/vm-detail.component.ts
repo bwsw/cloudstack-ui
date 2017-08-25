@@ -5,6 +5,8 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-module/dialog.service';
 import { AffinityGroup } from '../../../shared/models/affinity-group.model';
+import { AsyncJob } from '../../../shared/models/async-job.model';
+import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { DateTimeFormatterService } from '../../../shared/services/date-time-formatter.service';
 import { VmActionsService } from '../../shared/vm-actions.service';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
@@ -28,8 +30,9 @@ export class VmDetailComponent implements OnChanges {
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
+    private asyncJobService: AsyncJobService,
     private dialogService: DialogService,
-    private vmActionsService: VmActionsService,
+    private  vmActionsService: VmActionsService,
     private vmService: VmService,
     private vmTagService: VmTagService
   ) {
@@ -119,8 +122,8 @@ export class VmDetailComponent implements OnChanges {
   private showAffinityGroupDialog(): void {
     this.dialogService.showCustomDialog({
       component: AffinityGroupSelectorComponent,
-      styles: { width: '350px' },
-      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
+      styles: {width: '350px'},
+      providers: [{provide: 'virtualMachine', useValue: this.vm}],
       clickOutsideToClose: false
     }).switchMap(dialog => dialog.onHide())
       .subscribe((group?: Array<AffinityGroup>) => {
@@ -133,8 +136,8 @@ export class VmDetailComponent implements OnChanges {
   private showSshKeypairResetDialog(): void {
     this.dialogService.showCustomDialog({
       component: SshKeypairResetComponent,
-      styles: { width: '350px' },
-      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
+      styles: {width: '350px'},
+      providers: [{provide: 'virtualMachine', useValue: this.vm}],
       clickOutsideToClose: false
     }).switchMap(dialog => dialog.onHide())
       .subscribe((keyPairName: string) => {
@@ -142,5 +145,17 @@ export class VmDetailComponent implements OnChanges {
           this.vm.keyPair = keyPairName;
         }
       });
+  }
+
+  private subscribeToAsyncJobUpdates(): void {
+    this.asyncJobService.event
+      .filter(job => this.vmService.isAsyncJobAVirtualMachineJobWithResult(job))
+      .subscribe(job => this.updateVm(job));
+  }
+
+  private updateVm(job: AsyncJob<VirtualMachine>): void {
+    if (job) {
+      this.vm.state = job.result.state;
+    }
   }
 }

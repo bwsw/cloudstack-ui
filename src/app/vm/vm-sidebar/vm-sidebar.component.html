@@ -1,6 +1,10 @@
 <div>
   <div *ngIf="vm">
-    <h4 class="details-header">{{ vm.displayName }}</h4>
+    <div class="title-container">
+      <h4 class="details-header">{{ vm.displayName }}</h4>
+      <cs-vm-actions-sidebar [vm]="vm"></cs-vm-actions-sidebar>
+    </div>
+
     <md-tab-group [selectedIndex]="0" md-no-pagination="true">
       <md-tab>
         <ng-template md-tab-label >

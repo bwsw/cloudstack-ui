@@ -1,0 +1,45 @@
+<md-card *ngIf="volume.diskOffering">
+  <md-card-header>
+    <md-card-title>
+      <h2 class="md-card-title-text">
+        {{ 'SPARE_DRIVE_PAGE.DETAILS.DISK_OFFERING' | translate }}
+      </h2>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content>
+    <div class="grid grid-right">
+      <div class="row" *ngIf="volume.diskOffering.name">
+        <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.DISK_OFFERING_NAME' | translate }}</div>
+        <div>{{ volume.diskOffering.name }}</div>
+      </div>
+      <div class="row" *ngIf="volume.diskOffering.displayText">
+        <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.DESCRIPTION' | translate }}</div>
+        <div>{{ volume.diskOffering.displayText }}</div>
+      </div>
+      <div class="row" *ngIf="volume.diskOffering.minIops">
+        <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.MIN_IOPS' | translate }}</div>
+        <div>{{ volume.diskOffering.minIops }}</div>
+      </div>
+      <div class="row" *ngIf="volume.diskOffering.maxIops">
+        <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.MAX_IOPS' | translate }}</div>
+        <div>{{ volume.diskOffering.maxIops }}</div>
+      </div>
+      <div class="row" *ngIf="volume.diskOffering.diskBytesReadRate">
+        <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.READ_RATE_MB' | translate }}</div>
+        <div>{{ 'UNITS.MBPS' | translate:{ value: volume.diskOffering.diskBytesReadRate | division:10:6 } }}</div>
+      </div>
+      <div class="row" *ngIf="volume.diskOffering.diskBytesWriteRate">
+        <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.WRITE_RATE_MB' | translate }}</div>
+        <div>{{ 'UNITS.MBPS' | translate:{ value: volume.diskOffering.diskBytesWriteRate | division:10:6 } }}</div>
+      </div>
+      <div class="row" *ngIf="volume.diskOffering.diskIopsReadRate">
+        <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.READ_RATE_IOPS' | translate }}</div>
+        <div>{{ 'UNITS.IOPS' | translate:{ value: volume.diskOffering.diskIopsReadRate } }}</div>
+      </div>
+      <div class="row" *ngIf="volume.diskOffering.diskIopsWriteRate">
+        <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.WRITE_RATE_IOPS' | translate }}</div>
+        <div>{{ 'UNITS.IOPS' | translate:{ value: volume.diskOffering.diskIopsWriteRate } }}</div>
+      </div>
+    </div>
+  </md-card-content>
+</md-card>

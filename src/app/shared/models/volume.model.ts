@@ -31,6 +31,7 @@ export class Volume extends BaseModel {
   public domain: string;
   public diskOffering: DiskOffering;
   public diskOfferingId: string;
+  public loading: boolean;
   public name: string;
   public state: string;
   public size: number;
@@ -65,6 +66,10 @@ export class Volume extends BaseModel {
 
   public get isRoot(): boolean {
     return this.type === VolumeType.ROOT;
+  }
+
+  public get isSpare(): boolean {
+    return !this.virtualMachineId;
   }
 
   public get isDeleted(): boolean {

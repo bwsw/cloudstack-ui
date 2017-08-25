@@ -24,15 +24,12 @@ export class StorageDetailComponent implements OnChanges {
   public iso: Iso;
   public isoOperationInProgress = false;
 
-  constructor(
-    private dialogService: DialogService,
-    private jobNotificationService: JobsNotificationService,
-    private isoService: IsoService,
-    private notificationService: NotificationService,
-    private spareDriveActionService: SpareDriveActionsService,
-    private vmService: VmService,
-    private volumeService: VolumeService
-  ) {
+  constructor(private dialogService: DialogService,
+              private jobNotificationService: JobsNotificationService,
+              private isoService: IsoService,
+              private notificationService: NotificationService,
+              private  vmService: VmService,
+              private volumeService: VolumeService) {
   }
 
   public ngOnChanges(): void {
@@ -65,7 +62,7 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   public subscribeToVolumeAttachments(): void {
-    this.spareDriveActionService.onVolumeAttachment
+    this.volumeService.onVolumeAttachment
       .subscribe(() => {
         this.volumeService.getList({ virtualMachineId: this.vm.id })
           .subscribe(volumes => this.vm.volumes = volumes);
@@ -96,9 +93,9 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private detachVolume(volume: Volume): void {
-    volume['loading'] = true;
-    this.spareDriveActionService.detach(volume)
-      .finally(() => volume['loading'] = false)
+    volume.loading = true;
+    this.volumeService.detach(volume)
+      .finally(() => volume.loading = false)
       .subscribe(() => this.onVolumeChange());
   }
 

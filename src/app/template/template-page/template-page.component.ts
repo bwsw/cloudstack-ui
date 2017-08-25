@@ -5,7 +5,6 @@ import { ListService } from '../../shared/components/list/list.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { BaseTemplateModel, Iso, IsoService, Template, TemplateService } from '../shared';
 import { TemplateFilters } from '../shared/base-template.service';
-import { TemplateActionsService } from '../shared/template-actions.service';
 import { TemplateCreationComponent } from '../template-creation/template-creation.component';
 
 
@@ -24,7 +23,6 @@ export class TemplatePageComponent implements OnInit {
     private dialogService: DialogService,
     private storageService: LocalStorageService,
     private listService: ListService,
-    private templateActions: TemplateActionsService,
     private templateService: TemplateService,
     private isoService: IsoService
   ) {}
@@ -33,6 +31,7 @@ export class TemplatePageComponent implements OnInit {
     this.viewMode = this.storageService.read('templateDisplayMode') || 'Template';
     this.listService.onAction.subscribe(() => this.showCreationDialog());
     this.listService.onDelete.subscribe((template) => this.updateList(template));
+    this.subscribeToTemplateDeletions();
     this.getTemplates();
   }
 
@@ -49,14 +48,6 @@ export class TemplatePageComponent implements OnInit {
           this.updateList();
         }
       });
-  }
-
-  public removeTemplate(template: BaseTemplateModel): void {
-    this.templateActions.removeTemplate(template)
-      .subscribe(
-        () => this.updateList(template),
-        () => {}
-      );
   }
 
   private updateList(template?: BaseTemplateModel): void {
@@ -80,5 +71,13 @@ export class TemplatePageComponent implements OnInit {
         this.templates = templates;
         this.isos = isos;
       });
+  }
+
+  private subscribeToTemplateDeletions(): void {
+    Observable.merge(
+      this.templateService.onTemplateRemoved,
+      this.isoService.onTemplateRemoved
+    )
+      .subscribe(template => this.updateList(template));
   }
 }

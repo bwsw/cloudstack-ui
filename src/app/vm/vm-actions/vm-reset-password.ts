@@ -41,6 +41,10 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
   }
 
   public canActivate(vm: VirtualMachine): boolean {
+    if (!vm) {
+      return false;
+    }
+
     const ipAvailable = vm.ipIsAvailable;
     const stateIsOk = [
       VmState.Running,

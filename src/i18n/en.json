@@ -402,13 +402,6 @@
         "WRITE_RATE_IOPS": "Write rate"
       },
 
-      "VOLUME_ACTIONS": {
-        "TAKE_SNAPSHOT": "Take a snapshot",
-        "SNAPSHOT_SCHEDULE": "Set up snapshot schedule",
-        "RESIZE": "Resize the disk",
-        "DETACH": "Detach"
-      },
-
       "VOLUME_RESIZE": {
         "TITLE": "Resize volume",
         "DISK_OFFERING": "Disk offering",
@@ -548,9 +541,7 @@
     "CARD": {
       "DESCRIPTION": "Description",
       "SIZE": "Size",
-      "STATE": "State",
-      "ATTACH": "Attach",
-      "RESIZE": "Resize"
+      "STATE": "State"
     },
 
     "SPARE_DRIVE_CREATION": {
@@ -562,6 +553,7 @@
     },
 
     "DETAILS": {
+      "GENERAL_INFORMATION": "General information",
       "SIZE": "Size",
       "CREATED": "Created",
       "STORAGE_TYPE": "Storage type",
@@ -617,6 +609,7 @@
     },
 
     "TEMPLATE_DETAILS": {
+      "OS": "OS",
       "DETAILS": "General information",
       "SIZE": "Size",
       "EXTRACTABLE": "Extractable",
@@ -933,5 +926,13 @@
     "MB_VALUE": "{{value}} MB",
     "MBPS": "{{value}} MB/s",
     "MHZ": "MHz"
+  },
+
+  "VOLUME_ACTIONS": {
+    "TAKE_SNAPSHOT": "Take a snapshot",
+    "SNAPSHOT_SCHEDULE": "Set up snapshot schedule",
+    "RESIZE": "Resize the disk",
+    "ATTACH": "Attach",
+    "DETACH": "Detach"
   }
 }

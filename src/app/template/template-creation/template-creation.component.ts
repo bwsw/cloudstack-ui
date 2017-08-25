@@ -5,7 +5,9 @@ import { OsType, Zone } from '../../shared';
 import { Snapshot } from '../../shared/models/snapshot.model';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { TemplateActionsService } from '../shared/template-actions.service';
+import { TemplateCreateAction } from '../template-actions/create/template-create';
+import { IsoCreateAction } from '../template-actions/create/iso-create';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -31,7 +33,8 @@ export class TemplateCreationComponent implements OnInit {
   constructor(
     private dialog: MdlDialogReference,
     private osTypeService: OsTypeService,
-    private templateActions: TemplateActionsService,
+    private isoCreationAction: IsoCreateAction,
+    private templateCreationAction: TemplateCreateAction,
     private zoneService: ZoneService,
     @Optional() @Inject('snapshot') public snapshot: Snapshot,
     @Inject('mode') public mode: string
@@ -95,11 +98,20 @@ export class TemplateCreationComponent implements OnInit {
     }
 
     this.loading = true;
-    this.templateActions.createTemplate(params, this.mode)
+
+    this.getCreationAction(params)
       .finally(() => this.loading = false)
       .subscribe(
         template => this.dialog.hide(template),
         () => {}
       );
+  }
+
+  private getCreationAction(params: any): Observable<void> {
+    if (this.mode === 'Iso') {
+      return this.isoCreationAction.activate(params);
+    } else {
+      return this.templateCreationAction.activate(params);
+    }
   }
 }

@@ -1,72 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { DialogService } from '../dialog/dialog-module/dialog.service';
+import { ActionsService } from '../shared/interfaces/action-service.interface';
+import { Action } from '../shared/interfaces/action.interface';
 import { Volume } from '../shared/models';
-import { JobsNotificationService } from '../shared/services/jobs-notification.service';
-import { VolumeAttachmentData, VolumeService } from '../shared/services/volume.service';
+import { SpareDriveAttachAction } from './spare-drive-actions/spare-drive-attach';
+import { SpareDriveRemoveAction } from './spare-drive-actions/spare-drive-remove';
+import { SpareDriveResizeAction } from './spare-drive-actions/spare-drive-resize';
+import { SpareDriveDetachAction } from './spare-drive-actions/spare-drive-detach';
 
-
-export enum VolumeAttachmentEvent {
-  ATTACHED = 'attached',
-  DETACHED = 'detached'
-}
 
 @Injectable()
-export class SpareDriveActionsService {
-  public onVolumeAttachment: Subject<VolumeAttachmentEvent>;
+export class SpareDriveActionsService implements ActionsService<Volume, Action<Volume>> {
+  public actions = [
+    this.spareDriveAttachAction,
+    this.spareDriveDetachAction,
+    this.spareDriveResizeAction,
+    this.spareDriveRemoveAction
+  ];
 
   constructor(
-    private dialogService: DialogService,
-    private jobsNotificationService: JobsNotificationService,
-    private volumeService: VolumeService
-  ) {
-    this.onVolumeAttachment = new Subject<VolumeAttachmentEvent>();
-  }
-
-  public attach(data: VolumeAttachmentData): Observable<void> {
-    const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_IN_PROGRESS');
-    return this.volumeService.attach(data)
-      .do(() => {
-        this.onVolumeAttachment.next(VolumeAttachmentEvent.ATTACHED);
-        this.jobsNotificationService.finish({
-          id: notificationId,
-          message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_DONE',
-        });
-      })
-      .catch(error => {
-        this.dialogService.alert({
-          translationToken: error.message,
-          interpolateParams: error.params
-        });
-        this.jobsNotificationService.fail({
-          id: notificationId,
-          message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED',
-        });
-        return Observable.throw(error);
-      });
-  }
-
-  public detach(volume: Volume): Observable<void> {
-    const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DETACHMENT_IN_PROGRESS');
-    return this.volumeService.detach(volume.id)
-      .do(() => {
-        this.onVolumeAttachment.next(VolumeAttachmentEvent.DETACHED);
-        this.jobsNotificationService.finish({
-          id: notificationId,
-          message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
-        });
-      })
-      .catch(error => {
-        this.dialogService.alert({
-          translationToken: error.message,
-          interpolateParams: error.params
-        });
-        this.jobsNotificationService.fail({
-          id: notificationId,
-          message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_FAILED',
-        });
-        return Observable.throw(error);
-      });
-  }
+    public spareDriveAttachAction: SpareDriveAttachAction,
+    public spareDriveDetachAction: SpareDriveDetachAction,
+    public spareDriveResizeAction: SpareDriveResizeAction,
+    public spareDriveRemoveAction: SpareDriveRemoveAction
+  ) {}
 }
