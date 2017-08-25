@@ -6,6 +6,7 @@ import { SecurityGroupService } from '../../shared/services/security-group.servi
 import { SecurityGroup } from '../sg.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag-keys';
+import { SgRulesComponent } from '../sg-rules/sg-rules.component';
 
 
 @Component({
@@ -78,6 +79,18 @@ export class SgTemplateListComponent implements OnInit {
       .subscribe(groups => {
         this.predefinedSecurityGroupList = securityGroupTemplates;
         this.customSecurityGroupList = groups;
+      });
+  }
+
+  public showRulesDialog(group: SecurityGroup): void {
+    this.dialogService.showCustomDialog({
+      component: SgRulesComponent,
+      classes: 'sg-rules-dialog',
+      providers: [{ provide: 'securityGroup', useValue: group }],
+    })
+      .switchMap(res => res.onHide())
+      .subscribe(() => {
+        this.update();
       });
   }
 }
