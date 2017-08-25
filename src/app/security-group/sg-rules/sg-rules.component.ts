@@ -3,7 +3,10 @@ import { NgForm } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
 import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { SecurityGroup, NetworkRuleType, NetworkProtocol } from '../sg.model';
+import {
+  SecurityGroup, NetworkRuleType, NetworkProtocol, ICMPType,
+  ICMPtypes, GetICMPCodeTranslationToken, GetICMPTypeTranslationToken
+} from '../sg.model';
 import { NotificationService } from '../../shared/services/notification.service';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 
@@ -19,8 +22,9 @@ export class SgRulesComponent {
   public type: NetworkRuleType;
   public protocol: NetworkProtocol;
   public startPort: number;
-  public icmpType: number;
+  private _icmpType: number;
   public icmpCode: number;
+  public icmpCodes: number[];
   public endPort: number;
   public cidr: string;
   public securityGroup: SecurityGroup;
@@ -41,6 +45,22 @@ export class SgRulesComponent {
     { value: NetworkProtocol.ICMP, text: 'SECURITY_GROUP_PAGE.RULES.ICMP' }
   ];
 
+  public get icmpTypes(): ICMPType[] {
+    return ICMPtypes;
+  }
+
+  public get icmpType(): ICMPType {
+    return this._icmpType === undefined
+      ? this.icmpType = this.icmpTypes[0]
+      : this.icmpTypes.find(_ => _.type === this._icmpType);
+  }
+
+  public set icmpType(value: ICMPType) {
+    this._icmpType = value.type;
+    this.icmpCodes = value.codes;
+    this.icmpCode = this.icmpCodes[0];
+  }
+
   constructor(
     public dialogRef: MdDialogRef<SgRulesComponent>,
     @Inject(MD_DIALOG_DATA) data,
@@ -52,8 +72,8 @@ export class SgRulesComponent {
     this.cidr = '0.0.0.0/0';
     this.protocol = NetworkProtocol.TCP;
     this.type = NetworkRuleType.Ingress;
-    this.icmpCode = -1;
-    this.icmpType = -1;
+    // this.icmpCode = -1;
+    // this._icmpType = -1;
 
     this.adding = false;
   }
@@ -96,19 +116,16 @@ export class SgRulesComponent {
         () => {
           this.notificationService.message('SECURITY_GROUP_PAGE.RULES.FAILED_TO_ADD_RULE');
           this.adding = false;
-        });
+        }
+      );
   }
 
-  public onIcmpTypeClick(): void {
-    if (!this.icmpType) {
-      this.icmpType = -1;
-    }
+  public getIcmpTypeTranslationToken(type: number): string {
+    return GetICMPTypeTranslationToken(type);
   }
 
-  public onIcmpCodeClick(): void {
-    if (!this.icmpCode) {
-      this.icmpCode = -1;
-    }
+  public getIcmpCodeTranslationToken(type: number, code: number): string {
+    return GetICMPCodeTranslationToken(type, code);
   }
 
   public onCidrClick(): void {

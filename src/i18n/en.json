@@ -675,7 +675,9 @@
       "START_PORT": "Start port",
       "END_PORT": "End port",
       "INGRESS": "Ingress",
+      "INGRESS_DISPLAY": "Incoming",
       "EGRESS": "Egress",
+      "EGRESS_DISPLAY": "Outgoing",
       "TCP": "TCP",
       "UDP": "UDP",
       "ICMP": "ICMP",
@@ -687,9 +689,155 @@
       "ENTER_VALID_CODE": "Enter a valid code",
       "ENTER_VALID_CIDR": "Enter a valid CIDR",
       "FAILED_TO_ADD_RULE": "Failed to add the rule",
-      "FAILED_TO_REMOVE_RULE": "Failed to remove the rule"
+      "FAILED_TO_REMOVE_RULE": "Failed to remove the rule",
+      "DEFAULT_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }} to port {{ port }}</b>",
+      "DEFAULT_RULE_PORT_RANGE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}to port range {{ startPort }}-{{ endPort }}",
+      "ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> of {{ icmpType }} ICMP type and {{ icmpCode }} ICMP code"
     },
-
+    "RULES_MANAGER": {
+      "BASED_ON": "based on"
+    },
+    "TEMPLATE_CREATION": {
+      "CREATE_NEW_TEMPLATE": "Create new template",
+      "NAME": "Name",
+      "DESCRIPTION": "Description",
+      "BASIC_RULES": "Basic rules"
+    },
+    "BUILDER": {
+      "SECURITY_GROUP_TEMPLATES": "Security Group Templates",
+      "ALL_GROUPS": "All templates",
+      "SELECTED_GROUPS": "Selected templates",
+      "NETWORK_RULES": "Network rules"
+    },
+    "ICMP_TYPES": {
+      "-1": {
+        "description": "Any",
+        "codes": {
+          "-1": "Any"
+        }
+      },
+      "0": {
+        "description": "Echo reply",
+        "codes": {
+          "0": "Echo reply"
+        }
+      },
+      "3": {
+        "description": "Destination Unreachable",
+        "codes": {
+          "0": "Destination network unreachable",
+          "1": "Destination host unreachable",
+          "2": "Destination protocol unreachable",
+          "3": "Destination port unreachable",
+          "4": "Fragmentation required, and DF flag set",
+          "5": "Source route failed",
+          "6": "Destination network unknown",
+          "7": "Destination host unknown",
+          "8": "Source host isolated",
+          "9": "Network administratively prohibited",
+          "10": "Host administratively prohibited",
+          "11": "Network unreachable for ToS",
+          "12": "Host unreachable for ToS",
+          "13": "Communication administratively prohibited",
+          "14": "Host Precedence Violation",
+          "15": "Precedence cutoff in effect"
+        }
+      },
+      "4": {
+        "description": "Source Quench",
+        "codes": {
+          "0": "Source quench"
+        }
+      },
+      "5": {
+        "description": "Redirect Message",
+        "codes": {
+          "0": "Redirect Datagram for the Network",
+          "1": "Redirect Datagram for the Host",
+          "2": "Redirect Datagram for the ToS & network",
+          "3": "Redirect Datagram for the ToS & host"
+        }
+      },
+      "6": {
+        "description": "Alternate Host Address",
+        "codes": {}
+      },
+      "8": {
+        "description": "Echo request",
+        "codes": {
+          "0": "Echo request"
+        }
+      },
+      "9": {
+        "description": "Router Advertisement",
+        "codes": {
+          "0": "Router Advertisement"
+        }
+      },
+      "10": {
+        "description": "Router Solicitation",
+        "codes": {
+          "0": "Router discovery/selection/solicitation"
+        }
+      },
+      "11": {
+        "description": "Time Exceeded",
+        "codes": {
+          "0": "TTL expired in transit",
+          "1": "Fragment reassembly time exceeded"
+        }
+      },
+      "12": {
+        "description": "Parameter Problem: Bad IP header",
+        "codes": {
+          "0": "Pointer indicates the error",
+          "1": "Missing a required option",
+          "2": "Bad length"
+        }
+      },
+      "13": {
+        "description": "Timestamp",
+        "codes": {
+          "0": "Timestamp"
+        }
+      },
+      "14": {
+        "description": "Timestamp reply",
+        "codes": {
+          "0": "Timestamp reply"
+        }
+      },
+      "15": {
+        "description": "Information request",
+        "codes": {
+          "0": "Information request"
+        }
+      },
+      "16": {
+        "description": "Information Reply",
+        "codes": {
+          "0": "Information Reply"
+        }
+      },
+      "17": {
+        "description": "Address Mask Request",
+        "codes": {
+          "0": "Address Mask Request"
+        }
+      },
+      "18": {
+        "description": "Address Mask Reply",
+        "codes": {
+          "0": "Address Mask Reply"
+        }
+      },
+      "30": {
+        "description": "Traceroute",
+        "codes": {
+          "0": "Information request"
+        }
+      }
+    },
     "RULES_MANAGER": {
       "BASED_ON": "based on"
     },

@@ -5,8 +5,10 @@ import {
   EventEmitter,
   Output
 } from '@angular/core';
-import { NetworkRule, NetworkRuleType, NetworkProtocol } from '../sg.model';
-
+import {
+  NetworkRule, NetworkRuleType, NetworkProtocol,
+  GetICMPCodeTranslationToken, GetICMPTypeTranslationToken
+} from '../sg.model';
 
 @Component({
   selector: 'cs-security-group-rule',
@@ -25,8 +27,8 @@ export class SgRuleComponent {
 
   public get typeTranslationToken(): string {
     const typeTranslations = {
-      'INGRESS': 'SECURITY_GROUP_PAGE.RULES.INGRESS',
-      'EGRESS': 'SECURITY_GROUP_PAGE.RULES.EGRESS'
+      'INGRESS': 'SECURITY_GROUP_PAGE.RULES.INGRESS_DISPLAY',
+      'EGRESS': 'SECURITY_GROUP_PAGE.RULES.EGRESS_DISPLAY'
     };
 
     return typeTranslations[this.type.toUpperCase()];
@@ -40,6 +42,14 @@ export class SgRuleComponent {
     };
 
     return protocolTranslations[this.rule.protocol.toUpperCase()];
+  }
+
+  public get icmpTypeTranslationToken(): string {
+    return GetICMPTypeTranslationToken(this.rule.icmpType);
+  }
+
+  public get icmpCodeTranslationToken(): string {
+    return GetICMPCodeTranslationToken(this.rule.icmpType, this.rule.icmpCode);
   }
 
   public handleRemoveClicked(e: Event): void {
