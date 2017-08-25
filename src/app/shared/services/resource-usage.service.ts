@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ResourceLimit, ResourceType } from '../models/resource-limit.model';
+import { Account } from '../models/account.model';
 import { AccountService } from './account.service';
 import { AuthService } from './auth.service';
 
@@ -33,6 +34,43 @@ export class ResourceStats {
   public consumed: ResourcesData;
   public max: ResourcesData;
 
+  public static fromAccount(account: Account | Array<Account>): ResourceStats {
+    const consumedResources = new ResourcesData();
+    const maxResources = new ResourcesData();
+    const availableResources = new ResourcesData();
+
+    (Array.isArray(account) ? account : [account]).forEach(a => {
+      consumedResources.instances += +a.vmtotal;
+      consumedResources.cpus += +a.cputotal;
+      consumedResources.ips += +a.iptotal;
+      consumedResources.memory += +a.memorytotal;
+      consumedResources.volumes += +a.volumetotal;
+      consumedResources.snapshots += +a.snapshottotal;
+      consumedResources.primaryStorage += +a.primarystoragetotal;
+      consumedResources.secondaryStorage += +a.secondarystoragetotal;
+
+      maxResources.instances += +a.vmlimit;
+      maxResources.cpus += +a.cpulimit;
+      maxResources.ips += +a.iplimit;
+      maxResources.memory += +a.memorylimit;
+      maxResources.volumes += +a.volumelimit;
+      maxResources.snapshots += +a.snapshotlimit;
+      maxResources.primaryStorage += +a.primarystoragelimit;
+      maxResources.secondaryStorage += +a.secondarystoragelimit;
+
+      availableResources.instances += +a.vmavailable;
+      availableResources.cpus += +a.cpuavailable;
+      availableResources.ips += +a.ipavailable;
+      availableResources.memory += +a.memoryavailable;
+      availableResources.volumes += +a.volumeavailable;
+      availableResources.snapshots += +a.snapshotavailable;
+      availableResources.primaryStorage += +a.primarystorageavailable;
+      availableResources.secondaryStorage += +a.secondarystorageavailable;
+    });
+
+    return new ResourceStats(availableResources, consumedResources, maxResources);
+  }
+
   constructor(
     available?: ResourcesData,
     consumed?: ResourcesData,
@@ -44,54 +82,21 @@ export class ResourceStats {
   }
 }
 
+
 @Injectable()
 export class ResourceUsageService {
   constructor(
     private authService: AuthService,
     private accountService: AccountService
-  ) {
-  }
+  ) {}
 
   public getResourceUsage(forDomain = false): Observable<ResourceStats> {
     const params = forDomain
       ? { domainId: this.authService.user.domainid }
       : { account: this.authService.user.account };
 
-    return this.accountService.getList(params).map(accounts => {
-      const consumedResources = new ResourcesData();
-      const maxResources = new ResourcesData();
-      const availableResources = new ResourcesData();
-
-      accounts.forEach(account => {
-        consumedResources.instances += +account.vmtotal;
-        consumedResources.cpus += +account.cputotal;
-        consumedResources.ips += +account.iptotal;
-        consumedResources.memory += +account.memorytotal;
-        consumedResources.volumes += +account.volumetotal;
-        consumedResources.snapshots += +account.snapshottotal;
-        consumedResources.primaryStorage += +account.primarystoragetotal;
-        consumedResources.secondaryStorage += +account.secondarystoragetotal;
-
-        maxResources.instances += +account.vmlimit;
-        maxResources.cpus += +account.cpulimit;
-        maxResources.ips += +account.iplimit;
-        maxResources.memory += +account.memorylimit;
-        maxResources.volumes += +account.volumelimit;
-        maxResources.snapshots += +account.snapshotlimit;
-        maxResources.primaryStorage += +account.primarystoragelimit;
-        maxResources.secondaryStorage += +account.secondarystoragelimit;
-
-        availableResources.instances += +account.vmavailable;
-        availableResources.cpus += +account.cpuavailable;
-        availableResources.ips += +account.ipavailable;
-        availableResources.memory += +account.memoryavailable;
-        availableResources.volumes += +account.volumeavailable;
-        availableResources.snapshots += +account.snapshotavailable;
-        availableResources.primaryStorage += +account.primarystorageavailable;
-        availableResources.secondaryStorage += +account.secondarystorageavailable;
-      });
-
-      return new ResourceStats(availableResources, consumedResources, maxResources);
-    });
+    return this.accountService
+      .getList(params)
+      .map(accounts => ResourceStats.fromAccount(accounts));
   }
 }

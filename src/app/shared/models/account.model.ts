@@ -52,4 +52,24 @@ export class Account extends BaseModel {
   public vpcavailable: number;
   public vpclimit: number;
   public vpctotal: number;
+
+  constructor(json?: any) {
+    // TODO temporary workaround to fix *available and *limit fields in the json
+    // This field is either a string representation of a number or 'Unlimited'
+    // The code below converts it to number (-1 if unlimited);
+    const fixedJson = { ...json };
+    Object.keys(fixedJson)
+      .filter(key => key.endsWith('available') || key.endsWith('limit'))
+      .forEach(key => {
+        if (fixedJson[key] === 'Unlimited') {
+          fixedJson[key] = -1;
+        } else {
+          const temp = +fixedJson[key];
+          if (!isNaN(temp)) {
+            fixedJson[key] = temp;
+          }
+        }
+      });
+    super(fixedJson);
+  }
 }
