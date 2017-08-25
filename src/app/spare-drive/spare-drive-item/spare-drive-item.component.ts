@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MdMenuTrigger } from '@angular/material';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { DiskOffering, Volume, Zone } from '../../shared/models';
@@ -7,6 +7,9 @@ import { VolumeAttachmentData } from '../../shared/services/volume.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VolumeResizeComponent } from '../../vm/vm-sidebar/volume-resize/volume-resize.component';
 import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
+import { Utils } from '../../shared/services/utils.service';
+import { Observable } from 'rxjs/Observable';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -14,8 +17,9 @@ import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-d
   templateUrl: 'spare-drive-item.component.html',
   styleUrls: ['spare-drive-item.component.scss']
 })
-export class SpareDriveItemComponent implements OnInit {
+export class SpareDriveItemComponent implements OnInit, OnChanges {
   @Input() public isSelected: (volume) => boolean;
+  @Input() public searchQuery: () => string;
   @Input() public item: Volume;
   @Output() public onClick = new EventEmitter();
   @Output() public onVolumeAttached = new EventEmitter<VolumeAttachmentData>();
@@ -24,10 +28,12 @@ export class SpareDriveItemComponent implements OnInit {
   @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
 
   public diskOfferings: Array<DiskOffering>;
+  public query: string;
 
   constructor(
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
+    private translateService: TranslateService,
     private zoneService: ZoneService
   ) {}
 
@@ -49,6 +55,13 @@ export class SpareDriveItemComponent implements OnInit {
           );
         });
       });
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    const query = changes.searchQuery;
+    if (query) {
+      this.query = this.searchQuery();
+    }
   }
 
   public get stateTranslationToken(): string {

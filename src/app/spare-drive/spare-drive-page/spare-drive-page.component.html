@@ -11,6 +11,7 @@
     *loading="!volumes"
     [volumes]="visibleVolumes"
     [groupings]="selectedGroupings"
+    [query]="query"
     (onDelete)="showRemoveDialog($event)"
     (onResize)="updateVolume($event)"
     cs-list

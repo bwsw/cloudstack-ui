@@ -16,6 +16,7 @@ import { SpareDriveItemComponent } from '../spare-drive-item/spare-drive-item.co
 export class SpareDriveListComponent {
   @Input() public volumes: Array<Volume>;
   @Input() public groupings: Array<any>;
+  @Input() public query: string;
   @Output() public onDelete = new EventEmitter();
   @Output() public onVolumeAttached = new EventEmitter();
   @Output() public onResize = new EventEmitter();
@@ -26,6 +27,7 @@ export class SpareDriveListComponent {
 
   constructor(public listService: ListService) {
     this.inputs = {
+      searchQuery: () => this.query,
       isSelected: (item: Volume) => this.listService.isSelected(item.id)
     };
 

@@ -8,6 +8,7 @@
       <h2
         class="md-card-title-text"
         [mdTooltip]="item.name"
+        [innerHTML]="item.name | highlight:query"
       >
         {{ item.name }}
       </h2>
@@ -31,7 +32,7 @@
           </span>
         </div>
         <div class="row">
-          <span>{{ (item.size | division:2:30:2) }} {{ ('UNITS.GB' | translate) }}</span>
+          <span>{{ item.size | division:2:30:2 }} {{ 'UNITS.GB' | translate }}</span>
         </div>
       </div>
     </div>

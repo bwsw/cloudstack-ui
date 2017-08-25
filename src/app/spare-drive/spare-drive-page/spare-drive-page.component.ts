@@ -42,6 +42,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
       name: (item: Volume) => item.zoneName
     }
   ];
+  public query: string;
 
   public filterData: any;
 
@@ -95,9 +96,12 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
 
     this.updateGroupings();
 
-    const { selectedZones, spareOnly } = this.filterData;
+    const { selectedZones, spareOnly, query } = this.filterData;
+    this.query = query;
+
     this.visibleVolumes = this.filterVolumesByZones(this.volumes, selectedZones);
     this.visibleVolumes = this.filterVolumesBySpare(this.visibleVolumes, spareOnly);
+    this.visibleVolumes = this.filterVolumesBySearch(this.visibleVolumes);
   }
 
   public updateGroupings(): void {
@@ -121,6 +125,17 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     } else {
       return volumes;
     }
+  }
+
+  public filterVolumesBySearch(volumes: Array<Volume>): Array<Volume> {
+    if (!this.query) {
+      return volumes;
+    }
+    const queryLower = this.query.toLowerCase();
+    return volumes.filter(volume => {
+      return volume.name.toLowerCase().includes(queryLower) ||
+             volume.size.toString().toLowerCase().includes(queryLower);
+    });
   }
 
   public showRemoveDialog(volume: Volume): void {

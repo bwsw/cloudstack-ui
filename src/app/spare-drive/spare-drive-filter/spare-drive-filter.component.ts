@@ -10,6 +10,7 @@ export interface SpareDriveFilter {
   spareOnly: boolean;
   selectedZones: Array<Zone>;
   groupings: Array<any>;
+  query: string;
 }
 
 export const spareDriveListFilters = 'spareDriveListFilters';
@@ -47,7 +48,7 @@ export class SpareDriveFilterComponent implements OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes['zones'].currentValue) {
+    if (changes['zones'] && changes['zones'].currentValue) {
       this.initFilters();
     }
   }
@@ -74,13 +75,15 @@ export class SpareDriveFilterComponent implements OnChanges {
     this.updateFilters.emit({
       spareOnly: this.spareOnly,
       selectedZones: sortBy(this.selectedZones, 'name'),
-      groupings: this.selectedGroupingNames
+      groupings: this.selectedGroupingNames,
+      query: this.query
     });
 
     this.filterService.update(this.filtersKey, {
       spareOnly: this.spareOnly,
       zones: this.selectedZones.map(_ => _.id),
-      groupings: this.selectedGroupingNames
+      groupings: this.selectedGroupingNames,
+      query: this.query
     });
   }
 }
