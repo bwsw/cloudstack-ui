@@ -18,7 +18,7 @@ interface VmCreationParams {
   affinityGroupNames?: string;
   details?: Array<any>;
   diskofferingid?: string;
-  doStartVm?: string;
+  startVm?: string;
   hypervisor?: string;
   ingress?: Array<NetworkRule>;
   egress?: Array<NetworkRule>;
@@ -109,7 +109,7 @@ export class VmCreationState {
     const params: VmCreationParams = {};
 
     params.affinityGroupNames = this.affinityGroup && this.affinityGroup.name;
-    params.doStartVm = this.doStartVm ? undefined : 'false';
+    params.startVm = this.doStartVm ? undefined : 'false';
     params.keyboard = this.keyboard;
     params.name = this.displayName || this.defaultName;
     params.serviceOfferingId = this.serviceOffering.id;
