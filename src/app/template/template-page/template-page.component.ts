@@ -1,12 +1,11 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { BaseTemplateModel, Iso, IsoService, Template, TemplateService } from '../shared';
 import { TemplateFilters } from '../shared/base-template.service';
 import { TemplateActionsService } from '../shared/template-actions.service';
-import { TemplateCreationComponent } from '../template-creation/template-creation.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -21,41 +20,35 @@ export class TemplatePageComponent implements OnInit {
   public viewMode: string;
 
   constructor(
-    private dialogService: DialogService,
     private storageService: LocalStorageService,
-    private listService: ListService,
+    public listService: ListService,
     private templateActions: TemplateActionsService,
     private templateService: TemplateService,
-    private isoService: IsoService
-  ) {}
+    private isoService: IsoService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {
+  }
 
   public ngOnInit(): void {
     this.viewMode = this.storageService.read('templateDisplayMode') || 'Template';
-    this.listService.onAction.subscribe(() => this.showCreationDialog());
-    this.listService.onDelete.subscribe((template) => this.updateList(template));
+    this.listService.onUpdate.subscribe((template) => this.updateList(template));
     this.getTemplates();
   }
 
   public showCreationDialog(): void {
-    this.dialogService.showCustomDialog({
-      component: TemplateCreationComponent,
-      classes: 'template-creation-dialog dialog-overflow-visible',
-      providers: [{ provide: 'mode', useValue: this.viewMode }],
-      clickOutsideToClose: false
-    })
-      .switchMap(res => res.onHide())
-      .subscribe(templateData => {
-        if (templateData) {
-          this.updateList();
-        }
-      });
+    this.router.navigate(['./create'], {
+      preserveQueryParams: true,
+      relativeTo: this.activatedRoute
+    });
   }
 
   public removeTemplate(template: BaseTemplateModel): void {
     this.templateActions.removeTemplate(template)
       .subscribe(
         () => this.updateList(template),
-        () => {}
+        () => {
+        }
       );
   }
 
@@ -73,7 +66,8 @@ export class TemplatePageComponent implements OnInit {
     ];
 
     Observable.forkJoin(
-      this.templateService.getGroupedTemplates<Template>({}, filters, true).map(_ => _.toArray()),
+      this.templateService.getGroupedTemplates<Template>({}, filters, true)
+        .map(_ => _.toArray()),
       this.isoService.getGroupedTemplates<Iso>({}, filters, true).map(_ => _.toArray())
     )
       .subscribe(([templates, isos]) => {

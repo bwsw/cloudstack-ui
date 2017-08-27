@@ -1,4 +1,7 @@
-<cs-list>
+<cs-list
+  (onAction)="showCreationDialog()"
+  [isOpen]="listService?.hasSelected()"
+>
   <cs-template-filter-list
     *ngIf="templates && isos"
     [(viewMode)]="viewMode"
@@ -7,5 +10,9 @@
     (deleteTemplate)="removeTemplate($event)"
     cs-list
   ></cs-template-filter-list>
-  <router-outlet cs-sidebar></router-outlet>
+  <ng-container cs-sidebar>
+    <cs-sidebar [isOpen]="listService?.hasSelected()">
+      <router-outlet></router-outlet>
+    </cs-sidebar>
+  </ng-container>
 </cs-list>
