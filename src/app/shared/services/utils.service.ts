@@ -49,4 +49,26 @@ export class Utils {
     }
     return '/';
   }
+
+  public static convertBooleanStringToBoolean(booleanString: string): boolean {
+    if (booleanString === 'true') {
+      return true;
+    }
+
+    if (booleanString === 'false') {
+      return false;
+    }
+  }
+
+  public static convertBooleanToBooleanString(boolean: boolean): string {
+    if (boolean === true) {
+      return 'true';
+    }
+
+    if (boolean === false) {
+      return 'false';
+    }
+
+    throw new Error('Invalid argument');
+  }
 }

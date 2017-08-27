@@ -52,7 +52,7 @@
                 <span>{{ 'COMMON.EDIT' | translate }}</span>
             </button>
             <button md-menu-item
-                    (click)="$event.stopPropagation(); onDelete.emit(securityGroupTemplate)"
+                    (click)="onDelete.emit(securityGroupTemplate)"
             >
                 <md-icon>delete</md-icon>
                 <span>{{ 'COMMON.DELETE' | translate }}</span>

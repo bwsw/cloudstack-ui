@@ -1,4 +1,4 @@
-<cs-list>
+<cs-list (onAction)="showCreationDialog()">
   <cs-top-bar cs-panels></cs-top-bar>
 
   <ng-container *loading="!predefinedSecurityGroupList || !customSecurityGroupList" cs-list>
@@ -26,3 +26,5 @@
     </ng-container>
   </ng-container>
 </cs-list>
+
+<router-outlet></router-outlet>
