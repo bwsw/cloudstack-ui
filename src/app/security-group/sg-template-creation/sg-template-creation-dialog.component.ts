@@ -28,6 +28,11 @@ export class SgTemplateCreationDialogComponent implements OnInit {
     }).afterClosed()
       .subscribe((template: SecurityGroup) => {
         if (!template) {
+          this.router.navigate(['../'], {
+            preserveQueryParams: true,
+            relativeTo: this.activatedRoute
+          });
+
           return;
         }
         this.listService.onUpdate.emit(template);
