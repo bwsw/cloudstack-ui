@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { NotificationService } from '../../shared/services/notification.service';
 import { VirtualMachine } from '../shared/vm.model';
@@ -16,9 +16,10 @@ export class VmSidebarComponent extends SidebarComponent<VirtualMachine> {
   constructor(
     protected vmService: VmService,
     protected notificationService: NotificationService,
-    protected route: ActivatedRoute
+    protected route: ActivatedRoute,
+    protected router: Router
   ) {
-    super(vmService, notificationService, route);
+    super(vmService, notificationService, route, router);
   }
 
   protected loadEntity(id: string): Observable<VirtualMachine> {
@@ -29,6 +30,6 @@ export class VmSidebarComponent extends SidebarComponent<VirtualMachine> {
         } else {
           return Observable.throw('ENTITY_DOES_NOT_EXIST');
         }
-      })
+      });
   }
 }

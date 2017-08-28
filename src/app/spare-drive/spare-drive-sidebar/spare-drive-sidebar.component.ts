@@ -1,5 +1,5 @@
 import { Component, HostBinding } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { Volume } from '../../shared/models';
@@ -22,11 +22,12 @@ export class SpareDriveSidebarComponent extends SidebarComponent<Volume> {
     public dateTimeFormatterService: DateTimeFormatterService,
     protected notificationService: NotificationService,
     protected route: ActivatedRoute,
+    protected router: Router,
     protected volumeService: VolumeService,
     protected volumeTagService: VolumeTagService,
     private diskOfferingService: DiskOfferingService
   ) {
-    super(volumeService, notificationService, route);
+    super(volumeService, notificationService, route, router);
   }
 
   public changeDescription(newDescription: string): void {

@@ -1,18 +1,15 @@
 import { OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { BaseTemplateModel } from '../shared/base-template.model';
-import { TemplateActionsService } from '../shared/template-actions.service';
-import { ListService } from '../../shared/components/list/list.service';
-import { BaseTemplateService } from '../shared/base-template.service';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { BaseTemplateModel } from '../shared/base-template.model';
-import { BaseTemplateService, DOWNLOAD_URL } from '../shared/base-template.service';
+import { BaseTemplateService } from '../shared/base-template.service';
 import { TemplateActionsService } from '../shared/template-actions.service';
+import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
 
 
 export abstract class BaseTemplateSidebarComponent extends SidebarComponent<BaseTemplateModel> implements OnInit {
@@ -26,11 +23,12 @@ export abstract class BaseTemplateSidebarComponent extends SidebarComponent<Base
     public dateTimeFormatterService: DateTimeFormatterService,
     private dialogService: DialogService,
     protected route: ActivatedRoute,
+    protected router: Router,
     protected listService: ListService,
     protected notificationService: NotificationService,
-    protected templateActions: TemplateActionsService,
+    protected templateActions: TemplateActionsService
   ) {
-    super(service, notificationService, route);
+    super(service, notificationService, route, router);
     this.service = service;
   }
 
@@ -88,7 +86,7 @@ export abstract class BaseTemplateSidebarComponent extends SidebarComponent<Base
       })
       .do(template => {
         const downloadUrlTag = template.tags.find(
-          tag => tag.key === DOWNLOAD_URL
+          tag => tag.key === TemplateTagKeys.downloadUrl
         );
         if (downloadUrlTag) {
           this.templateDownloadUrl = downloadUrlTag.value;

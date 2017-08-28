@@ -32,12 +32,6 @@ export abstract class SidebarComponent<M extends BaseModel> implements OnInit {
       );
   }
 
-  public onDetailsHide(): void {
-    this.router.navigate([this.route.parent.snapshot.url], {
-      queryParamsHandling: 'preserve'
-    });
-  }
-
   private pluckId(): Observable<string> {
     return this.route.params.pluck('id').filter(id => !!id) as Observable<string>;
   }
