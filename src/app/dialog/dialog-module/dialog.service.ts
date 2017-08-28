@@ -35,16 +35,14 @@ export interface DialogTranslationParams {
   interpolateParams: { [key: string]: string; };
 }
 
-export type DialogType = 'ALERT' | 'CONFIRM';
+export enum DialogType {
+  ALERT = 'ALERT',
+  CONFIRM = 'CONFIRM'
+}
 
-export const DialogTypes = {
-  ALERT: 'ALERT' as DialogType,
-  CONFIRM: 'CONFIRM' as DialogType
-};
-
-const defaultAlertDialogConfirmText = 'OK';
-const defaultConfirmDialogConfirmText = 'YES';
-const defaultConfirmDialogDeclineText = 'NO';
+const defaultAlertDialogConfirmText = 'COMMON.OK';
+const defaultConfirmDialogConfirmText = 'COMMON.YES';
+const defaultConfirmDialogDeclineText = 'COMMON.NO';
 
 @Injectable()
 export class DialogService {
@@ -69,7 +67,7 @@ export class DialogService {
   }
 
   public alert(message: string | ParametrizedTranslation, okText?: string, title?: string): Observable<void> {
-    return this.simpleDialog(DialogTypes.ALERT, message, okText, title);
+    return this.simpleDialog(DialogType.ALERT, message, okText, title);
   }
 
   public confirm(
@@ -78,11 +76,11 @@ export class DialogService {
     confirmText?: string,
     title?: string
   ): Observable<void> {
-    return this.simpleDialog(DialogTypes.CONFIRM, message, declineText, confirmText, title);
+    return this.simpleDialog(DialogType.CONFIRM, message, declineText, confirmText, title);
   }
 
   public customAlert(config: CustomSimpleDialogConfig): Observable<void> {
-    config.dialogType = DialogTypes.ALERT;
+    config.dialogType = DialogType.ALERT;
     if (!config.confirmText) {
       config.confirmText = defaultAlertDialogConfirmText;
     }
@@ -91,7 +89,7 @@ export class DialogService {
   }
 
   public customConfirm(config: CustomSimpleDialogConfig): Observable<void> {
-    config.dialogType = DialogTypes.CONFIRM;
+    config.dialogType = DialogType.CONFIRM;
     if (!config.confirmText) {
       config.confirmText = defaultConfirmDialogConfirmText;
     }
@@ -152,7 +150,7 @@ export class DialogService {
 
     this.translateService.get(translationParams.translationTokens, translationParams.interpolateParams)
       .switchMap(translations => {
-        if (dialogType === DialogTypes.ALERT) {
+        if (dialogType === DialogType.ALERT) {
           const params = this.getAlertParams(translations, args[0], args[1], args[2]);
           return this.mdlDialogService.alert.apply(this, params);
         } else {

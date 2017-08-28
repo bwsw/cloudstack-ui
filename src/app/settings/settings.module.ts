@@ -25,11 +25,13 @@ import { SettingsComponent } from './settings.component';
     ClipboardModule
   ],
   exports: [
-    SettingsComponent],
+    SettingsComponent
+  ],
 
   declarations: [
     ApiInfoComponent,
-    InactivityTimeoutComponent,SettingsComponent
+    InactivityTimeoutComponent,
+    SettingsComponent
   ]
 })
 export class SettingsModule { }

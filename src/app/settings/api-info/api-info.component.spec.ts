@@ -1,18 +1,23 @@
 import { MdlModule } from '@angular-mdl/core';
-import { MdTooltipModule } from '@angular/material';
 import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { MdTooltipModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard/dist';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { InputGroupComponent } from '../../shared/components/input-group/input-group.component';
 import { ConfigService } from '../../shared/services/config.service';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { UserService } from '../../shared/services/user.service';
-import { SharedModule } from '../../shared/shared.module';
 import { ApiInfoComponent } from './api-info.component';
+import { LoadingDirective } from '../../shared/directives/loading.directive';
+import { MockDialogService } from '../../../testutils/mocks/mock-dialog.service';
+import { MockNotificationService } from '../../../testutils/mocks/mock-notification.service';
+import { NotificationService } from '../../shared/services/notification.service';
+
 
 describe('Api Info component', () => {
   let fixture;
@@ -20,7 +25,7 @@ describe('Api Info component', () => {
   let dialogSpy;
   let dialogObservable;
 
-  class FakeRouterUtilsService {
+  class MockRouterUtilsService {
     public getLocationOrigin(): string {
       return 'https://cloudstack.ui';
     }
@@ -30,7 +35,7 @@ describe('Api Info component', () => {
     }
   }
 
-  class FakeUserService {
+  class MockUserService {
     public registerKeys(): Observable<any> {
       return Observable.of({
         apikey: 'newApiKey',
@@ -46,7 +51,7 @@ describe('Api Info component', () => {
     }
   }
 
-  class FakeConfigService {
+  class MockConfigService {
     public get(key: string) {
       return 'https://api.url';
     }
@@ -71,15 +76,20 @@ describe('Api Info component', () => {
         MdlModule,
         FormsModule,
         TranslateModule,
-        ClipboardModule,
-        SharedModule
+        ClipboardModule
       ],
-      declarations: [ApiInfoComponent],
+      declarations: [
+        ApiInfoComponent,
+        InputGroupComponent,
+        LoadingDirective
+      ],
       providers: [
-        { provide: RouterUtilsService, useClass: FakeRouterUtilsService },
-        { provide: ConfigService, useClass: FakeConfigService },
+        { provide: ConfigService, useClass: MockConfigService },
+        { provide: DialogService, useClass: MockDialogService },
+        { provide: NotificationService, useClass: MockNotificationService },
+        { provide: RouterUtilsService, useClass: MockRouterUtilsService },
         { provide: TranslateService, useClass: MockTranslateService },
-        { provide: UserService, useClass: FakeUserService }
+        { provide: UserService, useClass: MockUserService }
       ]
     });
 
@@ -92,15 +102,22 @@ describe('Api Info component', () => {
     fixture.detectChanges();
     expect(component.linkFields.apiDocLink).toEqual({
       href: 'https://api.url',
-      title: 'API_DOC_LINK'
+      title: 'SETTINGS.API_CONFIGURATION.API_DOC_LINK'
     });
     expect(component.linkFields.apiUrl).toEqual({
-      title: 'API_URL', href: 'https://cloudstack.ui/client/api'
+      title: 'SETTINGS.API_CONFIGURATION.API_URL',
+      href: 'https://cloudstack.ui/client/api'
     });
 
     expect(component.inputFields).toEqual({
-      apiKey: { title: 'API_KEY', value: 'apiKey' },
-      apiSecretKey: { title: 'API_SECRET_KEY', value: 'secretKey' }
+      apiKey: {
+        title: 'SETTINGS.API_CONFIGURATION.API_KEY',
+        value: 'apiKey'
+      },
+      apiSecretKey: {
+        title: 'SETTINGS.API_CONFIGURATION.API_SECRET_KEY',
+        value: 'secretKey'
+      }
     });
 
     tick();
@@ -128,8 +145,14 @@ describe('Api Info component', () => {
       tick();
       fixture.detectChanges();
       expect(component.inputFields).toEqual({
-        apiKey: { title: 'API_KEY', value: 'newApiKey' },
-        apiSecretKey: { title: 'API_SECRET_KEY', value: 'newSecretKey' }
+        apiKey: {
+          title: 'SETTINGS.API_CONFIGURATION.API_KEY',
+          value: 'newApiKey'
+        },
+        apiSecretKey: {
+          title: 'SETTINGS.API_CONFIGURATION.API_SECRET_KEY',
+          value: 'newSecretKey'
+        }
       });
 
       tick();

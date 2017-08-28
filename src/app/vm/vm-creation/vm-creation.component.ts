@@ -1,13 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MdSelectChange } from '@angular/material';
+import * as clone from 'lodash/clone';
 import * as throttle from 'lodash/throttle';
-
 import { MdlDialogReference } from '../../dialog/dialog-module';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
-import { DiskOffering, JobsNotificationService } from '../../shared';
 import { AffinityGroup, InstanceGroup, ServiceOffering } from '../../shared/models';
-import { ResourceUsageService } from '../../shared/services';
+import { DiskOffering } from '../../shared/models/disk-offering.model';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
+import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 import { BaseTemplateModel } from '../../template/shared';
 import { VirtualMachine } from '../shared/vm.model';
 import { VmCreationData } from './data/vm-creation-data';
@@ -15,29 +16,20 @@ import { VmCreationState } from './data/vm-creation-state';
 import { VmCreationFormNormalizationService } from './form-normalization/form-normalization.service';
 import { KeyboardLayout } from './keyboards/keyboards.component';
 import { VmCreationService } from './services/vm-creation.service';
-import {
-  VmDeploymentMessage,
-  VmDeploymentService,
-  VmDeploymentStages
-} from './services/vm-deployment.service';
+import { VmDeploymentMessage, VmDeploymentService, VmDeploymentStage } from './services/vm-deployment.service';
+
 
 export interface VmCreationFormState {
   data: VmCreationData;
   state: VmCreationState;
 }
 
-export type VmCreationStage =
-  | 'agCreationInProgress'
-  | 'editing'
-  | 'sgCreationInProgress'
-  | 'vmDeploymentInProgress';
-
-export const VmCreationStages = {
-  agCreationInProgress: 'agCreationInProgress' as VmCreationStage,
-  editing: 'editing' as VmCreationStage,
-  sgCreationInProgress: 'sgCreationInProgress' as VmCreationStage,
-  vmDeploymentInProgress: 'vmDeployInProgress' as VmCreationStage
-};
+export enum VmCreationStage {
+  agCreationInProgress = 'agCreationInProgress',
+  editing = 'editing',
+  sgCreationInProgress = 'sgCreationInProgress',
+  vmDeploymentInProgress = 'vmDeployInProgress'
+}
 
 @Component({
   selector: 'cs-vm-create',
@@ -52,16 +44,16 @@ export class VmCreationComponent implements OnInit {
   public enoughResources: boolean;
   public insufficientResources: Array<string> = [];
   public insufficientResourcesErrorMap = {
-    instances: 'VM_CREATION_FORM.RESOURCES.INSTANCES',
-    ips: 'VM_CREATION_FORM.RESOURCES.IPS',
-    volumes: 'VM_CREATION_FORM.RESOURCES.VOLUMES',
-    cpus: 'VM_CREATION_FORM.RESOURCES.CPUS',
-    memory: 'VM_CREATION_FORM.RESOURCES.MEMORY',
-    primaryStorage: 'VM_CREATION_FORM.RESOURCES.PRIMARYSTORAGE'
+    instances: 'VM_PAGE.VM_CREATION.INSTANCES',
+    ips: 'VM_PAGE.VM_CREATION.IPS',
+    volumes: 'VM_PAGE.VM_CREATION.VOLUMES',
+    cpus: 'VM_PAGE.VM_CREATION.CPUS',
+    memory: 'VM_PAGE.VM_CREATION.MEMORY',
+    primaryStorage: 'VM_PAGE.VM_CREATION.PRIMARY_STORAGE'
   };
 
   public takenName: string;
-  public creationStage = VmCreationStages.editing;
+  public creationStage = VmCreationStage.editing;
 
   public visibleAffinityGroups: Array<AffinityGroup>;
   public visibleInstanceGroups: Array<InstanceGroup>;
@@ -111,19 +103,19 @@ export class VmCreationComponent implements OnInit {
   }
 
   public get showOverlay(): boolean {
-    return this.creationStage !== VmCreationStages.editing;
+    return this.creationStage !== VmCreationStage.editing;
   }
 
   public get showAffinityGroupOverlay(): boolean {
-    return this.creationStage === VmCreationStages.agCreationInProgress;
+    return this.creationStage === VmCreationStage.agCreationInProgress;
   }
 
   public get showSecurityGroupOverlay(): boolean {
-    return this.creationStage === VmCreationStages.sgCreationInProgress;
+    return this.creationStage === VmCreationStage.sgCreationInProgress;
   }
 
   public get showDeploymentOverlay(): boolean {
-    return this.creationStage === VmCreationStages.vmDeploymentInProgress;
+    return this.creationStage === VmCreationStage.vmDeploymentInProgress;
   }
 
   public displayNameChange(value: string): void {
@@ -157,8 +149,10 @@ export class VmCreationComponent implements OnInit {
   }
 
   public rootDiskSizeChange($event) {
-    this.formState.state.rootDiskSize = $event.value;
-    this.updateFormState();
+    if (!isNaN($event)) {
+      this.formState.state.rootDiskSize = $event;
+      this.updateFormState();
+    }
   }
 
   public instanceGroupChange(groupName: string): void {
@@ -168,7 +162,7 @@ export class VmCreationComponent implements OnInit {
     );
 
     const existingGroup = this.formState.data.getInstanceGroup(groupName);
-    this.formState.state.instanceGroup = existingGroup || new InstanceGroup(groupName);
+    this.formState.state.instanceGroup = clone(existingGroup) || new InstanceGroup(groupName);
     this.updateFormState();
   }
 
@@ -180,7 +174,7 @@ export class VmCreationComponent implements OnInit {
     const existingGroup = this.formState.data.getAffinityGroup(groupName);
 
     this.formState.state.affinityGroup =
-      existingGroup || new AffinityGroup({ name: groupName });
+      clone(existingGroup) || new AffinityGroup({ name: groupName });
     this.updateFormState();
   }
 
@@ -222,7 +216,7 @@ export class VmCreationComponent implements OnInit {
   }
 
   public deploy(): void {
-    const notificationId = this.jobsNotificationService.add('VM_DEPLOY_IN_PROGRESS');
+    const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
     const {
       deployStatusObservable,
       deployObservable
@@ -237,7 +231,7 @@ export class VmCreationComponent implements OnInit {
   public notifyOnDeployDone(notificationId: string): void {
     this.jobsNotificationService.finish({
       id: notificationId,
-      message: 'DEPLOY_DONE'
+      message: 'JOB_NOTIFICATIONS.VM.DEPLOY_DONE'
     });
   }
 
@@ -248,7 +242,7 @@ export class VmCreationComponent implements OnInit {
     });
     this.jobsNotificationService.fail({
       id: notificationId,
-      message: 'DEPLOY_FAILED'
+      message: 'JOB_NOTIFICATIONS.VM.DEPLOY_FAILED'
     });
   }
 
@@ -259,7 +253,7 @@ export class VmCreationComponent implements OnInit {
 
     this.dialogService.customAlert({
       message: {
-        translationToken: 'PASSWORD_DIALOG_MESSAGE',
+        translationToken: 'DIALOG_MESSAGES.VM.PASSWORD_DIALOG_MESSAGE',
         interpolateParams: {
           vmName: vm.name,
           vmPassword: vm.password
@@ -275,30 +269,30 @@ export class VmCreationComponent implements OnInit {
     notificationId: string
   ): void {
     switch (deploymentMessage.stage) {
-      case VmDeploymentStages.STARTED:
-        this.creationStage = VmCreationStages.vmDeploymentInProgress;
+      case VmDeploymentStage.STARTED:
+        this.creationStage = VmCreationStage.vmDeploymentInProgress;
         break;
-      case VmDeploymentStages.AG_GROUP_CREATION:
-        this.creationStage = VmCreationStages.agCreationInProgress;
+      case VmDeploymentStage.AG_GROUP_CREATION:
+        this.creationStage = VmCreationStage.agCreationInProgress;
         break;
-      case VmDeploymentStages.AG_GROUP_CREATION_FINISHED:
-        this.creationStage = VmCreationStages.vmDeploymentInProgress;
+      case VmDeploymentStage.AG_GROUP_CREATION_FINISHED:
+        this.creationStage = VmCreationStage.vmDeploymentInProgress;
         break;
-      case VmDeploymentStages.SG_GROUP_CREATION:
-        this.creationStage = VmCreationStages.sgCreationInProgress;
+      case VmDeploymentStage.SG_GROUP_CREATION:
+        this.creationStage = VmCreationStage.sgCreationInProgress;
         break;
-      case VmDeploymentStages.SG_GROUP_CREATION_FINISHED:
-        this.creationStage = VmCreationStages.vmDeploymentInProgress;
+      case VmDeploymentStage.SG_GROUP_CREATION_FINISHED:
+        this.creationStage = VmCreationStage.vmDeploymentInProgress;
         break;
-      case VmDeploymentStages.IN_PROGRESS:
-        this.creationStage = VmCreationStages.vmDeploymentInProgress;
+      case VmDeploymentStage.IN_PROGRESS:
+        this.creationStage = VmCreationStage.vmDeploymentInProgress;
         break;
-      case VmDeploymentStages.FINISHED:
+      case VmDeploymentStage.FINISHED:
         this.dialog.hide();
         this.showPassword(deploymentMessage.vm);
         this.notifyOnDeployDone(notificationId);
         break;
-      case VmDeploymentStages.ERROR:
+      case VmDeploymentStage.ERROR:
         this.dialog.hide();
         this.notifyOnDeployFailed(deploymentMessage.error, notificationId);
         break;

@@ -2,7 +2,7 @@ import { MdlModule } from '@angular-mdl/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdSelectModule, MdTooltipModule, MdMenuModule, MdButtonModule, MdIconModule } from '@angular/material';
+import { MdSelectModule, MdTooltipModule, MdMenuModule, MdButtonModule, MdIconModule, MdTabsModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 
@@ -24,6 +24,7 @@ import { IsoSidebarComponent } from './template-sidebar/iso-sidebar.component';
 import { TemplateTagsComponent } from './template-tags/template-tags.component';
 import { ClipboardModule } from 'ngx-clipboard/dist';
 import { TemplateFilterListSelectorComponent } from './template-filter-list/template-filter-list-selector.component';
+import { TemplateCreationDialogComponent } from './template-creation/template-creation-dialog.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { TemplateFilterListSelectorComponent } from './template-filter-list/temp
     MdMenuModule,
     MdButtonModule,
     MdIconModule,
+    MdTabsModule,
   ],
   declarations: [
     TemplateSidebarComponent,
@@ -49,6 +51,7 @@ import { TemplateFilterListSelectorComponent } from './template-filter-list/temp
     IsoAttachmentComponent,
     TemplateComponent,
     TemplateCreationComponent,
+    TemplateCreationDialogComponent,
     TemplateFiltersComponent,
     TemplateListComponent,
     TemplateCardListComponent,

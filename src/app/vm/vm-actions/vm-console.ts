@@ -1,5 +1,5 @@
 import { VirtualMachineAction, VmActions } from './vm-action';
-import { VirtualMachine, VmStates } from '../shared/vm.model';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 
@@ -7,11 +7,11 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class VmConsoleAction extends VirtualMachineAction {
   public action = VmActions.CONSOLE;
-  public name = 'CONSOLE';
+  public name = 'VM_PAGE.COMMANDS.CONSOLE';
   public icon = 'computer';
 
   public canActivate(vm: VirtualMachine): boolean {
-    return vm.state === VmStates.Running;
+    return vm.state === VmState.Running;
   }
 
   public activate(vm: VirtualMachine): Observable<void> {

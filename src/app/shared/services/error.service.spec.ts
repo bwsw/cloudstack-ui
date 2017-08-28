@@ -21,7 +21,7 @@ describe('Error service', () => {
 
     const parsedError = ErrorService.parseError(error);
     expect(parsedError.message).toBeDefined();
-    expect(parsedError.message).toBe('VOLUME_NEWSIZE_LOWER');
+    expect(parsedError.message).toBe('ERRORS.VOLUME.NEW_SIZE_IS_LOWER');
   });
 
   it('should get error params', () => {

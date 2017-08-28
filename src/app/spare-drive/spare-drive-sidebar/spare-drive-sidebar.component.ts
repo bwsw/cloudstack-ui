@@ -2,10 +2,11 @@ import { Component, HostBinding, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../shared/models';
-import { VolumeTypes } from '../../shared/models/volume.model';
-import { DiskOfferingService } from '../../shared/services/disk-offering.service';
-import { VolumeService } from '../../shared/services/volume.service';
+import { VolumeType } from '../../shared/models/volume.model';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
+import { DiskOfferingService } from '../../shared/services/disk-offering.service';
+import { VolumeTagService } from '../../shared/services/tags/volume-tag.service';
+import { VolumeService } from '../../shared/services/volume.service';
 
 
 @Component({
@@ -20,18 +21,23 @@ export class SpareDriveSidebarComponent {
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
+    private diskOfferingService: DiskOfferingService,
     private route: ActivatedRoute,
     private volumeService: VolumeService,
-    private diskOfferingService: DiskOfferingService
+    private volumeTagService: VolumeTagService,
   ) {
     this.route.params.pluck('id')
       .subscribe((id: string) => {
-        if (id) {
-          Observable.forkJoin(
-            this.diskOfferingService.getList({ type: VolumeTypes.DATADISK }),
-            this.volumeService.get(id)
-          ).subscribe(([diskOfferings, volume]) => {
-            this.volumeService.getDescription(volume)
+        if (!id) {
+          return;
+        }
+
+        Observable.forkJoin(
+          this.diskOfferingService.getList({ type: VolumeType.DATADISK }),
+          this.volumeService.get(id)
+        )
+          .subscribe(([diskOfferings, volume]) => {
+            this.volumeTagService.getDescription(volume)
               .subscribe(description => {
                 volume.diskOffering = diskOfferings.find(
                   offering => offering.id === volume.diskOfferingId
@@ -40,13 +46,11 @@ export class SpareDriveSidebarComponent {
                 this.description = description;
               });
           });
-        }
-    });
+      });
   }
 
   public changeDescription(newDescription: string): void {
-    this.volumeService
-      .updateDescription(this.volume, newDescription)
+    this.volumeTagService.setDescription(this.volume, newDescription)
       .onErrorResumeNext()
       .subscribe();
   }

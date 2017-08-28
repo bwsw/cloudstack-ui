@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
-import { Volume } from '../shared/models';
-import { JobsNotificationService } from '../shared/services';
 import { DialogService } from '../dialog/dialog-module/dialog.service';
+import { Volume } from '../shared/models';
+import { JobsNotificationService } from '../shared/services/jobs-notification.service';
 import { VolumeService } from '../shared/services/volume.service';
 import { SpareDriveActionsService } from './spare-drive-actions.service';
 

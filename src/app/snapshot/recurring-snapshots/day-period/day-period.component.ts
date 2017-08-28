@@ -61,8 +61,8 @@ export class DayPeriodComponent implements ControlValueAccessor, OnInit {
 
   private getPeriods(): Observable<Array<DayPeriodName>> {
     const periods = [
-      { value: DayPeriod.Am, name: 'AM' },
-      { value: DayPeriod.Pm, name: 'PM' }
+      { value: DayPeriod.Am, name: 'DATE_TIME.AM' },
+      { value: DayPeriod.Pm, name: 'DATE_TIME.PM' }
     ];
 
     const periodNames = periods.map(_ => _.name);

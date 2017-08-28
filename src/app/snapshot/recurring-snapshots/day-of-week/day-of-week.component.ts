@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, forwardRef, Input, OnInit } from '@angular/core';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { LanguageService } from '../../../shared/services';
+import { LanguageService } from '../../../shared/services/language.service';
 import { DayOfWeek } from '../../../shared/types/day-of-week';
 
 
@@ -39,13 +39,13 @@ export class DayOfWeekComponent implements OnInit {
 
   private get daysOfWeekList(): Array<DayOfWeekName> {
     return [
-      { value: DayOfWeek.Sunday, name: 'SUNDAY'},
-      { value: DayOfWeek.Monday, name: 'MONDAY'},
-      { value: DayOfWeek.Tuesday, name: 'TUESDAY'},
-      { value: DayOfWeek.Wednesday, name: 'WEDNESDAY'},
-      { value: DayOfWeek.Thursday, name: 'THURSDAY'},
-      { value: DayOfWeek.Friday, name: 'FRIDAY'},
-      { value: DayOfWeek.Saturday, name: 'SATURDAY'},
+      { value: DayOfWeek.Sunday, name: 'DATE_TIME.DAYS_OF_WEEK.SUNDAY'},
+      { value: DayOfWeek.Monday, name: 'DATE_TIME.DAYS_OF_WEEK.MONDAY'},
+      { value: DayOfWeek.Tuesday, name: 'DATE_TIME.DAYS_OF_WEEK.TUESDAY'},
+      { value: DayOfWeek.Wednesday, name: 'DATE_TIME.DAYS_OF_WEEK.WEDNESDAY'},
+      { value: DayOfWeek.Thursday, name: 'DATE_TIME.DAYS_OF_WEEK.THURSDAY'},
+      { value: DayOfWeek.Friday, name: 'DATE_TIME.DAYS_OF_WEEK.FRIDAY'},
+      { value: DayOfWeek.Saturday, name: 'DATE_TIME.DAYS_OF_WEEK.SATURDAY'},
     ];
   }
 

@@ -1,10 +1,13 @@
-<cs-list>
+<cs-list
+  (onAction)="showCreationDialog()"
+  [isOpen]="listService?.hasSelected()"
+>
   <cs-top-bar cs-panels>
     <md-select
       *ngIf="zones"
       class="filter-select"
       multiple="true"
-      [placeholder]="'SELECT_ZONES' | translate"
+      [placeholder]="'SPARE_DRIVE_PAGE.FILTERS.SELECT_ZONES' | translate"
       [(ngModel)]="selectedZones"
       (change)="update()"
     >
@@ -15,7 +18,7 @@
       *ngIf="zones"
       class="filter-select"
       multiple="true"
-      [placeholder]="'GROUP_BY_LABEL' | translate"
+      [placeholder]="'SPARE_DRIVE_PAGE.FILTERS.GROUP_BY' | translate"
       [(ngModel)]="selectedGroupingNames"
       (change)="update()"
     >
@@ -34,5 +37,9 @@
     cs-list
   ></cs-spare-drive-list>
 
-  <router-outlet cs-sidebar></router-outlet>
+  <ng-container cs-sidebar>
+    <cs-sidebar [isOpen]="listService?.hasSelected()">
+      <router-outlet></router-outlet>
+    </cs-sidebar>
+  </ng-container>
 </cs-list>

@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { MdlDialogReference } from '../../../dialog/dialog-module';
+import { Mode } from '../../../shared/components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { InstanceGroup } from '../../../shared/models';
-import { InstanceGroupService } from '../../../shared/services';
+import { InstanceGroupService } from '../../../shared/services/instance-group.service';
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
-import { Mode } from '../../../shared/components/create-update-delete-dialog/create-update-delete-dialog.component';
-import { Observable } from 'rxjs/Observable';
 
 
 @Component({

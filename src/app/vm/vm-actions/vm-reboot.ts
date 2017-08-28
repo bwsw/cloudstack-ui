@@ -1,5 +1,5 @@
 import { VmActions } from './vm-action';
-import { VirtualMachine, VmStates } from '../shared/vm.model';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 import { Injectable } from '@angular/core';
 import { VirtualMachineCommand } from './vm-command';
 
@@ -7,24 +7,24 @@ import { VirtualMachineCommand } from './vm-command';
 @Injectable()
 export class VmRebootAction extends VirtualMachineCommand {
   public commandName = 'reboot';
-  public vmStateOnAction = 'REBOOT_IN_PROGRESS';
+  public vmStateOnAction = 'VM_STATE.REBOOT_IN_PROGRESS';
 
   public action = VmActions.REBOOT;
-  public name = 'REBOOT';
+  public name = 'VM_PAGE.COMMANDS.REBOOT';
   public icon = 'replay';
 
   public tokens = {
     name: 'Reboot',
     nameLower: 'reboot',
-    nameCaps: 'REBOOT',
-    vmActionCompleted: 'REBOOT_DONE',
-    confirmMessage: 'CONFIRM_VM_REBOOT',
-    progressMessage: 'VM_REBOOT_IN_PROGRESS',
-    successMessage: 'REBOOT_DONE',
-    failMessage: 'VM_REBOOT_FAILED'
+    nameCaps: 'VM_PAGE.COMMANDS.REBOOT',
+    vmActionCompleted: 'JOB_NOTIFICATIONS.VM.REBOOT_DONE',
+    confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_REBOOT',
+    progressMessage: 'JOB_NOTIFICATIONS.VM.REBOOT_IN_PROGRESS',
+    successMessage: 'JOB_NOTIFICATIONS.VM.REBOOT_DONE',
+    failMessage: 'JOB_NOTIFICATIONS.VM.REBOOT_FAILED'
   };
 
   public canActivate(vm: VirtualMachine): boolean {
-    return vm.state === VmStates.Running;
+    return vm.state === VmState.Running;
   }
 }

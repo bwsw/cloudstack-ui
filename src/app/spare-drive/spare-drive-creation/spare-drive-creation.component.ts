@@ -2,10 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { MdlDialogReference } from '../../dialog/dialog-module';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { DiskOffering, DiskOfferingService, Zone } from '../../shared';
 import { Volume } from '../../shared/models';
-import { JobsNotificationService } from '../../shared/services';
-import { ResourceStats, ResourceUsageService } from '../../shared/services/resource-usage.service';
+import { DiskOffering } from '../../shared/models/disk-offering.model';
+import { DiskOfferingService } from '../../shared/services/disk-offering.service';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
+import {
+  ResourceStats,
+  ResourceUsageService
+} from '../../shared/services/resource-usage.service';
+import { Zone } from '../../shared/models';
 import { VolumeService } from '../../shared/services/volume.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VolumeCreationData } from '../spare-drive-page/spare-drive-page.component';
@@ -62,7 +67,7 @@ export class SpareDriveCreationComponent implements OnInit {
 
   public onCreate(): void {
     this.loading = true;
-    this.notificationId = this.jobsNotificationService.add('VOLUME_CREATE_IN_PROGRESS');
+    this.notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.CREATION_IN_PROGRESS');
     this.createVolume(this.creationParams)
       .finally(() => this.loading = false)
       .subscribe(
@@ -145,7 +150,7 @@ export class SpareDriveCreationComponent implements OnInit {
   private handleInsufficientResources(): void {
     this.dialog.hide();
     if (!this.insufficientResourcesDialog) {
-      this.insufficientResourcesDialog = this.dialogService.alert('VOLUME_LIMIT_EXCEEDED');
+      this.insufficientResourcesDialog = this.dialogService.alert('ERRORS.VOLUME.VOLUME_LIMIT_EXCEEDED');
       this.insufficientResourcesDialog
         .subscribe(() => this.insufficientResourcesDialog = undefined);
     }
@@ -165,7 +170,7 @@ export class SpareDriveCreationComponent implements OnInit {
   private onVolumeCreated(volume: Volume): void {
     this.jobsNotificationService.finish({
       id: this.notificationId,
-      message: 'VOLUME_CREATE_DONE'
+      message: 'JOB_NOTIFICATIONS.VOLUME.CREATION_DONE'
     });
     this.dialog.hide(volume);
   }
@@ -177,7 +182,7 @@ export class SpareDriveCreationComponent implements OnInit {
     });
     this.jobsNotificationService.fail({
       id: this.notificationId,
-      message: 'VOLUME_CREATE_FAILED',
+      message: 'JOB_NOTIFICATIONS.VOLUME.CREATION_FAILED',
     });
   }
 }

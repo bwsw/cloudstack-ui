@@ -2,7 +2,7 @@
 
 .tab-switch {
   margin: 0 auto 0px 15px;
-  width: 100% !important;
+  text-transform: uppercase;
 }
 
 .progress {
@@ -107,4 +107,12 @@ div.closed {
 md-card md-card-content {
   padding: 0px 16px 16px 16px;
   margin: 0px;
+}
+
+:host /deep/ .mat-tab-label {
+  min-width: 70px !important;
+}
+
+:host /deep/ .mat-tab-header-pagination {
+  display: none !important;
 }

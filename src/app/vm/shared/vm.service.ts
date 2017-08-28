@@ -2,27 +2,21 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { SecurityGroup } from '../../security-group/sg.model';
-
 import { BackendResource } from '../../shared/decorators';
-
-import { AsyncJob, Color, OsType, ServiceOffering, Volume } from '../../shared/models';
-
-import {
-  AsyncJobService,
-  BaseBackendService,
-  OsTypeService,
-} from '../../shared/services';
-
-import { Iso } from '../../template/shared';
-import { VirtualMachine, VmState } from './vm.model';
-import { ServiceOfferingService } from '../../shared/services/service-offering.service';
-import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { TagService } from '../../shared/services/tag.service';
-import { UserService } from '../../shared/services/user.service';
-import { VolumeService } from '../../shared/services/volume.service';
+import { AsyncJob, OsType, ServiceOffering, Volume } from '../../shared/models';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
-import { VirtualMachineActionType } from '../vm-actions/vm-action';
+import { VolumeType } from '../../shared/models/volume.model';
+import { AsyncJobService } from '../../shared/services/async-job.service';
+import { ApiFormat, BaseBackendService } from '../../shared/services/base-backend.service';
+import { OsTypeService } from '../../shared/services/os-type.service';
+import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { ServiceOfferingService } from '../../shared/services/service-offering.service';
+import { UserTagService } from '../../shared/services/tags/user-tag.service';
+import { VolumeService } from '../../shared/services/volume.service';
+import { Iso } from '../../template/shared';
+import { VmActions } from '../vm-actions/vm-action';
 import { IVirtualMachineCommand } from '../vm-actions/vm-command';
+import { VirtualMachine, VmState } from './vm.model';
 
 
 export const VirtualMachineEntityName = 'VirtualMachine';
@@ -40,30 +34,29 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     private osTypesService: OsTypeService,
     private serviceOfferingService: ServiceOfferingService,
     private securityGroupService: SecurityGroupService,
-    private tagService: TagService,
-    private userService: UserService,
+    private userTagService: UserTagService,
     private volumeService: VolumeService
   ) {
     super();
   }
 
   public getNumberOfVms(): Observable<number> {
-    return this.userService.readTag('csui.user.last-vm-id')
+    return this.userTagService.getLastVmId()
       .switchMap(numberOfVms => {
         if (numberOfVms !== undefined && !Number.isNaN(+numberOfVms)) {
           return Observable.of(+numberOfVms);
         }
 
-        return this.getListWithDetails({}, true)
+        return this.getListWithDetails({}, null, true)
           .switchMap(vmList => {
-            return this.writeNumberOfVms(vmList.length);
+            return this.userTagService.setLastVmId(vmList.length);
           });
       });
   }
 
   public incrementNumberOfVms(): Observable<number> {
     return this.getNumberOfVms()
-      .switchMap(numberOfVms => this.writeNumberOfVms(numberOfVms + 1));
+      .switchMap(numberOfVms => this.userTagService.setLastVmId(numberOfVms + 1));
   }
 
   public updateVmInfo(vm: VirtualMachine): void {
@@ -76,7 +69,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     );
   }
 
-  public getListWithDetails(params?: {}, lite = false): Observable<Array<VirtualMachine>> {
+  public getListWithDetails(params?: {}, customApiFormat?: ApiFormat, lite = false): Observable<Array<VirtualMachine>> {
     if (lite) {
       return super.getList(params);
     }
@@ -128,7 +121,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public command(vm: VirtualMachine, command: IVirtualMachineCommand): Observable<any> {
-    const commandName = command.commandName as VirtualMachineActionType;
+    const commandName = command.commandName as VmActions;
     const initialState = vm.state;
 
     this.setStateForVm(vm, command.vmStateOnAction as VmState);
@@ -161,25 +154,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   public removeIpFromNic(ipId: string): Observable<any> {
     return this.sendCommand('removeIpFrom', { id: ipId }, 'Nic')
       .switchMap(job => this.asyncJobService.queryJob(job.jobid));
-  }
-
-  public setColor(vm: VirtualMachine, color: Color): Observable<VirtualMachine> {
-    let tagValue = color.value;
-    if (color.textColor) {
-      tagValue += `${VirtualMachine.ColorDelimiter}${color.textColor}`;
-    }
-    return this.tagService.update(vm, 'UserVm', 'csui.vm.color', tagValue);
-  }
-
-  public getDescription(vm: VirtualMachine): Observable<string> {
-    return this.tagService.getTag(vm, 'csui.vm.description')
-      .map(tag => {
-        return tag ? tag.value : undefined;
-      });
-  }
-
-  public updateDescription(vm: VirtualMachine, description: string): Observable<void> {
-    return this.tagService.update(vm, 'UserVm', 'csui.vm.description', description);
   }
 
   public changeServiceOffering(
@@ -228,8 +202,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   private sortVolumes(volumes: Array<Volume>): Array<Volume> {
     return volumes.sort((a: Volume, b) => {
-      const aIsRoot = a.type === 'ROOT';
-      const bIsRoot = b.type === 'ROOT';
+      const aIsRoot = a.type === VolumeType.ROOT;
+      const bIsRoot = b.type === VolumeType.ROOT;
       if (aIsRoot && !bIsRoot) {
         return -1;
       }
@@ -257,11 +231,5 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       vm.securityGroup[index] = groups.find(sg => sg.id === group.id);
     });
     return vm;
-  }
-
-  private writeNumberOfVms(number: number): Observable<number> {
-    return this.userService
-      .writeTag('csui.user.last-vm-id', number.toString())
-      .mapTo(number);
   }
 }

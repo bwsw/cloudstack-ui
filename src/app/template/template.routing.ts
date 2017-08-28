@@ -1,8 +1,9 @@
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '../shared/services';
+import { AuthGuard } from '../shared/services/auth-guard.service';
 import { TemplatePageComponent } from './template-page/template-page.component';
-import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
 import { IsoSidebarComponent } from './template-sidebar/iso-sidebar.component';
+import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
+import { TemplateCreationDialogComponent } from './template-creation/template-creation-dialog.component';
 
 const routes: Routes = [
   {
@@ -10,6 +11,10 @@ const routes: Routes = [
     component: TemplatePageComponent,
     canActivate: [AuthGuard],
     children: [
+      {
+        path: 'create',
+        component: TemplateCreationDialogComponent
+      },
       {
         path: 'template/:id',
         component: TemplateSidebarComponent,

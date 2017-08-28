@@ -41,23 +41,23 @@ export class PolicyViewBuilderService {
 
   private get daysOfWeek(): Array<DayOfWeekToken> {
     return [
-      { value: DayOfWeek.Sunday, name: 'SUNDAY_LOWER' },
-      { value: DayOfWeek.Monday, name: 'MONDAY_LOWER' },
-      { value: DayOfWeek.Tuesday, name: 'TUESDAY_LOWER' },
-      { value: DayOfWeek.Wednesday, name: 'WEDNESDAY_LOWER' },
-      { value: DayOfWeek.Thursday, name: 'THURSDAY_LOWER' },
-      { value: DayOfWeek.Friday, name: 'FRIDAY_LOWER' },
-      { value: DayOfWeek.Saturday, name: 'SATURDAY_LOWER' }
+      { value: DayOfWeek.Sunday, name: 'DATE_TIME.DAYS_OF_WEEK.SUNDAY_LOWER' },
+      { value: DayOfWeek.Monday, name: 'DATE_TIME.DAYS_OF_WEEK.MONDAY_LOWER' },
+      { value: DayOfWeek.Tuesday, name: 'DATE_TIME.DAYS_OF_WEEK.TUESDAY_LOWER' },
+      { value: DayOfWeek.Wednesday, name: 'DATE_TIME.DAYS_OF_WEEK.WEDNESDAY_LOWER' },
+      { value: DayOfWeek.Thursday, name: 'DATE_TIME.DAYS_OF_WEEK.THURSDAY_LOWER' },
+      { value: DayOfWeek.Friday, name: 'DATE_TIME.DAYS_OF_WEEK.FRIDAY_LOWER' },
+      { value: DayOfWeek.Saturday, name: 'DATE_TIME.DAYS_OF_WEEK.SATURDAY_LOWER' }
     ];
   }
 
   private getPeriodToken(policy: Policy<any>): string {
     if (policy.type === PolicyType.Weekly) {
-      return 'POLICY_WEEKLY_PERIOD';
+      return 'SNAPSHOT_POLICIES.WEEKLY_PERIOD';
     }
 
     if (policy.type === PolicyType.Monthly) {
-      return 'POLICY_MONTHLY_PERIOD';
+      return 'SNAPSHOT_POLICIES.MONTHLY_PERIOD';
     }
 
     return '';
@@ -93,10 +93,10 @@ export class PolicyViewBuilderService {
 
   private getTimeToken(policy: Policy<TimePolicy>): string {
     const timeTokens = {
-      [PolicyType.Hourly]: 'POLICY_HOURLY_TIME',
-      [PolicyType.Daily]: 'POLICY_DAILY_TIME',
-      [PolicyType.Weekly]: 'POLICY_WEEKLY_TIME',
-      [PolicyType.Monthly]: 'POLICY_MONTHLY_TIME'
+      [PolicyType.Hourly]: 'SNAPSHOT_POLICIES.HOURLY_TIME',
+      [PolicyType.Daily]: 'SNAPSHOT_POLICIES.DAILY_TIME',
+      [PolicyType.Weekly]: 'SNAPSHOT_POLICIES.WEEKLY_TIME',
+      [PolicyType.Monthly]: 'SNAPSHOT_POLICIES.MONTHLY_TIME'
     };
 
     return timeTokens[policy.type];

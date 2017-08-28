@@ -1,4 +1,7 @@
-<md-select [(ngModel)]="timeZone">
+<md-select
+  [placeholder]="'SNAPSHOT_POLICIES.TIME_ZONE' | translate"
+  [(ngModel)]="timeZone"
+>
   <md-option
     *ngFor="let tz of timeZones"
     [value]="tz"

@@ -1,21 +1,19 @@
 import { BaseModel } from '../shared/models/base.model';
 import { FieldMapper } from '../shared/decorators/field-mapper.decorator';
+import { Taggable } from '../shared/interfaces/taggable.interface';
+import { Tag } from '../shared/models/tag.model';
 
 
-export type NetworkRuleType = 'Ingress' | 'Egress';
+export enum NetworkRuleType {
+  Ingress = 'Ingress',
+  Egress = 'Egress'
+}
 
-export const NetworkRuleTypes = {
-  Ingress: 'Ingress' as NetworkRuleType,
-  Egress: 'Egress' as NetworkRuleType
-};
-
-export type NetworkProtocol = 'tcp' | 'udp' | 'icmp';
-
-export const NetworkProtocols = {
-  TCP: 'tcp' as NetworkProtocol,
-  UDP: 'udp' as NetworkProtocol,
-  ICMP: 'icmp' as NetworkProtocol
-};
+export enum NetworkProtocol {
+  TCP = 'tcp',
+  UDP = 'udp',
+  ICMP = 'icmp'
+}
 
 @FieldMapper({
   ruleid: 'ruleId',
@@ -39,19 +37,14 @@ export class NetworkRule extends BaseModel {
       return false;
     }
 
-    if (this.protocol === NetworkProtocols.TCP || this.protocol === NetworkProtocols.UDP) {
+    if (this.protocol === NetworkProtocol.TCP || this.protocol === NetworkProtocol.UDP) {
       return this.startPort === networkRule.startPort && this.endPort === networkRule.endPort;
     }
 
-    if (this.protocol === NetworkProtocols.ICMP) {
+    if (this.protocol === NetworkProtocol.ICMP) {
       return this.icmpCode === networkRule.icmpCode && this.icmpType === networkRule.icmpType;
     }
   }
-}
-
-interface ITag {
-  key: string;
-  value: string;
 }
 
 @FieldMapper({
@@ -59,7 +52,9 @@ interface ITag {
   egressrule: 'egressRules',
   virtualmachineids: 'virtualMachineIds'
 })
-export class SecurityGroup extends BaseModel {
+export class SecurityGroup extends BaseModel implements Taggable {
+  public resourceType = 'SecurityGroup';
+
   public id: string;
   public name: string;
   public description: string;
@@ -68,22 +63,46 @@ export class SecurityGroup extends BaseModel {
   public ingressRules: Array<NetworkRule>;
   public egressRules: Array<NetworkRule>;
   public virtualMachineIds: Array<string>;
-  public tags: Array<ITag>;
+  public tags: Array<Tag>;
   public preselected: boolean;
 
   constructor(params?: {}) {
     super(params);
 
-    for (let i = 0; i < this.ingressRules.length; i++) {
-      this.ingressRules[i] = new NetworkRule(this.ingressRules[i]);
-    }
-
-    for (let i = 0; i < this.egressRules.length; i++) {
-      this.egressRules[i] = new NetworkRule(this.egressRules[i]);
-    }
+    this.initializeIngressRules();
+    this.initializeEgressRules();
+    this.initializeTags();
   }
 
   public get isPredefinedTemplate(): boolean {
     return this.id.startsWith('template');
+  }
+
+  private initializeIngressRules(): void {
+    if (!this.ingressRules) {
+      this.ingressRules = [];
+    }
+
+    this.ingressRules = this.ingressRules.map(rule => {
+      return new NetworkRule(rule);
+    });
+  }
+
+  private initializeEgressRules(): void {
+    if (!this.egressRules) {
+      this.egressRules = [];
+    }
+
+    this.egressRules = this.egressRules.map(rule => {
+      return new NetworkRule(rule);
+    });
+  }
+
+  private initializeTags(): void {
+    if (!this.tags) {
+      this.tags = [];
+    }
+
+    this.tags = this.tags.map(tag => new Tag(tag));
   }
 }
