@@ -233,7 +233,7 @@ export class VmListComponent implements OnInit {
     this.asyncJobService.event
       .filter(job => this.isAsyncJobAVirtualMachineJobWithResult(job))
       .subscribe(job => {
-        this.updateVmInListWithAsyncJobResult(job);
+        this.updateVmInListWithAsyncJobResult.bind(this)(job);
       });
   }
 
