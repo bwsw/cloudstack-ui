@@ -15,6 +15,7 @@ export class SshKeyCreationComponent implements OnInit {
     private dialogService: DialogService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private listService: ListService
   ) {
   }
@@ -34,6 +35,11 @@ export class SshKeyCreationComponent implements OnInit {
           if (sshKey.privateKey) {
             this.showPrivateKey(sshKey.privateKey);
           }
+        } else {
+          this.router.navigate(['../'], {
+            preserveQueryParams: true,
+            relativeTo: this.activatedRoute
+          });
         }
       });
   }
