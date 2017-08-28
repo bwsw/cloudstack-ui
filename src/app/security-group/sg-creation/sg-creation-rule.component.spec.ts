@@ -45,10 +45,10 @@ describe('Sg creation rule component', () => {
       By.css('md-list-item h4')
     ).nativeElement.textContent;
 
-    expect(listContent).toContain('INGRESS');
-    expect(listContent).toContain(mockRuleItem.rule.CIDR);
-    expect(listContent).toContain(mockRuleItem.rule.protocol.toUpperCase());
-    expect(listContent).toContain(mockRuleItem.rule.startPort);
-    expect(listContent).toContain(mockRuleItem.rule.endPort);
+    expect(listContent).toContain('SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE_PORT_RANGE');
+
+    comp.item.endport = 1;
+    f.detectChanges();
+    expect(listContent).toContain('SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE');
   });
 });
