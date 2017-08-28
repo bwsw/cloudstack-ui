@@ -1,8 +1,8 @@
 <ng-container *ngFor="let action of snapshotActionsService.actions">
   <button
     md-menu-item
-    (click)="action.activate(this.snapshot, this.volume).subscribe()"
-    [disabled]="!volume"
+    (click)="onAction(action)"
+    [disabled]="!volume || actionInProgress"
   >
     <md-icon>{{ action.icon }}</md-icon>
     <span>{{ action.name | translate }}</span>
