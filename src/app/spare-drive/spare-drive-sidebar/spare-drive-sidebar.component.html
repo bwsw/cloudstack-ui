@@ -7,9 +7,14 @@
   <cs-spare-drive-sidebar-volume [volume]="item"></cs-spare-drive-sidebar-volume>
 
   <cs-description
-    [description]="description"
+    [description]="item.description"
     (descriptionChange)="changeDescription($event)"
   ></cs-description>
 
   <cs-spare-drive-sidebar-disk-offering [volume]="item"></cs-spare-drive-sidebar-disk-offering>
 </div>
+
+<cs-no-results *ngIf="notFound" [text]="'VOLUME_NOT_FOUND'"></cs-no-results>
+
+<cs-overlay-loading [active]="!entity && !notFound"></cs-overlay-loading>
+

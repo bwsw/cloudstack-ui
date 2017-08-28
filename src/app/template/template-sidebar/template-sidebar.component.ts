@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
@@ -18,6 +18,7 @@ export class TemplateSidebarComponent extends BaseTemplateSidebarComponent {
     templateService: TemplateService,
     dateTimeFormatterService: DateTimeFormatterService,
     route: ActivatedRoute,
+    router: Router,
     listService: ListService,
     dialogService: DialogService,
     notificationService: NotificationService
@@ -25,10 +26,11 @@ export class TemplateSidebarComponent extends BaseTemplateSidebarComponent {
     super(
       templateService,
       dateTimeFormatterService,
-      route,
       dialogService,
-      notificationService,
-      listService
+      route,
+      router,
+      listService,
+      notificationService
     );
   }
 }

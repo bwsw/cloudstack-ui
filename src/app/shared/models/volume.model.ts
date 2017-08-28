@@ -41,8 +41,9 @@ export class Volume extends BaseModel {
   public tags: Array<Tag>;
   public type: VolumeType;
   public zoneId: string;
-
   public zoneName: string;
+
+  public description: string;
 
   constructor(json) {
     super(json);

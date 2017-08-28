@@ -34,6 +34,11 @@ export class SshKeyCreationComponent implements OnInit {
           if (sshKey.privateKey) {
             this.showPrivateKey(sshKey.privateKey);
           }
+        } else {
+          this.router.navigate(['../'], {
+            preserveQueryParams: true,
+            relativeTo: this.activatedRoute
+          });
         }
       });
   }
