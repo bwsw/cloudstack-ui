@@ -123,7 +123,7 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
 
   public filterVolumesBySpare(volumes: Array<Volume>, spareOnly = false): Array<Volume> {
     if (spareOnly) {
-      return this.volumeService.getSpareListSync(this.volumes);
+      return this.volumeService.getSpareListSync(volumes);
     } else {
       return volumes;
     }
