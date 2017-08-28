@@ -5,9 +5,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
+  MdAutocompleteModule,
   MdCardModule,
   MdCheckboxModule,
   MdIconModule,
+  MdInputModule,
   MdListModule,
   MdProgressBarModule,
   MdProgressSpinnerModule,
@@ -42,10 +44,6 @@ import {
   TopBarComponent,
   VmStatisticsComponent
 } from './components';
-import {
-  MDL_SELECT_VALUE_ACCESSOR,
-  MdlAutocompleteComponent
-} from './components/autocomplete/mdl-autocomplete.component';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
 import {
   CreateUpdateDeleteDialogComponent
@@ -54,7 +52,6 @@ import { DescriptionComponent } from './components/description/description.compo
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
 import { GroupedCardListComponent } from './components/grouped-card-list/grouped-card-list.component';
-import { InlineEditAutocompleteComponent } from './components/inline-edit/inline-edit-autocomplete.component';
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
 import { InputGroupComponent } from './components/input-group/input-group.component';
 import { LoaderComponent } from './components/loader.component';
@@ -124,6 +121,8 @@ import { ZoneService } from './services/zone.service';
     MdCheckboxModule,
     MdSelectModule,
     MdIconModule,
+    MdInputModule,
+    MdAutocompleteModule,
     MdlDialogModule,
     MdlDialogOutletModule,
     MdlModule,
@@ -158,14 +157,12 @@ import { ZoneService } from './services/zone.service';
     FancySelectComponent,
     ForbiddenValuesDirective,
     InlineEditComponent,
-    InlineEditAutocompleteComponent,
     InputGroupComponent,
     IntegerValidatorDirective,
     ListComponent,
     NoResultsComponent,
     MaxValueValidatorDirective,
     MinValueValidatorDirective,
-    MdlAutocompleteComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     OverlayLoadingComponent,
@@ -208,14 +205,12 @@ import { ZoneService } from './services/zone.service';
     FancySelectComponent,
     ForbiddenValuesDirective,
     InlineEditComponent,
-    InlineEditAutocompleteComponent,
     InputGroupComponent,
     IntegerValidatorDirective,
     ListComponent,
     NoResultsComponent,
     MaxValueValidatorDirective,
     MinValueValidatorDirective,
-    MdlAutocompleteComponent,
     MdlTextAreaAutoresizeDirective,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
@@ -280,8 +275,7 @@ import { ZoneService } from './services/zone.service';
     UserService,
     VolumeService,
     VolumeOfferingService,
-    ZoneService,
-    MDL_SELECT_VALUE_ACCESSOR
+    ZoneService
   ]
 })
 export class SharedModule {

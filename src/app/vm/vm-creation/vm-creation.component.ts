@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdSelectChange } from '@angular/material';
+import * as clone from 'lodash/clone';
 import * as throttle from 'lodash/throttle';
-
 import { MdlDialogReference } from '../../dialog/dialog-module';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
@@ -16,16 +16,12 @@ import { VmCreationState } from './data/vm-creation-state';
 import { VmCreationFormNormalizationService } from './form-normalization/form-normalization.service';
 import { KeyboardLayout } from './keyboards/keyboards.component';
 import { VmCreationService } from './services/vm-creation.service';
-import {
-  VmDeploymentMessage,
-  VmDeploymentService,
-  VmDeploymentStage
-} from './services/vm-deployment.service';
+import { VmDeploymentMessage, VmDeploymentService, VmDeploymentStage } from './services/vm-deployment.service';
 
 
 export interface VmCreationFormState {
-  data: VmCreationData,
-  state: VmCreationState
+  data: VmCreationData;
+  state: VmCreationState;
 }
 
 export enum VmCreationStage {
@@ -53,11 +49,14 @@ export class VmCreationComponent implements OnInit {
     volumes: 'VM_PAGE.VM_CREATION.VOLUMES',
     cpus: 'VM_PAGE.VM_CREATION.CPUS',
     memory: 'VM_PAGE.VM_CREATION.MEMORY',
-    primaryStorage: 'VM_PAGE.VM_CREATION.PRIMARY_STORAGE',
+    primaryStorage: 'VM_PAGE.VM_CREATION.PRIMARY_STORAGE'
   };
 
   public takenName: string;
   public creationStage = VmCreationStage.editing;
+
+  public visibleAffinityGroups: Array<AffinityGroup>;
+  public visibleInstanceGroups: Array<InstanceGroup>;
 
   constructor(
     private dialog: MdlDialogReference,
@@ -68,41 +67,39 @@ export class VmCreationComponent implements OnInit {
     private vmCreationService: VmCreationService,
     private vmDeploymentService: VmDeploymentService
   ) {
-    this.updateFormState = throttle(
-      this.updateFormState,
-      500,
-      {
-        leading: true,
-        trailing: false
-      }
-    );
+    this.updateFormState = throttle(this.updateFormState, 500, {
+      leading: true,
+      trailing: false
+    });
   }
 
   public ngOnInit(): void {
     this.fetching = true;
-    this.resourceUsageService.getResourceUsage()
-      .subscribe(resourceUsage => {
-        Object.keys(resourceUsage.available)
-          .filter(key => key !== 'snapshots' && key !== 'secondaryStorage')
-          .forEach(key => {
-            const available = resourceUsage.available[key];
-            if (available === 0) {
-              this.insufficientResources.push(key);
-            }
-          });
+    this.resourceUsageService.getResourceUsage().subscribe(resourceUsage => {
+      Object.keys(resourceUsage.available)
+        .filter(key => key !== 'snapshots' && key !== 'secondaryStorage')
+        .forEach(key => {
+          const available = resourceUsage.available[key];
+          if (available === 0) {
+            this.insufficientResources.push(key);
+          }
+        });
 
-        this.enoughResources = !this.insufficientResources.length;
+      this.enoughResources = !this.insufficientResources.length;
 
-        if (this.enoughResources) {
-          this.loadData();
-        } else {
-          this.fetching = false;
-        }
-      });
+      if (this.enoughResources) {
+        this.loadData();
+      } else {
+        this.fetching = false;
+      }
+    });
   }
 
   public get showResizeSlider(): boolean {
-    return this.formState.state.template.isTemplate || this.formState.state.showRootDiskResize;
+    return (
+      this.formState.state.template.isTemplate ||
+      this.formState.state.showRootDiskResize
+    );
   }
 
   public get showOverlay(): boolean {
@@ -134,8 +131,8 @@ export class VmCreationComponent implements OnInit {
   public serviceOfferingChange(offering: ServiceOffering) {
     this.formState.state.serviceOffering = offering;
     if (offering.areCustomParamsSet) {
-      this.data.serviceOfferings = this.data.serviceOfferings.map(_ =>
-        _.id === offering.id ? offering : _
+      this.data.serviceOfferings = this.data.serviceOfferings.map(
+        _ => (_.id === offering.id ? offering : _)
       );
     }
     this.updateFormState();
@@ -158,27 +155,26 @@ export class VmCreationComponent implements OnInit {
     }
   }
 
-  public instanceGroupChange(value: string): void {
-    const existingGroup = this.formState.data.getInstanceGroup(value);
+  public instanceGroupChange(groupName: string): void {
+    const val = groupName.toLowerCase();
+    this.visibleInstanceGroups = this.formState.data.instanceGroups.filter(
+      g => g.name.toLowerCase().indexOf(val) === 0
+    );
 
-    if (existingGroup) {
-      this.formState.state.instanceGroup = existingGroup;
-    } else {
-      this.formState.state.instanceGroup = new InstanceGroup(value);
-    }
-
+    const existingGroup = this.formState.data.getInstanceGroup(groupName);
+    this.formState.state.instanceGroup = clone(existingGroup) || new InstanceGroup(groupName);
     this.updateFormState();
   }
 
-  public affinityGroupChange(value: string): void {
-    const existingGroup = this.formState.data.getAffinityGroup(value);
+  public affinityGroupChange(groupName: string): void {
+    const val = groupName.toLowerCase();
+    this.visibleAffinityGroups = this.formState.data.affinityGroupList.filter(
+      g => g.name.toLowerCase().indexOf(val) === 0
+    );
+    const existingGroup = this.formState.data.getAffinityGroup(groupName);
 
-    if (existingGroup) {
-      this.formState.state.affinityGroup = existingGroup;
-    } else {
-      this.formState.state.affinityGroup = new AffinityGroup({ name: value });
-    }
-
+    this.formState.state.affinityGroup =
+      clone(existingGroup) || new AffinityGroup({ name: groupName });
     this.updateFormState();
   }
 
@@ -202,13 +198,12 @@ export class VmCreationComponent implements OnInit {
   }
 
   public updateFormState(): void {
-    const state = this.formState && this.formState.state || this.data.getInitialState();
-    this.formState = this.formNormalizationService.normalize(
-      {
-        data: this.data,
-        state
-      }
-    );
+    const state =
+      (this.formState && this.formState.state) || this.data.getInitialState();
+    this.formState = this.formNormalizationService.normalize({
+      data: this.data,
+      state
+    });
   }
 
   public onVmCreationSubmit(e: any): void {
@@ -222,7 +217,10 @@ export class VmCreationComponent implements OnInit {
 
   public deploy(): void {
     const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
-    const { deployStatusObservable, deployObservable } = this.vmDeploymentService.deploy(this.formState.state);
+    const {
+      deployStatusObservable,
+      deployObservable
+    } = this.vmDeploymentService.deploy(this.formState.state);
 
     deployStatusObservable.subscribe(deploymentMessage => {
       this.handleDeploymentMessages(deploymentMessage, notificationId);
@@ -266,7 +264,10 @@ export class VmCreationComponent implements OnInit {
     });
   }
 
-  private handleDeploymentMessages(deploymentMessage: VmDeploymentMessage, notificationId: string): void {
+  private handleDeploymentMessages(
+    deploymentMessage: VmDeploymentMessage,
+    notificationId: string
+  ): void {
     switch (deploymentMessage.stage) {
       case VmDeploymentStage.STARTED:
         this.creationStage = VmCreationStage.vmDeploymentInProgress;
@@ -302,6 +303,8 @@ export class VmCreationComponent implements OnInit {
     this.fetching = true;
     this.vmCreationService.getData().subscribe(vmCreationData => {
       this.data = vmCreationData;
+      this.visibleInstanceGroups = vmCreationData.instanceGroups;
+      this.visibleAffinityGroups = vmCreationData.affinityGroupList;
       this.updateFormState();
       this.fetching = false;
     });

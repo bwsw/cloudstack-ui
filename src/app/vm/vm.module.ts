@@ -4,10 +4,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+  MdAutocompleteModule,
   MdButtonModule,
   MdCheckboxModule,
   MdDialogModule,
   MdIconModule,
+  MdInputModule,
   MdMenuModule,
   MdSelectModule,
   MdTabsModule,
@@ -91,20 +93,20 @@ import { WebShellService } from './web-shell/web-shell.service';
     MdlSelectModule,
     ReactiveFormsModule,
     ServiceOfferingModule,
-    ServiceOfferingModule,
     SharedModule,
     SnapshotModule,
     TagsModule,
     TemplateModule,
-    TranslateModule,
     TranslateModule,
     PulseModule,
     vmRouting,
     RouterModule.forRoot(routes),
     MdMenuModule,
     MdButtonModule,
+    MdInputModule,
     MdIconModule,
-    MdTabsModule,
+    MdAutocompleteModule,
+    MdTabsModule
   ],
   declarations: [
     AffinityGroupSelectorComponent,

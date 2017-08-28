@@ -18,6 +18,12 @@
   }
 }
 
+:host {
+  md-input-container {
+    width: 100%;
+  }
+}
+
 :host mdl-textfield {
   padding-top: 15px;
 }

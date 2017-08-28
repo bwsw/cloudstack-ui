@@ -6,6 +6,7 @@ import { SshPrivateKeyDialogComponent } from './ssh-private-key-dialog.component
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import { ListService } from '../../shared/components/list/list.service';
 
+
 @Component({
   selector: 'cs-ssh-create-dialog',
   template: ``
@@ -14,7 +15,6 @@ export class SshKeyCreationComponent implements OnInit {
   constructor(
     private dialogService: DialogService,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     private activatedRoute: ActivatedRoute,
     private listService: ListService
   ) {
