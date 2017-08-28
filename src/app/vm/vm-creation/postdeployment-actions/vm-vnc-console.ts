@@ -4,7 +4,7 @@ import { VirtualMachine } from '../../shared/vm.model';
 import { VmConsoleAction } from '../../vm-actions/vm-console';
 
 @Injectable()
-export class VmVncConsole implements Action<VirtualMachine> {
+export class VmVncConsoleAction implements Action<VirtualMachine> {
   public name = 'vncConsole';
 
   constructor(private vmConsole: VmConsoleAction) {}

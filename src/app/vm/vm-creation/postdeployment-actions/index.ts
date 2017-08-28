@@ -1,3 +1,4 @@
-import { VmVncConsole } from './vm-vnc-console';
+import { VmShowPasswordAction } from './vm-show-password';
+import { VmVncConsoleAction } from './vm-vnc-console';
 
-export const VmPostdeploymentActionProviders = [VmVncConsole];
+export const VmPostdeploymentActionProviders = [VmVncConsoleAction, VmShowPasswordAction];

@@ -10,7 +10,6 @@ import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 import { BaseTemplateModel } from '../../template/shared';
-import { VirtualMachine } from '../shared/vm.model';
 import { VmCreationData } from './data/vm-creation-data';
 import { VmCreationState } from './data/vm-creation-state';
 import { VmCreationFormNormalizationService } from './form-normalization/form-normalization.service';
@@ -248,24 +247,6 @@ export class VmCreationComponent implements OnInit {
     });
   }
 
-  public showPassword(vm: VirtualMachine): void {
-    if (!vm.passwordEnabled) {
-      return;
-    }
-
-    this.dialogService.customAlert({
-      message: {
-        translationToken: 'DIALOG_MESSAGES.VM.PASSWORD_DIALOG_MESSAGE',
-        interpolateParams: {
-          vmName: vm.name,
-          vmPassword: vm.password
-        }
-      },
-      width: '400px',
-      clickOutsideToClose: false
-    });
-  }
-
   private handleDeploymentMessages(deploymentMessage: VmDeploymentMessage, notificationId: string): void {
     switch (deploymentMessage.stage) {
       case VmDeploymentStage.STARTED:
@@ -288,7 +269,6 @@ export class VmCreationComponent implements OnInit {
         break;
       case VmDeploymentStage.FINISHED:
         this.dialog.hide();
-        this.showPassword(deploymentMessage.vm);
         this.notifyOnDeployDone(notificationId);
         break;
       case VmDeploymentStage.ERROR:
