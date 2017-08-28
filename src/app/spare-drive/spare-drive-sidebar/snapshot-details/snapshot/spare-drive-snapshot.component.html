@@ -3,9 +3,11 @@
     <md-card-title>
       <h2 class="md-card-title-text">{{ snapshot?.name }}</h2>
     </md-card-title>
-    <div *ngIf="!loading" class="md-card-header-menu">
-      <button *ngIf="!loading"
-              md-icon-button [mdMenuTriggerFor]="actionsMenu">
+    <div class="md-card-header-menu">
+      <button
+        md-icon-button
+        [mdMenuTriggerFor]="actionsMenu"
+      >
         <md-icon>more_vert</md-icon>
       </button>
     </div>
