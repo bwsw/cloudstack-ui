@@ -1,5 +1,4 @@
-import { Component, Optional } from '@angular/core';
-import { ListService } from './list.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 
 @Component({
@@ -8,13 +7,9 @@ import { ListService } from './list.service';
   styleUrls: ['list.component.scss']
 })
 export class ListComponent {
-  constructor(@Optional() public listService: ListService) {}
+  @Output() onAction = new EventEmitter();
+  @Input() isOpen = false;
 
-  public onDetailsHide(): void {
-    this.listService.deselectItem();
-  }
-
-  public onAction(): void {
-    this.listService.onAction.next();
+  constructor() {
   }
 }

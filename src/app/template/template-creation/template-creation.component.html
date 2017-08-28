@@ -1,6 +1,8 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
 <div class="security-group-template-form">
-  <h3 class="mdl-dialog__title">{{ 'NEW_'+ mode.toUpperCase() | translate }}</h3>
+  <h3 class="mdl-dialog__title">
+    {{ modeTranslationToken | translate }}
+  </h3>
   <form (ngSubmit)="onCreate()" #templateCreationForm="ngForm" novalidate>
     <div
       class="mdl-dialog__content"
@@ -9,7 +11,7 @@
       <div [class.column]="!snapshot">
         <mdl-textfield
           type="text"
-          label="{{ 'NAME' | translate }}"
+          label="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.NAME' | translate }}"
           name="name"
           floating-label
           autofocus
@@ -23,7 +25,7 @@
         <br>
         <mdl-textfield
           type="text"
-          label="{{ 'DESCRIPTION' | translate }}"
+          label="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.DESCRIPTION' | translate }}"
           name="description"
           floating-label
           maxlength="255"
@@ -37,13 +39,13 @@
         <mdl-textfield
           *ngIf="!snapshot"
           type="url"
-          label="{{ 'URL' | translate }}"
+          label="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.URL' | translate }}"
           name="url"
           floating-label
           maxlength="255"
           required
           pattern="^(http|https):\/\/.*$"
-          error-msg="{{ 'INVALID_URL' | translate }}"
+          error-msg="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.INVALID_URL' | translate }}"
           [(ngModel)]="url"
           #urlField="ngModel"
           [class.is-invalid]="urlField.invalid && !urlField.pristine"
@@ -54,7 +56,7 @@
         <div>
           <md-select
             class="form-select-control"
-            [placeholder]="'OS_TYPE' | translate"
+            [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.OS_TYPE' | translate"
             [(ngModel)]="osTypeId"
             id="osType"
             name="osType"
@@ -89,7 +91,7 @@
             name="pass"
             [(ngModel)]="passwordEnabled"
           >
-            {{ 'TEMPLATE_PASSWORD_ENABLED' | translate }}
+            {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.PASSWORD_ENABLED' | translate }}
           </md-checkbox>
           <md-checkbox
             class="dynscal-checkbox"
@@ -97,7 +99,7 @@
             [(ngModel)]="dynamicallyScalable"
             *ngIf="mode === 'Template'"
           >
-            {{ 'TEMPLATE_DYNAMICALLY_SCALABLE' | translate }}
+            {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.DYNAMICALLY_SCALABLE' | translate }}
           </md-checkbox>
         </div>
       </div>
@@ -110,7 +112,7 @@
         type="submit"
         [disabled]="!templateCreationForm.valid"
       >
-        {{ 'CREATE' | translate }}
+        {{ 'COMMON.CREATE' | translate }}
       </button>
       <button
         mdl-colored="primary"
@@ -119,7 +121,7 @@
         type="button"
         (click)="onCancel()"
       >
-        {{ 'CANCEL' | translate }}
+        {{ 'COMMON.CANCEL' | translate }}
       </button>
     </div>
   </form>

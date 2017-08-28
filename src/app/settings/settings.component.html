@@ -2,9 +2,9 @@
 
 <div class="settings-container">
   <section>
-    <h4>{{ 'SECURITY' | translate }}</h4>
+    <h4>{{ 'SETTINGS.SECURITY.TITLE' | translate }}</h4>
     <div class="section-container">
-      <h5>{{ 'CHANGE_PASSWORD' | translate }}</h5>
+      <h5>{{ 'SETTINGS.SECURITY.CHANGE_PASSWORD' | translate }}</h5>
       <form
         class="settings-control"
         [formGroup]="passwordUpdateForm"
@@ -13,7 +13,7 @@
       >
         <mdl-textfield
           type="password"
-          label="{{ 'NEW_PASSWORD' | translate }}"
+          label="{{ 'SETTINGS.SECURITY.NEW_PASSWORD' | translate }}"
           formControlName="password"
           floating-label
           required
@@ -21,7 +21,7 @@
         <br>
         <mdl-textfield
           type="password"
-          label="{{ 'REPEAT_PASSWORD' | translate }}"
+          label="{{ 'SETTINGS.SECURITY.REPEAT_PASSWORD' | translate }}"
           formControlName="passwordRepeat"
           floating-label
           required
@@ -33,7 +33,7 @@
             mdl-button
             [disabled]="!passwordUpdateForm.valid"
           >
-            {{ 'UPDATE' | translate }}
+            {{ 'COMMON.UPDATE' | translate }}
           </button>
         </div>
       </form>
@@ -45,10 +45,10 @@
   <cs-api-info [userId]="userId"></cs-api-info>
 
   <section>
-    <h4>{{ 'LOOK_AND_FEEL' | translate }}</h4>
+    <h4>{{ 'SETTINGS.LOOK_AND_FEEL.TITLE' | translate }}</h4>
     <div class="section-container">
       <div *ngIf="language" class="settings-control">
-        <h5 class="no-margin">{{ 'LANGUAGE' | translate }}</h5>
+        <h5 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.LANGUAGE' | translate }}</h5>
         <md-select
           class="form-select-control"
           [(ngModel)]="language"
@@ -63,7 +63,7 @@
         </md-select>
       </div>
       <div *ngIf="firstDayOfWeek != null" class="settings-control">
-        <h5 class="no-margin">{{ 'FIRST_DAY_OF_WEEK' | translate }}</h5>
+        <h5 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.FIRST_DAY_OF_WEEK' | translate }}</h5>
         <md-select
           *ngIf="dayTranslations"
           class="form-select-control"
@@ -80,7 +80,7 @@
         </md-select>
       </div>
       <div class="settings-control">
-        <h5 class="no-margin">{{ 'TIME_FORMAT' | translate }}</h5>
+        <h5 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.TIME_FORMAT' | translate }}</h5>
         <md-select
           class="form-select-control"
           [ngModel]="timeFormat"
@@ -90,11 +90,13 @@
           <md-option
             *ngFor="let format of timeFormats"
             [value]="TimeFormat[format]"
-          >{{ format | translate }}</md-option>
+          >
+            {{ getTimeFormatTranslationToken(format) | translate }}
+          </md-option>
         </md-select>
       </div>
       <div class="settings-control">
-        <h5>{{ 'PALETTE' | translate }}</h5>
+        <h5>{{ 'SETTINGS.LOOK_AND_FEEL.PALETTE' | translate }}</h5>
         <div>
           <cs-color-picker
             *ngIf="primaryColor"

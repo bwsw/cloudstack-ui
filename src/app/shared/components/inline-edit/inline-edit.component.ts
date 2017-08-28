@@ -22,7 +22,7 @@ export class InlineEditComponent extends AbstractInlineEditComponent implements 
     protected zone: NgZone
   ) {
     super(changeDetectorRef);
-    this.inputPlaceholder = this.contentPlaceholder || 'ENTER_TEXT';
+    this.inputPlaceholder = this.contentPlaceholder || 'INLINE_EDIT.ENTER_TEXT';
   }
 
   public edit(): void {

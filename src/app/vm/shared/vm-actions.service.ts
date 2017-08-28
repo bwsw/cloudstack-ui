@@ -1,13 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ActionsService } from '../../shared/interfaces/action-service.interface';
-import { VmStartActionSilent } from '../vm-actions/silent/vm-start-silent';
-import { VmStopActionSilent } from '../vm-actions/silent/vm-stop-silent';
-import {
-  VirtualMachineAction,
-  VirtualMachineActionType,
-  VmActions
-} from '../vm-actions/vm-action';
-import { VmChangeServiceOfferingAction } from '../vm-actions/vm-change-service-offering';
 import {
   VmConsoleAction,
   VmDestroyAction,
@@ -19,6 +11,10 @@ import {
   VmStopAction,
   VmWebShellAction
 } from '../vm-actions';
+import { VmStartActionSilent } from '../vm-actions/silent/vm-start-silent';
+import { VmStopActionSilent } from '../vm-actions/silent/vm-stop-silent';
+import { VirtualMachineAction, VmActions } from '../vm-actions/vm-action';
+import { VmChangeServiceOfferingAction } from '../vm-actions/vm-change-service-offering';
 import { VirtualMachine } from './vm.model';
 
 
@@ -51,7 +47,7 @@ export class VmActionsService implements ActionsService<VirtualMachine, VirtualM
     public vmChangeServiceOfferingAction: VmChangeServiceOfferingAction
   ) {}
 
-  public getActionByName(name: VirtualMachineActionType): VirtualMachineAction {
+  public getActionByName(name: VmActions): VirtualMachineAction {
     const actions = {
       [VmActions.START]: this.vmStartAction,
       [VmActions.STOP]: this.vmStopAction,

@@ -20,7 +20,7 @@
     </div>
 
     <div class="card-wrapper" *ngIf="securityGroupTemplate?.description">
-      <div class="description first">{{ 'DESCRIPTION' | translate }}:</div>
+      <div class="description first">{{ 'SECURITY_GROUP_PAGE.CARD.DESCRIPTION' | translate }}:</div>
       <div class="description last">
         <span
           class="tooltip-position-fix fixed-width-span"
@@ -41,7 +41,7 @@
                     (click)="onClick.emit()"
             >
                 <md-icon>visibility</md-icon>
-                <span>{{ 'VIEW' | translate }}</span>
+                <span>{{ 'COMMON.VIEW' | translate }}</span>
             </button>
         </ng-container>
         <ng-container *ngIf="!securityGroupTemplate.isPredefinedTemplate">
@@ -49,13 +49,13 @@
                     (click)="onClick.emit()"
             >
                 <md-icon>edit</md-icon>
-                <span>{{ 'EDIT' | translate }}</span>
+                <span>{{ 'COMMON.EDIT' | translate }}</span>
             </button>
             <button md-menu-item
-                    (click)="$event.stopPropagation(); onDelete.emit(securityGroupTemplate)"
+                    (click)="onDelete.emit(securityGroupTemplate)"
             >
                 <md-icon>delete</md-icon>
-                <span>{{ 'DELETE' | translate }}</span>
+                <span>{{ 'COMMON.DELETE' | translate }}</span>
             </button>
         </ng-container>
     </md-menu>

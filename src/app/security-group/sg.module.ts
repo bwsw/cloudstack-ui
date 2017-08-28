@@ -20,6 +20,8 @@ import { SgRulesComponent } from './sg-rules/sg-rules.component';
 import { SgTemplateCreationComponent } from './sg-template-creation/sg-template-creation.component';
 import { SgTemplateListItemComponent } from './sg-template-list/sg-template-list-item.component';
 import { SgTemplateListComponent } from './sg-template-list/sg-template-list.component';
+import { SgTemplateCreationDialogComponent } from './sg-template-creation/sg-template-creation-dialog.component';
+import { sgRouting } from './sg.routing';
 
 
 @NgModule({
@@ -36,6 +38,7 @@ import { SgTemplateListComponent } from './sg-template-list/sg-template-list.com
     MdMenuModule,
     MdButtonModule,
     MdIconModule,
+    sgRouting
   ],
   exports: [
     SgCreationComponent,
@@ -47,6 +50,7 @@ import { SgTemplateListComponent } from './sg-template-list/sg-template-list.com
     SgTemplateListComponent,
     SgTemplateListItemComponent,
     SgTemplateCreationComponent,
+    SgTemplateCreationDialogComponent,
     SgRulesComponent,
     SgRuleComponent,
   ],

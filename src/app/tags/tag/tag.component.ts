@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Tag } from '../../shared/models';
-import { NotificationService } from '../../shared/services';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { Tag } from '../../shared/models';
+import { NotificationService } from '../../shared/services/notification.service';
 
 
 @Component({
@@ -30,7 +30,7 @@ export class TagComponent {
   }
 
   public showRemoveDialog(): void {
-    this.dialogService.confirm('TAG_DELETE_CONFIRMATION')
+    this.dialogService.confirm('DIALOG_MESSAGES.TAG.CONFIRM_DELETION')
       .subscribe(
         () => this.remove(),
         () => {}

@@ -1,15 +1,14 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
 
-import { TranslateService } from '@ngx-translate/core';
-
-import { OsFamily } from '../../shared';
-import { FilterService } from '../../shared/services';
+import { OsFamily } from '../../shared/models/os-type.model';
 import { Zone } from '../../shared/models/zone.model';
+import { FilterService } from '../../shared/services/filter.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { TemplateFilters } from '../shared/base-template.service';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -40,10 +39,10 @@ export class TemplateFiltersComponent implements OnInit {
   public filterTranslations: {};
 
   public osFamilies: Array<OsFamily> = [
-    'Linux',
-    'Windows',
-    'Mac OS',
-    'Other'
+    OsFamily.Linux,
+    OsFamily.Windows,
+    OsFamily.MacOs,
+    OsFamily.Other
   ];
 
   public categoryFilters = [
@@ -102,12 +101,12 @@ export class TemplateFiltersComponent implements OnInit {
       .subscribe(query => this.queries.emit(query));
 
     this.translateService.get(
-      this.categoryFilters.map(filter => `TEMPLATE_${filter.toUpperCase()}`)
+      this.categoryFilters.map(filter => `TEMPLATE_PAGE.FILTERS.${filter.toUpperCase()}`)
     )
       .subscribe(translations => {
         const strs = {};
         this.categoryFilters.forEach(f => {
-          strs[f] = translations[`TEMPLATE_${f.toUpperCase()}`];
+          strs[f] = translations[`TEMPLATE_PAGE.FILTERS.${f.toUpperCase()}`];
         });
         this.filterTranslations = strs;
       });

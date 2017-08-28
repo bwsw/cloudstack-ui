@@ -32,6 +32,7 @@ import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.co
 import { TemplateTagsComponent } from './template-tags/template-tags.component';
 import { templatesRouting } from './template.routing';
 import { TemplateComponent } from './template/template.component';
+import { TemplateCreationDialogComponent } from './template-creation/template-creation-dialog.component';
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import { TemplateComponent } from './template/template.component';
     IsoAttachmentComponent,
     TemplateComponent,
     TemplateCreationComponent,
+    TemplateCreationDialogComponent,
     TemplateFiltersComponent,
     TemplateListComponent,
     TemplateCardListComponent,

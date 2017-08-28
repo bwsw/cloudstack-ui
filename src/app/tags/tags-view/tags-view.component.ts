@@ -7,14 +7,14 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { defaultCategoryName, Tag } from '../../shared/models';
-import { Utils } from '../../shared/services';
-import { TagCategory } from '../tag-category/tag-category.component';
-import { TagEditComponent } from '../tag-edit/tag-edit.component';
 import * as cloneDeep from 'lodash/cloneDeep';
 import * as groupBy from 'lodash/groupBy';
 import * as sortBy from 'lodash/sortBy';
+import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { defaultCategoryName, Tag } from '../../shared/models';
+import { Utils } from '../../shared/services/utils.service';
+import { TagCategory } from '../tag-category/tag-category.component';
+import { TagEditComponent } from '../tag-edit/tag-edit.component';
 
 export interface TagEditAction {
   oldTag: Tag;
@@ -61,8 +61,8 @@ export class TagsViewComponent implements OnChanges {
         classes: 'tag-edit',
         providers: [
           { provide: 'forbiddenKeys', useValue: forbiddenKeys },
-          { provide: 'title', useValue: 'CREATE_NEW_TAG' },
-          { provide: 'confirmButtonText', useValue: 'CREATE' },
+          { provide: 'title', useValue: 'TAGS.CREATE_NEW_TAG' },
+          { provide: 'confirmButtonText', useValue: 'COMMON.CREATE' },
           { provide: 'categoryName', useValue: category && category.name }
         ]
       })
@@ -76,8 +76,8 @@ export class TagsViewComponent implements OnChanges {
         component: TagEditComponent,
         classes: 'tag-edit',
         providers: [
-          { provide: 'title', useValue: 'EDIT_TAG' },
-          { provide: 'confirmButtonText', useValue: 'EDIT' },
+          { provide: 'title', useValue: 'TAGS.EDIT_TAG' },
+          { provide: 'confirmButtonText', useValue: 'COMMON.EDIT' },
           { provide: 'categoryName', useValue: tag.categoryName },
           { provide: 'tag', useValue: tag }
         ]

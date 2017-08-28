@@ -1,5 +1,5 @@
 import { VmActions } from './vm-action';
-import { VirtualMachine, VmStates } from '../shared/vm.model';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { VmService } from '../shared/vm.service';
@@ -13,21 +13,21 @@ import { VirtualMachineCommand } from './vm-command';
 @Injectable()
 export class VmResetPasswordAction extends VirtualMachineCommand {
   public commandName = 'resetPasswordFor';
-  public vmStateOnAction = 'RESETPASSWORDFOR_IN_PROGRESS';
+  public vmStateOnAction = 'VM_STATE.RESET_PASSWORD_IN_PROGRESS';
 
   public action = VmActions.RESET_PASSWORD;
-  public name = 'RESETPASSWORDFOR';
+  public name = 'VM_PAGE.COMMANDS.RESET_PASSWORD';
   public icon = 'vpn_key';
 
   public tokens = {
     name: 'ResetPasswordFor',
     nameLower: 'resetpasswordfor',
-    nameCaps: 'RESETPASSWORDFOR',
-    vmActionCompleted: 'RESETPASSWORDFOR_DONE',
-    confirmMessage: 'CONFIRM_VM_RESETPASSWORDFOR',
-    progressMessage: 'VM_RESETPASSWORDFOR_IN_PROGRESS',
-    successMessage: 'RESETPASSWORDFOR_DONE',
-    failMessage: 'VM_RESET_PASSWORD_FAILED'
+    nameCaps: 'VM_PAGE.COMMANDS.RESET_PASSWORD',
+    vmActionCompleted: 'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_DONE',
+    confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_RESET_PASSWORD',
+    progressMessage: 'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_IN_PROGRESS',
+    successMessage: 'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_DONE',
+    failMessage: 'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_FAILED'
   };
 
   constructor(
@@ -43,8 +43,8 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
   public canActivate(vm: VirtualMachine): boolean {
     const ipAvailable = vm.ipIsAvailable;
     const stateIsOk = [
-      VmStates.Running,
-      VmStates.Stopped
+      VmState.Running,
+      VmState.Stopped
     ]
       .includes(vm.state);
 
@@ -52,7 +52,7 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
   }
 
   protected onActionConfirmed(vm: VirtualMachine): Observable<any> {
-    if (vm.state === VmStates.Stopped) {
+    if (vm.state === VmState.Stopped) {
       return this.addNotifications(
         this.resetPasswordForStoppedVirtualMachine(vm)
       );
@@ -71,7 +71,7 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
         }
       })
       .catch(error => {
-        this.vmService.setStateForVm(vm, VmStates.Stopped);
+        this.vmService.setStateForVm(vm, VmState.Stopped);
         return Observable.throw(error);
       });
   }
@@ -92,7 +92,7 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
   private showPasswordDialog(vmName: string, vmPassword: string): Observable<void> {
     return this.dialogService.customAlert({
       message: {
-        translationToken: 'PASSWORD_DIALOG_MESSAGE',
+        translationToken: 'DIALOG_MESSAGES.VM.PASSWORD_DIALOG_MESSAGE',
         interpolateParams: {
           vmName,
           vmPassword

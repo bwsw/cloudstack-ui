@@ -2,18 +2,18 @@
   <div class="options-panel">
     <md-tab-group
       class="tab-switch"
-      md-selected="templateSwitchPosition"
+      [selectedIndex]="templateSwitchPosition"
       (selectChange)="setMode($event.index)"
       *ngIf="showIsoSwitch"
     >
-      <md-tab label="{{ 'TEMPLATES' | translate }}"></md-tab>
-      <md-tab label="{{ 'ISO' | translate }}"></md-tab>
+      <md-tab label="{{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}"></md-tab>
+      <md-tab label="{{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}"></md-tab>
     </md-tab-group>
 
     <md-select
       class="filter-select"
       multiple="true"
-      [placeholder]="'OS_FAMILY' | translate"
+      [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_OS_FAMILIES' | translate"
       [(ngModel)]="selectedOsFamilies"
       (change)="updateFilters()"
     >
@@ -28,7 +28,7 @@
       <md-select
         class="filter-select"
         multiple="true"
-        [placeholder]="'TEMPLATE_TYPES' | translate"
+        [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_TYPES' | translate"
         [(ngModel)]="selectedFilters"
         (change)="updateFilters()"
       >
@@ -44,7 +44,7 @@
       *ngIf="zones"
       class="filter-select"
       multiple="true"
-      [placeholder]="'SELECT_ZONES' | translate"
+      [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ZONES' | translate"
       [(ngModel)]="selectedZones"
       (change)="updateFilters()"
     >
@@ -56,7 +56,7 @@
       *ngIf="zones"
       class="filter-select"
       multiple="true"
-      [placeholder]="'GROUP_BY_LABEL' | translate"
+      [placeholder]="'TEMPLATE_PAGE.FILTERS.GROUP_BY' | translate"
       [(ngModel)]="selectedGroupingNames"
       (change)="updateFilters()"
     >
@@ -74,18 +74,18 @@
 >
   <md-tab-group
     class="tab-switch"
-    md-selected="templateSwitchPosition"
+    [selectedIndex]="templateSwitchPosition"
     (selectChange)="setMode($event.index)"
     *ngIf="showIsoSwitch"
   >
-    <md-tab label="{{ 'TEMPLATES' | translate }}"></md-tab>
-    <md-tab label="{{ 'ISO' | translate }}"></md-tab>
+    <md-tab label="{{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}"></md-tab>
+    <md-tab label="{{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}"></md-tab>
   </md-tab-group>
 
   <md-select
     class="filter-select"
     multiple="true"
-    placeholder="{{ 'OS_FAMILY' | translate }}"
+    placeholder="{{ 'TEMPLATE_PAGE.FILTERS.SELECT_OS_FAMILIES' | translate }}"
     [(ngModel)]="selectedOsFamilies"
     (change)="updateFilters()"
   >
@@ -100,7 +100,7 @@
     <md-select
       class="filter-select"
       multiple="true"
-      placeholder="{{ 'TYPE' | translate }}"
+      placeholder="{{ 'TEMPLATE_PAGE.FILTERS.SELECT_TYPES' | translate }}"
       [(ngModel)]="selectedFilters"
       (change)="updateFilters()"
     >

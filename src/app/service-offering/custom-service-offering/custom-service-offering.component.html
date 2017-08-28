@@ -1,7 +1,9 @@
-<h3 class="mdl-dialog__title">{{ 'CUSTOM_SERVICE_OFFERING' | translate }}</h3>
+<h3 class="mdl-dialog__title">
+  {{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.TITLE' | translate }}
+</h3>
 <form (ngSubmit)="onSubmit()" #customOfferingForm="ngForm" novalidate>
   <div class="mdl-dialog__content">
-    <h5>{{ 'SERVICE_OFFERING_FIELDS.cpuNumber' | translate }}</h5>
+    <h5>{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.CPU_NUMBER' | translate }}</h5>
     <mdl-textfield
       *ngIf="offering && restrictions"
       class="numeric-up-down"
@@ -20,7 +22,7 @@
       [class.is-invalid]="cpuNumberField.touched && cpuNumberField.invalid"
     ></mdl-textfield>
 
-    <h5>{{ 'SERVICE_OFFERING_FIELDS.cpuSpeed' | translate }}</h5>
+    <h5>{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.CPU_SPEED' | translate }}</h5>
     <mdl-textfield
       *ngIf="offering && restrictions"
       class="numeric-up-down"
@@ -39,7 +41,7 @@
       [class.is-invalid]="cpuSpeedField.touched && cpuSpeedField.invalid"
     ></mdl-textfield>
 
-    <h5>{{ 'SERVICE_OFFERING_FIELDS.memory' | translate }}</h5>
+    <h5>{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.MEMORY' | translate }}</h5>
     <mdl-textfield
       *ngIf="offering && restrictions"
       class="numeric-up-down"
@@ -66,7 +68,7 @@
       type="submit"
       [disabled]="!customOfferingForm.valid"
     >
-      {{ 'CONFIRM' | translate }}
+      {{ 'COMMON.CONFIRM' | translate }}
     </button>
     <button
       mdl-colored="primary"
@@ -75,7 +77,7 @@
       type="button"
       (click)="onCancel()"
     >
-      {{ 'CANCEL' | translate }}
+      {{ 'COMMON.CANCEL' | translate }}
     </button>
   </div>
 </form>

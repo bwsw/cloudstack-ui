@@ -19,6 +19,8 @@ export class PulseCpuRamChartComponent extends PulseChartComponent
             ...defaultChartOptions.scales,
             yAxes: [{
               ticks: {
+                padding: 40,
+                mirror: true,
                 suggestedMin: 0,
                 suggestedMax: 100,
                 userCallback(val) {
@@ -37,6 +39,8 @@ export class PulseCpuRamChartComponent extends PulseChartComponent
             ...defaultChartOptions.scales,
             yAxes: [{
               ticks: {
+                padding: 40,
+                mirror: true,
                 suggestedMin: 0,
                 userCallback(val) {
                   return humanReadableSize(val * 1024);
@@ -89,7 +93,7 @@ export class PulseCpuRamChartComponent extends PulseChartComponent
                 x: new Date(_.time),
                 y: Math.min(+_.cpuTime, 100)
               })),
-              label: `${this.translations['CPU']} ${aggregation}`
+              label: `${this.translations['PULSE.LABELS.CPU']} ${aggregation}`
             };
           });
           this.updateDatasets('cpu', datasets);
@@ -101,7 +105,7 @@ export class PulseCpuRamChartComponent extends PulseChartComponent
                 x: new Date(_.time),
                 y: +_.ram
               })),
-              label: `${this.translations['RAM']} ${aggregation}`
+              label: `${this.translations['PULSE.LABELS.RAM']} ${aggregation}`
             };
           });
           this.updateDatasets('ram', asd);

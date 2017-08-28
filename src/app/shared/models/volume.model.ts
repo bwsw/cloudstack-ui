@@ -7,13 +7,10 @@ import { DiskOffering } from './disk-offering.model';
 import { ZoneName } from '../decorators/zone-name.decorator';
 import { Tag, DeletionMark } from './tag.model';
 
-
-type VolumeType = 'ROOT' | 'DATADISK';
-
-export const VolumeTypes = {
-  ROOT: 'ROOT' as VolumeType,
-  DATADISK: 'DATADISK' as VolumeType
-};
+export enum VolumeType {
+  ROOT = 'ROOT',
+  DATADISK = 'DATADISK'
+}
 
 @ZoneName()
 @FieldMapper({
@@ -26,6 +23,8 @@ export const VolumeTypes = {
   zonename: 'zoneName'
 })
 export class Volume extends BaseModel {
+  public resourceType = 'Volume';
+
   public id: string;
   public created: Date;
   public domain: string;
@@ -47,13 +46,25 @@ export class Volume extends BaseModel {
   constructor(json) {
     super(json);
     this.created = moment(json.created).toDate();
+
+    this.initializeTags();
   }
 
   public get isRoot(): boolean {
-    return this.type === VolumeTypes.ROOT;
+    return this.type === VolumeType.ROOT;
   }
 
   public get isDeleted(): boolean {
-    return !!this.tags.find(tag => tag.key === DeletionMark.TAG && tag.value === DeletionMark.VALUE);
+    return !!this.tags.find(
+      tag => tag.key === DeletionMark.TAG && tag.value === DeletionMark.VALUE
+    );
+  }
+
+  private initializeTags(): void {
+    if (!this.tags) {
+      this.tags = [];
+    }
+
+    this.tags = this.tags.map(tag => new Tag(tag));
   }
 }

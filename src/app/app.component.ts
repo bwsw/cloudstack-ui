@@ -1,19 +1,30 @@
 import { MdlLayoutComponent } from '@angular-mdl/core';
-import { AfterViewInit, Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  NgZone,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { Response } from '@angular/http';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import '../style/app.scss';
 import { MdlDialogService } from './dialog/dialog-module';
 import { Color } from './shared/models';
-import { AuthService, ErrorService, LanguageService, LayoutService, NotificationService } from './shared/services';
+import { AsyncJobService } from './shared/services/async-job.service';
+import { AuthService } from './shared/services/auth.service';
+import { CacheService } from './shared/services/cache.service';
+import { ErrorService } from './shared/services/error.service';
+import { LanguageService } from './shared/services/language.service';
+import { LayoutService } from './shared/services/layout.service';
+import { MemoryStorageService } from './shared/services/memory-storage.service';
+import { NotificationService } from './shared/services/notification.service';
 import { RouterUtilsService } from './shared/services/router-utils.service';
+import { SessionStorageService } from './shared/services/session-storage.service';
 import { StyleService } from './shared/services/style.service';
 import { ZoneService } from './shared/services/zone.service';
-import { SessionStorageService } from './shared/services/session-storage.service';
-import { MemoryStorageService } from './shared/services/memory-storage.service';
-import { AsyncJobService } from './shared/services/async-job.service';
-import { CacheService } from './shared/services/cache.service';
 
 
 @Component({
@@ -156,7 +167,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (e instanceof Response) {
       switch (e.status) {
         case 401:
-          this.notification.message('NOT_LOGGED_IN');
+          this.notification.message('AUTH.NOT_LOGGED_IN');
           const route = this.routerUtilsService.getRouteWithoutQueryParams();
           if (route !== '/login' && route !== '/logout') {
             this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams());

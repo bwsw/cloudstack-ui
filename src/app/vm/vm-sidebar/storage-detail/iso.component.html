@@ -1,7 +1,9 @@
 <md-card>
   <md-card-header>
     <md-card-title>
-      <h2 class="md-card-title-text">{{ 'ISO' | translate }}</h2>
+      <h2 class="md-card-title-text">
+        {{ 'VM_PAGE.STORAGE_DETAILS.ISO.TITLE' | translate }}
+      </h2>
     </md-card-title>
   </md-card-header>
   <md-card-content class="md-card-content-with-actions" [ngSwitch]="!!iso">
@@ -14,7 +16,7 @@
           mdl-button
           mdl-button-type="icon"
           mdTooltipPosition="above"
-          [mdTooltip]="'DETACH' | translate"
+          [mdTooltip]="'VM_PAGE.STORAGE_DETAILS.ISO.DETACH' | translate"
           [disabled]="isoOperationInProgress"
           (click)="detachIso()"
         >
@@ -24,14 +26,14 @@
     </ng-template>
     <ng-template ngSwitchDefault>
       <div class="md-card-content-container">
-        {{ 'NO_MEDIUM' | translate }}
+        {{ 'VM_PAGE.STORAGE_DETAILS.ISO.NO_MEDIUM' | translate }}
       </div>
       <md-card-actions>
         <button
           mdl-button
           mdl-button-type="icon"
           mdTooltipPosition="above"
-          [mdTooltip]="'ATTACH' | translate"
+          [mdTooltip]="'VM_PAGE.STORAGE_DETAILS.ISO.ATTACH' | translate"
           [disabled]="isoOperationInProgress"
           (click)="attachIso()"
         >

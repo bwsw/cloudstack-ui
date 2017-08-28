@@ -1,6 +1,6 @@
 <div class="stat-section options-panel">
   <h4 class="stat-header">
-    {{ 'RESOURCE_USAGE' | translate }}
+    {{ 'VM_PAGE.RESOURCE_USAGE.TITLE' | translate }}
     <button
       mdl-button
       mdl-button-type="icon"
@@ -14,11 +14,11 @@
   <div class="stat-list" [class.closed]="!isOpen">
     <md-tab-group
       class="tab-switch"
-      md-selected="mode"
+      [selectedIndex]="mode"
       (selectChange)="switchMode()"
     >
-      <md-tab label="{{ 'USED' | translate }}"></md-tab>
-      <md-tab label="{{ 'FREE' | translate }}"></md-tab>
+      <md-tab label="{{ 'VM_PAGE.RESOURCE_USAGE.USED' | translate }}"></md-tab>
+      <md-tab label="{{ 'VM_PAGE.RESOURCE_USAGE.FREE' | translate }}"></md-tab>
     </md-tab-group>
     <div class="stat-list-container">
       <md-card *ngFor="let stat of statsList" class="stat-card-md">
