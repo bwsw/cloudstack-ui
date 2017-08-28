@@ -72,8 +72,6 @@ export class SgRulesComponent {
     this.cidr = '0.0.0.0/0';
     this.protocol = NetworkProtocol.TCP;
     this.type = NetworkRuleType.Ingress;
-    // this.icmpCode = -1;
-    // this._icmpType = -1;
 
     this.adding = false;
   }
