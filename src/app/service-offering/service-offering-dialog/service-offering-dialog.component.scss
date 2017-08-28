@@ -11,3 +11,7 @@
   text-align: right;
   margin-top: 10px;
 }
+
+:host .mat-dialog-content {
+  overflow: hidden;
+}

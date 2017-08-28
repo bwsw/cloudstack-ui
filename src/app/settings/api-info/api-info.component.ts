@@ -89,7 +89,7 @@ export class ApiInfoComponent implements OnInit {
   public askToRegenerateKeys(): void {
     this.dialogService.confirm({
       message: 'SETTINGS.API_CONFIGURATION.ASK_GENERATE_KEYS',
-      confirmText: 'GENERATE',
+      confirmText: 'SETTINGS.API_CONFIGURATION.GENERATE',
       declineText: 'COMMON.CANCEL'
     })
       .onErrorResumeNext()

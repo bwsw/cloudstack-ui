@@ -1,3 +1,7 @@
 .numeric-up-down {
   padding-top: 10px;
 }
+
+:host .mat-dialog-content {
+  overflow: hidden !important;
+}
