@@ -40,7 +40,7 @@ export class PolicyListComponent implements OnChanges {
   @Output() public onPolicyDelete: EventEmitter<Policy<TimePolicy>>;
   @Output() public onPolicyRowClick: EventEmitter<PolicyType>;
 
-  private policyViews: Array<PolicyView>;
+  public policyViews: Array<PolicyView>;
 
   constructor(
     private policyViewBuilderService: PolicyViewBuilderService,
