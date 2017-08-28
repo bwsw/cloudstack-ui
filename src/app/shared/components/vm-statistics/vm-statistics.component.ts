@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { AccountType } from '../../models/account.model';
 import { AuthService } from '../../services/auth.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import {
@@ -145,7 +144,7 @@ export class VmStatisticsComponent implements OnInit {
   }
 
   public get isAdmin(): boolean {
-    return this.authService.user.type !== AccountType.User;
+    return this.authService.isAdmin();
   }
 
   public switchMode() {
@@ -169,13 +168,14 @@ export class VmStatisticsComponent implements OnInit {
   public getStatsString(
     value: number,
     max: number,
-    units?: string
+    units?: string,
+    precision?: number
   ): Observable<string> {
-    if (max > 0) {
-      return this.getStatsStringWithRestrictions(value, max, units);
+    if (max !== Infinity) {
+      return this.getStatsStringWithRestrictions(value, max, units, precision);
     }
 
-    return this.getStatsStringWithNoRestrictions(value, units);
+    return this.getStatsStringWithNoRestrictions(value, units, precision);
   }
 
   public getStatsStringFor(
@@ -191,14 +191,13 @@ export class VmStatisticsComponent implements OnInit {
     const consumed = Utils.divide(
       this.resourceUsage[this.getModeKey()].memory,
       2,
-      '10',
-      '1'
-    );
-    const max = Utils.divide(this.resourceUsage.max.memory, 2, '10', '1');
+      '10'
+    ) as number;
+    const max = Utils.divide(this.resourceUsage.max.memory, 2, '10') as number;
 
     return this.translateService
       .get('UNITS.GB')
-      .switchMap(gb => this.getStatsString(consumed as number, max as number, gb));
+      .switchMap(gb => this.getStatsString(consumed, max, gb, 1));
   }
 
   public get primaryStorage(): Observable<string> {
@@ -254,22 +253,28 @@ export class VmStatisticsComponent implements OnInit {
   private getStatsStringWithRestrictions(
     value: number,
     max: number,
-    units?: string
+    units?: string,
+    precision?: number
   ): Observable<string> {
     const percents = this.getPercents(value, max);
-    return Observable.of(`${value}/${max} ${units || ''} (${percents}%)`);
+    const val = precision ? value.toFixed(precision) : value;
+    const m = precision ? max.toFixed(precision) : max;
+
+    return Observable.of(`${val}/${m} ${units || ''} (${percents}%)`);
   }
 
   private getStatsStringWithNoRestrictions(
     value: number,
-    units?: string
+    units?: string,
+    precision?: number
   ): Observable<string> {
     if (this.mode === StatsMode.Free) {
       return Observable.of('∞');
     }
 
     if (this.mode === StatsMode.Used) {
-      return Observable.of(`${value} ${units || ''}`);
+      const val = precision ? value.toFixed(precision) : value;
+      return Observable.of(`${val} ${units || ''}`);
     }
   }
 }

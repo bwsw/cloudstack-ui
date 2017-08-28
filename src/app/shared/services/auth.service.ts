@@ -9,6 +9,7 @@ import { User } from '../models/user.model';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
 import { LocalStorageService } from './local-storage.service';
+import { AccountType } from '../models/account.model';
 
 @Injectable()
 @BackendResource({
@@ -67,6 +68,10 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
 
   public isLoggedIn(): Observable<boolean> {
     return Observable.of(!!(this._user && this._user.userId));
+  }
+
+  public isAdmin(): boolean {
+    return !!this.user && this.user.type !== AccountType.User;
   }
 
   private setLoggedIn(loginRes): void {

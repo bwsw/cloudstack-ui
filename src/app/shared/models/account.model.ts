@@ -62,7 +62,7 @@ export class Account extends BaseModel {
       .filter(key => key.endsWith('available') || key.endsWith('limit'))
       .forEach(key => {
         if (fixedJson[key] === 'Unlimited') {
-          fixedJson[key] = -1;
+          fixedJson[key] = Infinity;
         } else {
           const temp = +fixedJson[key];
           if (!isNaN(temp)) {
