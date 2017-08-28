@@ -5,8 +5,9 @@ import { LocalStorageService } from '../../shared/services/local-storage.service
 import { BaseTemplateModel, Iso, IsoService, Template, TemplateService } from '../shared';
 import { TemplateFilters } from '../shared/base-template.service';
 import { TemplateActionsService } from '../shared/template-actions.service';
+import { TemplateCreationComponent } from '../template-creation/template-creation.component';
+import { MdDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-
 
 @Component({
   selector: 'cs-template-page',
@@ -20,6 +21,7 @@ export class TemplatePageComponent implements OnInit {
   public viewMode: string;
 
   constructor(
+    private dialog: MdDialog,
     private storageService: LocalStorageService,
     public listService: ListService,
     private templateActions: TemplateActionsService,

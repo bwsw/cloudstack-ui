@@ -1,7 +1,7 @@
-<h3 class="mdl-dialog__title">
+<h3 class="mat-dialog-title">
   {{ title | translate }}
 </h3>
-<div class="mdl-dialog__content">
+<div class="mat-dialog-content">
   <form #rulesForm="ngForm" novalidate>
     <table class="mdl-data-table">
       <thead>
@@ -160,13 +160,11 @@
     </table>
   </form>
 </div>
-<div class="mdl-dialog__actions">
+<div class="mat-dialog-actions">
   <button
     mdl-button
     mdl-ripple
     mdl-colored="primary"
-    (click)="dialog.hide()"
-  >
-    {{ 'COMMON.CLOSE' | translate }}
-  </button>
+    (click)="dialogRef.close()"
+  >{{ 'COMMON.CLOSE' | translate }}</button>
 </div>

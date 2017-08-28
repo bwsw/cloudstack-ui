@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MdMenuTrigger } from '@angular/material';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { MdMenuTrigger, MdDialog } from '@angular/material';
 import { DiskOffering, Volume, Zone } from '../../shared/models';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { VolumeAttachmentData } from '../../shared/services/volume.service';
@@ -26,7 +25,7 @@ export class SpareDriveItemComponent implements OnInit {
   public diskOfferings: Array<DiskOffering>;
 
   constructor(
-    private dialogService: DialogService,
+    private dialog: MdDialog,
     private diskOfferingService: DiskOfferingService,
     private zoneService: ZoneService
   ) {}
@@ -61,15 +60,14 @@ export class SpareDriveItemComponent implements OnInit {
   }
 
   public attach(): void {
-    this.dialogService.showCustomDialog({
-      component: SpareDriveAttachmentComponent,
-      providers: [
-        { provide: 'volume', useValue: this.item },
-        { provide: 'zoneId', useValue: this.item.zoneId }
-      ],
-      classes: 'spare-drive-attachment-dialog'
-    })
-      .switchMap(res => res.onHide())
+    this.dialog
+     .open(SpareDriveAttachmentComponent, {
+       data: {
+         volume: this.item,
+         zoneId: this.item.zoneId
+       },
+       width: '375px'
+     }).afterClosed()
       .subscribe(virtualMachineId => {
         if (!virtualMachineId) {
           return;
@@ -89,15 +87,13 @@ export class SpareDriveItemComponent implements OnInit {
   }
 
   public resize(): void {
-    this.dialogService.showCustomDialog({
-      component: VolumeResizeComponent,
-      classes: 'volume-resize-dialog',
-      providers: [
-        { provide: 'volume', useValue: this.item },
-        { provide: 'diskOfferingList', useValue: this.diskOfferings }
-      ],
-    })
-      .switchMap(res => res.onHide())
+    this.dialog.open(VolumeResizeComponent, {
+       data: {
+         volume: this.item,
+         diskOfferingList: this.diskOfferings
+       },
+      width: '370px'
+    }).afterClosed()
       .subscribe(resizedVolume => {
         if (resizedVolume) {
           this.onVolumeResize(resizedVolume);

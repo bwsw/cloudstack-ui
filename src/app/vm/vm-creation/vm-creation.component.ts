@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MdSelectChange } from '@angular/material';
+import { MdSelectChange, MdDialogRef } from '@angular/material';
 import * as throttle from 'lodash/throttle';
 
-import { MdlDialogReference } from '../../dialog/dialog-module';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { AffinityGroup, InstanceGroup, ServiceOffering } from '../../shared/models';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
@@ -60,7 +59,7 @@ export class VmCreationComponent implements OnInit {
   public creationStage = VmCreationStage.editing;
 
   constructor(
-    private dialog: MdlDialogReference,
+    private dialogRef: MdDialogRef<VmCreationComponent>,
     private dialogService: DialogService,
     private formNormalizationService: VmCreationFormNormalizationService,
     private jobsNotificationService: JobsNotificationService,
@@ -217,7 +216,7 @@ export class VmCreationComponent implements OnInit {
   }
 
   public onCancel(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
   }
 
   public deploy(): void {
@@ -239,8 +238,10 @@ export class VmCreationComponent implements OnInit {
 
   public notifyOnDeployFailed(error: any, notificationId: string): void {
     this.dialogService.alert({
-      translationToken: error.message,
-      interpolateParams: error.params
+      message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
     });
     this.jobsNotificationService.fail({
       id: notificationId,
@@ -253,7 +254,7 @@ export class VmCreationComponent implements OnInit {
       return;
     }
 
-    this.dialogService.customAlert({
+    this.dialogService.alert({
       message: {
         translationToken: 'DIALOG_MESSAGES.VM.PASSWORD_DIALOG_MESSAGE',
         interpolateParams: {
@@ -262,7 +263,7 @@ export class VmCreationComponent implements OnInit {
         }
       },
       width: '400px',
-      clickOutsideToClose: false
+      disableClose: true
     });
   }
 
@@ -287,12 +288,12 @@ export class VmCreationComponent implements OnInit {
         this.creationStage = VmCreationStage.vmDeploymentInProgress;
         break;
       case VmDeploymentStage.FINISHED:
-        this.dialog.hide();
+        this.dialogRef.close();
         this.showPassword(deploymentMessage.vm);
         this.notifyOnDeployDone(notificationId);
         break;
       case VmDeploymentStage.ERROR:
-        this.dialog.hide();
+        this.dialogRef.close();
         this.notifyOnDeployFailed(deploymentMessage.error, notificationId);
         break;
     }

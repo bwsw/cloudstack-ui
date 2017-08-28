@@ -1,6 +1,6 @@
 import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { AsyncJob, InstanceGroup, VmStatisticsComponent, Zone } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
 import { AsyncJobService } from '../../shared/services/async-job.service';
@@ -273,7 +273,7 @@ export class VmListComponent implements OnInit {
           return;
         }
 
-        this.dialogService.showDialog({
+        this.dialogService.askDialog({
           message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VM',
           actions: [
             {
@@ -288,10 +288,8 @@ export class VmListComponent implements OnInit {
               text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
             }
           ],
-          fullWidthAction: true,
-          isModal: true,
-          clickOutsideToClose: true,
-          styles: { 'width': '320px' }
+          disableClose: false,
+          width: '320px'
         });
       });
   }

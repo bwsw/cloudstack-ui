@@ -14,7 +14,7 @@ import { AppComponent } from './app.component';
 import { routes } from './app.routing';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
-import { MdlDialogModule } from './dialog/dialog-module';
+import { DialogModule } from './dialog/dialog-service/dialog.module';
 import { EventsModule } from './events/events.module';
 import { SecurityGroupModule } from './security-group/sg.module';
 import { ServiceOfferingModule } from './service-offering/service-offering.module';
@@ -48,7 +48,7 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
-    MdlDialogModule,
+    DialogModule,
     SecurityGroupModule,
     ServiceOfferingModule,
     SettingsModule,

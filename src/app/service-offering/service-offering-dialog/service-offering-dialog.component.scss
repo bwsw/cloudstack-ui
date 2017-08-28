@@ -1,9 +1,3 @@
-/deep/ .service-offering-dialog {
-  overflow: visible !important; /* so that the dialog window doesn't cut the SO dropdown */
-  width: 350px;
-  padding: 11.7px;
-}
-
 .service-offering-selector {
   padding-top: 10px;
   display: block;
@@ -16,4 +10,8 @@
 .message {
   text-align: right;
   margin-top: 10px;
+}
+
+:host .mat-dialog-content {
+  overflow: hidden;
 }

@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 
 import { Volume } from '../../../../../shared/models';
 import { SnapshotActionsService } from './snapshot-actions.service';
-import { MdlDialogReference } from '../../../../../dialog/dialog-module';
 
 @Component({
   selector: 'cs-snapshot-modal',
@@ -12,7 +12,7 @@ import { MdlDialogReference } from '../../../../../dialog/dialog-module';
 export class SnapshotModalComponent {
   constructor(
     public snapshotActionsService: SnapshotActionsService,
-    public dialog: MdlDialogReference,
-    @Inject('volume') public volume: Volume
+    public dialogRef: MdDialogRef<SnapshotModalComponent>,
+    @Inject(MD_DIALOG_DATA) public volume: Volume
   ) { }
 }

@@ -3,6 +3,6 @@
   display: block;
 }
 
-/deep/ .tag-edit {
-  width: 375px;
+:host /deep/ mdl-textfield {
+  width: 100%;
 }

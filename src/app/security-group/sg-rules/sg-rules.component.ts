@@ -1,10 +1,11 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { MdlDialogReference } from '../../dialog/dialog-module';
-import { NotificationService } from '../../shared/services/notification.service';
+
 import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { NetworkProtocol, NetworkRuleType, SecurityGroup } from '../sg.model';
+import { SecurityGroup, NetworkRuleType, NetworkProtocol } from '../sg.model';
+import { NotificationService } from '../../shared/services/notification.service';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class SgRulesComponent {
   public icmpCode: number;
   public endPort: number;
   public cidr: string;
+  public securityGroup: SecurityGroup;
 
   public adding: boolean;
 
@@ -40,12 +42,13 @@ export class SgRulesComponent {
   ];
 
   constructor(
-    public dialog: MdlDialogReference,
+    public dialogRef: MdDialogRef<SgRulesComponent>,
+    @Inject(MD_DIALOG_DATA) data,
     private securityGroupService: SecurityGroupService,
     private notificationService: NotificationService,
-    @Inject('securityGroup') public securityGroup: SecurityGroup,
     private translateService: TranslateService
   ) {
+    this.securityGroup = data.securityGroup;
     this.cidr = '0.0.0.0/0';
     this.protocol = NetworkProtocol.TCP;
     this.type = NetworkRuleType.Ingress;

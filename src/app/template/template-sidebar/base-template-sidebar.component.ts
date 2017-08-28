@@ -1,7 +1,7 @@
 import { OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
@@ -58,7 +58,7 @@ export abstract class BaseTemplateSidebarComponent extends SidebarComponent<Base
             this.entity = template;
             this.checkZones(template);
           },
-          error => this.dialogService.alert(error.message)
+          error => this.dialogService.alert({ message: error.message })
         );
     }
   }

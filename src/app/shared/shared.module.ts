@@ -1,6 +1,6 @@
-import { MdlDialogOutletModule, MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
+import { MdlModule } from '@angular-mdl/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
-import { MdlDialogModule } from '../dialog/dialog-module';
+
 import {
   CalendarComponent,
   CalendarMonthComponent,
@@ -116,8 +116,6 @@ import { ZoneService } from './services/zone.service';
     DragulaModule,
     MdSelectModule,
     MdIconModule,
-    MdlDialogModule,
-    MdlDialogOutletModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,

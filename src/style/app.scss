@@ -388,3 +388,27 @@ md-card-actions {
   border: 9px solid #757575;
   border-radius: 50%;
 }
+
+/* md-dialog
+*/
+.mat-dialog-container {
+  max-height: 95vh !important;
+}
+
+.mat-dialog-actions {
+  justify-content: flex-end;
+
+  button {
+    color: #3f51b5;
+    text-transform: uppercase;
+  }
+}
+
+.mat-dialog-content {
+  &.notification {
+    color: rgba(0, 0, 0, .54);
+  }
+  font-size: 13pt;
+  padding: 0px 24px !important;
+  max-height: 100% !important;
+}
