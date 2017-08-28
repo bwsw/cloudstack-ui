@@ -36,8 +36,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
       throw Error('BaseBackendService.get id not specified!');
     }
 
-    return this.getList({ id })
-      .map(res => res[0] as M);
+    return this.getList()
+      .map(res => res.find(entity => entity.id === id));
   }
 
   public getList(params?: {}, customApiFormat?: ApiFormat): Observable<Array<M>> {

@@ -1,7 +1,7 @@
-<div *ngIf="item">
+<div *ngIf="entity">
   <div class="title-container">
-    <h4 class="details-header">{{ item.name }}</h4>
-    <cs-spare-drive-actions-sidebar [volume]="item"></cs-spare-drive-actions-sidebar>
+    <h4 class="details-header">{{ entity.name }}</h4>
+    <cs-spare-drive-actions-sidebar [volume]="entity"></cs-spare-drive-actions-sidebar>
   </div>
 
   <md-tab-group [selectedIndex]="0" md-no-pagination="true">
@@ -11,7 +11,7 @@
           <md-icon>storage</md-icon>
         </div>
       </ng-template>
-      <cs-spare-drive-details [volume]="item"></cs-spare-drive-details>
+      <cs-spare-drive-details [volume]="entity"></cs-spare-drive-details>
     </md-tab>
     <md-tab>
       <ng-template md-tab-label>
@@ -19,13 +19,12 @@
           <md-icon>photo_camera</md-icon>
         </div>
       </ng-template>
-      <cs-spare-drive-snapshot-details [volume]="item"></cs-spare-drive-snapshot-details>
+      <cs-spare-drive-snapshot-details [volume]="entity"></cs-spare-drive-snapshot-details>
     </md-tab>
   </md-tab-group>
 </div>
 
+<cs-no-results *ngIf="notFound" [text]="'VOLUME_NOT_FOUND'"></cs-no-results>
 
-
-
-
+<cs-overlay-loading [active]="!entity && !notFound"></cs-overlay-loading>
 

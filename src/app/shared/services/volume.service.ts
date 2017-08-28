@@ -58,19 +58,6 @@ export class VolumeService extends BaseBackendService<Volume> {
     super();
   }
 
-  public get(id: string): Observable<Volume> {
-    const snapshotsRequest = this.snapshotService.getList(id);
-    const volumeRequest = super.get(id);
-
-    return Observable.forkJoin(
-      volumeRequest,
-      snapshotsRequest
-    ).map(([volume, snapshots]) => {
-      volume.snapshots = snapshots;
-      return volume;
-    });
-  }
-
   public getList(params?: {}): Observable<Array<Volume>> {
     const volumesRequest = super.getList(params);
     const snapshotsRequest = this.snapshotService.getList();
@@ -84,8 +71,7 @@ export class VolumeService extends BaseBackendService<Volume> {
           (snapshot: Snapshot) => snapshot.volumeId === volume.id
         );
       });
-      volumes = volumes.filter(volume => !volume.isDeleted);
-      return volumes;
+      volumes = volumes.filter(volume => !volume.isDeleted);return volumes;
     });
   }
 
