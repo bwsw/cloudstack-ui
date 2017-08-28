@@ -15,7 +15,7 @@ class MockVmConsoleAction {
   }
 }
 
-fdescribe('Vm Vnc console action', () => {
+describe('Vm Vnc console action', () => {
   let consoleSpy: jasmine.Spy;
   let passwordSpy: jasmine.Spy;
 
