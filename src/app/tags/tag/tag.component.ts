@@ -38,11 +38,11 @@ export class TagComponent {
   }
 
   public onCopySuccess(): void {
-    this.notificationService.message('COPY_SUCCESS');
+    this.notificationService.message('CLIPBOARD.COPY_SUCCESS');
   }
 
   public onCopyFail(): void {
-    this.notificationService.message('COPY_FAIL');
+    this.notificationService.message('CLIPBOARD.COPY_FAIL');
   }
 
   private remove(): void {
