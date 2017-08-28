@@ -22,12 +22,10 @@ export class VmCreationDialogComponent implements OnInit {
     })
       .afterClosed()
       .subscribe(vm => {
-        if (vm) {
-          this.router.navigate(['../'], {
-            preserveQueryParams: true,
-            relativeTo: this.activatedRoute
-          });
-        }
+        this.router.navigate(['../'], {
+          preserveQueryParams: true,
+          relativeTo: this.activatedRoute
+        });
       });
   }
 }
