@@ -1,4 +1,3 @@
-import { Component, EventEmitter, Injectable, NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import {
   Component,
   Injectable,
@@ -31,7 +30,6 @@ import { Subject } from 'rxjs/Subject';
 import { MdSelectModule, MdTableModule } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from '../shared/shared.module';
 
 const eventServiceFixture = require('./event.service.fixture.json');
 
@@ -144,7 +142,6 @@ describe('event list component', () => {
         MdDialogModule,
         CdkTableModule,
         MdTableModule,
-        SharedModule,
         MdSelectModule,
         BrowserAnimationsModule
       ],
