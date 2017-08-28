@@ -30,6 +30,11 @@ export class SgTemplateCreationDialogComponent implements OnInit {
       .switchMap(res => res.onHide())
       .subscribe((template: SecurityGroup) => {
         if (!template) {
+          this.router.navigate(['../'], {
+            preserveQueryParams: true,
+            relativeTo: this.activatedRoute
+          });
+
           return;
         }
         this.listService.onUpdate.emit(template);
