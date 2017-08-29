@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { TagService } from '../../shared/services/tags/tag.service';
-import { TemplateService } from '../shared';
 import { BaseTemplateTagsComponent } from './tags.component';
 import { ActivatedRoute } from '@angular/router';
+import { IsoService } from '../shared/iso.service';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 
 
@@ -10,9 +10,9 @@ import { DialogService } from '../../dialog/dialog-service/dialog.service';
   selector: 'cs-template-tags',
   templateUrl: 'tags.component.html'
 })
-export class TemplateTagsComponent extends BaseTemplateTagsComponent {
+export class IsoTagsComponent extends BaseTemplateTagsComponent {
   constructor(
-    service: TemplateService,
+    service: IsoService,
     route: ActivatedRoute,
     dialogService: DialogService,
     tagService: TagService
@@ -20,4 +20,3 @@ export class TemplateTagsComponent extends BaseTemplateTagsComponent {
     super(service, route, dialogService, tagService);
   }
 }
-

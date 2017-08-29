@@ -15,25 +15,5 @@ import { AuthService } from '../../shared/services/auth.service';
   styleUrls: ['./base-template-sidebar.component.scss']
 })
 export class IsoSidebarComponent extends BaseTemplateSidebarComponent {
-  constructor(
-    isoService: IsoService,
-    authService: AuthService,
-    dateTimeFormatterService: DateTimeFormatterService,
-    route: ActivatedRoute,
-    router: Router,
-    listService: ListService,
-    dialogService: DialogService,
-    notificationService: NotificationService
-  ) {
-    super(
-      isoService,
-      authService,
-      dateTimeFormatterService,
-      dialogService,
-      route,
-      router,
-      listService,
-      notificationService
-    );
-  }
+
 }
