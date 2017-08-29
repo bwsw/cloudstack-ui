@@ -6,7 +6,7 @@ import { SpareDriveCreationDialogComponent } from './spare-drive-creation/spare-
 
 const routes: Routes = [
   {
-    path: 'spare-drives',
+    path: 'storage',
     component: SpareDrivePageComponent,
     canActivate: [AuthGuard],
     children: [

@@ -25,10 +25,6 @@ export class VmRebootAction extends VirtualMachineCommand {
   };
 
   public canActivate(vm: VirtualMachine): boolean {
-    if (!vm) {
-      return false;
-    }
-
-    return vm.state === VmState.Running;
+    return !!vm && vm.state === VmState.Running;
   }
 }

@@ -46,6 +46,7 @@ export const VolumeAttachmentEventsTypes = {
 })
 export class VolumeService extends BaseBackendService<Volume> {
   public onVolumeAttachment = new Subject<VolumeAttachmentEvent>();
+  public onVolumeCreated = new Subject<Volume>();
   public onVolumeResized = new Subject<Volume>();
   public onVolumeRemoved = new Subject<Volume>();
   public onVolumeTagsChanged = new Subject<Volume>();
@@ -104,7 +105,8 @@ export class VolumeService extends BaseBackendService<Volume> {
   public create(data: VolumeCreationData): Observable<Volume> {
     return this.sendCommand('create', data).switchMap(job =>
       this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel)
-    );
+    )
+      .do(volume => this.onVolumeCreated.next(volume));
   }
 
   public detach(volume: Volume): Observable<null> {

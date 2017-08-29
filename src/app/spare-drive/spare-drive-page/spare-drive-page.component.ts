@@ -9,6 +9,7 @@ import { DiskOfferingService } from '../../shared/services/disk-offering.service
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { ZoneService } from '../../shared/services/zone.service';
+import { filterWithPredicates } from '../../shared/utils/filter';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { SpareDriveFilter } from '../spare-drive-filter/spare-drive-filter.component';
 
@@ -67,6 +68,7 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
             this.listService.deselectItem();
           }
         }),
+      this.volumeService.onVolumeCreated.takeUntil(this.onDestroy),
       this.volumeService.onVolumeResized.takeUntil(this.onDestroy),
       this.volumeService.onVolumeRemoved.takeUntil(this.onDestroy),
       this.volumeService.onVolumeTagsChanged.takeUntil(this.onDestroy)
@@ -100,9 +102,13 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
     const { selectedZones, spareOnly, query } = this.filterData;
     this.query = query;
 
-    this.visibleVolumes = this.filterVolumesByZones(this.volumes, selectedZones);
-    this.visibleVolumes = this.filterVolumesBySpare(this.visibleVolumes, spareOnly);
-    this.visibleVolumes = this.filterVolumesBySearch(this.visibleVolumes);
+    this.visibleVolumes = filterWithPredicates(
+      this.volumes,
+      [
+        this.filterVolumesByZones(selectedZones),
+        this.filterVolumesBySpare(spareOnly),
+        this.filterVolumesBySearch()
+      ]);
   }
 
   public updateGroupings(): void {
@@ -112,31 +118,36 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
     }, []);
   }
 
-  public filterVolumesByZones(volumes: Array<Volume>, selectedZones: Array<Zone>): Array<Volume> {
-    if (selectedZones.length) {
-      return volumes.filter(volume => selectedZones.some(z => volume.zoneId === z.id));
-    } else {
-      return volumes;
-    }
+  public filterVolumesByZones(selectedZones: Array<Zone>): (volume) => boolean {
+    return (volume) => {
+      if (selectedZones.length) {
+        return selectedZones.some(z => volume.zoneId === z.id);
+      } else {
+        return true;
+      }
+    };
   }
 
-  public filterVolumesBySpare(volumes: Array<Volume>, spareOnly = false): Array<Volume> {
-    if (spareOnly) {
-      return this.volumeService.getSpareListSync(volumes);
-    } else {
-      return volumes;
-    }
+  public filterVolumesBySpare(spareOnly = false): (volume) => boolean {
+    return (volume) => {
+      if (spareOnly) {
+        return volume.isSpare;
+      } else {
+        return true;
+      }
+    };
   }
 
-  public filterVolumesBySearch(volumes: Array<Volume>): Array<Volume> {
-    if (!this.query) {
-      return volumes;
-    }
-    const queryLower = this.query.toLowerCase();
-    return volumes.filter(volume => {
-      return volume.name.toLowerCase().includes(queryLower) ||
-        volume.description.toLowerCase().includes(queryLower);
-    });
+  public filterVolumesBySearch(): (volume) => boolean {
+    return (volume) => {
+      if (!this.query) {
+        return true;
+      }
+
+      const queryLower = this.query.toLowerCase();
+      return volume.name.toLowerCase().includes(queryLower)
+        || volume.description.toLowerCase().includes(queryLower);
+    };
   }
 
   public showCreationDialog(): void {

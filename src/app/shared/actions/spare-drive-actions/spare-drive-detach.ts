@@ -34,7 +34,7 @@ export class SpareDriveDetachAction extends SpareDriveAction {
       .catch(error => {
         this.dialogService.alert(error);
         this.jobsNotificationService.fail({
-          id,
+
           message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_FAILED'
         });
         return Observable.throw(error);
@@ -42,6 +42,6 @@ export class SpareDriveDetachAction extends SpareDriveAction {
   }
 
   public hidden(volume: Volume): boolean {
-    return volume.isSpare;
+    return volume.isSpare || volume.isRoot;
   }
 }

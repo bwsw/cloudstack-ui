@@ -11,11 +11,7 @@ export class VmConsoleAction extends VirtualMachineAction {
   public icon = 'computer';
 
   public canActivate(vm: VirtualMachine): boolean {
-    if (!vm) {
-      return false;
-    }
-
-    return vm.state === VmState.Running;
+    return !!vm && vm.state === VmState.Running;
   }
 
   public activate(vm: VirtualMachine): Observable<void> {

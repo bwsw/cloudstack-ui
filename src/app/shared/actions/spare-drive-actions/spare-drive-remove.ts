@@ -44,4 +44,8 @@ export class SpareDriveRemoveAction extends SpareDriveAction {
         return Observable.throw(error);
       });
   }
+
+  public hidden(volume: Volume): boolean {
+    return volume.isRoot;
+  }
 }
