@@ -23,11 +23,10 @@
 <td>
   <button
     class="delete-rule-button"
-    mdl-button
-    mdl-button-type="icon"
-    (click)="handleRemoveClicked($event)"
+    md-icon-button="icon"
     disabled="{{ !canRemove || deleting }}"
     [hidden]="!canRemove"
+    (click)="handleRemoveClicked($event)"
   >
     <md-icon *ngIf="!deleting">delete</md-icon>
     <mdl-spinner single-color active *ngIf="deleting"></mdl-spinner>

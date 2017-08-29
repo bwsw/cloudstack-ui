@@ -1,14 +1,15 @@
 <section>
   <div class="header-wrap">
     <h4>{{ 'SETTINGS.API_CONFIGURATION.TITLE' | translate }}</h4>
-    <mdl-button
-      mdl-button-type="icon"
+    <button
+      md-icon-button="icon"
+      type="button"
       mdTooltipPosition="above"
       [mdTooltip]="'SETTINGS.API_CONFIGURATION.REGENERATE_KEYS' | translate"
       (click)="askToRegenerateKeys()"
     >
       <md-icon>sync</md-icon>
-    </mdl-button>
+    </button>
   </div>
   <div class="section-container">
     <div class="settings-control">
@@ -24,8 +25,7 @@
               {{ inputFields.apiKey.value }}
             </mdl-textfield>
             <button
-              mdl-button
-              mdl-button-type="icon"
+              md-icon-button="icon"
               cs-input-group-button
               ngxClipboard
               [cbContent]="inputFields.apiKey.value"
@@ -53,8 +53,7 @@
               {{ inputFields.apiSecretKey.value }}
             </mdl-textfield>
             <button
-              mdl-button
-              mdl-button-type="icon"
+              md-icon-button="icon"
               cs-input-group-button
               ngxClipboard
               [cbContent]="inputFields.apiSecretKey.value"

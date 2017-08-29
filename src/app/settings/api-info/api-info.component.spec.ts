@@ -136,7 +136,7 @@ describe('Api Info component', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    const syncButton = fixture.debugElement.query(By.css('mdl-button[mdl-button-type="icon"]'));
+    const syncButton = fixture.debugElement.query(By.css('button[md-icon-button]'));
     syncButton.triggerEventHandler('click');
 
     tick();

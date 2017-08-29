@@ -49,10 +49,8 @@
             [disabled]="(pass.invalid && !pass.pristine) || (user.invalid && !user.pristine)"
           >{{ 'AUTH.LOGIN' | translate }}</button>
           <button
+            md-icon-button
             class="options-button"
-            mdl-button-type="icon"
-            mdl-button
-            mdl-ripple
             type="button"
             [mdTooltip]="(showDomain ? 'AUTH.HIDE_ADVANCED' : 'AUTH.SHOW_ADVANCED') | translate"
             mdTooltipPosition="above"

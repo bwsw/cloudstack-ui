@@ -269,12 +269,11 @@ mdl-simple-tooltip div {
   margin-top: 6px !important;
 }
 
-.mdl-button md-icon {
+.mat-icon-button md-icon {
   color: black !important;
 }
 
-.mdl-button[disabled] md-icon,
-.mdl-button.mdl-button--disabled md-icon {
+.mat-icon-button[disabled] md-icon {
   color: rgba(0, 0, 0, .26) !important;
   cursor: default;
   background-color: transparent;
@@ -413,6 +412,27 @@ md-card-actions {
     color: rgba(0, 0, 0, .54);
   }
   font-size: 13pt;
-  padding: 0px 24px !important;
+  padding: 0 24px !important;
   max-height: 100% !important;
+}
+
+.mat-icon-button {
+  width: 32px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+}
+
+.button-18px {
+  min-width: 24px !important;
+  height: 24px !important;
+  width: 24px !important;
+  line-height: 24px !important;
+
+  md-icon {
+    font-size: 18px !important;
+  }
+}
+
+.icon-18px {
+  font-size: 18px !important;
 }

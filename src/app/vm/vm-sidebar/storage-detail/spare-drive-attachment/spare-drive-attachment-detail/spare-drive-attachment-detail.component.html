@@ -23,19 +23,17 @@
     </div>
     <md-card-actions *ngIf="selectedVolume">
       <button
-        mdl-button
-        mdl-button-type="icon"
-        mdTooltipPosition="above"
         *ngIf="!loading"
+        md-icon-button
         [mdTooltip]="'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.ATTACH' | translate"
+        mdTooltipPosition="above"
         (click)="$event.stopPropagation(); attachVolume()"
       >
         <md-icon>attach_file</md-icon>
       </button>
       <button
-        mdl-button
-        mdl-button-type="icon"
         *ngIf="loading"
+        md-icon-button
         disabled
       >
         <md-icon>attach_file</md-icon>
@@ -43,10 +41,9 @@
     </md-card-actions>
     <md-card-actions *ngIf="!selectedVolume && volumes?.length">
       <button
-        mdl-button
-        mdl-button-type="icon"
-        mdTooltipPosition="above"
+        md-icon-button
         [mdTooltip]="'COMMON.SELECT' | translate"
+        mdTooltipPosition="above"
         (click)="$event.stopPropagation(); showDialog()"
       >
         <md-icon>add</md-icon>

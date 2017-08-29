@@ -83,8 +83,7 @@
             >
             </mdl-textfield>
             <button
-              mdl-button
-              mdl-button-type="icon"
+              md-icon-button
               cs-input-group-button
               ngxClipboard
               [cbContent]="template?.downloadUrl"
@@ -92,8 +91,8 @@
               (cbOnError)="onCopyFail()"
             >
               <md-icon
-                mdTooltipPosition="below"
                 [mdTooltip]="'CLIPBOARD.COPY' | translate"
+                mdTooltipPosition="below"
               >
                 content_copy
               </md-icon>

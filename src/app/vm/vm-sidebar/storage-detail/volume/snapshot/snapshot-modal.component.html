@@ -23,9 +23,8 @@
       <td class="mdl-data-table__cell--non-numeric">
         <button
           *ngFor="let action of snapshotActionsService.actions"
+          md-icon-button
           class="button-18px"
-          mdl-button
-          mdl-button-type="icon"
           (click)="action.activate(snapshot, volume)"
           [disabled]="snapshot['loading']"
         >

@@ -129,9 +129,8 @@
         </td>
         <td>
           <button
+            md-icon-button
             class="add-rule-button"
-            mdl-button
-            mdl-button-type="icon"
             (click)="addRule($event)"
             disabled="{{ securityGroup.isPredefinedTemplate || adding || rulesForm.form.invalid }}"
           >
