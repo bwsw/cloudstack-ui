@@ -56,31 +56,6 @@
       #actionsMenu="mdMenu"
       [style.width.px]="300"
     >
-        <button
-          md-menu-item
-          [disabled]="loading"
-          (click)="takeSnapshot(volume)"
-        >
-          <md-icon >camera_alt</md-icon>
-          <span>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_ACTIONS.TAKE_SNAPSHOT' | translate }}</span>
-        </button>
-
-        <button
-          md-menu-item
-          [disabled]="loading"
-          (click)="showRecurringSnapshotsDialog()"
-        >
-          <md-icon >schedule</md-icon>
-          <span>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_ACTIONS.SNAPSHOT_SCHEDULE' | translate }}</span>
-        </button>
-
-        <button
-          md-menu-item
-          [disabled]="loading"
-          (click)="showVolumeResizeDialog()"
-        >
-          <md-icon >photo_size_select_small</md-icon>
-          <span>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_ACTIONS.RESIZE' | translate }}</span>
-        </button>
+      <cs-spare-drive-actions [volume]="volume"></cs-spare-drive-actions>
     </md-menu>
 </md-card>

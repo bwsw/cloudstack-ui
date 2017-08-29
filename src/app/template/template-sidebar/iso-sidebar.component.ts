@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ListService } from '../../shared/components/list/list.service';
-import { IsoService } from '../shared';
-import { TemplateActionsService } from '../shared/template-actions.service';
-import { BaseTemplateSidebarComponent } from './base-template-sidebar.component';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { NotificationService } from '../../shared/services/notification.service';
+import { ListService } from '../../shared/components/list/list.service';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
+import { NotificationService } from '../../shared/services/notification.service';
+import { IsoService } from '../shared';
+import { BaseTemplateSidebarComponent } from './base-template-sidebar.component';
+import { AuthService } from '../../shared/services/auth.service';
+
 
 @Component({
   selector: 'cs-iso-sidebar',
@@ -16,23 +17,23 @@ import { DateTimeFormatterService } from '../../shared/services/date-time-format
 export class IsoSidebarComponent extends BaseTemplateSidebarComponent {
   constructor(
     isoService: IsoService,
+    authService: AuthService,
     dateTimeFormatterService: DateTimeFormatterService,
     route: ActivatedRoute,
     router: Router,
-    templateActions: TemplateActionsService,
     listService: ListService,
     dialogService: DialogService,
     notificationService: NotificationService
   ) {
     super(
       isoService,
+      authService,
       dateTimeFormatterService,
       dialogService,
       route,
       router,
       listService,
-      notificationService,
-      templateActions
+      notificationService
     );
   }
 }

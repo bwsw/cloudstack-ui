@@ -7,6 +7,7 @@ import { SgRulesComponent } from '../sg-rules/sg-rules.component';
 import { NotificationService } from '../../shared/services/notification.service';
 import { ListService } from '../../shared/components/list/list.service';
 
+
 @Component({
   selector: 'cs-sg-template-create-dialog',
   template: ``
@@ -21,11 +22,12 @@ export class SgTemplateCreationDialogComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.dialog.open(SgTemplateCreationComponent, <MdDialogConfig>{
       disableClose: true,
       width: '450px'
-    }).afterClosed()
+    })
+      .afterClosed()
       .subscribe((template: SecurityGroup) => {
         if (!template) {
           this.router.navigate(['../'], {
@@ -48,7 +50,8 @@ export class SgTemplateCreationDialogComponent implements OnInit {
     this.dialog.open(SgRulesComponent, <MdDialogConfig>{
       width: '880px',
       data: {securityGroup: group}
-    }).afterClosed()
+    })
+      .afterClosed()
       .subscribe(() => {
         this.router.navigate(['../'], {
           preserveQueryParams: true,

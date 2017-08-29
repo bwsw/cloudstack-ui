@@ -7,8 +7,8 @@ import { VolumeType } from '../../shared/models/volume.model';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { NotificationService } from '../../shared/services/notification.service';
-import { VolumeService } from '../../shared/services/volume.service';
 import { VolumeTagService } from '../../shared/services/tags/volume-tag.service';
+import { VolumeService } from '../../shared/services/volume.service';
 
 
 @Component({
@@ -17,6 +17,7 @@ import { VolumeTagService } from '../../shared/services/tags/volume-tag.service'
 })
 export class SpareDriveSidebarComponent extends SidebarComponent<Volume> {
   @HostBinding('class.grid') public grid = true;
+  public description: string;
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,

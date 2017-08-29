@@ -4,12 +4,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  MdButtonModule,
-  MdDialogModule,
-  MdIconModule,
-  MdMenuModule,
+
+    MdButtonModule,
+    MdDialogModule,MdIconModule,
+    MdMenuModule,
   MdSelectModule,
-  MdTabsModule,
+    MdTabsModule,
   MdTooltipModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
@@ -28,6 +28,18 @@ import { TemplateModule } from '../template';
 import { VmActionsService } from './shared/vm-actions.service';
 import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
 import { VmService } from './shared/vm.service';
+import { VmStartActionSilent } from './vm-actions/silent/vm-start-silent';
+import { VmStopActionSilent } from './vm-actions/silent/vm-stop-silent';
+import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions.component';
+import { VmChangeServiceOfferingAction } from './vm-actions/vm-change-service-offering';
+import { VmConsoleAction } from './vm-actions/vm-console';
+import { VmDestroyAction } from './vm-actions/vm-destroy';
+import { VmRebootAction } from './vm-actions/vm-reboot';
+import { VmResetPasswordAction } from './vm-actions/vm-reset-password';
+import { VmRestoreAction } from './vm-actions/vm-restore';
+import { VmStartAction } from './vm-actions/vm-start';
+import { VmStopAction } from './vm-actions/vm-stop';
+import { VmWebShellAction } from './vm-actions/vm-webshell';
 import { VmActionProviders } from './vm-actions/index';
 import { VmCreationFormNormalizationService } from './vm-creation/form-normalization/form-normalization.service';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
@@ -63,6 +75,7 @@ import { SnapshotModalComponent } from './vm-sidebar/storage-detail/volume/snaps
 import { SnapshotsComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshots.component';
 import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volume-details/volume-details.component';
 import { VolumeComponent } from './vm-sidebar/storage-detail/volume/volume.component';
+import { VmActionsSidebarComponent } from './vm-sidebar/vm-actions-sidebar/vm-actions-sidebar.component';
 import { VmDetailComponent } from './vm-sidebar/vm-detail/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize/volume-resize.component';
@@ -120,6 +133,8 @@ import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-templ
     VmDetailTemplateComponent,
     VmDetailZoneComponent,
     VmListComponent,
+    VmActionsComponent,
+    VmActionsSidebarComponent,
     VmColorComponent,
     VmCreationComponent,
     VmCreationDialogComponent,

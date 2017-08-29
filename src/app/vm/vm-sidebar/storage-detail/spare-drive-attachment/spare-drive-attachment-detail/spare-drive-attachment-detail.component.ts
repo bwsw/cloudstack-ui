@@ -3,7 +3,7 @@ import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../../../../shared/models';
 import { VolumeService } from '../../../../../shared/services/volume.service';
-import { SpareDriveActionsService } from '../../../../../spare-drive/spare-drive-actions.service';
+import { SpareDriveActionsService } from '../../../../../shared/actions/spare-drive-actions/spare-drive-actions.service';
 import { VirtualMachine } from '../../../../shared/vm.model';
 import { SpareDriveAttachmentDialogComponent } from '../spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
 
@@ -23,7 +23,6 @@ export class SpareDriveAttachmentDetailComponent implements OnInit {
 
   constructor(
     private dialog: MdDialog,
-    private spareDriveActionsService: SpareDriveActionsService,
     private volumeService: VolumeService
   ) {}
 
@@ -32,11 +31,8 @@ export class SpareDriveAttachmentDetailComponent implements OnInit {
       throw new Error('the virtualMachine property is missing in cs-spare-drive-attachment-detail');
     }
     this.loadVolumes().subscribe();
-    this.spareDriveActionsService
-      .onVolumeAttachment
-      .subscribe(() => {
-        this.loadVolumes().subscribe();
-      });
+    this.volumeService.onVolumeAttachment
+      .subscribe(() => this.loadVolumes().subscribe());
   }
 
   public showDialog(): void {
@@ -52,7 +48,7 @@ export class SpareDriveAttachmentDetailComponent implements OnInit {
 
   public attachVolume(): void {
     this.loading = true;
-    this.spareDriveActionsService.attach({
+    this.volumeService.attach({
       id: this.selectedVolume.id,
       virtualMachineId: this.virtualMachine.id
     })

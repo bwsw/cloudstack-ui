@@ -4,17 +4,22 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { DiskOffering, Volume, VolumeType, Zone, } from '../../shared';
+import {
+  DiskOffering,
+  Volume,
+  VolumeType,
+  Zone
+} from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { FilterService } from '../../shared/services/filter.service';
-import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { SpareDriveActionsService } from '../spare-drive-actions.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
+import { SpareDriveActionsService } from '../../shared/actions/spare-drive-actions/spare-drive-actions.service';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -56,12 +61,12 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
   private onDestroy = new Subject();
 
   constructor(
+    public listService: ListService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private jobsNotificationService: JobsNotificationService,
-    public listService: ListService,
     private spareDriveActionsService: SpareDriveActionsService,
     private userTagService: UserTagService,
     private volumeService: VolumeService,
@@ -72,9 +77,17 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
   }
 
   public ngOnInit(): void {
-    this.spareDriveActionsService.onVolumeAttachment
-      .takeUntil(this.unsubscribe$)
-      .subscribe(() => this.onVolumeAttached());
+    Observable.merge(
+      this.volumeService.onVolumeAttachment.takeUntil(this.onDestroy)
+        .do(e => {
+          if (this.listService.isSelected(e.volumeId)) {
+            this.listService.deselectItem();
+          }
+        }),
+      this.volumeService.onVolumeResized.takeUntil(this.onDestroy),
+      this.volumeService.onVolumeRemoved.takeUntil(this.onDestroy)
+    )
+      .subscribe(() => this.onVolumeUpdated());
 
     this.listService.onUpdate
       .takeUntil(this.unsubscribe$)
@@ -88,7 +101,8 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
     Observable.forkJoin(
       this.updateVolumeList(),
       this.updateZones()
-    ).subscribe(() => this.initFilters());
+    )
+      .subscribe(() => this.initFilters());
   }
 
   public initFilters(): void {
@@ -134,34 +148,6 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
     }
   }
 
-  public showRemoveDialog(volume: Volume): void {
-    this.dialogService.confirm({
-      message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_DELETION'
-    })
-      .onErrorResumeNext()
-      .subscribe((res) => { if (res) { this.remove(volume); } });
-  }
-
-  public remove(volume: Volume): void {
-    this.volumeService.remove(volume.id)
-      .subscribe(
-        () => {
-          this.volumes = this.volumes.filter(listVolume => {
-            return listVolume.id !== volume.id;
-          });
-          if (this.listService.isSelected(volume.id)) {
-            this.listService.deselectItem();
-          }
-          this.jobsNotificationService.finish({ message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_DONE' });
-          this.update();
-        },
-        error => {
-          this.dialogService.alert({ message: error });
-          this.jobsNotificationService.fail({ message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_FAILED' });
-        }
-      );
-  }
-
   public showCreationDialog(): void {
     this.router.navigate(['./create'], {
       preserveQueryParams: true,
@@ -169,16 +155,7 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
     });
   }
 
-  public updateVolume(volume: Volume): void {
-    this.volumes = this.volumes.map(vol => vol.id === volume.id ? volume : vol);
-
-    if (this.listService.isSelected(volume.id)) {
-      this.listService.showDetails(volume.id);
-    }
-    this.update();
-  }
-
-  private onVolumeAttached(): void {
+  private onVolumeUpdated(): void {
     this.updateVolumeList().subscribe();
     this.update();
   }

@@ -560,6 +560,7 @@
     },
 
     "DETAILS": {
+      "GENERAL_INFORMATION": "General information",
       "SIZE": "Size",
       "CREATED": "Created",
       "STORAGE_TYPE": "Storage type",
@@ -615,6 +616,7 @@
     },
 
     "TEMPLATE_DETAILS": {
+      "OS": "OS",
       "DETAILS": "General information",
       "SIZE": "Size",
       "EXTRACTABLE": "Extractable",

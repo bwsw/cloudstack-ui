@@ -6,6 +6,8 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { AffinityGroup } from '../../../shared/models/affinity-group.model';
+import { AsyncJob } from '../../../shared/models/async-job.model';
+import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { DateTimeFormatterService } from '../../../shared/services/date-time-formatter.service';
 import { VmActionsService } from '../../shared/vm-actions.service';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
@@ -29,9 +31,10 @@ export class VmDetailComponent implements OnChanges {
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
+    private asyncJobService: AsyncJobService,
     private dialogService: DialogService,
     private dialog: MdDialog,
-    private vmActionsService: VmActionsService,
+    private  vmActionsService: VmActionsService,
     private vmService: VmService,
     private vmTagService: VmTagService
   ) {
@@ -117,23 +120,22 @@ export class VmDetailComponent implements OnChanges {
   }
 
   private showAffinityGroupDialog(): void {
-    this.dialog.open(AffinityGroupSelectorComponent, <MdDialogConfig>{
-       width: '350px',
-       data: this.vm,
-       disableClose: true
-     })
-        .afterClosed()
-        .subscribe((group?: Array<AffinityGroup>) => {
-          if (group) {
-            this.vm.affinityGroup = group;
-          }
-        });
+    this.dialog.open( AffinityGroupSelectorComponent,<MdDialogConfig>{
+       width: '350px' ,
+      data: this.vm ,
+      disableClose: true
+    }).afterClosed()
+      .subscribe((group?: Array<AffinityGroup>) => {
+        if (group) {
+          this.vm.affinityGroup = group;
+        }
+      });
   }
 
   private showSshKeypairResetDialog(): void {
-    this.dialog.open(SshKeypairResetComponent, <MdDialogConfig>{
-      width: '350px',
-      data: this.vm,
+    this.dialog.open( SshKeypairResetComponent,<MdDialogConfig>{
+       width: '350px' ,
+      data: this.vm ,
       disableClose: true
     }).afterClosed()
       .subscribe((keyPairName: string) => {
@@ -141,5 +143,17 @@ export class VmDetailComponent implements OnChanges {
           this.vm.keyPair = keyPairName;
         }
       });
+  }
+
+  private subscribeToAsyncJobUpdates(): void {
+    this.asyncJobService.event
+      .filter(job => this.vmService.isAsyncJobAVirtualMachineJobWithResult(job))
+      .subscribe(job => this.updateVm(job));
+  }
+
+  private updateVm(job: AsyncJob<VirtualMachine>): void {
+    if (job) {
+      this.vm.state = job.result.state;
+    }
   }
 }

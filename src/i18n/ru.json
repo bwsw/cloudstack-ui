@@ -560,6 +560,7 @@
     },
 
     "DETAILS": {
+      "GENERAL_INFORMATION": "Общая информация",
       "SIZE": "Размер",
       "CREATED": "Создан",
       "STORAGE_TYPE": "Тип хранилища",
@@ -615,6 +616,7 @@
     },
 
     "TEMPLATE_DETAILS": {
+      "OS": "ОС",
       "DETAILS": "Общая информация",
       "SIZE": "Размер",
       "EXTRACTABLE": "Извлекаемый",

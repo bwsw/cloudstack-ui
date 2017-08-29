@@ -6,7 +6,7 @@ import { Volume } from '../../../shared/models';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { VolumeService } from '../../../shared/services/volume.service';
-import { SpareDriveActionsService } from '../../../spare-drive/spare-drive-actions.service';
+import { SpareDriveActionsService } from '../../../shared/actions/spare-drive-actions/spare-drive-actions.service';
 import { IsoAttachmentComponent } from '../../../template/iso-attachment/iso-attachment.component';
 import { Iso, IsoService } from '../../../template/shared';
 import { VirtualMachine } from '../../shared/vm.model';
@@ -24,16 +24,13 @@ export class StorageDetailComponent implements OnChanges {
   public iso: Iso;
   public isoOperationInProgress = false;
 
-  constructor(
-    private dialog: MdDialog,
+  constructor(private dialog: MdDialog,
     private dialogService: DialogService,
-    private jobNotificationService: JobsNotificationService,
-    private isoService: IsoService,
-    private notificationService: NotificationService,
-    private spareDriveActionService: SpareDriveActionsService,
-    private vmService: VmService,
-    private volumeService: VolumeService
-  ) {
+              private jobNotificationService: JobsNotificationService,
+              private isoService: IsoService,
+              private notificationService: NotificationService,
+              private  vmService: VmService,
+              private volumeService: VolumeService) {
   }
 
   public ngOnChanges(): void {
@@ -66,7 +63,7 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   public subscribeToVolumeAttachments(): void {
-    this.spareDriveActionService.onVolumeAttachment
+    this.volumeService.onVolumeAttachment
       .subscribe(() => {
         this.volumeService.getList({ virtualMachineId: this.vm.id })
           .subscribe(volumes => this.vm.volumes = volumes);
@@ -95,9 +92,9 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   private detachVolume(volume: Volume): void {
-    volume['loading'] = true;
-    this.spareDriveActionService.detach(volume)
-      .finally(() => volume['loading'] = false)
+    volume.loading = true;
+    this.volumeService.detach(volume)
+      .finally(() => volume.loading = false)
       .subscribe(() => this.onVolumeChange());
   }
 

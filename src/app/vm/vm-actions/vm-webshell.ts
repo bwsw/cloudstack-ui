@@ -34,6 +34,10 @@ export class VmWebShellAction extends VirtualMachineAction {
   }
 
   public canActivate(vm: VirtualMachine): boolean {
+    if (!vm) {
+      return false;
+    }
+
     return this.webShellService.isWebShellEnabledForVm(vm);
   }
 

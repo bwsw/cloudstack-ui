@@ -389,6 +389,23 @@ md-card-actions {
   border-radius: 50%;
 }
 
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.details-header {
+  width: 340px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+h4.details-header {
+  font-size: 18px;
+}
+
 /* md-dialog
 */
 .mat-dialog-container {

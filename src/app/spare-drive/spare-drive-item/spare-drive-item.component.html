@@ -40,26 +40,6 @@
     #actionsMenu="mdMenu"
     [style.width.px]="300"
   >
-    <button
-      md-menu-item
-      (click)="attach()"
-    >
-      <md-icon>attach_file</md-icon>
-      <span>{{ 'SPARE_DRIVE_PAGE.CARD.ATTACH' | translate }}</span>
-    </button>
-    <button
-      md-menu-item
-      (click)="resize()"
-    >
-      <md-icon>photo_size_select_small</md-icon>
-      <span>{{ 'SPARE_DRIVE_PAGE.CARD.RESIZE' | translate }}</span>
-    </button>
-    <button
-      md-menu-item
-      (click)="remove()"
-    >
-      <md-icon>delete</md-icon>
-      <span>{{ 'COMMON.DELETE' | translate }}</span>
-    </button>
+    <cs-spare-drive-actions [volume]="item"></cs-spare-drive-actions>
   </md-menu>
 </md-card>

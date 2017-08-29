@@ -15,7 +15,7 @@
           <h5>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.DISK_OFFERING' | translate }}</h5>
           <cs-disk-offering
             [diskOffering]="diskOffering"
-            [diskOfferingList]="diskOfferingList"
+            [diskOfferingList]="diskOfferings"
             (change)="updateDiskOffering($event)"
           ></cs-disk-offering>
         </div>
@@ -35,7 +35,6 @@
           mdl-button
           mdl-colored="primary"
           mdl-ripple
-          (click)="resizeVolume()"
           [disabled]="volumeResizeForm?.invalid"
         >
           {{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.RESIZE' | translate }}
@@ -44,6 +43,7 @@
           mdl-button
           mdl-colored="primary"
           mdl-ripple
+          type="button"
           (click)="dialogRef.close()"
         >
           {{ 'COMMON.CANCEL' | translate }}

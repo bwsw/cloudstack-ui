@@ -30,6 +30,7 @@ export class Volume extends BaseModel {
   public domain: string;
   public diskOffering: DiskOffering;
   public diskOfferingId: string;
+  public loading: boolean;
   public name: string;
   public state: string;
   public size: number;
