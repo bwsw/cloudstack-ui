@@ -6,6 +6,7 @@ import { BaseModel } from './base.model';
 import { DiskOffering } from './disk-offering.model';
 import { Snapshot } from './snapshot.model';
 import { DeletionMark, Tag } from './tag.model';
+import { ServiceOffering } from './service-offering.model';
 
 
 export enum VolumeType {
@@ -18,6 +19,7 @@ export enum VolumeType {
   diskofferingid: 'diskOfferingId',
   diskofferingname: 'diskOfferingName',
   provisioningtype: 'provisioningType',
+  serviceofferingid: 'serviceofferingid',
   storagetype: 'storageType',
   virtualmachineid: 'virtualMachineId',
   zoneid: 'zoneId',
@@ -37,6 +39,8 @@ export class Volume extends BaseModel {
   public size: number;
   public virtualMachineId: string;
   public provisioningType: string;
+  public serviceOffering: ServiceOffering;
+  public serviceOfferingId: string;
   public snapshots: Array<Snapshot>;
   public storageType: string;
   public tags: Array<Tag>;

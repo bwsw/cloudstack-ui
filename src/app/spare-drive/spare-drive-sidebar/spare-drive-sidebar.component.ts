@@ -7,6 +7,7 @@ import { VolumeType } from '../../shared/models/volume.model';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { NotificationService } from '../../shared/services/notification.service';
+import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { VolumeService } from '../../shared/services/volume.service';
 
 
@@ -23,6 +24,7 @@ export class SpareDriveSidebarComponent extends SidebarComponent<Volume> {
     protected notificationService: NotificationService,
     protected route: ActivatedRoute,
     protected router: Router,
+    protected serviceOfferingService: ServiceOfferingService,
     protected volumeService: VolumeService,
     private diskOfferingService: DiskOfferingService
   ) {
@@ -39,14 +41,19 @@ export class SpareDriveSidebarComponent extends SidebarComponent<Volume> {
         }
       })
       .switchMap(volume => {
-        return Observable.forkJoin(
-          Observable.of(volume),
-          this.diskOfferingService.getList({ type: VolumeType.DATADISK })
-        );
-      })
-      .map(([volume, diskOfferings]) => {
-        volume.diskOffering = diskOfferings.find(_ => _.id === volume.diskOfferingId);
-        return volume;
+        if (volume.isRoot) {
+          return this.serviceOfferingService.getList()
+            .map(serviceOfferings => {
+              volume.serviceOffering = serviceOfferings.find(_ => _.id === volume.serviceOfferingId);
+              return volume;
+            });
+        } else {
+          return this.diskOfferingService.getList({ type: VolumeType.DATADISK })
+            .map(diskOfferings => {
+              volume.diskOffering = diskOfferings.find(_ => _.id === volume.diskOfferingId);
+              return volume;
+            });
+        }
       });
   }
 }
