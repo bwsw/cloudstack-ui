@@ -24,6 +24,7 @@ import {
   sideBarRoutes,
   validateNavigationOrder
 } from './sidebar-routes';
+import { ConfigService } from '../shared/services/config.service';
 
 const navigationOrderTag = 'csui.user.navigation-order';
 
@@ -57,6 +58,7 @@ export class AppSidebarComponent extends WithUnsubscribe()
   private hasChanges = false;
 
   constructor(
+    private configService: ConfigService,
     private dragula: DragulaService,
     private styleService: StyleService,
     private layoutService: LayoutService,
@@ -90,6 +92,10 @@ export class AppSidebarComponent extends WithUnsubscribe()
 
   public get editing(): boolean {
     return this._editing;
+  }
+
+  public get canEdit(): boolean {
+    return this.configService.get<boolean>('allowReorderingSidebar');
   }
 
   public get isLightTheme(): boolean {
