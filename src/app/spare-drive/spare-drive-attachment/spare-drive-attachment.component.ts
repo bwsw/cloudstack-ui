@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { MdlDialogReference } from '../../dialog/dialog-module';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Volume } from '../../shared/models';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { VolumeService } from '../../shared/services/volume.service';
@@ -19,15 +19,20 @@ export class SpareDriveAttachmentComponent implements OnInit {
   public virtualMachines: Array<VirtualMachine>;
   public loading: boolean;
 
+  public volume: Volume;
+  public zoneId: string;
+
   constructor(
-    @Inject('volume') private volume: Volume,
-    @Inject('zoneId') private zoneId: string,
-    private dialog: MdlDialogReference,
+    private dialogRef: MdDialogRef<SpareDriveAttachmentComponent>,
     private dialogService: DialogService,
     private jobsNotificationService: JobsNotificationService,
     private vmService: VmService,
-    private volumeService: VolumeService
-  ) {}
+    private volumeService: VolumeService,
+    @Inject(MD_DIALOG_DATA) data
+  ) {
+    this.volume = data.volume;
+    this.zoneId = data.zoneId;
+  }
 
   public ngOnInit(): void {
     this.vmService.getListWithDetails({ zoneId: this.zoneId })
@@ -41,7 +46,7 @@ export class SpareDriveAttachmentComponent implements OnInit {
 
   public attach(): void {
     if (!this.virtualMachineId) {
-      this.dialog.hide();
+      this.dialogRef.close();
       return;
     }
 
@@ -60,20 +65,24 @@ export class SpareDriveAttachmentComponent implements OnInit {
       })
       .catch(error => {
         this.dialogService.alert({
-          translationToken: error.message,
-          interpolateParams: error.params
+          message: {
+            translationToken: error.message,
+            interpolateParams: error.params
+          }
         });
+
         this.jobsNotificationService.fail({
           id: notificationId,
           message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED',
         });
+
         return Observable.throw(error);
       })
       .finally(() => this.loading = false)
-      .subscribe(() => this.dialog.hide(this.virtualMachineId));
+      .subscribe(() => this.dialogRef.close(this.virtualMachineId));
   }
 
   public onCancel(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
   }
 }

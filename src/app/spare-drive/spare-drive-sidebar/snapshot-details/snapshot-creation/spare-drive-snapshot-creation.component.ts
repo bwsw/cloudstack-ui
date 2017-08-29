@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { DialogService } from '../../../../dialog/dialog-module/dialog.service';
+import { MdDialog } from '@angular/material';
 import { Volume } from '../../../../shared/models/volume.model';
 import {
   SnapshotCreationComponent
@@ -14,13 +14,14 @@ import {
 export class SpareDriveSnapshotCreationComponent {
   @Input() public volume: Volume;
 
-  constructor(private dialogService: DialogService) {}
+  constructor(private dialog: MdDialog) {}
 
   public addSnapshot(): void {
-    this.dialogService.showCustomDialog({
-      component: SnapshotCreationComponent,
-      classes: 'snapshot-creation-dialog',
-      providers: [{ provide: 'volume', useValue: this.volume }],
-    });
+    this.dialog.open(SnapshotCreationComponent,
+      {
+        data: { volume: this.volume },
+        width: '400px'
+      }
+    );
   }
 }

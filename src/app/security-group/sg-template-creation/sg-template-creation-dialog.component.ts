@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { MdDialog, MdDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SgTemplateCreationComponent } from './sg-template-creation.component';
 import { SecurityGroup } from '../sg.model';
@@ -7,13 +7,14 @@ import { SgRulesComponent } from '../sg-rules/sg-rules.component';
 import { NotificationService } from '../../shared/services/notification.service';
 import { ListService } from '../../shared/components/list/list.service';
 
+
 @Component({
   selector: 'cs-sg-template-create-dialog',
   template: ``
 })
 export class SgTemplateCreationDialogComponent implements OnInit {
   constructor(
-    private dialogService: DialogService,
+    private dialog: MdDialog,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private notificationService: NotificationService,
@@ -21,13 +22,12 @@ export class SgTemplateCreationDialogComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
-    this.dialogService.showCustomDialog({
-      component: SgTemplateCreationComponent,
-      clickOutsideToClose: false,
-      classes: 'sg-template-creation-dialog'
+  public ngOnInit() {
+    this.dialog.open(SgTemplateCreationComponent, <MdDialogConfig>{
+      disableClose: true,
+      width: '450px'
     })
-      .switchMap(res => res.onHide())
+      .afterClosed()
       .subscribe((template: SecurityGroup) => {
         if (!template) {
           this.router.navigate(['../'], {
@@ -47,12 +47,11 @@ export class SgTemplateCreationDialogComponent implements OnInit {
   }
 
   public showRulesDialog(group: SecurityGroup): void {
-    this.dialogService.showCustomDialog({
-      component: SgRulesComponent,
-      classes: 'sg-rules-dialog',
-      providers: [{ provide: 'securityGroup', useValue: group }],
+    this.dialog.open(SgRulesComponent, <MdDialogConfig>{
+      width: '880px',
+      data: {securityGroup: group}
     })
-      .switchMap(res => res.onHide())
+      .afterClosed()
       .subscribe(() => {
         this.router.navigate(['../'], {
           preserveQueryParams: true,

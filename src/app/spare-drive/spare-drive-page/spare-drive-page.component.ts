@@ -2,7 +2,7 @@ import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { DiskOffering, Volume, VolumeType, Zone } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
@@ -23,7 +23,6 @@ export interface VolumeCreationData {
 @Component({
   selector: 'cs-spare-drive-page',
   templateUrl: 'spare-drive-page.component.html',
-  styleUrls: ['spare-drive-page.component.scss'],
   providers: [ListService]
 })
 export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit, OnDestroy {
@@ -158,7 +157,7 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
           return;
         }
 
-        this.dialogService.showDialog({
+        this.dialogService.askDialog({
           message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VOLUME',
           actions: [
             {
@@ -171,10 +170,8 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
               text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
             }
           ],
-          fullWidthAction: true,
-          isModal: true,
-          clickOutsideToClose: true,
-          styles: { 'width': '320px' }
+          disableClose: false,
+          width: '320px'
         });
 
       });

@@ -1,7 +1,7 @@
 <ng-container *ngIf="entity">
   <div class="title-container">
       <h4 class="details-header">{{ entity.displayName }}</h4>
-      <cs-vm-actions-sidebar [vm]="vm"></cs-vm-actions-sidebar>
+      <cs-vm-actions-sidebar [vm]="entity"></cs-vm-actions-sidebar>
     </div>
 
   <md-tab-group [selectedIndex]="0" md-no-pagination="true">

@@ -2,6 +2,6 @@
   padding-top: 10px;
 }
 
-/deep/ .custom-offering-dialog {
-  width: 370px;
+:host .mat-dialog-content {
+  overflow: hidden !important;
 }

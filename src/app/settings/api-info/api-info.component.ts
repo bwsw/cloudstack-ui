@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DefaultUrlSerializer, UrlSerializer } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { BACKEND_API_URL } from '../../shared/services/base-backend.service';
 import { ConfigService } from '../../shared/services/config.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { UserService } from '../../shared/services/user.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 
 
 interface ApiInfoLink {
@@ -87,13 +87,13 @@ export class ApiInfoComponent implements OnInit {
   }
 
   public askToRegenerateKeys(): void {
-    this.dialogService.confirm(
-      'SETTINGS.API_CONFIGURATION.ASK_GENERATE_KEYS',
-      'COMMON.CANCEL',
-      'SETTINGS.API_CONFIGURATION.GENERATE'
-    )
+    this.dialogService.confirm({
+      message: 'SETTINGS.API_CONFIGURATION.ASK_GENERATE_KEYS',
+      confirmText: 'SETTINGS.API_CONFIGURATION.GENERATE',
+      declineText: 'COMMON.CANCEL'
+    })
       .onErrorResumeNext()
-      .subscribe(() => this.regenerateKeys());
+      .subscribe((res) => { if (res) { this.regenerateKeys(); } });
   }
 
   private get apiUrl(): string {

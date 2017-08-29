@@ -1,10 +1,11 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
+import { MdDialog } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { ListService } from '../../shared/components/list/list.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { BaseTemplateModel, Iso, IsoService, Template, TemplateService } from '../shared';
 import { TemplateFilters } from '../shared/base-template.service';
-import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({

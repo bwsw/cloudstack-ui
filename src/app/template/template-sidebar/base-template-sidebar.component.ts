@@ -1,8 +1,9 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
+import { AuthService } from '../../shared/services/auth.service';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
@@ -18,6 +19,7 @@ export abstract class BaseTemplateSidebarComponent extends SidebarComponent<Base
 
   constructor(
     service: BaseTemplateService,
+    public authService: AuthService,
     public dateTimeFormatterService: DateTimeFormatterService,
     private dialogService: DialogService,
     protected route: ActivatedRoute,
@@ -27,6 +29,10 @@ export abstract class BaseTemplateSidebarComponent extends SidebarComponent<Base
   ) {
     super(service, notificationService, route, router);
     this.service = service;
+  }
+
+  public get isSelf(): boolean {
+    return this.authService.username === this.entity.account;
   }
 
   public get templateTypeTranslationToken(): string {
@@ -49,7 +55,7 @@ export abstract class BaseTemplateSidebarComponent extends SidebarComponent<Base
             this.entity = template;
             this.checkZones(template);
           },
-          error => this.dialogService.alert(error.message)
+          error => this.dialogService.alert({ message: error.message })
         );
     }
   }

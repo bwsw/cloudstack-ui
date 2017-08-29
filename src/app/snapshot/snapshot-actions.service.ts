@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../dialog/dialog-module/dialog.service';
+import { DialogService } from '../dialog/dialog-service/dialog.service';
 import { ActionsService } from '../shared/interfaces/action-service.interface';
 import { Action } from '../shared/interfaces/action.interface';
 import { Snapshot, Volume } from '../shared/models';
@@ -9,6 +9,7 @@ import { NotificationService } from '../shared/services/notification.service';
 import { SnapshotService } from '../shared/services/snapshot.service';
 import { StatsUpdateService } from '../shared/services/stats-update.service';
 import { TemplateCreationComponent } from '../template/template-creation/template-creation.component';
+import { MdDialog } from '@angular/material';
 
 
 export interface SnapshotAction extends Action<Snapshot> {
@@ -33,6 +34,7 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
   ];
 
   constructor(
+    private dialog: MdDialog,
     private dialogService: DialogService,
     private jobNotificationService: JobsNotificationService,
     private notificationService: NotificationService,
@@ -41,25 +43,21 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
   ) { }
 
   public showCreationDialog(snapshot: Snapshot): Observable<void> {
-    return this.dialogService.showCustomDialog({
-      component: TemplateCreationComponent,
-      classes: 'template-creation-dialog-snapshot dialog-overflow-visible',
-      providers: [
-        { provide: 'mode', useValue: 'Template' },
-        { provide: 'snapshot', useValue: snapshot }
-      ]
+    return this.dialog.open(TemplateCreationComponent, {
+      panelClass: 'template-creation-dialog-snapshot dialog-overflow-visible',
+      data: {
+        mode: 'Template',
+        snapshot
+      }
     })
-      .switchMap(res => res.onHide());
+      .afterClosed();
+    // todo check
   }
 
   public handleSnapshotDelete(snapshot: Snapshot, volume): Observable<void> {
     let notificationId: string;
 
-    return this.dialogService.confirm(
-      'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION',
-      'COMMON.NO',
-      'COMMON.YES'
-    )
+    return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
       .switchMap(() => {
         snapshot['loading'] = true;
         notificationId = this.jobNotificationService.add('JOB_NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');
