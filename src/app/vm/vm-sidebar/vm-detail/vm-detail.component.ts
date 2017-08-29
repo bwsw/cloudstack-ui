@@ -1,9 +1,10 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { MdDialog, MdDialogConfig } from '@angular/material';
 import {
   AffinityGroupSelectorComponent
 } from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { AffinityGroup } from '../../../shared/models/affinity-group.model';
 import { AsyncJob } from '../../../shared/models/async-job.model';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
@@ -11,7 +12,7 @@ import { DateTimeFormatterService } from '../../../shared/services/date-time-for
 import { VmActionsService } from '../../shared/vm-actions.service';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
-import { SshKeypairResetComponent } from '../ssh/ssh-keypair-reset.component';
+import { SshKeypairResetComponent } from './../ssh/ssh-keypair-reset.component';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 
 
@@ -32,6 +33,7 @@ export class VmDetailComponent implements OnChanges {
     public dateTimeFormatterService: DateTimeFormatterService,
     private asyncJobService: AsyncJobService,
     private dialogService: DialogService,
+    private dialog: MdDialog,
     private  vmActionsService: VmActionsService,
     private vmService: VmService,
     private vmTagService: VmTagService
@@ -43,7 +45,7 @@ export class VmDetailComponent implements OnChanges {
     this.update();
   }
 
-  public changeDescription(newDescription: string): void {
+ public changeDescription(newDescription: string): void {
     this.vmTagService.setDescription(this.vm, newDescription)
       .onErrorResumeNext()
       .subscribe();
@@ -98,16 +100,14 @@ export class VmDetailComponent implements OnChanges {
           return Observable.of(true);
         }
 
-        return this.dialogService.customConfirm({
+        return this.dialogService.confirm({
           message: message,
           confirmText: 'VM_PAGE.COMMANDS.STOP',
-          declineText: 'COMMON.CANCEL',
-          width: '350px',
-          clickOutsideToClose: false
+          declineText: 'COMMON.CANCEL'
         })
           .onErrorResumeNext()
-          .switchMap((result) => {
-            if (result === null) {
+          .switchMap((res) => {
+            if (res) {
               loadingFunction(true);
               return this.vmActionsService.vmStopActionSilent.activate(vm)
                 .do(() => loadingFunction(false))
@@ -120,12 +120,11 @@ export class VmDetailComponent implements OnChanges {
   }
 
   private showAffinityGroupDialog(): void {
-    this.dialogService.showCustomDialog({
-      component: AffinityGroupSelectorComponent,
-      styles: {width: '350px'},
-      providers: [{provide: 'virtualMachine', useValue: this.vm}],
-      clickOutsideToClose: false
-    }).switchMap(dialog => dialog.onHide())
+    this.dialog.open( AffinityGroupSelectorComponent,<MdDialogConfig>{
+       width: '350px' ,
+      data: this.vm ,
+      disableClose: true
+    }).afterClosed()
       .subscribe((group?: Array<AffinityGroup>) => {
         if (group) {
           this.vm.affinityGroup = group;
@@ -134,12 +133,11 @@ export class VmDetailComponent implements OnChanges {
   }
 
   private showSshKeypairResetDialog(): void {
-    this.dialogService.showCustomDialog({
-      component: SshKeypairResetComponent,
-      styles: {width: '350px'},
-      providers: [{provide: 'virtualMachine', useValue: this.vm}],
-      clickOutsideToClose: false
-    }).switchMap(dialog => dialog.onHide())
+    this.dialog.open( SshKeypairResetComponent,<MdDialogConfig>{
+       width: '350px' ,
+      data: this.vm ,
+      disableClose: true
+    }).afterClosed()
       .subscribe((keyPairName: string) => {
         if (keyPairName) {
           this.vm.keyPair = keyPairName;

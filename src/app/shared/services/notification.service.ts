@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
-import { ParametrizedTranslation } from '../../dialog/dialog-module/dialog.service';
 import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
+import { ParametrizedTranslation } from '../../dialog/dialog-service/dialog.service';
 
 @Injectable()
 export class NotificationService implements NotificationService {

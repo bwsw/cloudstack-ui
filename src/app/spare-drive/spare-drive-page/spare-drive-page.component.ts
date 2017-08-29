@@ -2,7 +2,8 @@ import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import {
   DiskOffering,
   Volume,
@@ -18,7 +19,7 @@ import { VolumeService } from '../../shared/services/volume.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
-import { SpareDriveActionsService } from '../spare-drive-actions.service';
+import { SpareDriveActionsService } from '../../shared/actions/spare-drive-actions/spare-drive-actions.service';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -33,7 +34,6 @@ export interface VolumeCreationData {
 @Component({
   selector: 'cs-spare-drive-page',
   templateUrl: 'spare-drive-page.component.html',
-  styleUrls: ['spare-drive-page.component.scss'],
   providers: [ListService]
 })
 export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit, OnDestroy {
@@ -152,7 +152,8 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
     this.router.navigate(['./create'], {
       preserveQueryParams: true,
       relativeTo: this.activatedRoute
-    });  }
+    });
+  }
 
   private onVolumeUpdated(): void {
     this.updateVolumeList().subscribe();
@@ -166,7 +167,7 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
           return;
         }
 
-        this.dialogService.showDialog({
+        this.dialogService.askDialog({
           message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VOLUME',
           actions: [
             {
@@ -179,10 +180,8 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
               text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
             }
           ],
-          fullWidthAction: true,
-          isModal: true,
-          clickOutsideToClose: true,
-          styles: { 'width': '320px' }
+          disableClose: false,
+          width: '320px'
         });
 
       });

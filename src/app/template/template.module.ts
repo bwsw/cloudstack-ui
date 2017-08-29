@@ -17,7 +17,6 @@ import { SharedModule } from '../shared/shared.module';
 import { TagsModule } from '../tags/tags.module';
 import { IsoAttachmentComponent } from './iso-attachment/iso-attachment.component';
 import { IsoService, TemplateService } from './shared';
-import { TemplateActionsComponent } from './template-actions/template-actions-component/template-actions.component';
 import { TemplateCreationComponent } from './template-creation/template-creation.component';
 import { TemplateFilterListSelectorComponent } from './template-filter-list/template-filter-list-selector.component';
 import { TemplateFilterListComponent } from './template-filter-list/template-filter-list.component';
@@ -33,12 +32,12 @@ import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.co
 import { TemplateTagsComponent } from './template-tags/template-tags.component';
 import { templatesRouting } from './template.routing';
 import { TemplateComponent } from './template/template.component';
-import { TemplateActionsService } from './template-actions/template-actions.service';
-import { TemplateCreateAction } from './template-actions/create/template-create';
-import { TemplateDeleteAction } from './template-actions/delete/template-delete';
-import { IsoCreateAction } from './template-actions/create/iso-create';
-import { IsoDeleteAction } from './template-actions/delete/iso-delete';
-import { IsoActionsService } from './template-actions/iso-actions.service';
+import { TemplateActionsService } from '../shared/actions/template-actions/template-actions.service';
+import { TemplateCreateAction } from '../shared/actions/template-actions/create/template-create';
+import { TemplateDeleteAction } from '../shared/actions/template-actions/delete/template-delete';
+import { IsoCreateAction } from '../shared/actions/template-actions/create/iso-create';
+import { IsoDeleteAction } from '../shared/actions/template-actions/delete/iso-delete';
+import { IsoActionsService } from '../shared/actions/template-actions/iso-actions.service';
 import { TemplateDescriptionComponent } from './template-sidebar/template-description/template-description.component';
 import { TemplateOsComponent } from './template-sidebar/template-os/template-os.component';
 import { TemplateOsIconComponent } from './template-sidebar/template-os-icon/template-os-icon.component';
@@ -67,7 +66,6 @@ import { TemplateCreationDialogComponent } from './template-creation/template-cr
     TemplateSidebarComponent,
     IsoSidebarComponent,
     IsoAttachmentComponent,
-    TemplateActionsComponent,
     TemplateActionsSidebarComponent,
     TemplateComponent,
     TemplateCreationComponent,

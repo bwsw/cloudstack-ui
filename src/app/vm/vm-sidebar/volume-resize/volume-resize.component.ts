@@ -1,6 +1,6 @@
 import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
-import { MdlDialogReference } from '../../../dialog/dialog-module';
-import { DialogService } from '../../../dialog/dialog-module/dialog.service';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { DiskOffering } from '../../../shared/models';
 import { Volume } from '../../../shared/models/volume.model';
 import { DiskStorageService } from '../../../shared/services/disk-storage.service';
@@ -16,22 +16,26 @@ import { VolumeResizeData, VolumeService } from '../../../shared/services/volume
 export class VolumeResizeComponent implements OnInit {
   public newSize: number;
   public maxSize: number;
+  public volume: Volume;
+  public diskOfferingListInjected?: Array<DiskOffering>;
 
   public diskOffering: DiskOffering;
-  @Input() public diskOfferings: Array<DiskOffering>;
+  public diskOfferings: Array<DiskOffering>;
 
   public loading: boolean;
   private notificationId: string;
 
   constructor(
-    public dialog: MdlDialogReference,
+    public dialogRef: MdDialogRef<VolumeResizeComponent>,
     private dialogService: DialogService,
     private diskStorageService: DiskStorageService,
     private jobsNotificationService: JobsNotificationService,
     private volumeService: VolumeService,
-    @Inject('volume') public volume: Volume,
-    @Optional() @Inject('diskOfferings') public diskOfferingListInjected: Array<DiskOffering>,
-  ) {}
+    @Inject(MD_DIALOG_DATA) data,
+  ) {
+    this.volume = data.volume;
+    this.diskOfferings = data.diskOfferings;
+  }
 
   public ngOnInit(): void {
     this.getInjectedOfferingList();
@@ -92,7 +96,7 @@ export class VolumeResizeComponent implements OnInit {
     });
 
     volume.diskOffering = this.diskOffering;
-    this.dialog.hide(volume);
+    this.dialogRef.close(volume);
   }
 
   private handleVolumeResizeError(error: Error): void {
@@ -100,6 +104,6 @@ export class VolumeResizeComponent implements OnInit {
       id: this.notificationId,
       message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_FAILED'
     });
-    this.dialogService.alert(error.message);
+    this.dialogService.alert({ message: error.message });
   }
 }

@@ -1,7 +1,7 @@
-<h3 class="mdl-dialog__title">
+<h3 class="mat-dialog-title">
   {{ 'SNAPSHOT_POLICIES.TITLE' | translate }}
 </h3>
-<div class="mdl-dialog__content">
+<div class="mat-dialog-content">
 
   <md-tab-group
     [selectedIndex]="policyMode"
@@ -32,14 +32,14 @@
       (onPolicyRowClick)="changeTab($event)"
     ></cs-policy-list>
   </div>
+  <div class="mat-dialog-actions">
+    <button
+      mdl-button
+      mdl-colored="primary"
+      (click)="onClose()"
+    >
+      {{ 'COMMON.CLOSE' | translate }}
+    </button>
+  </div>
 
-</div>
-<div class="mdl-dialog__actions">
-  <button
-    mdl-button
-    mdl-colored="primary"
-    (click)="onClose()"
-  >
-    {{ 'COMMON.CLOSE' | translate }}
-  </button>
 </div>

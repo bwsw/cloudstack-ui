@@ -1,13 +1,11 @@
-import { EventEmitter, Component, Output, Input, OnInit } from '@angular/core';
-import { VirtualMachine } from '../../../../shared/vm.model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MdDialog } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../../../../shared/models';
 import { VolumeService } from '../../../../../shared/services/volume.service';
-import {
-  SpareDriveAttachmentDialogComponent
-} from '../spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
-import { SpareDriveActionsService } from '../../../../../spare-drive/spare-drive-actions.service';
-import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../../../../dialog/dialog-module/dialog.service';
+import { SpareDriveActionsService } from '../../../../../shared/actions/spare-drive-actions/spare-drive-actions.service';
+import { VirtualMachine } from '../../../../shared/vm.model';
+import { SpareDriveAttachmentDialogComponent } from '../spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
 
 
 @Component({
@@ -24,7 +22,7 @@ export class SpareDriveAttachmentDetailComponent implements OnInit {
   public volumes: Array<Volume>;
 
   constructor(
-    private dialogService: DialogService,
+    private dialog: MdDialog,
     private volumeService: VolumeService
   ) {}
 
@@ -40,17 +38,12 @@ export class SpareDriveAttachmentDetailComponent implements OnInit {
   public showDialog(): void {
     this.loadVolumes()
       .switchMap(() => {
-        return this.dialogService.showCustomDialog({
-          component: SpareDriveAttachmentDialogComponent,
-          providers: [{ provide: 'volumes', useValue: this.volumes }],
-          classes: 'spare-drive-attachment-dialog'
-        });
+        return this.dialog.open(SpareDriveAttachmentDialogComponent, {
+          width: '375px',
+          data: this.volumes
+        }).afterClosed();
       })
-      .switchMap(res => res.onHide())
-      .onErrorResumeNext()
-      .subscribe((volume: Volume) => {
-        this.selectedVolume = volume;
-      });
+      .subscribe((volume: Volume) => this.selectedVolume = volume);
   }
 
   public attachVolume(): void {

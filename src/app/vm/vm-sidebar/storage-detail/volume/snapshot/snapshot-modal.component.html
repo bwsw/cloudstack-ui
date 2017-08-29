@@ -1,7 +1,5 @@
-<h3 class="mdl-dialog__title">
-  {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.TITLE' | translate }}
-</h3>
-<div class="mdl-dialog__content">
+<h3 class="mat-dialog-title">{{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.TITLE' | translate }}</h3>
+<div class="mat-dialog-content">
   <table *ngIf="volume?.snapshots?.length" class="mdl-data-table" style="width: 100%">
     <thead>
     <tr>
@@ -47,11 +45,11 @@
     {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.NO_SNAPSHOTS' | translate }}
   </div>
 </div>
-<div class="mdl-dialog__actions">
+<div class="mat-dialog-actions">
   <button
     mdl-button
     mdl-colored="primary"
-    (click)="dialog.hide()"
+    (click)="dialogRef.close()"
   >
     {{ 'COMMON.CLOSE' | translate }}
   </button>

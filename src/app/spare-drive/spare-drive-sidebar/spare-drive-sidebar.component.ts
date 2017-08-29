@@ -18,7 +18,6 @@ import { VolumeService } from '../../shared/services/volume.service';
 export class SpareDriveSidebarComponent extends SidebarComponent<Volume> {
   @HostBinding('class.grid') public grid = true;
   public description: string;
-  public item: Volume;
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,

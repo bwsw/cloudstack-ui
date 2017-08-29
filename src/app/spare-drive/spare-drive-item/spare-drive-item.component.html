@@ -40,13 +40,6 @@
     #actionsMenu="mdMenu"
     [style.width.px]="300"
   >
-    <button
-      *ngFor="let action of spareDriveActionsService.actions"
-      md-menu-item
-      (click)="action.activate(item, { diskOfferings: diskOfferings }).subscribe()"
-    >
-      <md-icon>{{ action.icon }}</md-icon>
-      <span>{{ action.name | translate }}</span>
-    </button>
+    <cs-spare-drive-actions [volume]="item"></cs-spare-drive-actions>
   </md-menu>
 </md-card>

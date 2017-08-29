@@ -1,110 +1,107 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<div class="security-group-template-form">
-  <h3 class="mdl-dialog__title">
-    {{ modeTranslationToken | translate }}
-  </h3>
+<div [hidden]="loading">
+  <h3 class="mat-dialog-title">{{ modeTranslationToken | translate }}</h3>
   <form (ngSubmit)="onCreate()" #templateCreationForm="ngForm" novalidate>
-    <div
-      class="mdl-dialog__content"
-      [class.flex-dialog-content]="!snapshot"
-    >
-      <div [class.column]="!snapshot">
-        <mdl-textfield
-          type="text"
-          label="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.NAME' | translate }}"
-          name="name"
-          floating-label
-          autofocus
-          maxlength="255"
-          required
-          [(ngModel)]="name"
-          #nameField="ngModel"
-          [class.is-invalid]="nameField.invalid && !nameField.pristine"
-        >
-        </mdl-textfield>
-        <br>
-        <mdl-textfield
-          type="text"
-          label="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.DESCRIPTION' | translate }}"
-          name="description"
-          floating-label
-          maxlength="255"
-          required
-          [(ngModel)]="displayText"
-          #descriptionField="ngModel"
-          [class.is-invalid]="descriptionField.invalid && !descriptionField.pristine"
-        >
-        </mdl-textfield>
-        <br>
-        <mdl-textfield
-          *ngIf="!snapshot"
-          type="url"
-          label="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.URL' | translate }}"
-          name="url"
-          floating-label
-          maxlength="255"
-          required
-          pattern="^(http|https):\/\/.*$"
-          error-msg="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.INVALID_URL' | translate }}"
-          [(ngModel)]="url"
-          #urlField="ngModel"
-          [class.is-invalid]="urlField.invalid && !urlField.pristine"
-        >
-        </mdl-textfield>
-      </div>
-      <div [class.column]="!snapshot">
-        <div>
-          <md-select
-            class="form-select-control"
-            [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.OS_TYPE' | translate"
-            [(ngModel)]="osTypeId"
-            id="osType"
-            name="osType"
+    <div class="mat-dialog-content">
+      <div [class.flex-dialog-content]="!snapshot">
+        <div [class.column]="!snapshot">
+          <mdl-textfield
+            type="text"
+            label="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.NAME' | translate }}"
+            name="name"
+            floating-label
+            autofocus
+            maxlength="255"
+            required
+            [(ngModel)]="name"
+            #nameField="ngModel"
+            [class.is-invalid]="nameField.invalid && !nameField.pristine"
           >
-            <md-option
-              *ngFor="let osType of osTypes"
-              [value]="osType.id"
-            >
-              {{ osType.description }}
-            </md-option>
-          </md-select>
+          </mdl-textfield>
+          <br>
+          <mdl-textfield
+            type="text"
+            label="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.DESCRIPTION' | translate }}"
+            name="description"
+            floating-label
+            maxlength="255"
+            required
+            [(ngModel)]="displayText"
+            #descriptionField="ngModel"
+            [class.is-invalid]="descriptionField.invalid && !descriptionField.pristine"
+          >
+          </mdl-textfield>
+          <br>
+          <mdl-textfield
+            *ngIf="!snapshot"
+            type="url"
+            label="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.URL' | translate }}"
+            name="url"
+            floating-label
+            maxlength="255"
+            required
+            pattern="^(http|https):\/\/.*$"
+            error-msg="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.INVALID_URL' | translate }}"
+            [(ngModel)]="url"
+            #urlField="ngModel"
+            [class.is-invalid]="urlField.invalid && !urlField.pristine"
+          >
+          </mdl-textfield>
         </div>
-        <div *ngIf="!snapshot">
-          <md-select
-            class="form-select-control"
-            [placeholder]="'ZONE' | translate"
-            [(ngModel)]="zoneId"
-            id="serviceOffering"
-            name="serviceOffering"
-          >
-            <md-option
-              *ngFor="let zone of zones"
-              [value]="zone.id"
+        <div [class.column]="!snapshot">
+          <div>
+            <md-select
+              class="form-select-control"
+              [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.OS_TYPE' | translate"
+              [(ngModel)]="osTypeId"
+              id="osType"
+              name="osType"
             >
-              {{ zone.name }}
-            </md-option>
-          </md-select>
-        </div>
-        <div>
-          <mdl-checkbox
-            name="pass"
-            [(ngModel)]="passwordEnabled"
-            *ngIf="mode === 'Template'"
-          >
-            {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.PASSWORD_ENABLED' | translate }}
-          </mdl-checkbox>
-          <mdl-checkbox
-            class="dynscal-checkbox"
-            name="dynscal"
-            [(ngModel)]="dynamicallyScalable"
-            *ngIf="mode === 'Template'"
-          >
-            {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.DYNAMICALLY_SCALABLE' | translate }}
-          </mdl-checkbox>
+              <md-option
+                *ngFor="let osType of osTypes"
+                [value]="osType.id"
+              >
+                {{ osType.description }}
+              </md-option>
+            </md-select>
+          </div>
+          <div *ngIf="!snapshot">
+            <md-select
+              class="form-select-control"
+              [placeholder]="'ZONE' | translate"
+              [(ngModel)]="zoneId"
+              id="serviceOffering"
+              name="serviceOffering"
+            >
+              <md-option
+                *ngFor="let zone of zones"
+                [value]="zone.id"
+              >
+                {{ zone.name }}
+              </md-option>
+            </md-select>
+          </div>
+          <div>
+            <mdl-checkbox
+              name="pass"
+              [(ngModel)]="passwordEnabled"
+              *ngIf="mode === 'Template'"
+            >
+              {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.PASSWORD_ENABLED' | translate }}
+            </mdl-checkbox>
+            <mdl-checkbox
+              class="dynscal-checkbox"
+              name="dynscal"
+              [(ngModel)]="dynamicallyScalable"
+              *ngIf="mode === 'Template'"
+            >
+              {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.DYNAMICALLY_SCALABLE' | translate }}
+            </mdl-checkbox>
+          </div>
         </div>
       </div>
     </div>
-    <div class="mdl-dialog__actions">
+    <div class="mat-dialog-actions">
       <button
         mdl-colored="primary"
         mdl-button

@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MdMenuTrigger } from '@angular/material';
+import { MdMenuTrigger, MdDialog } from '@angular/material';
 import { DiskOffering, Volume } from '../../shared/models';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { SpareDriveActionsService } from '../spare-drive-actions.service';
+import { SpareDriveActionsService } from '../../shared/actions/spare-drive-actions/spare-drive-actions.service';
 import { SpareDriveItem } from '../spare-drive-item';
 
 

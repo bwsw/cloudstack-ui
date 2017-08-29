@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
+import { MdDialog } from '@angular/material';
 import { Volume } from '../../../../../shared/models';
 import { SnapshotActionsService } from './snapshot-actions.service';
 import { SnapshotModalComponent } from './snapshot-modal.component';
-import { DialogService } from '../../../../../dialog/dialog-module/dialog.service';
 
 
 @Component({
@@ -15,14 +15,13 @@ export class SnapshotsComponent {
 
   constructor(
     public snapshotActionsService: SnapshotActionsService,
-    private dialogService: DialogService
+    private dialog: MdDialog
   ) {}
 
   public showSnapshots(): void {
-    this.dialogService.showCustomDialog({
-      component: SnapshotModalComponent,
-      providers: [{ provide: 'volume', useValue: this.volume }],
-      styles: { width: '700px' }
+    this.dialog.open(SnapshotModalComponent, {
+      data: this.volume,
+      width: '700px'
     });
   }
 }

@@ -1,13 +1,14 @@
-import { MdlDialogOutletModule, MdlModule } from '@angular-mdl/core';
+import { MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
+  MdButtonModule,
   MdCardModule,
   MdIconModule,
-  MdListModule,
+  MdListModule, MdMenuModule,
   MdSelectModule,
   MdSnackBarModule,
   MdTabsModule
@@ -16,7 +17,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
-import { MdlDialogModule } from '../dialog/dialog-module';
+import { SpareDriveActionsService } from './actions/spare-drive-actions/spare-drive-actions.service';
+import { TemplateActionsService } from './actions/template-actions/template-actions.service';
+
 import {
   CalendarComponent,
   CalendarMonthComponent,
@@ -42,7 +45,9 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
-import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
+import {
+  CreateUpdateDeleteDialogComponent
+} from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
@@ -106,6 +111,12 @@ import { UserService } from './services/user.service';
 import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
+import {
+  SpareDriveActionsComponent
+} from './actions/spare-drive-actions/spare-drive-actions-component/spare-drive-actions.component';
+import {
+  TemplateActionsComponent
+} from './actions/template-actions/template-actions-component/template-actions.component';
 
 
 @NgModule({
@@ -116,8 +127,6 @@ import { ZoneService } from './services/zone.service';
     DragulaModule,
     MdSelectModule,
     MdIconModule,
-    MdlDialogModule,
-    MdlDialogOutletModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
@@ -126,6 +135,7 @@ import { ZoneService } from './services/zone.service';
     MdSnackBarModule,
     MdCardModule,
     MdTabsModule,
+    MdMenuModule
   ],
   exports: [
     GroupedCardListComponent,
@@ -168,7 +178,9 @@ import { ZoneService } from './services/zone.service';
     MdlTextAreaAutoresizeDirective,
     MdListModule,
     MdCardModule,
-    MdSnackBarModule
+    MdSnackBarModule,
+    SpareDriveActionsComponent,
+    TemplateActionsComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -218,9 +230,13 @@ import { ZoneService } from './services/zone.service';
     ViewValuePipe,
     LoadingDirective,
     LoaderComponent,
-    GroupedCardListComponent
+    GroupedCardListComponent,
+    SpareDriveActionsComponent,
+    TemplateActionsComponent
   ],
   providers: [
+    SpareDriveActionsService,
+    TemplateActionsService,
     DescriptionTagService,
     MarkForRemovalService,
     SecurityGroupTagService,

@@ -2,16 +2,21 @@ import { MdlModule } from '@angular-mdl/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdButtonModule, MdIconModule, MdMenuModule, MdSelectModule, MdTooltipModule } from '@angular/material';
+import {
+  MdButtonModule,
+  MdDialogModule,
+  MdIconModule,
+  MdMenuModule,
+  MdSelectModule,
+  MdTooltipModule
+} from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
+import { SpareDriveAttachAction } from '../shared/actions/spare-drive-actions/spare-drive-attach';
+import { SpareDriveDetachAction } from '../shared/actions/spare-drive-actions/spare-drive-detach';
+import { SpareDriveRemoveAction } from '../shared/actions/spare-drive-actions/spare-drive-remove';
+import { SpareDriveResizeAction } from '../shared/actions/spare-drive-actions/spare-drive-resize';
 import { SharedModule } from '../shared/shared.module';
-import { SpareDriveActionsService } from './spare-drive-actions.service';
-import { SpareDriveActionsComponent } from './spare-drive-actions/spare-drive-actions-component/spare-drive-actions.component';
-import { SpareDriveAttachAction } from './spare-drive-actions/spare-drive-attach';
-import { SpareDriveDetachAction } from './spare-drive-actions/spare-drive-detach';
-import { SpareDriveRemoveAction } from './spare-drive-actions/spare-drive-remove';
-import { SpareDriveResizeAction } from './spare-drive-actions/spare-drive-resize';
 import { SpareDriveAttachmentComponent } from './spare-drive-attachment/spare-drive-attachment.component';
 import { SpareDriveCreationDialogComponent } from './spare-drive-creation/spare-drive-creation-dialog.component';
 import { SpareDriveCreationComponent } from './spare-drive-creation/spare-drive-creation.component';
@@ -45,9 +50,9 @@ import { spareDrivesRouting } from './spare-drive.routing';
     MdMenuModule,
     MdButtonModule,
     MdIconModule,
+    MdDialogModule,
   ],
   declarations: [
-    SpareDriveActionsComponent,
     SpareDriveActionsSidebarComponent,
     SpareDrivePageComponent,
     SpareDriveSidebarComponent,
@@ -67,7 +72,6 @@ import { spareDrivesRouting } from './spare-drive.routing';
     SpareDriveCreationComponent
   ],
   providers: [
-    SpareDriveActionsService,
     SpareDriveAttachAction,
     SpareDriveDetachAction,
     SpareDriveResizeAction,
