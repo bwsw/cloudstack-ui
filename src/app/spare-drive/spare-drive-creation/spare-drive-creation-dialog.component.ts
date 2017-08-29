@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { MdDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpareDriveCreationComponent } from './spare-drive-creation.component';
 import { Volume } from '../../shared/models/volume.model';
@@ -11,7 +11,7 @@ import { ListService } from '../../shared/components/list/list.service';
 })
 export class SpareDriveCreationDialogComponent implements OnInit {
   constructor(
-    private dialogService: DialogService,
+    private dialog: MdDialog,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private listService: ListService
@@ -19,12 +19,10 @@ export class SpareDriveCreationDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dialogService.showCustomDialog({
-      component: SpareDriveCreationComponent,
-      classes: 'spare-drive-creation-dialog',
-      clickOutsideToClose: false
-    })
-      .switchMap(res => res.onHide())
+    this.dialog.open(SpareDriveCreationComponent, {
+      width: '450px',
+      disableClose: true
+    }).afterClosed()
       .subscribe((volume: Volume) => {
         if (volume) {
           this.listService.onUpdate.emit(volume);

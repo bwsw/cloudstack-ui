@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { DialogService } from '../dialog/dialog-module/dialog.service';
+import { DialogService } from '../dialog/dialog-service/dialog.service';
 import { Volume } from '../shared/models';
 import { JobsNotificationService } from '../shared/services/jobs-notification.service';
 import { VolumeAttachmentData, VolumeService } from '../shared/services/volume.service';
@@ -36,8 +36,10 @@ export class SpareDriveActionsService {
       })
       .catch(error => {
         this.dialogService.alert({
-          translationToken: error.message,
-          interpolateParams: error.params
+          message: {
+            translationToken: error.message,
+            interpolateParams: error.params
+          }
         });
         this.jobsNotificationService.fail({
           id: notificationId,
@@ -59,8 +61,10 @@ export class SpareDriveActionsService {
       })
       .catch(error => {
         this.dialogService.alert({
-          translationToken: error.message,
-          interpolateParams: error.params
+          message: {
+            translationToken: error.message,
+            interpolateParams: error.params
+          }
         });
         this.jobsNotificationService.fail({
           id: notificationId,

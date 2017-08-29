@@ -4,6 +4,7 @@ import { Component, EventEmitter, Injectable, NO_ERRORS_SCHEMA, Pipe, PipeTransf
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MdDialogModule } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
@@ -133,6 +134,7 @@ describe('event list component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        MdDialogModule,
         MdlModule,
         MdlSelectModule
       ],

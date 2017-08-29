@@ -1,8 +1,3 @@
-/deep/ .sg-rules-dialog {
-  width: 880px;
-  padding: 12.8px;
-}
-
 mdl-textfield {
   /deep/ .mdl-textfield__input,
   /deep/ .mdl-textfield__label {
@@ -14,7 +9,7 @@ mdl-textfield {
   }
 }
 
-.mdl-dialog__content {
+.mat-dialog-content {
   table {
     width: 100%;
   }

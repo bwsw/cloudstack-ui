@@ -1,4 +1,4 @@
-import { ParametrizedTranslation } from '../../app/dialog/dialog-module/dialog.service';
+import { ParametrizedTranslation } from '../../app/dialog/dialog-service/dialog.service';
 import { MdSnackBarConfig } from '@angular/material';
 
 

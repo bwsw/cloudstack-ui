@@ -1,8 +1,6 @@
 <div class="dialog">
-  <h3 class="mdl-dialog__title">
-    {{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.SELECT_VOLUME' | translate }}
-  </h3>
-  <div class="mdl-dialog__content">
+  <h3 class="mat-dialog-title">{{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.SELECT_VOLUME' | translate }}</h3>
+  <div class="mat-dialog-content">
     <md-select
       *ngIf="volumes?.length"
       [(ngModel)]="selectedVolume"
@@ -15,7 +13,7 @@
       </md-option>
     </md-select>
   </div>
-  <div class="mdl-dialog__actions">
+  <div class="mat-dialog-actions">
     <button
       *ngIf="volumes?.length"
       mdl-button

@@ -1,57 +1,61 @@
-import { Component, HostBinding, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, HostBinding } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { Volume } from '../../shared/models';
 import { VolumeType } from '../../shared/models/volume.model';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
-import { VolumeTagService } from '../../shared/services/tags/volume-tag.service';
+import { NotificationService } from '../../shared/services/notification.service';
 import { VolumeService } from '../../shared/services/volume.service';
+import { VolumeTagService } from '../../shared/services/tags/volume-tag.service';
 
 
 @Component({
   selector: 'cs-spare-drive-sidebar',
   templateUrl: 'spare-drive-sidebar.component.html'
 })
-export class SpareDriveSidebarComponent {
-  public description: string;
-
-  @Input() public volume: Volume;
+export class SpareDriveSidebarComponent extends SidebarComponent<Volume> {
   @HostBinding('class.grid') public grid = true;
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
-    private diskOfferingService: DiskOfferingService,
-    private route: ActivatedRoute,
-    private volumeService: VolumeService,
-    private volumeTagService: VolumeTagService,
+    protected notificationService: NotificationService,
+    protected route: ActivatedRoute,
+    protected router: Router,
+    protected volumeService: VolumeService,
+    protected volumeTagService: VolumeTagService,
+    private diskOfferingService: DiskOfferingService
   ) {
-    this.route.params.pluck('id')
-      .subscribe((id: string) => {
-        if (!id) {
-          return;
-        }
-
-        Observable.forkJoin(
-          this.diskOfferingService.getList({ type: VolumeType.DATADISK }),
-          this.volumeService.get(id)
-        )
-          .subscribe(([diskOfferings, volume]) => {
-            this.volumeTagService.getDescription(volume)
-              .subscribe(description => {
-                volume.diskOffering = diskOfferings.find(
-                  offering => offering.id === volume.diskOfferingId
-                );
-                this.volume = volume;
-                this.description = description;
-              });
-          });
-      });
+    super(volumeService, notificationService, route, router);
   }
 
   public changeDescription(newDescription: string): void {
-    this.volumeTagService.setDescription(this.volume, newDescription)
+    this.volumeTagService.setDescription(this.entity, newDescription)
       .onErrorResumeNext()
       .subscribe();
+  }
+
+  protected loadEntity(id: string): Observable<Volume> {
+    return this.volumeService.get(id)
+      .switchMap(volume => {
+        if (volume) {
+          return Observable.of(volume);
+        } else {
+          return Observable.throw('ENTITY_DOES_NOT_EXIST');
+        }
+      })
+      .switchMap(volume => {
+        return Observable.forkJoin(
+          Observable.of(volume),
+          this.diskOfferingService.getList({ type: VolumeType.DATADISK }),
+          this.volumeTagService.getDescription(volume)
+        );
+      })
+      .map(([volume, diskOfferings, description]) => {
+        volume.diskOffering = diskOfferings.find(_ => _.id === volume.diskOfferingId);
+        volume.description = description;
+        return volume;
+      });
   }
 }

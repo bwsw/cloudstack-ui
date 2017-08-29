@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { MdDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SShKeyCreationDialogComponent } from './ssh-key-creation-dialog.component';
 import { SshPrivateKeyDialogComponent } from './ssh-private-key-dialog.component';
@@ -12,7 +12,7 @@ import { ListService } from '../../shared/components/list/list.service';
 })
 export class SshKeyCreationComponent implements OnInit {
   constructor(
-    private dialogService: DialogService,
+    private dialog: MdDialog,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private listService: ListService
@@ -20,34 +20,31 @@ export class SshKeyCreationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dialogService.showCustomDialog({
-      component: SShKeyCreationDialogComponent,
-      clickOutsideToClose: false,
-      styles: {
-        width: '400px'
-      }
+    this.dialog.open(SShKeyCreationDialogComponent, {
+      disableClose: true,
+      width: '400px'
     })
-      .switchMap(res => res.onHide())
+      .afterClosed()
       .subscribe((sshKey: SSHKeyPair) => {
         if (sshKey) {
           this.listService.onUpdate.emit(sshKey);
           if (sshKey.privateKey) {
             this.showPrivateKey(sshKey.privateKey);
           }
+        } else {
+          this.router.navigate(['../'], {
+            preserveQueryParams: true,
+            relativeTo: this.activatedRoute
+          });
         }
       });
   }
 
   private showPrivateKey(privateKey: string): void {
-    this.dialogService.showCustomDialog({
-      component: SshPrivateKeyDialogComponent,
-      providers: [{ provide: 'privateKey', useValue: privateKey }],
-      styles: {
-        width: '400px',
-        'word-break': 'break-all'
-      }
-    })
-      .switchMap(res => res.onHide())
+    this.dialog.open(SshPrivateKeyDialogComponent, {
+      data: privateKey,
+      width: '400px',
+    }).afterClosed()
       .subscribe(() => {
         this.router.navigate(['../'], {
           preserveQueryParams: true,

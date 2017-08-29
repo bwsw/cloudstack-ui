@@ -31,7 +31,7 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
           return this.snapshotTagService.setDescription(snapshot, description);
         }
 
-        return Observable.of(null);
+        return Observable.of(snapshot);
       });
   }
 

@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MdlDialogReference } from '../../../dialog/dialog-module';
-import { DialogService } from '../../../dialog/dialog-module/dialog.service';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
+
 import { VirtualMachine } from '../../shared/vm.model';
 
 
@@ -18,9 +19,9 @@ export class AffinityGroupSelectorComponent implements OnInit {
 
   constructor(
     private affinityGroupService: AffinityGroupService,
-    private dialog: MdlDialogReference,
+    private dialogRef: MdDialogRef<AffinityGroupSelectorComponent>,
     private dialogService: DialogService,
-    @Inject('virtualMachine') public vm: VirtualMachine
+    @Inject(MD_DIALOG_DATA) public vm: VirtualMachine
   ) {}
 
   public ngOnInit(): void {
@@ -52,8 +53,8 @@ export class AffinityGroupSelectorComponent implements OnInit {
       })
       .finally(() => this.loading = false)
       .subscribe(
-        vm => this.dialog.hide(vm.affinityGroup),
-        error => this.dialogService.alert(error.message)
+        vm => this.dialogRef.close(vm.affinityGroup),
+        error => this.dialogService.alert({ message: error.message })
       );
   }
 
@@ -64,8 +65,8 @@ export class AffinityGroupSelectorComponent implements OnInit {
       .updateForVm(this.vm, this.selectedAffinityGroup)
       .finally(() => this.loading = false)
       .subscribe(
-        vm => this.dialog.hide(vm.affinityGroup),
-        error => this.dialogService.alert(error.message)
+        vm => this.dialogRef.close(vm.affinityGroup),
+        error => this.dialogService.alert({ message: error.message })
       );
   }
 
@@ -75,13 +76,13 @@ export class AffinityGroupSelectorComponent implements OnInit {
       .removeForVm(this.vm)
       .finally(() => this.loading = false)
       .subscribe(
-        vm => this.dialog.hide(vm.affinityGroup),
-        error => this.dialogService.alert(error.message)
+        vm => this.dialogRef.close(vm.affinityGroup),
+        error => this.dialogService.alert({ message: error.message })
       );
   }
 
   public onCancel(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
   }
 
   private loadGroups(): void {
