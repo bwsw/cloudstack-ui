@@ -12,6 +12,7 @@
     <a
       md-tab-link
       [routerLink]="['./details']"
+      preserveQueryParams
       routerLinkActive #details="routerLinkActive"
       [active]="details.isActive"
     >
@@ -27,6 +28,7 @@
     <a
       md-tab-link
       [routerLink]="['./zones']"
+      preserveQueryParams
       routerLinkActive #zones="routerLinkActive"
       [active]="zones.isActive"
     >
@@ -37,6 +39,7 @@
     <a
       md-tab-link
       [routerLink]="['./tags']"
+      preserveQueryParams
       routerLinkActive #tags="routerLinkActive"
       [active]="tags.isActive"
     >
