@@ -22,20 +22,26 @@ export class SpareDriveDetachAction extends SpareDriveAction {
   }
 
   public onConfirm(volume: Volume): Observable<any> {
-    this.jobsNotificationService.add({
+    const id = this.jobsNotificationService.add({
       message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_IN_PROGRESS'
     });
 
     return this.volumeService.detach(volume)
       .do(() => this.jobsNotificationService.finish({
+        id,
         message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
       }))
       .catch(error => {
         this.dialogService.alert(error);
         this.jobsNotificationService.fail({
+          id,
           message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_FAILED'
         });
         return Observable.throw(error);
       });
+  }
+
+  public hidden(volume: Volume): boolean {
+    return volume.isSpare;
   }
 }

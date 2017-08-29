@@ -28,15 +28,28 @@ import { SpareDriveListComponent } from './spare-drive-list/spare-drive-list.com
 import { SpareDrivePageComponent } from './spare-drive-page/spare-drive-page.component';
 import { SpareDriveSidebarComponent } from './spare-drive-sidebar/spare-drive-sidebar.component';
 import { spareDrivesRouting } from './spare-drive.routing';
-import { SnapshotActionsComponent } from './spare-drive-sidebar/snapshot-details/snapshot/snapshot-actions/snapshot-actions.component';
+import {
+  SnapshotActionsComponent
+} from './spare-drive-sidebar/snapshot-details/snapshot/snapshot-actions/snapshot-actions.component';
 import { SpareDriveDetailsComponent } from './spare-drive-sidebar/details/spare-drive-details.component';
-import { SpareDriveSnapshotComponent } from './spare-drive-sidebar/snapshot-details/snapshot/spare-drive-snapshot.component';
-import { SpareDriveSnapshotCreationComponent } from './spare-drive-sidebar/snapshot-details/snapshot-creation/spare-drive-snapshot-creation.component';
-import { SpareDriveSnapshotDetailsComponent } from './spare-drive-sidebar/snapshot-details/spare-drive-snapshot-details.component';
-import { SpareDriveActionsComponent } from '../shared/actions/spare-drive-actions/spare-drive-actions-component/spare-drive-actions.component';
-import { SpareDriveActionsSidebarComponent } from './spare-drive-sidebar/actions-sidebar/spare-drive-actions-sidebar.component';
-import { SpareDriveSidebarDiskOfferingComponent } from './spare-drive-sidebar/details/disk-offering/spare-drive-sidebar-disk-offering.component';
-import { SpareDriveSidebarVolumeComponent } from './spare-drive-sidebar/details/volume/spare-drive-sidebar-volume.component';
+import {
+  SpareDriveSnapshotComponent
+} from './spare-drive-sidebar/snapshot-details/snapshot/spare-drive-snapshot.component';
+import {
+  SpareDriveSnapshotCreationComponent
+} from './spare-drive-sidebar/snapshot-details/snapshot-creation/spare-drive-snapshot-creation.component';
+import {
+  SpareDriveSnapshotDetailsComponent
+} from './spare-drive-sidebar/snapshot-details/spare-drive-snapshot-details.component';
+import {
+  SpareDriveActionsSidebarComponent
+} from './spare-drive-sidebar/actions-sidebar/spare-drive-actions-sidebar.component';
+import {
+  SpareDriveSidebarDiskOfferingComponent
+} from './spare-drive-sidebar/details/disk-offering/spare-drive-sidebar-disk-offering.component';
+import {
+  SpareDriveSidebarVolumeComponent
+} from './spare-drive-sidebar/details/volume/spare-drive-sidebar-volume.component';
 
 
 @NgModule({
@@ -63,7 +76,6 @@ import { SpareDriveSidebarVolumeComponent } from './spare-drive-sidebar/details/
     SpareDriveSnapshotComponent,
     SpareDriveSnapshotCreationComponent,
     SpareDriveSnapshotDetailsComponent,
-    SpareDriveActionsComponent,
     SpareDriveActionsSidebarComponent,
     SpareDrivePageComponent,
     SpareDriveSidebarComponent,

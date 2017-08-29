@@ -20,4 +20,8 @@ export class SpareDriveAttachAction extends SpareDriveAction {
     })
       .afterClosed();
   }
+
+  public hidden(volume: Volume): boolean {
+    return !volume.isSpare;
+  }
 }
