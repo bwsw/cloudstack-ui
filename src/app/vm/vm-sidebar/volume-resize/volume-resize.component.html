@@ -30,23 +30,18 @@
         ></cs-slider>
       </div>
       <div class="mat-dialog-actions">
+        <!--color-->
+        <button md-button (click)="dialogRef.close()">
+          {{ 'COMMON.CANCEL' | translate }}
+        </button>
+        <!--color-->
         <button
           *ngIf="canResize"
-          mdl-button
-          mdl-colored="primary"
-          mdl-ripple
+          md-button
           (click)="resizeVolume()"
           [disabled]="volumeResizeForm?.invalid"
         >
           {{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.RESIZE' | translate }}
-        </button>
-        <button
-          mdl-button
-          mdl-colored="primary"
-          mdl-ripple
-          (click)="dialogRef.close()"
-        >
-          {{ 'COMMON.CANCEL' | translate }}
         </button>
       </div>
     </form>

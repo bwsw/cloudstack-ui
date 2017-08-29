@@ -37,23 +37,22 @@
       </mdl-textfield>
     </div>
     <div class="mat-dialog-actions">
+      <!--color-->
+      <!--closebutton-->
       <button
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
-        type="submit"
-        [disabled]="!sshCreationForm.valid"
-      >
-        {{ 'COMMON.CREATE' | translate }}
-      </button>
-      <button
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
+        md-button
         type="button"
         (click)="dialogRef.close()"
       >
         {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <!--color-->
+      <button
+        md-button
+        type="submit"
+        [disabled]="!sshCreationForm.valid"
+      >
+        {{ 'COMMON.CREATE' | translate }}
       </button>
     </div>
   </form>

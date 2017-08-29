@@ -32,24 +32,18 @@
       <div *ngIf="!enoughResources">{{ "ERRORS.SNAPSHOT.LIMIT_EXCEEDED" | translate }}</div>
     </div>
     <div class="mat-dialog-actions">
+      <!--color-->
+      <button md-button type="button" (click)="onHide()">
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <!--color-->
       <button
         *ngIf="enoughResources"
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
+        md-button
         type="button"
         (click)="onSubmit()"
       >
         {{ 'COMMON.CREATE' | translate }}
-      </button>
-      <button
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
-        type="button"
-        (click)="onHide()"
-      >
-        {{ 'COMMON.CANCEL' | translate }}
       </button>
     </div>
   </form>

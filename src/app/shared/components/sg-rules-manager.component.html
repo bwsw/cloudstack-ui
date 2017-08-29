@@ -1,13 +1,10 @@
 <div *ngIf="mode === 'create'">
   <cs-fancy-select>
     <h5 class="fancy-select-header">{{ header | translate }}</h5>
-    <mdl-button
-      class="fancy-select-button"
-      (click)="showDialog()"
-    >
+    <button md-button type="button" class="fancy-select-button" (click)="showDialog()">
       <span *ngIf="!savedRules?.templates?.length">{{ 'COMMON.ADD' | translate }}</span>
       <span *ngIf="savedRules?.templates?.length">{{ 'COMMON.EDIT' | translate }}</span>
-    </mdl-button>
+    </button>
     <span class="fancy-select-content">
       <div class="mdl-textfield template-list">
         <div class="mdl-textfield__input">

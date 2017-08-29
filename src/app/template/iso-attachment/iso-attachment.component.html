@@ -9,21 +9,12 @@
   ></cs-template-filter-list-selector>
 </div>
 <div class="mat-dialog-actions">
-  <button
-    mdl-button
-    mdl-colored="primary"
-    mdl-ripple
-    (click)="onAttach()"
-    [disabled]="!selectedIso"
-  >
-    {{ 'VM_PAGE.STORAGE_DETAILS.ISO_MODAL.ATTACH' | translate }}
-  </button>
-  <button
-    mdl-button
-    mdl-colored="primary"
-    mdl-ripple
-    (click)="onCancel()"
-  >
+  <!--color-->
+  <button md-button (click)="onCancel()">
     {{ 'COMMON.CANCEL' | translate }}
+  </button>
+  <!--color-->
+  <button md-button (click)="onAttach()" [disabled]="!selectedIso">
+    {{ 'VM_PAGE.STORAGE_DETAILS.ISO_MODAL.ATTACH' | translate }}
   </button>
 </div>

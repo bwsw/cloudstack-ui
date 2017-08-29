@@ -84,6 +84,7 @@ import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-templ
     DraggableSelectModule,
     MdTooltipModule,
     MdSelectModule,
+    MdButtonModule,
     MdlModule,
     MdDialogModule,
     MdlSelectModule,

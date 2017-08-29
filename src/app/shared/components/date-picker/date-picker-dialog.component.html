@@ -1,21 +1,11 @@
 <cs-calendar
-    [initialDate]="config.date"
-    [firstDayOfWeek]="config.firstDayOfWeek"
-    [locale]="config.locale"
-    [DateTimeFormat]="config.DateTimeFormat"
-    (dateSelected)="setSelectedDate($event)"
+  [initialDate]="config.date"
+  [firstDayOfWeek]="config.firstDayOfWeek"
+  [locale]="config.locale"
+  [DateTimeFormat]="config.DateTimeFormat"
+  (dateSelected)="setSelectedDate($event)"
 ></cs-calendar>
 <div class="mat-dialog-actions">
-  <button
-    mdl-button
-    mdl-colored="primary"
-    mdl-ripple
-    (click)="hide()"
-  >{{ config.okLabel }}</button>
-  <button
-    mdl-button
-    mdl-colored="primary"
-    mdl-ripple
-    (click)="hide(false)"
-  >{{ config.cancelLabel }}</button>
+  <button md-button (click)="hide(false)">{{ config.cancelLabel }}</button>
+  <button md-button (click)="hide()">{{ config.okLabel }}</button>
 </div>

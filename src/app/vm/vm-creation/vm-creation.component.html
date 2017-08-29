@@ -181,23 +181,21 @@
 
     </div>
     <div class="mat-dialog-actions">
+      <!--color-->
       <button
-        mdl-colored="primary"
-        [disabled]="!vmCreateForm.valid || formState?.state.displayName === takenName"
-        type="submit"
-        mdl-button
-        mdl-ripple
-      >
-        {{ 'COMMON.CREATE' | translate }}
-      </button>
-      <button
-        mdl-colored="primary"
+        md-button
         type="button"
-        mdl-button
         (click)="onCancel()"
-        mdl-ripple
       >
         {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <!--color-->
+      <button
+        md-button
+        type="submit"
+        [disabled]="!vmCreateForm.valid || formState?.state.displayName === takenName"
+      >
+        {{ 'COMMON.CREATE' | translate }}
       </button>
     </div>
   </form>

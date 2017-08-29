@@ -37,23 +37,21 @@
       ></cs-security-group-rules-manager>
     </div>
     <div class="mat-dialog-actions">
+      <!--color-->
       <button
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
-        type="submit"
-        [disabled]="!templateCreationForm.valid"
-      >
-        {{ 'COMMON.CREATE' | translate }}
-      </button>
-      <button
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
+        md-button
         type="button"
         (click)="dialogRef.close()"
       >
         {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <!--color-->
+      <button
+        md-button
+        type="submit"
+        [disabled]="!templateCreationForm.valid"
+      >
+        {{ 'COMMON.CREATE' | translate }}
       </button>
     </div>
   </form>

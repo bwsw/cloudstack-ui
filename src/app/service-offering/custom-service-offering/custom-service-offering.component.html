@@ -59,23 +59,21 @@
     ></mdl-textfield>
   </div>
   <div class="mat-dialog-actions">
+    <!--color-->
     <button
-      mdl-colored="primary"
-      mdl-button
-      mdl-ripple
-      type="submit"
-      [disabled]="!customOfferingForm.valid"
-    >
-      {{ 'COMMON.CONFIRM' | translate }}
-    </button>
-    <button
-      mdl-colored="primary"
-      mdl-button
-      mdl-ripple
+      md-button
       type="button"
       (click)="onCancel()"
     >
       {{ 'COMMON.CANCEL' | translate }}
+    </button>
+    <!--color-->
+    <button
+      md-button
+      type="submit"
+      [disabled]="!customOfferingForm.valid"
+    >
+      {{ 'COMMON.CONFIRM' | translate }}
     </button>
   </div>
 </form>

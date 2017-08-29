@@ -49,11 +49,8 @@
   </div>
 
   <div class="button-wrapper">
-    <button
-      mdl-button
-      mdl-colored="primary"
-      [disabled]="!policyEditorForm.valid"
-    >
+    <!--color-->
+    <button md-button [disabled]="!policyEditorForm.valid">
       {{ 'COMMON.SAVE' | translate }}
     </button>
   </div>

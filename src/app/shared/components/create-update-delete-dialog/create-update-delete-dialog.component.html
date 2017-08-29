@@ -76,33 +76,31 @@
   </div>
 
   <div class="mat-dialog-actions">
+    <!--color-->
+    <!--closebutton-->
+    <button
+      md-button
+      type="button"
+      (click)="cancel()"
+    >
+      {{ 'COMMON.CANCEL' | translate }}
+    </button>
+    <!--color-->
     <button
       *ngIf="mode !== modes.remove"
-      mdl-colored="primary"
-      mdl-button
-      mdl-ripple
+      md-button
       type="submit"
       [disabled]="!valueChanged || !form.valid"
     >
       {{ 'COMMON.ASSIGN' | translate }}
     </button>
+    <!--color-->
     <button
       *ngIf="mode === modes.remove"
-      mdl-colored="primary"
-      mdl-button
-      mdl-ripple
+      md-button
       type="submit"
     >
       {{ 'COMMON.REMOVE' | translate }}
-    </button>
-    <button
-      mdl-colored="primary"
-      mdl-button
-      mdl-ripple
-      type="button"
-      (click)="cancel()"
-    >
-      {{ 'COMMON.CANCEL' | translate }}
     </button>
   </div>
 </form>

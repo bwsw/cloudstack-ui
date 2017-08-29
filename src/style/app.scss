@@ -404,6 +404,10 @@ md-card-actions {
   }
 }
 
+.mat-button {
+  text-transform: uppercase;
+}
+
 .mat-dialog-content {
   &.notification {
     color: rgba(0, 0, 0, .54);

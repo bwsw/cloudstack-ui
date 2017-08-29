@@ -41,23 +41,22 @@
   </div>
 
   <div class="mat-dialog-actions">
+    <!--color-->
+    <!--closebutton-->
     <button
-      mdl-button
-      mdl-colored="primary"
-      mdl-ripple
-      type="submit"
-      [disabled]="!tagCreationForm.valid"
-    >
-      {{ (confirmButtonText || 'COMMON.EDIT') | translate }}
-    </button>
-    <button
-      mdl-button
-      mdl-colored="primary"
-      mdl-ripple
+      md-button
       type="button"
       (click)="onCancel()"
     >
       {{ 'COMMON.CANCEL' | translate }}
+    </button>
+    <!--color-->
+    <button
+      md-button
+      type="submit"
+      [disabled]="!tagCreationForm.valid"
+    >
+      {{ (confirmButtonText || 'COMMON.EDIT') | translate }}
     </button>
   </div>
 </form>

@@ -21,10 +21,7 @@
     ></cs-policy-editor>
   </div>
 
-  <div
-    *ngIf="policies?.length"
-    class="list"
-  >
+  <div *ngIf="policies?.length" class="list">
     <cs-policy-list
       [timeFormat]="timeFormat$ | async"
       [policies]="policies"
@@ -33,11 +30,8 @@
     ></cs-policy-list>
   </div>
   <div class="mat-dialog-actions">
-    <button
-      mdl-button
-      mdl-colored="primary"
-      (click)="onClose()"
-    >
+    <!--color-->
+    <button md-button (click)="onClose()">
       {{ 'COMMON.CLOSE' | translate }}
     </button>
   </div>

@@ -27,24 +27,22 @@
       </div>
       <div class="mat-dialog-actions">
 
-      <button
-          *ngIf="virtualMachines"
-          mdl-colored="primary"
-          mdl-button
-          mdl-ripple
-          type="submit"
-        >
-          {{ (virtualMachineId ? 'SPARE_DRIVE_PAGE.ATTACHMENT.ATTACH' : 'COMMON.OK') | translate }}
-        </button>
+        <!--color-->
         <button
-        *ngIf="virtualMachineId"
-          mdl-colored="primary"
-          mdl-button
-          mdl-ripple
+          *ngIf="virtualMachineId"
+          md-button
           type="button"
           (click)="onCancel()"
         >
           {{ 'COMMON.CANCEL' | translate }}
+        </button>
+        <!--color-->
+        <button
+          *ngIf="virtualMachines"
+          md-button
+          type="submit"
+        >
+          {{ (virtualMachineId ? 'SPARE_DRIVE_PAGE.ATTACHMENT.ATTACH' : 'COMMON.OK') | translate }}
         </button>
       </div>
     </form>

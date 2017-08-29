@@ -6,7 +6,7 @@
         <h5>{{ 'SECURITY_GROUP_PAGE.BUILDER.ALL_GROUPS' | translate }}</h5>
         <button
           *ngIf="items[0].length"
-          mdl-button
+          md-button
           (click)="selectAll()"
         >
           {{ 'COMMON.SELECT_ALL' | translate }}
@@ -47,7 +47,7 @@
         <h5>{{ 'SECURITY_GROUP_PAGE.BUILDER.SELECTED_GROUPS' | translate }}</h5>
         <button
           *ngIf="items[1].length"
-          mdl-button
+          md-button
           (click)="reset()"
         >{{ 'COMMON.RESET' | translate }}</button>
       </div>
@@ -81,10 +81,12 @@
   </div>
 </div>
 <div class="mat-dialog-actions" style="text-align: right;">
-  <button mdl-button (click)="onSave()" mdl-colored="primary">
-    {{ 'COMMON.SAVE' | translate }}
-  </button>
-  <button mdl-button (click)="onCancel()" mdl-colored="primary">
+  <!--color-->
+  <button md-button (click)="onCancel()">
     {{ 'COMMON.CANCEL' | translate }}
+  </button>
+  <!--color-->
+  <button md-button (click)="onSave()">
+    {{ 'COMMON.SAVE' | translate }}
   </button>
 </div>

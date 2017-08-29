@@ -3,7 +3,8 @@
     <div class="row">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_LIST.LAST_SNAPSHOT' | translate }}:</div>
       <div >
-        <button mdl-button mdl-colored="primary" (click)="showSnapshots()">
+        <!--color-->
+        <button md-button (click)="showSnapshots()">
           {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_LIST.VIEW_ALL' | translate }} ({{ volume.snapshots.length }})
         </button>
       </div>

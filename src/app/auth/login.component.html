@@ -42,10 +42,9 @@
           </mdl-textfield>
         </div>
         <div class="mat-dialog-actions">
+          <!--color-->
           <button
-            mdl-colored="primary"
-            mdl-button
-            mdl-ripple
+            md-button
             type="submit"
             [disabled]="(pass.invalid && !pass.pristine) || (user.invalid && !user.pristine)"
           >{{ 'AUTH.LOGIN' | translate }}</button>

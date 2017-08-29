@@ -10,19 +10,12 @@
   ></cs-template-filter-list-selector>
 </div>
 <div class="mat-dialog-actions">
-  <button
-    mdl-button
-    mdl-colored="primary"
-    (click)="onOk()"
-  >
-    {{ 'COMMON.SELECT' | translate }}
-  </button>
-
-  <button
-    mdl-button
-    mdl-colored="primary"
-    (click)="onCancel()"
-  >
+  <!--color-->
+  <button md-button (click)="onCancel()">
     {{ 'COMMON.CANCEL' | translate }}
+  </button>
+  <!--color-->
+  <button md-button (click)="onOk()">
+    {{ 'COMMON.SELECT' | translate }}
   </button>
 </div>
