@@ -7,9 +7,9 @@
     <a
       md-tab-link
       [routerLink]="['./vm']"
-      preserveQueryParams
-      routerLinkActive #vmdetails="routerLinkActive"
-      [active]="vmdetails.isActive"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('vm')"
+
     >
       <div [mdTooltip]="'VM_PAGE.SIDEBAR.VM' | translate" class="md-tab-tooltip">
         <md-icon>computer</md-icon>
@@ -18,9 +18,9 @@
     <a
       md-tab-link
       [routerLink]="['./disks']"
-      preserveQueryParams
-      routerLinkActive #disks="routerLinkActive"
-      [active]="disks.isActive"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('disks')"
+
     >
       <div [mdTooltip]="'VM_PAGE.SIDEBAR.STORAGE' | translate" class="md-tab-tooltip">
         <md-icon>storage</md-icon>
@@ -29,9 +29,8 @@
     <a
       md-tab-link
       [routerLink]="['./network']"
-      preserveQueryParams
-      routerLinkActive #network="routerLinkActive"
-      [active]="network.isActive"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('network')"
     >
       <div [mdTooltip]="'VM_PAGE.SIDEBAR.NETWORK' | translate" class="md-tab-tooltip">
         <md-icon>router</md-icon>
@@ -40,9 +39,8 @@
     <a
       md-tab-link
       [routerLink]="['./tags']"
-      preserveQueryParams
-      routerLinkActive #tags="routerLinkActive"
-      [active]="tags.isActive"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('tags')"
     >
       <div [mdTooltip]="'VM_PAGE.SIDEBAR.TAGS' | translate" class="md-tab-tooltip">
         <md-icon>local_offer</md-icon>

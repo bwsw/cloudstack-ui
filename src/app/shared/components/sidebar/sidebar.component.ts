@@ -32,6 +32,12 @@ export abstract class SidebarComponent<M extends BaseModel> implements OnInit {
       );
   }
 
+  public tabIsActive(tabId: string) {
+    const path = this.route.snapshot;
+    const pathLastChild = path.firstChild.routeConfig.path;
+    return (tabId === pathLastChild)
+  }
+
   private pluckId(): Observable<string> {
     return this.route.params.pluck('id').filter(id => !!id) as Observable<string>;
   }

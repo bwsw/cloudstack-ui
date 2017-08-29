@@ -12,9 +12,8 @@
     <a
       md-tab-link
       [routerLink]="['./details']"
-      preserveQueryParams
-      routerLinkActive #details="routerLinkActive"
-      [active]="details.isActive"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('details')"
     >
       <div
         [mdTooltip]="'TEMPLATE_PAGE.SIDEBAR.TEMPLATE' | translate"
@@ -28,9 +27,8 @@
     <a
       md-tab-link
       [routerLink]="['./zones']"
-      preserveQueryParams
-      routerLinkActive #zones="routerLinkActive"
-      [active]="zones.isActive"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('zones')"
     >
       <div [mdTooltip]="'TEMPLATE_PAGE.SIDEBAR.ZONES' | translate" class="md-tab-tooltip">
         <md-icon>public</md-icon>
@@ -39,9 +37,8 @@
     <a
       md-tab-link
       [routerLink]="['./tags']"
-      preserveQueryParams
-      routerLinkActive #tags="routerLinkActive"
-      [active]="tags.isActive"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('tags')"
     >
       <div
         [mdTooltip]="'TEMPLATE_PAGE.SIDEBAR.TAGS' | translate"
