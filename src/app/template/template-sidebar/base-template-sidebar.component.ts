@@ -1,18 +1,17 @@
-import { OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
+import { AuthService } from '../../shared/services/auth.service';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { NotificationService } from '../../shared/services/notification.service';
+import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { BaseTemplateService } from '../shared/base-template.service';
-import { TemplateActionsService } from '../shared/template-actions.service';
-import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
 
 
-export abstract class BaseTemplateSidebarComponent extends SidebarComponent<BaseTemplateModel> implements OnInit {
+export abstract class BaseTemplateSidebarComponent extends SidebarComponent<BaseTemplateModel> {
   public templateDownloadUrl: string;
   public readyInEveryZone: boolean;
   public updating: boolean;
@@ -20,16 +19,20 @@ export abstract class BaseTemplateSidebarComponent extends SidebarComponent<Base
 
   constructor(
     service: BaseTemplateService,
+    public authService: AuthService,
     public dateTimeFormatterService: DateTimeFormatterService,
     private dialogService: DialogService,
     protected route: ActivatedRoute,
     protected router: Router,
     protected listService: ListService,
-    protected notificationService: NotificationService,
-    protected templateActions: TemplateActionsService
+    protected notificationService: NotificationService
   ) {
     super(service, notificationService, route, router);
     this.service = service;
+  }
+
+  public get isSelf(): boolean {
+    return this.authService.username === this.entity.account;
   }
 
   public get templateTypeTranslationToken(): string {
@@ -40,12 +43,6 @@ export abstract class BaseTemplateSidebarComponent extends SidebarComponent<Base
     };
 
     return templateTypeTranslations[type];
-  }
-
-  public remove(): void {
-    this.templateActions.removeTemplate(this.entity).subscribe(() => {
-      this.listService.onUpdate.emit(this.entity);
-    });
   }
 
   public updateStatus(): void {

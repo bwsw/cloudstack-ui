@@ -1,19 +1,26 @@
 <div *ngIf="entity">
+  <div class="title-container">
+    <cs-template-os-icon [template]="entity"></cs-template-os-icon>
+    <h4 class="details-header">{{ entity.name }}</h4>
+    <cs-template-actions-sidebar
+      *ngIf="isSelf"
+      [template]="entity"
+    ></cs-template-actions-sidebar>
+  </div>
   <md-tab-group [selectedIndex]="0">
     <md-tab>
       <ng-template md-tab-label>
         <div [mdTooltip]="'TEMPLATE_PAGE.SIDEBAR.TEMPLATE' | translate" class="md-tab-tooltip">
-            <div class="disc-icon-container">
-                <div class="disc-icon"></div>
-            </div>
+          <div class="disc-icon-container">
+            <div class="disc-icon"></div>
+          </div>
         </div>
       </ng-template>
 
-      <cs-template
-        [item]="entity"
-        [singleLine]="false"
-        (deleteTemplate)="remove()"
-      ></cs-template>
+      <cs-template-description [template]="entity"></cs-template-description>
+
+      <cs-template-os [template]="entity"></cs-template-os>
+
       <md-card>
         <md-card-header>
           <md-card-title>
@@ -69,7 +76,7 @@
           </div>
         </md-card-content>
       </md-card>
-      <md-card *ngIf="template?.downloadUrl" mdl-shadow="2">
+      <md-card *ngIf="entity?.downloadUrl" mdl-shadow="2">
         <md-card-header>
           <md-card-title><h2>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.DOWNLOAD_URL' | translate }}</h2></md-card-title>
         </md-card-header>
@@ -79,7 +86,7 @@
               class="md-card-input-copy"
               cs-input-group-textbox
               readonly
-              [ngModel]="template?.downloadUrl"
+              [ngModel]="entity?.downloadUrl"
             >
             </mdl-textfield>
             <button
@@ -87,7 +94,7 @@
               mdl-button-type="icon"
               cs-input-group-button
               ngxClipboard
-              [cbContent]="template?.downloadUrl"
+              [cbContent]="entity?.downloadUrl"
               (cbOnSuccess)="onCopySuccess()"
               (cbOnError)="onCopyFail()"
             >

@@ -221,7 +221,7 @@
   "NAVIGATION_SIDEBAR": {
     "WELCOME": "Здравствуйте, {{ name }}",
     "VMS": "Виртуальные<br>машины",
-    "SPARE_DRIVES": "Свободные диски",
+    "SPARE_DRIVES": "Хранилище",
     "IMAGES": "Образы",
     "FIREWALL_TEMPLATES": "Шаблоны<br>брандмауэра",
     "ACTIVITY_LOG": "Журнал событий",
@@ -402,13 +402,6 @@
         "WRITE_RATE_IOPS": "Скорость записи (IO/сек)"
       },
 
-      "VOLUME_ACTIONS": {
-        "TAKE_SNAPSHOT": "Создать снимок",
-        "SNAPSHOT_SCHEDULE": "Настроить создание снимков",
-        "RESIZE": "Изменить размер диска",
-        "DETACH": "Открепить"
-      },
-
       "VOLUME_RESIZE": {
         "TITLE": "Изменить размер диска",
         "DISK_OFFERING": "Дисковое предложение",
@@ -538,6 +531,7 @@
 
   "SPARE_DRIVE_PAGE": {
     "FILTERS": {
+      "SPARE_DRIVES_ONLY": "Только свободные диски",
       "SELECT_ZONES": "Выберите зоны",
 
       "GROUP_BY": "Группировать по",
@@ -545,10 +539,9 @@
     },
 
     "CARD": {
-      "STATE": "Состояние",
+      "DESCRIPTION": "Описание",
       "SIZE": "Размер",
-      "ATTACH": "Прикрепить",
-      "RESIZE": "Изменить размер"
+      "STATE": "Состояние"
     },
 
     "SPARE_DRIVE_CREATION": {
@@ -559,7 +552,13 @@
       "SIZE": "Размер"
     },
 
+    "SIDEBAR": {
+      "VOLUME": "Диск",
+      "SNAPSHOTS": "Снимки"
+    },
+
     "DETAILS": {
+      "GENERAL_INFORMATION": "Общая информация",
       "SIZE": "Размер",
       "CREATED": "Создан",
       "STORAGE_TYPE": "Тип хранилища",
@@ -615,6 +614,7 @@
     },
 
     "TEMPLATE_DETAILS": {
+      "OS": "ОС",
       "DETAILS": "Общая информация",
       "SIZE": "Размер",
       "EXTRACTABLE": "Извлекаемый",
@@ -935,5 +935,13 @@
     "MB_VALUE": "{{value}} MБ",
     "MBPS": "{{value}} MБ/сек",
     "MHZ": "МГц"
+  },
+
+  "VOLUME_ACTIONS": {
+    "TAKE_SNAPSHOT": "Создать снимок",
+    "SNAPSHOT_SCHEDULE": "Настроить создание снимков",
+    "RESIZE": "Изменить размер диска",
+    "ATTACH": "Прикрепить",
+    "DETACH": "Открепить"
   }
 }

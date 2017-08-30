@@ -7,13 +7,14 @@ import { VolumeType } from '../../shared/models/volume.model';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { NotificationService } from '../../shared/services/notification.service';
+import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { VolumeService } from '../../shared/services/volume.service';
-import { VolumeTagService } from '../../shared/services/tags/volume-tag.service';
 
 
 @Component({
   selector: 'cs-spare-drive-sidebar',
-  templateUrl: 'spare-drive-sidebar.component.html'
+  templateUrl: 'spare-drive-sidebar.component.html',
+  styleUrls: ['spare-drive-sidebar.component.scss']
 })
 export class SpareDriveSidebarComponent extends SidebarComponent<Volume> {
   @HostBinding('class.grid') public grid = true;
@@ -23,17 +24,11 @@ export class SpareDriveSidebarComponent extends SidebarComponent<Volume> {
     protected notificationService: NotificationService,
     protected route: ActivatedRoute,
     protected router: Router,
+    protected serviceOfferingService: ServiceOfferingService,
     protected volumeService: VolumeService,
-    protected volumeTagService: VolumeTagService,
     private diskOfferingService: DiskOfferingService
   ) {
     super(volumeService, notificationService, route, router);
-  }
-
-  public changeDescription(newDescription: string): void {
-    this.volumeTagService.setDescription(this.entity, newDescription)
-      .onErrorResumeNext()
-      .subscribe();
   }
 
   protected loadEntity(id: string): Observable<Volume> {
@@ -46,16 +41,19 @@ export class SpareDriveSidebarComponent extends SidebarComponent<Volume> {
         }
       })
       .switchMap(volume => {
-        return Observable.forkJoin(
-          Observable.of(volume),
-          this.diskOfferingService.getList({ type: VolumeType.DATADISK }),
-          this.volumeTagService.getDescription(volume)
-        );
-      })
-      .map(([volume, diskOfferings, description]) => {
-        volume.diskOffering = diskOfferings.find(_ => _.id === volume.diskOfferingId);
-        volume.description = description;
-        return volume;
+        if (volume.isRoot) {
+          return this.serviceOfferingService.getList()
+            .map(serviceOfferings => {
+              volume.serviceOffering = serviceOfferings.find(_ => _.id === volume.serviceOfferingId);
+              return volume;
+            });
+        } else {
+          return this.diskOfferingService.getList({ type: VolumeType.DATADISK })
+            .map(diskOfferings => {
+              volume.diskOffering = diskOfferings.find(_ => _.id === volume.diskOfferingId);
+              return volume;
+            });
+        }
       });
   }
 }

@@ -74,7 +74,7 @@ export class DialogService {
   }
 
   private getDialogConfiguration(config: BaseDialogConfiguration) {
-    let configuration =  <MdDialogConfig>{
+    const configuration =  <MdDialogConfig>{
       data: { config },
       disableClose: config.disableClose
     };

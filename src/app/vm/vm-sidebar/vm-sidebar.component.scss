@@ -2,8 +2,10 @@ md-icon {
   line-height: 48px;
 }
 
-h4.details-header {
-  font-size: 18px;
+h4 {
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 :host /deep/ .mat-tab-label {

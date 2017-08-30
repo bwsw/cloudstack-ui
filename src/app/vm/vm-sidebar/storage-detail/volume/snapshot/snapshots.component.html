@@ -21,7 +21,7 @@
           mdTooltipPosition="above"
           mdl-button
           mdl-button-type="icon"
-          (click)="action.activate(volume.snapshots[0], volume)"
+          (click)="action.activate(volume.snapshots[0], volume).subscribe()"
           [disabled]="volume.snapshots[0]['loading']"
         >
           <md-icon>{{ action.icon }}</md-icon>

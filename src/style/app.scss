@@ -389,6 +389,27 @@ md-card-actions {
   border-radius: 50%;
 }
 
+.search-bar-white {
+  background-color: white;
+}
+
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.details-header {
+  width: 340px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+h4.details-header {
+  font-size: 18px;
+}
+
 .mat-row:hover {
   background-color: #eeeeee;
 }
@@ -435,7 +456,6 @@ md-table md-header-cell,
 .table-form {
   height: 95px !important;
 }
-
 
 /* md-dialog
 */
