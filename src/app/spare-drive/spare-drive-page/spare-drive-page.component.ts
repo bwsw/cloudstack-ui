@@ -13,8 +13,8 @@ import { LocalStorageService } from '../../shared/services/local-storage.service
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { SpareDriveActionsService } from '../spare-drive-actions.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import { SpareDriveActionsService } from '../spare-drive-actions.service';
 
 
 const spareDriveListFilters = 'spareDriveListFilters';
@@ -183,7 +183,20 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
     this.update();
   }
 
+  private get shouldShowSuggestionDialog(): boolean {
+    return !this.volumes.length && !this.isCreateVolumeInUrl;
+  }
+
+  private get isCreateVolumeInUrl(): boolean {
+    return this.activatedRoute.children.length
+      && this.activatedRoute.children[0].snapshot.url[0].path === 'create';
+  }
+
   private showSuggestionDialog(): void {
+    if (this.isCreateVolumeInUrl) {
+      return;
+    }
+
     this.userTagService.getAskToCreateVolume()
       .subscribe(tag => {
         if (tag === false) {
@@ -233,9 +246,12 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
           });
 
         this.visibleVolumes = volumes;
+
         if (this.volumes.length) {
           this.update();
-        } else {
+        }
+
+        if (this.shouldShowSuggestionDialog) {
           this.showSuggestionDialog();
         }
       });
