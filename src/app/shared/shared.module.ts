@@ -11,8 +11,11 @@ import {
   MdListModule, MdMenuModule,
   MdSelectModule,
   MdSnackBarModule,
-  MdTabsModule
+  MdCardModule,
+  MdTabsModule,
+  MdTableModule
 } from '@angular/material';
+import { CdkTableModule } from '@angular/cdk';
 import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -133,9 +136,11 @@ import {
     TranslateModule,
     MdListModule,
     MdSnackBarModule,
-    MdCardModule,
     MdTabsModule,
-    MdMenuModule
+    MdMenuModule,
+    MdCardModule,
+    MdTableModule,
+    CdkTableModule
   ],
   exports: [
     GroupedCardListComponent,
@@ -178,6 +183,8 @@ import {
     MdlTextAreaAutoresizeDirective,
     MdListModule,
     MdCardModule,
+    MdTableModule,
+    CdkTableModule,
     MdSnackBarModule,
     SpareDriveActionsComponent,
     TemplateActionsComponent
