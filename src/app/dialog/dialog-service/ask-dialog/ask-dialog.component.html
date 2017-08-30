@@ -9,6 +9,7 @@
   <button
     *ngFor="let action of config?.actions"
     md-button
+    color="primary"
     (click)="actionClicked(action)"
     [ngClass]="{'close': action.isClosingAction}"
   >

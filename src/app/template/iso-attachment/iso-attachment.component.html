@@ -1,4 +1,6 @@
-<h3 class="mat-dialog-title">{{ 'VM_PAGE.STORAGE_DETAILS.ISO_MODAL.TITLE' | translate }}</h3>
+<h3 class="mat-dialog-title">
+  {{ 'VM_PAGE.STORAGE_DETAILS.ISO_MODAL.TITLE' | translate }}
+</h3>
 <div class="mat-dialog-content">
   <cs-template-filter-list-selector
     [viewMode]="'Iso'"
@@ -9,12 +11,15 @@
   ></cs-template-filter-list-selector>
 </div>
 <div class="mat-dialog-actions">
-  <!--color-->
-  <button md-button mdDialogClose>
+  <button md-button color="primary" mdDialogClose>
     {{ 'COMMON.CANCEL' | translate }}
   </button>
-  <!--color-->
-  <button md-button [md-dialog-close]="selectedIso" [disabled]="!selectedIso">
+  <button
+    md-button
+    color="primary"
+    [md-dialog-close]="selectedIso"
+    [disabled]="!selectedIso"
+  >
     {{ 'VM_PAGE.STORAGE_DETAILS.ISO_MODAL.ATTACH' | translate }}
   </button>
 </div>

@@ -273,6 +273,10 @@ mdl-simple-tooltip div {
   color: black !important;
 }
 
+.md-card-header-menu .mat-icon-button md-icon {
+  color: inherit !important;
+}
+
 .mat-icon-button[disabled] md-icon {
   color: rgba(0, 0, 0, .26) !important;
   cursor: default;
@@ -398,7 +402,6 @@ md-card-actions {
   justify-content: flex-end;
 
   button {
-    color: #3f51b5;
     text-transform: uppercase;
   }
 }

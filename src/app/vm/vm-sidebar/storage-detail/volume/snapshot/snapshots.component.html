@@ -3,8 +3,7 @@
     <div class="row">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_LIST.LAST_SNAPSHOT' | translate }}:</div>
       <div >
-        <!--color-->
-        <button md-button (click)="showSnapshots()">
+        <button md-button color="primary" (click)="showSnapshots()">
           {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_LIST.VIEW_ALL' | translate }} ({{ volume.snapshots.length }})
         </button>
       </div>

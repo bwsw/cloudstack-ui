@@ -27,19 +27,19 @@
       </div>
       <div class="mat-dialog-actions">
 
-        <!--color-->
         <button
           *ngIf="virtualMachineId"
           md-button
+          color="primary"
           mdDialogClose
           type="button"
         >
           {{ 'COMMON.CANCEL' | translate }}
         </button>
-        <!--color-->
         <button
           *ngIf="virtualMachines"
           md-button
+          color="primary"
           type="submit"
         >
           {{ (virtualMachineId ? 'SPARE_DRIVE_PAGE.ATTACHMENT.ATTACH' : 'COMMON.OK') | translate }}

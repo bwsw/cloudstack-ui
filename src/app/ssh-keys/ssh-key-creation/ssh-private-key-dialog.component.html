@@ -12,9 +12,9 @@
     ></mdl-textfield>
   </div>
   <div class="mat-dialog-actions">
-    <!--color-->
     <button
       md-button
+      color="primary"
       ngxClipboard
       [cbContent]="privateKey"
       (cbOnSuccess)="onCopySuccess()"
@@ -22,8 +22,7 @@
     >
       {{ 'CLIPBOARD.COPY' | translate }}
     </button>
-    <!--color-->
-    <button md-button mdDialogClose>
+    <button md-button color="primary" mdDialogClose>
       {{ 'COMMON.OK' | translate }}
     </button>
   </div>

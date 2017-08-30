@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { MdDialog } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
 
 import { DialogService } from '../../../../../dialog/dialog-service/dialog.service';
-import { TemplateCreationComponent } from '../../../../../template/template-creation/template-creation.component';
+import { ActionsService } from '../../../../../shared/interfaces/action-service.interface';
+import { Action } from '../../../../../shared/interfaces/action.interface';
 import { Snapshot, Volume } from '../../../../../shared/models';
 import { JobsNotificationService } from '../../../../../shared/services/jobs-notification.service';
 import { NotificationService } from '../../../../../shared/services/notification.service';
 import { SnapshotService } from '../../../../../shared/services/snapshot.service';
 import { StatsUpdateService } from '../../../../../shared/services/stats-update.service';
-import { Action } from '../../../../../shared/interfaces/action.interface';
-import { ActionsService } from '../../../../../shared/interfaces/action-service.interface';
-import { Observable } from 'rxjs';
+import { TemplateCreationComponent } from '../../../../../template/template-creation/template-creation.component';
 
 
 export interface SnapshotAction extends Action<Snapshot> {

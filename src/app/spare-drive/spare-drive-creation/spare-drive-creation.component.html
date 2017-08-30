@@ -55,13 +55,12 @@
         </div>
     </div>
     <div class="mat-dialog-actions">
-      <!--color-->
-      <button md-button mdDialogClose type="button">
+      <button md-button color="primary" mdDialogClose type="button">
         {{ 'COMMON.CANCEL' | translate }}
       </button>
-      <!--color-->
       <button
         md-button
+        color="primary"
         type="submit"
         [disabled]="!volumeCreationForm.valid"
       >

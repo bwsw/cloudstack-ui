@@ -68,7 +68,7 @@
           <div *ngIf="!snapshot">
             <md-select
               class="form-select-control"
-              [placeholder]="'ZONE' | translate"
+              [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.ZONE' | translate"
               [(ngModel)]="zoneId"
               id="serviceOffering"
               name="serviceOffering"
@@ -102,17 +102,17 @@
       </div>
     </div>
     <div class="mat-dialog-actions">
-      <!--color-->
       <button
         md-button
+        color="primary"
         mdDialogClose
         type="button"
       >
         {{ 'COMMON.CANCEL' | translate }}
       </button>
-      <!--color-->
       <button
         md-button
+        color="primary"
         type="submit"
         [disabled]="!templateCreationForm.valid"
       >
