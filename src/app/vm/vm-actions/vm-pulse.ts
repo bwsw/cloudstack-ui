@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { VmPulseComponent } from '../../pulse/vm-pulse/vm-pulse.component';
 import { ConfigService } from '../../shared/services/config.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';

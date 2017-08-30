@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Tag } from '../../shared/models';
 import { NotificationService } from '../../shared/services/notification.service';
 
@@ -30,19 +30,17 @@ export class TagComponent {
   }
 
   public showRemoveDialog(): void {
-    this.dialogService.confirm('DIALOG_MESSAGES.TAG.CONFIRM_DELETION')
+    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.TAG.CONFIRM_DELETION'})
       .subscribe(
-        () => this.remove(),
-        () => {}
-      );
+        (res) => { if (res) { this.remove(); } });
   }
 
   public onCopySuccess(): void {
-    this.notificationService.message('COPY_SUCCESS');
+    this.notificationService.message('CLIPBOARD.COPY_SUCCESS');
   }
 
   public onCopyFail(): void {
-    this.notificationService.message('COPY_FAIL');
+    this.notificationService.message('CLIPBOARD.COPY_FAIL');
   }
 
   private remove(): void {

@@ -1,31 +1,36 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MdlDialogReference } from '../../../dialog/dialog-module';
-import { AuthService } from '../../../shared/services/auth.service';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 
+import { AuthService } from '../../../shared/services/auth.service';
 import { Template } from '../../../template/shared';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { Iso } from '../../../template/shared/iso.model';
 import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
-import { ISOS, PRESELECTED_TEMPLATE_TOKEN, TEMPLATES, ZONE } from './injector-token';
 
 
 @Component({
   selector: 'cs-vm-creation-template-dialog',
   templateUrl: 'vm-template-dialog.component.html',
-  styleUrls: ['vm-template-dialog.component.scss', '../../../shared/styles/iso-dialog.scss']
+  styleUrls: ['../../../shared/styles/iso-dialog.scss']
 })
 export class VmTemplateDialogComponent extends TemplateFilterListComponent implements OnInit {
   public _selectedTemplate: BaseTemplateModel;
+  public preselectedTemplate: Template;
+  public templates: Array<Template>;
+  public isos: Array<Iso>;
+  public zoneId: string;
 
   constructor(
-    @Inject(PRESELECTED_TEMPLATE_TOKEN) public preselectedTemplate: Template,
-    @Inject(TEMPLATES) public templates: Array<Template>,
-    @Inject(ISOS) public isos: Array<Iso>,
-    @Inject(ZONE) public zoneId: string,
-    private dialog: MdlDialogReference,
+    @Inject(MD_DIALOG_DATA) data,
+    private dialogRef: MdDialogRef<VmTemplateDialogComponent>,
     authService: AuthService
   ) {
     super(authService);
+
+    this.preselectedTemplate = data.template;
+    this.templates = data.templates;
+    this.isos = data.isos;
+    this.zoneId = data.zoneId;
   }
 
   public ngOnInit(): void {
@@ -50,10 +55,10 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
   }
 
   public onOk(): void {
-    this.dialog.hide(this.selectedTemplate);
+    this.dialogRef.close(this.selectedTemplate);
   }
 
   public onCancel(): void {
-    this.dialog.hide(this.preselectedTemplate);
+    this.dialogRef.close(this.preselectedTemplate);
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { VmService } from '../../vm/shared/vm.service';
 import { BaseTemplateModel } from './base-template.model';
@@ -51,8 +51,10 @@ export class TemplateActionsService {
     })
       .catch(error => {
         this.dialogService.alert({
-          translationToken: error.message,
-          interpolateParams: error.params
+          message: {
+            translationToken: error.message,
+            interpolateParams: error.params
+          }
         });
         this.jobNotificationService.fail({
           id: notificationId,
@@ -68,24 +70,28 @@ export class TemplateActionsService {
       ? 'DIALOG_MESSAGES.ISO.CONFIRM_DELETION'
       : 'DIALOG_MESSAGES.TEMPLATE.CONFIRM_DELETION';
 
-    return this.dialogService.confirm(confirmTranslation, 'COMMON.NO', 'COMMON.YES')
+     return this.dialogService.confirm({ message: confirmTranslation })
       .onErrorResumeNext()
-      .switchMap(() => {
-        if (template instanceof Template) {
-          notificationId = this.jobNotificationService.add('JOB_NOTIFICATIONS.TEMPLATE.DELETION_IN_PROGRESS');
-          return this.templateService.remove(template);
+      .switchMap((res) => {
+        if (res) {
+          if (template instanceof Template) {
+            notificationId = this.jobNotificationService.add('JOB_NOTIFICATIONS.TEMPLATE.DELETION_IN_PROGRESS');
+            return this.templateService.remove(template);
+          }
+          return this.vmService.getListOfVmsThatUseIso(template as Iso)
+            .switchMap(vmList => {
+              if (vmList.length) {
+                return Observable.throw({
+                  type: 'vmsInUse',
+                  vms: vmList
+                });
+              }
+              notificationId = this.jobNotificationService.add('JOB_NOTIFICATIONS.ISO.DELETION_IN_PROGRESS');
+              return this.isoService.remove(template);
+            });
+        } else {
+          return Observable.throw(null);
         }
-        return this.vmService.getListOfVmsThatUseIso(template as Iso)
-          .switchMap(vmList => {
-            if (vmList.length) {
-              return Observable.throw({
-                type: 'vmsInUse',
-                vms: vmList
-              });
-            }
-            notificationId = this.jobNotificationService.add('JOB_NOTIFICATIONS.ISO.DELETION_IN_PROGRESS');
-            return this.isoService.remove(template);
-          });
       })
       .map(() => {
         const doneTranslation = template.path === 'iso'
@@ -103,8 +109,10 @@ export class TemplateActionsService {
         if (error.type === 'vmsInUse') {
           const listOfUsedVms = error.vms.map(vm => vm.name).join(', ');
           this.dialogService.alert({
-            translationToken: 'ERRORS.ISO.VMS_IN_USE',
-            interpolateParams: { vms: listOfUsedVms }
+            message: {
+              translationToken: 'ERRORS.ISO.VMS_IN_USE',
+              interpolateParams: {vms: listOfUsedVms}
+            }
           });
         } else {
           const failedTranslation = template.path === 'iso'

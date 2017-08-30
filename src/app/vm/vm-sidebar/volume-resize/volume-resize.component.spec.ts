@@ -1,10 +1,10 @@
 import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { MockTranslatePipe } from '../../../../testutils/mocks/mock-translate.pipe.spec';
-import { MdlDialogReference } from '../../../dialog/dialog-module';
-import { DialogService } from '../../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { DiskOfferingComponent } from '../../../shared/components/disk-offering/disk-offering.component';
 import { OverlayLoadingComponent } from '../../../shared/components/overlay-loading/overlay-loading.component';
 import { SliderComponent } from '../../../shared/components/slider/slider.component';
@@ -61,7 +61,7 @@ describe('volume resize for root disks', () => {
   beforeEach(async(() => {
     let fixture;
 
-    const dialog = jasmine.createSpyObj('MdlDialogReference', ['hide']);
+    const dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
     const dialogService = jasmine.createSpyObj('DialogService', ['alert']);
     const jobsNotificationService = jasmine.createSpyObj('JobsNotificationService', ['add', 'finish', 'fail']);
 
@@ -87,9 +87,9 @@ describe('volume resize for root disks', () => {
         { provide: DiskOfferingService, useClass: MockDiskOfferingService },
         { provide: ResourceUsageService, useClass: MockResourceUsageService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
-        { provide: MdlDialogReference, useValue: dialog },
+        { provide: MdDialogRef, useValue: dialog },
         { provide: VolumeService, useClass: MockVolumeService },
-        { provide: 'volume', useValue: testVolume }
+        { provide: MD_DIALOG_DATA, useValue: { volume: testVolume } }
       ]
     });
 
@@ -127,7 +127,7 @@ describe('volume resize for data disks', () => {
   beforeEach(async(() => {
     let fixture;
 
-    const dialog = jasmine.createSpyObj('MdlDialogReference', ['hide']);
+    const dialog = jasmine.createSpyObj('MdlDialogReference', ['close']);
     const dialogService = jasmine.createSpyObj('DialogService', ['alert']);
     const jobsNotificationService = jasmine.createSpyObj('JobsNotificationService', ['add', 'finish', 'fail']);
 
@@ -153,9 +153,9 @@ describe('volume resize for data disks', () => {
         { provide: DiskOfferingService, useClass: MockDiskOfferingService },
         { provide: ResourceUsageService, useClass: MockResourceUsageService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
-        { provide: MdlDialogReference, useValue: dialog },
+        { provide: MdDialogRef, useValue: dialog },
         { provide: VolumeService, useClass: MockVolumeService },
-        { provide: 'volume', useValue: testVolume }
+        { provide: MD_DIALOG_DATA, useValue: { volume: testVolume } }
       ]
     });
 

@@ -3,14 +3,6 @@
   display: block;
 }
 
-/deep/ .template-creation-dialog {
-  width: 720px;
-}
-
-/deep/ .template-creation-dialog-snapshot {
-  width: 376px !important;
-}
-
 :host .mdl-dialog__content {
   padding-bottom: 5px;
 }
@@ -18,11 +10,19 @@
 .column {
   min-width: 300px;
   max-width: 300px;
+  &:first-child {
+    margin-right: 10px;
+  }
+  &:last-child {
+    margin-left: 10px;
+  }
 }
 
 .flex-dialog-content {
   display: flex;
+  padding: 15px 0;
   justify-content: space-between;
+  overflow: auto;
 }
 
 .dynscal-checkbox {

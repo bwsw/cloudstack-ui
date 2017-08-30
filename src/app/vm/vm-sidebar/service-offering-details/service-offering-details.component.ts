@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { DialogService } from '../../../dialog/dialog-module/dialog.service';
+import { MdDialog, MdDialogConfig } from '@angular/material';
 import {
   ServiceOfferingDialogComponent
 } from '../../../service-offering/service-offering-dialog/service-offering-dialog.component';
@@ -19,20 +19,19 @@ export class ServiceOfferingDetailsComponent {
   public expandServiceOffering: boolean;
 
   constructor(
-    private dialogService: DialogService,
+    private dialog: MdDialog,
     private serviceOfferingService: ServiceOfferingService
   ) {
     this.expandServiceOffering = false;
   }
 
   public changeServiceOffering(): void {
-    this.dialogService.showCustomDialog({
-      component: ServiceOfferingDialogComponent,
-      classes: 'service-offering-dialog',
-      providers: [{ provide: 'virtualMachine', useValue: this.vm }],
-      clickOutsideToClose: false
+    this.dialog.open(ServiceOfferingDialogComponent, <MdDialogConfig>{
+      width: '350px',
+      data: { virtualMachine: this.vm },
+      disableClose: true
     })
-      .switchMap(res => res.onHide())
+      .afterClosed()
       .subscribe((newOffering: ServiceOffering) => {
         if (newOffering) {
           this.serviceOfferingService.get(newOffering.id).subscribe(offering => {
