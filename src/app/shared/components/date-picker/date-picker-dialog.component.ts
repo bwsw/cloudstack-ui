@@ -25,9 +25,12 @@ export class DatePickerDialogComponent {
   public hide(setDate = true): void {
     if (!setDate || !this.selectedDate) {
       this.dialogRef.close();
+      return;
     }
+
     if (this.selectedDate) {
       this.dialogRef.close(this.selectedDate);
+      return;
     }
   }
 }
