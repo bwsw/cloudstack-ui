@@ -1,7 +1,6 @@
 import { BaseTemplateModel } from '../../shared/base-template.model';
 import { BaseTemplateService } from '../../shared/base-template.service';
 import { ActivatedRoute } from '@angular/router';
-import { TemplateActionsService } from '../../shared/template-actions.service';
 import { ListService } from '../../../shared/components/list/list.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { OnInit } from '@angular/core';
@@ -17,7 +16,6 @@ export abstract class BaseTemplateDetailsComponent implements OnInit {
     service: BaseTemplateService,
     private route: ActivatedRoute,
     private notificationService: NotificationService,
-    protected templateActions: TemplateActionsService,
     protected listService: ListService,
   ) {
     this.service = service;
@@ -36,12 +34,6 @@ export abstract class BaseTemplateDetailsComponent implements OnInit {
     };
 
     return templateTypeTranslations[type];
-  }
-
-  public remove(): void {
-    this.templateActions.removeTemplate(this.entity).subscribe(() => {
-      this.listService.onUpdate.emit(this.entity);
-    });
   }
 
   public onCopySuccess(): void {

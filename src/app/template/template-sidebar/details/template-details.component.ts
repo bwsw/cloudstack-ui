@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseTemplateDetailsComponent } from './details.component';
 import { TemplateService } from '../../shared/template.service';
-import { TemplateActionsService } from '../../shared/template-actions.service';
 import { ListService } from '../../../shared/components/list/list.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 
@@ -13,18 +12,11 @@ import { NotificationService } from '../../../shared/services/notification.servi
 })
 export class TemplateDetailsComponent extends BaseTemplateDetailsComponent {
   constructor(
-    templateService: TemplateService,
+    service: TemplateService,
     route: ActivatedRoute,
-    templateActions: TemplateActionsService,
-    listService: ListService,
-    notificationService: NotificationService
+    notificationService: NotificationService,
+    listService: ListService
   ) {
-    super(
-      templateService,
-      route,
-      notificationService,
-      templateActions,
-      listService
-    );
+    super(service, route, notificationService, listService);
   }
 }

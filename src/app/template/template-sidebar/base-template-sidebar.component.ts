@@ -8,7 +8,7 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { BaseTemplateService } from '../shared/base-template.service';
 
-export abstract class BaseTemplateSidebarComponent extends SidebarComponent<BaseTemplateModel> implements OnInit {
+export abstract class BaseTemplateSidebarComponent extends SidebarComponent<BaseTemplateModel> {
   private service: BaseTemplateService;
 
   constructor(

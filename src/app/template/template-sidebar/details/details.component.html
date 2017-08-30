@@ -1,9 +1,8 @@
-<div *ngIf="entity">
-  <cs-template
-    [item]="entity"
-    [singleLine]="false"
-    (deleteTemplate)="remove()"
-  ></cs-template>
+<ng-container *ngIf="entity">
+  <cs-template-description [template]="entity"></cs-template-description>
+
+  <cs-template-os [template]="entity"></cs-template-os>
+
   <md-card>
     <md-card-header>
       <md-card-title>
@@ -91,4 +90,4 @@
       </cs-input-group>
     </md-card-content>
   </md-card>
-</div>
+</ng-container>
