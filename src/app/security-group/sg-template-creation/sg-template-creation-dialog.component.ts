@@ -37,7 +37,7 @@ export class SgTemplateCreationDialogComponent implements OnInit {
         }
         this.listService.onUpdate.emit(template);
         this.notificationService.message({
-          translationToken: 'TEMPLATE_CREATED',
+          translationToken: 'NOTIFICATIONS.TEMPLATE.CREATED',
           interpolateParams: { name: template.name }
         });
         this.showRulesDialog(template);

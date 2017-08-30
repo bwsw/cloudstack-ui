@@ -50,7 +50,7 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
   private isDialogOpen = false;
 
   constructor(
-      private dialog: MdDialog
+    private dialog: MdDialog
   ) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -103,11 +103,14 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
       locale: this.locale
     };
     this.dialog.open(DatePickerDialogComponent, {
-     panelClass: 'date-picker-dialog',
-     data: { datePickerConfig: config }
-     }).afterClosed()
+      panelClass: 'date-picker-dialog',
+      data: { datePickerConfig: config }
+    })
+      .afterClosed()
       .onErrorResumeNext()
       .subscribe((date: Date) => {
+        debugger;
+
         this.isDialogOpen = false;
         if (date) {
           this.date = date;
