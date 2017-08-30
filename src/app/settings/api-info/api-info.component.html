@@ -2,7 +2,7 @@
   <div class="header-wrap">
     <h4>{{ 'SETTINGS.API_CONFIGURATION.TITLE' | translate }}</h4>
     <button
-      md-icon-button="icon"
+      md-icon-button
       type="button"
       mdTooltipPosition="above"
       [mdTooltip]="'SETTINGS.API_CONFIGURATION.REGENERATE_KEYS' | translate"
@@ -25,7 +25,7 @@
               {{ inputFields.apiKey.value }}
             </mdl-textfield>
             <button
-              md-icon-button="icon"
+              md-icon-button
               cs-input-group-button
               ngxClipboard
               [cbContent]="inputFields.apiKey.value"
@@ -53,7 +53,7 @@
               {{ inputFields.apiSecretKey.value }}
             </mdl-textfield>
             <button
-              md-icon-button="icon"
+              md-icon-button
               cs-input-group-button
               ngxClipboard
               [cbContent]="inputFields.apiSecretKey.value"

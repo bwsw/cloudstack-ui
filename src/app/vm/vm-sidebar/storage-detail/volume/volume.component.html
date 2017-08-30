@@ -28,7 +28,7 @@
       <div class="card-left-button">
         <button
           *ngIf="showAttachmentActions"
-          md-icon-button="icon"
+          md-icon-button
           mdTooltipPosition="above"
           [mdTooltip]="'VM_PAGE.STORAGE_DETAILS.VOLUME_ACTIONS.DETACH' | translate"
           [disabled]="loading"
@@ -39,7 +39,7 @@
       </div>
       <div class="card-right-button">
         <button
-          md-icon-button="icon"
+          md-icon-button
           [class.open]="expandDetails"
           [disabled]="loading"
           (click)="toggleDetails()"
