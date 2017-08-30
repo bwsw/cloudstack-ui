@@ -63,8 +63,4 @@ export class SpareDriveAttachmentComponent implements OnInit {
         })
       );
   }
-
-  public onCancel(): void {
-    this.dialogRef.close();
-  }
 }

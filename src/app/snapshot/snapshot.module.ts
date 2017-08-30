@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MdButtonModule,
+  MdDialogModule,
   MdIconModule,
   MdSelectModule,
   MdTabsModule,
@@ -37,6 +38,7 @@ import { TimeZoneService } from './recurring-snapshots/time-zone/time-zone.servi
     MdTooltipModule,
     MdSelectModule,
     MdButtonModule,
+    MdDialogModule,
     MdlModule,
     MdIconModule,
     MdlSelectModule,

@@ -71,10 +71,6 @@ export class TemplateCreationComponent implements OnInit {
     return modeTranslations[this.mode.toUpperCase()];
   }
 
-  public onCancel(): void {
-    this.dialogRef.close();
-  }
-
   public onCreate(): void {
     const params = {
       name: this.name,

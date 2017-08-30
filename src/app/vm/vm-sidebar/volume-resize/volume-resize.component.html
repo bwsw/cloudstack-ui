@@ -31,7 +31,7 @@
       </div>
       <div class="mat-dialog-actions">
         <!--color-->
-        <button md-button type="button" (click)="dialogRef.close()">
+        <button md-button mdDialogClose type="button">
           {{ 'COMMON.CANCEL' | translate }}
         </button>
         <!--color-->
@@ -48,7 +48,7 @@
   </div>
 
   <div *ngIf="!canResize">
-      <div class="mat-dialog-content">
+    <div class="mat-dialog-content">
       {{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.NO_AVAILABLE_OFFERINGS' | translate }}
     </div>
   </div>

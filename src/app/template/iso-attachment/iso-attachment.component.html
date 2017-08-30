@@ -10,11 +10,11 @@
 </div>
 <div class="mat-dialog-actions">
   <!--color-->
-  <button md-button (click)="onCancel()">
+  <button md-button mdDialogClose>
     {{ 'COMMON.CANCEL' | translate }}
   </button>
   <!--color-->
-  <button md-button (click)="onAttach()" [disabled]="!selectedIso">
+  <button md-button [md-dialog-close]="selectedIso" [disabled]="!selectedIso">
     {{ 'VM_PAGE.STORAGE_DETAILS.ISO_MODAL.ATTACH' | translate }}
   </button>
 </div>

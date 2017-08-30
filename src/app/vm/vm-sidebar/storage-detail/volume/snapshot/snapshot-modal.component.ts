@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MD_DIALOG_DATA } from '@angular/material';
 
 import { Volume } from '../../../../../shared/models';
 import { SnapshotActionsService } from './snapshot-actions.service';
@@ -12,7 +12,6 @@ import { SnapshotActionsService } from './snapshot-actions.service';
 export class SnapshotModalComponent {
   constructor(
     public snapshotActionsService: SnapshotActionsService,
-    public dialogRef: MdDialogRef<SnapshotModalComponent>,
     @Inject(MD_DIALOG_DATA) public volume: Volume
   ) { }
 }

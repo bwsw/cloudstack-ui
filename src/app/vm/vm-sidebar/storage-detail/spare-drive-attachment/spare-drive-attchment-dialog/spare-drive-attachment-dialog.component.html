@@ -15,14 +15,14 @@
   </div>
   <div class="mat-dialog-actions">
     <!--color-->
-    <button md-button (click)="onCancel()">
+    <button md-button mdDialogClose>
       {{ 'COMMON.CANCEL' | translate }}
     </button>
     <!--color-->
     <button
       *ngIf="volumes?.length"
       md-button
-      (click)="onAttach()"
+      [md-dialog-close]="selectedVolume"
       [disabled]="!selectedVolume"
     >
       {{ 'COMMON.SELECT' | translate }}

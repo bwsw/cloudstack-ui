@@ -60,10 +60,6 @@ export class ServiceOfferingDialogComponent implements OnInit {
       .subscribe(() => this.dialogRef.close(this.serviceOffering));
   }
 
-  public onCancel(): void {
-    this.dialogRef.close();
-  }
-
   private fetchData(zone: Zone): Observable<Array<ServiceOffering>> {
     return this.serviceOfferingFilterService.getAvailableByResources({ zone })
       .map(availableOfferings => {

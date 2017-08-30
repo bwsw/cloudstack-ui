@@ -215,10 +215,6 @@ export class VmCreationComponent implements OnInit {
     this.deploy();
   }
 
-  public onCancel(): void {
-    this.dialogRef.close();
-  }
-
   public deploy(): void {
     const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
     const { deployStatusObservable, deployObservable } = this.vmDeploymentService.deploy(this.formState.state);
