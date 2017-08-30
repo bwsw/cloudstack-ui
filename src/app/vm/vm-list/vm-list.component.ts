@@ -159,7 +159,7 @@ export class VmListComponent implements OnInit {
         this.groups = groups;
         this.zones = zones;
 
-        if (!this.vmList.length) {
+        if (this.shouldShowSuggestionDialog) {
           this.showSuggestionDialog();
         }
       });
@@ -266,16 +266,16 @@ export class VmListComponent implements OnInit {
     }
   }
 
+  private get shouldShowSuggestionDialog(): boolean {
+    return !this.vmList.length && !this.isCreateVmInUrl;
+  }
+
   private get isCreateVmInUrl(): boolean {
     return this.activatedRoute.children.length
-        && this.activatedRoute.children[0].snapshot.url[0].path === 'create';
+      && this.activatedRoute.children[0].snapshot.url[0].path === 'create';
   }
 
   private showSuggestionDialog(): void {
-    if (this.isCreateVmInUrl) {
-      return;
-    }
-
     this.userTagService.getAskToCreateVm()
       .subscribe(tag => {
         if (tag === false) {
