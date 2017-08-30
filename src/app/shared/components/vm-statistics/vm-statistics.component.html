@@ -12,16 +12,7 @@
     </button>
   </h4>
   <div class="stat-list" [class.closed]="!isOpen">
-    <md-tab-group
-      class="tab-switch"
-      [selectedIndex]="mode"
-      (selectChange)="switchMode()"
-    >
-      <md-tab label="{{ 'VM_PAGE.RESOURCE_USAGE.USED' | translate }}"></md-tab>
-      <md-tab label="{{ 'VM_PAGE.RESOURCE_USAGE.FREE' | translate }}"></md-tab>
-    </md-tab-group>
     <ng-container *ngIf="isAdmin">
-      <cs-divider-vertical></cs-divider-vertical>
       <md-tab-group
         class="tab-switch"
         [selectedIndex]="statsType"
@@ -30,7 +21,16 @@
         <md-tab label="{{ 'VM_PAGE.RESOURCE_USAGE.ACCOUNT' | translate }}"></md-tab>
         <md-tab label="{{ 'VM_PAGE.RESOURCE_USAGE.DOMAIN' | translate }}"></md-tab>
       </md-tab-group>
+      <cs-divider-vertical></cs-divider-vertical>
     </ng-container>
+    <md-tab-group
+      class="tab-switch"
+      [selectedIndex]="mode"
+      (selectChange)="switchMode()"
+    >
+      <md-tab label="{{ 'VM_PAGE.RESOURCE_USAGE.USED' | translate }}"></md-tab>
+      <md-tab label="{{ 'VM_PAGE.RESOURCE_USAGE.FREE' | translate }}"></md-tab>
+    </md-tab-group>
     <div class="stat-list-container">
       <md-card *ngFor="let stat of statsList" class="stat-card-md">
         <md-card-header>
