@@ -37,3 +37,7 @@ table td:nth-child(3) {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+table th {
+  text-align: left;
+}
