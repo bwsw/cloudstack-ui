@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { Volume } from '../../../shared/models/volume.model';
 import { VolumeService } from '../../../shared/services/volume.service';
 import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -9,12 +10,20 @@ import { VolumeTagService } from '../../../shared/services/tags/volume-tag.servi
   templateUrl: 'spare-drive-details.component.html'
 })
 export class SpareDriveDetailsComponent {
-  @Input() public volume: Volume;
+  public volume: Volume;
 
   constructor(
     private volumeService: VolumeService,
-    private volumeTagService: VolumeTagService
-  ) {}
+    private volumeTagService: VolumeTagService,
+    private activatedRoute: ActivatedRoute
+  ) {
+    const params = this.activatedRoute.snapshot.parent.params;
+
+    this.volumeService.get(params.id).subscribe(
+      volume => {
+        this.volume = volume;
+      });
+  }
 
   public changeDescription(newDescription: string): void {
     this.volumeTagService
