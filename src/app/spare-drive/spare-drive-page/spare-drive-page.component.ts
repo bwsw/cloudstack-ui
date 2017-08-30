@@ -161,7 +161,20 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
     this.updateVolumeList().subscribe(() => this.filter());
   }
 
+  private get shouldShowSuggestionDialog(): boolean {
+    return !this.volumes.length && !this.isCreateVolumeInUrl;
+  }
+
+  private get isCreateVolumeInUrl(): boolean {
+    return this.activatedRoute.children.length
+      && this.activatedRoute.children[0].snapshot.url[0].path === 'create';
+  }
+
   private showSuggestionDialog(): void {
+    if (this.isCreateVolumeInUrl) {
+      return;
+    }
+
     this.userTagService.getAskToCreateVolume()
       .subscribe(tag => {
         if (tag === false) {
@@ -211,9 +224,12 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
           });
 
         this.visibleVolumes = volumes;
+
         if (this.volumes.length) {
           this.filter();
-        } else {
+        }
+
+        if (this.shouldShowSuggestionDialog) {
           this.showSuggestionDialog();
         }
       });
