@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Tag } from '../../shared/models';
 import { TagService } from '../../shared/services/tags/tag.service';
 import { TagsComponent } from '../../tags/tags.component';

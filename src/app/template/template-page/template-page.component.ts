@@ -1,11 +1,11 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
+import { MdDialog } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { ListService } from '../../shared/components/list/list.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { BaseTemplateModel, Iso, IsoService, Template, TemplateService } from '../shared';
 import { TemplateFilters } from '../shared/base-template.service';
-import { TemplateActionsService } from '../shared/template-actions.service';
-import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -22,7 +22,6 @@ export class TemplatePageComponent implements OnInit {
   constructor(
     private storageService: LocalStorageService,
     public listService: ListService,
-    private templateActions: TemplateActionsService,
     private templateService: TemplateService,
     private isoService: IsoService,
     private router: Router,
@@ -33,6 +32,7 @@ export class TemplatePageComponent implements OnInit {
   public ngOnInit(): void {
     this.viewMode = this.storageService.read('templateDisplayMode') || 'Template';
     this.listService.onUpdate.subscribe((template) => this.updateList(template));
+    this.subscribeToTemplateDeletions();
     this.getTemplates();
   }
 
@@ -41,15 +41,6 @@ export class TemplatePageComponent implements OnInit {
       preserveQueryParams: true,
       relativeTo: this.activatedRoute
     });
-  }
-
-  public removeTemplate(template: BaseTemplateModel): void {
-    this.templateActions.removeTemplate(template)
-      .subscribe(
-        () => this.updateList(template),
-        () => {
-        }
-      );
   }
 
   private updateList(template?: BaseTemplateModel): void {
@@ -74,5 +65,13 @@ export class TemplatePageComponent implements OnInit {
         this.templates = templates;
         this.isos = isos;
       });
+  }
+
+  private subscribeToTemplateDeletions(): void {
+    Observable.merge(
+      this.templateService.onTemplateRemoved,
+      this.isoService.onTemplateRemoved
+    )
+      .subscribe(template => this.updateList(template));
   }
 }

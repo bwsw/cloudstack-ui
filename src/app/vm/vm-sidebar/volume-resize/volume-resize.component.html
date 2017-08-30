@@ -1,55 +1,60 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<h3 class="mdl-dialog__title">
-  {{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.TITLE' | translate }}
-</h3>
-<div class="mdl-dialog__content">
+<div [hidden]="loading">
+  <h3 class="mat-dialog-title">
+    {{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.TITLE' | translate }}
+  </h3>
+
   <div *ngIf="canResize">
     <form
       (ngSubmit)="resizeVolume()"
       #volumeResizeForm="ngForm"
       novalidate
     >
-      <div *ngIf="!volume?.isRoot">
-        <h5>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.DISK_OFFERING' | translate }}</h5>
-        <cs-disk-offering
-          [diskOffering]="diskOffering"
-          [diskOfferingList]="diskOfferingList"
-          (change)="updateDiskOffering($event)"
-        ></cs-disk-offering>
+      <div class="mat-dialog-content">
+        <div *ngIf="!volume?.isRoot">
+          <h5>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.DISK_OFFERING' | translate }}</h5>
+          <cs-disk-offering
+            [diskOffering]="diskOffering"
+            [diskOfferingList]="diskOfferings"
+            (change)="updateDiskOffering($event)"
+          ></cs-disk-offering>
+        </div>
+        <cs-slider
+          *ngIf="diskOffering?.isCustomized || volume?.isRoot"
+          [min]="volume.size | division:2:30"
+          [max]="maxSize"
+          [label]="'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.NEW_SIZE' | translate"
+          [(ngModel)]="newSize"
+          name="new-size"
+          [units]="'UNITS.GB' | translate"
+        ></cs-slider>
       </div>
-      <cs-slider
-        *ngIf="diskOffering?.isCustomized || volume?.isRoot"
-        [min]="volume.size | division:2:30"
-        [max]="maxSize"
-        [label]="'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.NEW_SIZE' | translate"
-        [(ngModel)]="newSize"
-        name="new-size"
-        [units]="'UNITS.GB' | translate"
-      ></cs-slider>
+      <div class="mat-dialog-actions">
+        <button
+          *ngIf="canResize"
+          mdl-button
+          mdl-colored="primary"
+          mdl-ripple
+          [disabled]="volumeResizeForm?.invalid"
+        >
+          {{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.RESIZE' | translate }}
+        </button>
+        <button
+          mdl-button
+          mdl-colored="primary"
+          mdl-ripple
+          type="button"
+          (click)="dialogRef.close()"
+        >
+          {{ 'COMMON.CANCEL' | translate }}
+        </button>
+      </div>
     </form>
   </div>
 
   <div *ngIf="!canResize">
-    {{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.NO_AVAILABLE_OFFERINGS' | translate }}
+      <div class="mat-dialog-content">
+      {{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.NO_AVAILABLE_OFFERINGS' | translate }}
+    </div>
   </div>
-</div>
-<div class="mdl-dialog__actions">
-  <button
-    *ngIf="canResize"
-    mdl-button
-    mdl-colored="primary"
-    mdl-ripple
-    (click)="resizeVolume()"
-    [disabled]="volumeResizeForm?.invalid"
-  >
-    {{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.RESIZE' | translate }}
-  </button>
-  <button
-    mdl-button
-    mdl-colored="primary"
-    mdl-ripple
-    (click)="dialog.hide()"
-  >
-    {{ 'COMMON.CANCEL' | translate }}
-  </button>
 </div>

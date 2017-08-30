@@ -1,14 +1,14 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { DialogService } from '../../../dialog/dialog-module/dialog.service';
+import { MdDialog } from '@angular/material';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 
 import { Volume } from '../../../shared/models';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { VolumeService } from '../../../shared/services/volume.service';
-import { SpareDriveActionsService } from '../../../spare-drive/spare-drive-actions.service';
+import { SpareDriveActionsService } from '../../../shared/actions/spare-drive-actions/spare-drive-actions.service';
 import { IsoAttachmentComponent } from '../../../template/iso-attachment/iso-attachment.component';
 import { Iso, IsoService } from '../../../template/shared';
-
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 import { IsoEvent } from './iso.component';
@@ -24,15 +24,13 @@ export class StorageDetailComponent implements OnChanges {
   public iso: Iso;
   public isoOperationInProgress = false;
 
-  constructor(
+  constructor(private dialog: MdDialog,
     private dialogService: DialogService,
-    private jobNotificationService: JobsNotificationService,
-    private isoService: IsoService,
-    private notificationService: NotificationService,
-    private spareDriveActionService: SpareDriveActionsService,
-    private vmService: VmService,
-    private volumeService: VolumeService
-  ) {
+              private jobNotificationService: JobsNotificationService,
+              private isoService: IsoService,
+              private notificationService: NotificationService,
+              private  vmService: VmService,
+              private volumeService: VolumeService) {
   }
 
   public ngOnChanges(): void {
@@ -65,7 +63,7 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   public subscribeToVolumeAttachments(): void {
-    this.spareDriveActionService.onVolumeAttachment
+    this.volumeService.onVolumeAttachment
       .subscribe(() => {
         this.volumeService.getList({ virtualMachineId: this.vm.id })
           .subscribe(volumes => this.vm.volumes = volumes);
@@ -86,48 +84,39 @@ export class StorageDetailComponent implements OnChanges {
   }
 
   public showVolumeDetachDialog(volume: Volume): void {
-    this.dialogService.confirm(
-      'DIALOG_MESSAGES.VOLUME.CONFIRM_DETACHMENT',
-      'COMMON.NO',
-      'COMMON.YES'
-    )
+    this.dialogService.confirm({
+      message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_DETACHMENT'
+    })
       .onErrorResumeNext()
-      .subscribe(() => this.detachVolume(volume));
+      .subscribe((res) => { if (res) { this.detachVolume(volume); } });
   }
 
   private detachVolume(volume: Volume): void {
-    volume['loading'] = true;
-    this.spareDriveActionService.detach(volume)
-      .finally(() => volume['loading'] = false)
+    volume.loading = true;
+    this.volumeService.detach(volume)
+      .finally(() => volume.loading = false)
       .subscribe(() => this.onVolumeChange());
   }
 
   private attachIsoDialog(): void {
-    this.dialogService.showCustomDialog({
-      component: IsoAttachmentComponent,
-      classes: 'iso-attachment-dialog',
-      providers: [{ provide: 'zoneId', useValue: this.vm.zoneId }]
+    this.dialog.open(IsoAttachmentComponent, {
+      width: '720px',
+      data: this.vm.zoneId
     })
-      .switchMap(res => res.onHide())
+      .afterClosed()
       .subscribe((iso: Iso) => {
-        if (!iso) {
-          return;
+        if (iso) {
+          this.attachIso(iso);
         }
-        this.attachIso(iso);
       });
   }
 
   private detachIsoDialog(): void {
-    this.dialogService.confirm(
-      'DIALOG_MESSAGES.ISO.CONFIRM_DETACHMENT',
-      'COMMON.NO',
-      'COMMON.YES'
-    )
-      .subscribe(
-        () => this.detachIso(),
-        () => {
-        }
-      );
+    this.dialogService.confirm({
+      message: 'DIALOG_MESSAGES.ISO.CONFIRM_DETACHMENT'
+    })
+      .onErrorResumeNext()
+      .subscribe((res) => { if (res) { this.detachIso(); } });
   }
 
   private attachIso(iso: Iso): void {

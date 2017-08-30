@@ -1,10 +1,12 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { Volume } from '../../shared/models';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
+import { VolumeService } from '../../shared/services/volume.service';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 import { VmService } from '../../vm/shared/vm.service';
-import { MdlDialogReference } from '../../dialog/dialog-module';
-import { Volume } from '../../shared/models';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { SpareDriveActionsService } from '../spare-drive-actions.service';
 
 
 @Component({
@@ -17,14 +19,20 @@ export class SpareDriveAttachmentComponent implements OnInit {
   public virtualMachines: Array<VirtualMachine>;
   public loading: boolean;
 
+  public volume: Volume;
+  public zoneId: string;
+
   constructor(
-    private dialog: MdlDialogReference,
+    private dialogRef: MdDialogRef<SpareDriveAttachmentComponent>,
     private dialogService: DialogService,
-    private spareDriveActionsService: SpareDriveActionsService,
+    private jobsNotificationService: JobsNotificationService,
     private vmService: VmService,
-    @Inject('volume') private volume: Volume,
-    @Inject('zoneId') private zoneId: string
-  ) {}
+    private volumeService: VolumeService,
+    @Inject(MD_DIALOG_DATA) data
+  ) {
+    this.volume = data.volume;
+    this.zoneId = data.zoneId;
+  }
 
   public ngOnInit(): void {
     this.vmService.getListWithDetails({ zoneId: this.zoneId })
@@ -38,26 +46,43 @@ export class SpareDriveAttachmentComponent implements OnInit {
 
   public attach(): void {
     if (!this.virtualMachineId) {
-      this.dialog.hide();
+      this.dialogRef.close();
       return;
     }
 
     this.loading = true;
-    this.spareDriveActionsService.attach({
+    const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_IN_PROGRESS');
+
+    this.volumeService.attach({
       id: this.volume.id,
       virtualMachineId: this.virtualMachineId
     })
+      .do(() => {
+        this.jobsNotificationService.finish({
+          id: notificationId,
+          message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_DONE',
+        });
+      })
+      .catch(error => {
+        this.dialogService.alert({
+          message: {
+            translationToken: error.message,
+            interpolateParams: error.params
+          }
+        });
+
+        this.jobsNotificationService.fail({
+          id: notificationId,
+          message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED',
+        });
+
+        return Observable.throw(error);
+      })
       .finally(() => this.loading = false)
-      .subscribe(
-        () => this.dialog.hide(this.virtualMachineId),
-        error => this.dialogService.alert({
-          translationToken: error.message,
-          interpolateParams: error.params
-        })
-      );
+      .subscribe(() => this.dialogRef.close(this.virtualMachineId));
   }
 
   public onCancel(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
   }
 }

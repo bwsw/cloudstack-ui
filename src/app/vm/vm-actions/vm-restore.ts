@@ -25,6 +25,10 @@ export class VmRestoreAction extends VirtualMachineCommand {
   };
 
   public canActivate(vm: VirtualMachine): boolean {
+    if (!vm) {
+      return false;
+    }
+
     return [
       VmState.Running,
       VmState.Stopped

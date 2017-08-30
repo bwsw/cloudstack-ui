@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { Volume } from '../../../../../shared/models';
-import { MdlDialogReference } from '../../../../../dialog/dialog-module';
 
 @Component({
   selector: 'cs-spare-drive-attachment-dialog',
@@ -11,8 +11,8 @@ export class SpareDriveAttachmentDialogComponent implements OnInit {
   public selectedVolume: Volume;
 
   constructor(
-    public dialog: MdlDialogReference,
-    @Inject('volumes') public volumes: Array<Volume>
+    public dialogRef: MdDialogRef<SpareDriveAttachmentDialogComponent>,
+    @Inject(MD_DIALOG_DATA) public volumes: Array<Volume>
   ) {}
 
   public ngOnInit(): void {
@@ -22,10 +22,10 @@ export class SpareDriveAttachmentDialogComponent implements OnInit {
   }
 
   public onAttach(): void {
-    this.dialog.hide(this.selectedVolume);
+    this.dialogRef.close(this.selectedVolume);
   }
 
   public onCancel(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
   }
 }

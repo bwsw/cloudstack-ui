@@ -6,14 +6,15 @@
     <mdl-progress [indeterminate]="true"></mdl-progress>
   </div>
 </div>
-<div class="vm-creation-container">
-  <h3 class="mdl-dialog__title">{{ 'VM_PAGE.VM_CREATION.NEW_VM' | translate }}</h3>
+<div *ngIf="!showOverlay">
+  <h3 class="mat-dialog-title">{{ 'VM_PAGE.VM_CREATION.NEW_VM' | translate }}</h3>
   <form
     (ngSubmit)="onVmCreationSubmit($event)"
     #vmCreateForm="ngForm"
     *loading="fetching"
     novalidate
   >
+    <div class="mat-dialog-content">
     <div class="container">
       <div *ngIf="enoughResources && formState?.state" class="left-column">
         <div>
@@ -177,7 +178,9 @@
         </div>
       </div>
     </div>
-    <div class="mdl-dialog__actions">
+
+    </div>
+    <div class="mat-dialog-actions">
       <button
         mdl-colored="primary"
         [disabled]="!vmCreateForm.valid || formState?.state.displayName === takenName"

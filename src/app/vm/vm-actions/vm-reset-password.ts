@@ -1,7 +1,7 @@
 import { VmActions } from './vm-action';
 import { VirtualMachine, VmState } from '../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { VmService } from '../shared/vm.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { Injectable } from '@angular/core';
@@ -41,6 +41,10 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
   }
 
   public canActivate(vm: VirtualMachine): boolean {
+    if (!vm) {
+      return false;
+    }
+
     const ipAvailable = vm.ipIsAvailable;
     const stateIsOk = [
       VmState.Running,
@@ -90,7 +94,7 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
   }
 
   private showPasswordDialog(vmName: string, vmPassword: string): Observable<void> {
-    return this.dialogService.customAlert({
+    return this.dialogService.alert({
       message: {
         translationToken: 'DIALOG_MESSAGES.VM.PASSWORD_DIALOG_MESSAGE',
         interpolateParams: {
@@ -98,14 +102,15 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
           vmPassword
         },
       },
-      width: '400px',
-      clickOutsideToClose: false
+      disableClose: true,
+      width: '400px'
     });
   }
 
   protected showConfirmationDialog(): Observable<void> {
-    return this.dialogService.customConfirm({
+    return this.dialogService.confirm({
       message: this.tokens.confirmMessage,
+      disableClose: true,
       width: '400px'
     });
   }

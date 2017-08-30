@@ -1,0 +1,13 @@
+<div class="template-actions-container">
+  <button
+    class="template-actions-button"
+    md-icon-button
+    [mdMenuTriggerFor]="actionsMenu"
+  >
+    <md-icon>more_vert</md-icon>
+  </button>
+</div>
+
+<md-menu #actionsMenu="mdMenu">
+  <cs-template-actions [template]="template"></cs-template-actions>
+</md-menu>

@@ -1,6 +1,6 @@
 import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { AsyncJob, InstanceGroup, VmStatisticsComponent, Zone } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
 import { AsyncJobService } from '../../shared/services/async-job.service';
@@ -159,7 +159,7 @@ export class VmListComponent implements OnInit {
         this.groups = groups;
         this.zones = zones;
 
-        if (!this.vmList.length) {
+        if (this.shouldShowSuggestionDialog) {
           this.showSuggestionDialog();
         }
       });
@@ -217,7 +217,7 @@ export class VmListComponent implements OnInit {
 
   private subscribeToVmDestroyed(): void {
     this.asyncJobService.event
-      .filter(job => this.isAsyncJobAVirtualMachineJobWithResult(job))
+      .filter(job => this.vmService.isAsyncJobAVirtualMachineJobWithResult(job))
       .filter(job => job.result.state === VmState.Destroyed || job.result.state === VmState.Expunging)
       .subscribe((job: AsyncJob<any>) => {
         this.vmList = this.vmList.filter(vm => vm.id !== job.result.id);
@@ -231,10 +231,8 @@ export class VmListComponent implements OnInit {
 
   private subscribeToAsyncJobUpdates(): void {
     this.asyncJobService.event
-      .filter(job => this.isAsyncJobAVirtualMachineJobWithResult(job))
-      .subscribe(job => {
-        this.updateVmInListWithAsyncJobResult(job);
-      });
+      .filter(job => this.vmService.isAsyncJobAVirtualMachineJobWithResult(job))
+      .subscribe(job => this.updateVmInListWithAsyncJobResult.bind(this)(job));
   }
 
   private updateVmInListWithAsyncJobResult(job: AsyncJob<any>): void {
@@ -266,6 +264,15 @@ export class VmListComponent implements OnInit {
     }
   }
 
+  private get shouldShowSuggestionDialog(): boolean {
+    return !this.vmList.length && !this.isCreateVmInUrl;
+  }
+
+  private get isCreateVmInUrl(): boolean {
+    return this.activatedRoute.children.length
+      && this.activatedRoute.children[0].snapshot.url[0].path === 'create';
+  }
+
   private showSuggestionDialog(): void {
     this.userTagService.getAskToCreateVm()
       .subscribe(tag => {
@@ -273,7 +280,7 @@ export class VmListComponent implements OnInit {
           return;
         }
 
-        this.dialogService.showDialog({
+        this.dialogService.askDialog({
           message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VM',
           actions: [
             {
@@ -288,10 +295,8 @@ export class VmListComponent implements OnInit {
               text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
             }
           ],
-          fullWidthAction: true,
-          isModal: true,
-          clickOutsideToClose: true,
-          styles: { 'width': '320px' }
+          disableClose: false,
+          width: '320px'
         });
       });
   }
@@ -336,16 +341,5 @@ export class VmListComponent implements OnInit {
       }
       return 0;
     });
-  }
-
-  private isAsyncJobAVirtualMachineJobWithResult(job: AsyncJob<any>): boolean {
-    // instanceof check is needed because API response for
-    // VM restore doesn't contain the instanceType field
-
-    return (
-      job.result &&
-      (job.instanceType === VirtualMachineEntityName ||
-        job.result instanceof VirtualMachine)
-    );
   }
 }

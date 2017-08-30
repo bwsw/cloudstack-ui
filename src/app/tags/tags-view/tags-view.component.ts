@@ -7,10 +7,10 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
+import { MdDialog } from '@angular/material';
 import * as cloneDeep from 'lodash/cloneDeep';
 import * as groupBy from 'lodash/groupBy';
 import * as sortBy from 'lodash/sortBy';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { defaultCategoryName, Tag } from '../../shared/models';
 import { Utils } from '../../shared/services/utils.service';
 import { TagCategory } from '../tag-category/tag-category.component';
@@ -33,6 +33,7 @@ export interface KeyValuePair {
 })
 export class TagsViewComponent implements OnChanges {
   @Input() public tags: Array<Tag>;
+  @Input() public canAddTag: boolean = true;
   @Output() public onTagAdd: EventEmitter<Partial<Tag>>;
   @Output() public onTagEdit: EventEmitter<TagEditAction>;
   @Output() public onTagDelete: EventEmitter<Tag>;
@@ -41,7 +42,10 @@ export class TagsViewComponent implements OnChanges {
   public query: string;
   public visibleCategories: Array<TagCategory>;
 
-  constructor(private cd: ChangeDetectorRef, private dialogService: DialogService) {
+  constructor(
+    private cd: ChangeDetectorRef,
+    private dialog: MdDialog,
+  ) {
     this.onTagAdd = new EventEmitter<Tag>();
     this.onTagEdit = new EventEmitter<TagEditAction>();
     this.onTagDelete = new EventEmitter<Tag>();
@@ -55,34 +59,30 @@ export class TagsViewComponent implements OnChanges {
 
   public addTag(category?: TagCategory): void {
     const forbiddenKeys = category ? category.tags.map(_ => _.key) : [];
-    this.dialogService
-      .showCustomDialog({
-        component: TagEditComponent,
-        classes: 'tag-edit',
-        providers: [
-          { provide: 'forbiddenKeys', useValue: forbiddenKeys },
-          { provide: 'title', useValue: 'TAGS.CREATE_NEW_TAG' },
-          { provide: 'confirmButtonText', useValue: 'COMMON.CREATE' },
-          { provide: 'categoryName', useValue: category && category.name }
-        ]
-      })
-      .switchMap(res => res.onHide())
+    this.dialog.open(TagEditComponent, {
+      width: '375px',
+      data: {
+        forbiddenKeys: forbiddenKeys,
+        title: 'TAGS.CREATE_NEW_TAG',
+        confirmButtonText: 'COMMON.CREATE',
+        categoryName: category && category.name
+      }
+    })
+      .afterClosed()
       .subscribe(tag => this.onTagAdd.emit(tag));
   }
 
   public editTag(tag: Tag): void {
-    this.dialogService
-      .showCustomDialog({
-        component: TagEditComponent,
-        classes: 'tag-edit',
-        providers: [
-          { provide: 'title', useValue: 'TAGS.EDIT_TAG' },
-          { provide: 'confirmButtonText', useValue: 'COMMON.EDIT' },
-          { provide: 'categoryName', useValue: tag.categoryName },
-          { provide: 'tag', useValue: tag }
-        ]
-      })
-      .switchMap(res => res.onHide())
+    this.dialog.open(TagEditComponent, {
+      width: '375px',
+      data: {
+        title: 'TAGS.EDIT_TAG',
+        confirmButtonText: 'COMMON.EDIT',
+        categoryName: tag.categoryName,
+        tag
+      }
+    })
+      .afterClosed()
       .subscribe(tagEditAction => this.onTagEdit.emit(tagEditAction));
   }
 

@@ -1,8 +1,3 @@
-/deep/ .sg-rules-dialog {
-  width: 880px;
-  padding: 12.8px;
-}
-
 mdl-textfield {
   /deep/ .mdl-textfield__input,
   /deep/ .mdl-textfield__label {
@@ -14,14 +9,14 @@ mdl-textfield {
   }
 }
 
-.mdl-dialog__content {
+.mat-dialog-content {
   table {
     width: 100%;
   }
 }
 
 :host /deep/ .mdl-textfield {
-   width: 85px;
+  width: 85px;
 }
 
 :host md-select.type /deep/ .mdl-textfield {
@@ -42,10 +37,22 @@ mdl-textfield {
   text-align: left;
 }
 
-:host /deep/ .mdl-data-table th {
+:host /deep/ .mat-table th {
   text-align: left;
 }
 
-:host /deep/ .mdl-data-table td {
+:host /deep/ .mat-table td {
   text-align: left;
+}
+
+.rule-row {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+}
+
+.mat-row:hover {
+  background-color: transparent;
+}
+
+.table-form:hover {
+  background-color: #eeeeee !important;
 }

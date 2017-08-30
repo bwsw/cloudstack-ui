@@ -1,39 +1,45 @@
-<div>
-  <div *ngIf="vm">
-    <h4 class="details-header">{{ vm.displayName }}</h4>
-    <md-tab-group [selectedIndex]="0" md-no-pagination="true">
-      <md-tab>
-        <ng-template md-tab-label >
-          <div [mdTooltip]="'VM_PAGE.SIDEBAR.VM' | translate" class="md-tab-tooltip">
-            <md-icon >computer</md-icon>
-          </div>
-        </ng-template>
-        <cs-vm-detail [vm]="vm"></cs-vm-detail>
-      </md-tab>
-      <md-tab>
-        <ng-template md-tab-label>
-          <div [mdTooltip]="'VM_PAGE.SIDEBAR.STORAGE' | translate" class="md-tab-tooltip">
-            <md-icon>storage</md-icon>
-          </div>
-        </ng-template>
-        <cs-storage-detail [vm]="vm"></cs-storage-detail>
-      </md-tab>
-      <md-tab>
-        <ng-template md-tab-label>
-          <div [mdTooltip]="'VM_PAGE.SIDEBAR.NETWORK' | translate" class="md-tab-tooltip">
-            <md-icon>router</md-icon>
-          </div>
-        </ng-template>
-        <cs-network-detail [vm]="vm"></cs-network-detail>
-      </md-tab>
-      <md-tab>
-        <ng-template md-tab-label>
-          <div [mdTooltip]="'VM_PAGE.SIDEBAR.TAGS' | translate" class="md-tab-tooltip">
-            <md-icon>local_offer</md-icon>
-          </div>
-        </ng-template>
-        <cs-vm-tags [entity]="vm"></cs-vm-tags>
-      </md-tab>
-    </md-tab-group>
-  </div>
-</div>
+<ng-container *ngIf="entity">
+  <div class="title-container">
+      <h4 class="details-header">{{ entity.displayName }}</h4>
+      <cs-vm-actions-sidebar [vm]="entity"></cs-vm-actions-sidebar>
+    </div>
+
+  <md-tab-group [selectedIndex]="0" md-no-pagination="true">
+    <md-tab>
+      <ng-template md-tab-label>
+        <div [mdTooltip]="'VM_PAGE.SIDEBAR.VM' | translate" class="md-tab-tooltip">
+          <md-icon >computer</md-icon>
+        </div>
+      </ng-template>
+      <cs-vm-detail *ngIf="entity" [vm]="entity"></cs-vm-detail>
+    </md-tab>
+    <md-tab>
+      <ng-template md-tab-label>
+        <div [mdTooltip]="'VM_PAGE.SIDEBAR.STORAGE' | translate" class="md-tab-tooltip">
+          <md-icon>storage</md-icon>
+        </div>
+      </ng-template>
+      <cs-storage-detail [vm]="entity"></cs-storage-detail>
+    </md-tab>
+    <md-tab>
+      <ng-template md-tab-label>
+        <div [mdTooltip]="'VM_PAGE.SIDEBAR.NETWORK' | translate" class="md-tab-tooltip">
+          <md-icon>router</md-icon>
+        </div>
+      </ng-template>
+      <cs-network-detail [vm]="entity"></cs-network-detail>
+    </md-tab>
+    <md-tab>
+      <ng-template md-tab-label>
+        <div [mdTooltip]="'VM_PAGE.SIDEBAR.TAGS' | translate" class="md-tab-tooltip">
+          <md-icon>local_offer</md-icon>
+        </div>
+      </ng-template>
+      <cs-vm-tags [entity]="entity"></cs-vm-tags>
+    </md-tab>
+  </md-tab-group>
+</ng-container>
+
+<cs-no-results *ngIf="notFound" [text]="'VM_NOT_FOUND'"></cs-no-results>
+
+<cs-overlay-loading [active]="!entity && !notFound"></cs-overlay-loading>

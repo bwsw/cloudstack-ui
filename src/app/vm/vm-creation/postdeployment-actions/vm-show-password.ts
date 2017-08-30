@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DialogService } from '../../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Action } from '../../../shared/interfaces/action.interface';
 import { VirtualMachine } from '../../shared/vm.model';
 
@@ -14,7 +14,7 @@ export class VmShowPasswordAction implements Action<VirtualMachine> {
   }
 
   public activate(vm: VirtualMachine): void {
-    this.dialogService.customAlert({
+    this.dialogService.alert({
       message: {
         translationToken: 'DIALOG_MESSAGES.VM.PASSWORD_DIALOG_MESSAGE',
         interpolateParams: {
@@ -23,7 +23,7 @@ export class VmShowPasswordAction implements Action<VirtualMachine> {
         }
       },
       width: '400px',
-      clickOutsideToClose: false
+      disableClose: true
     });
   }
 }

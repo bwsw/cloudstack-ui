@@ -6,6 +6,7 @@ import { OsTypeService } from '../../shared/services/os-type.service';
 import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
 import { Utils } from '../../shared/services/utils.service';
 import { BaseTemplateModel } from './base-template.model';
+import { Subject } from 'rxjs/Subject';
 
 
 export const TemplateFilters = {
@@ -62,6 +63,7 @@ export class GroupedTemplates<T extends BaseTemplateModel> {
 
 @Injectable()
 export abstract class BaseTemplateService extends BaseBackendCachedService<BaseTemplateModel> {
+  public onTemplateRemoved = new Subject<BaseTemplateModel>();
   private _templateFilters: Array<string>;
 
   constructor(
@@ -89,7 +91,8 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
 
   public getList(params: RequestParams, customApiFormat?: {}, useCache = true): Observable<Array<BaseTemplateModel>> {
     return this.getListWithDuplicates(params, useCache)
-      .map(templates => this.distinctIds(templates));
+      .map(templates => this.distinctIds(templates))
+      .catch(() => Observable.of([]));
   }
 
   public getListWithDuplicates(params: RequestParams, useCache = true): Observable<Array<BaseTemplateModel>> {
@@ -118,23 +121,27 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
           return templates.filter(template => Utils.convertToGB(template.size) <= maxSize);
         }
         return templates;
-      });
+      })
+      .catch(() => Observable.of([]));
   }
 
   public getWithGroupedZones(id: string, params?: RequestParams, useCache = true): Observable<BaseTemplateModel> {
     const filter = params && params.filter ? params.filter : TemplateFilters.featured;
     return this.getListWithDuplicates({ id, filter }, useCache)
       .map(templates => {
-        templates[0].zones = [];
-        templates.forEach(template => {
-          templates[0].zones.push({
-            created: template.created,
-            zoneId: template.zoneId,
-            zoneName: template.zoneName,
-            status: template.status,
-            isReady: template.isReady
+        if (templates.length) {
+          templates[0].zones = [];
+
+          templates.forEach(template => {
+            templates[0].zones.push({
+              created: template.created,
+              zoneId: template.zoneId,
+              zoneName: template.zoneName,
+              status: template.status,
+              isReady: template.isReady
+            });
           });
-        });
+        }
 
         return templates[0];
       });
@@ -158,7 +165,8 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       id: template.id,
       zoneId: template.zoneId
     })
-      .switchMap(job => this.asyncJobService.queryJob(job.jobid));
+      .switchMap(job => this.asyncJobService.queryJob(job.jobid))
+      .map(() => this.onTemplateRemoved.next(template));
   }
 
   public getGroupedTemplates<T extends BaseTemplateModel>(

@@ -1,12 +1,12 @@
-import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { MdlModule } from '@angular-mdl/core';
+import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { MdDialog } from '@angular/material';
+import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { NetworkRule, SecurityGroup } from '../../security-group/sg.model';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { SgRulesManagerComponent } from './';
 import { FancySelectComponent } from './fancy-select/fancy-select.component';
 
@@ -83,17 +83,17 @@ const mockEgressRules = [new NetworkRule({
   CIDR: '0.0.0.0/0'
 })];
 
-class MockDialogService {
-  public showCustomDialog(): Observable<any> {
-    return Observable.of({
-      onHide: () => Observable.of(
+class MockMdDialog {
+  public open(): any {
+    return {
+      afterClosed: () => Observable.of(
         new Rules(
           [mockSg],
           mockIngressRules,
           mockEgressRules
         )
       )
-    });
+    };
   }
 }
 
@@ -109,7 +109,7 @@ describe('Sg Rules manager component', () => {
         FancySelectComponent
       ],
       providers: [
-        { provide: DialogService, useClass: MockDialogService },
+        { provide: MdDialog, useClass: MockMdDialog }
       ],
       imports: [MdlModule]
     });
@@ -136,12 +136,12 @@ describe('Sg Rules manager component', () => {
   });
 
   it('shows dialog', () => {
-    const dialogService = TestBed.get(DialogService);
-    spyOn(dialogService, 'showCustomDialog').and.callThrough();
+    const dialog = TestBed.get(MdDialog);
+    spyOn(dialog, 'open').and.callThrough();
     f.detectChanges();
     f.debugElement.query(By.css('mdl-button')).triggerEventHandler('click');
 
-    expect(dialogService.showCustomDialog).toHaveBeenCalled();
+    expect(dialog.open).toHaveBeenCalled();
   });
 
   it('updates rules', () => {
@@ -149,8 +149,8 @@ describe('Sg Rules manager component', () => {
     expect(comp.savedRules).toEqual(emptyRules);
     expect(comp.rules).toBeUndefined();
 
-    const dialogService = TestBed.get(DialogService);
-    spyOn(dialogService, 'showCustomDialog').and.callThrough();
+    const dialog = TestBed.get(MdDialog);
+    spyOn(dialog, 'open').and.callThrough();
     f.detectChanges();
     f.debugElement.query(By.css('mdl-button')).triggerEventHandler('click');
 

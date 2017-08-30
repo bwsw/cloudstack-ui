@@ -1,57 +1,54 @@
-<h3 class="mdl-dialog__title">
-  {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.TITLE' | translate }}
-</h3>
-<div class="mdl-dialog__content">
-  <table *ngIf="volume?.snapshots?.length" class="mdl-data-table" style="width: 100%">
-    <thead>
-    <tr>
-      <th class="mdl-data-table__cell--non-numeric snapshot-name">
+<h3 class="mat-dialog-title">{{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.TITLE' |
+  translate }}</h3>
+<div class="mat-dialog-content" *ngIf="volume?.snapshots?.length">
+  <md-table [dataSource]="dataSource" mdSort>
+    <!-- Name Column -->
+    <ng-container cdkColumnDef="name">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>
         {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.NAME' | translate}}
-      </th>
+      </md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{ row.name }}</md-cell>
+    </ng-container>
 
-      <th class="mdl-data-table__cell--non-numeric">
-        {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.DATE' | translate }}
-      </th>
+    <!-- Date Column -->
+    <ng-container cdkColumnDef="date">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>
+        {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.DATE' | translate}}
+      </md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{ row.created | date:'y-MM-dd H:m:s' }}</md-cell>
+    </ng-container>
 
-      <th class="mdl-data-table__cell--non-numeric">
-        {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.ACTIONS' | translate }}
-      </th>
-    </tr>
-    </thead>
-    <tbody *ngFor="let snapshot of volume.snapshots">
-    <tr [class.with-description]="snapshot.description">
-      <td class="snapshot-name mdl-data-table__cell--non-numeric">{{ snapshot.name }}</td>
-      <td class="mdl-data-table__cell--non-numeric">{{ snapshot.created | date:'y-MM-dd H:m:s' }}</td>
-      <td class="mdl-data-table__cell--non-numeric">
+    <!-- Actions Column -->
+    <ng-container cdkColumnDef="actions">
+      <md-header-cell *cdkHeaderCellDef>
+        {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.ACTIONS' | translate}}
+      </md-header-cell>
+      <md-cell *cdkCellDef="let row">
         <button
           *ngFor="let action of snapshotActionsService.actions"
           class="button-18px"
           mdl-button
           mdl-button-type="icon"
-          (click)="action.activate(snapshot, volume)"
-          [disabled]="snapshot['loading']"
+          (click)="action.activate(row, volume).subscribe()"
+          [disabled]="row['loading']"
         >
           <md-icon>{{ action.icon }}</md-icon>
         </button>
-      </td>
-    </tr>
-    <tr *ngIf="snapshot.description" class="description-row">
-      <td
-        colspan="3"
-        class="mdl-data-table__cell--non-numeric"
-      >{{ snapshot.description }}</td>
-    </tr>
-    </tbody>
-  </table>
+      </md-cell>
+    </ng-container>
+
+    <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+    <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
+  </md-table>
   <div class="row" *ngIf="!volume.snapshots?.length">
     {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.NO_SNAPSHOTS' | translate }}
   </div>
 </div>
-<div class="mdl-dialog__actions">
+<div class="mat-dialog-actions">
   <button
     mdl-button
     mdl-colored="primary"
-    (click)="dialog.hide()"
+    (click)="dialogRef.close()"
   >
     {{ 'COMMON.CLOSE' | translate }}
   </button>

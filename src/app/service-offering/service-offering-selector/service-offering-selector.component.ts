@@ -1,10 +1,9 @@
 import { ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MdSelectChange } from '@angular/material';
+import { MdSelectChange, MdDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { CustomServiceOffering } from '../custom-service-offering/custom-service-offering';
 import { CustomServiceOfferingComponent } from '../custom-service-offering/custom-service-offering.component';
@@ -34,7 +33,7 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
 
   constructor(
     private cd: ChangeDetectorRef,
-    private dialogService: DialogService,
+    private dialog: MdDialog,
     private translateService: TranslateService
   ) {
     this.change = new EventEmitter();
@@ -115,24 +114,15 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
   }
 
   private showCustomOfferingDialog(): Observable<CustomServiceOffering> {
-    return this.dialogService.showCustomDialog({
-      component: CustomServiceOfferingComponent,
-      classes: 'custom-offering-dialog',
-      providers: [
-        {
-          provide: 'offering',
-          useValue: this.serviceOffering
-        },
-        {
-          provide: 'restrictions',
-          useValue: this.customOfferingRestrictions
-        },
-        {
-          provide: 'zoneId',
-          useValue: this.zoneId
-        }
-      ]
-    }).switchMap(res => res.onHide());
+     return this.dialog.open(CustomServiceOfferingComponent, {
+       width: '370px',
+       data: {
+         zoneId: this.zoneId,
+         offering: this.serviceOffering,
+         restriction: this.customOfferingRestrictions
+       }
+     }).afterClosed();
+
   }
 
   private saveOffering(): void {

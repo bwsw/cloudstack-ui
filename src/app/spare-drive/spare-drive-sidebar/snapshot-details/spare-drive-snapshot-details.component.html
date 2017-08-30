@@ -1,0 +1,8 @@
+<cs-spare-drive-snapshot-creation [volume]="volume"></cs-spare-drive-snapshot-creation>
+
+<cs-spare-drive-snapshot
+  *ngFor="let snapshot of volume.snapshots"
+  [snapshot]="snapshot"
+></cs-spare-drive-snapshot>
+
+<cs-no-results *ngIf="!volume.snapshots.length"></cs-no-results>
