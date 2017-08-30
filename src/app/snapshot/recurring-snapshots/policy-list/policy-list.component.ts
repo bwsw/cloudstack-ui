@@ -13,7 +13,6 @@ import { Policy, TimePolicy } from '../policy-editor/policy-editor.component';
 import { PolicyType } from '../recurring-snapshots.component';
 import { PolicyViewBuilderService } from './policy-view-builder.service';
 import DateTimeFormat = Intl.DateTimeFormat;
-import { TableDatabase, TableDataSource } from '../../../shared/components/table/table';
 
 
 interface PolicyView {
@@ -40,10 +39,7 @@ export class PolicyListComponent implements OnChanges {
   @Output() public onPolicyDelete: EventEmitter<Policy<TimePolicy>>;
   @Output() public onPolicyRowClick: EventEmitter<PolicyType>;
 
-  private policyViews: Array<PolicyView>;
-  private policyViewsDB: TableDatabase;
-  public policyViewsDS: TableDataSource;
-  public displayedColumns = ['time', 'period', 'timeZone', 'keep', 'actions'];
+  public policyViews: Array<PolicyView>;
 
   constructor(
     private policyViewBuilderService: PolicyViewBuilderService,
@@ -78,8 +74,6 @@ export class PolicyListComponent implements OnChanges {
 
   private updatePolicyViews(): void {
     this.policyViews = this.getPolicyViews(this.policies, this.dateTimeFormat);
-    this.policyViewsDB = new TableDatabase(this.policyViews);
-    this.policyViewsDS = new TableDataSource(this.policyViewsDB);
   }
 
   public handlePolicyRowClick(policyView: PolicyView): void {
