@@ -1,28 +1,32 @@
 import { MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
+import { CdkTableModule } from '@angular/cdk';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  MdButtonModule,
   MdCardModule,
   MdIconModule,
-  MdListModule, MdMenuModule,
+  MdListModule,
+  MdMenuModule,
   MdSelectModule,
   MdSnackBarModule,
-  MdCardModule,
-  MdTabsModule,
-  MdTableModule
+  MdTableModule,
+  MdTabsModule
 } from '@angular/material';
-import { CdkTableModule } from '@angular/cdk';
 import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
+import {
+  SpareDriveActionsComponent
+} from './actions/spare-drive-actions/spare-drive-actions-component/spare-drive-actions.component';
 import { SpareDriveActionsService } from './actions/spare-drive-actions/spare-drive-actions.service';
+import {
+  TemplateActionsComponent
+} from './actions/template-actions/template-actions-component/template-actions.component';
 import { TemplateActionsService } from './actions/template-actions/template-actions.service';
-
 import {
   CalendarComponent,
   CalendarMonthComponent,
@@ -114,12 +118,6 @@ import { UserService } from './services/user.service';
 import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
-import {
-  SpareDriveActionsComponent
-} from './actions/spare-drive-actions/spare-drive-actions-component/spare-drive-actions.component';
-import {
-  TemplateActionsComponent
-} from './actions/template-actions/template-actions-component/template-actions.component';
 
 
 @NgModule({
