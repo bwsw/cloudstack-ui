@@ -420,6 +420,12 @@ md-card-actions {
   width: 32px !important;
   height: 32px !important;
   line-height: 32px !important;
+
+  // TODO remove this after material2.beta10
+  md-icon {
+    position: relative;
+    top: -1px;
+  }
 }
 
 .button-18px {
