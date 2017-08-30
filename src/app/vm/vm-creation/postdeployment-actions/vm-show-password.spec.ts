@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { MockDialogService } from '../../../../testutils/mocks/mock-dialog.service';
-import { DialogService } from '../../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { VmShowPasswordAction } from './vm-show-password';
 
 
@@ -28,11 +28,10 @@ describe('Vm show password action', () => {
   it(
     'should show dialog with password',
     inject([VmShowPasswordAction], (action: VmShowPasswordAction) => {
-      const spy = spyOn(MockDialogService.prototype, 'customAlert');
+      const spy = spyOn(MockDialogService.prototype, 'alert');
       const fakeVm: any = {};
       action.activate(fakeVm);
       expect(spy).toHaveBeenCalledTimes(1);
-      console.log(spy.mostRecentCall);
     })
   );
 });

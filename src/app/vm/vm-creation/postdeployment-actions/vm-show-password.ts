@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Action } from '../../../shared/interfaces/action.interface';
 import { VirtualMachine } from '../../shared/vm.model';
@@ -13,8 +14,8 @@ export class VmShowPasswordAction implements Action<VirtualMachine> {
     return vm.passwordEnabled;
   }
 
-  public activate(vm: VirtualMachine): void {
-    this.dialogService.alert({
+  public activate(vm: VirtualMachine): Observable<void> {
+    return this.dialogService.alert({
       message: {
         translationToken: 'DIALOG_MESSAGES.VM.PASSWORD_DIALOG_MESSAGE',
         interpolateParams: {

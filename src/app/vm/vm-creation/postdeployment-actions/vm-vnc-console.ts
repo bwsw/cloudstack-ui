@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { Action } from '../../../shared/interfaces/action.interface';
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmConsoleAction } from '../../vm-actions/vm-console';
@@ -13,7 +14,7 @@ export class VmVncConsoleAction implements Action<VirtualMachine> {
     return !!vm.isoId; // created from ISO
   }
 
-  public activate(model: VirtualMachine): void {
-    this.vmConsole.activate(model);
+  public activate(model: VirtualMachine): Observable<void> {
+    return this.vmConsole.activate(model);
   }
 }

@@ -1,7 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
 import { MockDialogService } from '../../../../testutils/mocks/mock-dialog.service';
-import { DialogService } from '../../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmConsoleAction } from '../../vm-actions/vm-console';
 import { VmShowPasswordAction } from '../postdeployment-actions/vm-show-password';
