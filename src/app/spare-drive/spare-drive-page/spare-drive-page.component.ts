@@ -183,7 +183,16 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
     this.update();
   }
 
+  private get isCreateVolumeInUrl(): boolean {
+    return this.activatedRoute.children.length
+        && this.activatedRoute.children[0].snapshot.url[0].path === 'create';
+  }
+
   private showSuggestionDialog(): void {
+    if (this.isCreateVolumeInUrl) {
+      return;
+    }
+
     this.userTagService.getAskToCreateVolume()
       .subscribe(tag => {
         if (tag === false) {
