@@ -685,7 +685,7 @@
       "FAILED_TO_REMOVE_RULE": "Не удалось удалить правило",
       "INGRESS_DISPLAY": "Входящий",
       "EGRESS_DISPLAY": "Исходящий",
-      "DEFAULT_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>, порт: <b>{{ port }}</b>",
+      "DEFAULT_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>, порт: <b>{{ startPort }}</b>",
       "DEFAULT_RULE_PORT_RANGE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>, интервал портов: <b>{{ startPort }}-{{ endPort }}</b>",
       "ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>,  ICMP тип: <b>{{ icmpType }}</b>, ICMP код: <b>{{ icmpCode }}</b>"
     },

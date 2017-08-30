@@ -1,9 +1,8 @@
 import { Component, Input } from '@angular/core';
-import {
-  GetICMPCodeTranslationToken, GetICMPTypeTranslationToken,
-  NetworkProtocol
-} from '../sg.model';
+import { NetworkProtocol } from '../sg.model';
 import { RuleListItem } from './sg-creation.component';
+import { TranslateService } from '@ngx-translate/core';
+import { GetICMPCodeTranslationToken, GetICMPTypeTranslationToken } from '../icmp-types';
 
 
 @Component({
@@ -41,5 +40,30 @@ export class SgCreationRuleComponent {
 
   public get icmpCodeTranslationToken(): string {
     return GetICMPCodeTranslationToken(this.item.rule.icmpType, this.item.rule.icmpCode);
+  }
+
+  public get ruleParams(): Object {
+    const params = {
+      type: this.translateService.instant(this.typeTranslationToken),
+      protocol: this.translateService.instant(this.protocolTranslationToken),
+      cidr: this.item.rule.CIDR,
+    };
+
+    if (this.item.rule.protocol === 'icmp') {
+      Object.assign(params, {
+        icmpType: this.translateService.instant(this.icmpTypeTranslationToken),
+        icmpCode: this.translateService.instant(this.icmpCodeTranslationToken)
+      });
+    } else {
+      Object.assign(params, {
+        startPort: this.item.rule.startPort,
+        endPort: this.item.rule.endPort
+      });
+    }
+
+    return params;
+  }
+
+  constructor(private translateService: TranslateService) {
   }
 }

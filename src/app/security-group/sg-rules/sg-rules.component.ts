@@ -3,12 +3,15 @@ import { NgForm } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
 import { SecurityGroupService } from '../../shared/services/security-group.service';
-import {
-  SecurityGroup, NetworkRuleType, NetworkProtocol, ICMPType,
-  ICMPtypes, GetICMPCodeTranslationToken, GetICMPTypeTranslationToken
-} from '../sg.model';
+import { SecurityGroup, NetworkRuleType, NetworkProtocol } from '../sg.model';
 import { NotificationService } from '../../shared/services/notification.service';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import {
+  ICMPType,
+  ICMPtypes,
+  GetICMPCodeTranslationToken,
+  GetICMPTypeTranslationToken
+} from '../icmp-types';
 
 
 @Component({
@@ -95,7 +98,7 @@ export class SgRulesComponent {
     };
 
     if (this.protocol === NetworkProtocol.ICMP) {
-      params.icmptype = this.icmpType;
+      params.icmptype = this._icmpType;
       params.icmpcode = this.icmpCode;
     } else {
       params.startport = this.startPort;

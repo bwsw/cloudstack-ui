@@ -2,35 +2,18 @@
   <h4 md-line>
     <ng-template [ngIf]="item.rule.protocol === NetworkProtocols.ICMP">
     <span
-      [innerHTML]="'SECURITY_GROUP_PAGE.RULES.ICMP_RULE' | translate: ({
-    type: typeTranslationToken | translate,
-    protocol: protocolTranslationToken | translate,
-    cidr: item.rule.CIDR,
-    icmpType: icmpTypeTranslationToken | translate,
-    icmpCode: icmpCodeTranslationToken | translate
-    })"
+      [innerHTML]="'SECURITY_GROUP_PAGE.RULES.ICMP_RULE' | translate: (ruleParams)"
     ></span>
     </ng-template>
     <ng-template [ngIf]="item.rule.protocol !== NetworkProtocols.ICMP">
       <ng-template [ngIf]="item.rule.startPort === item.rule.endPort">
       <span
-        [innerHTML]=" 'SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE' | translate: ({
-      type: typeTranslationToken | translate,
-      protocol: protocolTranslationToken | translate,
-      cidr: item.rule.CIDR,
-      port: item.rule.startPort
-      })"
+        [innerHTML]=" 'SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE' | translate: (ruleParams)"
       ></span>
       </ng-template>
       <ng-template [ngIf]="item.rule.startPort !== item.rule.endPort">
       <span
-        [innerHTML]="'SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE_PORT_RANGE' | translate: ({
-      type: typeTranslationToken | translate,
-      protocol: protocolTranslationToken | translate,
-      cidr: item.rule.CIDR,
-      startPort: item.rule.startPort,
-      endPort: item.rule.endPort
-      })"
+        [innerHTML]="'SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE_PORT_RANGE' | translate: (ruleParams)"
       ></span>
       </ng-template>
     </ng-template>

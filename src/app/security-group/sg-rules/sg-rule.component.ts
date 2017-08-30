@@ -5,10 +5,9 @@ import {
   EventEmitter,
   Output
 } from '@angular/core';
-import {
-  NetworkRule, NetworkRuleType, NetworkProtocol,
-  GetICMPCodeTranslationToken, GetICMPTypeTranslationToken
-} from '../sg.model';
+import { NetworkRule, NetworkRuleType, NetworkProtocol } from '../sg.model';
+import { TranslateService } from '@ngx-translate/core';
+import { GetICMPCodeTranslationToken, GetICMPTypeTranslationToken } from '../icmp-types';
 
 @Component({
   selector: 'cs-security-group-rule',
@@ -50,6 +49,31 @@ export class SgRuleComponent {
 
   public get icmpCodeTranslationToken(): string {
     return GetICMPCodeTranslationToken(this.rule.icmpType, this.rule.icmpCode);
+  }
+
+  public get ruleParams(): Object {
+    const params = {
+      type: this.translateService.instant(this.typeTranslationToken),
+      protocol: this.translateService.instant(this.protocolTranslationToken),
+      cidr: this.rule.CIDR,
+    };
+
+    if (this.rule.protocol === 'icmp') {
+      Object.assign(params, {
+        icmpType: this.translateService.instant(this.icmpTypeTranslationToken),
+        icmpCode: this.translateService.instant(this.icmpCodeTranslationToken)
+      });
+    } else {
+      Object.assign(params, {
+        startPort: this.rule.startPort,
+        endPort: this.rule.endPort
+      });
+    }
+
+    return params;
+  }
+
+  constructor(private translateService: TranslateService) {
   }
 
   public handleRemoveClicked(e: Event): void {
