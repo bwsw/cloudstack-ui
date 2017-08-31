@@ -17,6 +17,7 @@ export interface DayPeriodName {
 @Component({
   selector: 'cs-day-period',
   templateUrl: 'day-period.component.html',
+  styleUrls: ['day-period.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
