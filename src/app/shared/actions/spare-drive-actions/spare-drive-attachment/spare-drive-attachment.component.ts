@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { Volume } from '../../shared/models';
-import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
-import { VolumeService } from '../../shared/services/volume.service';
-import { VirtualMachine } from '../../vm/shared/vm.model';
-import { VmService } from '../../vm/shared/vm.service';
+import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
+import { Volume } from '../../../models';
+import { JobsNotificationService } from '../../../services/jobs-notification.service';
+import { VolumeService } from '../../../services/volume.service';
+import { VirtualMachine } from '../../../../vm/shared/vm.model';
+import { VmService } from '../../../../vm/shared/vm.service';
 
 
 @Component({

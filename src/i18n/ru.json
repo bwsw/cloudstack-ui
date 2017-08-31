@@ -807,8 +807,8 @@
       "NETWORK_WRITE_ERRORS": "Ошибки при записи",
       "DISK_READ": "Чтение с диска",
       "DISK_WRITE": "Запись на диск",
-      "DISK_READ_IOPS": "Чтение с диска (IO/сек)",
-      "DISK_WRITE_IOPS": "Запись на диск (IO/сек)",
+      "DISK_READ_IOPS": "Чтение с диска (IOPS)",
+      "DISK_WRITE_IOPS": "Запись на диск (IOPS)",
       "DISK_IO_ERRORS": "Ошибки IO"
     }
   },

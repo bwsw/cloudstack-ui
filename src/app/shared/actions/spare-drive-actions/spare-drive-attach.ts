@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../models/volume.model';
-import { SpareDriveAttachmentComponent } from '../../../spare-drive/spare-drive-attachment/spare-drive-attachment.component';
+import {
+  SpareDriveAttachmentComponent
+} from './spare-drive-attachment/spare-drive-attachment.component';
 import { SpareDriveAction } from './spare-drive-action';
 
 
