@@ -21,13 +21,13 @@ import {
 })
 export class SgRulesComponent {
   @ViewChild('rulesForm') public rulesForm: NgForm;
+  public selectedType = '';
+  public selectedCode = '';
 
   public type: NetworkRuleType;
   public protocol: NetworkProtocol;
   public startPort: number;
-  private _icmpType: number;
   public icmpCode: number;
-  public icmpCodes: number[];
   public endPort: number;
   public cidr: string;
   public securityGroup: SecurityGroup;
@@ -48,20 +48,45 @@ export class SgRulesComponent {
     { value: NetworkProtocol.ICMP, text: 'SECURITY_GROUP_PAGE.RULES.ICMP' }
   ];
 
+  private _icmpType: number;
+  private _icmpTypes: ICMPType[] = ICMPtypes;
+  private _icmpCodes: number[];
+
   public get icmpTypes(): ICMPType[] {
-    return ICMPtypes;
+    return this._icmpTypes;
   }
 
-  public get icmpType(): ICMPType {
-    return this._icmpType === undefined
-      ? this.icmpType = this.icmpTypes[0]
-      : this.icmpTypes.find(_ => _.type === this._icmpType);
+  public set icmpTypes(value: ICMPType[]) {
+    this._icmpTypes = value;
+
+    if (+this.selectedType <= 255 && +this.selectedType >= -1) {
+      this.icmpType = +this.selectedType;
+      const type = ICMPtypes.find(_ => {
+        return _.type === this.icmpType;
+      });
+      this.selectedCode = '';
+      this.icmpCodes = type ? type.codes : [];
+    }
   }
 
-  public set icmpType(value: ICMPType) {
-    this._icmpType = value.type;
-    this.icmpCodes = value.codes;
-    this.icmpCode = this.icmpCodes[0];
+  public get icmpType(): number {
+    return this._icmpType;
+  }
+
+  public set icmpType(value: number) {
+    this._icmpType = value;
+  }
+
+  public set icmpCodes(value: number[]) {
+    this._icmpCodes = value;
+
+    if (+this.selectedCode <= 255 && +this.selectedCode >= -1) {
+      this.icmpCode = +this.selectedCode;
+    }
+  }
+
+  public get icmpCodes(): number[] {
+    return this._icmpCodes;
   }
 
   constructor(
@@ -150,6 +175,19 @@ export class SgRulesComponent {
             this.notificationService.message(translations['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE']);
           });
       });
+  }
+
+  public filterTypes(val: string) {
+    return val ? ICMPtypes.filter(_ => _.type.toString() === val ||
+      this.translateService.instant(this.getIcmpTypeTranslationToken(_.type))
+        .indexOf(val) !== -1) : ICMPtypes;
+  }
+
+  public filterCodes(val: string) {
+    return val ? this.icmpCodes.filter(_ =>
+      _.toString() === val ||
+      this.translateService.instant(this.getIcmpCodeTranslationToken(this._icmpType, _))
+        .indexOf(val) !== -1) : this.icmpCodes;
   }
 
   public onClose(): void {

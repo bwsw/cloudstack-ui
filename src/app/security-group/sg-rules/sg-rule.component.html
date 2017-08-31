@@ -1,8 +1,15 @@
 <td class="mat-cell" colspan="5">
   <ng-template [ngIf]="rule.protocol === NetworkProtocols.ICMP">
-    <span
-      [innerHTML]="'SECURITY_GROUP_PAGE.RULES.ICMP_RULE' | translate: (ruleParams)"
-    ></span>
+    <ng-template [ngIf]="!ruleParams['icmpTypeText'] || !ruleParams['icmpCodeText']">
+      <span
+        [innerHTML]="'SECURITY_GROUP_PAGE.RULES.NO_TEXT_ICMP_RULE' | translate: (ruleParams)"
+      ></span>
+    </ng-template>
+    <ng-template [ngIf]="ruleParams['icmpTypeText'] || ruleParams['icmpCodeText']">
+      <span
+        [innerHTML]="'SECURITY_GROUP_PAGE.RULES.DEFAULT_ICMP_RULE' | translate: (ruleParams)"
+      ></span>
+    </ng-template>
   </ng-template>
   <ng-template [ngIf]="rule.protocol !== NetworkProtocols.ICMP">
     <ng-template [ngIf]="rule.startPort === rule.endPort">

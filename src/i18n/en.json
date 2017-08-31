@@ -591,7 +591,8 @@
       "FAILED_TO_REMOVE_RULE": "Failed to remove the rule",
       "DEFAULT_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }} to port {{ startPort }}</b>",
       "DEFAULT_RULE_PORT_RANGE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> to <b>port range {{ startPort }}-{{ endPort }}</b>",
-      "ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> of ICMP type <b>{{ icmpTypeText }} ({{ icmpType }})</b> and ICMP code <b>{{ icmpCodeText }} ({{ icmpCode }})</b> "
+      "DEFAULT_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> of ICMP type <b>{{ icmpTypeText }} [{{ icmpType }}]</b> and ICMP code <b>{{ icmpCodeText }} [{{ icmpCode }}]</b> ",
+      "NO_TEXT_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> of ICMP type <b>{{ icmpType }}</b> and ICMP code <b>{{ icmpCode }}</b> "
     },
     "RULES_MANAGER": {
       "BASED_ON": "based on"

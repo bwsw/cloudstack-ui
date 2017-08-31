@@ -6,8 +6,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
+  MdAutocompleteModule,
   MdCardModule,
   MdIconModule,
+  MdInputModule,
   MdListModule,
   MdMenuModule,
   MdSelectModule,
@@ -147,7 +149,9 @@ import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-driv
     MdMenuModule,
     MdCardModule,
     MdTableModule,
-    CdkTableModule
+    CdkTableModule,
+    MdAutocompleteModule,
+    MdInputModule
   ],
   exports: [
     GroupedCardListComponent,
@@ -194,7 +198,9 @@ import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-driv
     CdkTableModule,
     MdSnackBarModule,
     SpareDriveActionsComponent,
-    TemplateActionsComponent
+    TemplateActionsComponent,
+    MdAutocompleteModule,
+    MdInputModule
   ],
   entryComponents: [
     DatePickerDialogComponent,

@@ -50,11 +50,20 @@ export class SgCreationRuleComponent {
     };
 
     if (this.item.rule.protocol === 'icmp') {
+      let typeTranslation = this.translateService.instant(this.icmpTypeTranslationToken);
+      if (typeTranslation === this.icmpTypeTranslationToken) {
+        typeTranslation = null;
+      }
+      let codeTranslation = this.translateService.instant(this.icmpCodeTranslationToken);
+      if (codeTranslation === this.icmpCodeTranslationToken) {
+        codeTranslation = null;
+      }
+
       Object.assign(params, {
         icmpType: this.item.rule.icmpType,
         icmpCode: this.item.rule.icmpCode,
-        icmpTypeText: this.translateService.instant(this.icmpTypeTranslationToken),
-        icmpCodeText: this.translateService.instant(this.icmpCodeTranslationToken)
+        icmpTypeText: typeTranslation,
+        icmpCodeText: codeTranslation
       });
     } else {
       Object.assign(params, {
