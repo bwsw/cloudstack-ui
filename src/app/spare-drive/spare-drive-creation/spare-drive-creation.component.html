@@ -15,7 +15,9 @@
           autofocus
           required
         >
-        <md-hint align="end">{{ name?.length || 0 }} / 255</md-hint>
+        <md-hint align="end">
+          <cs-character-count [value]="name" [maxLength]="255"></cs-character-count>
+        </md-hint>
       </md-input-container>
       <div>
         <h5>{{ 'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.ZONE' | translate }}</h5>

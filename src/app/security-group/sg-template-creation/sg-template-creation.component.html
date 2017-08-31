@@ -1,6 +1,7 @@
 <cs-overlay-loading [active]="creationInProgress"></cs-overlay-loading>
 <div [hidden]="creationInProgress">
-  <h3 class="mat-dialog-title">{{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.CREATE_NEW_TEMPLATE' | translate }}</h3>
+  <h3 class="mat-dialog-title">{{
+    'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.CREATE_NEW_TEMPLATE' | translate }}</h3>
 
   <form (ngSubmit)="onSubmit($event)" #templateCreationForm="ngForm" novalidate>
     <div class="mat-dialog-content">
@@ -14,9 +15,11 @@
           maxlength="255"
           required
         >
-        <md-hint align="end">{{ name?.length || 0 }} / 255</md-hint>
+        <md-hint align="end">
+          <cs-character-count [value]="name" [maxLength]="255"></cs-character-count>
+        </md-hint>
       </md-input-container>
-      <br/>
+      <br />
       <md-input-container class="full-width-input">
         <input
           mdInput
@@ -25,7 +28,12 @@
           [placeholder]="'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.DESCRIPTION' | translate"
           maxlength="255"
         >
-        <md-hint align="end">{{ description?.length || 0 }} / 255</md-hint>
+        <md-hint align="end">
+          <cs-character-count
+            [value]="description"
+            [maxLength]="255"
+          ></cs-character-count>
+        </md-hint>
       </md-input-container>
       <br />
       <cs-security-group-rules-manager
