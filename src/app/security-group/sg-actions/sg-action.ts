@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { SecurityGroupService } from '../../shared/services/security-group/security-group.service';
+import { SecurityGroupService } from '../services/security-group.service';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { SecurityGroup } from '../sg.model';

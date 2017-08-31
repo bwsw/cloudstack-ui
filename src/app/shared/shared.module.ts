@@ -97,7 +97,7 @@ import { OsTypeService } from './services/os-type.service';
 import { ResourceLimitService } from './services/resource-limit.service';
 import { ResourceUsageService } from './services/resource-usage.service';
 import { RouterUtilsService } from './services/router-utils.service';
-import { SecurityGroupService } from './services/security-group/security-group.service';
+import { SecurityGroupService } from '../security-group/services/security-group.service';
 import { ServiceOfferingFilterService } from './services/service-offering-filter.service';
 import { ServiceOfferingService } from './services/service-offering.service';
 import { SessionStorageService } from './services/session-storage.service';

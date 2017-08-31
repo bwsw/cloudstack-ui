@@ -1,16 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListService } from '../../shared/components/list/list.service';
-import { SecurityGroupService } from '../../shared/services/security-group/security-group.service';
+import { SecurityGroupService } from '../services/security-group.service';
 import { SecurityGroupViewMode } from '../sg-filter/sg-filter.component';
 import { SecurityGroup, SecurityGroupType } from '../sg.model';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 
-
-export enum SecurityGroupCreationMode {
-  templates,
-  shared
-}
 
 @Component({
   selector: 'cs-security-group-template-list',

@@ -22,7 +22,7 @@ export class SecurityGroupRemoveAction extends SecurityGroupAction {
   }
 
   public onConfirm(securityGroup: SecurityGroup): Observable<any> {
-    return this.securityGroupService.deleteTemplate(securityGroup)
+    return this.securityGroupService.deleteGroup(securityGroup)
       .map(() => {
         this.notificationService.message({
           translationToken: 'NOTIFICATIONS.TEMPLATE.DELETED',

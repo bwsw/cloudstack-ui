@@ -702,6 +702,7 @@
 
     "TEMPLATE_CREATION": {
       "CREATE_NEW_TEMPLATE": "Create new template",
+      "CREATE_NEW_SHARED_GROUP": "Create new shared group",
       "NAME": "Name",
       "DESCRIPTION": "Description",
       "BASIC_RULES": "Basic rules"

@@ -5,7 +5,7 @@ import { SecurityGroup } from '../../../security-group/sg.model';
 import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { InstanceGroupService } from '../../../shared/services/instance-group.service';
-import { GROUP_POSTFIX, SecurityGroupService } from '../../../shared/services/security-group/security-group.service';
+import { GROUP_POSTFIX, SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { Utils } from '../../../shared/services/utils.service';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
@@ -144,11 +144,13 @@ export class VmDeploymentService {
         });
       })
       .switchMap(() => {
-        return this.securityGroupObservable.createWithRules(
-          { name },
-          state.securityRules.ingress,
-          state.securityRules.egress
-        );
+        const data = { name };
+        const rules = {
+          ingress: state.securityRules.ingress,
+          egress: state.securityRules.egress
+        };
+
+        return this.securityGroupObservable.createPrivate(data, rules);
       })
       .do(() => {
         deployObservable.next({

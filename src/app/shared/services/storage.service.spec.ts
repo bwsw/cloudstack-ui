@@ -4,7 +4,7 @@ import { SessionStorageService } from './session-storage.service';
 import { MemoryStorageService } from './memory-storage.service';
 
 
-describe('Storage services (Local Storage)', () => {
+describe('Storage creation-services (Local Storage)', () => {
   let localStorageService: LocalStorageService;
 
   beforeEach(() => {
@@ -24,7 +24,7 @@ describe('Storage services (Local Storage)', () => {
   });
 });
 
-describe('Storage services (Session Storage)', () => {
+describe('Storage creation-services (Session Storage)', () => {
   let sessionStorageService: SessionStorageService;
 
   beforeEach(() => {
@@ -44,7 +44,7 @@ describe('Storage services (Session Storage)', () => {
   });
 });
 
-describe('Storage services (Memory Storage)', () => {
+describe('Storage creation-services (Memory Storage)', () => {
   let memoryStorageService: MemoryStorageService;
 
   beforeEach(() => {

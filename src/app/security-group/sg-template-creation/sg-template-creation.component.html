@@ -1,6 +1,12 @@
 <cs-overlay-loading [active]="creationInProgress"></cs-overlay-loading>
 <div [hidden]="creationInProgress">
-  <h3 class="mat-dialog-title">{{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.CREATE_NEW_TEMPLATE' | translate }}</h3>
+  <h3 *ngIf="isModeTemplates" class="mat-dialog-title">
+    {{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.CREATE_NEW_TEMPLATE' | translate }}
+  </h3>
+
+  <h3 *ngIf="isModeShared" class="mat-dialog-title">
+    {{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.CREATE_NEW_SHARED_GROUP' | translate }}
+  </h3>
 
   <form (ngSubmit)="onSubmit($event)" #templateCreationForm="ngForm" novalidate>
     <div class="mat-dialog-content">

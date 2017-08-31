@@ -1,18 +1,15 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Rules } from '../../../security-group/sg-creation/sg-creation.component';
-import { NetworkRuleType, SecurityGroup } from '../../../security-group/sg.model';
-import { BackendResource } from '../../decorators';
-import { AsyncJobService } from '../async-job.service';
-import { BaseBackendCachedService } from '../base-backend-cached.service';
-import { ConfigService } from '../config.service';
-import { SecurityGroupTagService } from '../tags/security-group-tag.service';
-import { NetworkProtocol, NetworkRule } from '../../../security-group/network-rule.model';
 import { Subject } from 'rxjs/Subject';
-import { NetworkRuleService } from './network-rule.service';
-import { PrivateSecurityGroupCreationService } from './creation/private-security-group-creation.service';
-import { TemplateSecurityGroupCreationService } from './creation/template-security-group-creation.service';
-import { SharedSecurityGroupCreationService } from './creation/shared-security-group-creation.service';
+import { Rules } from '../sg-creation/sg-creation.component';
+import { SecurityGroup } from '../sg.model';
+import { BackendResource } from '../../shared/decorators';
+import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
+import { ConfigService } from '../../shared/services/config.service';
+import { SecurityGroupTagService } from '../../shared/services/tags/security-group-tag.service';
+import { PrivateSecurityGroupCreationService } from './creation-services/private-security-group-creation.service';
+import { SharedSecurityGroupCreationService } from './creation-services/shared-security-group-creation.service';
+import { TemplateSecurityGroupCreationService } from './creation-services/template-security-group-creation.service';
 
 
 export const GROUP_POSTFIX = '-cs-sg';
@@ -23,11 +20,11 @@ export const GROUP_POSTFIX = '-cs-sg';
   entityModel: SecurityGroup
 })
 export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup> {
+  public onSecurityGroupCreated = new Subject<SecurityGroup>();
   public onSecurityGroupDeleted = new Subject<SecurityGroup>();
 
   constructor(
     private configService: ConfigService,
-    private networkRuleService: NetworkRuleService,
     private privateSecurityGroupCreation: PrivateSecurityGroupCreationService,
     private securityGroupTagService: SecurityGroupTagService,
     private sharedSecurityGroupCreation: SharedSecurityGroupCreationService,
@@ -43,18 +40,24 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
   }
 
   public createShared(data: any, rules?: Rules): Observable<SecurityGroup> {
-    return this.sharedSecurityGroupCreation.createTemplate(data, rules);
+    this.invalidateCache();
+    return this.sharedSecurityGroupCreation.createGroup(data, rules)
+      .do(securityGroup => this.onSecurityGroupCreated.next(securityGroup));
   }
 
   public createTemplate(data: any, rules?: Rules): Observable<SecurityGroup> {
-    return this.templateSecurityGroupCreation.createTemplate(data, rules);
+    this.invalidateCache();
+    return this.templateSecurityGroupCreation.createGroup(data, rules)
+      .do(securityGroup => this.onSecurityGroupCreated.next(securityGroup));
   }
 
   public createPrivate(data: any, rules?: Rules): Observable<SecurityGroup> {
-    return this.privateSecurityGroupCreation.createTemplate(data, rules);
+    this.invalidateCache();
+    return this.privateSecurityGroupCreation.createGroup(data, rules)
+      .do(securityGroup => this.onSecurityGroupCreated.next(securityGroup));
   }
 
-  public deleteTemplate(securityGroup: SecurityGroup): Observable<any> {
+  public deleteGroup(securityGroup: SecurityGroup): Observable<any> {
     this.invalidateCache();
     return this.remove({ id: securityGroup.id })
       .map(result => {

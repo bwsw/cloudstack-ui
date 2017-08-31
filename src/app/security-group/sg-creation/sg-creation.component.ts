@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
-import { SecurityGroupService } from '../../shared/services/security-group/security-group.service';
+import { SecurityGroupService } from '../services/security-group.service';
 import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag-keys';
 import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { NetworkRule } from '../network-rule.model';

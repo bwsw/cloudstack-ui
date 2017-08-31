@@ -9,7 +9,7 @@ import { VolumeType } from '../../shared/models/volume.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { ApiFormat, BaseBackendService } from '../../shared/services/base-backend.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
-import { SecurityGroupService } from '../../shared/services/security-group/security-group.service';
+import { SecurityGroupService } from '../../security-group/services/security-group.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VolumeService } from '../../shared/services/volume.service';

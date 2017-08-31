@@ -25,6 +25,11 @@ import { SecurityGroupActionsService } from './sg-actions/sg-action.service';
 import { SecurityGroupViewAction } from './sg-actions/sg-view';
 import { SecurityGroupEditAction } from './sg-actions/sg-edit';
 import { SecurityGroupRemoveAction } from './sg-actions/sg-remove';
+import { PrivateSecurityGroupCreationService } from './services/creation-services/private-security-group-creation.service';
+import { SharedSecurityGroupCreationService } from './services/creation-services/shared-security-group-creation.service';
+import { TemplateSecurityGroupCreationService } from './services/creation-services/template-security-group-creation.service';
+import { NetworkRuleService } from './services/network-rule.service';
+import { SecurityGroupService } from './services/security-group.service';
 
 
 @NgModule({
@@ -60,10 +65,15 @@ import { SecurityGroupRemoveAction } from './sg-actions/sg-remove';
     SgRuleComponent,
   ],
   providers: [
+    NetworkRuleService,
+    SecurityGroupService,
     SecurityGroupActionsService,
     SecurityGroupViewAction,
     SecurityGroupEditAction,
-    SecurityGroupRemoveAction
+    SecurityGroupRemoveAction,
+    PrivateSecurityGroupCreationService,
+    SharedSecurityGroupCreationService,
+    TemplateSecurityGroupCreationService
   ],
   entryComponents: [
     SgCreationComponent,

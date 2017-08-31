@@ -3,9 +3,10 @@ import { NgForm } from '@angular/forms';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../shared/services/notification.service';
-import { SecurityGroupService } from '../../shared/services/security-group/security-group.service';
+import { SecurityGroupService } from '../services/security-group.service';
 import { NetworkProtocol } from '../network-rule.model';
 import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
+import { NetworkRuleService } from '../services/network-rule.service';
 
 
 @Component({
@@ -44,7 +45,7 @@ export class SgRulesComponent {
   constructor(
     public dialogRef: MdDialogRef<SgRulesComponent>,
     @Inject(MD_DIALOG_DATA) data,
-    private securityGroupService: SecurityGroupService,
+    private networkRuleService: NetworkRuleService,
     private notificationService: NotificationService,
     private translateService: TranslateService
   ) {
@@ -86,7 +87,7 @@ export class SgRulesComponent {
 
     this.adding = true;
 
-    this.securityGroupService.addRule(type, params)
+    this.networkRuleService.addRule(type, params)
       .subscribe(
         rule => {
           this.securityGroup[`${type.toLowerCase()}Rules`].push(rule);
@@ -118,7 +119,7 @@ export class SgRulesComponent {
   }
 
   public removeRule({ type, id }): void {
-    this.securityGroupService.removeRule(type, { id })
+    this.networkRuleService.removeRule(type, { id })
       .subscribe(() => {
         const rules = this.securityGroup[`${type.toLowerCase()}Rules`];
         const ind = rules.findIndex(rule => rule.ruleId === id);

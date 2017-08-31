@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { NetworkRule } from '../../../security-group/network-rule.model';
-import { NetworkRuleType, SecurityGroup } from '../../../security-group/sg.model';
-import { BackendResource } from '../../decorators/backend-resource.decorator';
-import { BaseBackendCachedService } from '../base-backend-cached.service';
-import { AsyncJobService } from '../async-job.service';
+import { NetworkRule } from '../network-rule.model';
+import { NetworkRuleType, SecurityGroup } from '../sg.model';
+import { BackendResource } from '../../shared/decorators/backend-resource.decorator';
+import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
+import { AsyncJobService } from '../../shared/services/async-job.service';
 
 
 @Injectable()
