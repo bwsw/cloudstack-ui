@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TemplateCreationComponent } from './template-creation.component';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { ListService } from '../../shared/components/list/list.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
+import { TemplateCreationComponent } from './template-creation.component';
+
 
 @Component({
   selector: 'cs-template-create-dialog',
@@ -20,13 +21,12 @@ export class TemplateCreationDialogComponent implements OnInit {
   }
 
   public ngOnInit() {
-    const viewMode = this.storageService.read('templateDisplayMode') || 'Template';
-
     this.dialog.open(TemplateCreationComponent, {
-      data: { mode: viewMode },
+      data: { mode: this.viewMode },
       disableClose: true,
       width: '720px'
-    }).afterClosed()
+    })
+      .afterClosed()
       .subscribe(templateData => {
         if (templateData) {
           this.listService.onUpdate.emit(templateData);
@@ -36,5 +36,9 @@ export class TemplateCreationDialogComponent implements OnInit {
           relativeTo: this.activatedRoute
         });
       });
+  }
+
+  private get viewMode(): string {
+    return this.storageService.read('templateDisplayMode') || 'Template';
   }
 }

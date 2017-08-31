@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialog, MdDialogConfig } from '@angular/material';
-import { Observable } from 'rxjs';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
-
-import { ListService } from '../../shared/components/list/list.service';
-import { NotificationService } from '../../shared/services/notification.service';
-import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { SecurityGroup } from '../sg.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag-keys';
-import { SgRulesComponent } from '../sg-rules/sg-rules.component';
+import { ListService } from '../../shared/components/list/list.service';
+import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { SecurityGroupViewMode } from '../sg-filter/sg-filter.component';
+import { SecurityGroup, SecurityGroupType } from '../sg.model';
 
+
+export enum SecurityGroupCreationMode {
+  Template,
+  Shared
+}
 
 @Component({
   selector: 'cs-security-group-template-list',
@@ -21,46 +20,57 @@ import { SgRulesComponent } from '../sg-rules/sg-rules.component';
 export class SgTemplateListComponent implements OnInit {
   public predefinedSecurityGroupList: Array<SecurityGroup>;
   public customSecurityGroupList: Array<SecurityGroup>;
+  public sharedSecurityGroupList: Array<SecurityGroup>;
+
+  public filterData: any;
+  public viewMode = SecurityGroupViewMode.Templates;
 
   constructor(
     private securityGroupService: SecurityGroupService,
-    private dialogService: DialogService,
     private listService: ListService,
-    private dialog: MdDialog,
-    private notificationService: NotificationService,
     private router: Router,
     private activatedRoute: ActivatedRoute
-  ) {
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.update();
+
+    this.securityGroupService.onSecurityGroupDeleted.subscribe(securityGroup => {
+      this.customSecurityGroupList = this.customSecurityGroupList
+        .filter(sg => {
+          return sg.id !== securityGroup.id;
+        });
+
+      this.sharedSecurityGroupList = this.sharedSecurityGroupList
+        .filter(sg => {
+          return sg.id !== securityGroup.id;
+        });
+    });
   }
 
-  public deleteSecurityGroupTemplate(securityGroup: SecurityGroup): void {
-    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.TEMPLATE.CONFIRM_DELETION' })
-      .onErrorResumeNext()
-      .switchMap((res) => {
-        if (res) {
-          return this.securityGroupService.deleteTemplate(securityGroup.id);
-        } else {
-          return Observable.of(null);
-        }
-      })
-      .subscribe(
-        res => {
-          if (res && res.success === 'true') {
-            this.customSecurityGroupList = this.customSecurityGroupList
-              .filter(sg => {
-              return sg.id !== securityGroup.id;
-            });
-            this.notificationService.message({
-              translationToken: 'NOTIFICATIONS.TEMPLATE.DELETED',
-              interpolateParams: { name: securityGroup.name }
-            });
-          }
-        }
-      );
+  public get loaded(): boolean {
+    return !!this.predefinedSecurityGroupList
+      && !!this.customSecurityGroupList
+      && !!this.sharedSecurityGroupList;
+  }
+
+  public get isViewModeTemplates(): boolean {
+    return this.viewMode === SecurityGroupViewMode.Templates;
+  }
+
+  public get isViewModeShared(): boolean {
+    return this.viewMode === SecurityGroupViewMode.Shared;
+  }
+
+  public updateFiltersAndFilter(filterData: any): void {
+    this.filterData = filterData;
+    this.filter();
+  }
+
+  public filter(): void {
+    if (this.filterData.viewMode) {
+      this.viewMode = this.filterData.viewMode;
+    }
   }
 
   public showCreationDialog(): void {
@@ -74,24 +84,16 @@ export class SgTemplateListComponent implements OnInit {
     });
   }
 
-  private update() {
-    const securityGroupTemplates = this.securityGroupService.getTemplates();
-    const accountSecurityGroups = this.securityGroupService.getList({
-      'tags[0].key': SecurityGroupTagKeys.template,
-      'tags[0].value': 'true'
-    });
-
-    accountSecurityGroups
-      .subscribe(groups => {
-        this.predefinedSecurityGroupList = securityGroupTemplates;
-        this.customSecurityGroupList = groups;
+  private update(): void {
+    this.predefinedSecurityGroupList = this.securityGroupService.getTemplates();
+    this.securityGroupService.getList().subscribe(securityGroups => {
+      this.customSecurityGroupList = securityGroups.filter(securityGroup => {
+        return securityGroup.type === SecurityGroupType.CustomTemplate;
       });
-  }
 
-  public showRulesDialog(group: SecurityGroup): void {
-    this.dialog.open(SgRulesComponent, <MdDialogConfig>{
-      width: '880px',
-      data: { securityGroup: group }
+      this.sharedSecurityGroupList = securityGroups.filter(securityGroup => {
+        return securityGroup.type === SecurityGroupType.Shared;
+      });
     });
   }
 }

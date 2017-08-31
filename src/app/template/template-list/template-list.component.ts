@@ -1,6 +1,5 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { BaseTemplateModel } from '../shared/base-template.model';
-import { Template } from '../shared';
 
 
 @Component({
@@ -20,9 +19,5 @@ export class TemplateListComponent {
   public selectTemplate(template: BaseTemplateModel): void {
     this.selectedTemplate = template;
     this.selectedTemplateChange.emit(this.selectedTemplate);
-  }
-
-  public removeTemplate(template: Template): void {
-    this.deleteTemplate.next(template);
   }
 }

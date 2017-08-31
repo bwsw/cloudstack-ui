@@ -2,49 +2,19 @@ import { BaseModel } from '../shared/models/base.model';
 import { FieldMapper } from '../shared/decorators/field-mapper.decorator';
 import { Taggable } from '../shared/interfaces/taggable.interface';
 import { Tag } from '../shared/models/tag.model';
+import { NetworkRule } from './network-rule.model';
+import { SecurityGroupTagKeys } from '../shared/services/tags/security-group-tag-keys';
 
+
+export enum SecurityGroupType {
+  PredefinedTemplate = 'predefined-template',
+  CustomTemplate = 'custom-template',
+  Shared = 'shared'
+}
 
 export enum NetworkRuleType {
   Ingress = 'Ingress',
   Egress = 'Egress'
-}
-
-export enum NetworkProtocol {
-  TCP = 'tcp',
-  UDP = 'udp',
-  ICMP = 'icmp'
-}
-
-@FieldMapper({
-  ruleid: 'ruleId',
-  cidr: 'CIDR',
-  startport: 'startPort',
-  endport: 'endPort',
-  icmpcode: 'icmpCode',
-  icmptype: 'icmpType',
-})
-export class NetworkRule extends BaseModel  {
-  public ruleId: string;
-  public protocol: NetworkProtocol;
-  public CIDR: string;
-  public startPort?: number;
-  public endPort?: number;
-  public icmpCode?: number;
-  public icmpType?: number;
-
-  public isEqual(networkRule: NetworkRule): boolean {
-    if (this.CIDR !== networkRule.CIDR || this.protocol !== networkRule.protocol) {
-      return false;
-    }
-
-    if (this.protocol === NetworkProtocol.TCP || this.protocol === NetworkProtocol.UDP) {
-      return this.startPort === networkRule.startPort && this.endPort === networkRule.endPort;
-    }
-
-    if (this.protocol === NetworkProtocol.ICMP) {
-      return this.icmpCode === networkRule.icmpCode && this.icmpType === networkRule.icmpType;
-    }
-  }
 }
 
 @FieldMapper({
@@ -74,8 +44,22 @@ export class SecurityGroup extends BaseModel implements Taggable {
     this.initializeTags();
   }
 
-  public get isPredefinedTemplate(): boolean {
-    return this.id.startsWith('template');
+  public get type(): SecurityGroupType {
+    if (this.id.startsWith('template')) {
+      return SecurityGroupType.PredefinedTemplate;
+    }
+
+    if (this.isCustomTemplate) {
+      return SecurityGroupType.CustomTemplate;
+    }
+
+    return SecurityGroupType.Shared;
+  }
+
+  private get isCustomTemplate(): boolean {
+    const typeTag = this.tags.find(tag => tag.key === SecurityGroupTagKeys.template);
+
+    return typeTag && typeTag.value === 'true';
   }
 
   private initializeIngressRules(): void {

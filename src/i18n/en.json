@@ -657,9 +657,15 @@
   },
 
   "SECURITY_GROUP_PAGE": {
+    "FILTERS": {
+      "TEMPLATES": "Templates",
+      "SHARED": "Shared"
+    },
+
     "LIST": {
       "SYSTEM_SECURITY_GROUPS": "System",
-      "CUSTOM_SECURITY_GROUPS": "Custom"
+      "CUSTOM_SECURITY_GROUPS": "Custom",
+      "SHARED_SECURITY_GROUPS": "Shared"
     },
 
     "CARD": {

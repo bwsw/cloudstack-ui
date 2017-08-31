@@ -3,7 +3,10 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdSelectModule, MdTooltipModule,  MdMenuModule, MdButtonModule, MdIconModule } from '@angular/material';
+import {
+  MdSelectModule, MdTooltipModule, MdMenuModule, MdButtonModule, MdIconModule,
+  MdTabsModule
+} from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../shared/shared.module';
 
@@ -16,6 +19,12 @@ import { SgTemplateListItemComponent } from './sg-template-list/sg-template-list
 import { SgTemplateListComponent } from './sg-template-list/sg-template-list.component';
 import { SgTemplateCreationDialogComponent } from './sg-template-creation/sg-template-creation-dialog.component';
 import { sgRouting } from './sg.routing';
+import { SgFilterComponent } from './sg-filter/sg-filter.component';
+import { SecurityGroupActionsComponent } from './sg-actions/sg-actions-component/sg-actions.component';
+import { SecurityGroupActionsService } from './sg-actions/sg-action.service';
+import { SecurityGroupViewAction } from './sg-actions/sg-view';
+import { SecurityGroupEditAction } from './sg-actions/sg-edit';
+import { SecurityGroupRemoveAction } from './sg-actions/sg-remove';
 
 
 @NgModule({
@@ -31,6 +40,7 @@ import { sgRouting } from './sg.routing';
     MdMenuModule,
     MdButtonModule,
     MdIconModule,
+    MdTabsModule,
     sgRouting
   ],
   exports: [
@@ -38,14 +48,22 @@ import { sgRouting } from './sg.routing';
     SgTemplateListComponent
   ],
   declarations: [
+    SecurityGroupActionsComponent,
     SgCreationComponent,
     SgCreationRuleComponent,
+    SgFilterComponent,
     SgTemplateListComponent,
     SgTemplateListItemComponent,
     SgTemplateCreationComponent,
     SgTemplateCreationDialogComponent,
     SgRulesComponent,
     SgRuleComponent,
+  ],
+  providers: [
+    SecurityGroupActionsService,
+    SecurityGroupViewAction,
+    SecurityGroupEditAction,
+    SecurityGroupRemoveAction
   ],
   entryComponents: [
     SgCreationComponent,

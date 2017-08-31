@@ -1,13 +1,6 @@
+import { NetworkRule } from '../../../security-group/network-rule.model';
 import { Rules } from '../../../security-group/sg-creation/sg-creation.component';
-import { NetworkRule } from '../../../security-group/sg.model';
-import {
-  AffinityGroup,
-  DiskOffering,
-  InstanceGroup,
-  ServiceOffering,
-  SSHKeyPair,
-  Zone
-} from '../../../shared/models';
+import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../../shared/models';
 import { BaseTemplateModel } from '../../../template/shared';
 import { KeyboardLayout } from '../keyboards/keyboards.component';
 import { NotSelected } from '../services/vm-creation.service';

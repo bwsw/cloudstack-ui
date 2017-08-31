@@ -1,0 +1,10 @@
+<ng-container *ngFor="let action of securityGroupActionsService.actions">
+  <button
+    md-menu-item
+    *ngIf="!action.hidden(securityGroup)"
+    (click)="onAction(action)"
+  >
+    <md-icon>{{ action.icon }}</md-icon>
+    <span>{{ action.name | translate }}</span>
+  </button>
+</ng-container>

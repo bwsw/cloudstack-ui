@@ -1,11 +1,6 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  Input,
-  EventEmitter,
-  Output
-} from '@angular/core';
-import { NetworkRule, NetworkRuleType, NetworkProtocol } from '../sg.model';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { NetworkProtocol, NetworkRule } from '../network-rule.model';
+import { NetworkRuleType } from '../sg.model';
 
 
 @Component({

@@ -652,9 +652,15 @@
   },
 
   "SECURITY_GROUP_PAGE": {
+    "FILTERS": {
+      "TEMPLATES": "Templates",
+      "SHARED": "Shared"
+    },
+
     "LIST": {
       "SYSTEM_SECURITY_GROUPS": "Системные",
-      "CUSTOM_SECURITY_GROUPS": "Пользовательские"
+      "CUSTOM_SECURITY_GROUPS": "Пользовательские",
+      "SHARED_SECURITY_GROUPS": "Разделяемые"
     },
 
     "CARD": {

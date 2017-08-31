@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
-
 import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { NetworkRule, NetworkRuleType, SecurityGroup } from '../sg.model';
 import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag-keys';
+import { NetworkRuleType, SecurityGroup } from '../sg.model';
+import { NetworkRule } from '../network-rule.model';
 
 
 export interface RuleListItem {

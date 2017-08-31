@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NetworkProtocol } from '../sg.model';
+import { NetworkProtocol } from '../network-rule.model';
 import { RuleListItem } from './sg-creation.component';
 
 
