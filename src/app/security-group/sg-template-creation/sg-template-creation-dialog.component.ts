@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MdDialog, MdDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SgTemplateCreationComponent } from './sg-template-creation.component';
@@ -12,7 +12,7 @@ import { ListService } from '../../shared/components/list/list.service';
   selector: 'cs-sg-template-create-dialog',
   template: ``
 })
-export class SgTemplateCreationDialogComponent implements OnInit {
+export class SgTemplateCreationDialogComponent {
   constructor(
     private dialog: MdDialog,
     private router: Router,
@@ -20,9 +20,6 @@ export class SgTemplateCreationDialogComponent implements OnInit {
     private notificationService: NotificationService,
     private listService: ListService
   ) {
-  }
-
-  public ngOnInit() {
     this.dialog.open(SgTemplateCreationComponent, <MdDialogConfig>{
       disableClose: true,
       width: '450px'
@@ -31,7 +28,7 @@ export class SgTemplateCreationDialogComponent implements OnInit {
       .subscribe((template: SecurityGroup) => {
         if (!template) {
           this.router.navigate(['../'], {
-            preserveQueryParams: true,
+            queryParamsHandling: 'preserve',
             relativeTo: this.activatedRoute
           });
 
@@ -54,7 +51,7 @@ export class SgTemplateCreationDialogComponent implements OnInit {
       .afterClosed()
       .subscribe(() => {
         this.router.navigate(['../'], {
-          preserveQueryParams: true,
+          queryParamsHandling: 'preserve',
           relativeTo: this.activatedRoute
         });
       });

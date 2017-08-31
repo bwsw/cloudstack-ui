@@ -69,7 +69,7 @@ export class SgTemplateListComponent implements OnInit {
     });
 
     this.router.navigate(['./create'], {
-      preserveQueryParams: true,
+      queryParamsHandling: 'preserve',
       relativeTo: this.activatedRoute
     });
   }
