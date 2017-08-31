@@ -8,7 +8,7 @@
 <md-input-container class="full-width-input">
   <input
     mdInput
-    [value]="selectedColor?.value"
+    [value]="selectedColor?.value.toLowerCase()"
     [disabled]="disabled"
     readonly
     (click)="toggle($event)"

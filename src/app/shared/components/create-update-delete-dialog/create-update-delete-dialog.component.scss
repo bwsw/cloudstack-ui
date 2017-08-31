@@ -13,6 +13,10 @@ mdl-radio {
   width: 100%;
 }
 
-.mdl-dialog__content {
-  padding-bottom: 0;
+.mat-dialog-content {
+  min-height: 85px;
+}
+
+md-input-container {
+  margin-top: 3px;
 }

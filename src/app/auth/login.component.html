@@ -48,7 +48,7 @@
           mdl-button
           mdl-ripple
           type="submit"
-          [disabled]="loginForm.invalid"
+          [disabled]="(passwordControl.invalid && !passwordControl.pristine) || (usernameControl.invalid && !usernameControl.pristine)"
         >
           {{ 'AUTH.LOGIN' | translate }}
         </button>

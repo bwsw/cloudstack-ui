@@ -2,12 +2,13 @@ $preview-width: 24px;
 $input-margin: 10px;
 
 :host {
-  font-size: 0;
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: baseline;
 }
 
 .color-preview-container {
+  flex-shrink: 0;
   cursor: pointer;
   display: inline-block;
   width: $preview-width;
@@ -44,7 +45,7 @@ $input-margin: 10px;
 
 .popover-container {
   position: relative;
-  top: -15px;
+  top: 5px;
   left: $input-margin + $preview-width;
 }
 

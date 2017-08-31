@@ -10,6 +10,7 @@
         [formGroup]="passwordUpdateForm"
         (ngSubmit)="updatePassword()"
         novalidate
+        #passwordForm="ngForm"
       >
         <md-input-container class="full-width-input">
           <input
