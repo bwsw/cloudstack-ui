@@ -51,8 +51,10 @@ export class SgCreationRuleComponent {
 
     if (this.item.rule.protocol === 'icmp') {
       Object.assign(params, {
-        icmpType: this.translateService.instant(this.icmpTypeTranslationToken),
-        icmpCode: this.translateService.instant(this.icmpCodeTranslationToken)
+        icmpType: this.item.rule.icmpType,
+        icmpCode: this.item.rule.icmpCode,
+        icmpTypeText: this.translateService.instant(this.icmpTypeTranslationToken),
+        icmpCodeText: this.translateService.instant(this.icmpCodeTranslationToken)
       });
     } else {
       Object.assign(params, {

@@ -72,6 +72,36 @@ export const ICMPtypes = [
   {
     type: 30,
     codes: [0]
+  }, {
+    type: 31,
+    codes: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+  }, {
+    type: 32,
+    codes: [0]
+  }, {
+    type: 33,
+    codes: [0]
+  }, {
+    type: 34,
+    codes: [0]
+  }, {
+    type: 35,
+    codes: [0]
+  }, {
+    type: 36,
+    codes: [0]
+  }, {
+    type: 37,
+    codes: [0]
+  }, {
+    type: 38,
+    codes: [0]
+  }, {
+    type: 39,
+    codes: [0]
+  }, {
+    type: 40,
+    codes: [0, 1, 2, 3, 4, 5]
   },
 ];
 
@@ -95,6 +125,16 @@ export const GetICMPTypeTranslationToken = (type) => {
     '17': 'SECURITY_GROUP_PAGE.ICMP_TYPES.17.description',
     '18': 'SECURITY_GROUP_PAGE.ICMP_TYPES.18.description',
     '30': 'SECURITY_GROUP_PAGE.ICMP_TYPES.30.description',
+    '31': 'SECURITY_GROUP_PAGE.ICMP_TYPES.31.description',
+    '32': 'SECURITY_GROUP_PAGE.ICMP_TYPES.32.description',
+    '33': 'SECURITY_GROUP_PAGE.ICMP_TYPES.33.description',
+    '34': 'SECURITY_GROUP_PAGE.ICMP_TYPES.34.description',
+    '35': 'SECURITY_GROUP_PAGE.ICMP_TYPES.35.description',
+    '36': 'SECURITY_GROUP_PAGE.ICMP_TYPES.36.description',
+    '37': 'SECURITY_GROUP_PAGE.ICMP_TYPES.37.description',
+    '38': 'SECURITY_GROUP_PAGE.ICMP_TYPES.38.description',
+    '39': 'SECURITY_GROUP_PAGE.ICMP_TYPES.39.description',
+    '40': 'SECURITY_GROUP_PAGE.ICMP_TYPES.40.description'
   };
 
   return icmpTypeTranslations[type];
@@ -148,6 +188,36 @@ export const GetICMPCodeTranslationToken = (type, code) => {
     '17': { '0': 'SECURITY_GROUP_PAGE.ICMP_TYPES.17.codes.0' },
     '18': { '0': 'SECURITY_GROUP_PAGE.ICMP_TYPES.18.codes.0' },
     '30': { '0': 'SECURITY_GROUP_PAGE.ICMP_TYPES.30.codes.0' },
+    '31': {
+      '0': 'SECURITY_GROUP_PAGE.ICMP_TYPES.31.codes.0',
+      '1': 'SECURITY_GROUP_PAGE.ICMP_TYPES.31.codes.1',
+      '2': 'SECURITY_GROUP_PAGE.ICMP_TYPES.31.codes.2',
+      '3': 'SECURITY_GROUP_PAGE.ICMP_TYPES.31.codes.3',
+      '4': 'SECURITY_GROUP_PAGE.ICMP_TYPES.31.codes.4',
+      '5': 'SECURITY_GROUP_PAGE.ICMP_TYPES.31.codes.5',
+      '6': 'SECURITY_GROUP_PAGE.ICMP_TYPES.31.codes.6',
+      '7': 'SECURITY_GROUP_PAGE.ICMP_TYPES.31.codes.7',
+      '8': 'SECURITY_GROUP_PAGE.ICMP_TYPES.31.codes.8',
+      '9': 'SECURITY_GROUP_PAGE.ICMP_TYPES.31.codes.9',
+      '10': 'SECURITY_GROUP_PAGE.ICMP_TYPES.31.codes.10',
+      '11': 'SECURITY_GROUP_PAGE.ICMP_TYPES.31.codes.11'
+    },
+    '32': { '0': 'SECURITY_GROUP_PAGE.ICMP_TYPES.32.codes.0' },
+    '33': { '0': 'SECURITY_GROUP_PAGE.ICMP_TYPES.33.codes.0' },
+    '34': { '0': 'SECURITY_GROUP_PAGE.ICMP_TYPES.34.codes.0' },
+    '35': { '0': 'SECURITY_GROUP_PAGE.ICMP_TYPES.35.codes.0' },
+    '36': { '0': 'SECURITY_GROUP_PAGE.ICMP_TYPES.36.codes.0' },
+    '37': { '0': 'SECURITY_GROUP_PAGE.ICMP_TYPES.37.codes.0' },
+    '38': { '0': 'SECURITY_GROUP_PAGE.ICMP_TYPES.38.codes.0' },
+    '39': { '0': 'SECURITY_GROUP_PAGE.ICMP_TYPES.39.codes.0' },
+    '40': {
+      '0': 'SECURITY_GROUP_PAGE.ICMP_TYPES.40.codes.0',
+      '1': 'SECURITY_GROUP_PAGE.ICMP_TYPES.40.codes.1',
+      '2': 'SECURITY_GROUP_PAGE.ICMP_TYPES.40.codes.2',
+      '3': 'SECURITY_GROUP_PAGE.ICMP_TYPES.40.codes.3',
+      '4': 'SECURITY_GROUP_PAGE.ICMP_TYPES.40.codes.4',
+      '5': 'SECURITY_GROUP_PAGE.ICMP_TYPES.40.codes.5'
+    }
   };
 
   return icmpCodeTranslations[type][code];

@@ -52,7 +52,7 @@
               *ngFor="let t of icmpTypes"
               [value]="t"
             >
-              {{ getIcmpTypeTranslationToken(t.type) | translate }}
+              {{ t.type }} - {{ getIcmpTypeTranslationToken(t.type) | translate }}
             </md-option>
           </md-select>
           <mdl-textfield
@@ -82,7 +82,7 @@
               *ngFor="let t of icmpCodes"
               [value]="t"
             >
-              {{ getIcmpCodeTranslationToken(icmpType.type, t) | translate }}
+              {{ t }} - {{ getIcmpCodeTranslationToken(icmpType.type, t) | translate }}
             </md-option>
           </md-select>
           <mdl-textfield
