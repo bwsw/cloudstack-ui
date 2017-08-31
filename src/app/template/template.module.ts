@@ -31,7 +31,7 @@ import {
 } from './template-sidebar/template-actions-sidebar/template-actions-sidebar.component';
 import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
 import { TemplateTagsComponent } from './template-tags/template-tags.component';
-import { templatesRouting } from './template.routing';
+import { TemplateCreationDialogComponent } from './template-creation/template-creation-dialog.component';
 import { TemplateComponent } from './template/template.component';
 import { TemplateActionsService } from '../shared/actions/template-actions/template-actions.service';
 import { TemplateCreateAction } from '../shared/actions/template-actions/create/template-create';
@@ -42,7 +42,12 @@ import { IsoActionsService } from '../shared/actions/template-actions/iso-action
 import { TemplateDescriptionComponent } from './template-sidebar/template-description/template-description.component';
 import { TemplateOsComponent } from './template-sidebar/template-os/template-os.component';
 import { TemplateOsIconComponent } from './template-sidebar/template-os-icon/template-os-icon.component';
-import { TemplateCreationDialogComponent } from './template-creation/template-creation-dialog.component';
+import { TemplateZonesComponent } from './template-sidebar/zones/template-zones.component';
+import { IsoZonesComponent } from './template-sidebar/zones/iso-zones.component';
+import { TemplateDetailsComponent } from './template-sidebar/details/template-details.component';
+import { IsoDetailsComponent } from './template-sidebar/details/iso-details.component';
+import { IsoTagsComponent } from './template-tags/iso-tags.component';
+import { templatesRouting } from './template.routing';
 
 
 @NgModule({
@@ -81,7 +86,12 @@ import { TemplateCreationDialogComponent } from './template-creation/template-cr
     TemplateFilterListComponent,
     TemplateFilterListSelectorComponent,
     TemplatePageComponent,
-    TemplateTagsComponent
+    TemplateTagsComponent,
+    IsoTagsComponent,
+    TemplateZonesComponent,
+    IsoZonesComponent,
+    TemplateDetailsComponent,
+    IsoDetailsComponent
   ],
   exports: [
     TemplateFilterListSelectorComponent,
@@ -102,4 +112,5 @@ import { TemplateCreationDialogComponent } from './template-creation/template-cr
     TemplateCreationComponent
   ]
 })
-export class TemplateModule { }
+export class TemplateModule {
+}

@@ -7,8 +7,6 @@ cs-template {
   margin: 5px;
 }
 
-
-
 md-icon {
   line-height: 48px;
 }
@@ -25,7 +23,7 @@ md-icon {
   justify-content: center;
 }
 
-:host /deep/ .mat-tab-label {
+:host /deep/ .mat-tab-link {
   min-width: 115px !important;
 }
 

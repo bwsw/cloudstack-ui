@@ -1,9 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { SpareDriveSnapshotAction } from '../../../../shared/actions/spare-drive-actions/spare-drive-snapshot';
 import { Volume } from '../../../../shared/models/volume.model';
-import {
-  SnapshotCreationComponent
-} from '../../../../vm/vm-sidebar/storage-detail/volume/snapshot-creation/snapshot-creation.component';
 
 
 @Component({
@@ -14,14 +11,9 @@ import {
 export class SpareDriveSnapshotCreationComponent {
   @Input() public volume: Volume;
 
-  constructor(private dialog: MdDialog) {}
+  constructor(private spareDriveSnapshotAction: SpareDriveSnapshotAction) {}
 
   public addSnapshot(): void {
-    this.dialog.open(SnapshotCreationComponent,
-      {
-        data: { volume: this.volume },
-        width: '400px'
-      }
-    );
+    this.spareDriveSnapshotAction.activate(this.volume).subscribe();
   }
 }
