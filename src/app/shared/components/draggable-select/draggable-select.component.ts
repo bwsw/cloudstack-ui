@@ -3,7 +3,8 @@ import { Overlay } from '@angular/cdk/overlay';
 import { Platform } from '@angular/cdk/platform';
 import {
   AfterContentInit,
-  Attribute, ChangeDetectionStrategy,
+  Attribute,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,

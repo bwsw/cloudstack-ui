@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SShKeyCreationDialogComponent } from './ssh-key-creation-dialog.component';
@@ -11,16 +11,13 @@ import { ListService } from '../../shared/components/list/list.service';
   selector: 'cs-ssh-create-dialog',
   template: ``
 })
-export class SshKeyCreationComponent implements OnInit {
+export class SshKeyCreationComponent {
   constructor(
     private dialog: MdDialog,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private listService: ListService
   ) {
-  }
-
-  ngOnInit() {
     this.dialog.open(SShKeyCreationDialogComponent, {
       disableClose: true,
       width: '400px'
@@ -34,7 +31,7 @@ export class SshKeyCreationComponent implements OnInit {
           }
         } else {
           this.router.navigate(['../'], {
-            preserveQueryParams: true,
+            queryParamsHandling: 'preserve',
             relativeTo: this.activatedRoute
           });
         }
@@ -48,7 +45,7 @@ export class SshKeyCreationComponent implements OnInit {
     }).afterClosed()
       .subscribe(() => {
         this.router.navigate(['../'], {
-          preserveQueryParams: true,
+          queryParamsHandling: 'preserve',
           relativeTo: this.activatedRoute
         });
       });

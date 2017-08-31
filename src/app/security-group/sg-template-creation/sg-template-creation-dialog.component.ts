@@ -1,21 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MdDialog, MdDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SgTemplateCreationComponent } from './sg-template-creation.component';
-import { SecurityGroup } from '../sg.model';
-import { SgRulesComponent } from '../sg-rules/sg-rules.component';
-import { NotificationService } from '../../shared/services/notification.service';
 import { ListService } from '../../shared/components/list/list.service';
+import { NotificationService } from '../../shared/services/notification.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
-
-
+import { SgRulesComponent } from '../sg-rules/sg-rules.component';
+import { SecurityGroup } from '../sg.model';
+import { SgTemplateCreationComponent } from './sg-template-creation.component';
 
 
 @Component({
   selector: 'cs-sg-template-create-dialog',
   template: ``
 })
-export class SgTemplateCreationDialogComponent implements OnInit {
+export class SgTemplateCreationDialogComponent {
   constructor(
     private dialog: MdDialog,
     private router: Router,
@@ -23,9 +21,7 @@ export class SgTemplateCreationDialogComponent implements OnInit {
     private notificationService: NotificationService,
     private listService: ListService,
     private securityGroupService: SecurityGroupService
-  ) {}
-
-  public ngOnInit() {
+  ) {
     this.dialog.open(SgTemplateCreationComponent, <MdDialogConfig>{
       disableClose: true,
       width: '450px'
@@ -34,7 +30,7 @@ export class SgTemplateCreationDialogComponent implements OnInit {
       .subscribe((template: SecurityGroup) => {
         if (!template) {
           this.router.navigate(['../'], {
-            preserveQueryParams: true,
+            queryParamsHandling: 'preserve',
             relativeTo: this.activatedRoute
           });
 
@@ -58,7 +54,7 @@ export class SgTemplateCreationDialogComponent implements OnInit {
       .subscribe(securityGroup => {
         this.securityGroupService.onSecurityGroupUpdate.next(securityGroup);
         this.router.navigate(['../'], {
-          preserveQueryParams: true,
+          queryParamsHandling: 'preserve',
           relativeTo: this.activatedRoute
         });
       });
