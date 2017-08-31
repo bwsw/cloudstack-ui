@@ -5,7 +5,7 @@ import { SecurityGroup } from '../../../security-group/sg.model';
 import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { InstanceGroupService } from '../../../shared/services/instance-group.service';
-import { GROUP_POSTFIX, SecurityGroupService } from '../../../shared/services/security-group.service';
+import { GROUP_POSTFIX, SecurityGroupService } from '../../../shared/services/security-group/security-group.service';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { Utils } from '../../../shared/services/utils.service';
 import { VirtualMachine, VmState } from '../../shared/vm.model';

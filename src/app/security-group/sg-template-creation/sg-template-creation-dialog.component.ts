@@ -6,6 +6,7 @@ import { SecurityGroup } from '../sg.model';
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
 import { NotificationService } from '../../shared/services/notification.service';
 import { ListService } from '../../shared/components/list/list.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
 
 
 @Component({
@@ -18,12 +19,13 @@ export class SgTemplateCreationDialogComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private notificationService: NotificationService,
-    private listService: ListService
-  ) {
-  }
+    private listService: ListService,
+    private storageService: LocalStorageService
+  ) {}
 
   public ngOnInit() {
     this.dialog.open(SgTemplateCreationComponent, <MdDialogConfig>{
+      data: { mode: this.viewMode },
       disableClose: true,
       width: '450px'
     })
@@ -58,5 +60,9 @@ export class SgTemplateCreationDialogComponent implements OnInit {
           relativeTo: this.activatedRoute
         });
       });
+  }
+
+  private get viewMode(): string {
+    return this.storageService.read('securityGroupDisplayMode') || 'templates';
   }
 }

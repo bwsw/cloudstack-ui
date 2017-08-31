@@ -9,6 +9,7 @@ import { SecurityGroupTagKeys } from '../shared/services/tags/security-group-tag
 export enum SecurityGroupType {
   PredefinedTemplate = 'predefined-template',
   CustomTemplate = 'custom-template',
+  Private = 'private',
   Shared = 'shared'
 }
 
@@ -53,13 +54,23 @@ export class SecurityGroup extends BaseModel implements Taggable {
       return SecurityGroupType.CustomTemplate;
     }
 
+    if (this.isPrivate) {
+      return SecurityGroupType.Private;
+    }
+
     return SecurityGroupType.Shared;
   }
 
   private get isCustomTemplate(): boolean {
-    const typeTag = this.tags.find(tag => tag.key === SecurityGroupTagKeys.template);
+    const typeTag = this.tags.find(tag => tag.key === SecurityGroupTagKeys.type);
 
-    return typeTag && typeTag.value === 'true';
+    return typeTag && typeTag.value === SecurityGroupType.CustomTemplate;
+  }
+
+  private get isPrivate(): boolean {
+    const typeTag = this.tags.find(tag => tag.key === SecurityGroupTagKeys.type);
+
+    return typeTag && typeTag.value === SecurityGroupType.Private
   }
 
   private initializeIngressRules(): void {

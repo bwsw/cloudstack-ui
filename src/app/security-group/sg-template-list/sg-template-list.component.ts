@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListService } from '../../shared/components/list/list.service';
-import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { SecurityGroupService } from '../../shared/services/security-group/security-group.service';
 import { SecurityGroupViewMode } from '../sg-filter/sg-filter.component';
 import { SecurityGroup, SecurityGroupType } from '../sg.model';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
 
 
 export enum SecurityGroupCreationMode {
-  Template,
-  Shared
+  templates,
+  shared
 }
 
 @Component({
@@ -23,16 +24,21 @@ export class SgTemplateListComponent implements OnInit {
   public sharedSecurityGroupList: Array<SecurityGroup>;
 
   public filterData: any;
-  public viewMode = SecurityGroupViewMode.Templates;
+  public viewMode: SecurityGroupViewMode;
 
   constructor(
     private securityGroupService: SecurityGroupService,
     private listService: ListService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private storageService: LocalStorageService
   ) {}
 
   public ngOnInit(): void {
+    this.viewMode =
+      this.storageService.read('securityGroupDisplayMode') as SecurityGroupViewMode
+      || SecurityGroupViewMode.Templates;
+
     this.update();
 
     this.securityGroupService.onSecurityGroupDeleted.subscribe(securityGroup => {

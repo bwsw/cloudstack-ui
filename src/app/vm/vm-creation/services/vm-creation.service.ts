@@ -12,7 +12,7 @@ import { DiskOfferingService } from '../../../shared/services/disk-offering.serv
 import { DiskStorageService } from '../../../shared/services/disk-storage.service';
 import { IsoService } from '../../../template/shared/iso.service';
 import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
-import { SecurityGroupService } from '../../../shared/services/security-group.service';
+import { SecurityGroupService } from '../../../shared/services/security-group/security-group.service';
 import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
 import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
 import { TemplateService } from '../../../template/shared/template.service';

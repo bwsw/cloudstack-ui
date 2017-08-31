@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { SecurityGroupService } from '../../shared/services/security-group/security-group.service';
 import { Rules } from '../sg-creation/sg-creation.component';
+import { SecurityGroupViewMode } from '../sg-filter/sg-filter.component';
 
 @Component({
   selector: 'cs-security-group-template-creation',
@@ -19,20 +20,21 @@ export class SgTemplateCreationComponent {
   public creationInProgress = false;
 
   constructor(
+    @Inject(MD_DIALOG_DATA) public data: any,
     public dialogRef: MdDialogRef<SgTemplateCreationComponent>,
     public dialogService: DialogService,
-    private sgService: SecurityGroupService
+    private sgService: SecurityGroupService,
   ) { }
 
   public onSubmit(e: Event): void {
     e.preventDefault();
-    this.createSecurityGroupTemplate({
-      data: {
-        name: this.name,
-        description: this.description
-      },
-      rules: this.securityRules
-    });
+
+    if (this.data.viewMode === SecurityGroupViewMode.Templates) {
+      this.createSecurityGroupTemplate(this.securityGroupCreationParams);
+    }
+
+    if (this.data.viewMode === SecurityGroupViewMode.Shared) {
+    }
   }
 
   public createSecurityGroupTemplate({ data, rules }): void {
@@ -44,6 +46,16 @@ export class SgTemplateCreationComponent {
         template => this.dialogRef.close(template),
         error => this.handleError(error)
       );
+  }
+
+  private get securityGroupCreationParams(): any {
+    return {
+      data: {
+        name: this.name,
+        description: this.description
+      },
+      rules: this.securityRules
+    };
   }
 
   private handleError(error): void {

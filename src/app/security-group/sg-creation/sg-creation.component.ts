@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
-import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { SecurityGroupService } from '../../shared/services/security-group/security-group.service';
 import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag-keys';
-import { NetworkRuleType, SecurityGroup } from '../sg.model';
+import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { NetworkRule } from '../network-rule.model';
 
 
@@ -55,8 +55,8 @@ export class SgCreationComponent implements OnInit {
   public ngOnInit(): void {
     const templates = this.securityGroupService.getTemplates();
     const accountSecurityGroups = this.securityGroupService.getList({
-      'tags[0].key': SecurityGroupTagKeys.template,
-      'tags[0].value': 'true'
+      'tags[0].key': SecurityGroupTagKeys.type,
+      'tags[0].value': SecurityGroupType.CustomTemplate
     });
 
     accountSecurityGroups

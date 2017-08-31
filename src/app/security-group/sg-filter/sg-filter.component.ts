@@ -57,6 +57,7 @@ export class SgFilterComponent {
     };
 
     this.viewMode = modes[index];
+    this.storageService.write('securityGroupDisplayMode', this.viewMode);
     this.update();
   }
 

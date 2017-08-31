@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { VirtualMachine } from './vm.model';
 import { VolumeType } from '../../shared/models/volume.model';
-import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { SecurityGroupService } from '../../shared/services/security-group/security-group.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { VmService } from './vm.service';
 
