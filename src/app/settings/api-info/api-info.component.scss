@@ -7,12 +7,12 @@ a {
   white-space: nowrap;
 }
 
-mdl-textfield {
+md-input-container {
   width: 268px;
-}
 
-mdl-textfield /deep/ input {
-  cursor: text;
+  input {
+    cursor: text;
+  }
 }
 
 .header-wrap {

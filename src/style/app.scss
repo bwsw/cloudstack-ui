@@ -9,6 +9,7 @@
 @import '../app/shared/styles/overlay';
 @import '../app/shared/styles/text-overflow-tooltip-fix';
 @import '../app/shared/styles/tab-switch';
+@import '../app/shared/styles/md-input';
 
 * {
   box-sizing: border-box;
@@ -33,9 +34,9 @@
 }
 
 md-card {
-  padding: 0px !important;
+  padding: 0 !important;
   width: 320px;
-  margin: 15px 0px 0px 15px;
+  margin: 15px 0 0 15px;
 }
 
 cs-sidebar md-card {
@@ -49,11 +50,11 @@ md-card md-card-header {
 
 md-card md-card-title,
 md-card .mat-card-header-text {
-  margin: 0px !important;
+  margin: 0 !important;
 }
 
 md-card md-card-header h2 {
-  margin: 0px;
+  margin: 0;
   font-size: 18px;
   line-height: normal;
 
@@ -72,13 +73,13 @@ md-card md-card-header .md-card-header-menu {
 
 md-card md-card-content {
   color: rgba(0, 0, 0, 0.54);
-  padding: 0px 16px 16px 16px;
-  margin-bottom: 0px !important;
+  padding: 0 16px 16px 16px;
+  margin-bottom: 0 !important;
   line-height: 18px;
 }
 
 md-card .md-card-content-with-actions {
-  padding-bottom: 0px;
+  padding-bottom: 0;
 }
 
 md-card .md-card-content-container {
@@ -146,7 +147,7 @@ md-card.custom-card {
   min-height: initial !important;
   overflow: visible !important;
   flex-wrap: wrap;
-  margin: 0px !important;
+  margin: 0 !important;
   position: relative;
   box-shadow: none !important;
 
@@ -477,6 +478,6 @@ md-table md-header-cell,
     color: rgba(0, 0, 0, .54);
   }
   font-size: 13pt;
-  padding: 0px 24px !important;
+  padding: 0 24px !important;
   max-height: 100% !important;
 }

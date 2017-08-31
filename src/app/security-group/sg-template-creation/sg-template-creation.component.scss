@@ -7,11 +7,6 @@ cs-security-group-rules-manager {
   margin-top: 0;
 }
 
-:host /deep/ cs-security-group-rules-manager .mdl-textfield {
-  padding-bottom: 0;
-  width: 100%;
-}
-
 .basic-rules {
   /deep/ {
     h5 {

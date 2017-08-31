@@ -18,10 +18,6 @@
   }
 }
 
-:host mdl-textfield {
-  padding-top: 15px;
-}
-
 .vm-creation-container {
   position: relative;
   padding: 0.9em;
@@ -56,7 +52,7 @@ h5 {
   margin-top: 20px;
 }
 
-.left-column{
+.left-column {
   width: 300px;
   margin-right: 10px;
 }
@@ -67,7 +63,7 @@ h5 {
 }
 
 .root-disk-size {
-  position:relative;
+  position: relative;
   width: 300px;
 }
 
@@ -83,32 +79,25 @@ h5 {
 .dialog-select-create-button {
   margin-top: 16px;
   margin-right: 16px;
-  display:inline-block;
-  position:absolute;
+  display: inline-block;
+  position: absolute;
   right: 0;
 }
 
 .dialog-select-select {
+  width: 100%;
   position: absolute;
   right: 0;
   display: inline-block;
   text-align: right;
   margin-top: 16px;
-
-  /deep/ .mdl-textfield {
-    padding-top: 10px;
-  }
-
-  /deep/ .mdl-textfield__input {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-
-    border: none;
-  }
 }
 
 .dialog-select-wrapper {
   position: relative;
   margin-bottom: 86px;
+}
+
+.sg-rules-manager {
+  width: 100%;
 }

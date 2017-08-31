@@ -44,21 +44,18 @@
       </div>
     </mdl-radio>
 
-    <mdl-textfield
-      *ngIf="mode === modes.create"
-      type="text"
-      name="textValue"
-      floating-label
-      autofocus
-      required
-      [(ngModel)]="newValue"
-      #textField
-      #textFieldModel="ngModel"
-      [class.is-invalid]="textFieldModel.invalid && !textFieldModel.pristine"
-      [style.width]="'100%'"
-      [placeholder]="textFieldPlaceholder | translate"
-      [maxlength]="maxLength"
-    ></mdl-textfield>
+    <md-input-container *ngIf="mode === modes.create" class="full-width-input">
+      <input
+        mdInput
+        type="text"
+        name="textValue"
+        [(ngModel)]="newValue"
+        [placeholder]="textFieldPlaceholder | translate"
+        [maxlength]="maxLength"
+        autofocus
+        required
+      >
+    </md-input-container>
 
     <md-select
       name="selectValue"

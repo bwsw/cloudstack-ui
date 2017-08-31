@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import {
   MdCardModule,
   MdIconModule,
+  MdInputModule,
   MdListModule,
   MdMenuModule,
   MdSelectModule,
@@ -71,7 +72,6 @@ import { ForbiddenValuesDirective } from './directives/forbidden-values.directiv
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
 import { LoadingDirective } from './directives/loading.directive';
 import { MaxValueValidatorDirective } from './directives/max-value.directive';
-import { MdlTextAreaAutoresizeDirective } from './directives/mdl-textarea-autoresize.directive';
 import { MinValueValidatorDirective } from './directives/min-value.directive';
 import { DivisionPipe, HighLightPipe, ViewValuePipe } from './pipes';
 import { StringifyDatePipe } from './pipes/stringifyDate.pipe';
@@ -128,6 +128,7 @@ import { ZoneService } from './services/zone.service';
     DragulaModule,
     MdSelectModule,
     MdIconModule,
+    MdInputModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
@@ -178,7 +179,6 @@ import { ZoneService } from './services/zone.service';
     StringifyTimePipe,
     ViewValuePipe,
     LoadingDirective,
-    MdlTextAreaAutoresizeDirective,
     MdListModule,
     MdCardModule,
     MdTableModule,
@@ -216,7 +216,6 @@ import { ZoneService } from './services/zone.service';
     MaxValueValidatorDirective,
     MinValueValidatorDirective,
     MdlAutocompleteComponent,
-    MdlTextAreaAutoresizeDirective,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     OverlayLoadingComponent,

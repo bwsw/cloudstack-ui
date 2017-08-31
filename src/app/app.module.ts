@@ -4,7 +4,12 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
-import { MdDialog, MdIconModule, MdTooltipModule } from '@angular/material';
+import {
+  MdDialog,
+  MdIconModule,
+  MdInputModule,
+  MdTooltipModule
+} from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -28,8 +33,6 @@ import { TemplateModule } from './template';
 import { VmModule } from './vm';
 
 
-
-
 export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './i18n/', '.json');
 }
@@ -45,6 +48,7 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
     EventsModule,
     MdIconModule,
     MdTooltipModule,
+    MdInputModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,

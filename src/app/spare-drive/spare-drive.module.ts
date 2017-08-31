@@ -7,6 +7,7 @@ import {
   MdCheckboxModule,
   MdDialogModule,
   MdIconModule,
+  MdInputModule,
   MdMenuModule,
   MdSelectModule,
   MdTabsModule,
@@ -67,6 +68,7 @@ import {
     MdMenuModule,
     MdButtonModule,
     MdIconModule,
+    MdInputModule,
     MdTabsModule,
     MdDialogModule
   ],

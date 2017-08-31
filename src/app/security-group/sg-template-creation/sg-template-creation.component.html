@@ -4,31 +4,30 @@
 
   <form (ngSubmit)="onSubmit($event)" #templateCreationForm="ngForm" novalidate>
     <div class="mat-dialog-content">
-      <mdl-textfield
-        type="text"
-        label="{{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.NAME' | translate }}"
-        name="name"
-        floating-label
-        autofocus
-        required
-        [(ngModel)]="name"
-        #nameField="ngModel"
-        [class.is-invalid]="nameField.invalid && !nameField.pristine"
-        [style.width]="'100%'"
-      >
-      </mdl-textfield>
+      <md-input-container class="full-width-input">
+        <input
+          mdInput
+          name="name"
+          [(ngModel)]="name"
+          [placeholder]="'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.NAME' | translate"
+          autofocus
+          maxlength="255"
+          required
+        >
+        <md-hint align="end">{{ name?.length || 0 }} / 255</md-hint>
+      </md-input-container>
       <br/>
-      <mdl-textfield
-        type="text"
-        label="{{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.DESCRIPTION' | translate }}"
-        name="description"
-        floating-label
-        [(ngModel)]="description"
-        #descriptionField="ngModel"
-        [class.is-invalid]="descriptionField.invalid && !descriptionField.pristine"
-        [style.width]="'100%'"
-      >
-      </mdl-textfield>
+      <md-input-container class="full-width-input">
+        <input
+          mdInput
+          name="description"
+          [(ngModel)]="description"
+          [placeholder]="'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.DESCRIPTION' | translate"
+          maxlength="255"
+        >
+        <md-hint align="end">{{ description?.length || 0 }} / 255</md-hint>
+      </md-input-container>
+      <!--<br />-->
       <cs-security-group-rules-manager
         class="basic-rules"
         [header]="'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.BASIC_RULES'"

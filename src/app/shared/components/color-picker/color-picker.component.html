@@ -3,17 +3,17 @@
   [class.disabled]="disabled"
   (click)="toggle($event)"
 >
-  <div
-    class="color-preview"
-    [style.background-color]="selectedColor?.value"
-  ></div>
+  <div class="color-preview" [style.background-color]="selectedColor?.value"></div>
 </div>
-<mdl-textfield
-  [value]="selectedColor?.value"
-  [disabled]="disabled"
-  (click)="toggle($event)"
-  readonly
-></mdl-textfield>
+<md-input-container class="full-width-input">
+  <input
+    mdInput
+    [value]="selectedColor?.value"
+    [disabled]="disabled"
+    readonly
+    (click)="toggle($event)"
+  >
+</md-input-container>
 
 <div class="popover-container">
   <mdl-popover #popover mdl-shadow="6">

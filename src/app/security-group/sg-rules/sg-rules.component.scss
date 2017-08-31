@@ -1,12 +1,6 @@
-mdl-textfield {
-  /deep/ .mdl-textfield__input,
-  /deep/ .mdl-textfield__label {
-    text-align: left;
-  }
-
-  &.cidr {
-    width: 150px;
-  }
+.cidr {
+  width: 150px;
+  text-align: left;
 }
 
 .mat-dialog-content {
@@ -15,12 +9,8 @@ mdl-textfield {
   }
 }
 
-:host /deep/ .mdl-textfield {
+:host md-input-container {
   width: 85px;
-}
-
-:host md-select.type /deep/ .mdl-textfield {
-  width: 120px;
 }
 
 :host /deep/ mdl-spinner {
@@ -31,10 +21,6 @@ mdl-textfield {
 .add-rule-button,
 /deep/ .delete-rule-button {
   color: black;
-}
-
-.cidr {
-  text-align: left;
 }
 
 :host /deep/ .mat-table th {

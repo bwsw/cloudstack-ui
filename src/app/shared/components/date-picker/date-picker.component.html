@@ -1,11 +1,12 @@
 <cs-input-group>
-  <mdl-textfield
-    #textField
-    placeholder="Select a date"
-    (focus)="onFocus($event)"
-    [(ngModel)]="displayDate"
-    cs-input-group-textbox
-  ></mdl-textfield>
+  <md-input-container cs-input-group-textbox>
+    <input
+      mdInput
+      [(ngModel)]="displayDate"
+      [placeholder]="'Select a date'"
+      (focus)="onFocus($event)"
+    >
+  </md-input-container>
   <button
     mdl-button
     mdl-button-type="icon"

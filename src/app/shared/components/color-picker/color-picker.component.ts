@@ -1,3 +1,5 @@
+import { toBoolean } from '@angular-mdl/core/components/common/boolean-property';
+import { MdlPopoverComponent } from '@angular-mdl/popover';
 import {
   Component,
   EventEmitter,
@@ -9,9 +11,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MdlPopoverComponent } from '@angular-mdl/popover';
 import { Color } from '../../models';
-import { toBoolean } from '@angular-mdl/core/components/common/boolean-property';
 
 
 @Component({

@@ -4,7 +4,7 @@ $input-margin: 10px;
 :host {
   font-size: 0;
   position: relative;
-  display: block;
+  display: inline-block;
 }
 
 .color-preview-container {
@@ -24,20 +24,20 @@ $input-margin: 10px;
     width: 100%;
     height: 100%;
   }
-  
+
   &.disabled {
     cursor: not-allowed;
   }
 }
 
-:host mdl-textfield {
+:host md-input-container {
   width: 300px - $input-margin - $preview-width !important;
   margin-left: $input-margin;
-  /deep/ input {
+  input {
     cursor: pointer;
   }
-  
-  /deep/ input:disabled {
+
+  input:disabled {
     cursor: not-allowed;
   }
 }

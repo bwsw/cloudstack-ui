@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MdSelectChange, MdDialogRef } from '@angular/material';
+import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
+import { MdDialogRef, MdSelectChange } from '@angular/material';
 import * as throttle from 'lodash/throttle';
 
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
@@ -220,8 +221,10 @@ export class VmCreationComponent implements OnInit {
   }
 
   public deploy(): void {
-    const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
-    const { deployStatusObservable, deployObservable } = this.vmDeploymentService.deploy(this.formState.state);
+    const notificationId = this.jobsNotificationService.add(
+      'JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
+    const { deployStatusObservable, deployObservable } = this.vmDeploymentService.deploy(
+      this.formState.state);
 
     deployStatusObservable.subscribe(deploymentMessage => {
       this.handleDeploymentMessages(deploymentMessage, notificationId);
@@ -267,7 +270,18 @@ export class VmCreationComponent implements OnInit {
     });
   }
 
-  private handleDeploymentMessages(deploymentMessage: VmDeploymentMessage, notificationId: string): void {
+  public get nameIsTaken(): boolean {
+    return this.formState && this.formState.state.displayName === this.takenName;
+  }
+
+  public vmNameErrorMatcher(control: FormControl): boolean {
+    return control.invalid || this.nameIsTaken;
+  }
+
+  private handleDeploymentMessages(
+    deploymentMessage: VmDeploymentMessage,
+    notificationId: string
+  ): void {
     switch (deploymentMessage.stage) {
       case VmDeploymentStage.STARTED:
         this.creationStage = VmCreationStage.vmDeploymentInProgress;

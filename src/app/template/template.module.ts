@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import {
   MdButtonModule,
   MdIconModule,
+  MdInputModule,
   MdMenuModule,
   MdSelectModule,
   MdTabsModule,
@@ -60,6 +61,7 @@ import { TemplateCreationDialogComponent } from './template-creation/template-cr
     MdMenuModule,
     MdButtonModule,
     MdIconModule,
+    MdInputModule,
     MdTabsModule,
   ],
   declarations: [

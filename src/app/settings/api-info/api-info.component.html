@@ -16,13 +16,13 @@
         <div *ngIf="inputFields.apiKey.value">
           <h5 [translate]="inputFields.apiKey.title"></h5>
           <cs-input-group>
-            <mdl-textfield
-              cs-input-group-textbox
-              readonly
-              [(ngModel)]="inputFields.apiKey.value"
-            >
-              {{ inputFields.apiKey.value }}
-            </mdl-textfield>
+            <md-input-container cs-input-group-textbox class="full-width-input">
+              <input
+                mdInput
+                [value]="inputFields.apiKey.value"
+                readonly
+              >
+            </md-input-container>
             <button
               mdl-button
               mdl-button-type="icon"
@@ -45,13 +45,13 @@
         <div *ngIf="inputFields.apiSecretKey.value">
           <h5 [translate]="inputFields.apiSecretKey.title"></h5>
           <cs-input-group>
-            <mdl-textfield
-              cs-input-group-textbox
-              readonly
-              [(ngModel)]="inputFields.apiSecretKey.value"
-            >
-              {{ inputFields.apiSecretKey.value }}
-            </mdl-textfield>
+            <md-input-container cs-input-group-textbox class="full-width-input">
+              <input
+                mdInput
+                [value]="inputFields.apiSecretKey.value"
+                readonly
+              >
+            </md-input-container>
             <button
               mdl-button
               mdl-button-type="icon"
