@@ -659,7 +659,9 @@
       },
       "6": {
         "description": "Alternate Host Address",
-        "codes": {}
+        "codes": {
+          "0": "Alternate Address for Host"
+        }
       },
       "8": {
         "description": "Echo request",
