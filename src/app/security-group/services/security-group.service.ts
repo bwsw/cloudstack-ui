@@ -22,6 +22,7 @@ export const GROUP_POSTFIX = '-cs-sg';
 export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup> {
   public onSecurityGroupCreated = new Subject<SecurityGroup>();
   public onSecurityGroupDeleted = new Subject<SecurityGroup>();
+  public onSecurityGroupUpdate = new Subject<SecurityGroup>();
 
   constructor(
     private configService: ConfigService,

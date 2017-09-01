@@ -16,7 +16,10 @@ export class SecurityGroupEditAction extends SecurityGroupAction {
       width: '880px',
       data: { securityGroup }
     })
-      .afterClosed();
+      .afterClosed()
+      .map(updatedGroup => {
+        return this.securityGroupService.onSecurityGroupUpdate.next(updatedGroup);
+      });
   }
 
   public hidden(securityGroup: SecurityGroup): boolean {

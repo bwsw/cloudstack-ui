@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListService } from '../../shared/components/list/list.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { SecurityGroupService } from '../services/security-group.service';
 import { SecurityGroupViewMode } from '../sg-filter/sg-filter.component';
 import { SecurityGroup, SecurityGroupType } from '../sg.model';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
 
 
 @Component({
@@ -27,7 +27,17 @@ export class SgTemplateListComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private storageService: LocalStorageService
-  ) {}
+  ) {
+    this.securityGroupService.onSecurityGroupUpdate.subscribe(updatedGroup => {
+      this.customSecurityGroupList = this.customSecurityGroupList.map(group => {
+        if (group.id === updatedGroup.id) {
+          return updatedGroup;
+        } else {
+          return group;
+        }
+      });
+    });
+  }
 
   public ngOnInit(): void {
     this.viewMode =

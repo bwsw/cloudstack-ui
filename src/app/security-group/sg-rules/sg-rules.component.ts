@@ -135,6 +135,10 @@ export class SgRulesComponent {
       });
   }
 
+  public onClose(): void {
+    this.dialogRef.close(this.securityGroup);
+  }
+
   private resetForm(): void {
     // reset controls' state. instead of just setting ngModel bound variables to empty string
     // we reset controls to reset the validity state of inputs

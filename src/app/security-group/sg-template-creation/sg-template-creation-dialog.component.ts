@@ -66,7 +66,6 @@ export class SgTemplateCreationDialogComponent implements OnInit {
       interpolateParams: { name: securityGroup.name }
     });
     this.showRulesDialog(securityGroup);
-
   }
 
   private onCancel(): void {
