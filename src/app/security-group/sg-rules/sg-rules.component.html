@@ -46,8 +46,7 @@
             <md-input-container floatPlaceholder="never">
               <input
                 mdInput
-                type="number"
-                maxValue="256"
+                maxValue="255"
                 minValue="-1"
                 #icmpTypeField="ngModel"
                 name="icmpType"
@@ -90,8 +89,7 @@
               <input
                 mdInput
                 name="icmpCode"
-                type="number"
-                maxValue="256"
+                maxValue="255"
                 minValue="-1"
                 #icmpCodeField="ngModel"
                 [placeholder]="'SECURITY_GROUP_PAGE.RULES.ICMP_CODE' | translate"

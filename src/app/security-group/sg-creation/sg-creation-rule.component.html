@@ -1,9 +1,21 @@
 <md-list-item class="flex-container">
   <h4 md-line>
     <ng-template [ngIf]="item.rule.protocol === NetworkProtocols.ICMP">
-    <span
-      [innerHTML]="'SECURITY_GROUP_PAGE.RULES.ICMP_RULE' | translate: (ruleParams)"
-    ></span>
+      <ng-template [ngIf]="!ruleParams['icmpTypeText'] && !ruleParams['icmpCodeText']">
+      <span
+        [innerHTML]="'SECURITY_GROUP_PAGE.RULES.NO_TEXT_ICMP_RULE' | translate: (ruleParams)"
+      ></span>
+      </ng-template>
+      <ng-template [ngIf]="!ruleParams['icmpTypeText'] && !!ruleParams['icmpCodeText']">
+      <span
+        [innerHTML]="'SECURITY_GROUP_PAGE.RULES.NO_CODE_ICMP_RULE' | translate: (ruleParams)"
+      ></span>
+      </ng-template>
+      <ng-template [ngIf]="ruleParams['icmpTypeText'] && ruleParams['icmpCodeText']">
+      <span
+        [innerHTML]="'SECURITY_GROUP_PAGE.RULES.DEFAULT_ICMP_RULE' | translate: (ruleParams)"
+      ></span>
+      </ng-template>
     </ng-template>
     <ng-template [ngIf]="item.rule.protocol !== NetworkProtocols.ICMP">
       <ng-template [ngIf]="item.rule.startPort === item.rule.endPort">
