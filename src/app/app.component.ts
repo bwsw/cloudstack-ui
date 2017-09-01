@@ -7,7 +7,7 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import { Response } from '@angular/http';
+import { HttpResponse } from '@angular/common/http';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import '../style/app.scss';
@@ -161,7 +161,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   private handleError(e: any): void {
-    if (e instanceof Response) {
+    if (e instanceof HttpResponse) {
       switch (e.status) {
         case 401:
           this.notification.message('AUTH.NOT_LOGGED_IN');

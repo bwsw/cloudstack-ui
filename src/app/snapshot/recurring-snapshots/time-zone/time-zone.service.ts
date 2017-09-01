@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 
@@ -12,11 +12,10 @@ export interface TimeZone {
 
 @Injectable()
 export class TimeZoneService {
-  constructor(public http: Http) {}
+  constructor(public http: HttpClient) {}
 
   public get(): Observable<Array<TimeZone>> {
     return this.http.get(url)
-      .map(_ => _.json())
       .catch(() => this.handleError());
   }
 

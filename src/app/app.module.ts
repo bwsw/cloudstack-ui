@@ -3,7 +3,7 @@ import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
 import { Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Http, HttpModule } from '@angular/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { MdDialog, MdIconModule, MdTooltipModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -30,7 +30,7 @@ import { VmModule } from './vm';
 
 
 
-export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './i18n/', '.json');
 }
 
@@ -39,7 +39,7 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
     SnapshotModule,
     BrowserModule,
     BrowserAnimationsModule,
-    HttpModule,
+    HttpClientModule,
     FormsModule,
     TranslateModule.forRoot(),
     EventsModule,
@@ -61,7 +61,7 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [Http]
+        deps: [HttpClient]
       }
     }),
     RouterModule.forRoot(routes)
