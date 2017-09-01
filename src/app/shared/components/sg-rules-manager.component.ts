@@ -2,8 +2,10 @@ import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MdDialog } from '@angular/material';
 
-import { Rules, SecurityGroupBuilderComponent } from './security-group-builder/security-group-builder.component';
-import { VmCreationSecurityGroupComponent } from '../../vm/vm-creation/components/security-group/security-group.component';
+import {
+  VmCreationSecurityGroupComponent
+} from '../../vm/vm-creation/components/security-group/security-group.component';
+import { Rules } from './security-group-builder/rules';
 
 
 @Component({

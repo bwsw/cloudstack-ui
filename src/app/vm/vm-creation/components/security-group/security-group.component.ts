@@ -1,12 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { NetworkRule } from '../../../../security-group/network-rule.model';
 import { SecurityGroup } from '../../../../security-group/sg.model';
+import { VmCreationSecurityGroupMode } from '../../security-group/vm-creation-security-group-mode';
 
-
-export enum VmCreationSecurityGroupMode {
-  Builder,
-  Selector
-}
 
 @Component({
   selector: 'cs-vm-creation-security-group',

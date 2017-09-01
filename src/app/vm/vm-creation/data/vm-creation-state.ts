@@ -1,5 +1,5 @@
 import { NetworkRule } from '../../../security-group/network-rule.model';
-import { Rules } from '../../../shared/components/security-group-builder/security-group-builder.component';
+import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../../shared/models';
 import { BaseTemplateModel } from '../../../template/shared';
 import { KeyboardLayout } from '../keyboards/keyboards.component';

@@ -1,4 +1,3 @@
-import { Rules } from '../../../shared/components/security-group-builder/security-group-builder.component';
 import { SecurityGroup } from '../../../security-group/sg.model';
 import {
   ICustomOfferingRestrictions,
@@ -10,6 +9,7 @@ import { ResourceStats } from '../../../shared/services/resource-usage.service';
 import { BaseTemplateModel, Iso, Template } from '../../../template/shared';
 import { VmCreationConfigurationData } from '../services/vm-creation.service';
 import { VmCreationState } from './vm-creation-state';
+import { Rules } from '../../../shared/components/security-group-builder/rules';
 
 
 export class VmCreationData {

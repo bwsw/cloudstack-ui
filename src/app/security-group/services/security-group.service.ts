@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { Rules } from '../../shared/components/security-group-builder/security-group-builder.component';
-import { SecurityGroup, SecurityGroupType } from '../sg.model';
+import { Rules } from '../../shared/components/security-group-builder/rules';
 import { BackendResource } from '../../shared/decorators';
 import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
 import { ConfigService } from '../../shared/services/config.service';
+import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag-keys';
 import { SecurityGroupTagService } from '../../shared/services/tags/security-group-tag.service';
+import { SecurityGroup, SecurityGroupType } from '../sg.model';
 import { PrivateSecurityGroupCreationService } from './creation-services/private-security-group-creation.service';
 import { SharedSecurityGroupCreationService } from './creation-services/shared-security-group-creation.service';
 import { TemplateSecurityGroupCreationService } from './creation-services/template-security-group-creation.service';
-import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag-keys';
 
 
 export const GROUP_POSTFIX = '-cs-sg';
