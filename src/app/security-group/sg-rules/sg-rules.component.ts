@@ -161,18 +161,20 @@ export class SgRulesComponent {
   }
 
   public filterTypes(val: string) {
+    const filterValue = val.toLowerCase();
     return val ? ICMPtypes.filter(_ => _.type.toString() === val ||
       this.translateService.instant(this.getIcmpTypeTranslationToken(_.type))
         .toLowerCase()
-        .indexOf(val.toLowerCase()) !== -1) : ICMPtypes;
+        .indexOf(filterValue) !== -1) : ICMPtypes;
   }
 
   public filterCodes(val: string) {
+    const filterValue = val.toLowerCase();
     return !!val ? this.icmpCodes.filter(_ =>
       _.toString().indexOf(val) !== -1 ||
       this.translateService.instant(this.getIcmpCodeTranslationToken(this.icmpType, _))
         .toLowerCase()
-        .indexOf(val.toLowerCase()) !== -1) : ICMPtypes.find(x => x.type === this.icmpType).codes;
+        .indexOf(filterValue) !== -1) : ICMPtypes.find(x => x.type === this.icmpType).codes;
   }
 
   public onClose(): void {
