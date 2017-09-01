@@ -107,14 +107,14 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
               x: new Date(_.time),
               y: +_.readBytes
             })),
-            label: `${this.translations['PULSE.LABELS.DISK_READ']} ${aggregation}`
+            label: `${this.translations['DISK_READ']} ${aggregation}`
           };
           const writeBytes = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writeBytes
             })),
-            label: `${this.translations['PULSE.LABELS.DISK_WRITE']} ${aggregation}`
+            label: `${this.translations['DISK_WRITE']} ${aggregation}`
           };
           sets.bytes.push(readBytes, writeBytes);
 
@@ -124,14 +124,14 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
               x: new Date(_.time),
               y: +_.readIOPS
             })),
-            label: `${this.translations['PULSE.LABELS.DISK_READ_IO']} ${aggregation}`
+            label: `${this.translations['DISK_READ_IOPS']} ${aggregation}`
           };
           const writeIops = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writeIOPS
             })),
-            label: `${this.translations['PULSE.LABELS.DISK_WRITE_IO']} ${aggregation}`
+            label: `${this.translations['DISK_WRITE_IOPS']} ${aggregation}`
           };
 
           sets.iops.push(readIops, writeIops);

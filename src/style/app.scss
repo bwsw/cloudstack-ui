@@ -254,7 +254,7 @@ mdl-simple-tooltip div {
 
 .popover-actions {
   padding: 1rem;
-  color: rgba(0,0,0,.87);
+  color: rgba(0, 0, 0, .87);
 }
 
 .mdl-layout--fixed-drawer > .mdl-layout__drawer {
@@ -387,6 +387,74 @@ md-card-actions {
   height: 24px;
   border: 9px solid #757575;
   border-radius: 50%;
+}
+
+.search-bar-white {
+  background-color: white;
+}
+
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.details-header {
+  width: 340px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+h4.details-header {
+  font-size: 18px;
+}
+
+.mat-row:hover {
+  background-color: #eeeeee;
+}
+
+md-table,
+.mat-table {
+  font-family: "Helvetica", "Arial", sans-serif;
+  font-size: 13px;
+  display: table !important;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+md-table md-row,
+.mat-table .mat-row {
+  min-height: 48px;
+  height: 100%;
+  display: table-row;
+  border-bottom: 1px solid rgba(0, 0, 0, .12) !important;
+}
+
+md-table md-header-row,
+.mat-table .mat-header-row {
+  display: table-row;
+  border-bottom: 1px solid rgba(0, 0, 0, .12) !important;
+}
+
+md-table md-cell,
+.mat-table .mat-cell {
+  min-height: 48px;
+  height: 100%;
+  font-size: 13px;
+  padding: 12px 18px;
+  display: table-cell;
+}
+
+md-table md-header-cell,
+.mat-table .mat-header-cell {
+  height: 48px;
+  padding: 12px 18px;
+  display: table-cell;
+}
+
+.table-form {
+  height: 95px !important;
 }
 
 /* md-dialog

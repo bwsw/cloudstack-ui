@@ -9,6 +9,7 @@ import { ListService } from '../../shared/components/list/list.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 
 
+
 @Component({
   selector: 'cs-sg-template-create-dialog',
   template: ``
@@ -27,7 +28,8 @@ export class SgTemplateCreationDialogComponent implements OnInit {
     this.dialog.open(SgTemplateCreationComponent, <MdDialogConfig>{
       disableClose: true,
       width: '450px'
-    }).afterClosed()
+    })
+      .afterClosed()
       .subscribe((template: SecurityGroup) => {
         if (!template) {
           this.router.navigate(['../'], {

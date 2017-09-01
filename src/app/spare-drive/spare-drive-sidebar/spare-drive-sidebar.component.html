@@ -1,57 +1,39 @@
 <div *ngIf="entity">
-  <cs-spare-drive-sidebar-volume [volume]="entity"></cs-spare-drive-sidebar-volume>
+  <div class="title-container">
+    <h4 class="details-header">{{ entity.name }}</h4>
+    <cs-spare-drive-actions-sidebar [volume]="entity"></cs-spare-drive-actions-sidebar>
+  </div>
 
-  <cs-description
-    [description]="entity.description"
-    (descriptionChange)="changeDescription($event)"
-  ></cs-description>
-
-  <md-card *ngIf="entity.diskOffering">
-    <md-card-header>
-      <md-card-title>
-        <h2 class="md-card-title-text">
-          {{ 'SPARE_DRIVE_PAGE.DETAILS.DISK_OFFERING' | translate }}
-        </h2>
-      </md-card-title>
-    </md-card-header>
-    <md-card-content>
-      <div class="grid grid-right">
-        <div class="row" *ngIf="entity.diskOffering.name">
-          <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.DISK_OFFERING_NAME' | translate }}</div>
-          <div>{{ entity.diskOffering.name }}</div>
-        </div>
-        <div class="row" *ngIf="entity.diskOffering.displayText">
-          <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.DESCRIPTION' | translate }}</div>
-          <div>{{ entity.diskOffering.displayText }}</div>
-        </div>
-        <div class="row" *ngIf="entity.diskOffering.minIops">
-          <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.MIN_IO' | translate }}</div>
-          <div>{{ entity.diskOffering.minIops }}</div>
-        </div>
-        <div class="row" *ngIf="entity.diskOffering.maxIops">
-          <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.MAX_IO' | translate }}</div>
-          <div>{{ entity.diskOffering.maxIops }}</div>
-        </div>
-        <div class="row" *ngIf="entity.diskOffering.diskBytesReadRate">
-          <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.READ_RATE_MB' | translate }}</div>
-          <div>{{ 'UNITS.MBPS' | translate:{ value: entity.diskOffering.diskBytesReadRate | division:10:6 } }}</div>
-        </div>
-        <div class="row" *ngIf="entity.diskOffering.diskBytesWriteRate">
-          <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.WRITE_RATE_MB' | translate }}</div>
-          <div>{{ 'UNITS.MBPS' | translate:{ value: entity.diskOffering.diskBytesWriteRate | division:10:6 } }}</div>
-        </div>
-        <div class="row" *ngIf="entity.diskOffering.diskIopsReadRate">
-          <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.READ_RATE_IOPS' | translate }}</div>
-          <div>{{ 'UNITS.IOPS' | translate:{ value: entity.diskOffering.diskIopsReadRate } }}</div>
-        </div>
-        <div class="row" *ngIf="entity.diskOffering.diskIopsWriteRate">
-          <div>{{ 'SPARE_DRIVE_PAGE.DETAILS.WRITE_RATE_IOPS' | translate }}</div>
-          <div>{{ 'UNITS.IOPS' | translate:{ value: entity.diskOffering.diskIopsWriteRate } }}</div>
-        </div>
+  <nav md-tab-nav-bar>
+    <a
+      md-tab-link
+      [routerLink]="['./volume']"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('volume')"
+    >
+      <div [mdTooltip]="'SPARE_DRIVE_PAGE.SIDEBAR.VOLUME' | translate"
+           class="md-tab-tooltip"
+      >
+        <md-icon>storage</md-icon>
       </div>
-    </md-card-content>
-  </md-card>
+    </a>
+    <a
+      md-tab-link
+      [routerLink]="['./snapshots']"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('snapshots')"
+    >
+      <div
+        [mdTooltip]="'SPARE_DRIVE_PAGE.SIDEBAR.SNAPSHOTS' | translate"
+        class="md-tab-tooltip"
+      >
+        <md-icon>photo_camera</md-icon>
+      </div>
+    </a>
+  </nav>
 </div>
+
+<router-outlet></router-outlet>
 
 <cs-no-results *ngIf="notFound" [text]="'VOLUME_NOT_FOUND'"></cs-no-results>
 
