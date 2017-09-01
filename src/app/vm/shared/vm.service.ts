@@ -2,25 +2,17 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { SecurityGroup } from '../../security-group/sg.model';
-
 import { BackendResource } from '../../shared/decorators';
-
-import { AsyncJob, Color, OsType, ServiceOffering, Volume } from '../../shared/models';
+import { AsyncJob, OsType, ServiceOffering, Volume } from '../../shared/models';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { VolumeType } from '../../shared/models/volume.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
-
-import {
-  ApiFormat,
-  BaseBackendService
-} from '../../shared/services/base-backend.service';
+import { ApiFormat, BaseBackendService } from '../../shared/services/base-backend.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
-import { TagService } from '../../shared/services/tag.service';
-import { UserService } from '../../shared/services/user.service';
+import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VolumeService } from '../../shared/services/volume.service';
-
 import { Iso } from '../../template/shared';
 import { VmActions } from '../vm-actions/vm-action';
 import { IVirtualMachineCommand } from '../vm-actions/vm-command';
@@ -42,15 +34,14 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     private osTypesService: OsTypeService,
     private serviceOfferingService: ServiceOfferingService,
     private securityGroupService: SecurityGroupService,
-    private tagService: TagService,
-    private userService: UserService,
+    private userTagService: UserTagService,
     private volumeService: VolumeService
   ) {
     super();
   }
 
   public getNumberOfVms(): Observable<number> {
-    return this.userService.readTag('csui.user.last-vm-id')
+    return this.userTagService.getLastVmId()
       .switchMap(numberOfVms => {
         if (numberOfVms !== undefined && !Number.isNaN(+numberOfVms)) {
           return Observable.of(+numberOfVms);
@@ -58,14 +49,14 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
         return this.getListWithDetails({}, null, true)
           .switchMap(vmList => {
-            return this.writeNumberOfVms(vmList.length);
+            return this.userTagService.setLastVmId(vmList.length);
           });
       });
   }
 
   public incrementNumberOfVms(): Observable<number> {
     return this.getNumberOfVms()
-      .switchMap(numberOfVms => this.writeNumberOfVms(numberOfVms + 1));
+      .switchMap(numberOfVms => this.userTagService.setLastVmId(numberOfVms + 1));
   }
 
   public updateVmInfo(vm: VirtualMachine): void {
@@ -80,10 +71,11 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public getListWithDetails(params?: {}, customApiFormat?: ApiFormat, lite = false): Observable<Array<VirtualMachine>> {
     if (lite) {
-      return super.getList(params);
+      return this.getList(params);
     }
+
     return Observable.forkJoin(
-      super.getList(params),
+      this.getList(params),
       this.volumeService.getList(),
       this.osTypesService.getList(),
       this.serviceOfferingService.getList(),
@@ -165,25 +157,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       .switchMap(job => this.asyncJobService.queryJob(job.jobid));
   }
 
-  public setColor(vm: VirtualMachine, color: Color): Observable<VirtualMachine> {
-    let tagValue = color.value;
-    if (color.textColor) {
-      tagValue += `${VirtualMachine.ColorDelimiter}${color.textColor}`;
-    }
-    return this.tagService.update(vm, 'UserVm', 'csui.vm.color', tagValue);
-  }
-
-  public getDescription(vm: VirtualMachine): Observable<string> {
-    return this.tagService.getTag(vm, 'csui.vm.description')
-      .map(tag => {
-        return tag ? tag.value : undefined;
-      });
-  }
-
-  public updateDescription(vm: VirtualMachine, description: string): Observable<void> {
-    return this.tagService.update(vm, 'UserVm', 'csui.vm.description', description);
-  }
-
   public changeServiceOffering(
     serviceOffering: ServiceOffering,
     virtualMachine: VirtualMachine
@@ -208,6 +181,17 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public setStateForVm(vm: VirtualMachine, state: VmState): void {
     vm.state = state;
+  }
+
+  public isAsyncJobAVirtualMachineJobWithResult(job: AsyncJob<any>): boolean {
+    // instanceof check is needed because API response for
+    // VM restore doesn't contain the instanceType field
+
+    return (
+      job.result &&
+      (job.instanceType === VirtualMachineEntityName ||
+        job.result instanceof VirtualMachine)
+    );
   }
 
   private buildCommandParams(id: string, commandName: string): any {
@@ -259,11 +243,5 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       vm.securityGroup[index] = groups.find(sg => sg.id === group.id);
     });
     return vm;
-  }
-
-  private writeNumberOfVms(number: number): Observable<number> {
-    return this.userService
-      .writeTag('csui.user.last-vm-id', number.toString())
-      .mapTo(number);
   }
 }

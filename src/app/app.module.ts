@@ -4,7 +4,12 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
-import { MdCheckboxModule, MdIconModule, MdTooltipModule } from '@angular/material';
+import {
+  MdCheckboxModule,
+  MdDialog,
+  MdIconModule,
+  MdTooltipModule
+} from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -16,7 +21,7 @@ import { AppComponent } from './app.component';
 import { routes } from './app.routing';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
-import { MdlDialogModule } from './dialog/dialog-module';
+import { DialogModule } from './dialog/dialog-service/dialog.module';
 import { EventsModule } from './events/events.module';
 import { AppSidebarComponent } from './navigation/app-sidebar.component';
 import { SecurityGroupModule } from './security-group/sg.module';
@@ -51,7 +56,7 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
-    MdlDialogModule,
+    DialogModule,
     SecurityGroupModule,
     ServiceOfferingModule,
     SettingsModule,
@@ -76,6 +81,7 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
     LogoutComponent
   ],
   providers: [
+    MdDialog,
     { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true }
   ],
   bootstrap: [AppComponent]

@@ -1,6 +1,6 @@
-import { Component, Inject, Optional, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { NgModel } from '@angular/forms';
-import { MdlDialogReference } from '../../dialog/dialog-module';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { defaultCategoryName, Tag } from '../../shared/models';
 
 
@@ -13,32 +13,38 @@ export class TagEditComponent {
   @ViewChild('keyField') public keyField: NgModel;
 
   public loading: boolean;
-
   public key: string;
   public value: string;
-
   public maxKeyLength = 255;
   public maxValueLength = 255;
 
+  public forbiddenKeys: Array<string>;
+  public title: string;
+  public confirmButtonText: string;
+  private tag: Tag;
+  private categoryName: string;
+
   constructor(
-    @Optional() @Inject('forbiddenKeys') public forbiddenKeys: Array<string>,
-    @Optional() @Inject('title') public title: string,
-    @Optional() @Inject('confirmButtonText') public confirmButtonText: string,
-    @Optional() @Inject('tag') private tag: Tag,
-    @Optional() @Inject('categoryName') private categoryName: string,
-    private dialog: MdlDialogReference
+    private dialogRef: MdDialogRef<TagEditComponent>,
+    @Inject(MD_DIALOG_DATA) data,
   ) {
-    if (tag) {
-      this.key = tag.key;
-      this.value = tag.value;
-    } else if (categoryName && categoryName !== defaultCategoryName) {
-      this.key = `${categoryName}.`;
+    this.forbiddenKeys = data.forbiddenKeys;
+    this.title = data.title;
+    this.confirmButtonText = data.confirmButtonText;
+    this.tag = data.tag;
+    this.categoryName = data.categoryName;
+
+    if (this.tag) {
+      this.key = this.tag.key;
+      this.value = this.tag.value;
+    } else if (this.categoryName && this.categoryName !== defaultCategoryName) {
+      this.key = `${this.categoryName}.`;
     }
   }
 
   public get keyFieldErrorMessage(): string {
     if (this.keyField.errors && this.keyField.errors.forbiddenValuesValidator) {
-      return 'TAG_ALREADY_EXISTS';
+      return 'TAGS.TAG_ALREADY_EXISTS';
     }
 
     return '';
@@ -51,13 +57,13 @@ export class TagEditComponent {
     };
 
     if (this.tag) {
-      this.dialog.hide({ oldTag: this.tag, newTag });
+      this.dialogRef.close({ oldTag: this.tag, newTag });
     } else {
-      this.dialog.hide(newTag);
+      this.dialogRef.close(newTag);
     }
   }
 
   public onCancel(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
   }
 }

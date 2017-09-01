@@ -1,6 +1,8 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, OnChanges } from '@angular/core';
 import { ZoneService } from '../../../shared/services/zone.service';
 import { VirtualMachine } from '../../shared/vm.model';
+import { ActivatedRoute } from '@angular/router';
+import { VmService } from '../../shared/vm.service';
 
 
 @Component({
@@ -8,11 +10,22 @@ import { VirtualMachine } from '../../shared/vm.model';
   templateUrl: 'network-detail.component.html'
 })
 export class NetworkDetailComponent implements OnChanges {
-  @Input() public vm: VirtualMachine;
+  public vm: VirtualMachine;
 
   public disableSecurityGroup: boolean;
 
-  constructor(private zoneService: ZoneService) {}
+  constructor(
+    private vmService: VmService,
+    private zoneService: ZoneService,
+    private activatedRoute: ActivatedRoute
+  ) {
+    const params = this.activatedRoute.snapshot.parent.params;
+
+    this.vmService.getWithDetails(params.id).subscribe(
+      vm => {
+        this.vm = vm;
+      });
+  }
 
   public ngOnChanges(): void {
     this.checkSecurityGroupDisabled();

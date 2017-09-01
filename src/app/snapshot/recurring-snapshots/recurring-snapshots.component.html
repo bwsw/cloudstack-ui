@@ -1,16 +1,16 @@
-<h3 class="mdl-dialog__title">
-  {{ 'RECURRING_SNAPSHOTS' | translate }}
+<h3 class="mat-dialog-title">
+  {{ 'SNAPSHOT_POLICIES.TITLE' | translate }}
 </h3>
-<div class="mdl-dialog__content">
+<div class="mat-dialog-content">
 
   <md-tab-group
-    md-selected="policyMode"
+    [selectedIndex]="policyMode"
     (selectChange)="tabChanged($event)"
   >
-    <md-tab label="{{ 'RECURRING_SNAPSHOTS_HOURLY' | translate }}"></md-tab>
-    <md-tab label="{{ 'RECURRING_SNAPSHOTS_DAILY' | translate }}"></md-tab>
-    <md-tab label="{{ 'RECURRING_SNAPSHOTS_WEEKLY' | translate }}"></md-tab>
-    <md-tab label="{{ 'RECURRING_SNAPSHOTS_MONTHLY' | translate }}"></md-tab>
+    <md-tab label="{{ 'SNAPSHOT_POLICIES.HOURLY' | translate }}"></md-tab>
+    <md-tab label="{{ 'SNAPSHOT_POLICIES.DAILY' | translate }}"></md-tab>
+    <md-tab label="{{ 'SNAPSHOT_POLICIES.WEEKLY' | translate }}"></md-tab>
+    <md-tab label="{{ 'SNAPSHOT_POLICIES.MONTHLY' | translate }}"></md-tab>
   </md-tab-group>
 
   <div class="editor">
@@ -32,14 +32,14 @@
       (onPolicyRowClick)="changeTab($event)"
     ></cs-policy-list>
   </div>
+  <div class="mat-dialog-actions">
+    <button
+      mdl-button
+      mdl-colored="primary"
+      (click)="onClose()"
+    >
+      {{ 'COMMON.CLOSE' | translate }}
+    </button>
+  </div>
 
-</div>
-<div class="mdl-dialog__actions">
-  <button
-    mdl-button
-    mdl-colored="primary"
-    (click)="onClose()"
-  >
-    {{ 'CLOSE' | translate }}
-  </button>
 </div>

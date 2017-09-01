@@ -7,11 +7,11 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class VmConsoleAction extends VirtualMachineAction {
   public action = VmActions.CONSOLE;
-  public name = 'CONSOLE';
+  public name = 'VM_PAGE.COMMANDS.CONSOLE';
   public icon = 'computer';
 
   public canActivate(vm: VirtualMachine): boolean {
-    return vm.state === VmState.Running;
+    return !!vm && vm.state === VmState.Running;
   }
 
   public activate(vm: VirtualMachine): Observable<void> {

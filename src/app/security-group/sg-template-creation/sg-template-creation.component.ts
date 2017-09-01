@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { Rules } from '../sg-creation/sg-creation.component';
-import { MdlDialogReference } from '../../dialog/dialog-module';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
 
 @Component({
   selector: 'cs-security-group-template-creation',
@@ -19,7 +19,7 @@ export class SgTemplateCreationComponent {
   public creationInProgress = false;
 
   constructor(
-    public dialog: MdlDialogReference,
+    public dialogRef: MdDialogRef<SgTemplateCreationComponent>,
     public dialogService: DialogService,
     private sgService: SecurityGroupService
   ) { }
@@ -41,15 +41,17 @@ export class SgTemplateCreationComponent {
       .switchMap(template => rules ? this.sgService.get(template.id) : Observable.of(template))
       .finally(() => this.creationInProgress = false)
       .subscribe(
-        template => this.dialog.hide(template),
+        template => this.dialogRef.close(template),
         error => this.handleError(error)
       );
   }
 
   private handleError(error): void {
     this.dialogService.alert({
-      translationToken: error.message,
-      interpolateParams: error.params
+      message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
     });
   }
 }

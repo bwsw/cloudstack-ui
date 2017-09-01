@@ -1,11 +1,12 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
-import { MdlDialogReference } from '../../dialog/dialog-module';
-
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { OsType, Zone } from '../../shared';
 import { Snapshot } from '../../shared/models/snapshot.model';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { TemplateActionsService } from '../shared/template-actions.service';
+import { TemplateCreateAction } from '../../shared/actions/template-actions/create/template-create';
+import { IsoCreateAction } from '../../shared/actions/template-actions/create/iso-create';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -14,6 +15,8 @@ import { TemplateActionsService } from '../shared/template-actions.service';
   styleUrls: ['template-creation.component.scss']
 })
 export class TemplateCreationComponent implements OnInit {
+  public mode: string;
+  public snapshot?: Snapshot;
   public name: string;
   public displayText: string;
   public osTypeId: string;
@@ -29,13 +32,16 @@ export class TemplateCreationComponent implements OnInit {
   public loading: boolean;
 
   constructor(
-    private dialog: MdlDialogReference,
+    private dialogRef: MdDialogRef<TemplateCreationComponent>,
     private osTypeService: OsTypeService,
-    private templateActions: TemplateActionsService,
+    private isoCreationAction: IsoCreateAction,
+    private templateCreationAction: TemplateCreateAction,
     private zoneService: ZoneService,
-    @Optional() @Inject('snapshot') public snapshot: Snapshot,
-    @Inject('mode') public mode: string
-  ) { }
+    @Inject(MD_DIALOG_DATA) data: any
+  ) {
+    this.mode = data.mode;
+    this.snapshot = data.snapshot;
+  }
 
   public ngOnInit(): void {
     this.passwordEnabled = this.dynamicallyScalable = false;
@@ -59,8 +65,17 @@ export class TemplateCreationComponent implements OnInit {
     }
   }
 
+  public get modeTranslationToken(): string {
+    const modeTranslations = {
+      'TEMPLATE': 'TEMPLATE_PAGE.TEMPLATE_CREATION.NEW_TEMPLATE',
+      'ISO': 'TEMPLATE_PAGE.TEMPLATE_CREATION.NEW_ISO'
+    };
+
+    return modeTranslations[this.mode.toUpperCase()];
+  }
+
   public onCancel(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
   }
 
   public onCreate(): void {
@@ -86,11 +101,20 @@ export class TemplateCreationComponent implements OnInit {
     }
 
     this.loading = true;
-    this.templateActions.createTemplate(params, this.mode)
+
+    this.getCreationAction(params)
       .finally(() => this.loading = false)
       .subscribe(
-        template => this.dialog.hide(template),
+        template => this.dialogRef.close(template),
         () => {}
       );
+  }
+
+  private getCreationAction(params: any): Observable<void> {
+    if (this.mode === 'Iso') {
+      return this.isoCreationAction.activate(params);
+    } else {
+      return this.templateCreationAction.activate(params);
+    }
   }
 }

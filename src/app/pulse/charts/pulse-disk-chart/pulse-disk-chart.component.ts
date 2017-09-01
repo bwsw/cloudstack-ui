@@ -45,9 +45,13 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
             yAxes: [
               {
                 ticks: {
+                  padding: 40,
+                  mirror: true,
                   suggestedMin: 0,
                   userCallback(val) {
-                    return `${humanReadableSize(val, true)}/s`;
+                    return !!humanReadableSize(val, true)
+                      ? `${humanReadableSize(val, true)}/s`
+                      : null;
                   }
                 }
               }
@@ -133,9 +137,11 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
           sets.iops.push(readIops, writeIops);
 
 
-          this.charts[2].labels = res.map(_ => new Date(_.time)); // TODO
           const errors = {
-            data: res.map(_ => +_.ioErrors),
+            data: res.map(_ => ({
+              x: new Date(_.time),
+              y: +_.ioErrors
+            })),
             label: `${this.translations['DISK_IO_ERRORS']} ${aggregation}`
           };
           sets.errors.push(errors);

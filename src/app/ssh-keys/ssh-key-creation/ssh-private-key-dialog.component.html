@@ -1,6 +1,6 @@
 <div>
-  <div class="mdl-dialog__content" [style.padding-bottom.px]="0">
-    <p>{{ 'SAVE_THIS_KEY' | translate }}</p>
+  <div class="mat-dialog-content" [style.padding-bottom.px]="0">
+    <p>{{ 'SSH_KEYS.SAVE_THIS_KEY' | translate }}</p>
     <mdl-textfield
       type="text"
       [(ngModel)]="privateKey"
@@ -11,14 +11,14 @@
       [style.width.%]="100"
     ></mdl-textfield>
   </div>
-  <div class="mdl-dialog__actions">
+  <div class="mat-dialog-actions">
     <button
       mdl-button
       mdl-colored="primary"
       mdl-ripple
-      (click)="dialog.hide()"
+      (click)="dialogRef.close()"
     >
-      {{ 'OK' | translate }}
+      {{ 'COMMON.OK' | translate }}
     </button>
     <button
       mdl-button
@@ -29,7 +29,7 @@
       (cbOnSuccess)="onCopySuccess()"
       (cbOnError)="onCopyFail()"
     >
-      {{ 'COPY' | translate }}
+      {{ 'CLIPBOARD.COPY' | translate }}
     </button>
   </div>
 </div>

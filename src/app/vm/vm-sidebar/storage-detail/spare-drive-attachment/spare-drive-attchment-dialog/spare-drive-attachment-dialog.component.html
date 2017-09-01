@@ -1,6 +1,6 @@
 <div class="dialog">
-  <h3 class="mdl-dialog__title">{{ 'SELECT_VOLUME' | translate }}</h3>
-  <div class="mdl-dialog__content">
+  <h3 class="mat-dialog-title">{{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.SELECT_VOLUME' | translate }}</h3>
+  <div class="mat-dialog-content">
     <md-select
       *ngIf="volumes?.length"
       [(ngModel)]="selectedVolume"
@@ -12,11 +12,8 @@
         {{ v.name }}
       </md-option>
     </md-select>
-    <div *ngIf="!volumes?.length">
-      {{ 'NO_AVAILABLE_VOLUMES' | translate }}
-    </div>
   </div>
-  <div class="mdl-dialog__actions">
+  <div class="mat-dialog-actions">
     <button
       *ngIf="volumes?.length"
       mdl-button
@@ -25,7 +22,7 @@
       (click)="onAttach()"
       [disabled]="!selectedVolume"
     >
-      {{ 'SELECT' | translate }}
+      {{ 'COMMON.SELECT' | translate }}
     </button>
     <button
       mdl-button
@@ -33,7 +30,7 @@
       mdl-ripple
       (click)="onCancel()"
     >
-      {{ 'CANCEL' | translate }}
+      {{ 'COMMON.CANCEL' | translate }}
     </button>
   </div>
 </div>

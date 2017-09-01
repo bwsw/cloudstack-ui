@@ -1,3 +1,30 @@
+<a name="1.49.8"></a>
+## [1.49.8](https://github.com/bwsw/cloudstack-ui/compare/1.0.7...1.49.8) (2017-08-23)
+
+
+### Bug Fixes
+
+* **deps:** fix chartjs version ([ea28725](https://github.com/bwsw/cloudstack-ui/commit/ea28725))
+* **docker:** Fixed docker run ([baac261](https://github.com/bwsw/cloudstack-ui/commit/baac261))
+* **service offering:** fix service offering dialog bug (#441) ([1ab7a51](https://github.com/bwsw/cloudstack-ui/commit/1ab7a51)), closes [#441](https://github.com/bwsw/cloudstack-ui/issues/441)
+* **sshkeys:** fix layout of ssh-keys cards (#438) ([7f6815a](https://github.com/bwsw/cloudstack-ui/commit/7f6815a)), closes [#438](https://github.com/bwsw/cloudstack-ui/issues/438)
+* **sshkeys:** fix SG page popover bug (#440) ([38b471f](https://github.com/bwsw/cloudstack-ui/commit/38b471f)), closes [#440](https://github.com/bwsw/cloudstack-ui/issues/440)
+* **tab-switch:** fix tab index (#437) ([a59c9f6](https://github.com/bwsw/cloudstack-ui/commit/a59c9f6)), closes [#437](https://github.com/bwsw/cloudstack-ui/issues/437)
+* **translations:** fix incorrect translations ([bed72dd](https://github.com/bwsw/cloudstack-ui/commit/bed72dd))
+* **translations:** fix incorrect translations ([74f1004](https://github.com/bwsw/cloudstack-ui/commit/74f1004))
+* **translations:** Fix wrong translation tokens  ([07cfcc3](https://github.com/bwsw/cloudstack-ui/commit/07cfcc3)), closes [#423](https://github.com/bwsw/cloudstack-ui/issues/423)
+* **translations:** update translation token ([986de5e](https://github.com/bwsw/cloudstack-ui/commit/986de5e))
+* **vm-list:** Tooltips in cards overlap (#392) ([5eca059](https://github.com/bwsw/cloudstack-ui/commit/5eca059))
+
+
+### Features
+
+* **pulse:** store parameters for pulse ([0bfe8a0](https://github.com/bwsw/cloudstack-ui/commit/0bfe8a0))
+* **security group:** Add "Select all" and "Reset" buttons to security group component ([89f8ddd](https://github.com/bwsw/cloudstack-ui/commit/89f8ddd))
+* **tabs:** replace mdl-tabs with md-tabs (#390) ([fa113bf](https://github.com/bwsw/cloudstack-ui/commit/fa113bf))
+
+
+
 <a name="1.0.7"></a>
 ## [1.0.7](https://github.com/bwsw/cloudstack-ui/compare/1.0.6...1.0.7) (2017-08-14)
 

@@ -1,4 +1,3 @@
-import { MdlDefaultTableModel } from '@angular-mdl/core';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -7,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { formatIso } from '../shared/components/date-picker/dateUtils';
 import { DateTimeFormatterService } from '../shared/services/date-time-formatter.service';
 import { FilterService } from '../shared/services/filter.service';
-import { LanguageService } from '../shared/services/language.service';
+import { Language, LanguageService } from '../shared/services/language.service';
 import { SessionStorageService } from '../shared/services/session-storage.service';
 import { Event } from './event.model';
 import { EventService } from './event.service';
@@ -20,7 +19,8 @@ import { EventService } from './event.service';
 })
 export class EventListComponent implements OnInit {
   public loading = false;
-  public tableModel: MdlDefaultTableModel;
+  public tableColumns: Array<string>;
+  public tableModel: Array<Event>;
   public visibleEvents: Array<Event>;
   public date;
   public events: Array<Event>;
@@ -30,12 +30,18 @@ export class EventListComponent implements OnInit {
   public eventTypes: Array<string>;
   public levels = ['INFO', 'WARN', 'ERROR'];
   private filtersKey = 'eventListFilters';
-  private filterService = new FilterService({
-    'date': { type: 'string' },
-    'levels': { type: 'array', options: this.levels, defaultOption: [] },
-    'types': { type: 'array', defaultOption: [] },
-    'query': { type: 'string' }
-  }, this.router, this.sessionStorage, this.filtersKey, this.activatedRoute);
+  private filterService = new FilterService(
+    {
+      'date': { type: 'string' },
+      'levels': { type: 'array', options: this.levels, defaultOption: [] },
+      'types': { type: 'array', defaultOption: [] },
+      'query': { type: 'string' }
+    },
+    this.router,
+    this.sessionStorage,
+    this.filtersKey,
+    this.activatedRoute
+  );
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
@@ -47,17 +53,17 @@ export class EventListComponent implements OnInit {
     private translate: TranslateService
   ) {
     this.updateEvents = this.updateEvents.bind(this);
+    this.languageService.initializeFirstDayOfWeek();
   }
 
   public ngOnInit(): void {
-    this.translate.get(['DESCRIPTION', 'LEVEL', 'TYPE', 'TIME'])
-      .subscribe(translations => this.initTableModel(translations));
+    this.initTableModel();
     this.initFilters();
     this.getEvents({ reload: true });
   }
 
-  public get locale(): string {
-    return this.translate.currentLang;
+  public get locale(): Language {
+    return this.translate.currentLang as Language;
   }
 
   public getEvents(params = { reload: false }): void {
@@ -116,7 +122,9 @@ export class EventListComponent implements OnInit {
       return event.description.toLowerCase().includes(queryLower) ||
         event.level.toLowerCase().includes(queryLower) ||
         event.type.toLowerCase().includes(queryLower) ||
-        this.dateTimeFormatterService.stringifyToTime(event.created).toLowerCase().includes(queryLower);
+        this.dateTimeFormatterService.stringifyToTime(event.created)
+          .toLowerCase()
+          .includes(queryLower);
     });
   }
 
@@ -158,13 +166,8 @@ export class EventListComponent implements OnInit {
     }, types);
   }
 
-  private initTableModel(translations: any): void {
-    this.tableModel = new MdlDefaultTableModel([
-      { key: 'description', name: translations['DESCRIPTION'] },
-      { key: 'level', name: translations['LEVEL'] },
-      { key: 'type', name: translations['TYPE'] },
-      { key: 'time', name: translations['TIME'] }
-    ]);
+  private initTableModel(): void {
+    this.tableColumns = ['description', 'level', 'type', 'time'];
   }
 
   private updateEvents(events: Array<Event>): void {
@@ -173,7 +176,7 @@ export class EventListComponent implements OnInit {
   }
 
   private createTableModel(): void {
-    this.tableModel.data = this.visibleEvents.map(event => Object.assign({}, event, {
+    this.tableModel = this.visibleEvents.map(event => Object.assign({}, event, {
       selected: false,
       time: this.dateTimeFormatterService.stringifyToTime(event.created)
     }));

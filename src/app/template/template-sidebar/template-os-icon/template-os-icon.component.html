@@ -1,0 +1,28 @@
+<md-icon
+  class="os-icon"
+  [ngSwitch]="template.osType.osFamily"
+  md-card-avatar
+>
+  <ng-template [ngSwitchCase]="'Linux'">
+    <img
+      src="img/os/linux.png"
+      width="40"
+      height="40"
+    >
+  </ng-template>
+  <ng-template [ngSwitchCase]="'Windows'">
+    <img
+      src="img/os/windows.png"
+      width="40"
+      height="40"
+    >
+  </ng-template>
+  <ng-template [ngSwitchCase]="'Mac OS'">
+    <img
+      src="img/os/osx.png"
+      width="40"
+      height="40"
+    >
+  </ng-template>
+  <ng-template ngSwitchDefault>help</ng-template>
+</md-icon>

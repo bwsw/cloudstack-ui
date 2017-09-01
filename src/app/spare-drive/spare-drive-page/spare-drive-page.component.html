@@ -1,38 +1,26 @@
-<cs-list>
-  <cs-top-bar cs-panels>
-    <md-select
-      *ngIf="zones"
-      class="filter-select"
-      multiple="true"
-      [placeholder]="'SELECT_ZONES' | translate"
-      [(ngModel)]="selectedZones"
-      (change)="update()"
-    >
-      <md-option *ngFor="let z of zones" [value]="z">{{ z.name }}</md-option>
-    </md-select>
-    <cs-divider-vertical></cs-divider-vertical>
-    <md-select
-      *ngIf="zones"
-      class="filter-select"
-      multiple="true"
-      [placeholder]="'GROUP_BY_LABEL' | translate"
-      [(ngModel)]="selectedGroupingNames"
-      (change)="update()"
-    >
-      <md-option *ngFor="let g of groupings" [value]="g">
-        {{ g.label | translate }}
-      </md-option>
-    </md-select>
-  </cs-top-bar>
+<cs-list
+  (onAction)="showCreationDialog()"
+  [isOpen]="listService?.hasSelected()"
+>
+  <cs-spare-drive-filter
+    [zones]="zones"
+    [groupings]="groupings"
+    [searchPanelWhite]="selectedGroupings?.length"
+    (updateFilters)="updateFiltersAndFilter($event)"
+    cs-list
+  ></cs-spare-drive-filter>
 
   <cs-spare-drive-list
     *loading="!volumes"
     [volumes]="visibleVolumes"
     [groupings]="selectedGroupings"
-    (onDelete)="showRemoveDialog($event)"
-    (onResize)="updateVolume($event)"
+    [query]="query"
     cs-list
   ></cs-spare-drive-list>
 
-  <router-outlet cs-sidebar></router-outlet>
+  <ng-container cs-sidebar>
+    <cs-sidebar [isOpen]="listService?.hasSelected()">
+      <router-outlet></router-outlet>
+    </cs-sidebar>
+  </ng-container>
 </cs-list>

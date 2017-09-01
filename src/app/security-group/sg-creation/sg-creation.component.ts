@@ -1,17 +1,9 @@
-import {
-  Component,
-  OnInit,
-  Inject
-} from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 
-import {
-  SecurityGroup,
-  NetworkRule,
-  NetworkRuleType
-} from '../sg.model';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { MdlDialogReference } from '../../dialog/dialog-module';
+import { NetworkRule, NetworkRuleType, SecurityGroup } from '../sg.model';
+import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag-keys';
 
 
 export interface RuleListItem {
@@ -52,9 +44,9 @@ export class SgCreationComponent implements OnInit {
   public NetworkRuleTypes = NetworkRuleType;
 
   constructor(
-    private dialog: MdlDialogReference,
+    private dialogRef: MdDialogRef<SgCreationComponent>,
     private securityGroupService: SecurityGroupService,
-    @Inject('rules') private inputRules: Rules
+    @Inject(MD_DIALOG_DATA) private inputRules: Rules
   ) {
     this.items = [[], []];
     this.selectedRules = [[], []];
@@ -63,7 +55,7 @@ export class SgCreationComponent implements OnInit {
   public ngOnInit(): void {
     const templates = this.securityGroupService.getTemplates();
     const accountSecurityGroups = this.securityGroupService.getList({
-      'tags[0].key': 'template',
+      'tags[0].key': SecurityGroupTagKeys.template,
       'tags[0].value': 'true'
     });
 
@@ -121,7 +113,7 @@ export class SgCreationComponent implements OnInit {
   }
 
   public onSave(): void {
-    this.dialog.hide({
+    this.dialogRef.close({
       templates: this.items[1],
       ingress: this.selectedRules[0].filter(rule => rule.checked).map(item => item.rule),
       egress: this.selectedRules[1].filter(rule => rule.checked).map(item => item.rule),
@@ -129,7 +121,7 @@ export class SgCreationComponent implements OnInit {
   }
 
   public onCancel(): void {
-    this.dialog.hide(this.inputRules);
+    this.dialogRef.close(this.inputRules);
   }
 
   private initRulesList(): void {

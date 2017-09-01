@@ -12,6 +12,8 @@ import { SshKeysPageComponent } from './ssh-keys-page.component';
 import { SShKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creation-dialog.component';
 import { SshPrivateKeyDialogComponent } from './ssh-key-creation/ssh-private-key-dialog.component';
 import { SshKeyListItemComponent } from './ssh-key-list-item.component';
+import { sshKeysRouting } from './ssh-keys.routing';
+import { SshKeyCreationComponent } from './ssh-key-creation/ssh-key-creation.component';
 
 
 @NgModule({
@@ -26,6 +28,7 @@ import { SshKeyListItemComponent } from './ssh-key-list-item.component';
     MdMenuModule,
     MdButtonModule,
     MdIconModule,
+    sshKeysRouting
   ],
   exports: [SshKeysPageComponent],
   declarations: [
@@ -33,6 +36,7 @@ import { SshKeyListItemComponent } from './ssh-key-list-item.component';
     SshKeyListItemComponent,
     SshKeysPageComponent,
     SShKeyCreationDialogComponent,
+    SshKeyCreationComponent,
     SshPrivateKeyDialogComponent
   ],
   entryComponents: [

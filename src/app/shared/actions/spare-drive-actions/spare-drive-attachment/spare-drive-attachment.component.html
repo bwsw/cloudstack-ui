@@ -1,0 +1,52 @@
+<cs-overlay-loading [active]="loading"></cs-overlay-loading>
+<div [hidden]="loading">
+  <ng-container *loading="!virtualMachines">
+    <h3 *ngIf="virtualMachineId" class="mat-dialog-title">{{ 'SPARE_DRIVE_PAGE.ATTACHMENT.CHOOSE_VIRTUAL_MACHINE' | translate }}</h3>
+    <h3 *ngIf="!virtualMachineId" class="mat-dialog-title">{{ 'SPARE_DRIVE_PAGE.ATTACHMENT.NO_VMS' | translate }}</h3>
+    <form (ngSubmit)="attach($event)" #volumeAttachmentForm="ngForm" novalidate>
+      <div class="mat-dialog-content">
+        <div>
+          <md-select
+            *ngIf="virtualMachineId"
+            [(ngModel)]="virtualMachineId"
+            id="vm"
+            name="vm"
+          >
+            <md-option
+              *ngFor="let vm of virtualMachines"
+              [value]="vm.id"
+            >
+              {{ vm.name }}
+            </md-option>
+          </md-select>
+        </div>
+
+        <div *ngIf="!virtualMachineId">
+          {{ 'SPARE_DRIVE_PAGE.ATTACHMENT.NO_VMS_IN_ZONE' | translate }}
+        </div>
+      </div>
+      <div class="mat-dialog-actions">
+
+      <button
+          *ngIf="virtualMachines"
+          mdl-colored="primary"
+          mdl-button
+          mdl-ripple
+          type="submit"
+        >
+          {{ (virtualMachineId ? 'SPARE_DRIVE_PAGE.ATTACHMENT.ATTACH' : 'COMMON.OK') | translate }}
+        </button>
+        <button
+        *ngIf="virtualMachineId"
+          mdl-colored="primary"
+          mdl-button
+          mdl-ripple
+          type="button"
+          (click)="onCancel()"
+        >
+          {{ 'COMMON.CANCEL' | translate }}
+        </button>
+      </div>
+    </form>
+  </ng-container>
+</div>

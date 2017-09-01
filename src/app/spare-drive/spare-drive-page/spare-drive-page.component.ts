@@ -2,23 +2,17 @@ import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
-import { DiskOffering, Volume, VolumeType, Zone, } from '../../shared';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { DiskOffering, Volume, VolumeType, Zone } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
-import { FilterService } from '../../shared/services/filter.service';
-import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { UserService } from '../../shared/services/user.service';
+import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { SpareDriveActionsService } from '../spare-drive-actions.service';
-import { SpareDriveCreationComponent } from '../spare-drive-creation/spare-drive-creation.component';
+import { filterWithPredicates } from '../../shared/utils/filter';
+import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import { SpareDriveFilter } from '../spare-drive-filter/spare-drive-filter.component';
 
-
-const spareDriveListFilters = 'spareDriveListFilters';
-const askToCreateVolume = 'csui.user.ask-to-create-volume';
 
 export interface VolumeCreationData {
   name: string;
@@ -30,190 +24,178 @@ export interface VolumeCreationData {
 @Component({
   selector: 'cs-spare-drive-page',
   templateUrl: 'spare-drive-page.component.html',
-  styleUrls: ['spare-drive-page.component.scss'],
   providers: [ListService]
 })
-export class SpareDrivePageComponent implements OnInit, OnDestroy {
+export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit, OnDestroy {
   @HostBinding('class.detail-list-container') public detailListContainer = true;
   public volumes: Array<Volume>;
   public zones: Array<Zone>;
-  public selectedZones: Array<Zone> = [];
   public visibleVolumes: Array<Volume>;
 
-  public selectedGroupingNames = [];
   public selectedGroupings = [];
   public groupings = [
     {
       key: 'zones',
-      label: 'GROUP_BY.ZONES',
+      label: 'SPARE_DRIVE_PAGE.FILTERS.GROUP_BY_ZONES',
       selector: (item: Volume) => item.zoneId,
       name: (item: Volume) => item.zoneName
     }
   ];
+  public query: string;
 
-  private filterService = new FilterService({
-    zones: { type: 'array', defaultOption: [] },
-    groupings: { type: 'array', defaultOption: [] }
-  }, this.router, this.localStorage, spareDriveListFilters, this.activatedRoute);
+  public filterData: any;
+
   private onDestroy = new Subject();
 
   constructor(
+    public listService: ListService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
-    private jobsNotificationService: JobsNotificationService,
-    private listService: ListService,
-    private spareDriveActionsService: SpareDriveActionsService,
-    private userService: UserService,
+    private userTagService: UserTagService,
     private volumeService: VolumeService,
-    private zoneService: ZoneService,
-    private localStorage: LocalStorageService
+    private zoneService: ZoneService
   ) {
+    super();
   }
 
   public ngOnInit(): void {
-    this.listService.onAction
-      .takeUntil(this.onDestroy)
-      .subscribe(() => this.showCreationDialog());
-
-    this.spareDriveActionsService.onVolumeAttachment
-      .takeUntil(this.onDestroy)
-      .subscribe(() => this.onVolumeAttached());
+    Observable.merge(
+      this.volumeService.onVolumeAttachment.takeUntil(this.onDestroy)
+        .do(e => {
+          if (this.listService.isSelected(e.volumeId)) {
+            this.listService.deselectItem();
+          }
+        }),
+      this.volumeService.onVolumeCreated.takeUntil(this.onDestroy),
+      this.volumeService.onVolumeResized.takeUntil(this.onDestroy),
+      this.volumeService.onVolumeRemoved.takeUntil(this.onDestroy),
+      this.volumeService.onVolumeTagsChanged.takeUntil(this.onDestroy)
+    )
+      .subscribe(() => this.onVolumeUpdated());
 
     Observable.forkJoin(
       this.updateVolumeList(),
       this.updateZones()
-    ).subscribe(() => this.initFilters());
+    )
+      .subscribe(() => this.filter());
   }
 
-  public ngOnDestroy(): void {
-    this.onDestroy.next();
+  public updateFiltersAndFilter(filterData: SpareDriveFilter): void {
+    this.filterData = filterData;
+    this.filter();
   }
 
-  public initFilters(): void {
-    const params = this.filterService.getParams();
-    this.selectedZones = this.zones.filter(zone =>
-      params['zones'].find(id => id === zone.id)
-    );
-    this.selectedGroupingNames = params.groupings.reduce((acc, _) => {
-      const grouping = this.groupings.find(g => g.key === _);
-      if (grouping) {
-        acc.push(grouping);
-      }
-      return acc;
-    }, []);
+  public filter(): void {
+    if (!this.volumes || !this.volumes.length) {
+      return;
+    }
 
-    this.update();
-  }
+    if (!this.filterData) {
+      this.visibleVolumes = this.volumes;
+      return;
+    }
 
-  public update(): void {
-    this.filterZones();
     this.updateGroupings();
 
-    this.filterService.update(spareDriveListFilters, {
-      zones: this.selectedZones.map(_ => _.id),
-      groupings: this.selectedGroupingNames.map(_ => _.key)
-    });
+    const { selectedZones, spareOnly, query } = this.filterData;
+    this.query = query;
+
+    this.visibleVolumes = filterWithPredicates(
+      this.volumes,
+      [
+        this.filterVolumesByZones(selectedZones),
+        this.filterVolumesBySpare(spareOnly),
+        this.filterVolumesBySearch()
+      ]);
   }
 
   public updateGroupings(): void {
-    this.selectedGroupings = this.selectedGroupingNames.reduce((acc, g) => {
+    this.selectedGroupings = this.filterData.groupings.reduce((acc, g) => {
       acc.push(this.groupings.find(_ => _ === g));
       return acc;
     }, []);
   }
 
-  public filterZones(): void {
-    if (this.selectedZones.length) {
-      this.visibleVolumes = this.volumes.filter(volume =>
-        this.selectedZones.some(z => volume.zoneId === z.id)
-      );
-    } else {
-      this.visibleVolumes = this.volumes;
-    }
+  public filterVolumesByZones(selectedZones: Array<Zone>): (volume) => boolean {
+    return (volume) => {
+      if (selectedZones.length) {
+        return selectedZones.some(z => volume.zoneId === z.id);
+      } else {
+        return true;
+      }
+    };
   }
 
-  public showRemoveDialog(volume: Volume): void {
-    this.dialogService.confirm('CONFIRM_DELETE_VOLUME', 'NO', 'YES')
-      .onErrorResumeNext()
-      .subscribe(() => this.remove(volume));
+  public filterVolumesBySpare(spareOnly = false): (volume) => boolean {
+    return (volume) => {
+      if (spareOnly) {
+        return volume.isSpare;
+      } else {
+        return true;
+      }
+    };
   }
 
-  public remove(volume: Volume): void {
-    this.volumeService.remove(volume.id)
-      .subscribe(
-        () => {
-          this.volumes = this.volumes.filter(listVolume => {
-            return listVolume.id !== volume.id;
-          });
-          if (this.listService.isSelected(volume.id)) {
-            this.listService.deselectItem();
-          }
-          this.jobsNotificationService.finish({ message: 'VOLUME_DELETE_DONE' });
-          this.update();
-        },
-        error => {
-          this.dialogService.alert(error);
-          this.jobsNotificationService.fail({ message: 'VOLUME_DELETE_FAILED' });
-        }
-      );
+  public filterVolumesBySearch(): (volume) => boolean {
+    return (volume) => {
+      if (!this.query) {
+        return true;
+      }
+
+      const queryLower = this.query.toLowerCase();
+      return volume.name.toLowerCase().includes(queryLower)
+        || volume.description.toLowerCase().includes(queryLower);
+    };
   }
 
   public showCreationDialog(): void {
-    this.dialogService.showCustomDialog({
-      component: SpareDriveCreationComponent,
-      classes: 'spare-drive-creation-dialog',
-      clickOutsideToClose: false
-    })
-      .switchMap(res => res.onHide())
-      .subscribe((volume: Volume) => {
-        if (volume) {
-          this.volumes.push(volume);
-          this.update();
-        }
-      });
+    this.router.navigate(['./create'], {
+      preserveQueryParams: true,
+      relativeTo: this.activatedRoute
+    });
   }
 
-  public updateVolume(volume: Volume): void {
-    this.volumes = this.volumes.map(vol => vol.id === volume.id ? volume : vol);
-
-    if (this.listService.isSelected(volume.id)) {
-      this.listService.showDetails(volume.id);
-    }
-    this.update();
+  private onVolumeUpdated(): void {
+    this.updateVolumeList().subscribe(() => this.filter());
   }
 
-  private onVolumeAttached(): void {
-    this.updateVolumeList().subscribe();
-    this.update();
+  private get shouldShowSuggestionDialog(): boolean {
+    return !this.volumes.length && !this.isCreateVolumeInUrl;
+  }
+
+  private get isCreateVolumeInUrl(): boolean {
+    return this.activatedRoute.children.length
+      && this.activatedRoute.children[0].snapshot.url[0].path === 'create';
   }
 
   private showSuggestionDialog(): void {
-    this.userService.readTag(askToCreateVolume)
+    if (this.isCreateVolumeInUrl) {
+      return;
+    }
+
+    this.userTagService.getAskToCreateVolume()
       .subscribe(tag => {
-        if (tag === 'false') {
+        if (tag === false) {
           return;
         }
 
-        this.dialogService.showDialog({
-          message: 'WOULD_YOU_LIKE_TO_CREATE_VOLUME',
+        this.dialogService.askDialog({
+          message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VOLUME',
           actions: [
             {
               handler: () => this.showCreationDialog(),
-              text: 'YES'
+              text: 'COMMON.YES'
             },
-            { text: 'NO' },
+            { text: 'COMMON.NO' },
             {
-              handler: () => this.userService.writeTag(askToCreateVolume, 'false')
-                .subscribe(),
-              text: 'NO_DONT_ASK'
+              handler: () => this.userTagService.setAskToCreateVolume(false).subscribe(),
+              text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
             }
           ],
-          fullWidthAction: true,
-          isModal: true,
-          clickOutsideToClose: true,
-          styles: { 'width': '320px' }
+          disableClose: false,
+          width: '320px'
         });
 
       });
@@ -231,7 +213,7 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
     return this.diskOfferingService.getList({ type: VolumeType.DATADISK })
       .switchMap((offerings: Array<DiskOffering>) => {
         diskOfferings = offerings;
-        return this.volumeService.getSpareList();
+        return this.volumeService.getList();
       })
       .map(volumes => {
         this.volumes = volumes
@@ -242,9 +224,12 @@ export class SpareDrivePageComponent implements OnInit, OnDestroy {
           });
 
         this.visibleVolumes = volumes;
+
         if (this.volumes.length) {
-          this.update();
-        } else {
+          this.filter();
+        }
+
+        if (this.shouldShowSuggestionDialog) {
           this.showSuggestionDialog();
         }
       });

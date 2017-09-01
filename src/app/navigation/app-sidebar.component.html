@@ -23,10 +23,12 @@
   </button>
 </div>
 <mdl-layout-title>
-  <img class="logo" [src]="logoSource" >
+  <img class="logo" [src]="logoSource">
   <div class="title-header">
     <md-icon class="link-element">person</md-icon>
-    <div class="link-element">{{ 'WELCOME' | translate:{ name: title } }}</div>
+    <div class="link-element">
+      {{ 'NAVIGATION_SIDEBAR.WELCOME' | translate:{ name: title } }}
+    </div>
   </div>
 </mdl-layout-title>
 
@@ -95,11 +97,11 @@
 
 <div class="license-container">
   <div class="license">
-    {{ 'LICENSE_1' | translate: { year: currentYear } }}
+    {{ 'NAVIGATION_SIDEBAR.LICENSE.LICENSE_1' | translate: { year: currentYear } }}
     <a href="https://bitworks.software/" target="_blank">
-      {{ 'LICENSE_2' | translate }}
+      {{ 'NAVIGATION_SIDEBAR.LICENSE.LICENSE_2' | translate }}
     </a>
     <br>
-    {{ 'LICENSE_3' | translate }}
+    {{ 'NAVIGATION_SIDEBAR.LICENSE.LICENSE_3' | translate }}
   </div>
 </div>

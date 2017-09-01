@@ -1,31 +1,29 @@
-<div class="dialog">
-  <h3 class="mdl-dialog__title">{{ 'ATTACH_AN_ISO' | translate }}</h3>
-  <div class="mdl-dialog__content">
-    <cs-template-filter-list-selector
-      [viewMode]="'Iso'"
-      [showIsoSwitch]="false"
-      [(selectedTemplate)]="selectedIso"
-      [isos]="isos$ | async"
-      [zoneId]="zoneId"
-    ></cs-template-filter-list-selector>
-  </div>
-  <div class="mdl-dialog__actions">
-    <button
-      mdl-button
-      mdl-colored="primary"
-      mdl-ripple
-      (click)="onAttach()"
-      [disabled]="!selectedIso"
-    >
-      {{ 'ATTACH' | translate }}
-    </button>
-    <button
-      mdl-button
-      mdl-colored="primary"
-      mdl-ripple
-      (click)="onCancel()"
-    >
-      {{ 'CANCEL' | translate }}
-    </button>
-  </div>
+<h3 class="mat-dialog-title">{{ 'VM_PAGE.STORAGE_DETAILS.ISO_MODAL.TITLE' | translate }}</h3>
+<div class="mat-dialog-content">
+  <cs-template-filter-list-selector
+    [viewMode]="'Iso'"
+    [showIsoSwitch]="false"
+    [(selectedTemplate)]="selectedIso"
+    [isos]="isos$ | async"
+    [zoneId]="zoneId"
+  ></cs-template-filter-list-selector>
+</div>
+<div class="mat-dialog-actions">
+  <button
+    mdl-button
+    mdl-colored="primary"
+    mdl-ripple
+    (click)="onAttach()"
+    [disabled]="!selectedIso"
+  >
+    {{ 'VM_PAGE.STORAGE_DETAILS.ISO_MODAL.ATTACH' | translate }}
+  </button>
+  <button
+    mdl-button
+    mdl-colored="primary"
+    mdl-ripple
+    (click)="onCancel()"
+  >
+    {{ 'COMMON.CANCEL' | translate }}
+  </button>
 </div>

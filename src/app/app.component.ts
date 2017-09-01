@@ -3,7 +3,6 @@ import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Response } from '@angular/http';
 import { Router } from '@angular/router';
 import '../style/app.scss';
-import { MdlDialogService } from './dialog/dialog-module';
 import { AsyncJobService } from './shared/services/async-job.service';
 import { AuthService } from './shared/services/auth.service';
 import { CacheService } from './shared/services/cache.service';
@@ -39,7 +38,6 @@ export class AppComponent implements OnInit {
     private sessionStorage: SessionStorageService,
     private memoryStorage: MemoryStorageService,
     private layoutService: LayoutService,
-    private mdlDialogService: MdlDialogService,
     private notification: NotificationService,
     private styleService: StyleService,
     private routerUtilsService: RouterUtilsService,
@@ -71,7 +69,6 @@ export class AppComponent implements OnInit {
     });
 
     this.captureScrollEvents();
-    this.toggleDialogOverlay();
   }
 
   private updateAccount(loggedIn: boolean): void {
@@ -84,7 +81,7 @@ export class AppComponent implements OnInit {
     if (e instanceof Response) {
       switch (e.status) {
         case 401:
-          this.notification.message('NOT_LOGGED_IN');
+          this.notification.message('AUTH.NOT_LOGGED_IN');
           const route = this.routerUtilsService.getRouteWithoutQueryParams();
           if (route !== '/login' && route !== '/logout') {
             this.router.navigate(
@@ -112,20 +109,6 @@ export class AppComponent implements OnInit {
       document
         .querySelector('.dialog-container')
         .addEventListener('scroll', e => e.stopPropagation(), useCapture);
-    });
-  }
-
-  private toggleDialogOverlay(): void {
-    this.mdlDialogService.onDialogsOpenChanged.subscribe(open => {
-      if (open) {
-        document
-          .querySelector('.dialog-container')
-          .classList.add('dialog-container-overlay');
-      } else {
-        document
-          .querySelector('.dialog-container')
-          .classList.remove('dialog-container-overlay');
-      }
     });
   }
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { VirtualMachine, VmState } from '../shared/vm.model';
@@ -13,9 +13,9 @@ import { VirtualMachineAction } from './vm-action';
 @Injectable()
 export class VmChangeServiceOfferingAction extends VirtualMachineAction {
   public tokens = {
-    progressMessage: 'VM_CHANGE_SERVICE_OFFERING_IN_PROGRESS',
-    successMessage: 'VM_CHANGE_SERVICE_OFFERING_DONE',
-    failMessage: 'VM_CHANGE_SERVICE_OFFERING_FAILED'
+    progressMessage: 'JOB_NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_IN_PROGRESS',
+    successMessage: 'JOB_NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_DONE',
+    failMessage: 'JOB_NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_FAILED'
   };
 
   constructor(
@@ -29,6 +29,10 @@ export class VmChangeServiceOfferingAction extends VirtualMachineAction {
   }
 
   public canActivate(vm: VirtualMachine): boolean {
+    if (!vm) {
+      return false;
+    }
+
     return [
       VmState.Running,
       VmState.Stopped

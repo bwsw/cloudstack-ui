@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import * as moment from 'moment';
-import { MdlDialogReference } from '../../../../../dialog/dialog-module';
-import { DialogService } from '../../../../../dialog/dialog-module/dialog.service';
+
+import { DialogService } from '../../../../../dialog/dialog-service/dialog.service';
 import { Volume } from '../../../../../shared/models/volume.model';
 import { JobsNotificationService } from '../../../../../shared/services/jobs-notification.service';
 import {
@@ -25,12 +26,12 @@ export class SnapshotCreationComponent implements OnInit {
   public enoughResources: boolean;
 
   constructor(
-    private dialog: MdlDialogReference,
+    private dialogRef: MdDialogRef<SnapshotCreationComponent>,
     private dialogService: DialogService,
     private snapshotService: SnapshotService,
     private jobsNotificationService: JobsNotificationService,
     private statsUpdateService: StatsUpdateService,
-    @Inject('volume') private volume: Volume,
+    @Inject(MD_DIALOG_DATA) private volume: Volume,
     private resourceUsageService: ResourceUsageService,
   ) {}
 
@@ -49,35 +50,37 @@ export class SnapshotCreationComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
     this.takeSnapshot(this.volume.id, this.name, this.description);
   }
 
   public onHide(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
   }
 
   public takeSnapshot(volumeId: string, name: string, description: string): void {
-    const notificationId = this.jobsNotificationService.add('SNAPSHOT_IN_PROGRESS');
+    const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS');
     this.snapshotService.create(volumeId, name, description)
       .subscribe(
         (result: any) => {
           this.statsUpdateService.next();
           this.jobsNotificationService.finish({
             id: notificationId,
-            message: 'SNAPSHOT_DONE'
+            message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
           });
           this.volume.snapshots.unshift(result);
         },
         e => {
           this.jobsNotificationService.fail({
             id: notificationId,
-            message: 'SNAPSHOT_FAILED'
+            message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
           });
 
           this.dialogService.alert({
-            translationToken: e.message,
-            interpolateParams: e.params
+            message: {
+              translationToken: e.message,
+              interpolateParams: e.params
+            }
           });
         });
   }

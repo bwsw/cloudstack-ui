@@ -45,9 +45,13 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
             yAxes: [
               {
                 ticks: {
+                  mirror: true,
+                  padding: 40,
                   suggestedMin: 0,
                   userCallback(val) {
-                    return `${humanReadableSizeInBits(val)}/s`;
+                    return !!humanReadableSizeInBits(val)
+                      ? `${humanReadableSizeInBits(val)}/s`
+                      : null;
                   }
                 }
               }
@@ -132,25 +136,35 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
           sets.packets.push(readPackets, writePackets);
 
           const readDrops = {
-            data: res.map(_ => +_.readDrops),
+            data: res.map(_ => ({
+              x: new Date(_.time),
+              y: +_.readDrops
+            })),
             label: `${this.translations['NETWORK_READ_DROPS']} ${aggregation}`
           };
           const writeDrops = {
-            data: res.map(_ => +_.writeDrops),
+            data: res.map(_ => ({
+              x: new Date(_.time),
+              y: +_.writeDrops
+            })),
             label: `${this.translations['NETWORK_WRITE_DROPS']} ${aggregation}`
           };
-          this.charts[2].labels = res.map(_ => new Date(_.time));
           sets.drops.push(readDrops, writeDrops);
 
           const readErrors = {
-            data: res.map(_ => +_.readErrors),
+            data: res.map(_ => ({
+              x: new Date(_.time),
+              y: +_.readErrors
+            })),
             label: `${this.translations['NETWORK_READ_ERRORS']} ${aggregation}`
           };
           const writeErrors = {
-            data: res.map(_ => +_.writeErrors),
+            data: res.map(_ => ({
+              x: new Date(_.time),
+              y: +_.writeErrors,
+            })),
             label: `${this.translations['NETWORK_WRITE_ERRORS']} ${aggregation}`
           };
-          this.charts[3].labels = res.map(_ => new Date(_.time));
           sets.errors.push(readErrors, writeErrors);
         });
 

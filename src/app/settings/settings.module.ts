@@ -25,7 +25,8 @@ import { SettingsComponent } from './settings.component';
     ClipboardModule
   ],
   exports: [
-    SettingsComponent],
+    SettingsComponent
+  ],
 
   declarations: [
     ApiInfoComponent,

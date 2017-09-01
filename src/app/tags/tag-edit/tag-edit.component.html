@@ -1,11 +1,7 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<h3 class="mdl-dialog__title">{{ (title || 'EDIT_TAG') | translate }}</h3>
-
-<form
-  (ngSubmit)="onTagUpdate()"
-  #tagCreationForm="ngForm"
->
-  <div class="mdl-dialog__content">
+<h3 *ngIf="!loading" class="mat-dialog-title">{{ (title || 'TAGS.EDIT_TAG') | translate }}</h3>
+<form (ngSubmit)="onTagUpdate()" #tagCreationForm="ngForm">
+  <div class="mat-dialog-content">
 
     <mdl-textfield
       type="text"
@@ -18,7 +14,7 @@
       [error-msg]="keyFieldErrorMessage | translate"
       [(ngModel)]="key"
       [maxlength]="maxKeyLength"
-      [label]="'TAG_KEY' | translate"
+      [label]="'TAGS.TAG_KEY' | translate"
       [class.is-invalid]="keyField.invalid && !keyField.pristine"
     ></mdl-textfield>
     <cs-character-count
@@ -28,7 +24,7 @@
 
     <mdl-textfield
       type="text"
-      [label]="'TAG_VALUE' | translate"
+      [label]="'TAGS.TAG_VALUE' | translate"
       name="value"
       required
       floating-label
@@ -44,7 +40,7 @@
 
   </div>
 
-  <div class="mdl-dialog__actions">
+  <div class="mat-dialog-actions">
     <button
       mdl-button
       mdl-colored="primary"
@@ -52,7 +48,7 @@
       type="submit"
       [disabled]="!tagCreationForm.valid"
     >
-      {{ (confirmButtonText || 'EDIT') | translate }}
+      {{ (confirmButtonText || 'COMMON.EDIT') | translate }}
     </button>
     <button
       mdl-button
@@ -61,7 +57,7 @@
       type="button"
       (click)="onCancel()"
     >
-      {{ 'CANCEL' | translate }}
+      {{ 'COMMON.CANCEL' | translate }}
     </button>
   </div>
 </form>

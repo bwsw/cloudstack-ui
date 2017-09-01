@@ -1,6 +1,6 @@
 import { VirtualMachineAction, VmActions } from './vm-action';
 import { VirtualMachine } from '../shared/vm.model';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { VmService } from '../shared/vm.service';
 import { WebShellService } from '../web-shell/web-shell.service';
 import { Observable } from 'rxjs/Observable';
@@ -11,7 +11,7 @@ import { JobsNotificationService } from '../../shared/services/jobs-notification
 @Injectable()
 export class VmWebShellAction extends VirtualMachineAction {
   public action = VmActions.WEB_SHELL;
-  public name = 'WEB_SHELL';
+  public name = 'VM_PAGE.COMMANDS.WEB_SHELL';
   public icon = 'computer';
 
   constructor(

@@ -1,15 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { MdlDialogReference } from '../../dialog/dialog-module';
-import { Zone } from '../../shared/models';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { ServiceOfferingFilterService } from '../../shared/services/service-offering-filter.service';
-import { ServiceOfferingService } from '../../shared/services/service-offering.service';
-import { ZoneService } from '../../shared/services/zone.service';
 import { VirtualMachine } from '../../vm/shared/vm.model';
+import { ZoneService } from '../../shared/services/zone.service';
 import { VmChangeServiceOfferingAction } from '../../vm/vm-actions/vm-change-service-offering';
-import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
 import { CustomServiceOfferingService } from '../custom-service-offering/service/custom-service-offering.service';
+import { Observable } from 'rxjs/Observable';
+import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
+import { ServiceOfferingService } from '../../shared/services/service-offering.service';
+import { Zone } from '../../shared/models';
 
 
 @Component({
@@ -21,19 +21,21 @@ export class ServiceOfferingDialogComponent implements OnInit {
   public serviceOffering: ServiceOffering;
   public serviceOfferings: Array<ServiceOffering>;
   public loading: boolean;
+  public virtualMachine: VirtualMachine;
 
   public restrictions$: Observable<ICustomOfferingRestrictions>;
 
   constructor(
-    @Inject('virtualMachine') public virtualMachine: VirtualMachine,
+    @Inject(MD_DIALOG_DATA) data,
+    public dialogRef: MdDialogRef<ServiceOfferingDialogComponent>,
     public customServiceOfferingService: CustomServiceOfferingService,
-    public dialog: MdlDialogReference,
     private serviceOfferingService: ServiceOfferingService,
     private serviceOfferingFilterService: ServiceOfferingFilterService,
     private vmChangeServiceOfferingAction: VmChangeServiceOfferingAction,
     private zoneService: ZoneService
   ) {
     this.restrictions$ = this.getRestrictions();
+    this.virtualMachine = data.virtualMachine;
   }
 
   public ngOnInit(): void {
@@ -55,19 +57,21 @@ export class ServiceOfferingDialogComponent implements OnInit {
       { serviceOffering: this.serviceOffering }
     )
       .finally(() => this.loading = false)
-      .subscribe(() => this.dialog.hide(this.serviceOffering));
+      .subscribe(() => this.dialogRef.close(this.serviceOffering));
   }
 
   public onCancel(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
   }
 
   private fetchData(zone: Zone): Observable<Array<ServiceOffering>> {
     return this.serviceOfferingFilterService.getAvailableByResources({ zone })
       .map(availableOfferings => {
-        return availableOfferings.filter(offering => {
-          return offering.id !== this.virtualMachine.serviceOffering.id;
-        });
+        return !!this.virtualMachine.serviceOffering
+          ? availableOfferings.filter(
+            offering =>
+              offering.id !== this.virtualMachine.serviceOffering.id)
+          : availableOfferings;
       })
       .switchMap(offerings => {
         const offeringsWithSetParams = offerings.map(offering => {

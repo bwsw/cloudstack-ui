@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../../../dialog/dialog-module/dialog.service';
 
 import { DiskOffering, Volume, VolumeType, Zone, } from '../../../../shared';
 import { DiskOfferingService } from '../../../../shared/services/disk-offering.service';
 import { StatsUpdateService } from '../../../../shared/services/stats-update.service';
 import { ZoneService } from '../../../../shared/services/zone.service';
 import { RecurringSnapshotsComponent } from '../../../../snapshot/recurring-snapshots/recurring-snapshots.component';
-import { VolumeResizeComponent } from '../../volume-resize.component';
+import { VolumeResizeComponent } from '../../volume-resize/volume-resize.component';
 
 import { SnapshotCreationComponent } from './snapshot-creation/snapshot-creation.component';
 
@@ -26,7 +26,7 @@ export class VolumeComponent implements OnInit {
   private _loading = false;
 
   constructor(
-    private dialogService: DialogService,
+    private dialog: MdDialog,
     private diskOfferingService: DiskOfferingService,
     private statsUpdateService: StatsUpdateService,
     private zoneService: ZoneService
@@ -55,36 +55,26 @@ export class VolumeComponent implements OnInit {
   public showVolumeResizeDialog(): void {
     this.getOfferings().switchMap(diskOfferingList => {
       this._loading = false;
-      return this.dialogService.showCustomDialog({
-        component: VolumeResizeComponent,
-        classes: 'volume-resize-dialog',
-        providers: [
-          { provide: 'volume', useValue: this.volume },
-          { provide: 'diskOfferingList', useValue: diskOfferingList }
-        ]
-      });
-    })
-      .switchMap(res => res.onHide())
-      .subscribe(resizedVolume => {
-        if (resizedVolume) {
-          this.onVolumeResize(resizedVolume);
-        }
-      });
+      return this.dialog.open(VolumeResizeComponent, {
+         width: '370px',
+         data: { volume: this.volume, diskOfferingList: diskOfferingList }
+      }).afterClosed();
+    }).subscribe(resizedVolume => {
+       if (resizedVolume) {
+         this.onVolumeResize(resizedVolume);
+       }
+     });
   }
 
   public showRecurringSnapshotsDialog(): void {
-    this.dialogService.showCustomDialog({
-      component: RecurringSnapshotsComponent,
-      classes: 'recurring-snapshots-dialog',
-      providers: [{ provide: 'volume', useValue: this.volume }]
+    this.dialog.open(RecurringSnapshotsComponent, {
+      data: this.volume
     });
   }
 
   public takeSnapshot(volume: Volume): void {
-    this.dialogService.showCustomDialog({
-      component: SnapshotCreationComponent,
-      classes: 'snapshot-creation-dialog',
-      providers: [{ provide: 'volume', useValue: volume }],
+    this.dialog.open(SnapshotCreationComponent, {
+      data: volume
     });
   }
 

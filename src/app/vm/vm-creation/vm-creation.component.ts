@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MdSelectChange } from '@angular/material';
+import { MdSelectChange, MdDialogRef } from '@angular/material';
 import * as throttle from 'lodash/throttle';
 
-import { MdlDialogReference } from '../../dialog/dialog-module';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { AffinityGroup, InstanceGroup, ServiceOffering } from '../../shared/models';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
@@ -48,19 +47,19 @@ export class VmCreationComponent implements OnInit {
   public enoughResources: boolean;
   public insufficientResources: Array<string> = [];
   public insufficientResourcesErrorMap = {
-    instances: 'VM_CREATION_FORM.RESOURCES.INSTANCES',
-    ips: 'VM_CREATION_FORM.RESOURCES.IPS',
-    volumes: 'VM_CREATION_FORM.RESOURCES.VOLUMES',
-    cpus: 'VM_CREATION_FORM.RESOURCES.CPUS',
-    memory: 'VM_CREATION_FORM.RESOURCES.MEMORY',
-    primaryStorage: 'VM_CREATION_FORM.RESOURCES.PRIMARYSTORAGE',
+    instances: 'VM_PAGE.VM_CREATION.INSTANCES',
+    ips: 'VM_PAGE.VM_CREATION.IPS',
+    volumes: 'VM_PAGE.VM_CREATION.VOLUMES',
+    cpus: 'VM_PAGE.VM_CREATION.CPUS',
+    memory: 'VM_PAGE.VM_CREATION.MEMORY',
+    primaryStorage: 'VM_PAGE.VM_CREATION.PRIMARY_STORAGE',
   };
 
   public takenName: string;
   public creationStage = VmCreationStage.editing;
 
   constructor(
-    private dialog: MdlDialogReference,
+    private dialogRef: MdDialogRef<VmCreationComponent>,
     private dialogService: DialogService,
     private formNormalizationService: VmCreationFormNormalizationService,
     private jobsNotificationService: JobsNotificationService,
@@ -217,11 +216,11 @@ export class VmCreationComponent implements OnInit {
   }
 
   public onCancel(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
   }
 
   public deploy(): void {
-    const notificationId = this.jobsNotificationService.add('VM_DEPLOY_IN_PROGRESS');
+    const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
     const { deployStatusObservable, deployObservable } = this.vmDeploymentService.deploy(this.formState.state);
 
     deployStatusObservable.subscribe(deploymentMessage => {
@@ -233,18 +232,20 @@ export class VmCreationComponent implements OnInit {
   public notifyOnDeployDone(notificationId: string): void {
     this.jobsNotificationService.finish({
       id: notificationId,
-      message: 'DEPLOY_DONE'
+      message: 'JOB_NOTIFICATIONS.VM.DEPLOY_DONE'
     });
   }
 
   public notifyOnDeployFailed(error: any, notificationId: string): void {
     this.dialogService.alert({
-      translationToken: error.message,
-      interpolateParams: error.params
+      message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
     });
     this.jobsNotificationService.fail({
       id: notificationId,
-      message: 'DEPLOY_FAILED'
+      message: 'JOB_NOTIFICATIONS.VM.DEPLOY_FAILED'
     });
   }
 
@@ -253,16 +254,16 @@ export class VmCreationComponent implements OnInit {
       return;
     }
 
-    this.dialogService.customAlert({
+    this.dialogService.alert({
       message: {
-        translationToken: 'PASSWORD_DIALOG_MESSAGE',
+        translationToken: 'DIALOG_MESSAGES.VM.PASSWORD_DIALOG_MESSAGE',
         interpolateParams: {
           vmName: vm.name,
           vmPassword: vm.password
         }
       },
       width: '400px',
-      clickOutsideToClose: false
+      disableClose: true
     });
   }
 
@@ -287,12 +288,12 @@ export class VmCreationComponent implements OnInit {
         this.creationStage = VmCreationStage.vmDeploymentInProgress;
         break;
       case VmDeploymentStage.FINISHED:
-        this.dialog.hide();
+        this.dialogRef.close();
         this.showPassword(deploymentMessage.vm);
         this.notifyOnDeployDone(notificationId);
         break;
       case VmDeploymentStage.ERROR:
-        this.dialog.hide();
+        this.dialogRef.close();
         this.notifyOnDeployFailed(deploymentMessage.error, notificationId);
         break;
     }

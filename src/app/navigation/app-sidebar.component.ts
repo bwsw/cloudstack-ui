@@ -9,12 +9,13 @@ import {
 } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { UserTagService } from 'app/shared/services/tags/user-tag.service';
 import { DragulaService } from 'ng2-dragula';
 import { Color } from '../shared/models/color.model';
+import { ConfigService } from '../shared/services/config.service';
 import { LayoutService } from '../shared/services/layout.service';
 import { RouterUtilsService } from '../shared/services/router-utils.service';
 import { StyleService } from '../shared/services/style.service';
-import { UserService } from '../shared/services/user.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 import { transformHandle, transformLinks } from './sidebar-animations';
 import {
@@ -24,9 +25,6 @@ import {
   sideBarRoutes,
   validateNavigationOrder
 } from './sidebar-routes';
-import { ConfigService } from '../shared/services/config.service';
-
-const navigationOrderTag = 'csui.user.navigation-order';
 
 
 @Component({
@@ -65,7 +63,7 @@ export class AppSidebarComponent extends WithUnsubscribe()
     private routerUtilsService: RouterUtilsService,
     private router: Router,
     private domSanitizer: DomSanitizer,
-    private userService: UserService
+    private userTagService: UserTagService
   ) {
     super();
   }
@@ -138,8 +136,8 @@ export class AppSidebarComponent extends WithUnsubscribe()
         id,
         enabled
       }));
-      this.userService
-        .writeTag(navigationOrderTag, JSON.stringify(newOrder))
+      this.userTagService
+        .setNavigationOrder(JSON.stringify(newOrder))
         .finally(() => (this.updatingOrder = false))
         .subscribe();
     }
@@ -171,7 +169,7 @@ export class AppSidebarComponent extends WithUnsubscribe()
   }
 
   private fetchNavigationOrder() {
-    this.userService.readTag(navigationOrderTag).subscribe(tag => {
+    this.userTagService.getNavigationOrder().subscribe(tag => {
       this.navigationLoaded = true;
       if (tag) {
         let order;

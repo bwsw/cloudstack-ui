@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, forwardRef, Inject, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { MdlDialogReference } from '../../dialog/dialog-module';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { SgRulesManagerComponent } from '../../shared';
 import { Volume } from '../../shared/models';
 import { LanguageService, TimeFormat } from '../../shared/services/language.service';
@@ -43,9 +43,9 @@ export class RecurringSnapshotsComponent implements OnInit {
     });
 
   constructor(
-    @Inject('volume') public volume: Volume,
+    @Inject(MD_DIALOG_DATA) public volume: Volume,
     private cd: ChangeDetectorRef,
-    private dialog: MdlDialogReference,
+    private dialogRef: MdDialogRef<RecurringSnapshotsComponent>,
     private dialogService: DialogService,
     private languageService: LanguageService,
     private snapshotPolicyService: SnapshotPolicyService
@@ -94,7 +94,7 @@ export class RecurringSnapshotsComponent implements OnInit {
   }
 
   public onClose(): void {
-    this.dialog.hide();
+    this.dialogRef.close();
   }
 
   private updatePolicies(): Observable<Array<Policy<TimePolicy>>> {
@@ -107,8 +107,10 @@ export class RecurringSnapshotsComponent implements OnInit {
 
   private onError(error: any): void {
     this.dialogService.alert({
-      translationToken: error.message,
-      interpolateParams: error.params
+      message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
     });
   }
 }

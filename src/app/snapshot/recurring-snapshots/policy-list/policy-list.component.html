@@ -1,36 +1,36 @@
-<table class="mdl-data-table">
+<table class="mat-table">
   <thead>
-  <tr>
-    <th class="mdl-data-table__cell--non-numeric">
-      {{ 'TIME' | translate }}
+  <tr class="mat-header-row">
+    <th class="mat-header-cell">
+      {{ 'SNAPSHOT_POLICIES.TIME' | translate }}
     </th>
-    <th class="mdl-data-table__cell--non-numeric"></th>
-    <th class="mdl-data-table__cell--non-numeric">{{ 'TIME_ZONE' | translate }}</th>
-    <th>{{ 'KEEP' | translate }}</th>
-    <th></th>
+    <th class="mat-header-cell"></th>
+    <th class="mat-header-cell">{{ 'SNAPSHOT_POLICIES.TIME_ZONE' | translate }}</th>
+    <th class="mat-header-cell">{{ 'SNAPSHOT_POLICIES.KEEP' | translate }}</th>
+    <th class="mat-header-cell"></th>
   </tr>
   </thead>
   <tbody>
-  <tr
+  <tr class="mat-row"
     *ngFor="let p of policyViews"
     (click)="handlePolicyRowClick(p)"
   >
-    <td class="mdl-data-table__cell--non-numeric">
+    <td class="mat-cell">
       {{ p.timeToken | translate:{ value: p.timeValue } }}
     </td>
-    <td class="mdl-data-table__cell--non-numeric">
+    <td class="mat-cell">
       {{ p.periodToken | translate: { value: p.periodValue | translate } }}
     </td>
-    <td class="mdl-data-table__cell--non-numeric">
+    <td class="mat-cell">
       {{ p.timeZone }}
     </td>
-    <td>
+    <td class="mat-cell">
       {{ p.keep }}
     </td>
-    <td>
+    <td class="mat-cell">
       <button
         (click)="deletePolicy(p)"
-        [mdTooltip]="'DELETE' | translate"
+        [mdTooltip]="'COMMON.DELETE' | translate"
         mdl-button
         mdl-button-type="icon"
         mdl-ripple

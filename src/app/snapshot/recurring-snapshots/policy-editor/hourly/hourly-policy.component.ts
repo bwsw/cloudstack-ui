@@ -31,10 +31,12 @@ export class HourlyPolicyComponent implements ControlValueAccessor {
   constructor(private translateService: TranslateService) {}
 
   public get errorMessage(): Observable<string> {
-    return this.translateService.get('BETWEEN', {
-      lowerLimit: this.minValue,
-      upperLimit: this.maxValue
-    });
+    return this.translateService.get(
+      'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.BETWEEN',
+      {
+        lowerLimit: this.minValue,
+        upperLimit: this.maxValue
+      });
   }
 
   public get minute(): string {

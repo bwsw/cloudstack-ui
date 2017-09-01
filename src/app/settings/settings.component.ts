@@ -4,10 +4,10 @@ import { MdSelectChange } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Color } from '../shared/models/color.model';
 import { AuthService } from '../shared/services/auth.service';
-
-import { LanguageService, TimeFormat } from '../shared/services/language.service';
+import { Language, LanguageService, TimeFormat } from '../shared/services/language.service';
 import { NotificationService } from '../shared/services/notification.service';
 import { StyleService } from '../shared/services/style.service';
+import { UserTagService } from '../shared/services/tags/user-tag.service';
 import { UserService } from '../shared/services/user.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 
@@ -37,13 +37,13 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public accentColorControl = new FormControl();
 
   public languages = [
-    { value: 'en', text: 'English' },
-    { value: 'ru', text: 'Русский' }
+    { value: Language.en, text: 'English' },
+    { value: Language.ru, text: 'Русский' }
   ];
 
   public daysOfTheWeek = [
-    { value: 0, text: 'SUNDAY' },
-    { value: 1, text: 'MONDAY' }
+    { value: 0, text: 'DATE_TIME.DAYS_OF_WEEK.SUNDAY' },
+    { value: 1, text: 'DATE_TIME.DAYS_OF_WEEK.MONDAY' }
   ];
 
   public TimeFormat = TimeFormat;
@@ -56,7 +56,8 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
     private notificationService: NotificationService,
     private styleService: StyleService,
     private translateService: TranslateService,
-    private userService: UserService
+    private userService: UserService,
+    private userTagService: UserTagService
   ) {
     super();
     this.userId = this.authService.userId;
@@ -76,6 +77,16 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
 
   public get accentColors(): Array<Color> {
     return this.primaryColors.filter(color => color.name !== this.primaryColor.name && !color.primaryOnly);
+  }
+
+  public getTimeFormatTranslationToken(format: TimeFormat): string {
+    const timeFormatTranslations = {
+      'hour12': 'SETTINGS.LOOK_AND_FEEL.hour12',
+      'hour24': 'SETTINGS.LOOK_AND_FEEL.hour24',
+      'AUTO': 'SETTINGS.LOOK_AND_FEEL.AUTO'
+    };
+
+    return timeFormatTranslations[format];
   }
 
   private get firstAvailableAccentColor(): Color {
@@ -120,7 +131,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public updatePassword(): void {
     this.userService.updatePassword(this.authService.userId, this.password)
       .subscribe(
-        () => this.notificationService.message('PASSWORD_CHANGED_SUCCESSFULLY'),
+        () => this.notificationService.message('SETTINGS.SECURITY.PASSWORD_CHANGED_SUCCESSFULLY'),
         error => this.notificationService.error(error.errortext)
       );
     this.passwordUpdateForm.reset();
@@ -129,7 +140,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public firstDayOfWeekChange(change: MdSelectChange): void {
     this.firstDayOfWeek = change.value;
     this.updatingFirstDayOfWeek = true;
-    this.languageService.setFirstDayOfWeek(change.value)
+    this.userTagService.setFirstDayOfWeek(change.value)
       .finally(() => this.updatingFirstDayOfWeek = false)
       .subscribe();
   }
@@ -139,7 +150,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   }
 
   private loadDayTranslations(): void {
-    this.translateService.get(['SUNDAY', 'MONDAY'])
+    this.translateService.get(['DATE_TIME.DAYS_OF_WEEK.SUNDAY', 'DATE_TIME.DAYS_OF_WEEK.MONDAY'])
       .subscribe(translations => {
         // workaround for queryList change bug (https://git.io/v9R69)
         this.dayTranslations = undefined;

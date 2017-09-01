@@ -70,3 +70,10 @@ mdl-layout-title {
 /deep/ .md-tab-tooltip {
   height: 40px;
 }
+
+
+.container {
+  display: flex;
+  padding: 15px 0;
+  justify-content: space-between;
+}

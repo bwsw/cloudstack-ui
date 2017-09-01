@@ -10,8 +10,9 @@ export interface SidebarRoute extends NavigationItem {
   className?: string;
 }
 
-export function navigationPredicate(order) {
-  return (a, b) => order.indexOf(a.id) - order.indexOf(b.id);
+export function navigationPredicate(order: Array<SidebarRoute>) {
+  return (a: NavigationItem, b: NavigationItem) =>
+    order.findIndex(_ => _.id === a.id) - order.findIndex(_ => _.id === b.id);
 }
 
 export function validateNavigationOrder(order: any): boolean {
@@ -23,32 +24,32 @@ export function validateNavigationOrder(order: any): boolean {
     return false;
   }
 
-  return order.every(_ =>
-    _.enabled != null &&
-    _.id != null &&
-    !!sideBarRoutes.find(route => route.id === _.id)
+  return order.every(
+    _ =>
+      _.enabled != null &&
+      _.id != null &&
+      !!sideBarRoutes.find(route => route.id === _.id)
   );
 }
-
 
 export const sideBarRoutes: Array<SidebarRoute> = [
   {
     path: '/instances',
-    text: 'VM_NAVBAR',
+    text: 'NAVIGATION_SIDEBAR.VMS',
     icon: 'cloud',
     id: 'VMS',
     enabled: true
   },
   {
-    path: '/spare-drives',
-    text: 'SPARE_DRIVES_NAVBAR',
+    path: '/storage',
+    text: 'NAVIGATION_SIDEBAR.SPARE_DRIVES',
     icon: 'dns',
     id: 'VOLUMES',
     enabled: true
   },
   {
     path: '/templates',
-    text: 'IMAGES',
+    text: 'NAVIGATION_SIDEBAR.IMAGES',
     icon: 'disc',
     className: 'disc-icon',
     id: 'TEMPLATES',
@@ -56,28 +57,28 @@ export const sideBarRoutes: Array<SidebarRoute> = [
   },
   {
     path: '/sg-templates',
-    text: 'FIREWALL',
+    text: 'NAVIGATION_SIDEBAR.FIREWALL_TEMPLATES',
     icon: 'security',
     id: 'SGS',
     enabled: true
   },
   {
     path: '/events',
-    text: 'ACTIVITY_LOG',
+    text: 'NAVIGATION_SIDEBAR.ACTIVITY_LOG',
     icon: 'event_note',
     id: 'EVENTS',
     enabled: true
   },
   {
     path: '/ssh-keys',
-    text: 'SSH_KEYS',
+    text: 'NAVIGATION_SIDEBAR.SSH_KEYS',
     icon: 'vpn_key',
     id: 'SSH',
     enabled: true
   },
   {
     path: '/settings',
-    text: 'SETTINGS',
+    text: 'NAVIGATION_SIDEBAR.SETTINGS',
     icon: 'settings',
     id: 'SETTINGS',
     enabled: true
@@ -87,7 +88,7 @@ export const sideBarRoutes: Array<SidebarRoute> = [
 export const nonDraggableRoutes: Array<SidebarRoute> = [
   {
     path: '/logout',
-    text: 'LOGOUT',
+    text: 'NAVIGATION_SIDEBAR.LOGOUT',
     icon: 'exit_to_app',
     id: 'LOGOUT',
     enabled: true

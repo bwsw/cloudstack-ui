@@ -1,661 +1,787 @@
 {
-  "USERNAME": "Имя пользователя",
-  "PASSWORD": "Пароль",
-  "LOGIN": "Войти",
-  "LOGOUT": "Выйти",
-  "NOT_LOGGED_IN": "Вы не вошли в систему",
-  "LOGIN_FORM": {
+  "COMMON": {
+    "ADD": "Добавить",
+    "ASSIGN": "Присвоить",
+    "AUTO": "Автоматически",
+    "CANCEL": "Отмена",
+    "CHANGE": "Изменить",
+    "CLEAR_ALL": "Очистить",
+    "CLOSE": "Закрыть",
+    "CONFIRM": "Принять",
+    "CREATE": "Создать",
+    "DELETE": "Удалить",
+    "DESCRIPTION": "Описание",
+    "EDIT": "Редактировать",
+    "NO": "Нет",
+    "NO_RESULTS": "Поиск не дал результатов",
+    "NONE": "Не выбрано",
+    "OK": "Ок",
+    "REFRESH": "Обновить",
+    "REMOVE": "Удалить",
+    "RESET": "Сбросить",
+    "SAVE": "Сохранить",
+    "SELECT": "Выбрать",
+    "SELECT_ALL": "Выбрать все",
+    "STATUS": "Статус",
+    "TYPE": "Тип",
+    "UPDATE": "Обновить",
+    "VIEW": "Просмотреть",
+    "YES": "Да"
+  },
+
+  "DIALOG_MESSAGES": {
+    "ISO": {
+      "CONFIRM_DETACHMENT": "Вы уверены, что хотите открепить этот ISO файл?",
+      "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот ISO файл?"
+    },
+
+    "SNAPSHOT": {
+      "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот снимок?"
+    },
+
+    "TAG": {
+      "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот тег?"
+    },
+
+    "TEMPLATE": {
+      "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот шаблон?"
+    },
+
+    "VM": {
+      "CONFIRM_START": "Вы уверены, что хотите запустить виртуальную машину?",
+      "CONFIRM_STOP": "Вы уверены, что хотите остановить виртуальную машину?",
+      "CONFIRM_REBOOT": "Вы уверены, что хотите перезапустить виртуальную машину?",
+      "CONFIRM_RESTORE": "Вы уверены, что хотите переустановить виртуальную машину?",
+      "CONFIRM_DESTROY": "Вы уверены, что хотите уничтожить виртуальную машину?",
+      "CONFIRM_RESET_PASSWORD": "Вы уверены, что хотите сбросить пароль?<br>Если ваша виртуальная машина запущена, то она будет перезагружена.",
+      "PASSWORD_DIALOG_MESSAGE": "Пароль для машины {{ vmName }} был сброшен в <b>{{ vmPassword }}</b>",
+      "CONFIRM_DRIVES_DELETION": "Удалить диски с данными этой ВМ?"
+    },
+
+    "VOLUME": {
+      "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот диск?",
+      "CONFIRM_DETACHMENT": "Вы уверены, что хотите открепить этот диск?"
+    }
+  },
+
+  "ERRORS": {
+    "COMMON": {
+      "THE_NAME_IS_TAKEN": "Имя {{val1}} уже занято"
+    },
+
+    "AUTH": {
+      "INCORRECT_USERNAME": "Неверное имя пользователя",
+      "INCORRECT_PASSWORD": "Неверный пароль",
+      "INCORRECT_DOMAIN": "Не удалось найти домен {{val1}}"
+    },
+
+    "ISO": {
+      "VMS_IN_USE": "Невозможно удалить ISO файл, так как он используется следующими машинами:<br>{{ vms }}"
+    },
+
+    "SNAPSHOT": {
+      "LIMIT_EXCEEDED": "Лимит снимков превышен. Для создания новых снимков Вам необходимо удалить какие-либо из ранее созданных снимков."
+    },
+
+    "SSH": {
+      "KEY_PAIR_ALREADY_EXISTS": "SSH ключ с именем \"{{val1}}\" уже существует"
+    },
+
+    "VM": {
+      "INSUFFICIENT_RESOURCES": "Недостаточно ресурсов"
+    },
+
+    "VOLUME": {
+      "NAME_TOO_LONG": "Имя диска не может быть длиннее {{val1}} символов",
+      "NEW_SIZE_IS_LOWER": "Новый размер меньше текущего, необходимо сжать диск",
+      "PRIMARY_STORAGE_EXCEEDED": "Лимит основного хранилища превышен",
+      "UNABLE_TO_FIND_PRIMARY_STORAGE": "Не удалось найти подходящее основное хранилище при создании диска {{val1}}",
+      "VOLUME_BUSY": "На виртуальной машине, к которой прикреплен этот диск, уже выполняется другое действие над снимками. Повторите попытку позже.",
+      "VOLUME_LIMIT_EXCEEDED": "Лимит дисков превышен. Для создания новых дисков вам нужно удалить какие-либо из ранее созданных дисков."
+    }
+  },
+
+  "JOB_NOTIFICATIONS": {
+    "PENDING_OPERATIONS": "Текущие операции",
+
+    "ISO": {
+      "ATTACHMENT_IN_PROGRESS": "Прикрепление ISO",
+      "ATTACHMENT_DONE": "ISO прикреплен",
+      "ATTACHMENT_FAILED": "Не удалось прикрепить ISO",
+
+      "DETACHMENT_IN_PROGRESS": "Открепление ISO",
+      "DETACHMENT_DONE": "ISO откреплен",
+      "DETACHMENT_FAILED": "Не удалось открепить ISO",
+
+      "REGISTER_IN_PROGRESS": "Регистрация ISO",
+      "REGISTER_DONE": "ISO зарегистрирован",
+      "REGISTER_FAILED": "ISO не добавлен",
+
+      "DELETION_IN_PROGRESS": "Удаление ISO",
+      "DELETION_DONE": "ISO удален",
+      "DELETION_FAILED": "Не удалось удалить ISO"
+    },
+
+    "SNAPSHOT": {
+      "TAKE_IN_PROGRESS": "Создание снимка",
+      "TAKE_DONE": "Снимок создан",
+      "TAKE_FAILED": "Не удалось создать снимок",
+
+      "DELETION_IN_PROGRESS": "Удаление снимка",
+      "DELETION_DONE": "Снимок удален",
+      "DELETION_FAILED": "Не удалось удалить снимок"
+    },
+
+    "TEMPLATE": {
+      "REGISTER_IN_PROGRESS": "Регистрация шаблона",
+      "REGISTER_DONE": "Шаблон зарегистрирован",
+      "REGISTER_FAILED": "Не удалось зарегистрировать шаблон",
+
+      "DELETION_IN_PROGRESS": "Удаление шаблона",
+      "DELETION_DONE": "Шаблон удален",
+      "DELETION_FAILED": "Не удалось удалить шаблон"
+    },
+
+    "VM": {
+      "START_IN_PROGRESS": "Запуск ВМ",
+      "START_DONE": "ВМ была запущена",
+      "START_FAILED": "Не удалось запустить ВМ",
+
+      "STOP_IN_PROGRESS": "Остановка ВМ",
+      "STOP_DONE": "ВМ была остановлена",
+      "STOP_FAILED": "Не удалось остановить ВМ",
+
+      "REBOOT_IN_PROGRESS": "Перезапуск ВМ",
+      "REBOOT_DONE": "ВМ была перезапущена",
+      "REBOOT_FAILED": "Не удалось перезапустить ВМ",
+
+      "RESTORE_IN_PROGRESS": "Переустановка ВМ",
+      "RESTORE_DONE": "ВМ была переустановлена",
+      "RESTORE_FAILED": "Не удалось переустановить ВМ",
+
+      "RESET_PASSWORD_IN_PROGRESS": "Сброс пароля",
+      "RESET_PASSWORD_DONE": "Пароль сброшен",
+      "RESET_PASSWORD_FAILED": "Не удалось сбросить пароль",
+
+      "DESTROY_IN_PROGRESS": "Уничтожение ВМ",
+      "DESTROY_DONE": "ВМ была уничтожена",
+      "DESTROY_FAILED": "Не удалось уничтожить ВМ",
+
+      "DEPLOY_IN_PROGRESS": "Развертывание ВМ",
+      "DEPLOY_DONE": "ВМ была развернута",
+      "DEPLOY_FAILED": "Не удалось развернуть ВМ",
+
+      "CHANGE_SERVICE_OFFERING_IN_PROGRESS": "Изменение предложения",
+      "CHANGE_SERVICE_OFFERING_DONE": "Предложение изменено",
+      "CHANGE_SERVICE_OFFERING_FAILED": "Не удалось изменить предложение"
+    },
+
+    "VOLUME": {
+      "DETACHMENT_IN_PROGRESS": "Открепление диска",
+      "DETACHMENT_DONE": "Диск успешно откреплен",
+      "DETACHMENT_FAILED": "Не удалось открепить диск",
+
+      "DELETION_IN_PROGRESS": "Удаление диска",
+      "DELETION_DONE": "Диск успешно удален",
+      "DELETION_FAILED": "Не удалось удалить диск",
+
+      "RESIZE_IN_PROGRESS": "Изменение размера диска",
+      "RESIZE_DONE": "Размер диска изменен",
+      "RESIZE_FAILED": "Не удалось изменить размер диска",
+
+      "ATTACHMENT_IN_PROGRESS": "Прикрепление диска",
+      "ATTACHMENT_DONE": "Диск прикреплен",
+      "ATTACHMENT_FAILED": "Не удалось прикрепить диск",
+
+      "CREATION_IN_PROGRESS": "Создание диска",
+      "CREATION_DONE": "Диск создан",
+      "CREATION_FAILED": "Не удалось создать диск"
+    }
+  },
+
+  "NOTIFICATIONS": {
+    "TEMPLATE": {
+      "CREATED": "Шаблон {{ name }} успешно создан",
+      "DELETED": "Шаблон {{ name }} успешно удален"
+    }
+  },
+
+  "AUTH": {
+    "USERNAME": "Имя пользователя",
+    "PASSWORD": "Пароль",
+    "DOMAIN": "Домен",
+    "LOGIN": "Войти",
+    "NOT_LOGGED_IN": "Вы не вошли в систему",
     "SHOW_ADVANCED": "Показать дополнительные параметры",
     "HIDE_ADVANCED": "Скрыть дополнительные параметры",
-    "INCORRECT_USERNAME": "Неверное имя пользователя",
-    "INCORRECT_PASSWORD": "Неверный пароль",
-    "INCORRECT_DOMAIN": "Не удалось найти домен {{val1}}",
     "USERNAME_REQUIRED": "Необходимо заполнить имя пользователя",
     "PASSWORD_REQUIRED": "Необходимо заполнить пароль"
   },
-  "WRONG_ARGUMENTS": "Неверные параметры",
-  "UNEXPECTED_ERROR": "Неизвестная ошибка",
-  "CPU": "CPU",
-  "RAM": "RAM",
-  "DISKS": "Диски",
-  "SECURITY_GROUP_TEMPLATES": "Шаблоны групп безопасности",
-  "RUNNING": "Запущена",
-  "STOPPED": "Остановлена",
 
-  "STARTING": "Запуск",
-  "STOPPING": "Остановка",
-  "REBOOTING": "Перезапуск",
-  "RESTORING": "Переустановка",
-  "DESTROYING": "Уничтожение",
-  "DEPLOYING": "Развертывание",
-  "ERROR": "Ошибка",
+  "NAVIGATION_SIDEBAR": {
+    "WELCOME": "Здравствуйте, {{ name }}",
+    "VMS": "Виртуальные<br>машины",
+    "SPARE_DRIVES": "Хранилище",
+    "IMAGES": "Образы",
+    "FIREWALL_TEMPLATES": "Шаблоны<br>брандмауэра",
+    "ACTIVITY_LOG": "Журнал событий",
+    "SSH_KEYS": "SSH ключи",
+    "SETTINGS": "Настройки",
+    "LOGOUT": "Выйти",
 
-  "START_IN_PROGRESS": "Запуск",
-  "STOP_IN_PROGRESS": "Остановка",
-  "REBOOT_IN_PROGRESS": "Перезапуск",
-  "RESTORE_IN_PROGRESS": "Переустановка",
-  "DESTROY_IN_PROGRESS": "Уничтожение",
-  "DEPLOY_IN_PROGRESS": "Развертывание",
-  "RESETPASSWORDFOR_IN_PROGRESS": "Сброс пароля",
-
-  "VM_START_IN_PROGRESS": "Запуск ВМ",
-  "VM_STOP_IN_PROGRESS": "Остановка ВМ",
-  "VM_REBOOT_IN_PROGRESS": "Перезапуск ВМ",
-  "VM_RESTORE_IN_PROGRESS": "Переустановка ВМ",
-  "VM_DESTROY_IN_PROGRESS": "Уничтожение ВМ",
-  "VM_DEPLOY_IN_PROGRESS": "Развертывание ВМ",
-
-  "SNAPSHOT_IN_PROGRESS": "Создается снимок",
-  "SNAPSHOT_DONE": "Снимок создан",
-  "SNAPSHOT_FAILED": "Не удалось создать снимок",
-  "VOLUME_BUSY": "На виртуальной машине, к которой прикреплен этот диск, уже выполняется другое действие над снимками. Повторите попытку позже.",
-
-  "CONFIRM_VM_START": "Вы уверены, что хотите запустить виртуальную машину?",
-  "CONFIRM_VM_STOP": "Вы уверены, что хотите остановить виртуальную машину?",
-  "CONFIRM_VM_REBOOT": "Вы уверены, что хотите перезапустить виртуальную машину?",
-  "CONFIRM_VM_RESTORE": "Вы уверены, что хотите переустановить виртуальную машину?",
-  "CONFIRM_VM_DESTROY": "Вы уверены, что хотите уничтожить виртуальную машину?",
-  "CONFIRM_DELETE_TEMPLATE": "Вы уверены, что хотите удалить этот шаблон?",
-  "CONFIRM_VM_RESETPASSWORDFOR": "Вы уверены, что хотите сбросить пароль?<br>Если ваша виртуальная машина запущена, то она будет перезагружена.",
-  "CONFIRM_VM_DELETE_DRIVES": "Удалить диски с данными этой ВМ?",
-  "START_DONE": "ВМ была запущена",
-  "STOP_DONE": "ВМ была остановлена",
-  "REBOOT_DONE": "ВМ была перезапущена",
-  "RESTORE_DONE": "ВМ была переустановлена",
-  "DESTROY_DONE": "ВМ была уничтожена",
-  "DEPLOY_DONE": "ВМ была развернута",
-  "DEPLOY_FAILED": "Не удалось развернуть ВМ",
-
-  "YES": "Да",
-  "NO": "Нет",
-  "OK": "Ок",
-  "CANCEL": "Отмена",
-  "ADD": "Добавить",
-  "NONE": "Не выбрано",
-
-  "START": "Запустить",
-  "STOP": "Остановить",
-  "SELECT": "Выбрать",
-  "CHANGE": "Изменить",
-  "VIEW": "Просмотреть",
-
-  "REBOOT": "Перезапустить",
-  "RESTORE": "Переустановить",
-  "DESTROY": "Уничтожить",
-  "RESETPASSWORDFOR": "Сбросить пароль",
-  "CURRENT_OPERATIONS": "Текущие операции",
-  "CLEAR_ALL": "Очистить",
-  "WOULD_YOU_LIKE_TO_CREATE_VM": "Хотите создать виртуальную машину?",
-  "NO_DONT_ASK": "Нет, больше не спрашивать",
-
-  "INSUFFICIENT_RESOURCES": "Недостаточно ресурсов",
-
-  "TEMPLATES": "Шаблоны",
-  "CONSOLE": "Консоль",
-
-  "KB_US": "Standard (US) keyboard",
-  "KB_UK": "UK keyboard",
-  "KB_JP": "Japanese keyboard",
-  "KB_SC": "Simplified Chinese keyboard",
-
-  "STATUS": "Статус",
-  "SERVICE_OFFERING": "Сервисное предложение",
-  "IP_ADDRESSES": "IP адреса",
-  "VOLUMES": "Диски",
-  "SECURITY_GROUP": "Группа безопасности",
-  "AFFINITY_GROUP": "Аффититетная группа",
-  "ZONE": "Зона",
-  "OS_TYPE": "Тип ОС",
-  "TEMPLATE": "Шаблон",
-  "RESOURCE_USAGE": "Использование ресурсов",
-  "STATISTICS": "Статистика",
-  "TAKE_SNAPSHOT": "Сделать снимок",
-  "NO_AFFINITY_GROUP": "Нет аффинитетных групп",
-  "STOP_MACHINE_FOR_SSH": "Для того чтобы изменить SSH ключ, необходимо остановить виртуальную машину. Хотите остановить сейчас?",
-  "NO_SSH_KEY": "Нет SSH ключа",
-  "NO_SSH_KEYS": "Нет SSH ключей",
-  "SELECT_SSH_KEY": "Выберите SSH ключ",
-  "SSH_KEY": "SSH ключ",
-  "IP_NA": "IP недоступен",
-  "USED": "Использовано",
-  "FREE": "Доступно",
-  "VMS": "Виртуальные машины",
-  "DEPLOYED": "Развернута",
-  "VM_AMOUNT": "Количество",
-  "COMPUTATIONAL_RESOURCES": "Вычислительные ресурсы",
-  "CPUS": "CPU",
-  "SNAPSHOTS": "Снимки",
-  "STORAGE": "Хранилище",
-  "PRIMARY_(STORAGE)": "Основное",
-  "SECONDARY_(STORAGE)": "Дополнительное",
-  "GB": "GB",
-  "MB": "MB",
-  "GB_VALUE": "{{value}} GB",
-  "MB_VALUE": "{{value}} MB",
-  "GHZ": "ГГц",
-  "MHZ": "МГц",
-  "CPU_MHZ": "{{count}}x{{speed}} МГц",
-  "IOPS": "{{value}} IOPS",
-  "MBPS": "{{value}} MB/s",
-  "STATISTICS_FIELDS": {
-    "CPU_UTILIZED": "Загружено CPU",
-    "NETWORK_READ": "Прочитано через сеть",
-    "NETWORK_WRITE": "Записано через сеть",
-    "DISK_READ": "Прочитано с диска",
-    "DISK_WRITE": "Записано на диск",
-    "DISK_READ_IO": "Прочитано с диска (IO)",
-    "DISK_WRITE_IO": "Записано на диск (IO)"
-  },
-  "SERVICE_OFFERING_FIELDS": {
-    "name": "Имя",
-    "cpuNumber": "Ядра CPU",
-    "cpuSpeed": "CPU (МГц)",
-    "memory": "Память (МБ)",
-    "displayText": "Описание",
-    "storageType": "Тип хранилища",
-    "provisioningType": "Выделение емкости",
-    "offerHa": "Повышенная отказоустойчивость",
-    "networkRate": "Скорость сети",
-    "minIops": "Мин. IOPS",
-    "maxIops": "Макс. IOPS",
-    "limitCpu": "Ограничение использования CPU",
-    "isVolatile": "Очищать диски при перезагрузке",
-    "hypervisorSnapshotReserve": "Hypervisor Snapshot Reserve",
-    "diskBytesReadRate": "Скорость чтения диска (МБайт/сек)",
-    "diskBytesWriteRate": "Скорость записи диска (МБайт/сек)",
-    "diskIopsReadRate": "Скорость чтения диска (IOPS)",
-    "diskIopsWriteRate": "Скорость записи диска (IOPS)",
-    "deploymentPlanner": "Deployment planner",
-    "domain": "Домен",
-    "created": "Создана",
-    "isSystem": "Системная",
-    "defaultUse": "По умолчанию",
-    "isCustomized": "Настраиваемая"
+    "LICENSE": {
+      "LICENSE_1": "© {{ year }}, ",
+      "LICENSE_2": "Bitworks Software, Ltd.",
+      "LICENSE_3": "Released under Apache v2.0 license"
+    }
   },
 
-  "SERVICE_OFFERING_VALUES": {
-    "thin": "Динамическое",
-    "thick": "Статическое",
-    "sparse": "Разреженное",
-    "shared": "Общее",
-    "local": "Локальное"
-  },
+  "VM_PAGE": {
+    "COMMANDS": {
+      "START": "Запустить",
+      "STOP": "Остановить",
+      "REBOOT": "Перезапустить",
+      "RESTORE": "Переустановить",
+      "DESTROY": "Уничтожить",
+      "RESET_PASSWORD": "Сбросить пароль",
+      "CONSOLE": "Консоль",
+      "WEB_SHELL": "WebShell"
+    },
 
-  "VM_CREATION_FORM": {
-    "NAME": "Имя",
-    "DESCRIPTION": "Описание",
-    "INSTALLATION_SOURCE": "Источник установки",
-    "SERVICE_OFFERING": "Вычислительное предложение",
-    "ZONE": "Зона",
-    "DISK_SIZE": "Размер диска",
-    "GROUP": "Группа",
-    "AFFINITY_GROUPS": "Аффинитетные группы",
-    "SECURITY_GROUPS": "Брандмауэр",
-    "CREATE_SECURITY": "Создать",
-    "KEYBOARD_LAYOUT": "Раскладка клавиатуры",
-    "SSH_KEYPAIR": "SSH ключ",
-    "START_VM": "Запустить ВМ",
-    "YOU_RAN_OUT_OF": "Вам не хватает",
-    "RESOURCES": {
+    "RESOURCE_USAGE": {
+      "TITLE": "Использование ресурсов",
+      "USED": "Использовано",
+      "FREE": "Доступно",
+      "VMS": "Виртуальные машины",
+      "NUMBER_OF_VMS": "Количество",
+      "COMPUTATIONAL_RESOURCES": "Вычислительные ресурсы",
+      "CPUS": "CPU",
+      "RAM": "RAM",
+      "VOLUMES": "Диски",
+      "SNAPSHOTS": "Снимки",
+      "STORAGE": "Хранилище",
+      "PRIMARY": "Основное",
+      "SECONDARY": "Дополнительное"
+    },
+
+    "FILTERS": {
+      "SELECT_ZONES": "Выберите зоны",
+      "SELECT_GROUPS": "Выберите группы",
+      "SELECT_STATES": "Выберите статусы",
+
+      "NO_GROUP": "Без группы",
+
+      "STATE_RUNNING": "Запущенные",
+      "STATE_STOPPED": "Остановленные",
+      "STATE_ERROR": "Ошибка",
+
+      "GROUP_BY": "Группировать по",
+      "GROUP_BY_ZONES": "Зонам",
+      "GROUP_BY_COLORS": "Цветам",
+      "GROUP_BY_GROUPS": "Группам"
+    },
+
+    "CARD": {
+      "IP_NA": "IP недоступен",
+      "CPU": "CPU",
+      "RAM": "RAM",
+      "DISKS": "Диски"
+    },
+
+    "SIDEBAR": {
+      "VM": "Машина",
+      "STORAGE": "Диски",
+      "NETWORK": "Сеть",
+      "TAGS": "Теги"
+    },
+
+    "VM_DETAILS": {
+      "COLOR": "Цвет",
+      "DESCRIPTION": "Описание",
+      "ZONE": "Зона",
+
+      "INSTANCE_GROUP": {
+        "TITLE": "Группа",
+        "NO_GROUP": "Без группы",
+
+        "CHANGE_INSTANCE_GROUP": "Изменение группы",
+        "CREATE_NEW_GROUP": "Создать новую",
+        "CHOOSE_EXISTING_GROUP": "Выбрать существующую",
+        "CHOOSE_GROUP": "Выберите группу",
+        "ENTER_GROUP_NAME": "Введите имя",
+        "REMOVE_FROM_GROUP": "Удалить из группы \"{{ value }}\""
+      },
+
+      "SERVICE_OFFERING": {
+        "TITLE": "Вычислительное предложение",
+
+        "name": "Имя",
+        "description": "Описание",
+        "cpuNumber": "Ядра CPU",
+        "cpuSpeed": "CPU (МГц)",
+        "memory": "Память (МБ)",
+        "displayText": "Описание",
+        "storageType": "Тип хранилища",
+        "provisioningType": "Выделение емкости",
+        "offerHa": "Повышенная отказоустойчивость",
+        "networkRate": "Скорость сети",
+        "minIops": "Мин. IO/сек",
+        "maxIops": "Макс. IO/сек",
+        "limitCpu": "Ограничение использования CPU",
+        "isVolatile": "Очищать диски при перезагрузке",
+        "hypervisorSnapshotReserve": "Hypervisor Snapshot Reserve",
+        "diskBytesReadRate": "Скорость чтения диска (МБайт/сек)",
+        "diskBytesWriteRate": "Скорость записи диска (МБайт/сек)",
+        "diskIopsReadRate": "Скорость чтения диска (IO/сек)",
+        "diskIopsWriteRate": "Скорость записи диска (IO/сек)",
+        "deploymentPlanner": "Deployment planner",
+        "domain": "Домен",
+        "created": "Создано",
+        "isSystem": "Системное",
+        "defaultUse": "По умолчанию",
+        "isCustomized": "Настраиваемое",
+
+        "thin": "Динамическое",
+        "thick": "Статическое",
+        "sparse": "Разреженное",
+        "shared": "Общее",
+        "local": "Локальное"
+      },
+
+      "AFFINITY_GROUP": {
+        "TITLE": "Аффинитетная группа",
+        "NO_AFFINITY_GROUP": "Нет аффинитетных групп",
+        "NO_AFFINITY_GROUPS": "Нет аффинитетных групп",
+
+        "SELECT_AFFINITY_GROUP": "Изменение группы",
+        "CREATE_NEW_GROUP": "Создать новую",
+        "CHOOSE_EXISTING_GROUP": "Выбрать существующую",
+        "CHOOSE_GROUP": "Выберите группу",
+        "ENTER_GROUP_NAME": "Введите имя",
+        "REMOVE_FROM_GROUP": "Удалить из группы \"{{ value }}\"",
+        "STOP_MACHINE_FOR_AG": "Для того, чтобы изменить аффинитетную группу, необходимо остановить виртуальную машину. Хотите остановить сейчас?"
+      },
+
+      "TEMPLATE": "Шаблон",
+
+      "SSH_KEY": {
+        "TITLE": "SSH ключ",
+        "NO_SSH_KEY": "Нет SSH ключа",
+        "NO_SSH_KEYS": "Нет SSH ключей",
+
+        "SELECT_SSH_KEY": "Выберите SSH ключ",
+        "STOP_MACHINE_FOR_SSH": "Для того, чтобы изменить SSH ключ, необходимо остановить виртуальную машину. Хотите остановить сейчас?"
+      },
+
+      "STATISTICS": {
+        "TITLE": "Статистика",
+        "CPU_UTILIZED": "Загрузка CPU",
+        "NETWORK_READ": "Прочитано через сеть",
+        "NETWORK_WRITE": "Записано через сеть",
+        "DISK_READ": "Прочитано с диска",
+        "DISK_WRITE": "Записано на диск",
+        "DISK_READ_IO": "Прочитано с диска (IO)",
+        "DISK_WRITE_IO": "Записано на диск (IO)"
+      }
+    },
+
+    "STORAGE_DETAILS": {
+      "VOLUME_DETAILS": {
+        "GENERAL_INFORMATION": "Общая информация",
+        "SIZE": "Размер",
+        "DESCRIPTION": "Описание",
+        "CREATED": "Создан",
+        "STORAGE_TYPE": "Тип хранилища",
+        "DISK_OFFERING": "Дисковое предложение",
+        "PERFORMANCE": "Производительность",
+        "MIN_IOPS": "Мин. IO/сек",
+        "MAX_IOPS": "Макс. IO/сек",
+        "READ_RATE_MB": "Скорость чтения",
+        "WRITE_RATE_MB": "Скорость записи",
+        "READ_RATE_IOPS": "Скорость чтения (IO/сек)",
+        "WRITE_RATE_IOPS": "Скорость записи (IO/сек)"
+      },
+
+      "VOLUME_RESIZE": {
+        "TITLE": "Изменить размер диска",
+        "DISK_OFFERING": "Дисковое предложение",
+        "NEW_SIZE": "Новый размер",
+        "NO_AVAILABLE_OFFERINGS": "Нет доступных предложений",
+        "RESIZE": "Изменить размер"
+      },
+
+      "SNAPSHOT_CREATION": {
+        "TAKE_SNAPSHOT": "Создание снимка",
+        "NAME": "Название",
+        "DESCRIPTION": "Описание"
+      },
+
+      "SNAPSHOTS_LIST": {
+        "LAST_SNAPSHOT": "Последний снимок",
+        "VIEW_ALL": "Все",
+        "NO_SNAPSHOTS": "Нет снимков"
+      },
+
+      "SNAPSHOT_ACTIONS": {
+        "CREATE_TEMPLATE": "Создать шаблон",
+        "REVERT_TO_SNAPSHOT": "Восстановить диск"
+      },
+
+      "SNAPSHOTS_MODAL": {
+        "TITLE": "Снимки",
+        "NAME": "Название",
+        "DESCRIPTION": "Описание",
+        "DATE": "Дата",
+        "ACTIONS": "Действия",
+        "NO_SNAPSHOTS": "Нет снимков"
+      },
+
+      "SPARE_DRIVE_ATTACHMENT": {
+        "ATTACH_VOLUME": "Прикрепление диска",
+        "SELECT_VOLUME": "Выберите диск",
+        "NO_AVAILABLE_VOLUMES_1": "Нет доступных дисков. Открепите диск или",
+        "NO_AVAILABLE_VOLUMES_2": "создайте новый",
+        "ATTACH": "Прикрепить"
+      },
+
+      "ISO": {
+        "TITLE": "ISO",
+        "DETACH": "Открепить",
+        "NO_MEDIUM": "Диск не прикреплен",
+        "ATTACH": "Прикрепить"
+      },
+
+      "ISO_MODAL": {
+        "TITLE": "Прикрепление ISO",
+        "ATTACH": "Прикрепить"
+      }
+    },
+
+    "NETWORK_DETAILS": {
+      "NETWORK_CONFIGURATION": "Конфигурация сети",
+      "NIC": "NIC",
+      "IP": "IP",
+      "ARE_YOU_SURE_ADD_SECONDARY_IP": "Вы уверены, что хотите добавить дополнительный IP?",
+      "ARE_YOU_SURE_REMOVE_SECONDARY_IP": "Вы уверены, что хотите удалить дополнительный IP?",
+
+      "broadcastUri":  "Broadcast URI",
+      "gateway": "Шлюз",
+      "ip6Address": "IPv6 адрес",
+      "ip6Cidr": "IPv6 CIDR",
+      "ip6Gateway": "IPv6 шлюз",
+      "ipAddress": "IP",
+      "isDefault": "По умолчанию",
+      "isolationUri": "Isolation URI",
+      "macAddress": "MAC адрес",
+      "netmask": "Маска подсети",
+      "networkName": "Имя сети",
+      "nsxLogicalSwitch": "NSX Logical Switch",
+      "nsxLogicalSwitchPort": "NSX Logical Switch Port",
+      "secondaryIp": "Дополнительный IP",
+      "trafficType": "Тип трафика",
+      "type": "Тип",
+
+      "FIREWALL_RULES": "Правила брандмауэра",
+      "INGRESS": "Входящее",
+      "EGRESS": "Исходящее"
+    },
+
+    "VM_CREATION": {
+      "NEW_VM": "Новая виртуальная машина",
+      "NAME": "Название",
+      "THIS_NAME_IS_TAKEN": "Это имя занято",
+      "ZONE": "Зона",
+      "SERVICE_OFFERING": "Вычислительное предложение",
+      "INSTALLATION_SOURCE": "Источник установки",
+      "DISK_OFFERING": "Дисковое предложение",
+      "DISK_SIZE": "Размер диска",
+
+      "GROUP": "Группа",
+      "NO_GROUP": "Без группы",
+
+      "AFFINITY_GROUPS": "Аффинитетные группы",
+      "SECURITY_GROUPS": "Брандмауэр",
+
+      "KEYBOARD_LAYOUT": "Раскладка клавиатуры",
+      "KB_US": "Standard (US) keyboard",
+      "KB_UK": "UK keyboard",
+      "KB_JP": "Japanese keyboard",
+      "KB_SC": "Simplified Chinese keyboard",
+
+      "SSH_KEY_PAIR": "SSH ключ",
+      "NO_SSH_KEY": "Нет SSH ключа",
+
+      "START_VM": "Запустить ВМ",
+      "YOU_RAN_OUT_OF": "Вам не хватает",
+
       "CPUS": "CPU",
       "MEMORY": "RAM",
       "INSTANCES": "ВМ",
       "IPS": "IP",
       "VOLUMES": "Дисков",
-      "PRIMARYSTORAGE": "Основного хранилища"
+      "PRIMARY_STORAGE": "Основного хранилища",
+
+      "CREATING_SG": "Создание группы безопасности",
+      "CREATING_AG": "Создание аффинитетной группы",
+      "DEPLOYING_VM": "Создание виртуальной машины",
+
+      "OS_TEMPLATE": "ОС шаблон"
+    }
+  },
+
+  "SPARE_DRIVE_PAGE": {
+    "FILTERS": {
+      "SPARE_DRIVES_ONLY": "Только свободные диски",
+      "SELECT_ZONES": "Выберите зоны",
+
+      "GROUP_BY": "Группировать по",
+      "GROUP_BY_ZONES": "Зонам"
     },
-    "NO_SERVICE_OFFERING": "Нет доступных вычислительных предложений. Обратитесь к администратору",
-    "NO_DISK_OFFERING": "Нет доступных дисковых предложений. Обратитесь к администратору"
+
+    "CARD": {
+      "DESCRIPTION": "Описание",
+      "SIZE": "Размер",
+      "STATE": "Состояние"
+    },
+
+    "SPARE_DRIVE_CREATION": {
+      "TITLE": "Новый диск",
+      "NAME": "Название",
+      "ZONE": "Зона",
+      "DISK_OFFERING": "Дисковое предложение",
+      "SIZE": "Размер"
+    },
+
+    "SIDEBAR": {
+      "VOLUME": "Диск",
+      "SNAPSHOTS": "Снимки"
+    },
+
+    "DETAILS": {
+      "GENERAL_INFORMATION": "Общая информация",
+      "SIZE": "Размер",
+      "CREATED": "Создан",
+      "STORAGE_TYPE": "Тип хранилища",
+
+      "DISK_OFFERING": "Дисковое предложение",
+      "DISK_OFFERING_NAME": "Название",
+      "DESCRIPTION": "Описание",
+      "MIN_IOPS": "Мин. IO/сек",
+      "MAX_IOPS": "Макс. IO/сек",
+      "READ_RATE_MB": "Скорость чтения",
+      "WRITE_RATE_MB": "Скорость записи",
+      "READ_RATE_IOPS": "Скорость чтения (IO/сек)",
+      "WRITE_RATE_IOPS": "Скорость записи (IO/сек)"
+    },
+
+    "ATTACHMENT": {
+      "CHOOSE_VIRTUAL_MACHINE": "Выберите машину",
+      "NO_VMS": "Нет машин",
+      "NO_VMS_IN_ZONE": "В зоне этого диска нет виртуальных машин",
+      "ATTACH": "Прикрепить"
+    }
   },
 
-  "CREATING_SG": "Создание группы безопасности",
-  "CREATING_AG": "Создание аффинитетной группы",
-  "DEPLOYING_VM": "Создание виртуальной машины",
-  "CREATING_SG_TEMPLATE": "Создание шаблона группы безопасности",
+  "TEMPLATE_PAGE": {
+    "DISPLAY_MODES": {
+      "TEMPLATES": "Шаблоны",
+      "ISO": "ISO"
+    },
 
-  "CREATE_NEW_TEMPLATE": "Создать новый шаблон",
-  "TEMPLATE_CREATED": "Шаблон {{ name }} успешно создан",
-  "TEMPLATE_DELETED": "Шаблон {{ name }} успешно удален",
-  "ALL_GROUPS": "Все шаблоны",
-  "SELECTED_GROUPS": "Выбранные шаблоны",
-  "FIREWALL_RULES": "Правила брандмауэра",
-  "BASIC_RULES": "Базовые правила",
-  "SAVE": "Сохранить",
-  "CREATE": "Создать",
-  "EDIT": "Редактировать",
-  "DELETE": "Удалить",
-  "DOMAIN": "Домен",
-  "ACCOUNT": "Аккаунт",
-  "VM_CREATION_TEMPLATE": {
-    "OS_TEMPLATE": "ОС шаблон",
-    "YOU_DONT_HAVE_TEMPLATES": "Шаблоны не созданны"
-  },
+    "FILTERS": {
+      "SELECT_OS_FAMILIES": "Выберите ОС",
+      "SELECT_TYPES": "Выберите типы",
+      "SELECT_ZONES": "Выберите зоны",
 
-  "THIS_NAME_IS_TAKEN": "Это имя занято",
-  "THE_NAME_IS_TAKEN": "Имя {{val1}} уже занято",
-  "UNABLE_TO_RECEIVE_TEMPLATES": "Неудалось получить шаблоны",
-  "NAME": "Имя",
-  "DESCRIPTION": "Описание",
-  "DATE": "Дата",
-  "ACTIONS": "Действия",
-  "VIEW_ALL": "Все",
-  "CUSTOM_TEMPLATES_NOT_INCLUDED": "Нет шаблонов",
-  "BASED_ON": "основан на",
+      "GROUP_BY": "Группировать по",
+      "GROUP_BY_ZONES": "Зонам",
+      "NO_ZONE": "Вне зоны",
 
-  "IP": "IP",
-  "NIC": "NIC",
-  "NETWORK_CONFIGURATION": "Конфигурация сети",
-  "NIC_FIELDS": {
-    "broadcastUri":  "Broadcast URI",
-    "gateway": "Шлюз",
-    "ip6Address": "IPv6 адрес",
-    "ip6Cidr": "IPv6 CIDR",
-    "ip6Gateway": "IPv6 шлюз",
-    "ipAddress": "IP",
-    "isDefault": "По умолчанию",
-    "isolationUri": "Isolation URI",
-    "macAddress": "MAC адрес",
-    "netmask": "Маска подсети",
-    "networkName": "Имя сети",
-    "nsxLogicalSwitch": "NSX Logical Switch",
-    "nsxLogicalSwitchPort": "NSX Logical Switch Port",
-    "secondaryIp": "Дополнительный IP",
-    "trafficType": "Тип трафика",
-    "type": "Тип"
-  },
+      "FEATURED": "Рекомендованные",
+      "SELF": "Мои",
+      "SELFEXECUTABLE": "Мои",
+      "ALL": "Все"
+    },
 
-  "VM_RESETPASSWORDFOR_IN_PROGRESS": "Сброс пароля",
-  "RESETPASSWORDFOR_DONE": "Пароль сброшен",
-  "PASSWORD_DIALOG_MESSAGE": "Пароль для машины {{ vmName }} был сброшен в  <b>{{ vmPassword }}</b>",
+    "CARD": {
+      "OS": "ОС"
+    },
 
-  "CHOOSE_SERVICE_OFFERING": "Выберите предложение",
-  "CHANGE_SERVICE_OFFERING": "Изменить предложение",
-  "SO_CHANGE_DISABLED": "Необходимо остановить машину",
+    "SIDEBAR": {
+      "TEMPLATE": "Шаблон",
+      "ZONES": "Зоны",
+      "TAGS": "Теги"
+    },
 
-  "SELECT_AFFINITY_GROUP": "Выберите аффинитетную группу",
-  "NO_AFFINITY_GROUPS": "Нет аффинитетных групп",
-  "STOP_MACHINE_FOR_AG": "Для того чтобы изменить аффинитетную группу, необходимо остановить виртуальную машину. Хотите остановить сейчас?",
+    "TEMPLATE_DETAILS": {
+      "OS": "ОС",
+      "DETAILS": "Общая информация",
+      "SIZE": "Размер",
+      "EXTRACTABLE": "Извлекаемый",
+      "PUBLIC": "Публичный",
+      "RECOMMENDED": "Рекоммендуемый",
+      "PASSWORD_ENABLED": "Пароль включен",
+      "DYNAMICALLY_SCALABLE" : "Динамическое масштабирование",
+      "CROSS_ZONES": "Общий для зон",
+      "DOMAIN": "Домен",
+      "CREATED": "Создан",
+      "TYPE": "Тип",
+      "BUILTIN": "Встроенный",
+      "USER": "Пользовательский",
+      "HYPERVISOR": "Гипервизор",
+      "DOWNLOAD_URL": "Ссылка на скачивание"
+    },
 
-  "FIREWALL_RULES_FOR_VM": "Правила брандмауэра для ВМ",
-  "TEMPLATE_RULES": "Правила шаблона",
-  "CLOSE": "Закрыть",
-  "TYPE": "Тип",
-  "PROTOCOL": "Протокол",
-  "START_PORT": "Начальный порт",
-  "END_PORT": "Конечный порт",
-  "INGRESS": "Входящее",
-  "EGRESS": "Исходящее",
-  "ICMP_TYPE": "Тип ICMP",
-  "ICMP_CODE": "Код ICMP",
-  "ICMP_ANY": "Все",
-  "ENTER_VALID_PORT": "Некорректный порт",
-  "ENTER_VALID_TYPE": "Некорректный тип",
-  "ENTER_VALID_CODE": "Некорректный код",
-  "ENTER_VALID_CIDR": "Некорректный CIDR",
-  "FAILED_TO_ADD_RULE": "Не удалось добавить правило",
-  "FAILED_TO_REMOVE_RULE": "Не удалось удалить правило",
+    "ZONE_DETAILS": {
+      "READY": "Готов"
+    },
 
-  "SNAPSHOT" : {
-    "BACKEDUP": "Backed up",
-    "CREATING": "Создается",
-    "BACKINGUP": "Backing up",
-    "ALLOCATED": "Allocated",
-    "ERROR": "Ошибка"
-  },
-
-  "CREATE_TEMPLATE_BUTTON": "Создать шаблон",
-  "TAKE_SNAPSHOT_BUTTON": "Создать снимок",
-  "SNAPSHOT_SCHEDULE_BUTTON": "Настроить создание снимков",
-  "RESIZE_DISK_BUTTON": "Изменить размер диска",
-  "REVERT_TO_SNAPSHOT": "Восстановить диск",
-
-  "VM_VIEW": "Машина",
-  "VM_STORAGE_VIEW": "Диски",
-  "VM_NETWORK_VIEW": "Сеть",
-  "VM_TAGS_VIEW": "Теги",
-  "TEMPLATE_TAGS_VIEW": "Теги",
-
-  "VOLUME_RESIZE": "Изменить размер",
-  "VOLUME_RESIZING": "Изменение размера диска",
-  "VOLUME_RESIZED": "Размер диска изменен",
-  "VOLUME_RESIZE_FAILED": "Изменение размера диска не удалось",
-  "VOLUME_NEWSIZE_LOWER": "Новый размер меньше текущего, необходимо сжать диск",
-  "VOLUME_PRIMARY_STORAGE_EXCEEDED": "Лимит основного хранилища превышен",
-  "VOLUME_RESIZE_VOLUME": "Изменить размер диска",
-  "VOLUME_SHRINK": "Сжать",
-  "VOLUME_NEW_SIZE": "Новый размер",
-
-  "VM_WILL_BE_REBOOTED": "Машина будет перезагружена",
-  "THIS_IS_YOU_CURRENT_OFFERING": "Это Ваше текущее предложение",
-
-  "VM_NAVBAR": "Виртуальные<br>машины",
-  "FIREWALL": "Шаблоны<br>брандмауэра",
-
-  "NEW_TEMPLATE": "Регистрация нового шаблона",
-  "NEW_ISO": "Регистрация нового ISO",
-  "NEW_VM": "Новая виртуальная машина",
-  "IMAGES": "Образы",
-  "URL": "URL",
-  "ISO_REGISTER_IN_PROGRESS": "Регистрация ISO",
-  "ISO_REGISTER_DONE": "ISO зарегистрирован",
-  "ISO_REGISTER_FAILED": "ISO не добавлен",
-  "TEMPLATE_REGISTER_IN_PROGRESS": "Регистрация шаблона",
-  "TEMPLATE_REGISTER_DONE": "Шаблон зарегистрирован",
-  "TEMPLATE_REGISTER_FAILED": "Шаблон не зарегистрирован",
-  "INVALID_URL": "Неподдерживаемый URL (только http or https)",
-  "CREATED_MASC": "Создан",
-  "SIZE": "Размер",
-  "EXTRACTABLE": "Извлекаемый",
-  "PUBLIC": "Публичный",
-  "RECOMMENDED": "Рекоммендуемый",
-  "CROSS_ZONES": "Общий для зон",
-  "DETAILS": "Общая информация",
-  "HYPERVISOR": "Гипервизор",
-  "USER_TEMPLATE_TYPE": "Пользовательский",
-  "BUILTIN_TEMPLATE_TYPE": "Встроенный",
-  "DOWNLOAD_URL": "Ссылка на скачивание",
-  "ZONES": "Зоны",
-
-  "OS_FAMILY": "Выберите ОС",
-  "TEMPLATE_FEATURED": "Рекомендованные",
-  "TEMPLATE_SELF": "Мои",
-  "TEMPLATE_SELFEXECUTABLE": "Мои",
-  "TEMPLATE_ALL": "Все",
-  "TEMPLATE_EXTRACTABLE": "Извлекаемый",
-  "TEMPLATE_PASSWORD_ENABLED": "Пароль включен",
-  "TEMPLATE_DYNAMICALLY_SCALABLE": "Динамическое масштабирование",
-  "TEMPLATE_TYPES": "Выберите типы",
-
-  "DELETE_ISO_IN_PROGRESS": "Удаление ISO",
-  "DELETE_ISO_DONE": "ISO удален",
-  "DELETE_ISO_FAILED": "Не удалось удалить ISO",
-  "DELETE_ISO_VMS_IN_USE": "Невозможно удалить ISO файл, так как он используется слудющими машинами:<br>{{ vms }}",
-  "DELETE_ISO_CONFIRM": "Вы уверены, что хотите удалить этот ISO файл?",
-
-  "DELETE_TEMPLATE_IN_PROGRESS": "Удаление шаблона",
-  "DELETE_TEMPLATE_DONE": "Шаблон удален",
-  "DELETE_TEMPLATE_FAILED": "Не удалось удалить шаблон",
-  "DELETE_TEMPLATE_CONFIRM": "Вы уверены, что хотите удалить этот шаблон?",
-
-  "READY": "Готов",
-  "NOT_READY": "Не готов",
-  "NO_RESULTS": "Поиск не дал результатов",
-  "ATTACH": "Прикрепить",
-  "DETACH": "Открепить",
-  "CONFIRM_ISO_DETACH": "Вы уверены, что хотите открепить этот ISO файл?",
-  "ISO": "ISO",
-  "NO_MEDIUM": "Диск не прикреплен",
-  "ISO_DETACH_IN_PROGRESS": "Открепление ISO диска",
-  "ISO_DETACH_DONE": "ISO диск откреплен",
-  "ISO_DETACH_FAILED": "Не удалось открепить ISO диск",
-  "ATTACH_AN_ISO": "Прикрепление ISO файла",
-  "ISO_ATTACH_IN_PROGRESS": "Прикрепление ISO файла",
-  "ISO_ATTACH_DONE": "ISO файл прикреплен",
-  "ISO_ATTACH_FAILED": "Не удалось прикрепить ISO файл",
-
-  "PERFORMANCE": "Производительность",
-  "DISK_OFFERING": "Дисковое предложение",
-  "INSTALLATION_SOURCE": "Источник установки",
-
-  "CONFIRM_SNAPSHOT_DELETE": "Вы действительно хотите удалить этот снимок?",
-  "SNAPSHOT_DELETE_IN_PROGRESS": "Снимок удаляется",
-  "SNAPSHOT_DELETE_DONE": "Снимок удален",
-  "SNAPSHOT_DELETE_FAILED": "Не удалось удалить снимок",
-
-  "EVENTS": "События",
-  "NO_EVENTS": "Нет событий на выбранной дате",
-  "LEVEL": "Уровень",
-  "LEVELS": "Выберите уровни",
-  "TIME": "Время",
-
-  "SPARE_DRIVES_NAVBAR": "Свободные диски",
-  "SPARE_DRIVE_STATE": {
-    "ALLOCATED": "Аллоцирован",
-    "READY": "Готов"
-  },
-  "STATE": "Состояние",
-  "SPARE_DRIVE_DETAILS": {
-    "DISK_OFFERING_TITLE": "Дисковое предложение",
-    "STORAGE_TYPE": "Тип хранилища",
-    "CREATED": "Создан",
-    "DISK_OFFERING": {
+    "TEMPLATE_CREATION": {
+      "NEW_TEMPLATE": "Регистрация нового шаблона",
+      "NEW_ISO": "Регистрация нового ISO",
       "NAME": "Название",
       "DESCRIPTION": "Описание",
-      "MINIOPS": "Минимальное кол-во IO/сек",
-      "MAXIOPS": "Максимальное кол-во IO/сек",
-      "READ_RATE": "Скорость чтения",
-      "WRITE_RATE": "Скорость записи"
-    }
-  },
-  "RESIZE": "Изменить размер",
-  "DISK_OFFERING_STORAGE_TYPE": {
-    "SHARED": "Общее",
-    "LOCAL": "Локальное"
-  },
-  "VOLUME_NAME_TOO_LONG": "Имя диска не может быть длиннее {{val1}} символов",
-
-  "CONFIRM_DELETE_VOLUME": "Вы уверены, что хотите удалить этот диск?",
-  "VOLUME_DELETE_DONE": "Диск успешно удален",
-  "VOLUME_DELETE_FAILED": "Не удалось удалить диск",
-
-  "CONFIRM_VOLUME_DETACH": "Вы уверены, что хотите открепить этот диск?",
-  "VOLUME_DETACH_IN_PROGRESS": "Открепление диска",
-  "VOLUME_DETACH_DONE": "Диск успешно откреплен",
-  "VOLUME_DETACH_FAILED": "Не удалось открепить диск",
-
-  "VOLUME_CREATION_FORM": {
-    "NEW_VOLUME": "Новый диск"
-  },
-
-  "VOLUME_CREATE_IN_PROGRESS": "Диск создается",
-  "VOLUME_CREATE_DONE": "Диск создан",
-  "VOLUME_CREATE_FAILED": "Не удалось создать диск",
-
-  "VOLUME_ATTACHMENT_CHOOSE": "Выберите машину",
-  "VOLUME_ATTACHMENT_NO_VMS": "Нет машин",
-  "VOLUME_ATTACHMENT_NO_VMS_IN_ZONE": "В зоне этого диска нет виртуальных машин",
-
-  "VOLUME_ATTACH_DONE": "Диск прикреплен",
-  "VOLUME_ATTACH_FAILED": "Не удалось прикрепить диск",
-  "VOLUME_ATTACH_IN_PROGRESS": "Диск прикрепляется",
-
-  "SETTINGS": "Настройки",
-  "SSH_KEYS": "SSH ключи",
-  "PUBLIC_KEY": "Открытый ключ",
-  "LANGUAGE": "Язык Интерфейса",
-  "COLOR": "Цвет",
-  "FIRST_DAY_OF_WEEK": "Первый день недели",
-  "TIME_FORMAT": "Формат времени",
-  "hour12": "12-часовой формат",
-  "hour24": "24-часовой формат",
-  "AUTO": "Автоматически",
-  "GROUP_BY_COLORS": "Группировать по цветам",
-  "PALETTE": "Цвета темы интерфейса",
-  "SELECT_GROUPS": "Выберите группы",
-  "SELECT_ZONES": "Выберите зоны",
-  "SELECT_STATES": "Выберите статусы",
-  "GROUP_BY_LABEL": "Группировать по",
-  "GROUP_BY": {
-    "ZONES": "Зонам",
-    "GROUPS": "Группам",
-    "COLORS": "Цветам"
-  },
-  "NETWORK_RULES": "Сетевые правила",
-
-  "LICENSE_1": "© {{ year }}, ",
-  "LICENSE_2": "Bitworks Software, Ltd.",
-  "LICENSE_3": "Released under Apache v2.0 license",
-  "WELCOME": "Здравствуйте, {{ name }}",
-
-  "ASSIGN": "Присвоить",
-  "GROUP": "Группа",
-  "ACTIVITY_LOG": "Журнал событий",
-
-  "CUSTOM_SERVICE_OFFERING": "Настраиваемое предложение",
-  "CUSTOM_SERVICE_OFFERING_CPU": "CPU",
-  "CUSTOM_SERVICE_OFFERING_MEMORY": "Память",
-  "CONFIRM": "Принять",
-
-  "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}",
-  "UP_TO": "До {{ upperLimit }}",
-  "FROM": "От {{ lowerLimit }}",
-  "INCORRECT_FORMAT": "Неверный формат",
-  "REMOVE_THIS_KEY": "Вы уверены, что хотите удалить этот ключ?",
-  "KEY_REMOVAL_FAILED": "Не удалось удалить ключ",
-  "NO_AVAILABLE_OFFERINGS": "Нет доступных предложений",
-  "SYSTEM_SECURITY_GROUPS": "Системные",
-  "CUSTOM_SECURITY_GROUPS": "Пользовательские",
-  "CHANGE_PASSWORD": "Изменение пароля",
-  "NEW_PASSWORD": "Новый пароль",
-  "REPEAT_PASSWORD": "Повторите пароль",
-  "PASSWORD_CHANGED_SUCCESSFULLY": "Пароль был успешно изменен",
-  "UPDATE": "Обновить",
-
-  "TEMPLATE_CREATION_DONE": "Шаблон создан",
-  "TEMPLATE_CREATION_FAILED": "Не удалось создать шаблон",
-  "TEMPLATE_CREATION_IN_PROGRESS": "Создание шаблона",
-
-  "CREATE_SSH_KEY": "Создать SSH ключ",
-  "AUTO_GENERATED": "автогенерируемый",
-  "KEYPAIR_ALREADY_EXISTS": "SSH ключ с именем \"{{val1}}\" уже существует",
-  "INVALID_PUBLIC_KEY": "Неправильный открытый ключ",
-
-  "SAVE_THIS_KEY": "Пожалуйста, скопируйте этот ключ, так как он не будет сохранен",
-  "COPY": "Копировать",
-  "COPY_SUCCESS": "Успешно скопировано",
-  "COPY_FAIL": "Ошибка при копировании",
-
-  "ARE_YOU_SURE_ADD_SECONDARY_IP": "Вы уверены, что хотите добавить дополнительный IP?",
-  "ARE_YOU_SURE_REMOVE_SECONDARY_IP": "Вы уверены, что хотите удалить дополнительный IP?",
-
-  "TAKE_SNAPSHOT_SNAPSHOT_CREATION_FORM": "Создать снимок",
-  "SNAPSHOT_LIMIT_EXCEEDED": "Лимит снимков превышен. Для создания новых снимков Вам необходимо удалить какие-либо из ранее созданных снимков.",
-  "VOLUME_LIMIT_EXCEEDED": "Лимит дисков превышен. Для создания новых дисков вам нужно удалить какие-либо из ранее созданных дисков.",
-  "UNABLE_FIND_PRIMARY_STORAGE": "Не удалось найти подходящее основное хранилище при создании диска {{val1}}",
-  "INSUFFICIENT_RESOURCES_VM": "Недостаточно ресурсов",
-
-  "NO_GROUP": "Без группы",
-  "NO_ZONE": "Вне зоны",
-  "NO_SNAPSHOTS": "Нет снимков",
-  "LAST_SNAPSHOT": "Последний снимок",
-
-  "CLICK_TO_EDIT": "Нажмите для редактирования",
-  "SELECT_AN_OPTION": "Выберите опцию",
-  "ENTER_TEXT": "Введите текст",
-  "EVENT_TYPES": "Выберите типы",
-  "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Хотите создать новый диск?",
-
-  "INACTIVITY_TIMEOUT": "Лимит времени сеанса (в&nbsp;минутах)",
-  "INACTIVITY_LIMITS": "От 0 до 300",
-
-  "ATTACH_VOLUME": "Прикрепление диска",
-  "SELECT_VOLUME": "Выберите диск",
-
-  "NO_AVAILABLE_VOLUMES": "Нет доступных дисков. Открепите диск или",
-  "NAVIGATE_TO_VOLUME_CREATION_PAGE": "создайте новый",
-
-  "VM_FILTERS": {
-    "STATE": {
-      "RUNNING": "Запущенные",
-      "STOPPED": "Остановленные",
-      "ERROR": "Ошибка"
+      "URL": "URL",
+      "INVALID_URL": "Неподдерживаемый URL (только http or https)",
+      "OS_TYPE": "Тип ОС",
+      "ZONE": "Зона",
+      "EXTRACTABLE": "Извлекаемый",
+      "PASSWORD_ENABLED": "Пароль включен",
+      "DYNAMICALLY_SCALABLE": "Динамическое масштабирование"
     }
   },
 
-  "SECURITY": "Безопасность",
-  "LOOK_AND_FEEL": "Настройки интерфейса",
-  "API": "Конфигурация API",
-  "API_URL": "URL подключения",
-  "API_KEY": "Ключ API",
-  "API_SECRET_KEY": "Секретный ключ",
-  "API_DOC_LINK": "Документация",
-  "ASK_GENERATE_KEYS": "Вы уверены, что хотите сгенерировать новые ключи API?",
-  "GENERATE": "Сгенерировать",
-  "REGENERATE_KEYS": "Сгенерировать новые ключи API",
+  "SECURITY_GROUP_PAGE": {
+    "LIST": {
+      "SYSTEM_SECURITY_GROUPS": "Системные",
+      "CUSTOM_SECURITY_GROUPS": "Пользовательские"
+    },
 
-  "INSTANCE_GROUP_CHANGE": "Изменить группу",
-  "CREATE_NEW_GROUP": "Создать новую",
-  "CHOOSE_EXISTING_GROUP": "Выбрать существующую",
-  "CHOOSE_GROUP": "Выберите группу",
-  "ENTER_GROUP_NAME": "Введите имя",
-  "REMOVE_FROM_GROUP": "Удалить из группы",
-  "REMOVE": "Удалить",
-  "CLICK_TO_ASSIGN": "Нажмите, чтобы присвоить",
-  "REFRESH": "Обновить",
+    "CARD": {
+      "DESCRIPTION": "Описание"
+    },
 
-  "CREATE_NEW_TAG": "Создать тег",
-  "TAG_CATEGORY": "Категория",
-  "TAG_KEY": "Ключ",
-  "TAG_VALUE": "Значение",
-  "TAG_CATEGORY_NAME": "Название категории",
-  "TAG_ALREADY_EXISTS": "Тег уже существует",
-  "NO_TAGS": "Нет тегов",
-  "EDIT_TAG": "Редактировать тег",
-  "TAG_DELETE_CONFIRMATION": "Вы действительно хотите удалить этот тег?",
+    "RULES": {
+      "FIREWALL_RULES_FOR_VM": "Правила брандмауэра для ВМ",
+      "TEMPLATE_RULES": "Правила шаблона",
+      "TYPE": "Тип",
+      "PROTOCOL": "Протокол",
+      "CIDR": "CIDR",
+      "START_PORT": "Начальный порт",
+      "END_PORT": "Конечный порт",
+      "INGRESS": "Входящее",
+      "EGRESS": "Исходящее",
+      "TCP": "TCP",
+      "UDP": "UDP",
+      "ICMP": "ICMP",
+      "ICMP_TYPE": "Тип ICMP",
+      "ICMP_CODE": "Код ICMP",
+      "ICMP_ANY": "Все",
+      "ENTER_VALID_PORT": "Некорректный порт",
+      "ENTER_VALID_TYPE": "Некорректный тип",
+      "ENTER_VALID_CODE": "Некорректный код",
+      "ENTER_VALID_CIDR": "Некорректный CIDR",
+      "FAILED_TO_ADD_RULE": "Не удалось добавить правило",
+      "FAILED_TO_REMOVE_RULE": "Не удалось удалить правило"
+    },
 
-  "WEB_SHELL": "WebShell",
+    "RULES_MANAGER": {
+      "BASED_ON": "основан на"
+    },
 
-  "VM_START_FAILED": "Не удалось запустить ВМ",
-  "VM_STOP_FAILED": "Не удалось остановить ВМ",
-  "VM_REBOOT_FAILED": "Не удалось перезагрузить ВМ",
-  "VM_RESTORE_FAILED": "Не удалось переустановить ВМ",
-  "VM_RESET_PASSWORD_FAILED": "Не удалось сбросить пароль",
-  "VM_DESTROY_FAILED": "Не удалось уничтожить ВМ",
+    "TEMPLATE_CREATION": {
+      "CREATE_NEW_TEMPLATE": "Создать новый шаблон",
+      "NAME": "Название",
+      "DESCRIPTION": "Описание",
+      "BASIC_RULES": "Базовые правила"
+    },
 
-  "VM_CHANGE_SERVICE_OFFERING_IN_PROGRESS": "Изменение предложения",
-  "VM_CHANGE_SERVICE_OFFERING_DONE": "Предложение изменено",
-  "VM_CHANGE_SERVICE_OFFERING_FAILED": "Не удалось изменить предложение",
+    "BUILDER": {
+      "SECURITY_GROUP_TEMPLATES": "Шаблоны групп безопасности",
+      "ALL_GROUPS": "Все шаблоны",
+      "SELECTED_GROUPS": "Выбранные шаблоны",
+      "NETWORK_RULES": "Сетевые правила"
+    }
+  },
 
-  "STORE_SNAPSHOTS": "Количество хранимых снимков",
-  "MINUTE": "Минута",
-  "AM_PM_FORMAT": "AM/PM",
-  "24_HOURS_FORMAT": "24-часовой формат",
+  "EVENT_PAGE": {
+    "SELECT_LEVELS": "Выберите уровни",
+    "SELECT_TYPES": "Выберите типы",
+    "NO_EVENTS": "Нет событий на выбранной дате",
 
-  "TIME_ZONE": "Часовой пояс",
+    "DESCRIPTION": "Описание",
+    "LEVEL": "Уровень",
+    "TYPE": "Тип",
+    "TIME": "Время"
+  },
 
-  "MONDAY": "Понедельник",
-  "TUESDAY": "Вторник",
-  "WEDNESDAY": "Среда",
-  "THURSDAY": "Четверг",
-  "FRIDAY": "Пятница",
-  "SATURDAY": "Суббота",
-  "SUNDAY": "Воскресенье",
+  "SSH_KEYS": {
+    "CREATE_SSH_KEY": "Создать SSH ключ",
+    "NAME": "Название",
+    "PUBLIC_KEY": "Открытый ключ",
+    "AUTO_GENERATED": "автогенерируемый",
 
-  "MONDAY_LOWER": "понедельник",
-  "TUESDAY_LOWER": "вторник",
-  "WEDNESDAY_LOWER": "среда",
-  "THURSDAY_LOWER": "четверг",
-  "FRIDAY_LOWER": "пятница",
-  "SATURDAY_LOWER": "суббота",
-  "SUNDAY_LOWER": "воскресенье",
+    "SAVE_THIS_KEY": "Пожалуйста, скопируйте этот ключ, так как он не будет сохранен",
+    "REMOVE_THIS_KEY": "Вы уверены, что хотите удалить этот ключ?",
+    "KEY_REMOVAL_FAILED": "Не удалось удалить ключ"
+  },
 
-  "AM": "AM",
-  "PM": "PM",
+  "SETTINGS": {
+    "SECURITY": {
+      "TITLE": "Безопасность",
+      "CHANGE_PASSWORD": "Изменение пароля",
+      "NEW_PASSWORD": "Новый пароль",
+      "REPEAT_PASSWORD": "Повторите пароль",
+      "PASSWORD_CHANGED_SUCCESSFULLY": "Пароль был успешно изменен",
+      "INACTIVITY_TIMEOUT": "Лимит времени сеанса (в&nbsp;минутах)",
+      "INACTIVITY_LIMITS": "От 0 до 300"
+    },
 
-  "DAY_OF_WEEK": "День недели",
-  "DAY_OF_MONTH": "День месяца",
+    "API_CONFIGURATION": {
+      "TITLE": "Конфигурация API",
+      "API_KEY": "Ключ API",
+      "API_SECRET_KEY": "Секретный ключ",
+      "API_URL": "URL подключения",
+      "API_DOC_LINK": "Документация",
+      "REGENERATE_KEYS": "Сгенерировать новые ключи API",
+      "ASK_GENERATE_KEYS": "Вы уверены, что хотите сгенерировать новые ключи API?",
+      "GENERATE": "Сгенерировать"
+    },
 
-  "SCHEDULED_SNAPSHOTS": "Расписание снимков",
-  "KEEP": "Сохранять",
-  "RECURRING_SNAPSHOTS": "Повторяемые снимки",
-  "POLICY_HOURLY_TIME": "{{ value }}-я минута",
-  "POLICY_DAILY_TIME": "{{ value }}",
-  "POLICY_WEEKLY_TIME": "{{ value }}",
-  "POLICY_MONTHLY_TIME": "{{ value }}",
-  "POLICY_WEEKLY_PERIOD": "{{ value }}",
-  "POLICY_MONTHLY_PERIOD": "каждый {{ value }} день месяца",
+    "LOOK_AND_FEEL": {
+      "TITLE": "Настройки интерфейса",
+      "LANGUAGE": "Язык интерфейса",
+      "FIRST_DAY_OF_WEEK": "Первый день недели",
+      "TIME_FORMAT": "Формат времени",
+      "hour12": "12-часовой формат",
+      "hour24": "24-часовой формат",
+      "AUTO": "Автоматически",
+      "PALETTE": "Цвета темы интерфейса"
+    }
+  },
 
-  "RECURRING_SNAPSHOTS_HOURLY": "Ежечасно",
-  "RECURRING_SNAPSHOTS_DAILY": "Ежедневно",
-  "RECURRING_SNAPSHOTS_WEEKLY": "Еженедельно",
-  "RECURRING_SNAPSHOTS_MONTHLY": "Ежемесячно",
+  "CLIPBOARD": {
+    "COPY": "Копировать",
+    "COPY_SUCCESS": "Успешно скопировано",
+    "COPY_FAIL": "Ошибка при копировании"
+  },
+
+  "INLINE_EDIT": {
+    "CLICK_TO_EDIT": "Нажмите для редактирования",
+    "ENTER_TEXT": "Введите текст",
+    "SELECT_AN_OPTION": "Выберите опцию"
+  },
+
+  "VM_NOT_FOUND": "Виртуальная машина не найдена",
+  "VOLUME_NOT_FOUND": "Диск не найден",
+  "TEMPLATE_NOT_FOUND": "Шаблон не найден",
 
   "PULSE": {
     "PULSE": "Pulse",
     "CPU_RAM": "ЦП / ОЗУ",
     "NETWORK": "Сеть",
     "DISK": "Диск",
-    "RANGE": "Диапозон",
+    "RANGE": "Диапазон",
     "AGGREGATION": "Агрегация",
     "SHIFT": "Сдвиг",
     "NO_DATA": "Нет данных",
@@ -681,6 +807,141 @@
     }
   },
 
-  "SELECT_ALL": "Выбрать все",
-  "RESET": "Сбросить"
+  "SERVICE_OFFERING": {
+    "CHANGE_SERVICE_OFFERING": "Изменить предложение",
+    "CHOOSE_SERVICE_OFFERING": "Выберите предложение",
+    "CPU_MHZ": "{{count}}x{{speed}} МГц",
+    "VM_WILL_BE_REBOOTED": "Машина будет перезагружена",
+
+    "CUSTOM_SERVICE_OFFERING": {
+      "TITLE": "Настраиваемое предложение",
+
+      "CPU_NUMBER": "Ядра CPU",
+      "CPU_SPEED": "CPU (МГц)",
+      "MEMORY": "Память (МБ)",
+
+      "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}",
+      "UP_TO": "До {{ upperLimit }}",
+      "FROM": "От {{ lowerLimit }}"
+    }
+  },
+
+  "SNAPSHOT_POLICIES": {
+    "TITLE": "Повторяемые снимки",
+    "SCHEDULED_SNAPSHOTS": "Расписание снимков",
+
+    "KEEP": "Сохранять",
+    "STORE_SNAPSHOTS": "Количество хранимых снимков",
+
+    "MINUTE": "Минута",
+    "TIME": "Время",
+    "TIME_ZONE": "Часовой пояс",
+
+    "HOURLY_TIME": "{{ value }}-я минута",
+    "DAILY_TIME": "{{ value }}",
+    "WEEKLY_TIME": "{{ value }}",
+    "MONTHLY_TIME": "{{ value }}",
+    "WEEKLY_PERIOD": "{{ value }}",
+    "MONTHLY_PERIOD": "каждый {{ value }} день месяца",
+
+    "HOURLY": "Ежечасно",
+    "DAILY": "Ежедневно",
+    "WEEKLY": "Еженедельно",
+    "MONTHLY": "Ежемесячно"
+  },
+
+  "SUGGESTION_DIALOG": {
+    "WOULD_YOU_LIKE_TO_CREATE_VM": "Хотите создать виртуальную машину?",
+    "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Хотите создать новый диск?",
+    "NO_DONT_ASK": "Нет, больше не спрашивать"
+  },
+
+  "TAGS": {
+    "CREATE_NEW_TAG": "Создать тег",
+    "TAG_KEY": "Ключ",
+    "TAG_VALUE": "Значение",
+    "TAG_ALREADY_EXISTS": "Тег уже существует",
+    "EDIT_TAG": "Редактировать тег"
+  },
+
+  "DISK_OFFERING_STORAGE_TYPE": {
+    "SHARED": "Общее",
+    "LOCAL": "Локальное"
+  },
+
+  "SPARE_DRIVE_STATE": {
+    "ALLOCATED": "Аллоцирован",
+    "READY": "Готов"
+  },
+
+  "SNAPSHOT_STATE" : {
+    "BACKEDUP": "Backed up",
+    "CREATING": "Создается",
+    "BACKINGUP": "Backing up",
+    "ALLOCATED": "Аллоцирован",
+    "ERROR": "Ошибка"
+  },
+
+  "VM_STATE": {
+    "RUNNING": "Запущена",
+    "STOPPED": "Остановлена",
+    "STARTING": "Запуск",
+    "STOPPING": "Остановка",
+    "REBOOTING": "Перезапуск",
+    "RESTORING": "Переустановка",
+    "DESTROYING": "Уничтожение",
+    "DEPLOYING": "Развертывание",
+    "ERROR": "Ошибка",
+    "START_IN_PROGRESS": "Запуск",
+    "STOP_IN_PROGRESS": "Остановка",
+    "REBOOT_IN_PROGRESS": "Перезапуск",
+    "RESTORE_IN_PROGRESS": "Переустановка",
+    "DESTROY_IN_PROGRESS": "Уничтожение",
+    "DEPLOY_IN_PROGRESS": "Развертывание",
+    "RESET_PASSWORD_IN_PROGRESS": "Сброс пароля"
+  },
+
+  "DATE_TIME": {
+    "AM": "AM",
+    "PM": "PM",
+    "DAY_OF_WEEK": "День недели",
+    "DAY_OF_MONTH": "День месяца",
+
+    "DAYS_OF_WEEK": {
+      "MONDAY": "Понедельник",
+      "TUESDAY": "Вторник",
+      "WEDNESDAY": "Среда",
+      "THURSDAY": "Четверг",
+      "FRIDAY": "Пятница",
+      "SATURDAY": "Суббота",
+      "SUNDAY": "Воскресенье",
+
+      "MONDAY_LOWER": "понедельник",
+      "TUESDAY_LOWER": "вторник",
+      "WEDNESDAY_LOWER": "среда",
+      "THURSDAY_LOWER": "четверг",
+      "FRIDAY_LOWER": "пятница",
+      "SATURDAY_LOWER": "суббота",
+      "SUNDAY_LOWER": "воскресенье"
+    }
+  },
+
+  "UNITS": {
+    "GB": "ГБ",
+    "GB_VALUE": "{{value}} ГБ",
+    "GHZ": "ГГц",
+    "IOPS": "{{value}} IO/сек",
+    "MB": "MБ",
+    "MB_VALUE": "{{value}} MБ",
+    "MBPS": "{{value}} MБ/сек",
+    "MHZ": "МГц"
+  },
+
+  "VOLUME_ACTIONS": {
+    "TAKE_SNAPSHOT": "Создать снимок",
+    "SNAPSHOT_SCHEDULE": "Настроить создание снимков",
+    "RESIZE": "Изменить размер диска",
+    "ATTACH": "Прикрепить",
+    "DETACH": "Открепить"
+  }
 }

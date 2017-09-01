@@ -1,20 +1,20 @@
 import * as moment from 'moment';
-
-import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators';
+import { Taggable } from '../interfaces/taggable.interface';
+import { BaseModel } from './base.model';
 import { Tag } from './tag.model';
+import { SnapshotTagKeys } from '../services/tags/snapshot-tag-keys';
 
-
-export const DESCRIPTION_TAG = 'csui.snapshot.description';
 
 @FieldMapper({
   physicalsize: 'physicalSize',
   volumeid: 'volumeId'
 })
-export class Snapshot extends BaseModel {
+export class Snapshot extends BaseModel implements Taggable {
+  public resourceType = 'Snapshot';
+
   public id: string;
   public created: Date;
-  public description: string;
   public physicalSize: number;
   public volumeId: string;
   public name: string;
@@ -23,14 +23,18 @@ export class Snapshot extends BaseModel {
   constructor(json) {
     super(json);
     this.created = moment(json.created).toDate();
+  }
 
-    if (!this.tags || !this.tags.length) {
-      return;
+  public get description(): string {
+    if (!this.tags) {
+      return '';
     }
 
-    const description = this.tags.find(tag => tag.key === DESCRIPTION_TAG);
+    const description = this.tags.find(tag => tag.key === SnapshotTagKeys.description);
     if (description) {
-      this.description = description.value;
+      return description.value;
+    } else {
+      return '';
     }
   }
 }

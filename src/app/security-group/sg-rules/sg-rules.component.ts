@@ -1,10 +1,11 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { MdlDialogReference } from '../../dialog/dialog-module';
-import { NotificationService } from '../../shared/services/notification.service';
+
 import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { NetworkProtocol, NetworkRuleType, SecurityGroup } from '../sg.model';
+import { SecurityGroup, NetworkRuleType, NetworkProtocol } from '../sg.model';
+import { NotificationService } from '../../shared/services/notification.service';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class SgRulesComponent {
   public icmpCode: number;
   public endPort: number;
   public cidr: string;
+  public securityGroup: SecurityGroup;
 
   public adding: boolean;
 
@@ -29,23 +31,24 @@ export class SgRulesComponent {
   public NetworkRuleTypes = NetworkRuleType;
 
   public types = [
-    { value: NetworkRuleType.Ingress, text: 'INGRESS' },
-    { value: NetworkRuleType.Egress, text: 'EGRESS' },
+    { value: NetworkRuleType.Ingress, text: 'SECURITY_GROUP_PAGE.RULES.INGRESS' },
+    { value: NetworkRuleType.Egress, text: 'SECURITY_GROUP_PAGE.RULES.EGRESS' },
   ];
 
   public protocols = [
-    { value: NetworkProtocol.TCP, text: 'TCP' },
-    { value: NetworkProtocol.UDP, text: 'UDP' },
-    { value: NetworkProtocol.ICMP, text: 'ICMP' }
+    { value: NetworkProtocol.TCP, text: 'SECURITY_GROUP_PAGE.RULES.TCP' },
+    { value: NetworkProtocol.UDP, text: 'SECURITY_GROUP_PAGE.RULES.UDP' },
+    { value: NetworkProtocol.ICMP, text: 'SECURITY_GROUP_PAGE.RULES.ICMP' }
   ];
 
   constructor(
-    public dialog: MdlDialogReference,
+    public dialogRef: MdDialogRef<SgRulesComponent>,
+    @Inject(MD_DIALOG_DATA) data,
     private securityGroupService: SecurityGroupService,
     private notificationService: NotificationService,
-    @Inject('securityGroup') public securityGroup: SecurityGroup,
     private translateService: TranslateService
   ) {
+    this.securityGroup = data.securityGroup;
     this.cidr = '0.0.0.0/0';
     this.protocol = NetworkProtocol.TCP;
     this.type = NetworkRuleType.Ingress;
@@ -53,6 +56,14 @@ export class SgRulesComponent {
     this.icmpType = -1;
 
     this.adding = false;
+  }
+
+  public get title(): string {
+    if (this.securityGroup.isPredefinedTemplate) {
+      return 'SECURITY_GROUP_PAGE.RULES.TEMPLATE_RULES';
+    }
+
+    return 'SECURITY_GROUP_PAGE.RULES.FIREWALL_RULES_FOR_VM';
   }
 
   public addRule(e: Event): void {
@@ -83,7 +94,7 @@ export class SgRulesComponent {
           this.adding = false;
         },
         () => {
-          this.notificationService.message('FAILED_TO_ADD_RULE');
+          this.notificationService.message('SECURITY_GROUP_PAGE.RULES.FAILED_TO_ADD_RULE');
           this.adding = false;
         });
   }
@@ -116,10 +127,15 @@ export class SgRulesComponent {
         }
         rules.splice(ind, 1);
       }, () => {
-        this.translateService.get(['FAILED_TO_REMOVE_RULE']).subscribe((translations) => {
-          this.notificationService.message(translations['FAILED_TO_REMOVE_RULE']);
-        });
+        this.translateService.get(['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE'])
+          .subscribe((translations) => {
+            this.notificationService.message(translations['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE']);
+          });
       });
+  }
+
+  public onClose(): void {
+    this.dialogRef.close(this.securityGroup);
   }
 
   private resetForm(): void {

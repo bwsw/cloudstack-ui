@@ -9,6 +9,8 @@ import { PulseService } from '../pulse.service';
 import Chart = require('chart.js');
 
 (Chart.defaults.global.elements.line as any).cubicInterpolationMode = 'monotone';
+Chart.defaults.global.elements.point.radius = 0;
+Chart.defaults.global.elements.point.hitRadius = 5;
 
 export interface PulseChart {
   id: string;
@@ -26,30 +28,48 @@ export const defaultChartOptions = {
   maintainAspectRatio: false,
   layout: {
     padding: {
-      left: 20,
-      right: 10
+      left: 80,
+      right: 40
     }
   },
   tooltips: {
+    mode: 'x',
     intersect: false,
-    mode: 'x'
+  },
+  hover: {
+    mode: 'nearest',
+    intersect: false
   },
   scales: {
-    xAxes: [{
-      type: 'time',
-      position: 'bottom',
-      time: {
-        tooltipFormat: 'llll',
-        displayFormats: {
-          second: 'LTS',
-          minute: 'LT',
-          hour: 'LT'
+    xAxes: [
+      {
+        type: 'time',
+        position: 'bottom',
+        time: {
+          tooltipFormat: 'llll',
+          displayFormats: {
+            second: 'LTS',
+            minute: 'LT',
+            hour: 'LT'
+          }
         }
       }
-    }],
-    yAxes: [{
-      ticks: { suggestedMin: 0 }
-    }]
+    ],
+    yAxes: [
+      {
+        ticks: {
+          autoSkip: false,
+          padding: 40,
+          mirror: true,
+          suggestedMin: 0,
+          userCallback(val) {
+            if (val % 1 === 0) {
+              return val;
+            }
+          }
+        }
+      }
+    ]
   }
 };
 
@@ -65,7 +85,7 @@ export const defaultChartConfig = {
 export function getChart(config: Array<any>) {
   return config.map(_ => {
     const options = Object.assign({}, defaultChartOptions, _.options);
-    return Object.assign({}, defaultChartConfig, { ..._, options })
+    return Object.assign({}, defaultChartConfig, { ..._, options });
   });
 }
 
@@ -81,7 +101,8 @@ export abstract class PulseChartComponent {
   public loading = false;
   public error = false;
 
-  constructor(protected pulse: PulseService, protected cd: ChangeDetectorRef) {}
+  constructor(protected pulse: PulseService, protected cd: ChangeDetectorRef) {
+  }
 
   protected setLoading(loading = true) {
     this.loading = loading;

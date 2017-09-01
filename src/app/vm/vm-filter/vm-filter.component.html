@@ -2,7 +2,7 @@
   <md-select
     class="filter-select"
     multiple="true"
-    [placeholder]="'SELECT_ZONES' | translate"
+    [placeholder]="'VM_PAGE.FILTERS.SELECT_ZONES' | translate"
     [(ngModel)]="selectedZones"
     (change)="update()"
   >
@@ -11,12 +11,12 @@
   <md-select
     class="filter-select"
     multiple="true"
-    [placeholder]="'SELECT_GROUPS' | translate"
+    [placeholder]="'VM_PAGE.FILTERS.SELECT_GROUPS' | translate"
     [(ngModel)]="selectedGroups"
     (change)="update()"
   >
     <md-option *ngIf="showNoGroupFilter" [value]="noGroup">
-      <em>{{ 'NO_GROUP' | translate }}</em>
+      <em>{{ 'VM_PAGE.FILTERS.NO_GROUP' | translate }}</em>
     </md-option>
 
     <md-option
@@ -30,7 +30,7 @@
   <md-select
     class="filter-select"
     multiple="true"
-    [placeholder]="'SELECT_STATES' | translate"
+    [placeholder]="'VM_PAGE.FILTERS.SELECT_STATES' | translate"
     [(ngModel)]="selectedStates"
     (change)="update()"
   >
@@ -42,7 +42,7 @@
   <cs-draggable-select
     class="filter-select"
     multiple="true"
-    [placeholder]="'GROUP_BY_LABEL' | translate"
+    [placeholder]="'VM_PAGE.FILTERS.GROUP_BY' | translate"
     [(ngModel)]="selectedGroupings"
     [dragItems]="availableGroupings"
     (change)="update()"
