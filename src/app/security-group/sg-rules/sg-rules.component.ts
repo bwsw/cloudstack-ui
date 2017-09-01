@@ -184,10 +184,10 @@ export class SgRulesComponent {
   }
 
   public filterCodes(val: string) {
-    return val ? this.icmpCodes.filter(_ =>
-      _.toString() === val ||
+    return !!val ? this.icmpCodes.filter(_ =>
+      _.toString().indexOf(val) !== -1 ||
       this.translateService.instant(this.getIcmpCodeTranslationToken(this._icmpType, _))
-        .indexOf(val) !== -1) : this.icmpCodes;
+        .indexOf(val) !== -1) : ICMPtypes.find(x => x.type === this._icmpType).codes;
   }
 
   public onClose(): void {
