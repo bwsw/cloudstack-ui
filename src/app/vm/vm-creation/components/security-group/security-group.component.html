@@ -1,0 +1,38 @@
+<h3 class="mat-dialog-title">
+  {{ title | translate }}
+</h3>
+
+<div class="mat-dialog-content">
+  <md-tab-group
+    [(selectedIndex)]="displayMode"
+    class="tab-switch"
+  >
+    <md-tab label="{{ 'SECURITY_GROUP_SELECTOR.BUILD' | translate }}"></md-tab>
+    <md-tab label="{{ 'SECURITY_GROUP_SELECTOR.SELECT' | translate }}"></md-tab>
+  </md-tab-group>
+
+  <cs-security-group-builder
+    *ngIf="isModeBuilder"
+  ></cs-security-group-builder>
+
+  <cs-security-group-selector
+    *ngIf="isModeSelector"
+    [(ngModel)]="selectorSecurityGroup"
+  ></cs-security-group-selector>
+</div>
+
+<div class="mat-dialog-actions">
+  <button
+    mdl-button
+    (click)="onCancel()"
+  >
+    {{ 'COMMON.CANCEL' | translate }}
+  </button>
+
+  <button
+    mdl-button
+    click="onSave()"
+  >
+    {{ 'COMMON.SAVE' | translate }}
+  </button>
+</div>

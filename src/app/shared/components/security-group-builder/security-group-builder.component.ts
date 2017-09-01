@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
-import { SecurityGroupService } from '../services/security-group.service';
-import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag-keys';
-import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
-import { NetworkRule } from '../network-rule.model';
+import { SecurityGroupService } from '../../../security-group/services/security-group.service';
+import { SecurityGroupTagKeys } from '../../services/tags/security-group-tag-keys';
+import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
+import { NetworkRule } from '../../../security-group/network-rule.model';
 
 
 export interface RuleListItem {
@@ -31,11 +31,11 @@ export class Rules { // defines what should be passed to inputRules
 }
 
 @Component({
-  selector: 'cs-security-group-creation',
-  templateUrl: 'sg-creation.component.html',
-  styleUrls: ['sg-creation.component.scss'],
+  selector: 'cs-security-group-builder',
+  templateUrl: 'security-group-builder.component.html',
+  styleUrls: ['security-group-builder.component.scss'],
 })
-export class SgCreationComponent implements OnInit {
+export class SecurityGroupBuilderComponent implements OnInit {
   public items: Array<Array<SecurityGroup>>;
   public selectedGroupIndex: number;
   public selectedColumnIndex: number;
@@ -44,7 +44,7 @@ export class SgCreationComponent implements OnInit {
   public NetworkRuleTypes = NetworkRuleType;
 
   constructor(
-    private dialogRef: MdDialogRef<SgCreationComponent>,
+    private dialogRef: MdDialogRef<SecurityGroupBuilderComponent>,
     private securityGroupService: SecurityGroupService,
     @Inject(MD_DIALOG_DATA) private inputRules: Rules
   ) {
@@ -53,7 +53,7 @@ export class SgCreationComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    const templates = this.securityGroupService.getTemplates();
+    const templates = this.securityGroupService.getPredefinedTemplates();
     const accountSecurityGroups = this.securityGroupService.getList({
       'tags[0].key': SecurityGroupTagKeys.type,
       'tags[0].value': SecurityGroupType.CustomTemplate

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { SecurityGroup } from '../sg.model';
+import { SecurityGroup, SecurityGroupType } from '../sg.model';
 import { SecurityGroupAction } from './sg-action';
 
 
@@ -25,9 +25,19 @@ export class SecurityGroupRemoveAction extends SecurityGroupAction {
     return this.securityGroupService.deleteGroup(securityGroup)
       .map(() => {
         this.notificationService.message({
-          translationToken: 'NOTIFICATIONS.TEMPLATE.DELETED',
+          translationToken: this.getSuccessTranslationToken(securityGroup),
           interpolateParams: {name: securityGroup.name}
         });
       });
+  }
+
+  private getSuccessTranslationToken(securityGroup: SecurityGroup): string {
+    if (securityGroup.type === SecurityGroupType.CustomTemplate) {
+      return 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_DELETED';
+    }
+
+    if (securityGroup.type === SecurityGroupType.Shared) {
+      return 'NOTIFICATIONS.TEMPLATE.SHARED_GROUP_DELETED';
+    }
   }
 }

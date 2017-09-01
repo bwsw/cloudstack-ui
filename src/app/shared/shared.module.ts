@@ -19,10 +19,20 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
+import { SecurityGroupService } from '../security-group/services/security-group.service';
 import {
   SpareDriveActionsComponent
 } from './actions/spare-drive-actions/spare-drive-actions-component/spare-drive-actions.component';
 import { SpareDriveActionsService } from './actions/spare-drive-actions/spare-drive-actions.service';
+import { SpareDriveAttachAction } from './actions/spare-drive-actions/spare-drive-attach';
+import {
+  SpareDriveAttachmentComponent
+} from './actions/spare-drive-actions/spare-drive-attachment/spare-drive-attachment.component';
+import { SpareDriveDetachAction } from './actions/spare-drive-actions/spare-drive-detach';
+import { SpareDriveRecurringSnapshotsAction } from './actions/spare-drive-actions/spare-drive-recurring-snapshots';
+import { SpareDriveRemoveAction } from './actions/spare-drive-actions/spare-drive-remove';
+import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-drive-resize';
+import { SpareDriveSnapshotAction } from './actions/spare-drive-actions/spare-drive-snapshot';
 import {
   TemplateActionsComponent
 } from './actions/template-actions/template-actions-component/template-actions.component';
@@ -66,6 +76,7 @@ import { LoaderComponent } from './components/loader.component';
 import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
 import { ReloadComponent } from './components/reload/reload.component';
 import { SearchComponent } from './components/search/search.component';
+import { SecurityGroupBuilderComponent } from './components/security-group-builder/security-group-builder.component';
 import { TableComponent } from './components/table/table.component';
 import { ForbiddenValuesDirective } from './directives/forbidden-values.directive';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
@@ -97,7 +108,6 @@ import { OsTypeService } from './services/os-type.service';
 import { ResourceLimitService } from './services/resource-limit.service';
 import { ResourceUsageService } from './services/resource-usage.service';
 import { RouterUtilsService } from './services/router-utils.service';
-import { SecurityGroupService } from '../security-group/services/security-group.service';
 import { ServiceOfferingFilterService } from './services/service-offering-filter.service';
 import { ServiceOfferingService } from './services/service-offering.service';
 import { SessionStorageService } from './services/session-storage.service';
@@ -119,14 +129,9 @@ import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 import {
-  SpareDriveAttachmentComponent
-} from './actions/spare-drive-actions/spare-drive-attachment/spare-drive-attachment.component';
-import { SpareDriveSnapshotAction } from './actions/spare-drive-actions/spare-drive-snapshot';
-import { SpareDriveRecurringSnapshotsAction } from './actions/spare-drive-actions/spare-drive-recurring-snapshots';
-import { SpareDriveAttachAction } from './actions/spare-drive-actions/spare-drive-attach';
-import { SpareDriveDetachAction } from './actions/spare-drive-actions/spare-drive-detach';
-import { SpareDriveRemoveAction } from './actions/spare-drive-actions/spare-drive-remove';
-import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-drive-resize';
+  SecurityGroupBuilderRuleComponent
+} from './components/security-group-builder/rule/security-group-builder-rule.component';
+import { SecurityGroupSelectorComponent } from '../vm/vm-creation/components/security-group-selector/security-group-selector.component';
 
 
 @NgModule({
@@ -194,11 +199,14 @@ import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-driv
     CdkTableModule,
     MdSnackBarModule,
     SpareDriveActionsComponent,
-    TemplateActionsComponent
+    TemplateActionsComponent,
+    SecurityGroupBuilderComponent,
+    SecurityGroupSelectorComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
     LoaderComponent,
+    SecurityGroupBuilderComponent,
     SpareDriveAttachmentComponent
   ],
   declarations: [
@@ -232,6 +240,7 @@ import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-driv
     OverlayLoadingComponent,
     ReloadComponent,
     SearchComponent,
+    SecurityGroupBuilderRuleComponent,
     SgRulesManagerComponent,
     SidebarContainerComponent,
     TableComponent,
@@ -247,7 +256,9 @@ import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-driv
     LoaderComponent,
     GroupedCardListComponent,
     SpareDriveActionsComponent,
-    TemplateActionsComponent
+    TemplateActionsComponent,
+    SecurityGroupBuilderComponent,
+    SecurityGroupSelectorComponent
   ],
   providers: [
     SpareDriveActionsService,

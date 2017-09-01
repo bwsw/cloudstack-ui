@@ -1,9 +1,8 @@
-<h3 class="mat-dialog-title">{{ 'SECURITY_GROUP_PAGE.BUILDER.SECURITY_GROUP_TEMPLATES' | translate }}</h3>
-<div class="mat-dialog-content">
+<!--<div class="mat-dialog-content">-->
   <div class="list-builder">
     <div class="left-list">
       <div class="flex-container">
-        <h5>{{ 'SECURITY_GROUP_PAGE.BUILDER.ALL_GROUPS' | translate }}</h5>
+        <h5>{{ 'SECURITY_GROUP_SELECTOR.ALL_GROUPS' | translate }}</h5>
         <button
           *ngIf="items[0].length"
           mdl-button
@@ -44,7 +43,7 @@
     </div>
     <div class="right-list">
       <div class="flex-container">
-        <h5>{{ 'SECURITY_GROUP_PAGE.BUILDER.SELECTED_GROUPS' | translate }}</h5>
+        <h5>{{ 'SECURITY_GROUP_SELECTOR.SELECTED_GROUPS' | translate }}</h5>
         <button
           *ngIf="items[1].length"
           mdl-button
@@ -65,26 +64,26 @@
     </div>
   </div>
   <div class="rules-list">
-    <h5>{{ 'SECURITY_GROUP_PAGE.BUILDER.NETWORK_RULES' | translate }}</h5>
+    <h5>{{ 'SECURITY_GROUP_SELECTOR.NETWORK_RULES' | translate }}</h5>
     <md-list>
-      <cs-sg-creation-rule
+      <cs-security-group-builder-rule
         *ngFor="let item of selectedRules[0]"
         [item]="item"
         [type]="NetworkRuleTypes.Ingress"
-      ></cs-sg-creation-rule>
-      <cs-sg-creation-rule
+      ></cs-security-group-builder-rule>
+      <cs-security-group-builder-rule
         *ngFor="let item of selectedRules[1]"
         [item]="item"
         [type]="NetworkRuleTypes.Egress"
-      ></cs-sg-creation-rule>
+      ></cs-security-group-builder-rule>
     </md-list>
   </div>
-</div>
-<div class="mat-dialog-actions" style="text-align: right;">
-  <button mdl-button (click)="onSave()" mdl-colored="primary">
-    {{ 'COMMON.SAVE' | translate }}
-  </button>
-  <button mdl-button (click)="onCancel()" mdl-colored="primary">
-    {{ 'COMMON.CANCEL' | translate }}
-  </button>
-</div>
+<!--</div>-->
+<!--<div class="mat-dialog-actions" style="text-align: right;">-->
+  <!--<button mdl-button (click)="onSave()" mdl-colored="primary">-->
+    <!--{{ 'COMMON.SAVE' | translate }}-->
+  <!--</button>-->
+  <!--<button mdl-button (click)="onCancel()" mdl-colored="primary">-->
+    <!--{{ 'COMMON.CANCEL' | translate }}-->
+  <!--</button>-->
+<!--</div>-->

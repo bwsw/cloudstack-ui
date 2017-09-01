@@ -3,10 +3,11 @@ import { async, TestBed } from '@angular/core/testing';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
-import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
-import { SecurityGroupService } from '../services/security-group.service';
-import { NetworkRule, SecurityGroup } from '../sg.model';
-import { Rules, SgCreationComponent } from './sg-creation.component';
+import { MockTranslatePipe } from '../../../../testutils/mocks/mock-translate.pipe.spec';
+import { SecurityGroupService } from '../../../security-group/services/security-group.service';
+import { SecurityGroup } from '../../../security-group/sg.model';
+import { Rules, SecurityGroupBuilderComponent } from './security-group-builder.component';
+import { NetworkRule } from '../../../security-group/network-rule.model';
 
 
 describe('Sg creation component', () => {
@@ -85,7 +86,7 @@ describe('Sg creation component', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SgCreationComponent, MockTranslatePipe],
+      declarations: [SecurityGroupBuilderComponent, MockTranslatePipe],
       providers: [
         { provide: MdDialogRef, useFactory: () => dialogReferenceMock },
         { provide: SecurityGroupService, useClass: SecurityGroupServiceMock },
@@ -95,7 +96,7 @@ describe('Sg creation component', () => {
     });
 
     TestBed.compileComponents().then(() => {
-      f = TestBed.createComponent(SgCreationComponent);
+      f = TestBed.createComponent(SecurityGroupBuilderComponent);
       comp = f.componentInstance;
     });
   }));
@@ -108,7 +109,7 @@ describe('Sg creation component', () => {
     expect(comp.selectedRules[0].length).toBe(0);
     expect(comp.selectedRules[1].length).toBe(0);
 
-    f = TestBed.createComponent(SgCreationComponent);
+    f = TestBed.createComponent(SecurityGroupBuilderComponent);
     comp = f.componentInstance;
     mockRules.templates = [mockSg1];
     comp.ngOnInit();
@@ -119,7 +120,7 @@ describe('Sg creation component', () => {
     expect(comp.selectedRules[0].every(rule => !rule.checked));
     expect(comp.selectedRules[1].every(rule => !rule.checked));
 
-    f = TestBed.createComponent(SgCreationComponent);
+    f = TestBed.createComponent(SecurityGroupBuilderComponent);
     comp = f.componentInstance;
     mockRules.templates = [mockSg2];
     mockRules.egress = mockRuleEgress;
@@ -149,7 +150,7 @@ describe('Sg creation component', () => {
     expect(dialogReferenceMock.close).toHaveBeenCalledTimes(1);
     expect(dialogReferenceMock.close).toHaveBeenCalledWith(mockRules);
 
-    f = TestBed.createComponent(SgCreationComponent);
+    f = TestBed.createComponent(SecurityGroupBuilderComponent);
     comp = f.componentInstance;
     mockRules.templates = [mockSg2];
     mockRules.egress = mockRuleEgress;

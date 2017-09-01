@@ -9,9 +9,6 @@ import {
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../shared/shared.module';
-
-import { SgCreationComponent } from './sg-creation/sg-creation.component';
-import { SgCreationRuleComponent } from './sg-creation/sg-creation-rule.component';
 import { SgRuleComponent } from './sg-rules/sg-rule.component';
 import { SgRulesComponent } from './sg-rules/sg-rules.component';
 import { SgTemplateCreationComponent } from './sg-template-creation/sg-template-creation.component';
@@ -25,9 +22,15 @@ import { SecurityGroupActionsService } from './sg-actions/sg-action.service';
 import { SecurityGroupViewAction } from './sg-actions/sg-view';
 import { SecurityGroupEditAction } from './sg-actions/sg-edit';
 import { SecurityGroupRemoveAction } from './sg-actions/sg-remove';
-import { PrivateSecurityGroupCreationService } from './services/creation-services/private-security-group-creation.service';
-import { SharedSecurityGroupCreationService } from './services/creation-services/shared-security-group-creation.service';
-import { TemplateSecurityGroupCreationService } from './services/creation-services/template-security-group-creation.service';
+import {
+  PrivateSecurityGroupCreationService
+} from './services/creation-services/private-security-group-creation.service';
+import {
+  SharedSecurityGroupCreationService
+} from './services/creation-services/shared-security-group-creation.service';
+import {
+  TemplateSecurityGroupCreationService
+} from './services/creation-services/template-security-group-creation.service';
 import { NetworkRuleService } from './services/network-rule.service';
 import { SecurityGroupService } from './services/security-group.service';
 
@@ -49,13 +52,10 @@ import { SecurityGroupService } from './services/security-group.service';
     sgRouting
   ],
   exports: [
-    SgCreationComponent,
     SgTemplateListComponent
   ],
   declarations: [
     SecurityGroupActionsComponent,
-    SgCreationComponent,
-    SgCreationRuleComponent,
     SgFilterComponent,
     SgTemplateListComponent,
     SgTemplateListItemComponent,
@@ -76,7 +76,6 @@ import { SecurityGroupService } from './services/security-group.service';
     TemplateSecurityGroupCreationService
   ],
   entryComponents: [
-    SgCreationComponent,
     SgTemplateCreationComponent,
     SgRulesComponent
   ]

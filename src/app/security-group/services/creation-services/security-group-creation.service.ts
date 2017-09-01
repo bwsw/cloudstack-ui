@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { NetworkProtocol, NetworkRule } from '../../network-rule.model';
-import { Rules } from '../../sg-creation/sg-creation.component';
+import { Rules } from '../../../shared/components/security-group-builder/security-group-builder.component';
 import { NetworkRuleType, SecurityGroup } from '../../sg.model';
 import { BaseBackendService } from '../../../shared/services/base-backend.service';
 import { SecurityGroupTagService } from '../../../shared/services/tags/security-group-tag.service';
@@ -55,8 +55,8 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
       });
   }
 
-  protected securityGroupCreationPostAction(securityGroup: SecurityGroup): Observable<any> {
-    return Observable.of(null);
+  protected securityGroupCreationPostAction(securityGroup: SecurityGroup): Observable<SecurityGroup> {
+    return Observable.of(securityGroup);
   }
 
   private authorizeRules(

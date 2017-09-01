@@ -2,7 +2,8 @@ import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MdDialog } from '@angular/material';
 
-import { Rules, SgCreationComponent } from '../../security-group/sg-creation/sg-creation.component';
+import { Rules, SecurityGroupBuilderComponent } from './security-group-builder/security-group-builder.component';
+import { VmCreationSecurityGroupComponent } from '../../vm/vm-creation/components/security-group/security-group.component';
 
 
 @Component({
@@ -57,7 +58,7 @@ export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
   public registerOnTouched(): void { }
 
   public showDialog(): void {
-    this.dialog.open(SgCreationComponent, {
+    this.dialog.open(VmCreationSecurityGroupComponent, {
       width: '800px',
       data: this.savedRules
     })

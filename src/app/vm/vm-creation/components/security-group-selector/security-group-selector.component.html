@@ -1,0 +1,14 @@
+<md-select
+  *ngIf="securityGroups?.length"
+  [placeholder]="'SECURITY_GROUP_SELECTOR.SELECT_SECURITY_GROUP' | translate"
+  [(ngModel)]="selectedSecurityGroup"
+>
+  <md-option
+    *ngFor="let sg of securityGroups"
+    [value]="sg"
+  >
+    {{ sg.name }}
+  </md-option>
+</md-select>
+
+<cs-no-results *ngIf="!securityGroups?.length"></cs-no-results>

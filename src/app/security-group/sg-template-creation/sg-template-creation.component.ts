@@ -3,7 +3,7 @@ import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { SecurityGroupService } from '../services/security-group.service';
-import { Rules } from '../sg-creation/sg-creation.component';
+import { Rules } from '../../shared/components/security-group-builder/security-group-builder.component';
 import { SecurityGroupViewMode } from '../sg-filter/sg-filter.component';
 import { SecurityGroup } from '../sg.model';
 

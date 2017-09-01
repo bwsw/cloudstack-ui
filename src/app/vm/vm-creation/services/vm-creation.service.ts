@@ -102,7 +102,7 @@ export class VmCreationService {
           zones
         ]) => {
         const configurationData = this.configService.get(vmCreationConfigurationKeys);
-        const securityGroupTemplates = this.securityGroupService.getTemplates();
+        const securityGroupTemplates = this.securityGroupService.getPredefinedTemplates();
         const sshKeysWithNoKeyOption = this.getSSHKeysWithNoKeyOption(
           sshKeyPairs,
           translations['VM_PAGE.VM_CREATION.NO_SSH_KEY']

@@ -1,4 +1,4 @@
-import { Rules } from '../../../security-group/sg-creation/sg-creation.component';
+import { Rules } from '../../../shared/components/security-group-builder/security-group-builder.component';
 import { SecurityGroup } from '../../../security-group/sg.model';
 import {
   ICustomOfferingRestrictions,

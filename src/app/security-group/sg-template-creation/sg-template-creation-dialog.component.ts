@@ -5,7 +5,7 @@ import { ListService } from '../../shared/components/list/list.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { SecurityGroupEditAction } from '../sg-actions/sg-edit';
-import { SecurityGroup } from '../sg.model';
+import { SecurityGroup, SecurityGroupType } from '../sg.model';
 import { SgTemplateCreationComponent } from './sg-template-creation.component';
 import { SecurityGroupViewMode } from '../sg-filter/sg-filter.component';
 
@@ -47,6 +47,16 @@ export class SgTemplateCreationDialogComponent implements OnInit {
       });
   }
 
+  private getSuccessCreationToken(securityGroup: SecurityGroup): string {
+    if (securityGroup.type === SecurityGroupType.CustomTemplate) {
+      return 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_CREATED';
+    }
+
+    if (securityGroup.type === SecurityGroupType.Shared) {
+      return 'NOTIFICATIONS.TEMPLATE.SHARED_GROUP_CREATED';
+    }
+  }
+
   private get viewMode(): string {
     return this.storageService.read('securityGroupDisplayMode') || SecurityGroupViewMode.Templates;
   }
@@ -62,7 +72,7 @@ export class SgTemplateCreationDialogComponent implements OnInit {
   private onSecurityGroupCreated(securityGroup: SecurityGroup): void {
     this.listService.onUpdate.emit(securityGroup);
     this.notificationService.message({
-      translationToken: 'NOTIFICATIONS.TEMPLATE.CREATED',
+      translationToken: this.getSuccessCreationToken(securityGroup),
       interpolateParams: { name: securityGroup.name }
     });
     this.showRulesDialog(securityGroup);

@@ -201,8 +201,10 @@
 
   "NOTIFICATIONS": {
     "TEMPLATE": {
-      "CREATED": "Шаблон {{ name }} успешно создан",
-      "DELETED": "Шаблон {{ name }} успешно удален"
+      "CUSTOM_TEMPLATE_CREATED": "Шаблон {{ name }} успешно создан",
+      "CUSTOM_TEMPLATE_DELETED": "Template {{ name }} deleted successfully",
+      "SHARED_GROUP_CREATED": "Разделяемая группа {{ name }} успешно создана",
+      "SHARED_GROUP_DELETED": "Разделяемая группа {{ name }} успешно удалена"
     }
   },
 
@@ -701,13 +703,6 @@
       "NAME": "Название",
       "DESCRIPTION": "Описание",
       "BASIC_RULES": "Базовые правила"
-    },
-
-    "BUILDER": {
-      "SECURITY_GROUP_TEMPLATES": "Шаблоны групп безопасности",
-      "ALL_GROUPS": "Все шаблоны",
-      "SELECTED_GROUPS": "Выбранные шаблоны",
-      "NETWORK_RULES": "Сетевые правила"
     }
   },
 

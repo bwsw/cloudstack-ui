@@ -1,0 +1,23 @@
+:host .tab-switch {
+  display: inline-flex;
+  width: auto;
+  position: relative;
+  margin: 0 19px;
+}
+
+:host /deep/ .mat-tab-label {
+  line-height: 30px !important;
+  height: 30px !important;
+  min-width: 60px !important;
+  text-transform: uppercase;
+}
+
+md-tab-group {
+  margin: 0 !important;
+}
+
+cs-security-group-selector {
+  display: block;
+  margin: 40px 0;
+  width: 250px;
+}

@@ -201,8 +201,10 @@
 
   "NOTIFICATIONS": {
     "TEMPLATE": {
-      "CREATED": "Template {{ name }} created successfully",
-      "DELETED": "Template {{ name }} deleted successfully"
+      "CUSTOM_TEMPLATE_CREATED": "Template {{ name }} created successfully",
+      "CUSTOM_TEMPLATE_DELETED": "Template {{ name }} deleted successfully",
+      "SHARED_GROUP_CREATED": "Shared group {{ name }} created successfully",
+      "SHARED_GROUP_DELETED": "Shared group {{ name }} deleted successfully"
     }
   },
 
@@ -706,13 +708,6 @@
       "NAME": "Name",
       "DESCRIPTION": "Description",
       "BASIC_RULES": "Basic rules"
-    },
-
-    "BUILDER": {
-      "SECURITY_GROUP_TEMPLATES": "Security Group Templates",
-      "ALL_GROUPS": "All templates",
-      "SELECTED_GROUPS": "Selected templates",
-      "NETWORK_RULES": "Network rules"
     }
   },
 
@@ -817,6 +812,17 @@
       "DISK_WRITE_IOPS": "Disk write (IOPS)",
       "DISK_IO_ERRORS": "Disk IO errors"
     }
+  },
+
+  "SECURITY_GROUP_SELECTOR": {
+    "BUILD_NEW_GROUP": "Build a new security group",
+    "SELECT_EXISTING_GROUP": "Select an existing group",
+    "BUILD": "Build",
+    "SELECT": "Select",
+    "ALL_GROUPS": "All templates",
+    "SELECTED_GROUPS": "Selected templates",
+    "NETWORK_RULES": "Network rules",
+    "SELECT_SECURITY_GROUP": "Select a group"
   },
 
   "SERVICE_OFFERING": {

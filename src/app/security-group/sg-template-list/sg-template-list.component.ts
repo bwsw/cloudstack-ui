@@ -23,11 +23,14 @@ export class SgTemplateListComponent implements OnInit {
 
   constructor(
     private securityGroupService: SecurityGroupService,
-    private listService: ListService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private storageService: LocalStorageService
   ) {
+    this.securityGroupService.onSecurityGroupCreated.subscribe(newGroup => {
+      this.update();
+    });
+
     this.securityGroupService.onSecurityGroupUpdate.subscribe(updatedGroup => {
       this.customSecurityGroupList = this.customSecurityGroupList.map(group => {
         if (group.id === updatedGroup.id) {
@@ -85,10 +88,6 @@ export class SgTemplateListComponent implements OnInit {
   }
 
   public showCreationDialog(): void {
-    this.listService.onUpdate.subscribe(() => {
-      this.update();
-    });
-
     this.router.navigate(['./create'], {
       preserveQueryParams: true,
       relativeTo: this.activatedRoute
@@ -96,7 +95,7 @@ export class SgTemplateListComponent implements OnInit {
   }
 
   private update(): void {
-    this.predefinedSecurityGroupList = this.securityGroupService.getTemplates();
+    this.predefinedSecurityGroupList = this.securityGroupService.getPredefinedTemplates();
     this.securityGroupService.getList().subscribe(securityGroups => {
       this.customSecurityGroupList = securityGroups.filter(securityGroup => {
         return securityGroup.type === SecurityGroupType.CustomTemplate;

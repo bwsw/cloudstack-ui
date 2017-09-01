@@ -3,10 +3,9 @@ import { NgForm } from '@angular/forms';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../shared/services/notification.service';
-import { SecurityGroupService } from '../services/security-group.service';
 import { NetworkProtocol } from '../network-rule.model';
-import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { NetworkRuleService } from '../services/network-rule.service';
+import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
 
 
 @Component({

@@ -6,7 +6,7 @@ import { SecurityGroup } from '../../sg.model';
 
 @Injectable()
 export class PrivateSecurityGroupCreationService extends SecurityGroupCreationService {
-  protected securityGroupCreationPostAction(securityGroup: SecurityGroup): Observable<any> {
+  protected securityGroupCreationPostAction(securityGroup: SecurityGroup): Observable<SecurityGroup> {
     return this.securityGroupTagService.markAsPrivate(securityGroup);
   }
 }

@@ -3,7 +3,7 @@ import { MdSelectChange, MdDialogRef } from '@angular/material';
 import * as throttle from 'lodash/throttle';
 
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { Rules } from '../../security-group/sg-creation/sg-creation.component';
+import { Rules } from '../../shared/components/security-group-builder/security-group-builder.component';
 import { AffinityGroup, InstanceGroup, ServiceOffering } from '../../shared/models';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';

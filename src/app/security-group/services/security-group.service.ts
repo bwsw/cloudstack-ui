@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { Rules } from '../sg-creation/sg-creation.component';
-import { SecurityGroup } from '../sg.model';
+import { Rules } from '../../shared/components/security-group-builder/security-group-builder.component';
+import { SecurityGroup, SecurityGroupType } from '../sg.model';
 import { BackendResource } from '../../shared/decorators';
 import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
 import { ConfigService } from '../../shared/services/config.service';
@@ -10,6 +10,7 @@ import { SecurityGroupTagService } from '../../shared/services/tags/security-gro
 import { PrivateSecurityGroupCreationService } from './creation-services/private-security-group-creation.service';
 import { SharedSecurityGroupCreationService } from './creation-services/shared-security-group-creation.service';
 import { TemplateSecurityGroupCreationService } from './creation-services/template-security-group-creation.service';
+import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag-keys';
 
 
 export const GROUP_POSTFIX = '-cs-sg';
@@ -34,10 +35,33 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
     super();
   }
 
-  public getTemplates(): Array<SecurityGroup> {
+  public getPredefinedTemplates(): Array<SecurityGroup> {
     return this.configService
       .get('securityGroupTemplates')
       .map(group => new SecurityGroup(group));
+  }
+
+  public getCustomTemplates(): Observable<Array<SecurityGroup>> {
+    return this.getList({
+      'tags[0].key': SecurityGroupTagKeys.type,
+      'tags[0].value': SecurityGroupType.CustomTemplate
+    });
+  }
+
+  public getPrivateGroups(): Observable<Array<SecurityGroup>> {
+    return this.getList({
+      'tags[0].key': SecurityGroupTagKeys.type,
+      'tags[0].value': SecurityGroupType.Private
+    });
+  }
+
+  public getSharedGroups(): Observable<Array<SecurityGroup>> {
+    return this.getList()
+      .map(sharedGroups => {
+        return sharedGroups.filter(group => {
+          return group.type === SecurityGroupType.Shared;
+        });
+      });
   }
 
   public createShared(data: any, rules?: Rules): Observable<SecurityGroup> {

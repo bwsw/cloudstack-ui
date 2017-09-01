@@ -2,10 +2,10 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
-import { NetworkRule } from '../sg.model';
-import { SgCreationRuleComponent } from './sg-creation-rule.component';
-import { RuleListItem } from './sg-creation.component';
+import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
+import { NetworkRule } from '../../../../security-group/sg.model';
+import { SgCreationRuleComponent } from './security-group-builder-rule.component';
+import { RuleListItem } from '../security-group-builder.component';
 
 
 describe('Sg creation rule component', () => {

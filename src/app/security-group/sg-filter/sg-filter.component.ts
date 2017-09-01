@@ -15,7 +15,8 @@ export enum SecurityGroupViewMode {
 
 @Component({
   selector: 'cs-sg-filter',
-  templateUrl: 'sg-filter.component.html'
+  templateUrl: 'sg-filter.component.html',
+  styleUrls: ['sg-filter.component.scss']
 })
 export class SgFilterComponent {
   @Input() public viewMode: SecurityGroupViewMode;
