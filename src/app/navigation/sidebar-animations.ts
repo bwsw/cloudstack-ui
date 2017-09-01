@@ -36,7 +36,6 @@ export const transformHandle: AnimationTriggerMetadata = trigger('handleSlide', 
  * @type {AnimationTriggerMetadata}
  */
 export const transformLinks: AnimationTriggerMetadata = trigger('linkSlide', [
-  state('in', style({ transform: 'translateX(0px)' })),
   state('out', style({ transform: 'translateX(60px)' })),
   transition(
     'void => in',

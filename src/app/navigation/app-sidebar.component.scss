@@ -20,12 +20,6 @@
   &-container {
     padding-left: 30px !important;
     padding-right: 30px !important;
-    &::before {
-      content: "";
-      display: inline-block;
-      vertical-align: middle;
-      height: 100%;
-    }
   }
 
   &-element {
@@ -150,7 +144,7 @@ md-checkbox {
   transform: translateY(-50%);
 }
 
-.gu-mirror .mdl-navigation__link {
+.gu-mirror.mdl-navigation__link {
   display: block;
   padding: 16px 40px;
   background: rgba(0, 0, 0, 0.2) !important;

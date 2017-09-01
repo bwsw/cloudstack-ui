@@ -51,12 +51,10 @@
         [routerLinkActive]="linkActiveStyle"
         (click)="linkClick(route.path)"
       >
-        <div [@linkSlide]="'in'">
-          <md-icon class="link-element" [ngClass]="route.className">
-            {{ route.icon }}
-          </md-icon>
-          <div class="link-element" [innerHTML]="route.text | translate"></div>
-        </div>
+        <md-icon [@linkSlide]="'in'" class="link-element" [ngClass]="route.className">
+          {{ route.icon }}
+        </md-icon>
+        <div [@linkSlide]="'in'" class="link-element" [innerHTML]="route.text | translate"></div>
       </a>
       <div
         *ngIf="editing"
