@@ -49,6 +49,8 @@ export class SgCreationRuleComponent {
       cidr: this.item.rule.CIDR,
     };
 
+    let ruleParams;
+
     if (this.item.rule.protocol === 'icmp') {
       let typeTranslation = this.translateService.instant(this.icmpTypeTranslationToken);
       if (typeTranslation === this.icmpTypeTranslationToken) {
@@ -59,20 +61,20 @@ export class SgCreationRuleComponent {
         codeTranslation = null;
       }
 
-      Object.assign(params, {
+      ruleParams = Object.assign({}, params, {
         icmpType: this.item.rule.icmpType,
         icmpCode: this.item.rule.icmpCode,
         icmpTypeText: typeTranslation,
         icmpCodeText: codeTranslation
       });
     } else {
-      Object.assign(params, {
+      ruleParams = Object.assign({}, params, {
         startPort: this.item.rule.startPort,
         endPort: this.item.rule.endPort
       });
     }
 
-    return params;
+    return ruleParams;
   }
 
   constructor(private translateService: TranslateService) {

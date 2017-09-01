@@ -27,7 +27,10 @@ export class SgRulesComponent {
   public type: NetworkRuleType;
   public protocol: NetworkProtocol;
   public startPort: number;
+  public icmpType: number;
+  public icmpTypes: ICMPType[] = ICMPtypes;
   public icmpCode: number;
+  public icmpCodes: number[];
   public endPort: number;
   public cidr: string;
   public securityGroup: SecurityGroup;
@@ -47,47 +50,6 @@ export class SgRulesComponent {
     { value: NetworkProtocol.UDP, text: 'SECURITY_GROUP_PAGE.RULES.UDP' },
     { value: NetworkProtocol.ICMP, text: 'SECURITY_GROUP_PAGE.RULES.ICMP' }
   ];
-
-  private _icmpType: number;
-  private _icmpTypes: ICMPType[] = ICMPtypes;
-  private _icmpCodes: number[];
-
-  public get icmpTypes(): ICMPType[] {
-    return this._icmpTypes;
-  }
-
-  public set icmpTypes(value: ICMPType[]) {
-    this._icmpTypes = value;
-
-    if (+this.selectedType <= 255 && +this.selectedType >= -1) {
-      this.icmpType = +this.selectedType;
-      const type = ICMPtypes.find(_ => {
-        return _.type === this.icmpType;
-      });
-      this.selectedCode = '';
-      this.icmpCodes = type ? type.codes : [];
-    }
-  }
-
-  public get icmpType(): number {
-    return this._icmpType;
-  }
-
-  public set icmpType(value: number) {
-    this._icmpType = value;
-  }
-
-  public set icmpCodes(value: number[]) {
-    this._icmpCodes = value;
-
-    if (+this.selectedCode <= 255 && +this.selectedCode >= -1) {
-      this.icmpCode = +this.selectedCode;
-    }
-  }
-
-  public get icmpCodes(): number[] {
-    return this._icmpCodes;
-  }
 
   constructor(
     public dialogRef: MdDialogRef<SgRulesComponent>,
@@ -123,7 +85,7 @@ export class SgRulesComponent {
     };
 
     if (this.protocol === NetworkProtocol.ICMP) {
-      params.icmptype = this._icmpType;
+      params.icmptype = this.icmpType;
       params.icmpcode = this.icmpCode;
     } else {
       params.startport = this.startPort;
@@ -177,17 +139,40 @@ export class SgRulesComponent {
       });
   }
 
+  public setIcmpTypes(value: ICMPType[]) {
+    this.icmpTypes = value;
+
+    if (+this.selectedType <= 255 && +this.selectedType >= -1) {
+      this.icmpType = +this.selectedType;
+      const type = ICMPtypes.find(_ => {
+        return _.type === this.icmpType;
+      });
+      this.selectedCode = '';
+      this.icmpCodes = type ? type.codes : [];
+    }
+  }
+
+  public setIcmpCodes(value: number[]) {
+    this.icmpCodes = value;
+
+    if (+this.selectedCode <= 255 && +this.selectedCode >= -1) {
+      this.icmpCode = +this.selectedCode;
+    }
+  }
+
   public filterTypes(val: string) {
     return val ? ICMPtypes.filter(_ => _.type.toString() === val ||
       this.translateService.instant(this.getIcmpTypeTranslationToken(_.type))
-        .indexOf(val) !== -1) : ICMPtypes;
+        .toLowerCase()
+        .indexOf(val.toLowerCase()) !== -1) : ICMPtypes;
   }
 
   public filterCodes(val: string) {
     return !!val ? this.icmpCodes.filter(_ =>
       _.toString().indexOf(val) !== -1 ||
-      this.translateService.instant(this.getIcmpCodeTranslationToken(this._icmpType, _))
-        .indexOf(val) !== -1) : ICMPtypes.find(x => x.type === this._icmpType).codes;
+      this.translateService.instant(this.getIcmpCodeTranslationToken(this.icmpType, _))
+        .toLowerCase()
+        .indexOf(val.toLowerCase()) !== -1) : ICMPtypes.find(x => x.type === this.icmpType).codes;
   }
 
   public onClose(): void {
