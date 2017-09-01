@@ -3,9 +3,9 @@ import { async, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
-import { NetworkRule } from '../../../../security-group/sg.model';
-import { SgCreationRuleComponent } from './security-group-builder-rule.component';
+import { NetworkRule } from '../../../../security-group/network-rule.model';
 import { RuleListItem } from '../security-group-builder.component';
+import { SecurityGroupBuilderRuleComponent } from './security-group-builder-rule.component';
 
 
 describe('Sg creation rule component', () => {
@@ -25,12 +25,12 @@ describe('Sg creation rule component', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SgCreationRuleComponent, MockTranslatePipe],
+      declarations: [SecurityGroupBuilderRuleComponent, MockTranslatePipe],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
     TestBed.compileComponents().then(() => {
-      f = TestBed.createComponent(SgCreationRuleComponent);
+      f = TestBed.createComponent(SecurityGroupBuilderRuleComponent);
       comp = f.componentInstance;
     });
   }));

@@ -1,0 +1,64 @@
+<div class="list-builder">
+  <div class="left-list">
+    <div class="flex-container">
+      <h5>{{ 'SECURITY_GROUP_SELECTOR.ALL_GROUPS' | translate }}</h5>
+      <button
+        *ngIf="items[0].length"
+        mdl-button
+        (click)="selectAll()"
+      >
+        {{ 'COMMON.SELECT_ALL' | translate }}
+      </button>
+    </div>
+    <md-list>
+      <md-list-item
+        *ngFor="let securityGroup of items[0]; let i=index"
+        [class.active]="selectedColumnIndex === 0 && selectedGroupIndex === i"
+        (click)="selectGroup(i, true)"
+      >
+        <h4 md-line>
+          {{ securityGroup.name }}
+        </h4>
+      </md-list-item>
+    </md-list>
+  </div>
+  <div class="buttons-container">
+    <button
+      mdl-button
+      mdl-button-type="icon"
+      (click)="moveRight()"
+      disabled="{{ selectedColumnIndex !== 0 }}"
+    >
+      <md-icon>navigate_next</md-icon>
+    </button>
+    <button
+      mdl-button
+      mdl-button-type="icon"
+      (click)="moveLeft()"
+      disabled="{{ selectedColumnIndex !== 1 }}"
+    >
+      <md-icon>navigate_before</md-icon>
+    </button>
+  </div>
+  <div class="right-list">
+    <div class="flex-container">
+      <h5>{{ 'SECURITY_GROUP_SELECTOR.SELECTED_GROUPS' | translate }}</h5>
+      <button
+        *ngIf="items[1].length"
+        mdl-button
+        (click)="reset()"
+      >{{ 'COMMON.RESET' | translate }}</button>
+    </div>
+    <md-list>
+      <md-list-item
+        *ngFor="let securityGroup of items[1]; let i=index"
+        [class.active]="selectedColumnIndex === 1 && selectedGroupIndex === i"
+        (click)="selectGroup(i, false)"
+      >
+        <h4 md-line>
+          {{ securityGroup.name }}
+        </h4>
+      </md-list-item>
+    </md-list>
+  </div>
+</div>

@@ -97,13 +97,25 @@ export class SecurityGroupBuilderComponent implements OnInit {
   public onSave(): void {
     this.dialogRef.close({
       templates: this.items[1],
-      ingress: this.selectedRules[0].filter(rule => rule.checked).map(item => item.rule),
-      egress: this.selectedRules[1].filter(rule => rule.checked).map(item => item.rule),
+      ingress: this.checkedIngressRules,
+      egress: this.checkedEgressRules
     });
   }
 
   public onCancel(): void {
     this.dialogRef.close(this.inputRules);
+  }
+
+  private get checkedIngressRules(): Array<NetworkRule> {
+    return this.selectedRules[0]
+      .filter(rule => rule.checked)
+      .map(item => item.rule);
+  }
+
+  private get checkedEgressRules(): Array<NetworkRule> {
+    return this.selectedRules[1]
+      .filter(rule => rule.checked)
+      .map(item => item.rule);
   }
 
   private initRulesList(): void {
