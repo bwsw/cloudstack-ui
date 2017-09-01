@@ -6,7 +6,7 @@
         [innerHTML]="'SECURITY_GROUP_PAGE.RULES.NO_TEXT_ICMP_RULE' | translate: (ruleParams)"
       ></span>
       </ng-template>
-      <ng-template [ngIf]="!ruleParams['icmpTypeText'] && !!ruleParams['icmpCodeText']">
+      <ng-template [ngIf]="!ruleParams['icmpCodeText'] && !!ruleParams['icmpTypeText']">
       <span
         [innerHTML]="'SECURITY_GROUP_PAGE.RULES.NO_CODE_ICMP_RULE' | translate: (ruleParams)"
       ></span>
