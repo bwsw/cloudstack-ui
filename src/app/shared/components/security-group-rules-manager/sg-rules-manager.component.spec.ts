@@ -4,11 +4,11 @@ import { MdDialog } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 
-import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
-import { Rules } from './security-group-builder/security-group-builder.component';
-import { NetworkRule, SecurityGroup } from '../../security-group/sg.model';
-import { SgRulesManagerComponent } from './';
-import { FancySelectComponent } from './fancy-select/fancy-select.component';
+import { MockTranslatePipe } from '../../../../testutils/mocks/mock-translate.pipe.spec';
+import { Rules } from '../security-group-builder/security-group-builder.component';
+import { NetworkRule, SecurityGroup } from '../../../security-group/sg.model';
+import { SgRulesManagerComponent } from '../';
+import { FancySelectComponent } from '../fancy-select/fancy-select.component';
 
 
 const mockSg = new SecurityGroup({

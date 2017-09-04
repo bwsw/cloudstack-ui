@@ -2,6 +2,7 @@
   *ngIf="securityGroups?.length"
   [placeholder]="'SECURITY_GROUP_SELECTOR.SELECT_SECURITY_GROUP' | translate"
   [(ngModel)]="selectedSecurityGroup"
+  (ngModelChange)="onGroupChanged()"
 >
   <md-option
     *ngFor="let sg of securityGroups"

@@ -11,6 +11,7 @@ import { Utils } from '../../../shared/services/utils.service';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 import { VmCreationState } from '../data/vm-creation-state';
+import { VmCreationSecurityGroupService } from './vm-creation-security-group.service';
 
 
 export enum VmDeploymentStage {
@@ -41,8 +42,9 @@ export class VmDeploymentService {
   constructor(
     private affinityGroupService: AffinityGroupService,
     private instanceGroupService: InstanceGroupService,
-    private securityGroupObservable: SecurityGroupService,
+    private securityGroupService: SecurityGroupService,
     private tagService: TagService,
+    private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
     private vmService: VmService
   ) {}
 
@@ -136,7 +138,6 @@ export class VmDeploymentService {
     deployObservable: Subject<VmDeploymentMessage>,
     state: VmCreationState
   ): Observable<SecurityGroup> {
-    const name = Utils.getUniqueId() + GROUP_POSTFIX;
     return Observable.of(null)
       .do(() => {
         deployObservable.next({
@@ -144,13 +145,9 @@ export class VmDeploymentService {
         });
       })
       .switchMap(() => {
-        const data = { name };
-        const rules = {
-          ingress: state.securityRules.ingress,
-          egress: state.securityRules.egress
-        };
-
-        return this.securityGroupObservable.createPrivate(data, rules);
+        return this
+          .vmCreationSecurityGroupService
+          .getSecurityGroupCreationRequest(state.securityGroupData);
       })
       .do(() => {
         deployObservable.next({

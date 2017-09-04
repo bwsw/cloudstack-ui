@@ -1,9 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
-import { SecurityGroupService } from '../../../security-group/services/security-group.service';
-import { SecurityGroupTagKeys } from '../../services/tags/security-group-tag-keys';
-import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
 import { NetworkRule } from '../../../security-group/network-rule.model';
+import { SecurityGroupService } from '../../../security-group/services/security-group.service';
+import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
+import { SecurityGroupTagKeys } from '../../services/tags/security-group-tag-keys';
 import { Rules } from './rules';
 
 
@@ -12,17 +12,24 @@ export interface RuleListItem {
   checked: boolean;
 }
 
+export interface SecurityGroupBuilderResult {
+  templates: Array<SecurityGroup>;
+  ingress: Array<NetworkRule>;
+  egress: Array<NetworkRule>;
+}
+
 @Component({
   selector: 'cs-security-group-builder',
   templateUrl: 'security-group-builder.component.html',
   styleUrls: ['security-group-builder.component.scss'],
 })
 export class SecurityGroupBuilderComponent implements OnInit {
+  @Output() public onChange = new EventEmitter<SecurityGroupBuilderResult>();
+
   public items: Array<Array<SecurityGroup>>;
   public selectedGroupIndex: number;
   public selectedColumnIndex: number;
   public selectedRules: Array<Array<RuleListItem>>;
-
   public NetworkRuleTypes = NetworkRuleType;
 
   constructor(
@@ -54,6 +61,8 @@ export class SecurityGroupBuilderComponent implements OnInit {
       this.selectedGroupIndex = 0;
       this.moveRight();
     }
+
+    this.emitChange();
   }
 
   public reset(): void {
@@ -61,6 +70,8 @@ export class SecurityGroupBuilderComponent implements OnInit {
       this.selectedGroupIndex = 0;
       this.moveLeft();
     }
+
+    this.emitChange();
   }
 
   public selectGroup(index: number, left: boolean): void {
@@ -78,6 +89,7 @@ export class SecurityGroupBuilderComponent implements OnInit {
     this.moveSelectedGroupLeft();
     this.resetSelectedGroup();
     this.resetSelectedColumn();
+    this.emitChange();
   }
 
   public moveRight(): void {
@@ -92,14 +104,17 @@ export class SecurityGroupBuilderComponent implements OnInit {
     this.moveSelectedGroupRight();
     this.resetSelectedGroup();
     this.resetSelectedColumn();
+    this.emitChange();
   }
 
-  public onSave(): void {
-    this.dialogRef.close({
+  private emitChange(): void {
+    const result = {
       templates: this.items[1],
       ingress: this.checkedIngressRules,
       egress: this.checkedEgressRules
-    });
+    };
+
+    this.onChange.emit(result);
   }
 
   public onCancel(): void {

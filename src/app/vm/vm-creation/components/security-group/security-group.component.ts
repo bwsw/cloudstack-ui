@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { NetworkRule } from '../../../../security-group/network-rule.model';
 import { SecurityGroup } from '../../../../security-group/sg.model';
 import { VmCreationSecurityGroupMode } from '../../security-group/vm-creation-security-group-mode';
+import { Rules } from '../../../../shared/components/security-group-builder/rules';
+import { MdDialogRef } from '@angular/material';
+// tslint:disable-next-line
+import { SpareDriveAttachmentDialogComponent } from '../../../vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
 
 
 @Component({
@@ -10,9 +13,11 @@ import { VmCreationSecurityGroupMode } from '../../security-group/vm-creation-se
   styleUrls: ['security-group.component.scss']
 })
 export class VmCreationSecurityGroupComponent {
-  public builderRules: Array<NetworkRule>;
-  public selectorSecurityGroup: SecurityGroup;
+  public builderRules: Rules;
+  public selectedSecurityGroup: SecurityGroup;
   private _displayMode = VmCreationSecurityGroupMode.Builder;
+
+  constructor(private dialogRef: MdDialogRef<SpareDriveAttachmentDialogComponent>) {}
 
   public get displayMode(): VmCreationSecurityGroupMode {
     return this._displayMode;
@@ -45,7 +50,28 @@ export class VmCreationSecurityGroupComponent {
     }
   }
 
-  public onCancel(): void {}
+  public onSave(): void {
+    this.dialogRef.close(this.dialogCloseData);
+  }
 
-  public onSave(): void {}
+  public onCancel(): void {
+    this.dialogRef.close();
+  }
+
+  public onBuilderGroupChange(rules: Rules): void {
+    this.builderRules = rules;
+  }
+
+  public onSelectedGroupChange(securityGroup: SecurityGroup) {
+    debugger;
+    this.selectedSecurityGroup = securityGroup;
+  }
+
+  private get dialogCloseData(): Rules | SecurityGroup {
+    if (this.displayMode === VmCreationSecurityGroupMode.Builder) {
+      return this.builderRules;
+    } else {
+      return this.selectedSecurityGroup;
+    }
+  }
 }

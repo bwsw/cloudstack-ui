@@ -1,7 +1,7 @@
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SecurityGroupService } from '../../../../security-group/services/security-group.service';
 import { SecurityGroup } from '../../../../security-group/sg.model';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 
 @Component({
@@ -16,9 +16,10 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     }
   ]
 })
-export class SecurityGroupSelectorComponent implements ControlValueAccessor, OnInit {
+export class SecurityGroupSelectorComponent implements OnInit {
+  @Output() public onChange = new EventEmitter<SecurityGroup>();
   public securityGroups: Array<SecurityGroup>;
-  private _selectedSecurityGroup: SecurityGroup;
+  public selectedSecurityGroup: SecurityGroup;
 
   constructor(private securityGroupService: SecurityGroupService) {}
 
@@ -29,31 +30,12 @@ export class SecurityGroupSelectorComponent implements ControlValueAccessor, OnI
 
         if (!this.selectedSecurityGroup && this.securityGroups) {
           this.selectedSecurityGroup = this.securityGroups[0];
+          this.onGroupChanged();
         }
       });
   }
 
-  public propagateChange: any = () => {};
-
-  @Input()
-  public get selectedSecurityGroup(): SecurityGroup {
-    return this._selectedSecurityGroup;
-  }
-
-  public set selectedSecurityGroup(value: SecurityGroup) {
-    this._selectedSecurityGroup = value;
-    this.propagateChange(this.selectedSecurityGroup);
-  }
-
-  public registerOnChange(fn): void {
-    this.propagateChange = fn;
-  }
-
-  public registerOnTouched(): void { }
-
-  public writeValue(value: SecurityGroup): void {
-    if (value != null) {
-      this.selectedSecurityGroup = value;
-    }
+  public onGroupChanged(): void {
+    this.onChange.emit(this.selectedSecurityGroup);
   }
 }

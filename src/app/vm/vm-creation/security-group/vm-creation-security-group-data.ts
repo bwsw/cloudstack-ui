@@ -3,8 +3,23 @@ import { VmCreationSecurityGroupMode } from './vm-creation-security-group-mode';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 
 
-export interface VmCreationSecurityGroupData {
-  mode: VmCreationSecurityGroupMode,
-  rules?: Rules,
-  securityGroup: SecurityGroup
+export class VmCreationSecurityGroupData {
+  public mode: VmCreationSecurityGroupMode;
+  public rules: Rules;
+  public securityGroup: SecurityGroup;
+
+  public static fromRules(rules: Rules): VmCreationSecurityGroupData {
+    return new VmCreationSecurityGroupData(VmCreationSecurityGroupMode.Builder, rules, undefined);
+  }
+
+  public static fromSecurityGroup(securityGroup: SecurityGroup): VmCreationSecurityGroupData {
+    return new VmCreationSecurityGroupData(
+      VmCreationSecurityGroupMode.Selector, undefined, securityGroup);
+  }
+
+  constructor(mode: VmCreationSecurityGroupMode, rules: Rules, securityGroup: SecurityGroup) {
+    this.mode = mode;
+    this.rules = rules;
+    this.securityGroup = securityGroup;
+  }
 }

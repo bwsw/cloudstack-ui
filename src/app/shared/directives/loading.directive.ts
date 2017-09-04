@@ -6,7 +6,7 @@ import {
   TemplateRef,
   ViewContainerRef
 } from '@angular/core';
-import { LoaderComponent } from '../components/loader.component';
+import { LoaderComponent } from '../components/loader/loader.component';
 
 @Directive({
   // tslint:disable-next-line

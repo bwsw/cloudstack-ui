@@ -11,7 +11,7 @@ export * from './no-results/no-results.component';
 export * from './notification-box';
 export * from './overlay-loading/overlay-loading.component';
 export * from './sidebar';
-export * from './sg-rules-manager.component';
+export * from './security-group-rules-manager/sg-rules-manager.component';
 export * from './top-bar/top-bar.component';
 export * from './vm-statistics/vm-statistics.component';
 export * from './slider/slider.component';

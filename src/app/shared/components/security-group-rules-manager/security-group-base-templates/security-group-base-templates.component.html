@@ -1,0 +1,11 @@
+<div class="mdl-textfield template-list">
+  <div class="mdl-textfield__input">
+    <ng-container *ngIf="securityGroups?.length">
+      {{ 'SECURITY_GROUP_PAGE.RULES_MANAGER.BASED_ON' | translate }}
+      {{ securityGroupsLine }}
+    </ng-container>
+    <ng-container *ngIf="!securityGroups?.length">
+      {{ 'COMMON.NONE' | translate }}
+    </ng-container>
+  </div>
+</div>
