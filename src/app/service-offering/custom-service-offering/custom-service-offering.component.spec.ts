@@ -139,10 +139,6 @@ describe('CustomServiceOfferingComponent', () => {
 
       submitButton.nativeElement.click();
       fixture.detectChanges();
-      console.log(
-        customOffering.created.getTime(),
-        mockDialogRef.close.calls.mostRecent().args[0].created.getTime()
-      );
       expect(mockDialogRef.close).toHaveBeenCalledTimes(1);
       expect(mockDialogRef.close).toHaveBeenCalledWith(customOffering);
 
