@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
-import {
-  NetworkProtocol,
-  NetworkRule,
-  NetworkRuleType,
-  SecurityGroup
-} from '../../security-group/sg.model';
+import { NetworkProtocol, NetworkRule, NetworkRuleType, SecurityGroup } from '../../security-group/sg.model';
 import { BackendResource } from '../decorators';
-import { BaseBackendCachedService } from './base-backend-cached.service';
 import { AsyncJobService } from './async-job.service';
+import { BaseBackendCachedService } from './base-backend-cached.service';
 import { ConfigService } from './config.service';
 import { SecurityGroupTagService } from './tags/security-group-tag.service';
 
@@ -22,6 +18,8 @@ export const GROUP_POSTFIX = '-cs-sg';
   entityModel: SecurityGroup
 })
 export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup> {
+  public onSecurityGroupUpdate = new Subject<SecurityGroup>();
+
   constructor(
     private asyncJobService: AsyncJobService,
     private configService: ConfigService,
