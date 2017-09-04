@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MdInputDirective } from '@angular/material';
+import { MdInput } from '@angular/material';
 
 
 export enum Mode {
@@ -36,7 +36,7 @@ export class CreateUpdateDeleteDialogComponent implements OnInit {
   @Output() public onCancel: EventEmitter<void>;
   @Output() public onCreated: EventEmitter<string>;
   @Output() public onRemoved: EventEmitter<void>;
-  @ViewChild(MdInputDirective) public textField: MdInputDirective;
+  @ViewChild(MdInput) public textField: MdInput;
 
   public loading: boolean;
   public newValue: string;

@@ -1,6 +1,6 @@
 import { Component, forwardRef, Input, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MdInputDirective } from '@angular/material';
+import { MdInput } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
@@ -21,7 +21,7 @@ export interface HourlyPolicy {
   ]
 })
 export class HourlyPolicyComponent implements ControlValueAccessor {
-  @ViewChild(MdInputDirective) public minuteField: MdInputDirective;
+  @ViewChild(MdInput) public minuteField: MdInput;
   public _policy: HourlyPolicy;
 
   public _minute = 0;

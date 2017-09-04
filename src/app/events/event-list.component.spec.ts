@@ -1,3 +1,4 @@
+import { CdkTableModule } from '@angular/cdk/table';
 import {
   Component,
   Injectable,
@@ -6,12 +7,14 @@ import {
   PipeTransform
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MdDialogModule, MdSelectModule, MdTableModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MdDialogModule } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { MockTagService } from '../../testutils/mocks/tag-services/mock-tag.service';
 import { DatePickerComponent } from '../shared/components/date-picker';
 import { dateTimeFormat as enDateTimeFormat } from '../shared/components/date-picker/dateUtils';
@@ -26,10 +29,6 @@ import { TagService } from '../shared/services/tags/tag.service';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
 import { EventService } from './event.service';
-import { Subject } from 'rxjs/Subject';
-import { MdSelectModule, MdTableModule } from '@angular/material';
-import { CdkTableModule } from '@angular/cdk';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const eventServiceFixture = require('./event.service.fixture.json');
 

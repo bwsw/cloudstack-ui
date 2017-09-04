@@ -1,7 +1,7 @@
 import { MdlModule } from '@angular-mdl/core';
 import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MdInputDirective, MdInputModule, MdTooltipModule } from '@angular/material';
+import { MdInput, MdInputModule, MdTooltipModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -129,7 +129,7 @@ describe('Api Info component', () => {
     fixture.whenStable().then(() => {
       tick();
       fixture.detectChanges();
-      const inputFields = fixture.debugElement.queryAll(By.directive(MdInputDirective));
+      const inputFields = fixture.debugElement.queryAll(By.directive(MdInput));
       expect(inputFields[0].nativeElement.value).toBe('apiKey');
       expect(inputFields[1].nativeElement.value).toBe('secretKey');
     });
@@ -159,7 +159,7 @@ describe('Api Info component', () => {
       });
 
       tick();
-      const inputFields = fixture.debugElement.queryAll(By.directive(MdInputDirective));
+      const inputFields = fixture.debugElement.queryAll(By.directive(MdInput));
       expect(inputFields[0].nativeElement.value).toBe('newApiKey');
       expect(inputFields[1].nativeElement.value).toBe('newSecretKey');
     });
