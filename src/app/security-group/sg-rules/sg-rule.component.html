@@ -1,33 +1,25 @@
-<td class="mdl-data-table__cell--non-numeric">
+<td class="mat-cell">
   {{ typeTranslationToken | translate }}
 </td>
-
-<td>
+<td class="mat-cell">
   {{ protocolTranslationToken | translate }}
-</td>
-
-<ng-template [ngIf]="rule.protocol === NetworkProtocols.ICMP">
-  <td>{{ rule.icmpType }}</td>
-  <td>{{ rule.icmpCode }}</td>
+</td><ng-template [ngIf]="rule.protocol === NetworkProtocols.ICMP">
+  <td class="mat-cell">{{ rule.icmpType }}</td>
+  <td class="mat-cell">{{ rule.icmpCode }}</td>
 </ng-template>
 
 <ng-template [ngIf]="rule.protocol !== NetworkProtocols.ICMP">
-  <td>{{ rule.startPort }}</td>
-  <td>{{ rule.endPort }}</td>
+  <td class="mat-cell">{{ rule.startPort }}</td>
+  <td class="mat-cell">{{ rule.endPort }}</td>
 </ng-template>
-
-<td class="mdl-data-table__cell--non-numeric">
-  {{ rule.CIDR }}
-</td>
-
-<td>
+<td class="mat-cell">{{ rule.CIDR }}</td>
+<td class="mat-cell">
   <button
     class="delete-rule-button"
-    mdl-button
-    mdl-button-type="icon"
-    (click)="handleRemoveClicked($event)"
+    md-icon-button
     disabled="{{ !canRemove || deleting }}"
     [hidden]="!canRemove"
+    (click)="handleRemoveClicked($event)"
   >
     <md-icon *ngIf="!deleting">delete</md-icon>
     <md-spinner *ngIf="deleting"></md-spinner>

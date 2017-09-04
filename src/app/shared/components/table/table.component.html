@@ -1,37 +1,32 @@
-<table class="mdl-data-table">
-  <thead>
-  <tr>
-    <th *ngIf="selectable">
+<md-table #table [dataSource]="dataSource" mdSort>
+  <ng-container cdkColumnDef="select">
+    <md-header-cell *cdkHeaderCellDef md-sort-header>
       <md-checkbox
         name="select-all-checkbox"
         [ngModel]="isAllSelected()"
-        (ngModelChange)="toogleAll()"
+        (ngModelChange)="toggleAll()"
       ></md-checkbox>
-    </th>
-    <th
-      *ngFor="let column of model.columns"
-      [ngClass]="{'mdl-data-table__cell--non-numeric': !column.numeric}">
-      {{column.name}}
-    </th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr
-    *ngFor="let data of model.data; let i = index"
-    [ngClass]="{'is-selected': selectable && data.selected}"
-  >
-    <td *ngIf="selectable">
+    </md-header-cell>
+    <md-cell *cdkCellDef="let row">
       <md-checkbox
         name="select-item-checkbox"
-        [(ngModel)]="data.selected"
-        (ngModelChange)="selectionChanged(data)"
+        [(ngModel)]="row.selected"
+        (ngModelChange)="selectionChanged(row)"
       ></md-checkbox>
-    </td>
-    <td
-      *ngFor="let column of model.columns"
-      [ngClass]="{'mdl-data-table__cell--non-numeric': !column.numeric}"
-      [innerHTML]="data[column.key] | highlight:searchQuery"
-    ></td>
-  </tr>
-  </tbody>
-</table>
+    </md-cell>
+  </ng-container>
+
+  <ng-container *ngFor="let column of columns">
+    <ng-container [cdkColumnDef]="column">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>
+        {{ tableId.toUpperCase() + '.' + column.toUpperCase() | translate }}
+      </md-header-cell>
+      <md-cell *cdkCellDef="let row">
+        {{ row[column] }}
+      </md-cell>
+    </ng-container>
+  </ng-container>
+
+  <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+  <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
+</md-table>

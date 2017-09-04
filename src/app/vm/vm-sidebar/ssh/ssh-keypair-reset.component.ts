@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { DialogService } from '../../../dialog/dialog-module/dialog.service';
-import { MdlDialogReference } from '../../../dialog/dialog-module/mdl-dialog.service';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
 import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
 
@@ -15,9 +15,9 @@ export class SshKeypairResetComponent implements OnInit {
   public selectedSshKeyName: string;
 
   constructor(
-    private dialog: MdlDialogReference,
     private dialogService: DialogService,
-    @Inject('virtualMachine') private vm,
+    private dialogRef: MdDialogRef<SshKeypairResetComponent>,
+    @Inject(MD_DIALOG_DATA) private vm,
     private sshService: SSHKeyPairService
   ) { }
 
@@ -30,17 +30,13 @@ export class SshKeypairResetComponent implements OnInit {
     });
   }
 
-  public hide(): void {
-    this.dialog.hide();
-  }
-
   public resetSshKey(): void {
     this.resettingKeyInProgress = true;
     this.sshService.reset({ id: this.vm.id, keypair: this.selectedSshKeyName })
       .finally(() => this.resettingKeyInProgress = false)
       .subscribe(
-        vm => this.dialog.hide(vm.keyPair),
-        error => this.dialogService.alert(error.message)
+        vm => this.dialogRef.close(vm.keyPair),
+        error => this.dialogService.alert({ message: error.message })
       );
   }
 }

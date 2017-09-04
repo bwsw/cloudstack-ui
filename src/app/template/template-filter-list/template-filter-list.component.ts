@@ -78,9 +78,12 @@ export class TemplateFilterListComponent implements OnChanges {
       this.selectedFilters = filters.selectedFilters;
       this.selectedZones = filters.selectedZones;
       this.query = filters.query;
-      this.selectedGroupings = filters.groupings
-        .map(g => this.groupings.find(_ => _ === g))
-        .filter(g => g);
+
+      if (filters.groupings) {
+        this.selectedGroupings = filters.groupings
+          .map(g => this.groupings.find(_ => _ === g))
+          .filter(g => g);
+      }
     }
 
     this.visibleTemplateList = this.filterByZone(this.templateList);
@@ -91,19 +94,15 @@ export class TemplateFilterListComponent implements OnChanges {
     }
   }
 
-  public removeTemplate(template: Template): void {
-    this.deleteTemplate.next(template);
-  }
-
   private filterByCategories(templateList: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
     return templateList
       .filter(template => {
-        const featuredFilter = !this.selectedFilters.length ||
+        const featuredFilter = !this.selectedFilters || !this.selectedFilters.length ||
           this.selectedFilters.includes(TemplateFilters.featured) || !template.isFeatured;
-        const selfFilter = !this.selectedFilters.length ||
+        const selfFilter = !this.selectedFilters || !this.selectedFilters.length ||
           this.selectedFilters.includes(TemplateFilters.self) ||
           !(template.account === this.authService.username);
-        const osFilter = !this.selectedOsFamilies.length ||
+        const osFilter = !this.selectedOsFamilies || !this.selectedOsFamilies.length ||
           this.selectedOsFamilies.includes(template.osType.osFamily);
         return featuredFilter && selfFilter && osFilter;
       });

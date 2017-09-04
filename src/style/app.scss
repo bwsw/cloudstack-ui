@@ -254,7 +254,7 @@ mdl-simple-tooltip div {
 
 .popover-actions {
   padding: 1rem;
-  color: rgba(0,0,0,.87);
+  color: rgba(0, 0, 0, .87);
 }
 
 .mdl-layout--fixed-drawer > .mdl-layout__drawer {
@@ -269,12 +269,15 @@ mdl-simple-tooltip div {
   margin-top: 6px !important;
 }
 
-.mdl-button md-icon {
+.mat-icon-button md-icon {
   color: black !important;
 }
 
-.mdl-button[disabled] md-icon,
-.mdl-button.mdl-button--disabled md-icon {
+.md-card-header-menu .mat-icon-button md-icon {
+  color: inherit !important;
+}
+
+.mat-icon-button[disabled] md-icon {
   color: rgba(0, 0, 0, .26) !important;
   cursor: default;
   background-color: transparent;
@@ -377,4 +380,126 @@ md-card-actions {
   height: 24px;
   border: 9px solid #757575;
   border-radius: 50%;
+}
+
+.search-bar-white {
+  background-color: white;
+}
+
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.details-header {
+  width: 340px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+h4.details-header {
+  font-size: 18px;
+}
+
+.mat-row:hover {
+  background-color: #eeeeee;
+}
+
+md-table,
+.mat-table {
+  font-family: "Helvetica", "Arial", sans-serif;
+  font-size: 13px;
+  display: table !important;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+md-table md-row,
+.mat-table .mat-row {
+  min-height: 48px;
+  height: 100%;
+  display: table-row;
+  border-bottom: 1px solid rgba(0, 0, 0, .12) !important;
+}
+
+md-table md-header-row,
+.mat-table .mat-header-row {
+  display: table-row;
+  border-bottom: 1px solid rgba(0, 0, 0, .12) !important;
+}
+
+md-table md-cell,
+.mat-table .mat-cell {
+  min-height: 48px;
+  height: 100%;
+  font-size: 13px;
+  padding: 12px 18px;
+  display: table-cell;
+}
+
+md-table md-header-cell,
+.mat-table .mat-header-cell {
+  height: 48px;
+  padding: 12px 18px;
+  display: table-cell;
+}
+
+.table-form {
+  height: 95px !important;
+}
+
+/* md-dialog
+*/
+.mat-dialog-container {
+  max-height: 95vh !important;
+}
+
+.mat-dialog-actions {
+  justify-content: flex-end;
+
+  button {
+    text-transform: uppercase;
+  }
+}
+
+.mat-button {
+  text-transform: uppercase;
+}
+
+.mat-dialog-content {
+  &.notification {
+    color: rgba(0, 0, 0, .54);
+  }
+  font-size: 13pt;
+  padding: 0 24px !important;
+  max-height: 100% !important;
+}
+
+.mat-icon-button {
+  width: 32px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+
+  // TODO remove this after material2.beta10
+  md-icon {
+    position: relative;
+    top: -1px;
+  }
+}
+
+.button-18px {
+  min-width: 24px !important;
+  height: 24px !important;
+  width: 24px !important;
+  line-height: 24px !important;
+
+  md-icon {
+    font-size: 18px !important;
+  }
+}
+
+.icon-18px {
+  font-size: 18px !important;
 }

@@ -1,60 +1,58 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<h3 class="mdl-dialog__title">
-  {{ 'SSH_KEYS.CREATE_SSH_KEY' | translate }}
-</h3>
-<form
-  (ngSubmit)="onSubmit($event)"
-  #sshCreationForm="ngForm"
-  novalidate
->
-  <div class="mdl-dialog__content">
-    <mdl-textfield
-      type="text"
-      floating-label
-      label="{{ 'SSH_KEYS.NAME' | translate }}"
-      name="name"
-      [(ngModel)]="name"
-      #nameField="ngModel"
-      [class.is-invalid]="nameField.invalid && !nameField.pristine"
-      [style.width]="'100%'"
-      autofocus
-      required
-    >
-    </mdl-textfield>
-    <br/>
-    <span class="public-key-label mdl-color-text--primary">{{ 'SSH_KEYS.PUBLIC_KEY' | translate }}</span>
-    <mdl-textfield
-      class="public-key-input"
-      type="text"
-      label="{{ 'SSH_KEYS.AUTO_GENERATED' | translate }}"
-      name="public-key"
-      [(ngModel)]="publicKey"
-      #publicKeyField="ngModel"
-      [class.is-invalid]="publicKeyField.invalid && !publicKeyField.pristine"
-      [style.width]="'100%'"
-      rows="3"
-      maxrows="3"
-    >
-    </mdl-textfield>
-  </div>
-  <div class="mdl-dialog__actions">
-    <button
-      mdl-colored="primary"
-      mdl-button
-      mdl-ripple
-      type="submit"
-      [disabled]="!sshCreationForm.valid"
-    >
-      {{ 'COMMON.CREATE' | translate }}
-    </button>
-    <button
-      mdl-colored="primary"
-      mdl-button
-      mdl-ripple
-      type="button"
-      (click)="dialog.hide()"
-    >
-      {{ 'COMMON.CANCEL' | translate }}
-    </button>
-  </div>
-</form>
+<div *ngIf="!loading">
+  <h3 class="mat-dialog-title">{{ 'SSH_KEYS.CREATE_SSH_KEY' | translate }}</h3>
+  <form
+    (ngSubmit)="onSubmit($event)"
+    #sshCreationForm="ngForm"
+    novalidate
+  >
+    <div class="mat-dialog-content">
+      <mdl-textfield
+        type="text"
+        floating-label
+        label="{{ 'SSH_KEYS.NAME' | translate }}"
+        name="name"
+        [(ngModel)]="name"
+        #nameField="ngModel"
+        [class.is-invalid]="nameField.invalid && !nameField.pristine"
+        [style.width]="'100%'"
+        autofocus
+        required
+      >
+      </mdl-textfield>
+      <br/>
+      <span class="public-key-label mdl-color-text--primary">{{ 'SSH_KEYS.PUBLIC_KEY' | translate }}</span>
+      <mdl-textfield
+        class="public-key-input"
+        type="text"
+        label="{{ 'SSH_KEYS.AUTO_GENERATED' | translate }}"
+        name="public-key"
+        [(ngModel)]="publicKey"
+        #publicKeyField="ngModel"
+        [class.is-invalid]="publicKeyField.invalid && !publicKeyField.pristine"
+        [style.width]="'100%'"
+        rows="3"
+        maxrows="3"
+      >
+      </mdl-textfield>
+    </div>
+    <div class="mat-dialog-actions">
+      <button
+        md-button
+        color="primary"
+        mdDialogClose
+        type="button"
+      >
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <button
+        md-button
+        color="primary"
+        type="submit"
+        [disabled]="!sshCreationForm.valid"
+      >
+        {{ 'COMMON.CREATE' | translate }}
+      </button>
+    </div>
+  </form>
+</div>

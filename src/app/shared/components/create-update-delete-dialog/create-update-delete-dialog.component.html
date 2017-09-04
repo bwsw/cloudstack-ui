@@ -1,7 +1,5 @@
 <h3
-  *ngIf="title"
-  class="mdl-dialog__title"
->
+   *ngIf="title" class="mat-dialog-title">
   {{ title | translate }}
 </h3>
 
@@ -10,7 +8,7 @@
   #form="ngForm"
   novalidate
 >
-  <div class="mdl-dialog__content">
+  <div class="mat-dialog-content">
     <md-radio-group
       name="radio"
       [ngModel]="mode"
@@ -69,12 +67,19 @@
     </md-select>
   </div>
 
-  <div class="mdl-dialog__actions">
+  <div class="mat-dialog-actions">
+    <button
+      md-button
+      color="primary"
+      type="button"
+      (click)="cancel()"
+    >
+      {{ 'COMMON.CANCEL' | translate }}
+    </button>
     <button
       *ngIf="mode !== modes.remove"
-      mdl-colored="primary"
-      mdl-button
-      mdl-ripple
+      md-button
+      color="primary"
       type="submit"
       [disabled]="!valueChanged || !form.valid"
     >
@@ -82,21 +87,11 @@
     </button>
     <button
       *ngIf="mode === modes.remove"
-      mdl-colored="primary"
-      mdl-button
-      mdl-ripple
+      md-button
+      color="primary"
       type="submit"
     >
       {{ 'COMMON.REMOVE' | translate }}
-    </button>
-    <button
-      mdl-colored="primary"
-      mdl-button
-      mdl-ripple
-      type="button"
-      (click)="cancel()"
-    >
-      {{ 'COMMON.CANCEL' | translate }}
     </button>
   </div>
 </form>

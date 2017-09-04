@@ -2,7 +2,7 @@
   <img class="logo" src="img/cloudstack_logo.png">
   <div class="login mdl-color--white" mdl-shadow="2">
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
-      <div class="mdl-dialog__content">
+      <div class="mat-dialog-content">
         <mdl-textfield
           required
           type="text"
@@ -15,7 +15,7 @@
           [class.is-invalid]="user.invalid && !user.pristine"
         >
         </mdl-textfield>
-        <br/>
+        <br />
         <mdl-textfield
           required
           type="password"
@@ -28,7 +28,7 @@
           [class.is-invalid]="pass.invalid && !pass.pristine"
         >
         </mdl-textfield>
-        <br/>
+        <br />
         <mdl-textfield
           *ngIf="showDomain"
           type="text"
@@ -41,19 +41,17 @@
         >
         </mdl-textfield>
       </div>
-      <div class="mdl-dialog__actions">
+      <div class="mat-dialog-actions">
         <button
-          mdl-colored="primary"
-          mdl-button
-          mdl-ripple
+          md-button
+          color="primary"
           type="submit"
           [disabled]="(pass.invalid && !pass.pristine) || (user.invalid && !user.pristine)"
-        >{{ 'AUTH.LOGIN' | translate }}</button>
+        >{{ 'AUTH.LOGIN' | translate }}
+        </button>
         <button
+          md-icon-button
           class="options-button"
-          mdl-button-type="icon"
-          mdl-button
-          mdl-ripple
           type="button"
           [mdTooltip]="(showDomain ? 'AUTH.HIDE_ADVANCED' : 'AUTH.SHOW_ADVANCED') | translate"
           mdTooltipPosition="above"

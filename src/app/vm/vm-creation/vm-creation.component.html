@@ -6,14 +6,15 @@
     <md-progress-bar mode="indeterminate"></md-progress-bar>
   </div>
 </div>
-<div class="vm-creation-container">
-  <h3 class="mdl-dialog__title">{{ 'VM_PAGE.VM_CREATION.NEW_VM' | translate }}</h3>
+<div *ngIf="!showOverlay">
+  <h3 class="mat-dialog-title">{{ 'VM_PAGE.VM_CREATION.NEW_VM' | translate }}</h3>
   <form
     (ngSubmit)="onVmCreationSubmit($event)"
     #vmCreateForm="ngForm"
     *loading="fetching"
     novalidate
   >
+    <div class="mat-dialog-content">
     <div class="container">
       <div *ngIf="enoughResources && formState?.state" class="left-column">
         <div>
@@ -199,24 +200,24 @@
         </div>
       </div>
     </div>
-    <div class="mdl-dialog__actions">
+
+    </div>
+    <div class="mat-dialog-actions">
       <button
-        mdl-colored="primary"
-        [disabled]="!vmCreateForm.valid || formState?.state.displayName === takenName"
-        type="submit"
-        mdl-button
-        mdl-ripple
-      >
-        {{ 'COMMON.CREATE' | translate }}
-      </button>
-      <button
-        mdl-colored="primary"
+        md-button
+        color="primary"
+        mdDialogClose
         type="button"
-        mdl-button
-        (click)="onCancel()"
-        mdl-ripple
       >
         {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <button
+        md-button
+        color="primary"
+        type="submit"
+        [disabled]="!vmCreateForm.valid || formState?.state.displayName === takenName"
+      >
+        {{ 'COMMON.CREATE' | translate }}
       </button>
     </div>
   </form>

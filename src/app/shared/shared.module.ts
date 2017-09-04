@@ -1,29 +1,43 @@
-import { MdlDialogOutletModule, MdlModule } from '@angular-mdl/core';
+import { MdlModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
+import { CdkTableModule } from '@angular/cdk';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   MdAutocompleteModule,
+  MdButtonModule,
   MdCardModule,
   MdCheckboxModule,
   MdIconModule,
   MdInputModule,
   MdListModule,
+  MdMenuModule,
   MdProgressBarModule,
   MdProgressSpinnerModule,
   MdRadioModule,
   MdSelectModule,
   MdSliderModule,
   MdSnackBarModule,
+  MdTableModule,
   MdTabsModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
-import { MdlDialogModule } from '../dialog/dialog-module';
+import { SpareDriveActionsComponent } from './actions/spare-drive-actions/spare-drive-actions-component/spare-drive-actions.component';
+import { SpareDriveActionsService } from './actions/spare-drive-actions/spare-drive-actions.service';
+import { SpareDriveAttachAction } from './actions/spare-drive-actions/spare-drive-attach';
+import { SpareDriveAttachmentComponent } from './actions/spare-drive-actions/spare-drive-attachment/spare-drive-attachment.component';
+import { SpareDriveDetachAction } from './actions/spare-drive-actions/spare-drive-detach';
+import { SpareDriveRecurringSnapshotsAction } from './actions/spare-drive-actions/spare-drive-recurring-snapshots';
+import { SpareDriveRemoveAction } from './actions/spare-drive-actions/spare-drive-remove';
+import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-drive-resize';
+import { SpareDriveSnapshotAction } from './actions/spare-drive-actions/spare-drive-snapshot';
+import { TemplateActionsComponent } from './actions/template-actions/template-actions-component/template-actions.component';
+import { TemplateActionsService } from './actions/template-actions/template-actions.service';
 import {
   CalendarComponent,
   CalendarMonthComponent,
@@ -39,15 +53,13 @@ import {
   NotificationBoxComponent,
   NotificationBoxItemComponent,
   SgRulesManagerComponent,
-  SidebarComponent,
+  SidebarContainerComponent,
   SliderComponent,
   TopBarComponent,
   VmStatisticsComponent
 } from './components';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
-import {
-  CreateUpdateDeleteDialogComponent
-} from './components/create-update-delete-dialog/create-update-delete-dialog.component';
+import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
@@ -121,10 +133,9 @@ import { ZoneService } from './services/zone.service';
     MdCheckboxModule,
     MdSelectModule,
     MdIconModule,
+    MdButtonModule,
     MdInputModule,
     MdAutocompleteModule,
-    MdlDialogModule,
-    MdlDialogOutletModule,
     MdlModule,
     MdlPopoverModule,
     MdRadioModule,
@@ -140,8 +151,11 @@ import { ZoneService } from './services/zone.service';
     MdTabsModule,
     MdListModule,
     MdSnackBarModule,
-    MdCardModule,
     MdTabsModule,
+    MdMenuModule,
+    MdCardModule,
+    MdTableModule,
+    CdkTableModule
   ],
   exports: [
     GroupedCardListComponent,
@@ -168,7 +182,7 @@ import { ZoneService } from './services/zone.service';
     OverlayLoadingComponent,
     SearchComponent,
     SgRulesManagerComponent,
-    SidebarComponent,
+    SidebarContainerComponent,
     TableComponent,
     TopBarComponent,
     VmStatisticsComponent,
@@ -182,11 +196,16 @@ import { ZoneService } from './services/zone.service';
     MdlTextAreaAutoresizeDirective,
     MdListModule,
     MdCardModule,
-    MdSnackBarModule
+    MdTableModule,
+    CdkTableModule,
+    MdSnackBarModule,
+    SpareDriveActionsComponent,
+    TemplateActionsComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
-    LoaderComponent
+    LoaderComponent,
+    SpareDriveAttachmentComponent
   ],
   declarations: [
     CharacterCountComponent,
@@ -218,7 +237,7 @@ import { ZoneService } from './services/zone.service';
     ReloadComponent,
     SearchComponent,
     SgRulesManagerComponent,
-    SidebarComponent,
+    SidebarContainerComponent,
     TableComponent,
     TopBarComponent,
     VmStatisticsComponent,
@@ -230,9 +249,19 @@ import { ZoneService } from './services/zone.service';
     ViewValuePipe,
     LoadingDirective,
     LoaderComponent,
-    GroupedCardListComponent
+    GroupedCardListComponent,
+    SpareDriveActionsComponent,
+    TemplateActionsComponent
   ],
   providers: [
+    SpareDriveActionsService,
+    SpareDriveSnapshotAction,
+    SpareDriveRecurringSnapshotsAction,
+    SpareDriveAttachAction,
+    SpareDriveDetachAction,
+    SpareDriveRemoveAction,
+    SpareDriveResizeAction,
+    TemplateActionsService,
     DescriptionTagService,
     MarkForRemovalService,
     SecurityGroupTagService,

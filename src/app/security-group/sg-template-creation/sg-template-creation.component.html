@@ -1,10 +1,9 @@
 <cs-overlay-loading [active]="creationInProgress"></cs-overlay-loading>
-<div class="security-group-template-form">
-  <h3 class="mdl-dialog__title">
-    {{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.CREATE_NEW_TEMPLATE' | translate }}
-  </h3>
+<div [hidden]="creationInProgress">
+  <h3 class="mat-dialog-title">{{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.CREATE_NEW_TEMPLATE' | translate }}</h3>
+
   <form (ngSubmit)="onSubmit($event)" #templateCreationForm="ngForm" novalidate>
-    <div class="mdl-dialog__content">
+    <div class="mat-dialog-content">
       <mdl-textfield
         type="text"
         label="{{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.NAME' | translate }}"
@@ -37,24 +36,22 @@
         [(ngModel)]="securityRules"
       ></cs-security-group-rules-manager>
     </div>
-    <div class="mdl-dialog__actions">
+    <div class="mat-dialog-actions">
       <button
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
+        md-button
+        color="primary"
+        mdDialogClose
+        type="button"
+      >
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <button
+        md-button
+        color="primary"
         type="submit"
         [disabled]="!templateCreationForm.valid"
       >
         {{ 'COMMON.CREATE' | translate }}
-      </button>
-      <button
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
-        type="button"
-        (click)="dialog.hide()"
-      >
-        {{ 'COMMON.CANCEL' | translate }}
       </button>
     </div>
   </form>

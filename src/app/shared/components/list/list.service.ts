@@ -31,7 +31,7 @@ export class ListService {
   public deselectItem(): void {
     this.router.navigate([this.route.parent.snapshot.url], {
       queryParamsHandling: 'preserve'
-    });
+    }).then(() => this.selectedId = undefined);
   }
 
   public isSelected(id: string): boolean {

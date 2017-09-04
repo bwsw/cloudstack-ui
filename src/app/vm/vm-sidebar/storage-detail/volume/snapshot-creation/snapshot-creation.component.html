@@ -1,14 +1,12 @@
 <ng-container *loading="loading">
-  <h3 class="mdl-dialog__title">
-    {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.TAKE_SNAPSHOT' | translate }}
-  </h3>
+  <h3 class="mat-dialog-title">{{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.TAKE_SNAPSHOT' | translate }}</h3>
 
   <form
     (ngSubmit)="onSubmit($event)"
     #snapshotCreationDialog="ngForm"
     novalidate
   >
-    <div class="mdl-dialog__content">
+    <div class="mat-dialog-content">
       <mdl-textfield
         *ngIf="enoughResources"
         type="text"
@@ -33,25 +31,18 @@
       </mdl-textfield>
       <div *ngIf="!enoughResources">{{ "ERRORS.SNAPSHOT.LIMIT_EXCEEDED" | translate }}</div>
     </div>
-    <div class="mdl-dialog__actions">
+    <div class="mat-dialog-actions">
+      <button md-button color="primary" mdDialogClose type="button">
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
       <button
         *ngIf="enoughResources"
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
+        md-button
+        color="primary"
         type="button"
         (click)="onSubmit()"
       >
         {{ 'COMMON.CREATE' | translate }}
-      </button>
-      <button
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
-        type="button"
-        (click)="onHide()"
-      >
-        {{ 'COMMON.CANCEL' | translate }}
       </button>
     </div>
   </form>

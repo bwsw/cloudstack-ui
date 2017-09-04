@@ -7,14 +7,14 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard/dist';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { InputGroupComponent } from '../../shared/components/input-group/input-group.component';
 import { ConfigService } from '../../shared/services/config.service';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { UserService } from '../../shared/services/user.service';
+import { DialogModule } from '../../dialog/dialog-service/dialog.module';
 import { ApiInfoComponent } from './api-info.component';
 import { LoadingDirective } from '../../shared/directives/loading.directive';
-import { MockDialogService } from '../../../testutils/mocks/mock-dialog.service';
 import { MockNotificationService } from '../../../testutils/mocks/mock-notification.service';
 import { NotificationService } from '../../shared/services/notification.service';
 
@@ -67,7 +67,7 @@ describe('Api Info component', () => {
   }
 
   beforeEach(async(() => {
-    dialogObservable = new Subject();
+    dialogObservable = Observable.of(true);
     dialogSpy = spyOn(DialogService.prototype, 'confirm').and.returnValue(dialogObservable);
 
     TestBed.configureTestingModule({
@@ -76,7 +76,8 @@ describe('Api Info component', () => {
         MdlModule,
         FormsModule,
         TranslateModule,
-        ClipboardModule
+        ClipboardModule,
+        DialogModule
       ],
       declarations: [
         ApiInfoComponent,
@@ -85,7 +86,7 @@ describe('Api Info component', () => {
       ],
       providers: [
         { provide: ConfigService, useClass: MockConfigService },
-        { provide: DialogService, useClass: MockDialogService },
+        { provide: DialogService, useClass: DialogService },
         { provide: NotificationService, useClass: MockNotificationService },
         { provide: RouterUtilsService, useClass: MockRouterUtilsService },
         { provide: TranslateService, useClass: MockTranslateService },
@@ -135,9 +136,8 @@ describe('Api Info component', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    const syncButton = fixture.debugElement.query(By.css('mdl-button[mdl-button-type="icon"]'));
+    const syncButton = fixture.debugElement.query(By.css('button[md-icon-button]'));
     syncButton.triggerEventHandler('click');
-    dialogObservable.next();
 
     tick();
     fixture.detectChanges();

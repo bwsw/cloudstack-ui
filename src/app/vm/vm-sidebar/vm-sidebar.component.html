@@ -1,39 +1,56 @@
-<div>
-  <div *ngIf="vm">
-    <h4 class="details-header">{{ vm.displayName }}</h4>
-    <md-tab-group [selectedIndex]="0" md-no-pagination="true">
-      <md-tab>
-        <ng-template md-tab-label >
-          <div [mdTooltip]="'VM_PAGE.SIDEBAR.VM' | translate" class="md-tab-tooltip">
-            <md-icon >computer</md-icon>
-          </div>
-        </ng-template>
-        <cs-vm-detail [vm]="vm"></cs-vm-detail>
-      </md-tab>
-      <md-tab>
-        <ng-template md-tab-label>
-          <div [mdTooltip]="'VM_PAGE.SIDEBAR.STORAGE' | translate" class="md-tab-tooltip">
-            <md-icon>storage</md-icon>
-          </div>
-        </ng-template>
-        <cs-storage-detail [vm]="vm"></cs-storage-detail>
-      </md-tab>
-      <md-tab>
-        <ng-template md-tab-label>
-          <div [mdTooltip]="'VM_PAGE.SIDEBAR.NETWORK' | translate" class="md-tab-tooltip">
-            <md-icon>router</md-icon>
-          </div>
-        </ng-template>
-        <cs-network-detail [vm]="vm"></cs-network-detail>
-      </md-tab>
-      <md-tab>
-        <ng-template md-tab-label>
-          <div [mdTooltip]="'VM_PAGE.SIDEBAR.TAGS' | translate" class="md-tab-tooltip">
-            <md-icon>local_offer</md-icon>
-          </div>
-        </ng-template>
-        <cs-vm-tags [entity]="vm"></cs-vm-tags>
-      </md-tab>
-    </md-tab-group>
+<ng-container *ngIf="entity">
+  <div class="title-container">
+    <h4 class="details-header">{{ entity.displayName }}</h4>
+    <cs-vm-actions-sidebar [vm]="entity"></cs-vm-actions-sidebar>
   </div>
-</div>
+  <nav md-tab-nav-bar>
+    <a
+      md-tab-link
+      [routerLink]="['./vm']"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('vm')"
+
+    >
+      <div [mdTooltip]="'VM_PAGE.SIDEBAR.VM' | translate" class="md-tab-tooltip">
+        <md-icon>computer</md-icon>
+      </div>
+    </a>
+    <a
+      md-tab-link
+      [routerLink]="['./disks']"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('disks')"
+
+    >
+      <div [mdTooltip]="'VM_PAGE.SIDEBAR.STORAGE' | translate" class="md-tab-tooltip">
+        <md-icon>storage</md-icon>
+      </div>
+    </a>
+    <a
+      md-tab-link
+      [routerLink]="['./network']"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('network')"
+    >
+      <div [mdTooltip]="'VM_PAGE.SIDEBAR.NETWORK' | translate" class="md-tab-tooltip">
+        <md-icon>router</md-icon>
+      </div>
+    </a>
+    <a
+      md-tab-link
+      [routerLink]="['./tags']"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('tags')"
+    >
+      <div [mdTooltip]="'VM_PAGE.SIDEBAR.TAGS' | translate" class="md-tab-tooltip">
+        <md-icon>local_offer</md-icon>
+      </div>
+    </a>
+  </nav>
+</ng-container>
+
+<router-outlet></router-outlet>
+
+<cs-no-results *ngIf="notFound" [text]="'VM_NOT_FOUND'"></cs-no-results>
+
+<cs-overlay-loading [active]="!entity && !notFound"></cs-overlay-loading>

@@ -3,7 +3,16 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MdAutocompleteModule, MdIconModule,MdInputModule, MdSelectModule, MdTooltipModule , MdTabsModule} from '@angular/material';
+import {
+  MdAutocompleteModule,
+  MdButtonModule,
+  MdDialogModule,
+  MdIconModule,
+  MdInputModule,
+  MdSelectModule,
+  MdTabsModule,
+  MdTooltipModule
+} from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../shared/shared.module';
 import { DayOfWeekComponent } from './recurring-snapshots/day-of-week/day-of-week.component';
@@ -32,6 +41,8 @@ import { TimeZoneService } from './recurring-snapshots/time-zone/time-zone.servi
     MdSelectModule,
     MdInputModule,
     MdAutocompleteModule,
+    MdButtonModule,
+    MdDialogModule,
     MdlModule,
     MdIconModule,
     MdlSelectModule,

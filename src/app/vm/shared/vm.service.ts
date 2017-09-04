@@ -71,10 +71,11 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public getListWithDetails(params?: {}, customApiFormat?: ApiFormat, lite = false): Observable<Array<VirtualMachine>> {
     if (lite) {
-      return super.getList(params);
+      return this.getList(params);
     }
+
     return Observable.forkJoin(
-      super.getList(params),
+      this.getList(params),
       this.volumeService.getList(),
       this.osTypesService.getList(),
       this.serviceOfferingService.getList(),
@@ -180,6 +181,17 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public setStateForVm(vm: VirtualMachine, state: VmState): void {
     vm.state = state;
+  }
+
+  public isAsyncJobAVirtualMachineJobWithResult(job: AsyncJob<any>): boolean {
+    // instanceof check is needed because API response for
+    // VM restore doesn't contain the instanceType field
+
+    return (
+      job.result &&
+      (job.instanceType === VirtualMachineEntityName ||
+        job.result instanceof VirtualMachine)
+    );
   }
 
   private buildCommandParams(id: string, commandName: string): any {

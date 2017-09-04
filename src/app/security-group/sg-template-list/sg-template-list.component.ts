@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { MdDialog, MdDialogConfig } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { SecurityGroup } from '../sg.model';
-import { ActivatedRoute, Router } from '@angular/router';
 import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag-keys';
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
+import { SecurityGroup } from '../sg.model';
 
 
 @Component({
@@ -20,13 +22,23 @@ export class SgTemplateListComponent implements OnInit {
   public customSecurityGroupList: Array<SecurityGroup>;
 
   constructor(
+    private securityGroupService: SecurityGroupService,
     private dialogService: DialogService,
     private listService: ListService,
+    private dialog: MdDialog,
     private notificationService: NotificationService,
-    private securityGroupService: SecurityGroupService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
+    this.securityGroupService.onSecurityGroupUpdate.subscribe(updatedGroup => {
+      this.customSecurityGroupList = this.customSecurityGroupList.map(group => {
+        if (group.id === updatedGroup.id) {
+          return updatedGroup;
+        } else {
+          return group;
+        }
+      });
+    });
   }
 
   public ngOnInit(): void {
@@ -34,13 +46,15 @@ export class SgTemplateListComponent implements OnInit {
   }
 
   public deleteSecurityGroupTemplate(securityGroup: SecurityGroup): void {
-    this.dialogService.confirm(
-      'DIALOG_MESSAGES.TEMPLATE.CONFIRM_DELETION',
-      'COMMON.NO',
-      'COMMON.YES'
-    )
+    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.TEMPLATE.CONFIRM_DELETION' })
       .onErrorResumeNext()
-      .switchMap(() => this.securityGroupService.deleteTemplate(securityGroup.id))
+      .switchMap((res) => {
+        if (res) {
+          return this.securityGroupService.deleteTemplate(securityGroup.id);
+        } else {
+          return Observable.of(null);
+        }
+      })
       .subscribe(
         res => {
           if (res && res.success === 'true') {
@@ -83,14 +97,9 @@ export class SgTemplateListComponent implements OnInit {
   }
 
   public showRulesDialog(group: SecurityGroup): void {
-    this.dialogService.showCustomDialog({
-      component: SgRulesComponent,
-      classes: 'sg-rules-dialog',
-      providers: [{ provide: 'securityGroup', useValue: group }],
-    })
-      .switchMap(res => res.onHide())
-      .subscribe(() => {
-        this.update();
-      });
+    this.dialog.open(SgRulesComponent, <MdDialogConfig>{
+      width: '880px',
+      data: { securityGroup: group }
+    });
   }
 }

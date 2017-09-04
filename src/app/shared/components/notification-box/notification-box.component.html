@@ -1,7 +1,6 @@
 <button
-  mdl-button
   (click)="popover.toggle($event); onToggle()"
-  mdl-button-type="icon"
+  md-icon-button
   style="overflow: visible;"
 >
   <md-icon
@@ -28,12 +27,7 @@
     </cs-notification-box-item>
   </md-list>
   <div class="actions">
-    <button
-      mdl-button
-      mdl-colored
-      mdl-ripple
-      (click)="removeCompleted()"
-    >
+    <button md-button (click)="removeCompleted()">
       {{ 'COMMON.CLEAR_ALL' | translate }}
     </button>
   </div>

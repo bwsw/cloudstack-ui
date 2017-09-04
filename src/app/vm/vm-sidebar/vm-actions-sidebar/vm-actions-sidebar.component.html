@@ -1,0 +1,13 @@
+<div class="vm-actions-container">
+  <button
+    class="vm-actions-button"
+    md-icon-button
+    [mdMenuTriggerFor]="actionsMenu"
+  >
+    <md-icon>more_vert</md-icon>
+  </button>
+</div>
+
+<md-menu #actionsMenu="mdMenu">
+  <cs-vm-actions [vm]="vm"></cs-vm-actions>
+</md-menu>

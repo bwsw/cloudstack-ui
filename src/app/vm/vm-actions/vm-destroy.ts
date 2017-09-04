@@ -1,7 +1,7 @@
 import { VmActions } from './vm-action';
 import { VirtualMachine, VmState } from '../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-module/dialog.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { VmService } from '../shared/vm.service';
 import { VmEntityDeletionService } from '../shared/vm-entity-deletion.service';
 import { Volume } from '../../shared/models/volume.model';
@@ -41,6 +41,10 @@ export class VmDestroyAction extends VirtualMachineCommand {
   }
 
   public canActivate(vm: VirtualMachine): boolean {
+    if (!vm) {
+      return false;
+    }
+
     return [
       VmState.Running,
       VmState.Stopped,
@@ -51,13 +55,16 @@ export class VmDestroyAction extends VirtualMachineCommand {
 
   public activate(vm: VirtualMachine): Observable<any> {
     return this.showConfirmationDialog()
-      .switchMap(() => this.onDeleteConfirm(vm))
-      .catch(() => this.onDeleteDecline());
+      .switchMap((res) => res ? this.onDeleteConfirm(vm) : this.onDeleteDecline());
   }
 
   private onDeleteConfirm(vm: VirtualMachine): Observable<any> {
     return this.volumeDeleteConfirmDialog(vm.volumes)
-      .switchMap(_ => this.addNotifications(this.deleteVmWithVolumes(vm)))
+      .switchMap((res) => {
+        if (res) {
+          return this.addNotifications(this.deleteVmWithVolumes(vm));
+        }
+      })
       .catch(() => this.addNotifications(this.deleteVm(vm)));
   }
 
@@ -80,10 +87,6 @@ export class VmDestroyAction extends VirtualMachineCommand {
       return Observable.of(false);
     }
 
-    return this.dialogService.confirm(
-      'DIALOG_MESSAGES.VM.CONFIRM_DRIVES_DELETION',
-      'COMMON.NO',
-      'COMMON.YES'
-    );
+    return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_DRIVES_DELETION'});
   }
 }

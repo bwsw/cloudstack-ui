@@ -1,8 +1,6 @@
-<h3 class="mdl-dialog__title">
-  {{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.TITLE' | translate }}
-</h3>
+<h3 class="mat-dialog-title">{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.TITLE' | translate }}</h3>
 <form (ngSubmit)="onSubmit()" #customOfferingForm="ngForm" novalidate>
-  <div class="mdl-dialog__content">
+  <div class="mat-dialog-content">
     <h5>{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.CPU_NUMBER' | translate }}</h5>
     <mdl-textfield
       *ngIf="offering && restrictions"
@@ -60,24 +58,22 @@
       [class.is-invalid]="memoryField.touched && memoryField.invalid"
     ></mdl-textfield>
   </div>
-  <div class="mdl-dialog__actions">
+  <div class="mat-dialog-actions">
     <button
-      mdl-colored="primary"
-      mdl-button
-      mdl-ripple
+      md-button
+      color="primary"
+      mdDialogClose
+      type="button"
+    >
+      {{ 'COMMON.CANCEL' | translate }}
+    </button>
+    <button
+      md-button
+      color="primary"
       type="submit"
       [disabled]="!customOfferingForm.valid"
     >
       {{ 'COMMON.CONFIRM' | translate }}
-    </button>
-    <button
-      mdl-colored="primary"
-      mdl-button
-      mdl-ripple
-      type="button"
-      (click)="onCancel()"
-    >
-      {{ 'COMMON.CANCEL' | translate }}
     </button>
   </div>
 </form>

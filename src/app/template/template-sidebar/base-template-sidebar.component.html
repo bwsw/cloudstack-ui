@@ -1,143 +1,57 @@
-<div *ngIf="template">
-  <md-tab-group [selectedIndex]="0">
-    <md-tab>
-      <ng-template md-tab-label>
-        <div [mdTooltip]="'TEMPLATE_PAGE.SIDEBAR.TEMPLATE' | translate" class="md-tab-tooltip">
-            <div class="disc-icon-container">
-                <div class="disc-icon"></div>
-            </div>
-        </div>
-      </ng-template>
+<div *ngIf="entity">
+  <div class="title-container">
+    <cs-template-os-icon [template]="entity"></cs-template-os-icon>
+    <h4 class="details-header">{{ entity.name }}</h4>
+    <cs-template-actions-sidebar
+      *ngIf="isSelf"
+      [template]="entity"
+    ></cs-template-actions-sidebar>
+  </div>
 
-      <cs-template
-        [item]="template"
-        [singleLine]="false"
-        (deleteTemplate)="remove()"
-      ></cs-template>
-      <md-card>
-        <md-card-header>
-          <md-card-title>
-            <h2 class="md-card-title-text">{{ "TEMPLATE_PAGE.TEMPLATE_DETAILS.DETAILS" | translate }}</h2>
-          </md-card-title>
-        </md-card-header>
-        <md-card-content>
-          <div class="grid grid-right">
-            <div class="row" *ngIf="template.size">
-              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.SIZE' | translate }}</div>
-              <div>{{ template.size | division:2:30:2 }} {{ 'UNITS.GB' | translate }}</div>
-            </div>
-            <div class="row">
-              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.EXTRACTABLE' | translate }}</div>
-              <div>{{ template.isExtractable | viewValue | async }}</div>
-            </div>
-            <div class="row">
-              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.PUBLIC' | translate }}</div>
-              <div>{{ template.isPublic | viewValue | async }}</div>
-            </div>
-            <div class="row">
-              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.RECOMMENDED' | translate }}</div>
-              <div>{{ template.isFeatured | viewValue | async }}</div>
-            </div>
-            <div class="row" *ngIf="template.isPasswordEnabled !== undefined">
-              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.PASSWORD_ENABLED' | translate }}</div>
-              <div>{{ template.isPasswordEnabled | viewValue | async }}</div>
-            </div>
-            <div class="row" *ngIf="template.isDynamicallyScalable !== undefined">
-              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.DYNAMICALLY_SCALABLE' | translate }}</div>
-              <div>{{ template.isDynamicallyScalable | viewValue | async }}</div>
-            </div>
-            <div class="row">
-              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.CROSS_ZONES' | translate }}</div>
-              <div>{{ template.crossZones | viewValue | async }}</div>
-            </div>
-            <div class="row">
-              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.DOMAIN' | translate }}</div>
-              <div>{{ template.domain }}</div>
-            </div>
-            <div class="row">
-              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.CREATED' | translate }}</div>
-              <div>{{ template.created | stringifyDate }}</div>
-            </div>
-            <div *ngIf="template.type" class="row">
-              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.TYPE' | translate }}</div>
-              <div>{{ templateTypeTranslationToken | translate }}</div>
-            </div>
-            <div *ngIf="template.hypervisor" class="row">
-              <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.HYPERVISOR' | translate }}</div>
-              <div>{{ template.hypervisor }}</div>
-            </div>
-          </div>
-        </md-card-content>
-      </md-card>
-      <md-card *ngIf="template?.downloadUrl" mdl-shadow="2">
-        <md-card-header>
-          <md-card-title><h2>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.DOWNLOAD_URL' | translate }}</h2></md-card-title>
-        </md-card-header>
-        <md-card-content>
-          <cs-input-group>
-            <mdl-textfield
-              class="md-card-input-copy"
-              cs-input-group-textbox
-              readonly
-              [ngModel]="template?.downloadUrl"
-            >
-            </mdl-textfield>
-            <button
-              mdl-button
-              mdl-button-type="icon"
-              cs-input-group-button
-              ngxClipboard
-              [cbContent]="template?.downloadUrl"
-              (cbOnSuccess)="onCopySuccess()"
-              (cbOnError)="onCopyFail()"
-            >
-              <md-icon
-                mdTooltipPosition="below"
-                [mdTooltip]="'CLIPBOARD.COPY' | translate"
-              >
-                content_copy
-              </md-icon>
-            </button>
-          </cs-input-group>
-        </md-card-content>
-      </md-card>
-    </md-tab>
-
-    <md-tab>
-      <ng-template md-tab-label>
-        <div [mdTooltip]="'TEMPLATE_PAGE.SIDEBAR.ZONES' | translate" class="md-tab-tooltip">
-          <md-icon>public</md-icon>
+  <nav md-tab-nav-bar>
+    <a
+      md-tab-link
+      [routerLink]="['./details']"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('details')"
+    >
+      <div
+        [mdTooltip]="'TEMPLATE_PAGE.SIDEBAR.TEMPLATE' | translate"
+        class="md-tab-tooltip"
+      >
+        <div class="disc-icon-container">
+          <div class="disc-icon"></div>
         </div>
-      </ng-template>
-      <div *ngIf="!readyInEveryZone" class="update-button-container">
-        <mdl-button (click)="updateStatus()">{{ 'COMMON.UPDATE' | translate }}</mdl-button>
       </div>
-      <md-card *ngFor="let zone of template.zones" class="vm-card" mdl-shadow="2">
-        <md-card-header>
-          <md-card-title>
-            <h2 class="md-card-title-text">{{ zone.zoneName }}</h2>
-          </md-card-title>
-        </md-card-header>
-        <md-card-content class="grid">
-          <div class="row">
-            <div>{{ 'TEMPLATE_PAGE.ZONE_DETAILS.READY' | translate }}</div>
-            <div>{{ zone.isReady | viewValue | async }}</div>
-          </div>
-          <div *ngIf="!zone.isReady && zone.status" class="row">
-            <div>{{ 'COMMON.STATUS' | translate }}</div>
-            <div>{{ zone.status }}</div>
-          </div>
-        </md-card-content>
-      </md-card>
-    </md-tab>
-
-    <md-tab>
-      <ng-template md-tab-label>
-        <div [mdTooltip]="'TEMPLATE_PAGE.SIDEBAR.TAGS' | translate" class="md-tab-tooltip">
-          <md-icon>local_offer</md-icon>
-        </div>
-      </ng-template>
-      <cs-template-tags [entity]="template"></cs-template-tags>
-    </md-tab>
-  </md-tab-group>
+    </a>
+    <a
+      md-tab-link
+      [routerLink]="['./zones']"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('zones')"
+    >
+      <div [mdTooltip]="'TEMPLATE_PAGE.SIDEBAR.ZONES' | translate" class="md-tab-tooltip">
+        <md-icon>public</md-icon>
+      </div>
+    </a>
+    <a
+      md-tab-link
+      [routerLink]="['./tags']"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('tags')"
+    >
+      <div
+        [mdTooltip]="'TEMPLATE_PAGE.SIDEBAR.TAGS' | translate"
+        class="md-tab-tooltip"
+      >
+        <md-icon>local_offer</md-icon>
+      </div>
+    </a>
+  </nav>
 </div>
+
+<router-outlet></router-outlet>
+
+<cs-no-results *ngIf="notFound" [text]="'TEMPLATE_NOT_FOUND'"></cs-no-results>
+
+<cs-overlay-loading [active]="!entity && !notFound"></cs-overlay-loading>

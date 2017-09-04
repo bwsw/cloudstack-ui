@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../dialog/dialog-module/dialog.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as sortBy from 'lodash/sortBy';
+import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../dialog/dialog-service/dialog.service';
+import { ListService } from '../shared/components/list/list.service';
 import { SSHKeyPair } from '../shared/models';
 import { SSHKeyPairService } from '../shared/services/ssh-keypair.service';
-import * as sortBy from 'lodash/sortBy';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ListService } from '../shared/components/list/list.service';
 
 
 @Component({
@@ -22,8 +23,7 @@ export class SshKeysPageComponent implements OnInit {
     private listService: ListService,
     private router: Router,
     private activatedRoute: ActivatedRoute
-  ) {
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.update();
@@ -35,28 +35,32 @@ export class SshKeysPageComponent implements OnInit {
     this.router.navigate(['./create'], {
       preserveQueryParams: true,
       relativeTo: this.activatedRoute
-    });  }
+    });
+  }
 
   public removeKey(name: string): void {
     this.showRemovalDialog(name);
   }
 
   private showRemovalDialog(name: string): void {
-    this.dialogService.confirm(
-      'SSH_KEYS.REMOVE_THIS_KEY',
-      'COMMON.NO',
-      'COMMON.YES'
-    )
+     this.dialogService.confirm({ message: 'SSH_KEYS.REMOVE_THIS_KEY'})
       .onErrorResumeNext()
-      .switchMap(() => {
-        this.setLoading(name);
-        return this.sshKeyService.remove({ name });
+      .switchMap((res) => {
+        if (res) {
+          this.setLoading(name);
+          return this.sshKeyService.remove({ name });
+        } else {
+          return Observable.throw(null);
+        }
       })
       .subscribe(
         () => this.sshKeyList = this.sshKeyList.filter(key => key.name !== name),
-        () => {
+        (error) => {
+          if (!error) {
+            return;
+          }
           this.setLoading(name, false);
-          this.dialogService.alert('SSH_KEYS.KEY_REMOVAL_FAILED');
+          this.dialogService.alert({ message: 'SSH_KEYS.KEY_REMOVAL_FAILED' });
         }
       );
   }

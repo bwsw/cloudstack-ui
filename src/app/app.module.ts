@@ -4,18 +4,27 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
-import { MdDialog, MdIconModule, MdTooltipModule } from '@angular/material';
+import {
+  MdButtonModule,
+  MdCheckboxModule,
+  MdDialog,
+  MdIconModule,
+  MdTooltipModule
+} from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { DragulaModule } from 'ng2-dragula';
+
 import { AppComponent } from './app.component';
 import { routes } from './app.routing';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
-import { MdlDialogModule } from './dialog/dialog-module';
+import { DialogModule } from './dialog/dialog-service/dialog.module';
 import { EventsModule } from './events/events.module';
+import { AppSidebarComponent } from './navigation/app-sidebar.component';
 import { SecurityGroupModule } from './security-group/sg.module';
 import { ServiceOfferingModule } from './service-offering/service-offering.module';
 import { SettingsModule } from './settings/settings.module';
@@ -26,8 +35,6 @@ import { SpareDriveModule } from './spare-drive';
 import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
-
-
 
 
 export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
@@ -45,12 +52,15 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
     FormsModule,
     TranslateModule.forRoot(),
     EventsModule,
+    DragulaModule,
     MdIconModule,
+    MdCheckboxModule,
     MdTooltipModule,
+    MdButtonModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
-    MdlDialogModule,
+    DialogModule,
     SecurityGroupModule,
     ServiceOfferingModule,
     SettingsModule,
@@ -70,6 +80,7 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
   ],
   declarations: [
     AppComponent,
+    AppSidebarComponent,
     LoginComponent,
     LogoutComponent
   ],

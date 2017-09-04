@@ -1,3 +1,4 @@
+<div class="mat-dialog-title">
 <cs-date-display
   [DateTimeFormat]="DateTimeFormat"
   [locale]="locale"
@@ -6,46 +7,47 @@
   (yearClick)="displayMonth = false"
   (monthClick)="displayMonth = true"
 ></cs-date-display>
-<div class="calendar">
-  <div class="calendar-container" *ngIf="displayMonth">
-    <div class="calendar-toolbar">
-      <button
-        mdl-button
-        mdl-button-type="icon"
-        (click)="onMonthChange(-1)"
-      >
-        <md-icon>keyboard_arrow_left</md-icon>
-      </button>
-      <div class="title-div">{{ dateTimeFormatted }}</div>
-      <button
-        mdl-button
-        mdl-button-type="icon"
-        (click)="onMonthChange(1)"
-      >
-        <md-icon>keyboard_arrow_right</md-icon>
-      </button>
+</div>
+<div class="mat-dialog-content">
+  <div class="calendar">
+    <div class="calendar-container" *ngIf="displayMonth">
+      <div class="calendar-toolbar">
+        <button
+          md-icon-button
+          (click)="onMonthChange(-1)"
+        >
+          <md-icon>keyboard_arrow_left</md-icon>
+        </button>
+        <div class="title-div">{{ dateTimeFormatted }}</div>
+        <button
+          md-icon-button
+          (click)="onMonthChange(1)"
+        >
+          <md-icon>keyboard_arrow_right</md-icon>
+        </button>
+      </div>
+      <div class="week-title">
+        <span class="week-title-day" *ngFor="let day of weekTitles">
+          {{ day }}
+        </span>
+      </div>
+      <cs-calendar-month
+        [locale]="locale"
+        [firstDayOfWeek]="firstDayOfWeek"
+        [DateTimeFormat]="DateTimeFormat"
+        [displayDate]="displayDate"
+        [selectedDate]="selectedDate"
+        (dateSelected)="onDateSelected($event)"
+      ></cs-calendar-month>
     </div>
-    <div class="week-title">
-      <span class="week-title-day" *ngFor="let day of weekTitles">
-        {{ day }}
-      </span>
-    </div>
-    <cs-calendar-month
+    <cs-calendar-year
+      *ngIf="!displayMonth"
       [locale]="locale"
-      [firstDayOfWeek]="firstDayOfWeek"
       [DateTimeFormat]="DateTimeFormat"
-      [displayDate]="displayDate"
       [selectedDate]="selectedDate"
-      (dateSelected)="onDateSelected($event)"
-    ></cs-calendar-month>
+      [minDate]="minDate"
+      [maxDate]="maxDate"
+      (yearSelected)="onYearSelected($event)"
+    ></cs-calendar-year>
   </div>
-  <cs-calendar-year
-    *ngIf="!displayMonth"
-    [locale]="locale"
-    [DateTimeFormat]="DateTimeFormat"
-    [selectedDate]="selectedDate"
-    [minDate]="minDate"
-    [maxDate]="maxDate"
-    (yearSelected)="onYearSelected($event)"
-  ></cs-calendar-year>
 </div>

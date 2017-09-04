@@ -28,11 +28,7 @@
         ></mdl-textfield>
         <br>
         <div class="pull-right-button">
-          <button
-            type="submit"
-            mdl-button
-            [disabled]="!passwordUpdateForm.valid"
-          >
+          <button md-button type="submit" [disabled]="!passwordUpdateForm.valid">
             {{ 'COMMON.UPDATE' | translate }}
           </button>
         </div>

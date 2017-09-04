@@ -24,6 +24,7 @@ import { PulseModule } from '../pulse/pulse.module';
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 import { SharedModule } from '../shared/shared.module';
+import { SnapshotActionsService } from '../snapshot/snapshot-actions.service';
 // tslint:disable-next-line
 import { SnapshotModule } from '../snapshot/snapshot.module';
 import { TagsModule } from '../tags/tags.module';
@@ -32,6 +33,7 @@ import { VmActionsService } from './shared/vm-actions.service';
 import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
 import { VmService } from './shared/vm.service';
 import { VmActionProviders } from './vm-actions/index';
+import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions.component';
 import { VmCreationFormNormalizationService } from './vm-creation/form-normalization/form-normalization.service';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
 import { VmCreationService } from './vm-creation/services/vm-creation.service';
@@ -63,12 +65,12 @@ import { SpareDriveAttachmentDialogComponent } from './vm-sidebar/storage-detail
 import { StorageDetailComponent } from './vm-sidebar/storage-detail/storage-detail.component';
 // tslint:disable-next-line
 import { SnapshotCreationComponent } from './vm-sidebar/storage-detail/volume/snapshot-creation/snapshot-creation.component';
-import { SnapshotActionsService } from './vm-sidebar/storage-detail/volume/snapshot/snapshot-actions.service';
 import { SnapshotModalComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshot-modal.component';
 import { SnapshotsComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshots.component';
 import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volume-details/volume-details.component';
 import { VolumeComponent } from './vm-sidebar/storage-detail/volume/volume.component';
 import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-template.component';
+import { VmActionsSidebarComponent } from './vm-sidebar/vm-actions-sidebar/vm-actions-sidebar.component';
 import { VmDetailComponent } from './vm-sidebar/vm-detail/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize/volume-resize.component';
@@ -88,6 +90,7 @@ import { WebShellService } from './web-shell/web-shell.service';
     MdCheckboxModule,
     MdTooltipModule,
     MdSelectModule,
+    MdButtonModule,
     MdlModule,
     MdDialogModule,
     MdlSelectModule,
@@ -124,6 +127,8 @@ import { WebShellService } from './web-shell/web-shell.service';
     VmDetailTemplateComponent,
     VmDetailZoneComponent,
     VmListComponent,
+    VmActionsComponent,
+    VmActionsSidebarComponent,
     VmColorComponent,
     VmCreationComponent,
     VmCreationDialogComponent,

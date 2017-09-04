@@ -1,12 +1,12 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { NetworkRule, SecurityGroup } from '../sg.model';
 import { Rules, SgCreationComponent } from './sg-creation.component';
-import { MdlDialogReference } from '../../dialog/dialog-module';
 
 
 describe('Sg creation component', () => {
@@ -14,7 +14,7 @@ describe('Sg creation component', () => {
   let comp;
 
   const dialogReferenceMock = {
-    hide(): void {}
+    close(): void {}
   };
 
   const mockSg1 = new SecurityGroup({
@@ -87,9 +87,9 @@ describe('Sg creation component', () => {
     TestBed.configureTestingModule({
       declarations: [SgCreationComponent, MockTranslatePipe],
       providers: [
-        { provide: MdlDialogReference, useFactory: () => dialogReferenceMock },
+        { provide: MdDialogRef, useFactory: () => dialogReferenceMock },
         { provide: SecurityGroupService, useClass: SecurityGroupServiceMock },
-        { provide: 'rules', useValue: mockRules }
+        { provide: MD_DIALOG_DATA, useValue: mockRules }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -134,7 +134,7 @@ describe('Sg creation component', () => {
   });
 
   it('handles dialog close', () => {
-    spyOn(dialogReferenceMock, 'hide').and.callThrough();
+    spyOn(dialogReferenceMock, 'close').and.callThrough();
 
     mockRules.templates = [mockSg2];
     mockRules.egress = mockRuleEgress;
@@ -144,10 +144,10 @@ describe('Sg creation component', () => {
     comp.selectGroup(0, false);
     comp.moveLeft();
 
-    const buttons = f.debugElement.queryAll(By.css('.mdl-dialog__actions button'));
-    buttons[1].triggerEventHandler('click');
-    expect(dialogReferenceMock.hide).toHaveBeenCalledTimes(1);
-    expect(dialogReferenceMock.hide).toHaveBeenCalledWith(mockRules);
+    const buttons = f.debugElement.queryAll(By.css('.mat-dialog-actions button'));
+    buttons[0].triggerEventHandler('click');
+    expect(dialogReferenceMock.close).toHaveBeenCalledTimes(1);
+    expect(dialogReferenceMock.close).toHaveBeenCalledWith(mockRules);
 
     f = TestBed.createComponent(SgCreationComponent);
     comp = f.componentInstance;
@@ -157,9 +157,9 @@ describe('Sg creation component', () => {
     comp.ngOnInit();
     comp.selectGroup(0, false);
     comp.moveLeft();
-    buttons[0].triggerEventHandler('click');
-    expect(dialogReferenceMock.hide).toHaveBeenCalledTimes(2);
-    expect(dialogReferenceMock.hide).toHaveBeenCalledWith({
+    buttons[1].triggerEventHandler('click');
+    expect(dialogReferenceMock.close).toHaveBeenCalledTimes(2);
+    expect(dialogReferenceMock.close).toHaveBeenCalledWith({
       templates: [],
       ingress: [],
       egress: []

@@ -1,18 +1,8 @@
 import { MdlLayoutComponent } from '@angular-mdl/core';
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  NgZone,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Response } from '@angular/http';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import '../style/app.scss';
-import { MdlDialogService } from './dialog/dialog-module';
-import { Color } from './shared/models';
 import { AsyncJobService } from './shared/services/async-job.service';
 import { AuthService } from './shared/services/auth.service';
 import { CacheService } from './shared/services/cache.service';
@@ -30,23 +20,16 @@ import { ZoneService } from './shared/services/zone.service';
 @Component({
   selector: 'cs-app',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, AfterViewInit {
-  // todo: make a wrapper for link and use @ViewChildren(LinkWrapper)
-  @ViewChild('navigationBar') public navigationBar: ElementRef;
-
-
+export class AppComponent implements OnInit {
   @ViewChild(MdlLayoutComponent) public layoutComponent: MdlLayoutComponent;
   public loggedIn: boolean;
   public title: string;
   public disableSecurityGroups = false;
 
-  public themeColor: Color;
-
   constructor(
     private auth: AuthService,
-    private domSanitizer: DomSanitizer,
     private router: Router,
     private error: ErrorService,
     private languageService: LanguageService,
@@ -55,7 +38,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     private sessionStorage: SessionStorageService,
     private memoryStorage: MemoryStorageService,
     private layoutService: LayoutService,
-    private mdlDialogService: MdlDialogService,
     private notification: NotificationService,
     private styleService: StyleService,
     private routerUtilsService: RouterUtilsService,
@@ -63,14 +45,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     private zone: NgZone
   ) {
     this.title = this.auth.name;
-  }
-
-  public linkClick(routerLink: string): void {
-    if (routerLink === this.routerUtilsService.getRouteWithoutQueryParams()) {
-      this.router.navigate(['reload'], {
-        queryParamsHandling: 'preserve'
-      });
-    }
   }
 
   public ngOnInit(): void {
@@ -83,7 +57,9 @@ export class AppComponent implements OnInit, AfterViewInit {
       if (isLoggedIn) {
         this.auth.startInactivityCounter();
         this.loadSettings();
-        this.zoneService.areAllZonesBasic().subscribe(basic => this.disableSecurityGroups = basic);
+        this.zoneService
+          .areAllZonesBasic()
+          .subscribe(basic => (this.disableSecurityGroups = basic));
       } else {
         this.auth.clearInactivityTimer();
       }
@@ -92,69 +68,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.storageReset();
     });
 
-    this.layoutService.drawerToggled.subscribe(() => {
-      this.toggleDrawer();
-    });
-
     this.captureScrollEvents();
-    this.toggleDialogOverlay();
-  }
-
-  public ngAfterViewInit(): void {
-    this.styleService.paletteUpdates.subscribe(color => {
-      this.themeColor = color;
-      if (this.navigationBar) {
-        if (this.isLightTheme) {
-          this.navigationBar.nativeElement.querySelectorAll('a').forEach(link => {
-            link.classList.remove('link-active-dark', 'link-hover-dark');
-          });
-        } else {
-          this.navigationBar.nativeElement.querySelectorAll('a').forEach(link => {
-            link.classList.remove('link-active-light', 'link-hover-light');
-          });
-        }
-      }
-    });
-  }
-
-  public get currentYear(): string {
-    return (new Date).getFullYear().toString();
-  }
-
-  public get drawerStyles(): SafeStyle {
-    let styleString;
-
-    if (!this.themeColor || !this.themeColor.value) {
-      styleString = `background-color: #fafafa !important; color: #757575 !important`;
-    } else {
-      styleString = `background-color: ${this.themeColor.value} !important;
-        color: ${this.themeColor.textColor} !important`;
-    }
-
-    return this.domSanitizer.bypassSecurityTrustStyle(styleString);
-  }
-
-  public get linkActiveStyle(): string {
-    return this.isLightTheme ? 'link-active-light' : 'link-active-dark';
-  }
-
-  public get isLightTheme(): boolean {
-    if (!this.themeColor) {
-      return true;
-    }
-    return this.themeColor.textColor === '#FFFFFF';
-  }
-
-  public get isDrawerOpen(): boolean {
-    return this.layoutService.drawerOpen;
-  }
-
-  public toggleDrawer(): void {
-    this.layoutService.toggleDrawer();
-  }
-
-  public get logoSource(): string {
-    return `img/cloudstack_logo_${ this.isLightTheme ? 'light' : 'dark' }.png`;
   }
 
   private updateAccount(loggedIn: boolean): void {
@@ -170,11 +84,18 @@ export class AppComponent implements OnInit, AfterViewInit {
           this.notification.message('AUTH.NOT_LOGGED_IN');
           const route = this.routerUtilsService.getRouteWithoutQueryParams();
           if (route !== '/login' && route !== '/logout') {
-            this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams());
+            this.router.navigate(
+              ['/logout'],
+              this.routerUtilsService.getRedirectionQueryParams()
+            );
           }
           break;
       }
     }
+  }
+
+  public get isDrawerOpen(): boolean {
+    return this.layoutService.drawerOpen;
   }
 
   private loadSettings(): void {
@@ -185,22 +106,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   private captureScrollEvents(): void {
     const useCapture = true;
     this.zone.runOutsideAngular(() => {
-      document.querySelector('.dialog-container')
-        .addEventListener(
-          'scroll',
-          e => e.stopPropagation(),
-          useCapture
-        );
-    });
-  }
-
-  private toggleDialogOverlay(): void {
-    this.mdlDialogService.onDialogsOpenChanged.subscribe(open => {
-      if (open) {
-        document.querySelector('.dialog-container').classList.add('dialog-container-overlay');
-      } else {
-        document.querySelector('.dialog-container').classList.remove('dialog-container-overlay');
-      }
+      document
+        .querySelector('.dialog-container')
+        .addEventListener('scroll', e => e.stopPropagation(), useCapture);
     });
   }
 
