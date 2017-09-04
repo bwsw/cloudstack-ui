@@ -7,28 +7,26 @@
     novalidate
   >
     <div class="mat-dialog-content">
-      <mdl-textfield
-        *ngIf="enoughResources"
-        type="text"
-        [label]="'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.NAME' | translate"
-        name="name"
-        floating-label
-        autofocus
-        required
-        [(ngModel)]="name"
-        [style.width]="'100%'"
-      >
-      </mdl-textfield>
-      <mdl-textfield
-        *ngIf="enoughResources"
-        type="text"
-        [label]="'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.DESCRIPTION' | translate"
-        name="description"
-        floating-label
-        [(ngModel)]="description"
-        [style.width]="'100%'"
-      >
-      </mdl-textfield>
+      <ng-container *ngIf="enoughResources">
+        <md-input-container class="full-width-input">
+          <input
+            mdInput
+            name="name"
+            [(ngModel)]="name"
+            [placeholder]="'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.NAME' | translate"
+            autofocus
+            required
+          >
+        </md-input-container>
+        <md-input-container class="full-width-input">
+          <input
+            mdInput
+            name="description"
+            [(ngModel)]="description"
+            [placeholder]="'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.DESCRIPTION' | translate"
+          >
+        </md-input-container>
+      </ng-container>
       <div *ngIf="!enoughResources">{{ "ERRORS.SNAPSHOT.LIMIT_EXCEEDED" | translate }}</div>
     </div>
     <div class="mat-dialog-actions">

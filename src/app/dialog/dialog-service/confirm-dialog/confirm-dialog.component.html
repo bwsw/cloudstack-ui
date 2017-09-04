@@ -4,7 +4,10 @@
     class="mat-dialog-title"
     [innerHTML]=" config?.title | translate"
   ></h3>
-  <div class="mat-dialog-content notification" [innerHTML]="translatedMessage | async">
+  <div
+    class="mat-dialog-content notification"
+    [innerHTML]="translatedMessage | async"
+  >
   </div>
   <div class="mat-dialog-actions">
     <button

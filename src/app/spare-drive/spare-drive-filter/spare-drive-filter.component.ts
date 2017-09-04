@@ -1,9 +1,16 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as sortBy from 'lodash/sortBy';
 import { Zone } from '../../shared/models/zone.model';
 import { FilterService } from '../../shared/services/filter.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
-import * as sortBy from 'lodash/sortBy';
 
 
 export interface SpareDriveFilter {

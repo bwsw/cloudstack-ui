@@ -6,6 +6,16 @@
   (dateSelected)="setSelectedDate($event)"
 ></cs-calendar>
 <div class="mat-dialog-actions">
-  <button md-button (click)="hide(false)">{{ config.cancelLabel }}</button>
-  <button md-button (click)="hide()">{{ config.okLabel }}</button>
+  <button
+    md-button
+    (click)="hide(false)"
+  >
+    {{ config.cancelLabel }}
+  </button>
+  <button
+    md-button
+    (click)="hide()"
+  >
+    {{ config.okLabel }}
+  </button>
 </div>

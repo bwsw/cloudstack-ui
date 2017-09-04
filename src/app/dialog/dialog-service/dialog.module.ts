@@ -1,12 +1,12 @@
-import { DialogService } from './dialog.service';
-import { MdDialogModule, MdButtonModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MdButtonModule, MdDialogModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
 import { AskDialogComponent } from './ask-dialog/ask-dialog.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { DialogService } from './dialog.service';
 
 @NgModule({
   imports: [
@@ -34,5 +34,5 @@ import { AskDialogComponent } from './ask-dialog/ask-dialog.component';
     AskDialogComponent
   ],
 })
-export class DialogModule {
-}
+
+export class DialogModule { }

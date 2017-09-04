@@ -5,48 +5,59 @@
     <div class="mat-dialog-content">
       <div [class.flex-dialog-content]="!snapshot">
         <div [class.column]="!snapshot">
-          <mdl-textfield
-            type="text"
-            label="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.NAME' | translate }}"
-            name="name"
-            floating-label
-            autofocus
-            maxlength="255"
-            required
-            [(ngModel)]="name"
-            #nameField="ngModel"
-            [class.is-invalid]="nameField.invalid && !nameField.pristine"
-          >
-          </mdl-textfield>
+          <md-input-container class="full-width-input">
+            <input
+              mdInput
+              name="name"
+              [(ngModel)]="name"
+              [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.NAME' | translate"
+              autofocus
+              maxlength="255"
+              required
+            >
+            <md-hint align="end">
+              <cs-character-count [value]="name" [maxLength]="255"></cs-character-count>
+            </md-hint>
+          </md-input-container>
           <br>
-          <mdl-textfield
-            type="text"
-            label="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.DESCRIPTION' | translate }}"
-            name="description"
-            floating-label
-            maxlength="255"
-            required
-            [(ngModel)]="displayText"
-            #descriptionField="ngModel"
-            [class.is-invalid]="descriptionField.invalid && !descriptionField.pristine"
-          >
-          </mdl-textfield>
+          <md-input-container class="full-width-input">
+            <input
+              mdInput
+              name="description"
+              [(ngModel)]="displayText"
+              [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.DESCRIPTION' | translate"
+              maxlength="255"
+              required
+            >
+            <md-hint align="end">
+              <cs-character-count
+                [value]="displayText"
+                [maxLength]="255"
+              ></cs-character-count>
+            </md-hint>
+          </md-input-container>
           <br>
-          <mdl-textfield
-            *ngIf="!snapshot"
-            type="url"
-            label="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.URL' | translate }}"
-            name="url"
-            floating-label
-            maxlength="255"
-            required
-            pattern="^(http|https):\/\/.*$"
-            error-msg="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.INVALID_URL' | translate }}"
-            [(ngModel)]="url"
-            #urlField="ngModel"
-            [class.is-invalid]="urlField.invalid && !urlField.pristine"
-          >
-          </mdl-textfield>
+          <md-input-container *ngIf="!snapshot" class="full-width-input">
+            <input
+              mdInput
+              type="url"
+              name="url"
+              [(ngModel)]="url"
+              [placeholder]=" 'TEMPLATE_PAGE.TEMPLATE_CREATION.URL' | translate "
+              pattern="^(http|https):\/\/.*$"
+              maxlength="255"
+              required
+              #urlField="ngModel"
+            >
+            <md-error
+              *ngIf="urlField.hasError('pattern')"
+            >
+              {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.INVALID_URL' | translate }}
+            </md-error>
+            <md-hint align="end">
+              <cs-character-count [value]="url" [maxLength]="255"></cs-character-count>
+            </md-hint>
+          </md-input-container>
         </div>
         <div [class.column]="!snapshot">
           <div>

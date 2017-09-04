@@ -9,6 +9,7 @@ import {
   MdCheckboxModule,
   MdDialog,
   MdIconModule,
+  MdInputModule,
   MdTooltipModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
@@ -53,10 +54,11 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
     TranslateModule.forRoot(),
     EventsModule,
     DragulaModule,
-    MdIconModule,
-    MdCheckboxModule,
-    MdTooltipModule,
     MdButtonModule,
+    MdCheckboxModule,
+    MdIconModule,
+    MdInputModule,
+    MdTooltipModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,

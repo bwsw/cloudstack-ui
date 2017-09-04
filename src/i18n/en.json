@@ -710,6 +710,7 @@
   },
 
   "EVENT_PAGE": {
+    "SELECT_DATE": "Select a date",
     "SELECT_LEVELS": "Select levels",
     "SELECT_TYPES": "Select types",
     "NO_EVENTS": "No events for the selected date",

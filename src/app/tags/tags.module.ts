@@ -6,6 +6,7 @@ import {
   MdButtonModule,
   MdDialogModule,
   MdIconModule,
+  MdInputModule,
   MdTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
@@ -25,6 +26,7 @@ import { TagsViewComponent } from './tags-view/tags-view.component';
     MdIconModule,
     MdButtonModule,
     MdTooltipModule,
+    MdInputModule,
     MdlModule,
     MdDialogModule,
     SharedModule,

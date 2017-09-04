@@ -705,6 +705,7 @@
   },
 
   "EVENT_PAGE": {
+    "SELECT_DATE": "Выберите дату",
     "SELECT_LEVELS": "Выберите уровни",
     "SELECT_TYPES": "Выберите типы",
     "NO_EVENTS": "Нет событий на выбранной дате",

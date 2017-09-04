@@ -1,5 +1,12 @@
-import { ChangeDetectorRef, Component, Input, NgZone, OnInit, ViewChild } from '@angular/core';
-import { MdlTextFieldComponent } from '@angular-mdl/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  NgZone,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import { MdInputDirective } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { AbstractInlineEditComponent } from './abstract-inline-edit.component';
 
@@ -14,7 +21,7 @@ export class InlineEditComponent extends AbstractInlineEditComponent implements 
   @Input() public maxrows: number;
   @Input() public maxLength: number;
 
-  @ViewChild(MdlTextFieldComponent) public textFieldComponent: MdlTextFieldComponent;
+  @ViewChild(MdInputDirective) public textArea: MdInputDirective;
 
   public constructor(
     protected changeDetectorRef: ChangeDetectorRef,
@@ -27,7 +34,7 @@ export class InlineEditComponent extends AbstractInlineEditComponent implements 
 
   public edit(): void {
     super.edit();
-    this.textFieldComponent.setFocus();
+    this.textArea.focus();
   }
 
   public updateTextFieldText(newText: string): void {
@@ -36,12 +43,13 @@ export class InlineEditComponent extends AbstractInlineEditComponent implements 
     if (this.maxLength && this.textFieldText.length > this.maxLength) {
       this.textFieldText = this.textFieldText.substr(0, this.maxLength);
       this.changeDetectorRef.detectChanges();
-      this.textFieldComponent.writeValue(this.textFieldText);
+      this.textArea.value = this.textFieldText; // seems like a hack
     }
   }
 
   public onKeyUp(event: KeyboardEvent): void {
     this.zone.runOutsideAngular(() => {
+      // Enter key
       if (event.which === 13 || event.charCode === 13) {
         event.stopPropagation();
         if (event.ctrlKey) {

@@ -6,6 +6,7 @@ import {
   MdButtonModule,
   MdDialogModule,
   MdIconModule,
+  MdInputModule,
   MdMenuModule,
   MdTooltipModule
 } from '@angular/material';
@@ -35,6 +36,7 @@ import { sshKeysRouting } from './ssh-keys.routing';
     MdMenuModule,
     MdButtonModule,
     MdIconModule,
+    MdInputModule,
     sshKeysRouting
   ],
   exports: [SshKeysPageComponent],

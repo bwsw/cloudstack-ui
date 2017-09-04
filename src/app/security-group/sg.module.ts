@@ -8,14 +8,15 @@ import {
   MdCheckboxModule,
   MdDialogModule,
   MdIconModule,
+  MdInputModule,
   MdMenuModule,
   MdSelectModule,
   MdTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
+
 import { SharedModule } from '../shared/shared.module';
 import { SgCreationRuleComponent } from './sg-creation/sg-creation-rule.component';
-
 import { SgCreationComponent } from './sg-creation/sg-creation.component';
 import { SgRuleComponent } from './sg-rules/sg-rule.component';
 import { SgRulesComponent } from './sg-rules/sg-rules.component';
@@ -41,6 +42,7 @@ import { sgRouting } from './sg.routing';
     MdMenuModule,
     MdButtonModule,
     MdIconModule,
+    MdInputModule,
     sgRouting
   ],
   exports: [

@@ -1,0 +1,6 @@
+:host mdl-select /deep/ > div {
+  /deep/ .mdl-textfield__input {
+    text-align: center;
+  }
+  width: 80px;
+}

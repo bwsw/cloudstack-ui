@@ -3,15 +3,11 @@
   text-align: right;
   margin-top: 16px;
 
-  /deep/ .mdl-textfield {
+  .mat-input-wrapper {
+    text-align: left;
     padding-top: 10px;
-  }
-
-  /deep/ .mdl-textfield__input {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-
-    border: none;
   }
 }

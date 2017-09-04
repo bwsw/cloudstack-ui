@@ -1,17 +1,20 @@
-<mdl-textfield
-  type="number"
-  step="1"
-  label="{{ 'SNAPSHOT_POLICIES.STORE_SNAPSHOTS' | translate }}"
-  name="store"
-  floating-label
-  autofocus
-  required
-  [(ngModel)]="storedNumber"
-  [min]="min"
-  [minValue]="min"
-  [max]="max"
-  [maxValue]="max"
-  error-msg="{{ errorMessage | async }}"
-  #storedSnapshots="ngModel"
-  [class.is-invalid]="storedSnapshots.invalid && !storedSnapshots.pristine"
-></mdl-textfield>
+<md-input-container [style.width.px]="300">
+  <input
+    mdInput
+    name="store"
+    type="number"
+    [(ngModel)]="storedNumber"
+    step="1"
+    [min]="min"
+    [minValue]="min"
+    [max]="max"
+    [maxValue]="max"
+    [placeholder]="'SNAPSHOT_POLICIES.STORE_SNAPSHOTS' | translate"
+    autofocus
+    required
+    #storedSnapshots="ngModel"
+  >
+  <md-error *ngIf="storedSnapshots.invalid">
+    {{ errorMessage | async }}
+  </md-error>
+</md-input-container>

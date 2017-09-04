@@ -27,16 +27,18 @@
     {{ contentPlaceholder | translate }}
   </span>
 
-  <mdl-textfield
-    mdl-textarea-autoresize
-    name="textField"
-    *ngIf="editing"
-    [ngModel]="textFieldText"
-    (ngModelChange)="updateTextFieldText($event)"
-    [placeholder]="inputPlaceholder | translate"
-    [rows]="rows"
-    (keyup)="onKeyUp($event)"
-  ></mdl-textfield>
+  <md-input-container *ngIf="editing" class="full-width-input">
+    <textarea
+      mdInput
+      mdTextareaAutosize
+      name="textField"
+      [ngModel]="textFieldText"
+      (ngModelChange)="updateTextFieldText($event)"
+      [placeholder]="inputPlaceholder | translate"
+      [rows]="rows"
+      (keyup)="onKeyUp($event)"
+    ></textarea>
+  </md-input-container>
 
   <div class="buttons">
     <button

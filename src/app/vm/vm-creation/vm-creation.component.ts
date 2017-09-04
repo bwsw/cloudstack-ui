@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MdSelectChange, MdDialogRef } from '@angular/material';
+import { FormControl } from '@angular/forms';
+import { MdDialogRef, MdSelectChange } from '@angular/material';
 import * as clone from 'lodash/clone';
 import * as throttle from 'lodash/throttle';
-
 
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
@@ -17,7 +17,11 @@ import { VmCreationState } from './data/vm-creation-state';
 import { VmCreationFormNormalizationService } from './form-normalization/form-normalization.service';
 import { KeyboardLayout } from './keyboards/keyboards.component';
 import { VmCreationService } from './services/vm-creation.service';
-import { VmDeploymentMessage, VmDeploymentService, VmDeploymentStage } from './services/vm-deployment.service';
+import {
+  VmDeploymentMessage,
+  VmDeploymentService,
+  VmDeploymentStage
+} from './services/vm-deployment.service';
 
 
 export interface VmCreationFormState {
@@ -213,11 +217,13 @@ export class VmCreationComponent implements OnInit {
   }
 
   public deploy(): void {
-    const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
+    const notificationId = this.jobsNotificationService.add(
+      'JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
     const {
       deployStatusObservable,
       deployObservable
-    } = this.vmDeploymentService.deploy(this.formState.state);
+    } = this.vmDeploymentService.deploy(
+      this.formState.state);
 
     deployStatusObservable.subscribe(deploymentMessage => {
       this.handleDeploymentMessages(deploymentMessage, notificationId);
@@ -261,6 +267,14 @@ export class VmCreationComponent implements OnInit {
       width: '400px',
       disableClose: true
     });
+  }
+
+  public get nameIsTaken(): boolean {
+    return this.formState && this.formState.state.displayName === this.takenName;
+  }
+
+  public vmNameErrorMatcher(control: FormControl): boolean {
+    return control.invalid || this.nameIsTaken;
   }
 
   private handleDeploymentMessages(

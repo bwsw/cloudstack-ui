@@ -10,22 +10,27 @@
         [formGroup]="passwordUpdateForm"
         (ngSubmit)="updatePassword()"
         novalidate
+        #passwordForm="ngForm"
       >
-        <mdl-textfield
-          type="password"
-          label="{{ 'SETTINGS.SECURITY.NEW_PASSWORD' | translate }}"
-          formControlName="password"
-          floating-label
-          required
-        ></mdl-textfield>
+        <md-input-container class="full-width-input">
+          <input
+            mdInput
+            type="password"
+            formControlName="password"
+            [placeholder]="'SETTINGS.SECURITY.NEW_PASSWORD' | translate"
+            required
+          >
+        </md-input-container>
         <br>
-        <mdl-textfield
-          type="password"
-          label="{{ 'SETTINGS.SECURITY.REPEAT_PASSWORD' | translate }}"
-          formControlName="passwordRepeat"
-          floating-label
-          required
-        ></mdl-textfield>
+        <md-input-container class="full-width-input">
+          <input
+            mdInput
+            type="password"
+            formControlName="passwordRepeat"
+            [placeholder]="'SETTINGS.SECURITY.REPEAT_PASSWORD' | translate"
+            required
+          >
+        </md-input-container>
         <br>
         <div class="pull-right-button">
           <button md-button type="submit" [disabled]="!passwordUpdateForm.valid">

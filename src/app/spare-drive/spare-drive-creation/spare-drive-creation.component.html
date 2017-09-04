@@ -1,61 +1,63 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
 <div [hidden]="loading">
-  <h3 class="mat-dialog-title">{{ 'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.TITLE' | translate }}</h3>
+  <h3 class="mat-dialog-title">
+    {{ 'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.TITLE' | translate }}
+  </h3>
   <form (ngSubmit)="onCreate()" #volumeCreationForm="ngForm" novalidate>
     <div class="mat-dialog-content">
-        <mdl-textfield
-          type="text"
-          label="{{ 'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.NAME' | translate }}"
+      <md-input-container class="full-width-input">
+        <input
+          mdInput
           name="name"
-          floating-label
-          autofocus
-          maxlength="255"
-          required
           [(ngModel)]="name"
-          #nameField="ngModel"
-          [class.is-invalid]="nameField.invalid && !nameField.pristine"
-        ></mdl-textfield>
-        <cs-character-count
-          [maxLength]="255"
-          [value]="name"
-        ></cs-character-count>
-        <div>
-          <h5>{{ 'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.ZONE' | translate }}</h5>
-          <md-select
-            [(ngModel)]="zoneId"
-            id="zone"
-            name="zone"
-          >
-            <md-option
-              *ngFor="let z of zones"
-              [value]="z.id"
-            >
-              {{ z.name }}
-            </md-option>
-          </md-select>
-        </div>
-        <div>
-          <h5>{{ 'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.DISK_OFFERING' | translate }}</h5>
-          <cs-disk-offering
-            name="diskOffering"
-            [ngModel]="diskOffering"
-            [diskOfferingList]="diskOfferings"
-            (change)="updateDiskOffering($event)"
-          ></cs-disk-offering>
-        </div>
-        <div *ngIf="showResizeSlider && minSize && maxSize">
-          <cs-slider
-            [min]="minSize"
-            [max]="maxSize"
-            [label]="'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.SIZE' | translate"
-            [units]="'UNITS.GB' | translate"
-            name="diskSize"
-            [(ngModel)]="size"
-          ></cs-slider>
-        </div>
+          [placeholder]="'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.NAME' | translate"
+          maxlength="255"
+          autofocus
+          required
+        >
+        <md-hint align="end">
+          <cs-character-count [value]="name" [maxLength]="255"></cs-character-count>
+        </md-hint>
+      </md-input-container>
+      <div>
+        <h5>{{ 'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.ZONE' | translate }}</h5>
+        <md-select
+          [(ngModel)]="zoneId"
+          id="zone"
+          name="zone"
+        >
+          <md-option *ngFor="let z of zones" [value]="z.id">
+            {{ z.name }}
+          </md-option>
+        </md-select>
+      </div>
+      <div>
+        <h5>{{ 'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.DISK_OFFERING' | translate }}</h5>
+        <cs-disk-offering
+          name="diskOffering"
+          [ngModel]="diskOffering"
+          [diskOfferingList]="diskOfferings"
+          (change)="updateDiskOffering($event)"
+        ></cs-disk-offering>
+      </div>
+      <div *ngIf="showResizeSlider && minSize && maxSize">
+        <cs-slider
+          [min]="minSize"
+          [max]="maxSize"
+          [label]="'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.SIZE' | translate"
+          [units]="'UNITS.GB' | translate"
+          name="diskSize"
+          [(ngModel)]="size"
+        ></cs-slider>
+      </div>
     </div>
     <div class="mat-dialog-actions">
-      <button md-button color="primary" mdDialogClose type="button">
+      <button
+        md-button
+        color="primary"
+        mdDialogClose
+        type="button"
+      >
         {{ 'COMMON.CANCEL' | translate }}
       </button>
       <button

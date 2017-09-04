@@ -1,8 +1,6 @@
 <button type="button" md-button (click)="onClick()">
   {{ 'COMMON.SELECT' | translate }}
 </button>
-<div class="mdl-textfield template-list">
-  <div class="mdl-textfield__input">
-    {{ 'VM_PAGE.VM_CREATION.OS_TEMPLATE' | translate }}: {{ template?.name }}
-  </div>
+<div class="mat-input-wrapper template-list">
+  {{ 'VM_PAGE.VM_CREATION.OS_TEMPLATE' | translate }}: {{ template?.name }}
 </div>

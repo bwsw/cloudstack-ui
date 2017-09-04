@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MdButtonModule,
   MdIconModule,
+  MdInputModule,
   MdSelectModule,
   MdTooltipModule
 } from '@angular/material';
@@ -24,6 +25,7 @@ import { SettingsComponent } from './settings.component';
     MdTooltipModule,
     MdButtonModule,
     MdIconModule,
+    MdInputModule,
     MdlModule,
     MdSelectModule,
     SharedModule,

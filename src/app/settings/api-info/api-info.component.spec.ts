@@ -1,22 +1,23 @@
 import { MdlModule } from '@angular-mdl/core';
 import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MdTooltipModule } from '@angular/material';
+import { MdInputDirective, MdInputModule, MdTooltipModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard/dist';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { MockNotificationService } from '../../../testutils/mocks/mock-notification.service';
+import { DialogModule } from '../../dialog/dialog-service/dialog.module';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { InputGroupComponent } from '../../shared/components/input-group/input-group.component';
+import { LoadingDirective } from '../../shared/directives/loading.directive';
 import { ConfigService } from '../../shared/services/config.service';
+import { NotificationService } from '../../shared/services/notification.service';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { UserService } from '../../shared/services/user.service';
-import { DialogModule } from '../../dialog/dialog-service/dialog.module';
 import { ApiInfoComponent } from './api-info.component';
-import { LoadingDirective } from '../../shared/directives/loading.directive';
-import { MockNotificationService } from '../../../testutils/mocks/mock-notification.service';
-import { NotificationService } from '../../shared/services/notification.service';
 
 
 describe('Api Info component', () => {
@@ -72,7 +73,9 @@ describe('Api Info component', () => {
 
     TestBed.configureTestingModule({
       imports: [
+        NoopAnimationsModule,
         MdTooltipModule,
+        MdInputModule,
         MdlModule,
         FormsModule,
         TranslateModule,
@@ -126,7 +129,7 @@ describe('Api Info component', () => {
     fixture.whenStable().then(() => {
       tick();
       fixture.detectChanges();
-      const inputFields = fixture.debugElement.queryAll(By.css('.mdl-textfield__input'));
+      const inputFields = fixture.debugElement.queryAll(By.directive(MdInputDirective));
       expect(inputFields[0].nativeElement.value).toBe('apiKey');
       expect(inputFields[1].nativeElement.value).toBe('secretKey');
     });
@@ -156,7 +159,7 @@ describe('Api Info component', () => {
       });
 
       tick();
-      const inputFields = fixture.debugElement.queryAll(By.css('.mdl-textfield__input'));
+      const inputFields = fixture.debugElement.queryAll(By.directive(MdInputDirective));
       expect(inputFields[0].nativeElement.value).toBe('newApiKey');
       expect(inputFields[1].nativeElement.value).toBe('newSecretKey');
     });

@@ -10,7 +10,7 @@ import { AuthService } from '../../shared/services/auth.service';
 export class InactivityTimeoutComponent implements OnInit {
   @Input() public inactivityTimeout: number;
   @Output() public inactivityTimeoutChange: EventEmitter<number>;
-  @ViewChild('inactivityTimeoutField') public inactivityField: NgModel;
+  @ViewChild('inactivityTimeoutControl') public inactivityField: NgModel;
 
   public tempInactivityTimeout: number;
   public maxInactivityTimeout = 300;

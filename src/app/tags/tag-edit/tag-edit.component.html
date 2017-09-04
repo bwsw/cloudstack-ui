@@ -1,43 +1,45 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<h3 *ngIf="!loading" class="mat-dialog-title">{{ (title || 'TAGS.EDIT_TAG') | translate }}</h3>
+<h3 *ngIf="!loading" class="mat-dialog-title">
+  {{ (title || 'TAGS.EDIT_TAG') | translate }}
+</h3>
 <form (ngSubmit)="onTagUpdate()" #tagCreationForm="ngForm">
   <div class="mat-dialog-content">
+    <md-input-container class="full-width-input">
+      <input
+        mdInput
+        name="key"
+        [(ngModel)]="key"
+        [forbiddenValues]="forbiddenKeys || []"
+        [placeholder]="'TAGS.TAG_KEY' | translate"
+        [maxlength]="maxKeyLength"
+        autofocus
+        required
+        #keyField="ngModel"
+      >
+      <md-error *ngIf="keyField.invalid">
+        {{ keyFieldErrorMessage | translate }}
+      </md-error>
+      <md-hint align="end">
+        <cs-character-count [value]="key" [maxLength]="maxKeyLength"></cs-character-count>
+      </md-hint>
+    </md-input-container>
 
-    <mdl-textfield
-      type="text"
-      name="key"
-      required
-      autofocus
-      floating-label
-      #keyField="ngModel"
-      [forbiddenValues]="forbiddenKeys || []"
-      [error-msg]="keyFieldErrorMessage | translate"
-      [(ngModel)]="key"
-      [maxlength]="maxKeyLength"
-      [label]="'TAGS.TAG_KEY' | translate"
-      [class.is-invalid]="keyField.invalid && !keyField.pristine"
-    ></mdl-textfield>
-    <cs-character-count
-      [value]="key"
-      [maxLength]="maxKeyLength"
-    ></cs-character-count>
-
-    <mdl-textfield
-      type="text"
-      [label]="'TAGS.TAG_VALUE' | translate"
-      name="value"
-      required
-      floating-label
-      #valueField="ngModel"
-      [(ngModel)]="value"
-      [maxlength]="maxValueLength"
-      [class.is-invalid]="valueField.invalid && !valueField.pristine"
-    ></mdl-textfield>
-    <cs-character-count
-      [value]="value"
-      [maxLength]="maxValueLength"
-    ></cs-character-count>
-
+    <md-input-container class="full-width-input">
+      <input
+        mdInput
+        name="value"
+        [(ngModel)]="value"
+        [placeholder]="'TAGS.TAG_VALUE' | translate"
+        [maxlength]="maxValueLength"
+        required
+      >
+      <md-hint align="end">
+        <cs-character-count
+          [value]="value"
+          [maxLength]="maxValueLength"
+        ></cs-character-count>
+      </md-hint>
+    </md-input-container>
   </div>
 
   <div class="mat-dialog-actions">

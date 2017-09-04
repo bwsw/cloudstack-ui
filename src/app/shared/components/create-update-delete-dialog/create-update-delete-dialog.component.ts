@@ -1,5 +1,5 @@
-import { MdlTextFieldComponent } from '@angular-mdl/core';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MdInputDirective } from '@angular/material';
 
 
 export enum Mode {
@@ -36,7 +36,7 @@ export class CreateUpdateDeleteDialogComponent implements OnInit {
   @Output() public onCancel: EventEmitter<void>;
   @Output() public onCreated: EventEmitter<string>;
   @Output() public onRemoved: EventEmitter<void>;
-  @ViewChild('textField') public textField: MdlTextFieldComponent;
+  @ViewChild(MdInputDirective) public textField: MdInputDirective;
 
   public loading: boolean;
   public newValue: string;
@@ -98,7 +98,7 @@ export class CreateUpdateDeleteDialogComponent implements OnInit {
         break;
       case Mode.create:
         this.newValue = undefined;
-        setTimeout(() => this.textField.setFocus());
+        setTimeout(() => this.textField.focus());
         break;
       default: break;
     }

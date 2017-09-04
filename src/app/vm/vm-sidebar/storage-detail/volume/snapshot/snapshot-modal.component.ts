@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA } from '@angular/material';
 
-import { Volume } from '../../../../../shared/models';
-import { SnapshotActionsService } from '../../../../../snapshot/snapshot-actions.service';
 import {
   TableDatabase,
   TableDataSource
 } from '../../../../../shared/components/table/table';
+import { Volume } from '../../../../../shared/models';
+import { SnapshotActionsService } from '../../../../../snapshot/snapshot-actions.service';
 
 @Component({
   selector: 'cs-snapshot-modal',

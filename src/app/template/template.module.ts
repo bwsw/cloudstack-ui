@@ -7,6 +7,7 @@ import {
   MdCheckboxModule,
   MdDialogModule,
   MdIconModule,
+  MdInputModule,
   MdMenuModule,
   MdRadioModule,
   MdSelectModule,
@@ -69,6 +70,7 @@ import { TemplateComponent } from './template/template.component';
     MdMenuModule,
     MdButtonModule,
     MdIconModule,
+    MdInputModule,
     MdTabsModule,
   ],
   declarations: [

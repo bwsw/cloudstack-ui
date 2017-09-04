@@ -1,10 +1,11 @@
-<mdl-textfield
-  type="number"
-  name="minute"
-  [label]="'SNAPSHOT_POLICIES.MINUTE' | translate"
-  floating-label
-  required
-  #minuteField
-  [ngModel]="minute"
-  (ngModelChange)="updateMinute($event)"
-></mdl-textfield>
+<md-input-container>
+  <input
+    mdInput
+    type="number"
+    name="minute"
+    [ngModel]="minute"
+    (ngModelChange)="updateMinute($event)"
+    [placeholder]="'SNAPSHOT_POLICIES.MINUTE' | translate"
+    required
+  >
+</md-input-container>

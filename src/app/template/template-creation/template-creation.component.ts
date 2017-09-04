@@ -1,12 +1,13 @@
-import { Component, Inject, OnInit, Optional } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
+
 import { OsType, Zone } from '../../shared';
+import { IsoCreateAction } from '../../shared/actions/template-actions/create/iso-create';
+import { TemplateCreateAction } from '../../shared/actions/template-actions/create/template-create';
 import { Snapshot } from '../../shared/models/snapshot.model';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { TemplateCreateAction } from '../../shared/actions/template-actions/create/template-create';
-import { IsoCreateAction } from '../../shared/actions/template-actions/create/iso-create';
-import { Observable } from 'rxjs/Observable';
 
 
 @Component({

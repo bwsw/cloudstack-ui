@@ -19,19 +19,21 @@
       <div *ngIf="enoughResources && formState?.state" class="left-column">
         <div>
           <h5>{{ 'VM_PAGE.VM_CREATION.NAME' | translate }}</h5>
-          <mdl-textfield
-            type="text"
-            [label]="'VM_PAGE.VM_CREATION.NAME' | translate"
-            name="name"
-            required
-            pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
-            [error-msg]="(takenName ? 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' : '') | translate"
-            #vmName="ngModel"
-            [ngModel]="formState.state.displayName"
-            (ngModelChange)="displayNameChange($event)"
-            [class.is-invalid]="!vmName.valid || formState.state.displayName === takenName"
-          >
-          </mdl-textfield>
+          <md-input-container floatPlaceholder="never" class="full-width-input">
+            <input
+              mdInput
+              name="name"
+              [ngModel]="formState.state.displayName"
+              (ngModelChange)="displayNameChange($event)"
+              [placeholder]="'VM_PAGE.VM_CREATION.NAME' | translate"
+              pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
+              required
+              [errorStateMatcher]="vmNameErrorMatcher"
+            >
+            <md-error *ngIf="takenName">
+              {{ 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' | translate }}
+            </md-error>
+          </md-input-container>
         </div>
 
         <div>

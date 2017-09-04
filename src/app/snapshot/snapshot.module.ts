@@ -45,6 +45,7 @@ import { TimeZoneService } from './recurring-snapshots/time-zone/time-zone.servi
     MdDialogModule,
     MdlModule,
     MdIconModule,
+    MdInputModule,
     MdlSelectModule,
     SharedModule,
     ReactiveFormsModule,
