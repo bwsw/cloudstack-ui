@@ -2,12 +2,12 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
   ViewChild
 } from '@angular/core';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { UserTagService } from 'app/shared/services/tags/user-tag.service';
 import { DragulaService } from 'ng2-dragula';
@@ -31,10 +31,6 @@ import {
   selector: 'cs-app-sidebar',
   templateUrl: './app-sidebar.component.html',
   styleUrls: ['./app-sidebar.component.scss'],
-  // tslint:disable-next-line
-  host: {
-    '[style]': 'drawerStyles'
-  },
   animations: [transformHandle, transformLinks]
 })
 export class AppSidebarComponent extends WithUnsubscribe()
@@ -62,7 +58,6 @@ export class AppSidebarComponent extends WithUnsubscribe()
     private layoutService: LayoutService,
     private routerUtilsService: RouterUtilsService,
     private router: Router,
-    private domSanitizer: DomSanitizer,
     private userTagService: UserTagService
   ) {
     super();
@@ -148,14 +143,18 @@ export class AppSidebarComponent extends WithUnsubscribe()
     this.hasChanges = true;
   }
 
-  public get drawerStyles(): SafeStyle {
-    const styleString =
-      !this.themeColor || !this.themeColor.value
-        ? `background-color: #fafafa !important; color: #757575 !important`
-        : `background-color: ${this.themeColor.value} !important;
-        color: ${this.themeColor.textColor} !important`;
+  @HostBinding('style.background')
+  public get drawerBackground(): string {
+    return !this.themeColor || !this.themeColor.value
+      ? '#fafafa'
+      : `${this.themeColor.value}`;
+  }
 
-    return this.domSanitizer.bypassSecurityTrustStyle(styleString);
+  @HostBinding('style.color')
+  public get drawerColor(): string {
+    return !this.themeColor || !this.themeColor.value
+      ? '#757575'
+      : `${this.themeColor.textColor}`;
   }
 
   private setUpDragula(): void {
