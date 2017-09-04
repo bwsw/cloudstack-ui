@@ -45,7 +45,6 @@ export class InlineEditComponent extends AbstractInlineEditComponent implements 
       this.changeDetectorRef.detectChanges();
       this.textArea.value = this.textFieldText; // seems like a hack
     }
-    console.log(this.textFieldText);
   }
 
   public onKeyUp(event: KeyboardEvent): void {

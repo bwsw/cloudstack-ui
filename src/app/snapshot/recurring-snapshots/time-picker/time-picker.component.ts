@@ -99,7 +99,6 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
     }
 
     this.hour = newValue;
-    // TODO(andrewbents): check it's working (no snapshot actions for now)
     this.hourField.value = this.hour;
     this.writeValue(this.time);
   }
@@ -120,7 +119,6 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
     }
 
     this.minute = newValue;
-    // TODO(andrewbents): check it's working (no snapshot actions for now)
     this.minuteField.value = this.minute;
     this.writeValue(this.time);
   }

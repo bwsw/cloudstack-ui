@@ -67,7 +67,6 @@ export class HourlyPolicyComponent implements ControlValueAccessor {
     }
 
     this.minute = newValue;
-    // TODO(andrewbents): check it's working (no snapshot actions for now)
     this.minuteField.value = this.minute;
     this.writeValue(this.policy);
   }
