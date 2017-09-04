@@ -9,8 +9,7 @@ import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 
 @Component({
   selector: 'cs-vm-creation-template-dialog',
-  templateUrl: 'vm-template-dialog.component.html',
-  styleUrls: ['../../../shared/styles/iso-dialog.scss']
+  templateUrl: 'vm-template-dialog.component.html'
 })
 export class VmTemplateDialogComponent extends TemplateFilterListComponent implements OnInit {
   public _selectedTemplate: BaseTemplateModel;
