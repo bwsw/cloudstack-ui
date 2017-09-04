@@ -19,7 +19,7 @@
       <div *ngIf="enoughResources && formState?.state" class="left-column">
         <div>
           <h5>{{ 'VM_PAGE.VM_CREATION.NAME' | translate }}</h5>
-          <md-input-container floatPlaceholder="never" class="full-width-input">
+          <md-form-field floatPlaceholder="never" class="full-width-input">
             <input
               mdInput
               name="name"
@@ -33,7 +33,7 @@
             <md-error *ngIf="takenName">
               {{ 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' | translate }}
             </md-error>
-          </md-input-container>
+          </md-form-field>
         </div>
 
         <div>
@@ -103,7 +103,7 @@
       <div *ngIf="enoughResources && formState?.state" class="right-column">
         <div>
           <h5>{{ 'VM_PAGE.VM_CREATION.GROUP' | translate }}</h5>
-          <md-input-container floatPlaceholder="never">
+          <md-form-field floatPlaceholder="never">
             <input
               name="group"
               mdInput
@@ -112,7 +112,7 @@
               [ngModel]="formState.state.instanceGroup.name"
               (ngModelChange)="instanceGroupChange($event)"
             >
-          </md-input-container>
+          </md-form-field>
           <md-autocomplete #instanceGroups>
             <md-option
               *ngFor="let group of visibleInstanceGroups"
@@ -125,7 +125,7 @@
 
         <div>
           <h5>{{ 'VM_PAGE.VM_CREATION.AFFINITY_GROUPS' | translate }}</h5>
-          <md-input-container floatPlaceholder="never">
+          <md-form-field floatPlaceholder="never">
             <input
               name="group"
               mdInput
@@ -134,7 +134,7 @@
               [(ngModel)]="formState.state.affinityGroup.name"
               (ngModelChange)="affinityGroupChange($event)"
             >
-          </md-input-container>
+          </md-form-field>
           <md-autocomplete #affinityGroups>
             <md-option
               *ngFor="let group of visibleAffinityGroups"

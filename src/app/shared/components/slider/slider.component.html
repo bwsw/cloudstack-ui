@@ -1,7 +1,7 @@
 <div class="custom-slider">
   <h5 *ngIf="label">{{ label }}</h5>
   <div class="current-value">
-    <md-input-container class="custom-slider-input">
+    <md-form-field class="custom-slider-input">
       <input
         mdInput
         type="number"
@@ -12,7 +12,7 @@
         [max]="max"
         (blur)="onBlur($event)"
       >
-    </md-input-container>
+    </md-form-field>
     <div class="custom-slider-label">{{ units }}</div>
   </div>
 </div>

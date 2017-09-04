@@ -12,7 +12,7 @@
         novalidate
         #passwordForm="ngForm"
       >
-        <md-input-container class="full-width-input">
+        <md-form-field class="full-width-input">
           <input
             mdInput
             type="password"
@@ -20,9 +20,9 @@
             [placeholder]="'SETTINGS.SECURITY.NEW_PASSWORD' | translate"
             required
           >
-        </md-input-container>
+        </md-form-field>
         <br>
-        <md-input-container class="full-width-input">
+        <md-form-field class="full-width-input">
           <input
             mdInput
             type="password"
@@ -30,7 +30,7 @@
             [placeholder]="'SETTINGS.SECURITY.REPEAT_PASSWORD' | translate"
             required
           >
-        </md-input-container>
+        </md-form-field>
         <br>
         <div class="pull-right-button">
           <button md-button type="submit" [disabled]="!passwordUpdateForm.valid">

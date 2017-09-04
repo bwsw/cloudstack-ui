@@ -3,7 +3,7 @@
   <div class="login mdl-color--white" mdl-shadow="2">
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
       <div class="mat-dialog-content">
-        <md-input-container class="full-width-input">
+        <md-form-field class="full-width-input">
           <input
             mdInput
             name="username"
@@ -16,9 +16,9 @@
           <md-error *ngIf="usernameControl.hasError('required')">
             {{'AUTH.USERNAME_REQUIRED' | translate}}
           </md-error>
-        </md-input-container>
+        </md-form-field>
         <br />
-        <md-input-container class="full-width-input">
+        <md-form-field class="full-width-input">
           <input
             mdInput
             type="password"
@@ -31,16 +31,16 @@
           <md-error *ngIf="passwordControl.hasError('required')">
             {{'AUTH.PASSWORD_REQUIRED' | translate}}
           </md-error>
-        </md-input-container>
+        </md-form-field>
         <br />
-        <md-input-container *ngIf="showDomain" class="full-width-input">
+        <md-form-field *ngIf="showDomain" class="full-width-input">
           <input
             mdInput
             name="domain"
             [(ngModel)]="domain"
             [placeholder]="'AUTH.DOMAIN' | translate"
           >
-        </md-input-container>
+        </md-form-field>
       </div>
       <div class="mat-dialog-actions">
         <button

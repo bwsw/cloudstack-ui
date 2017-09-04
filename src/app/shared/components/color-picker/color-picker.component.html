@@ -5,7 +5,7 @@
 >
   <div class="color-preview" [style.background-color]="selectedColor?.value"></div>
 </div>
-<md-input-container class="full-width-input">
+<md-form-field class="full-width-input">
   <input
     mdInput
     [value]="selectedColor?.value.toLowerCase()"
@@ -13,7 +13,7 @@
     readonly
     (click)="toggle($event)"
   >
-</md-input-container>
+</md-form-field>
 
 <div class="popover-container">
   <mdl-popover #popover mdl-shadow="6">

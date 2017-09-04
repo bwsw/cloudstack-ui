@@ -8,7 +8,7 @@
   >
     <div class="mat-dialog-content">
       <ng-container *ngIf="enoughResources">
-        <md-input-container class="full-width-input">
+        <md-form-field class="full-width-input">
           <input
             mdInput
             name="name"
@@ -17,15 +17,15 @@
             autofocus
             required
           >
-        </md-input-container>
-        <md-input-container class="full-width-input">
+        </md-form-field>
+        <md-form-field class="full-width-input">
           <input
             mdInput
             name="description"
             [(ngModel)]="description"
             [placeholder]="'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.DESCRIPTION' | translate"
           >
-        </md-input-container>
+        </md-form-field>
       </ng-container>
       <div *ngIf="!enoughResources">{{ "ERRORS.SNAPSHOT.LIMIT_EXCEEDED" | translate }}</div>
     </div>

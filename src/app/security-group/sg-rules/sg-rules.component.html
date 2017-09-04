@@ -58,7 +58,7 @@
           </md-select>
         </td>
         <td class="mat-cell">
-          <md-input-container *ngIf="protocol === NetworkProtocols.ICMP">
+          <md-form-field *ngIf="protocol === NetworkProtocols.ICMP">
             <input
               mdInput
               name="icmpType"
@@ -74,9 +74,9 @@
             <md-error *ngIf="icmpTypeField.invalid">
               {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_TYPE' | translate }}
             </md-error>
-          </md-input-container>
+          </md-form-field>
 
-          <md-input-container *ngIf="protocol !== NetworkProtocols.ICMP">
+          <md-form-field *ngIf="protocol !== NetworkProtocols.ICMP">
             <input
               mdInput
               name="startPort"
@@ -91,10 +91,10 @@
             <md-error *ngIf="startPortField.invalid">
               {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_PORT' | translate }}
             </md-error>
-          </md-input-container>
+          </md-form-field>
         </td>
         <td class="mat-cell">
-          <md-input-container *ngIf="protocol === NetworkProtocols.ICMP">
+          <md-form-field *ngIf="protocol === NetworkProtocols.ICMP">
             <input
               mdInput
               name="icmpCode"
@@ -110,8 +110,8 @@
             <md-error *ngIf="icmpCodeField.invalid">
               {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CODE' | translate }}
             </md-error>
-          </md-input-container>
-          <md-input-container *ngIf="protocol !== NetworkProtocols.ICMP">
+          </md-form-field>
+          <md-form-field *ngIf="protocol !== NetworkProtocols.ICMP">
             <input
               mdInput
               name="endPort"
@@ -126,10 +126,10 @@
             <md-error *ngIf="endPortField.invalid">
               {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_PORT' | translate }}
             </md-error>
-          </md-input-container>
+          </md-form-field>
         </td>
         <td class="cidr mat-cell">
-          <md-input-container class="cidr">
+          <md-form-field class="cidr">
             <input
               mdInput
               name="cidr"
@@ -143,7 +143,7 @@
             <md-error *ngIf="cidrField.hasError('pattern')">
               {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CIDR' | translate }}
             </md-error>
-          </md-input-container>
+          </md-form-field>
         </td>
         <td class="mat-cell">
           <button

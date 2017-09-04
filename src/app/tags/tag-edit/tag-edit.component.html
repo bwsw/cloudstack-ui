@@ -4,7 +4,7 @@
 </h3>
 <form (ngSubmit)="onTagUpdate()" #tagCreationForm="ngForm">
   <div class="mat-dialog-content">
-    <md-input-container class="full-width-input">
+    <md-form-field class="full-width-input">
       <input
         mdInput
         name="key"
@@ -22,9 +22,9 @@
       <md-hint align="end">
         <cs-character-count [value]="key" [maxLength]="maxKeyLength"></cs-character-count>
       </md-hint>
-    </md-input-container>
+    </md-form-field>
 
-    <md-input-container class="full-width-input">
+    <md-form-field class="full-width-input">
       <input
         mdInput
         name="value"
@@ -39,7 +39,7 @@
           [maxLength]="maxValueLength"
         ></cs-character-count>
       </md-hint>
-    </md-input-container>
+    </md-form-field>
   </div>
 
   <div class="mat-dialog-actions">

@@ -1,7 +1,8 @@
 import { MdlModule } from '@angular-mdl/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MdInput, MdInputModule, MdTooltipModule } from '@angular/material';
+import { MdInput, MdInputModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -74,7 +75,6 @@ describe('Api Info component', () => {
     TestBed.configureTestingModule({
       imports: [
         NoopAnimationsModule,
-        MdTooltipModule,
         MdInputModule,
         MdlModule,
         FormsModule,
@@ -94,7 +94,8 @@ describe('Api Info component', () => {
         { provide: RouterUtilsService, useClass: MockRouterUtilsService },
         { provide: TranslateService, useClass: MockTranslateService },
         { provide: UserService, useClass: MockUserService }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     });
 
     fixture = TestBed.createComponent(ApiInfoComponent);

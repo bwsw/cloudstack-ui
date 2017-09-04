@@ -31,7 +31,7 @@ $input-margin: 10px;
   }
 }
 
-:host md-input-container {
+:host md-form-field {
   width: 300px - $input-margin - $preview-width !important;
   margin-left: $input-margin;
   input {

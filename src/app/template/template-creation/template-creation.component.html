@@ -5,7 +5,7 @@
     <div class="mat-dialog-content">
       <div [class.flex-dialog-content]="!snapshot">
         <div [class.column]="!snapshot">
-          <md-input-container class="full-width-input">
+          <md-form-field class="full-width-input">
             <input
               mdInput
               name="name"
@@ -18,9 +18,9 @@
             <md-hint align="end">
               <cs-character-count [value]="name" [maxLength]="255"></cs-character-count>
             </md-hint>
-          </md-input-container>
+          </md-form-field>
           <br>
-          <md-input-container class="full-width-input">
+          <md-form-field class="full-width-input">
             <input
               mdInput
               name="description"
@@ -35,9 +35,9 @@
                 [maxLength]="255"
               ></cs-character-count>
             </md-hint>
-          </md-input-container>
+          </md-form-field>
           <br>
-          <md-input-container *ngIf="!snapshot" class="full-width-input">
+          <md-form-field *ngIf="!snapshot" class="full-width-input">
             <input
               mdInput
               type="url"
@@ -57,7 +57,7 @@
             <md-hint align="end">
               <cs-character-count [value]="url" [maxLength]="255"></cs-character-count>
             </md-hint>
-          </md-input-container>
+          </md-form-field>
         </div>
         <div [class.column]="!snapshot">
           <div>

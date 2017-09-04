@@ -1,4 +1,4 @@
-<md-input-container [style.width.px]="300">
+<md-form-field [style.width.px]="300">
   <input
     mdInput
     name="store"
@@ -17,4 +17,4 @@
   <md-error *ngIf="storedSnapshots.invalid">
     {{ errorMessage | async }}
   </md-error>
-</md-input-container>
+</md-form-field>

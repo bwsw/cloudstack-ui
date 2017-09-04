@@ -36,7 +36,7 @@
       </md-radio-button>
     </md-radio-group>
 
-    <md-input-container *ngIf="mode === modes.create" class="full-width-input">
+    <md-form-field *ngIf="mode === modes.create" class="full-width-input">
       <input
         mdInput
         type="text"
@@ -47,7 +47,7 @@
         autofocus
         required
       >
-    </md-input-container>
+    </md-form-field>
 
     <md-select
       name="selectValue"

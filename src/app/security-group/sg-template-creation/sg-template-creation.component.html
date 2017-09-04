@@ -4,7 +4,7 @@
   </h3>
   <form (ngSubmit)="onSubmit($event)" #templateCreationForm="ngForm" novalidate>
     <div class="mat-dialog-content">
-      <md-input-container class="full-width-input">
+      <md-form-field class="full-width-input">
         <input
           mdInput
           name="name"
@@ -17,9 +17,9 @@
         <md-hint align="end">
           <cs-character-count [value]="name" [maxLength]="255"></cs-character-count>
         </md-hint>
-      </md-input-container>
+      </md-form-field>
       <br />
-      <md-input-container class="full-width-input">
+      <md-form-field class="full-width-input">
         <input
           mdInput
           name="description"
@@ -33,7 +33,7 @@
             [maxLength]="255"
           ></cs-character-count>
         </md-hint>
-      </md-input-container>
+      </md-form-field>
       <br />
       <cs-security-group-rules-manager
         class="basic-rules"

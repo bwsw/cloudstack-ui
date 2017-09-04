@@ -1,4 +1,4 @@
-<md-input-container>
+<md-form-field>
   <input
     mdInput
     name="hour"
@@ -8,11 +8,11 @@
     [placeholder]="'SNAPSHOT_POLICIES.TIME' | translate"
     #hourField
   >
-</md-input-container>
+</md-form-field>
 
 <span class="delimiter">:</span>
 
-<md-input-container>
+<md-form-field>
   <input
     mdInput
     name="minute"
@@ -21,7 +21,7 @@
     (ngModelChange)="updateMinute($event)"
     #minuteField
   >
-</md-input-container>
+</md-form-field>
 
 <span class="delimiter"></span>
 

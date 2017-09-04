@@ -27,7 +27,7 @@
     {{ contentPlaceholder | translate }}
   </span>
 
-  <md-input-container *ngIf="editing" class="full-width-input">
+  <md-form-field *ngIf="editing" class="full-width-input">
     <textarea
       mdInput
       mdTextareaAutosize
@@ -38,7 +38,7 @@
       [rows]="rows"
       (keyup)="onKeyUp($event)"
     ></textarea>
-  </md-input-container>
+  </md-form-field>
 
   <div class="buttons">
     <button

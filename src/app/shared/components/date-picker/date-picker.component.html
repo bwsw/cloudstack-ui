@@ -1,12 +1,12 @@
 <cs-input-group>
-  <md-input-container cs-input-group-textbox>
+  <md-form-field cs-input-group-textbox>
     <input
       mdInput
       [(ngModel)]="displayDate"
       [placeholder]="'EVENT_PAGE.SELECT_DATE' | translate"
       (focus)="onFocus($event)"
     >
-  </md-input-container>
+  </md-form-field>
   <button
     md-icon-button
     cs-input-group-button

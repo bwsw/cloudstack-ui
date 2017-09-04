@@ -7,7 +7,7 @@
     novalidate
   >
     <div class="mat-dialog-content">
-      <md-input-container class="full-width-input">
+      <md-form-field class="full-width-input">
         <input
           mdInput
           name="name"
@@ -16,10 +16,10 @@
           autofocus
           required
         >
-      </md-input-container>
+      </md-form-field>
       <br/>
       <span class="public-key-label mdl-color-text--primary">{{ 'SSH_KEYS.PUBLIC_KEY' | translate }}</span>
-      <md-input-container floatPlaceholder="never" class="full-width-input">
+      <md-form-field floatPlaceholder="never" class="full-width-input">
         <textarea
           mdInput
           name="public-key"
@@ -27,7 +27,7 @@
           [placeholder]="'SSH_KEYS.AUTO_GENERATED' | translate"
           rows="3"
         ></textarea>
-      </md-input-container>
+      </md-form-field>
     </div>
     <div class="mat-dialog-actions">
       <button
