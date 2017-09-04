@@ -3,7 +3,7 @@
     <ng-container [ngSwitch]="notification.status">
       <md-icon
         *ngSwitchCase="notificationStatus.Finished"
-        md-list-icon
+        mdListIcon
       >
         done
       </md-icon>
@@ -12,7 +12,7 @@
       ></md-spinner>
       <md-icon
         *ngSwitchCase="notificationStatus.Failed"
-        md-list-icon
+        mdListIcon
       >
         close
       </md-icon>
@@ -24,7 +24,7 @@
       class="close"
       *ngIf="notification.status !== notificationStatus.Pending"
       (click)="remove()"
-      md-list-icon
+      mdListIcon
     >
       close
     </md-icon>

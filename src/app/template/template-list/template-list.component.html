@@ -7,7 +7,7 @@
       [class.selected-template]="selectedTemplate?.id === template?.id"
       [class.inline-block]="!radio"
     >
-      <cs-template-os-icon md-list-avatar [template]="template"></cs-template-os-icon>
+      <cs-template-os-icon mdListAvatar [template]="template"></cs-template-os-icon>
       <h4 md-line>
         <span [innerHTML]="template.name | highlight:query"></span>
         <ng-container *ngIf="!template.isReady">
