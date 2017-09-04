@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { SecurityGroup } from '../../../../security-group/sg.model';
-import { VmCreationSecurityGroupMode } from '../../security-group/vm-creation-security-group-mode';
 import { Rules } from '../../../../shared/components/security-group-builder/rules';
-import { MdDialogRef } from '@angular/material';
+// tslint:disable-next-line
+import { SecurityGroupRulesManagerData } from '../../../../shared/components/security-group-rules-manager/sg-rules-manager.component';
 // tslint:disable-next-line
 import { SpareDriveAttachmentDialogComponent } from '../../../vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
+import { VmCreationSecurityGroupData } from '../../security-group/vm-creation-security-group-data';
+import { VmCreationSecurityGroupMode } from '../../security-group/vm-creation-security-group-mode';
 
 
 @Component({
@@ -13,14 +16,13 @@ import { SpareDriveAttachmentDialogComponent } from '../../../vm-sidebar/storage
   styleUrls: ['security-group.component.scss']
 })
 export class VmCreationSecurityGroupComponent {
-  public builderRules: Rules;
-  public selectedSecurityGroup: SecurityGroup;
-  private _displayMode = VmCreationSecurityGroupMode.Builder;
-
-  constructor(private dialogRef: MdDialogRef<SpareDriveAttachmentDialogComponent>) {}
+  constructor(
+    private dialogRef: MdDialogRef<SpareDriveAttachmentDialogComponent>,
+    @Inject(MD_DIALOG_DATA) public savedData: VmCreationSecurityGroupData
+  ) {}
 
   public get displayMode(): VmCreationSecurityGroupMode {
-    return this._displayMode;
+    return this.savedData.mode;
   }
 
   public set displayMode(value: VmCreationSecurityGroupMode) {
@@ -29,7 +31,7 @@ export class VmCreationSecurityGroupComponent {
       1: VmCreationSecurityGroupMode.Selector
     };
 
-    this._displayMode = map[value];
+    this.savedData.mode = map[value];
   }
 
   public get isModeBuilder(): boolean {
@@ -51,7 +53,7 @@ export class VmCreationSecurityGroupComponent {
   }
 
   public onSave(): void {
-    this.dialogRef.close(this.dialogCloseData);
+    this.dialogRef.close(this.savedData);
   }
 
   public onCancel(): void {
@@ -59,19 +61,10 @@ export class VmCreationSecurityGroupComponent {
   }
 
   public onBuilderGroupChange(rules: Rules): void {
-    this.builderRules = rules;
+    this.savedData.rules = rules;
   }
 
   public onSelectedGroupChange(securityGroup: SecurityGroup) {
-    debugger;
-    this.selectedSecurityGroup = securityGroup;
-  }
-
-  private get dialogCloseData(): Rules | SecurityGroup {
-    if (this.displayMode === VmCreationSecurityGroupMode.Builder) {
-      return this.builderRules;
-    } else {
-      return this.selectedSecurityGroup;
-    }
+    this.savedData.securityGroup = securityGroup;
   }
 }

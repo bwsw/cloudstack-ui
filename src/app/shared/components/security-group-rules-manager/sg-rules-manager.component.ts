@@ -7,15 +7,12 @@ import {
 } from '../../../vm/vm-creation/components/security-group/security-group.component';
 import { Rules } from '../security-group-builder/rules';
 import { SecurityGroup } from '../../../security-group/sg.model';
+import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
+import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 
-
-export enum SecurityGroupRulesManagerMode {
-  New,
-  Existing
-}
 
 export interface SecurityGroupRulesManagerData {
-  mode: SecurityGroupRulesManagerMode,
+  mode: VmCreationSecurityGroupMode,
   rules?: Rules,
   securityGroup?: SecurityGroup
 }
@@ -35,15 +32,12 @@ export interface SecurityGroupRulesManagerData {
 export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
   @Input() public mode: 'create' | 'edit';
   @Input() public header = 'VM_PAGE.VM_CREATION.SECURITY_GROUPS';
-  public savedData: SecurityGroupRulesManagerData;
+  public savedData: VmCreationSecurityGroupData;
 
-  private _securityGroupRulesManagerData: SecurityGroupRulesManagerData;
+  private _securityGroupRulesManagerData: VmCreationSecurityGroupData;
 
   constructor(private dialog: MdDialog) {
-    this.savedData = {
-      mode: SecurityGroupRulesManagerMode.New,
-      rules: new Rules()
-    };
+    this.savedData = VmCreationSecurityGroupData.fromRules(new Rules());
   }
 
   public ngOnInit(): void {
@@ -55,16 +49,16 @@ export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
   public propagateChange: any = () => {};
 
   @Input()
-  public get securityGroupRulesManagerData(): SecurityGroupRulesManagerData  {
+  public get securityGroupRulesManagerData(): VmCreationSecurityGroupData {
     return this._securityGroupRulesManagerData;
   }
 
-  public set securityGroupRulesManagerData(value: SecurityGroupRulesManagerData) {
+  public set securityGroupRulesManagerData(value: VmCreationSecurityGroupData) {
     this._securityGroupRulesManagerData = value;
     this.propagateChange(value);
   }
 
-  public writeValue(value: SecurityGroupRulesManagerData): void {
+  public writeValue(value: VmCreationSecurityGroupData): void {
     this.updateRules(value);
   }
 
@@ -73,6 +67,14 @@ export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
   }
 
   public registerOnTouched(): void { }
+
+  public get isModeNew(): boolean {
+    return this.savedData && this.savedData.mode === VmCreationSecurityGroupMode.Builder;
+  }
+
+  public get isModeExisting(): boolean {
+    return this.savedData && this.savedData.mode === VmCreationSecurityGroupMode.Selector;
+  }
 
   public get showAddButton(): boolean {
     return (
@@ -107,7 +109,7 @@ export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
       });
   }
 
-  private updateRules(data: SecurityGroupRulesManagerData): void {
+  private updateRules(data: VmCreationSecurityGroupData): void {
     this.savedData = data;
     this.securityGroupRulesManagerData = this.savedData;
   }

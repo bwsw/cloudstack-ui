@@ -1,21 +1,17 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { NetworkRule } from '../../../security-group/network-rule.model';
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
 import { SecurityGroupTagKeys } from '../../services/tags/security-group-tag-keys';
 import { Rules } from './rules';
+import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
+import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
 
 
 export interface RuleListItem {
   rule: NetworkRule;
   checked: boolean;
-}
-
-export interface SecurityGroupBuilderResult {
-  templates: Array<SecurityGroup>;
-  ingress: Array<NetworkRule>;
-  egress: Array<NetworkRule>;
 }
 
 @Component({
@@ -24,7 +20,8 @@ export interface SecurityGroupBuilderResult {
   styleUrls: ['security-group-builder.component.scss'],
 })
 export class SecurityGroupBuilderComponent implements OnInit {
-  @Output() public onChange = new EventEmitter<SecurityGroupBuilderResult>();
+  @Input() public inputRules: Rules;
+  @Output() public onChange = new EventEmitter<Rules>();
 
   public items: Array<Array<SecurityGroup>>;
   public selectedGroupIndex: number;
@@ -32,11 +29,7 @@ export class SecurityGroupBuilderComponent implements OnInit {
   public selectedRules: Array<Array<RuleListItem>>;
   public NetworkRuleTypes = NetworkRuleType;
 
-  constructor(
-    private dialogRef: MdDialogRef<SecurityGroupBuilderComponent>,
-    private securityGroupService: SecurityGroupService,
-    @Inject(MD_DIALOG_DATA) private inputRules: Rules
-  ) {
+  constructor(private securityGroupService: SecurityGroupService) {
     this.items = [[], []];
     this.selectedRules = [[], []];
   }
@@ -108,18 +101,8 @@ export class SecurityGroupBuilderComponent implements OnInit {
   }
 
   private emitChange(): void {
-    const result = {
-      templates: this.items[1],
-      ingress: this.checkedIngressRules,
-      egress: this.checkedEgressRules
-    };
-
-    this.onChange.emit(result);
-  }
-
-  public onCancel(): void {
-    this.dialogRef.close(this.inputRules);
-  }
+    this.onChange.emit(new Rules(this.items[1], this.checkedIngressRules, this.checkedEgressRules));
+  };
 
   private get checkedIngressRules(): Array<NetworkRule> {
     return this.selectedRules[0]

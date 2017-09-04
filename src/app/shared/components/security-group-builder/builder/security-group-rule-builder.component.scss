@@ -1,9 +1,3 @@
-$list-height: 187px;
-:host {
-  display: block;
-  padding: 5px;
-}
-
 .list-builder {
   display: flex;
 }
@@ -14,17 +8,11 @@ $list-height: 187px;
 }
 
 .left-list > md-list,
-.right-list > md-list,
-.rules-list > md-list {
+.right-list > md-list {
   height: $list-height;
   overflow: auto;
   border: 1px solid rgba(0, 0, 0, 0.14);
   border-radius: 3px;
-}
-
-.rules-list {
-  margin-top: 10px;
-  margin-bottom: 10px;
 }
 
 md-list-item.active {

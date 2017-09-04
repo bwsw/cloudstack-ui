@@ -3,10 +3,10 @@ import { SecurityGroup } from '../../../../security-group/sg.model';
 
 
 @Component({
-  selector: 'cs-security-group-base-templates',
-  templateUrl: 'security-group-base-templates.component.html'
+  selector: 'cs-security-group-manager-base-templates',
+  templateUrl: 'security-group-manager-base-templates.component.html'
 })
-export class SecurityGroupBaseTemplatesComponent {
+export class SecurityGroupManagerBaseTemplatesComponent {
   @Input() public securityGroups: Array<SecurityGroup>;
 
   public get securityGroupsLine(): string {

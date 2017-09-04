@@ -14,22 +14,15 @@
       </span>
     </mdl-button>
     <span class="fancy-select-content">
-      <cs-security-group-base-templates
+      <cs-security-group-manager-base-templates
+        *ngIf="isModeNew"
         [securityGroups]="savedData?.rules?.templates"
-      ></cs-security-group-base-templates>
-      <!--<div class="mdl-textfield template-list">-->
-        <!--<div class="mdl-textfield__input">-->
-          <!--<ng-container *ngIf="savedRules.templates?.length">-->
-            <!--{{ 'SECURITY_GROUP_PAGE.RULES_MANAGER.BASED_ON' | translate }}-->
-            <!--<span *ngFor="let sg of savedRules?.templates; let i=index">-->
-              <!--{{ sg.name }}{{ i === savedRules?.templates?.length - 1 ? '' : ',' }}-->
-            <!--</span>-->
-          <!--</ng-container>-->
-          <!--<ng-container *ngIf="!savedRules.templates?.length">-->
-            <!--{{ 'COMMON.NONE' | translate }}-->
-          <!--</ng-container>-->
-        <!--</div>-->
-      <!--</div>-->
+      ></cs-security-group-manager-base-templates>
+
+      <cs-security-group-manager-existing-group
+        *ngIf="isModeExisting"
+        [securityGroup]="savedData?.securityGroup"
+      ></cs-security-group-manager-existing-group>
     </span>
   </cs-fancy-select>
 </div>

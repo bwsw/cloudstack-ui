@@ -135,8 +135,9 @@ import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 // tslint:disable-next-line
-import { SecurityGroupBaseTemplatesComponent } from './components/security-group-rules-manager/security-group-base-templates/security-group-base-templates.component';
 import { VmCreationSecurityGroupService } from '../vm/vm-creation/services/vm-creation-security-group.service';
+import { SecurityGroupManagerBaseTemplatesComponent } from './components/security-group-rules-manager/security-group-manager-base-templates/security-group-manager-base-templates.component';
+import { SecurityGroupManagerExistingGroupComponent } from './components/security-group-rules-manager/security-group-manager-existing-group/security-group-manager-existing-group.component';
 
 
 @NgModule({
@@ -264,7 +265,8 @@ import { VmCreationSecurityGroupService } from '../vm/vm-creation/services/vm-cr
     TemplateActionsComponent,
     SecurityGroupBuilderComponent,
     SecurityGroupSelectorComponent,
-    SecurityGroupBaseTemplatesComponent
+    SecurityGroupManagerBaseTemplatesComponent,
+    SecurityGroupManagerExistingGroupComponent
   ],
   providers: [
     SpareDriveActionsService,

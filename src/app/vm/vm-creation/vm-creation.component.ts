@@ -19,7 +19,6 @@ import {
   VmDeploymentService,
   VmDeploymentStage
 } from './services/vm-deployment.service';
-import { Rules } from '../../shared/components/security-group-builder/rules';
 import { VmCreationSecurityGroupData } from './security-group/vm-creation-security-group-data';
 
 
