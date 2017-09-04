@@ -3,7 +3,7 @@ import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
 import { Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MdDialog, MdIconModule, MdTooltipModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,6 +26,7 @@ import { SpareDriveModule } from './spare-drive';
 import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
+import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
 
 
 
@@ -73,7 +74,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   ],
   providers: [
     MdDialog,
-    { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true }
+    { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
+    { provide: HTTP_INTERCEPTORS, useClass: BaseHttpInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

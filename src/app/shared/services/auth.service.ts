@@ -90,6 +90,10 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     return this.storage.read('userId') || '';
   }
 
+  public get sessionKey(): string {
+    return this.storage.read('sessionKey') || '';
+  }
+
   public set name(name: string) {
     if (!name) {
       this.storage.remove('name');
@@ -114,11 +118,19 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     }
   }
 
+  public set sessionKey(sessionKey: string) {
+    if (!sessionKey) {
+      this.storage.remove('sessionKey');
+    } else {
+      this.storage.write('sessionKey', sessionKey);
+    }
+  }
+
   public login(username: string, password: string, domain?: string): Observable<void> {
     return this.postRequest('login', { username, password, domain })
       .map(res => this.getResponse(res))
       .do(res => {
-        this.setLoggedIn(res.username, `${res.firstname} ${res.lastname}`, res.userid);
+        this.setLoggedIn(res.username, `${res.firstname} ${res.lastname}`, res.userid, res.sessionkey);
       })
       .catch((error) => this.handleCommandError(error));
   }
@@ -143,10 +155,11 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     this.userService.getList().subscribe();
   }
 
-  private setLoggedIn(username: string, name: string, userId: string): void {
+  private setLoggedIn(username: string, name: string, userId: string, sessionKey: string): void {
     this.name = name;
     this.username = username;
     this.userId = userId;
+    this.sessionKey = sessionKey;
     this.loggedIn.next(true);
   }
 
@@ -154,6 +167,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     this.name = '';
     this.username = '';
     this.userId = '';
+    this.sessionKey = '';
     this.loggedIn.next(false);
   }
 
