@@ -118,6 +118,15 @@ import { UserService } from './services/user.service';
 import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
+import {
+  SpareDriveAttachmentComponent
+} from './actions/spare-drive-actions/spare-drive-attachment/spare-drive-attachment.component';
+import { SpareDriveSnapshotAction } from './actions/spare-drive-actions/spare-drive-snapshot';
+import { SpareDriveRecurringSnapshotsAction } from './actions/spare-drive-actions/spare-drive-recurring-snapshots';
+import { SpareDriveAttachAction } from './actions/spare-drive-actions/spare-drive-attach';
+import { SpareDriveDetachAction } from './actions/spare-drive-actions/spare-drive-detach';
+import { SpareDriveRemoveAction } from './actions/spare-drive-actions/spare-drive-remove';
+import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-drive-resize';
 
 
 @NgModule({
@@ -189,7 +198,8 @@ import { ZoneService } from './services/zone.service';
   ],
   entryComponents: [
     DatePickerDialogComponent,
-    LoaderComponent
+    LoaderComponent,
+    SpareDriveAttachmentComponent
   ],
   declarations: [
     CharacterCountComponent,
@@ -241,6 +251,12 @@ import { ZoneService } from './services/zone.service';
   ],
   providers: [
     SpareDriveActionsService,
+    SpareDriveSnapshotAction,
+    SpareDriveRecurringSnapshotsAction,
+    SpareDriveAttachAction,
+    SpareDriveDetachAction,
+    SpareDriveRemoveAction,
+    SpareDriveResizeAction,
     TemplateActionsService,
     DescriptionTagService,
     MarkForRemovalService,

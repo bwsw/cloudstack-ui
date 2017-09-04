@@ -1,0 +1,22 @@
+<div *ngIf="entity">
+  <div *ngIf="!readyInEveryZone" class="update-button-container">
+    <mdl-button (click)="updateStatus()">{{ 'COMMON.UPDATE' | translate }}</mdl-button>
+  </div>
+  <md-card *ngFor="let zone of entity.zones" class="vm-card" mdl-shadow="2">
+    <md-card-header>
+      <md-card-title>
+        <h2 class="md-card-title-text">{{ zone.zoneName }}</h2>
+      </md-card-title>
+    </md-card-header>
+    <md-card-content class="grid">
+      <div class="row">
+        <div>{{ 'TEMPLATE_PAGE.ZONE_DETAILS.READY' | translate }}</div>
+        <div>{{ zone.isReady | viewValue | async }}</div>
+      </div>
+      <div *ngIf="!zone.isReady && zone.status" class="row">
+        <div>{{ 'COMMON.STATUS' | translate }}</div>
+        <div>{{ zone.status }}</div>
+      </div>
+    </md-card-content>
+  </md-card>
+</div>

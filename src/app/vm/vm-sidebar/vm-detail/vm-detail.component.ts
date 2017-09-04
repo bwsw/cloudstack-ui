@@ -14,6 +14,7 @@ import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 import { SshKeypairResetComponent } from './../ssh/ssh-keypair-reset.component';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -22,7 +23,7 @@ import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
   styleUrls: ['vm-detail.component.scss']
 })
 export class VmDetailComponent implements OnChanges {
-  @Input() public vm: VirtualMachine;
+  public vm: VirtualMachine;
   public description: string;
   public expandServiceOffering: boolean;
   public affinityGroupLoading: boolean;
@@ -36,9 +37,16 @@ export class VmDetailComponent implements OnChanges {
     private dialog: MdDialog,
     private  vmActionsService: VmActionsService,
     private vmService: VmService,
-    private vmTagService: VmTagService
+    private vmTagService: VmTagService,
+    private activatedRoute: ActivatedRoute,
   ) {
     this.expandServiceOffering = false;
+    const params = this.activatedRoute.snapshot.parent.params;
+
+    this.vmService.getWithDetails(params.id).subscribe(
+      vm => {
+        this.vm = vm;
+      });
   }
 
   public ngOnChanges(): void {
@@ -90,8 +98,12 @@ export class VmDetailComponent implements OnChanges {
       });
   }
 
-  private askToStopVM(currentVM: VirtualMachine, message: string, loadingFunction: Function = () => {
-  }): Observable<any> {
+  private askToStopVM(
+    currentVM: VirtualMachine,
+    message: string,
+    loadingFunction: Function = () => {
+    }
+  ): Observable<any> {
     loadingFunction(true);
     return this.vmService.get(currentVM.id)
       .do(() => loadingFunction(false))
@@ -111,7 +123,7 @@ export class VmDetailComponent implements OnChanges {
               loadingFunction(true);
               return this.vmActionsService.vmStopActionSilent.activate(vm)
                 .do(() => loadingFunction(false))
-                .switchMap(() => Observable.of(true))
+                .switchMap(() => Observable.of(true));
             } else {
               return Observable.of(false);
             }

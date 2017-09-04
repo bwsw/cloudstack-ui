@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { TagService } from './tag.service';
 import { Observable } from 'rxjs/Observable';
-import { ResourceTypes } from '../../models/tag.model';
 import { Color } from '../../models/color.model';
-import { Utils } from '../utils.service';
+import { ResourceTypes } from '../../models/tag.model';
 import { DayOfWeek } from '../../types/day-of-week';
 import { Language, TimeFormat } from '../language.service';
 import { LocalStorageService } from '../local-storage.service';
+import { Utils } from '../utils.service';
 import { EntityTagService } from './entity-tag-service.interface';
-import { Time } from '../../../snapshot/recurring-snapshots/time-picker/time-picker.component';
+import { TagService } from './tag.service';
 import { UserTagKeys } from './user-tag-keys';
 
 
@@ -121,6 +120,14 @@ export class UserTagService implements EntityTagService {
 
   public removeTimeFormat(): Observable<void> {
     return this.removeTag(this.keys.timeFormat);
+  }
+
+  public getNavigationOrder(): Observable<string> {
+    return this.readTag(this.keys.navigationOrder);
+  }
+
+  public setNavigationOrder(orderStringified: string): Observable<string> {
+    return this.writeTag(this.keys.navigationOrder, orderStringified);
   }
 
   public writeTag(key: string, value: string): Observable<string> {
