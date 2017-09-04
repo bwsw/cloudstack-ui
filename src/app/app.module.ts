@@ -4,18 +4,26 @@ import { MdlSelectModule } from '@angular-mdl/select';
 import { Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { MdDialog, MdIconModule, MdTooltipModule } from '@angular/material';
+import {
+  MdCheckboxModule,
+  MdDialog,
+  MdIconModule,
+  MdTooltipModule
+} from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { DragulaModule } from 'ng2-dragula';
+
 import { AppComponent } from './app.component';
 import { routes } from './app.routing';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
 import { DialogModule } from './dialog/dialog-service/dialog.module';
 import { EventsModule } from './events/events.module';
+import { AppSidebarComponent } from './navigation/app-sidebar.component';
 import { SecurityGroupModule } from './security-group/sg.module';
 import { ServiceOfferingModule } from './service-offering/service-offering.module';
 import { SettingsModule } from './settings/settings.module';
@@ -27,8 +35,6 @@ import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
 import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
-
-
 
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -44,7 +50,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     FormsModule,
     TranslateModule.forRoot(),
     EventsModule,
+    DragulaModule,
     MdIconModule,
+    MdCheckboxModule,
     MdTooltipModule,
     MdlModule,
     MdlPopoverModule,
@@ -69,6 +77,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   ],
   declarations: [
     AppComponent,
+    AppSidebarComponent,
     LoginComponent,
     LogoutComponent
   ],

@@ -13,8 +13,7 @@
         class="template-header md-card-title-text"
       ></h2>
     </md-card-title>
-    <div class="md-card-header-menu"
-         *ngIf="isSelf">
+    <div *ngIf="isSelf" class="md-card-header-menu">
       <button *ngIf="isSelf" md-icon-button [mdMenuTriggerFor]="actionsMenu">
         <md-icon>more_vert</md-icon>
       </button>

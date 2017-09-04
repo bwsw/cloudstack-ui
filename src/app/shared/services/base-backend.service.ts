@@ -128,8 +128,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
   protected postRequest(command: string, params?: {}): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded');
     return this.http.post(BACKEND_API_URL, this.buildParams(command, params), { headers })
-      // .map((res: Response) => res.json())
-      .catch(error => this.handleError(error));
+     .catch(error => this.handleError(error));
   }
 
   protected sendCommand(command: string, params?: {}, entity?: string): Observable<any> {

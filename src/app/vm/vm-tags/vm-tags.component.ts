@@ -6,6 +6,7 @@ import { TagService } from '../../shared/services/tags/tag.service';
 import { TagsComponent } from '../../tags/tags.component';
 import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -18,20 +19,37 @@ export class VmTagsComponent extends TagsComponent<VirtualMachine> implements On
   constructor(
     protected dialogService: DialogService,
     protected tagService: TagService,
-    private vmService: VmService
+    private vmService: VmService,
+    private activatedRoute: ActivatedRoute
   ) {
     super(dialogService, tagService);
+    this.getEntity().subscribe(_ => this.entity = _);
   }
 
   public ngOnInit(): void {
-    // todo: remove unsubscribe after migration to ngrx
-    super.ngOnInit();
-    this.tags$
-      .takeUntil(this.unsubscribe$)
-      .subscribe(() => this.vmService.vmUpdateObservable.next(this.entity));
+    this.getEntity().subscribe(_ => {
+      this.entity = _;
+
+      this.tags$.next(this.entity.tags);
+
+      // todo: remove unsubscribe after migration to ngrx
+      this.tags$
+        .takeUntil(this.unsubscribe$)
+        .subscribe(tags => {
+          if (tags) {
+            this.entity.tags = tags;
+            this.vmService.vmUpdateObservable.next(this.entity);
+          }
+        });
+    });
   }
 
   protected get entityTags(): Observable<Array<Tag>> {
     return this.vmService.get(this.entity.id).map(_ => _.tags);
+  }
+
+  private getEntity(): Observable<VirtualMachine> {
+    const params = this.activatedRoute.snapshot.parent.params;
+    return this.vmService.getWithDetails(params.id);
   }
 }
