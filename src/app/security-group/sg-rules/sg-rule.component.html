@@ -22,6 +22,6 @@
     (click)="handleRemoveClicked($event)"
   >
     <md-icon *ngIf="!deleting">delete</md-icon>
-    <mdl-spinner single-color active *ngIf="deleting"></mdl-spinner>
+    <md-spinner *ngIf="deleting"></md-spinner>
   </button>
 </td>

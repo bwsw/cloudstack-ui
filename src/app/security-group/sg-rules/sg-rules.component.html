@@ -138,7 +138,7 @@
             disabled="{{ securityGroup.isPredefinedTemplate || adding || rulesForm.form.invalid }}"
           >
             <md-icon *ngIf="!adding">add</md-icon>
-            <mdl-spinner single-color active *ngIf="adding"></mdl-spinner>
+            <md-spinner *ngIf="adding"></md-spinner>
           </button>
         </td>
       </tr>

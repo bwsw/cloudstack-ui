@@ -4,9 +4,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+  MdAutocompleteModule,
   MdButtonModule,
   MdDialogModule,
   MdIconModule,
+  MdInputModule,
   MdSelectModule,
   MdTabsModule,
   MdTooltipModule
@@ -37,6 +39,8 @@ import { TimeZoneService } from './recurring-snapshots/time-zone/time-zone.servi
     TranslateModule,
     MdTooltipModule,
     MdSelectModule,
+    MdInputModule,
+    MdAutocompleteModule,
     MdButtonModule,
     MdDialogModule,
     MdlModule,

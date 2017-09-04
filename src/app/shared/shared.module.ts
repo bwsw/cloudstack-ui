@@ -6,12 +6,19 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
+  MdAutocompleteModule,
   MdButtonModule,
   MdCardModule,
+  MdCheckboxModule,
   MdIconModule,
+  MdInputModule,
   MdListModule,
   MdMenuModule,
+  MdProgressBarModule,
+  MdProgressSpinnerModule,
+  MdRadioModule,
   MdSelectModule,
+  MdSliderModule,
   MdSnackBarModule,
   MdTableModule,
   MdTabsModule
@@ -20,13 +27,16 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
-import {
-  SpareDriveActionsComponent
-} from './actions/spare-drive-actions/spare-drive-actions-component/spare-drive-actions.component';
+import { SpareDriveActionsComponent } from './actions/spare-drive-actions/spare-drive-actions-component/spare-drive-actions.component';
 import { SpareDriveActionsService } from './actions/spare-drive-actions/spare-drive-actions.service';
-import {
-  TemplateActionsComponent
-} from './actions/template-actions/template-actions-component/template-actions.component';
+import { SpareDriveAttachAction } from './actions/spare-drive-actions/spare-drive-attach';
+import { SpareDriveAttachmentComponent } from './actions/spare-drive-actions/spare-drive-attachment/spare-drive-attachment.component';
+import { SpareDriveDetachAction } from './actions/spare-drive-actions/spare-drive-detach';
+import { SpareDriveRecurringSnapshotsAction } from './actions/spare-drive-actions/spare-drive-recurring-snapshots';
+import { SpareDriveRemoveAction } from './actions/spare-drive-actions/spare-drive-remove';
+import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-drive-resize';
+import { SpareDriveSnapshotAction } from './actions/spare-drive-actions/spare-drive-snapshot';
+import { TemplateActionsComponent } from './actions/template-actions/template-actions-component/template-actions.component';
 import { TemplateActionsService } from './actions/template-actions/template-actions.service';
 import {
   CalendarComponent,
@@ -48,19 +58,12 @@ import {
   TopBarComponent,
   VmStatisticsComponent
 } from './components';
-import {
-  MDL_SELECT_VALUE_ACCESSOR,
-  MdlAutocompleteComponent
-} from './components/autocomplete/mdl-autocomplete.component';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
-import {
-  CreateUpdateDeleteDialogComponent
-} from './components/create-update-delete-dialog/create-update-delete-dialog.component';
+import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
 import { GroupedCardListComponent } from './components/grouped-card-list/grouped-card-list.component';
-import { InlineEditAutocompleteComponent } from './components/inline-edit/inline-edit-autocomplete.component';
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
 import { InputGroupComponent } from './components/input-group/input-group.component';
 import { LoaderComponent } from './components/loader.component';
@@ -119,15 +122,6 @@ import { UserService } from './services/user.service';
 import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
-import {
-  SpareDriveAttachmentComponent
-} from './actions/spare-drive-actions/spare-drive-attachment/spare-drive-attachment.component';
-import { SpareDriveSnapshotAction } from './actions/spare-drive-actions/spare-drive-snapshot';
-import { SpareDriveRecurringSnapshotsAction } from './actions/spare-drive-actions/spare-drive-recurring-snapshots';
-import { SpareDriveAttachAction } from './actions/spare-drive-actions/spare-drive-attach';
-import { SpareDriveDetachAction } from './actions/spare-drive-actions/spare-drive-detach';
-import { SpareDriveRemoveAction } from './actions/spare-drive-actions/spare-drive-remove';
-import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-drive-resize';
 
 
 @NgModule({
@@ -136,13 +130,25 @@ import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-driv
     DynamicModule.withComponents([GroupedCardListComponent]),
     FormsModule,
     DragulaModule,
+    MdCheckboxModule,
     MdSelectModule,
     MdIconModule,
     MdButtonModule,
+    MdInputModule,
+    MdAutocompleteModule,
     MdlModule,
     MdlPopoverModule,
+    MdRadioModule,
     MdlSelectModule,
+    MdSliderModule,
     TranslateModule,
+    MdListModule,
+    MdProgressSpinnerModule,
+    MdProgressBarModule,
+    MdListModule,
+    MdSnackBarModule,
+    MdCardModule,
+    MdTabsModule,
     MdListModule,
     MdSnackBarModule,
     MdTabsModule,
@@ -165,14 +171,12 @@ import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-driv
     FancySelectComponent,
     ForbiddenValuesDirective,
     InlineEditComponent,
-    InlineEditAutocompleteComponent,
     InputGroupComponent,
     IntegerValidatorDirective,
     ListComponent,
     NoResultsComponent,
     MaxValueValidatorDirective,
     MinValueValidatorDirective,
-    MdlAutocompleteComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     OverlayLoadingComponent,
@@ -220,14 +224,12 @@ import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-driv
     FancySelectComponent,
     ForbiddenValuesDirective,
     InlineEditComponent,
-    InlineEditAutocompleteComponent,
     InputGroupComponent,
     IntegerValidatorDirective,
     ListComponent,
     NoResultsComponent,
     MaxValueValidatorDirective,
     MinValueValidatorDirective,
-    MdlAutocompleteComponent,
     MdlTextAreaAutoresizeDirective,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
@@ -302,8 +304,7 @@ import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-driv
     UserService,
     VolumeService,
     VolumeOfferingService,
-    ZoneService,
-    MDL_SELECT_VALUE_ACCESSOR
+    ZoneService
   ]
 })
 export class SharedModule {

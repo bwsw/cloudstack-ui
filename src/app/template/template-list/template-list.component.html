@@ -25,19 +25,7 @@
         [innerHTML]="template.displayText | highlight:query"
       ></p>
       <span *ngIf="radio">
-        <mdl-radio
-          *ngIf="selectedTemplate"
-          name="radio"
-          [value]="template.id"
-          [ngModel]="selectedTemplate.id"
-          mdl-ripple
-        >
-        </mdl-radio>
-        <mdl-radio
-          *ngIf="!selectedTemplate"
-          name="radio"
-          mdl-ripple
-        ></mdl-radio>
+        <md-radio-button [checked]="template?.id === selectedTemplate?.id"></md-radio-button>
       </span>
     </md-list-item>
   </md-list>

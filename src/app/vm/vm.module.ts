@@ -4,12 +4,15 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-
-    MdButtonModule,
-    MdDialogModule,MdIconModule,
-    MdMenuModule,
+  MdAutocompleteModule,
+  MdButtonModule,
+  MdCheckboxModule,
+  MdDialogModule,
+  MdIconModule,
+  MdInputModule,
+  MdMenuModule,
   MdSelectModule,
-    MdTabsModule,
+  MdTabsModule,
   MdTooltipModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
@@ -21,6 +24,7 @@ import { PulseModule } from '../pulse/pulse.module';
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 import { SharedModule } from '../shared/shared.module';
+import { SnapshotActionsService } from '../snapshot/snapshot-actions.service';
 // tslint:disable-next-line
 import { SnapshotModule } from '../snapshot/snapshot.module';
 import { TagsModule } from '../tags/tags.module';
@@ -28,25 +32,15 @@ import { TemplateModule } from '../template';
 import { VmActionsService } from './shared/vm-actions.service';
 import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
 import { VmService } from './shared/vm.service';
-import { VmStartActionSilent } from './vm-actions/silent/vm-start-silent';
-import { VmStopActionSilent } from './vm-actions/silent/vm-stop-silent';
-import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions.component';
-import { VmChangeServiceOfferingAction } from './vm-actions/vm-change-service-offering';
-import { VmConsoleAction } from './vm-actions/vm-console';
-import { VmDestroyAction } from './vm-actions/vm-destroy';
-import { VmRebootAction } from './vm-actions/vm-reboot';
-import { VmResetPasswordAction } from './vm-actions/vm-reset-password';
-import { VmRestoreAction } from './vm-actions/vm-restore';
-import { VmStartAction } from './vm-actions/vm-start';
-import { VmStopAction } from './vm-actions/vm-stop';
-import { VmWebShellAction } from './vm-actions/vm-webshell';
 import { VmActionProviders } from './vm-actions/index';
+import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions.component';
 import { VmCreationFormNormalizationService } from './vm-creation/form-normalization/form-normalization.service';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
 import { VmCreationService } from './vm-creation/services/vm-creation.service';
 import { VmDeploymentService } from './vm-creation/services/vm-deployment.service';
 import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-dialog.component';
 import { VmTemplateComponent } from './vm-creation/template/vm-template.component';
+import { VmCreationDialogComponent } from './vm-creation/vm-creation-dialog.component';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmFilterComponent } from './vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list/vm-list-item.component';
@@ -62,6 +56,7 @@ import { NicDetailComponent } from './vm-sidebar/network-detail/nic/nic-detail.c
 // tslint:disable-next-line
 import { ServiceOfferingDetailsComponent } from './vm-sidebar/service-offering-details/service-offering-details.component';
 import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.component';
+import { StatisticsComponent } from './vm-sidebar/statistics/statistics.component';
 import { IsoComponent } from './vm-sidebar/storage-detail/iso.component';
 // tslint:disable-next-line
 import { SpareDriveAttachmentDetailComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attachment-detail/spare-drive-attachment-detail.component';
@@ -70,11 +65,11 @@ import { SpareDriveAttachmentDialogComponent } from './vm-sidebar/storage-detail
 import { StorageDetailComponent } from './vm-sidebar/storage-detail/storage-detail.component';
 // tslint:disable-next-line
 import { SnapshotCreationComponent } from './vm-sidebar/storage-detail/volume/snapshot-creation/snapshot-creation.component';
-import { SnapshotActionsService } from '../snapshot/snapshot-actions.service';
 import { SnapshotModalComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshot-modal.component';
 import { SnapshotsComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshots.component';
 import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volume-details/volume-details.component';
 import { VolumeComponent } from './vm-sidebar/storage-detail/volume/volume.component';
+import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-template.component';
 import { VmActionsSidebarComponent } from './vm-sidebar/vm-actions-sidebar/vm-actions-sidebar.component';
 import { VmDetailComponent } from './vm-sidebar/vm-detail/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
@@ -83,9 +78,6 @@ import { VmDetailZoneComponent } from './vm-sidebar/zone/zone.component';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
 import { vmRouting } from './vm.routing';
 import { WebShellService } from './web-shell/web-shell.service';
-import { VmCreationDialogComponent } from './vm-creation/vm-creation-dialog.component';
-import { StatisticsComponent } from './vm-sidebar/statistics/statistics.component';
-import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-template.component';
 
 
 @NgModule({
@@ -95,6 +87,7 @@ import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-templ
     FormsModule,
     ServiceOfferingModule,
     DraggableSelectModule,
+    MdCheckboxModule,
     MdTooltipModule,
     MdSelectModule,
     MdButtonModule,
@@ -103,19 +96,19 @@ import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-templ
     MdlSelectModule,
     ReactiveFormsModule,
     ServiceOfferingModule,
-    ServiceOfferingModule,
     SharedModule,
     SnapshotModule,
     TagsModule,
     TemplateModule,
-    TranslateModule,
     TranslateModule,
     PulseModule,
     vmRouting,
     RouterModule.forRoot(routes),
     MdMenuModule,
     MdButtonModule,
+    MdInputModule,
     MdIconModule,
+    MdAutocompleteModule,
     MdTabsModule
   ],
   declarations: [

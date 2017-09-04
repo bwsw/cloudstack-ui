@@ -1,7 +1,7 @@
 import { MdlTextFieldModule } from '@angular-mdl/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MD_DIALOG_DATA, MdDialogModule, MdDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
@@ -52,7 +52,7 @@ describe('CustomServiceOfferingComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [FormsModule, MdlTextFieldModule],
+      imports: [FormsModule, MdDialogModule, MdlTextFieldModule],
       declarations: [
         CustomServiceOfferingComponent,
         MockTranslatePipe,
@@ -167,12 +167,13 @@ describe('CustomServiceOfferingComponent', () => {
       const submitButton = fixture.debugElement.query(
         By.css('button[type="button"]')
       );
+      console.log(submitButton.nativeElement);
 
       component.offering.cpuNumber = 4;
       submitButton.nativeElement.click();
       fixture.detectChanges();
       expect(mockDialogRef.close).toHaveBeenCalledTimes(1);
-      expect(mockDialogRef.close).toHaveBeenCalledWith();
+      expect(mockDialogRef.close).toHaveBeenCalledWith(undefined);
     })
   );
 });

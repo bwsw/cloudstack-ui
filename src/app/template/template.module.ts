@@ -4,9 +4,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   MdButtonModule,
+  MdCheckboxModule,
   MdDialogModule,
   MdIconModule,
   MdMenuModule,
+  MdRadioModule,
   MdSelectModule,
   MdTabsModule,
   MdTooltipModule
@@ -54,6 +56,8 @@ import { TemplateComponent } from './template/template.component';
     FormsModule,
     DynamicModule.withComponents([TemplateComponent]),
     TranslateModule,
+    MdRadioModule,
+    MdCheckboxModule,
     MdTooltipModule,
     MdlModule,
     MdDialogModule,

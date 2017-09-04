@@ -82,21 +82,21 @@
             </md-select>
           </div>
           <div>
-            <mdl-checkbox
+            <md-checkbox
+              *ngIf="mode === 'Template'"
               name="pass"
               [(ngModel)]="passwordEnabled"
-              *ngIf="mode === 'Template'"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.PASSWORD_ENABLED' | translate }}
-            </mdl-checkbox>
-            <mdl-checkbox
+            </md-checkbox>
+            <md-checkbox
               class="dynscal-checkbox"
               name="dynscal"
               [(ngModel)]="dynamicallyScalable"
               *ngIf="mode === 'Template'"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.DYNAMICALLY_SCALABLE' | translate }}
-            </mdl-checkbox>
+            </md-checkbox>
           </div>
         </div>
       </div>
