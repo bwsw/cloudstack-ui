@@ -13,7 +13,7 @@
   width: 85px;
 }
 
-:host /deep/ mdl-spinner {
+:host /deep/ md-spinner {
   position: relative;
   top: 2px;
 }
@@ -29,6 +29,18 @@
 
 :host /deep/ .mat-table td {
   text-align: left;
+}
+
+.rule-row {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+}
+
+.mat-row:hover {
+  background-color: transparent;
+}
+
+.table-form:hover {
+  background-color: #eeeeee !important;
 }
 
 .rule-row {

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
+  MdButtonModule,
   MdDialogModule,
   MdIconModule,
   MdInputModule,
@@ -23,6 +24,7 @@ import { TagsViewComponent } from './tags-view/tags-view.component';
     FormsModule,
     TranslateModule,
     MdIconModule,
+    MdButtonModule,
     MdTooltipModule,
     MdInputModule,
     MdlModule,

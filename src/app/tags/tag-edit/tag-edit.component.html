@@ -1,6 +1,7 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<h3 *ngIf="!loading" class="mat-dialog-title">{{ (title || 'TAGS.EDIT_TAG') | translate
-  }}</h3>
+<h3 *ngIf="!loading" class="mat-dialog-title">
+  {{ (title || 'TAGS.EDIT_TAG') | translate }}
+</h3>
 <form (ngSubmit)="onTagUpdate()" #tagCreationForm="ngForm">
   <div class="mat-dialog-content">
     <md-input-container class="full-width-input">
@@ -43,22 +44,20 @@
 
   <div class="mat-dialog-actions">
     <button
-      mdl-button
-      mdl-colored="primary"
-      mdl-ripple
+      md-button
+      color="primary"
+      mdDialogClose
+      type="button"
+    >
+      {{ 'COMMON.CANCEL' | translate }}
+    </button>
+    <button
+      md-button
+      color="primary"
       type="submit"
       [disabled]="!tagCreationForm.valid"
     >
       {{ (confirmButtonText || 'COMMON.EDIT') | translate }}
-    </button>
-    <button
-      mdl-button
-      mdl-colored="primary"
-      mdl-ripple
-      type="button"
-      (click)="onCancel()"
-    >
-      {{ 'COMMON.CANCEL' | translate }}
     </button>
   </div>
 </form>

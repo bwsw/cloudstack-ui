@@ -109,6 +109,8 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
       .afterClosed()
       .onErrorResumeNext()
       .subscribe((date: Date) => {
+        debugger;
+
         this.isDialogOpen = false;
         if (date) {
           this.date = date;

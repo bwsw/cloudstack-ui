@@ -28,9 +28,10 @@
   <div class="pull-right-button">
     <button
       type="submit"
-      mdl-button
+      md-button
       [disabled]="changeButtonDisabled"
-      [translate]="'COMMON.UPDATE'"
-    ></button>
+    >
+      {{ 'COMMON.UPDATE' | translate }}
+    </button>
   </div>
 </form>

@@ -1,9 +1,16 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as sortBy from 'lodash/sortBy';
 import { Zone } from '../../shared/models/zone.model';
 import { FilterService } from '../../shared/services/filter.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
-import * as sortBy from 'lodash/sortBy';
 
 
 export interface SpareDriveFilter {
@@ -26,7 +33,7 @@ export class SpareDriveFilterComponent implements OnChanges {
   @Input() public searchPanelWhite: boolean;
   @Output() public updateFilters: EventEmitter<SpareDriveFilter>;
 
-  private filtersKey = 'vmListFilters';
+  private filtersKey = spareDriveListFilters;
 
   public spareOnly: boolean;
   public selectedZones: Array<Zone> = [];
@@ -36,8 +43,9 @@ export class SpareDriveFilterComponent implements OnChanges {
   private filterService = new FilterService({
     spareOnly: { type: 'boolean', defaultOption: false },
     zones: { type: 'array', defaultOption: [] },
-    groupings: { type: 'array', defaultOption: [] }
-  }, this.router, this.localStorage, spareDriveListFilters, this.activatedRoute);
+    groupings: { type: 'array', defaultOption: [] },
+    query: { type: 'string' }
+  }, this.router, this.localStorage, this.filtersKey, this.activatedRoute);
 
   constructor(
     private router: Router,
@@ -55,6 +63,9 @@ export class SpareDriveFilterComponent implements OnChanges {
 
   public initFilters(): void {
     const params = this.filterService.getParams();
+
+    this.spareOnly = params.spareOnly;
+    this.query = params.query;
 
     this.selectedZones = this.zones.filter(zone =>
       params['zones'].find(id => id === zone.id)

@@ -5,6 +5,8 @@ import { Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
 import {
+  MdButtonModule,
+  MdCheckboxModule,
   MdDialog,
   MdIconModule,
   MdInputModule,
@@ -15,12 +17,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { DragulaModule } from 'ng2-dragula';
+
 import { AppComponent } from './app.component';
 import { routes } from './app.routing';
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
 import { DialogModule } from './dialog/dialog-service/dialog.module';
 import { EventsModule } from './events/events.module';
+import { AppSidebarComponent } from './navigation/app-sidebar.component';
 import { SecurityGroupModule } from './security-group/sg.module';
 import { ServiceOfferingModule } from './service-offering/service-offering.module';
 import { SettingsModule } from './settings/settings.module';
@@ -39,16 +44,21 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
 
 @NgModule({
   imports: [
-    SnapshotModule,
+    // Be sure to import the Angular Material modules after Angular's
+    // BrowserModule, as the import order matters for NgModules.
     BrowserModule,
     BrowserAnimationsModule,
+    SnapshotModule,
     HttpModule,
     FormsModule,
     TranslateModule.forRoot(),
     EventsModule,
+    DragulaModule,
+    MdButtonModule,
+    MdCheckboxModule,
     MdIconModule,
-    MdTooltipModule,
     MdInputModule,
+    MdTooltipModule,
     MdlModule,
     MdlPopoverModule,
     MdlSelectModule,
@@ -72,6 +82,7 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
   ],
   declarations: [
     AppComponent,
+    AppSidebarComponent,
     LoginComponent,
     LogoutComponent
   ],

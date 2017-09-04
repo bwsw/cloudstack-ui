@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-import { ServiceOffering } from '../../shared/models';
+import { Observable } from 'rxjs/Observable';
 import { ICustomOfferingRestrictions } from './custom-offering-restrictions';
+import { CustomServiceOffering } from './custom-service-offering';
 
 
 @Component({
@@ -13,7 +13,7 @@ import { ICustomOfferingRestrictions } from './custom-offering-restrictions';
 })
 export class CustomServiceOfferingComponent implements OnInit {
   public restrictions: ICustomOfferingRestrictions;
-  public offering: ServiceOffering;
+  public offering: CustomServiceOffering;
   public zoneId: string;
 
   constructor(
@@ -21,9 +21,15 @@ export class CustomServiceOfferingComponent implements OnInit {
     public dialogRef: MdDialogRef<CustomServiceOfferingComponent>,
     private translateService: TranslateService
   ) {
-    this.offering = data.offering;
-    this.restrictions = data.restriction;
-    this.zoneId = data.zoneId;
+    const { offering, restriction, zoneId } = data;
+    this.offering = new CustomServiceOffering({
+      cpuNumber: offering.cpuNumber,
+      cpuSpeed: offering.cpuSpeed,
+      memory: offering.memory,
+      serviceOffering: offering
+    });
+    this.restrictions = restriction;
+    this.zoneId = zoneId;
   }
 
   public ngOnInit(): void {
@@ -62,9 +68,5 @@ export class CustomServiceOfferingComponent implements OnInit {
 
   public onSubmit(): void {
     this.dialogRef.close(this.offering);
-  }
-
-  public onCancel(): void {
-    this.dialogRef.close();
   }
 }

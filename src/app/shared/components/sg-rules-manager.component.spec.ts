@@ -139,7 +139,7 @@ describe('Sg Rules manager component', () => {
     const dialog = TestBed.get(MdDialog);
     spyOn(dialog, 'open').and.callThrough();
     f.detectChanges();
-    f.debugElement.query(By.css('mdl-button')).triggerEventHandler('click');
+    f.debugElement.query(By.css('.fancy-select-button')).triggerEventHandler('click');
 
     expect(dialog.open).toHaveBeenCalled();
   });
@@ -152,7 +152,7 @@ describe('Sg Rules manager component', () => {
     const dialog = TestBed.get(MdDialog);
     spyOn(dialog, 'open').and.callThrough();
     f.detectChanges();
-    f.debugElement.query(By.css('mdl-button')).triggerEventHandler('click');
+    f.debugElement.query(By.css('.fancy-select-button')).triggerEventHandler('click');
 
     const expectedSavedRules = new Rules([mockSg], mockIngressRules, mockEgressRules);
     expect(comp.savedRules).toEqual(expectedSavedRules);

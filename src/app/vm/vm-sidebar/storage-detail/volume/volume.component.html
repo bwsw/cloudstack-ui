@@ -28,8 +28,7 @@
       <div class="card-left-button">
         <button
           *ngIf="showAttachmentActions"
-          mdl-button
-          mdl-button-type="icon"
+          md-icon-button
           mdTooltipPosition="above"
           [mdTooltip]="'VOLUME_ACTIONS.DETACH' | translate"
           [disabled]="loading"
@@ -40,9 +39,7 @@
       </div>
       <div class="card-right-button">
         <button
-          mdl-button
-          mdl-ripple
-          mdl-button-type="icon"
+          md-icon-button
           [class.open]="expandDetails"
           [disabled]="loading"
           (click)="toggleDetails()"

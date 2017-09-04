@@ -1,6 +1,6 @@
 <div *ngIf="entity">
   <div *ngIf="!readyInEveryZone" class="update-button-container">
-    <mdl-button (click)="updateStatus()">{{ 'COMMON.UPDATE' | translate }}</mdl-button>
+    <button md-button (click)="updateStatus()">{{ 'COMMON.UPDATE' | translate }}</button>
   </div>
   <md-card *ngFor="let zone of entity.zones" class="vm-card" mdl-shadow="2">
     <md-card-header>

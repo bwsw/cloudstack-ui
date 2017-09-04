@@ -30,103 +30,13 @@ footer {
   padding-left: 16px;
 }
 
-.mdl-navigation__link md-icon {
-  margin-right: 10px;
-}
-
-.link-container {
-  padding-left: 30px !important;
-  padding-right: 30px !important;
-}
-
-.link-container::before {
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
-  height: 100%;
-}
-
-.link-element {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.link-active-light {
-  background-color: #757575;
-}
-
-.link-hover-light:hover {
-  background-color: #757575 !important;
-}
-
-.link-active-dark {
-  background-color: #E0E0E0;
-}
-
-.link-hover-dark:hover {
-  background-color: #E0E0E0 !important;
-}
-
-a {
-  color: inherit !important;
-}
-
-:host /deep/ .link-element {
-  border-color: inherit;
-}
-
 mdl-layout-drawer {
   border: none;
-}
-
-.license {
-  width: 100%;
-  font-size: 12px;
-  padding: 5px;
-  line-height: 1;
-  text-align: center;
-  flex: 1;
-  align-self: flex-end;
-}
-
-.license-container {
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  min-height: 40px;
-}
-
-.flex-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.logo {
-  padding: 20px;
-  max-width: 100%;
 }
 
 mdl-layout-title {
   padding-left: 0 !important;
   text-align: center;
-}
-
-.title-header {
-  line-height: 1;
-  padding-bottom: 20px;
-  text-align: center;
-  font-size: 14px;
-  word-break: break-all;
-}
-
-.hide-button {
-  display: inline-block;
-  height: 20px;
-  margin: 20px 0 0 20px;
-  width: 20px;
-  font-size: 24px;
-  cursor: pointer;
 }
 
 .drawer-open {
@@ -140,11 +50,6 @@ mdl-layout-title {
 /deep/ button {
   &.mat-menu-item {
     padding: 0 10px;
-  }
-
-  &.mat-icon-button {
-    position: absolute !important;
-    right: 0px !important;
   }
 }
 

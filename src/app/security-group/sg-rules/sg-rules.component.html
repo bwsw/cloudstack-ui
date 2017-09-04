@@ -147,14 +147,13 @@
         </td>
         <td class="mat-cell">
           <button
+            md-icon-button
             class="add-rule-button"
-            mdl-button
-            mdl-button-type="icon"
             (click)="addRule($event)"
             disabled="{{ securityGroup.isPredefinedTemplate || adding || rulesForm.form.invalid }}"
           >
             <md-icon *ngIf="!adding">add</md-icon>
-            <mdl-spinner single-color active *ngIf="adding"></mdl-spinner>
+            <md-spinner *ngIf="adding"></md-spinner>
           </button>
         </td>
       </tr>
@@ -181,10 +180,7 @@
   </form>
 </div>
 <div class="mat-dialog-actions">
-  <button
-    mdl-button
-    mdl-ripple
-    mdl-colored="primary"
-    (click)="dialogRef.close()"
-  >{{ 'COMMON.CLOSE' | translate }}</button>
+  <button md-button color="primary" (click)="onClose()">
+    {{ 'COMMON.CLOSE' | translate }}
+  </button>
 </div>

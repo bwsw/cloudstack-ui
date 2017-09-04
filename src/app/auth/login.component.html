@@ -1,5 +1,5 @@
 <div class="flex-container" *ngIf="!loading">
-  <img class="logo" src="img/cloudstack_logo.png">
+  <img class="logo" src="img/cloudstack_logo.png" >
   <div class="login mdl-color--white" mdl-shadow="2">
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
       <div class="mat-dialog-content">
@@ -14,7 +14,7 @@
             #usernameControl="ngModel"
           >
           <md-error *ngIf="usernameControl.hasError('required')">
-            {{ 'AUTH.USERNAME_REQUIRED' | translate }}
+            {{'AUTH.USERNAME_REQUIRED' | translate}}
           </md-error>
         </md-input-container>
         <br />
@@ -29,7 +29,7 @@
             #passwordControl="ngModel"
           >
           <md-error *ngIf="passwordControl.hasError('required')">
-            {{ 'AUTH.PASSWORD_REQUIRED' | translate }}
+            {{'AUTH.PASSWORD_REQUIRED' | translate}}
           </md-error>
         </md-input-container>
         <br />
@@ -44,19 +44,16 @@
       </div>
       <div class="mat-dialog-actions">
         <button
-          mdl-colored="primary"
-          mdl-button
-          mdl-ripple
+          md-button
+          color="primary"
           type="submit"
           [disabled]="(passwordControl.invalid && !passwordControl.pristine) || (usernameControl.invalid && !usernameControl.pristine)"
         >
           {{ 'AUTH.LOGIN' | translate }}
         </button>
         <button
+          md-icon-button
           class="options-button"
-          mdl-button-type="icon"
-          mdl-button
-          mdl-ripple
           type="button"
           [mdTooltip]="(showDomain ? 'AUTH.HIDE_ADVANCED' : 'AUTH.SHOW_ADVANCED') | translate"
           mdTooltipPosition="above"

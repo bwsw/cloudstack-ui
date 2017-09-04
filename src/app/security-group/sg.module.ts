@@ -5,6 +5,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   MdButtonModule,
+  MdCheckboxModule,
+  MdDialogModule,
   MdIconModule,
   MdInputModule,
   MdMenuModule,
@@ -30,9 +32,11 @@ import { sgRouting } from './sg.routing';
     CommonModule,
     FormsModule,
     TranslateModule,
+    MdCheckboxModule,
     MdSelectModule,
     MdTooltipModule,
     MdlModule,
+    MdDialogModule,
     MdlSelectModule,
     SharedModule,
     MdMenuModule,

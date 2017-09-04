@@ -13,8 +13,14 @@
     transform: none;
   }
 
-  mdl-progress {
+  md-progress-bar {
     width: 500px;
+  }
+}
+
+:host {
+  md-input-container {
+    width: 100%;
   }
 }
 
@@ -52,11 +58,10 @@ h5 {
   margin-top: 20px;
 }
 
-.left-column {
+.left-column{
   width: 300px;
   margin-right: 10px;
 }
-
 .right-column {
   width: 300px;
   margin-left: 10px;

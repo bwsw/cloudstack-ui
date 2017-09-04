@@ -53,22 +53,20 @@
     </div>
     <div class="mat-dialog-actions">
       <button
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
+        md-button
+        color="primary"
+        mdDialogClose
+        type="button"
+      >
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <button
+        md-button
+        color="primary"
         type="submit"
         [disabled]="!volumeCreationForm.valid"
       >
         {{ 'COMMON.CREATE' | translate }}
-      </button>
-      <button
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
-        type="button"
-        (click)="onCancel()"
-      >
-        {{ 'COMMON.CANCEL' | translate }}
       </button>
     </div>
   </form>

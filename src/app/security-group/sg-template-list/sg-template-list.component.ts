@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialog, MdDialogConfig } from '@angular/material';
-import { Observable } from 'rxjs';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { SecurityGroup } from '../sg.model';
-import { ActivatedRoute, Router } from '@angular/router';
 import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag-keys';
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
+import { SecurityGroup } from '../sg.model';
 
 
 @Component({
@@ -31,6 +31,15 @@ export class SgTemplateListComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
+    this.securityGroupService.onSecurityGroupUpdate.subscribe(updatedGroup => {
+      this.customSecurityGroupList = this.customSecurityGroupList.map(group => {
+        if (group.id === updatedGroup.id) {
+          return updatedGroup;
+        } else {
+          return group;
+        }
+      });
+    });
   }
 
   public ngOnInit(): void {

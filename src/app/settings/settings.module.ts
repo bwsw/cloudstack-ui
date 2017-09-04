@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+  MdButtonModule,
   MdIconModule,
   MdInputModule,
   MdSelectModule,
@@ -22,6 +23,7 @@ import { SettingsComponent } from './settings.component';
     FormsModule,
     TranslateModule,
     MdTooltipModule,
+    MdButtonModule,
     MdIconModule,
     MdInputModule,
     MdlModule,

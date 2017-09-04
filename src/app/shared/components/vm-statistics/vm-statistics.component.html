@@ -2,8 +2,7 @@
   <h4 class="stat-header">
     {{ 'VM_PAGE.RESOURCE_USAGE.TITLE' | translate }}
     <button
-      mdl-button
-      mdl-button-type="icon"
+      md-icon-button
       class="toggle"
       [class.closed]="!isOpen"
       (click)="handleCollapse($event)"
@@ -35,7 +34,7 @@
           >
             {{ bar.title | translate }}
             <div class="stat-values">{{ bar.value() | async}}</div>
-            <mdl-progress [progress]="bar.progress()"></mdl-progress>
+            <md-progress-bar [value]="bar.progress()"></md-progress-bar>
           </div>
         </md-card-content>
       </md-card>

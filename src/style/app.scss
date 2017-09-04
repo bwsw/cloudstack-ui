@@ -213,8 +213,8 @@ mdl-simple-tooltip div {
 
 .card-selected {
   box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14),
-  0 3px 14px 2px rgba(0, 0, 0, 0.12),
-  0 5px 5px -3px rgba(0, 0, 0, 0.2) !important;
+    0 3px 14px 2px rgba(0, 0, 0, 0.12),
+    0 5px 5px -3px rgba(0, 0, 0, 0.2) !important;
   transition: 0.25s, box-shadow 0.25s;
 }
 
@@ -270,25 +270,18 @@ mdl-simple-tooltip div {
   margin-top: 6px !important;
 }
 
-.mdl-button md-icon {
+.mat-icon-button md-icon {
   color: black !important;
 }
 
-.mdl-button[disabled] md-icon,
-.mdl-button.mdl-button--disabled md-icon {
+.md-card-header-menu .mat-icon-button md-icon {
+  color: inherit !important;
+}
+
+.mat-icon-button[disabled] md-icon {
   color: rgba(0, 0, 0, .26) !important;
   cursor: default;
   background-color: transparent;
-}
-
-.mdl-checkbox .mdl-checkbox__box-outline {
-  @include material-animation-default(0.28s);
-  transition-property: box-shadow;
-  box-shadow: inset 0 0 0 0 $checkbox-color;
-}
-
-.mdl-checkbox.is-checked .mdl-checkbox__box-outline {
-  box-shadow: inset 0 0 0 1px $checkbox-color;
 }
 
 .card-popover {
@@ -468,9 +461,12 @@ md-table md-header-cell,
   justify-content: flex-end;
 
   button {
-    color: #3f51b5;
     text-transform: uppercase;
   }
+}
+
+.mat-button {
+  text-transform: uppercase;
 }
 
 .mat-dialog-content {
@@ -480,4 +476,31 @@ md-table md-header-cell,
   font-size: 13pt;
   padding: 0 24px !important;
   max-height: 100% !important;
+}
+
+.mat-icon-button {
+  width: 32px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+
+  // TODO remove this after material2.beta10
+  md-icon {
+    position: relative;
+    top: -1px;
+  }
+}
+
+.button-18px {
+  min-width: 24px !important;
+  height: 24px !important;
+  width: 24px !important;
+  line-height: 24px !important;
+
+  md-icon {
+    font-size: 18px !important;
+  }
+}
+
+.icon-18px {
+  font-size: 18px !important;
 }

@@ -6,6 +6,9 @@ import { SecurityGroup } from '../sg.model';
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
 import { NotificationService } from '../../shared/services/notification.service';
 import { ListService } from '../../shared/components/list/list.service';
+import { SecurityGroupService } from '../../shared/services/security-group.service';
+
+
 
 
 @Component({
@@ -18,9 +21,9 @@ export class SgTemplateCreationDialogComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private notificationService: NotificationService,
-    private listService: ListService
-  ) {
-  }
+    private listService: ListService,
+    private securityGroupService: SecurityGroupService
+  ) {}
 
   public ngOnInit() {
     this.dialog.open(SgTemplateCreationComponent, <MdDialogConfig>{
@@ -52,7 +55,8 @@ export class SgTemplateCreationDialogComponent implements OnInit {
       data: {securityGroup: group}
     })
       .afterClosed()
-      .subscribe(() => {
+      .subscribe(securityGroup => {
+        this.securityGroupService.onSecurityGroupUpdate.next(securityGroup);
         this.router.navigate(['../'], {
           preserveQueryParams: true,
           relativeTo: this.activatedRoute

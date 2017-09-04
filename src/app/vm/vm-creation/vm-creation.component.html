@@ -3,7 +3,7 @@
     <p *ngIf="showSecurityGroupOverlay">{{ 'VM_PAGE.VM_CREATION.CREATING_SG' | translate }}</p>
     <p *ngIf="showAffinityGroupOverlay">{{ 'VM_PAGE.VM_CREATION.CREATING_AG' | translate }}</p>
     <p *ngIf="showDeploymentOverlay">{{ 'VM_PAGE.VM_CREATION.DEPLOYING_VM' | translate }}</p>
-    <mdl-progress [indeterminate]="true"></mdl-progress>
+    <md-progress-bar mode="indeterminate"></md-progress-bar>
   </div>
 </div>
 <div *ngIf="!showOverlay">
@@ -103,24 +103,46 @@
       <div *ngIf="enoughResources && formState?.state" class="right-column">
         <div>
           <h5>{{ 'VM_PAGE.VM_CREATION.GROUP' | translate }}</h5>
-          <mdl-autocomplete
-            name="group"
-            [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
-            [options]="formState.data.instanceGroupNames"
-            [ngModel]="formState.state.instanceGroup.name"
-            (ngModelChange)="instanceGroupChange($event)"
-          ></mdl-autocomplete>
+          <md-input-container floatPlaceholder="never">
+            <input
+              name="group"
+              mdInput
+              [mdAutocomplete]="instanceGroups"
+              [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
+              [ngModel]="formState.state.instanceGroup.name"
+              (ngModelChange)="instanceGroupChange($event)"
+            >
+          </md-input-container>
+          <md-autocomplete #instanceGroups>
+            <md-option
+              *ngFor="let group of visibleInstanceGroups"
+              [value]="group.name"
+            >
+              {{ group.name }}
+            </md-option>
+          </md-autocomplete>
         </div>
 
         <div>
           <h5>{{ 'VM_PAGE.VM_CREATION.AFFINITY_GROUPS' | translate }}</h5>
-          <mdl-autocomplete
-            name="affinityGroup"
-            [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
-            [options]="formState.data.affinityGroupNames"
-            [ngModel]="formState.state.affinityGroup.name"
-            (ngModelChange)="affinityGroupChange($event)"
-          ></mdl-autocomplete>
+          <md-input-container floatPlaceholder="never">
+            <input
+              name="group"
+              mdInput
+              [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
+              [mdAutocomplete]="affinityGroups"
+              [(ngModel)]="formState.state.affinityGroup.name"
+              (ngModelChange)="affinityGroupChange($event)"
+            >
+          </md-input-container>
+          <md-autocomplete #affinityGroups>
+            <md-option
+              *ngFor="let group of visibleAffinityGroups"
+              [value]="group.name"
+            >
+              {{ group.name }}
+            </md-option>
+          </md-autocomplete>
         </div>
 
         <div>
@@ -160,13 +182,13 @@
         </div>
 
         <div class="start-vm-checkbox">
-          <mdl-checkbox
+          <md-checkbox
             name="startVm"
             [ngModel]="formState.state.doStartVm"
             (ngModelChange)="doStartVmChange($event)"
           >
             {{ 'VM_PAGE.VM_CREATION.START_VM' | translate }}
-          </mdl-checkbox>
+          </md-checkbox>
         </div>
 
       </div>
@@ -184,22 +206,20 @@
     </div>
     <div class="mat-dialog-actions">
       <button
-        mdl-colored="primary"
-        [disabled]="!vmCreateForm.valid || nameIsTaken"
-        type="submit"
-        mdl-button
-        mdl-ripple
-      >
-        {{ 'COMMON.CREATE' | translate }}
-      </button>
-      <button
-        mdl-colored="primary"
+        md-button
+        color="primary"
+        mdDialogClose
         type="button"
-        mdl-button
-        (click)="onCancel()"
-        mdl-ripple
       >
         {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <button
+        md-button
+        color="primary"
+        type="submit"
+        [disabled]="!vmCreateForm.valid || formState?.state.displayName === takenName"
+      >
+        {{ 'COMMON.CREATE' | translate }}
       </button>
     </div>
   </form>

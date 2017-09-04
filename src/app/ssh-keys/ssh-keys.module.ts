@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   MdButtonModule,
+  MdDialogModule,
   MdIconModule,
   MdInputModule,
   MdMenuModule,
@@ -30,6 +31,7 @@ import { sshKeysRouting } from './ssh-keys.routing';
     SharedModule,
     TranslateModule,
     MdTooltipModule,
+    MdDialogModule,
     MdlModule,
     MdMenuModule,
     MdButtonModule,
