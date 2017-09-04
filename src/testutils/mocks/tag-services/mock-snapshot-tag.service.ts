@@ -8,7 +8,6 @@ export class MockSnapshotTagService {
   }
 
   public setDescription(snapshot: Snapshot, description: string): Observable<Snapshot> {
-    snapshot.description = description;
     return Observable.of(snapshot);
   }
 }

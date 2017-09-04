@@ -1,6 +1,10 @@
-import { MdlModule } from '@angular-mdl/core';
-import { MdlSelectModule } from '@angular-mdl/select';
-import { Component, EventEmitter, Injectable, NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
+import {
+  Component,
+  Injectable,
+  NO_ERRORS_SCHEMA,
+  Pipe,
+  PipeTransform
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,16 +26,17 @@ import { TagService } from '../shared/services/tags/tag.service';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
 import { EventService } from './event.service';
-
+import { Subject } from 'rxjs/Subject';
+import { MdSelectModule, MdTableModule } from '@angular/material';
+import { CdkTableModule } from '@angular/cdk';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const eventServiceFixture = require('./event.service.fixture.json');
 
 class MockTranslateService {
-  public onLangChange: EventEmitter<void>;
-
-  constructor() {
-    this.onLangChange = new EventEmitter<void>();
-  }
+  public onTranslationChange = new Subject();
+  public onLangChange = new Subject();
+  public onDefaultLangChange = new Subject();
 
   public get currentLang(): string {
     return Language.en;
@@ -135,8 +140,10 @@ describe('event list component', () => {
     TestBed.configureTestingModule({
       imports: [
         MdDialogModule,
-        MdlModule,
-        MdlSelectModule
+        CdkTableModule,
+        MdTableModule,
+        MdSelectModule,
+        BrowserAnimationsModule
       ],
       declarations: [
         HighLightPipe,
@@ -152,8 +159,8 @@ describe('event list component', () => {
         { provide: ActivatedRoute, useClass: ActivatedRouteStub },
         { provide: DateTimeFormatterService, useClass: MockDateTimeFormatterService },
         { provide: EventService, useClass: MockEventService },
-        { provide: LanguageService, useClass: MockLanguageService },
         { provide: TranslateService, useClass: MockTranslateService },
+        { provide: LanguageService, useClass: MockLanguageService },
         { provide: TagService, useClass: MockTagService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -180,19 +187,19 @@ describe('event list component', () => {
     comp.date = new Date('1970-01-02');
     comp.getEvents({ reload: true });
     fixture.detectChanges();
-    expect(comp.tableModel.data[0].id).toBe('1');
-    expect(comp.tableModel.data[1].id).toBe('2');
-    expect(comp.tableModel.data[2].id).toBe('3');
+    expect(comp.tableModel[0].id).toBe('1');
+    expect(comp.tableModel[1].id).toBe('2');
+    expect(comp.tableModel[2].id).toBe('3');
 
     comp.date = new Date('1970-01-03');
     comp.getEvents({ reload: true });
     fixture.detectChanges();
-    expect(comp.tableModel.data[0].id).toBe('4');
-    expect(comp.tableModel.data[1].id).toBe('5');
-    expect(comp.tableModel.data[2].id).toBe('6');
-    expect(comp.tableModel.data[3].id).toBe('7');
-    expect(comp.tableModel.data[4].id).toBe('8');
-    expect(comp.tableModel.data[5].id).toBe('9');
+    expect(comp.tableModel[0].id).toBe('4');
+    expect(comp.tableModel[1].id).toBe('5');
+    expect(comp.tableModel[2].id).toBe('6');
+    expect(comp.tableModel[3].id).toBe('7');
+    expect(comp.tableModel[4].id).toBe('8');
+    expect(comp.tableModel[5].id).toBe('9');
   });
 
   it('should filter events by level', () => {
@@ -202,16 +209,16 @@ describe('event list component', () => {
     comp.selectedLevels = ['INFO'];
     comp.getEvents();
     fixture.detectChanges();
-    expect(comp.tableModel.data[0].id).toBe('4');
-    expect(comp.tableModel.data[1].id).toBe('7');
+    expect(comp.tableModel[0].id).toBe('4');
+    expect(comp.tableModel[1].id).toBe('7');
     comp.selectedLevels = ['INFO', 'WARN'];
     comp.getEvents();
     fixture.detectChanges();
-    expect(comp.tableModel.data.length).toBe(4);
+    expect(comp.tableModel.length).toBe(4);
     comp.selectedLevels = [];
     comp.getEvents();
     fixture.detectChanges();
-    expect(comp.tableModel.data.length).toBe(6);
+    expect(comp.tableModel.length).toBe(6);
   });
 
   it('should filter events by type', () => {
@@ -227,12 +234,12 @@ describe('event list component', () => {
     expect(comp.eventTypes).toEqual(['SG.AUTH.INGRESS', 'SG.AUTH.EGRESS', 'CREATE_TAGS']);
     comp.selectedTypes = ['SG.AUTH.INGRESS'];
     comp.getEvents();
-    expect(comp.tableModel.data[0].id).toBe('4');
-    expect(comp.tableModel.data[1].id).toBe('5');
+    expect(comp.tableModel[0].id).toBe('4');
+    expect(comp.tableModel[1].id).toBe('5');
     comp.selectedTypes = ['SG.AUTH.INGRESS', 'CREATE_TAGS'];
     comp.getEvents();
     fixture.detectChanges();
-    expect(comp.tableModel.data.length).toBe(4);
+    expect(comp.tableModel.length).toBe(4);
   });
 
   it('should filter by all filters', () => {
@@ -244,14 +251,14 @@ describe('event list component', () => {
     comp.selectedLevels = ['WARN'];
     comp.getEvents();
     fixture.detectChanges();
-    expect(comp.tableModel.data[0].id).toBe('5');
-    expect(comp.tableModel.data.length).toBe(1);
+    expect(comp.tableModel[0].id).toBe('5');
+    expect(comp.tableModel.length).toBe(1);
     comp.selectedTypes = ['CREATE_TAGS'];
     comp.selectedLevels = ['ERROR'];
     comp.getEvents();
     fixture.detectChanges();
-    expect(comp.tableModel.data[0].id).toBe('9');
-    expect(comp.tableModel.data.length).toBe(1);
+    expect(comp.tableModel[0].id).toBe('9');
+    expect(comp.tableModel.length).toBe(1);
   });
 
   it('should filter by search field', () => {
@@ -261,29 +268,30 @@ describe('event list component', () => {
     comp.query = 'failed';
     comp.getEvents();
     fixture.detectChanges();
-    expect(comp.tableModel.data[0].id).toBe('3');
+    expect(comp.tableModel[0].id).toBe('3');
 
     comp.date = new Date('1970-01-03');
     comp.getEvents({ reload: true });
     comp.query = 'authorized';
     comp.getEvents();
     fixture.detectChanges();
-    expect(comp.tableModel.data.length).toBe(4);
+    expect(comp.tableModel.length).toBe(4);
   });
 
   it('should render table correctly', () => {
     fixture.detectChanges();
     comp.date = new Date('1970-01-02');
     comp.getEvents({ reload: true });
+
     fixture.detectChanges();
+    fixture.detectChanges(); // doesn't work without double detectChange()!
+    const td = fixture.debugElement.queryAll(By.css('md-cell'));
+    expect(td[0].nativeElement.textContent.trim()).toBe('user_logged_in');
+    expect(td[1].nativeElement.textContent.trim()).toBe('INFO');
+    expect(td[2].nativeElement.textContent.trim()).toBe('USER.LOGIN');
 
-    const td = fixture.debugElement.queryAll(By.css('td'));
-    expect(td[0].nativeElement.textContent).toBe('user_logged_in');
-    expect(td[1].nativeElement.textContent).toBe('INFO');
-    expect(td[2].nativeElement.textContent).toBe('USER.LOGIN');
-
-    expect(td[4].nativeElement.textContent).toBe('user_logged_out');
-    expect(td[5].nativeElement.textContent).toBe('WARN');
-    expect(td[6].nativeElement.textContent).toBe('USER.LOGOUT');
+    expect(td[4].nativeElement.textContent.trim()).toBe('user_logged_out');
+    expect(td[5].nativeElement.textContent.trim()).toBe('WARN');
+    expect(td[6].nativeElement.textContent.trim()).toBe('USER.LOGOUT');
   });
 });

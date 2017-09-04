@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MdDialog, MdDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { NotificationService } from '../../shared/services/notification.service';
@@ -31,6 +30,15 @@ export class SgTemplateListComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
+    this.securityGroupService.onSecurityGroupUpdate.subscribe(updatedGroup => {
+      this.customSecurityGroupList = this.customSecurityGroupList.map(group => {
+        if (group.id === updatedGroup.id) {
+          return updatedGroup;
+        } else {
+          return group;
+        }
+      });
+    });
   }
 
   public ngOnInit(): void {

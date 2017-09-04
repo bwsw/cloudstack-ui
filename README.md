@@ -306,6 +306,10 @@ In this sections you can specify limits for custom offerings in the following fo
     
 Any of these parameters may be left unspecified, in which case 0 will be used for min and infinity will be used for max.
 
+### allowReorderingSidebar
+
+A boolean value which allows or forbids a user to reorder links in the main sidebar 
+
 ### Extensions
 Please check [Wiki](https://github.com/bwsw/cloudstack-ui/wiki/Plugins) for extension configuration options.
 

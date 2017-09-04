@@ -35,9 +35,10 @@ md-select {
   width: 100%;
   min-width: 840px;
 
-  & /deep/ table {
-    white-space: normal;
-    table-layout: fixed;
+  & /deep/ md-table {
+    border: 1px solid rgba(0, 0, 0, .12);
+    width: 100%;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
   }
 
   & /deep/ td:first-child {
@@ -54,10 +55,6 @@ md-select {
 
   & /deep/ th:nth-of-type(2) {
     width: 10%;
-  }
-
-  & /deep/ table.mdl-data-table {
-    width: 100%;
   }
 }
 

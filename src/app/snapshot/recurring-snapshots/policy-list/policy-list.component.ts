@@ -13,6 +13,7 @@ import { Policy, TimePolicy } from '../policy-editor/policy-editor.component';
 import { PolicyType } from '../recurring-snapshots.component';
 import { PolicyViewBuilderService } from './policy-view-builder.service';
 import DateTimeFormat = Intl.DateTimeFormat;
+import { TableDatabase, TableDataSource } from '../../../shared/components/table/table';
 
 
 interface PolicyView {
@@ -85,7 +86,10 @@ export class PolicyListComponent implements OnChanges {
     dateTimeFormat: DateTimeFormat
   ): Array<PolicyView> {
     return policies.map(policy => {
-      return this.policyViewBuilderService.buildPolicyViewFromPolicy(policy, dateTimeFormat);
+      return this.policyViewBuilderService.buildPolicyViewFromPolicy(
+        policy,
+        dateTimeFormat
+      );
     })
       .sort((a, b) => this.policyViewComparator(a, b));
   }

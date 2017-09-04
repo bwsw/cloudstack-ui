@@ -3,37 +3,40 @@
 </h3>
 <div class="mat-dialog-content">
   <form #rulesForm="ngForm" novalidate>
-    <table class="mdl-data-table">
+    <table class="mat-table">
       <thead>
-      <tr>
-        <th class="mdl-data-table__cell--non-numeric">
-          {{ 'SECURITY_GROUP_PAGE.RULES.TYPE' | translate }}
+      <tr class="mat-header-row">
+        <th class="mat-header-cell">{{ 'SECURITY_GROUP_PAGE.RULES.TYPE' | translate }}
         </th>
-
-        <th>
-          {{ 'SECURITY_GROUP_PAGE.RULES.PROTOCOL' | translate }}
+        <th class="mat-header-cell">{{ 'SECURITY_GROUP_PAGE.RULES.PROTOCOL' | translate
+          }}
         </th>
-
         <ng-template [ngIf]="protocol !== NetworkProtocols.ICMP">
-          <th>{{ 'SECURITY_GROUP_PAGE.RULES.START_PORT' | translate }}</th>
-          <th>{{ 'SECURITY_GROUP_PAGE.RULES.END_PORT' | translate }}</th>
+          <th class="mat-header-cell">{{ 'SECURITY_GROUP_PAGE.RULES.START_PORT' |
+            translate }}
+          </th>
+          <th class="mat-header-cell">{{ 'SECURITY_GROUP_PAGE.RULES.END_PORT' | translate
+            }}
+          </th>
         </ng-template>
 
         <ng-template [ngIf]="protocol === NetworkProtocols.ICMP">
-          <th>{{ 'SECURITY_GROUP_PAGE.RULES.ICMP_TYPE' | translate }}</th>
-          <th>{{ 'SECURITY_GROUP_PAGE.RULES.ICMP_CODE' | translate }}</th>
+          <th class="mat-header-cell">{{ 'SECURITY_GROUP_PAGE.RULES.ICMP_TYPE' | translate
+            }}
+          </th>
+          <th class="mat-header-cell">{{ 'SECURITY_GROUP_PAGE.RULES.ICMP_CODE' | translate
+            }}
+          </th>
         </ng-template>
-
-        <th class="mdl-data-table__cell--non-numeric">
+        <th class="mat-header-cell">
           {{ 'SECURITY_GROUP_PAGE.RULES.CIDR' | translate }}
         </th>
-
         <th></th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngIf="!securityGroup.isPredefinedTemplate">
-        <td class="mdl-data-table__cell--non-numeric">
+      <tr class="mat-row table-form" *ngIf="!securityGroup.isPredefinedTemplate">
+        <td class="mat-cell">
           <md-select class="type" [(ngModel)]="type" name="type">
             <md-option
               *ngFor="let t of types"
@@ -43,7 +46,7 @@
             </md-option>
           </md-select>
         </td>
-        <td>
+        <td class="mat-cell">
           <md-select [(ngModel)]="protocol" name="protocol">
             <md-option
               *ngFor="let p of protocols"
@@ -53,7 +56,7 @@
             </md-option>
           </md-select>
         </td>
-        <td>
+        <td class="mat-cell">
           <mdl-textfield
             *ngIf="protocol === NetworkProtocols.ICMP"
             [class.is-invalid]="icmpTypeField.touched && icmpTypeField.invalid"
@@ -83,7 +86,7 @@
             #startPortField="ngModel"
           ></mdl-textfield>
         </td>
-        <td>
+        <td class="mat-cell">
           <mdl-textfield
             [class.is-invalid]="icmpCodeField.touched && icmpCodeField.invalid"
             *ngIf="protocol === NetworkProtocols.ICMP"
@@ -113,7 +116,7 @@
             #endPortField="ngModel"
           ></mdl-textfield>
         </td>
-        <td class="cidr">
+        <td class="cidr mat-cell">
           <mdl-textfield
             [class.is-invalid]="cidrField.touched && cidrField.invalid"
             name="cidr"
@@ -127,7 +130,7 @@
           >
           </mdl-textfield>
         </td>
-        <td>
+        <td class="mat-cell">
           <button
             md-icon-button
             class="add-rule-button"
@@ -140,6 +143,7 @@
         </td>
       </tr>
       <cs-security-group-rule
+        class="mat-row rule-row"
         *ngFor="let rule of securityGroup?.ingressRules"
         [type]="NetworkRuleTypes.Ingress"
         [rule]="rule"
@@ -148,6 +152,7 @@
       >
       </cs-security-group-rule>
       <cs-security-group-rule
+        class="mat-row rule-row"
         *ngFor="let rule of securityGroup?.egressRules"
         [type]="NetworkRuleTypes.Egress"
         [rule]="rule"
@@ -160,7 +165,7 @@
   </form>
 </div>
 <div class="mat-dialog-actions">
-  <button md-button color="primary" mdDialogClose>
+  <button md-button color="primary" (click)="onClose()">
     {{ 'COMMON.CLOSE' | translate }}
   </button>
 </div>

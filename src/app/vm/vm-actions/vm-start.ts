@@ -25,6 +25,6 @@ export class VmStartAction extends VirtualMachineCommand {
   };
 
   public canActivate(vm: VirtualMachine): boolean {
-    return vm.state === VmState.Stopped;
+    return !!vm && vm.state === VmState.Stopped;
   }
 }
