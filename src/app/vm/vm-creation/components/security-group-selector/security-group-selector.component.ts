@@ -1,4 +1,4 @@
-import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, forwardRef, OnInit, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SecurityGroupService } from '../../../../security-group/services/security-group.service';
 import { SecurityGroup } from '../../../../security-group/sg.model';
@@ -28,14 +28,14 @@ export class SecurityGroupSelectorComponent implements OnInit {
       .subscribe(sharedGroups => {
         this.securityGroups = sharedGroups;
 
-        if (!this.selectedSecurityGroup && this.securityGroups) {
-          this.selectedSecurityGroup = this.securityGroups[0];
-          this.onGroupChanged();
-        }
+        // if (!this.selectedSecurityGroup && this.securityGroups) {
+        //   this.selectSecurityGroup(this.securityGroups[0]);
+        // }
       });
   }
 
-  public onGroupChanged(): void {
+  public selectSecurityGroup(securityGroup: SecurityGroup): void {
+    this.selectedSecurityGroup = securityGroup;
     this.onChange.emit(this.selectedSecurityGroup);
   }
 }

@@ -1,15 +1,40 @@
-<md-select
+<div
   *ngIf="securityGroups?.length"
-  [placeholder]="'SECURITY_GROUP_SELECTOR.SELECT_SECURITY_GROUP' | translate"
-  [(ngModel)]="selectedSecurityGroup"
-  (ngModelChange)="onGroupChanged()"
+  class="security-group-radio-list"
 >
-  <md-option
-    *ngFor="let sg of securityGroups"
-    [value]="sg"
-  >
-    {{ sg.name }}
-  </md-option>
-</md-select>
+  <md-list>
+    <md-list-item
+      *ngFor="let sg of securityGroups"
+      lines="2"
+      (click)="$event.stopPropagation(); selectSecurityGroup(sg)"
+      [class.selected-security-group]="selectedSecurityGroup?.id === sg?.id"
+    >
+      <h4 md-line>
+        <span>{{ sg.name }}</span>
+      </h4>
+      <p
+        md-line
+        class="md-line-secondary"
+      >
+        {{ sg.description }}
+      </p>
+      <span>
+        <mdl-radio
+          *ngIf="selectedSecurityGroup"
+          name="radio"
+          [value]="sg.id"
+          [ngModel]="sg.id"
+          mdl-ripple
+        >
+        </mdl-radio>
+        <mdl-radio
+          *ngIf="!selectedSecurityGroup"
+          name="radio"
+          mdl-ripple
+        ></mdl-radio>
+      </span>
+    </md-list-item>
+  </md-list>
+</div>
 
 <cs-no-results *ngIf="!securityGroups?.length"></cs-no-results>
