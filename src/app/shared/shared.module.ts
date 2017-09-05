@@ -20,27 +20,21 @@ import { MemoryStorageService } from 'app/shared/services/memory-storage.service
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
 import { SecurityGroupService } from '../security-group/services/security-group.service';
-import {
-  SecurityGroupSelectorComponent
-} from '../vm/vm-creation/components/security-group-selector/security-group-selector.component';
+// tslint:disable-next-line
+import { SecurityGroupSelectorComponent } from '../vm/vm-creation/components/security-group-selector/security-group-selector.component';
+// tslint:disable-next-line
+import { VmCreationSecurityGroupService } from '../vm/vm-creation/services/vm-creation-security-group.service';
 import { SpareDriveActionsComponent } from './actions/spare-drive-actions/spare-drive-actions-component/spare-drive-actions.component';
 import { SpareDriveActionsService } from './actions/spare-drive-actions/spare-drive-actions.service';
 import { SpareDriveAttachAction } from './actions/spare-drive-actions/spare-drive-attach';
-import {
-  SpareDriveAttachmentComponent
-} from './actions/spare-drive-actions/spare-drive-attachment/spare-drive-attachment.component';
-import { SpareDriveDetachAction } from './actions/spare-drive-actions/spare-drive-detach';
-import { SpareDriveRecurringSnapshotsAction } from './actions/spare-drive-actions/spare-drive-recurring-snapshots';
-import { SpareDriveRemoveAction } from './actions/spare-drive-actions/spare-drive-remove';
-import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-drive-resize';
-import { SpareDriveSnapshotAction } from './actions/spare-drive-actions/spare-drive-snapshot';
-import { SpareDriveAttachAction } from './actions/spare-drive-actions/spare-drive-attach';
+// tslint:disable-next-line
 import { SpareDriveAttachmentComponent } from './actions/spare-drive-actions/spare-drive-attachment/spare-drive-attachment.component';
 import { SpareDriveDetachAction } from './actions/spare-drive-actions/spare-drive-detach';
 import { SpareDriveRecurringSnapshotsAction } from './actions/spare-drive-actions/spare-drive-recurring-snapshots';
 import { SpareDriveRemoveAction } from './actions/spare-drive-actions/spare-drive-remove';
 import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-drive-resize';
 import { SpareDriveSnapshotAction } from './actions/spare-drive-actions/spare-drive-snapshot';
+// tslint:disable-next-line
 import { TemplateActionsComponent } from './actions/template-actions/template-actions-component/template-actions.component';
 import { TemplateActionsService } from './actions/template-actions/template-actions.service';
 import {
@@ -67,6 +61,7 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
+// tslint:disable-next-line
 import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
@@ -79,10 +74,11 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
 import { ReloadComponent } from './components/reload/reload.component';
 import { SearchComponent } from './components/search/search.component';
-import {
-  SecurityGroupBuilderRuleComponent
-} from './components/security-group-builder/rule/security-group-builder-rule.component';
+// tslint:disable-next-line
+import { SecurityGroupBuilderRuleComponent } from './components/security-group-builder/rule/security-group-builder-rule.component';
 import { SecurityGroupBuilderComponent } from './components/security-group-builder/security-group-builder.component';
+// tslint:disable-next-line
+import { SecurityGroupManagerBaseTemplatesComponent } from './components/security-group-manager-base-templates/security-group-manager-base-templates.component';
 import { TableComponent } from './components/table/table.component';
 import { ForbiddenValuesDirective } from './directives/forbidden-values.directive';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
@@ -134,9 +130,6 @@ import { UserService } from './services/user.service';
 import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
-// tslint:disable-next-line
-import { VmCreationSecurityGroupService } from '../vm/vm-creation/services/vm-creation-security-group.service';
-import { SecurityGroupManagerBaseTemplatesComponent } from './components/security-group-manager-base-templates/security-group-manager-base-templates.component';
 
 
 @NgModule({

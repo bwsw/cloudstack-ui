@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { ActivatedRoute, Router } from '@angular/router';
 import { FilterService } from '../../shared/services/filter.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
+import { FilterComponent } from '../../shared/interfaces/filter-component';
 
 
 export interface SecurityGroupFilter {
@@ -18,7 +19,7 @@ export enum SecurityGroupViewMode {
   templateUrl: 'sg-filter.component.html',
   styleUrls: ['sg-filter.component.scss']
 })
-export class SgFilterComponent implements OnChanges {
+export class SgFilterComponent implements FilterComponent<SecurityGroupFilter>, OnChanges {
   @Input() public viewMode: SecurityGroupViewMode;
   @Output() public updateFilters = new EventEmitter<SecurityGroupFilter>();
 

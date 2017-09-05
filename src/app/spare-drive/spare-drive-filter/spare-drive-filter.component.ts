@@ -4,6 +4,7 @@ import { Zone } from '../../shared/models/zone.model';
 import { FilterService } from '../../shared/services/filter.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import * as sortBy from 'lodash/sortBy';
+import { FilterComponent } from '../../shared/interfaces/filter-component';
 
 
 export interface SpareDriveFilter {
@@ -15,12 +16,13 @@ export interface SpareDriveFilter {
 
 export const spareDriveListFilters = 'spareDriveListFilters';
 
+
 @Component({
   selector: 'cs-spare-drive-filter',
   templateUrl: 'spare-drive-filter.component.html',
   styleUrls: ['spare-drive-filter.component.scss']
 })
-export class SpareDriveFilterComponent implements OnChanges {
+export class SpareDriveFilterComponent implements FilterComponent<SpareDriveFilter>, OnChanges {
   @Input() public zones: Array<Zone>;
   @Input() public groupings: Array<any>;
   @Input() public searchPanelWhite: boolean;
