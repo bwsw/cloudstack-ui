@@ -1,4 +1,3 @@
-import { MdlModule } from '@angular-mdl/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
@@ -76,7 +75,6 @@ describe('Api Info component', () => {
       imports: [
         NoopAnimationsModule,
         MdInputModule,
-        MdlModule,
         FormsModule,
         TranslateModule,
         ClipboardModule,

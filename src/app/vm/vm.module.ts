@@ -1,4 +1,3 @@
-import { MdlModule } from '@angular-mdl/core';
 import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -91,7 +90,6 @@ import { WebShellService } from './web-shell/web-shell.service';
     MdTooltipModule,
     MdSelectModule,
     MdButtonModule,
-    MdlModule,
     MdDialogModule,
     MdlSelectModule,
     ReactiveFormsModule,

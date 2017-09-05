@@ -1,4 +1,3 @@
-import { MdlModule } from '@angular-mdl/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -43,7 +42,6 @@ import { spareDrivesRouting } from './spare-drive.routing';
     MdCheckboxModule,
     MdSelectModule,
     MdTooltipModule,
-    MdlModule,
     SharedModule,
     spareDrivesRouting,
     DynamicModule.withComponents([SpareDriveItemComponent]),

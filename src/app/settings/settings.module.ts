@@ -1,4 +1,3 @@
-import { MdlModule } from '@angular-mdl/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -26,7 +25,6 @@ import { SettingsComponent } from './settings.component';
     MdButtonModule,
     MdIconModule,
     MdInputModule,
-    MdlModule,
     MdSelectModule,
     SharedModule,
     ReactiveFormsModule,

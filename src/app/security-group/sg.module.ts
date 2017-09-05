@@ -1,4 +1,3 @@
-import { MdlModule } from '@angular-mdl/core';
 import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -35,7 +34,6 @@ import { sgRouting } from './sg.routing';
     MdCheckboxModule,
     MdSelectModule,
     MdTooltipModule,
-    MdlModule,
     MdDialogModule,
     MdlSelectModule,
     SharedModule,

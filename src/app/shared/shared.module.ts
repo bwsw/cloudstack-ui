@@ -1,4 +1,4 @@
-import { MdlModule } from '@angular-mdl/core';
+import { MdlBadgeModule } from '@angular-mdl/core';
 import { MdlPopoverModule } from '@angular-mdl/popover';
 import { MdlSelectModule } from '@angular-mdl/select';
 import { CdkTableModule } from '@angular/cdk/table';
@@ -146,7 +146,7 @@ import { ZoneService } from './services/zone.service';
     MdSnackBarModule,
     MdTableModule,
     MdTabsModule,
-    MdlModule,
+    MdlBadgeModule,
     MdlPopoverModule,
     MdlSelectModule,
     TranslateModule,

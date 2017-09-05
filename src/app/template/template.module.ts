@@ -1,4 +1,3 @@
-import { MdlModule } from '@angular-mdl/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -60,7 +59,6 @@ import { TemplateComponent } from './template/template.component';
     MdRadioModule,
     MdCheckboxModule,
     MdTooltipModule,
-    MdlModule,
     MdDialogModule,
     MdSelectModule,
     SharedModule,

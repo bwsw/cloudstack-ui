@@ -1,4 +1,3 @@
-import { MdlModule } from '@angular-mdl/core';
 import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MdDialog } from '@angular/material';
 import { By } from '@angular/platform-browser';
@@ -110,8 +109,7 @@ describe('Sg Rules manager component', () => {
       ],
       providers: [
         { provide: MdDialog, useClass: MockMdDialog }
-      ],
-      imports: [MdlModule]
+      ]
     });
 
     TestBed.compileComponents().then(() => {

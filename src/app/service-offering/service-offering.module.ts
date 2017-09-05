@@ -1,4 +1,3 @@
-import { MdlModule } from '@angular-mdl/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -24,7 +23,6 @@ import { ServiceOfferingSelectorComponent } from './service-offering-selector/se
     MdDialogModule,
     MdInputModule,
     MdSelectModule,
-    MdlModule,
     SharedModule,
     TranslateModule,
   ],
