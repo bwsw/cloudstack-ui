@@ -1,7 +1,5 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
 
 
 export const enum DayPeriod {
@@ -28,12 +26,13 @@ export interface DayPeriodName {
 })
 export class DayPeriodComponent implements ControlValueAccessor, OnInit {
   public _period: DayPeriod;
-  public periods$: Observable<Array<DayPeriodName>> = this.getPeriods();
-
-  constructor(private translateService: TranslateService) {}
+  public periods: Array<DayPeriodName> = [
+    { value: DayPeriod.Am, name: 'DATE_TIME.AM' },
+    { value: DayPeriod.Pm, name: 'DATE_TIME.PM' }
+  ];
 
   public ngOnInit(): void {
-    this.periods$.subscribe(periods => this.period = periods[0].value);
+    this.period = this.periods[0].value;
   }
 
   public propagateChange: any = () => {};
@@ -58,24 +57,5 @@ export class DayPeriodComponent implements ControlValueAccessor, OnInit {
     if (value) {
       this.period = value;
     }
-  }
-
-  private getPeriods(): Observable<Array<DayPeriodName>> {
-    const periods = [
-      { value: DayPeriod.Am, name: 'DATE_TIME.AM' },
-      { value: DayPeriod.Pm, name: 'DATE_TIME.PM' }
-    ];
-
-    const periodNames = periods.map(_ => _.name);
-
-    return this.translateService.get(periodNames)
-      .map(lang => {
-        const translations = lang.translations || lang;
-
-        return periods.map(period => {
-          period.name = translations[period.name];
-          return period;
-        });
-      });
   }
 }

@@ -1,6 +1,8 @@
-:host mdl-select /deep/ > div {
-  /deep/ .mdl-textfield__input {
-    text-align: center;
+:host md-select {
+  /deep/ .mat-select-trigger {
+    width: 80px;
+    min-width: 80px;
   }
   width: 80px;
 }
+

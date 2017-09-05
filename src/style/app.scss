@@ -2,7 +2,6 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import '~@angular-mdl/core/scss/material-design-lite';
 @import '~@angular-mdl/popover/popover';
-@import '~@angular-mdl/select/select';
 @import "~@angular-mdl/core/scss/color-definitions";
 @import "~dragula/dist/dragula.css";
 @import '__variables.scss';
@@ -158,20 +157,6 @@ md-card.custom-card {
   &.delimiter {
     border-bottom: 1px solid #dedede;
   }
-}
-
-.mdl-dialog__title {
-  font-size: 24px !important;
-  font-weight: bold !important;
-}
-
-mdl-simple-tooltip div {
-  white-space: normal;
-  word-break: break-all;
-}
-
-.mdl-tabs__tab {
-  cursor: pointer;
 }
 
 .card-wrapper {

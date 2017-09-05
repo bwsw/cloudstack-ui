@@ -1,4 +1,3 @@
-import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -44,7 +43,6 @@ import { TimeZoneService } from './recurring-snapshots/time-zone/time-zone.servi
     MdDialogModule,
     MdIconModule,
     MdInputModule,
-    MdlSelectModule,
     SharedModule,
     ReactiveFormsModule,
     MdTabsModule,

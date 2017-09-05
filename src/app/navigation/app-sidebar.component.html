@@ -13,7 +13,13 @@
     [disabled]="updatingOrder"
     (click)="toggleEditing()"
   >
-    <mdl-spinner *ngIf="updatingOrder; else icon" active></mdl-spinner>
+    <md-progress-spinner
+      *ngIf="updatingOrder; else icon"
+      color="accent"
+      mode="indeterminate"
+      [style.width.px]="32"
+      [style.height.px]="32"
+    ></md-progress-spinner>
     <ng-template #icon>
       <md-icon *ngIf="editing">lock_open</md-icon>
       <md-icon *ngIf="!editing">lock_outline</md-icon>

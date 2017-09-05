@@ -1,15 +1,14 @@
-<mdl-select
+<md-select
   *ngIf="daysOfWeek$ | async as daysOfWeek"
   name="dayOfWeek"
-  floating-label
-  [label]="'DATE_TIME.DAY_OF_WEEK' | translate"
-  required
   [(ngModel)]="dayOfWeek"
+  [placeholder]="'DATE_TIME.DAY_OF_WEEK' | translate"
+  required
 >
-  <mdl-option
+  <md-option
     *ngFor="let day of daysOfWeek"
     [value]="day.value"
   >
     {{ day.name }}
-  </mdl-option>
-</mdl-select>
+  </md-option>
+</md-select>

@@ -44,15 +44,6 @@
   transform: rotate(180deg);
 }
 
-.sidebar /deep/ .mdl-tabs__tab-bar {
-  & > div {
-    width: 50%;
-  }
-  .mdl-tabs__tab {
-    width: 100%;
-  }
-}
-
 .sidebar /deep/ md-card-content {
   width: 100%;
   line-height: 18px;

@@ -1,4 +1,3 @@
-import { MdlDialogOutletModule } from '@angular-mdl/core';
 import { Injectable } from '@angular/core';
 import { async, inject, TestBed } from '@angular/core/testing';
 import { Subject } from 'rxjs/Subject';
@@ -14,9 +13,6 @@ export class MockAuthService {
 describe('Jobs notification service', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        MdlDialogOutletModule
-      ],
       providers: [
         JobsNotificationService,
         { provide: AuthService, useClass: MockAuthService }

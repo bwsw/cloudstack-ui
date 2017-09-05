@@ -6,19 +6,18 @@
     (ngModelChange)="updateTime($event)"
   ></cs-time-picker>
 
-  <mdl-select
+  <md-select
     name="dayOfMonth"
-    floating-label
-    required
-    [label]="'DATE_TIME.DAY_OF_MONTH' | translate"
     [ngModel]="dayOfMonth"
     (ngModelChange)="updateDayOfMonth($event)"
+    [placeholder]="'DATE_TIME.DAY_OF_MONTH' | translate"
+    required
   >
-    <mdl-option
+    <md-option
       *ngFor="let d of daysOfMonth"
       [value]="d"
     >
       {{ d }}
-    </mdl-option>
-  </mdl-select>
+    </md-option>
+  </md-select>
 </div>

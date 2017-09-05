@@ -1,4 +1,3 @@
-import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -35,7 +34,6 @@ import { sgRouting } from './sg.routing';
     MdSelectModule,
     MdTooltipModule,
     MdDialogModule,
-    MdlSelectModule,
     SharedModule,
     MdMenuModule,
     MdButtonModule,

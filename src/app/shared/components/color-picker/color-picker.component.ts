@@ -1,5 +1,5 @@
-import { toBoolean } from '@angular-mdl/core/components/common/boolean-property';
 import { MdlPopoverComponent } from '@angular-mdl/popover';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   Component,
   EventEmitter,
@@ -43,7 +43,7 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
   };
 
   public set disabled(value) {
-    this._disabled = toBoolean(value);
+    this._disabled = coerceBooleanProperty(value);
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

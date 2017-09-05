@@ -140,7 +140,7 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
   }
 
   public set time(value: Time) {
-    if (value) {
+    if (value && !!value.hour && !!value.minute && !!value.period) {
       this.hour = (value.hour || this.minHourValue).toString();
       this.minute = (value.minute || this.minMinuteValue).toString();
       this.period = value.period;
