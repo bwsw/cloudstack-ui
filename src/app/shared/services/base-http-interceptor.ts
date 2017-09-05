@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { LocalStorageService } from './local-storage.service';
 import { Observable } from 'rxjs/Observable';
+import { Utils } from './utils.service';
 
 @Injectable()
 export class BaseHttpInterceptor implements HttpInterceptor {
@@ -15,7 +16,9 @@ export class BaseHttpInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
 
-    const sessionKey = this.storage.read('sessionKey');
+    const userRaw = this.storage.read('user');
+    const user = Utils.parseJsonString(userRaw);
+    const sessionKey = user && user.sessionkey;
     if (sessionKey) {
       const duplicate = req.clone({ params: req.params.set('sessionKey', sessionKey) });
       return next.handle(duplicate);
