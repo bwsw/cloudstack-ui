@@ -7,5 +7,6 @@ export const UserTagKeys = {
   lastVmId: 'csui.user.last-vm-id',
   primaryColor: 'csui.user.primary-color',
   sessionTimeout: 'csui.user.session-timeout',
-  timeFormat: 'csui.user.time-format'
+  timeFormat: 'csui.user.time-format',
+  navigationOrder: 'csui.user.navigation-order'
 };

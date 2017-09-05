@@ -26,7 +26,7 @@ export class SpareDriveFilterComponent implements OnChanges {
   @Input() public searchPanelWhite: boolean;
   @Output() public updateFilters: EventEmitter<SpareDriveFilter>;
 
-  private filtersKey = 'vmListFilters';
+  private filtersKey = spareDriveListFilters;
 
   public spareOnly: boolean;
   public selectedZones: Array<Zone> = [];
@@ -36,8 +36,9 @@ export class SpareDriveFilterComponent implements OnChanges {
   private filterService = new FilterService({
     spareOnly: { type: 'boolean', defaultOption: false },
     zones: { type: 'array', defaultOption: [] },
-    groupings: { type: 'array', defaultOption: [] }
-  }, this.router, this.localStorage, spareDriveListFilters, this.activatedRoute);
+    groupings: { type: 'array', defaultOption: [] },
+    query: { type: 'string' }
+  }, this.router, this.localStorage, this.filtersKey, this.activatedRoute);
 
   constructor(
     private router: Router,
@@ -55,6 +56,9 @@ export class SpareDriveFilterComponent implements OnChanges {
 
   public initFilters(): void {
     const params = this.filterService.getParams();
+
+    this.spareOnly = params.spareOnly;
+    this.query = params.query;
 
     this.selectedZones = this.zones.filter(zone =>
       params['zones'].find(id => id === zone.id)
@@ -82,7 +86,7 @@ export class SpareDriveFilterComponent implements OnChanges {
     this.filterService.update(this.filtersKey, {
       spareOnly: this.spareOnly,
       zones: this.selectedZones.map(_ => _.id),
-      groupings: this.selectedGroupingNames,
+      groupings: this.selectedGroupingNames.map(_ => _.key),
       query: this.query
     });
   }

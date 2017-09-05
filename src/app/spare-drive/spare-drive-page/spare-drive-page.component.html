@@ -5,7 +5,7 @@
   <cs-spare-drive-filter
     [zones]="zones"
     [groupings]="groupings"
-    [searchPanelWhite]="selectedGroupings?.length"
+    [searchPanelWhite]="selectedGroupings?.length && visibleVolumes?.length"
     (updateFilters)="updateFiltersAndFilter($event)"
     cs-list
   ></cs-spare-drive-filter>
