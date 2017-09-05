@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FilterService } from '../../shared/services/filter.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
@@ -18,7 +18,7 @@ export enum SecurityGroupViewMode {
   templateUrl: 'sg-filter.component.html',
   styleUrls: ['sg-filter.component.scss']
 })
-export class SgFilterComponent {
+export class SgFilterComponent implements OnChanges {
   @Input() public viewMode: SecurityGroupViewMode;
   @Output() public updateFilters = new EventEmitter<SecurityGroupFilter>();
 
@@ -42,6 +42,10 @@ export class SgFilterComponent {
     private storageService: LocalStorageService
   ) {}
 
+  public ngOnChanges(): void {
+    this.initFilters();
+  }
+
   public get mode(): number {
     const modeIndices = {
       [SecurityGroupViewMode.Templates]: 0,
@@ -49,6 +53,12 @@ export class SgFilterComponent {
     };
 
     return modeIndices[this.viewMode];
+  }
+
+  public initFilters(): void {
+    const params = this.filterService.getParams();
+    this.viewMode = params.viewMode;
+    this.update();
   }
 
   public setMode(index: SecurityGroupViewMode): void {

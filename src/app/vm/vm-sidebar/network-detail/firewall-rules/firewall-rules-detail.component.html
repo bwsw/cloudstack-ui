@@ -1,6 +1,4 @@
-<md-card
-  class="vm-card"
->
+<md-card class="vm-card">
   <md-card-header>
     <md-card-title>
       <h2 class="md-card-title-text">{{ 'VM_PAGE.NETWORK_DETAILS.FIREWALL_RULES' | translate }}</h2>
@@ -23,7 +21,7 @@
         mdTooltipPosition="above"
         mdl-button
         mdl-button-type="icon"
-        (click)="showRulesDialog(vm.securityGroup[0])"
+        (click)="onEdit(vm.securityGroup[0])"
       >
         <md-icon>edit</md-icon>
       </button>
