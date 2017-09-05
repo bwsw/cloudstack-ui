@@ -1,49 +1,31 @@
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MdDialog } from '@angular/material';
+import { Rules } from '../../../../shared/components/security-group-builder/rules';
+import { VmCreationSecurityGroupData } from '../../security-group/vm-creation-security-group-data';
+import { VmCreationSecurityGroupMode } from '../../security-group/vm-creation-security-group-mode';
+import { VmCreationSecurityGroupComponent } from '../security-group/vm-creation-security-group.component';
 
-import {
-  VmCreationSecurityGroupComponent
-} from '../../../vm/vm-creation/components/security-group/security-group.component';
-import { Rules } from '../security-group-builder/rules';
-import { SecurityGroup } from '../../../security-group/sg.model';
-import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
-import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
-
-
-export interface SecurityGroupRulesManagerData {
-  mode: VmCreationSecurityGroupMode,
-  rules?: Rules,
-  securityGroup?: SecurityGroup
-}
 
 @Component({
-  selector: 'cs-security-group-rules-manager',
-  templateUrl: 'sg-rules-manager.component.html',
-  styleUrls: ['sg-rules-manager.component.scss'],
+  selector: 'cs-vm-creation-security-group-rules-manager',
+  templateUrl: 'vm-creation-security-group-rules-manager.component.html',
+  styleUrls: ['vm-creation-security-group-rules-manager.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SgRulesManagerComponent),
+      useExisting: forwardRef(() => VmCreationSecurityGroupRulesManagerComponent),
       multi: true
     }
   ]
 })
-export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
-  @Input() public mode: 'create' | 'edit';
-  @Input() public header = 'VM_PAGE.VM_CREATION.SECURITY_GROUPS';
+export class VmCreationSecurityGroupRulesManagerComponent implements ControlValueAccessor {
   public savedData: VmCreationSecurityGroupData;
 
   private _securityGroupRulesManagerData: VmCreationSecurityGroupData;
 
   constructor(private dialog: MdDialog) {
     this.savedData = VmCreationSecurityGroupData.fromRules(new Rules());
-  }
-
-  public ngOnInit(): void {
-    if (!this.mode) {
-      this.mode = 'create';
-    }
   }
 
   public propagateChange: any = () => {};

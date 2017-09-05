@@ -31,7 +31,8 @@ import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
 import { VmService } from './shared/vm.service';
 import { VmActionProviders } from './vm-actions/index';
 import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions.component';
-import { VmCreationSecurityGroupComponent } from './vm-creation/components/security-group/security-group.component';
+// tslint:disable-next-line
+import { VmCreationSecurityGroupComponent } from './vm-creation/components/security-group/vm-creation-security-group.component';
 import { VmCreationFormNormalizationService } from './vm-creation/form-normalization/form-normalization.service';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
 import { VmCreationService } from './vm-creation/services/vm-creation.service';
@@ -76,6 +77,9 @@ import { VmDetailZoneComponent } from './vm-sidebar/zone/zone.component';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
 import { vmRouting } from './vm.routing';
 import { WebShellService } from './web-shell/web-shell.service';
+// tslint:disable-next-line
+import { SecurityGroupManagerExistingGroupComponent } from './vm-creation/components/security-group-rules-manager/security-group-manager-existing-group/security-group-manager-existing-group.component';
+import { VmCreationSecurityGroupRulesManagerComponent } from './vm-creation/components/security-group-rules-manager/vm-creation-security-group-rules-manager.component';
 
 
 @NgModule({
@@ -143,7 +147,9 @@ import { WebShellService } from './web-shell/web-shell.service';
     VolumeComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,
-    VmCreationSecurityGroupComponent
+    VmCreationSecurityGroupComponent,
+    SecurityGroupManagerExistingGroupComponent,
+    VmCreationSecurityGroupRulesManagerComponent
   ],
   providers: [
     VmActionsService,

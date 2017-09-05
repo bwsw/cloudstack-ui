@@ -4,11 +4,11 @@ import { MdDialog } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 
-import { MockTranslatePipe } from '../../../../testutils/mocks/mock-translate.pipe.spec';
-import { Rules } from '../security-group-builder/security-group-builder.component';
-import { NetworkRule, SecurityGroup } from '../../../security-group/sg.model';
-import { SgRulesManagerComponent } from '../';
-import { FancySelectComponent } from '../fancy-select/fancy-select.component';
+import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
+import { Rules } from '../../../../shared/components/security-group-builder/security-group-builder.component';
+import { NetworkRule, SecurityGroup } from '../../../../security-group/sg.model';
+import { VmCreationSecurityGroupRulesManagerComponent } from '../../../../shared/components';
+import { FancySelectComponent } from '../../../../shared/components/fancy-select/fancy-select.component';
 
 
 const mockSg = new SecurityGroup({
@@ -104,7 +104,7 @@ describe('Sg Rules manager component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        SgRulesManagerComponent,
+        VmCreationSecurityGroupRulesManagerComponent,
         MockTranslatePipe,
         FancySelectComponent
       ],
@@ -115,7 +115,7 @@ describe('Sg Rules manager component', () => {
     });
 
     TestBed.compileComponents().then(() => {
-      f = TestBed.createComponent(SgRulesManagerComponent);
+      f = TestBed.createComponent(VmCreationSecurityGroupRulesManagerComponent);
       comp = f.componentInstance;
     });
   }));
@@ -126,7 +126,7 @@ describe('Sg Rules manager component', () => {
     f.detectChanges();
     expect(f.debugElement.children.length).toBe(1);
 
-    f = TestBed.createComponent(SgRulesManagerComponent);
+    f = TestBed.createComponent(VmCreationSecurityGroupRulesManagerComponent);
     comp = f.componentInstance;
     comp.mode = 'edit';
     comp.ngOnInit();

@@ -54,7 +54,6 @@ import {
   NoResultsComponent,
   NotificationBoxComponent,
   NotificationBoxItemComponent,
-  SgRulesManagerComponent,
   SidebarContainerComponent,
   SliderComponent,
   TopBarComponent,
@@ -136,8 +135,7 @@ import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 // tslint:disable-next-line
 import { VmCreationSecurityGroupService } from '../vm/vm-creation/services/vm-creation-security-group.service';
-import { SecurityGroupManagerBaseTemplatesComponent } from './components/security-group-rules-manager/security-group-manager-base-templates/security-group-manager-base-templates.component';
-import { SecurityGroupManagerExistingGroupComponent } from './components/security-group-rules-manager/security-group-manager-existing-group/security-group-manager-existing-group.component';
+import { SecurityGroupManagerBaseTemplatesComponent } from './components/security-group-manager-base-templates/security-group-manager-base-templates.component';
 
 
 @NgModule({
@@ -186,7 +184,6 @@ import { SecurityGroupManagerExistingGroupComponent } from './components/securit
     NotificationBoxItemComponent,
     OverlayLoadingComponent,
     SearchComponent,
-    SgRulesManagerComponent,
     SidebarContainerComponent,
     TableComponent,
     TopBarComponent,
@@ -207,7 +204,8 @@ import { SecurityGroupManagerExistingGroupComponent } from './components/securit
     SpareDriveActionsComponent,
     TemplateActionsComponent,
     SecurityGroupBuilderComponent,
-    SecurityGroupSelectorComponent
+    SecurityGroupSelectorComponent,
+    SecurityGroupManagerBaseTemplatesComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -247,7 +245,6 @@ import { SecurityGroupManagerExistingGroupComponent } from './components/securit
     ReloadComponent,
     SearchComponent,
     SecurityGroupBuilderRuleComponent,
-    SgRulesManagerComponent,
     SidebarContainerComponent,
     TableComponent,
     TopBarComponent,
@@ -265,8 +262,7 @@ import { SecurityGroupManagerExistingGroupComponent } from './components/securit
     TemplateActionsComponent,
     SecurityGroupBuilderComponent,
     SecurityGroupSelectorComponent,
-    SecurityGroupManagerBaseTemplatesComponent,
-    SecurityGroupManagerExistingGroupComponent
+    SecurityGroupManagerBaseTemplatesComponent
   ],
   providers: [
     SpareDriveActionsService,

@@ -1,0 +1,26 @@
+<cs-fancy-select>
+  <h5 class="fancy-select-header">{{ 'VM_PAGE.VM_CREATION.SECURITY_GROUPS' | translate }}</h5>
+  <mdl-button
+    class="fancy-select-button"
+    (click)="showDialog()"
+  >
+    <span *ngIf="showAddButton">
+      {{ 'COMMON.ADD' | translate }}
+    </span>
+
+    <span *ngIf="showEditButton">
+      {{ 'COMMON.EDIT' | translate }}
+    </span>
+  </mdl-button>
+  <span class="fancy-select-content">
+    <cs-security-group-manager-base-templates
+      *ngIf="isModeNew"
+      [securityGroups]="savedData?.rules?.templates"
+    ></cs-security-group-manager-base-templates>
+
+    <cs-security-group-manager-existing-group
+      *ngIf="isModeExisting"
+      [securityGroup]="savedData?.securityGroup"
+    ></cs-security-group-manager-existing-group>
+  </span>
+</cs-fancy-select>

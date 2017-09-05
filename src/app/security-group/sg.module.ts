@@ -33,6 +33,10 @@ import {
 } from './services/creation-services/template-security-group-creation.service';
 import { NetworkRuleService } from './services/network-rule.service';
 import { SecurityGroupService } from './services/security-group.service';
+// tslint:disable-next-line
+import { SecurityGroupCreationSecurityGroupComponent } from './sg-template-creation/security-group-creation-security-group/security-group-creation-security-group.component';
+// tslint:disable-next-line
+import { SecurityGroupCreationRulesManagerComponent } from './sg-template-creation/security-group-rules-manager/security-group-creation-rules-manager.component';
 
 
 @NgModule({
@@ -63,6 +67,8 @@ import { SecurityGroupService } from './services/security-group.service';
     SgTemplateCreationDialogComponent,
     SgRulesComponent,
     SgRuleComponent,
+    SecurityGroupCreationSecurityGroupComponent,
+    SecurityGroupCreationRulesManagerComponent
   ],
   providers: [
     NetworkRuleService,
@@ -77,7 +83,8 @@ import { SecurityGroupService } from './services/security-group.service';
   ],
   entryComponents: [
     SgTemplateCreationComponent,
-    SgRulesComponent
+    SgRulesComponent,
+    SecurityGroupCreationSecurityGroupComponent
   ]
 })
 export class SecurityGroupModule { }

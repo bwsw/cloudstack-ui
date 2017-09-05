@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { SecurityGroup } from '../../../../security-group/sg.model';
+import { SecurityGroup } from '../../../security-group/sg.model';
 
 
 @Component({

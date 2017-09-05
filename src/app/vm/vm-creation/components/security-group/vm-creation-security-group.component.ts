@@ -1,23 +1,20 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { SecurityGroup } from '../../../../security-group/sg.model';
 import { Rules } from '../../../../shared/components/security-group-builder/rules';
 // tslint:disable-next-line
-import { SecurityGroupRulesManagerData } from '../../../../shared/components/security-group-rules-manager/sg-rules-manager.component';
-// tslint:disable-next-line
-import { SpareDriveAttachmentDialogComponent } from '../../../vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
 import { VmCreationSecurityGroupData } from '../../security-group/vm-creation-security-group-data';
 import { VmCreationSecurityGroupMode } from '../../security-group/vm-creation-security-group-mode';
 
 
 @Component({
   selector: 'cs-vm-creation-security-group',
-  templateUrl: 'security-group.component.html',
-  styleUrls: ['security-group.component.scss']
+  templateUrl: 'vm-creation-security-group.component.html',
+  styleUrls: ['vm-creation-security-group.component.scss']
 })
 export class VmCreationSecurityGroupComponent {
   constructor(
-    private dialogRef: MdDialogRef<SpareDriveAttachmentDialogComponent>,
+    private dialogRef: MdDialogRef<VmCreationSecurityGroupComponent>,
     @Inject(MD_DIALOG_DATA) public savedData: VmCreationSecurityGroupData
   ) {}
 
@@ -65,7 +62,6 @@ export class VmCreationSecurityGroupComponent {
   }
 
   public onSelectedGroupChange(securityGroup: SecurityGroup) {
-    debugger;
     this.savedData.securityGroup = securityGroup;
   }
 }
