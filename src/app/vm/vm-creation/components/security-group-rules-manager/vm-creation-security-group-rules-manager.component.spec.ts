@@ -1,14 +1,15 @@
 import { MdlModule } from '@angular-mdl/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MdDialog } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
-
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
-import { Rules } from '../../../../shared/components/security-group-builder/security-group-builder.component';
-import { NetworkRule, SecurityGroup } from '../../../../security-group/sg.model';
+import { NetworkRule } from '../../../../security-group/network-rule.model';
+import { SecurityGroup } from '../../../../security-group/sg.model';
 import { VmCreationSecurityGroupRulesManagerComponent } from '../../../../shared/components';
 import { FancySelectComponent } from '../../../../shared/components/fancy-select/fancy-select.component';
+import { Rules } from '../../../../shared/components/security-group-builder/rules';
 
 
 const mockSg = new SecurityGroup({
@@ -111,7 +112,8 @@ describe('Sg Rules manager component', () => {
       providers: [
         { provide: MdDialog, useClass: MockMdDialog }
       ],
-      imports: [MdlModule]
+      imports: [MdlModule],
+      schemas: [NO_ERRORS_SCHEMA]
     });
 
     TestBed.compileComponents().then(() => {
@@ -119,21 +121,6 @@ describe('Sg Rules manager component', () => {
       comp = f.componentInstance;
     });
   }));
-
-  it('sets mode correctly', () => {
-    comp.ngOnInit();
-    expect(comp.mode).toBe('create');
-    f.detectChanges();
-    expect(f.debugElement.children.length).toBe(1);
-
-    f = TestBed.createComponent(VmCreationSecurityGroupRulesManagerComponent);
-    comp = f.componentInstance;
-    comp.mode = 'edit';
-    comp.ngOnInit();
-    expect(comp.mode).toBe('edit');
-    f.detectChanges();
-    expect(f.debugElement.children.length).toBe(0);
-  });
 
   it('shows dialog', () => {
     const dialog = TestBed.get(MdDialog);
@@ -146,7 +133,7 @@ describe('Sg Rules manager component', () => {
 
   it('updates rules', () => {
     const emptyRules = new Rules();
-    expect(comp.savedRules).toEqual(emptyRules);
+    expect(comp.savedRules).toBe(emptyRules);
     expect(comp.rules).toBeUndefined();
 
     const dialog = TestBed.get(MdDialog);

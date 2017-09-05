@@ -24,7 +24,7 @@ describe('Storage creation-services (Local Storage)', () => {
   });
 });
 
-describe('Storage creation-services (Session Storage)', () => {
+describe('Storage services (Session Storage)', () => {
   let sessionStorageService: SessionStorageService;
 
   beforeEach(() => {
@@ -44,7 +44,7 @@ describe('Storage creation-services (Session Storage)', () => {
   });
 });
 
-describe('Storage creation-services (Memory Storage)', () => {
+describe('Storage services (Memory Storage)', () => {
   let memoryStorageService: MemoryStorageService;
 
   beforeEach(() => {

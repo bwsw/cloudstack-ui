@@ -4,10 +4,11 @@ import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import { MockTranslatePipe } from '../../../../testutils/mocks/mock-translate.pipe.spec';
+import { NetworkRule } from '../../../security-group/network-rule.model';
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { SecurityGroup } from '../../../security-group/sg.model';
-import { Rules, SecurityGroupBuilderComponent } from './security-group-builder.component';
-import { NetworkRule } from '../../../security-group/network-rule.model';
+import { Rules } from './rules';
+import { SecurityGroupBuilderComponent } from './security-group-builder.component';
 
 
 describe('Sg creation component', () => {
@@ -75,7 +76,7 @@ describe('Sg creation component', () => {
   const mockRules = new Rules();
 
   class SecurityGroupServiceMock {
-    public getTemplates(): Array<SecurityGroup> {
+    public getPredefinedTemplates(): Array<SecurityGroup> {
       return [mockSg1];
     }
 
@@ -134,7 +135,8 @@ describe('Sg creation component', () => {
     expect(comp.selectedRules[1][0].checked).toBe(true);
   });
 
-  it('handles dialog close', () => {
+  fit('handles dialog close', () => {
+    debugger;
     spyOn(dialogReferenceMock, 'close').and.callThrough();
 
     mockRules.templates = [mockSg2];

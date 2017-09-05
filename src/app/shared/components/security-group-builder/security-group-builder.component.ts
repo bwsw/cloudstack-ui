@@ -73,6 +73,8 @@ export class SecurityGroupBuilderComponent implements OnInit {
   }
 
   public moveLeft(): void {
+    debugger;
+
     if (this.selectedGroupIndex === -1) {
       return;
     }
@@ -177,6 +179,7 @@ export class SecurityGroupBuilderComponent implements OnInit {
   }
 
   private removeIngressRulesOfSelectedGroup(): void {
+    debugger;
     const group = this.items[1][this.selectedGroupIndex];
     let startIndex = 0;
 
