@@ -65,6 +65,7 @@ export class VmCreationSecurityGroupComponent {
   }
 
   public onSelectedGroupChange(securityGroup: SecurityGroup) {
+    debugger;
     this.savedData.securityGroup = securityGroup;
   }
 }

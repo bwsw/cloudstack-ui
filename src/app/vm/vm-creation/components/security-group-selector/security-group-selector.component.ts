@@ -1,5 +1,5 @@
 import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SecurityGroupService } from '../../../../security-group/services/security-group.service';
 import { SecurityGroup } from '../../../../security-group/sg.model';
 
@@ -16,11 +16,9 @@ import { SecurityGroup } from '../../../../security-group/sg.model';
     }
   ]
 })
-export class SecurityGroupSelectorComponent implements OnInit {
-  @Input() public securityGroup: SecurityGroup;
-  @Output() public onChange = new EventEmitter<SecurityGroup>();
+export class SecurityGroupSelectorComponent implements ControlValueAccessor, OnInit {
+  public _securityGroup: SecurityGroup;
   public securityGroups: Array<SecurityGroup>;
-  public selectedSecurityGroup: SecurityGroup;
 
   constructor(private securityGroupService: SecurityGroupService) {}
 
@@ -28,16 +26,39 @@ export class SecurityGroupSelectorComponent implements OnInit {
     this.securityGroupService.getSharedGroups()
       .subscribe(sharedGroups => {
         this.securityGroups = sharedGroups;
-        this.selectedSecurityGroup = this.securityGroup;
 
-        if (!this.selectedSecurityGroup && this.securityGroups) {
-          this.selectSecurityGroup(this.securityGroups[0]);
+        if (!this.securityGroup && this.securityGroups.length) {
+          this.securityGroup = this.securityGroups[0];
         }
       });
   }
 
+  @Input()
+  public get securityGroup(): SecurityGroup {
+    return this._securityGroup;
+  }
+
+  public set securityGroup(value: SecurityGroup) {
+    if (value) {
+      this._securityGroup = value;
+      this.propagateChange(this.securityGroup);
+    }
+  }
+
+  public writeValue(value: SecurityGroup): void {
+    if (value) {
+      this.securityGroup = value;
+    }
+  }
+
+  public propagateChange: any = () => {};
+  public registerOnTouched(): any {}
+
+  public registerOnChange(fn): void {
+    this.propagateChange = fn;
+  }
+
   public selectSecurityGroup(securityGroup: SecurityGroup): void {
-    this.selectedSecurityGroup = securityGroup;
-    this.onChange.emit(this.selectedSecurityGroup);
+    this.securityGroup = securityGroup;
   }
 }

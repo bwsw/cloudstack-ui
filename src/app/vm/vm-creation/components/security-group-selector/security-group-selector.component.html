@@ -7,7 +7,7 @@
       *ngFor="let sg of securityGroups"
       lines="2"
       (click)="$event.stopPropagation(); selectSecurityGroup(sg)"
-      [class.selected-security-group]="selectedSecurityGroup?.id === sg?.id"
+      [class.selected-security-group]="securityGroup?.id === sg?.id"
     >
       <h4 md-line>
         <span>{{ sg.name }}</span>
@@ -20,15 +20,15 @@
       </p>
       <span>
         <mdl-radio
-          *ngIf="selectedSecurityGroup"
+          *ngIf="securityGroup"
           name="radio"
           [value]="sg.id"
-          [ngModel]="selectedSecurityGroup?.id"
+          [ngModel]="securityGroup?.id"
           mdl-ripple
         >
         </mdl-radio>
         <mdl-radio
-          *ngIf="!selectedSecurityGroup"
+          *ngIf="!securityGroup"
           name="radio"
           mdl-ripple
         ></mdl-radio>

@@ -77,22 +77,17 @@ export class SgRulesManagerComponent implements OnInit, ControlValueAccessor {
   }
 
   public get showAddButton(): boolean {
-    return (
-      (this.savedData &&
-        this.savedData.rules &&
-        this.savedData.rules.templates &&
-        !this.savedData.rules.templates.length) ||
-      (this.savedData && !this.savedData.securityGroup)
-    );
+    return !this.showEditButton;
   }
 
   public get showEditButton(): boolean {
     return (
-      (this.savedData &&
+      (this.isModeNew &&
+        this.savedData &&
         this.savedData.rules &&
         this.savedData.rules.templates &&
         !!this.savedData.rules.templates.length) ||
-      (this.savedData && !!this.savedData.securityGroup)
+      (this.isModeExisting && this.savedData && !!this.savedData.securityGroup)
     );
   }
 
