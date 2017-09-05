@@ -1,3 +1,40 @@
+<a name="1.49.9"></a>
+## [1.49.9](https://github.com/bwsw/cloudstack-ui/compare/1.49.8...1.49.9) (2017-09-05)
+
+
+### Bug Fixes
+
+* **tags:** add condition for add button (#469) ([c4e0086](https://github.com/bwsw/cloudstack-ui/commit/c4e0086))
+* **date-picker:** Fix date picker cancel button ([45caa0e](https://github.com/bwsw/cloudstack-ui/commit/45caa0e)), closes [#474](https://github.com/bwsw/cloudstack-ui/issues/474)
+* **dialog-layout:** add styles for modal dialog ([75ed1b0](https://github.com/bwsw/cloudstack-ui/commit/75ed1b0))
+* **filters:** Fix spare drive filters ([8c28546](https://github.com/bwsw/cloudstack-ui/commit/8c28546)), closes [#488](https://github.com/bwsw/cloudstack-ui/issues/488)
+* **modals:** Check if 'create' is in URL before showing suggestion dialog ([1e4ec47](https://github.com/bwsw/cloudstack-ui/commit/1e4ec47)), closes [#454](https://github.com/bwsw/cloudstack-ui/issues/454)
+* **routes:** fix redirection links for creation modals (#451) ([98f2f63](https://github.com/bwsw/cloudstack-ui/commit/98f2f63)), closes [#451](https://github.com/bwsw/cloudstack-ui/issues/451)
+* **security-groups:** Subscribe to security group updates ([6a17119](https://github.com/bwsw/cloudstack-ui/commit/6a17119)), closes [#472](https://github.com/bwsw/cloudstack-ui/issues/472)
+* **service-offering:** service offering not being restored after cancel was clicked (closes #479) ([7efce4d](https://github.com/bwsw/cloudstack-ui/commit/7efce4d)), closes [#479](https://github.com/bwsw/cloudstack-ui/issues/479) [#479](https://github.com/bwsw/cloudstack-ui/issues/479)
+* **snapshot:** Fix null returned in snapshot creation ([4b860c1](https://github.com/bwsw/cloudstack-ui/commit/4b860c1))
+* **vm-list:** unknown OS type icon size (closes #481) ([90a6815](https://github.com/bwsw/cloudstack-ui/commit/90a6815)), closes [#481](https://github.com/bwsw/cloudstack-ui/issues/481) [#481](https://github.com/bwsw/cloudstack-ui/issues/481)
+* **spare-drives:** Add missing actions to spare drives ([b1eb1cf](https://github.com/bwsw/cloudstack-ui/commit/b1eb1cf))
+* **ssh-key-creation:** remove extra params from constructor ([db3f511](https://github.com/bwsw/cloudstack-ui/commit/db3f511))
+* **storage:** Groupings localStorage/url saving fixed ([33a25bb](https://github.com/bwsw/cloudstack-ui/commit/33a25bb))
+* **translations:** fix incorrect translation token ([7ea872b](https://github.com/bwsw/cloudstack-ui/commit/7ea872b))
+* **translations:** Fix incorrect translations ([1aa83f5](https://github.com/bwsw/cloudstack-ui/commit/1aa83f5)), closes [#459](https://github.com/bwsw/cloudstack-ui/issues/459)
+* **vm-creation:** bind context (#463) ([1d8ccf5](https://github.com/bwsw/cloudstack-ui/commit/1d8ccf5))
+
+
+### Features
+
+* **dialogs:** replace mdl with md-dialogs (#422) ([24c1d74](https://github.com/bwsw/cloudstack-ui/commit/24c1d74))
+* **Docker:** Multi-stage build added ([3e14b5e](https://github.com/bwsw/cloudstack-ui/commit/3e14b5e))
+* **pulse:** make dots on charts appear only on hover (#425) ([e606ed2](https://github.com/bwsw/cloudstack-ui/commit/e606ed2)), closes [#425](https://github.com/bwsw/cloudstack-ui/issues/425)
+* **routes:** add routes for creation dialogs (closes #411) ([66ea3c2](https://github.com/bwsw/cloudstack-ui/commit/66ea3c2)), closes [#411](https://github.com/bwsw/cloudstack-ui/issues/411)
+* **sidebar:** reorder sidebar links (closes #36) ([c516c3e](https://github.com/bwsw/cloudstack-ui/commit/c516c3e)), closes [#36](https://github.com/bwsw/cloudstack-ui/issues/36) [#36](https://github.com/bwsw/cloudstack-ui/issues/36)
+* **sidebar:** Show 'Entity not found' message if id in query params is invalid ([324eed6](https://github.com/bwsw/cloudstack-ui/commit/324eed6)), closes [#374](https://github.com/bwsw/cloudstack-ui/issues/374)
+* **spare-drives:** Rename "Spare drives" to "Storage", add search, filtering and snapshot view to "Storage" section ([c750752](https://github.com/bwsw/cloudstack-ui/commit/c750752)), closes [#416](https://github.com/bwsw/cloudstack-ui/issues/416)
+* **statistics:** allow admins to view domain statistics (closes #426) ([84795ca](https://github.com/bwsw/cloudstack-ui/commit/84795ca)), closes [#426](https://github.com/bwsw/cloudstack-ui/issues/426) [#426](https://github.com/bwsw/cloudstack-ui/issues/426)
+
+
+
 <a name="1.49.8"></a>
 ## [1.49.8](https://github.com/bwsw/cloudstack-ui/compare/1.0.7...1.49.8) (2017-08-23)
 

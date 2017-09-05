@@ -25,17 +25,18 @@ export abstract class BaseTemplateSidebarComponent extends SidebarComponent<Base
   }
 
   public get isSelf(): boolean {
-    return this.authService.username === this.entity.account;
+    return (
+      this.authService.user && this.authService.user.username === this.entity.account
+    );
   }
 
   protected loadEntity(id: string): Observable<BaseTemplateModel> {
-    return this.service.getWithGroupedZones(id)
-      .switchMap(template => {
-        if (template) {
-          return Observable.of(template);
-        } else {
-          return Observable.throw('ENTITY_DOES_NOT_EXIST');
-        }
-      });
+    return this.service.getWithGroupedZones(id).switchMap(template => {
+      if (template) {
+        return Observable.of(template);
+      } else {
+        return Observable.throw('ENTITY_DOES_NOT_EXIST');
+      }
+    });
   }
 }

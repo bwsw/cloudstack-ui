@@ -14,15 +14,16 @@ import { NotificationService } from './shared/services/notification.service';
 import { RouterUtilsService } from './shared/services/router-utils.service';
 import { SessionStorageService } from './shared/services/session-storage.service';
 import { StyleService } from './shared/services/style.service';
+import { UserService } from './shared/services/user.service';
 import { ZoneService } from './shared/services/zone.service';
-
 
 @Component({
   selector: 'cs-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit{
+
   @ViewChild(MdlLayoutComponent) public layoutComponent: MdlLayoutComponent;
   public loggedIn: boolean;
   public title: string;
@@ -40,11 +41,12 @@ export class AppComponent implements OnInit {
     private layoutService: LayoutService,
     private notification: NotificationService,
     private styleService: StyleService,
+    private userService: UserService,
     private routerUtilsService: RouterUtilsService,
     private zoneService: ZoneService,
     private zone: NgZone
   ) {
-    this.title = this.auth.name;
+    this.title = (this.auth.user && this.auth.user.name) || '';
   }
 
   public ngOnInit(): void {
@@ -55,13 +57,13 @@ export class AppComponent implements OnInit {
       this.loggedIn = isLoggedIn;
       this.updateAccount(this.loggedIn);
       if (isLoggedIn) {
-        this.auth.startInactivityCounter();
+        this.userService.startInactivityCounter();
         this.loadSettings();
         this.zoneService
           .areAllZonesBasic()
           .subscribe(basic => (this.disableSecurityGroups = basic));
       } else {
-        this.auth.clearInactivityTimer();
+        this.userService.clearInactivityTimer();
       }
       this.asyncJobService.completeAllJobs();
       this.cacheService.invalidateAll();
@@ -73,7 +75,7 @@ export class AppComponent implements OnInit {
 
   private updateAccount(loggedIn: boolean): void {
     if (loggedIn) {
-      this.title = this.auth.name;
+      this.title = this.auth.user.name;
     }
   }
 
