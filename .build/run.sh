@@ -12,11 +12,9 @@ else
 fi
 
 if [ $# -eq 0 ]; then
-  export API=$API_BACKEND_URL;
-  export CONSOLE=$CONSOLE_BACKEND_URL;
+  export ENDPOINT=$CLIENT_ENDPOINT;
 else
-  export API=$1;
-  export CONSOLE=$2;
+  export ENDPOINT=$1;
 fi
 
 # Generate container name unique for port
@@ -30,6 +28,7 @@ if [[ -n $NGINX_ID ]]; then
   docker rm $NGINX_ID;
 fi
 
+echo $ENDPOINT
 # Starting server
 echo ******Starting Nginx******
-docker run -e "API_BACKEND_URL=$API" -e "CONSOLE_BACKEND_URL=$CONSOLE" -e "PULSE_PLUGIN_ENDPOINT=$PULSE_PLUGIN_ENDPOINT" -d -p $DEPLOY_PORT:80 --name $CONTAINER_NAME $CONFIG_MOUNT bwsw/cloudstack-ui;
+docker run -e "CLIENT_ENDPOINT=$ENDPOINT" -e "PULSE_PLUGIN_ENDPOINT=$PULSE_PLUGIN_ENDPOINT" --rm -p $DEPLOY_PORT:80 --name $CONTAINER_NAME $CONFIG_MOUNT test;
