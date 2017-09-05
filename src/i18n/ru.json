@@ -225,7 +225,7 @@
     "VMS": "Виртуальные<br>машины",
     "SPARE_DRIVES": "Хранилище",
     "IMAGES": "Образы",
-    "FIREWALL_TEMPLATES": "Шаблоны<br>брандмауэра",
+    "FIREWALL_TEMPLATES": "Брандмауэр",
     "ACTIVITY_LOG": "Журнал событий",
     "SSH_KEYS": "SSH ключи",
     "SETTINGS": "Настройки",
