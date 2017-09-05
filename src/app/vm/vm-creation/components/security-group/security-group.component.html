@@ -21,6 +21,7 @@
 
   <cs-security-group-selector
     *ngIf="isModeSelector"
+    [securityGroup]="savedData?.securityGroup"
     (onChange)="onSelectedGroupChange($event)"
   ></cs-security-group-selector>
 </div>

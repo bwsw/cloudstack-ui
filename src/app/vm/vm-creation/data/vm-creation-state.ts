@@ -100,7 +100,6 @@ export class VmCreationState {
   }
 
   public getVmCreationParams(): VmCreationParams {
-    debugger;
     const params: VmCreationParams = {};
 
     params.affinityGroupNames = this.affinityGroup && this.affinityGroup.name;

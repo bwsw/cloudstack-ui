@@ -23,7 +23,7 @@
           *ngIf="selectedSecurityGroup"
           name="radio"
           [value]="sg.id"
-          [ngModel]="sg.id"
+          [ngModel]="selectedSecurityGroup?.id"
           mdl-ripple
         >
         </mdl-radio>
