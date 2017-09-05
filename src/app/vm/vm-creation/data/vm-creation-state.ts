@@ -18,6 +18,7 @@ interface VmCreationParams {
   keyboard?: string;
   keyPair?: string;
   name?: string;
+  securityGroupIds?: string;
   serviceOfferingId?: string;
   rootDiskSize?: number;
   size?: number;
@@ -99,6 +100,7 @@ export class VmCreationState {
   }
 
   public getVmCreationParams(): VmCreationParams {
+    debugger;
     const params: VmCreationParams = {};
 
     params.affinityGroupNames = this.affinityGroup && this.affinityGroup.name;
@@ -116,6 +118,14 @@ export class VmCreationState {
     if (this.diskOffering && !this.template.isTemplate) {
       params.diskofferingid = this.diskOffering.id;
       params.hypervisor = 'KVM';
+    }
+
+    if (
+      this.securityGroupData &&
+      this.securityGroupData.securityGroup &&
+      this.securityGroupData.securityGroup.id
+    ) {
+      params.securityGroupIds = this.securityGroupData.securityGroup.id;
     }
 
     if (this.serviceOffering.areCustomParamsSet) {

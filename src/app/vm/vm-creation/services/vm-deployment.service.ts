@@ -42,7 +42,6 @@ export class VmDeploymentService {
   constructor(
     private affinityGroupService: AffinityGroupService,
     private instanceGroupService: InstanceGroupService,
-    private securityGroupService: SecurityGroupService,
     private tagService: TagService,
     private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
     private vmService: VmService
@@ -67,7 +66,7 @@ export class VmDeploymentService {
         });
       })
       .switchMap(() => this.getPreDeployActions(deployObservable, state))
-      .switchMap(() => this.sendDeployRequest(deployObservable, state))
+      .switchMap(modifiedState => this.sendDeployRequest(deployObservable, modifiedState))
       .switchMap(({ deployResponse, temporaryVm }) => {
         tempVm = temporaryVm;
         return this.vmService.registerVmJob(deployResponse);
@@ -89,7 +88,7 @@ export class VmDeploymentService {
   private getPreDeployActions(
     deployObservable: Subject<VmDeploymentMessage>,
     state: VmCreationState
-  ): Observable<any> {
+  ): Observable<VmCreationState> {
     return Observable.of(null)
       .switchMap(() => {
         return this.getAffinityGroupCreationObservable(deployObservable, state)
@@ -97,6 +96,10 @@ export class VmDeploymentService {
       .switchMap(() => {
         if (state.zone.networkTypeIsBasic) { return Observable.of(null); }
         return this.getSecurityGroupCreationObservable(deployObservable, state)
+      })
+      .map(securityGroup => {
+        state.securityGroupData.securityGroup = securityGroup;
+        return state;
       });
   }
 

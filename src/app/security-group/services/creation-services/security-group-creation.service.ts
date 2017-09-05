@@ -75,7 +75,7 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
     );
 
     const egressRuleCreationRequests = this.getRuleCreationRequests(
-      ingressRules,
+      egressRules,
       NetworkRuleType.Egress,
       securityGroup
     );
