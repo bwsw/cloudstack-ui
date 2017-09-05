@@ -22,6 +22,8 @@ import { ServiceLocator } from './service-locator';
 import { UserTagService } from './tags/user-tag.service';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
+import { BaseRequestOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 
 
 @Component({
@@ -34,14 +36,6 @@ class TestViewComponent {
 @Injectable()
 class MockErrorService {
   public send(): void {
-  }
-}
-
-class Tag {
-  constructor(
-    public key: string,
-    public value: string
-  ) {
   }
 }
 
