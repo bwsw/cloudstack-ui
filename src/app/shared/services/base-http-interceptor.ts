@@ -15,8 +15,9 @@ export class BaseHttpInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
 
-    if (this.storage.read('sessionKey')) {
-      const duplicate = req.clone({ params: req.params.set('sessionKey', this.storage.read('sessionKey')) });
+    const sessionKey = this.storage.read('sessionKey');
+    if (sessionKey) {
+      const duplicate = req.clone({ params: req.params.set('sessionKey', sessionKey) });
       return next.handle(duplicate);
     } else {
       return next.handle(req);
