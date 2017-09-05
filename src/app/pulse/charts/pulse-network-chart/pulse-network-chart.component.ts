@@ -108,14 +108,14 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
               x: new Date(_.time),
               y: +_.readBits
             })),
-            label: `${this.translations['PULSE.LABELS.NETWORK_READ']} ${aggregation}`
+            label: `${this.translations['NETWORK_READ']} ${aggregation}`
           };
           const writeBits = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writeBits
             })),
-            label: `${this.translations['PULSE.LABELS.NETWORK_WRITE']} ${aggregation}`
+            label: `${this.translations['NETWORK_WRITE']} ${aggregation}`
           };
           sets.bits.push(readBits, writeBits);
 
@@ -124,14 +124,14 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
               x: new Date(_.time),
               y: +_.readPackets
             })),
-            label: `${this.translations['PULSE.LABELS.NETWORK_READ_PACKETS']} ${aggregation}`
+            label: `${this.translations['NETWORK_READ_PACKETS']} ${aggregation}`
           };
           const writePackets = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writePackets
             })),
-            label: `${this.translations['PULSE.LABELS.NETWORK_WRITE_PACKETS']} ${aggregation}`
+            label: `${this.translations['NETWORK_WRITE_PACKETS']} ${aggregation}`
           };
           sets.packets.push(readPackets, writePackets);
 
@@ -140,14 +140,14 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
               x: new Date(_.time),
               y: +_.readDrops
             })),
-            label: `${this.translations['PULSE.LABELS.NETWORK_READ_DROPS']} ${aggregation}`
+            label: `${this.translations['NETWORK_READ_DROPS']} ${aggregation}`
           };
           const writeDrops = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writeDrops
             })),
-            label: `${this.translations['PULSE.LABELS.NETWORK_WRITE_DROPS']} ${aggregation}`
+            label: `${this.translations['NETWORK_WRITE_DROPS']} ${aggregation}`
           };
           sets.drops.push(readDrops, writeDrops);
 
@@ -156,14 +156,14 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
               x: new Date(_.time),
               y: +_.readErrors
             })),
-            label: `${this.translations['PULSE.LABELS.NETWORK_READ_ERRORS']} ${aggregation}`
+            label: `${this.translations['NETWORK_READ_ERRORS']} ${aggregation}`
           };
           const writeErrors = {
             data: res.map(_ => ({
               x: new Date(_.time),
               y: +_.writeErrors,
             })),
-            label: `${this.translations['PULSE.LABELS.NETWORK_WRITE_ERRORS']} ${aggregation}`
+            label: `${this.translations['NETWORK_WRITE_ERRORS']} ${aggregation}`
           };
           sets.errors.push(readErrors, writeErrors);
         });

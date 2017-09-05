@@ -221,7 +221,7 @@
   "NAVIGATION_SIDEBAR": {
     "WELCOME": "Welcome, {{ name }}",
     "VMS": "Virtual machines",
-    "SPARE_DRIVES": "Spare drives",
+    "SPARE_DRIVES": "Storage",
     "IMAGES": "Images",
     "FIREWALL_TEMPLATES": "Firewall Templates",
     "ACTIVITY_LOG": "Activity log",
@@ -404,13 +404,6 @@
         "WRITE_RATE_IOPS": "Write rate"
       },
 
-      "VOLUME_ACTIONS": {
-        "TAKE_SNAPSHOT": "Take a snapshot",
-        "SNAPSHOT_SCHEDULE": "Set up snapshot schedule",
-        "RESIZE": "Resize the disk",
-        "DETACH": "Detach"
-      },
-
       "VOLUME_RESIZE": {
         "TITLE": "Resize volume",
         "DISK_OFFERING": "Disk offering",
@@ -540,6 +533,7 @@
 
   "SPARE_DRIVE_PAGE": {
     "FILTERS": {
+      "SPARE_DRIVES_ONLY": "Spare drives only",
       "SELECT_ZONES": "Select zones",
 
       "GROUP_BY": "Group by",
@@ -547,10 +541,9 @@
     },
 
     "CARD": {
-      "STATE": "State",
+      "DESCRIPTION": "Description",
       "SIZE": "Size",
-      "ATTACH": "Attach",
-      "RESIZE": "Resize"
+      "STATE": "State"
     },
 
     "SPARE_DRIVE_CREATION": {
@@ -561,7 +554,13 @@
       "SIZE": "Size"
     },
 
+    "SIDEBAR": {
+      "VOLUME": "Volume",
+      "SNAPSHOTS": "Snapshots"
+    },
+
     "DETAILS": {
+      "GENERAL_INFORMATION": "General information",
       "SIZE": "Size",
       "CREATED": "Created",
       "STORAGE_TYPE": "Storage type",
@@ -575,6 +574,11 @@
       "WRITE_RATE_MB": "Write rate",
       "READ_RATE_IOPS": "Read rate",
       "WRITE_RATE_IOPS": "Write rate"
+    },
+
+    "SNAPSHOTS": {
+      "DESCRIPTION": "Description",
+      "DATE": "Date"
     },
 
     "ATTACHMENT": {
@@ -617,6 +621,7 @@
     },
 
     "TEMPLATE_DETAILS": {
+      "OS": "OS",
       "DETAILS": "General information",
       "SIZE": "Size",
       "EXTRACTABLE": "Extractable",
@@ -803,8 +808,8 @@
       "NETWORK_WRITE_ERRORS": "Network write errors",
       "DISK_READ": "Disk read",
       "DISK_WRITE": "Disk write",
-      "DISK_READ_IO": "Disk read (IO)",
-      "DISK_WRITE_IO": "Disk write (IO)",
+      "DISK_READ_IOPS": "Disk read (IOPS)",
+      "DISK_WRITE_IOPS": "Disk write (IOPS)",
       "DISK_IO_ERRORS": "Disk IO errors"
     }
   },
@@ -937,5 +942,13 @@
     "MB_VALUE": "{{value}} MB",
     "MBPS": "{{value}} MB/s",
     "MHZ": "MHz"
+  },
+
+  "VOLUME_ACTIONS": {
+    "TAKE_SNAPSHOT": "Take a snapshot",
+    "SNAPSHOT_SCHEDULE": "Set up snapshot schedule",
+    "RESIZE": "Resize the disk",
+    "ATTACH": "Attach",
+    "DETACH": "Detach"
   }
 }

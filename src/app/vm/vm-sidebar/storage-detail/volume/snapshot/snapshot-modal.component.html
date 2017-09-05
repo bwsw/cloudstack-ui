@@ -29,7 +29,7 @@
           class="button-18px"
           mdl-button
           mdl-button-type="icon"
-          (click)="action.activate(row, volume)"
+          (click)="action.activate(row, volume).subscribe()"
           [disabled]="row['loading']"
         >
           <md-icon>{{ action.icon }}</md-icon>

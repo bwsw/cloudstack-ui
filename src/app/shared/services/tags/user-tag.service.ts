@@ -122,6 +122,14 @@ export class UserTagService implements EntityTagService {
     return this.removeTag(this.keys.timeFormat);
   }
 
+  public getNavigationOrder(): Observable<string> {
+    return this.readTag(this.keys.navigationOrder);
+  }
+
+  public setNavigationOrder(orderStringified: string): Observable<string> {
+    return this.writeTag(this.keys.navigationOrder, orderStringified);
+  }
+
   public writeTag(key: string, value: string): Observable<string> {
     const user = this.user;
 

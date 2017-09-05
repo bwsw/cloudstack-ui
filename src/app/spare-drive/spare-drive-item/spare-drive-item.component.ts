@@ -1,11 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MdMenuTrigger, MdDialog } from '@angular/material';
-import { DiskOffering, Volume, Zone } from '../../shared/models';
+import { DiskOffering, Volume } from '../../shared/models';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
-import { VolumeAttachmentData } from '../../shared/services/volume.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { VolumeResizeComponent } from '../../vm/vm-sidebar/volume-resize/volume-resize.component';
-import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-drive-attachment.component';
+import { SpareDriveActionsService } from '../../shared/actions/spare-drive-actions/spare-drive-actions.service';
+import { SpareDriveItem } from '../spare-drive-item';
 
 
 @Component({
@@ -13,41 +12,37 @@ import { SpareDriveAttachmentComponent } from '../spare-drive-attachment/spare-d
   templateUrl: 'spare-drive-item.component.html',
   styleUrls: ['spare-drive-item.component.scss']
 })
-export class SpareDriveItemComponent implements OnInit {
+export class SpareDriveItemComponent extends SpareDriveItem implements OnInit, OnChanges {
   @Input() public isSelected: (volume) => boolean;
+  @Input() public searchQuery: () => string;
   @Input() public item: Volume;
   @Output() public onClick = new EventEmitter();
-  @Output() public onVolumeAttached = new EventEmitter<VolumeAttachmentData>();
-  @Output() public onDelete = new EventEmitter();
-  @Output() public onResize = new EventEmitter();
   @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
 
   public diskOfferings: Array<DiskOffering>;
+  public query: string;
 
   constructor(
-    private dialog: MdDialog,
-    private diskOfferingService: DiskOfferingService,
-    private zoneService: ZoneService
-  ) {}
+    public spareDriveActionsService: SpareDriveActionsService,
+    protected diskOfferingService: DiskOfferingService,
+    protected zoneService: ZoneService
+  ) {
+    super(diskOfferingService, zoneService);
+  }
 
   public ngOnInit(): void {
-    let zone;
+    this.loadDiskOfferings();
+  }
 
-    this.zoneService
-      .get(this.item.zoneId)
-      .switchMap((_zone: Zone) => {
-        zone = _zone;
-        return this.diskOfferingService.getList({ zoneId: zone.id });
-      })
-      .subscribe(diskOfferings => {
-        this.diskOfferings = diskOfferings.filter((diskOffering: DiskOffering) => {
-          return this.diskOfferingService.isOfferingAvailableForVolume(
-            diskOffering,
-            this.item,
-            zone
-          );
-        });
-      });
+  public ngOnChanges(changes: SimpleChanges): void {
+    const query = changes.searchQuery;
+    if (query) {
+      this.query = this.searchQuery();
+    }
+  }
+
+  public get descriptionIncludesQuery(): boolean {
+    return this.query && this.item.description.includes(this.query);
   }
 
   public get stateTranslationToken(): string {
@@ -59,54 +54,10 @@ export class SpareDriveItemComponent implements OnInit {
     return stateTranslations[this.item.state.toUpperCase()];
   }
 
-  public attach(): void {
-    this.dialog
-     .open(SpareDriveAttachmentComponent, {
-       data: {
-         volume: this.item,
-         zoneId: this.item.zoneId
-       },
-       width: '375px'
-     }).afterClosed()
-      .subscribe(virtualMachineId => {
-        if (!virtualMachineId) {
-          return;
-        }
-        this.onVolumeAttached.emit({
-          id: this.item.id,
-          virtualMachineId
-        });
-      });
-  }
-
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
     if (!this.mdMenuTrigger.menuOpen) {
       this.onClick.emit(this.item);
     }
-  }
-
-  public resize(): void {
-    this.dialog.open(VolumeResizeComponent, {
-       data: {
-         volume: this.item,
-         diskOfferingList: this.diskOfferings
-       },
-      width: '370px'
-    }).afterClosed()
-      .subscribe(resizedVolume => {
-        if (resizedVolume) {
-          this.onVolumeResize(resizedVolume);
-        }
-      });
-  }
-
-  public remove(): void {
-    this.onDelete.next(this.item);
-  }
-
-  private onVolumeResize(volume: Volume): void {
-    this.item.size = volume.size;
-    this.onResize.next(this.item);
   }
 }

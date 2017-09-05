@@ -19,9 +19,8 @@ export class VolumeResizeComponent implements OnInit {
   public volume: Volume;
   public diskOfferingListInjected?: Array<DiskOffering>;
 
-
   public diskOffering: DiskOffering;
-  @Input() public diskOfferingList: Array<DiskOffering>;
+  public diskOfferings: Array<DiskOffering>;
 
   public loading: boolean;
   private notificationId: string;
@@ -35,7 +34,7 @@ export class VolumeResizeComponent implements OnInit {
     @Inject(MD_DIALOG_DATA) data,
   ) {
     this.volume = data.volume;
-    this.diskOfferingListInjected = data.diskOfferingList;
+    this.diskOfferings = data.diskOfferings;
   }
 
   public ngOnInit(): void {
@@ -45,7 +44,7 @@ export class VolumeResizeComponent implements OnInit {
   }
 
   public get canResize(): boolean {
-    return (this.diskOfferingList && this.diskOfferingList.length > 0) || this.volume.isRoot;
+    return (this.diskOfferings && this.diskOfferings.length > 0) || this.volume.isRoot;
   }
 
   public updateDiskOffering(diskOffering: DiskOffering): void {
@@ -71,14 +70,14 @@ export class VolumeResizeComponent implements OnInit {
   }
 
   private setDefaultOffering(): void {
-    if (this.diskOfferingList.length) {
-      this.diskOffering = this.diskOfferingList[0];
+    if (this.diskOfferings.length) {
+      this.diskOffering = this.diskOfferings[0];
     }
   }
 
   private getInjectedOfferingList(): void {
-    if (this.diskOfferingListInjected && !this.diskOfferingList) {
-      this.diskOfferingList = this.diskOfferingListInjected;
+    if (this.diskOfferingListInjected && !this.diskOfferings) {
+      this.diskOfferings = this.diskOfferingListInjected;
     }
   }
 

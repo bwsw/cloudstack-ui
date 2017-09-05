@@ -6,43 +6,17 @@
 >
   <md-card-header>
     <md-card-title>
-      <md-icon class="os-icon"
-                [ngSwitch]="item.osType.osFamily"
-                md-card-avatar>
-        <ng-template [ngSwitchCase]="'Linux'">
-          <img
-            src="img/os/linux.png"
-            width="40"
-            height="40"
-          >
-        </ng-template>
-        <ng-template [ngSwitchCase]="'Windows'">
-          <img
-            src="img/os/windows.png"
-            width="40"
-            height="40"
-          >
-        </ng-template>
-        <ng-template [ngSwitchCase]="'Mac OS'">
-          <img
-            src="img/os/osx.png"
-            width="40"
-            height="40"
-          >
-        </ng-template>
-        <ng-template ngSwitchDefault>help</ng-template>
-      </md-icon>
+      <cs-template-os-icon [template]="item"></cs-template-os-icon>
       <h2
         [mdTooltip]="item.name"
         [innerHTML]="item.name | highlight:query"
         class="template-header md-card-title-text"
       ></h2>
     </md-card-title>
-    <div class="md-card-header-menu"
-         *ngIf="isSelf">
-        <button *ngIf="isSelf" md-icon-button [mdMenuTriggerFor]="actionsMenu">
-            <md-icon>more_vert</md-icon>
-        </button>
+    <div *ngIf="isSelf" class="md-card-header-menu">
+      <button *ngIf="isSelf" md-icon-button [mdMenuTriggerFor]="actionsMenu">
+        <md-icon>more_vert</md-icon>
+      </button>
     </div>
   </md-card-header>
   <md-card-content>
@@ -77,13 +51,7 @@
       ></div>
     </div>
   </md-card-content>
-    <md-menu #actionsMenu="mdMenu"
-    >
-        <button md-menu-item
-                (click)="removeTemplate()"
-        >
-            <md-icon>delete</md-icon>
-            <span>{{ 'COMMON.DELETE' | translate }}</span>
-        </button>
-    </md-menu>
+  <md-menu #actionsMenu="mdMenu">
+    <cs-template-actions [template]="item"></cs-template-actions>
+  </md-menu>
 </md-card>

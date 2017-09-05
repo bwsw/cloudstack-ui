@@ -45,15 +45,7 @@ export class TemplateComponent implements OnChanges {
     }
   }
 
-  public get ready(): boolean {
-    return this.item.isReady;
-  }
-
   public get isSelf(): boolean {
     return this.authService.user.username === this.item.account;
-  }
-
-  public removeTemplate(): void {
-    this.deleteTemplate.next(this.item);
   }
 }

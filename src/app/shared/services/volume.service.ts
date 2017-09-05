@@ -27,13 +27,29 @@ export interface VolumeResizeData {
   size?: number;
 }
 
+export interface VolumeAttachmentEvent {
+  volumeId: string,
+  virtualMachineId?: string,
+  event: VolumeAttachmentEventType
+}
+
+export type VolumeAttachmentEventType = 'attached' | 'detached';
+export const VolumeAttachmentEventsTypes = {
+  ATTACHED: 'attached' as VolumeAttachmentEventType,
+  DETACHED: 'detached' as VolumeAttachmentEventType
+};
+
 @Injectable()
 @BackendResource({
   entity: 'Volume',
   entityModel: Volume
 })
 export class VolumeService extends BaseBackendService<Volume> {
-  public onVolumeAttached: Subject<Volume>;
+  public onVolumeAttachment = new Subject<VolumeAttachmentEvent>();
+  public onVolumeCreated = new Subject<Volume>();
+  public onVolumeResized = new Subject<Volume>();
+  public onVolumeRemoved = new Subject<Volume>();
+  public onVolumeTagsChanged = new Subject<Volume>();
 
   constructor(
     private asyncJobService: AsyncJobService,
@@ -41,7 +57,6 @@ export class VolumeService extends BaseBackendService<Volume> {
     private volumeTagService: VolumeTagService
   ) {
     super();
-    this.onVolumeAttached = new Subject<Volume>();
   }
 
   public getList(params?: {}): Observable<Array<Volume>> {
@@ -51,35 +66,36 @@ export class VolumeService extends BaseBackendService<Volume> {
     return Observable.forkJoin(
       volumesRequest,
       snapshotsRequest
-    )
-      .map(([volumes, snapshots]) => {
-        volumes.forEach(volume => {
-          volume.snapshots = snapshots.filter(
-            (snapshot: Snapshot) => snapshot.volumeId === volume.id
-          );
-        });
-        return volumes;
+    ).map(([volumes, snapshots]) => {
+      volumes.forEach(volume => {
+        volume.snapshots = snapshots.filter(
+          (snapshot: Snapshot) => snapshot.volumeId === volume.id
+        );
       });
+      volumes = volumes.filter(volume => !volume.isDeleted);return volumes;
+    });
   }
 
   public getSpareList(params?: {}): Observable<Array<Volume>> {
-    return this.getList(params).map(volumes => {
-      return volumes.filter((volume: Volume) => {
-        return !volume.virtualMachineId && !volume.isDeleted;
-      });
-    });
+    return this.getList(params).map(volumes => this.getSpareListSync(volumes));
+  }
+
+  public getSpareListSync(volumes: Array<Volume>): Array<Volume> {
+    return volumes.filter(volume => volume.isSpare);
   }
 
   public resize(params: VolumeResizeData): Observable<Volume> {
     return this.sendCommand('resize', params).switchMap(job =>
       this.asyncJobService.queryJob(job, this.entity, this.entityModel)
-    );
+    )
+      .do(jobResult => this.onVolumeResized.next(jobResult));
   }
 
   // TODO fix return type
-  public remove(id: string): Observable<any> {
-    return super.remove({ id }).map(response => {
+  public remove(volume: Volume): Observable<any> {
+    return super.remove({ id: volume.id }).map(response => {
       if (response['success'] === 'true') {
+          this.onVolumeRemoved.next(volume);
         return Observable.of(null);
       }
       return Observable.throw(response);
@@ -89,13 +105,18 @@ export class VolumeService extends BaseBackendService<Volume> {
   public create(data: VolumeCreationData): Observable<Volume> {
     return this.sendCommand('create', data).switchMap(job =>
       this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel)
-    );
+    )
+      .do(volume => this.onVolumeCreated.next(volume));
   }
 
-  public detach(id: string): Observable<null> {
-    return this.sendCommand('detach', { id }).switchMap(job =>
+  public detach(volume: Volume): Observable<null> {
+    return this.sendCommand('detach', { id: volume.id }).switchMap(job =>
       this.asyncJobService.queryJob(job, this.entity, this.entityModel)
-    );
+    )
+      .do(jobResult => this.onVolumeAttachment.next({
+        volumeId: volume.id,
+        event: VolumeAttachmentEventsTypes.DETACHED
+      }));
   }
 
   public attach(data: VolumeAttachmentData): Observable<Volume> {
@@ -103,10 +124,11 @@ export class VolumeService extends BaseBackendService<Volume> {
       .switchMap(job =>
         this.asyncJobService.queryJob(job, this.entity, this.entityModel)
       )
-      .map(jobResult => {
-        this.onVolumeAttached.next(jobResult); // todo
-        return jobResult;
-      });
+      .do(jobResult => this.onVolumeAttachment.next({
+        volumeId: data.id,
+        virtualMachineId: data.virtualMachineId,
+        event: VolumeAttachmentEventsTypes.ATTACHED
+      }));
   }
 
   public markForRemoval(volume: Volume): Observable< Volume> {

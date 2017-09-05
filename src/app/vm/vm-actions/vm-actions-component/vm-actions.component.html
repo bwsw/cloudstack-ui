@@ -1,0 +1,21 @@
+<ng-container *ngFor="let action of firstRowActions">
+  <button md-menu-item
+          *ngIf="!action.hidden(vm)"
+          (click)="onAction(action, vm)"
+          [disabled]="!action.canActivate(vm)"
+  >
+    <md-icon>{{ action.icon }}</md-icon>
+    <span>{{ action.name | translate }}</span>
+  </button>
+</ng-container>
+<md-divider></md-divider>
+<ng-container *ngFor="let action of secondRowActions">
+  <button md-menu-item
+          *ngIf="!action.hidden(vm)"
+          (click)="onAction(action, vm)"
+          [disabled]="!action.canActivate(vm)"
+  >
+    <md-icon>{{ action.icon }}</md-icon>
+    <span>{{ action.name | translate }}</span>
+  </button>
+</ng-container>

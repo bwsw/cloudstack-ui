@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 
 import { Volume } from '../../../../../shared/models';
-import { SnapshotActionsService } from './snapshot-actions.service';
+import { SnapshotActionsService } from '../../../../../snapshot/snapshot-actions.service';
 import {
   TableDatabase,
   TableDataSource

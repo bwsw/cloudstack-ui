@@ -5,6 +5,7 @@ import { Snapshot } from '../models/snapshot.model';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
 import { SnapshotTagService } from './tags/snapshot-tag.service';
+import { Subject } from 'rxjs/Subject';
 
 
 @Injectable()
@@ -13,6 +14,8 @@ import { SnapshotTagService } from './tags/snapshot-tag.service';
   entityModel: Snapshot
 })
 export class SnapshotService extends BaseBackendCachedService<Snapshot> {
+  public onSnapshotDeleted = new Subject<Snapshot>();
+
   constructor(
     private asyncJobService: AsyncJobService,
     private snapshotTagService: SnapshotTagService
