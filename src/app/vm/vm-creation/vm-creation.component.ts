@@ -21,10 +21,9 @@ import {
 } from './services/vm-deployment.service';
 import { VmCreationSecurityGroupData } from './security-group/vm-creation-security-group-data';
 
-
 export interface VmCreationFormState {
-  data: VmCreationData,
-  state: VmCreationState
+  data: VmCreationData;
+  state: VmCreationState;
 }
 
 export enum VmCreationStage {
@@ -52,7 +51,7 @@ export class VmCreationComponent implements OnInit {
     volumes: 'VM_PAGE.VM_CREATION.VOLUMES',
     cpus: 'VM_PAGE.VM_CREATION.CPUS',
     memory: 'VM_PAGE.VM_CREATION.MEMORY',
-    primaryStorage: 'VM_PAGE.VM_CREATION.PRIMARY_STORAGE',
+    primaryStorage: 'VM_PAGE.VM_CREATION.PRIMARY_STORAGE'
   };
 
   public takenName: string;
@@ -67,41 +66,43 @@ export class VmCreationComponent implements OnInit {
     private vmCreationService: VmCreationService,
     private vmDeploymentService: VmDeploymentService
   ) {
-    this.updateFormState = throttle(
-      this.updateFormState,
-      500,
-      {
-        leading: true,
-        trailing: false
-      }
-    );
+    this.updateFormState = throttle(this.updateFormState, 500, {
+      leading: true,
+      trailing: false
+    });
   }
 
   public ngOnInit(): void {
     this.fetching = true;
-    this.resourceUsageService.getResourceUsage()
-      .subscribe(resourceUsage => {
-        Object.keys(resourceUsage.available)
-          .filter(key => key !== 'snapshots' && key !== 'secondaryStorage')
-          .forEach(key => {
-            const available = resourceUsage.available[key];
-            if (available === 0) {
-              this.insufficientResources.push(key);
-            }
-          });
+    this.resourceUsageService.getResourceUsage().subscribe(resourceUsage => {
+      // TODO check ips
+      Object.keys(resourceUsage.available)
+        .filter(
+          key => key !== 'snapshots' && key !== 'secondaryStorage' && key !== 'ips'
+        )
+        .forEach(key => {
+          const available = resourceUsage.available[key];
+          if (available === 0) {
+            this.insufficientResources.push(key);
+          }
+        });
 
-        this.enoughResources = !this.insufficientResources.length;
+      this.enoughResources = !this.insufficientResources.length;
 
-        if (this.enoughResources) {
-          this.loadData();
-        } else {
-          this.fetching = false;
-        }
-      });
+      if (this.enoughResources) {
+        // TODO fix me (requests cancellation because of share())
+        setTimeout(() => this.loadData());
+      } else {
+        this.fetching = false;
+      }
+    });
   }
 
   public get showResizeSlider(): boolean {
-    return this.formState.state.template.isTemplate || this.formState.state.showRootDiskResize;
+    return (
+      this.formState.state.template.isTemplate ||
+      this.formState.state.showRootDiskResize
+    );
   }
 
   public get showOverlay(): boolean {
@@ -133,8 +134,8 @@ export class VmCreationComponent implements OnInit {
   public serviceOfferingChange(offering: ServiceOffering) {
     this.formState.state.serviceOffering = offering;
     if (offering.areCustomParamsSet) {
-      this.data.serviceOfferings = this.data.serviceOfferings.map(_ =>
-        _.id === offering.id ? offering : _
+      this.data.serviceOfferings = this.data.serviceOfferings.map(
+        _ => (_.id === offering.id ? offering : _)
       );
     }
     this.updateFormState();
@@ -201,13 +202,12 @@ export class VmCreationComponent implements OnInit {
   }
 
   public updateFormState(): void {
-    const state = this.formState && this.formState.state || this.data.getInitialState();
-    this.formState = this.formNormalizationService.normalize(
-      {
-        data: this.data,
-        state
-      }
-    );
+    const state =
+      (this.formState && this.formState.state) || this.data.getInitialState();
+    this.formState = this.formNormalizationService.normalize({
+      data: this.data,
+      state
+    });
   }
 
   public onVmCreationSubmit(e: any): void {
@@ -220,8 +220,13 @@ export class VmCreationComponent implements OnInit {
   }
 
   public deploy(): void {
-    const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
-    const { deployStatusObservable, deployObservable } = this.vmDeploymentService.deploy(this.formState.state);
+    const notificationId = this.jobsNotificationService.add(
+      'JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS'
+    );
+    const {
+      deployStatusObservable,
+      deployObservable
+    } = this.vmDeploymentService.deploy(this.formState.state);
 
     deployStatusObservable.subscribe(deploymentMessage => {
       this.handleDeploymentMessages(deploymentMessage, notificationId);
@@ -267,7 +272,10 @@ export class VmCreationComponent implements OnInit {
     });
   }
 
-  private handleDeploymentMessages(deploymentMessage: VmDeploymentMessage, notificationId: string): void {
+  private handleDeploymentMessages(
+    deploymentMessage: VmDeploymentMessage,
+    notificationId: string
+  ): void {
     switch (deploymentMessage.stage) {
       case VmDeploymentStage.STARTED:
         this.creationStage = VmCreationStage.vmDeploymentInProgress;

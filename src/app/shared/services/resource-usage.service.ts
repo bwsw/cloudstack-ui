@@ -1,15 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { VirtualMachine } from '../../vm/';
-import { VmService } from '../../vm/shared/vm.service';
 import { ResourceLimit, ResourceType } from '../models/resource-limit.model';
-import { Snapshot } from '../models/snapshot.model';
-import { Volume } from '../models/volume.model';
-import { DiskStorageService } from './disk-storage.service';
-import { ResourceLimitService } from './resource-limit.service';
-import { SnapshotService } from './snapshot.service';
-import { VolumeService } from './volume.service';
-
+import { Account } from '../models/account.model';
+import { AccountService } from './account.service';
+import { AuthService } from './auth.service';
 
 export class ResourcesData {
   public instances = 0;
@@ -40,10 +34,47 @@ export class ResourceStats {
   public consumed: ResourcesData;
   public max: ResourcesData;
 
+  public static fromAccount(account: Account | Array<Account>): ResourceStats {
+    const consumedResources = new ResourcesData();
+    const maxResources = new ResourcesData();
+    const availableResources = new ResourcesData();
+
+    (Array.isArray(account) ? account : [account]).forEach(a => {
+      consumedResources.instances += +a.vmtotal;
+      consumedResources.cpus += +a.cputotal;
+      consumedResources.ips += +a.iptotal;
+      consumedResources.memory += +a.memorytotal;
+      consumedResources.volumes += +a.volumetotal;
+      consumedResources.snapshots += +a.snapshottotal;
+      consumedResources.primaryStorage += +a.primarystoragetotal;
+      consumedResources.secondaryStorage += +a.secondarystoragetotal;
+
+      maxResources.instances += +a.vmlimit;
+      maxResources.cpus += +a.cpulimit;
+      maxResources.ips += +a.iplimit;
+      maxResources.memory += +a.memorylimit;
+      maxResources.volumes += +a.volumelimit;
+      maxResources.snapshots += +a.snapshotlimit;
+      maxResources.primaryStorage += +a.primarystoragelimit;
+      maxResources.secondaryStorage += +a.secondarystoragelimit;
+
+      availableResources.instances += +a.vmavailable;
+      availableResources.cpus += +a.cpuavailable;
+      availableResources.ips += +a.ipavailable;
+      availableResources.memory += +a.memoryavailable;
+      availableResources.volumes += +a.volumeavailable;
+      availableResources.snapshots += +a.snapshotavailable;
+      availableResources.primaryStorage += +a.primarystorageavailable;
+      availableResources.secondaryStorage += +a.secondarystorageavailable;
+    });
+
+    return new ResourceStats(availableResources, consumedResources, maxResources);
+  }
+
   constructor(
     available?: ResourcesData,
     consumed?: ResourcesData,
-    max?: ResourcesData,
+    max?: ResourcesData
   ) {
     this.available = available || new ResourcesData();
     this.consumed = consumed || new ResourcesData();
@@ -51,80 +82,21 @@ export class ResourceStats {
   }
 }
 
+
 @Injectable()
 export class ResourceUsageService {
   constructor(
-    private resourceLimitService: ResourceLimitService,
-    private vmService: VmService,
-    private volumeService: VolumeService,
-    private snapshotService: SnapshotService,
-    private diskStorageService: DiskStorageService
+    private authService: AuthService,
+    private accountService: AccountService
   ) {}
 
-  public getResourceUsage(): Observable<ResourceStats> {
-    const consumedResources = new ResourcesData();
-    let maxResources;
+  public getResourceUsage(forDomain = false): Observable<ResourceStats> {
+    const params = forDomain
+      ? { domainId: this.authService.user.domainid }
+      : { account: this.authService.user.account };
 
-    const requests = [];
-
-    requests.push(
-      this.vmService.getListWithDetails().map((vms: Array<VirtualMachine>) => {
-        consumedResources.instances = vms.length;
-        vms.forEach(value => {
-          consumedResources.ips += value.nic.length;
-          consumedResources.cpus += value.cpuNumber;
-          consumedResources.memory += value.memory;
-        });
-      })
-    );
-
-    requests.push(
-      this.volumeService.getList().map((volumes: Array<Volume>) => {
-        consumedResources.volumes = volumes.length;
-      })
-    );
-
-    requests.push(
-      this.snapshotService.getList().map((snapshots: Array<Snapshot>) => {
-        consumedResources.snapshots = snapshots.length;
-      })
-    );
-
-    requests.push(
-      this.diskStorageService
-        .getConsumedPrimaryStorage()
-        .map(result => consumedResources.primaryStorage = result)
-    );
-
-    requests.push(
-      this.diskStorageService
-        .getConsumedSecondaryStorage()
-        .map(result => consumedResources.secondaryStorage = result)
-    );
-
-    return Observable.forkJoin(requests)
-      .switchMap(() => this.resourceLimitService.getList())
-      .map(result => {
-        maxResources = new ResourcesData(result);
-        return new ResourceStats(
-          this.getAvailableResources(maxResources, consumedResources),
-          consumedResources,
-          maxResources
-        );
-      });
-  }
-
-  private getAvailableResources(max: ResourcesData, consumed: ResourcesData): ResourcesData {
-    const availableResources = new ResourcesData();
-    for (const prop in max) {
-      if (max.hasOwnProperty(prop)) {
-        if (max[prop] === -1) {
-          availableResources[prop] = Number.MAX_SAFE_INTEGER;
-        } else {
-          availableResources[prop] = max[prop] - consumed[prop];
-        }
-      }
-    }
-    return availableResources;
+    return this.accountService
+      .getList(params)
+      .map(accounts => ResourceStats.fromAccount(accounts));
   }
 }

@@ -1,7 +1,7 @@
 @import '../../../../style/__variables.scss';
 
 .tab-switch {
-  margin: 0 auto 0px 15px;
+  margin: 0 auto 0 15px;
   text-transform: uppercase;
 }
 
@@ -87,7 +87,7 @@ div.closed {
   width: 100%;
   flex-direction: column !important;
   box-shadow: none !important;
-  margin: 0px;
+  margin: 0;
 }
 
 .stat-collapse {
@@ -105,10 +105,17 @@ div.closed {
 }
 
 md-card md-card-content {
-  padding: 0px 16px 16px 16px;
-  margin: 0px;
+  padding: 0 16px 16px 16px;
+  margin: 0;
 }
 
 :host /deep/ .mat-tab-label {
   min-width: 70px !important;
+}
+
+cs-divider-vertical {
+  height: 40px;
+  display: inline-block;
+  margin-left: 15px;
+  vertical-align: middle;
 }

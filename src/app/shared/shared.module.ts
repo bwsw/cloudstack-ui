@@ -23,9 +23,7 @@ import { SecurityGroupService } from '../security-group/services/security-group.
 import {
   SecurityGroupSelectorComponent
 } from '../vm/vm-creation/components/security-group-selector/security-group-selector.component';
-import {
-  SpareDriveActionsComponent
-} from './actions/spare-drive-actions/spare-drive-actions-component/spare-drive-actions.component';
+import { SpareDriveActionsComponent } from './actions/spare-drive-actions/spare-drive-actions-component/spare-drive-actions.component';
 import { SpareDriveActionsService } from './actions/spare-drive-actions/spare-drive-actions.service';
 import { SpareDriveAttachAction } from './actions/spare-drive-actions/spare-drive-attach';
 import {
@@ -36,9 +34,14 @@ import { SpareDriveRecurringSnapshotsAction } from './actions/spare-drive-action
 import { SpareDriveRemoveAction } from './actions/spare-drive-actions/spare-drive-remove';
 import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-drive-resize';
 import { SpareDriveSnapshotAction } from './actions/spare-drive-actions/spare-drive-snapshot';
-import {
-  TemplateActionsComponent
-} from './actions/template-actions/template-actions-component/template-actions.component';
+import { SpareDriveAttachAction } from './actions/spare-drive-actions/spare-drive-attach';
+import { SpareDriveAttachmentComponent } from './actions/spare-drive-actions/spare-drive-attachment/spare-drive-attachment.component';
+import { SpareDriveDetachAction } from './actions/spare-drive-actions/spare-drive-detach';
+import { SpareDriveRecurringSnapshotsAction } from './actions/spare-drive-actions/spare-drive-recurring-snapshots';
+import { SpareDriveRemoveAction } from './actions/spare-drive-actions/spare-drive-remove';
+import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-drive-resize';
+import { SpareDriveSnapshotAction } from './actions/spare-drive-actions/spare-drive-snapshot';
+import { TemplateActionsComponent } from './actions/template-actions/template-actions-component/template-actions.component';
 import { TemplateActionsService } from './actions/template-actions/template-actions.service';
 import {
   CalendarComponent,
@@ -64,9 +67,7 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
-import {
-  CreateUpdateDeleteDialogComponent
-} from './components/create-update-delete-dialog/create-update-delete-dialog.component';
+import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
@@ -92,6 +93,7 @@ import { MinValueValidatorDirective } from './directives/min-value.directive';
 import { DivisionPipe, HighLightPipe, ViewValuePipe } from './pipes';
 import { StringifyDatePipe } from './pipes/stringifyDate.pipe';
 import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
+import { AccountService } from './services/account.service';
 import { AffinityGroupService } from './services/affinity-group.service';
 import { AsyncJobService } from './services/async-job.service';
 import { AuthGuard } from './services/auth-guard.service';
@@ -100,7 +102,6 @@ import { CacheService } from './services/cache.service';
 import { ConfigService } from './services/config.service';
 import { DateTimeFormatterService } from './services/date-time-formatter.service';
 import { DiskOfferingService } from './services/disk-offering.service';
-import { DiskStorageService } from './services/disk-storage.service';
 import { ErrorService } from './services/error.service';
 import { InstanceGroupService } from './services/instance-group.service';
 import { JobsNotificationService } from './services/jobs-notification.service';
@@ -265,6 +266,7 @@ import { SecurityGroupManagerBaseTemplatesComponent } from './components/securit
     SecurityGroupManagerBaseTemplatesComponent
   ],
   providers: [
+    AccountService,
     SpareDriveActionsService,
     SpareDriveSnapshotAction,
     SpareDriveRecurringSnapshotsAction,
@@ -289,7 +291,6 @@ import { SecurityGroupManagerBaseTemplatesComponent } from './components/securit
     ConfigService,
     DateTimeFormatterService,
     DiskOfferingService,
-    DiskStorageService,
     ErrorService,
     InstanceGroupService,
     JobsNotificationService,

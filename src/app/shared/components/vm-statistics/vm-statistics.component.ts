@@ -1,20 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
+import { AuthService } from '../../services/auth.service';
+import { LocalStorageService } from '../../services/local-storage.service';
 import {
   ResourcesData,
   ResourceStats,
   ResourceUsageService
 } from '../../services/resource-usage.service';
-import { LocalStorageService } from '../../services/local-storage.service';
 import { Utils } from '../../services/utils.service';
 
 const showStatistics = 'showStatistics';
 const statisticsMode = 'statisticsMode';
+const statisticsType = 'statisticsType';
 
 const enum StatsMode {
   Used,
   Free
+}
+
+const enum StatsType {
+  Account,
+  Domain
 }
 
 interface StatsItem {
@@ -24,7 +31,9 @@ interface StatsItem {
 
 interface StatsBar {
   title: string;
+
   value(): Observable<string>;
+
   progress(): number;
 }
 
@@ -38,6 +47,9 @@ export class VmStatisticsComponent implements OnInit {
   public resourceUsage: ResourceStats;
   public isOpen = true;
   public mode = StatsMode.Used;
+  public statsType = StatsType.Account;
+
+
   private wasOpened = false;
 
   public statsList: Array<StatsItem> = [
@@ -99,6 +111,7 @@ export class VmStatisticsComponent implements OnInit {
   ];
 
   constructor(
+    private authService: AuthService,
     private translateService: TranslateService,
     private storageService: LocalStorageService,
     private resourceUsageService: ResourceUsageService
@@ -130,24 +143,45 @@ export class VmStatisticsComponent implements OnInit {
     }
   }
 
+  public get isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+
   public switchMode() {
     this.mode = this.mode === StatsMode.Used ? StatsMode.Free : StatsMode.Used;
     this.storageService.write(statisticsMode, this.mode.toString());
+  }
+
+  public switchType() {
+    this.statsType = this.statsType === StatsType.Account
+      ? StatsType.Domain
+      : StatsType.Account;
+    this.storageService.write(statisticsType, this.statsType.toString());
+
+    this.updateStats();
   }
 
   public getPercents(value: number, max: number): string {
     return this.getProgress(value, max).toFixed(0);
   }
 
-  public getStatsString(value: number, max: number, units?: string): Observable<string> {
-    if (max > 0) {
-      return this.getStatsStringWithRestrictions(value, max, units);
+  public getStatsString(
+    value: number,
+    max: number,
+    units?: string,
+    precision?: number
+  ): Observable<string> {
+    if (max !== Infinity) {
+      return this.getStatsStringWithRestrictions(value, max, units, precision);
     }
 
-    return this.getStatsStringWithNoRestrictions(value, units);
+    return this.getStatsStringWithNoRestrictions(value, units, precision);
   }
 
-  public getStatsStringFor(resource: keyof ResourcesData, units?: string): Observable<string> {
+  public getStatsStringFor(
+    resource: keyof ResourcesData,
+    units?: string
+  ): Observable<string> {
     const consumed = this.resourceUsage[this.getModeKey()][resource];
     const max = this.resourceUsage.max[resource];
     return this.getStatsString(consumed, max, units);
@@ -157,47 +191,31 @@ export class VmStatisticsComponent implements OnInit {
     const consumed = Utils.divide(
       this.resourceUsage[this.getModeKey()].memory,
       2,
-      '10',
-      '1'
-    );
-    const max = Utils.divide(
-      this.resourceUsage.max.memory,
-      2,
-      '10',
-      '1'
-    );
+      '10'
+    ) as number;
+    const max = Utils.divide(this.resourceUsage.max.memory, 2, '10') as number;
 
     return this.translateService
       .get('UNITS.GB')
-      .switchMap(gb => this.getStatsString(consumed as number, max as number, gb));
+      .switchMap(gb => this.getStatsString(consumed, max, gb, 1));
   }
 
   public get primaryStorage(): Observable<string> {
     return this.translateService
       .get('UNITS.GB')
-      .switchMap(gb =>
-        this.getStatsStringFor(
-          'primaryStorage',
-          gb
-        )
-      );
+      .switchMap(gb => this.getStatsStringFor('primaryStorage', gb));
   }
 
   public get secondaryStorage(): Observable<string> {
     return this.translateService
       .get('UNITS.GB')
-      .switchMap(gb =>
-        this.getStatsStringFor(
-          'secondaryStorage',
-          gb
-        )
-      );
+      .switchMap(gb => this.getStatsStringFor('secondaryStorage', gb));
   }
 
   public progressFor(resource: keyof ResourcesData): number {
     return this.getProgress(
       this.resourceUsage[this.getModeKey()][resource],
-      this.resourceUsage.max[resource],
+      this.resourceUsage.max[resource]
     );
   }
 
@@ -214,8 +232,10 @@ export class VmStatisticsComponent implements OnInit {
   }
 
   public updateStats(): void {
+    const forDomain = this.statsType === StatsType.Domain;
+
     this.fetching = true;
-    this.resourceUsageService.getResourceUsage().subscribe(result => {
+    this.resourceUsageService.getResourceUsage(forDomain).subscribe(result => {
       // to keep progress bar animation
       setTimeout(() => (this.resourceUsage = result));
       this.fetching = false;
@@ -230,18 +250,31 @@ export class VmStatisticsComponent implements OnInit {
     return this.mode === StatsMode.Used ? 'consumed' : 'available';
   }
 
-  private getStatsStringWithRestrictions(value: number, max: number, units?: string): Observable<string> {
+  private getStatsStringWithRestrictions(
+    value: number,
+    max: number,
+    units?: string,
+    precision?: number
+  ): Observable<string> {
     const percents = this.getPercents(value, max);
-    return Observable.of(`${value}/${max} ${units || ''} (${percents}%)`);
+    const val = precision ? value.toFixed(precision) : value;
+    const m = precision ? max.toFixed(precision) : max;
+
+    return Observable.of(`${val}/${m} ${units || ''} (${percents}%)`);
   }
 
-  private getStatsStringWithNoRestrictions(value: number, units?: string): Observable<string> {
+  private getStatsStringWithNoRestrictions(
+    value: number,
+    units?: string,
+    precision?: number
+  ): Observable<string> {
     if (this.mode === StatsMode.Free) {
-      return Observable.of ('∞');
+      return Observable.of('∞');
     }
 
     if (this.mode === StatsMode.Used) {
-      return Observable.of(`${value} ${units || ''}`);
+      const val = precision ? value.toFixed(precision) : value;
+      return Observable.of(`${val} ${units || ''}`);
     }
   }
 }
