@@ -5,7 +5,6 @@ import { Color } from '../models';
 import { ConfigService } from './config.service';
 import { UserTagService } from './tags/user-tag.service';
 
-
 interface Theme {
   primaryColor: string;
   accentColor: string;
@@ -49,42 +48,52 @@ export class StyleService {
   public loadPalette(): void {
     this.initStyleSheet();
 
-    this.getThemeData()
-      .subscribe(themeData => {
-        const primaryColor = themeData.themeColors.find(color => color.name === themeData.primaryColor) ||
-          themeData.themeColors[0];
-        const accentColor = themeData.themeColors.find(color => color.name === themeData.accentColor) ||
-          themeData.themeColors[1];
-        this.updatePalette(primaryColor, accentColor);
-      });
+    this.getThemeData().subscribe(themeData => {
+      const primaryColor =
+        themeData.themeColors.find(color => color.name === themeData.primaryColor) ||
+        themeData.themeColors[0];
+      const accentColor =
+        themeData.themeColors.find(color => color.name === themeData.accentColor) ||
+        themeData.themeColors[1];
+      this.updatePalette(primaryColor, accentColor);
+    });
   }
 
   public getThemeData(): Observable<ThemeData> {
     return Observable.forkJoin(
       this.userTagService.getPrimaryColor(),
       this.userTagService.getAccentColor()
-    )
-      .map(([primaryColor, accentColor]) => {
-        let defaultTheme = this.configService.get('defaultTheme');
-        let themeColors = this.configService.get('themeColors');
-        if (!defaultTheme || !defaultTheme['primaryColor'] || !defaultTheme['accentColor']) {
-          defaultTheme = undefined;
-        }
+    ).map(([primaryColor, accentColor]) => {
+      let defaultTheme = this.configService.get('defaultTheme');
+      let themeColors = this.configService.get('themeColors');
+      if (
+        !defaultTheme ||
+        !defaultTheme['primaryColor'] ||
+        !defaultTheme['accentColor']
+      ) {
+        defaultTheme = undefined;
+      }
 
-        if (!themeColors  || themeColors.length < 2) {
-          defaultTheme = undefined;
-          themeColors = undefined;
-          primaryColor = undefined;
-          accentColor = undefined;
-        }
+      if (!themeColors || themeColors.length < 2) {
+        defaultTheme = undefined;
+        themeColors = undefined;
+        primaryColor = undefined;
+        accentColor = undefined;
+      }
 
-        return {
-          primaryColor: primaryColor || (defaultTheme && defaultTheme['primaryColor']) || fallbackTheme['primaryColor'],
-          accentColor: accentColor || (defaultTheme && defaultTheme['accentColor']) || fallbackTheme['accentColor'],
-          defaultTheme: defaultTheme || fallbackTheme,
-          themeColors: themeColors || fallbackThemeColors
-        };
-      });
+      return {
+        primaryColor:
+          primaryColor ||
+          (defaultTheme && defaultTheme['primaryColor']) ||
+          fallbackTheme['primaryColor'],
+        accentColor:
+          accentColor ||
+          (defaultTheme && defaultTheme['accentColor']) ||
+          fallbackTheme['accentColor'],
+        defaultTheme: defaultTheme || fallbackTheme,
+        themeColors: themeColors || fallbackThemeColors
+      };
+    });
   }
 
   public setPalette(primaryColor: Color, accentColor: Color): void {
