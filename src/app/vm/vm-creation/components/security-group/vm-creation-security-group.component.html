@@ -18,9 +18,9 @@
   ></cs-security-group-builder>
 
   <cs-security-group-selector
-    *ngIf="isModeSelector"
-    [ngModel]="savedData?.securityGroup"
-    (ngModelChange)="onSelectedGroupChange($event)"
+    *ngIf="isModeSelector && sharedGroups"
+    [securityGroups]="sharedGroups"
+    [(ngModel)]="savedData.securityGroup"
   ></cs-security-group-selector>
 </div>
 

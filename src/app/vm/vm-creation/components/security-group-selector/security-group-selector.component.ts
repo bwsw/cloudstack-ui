@@ -1,6 +1,5 @@
-import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { SecurityGroupService } from '../../../../security-group/services/security-group.service';
 import { SecurityGroup } from '../../../../security-group/sg.model';
 
 
@@ -16,22 +15,9 @@ import { SecurityGroup } from '../../../../security-group/sg.model';
     }
   ]
 })
-export class SecurityGroupSelectorComponent implements ControlValueAccessor, OnInit {
+export class SecurityGroupSelectorComponent implements ControlValueAccessor {
+  @Input() public securityGroups: Array<SecurityGroup>;
   public _securityGroup: SecurityGroup;
-  public securityGroups: Array<SecurityGroup>;
-
-  constructor(private securityGroupService: SecurityGroupService) {}
-
-  public ngOnInit(): void {
-    this.securityGroupService.getSharedGroups()
-      .subscribe(sharedGroups => {
-        this.securityGroups = sharedGroups;
-
-        if (!this.securityGroup && this.securityGroups.length) {
-          this.securityGroup = this.securityGroups[0];
-        }
-      });
-  }
 
   @Input()
   public get securityGroup(): SecurityGroup {
