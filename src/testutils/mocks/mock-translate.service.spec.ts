@@ -17,4 +17,8 @@ export class MockTranslateService {
   public get(key: string | Array<string>): Observable<string | any> {
     return Observable.of(key);
   }
+
+  public instant(key: string | Array<string>): string {
+    return key.toString();
+  }
 }

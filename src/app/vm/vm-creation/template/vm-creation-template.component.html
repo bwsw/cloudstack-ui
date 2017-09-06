@@ -7,7 +7,7 @@
   {{ 'COMMON.SELECT' | translate }}
 </button>
 <div class="mdl-textfield template-list">
-  <div class="mdl-textfield__input">
-    {{ 'VM_PAGE.VM_CREATION.OS_TEMPLATE' | translate }}: {{ template?.name }}
+  <div [mdTooltip]="templateName | async" class="mdl-textfield__input">
+    {{ templateName | async }}
   </div>
 </div>

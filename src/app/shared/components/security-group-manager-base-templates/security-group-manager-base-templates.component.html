@@ -1,5 +1,5 @@
 <div class="mdl-textfield template-list">
-  <div class="mdl-textfield__input">
+  <div [mdTooltip]="securityGroupsLine" class="mdl-textfield__input">
     <ng-container *ngIf="securityGroups?.length">
       {{ 'SECURITY_GROUP_PAGE.RULES_MANAGER.BASED_ON' | translate }}
       {{ securityGroupsLine }}

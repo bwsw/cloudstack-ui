@@ -4,11 +4,12 @@ import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { BaseTemplateModel, Iso, Template } from '../../../template/shared';
 import { VmTemplateDialogComponent } from './vm-template-dialog.component';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'cs-vm-creation-template',
-  templateUrl: 'vm-template.component.html',
+  templateUrl: 'vm-creation-template.component.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -25,8 +26,19 @@ export class VmTemplateComponent {
 
   private _template: BaseTemplateModel;
 
-  constructor(private dialog: MdDialog) {
+  constructor(private dialog: MdDialog, private translateService: TranslateService) {
     this.change = new EventEmitter();
+  }
+
+  public get templateName(): Observable<string> {
+    if (!this.template) {
+      return Observable.of('');
+    }
+
+    return this.translateService.get(['VM_PAGE.VM_CREATION.OS_TEMPLATE'])
+      .map(translations => {
+        return `${translations['VM_PAGE.VM_CREATION.OS_TEMPLATE']}: ${this.template.name}`;
+      });
   }
 
   public onClick(): void {

@@ -38,7 +38,7 @@ import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component'
 import { VmCreationService } from './vm-creation/services/vm-creation.service';
 import { VmDeploymentService } from './vm-creation/services/vm-deployment.service';
 import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-dialog.component';
-import { VmTemplateComponent } from './vm-creation/template/vm-template.component';
+import { VmTemplateComponent } from './vm-creation/template/vm-creation-template.component';
 import { VmCreationDialogComponent } from './vm-creation/vm-creation-dialog.component';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmFilterComponent } from './vm-filter/vm-filter.component';

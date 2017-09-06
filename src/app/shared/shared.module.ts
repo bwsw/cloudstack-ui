@@ -6,14 +6,16 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
+  MdAutocompleteModule,
   MdCardModule,
   MdIconModule,
+  MdInputModule,
   MdListModule,
   MdMenuModule,
   MdSelectModule,
   MdSnackBarModule,
   MdTableModule,
-  MdTabsModule
+  MdTabsModule, MdTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
@@ -150,7 +152,10 @@ import { ZoneService } from './services/zone.service';
     MdMenuModule,
     MdCardModule,
     MdTableModule,
-    CdkTableModule
+    CdkTableModule,
+    MdAutocompleteModule,
+    MdInputModule,
+    MdTooltipModule
   ],
   exports: [
     GroupedCardListComponent,
@@ -199,7 +204,10 @@ import { ZoneService } from './services/zone.service';
     TemplateActionsComponent,
     SecurityGroupBuilderComponent,
     SecurityGroupSelectorComponent,
-    SecurityGroupManagerBaseTemplatesComponent
+    SecurityGroupManagerBaseTemplatesComponent,
+    TemplateActionsComponent,
+    MdAutocompleteModule,
+    MdInputModule
   ],
   entryComponents: [
     DatePickerDialogComponent,
