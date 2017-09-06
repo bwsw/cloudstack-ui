@@ -1,5 +1,5 @@
 import { DISABLE_NATIVE_VALIDITY_CHECKING, MdlModule } from '@angular-mdl/core';
-import { MdlPopoverModule } from '@angular-mdl/popover';
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
@@ -61,7 +61,7 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
     MdTooltipModule,
     MdProgressSpinnerModule,
     MdlModule,
-    MdlPopoverModule,
+    ScrollDispatchModule,
     DialogModule,
     SecurityGroupModule,
     ServiceOfferingModule,

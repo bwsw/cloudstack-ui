@@ -1,4 +1,3 @@
-import { MdlPopoverComponent } from '@angular-mdl/popover';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   Component,
@@ -12,6 +11,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Color } from '../../models';
+import { PopoverTriggerDirective } from '../popover/popover-trigger.directive';
 
 
 @Component({
@@ -32,7 +32,7 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
   @Input() public colorsPerLine: number;
   @Input() public containerWidth = 256;
   @Output() public change = new EventEmitter();
-  @ViewChild(MdlPopoverComponent) public popover;
+  @ViewChild(PopoverTriggerDirective) public popoverTrigger: PopoverTriggerDirective;
   public colorWidth: number;
 
   private _selectedColor: Color;
@@ -62,15 +62,9 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
     this.propagateChange(this._selectedColor);
   }
 
-  public toggle(event: Event): void {
-    if (!this._disabled) {
-      this.popover.toggle(event);
-    }
-  }
-
   public selectColor(color: Color): void {
     this.selectedColor = color;
-    this.popover.hide();
+    this.popoverTrigger.closePopover();
     this.change.emit(this._selectedColor);
   }
 

@@ -1,5 +1,4 @@
 import { MdlBadgeModule } from '@angular-mdl/core';
-import { MdlPopoverModule } from '@angular-mdl/popover';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -67,6 +66,7 @@ import { InlineEditComponent } from './components/inline-edit/inline-edit.compon
 import { InputGroupComponent } from './components/input-group/input-group.component';
 import { LoaderComponent } from './components/loader.component';
 import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
+import { PopoverModule } from './components/popover/index';
 import { ReloadComponent } from './components/reload/reload.component';
 import { SearchComponent } from './components/search/search.component';
 import { TableComponent } from './components/table/table.component';
@@ -146,7 +146,7 @@ import { ZoneService } from './services/zone.service';
     MdTableModule,
     MdTabsModule,
     MdlBadgeModule,
-    MdlPopoverModule,
+    PopoverModule,
     TranslateModule,
   ],
   exports: [

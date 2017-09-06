@@ -2,14 +2,13 @@ import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, fakeAsync, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { MdlPopoverModule } from '@angular-mdl/popover';
-import { MdlButtonModule, MdlIconModule } from '@angular-mdl/core';
 import { Color } from '../../models';
+import { PopoverModule } from '../popover/index';
 import { ColorPickerComponent } from './color-picker.component';
 
 describe('Color picker component', () => {
   let fixture;
-  let component;
+  let component: ColorPickerComponent;
   const colors: Array<Color> = [
     { 'name': 'red', 'value': '#F44336', 'textColor': '#FFFFFF' },
     { 'name': 'pink', 'value': '#E91E63', 'textColor': '#FFFFFF' },
@@ -40,9 +39,7 @@ describe('Color picker component', () => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
-        MdlPopoverModule,
-        MdlIconModule,
-        MdlButtonModule
+        PopoverModule
       ],
       declarations: [ColorPickerComponent, ColorPickerTestComponent],
       schemas: [NO_ERRORS_SCHEMA]
@@ -72,19 +69,23 @@ describe('Color picker component', () => {
     expect(asd.colorWidth).toBe(256 / 2);
   });
 
-  it('should select a color', () => {
+  it('should select a color', fakeAsync(async () => {
     component.colors = colors;
     fixture.detectChanges();
 
-    fixture.debugElement.query(By.css('.color-preview-container')).nativeElement.click();
-
+    // TODO(andrewbents): add click on color preview
+    // fixture.debugElement.query(By.css('.color-preview-container')).nativeElement.click();
+    fixture.debugElement.query(By.css('input')).nativeElement.click();
     fixture.detectChanges();
-    expect(component.popover.isVisible).toBe(true);
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(component.popoverTrigger.open).toBe(true);
     const colorElement = fixture.debugElement.query(By.css('.color'));
     colorElement.triggerEventHandler('click');
-    expect(component.popover.isVisible).toBe(false);
+    expect(component.popoverTrigger.open).toBe(false);
     expect(component.selectedColor).toEqual(colors[0]);
-  });
+  }));
 
   it('should update using ngModel', fakeAsync(() => {
     const f = TestBed.createComponent(ColorPickerTestComponent);
