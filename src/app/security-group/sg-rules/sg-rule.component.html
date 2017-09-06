@@ -1,18 +1,34 @@
-<td class="mat-cell">
-  {{ typeTranslationToken | translate }}
+<td class="mat-cell" colspan="5">
+  <ng-template [ngIf]="rule.protocol === NetworkProtocols.ICMP">
+    <ng-template [ngIf]="!ruleParams['icmpTypeText'] && !ruleParams['icmpCodeText']">
+      <span
+        [innerHTML]="'SECURITY_GROUP_PAGE.RULES.NO_TEXT_ICMP_RULE' | translate: (ruleParams)"
+      ></span>
+    </ng-template>
+    <ng-template [ngIf]="!!ruleParams['icmpTypeText'] && !ruleParams['icmpCodeText']">
+      <span
+        [innerHTML]="'SECURITY_GROUP_PAGE.RULES.NO_CODE_ICMP_RULE' | translate: (ruleParams)"
+      ></span>
+    </ng-template>
+    <ng-template [ngIf]="!!ruleParams['icmpTypeText'] && !!ruleParams['icmpCodeText']">
+      <span
+        [innerHTML]="'SECURITY_GROUP_PAGE.RULES.DEFAULT_ICMP_RULE' | translate: (ruleParams)"
+      ></span>
+    </ng-template>
+  </ng-template>
+  <ng-template [ngIf]="rule.protocol !== NetworkProtocols.ICMP">
+    <ng-template [ngIf]="rule.startPort === rule.endPort">
+      <span
+        [innerHTML]=" 'SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE' | translate: (ruleParams)"
+      ></span>
+    </ng-template>
+    <ng-template [ngIf]="rule.startPort !== rule.endPort">
+      <span
+        [innerHTML]="'SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE_PORT_RANGE' | translate: (ruleParams)"
+      ></span>
+    </ng-template>
+  </ng-template>
 </td>
-<td class="mat-cell">
-  {{ protocolTranslationToken | translate }}
-</td><ng-template [ngIf]="rule.protocol === NetworkProtocols.ICMP">
-  <td class="mat-cell">{{ rule.icmpType }}</td>
-  <td class="mat-cell">{{ rule.icmpCode }}</td>
-</ng-template>
-
-<ng-template [ngIf]="rule.protocol !== NetworkProtocols.ICMP">
-  <td class="mat-cell">{{ rule.startPort }}</td>
-  <td class="mat-cell">{{ rule.endPort }}</td>
-</ng-template>
-<td class="mat-cell">{{ rule.CIDR }}</td>
 <td class="mat-cell">
   <button
     class="delete-rule-button"

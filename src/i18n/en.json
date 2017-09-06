@@ -28,25 +28,20 @@
     "VIEW": "View",
     "YES": "Yes"
   },
-
   "DIALOG_MESSAGES": {
     "ISO": {
       "CONFIRM_DETACHMENT": "Are you sure you want ot detach this ISO?",
       "CONFIRM_DELETION": "Are you sure you want to delete this ISO?"
     },
-
     "SNAPSHOT": {
       "CONFIRM_DELETION": "Are you sure you want to delete this snapshot?"
     },
-
     "TAG": {
       "CONFIRM_DELETION": "Are you sure you want to delete this tag?"
     },
-
     "TEMPLATE": {
       "CONFIRM_DELETION": "Are you sure you want to delete this template?"
     },
-
     "VM": {
       "CONFIRM_START": "Are you sure you want to start this virtual machine?",
       "CONFIRM_STOP": "Are you sure you want to stop this virtual machine?",
@@ -57,40 +52,32 @@
       "PASSWORD_DIALOG_MESSAGE": "Password for {{ vmName }} has been reset to <b>{{ vmPassword }}</b>",
       "CONFIRM_DRIVES_DELETION": "Delete this VM's data drives?"
     },
-
     "VOLUME": {
       "CONFIRM_DELETION": "Are you sure you want to delete this volume?",
       "CONFIRM_DETACHMENT": "Are you sure you want to detach this volume?"
     }
   },
-
   "ERRORS": {
     "COMMON": {
       "THE_NAME_IS_TAKEN": "The name {{val1}} is taken"
     },
-
     "AUTH": {
       "INCORRECT_USERNAME": "Incorrect username",
       "INCORRECT_PASSWORD": "Incorrect password",
       "INCORRECT_DOMAIN": "Unable to find domain {{val1}}"
     },
-
     "ISO": {
       "VMS_IN_USE": "Unable to delete the ISO as it's used by the following VMs:<br>{{ vms }}"
     },
-
     "SNAPSHOT": {
       "LIMIT_EXCEEDED": "Snapshot limit has been exceeded. You need to delete some of your previous snapshots first."
     },
-
     "SSH": {
       "KEY_PAIR_ALREADY_EXISTS": "SSH key with name '{{val1}}' already exists"
     },
-
     "VM": {
       "INSUFFICIENT_RESOURCES": "Insufficient resources"
     },
-
     "VOLUME": {
       "NAME_TOO_LONG": "Volume name cannot be longer than {{val1}} characters",
       "NEW_SIZE_IS_LOWER": "New size is lower than the current, you need to shrink the volume",
@@ -100,112 +87,88 @@
       "VOLUME_LIMIT_EXCEEDED": "Volume limit has been exceeded. You need to delete some of your volumes to create a new one."
     }
   },
-
   "JOB_NOTIFICATIONS": {
     "PENDING_OPERATIONS": "Pending operations",
-
     "ISO": {
       "ATTACHMENT_IN_PROGRESS": "Attaching an ISO",
       "ATTACHMENT_DONE": "ISO has been attached",
       "ATTACHMENT_FAILED": "Failed to attach an ISO",
-
       "DETACHMENT_IN_PROGRESS": "Detaching an ISO",
       "DETACHMENT_DONE": "ISO has been detached",
       "DETACHMENT_FAILED": "Failed to detach an ISO",
-
       "REGISTER_IN_PROGRESS": "Registering an ISO",
       "REGISTER_DONE": "ISO registered",
       "REGISTER_FAILED": "ISO failed",
-
       "DELETION_IN_PROGRESS": " Deleting an ISO",
       "DELETION_DONE": "ISO deleted",
       "DELETION_FAILED": "Failed to delete an ISO"
     },
-
     "SNAPSHOT": {
       "TAKE_IN_PROGRESS": "Taking a snapshot",
       "TAKE_DONE": "Snapshot taken",
       "TAKE_FAILED": "Snapshot failed",
-
       "DELETION_IN_PROGRESS": "Deleting a snapshot",
       "DELETION_DONE": "Snapshot deleted successfully",
       "DELETION_FAILED": "Failed to delete a snapshot"
     },
-
     "TEMPLATE": {
       "REGISTER_IN_PROGRESS": "Registering a template",
       "REGISTER_DONE": "Template registered",
       "REGISTER_FAILED": "Template register failed",
-
       "DELETION_IN_PROGRESS": "Deleting a template",
       "DELETION_DONE": "Template deleted",
       "DELETION_FAILED": "Failed to delete an template"
     },
-
     "VM": {
       "START_IN_PROGRESS": "Starting a VM",
       "START_DONE": "VM has started",
       "START_FAILED": "Failed to start VM",
-
       "STOP_IN_PROGRESS": "Stopping a VM",
       "STOP_DONE": "VM has been stopped",
       "STOP_FAILED": "Failed to stop VM",
-
       "REBOOT_IN_PROGRESS": "Rebooting a VM",
       "REBOOT_DONE": "VM has been rebooted",
       "REBOOT_FAILED": "Failed to reboot VM",
-
       "RESTORE_IN_PROGRESS": "Reinstalling a VM",
       "RESTORE_DONE": "VM has been reinstalled",
       "RESTORE_FAILED": "Failed to restore VM",
-
       "RESET_PASSWORD_IN_PROGRESS": "Resetting VM password",
       "RESET_PASSWORD_DONE": "Password has been reset",
       "RESET_PASSWORD_FAILED": "Failed to reset password",
-
       "DESTROY_IN_PROGRESS": "Destroying a VM",
       "DESTROY_DONE": "VM has been destroyed",
       "DESTROY_FAILED": "Failed to destroy VM",
-
       "DEPLOY_IN_PROGRESS": "Deploying a VM",
       "DEPLOY_DONE": "VM has been deployed",
       "DEPLOY_FAILED": "Failed to deploy a VM",
-
       "CHANGE_SERVICE_OFFERING_IN_PROGRESS": "Changing offering",
       "CHANGE_SERVICE_OFFERING_DONE": "Offering changed",
       "CHANGE_SERVICE_OFFERING_FAILED": "Failed to change offering"
     },
-
     "VOLUME": {
       "DETACHMENT_IN_PROGRESS": "Volume is being detached",
       "DETACHMENT_DONE": "Volume has been detached",
       "DETACHMENT_FAILED": "Failed to detach a volume",
-
       "DELETION_IN_PROGRESS": "Deleting a volume",
       "DELETION_DONE": "Volume has been deleted",
       "DELETION_FAILED": "Failed to delete a volume",
-
       "RESIZE_IN_PROGRESS": "Resizing volume",
       "RESIZE_DONE": "Volume has been resized",
       "RESIZE_FAILED": "Volume resize failed",
-
       "ATTACHMENT_IN_PROGRESS": "Attaching a volume",
       "ATTACHMENT_DONE": "Volume has been attached",
       "ATTACHMENT_FAILED": "Failed to attach a volume",
-
       "CREATION_IN_PROGRESS": "Volume is being created",
       "CREATION_DONE": "Volume has been created",
       "CREATION_FAILED": "Failed to create a volume"
     }
   },
-
   "NOTIFICATIONS": {
     "TEMPLATE": {
       "CREATED": "Template {{ name }} created successfully",
       "DELETED": "Template {{ name }} deleted successfully"
     }
   },
-
   "AUTH": {
     "USERNAME": "Username",
     "PASSWORD": "Password",
@@ -217,7 +180,6 @@
     "USERNAME_REQUIRED": "Username is required",
     "PASSWORD_REQUIRED": "Password is required"
   },
-
   "NAVIGATION_SIDEBAR": {
     "WELCOME": "Welcome, {{ name }}",
     "VMS": "Virtual machines",
@@ -228,14 +190,12 @@
     "SSH_KEYS": "SSH keys",
     "SETTINGS": "Settings",
     "LOGOUT": "Logout",
-
     "LICENSE": {
       "LICENSE_1": "© {{ year }}, ",
       "LICENSE_2": "Bitworks Software, Ltd.",
       "LICENSE_3": "Released under Apache v2.0 license"
     }
   },
-
   "VM_PAGE": {
     "COMMANDS": {
       "START": "Start",
@@ -247,7 +207,6 @@
       "CONSOLE": "Console",
       "WEB_SHELL": "WebShell"
     },
-
     "RESOURCE_USAGE": {
       "TITLE": "Resource usage",
       "USED": "Used",
@@ -265,47 +224,38 @@
       "PRIMARY": "Primary",
       "SECONDARY": "Secondary"
     },
-
     "FILTERS": {
       "SELECT_ZONES": "Select zones",
       "SELECT_GROUPS": "Select groups",
       "SELECT_STATES": "Select states",
-
       "NO_GROUP": "No group",
-
       "STATE_RUNNING": "Running",
       "STATE_STOPPED": "Stopped",
       "STATE_ERROR": "Error",
-
       "GROUP_BY": "Group by",
       "GROUP_BY_ZONES": "Zones",
       "GROUP_BY_COLORS": "Colors",
       "GROUP_BY_GROUPS": "Groups"
     },
-
     "CARD": {
       "IP_NA": "IP N/A",
       "CPU": "CPU",
       "RAM": "RAM",
       "DISKS": "DISKS"
     },
-
     "SIDEBAR": {
       "VM": "Virtual machine",
       "STORAGE": "Storage",
       "NETWORK": "Network",
       "TAGS": "Tags"
     },
-
     "VM_DETAILS": {
       "COLOR": "Color",
       "DESCRIPTION": "Description",
       "ZONE": "Zone",
-
       "INSTANCE_GROUP": {
         "TITLE": "Group",
         "NO_GROUP": "No group",
-
         "CHANGE_INSTANCE_GROUP": "Change instance group",
         "CREATE_NEW_GROUP": "Create a new group",
         "CHOOSE_EXISTING_GROUP": "Choose an existing group",
@@ -313,10 +263,8 @@
         "ENTER_GROUP_NAME": "Enter group name",
         "REMOVE_FROM_GROUP": "Remove from the group \"{{ value }}\""
       },
-
       "SERVICE_OFFERING": {
         "TITLE": "Service offering",
-
         "name": "Name",
         "description": "Description",
         "cpuNumber": "CPU cores",
@@ -342,19 +290,16 @@
         "isSystem": "System",
         "defaultUse": "Default",
         "isCustomized": "Customized",
-
         "thin": "Thin",
         "thick": "Thick",
         "sparse": "Sparse",
         "shared": "Shared",
         "local": "Local"
       },
-
       "AFFINITY_GROUP": {
         "TITLE": "Affinity Group",
         "NO_AFFINITY_GROUP": "No affinity group",
         "NO_AFFINITY_GROUPS": "No affinity groups",
-
         "SELECT_AFFINITY_GROUP": "Select affinity group",
         "CREATE_NEW_GROUP": "Create a new group",
         "CHOOSE_EXISTING_GROUP": "Choose an existing group",
@@ -363,18 +308,14 @@
         "REMOVE_FROM_GROUP": "Remove from the group \"{{ value }}\"",
         "STOP_MACHINE_FOR_AG": "You need to stop the virtual machine to change affinity group. Do you want to stop it now?"
       },
-
       "TEMPLATE": "Template",
-
       "SSH_KEY": {
         "TITLE": "SSH key",
         "NO_SSH_KEY": "No SSH key",
         "NO_SSH_KEYS": "No SSH keys",
-
         "SELECT_SSH_KEY": "Select SSH key",
         "STOP_MACHINE_FOR_SSH": "You need to stop the virtual machine to reset SSH key. Do you want to stop it now?"
       },
-
       "STATISTICS": {
         "TITLE": "Statistics",
         "CPU_UTILIZED": "CPU utilized",
@@ -386,7 +327,6 @@
         "DISK_WRITE_IO": "Disk write (IO)"
       }
     },
-
     "STORAGE_DETAILS": {
       "VOLUME_DETAILS": {
         "GENERAL_INFORMATION": "General information",
@@ -403,7 +343,6 @@
         "READ_RATE_IOPS": "Read rate",
         "WRITE_RATE_IOPS": "Write rate"
       },
-
       "VOLUME_RESIZE": {
         "TITLE": "Resize volume",
         "DISK_OFFERING": "Disk offering",
@@ -411,24 +350,20 @@
         "NO_AVAILABLE_OFFERINGS": "No available offerings",
         "RESIZE": "Resize"
       },
-
       "SNAPSHOT_CREATION": {
         "TAKE_SNAPSHOT": "Take a snapshot",
         "NAME": "Name",
         "DESCRIPTION": "Description"
       },
-
       "SNAPSHOTS_LIST": {
         "LAST_SNAPSHOT": "Last snapshot",
         "VIEW_ALL": "View all",
         "NO_SNAPSHOTS": "No snapshots"
       },
-
       "SNAPSHOT_ACTIONS": {
         "CREATE_TEMPLATE": "Create a template",
         "REVERT_TO_SNAPSHOT": "Revert disk to this snapshot"
       },
-
       "SNAPSHOTS_MODAL": {
         "TITLE": "Snapshots",
         "NAME": "Name",
@@ -437,7 +372,6 @@
         "ACTIONS": "Actions",
         "NO_SNAPSHOTS": "No snapshots"
       },
-
       "SPARE_DRIVE_ATTACHMENT": {
         "ATTACH_VOLUME": "Attach a volume",
         "SELECT_VOLUME": "Select a volume",
@@ -445,28 +379,24 @@
         "NO_AVAILABLE_VOLUMES_2": "create a new one",
         "ATTACH": "Attach"
       },
-
       "ISO": {
         "TITLE": "ISO",
         "DETACH": "Detach",
         "NO_MEDIUM": "No medium attached",
         "ATTACH": "Attach"
       },
-
       "ISO_MODAL": {
         "TITLE": "ISO attachment",
         "ATTACH": "Attach"
       }
     },
-
     "NETWORK_DETAILS": {
       "NETWORK_CONFIGURATION": "Network configuration",
       "NIC": "NIC",
       "IP": "IP",
       "ARE_YOU_SURE_ADD_SECONDARY_IP": "Are you sure you want to add a secondary IP?",
       "ARE_YOU_SURE_REMOVE_SECONDARY_IP": "Are you sure you want to remove this secondary IP?",
-
-      "broadcastUri":  "Broadcast URI",
+      "broadcastUri": "Broadcast URI",
       "gateway": "Gateway",
       "ip6Address": "IPv6 address",
       "ip6Cidr": "IPv6 CIDR",
@@ -482,12 +412,10 @@
       "secondaryIp": "Secondary IP",
       "trafficType": "Traffic Type",
       "type": "Type",
-
       "FIREWALL_RULES": "Firewall rules",
-      "INGRESS": "Ingress",
-      "EGRESS": "Egress"
+      "INGRESS": "Incoming",
+      "EGRESS": "Outgoing"
     },
-
     "VM_CREATION": {
       "NEW_VM": "New virtual machine",
       "NAME": "Name",
@@ -497,55 +425,43 @@
       "INSTALLATION_SOURCE": "Installation source",
       "DISK_OFFERING": "Disk offering",
       "DISK_SIZE": "Disk size",
-
       "GROUP": "Group",
       "NO_GROUP": "No group",
-
       "AFFINITY_GROUPS": "Affinity groups",
       "SECURITY_GROUPS": "Firewall rules",
-
       "KEYBOARD_LAYOUT": "Keyboard layout",
       "KB_US": "Standard (US) keyboard",
       "KB_UK": "UK keyboard",
       "KB_JP": "Japanese keyboard",
       "KB_SC": "Simplified Chinese keyboard",
-
       "SSH_KEY_PAIR": "SSH keypair",
       "NO_SSH_KEY": "No SSH key",
-
       "START_VM": "Start VM",
       "YOU_RAN_OUT_OF": "You ran out of",
-
       "CPUS": "CPU",
       "MEMORY": "RAM",
       "INSTANCES": "VMs",
       "IPS": "IPs",
       "VOLUMES": "Volumes",
       "PRIMARY_STORAGE": "Primary storage",
-
       "CREATING_AG": "Creating an affinity group",
       "CREATING_SG": "Creating a security group",
       "DEPLOYING_VM": "Deploying the virtual machine",
-
       "OS_TEMPLATE": "OS template"
     }
   },
-
   "SPARE_DRIVE_PAGE": {
     "FILTERS": {
       "SPARE_DRIVES_ONLY": "Spare drives only",
       "SELECT_ZONES": "Select zones",
-
       "GROUP_BY": "Group by",
       "GROUP_BY_ZONES": "Zones"
     },
-
     "CARD": {
       "DESCRIPTION": "Description",
       "SIZE": "Size",
       "STATE": "State"
     },
-
     "SPARE_DRIVE_CREATION": {
       "TITLE": "New volume",
       "NAME": "Name",
@@ -553,18 +469,15 @@
       "DISK_OFFERING": "Disk offering",
       "SIZE": "Size"
     },
-
     "SIDEBAR": {
       "VOLUME": "Volume",
       "SNAPSHOTS": "Snapshots"
     },
-
     "DETAILS": {
       "GENERAL_INFORMATION": "General information",
       "SIZE": "Size",
       "CREATED": "Created",
       "STORAGE_TYPE": "Storage type",
-
       "DISK_OFFERING": "Disk offering",
       "DISK_OFFERING_NAME": "Name",
       "DESCRIPTION": "Description",
@@ -575,12 +488,10 @@
       "READ_RATE_IOPS": "Read rate",
       "WRITE_RATE_IOPS": "Write rate"
     },
-
     "SNAPSHOTS": {
       "DESCRIPTION": "Description",
       "DATE": "Date"
     },
-
     "ATTACHMENT": {
       "CHOOSE_VIRTUAL_MACHINE": "Choose a virtual machine",
       "NO_VMS": "No virtual machines",
@@ -588,38 +499,31 @@
       "ATTACH": "Attach"
     }
   },
-
   "TEMPLATE_PAGE": {
     "DISPLAY_MODES": {
       "TEMPLATES": "Templates",
       "ISO": "ISO"
     },
-
     "FILTERS": {
       "SELECT_OS_FAMILIES": "Select OS families",
       "SELECT_TYPES": "Select types",
       "SELECT_ZONES": "Select zones",
-
       "GROUP_BY": "Group by",
       "GROUP_BY_ZONES": "Zones",
       "NO_ZONE": "No zone",
-
       "FEATURED": "Featured",
       "SELF": "My",
       "SELFEXECUTABLE": "My",
       "ALL": "All"
     },
-
     "CARD": {
       "OS": "OS"
     },
-
     "SIDEBAR": {
       "TEMPLATE": "Template",
       "ZONES": "Zones",
       "TAGS": "Tags"
     },
-
     "TEMPLATE_DETAILS": {
       "OS": "OS",
       "DETAILS": "General information",
@@ -628,7 +532,7 @@
       "PUBLIC": "Public",
       "RECOMMENDED": "Recommended",
       "PASSWORD_ENABLED": "Password enabled",
-      "DYNAMICALLY_SCALABLE" : "Dynamically scalable",
+      "DYNAMICALLY_SCALABLE": "Dynamically scalable",
       "CROSS_ZONES": "Cross Zones",
       "DOMAIN": "Domain",
       "CREATED": "Created",
@@ -638,11 +542,9 @@
       "HYPERVISOR": "Hypervisor",
       "DOWNLOAD_URL": "Download URL"
     },
-
     "ZONE_DETAILS": {
       "READY": "Ready"
     },
-
     "TEMPLATE_CREATION": {
       "NEW_TEMPLATE": "Register a new template",
       "NEW_ISO": "Register a new ISO",
@@ -657,17 +559,14 @@
       "DYNAMICALLY_SCALABLE": "Dynamically scalable"
     }
   },
-
   "SECURITY_GROUP_PAGE": {
     "LIST": {
       "SYSTEM_SECURITY_GROUPS": "System",
       "CUSTOM_SECURITY_GROUPS": "Custom"
     },
-
     "CARD": {
       "DESCRIPTION": "Description"
     },
-
     "RULES": {
       "FIREWALL_RULES_FOR_VM": "Firewall rules for VM",
       "TEMPLATE_RULES": "Template rules",
@@ -677,7 +576,9 @@
       "START_PORT": "Start port",
       "END_PORT": "End port",
       "INGRESS": "Ingress",
+      "INGRESS_DISPLAY": "Incoming",
       "EGRESS": "Egress",
+      "EGRESS_DISPLAY": "Outgoing",
       "TCP": "TCP",
       "UDP": "UDP",
       "ICMP": "ICMP",
@@ -689,20 +590,250 @@
       "ENTER_VALID_CODE": "Enter a valid code",
       "ENTER_VALID_CIDR": "Enter a valid CIDR",
       "FAILED_TO_ADD_RULE": "Failed to add the rule",
-      "FAILED_TO_REMOVE_RULE": "Failed to remove the rule"
+      "FAILED_TO_REMOVE_RULE": "Failed to remove the rule",
+      "DEFAULT_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }} to port {{ startPort }}</b>",
+      "DEFAULT_RULE_PORT_RANGE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> to <b>port range {{ startPort }}-{{ endPort }}</b>",
+      "DEFAULT_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> of ICMP type <b>{{ icmpTypeText }} [{{ icmpType }}]</b> and ICMP code <b>{{ icmpCodeText }} [{{ icmpCode }}]</b> ",
+      "NO_TEXT_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> of ICMP type <b>{{ icmpType }}</b> and ICMP code <b>{{ icmpCode }}</b> ",
+      "NO_CODE_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> of ICMP type <b>{{ icmpTypeText }} [{{ icmpType }}]</b> and ICMP code <b>{{ icmpCode }}</b> ",
+      "DEFAULT_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} to port {{ startPort }}",
+      "DEFAULT_RULE_PORT_RANGE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} to port range {{ startPort }}-{{ endPort }}",
+      "DEFAULT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} of ICMP type {{ icmpTypeText }} [{{ icmpType }}] and ICMP code {{ icmpCodeText }} [{{ icmpCode }}] ",
+      "NO_TEXT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} of ICMP type {{ icmpType }} and ICMP code {{ icmpCode }} ",
+      "NO_CODE_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} of ICMP type {{ icmpTypeText }} [{{ icmpType }}] and ICMP code {{ icmpCode }} "
     },
-
     "RULES_MANAGER": {
       "BASED_ON": "based on"
     },
-
     "TEMPLATE_CREATION": {
       "CREATE_NEW_TEMPLATE": "Create new template",
       "NAME": "Name",
       "DESCRIPTION": "Description",
       "BASIC_RULES": "Basic rules"
     },
-
+    "BUILDER": {
+      "SECURITY_GROUP_TEMPLATES": "Security Group Templates",
+      "ALL_GROUPS": "All templates",
+      "SELECTED_GROUPS": "Selected templates",
+      "NETWORK_RULES": "Network rules"
+    },
+    "ICMP_TYPES": {
+      "-1": {
+        "description": "Any",
+        "codes": {
+          "-1": "Any"
+        }
+      },
+      "0": {
+        "description": "Echo reply",
+        "codes": {
+          "0": "Echo reply"
+        }
+      },
+      "3": {
+        "description": "Destination Unreachable",
+        "codes": {
+          "0": "Destination network unreachable",
+          "1": "Destination host unreachable",
+          "2": "Destination protocol unreachable",
+          "3": "Destination port unreachable",
+          "4": "Fragmentation required, and DF flag set",
+          "5": "Source route failed",
+          "6": "Destination network unknown",
+          "7": "Destination host unknown",
+          "8": "Source host isolated",
+          "9": "Network administratively prohibited",
+          "10": "Host administratively prohibited",
+          "11": "Network unreachable for ToS",
+          "12": "Host unreachable for ToS",
+          "13": "Communication administratively prohibited",
+          "14": "Host Precedence Violation",
+          "15": "Precedence cutoff in effect"
+        }
+      },
+      "4": {
+        "description": "Source Quench",
+        "codes": {
+          "0": "Source quench"
+        }
+      },
+      "5": {
+        "description": "Redirect Message",
+        "codes": {
+          "0": "Redirect Datagram for the Network",
+          "1": "Redirect Datagram for the Host",
+          "2": "Redirect Datagram for the ToS & network",
+          "3": "Redirect Datagram for the ToS & host"
+        }
+      },
+      "6": {
+        "description": "Alternate Host Address",
+        "codes": {
+          "0": "Alternate Address for Host"
+        }
+      },
+      "8": {
+        "description": "Echo request",
+        "codes": {
+          "0": "Echo request"
+        }
+      },
+      "9": {
+        "description": "Router Advertisement",
+        "codes": {
+          "0": "Router Advertisement"
+        }
+      },
+      "10": {
+        "description": "Router Solicitation",
+        "codes": {
+          "0": "Router discovery/selection/solicitation"
+        }
+      },
+      "11": {
+        "description": "Time Exceeded",
+        "codes": {
+          "0": "TTL expired in transit",
+          "1": "Fragment reassembly time exceeded"
+        }
+      },
+      "12": {
+        "description": "Parameter Problem: Bad IP header",
+        "codes": {
+          "0": "Pointer indicates the error",
+          "1": "Missing a required option",
+          "2": "Bad length"
+        }
+      },
+      "13": {
+        "description": "Timestamp",
+        "codes": {
+          "0": "Timestamp"
+        }
+      },
+      "14": {
+        "description": "Timestamp reply",
+        "codes": {
+          "0": "Timestamp reply"
+        }
+      },
+      "15": {
+        "description": "Information request",
+        "codes": {
+          "0": "Information request"
+        }
+      },
+      "16": {
+        "description": "Information Reply",
+        "codes": {
+          "0": "Information Reply"
+        }
+      },
+      "17": {
+        "description": "Address Mask Request",
+        "codes": {
+          "0": "Address Mask Request"
+        }
+      },
+      "18": {
+        "description": "Address Mask Reply",
+        "codes": {
+          "0": "Address Mask Reply"
+        }
+      },
+      "30": {
+        "description": "Traceroute",
+        "codes": {
+          "0": "Outbound Packet successfully forwarded",
+          "1": "No route for Outbound Packet, the packet was discarded"
+        }
+      },
+      "31": {
+        "description": "Datagram Conversion Error",
+        "codes": {
+          "0": "Unknown or unspecified error",
+          "1": "Don't convert option present",
+          "2": "Unknown mandatory option present",
+          "3": "Known unsupported option present",
+          "4": "Unsupported transport protocol",
+          "5": "Overall length exceeded",
+          "6": "IP header length exceeded",
+          "7": "Transport protocol > 255",
+          "8": "Port conversion out of range",
+          "9": "Transport header length exceeded",
+          "10": "32-bit rollover missing and ACK set",
+          "11": "Unknown mandatory transport option present"
+        }
+      },
+      "32": {
+        "description": "Mobile Host Redirect",
+        "codes": {
+          "0": "Mobile Host Redirect"
+        }
+      },
+      "33": {
+        "description": "IPv6 Where-Are-You",
+        "codes": {
+          "0": "IPv6 Where-Are-You"
+        }
+      },
+      "34": {
+        "description": "IPv6 I-Am-Here",
+        "codes": {
+          "0": "IPv6 I-Am-Here"
+        }
+      },
+      "35": {
+        "description": "Mobile Registration Request",
+        "codes": {
+          "0": "Mobile Registration Request"
+        }
+      },
+      "36": {
+        "description": "Mobile Registration Reply",
+        "codes": {
+          "0": "Mobile Registration Reply"
+        }
+      },
+      "37": {
+        "description": "Domain Name Request",
+        "codes": {
+          "0": "Domain Name Request"
+        }
+      },
+      "38": {
+        "description": "Domain Name Reply",
+        "codes": {
+          "0": "Domain Name Reply"
+        }
+      },
+      "39": {
+        "description": "SKIP",
+        "codes": {
+          "0": "SKIP"
+        }
+      },
+      "40": {
+        "description": "Photuris",
+        "codes": {
+          "0": "Bad SPI",
+          "1": "Authentication Failed",
+          "2": "Decompression Failed",
+          "3": "Decryption Failed",
+          "4": "Need Authentication",
+          "5": "Need Authorization"
+        }
+      }
+    },
+    "RULES_MANAGER": {
+      "BASED_ON": "based on"
+    },
+    "TEMPLATE_CREATION": {
+      "CREATE_NEW_TEMPLATE": "Create new template",
+      "NAME": "Name",
+      "DESCRIPTION": "Description",
+      "BASIC_RULES": "Basic rules"
+    },
     "BUILDER": {
       "SECURITY_GROUP_TEMPLATES": "Security Group Templates",
       "ALL_GROUPS": "All templates",
@@ -710,29 +841,24 @@
       "NETWORK_RULES": "Network rules"
     }
   },
-
   "EVENT_PAGE": {
     "SELECT_LEVELS": "Select levels",
     "SELECT_TYPES": "Select types",
     "NO_EVENTS": "No events for the selected date",
-
     "DESCRIPTION": "Description",
     "LEVEL": "Level",
     "TYPE": "Type",
     "TIME": "Time"
   },
-
   "SSH_KEYS": {
     "CREATE_SSH_KEY": "Create SSH key",
     "NAME": "Name",
     "PUBLIC_KEY": "Public key",
     "AUTO_GENERATED": "auto generated",
-
     "SAVE_THIS_KEY": "Please, save this private key as it will not be kept",
     "REMOVE_THIS_KEY": "Are you sure you want to remove this key?",
     "KEY_REMOVAL_FAILED": "Key removal failed"
   },
-
   "SETTINGS": {
     "SECURITY": {
       "TITLE": "Security",
@@ -743,7 +869,6 @@
       "INACTIVITY_TIMEOUT": "Session timeout (in&nbsp;minutes)",
       "INACTIVITY_LIMITS": "Between 0 and 300"
     },
-
     "API_CONFIGURATION": {
       "TITLE": "API configuration",
       "API_KEY": "API Key",
@@ -754,7 +879,6 @@
       "ASK_GENERATE_KEYS": "Are you sure you want to generate API keys?",
       "GENERATE": "Generate"
     },
-
     "LOOK_AND_FEEL": {
       "TITLE": "Look and Feel",
       "LANGUAGE": "Interface Language",
@@ -766,23 +890,19 @@
       "PALETTE": "Interface Theme Colors"
     }
   },
-
   "CLIPBOARD": {
     "COPY": "Copy",
     "COPY_SUCCESS": "Copied successfully",
     "COPY_FAIL": "Failed to copy to clipboard"
   },
-
   "INLINE_EDIT": {
     "CLICK_TO_EDIT": "Click to edit",
     "ENTER_TEXT": "Enter text",
     "SELECT_AN_OPTION": "Select an option"
   },
-
   "VM_NOT_FOUND": "Virtual machine not found",
   "VOLUME_NOT_FOUND": "Volume not found",
   "TEMPLATE_NOT_FOUND": "Template not found",
-
   "PULSE": {
     "PULSE": "Pulse",
     "CPU_RAM": "CPU / RAM",
@@ -794,7 +914,6 @@
     "NO_DATA": "No data",
     "SELECT_DATA": "Select data",
     "ERROR": "An error occurred, please try again",
-
     "LABELS": {
       "CPU": "CPU",
       "RAM": "RAM",
@@ -813,56 +932,45 @@
       "DISK_IO_ERRORS": "Disk IO errors"
     }
   },
-
   "SERVICE_OFFERING": {
     "CHANGE_SERVICE_OFFERING": "Change service offering",
     "CHOOSE_SERVICE_OFFERING": "Choose service offering",
     "CPU_MHZ": "{{count}}x{{speed}} MHz",
     "VM_WILL_BE_REBOOTED": "Virtual machine will be rebooted",
-
     "CUSTOM_SERVICE_OFFERING": {
       "TITLE": "Custom offering",
-
       "CPU_NUMBER": "CPU cores",
       "CPU_SPEED": "CPU (MHz)",
       "MEMORY": "Memory (MB)",
-
       "BETWEEN": "Between {{ lowerLimit }} and {{ upperLimit }}",
       "UP_TO": "Up to {{ upperLimit }}",
       "FROM": "From {{ lowerLimit }}"
     }
   },
-
   "SNAPSHOT_POLICIES": {
     "TITLE": "Recurring snapshots",
     "SCHEDULED_SNAPSHOTS": "Scheduled snapshots",
-
     "KEEP": "Keep",
     "STORE_SNAPSHOTS": "Number of stored snapshots",
-
     "MINUTE": "Minute",
     "TIME": "Time",
     "TIME_ZONE": "Time zone",
-
     "HOURLY_TIME": "{{ value }} minute",
     "DAILY_TIME": "{{ value }}",
     "WEEKLY_TIME": "{{ value }}",
     "MONTHLY_TIME": "{{ value }}",
     "WEEKLY_PERIOD": "Every {{ value }}",
     "MONTHLY_PERIOD": "day {{ value }} of month",
-
     "HOURLY": "Hourly",
     "DAILY": "Daily",
     "WEEKLY": "Weekly",
     "MONTHLY": "Monthly"
   },
-
   "SUGGESTION_DIALOG": {
     "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",
     "WOULD_YOU_LIKE_TO_CREATE_VOLUME": "Would you like to create a new volume?",
     "NO_DONT_ASK": "No, don't ask"
   },
-
   "TAGS": {
     "CREATE_NEW_TAG": "Create a new tag",
     "TAG_KEY": "Key",
@@ -870,25 +978,21 @@
     "TAG_ALREADY_EXISTS": "Tag already exists",
     "EDIT_TAG": "Edit tag"
   },
-
   "DISK_OFFERING_STORAGE_TYPE": {
     "SHARED": "Shared",
     "LOCAL": "Local"
   },
-
   "SPARE_DRIVE_STATE": {
     "ALLOCATED": "Allocated",
     "READY": "Ready"
   },
-
-  "SNAPSHOT_STATE" : {
+  "SNAPSHOT_STATE": {
     "BACKEDUP": "Backed up",
     "CREATING": "Creating",
     "BACKINGUP": "Backing up",
     "ALLOCATED": "Allocated",
     "ERROR": "Error"
   },
-
   "VM_STATE": {
     "RUNNING": "Running",
     "STOPPED": "Stopped",
@@ -907,13 +1011,11 @@
     "DEPLOY_IN_PROGRESS": "Deploying",
     "RESET_PASSWORD_IN_PROGRESS": "Resetting password"
   },
-
   "DATE_TIME": {
     "AM": "AM",
     "PM": "PM",
     "DAY_OF_WEEK": "Day of week",
     "DAY_OF_MONTH": "Day of month",
-
     "DAYS_OF_WEEK": {
       "MONDAY": "Monday",
       "TUESDAY": "Tuesday",
@@ -922,7 +1024,6 @@
       "FRIDAY": "Friday",
       "SATURDAY": "Saturday",
       "SUNDAY": "Sunday",
-
       "MONDAY_LOWER": "monday",
       "TUESDAY_LOWER": "tuesday",
       "WEDNESDAY_LOWER": "wednesday",
@@ -932,7 +1033,6 @@
       "SUNDAY_LOWER": "sunday"
     }
   },
-
   "UNITS": {
     "GB": "GB",
     "GB_VALUE": "{{value}} GB",
@@ -943,7 +1043,6 @@
     "MBPS": "{{value}} MB/s",
     "MHZ": "MHz"
   },
-
   "VOLUME_ACTIONS": {
     "TAKE_SNAPSHOT": "Take a snapshot",
     "SNAPSHOT_SCHEDULE": "Set up snapshot schedule",

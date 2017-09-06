@@ -16,7 +16,7 @@ mdl-textfield {
 }
 
 :host /deep/ .mdl-textfield {
-  width: 85px;
+  width: 120px;
 }
 
 :host md-select.type /deep/ .mdl-textfield {
@@ -55,4 +55,8 @@ mdl-textfield {
 
 .table-form:hover {
   background-color: #eeeeee !important;
+}
+
+.mat-input-container {
+  font-size: 16px;
 }

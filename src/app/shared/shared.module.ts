@@ -6,8 +6,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
+  MdAutocompleteModule,
   MdCardModule,
   MdIconModule,
+  MdInputModule,
   MdListModule,
   MdMenuModule,
   MdSelectModule,
@@ -139,7 +141,9 @@ import { ZoneService } from './services/zone.service';
     MdMenuModule,
     MdCardModule,
     MdTableModule,
-    CdkTableModule
+    CdkTableModule,
+    MdAutocompleteModule,
+    MdInputModule
   ],
   exports: [
     GroupedCardListComponent,
@@ -186,7 +190,9 @@ import { ZoneService } from './services/zone.service';
     CdkTableModule,
     MdSnackBarModule,
     SpareDriveActionsComponent,
-    TemplateActionsComponent
+    TemplateActionsComponent,
+    MdAutocompleteModule,
+    MdInputModule
   ],
   entryComponents: [
     DatePickerDialogComponent,
