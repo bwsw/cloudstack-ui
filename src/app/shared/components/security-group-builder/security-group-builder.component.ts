@@ -102,8 +102,12 @@ export class SecurityGroupBuilderComponent implements OnInit {
     this.emitChange();
   }
 
+  public get rules(): Rules {
+    return new Rules(this.items[1], this.checkedIngressRules, this.checkedEgressRules);
+  }
+
   private emitChange(): void {
-    this.onChange.emit(new Rules(this.items[1], this.checkedIngressRules, this.checkedEgressRules));
+    this.onChange.emit(this.rules);
   };
 
   private get checkedIngressRules(): Array<NetworkRule> {

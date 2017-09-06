@@ -13,7 +13,7 @@ import { SecurityGroupBuilderComponent } from './security-group-builder.componen
 
 describe('Sg creation component', () => {
   let f;
-  let comp;
+  let comp: SecurityGroupBuilderComponent;
 
   const dialogReferenceMock = {
     close(): void {}
@@ -90,8 +90,7 @@ describe('Sg creation component', () => {
       declarations: [SecurityGroupBuilderComponent, MockTranslatePipe],
       providers: [
         { provide: MdDialogRef, useFactory: () => dialogReferenceMock },
-        { provide: SecurityGroupService, useClass: SecurityGroupServiceMock },
-        { provide: MD_DIALOG_DATA, useValue: mockRules }
+        { provide: SecurityGroupService, useClass: SecurityGroupServiceMock }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -99,6 +98,7 @@ describe('Sg creation component', () => {
     TestBed.compileComponents().then(() => {
       f = TestBed.createComponent(SecurityGroupBuilderComponent);
       comp = f.componentInstance;
+      comp.inputRules = mockRules;
     });
   }));
 
@@ -112,6 +112,7 @@ describe('Sg creation component', () => {
 
     f = TestBed.createComponent(SecurityGroupBuilderComponent);
     comp = f.componentInstance;
+    comp.inputRules = mockRules;
     mockRules.templates = [mockSg1];
     comp.ngOnInit();
     expect(comp.items[0]).toEqual([mockSg2]);
@@ -123,6 +124,7 @@ describe('Sg creation component', () => {
 
     f = TestBed.createComponent(SecurityGroupBuilderComponent);
     comp = f.componentInstance;
+    comp.inputRules = mockRules;
     mockRules.templates = [mockSg2];
     mockRules.egress = mockRuleEgress;
     mockRules.ingress = mockRulesIngress;
@@ -135,8 +137,7 @@ describe('Sg creation component', () => {
     expect(comp.selectedRules[1][0].checked).toBe(true);
   });
 
-  fit('handles dialog close', () => {
-    debugger;
+  it('handles dialog close', () => {
     spyOn(dialogReferenceMock, 'close').and.callThrough();
 
     mockRules.templates = [mockSg2];
@@ -147,25 +148,15 @@ describe('Sg creation component', () => {
     comp.selectGroup(0, false);
     comp.moveLeft();
 
-    const buttons = f.debugElement.queryAll(By.css('.mat-dialog-actions button'));
-    buttons[1].triggerEventHandler('click');
-    expect(dialogReferenceMock.close).toHaveBeenCalledTimes(1);
-    expect(dialogReferenceMock.close).toHaveBeenCalledWith(mockRules);
-
     f = TestBed.createComponent(SecurityGroupBuilderComponent);
     comp = f.componentInstance;
+    comp.inputRules = mockRules;
     mockRules.templates = [mockSg2];
     mockRules.egress = mockRuleEgress;
     mockRules.ingress = mockRulesIngress;
     comp.ngOnInit();
     comp.selectGroup(0, false);
     comp.moveLeft();
-    buttons[0].triggerEventHandler('click');
-    expect(dialogReferenceMock.close).toHaveBeenCalledTimes(2);
-    expect(dialogReferenceMock.close).toHaveBeenCalledWith({
-      templates: [],
-      ingress: [],
-      egress: []
-    });
+    expect(comp.rules).toEqual(new Rules([], [], []));
   });
 });

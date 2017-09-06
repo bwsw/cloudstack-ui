@@ -41,7 +41,7 @@ export class VmCreationSecurityGroupRulesManagerComponent implements ControlValu
   }
 
   public writeValue(value: VmCreationSecurityGroupData): void {
-    this.updateRules(value);
+    this.updateData(value);
   }
 
   public registerOnChange(fn): void {
@@ -81,12 +81,12 @@ export class VmCreationSecurityGroupRulesManagerComponent implements ControlValu
       .afterClosed()
       .subscribe((data: any) => {
         if (data) {
-          this.updateRules(data);
+          this.updateData(data);
         }
       });
   }
 
-  private updateRules(data: VmCreationSecurityGroupData): void {
+  private updateData(data: VmCreationSecurityGroupData): void {
     this.savedData = data;
     this.securityGroupRulesManagerData = this.savedData;
   }

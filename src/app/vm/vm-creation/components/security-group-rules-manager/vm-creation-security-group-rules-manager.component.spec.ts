@@ -10,6 +10,7 @@ import { SecurityGroup } from '../../../../security-group/sg.model';
 import { VmCreationSecurityGroupRulesManagerComponent } from '../../../../shared/components';
 import { FancySelectComponent } from '../../../../shared/components/fancy-select/fancy-select.component';
 import { Rules } from '../../../../shared/components/security-group-builder/rules';
+import { VmCreationSecurityGroupData } from '../../security-group/vm-creation-security-group-data';
 
 
 const mockSg = new SecurityGroup({
@@ -86,21 +87,18 @@ const mockEgressRules = [new NetworkRule({
 
 class MockMdDialog {
   public open(): any {
+    const rules = new Rules([mockSg], mockIngressRules, mockEgressRules);
+    const dialogCloseValue = VmCreationSecurityGroupData.fromRules(rules);
+
     return {
-      afterClosed: () => Observable.of(
-        new Rules(
-          [mockSg],
-          mockIngressRules,
-          mockEgressRules
-        )
-      )
+      afterClosed: () => Observable.of(dialogCloseValue)
     };
   }
 }
 
 describe('Sg Rules manager component', () => {
   let f;
-  let comp;
+  let comp: VmCreationSecurityGroupRulesManagerComponent;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -133,8 +131,8 @@ describe('Sg Rules manager component', () => {
 
   it('updates rules', () => {
     const emptyRules = new Rules();
-    expect(comp.savedRules).toBe(emptyRules);
-    expect(comp.rules).toBeUndefined();
+    expect(comp.savedData.rules).toEqual(emptyRules);
+    expect(comp.securityGroupRulesManagerData).toBeUndefined();
 
     const dialog = TestBed.get(MdDialog);
     spyOn(dialog, 'open').and.callThrough();
@@ -142,18 +140,18 @@ describe('Sg Rules manager component', () => {
     f.debugElement.query(By.css('mdl-button')).triggerEventHandler('click');
 
     const expectedSavedRules = new Rules([mockSg], mockIngressRules, mockEgressRules);
-    expect(comp.savedRules).toEqual(expectedSavedRules);
-    expect(comp.rules).toEqual(expectedSavedRules);
+    expect(comp.savedData.rules).toEqual(expectedSavedRules);
+    expect(comp.securityGroupRulesManagerData.rules).toEqual(expectedSavedRules);
   });
 
   it('sets rules using ngModel', fakeAsync(() => {
     f.detectChanges();
     const expectedSavedRules = new Rules([mockSg], mockIngressRules, mockEgressRules);
-    comp.writeValue(expectedSavedRules);
+    comp.writeValue(VmCreationSecurityGroupData.fromRules(expectedSavedRules));
 
     tick();
     f.detectChanges();
-    expect(comp.savedRules).toEqual(expectedSavedRules);
-    expect(comp.rules).toEqual(expectedSavedRules);
+    expect(comp.savedData.rules).toEqual(expectedSavedRules);
+    expect(comp.securityGroupRulesManagerData.rules).toEqual(expectedSavedRules);
   }));
 });
