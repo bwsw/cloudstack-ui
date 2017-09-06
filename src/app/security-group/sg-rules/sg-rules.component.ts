@@ -74,6 +74,10 @@ export class SgRulesComponent {
     return 'SECURITY_GROUP_PAGE.RULES.FIREWALL_RULES_FOR_VM';
   }
 
+  public get isPredefinedTemplate(): boolean {
+    return this.securityGroup.type === SecurityGroupType.PredefinedTemplate;
+  }
+
   public addRule(e: Event): void {
     e.stopPropagation();
 
