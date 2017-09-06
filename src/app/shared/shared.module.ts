@@ -121,6 +121,7 @@ import { UserService } from './services/user.service';
 import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
+import { ProgressLoggerComponent } from './components/progress-logger/component/progress-logger.component';
 
 
 @NgModule({
@@ -192,7 +193,8 @@ import { ZoneService } from './services/zone.service';
     SpareDriveActionsComponent,
     TemplateActionsComponent,
     MdAutocompleteModule,
-    MdInputModule
+    MdInputModule,
+    ProgressLoggerComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -245,7 +247,8 @@ import { ZoneService } from './services/zone.service';
     LoaderComponent,
     GroupedCardListComponent,
     SpareDriveActionsComponent,
-    TemplateActionsComponent
+    TemplateActionsComponent,
+    ProgressLoggerComponent
   ],
   providers: [
     AccountService,

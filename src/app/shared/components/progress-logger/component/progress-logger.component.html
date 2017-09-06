@@ -1,0 +1,11 @@
+{{ controller.messages | json }}
+
+~~~~~~~~~~
+
+{{ controller.getLastMessages(showLast) | json }}
+
+~~~~~~~~~~
+
+<div *ngFor="let message of controller.getLastMessages(showLast)">
+  {{ message }}
+</div>
