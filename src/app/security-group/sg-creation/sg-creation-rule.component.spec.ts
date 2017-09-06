@@ -6,6 +6,8 @@ import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.
 import { NetworkRule } from '../sg.model';
 import { SgCreationRuleComponent } from './sg-creation-rule.component';
 import { RuleListItem } from './sg-creation.component';
+import { TranslateService } from '@ngx-translate/core';
+import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
 
 
 describe('Sg creation rule component', () => {
@@ -26,6 +28,9 @@ describe('Sg creation rule component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SgCreationRuleComponent, MockTranslatePipe],
+      providers: [
+        { provide: TranslateService, useClass: MockTranslateService },
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
@@ -45,10 +50,10 @@ describe('Sg creation rule component', () => {
       By.css('md-list-item h4')
     ).nativeElement.textContent;
 
-    expect(listContent).toContain('INGRESS');
-    expect(listContent).toContain(mockRuleItem.rule.CIDR);
-    expect(listContent).toContain(mockRuleItem.rule.protocol.toUpperCase());
-    expect(listContent).toContain(mockRuleItem.rule.startPort);
-    expect(listContent).toContain(mockRuleItem.rule.endPort);
+    expect(listContent).toContain('SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE_PORT_RANGE');
+
+    comp.item.endport = 1;
+    f.detectChanges();
+    expect(listContent).toContain('SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE');
   });
 });
