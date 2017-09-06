@@ -31,4 +31,4 @@ fi
 echo $ENDPOINT
 # Starting server
 echo ******Starting Nginx******
-docker run -e "CLIENT_ENDPOINT=$ENDPOINT" -e "PULSE_PLUGIN_ENDPOINT=$PULSE_PLUGIN_ENDPOINT" -d -p $DEPLOY_PORT:80 --name $CONTAINER_NAME $CONFIG_MOUNT  bwsw/cloudstack-ui;;
+docker run -e "CLIENT_ENDPOINT=$ENDPOINT" -e "PULSE_PLUGIN_ENDPOINT=$PULSE_PLUGIN_ENDPOINT" -d -p $DEPLOY_PORT:80 --name $CONTAINER_NAME $CONFIG_MOUNT bwsw/cloudstack-ui;
