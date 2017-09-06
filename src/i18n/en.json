@@ -391,13 +391,12 @@
       }
     },
     "NETWORK_DETAILS": {
-      "NETWORK_CONFIGURATION": "Network configuration",
-      "NIC": "NIC",
-      "IP": "IP",
+      "NIC_NAME": "NIC#{{ value }} Configuration",
+      "IP": "IPv4",
       "ARE_YOU_SURE_ADD_SECONDARY_IP": "Are you sure you want to add a secondary IP?",
       "ARE_YOU_SURE_REMOVE_SECONDARY_IP": "Are you sure you want to remove this secondary IP?",
       "broadcastUri": "Broadcast URI",
-      "gateway": "Gateway",
+      "gateway": "Gateway v4",
       "ip6Address": "IPv6 address",
       "ip6Cidr": "IPv6 CIDR",
       "ip6Gateway": "IPv6 gateway",

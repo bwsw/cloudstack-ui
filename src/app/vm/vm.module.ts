@@ -4,12 +4,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-
-    MdButtonModule,
-    MdDialogModule,MdIconModule,
-    MdMenuModule,
+  MdIconModule,
+  MdButtonModule,
+  MdDialogModule,
+  MdMenuModule,
   MdSelectModule,
-    MdTabsModule,
+  MdTabsModule,
   MdTooltipModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
@@ -28,18 +28,7 @@ import { TemplateModule } from '../template';
 import { VmActionsService } from './shared/vm-actions.service';
 import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
 import { VmService } from './shared/vm.service';
-import { VmStartActionSilent } from './vm-actions/silent/vm-start-silent';
-import { VmStopActionSilent } from './vm-actions/silent/vm-stop-silent';
 import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions.component';
-import { VmChangeServiceOfferingAction } from './vm-actions/vm-change-service-offering';
-import { VmConsoleAction } from './vm-actions/vm-console';
-import { VmDestroyAction } from './vm-actions/vm-destroy';
-import { VmRebootAction } from './vm-actions/vm-reboot';
-import { VmResetPasswordAction } from './vm-actions/vm-reset-password';
-import { VmRestoreAction } from './vm-actions/vm-restore';
-import { VmStartAction } from './vm-actions/vm-start';
-import { VmStopAction } from './vm-actions/vm-stop';
-import { VmWebShellAction } from './vm-actions/vm-webshell';
 import { VmActionProviders } from './vm-actions/index';
 import { VmCreationFormNormalizationService } from './vm-creation/form-normalization/form-normalization.service';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
@@ -58,7 +47,6 @@ import { InstanceGroupComponent } from './vm-sidebar/instance-group/instance-gro
 // tslint:disable-next-line
 import { FirewallRulesDetailComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.component';
 import { NetworkDetailComponent } from './vm-sidebar/network-detail/network-detail.component';
-import { NicDetailComponent } from './vm-sidebar/network-detail/nic/nic-detail.component';
 // tslint:disable-next-line
 import { ServiceOfferingDetailsComponent } from './vm-sidebar/service-offering-details/service-offering-details.component';
 import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.component';
@@ -86,6 +74,12 @@ import { WebShellService } from './web-shell/web-shell.service';
 import { VmCreationDialogComponent } from './vm-creation/vm-creation-dialog.component';
 import { StatisticsComponent } from './vm-sidebar/statistics/statistics.component';
 import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-template.component';
+import { NicComponent } from './vm-sidebar/network-detail/nics/nic/nic.component';
+import { NicListComponent } from './vm-sidebar/network-detail/nics/nic-list/nic-list.component';
+import { SecondaryIpComponent } from './vm-sidebar/network-detail/nics/secondary-ip/secondary-ip.component';
+// tslint:disable-next-line
+import { SecondaryIpListComponent } from './vm-sidebar/network-detail/nics/secondary-ip-list/secondary-ip-list.component';
+import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fields/nic-fields.component';
 
 
 @NgModule({
@@ -122,7 +116,6 @@ import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-templ
     KeyboardsComponent,
     FirewallRulesDetailComponent,
     NetworkDetailComponent,
-    NicDetailComponent,
     ServiceOfferingDetailsComponent,
     SnapshotsComponent,
     SpareDriveAttachmentDetailComponent,
@@ -153,6 +146,11 @@ import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-templ
     VolumeComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,
+    NicComponent,
+    NicListComponent,
+    SecondaryIpComponent,
+    SecondaryIpListComponent,
+    NicFieldsComponent
   ],
   providers: [
     VmActionsService,

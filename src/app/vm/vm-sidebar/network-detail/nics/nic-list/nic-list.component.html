@@ -1,0 +1,6 @@
+<cs-nic
+  *ngFor="let nic of vm?.nic; let i = index"
+  [name]="'VM_PAGE.NETWORK_DETAILS.NIC_NAME' | translate:{ value: i + 1 }"
+  [nic]="nic"
+  [vm]="vm"
+></cs-nic>

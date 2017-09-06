@@ -1,0 +1,23 @@
+<ng-container>
+  <div class="row">
+    <div>{{ 'VM_PAGE.NETWORK_DETAILS.secondaryIp' | translate }}</div>
+    <div>
+      <button
+        mdl-button
+        mdl-button-type="icon"
+        class="mdl-icon-button--small"
+        (click)="confirmAddSecondaryIp()"
+      >
+        <md-icon class="mdl-icon--small">add</md-icon>
+      </button>
+    </div>
+  </div>
+  <div class="secondary-ips">
+    <div class="row" *ngFor="let ip of nic.secondaryIp">
+      <cs-secondary-ip
+        [secondaryIp]="ip"
+        (onRemove)="confirmRemoveSecondaryIp($event)"
+      ></cs-secondary-ip>
+    </div>
+  </div>
+</ng-container>
