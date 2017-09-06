@@ -175,16 +175,13 @@ To run docker container use:
 
 ```
 docker run -d -p 80:80 --name cloudstack-ui \
-           -e API_BACKEND_URL=http://link/to/api/endpoint \
-           -e CONSOLE_BACKEND_URL=http://link/to/console/endpoint \
+           -e CLIENT_ENDPOINT=http://cloudstack/client \
            -e BASE_HREF=base_href \
            -v /path/to/config.json:/static/config/config.json \
            bwsw/cloudstack-ui:1.0.7
 ```
 
-`http://link/to/api/endpoint` - URL of CloudStackAPI endpoint (e.g. http://host:8080/client/api)
-
-`http://link/to/console/endpoint` - URL of CloudStackconsole endpoint (e.g. http://host:8080/client/console)
+`http://cloudstack/client` - URL of CloudStack client endpoint (e.g. http://host:8080/client)
 
 `base_href` - custom base URL (optional, defaults to "/")
 
