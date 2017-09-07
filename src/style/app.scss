@@ -177,11 +177,11 @@ mdl-simple-tooltip div {
   display: flex;
   padding: 2px;
 
-  & > div.first {
+  & > div.flex-1 {
     flex: 1;
   }
 
-  & > div.last {
+  & > div.flex-2 {
     flex: 2;
 
     & span.fixed-length-span {

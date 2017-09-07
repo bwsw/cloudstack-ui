@@ -4,10 +4,13 @@
 }
 
 .row {
-  height: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.disk-type {
+  text-align: right;
 }

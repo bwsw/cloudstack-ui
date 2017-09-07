@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { MdMenuTrigger, MdDialog } from '@angular/material';
+import { MdMenuTrigger } from '@angular/material';
+import { SpareDriveActionsService } from '../../shared/actions/spare-drive-actions/spare-drive-actions.service';
 import { DiskOffering, Volume } from '../../shared/models';
+import { VolumeType } from '../../shared/models/volume.model';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { SpareDriveActionsService } from '../../shared/actions/spare-drive-actions/spare-drive-actions.service';
 import { SpareDriveItem } from '../spare-drive-item';
 
 
@@ -38,6 +39,12 @@ export class SpareDriveItemComponent extends SpareDriveItem implements OnInit, O
     const query = changes.searchQuery;
     if (query) {
       this.query = this.searchQuery();
+    }
+  }
+
+  public get diskType(): string {
+    if (this.item.type === VolumeType.ROOT) {
+      return 'VOLUME_TYPE.ROOT';
     }
   }
 

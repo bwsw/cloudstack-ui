@@ -21,7 +21,7 @@
   </md-card-header>
   <md-card-content>
     <div class="card-wrapper">
-      <div class="first">
+      <div class="flex-1">
         <div class="row" *ngIf="descriptionIncludesQuery">
           {{ 'SPARE_DRIVE_PAGE.CARD.DESCRIPTION' | translate }}:
         </div>
@@ -29,7 +29,8 @@
         <div class="row">{{ 'SPARE_DRIVE_PAGE.CARD.SIZE' | translate }}:</div>
         <div class="row">{{ 'SPARE_DRIVE_PAGE.CARD.STATE' | translate }}:</div>
       </div>
-      <div class="last">
+
+      <div class="flex-1">
         <div class="row" *ngIf="descriptionIncludesQuery">
           <span [innerHTML]="item.description | highlight:query"></span>
         </div>
@@ -39,6 +40,10 @@
         <div class="row">
           <span>{{ stateTranslationToken | translate }}</span>
         </div>
+      </div>
+
+      <div class="flex-1 disk-type">
+        {{ diskType | translate }}
       </div>
     </div>
   </md-card-content>

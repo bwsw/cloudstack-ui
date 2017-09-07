@@ -18,7 +18,21 @@
     >
       <md-option *ngFor="let z of zones" [value]="z">{{ z.name }}</md-option>
     </md-select>
+
+    <md-select
+      class="filter-select"
+      multiple="true"
+      [placeholder]="'SPARE_DRIVE_PAGE.FILTERS.SELECT_TYPES' | translate"
+      [(ngModel)]="selectedTypes"
+      (change)="update()"
+    >
+      <md-option *ngFor="let t of types" [value]="t">
+        {{ getVolumeTypeName(t) | translate }}
+      </md-option>
+    </md-select>
+
     <cs-divider-vertical></cs-divider-vertical>
+
     <md-select
       *ngIf="zones"
       class="filter-select"

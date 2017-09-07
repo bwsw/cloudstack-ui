@@ -454,8 +454,10 @@
     "FILTERS": {
       "SPARE_DRIVES_ONLY": "Spare drives only",
       "SELECT_ZONES": "Select zones",
+      "SELECT_TYPES": "Select types",
       "GROUP_BY": "Group by",
-      "GROUP_BY_ZONES": "Zones"
+      "GROUP_BY_ZONES": "Zones",
+      "GROUP_BY_TYPES": "Types"
     },
     "CARD": {
       "DESCRIPTION": "Description",
@@ -1010,6 +1012,10 @@
     "DESTROY_IN_PROGRESS": "Destroying",
     "DEPLOY_IN_PROGRESS": "Deploying",
     "RESET_PASSWORD_IN_PROGRESS": "Resetting password"
+  },
+  "VOLUME_TYPE": {
+    "ROOT": "ROOT",
+    "DATADISK": "DATADISK"
   },
   "DATE_TIME": {
     "AM": "AM",

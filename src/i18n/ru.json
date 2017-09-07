@@ -454,8 +454,10 @@
     "FILTERS": {
       "SPARE_DRIVES_ONLY": "Только свободные диски",
       "SELECT_ZONES": "Выберите зоны",
+      "SELECT_TYPES": "Выберите типы",
       "GROUP_BY": "Группировать по",
-      "GROUP_BY_ZONES": "Зонам"
+      "GROUP_BY_ZONES": "Зонам",
+      "GROUP_BY_TYPES": "Типам"
     },
     "CARD": {
       "DESCRIPTION": "Описание",
@@ -991,6 +993,10 @@
     "DESTROY_IN_PROGRESS": "Уничтожение",
     "DEPLOY_IN_PROGRESS": "Развертывание",
     "RESET_PASSWORD_IN_PROGRESS": "Сброс пароля"
+  },
+  "VOLUME_TYPE": {
+    "ROOT": "ROOT",
+    "DATADISK": "DATADISK"
   },
   "DATE_TIME": {
     "AM": "AM",
