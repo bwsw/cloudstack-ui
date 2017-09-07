@@ -7,8 +7,8 @@
 >
   <md-icon
     *ngIf="unseenCount"
-    mdl-badge="{{ unseenCount }}"
-    mdl-badge-overlap
+    [csBadge]="unseenCount"
+    csBadgeOverlap
   >
     notifications
   </md-icon>

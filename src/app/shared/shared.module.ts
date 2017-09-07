@@ -1,4 +1,3 @@
-import { MdlBadgeModule } from '@angular-mdl/core';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -36,6 +35,7 @@ import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-driv
 import { SpareDriveSnapshotAction } from './actions/spare-drive-actions/spare-drive-snapshot';
 import { TemplateActionsComponent } from './actions/template-actions/template-actions-component/template-actions.component';
 import { TemplateActionsService } from './actions/template-actions/template-actions.service';
+import { BadgeModule } from './badge/';
 import {
   CalendarComponent,
   CalendarMonthComponent,
@@ -145,7 +145,7 @@ import { ZoneService } from './services/zone.service';
     MdSnackBarModule,
     MdTableModule,
     MdTabsModule,
-    MdlBadgeModule,
+    BadgeModule,
     PopoverModule,
     TranslateModule,
   ],
