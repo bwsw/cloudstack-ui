@@ -17,4 +17,10 @@ export class ProgressLoggerController {
   public addMessage(message: ProgressLoggerMessage): void {
     this._messages.push(message);
   }
+
+  public updateLastMessage(newMessage: ProgressLoggerMessage): void {
+    this._messages = this._messages
+      .slice(0, this._messages.length - 1)
+      .concat([newMessage]);
+  }
 }

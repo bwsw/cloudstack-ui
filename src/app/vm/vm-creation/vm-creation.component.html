@@ -1,8 +1,10 @@
 <div class="overlay" *ngIf="showOverlay">
   <div class="message">
-    <p *ngIf="showSecurityGroupOverlay">{{ 'VM_PAGE.VM_CREATION.CREATING_SG' | translate }}</p>
-    <p *ngIf="showAffinityGroupOverlay">{{ 'VM_PAGE.VM_CREATION.CREATING_AG' | translate }}</p>
-    <p *ngIf="showDeploymentOverlay">{{ 'VM_PAGE.VM_CREATION.DEPLOYING_VM' | translate }}</p>
+    <cs-progress-logger
+      [controller]="progressLoggerController"
+      [showLast]="5"
+    ></cs-progress-logger>
+
     <mdl-progress [indeterminate]="true"></mdl-progress>
   </div>
 </div>

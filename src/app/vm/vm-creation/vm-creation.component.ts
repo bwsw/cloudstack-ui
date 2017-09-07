@@ -20,6 +20,7 @@ import {
   VmDeploymentService,
   VmDeploymentStage
 } from './services/vm-deployment.service';
+import { ProgressLoggerController } from '../../shared/components/progress-logger/progress-logger.service';
 
 export interface VmCreationFormState {
   data: VmCreationData;
@@ -56,6 +57,7 @@ export class VmCreationComponent implements OnInit {
 
   public takenName: string;
   public creationStage = VmCreationStage.editing;
+  public progressLoggerController = new ProgressLoggerController();
 
   constructor(
     private dialogRef: MdDialogRef<VmCreationComponent>,
@@ -107,18 +109,6 @@ export class VmCreationComponent implements OnInit {
 
   public get showOverlay(): boolean {
     return this.creationStage !== VmCreationStage.editing;
-  }
-
-  public get showAffinityGroupOverlay(): boolean {
-    return this.creationStage === VmCreationStage.agCreationInProgress;
-  }
-
-  public get showSecurityGroupOverlay(): boolean {
-    return this.creationStage === VmCreationStage.sgCreationInProgress;
-  }
-
-  public get showDeploymentOverlay(): boolean {
-    return this.creationStage === VmCreationStage.vmDeploymentInProgress;
   }
 
   public displayNameChange(value: string): void {
@@ -282,18 +272,43 @@ export class VmCreationComponent implements OnInit {
         break;
       case VmDeploymentStage.AG_GROUP_CREATION:
         this.creationStage = VmCreationStage.agCreationInProgress;
+
+        this.progressLoggerController.addMessage({
+          text: 'VM_PAGE.VM_CREATION.CREATING_AG'
+        });
+
         break;
       case VmDeploymentStage.AG_GROUP_CREATION_FINISHED:
         this.creationStage = VmCreationStage.vmDeploymentInProgress;
+
+        this.progressLoggerController.updateLastMessage({
+          text: 'VM_PAGE.VM_CREATION.CREATING_AG_DONE'
+        });
+
         break;
       case VmDeploymentStage.SG_GROUP_CREATION:
         this.creationStage = VmCreationStage.sgCreationInProgress;
+
+        this.progressLoggerController.addMessage({
+          text: 'VM_PAGE.VM_CREATION.CREATING_SG'
+        });
+
         break;
       case VmDeploymentStage.SG_GROUP_CREATION_FINISHED:
         this.creationStage = VmCreationStage.vmDeploymentInProgress;
+
+        this.progressLoggerController.updateLastMessage({
+          text: 'VM_PAGE.VM_CREATION.CREATING_SG_DONE'
+        });
+
         break;
       case VmDeploymentStage.IN_PROGRESS:
         this.creationStage = VmCreationStage.vmDeploymentInProgress;
+
+        this.progressLoggerController.addMessage({
+          text: 'VM_PAGE.VM_CREATION.DEPLOYING_VM'
+        });
+
         break;
       case VmDeploymentStage.FINISHED:
         this.dialogRef.close();
