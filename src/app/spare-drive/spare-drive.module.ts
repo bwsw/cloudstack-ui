@@ -12,6 +12,7 @@ import {
   MdTabsModule,
   MdTooltipModule
 } from '@angular/material';
+import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { SpareDriveAttachmentComponent } from '../shared/actions/spare-drive-actions/spare-drive-attachment/spare-drive-attachment.component';
@@ -31,7 +32,6 @@ import { SnapshotActionsComponent } from './spare-drive-sidebar/snapshot-details
 import { SpareDriveSnapshotComponent } from './spare-drive-sidebar/snapshot-details/snapshot/spare-drive-snapshot.component';
 import { SpareDriveSnapshotDetailsComponent } from './spare-drive-sidebar/snapshot-details/spare-drive-snapshot-details.component';
 import { SpareDriveSidebarComponent } from './spare-drive-sidebar/spare-drive-sidebar.component';
-import { spareDrivesRouting } from './spare-drive.routing';
 
 
 @NgModule({
@@ -43,7 +43,7 @@ import { spareDrivesRouting } from './spare-drive.routing';
     MdSelectModule,
     MdTooltipModule,
     SharedModule,
-    spareDrivesRouting,
+    RouterModule,
     DynamicModule.withComponents([SpareDriveItemComponent]),
     MdMenuModule,
     MdButtonModule,

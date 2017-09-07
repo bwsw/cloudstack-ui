@@ -1,4 +1,3 @@
-import { DISABLE_NATIVE_VALIDITY_CHECKING, MdlModule } from '@angular-mdl/core';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -10,6 +9,7 @@ import {
   MdIconModule,
   MdInputModule,
   MdProgressSpinnerModule,
+  MdSidenavModule,
   MdTooltipModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
@@ -25,6 +25,7 @@ import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
 import { DialogModule } from './dialog/dialog-service/dialog.module';
 import { EventsModule } from './events/events.module';
+import { HomeComponent } from './home/home.component';
 import { AppSidebarComponent } from './navigation/app-sidebar.component';
 import { SecurityGroupModule } from './security-group/sg.module';
 import { ServiceOfferingModule } from './service-offering/service-offering.module';
@@ -56,20 +57,20 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
     DragulaModule,
     MdButtonModule,
     MdCheckboxModule,
+    MdSidenavModule,
     MdIconModule,
     MdInputModule,
     MdTooltipModule,
     MdProgressSpinnerModule,
-    MdlModule,
     ScrollDispatchModule,
     DialogModule,
     SecurityGroupModule,
     ServiceOfferingModule,
     SettingsModule,
+    VmModule,
     SpareDriveModule,
     SshKeysModule,
     TemplateModule,
-    VmModule,
     SharedModule,
     TranslateModule.forRoot({
       loader: {
@@ -84,12 +85,10 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
     AppComponent,
     AppSidebarComponent,
     LoginComponent,
-    LogoutComponent
+    LogoutComponent,
+    HomeComponent
   ],
-  providers: [
-    MdDialog,
-    { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true }
-  ],
+  providers: [MdDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule {

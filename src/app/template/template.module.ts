@@ -13,6 +13,7 @@ import {
   MdTabsModule,
   MdTooltipModule
 } from '@angular/material';
+import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { ClipboardModule } from 'ngx-clipboard/dist';
@@ -46,7 +47,6 @@ import { IsoZonesComponent } from './template-sidebar/zones/iso-zones.component'
 import { TemplateZonesComponent } from './template-sidebar/zones/template-zones.component';
 import { IsoTagsComponent } from './template-tags/iso-tags.component';
 import { TemplateTagsComponent } from './template-tags/template-tags.component';
-import { templatesRouting } from './template.routing';
 import { TemplateComponent } from './template/template.component';
 
 
@@ -64,7 +64,7 @@ import { TemplateComponent } from './template/template.component';
     SharedModule,
     TagsModule,
     ClipboardModule,
-    templatesRouting,
+    RouterModule,
     MdMenuModule,
     MdButtonModule,
     MdIconModule,

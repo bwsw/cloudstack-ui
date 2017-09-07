@@ -5,7 +5,6 @@ import { AuthService } from '../shared/services/auth.service';
 import { ConfigService } from '../shared/services/config.service';
 import { NotificationService } from '../shared/services/notification.service';
 
-
 @Component({
   selector: 'cs-login',
   templateUrl: './login.component.html',
@@ -28,8 +27,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private configService: ConfigService
-  ) {
-  }
+  ) {}
 
   public ngOnInit(): void {
     const domainFromConfig = this.configService.get('defaultDomain');
@@ -67,10 +65,13 @@ export class LoginComponent implements OnInit {
   }
 
   private handleLogin(): void {
-    const next = this.route.snapshot.queryParams['next'] &&
-        this.route.snapshot.queryParams['next'] !== '/login' &&
-        this.route.snapshot.queryParams['next'] !== 'login' ? this.route.snapshot.queryParams['next'] : '';
-    this.router.navigateByUrl(next);
+    const nextUrl = this.route.snapshot.queryParams['next'];
+
+    const url =
+      nextUrl && nextUrl !== '/login' && nextUrl !== 'login'
+        ? nextUrl
+        : '/instances';
+    this.router.navigateByUrl(url);
   }
 
   private handleError(error: any): void {

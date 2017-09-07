@@ -1,14 +1,15 @@
 @import '../../../../style/__variables.scss';
 
-.margin-right {
-  transition: margin 0.3s;
+:host {
+  display: block;
+  height: 100%;
 }
 
-.fab.open {
-  margin-right: $sidebar-width + 1;
+md-sidenav-container {
+  height: 100%;
 }
 
-cs-sidebar {
+cs-sidebar, md-sidenav {
   width: $sidebar-width + 1;
 }
 

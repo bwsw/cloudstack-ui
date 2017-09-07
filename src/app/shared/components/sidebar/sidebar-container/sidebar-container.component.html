@@ -1,9 +1,3 @@
-<div cdk-scrollable class="sidebar" [class.open]="isOpen">
+<div cdk-scrollable class="sidebar">
   <ng-content></ng-content>
-</div>
-<div
-  *ngIf="isOpen"
-  class="backdrop"
-  (click)="onDetailsHide()"
->
 </div>

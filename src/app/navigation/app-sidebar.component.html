@@ -26,7 +26,7 @@
     </ng-template>
   </button>
 </div>
-<mdl-layout-title>
+<div>
   <img class="logo" [src]="logoSource">
   <div class="title-header">
     <md-icon class="link-element">person</md-icon>
@@ -34,13 +34,9 @@
       {{ 'NAVIGATION_SIDEBAR.WELCOME' | translate:{ name: title } }}
     </div>
   </div>
-</mdl-layout-title>
+</div>
 
-<nav
-  *ngIf="navigationLoaded"
-  #navigationBar
-  class="mdl-navigation"
->
+<nav *ngIf="navigationLoaded" class="navigation" #navigationBar>
   <div
     [dragula]="dragulaContainerName"
     [dragulaModel]="routes"
@@ -48,7 +44,7 @@
     <ng-container *ngFor="let route of routes">
       <a
         *ngIf="!editing && route.enabled"
-        class="mdl-navigation__link link-container"
+        class="navigation-link link-container"
         [routerLink]="route.path"
         [class.link-hover-light]="isLightTheme"
         [class.link-hover-dark]="!isLightTheme"
@@ -62,7 +58,7 @@
       </a>
       <div
         *ngIf="editing"
-        class="drag mdl-navigation__link link-container"
+        class="drag navigation-link link-container"
       >
         <span
           class="handle"
@@ -82,7 +78,7 @@
   <ng-container *ngFor="let route of nonDraggableRoutes">
     <a
       *ngIf="!editing && route.enabled"
-      class="mdl-navigation__link link-container"
+      class="navigation-link link-container"
       [routerLink]="route.path"
       [class.link-hover-light]="isLightTheme"
       [class.link-hover-dark]="!isLightTheme"

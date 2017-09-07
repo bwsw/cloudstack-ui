@@ -74,7 +74,6 @@ import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize/volume-resize.component';
 import { VmDetailZoneComponent } from './vm-sidebar/zone/zone.component';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
-import { vmRouting } from './vm.routing';
 import { WebShellService } from './web-shell/web-shell.service';
 
 
@@ -98,8 +97,7 @@ import { WebShellService } from './web-shell/web-shell.service';
     TemplateModule,
     TranslateModule,
     PulseModule,
-    vmRouting,
-    RouterModule.forRoot(routes),
+    RouterModule,
     MdMenuModule,
     MdButtonModule,
     MdInputModule,

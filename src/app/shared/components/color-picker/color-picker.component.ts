@@ -40,7 +40,7 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
 
   @Input() public get disabled(): boolean {
     return this._disabled;
-  };
+  }
 
   public set disabled(value) {
     this._disabled = coerceBooleanProperty(value);

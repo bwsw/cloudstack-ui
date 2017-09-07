@@ -4,26 +4,35 @@
   min-height: 100vh;
 }
 
-.mdl-navigation__link md-icon {
-  margin-right: 10px;
-}
+.navigation {
+  flex-direction: column;
+  align-items: stretch;
+  padding-top: 16px;
 
-.mdl-navigation .drag {
-  position: relative;
-}
+  &-link {
+    display: block;
+    padding: 16px 30px !important;
+    flex-shrink: 0;
+    color: #757575;
 
-.mdl-navigation__link > div {
-  display: inline-block;
+    md-icon {
+      margin-right: 10px;
+    }
+
+    & > div {
+      display: inline-block;
+    }
+  }
+
+  .drag {
+    position: relative;
+  }
 }
 
 .link {
-  &-container {
-    padding-left: 30px !important;
-    padding-right: 30px !important;
-  }
-
   &-element {
     display: inline-block;
+    border-color: inherit;
     vertical-align: middle;
   }
 
@@ -51,10 +60,7 @@
 
 a {
   color: inherit !important;
-}
-
-:host /deep/ .link-element {
-  border-color: inherit;
+  text-decoration: none;
 }
 
 .title-header {
@@ -90,6 +96,10 @@ a {
   text-align: center;
   flex: 1;
   align-self: flex-end;
+
+  a {
+    text-decoration: underline;
+  }
 
   &-container {
     display: flex;
@@ -144,7 +154,7 @@ md-checkbox {
   transform: translateY(-50%);
 }
 
-.gu-mirror.mdl-navigation__link {
+.gu-mirror.navigation-link {
   display: block;
   padding: 16px 40px;
   background: rgba(0, 0, 0, 0.2) !important;

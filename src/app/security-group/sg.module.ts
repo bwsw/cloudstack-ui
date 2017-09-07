@@ -11,6 +11,7 @@ import {
   MdSelectModule,
   MdTooltipModule
 } from '@angular/material';
+import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { SharedModule } from '../shared/shared.module';
@@ -22,13 +23,13 @@ import { SgTemplateCreationDialogComponent } from './sg-template-creation/sg-tem
 import { SgTemplateCreationComponent } from './sg-template-creation/sg-template-creation.component';
 import { SgTemplateListItemComponent } from './sg-template-list/sg-template-list-item.component';
 import { SgTemplateListComponent } from './sg-template-list/sg-template-list.component';
-import { sgRouting } from './sg.routing';
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     TranslateModule,
     MdCheckboxModule,
     MdSelectModule,
@@ -38,8 +39,7 @@ import { sgRouting } from './sg.routing';
     MdMenuModule,
     MdButtonModule,
     MdIconModule,
-    MdInputModule,
-    sgRouting
+    MdInputModule
   ],
   exports: [
     SgCreationComponent,

@@ -232,27 +232,9 @@ md-card.custom-card {
   padding: 15px 15px 0 15px;
 }
 
-.detail-list-container {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-}
-
 .popover-actions {
   padding: 1rem;
   color: rgba(0, 0, 0, .87);
-}
-
-.mdl-layout--fixed-drawer > .mdl-layout__drawer {
-  transform: translateX(-240px) !important;
-}
-
-.mdl-layout--fixed-drawer > .mdl-layout__content {
-  margin-left: 0 !important;
-}
-
-.mdl-layout__drawer-button {
-  margin-top: 6px !important;
 }
 
 .mat-icon-button md-icon {

@@ -1,11 +1,12 @@
-<div class="detail-list margin-right">
-  <ng-content select="[cs-panels]"></ng-content>
-  <ng-content select="[cs-list]"></ng-content>
-</div>
+<md-sidenav-container (backdropClick)="hideDetails()">
+  <md-sidenav position="end" [opened]="isOpen">
+    <ng-content select="[cs-sidebar]"></ng-content>
+  </md-sidenav>
 
-<ng-content select="[cs-sidebar]"></ng-content>
+  <div class="detail-list">
+    <ng-content select="[cs-panels]"></ng-content>
+    <ng-content select="[cs-list]"></ng-content>
+  </div>
 
-<cs-fab
-  [isOpen]="isOpen"
-  (click)="onAction.next()"
-></cs-fab>
+  <cs-fab [isOpen]="isOpen" (click)="onAction.next()"></cs-fab>
+</md-sidenav-container>

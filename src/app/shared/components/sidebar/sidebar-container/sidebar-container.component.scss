@@ -2,9 +2,6 @@
 
 .sidebar {
   height: 100%;
-  position: absolute;
-  top: 0;
-  right: -($sidebar-width);
   width: $sidebar-width;
   box-sizing: border-box;
   transition: right 0.3s;
@@ -14,10 +11,6 @@
   padding: 10px 5px;
   border-left: 1px solid #E0E0E0;
   z-index: 2;
-}
-
-.sidebar.open {
-  right: 0;
 }
 
 .sidebar /deep/ h4 {
@@ -49,7 +42,7 @@
   line-height: 18px;
 
   & .md-card-content-container {
-    padding-bottom: 0px;
+    padding-bottom: 0;
     margin-bottom: 16px;
   }
 }
@@ -62,14 +55,4 @@
 .sidebar /deep/ .expanded-panel .row {
   display: flex;
   justify-content: space-between;
-}
-
-.backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: rgba(0,0,0,0.1);
-  z-index: 1;
 }

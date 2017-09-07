@@ -9,6 +9,7 @@ import {
   MdMenuModule,
   MdTooltipModule
 } from '@angular/material';
+import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard/dist';
 import { SharedModule } from '../shared/shared.module';
@@ -19,7 +20,6 @@ import { SshKeyListItemComponent } from './ssh-key-list-item.component';
 
 import { SshKeyListComponent } from './ssh-key-list.component';
 import { SshKeysPageComponent } from './ssh-keys-page.component';
-import { sshKeysRouting } from './ssh-keys.routing';
 
 
 @NgModule({
@@ -27,6 +27,7 @@ import { sshKeysRouting } from './ssh-keys.routing';
     CommonModule,
     ClipboardModule,
     FormsModule,
+    RouterModule,
     SharedModule,
     TranslateModule,
     MdTooltipModule,
@@ -35,7 +36,6 @@ import { sshKeysRouting } from './ssh-keys.routing';
     MdButtonModule,
     MdIconModule,
     MdInputModule,
-    sshKeysRouting
   ],
   exports: [SshKeysPageComponent],
   declarations: [
