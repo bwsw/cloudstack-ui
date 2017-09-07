@@ -10,9 +10,19 @@
 
   <cs-search
     [(ngModel)]="query"
-    (ngModelChange)="updateSearchResults(query)"
+    (ngModelChange)="updateFilterResults()"
   ></cs-search>
+
 </div>
+
+<md-checkbox
+  name="showSystemTags"
+  [(ngModel)]="showSystemTags"
+  (change)="onShowSystemTagsChange()"
+>
+  {{ 'TAGS.SHOW_SYSTEM_TAGS' | translate }}
+</md-checkbox>
+
 
 <cs-tag-category
   *ngFor="let category of visibleCategories"

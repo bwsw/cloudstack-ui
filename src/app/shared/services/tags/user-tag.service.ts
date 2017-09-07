@@ -110,6 +110,19 @@ export class UserTagService implements EntityTagService {
       .map(() => +timeout);
   }
 
+  public getShowSystemTags(): Observable<boolean> {
+    return this.readTag(this.keys.showSystemTags)
+      .map(value => Utils.convertBooleanStringToBoolean(value));
+  }
+
+  public setShowSystemTags(show: boolean): Observable<boolean> {
+    return this.writeTag(
+      this.keys.showSystemTags,
+      Utils.convertBooleanToBooleanString(show)
+    )
+      .map(() => show);
+  }
+
   public getTimeFormat(): Observable<TimeFormat> {
     return this.readTag(this.keys.timeFormat) as Observable<TimeFormat>;
   }

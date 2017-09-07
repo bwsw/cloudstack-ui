@@ -3,7 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
+  OnChanges, OnInit,
   Output,
   SimpleChanges
 } from '@angular/core';
@@ -15,6 +15,8 @@ import { defaultCategoryName, Tag } from '../../shared/models';
 import { Utils } from '../../shared/services/utils.service';
 import { TagCategory } from '../tag-category/tag-category.component';
 import { TagEditComponent } from '../tag-edit/tag-edit.component';
+import { filterWithPredicates } from '../../shared/utils/filter';
+import { UserTagService } from '../../shared/services/tags/user-tag.service';
 
 export interface TagEditAction {
   oldTag: Tag;
@@ -31,9 +33,9 @@ export interface KeyValuePair {
   templateUrl: 'tags-view.component.html',
   styleUrls: ['tags-view.component.scss']
 })
-export class TagsViewComponent implements OnChanges {
+export class TagsViewComponent implements OnInit, OnChanges {
   @Input() public tags: Array<Tag>;
-  @Input() public canAddTag: boolean = true;
+  @Input() public canAddTag = true;
   @Output() public onTagAdd: EventEmitter<Partial<Tag>>;
   @Output() public onTagEdit: EventEmitter<TagEditAction>;
   @Output() public onTagDelete: EventEmitter<Tag>;
@@ -41,14 +43,24 @@ export class TagsViewComponent implements OnChanges {
   public categories: Array<TagCategory>;
   public query: string;
   public visibleCategories: Array<TagCategory>;
+  public showSystemTags = false;
 
   constructor(
     private cd: ChangeDetectorRef,
     private dialog: MdDialog,
+    private userTagService: UserTagService
   ) {
     this.onTagAdd = new EventEmitter<Tag>();
     this.onTagEdit = new EventEmitter<TagEditAction>();
     this.onTagDelete = new EventEmitter<Tag>();
+  }
+
+  public ngOnInit(): void {
+    this.userTagService.getShowSystemTags()
+      .subscribe(show => {
+        this.showSystemTags = show;
+        this.updateFilterResults();
+      });
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -86,26 +98,29 @@ export class TagsViewComponent implements OnChanges {
       .subscribe(tagEditAction => this.onTagEdit.emit(tagEditAction));
   }
 
+  public onShowSystemTagsChange(): void {
+    this.updateFilterResults();
+    this.userTagService
+      .setShowSystemTags(this.showSystemTags)
+      .subscribe();
+  }
+
   public removeTag(tag: Tag): void {
     this.onTagDelete.emit(tag);
   }
 
   public updateResults(): void {
     this.categories = this.getCategories();
-    this.updateSearchResults(this.query);
+    this.updateFilterResults();
   }
 
-  public updateSearchResults(query: string): void {
-    this.visibleCategories = this.getSearchResults(query);
+  public updateFilterResults(): void {
+    this.visibleCategories = this.getFilterResults();
     this.cd.detectChanges();
   }
 
-  private getSearchResults(query: string): Array<TagCategory> {
+  private getFilterResults(): Array<TagCategory> {
     let categories = cloneDeep(this.categories);
-
-    if (!query) {
-      return categories;
-    }
 
     categories = categories.filter(category => {
       return this.filterTags(category.tags).length;
@@ -117,12 +132,28 @@ export class TagsViewComponent implements OnChanges {
   }
 
   private filterTags(tags: Array<Tag>): Array<Tag> {
-    return tags.filter(tag => {
+    return filterWithPredicates(
+      tags,
+      [
+        this.filterTagsBySearch(),
+        this.filterTagsBySystem()
+      ]
+    );
+  }
+
+  private filterTagsBySearch(): (tag) => boolean {
+    return (tag) => {
       const keyMatch = Utils.matchLower(tag.key, this.query);
       const valueMatch = Utils.matchLower(tag.value, this.query);
 
       return keyMatch || valueMatch;
-    });
+    };
+  }
+
+  private filterTagsBySystem(): (tag: Tag) => boolean {
+    return (tag) => {
+      return this.showSystemTags || !tag.key.startsWith('csui');
+    };
   }
 
   private getCategories(): Array<TagCategory> {
@@ -144,13 +175,23 @@ export class TagsViewComponent implements OnChanges {
     if (a.name === defaultCategoryName) {
       return -1;
     }
+
     if (b.name === defaultCategoryName) {
+      return 1;
+    }
+
+    if (a.name.startsWith('csui')) {
+      return -1;
+    }
+
+    if (b.name.startsWith('csui')) {
       return 1;
     }
 
     if (aName < bName) {
       return -1;
     }
+
     if (aName > bName) {
       return 1;
     }

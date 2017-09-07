@@ -2,7 +2,7 @@ import { MdlModule } from '@angular-mdl/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdIconModule, MdTooltipModule, MdDialogModule } from '@angular/material';
+import { MdIconModule, MdTooltipModule, MdDialogModule, MdCheckboxModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard/dist';
 import { SharedModule } from '../shared/shared.module';
@@ -22,7 +22,8 @@ import { TagsViewComponent } from './tags-view/tags-view.component';
     MdlModule,
     MdDialogModule,
     SharedModule,
-    ClipboardModule
+    ClipboardModule,
+    MdCheckboxModule
   ],
   declarations: [
     TagComponent,
