@@ -838,7 +838,8 @@
     "AUTO_GENERATED": "автогенерируемый",
     "SAVE_THIS_KEY": "Пожалуйста, скопируйте этот ключ, так как он не будет сохранен",
     "REMOVE_THIS_KEY": "Вы уверены, что хотите удалить этот ключ?",
-    "KEY_REMOVAL_FAILED": "Не удалось удалить ключ"
+    "KEY_REMOVAL_FAILED": "Не удалось удалить ключ",
+    "SSH_KEY_PAIR_NOT_FOUND": "SSH ключ не найден"
   },
   "SETTINGS": {
     "SECURITY": {

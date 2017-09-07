@@ -1,0 +1,16 @@
+<div *ngIf="entity">
+  <div class="title-container">
+    <h4 class="details-header">{{ entity?.name }}</h4>
+  </div>
+
+  <cs-description
+    [description]="description"
+    (descriptionChange)="onDescriptionChange($event)"
+  ></cs-description>
+</div>
+
+<router-outlet></router-outlet>
+
+<cs-no-results *ngIf="notFound" [text]="'SSH_KEY_PAIR_NOT_FOUND'"></cs-no-results>
+
+<cs-overlay-loading [active]="!entity && !notFound"></cs-overlay-loading>

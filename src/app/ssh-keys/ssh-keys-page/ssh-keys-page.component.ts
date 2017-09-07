@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { MdDialog } from '@angular/material';
-import { Observable } from 'rxjs';
-import { DialogService } from '../dialog/dialog-service/dialog.service';
-import { SSHKeyPair } from '../shared/models';
-import { SSHKeyPairService } from '../shared/services/ssh-keypair.service';
-import * as sortBy from 'lodash/sortBy';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ListService } from '../shared/components/list/list.service';
+import * as sortBy from 'lodash/sortBy';
+import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { ListService } from '../../shared/components/list/list.service';
+import { SSHKeyPair } from '../../shared/models';
+import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
 
 
 @Component({
@@ -16,13 +15,13 @@ import { ListService } from '../shared/components/list/list.service';
   providers: [ListService]
 })
 export class SshKeysPageComponent implements OnInit {
+  @HostBinding('class.detail-list-container') public detailListContainer = true;
   public sshKeyList: Array<SSHKeyPair>;
 
   constructor(
+    public listService: ListService,
     private dialogService: DialogService,
-    private dialog: MdDialog,
     private sshKeyService: SSHKeyPairService,
-    private listService: ListService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {}
@@ -45,7 +44,7 @@ export class SshKeysPageComponent implements OnInit {
   }
 
   private showRemovalDialog(name: string): void {
-     this.dialogService.confirm({ message: 'SSH_KEYS.REMOVE_THIS_KEY'})
+    this.dialogService.confirm({ message: 'SSH_KEYS.REMOVE_THIS_KEY'})
       .onErrorResumeNext()
       .switchMap((res) => {
         if (res) {
