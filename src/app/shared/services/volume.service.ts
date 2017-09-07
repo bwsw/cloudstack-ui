@@ -132,6 +132,9 @@ export class VolumeService extends BaseBackendService<Volume> {
   }
 
   public markForRemoval(volume: Volume): Observable< Volume> {
+    if (volume.snapshots) {
+      volume.snapshots.forEach((snapshot) => this.snapshotService.remove(snapshot.id));
+    }
     return this.volumeTagService.markForRemoval(volume);
   }
 }
