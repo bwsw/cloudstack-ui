@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Color } from '../../models/color.model';
 import { ResourceTypes } from '../../models/tag.model';
 import { DayOfWeek } from '../../types/day-of-week';
 import { Language, TimeFormat } from '../language.service';
@@ -29,13 +28,13 @@ export class UserTagService implements EntityTagService {
     return id ? { id } : undefined;
   }
 
-  public getAccentColor(): Observable<string> {
-    return this.readTag(this.keys.accentColor);
+  public getTheme(): Observable<string> {
+    return this.readTag(this.keys.theme);
   }
 
-  public setAccentColor(color: Color): Observable<Color> {
-    return this.writeTag(this.keys.accentColor, color.name)
-      .map(() => color);
+  public setTheme(themeName: string): Observable<string> {
+    return this.writeTag(this.keys.theme, themeName)
+      .mapTo(themeName);
   }
 
   public getAskToCreateVm(): Observable<boolean> {
@@ -89,15 +88,6 @@ export class UserTagService implements EntityTagService {
   public setLastVmId(id: number): Observable<number> {
     return this.writeTag(this.keys.lastVmId, id.toString())
       .map(() => id);
-  }
-
-  public getPrimaryColor(): Observable<string> {
-    return this.readTag(this.keys.primaryColor);
-  }
-
-  public setPrimaryColor(color: Color): Observable<Color> {
-    return this.writeTag(this.keys.primaryColor, color.name)
-      .map(() => color);
   }
 
   public getSessionTimeout(): Observable<number> {

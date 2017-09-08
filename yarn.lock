@@ -10,10 +10,6 @@
     source-map "^0.5.6"
     typescript "^2.3.3"
 
-"@angular-mdl/core@4.0.8":
-  version "4.0.8"
-  resolved "https://registry.yarnpkg.com/@angular-mdl/core/-/core-4.0.8.tgz#01dee7c6f92663a57ba79f248d85e6f233eba073"
-
 "@angular/animations@4.3.6":
   version "4.3.6"
   resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-4.3.6.tgz#bf9283ec7c8c98b32f569d84dcda10890fdc0262"

@@ -7,7 +7,6 @@ $badge-overlap: 14px;
   white-space: nowrap;
 
   &[data-badge]::before {
-    @extend .mdl-color--accent; // TODO(andrewbents): remove
     content: attr(data-badge);
     display: flex;
     flex-flow: row wrap;

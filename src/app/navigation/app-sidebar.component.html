@@ -27,7 +27,7 @@
   </button>
 </div>
 <div>
-  <img class="logo" [src]="logoSource">
+  <div class="logo"></div>
   <div class="title-header">
     <md-icon class="link-element">person</md-icon>
     <div class="link-element">
@@ -46,9 +46,7 @@
         *ngIf="!editing && route.enabled"
         class="navigation-link link-container"
         [routerLink]="route.path"
-        [class.link-hover-light]="isLightTheme"
-        [class.link-hover-dark]="!isLightTheme"
-        [routerLinkActive]="linkActiveStyle"
+        routerLinkActive="link-active"
         (click)="linkClick(route.path)"
       >
         <md-icon [@linkSlide]="'in'" class="link-element" [ngClass]="route.className">
@@ -80,9 +78,7 @@
       *ngIf="!editing && route.enabled"
       class="navigation-link link-container"
       [routerLink]="route.path"
-      [class.link-hover-light]="isLightTheme"
-      [class.link-hover-dark]="!isLightTheme"
-      [routerLinkActive]="linkActiveStyle"
+      routerLinkActive="link-active"
       (click)="linkClick(route.path)"
     >
       <md-icon class="link-element" [ngClass]="route.className">

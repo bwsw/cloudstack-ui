@@ -1,0 +1,7 @@
+@mixin badge-theme($theme) {
+  $accent: map-get($theme, accent);
+
+  .badge[data-badge]::before {
+    background-color: mat-color($accent);
+  }
+}

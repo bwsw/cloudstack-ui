@@ -8,5 +8,6 @@ export const UserTagKeys = {
   primaryColor: 'csui.user.primary-color',
   sessionTimeout: 'csui.user.session-timeout',
   timeFormat: 'csui.user.time-format',
+  theme: 'csui.user.theme',
   navigationOrder: 'csui.user.navigation-order'
 };

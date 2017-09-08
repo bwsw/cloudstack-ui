@@ -762,7 +762,7 @@
       "hour12": "12-Hours Time",
       "hour24": "24-Hours Time",
       "AUTO": "Auto",
-      "PALETTE": "Interface Theme Colors"
+      "THEME": "Theme Color"
     }
   },
 

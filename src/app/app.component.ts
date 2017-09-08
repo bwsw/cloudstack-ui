@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.loadSettings();
+    this.languageService.applyLanguage();
 
     this.error.subscribe(e => this.handleError(e));
     this.auth.loggedIn.subscribe(isLoggedIn => {

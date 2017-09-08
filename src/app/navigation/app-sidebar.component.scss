@@ -14,6 +14,13 @@
     padding: 16px 30px !important;
     flex-shrink: 0;
     color: #757575;
+    text-decoration: none;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0;
+    opacity: .87;
 
     md-icon {
       margin-right: 10px;
@@ -29,33 +36,10 @@
   }
 }
 
-.link {
-  &-element {
-    display: inline-block;
-    border-color: inherit;
-    vertical-align: middle;
-  }
-
-  &-active {
-    &-light {
-      background-color: #757575 !important;
-    }
-
-    &-dark {
-      background-color: #E0E0E0 !important;
-    }
-  }
-
-  &-hover {
-    &-light:hover {
-      background-color: #757575 !important;
-    }
-
-    &-dark:hover {
-      background-color: #E0E0E0 !important;
-
-    }
-  }
+.link-element {
+  display: inline-block;
+  border-color: inherit;
+  vertical-align: middle;
 }
 
 a {
@@ -115,8 +99,10 @@ div.link-container {
 }
 
 .logo {
-  padding: 20px;
+  margin: 20px;
+  height: 47px;
   max-width: 100%;
+  background-size: contain;
 }
 
 .handle {

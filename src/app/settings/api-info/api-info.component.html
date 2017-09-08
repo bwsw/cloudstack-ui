@@ -71,14 +71,14 @@
         </div>
         <div>
           <h5 [translate]="linkFields.apiUrl.title"></h5>
-          <a class="mdl-color-text--primary-dark" target="_blank" [href]="linkFields.apiUrl.href">
+          <a target="_blank" [href]="linkFields.apiUrl.href">
             {{ linkFields.apiUrl.href }}
           </a>
         </div>
 
         <div *ngIf="linkFields.apiDocLink.href">
           <h5 [translate]="linkFields.apiDocLink.title"></h5>
-          <a class="mdl-color-text--primary-dark" target="_blank" [href]="linkFields.apiDocLink.href">
+          <a target="_blank" [href]="linkFields.apiDocLink.href">
             {{ linkFields.apiDocLink.href }}
           </a>
         </div>

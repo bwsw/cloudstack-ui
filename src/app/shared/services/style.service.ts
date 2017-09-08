@@ -1,45 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 import { Color } from '../models';
 import { ConfigService } from './config.service';
 import { UserTagService } from './tags/user-tag.service';
 
-
 interface Theme {
+  name: string;
+  href: string;
   primaryColor: string;
-  accentColor: string;
 }
 
-interface ThemeData {
-  primaryColor: string;
-  accentColor: string;
-  defaultTheme: Theme;
-  themeColors: Array<Color>;
-}
-
-const fallbackTheme: Theme = {
-  primaryColor: 'blue',
-  accentColor: 'red'
-};
-
-const fallbackThemeColors: Array<Color> = [
+export const themes: Array<Theme> = [
   {
-    name: 'red',
-    value: '#F44336',
-    textColor: '#FFFFFF'
+    name: 'blue-red',
+    href: 'css/themes/blue-red.css',
+    primaryColor: '#2196f3'
   },
   {
-    name: 'blue',
-    value: '#2196F3',
-    textColor: '#FFFFFF'
+    name: 'indigo-pink',
+    href: 'css/themes/indigo-pink.css',
+    primaryColor: '#3f51b5'
   }
 ];
+
+const preferredTheme = themes[0]; // the blue-red one is default
 
 @Injectable()
 export class StyleService {
   public styleElement: HTMLLinkElement;
-  public paletteUpdates = new Subject<Color>();
+  private _activeTheme: Theme;
 
   constructor(
     private configService: ConfigService,
@@ -49,58 +38,53 @@ export class StyleService {
   public loadPalette(): void {
     this.initStyleSheet();
 
-    this.getThemeData()
-      .subscribe(themeData => {
-        const primaryColor = themeData.themeColors.find(color => color.name === themeData.primaryColor) ||
-          themeData.themeColors[0];
-        const accentColor = themeData.themeColors.find(color => color.name === themeData.accentColor) ||
-          themeData.themeColors[1];
-        this.updatePalette(primaryColor, accentColor);
-      });
+    this.getTheme().subscribe(theme => this.updateTheme(theme));
   }
 
-  public getThemeData(): Observable<ThemeData> {
-    return Observable.forkJoin(
-      this.userTagService.getPrimaryColor(),
-      this.userTagService.getAccentColor()
-    )
-      .map(([primaryColor, accentColor]) => {
-        let defaultTheme = this.configService.get('defaultTheme');
-        let themeColors = this.configService.get('themeColors');
-        if (!defaultTheme || !defaultTheme['primaryColor'] || !defaultTheme['accentColor']) {
-          defaultTheme = undefined;
-        }
+  public getTheme(): Observable<Theme> {
+    const defaultThemeName = this.configService.get<string>('defaultThemeName');
+    return this.userTagService.getTheme().map(themeName => {
+      let theme = themes.find(t => t.name === themeName);
+      if (!theme) {
+        // if the tag has incorrect theme name, we fallback to default theme
+        // from the config
+        theme = themes.find(t => t.name === defaultThemeName);
+      }
 
-        if (!themeColors  || themeColors.length < 2) {
-          defaultTheme = undefined;
-          themeColors = undefined;
-          primaryColor = undefined;
-          accentColor = undefined;
-        }
-
-        return {
-          primaryColor: primaryColor || (defaultTheme && defaultTheme['primaryColor']) || fallbackTheme['primaryColor'],
-          accentColor: accentColor || (defaultTheme && defaultTheme['accentColor']) || fallbackTheme['accentColor'],
-          defaultTheme: defaultTheme || fallbackTheme,
-          themeColors: themeColors || fallbackThemeColors
-        };
-      });
+      // if the config has incorrect theme name too, we just grab the first one
+      return theme || preferredTheme;
+    });
   }
 
-  public setPalette(primaryColor: Color, accentColor: Color): void {
-    this.userTagService.setPrimaryColor(primaryColor).subscribe();
-    this.userTagService.setAccentColor(accentColor).subscribe();
-    this.updatePalette(primaryColor, accentColor);
-  }
-
-  public updatePalette(primaryColor: Color, accentColor: Color): void {
-    this.styleElement.href = `https://code.getmdl.io/1.3.0/material.${primaryColor.name}-${accentColor.name}.min.css`;
-    this.paletteUpdates.next(primaryColor);
+  public setTheme(primaryColor: Color): void {
+    const theme = themes.find(t => t.primaryColor === primaryColor.value);
+    if (theme) {
+      this.updateTheme(theme);
+      this.userTagService.setTheme(theme.name).subscribe();
+    }
   }
 
   private initStyleSheet(): void {
     this.styleElement = document.createElement('link');
     this.styleElement.setAttribute('rel', 'stylesheet');
     document.head.appendChild(this.styleElement);
+  }
+
+  private updateTheme(theme: Theme) {
+    const { styleElement, _activeTheme } = this;
+
+    // to prevent setting the theme when it's already active
+    const hasChanged = _activeTheme && _activeTheme.href !== theme.href;
+    // to prevent setting the default theme twice after user is
+    // logged in (when the app loads, the default theme loads with it and
+    // the linkElement has empty href, but the user can explicitly
+    // set the default theme in the tag)
+    const notPreferredAfterLogin =
+      !styleElement.href && theme.name !== preferredTheme.name;
+
+    if (hasChanged || notPreferredAfterLogin) {
+      styleElement.href = theme.href;
+    }
+    this._activeTheme = theme;
   }
 }

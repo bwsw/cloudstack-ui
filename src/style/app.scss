@@ -1,7 +1,6 @@
 // styles in src/style directory are applied to the whole page
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
-@import '~@angular-mdl/core/scss/material-design-lite';
-@import "~@angular-mdl/core/scss/color-definitions";
+@import "~@angular/material/theming";
+
 @import "~dragula/dist/dragula.css";
 @import '__variables.scss';
 @import '../app/shared/styles/overlay';
@@ -10,9 +9,26 @@
 @import '../app/shared/styles/md-input';
 @import '../app/shared/badge/badge';
 
+@import "typography";
+@import "app-theme";
+@include mat-core();
+
+$primary: mat-palette($mat-blue);
+$accent: mat-palette($mat-red, A200, A100, A400);
+
+$theme: mat-light-theme($primary, $accent);
+@include angular-material-theme($theme);
+@include cs-ui-theme($theme);
+
 * {
   box-sizing: border-box;
 }
+
+body {
+  font-family: $mat-font-family;
+  margin: 0;
+}
+
 
 .disabled-link {
   cursor: pointer;

@@ -6,7 +6,6 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 })
 export class BadgeDirective {
   @HostBinding('class.badge') public readonly badge = true;
-  @HostBinding('class.mdl-color-accent') public readonly color = true;
   @HostBinding('attr.data-badge') @Input() public csBadge: string;
 
   @HostBinding('class.badge--overlap') private shouldOverlap = false;
