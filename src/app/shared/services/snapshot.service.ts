@@ -38,6 +38,10 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
       });
   }
 
+  public markForRemoval(snapshot: Snapshot): Observable<Snapshot> {
+    return this.snapshotTagService.markForRemoval(snapshot) as Observable<Snapshot>;
+  }
+
   public remove(id: string): Observable<any> {
     this.invalidateCache();
     return this.sendCommand('delete', { id })
