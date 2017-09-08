@@ -13,7 +13,7 @@ import { VmActionsService } from '../../shared/vm-actions.service';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 import { SshKeypairResetComponent } from './../ssh/ssh-keypair-reset.component';
-import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
+import { VmTagService } from '../../../shared/services/tags/vm/vm-tag.service';
 import { ActivatedRoute } from '@angular/router';
 
 
@@ -29,14 +29,13 @@ export class VmDetailComponent implements OnChanges {
   public affinityGroupLoading: boolean;
   public sskKeyLoading: boolean;
 
-
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
+    public vmService: VmService,
     private asyncJobService: AsyncJobService,
     private dialogService: DialogService,
     private dialog: MdDialog,
-    private  vmActionsService: VmActionsService,
-    private vmService: VmService,
+    private vmActionsService: VmActionsService,
     private vmTagService: VmTagService,
     private activatedRoute: ActivatedRoute,
   ) {

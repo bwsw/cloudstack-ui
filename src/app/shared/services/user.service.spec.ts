@@ -20,7 +20,7 @@ import { ErrorService } from './error.service';
 import { LocalStorageService } from './local-storage.service';
 import { RouterUtilsService } from './router-utils.service';
 import { ServiceLocator } from './service-locator';
-import { UserTagService } from './tags/user-tag.service';
+import { UserTagService } from './tags/user/user-tag.service';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
 

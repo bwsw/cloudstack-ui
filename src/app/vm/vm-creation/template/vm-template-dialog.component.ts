@@ -3,9 +3,9 @@ import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 
 import { AuthService } from '../../../shared/services/auth.service';
 import { Template } from '../../../template/shared';
-import { BaseTemplateModel } from '../../../template/shared/base-template.model';
-import { Iso } from '../../../template/shared/iso.model';
-import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
+import { BaseTemplateModel } from '../../../template/shared/base/base-template.model';
+import { Iso } from '../../../template/shared/iso/iso.model';
+import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list/template-filter-list.component';
 
 
 @Component({

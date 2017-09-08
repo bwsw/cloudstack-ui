@@ -508,6 +508,7 @@
       "SELECT_OS_FAMILIES": "Select OS families",
       "SELECT_TYPES": "Select types",
       "SELECT_ZONES": "Select zones",
+      "SELECT_GROUPS": "Select groups",
       "GROUP_BY": "Group by",
       "GROUP_BY_ZONES": "Zones",
       "NO_ZONE": "No zone",

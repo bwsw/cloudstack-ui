@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { BaseTemplateModel } from '../../../../template/shared/base-template.model';
+import { BaseTemplateModel } from '../../../../template/shared/base/base-template.model';
 import { BaseTemplateAction } from '../base-template-action';
 
 

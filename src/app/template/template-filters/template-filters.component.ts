@@ -2,13 +2,16 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
-
 import { OsFamily } from '../../shared/models/os-type.model';
 import { Zone } from '../../shared/models/zone.model';
 import { FilterService } from '../../shared/services/filter.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { TemplateFilters } from '../shared/base-template.service';
+import { TemplateFilters } from '../shared/base/template-filters';
+import { InstanceGroup } from '../../shared/models/instance-group.model';
+import { TemplateService } from '../shared/template/template.service';
+import { Observable } from 'rxjs/Observable';
+import { IsoService } from '../shared/iso/iso.service';
 
 
 @Component({
@@ -35,6 +38,7 @@ export class TemplateFiltersComponent implements OnInit {
 
   public zones: Array<Zone>;
   public selectedZones: Array<Zone>;
+  public selectedGroups: Array<InstanceGroup> = [];
 
   public filterTranslations: {};
 
@@ -66,8 +70,15 @@ export class TemplateFiltersComponent implements OnInit {
       type: 'array',
       defaultOption: []
     },
+    groups: {
+      type: 'array',
+      defaultOption: []
+    },
     query: { type: 'string' },
-    groupings: { type: 'array', defaultOption: [] }
+    groupings: {
+      type: 'array',
+      defaultOption: []
+    }
   }, this.router, this.storageService, this.filtersKey, this.activatedRoute);
 
   private templateTabIndex = 0;
@@ -75,16 +86,21 @@ export class TemplateFiltersComponent implements OnInit {
 
   private queryStream = new Subject<string>();
 
+  private templateGroups: Array<InstanceGroup>;
+  private isoGroups: Array<InstanceGroup>;
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private storageService: LocalStorageService,
+    private templateService: TemplateService,
+    private isoService: IsoService,
     private translateService: TranslateService,
     private zoneService: ZoneService
-  ) {
-  }
+  ) {}
 
   public ngOnInit(): void {
+    this.loadGroups();
     if (!this.dialogMode) {
       this.zoneService.getList()
         .subscribe(zones => {
@@ -110,6 +126,12 @@ export class TemplateFiltersComponent implements OnInit {
         });
         this.filterTranslations = strs;
       });
+
+    Observable.merge(
+      this.templateService.instanceGroupUpdateObservable,
+      this.isoService.instanceGroupUpdateObservable
+    )
+      .subscribe(() => this.loadGroups());
   }
 
   public get templateSwitchPosition(): number {
@@ -126,6 +148,7 @@ export class TemplateFiltersComponent implements OnInit {
       selectedOsFamilies: this.selectedOsFamilies,
       selectedFilters: this.selectedFilters,
       selectedZones: this.selectedZones,
+      selectedGroups: this.selectedGroups,
       query: this.query,
       groupings: this.selectedGroupingNames
     });
@@ -136,6 +159,7 @@ export class TemplateFiltersComponent implements OnInit {
         osFamilies: this.selectedOsFamilies,
         categoryFilters: this.selectedFilters,
         zones: this.selectedZones.map(_ => _.id),
+        groups: this.selectedGroups.map(_ => _.name),
         groupings: this.selectedGroupingNames.map(_ => _.key)
       });
     }
@@ -147,12 +171,23 @@ export class TemplateFiltersComponent implements OnInit {
     this.storageService.write('templateDisplayMode', mode);
   }
 
+  public get groups(): Array<InstanceGroup> {
+    if (this.showIso) {
+      return this.isoGroups;
+    } else {
+      return this.templateGroups;
+    }
+  }
+
   private initFilters(): void {
     const params = this.filterService.getParams();
     this.selectedOsFamilies = params['osFamilies'];
     this.selectedFilters = params['categoryFilters'];
     this.selectedZones = this.zones.filter(
       zone => params['zones'].find(id => id === zone.id));
+    this.selectedGroups = this.groups.filter(group => {
+      return params['groups'].find(name => name === group.name)
+    });
     this.selectedGroupingNames = params['groupings']
       .map(g => this.availableGroupings.find(_ => _.key === g))
       .filter(g => g);
@@ -160,5 +195,16 @@ export class TemplateFiltersComponent implements OnInit {
     this.queryStream.next(this.query);
 
     this.updateFilters();
+  }
+
+  private loadGroups(): void {
+    Observable.forkJoin(
+      this.templateService.getInstanceGroupList(),
+      this.isoService.getInstanceGroupList()
+    )
+      .subscribe(([templateGroups, isoGroups]) => {
+        this.templateGroups = templateGroups;
+        this.isoGroups = isoGroups;
+      });
   }
 }

@@ -9,7 +9,10 @@
 
     <cs-zone [vm]="vm"></cs-zone>
 
-    <cs-instance-group [vm]="vm"></cs-instance-group>
+    <cs-instance-group
+      [entity]="vm"
+      [entityService]="vmService"
+    ></cs-instance-group>
 
     <cs-service-offering-details [vm]="vm"></cs-service-offering-details>
 

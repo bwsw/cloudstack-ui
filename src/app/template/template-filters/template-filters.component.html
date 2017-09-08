@@ -51,7 +51,19 @@
       <md-option *ngFor="let z of zones" [value]="z">{{ z.name }}</md-option>
     </md-select>
 
+    <md-select
+      *ngIf="groups"
+      class="filter-select"
+      multiple="true"
+      [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_GROUPS' | translate"
+      [(ngModel)]="selectedGroups"
+      (change)="updateFilters()"
+    >
+      <md-option *ngFor="let g of groups" [value]="g">{{ g.name }}</md-option>
+    </md-select>
+
     <cs-divider-vertical></cs-divider-vertical>
+
     <md-select
       *ngIf="zones"
       class="filter-select"

@@ -18,8 +18,8 @@ import { TagsModule } from '../tags/tags.module';
 import { IsoAttachmentComponent } from './iso-attachment/iso-attachment.component';
 import { IsoService, TemplateService } from './shared';
 import { TemplateCreationComponent } from './template-creation/template-creation.component';
-import { TemplateFilterListSelectorComponent } from './template-filter-list/template-filter-list-selector.component';
-import { TemplateFilterListComponent } from './template-filter-list/template-filter-list.component';
+import { TemplateFilterListSelectorComponent } from './template-filter-list/template-filter-list-selector/template-filter-list-selector.component';
+import { TemplateFilterListComponent } from './template-filter-list/template-filter-list/template-filter-list.component';
 import { TemplateFiltersComponent } from './template-filters/template-filters.component';
 import { TemplateCardListComponent } from './template-list/template-card-list.component';
 import { TemplateListComponent } from './template-list/template-list.component';
@@ -43,10 +43,13 @@ import { TemplateOsComponent } from './template-sidebar/template-os/template-os.
 import { TemplateOsIconComponent } from './template-sidebar/template-os-icon/template-os-icon.component';
 import { TemplateZonesComponent } from './template-sidebar/zones/template-zones.component';
 import { IsoZonesComponent } from './template-sidebar/zones/iso-zones.component';
-import { TemplateDetailsComponent } from './template-sidebar/details/template-details.component';
-import { IsoDetailsComponent } from './template-sidebar/details/iso-details.component';
+import { TemplateDetailsComponent } from './template-sidebar/details/template/template-details.component';
+import { IsoDetailsComponent } from './template-sidebar/details/iso/iso-details.component';
 import { IsoTagsComponent } from './template-tags/iso-tags.component';
 import { templatesRouting } from './template.routing';
+import { DownloadUrlComponent } from './template-sidebar/details/download-url/download-url.component';
+import { IsoGeneralInformationComponent } from './template-sidebar/details/iso-general-information/iso-general-information.component';
+import { TemplateGeneralInformationComponent } from './template-sidebar/details/template-general-information/template-general-information.component';
 
 
 @NgModule({
@@ -89,7 +92,10 @@ import { templatesRouting } from './template.routing';
     TemplateZonesComponent,
     IsoZonesComponent,
     TemplateDetailsComponent,
-    IsoDetailsComponent
+    IsoDetailsComponent,
+    DownloadUrlComponent,
+    IsoGeneralInformationComponent,
+    TemplateGeneralInformationComponent
   ],
   exports: [
     TemplateFilterListSelectorComponent,

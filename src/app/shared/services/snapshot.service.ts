@@ -4,7 +4,7 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
 import { Snapshot } from '../models/snapshot.model';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
-import { SnapshotTagService } from './tags/snapshot-tag.service';
+import { SnapshotTagService } from './tags/snapshot/snapshot-tag.service';
 import { Subject } from 'rxjs/Subject';
 
 

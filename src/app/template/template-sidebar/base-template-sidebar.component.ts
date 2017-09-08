@@ -5,14 +5,15 @@ import { SidebarComponent } from '../../shared/components/sidebar/sidebar.compon
 import { AuthService } from '../../shared/services/auth.service';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { NotificationService } from '../../shared/services/notification.service';
-import { BaseTemplateModel } from '../shared/base-template.model';
-import { BaseTemplateService } from '../shared/base-template.service';
+import { BaseTemplateModel } from '../shared/base/base-template.model';
+import { BaseTemplateService } from '../shared/base/base-template.service';
 
-export abstract class BaseTemplateSidebarComponent extends SidebarComponent<BaseTemplateModel> {
-  private service: BaseTemplateService;
+
+export abstract class BaseTemplateSidebarComponent<M extends BaseTemplateModel> extends SidebarComponent<M> {
+  private service: BaseTemplateService<M>;
 
   constructor(
-    service: BaseTemplateService,
+    service: BaseTemplateService<M>,
     public authService: AuthService,
     public dateTimeFormatterService: DateTimeFormatterService,
     protected route: ActivatedRoute,
@@ -30,7 +31,7 @@ export abstract class BaseTemplateSidebarComponent extends SidebarComponent<Base
     );
   }
 
-  protected loadEntity(id: string): Observable<BaseTemplateModel> {
+  protected loadEntity(id: string): Observable<M> {
     return this.service.getWithGroupedZones(id).switchMap(template => {
       if (template) {
         return Observable.of(template);

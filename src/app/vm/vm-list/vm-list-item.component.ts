@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { MdMenuTrigger } from '@angular/material';
 import { Color } from '../../shared/models';
 import { VirtualMachine } from '../shared/vm.model';
-import { VmTagService } from '../../shared/services/tags/vm-tag.service';
+import { VmTagService } from '../../shared/services/tags/vm/vm-tag.service';
 
 
 @Component({

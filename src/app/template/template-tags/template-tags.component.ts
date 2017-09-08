@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TagService } from '../../shared/services/tags/tag.service';
+import { TagService } from '../../shared/services/tags/common/tag.service';
 import { TemplateService } from '../shared';
 import { BaseTemplateTagsComponent } from './tags.component';
 import { ActivatedRoute } from '@angular/router';

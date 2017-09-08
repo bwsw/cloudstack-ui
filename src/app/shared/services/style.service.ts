@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Color } from '../models';
 import { ConfigService } from './config.service';
-import { UserTagService } from './tags/user-tag.service';
+import { UserTagService } from './tags/user/user-tag.service';
 
 interface Theme {
   primaryColor: string;

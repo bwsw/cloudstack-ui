@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FilterConfig, FilterService } from './filter.service';
 import { RouterUtilsService } from './router-utils.service';
 import { LocalStorageService } from './local-storage.service';
-import { TagService } from './tags/tag.service';
+import { TagService } from './tags/common/tag.service';
 import { MemoryStorageService } from './memory-storage.service';
 
 describe('Filter service', () => {

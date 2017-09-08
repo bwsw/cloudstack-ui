@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { TagService } from '../../shared/services/tags/tag.service';
+import { TagService } from '../../shared/services/tags/common/tag.service';
 import { BaseTemplateTagsComponent } from './tags.component';
 import { ActivatedRoute } from '@angular/router';
-import { IsoService } from '../shared/iso.service';
+import { IsoService } from '../shared/iso/iso.service';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 
 

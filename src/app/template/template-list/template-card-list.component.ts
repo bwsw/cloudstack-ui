@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ListService } from '../../shared/components/list/list.service';
 import { Template } from '../shared';
-import { BaseTemplateModel } from '../shared/base-template.model';
+import { BaseTemplateModel } from '../shared/base/base-template.model';
 import { TemplateComponent } from '../template/template.component';
 
 

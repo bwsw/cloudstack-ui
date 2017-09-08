@@ -504,6 +504,7 @@
       "SELECT_OS_FAMILIES": "Выберите ОС",
       "SELECT_TYPES": "Выберите типы",
       "SELECT_ZONES": "Выберите зоны",
+      "SELECT_GROUPS": "Выберите группы",
       "GROUP_BY": "Группировать по",
       "GROUP_BY_ZONES": "Зонам",
       "NO_ZONE": "Вне зоны",

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { BaseTemplateModel } from '../../../../template/shared/base-template.model';
+import { BaseTemplateModel } from '../../../../template/shared/base/base-template.model';
 import { IsoActionsService } from '../iso-actions.service';
 import { TemplateActionsService } from '../template-actions.service';
 import { BaseTemplateAction } from '../base-template-action';

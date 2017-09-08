@@ -2,9 +2,9 @@ import { Component, Inject } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 
 import { Iso } from '../shared';
-import { IsoService } from '../shared/iso.service';
-import { TemplateFilters } from '../shared/base-template.service';
+import { IsoService } from '../shared/iso/iso.service';
 import { Observable } from 'rxjs/Observable';
+import { TemplateFilters } from '../shared/base/template-filters';
 
 
 @Component({
@@ -20,7 +20,7 @@ export class IsoAttachmentComponent {
   ];
   public zoneId: string;
 
-  readonly isos$: Observable<Array<Iso>> = this.isoService.getGroupedTemplates<Iso>(
+  readonly isos$: Observable<Array<Iso>> = this.isoService.getGroupedTemplates(
     {},
     this.filters,
     true

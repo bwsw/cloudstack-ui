@@ -7,7 +7,7 @@ import { BackendResource } from '../decorators';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
 import { ConfigService } from './config.service';
-import { SecurityGroupTagService } from './tags/security-group-tag.service';
+import { SecurityGroupTagService } from './tags/security-group/security-group-tag.service';
 
 
 export const GROUP_POSTFIX = '-cs-sg';

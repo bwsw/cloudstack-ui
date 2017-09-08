@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BaseTemplateModel } from '../../shared/base-template.model';
+import { BaseTemplateModel } from '../../shared/base/base-template.model';
 
 
 @Component({

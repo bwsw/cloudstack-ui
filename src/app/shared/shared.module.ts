@@ -15,21 +15,24 @@ import {
   MdSelectModule,
   MdSnackBarModule,
   MdTableModule,
-  MdTabsModule
+  MdTabsModule, MdTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
+// tslint:disable-next-line
 import { SpareDriveActionsComponent } from './actions/spare-drive-actions/spare-drive-actions-component/spare-drive-actions.component';
 import { SpareDriveActionsService } from './actions/spare-drive-actions/spare-drive-actions.service';
 import { SpareDriveAttachAction } from './actions/spare-drive-actions/spare-drive-attach';
+// tslint:disable-next-line
 import { SpareDriveAttachmentComponent } from './actions/spare-drive-actions/spare-drive-attachment/spare-drive-attachment.component';
 import { SpareDriveDetachAction } from './actions/spare-drive-actions/spare-drive-detach';
 import { SpareDriveRecurringSnapshotsAction } from './actions/spare-drive-actions/spare-drive-recurring-snapshots';
 import { SpareDriveRemoveAction } from './actions/spare-drive-actions/spare-drive-remove';
 import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-drive-resize';
 import { SpareDriveSnapshotAction } from './actions/spare-drive-actions/spare-drive-snapshot';
+// tslint:disable-next-line
 import { TemplateActionsComponent } from './actions/template-actions/template-actions-component/template-actions.component';
 import { TemplateActionsService } from './actions/template-actions/template-actions.service';
 import {
@@ -57,6 +60,7 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
+// tslint:disable-next-line
 import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
@@ -89,7 +93,6 @@ import { ConfigService } from './services/config.service';
 import { DateTimeFormatterService } from './services/date-time-formatter.service';
 import { DiskOfferingService } from './services/disk-offering.service';
 import { ErrorService } from './services/error.service';
-import { InstanceGroupService } from './services/instance-group.service';
 import { JobsNotificationService } from './services/jobs-notification.service';
 import { LanguageService } from './services/language.service';
 import { LayoutService } from './services/layout.service';
@@ -108,19 +111,24 @@ import { SnapshotService } from './services/snapshot.service';
 import { SSHKeyPairService } from './services/ssh-keypair.service';
 import { StatsUpdateService } from './services/stats-update.service';
 import { StyleService } from './services/style.service';
-import { DescriptionTagService } from './services/tags/description-tag.service';
-import { MarkForRemovalService } from './services/tags/mark-for-removal.service';
-import { SecurityGroupTagService } from './services/tags/security-group-tag.service';
-import { SnapshotTagService } from './services/tags/snapshot-tag.service';
-import { TagService } from './services/tags/tag.service';
-import { TemplateTagService } from './services/tags/template-tag.service';
-import { UserTagService } from './services/tags/user-tag.service';
-import { VmTagService } from './services/tags/vm-tag.service';
-import { VolumeTagService } from './services/tags/volume-tag.service';
+import { DescriptionTagService } from './services/tags/common/description-tag.service';
+import { MarkForRemovalService } from './services/tags/common/mark-for-removal.service';
+import { SecurityGroupTagService } from './services/tags/security-group/security-group-tag.service';
+import { SnapshotTagService } from './services/tags/snapshot/snapshot-tag.service';
+import { TagService } from './services/tags/common/tag.service';
+import { TemplateTagService } from './services/tags/template/template/template-tag.service';
+import { UserTagService } from './services/tags/user/user-tag.service';
+import { VmTagService } from './services/tags/vm/vm-tag.service';
+import { VolumeTagService } from './services/tags/volume/volume-tag.service';
 import { UserService } from './services/user.service';
 import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
+import { InstanceGroupTagService } from './services/tags/common/instance-group-tag.service';
+import { InstanceGroupComponent } from './components/instance-group/instance-group/instance-group.component';
+// tslint:disable-next-line
+import { InstanceGroupSelectorComponent } from './components/instance-group/instance-group-selector/instance-group-selector.component';
+import { IsoTagService } from './services/tags/template/iso/iso-tag.service';
 
 
 @NgModule({
@@ -143,7 +151,8 @@ import { ZoneService } from './services/zone.service';
     MdTableModule,
     CdkTableModule,
     MdAutocompleteModule,
-    MdInputModule
+    MdInputModule,
+    MdTooltipModule
   ],
   exports: [
     GroupedCardListComponent,
@@ -192,12 +201,15 @@ import { ZoneService } from './services/zone.service';
     SpareDriveActionsComponent,
     TemplateActionsComponent,
     MdAutocompleteModule,
-    MdInputModule
+    MdInputModule,
+    InstanceGroupComponent,
+    InstanceGroupSelectorComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
     LoaderComponent,
-    SpareDriveAttachmentComponent
+    SpareDriveAttachmentComponent,
+    InstanceGroupSelectorComponent
   ],
   declarations: [
     CharacterCountComponent,
@@ -245,7 +257,9 @@ import { ZoneService } from './services/zone.service';
     LoaderComponent,
     GroupedCardListComponent,
     SpareDriveActionsComponent,
-    TemplateActionsComponent
+    TemplateActionsComponent,
+    InstanceGroupComponent,
+    InstanceGroupSelectorComponent
   ],
   providers: [
     AccountService,
@@ -274,7 +288,6 @@ import { ZoneService } from './services/zone.service';
     DateTimeFormatterService,
     DiskOfferingService,
     ErrorService,
-    InstanceGroupService,
     JobsNotificationService,
     LanguageService,
     LayoutService,
@@ -299,7 +312,10 @@ import { ZoneService } from './services/zone.service';
     VolumeService,
     VolumeOfferingService,
     ZoneService,
-    MDL_SELECT_VALUE_ACCESSOR
+    MDL_SELECT_VALUE_ACCESSOR,
+    InstanceGroupTagService,
+    TemplateTagService,
+    IsoTagService
   ]
 })
 export class SharedModule {

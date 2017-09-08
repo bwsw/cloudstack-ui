@@ -6,7 +6,7 @@ import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { DiskOffering, Volume, VolumeType, Zone } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
-import { UserTagService } from '../../shared/services/tags/user-tag.service';
+import { UserTagService } from '../../shared/services/tags/user/user-tag.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { filterWithPredicates } from '../../shared/utils/filter';

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { DiskOffering, Volume } from '../../../../../shared/models';
 import { VolumeOfferingService } from '../../../../../shared/services/volume-offering.service';
-import { VolumeTagService } from '../../../../../shared/services/tags/volume-tag.service';
+import { VolumeTagService } from '../../../../../shared/services/tags/volume/volume-tag.service';
 
 
 @Component({

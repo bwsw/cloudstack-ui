@@ -5,7 +5,7 @@ import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag-keys';
+import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group/security-group-tag-keys';
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
 import { SecurityGroup } from '../sg.model';
 import { Observable } from 'rxjs/Observable';

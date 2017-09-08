@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Action } from '../../interfaces/action.interface';
 import { JobsNotificationService } from '../../services/jobs-notification.service';
-import { BaseTemplateModel } from '../../../template/shared/base-template.model';
+import { BaseTemplateModel } from '../../../template/shared/base/base-template.model';
 
 
 @Injectable()

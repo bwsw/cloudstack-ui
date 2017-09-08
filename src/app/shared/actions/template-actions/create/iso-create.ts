@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
 import { JobsNotificationService } from '../../../services/jobs-notification.service';
-import { BaseTemplateModel } from '../../../../template/shared/base-template.model';
-import { IsoService } from '../../../../template/shared/iso.service';
+import { BaseTemplateModel } from '../../../../template/shared/base/base-template.model';
+import { IsoService } from '../../../../template/shared/iso/iso.service';
 import { BaseTemplateCreateAction } from './base-template-create';
 
 

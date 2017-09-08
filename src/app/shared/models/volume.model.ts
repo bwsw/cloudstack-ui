@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import { FieldMapper } from '../decorators/field-mapper.decorator';
 import { ZoneName } from '../decorators/zone-name.decorator';
-import { VolumeTagKeys } from '../services/tags/volume-tag-keys';
+import { VolumeTagKeys } from '../services/tags/volume/volume-tag-keys';
 import { BaseModel } from './base.model';
 import { DiskOffering } from './disk-offering.model';
 import { Snapshot } from './snapshot.model';
