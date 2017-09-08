@@ -7,6 +7,7 @@ import { TemplateFilters } from '../../shared/base/template-filters';
 import { Iso } from '../../shared/iso/iso.model';
 import { Template } from '../../shared/template/template.model';
 import { InstanceGroup } from '../../../shared/models/instance-group.model';
+import { noGroup } from '../../../shared/components/instance-group/no-group';
 
 
 @Component({
@@ -39,6 +40,12 @@ export class TemplateFilterListComponent implements OnChanges {
       label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ZONES',
       selector: (item: BaseTemplateModel) => item.zoneId || '',
       name: (item: BaseTemplateModel) => item.zoneName || 'TEMPLATE_PAGE.FILTERS.NO_ZONE'
+    },
+    {
+      key: 'groups',
+      label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_GROUPS',
+      selector: (item: BaseTemplateModel) => item.instanceGroup ? item.instanceGroup.name : noGroup,
+      name: (item: BaseTemplateModel) => item.instanceGroup ? item.instanceGroup.name : 'TEMPLATE_PAGE.FILTERS.NO_GROUP'
     }
   ];
 

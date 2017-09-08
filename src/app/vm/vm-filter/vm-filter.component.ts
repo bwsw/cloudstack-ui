@@ -6,6 +6,7 @@ import { FilterService } from '../../shared/services/filter.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { VmState } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
+import { InstanceGroupOrNoGroup, noGroup } from '../../shared/components/instance-group/no-group';
 
 
 export interface VmFilter {
@@ -14,10 +15,6 @@ export interface VmFilter {
   selectedZones: Array<Zone>;
   groupings: Array<any>;
 }
-
-export type noGroup = '-1';
-export const noGroup: noGroup = '-1';
-export type InstanceGroupOrNoGroup = InstanceGroup | noGroup;
 
 @Component({
   selector: 'cs-vm-filter',

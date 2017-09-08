@@ -12,10 +12,11 @@ import { ZoneService } from '../../shared/services/zone.service';
 import { VmActionsService } from '../shared/vm-actions.service';
 import { VirtualMachine, VmState } from '../shared/vm.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { VirtualMachineEntityName, VmService } from '../shared/vm.service';
-import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filter.component';
+import { VmService } from '../shared/vm.service';
 import { VmListItemComponent } from './vm-list-item.component';
 import * as clone from 'lodash/clone';
+import { InstanceGroupOrNoGroup, noGroup } from '../../shared/components/instance-group/no-group';
+import { VmFilter } from '../vm-filter/vm-filter.component';
 
 
 @Component({
