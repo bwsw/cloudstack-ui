@@ -10,7 +10,7 @@
 }
 
 :host md-form-field {
-  width: 85px;
+  width: 120px;
 }
 
 :host /deep/ md-spinner {
@@ -31,16 +31,8 @@
   text-align: left;
 }
 
-.rule-row {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
-}
-
-.mat-row:hover {
-  background-color: transparent;
-}
-
-.table-form:hover {
-  background-color: #eeeeee !important;
+:host /deep/ .mat-table td {
+  text-align: left;
 }
 
 .rule-row {
@@ -53,4 +45,8 @@
 
 .table-form:hover {
   background-color: #eeeeee !important;
+}
+
+.mat-input-container {
+  font-size: 16px;
 }

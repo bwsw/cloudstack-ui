@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ResourceTypes } from '../../models/tag.model';
 import { DayOfWeek } from '../../types/day-of-week';
+import { AuthService } from '../auth.service';
 import { Language, TimeFormat } from '../language.service';
-import { LocalStorageService } from '../local-storage.service';
 import { Utils } from '../utils.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { TagService } from './tag.service';
@@ -19,13 +19,13 @@ export class UserTagService implements EntityTagService {
   public keys = UserTagKeys;
 
   constructor(
-    private storageService: LocalStorageService,
+    private authService: AuthService,
     protected tagService: TagService
   ) {}
 
   private get user(): UserIdObject {
-    const id = this.storageService.read('userId');
-    return id ? { id } : undefined;
+    const user = this.authService.user;
+    return user ? { id: user.userId } : undefined;
   }
 
   public getTheme(): Observable<string> {

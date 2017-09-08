@@ -23,7 +23,6 @@ import {
   VmDeploymentStage
 } from './services/vm-deployment.service';
 
-
 export interface VmCreationFormState {
   data: VmCreationData;
   state: VmCreationState;
@@ -80,24 +79,27 @@ export class VmCreationComponent implements OnInit {
 
   public ngOnInit(): void {
     this.fetching = true;
-    this.resourceUsageService.getResourceUsage().subscribe(resourceUsage => {
-      Object.keys(resourceUsage.available)
-        .filter(key => key !== 'snapshots' && key !== 'secondaryStorage')
-        .forEach(key => {
-          const available = resourceUsage.available[key];
-          if (available === 0) {
-            this.insufficientResources.push(key);
-          }
-        });
+    this.resourceUsageService.getResourceUsage()
+      .subscribe(resourceUsage => {
+        // TODO check ips
+        Object.keys(resourceUsage.available)
+          .filter(key => key !== 'snapshots' && key !== 'secondaryStorage' && key !== 'ips')
+          .forEach(key => {
+            const available = resourceUsage.available[key];
+            if (available === 0) {
+              this.insufficientResources.push(key);
+            }
+          });
 
       this.enoughResources = !this.insufficientResources.length;
 
-      if (this.enoughResources) {
-        this.loadData();
-      } else {
-        this.fetching = false;
-      }
-    });
+        if (this.enoughResources) {
+          // TODO fix me (requests cancellation because of share())
+        setTimeout(() => this.loadData());
+        } else {
+          this.fetching = false;
+        }
+      });
   }
 
   public get showResizeSlider(): boolean {
@@ -218,7 +220,8 @@ export class VmCreationComponent implements OnInit {
 
   public deploy(): void {
     const notificationId = this.jobsNotificationService.add(
-      'JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
+      'JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS'
+    );
     const {
       deployStatusObservable,
       deployObservable

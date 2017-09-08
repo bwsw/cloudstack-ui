@@ -16,8 +16,6 @@ import {
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
-
-import { routes } from '../app.routing';
 import { PulseModule } from '../pulse/pulse.module';
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
@@ -82,28 +80,27 @@ import { WebShellService } from './web-shell/web-shell.service';
     CommonModule,
     DynamicModule.withComponents([VmListItemComponent]),
     FormsModule,
-    ServiceOfferingModule,
     DraggableSelectModule,
-    MdCheckboxModule,
-    MdTooltipModule,
-    MdSelectModule,
+    MdAutocompleteModule,
     MdButtonModule,
+    MdCheckboxModule,
     MdDialogModule,
+    MdIconModule,
+    MdInputModule,
+    MdMenuModule,
+    MdSelectModule,
+    MdTabsModule,
+    MdTooltipModule,
+    PulseModule,
     ReactiveFormsModule,
+    RouterModule,
+    ServiceOfferingModule,
     ServiceOfferingModule,
     SharedModule,
     SnapshotModule,
     TagsModule,
     TemplateModule,
-    TranslateModule,
-    PulseModule,
-    RouterModule,
-    MdMenuModule,
-    MdButtonModule,
-    MdInputModule,
-    MdIconModule,
-    MdAutocompleteModule,
-    MdTabsModule
+    TranslateModule
   ],
   declarations: [
     AffinityGroupSelectorComponent,

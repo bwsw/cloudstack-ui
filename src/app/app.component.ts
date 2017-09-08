@@ -12,7 +12,7 @@ import { NotificationService } from './shared/services/notification.service';
 import { RouterUtilsService } from './shared/services/router-utils.service';
 import { SessionStorageService } from './shared/services/session-storage.service';
 import { StyleService } from './shared/services/style.service';
-
+import { UserService } from './shared/services/user.service';
 
 @Component({
   selector: 'cs-app',
@@ -31,6 +31,7 @@ export class AppComponent implements OnInit {
     private memoryStorage: MemoryStorageService,
     private notification: NotificationService,
     private styleService: StyleService,
+    private userService: UserService,
     private routerUtilsService: RouterUtilsService,
   ) {
   }
@@ -41,10 +42,10 @@ export class AppComponent implements OnInit {
     this.error.subscribe(e => this.handleError(e));
     this.auth.loggedIn.subscribe(isLoggedIn => {
       if (isLoggedIn) {
-        this.auth.startInactivityCounter();
+        this.userService.startInactivityCounter();
         this.loadSettings();
       } else {
-        this.auth.clearInactivityTimer();
+        this.userService.clearInactivityTimer();
       }
       this.asyncJobService.completeAllJobs();
       this.cacheService.invalidateAll();

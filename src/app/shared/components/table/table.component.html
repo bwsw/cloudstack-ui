@@ -22,7 +22,7 @@
         {{ tableId.toUpperCase() + '.' + column.toUpperCase() | translate }}
       </md-header-cell>
       <md-cell *cdkCellDef="let row">
-        {{ row[column] }}
+        <span [innerHTML]="row[column] | highlight:searchQuery"></span>
       </md-cell>
     </ng-container>
   </ng-container>

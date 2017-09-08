@@ -24,6 +24,8 @@ import { ServiceOfferingSelectorComponent } from './service-offering-selector/se
     MdInputModule,
     MdSelectModule,
     SharedModule,
+    MdSelectModule,
+    MdDialogModule,
     TranslateModule,
   ],
   exports: [

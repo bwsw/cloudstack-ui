@@ -3,8 +3,8 @@ import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { DiskOffering } from '../../../shared/models';
 import { Volume } from '../../../shared/models/volume.model';
-import { DiskStorageService } from '../../../shared/services/disk-storage.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
+import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
 import { VolumeResizeData, VolumeService } from '../../../shared/services/volume.service';
 
 
@@ -28,8 +28,8 @@ export class VolumeResizeComponent implements OnInit {
   constructor(
     public dialogRef: MdDialogRef<VolumeResizeComponent>,
     private dialogService: DialogService,
-    private diskStorageService: DiskStorageService,
     private jobsNotificationService: JobsNotificationService,
+    private resourceUsageService: ResourceUsageService,
     private volumeService: VolumeService,
     @Inject(MD_DIALOG_DATA) data,
   ) {
@@ -85,7 +85,8 @@ export class VolumeResizeComponent implements OnInit {
     this.newSize = this.volume.size / Math.pow(2, 30);
     this.maxSize = 0; // to prevent slider from incorrect initial rendering TODO: check
 
-    this.diskStorageService.getAvailablePrimaryStorage()
+    this.resourceUsageService.getResourceUsage()
+      .map(usage => usage.available.primaryStorage)
       .subscribe((limit: number) => this.maxSize = limit);
   }
 

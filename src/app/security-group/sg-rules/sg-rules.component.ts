@@ -1,11 +1,17 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
+import { NotificationService } from '../../shared/services/notification.service';
 
 import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { SecurityGroup, NetworkRuleType, NetworkProtocol } from '../sg.model';
-import { NotificationService } from '../../shared/services/notification.service';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import {
+  GetICMPCodeTranslationToken,
+  GetICMPTypeTranslationToken,
+  ICMPType,
+  ICMPtypes
+} from '../icmp-types';
+import { NetworkProtocol, NetworkRuleType, SecurityGroup } from '../sg.model';
 
 
 @Component({
@@ -15,12 +21,16 @@ import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 })
 export class SgRulesComponent {
   @ViewChild('rulesForm') public rulesForm: NgForm;
+  public selectedType = '';
+  public selectedCode = '';
 
   public type: NetworkRuleType;
   public protocol: NetworkProtocol;
   public startPort: number;
   public icmpType: number;
+  public icmpTypes: ICMPType[] = ICMPtypes;
   public icmpCode: number;
+  public icmpCodes: number[];
   public endPort: number;
   public cidr: string;
   public securityGroup: SecurityGroup;
@@ -52,8 +62,6 @@ export class SgRulesComponent {
     this.cidr = '0.0.0.0/0';
     this.protocol = NetworkProtocol.TCP;
     this.type = NetworkRuleType.Ingress;
-    this.icmpCode = -1;
-    this.icmpType = -1;
 
     this.adding = false;
   }
@@ -96,19 +104,16 @@ export class SgRulesComponent {
         () => {
           this.notificationService.message('SECURITY_GROUP_PAGE.RULES.FAILED_TO_ADD_RULE');
           this.adding = false;
-        });
+        }
+      );
   }
 
-  public onIcmpTypeClick(): void {
-    if (!this.icmpType) {
-      this.icmpType = -1;
-    }
+  public getIcmpTypeTranslationToken(type: number): string {
+    return GetICMPTypeTranslationToken(type);
   }
 
-  public onIcmpCodeClick(): void {
-    if (!this.icmpCode) {
-      this.icmpCode = -1;
-    }
+  public getIcmpCodeTranslationToken(type: number, code: number): string {
+    return GetICMPCodeTranslationToken(type, code);
   }
 
   public onCidrClick(): void {
@@ -134,8 +139,42 @@ export class SgRulesComponent {
       });
   }
 
-  public onClose(): void {
-    this.dialogRef.close(this.securityGroup);
+  public setIcmpTypes(value: ICMPType[]) {
+    this.icmpTypes = value;
+
+    if (+this.selectedType <= 255 && +this.selectedType >= -1) {
+      this.icmpType = +this.selectedType;
+      const type = ICMPtypes.find(_ => {
+        return _.type === this.icmpType;
+      });
+      this.selectedCode = '';
+      this.icmpCodes = type ? type.codes : [];
+    }
+  }
+
+  public setIcmpCodes(value: number[]) {
+    this.icmpCodes = value;
+
+    if (+this.selectedCode <= 255 && +this.selectedCode >= -1) {
+      this.icmpCode = +this.selectedCode;
+    }
+  }
+
+  public filterTypes(val: number | string) {
+    const filterValue = val.toString().toLowerCase();
+    return !!val ? ICMPtypes.filter(_ => _.type.toString() === filterValue ||
+      this.translateService.instant(this.getIcmpTypeTranslationToken(_.type))
+        .toLowerCase()
+        .indexOf(filterValue) !== -1) : ICMPtypes;
+  }
+
+  public filterCodes(val: number | string) {
+    const filterValue = val.toString().toLowerCase();
+    return !!val ? this.icmpCodes.filter(_ =>
+      _.toString().indexOf(filterValue) !== -1 ||
+      this.translateService.instant(this.getIcmpCodeTranslationToken(this.icmpType, _))
+        .toLowerCase()
+        .indexOf(filterValue) !== -1) : ICMPtypes.find(x => x.type === this.icmpType).codes;
   }
 
   private resetForm(): void {

@@ -93,7 +93,7 @@ export class SpareDriveFilterComponent implements OnChanges {
     this.filterService.update(this.filtersKey, {
       spareOnly: this.spareOnly,
       zones: this.selectedZones.map(_ => _.id),
-      groupings: this.selectedGroupingNames,
+      groupings: this.selectedGroupingNames.map(_ => _.key),
       query: this.query
     });
   }

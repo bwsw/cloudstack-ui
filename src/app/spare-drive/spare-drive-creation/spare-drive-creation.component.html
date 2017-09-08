@@ -1,8 +1,6 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
 <div [hidden]="loading">
-  <h3 class="mat-dialog-title">
-    {{ 'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.TITLE' | translate }}
-  </h3>
+  <h3 class="mat-dialog-title">{{ 'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.TITLE' | translate }}</h3>
   <form (ngSubmit)="onCreate()" #volumeCreationForm="ngForm" novalidate>
     <div class="mat-dialog-content">
       <md-form-field class="full-width-input">
@@ -19,6 +17,10 @@
           <cs-character-count [value]="name" [maxLength]="255"></cs-character-count>
         </md-hint>
       </md-form-field>
+      <cs-character-count
+        [maxLength]="255"
+        [value]="name"
+      ></cs-character-count>
       <div>
         <h5>{{ 'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.ZONE' | translate }}</h5>
         <md-select
@@ -26,7 +28,10 @@
           id="zone"
           name="zone"
         >
-          <md-option *ngFor="let z of zones" [value]="z.id">
+          <md-option
+            *ngFor="let z of zones"
+            [value]="z.id"
+          >
             {{ z.name }}
           </md-option>
         </md-select>

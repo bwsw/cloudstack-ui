@@ -69,7 +69,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
     private userTagService: UserTagService
   ) {
     super();
-    this.userId = this.authService.userId;
+    this.userId = this.authService.user.userId;
   }
 
   public ngOnInit(): void {
@@ -119,7 +119,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
 
   public updatePassword(): void {
     this.userService
-      .updatePassword(this.authService.userId, this.password)
+      .updatePassword(this.userId, this.password)
       .subscribe(
         () =>
           this.notificationService.message(

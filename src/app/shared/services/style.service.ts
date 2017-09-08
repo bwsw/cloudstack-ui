@@ -38,22 +38,27 @@ export class StyleService {
   public loadPalette(): void {
     this.initStyleSheet();
 
-    this.getTheme().subscribe(theme => this.updateTheme(theme));
+    this.getTheme()
+      .subscribe(theme =>
+        this.updateTheme(theme));
   }
 
   public getTheme(): Observable<Theme> {
-    const defaultThemeName = this.configService.get<string>('defaultThemeName');
-    return this.userTagService.getTheme().map(themeName => {
-      let theme = themes.find(t => t.name === themeName);
-      if (!theme) {
-        // if the tag has incorrect theme name, we fallback to default theme
-        // from the config
+    const defaultThemeName =
+      this.configService.get<string>('defaultThemeName');
+     return this.userTagService.getTheme()
+      .map(themeName => {
+        let theme = themes.find(t => t.name === themeName);
+        if (!theme){
+        //if the tag has incorrect theme name, we fallback to default theme
+          // from the config
         theme = themes.find(t => t.name === defaultThemeName);
-      }
+        }
 
-      // if the config has incorrect theme name too, we just grab the first one
-      return theme || preferredTheme;
-    });
+        //if the config has incorrect theme name too, we just grab the first one
+
+        return theme || preferredTheme;
+      });
   }
 
   public setTheme(primaryColor: Color): void {
