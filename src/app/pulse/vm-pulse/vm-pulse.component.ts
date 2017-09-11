@@ -4,8 +4,7 @@ import {
   Inject,
   OnDestroy,
   OnInit,
-  ViewChild,
-  ViewEncapsulation
+  ViewChild
 } from '@angular/core';
 import { MD_DIALOG_DATA, MdTabChangeEvent } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
@@ -35,8 +34,7 @@ export const PulseParameters = {
   selector: 'cs-vm-pulse',
   templateUrl: './vm-pulse.component.html',
   styleUrls: ['./vm-pulse.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VmPulseComponent implements OnInit, OnDestroy {
   @ViewChild(PulseCpuRamChartComponent) cpuRamChart: PulseCpuRamChartComponent;
