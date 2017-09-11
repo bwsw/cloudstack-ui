@@ -1,7 +1,7 @@
 <div
   class="color-preview-container"
   [class.disabled]="disabled"
-  (click)="popoverTrigger.openPopover()"
+  (click)="handlePreviewClick($event)"
 >
   <div class="color-preview" [style.background-color]="selectedColor?.value"></div>
 </div>

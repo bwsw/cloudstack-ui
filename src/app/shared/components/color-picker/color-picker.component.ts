@@ -68,6 +68,11 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
     this.change.emit(this._selectedColor);
   }
 
+  public handlePreviewClick(e: Event): void {
+    e.stopPropagation();
+    this.popoverTrigger.openPopover();
+  }
+
   public writeValue(value): void {
     if (value) {
       this.selectedColor = value;
