@@ -6,7 +6,7 @@
         mdInput
         type="number"
         [ngModel]="size"
-        (ngModelChange)="onVolumeChange($event)"
+        (ngModelChange)="handleSliderChange($event)"
         step="1"
         [min]="min"
         [max]="max"

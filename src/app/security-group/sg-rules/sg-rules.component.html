@@ -102,8 +102,8 @@
                 [(ngModel)]="selectedCode"
                 (ngModelChange)="setIcmpCodes(filterCodes(selectedCode))"
               >
-              <md-error *ngIf="icmpCodeField.invalid">{{
-                'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CODE' | translate }}
+              <md-error *ngIf="icmpCodeField.invalid">
+                {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CODE' | translate }}
               </md-error>
 
               <md-autocomplete
@@ -170,7 +170,7 @@
   </form>
 </div>
 <div class="mat-dialog-actions">
-  <button md-button color="primary" (click)="onClose()">
+  <button md-button color="primary" mdDialogClose>
     {{ 'COMMON.CLOSE' | translate }}
   </button>
 </div>

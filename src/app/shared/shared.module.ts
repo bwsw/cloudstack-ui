@@ -189,6 +189,7 @@ import { ZoneService } from './services/zone.service';
     SliderComponent,
     SpareDriveActionsComponent,
     StringifyTimePipe,
+    StringifyDatePipe,
     TableComponent,
     TemplateActionsComponent,
     TopBarComponent,

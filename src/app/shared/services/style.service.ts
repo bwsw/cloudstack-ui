@@ -46,16 +46,16 @@ export class StyleService {
   public getTheme(): Observable<Theme> {
     const defaultThemeName =
       this.configService.get<string>('defaultThemeName');
-     return this.userTagService.getTheme()
+    return this.userTagService.getTheme()
       .map(themeName => {
         let theme = themes.find(t => t.name === themeName);
         if (!theme){
-        //if the tag has incorrect theme name, we fallback to default theme
+          // if the tag has incorrect theme name, we fallback to default theme
           // from the config
-        theme = themes.find(t => t.name === defaultThemeName);
+          theme = themes.find(t => t.name === defaultThemeName);
         }
 
-        //if the config has incorrect theme name too, we just grab the first one
+        // if the config has incorrect theme name too, we just grab the first one
 
         return theme || preferredTheme;
       });
