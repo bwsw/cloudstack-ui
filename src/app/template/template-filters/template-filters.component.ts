@@ -1,17 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { InstanceGroupOrNoGroup, noGroup } from '../../shared/components/instance-group/no-group';
+import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { OsFamily } from '../../shared/models/os-type.model';
 import { Zone } from '../../shared/models/zone.model';
 import { FilterService } from '../../shared/services/filter.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { TemplateFilters } from '../shared/base/template-filters';
-import { InstanceGroup } from '../../shared/models/instance-group.model';
-import { TemplateService } from '../shared/template/template.service';
-import { Observable } from 'rxjs/Observable';
 import { IsoService } from '../shared/iso/iso.service';
+import { TemplateService } from '../shared/template/template.service';
 
 
 @Component({
@@ -34,11 +35,12 @@ export class TemplateFiltersComponent implements OnInit {
   public query: string;
   public selectedOsFamilies: Array<OsFamily>;
   public selectedFilters: Array<string>;
-  public selectedGroupingNames = [];
+  public selectedGroupings = [];
 
   public zones: Array<Zone>;
   public selectedZones: Array<Zone>;
-  public selectedGroups: Array<InstanceGroup> = [];
+  public selectedGroups: Array<InstanceGroupOrNoGroup> = [];
+  public noGroup = noGroup;
 
   public filterTranslations: {};
 
@@ -148,9 +150,9 @@ export class TemplateFiltersComponent implements OnInit {
       selectedOsFamilies: this.selectedOsFamilies,
       selectedFilters: this.selectedFilters,
       selectedZones: this.selectedZones,
-      selectedGroups: this.selectedGroups,
+      selectedGroups: this.selectedGroups.sort(this.groupSortPredicate),
       query: this.query,
-      groupings: this.selectedGroupingNames
+      groupings: this.selectedGroupings
     });
 
     if (!this.dialogMode) {
@@ -159,8 +161,8 @@ export class TemplateFiltersComponent implements OnInit {
         osFamilies: this.selectedOsFamilies,
         categoryFilters: this.selectedFilters,
         zones: this.selectedZones.map(_ => _.id),
-        groups: this.selectedGroups.map(_ => _.name),
-        groupings: this.selectedGroupingNames.map(_ => _.key)
+        groups: this.selectedGroups.map(_ => (_ as InstanceGroup).name || ''),
+        groupings: this.selectedGroupings.map(_ => _.key)
       });
     }
   }
@@ -188,11 +190,21 @@ export class TemplateFiltersComponent implements OnInit {
     this.selectedGroups = this.groups.filter(group => {
       return params['groups'].find(name => name === group.name)
     });
-    this.selectedGroupingNames = params['groupings']
+    this.selectedGroupings = params['groupings']
       .map(g => this.availableGroupings.find(_ => _.key === g))
       .filter(g => g);
     this.query = params['query'];
     this.queryStream.next(this.query);
+
+    const sg = this.selectedGroupings;
+    this.availableGroupings.sort((groupingA, groupingB) => {
+      return sg.findIndex(_ => _ === groupingA) - sg.findIndex(_ => _ === groupingB);
+    });
+
+    const containsNoGroup = params['groups'].includes('');
+    if (containsNoGroup) {
+      this.selectedGroups.push(noGroup);
+    }
 
     this.updateFilters();
   }
@@ -203,8 +215,25 @@ export class TemplateFiltersComponent implements OnInit {
       this.isoService.getInstanceGroupList()
     )
       .subscribe(([templateGroups, isoGroups]) => {
-        this.templateGroups = templateGroups;
-        this.isoGroups = isoGroups;
+        this.templateGroups = templateGroups.sort(this.groupSortPredicate);
+        this.isoGroups = isoGroups.sort(this.groupSortPredicate);
+        this.selectedGroups = this.selectedGroups.filter(selectedGroup => {
+          return this.groups.some(
+            group => group.name === (selectedGroup as InstanceGroup).name);
+        });
       });
+  }
+
+  private groupSortPredicate(
+    a: InstanceGroupOrNoGroup,
+    b: InstanceGroupOrNoGroup
+  ): number {
+    if (a === noGroup || a.name < (b as InstanceGroup).name) {
+      return -1;
+    }
+    if (b === noGroup || a.name > b.name) {
+      return 1;
+    }
+    return 0;
   }
 }

@@ -32,6 +32,22 @@
           >
           </mdl-textfield>
           <br>
+          <md-input-container *ngIf="groups" floatPlaceholder="never">
+            <input
+              mdInput
+              #templateGroupField="ngModel"
+              name="icmpType"
+              [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.GROUP' | translate"
+              [mdAutocomplete]="templateGroupAutocomplete"
+              [(ngModel)]="instanceGroupName"
+            >
+            <md-autocomplete #templateGroupAutocomplete="mdAutocomplete">
+              <md-option *ngFor="let g of groups" [value]="g">
+                {{ g }}
+              </md-option>
+            </md-autocomplete>
+          </md-input-container>
+          <br>
           <mdl-textfield
             *ngIf="!snapshot"
             type="url"

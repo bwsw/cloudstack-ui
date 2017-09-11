@@ -7,6 +7,9 @@ import { ZoneService } from '../../shared/services/zone.service';
 import { TemplateCreateAction } from '../../shared/actions/template-actions/create/template-create';
 import { IsoCreateAction } from '../../shared/actions/template-actions/create/iso-create';
 import { Observable } from 'rxjs/Observable';
+import { InstanceGroup } from '../../shared/models/instance-group.model';
+import { IsoService } from '../shared/iso/iso.service';
+import { TemplateService } from '../shared/template/template.service';
 
 
 @Component({
@@ -31,9 +34,15 @@ export class TemplateCreationComponent implements OnInit {
 
   public loading: boolean;
 
+  public instanceGroupName: string;
+  public templateGroupNames: Array<string> = [];
+  public isoGroupNames: Array<string> = [];
+
   constructor(
     private dialogRef: MdDialogRef<TemplateCreationComponent>,
     private osTypeService: OsTypeService,
+    private isoService: IsoService,
+    private templateService: TemplateService,
     private isoCreationAction: IsoCreateAction,
     private templateCreationAction: TemplateCreateAction,
     private zoneService: ZoneService,
@@ -45,23 +54,16 @@ export class TemplateCreationComponent implements OnInit {
 
   public ngOnInit(): void {
     this.passwordEnabled = this.dynamicallyScalable = false;
+    this.loadOsTypes();
+    this.loadZones();
+    this.loadGroups();
+  }
 
-    this.osTypes = [];
-    this.osTypeService
-      .getList()
-      .subscribe(osTypes => {
-        this.osTypes = osTypes;
-        this.osTypeId = this.osTypes[0].id;
-      });
-
-    if (!this.snapshot) {
-      this.zones = [];
-      this.zoneService
-        .getList()
-        .subscribe(zones => {
-          this.zones = zones;
-          this.zoneId = this.zones[0].id;
-        });
+  public get groups(): Array<string> {
+    if (this.mode === 'Template') {
+      return this.templateGroupNames;
+    } else {
+      return this.isoGroupNames;
     }
   }
 
@@ -100,6 +102,10 @@ export class TemplateCreationComponent implements OnInit {
       params['snapshotId'] = this.snapshot.id;
     }
 
+    if (this.instanceGroupName) {
+      params['group'] = new InstanceGroup(this.instanceGroupName);
+    }
+
     this.loading = true;
 
     this.getCreationAction(params)
@@ -116,5 +122,38 @@ export class TemplateCreationComponent implements OnInit {
     } else {
       return this.templateCreationAction.activate(params);
     }
+  }
+
+  private loadOsTypes(): void {
+    this.osTypes = [];
+    this.osTypeService
+      .getList()
+      .subscribe(osTypes => {
+        this.osTypes = osTypes;
+        this.osTypeId = this.osTypes[0].id;
+      });
+  }
+
+  private loadZones(): void {
+    if (!this.snapshot) {
+      this.zones = [];
+      this.zoneService
+        .getList()
+        .subscribe(zones => {
+          this.zones = zones;
+          this.zoneId = this.zones[0].id;
+        });
+    }
+  }
+
+  private loadGroups(): void {
+    Observable.forkJoin(
+      this.templateService.getInstanceGroupList(),
+      this.isoService.getInstanceGroupList()
+    )
+      .subscribe(([templateGroups, isoGroups]) => {
+        this.templateGroupNames = templateGroups.map(group => group.name);
+        this.isoGroupNames = isoGroups.map(group => group.name);
+      });
   }
 }

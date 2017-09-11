@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { OsFamily } from '../../../shared/models/os-type.model';
 import { Zone } from '../../../shared/models/zone.model';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -6,8 +6,10 @@ import { BaseTemplateModel } from '../../shared/base/base-template.model';
 import { TemplateFilters } from '../../shared/base/template-filters';
 import { Iso } from '../../shared/iso/iso.model';
 import { Template } from '../../shared/template/template.model';
+import { InstanceGroupOrNoGroup, noGroup } from '../../../shared/components/instance-group/no-group';
 import { InstanceGroup } from '../../../shared/models/instance-group.model';
-import { noGroup } from '../../../shared/components/instance-group/no-group';
+import { IsoService } from '../../shared/iso/iso.service';
+import { TemplateService } from '../../shared/template/template.service';
 
 
 @Component({
@@ -15,7 +17,7 @@ import { noGroup } from '../../../shared/components/instance-group/no-group';
   templateUrl: 'template-filter-list.component.html',
   styleUrls: ['../template-filter-list.scss']
 })
-export class TemplateFilterListComponent implements OnChanges {
+export class TemplateFilterListComponent implements OnChanges, OnInit {
   @Input() public templates: Array<Template>;
   @Input() public isos: Array<Iso>;
 
@@ -30,7 +32,7 @@ export class TemplateFilterListComponent implements OnChanges {
   public selectedFilters: Array<string> = [];
   public selectedOsFamilies: Array<OsFamily> = [];
   public selectedZones: Array<Zone> = [];
-  public selectedGroups: Array<InstanceGroup> = [];
+  public selectedGroups: Array<InstanceGroupOrNoGroup> = [];
   public visibleTemplateList: Array<BaseTemplateModel> = [];
 
   public selectedGroupings = [];
@@ -49,8 +51,34 @@ export class TemplateFilterListComponent implements OnChanges {
     }
   ];
 
-  constructor(protected authService: AuthService) {
+  constructor(
+    protected authService: AuthService,
+    private templateService: TemplateService,
+    private isoService: IsoService
+  ) {}
 
+  public ngOnInit(): void {
+    this.templateService.instanceGroupUpdateObservable.subscribe(updatedTemplate => {
+      this.templates = this.templates.map(template => {
+        if (template.id === updatedTemplate.id) {
+          return updatedTemplate;
+        } else {
+          return template;
+        }
+      });
+      this.updateList();
+    });
+
+    this.isoService.instanceGroupUpdateObservable.subscribe(updatedIso => {
+      this.isos = this.isos.map(iso => {
+        if (iso.id === updatedIso.id) {
+          return updatedIso;
+        } else {
+          return iso;
+        }
+      });
+      this.updateList();
+    });
   }
 
   public ngOnChanges(changes: SimpleChanges) {
@@ -143,10 +171,11 @@ export class TemplateFilterListComponent implements OnChanges {
       return templateList;
     }
 
-    return templateList.filter(template => {
-      return this.selectedGroups.some(group => {
-        return template.instanceGroup && template.instanceGroup.name === group.name;
-      });
-    });
+    return templateList.filter(
+      template =>
+        (!template.instanceGroup && this.selectedGroups.includes(noGroup)) ||
+        (template.instanceGroup &&
+          this.selectedGroups.some(g => template.instanceGroup.name === (g as InstanceGroup).name))
+    );
   }
 }

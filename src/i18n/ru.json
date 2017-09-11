@@ -549,6 +549,7 @@
       "NEW_ISO": "Регистрация нового ISO",
       "NAME": "Название",
       "DESCRIPTION": "Описание",
+      "GROUP": "Группа",
       "URL": "URL",
       "INVALID_URL": "Неподдерживаемый URL (только http or https)",
       "OS_TYPE": "Тип ОС",

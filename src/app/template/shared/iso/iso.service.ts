@@ -6,6 +6,7 @@ import { Iso } from './iso.model';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { IsoTagService } from '../../../shared/services/tags/template/iso/iso-tag.service';
 import { OsTypeService } from '../../../shared/services/os-type.service';
+import { InstanceGroup } from '../../../shared/models/instance-group.model';
 
 
 @Injectable()

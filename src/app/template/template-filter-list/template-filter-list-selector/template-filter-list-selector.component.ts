@@ -6,6 +6,8 @@ import { BaseTemplateModel } from '../../shared/base/base-template.model';
 import { Iso } from '../../shared/iso/iso.model';
 import { Template } from '../../shared/template/template.model';
 import { TemplateFilters } from '../../shared/base/template-filters';
+import { InstanceGroup } from '../../../shared/models/instance-group.model';
+import { InstanceGroupOrNoGroup, noGroup } from '../../../shared/components/instance-group/no-group';
 
 
 @Component({
@@ -30,6 +32,7 @@ export class TemplateFilterListSelectorComponent implements OnChanges {
   public selectedFilters: Array<string> = [];
   public selectedOsFamilies: Array<OsFamily> = [];
   public selectedZones: Array<Zone> = [];
+  public selectedGroups: Array<InstanceGroupOrNoGroup>;
   public visibleTemplateList: Array<BaseTemplateModel> = [];
 
   public selectedGroupings = [];
@@ -79,6 +82,7 @@ export class TemplateFilterListSelectorComponent implements OnChanges {
       this.selectedOsFamilies = filters.selectedOsFamilies;
       this.selectedFilters = filters.selectedFilters;
       this.selectedZones = filters.selectedZones;
+      this.selectedGroups = filters.selectedGroups;
       this.query = filters.query;
       this.selectedGroupings = filters.groupings
         .map(g => this.groupings.find(_ => _ === g))
@@ -86,6 +90,7 @@ export class TemplateFilterListSelectorComponent implements OnChanges {
     }
 
     this.visibleTemplateList = this.filterByZone(this.templateList);
+    this.visibleTemplateList = this.filterByGroups(this.visibleTemplateList);
     this.visibleTemplateList = this.filterBySearch(this.filterByCategories(this.visibleTemplateList));
     if (this.zoneId) {
       this.visibleTemplateList = this.visibleTemplateList
@@ -124,5 +129,18 @@ export class TemplateFilterListSelectorComponent implements OnChanges {
       : templateList.filter(template =>
         this.selectedZones.some(zone => template.zoneId === zone.id)
       );
+  }
+
+  private filterByGroups(templateList: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
+    if (!this.selectedGroups.length) {
+      return templateList;
+    }
+
+    return templateList.filter(
+      template =>
+        (!template.instanceGroup && this.selectedGroups.includes(noGroup)) ||
+        (template.instanceGroup &&
+          this.selectedGroups.some(g => template.instanceGroup.name === (g as InstanceGroup).name))
+    );
   }
 }

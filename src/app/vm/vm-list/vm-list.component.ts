@@ -98,6 +98,18 @@ export class VmListComponent implements OnInit {
     this.subscribeToVmUpdates();
     this.subscribeToVmDestroyed();
     this.subscribeToAsyncJobUpdates();
+
+    this.vmService.instanceGroupUpdateObservable.subscribe(updatedVm => {
+      this.vmList = this.vmList.map(vm => {
+        if (updatedVm.id === vm.id) {
+          return updatedVm;
+        } else {
+          return vm;
+        }
+      });
+
+      this.filter();
+    });
   }
 
   public get noFilteringResults(): boolean {

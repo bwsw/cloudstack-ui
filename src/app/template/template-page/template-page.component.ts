@@ -30,7 +30,7 @@ export class TemplatePageComponent implements OnInit {
 
   public ngOnInit(): void {
     this.viewMode = this.storageService.read('templateDisplayMode') || 'Template';
-    this.listService.onUpdate.subscribe((template) => this.updateList(template));
+    this.subscribeToTemplateCreations();
     this.subscribeToTemplateDeletions();
     this.getTemplates();
   }
@@ -64,6 +64,14 @@ export class TemplatePageComponent implements OnInit {
         this.templates = templates;
         this.isos = isos;
       });
+  }
+
+  private subscribeToTemplateCreations(): void {
+    Observable.merge(
+      this.templateService.onTemplateCreated,
+      this.isoService.onTemplateCreated
+    )
+      .subscribe(template => this.updateList(template));
   }
 
   private subscribeToTemplateDeletions(): void {

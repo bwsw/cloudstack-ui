@@ -553,6 +553,7 @@
       "NEW_ISO": "Register a new ISO",
       "NAME": "Name",
       "DESCRIPTION": "Description",
+      "GROUP": "Group",
       "URL": "URL",
       "INVALID_URL": "Invalid URL (only http or https)",
       "OS_TYPE": "OS type",

@@ -7,6 +7,8 @@ import { OsTypeService } from '../../../shared/services/os-type.service';
 import { TemplateTagService } from '../../../shared/services/tags/template/template/template-tag.service';
 import { BaseTemplateService, RegisterTemplateBaseParams } from '../base/base-template.service';
 import { Template } from './template.model';
+import { BaseTemplateModel } from '../base/base-template.model';
+import { InstanceGroup } from '../../../shared/models/instance-group.model';
 
 
 @Injectable()
@@ -25,8 +27,7 @@ export class TemplateService extends BaseTemplateService<Template> {
 
   public create(params: {}): Observable<Template> {
     return this.sendCommand('create', params)
-      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
-      .do(() => this.invalidateCache());
+      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel));
   }
 
   public register(params: RegisterTemplateBaseParams): Observable<Template> {
@@ -35,7 +36,6 @@ export class TemplateService extends BaseTemplateService<Template> {
     params['format'] = 'QCOW2';
     params['requiresHvm'] = true;
 
-    return <Observable<Template>>super.register(params)
-      .do(() => this.invalidateCache());
+    return <Observable<Template>>super.register(params);
   }
 }

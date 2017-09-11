@@ -1,6 +1,16 @@
 <ng-container *ngIf="entity">
   <cs-template-description [template]="entity"></cs-template-description>
-  <cs-instance-group [entity]="entity" [entityService]="isoService"></cs-instance-group>
+
+  <cs-instance-group
+    *ngIf="isSelf"
+    [entity]="entity"
+    [entityService]="isoService"
+  ></cs-instance-group>
+  <cs-read-only-instance-group
+    *ngIf="!isSelf"
+    [entity]="entity"
+  ></cs-read-only-instance-group>
+
   <cs-template-os [template]="entity"></cs-template-os>
   <cs-iso-general-information [entity]="entity"></cs-iso-general-information>
   <cs-download-url [template]="entity"></cs-download-url>

@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { InstanceGroupEnabledService } from '../../../shared/interfaces/instance-group-enabled-service';
 import { InstanceGroup } from '../../../shared/models/instance-group.model';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
-import { BaseBackendCachedService } from '../../../shared/services/base-backend-cached.service';
+import { BaseBackendService } from '../../../shared/services/base-backend.service';
 import { OsTypeService } from '../../../shared/services/os-type.service';
 import { BaseTemplateTagService } from '../../../shared/services/tags/template/base/base-template-tag.service';
 import { Utils } from '../../../shared/services/utils.service';
@@ -30,9 +30,10 @@ export interface RegisterTemplateBaseParams {
 
 @Injectable()
 export abstract class BaseTemplateService<M extends BaseTemplateModel>
-  extends BaseBackendCachedService<M> implements InstanceGroupEnabledService {
+  extends BaseBackendService<M> implements InstanceGroupEnabledService {
 
   public instanceGroupUpdateObservable = new Subject<M>();
+  public onTemplateCreated = new Subject<M>();
   public onTemplateRemoved = new Subject<M>();
   private _templateFilters: Array<string>;
 
@@ -77,7 +78,7 @@ export abstract class BaseTemplateService<M extends BaseTemplateModel>
     }
 
     return Observable.forkJoin(
-      super.getList(params, null, useCache),
+      super.getList(params, null),
       this.osTypeService.getList()
     )
       .map(([templates, osTypes]) => {
@@ -118,19 +119,11 @@ export abstract class BaseTemplateService<M extends BaseTemplateModel>
   }
 
   public register(params: RegisterTemplateBaseParams): Observable<M> {
-    this.invalidateCache();
-
     return this.sendCommand('register', params)
       .map(result => this.prepareModel(result[this.entity.toLowerCase()][0]))
-      .switchMap(template => {
-        return this.baseTemplateTagService.setDownloadUrl(template, params.url)
-          .catch(() => Observable.of(null))
-          .do(tag => template.tags.push(tag));
-      });
   }
 
   public remove(template: M): Observable<any> {
-    this.invalidateCache();
     return this.sendCommand('delete', {
       id: template.id,
       zoneId: template.zoneId
@@ -173,11 +166,14 @@ export abstract class BaseTemplateService<M extends BaseTemplateModel>
       });
   }
 
-  public addInstanceGroup(template: BaseTemplateModel, group: InstanceGroup): Observable<BaseTemplateModel> {
+  public addInstanceGroup(template: M, group: InstanceGroup): Observable<M> {
     template.instanceGroup = group;
-    this.instanceGroupUpdateObservable.next();
     return this.baseTemplateTagService.setGroup(template, group)
-      .catch(() => Observable.of(template));
+      .do(updatedTemplate => {
+        this.instanceGroupUpdateObservable.next(updatedTemplate as M);
+        template.instanceGroup = group;
+      })
+      .catch(() => Observable.of(template)) as Observable<M>;
   }
 
   public getInstanceGroupList(): Observable<Array<InstanceGroup>> {

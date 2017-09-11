@@ -76,11 +76,5 @@ export abstract class BaseTemplateModel extends BaseModel implements Taggable, I
     }
   }
 
-  private initializeInstanceGroup(): void {
-    const group = this.tags.find(tag => tag.key === TemplateTagKeys.group);
-
-    if (group) {
-      this.instanceGroup = new InstanceGroup(group.value);
-    }
-  }
+  protected abstract initializeInstanceGroup(): void;
 }

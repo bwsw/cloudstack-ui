@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
+  MdAutocompleteModule,
   MdButtonModule,
   MdIconModule,
   MdMenuModule,
@@ -18,7 +19,9 @@ import { TagsModule } from '../tags/tags.module';
 import { IsoAttachmentComponent } from './iso-attachment/iso-attachment.component';
 import { IsoService, TemplateService } from './shared';
 import { TemplateCreationComponent } from './template-creation/template-creation.component';
+// tslint:disable-next-line
 import { TemplateFilterListSelectorComponent } from './template-filter-list/template-filter-list-selector/template-filter-list-selector.component';
+// tslint:disable-next-line
 import { TemplateFilterListComponent } from './template-filter-list/template-filter-list/template-filter-list.component';
 import { TemplateFiltersComponent } from './template-filters/template-filters.component';
 import { TemplateCardListComponent } from './template-list/template-card-list.component';
@@ -48,8 +51,11 @@ import { IsoDetailsComponent } from './template-sidebar/details/iso/iso-details.
 import { IsoTagsComponent } from './template-tags/iso-tags.component';
 import { templatesRouting } from './template.routing';
 import { DownloadUrlComponent } from './template-sidebar/details/download-url/download-url.component';
+// tslint:disable-next-line
 import { IsoGeneralInformationComponent } from './template-sidebar/details/iso-general-information/iso-general-information.component';
+// tslint:disable-next-line
 import { TemplateGeneralInformationComponent } from './template-sidebar/details/template-general-information/template-general-information.component';
+import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 
 
 @NgModule({
@@ -69,6 +75,7 @@ import { TemplateGeneralInformationComponent } from './template-sidebar/details/
     MdButtonModule,
     MdIconModule,
     MdTabsModule,
+    DraggableSelectModule
   ],
   declarations: [
     TemplateSidebarComponent,
