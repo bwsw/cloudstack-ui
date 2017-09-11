@@ -46,7 +46,7 @@
 }
 
 h5 {
-  margin-bottom: 0;
+  margin: 0;
 }
 
 .network-security-info {
@@ -58,7 +58,7 @@ h5 {
   margin-top: 20px;
 }
 
-.left-column{
+.left-column {
   width: 300px;
   margin-right: 10px;
 }
@@ -95,14 +95,15 @@ h5 {
   right: 0;
   display: inline-block;
   text-align: right;
-  margin-top: 16px;
 }
 
 .dialog-select-wrapper {
   position: relative;
-  margin-bottom: 86px;
+  margin-bottom: 70px;
 }
+
 
 .sg-rules-manager {
   width: 100%;
+  margin-bottom: 25px;
 }

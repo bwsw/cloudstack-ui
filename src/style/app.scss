@@ -48,6 +48,11 @@ body {
   @extend .text-overflow-tooltip-fix;
 }
 
+md-select,
+.mat-select {
+  padding-top: 0 !important;
+}
+
 md-card {
   padding: 0 !important;
   width: 320px;

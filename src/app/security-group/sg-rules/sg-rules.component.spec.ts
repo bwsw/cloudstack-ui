@@ -59,7 +59,6 @@ describe('Security group firewall rules component', () => {
     TestBed.compileComponents().then(() => {
       f = TestBed.createComponent(SgRulesComponent);
       comp = f.componentInstance;
-      console.log(comp);
     });
   }));
 

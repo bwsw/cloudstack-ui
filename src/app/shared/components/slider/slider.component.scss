@@ -18,6 +18,21 @@
   }
 }
 
+/* dirty hack */
+:host /deep/ {
+  .mat-input-wrapper {
+    padding-bottom: 0;
+  }
+
+  .mat-form-field-infix {
+    border-top: 0;
+  }
+
+  .mat-form-field-underline {
+    bottom: 0;
+  }
+}
+
 .custom-slider-label {
   align-self: center;
   display: inline-flex;
