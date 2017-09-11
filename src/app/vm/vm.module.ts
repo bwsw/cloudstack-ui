@@ -33,10 +33,8 @@ import { VmActionProviders } from './vm-actions/index';
 import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions.component';
 import { VmCreationFormNormalizationService } from './vm-creation/form-normalization/form-normalization.service';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
-import { VmPostdeploymentActionProviders } from './vm-creation/postdeployment-actions/index';
 import { VmCreationService } from './vm-creation/services/vm-creation.service';
 import { VmDeploymentService } from './vm-creation/services/vm-deployment.service';
-import { VmPostdeploymentActionsService } from './vm-creation/services/vm-postdeployment-actions.service';
 import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-dialog.component';
 import { VmTemplateComponent } from './vm-creation/template/vm-template.component';
 import { VmCreationDialogComponent } from './vm-creation/vm-creation-dialog.component';
@@ -75,6 +73,7 @@ import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize/volume-resize.component';
 import { VmDetailZoneComponent } from './vm-sidebar/zone/zone.component';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
+import { PostdeploymentComponent } from './vm-creation/postdeployment/postdeployment.component';
 import { vmRouting } from './vm.routing';
 import { WebShellService } from './web-shell/web-shell.service';
 
@@ -144,10 +143,10 @@ import { WebShellService } from './web-shell/web-shell.service';
     VolumeComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,
+    PostdeploymentComponent,
   ],
   providers: [
     VmActionsService,
-    VmPostdeploymentActionsService,
     VmCreationFormNormalizationService,
     VmCreationService,
     VmDeploymentService,
@@ -156,7 +155,6 @@ import { WebShellService } from './web-shell/web-shell.service';
     WebShellService,
     SnapshotActionsService,
     ...VmActionProviders,
-    ...VmPostdeploymentActionProviders
   ],
   entryComponents: [
     AffinityGroupSelectorComponent,
@@ -167,7 +165,8 @@ import { WebShellService } from './web-shell/web-shell.service';
     SnapshotCreationComponent,
     SnapshotModalComponent,
     SpareDriveAttachmentDialogComponent,
-    SshKeypairResetComponent
+    SshKeypairResetComponent,
+    PostdeploymentComponent
   ]
 })
 export class VmModule { }

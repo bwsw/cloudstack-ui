@@ -529,6 +529,15 @@
     }
   },
 
+  "VM_POST_ACTION": {
+    "TITLE": "Virtual Machine Successfully Created",
+    "OPEN_VNC_CONSOLE": "Open VNC Console",
+    "OPEN_SHELL_CONSOLE": "Open WebShell",
+    "VM_PASSWORD": "Password",
+    "VM": "Virtual machine name",
+    "VM_IP": "IP"
+  },
+
   "SPARE_DRIVE_PAGE": {
     "FILTERS": {
       "SPARE_DRIVES_ONLY": "Spare drives only",

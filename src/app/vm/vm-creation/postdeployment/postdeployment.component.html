@@ -1,0 +1,14 @@
+<div>
+    <h3 class="mat-dialog-title">{{ 'VM_POST_ACTION.TITLE' | translate}}</h3>
+    <div class="mat-dialog-content">
+        <div><b>{{ 'VM_POST_ACTION.VM' | translate }}:</b> {{vm.name}}</div>
+        <div *ngIf="vm.passwordEnabled"><b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b> {{vm.password}}</div>
+        <div *ngIf="vm.ipIsAvailable"><b>{{ 'VM_POST_ACTION.VM_IP' | translate }}:</b> {{vm.nic[0].ipAddress}}</div>
+    </div>
+    <div class="mat-dialog-actions">
+        <button md-button
+                (click)="openConsole()">{{ 'VM_POST_ACTION.OPEN_VNC_CONSOLE' | translate }}</button>
+        <button md-button
+                (click)="dialogRef.close()">{{ 'COMMON.CLOSE' | translate }}</button>
+    </div>
+</div>

@@ -529,6 +529,15 @@
     }
   },
 
+  "VM_POST_ACTION": {
+    "TITLE": "Виртуальная машина успешно создана",
+    "OPEN_VNC_CONSOLE": "Открыть VNC консоль",
+    "OPEN_SHELL_CONSOLE": "Окрыть WebShell",
+    "VM_PASSWORD": "Пароль",
+    "VM": "Имя машины",
+    "VM_IP": "IP адрес"
+  },
+
   "SPARE_DRIVE_PAGE": {
     "FILTERS": {
       "SPARE_DRIVES_ONLY": "Только свободные диски",

@@ -14,7 +14,8 @@ import { Utils } from '../../../shared/services/utils.service';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 import { VmCreationState } from '../data/vm-creation-state';
-import { VmPostdeploymentActionsService } from './vm-postdeployment-actions.service';
+import { PostdeploymentComponent } from '../postdeployment/postdeployment.component';
+import { MdDialog } from '@angular/material';
 
 
 export enum VmDeploymentStage {
@@ -48,7 +49,7 @@ export class VmDeploymentService {
     private securityGroupObservable: SecurityGroupService,
     private tagService: TagService,
     private vmService: VmService,
-    private postdeploymentService: VmPostdeploymentActionsService
+    private dialog: MdDialog
   ) {}
 
   public deploy(state: VmCreationState): VmDeployObservables {
@@ -208,7 +209,12 @@ export class VmDeploymentService {
       stage: VmDeploymentStage.FINISHED,
       vm
     });
-    this.postdeploymentService.run(vm);
+    this.dialog.open(PostdeploymentComponent, {
+      width: '500px',
+      data: {
+        vm: vm
+      }
+    }).afterClosed();
   }
 
   private handleFailedDeployment(
