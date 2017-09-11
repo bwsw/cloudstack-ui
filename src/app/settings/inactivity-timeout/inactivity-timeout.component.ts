@@ -1,7 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { NgModel } from '@angular/forms';
-import { AuthService } from '../../shared/services/auth.service';
-
+import { UserService } from '../../shared/services/user.service';
 
 @Component({
   selector: 'cs-inactivity-timeout',
@@ -15,7 +21,7 @@ export class InactivityTimeoutComponent implements OnInit {
   public tempInactivityTimeout: number;
   public maxInactivityTimeout = 300;
 
-  constructor(private authService: AuthService) {
+  constructor(private userService: UserService) {
     this.inactivityTimeoutChange = new EventEmitter<number>();
   }
 
@@ -30,20 +36,23 @@ export class InactivityTimeoutComponent implements OnInit {
   }
 
   public get changeButtonDisabled(): boolean {
-    return this.inactivityTimeout === this.tempInactivityTimeout || !this.inactivityField.valid;
+    return (
+      this.inactivityTimeout === this.tempInactivityTimeout ||
+      !this.inactivityField.valid
+    );
   }
 
   public getInactivityTimeout(): void {
-    this.authService.getInactivityTimeout()
-      .subscribe(timeout => {
-        this.inactivityTimeout = timeout;
-        this.tempInactivityTimeout = timeout;
-      });
+    this.userService.getInactivityTimeout().subscribe(timeout => {
+      this.inactivityTimeout = timeout;
+      this.tempInactivityTimeout = timeout;
+    });
   }
 
   public changeInactivityTimeout(event: Event): void {
     event.preventDefault();
-    this.authService.setInactivityTimeout(this.tempInactivityTimeout)
-      .subscribe(() => this.inactivityTimeout = this.tempInactivityTimeout);
+    this.userService
+      .setInactivityTimeout(this.tempInactivityTimeout)
+      .subscribe(() => (this.inactivityTimeout = this.tempInactivityTimeout));
   }
 }

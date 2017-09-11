@@ -47,7 +47,7 @@ export class TemplateFilterListSelectorComponent implements OnChanges {
     }
   ];
 
-  protected authService = ServiceLocator.injector.get(AuthService);
+  constructor(protected authService: AuthService) {}
 
   public ngOnChanges(changes: SimpleChanges) {
     if (changes['isos']) {
@@ -105,7 +105,7 @@ export class TemplateFilterListSelectorComponent implements OnChanges {
           this.selectedFilters.includes(TemplateFilters.featured) || !template.isFeatured;
         const selfFilter = !this.selectedFilters.length ||
           this.selectedFilters.includes(TemplateFilters.self) ||
-          !(template.account === this.authService.username);
+          !(template.account === this.authService.user.username);
         const osFilter = !this.selectedOsFamilies.length ||
           this.selectedOsFamilies.includes(template.osType.osFamily);
         return featuredFilter && selfFilter && osFilter;

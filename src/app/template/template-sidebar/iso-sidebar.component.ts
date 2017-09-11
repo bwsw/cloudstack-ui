@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { NotificationService } from '../../shared/services/notification.service';
@@ -16,20 +15,18 @@ import { AuthService } from '../../shared/services/auth.service';
 })
 export class IsoSidebarComponent extends BaseTemplateSidebarComponent {
   constructor(
-    isoService: IsoService,
+    service: IsoService,
     authService: AuthService,
     dateTimeFormatterService: DateTimeFormatterService,
     route: ActivatedRoute,
     router: Router,
     listService: ListService,
-    dialogService: DialogService,
     notificationService: NotificationService
   ) {
     super(
-      isoService,
+      service,
       authService,
       dateTimeFormatterService,
-      dialogService,
       route,
       router,
       listService,

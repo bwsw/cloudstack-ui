@@ -4,36 +4,6 @@
 <div class="mat-dialog-content">
   <form #rulesForm="ngForm" novalidate>
     <table class="mat-table">
-      <thead>
-      <tr class="mat-header-row">
-        <th class="mat-header-cell">{{ 'SECURITY_GROUP_PAGE.RULES.TYPE' | translate }}
-        </th>
-        <th class="mat-header-cell">{{ 'SECURITY_GROUP_PAGE.RULES.PROTOCOL' | translate
-          }}
-        </th>
-        <ng-template [ngIf]="protocol !== NetworkProtocols.ICMP">
-          <th class="mat-header-cell">{{ 'SECURITY_GROUP_PAGE.RULES.START_PORT' |
-            translate }}
-          </th>
-          <th class="mat-header-cell">{{ 'SECURITY_GROUP_PAGE.RULES.END_PORT' | translate
-            }}
-          </th>
-        </ng-template>
-
-        <ng-template [ngIf]="protocol === NetworkProtocols.ICMP">
-          <th class="mat-header-cell">{{ 'SECURITY_GROUP_PAGE.RULES.ICMP_TYPE' | translate
-            }}
-          </th>
-          <th class="mat-header-cell">{{ 'SECURITY_GROUP_PAGE.RULES.ICMP_CODE' | translate
-            }}
-          </th>
-        </ng-template>
-        <th class="mat-header-cell">
-          {{ 'SECURITY_GROUP_PAGE.RULES.CIDR' | translate }}
-        </th>
-        <th></th>
-      </tr>
-      </thead>
       <tbody>
       <tr class="mat-row table-form" *ngIf="!securityGroup.isPredefinedTemplate">
         <td class="mat-cell">
@@ -56,66 +26,6 @@
             </md-option>
           </md-select>
         </td>
-        <td class="mat-cell">
-          <mdl-textfield
-            *ngIf="protocol === NetworkProtocols.ICMP"
-            [class.is-invalid]="icmpTypeField.touched && icmpTypeField.invalid"
-            name="icmpType"
-            type="number"
-            minValue="-1"
-            integerValue
-            error-msg="{{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_TYPE' | translate }}"
-            [label]="(icmpType === -1 ? 'SECURITY_GROUP_PAGE.RULES.ICMP_ANY' : '') | translate"
-            floating-label
-            required
-            [(ngModel)]="icmpType"
-            #icmpTypeField="ngModel"
-            (click)="onIcmpTypeClick()"
-          ></mdl-textfield>
-          <mdl-textfield
-            *ngIf="protocol !== NetworkProtocols.ICMP"
-            [class.is-invalid]="startPortField.touched && startPortField.invalid"
-            name="startPort"
-            type="number"
-            minValue="0"
-            maxValue="65536"
-            integerValue
-            error-msg="{{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_PORT' | translate }}"
-            required
-            [(ngModel)]="startPort"
-            #startPortField="ngModel"
-          ></mdl-textfield>
-        </td>
-        <td class="mat-cell">
-          <mdl-textfield
-            [class.is-invalid]="icmpCodeField.touched && icmpCodeField.invalid"
-            *ngIf="protocol === NetworkProtocols.ICMP"
-            name="icmpCode"
-            type="number"
-            minValue="-1"
-            integerValue
-            [label]="(icmpCode === -1 ? 'SECURITY_GROUP_PAGE.RULES.ICMP_ANY' : '') | translate"
-            floating-label
-            error-msg="{{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CODE' | translate }}"
-            required
-            [(ngModel)]="icmpCode"
-            #icmpCodeField="ngModel"
-            (click)="onIcmpCodeClick()"
-          ></mdl-textfield>
-          <mdl-textfield
-            *ngIf="protocol !== NetworkProtocols.ICMP"
-            [class.is-invalid]="endPortField.touched && endPortField.invalid"
-            name="endPort"
-            type="number"
-            minValue="0"
-            maxValue="65536"
-            integerValue
-            error-msg="{{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_PORT' | translate }}"
-            required
-            [(ngModel)]="endPort"
-            #endPortField="ngModel"
-          ></mdl-textfield>
-        </td>
         <td class="cidr mat-cell">
           <mdl-textfield
             [class.is-invalid]="cidrField.touched && cidrField.invalid"
@@ -130,6 +40,94 @@
           >
           </mdl-textfield>
         </td>
+
+        <td class="mat-cell">
+          <ng-container *ngIf="protocol === NetworkProtocols.ICMP">
+            <md-input-container floatPlaceholder="never">
+              <input
+                mdInput
+                maxValue="255"
+                minValue="-1"
+                #icmpTypeField="ngModel"
+                name="icmpType"
+                [placeholder]="'SECURITY_GROUP_PAGE.RULES.ICMP_TYPE' | translate"
+                [mdAutocomplete]="icmpTypesAuto"
+                [(ngModel)]="selectedType"
+                (ngModelChange)="setIcmpTypes(filterTypes(selectedType));"
+              >
+              <md-error *ngIf="icmpTypeField.invalid">{{
+                'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_TYPE' | translate }}
+              </md-error>
+
+              <md-autocomplete #icmpTypesAuto="mdAutocomplete">
+                <md-option *ngFor="let t of icmpTypes" [value]="t.type">
+                  {{ getIcmpTypeTranslationToken(t.type) | translate }} [{{ t.type }}]
+                </md-option>
+              </md-autocomplete>
+            </md-input-container>
+          </ng-container>
+
+          <mdl-textfield
+            *ngIf="protocol !== NetworkProtocols.ICMP"
+            [class.is-invalid]="startPortField.touched && startPortField.invalid"
+            name="startPort"
+            type="number"
+            [placeholder]="'SECURITY_GROUP_PAGE.RULES.START_PORT' | translate"
+            minValue="0"
+            maxValue="65536"
+            integerValue
+            error-msg="{{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_PORT' | translate }}"
+            required
+            [(ngModel)]="startPort"
+            #startPortField="ngModel"
+          ></mdl-textfield>
+        </td>
+
+        <td class="mat-cell">
+          <ng-container *ngIf="protocol === NetworkProtocols.ICMP">
+            <md-input-container floatPlaceholder="never">
+              <input
+                mdInput
+                name="icmpCode"
+                maxValue="255"
+                minValue="-1"
+                #icmpCodeField="ngModel"
+                [placeholder]="'SECURITY_GROUP_PAGE.RULES.ICMP_CODE' | translate"
+                [mdAutocomplete]="icmpCodesAuto"
+                [(ngModel)]="selectedCode"
+                (ngModelChange)="setIcmpCodes(filterCodes(selectedCode))"
+              >
+              <md-error *ngIf="icmpCodeField.invalid">{{
+                'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CODE' | translate }}
+              </md-error>
+
+              <md-autocomplete
+                #icmpCodesAuto="mdAutocomplete"
+                name="icmpCodesAuto"
+              >
+                <md-option *ngFor="let t of icmpCodes" [value]="t">
+                  {{ getIcmpCodeTranslationToken(icmpType, t) | translate }} [{{ t }}]
+                </md-option>
+              </md-autocomplete>
+            </md-input-container>
+          </ng-container>
+
+          <mdl-textfield
+            *ngIf="protocol !== NetworkProtocols.ICMP"
+            [class.is-invalid]="endPortField.touched && endPortField.invalid"
+            name="endPort"
+            type="number"
+            [placeholder]="'SECURITY_GROUP_PAGE.RULES.END_PORT' | translate"
+            minValue="0"
+            maxValue="65536"
+            integerValue
+            error-msg="{{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_PORT' | translate }}"
+            required
+            [(ngModel)]="endPort"
+            #endPortField="ngModel"
+          ></mdl-textfield>
+        </td>
+
         <td class="mat-cell">
           <button
             class="add-rule-button"
@@ -170,6 +168,6 @@
     mdl-button
     mdl-ripple
     mdl-colored="primary"
-    (click)="dialogRef.close()"
+    (click)="onClose()"
   >{{ 'COMMON.CLOSE' | translate }}</button>
 </div>

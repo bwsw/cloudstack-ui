@@ -9,6 +9,8 @@ import { PulseService } from '../pulse.service';
 import Chart = require('chart.js');
 
 (Chart.defaults.global.elements.line as any).cubicInterpolationMode = 'monotone';
+Chart.defaults.global.elements.point.radius = 0;
+Chart.defaults.global.elements.point.hitRadius = 5;
 
 export interface PulseChart {
   id: string;
@@ -31,8 +33,12 @@ export const defaultChartOptions = {
     }
   },
   tooltips: {
+    mode: 'x',
     intersect: false,
-    mode: 'x'
+  },
+  hover: {
+    mode: 'nearest',
+    intersect: false
   },
   scales: {
     xAxes: [

@@ -1,12 +1,15 @@
 import {
-  Component, EventEmitter, Input, OnChanges, Output,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
   SimpleChanges
 } from '@angular/core';
 
 import { OsFamily } from '../../shared/models/os-type.model';
 import { Zone } from '../../shared/models/zone.model';
 import { AuthService } from '../../shared/services/auth.service';
-import { ServiceLocator } from '../../shared/services/service-locator';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { TemplateFilters } from '../shared/base-template.service';
 import { Iso } from '../shared/iso.model';
@@ -45,7 +48,9 @@ export class TemplateFilterListComponent implements OnChanges {
     }
   ];
 
-  protected authService = ServiceLocator.injector.get(AuthService);
+  constructor(protected authService: AuthService) {
+
+  }
 
   public ngOnChanges(changes: SimpleChanges) {
     if (changes['isos'] || changes['templates']) {
@@ -95,13 +100,15 @@ export class TemplateFilterListComponent implements OnChanges {
   }
 
   private filterByCategories(templateList: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
+    const username = this.authService.user && this.authService.user.username || '';
+
     return templateList
       .filter(template => {
         const featuredFilter = !this.selectedFilters || !this.selectedFilters.length ||
           this.selectedFilters.includes(TemplateFilters.featured) || !template.isFeatured;
         const selfFilter = !this.selectedFilters || !this.selectedFilters.length ||
           this.selectedFilters.includes(TemplateFilters.self) ||
-          !(template.account === this.authService.username);
+          !(template.account === username);
         const osFilter = !this.selectedOsFamilies || !this.selectedOsFamilies.length ||
           this.selectedOsFamilies.includes(template.osType.osFamily);
         return featuredFilter && selfFilter && osFilter;
