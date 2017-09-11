@@ -36,6 +36,7 @@ export class AppSidebarComponent extends WithUnsubscribe()
   @ViewChild('navigationBar') public navigationBar: ElementRef;
   @Input() public open: boolean;
   @Input() public title: string;
+  public imgUrl = 'url(img/cloudstack_logo_light.png)'; // TODO
 
   public routes = sideBarRoutes.slice();
   public nonDraggableRoutes = nonDraggableRoutes;

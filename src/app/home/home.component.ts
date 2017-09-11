@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public get title(): string {
-    return this.auth.user ? this.auth.user.username : '';
+    return this.auth.user ? this.auth.user.name : '';
   }
 
   public get isDrawerOpen(): boolean {
