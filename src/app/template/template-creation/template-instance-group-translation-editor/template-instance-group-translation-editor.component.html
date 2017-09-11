@@ -1,0 +1,31 @@
+<ng-container *ngIf="newGroup">
+  <md-input-container floatPlaceholder="never">
+    <input
+      mdInput
+      #templateGroupField="ngModel"
+      name="icmpType"
+      [placeholder]="'TEMPLATE_PAGE.INSTANCE_GROUP_TRANSLATION_EDITOR.EN' | translate"
+      [(ngModel)]="newGroup.en"
+    >
+  </md-input-container>
+
+  <md-input-container floatPlaceholder="never">
+    <input
+      mdInput
+      #templateGroupField="ngModel"
+      name="icmpType"
+      [placeholder]="'TEMPLATE_PAGE.INSTANCE_GROUP_TRANSLATION_EDITOR.RU' | translate"
+      [(ngModel)]="newGroup.ru"
+    >
+  </md-input-container>
+
+  <md-input-container floatPlaceholder="never">
+    <input
+      mdInput
+      #templateGroupField="ngModel"
+      name="icmpType"
+      [placeholder]="'TEMPLATE_PAGE.INSTANCE_GROUP_TRANSLATION_EDITOR.CN' | translate"
+      [(ngModel)]="newGroup.cn"
+    >
+  </md-input-container>
+</ng-container>

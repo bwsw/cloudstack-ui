@@ -1,0 +1,32 @@
+<md-input-container *ngIf="groups" floatPlaceholder="never">
+  <input
+    mdInput
+    #templateGroupField="ngModel"
+    name="icmpType"
+    [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.GROUP' | translate"
+    [mdAutocomplete]="templateGroupAutocomplete"
+    [(ngModel)]="instanceGroupName"
+  >
+  <md-autocomplete #templateGroupAutocomplete="mdAutocomplete">
+    <md-option *ngFor="let g of groups" [value]="g">
+      {{ g }}
+    </md-option>
+  </md-autocomplete>
+</md-input-container>
+
+<button
+  *ngIf="showAddButton"
+  md-button
+  (click)="onOpenTranslationEditor()"
+>
+  {{ 'TEMPLATE_PAGE_INSTANCE_GROUP_EDITOR.ADD_TRANSLATIONS' | translate }}
+</button>
+
+<button
+  *ngIf="showEditButton"
+  md-button
+  (click)="onOpenTranslationEditor()"
+>
+ {{ 'TEMPLATE_PAGE.INSTANCE_GROUP_EDITOR.EDIT_TRANSLATIONS' | translate }}
+</button>
+

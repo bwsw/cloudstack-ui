@@ -1,5 +1,4 @@
 import { Taggable } from '../../../shared/interfaces/taggable.interface';
-import { InstanceGroup } from '../../../shared/models/instance-group.model';
 import { IsoTagKeys } from '../../../shared/services/tags/template/iso/iso-tag-keys';
 import { BaseTemplateModel } from '../base/base-template.model';
 
@@ -16,11 +15,7 @@ export class Iso extends BaseTemplateModel implements Taggable {
     return false;
   }
 
-  protected initializeInstanceGroup(): void {
-    const group = this.tags.find(tag => tag.key === IsoTagKeys.group);
-
-    if (group) {
-      this.instanceGroup = new InstanceGroup(group.value);
-    }
+  protected get tagKeys(): any {
+    return IsoTagKeys;
   }
 }

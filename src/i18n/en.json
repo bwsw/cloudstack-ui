@@ -561,6 +561,16 @@
       "EXTRACTABLE": "Extractable",
       "PASSWORD_ENABLED": "Password enabled",
       "DYNAMICALLY_SCALABLE": "Dynamically scalable"
+    },
+    "INSTANCE_GROUP_EDITOR": {
+      "ADD_TRANSLATIONS": "Add translations",
+      "EDIT_TRANSLATIONS": "Edit translations"
+    },
+    "INSTANCE_GROUP_TRANSLATION_EDITOR": {
+      "TITLE": "Group name translations",
+      "EN": "English",
+      "RU": "Russian",
+      "CN": "Chinese"
     }
   },
   "SECURITY_GROUP_PAGE": {

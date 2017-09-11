@@ -1,5 +1,5 @@
 export interface TemplateInstanceGroup {
-  group: string;
+  name: string;
   en: string;
   ru: string;
   cn: string;
