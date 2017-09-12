@@ -130,6 +130,7 @@ import { InstanceGroupComponent } from './components/instance-group/instance-gro
 import { InstanceGroupSelectorComponent } from './components/instance-group/instance-group-selector/instance-group-selector.component';
 import { IsoTagService } from './services/tags/template/iso/iso-tag.service';
 import { ReadOnlyInstanceGroupComponent } from './components/instance-group/read-only-instance-group/read-only-instance-group.component';
+import { InstanceGroupTranslationService } from './services/instance-group-translation.service';
 
 
 @NgModule({
@@ -318,7 +319,8 @@ import { ReadOnlyInstanceGroupComponent } from './components/instance-group/read
     MDL_SELECT_VALUE_ACCESSOR,
     InstanceGroupTagService,
     TemplateTagService,
-    IsoTagService
+    IsoTagService,
+    InstanceGroupTranslationService
   ]
 })
 export class SharedModule {

@@ -6,6 +6,7 @@ import { TemplateService } from '../../../../template/shared/template/template.s
 import { JobsNotificationService } from '../../../services/jobs-notification.service';
 import { TemplateTagService } from '../../../services/tags/template/template/template-tag.service';
 import { BaseTemplateCreateAction } from './base-template-create';
+import { Template } from '../../../../template/shared/template/template.model';
 
 
 @Injectable()
@@ -23,8 +24,7 @@ export class TemplateCreateAction extends BaseTemplateCreateAction {
     super(dialogService, jobsNotificationService);
   }
 
-  protected getCreationCommand(templateData: any): Observable<BaseTemplateModel> {
-    // todo: change
+  protected getCreationCommand(templateData: any): Observable<Template> {
     const group = templateData.group;
     if (group) {
       delete templateData.group;
@@ -33,7 +33,7 @@ export class TemplateCreateAction extends BaseTemplateCreateAction {
     return this.getRequestObservable(templateData)
       .switchMap(template => {
         if (group) {
-          return this.templateTagService.setGroup(template, group);
+          return this.templateService.addInstanceGroup(template, group);
         } else {
           return Observable.of(template);
         }
@@ -45,7 +45,7 @@ export class TemplateCreateAction extends BaseTemplateCreateAction {
       .do(template => this.templateService.onTemplateCreated.next(template));
   }
 
-  private getRequestObservable(templateData: any): Observable<BaseTemplateModel> {
+  private getRequestObservable(templateData: any): Observable<Template> {
     if (templateData.snapshotId) {
       return this.templateService.create(templateData);
     } else {

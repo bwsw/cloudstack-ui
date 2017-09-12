@@ -8,6 +8,7 @@ import {
   InstanceGroupSelectorData
 } from '../instance-group-selector/instance-group-selector.component';
 import { Language } from '../../../services/language.service';
+import { InstanceGroupTranslationService } from '../../../services/instance-group-translation.service';
 
 
 @Component({
@@ -21,25 +22,11 @@ export class InstanceGroupComponent {
 
   constructor(
     private dialog: MdDialog,
-    private translateService: TranslateService
+    private instanceGroupTranslationService: InstanceGroupTranslationService
   ) {}
 
   public get groupName(): string {
-    if (this.useEnglishTranslation) {
-      return this.entity.instanceGroup.translations.en;
-    }
-
-    if (this.useRussianTranslation) {
-      return this.entity.instanceGroup.translations.ru;
-    }
-
-    if (this.useChineseTranslation) {
-      return this.entity.instanceGroup.translations.cn;
-    }
-
-    if (this.useDefaultName) {
-      return this.entity.instanceGroup && this.entity.instanceGroup.name;
-    }
+    return this.instanceGroupTranslationService.getGroupName(this.entity.instanceGroup);
   }
 
   public changeGroup(): void {
@@ -54,40 +41,5 @@ export class InstanceGroupComponent {
       entity: this.entity,
       entityService: this.entityService
     };
-  }
-
-  private get useEnglishTranslation(): boolean {
-    return (
-      this.translateService.currentLang === Language.en &&
-      this.entity.instanceGroup &&
-      this.entity.instanceGroup.translations &&
-      !!this.entity.instanceGroup.translations.en
-    );
-  }
-
-  private get useRussianTranslation(): boolean {
-    return (
-      this.translateService.currentLang === Language.ru &&
-      this.entity.instanceGroup &&
-      this.entity.instanceGroup.translations &&
-      !!this.entity.instanceGroup.translations.ru
-    );
-  }
-
-  private get useChineseTranslation(): boolean {
-    return (
-      this.translateService.currentLang === Language.cn &&
-      this.entity.instanceGroup &&
-      this.entity.instanceGroup.translations &&
-      !!this.entity.instanceGroup.translations.cn
-    );
-  }
-
-  private get useDefaultName(): boolean {
-    return (
-      !this.useEnglishTranslation &&
-      !this.useRussianTranslation &&
-      !this.useChineseTranslation
-    );
   }
 }

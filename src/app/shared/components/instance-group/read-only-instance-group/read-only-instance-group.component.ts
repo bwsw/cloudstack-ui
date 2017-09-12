@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { InstanceGroupEnabled } from '../../../interfaces/instance-group-enabled';
+import { InstanceGroupTranslationService } from '../../../services/instance-group-translation.service';
 
 
 @Component({
@@ -9,7 +10,9 @@ import { InstanceGroupEnabled } from '../../../interfaces/instance-group-enabled
 export class ReadOnlyInstanceGroupComponent {
   @Input() public entity: InstanceGroupEnabled;
 
+  constructor(private instanceGroupTranslationService: InstanceGroupTranslationService) {}
+
   public get groupName(): string {
-    return this.entity.instanceGroup && this.entity.instanceGroup.name;
+    return this.instanceGroupTranslationService.getGroupName(this.entity.instanceGroup);
   }
 }

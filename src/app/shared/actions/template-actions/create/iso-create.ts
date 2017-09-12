@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
-import { JobsNotificationService } from '../../../services/jobs-notification.service';
 import { BaseTemplateModel } from '../../../../template/shared/base/base-template.model';
 import { IsoService } from '../../../../template/shared/iso/iso.service';
-import { BaseTemplateCreateAction } from './base-template-create';
+import { JobsNotificationService } from '../../../services/jobs-notification.service';
 import { IsoTagService } from '../../../services/tags/template/iso/iso-tag.service';
+import { BaseTemplateCreateAction } from './base-template-create';
 import { Iso } from '../../../../template/shared/iso/iso.model';
 
 
@@ -27,7 +27,7 @@ export class IsoCreateAction extends BaseTemplateCreateAction {
     super(dialogService, jobsNotificationService);
   }
 
-  protected getCreationCommand(templateData: any): Observable<BaseTemplateModel> {
+  protected getCreationCommand(templateData: any): Observable<Iso> {
     const group = templateData.group;
     if (group) {
       delete templateData.group;
@@ -36,7 +36,7 @@ export class IsoCreateAction extends BaseTemplateCreateAction {
     return this.isoService.register(templateData)
       .switchMap(iso => {
         if (group) {
-          return this.isoTagService.setGroup(iso, group);
+          return this.isoService.addInstanceGroup(iso, group);
         } else {
           return Observable.of(iso);
         }
