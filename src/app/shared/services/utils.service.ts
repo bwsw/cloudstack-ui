@@ -71,4 +71,12 @@ export class Utils {
 
     throw new Error('Invalid argument');
   }
+
+  public static parseJsonString(string): any {
+    try {
+      return JSON.parse(string);
+    } catch (e) {
+      return null;
+    }
+  }
 }

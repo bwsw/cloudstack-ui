@@ -1,6 +1,6 @@
 import { MdlLayoutComponent } from '@angular-mdl/core';
 import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
-import { Response } from '@angular/http';
+import { HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import '../style/app.scss';
 import { AsyncJobService } from './shared/services/async-job.service';
@@ -80,7 +80,7 @@ export class AppComponent implements OnInit{
   }
 
   private handleError(e: any): void {
-    if (e instanceof Response) {
+    if (e instanceof HttpResponse) {
       switch (e.status) {
         case 401:
           this.notification.message('AUTH.NOT_LOGGED_IN');
