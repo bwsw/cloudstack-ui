@@ -1,12 +1,11 @@
-<md-sidenav-container (backdropClick)="hideDetails()">
-  <md-sidenav position="end" [opened]="isOpen">
-    <ng-content select="[cs-sidebar]"></ng-content>
-  </md-sidenav>
+<div class="detail-list margin-right">
+  <ng-content select="[cs-panels]"></ng-content>
+  <ng-content select="[cs-list]"></ng-content>
+</div>
 
-  <div class="detail-list">
-    <ng-content select="[cs-panels]"></ng-content>
-    <ng-content select="[cs-list]"></ng-content>
-  </div>
+<ng-content select="[cs-sidebar]"></ng-content>
 
-  <cs-fab [isOpen]="isOpen" (click)="onAction.next()"></cs-fab>
-</md-sidenav-container>
+<cs-fab
+  [isOpen]="isOpen"
+  (click)="onAction.next()"
+></cs-fab>
