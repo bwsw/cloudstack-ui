@@ -102,17 +102,19 @@ export class TemplateFiltersComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.loadGroups();
-    if (!this.dialogMode) {
-      this.zoneService.getList()
-        .subscribe(zones => {
-          this.zones = zones;
-          setTimeout(() => this.initFilters(), 0);
-        });
-    } else {
-      this.selectedOsFamilies = this.osFamilies.concat();
-      this.selectedFilters = this.categoryFilters.concat();
-    }
+    this.loadGroups()
+      .subscribe(() => {
+        if (!this.dialogMode) {
+          this.zoneService.getList()
+            .subscribe(zones => {
+              this.zones = zones;
+              setTimeout(() => this.initFilters(), 0);
+            });
+        } else {
+          this.selectedOsFamilies = this.osFamilies.concat();
+          this.selectedFilters = this.categoryFilters.concat();
+        }
+      });
 
     this.queryStream
       .distinctUntilChanged()
@@ -133,7 +135,8 @@ export class TemplateFiltersComponent implements OnInit {
       this.templateService.instanceGroupUpdateObservable,
       this.isoService.instanceGroupUpdateObservable
     )
-      .subscribe(() => this.loadGroups());
+      .switchMap(() => this.loadGroups())
+      .subscribe();
   }
 
   public get templateSwitchPosition(): number {
@@ -209,12 +212,12 @@ export class TemplateFiltersComponent implements OnInit {
     this.updateFilters();
   }
 
-  private loadGroups(): void {
-    Observable.forkJoin(
+  private loadGroups(): Observable<void> {
+    return Observable.forkJoin(
       this.templateService.getInstanceGroupList(),
       this.isoService.getInstanceGroupList()
     )
-      .subscribe(([templateGroups, isoGroups]) => {
+      .map(([templateGroups, isoGroups]) => {
         this.templateGroups = templateGroups.sort(this.groupSortPredicate);
         this.isoGroups = isoGroups.sort(this.groupSortPredicate);
         this.selectedGroups = this.selectedGroups.filter(selectedGroup => {

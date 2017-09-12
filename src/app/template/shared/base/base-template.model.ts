@@ -75,7 +75,7 @@ export abstract class BaseTemplateModel extends BaseModel implements Taggable, I
     }
   }
 
-  private initializeInstanceGroup(): void {
+  public initializeInstanceGroup(): void {
     const group = this.tags.find(tag => tag.key === this.tagKeys.group);
     const groupEn = this.tags.find(tag => tag.key === this.tagKeys.groupEn);
     const groupRu = this.tags.find(tag => tag.key === this.tagKeys.groupRu);
@@ -90,6 +90,8 @@ export abstract class BaseTemplateModel extends BaseModel implements Taggable, I
           cn: groupCn && groupCn.value
         }
       );
+    } else {
+      this.instanceGroup = undefined;
     }
   }
 

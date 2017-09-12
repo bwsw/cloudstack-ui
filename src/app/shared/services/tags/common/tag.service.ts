@@ -40,40 +40,6 @@ export class TagService extends BaseBackendCachedService<Tag> {
       .map(tags => tags[0]);
   }
 
-  public update(entity: any, entityName: string, key: string, value: any): Observable<any> {
-    const createObs = this.create({
-      resourceIds: entity.id,
-      resourceType: entityName,
-      'tags[0].key': key,
-      'tags[0].value': value,
-    })
-      .map(() => {
-        if (entity.tags) {
-          entity.tags.push(new Tag({
-            resourceId: entity.id,
-            resourceType: entityName,
-            key,
-            value
-          }));
-        }
-        return entity;
-      })
-      .do(() => this.invalidateCache());
-
-    return this.getTag(entity, key)
-      .switchMap(tag => {
-        return this.remove({
-          resourceIds: entity.id,
-          resourceType: entityName,
-          'tags[0].key': key,
-          'tags[0].value': tag.value || ''
-        })
-          .map(() => entity.tags = entity.tags.filter(t => tag.key !== t.key))
-          .switchMap(() => createObs);
-      })
-      .catch(() => createObs);
-  }
-
   public copyTagsToEntity(tags: Array<Tag>, entity: Taggable): Observable<any> {
     const copyRequests = tags.map(tag => {
       return this.update(
@@ -95,5 +61,50 @@ export class TagService extends BaseBackendCachedService<Tag> {
     if (tag) {
       return tag.value;
     }
+  }
+
+  public update(entity: any, entityName: string, key: string, value: any): Observable<any> {
+    return this.getTag(entity, key)
+      .switchMap(tag => {
+        return this.remove({
+          resourceIds: entity.id,
+          resourceType: entityName,
+          'tags[0].key': key,
+          'tags[0].value': tag.value || ''
+        })
+          .map(() => entity.tags = entity.tags.filter(t => tag.key !== t.key))
+          .switchMap(() => this.getTagCreationObservableForUpdate(entity, entityName, key, value));
+      })
+      .catch(() => this.getTagCreationObservableForUpdate(entity, entityName, key, value));
+  }
+
+  private getTagCreationObservableForUpdate(
+    entity: any,
+    entityName: string,
+    key: string,
+    value: any
+  ): Observable<any> {
+    if (!value) {
+      return Observable.of(entity);
+    }
+
+    return this.create({
+      resourceIds: entity.id,
+      resourceType: entityName,
+      'tags[0].key': key,
+      'tags[0].value': value,
+    })
+      .map(() => {
+        if (entity.tags) {
+          entity.tags.push(new Tag({
+            resourceId: entity.id,
+            resourceType: entityName,
+            key,
+            value
+          }));
+        }
+        return entity;
+      })
+      .do(() => this.invalidateCache());
   }
 }

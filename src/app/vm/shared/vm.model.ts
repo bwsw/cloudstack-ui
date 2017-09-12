@@ -119,6 +119,16 @@ export class VirtualMachine extends BaseModel implements Taggable, InstanceGroup
     return sizeInBytes / Math.pow(2, 30);
   }
 
+  public initializeInstanceGroup(): void {
+    const group = this.tags.find(tag => tag.key === VirtualMachineTagKeys.group);
+
+    if (group) {
+      this.instanceGroup = new InstanceGroup(group.value);
+    } else {
+      this.instanceGroup = undefined;
+    }
+  }
+
   private initializeNic(): void {
     if (!this.nic) {
       this.nic = [];
@@ -143,13 +153,5 @@ export class VirtualMachine extends BaseModel implements Taggable, InstanceGroup
     }
 
     this.tags = this.tags.map(tag => new Tag(tag));
-  }
-
-  private initializeInstanceGroup(): void {
-    const group = this.tags.find(tag => tag.key === VirtualMachineTagKeys.group);
-
-    if (group) {
-      this.instanceGroup = new InstanceGroup(group.value);
-    }
   }
 }
