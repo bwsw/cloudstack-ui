@@ -7,6 +7,8 @@ import { JobsNotificationService } from '../../../services/jobs-notification.ser
 import { TemplateTagService } from '../../../services/tags/template/template/template-tag.service';
 import { BaseTemplateCreateAction } from './base-template-create';
 import { Template } from '../../../../template/shared/template/template.model';
+import { TemplateCreationData } from './template-creation-params';
+import { RegisterTemplateBaseParams } from '../../../../template/shared/base/base-template.service';
 
 
 @Injectable()
@@ -24,13 +26,11 @@ export class TemplateCreateAction extends BaseTemplateCreateAction {
     super(dialogService, jobsNotificationService);
   }
 
-  protected getCreationCommand(templateData: any): Observable<Template> {
-    const group = templateData.group;
-    if (group) {
-      delete templateData.group;
-    }
+  protected getCreationCommand(templateCreationData: TemplateCreationData): Observable<Template> {
+    const group = templateCreationData.group;
+    const creationParams = this.getCreationParams(templateCreationData);
 
-    return this.getRequestObservable(templateData)
+    return this.getRequestObservable(creationParams)
       .switchMap(template => {
         if (group) {
           return this.templateService.addInstanceGroup(template, group);
@@ -39,17 +39,41 @@ export class TemplateCreateAction extends BaseTemplateCreateAction {
         }
       })
       .switchMap(template => {
-        return this.templateTagService.setDownloadUrl(template, templateData.url);
+        return this.templateTagService.setDownloadUrl(template, templateCreationData.url);
       })
       .switchMap(template => this.templateService.get(template.id))
       .do(template => this.templateService.onTemplateCreated.next(template));
   }
 
-  private getRequestObservable(templateData: any): Observable<Template> {
-    if (templateData.snapshotId) {
-      return this.templateService.create(templateData);
+  private getRequestObservable(params: RegisterTemplateBaseParams): Observable<Template> {
+    if (params.snapshotId) {
+      return this.templateService.create(params);
     } else {
-      return this.templateService.register(templateData);
+      return this.templateService.register(params);
     }
+  }
+
+  private getCreationParams(data: TemplateCreationData): RegisterTemplateBaseParams {
+    const params = {
+      name: this.name,
+      displayText: data.displayText,
+      osTypeId: data.osTypeId,
+      entity: 'Template' as 'Template'
+    };
+
+    if (!data.snapshot) {
+      params['url'] = data.url;
+      params['zoneId'] = data.zoneId;
+      params['passwordEnabled'] = data.passwordEnabled;
+      params['isDynamicallyScalable'] = data.isDynamicallyScalable;
+    } else {
+      params['snapshotId'] = data.snapshot.id;
+    }
+
+    if (data.group) {
+      params['group'] = data.group;
+    }
+
+    return params;
   }
 }

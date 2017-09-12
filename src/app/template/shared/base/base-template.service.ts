@@ -25,6 +25,7 @@ export interface RegisterTemplateBaseParams {
   url?: string;
   zoneId?: string;
   entity: 'Iso' | 'Template';
+  snapshotId?: string
 }
 
 

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
-import { BaseTemplateModel } from '../../../../template/shared/base/base-template.model';
 import { IsoService } from '../../../../template/shared/iso/iso.service';
 import { JobsNotificationService } from '../../../services/jobs-notification.service';
 import { IsoTagService } from '../../../services/tags/template/iso/iso-tag.service';
 import { BaseTemplateCreateAction } from './base-template-create';
 import { Iso } from '../../../../template/shared/iso/iso.model';
+import { IsoCreationData } from './iso-creation-params';
+import { RegisterTemplateBaseParams } from '../../../../template/shared/base/base-template.service';
 
 
 @Injectable()
@@ -27,13 +28,11 @@ export class IsoCreateAction extends BaseTemplateCreateAction {
     super(dialogService, jobsNotificationService);
   }
 
-  protected getCreationCommand(templateData: any): Observable<Iso> {
+  protected getCreationCommand(templateData: IsoCreationData): Observable<Iso> {
     const group = templateData.group;
-    if (group) {
-      delete templateData.group;
-    }
+    const creationParams = this.getCreationParams(templateData);
 
-    return this.isoService.register(templateData)
+    return this.isoService.register(creationParams)
       .switchMap(iso => {
         if (group) {
           return this.isoService.addInstanceGroup(iso, group);
@@ -46,5 +45,23 @@ export class IsoCreateAction extends BaseTemplateCreateAction {
       })
       .switchMap(iso => this.isoService.get(iso.id))
       .do(iso => this.isoService.onTemplateCreated.next(iso));
+  }
+
+  private getCreationParams(data: IsoCreationData): RegisterTemplateBaseParams {
+    const params = {
+      name: this.name,
+      displayText: data.displayText,
+      osTypeId: data.osTypeId,
+      entity: 'Template' as 'Template'
+    };
+
+    params['url'] = data.url;
+    params['zoneId'] = data.zoneId;
+
+    if (data.group) {
+      params['group'] = data.group;
+    }
+
+    return params;
   }
 }

@@ -10,6 +10,8 @@ import { Observable } from 'rxjs/Observable';
 import { IsoService } from '../shared/iso/iso.service';
 import { TemplateService } from '../shared/template/template.service';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
+import { TemplateCreationData } from '../../shared/actions/template-actions/create/template-creation-params';
+import { IsoCreationData } from '../../shared/actions/template-actions/create/iso-creation-params';
 
 
 @Component({
@@ -81,34 +83,9 @@ export class TemplateCreationComponent implements OnInit {
   }
 
   public onCreate(): void {
-    const params = {
-      name: this.name,
-      displayText: this.displayText,
-      osTypeId: this.osTypeId,
-    };
-
-    if (!this.snapshot) {
-      params['url'] = this.url;
-      params['zoneId'] = this.zoneId;
-
-      if (this.mode === 'Template') {
-        params['passwordEnabled'] = this.passwordEnabled;
-        params['isDynamicallyScalable'] = this.dynamicallyScalable;
-        params['entity'] = 'Template';
-      } else {
-        params['entity'] = 'Iso';
-      }
-    } else {
-      params['snapshotId'] = this.snapshot.id;
-    }
-
-    if (this.instanceGroup) {
-      params['group'] = this.instanceGroup;
-    }
-
     this.loading = true;
 
-    this.getCreationAction(params)
+    this.getCreationAction()
       .finally(() => this.loading = false)
       .subscribe(
         template => this.dialogRef.close(template),
@@ -120,12 +97,38 @@ export class TemplateCreationComponent implements OnInit {
     this.instanceGroup = instanceGroup;
   }
 
-  private getCreationAction(params: any): Observable<void> {
+  private getCreationAction(): Observable<void> {
     if (this.mode === 'Iso') {
-      return this.isoCreationAction.activate(params);
+      return this.isoCreationAction.activate(this.templateCreationData);
     } else {
-      return this.templateCreationAction.activate(params);
+      return this.templateCreationAction.activate(this.isoCreationData);
     }
+  }
+
+  private get templateCreationData(): TemplateCreationData {
+    return {
+      name: this.name,
+      displayText: this.displayText,
+      osTypeId: this.osTypeId,
+      url: this.url,
+      zoneId: this.zoneId,
+      snapshot: this.snapshot,
+      group: this.instanceGroup,
+      passwordEnabled: this.passwordEnabled,
+      isDynamicallyScalable: this.dynamicallyScalable
+    };
+  }
+
+  private get isoCreationData(): IsoCreationData {
+    return {
+      name: this.name,
+      displayText: this.displayText,
+      osTypeId: this.osTypeId,
+      url: this.url,
+      zoneId: this.zoneId,
+      snapshot: this.snapshot,
+      group: this.instanceGroup
+    };
   }
 
   private loadOsTypes(): void {
