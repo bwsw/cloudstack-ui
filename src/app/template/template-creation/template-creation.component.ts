@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Optional } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { OsType, Zone } from '../../shared';
 import { Snapshot } from '../../shared/models/snapshot.model';
@@ -7,10 +7,9 @@ import { ZoneService } from '../../shared/services/zone.service';
 import { TemplateCreateAction } from '../../shared/actions/template-actions/create/template-create';
 import { IsoCreateAction } from '../../shared/actions/template-actions/create/iso-create';
 import { Observable } from 'rxjs/Observable';
-import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { IsoService } from '../shared/iso/iso.service';
 import { TemplateService } from '../shared/template/template.service';
-import { LocalizedInstanceGroup } from '../../shared/services/tags/template/base/template-instance-group';
+import { InstanceGroup } from '../../shared/models/instance-group.model';
 
 
 @Component({
@@ -35,9 +34,9 @@ export class TemplateCreationComponent implements OnInit {
 
   public loading: boolean;
 
-  public instanceGroupName: string;
-  public templateGroups: Array<LocalizedInstanceGroup> = [];
-  public isoGroups: Array<LocalizedInstanceGroup> = [];
+  public instanceGroup: InstanceGroup;
+  public templateGroups: Array<InstanceGroup> = [];
+  public isoGroups: Array<InstanceGroup> = [];
 
   constructor(
     private dialogRef: MdDialogRef<TemplateCreationComponent>,
@@ -60,7 +59,7 @@ export class TemplateCreationComponent implements OnInit {
     this.loadGroups();
   }
 
-  public get groups(): Array<LocalizedInstanceGroup> {
+  public get groups(): Array<InstanceGroup> {
     if (this.mode === 'Template') {
       return this.templateGroups;
     } else {
@@ -103,8 +102,8 @@ export class TemplateCreationComponent implements OnInit {
       params['snapshotId'] = this.snapshot.id;
     }
 
-    if (this.instanceGroupName) {
-      params['group'] = new InstanceGroup(this.instanceGroupName);
+    if (this.instanceGroup) {
+      params['group'] = this.instanceGroup;
     }
 
     this.loading = true;
@@ -115,6 +114,10 @@ export class TemplateCreationComponent implements OnInit {
         template => this.dialogRef.close(template),
         () => {}
       );
+  }
+
+  public onGroupChange(instanceGroup: InstanceGroup): void {
+    this.instanceGroup = instanceGroup;
   }
 
   private getCreationAction(params: any): Observable<void> {

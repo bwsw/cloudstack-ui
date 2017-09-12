@@ -32,7 +32,10 @@
           >
           </mdl-textfield>
           <br>
-          <cs-template-instance-group-editor [groups]="groups"></cs-template-instance-group-editor>
+          <cs-template-instance-group-editor
+            [groups]="groups"
+            (onGroupChange)="onGroupChange($event)"
+          ></cs-template-instance-group-editor>
           <br>
           <mdl-textfield
             *ngIf="!snapshot"
@@ -125,3 +128,5 @@
     </div>
   </form>
 </div>
+
+{{ instanceGroup | json }}

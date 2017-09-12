@@ -40,7 +40,6 @@ export class InstanceGroupComponent {
     if (this.useDefaultName) {
       return this.entity.instanceGroup && this.entity.instanceGroup.name;
     }
-
   }
 
   public changeGroup(): void {

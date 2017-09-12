@@ -1,11 +1,10 @@
 import * as moment from 'moment';
-
 import { FieldMapper } from '../../../shared/decorators/field-mapper.decorator';
 import { InstanceGroupEnabled } from '../../../shared/interfaces/instance-group-enabled';
 import { Taggable } from '../../../shared/interfaces/taggable.interface';
 import { BaseModel, Tag } from '../../../shared/models';
+import { InstanceGroup } from '../../../shared/models/instance-group.model';
 import { OsType } from '../../../shared/models/os-type.model';
-import { LocalizedInstanceGroup } from '../../../shared/services/tags/template/base/template-instance-group';
 import { TemplateTagKeys } from '../../../shared/services/tags/template/template/template-tag-keys';
 import { Utils } from '../../../shared/services/utils.service';
 
@@ -35,7 +34,7 @@ export abstract class BaseTemplateModel extends BaseModel implements Taggable, I
   public displayText: string;
   public domain: string;
   public domainId: string;
-  public instanceGroup: LocalizedInstanceGroup;
+  public instanceGroup: InstanceGroup;
   public isDynamicallyScalable: boolean;
   public isExtractable: boolean;
   public isFeatured: boolean;
@@ -83,7 +82,7 @@ export abstract class BaseTemplateModel extends BaseModel implements Taggable, I
     const groupCn = this.tags.find(tag => tag.key === this.tagKeys.groupCn);
 
     if (group) {
-      this.instanceGroup = new LocalizedInstanceGroup(
+      this.instanceGroup = new InstanceGroup(
         group.value,
         {
           en: groupEn && groupEn.value,

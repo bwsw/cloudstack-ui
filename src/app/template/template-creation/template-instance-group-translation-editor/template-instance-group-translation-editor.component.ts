@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
-import { LocalizedInstanceGroup } from '../../../shared/services/tags/template/base/template-instance-group';
+import { InstanceGroup } from '../../../shared/models/instance-group.model';
 
 
 @Component({
@@ -9,15 +9,15 @@ import { LocalizedInstanceGroup } from '../../../shared/services/tags/template/b
   styleUrls: ['template-instance-group-translation-editor.component.scss']
 })
 export class TemplateInstanceGroupTranslationEditorComponent implements OnInit {
-  public newGroup: LocalizedInstanceGroup;
+  public newGroup: InstanceGroup;
 
   constructor(
     public dialogRef: MdDialogRef<TemplateInstanceGroupTranslationEditorComponent>,
-    @Inject(MD_DIALOG_DATA) public group: LocalizedInstanceGroup
+    @Inject(MD_DIALOG_DATA) public group: InstanceGroup
   ) {}
 
   public ngOnInit(): void {
-    this.newGroup = new LocalizedInstanceGroup(
+    this.newGroup = new InstanceGroup(
       this.group.name,
       this.group.translations
     );

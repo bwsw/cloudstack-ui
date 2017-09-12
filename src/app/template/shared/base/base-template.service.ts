@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { InstanceGroupEnabledService } from '../../../shared/interfaces/instance-group-enabled-service';
-import { InstanceGroup } from '../../../shared/models/instance-group.model';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { BaseBackendService } from '../../../shared/services/base-backend.service';
 import { OsTypeService } from '../../../shared/services/os-type.service';
@@ -11,7 +10,7 @@ import { Utils } from '../../../shared/services/utils.service';
 import { BaseTemplateModel } from './base-template.model';
 import { GroupedTemplates } from './grouped-templates';
 import { TemplateFilters } from './template-filters';
-import { LocalizedInstanceGroup } from '../../../shared/services/tags/template/base/template-instance-group';
+import { InstanceGroup } from '../../../shared/models/instance-group.model';
 
 
 export interface RequestParams {
@@ -167,7 +166,7 @@ export abstract class BaseTemplateService<M extends BaseTemplateModel>
       });
   }
 
-  public addInstanceGroup(template: M, group: LocalizedInstanceGroup): Observable<M> {
+  public addInstanceGroup(template: M, group: InstanceGroup): Observable<M> {
     template.instanceGroup = group;
     return this.baseTemplateTagService.setGroup(template, group)
       .do(updatedTemplate => {
@@ -177,7 +176,7 @@ export abstract class BaseTemplateService<M extends BaseTemplateModel>
       .catch(() => Observable.of(template)) as Observable<M>;
   }
 
-  public getInstanceGroupList(): Observable<Array<LocalizedInstanceGroup>> {
+  public getInstanceGroupList(): Observable<Array<InstanceGroup>> {
     return this.getGroupedTemplates()
       .map(groupedTemplates => groupedTemplates.toArray())
       .map(templateList => {
@@ -185,7 +184,7 @@ export abstract class BaseTemplateService<M extends BaseTemplateModel>
       });
   }
 
-  private getInstanceGroupListFromTemplateList(templateList: Array<M>): Array<LocalizedInstanceGroup> {
+  private getInstanceGroupListFromTemplateList(templateList: Array<M>): Array<InstanceGroup> {
     return templateList.reduce((groups, template) => {
       const instanceGroupExists = template.instanceGroup;
       const instanceGroupAlreadyInList =

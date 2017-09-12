@@ -34,7 +34,11 @@ export abstract class BaseTemplateTagService implements InstanceGroupTagServiceI
     return this.instanceGroupTagService.getGroup(template, this);
   }
 
-  public setGroup(template: BaseTemplateModel, group: InstanceGroup): Observable<BaseTemplateModel> {
+  public setGroup(
+    template: BaseTemplateModel,
+    group: InstanceGroup
+  ): Observable<BaseTemplateModel> {
+
     return this.instanceGroupTagService.setGroup(template, group, this) as Observable<BaseTemplateModel>;
   }
 }
