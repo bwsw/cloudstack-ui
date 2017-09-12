@@ -1,21 +1,26 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
-import { TemplateInstanceGroup } from '../../../shared/services/tags/template/base/template-instance-group';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { LocalizedInstanceGroup } from '../../../shared/services/tags/template/base/template-instance-group';
 
 
 @Component({
   selector: 'cs-template-instance-group-translation-editor',
-  templateUrl: 'template-instance-group-translation-editor.component.html'
+  templateUrl: 'template-instance-group-translation-editor.component.html',
+  styleUrls: ['template-instance-group-translation-editor.component.scss']
 })
 export class TemplateInstanceGroupTranslationEditorComponent implements OnInit {
-  @Input() public group: TemplateInstanceGroup;
+  public newGroup: LocalizedInstanceGroup;
 
-  public newGroup: TemplateInstanceGroup;
-
-  constructor(public dialogRef: MdDialogRef<TemplateInstanceGroupTranslationEditorComponent>) {}
+  constructor(
+    public dialogRef: MdDialogRef<TemplateInstanceGroupTranslationEditorComponent>,
+    @Inject(MD_DIALOG_DATA) public group: LocalizedInstanceGroup
+  ) {}
 
   public ngOnInit(): void {
-    this.newGroup = this.group;
+    this.newGroup = new LocalizedInstanceGroup(
+      this.group.name,
+      this.group.translations
+    );
   }
 
   public onSave(): void {

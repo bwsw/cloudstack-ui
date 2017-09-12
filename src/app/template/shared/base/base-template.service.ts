@@ -11,6 +11,7 @@ import { Utils } from '../../../shared/services/utils.service';
 import { BaseTemplateModel } from './base-template.model';
 import { GroupedTemplates } from './grouped-templates';
 import { TemplateFilters } from './template-filters';
+import { LocalizedInstanceGroup } from '../../../shared/services/tags/template/base/template-instance-group';
 
 
 export interface RequestParams {
@@ -166,7 +167,7 @@ export abstract class BaseTemplateService<M extends BaseTemplateModel>
       });
   }
 
-  public addInstanceGroup(template: M, group: InstanceGroup): Observable<M> {
+  public addInstanceGroup(template: M, group: LocalizedInstanceGroup): Observable<M> {
     template.instanceGroup = group;
     return this.baseTemplateTagService.setGroup(template, group)
       .do(updatedTemplate => {
@@ -176,16 +177,29 @@ export abstract class BaseTemplateService<M extends BaseTemplateModel>
       .catch(() => Observable.of(template)) as Observable<M>;
   }
 
-  public getInstanceGroupList(): Observable<Array<InstanceGroup>> {
+  public getInstanceGroupList(): Observable<Array<LocalizedInstanceGroup>> {
     return this.getGroupedTemplates()
       .map(groupedTemplates => groupedTemplates.toArray())
-      .map(templateList => templateList.reduce((groups, template) => {
-        if (!template.instanceGroup || groups.find(group => group.name === template.instanceGroup.name)) {
-          return groups;
-        } else {
-          return groups.concat(template.instanceGroup);
-        }
-      }, []));
+      .map(templateList => {
+        return this.getInstanceGroupListFromTemplateList(templateList);
+      });
+  }
+
+  private getInstanceGroupListFromTemplateList(templateList: Array<M>): Array<LocalizedInstanceGroup> {
+    return templateList.reduce((groups, template) => {
+      const instanceGroupExists = template.instanceGroup;
+      const instanceGroupAlreadyInList =
+        instanceGroupExists &&
+        groups.find(group => {
+          return group.name === template.instanceGroup.name;
+        });
+
+      if (!instanceGroupExists || instanceGroupAlreadyInList) {
+        return groups;
+      } else {
+        return groups.concat(template.instanceGroup);
+      }
+    }, []);
   }
 
   private distinctIds(templates: Array<M>): Array<M> {

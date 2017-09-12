@@ -10,6 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { IsoService } from '../shared/iso/iso.service';
 import { TemplateService } from '../shared/template/template.service';
+import { LocalizedInstanceGroup } from '../../shared/services/tags/template/base/template-instance-group';
 
 
 @Component({
@@ -35,8 +36,8 @@ export class TemplateCreationComponent implements OnInit {
   public loading: boolean;
 
   public instanceGroupName: string;
-  public templateGroupNames: Array<string> = [];
-  public isoGroupNames: Array<string> = [];
+  public templateGroups: Array<LocalizedInstanceGroup> = [];
+  public isoGroups: Array<LocalizedInstanceGroup> = [];
 
   constructor(
     private dialogRef: MdDialogRef<TemplateCreationComponent>,
@@ -59,11 +60,11 @@ export class TemplateCreationComponent implements OnInit {
     this.loadGroups();
   }
 
-  public get groups(): Array<string> {
+  public get groups(): Array<LocalizedInstanceGroup> {
     if (this.mode === 'Template') {
-      return this.templateGroupNames;
+      return this.templateGroups;
     } else {
-      return this.isoGroupNames;
+      return this.isoGroups;
     }
   }
 
@@ -152,8 +153,8 @@ export class TemplateCreationComponent implements OnInit {
       this.isoService.getInstanceGroupList()
     )
       .subscribe(([templateGroups, isoGroups]) => {
-        this.templateGroupNames = templateGroups.map(group => group.name);
-        this.isoGroupNames = isoGroups.map(group => group.name);
+        this.templateGroups = templateGroups;
+        this.isoGroups = isoGroups;
       });
   }
 }

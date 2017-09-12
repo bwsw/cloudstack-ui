@@ -52,7 +52,6 @@ export abstract class BaseTemplateTagsComponent extends TagsComponent<BaseTempla
   }
 
   protected get entityTags(): Observable<Array<Tag>> {
-    this.service.invalidateCache();
     return this.service.get(this.entity.id).map(_ => _.tags);
   }
 }
