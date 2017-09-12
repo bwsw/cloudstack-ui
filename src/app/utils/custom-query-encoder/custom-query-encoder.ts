@@ -1,9 +1,9 @@
-import { QueryEncoder } from '@angular/http';
+import { HttpUrlEncodingCodec } from '@angular/common/http';
 
 
 // Default QueryEncoder used in URLSearchParams does not encode '+' and '/',
 // We have to provide a custom QueryEncoder to encode '+' and '/'
-export class CustomQueryEncoder extends QueryEncoder {
+export class CustomQueryEncoder extends HttpUrlEncodingCodec {
   private static encode(v: string): string {
     return encodeURIComponent(v)
       .replace(/%40/gi, '@')
