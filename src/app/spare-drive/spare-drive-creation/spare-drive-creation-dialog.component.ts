@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpareDriveCreationComponent } from './spare-drive-creation.component';
@@ -9,16 +9,13 @@ import { ListService } from '../../shared/components/list/list.service';
   selector: 'cs-spare-drive-create-dialog',
   template: ``
 })
-export class SpareDriveCreationDialogComponent implements OnInit {
+export class SpareDriveCreationDialogComponent {
   constructor(
     private dialog: MdDialog,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private listService: ListService
   ) {
-  }
-
-  ngOnInit() {
     this.dialog.open(SpareDriveCreationComponent, {
       width: '450px',
       disableClose: true
@@ -28,7 +25,7 @@ export class SpareDriveCreationDialogComponent implements OnInit {
           this.listService.onUpdate.emit(volume);
         }
         this.router.navigate(['../'], {
-          preserveQueryParams: true,
+          queryParamsHandling: 'preserve',
           relativeTo: this.activatedRoute
         });
       });

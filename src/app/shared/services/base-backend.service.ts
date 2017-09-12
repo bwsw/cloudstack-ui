@@ -1,4 +1,4 @@
-import { Headers, Http, Response, URLSearchParams } from '@angular/http';
+import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { BaseModel } from '../models';
@@ -6,7 +6,6 @@ import { Cache } from './cache';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
 import { ServiceLocator } from './service-locator';
-import { CustomQueryEncoder } from '../../utils/custom-query-encoder/custom-query-encoder';
 
 
 export const BACKEND_API_URL = 'client/api';
@@ -21,13 +20,13 @@ export abstract class BaseBackendService<M extends BaseModel> {
   protected entityModel: { new (params?): M; };
 
   protected error: ErrorService;
-  protected http: Http;
+  protected http: HttpClient;
 
   protected requestCache: Cache<Observable<Array<M>>>;
 
   constructor() {
     this.error = ServiceLocator.injector.get(ErrorService);
-    this.http = ServiceLocator.injector.get(Http);
+    this.http = ServiceLocator.injector.get(HttpClient);
     this.initRequestCache();
   }
 
@@ -80,9 +79,9 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return new this.entityModel(res);
   }
 
-  protected buildParams(command: string, params?: {}, entity?: string): URLSearchParams {
-    const urlParams = new URLSearchParams(undefined, new CustomQueryEncoder());
-    urlParams.append('command', this.getRequestCommand(command, entity));
+  protected buildParams(command: string, params?: {}, entity?: string): HttpParams {
+    let urlParams = new HttpParams();
+    urlParams = urlParams.set('command', this.getRequestCommand(command, entity));
 
     for (const key in params) {
       if (!params.hasOwnProperty(key)) {
@@ -90,7 +89,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
       }
 
       if (!Array.isArray(params[key])) {
-        urlParams.set(key.toLowerCase(), params[key]);
+        urlParams = urlParams.set(key.toLowerCase(), params[key]);
         continue;
       }
 
@@ -99,21 +98,20 @@ export abstract class BaseBackendService<M extends BaseModel> {
         if (!result.hasOwnProperty(param)) {
           continue;
         }
-        urlParams.set(param, result[param]);
+        urlParams = urlParams.set(param, result[param]);
       }
     }
 
-    urlParams.set('response', 'json');
+    urlParams = urlParams.set('response', 'json');
     return urlParams;
   }
 
   protected getRequest(command: string, params?: {}, entity?: string): Observable<any> {
     return this.http.get(BACKEND_API_URL,
       {
-        search: this.buildParams(command, params, entity)
+        params: this.buildParams(command, params, entity)
       }
     )
-      .map((res: Response) => res.json())
       .catch(error => this.handleError(error));
   }
 
@@ -128,13 +126,9 @@ export abstract class BaseBackendService<M extends BaseModel> {
 
 
   protected postRequest(command: string, params?: {}): Observable<any> {
-    const headers = new Headers({
-      'Content-Type': 'application/x-www-form-urlencoded'
-    });
-
+    const headers = new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded');
     return this.http.post(BACKEND_API_URL, this.buildParams(command, params), { headers })
-      .map((res: Response) => res.json())
-      .catch(error => this.handleError(error));
+     .catch(error => this.handleError(error));
   }
 
   protected sendCommand(command: string, params?: {}, entity?: string): Observable<any> {
