@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import {
-  ICustomOfferingRestrictions
+  ICustomOfferingRestrictionsByZone
 } from '../../service-offering/custom-service-offering/custom-offering-restrictions';
-import {
-  DefaultServiceOfferingConfigurationByZone
-} from '../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { ServiceOffering } from '../models/service-offering.model';
 import { Zone } from '../models/zone.model';
@@ -19,34 +15,11 @@ import { ResourceStats } from './resource-usage.service';
   entityModel: ServiceOffering
 })
 export class ServiceOfferingService extends OfferingService<ServiceOffering> {
-  public getDefaultServiceOffering(zone: Zone): Observable<ServiceOffering> {
-    const defaultOfferingConfig = this.configService
-      .get<DefaultServiceOfferingConfigurationByZone>('defaultServiceOfferingConfig');
-
-    return this.getList({ zone })
-      .map(offerings => {
-        return this.getDefaultServiceOfferingSync(
-          offerings,
-          defaultOfferingConfig,
-          zone
-        );
-      });
-  }
-
-  public getDefaultServiceOfferingSync(
-    offerings: Array<ServiceOffering>,
-    configuration: DefaultServiceOfferingConfigurationByZone,
-    zone: Zone
-  ): ServiceOffering {
-    const defaultOfferingId = configuration && configuration[zone.id] && configuration[zone.id].offering;
-    const defaultOffering = offerings.find(_ => _.id === defaultOfferingId);
-    return defaultOffering || offerings[0];
-  }
 
   public getAvailableByResourcesSync(
     serviceOfferings: Array<ServiceOffering>,
     offeringAvailability: OfferingAvailability,
-    offeringRestrictions: ICustomOfferingRestrictions,
+    offeringRestrictions: ICustomOfferingRestrictionsByZone,
     resourceUsage: ResourceStats,
     zone: Zone
   ): Array<ServiceOffering> {
