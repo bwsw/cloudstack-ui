@@ -155,7 +155,7 @@ export class VmListComponent implements OnInit {
 
   public showVmCreationDialog(): void {
     this.router.navigate(['./create'], {
-      preserveQueryParams: true,
+      queryParamsHandling: 'preserve',
       relativeTo: this.activatedRoute
     });
   }

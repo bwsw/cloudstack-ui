@@ -7,8 +7,7 @@ import {
   TestBed,
   tick
 } from '@angular/core/testing';
-import { BaseRequestOptions, Http, HttpModule, XHRBackend } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NavigationExtras, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
@@ -23,6 +22,8 @@ import { ServiceLocator } from './service-locator';
 import { UserTagService } from './tags/user/user-tag.service';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
+import { BaseRequestOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 
 
 @Component({
@@ -35,14 +36,6 @@ class TestViewComponent {
 @Injectable()
 class MockErrorService {
   public send(): void {
-  }
-}
-
-class Tag {
-  constructor(
-    public key: string,
-    public value: string
-  ) {
   }
 }
 
@@ -123,18 +116,11 @@ const testBedConfig = {
     { provide: Router, useClass: MockRouter },
     { provide: RouterUtilsService, useClass: MockRouterUtilsService },
     { provide: LocalStorageService, useClass: MockStorageService },
-    {
-      provide: Http,
-      deps: [MockBackend, BaseRequestOptions],
-      useFactory:
-        (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
-          return new Http(backend, defaultOptions);
-        },
-    },
+
     Injector
   ],
   imports: [
-    HttpModule
+    HttpClientTestingModule
   ]
 };
 

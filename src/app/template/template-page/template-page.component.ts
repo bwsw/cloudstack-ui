@@ -37,7 +37,7 @@ export class TemplatePageComponent implements OnInit {
 
   public showCreationDialog(): void {
     this.router.navigate(['./create'], {
-      preserveQueryParams: true,
+      queryParamsHandling: 'preserve',
       relativeTo: this.activatedRoute
     });
   }
