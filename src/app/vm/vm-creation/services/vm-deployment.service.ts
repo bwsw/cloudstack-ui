@@ -210,7 +210,6 @@ export class VmDeploymentService {
       vm
     });
     this.dialog.open(PostdeploymentComponent, {
-      width: '500px',
       data: {
         vm: vm
       }

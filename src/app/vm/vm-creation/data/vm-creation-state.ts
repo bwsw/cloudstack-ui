@@ -108,7 +108,7 @@ export class VmCreationState {
     const params: VmCreationParams = {};
 
     params.affinityGroupNames = this.affinityGroup && this.affinityGroup.name;
-    params.startVm = this.doStartVm ? undefined : 'false';
+    params.startVm = this.doStartVm ? 'true' : 'false';
     params.keyboard = this.keyboard;
     params.name = this.displayName || this.defaultName;
     params.serviceOfferingId = this.serviceOffering.id;
