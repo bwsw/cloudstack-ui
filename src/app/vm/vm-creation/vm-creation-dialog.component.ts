@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { VmCreationComponent } from './vm-creation.component';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,15 +7,12 @@ import { ActivatedRoute, Router } from '@angular/router';
   selector: 'cs-vm-create-dialog',
   template: ``
 })
-export class VmCreationDialogComponent implements OnInit {
+export class VmCreationDialogComponent {
   constructor(
     private dialog: MdDialog,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
-  }
-
-  ngOnInit() {
     this.dialog.open(VmCreationComponent, {
       disableClose: true,
       width: '755px'
@@ -23,7 +20,7 @@ export class VmCreationDialogComponent implements OnInit {
       .afterClosed()
       .subscribe(vm => {
         this.router.navigate(['../'], {
-          preserveQueryParams: true,
+          queryParamsHandling: 'preserve',
           relativeTo: this.activatedRoute
         });
       });
