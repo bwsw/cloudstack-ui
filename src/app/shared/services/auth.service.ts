@@ -10,6 +10,7 @@ import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
 import { LocalStorageService } from './local-storage.service';
 import { AccountType } from '../models/account.model';
+import { Utils } from './utils.service';
 
 @Injectable()
 @BackendResource({
@@ -26,13 +27,13 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   ) {
     super();
 
-    const userRaw = this.storage.read('user');
-    if (userRaw) {
-      try {
-        const user = JSON.parse(userRaw);
-        this._user = new User(user);
-      } catch (e) {}
+    try {
+      const userRaw = this.storage.read('user');
+      const user = Utils.parseJsonString(userRaw);
+      this._user = new User(user);
+    } catch (e) {
     }
+
 
     this.loggedIn = new BehaviorSubject<boolean>(
       !!(this._user && this._user.userId)
