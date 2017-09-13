@@ -15,7 +15,8 @@ import {
   MdSelectModule,
   MdSnackBarModule,
   MdTableModule,
-  MdTabsModule, MdTooltipModule
+  MdTabsModule,
+  MdTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
