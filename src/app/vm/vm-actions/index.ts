@@ -10,6 +10,7 @@ import { VmRestoreAction } from './vm-restore';
 import { VmStartAction } from './vm-start';
 import { VmStopAction } from './vm-stop';
 import { VmWebShellAction } from './vm-webshell';
+import { VmURLAction } from './vm-url';
 
 export {
   VmStartAction,
@@ -24,6 +25,7 @@ export {
   VmWebShellAction,
   VmPulseAction,
   VmChangeServiceOfferingAction,
+  VmURLAction,
 };
 
 export const VmActionProviders = [
@@ -39,4 +41,5 @@ export const VmActionProviders = [
   VmWebShellAction,
   VmPulseAction,
   VmChangeServiceOfferingAction,
+  VmURLAction,
 ];
