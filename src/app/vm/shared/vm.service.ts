@@ -100,7 +100,6 @@ export class VmService extends BaseBackendService<VirtualMachine> implements Ins
   public addInstanceGroup(vm: VirtualMachine, group: InstanceGroup): Observable<VirtualMachine> {
     return this.vmTagService.setGroup(vm, group)
       .do(updatedVm => {
-        vm.instanceGroup = updatedVm.instanceGroup;
         this.instanceGroupUpdateObservable.next(updatedVm);
       })
       .catch(() => Observable.of(vm));

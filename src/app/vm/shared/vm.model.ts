@@ -119,13 +119,11 @@ export class VirtualMachine extends BaseModel implements Taggable, InstanceGroup
     return sizeInBytes / Math.pow(2, 30);
   }
 
-  public initializeInstanceGroup(): void {
+  private initializeInstanceGroup(): void {
     const group = this.tags.find(tag => tag.key === VirtualMachineTagKeys.group);
 
     if (group) {
       this.instanceGroup = new InstanceGroup(group.value);
-    } else {
-      this.instanceGroup = undefined;
     }
   }
 

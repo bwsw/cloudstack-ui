@@ -21,47 +21,30 @@ export class InstanceGroupTagService {
     group: InstanceGroup,
     entityService: EntityTagService
   ): Observable<InstanceGroupEnabled> {
-    if (!group.name) {
-      return this.removeGroup(entity, entityService);
-    }
-
-    const requests = this.getInstanceGroupTagCreationData(entityService, group)
-      .map(tag => {
-        return this.tagService.update(
-          entity,
-          entity.resourceType,
-          tag.key,
-          tag.value
-        )
+    return this.removeGroup(entity, entityService)
+      .switchMap(() => {
+        const requests = this.getInstanceGroupTagCreationRequests(entity, entityService, group);
+        return Observable.forkJoin(...requests).map(res => {
+          res[0].instanceGroup = group;
+          return res[0];
+        });
       });
-
-    return Observable.forkJoin(...requests).map(res => {
-      res[0].initializeInstanceGroup();
-      return res[0];
-    });
   }
 
   public removeGroup(
     entity: InstanceGroupEnabled,
     entityService: EntityTagService
   ): Observable<InstanceGroupEnabled> {
-
     const removedTags = this.getInstanceGroupTagRemovalData(entity, entityService);
-    const requests = removedTags
-      .map(key => {
-        return this.tagService.remove({
-          resourceIds: entity.id,
-          resourceType: entity.resourceType,
-          'tags[0].key': key
-        });
-      });
+    const requests = this.getInstanceGroupTagRemovalRequests(entity, removedTags);
+
+    if (!requests.length) {
+      return Observable.of(entity);
+    }
 
     return Observable.forkJoin(...requests)
       .map(() => {
-        entity.tags = entity.tags.filter(tag => {
-          return !removedTags.find(tagKey => tagKey === tag.key);
-        });
-        entity.initializeInstanceGroup();
+        entity.instanceGroup = undefined;
         return entity;
       });
   }
@@ -115,5 +98,35 @@ export class InstanceGroupTagService {
         return tag && tag.key;
       })
       .filter(_ => _);
+  }
+
+  private getInstanceGroupTagCreationRequests(
+    entity: InstanceGroupEnabled,
+    entityService: EntityTagService,
+    group: InstanceGroup
+  ): Array<Observable<InstanceGroupEnabled>> {
+    return this.getInstanceGroupTagCreationData(entityService, group)
+      .map(tag => {
+        return this.tagService.update(
+          entity,
+          entity.resourceType,
+          tag.key,
+          tag.value
+        );
+      });
+  }
+
+  private getInstanceGroupTagRemovalRequests(
+    entity: InstanceGroupEnabled,
+    removedTags: Array<string>
+  ): Array<Observable<InstanceGroupEnabled>> {
+    return removedTags
+      .map(key => {
+        return this.tagService.remove({
+          resourceIds: entity.id,
+          resourceType: entity.resourceType,
+          'tags[0].key': key
+        });
+      });
   }
 }

@@ -168,10 +168,8 @@ export abstract class BaseTemplateService<M extends BaseTemplateModel>
   }
 
   public addInstanceGroup(template: M, group: InstanceGroup): Observable<M> {
-    template.instanceGroup = group;
     return this.baseTemplateTagService.setGroup(template, group)
       .do(updatedTemplate => {
-        template.instanceGroup = updatedTemplate.instanceGroup;
         this.instanceGroupUpdateObservable.next(updatedTemplate as M);
       })
       .catch(() => Observable.of(template)) as Observable<M>;

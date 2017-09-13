@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { TemplateService } from '../../../shared/template/template.service';
-import { Template } from '../../../shared/template/template.model';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../../../../shared/services/auth.service';
+import { Template } from '../../../shared/template/template.model';
+import { TemplateService } from '../../../shared/template/template.service';
 
 
 @Component({
