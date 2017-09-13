@@ -129,6 +129,7 @@ import { InstanceGroupComponent } from './components/instance-group/instance-gro
 // tslint:disable-next-line
 import { InstanceGroupSelectorComponent } from './components/instance-group/instance-group-selector/instance-group-selector.component';
 import { IsoTagService } from './services/tags/template/iso/iso-tag.service';
+// tslint:disable-next-line
 import { ReadOnlyInstanceGroupComponent } from './components/instance-group/read-only-instance-group/read-only-instance-group.component';
 import { InstanceGroupTranslationService } from './services/instance-group-translation.service';
 

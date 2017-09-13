@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Template } from '../../../../app/template/shared';
-import { GroupedTemplates } from '../../../../app/template/shared/base/base-template.service';
+import { GroupedTemplates } from '../../../../app/template/shared/base/grouped-templates';
 
 
 const templates: Array<Object> = require('../fixtures/templates.json');
