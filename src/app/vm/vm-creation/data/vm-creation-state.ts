@@ -88,7 +88,6 @@ export class VmCreationState {
 
     if (data.defaultTemplate) { this.template = data.defaultTemplate; }
     if (data.diskOfferings.length) { this.diskOffering = data.diskOfferings[0]; }
-    if (data.instanceGroups.length) { this.instanceGroup = data.instanceGroups[0]; }
     if (data.sshKeyPairs.length) { this.sshKeyPair = data.sshKeyPairs[0]; }
 
     if (data.zones.length) {

@@ -38,27 +38,6 @@ export class CustomServiceOfferingService {
   ) {}
 
   public getCustomOfferingWithSetParams(
-    offering: CustomServiceOffering,
-    zoneId: string
-  ): Observable<CustomServiceOffering> {
-    const defaultParams =
-      this.configService.get<DefaultServiceOfferingConfigurationByZone>('defaultServiceOfferingConfig');
-
-    const customOfferingRestrictions =
-      this.configService.get<ICustomOfferingRestrictions>('customOfferingRestrictions');
-
-    return this.resourceUsageService.getResourceUsage()
-      .map(resourceStats => {
-        return this.getCustomOfferingWithSetParamsSync(
-          offering,
-          defaultParams[zoneId].customOfferingParams,
-          customOfferingRestrictions[zoneId],
-          resourceStats
-        );
-      });
-  }
-
-  public getCustomOfferingWithSetParamsSync(
     serviceOffering: CustomServiceOffering,
     defaultParams: ICustomServiceOffering,
     customRestrictions: ICustomOfferingRestrictions,

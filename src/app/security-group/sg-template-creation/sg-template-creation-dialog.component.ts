@@ -37,14 +37,13 @@ export class SgTemplateCreationDialogComponent implements OnInit {
       });
   }
 
-  public showRulesDialog(group: SecurityGroup): void {
-    this.securityGroupEditAction.activate(group)
-      .subscribe(() => {
-        this.router.navigate(['../'], {
-          preserveQueryParams: true,
-          relativeTo: this.activatedRoute
-        });
-      });
+  public showRulesDialog(group: SecurityGroup) : void {
+        this.securityGroupEditAction.activate(group)
+      .subscribe(() =>{
+          this.router.navigate(['../'], {
+            queryParamsHandling: 'preserve',
+            relativeTo: this.activatedRoute
+          });});
   }
 
   private getSuccessCreationToken(securityGroup: SecurityGroup): string {
@@ -79,9 +78,11 @@ export class SgTemplateCreationDialogComponent implements OnInit {
   }
 
   private onCancel(): void {
-    this.router.navigate(['../'], {
-      preserveQueryParams: true,
-      relativeTo: this.activatedRoute
-    });
+
+        this.router.navigate(['../'], {
+          queryParamsHandling: 'preserve',
+          relativeTo: this.activatedRoute
+        });
+
   }
 }

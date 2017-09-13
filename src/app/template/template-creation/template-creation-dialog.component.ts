@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListService } from '../../shared/components/list/list.service';
@@ -10,7 +10,7 @@ import { TemplateCreationComponent } from './template-creation.component';
   selector: 'cs-template-create-dialog',
   template: ``
 })
-export class TemplateCreationDialogComponent implements OnInit {
+export class TemplateCreationDialogComponent {
   constructor(
     private listService: ListService,
     private dialog: MdDialog,
@@ -18,11 +18,10 @@ export class TemplateCreationDialogComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private storageService: LocalStorageService
   ) {
-  }
+    const viewMode = this.storageService.read('templateDisplayMode') || 'Template';
 
-  public ngOnInit() {
     this.dialog.open(TemplateCreationComponent, {
-      data: { mode: this.viewMode },
+      data: { mode: viewMode },
       disableClose: true,
       width: '720px'
     })
@@ -32,7 +31,7 @@ export class TemplateCreationDialogComponent implements OnInit {
           this.listService.onUpdate.emit(templateData);
         }
         this.router.navigate(['../'], {
-          preserveQueryParams: true,
+          queryParamsHandling: 'preserve',
           relativeTo: this.activatedRoute
         });
       });

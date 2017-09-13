@@ -21,7 +21,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
-import { SecurityGroupService } from '../security-group/services/security-group.service';
 // tslint:disable-next-line
 import { SecurityGroupSelectorComponent } from '../vm/vm-creation/components/security-group-selector/security-group-selector.component';
 // tslint:disable-next-line
@@ -113,6 +112,7 @@ import { ResourceLimitService } from './services/resource-limit.service';
 import { ResourceUsageService } from './services/resource-usage.service';
 import { RouterUtilsService } from './services/router-utils.service';
 import { ServiceOfferingFilterService } from './services/service-offering-filter.service';
+import { SecurityGroupService } from './services/security-group.service';
 import { ServiceOfferingService } from './services/service-offering.service';
 import { SessionStorageService } from './services/session-storage.service';
 import { SnapshotService } from './services/snapshot.service';
@@ -305,7 +305,6 @@ import { ZoneService } from './services/zone.service';
     RouterUtilsService,
     SecurityGroupService,
     ServiceOfferingService,
-    ServiceOfferingFilterService,
     SnapshotService,
     SSHKeyPairService,
     StatsUpdateService,

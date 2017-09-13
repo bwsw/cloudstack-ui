@@ -45,6 +45,7 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
       return false;
     }
 
+    const passwordEnabled = vm.passwordEnabled;
     const ipAvailable = vm.ipIsAvailable;
     const stateIsOk = [
       VmState.Running,
@@ -52,7 +53,7 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
     ]
       .includes(vm.state);
 
-    return ipAvailable && stateIsOk;
+    return ipAvailable && stateIsOk && passwordEnabled;
   }
 
   protected onActionConfirmed(vm: VirtualMachine): Observable<any> {
