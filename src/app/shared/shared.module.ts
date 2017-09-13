@@ -111,8 +111,6 @@ import { OsTypeService } from './services/os-type.service';
 import { ResourceLimitService } from './services/resource-limit.service';
 import { ResourceUsageService } from './services/resource-usage.service';
 import { RouterUtilsService } from './services/router-utils.service';
-import { ServiceOfferingFilterService } from './services/service-offering-filter.service';
-import { SecurityGroupService } from './services/security-group.service';
 import { ServiceOfferingService } from './services/service-offering.service';
 import { SessionStorageService } from './services/session-storage.service';
 import { SnapshotService } from './services/snapshot.service';
@@ -132,6 +130,7 @@ import { UserService } from './services/user.service';
 import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
+import { SecurityGroupService } from '../security-group/services/security-group.service';
 
 
 @NgModule({

@@ -7,42 +7,45 @@
 
   <ng-container *loading="!loaded" cs-list>
     <ng-container *ngIf="isViewModeTemplates">
-      <ng-container *ngIf="predefinedSecurityGroupList.length">
+      <ng-container *ngIf="visiblePredefinedSecurityGroupList.length">
         <h4 class="section-header">{{ "SECURITY_GROUP_PAGE.LIST.SYSTEM_SECURITY_GROUPS" | translate }}</h4>
         <div class="card-list-container">
           <cs-security-group-template-list-item
-            *ngFor="let group of predefinedSecurityGroupList"
+            *ngFor="let group of visiblePredefinedSecurityGroupList"
             [securityGroupTemplate]="group"
+            [query]="query"
           ></cs-security-group-template-list-item>
         </div>
       </ng-container>
 
-      <ng-container *ngIf="customSecurityGroupList.length">
+      <ng-container *ngIf="visibleCustomSecurityGroupList.length">
         <h4 class="section-header">{{ "SECURITY_GROUP_PAGE.LIST.CUSTOM_SECURITY_GROUPS" | translate }}</h4>
         <div class="card-list-container">
           <cs-security-group-template-list-item
-            *ngFor="let group of customSecurityGroupList"
+            *ngFor="let group of visibleCustomSecurityGroupList"
             [securityGroupTemplate]="group"
+            [query]="query"
           ></cs-security-group-template-list-item>
         </div>
       </ng-container>
 
       <cs-no-results
-        *ngIf="!predefinedSecurityGroupList.length && !customSecurityGroupList.length"
+        *ngIf="!templateSecurityGroupPageHasItems"
       ></cs-no-results>
     </ng-container>
 
     <ng-container *ngIf="isViewModeShared">
-      <ng-container *ngIf="sharedSecurityGroupList.length">
+      <ng-container *ngIf="sharedSecurityGroupPageHasItems">
         <div class="card-list-container">
           <cs-security-group-template-list-item
-            *ngFor="let group of sharedSecurityGroupList"
+            *ngFor="let group of visibleSharedSecurityGroupList"
             [securityGroupTemplate]="group"
+            [query]="query"
           ></cs-security-group-template-list-item>
         </div>
       </ng-container>
 
-      <cs-no-results *ngIf="!sharedSecurityGroupList.length"></cs-no-results>
+      <cs-no-results *ngIf="! sharedSecurityGroupPageHasItems"></cs-no-results>
     </ng-container>
   </ng-container>
 

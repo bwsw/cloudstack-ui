@@ -4,9 +4,8 @@
       <h2
         class="md-card-title-text"
         [mdTooltip]="securityGroupTemplate.name"
-      >
-        {{ securityGroupTemplate.name }}
-      </h2>
+        [innerHTML]="securityGroupTemplate.name | highlight:query"
+      ></h2>
       <div class="md-card-header-menu">
         <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
           <md-icon>more_vert</md-icon>
@@ -26,10 +25,9 @@
           class="tooltip-position-fix fixed-width-span"
           *ngIf="securityGroupTemplate.description"
           [mdTooltip]="securityGroupTemplate.description"
+          [innerHTML]="securityGroupTemplate.description | highlight:query"
           mdTooltipPosition="above"
-        >
-          {{ securityGroupTemplate.description }}
-        </span>
+        ></span>
       </div>
     </div>
   </md-card-content>
