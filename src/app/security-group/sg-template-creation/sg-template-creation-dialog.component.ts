@@ -33,7 +33,7 @@ export class SgTemplateCreationDialogComponent implements OnInit {
       .subscribe((template: SecurityGroup) => {
         if (!template) {
           this.router.navigate(['../'], {
-            preserveQueryParams: true,
+            queryParamsHandling: 'preserve',
             relativeTo: this.activatedRoute
           });
 
@@ -57,7 +57,7 @@ export class SgTemplateCreationDialogComponent implements OnInit {
       .subscribe(securityGroup => {
         this.securityGroupService.onSecurityGroupUpdate.next(securityGroup);
         this.router.navigate(['../'], {
-          preserveQueryParams: true,
+          queryParamsHandling: 'preserve',
           relativeTo: this.activatedRoute
         });
       });

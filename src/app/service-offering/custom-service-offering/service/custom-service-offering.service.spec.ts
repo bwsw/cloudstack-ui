@@ -99,7 +99,7 @@ describe('Custom service offering service', () => {
       mockResourceUsageServiceConfig: {}
     });
 
-    return customServiceOfferingService.getCustomOfferingWithSetParamsSync(
+    return customServiceOfferingService.getCustomOfferingWithSetParams(
       _serviceOffering,
       config.defaultServiceOfferingConfig[_zoneId].customOfferingParams,
       config.customOfferingRestrictions[_zoneId],
@@ -211,27 +211,5 @@ describe('Custom service offering service', () => {
     const key = 'returnUndefinedIfRestrictionsAreNotCompatibleByMemory';
     const offering = getCustomOfferingWithSetParamsForTest(key);
     expect(offering).toBeUndefined();
-  });
-
-  it('should return custom offering with set params async', done => {
-    const key = 'customOfferingAsync';
-    const config = fixture.defaultParamsTests[key].config;
-    const resources = fixture.defaultParamsTests[key].resources;
-    const serviceOffering = getCustomServiceOffering();
-    const zoneId = 'zone1';
-
-    configureTestBed({
-      mockConfigServiceConfig: config,
-      mockResourceUsageServiceConfig: resources
-    });
-
-    return customServiceOfferingService.getCustomOfferingWithSetParams(
-      serviceOffering,
-      zoneId
-    )
-      .subscribe(offering => {
-        expect(isCustomOfferingCorrect(key, offering)).toBeTruthy();
-        done();
-      });
   });
 });

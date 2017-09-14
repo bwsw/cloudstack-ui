@@ -1,15 +1,6 @@
 import { Injector } from '@angular/core';
-import { async, getTestBed, inject, TestBed } from '@angular/core/testing';
-import {
-  BaseRequestOptions,
-  Http,
-  HttpModule,
-  Response,
-  ResponseOptions,
-  URLSearchParams,
-  XHRBackend
-} from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
+import { async, inject, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { BackendResource } from '../decorators';
 
 import { BaseModel } from '../models';
@@ -20,7 +11,7 @@ import { ServiceLocator } from './service-locator';
 
 
 describe('Base backend service', () => {
-  let mockBackend: MockBackend;
+  let mockBackend: HttpTestingController;
   const test = [
     {
       id: 'id1',
@@ -31,11 +22,6 @@ describe('Base backend service', () => {
       field1: 'rand2'
     },
   ];
-
-  class MockError extends Response implements Error {
-    public name: string;
-    public message: string;
-  }
 
   class TestModel extends BaseModel {
     public id: string;
@@ -53,76 +39,14 @@ describe('Base backend service', () => {
       providers: [
         TestBackendService,
         ErrorService,
-        MockBackend,
-        BaseRequestOptions,
         CacheService,
-        {
-          provide: Http,
-          deps: [MockBackend, BaseRequestOptions],
-          useFactory:
-            (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
-              return new Http(backend, defaultOptions);
-            },
-        },
-        Injector
       ],
       imports: [
-        HttpModule
+        HttpClientTestingModule
       ]
     });
+    ServiceLocator.injector = TestBed.get(Injector);
 
-    ServiceLocator.injector = getTestBed().get(Injector);
-
-    mockBackend = getTestBed().get(MockBackend);
-    mockBackend.connections.subscribe((connection: MockConnection) => {
-      const url = connection.request.url;
-      const params = new URLSearchParams(url.substr(url.indexOf('?') + 1));
-
-      if (params.has('error')) {
-        const response = {
-          status: 431,
-          body: {
-            'mockerrorresponse': {
-              'cserrorcode': 4350,
-              'errorcode': 431,
-              'errortext': `The vm with hostName test already exists in the network domain:
-                cs1cloud.internal; network=Ntwk[204|Guest|6]`,
-              'uuidList': []
-            }
-          }
-        };
-        const options = new ResponseOptions(response);
-        connection.mockError(new MockError(options));
-        return;
-      }
-
-      const mockResponse = {
-        status: 200,
-        body: {
-          'listtestsresponse': {}
-        }
-      };
-
-      if (!params.has('id')) {
-        (mockResponse.body.listtestsresponse as any).count = test.length;
-        (mockResponse.body.listtestsresponse as any).test = test;
-      } else {
-        const id = params.get('id');
-
-        const item = test.find(m => m.id === id);
-
-        if (item === undefined) {
-          connection.mockError(new Error('Wrong arguments'));
-          return;
-        }
-
-        (mockResponse.body.listtestsresponse as any).count = 1;
-        (mockResponse.body.listtestsresponse as any).test = [item];
-      }
-
-      const options = new ResponseOptions(mockResponse);
-      setTimeout(() => connection.mockRespond(new Response(options)), 1000);
-    });
   }));
 
   it('should get model list', async(inject([TestBackendService], (testService) => {
@@ -167,38 +91,114 @@ describe('Base backend service', () => {
       );
   })));
 
-  it('should merge concurrent requests with identical parameters', async(inject([TestBackendService], (testService) => {
-    const createConnectionSpy = spyOn(mockBackend, 'createConnection').and.callThrough();
+  it('should merge concurrent requests with identical parameters', async(() => {
+    let testService = TestBed.get(TestBackendService);
+
     testService.getList({ id: 'id1' }).subscribe(
       res => expect(res).toEqual([new TestModel(test[0])])
     );
     testService.getList({ id: 'id1' }).subscribe(
       res => expect(res).toEqual([new TestModel(test[0])])
     );
-    expect(createConnectionSpy).toHaveBeenCalledTimes(1);
-  })));
 
-  it('should merge concurrent requests without parameters', async(inject([TestBackendService], (testService) => {
-    const createConnectionSpy = spyOn(mockBackend, 'createConnection').and.callThrough();
+    mockBackend = TestBed.get(HttpTestingController);
+    mockBackend.expectOne((req) => {
+      const params = req.params;
+      const mockResponse = {
+        status: 200,
+        body: {
+          'listtestsresponse': {}
+        }
+      };
+      if (!params.has('id')) {
+        (mockResponse.body.listtestsresponse as any).count = test.length;
+        (mockResponse.body.listtestsresponse as any).test = test;
+      } else {
+        const id = params.get('id');
+
+        const item = test.find(m => m.id === id);
+
+        if (item === undefined) {
+          return new Error('Wrong arguments');
+        }
+
+        (mockResponse.body.listtestsresponse as any).count = 1;
+        (mockResponse.body.listtestsresponse as any).test = [item];
+      }
+      return mockResponse;
+    });
+  }));
+
+  it('should merge concurrent requests without parameters', async(() => {
+    let testService = TestBed.get(TestBackendService);
     testService.getList().subscribe(
       res => expect(res).toEqual([new TestModel(test[0]), new TestModel(test[1])])
     );
     testService.getList().subscribe(
       res => expect(res).toEqual([new TestModel(test[0]), new TestModel(test[1])])
     );
-    expect(createConnectionSpy).toHaveBeenCalledTimes(1);
-  })));
+    mockBackend = TestBed.get(HttpTestingController);
+    mockBackend.expectOne((req) => {
+      const params = req.params;
+      const mockResponse = {
+        status: 200,
+        body: {
+          'listtestsresponse': {}
+        }
+      };
+      if (!params.has('id')) {
+        (mockResponse.body.listtestsresponse as any).count = test.length;
+        (mockResponse.body.listtestsresponse as any).test = test;
+      } else {
+        const id = params.get('id');
 
-  it('should not merge concurrent requests with different parameters',
-    async(inject([TestBackendService], (testService) => {
-      const createConnectionSpy = spyOn(mockBackend, 'createConnection').and.callThrough();
+        const item = test.find(m => m.id === id);
+
+        if (item === undefined) {
+          return new Error('Wrong arguments');
+        }
+
+        (mockResponse.body.listtestsresponse as any).count = 1;
+        (mockResponse.body.listtestsresponse as any).test = [item];
+      }
+      return mockResponse;
+    });
+  }));
+
+  it('should not merge concurrent requests with different parameters', async(() => {
+    let testService = TestBed.get(TestBackendService);
       testService.getList({ id: 'id1' }).subscribe(
         res => expect(res).toEqual([new TestModel(test[0])])
       );
       testService.getList({ id: 'id2' }).subscribe(
         res => expect(res).toEqual([new TestModel(test[1])])
       );
-      expect(createConnectionSpy).toHaveBeenCalledTimes(2);
-    })));
+      mockBackend = TestBed.get(HttpTestingController);
+      mockBackend.match((req) => {
+        const params = req.params;
+        const mockResponse = {
+          status: 200,
+          body: {
+            'listtestsresponse': {}
+          }
+        };
+        if (!params.has('id')) {
+          (mockResponse.body.listtestsresponse as any).count = test.length;
+          (mockResponse.body.listtestsresponse as any).test = test;
+        } else {
+          const id = params.get('id');
+
+          const item = test.find(m => m.id === id);
+
+          if (item === undefined) {
+            return new Error('Wrong arguments');
+          }
+
+          (mockResponse.body.listtestsresponse as any).count = 1;
+          (mockResponse.body.listtestsresponse as any).test = [item];
+        }
+        return mockResponse;
+      });
+    }));
 });
 

@@ -1,9 +1,9 @@
-import { QueryEncoder } from '@angular/http';
+import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { CustomQueryEncoder } from './custom-query-encoder';
 
 
 describe('Custom query encoder', () => {
-  let encoder: QueryEncoder;
+  let encoder: HttpUrlEncodingCodec;
 
   beforeEach(() => {
     encoder = new CustomQueryEncoder();
