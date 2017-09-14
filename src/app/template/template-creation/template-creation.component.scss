@@ -1,6 +1,10 @@
 :host {
   position: relative;
   display: block;
+
+  .mat-dialog-content {
+    overflow: hidden;
+  }
 }
 
 .column {
