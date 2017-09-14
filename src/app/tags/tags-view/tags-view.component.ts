@@ -144,8 +144,8 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
   private filterTagsBySearch(): (tag) => boolean {
     return (tag) => {
-      const keyMatch = Utils.matchLower(tag.key, this.query);
-      const valueMatch = Utils.matchLower(tag.value, this.query);
+      const keyMatch = Utils.matchLower(tag.key, this.query || '');
+      const valueMatch = Utils.matchLower(tag.value, this.query || '');
 
       return keyMatch || valueMatch;
     };

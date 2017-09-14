@@ -1,3 +1,4 @@
+import { RouterState } from '@angular/router';
 import { Utils } from './utils.service';
 
 
@@ -28,6 +29,41 @@ const matchLowerFixture = [
     string: 'TestString',
     subString: 'abc',
     result: false
+  }
+];
+
+const getRouteWithoutQueryParamsFixture = [
+  {
+    routerState: {
+      snapshot: {
+        url: '/path?queryParam1=test1&queryParam2=test2'
+      }
+    },
+    routeWithoutParams: '/path'
+  },
+  {
+    routerState: {
+      snapshot: {
+        url: '/path'
+      }
+    },
+    routeWithoutParams: '/path'
+  },
+  {
+    routerState: {
+      snapshot: {
+        url: '/'
+      }
+    },
+    routeWithoutParams: '/'
+  },
+  {
+    routerState: {
+      snapshot: {
+        url: '/path?'
+      }
+    },
+    routeWithoutParams: '/path'
   }
 ];
 
@@ -63,6 +99,28 @@ describe('Utils service', () => {
   });
 
   it('should get route without query params', () => {
+    expect(Utils.getRouteWithoutQueryParams(undefined)).toBe('/');
 
+    getRouteWithoutQueryParamsFixture.forEach(example => {
+      expect(Utils.getRouteWithoutQueryParams(example.routerState as RouterState))
+        .toBe(example.routeWithoutParams);
+    });
+  });
+
+  it('should convert boolean string to boolean', () => {
+    expect(Utils.convertBooleanStringToBoolean('true')).toBe(true);
+    expect(Utils.convertBooleanStringToBoolean('false')).toBe(false);
+    expect(Utils.convertBooleanStringToBoolean('test')).toBeUndefined();
+  });
+
+  it('should convert boolean to boolean string', () => {
+    expect(Utils.convertBooleanToBooleanString(true)).toBe('true');
+    expect(Utils.convertBooleanToBooleanString(false)).toBe('false');
+
+    expect(() => Utils.convertBooleanToBooleanString(null))
+      .toThrowError('Invalid argument');
+
+    expect(() => Utils.convertBooleanToBooleanString(undefined))
+      .toThrowError('Invalid argument');
   });
 });
