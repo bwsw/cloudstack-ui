@@ -93,7 +93,7 @@ export class SpareDriveFilterComponent implements OnChanges {
     this.updateFilters.emit({
       spareOnly: this.spareOnly,
       selectedZones: sortBy(this.selectedZones, 'name'),
-      selectedTypes: this.selectedTypes.reverse(),
+      selectedTypes: this.selectedTypes,
       groupings: this.selectedGroupingNames,
       query: this.query
     });

@@ -11,6 +11,12 @@
   text-overflow: ellipsis;
 }
 
-.disk-type {
-  text-align: right;
+.root-disk {
+  background-image: repeating-linear-gradient(
+      -45deg,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 0) 20px,
+      rgba(0, 0, 0, 0.05) 20px,
+      rgba(0, 0, 0, 0.05) 40px
+  );
 }

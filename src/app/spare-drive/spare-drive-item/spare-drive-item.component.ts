@@ -42,10 +42,8 @@ export class SpareDriveItemComponent extends SpareDriveItem implements OnInit, O
     }
   }
 
-  public get diskType(): string {
-    if (this.item.type === VolumeType.ROOT) {
-      return 'VOLUME_TYPE.ROOT';
-    }
+  public get isRoot(): boolean {
+    return this.item.type === VolumeType.ROOT;
   }
 
   public get descriptionIncludesQuery(): boolean {
