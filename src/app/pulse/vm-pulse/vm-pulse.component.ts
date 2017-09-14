@@ -16,7 +16,7 @@ import { PulseChartComponent } from '../charts/pulse-chart';
 import { PulseCpuRamChartComponent } from '../charts/pulse-cpu-ram-chart/pulse-cpu-ram-chart.component';
 import { PulseDiskChartComponent } from '../charts/pulse-disk-chart/pulse-disk-chart.component';
 import { PulseNetworkChartComponent } from '../charts/pulse-network-chart/pulse-network-chart.component';
-import { PulseService } from '../pulse.service';
+import { Interval, PulseService } from '../pulse.service';
 
 const enum TabIndex {
   CpuRam,
@@ -66,7 +66,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     moment.locale(this.translateService.currentLang);
-    this.pulse.getPermittedIntervals().subscribe(intervals => {
+    this.pulse.getPermittedIntervals().subscribe((intervals: Interval) => {
       intervals.scales = Object.values(intervals.scales);
       this.permittedIntervals = intervals;
       this.scheduleAutoRefresh();
