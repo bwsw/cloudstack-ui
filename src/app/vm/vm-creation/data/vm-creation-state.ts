@@ -12,6 +12,7 @@ import { BaseTemplateModel } from '../../../template/shared';
 import { KeyboardLayout } from '../keyboards/keyboards.component';
 import { NotSelected } from '../services/vm-creation.service';
 import { VmCreationData } from './vm-creation-data';
+import { VmDeploymentStage } from '../services/vm-deployment.service';
 
 
 interface VmCreationParams {
@@ -82,6 +83,26 @@ export class VmCreationState {
     return !this.template.isTemplate;
   }
 
+  public get doCreateAffinityGroup(): boolean {
+    return (
+      this.affinityGroup &&
+      this.affinityGroup.name &&
+      !this.affinityGroupExists
+    );
+  }
+
+  public get doCreateSecurityGroup(): boolean {
+    return !this.zone.networkTypeIsBasic;
+  }
+
+  public get doCreateInstanceGroup(): boolean {
+    return this.instanceGroup && !!this.instanceGroup.name;
+  }
+
+  public get doCopyTags(): boolean {
+    return true;
+  }
+
   public getStateFromData(data: VmCreationData): void {
     this.securityRules = data.preselectedRules;
     this.affinityGroup = new AffinityGroup({ name: '' });
@@ -132,7 +153,7 @@ export class VmCreationState {
       }];
     }
 
-    if (this.template.isTemplate || this.showRootDiskResize) {
+    if (this.rootDiskSize != null && (this.template.isTemplate || this.showRootDiskResize)) {
       if (this.template.isTemplate) {
         params.rootDiskSize = this.rootDiskSize;
       } else {
@@ -141,5 +162,17 @@ export class VmCreationState {
     }
 
     return params;
+  }
+
+  public get deploymentActionList(): Array<VmDeploymentStage> {
+    return [
+      this.doCreateAffinityGroup ? VmDeploymentStage.AG_GROUP_CREATION : null,
+      this.doCreateSecurityGroup ? VmDeploymentStage.SG_GROUP_CREATION : null,
+      VmDeploymentStage.VM_CREATION_IN_PROGRESS,
+      this.doCreateInstanceGroup ? VmDeploymentStage.INSTANCE_GROUP_CREATION : null,
+      this.doCopyTags ? VmDeploymentStage.TAG_COPYING : null,
+      VmDeploymentStage.FINISHED
+    ]
+      .filter(_ => _);
   }
 }

@@ -445,10 +445,11 @@
       "VOLUMES": "Volumes",
       "PRIMARY_STORAGE": "Primary storage",
       "CREATING_AG": "Creating an affinity group...",
-      "CREATING_AG_DONE": "Creating an affinity group... OK",
       "CREATING_SG": "Creating a security group...",
-      "CREATING_SG_DONE": "Creating a security group... OK",
       "DEPLOYING_VM": "Deploying the virtual machine...",
+      "CREATING_INSTANCE_GROUP": "Creating an instance group...",
+      "TAG_COPYING": "Copying template tags...",
+      "DEPLOYMENT_FINISHED": "Deployment finished",
       "OS_TEMPLATE": "OS template"
     }
   },

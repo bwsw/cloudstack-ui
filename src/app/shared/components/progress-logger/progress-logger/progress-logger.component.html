@@ -1,5 +1,3 @@
-{{ controller | json }}
-
-<div *ngFor="let message of controller.getLastMessages(showLast)">
+<div *ngFor="let message of controller.messages">
   <cs-progress-logger-message [message]="message"></cs-progress-logger-message>
 </div>

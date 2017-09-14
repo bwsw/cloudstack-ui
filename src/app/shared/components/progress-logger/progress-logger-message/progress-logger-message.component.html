@@ -1,5 +1,13 @@
-<div>
-  {{ message.text | translate }}
-  <cs-animated-slash *ngIf="isInProgress"></cs-animated-slash>
-  <span *ngIf="isDone">{{ 'OK' | translate }}</span>
+<div [class.error-message]="isError" [class.highlighted-message]="isHighlighted">
+  <ng-container *ngIf="!isInProgress && !isDone">
+    {{ message.text | translate }}
+  </ng-container>
+
+  <ng-container *ngIf="isInProgress">
+    {{ message.text | translate }} <cs-animated-slash></cs-animated-slash>
+  </ng-container>
+
+  <ng-container *ngIf="isDone">
+    {{ message.text | translate }} {{ 'OK' | translate }}
+  </ng-container>
 </div>

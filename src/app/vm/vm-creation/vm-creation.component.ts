@@ -28,13 +28,6 @@ export interface VmCreationFormState {
   state: VmCreationState;
 }
 
-export enum VmCreationStage {
-  agCreationInProgress = 'agCreationInProgress',
-  editing = 'editing',
-  sgCreationInProgress = 'sgCreationInProgress',
-  vmDeploymentInProgress = 'vmDeployInProgress'
-}
-
 @Component({
   selector: 'cs-vm-create',
   templateUrl: 'vm-creation.component.html',
@@ -57,8 +50,9 @@ export class VmCreationComponent implements OnInit {
   };
 
   public takenName: string;
-  public creationStage = VmCreationStage.editing;
   public progressLoggerController = new ProgressLoggerController();
+  public showOverlay = false;
+  public showOverlayProgress = false;
 
   constructor(
     private dialogRef: MdDialogRef<VmCreationComponent>,
@@ -106,10 +100,6 @@ export class VmCreationComponent implements OnInit {
       this.formState.state.template.isTemplate ||
       this.formState.state.showRootDiskResize
     );
-  }
-
-  public get showOverlay(): boolean {
-    return this.creationStage !== VmCreationStage.editing;
   }
 
   public displayNameChange(value: string): void {
@@ -233,12 +223,11 @@ export class VmCreationComponent implements OnInit {
   }
 
   public notifyOnDeployFailed(error: any, notificationId: string): void {
-    this.dialogService.alert({
-      message: {
-        translationToken: error.message,
-        interpolateParams: error.params
-      }
+    this.progressLoggerController.addMessage({
+      text: error.message,
+      status: ProgressLoggerMessageStatus.Error
     });
+
     this.jobsNotificationService.fail({
       id: notificationId,
       message: 'JOB_NOTIFICATIONS.VM.DEPLOY_FAILED'
@@ -269,58 +258,43 @@ export class VmCreationComponent implements OnInit {
   ): void {
     switch (deploymentMessage.stage) {
       case VmDeploymentStage.STARTED:
-        this.creationStage = VmCreationStage.vmDeploymentInProgress;
+        this.onVmDeploymentStarted();
         break;
       case VmDeploymentStage.AG_GROUP_CREATION:
-        this.creationStage = VmCreationStage.agCreationInProgress;
-
-        this.progressLoggerController.addMessage({
-          text: 'VM_PAGE.VM_CREATION.CREATING_AG',
-          status: ProgressLoggerMessageStatus.InProgress
-        });
-
+        this.onAffinityGroupCreation();
         break;
       case VmDeploymentStage.AG_GROUP_CREATION_FINISHED:
-        this.creationStage = VmCreationStage.vmDeploymentInProgress;
-
-        this.progressLoggerController
-          .updateLastMessageStatus(ProgressLoggerMessageStatus.Done);
-
+        this.onAffinityGroupCreationFinished();
         break;
       case VmDeploymentStage.SG_GROUP_CREATION:
-        this.creationStage = VmCreationStage.sgCreationInProgress;
-
-        this.progressLoggerController.addMessage({
-          text: 'VM_PAGE.VM_CREATION.CREATING_SG',
-          status: ProgressLoggerMessageStatus.InProgress
-        });
-
+        this.onSecurityGroupCreation();
         break;
       case VmDeploymentStage.SG_GROUP_CREATION_FINISHED:
-        this.creationStage = VmCreationStage.vmDeploymentInProgress;
-
-        this.progressLoggerController.updateLastMessageStatus(
-          ProgressLoggerMessageStatus.Done
-        );
-
+        this.onSecurityGroupCreationFinished();
         break;
-      case VmDeploymentStage.IN_PROGRESS:
-        this.creationStage = VmCreationStage.vmDeploymentInProgress;
-
-        this.progressLoggerController.addMessage({
-          text: 'VM_PAGE.VM_CREATION.DEPLOYING_VM',
-          status: ProgressLoggerMessageStatus.InProgress
-        });
-
+      case VmDeploymentStage.VM_CREATION_IN_PROGRESS:
+        this.onVmCreationInProgress();
         break;
       case VmDeploymentStage.FINISHED:
-        this.dialogRef.close();
-        this.showPassword(deploymentMessage.vm);
-        this.notifyOnDeployDone(notificationId);
+        this.onVmDeploymentFinished(deploymentMessage, notificationId);
         break;
       case VmDeploymentStage.ERROR:
-        this.dialogRef.close();
         this.notifyOnDeployFailed(deploymentMessage.error, notificationId);
+        break;
+      case VmDeploymentStage.INSTANCE_GROUP_CREATION:
+        this.onInstanceGroupCreation();
+        break;
+      case VmDeploymentStage.INSTANCE_GROUP_CREATION_FINISHED:
+        this.onInstanceGroupCreationFinished();
+        break;
+      case VmDeploymentStage.TAG_COPYING:
+        this.onTagCopying();
+        break;
+      case VmDeploymentStage.TAG_COPYING_FINISHED:
+        this.onTagCopyingFinished();
+        break;
+      case VmDeploymentStage.VM_DEPLOYED:
+        this.onVmCreationFinished();
         break;
     }
   }
@@ -332,5 +306,82 @@ export class VmCreationComponent implements OnInit {
       this.updateFormState();
       this.fetching = false;
     });
+  }
+
+  private onVmDeploymentStarted(): void {
+    this.showOverlay = true;
+    this.showOverlayProgress = true;
+  }
+
+  private onVmCreationFinished(): void {
+    this.completeLastLogMessage();
+  }
+
+  private onAffinityGroupCreation(): void {
+    this.progressLoggerController.addMessage({
+      text: 'VM_PAGE.VM_CREATION.CREATING_AG',
+      status: ProgressLoggerMessageStatus.InProgress
+    });
+  }
+
+  private onAffinityGroupCreationFinished(): void {
+    this.completeLastLogMessage();
+  }
+
+  private onSecurityGroupCreation(): void {
+    this.progressLoggerController.addMessage({
+      text: 'VM_PAGE.VM_CREATION.CREATING_SG',
+      status: ProgressLoggerMessageStatus.InProgress
+    });
+  }
+
+  private onSecurityGroupCreationFinished(): void {
+    this.completeLastLogMessage();
+  }
+
+  private onVmCreationInProgress(): void {
+    this.progressLoggerController.addMessage({
+      text: 'VM_PAGE.VM_CREATION.DEPLOYING_VM',
+      status: ProgressLoggerMessageStatus.InProgress
+    });
+  }
+
+  private onInstanceGroupCreation(): void {
+    this.progressLoggerController.addMessage({
+      text: 'VM_PAGE.VM_CREATION.CREATING_INSTANCE_GROUP',
+      status: ProgressLoggerMessageStatus.InProgress
+    });
+  }
+
+  private onInstanceGroupCreationFinished(): void {
+    this.completeLastLogMessage();
+  }
+
+  private onTagCopying(): void {
+    this.progressLoggerController.addMessage({
+      text: 'VM_PAGE.VM_CREATION.TAG_COPYING',
+      status: ProgressLoggerMessageStatus.InProgress
+    });
+  }
+
+  private onTagCopyingFinished(): void {
+    this.completeLastLogMessage();
+  }
+
+  private onVmDeploymentFinished(
+    deploymentMessage: VmDeploymentMessage,
+    notificationId: string
+  ): void {
+    this.showOverlayProgress = false;
+    this.showPassword(deploymentMessage.vm);
+    this.notifyOnDeployDone(notificationId);
+    this.progressLoggerController.addMessage({
+      text: 'VM_PAGE.VM_CREATION.DEPLOYMENT_FINISHED'
+    });
+  }
+
+  private completeLastLogMessage(): void {
+    this.progressLoggerController
+      .updateLastMessageStatus(ProgressLoggerMessageStatus.Done);
   }
 }

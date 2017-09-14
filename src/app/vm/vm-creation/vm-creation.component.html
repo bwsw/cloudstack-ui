@@ -2,10 +2,12 @@
   <div class="message">
     <cs-progress-logger
       [controller]="progressLoggerController"
-      [showLast]="5"
     ></cs-progress-logger>
 
-    <mdl-progress [indeterminate]="true"></mdl-progress>
+    <mdl-progress
+      [class.progress-hidden]="!showOverlayProgress"
+      [indeterminate]="true"
+    ></mdl-progress>
   </div>
 </div>
 <div *ngIf="!showOverlay">

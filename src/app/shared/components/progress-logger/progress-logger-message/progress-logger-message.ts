@@ -1,9 +1,11 @@
 export enum ProgressLoggerMessageStatus {
+  Highlighted,
   InProgress,
-  Done
+  Done,
+  Error
 }
 
 export interface ProgressLoggerMessage {
   text: string;
-  status?: ProgressLoggerMessageStatus;
+  status?: ProgressLoggerMessageStatus | Array<ProgressLoggerMessageStatus>;
 }
