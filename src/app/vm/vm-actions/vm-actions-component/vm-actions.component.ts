@@ -16,7 +16,7 @@ export class VmActionsComponent {
 
   constructor(public vmActionsService: VmActionsService) {
     this.firstRowActions = this.vmActionsService.actions.slice(0, 7);
-    this.secondRowActions = this.vmActionsService.actions.slice(7, 8);
+    this.secondRowActions = this.vmActionsService.actions.slice(7, 9);
   }
 
   public onAction(action: VirtualMachineAction, vm: VirtualMachine): void {

@@ -74,7 +74,7 @@ export class VmCreationFormNormalizationService {
         return offering;
       }
 
-      return this.customServiceOfferingService.getCustomOfferingWithSetParamsSync(
+      return this.customServiceOfferingService.getCustomOfferingWithSetParams(
         offering,
         formState.data.getCustomOfferingParams(formState.state.zone),
         formState.data.configurationData.customOfferingRestrictions[formState.state.zone.id],
