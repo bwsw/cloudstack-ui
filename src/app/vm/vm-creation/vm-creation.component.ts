@@ -21,6 +21,7 @@ import {
   VmDeploymentStage
 } from './services/vm-deployment.service';
 import { ProgressLoggerController } from '../../shared/components/progress-logger/progress-logger.service';
+import { ProgressLoggerMessageStatus } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 
 export interface VmCreationFormState {
   data: VmCreationData;
@@ -274,39 +275,41 @@ export class VmCreationComponent implements OnInit {
         this.creationStage = VmCreationStage.agCreationInProgress;
 
         this.progressLoggerController.addMessage({
-          text: 'VM_PAGE.VM_CREATION.CREATING_AG'
+          text: 'VM_PAGE.VM_CREATION.CREATING_AG',
+          status: ProgressLoggerMessageStatus.InProgress
         });
 
         break;
       case VmDeploymentStage.AG_GROUP_CREATION_FINISHED:
         this.creationStage = VmCreationStage.vmDeploymentInProgress;
 
-        this.progressLoggerController.updateLastMessage({
-          text: 'VM_PAGE.VM_CREATION.CREATING_AG_DONE'
-        });
+        this.progressLoggerController
+          .updateLastMessageStatus(ProgressLoggerMessageStatus.Done);
 
         break;
       case VmDeploymentStage.SG_GROUP_CREATION:
         this.creationStage = VmCreationStage.sgCreationInProgress;
 
         this.progressLoggerController.addMessage({
-          text: 'VM_PAGE.VM_CREATION.CREATING_SG'
+          text: 'VM_PAGE.VM_CREATION.CREATING_SG',
+          status: ProgressLoggerMessageStatus.InProgress
         });
 
         break;
       case VmDeploymentStage.SG_GROUP_CREATION_FINISHED:
         this.creationStage = VmCreationStage.vmDeploymentInProgress;
 
-        this.progressLoggerController.updateLastMessage({
-          text: 'VM_PAGE.VM_CREATION.CREATING_SG_DONE'
-        });
+        this.progressLoggerController.updateLastMessageStatus(
+          ProgressLoggerMessageStatus.Done
+        );
 
         break;
       case VmDeploymentStage.IN_PROGRESS:
         this.creationStage = VmCreationStage.vmDeploymentInProgress;
 
         this.progressLoggerController.addMessage({
-          text: 'VM_PAGE.VM_CREATION.DEPLOYING_VM'
+          text: 'VM_PAGE.VM_CREATION.DEPLOYING_VM',
+          status: ProgressLoggerMessageStatus.InProgress
         });
 
         break;

@@ -1,0 +1,5 @@
+<div>
+  {{ message.text | translate }}
+  <cs-animated-slash *ngIf="isInProgress"></cs-animated-slash>
+  <span *ngIf="isDone">{{ 'OK' | translate }}</span>
+</div>

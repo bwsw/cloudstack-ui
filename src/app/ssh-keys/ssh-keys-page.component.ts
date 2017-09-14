@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialog } from '@angular/material';
-import { Observable } from 'rxjs';
 import { DialogService } from '../dialog/dialog-service/dialog.service';
 import { SSHKeyPair } from '../shared/models';
 import { SSHKeyPairService } from '../shared/services/ssh-keypair.service';
 import * as sortBy from 'lodash/sortBy';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListService } from '../shared/components/list/list.service';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -20,7 +20,6 @@ export class SshKeysPageComponent implements OnInit {
 
   constructor(
     private dialogService: DialogService,
-    private dialog: MdDialog,
     private sshKeyService: SSHKeyPairService,
     private listService: ListService,
     private router: Router,

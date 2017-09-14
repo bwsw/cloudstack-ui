@@ -1,4 +1,4 @@
-import { ProgressLoggerMessage } from './progress-logger-message';
+import { ProgressLoggerMessage, ProgressLoggerMessageStatus } from './progress-logger-message/progress-logger-message';
 
 
 export class ProgressLoggerController {
@@ -22,5 +22,11 @@ export class ProgressLoggerController {
     this._messages = this._messages
       .slice(0, this._messages.length - 1)
       .concat([newMessage]);
+  }
+
+  public updateLastMessageStatus(newStatus: ProgressLoggerMessageStatus): void {
+    if (this._messages.length - 1 >= 0) {
+      this._messages[this._messages.length - 1].status = newStatus;
+    }
   }
 }

@@ -21,9 +21,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
+// tslint:disable-next-line
 import { SpareDriveActionsComponent } from './actions/spare-drive-actions/spare-drive-actions-component/spare-drive-actions.component';
 import { SpareDriveActionsService } from './actions/spare-drive-actions/spare-drive-actions.service';
 import { SpareDriveAttachAction } from './actions/spare-drive-actions/spare-drive-attach';
+// tslint:disable-next-line
 import { SpareDriveAttachmentComponent } from './actions/spare-drive-actions/spare-drive-attachment/spare-drive-attachment.component';
 import { SpareDriveDetachAction } from './actions/spare-drive-actions/spare-drive-detach';
 import { SpareDriveRecurringSnapshotsAction } from './actions/spare-drive-actions/spare-drive-recurring-snapshots';
@@ -57,6 +59,7 @@ import {
   MdlAutocompleteComponent
 } from './components/autocomplete/mdl-autocomplete.component';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
+// tslint:disable-next-line
 import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
@@ -120,7 +123,10 @@ import { UserService } from './services/user.service';
 import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
-import { ProgressLoggerComponent } from './components/progress-logger/component/progress-logger.component';
+import { ProgressLoggerComponent } from './components/progress-logger/progress-logger/progress-logger.component';
+// tslint:disable-next-line
+import { ProgressLoggerMessageComponent } from './components/progress-logger/progress-logger-message/progress-logger-message.component';
+import { AnimatedSlashComponent } from './components/progress-logger/animated-slash/animated-slash.component';
 
 
 @NgModule({
@@ -193,7 +199,9 @@ import { ProgressLoggerComponent } from './components/progress-logger/component/
     TemplateActionsComponent,
     MdAutocompleteModule,
     MdInputModule,
-    ProgressLoggerComponent
+    ProgressLoggerComponent,
+    ProgressLoggerMessageComponent,
+    AnimatedSlashComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -247,7 +255,9 @@ import { ProgressLoggerComponent } from './components/progress-logger/component/
     GroupedCardListComponent,
     SpareDriveActionsComponent,
     TemplateActionsComponent,
-    ProgressLoggerComponent
+    ProgressLoggerComponent,
+    ProgressLoggerMessageComponent,
+    AnimatedSlashComponent
   ],
   providers: [
     AccountService,
