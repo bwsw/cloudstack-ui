@@ -858,7 +858,8 @@
     "SAVE_THIS_KEY": "Please, save this private key as it will not be kept",
     "REMOVE_THIS_KEY": "Are you sure you want to remove this key?",
     "KEY_REMOVAL_FAILED": "Key removal failed",
-    "SSH_KEY_PAIR_NOT_FOUND": "SSH key pair not found"
+    "SSH_KEY_PAIR_NOT_FOUND": "SSH key pair not found",
+    "FINGERPRINT": "Fingerprint"
   },
   "SETTINGS": {
     "SECURITY": {

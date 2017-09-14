@@ -15,6 +15,7 @@ import { SshKeyListItemComponent } from './ssh-key-list-item/ssh-key-list-item.c
 import { sshKeysRouting } from './ssh-keys.routing';
 import { SshKeyCreationComponent } from './ssh-key-creation/ssh-key-creation.component';
 import { SshKeySidebarComponent } from './ssh-key-sidebar/ssh-key-sidebar.component';
+import { SshKeyFingerprintComponent } from './ssh-key-fingerprint/ssh-key-fingerprint.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { SshKeySidebarComponent } from './ssh-key-sidebar/ssh-key-sidebar.compon
     SShKeyCreationDialogComponent,
     SshKeyCreationComponent,
     SshPrivateKeyDialogComponent,
-    SshKeySidebarComponent
+    SshKeySidebarComponent,
+    SshKeyFingerprintComponent
   ],
   entryComponents: [
     SShKeyCreationDialogComponent,
