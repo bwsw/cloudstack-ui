@@ -3,10 +3,19 @@
   width: 100%;
 }
 
+md-radio-button {
+  margin: 5px 0;
+
+  &:last-of-type {
+    margin-bottom: 10px;
+  }
+}
+
 .mat-dialog-content {
   min-height: 85px;
+  overflow: visible;
 }
 
 md-form-field {
-  margin-top: 3px;
+  margin-top: 4px;
 }
