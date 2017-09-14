@@ -45,7 +45,8 @@ export class VmURLAction extends VirtualMachineAction {
 
   public canActivate(vm: VirtualMachine): boolean {
     const authModeTag = vm.tags.find(tag => tag.key === AuthModeToken);
-    const mode = authModeTag.value.split(',').find(mode => mode === AuthModeType.HTTP);
+    const authMode = authModeTag && authModeTag.value;
+    const mode = authMode && authMode.split(',').find(mode => mode === AuthModeType.HTTP);
     return mode && vm.state === VmState.Running;
   }
 
