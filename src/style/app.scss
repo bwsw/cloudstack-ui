@@ -1,18 +1,34 @@
 // styles in src/style directory are applied to the whole page
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
-@import '~@angular-mdl/core/scss/material-design-lite';
-@import '~@angular-mdl/popover/popover';
-@import '~@angular-mdl/select/select';
-@import "~@angular-mdl/core/scss/color-definitions";
+@import "~@angular/material/theming";
+
 @import "~dragula/dist/dragula.css";
 @import '__variables.scss';
 @import '../app/shared/styles/overlay';
 @import '../app/shared/styles/text-overflow-tooltip-fix';
 @import '../app/shared/styles/tab-switch';
+@import '../app/shared/styles/md-input';
+@import '../app/shared/badge/badge';
+
+@import "typography";
+@import "app-theme";
+@include mat-core();
+
+$primary: mat-palette($mat-blue);
+$accent: mat-palette($mat-red, A200, A100, A400);
+
+$theme: mat-light-theme($primary, $accent);
+@include angular-material-theme($theme);
+@include cs-ui-theme($theme);
 
 * {
   box-sizing: border-box;
 }
+
+body {
+  font-family: $mat-font-family;
+  margin: 0;
+}
+
 
 .disabled-link {
   cursor: pointer;
@@ -32,10 +48,15 @@
   @extend .text-overflow-tooltip-fix;
 }
 
+md-select,
+.mat-select {
+  padding-top: 0 !important;
+}
+
 md-card {
-  padding: 0px !important;
+  padding: 0 !important;
   width: 320px;
-  margin: 15px 0px 0px 15px;
+  margin: 15px 0 0 15px;
 }
 
 cs-sidebar md-card {
@@ -49,11 +70,11 @@ md-card md-card-header {
 
 md-card md-card-title,
 md-card .mat-card-header-text {
-  margin: 0px !important;
+  margin: 0 !important;
 }
 
 md-card md-card-header h2 {
-  margin: 0px;
+  margin: 0;
   font-size: 18px;
   line-height: normal;
 
@@ -72,13 +93,13 @@ md-card md-card-header .md-card-header-menu {
 
 md-card md-card-content {
   color: rgba(0, 0, 0, 0.54);
-  padding: 0px 16px 16px 16px;
-  margin-bottom: 0px !important;
+  padding: 0 16px 16px 16px;
+  margin-bottom: 0 !important;
   line-height: 18px;
 }
 
 md-card .md-card-content-with-actions {
-  padding-bottom: 0px;
+  padding-bottom: 0;
 }
 
 md-card .md-card-content-container {
@@ -146,7 +167,7 @@ md-card.custom-card {
   min-height: initial !important;
   overflow: visible !important;
   flex-wrap: wrap;
-  margin: 0px !important;
+  margin: 0 !important;
   position: relative;
   box-shadow: none !important;
 
@@ -157,20 +178,6 @@ md-card.custom-card {
   &.delimiter {
     border-bottom: 1px solid #dedede;
   }
-}
-
-.mdl-dialog__title {
-  font-size: 24px !important;
-  font-weight: bold !important;
-}
-
-mdl-simple-tooltip div {
-  white-space: normal;
-  word-break: break-all;
-}
-
-.mdl-tabs__tab {
-  cursor: pointer;
 }
 
 .card-wrapper {
@@ -212,8 +219,8 @@ mdl-simple-tooltip div {
 
 .card-selected {
   box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14),
-  0 3px 14px 2px rgba(0, 0, 0, 0.12),
-  0 5px 5px -3px rgba(0, 0, 0, 0.2) !important;
+    0 3px 14px 2px rgba(0, 0, 0, 0.12),
+    0 5px 5px -3px rgba(0, 0, 0, 0.2) !important;
   transition: 0.25s, box-shadow 0.25s;
 }
 
@@ -246,48 +253,23 @@ mdl-simple-tooltip div {
   padding: 15px 15px 0 15px;
 }
 
-.detail-list-container {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-}
-
 .popover-actions {
   padding: 1rem;
   color: rgba(0, 0, 0, .87);
 }
 
-.mdl-layout--fixed-drawer > .mdl-layout__drawer {
-  transform: translateX(-240px) !important;
-}
-
-.mdl-layout--fixed-drawer > .mdl-layout__content {
-  margin-left: 0 !important;
-}
-
-.mdl-layout__drawer-button {
-  margin-top: 6px !important;
-}
-
-.mdl-button md-icon {
+.mat-icon-button md-icon {
   color: black !important;
 }
 
-.mdl-button[disabled] md-icon,
-.mdl-button.mdl-button--disabled md-icon {
+.md-card-header-menu .mat-icon-button md-icon {
+  color: inherit !important;
+}
+
+.mat-icon-button[disabled] md-icon {
   color: rgba(0, 0, 0, .26) !important;
   cursor: default;
   background-color: transparent;
-}
-
-.mdl-checkbox .mdl-checkbox__box-outline {
-  @include material-animation-default(0.28s);
-  transition-property: box-shadow;
-  box-shadow: inset 0 0 0 0 $checkbox-color;
-}
-
-.mdl-checkbox.is-checked .mdl-checkbox__box-outline {
-  box-shadow: inset 0 0 0 1px $checkbox-color;
 }
 
 .card-popover {
@@ -467,9 +449,12 @@ md-table md-header-cell,
   justify-content: flex-end;
 
   button {
-    color: #3f51b5;
     text-transform: uppercase;
   }
+}
+
+.mat-button {
+  text-transform: uppercase;
 }
 
 .mat-dialog-content {
@@ -477,11 +462,33 @@ md-table md-header-cell,
     color: rgba(0, 0, 0, .54);
   }
   font-size: 13pt;
-  padding: 0px 24px !important;
+  padding: 0 24px !important;
   max-height: 100% !important;
 }
 
-.mat-autocomplete-panel {
-  min-width: 300px !important;
+.mat-icon-button {
+  width: 32px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+
+  // TODO remove this after material2.beta10
+  md-icon {
+    position: relative;
+    top: -1px;
+  }
 }
 
+.button-18px {
+  min-width: 24px !important;
+  height: 24px !important;
+  width: 24px !important;
+  line-height: 24px !important;
+
+  md-icon {
+    font-size: 18px !important;
+  }
+}
+
+.icon-18px {
+  font-size: 18px !important;
+}

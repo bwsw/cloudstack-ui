@@ -13,6 +13,7 @@ import { Policy, TimePolicy } from '../policy-editor/policy-editor.component';
 import { PolicyType } from '../recurring-snapshots.component';
 import { PolicyViewBuilderService } from './policy-view-builder.service';
 import DateTimeFormat = Intl.DateTimeFormat;
+import { TableDatabase, TableDataSource } from '../../../shared/components/table/table';
 
 
 interface PolicyView {

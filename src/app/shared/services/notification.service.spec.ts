@@ -1,13 +1,5 @@
-import {
-  async,
-  ComponentFixture,
-  inject,
-  TestBed
-} from '@angular/core/testing';
-import { TranslateService } from '@ngx-translate/core';
-import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
-import { NotificationService } from './notification.service';
-import { MdSnackBar, MdSnackBarModule, OverlayContainer } from '@angular/material';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { CommonModule } from '@angular/common';
 
 import {
   Component,
@@ -16,9 +8,12 @@ import {
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
-import { LiveAnnouncer } from '@angular/cdk';
-import { CommonModule } from '@angular/common';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { MdSnackBar, MdSnackBarModule, OverlayContainer } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateService } from '@ngx-translate/core';
+import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
+import { NotificationService } from './notification.service';
 
 describe('Service: Notification service', () => {
   let notificationService: NotificationService;

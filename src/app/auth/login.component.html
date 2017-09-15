@@ -1,68 +1,67 @@
 <div class="flex-container" *ngIf="!loading">
   <img class="logo" src="img/cloudstack_logo.png">
-  <div class="login mdl-color--white" mdl-shadow="2">
-      <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
-        <div class="mat-dialog-content">
-          <mdl-textfield
-            required
-            type="text"
-            [label]="'AUTH.USERNAME' | translate"
-            floating-label
+  <md-card class="login">
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
+      <div class="mat-dialog-content">
+        <md-form-field class="full-width-input">
+          <input
+            mdInput
             name="username"
-            [error-msg]="'AUTH.USERNAME_REQUIRED' | translate"
-            #user="ngModel"
             [(ngModel)]="username"
-            [class.is-invalid]="user.invalid && !user.pristine"
-          >
-          </mdl-textfield>
-          <br/>
-          <mdl-textfield
+            [placeholder]="'AUTH.USERNAME' | translate"
+            autofocus
             required
+            #usernameControl="ngModel"
+          >
+          <md-error *ngIf="usernameControl.hasError('required')">
+            {{'AUTH.USERNAME_REQUIRED' | translate}}
+          </md-error>
+        </md-form-field>
+        <br />
+        <md-form-field class="full-width-input">
+          <input
+            mdInput
             type="password"
-            [label]="'AUTH.PASSWORD' | translate"
-            floating-label
             name="password"
-            [error-msg]="'AUTH.PASSWORD_REQUIRED' | translate"
-            #pass="ngModel"
             [(ngModel)]="password"
-            [class.is-invalid]="pass.invalid && !pass.pristine"
+            [placeholder]="'AUTH.PASSWORD' | translate"
+            required
+            #passwordControl="ngModel"
           >
-          </mdl-textfield>
-          <br/>
-          <mdl-textfield
-            *ngIf="showDomain"
-            type="text"
-            [label]="'AUTH.DOMAIN' | translate"
-            floating-label
+          <md-error *ngIf="passwordControl.hasError('required')">
+            {{'AUTH.PASSWORD_REQUIRED' | translate}}
+          </md-error>
+        </md-form-field>
+        <br />
+        <md-form-field *ngIf="showDomain" class="full-width-input">
+          <input
+            mdInput
             name="domain"
-            #domainField="ngModel"
             [(ngModel)]="domain"
-            [class.is-invalid]="domainField.invalid && !domainField.pristine"
+            [placeholder]="'AUTH.DOMAIN' | translate"
           >
-          </mdl-textfield>
-        </div>
-        <div class="mat-dialog-actions">
-          <button
-            mdl-colored="primary"
-            mdl-button
-            mdl-ripple
-            type="submit"
-            [disabled]="(pass.invalid && !pass.pristine) || (user.invalid && !user.pristine)"
-          >{{ 'AUTH.LOGIN' | translate }}</button>
-          <button
-            class="options-button"
-            mdl-button-type="icon"
-            mdl-button
-            mdl-ripple
-            type="button"
-            [mdTooltip]="(showDomain ? 'AUTH.HIDE_ADVANCED' : 'AUTH.SHOW_ADVANCED') | translate"
-            mdTooltipPosition="above"
-            (click)="toggleDomain()"
-          >
-            <md-icon [class.domains-visible]="showDomain">settings</md-icon>
-          </button>
-        </div>
-      </form>
-  </div>
+        </md-form-field>
+      </div>
+      <div class="mat-dialog-actions">
+        <button
+          md-button
+          color="primary"
+          type="submit"
+          [disabled]="(passwordControl.invalid && !passwordControl.pristine) || (usernameControl.invalid && !usernameControl.pristine)"
+        >
+          {{ 'AUTH.LOGIN' | translate }}
+        </button>
+        <button
+          md-icon-button
+          class="options-button"
+          type="button"
+          [mdTooltip]="(showDomain ? 'AUTH.HIDE_ADVANCED' : 'AUTH.SHOW_ADVANCED') | translate"
+          mdTooltipPosition="above"
+          (click)="toggleDomain()"
+        >
+          <md-icon [class.domains-visible]="showDomain">settings</md-icon>
+        </button>
+      </div>
+    </form>
+  </md-card>
 </div>
-

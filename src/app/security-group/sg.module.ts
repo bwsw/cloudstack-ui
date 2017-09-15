@@ -1,37 +1,45 @@
-import { MdlModule } from '@angular-mdl/core';
-import { MdlSelectModule } from '@angular-mdl/select';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdSelectModule, MdTooltipModule,  MdMenuModule, MdButtonModule, MdIconModule } from '@angular/material';
+import {
+  MdButtonModule,
+  MdCheckboxModule,
+  MdDialogModule,
+  MdIconModule,
+  MdInputModule,
+  MdMenuModule,
+  MdSelectModule,
+  MdTooltipModule
+} from '@angular/material';
+import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { SharedModule } from '../shared/shared.module';
 
-import { SgCreationComponent } from './sg-creation/sg-creation.component';
+import { SharedModule } from '../shared/shared.module';
 import { SgCreationRuleComponent } from './sg-creation/sg-creation-rule.component';
+import { SgCreationComponent } from './sg-creation/sg-creation.component';
 import { SgRuleComponent } from './sg-rules/sg-rule.component';
 import { SgRulesComponent } from './sg-rules/sg-rules.component';
+import { SgTemplateCreationDialogComponent } from './sg-template-creation/sg-template-creation-dialog.component';
 import { SgTemplateCreationComponent } from './sg-template-creation/sg-template-creation.component';
 import { SgTemplateListItemComponent } from './sg-template-list/sg-template-list-item.component';
 import { SgTemplateListComponent } from './sg-template-list/sg-template-list.component';
-import { SgTemplateCreationDialogComponent } from './sg-template-creation/sg-template-creation-dialog.component';
-import { sgRouting } from './sg.routing';
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     TranslateModule,
+    MdCheckboxModule,
     MdSelectModule,
     MdTooltipModule,
-    MdlModule,
-    MdlSelectModule,
+    MdDialogModule,
     SharedModule,
     MdMenuModule,
     MdButtonModule,
     MdIconModule,
-    sgRouting
+    MdInputModule
   ],
   exports: [
     SgCreationComponent,

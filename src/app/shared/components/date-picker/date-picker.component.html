@@ -1,16 +1,16 @@
 <cs-input-group>
-  <mdl-textfield
-    #textField
-    placeholder="Select a date"
-    (focus)="onFocus($event)"
-    [(ngModel)]="displayDate"
-    cs-input-group-textbox
-  ></mdl-textfield>
+  <md-form-field cs-input-group-textbox>
+    <input
+      mdInput
+      [(ngModel)]="displayDate"
+      [placeholder]="'EVENT_PAGE.SELECT_DATE' | translate"
+      (focus)="onFocus($event)"
+    >
+  </md-form-field>
   <button
-    mdl-button
-    mdl-button-type="icon"
-    (click)="onFocus($event)"
+    md-icon-button
     cs-input-group-button
+    (click)="onFocus($event)"
   >
     <md-icon>date_range</md-icon>
   </button>

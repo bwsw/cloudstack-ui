@@ -1,15 +1,10 @@
-:host mdl-progress {
+:host md-progress-bar {
   width: 300px;
 }
 
 cs-security-group-rules-manager {
   width: 100%;
-  margin-top: 0;
-}
-
-:host /deep/ cs-security-group-rules-manager .mdl-textfield {
-  padding-bottom: 0;
-  width: 100%;
+  margin-top: 10px;
 }
 
 .basic-rules {

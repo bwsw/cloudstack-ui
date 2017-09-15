@@ -1,5 +1,5 @@
+import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { DataSource } from '@angular/cdk';
 import { Observable } from 'rxjs/Observable';
 
 export class TableDatabase {
