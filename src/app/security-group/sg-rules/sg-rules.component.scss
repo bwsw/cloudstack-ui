@@ -1,12 +1,6 @@
-mdl-textfield {
-  /deep/ .mdl-textfield__input,
-  /deep/ .mdl-textfield__label {
-    text-align: left;
-  }
-
-  &.cidr {
-    width: 150px;
-  }
+.cidr {
+  width: 150px;
+  text-align: left;
 }
 
 .mat-dialog-content {
@@ -15,15 +9,11 @@ mdl-textfield {
   }
 }
 
-:host /deep/ .mdl-textfield {
+:host md-form-field {
   width: 120px;
 }
 
-:host md-select.type /deep/ .mdl-textfield {
-  width: 120px;
-}
-
-:host /deep/ mdl-spinner {
+:host /deep/ md-spinner {
   position: relative;
   top: 2px;
 }
@@ -33,11 +23,11 @@ mdl-textfield {
   color: black;
 }
 
-.cidr {
+:host /deep/ .mat-table th {
   text-align: left;
 }
 
-:host /deep/ .mat-table th {
+:host /deep/ .mat-table td {
   text-align: left;
 }
 

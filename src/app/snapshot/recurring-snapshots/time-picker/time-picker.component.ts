@@ -1,6 +1,6 @@
-import { MdlTextFieldComponent } from '@angular-mdl/core';
 import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MdInput } from '@angular/material';
 import { TimeFormat } from '../../../shared/services/language.service';
 import { padStart } from '../../../shared/utils/padStart';
 import { DayPeriod } from '../day-period/day-period.component';
@@ -26,8 +26,8 @@ export interface Time {
 })
 export class TimePickerComponent implements ControlValueAccessor, OnInit {
   @Input() public timeFormat: TimeFormat;
-  @ViewChild('hourField') public hourField: MdlTextFieldComponent;
-  @ViewChild('minuteField') public minuteField: MdlTextFieldComponent;
+  @ViewChild('hourField') public hourField: MdInput;
+  @ViewChild('minuteField') public minuteField: MdInput;
 
   public _hour: number;
   public _minute: number;
@@ -99,8 +99,7 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
     }
 
     this.hour = newValue;
-    this.hourField.inputEl.nativeElement.value = this.hour;
-    this.hourField.writeValue(this.hour);
+    this.hourField.value = this.hour;
     this.writeValue(this.time);
   }
 
@@ -120,8 +119,7 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
     }
 
     this.minute = newValue;
-    this.minuteField.inputEl.nativeElement.value = this.minute;
-    this.minuteField.writeValue(this.minute);
+    this.minuteField.value = this.minute;
     this.writeValue(this.time);
   }
 
@@ -142,7 +140,7 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
   }
 
   public set time(value: Time) {
-    if (value) {
+    if (value && !!value.hour && !!value.minute && !!value.period) {
       this.hour = (value.hour || this.minHourValue).toString();
       this.minute = (value.minute || this.minMinuteValue).toString();
       this.period = value.period;

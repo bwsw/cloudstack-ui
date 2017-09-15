@@ -9,56 +9,45 @@
   novalidate
 >
   <div class="mat-dialog-content">
-    <mdl-radio
-      *ngIf="enableAssign"
-      name="assignExistingRadio"
-      [value]="modes.assign"
-      [ngModel]="mode"
-      (ngModelChange)="setMode($event)"
-      mdl-ripple
-    >
-      {{ assignLabel | translate }}
-    </mdl-radio>
-
-    <mdl-radio
-      *ngIf="enableCreate"
-      name="createNewRadio"
-      [value]="modes.create"
-      [ngModel]="mode"
-      (ngModelChange)="setMode($event)"
-      mdl-ripple
-    >
-      {{ createLabel | translate }}
-    </mdl-radio>
-
-    <mdl-radio
-      *ngIf="defaultValue && enableRemove"
-      name="removeRadio"
-      mdl-ripple
-      [value]="modes.remove"
+    <md-radio-group
+      name="radio"
       [ngModel]="mode"
       (ngModelChange)="setMode($event)"
     >
-      <div>
-        {{ removeLabel | translate:{ value: defaultValue } }}
-      </div>
-    </mdl-radio>
+      <md-radio-button
+        *ngIf="enableAssign"
+        [value]="modes.assign"
+      >
+        {{ assignLabel | translate }}
+      </md-radio-button>
 
-    <mdl-textfield
-      *ngIf="mode === modes.create"
-      type="text"
-      name="textValue"
-      floating-label
-      autofocus
-      required
-      [(ngModel)]="newValue"
-      #textField
-      #textFieldModel="ngModel"
-      [class.is-invalid]="textFieldModel.invalid && !textFieldModel.pristine"
-      [style.width]="'100%'"
-      [placeholder]="textFieldPlaceholder | translate"
-      [maxlength]="maxLength"
-    ></mdl-textfield>
+      <md-radio-button
+        *ngIf="enableCreate"
+        [value]="modes.create"
+      >
+        {{ createLabel | translate }}
+      </md-radio-button>
+
+      <md-radio-button
+        *ngIf="defaultValue && enableRemove"
+        [value]="modes.remove"
+      >
+        <div>{{ removeLabel | translate:{ value: defaultValue } }}</div>
+      </md-radio-button>
+    </md-radio-group>
+
+    <md-form-field *ngIf="mode === modes.create" class="full-width-input">
+      <input
+        mdInput
+        type="text"
+        name="textValue"
+        [(ngModel)]="newValue"
+        [placeholder]="textFieldPlaceholder | translate"
+        [maxlength]="maxLength"
+        autofocus
+        required
+      >
+    </md-form-field>
 
     <md-select
       name="selectValue"
@@ -77,10 +66,17 @@
 
   <div class="mat-dialog-actions">
     <button
+      md-button
+      color="primary"
+      type="button"
+      (click)="cancel()"
+    >
+      {{ 'COMMON.CANCEL' | translate }}
+    </button>
+    <button
       *ngIf="mode !== modes.remove"
-      mdl-colored="primary"
-      mdl-button
-      mdl-ripple
+      md-button
+      color="primary"
       type="submit"
       [disabled]="!valueChanged || !form.valid"
     >
@@ -88,21 +84,11 @@
     </button>
     <button
       *ngIf="mode === modes.remove"
-      mdl-colored="primary"
-      mdl-button
-      mdl-ripple
+      md-button
+      color="primary"
       type="submit"
     >
       {{ 'COMMON.REMOVE' | translate }}
-    </button>
-    <button
-      mdl-colored="primary"
-      mdl-button
-      mdl-ripple
-      type="button"
-      (click)="cancel()"
-    >
-      {{ 'COMMON.CANCEL' | translate }}
     </button>
   </div>
 </form>

@@ -1,16 +1,15 @@
 import { Component, Inject } from '@angular/core';
-import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { MD_DIALOG_DATA } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
 
 import { Iso } from '../shared';
-import { IsoService } from '../shared/iso.service';
 import { TemplateFilters } from '../shared/base-template.service';
-import { Observable } from 'rxjs/Observable';
+import { IsoService } from '../shared/iso.service';
 
 
 @Component({
   selector: 'cs-iso-attachment',
-  templateUrl: 'iso-attachment.component.html',
-  styleUrls: ['../../shared/styles/iso-dialog.scss']
+  templateUrl: 'iso-attachment.component.html'
 })
 export class IsoAttachmentComponent {
   public selectedIso: Iso;
@@ -27,20 +26,7 @@ export class IsoAttachmentComponent {
   )
     .map(isos => isos.toArray());
 
-  constructor(
-    @Inject(MD_DIALOG_DATA) data,
-    private dialogRef: MdDialogRef<IsoAttachmentComponent>,
-    private isoService: IsoService
-  ) {
+  constructor(@Inject(MD_DIALOG_DATA) data, private isoService: IsoService) {
     this.zoneId = data.zoneId;
-  }
-
-
-  public onAttach(): void {
-    this.dialogRef.close(this.selectedIso);
-  }
-
-  public onCancel(): void {
-    this.dialogRef.close();
   }
 }

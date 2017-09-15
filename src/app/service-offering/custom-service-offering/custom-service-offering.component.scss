@@ -1,7 +1,11 @@
-.numeric-up-down {
-  padding-top: 10px;
-}
-
 :host .mat-dialog-content {
   overflow: hidden !important;
+}
+
+h5 {
+  margin-bottom: 0;
+
+  &:first-of-type {
+    margin-top: 0;
+  }
 }

@@ -1,22 +1,27 @@
-<mdl-textfield
-  name="hour"
-  type="number"
-  [label]="'SNAPSHOT_POLICIES.TIME' | translate"
-  floating-label
-  [ngModel]="hour"
-  (ngModelChange)="updateHour($event)"
-  #hourField
-></mdl-textfield>
+<md-form-field>
+  <input
+    mdInput
+    name="hour"
+    type="number"
+    [ngModel]="hour"
+    (ngModelChange)="updateHour($event)"
+    [placeholder]="'SNAPSHOT_POLICIES.TIME' | translate"
+    #hourField
+  >
+</md-form-field>
 
 <span class="delimiter">:</span>
 
-<mdl-textfield
-  name="minute"
-  type="number"
-  [ngModel]="minute"
-  (ngModelChange)="updateMinute($event)"
-  #minuteField
-></mdl-textfield>
+<md-form-field>
+  <input
+    mdInput
+    name="minute"
+    type="number"
+    [ngModel]="minute"
+    (ngModelChange)="updateMinute($event)"
+    #minuteField
+  >
+</md-form-field>
 
 <span class="delimiter"></span>
 

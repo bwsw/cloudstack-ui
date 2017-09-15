@@ -1,26 +1,21 @@
 <div *ngIf="mode === 'create'">
   <cs-fancy-select>
     <h5 class="fancy-select-header">{{ header | translate }}</h5>
-    <mdl-button
-      class="fancy-select-button"
-      (click)="showDialog()"
-    >
+    <button md-button type="button" class="fancy-select-button" (click)="showDialog()">
       <span *ngIf="!savedRules?.templates?.length">{{ 'COMMON.ADD' | translate }}</span>
       <span *ngIf="savedRules?.templates?.length">{{ 'COMMON.EDIT' | translate }}</span>
-    </mdl-button>
+    </button>
     <span class="fancy-select-content">
-      <div class="mdl-textfield template-list">
-        <div class="mdl-textfield__input">
-          <ng-container *ngIf="savedRules.templates?.length">
-            {{ 'SECURITY_GROUP_PAGE.RULES_MANAGER.BASED_ON' | translate }}
-            <span *ngFor="let sg of savedRules?.templates; let i=index">
-              {{ sg.name }}{{ i === savedRules?.templates?.length - 1 ? '' : ',' }}
-            </span>
-          </ng-container>
-          <ng-container *ngIf="!savedRules.templates?.length">
-            {{ 'COMMON.NONE' | translate }}
-          </ng-container>
-        </div>
+      <div class="mat-input-wrapper template-list">
+        <ng-container *ngIf="savedRules.templates?.length">
+          {{ 'SECURITY_GROUP_PAGE.RULES_MANAGER.BASED_ON' | translate }}
+          <span *ngFor="let sg of savedRules?.templates; let i=index">
+            {{ sg.name }}{{ i === savedRules?.templates?.length - 1 ? '' : ',' }}
+          </span>
+        </ng-container>
+        <ng-container *ngIf="!savedRules.templates?.length">
+          {{ 'COMMON.NONE' | translate }}
+        </ng-container>
       </div>
     </span>
   </cs-fancy-select>

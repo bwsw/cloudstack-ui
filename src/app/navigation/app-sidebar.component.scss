@@ -4,57 +4,47 @@
   min-height: 100vh;
 }
 
-.mdl-navigation__link md-icon {
-  margin-right: 10px;
+.navigation {
+  flex-direction: column;
+  align-items: stretch;
+  padding-top: 16px;
+
+  &-link {
+    display: block;
+    padding: 16px 30px !important;
+    flex-shrink: 0;
+    color: #757575;
+    text-decoration: none;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0;
+    opacity: .87;
+
+    md-icon {
+      margin-right: 10px;
+    }
+
+    & > div {
+      display: inline-block;
+    }
+  }
+
+  .drag {
+    position: relative;
+  }
 }
 
-.mdl-navigation .drag {
-  position: relative;
-}
-
-.mdl-navigation__link > div {
+.link-element {
   display: inline-block;
-}
-
-.link {
-  &-container {
-    padding-left: 30px !important;
-    padding-right: 30px !important;
-  }
-
-  &-element {
-    display: inline-block;
-    vertical-align: middle;
-  }
-
-  &-active {
-    &-light {
-      background-color: #757575 !important;
-    }
-
-    &-dark {
-      background-color: #E0E0E0 !important;
-    }
-  }
-
-  &-hover {
-    &-light:hover {
-      background-color: #757575 !important;
-    }
-
-    &-dark:hover {
-      background-color: #E0E0E0 !important;
-
-    }
-  }
+  border-color: inherit;
+  vertical-align: middle;
 }
 
 a {
   color: inherit !important;
-}
-
-:host /deep/ .link-element {
-  border-color: inherit;
+  text-decoration: none;
 }
 
 .title-header {
@@ -91,6 +81,10 @@ a {
   flex: 1;
   align-self: flex-end;
 
+  a {
+    text-decoration: underline;
+  }
+
   &-container {
     display: flex;
     flex: 1;
@@ -105,8 +99,11 @@ div.link-container {
 }
 
 .logo {
-  padding: 20px;
+  margin: 20px;
+  height: 47px;
   max-width: 100%;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .handle {
@@ -144,7 +141,7 @@ md-checkbox {
   transform: translateY(-50%);
 }
 
-.gu-mirror.mdl-navigation__link {
+.gu-mirror.navigation-link {
   display: block;
   padding: 16px 40px;
   background: rgba(0, 0, 0, 0.2) !important;

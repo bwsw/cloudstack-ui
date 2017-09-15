@@ -1,13 +1,15 @@
-import { DISABLE_NATIVE_VALIDITY_CHECKING, MdlModule } from '@angular-mdl/core';
-import { MdlPopoverModule } from '@angular-mdl/popover';
-import { MdlSelectModule } from '@angular-mdl/select';
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
+  MdButtonModule,
   MdCheckboxModule,
   MdDialog,
   MdIconModule,
+  MdInputModule,
+  MdProgressSpinnerModule,
+  MdSidenavModule,
   MdTooltipModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
@@ -23,6 +25,7 @@ import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
 import { DialogModule } from './dialog/dialog-service/dialog.module';
 import { EventsModule } from './events/events.module';
+import { HomeComponent } from './home/home.component';
 import { AppSidebarComponent } from './navigation/app-sidebar.component';
 import { SecurityGroupModule } from './security-group/sg.module';
 import { ServiceOfferingModule } from './service-offering/service-offering.module';
@@ -41,29 +44,32 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 
 @NgModule({
   imports: [
-    SnapshotModule,
+    // Be sure to import the Angular Material modules after Angular's
+    // BrowserModule, as the import order matters for NgModules.
     BrowserModule,
     BrowserAnimationsModule,
+    DialogModule,
     HttpClientModule,
     FormsModule,
-    TranslateModule.forRoot(),
-    EventsModule,
     DragulaModule,
-    MdIconModule,
+    EventsModule,
+    MdButtonModule,
     MdCheckboxModule,
+    MdIconModule,
+    MdInputModule,
+    MdProgressSpinnerModule,
+    MdSidenavModule,
     MdTooltipModule,
-    MdlModule,
-    MdlPopoverModule,
-    MdlSelectModule,
-    DialogModule,
+    ScrollDispatchModule,
     SecurityGroupModule,
     ServiceOfferingModule,
     SettingsModule,
+    SharedModule,
+    SnapshotModule,
     SpareDriveModule,
     SshKeysModule,
     TemplateModule,
     VmModule,
-    SharedModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -73,10 +79,15 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     }),
     RouterModule.forRoot(routes)
   ],
-  declarations: [AppComponent, AppSidebarComponent, LoginComponent, LogoutComponent],
+  declarations: [
+    AppComponent,
+    AppSidebarComponent,
+    LoginComponent,
+    LogoutComponent
+  ,
+    HomeComponent],
   providers: [
     MdDialog,
-    { provide: DISABLE_NATIVE_VALIDITY_CHECKING, useValue: true },
     { provide: HTTP_INTERCEPTORS, useClass: BaseHttpInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

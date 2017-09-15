@@ -1,8 +1,8 @@
-import { MdlButtonModule } from '@angular-mdl/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
+  MdButtonModule,
   MdDialogModule,
   MdIconModule,
   MdInputModule,
@@ -31,7 +31,7 @@ import { VmPulseComponent } from './vm-pulse/vm-pulse.component';
     CommonModule,
     ChartsModule,
     FormsModule,
-    MdlButtonModule,
+    MdButtonModule,
     MdIconModule,
     MdTooltipModule,
     MdDialogModule,

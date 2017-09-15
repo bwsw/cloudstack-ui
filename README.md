@@ -43,7 +43,7 @@ The project is developed by Bitworks Software Frontend Division within the educa
 ## Implementation Details
 
 * Designed compatible with [Apache CloudStack](http://cloudstack.apache.org/) 4.9 and hasn't tested for the previous versions of CS
-* Powered by [Angular](https://angular.io/), [Google Material Design Lite](https://getmdl.io/) and [Material 2](https://material.angular.io/).
+* Powered by [Angular](https://angular.io/) and [Material 2](https://material.angular.io/).
 * Tested and works fine in next modern browsers
    * Google Chrome 60.0.3112.78
    * Chromium 60.0.3169.0
@@ -265,9 +265,15 @@ Parameters:
 
 The set of colors for virtual machines in hexadecimal format. You can specify any colors you like.
 
-### themeColors
+### defaultThemeName
 
-Color info for Material design themes. Changes are not recommended.
+Preferred color theme for the app. Available themes are:
+```
+"blue-red"
+"indigo-pink"
+
+```
+Is not specified, blue-red one is used.
 
 ### offeringAvailability
 
@@ -305,6 +311,15 @@ In this sections you can specify limits for custom offerings in the following fo
     }
     
 Any of these parameters may be left unspecified, in which case 0 will be used for min and infinity will be used for max.
+
+### sessionTimeout
+
+Number of minutes a user's session should stay active. After this time passes the user is
+logged out. 
+
+Defaults to `30` (minutes).
+
+You can set it to `0` to turn this off, although in this case the session is likely to expire on the server side.
 
 ### allowReorderingSidebar
 
