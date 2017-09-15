@@ -392,13 +392,12 @@
       }
     },
     "NETWORK_DETAILS": {
-      "NETWORK_CONFIGURATION": "Конфигурация сети",
-      "NIC": "NIC",
-      "IP": "IP",
+      "NIC_NAME": "Конфигурация NIC#{{ value }}",
+      "IP": "IPv4",
       "ARE_YOU_SURE_ADD_SECONDARY_IP": "Вы уверены, что хотите добавить дополнительный IP?",
       "ARE_YOU_SURE_REMOVE_SECONDARY_IP": "Вы уверены, что хотите удалить дополнительный IP?",
       "broadcastUri": "Broadcast URI",
-      "gateway": "Шлюз",
+      "gateway": "Шлюз v4",
       "ip6Address": "IPv6 адрес",
       "ip6Cidr": "IPv6 CIDR",
       "ip6Gateway": "IPv6 шлюз",

@@ -28,8 +28,8 @@ import { TemplateModule } from '../template';
 import { VmActionsService } from './shared/vm-actions.service';
 import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
 import { VmService } from './shared/vm.service';
-import { VmActionProviders } from './vm-actions/index';
 import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions.component';
+import { VmActionProviders } from './vm-actions/index';
 import { VmCreationFormNormalizationService } from './vm-creation/form-normalization/form-normalization.service';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
 import { VmCreationService } from './vm-creation/services/vm-creation.service';
@@ -48,7 +48,6 @@ import { InstanceGroupComponent } from './vm-sidebar/instance-group/instance-gro
 // tslint:disable-next-line
 import { FirewallRulesDetailComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.component';
 import { NetworkDetailComponent } from './vm-sidebar/network-detail/network-detail.component';
-import { NicDetailComponent } from './vm-sidebar/network-detail/nic/nic-detail.component';
 // tslint:disable-next-line
 import { ServiceOfferingDetailsComponent } from './vm-sidebar/service-offering-details/service-offering-details.component';
 import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.component';
@@ -65,7 +64,6 @@ import { SnapshotModalComponent } from './vm-sidebar/storage-detail/volume/snaps
 import { SnapshotsComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshots.component';
 import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volume-details/volume-details.component';
 import { VolumeComponent } from './vm-sidebar/storage-detail/volume/volume.component';
-import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-template.component';
 import { VmActionsSidebarComponent } from './vm-sidebar/vm-actions-sidebar/vm-actions-sidebar.component';
 import { VmDetailComponent } from './vm-sidebar/vm-detail/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
@@ -73,6 +71,13 @@ import { VolumeResizeComponent } from './vm-sidebar/volume-resize/volume-resize.
 import { VmDetailZoneComponent } from './vm-sidebar/zone/zone.component';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
 import { WebShellService } from './web-shell/web-shell.service';
+import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-template.component';
+import { NicComponent } from './vm-sidebar/network-detail/nics/nic/nic.component';
+import { NicListComponent } from './vm-sidebar/network-detail/nics/nic-list/nic-list.component';
+import { SecondaryIpComponent } from './vm-sidebar/network-detail/nics/secondary-ip/secondary-ip.component';
+// tslint:disable-next-line
+import { SecondaryIpListComponent } from './vm-sidebar/network-detail/nics/secondary-ip-list/secondary-ip-list.component';
+import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fields/nic-fields.component';
 
 
 @NgModule({
@@ -107,7 +112,6 @@ import { WebShellService } from './web-shell/web-shell.service';
     KeyboardsComponent,
     FirewallRulesDetailComponent,
     NetworkDetailComponent,
-    NicDetailComponent,
     ServiceOfferingDetailsComponent,
     SnapshotsComponent,
     SpareDriveAttachmentDetailComponent,
@@ -138,6 +142,11 @@ import { WebShellService } from './web-shell/web-shell.service';
     VolumeComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,
+    NicComponent,
+    NicListComponent,
+    SecondaryIpComponent,
+    SecondaryIpListComponent,
+    NicFieldsComponent
   ],
   providers: [
     VmActionsService,
