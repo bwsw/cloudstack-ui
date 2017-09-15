@@ -5,6 +5,7 @@
 @import "../app/shared/components/date-picker/date-picker-theme";
 @import "../app/shared/badge/badge-theme";
 @import "../app/ssh-keys/ssh-key-creation/ssh-key-creation-dialog-theme";
+@import "../app/vm/vm-creation/template/vm-template-theme";
 
 @mixin cs-ui-theme($theme) {
   @include app-sidebar-theme($theme);
@@ -12,4 +13,5 @@
   @include badge-theme($theme);
   @include date-picker-theme($theme);
   @include ssh-key-creation-dialog-theme($theme);
+  @include vm-template-theme($theme);
 }

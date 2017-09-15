@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../dialog/dialog-service/dialog.service';
 import { ActionsService } from '../shared/interfaces/action-service.interface';
@@ -9,7 +10,6 @@ import { NotificationService } from '../shared/services/notification.service';
 import { SnapshotService } from '../shared/services/snapshot.service';
 import { StatsUpdateService } from '../shared/services/stats-update.service';
 import { TemplateCreationComponent } from '../template/template-creation/template-creation.component';
-import { MdDialog } from '@angular/material';
 
 
 export interface SnapshotAction extends Action<Snapshot> {
@@ -52,7 +52,6 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
       }
     })
       .afterClosed();
-    // todo check
   }
 
   public handleSnapshotDelete(snapshot: Snapshot, volume): Observable<void> {

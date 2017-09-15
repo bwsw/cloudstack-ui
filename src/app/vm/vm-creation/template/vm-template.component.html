@@ -2,5 +2,12 @@
   {{ 'COMMON.SELECT' | translate }}
 </button>
 <div class="mat-input-wrapper template-list">
-  {{ 'VM_PAGE.VM_CREATION.OS_TEMPLATE' | translate }}: {{ template?.name }}
+  <ng-container *ngIf="template; else noTemplates">
+    {{ 'VM_PAGE.VM_CREATION.OS_TEMPLATE' | translate }}: {{ template?.name }}
+  </ng-container>
+  <ng-template #noTemplates>
+    <span class="no-templates">
+      {{ 'VM_PAGE.VM_CREATION.NO_TEMPLATES' | translate }}
+    </span>
+  </ng-template>
 </div>

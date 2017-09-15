@@ -217,7 +217,7 @@
         md-button
         color="primary"
         type="submit"
-        [disabled]="!vmCreateForm.valid || formState?.state.displayName === takenName"
+        [disabled]="!vmCreateForm.valid || nameIsTaken || !formState?.state.template"
       >
         {{ 'COMMON.CREATE' | translate }}
       </button>

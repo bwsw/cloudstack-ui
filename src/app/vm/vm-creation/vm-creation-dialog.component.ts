@@ -19,10 +19,10 @@ export class VmCreationDialogComponent {
     })
       .afterClosed()
       .subscribe(vm => {
-         this.router.navigate(['../'], {
-           queryParamsHandling: 'preserve',
-           relativeTo: this.activatedRoute
-         });
+        this.router.navigate(['../'], {
+          queryParamsHandling: 'preserve',
+          relativeTo: this.activatedRoute
+        });
       });
   }
 }

@@ -32,7 +32,6 @@ import {
 })
 export class AppSidebarComponent extends WithUnsubscribe()
   implements AfterViewInit, OnInit, OnDestroy {
-  // todo: make a wrapper for link and use @ViewChildren(LinkWrapper)
   @ViewChild('navigationBar') public navigationBar: ElementRef;
   @Input() public open: boolean;
   @Input() public title: string;

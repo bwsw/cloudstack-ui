@@ -312,6 +312,15 @@ In this sections you can specify limits for custom offerings in the following fo
     
 Any of these parameters may be left unspecified, in which case 0 will be used for min and infinity will be used for max.
 
+### sessionTimeout
+
+Number of minutes a user's session should stay active. After this time passes the user is
+logged out. 
+
+Defaults to `30` (minutes).
+
+You can set it to `0` to turn this off, although in this case the session is likely to expire on the server side.
+
 ### allowReorderingSidebar
 
 A boolean value which allows or forbids a user to reorder links in the main sidebar 

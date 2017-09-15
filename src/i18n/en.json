@@ -448,7 +448,8 @@
       "CREATING_AG": "Creating an affinity group",
       "CREATING_SG": "Creating a security group",
       "DEPLOYING_VM": "Deploying the virtual machine",
-      "OS_TEMPLATE": "OS template"
+      "OS_TEMPLATE": "OS template",
+      "NO_TEMPLATES": "No templates available"
     }
   },
   "SPARE_DRIVE_PAGE": {

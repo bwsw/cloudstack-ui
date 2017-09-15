@@ -4,8 +4,7 @@ import {
   Inject,
   OnDestroy,
   OnInit,
-  ViewChild,
-  ViewEncapsulation
+  ViewChild
 } from '@angular/core';
 import { MD_DIALOG_DATA, MdTabChangeEvent } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,7 +15,7 @@ import { PulseChartComponent } from '../charts/pulse-chart';
 import { PulseCpuRamChartComponent } from '../charts/pulse-cpu-ram-chart/pulse-cpu-ram-chart.component';
 import { PulseDiskChartComponent } from '../charts/pulse-disk-chart/pulse-disk-chart.component';
 import { PulseNetworkChartComponent } from '../charts/pulse-network-chart/pulse-network-chart.component';
-import { PulseService } from '../pulse.service';
+import { Interval, PulseService } from '../pulse.service';
 
 const enum TabIndex {
   CpuRam,
@@ -35,8 +34,7 @@ export const PulseParameters = {
   selector: 'cs-vm-pulse',
   templateUrl: './vm-pulse.component.html',
   styleUrls: ['./vm-pulse.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VmPulseComponent implements OnInit, OnDestroy {
   @ViewChild(PulseCpuRamChartComponent) cpuRamChart: PulseCpuRamChartComponent;
@@ -66,7 +64,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     moment.locale(this.translateService.currentLang);
-    this.pulse.getPermittedIntervals().subscribe(intervals => {
+    this.pulse.getPermittedIntervals().subscribe((intervals: Interval) => {
       intervals.scales = Object.values(intervals.scales);
       this.permittedIntervals = intervals;
       this.scheduleAutoRefresh();

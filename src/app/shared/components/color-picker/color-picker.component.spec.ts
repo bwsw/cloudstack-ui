@@ -73,8 +73,6 @@ describe('Color picker component', () => {
     component.colors = colors;
     fixture.detectChanges();
 
-    // TODO(andrewbents): add click on color preview
-    // fixture.debugElement.query(By.css('.color-preview-container')).nativeElement.click();
     fixture.debugElement.query(By.css('input')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -85,6 +83,13 @@ describe('Color picker component', () => {
     colorElement.triggerEventHandler('click');
     expect(component.popoverTrigger.open).toBe(false);
     expect(component.selectedColor).toEqual(colors[0]);
+
+    fixture.debugElement.query(By.css('.color-preview-container')).nativeElement.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(component.popoverTrigger.open).toBe(true);
   }));
 
   it('should update using ngModel', fakeAsync(() => {

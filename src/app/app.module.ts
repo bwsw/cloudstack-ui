@@ -1,7 +1,7 @@
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Http, HttpModule } from '@angular/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   MdButtonModule,
   MdCheckboxModule,
@@ -37,9 +37,10 @@ import { SpareDriveModule } from './spare-drive';
 import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
+import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
 
 
-export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './i18n/', '.json');
 }
 
@@ -50,10 +51,10 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
     BrowserModule,
     BrowserAnimationsModule,
     DialogModule,
+    HttpClientModule,
+    FormsModule,
     DragulaModule,
     EventsModule,
-    FormsModule,
-    HttpModule,
     MdButtonModule,
     MdCheckboxModule,
     MdIconModule,
@@ -70,13 +71,12 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
     SpareDriveModule,
     SshKeysModule,
     TemplateModule,
-    TranslateModule.forRoot(),
     VmModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [Http]
+        deps: [HttpClient]
       }
     }),
     RouterModule.forRoot(routes)
@@ -88,7 +88,10 @@ export function HttpLoaderFactory(http: Http): TranslateHttpLoader {
     LogoutComponent,
     HomeComponent
   ],
-  providers: [MdDialog],
+  providers: [
+    MdDialog,
+    { provide: HTTP_INTERCEPTORS, useClass: BaseHttpInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
