@@ -1,14 +1,15 @@
-import { TestBed, async, getTestBed, fakeAsync, tick, discardPeriodicTasks } from '@angular/core/testing';
-import { Injector } from '@angular/core';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {async, discardPeriodicTasks, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {Injector} from '@angular/core';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 
-import { ServiceLocator } from './service-locator';
+import {ServiceLocator} from './service-locator';
 
-import { AsyncJobService } from './async-job.service';
-import { CacheService } from './cache.service';
-import { ErrorService } from './error.service';
+import {AsyncJobService} from './async-job.service';
+import {CacheService} from './cache.service';
+import {ErrorService} from './error.service';
 
-import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
+import {MockCacheService} from '../../../testutils/mocks/mock-cache.service.spec';
+import {LocalStorageService} from './local-storage.service';
 
 
 describe('Async job service', () => {
@@ -67,6 +68,7 @@ describe('Async job service', () => {
       providers: [
         ErrorService,
         ServiceLocator,
+        LocalStorageService,
         { provide: CacheService, useClass: MockCacheService },
         AsyncJobService
       ],

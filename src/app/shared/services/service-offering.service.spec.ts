@@ -1,16 +1,17 @@
-import { Injectable, Injector } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ServiceOfferingService } from './service-offering.service';
-import { OfferingAvailability } from './offering.service';
-import { Zone } from '../models/zone.model';
-import { ServiceOffering } from '../models/service-offering.model';
-import { ConfigService } from './config.service';
-import { ServiceLocator } from './service-locator';
-import { ErrorService } from './error.service';
-import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
-import { CacheService } from './cache.service';
-import { ResourcesData } from './resource-usage.service';
+import {Injectable, Injector} from '@angular/core';
+import {TestBed} from '@angular/core/testing';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {ServiceOfferingService} from './service-offering.service';
+import {OfferingAvailability} from './offering.service';
+import {Zone} from '../models/zone.model';
+import {ServiceOffering} from '../models/service-offering.model';
+import {ConfigService} from './config.service';
+import {ServiceLocator} from './service-locator';
+import {ErrorService} from './error.service';
+import {MockCacheService} from '../../../testutils/mocks/mock-cache.service.spec';
+import {CacheService} from './cache.service';
+import {ResourcesData} from './resource-usage.service';
+import {LocalStorageService} from './local-storage.service';
 
 @Injectable()
 class MockErrorService {
@@ -26,6 +27,7 @@ describe('Service-offering service', () => {
     TestBed.configureTestingModule({
       providers: [
         ServiceOfferingService,
+        LocalStorageService,
         ConfigService,
         { provide: ErrorService, useClass: MockErrorService },
         { provide: CacheService, useClass: MockCacheService },

@@ -38,7 +38,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
 
     const userRaw = this.storage.read('user');
     const user = Utils.parseJsonString(userRaw);
-    this.listAll = user.type !== AccountType.User;
+    this.listAll = user && user.type !== AccountType.User;
   }
 
   public get(id: string): Observable<M> {
