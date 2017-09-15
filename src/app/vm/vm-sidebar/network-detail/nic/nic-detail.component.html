@@ -1,4 +1,4 @@
-<md-card class="vm-card" mdl-shadow="2">
+<md-card class="vm-card">
   <md-card-header>
     <md-card-title>
       <h2 class="md-card-title-text">
@@ -46,12 +46,11 @@
               <div>{{ 'VM_PAGE.NETWORK_DETAILS.secondaryIp' | translate }}</div>
               <div>
                 <button
-                  mdl-button
-                  mdl-button-type="icon"
-                  class="mdl-icon-button--small"
+                  md-icon-button
+                  class="md-icon-button--small"
                   (click)="confirmAddSecondaryIp(vm)"
                 >
-                  <md-icon class="mdl-icon--small">add</md-icon>
+                  <md-icon class="md-icon--small">add</md-icon>
                 </button>
               </div>
             </div>
@@ -60,12 +59,11 @@
                 <div>{{ ip.ipaddress }}</div>
                 <div>
                   <button
-                    mdl-button
-                    mdl-button-type="icon"
-                    class="mdl-icon-button--small"
+                    md-icon-button
+                    class="md-icon-button--small"
                     (click)="confirmRemoveSecondaryIp(ip.id, vm)"
                   >
-                    <md-icon class="mdl-icon--small">delete</md-icon>
+                    <md-icon class="md-icon--small">delete</md-icon>
                   </button>
                 </div>
               </div>
@@ -76,9 +74,7 @@
     </div>
     <md-card-actions style="text-align: right;">
       <button
-        mdl-button
-        mdl-ripple
-        mdl-button-type="icon"
+        md-icon-button
         (click)="toggleNIC()"
         [class.open]="expandNIC"
       >

@@ -1,10 +1,5 @@
 <div class="flex-container">
-  <button *ngIf="canAddTag"
-    mdl-button
-    mdl-button-type="mini-fab"
-    mdl-colored="accent"
-    (click)="addTag()"
-  >
+  <button *ngIf="canAddTag" md-mini-fab (click)="addTag()">
     <md-icon>add</md-icon>
   </button>
 

@@ -4,13 +4,7 @@
 }
 
 .public-key-label {
+  position: relative;
+  top: 10px;
   font-size: 12px;
-}
-
-.public-key-input {
-  padding-top: 0;
-}
-
-.public-key-input /deep/ label {
-  top: 4px;
 }

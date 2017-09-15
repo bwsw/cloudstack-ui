@@ -343,6 +343,7 @@
         "READ_RATE_IOPS": "Read rate",
         "WRITE_RATE_IOPS": "Write rate"
       },
+
       "VOLUME_RESIZE": {
         "TITLE": "Resize volume",
         "DISK_OFFERING": "Disk offering",
@@ -447,7 +448,8 @@
       "CREATING_AG": "Creating an affinity group",
       "CREATING_SG": "Creating a security group",
       "DEPLOYING_VM": "Deploying the virtual machine",
-      "OS_TEMPLATE": "OS template"
+      "OS_TEMPLATE": "OS template",
+      "NO_TEMPLATES": "No templates available"
     }
   },
   "SPARE_DRIVE_PAGE": {
@@ -469,7 +471,7 @@
       "DISK_OFFERING": "Disk offering",
       "SIZE": "Size"
     },
-    "SIDEBAR": {
+"SIDEBAR": {
       "VOLUME": "Volume",
       "SNAPSHOTS": "Snapshots"
     },
@@ -488,7 +490,7 @@
       "READ_RATE_IOPS": "Read rate",
       "WRITE_RATE_IOPS": "Write rate"
     },
-    "SNAPSHOTS": {
+"SNAPSHOTS": {
       "DESCRIPTION": "Description",
       "DATE": "Date"
     },
@@ -842,6 +844,7 @@
     }
   },
   "EVENT_PAGE": {
+    "SELECT_DATE": "Select a date",
     "SELECT_LEVELS": "Select levels",
     "SELECT_TYPES": "Select types",
     "NO_EVENTS": "No events for the selected date",
@@ -887,7 +890,7 @@
       "hour12": "12-Hours Time",
       "hour24": "24-Hours Time",
       "AUTO": "Auto",
-      "PALETTE": "Interface Theme Colors"
+      "THEME": "Theme Color"
     }
   },
   "CLIPBOARD": {
@@ -900,7 +903,7 @@
     "ENTER_TEXT": "Enter text",
     "SELECT_AN_OPTION": "Select an option"
   },
-  "VM_NOT_FOUND": "Virtual machine not found",
+"VM_NOT_FOUND": "Virtual machine not found",
   "VOLUME_NOT_FOUND": "Volume not found",
   "TEMPLATE_NOT_FOUND": "Template not found",
   "PULSE": {
@@ -1044,6 +1047,7 @@
     "MBPS": "{{value}} MB/s",
     "MHZ": "MHz"
   },
+
   "VOLUME_ACTIONS": {
     "TAKE_SNAPSHOT": "Take a snapshot",
     "SNAPSHOT_SCHEDULE": "Set up snapshot schedule",

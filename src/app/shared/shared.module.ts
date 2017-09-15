@@ -1,18 +1,22 @@
-import { MdlModule } from '@angular-mdl/core';
-import { MdlPopoverModule } from '@angular-mdl/popover';
-import { MdlSelectModule } from '@angular-mdl/select';
-import { CdkTableModule } from '@angular/cdk';
+import { CdkTableModule } from '@angular/cdk/table';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   MdAutocompleteModule,
+  MdButtonModule,
   MdCardModule,
+  MdCheckboxModule,
   MdIconModule,
   MdInputModule,
   MdListModule,
   MdMenuModule,
+  MdProgressBarModule,
+  MdProgressSpinnerModule,
+  MdRadioModule,
   MdSelectModule,
+  MdSidenavModule,
+  MdSliderModule,
   MdSnackBarModule,
   MdTableModule,
   MdTabsModule
@@ -32,6 +36,7 @@ import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-driv
 import { SpareDriveSnapshotAction } from './actions/spare-drive-actions/spare-drive-snapshot';
 import { TemplateActionsComponent } from './actions/template-actions/template-actions-component/template-actions.component';
 import { TemplateActionsService } from './actions/template-actions/template-actions.service';
+import { BadgeModule } from './badge/';
 import {
   CalendarComponent,
   CalendarMonthComponent,
@@ -52,21 +57,17 @@ import {
   TopBarComponent,
   VmStatisticsComponent
 } from './components';
-import {
-  MDL_SELECT_VALUE_ACCESSOR,
-  MdlAutocompleteComponent
-} from './components/autocomplete/mdl-autocomplete.component';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
 import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
 import { GroupedCardListComponent } from './components/grouped-card-list/grouped-card-list.component';
-import { InlineEditAutocompleteComponent } from './components/inline-edit/inline-edit-autocomplete.component';
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
 import { InputGroupComponent } from './components/input-group/input-group.component';
 import { LoaderComponent } from './components/loader.component';
 import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
+import { PopoverModule } from './components/popover/index';
 import { ReloadComponent } from './components/reload/reload.component';
 import { SearchComponent } from './components/search/search.component';
 import { TableComponent } from './components/table/table.component';
@@ -74,7 +75,6 @@ import { ForbiddenValuesDirective } from './directives/forbidden-values.directiv
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
 import { LoadingDirective } from './directives/loading.directive';
 import { MaxValueValidatorDirective } from './directives/max-value.directive';
-import { MdlTextAreaAutoresizeDirective } from './directives/mdl-textarea-autoresize.directive';
 import { MinValueValidatorDirective } from './directives/min-value.directive';
 import { DivisionPipe, HighLightPipe, ViewValuePipe } from './pipes';
 import { StringifyDatePipe } from './pipes/stringifyDate.pipe';
@@ -127,71 +127,73 @@ import { ZoneService } from './services/zone.service';
     CommonModule,
     DynamicModule.withComponents([GroupedCardListComponent]),
     FormsModule,
-    DragulaModule,
-    MdSelectModule,
-    MdIconModule,
-    MdlModule,
-    MdlPopoverModule,
-    MdlSelectModule,
-    TranslateModule,
-    MdListModule,
-    MdSnackBarModule,
-    MdTabsModule,
-    MdMenuModule,
-    MdCardModule,
-    MdTableModule,
+    BadgeModule,
     CdkTableModule,
+    DragulaModule,
     MdAutocompleteModule,
-    MdInputModule
+    MdButtonModule,
+    MdCardModule,
+    MdCheckboxModule,
+    MdIconModule,
+    MdInputModule,
+    MdListModule,
+    MdMenuModule,
+    MdProgressBarModule,
+    MdProgressSpinnerModule,
+    MdRadioModule,
+    MdSelectModule,
+    MdSidenavModule,
+    MdSliderModule,
+    MdSnackBarModule,
+    MdTableModule,
+    MdTabsModule,
+    PopoverModule,
+    TranslateModule
   ],
   exports: [
-    GroupedCardListComponent,
+    CdkTableModule,
     CharacterCountComponent,
     ColorPickerComponent,
     CreateUpdateDeleteDialogComponent,
     DatePickerComponent,
-    DividerVerticalComponent,
-    DividerVerticalComponent,
     DescriptionComponent,
     DiskOfferingComponent,
+    DividerVerticalComponent,
+    DivisionPipe,
     FabComponent,
     FancySelectComponent,
     ForbiddenValuesDirective,
+    GroupedCardListComponent,
+    HighLightPipe,
     InlineEditComponent,
-    InlineEditAutocompleteComponent,
     InputGroupComponent,
     IntegerValidatorDirective,
     ListComponent,
-    NoResultsComponent,
+    LoadingDirective,
     MaxValueValidatorDirective,
+    MdAutocompleteModule,
+    MdCardModule,
+    MdInputModule,
+    MdListModule,
+    MdSnackBarModule,
+    MdTableModule,
     MinValueValidatorDirective,
-    MdlAutocompleteComponent,
+    NoResultsComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     OverlayLoadingComponent,
     SearchComponent,
     SgRulesManagerComponent,
     SidebarContainerComponent,
-    TableComponent,
-    TopBarComponent,
-    VmStatisticsComponent,
     SliderComponent,
-    DivisionPipe,
-    HighLightPipe,
-    StringifyDatePipe,
-    StringifyTimePipe,
-    ViewValuePipe,
-    LoadingDirective,
-    MdlTextAreaAutoresizeDirective,
-    MdListModule,
-    MdCardModule,
-    MdTableModule,
-    CdkTableModule,
-    MdSnackBarModule,
     SpareDriveActionsComponent,
+    StringifyTimePipe,
+    StringifyDatePipe,
+    TableComponent,
     TemplateActionsComponent,
-    MdAutocompleteModule,
-    MdInputModule
+    TopBarComponent,
+    ViewValuePipe,
+    VmStatisticsComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -199,10 +201,10 @@ import { ZoneService } from './services/zone.service';
     SpareDriveAttachmentComponent
   ],
   declarations: [
-    CharacterCountComponent,
     CalendarComponent,
     CalendarMonthComponent,
     CalendarYearComponent,
+    CharacterCountComponent,
     ColorPickerComponent,
     CreateUpdateDeleteDialogComponent,
     DateDisplayComponent,
@@ -211,19 +213,21 @@ import { ZoneService } from './services/zone.service';
     DescriptionComponent,
     DiskOfferingComponent,
     DividerVerticalComponent,
+    DivisionPipe,
     FabComponent,
     FancySelectComponent,
     ForbiddenValuesDirective,
+    GroupedCardListComponent,
+    HighLightPipe,
     InlineEditComponent,
-    InlineEditAutocompleteComponent,
     InputGroupComponent,
     IntegerValidatorDirective,
     ListComponent,
-    NoResultsComponent,
+    LoaderComponent,
+    LoadingDirective,
     MaxValueValidatorDirective,
     MinValueValidatorDirective,
-    MdlAutocompleteComponent,
-    MdlTextAreaAutoresizeDirective,
+    NoResultsComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
     OverlayLoadingComponent,
@@ -231,39 +235,18 @@ import { ZoneService } from './services/zone.service';
     SearchComponent,
     SgRulesManagerComponent,
     SidebarContainerComponent,
-    TableComponent,
-    TopBarComponent,
-    VmStatisticsComponent,
     SliderComponent,
-    DivisionPipe,
-    HighLightPipe,
+    SpareDriveActionsComponent,
     StringifyDatePipe,
     StringifyTimePipe,
+    TableComponent,
+    TemplateActionsComponent,
+    TopBarComponent,
     ViewValuePipe,
-    LoadingDirective,
-    LoaderComponent,
-    GroupedCardListComponent,
-    SpareDriveActionsComponent,
-    TemplateActionsComponent
+    VmStatisticsComponent
   ],
   providers: [
     AccountService,
-    SpareDriveActionsService,
-    SpareDriveSnapshotAction,
-    SpareDriveRecurringSnapshotsAction,
-    SpareDriveAttachAction,
-    SpareDriveDetachAction,
-    SpareDriveRemoveAction,
-    SpareDriveResizeAction,
-    TemplateActionsService,
-    DescriptionTagService,
-    MarkForRemovalService,
-    SecurityGroupTagService,
-    SnapshotTagService,
-    TemplateTagService,
-    UserTagService,
-    VmTagService,
-    VolumeTagService,
     AffinityGroupService,
     AsyncJobService,
     AuthGuard,
@@ -271,33 +254,48 @@ import { ZoneService } from './services/zone.service';
     CacheService,
     ConfigService,
     DateTimeFormatterService,
+    DescriptionTagService,
     DiskOfferingService,
     ErrorService,
     InstanceGroupService,
     JobsNotificationService,
     LanguageService,
     LayoutService,
+    LocalStorageService,
     LoginGuard,
+    MarkForRemovalService,
+    MemoryStorageService,
     NotificationService,
     OsTypeService,
     ResourceLimitService,
     ResourceUsageService,
     RouterUtilsService,
-    SecurityGroupService,
-    ServiceOfferingService,
-    SnapshotService,
     SSHKeyPairService,
-    StatsUpdateService,
-    MemoryStorageService,
+    SecurityGroupService,
+    SecurityGroupTagService,
+    ServiceOfferingService,
     SessionStorageService,
-    LocalStorageService,
+    SnapshotService,
+    SnapshotTagService,
+    SpareDriveActionsService,
+    SpareDriveAttachAction,
+    SpareDriveDetachAction,
+    SpareDriveRecurringSnapshotsAction,
+    SpareDriveRemoveAction,
+    SpareDriveResizeAction,
+    SpareDriveSnapshotAction,
+    StatsUpdateService,
     StyleService,
     TagService,
+    TemplateActionsService,
+    TemplateTagService,
     UserService,
-    VolumeService,
+    UserTagService,
+    VmTagService,
     VolumeOfferingService,
-    ZoneService,
-    MDL_SELECT_VALUE_ACCESSOR
+    VolumeService,
+    VolumeTagService,
+    ZoneService
   ]
 })
 export class SharedModule {

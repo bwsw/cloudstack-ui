@@ -1,12 +1,18 @@
-:host .actions {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 5px 10px;
+md-card-actions {
+  margin-left: 0;
+  margin-right: 0;
 }
 
-:host md-list {
+md-list {
   min-height: 100px;
   max-height: 288px;
   overflow: auto;
+  line-height: 20px;
+}
+
+cs-popover {
+  width: 300px;
+  right: 20px;
 }
 
 .md-card-header {
@@ -14,12 +20,12 @@
   padding: 16px;
 
   md-card-title {
-    margin: 0px;
+    margin: 0;
   }
 
   .md-card-title-text {
     font-size: 1.4em;
-    margin: 0px;
+    margin: 0;
     line-height: normal;
   }
 }

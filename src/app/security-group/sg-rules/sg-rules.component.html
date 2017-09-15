@@ -27,23 +27,26 @@
           </md-select>
         </td>
         <td class="cidr mat-cell">
-          <mdl-textfield
-            [class.is-invalid]="cidrField.touched && cidrField.invalid"
-            name="cidr"
-            type="text"
-            pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$"
-            error-msg="{{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CIDR' | translate }}"
-            required
-            [(ngModel)]="cidr"
-            #cidrField="ngModel"
-            (click)="onCidrClick()"
-          >
-          </mdl-textfield>
+          <md-form-field class="cidr">
+            <input
+              mdInput
+              name="cidr"
+              type="text"
+              [(ngModel)]="cidr"
+              pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$"
+              required
+              (click)="onCidrClick()"
+              #cidrField="ngModel"
+            >
+            <md-error *ngIf="cidrField.hasError('pattern')">
+              {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CIDR' | translate }}
+            </md-error>
+          </md-form-field>
         </td>
 
         <td class="mat-cell">
           <ng-container *ngIf="protocol === NetworkProtocols.ICMP">
-            <md-input-container floatPlaceholder="never">
+            <md-form-field floatPlaceholder="never">
               <input
                 mdInput
                 maxValue="255"
@@ -64,28 +67,30 @@
                   {{ getIcmpTypeTranslationToken(t.type) | translate }} [{{ t.type }}]
                 </md-option>
               </md-autocomplete>
-            </md-input-container>
+            </md-form-field>
           </ng-container>
 
-          <mdl-textfield
-            *ngIf="protocol !== NetworkProtocols.ICMP"
-            [class.is-invalid]="startPortField.touched && startPortField.invalid"
-            name="startPort"
-            type="number"
-            [placeholder]="'SECURITY_GROUP_PAGE.RULES.START_PORT' | translate"
-            minValue="0"
-            maxValue="65536"
-            integerValue
-            error-msg="{{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_PORT' | translate }}"
-            required
-            [(ngModel)]="startPort"
-            #startPortField="ngModel"
-          ></mdl-textfield>
+          <md-form-field *ngIf="protocol !== NetworkProtocols.ICMP">
+            <input
+              mdInput
+              name="startPort"
+              type="number"
+              [(ngModel)]="startPort"
+              [minValue]="0"
+              [maxValue]="65536"
+              integerValue
+              required
+              #startPortField="ngModel"
+            >
+            <md-error *ngIf="startPortField.invalid">
+              {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_PORT' | translate }}
+            </md-error>
+          </md-form-field>
         </td>
 
         <td class="mat-cell">
           <ng-container *ngIf="protocol === NetworkProtocols.ICMP">
-            <md-input-container floatPlaceholder="never">
+            <md-form-field floatPlaceholder="never">
               <input
                 mdInput
                 name="icmpCode"
@@ -97,8 +102,8 @@
                 [(ngModel)]="selectedCode"
                 (ngModelChange)="setIcmpCodes(filterCodes(selectedCode))"
               >
-              <md-error *ngIf="icmpCodeField.invalid">{{
-                'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CODE' | translate }}
+              <md-error *ngIf="icmpCodeField.invalid">
+                {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CODE' | translate }}
               </md-error>
 
               <md-autocomplete
@@ -109,35 +114,36 @@
                   {{ getIcmpCodeTranslationToken(icmpType, t) | translate }} [{{ t }}]
                 </md-option>
               </md-autocomplete>
-            </md-input-container>
+            </md-form-field>
           </ng-container>
 
-          <mdl-textfield
-            *ngIf="protocol !== NetworkProtocols.ICMP"
-            [class.is-invalid]="endPortField.touched && endPortField.invalid"
-            name="endPort"
-            type="number"
-            [placeholder]="'SECURITY_GROUP_PAGE.RULES.END_PORT' | translate"
-            minValue="0"
-            maxValue="65536"
-            integerValue
-            error-msg="{{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_PORT' | translate }}"
-            required
-            [(ngModel)]="endPort"
-            #endPortField="ngModel"
-          ></mdl-textfield>
+          <md-form-field *ngIf="protocol !== NetworkProtocols.ICMP">
+            <input
+              mdInput
+              name="endPort"
+              type="number"
+              [(ngModel)]="endPort"
+              [minValue]="0"
+              [maxValue]="65536"
+              integerValue
+              required
+              #endPortField="ngModel"
+            >
+            <md-error *ngIf="endPortField.invalid">
+              {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_PORT' | translate }}
+            </md-error>
+          </md-form-field>
         </td>
 
         <td class="mat-cell">
           <button
+            md-icon-button
             class="add-rule-button"
-            mdl-button
-            mdl-button-type="icon"
             (click)="addRule($event)"
             disabled="{{ securityGroup.isPredefinedTemplate || adding || rulesForm.form.invalid }}"
           >
             <md-icon *ngIf="!adding">add</md-icon>
-            <mdl-spinner single-color active *ngIf="adding"></mdl-spinner>
+            <md-spinner *ngIf="adding"></md-spinner>
           </button>
         </td>
       </tr>
@@ -164,10 +170,7 @@
   </form>
 </div>
 <div class="mat-dialog-actions">
-  <button
-    mdl-button
-    mdl-ripple
-    mdl-colored="primary"
-    (click)="onClose()"
-  >{{ 'COMMON.CLOSE' | translate }}</button>
+  <button md-button color="primary" mdDialogClose>
+    {{ 'COMMON.CLOSE' | translate }}
+  </button>
 </div>

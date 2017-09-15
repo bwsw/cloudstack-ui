@@ -1,0 +1,7 @@
+@mixin ssh-key-creation-dialog-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  .public-key-label {
+    color: mat-color($primary);
+  }
+}

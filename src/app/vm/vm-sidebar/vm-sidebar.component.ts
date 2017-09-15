@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { NotificationService } from '../../shared/services/notification.service';
 import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
-import { Observable } from 'rxjs/Observable';
 
 
 @Component({

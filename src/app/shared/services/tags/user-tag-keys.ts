@@ -9,5 +9,6 @@ export const UserTagKeys = {
   sessionTimeout: 'csui.user.session-timeout',
   showSystemTags: 'csui.user.show-system-tags',
   timeFormat: 'csui.user.time-format',
+  theme: 'csui.user.theme',
   navigationOrder: 'csui.user.navigation-order'
 };
