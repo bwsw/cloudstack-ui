@@ -1,4 +1,4 @@
-import { HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import '../style/app.scss';
@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
   }
 
   private handleError(e: any): void {
-    if (e instanceof HttpResponse) {
+    if (e instanceof HttpErrorResponse) {
       switch (e.status) {
         case 401:
           this.notification.message('AUTH.NOT_LOGGED_IN');
