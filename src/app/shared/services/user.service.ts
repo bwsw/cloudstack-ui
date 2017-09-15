@@ -10,6 +10,7 @@ import { RouterUtilsService } from './router-utils.service';
 import { UserTagService } from './tags/user-tag.service';
 
 const DEFAULT_SESSION_REFRESH_INTERVAL = 60;
+const DEFAULT_SESSION_TIMEOUT = 30;
 
 @Injectable()
 @BackendResource({
@@ -40,8 +41,7 @@ export class UserService extends BaseBackendService<User> {
     return this.sendCommand('register;Keys', { id }).map(res => res.userkeys);
   }
 
-
-  public startInactivityCounter() {
+  public startIdleMonitor() {
     const sessionRefreshInterval = this.getSessionRefreshInterval();
 
     this.getInactivityTimeout().subscribe(inactivityTimeout => {
@@ -67,8 +67,8 @@ export class UserService extends BaseBackendService<User> {
 
     return this.userTagService.getSessionTimeout()
       .switchMap(timeout => {
-        if (Number.isNaN(timeout)) {
-          return this.userTagService.setSessionTimeout(0);
+        if (Number.isNaN(timeout) || timeout < 0) {
+          return Observable.of(this.getSessionTimeout());
         }
 
         return Observable.of(timeout);
@@ -116,6 +116,11 @@ export class UserService extends BaseBackendService<User> {
     clearInterval(this.refreshTimer);
   }
 
+  public stopIdleMonitor(): void {
+    this.clearInactivityTimer();
+    this.inactivityTimeout = 0;
+  }
+
   private setInactivityTimer(): void {
     if (this.sessionRefreshInterval && this.inactivityTimeout) {
       this.refreshTimer = setInterval(
@@ -133,5 +138,15 @@ export class UserService extends BaseBackendService<User> {
     }
 
     return DEFAULT_SESSION_REFRESH_INTERVAL;
+  }
+
+  private getSessionTimeout(): number {
+    const sessionTimeout = this.configService.get('sessionTimeout');
+
+    if (Number.isInteger(sessionTimeout) && sessionTimeout > 0) {
+      return sessionTimeout;
+    }
+
+    return DEFAULT_SESSION_TIMEOUT;
   }
 }
