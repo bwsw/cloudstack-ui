@@ -14,6 +14,11 @@ export enum VolumeType {
   DATADISK = 'DATADISK'
 }
 
+export const volumeTypeNames = {
+  [VolumeType.ROOT]: 'VOLUME_TYPE.ROOT',
+  [VolumeType.DATADISK]: 'VOLUME_TYPE.DATADISK'
+};
+
 @ZoneName()
 @FieldMapper({
   diskofferingid: 'diskOfferingId',
