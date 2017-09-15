@@ -95,10 +95,15 @@ export class VmCreationComponent implements OnInit {
     });
   }
 
+  public get nameIsTaken(): boolean {
+    return !!this.formState && this.formState.state.displayName === this.takenName;
+  }
+
   public get showResizeSlider(): boolean {
     return (
-      this.formState.state.template.isTemplate ||
-      this.formState.state.showRootDiskResize
+      !!this.formState.state.template &&
+      (this.formState.state.template.isTemplate ||
+        this.formState.state.showRootDiskResize)
     );
   }
 

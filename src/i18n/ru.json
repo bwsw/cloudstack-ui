@@ -451,7 +451,8 @@
       "CREATING_INSTANCE_GROUP": "Создание группы...",
       "TAG_COPYING": "Копирование тегов из шаблона...",
       "DEPLOYMENT_FINISHED": "Развертывание завершено",
-      "OS_TEMPLATE": "ОС шаблон"
+      "OS_TEMPLATE": "ОС шаблон",
+      "NO_TEMPLATES": "Нет доступных шаблонов"
     }
   },
   "SPARE_DRIVE_PAGE": {

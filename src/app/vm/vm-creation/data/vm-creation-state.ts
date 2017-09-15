@@ -80,7 +80,7 @@ export class VmCreationState {
   };
 
   public get diskOfferingsAreAllowed(): boolean {
-    return !this.template.isTemplate;
+    return !!this.template && !this.template.isTemplate;
   }
 
   public get doCreateAffinityGroup(): boolean {

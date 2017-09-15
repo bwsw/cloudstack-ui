@@ -22,7 +22,7 @@ import { ZoneService } from './shared/services/zone.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
 
   @ViewChild(MdlLayoutComponent) public layoutComponent: MdlLayoutComponent;
   public loggedIn: boolean;
@@ -57,13 +57,13 @@ export class AppComponent implements OnInit{
       this.loggedIn = isLoggedIn;
       this.updateAccount(this.loggedIn);
       if (isLoggedIn) {
-        this.userService.startInactivityCounter();
+        this.userService.startIdleMonitor();
         this.loadSettings();
         this.zoneService
           .areAllZonesBasic()
           .subscribe(basic => (this.disableSecurityGroups = basic));
       } else {
-        this.userService.clearInactivityTimer();
+        this.userService.stopIdleMonitor();
       }
       this.asyncJobService.completeAllJobs();
       this.cacheService.invalidateAll();

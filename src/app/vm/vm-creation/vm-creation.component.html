@@ -202,7 +202,7 @@
     <div class="mat-dialog-actions">
       <button
         mdl-colored="primary"
-        [disabled]="!vmCreateForm.valid || formState?.state.displayName === takenName"
+        [disabled]="!vmCreateForm.valid || nameIsTaken || !formState?.state.template"
         type="submit"
         mdl-button
         mdl-ripple

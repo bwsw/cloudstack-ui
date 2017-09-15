@@ -451,7 +451,8 @@
       "CREATING_INSTANCE_GROUP": "Creating an instance group...",
       "TAG_COPYING": "Copying template tags...",
       "DEPLOYMENT_FINISHED": "Deployment finished",
-      "OS_TEMPLATE": "OS template"
+      "OS_TEMPLATE": "OS template",
+      "NO_TEMPLATES": "No templates available"
     }
   },
   "SPARE_DRIVE_PAGE": {
