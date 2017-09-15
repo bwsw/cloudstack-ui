@@ -4,10 +4,10 @@ import { ResourceTypes } from '../../models/tag.model';
 import { DayOfWeek } from '../../types/day-of-week';
 import { AuthService } from '../auth.service';
 import { Language, TimeFormat } from '../language.service';
-import { Utils } from '../utils.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { TagService } from './tag.service';
 import { UserTagKeys } from './user-tag-keys';
+import { Utils } from '../utils/utils.service';
 
 
 interface UserIdObject {
@@ -98,6 +98,19 @@ export class UserTagService implements EntityTagService {
   public setSessionTimeout(timeout: number): Observable<number> {
     return this.writeTag(this.keys.sessionTimeout, timeout.toString())
       .map(() => +timeout);
+  }
+
+  public getShowSystemTags(): Observable<boolean> {
+    return this.readTag(this.keys.showSystemTags)
+      .map(value => Utils.convertBooleanStringToBoolean(value));
+  }
+
+  public setShowSystemTags(show: boolean): Observable<boolean> {
+    return this.writeTag(
+      this.keys.showSystemTags,
+      Utils.convertBooleanToBooleanString(show)
+    )
+      .map(() => show);
   }
 
   public getTimeFormat(): Observable<TimeFormat> {

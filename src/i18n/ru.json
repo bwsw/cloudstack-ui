@@ -957,6 +957,7 @@
   },
   "TAGS": {
     "CREATE_NEW_TAG": "Создать тег",
+    "SHOW_SYSTEM_TAGS": "Показывать системные теги",
     "TAG_KEY": "Ключ",
     "TAG_VALUE": "Значение",
     "TAG_ALREADY_EXISTS": "Тег уже существует",

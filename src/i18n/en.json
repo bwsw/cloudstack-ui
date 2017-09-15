@@ -976,6 +976,7 @@
   },
   "TAGS": {
     "CREATE_NEW_TAG": "Create a new tag",
+    "SHOW_SYSTEM_TAGS": "Show system tags",
     "TAG_KEY": "Key",
     "TAG_VALUE": "Value",
     "TAG_ALREADY_EXISTS": "Tag already exists",

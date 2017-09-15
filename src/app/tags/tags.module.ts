@@ -6,7 +6,8 @@ import {
   MdDialogModule,
   MdIconModule,
   MdInputModule,
-  MdTooltipModule
+  MdTooltipModule,
+  MdCheckboxModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard/dist';
@@ -28,7 +29,8 @@ import { TagsViewComponent } from './tags-view/tags-view.component';
     MdInputModule,
     MdDialogModule,
     SharedModule,
-    ClipboardModule
+    ClipboardModule,
+    MdCheckboxModule
   ],
   declarations: [
     TagComponent,
