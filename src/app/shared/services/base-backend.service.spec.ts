@@ -1,13 +1,14 @@
-import { Injector } from '@angular/core';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 import { async, inject, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { BackendResource } from '../decorators';
 
 import { BaseModel } from '../models';
 import { BaseBackendService } from './base-backend.service';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
-import { ServiceLocator } from './service-locator';
 
 
 describe('Base backend service', () => {
@@ -45,7 +46,6 @@ describe('Base backend service', () => {
         HttpClientTestingModule
       ]
     });
-    ServiceLocator.injector = TestBed.get(Injector);
 
   }));
 

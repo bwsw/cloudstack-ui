@@ -1,12 +1,20 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
-import { NetworkProtocol, NetworkRule, NetworkRuleType, SecurityGroup } from '../../security-group/sg.model';
+import {
+  NetworkProtocol,
+  NetworkRule,
+  NetworkRuleType,
+  SecurityGroup
+} from '../../security-group/sg.model';
 import { BackendResource } from '../decorators';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
+import { CacheService } from './cache.service';
 import { ConfigService } from './config.service';
+import { ErrorService } from './error.service';
 import { SecurityGroupTagService } from './tags/security-group-tag.service';
 
 
@@ -23,9 +31,12 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
   constructor(
     private asyncJobService: AsyncJobService,
     private configService: ConfigService,
-    private securityGroupTagService: SecurityGroupTagService
+    private securityGroupTagService: SecurityGroupTagService,
+    http: HttpClient,
+    error: ErrorService,
+    cacheService: CacheService
   ) {
-    super();
+    super(http, error, cacheService);
   }
 
   public getTemplates(): Array<SecurityGroup> {

@@ -1,10 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Offering } from '../models/offering.model';
 import { Zone } from '../models/zone.model';
 import { BaseBackendService } from './base-backend.service';
+import { CacheService } from './cache.service';
 import { ConfigService } from './config.service';
-import { ServiceLocator } from './service-locator';
-import { Offering } from '../models/offering.model';
+import { ErrorService } from './error.service';
 
 
 export interface OfferingAvailability {
@@ -17,11 +19,13 @@ export interface OfferingAvailability {
 
 @Injectable()
 export abstract class OfferingService<T extends Offering> extends BaseBackendService<T> {
-  protected configService: ConfigService;
-
-  constructor() {
-    super();
-    this.configService = ServiceLocator.injector.get(ConfigService);
+  constructor(
+    http: HttpClient,
+    error: ErrorService,
+    cacheService: CacheService,
+    private configService: ConfigService
+  ) {
+    super(http, error, cacheService);
   }
 
   public get(id: string): Observable<T> {

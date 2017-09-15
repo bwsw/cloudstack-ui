@@ -1,5 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
-import { Injector } from '@angular/core';
+import { async, TestBed } from '@angular/core/testing';
 
 import { ErrorService } from './error.service';
 
@@ -7,8 +6,7 @@ describe('Error service', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
-        ErrorService,
-        Injector
+        ErrorService
       ],
     });
   }));

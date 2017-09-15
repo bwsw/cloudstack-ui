@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { VirtualMachine } from '../../vm/shared/vm.model';
@@ -7,6 +8,8 @@ import { AffinityGroup } from '../models';
 import { AffinityGroupType } from '../models/affinity-group.model';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
+import { CacheService } from './cache.service';
+import { ErrorService } from './error.service';
 
 
 export interface AffinityGroupCreationData {
@@ -21,8 +24,13 @@ export interface AffinityGroupCreationData {
   entityModel: AffinityGroup
 })
 export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup> {
-  constructor(private asyncJob: AsyncJobService) {
-    super();
+  constructor(
+    private asyncJob: AsyncJobService,
+    http: HttpClient,
+    error: ErrorService,
+    cacheService: CacheService
+  ) {
+    super(http, error, cacheService);
   }
 
   public getTypes(params?: {}): Observable<Array<AffinityGroupType>> {

@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
@@ -5,11 +6,13 @@ import { Subject } from 'rxjs/Subject';
 
 import { BackendResource } from '../decorators';
 import { BaseModelStub } from '../models';
+import { AccountType } from '../models/account.model';
 import { User } from '../models/user.model';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
+import { CacheService } from './cache.service';
+import { ErrorService } from './error.service';
 import { LocalStorageService } from './local-storage.service';
-import { AccountType } from '../models/account.model';
 import { Utils } from './utils.service';
 
 @Injectable()
@@ -23,9 +26,12 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
 
   constructor(
     protected asyncJobService: AsyncJobService,
-    protected storage: LocalStorageService
+    protected storage: LocalStorageService,
+    http: HttpClient,
+    error: ErrorService,
+    cacheService: CacheService
   ) {
-    super();
+    super(http, error, cacheService);
 
     try {
       const userRaw = this.storage.read('user');

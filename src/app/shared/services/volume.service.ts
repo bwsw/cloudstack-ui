@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -5,6 +6,8 @@ import { BackendResource } from '../decorators';
 import { Snapshot, Volume } from '../models';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
+import { CacheService } from './cache.service';
+import { ErrorService } from './error.service';
 import { SnapshotService } from './snapshot.service';
 import { VolumeTagService } from './tags/volume-tag.service';
 
@@ -54,9 +57,12 @@ export class VolumeService extends BaseBackendService<Volume> {
   constructor(
     private asyncJobService: AsyncJobService,
     private snapshotService: SnapshotService,
-    private volumeTagService: VolumeTagService
+    private volumeTagService: VolumeTagService,
+    http: HttpClient,
+    error: ErrorService,
+    cacheService: CacheService
   ) {
-    super();
+    super(http, error, cacheService);
   }
 
   public getList(params?: {}): Observable<Array<Volume>> {

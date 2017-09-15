@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -7,7 +8,12 @@ import { AsyncJob, OsType, ServiceOffering, Volume } from '../../shared/models';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { VolumeType } from '../../shared/models/volume.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
-import { ApiFormat, BaseBackendService } from '../../shared/services/base-backend.service';
+import {
+  ApiFormat,
+  BaseBackendService
+} from '../../shared/services/base-backend.service';
+import { CacheService } from '../../shared/services/cache.service';
+import { ErrorService } from '../../shared/services/error.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { SecurityGroupService } from '../../shared/services/security-group.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
@@ -35,9 +41,12 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     private serviceOfferingService: ServiceOfferingService,
     private securityGroupService: SecurityGroupService,
     private userTagService: UserTagService,
-    private volumeService: VolumeService
+    private volumeService: VolumeService,
+    http: HttpClient,
+    error: ErrorService,
+    cacheService: CacheService
   ) {
-    super();
+    super(http, error, cacheService);
   }
 
   public getNumberOfVms(): Observable<number> {

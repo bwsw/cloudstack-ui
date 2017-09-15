@@ -22,7 +22,7 @@ import { ZoneService } from './shared/services/zone.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
 
   @ViewChild(MdlLayoutComponent) public layoutComponent: MdlLayoutComponent;
   public loggedIn: boolean;

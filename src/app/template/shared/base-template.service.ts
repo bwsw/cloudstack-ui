@@ -1,12 +1,15 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
+import { CacheService } from '../../shared/services/cache.service';
+import { ErrorService } from '../../shared/services/error.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
 import { Utils } from '../../shared/services/utils.service';
 import { BaseTemplateModel } from './base-template.model';
-import { Subject } from 'rxjs/Subject';
 
 
 export const TemplateFilters = {
@@ -69,9 +72,12 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
   constructor(
     protected asyncJobService: AsyncJobService,
     protected osTypeService: OsTypeService,
-    protected templateTagService: TemplateTagService
+    protected templateTagService: TemplateTagService,
+    http: HttpClient,
+    error: ErrorService,
+    cacheService: CacheService
   ) {
-    super();
+    super(http, error, cacheService);
     this._templateFilters = [
       TemplateFilters.featured,
       TemplateFilters.selfExecutable,
