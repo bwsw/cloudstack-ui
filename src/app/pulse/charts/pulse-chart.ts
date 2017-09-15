@@ -26,6 +26,11 @@ export interface PulseChart {
 
 export const defaultChartOptions = {
   maintainAspectRatio: false,
+  legend: {
+    labels: {
+      boxWidth: 20
+    }
+  },
   layout: {
     padding: {
       left: 80,
