@@ -2,17 +2,16 @@ import { Component, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/
 
 @Component({
   selector: 'cs-loader',
-  template: '<mdl-spinner class="spinner" single-color active></mdl-spinner>',
+  template: '<md-spinner class="spinner"></md-spinner>',
   styles: [`
     cs-loader {
-      display: block;
-      margin: 20px auto;
       text-align: center;
     }
 
     cs-loader .spinner {
       width: 40px;
       height: 40px;
+      margin: 20px auto;
     }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,5 +1,5 @@
 import * as uuid from 'uuid';
-import { NavigationExtras } from '@angular/router';
+import { NavigationExtras, RouterState } from '@angular/router';
 
 
 export class Utils {
@@ -8,23 +8,22 @@ export class Utils {
   }
 
   public static divide(
-    value: number,
-    base: number,
-    exponent: string,
-    precision?: string
-  ): number | string {
-    const exp = parseInt(exponent, 10);
-    const denominator = Math.pow(base, isNaN(exp) ? 1 : exp);
-    let prec;
-    if (precision) {
-      prec = parseInt(precision, 10);
-      return (value / denominator).toFixed(prec);
-    }
+    enumerator: number,
+    denominator: number,
+    denominatorExponent?: number,
+    precision?: number
+  ): number {
+    const calculatedExponent = denominatorExponent != null ? denominatorExponent : 1;
+    const calculatedDenominator = Math.pow(denominator, calculatedExponent);
 
-    return value / denominator;
+    if (precision) {
+      return +(enumerator / calculatedDenominator).toFixed(precision);
+    } else {
+      return enumerator / calculatedDenominator;
+    }
   }
 
-  public static convertToGB(value?: number): number {
+  public static convertToGb(value?: number): number {
     if (value == null) {
       return 0;
     }
@@ -35,15 +34,7 @@ export class Utils {
     return string.toLowerCase().includes(subString.toLowerCase());
   }
 
-  public static getRedirectionQueryParams(next?: string, routerState?): NavigationExtras {
-    return {
-      queryParams: {
-        next: next || this.getRouteWithoutQueryParams(routerState)
-      }
-    };
-  }
-
-  public static getRouteWithoutQueryParams(routerState): string {
+  public static getRouteWithoutQueryParams(routerState: RouterState): string {
     if (routerState) {
       return routerState.snapshot.url.split('?')[0];
     }

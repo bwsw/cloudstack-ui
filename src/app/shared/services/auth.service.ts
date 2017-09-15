@@ -10,7 +10,7 @@ import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
 import { LocalStorageService } from './local-storage.service';
 import { AccountType } from '../models/account.model';
-import { Utils } from './utils.service';
+import { Utils } from './utils/utils.service';
 
 @Injectable()
 @BackendResource({

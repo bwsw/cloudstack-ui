@@ -76,10 +76,6 @@ export class SpareDriveCreationComponent implements OnInit {
       );
   }
 
-  public onCancel(): void {
-    this.dialogRef.close();
-  }
-
   public updateDiskOffering(offering: DiskOffering): void {
     this.diskOffering = offering;
     this.showResizeSlider = offering.isCustomized;

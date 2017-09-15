@@ -2,9 +2,9 @@ import { Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as sortBy from 'lodash/sortBy';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
-import { SSHKeyPair } from '../../shared/models';
+import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
 
 

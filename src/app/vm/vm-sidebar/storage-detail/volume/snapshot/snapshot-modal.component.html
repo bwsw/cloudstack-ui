@@ -26,9 +26,8 @@
       <md-cell *cdkCellDef="let row">
         <button
           *ngFor="let action of snapshotActionsService.actions"
+          md-icon-button
           class="button-18px"
-          mdl-button
-          mdl-button-type="icon"
           (click)="action.activate(row, volume).subscribe()"
           [disabled]="row['loading']"
         >
@@ -45,11 +44,7 @@
   </div>
 </div>
 <div class="mat-dialog-actions">
-  <button
-    mdl-button
-    mdl-colored="primary"
-    (click)="dialogRef.close()"
-  >
+  <button md-button color="primary" mdDialogClose>
     {{ 'COMMON.CLOSE' | translate }}
   </button>
 </div>

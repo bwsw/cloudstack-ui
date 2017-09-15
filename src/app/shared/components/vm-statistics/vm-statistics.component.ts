@@ -8,7 +8,7 @@ import {
   ResourceStats,
   ResourceUsageService
 } from '../../services/resource-usage.service';
-import { Utils } from '../../services/utils.service';
+import { Utils } from '../../services/utils/utils.service';
 
 const showStatistics = 'showStatistics';
 const statisticsMode = 'statisticsMode';
@@ -191,9 +191,9 @@ export class VmStatisticsComponent implements OnInit {
     const consumed = Utils.divide(
       this.resourceUsage[this.getModeKey()].memory,
       2,
-      '10'
-    ) as number;
-    const max = Utils.divide(this.resourceUsage.max.memory, 2, '10') as number;
+      10
+    );
+    const max = Utils.divide(this.resourceUsage.max.memory, 2, 10);
 
     return this.translateService
       .get('UNITS.GB')

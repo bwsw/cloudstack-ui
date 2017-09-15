@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Color } from '../../models/color.model';
 import { ResourceTypes } from '../../models/tag.model';
 import { DayOfWeek } from '../../types/day-of-week';
 import { AuthService } from '../auth.service';
 import { Language, TimeFormat } from '../language.service';
-import { Utils } from '../utils.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { TagService } from './tag.service';
 import { UserTagKeys } from './user-tag-keys';
 import { SSHKeyPair } from '../../models/ssh-keypair.model';
+import { Utils } from '../utils/utils.service';
 
 
 interface UserIdObject {
@@ -30,13 +29,13 @@ export class UserTagService implements EntityTagService {
     return user ? { id: user.userId } : undefined;
   }
 
-  public getAccentColor(): Observable<string> {
-    return this.readTag(this.keys.accentColor);
+  public getTheme(): Observable<string> {
+    return this.readTag(this.keys.theme);
   }
 
-  public setAccentColor(color: Color): Observable<Color> {
-    return this.writeTag(this.keys.accentColor, color.name)
-      .map(() => color);
+  public setTheme(themeName: string): Observable<string> {
+    return this.writeTag(this.keys.theme, themeName)
+      .mapTo(themeName);
   }
 
   public getAskToCreateVm(): Observable<boolean> {
@@ -92,15 +91,6 @@ export class UserTagService implements EntityTagService {
       .map(() => id);
   }
 
-  public getPrimaryColor(): Observable<string> {
-    return this.readTag(this.keys.primaryColor);
-  }
-
-  public setPrimaryColor(color: Color): Observable<Color> {
-    return this.writeTag(this.keys.primaryColor, color.name)
-      .map(() => color);
-  }
-
   public getSessionTimeout(): Observable<number> {
     return this.readTag(this.keys.sessionTimeout)
       .map(timeout => +timeout);
@@ -118,6 +108,19 @@ export class UserTagService implements EntityTagService {
   public setSshKeyDescription(sshKey: SSHKeyPair, description: string): Observable<string> {
     return this.writeTag(this.getSshKeyDescriptionKey(sshKey), description)
       .map(() => description);
+  }
+
+  public getShowSystemTags(): Observable<boolean> {
+    return this.readTag(this.keys.showSystemTags)
+      .map(value => Utils.convertBooleanStringToBoolean(value));
+  }
+
+  public setShowSystemTags(show: boolean): Observable<boolean> {
+    return this.writeTag(
+      this.keys.showSystemTags,
+      Utils.convertBooleanToBooleanString(show)
+    )
+      .map(() => show);
   }
 
   public getTimeFormat(): Observable<TimeFormat> {

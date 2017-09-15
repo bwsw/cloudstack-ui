@@ -1,18 +1,18 @@
 <md-table #table [dataSource]="dataSource" mdSort>
   <ng-container cdkColumnDef="select">
     <md-header-cell *cdkHeaderCellDef md-sort-header>
-      <mdl-checkbox
-        mdl-ripple
+      <md-checkbox
+        name="select-all-checkbox"
         [ngModel]="isAllSelected()"
         (ngModelChange)="toggleAll()"
-      ></mdl-checkbox>
+      ></md-checkbox>
     </md-header-cell>
     <md-cell *cdkCellDef="let row">
-      <mdl-checkbox
-        mdl-ripple
+      <md-checkbox
+        name="select-item-checkbox"
         [(ngModel)]="row.selected"
         (ngModelChange)="selectionChanged(row)"
-      ></mdl-checkbox>
+      ></md-checkbox>
     </md-cell>
   </ng-container>
 

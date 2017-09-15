@@ -1,60 +1,37 @@
-// styles applied on :host are applied on the current component, "app" in this case
 :host {
-  display: block;
-}
-
-header {
-  background-color: #fff;
-  padding: 16px;
-  position: fixed;
+  position: absolute;
   top: 0;
+  bottom: 0;
   left: 0;
-  width: 100%;
-  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5 !important;
 }
 
-main {
-  padding: 1em;
-  font-family: Arial, Helvetica, sans-serif;
-  text-align: center;
-  margin-top: 50px;
-  display: block;
-}
+md-sidenav-container {
+  flex-grow: 1;
+  min-height: 100%;
+  height: auto !important;
+  max-width: 100%;
+  margin: 0;
 
-footer {
-  text-align: center;
-  font-size: 0.8em;
-}
-
-.mdl-layout__header-row {
-  padding-left: 16px;
-}
-
-mdl-layout-drawer {
-  border: none;
-}
-
-mdl-layout-title {
-  padding-left: 0 !important;
-  text-align: center;
-}
-
-.drawer-open {
-  transform: translateX(0) !important;
-}
-
-.content-margin {
-  margin-left: 240px !important;
+  md-sidenav {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 240px;
+    height: 100%;
+    max-height: 100%;
+    box-sizing: border-box;
+    will-change: transform;
+    color: #424242;
+  }
 }
 
 /deep/ button {
   &.mat-menu-item {
     padding: 0 10px;
-  }
-
-  &.mat-icon-button {
-    position: absolute !important;
-    right: 0 !important;
   }
 }
 
@@ -70,7 +47,6 @@ mdl-layout-title {
 /deep/ .md-tab-tooltip {
   height: 40px;
 }
-
 
 .container {
   display: flex;

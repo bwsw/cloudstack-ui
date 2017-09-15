@@ -3,7 +3,7 @@ import {
   CustomServiceOfferingService
 } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
-import { Utils } from '../../../shared/services/utils.service';
+import { Utils } from '../../../shared/services/utils/utils.service';
 import { VmCreationData } from '../data/vm-creation-data';
 import { VmCreationState } from '../data/vm-creation-state';
 import { VmCreationFormState } from '../vm-creation.component';
@@ -87,15 +87,17 @@ export class VmCreationFormNormalizationService {
   }
 
   private filterTemplates(formState: VmCreationFormState): VmCreationFormState {
-    const filteredTemplates = formState.data.templates.filter(template => {
-      const templateFits = template.sizeInGB < formState.data.rootDiskSizeLimit;
-      const templateInZone = template.zoneId === formState.state.zone.id;
+    const { data, state } = formState;
+
+    const filteredTemplates = data.templates.filter(template => {
+      const templateFits = template.sizeInGB < data.rootDiskSizeLimit;
+      const templateInZone = template.zoneId === state.zone.id;
       return template.isReady && templateFits && templateInZone;
     });
 
-    const filteredIsos = formState.data.isos.filter(iso => {
-      const isoFits = iso.sizeInGB < formState.data.rootDiskSizeLimit;
-      const isoInZone = iso.zoneId === formState.state.zone.id;
+    const filteredIsos = data.isos.filter(iso => {
+      const isoFits = iso.sizeInGB < data.rootDiskSizeLimit;
+      const isoInZone = iso.zoneId === state.zone.id;
       return iso.isReady && isoFits && isoInZone && iso.bootable;
     });
 
@@ -104,11 +106,11 @@ export class VmCreationFormNormalizationService {
 
     const templateStillAvailable = !!formState
       .data.installationSources.find(template => {
-        return formState.state.template.id === template.id;
+        return state.template && state.template.id === template.id;
       });
 
     if (!templateStillAvailable) {
-      formState.state.template = formState.data.defaultTemplate;
+      formState.state.template = data.defaultTemplate;
     }
     return this.getStateFromTemplate(formState);
   }
@@ -148,19 +150,20 @@ export class VmCreationFormNormalizationService {
   }
 
   private filterDiskSize(formState: VmCreationFormState): VmCreationFormState {
-    if (!formState.state.showRootDiskResize) {
+    const { state } = formState;
+    if (!state.showRootDiskResize || !state.template) {
       return formState;
     }
 
     const defaultDiskSize = 1;
-    const minSize = Math.ceil(Utils.convertToGB(formState.state.template.size)) || defaultDiskSize;
+    const minSize = Math.ceil(Utils.convertToGb(state.template.size)) || defaultDiskSize;
     // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
     formState.state.rootDiskSizeMin = minSize;
     if (
-      formState.state.rootDiskSize == null ||
-      formState.state.rootDiskSize < formState.state.rootDiskSizeMin
+      state.rootDiskSize == null ||
+      state.rootDiskSize < state.rootDiskSizeMin
     ) {
-      formState.state.rootDiskSize = formState.state.rootDiskSizeMin;
+      formState.state.rootDiskSize = state.rootDiskSizeMin;
     }
 
     return formState;
