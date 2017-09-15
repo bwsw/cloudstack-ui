@@ -1,4 +1,5 @@
-import { ProgressLoggerMessage, ProgressLoggerMessageStatus } from './progress-logger-message/progress-logger-message';
+import { Utils } from '../../services/utils.service';
+import { ProgressLoggerMessage, ProgressLoggerMessageData, } from './progress-logger-message/progress-logger-message';
 
 
 export class ProgressLoggerController {
@@ -8,13 +9,24 @@ export class ProgressLoggerController {
     return this._messages;
   }
 
-  public addMessage(message: ProgressLoggerMessage): void {
-    this._messages.push(message);
+  public addMessage(message: ProgressLoggerMessageData): string {
+    const messageWithId = this.getMessageWithId(message);
+    this._messages.push(messageWithId);
+    return messageWithId.id;
   }
 
-  public updateLastMessageStatus(newStatus: ProgressLoggerMessageStatus): void {
-    if (this._messages.length - 1 >= 0) {
-      this._messages[this._messages.length - 1].status = newStatus;
-    }
+  public updateMessage(id: string, data: Partial<ProgressLoggerMessageData>): void {
+    this._messages = this._messages.map(message => {
+      if (message.id != null && message.id === id) {
+        return Object.assign(message, data);
+      } else {
+        return message;
+      }
+    })
+  }
+
+  private getMessageWithId(message: ProgressLoggerMessageData): ProgressLoggerMessage {
+    const id = Utils.getUniqueId();
+    return Object.assign(message, { id });
   }
 }

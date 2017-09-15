@@ -26,11 +26,11 @@ export class ProgressLoggerMessageComponent {
     return this.status.includes(ProgressLoggerMessageStatus.Error);
   }
 
+  public get isErrorMessage(): boolean {
+    return this.status.includes(ProgressLoggerMessageStatus.ErrorMessage);
+  }
+
   private get status(): Array<ProgressLoggerMessageStatus> {
-    if (Array.isArray(this.message.status)) {
-      return this.message.status;
-    } else {
-      return [this.message.status];
-    }
+    return this.message && this.message.status || [];
   }
 }

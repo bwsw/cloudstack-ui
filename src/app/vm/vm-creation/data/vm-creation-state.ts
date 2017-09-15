@@ -170,8 +170,7 @@ export class VmCreationState {
       this.doCreateSecurityGroup ? VmDeploymentStage.SG_GROUP_CREATION : null,
       VmDeploymentStage.VM_CREATION_IN_PROGRESS,
       this.doCreateInstanceGroup ? VmDeploymentStage.INSTANCE_GROUP_CREATION : null,
-      this.doCopyTags ? VmDeploymentStage.TAG_COPYING : null,
-      VmDeploymentStage.FINISHED
+      this.doCopyTags ? VmDeploymentStage.TAG_COPYING : null
     ]
       .filter(_ => _);
   }

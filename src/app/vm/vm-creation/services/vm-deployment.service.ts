@@ -219,12 +219,14 @@ export class VmDeploymentService {
     const params = state.getVmCreationParams();
     let deployResponse;
     let temporaryVm;
-    return this.vmService.deploy(params)
+
+    return Observable.of(null)
       .do(() => {
-        return deployObservable.next({
+        deployObservable.next({
           stage: VmDeploymentStage.VM_CREATION_IN_PROGRESS
-        })
+        });
       })
+      .switchMap(() => this.vmService.deploy(params))
       .switchMap(response => {
         deployResponse = response;
         return this.vmService.get(deployResponse.id);

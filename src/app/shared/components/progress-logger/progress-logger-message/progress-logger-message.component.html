@@ -1,5 +1,5 @@
-<div [class.error-message]="isError" [class.highlighted-message]="isHighlighted">
-  <ng-container *ngIf="!isInProgress && !isDone">
+<div [class.error-message]="isErrorMessage" [class.highlighted-message]="isHighlighted">
+  <ng-container *ngIf="!isInProgress && !isDone && !isError">
     {{ message.text | translate }}
   </ng-container>
 
@@ -8,6 +8,10 @@
   </ng-container>
 
   <ng-container *ngIf="isDone">
-    {{ message.text | translate }} {{ 'OK' | translate }}
+    {{ message.text | translate }} {{ 'COMMON.OK' | translate }}
+  </ng-container>
+
+  <ng-container *ngIf="isError">
+    {{ message.text | translate }} <span class="error-message">{{ 'COMMON.ERROR' | translate }}</span>
   </ng-container>
 </div>

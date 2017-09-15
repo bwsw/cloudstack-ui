@@ -12,10 +12,11 @@
     "DELETE": "Delete",
     "DESCRIPTION": "Description",
     "EDIT": "Edit",
+    "ERROR": "Error",
     "NO": "No",
     "NO_RESULTS": "No results",
     "NONE": "None",
-    "OK": "Ok",
+    "OK": "OK",
     "REFRESH": "Refresh",
     "REMOVE": "Remove",
     "RESET": "Reset",
@@ -827,21 +828,6 @@
           "5": "Need Authorization"
         }
       }
-    },
-    "RULES_MANAGER": {
-      "BASED_ON": "based on"
-    },
-    "TEMPLATE_CREATION": {
-      "CREATE_NEW_TEMPLATE": "Create new template",
-      "NAME": "Name",
-      "DESCRIPTION": "Description",
-      "BASIC_RULES": "Basic rules"
-    },
-    "BUILDER": {
-      "SECURITY_GROUP_TEMPLATES": "Security Group Templates",
-      "ALL_GROUPS": "All templates",
-      "SELECTED_GROUPS": "Selected templates",
-      "NETWORK_RULES": "Network rules"
     }
   },
   "EVENT_PAGE": {

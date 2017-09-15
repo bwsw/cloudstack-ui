@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { MdSelectChange, MdDialogRef } from '@angular/material';
+import { MdDialogRef, MdSelectChange } from '@angular/material';
 import * as throttle from 'lodash/throttle';
 
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Rules } from '../../security-group/sg-creation/sg-creation.component';
+import {
+  ProgressLoggerMessage,
+  ProgressLoggerMessageStatus
+} from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
+import { ProgressLoggerController } from '../../shared/components/progress-logger/progress-logger.service';
 import { AffinityGroup, InstanceGroup, ServiceOffering } from '../../shared/models';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
@@ -15,13 +20,7 @@ import { VmCreationState } from './data/vm-creation-state';
 import { VmCreationFormNormalizationService } from './form-normalization/form-normalization.service';
 import { KeyboardLayout } from './keyboards/keyboards.component';
 import { VmCreationService } from './services/vm-creation.service';
-import {
-  VmDeploymentMessage,
-  VmDeploymentService,
-  VmDeploymentStage
-} from './services/vm-deployment.service';
-import { ProgressLoggerController } from '../../shared/components/progress-logger/progress-logger.service';
-import { ProgressLoggerMessageStatus } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
+import { VmDeploymentMessage, VmDeploymentService, VmDeploymentStage } from './services/vm-deployment.service';
 
 export interface VmCreationFormState {
   data: VmCreationData;
@@ -52,7 +51,8 @@ export class VmCreationComponent implements OnInit {
   public takenName: string;
   public progressLoggerController = new ProgressLoggerController();
   public showOverlay = false;
-  public showOverlayProgress = false;
+  public deploymentStopped = false;
+  public loggerStageList: Array<ProgressLoggerMessage>;
 
   constructor(
     private dialogRef: MdDialogRef<VmCreationComponent>,
@@ -204,10 +204,13 @@ export class VmCreationComponent implements OnInit {
     const notificationId = this.jobsNotificationService.add(
       'JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS'
     );
+
     const {
       deployStatusObservable,
       deployObservable
     } = this.vmDeploymentService.deploy(this.formState.state);
+
+    this.initializeDeploymentActionList();
 
     deployStatusObservable.subscribe(deploymentMessage => {
       this.handleDeploymentMessages(deploymentMessage, notificationId);
@@ -223,10 +226,21 @@ export class VmCreationComponent implements OnInit {
   }
 
   public notifyOnDeployFailed(error: any, notificationId: string): void {
+    this.deploymentStopped = false;
+
     this.progressLoggerController.addMessage({
       text: error.message,
-      status: ProgressLoggerMessageStatus.Error
+      status: [ProgressLoggerMessageStatus.ErrorMessage]
     });
+
+    const inProgressMessage = this.progressLoggerController.messages.find(message => {
+      return message.status.includes(ProgressLoggerMessageStatus.InProgress);
+    });
+
+    this.updateLoggerMessage(
+      inProgressMessage.text,
+      [ProgressLoggerMessageStatus.Error]
+    );
 
     this.jobsNotificationService.fail({
       id: notificationId,
@@ -308,80 +322,137 @@ export class VmCreationComponent implements OnInit {
     });
   }
 
-  private onVmDeploymentStarted(): void {
-    this.showOverlay = true;
-    this.showOverlayProgress = true;
+  private initializeDeploymentActionList(): void {
+    const translations = {
+      'AG_GROUP_CREATION': 'VM_PAGE.VM_CREATION.CREATING_AG',
+      'SG_GROUP_CREATION': 'VM_PAGE.VM_CREATION.CREATING_SG',
+      'VM_CREATION_IN_PROGRESS': 'VM_PAGE.VM_CREATION.DEPLOYING_VM',
+      'INSTANCE_GROUP_CREATION': 'VM_PAGE.VM_CREATION.CREATING_INSTANCE_GROUP',
+      'TAG_COPYING': 'VM_PAGE.VM_CREATION.TAG_COPYING'
+    };
+
+    this.formState.state.deploymentActionList
+      .forEach(actionName => {
+        return this.progressLoggerController.addMessage({
+          text: translations[actionName]
+        });
+      });
+
+    this.loggerStageList = this.progressLoggerController.messages;
   }
 
-  private onVmCreationFinished(): void {
-    this.completeLastLogMessage();
+  private onVmDeploymentStarted(): void {
+    this.showOverlay = true;
+    this.deploymentStopped = true;
   }
 
   private onAffinityGroupCreation(): void {
-    this.progressLoggerController.addMessage({
-      text: 'VM_PAGE.VM_CREATION.CREATING_AG',
-      status: ProgressLoggerMessageStatus.InProgress
-    });
+    this.updateLoggerMessage(
+      'VM_PAGE.VM_CREATION.CREATING_AG',
+      [
+        ProgressLoggerMessageStatus.Highlighted,
+        ProgressLoggerMessageStatus.InProgress
+      ]
+    );
   }
 
   private onAffinityGroupCreationFinished(): void {
-    this.completeLastLogMessage();
+    this.updateLoggerMessage(
+      'VM_PAGE.VM_CREATION.CREATING_AG',
+      [ProgressLoggerMessageStatus.Done]
+    );
   }
 
   private onSecurityGroupCreation(): void {
-    this.progressLoggerController.addMessage({
-      text: 'VM_PAGE.VM_CREATION.CREATING_SG',
-      status: ProgressLoggerMessageStatus.InProgress
-    });
+    this.updateLoggerMessage(
+      'VM_PAGE.VM_CREATION.CREATING_SG',
+      [
+        ProgressLoggerMessageStatus.Highlighted,
+        ProgressLoggerMessageStatus.InProgress
+      ]
+    );
   }
 
   private onSecurityGroupCreationFinished(): void {
-    this.completeLastLogMessage();
+    this.updateLoggerMessage(
+      'VM_PAGE.VM_CREATION.CREATING_SG',
+      [ProgressLoggerMessageStatus.Done]
+    )
   }
 
   private onVmCreationInProgress(): void {
-    this.progressLoggerController.addMessage({
-      text: 'VM_PAGE.VM_CREATION.DEPLOYING_VM',
-      status: ProgressLoggerMessageStatus.InProgress
-    });
+    this.updateLoggerMessage(
+      'VM_PAGE.VM_CREATION.DEPLOYING_VM',
+      [
+        ProgressLoggerMessageStatus.Highlighted,
+        ProgressLoggerMessageStatus.InProgress
+      ]
+    );
+  }
+
+  private onVmCreationFinished(): void {
+    this.updateLoggerMessage(
+      'VM_PAGE.VM_CREATION.DEPLOYING_VM',
+      [ProgressLoggerMessageStatus.Done]
+    );
   }
 
   private onInstanceGroupCreation(): void {
-    this.progressLoggerController.addMessage({
-      text: 'VM_PAGE.VM_CREATION.CREATING_INSTANCE_GROUP',
-      status: ProgressLoggerMessageStatus.InProgress
-    });
+    this.updateLoggerMessage(
+      'VM_PAGE.VM_CREATION.CREATING_INSTANCE_GROUP',
+      [
+        ProgressLoggerMessageStatus.Highlighted,
+        ProgressLoggerMessageStatus.InProgress
+      ]
+    );
   }
 
   private onInstanceGroupCreationFinished(): void {
-    this.completeLastLogMessage();
+    this.updateLoggerMessage(
+      'VM_PAGE.VM_CREATION.CREATING_INSTANCE_GROUP',
+      [ProgressLoggerMessageStatus.Done]
+    );
   }
 
   private onTagCopying(): void {
-    this.progressLoggerController.addMessage({
-      text: 'VM_PAGE.VM_CREATION.TAG_COPYING',
-      status: ProgressLoggerMessageStatus.InProgress
-    });
+    this.updateLoggerMessage(
+      'VM_PAGE.VM_CREATION.TAG_COPYING',
+      [
+        ProgressLoggerMessageStatus.Highlighted,
+        ProgressLoggerMessageStatus.InProgress
+      ]
+    );
   }
 
   private onTagCopyingFinished(): void {
-    this.completeLastLogMessage();
+    this.updateLoggerMessage(
+      'VM_PAGE.VM_CREATION.TAG_COPYING',
+      [ProgressLoggerMessageStatus.Done]
+    );
   }
 
   private onVmDeploymentFinished(
     deploymentMessage: VmDeploymentMessage,
     notificationId: string
   ): void {
-    this.showOverlayProgress = false;
+    this.deploymentStopped = false;
     this.showPassword(deploymentMessage.vm);
     this.notifyOnDeployDone(notificationId);
     this.progressLoggerController.addMessage({
-      text: 'VM_PAGE.VM_CREATION.DEPLOYMENT_FINISHED'
+      text: 'VM_PAGE.VM_CREATION.DEPLOYMENT_FINISHED',
+      status: [ProgressLoggerMessageStatus.Highlighted]
     });
   }
 
-  private completeLastLogMessage(): void {
-    this.progressLoggerController
-      .updateLastMessageStatus(ProgressLoggerMessageStatus.Done);
+  private updateLoggerMessage(
+    messageText: string,
+    status?: Array<ProgressLoggerMessageStatus>
+  ): void {
+
+    const updatedMessage = this.loggerStageList.find(message => {
+      return message.text === messageText;
+    });
+    const id = updatedMessage && updatedMessage.id;
+    this.progressLoggerController.updateMessage(id, { status });
   }
 }

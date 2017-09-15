@@ -1,15 +1,30 @@
-<div class="overlay" *ngIf="showOverlay">
-  <div class="message">
-    <cs-progress-logger
-      [controller]="progressLoggerController"
-    ></cs-progress-logger>
+<ng-container *ngIf="showOverlay">
+  <div class="overlay mat-dialog-content">
+    <div class="message">
+      <cs-progress-logger
+        [controller]="progressLoggerController"
+      ></cs-progress-logger>
 
-    <mdl-progress
-      [class.progress-hidden]="!showOverlayProgress"
-      [indeterminate]="true"
-    ></mdl-progress>
+      <mdl-progress
+        [class.progress-hidden]="!deploymentStopped"
+        [indeterminate]="true"
+      ></mdl-progress>
+    </div>
   </div>
-</div>
+  <div class="mat-dialog-actions">
+    <button
+      *ngIf="!deploymentStopped"
+      mdl-colored="primary"
+      type="button"
+      mdl-button
+      (click)="onCancel()"
+      mdl-ripple
+    >
+      {{ 'COMMON.CLOSE' | translate }}
+    </button>
+  </div>
+</ng-container>
+
 <div *ngIf="!showOverlay">
   <h3 class="mat-dialog-title">{{ 'VM_PAGE.VM_CREATION.NEW_VM' | translate }}</h3>
   <form
