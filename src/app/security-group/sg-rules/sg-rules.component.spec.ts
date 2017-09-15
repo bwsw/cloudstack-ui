@@ -56,7 +56,7 @@ describe('Security group firewall rules component', () => {
   }
 
   beforeEach(async(() => {
-    const dialog = jasmine.createSpyObj('MdlDialogReference', ['close']);
+    const dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
 
     TestBed.configureTestingModule({
       imports: [FormsModule, MdAutocompleteModule],

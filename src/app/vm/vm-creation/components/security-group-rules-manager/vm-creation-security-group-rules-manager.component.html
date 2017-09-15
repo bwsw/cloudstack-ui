@@ -1,6 +1,8 @@
 <cs-fancy-select>
   <h5 class="fancy-select-header">{{ 'VM_PAGE.VM_CREATION.SECURITY_GROUPS' | translate }}</h5>
-  <mdl-button
+  <button
+    md-button
+    type="button"
     class="fancy-select-button"
     (click)="showDialog()"
   >
@@ -11,7 +13,7 @@
     <span *ngIf="showEditButton">
       {{ 'COMMON.EDIT' | translate }}
     </span>
-  </mdl-button>
+  </button>
   <span class="fancy-select-content">
     <cs-security-group-manager-base-templates
       *ngIf="isModeNew"

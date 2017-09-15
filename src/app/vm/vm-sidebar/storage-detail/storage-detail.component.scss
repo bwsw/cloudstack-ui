@@ -5,15 +5,3 @@ $line-height: 22px;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
-:host /deep/ {
-  .button-18px {
-    min-width: 24px;
-    height: 24px;
-    width: 24px;
-  }
-
-  .icon-18px {
-    font-size: 18px;
-  }
-}

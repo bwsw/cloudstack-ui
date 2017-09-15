@@ -19,19 +19,7 @@
         {{ sg.description }}
       </p>
       <span>
-        <mdl-radio
-          *ngIf="securityGroup"
-          name="radio"
-          [value]="sg.id"
-          [ngModel]="securityGroup?.id"
-          mdl-ripple
-        >
-        </mdl-radio>
-        <mdl-radio
-          *ngIf="!securityGroup"
-          name="radio"
-          mdl-ripple
-        ></mdl-radio>
+        <md-radio-button [checked]="sg?.id === securityGroup?.id"></md-radio-button>
       </span>
     </md-list-item>
   </md-list>

@@ -4,9 +4,9 @@ import { Observable } from 'rxjs/Observable';
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { VmCreationSecurityGroupMode } from '../security-group/vm-creation-security-group-mode';
 import { GROUP_POSTFIX, SecurityGroupService } from '../../../security-group/services/security-group.service';
-import { Utils } from '../../../shared/services/utils.service';
 import { NetworkRule } from '../../../security-group/network-rule.model';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 
 @Injectable()

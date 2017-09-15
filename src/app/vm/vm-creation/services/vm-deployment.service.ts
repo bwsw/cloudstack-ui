@@ -7,7 +7,7 @@ import { AffinityGroupService } from '../../../shared/services/affinity-group.se
 import { InstanceGroupService } from '../../../shared/services/instance-group.service';
 import { GROUP_POSTFIX, SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { TagService } from '../../../shared/services/tags/tag.service';
-import { Utils } from '../../../shared/services/utils.service';
+import { Utils } from '../../../shared/services/utils/utils.service';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 import { VmCreationState } from '../data/vm-creation-state';

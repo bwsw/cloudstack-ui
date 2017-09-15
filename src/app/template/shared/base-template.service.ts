@@ -4,9 +4,9 @@ import { AsyncJobService } from '../../shared/services/async-job.service';
 import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
-import { Utils } from '../../shared/services/utils.service';
 import { BaseTemplateModel } from './base-template.model';
 import { Subject } from 'rxjs/Subject';
+import { Utils } from '../../shared/services/utils/utils.service';
 
 
 export const TemplateFilters = {
@@ -118,7 +118,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       })
       .map(templates => {
         if (maxSize) {
-          return templates.filter(template => Utils.convertToGB(template.size) <= maxSize);
+          return templates.filter(template => Utils.convertToGb(template.size) <= maxSize);
         }
         return templates;
       })

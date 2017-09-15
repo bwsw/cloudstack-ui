@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, forwardRef, Inject, OnInit } from '@angular/core';
+import { Component, forwardRef, Inject, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MD_DIALOG_DATA } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { VmCreationSecurityGroupRulesManagerComponent } from '../../shared';
@@ -44,8 +44,6 @@ export class RecurringSnapshotsComponent implements OnInit {
 
   constructor(
     @Inject(MD_DIALOG_DATA) public volume: Volume,
-    private cd: ChangeDetectorRef,
-    private dialogRef: MdDialogRef<RecurringSnapshotsComponent>,
     private dialogService: DialogService,
     private languageService: LanguageService,
     private snapshotPolicyService: SnapshotPolicyService
@@ -91,10 +89,6 @@ export class RecurringSnapshotsComponent implements OnInit {
         () => {},
         error => this.onError(error)
       );
-  }
-
-  public onClose(): void {
-    this.dialogRef.close();
   }
 
   private updatePolicies(): Observable<Array<Policy<TimePolicy>>> {

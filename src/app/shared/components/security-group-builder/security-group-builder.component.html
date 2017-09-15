@@ -3,8 +3,8 @@
     <div class="flex-container">
       <h5>{{ 'SECURITY_GROUP_SELECTOR.ALL_GROUPS' | translate }}</h5>
       <button
+        md-button
         *ngIf="items[0].length"
-        mdl-button
         (click)="selectAll()"
       >
         {{ 'COMMON.SELECT_ALL' | translate }}
@@ -24,16 +24,14 @@
   </div>
   <div class="buttons-container">
     <button
-      mdl-button
-      mdl-button-type="icon"
+      md-icon-button
       (click)="moveRight()"
       disabled="{{ selectedColumnIndex !== 0 }}"
     >
       <md-icon>navigate_next</md-icon>
     </button>
     <button
-      mdl-button
-      mdl-button-type="icon"
+      md-icon-button
       (click)="moveLeft()"
       disabled="{{ selectedColumnIndex !== 1 }}"
     >
@@ -44,8 +42,8 @@
     <div class="flex-container">
       <h5>{{ 'SECURITY_GROUP_SELECTOR.SELECTED_GROUPS' | translate }}</h5>
       <button
+        md-icon-button
         *ngIf="items[1].length"
-        mdl-button
         (click)="reset()"
       >{{ 'COMMON.RESET' | translate }}</button>
     </div>

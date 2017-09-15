@@ -1,4 +1,12 @@
-import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
@@ -10,24 +18,33 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'cs-vm-creation-template',
   templateUrl: 'vm-creation-template.component.html',
+  styleUrls: ['vm-creation-template.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => VmTemplateComponent),
+      useExisting: forwardRef(() => VmCreationTemplateComponent),
       multi: true
     }
   ]
 })
-export class VmTemplateComponent {
+export class VmCreationTemplateComponent implements OnChanges {
   @Input() public templates: Array<Template>;
   @Input() public isos: Array<Iso>;
   @Input() public zoneId: string;
   @Output() public change: EventEmitter<BaseTemplateModel>;
 
-  private _template: BaseTemplateModel;
+  private _template: BaseTemplateModel | null;
 
   constructor(private dialog: MdDialog, private translateService: TranslateService) {
     this.change = new EventEmitter();
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.templates || changes.isos) {
+      if (!this.templates.length && !this.isos.length) {
+        this.template = null;
+      }
+    }
   }
 
   public get templateName(): Observable<string> {

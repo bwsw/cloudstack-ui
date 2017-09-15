@@ -3,9 +3,9 @@ import { Observable } from 'rxjs/Observable';
 import { MarkForRemovalService } from './mark-for-removal.service';
 import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
 import { TagService } from './tag.service';
-import { Utils } from '../utils.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { SecurityGroupTagKeys } from './security-group-tag-keys';
+import { Utils } from '../utils/utils.service';
 
 
 @Injectable()

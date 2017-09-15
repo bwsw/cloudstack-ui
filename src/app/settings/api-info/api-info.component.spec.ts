@@ -1,22 +1,23 @@
-import { MdlModule } from '@angular-mdl/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MdTooltipModule } from '@angular/material';
+import { MdInput, MdInputModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard/dist';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { MockNotificationService } from '../../../testutils/mocks/mock-notification.service';
+import { DialogModule } from '../../dialog/dialog-service/dialog.module';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { InputGroupComponent } from '../../shared/components/input-group/input-group.component';
+import { LoadingDirective } from '../../shared/directives/loading.directive';
 import { ConfigService } from '../../shared/services/config.service';
+import { NotificationService } from '../../shared/services/notification.service';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { UserService } from '../../shared/services/user.service';
-import { DialogModule } from '../../dialog/dialog-service/dialog.module';
 import { ApiInfoComponent } from './api-info.component';
-import { LoadingDirective } from '../../shared/directives/loading.directive';
-import { MockNotificationService } from '../../../testutils/mocks/mock-notification.service';
-import { NotificationService } from '../../shared/services/notification.service';
 
 
 describe('Api Info component', () => {
@@ -72,8 +73,8 @@ describe('Api Info component', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        MdTooltipModule,
-        MdlModule,
+        NoopAnimationsModule,
+        MdInputModule,
         FormsModule,
         TranslateModule,
         ClipboardModule,
@@ -91,7 +92,8 @@ describe('Api Info component', () => {
         { provide: RouterUtilsService, useClass: MockRouterUtilsService },
         { provide: TranslateService, useClass: MockTranslateService },
         { provide: UserService, useClass: MockUserService }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     });
 
     fixture = TestBed.createComponent(ApiInfoComponent);
@@ -126,7 +128,7 @@ describe('Api Info component', () => {
     fixture.whenStable().then(() => {
       tick();
       fixture.detectChanges();
-      const inputFields = fixture.debugElement.queryAll(By.css('.mdl-textfield__input'));
+      const inputFields = fixture.debugElement.queryAll(By.directive(MdInput));
       expect(inputFields[0].nativeElement.value).toBe('apiKey');
       expect(inputFields[1].nativeElement.value).toBe('secretKey');
     });
@@ -136,7 +138,7 @@ describe('Api Info component', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    const syncButton = fixture.debugElement.query(By.css('mdl-button[mdl-button-type="icon"]'));
+    const syncButton = fixture.debugElement.query(By.css('button[md-icon-button]'));
     syncButton.triggerEventHandler('click');
 
     tick();
@@ -156,7 +158,7 @@ describe('Api Info component', () => {
       });
 
       tick();
-      const inputFields = fixture.debugElement.queryAll(By.css('.mdl-textfield__input'));
+      const inputFields = fixture.debugElement.queryAll(By.directive(MdInput));
       expect(inputFields[0].nativeElement.value).toBe('newApiKey');
       expect(inputFields[1].nativeElement.value).toBe('newSecretKey');
     });

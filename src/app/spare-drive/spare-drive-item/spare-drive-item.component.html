@@ -2,6 +2,7 @@
   class="custom-card spare-drive-card"
   (click)="handleClick($event)"
   [class.card-selected]="isSelected(item)"
+  [class.root-disk]="isRoot"
 >
   <md-card-header>
     <md-card-title>
@@ -21,7 +22,7 @@
   </md-card-header>
   <md-card-content>
     <div class="card-wrapper">
-      <div class="first">
+      <div class="flex-1">
         <div class="row" *ngIf="descriptionIncludesQuery">
           {{ 'SPARE_DRIVE_PAGE.CARD.DESCRIPTION' | translate }}:
         </div>
@@ -29,7 +30,8 @@
         <div class="row">{{ 'SPARE_DRIVE_PAGE.CARD.SIZE' | translate }}:</div>
         <div class="row">{{ 'SPARE_DRIVE_PAGE.CARD.STATE' | translate }}:</div>
       </div>
-      <div class="last">
+
+      <div class="flex-1">
         <div class="row" *ngIf="descriptionIncludesQuery">
           <span [innerHTML]="item.description | highlight:query"></span>
         </div>

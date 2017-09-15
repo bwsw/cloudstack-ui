@@ -3,6 +3,6 @@
   display: block;
 }
 
-:host /deep/ mdl-textfield {
-  width: 100%;
+.mat-dialog-content {
+  min-height: 150px;
 }

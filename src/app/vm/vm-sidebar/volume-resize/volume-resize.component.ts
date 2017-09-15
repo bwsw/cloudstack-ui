@@ -83,7 +83,7 @@ export class VolumeResizeComponent implements OnInit {
 
   private updateSliderLimits(): void {
     this.newSize = this.volume.size / Math.pow(2, 30);
-    this.maxSize = 0; // to prevent mdl-slider from incorrect initial rendering
+    this.maxSize = 0; // to prevent slider from incorrect initial rendering TODO: check
 
     this.resourceUsageService.getResourceUsage()
       .map(usage => usage.available.primaryStorage)

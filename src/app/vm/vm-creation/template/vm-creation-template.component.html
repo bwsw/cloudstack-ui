@@ -1,13 +1,16 @@
-<button
-  type="button"
-  mdl-button
-  mdl-ripple
-  (click)="onClick()"
->
+<button type="button" md-button (click)="onClick()">
   {{ 'COMMON.SELECT' | translate }}
 </button>
-<div class="mdl-textfield template-list">
-  <div [mdTooltip]="templateName | async" class="mdl-textfield__input">
-    {{ templateName | async }}
-  </div>
+
+<div class="mat-input-wrapper template-list">
+  <ng-container *ngIf="template; else noTemplates">
+    <span class="ellipsis-overflow" [mdTooltip]="templateName | async">
+      {{ templateName | async }}
+    </span>
+  </ng-container>
+  <ng-template #noTemplates>
+    <span class="no-templates">
+      {{ 'VM_PAGE.VM_CREATION.NO_TEMPLATES' | translate }}
+    </span>
+  </ng-template>
 </div>

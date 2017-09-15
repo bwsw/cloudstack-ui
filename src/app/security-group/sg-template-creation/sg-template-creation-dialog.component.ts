@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MdDialog, MdDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListService } from '../../shared/components/list/list.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { SecurityGroupEditAction } from '../sg-actions/sg-edit';
+import { SecurityGroupViewMode } from '../sg-filter/sg-filter.component';
 import { SecurityGroup, SecurityGroupType } from '../sg.model';
 import { SgTemplateCreationComponent } from './sg-template-creation.component';
-import { SecurityGroupViewMode } from '../sg-filter/sg-filter.component';
 
 
 @Component({
   selector: 'cs-sg-template-create-dialog',
   template: ``
 })
-export class SgTemplateCreationDialogComponent implements OnInit {
+export class SgTemplateCreationDialogComponent {
   constructor(
     private dialog: MdDialog,
     private router: Router,
@@ -23,9 +23,7 @@ export class SgTemplateCreationDialogComponent implements OnInit {
     private listService: ListService,
     private securityGroupEditAction: SecurityGroupEditAction,
     private storageService: LocalStorageService
-  ) {}
-
-  public ngOnInit() {
+  ) {
     this.dialog.open(SgTemplateCreationComponent, <MdDialogConfig>{
       data: { mode: this.viewMode },
       disableClose: true,
@@ -37,13 +35,14 @@ export class SgTemplateCreationDialogComponent implements OnInit {
       });
   }
 
-  public showRulesDialog(group: SecurityGroup) : void {
-        this.securityGroupEditAction.activate(group)
-      .subscribe(() =>{
-          this.router.navigate(['../'], {
-            queryParamsHandling: 'preserve',
-            relativeTo: this.activatedRoute
-          });});
+  public showRulesDialog(group: SecurityGroup): void {
+    this.securityGroupEditAction.activate(group)
+      .subscribe(() => {
+        this.router.navigate(['../'], {
+          queryParamsHandling: 'preserve',
+          relativeTo: this.activatedRoute
+        });
+      });
   }
 
   private getSuccessCreationToken(securityGroup: SecurityGroup): string {
@@ -79,10 +78,10 @@ export class SgTemplateCreationDialogComponent implements OnInit {
 
   private onCancel(): void {
 
-        this.router.navigate(['../'], {
-          queryParamsHandling: 'preserve',
-          relativeTo: this.activatedRoute
-        });
+    this.router.navigate(['../'], {
+      queryParamsHandling: 'preserve',
+      relativeTo: this.activatedRoute
+    });
 
   }
 }
