@@ -225,6 +225,7 @@
       "SECONDARY": "Secondary"
     },
     "FILTERS": {
+      "SELECT_ACCOUNTS": "Select accounts",
       "SELECT_ZONES": "Select zones",
       "SELECT_GROUPS": "Select groups",
       "SELECT_STATES": "Select states",
@@ -235,7 +236,8 @@
       "GROUP_BY": "Group by",
       "GROUP_BY_ZONES": "Zones",
       "GROUP_BY_COLORS": "Colors",
-      "GROUP_BY_GROUPS": "Groups"
+      "GROUP_BY_GROUPS": "Groups",
+      "GROUP_BY_ACCOUNTS": "Accounts"
     },
     "CARD": {
       "IP_NA": "IP N/A",
@@ -452,6 +454,7 @@
   },
   "SPARE_DRIVE_PAGE": {
     "FILTERS": {
+      "SELECT_ACCOUNTS": "Select accounts",
       "SPARE_DRIVES_ONLY": "Spare drives only",
       "SELECT_ZONES": "Select zones",
       "GROUP_BY": "Group by",
@@ -505,6 +508,7 @@
       "ISO": "ISO"
     },
     "FILTERS": {
+      "SELECT_ACCOUNTS": "Select accounts",
       "SELECT_OS_FAMILIES": "Select OS families",
       "SELECT_TYPES": "Select types",
       "SELECT_ZONES": "Select zones",

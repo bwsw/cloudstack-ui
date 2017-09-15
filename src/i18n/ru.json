@@ -225,6 +225,7 @@
       "SECONDARY": "Дополнительное"
     },
     "FILTERS": {
+      "SELECT_ACCOUNTS": "Выберите аккаунты",
       "SELECT_ZONES": "Выберите зоны",
       "SELECT_GROUPS": "Выберите группы",
       "SELECT_STATES": "Выберите статусы",
@@ -235,7 +236,8 @@
       "GROUP_BY": "Группировать по",
       "GROUP_BY_ZONES": "Зонам",
       "GROUP_BY_COLORS": "Цветам",
-      "GROUP_BY_GROUPS": "Группам"
+      "GROUP_BY_GROUPS": "Группам",
+      "GROUP_BY_ACCOUNTS": "Аккаунтам"
     },
     "CARD": {
       "IP_NA": "IP недоступен",

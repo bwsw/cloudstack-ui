@@ -1,10 +1,10 @@
-import { SecurityGroup } from '../../security-group/sg.model';
-import { FieldMapper, ZoneName } from '../../shared/decorators';
-import { Taggable } from '../../shared/interfaces/taggable.interface';
-import { BaseModel, InstanceGroup, NIC, OsType, ServiceOffering, Tag, Volume } from '../../shared/models';
-import { AffinityGroup } from '../../shared/models/affinity-group.model';
-import { BaseTemplateModel } from '../../template/shared';
-import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
+import {SecurityGroup} from '../../security-group/sg.model';
+import {FieldMapper, ZoneName} from '../../shared/decorators';
+import {Taggable} from '../../shared/interfaces/taggable.interface';
+import {BaseModel, InstanceGroup, NIC, OsType, ServiceOffering, Tag, Volume} from '../../shared/models';
+import {AffinityGroup} from '../../shared/models/affinity-group.model';
+import {BaseTemplateModel} from '../../template/shared';
+import {VirtualMachineTagKeys} from '../../shared/services/tags/vm-tag-keys';
 
 
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
@@ -54,6 +54,7 @@ export class VirtualMachine extends BaseModel implements Taggable {
   public id: string;
   public displayName: string;
   public name: string;
+  public userid: string;
   // Status
   public state: VmState;
   // Service Offering

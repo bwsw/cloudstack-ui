@@ -1,21 +1,23 @@
-import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { AsyncJob, InstanceGroup, VmStatisticsComponent, Zone } from '../../shared';
-import { ListService } from '../../shared/components/list/list.service';
-import { AsyncJobService } from '../../shared/services/async-job.service';
-import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
-import { StatsUpdateService } from '../../shared/services/stats-update.service';
-import { UserTagService } from '../../shared/services/tags/user-tag.service';
-import { VmTagService } from '../../shared/services/tags/vm-tag.service';
-import { ZoneService } from '../../shared/services/zone.service';
-import { VmActionsService } from '../shared/vm-actions.service';
-import { VirtualMachine, VmState } from '../shared/vm.model';
-import { ActivatedRoute, Router } from '@angular/router';
-import { VirtualMachineEntityName, VmService } from '../shared/vm.service';
-import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filter.component';
-import { VmListItemComponent } from './vm-list-item.component';
+import {Component, HostBinding, OnInit, ViewChild} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {DialogService} from '../../dialog/dialog-service/dialog.service';
+import {AsyncJob, InstanceGroup, VmStatisticsComponent, Zone} from '../../shared';
+import {ListService} from '../../shared/components/list/list.service';
+import {AsyncJobService} from '../../shared/services/async-job.service';
+import {JobsNotificationService} from '../../shared/services/jobs-notification.service';
+import {StatsUpdateService} from '../../shared/services/stats-update.service';
+import {UserTagService} from '../../shared/services/tags/user-tag.service';
+import {VmTagService} from '../../shared/services/tags/vm-tag.service';
+import {ZoneService} from '../../shared/services/zone.service';
+import {VmActionsService} from '../shared/vm-actions.service';
+import {VirtualMachine, VmState} from '../shared/vm.model';
+import {ActivatedRoute, Router} from '@angular/router';
+import {VmService} from '../shared/vm.service';
+import {InstanceGroupOrNoGroup, noGroup, VmFilter} from '../vm-filter/vm-filter.component';
+import {VmListItemComponent} from './vm-list-item.component';
 import * as clone from 'lodash/clone';
+import {UserService} from '../../shared/services/user.service';
+import {User} from '../../shared/models/user.model';
 
 
 @Component({
@@ -49,6 +51,12 @@ export class VmListComponent implements OnInit {
       label: 'VM_PAGE.FILTERS.GROUP_BY_COLORS',
       selector: (item: VirtualMachine) => this.vmTagService.getColorSync(item).value,
       name: (item: VirtualMachine) => ' ',
+    },
+    {
+      key: 'accounts',
+      label: 'VM_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
+      selector: (item: VirtualMachine) => item.userid,
+      name: (item: VirtualMachine) => this.getUserName(item.userid),
     }
   ];
 
@@ -58,6 +66,7 @@ export class VmListComponent implements OnInit {
   public zones: Array<Zone>;
 
   public vmList: Array<VirtualMachine>;
+  public userList: Array<User>;
   public visibleVmList: Array<VirtualMachine>;
 
   public inputs;
@@ -73,6 +82,7 @@ export class VmListComponent implements OnInit {
     private asyncJobService: AsyncJobService,
     private statsUpdateService: StatsUpdateService,
     private userTagService: UserTagService,
+    private userService: UserService,
     private vmActionsService: VmActionsService,
     private vmTagService: VmTagService,
     private zoneService: ZoneService,
@@ -92,6 +102,7 @@ export class VmListComponent implements OnInit {
 
   public ngOnInit(): void {
     this.getVmList();
+    this.getUserList();
     this.resubscribeToJobs();
     this.subscribeToStatsUpdates();
     this.subscribeToVmUpdates();
@@ -123,11 +134,12 @@ export class VmListComponent implements OnInit {
       return acc;
     }, []);
 
-    const { selectedZones, selectedGroups, selectedStates } = this.filterData;
+    const { selectedZones, selectedGroups, selectedStates, accounts } = this.filterData;
     this.visibleVmList = this.filterVmsByZones(this.vmList, selectedZones);
     this.visibleVmList = this.filterVmsByGroup(this.visibleVmList, selectedGroups);
     this.visibleVmList = this.filterVMsByState(this.visibleVmList, selectedStates);
     this.visibleVmList = this.sortByDate(this.visibleVmList);
+    this.visibleVmList = this.sortByAccount(accounts);
   }
 
   public updateStats(): void {
@@ -163,6 +175,16 @@ export class VmListComponent implements OnInit {
           this.showSuggestionDialog();
         }
       });
+  }
+
+  private getUserList() {
+    this.userService.getList().subscribe(users => {
+      this.userList = users;
+    });
+  }
+
+  private getUserName(id: string) {
+    return this.userList.find(user => user.id === id).name;
   }
 
   private subscribeToStatsUpdates(): void {
@@ -326,6 +348,18 @@ export class VmListComponent implements OnInit {
     return !states.length
       ? vmList
       : vmList.filter(vm => states.includes(vm.state));
+  }
+
+  private sortByAccount(accounts) {
+    let result: Array<VirtualMachine> = [];
+    if (accounts && accounts.length != 0) {
+      accounts.forEach(account => {
+        result = result.concat(this.visibleVmList.filter(vm => vm.userid === account))
+      });
+      return result;
+    } else {
+      return this.visibleVmList;
+    }
   }
 
   private sortByDate(vmList: Array<VirtualMachine>): Array<VirtualMachine> {

@@ -1,12 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import * as sortBy from 'lodash/sortBy';
-import { InstanceGroup, Zone } from '../../shared/models';
-import { FilterService } from '../../shared/services/filter.service';
-import { InstanceGroupService } from '../../shared/services/instance-group.service';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { VmState } from '../shared/vm.model';
-import { VmService } from '../shared/vm.service';
+import {InstanceGroup, Zone} from '../../shared/models';
+import {FilterService} from '../../shared/services/filter.service';
+import {InstanceGroupService} from '../../shared/services/instance-group.service';
+import {LocalStorageService} from '../../shared/services/local-storage.service';
+import {VmState} from '../shared/vm.model';
+import {VmService} from '../shared/vm.service';
 
 
 export interface VmFilter {
@@ -14,6 +14,7 @@ export interface VmFilter {
   selectedStates: Array<VmState>;
   selectedZones: Array<Zone>;
   groupings: Array<any>;
+  accounts: Array<string>;
 }
 
 export type noGroup = '-1';
@@ -37,6 +38,7 @@ export class VmFilterComponent implements OnInit, OnChanges {
   public selectedStates: Array<VmState> = [];
   public selectedZones: Array<Zone> = [];
   public selectedGroupings: Array<any> = [];
+  public selectedAccounts: Array<string>;
   public states = [
     { state: VmState.Running, name: 'VM_PAGE.FILTERS.STATE_RUNNING' },
     { state: VmState.Stopped, name: 'VM_PAGE.FILTERS.STATE_STOPPED' },
@@ -112,12 +114,18 @@ export class VmFilterComponent implements OnInit, OnChanges {
     });
   }
 
+  public updateAccount(users: Array<string>) {
+    this.selectedAccounts = users;
+    this.update();
+  }
+
   public update(): void {
     this.updateFilters.emit({
       selectedGroups: this.selectedGroups.sort(this.groupSortPredicate),
       selectedStates: this.selectedStates,
       selectedZones: sortBy(this.selectedZones, 'name'),
-      groupings: this.selectedGroupings
+      groupings: this.selectedGroupings,
+      accounts: this.selectedAccounts
     });
 
     this.filterService.update(this.filtersKey, {
