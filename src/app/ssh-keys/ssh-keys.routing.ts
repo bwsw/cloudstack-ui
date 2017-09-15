@@ -1,7 +1,9 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../shared/services/auth-guard.service';
+import { SshKeysPageComponent } from './ssh-keys-page/ssh-keys-page.component';
 import { SshKeyCreationComponent } from './ssh-key-creation/ssh-key-creation.component';
-import { SshKeysPageComponent } from './ssh-keys-page.component';
+import { SshKeySidebarComponent } from './ssh-key-sidebar/ssh-key-sidebar.component';
+
 
 export const sshRoutes: Routes = [
   {
@@ -12,6 +14,11 @@ export const sshRoutes: Routes = [
       {
         path: 'create',
         component: SshKeyCreationComponent
+      },
+      {
+        path: ':id',
+        component: SshKeySidebarComponent,
+        canActivate: [AuthGuard]
       }
     ]
   }
