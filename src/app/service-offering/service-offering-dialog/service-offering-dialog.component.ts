@@ -1,15 +1,19 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
-import { ServiceOfferingFilterService } from '../../shared/services/service-offering-filter.service';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VmChangeServiceOfferingAction } from '../../vm/vm-actions/vm-change-service-offering';
-import { CustomServiceOfferingService } from '../custom-service-offering/service/custom-service-offering.service';
+import {
+  CustomServiceOfferingService,
+  DefaultServiceOfferingConfigurationByZone
+} from '../custom-service-offering/service/custom-service-offering.service';
 import { Observable } from 'rxjs/Observable';
 import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
-import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { Zone } from '../../shared/models';
+import { ConfigService } from '../../shared/services/config.service';
+import { ServiceOfferingService } from '../../shared/services/service-offering.service';
+import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 
 
 @Component({
@@ -29,8 +33,9 @@ export class ServiceOfferingDialogComponent implements OnInit {
     @Inject(MD_DIALOG_DATA) data,
     public dialogRef: MdDialogRef<ServiceOfferingDialogComponent>,
     public customServiceOfferingService: CustomServiceOfferingService,
+    private configService: ConfigService,
     private serviceOfferingService: ServiceOfferingService,
-    private serviceOfferingFilterService: ServiceOfferingFilterService,
+    private resourceUsageService: ResourceUsageService,
     private vmChangeServiceOfferingAction: VmChangeServiceOfferingAction,
     private zoneService: ZoneService
   ) {
@@ -64,29 +69,47 @@ export class ServiceOfferingDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  private fetchData(zone: Zone): Observable<Array<ServiceOffering>> {
-    return this.serviceOfferingFilterService.getAvailableByResources({ zone })
-      .map(availableOfferings => {
-        return !!this.virtualMachine.serviceOffering
-          ? availableOfferings.filter(
-            offering =>
-              offering.id !== this.virtualMachine.serviceOffering.id)
-          : availableOfferings;
-      })
-      .switchMap(offerings => {
-        const offeringsWithSetParams = offerings.map(offering => {
-          if (!offering.isCustomized) {
-            return Observable.of(offering);
-          }
+  private fetchData(zone: Zone): Observable<ServiceOffering[]> {
+    const offeringAvailability = this.configService.get('offeringAvailability');
+    const defaultParams =
+      this.configService.get<DefaultServiceOfferingConfigurationByZone>('defaultServiceOfferingConfig');
+    const customOfferingRestrictions = this.configService.get('customOfferingRestrictions');
 
-          return this.customServiceOfferingService.getCustomOfferingWithSetParams(
-            offering,
-            zone.id
-          );
-        });
-
-        return Observable.forkJoin(offeringsWithSetParams);
+    return Observable.forkJoin(
+      this.serviceOfferingService.getList({ zone }),
+      this.resourceUsageService.getResourceUsage()
+    ).map((
+      [
+        serviceOfferings,
+        resourceUsage
+      ]
+    ) => {
+      const availableOfferings = this.serviceOfferingService.getAvailableByResourcesSync(
+        serviceOfferings,
+        offeringAvailability,
+        customOfferingRestrictions,
+        resourceUsage,
+        zone
+      ).sort((a: ServiceOffering, b: ServiceOffering) => {
+        if (!a.isCustomized && b.isCustomized) { return -1; }
+        if (a.isCustomized && !b.isCustomized) { return 1; }
+        return 0;
       });
+
+      return (!!this.virtualMachine.serviceOffering
+        ? availableOfferings.filter(
+          offering =>
+            offering.id !== this.virtualMachine.serviceOffering.id)
+        : availableOfferings).map((offering) => {
+            return !offering.isCustomized ? offering :
+              this.customServiceOfferingService.getCustomOfferingWithSetParams(
+              offering,
+              defaultParams[zone.id].customOfferingParams,
+              customOfferingRestrictions[zone.id],
+              resourceUsage
+            )
+          });
+    });
   }
 
   private getRestrictions(): Observable<ICustomOfferingRestrictions> {
@@ -96,10 +119,12 @@ export class ServiceOfferingDialogComponent implements OnInit {
   }
 
   private getDefaultServiceOffering(offerings: Array<ServiceOffering>): Observable<ServiceOffering> {
+    const configuration = this.configService
+      .get<DefaultServiceOfferingConfigurationByZone>('defaultServiceOfferingConfig');
     return this.zoneService.get(this.virtualMachine.zoneId)
-      .switchMap(zone => this.serviceOfferingService.getDefaultServiceOffering(zone))
-      .map(offering => {
-        const defaultOffering = offerings.find(_ => _.id === offering.id);
+      .map(zone => {
+        const defaultOfferingId = configuration && configuration[zone.id] && configuration[zone.id].offering;
+        const defaultOffering = offerings.find(_ => _.id === defaultOfferingId);
         return defaultOffering || offerings[0];
       });
   }

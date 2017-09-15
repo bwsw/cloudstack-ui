@@ -44,14 +44,14 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
 
   public showCreationDialog(snapshot: Snapshot): Observable<void> {
     return this.dialog.open(TemplateCreationComponent, {
-      panelClass: 'template-creation-dialog-snapshot dialog-overflow-visible',
+      panelClass: 'dialog-overflow-visible',
+      width: '330px',
       data: {
         mode: 'Template',
         snapshot
       }
     })
       .afterClosed();
-    // todo check
   }
 
   public handleSnapshotDelete(snapshot: Snapshot, volume): Observable<void> {

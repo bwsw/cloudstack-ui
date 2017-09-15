@@ -14,7 +14,7 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { MockNotificationService } from '../../../testutils/mocks/mock-notification.service';
 
 
-fdescribe('Security group firewall rules component', () => {
+describe('Security group firewall rules component', () => {
   let f;
   let comp;
 
@@ -59,7 +59,6 @@ fdescribe('Security group firewall rules component', () => {
     TestBed.compileComponents().then(() => {
       f = TestBed.createComponent(SgRulesComponent);
       comp = f.componentInstance;
-      console.log(comp);
     });
   }));
 
