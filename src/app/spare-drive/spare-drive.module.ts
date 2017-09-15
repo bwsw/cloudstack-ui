@@ -46,6 +46,7 @@ import {
 } from './spare-drive-sidebar/snapshot-details/spare-drive-snapshot-details.component';
 import { SpareDriveSidebarComponent } from './spare-drive-sidebar/spare-drive-sidebar.component';
 import { spareDrivesRouting } from './spare-drive.routing';
+import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { spareDrivesRouting } from './spare-drive.routing';
     MdButtonModule,
     MdIconModule,
     MdTabsModule,
-    MdDialogModule
+    MdDialogModule,
+    DraggableSelectModule
   ],
   declarations: [
     SnapshotActionsComponent,
