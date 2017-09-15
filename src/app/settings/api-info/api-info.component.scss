@@ -7,19 +7,23 @@ a {
   white-space: nowrap;
 }
 
-mdl-textfield {
+md-form-field {
   width: 268px;
+
+  input {
+    cursor: text;
+  }
 }
 
-mdl-textfield /deep/ input {
-  cursor: text;
+cs-input-group {
+  width: 100%;
 }
 
 .header-wrap {
   display: flex;
   width: 320px;
 
-  mdl-button {
+  .mat-icon-button {
     margin-left: auto;
   }
 }

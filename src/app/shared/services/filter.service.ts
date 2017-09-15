@@ -1,6 +1,7 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from './storage.service';
-import { Utils } from './utils.service';
+import { Utils } from './utils/utils.service';
+
 
 export interface FilterConfig {
   [propName: string]: FilterItemConfig;

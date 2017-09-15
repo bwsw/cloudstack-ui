@@ -16,6 +16,7 @@ import { VmTemplateDialogComponent } from './vm-template-dialog.component';
 @Component({
   selector: 'cs-vm-creation-template',
   templateUrl: 'vm-template.component.html',
+  styleUrls: ['vm-template.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

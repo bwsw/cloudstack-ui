@@ -1,7 +1,7 @@
 import { Component, HostListener, Inject } from '@angular/core';
-import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { BaseDialogConfiguration } from '../dialog.service';
 
 export interface ConfirmDialogConfiguration extends BaseDialogConfiguration {
@@ -10,8 +10,8 @@ export interface ConfirmDialogConfiguration extends BaseDialogConfiguration {
 }
 
 @Component({
-    selector: 'cs-confirm-dialog',
-    templateUrl: 'confirm-dialog.component.html'
+  selector: 'cs-confirm-dialog',
+  templateUrl: 'confirm-dialog.component.html'
 })
 export class ConfirmDialogComponent{
 
@@ -29,6 +29,7 @@ export class ConfirmDialogComponent{
   public onEsc(): void {
     this.dialogRef.close();
   }
+
   public get translatedMessage(): Observable<string> {
     if (typeof this.config.message === 'string') {
       return this.translateService.get(this.config.message);

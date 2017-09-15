@@ -30,10 +30,6 @@ export class SshKeypairResetComponent implements OnInit {
     });
   }
 
-  public hide(): void {
-    this.dialogRef.close();
-  }
-
   public resetSshKey(): void {
     this.resettingKeyInProgress = true;
     this.sshService.reset({ id: this.vm.id, keypair: this.selectedSshKeyName })

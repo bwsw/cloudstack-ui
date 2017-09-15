@@ -5,28 +5,33 @@
   #inactivityTimeoutForm="ngForm"
   novalidate
 >
-  <mdl-textfield
-    #inactivityTimeoutField="ngModel"
-    name="inactivityTimeout"
-    type="number"
-    [min]="0"
-    [minValue]="0"
-    [max]="maxInactivityTimeout"
-    [maxValue]="maxInactivityTimeout"
-    step="1"
-    required
-    integerValue
-    error-msg="{{ 'SETTINGS.SECURITY.INACTIVITY_LIMITS' | translate }}"
-    [(ngModel)]="tempInactivityTimeout"
-    [class.is-invalid]="inactivityTimeoutField.dirty && inactivityTimeoutField.invalid"
-    (blur)="onBlur()"
-  ></mdl-textfield>
+  <md-form-field class="full-width-input">
+    <input
+      mdInput
+      name="inactivityTimeout"
+      type="number"
+      integerValue
+      [(ngModel)]="tempInactivityTimeout"
+      [min]="0"
+      [minValue]="0"
+      [max]="maxInactivityTimeout"
+      [maxValue]="maxInactivityTimeout"
+      step="1"
+      required
+      (blur)="onBlur()"
+      #inactivityTimeoutControl="ngModel"
+    >
+    <md-error *ngIf="inactivityTimeoutControl.invalid">
+      {{ 'SETTINGS.SECURITY.INACTIVITY_LIMITS' | translate }}
+    </md-error>
+  </md-form-field>
   <div class="pull-right-button">
     <button
       type="submit"
-      mdl-button
+      md-button
       [disabled]="changeButtonDisabled"
-      [translate]="'COMMON.UPDATE'"
-    ></button>
+    >
+      {{ 'COMMON.UPDATE' | translate }}
+    </button>
   </div>
 </form>

@@ -44,6 +44,8 @@ Thumbs.db
 /dist
 /public/__build__/
 /src/*/__build__/
+/src/css/themes
+
 __build__/**
 .webpack.json
 

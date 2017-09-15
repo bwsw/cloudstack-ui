@@ -14,7 +14,6 @@ import { TemplateFilters } from '../shared/base-template.service';
   providers: [ListService]
 })
 export class TemplatePageComponent implements OnInit {
-  @HostBinding('class.detail-list-container') public detailListContainer = true;
   public templates: Array<Template>;
   public isos: Array<Iso>;
   public viewMode: string;

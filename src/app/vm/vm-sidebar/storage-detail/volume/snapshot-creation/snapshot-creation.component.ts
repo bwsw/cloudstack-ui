@@ -54,10 +54,6 @@ export class SnapshotCreationComponent implements OnInit {
     this.takeSnapshot(this.volume.id, this.name, this.description);
   }
 
-  public onHide(): void {
-    this.dialogRef.close();
-  }
-
   public takeSnapshot(volumeId: string, name: string, description: string): void {
     const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS');
     this.snapshotService.create(volumeId, name, description)

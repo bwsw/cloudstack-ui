@@ -1,6 +1,6 @@
-import { MdlTextFieldComponent } from '@angular-mdl/core';
 import { Component, forwardRef, Input, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MdInput } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
@@ -21,7 +21,7 @@ export interface HourlyPolicy {
   ]
 })
 export class HourlyPolicyComponent implements ControlValueAccessor {
-  @ViewChild('minuteField') public minuteField: MdlTextFieldComponent;
+  @ViewChild(MdInput) public minuteField: MdInput;
   public _policy: HourlyPolicy;
 
   public _minute = 0;
@@ -67,8 +67,7 @@ export class HourlyPolicyComponent implements ControlValueAccessor {
     }
 
     this.minute = newValue;
-    this.minuteField.inputEl.nativeElement.value = this.minute;
-    this.minuteField.writeValue(this.minute);
+    this.minuteField.value = this.minute;
     this.writeValue(this.policy);
   }
 
@@ -87,7 +86,7 @@ export class HourlyPolicyComponent implements ControlValueAccessor {
       this.minute = value.minute.toString();
       this.propagateChange(this.policy);
     }
-    this.minuteField.setFocus();
+    this.minuteField.focus();
   }
 
   public registerOnChange(fn): void {

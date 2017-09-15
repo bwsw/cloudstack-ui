@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Utils } from '../services/utils.service';
+import { Utils } from '../services/utils/utils.service';
 
 
 @Pipe({
@@ -10,8 +10,8 @@ export class DivisionPipe implements PipeTransform {
   public transform(
     value: number,
     base: number,
-    exponent: string,
-    precision?: string
+    exponent?: number,
+    precision?: number
   ): number | string {
     return Utils.divide(value, base, exponent, precision);
   }

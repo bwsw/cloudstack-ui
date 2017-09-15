@@ -1,21 +1,13 @@
-<button
-  type="button"
-  mdl-button
-  mdl-ripple
-  (click)="onClick()"
->
+<button type="button" md-button (click)="onClick()">
   {{ 'COMMON.SELECT' | translate }}
 </button>
-<div class="mdl-textfield template-list">
-  <div class="mdl-textfield__input">
-    <ng-container *ngIf="template; else noTemplates">
-      {{ 'VM_PAGE.VM_CREATION.OS_TEMPLATE' | translate }}: {{ template?.name }}
-    </ng-container>
-    <ng-template #noTemplates>
-      <!-- todo replace when material2 is merged -->
-      <span class="mdl-color-text--red">
-        {{ 'VM_PAGE.VM_CREATION.NO_TEMPLATES' | translate }}
-      </span>
-    </ng-template>
-  </div>
+<div class="mat-input-wrapper template-list">
+  <ng-container *ngIf="template; else noTemplates">
+    {{ 'VM_PAGE.VM_CREATION.OS_TEMPLATE' | translate }}: {{ template?.name }}
+  </ng-container>
+  <ng-template #noTemplates>
+    <span class="no-templates">
+      {{ 'VM_PAGE.VM_CREATION.NO_TEMPLATES' | translate }}
+    </span>
+  </ng-template>
 </div>

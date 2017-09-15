@@ -1,14 +1,20 @@
 @import '../../../../style/__variables.scss';
 
-.margin-right {
-  transition: margin 0.3s;
+:host {
+  display: block;
+  height: 100%;
+  position: relative;
+  transform: translate3d(0,0,0);
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
 }
 
-.fab.open {
-  margin-right: $sidebar-width + 1;
+md-sidenav-container {
+  height: 100%;
 }
 
-cs-sidebar {
+cs-sidebar, md-sidenav {
   width: $sidebar-width + 1;
 }
 

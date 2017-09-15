@@ -12,8 +12,7 @@
     </span>
     <button
       class="edit-button"
-      mdl-button
-      mdl-button-type="icon"
+      md-icon-button
       (click)="edit()"
     >
       <md-icon>edit</md-icon>
@@ -28,21 +27,24 @@
     {{ contentPlaceholder | translate }}
   </span>
 
-  <mdl-textfield
-    mdl-textarea-autoresize
-    name="textField"
-    *ngIf="editing"
-    [ngModel]="textFieldText"
-    (ngModelChange)="updateTextFieldText($event)"
-    [placeholder]="inputPlaceholder | translate"
-    [rows]="rows"
-    (keyup)="onKeyUp($event)"
-  ></mdl-textfield>
+  <md-form-field *ngIf="editing" class="full-width-input">
+    <textarea
+      mdInput
+      mdTextareaAutosize
+      name="textField"
+      [ngModel]="textFieldText"
+      (ngModelChange)="updateTextFieldText($event)"
+      [placeholder]="inputPlaceholder | translate"
+      [rows]="rows"
+      (keyup)="onKeyUp($event)"
+    ></textarea>
+  </md-form-field>
 
   <div class="buttons">
     <button
-      mdl-button
       *ngIf="editing"
+      md-button
+      color="primary"
       (click)="onCancel()"
       type="button"
     >
@@ -50,7 +52,8 @@
     </button>
 
     <button
-      mdl-button
+      md-button
+      color="primary"
       *ngIf="editing"
       type="submit"
     >

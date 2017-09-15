@@ -1,4 +1,4 @@
-import { Utils } from '../../services/utils.service';
+import { Utils } from '../../services/utils/utils.service';
 import { ProgressLoggerMessage, ProgressLoggerMessageData, } from './progress-logger-message/progress-logger-message';
 
 
