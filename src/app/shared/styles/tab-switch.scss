@@ -2,14 +2,5 @@
   display: inline-flex !important;
   width: initial !important;
   position: relative;
-
-  /deep/ .mdl-tabs__tab-bar {
-    height: 32px;
-  }
-
-  /deep/ .mdl-tabs__tab {
-    height: 32px;
-    line-height: 32px;
-  }
 }
 

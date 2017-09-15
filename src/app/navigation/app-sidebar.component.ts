@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -11,11 +10,9 @@ import {
 import { Router } from '@angular/router';
 import { UserTagService } from 'app/shared/services/tags/user/user-tag.service';
 import { DragulaService } from 'ng2-dragula';
-import { Color } from '../shared/models/color.model';
 import { ConfigService } from '../shared/services/config.service';
 import { LayoutService } from '../shared/services/layout.service';
 import { RouterUtilsService } from '../shared/services/router-utils.service';
-import { StyleService } from '../shared/services/style.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 import { transformHandle, transformLinks } from './sidebar-animations';
 import {
@@ -35,15 +32,14 @@ import {
 })
 export class AppSidebarComponent extends WithUnsubscribe()
   implements AfterViewInit, OnInit, OnDestroy {
-  // todo: make a wrapper for link and use @ViewChildren(LinkWrapper)
   @ViewChild('navigationBar') public navigationBar: ElementRef;
   @Input() public open: boolean;
   @Input() public title: string;
+  public imgUrl = 'url(img/cloudstack_logo_light.png)'; // TODO
 
   public routes = sideBarRoutes.slice();
   public nonDraggableRoutes = nonDraggableRoutes;
 
-  public themeColor;
   public navigationLoaded = false;
   public updatingOrder = false;
   public dragulaContainerName = 'sidebar-bag';
@@ -54,7 +50,6 @@ export class AppSidebarComponent extends WithUnsubscribe()
   constructor(
     private configService: ConfigService,
     private dragula: DragulaService,
-    private styleService: StyleService,
     private layoutService: LayoutService,
     private routerUtilsService: RouterUtilsService,
     private router: Router,
@@ -72,10 +67,6 @@ export class AppSidebarComponent extends WithUnsubscribe()
     this.layoutService.drawerToggled
       .takeUntil(this.unsubscribe$)
       .subscribe(() => this.toggleDrawer());
-
-    this.styleService.paletteUpdates
-      .takeUntil(this.unsubscribe$)
-      .subscribe(color => this.setSidebarColor(color));
   }
 
   public ngOnDestroy(): void {
@@ -89,18 +80,6 @@ export class AppSidebarComponent extends WithUnsubscribe()
 
   public get canEdit(): boolean {
     return this.configService.get<boolean>('allowReorderingSidebar');
-  }
-
-  public get isLightTheme(): boolean {
-    return !this.themeColor || this.themeColor.textColor === '#FFFFFF';
-  }
-
-  public get linkActiveStyle(): string {
-    return this.isLightTheme ? 'link-active-light' : 'link-active-dark';
-  }
-
-  public get logoSource(): string {
-    return `img/cloudstack_logo_${this.isLightTheme ? 'light' : 'dark'}.png`;
   }
 
   public linkClick(routerLink: string): void {
@@ -143,20 +122,6 @@ export class AppSidebarComponent extends WithUnsubscribe()
     this.hasChanges = true;
   }
 
-  @HostBinding('style.background')
-  public get drawerBackground(): string {
-    return !this.themeColor || !this.themeColor.value
-      ? '#fafafa'
-      : `${this.themeColor.value}`;
-  }
-
-  @HostBinding('style.color')
-  public get drawerColor(): string {
-    return !this.themeColor || !this.themeColor.value
-      ? '#757575'
-      : `${this.themeColor.textColor}`;
-  }
-
   private setUpDragula(): void {
     this.dragula.setOptions(this.dragulaContainerName, {
       moves: () => this.editing
@@ -188,17 +153,5 @@ export class AppSidebarComponent extends WithUnsubscribe()
 
   private toggleState(): void {
     this._editing = !this._editing;
-  }
-
-  private setSidebarColor(color: Color): void {
-    this.themeColor = color;
-    if (this.navigationBar) {
-      const links = this.navigationBar.nativeElement.querySelectorAll('a');
-      const classesToRemove = this.isLightTheme
-        ? ['link-active-dark', 'link-hover-dark']
-        : ['link-active-light', 'link-hover-light'];
-
-      links.forEach(link => link.classList.remove(...classesToRemove));
-    }
   }
 }

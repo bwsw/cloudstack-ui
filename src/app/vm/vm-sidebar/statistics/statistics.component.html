@@ -5,11 +5,9 @@
     </md-card-title>
     <div class="md-card-header-menu">
       <button
-        mdl-button
-        mdl-ripple
-        mdl-button-type="icon"
-        mdTooltipPosition="before"
+        md-icon-button
         [mdTooltip]="'COMMON.REFRESH' | translate"
+        mdTooltipPosition="before"
         (click)="updateStats()"
       >
         <md-icon>sync</md-icon>

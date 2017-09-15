@@ -33,8 +33,7 @@
           <button
             [mdTooltip]="'COMMON.EDIT' | translate"
             mdTooltipPosition="above"
-            mdl-button
-            mdl-button-type="icon"
+            md-icon-button
             (click)="changeAffinityGroup()"
           >
             <md-icon>edit</md-icon>
@@ -57,17 +56,16 @@
           <ng-template #noKeys>{{ 'VM_PAGE.VM_DETAILS.SSH_KEY.NO_SSH_KEY' | translate }}</ng-template>
         </div>
         <md-card-actions *loading="sskKeyLoading">
-          <mdl-button
+          <button
+            md-icon-button
+            type="button"
             [mdTooltip]="(vm.keyPair ? 'COMMON.EDIT': 'COMMON.ADD') | translate"
             mdTooltipPosition="above"
-            mdl-button-type="icon"
             (click)="resetSshKey()"
           >
             <md-icon *ngIf="vm.keyPair; else add">edit</md-icon>
-            <ng-template #add>
-              <md-icon>add</md-icon>
-            </ng-template>
-          </mdl-button>
+            <ng-template #add><md-icon>add</md-icon></ng-template>
+          </button>
         </md-card-actions>
       </md-card-content>
     </md-card>

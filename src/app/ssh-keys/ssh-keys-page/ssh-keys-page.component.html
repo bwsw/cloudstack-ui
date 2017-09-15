@@ -1,0 +1,19 @@
+<cs-list
+  (onAction)="showCreationDialog()"
+  [isOpen]="listService?.hasSelected()"
+>
+  <cs-top-bar cs-panels></cs-top-bar>
+
+  <cs-ssh-key-list
+    *loading="!sshKeyList"
+    [keys]="sshKeyList"
+    (onRemove)="removeKey($event)"
+    cs-list
+  ></cs-ssh-key-list>
+
+  <ng-container cs-sidebar>
+    <cs-sidebar [isOpen]="listService?.hasSelected()">
+      <router-outlet></router-outlet>
+    </cs-sidebar>
+  </ng-container>
+</cs-list>

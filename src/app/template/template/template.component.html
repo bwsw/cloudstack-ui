@@ -1,5 +1,4 @@
 <md-card
-  mdl-shadow="2"
   [class.card-selected]="isSelected && isSelected(item)"
   class="custom-card"
   (click)="handleClick($event)"
@@ -25,14 +24,14 @@
       <div>{{ 'TEMPLATE_PAGE.CARD.OS' | translate }}:</div>
       <div
         *ngIf="singleLine"
-        class="last single-line text-overflow-tooltip-fix"
+        class="flex-2 single-line text-overflow-tooltip-fix"
         [mdTooltip]="item.osTypeName"
         mdTooltipPosition="above"
         [innerHTML]="item.osTypeName | highlight:query"
       ></div>
       <div
         *ngIf="!singleLine"
-        class="last multiline"
+        class="flex-2 multiline"
         [innerHTML]="item.osTypeName | highlight:query"
       ></div>
     </div>

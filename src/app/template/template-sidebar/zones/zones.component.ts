@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
+import { EntityDoesNotExistError } from '../../../shared/components/sidebar/entity-does-not-exist-error';
+
 
 
 export abstract class BaseTemplateZonesComponent<M extends BaseTemplateModel> implements OnInit {
@@ -52,7 +54,7 @@ export abstract class BaseTemplateZonesComponent<M extends BaseTemplateModel> im
         if (template) {
           return Observable.of(template);
         } else {
-          return Observable.throw('ENTITY_DOES_NOT_EXIST');
+          return Observable.throw(new EntityDoesNotExistError());
         }
       })
       .do(template => {

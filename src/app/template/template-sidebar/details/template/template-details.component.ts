@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { Template } from '../../../shared/template/template.model';
 import { TemplateService } from '../../../shared/template/template.service';
+import { EntityDoesNotExistError } from '../../../../shared/components/sidebar/entity-does-not-exist-error';
 
 
 @Component({
@@ -34,7 +35,7 @@ export class TemplateDetailsComponent implements OnInit {
         if (template) {
           return Observable.of(template);
         } else {
-          return Observable.throw('ENTITY_DOES_NOT_EXIST');
+          return Observable.throw(new EntityDoesNotExistError());
         }
       });
   }

@@ -12,8 +12,7 @@ import { IsoService } from '../../../template/shared/iso/iso.service';
 
 @Component({
   selector: 'cs-vm-creation-template-dialog',
-  templateUrl: 'vm-template-dialog.component.html',
-  styleUrls: ['../../../shared/styles/iso-dialog.scss']
+  templateUrl: 'vm-template-dialog.component.html'
 })
 export class VmTemplateDialogComponent extends TemplateFilterListComponent implements OnInit {
   public _selectedTemplate: BaseTemplateModel;
@@ -30,6 +29,11 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
     isoService: IsoService
   ) {
     super(authService, templateService, isoService);
+
+    this.preselectedTemplate = data.template;
+    this.templates = data.templates;
+    this.isos = data.isos;
+    this.zoneId = data.zoneId;
 
     this.preselectedTemplate = data.template;
     this.templates = data.templates;

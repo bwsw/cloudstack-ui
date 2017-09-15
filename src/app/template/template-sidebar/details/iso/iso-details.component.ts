@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Iso } from '../../../shared/iso/iso.model';
 import { IsoService } from '../../../shared/iso/iso.service';
 import { AuthService } from '../../../../shared/services/auth.service';
+import { EntityDoesNotExistError } from '../../../../shared/components/sidebar/entity-does-not-exist-error';
 
 
 @Component({
@@ -35,7 +36,7 @@ export class IsoDetailsComponent implements OnInit {
         if (template) {
           return Observable.of(template);
         } else {
-          return Observable.throw('ENTITY_DOES_NOT_EXIST');
+          return Observable.throw(new EntityDoesNotExistError());
         }
       });
   }

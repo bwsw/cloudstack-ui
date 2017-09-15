@@ -127,7 +127,7 @@ describe('volume resize for data disks', () => {
   beforeEach(async(() => {
     let fixture;
 
-    const dialog = jasmine.createSpyObj('MdlDialogReference', ['close']);
+    const dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
     const dialogService = jasmine.createSpyObj('DialogService', ['alert']);
     const jobsNotificationService = jasmine.createSpyObj('JobsNotificationService', ['add', 'finish', 'fail']);
 

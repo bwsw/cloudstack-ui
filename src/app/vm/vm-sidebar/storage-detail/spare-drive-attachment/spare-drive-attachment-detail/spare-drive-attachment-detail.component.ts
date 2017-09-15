@@ -3,7 +3,6 @@ import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../../../../shared/models';
 import { VolumeService } from '../../../../../shared/services/volume.service';
-import { SpareDriveActionsService } from '../../../../../shared/actions/spare-drive-actions/spare-drive-actions.service';
 import { VirtualMachine } from '../../../../shared/vm.model';
 import { SpareDriveAttachmentDialogComponent } from '../spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
 

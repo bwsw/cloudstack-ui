@@ -7,7 +7,7 @@ import { Iso } from '../../shared/iso/iso.model';
 import { Template } from '../../shared/template/template.model';
 import { TemplateFilters } from '../../shared/base/template-filters';
 import { InstanceGroup } from '../../../shared/models/instance-group.model';
-import { InstanceGroupOrNoGroup, noGroup } from '../../../shared/components/instance-group/no-group';
+import { InstanceGroupOrNoGroup, NoGroup } from '../../../shared/components/instance-group/no-group';
 
 
 @Component({
@@ -138,7 +138,7 @@ export class TemplateFilterListSelectorComponent implements OnChanges {
 
     return templateList.filter(
       template =>
-        (!template.instanceGroup && this.selectedGroups.includes(noGroup)) ||
+        (!template.instanceGroup && this.selectedGroups.includes(NoGroup)) ||
         (template.instanceGroup &&
           this.selectedGroups.some(g => template.instanceGroup.name === (g as InstanceGroup).name))
     );

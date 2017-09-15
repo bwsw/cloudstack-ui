@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { InstanceGroupEnabledService } from '../../../shared/interfaces/instance-group-enabled-service';
-import { AsyncJobService } from '../../../shared/services/async-job.service';
-import { BaseBackendService } from '../../../shared/services/base-backend.service';
-import { OsTypeService } from '../../../shared/services/os-type.service';
-import { BaseTemplateTagService } from '../../../shared/services/tags/template/base/base-template-tag.service';
-import { Utils } from '../../../shared/services/utils.service';
+import { InstanceGroup } from '../../../shared/models/instance-group.model';
 import { BaseTemplateModel } from './base-template.model';
 import { GroupedTemplates } from './grouped-templates';
 import { TemplateFilters } from './template-filters';
-import { InstanceGroup } from '../../../shared/models/instance-group.model';
+import { BaseBackendService } from '../../../shared/services/base-backend.service';
+import { AsyncJobService } from '../../../shared/services/async-job.service';
+import { BaseTemplateTagService } from '../../../shared/services/tags/template/base/base-template-tag.service';
+import { OsTypeService } from '../../../shared/services/os-type.service';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 
 export interface RequestParams {
@@ -90,7 +90,7 @@ export abstract class BaseTemplateService<M extends BaseTemplateModel>
       })
       .map(templates => {
         if (maxSize) {
-          return templates.filter(template => Utils.convertToGB(template.size) <= maxSize);
+          return templates.filter(template => Utils.convertToGb(template.size) <= maxSize);
         }
         return templates;
       })

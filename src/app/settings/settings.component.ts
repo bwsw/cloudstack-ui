@@ -1,16 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  NgForm,
+  Validators
+} from '@angular/forms';
 import { MdSelectChange } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Color } from '../shared/models/color.model';
 import { AuthService } from '../shared/services/auth.service';
-import { Language, LanguageService, TimeFormat } from '../shared/services/language.service';
+import {
+  Language,
+  LanguageService,
+  TimeFormat
+} from '../shared/services/language.service';
 import { NotificationService } from '../shared/services/notification.service';
-import { StyleService } from '../shared/services/style.service';
+import { StyleService, themes } from '../shared/services/style.service';
 import { UserTagService } from '../shared/services/tags/user/user-tag.service';
 import { UserService } from '../shared/services/user.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
-
 
 @Component({
   selector: 'cs-settings',
@@ -18,8 +27,9 @@ import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
   styleUrls: ['settings.component.scss']
 })
 export class SettingsComponent extends WithUnsubscribe() implements OnInit {
+  @ViewChild('passwordForm') public passwordForm: NgForm;
+
   public userId: string;
-  public accentColor: Color;
   public firstDayOfWeek = 1;
   public language: string;
   public primaryColor: Color;
@@ -34,7 +44,6 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public loading = false;
 
   public primaryColorControl = new FormControl();
-  public accentColorControl = new FormControl();
 
   public languages = [
     { value: Language.en, text: 'English' },
@@ -75,26 +84,14 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
       .subscribe(() => this.loadDayTranslations());
   }
 
-  public get accentColors(): Array<Color> {
-    return this.primaryColors.filter(color => color.name !== this.primaryColor.name && !color.primaryOnly);
-  }
-
   public getTimeFormatTranslationToken(format: TimeFormat): string {
     const timeFormatTranslations = {
-      'hour12': 'SETTINGS.LOOK_AND_FEEL.hour12',
-      'hour24': 'SETTINGS.LOOK_AND_FEEL.hour24',
-      'AUTO': 'SETTINGS.LOOK_AND_FEEL.AUTO'
+      hour12: 'SETTINGS.LOOK_AND_FEEL.hour12',
+      hour24: 'SETTINGS.LOOK_AND_FEEL.hour24',
+      AUTO: 'SETTINGS.LOOK_AND_FEEL.AUTO'
     };
 
     return timeFormatTranslations[format];
-  }
-
-  private get firstAvailableAccentColor(): Color {
-    try {
-      return this.primaryColor !== this.accentColors[0] ? this.accentColors[0] : this.accentColors[1];
-    } catch (e) {
-      throw new Error('Incorrect color configuration');
-    }
   }
 
   public changeLanguage(change: MdSelectChange): void {
@@ -105,43 +102,41 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
 
   public changeTimeFormat(change: MdSelectChange): void {
     this.updatingTimeFormat = true;
-    this.languageService.setTimeFormat(change.value)
-      .finally(() => this.updatingTimeFormat = false)
+    this.languageService
+      .setTimeFormat(change.value)
+      .finally(() => (this.updatingTimeFormat = false))
       .subscribe();
   }
 
   public updatePrimaryColor(color: Color): void {
     this.primaryColor = color;
-    if (this.primaryColor.value === this.accentColor.value) {
-      this.accentColor = this.firstAvailableAccentColor;
-    }
-
-    this.updatePalette();
-  }
-
-  public updateAccentColor(color: Color): void {
-    this.accentColor = color;
     this.updatePalette();
   }
 
   public updatePalette(): void {
-    this.styleService.setPalette(this.primaryColor, this.accentColor);
+    this.styleService.setTheme(this.primaryColor);
   }
 
   public updatePassword(): void {
-    this.userService.updatePassword(this.userId, this.password)
+    this.userService
+      .updatePassword(this.userId, this.password)
       .subscribe(
-        () => this.notificationService.message('SETTINGS.SECURITY.PASSWORD_CHANGED_SUCCESSFULLY'),
+        () =>
+          this.notificationService.message(
+            'SETTINGS.SECURITY.PASSWORD_CHANGED_SUCCESSFULLY'
+          ),
         error => this.notificationService.error(error.errortext)
       );
     this.passwordUpdateForm.reset();
+    this.passwordForm.resetForm();
   }
 
   public firstDayOfWeekChange(change: MdSelectChange): void {
     this.firstDayOfWeek = change.value;
     this.updatingFirstDayOfWeek = true;
-    this.userTagService.setFirstDayOfWeek(change.value)
-      .finally(() => this.updatingFirstDayOfWeek = false)
+    this.userTagService
+      .setFirstDayOfWeek(change.value)
+      .finally(() => (this.updatingFirstDayOfWeek = false))
       .subscribe();
   }
 
@@ -150,54 +145,62 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   }
 
   private loadDayTranslations(): void {
-    this.translateService.get(['DATE_TIME.DAYS_OF_WEEK.SUNDAY', 'DATE_TIME.DAYS_OF_WEEK.MONDAY'])
+    this.translateService
+      .get(['DATE_TIME.DAYS_OF_WEEK.SUNDAY', 'DATE_TIME.DAYS_OF_WEEK.MONDAY'])
       .subscribe(translations => {
         // workaround for queryList change bug (https://git.io/v9R69)
         this.dayTranslations = undefined;
         setTimeout(() => {
           this.dayTranslations = translations;
-          setTimeout(() => this.loading = false, 500);
+          setTimeout(() => (this.loading = false), 500);
         }, 0);
       });
   }
 
   private getLanguage(): void {
-    this.languageService.getLanguage().subscribe(language => this.language = language);
+    this.languageService
+      .getLanguage()
+      .subscribe(language => (this.language = language));
   }
 
   private loadColors(): void {
-    this.styleService.getThemeData()
-      .subscribe(themeData => {
-        this.primaryColors = themeData.themeColors;
-        this.primaryColor = themeData.themeColors.find(color => color.name === themeData.primaryColor) ||
-          themeData.themeColors[0];
-        this.accentColor = this.accentColors.find(color => color.name === themeData.accentColor) ||
-          themeData.themeColors[1];
+    this.styleService.getTheme().subscribe(theme => {
+      if (theme) {
+        this.primaryColor = new Color(theme.name, theme.primaryColor);
+      }
 
-        this.primaryColorControl.setValue(this.primaryColor);
-        this.accentColorControl.setValue(this.accentColor);
-      });
+      this.primaryColors = themes.map(t => new Color(t.name, t.primaryColor));
+    });
   }
 
   private loadFirstDayOfWeek(): void {
-    this.languageService.getFirstDayOfWeek()
-      .subscribe((day: number) => this.firstDayOfWeek = day);
+    this.languageService
+      .getFirstDayOfWeek()
+      .subscribe((day: number) => (this.firstDayOfWeek = day));
   }
 
   private loadTimeFormat(): void {
-    this.languageService.getTimeFormat()
-      .subscribe(timeFormat => this.timeFormat = timeFormat);
+    this.languageService
+      .getTimeFormat()
+      .subscribe(timeFormat => (this.timeFormat = timeFormat));
   }
 
   private buildForm(): void {
-    this.passwordUpdateForm = this.formBuilder.group({
-      password: ['', Validators.required],
-      passwordRepeat: ['', Validators.required]
-    }, { validator: this.passwordsNotEqual });
+    this.passwordUpdateForm = this.formBuilder.group(
+      {
+        password: ['', Validators.required],
+        passwordRepeat: ['', Validators.required]
+      },
+      { validator: this.passwordsNotEqual }
+    );
   }
 
-  private passwordsNotEqual(formGroup: FormGroup): { passwordsNotEqual: true } | null {
-    const valid = formGroup.controls['password'].value === formGroup.controls['passwordRepeat'].value;
+  private passwordsNotEqual(
+    formGroup: FormGroup
+  ): { passwordsNotEqual: true } | null {
+    const valid =
+      formGroup.controls['password'].value ===
+      formGroup.controls['passwordRepeat'].value;
     return valid ? null : { passwordsNotEqual: true };
   }
 }

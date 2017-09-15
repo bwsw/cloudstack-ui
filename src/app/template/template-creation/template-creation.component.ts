@@ -1,17 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
 import { OsType, Zone } from '../../shared';
+import { IsoCreateAction } from '../../shared/actions/template-actions/create/iso-create';
+import { IsoCreationData } from '../../shared/actions/template-actions/create/iso-creation-params';
+import { TemplateCreateAction } from '../../shared/actions/template-actions/create/template-create';
+import { TemplateCreationData } from '../../shared/actions/template-actions/create/template-creation-params';
+import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { Snapshot } from '../../shared/models/snapshot.model';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { TemplateCreateAction } from '../../shared/actions/template-actions/create/template-create';
-import { IsoCreateAction } from '../../shared/actions/template-actions/create/iso-create';
-import { Observable } from 'rxjs/Observable';
 import { IsoService } from '../shared/iso/iso.service';
 import { TemplateService } from '../shared/template/template.service';
-import { InstanceGroup } from '../../shared/models/instance-group.model';
-import { TemplateCreationData } from '../../shared/actions/template-actions/create/template-creation-params';
-import { IsoCreationData } from '../../shared/actions/template-actions/create/iso-creation-params';
 
 
 @Component({
@@ -76,10 +76,6 @@ export class TemplateCreationComponent implements OnInit {
     };
 
     return modeTranslations[this.mode.toUpperCase()];
-  }
-
-  public onCancel(): void {
-    this.dialogRef.close();
   }
 
   public onCreate(): void {

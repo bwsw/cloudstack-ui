@@ -4,20 +4,21 @@
   height: 100%;
   position: absolute;
   top: 0;
-  right: -($sidebar-width);
+  right: 0;
   width: $sidebar-width;
   box-sizing: border-box;
-  transition: right 0.3s;
+  transition: transform 0.3s;
   overflow-y: auto;
   overflow-x: hidden;
   background: #fafafa;
   padding: 10px 5px;
   border-left: 1px solid #E0E0E0;
+  transform: translateX(100%);
   z-index: 2;
-}
 
-.sidebar.open {
-  right: 0;
+  &.open {
+    transform: translate(0);
+  }
 }
 
 .sidebar /deep/ h4 {
@@ -44,21 +45,12 @@
   transform: rotate(180deg);
 }
 
-.sidebar /deep/ .mdl-tabs__tab-bar {
-  & > div {
-    width: 50%;
-  }
-  .mdl-tabs__tab {
-    width: 100%;
-  }
-}
-
 .sidebar /deep/ md-card-content {
   width: 100%;
   line-height: 18px;
 
   & .md-card-content-container {
-    padding-bottom: 0px;
+    padding-bottom: 0;
     margin-bottom: 16px;
   }
 }

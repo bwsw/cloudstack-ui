@@ -1,13 +1,7 @@
-<md-card
-  class="custom-card"
->
+<md-card class="custom-card">
   <md-card-header>
     <md-card-title>
-      <h2
-        class="md-card-title-text"
-        [mdl-tooltip]="category.name"
-        mdl-tooltip-position="bottom"
-      >
+      <h2 class="md-card-title-text" [mdTooltip]="category.name">
         <span [innerHTML]="category.name | highlight:query"></span>
       </h2>
     </md-card-title>
@@ -24,10 +18,9 @@
     </div>
     <md-card-actions>
       <button
-        mdl-button
-        mdl-button-type="icon"
-        mdl-tooltip-position="top"
-        [mdl-tooltip]="'COMMON.ADD' | translate"
+        md-icon-button
+        [mdTooltip]="'COMMON.ADD' | translate"
+        mdTooltipPosition="above"
         (click)="$event.stopPropagation(); addTag()"
       >
         <md-icon>add</md-icon>

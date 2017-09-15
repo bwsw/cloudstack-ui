@@ -6,7 +6,7 @@ import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { GROUP_POSTFIX, SecurityGroupService } from '../../../shared/services/security-group.service';
 import { TagService } from '../../../shared/services/tags/common/tag.service';
-import { Utils } from '../../../shared/services/utils.service';
+import { Utils } from '../../../shared/services/utils/utils.service';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 import { VmCreationState } from '../data/vm-creation-state';

@@ -1,12 +1,13 @@
 import * as moment from 'moment';
-import { FieldMapper } from '../../../shared/decorators/field-mapper.decorator';
 import { InstanceGroupEnabled } from '../../../shared/interfaces/instance-group-enabled';
-import { Taggable } from '../../../shared/interfaces/taggable.interface';
-import { BaseModel, Tag } from '../../../shared/models';
 import { InstanceGroup } from '../../../shared/models/instance-group.model';
+import { FieldMapper } from '../../../shared/decorators/field-mapper.decorator';
+import { BaseModel } from '../../../shared/models/base.model';
+import { Taggable } from '../../../shared/interfaces/taggable.interface';
 import { OsType } from '../../../shared/models/os-type.model';
+import { Tag } from '../../../shared/models/tag.model';
+import { Utils } from '../../../shared/services/utils/utils.service';
 import { TemplateTagKeys } from '../../../shared/services/tags/template/template/template-tag-keys';
-import { Utils } from '../../../shared/services/utils.service';
 
 
 @FieldMapper({
@@ -64,7 +65,7 @@ export abstract class BaseTemplateModel extends BaseModel implements Taggable, I
   public abstract get isTemplate(): boolean;
 
   public get sizeInGB(): number {
-    return Utils.convertToGB(this.size);
+    return Utils.convertToGb(this.size);
   }
 
   public get downloadUrl(): string {

@@ -202,7 +202,7 @@ describe('User service session', () => {
     const inactivityTimeout = 10;
     const logout = spyOn(router, 'navigate').and.callThrough();
     const refresh = spyOn(userService, 'sendRefreshRequest');
-    userService.startInactivityCounter();
+    userService.startIdleMonitor();
     userService.setInactivityTimeout(inactivityTimeout).subscribe();
 
     tick(getRefreshInterval() * (inactivityTimeout - 1) * 60 / refreshInterval);
