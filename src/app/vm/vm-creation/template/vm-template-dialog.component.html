@@ -1,28 +1,30 @@
-<h3 class="mat-dialog-title">{{ 'VM_PAGE.VM_CREATION.INSTALLATION_SOURCE' | translate }}</h3>
-<div class="mat-dialog-content">
-  <cs-template-filter-list-selector
-    [viewMode]="typeOfSelectedSource"
-    [showIsoSwitch]="true"
-    [(selectedTemplate)]="selectedTemplate"
-    [templates]="templates"
-    [isos]="isos"
-    [zoneId]="zoneId"
-  ></cs-template-filter-list-selector>
-</div>
-<div class="mat-dialog-actions">
-  <button
-    mdl-button
-    mdl-colored="primary"
-    (click)="onOk()"
-  >
-    {{ 'COMMON.SELECT' | translate }}
-  </button>
+<h3 class="mat-dialog-title">
+    {{ 'VM_PAGE.VM_CREATION.INSTALLATION_SOURCE' | translate }}
+  </h3>
+  <div class="mat-dialog-content">
+    <cs-template-filter-list-selector
+      [viewMode]="typeOfSelectedSource"
+      [showIsoSwitch]="true"
+      [(selectedTemplate)]="selectedTemplate"
+      [templates]="templates"
+      [isos]="isos"
+      [zoneId]="zoneId"
+    ></cs-template-filter-list-selector>
+  </div>
+  <div class="mat-dialog-actions">
+    <button
+      md-button
+      color="primary"
+      (click)="onCancel()"
+    >
+      {{ 'COMMON.CANCEL' | translate }}
+    </button>
 
-  <button
-    mdl-button
-    mdl-colored="primary"
-    (click)="onCancel()"
-  >
-    {{ 'COMMON.CANCEL' | translate }}
-  </button>
+    <button
+      md-button
+      color="primary"
+      (click)="onOk()"
+    >
+      {{ 'COMMON.SELECT' | translate }}
+    </button>
 </div>

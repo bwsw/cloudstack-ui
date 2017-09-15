@@ -3,8 +3,6 @@ export * from './date-picker';
 export * from './disk-offering/disk-offering.component';
 export * from './fab/fab.component';
 export * from './fancy-select/fancy-select.component';
-export * from './inline-edit/inline-edit.component';
-export * from './inline-edit/inline-edit-autocomplete.component';
 export * from './input-group/input-group.component';
 export * from './list/list.component';
 export * from './no-results/no-results.component';

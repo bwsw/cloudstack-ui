@@ -23,17 +23,17 @@
     </div>
   </div>
   <div class="mat-dialog-actions">
+    <button md-button color="primary" mdDialogClose>
+      {{ 'COMMON.CANCEL' | translate }}
+    </button>
     <button
-      mdl-button
-      (click)="onChange()"
-      mdl-colored="primary"
-      [disabled]="serviceOffering?.id === virtualMachine.serviceOfferingId"
       *ngIf="serviceOfferings?.length"
+      md-button
+      color="primary"
+      [disabled]="serviceOffering?.id === virtualMachine.serviceOfferingId"
+      (click)="onChange()"
     >
       {{ 'COMMON.CHANGE' | translate }}
-    </button>
-    <button mdl-button (click)="onCancel()" mdl-colored="primary">
-      {{ 'COMMON.CANCEL' | translate }}
     </button>
   </div>
 </div>

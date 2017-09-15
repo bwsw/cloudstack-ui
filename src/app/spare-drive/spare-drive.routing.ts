@@ -1,14 +1,12 @@
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { AuthGuard } from '../shared/services/auth-guard.service';
-import { SpareDrivePageComponent } from './spare-drive-page/spare-drive-page.component';
-import { SpareDriveSidebarComponent } from './spare-drive-sidebar/spare-drive-sidebar.component';
 import { SpareDriveCreationDialogComponent } from './spare-drive-creation/spare-drive-creation-dialog.component';
+import { SpareDrivePageComponent } from './spare-drive-page/spare-drive-page.component';
 import { SpareDriveDetailsComponent } from './spare-drive-sidebar/details/spare-drive-details.component';
-import {
-  SpareDriveSnapshotDetailsComponent
-} from './spare-drive-sidebar/snapshot-details/spare-drive-snapshot-details.component';
+import { SpareDriveSnapshotDetailsComponent } from './spare-drive-sidebar/snapshot-details/spare-drive-snapshot-details.component';
+import { SpareDriveSidebarComponent } from './spare-drive-sidebar/spare-drive-sidebar.component';
 
-const routes: Routes = [
+export const spareDriveRoutes: Routes = [
   {
     path: 'storage',
     component: SpareDrivePageComponent,
@@ -40,5 +38,3 @@ const routes: Routes = [
     ]
   }
 ];
-
-export const spareDrivesRouting = RouterModule.forChild(routes);
