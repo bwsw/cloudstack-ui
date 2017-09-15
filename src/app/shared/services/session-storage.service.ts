@@ -1,6 +1,7 @@
 import { MemoryStorageService } from './memory-storage.service';
-import { Utils } from './utils.service';
 import { Injectable } from '@angular/core';
+import { Utils } from './utils/utils.service';
+
 
 @Injectable()
 export class SessionStorageService extends MemoryStorageService {

@@ -81,8 +81,4 @@ export class SpareDriveAttachmentComponent implements OnInit {
       .finally(() => this.loading = false)
       .subscribe(() => this.dialogRef.close(this.virtualMachineId));
   }
-
-  public onCancel(): void {
-    this.dialogRef.close();
-  }
 }

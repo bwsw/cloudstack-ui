@@ -343,6 +343,7 @@
         "READ_RATE_IOPS": "Скорость чтения (IO/сек)",
         "WRITE_RATE_IOPS": "Скорость записи (IO/сек)"
       },
+
       "VOLUME_RESIZE": {
         "TITLE": "Изменить размер диска",
         "DISK_OFFERING": "Дисковое предложение",
@@ -391,13 +392,12 @@
       }
     },
     "NETWORK_DETAILS": {
-      "NETWORK_CONFIGURATION": "Конфигурация сети",
-      "NIC": "NIC",
-      "IP": "IP",
+      "NIC_NAME": "Конфигурация NIC#{{ value }}",
+      "IP": "IPv4",
       "ARE_YOU_SURE_ADD_SECONDARY_IP": "Вы уверены, что хотите добавить дополнительный IP?",
       "ARE_YOU_SURE_REMOVE_SECONDARY_IP": "Вы уверены, что хотите удалить дополнительный IP?",
       "broadcastUri": "Broadcast URI",
-      "gateway": "Шлюз",
+      "gateway": "Шлюз v4",
       "ip6Address": "IPv6 адрес",
       "ip6Cidr": "IPv6 CIDR",
       "ip6Gateway": "IPv6 шлюз",
@@ -447,7 +447,8 @@
       "CREATING_SG": "Создание группы безопасности",
       "CREATING_AG": "Создание аффинитетной группы",
       "DEPLOYING_VM": "Создание виртуальной машины",
-      "OS_TEMPLATE": "ОС шаблон"
+      "OS_TEMPLATE": "ОС шаблон",
+      "NO_TEMPLATES": "Нет доступных шаблонов"
     }
   },
   "SPARE_DRIVE_PAGE": {
@@ -471,7 +472,7 @@
       "DISK_OFFERING": "Дисковое предложение",
       "SIZE": "Размер"
     },
-    "SIDEBAR": {
+"SIDEBAR": {
       "VOLUME": "Диск",
       "SNAPSHOTS": "Снимки"
     },
@@ -825,6 +826,7 @@
     }
   },
   "EVENT_PAGE": {
+    "SELECT_DATE": "Выберите дату",
     "SELECT_LEVELS": "Выберите уровни",
     "SELECT_TYPES": "Выберите типы",
     "NO_EVENTS": "Нет событий на выбранной дате",
@@ -840,7 +842,9 @@
     "AUTO_GENERATED": "автогенерируемый",
     "SAVE_THIS_KEY": "Пожалуйста, скопируйте этот ключ, так как он не будет сохранен",
     "REMOVE_THIS_KEY": "Вы уверены, что хотите удалить этот ключ?",
-    "KEY_REMOVAL_FAILED": "Не удалось удалить ключ"
+    "KEY_REMOVAL_FAILED": "Не удалось удалить ключ",
+    "SSH_KEY_PAIR_NOT_FOUND": "SSH ключ не найден",
+    "FINGERPRINT": "Fingerprint"
   },
   "SETTINGS": {
     "SECURITY": {
@@ -870,7 +874,7 @@
       "hour12": "12-часовой формат",
       "hour24": "24-часовой формат",
       "AUTO": "Автоматически",
-      "PALETTE": "Цвета темы интерфейса"
+      "THEME": "Цвет темы"
     }
   },
   "CLIPBOARD": {
@@ -883,7 +887,7 @@
     "ENTER_TEXT": "Введите текст",
     "SELECT_AN_OPTION": "Выберите опцию"
   },
-  "VM_NOT_FOUND": "Виртуальная машина не найдена",
+"VM_NOT_FOUND": "Виртуальная машина не найдена",
   "VOLUME_NOT_FOUND": "Диск не найден",
   "TEMPLATE_NOT_FOUND": "Шаблон не найден",
   "PULSE": {
@@ -956,6 +960,7 @@
   },
   "TAGS": {
     "CREATE_NEW_TAG": "Создать тег",
+    "SHOW_SYSTEM_TAGS": "Показывать системные теги",
     "TAG_KEY": "Ключ",
     "TAG_VALUE": "Значение",
     "TAG_ALREADY_EXISTS": "Тег уже существует",
@@ -1030,6 +1035,7 @@
     "MBPS": "{{value}} MБ/сек",
     "MHZ": "МГц"
   },
+
   "VOLUME_ACTIONS": {
     "TAKE_SNAPSHOT": "Создать снимок",
     "SNAPSHOT_SCHEDULE": "Настроить создание снимков",

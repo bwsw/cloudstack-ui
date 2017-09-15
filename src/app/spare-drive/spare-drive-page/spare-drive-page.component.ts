@@ -28,7 +28,6 @@ export interface VolumeCreationData {
   providers: [ListService]
 })
 export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit, OnDestroy {
-  @HostBinding('class.detail-list-container') public detailListContainer = true;
   public volumes: Array<Volume>;
   public zones: Array<Zone>;
   public visibleVolumes: Array<Volume>;

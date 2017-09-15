@@ -15,7 +15,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ]
 })
 export class SliderComponent implements OnInit, ControlValueAccessor {
-  @Input() public isLogarithmic = false;
   @Input() public label: string;
   @Input() public min: number;
   @Input() public max: number;
@@ -51,28 +50,18 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
   }
 
   public get sliderValue(): number {
-    if (this.isLogarithmic) {
-      return this.size > this.min ? Math.log(this.size) : this.sliderMinValue;
-    }
-    return this.size > this.min ? this.size : this.sliderMinValue;
+    return this.size > this.min ? this.size : this.min;
   }
 
-  public get sliderMinValue(): number {
-    if (this.isLogarithmic) {
-      return Math.log(this.min);
+  public handleSliderChange(newValue: number): void {
+    if (newValue > this.max) {
+      this.size = this.max + 1;
+      // setTimeout is used to force rerendering
+      setTimeout(() => this.size = this.max);
+      return;
     }
-    return this.min;
-  }
-
-  public get sliderMaxValue(): number {
-    if (this.isLogarithmic) {
-      return Math.log(this.max);
-    }
-    return this.max;
-  }
-
-  public handleSliderChange(event: number): void {
-    this.isLogarithmic ? this.onVolumeChangeExp(event) : this.onVolumeChange(event);
+    this.size = newValue;
+    this.change.next(this.size);
   }
 
   public writeValue(value): void {
@@ -87,23 +76,10 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
 
   public registerOnTouched(): void { }
 
-  public onVolumeChange(newValue: number): void {
-    if (newValue > this.max) {
-      this.size = this.max + 1;
-      // setTimeout is used to force rerendering
-      setTimeout(() => this.size = this.max);
-      return;
-    }
-    this.size = newValue;
-    this.change.next(this.size);
-  }
-
-  public onVolumeChangeExp(newValue: number): void {
-    this.onVolumeChange(Math.exp(newValue));
-  }
-
   public onBlur(e: Event): void {
-    if (+(e.currentTarget as HTMLInputElement).value < this.min) {
+    const sliderElementValue = +(e.currentTarget as HTMLInputElement).value;
+
+    if (sliderElementValue < this.min) {
       this.size = this.size + 1;
 
       // setTimeout is used to force rerendering

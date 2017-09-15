@@ -1,0 +1,8 @@
+@mixin vm-template-theme($theme) {
+  $warn: map-get($theme, warn);
+  $underline-color-warn: mat-color($warn);
+
+  .no-templates {
+    color: $underline-color-warn;
+  }
+}

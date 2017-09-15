@@ -7,6 +7,9 @@ export const UserTagKeys = {
   lastVmId: 'csui.user.last-vm-id',
   primaryColor: 'csui.user.primary-color',
   sessionTimeout: 'csui.user.session-timeout',
+  sshDescription: 'csui.user.ssh-description',
+  showSystemTags: 'csui.user.show-system-tags',
   timeFormat: 'csui.user.time-format',
+  theme: 'csui.user.theme',
   navigationOrder: 'csui.user.navigation-order'
 };

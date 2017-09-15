@@ -3,9 +3,9 @@ import * as moment from 'moment';
 import { FieldMapper } from '../../shared/decorators/field-mapper.decorator';
 import { BaseModel, Tag } from '../../shared/models';
 import { OsType } from '../../shared/models/os-type.model';
-import { Utils } from '../../shared/services/utils.service';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
+import { Utils } from '../../shared/services/utils/utils.service';
 
 
 @FieldMapper({
@@ -60,7 +60,7 @@ export abstract class BaseTemplateModel extends BaseModel implements Taggable {
   public abstract get isTemplate(): boolean;
 
   public get sizeInGB(): number {
-    return Utils.convertToGB(this.size);
+    return Utils.convertToGb(this.size);
   }
 
   public get downloadUrl(): string {

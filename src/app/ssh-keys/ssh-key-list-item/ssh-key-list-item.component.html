@@ -1,0 +1,27 @@
+<md-card (click)="onClicked($event)" class="custom-card">
+  <md-card-header>
+    <md-card-title>
+      <md-icon>vpn_key</md-icon>
+      <h2
+        class="md-card-title-text"
+        [mdTooltip]="key.name"
+      >
+        {{ key.name }}
+      </h2>
+    </md-card-title>
+    <div class="md-card-header-menu">
+      <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
+        <md-icon>more_vert</md-icon>
+      </button>
+    </div>
+  </md-card-header>
+  <md-card-content>
+    {{ key.fingerPrint }}
+  </md-card-content>
+  <md-menu #actionsMenu="mdMenu">
+    <button md-menu-item (click)="onRemoveClicked()">
+      <md-icon>delete</md-icon>
+      <span>{{ 'COMMON.DELETE' | translate }}</span>
+    </button>
+  </md-menu>
+</md-card>

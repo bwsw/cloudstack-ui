@@ -62,8 +62,4 @@ export class TagEditComponent {
       this.dialogRef.close(newTag);
     }
   }
-
-  public onCancel(): void {
-    this.dialogRef.close();
-  }
 }
