@@ -1,10 +1,17 @@
-import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { BaseTemplateModel, Iso, Template } from '../../../template/shared';
 import { VmTemplateDialogComponent } from './vm-template-dialog.component';
-
 
 @Component({
   selector: 'cs-vm-creation-template',
@@ -17,16 +24,24 @@ import { VmTemplateDialogComponent } from './vm-template-dialog.component';
     }
   ]
 })
-export class VmTemplateComponent {
+export class VmTemplateComponent implements OnChanges {
   @Input() public templates: Array<Template>;
   @Input() public isos: Array<Iso>;
   @Input() public zoneId: string;
   @Output() public change: EventEmitter<BaseTemplateModel>;
 
-  private _template: BaseTemplateModel;
+  private _template: BaseTemplateModel | null;
 
   constructor(private dialog: MdDialog) {
     this.change = new EventEmitter();
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.templates || changes.isos) {
+      if (!this.templates.length && !this.isos.length) {
+        this.template = null;
+      }
+    }
   }
 
   public onClick(): void {
