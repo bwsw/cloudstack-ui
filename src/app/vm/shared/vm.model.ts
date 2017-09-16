@@ -7,8 +7,6 @@ import { BaseTemplateModel } from '../../template/shared';
 import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 
 
-export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
-
 export enum VmState {
   Running = 'Running',
   Stopped = 'Stopped',

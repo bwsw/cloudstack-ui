@@ -106,6 +106,14 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     return this.capabilities ? this.capabilities.securitygroupsenabled : true;
   }
 
+  public getCustomDiskOfferingMinSize(): number | null {
+    return this.capabilities && this.capabilities.customdiskofferingminsize;
+  }
+
+  public getCustomDiskOfferingMaxSize(): number | null {
+    return this.capabilities && this.capabilities.customdiskofferingmaxsize;
+  }
+
   private setLoggedIn(loginRes): void {
     this._user = new User(loginRes);
     this.storage.write('user', JSON.stringify(this._user.serialize()));

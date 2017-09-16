@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import {
-  ICustomOfferingRestrictionsByZone
-} from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
+import { ICustomOfferingRestrictionsByZone } from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
 import {
   CustomServiceOfferingService,
   DefaultServiceOfferingConfigurationByZone
@@ -26,7 +24,6 @@ import { Template } from '../../../template/shared/template.model';
 import { TemplateService } from '../../../template/shared/template.service';
 import { VmService } from '../../shared/vm.service';
 import { VmCreationData } from '../data/vm-creation-data';
-
 
 const vmCreationConfigurationKeys = [
   'defaultServiceOfferingConfig',
@@ -67,21 +64,20 @@ export class VmCreationService {
   public getData(): Observable<VmCreationData> {
     const translationKeys = ['VM_PAGE.VM_CREATION.NO_SSH_KEY'];
 
-    return Observable
-      .forkJoin(
-        this.affinityGroupService.getList(),
-        this.getDefaultVmName(),
-        this.diskOfferingService.getList(),
-        this.vmService.getInstanceGroupList(),
-        this.resourceUsageService.getResourceUsage(),
-        this.serviceOfferingService.getList(),
-        this.sshService.getList(),
-        this.translateService.get(translationKeys),
-        this.getTemplates(),
-        this.getIsos(),
-        this.zoneService.getList(),
-      )
-      .map((
+    return Observable.forkJoin(
+      this.affinityGroupService.getList(),
+      this.getDefaultVmName(),
+      this.diskOfferingService.getList(),
+      this.vmService.getInstanceGroupList(),
+      this.resourceUsageService.getResourceUsage(),
+      this.serviceOfferingService.getList(),
+      this.sshService.getList(),
+      this.translateService.get(translationKeys),
+      this.getTemplates(),
+      this.getIsos(),
+      this.zoneService.getList()
+    ).map(
+      (
         [
           affinityGroupList,
           defaultName,
@@ -94,8 +90,11 @@ export class VmCreationService {
           templates,
           isos,
           zones
-        ]) => {
-        const configurationData = this.configService.get(vmCreationConfigurationKeys);
+        ]
+      ) => {
+        const configurationData = this.configService.get(
+          vmCreationConfigurationKeys
+        );
         const securityGroupTemplates = this.securityGroupService.getTemplates();
         const sshKeysWithNoKeyOption = this.getSSHKeysWithNoKeyOption(
           sshKeyPairs,
@@ -108,6 +107,11 @@ export class VmCreationService {
             resourceUsage
           );
 
+        const rootDiskSizeLimit = Math.min(
+          resourceUsage.available.primaryStorage,
+          this.authService.getCustomDiskOfferingMaxSize()
+        );
+
         return new VmCreationData(
           affinityGroupList,
           configurationData,
@@ -117,7 +121,7 @@ export class VmCreationService {
           diskOfferings,
           instanceGroups,
           resourceUsage,
-          resourceUsage.available.primaryStorage,
+          rootDiskSizeLimit,
           securityGroupTemplates,
           serviceOfferings,
           sshKeysWithNoKeyOption,
@@ -125,7 +129,8 @@ export class VmCreationService {
           isos,
           zones
         );
-      });
+      }
+    );
   }
 
   private getSSHKeysWithNoKeyOption(
@@ -141,30 +146,25 @@ export class VmCreationService {
 
   // TODO fix return type
   private getTemplates(): Observable<Array<Template>> {
-    const filters = [
-      TemplateFilters.featured,
-      TemplateFilters.selfExecutable
-    ];
+    const filters = [TemplateFilters.featured, TemplateFilters.selfExecutable];
 
-    return this.templateService.getGroupedTemplates({}, filters, false)
+    return this.templateService
+      .getGroupedTemplates({}, filters, false)
       .map(templates => templates.toArray() as Array<Template>);
   }
 
   // TODO fix return type
   private getIsos(): Observable<Array<Iso>> {
-    const filters = [
-      TemplateFilters.featured,
-      TemplateFilters.selfExecutable
-    ];
+    const filters = [TemplateFilters.featured, TemplateFilters.selfExecutable];
 
-    return this.isoService.getGroupedTemplates({}, filters, false)
+    return this.isoService
+      .getGroupedTemplates({}, filters, false)
       .map(isos => isos.toArray() as Array<Iso>);
   }
 
   private getDefaultVmName(): Observable<string> {
-    return this.vmService.getNumberOfVms()
-      .map(numberOfVms => {
-        return `vm-${this.authService.user.username}-${numberOfVms + 1}`;
-      });
+    return this.vmService.getNumberOfVms().map(numberOfVms => {
+      return `vm-${this.authService.user.username}-${numberOfVms + 1}`;
+    });
   }
 }
