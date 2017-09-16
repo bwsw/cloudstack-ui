@@ -1,13 +1,16 @@
-import { VmActions } from './vm-action';
-import { VirtualMachine, VmState } from '../shared/vm.model';
+import { Injectable } from '@angular/core';
+import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { VmService } from '../shared/vm.service';
-import { VmEntityDeletionService } from '../shared/vm-entity-deletion.service';
 import { Volume } from '../../shared/models/volume.model';
+import { AuthService } from '../../shared/services/auth.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
-import { Injectable } from '@angular/core';
+import { VmEntityDeletionService } from '../shared/vm-entity-deletion.service';
+import { VirtualMachine, VmState } from '../shared/vm.model';
+import { VmService } from '../shared/vm.service';
+import { VmActions } from './vm-action';
 import { VirtualMachineCommand } from './vm-command';
+import { VmDestroyDialogComponent } from '../shared/vm-destroy-dialog/vm-destroy-dialog.component';
 
 
 @Injectable()
@@ -32,6 +35,8 @@ export class VmDestroyAction extends VirtualMachineCommand {
   };
 
   constructor(
+    private auth: AuthService,
+    private dialog: MdDialog,
     protected dialogService: DialogService,
     protected jobsNotificationService: JobsNotificationService,
     protected vmService: VmService,
@@ -54,31 +59,36 @@ export class VmDestroyAction extends VirtualMachineCommand {
   }
 
   public activate(vm: VirtualMachine): Observable<any> {
-    return this.showConfirmationDialog()
-      .switchMap((res) => res ? this.onDeleteConfirm(vm) : this.onDeleteDecline());
+    return this.dialog.open(VmDestroyDialogComponent, {
+      data: this.auth.canExpungeVm()
+    })
+      .afterClosed()
+      .switchMap((res) => {
+        return res ? this.onDeleteConfirm(vm, res) : this.onDeleteDecline()
+      });
   }
 
-  private onDeleteConfirm(vm: VirtualMachine): Observable<any> {
+  private onDeleteConfirm(vm: VirtualMachine, params?: {}): Observable<any> {
     return this.volumeDeleteConfirmDialog(vm.volumes)
       .switchMap((res) => {
         if (res) {
-          return this.addNotifications(this.deleteVmWithVolumes(vm));
+          return this.addNotifications(this.deleteVmWithVolumes(vm, params));
         }
       })
-      .catch(() => this.addNotifications(this.deleteVm(vm)));
+      .catch(() => this.addNotifications(this.deleteVm(vm, params)));
   }
 
   private onDeleteDecline(): Observable<any> {
     return Observable.of(null);
   }
 
-  private deleteVmWithVolumes(vm: VirtualMachine): Observable<any> {
+  private deleteVmWithVolumes(vm: VirtualMachine, params?: {}): Observable<any> {
     this.vmEntityDeletionService.markVolumesForDeletion(vm);
-    return this.deleteVm(vm);
+    return this.deleteVm(vm, params);
   }
 
-  private deleteVm(vm: VirtualMachine): Observable<any> {
-    return this.vmService.command(vm, this)
+  private deleteVm(vm: VirtualMachine, params?: {}): Observable<any> {
+    return this.vmService.command(vm, this, params)
       .map(() => this.vmEntityDeletionService.markSecurityGroupsForDeletion(vm));
   }
 

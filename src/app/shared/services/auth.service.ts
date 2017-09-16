@@ -98,6 +98,10 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     return !!this.user && this.user.type !== AccountType.User;
   }
 
+  public canExpungeVm(): boolean {
+    return !!this.capabilities && this.capabilities.allowuserexpungerecovervm;
+  }
+
   public isSecurityGroupEnabled(): boolean {
     return this.capabilities ? this.capabilities.securitygroupsenabled : true;
   }

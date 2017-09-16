@@ -130,7 +130,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
-  public command(vm: VirtualMachine, command: IVirtualMachineCommand): Observable<any> {
+  public command(vm: VirtualMachine, command: IVirtualMachineCommand, params?: {}): Observable<any> {
     const commandName = command.commandName as VmActions;
     const initialState = vm.state;
 
@@ -138,7 +138,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
     return this.sendCommand(
       commandName,
-      this.buildCommandParams(vm.id, commandName)
+      this.buildCommandParams(vm.id, commandName, params)
     )
       .switchMap(job => this.registerVmJob(job))
       .catch(error => {
@@ -203,16 +203,16 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     );
   }
 
-  private buildCommandParams(id: string, commandName: string): any {
-    const params = {};
+  private buildCommandParams(id: string, commandName: string, params?: {}): any {
+    const requestParams = params ? Object.assign({}, params) : {};
 
     if (commandName === 'restore') {
-      params['virtualMachineId'] = id;
+      requestParams['virtualMachineId'] = id;
     } else if (commandName !== 'deploy') {
-      params['id'] = id;
+      requestParams['id'] = id;
     }
 
-    return params;
+    return requestParams;
   }
 
   private addVolumes(vm: VirtualMachine, volumes: Array<Volume>): VirtualMachine {

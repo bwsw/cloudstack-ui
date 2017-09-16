@@ -26,6 +26,7 @@ import { SnapshotModule } from '../snapshot/snapshot.module';
 import { TagsModule } from '../tags/tags.module';
 import { TemplateModule } from '../template';
 import { VmActionsService } from './shared/vm-actions.service';
+import { VmDestroyDialogComponent } from './shared/vm-destroy-dialog/vm-destroy-dialog.component';
 import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
 import { VmService } from './shared/vm.service';
 import { VmActionProviders } from './vm-actions/index';
@@ -135,6 +136,7 @@ import { WebShellService } from './web-shell/web-shell.service';
     InstanceGroupSelectorComponent,
     IsoComponent,
     VmTagsComponent,
+    VmDestroyDialogComponent,
     VolumeComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,
@@ -154,6 +156,7 @@ import { WebShellService } from './web-shell/web-shell.service';
     AffinityGroupSelectorComponent,
     InstanceGroupSelectorComponent,
     VmCreationComponent,
+    VmDestroyDialogComponent,
     VmTemplateDialogComponent,
     VolumeResizeComponent,
     SnapshotCreationComponent,
