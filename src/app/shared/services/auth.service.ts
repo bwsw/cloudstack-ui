@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 
 import { BackendResource } from '../decorators';
 import { BaseModelStub } from '../models';
@@ -15,6 +14,22 @@ import { ErrorService } from './error.service';
 import { LocalStorageService } from './local-storage.service';
 import { Utils } from './utils.service';
 
+export interface Capabilities {
+  securitygroupsenabled: boolean;
+  dynamicrolesenabled: boolean;
+  cloudstackversion: string;
+  userpublictemplateenabled: boolean;
+  supportELB: string; // boolean string
+  projectinviterequired: boolean;
+  allowusercreateprojects: boolean;
+  customdiskofferingminsize: number;
+  customdiskofferingmaxsize: number;
+  regionsecondaryenabled: boolean;
+  kvmsnapshotenabled: boolean;
+  allowuserviewdestroyedvm: boolean;
+  allowuserexpungerecovervm: boolean;
+}
+
 @Injectable()
 @BackendResource({
   entity: '',
@@ -23,6 +38,7 @@ import { Utils } from './utils.service';
 export class AuthService extends BaseBackendService<BaseModelStub> {
   public loggedIn: BehaviorSubject<boolean>;
   private _user: User | null;
+  private capabilities: Capabilities | null;
 
   constructor(
     protected asyncJobService: AsyncJobService,
@@ -32,18 +48,22 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     cacheService: CacheService
   ) {
     super(http, error, cacheService);
+  }
 
+  public initUser(): Promise<any> {
     try {
       const userRaw = this.storage.read('user');
       const user = Utils.parseJsonString(userRaw);
       this._user = new User(user);
-    } catch (e) {
-    }
-
+    } catch (e) {}
 
     this.loggedIn = new BehaviorSubject<boolean>(
       !!(this._user && this._user.userId)
     );
+
+    return this._user.userId
+      ? this.getCapabilities().toPromise()
+      : Promise.resolve();
   }
 
   public get user(): User | null {
@@ -57,20 +77,17 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   ): Observable<void> {
     return this.postRequest('login', { username, password, domain })
       .map(res => this.getResponse(res))
-      .do(res => this.setLoggedIn(res))
+      .switchMap(res => this.getCapabilities().do(() => this.setLoggedIn(res)))
       .catch(error => this.handleCommandError(error));
   }
 
   public logout(): Observable<void> {
-    const obs = new Subject<void>();
-    this.postRequest('logout')
+    return this.postRequest('logout')
       .do(() => this.setLoggedOut())
       .catch(error => {
         this.error.send(error);
         return Observable.throw('Unable to log out.');
-      })
-      .subscribe(() => obs.next());
-    return obs;
+      });
   }
 
   public isLoggedIn(): Observable<boolean> {
@@ -79,6 +96,10 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
 
   public isAdmin(): boolean {
     return !!this.user && this.user.type !== AccountType.User;
+  }
+
+  public isSecurityGroupEnabled(): boolean {
+    return this.capabilities ? this.capabilities.securitygroupsenabled : true;
   }
 
   private setLoggedIn(loginRes): void {
@@ -91,5 +112,11 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     this._user = null;
     this.storage.remove('user');
     this.loggedIn.next(false);
+  }
+
+  private getCapabilities(): Observable<void> {
+    return this.sendCommand('listCapabilities', {}, '').map(
+      ({ capability }) => (this.capabilities = capability)
+    );
   }
 }

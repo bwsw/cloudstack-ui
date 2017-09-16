@@ -1,6 +1,6 @@
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   MdButtonModule,
@@ -30,6 +30,7 @@ import { AppSidebarComponent } from './navigation/app-sidebar.component';
 import { SecurityGroupModule } from './security-group/sg.module';
 import { ServiceOfferingModule } from './service-offering/service-offering.module';
 import { SettingsModule } from './settings/settings.module';
+import { AuthService } from './shared/services/auth.service';
 import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
 import { SharedModule } from './shared/shared.module';
 import { SnapshotModule } from './snapshot/snapshot.module';
@@ -40,6 +41,10 @@ import { VmModule } from './vm';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './i18n/', '.json');
+}
+
+export function initUserFactory(auth: AuthService) {
+  return () => auth.initUser();
 }
 
 @NgModule({
@@ -87,6 +92,12 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   ,
     HomeComponent],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initUserFactory,
+      deps: [AuthService],
+      multi: true
+    },
     MdDialog,
     { provide: HTTP_INTERCEPTORS, useClass: BaseHttpInterceptor, multi: true }
   ],
