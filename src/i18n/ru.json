@@ -396,6 +396,7 @@
     "NETWORK_DETAILS": {
       "NIC_NAME": "Конфигурация NIC#{{ value }}",
       "IP": "IPv4",
+      "IP_NA": "IP недоступен",
       "ARE_YOU_SURE_ADD_SECONDARY_IP": "Вы уверены, что хотите добавить дополнительный IP?",
       "ARE_YOU_SURE_REMOVE_SECONDARY_IP": "Вы уверены, что хотите удалить дополнительный IP?",
       "broadcastUri": "Broadcast URI",
@@ -403,7 +404,7 @@
       "ip6Address": "IPv6 адрес",
       "ip6Cidr": "IPv6 CIDR",
       "ip6Gateway": "IPv6 шлюз",
-      "ipAddress": "IP",
+      "ipAddress": "IPv4",
       "isDefault": "По умолчанию",
       "isolationUri": "Isolation URI",
       "macAddress": "MAC адрес",

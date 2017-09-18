@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { ListService } from '../../shared/components/list/list.service';
@@ -28,6 +28,7 @@ export class SgTemplateListComponent implements OnInit {
   public viewMode: SecurityGroupViewMode;
 
   constructor(
+    private cd: ChangeDetectorRef,
     private securityGroupService: SecurityGroupService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -98,6 +99,8 @@ export class SgTemplateListComponent implements OnInit {
     this.viewMode =
       this.storageService.read('securityGroupDisplayMode') as SecurityGroupViewMode
       || SecurityGroupViewMode.Templates;
+
+    this.cd.detectChanges();
   }
 
   private loadGroups(): Observable<void> {
@@ -174,16 +177,19 @@ export class SgTemplateListComponent implements OnInit {
   }
 
   private subscribeToSecurityGroupDeletions(): void {
-    this.securityGroupService.onSecurityGroupDeleted.subscribe(securityGroup => {
-      this.customSecurityGroupList = this.customSecurityGroupList
-        .filter(sg => {
-          return sg.id !== securityGroup.id;
-        });
+    this.securityGroupService.onSecurityGroupDeleted
+      .subscribe(securityGroup => {
+        this.customSecurityGroupList = this.customSecurityGroupList
+          .filter(sg => {
+            return sg.id !== securityGroup.id;
+          });
 
-      this.sharedSecurityGroupList = this.sharedSecurityGroupList
-        .filter(sg => {
-          return sg.id !== securityGroup.id;
-        });
-    });
+        this.sharedSecurityGroupList = this.sharedSecurityGroupList
+          .filter(sg => {
+            return sg.id !== securityGroup.id;
+          });
+
+        this.filter();
+      });
   }
 }

@@ -396,6 +396,7 @@
     "NETWORK_DETAILS": {
       "NIC_NAME": "NIC#{{ value }} Configuration",
       "IP": "IPv4",
+      "IP_NA": "IP N/A",
       "ARE_YOU_SURE_ADD_SECONDARY_IP": "Are you sure you want to add a secondary IP?",
       "ARE_YOU_SURE_REMOVE_SECONDARY_IP": "Are you sure you want to remove this secondary IP?",
       "broadcastUri": "Broadcast URI",
@@ -403,7 +404,7 @@
       "ip6Address": "IPv6 address",
       "ip6Cidr": "IPv6 CIDR",
       "ip6Gateway": "IPv6 gateway",
-      "ipAddress": "IP",
+      "ipAddress": "IPv4",
       "isDefault": "Default",
       "isolationUri": "Isolation URI",
       "macAddress": "MAC address",

@@ -1,4 +1,8 @@
 export function transformSubnetMaskToCidrSuffix(subnetMask: string): string {
+  if (!subnetMask) {
+    return '';
+  }
+
   const parts = subnetMask.split('.');
 
   if (parts.length === 4) {
@@ -7,6 +11,8 @@ export function transformSubnetMaskToCidrSuffix(subnetMask: string): string {
       .reduce((acc, length) => acc + length, 0);
 
     return `/${suffix}`;
+  } else {
+    return '';
   }
 }
 
