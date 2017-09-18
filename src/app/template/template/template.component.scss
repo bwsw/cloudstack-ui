@@ -24,4 +24,14 @@
 
 .template-header {
   max-width: 235px !important;
+  margin-left: 5px;
+}
+
+md-card-title {
+  display: flex;
+  align-items: center;
+}
+
+cs-template-os-icon {
+  flex-shrink: 0;
 }
