@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { BackendResource } from '../decorators';
-import { Snapshot, Volume } from '../models';
-import { AsyncJobService } from './async-job.service';
-import { BaseBackendService } from './base-backend.service';
-import { SnapshotService } from './snapshot.service';
-import { VolumeTagService } from './tags/volume-tag.service';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Subject';
+import {BackendResource} from '../decorators';
+import {Snapshot, Volume} from '../models';
+import {AsyncJobService} from './async-job.service';
+import {BaseBackendService} from './base-backend.service';
+import {SnapshotService} from './snapshot.service';
+import {VolumeTagService} from './tags/volume-tag.service';
 
 
 interface VolumeCreationData {
@@ -131,8 +131,8 @@ export class VolumeService extends BaseBackendService<Volume> {
       }));
   }
 
-  public markForRemoval(volume: Volume): Observable< Volume> {
-    volume.snapshots.forEach((snapshot) => Observable.forkJoin(this.snapshotService.markForRemoval(snapshot)).subscribe());
-    return this.volumeTagService.markForRemoval(volume);
+  public markForRemoval(volume: Volume): Observable<any> {
+    const observers = volume.snapshots.map((snapshot) => this.snapshotService.markForRemoval(snapshot));
+    return Observable.forkJoin(...observers, this.volumeTagService.markForRemoval(volume));
   }
 }
