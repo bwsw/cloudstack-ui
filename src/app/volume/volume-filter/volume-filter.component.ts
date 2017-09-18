@@ -1,13 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as sortBy from 'lodash/sortBy';
+import { FilterComponent } from '../../shared/interfaces/filter-component';
 import { VolumeType, volumeTypeNames } from '../../shared/models/volume.model';
 import { Zone } from '../../shared/models/zone.model';
 import { FilterService } from '../../shared/services/filter.service';
@@ -24,12 +18,13 @@ export interface VolumeFilter {
 
 export const volumeListFilters = 'volumeListFilters';
 
+
 @Component({
   selector: 'cs-volume-filter',
   templateUrl: 'volume-filter.component.html',
   styleUrls: ['volume-filter.component.scss']
 })
-export class VolumeFilterComponent implements OnChanges {
+export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnChanges {
   @Input() public zones: Array<Zone>;
   @Input() public groupings: Array<any>;
   @Input() public searchPanelWhite: boolean;

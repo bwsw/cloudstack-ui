@@ -22,6 +22,10 @@ export abstract class VolumeAction implements Action<Volume> {
 
   public abstract activate(volume: Volume, params?: {}): Observable<any>;
 
+  public canActivate(volume: Volume): boolean {
+    return true;
+  }
+
   public hidden(volume: Volume): boolean {
     return false;
   }

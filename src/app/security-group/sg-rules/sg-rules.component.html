@@ -1,11 +1,11 @@
 <h3 class="mat-dialog-title">
-  {{ title | translate }}
+  {{ 'SECURITY_GROUP_PAGE.RULES.TITLE' | translate:{ value: securityGroup?.name } }}
 </h3>
 <div class="mat-dialog-content">
   <form #rulesForm="ngForm" novalidate>
     <table class="mat-table">
       <tbody>
-      <tr class="mat-row table-form" *ngIf="!securityGroup.isPredefinedTemplate">
+      <tr class="mat-row table-form" *ngIf="!isPredefinedTemplate">
         <td class="mat-cell">
           <md-select class="type" [(ngModel)]="type" name="type">
             <md-option
@@ -140,7 +140,7 @@
             md-icon-button
             class="add-rule-button"
             (click)="addRule($event)"
-            disabled="{{ securityGroup.isPredefinedTemplate || adding || rulesForm.form.invalid }}"
+            disabled="{{ isPredefinedTemplate || adding || rulesForm.form.invalid }}"
           >
             <md-icon *ngIf="!adding">add</md-icon>
             <md-spinner *ngIf="adding"></md-spinner>
@@ -152,7 +152,7 @@
         *ngFor="let rule of securityGroup?.ingressRules"
         [type]="NetworkRuleTypes.Ingress"
         [rule]="rule"
-        [canRemove]="!securityGroup.isPredefinedTemplate"
+        [canRemove]="!isPredefinedTemplate"
         (onRemove)="removeRule($event)"
       >
       </cs-security-group-rule>
@@ -161,7 +161,7 @@
         *ngFor="let rule of securityGroup?.egressRules"
         [type]="NetworkRuleTypes.Egress"
         [rule]="rule"
-        [canRemove]="!securityGroup.isPredefinedTemplate"
+        [canRemove]="!isPredefinedTemplate"
         (onRemove)="removeRule($event)"
       >
       </cs-security-group-rule>

@@ -8,6 +8,5 @@ import { SecurityGroup } from '../sg.model';
 })
 export class SgTemplateListItemComponent {
   @Input() public securityGroupTemplate: SecurityGroup;
-  @Output() public onClick = new EventEmitter();
-  @Output() public onDelete = new EventEmitter();
+  @Input() public query: string;
 }
