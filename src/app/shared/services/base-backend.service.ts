@@ -6,9 +6,6 @@ import {Cache} from './cache';
 import {CacheService} from './cache.service';
 import {ErrorService} from './error.service';
 import {ServiceLocator} from './service-locator';
-import {LocalStorageService} from './local-storage.service';
-import {Utils} from './utils/utils.service';
-import {AccountType} from '../models/account.model';
 
 
 export const BACKEND_API_URL = 'client/api';
@@ -24,21 +21,13 @@ export abstract class BaseBackendService<M extends BaseModel> {
 
   protected error: ErrorService;
   protected http: HttpClient;
-  protected storage: LocalStorageService;
 
   protected requestCache: Cache<Observable<Array<M>>>;
 
-  private listAll: boolean;
-
   constructor() {
-    this.storage = ServiceLocator.injector.get(LocalStorageService);
     this.error = ServiceLocator.injector.get(ErrorService);
     this.http = ServiceLocator.injector.get(HttpClient);
     this.initRequestCache();
-
-    const userRaw = this.storage.read('user');
-    const user = Utils.parseJsonString(userRaw);
-    this.listAll = user && user.type !== AccountType.User;
   }
 
   public get(id: string): Observable<M> {
@@ -51,9 +40,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   public getList(params?: {}, customApiFormat?: ApiFormat): Observable<Array<M>> {
-    if (this.listAll) {
-      params = Object.assign(params || {}, { 'listAll': 'true' });
-    }
+    params = Object.assign(params || {}, { 'listAll': 'true' });
     const cachedRequest = this.requestCache.get(params);
     if (cachedRequest) {
       return cachedRequest;
