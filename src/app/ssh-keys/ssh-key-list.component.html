@@ -1,7 +1,0 @@
-<md-list class="card-list-container">
-  <cs-ssh-key-list-item
-    [key]="key"
-    *ngFor="let key of keys"
-    (onRemove)="onRemove.emit($event)"></cs-ssh-key-list-item>
-</md-list>
-<cs-no-results *ngIf="!keys?.length"></cs-no-results>

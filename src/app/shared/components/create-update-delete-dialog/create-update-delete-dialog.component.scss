@@ -1,18 +1,21 @@
-mdl-radio {
-  width: 100%;
-}
-
-/deep/ mdl-radio div {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
 :host /deep/ md-select {
   margin: 25px 0 20px;
   width: 100%;
 }
 
-.mdl-dialog__content {
-  padding-bottom: 0;
+md-radio-button {
+  margin: 5px 0;
+
+  &:last-of-type {
+    margin-bottom: 10px;
+  }
+}
+
+.mat-dialog-content {
+  min-height: 85px;
+  overflow: visible;
+}
+
+md-form-field {
+  margin-top: 4px;
 }

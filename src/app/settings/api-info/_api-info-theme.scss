@@ -1,0 +1,8 @@
+@mixin api-info-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  a {
+    color: mat-color($primary, 600);
+  }
+}
+

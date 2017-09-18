@@ -1,17 +1,13 @@
 :host {
   display: inline-block;
   text-align: right;
-  margin-top: 16px;
+  //margin-top: 16px;
 
-  /deep/ .mdl-textfield {
-    padding-top: 10px;
-  }
-
-  /deep/ .mdl-textfield__input {
+  .mat-input-wrapper {
+    text-align: left;
+    padding-top: 18px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-
-    border: none;
   }
 }

@@ -1,17 +1,17 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
+import { NotificationService } from '../../shared/services/notification.service';
 
 import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { SecurityGroup, NetworkRuleType, NetworkProtocol } from '../sg.model';
-import { NotificationService } from '../../shared/services/notification.service';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import {
-  ICMPType,
-  ICMPtypes,
   GetICMPCodeTranslationToken,
-  GetICMPTypeTranslationToken
+  GetICMPTypeTranslationToken,
+  ICMPType,
+  ICMPtypes
 } from '../icmp-types';
+import { NetworkProtocol, NetworkRuleType, SecurityGroup } from '../sg.model';
 
 
 @Component({
@@ -175,10 +175,6 @@ export class SgRulesComponent {
       this.translateService.instant(this.getIcmpCodeTranslationToken(this.icmpType, _))
         .toLowerCase()
         .indexOf(filterValue) !== -1) : ICMPtypes.find(x => x.type === this.icmpType).codes;
-  }
-
-  public onClose(): void {
-    this.dialogRef.close(this.securityGroup);
   }
 
   private resetForm(): void {

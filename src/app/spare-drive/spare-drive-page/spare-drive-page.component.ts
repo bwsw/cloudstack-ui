@@ -1,20 +1,20 @@
-import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
-import {Subject} from 'rxjs/Subject';
-import {DialogService} from '../../dialog/dialog-service/dialog.service';
-import {DiskOffering, Volume, VolumeType, Zone} from '../../shared';
-import {ListService} from '../../shared/components/list/list.service';
-import {DiskOfferingService} from '../../shared/services/disk-offering.service';
-import {UserTagService} from '../../shared/services/tags/user-tag.service';
-import {VolumeService} from '../../shared/services/volume.service';
-import {ZoneService} from '../../shared/services/zone.service';
-import {filterWithPredicates} from '../../shared/utils/filter';
-import {WithUnsubscribe} from '../../utils/mixins/with-unsubscribe';
-import {SpareDriveFilter} from '../spare-drive-filter/spare-drive-filter.component';
-import {UserService} from '../../shared/services/user.service';
-import {User} from '../../shared/models/user.model';
-
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { DiskOffering, Volume, VolumeType, Zone } from '../../shared';
+import { ListService } from '../../shared/components/list/list.service';
+import { DiskOfferingService } from '../../shared/services/disk-offering.service';
+import { UserTagService } from '../../shared/services/tags/user-tag.service';
+import { VolumeService } from '../../shared/services/volume.service';
+import { ZoneService } from '../../shared/services/zone.service';
+import { filterWithPredicates } from '../../shared/utils/filter';
+import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import { SpareDriveFilter } from '../spare-drive-filter/spare-drive-filter.component';
+import { volumeTypeNames } from '../../shared/models/volume.model';
+import { UserService } from '../../shared/services/user.service';
+import { User } from '../../shared/models/user.model';
 
 export interface VolumeCreationData {
   name: string;
@@ -29,7 +29,6 @@ export interface VolumeCreationData {
   providers: [ListService]
 })
 export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit, OnDestroy {
-  @HostBinding('class.detail-list-container') public detailListContainer = true;
   public volumes: Array<Volume>;
   public zones: Array<Zone>;
   public visibleVolumes: Array<Volume>;
@@ -41,6 +40,12 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
       label: 'SPARE_DRIVE_PAGE.FILTERS.GROUP_BY_ZONES',
       selector: (item: Volume) => item.zoneId,
       name: (item: Volume) => item.zoneName
+    },
+    {
+      key: 'types',
+      label: 'SPARE_DRIVE_PAGE.FILTERS.GROUP_BY_TYPES',
+      selector: (item: Volume) => item.type,
+      name: (item: Volume) => volumeTypeNames[item.type]
     },
     {
       key: 'accounts',
@@ -110,13 +115,14 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
 
     this.updateGroupings();
 
-    const { selectedZones, spareOnly, query, accounts } = this.filterData;
+    const { selectedZones, selectedTypes, spareOnly, query, accounts } = this.filterData;
     this.query = query;
 
     this.visibleVolumes = filterWithPredicates(
       this.volumes,
       [
         this.filterVolumesByZones(selectedZones),
+        this.filterVolumesByTypes(selectedTypes),
         this.filterVolumesBySpare(spareOnly),
         this.filterVolumesBySearch()
       ]);
@@ -134,6 +140,16 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
     return (volume) => {
       if (selectedZones.length) {
         return selectedZones.some(z => volume.zoneId === z.id);
+      } else {
+        return true;
+      }
+    };
+  }
+
+  public filterVolumesByTypes(selectedTypes: Array<VolumeType>): (volume) => boolean {
+    return (volume) => {
+      if (selectedTypes.length) {
+        return selectedTypes.some(type => volume.type === type);
       } else {
         return true;
       }

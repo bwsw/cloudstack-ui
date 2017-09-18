@@ -1,14 +1,14 @@
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { AuthGuard } from '../shared/services/auth-guard.service';
-import { VmListComponent } from './vm-list/vm-list.component';
-import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmCreationDialogComponent } from './vm-creation/vm-creation-dialog.component';
-import { VmDetailComponent } from './vm-sidebar/vm-detail/vm-detail.component';
-import { StorageDetailComponent } from './vm-sidebar/storage-detail/storage-detail.component';
+import { VmListComponent } from './vm-list/vm-list.component';
 import { NetworkDetailComponent } from './vm-sidebar/network-detail/network-detail.component';
+import { StorageDetailComponent } from './vm-sidebar/storage-detail/storage-detail.component';
+import { VmDetailComponent } from './vm-sidebar/vm-detail/vm-detail.component';
+import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
 
-const routes: Routes = [
+export const vmRoutes: Routes = [
   {
     path: 'instances',
     component: VmListComponent,
@@ -49,5 +49,3 @@ const routes: Routes = [
     ]
   }
 ];
-
-export const vmRouting = RouterModule.forChild(routes);

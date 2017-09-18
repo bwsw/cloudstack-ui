@@ -11,8 +11,7 @@ import {UserService} from '../../../shared/services/user.service';
 
 @Component({
   selector: 'cs-vm-creation-template-dialog',
-  templateUrl: 'vm-template-dialog.component.html',
-  styleUrls: ['../../../shared/styles/iso-dialog.scss']
+  templateUrl: 'vm-template-dialog.component.html'
 })
 export class VmTemplateDialogComponent extends TemplateFilterListComponent implements OnInit {
   public _selectedTemplate: BaseTemplateModel;
@@ -28,6 +27,11 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
     userService: UserService
   ) {
     super(authService, userService);
+
+    this.preselectedTemplate = data.template;
+    this.templates = data.templates;
+    this.isos = data.isos;
+    this.zoneId = data.zoneId;
 
     this.preselectedTemplate = data.template;
     this.templates = data.templates;

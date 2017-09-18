@@ -1,7 +1,7 @@
 @import '../../../../style/__variables';
 
 .fab {
-  transition: margin 0.3s;
+  transition: margin .4s cubic-bezier(.25,.8,.25,1);
   position: fixed;
   right: 32px;
   bottom: 32px;

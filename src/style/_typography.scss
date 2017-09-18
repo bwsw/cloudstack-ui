@@ -1,0 +1,58 @@
+$config: mat-typography-config();
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  padding: 0;
+}
+
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
+  font-size: 0.6em;
+}
+
+h1 {
+  @include mat-typography-level-to-styles($config, display-3);
+
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+h2 {
+  @include mat-typography-level-to-styles($config, display-2);
+
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+h3 {
+  @include mat-typography-level-to-styles($config, display-1);
+
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+h4 {
+  @include mat-typography-level-to-styles($config, headline);
+
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+h5 {
+  @include mat-typography-level-to-styles($config, title);
+
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+h6 {
+  @include mat-typography-level-to-styles($config, caption);
+
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+p {
+  @include mat-typography-level-to-styles($config, body-1);
+
+  margin-bottom: 16px;
+}

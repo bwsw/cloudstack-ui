@@ -7,9 +7,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['list.component.scss']
 })
 export class ListComponent {
-  @Output() onAction = new EventEmitter();
   @Input() isOpen = false;
-
-  constructor() {
-  }
+  @Output() onAction = new EventEmitter();
 }

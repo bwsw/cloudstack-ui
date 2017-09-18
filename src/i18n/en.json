@@ -345,6 +345,7 @@
         "READ_RATE_IOPS": "Read rate",
         "WRITE_RATE_IOPS": "Write rate"
       },
+
       "VOLUME_RESIZE": {
         "TITLE": "Resize volume",
         "DISK_OFFERING": "Disk offering",
@@ -393,13 +394,12 @@
       }
     },
     "NETWORK_DETAILS": {
-      "NETWORK_CONFIGURATION": "Network configuration",
-      "NIC": "NIC",
-      "IP": "IP",
+      "NIC_NAME": "NIC#{{ value }} Configuration",
+      "IP": "IPv4",
       "ARE_YOU_SURE_ADD_SECONDARY_IP": "Are you sure you want to add a secondary IP?",
       "ARE_YOU_SURE_REMOVE_SECONDARY_IP": "Are you sure you want to remove this secondary IP?",
       "broadcastUri": "Broadcast URI",
-      "gateway": "Gateway",
+      "gateway": "Gateway v4",
       "ip6Address": "IPv6 address",
       "ip6Cidr": "IPv6 CIDR",
       "ip6Gateway": "IPv6 gateway",
@@ -449,7 +449,8 @@
       "CREATING_AG": "Creating an affinity group",
       "CREATING_SG": "Creating a security group",
       "DEPLOYING_VM": "Deploying the virtual machine",
-      "OS_TEMPLATE": "OS template"
+      "OS_TEMPLATE": "OS template",
+      "NO_TEMPLATES": "No templates available"
     }
   },
   "SPARE_DRIVE_PAGE": {
@@ -457,8 +458,10 @@
       "SELECT_ACCOUNTS": "Select accounts",
       "SPARE_DRIVES_ONLY": "Spare drives only",
       "SELECT_ZONES": "Select zones",
+      "SELECT_TYPES": "Select types",
       "GROUP_BY": "Group by",
       "GROUP_BY_ZONES": "Zones",
+      "GROUP_BY_TYPES": "Types",
       "GROUP_BY_ACCOUNTS": "Accounts"
     },
     "CARD": {
@@ -473,7 +476,7 @@
       "DISK_OFFERING": "Disk offering",
       "SIZE": "Size"
     },
-    "SIDEBAR": {
+"SIDEBAR": {
       "VOLUME": "Volume",
       "SNAPSHOTS": "Snapshots"
     },
@@ -492,7 +495,7 @@
       "READ_RATE_IOPS": "Read rate",
       "WRITE_RATE_IOPS": "Write rate"
     },
-    "SNAPSHOTS": {
+"SNAPSHOTS": {
       "DESCRIPTION": "Description",
       "DATE": "Date"
     },
@@ -848,6 +851,7 @@
     }
   },
   "EVENT_PAGE": {
+    "SELECT_DATE": "Select a date",
     "SELECT_LEVELS": "Select levels",
     "SELECT_TYPES": "Select types",
     "NO_EVENTS": "No events for the selected date",
@@ -863,7 +867,9 @@
     "AUTO_GENERATED": "auto generated",
     "SAVE_THIS_KEY": "Please, save this private key as it will not be kept",
     "REMOVE_THIS_KEY": "Are you sure you want to remove this key?",
-    "KEY_REMOVAL_FAILED": "Key removal failed"
+    "KEY_REMOVAL_FAILED": "Key removal failed",
+    "SSH_KEY_PAIR_NOT_FOUND": "SSH key pair not found",
+    "FINGERPRINT": "Fingerprint"
   },
   "SETTINGS": {
     "SECURITY": {
@@ -893,7 +899,7 @@
       "hour12": "12-Hours Time",
       "hour24": "24-Hours Time",
       "AUTO": "Auto",
-      "PALETTE": "Interface Theme Colors"
+      "THEME": "Theme Color"
     }
   },
   "CLIPBOARD": {
@@ -906,7 +912,7 @@
     "ENTER_TEXT": "Enter text",
     "SELECT_AN_OPTION": "Select an option"
   },
-  "VM_NOT_FOUND": "Virtual machine not found",
+"VM_NOT_FOUND": "Virtual machine not found",
   "VOLUME_NOT_FOUND": "Volume not found",
   "TEMPLATE_NOT_FOUND": "Template not found",
   "PULSE": {
@@ -979,6 +985,7 @@
   },
   "TAGS": {
     "CREATE_NEW_TAG": "Create a new tag",
+    "SHOW_SYSTEM_TAGS": "Show system tags",
     "TAG_KEY": "Key",
     "TAG_VALUE": "Value",
     "TAG_ALREADY_EXISTS": "Tag already exists",
@@ -1017,6 +1024,10 @@
     "DEPLOY_IN_PROGRESS": "Deploying",
     "RESET_PASSWORD_IN_PROGRESS": "Resetting password"
   },
+  "VOLUME_TYPE": {
+    "ROOT": "ROOT",
+    "DATADISK": "DATADISK"
+  },
   "DATE_TIME": {
     "AM": "AM",
     "PM": "PM",
@@ -1049,6 +1060,7 @@
     "MBPS": "{{value}} MB/s",
     "MHZ": "MHz"
   },
+
   "VOLUME_ACTIONS": {
     "TAKE_SNAPSHOT": "Take a snapshot",
     "SNAPSHOT_SCHEDULE": "Set up snapshot schedule",

@@ -12,16 +12,16 @@
     <ng-template #noGroups>{{ 'VM_PAGE.VM_DETAILS.SSH_KEY.NO_SSH_KEYS' | translate }}</ng-template>
   </div>
   <div class="mat-dialog-actions">
+    <button md-button color="primary" mdDialogClose>
+      {{ 'COMMON.CANCEL' | translate }}
+    </button>
     <button
-      (click)="resetSshKey()"
+      md-button
+      color="primary"
       [disabled]="!selectedSshKeyName"
-      mdl-button
-      mdl-colored="primary"
+      (click)="resetSshKey()"
     >
       {{ 'COMMON.CHANGE' | translate }}
-    </button>
-    <button (click)="hide()" mdl-button mdl-colored="primary">
-      {{ 'COMMON.CANCEL' | translate }}
     </button>
   </div>
 </div>
