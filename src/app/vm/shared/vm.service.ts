@@ -130,21 +130,33 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
-  public command(vm: VirtualMachine, command: IVirtualMachineCommand, params?: {}): Observable<any> {
-    const commandName = command.commandName as VmActions;
+  public command(
+    vm: VirtualMachine,
+    command: IVirtualMachineCommand,
+    params?: {}
+  ): Observable<any> {
     const initialState = vm.state;
 
-    this.setStateForVm(vm, command.vmStateOnAction as VmState);
-
-    return this.sendCommand(
-      commandName,
-      this.buildCommandParams(vm.id, commandName, params)
-    )
+    return this.commandInternal(vm, command, params)
       .switchMap(job => this.registerVmJob(job))
       .catch(error => {
         this.setStateForVm(vm, initialState);
         return Observable.throw(error);
-      })
+      });
+  }
+
+  public commandSync(
+    vm: VirtualMachine,
+    command: IVirtualMachineCommand,
+    params?: {}
+  ): Observable<any> {
+    const initialState = vm.state;
+
+    return this.commandInternal(vm, command, params)
+      .catch(error => {
+        this.setStateForVm(vm, initialState);
+        return Observable.throw(error);
+      });
   }
 
   public registerVmJob(job: any): Observable<any> {
@@ -200,6 +212,20 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       job.result &&
       (job.instanceType === VirtualMachineEntityName ||
         job.result instanceof VirtualMachine)
+    );
+  }
+
+  private commandInternal(
+    vm: VirtualMachine,
+    command: IVirtualMachineCommand,
+    params?: {}
+  ): Observable<any> {
+    const commandName = command.commandName as VmActions;
+    this.setStateForVm(vm, command.vmStateOnAction as VmState);
+
+    return this.sendCommand(
+      commandName,
+      this.buildCommandParams(vm.id, commandName, params)
     );
   }
 

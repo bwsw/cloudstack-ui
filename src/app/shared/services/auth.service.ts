@@ -98,7 +98,11 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     return !!this.user && this.user.type !== AccountType.User;
   }
 
-  public canExpungeVm(): boolean {
+  public allowedToViewDestroyedVms(): boolean {
+    return !!this.capabilities && this.capabilities.allowuserviewdestroyedvm;
+  }
+
+  public canExpungeOrRecoverVm(): boolean {
     return !!this.capabilities && this.capabilities.allowuserexpungerecovervm;
   }
 

@@ -1,9 +1,37 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { MdMenuTrigger } from '@angular/material';
 import { Color } from '../../shared/models';
-import { VirtualMachine } from '../shared/vm.model';
 import { VmTagService } from '../../shared/services/tags/vm-tag.service';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 
+const stateTranslations = {
+  RUNNING: 'VM_STATE.RUNNING',
+  STOPPED: 'VM_STATE.STOPPED',
+  STARTING: 'VM_STATE.STARTING',
+  STOPPING: 'VM_STATE.STOPPING',
+  REBOOTING: 'VM_STATE.REBOOTING',
+  RESTORING: 'VM_STATE.RESTORING',
+  DESTROYING: 'VM_STATE.DESTROYING',
+  DESTROYED: 'VM_STATE.DESTROYED',
+  DEPLOYING: 'VM_STATE.DEPLOYING',
+  ERROR: 'VM_STATE.ERROR',
+  START_IN_PROGRESS: 'VM_STATE.START_IN_PROGRESS',
+  STOP_IN_PROGRESS: 'VM_STATE.STOP_IN_PROGRESS',
+  REBOOT_IN_PROGRESS: 'VM_STATE.REBOOT_IN_PROGRESS',
+  RESTORE_IN_PROGRESS: 'VM_STATE.RESTORE_IN_PROGRESS',
+  DESTROY_IN_PROGRESS: 'VM_STATE.DESTROY_IN_PROGRESS',
+  DEPLOY_IN_PROGRESS: 'VM_STATE.DEPLOY_IN_PROGRESS',
+  RESET_PASSWORD_IN_PROGRESS: 'VM_STATE.RESET_PASSWORD_IN_PROGRESS'
+};
 
 @Component({
   selector: 'cs-vm-list-item',
@@ -34,26 +62,37 @@ export class VmListItemComponent implements OnInit, OnChanges {
   }
 
   public get stateTranslationToken(): string {
-    const stateTranslations = {
-      'RUNNING': 'VM_STATE.RUNNING',
-      'STOPPED': 'VM_STATE.STOPPED',
-      'STARTING': 'VM_STATE.STARTING',
-      'STOPPING': 'VM_STATE.STOPPING',
-      'REBOOTING': 'VM_STATE.REBOOTING',
-      'RESTORING': 'VM_STATE.RESTORING',
-      'DESTROYING': 'VM_STATE.DESTROYING',
-      'DEPLOYING': 'VM_STATE.DEPLOYING',
-      'ERROR': 'VM_STATE.ERROR',
-      'START_IN_PROGRESS': 'VM_STATE.START_IN_PROGRESS',
-      'STOP_IN_PROGRESS': 'VM_STATE.STOP_IN_PROGRESS',
-      'REBOOT_IN_PROGRESS': 'VM_STATE.REBOOT_IN_PROGRESS',
-      'RESTORE_IN_PROGRESS': 'VM_STATE.RESTORE_IN_PROGRESS',
-      'DESTROY_IN_PROGRESS': 'VM_STATE.DESTROY_IN_PROGRESS',
-      'DEPLOY_IN_PROGRESS': 'VM_STATE.DEPLOY_IN_PROGRESS',
-      'RESET_PASSWORD_IN_PROGRESS': 'VM_STATE.RESET_PASSWORD_IN_PROGRESS'
-    };
-
     return stateTranslations[this.item.state.toUpperCase()];
+  }
+
+  public get statusClass() {
+    const { state } = this.item;
+    const running = state === VmState.Running;
+    const stopped = state === VmState.Stopped;
+    const error = state === VmState.Error;
+    const destroyed = state === VmState.Destroyed;
+
+    return {
+      running,
+      stopped,
+      error,
+      destroyed,
+      'in-progress': !running && !stopped && !destroyed
+    };
+  }
+
+  public get cardClass() {
+    const { state } = this.item;
+    const error = state === VmState.Error;
+    const destroyed =
+      state === VmState.Destroyed || (state as any) === 'VM_STATE.EXPUNGE_IN_PROGRESS';
+
+    return {
+      'card-selected': this.isSelected(this.item),
+      'has-text-color': !!this.color && !!this.color.textColor,
+      error,
+      destroyed
+    };
   }
 
   public handleClick(e: MouseEvent): void {

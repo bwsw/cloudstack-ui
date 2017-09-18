@@ -60,7 +60,7 @@ export class VmDestroyAction extends VirtualMachineCommand {
 
   public activate(vm: VirtualMachine): Observable<any> {
     return this.dialog.open(VmDestroyDialogComponent, {
-      data: this.auth.canExpungeVm()
+      data: this.auth.canExpungeOrRecoverVm()
     })
       .afterClosed()
       .switchMap((res) => {

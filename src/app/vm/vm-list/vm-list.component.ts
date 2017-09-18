@@ -6,6 +6,7 @@ import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { AsyncJob, InstanceGroup, VmStatisticsComponent, Zone } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
 import { AsyncJobService } from '../../shared/services/async-job.service';
+import { AuthService } from '../../shared/services/auth.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { StatsUpdateService } from '../../shared/services/stats-update.service';
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
@@ -20,7 +21,6 @@ import {
   VmFilter
 } from '../vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list-item.component';
-
 
 @Component({
   selector: 'cs-vm-list',
@@ -50,7 +50,7 @@ export class VmListComponent implements OnInit {
       key: 'colors',
       label: 'VM_PAGE.FILTERS.GROUP_BY_COLORS',
       selector: (item: VirtualMachine) => this.vmTagService.getColorSync(item).value,
-      name: (item: VirtualMachine) => ' ',
+      name: (item: VirtualMachine) => ' '
     }
   ];
 
@@ -69,6 +69,7 @@ export class VmListComponent implements OnInit {
 
   constructor(
     public listService: ListService,
+    private auth: AuthService,
     private vmService: VmService,
     private dialogService: DialogService,
     private jobsNotificationService: JobsNotificationService,
@@ -84,7 +85,7 @@ export class VmListComponent implements OnInit {
     this.showDetail = this.showDetail.bind(this);
 
     this.inputs = {
-      isSelected: (item) => this.listService.isSelected(item.id)
+      isSelected: item => this.listService.isSelected(item.id)
     };
 
     this.outputs = {
@@ -154,17 +155,16 @@ export class VmListComponent implements OnInit {
       this.vmService.getListWithDetails(),
       this.vmService.getInstanceGroupList(),
       this.zoneService.getList()
-    )
-      .subscribe(([vmList, groups, zones]) => {
-        this.vmList = this.sortByDate(vmList);
-        this.visibleVmList = vmList;
-        this.groups = groups;
-        this.zones = zones;
+    ).subscribe(([vmList, groups, zones]) => {
+      this.vmList = this.sortByDate(vmList);
+      this.visibleVmList = vmList;
+      this.groups = groups;
+      this.zones = zones;
 
-        if (this.shouldShowSuggestionDialog) {
-          this.showSuggestionDialog();
-        }
-      });
+      if (this.shouldShowSuggestionDialog) {
+        this.showSuggestionDialog();
+      }
+    });
   }
 
   private subscribeToStatsUpdates(): void {
@@ -175,9 +175,7 @@ export class VmListComponent implements OnInit {
 
   private subscribeToVmUpdates(): void {
     this.vmService.vmUpdateObservable
-      .switchMap(updatedVM =>
-        this.vmService.getWithDetails(updatedVM.id)
-      )
+      .switchMap(updatedVM => this.vmService.getWithDetails(updatedVM.id))
       .subscribe(vm => {
         this.replaceVmInList(vm);
         this.filter();
@@ -198,35 +196,44 @@ export class VmListComponent implements OnInit {
       this.vmList = [
         ...this.vmList.slice(0, index),
         vm,
-        ...this.vmList.slice(index + 1),
+        ...this.vmList.slice(index + 1)
       ];
     }
   }
 
   private resubscribeToJobs(): void {
-    this.vmService.resubscribe()
-      .subscribe(observables => {
-        observables.forEach(observable => {
-          observable.subscribe(job => {
-            const action = this.vmActionsService.getActionByName(job.cmd as any);
-            this.jobsNotificationService.finish({
-              message: action.tokens.successMessage
-            });
+    this.vmService.resubscribe().subscribe(observables => {
+      observables.forEach(observable => {
+        observable.subscribe(job => {
+          const action = this.vmActionsService.getActionByName(job.cmd as any);
+          this.jobsNotificationService.finish({
+            message: action.tokens.successMessage
           });
         });
       });
+    });
   }
 
   private subscribeToVmDestroyed(): void {
+    const isExpungeJob = (job: AsyncJob<any>) => job.cmd.includes('expunge');
+
     this.asyncJobService.event
       .filter(job => this.vmService.isAsyncJobAVirtualMachineJobWithResult(job))
-      .filter(job => job.result.state === VmState.Destroyed || job.result.state === VmState.Expunging)
+      .filter(
+        job =>
+          isExpungeJob(job) ||
+          job.result.state === VmState.Destroyed ||
+          job.result.state === VmState.Expunging
+      )
       .subscribe((job: AsyncJob<any>) => {
-        this.vmList = this.vmList.filter(vm => vm.id !== job.result.id);
-        if (this.listService.isSelected(job.result.id)) {
-          this.listService.deselectItem();
+        if (isExpungeJob(job) || !this.auth.allowedToViewDestroyedVms()) {
+          this.vmList = this.vmList.filter(vm => vm.id !== job.instanceId);
+          if (this.listService.isSelected(job.instanceId)) {
+            this.listService.deselectItem();
+          }
+          this.filter();
         }
-        this.filter();
+
         this.updateStats();
       });
   }
@@ -248,6 +255,7 @@ export class VmListComponent implements OnInit {
 
       const newVm = clone(vm);
 
+      debugger;
       newVm.state = job.result.state;
       if (job.result.nic && job.result.nic.length) {
         newVm.nic[0] = job.result.nic[0];
@@ -271,36 +279,37 @@ export class VmListComponent implements OnInit {
   }
 
   private get isCreateVmInUrl(): boolean {
-    return this.activatedRoute.children.length
-      && this.activatedRoute.children[0].snapshot.url[0].path === 'create';
+    return (
+      this.activatedRoute.children.length &&
+      this.activatedRoute.children[0].snapshot.url[0].path === 'create'
+    );
   }
 
   private showSuggestionDialog(): void {
-    this.userTagService.getAskToCreateVm()
-      .subscribe(tag => {
-        if (tag === false) {
-          return;
-        }
+    this.userTagService.getAskToCreateVm().subscribe(tag => {
+      if (tag === false) {
+        return;
+      }
 
-        this.dialogService.askDialog({
-          message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VM',
-          actions: [
-            {
-              handler: () => this.showVmCreationDialog(),
-              text: 'COMMON.YES'
-            },
-            {
-              text: 'COMMON.NO'
-            },
-            {
-              handler: () => this.userTagService.setAskToCreateVm(false).subscribe(),
-              text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
-            }
-          ],
-          disableClose: false,
-          width: '320px'
-        });
+      this.dialogService.askDialog({
+        message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VM',
+        actions: [
+          {
+            handler: () => this.showVmCreationDialog(),
+            text: 'COMMON.YES'
+          },
+          {
+            text: 'COMMON.NO'
+          },
+          {
+            handler: () => this.userTagService.setAskToCreateVm(false).subscribe(),
+            text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
+          }
+        ],
+        disableClose: false,
+        width: '320px'
       });
+    });
   }
 
   private filterVmsByGroup(
@@ -318,16 +327,20 @@ export class VmListComponent implements OnInit {
     );
   }
 
-  private filterVmsByZones(vmList: Array<VirtualMachine>, zones: Array<Zone>): Array<VirtualMachine> {
+  private filterVmsByZones(
+    vmList: Array<VirtualMachine>,
+    zones: Array<Zone>
+  ): Array<VirtualMachine> {
     return !zones.length
       ? vmList
       : vmList.filter(vm => zones.some(z => vm.zoneId === z.id));
   }
 
-  private filterVMsByState(vmList: Array<VirtualMachine>, states): Array<VirtualMachine> {
-    return !states.length
-      ? vmList
-      : vmList.filter(vm => states.includes(vm.state));
+  private filterVMsByState(
+    vmList: Array<VirtualMachine>,
+    states
+  ): Array<VirtualMachine> {
+    return !states.length ? vmList : vmList.filter(vm => states.includes(vm.state));
   }
 
   private sortByDate(vmList: Array<VirtualMachine>): Array<VirtualMachine> {

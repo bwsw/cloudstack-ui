@@ -2,7 +2,9 @@
   {{ 'DIALOG_MESSAGES.VM.CONFIRM_DESTROY' | translate }}
 
   <section *ngIf="canExpunge">
-    <md-checkbox [(ngModel)]="expunge">Expunge</md-checkbox>
+    <md-checkbox [(ngModel)]="expunge">
+      {{ 'VM_PAGE.COMMANDS.EXPUNGE' | translate }}
+    </md-checkbox>
   </section>
 </div>
 <div class="mat-dialog-actions">
