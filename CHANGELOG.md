@@ -14,7 +14,7 @@
 * **service-offering:** service offering not being restored after cancel was clicked (closes #479) ([7efce4d](https://github.com/bwsw/cloudstack-ui/commit/7efce4d)), closes [#479](https://github.com/bwsw/cloudstack-ui/issues/479) [#479](https://github.com/bwsw/cloudstack-ui/issues/479)
 * **snapshot:** Fix null returned in snapshot creation ([4b860c1](https://github.com/bwsw/cloudstack-ui/commit/4b860c1))
 * **vm-list:** unknown OS type icon size (closes #481) ([90a6815](https://github.com/bwsw/cloudstack-ui/commit/90a6815)), closes [#481](https://github.com/bwsw/cloudstack-ui/issues/481) [#481](https://github.com/bwsw/cloudstack-ui/issues/481)
-* **volumes:** Add missing actions to spare drives ([b1eb1cf](https://github.com/bwsw/cloudstack-ui/commit/b1eb1cf))
+* **spare-drives:** Add missing actions to spare drives ([b1eb1cf](https://github.com/bwsw/cloudstack-ui/commit/b1eb1cf))
 * **ssh-key-creation:** remove extra params from constructor ([db3f511](https://github.com/bwsw/cloudstack-ui/commit/db3f511))
 * **storage:** Groupings localStorage/url saving fixed ([33a25bb](https://github.com/bwsw/cloudstack-ui/commit/33a25bb))
 * **translations:** fix incorrect translation token ([7ea872b](https://github.com/bwsw/cloudstack-ui/commit/7ea872b))
@@ -30,7 +30,7 @@
 * **routes:** add routes for creation dialogs (closes #411) ([66ea3c2](https://github.com/bwsw/cloudstack-ui/commit/66ea3c2)), closes [#411](https://github.com/bwsw/cloudstack-ui/issues/411)
 * **sidebar:** reorder sidebar links (closes #36) ([c516c3e](https://github.com/bwsw/cloudstack-ui/commit/c516c3e)), closes [#36](https://github.com/bwsw/cloudstack-ui/issues/36) [#36](https://github.com/bwsw/cloudstack-ui/issues/36)
 * **sidebar:** Show 'Entity not found' message if id in query params is invalid ([324eed6](https://github.com/bwsw/cloudstack-ui/commit/324eed6)), closes [#374](https://github.com/bwsw/cloudstack-ui/issues/374)
-* **volumes:** Rename "Spare drives" to "Storage", add search, filtering and snapshot view to "Storage" section ([c750752](https://github.com/bwsw/cloudstack-ui/commit/c750752)), closes [#416](https://github.com/bwsw/cloudstack-ui/issues/416)
+* **spare-drives:** Rename "Spare drives" to "Storage", add search, filtering and snapshot view to "Storage" section ([c750752](https://github.com/bwsw/cloudstack-ui/commit/c750752)), closes [#416](https://github.com/bwsw/cloudstack-ui/issues/416)
 * **statistics:** allow admins to view domain statistics (closes #426) ([84795ca](https://github.com/bwsw/cloudstack-ui/commit/84795ca)), closes [#426](https://github.com/bwsw/cloudstack-ui/issues/426) [#426](https://github.com/bwsw/cloudstack-ui/issues/426)
 
 
