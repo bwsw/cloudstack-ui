@@ -24,5 +24,10 @@ md-sidenav-container {
     max-height: 100%;
     will-change: transform;
     color: #424242;
+    overflow: hidden;
+  }
+
+  cs-app-sidebar {
+    overflow: auto;
   }
 }
