@@ -54,7 +54,7 @@ export class VirtualMachine extends BaseModel implements Taggable {
   public id: string;
   public displayName: string;
   public name: string;
-  public userid: string;
+  public account: string;
   // Status
   public state: VmState;
   // Service Offering

@@ -1,17 +1,19 @@
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { DiskOffering, Volume, VolumeType, Zone } from '../../shared';
-import { ListService } from '../../shared/components/list/list.service';
-import { DiskOfferingService } from '../../shared/services/disk-offering.service';
-import { UserTagService } from '../../shared/services/tags/user-tag.service';
-import { VolumeService } from '../../shared/services/volume.service';
-import { ZoneService } from '../../shared/services/zone.service';
-import { filterWithPredicates } from '../../shared/utils/filter';
-import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { SpareDriveFilter } from '../spare-drive-filter/spare-drive-filter.component';
+import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Subject';
+import {DialogService} from '../../dialog/dialog-service/dialog.service';
+import {DiskOffering, Volume, VolumeType, Zone} from '../../shared';
+import {ListService} from '../../shared/components/list/list.service';
+import {DiskOfferingService} from '../../shared/services/disk-offering.service';
+import {UserTagService} from '../../shared/services/tags/user-tag.service';
+import {VolumeService} from '../../shared/services/volume.service';
+import {ZoneService} from '../../shared/services/zone.service';
+import {filterWithPredicates} from '../../shared/utils/filter';
+import {WithUnsubscribe} from '../../utils/mixins/with-unsubscribe';
+import {SpareDriveFilter} from '../spare-drive-filter/spare-drive-filter.component';
+import {UserService} from '../../shared/services/user.service';
+import {User} from '../../shared/models/user.model';
 
 
 export interface VolumeCreationData {
@@ -39,11 +41,18 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
       label: 'SPARE_DRIVE_PAGE.FILTERS.GROUP_BY_ZONES',
       selector: (item: Volume) => item.zoneId,
       name: (item: Volume) => item.zoneName
+    },
+    {
+      key: 'accounts',
+      label: 'SPARE_DRIVE_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
+      selector: (item: Volume) => item.account,
+      name: (item: Volume) => this.getUserName(item.account),
     }
   ];
   public query: string;
 
   public filterData: any;
+  public userList: Array<User>;
 
   private onDestroy = new Subject();
 
@@ -54,6 +63,7 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private userTagService: UserTagService,
+    private userService: UserService,
     private volumeService: VolumeService,
     private zoneService: ZoneService
   ) {
@@ -80,6 +90,7 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
       this.updateZones()
     )
       .subscribe(() => this.filter());
+    this.getUserList();
   }
 
   public updateFiltersAndFilter(filterData: SpareDriveFilter): void {
@@ -99,7 +110,7 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
 
     this.updateGroupings();
 
-    const { selectedZones, spareOnly, query } = this.filterData;
+    const { selectedZones, spareOnly, query, accounts } = this.filterData;
     this.query = query;
 
     this.visibleVolumes = filterWithPredicates(
@@ -109,6 +120,7 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
         this.filterVolumesBySpare(spareOnly),
         this.filterVolumesBySearch()
       ]);
+    this.visibleVolumes = this.sortByAccount(accounts);
   }
 
   public updateGroupings(): void {
@@ -155,6 +167,28 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
       queryParamsHandling: 'preserve',
       relativeTo: this.activatedRoute
     });
+  }
+
+  private getUserList() {
+    this.userService.getList().subscribe(users => {
+      this.userList = users;
+    });
+  }
+
+  private getUserName(account: string) {
+    return this.userList.find(user => user.account === account).name;
+  }
+
+  private sortByAccount(accounts) {
+    let result: Array<Volume> = [];
+    if (accounts && accounts.length != 0) {
+      accounts.forEach(account => {
+        result = result.concat(this.visibleVolumes.filter(vm => vm.account === account.account))
+      });
+      return result;
+    } else {
+      return this.visibleVolumes;
+    }
   }
 
   private onVolumeUpdated(): void {

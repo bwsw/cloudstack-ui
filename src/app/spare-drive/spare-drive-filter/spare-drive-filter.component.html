@@ -8,6 +8,7 @@
       {{ 'SPARE_DRIVE_PAGE.FILTERS.SPARE_DRIVES_ONLY' | translate }}
     </md-checkbox>
 
+    <cs-account-filter (onChangeAccount)="updateAccount($event)"></cs-account-filter>
     <md-select
       *ngIf="zones"
       class="filter-select"

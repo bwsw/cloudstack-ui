@@ -7,7 +7,7 @@ import {User} from '../../models/user.model';
   templateUrl: 'account-filter.component.html'
 })
 export class AccountFilterComponent {
-  @Output() public onChangeAccount = new EventEmitter<Array<string>>();
+  @Output() public onChangeAccount = new EventEmitter<Array<User>>();
   public selected;
   public users: Array<User>;
 

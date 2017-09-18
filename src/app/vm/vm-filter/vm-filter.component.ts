@@ -7,6 +7,7 @@ import {InstanceGroupService} from '../../shared/services/instance-group.service
 import {LocalStorageService} from '../../shared/services/local-storage.service';
 import {VmState} from '../shared/vm.model';
 import {VmService} from '../shared/vm.service';
+import {User} from '../../shared/models/user.model';
 
 
 export interface VmFilter {
@@ -14,7 +15,7 @@ export interface VmFilter {
   selectedStates: Array<VmState>;
   selectedZones: Array<Zone>;
   groupings: Array<any>;
-  accounts: Array<string>;
+  accounts: Array<User>;
 }
 
 export type noGroup = '-1';
@@ -38,7 +39,7 @@ export class VmFilterComponent implements OnInit, OnChanges {
   public selectedStates: Array<VmState> = [];
   public selectedZones: Array<Zone> = [];
   public selectedGroupings: Array<any> = [];
-  public selectedAccounts: Array<string>;
+  public selectedAccounts: Array<User>;
   public states = [
     { state: VmState.Running, name: 'VM_PAGE.FILTERS.STATE_RUNNING' },
     { state: VmState.Stopped, name: 'VM_PAGE.FILTERS.STATE_STOPPED' },
@@ -114,7 +115,7 @@ export class VmFilterComponent implements OnInit, OnChanges {
     });
   }
 
-  public updateAccount(users: Array<string>) {
+  public updateAccount(users: Array<User>) {
     this.selectedAccounts = users;
     this.update();
   }

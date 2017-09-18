@@ -55,8 +55,8 @@ export class VmListComponent implements OnInit {
     {
       key: 'accounts',
       label: 'VM_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
-      selector: (item: VirtualMachine) => item.userid,
-      name: (item: VirtualMachine) => this.getUserName(item.userid),
+      selector: (item: VirtualMachine) => item.account,
+      name: (item: VirtualMachine) => this.getUserName(item.account),
     }
   ];
 
@@ -183,8 +183,8 @@ export class VmListComponent implements OnInit {
     });
   }
 
-  private getUserName(id: string) {
-    return this.userList.find(user => user.id === id).name;
+  private getUserName(account: string) {
+    return this.userList.find(user => user.account === account).name;
   }
 
   private subscribeToStatsUpdates(): void {
@@ -354,7 +354,7 @@ export class VmListComponent implements OnInit {
     let result: Array<VirtualMachine> = [];
     if (accounts && accounts.length != 0) {
       accounts.forEach(account => {
-        result = result.concat(this.visibleVmList.filter(vm => vm.userid === account))
+        result = result.concat(this.visibleVmList.filter(vm => vm.account === account.account))
       });
       return result;
     } else {

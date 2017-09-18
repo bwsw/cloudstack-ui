@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Zone } from '../../shared/models/zone.model';
-import { FilterService } from '../../shared/services/filter.service';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Zone} from '../../shared/models/zone.model';
+import {FilterService} from '../../shared/services/filter.service';
+import {LocalStorageService} from '../../shared/services/local-storage.service';
 import * as sortBy from 'lodash/sortBy';
+import {User} from '../../shared/models/user.model';
 
 
 export interface SpareDriveFilter {
@@ -11,6 +12,7 @@ export interface SpareDriveFilter {
   selectedZones: Array<Zone>;
   groupings: Array<any>;
   query: string;
+  accounts: Array<User>;
 }
 
 export const spareDriveListFilters = 'spareDriveListFilters';
@@ -32,6 +34,7 @@ export class SpareDriveFilterComponent implements OnChanges {
   public selectedZones: Array<Zone> = [];
   public selectedGroupingNames = [];
   public query: string;
+  public selectedAccounts: Array<User>;
 
   private filterService = new FilterService({
     spareOnly: { type: 'boolean', defaultOption: false },
@@ -75,12 +78,18 @@ export class SpareDriveFilterComponent implements OnChanges {
     this.update();
   }
 
+  public updateAccount(users: Array<User>) {
+    this.selectedAccounts = users;
+    this.update();
+  }
+
   public update(): void {
     this.updateFilters.emit({
       spareOnly: this.spareOnly,
       selectedZones: sortBy(this.selectedZones, 'name'),
       groupings: this.selectedGroupingNames,
-      query: this.query
+      query: this.query,
+      accounts: this.selectedAccounts
     });
 
     this.filterService.update(this.filtersKey, {

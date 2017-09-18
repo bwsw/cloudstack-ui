@@ -458,7 +458,8 @@
       "SPARE_DRIVES_ONLY": "Spare drives only",
       "SELECT_ZONES": "Select zones",
       "GROUP_BY": "Group by",
-      "GROUP_BY_ZONES": "Zones"
+      "GROUP_BY_ZONES": "Zones",
+      "GROUP_BY_ACCOUNTS": "Accounts"
     },
     "CARD": {
       "DESCRIPTION": "Description",
