@@ -1,14 +1,15 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs/Subject';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+import {Subject} from 'rxjs/Subject';
 
-import { OsFamily } from '../../shared/models/os-type.model';
-import { Zone } from '../../shared/models/zone.model';
-import { FilterService } from '../../shared/services/filter.service';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { ZoneService } from '../../shared/services/zone.service';
-import { TemplateFilters } from '../shared/base-template.service';
+import {OsFamily} from '../../shared/models/os-type.model';
+import {Zone} from '../../shared/models/zone.model';
+import {FilterService} from '../../shared/services/filter.service';
+import {LocalStorageService} from '../../shared/services/local-storage.service';
+import {ZoneService} from '../../shared/services/zone.service';
+import {TemplateFilters} from '../shared/base-template.service';
+import {User} from '../../shared/models/user.model';
 
 
 @Component({
@@ -32,6 +33,7 @@ export class TemplateFiltersComponent implements OnInit {
   public selectedOsFamilies: Array<OsFamily>;
   public selectedFilters: Array<string>;
   public selectedGroupingNames = [];
+  public selectedAccounts: Array<User>;
 
   public zones: Array<Zone>;
   public selectedZones: Array<Zone>;
@@ -127,7 +129,8 @@ export class TemplateFiltersComponent implements OnInit {
       selectedFilters: this.selectedFilters,
       selectedZones: this.selectedZones,
       query: this.query,
-      groupings: this.selectedGroupingNames
+      groupings: this.selectedGroupingNames,
+      accounts: this.selectedAccounts
     });
 
     if (!this.dialogMode) {
@@ -145,6 +148,11 @@ export class TemplateFiltersComponent implements OnInit {
     const mode = this.showIso ? 'Iso' : 'Template';
     this.displayMode.emit(mode);
     this.storageService.write('templateDisplayMode', mode);
+  }
+
+  public updateAccount(users: Array<User>) {
+    this.selectedAccounts = users;
+    this.updateFilters();
   }
 
   private initFilters(): void {

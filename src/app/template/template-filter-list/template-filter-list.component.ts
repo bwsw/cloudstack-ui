@@ -1,19 +1,14 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges
-} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 
-import { OsFamily } from '../../shared/models/os-type.model';
-import { Zone } from '../../shared/models/zone.model';
-import { AuthService } from '../../shared/services/auth.service';
-import { BaseTemplateModel } from '../shared/base-template.model';
-import { TemplateFilters } from '../shared/base-template.service';
-import { Iso } from '../shared/iso.model';
-import { Template } from '../shared/template.model';
+import {OsFamily} from '../../shared/models/os-type.model';
+import {Zone} from '../../shared/models/zone.model';
+import {AuthService} from '../../shared/services/auth.service';
+import {BaseTemplateModel} from '../shared/base-template.model';
+import {TemplateFilters} from '../shared/base-template.service';
+import {Iso} from '../shared/iso.model';
+import {Template} from '../shared/template.model';
+import {User} from '../../shared/models/user.model';
+import {UserService} from '../../shared/services/user.service';
 
 
 @Component({
@@ -37,6 +32,8 @@ export class TemplateFilterListComponent implements OnChanges {
   public selectedOsFamilies: Array<OsFamily> = [];
   public selectedZones: Array<Zone> = [];
   public visibleTemplateList: Array<BaseTemplateModel> = [];
+  public accounts: Array<User>;
+  public userList: Array<User>;
 
   public selectedGroupings = [];
   public groupings = [
@@ -45,11 +42,17 @@ export class TemplateFilterListComponent implements OnChanges {
       label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ZONES',
       selector: (item: BaseTemplateModel) => item.zoneId || '',
       name: (item: BaseTemplateModel) => item.zoneName || 'TEMPLATE_PAGE.FILTERS.NO_ZONE'
+    },
+    {
+      key: 'accounts',
+      label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
+      selector: (item: BaseTemplateModel) => item.account,
+      name: (item: BaseTemplateModel) => this.getUserName(item.account),
     }
   ];
 
-  constructor(protected authService: AuthService) {
-
+  constructor(protected authService: AuthService, private userService: UserService,) {
+    this.getUserList();
   }
 
   public ngOnChanges(changes: SimpleChanges) {
@@ -83,6 +86,7 @@ export class TemplateFilterListComponent implements OnChanges {
       this.selectedFilters = filters.selectedFilters;
       this.selectedZones = filters.selectedZones;
       this.query = filters.query;
+      this.accounts = filters.accounts;
 
       if (filters.groupings) {
         this.selectedGroupings = filters.groupings
@@ -97,6 +101,18 @@ export class TemplateFilterListComponent implements OnChanges {
       this.visibleTemplateList = this.visibleTemplateList
         .filter(template => template.zoneId === this.zoneId || template.crossZones);
     }
+    this.visibleTemplateList = this.sortByAccount(this.accounts);
+  }
+
+  private getUserList() {
+    this.userService.getList().subscribe(users => {
+      this.userList = users;
+    });
+  }
+
+  private getUserName(account: string) {
+    let user = this.userList.find(user => user.account === account);
+    return user ? user.name: account;
   }
 
   private filterByCategories(templateList: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
@@ -132,5 +148,17 @@ export class TemplateFilterListComponent implements OnChanges {
       : templateList.filter(template =>
         this.selectedZones.some(zone => template.zoneId === zone.id)
       );
+  }
+
+  private sortByAccount(accounts) {
+    let result: Array<BaseTemplateModel> = [];
+    if (accounts && accounts.length != 0) {
+      accounts.forEach(account => {
+        result = result.concat(this.visibleTemplateList.filter(vm => vm.account === account.account))
+      });
+      return result;
+    } else {
+      return this.visibleTemplateList;
+    }
   }
 }

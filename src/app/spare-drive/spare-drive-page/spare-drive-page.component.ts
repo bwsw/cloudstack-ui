@@ -176,7 +176,8 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
   }
 
   private getUserName(account: string) {
-    return this.userList.find(user => user.account === account).name;
+    let user = this.userList.find(user => user.account === account);
+    return user ? user.name: account;
   }
 
   private sortByAccount(accounts) {

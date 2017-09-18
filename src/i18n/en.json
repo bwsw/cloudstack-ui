@@ -515,6 +515,7 @@
       "SELECT_ZONES": "Select zones",
       "GROUP_BY": "Group by",
       "GROUP_BY_ZONES": "Zones",
+      "GROUP_BY_ACCOUNTS": "Accounts",
       "NO_ZONE": "No zone",
       "FEATURED": "Featured",
       "SELF": "My",
