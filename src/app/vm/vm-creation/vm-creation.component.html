@@ -146,13 +146,13 @@
         </div>
 
         <div>
-          <cs-security-group-rules-manager
+          <cs-vm-creation-security-group-rules-manager
             name="sgm"
             class="sg-rules-manager"
             *ngIf="formState.state.showSecurityGroups"
-            [ngModel]="formState.state.securityRules"
+            [ngModel]="formState.state.securityGroupData"
             (ngModelChange)="securityRulesChange($event)"
-          ></cs-security-group-rules-manager>
+          ></cs-vm-creation-security-group-rules-manager>
         </div>
 
         <div>

@@ -30,12 +30,14 @@ import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
 import { VmService } from './shared/vm.service';
 import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions.component';
 import { VmActionProviders } from './vm-actions/index';
+// tslint:disable-next-line
+import { VmCreationSecurityGroupComponent } from './vm-creation/components/security-group/vm-creation-security-group.component';
 import { VmCreationFormNormalizationService } from './vm-creation/form-normalization/form-normalization.service';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
 import { VmCreationService } from './vm-creation/services/vm-creation.service';
 import { VmDeploymentService } from './vm-creation/services/vm-deployment.service';
 import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-dialog.component';
-import { VmTemplateComponent } from './vm-creation/template/vm-template.component';
+import { VmCreationTemplateComponent } from './vm-creation/template/vm-creation-template.component';
 import { VmCreationDialogComponent } from './vm-creation/vm-creation-dialog.component';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmFilterComponent } from './vm-filter/vm-filter.component';
@@ -71,6 +73,9 @@ import { VolumeResizeComponent } from './vm-sidebar/volume-resize/volume-resize.
 import { VmDetailZoneComponent } from './vm-sidebar/zone/zone.component';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
 import { WebShellService } from './web-shell/web-shell.service';
+// tslint:disable-next-line
+import { SecurityGroupManagerExistingGroupComponent } from './vm-creation/components/security-group-rules-manager/security-group-manager-existing-group/security-group-manager-existing-group.component';
+import { VmCreationSecurityGroupRulesManagerComponent } from './vm-creation/components/security-group-rules-manager/vm-creation-security-group-rules-manager.component';
 import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-template.component';
 import { NicComponent } from './vm-sidebar/network-detail/nics/nic/nic.component';
 import { NicListComponent } from './vm-sidebar/network-detail/nics/nic-list/nic-list.component';
@@ -131,7 +136,7 @@ import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fie
     VmDetailComponent,
     VmFilterComponent,
     VmSidebarComponent,
-    VmTemplateComponent,
+    VmCreationTemplateComponent,
     VmTemplateDialogComponent,
     VolumeDetailsComponent,
     VolumeResizeComponent,
@@ -142,6 +147,9 @@ import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fie
     VolumeComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,
+    VmCreationSecurityGroupComponent,
+    SecurityGroupManagerExistingGroupComponent,
+    VmCreationSecurityGroupRulesManagerComponent,
     NicComponent,
     NicListComponent,
     SecondaryIpComponent,
@@ -168,7 +176,8 @@ import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fie
     SnapshotCreationComponent,
     SnapshotModalComponent,
     SpareDriveAttachmentDialogComponent,
-    SshKeypairResetComponent
+    SshKeypairResetComponent,
+    VmCreationSecurityGroupComponent
   ]
 })
 export class VmModule { }

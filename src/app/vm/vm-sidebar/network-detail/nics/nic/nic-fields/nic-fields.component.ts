@@ -11,6 +11,10 @@ export class NicFieldsComponent {
   @Input() public nic: NIC;
 
   public get ipWithSuffix(): string {
+    if (!this.nic.ipAddress) {
+      return 'VM_PAGE.NETWORK_DETAILS.IP_NA';
+    }
+
     return `${this.nic.ipAddress}${transformSubnetMaskToCidrSuffix(this.nic.netmask)}`;
   }
 }

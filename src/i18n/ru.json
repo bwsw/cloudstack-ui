@@ -165,8 +165,10 @@
   },
   "NOTIFICATIONS": {
     "TEMPLATE": {
-      "CREATED": "Шаблон {{ name }} успешно создан",
-      "DELETED": "Шаблон {{ name }} успешно удален"
+      "CUSTOM_TEMPLATE_CREATED": "Шаблон {{ name }} успешно создан",
+      "CUSTOM_TEMPLATE_DELETED": "Шаблон {{ name }} успешно удален",
+      "SHARED_GROUP_CREATED": "Разделяемая группа {{ name }} успешно создана",
+      "SHARED_GROUP_DELETED": "Разделяемая группа {{ name }} успешно удалена"
     }
   },
   "AUTH": {
@@ -185,7 +187,7 @@
     "VMS": "Виртуальные<br>машины",
     "SPARE_DRIVES": "Хранилище",
     "IMAGES": "Образы",
-    "FIREWALL_TEMPLATES": "Шаблоны<br>брандмауэра",
+    "FIREWALL_TEMPLATES": "Брандмауэр",
     "ACTIVITY_LOG": "Журнал событий",
     "SSH_KEYS": "SSH ключи",
     "SETTINGS": "Настройки",
@@ -396,6 +398,7 @@
     "NETWORK_DETAILS": {
       "NIC_NAME": "Конфигурация NIC#{{ value }}",
       "IP": "IPv4",
+      "IP_NA": "IP недоступен",
       "ARE_YOU_SURE_ADD_SECONDARY_IP": "Вы уверены, что хотите добавить дополнительный IP?",
       "ARE_YOU_SURE_REMOVE_SECONDARY_IP": "Вы уверены, что хотите удалить дополнительный IP?",
       "broadcastUri": "Broadcast URI",
@@ -403,7 +406,7 @@
       "ip6Address": "IPv6 адрес",
       "ip6Cidr": "IPv6 CIDR",
       "ip6Gateway": "IPv6 шлюз",
-      "ipAddress": "IP",
+      "ipAddress": "IPv4",
       "isDefault": "По умолчанию",
       "isolationUri": "Isolation URI",
       "macAddress": "MAC адрес",
@@ -494,6 +497,10 @@
       "READ_RATE_IOPS": "Скорость чтения (IO/сек)",
       "WRITE_RATE_IOPS": "Скорость записи (IO/сек)"
     },
+    "SNAPSHOTS": {
+      "DESCRIPTION": "Описание",
+      "DATE": "Дата"
+    },
     "ATTACHMENT": {
       "CHOOSE_VIRTUAL_MACHINE": "Выберите машину",
       "NO_VMS": "Нет машин",
@@ -563,16 +570,21 @@
     }
   },
   "SECURITY_GROUP_PAGE": {
+    "FILTERS": {
+      "TEMPLATES": "Шаблоны",
+      "SHARED": "Разделяемые группы"
+    },
+
     "LIST": {
       "SYSTEM_SECURITY_GROUPS": "Системные",
-      "CUSTOM_SECURITY_GROUPS": "Пользовательские"
+      "CUSTOM_SECURITY_GROUPS": "Пользовательские",
+      "SHARED_SECURITY_GROUPS": "Разделяемые"
     },
     "CARD": {
       "DESCRIPTION": "Описание"
     },
     "RULES": {
-      "FIREWALL_RULES_FOR_VM": "Правила брандмауэра для ВМ",
-      "TEMPLATE_RULES": "Правила шаблона",
+      "TITLE": "Редактирование правил группы {{ value }}",
       "TYPE": "Тип",
       "PROTOCOL": "Протокол",
       "CIDR": "CIDR",
@@ -604,21 +616,6 @@
       "DEFAULT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }},  ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCodeText }} [{{ icmpCode }}]",
       "NO_TEXT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }},  ICMP тип: {{ icmpType }}, ICMP код: {{ icmpCode }}",
       "NO_CODE_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }},  ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCode }}"
-    },
-    "RULES_MANAGER": {
-      "BASED_ON": "основан на"
-    },
-    "TEMPLATE_CREATION": {
-      "CREATE_NEW_TEMPLATE": "Создать новый шаблон",
-      "NAME": "Название",
-      "DESCRIPTION": "Описание",
-      "BASIC_RULES": "Базовые правила"
-    },
-    "BUILDER": {
-      "SECURITY_GROUP_TEMPLATES": "Шаблоны групп безопасности",
-      "ALL_GROUPS": "Все шаблоны",
-      "SELECTED_GROUPS": "Выбранные шаблоны",
-      "NETWORK_RULES": "Сетевые правила"
     },
     "ICMP_TYPES": {
       "-1": {
@@ -827,6 +824,16 @@
           "5": "Требуется авторизация"
         }
       }
+    },
+    "RULES_MANAGER": {
+      "BASED_ON": "основан на"
+    },
+    "TEMPLATE_CREATION": {
+      "CREATE_NEW_TEMPLATE": "Создать новый шаблон",
+      "CREATE_NEW_SHARED_GROUP": "Создать новую разделяемую группу",
+      "NAME": "Название",
+      "DESCRIPTION": "Описание",
+      "BASIC_RULES": "Базовые правила"
     }
   },
   "EVENT_PAGE": {
@@ -922,6 +929,16 @@
       "DISK_WRITE_IOPS": "Запись на диск (IOPS)",
       "DISK_IO_ERRORS": "Ошибки IO"
     }
+  },
+  "SECURITY_GROUP_SELECTOR": {
+    "BUILD_NEW_GROUP": "Создание новой группы",
+    "SELECT_EXISTING_GROUP": "Выбор сущуствующей группы",
+    "BUILD": "Создать",
+    "SELECT": "Выбрать",
+    "ALL_GROUPS": "Все",
+    "SELECTED_GROUPS": "Выбранные шаблоны",
+    "NETWORK_RULES": "Сетевые правила",
+    "SELECT_SECURITY_GROUP": "Выбор группы"
   },
   "SERVICE_OFFERING": {
     "CHANGE_SERVICE_OFFERING": "Изменить предложение",

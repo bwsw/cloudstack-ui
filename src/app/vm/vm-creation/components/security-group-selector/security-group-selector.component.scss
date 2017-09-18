@@ -1,0 +1,29 @@
+md-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  max-height: 370px;
+}
+
+md-list-item {
+  cursor: pointer;
+}
+
+md-list-item .md-line-secondary {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.security-group-radio-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: auto;
+  padding: 0;
+}
+
+:host md-icon img {
+  vertical-align: top;
+}
+
+.selected-security-group span {
+  font-weight: bold;
+}

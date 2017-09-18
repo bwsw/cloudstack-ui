@@ -1,15 +1,15 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as sortBy from 'lodash/sortBy';
-import {InstanceGroup, Zone} from '../../shared/models';
-import {FilterService} from '../../shared/services/filter.service';
-import {InstanceGroupService} from '../../shared/services/instance-group.service';
-import {LocalStorageService} from '../../shared/services/local-storage.service';
-import {VmState} from '../shared/vm.model';
-import {VmService} from '../shared/vm.service';
-import {User} from '../../shared/models/user.model';
-import {AuthService} from '../../shared/services/auth.service';
-
+import { InstanceGroup, Zone } from '../../shared/models';
+import { FilterService } from '../../shared/services/filter.service';
+import { InstanceGroupService } from '../../shared/services/instance-group.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
+import { VmState } from '../shared/vm.model';
+import { VmService } from '../shared/vm.service';
+import { FilterComponent } from '../../shared/interfaces/filter-component';
+import { User } from '../../shared/models/user.model';
+import { AuthService } from '../../shared/services/auth.service';
 
 export interface VmFilter {
   selectedGroups: Array<InstanceGroup | noGroup>;
@@ -27,7 +27,7 @@ export type InstanceGroupOrNoGroup = InstanceGroup | noGroup;
   selector: 'cs-vm-filter',
   templateUrl: 'vm-filter.component.html'
 })
-export class VmFilterComponent implements OnInit, OnChanges {
+export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit, OnChanges {
   @Input() public availableGroupings: Array<any>;
   @Input() public groups: Array<InstanceGroup>;
   @Input() public zones: Array<Zone>;

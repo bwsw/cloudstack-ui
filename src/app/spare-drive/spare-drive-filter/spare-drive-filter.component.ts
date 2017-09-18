@@ -1,12 +1,13 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as sortBy from 'lodash/sortBy';
-import {VolumeType, volumeTypeNames} from '../../shared/models/volume.model';
-import {Zone} from '../../shared/models/zone.model';
-import {FilterService} from '../../shared/services/filter.service';
-import {LocalStorageService} from '../../shared/services/local-storage.service';
-import {User} from '../../shared/models/user.model';
-import {AuthService} from '../../shared/services/auth.service';
+import { FilterComponent } from '../../shared/interfaces/filter-component';
+import { VolumeType, volumeTypeNames } from '../../shared/models/volume.model';
+import { Zone } from '../../shared/models/zone.model';
+import { FilterService } from '../../shared/services/filter.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
+import { User } from '../../shared/models/user.model';
+import { AuthService } from '../../shared/services/auth.service';
 
 export interface SpareDriveFilter {
   spareOnly: boolean;
@@ -19,12 +20,13 @@ export interface SpareDriveFilter {
 
 export const spareDriveListFilters = 'spareDriveListFilters';
 
+
 @Component({
   selector: 'cs-spare-drive-filter',
   templateUrl: 'spare-drive-filter.component.html',
   styleUrls: ['spare-drive-filter.component.scss']
 })
-export class SpareDriveFilterComponent implements OnChanges {
+export class SpareDriveFilterComponent implements FilterComponent<SpareDriveFilter>, OnChanges {
   @Input() public zones: Array<Zone>;
   @Input() public groupings: Array<any>;
   @Input() public searchPanelWhite: boolean;

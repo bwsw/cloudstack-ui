@@ -15,7 +15,7 @@ import { ConfigService } from '../../../shared/services/config.service';
 import { DiskOfferingService } from '../../../shared/services/disk-offering.service';
 import { OfferingAvailability } from '../../../shared/services/offering.service';
 import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
-import { SecurityGroupService } from '../../../shared/services/security-group.service';
+import { SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
 import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
 import { ZoneService } from '../../../shared/services/zone.service';
@@ -96,7 +96,7 @@ export class VmCreationService {
           zones
         ]) => {
         const configurationData = this.configService.get(vmCreationConfigurationKeys);
-        const securityGroupTemplates = this.securityGroupService.getTemplates();
+        const securityGroupTemplates = this.securityGroupService.getPredefinedTemplates();
         const sshKeysWithNoKeyOption = this.getSSHKeysWithNoKeyOption(
           sshKeyPairs,
           translations['VM_PAGE.VM_CREATION.NO_SSH_KEY']
