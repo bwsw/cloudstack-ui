@@ -10,9 +10,9 @@ import { VmService } from '../../../../vm/shared/vm.service';
 
 
 @Component({
-  selector: 'cs-spare-drive-attachment',
-  templateUrl: 'spare-drive-attachment.component.html',
-  styleUrls: ['spare-drive-attachment.component.scss']
+  selector: 'cs-volume-attachment',
+  templateUrl: 'volume-attachment.component.html',
+  styleUrls: ['volume-attachment.component.scss']
 })
 export class SpareDriveAttachmentComponent implements OnInit {
   public virtualMachineId: string;

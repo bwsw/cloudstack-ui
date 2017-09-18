@@ -6,8 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
-  selector: 'cs-spare-drive-details',
-  templateUrl: 'spare-drive-details.component.html'
+  selector: 'cs-volume-details',
+  templateUrl: 'volume-details.component.html'
 })
 export class SpareDriveDetailsComponent {
   public volume: Volume;

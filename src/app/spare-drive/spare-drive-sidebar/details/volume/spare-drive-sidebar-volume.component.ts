@@ -4,8 +4,8 @@ import { VolumeService } from '../../../../shared/services/volume.service';
 
 
 @Component({
-  selector: 'cs-spare-drive-sidebar-volume',
-  templateUrl: 'spare-drive-sidebar-volume.component.html'
+  selector: 'cs-volume-sidebar-volume',
+  templateUrl: 'volume-sidebar-volume.component.html'
 })
 export class SpareDriveSidebarVolumeComponent implements OnInit {
   @Input() public volume: Volume;

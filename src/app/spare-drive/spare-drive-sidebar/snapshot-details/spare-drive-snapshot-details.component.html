@@ -1,10 +1,10 @@
 <ng-container *ngIf="volume">
-  <cs-spare-drive-snapshot-creation [volume]="volume"></cs-spare-drive-snapshot-creation>
+  <cs-volume-snapshot-creation [volume]="volume"></cs-volume-snapshot-creation>
 
-  <cs-spare-drive-snapshot
+  <cs-volume-snapshot
     *ngFor="let snapshot of volume.snapshots"
     [snapshot]="snapshot"
-  ></cs-spare-drive-snapshot>
+  ></cs-volume-snapshot>
 
   <cs-no-results *ngIf="!volume.snapshots.length"></cs-no-results>
 </ng-container>

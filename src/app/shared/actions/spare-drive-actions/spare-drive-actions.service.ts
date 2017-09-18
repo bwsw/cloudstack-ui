@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { ActionsService } from '../../interfaces/action-service.interface';
 import { Action } from '../../interfaces/action.interface';
 import { Volume } from '../../models';
-import { SpareDriveAttachAction } from './spare-drive-attach';
-import { SpareDriveRemoveAction } from './spare-drive-remove';
-import { SpareDriveResizeAction } from './spare-drive-resize';
-import { SpareDriveDetachAction } from './spare-drive-detach';
-import { SpareDriveSnapshotAction } from './spare-drive-snapshot';
-import { SpareDriveRecurringSnapshotsAction } from './spare-drive-recurring-snapshots';
+import { SpareDriveAttachAction } from './volume-attach';
+import { SpareDriveRemoveAction } from './volume-remove';
+import { SpareDriveResizeAction } from './volume-resize';
+import { SpareDriveDetachAction } from './volume-detach';
+import { SpareDriveSnapshotAction } from './volume-snapshot';
+import { SpareDriveRecurringSnapshotsAction } from './volume-recurring-snapshots';
 
 
 @Injectable()

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { DiskOffering } from '../../models/disk-offering.model';
 import { Volume } from '../../models/volume.model';
 import { VolumeResizeComponent } from '../../../vm/vm-sidebar/volume-resize/volume-resize.component';
-import { SpareDriveAction } from './spare-drive-action';
+import { SpareDriveAction } from './volume-action';
 
 
 @Injectable()

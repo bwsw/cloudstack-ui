@@ -3,9 +3,9 @@ import { MD_DIALOG_DATA } from '@angular/material';
 import { Volume } from '../../../../../shared/models';
 
 @Component({
-  selector: 'cs-spare-drive-attachment-dialog',
-  templateUrl: 'spare-drive-attachment-dialog.component.html',
-  styleUrls: ['spare-drive-attachment-dialog.component.scss']
+  selector: 'cs-volume-attachment-dialog',
+  templateUrl: 'volume-attachment-dialog.component.html',
+  styleUrls: ['volume-attachment-dialog.component.scss']
 })
 export class SpareDriveAttachmentDialogComponent implements OnInit {
   public selectedVolume: Volume;

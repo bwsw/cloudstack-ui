@@ -1,5 +1,5 @@
 <md-card
-  class="custom-card spare-drive-card"
+  class="custom-card volume-card"
   (click)="handleClick($event)"
   [class.card-selected]="isSelected(item)"
   [class.root-disk]="isRoot"
@@ -48,6 +48,6 @@
     #actionsMenu="mdMenu"
     [style.width.px]="300"
   >
-    <cs-spare-drive-actions [volume]="item"></cs-spare-drive-actions>
+    <cs-volume-actions [volume]="item"></cs-volume-actions>
   </md-menu>
 </md-card>

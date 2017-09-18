@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../shared/services/auth-guard.service';
-import { SpareDriveCreationDialogComponent } from './spare-drive-creation/spare-drive-creation-dialog.component';
-import { SpareDrivePageComponent } from './spare-drive-page/spare-drive-page.component';
-import { SpareDriveDetailsComponent } from './spare-drive-sidebar/details/spare-drive-details.component';
-import { SpareDriveSnapshotDetailsComponent } from './spare-drive-sidebar/snapshot-details/spare-drive-snapshot-details.component';
-import { SpareDriveSidebarComponent } from './spare-drive-sidebar/spare-drive-sidebar.component';
+import { SpareDriveCreationDialogComponent } from './volume-creation/volume-creation-dialog.component';
+import { SpareDrivePageComponent } from './volume-page/volume-page.component';
+import { SpareDriveDetailsComponent } from './volume-sidebar/details/volume-details.component';
+import { SpareDriveSnapshotDetailsComponent } from './volume-sidebar/snapshot-details/volume-snapshot-details.component';
+import { SpareDriveSidebarComponent } from './volume-sidebar/volume-sidebar.component';
 
 export const spareDriveRoutes: Routes = [
   {

@@ -25,9 +25,9 @@ export interface SpareDriveFilter {
 export const spareDriveListFilters = 'spareDriveListFilters';
 
 @Component({
-  selector: 'cs-spare-drive-filter',
-  templateUrl: 'spare-drive-filter.component.html',
-  styleUrls: ['spare-drive-filter.component.scss']
+  selector: 'cs-volume-filter',
+  templateUrl: 'volume-filter.component.html',
+  styleUrls: ['volume-filter.component.scss']
 })
 export class SpareDriveFilterComponent implements OnChanges {
   @Input() public zones: Array<Zone>;

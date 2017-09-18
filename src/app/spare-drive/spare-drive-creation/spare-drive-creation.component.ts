@@ -13,13 +13,13 @@ import {
 import { Zone } from '../../shared/models';
 import { VolumeService } from '../../shared/services/volume.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { VolumeCreationData } from '../spare-drive-page/spare-drive-page.component';
+import { VolumeCreationData } from '../volume-page/volume-page.component';
 
 
 @Component({
-  selector: 'cs-spare-drive-creation',
-  templateUrl: 'spare-drive-creation.component.html',
-  styleUrls: ['spare-drive-creation.component.scss']
+  selector: 'cs-volume-creation',
+  templateUrl: 'volume-creation.component.html',
+  styleUrls: ['volume-creation.component.scss']
 })
 export class SpareDriveCreationComponent implements OnInit {
   public name: string;

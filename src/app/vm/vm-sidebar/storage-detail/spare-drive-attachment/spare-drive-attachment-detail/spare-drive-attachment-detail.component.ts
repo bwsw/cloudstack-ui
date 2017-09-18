@@ -4,13 +4,13 @@ import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../../../../shared/models';
 import { VolumeService } from '../../../../../shared/services/volume.service';
 import { VirtualMachine } from '../../../../shared/vm.model';
-import { SpareDriveAttachmentDialogComponent } from '../spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
+import { SpareDriveAttachmentDialogComponent } from '../volume-attchment-dialog/volume-attachment-dialog.component';
 
 
 @Component({
-  selector: 'cs-spare-drive-attachment-detail',
-  templateUrl: 'spare-drive-attachment-detail.component.html',
-  styleUrls: ['spare-drive-attachment-detail.component.scss']
+  selector: 'cs-volume-attachment-detail',
+  templateUrl: 'volume-attachment-detail.component.html',
+  styleUrls: ['volume-attachment-detail.component.scss']
 })
 export class SpareDriveAttachmentDetailComponent implements OnInit {
   @Input() public virtualMachine: VirtualMachine;
@@ -27,7 +27,7 @@ export class SpareDriveAttachmentDetailComponent implements OnInit {
 
   public ngOnInit(): void {
     if (!this.virtualMachine) {
-      throw new Error('the virtualMachine property is missing in cs-spare-drive-attachment-detail');
+      throw new Error('the virtualMachine property is missing in cs-volume-attachment-detail');
     }
     this.loadVolumes().subscribe();
     this.volumeService.onVolumeAttachment

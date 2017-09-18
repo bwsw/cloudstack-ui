@@ -19,7 +19,7 @@ Table of Contents
          * [Resource usage bar](#resource-usage-bar)
          * [Templates and ISOs view](#templates--isos-view)
          * [Firewall Templates View](#firewall-templates-view)
-         * [Spare Drives View](#spare-drives-view)
+         * [Spare Drives View](#volumes-view)
          * [Activity log view](#activity-log-view)
    * [Documentation](#documentation)
       * [Deployment](#deployment)

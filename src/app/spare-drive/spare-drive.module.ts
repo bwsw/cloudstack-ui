@@ -16,29 +16,29 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 // tslint:disable-next-line
-import { SpareDriveAttachmentComponent } from '../shared/actions/spare-drive-actions/spare-drive-attachment/spare-drive-attachment.component';
+import { SpareDriveAttachmentComponent } from '../shared/actions/volume-actions/volume-attachment/volume-attachment.component';
 import { SharedModule } from '../shared/shared.module';
-import { SpareDriveCreationDialogComponent } from './spare-drive-creation/spare-drive-creation-dialog.component';
-import { SpareDriveCreationComponent } from './spare-drive-creation/spare-drive-creation.component';
-import { SpareDriveFilterComponent } from './spare-drive-filter/spare-drive-filter.component';
-import { SpareDriveItemComponent } from './spare-drive-item/spare-drive-item.component';
-import { SpareDriveListComponent } from './spare-drive-list/spare-drive-list.component';
-import { SpareDrivePageComponent } from './spare-drive-page/spare-drive-page.component';
+import { SpareDriveCreationDialogComponent } from './volume-creation/volume-creation-dialog.component';
+import { SpareDriveCreationComponent } from './volume-creation/volume-creation.component';
+import { SpareDriveFilterComponent } from './volume-filter/volume-filter.component';
+import { SpareDriveItemComponent } from './volume-item/volume-item.component';
+import { SpareDriveListComponent } from './volume-list/volume-list.component';
+import { SpareDrivePageComponent } from './volume-page/volume-page.component';
 // tslint:disable-next-line
-import { SpareDriveActionsSidebarComponent } from './spare-drive-sidebar/actions-sidebar/spare-drive-actions-sidebar.component';
+import { SpareDriveActionsSidebarComponent } from './volume-sidebar/actions-sidebar/volume-actions-sidebar.component';
 // tslint:disable-next-line
-import { SpareDriveSidebarDiskOfferingComponent } from './spare-drive-sidebar/details/disk-offering/spare-drive-sidebar-disk-offering.component';
-import { SpareDriveDetailsComponent } from './spare-drive-sidebar/details/spare-drive-details.component';
+import { SpareDriveSidebarDiskOfferingComponent } from './volume-sidebar/details/disk-offering/volume-sidebar-disk-offering.component';
+import { SpareDriveDetailsComponent } from './volume-sidebar/details/volume-details.component';
 // tslint:disable-next-line
-import { SpareDriveSidebarVolumeComponent } from './spare-drive-sidebar/details/volume/spare-drive-sidebar-volume.component';
+import { SpareDriveSidebarVolumeComponent } from './volume-sidebar/details/volume/volume-sidebar-volume.component';
 // tslint:disable-next-line
-import { SpareDriveSnapshotCreationComponent } from './spare-drive-sidebar/snapshot-details/snapshot-creation/spare-drive-snapshot-creation.component';
-import { SnapshotActionsComponent } from './spare-drive-sidebar/snapshot-details/snapshot/snapshot-actions/snapshot-actions.component';
+import { SpareDriveSnapshotCreationComponent } from './volume-sidebar/snapshot-details/snapshot-creation/volume-snapshot-creation.component';
+import { SnapshotActionsComponent } from './volume-sidebar/snapshot-details/snapshot/snapshot-actions/snapshot-actions.component';
 // tslint:disable-next-line
-import { SpareDriveSnapshotComponent } from './spare-drive-sidebar/snapshot-details/snapshot/spare-drive-snapshot.component';
+import { SpareDriveSnapshotComponent } from './volume-sidebar/snapshot-details/snapshot/volume-snapshot.component';
 // tslint:disable-next-line
-import { SpareDriveSnapshotDetailsComponent } from './spare-drive-sidebar/snapshot-details/spare-drive-snapshot-details.component';
-import { SpareDriveSidebarComponent } from './spare-drive-sidebar/spare-drive-sidebar.component';
+import { SpareDriveSnapshotDetailsComponent } from './volume-sidebar/snapshot-details/volume-snapshot-details.component';
+import { SpareDriveSidebarComponent } from './volume-sidebar/volume-sidebar.component';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 
 

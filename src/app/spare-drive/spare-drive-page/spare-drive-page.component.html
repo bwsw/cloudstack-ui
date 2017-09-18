@@ -2,21 +2,21 @@
   (onAction)="showCreationDialog()"
   [isOpen]="listService?.hasSelected()"
 >
-  <cs-spare-drive-filter
+  <cs-volume-filter
     [zones]="zones"
     [groupings]="groupings"
     [searchPanelWhite]="selectedGroupings?.length && visibleVolumes?.length"
     (updateFilters)="updateFiltersAndFilter($event)"
     cs-list
-  ></cs-spare-drive-filter>
+  ></cs-volume-filter>
 
-  <cs-spare-drive-list
+  <cs-volume-list
     *loading="!volumes"
     [volumes]="visibleVolumes"
     [groupings]="selectedGroupings"
     [query]="query"
     cs-list
-  ></cs-spare-drive-list>
+  ></cs-volume-list>
 
   <ng-container cs-sidebar>
     <cs-sidebar [isOpen]="listService?.hasSelected()">

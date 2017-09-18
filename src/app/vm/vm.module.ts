@@ -54,9 +54,9 @@ import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.com
 import { StatisticsComponent } from './vm-sidebar/statistics/statistics.component';
 import { IsoComponent } from './vm-sidebar/storage-detail/iso.component';
 // tslint:disable-next-line
-import { SpareDriveAttachmentDetailComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attachment-detail/spare-drive-attachment-detail.component';
+import { SpareDriveAttachmentDetailComponent } from './vm-sidebar/storage-detail/volume-attachment/volume-attachment-detail/volume-attachment-detail.component';
 // tslint:disable-next-line
-import { SpareDriveAttachmentDialogComponent } from './vm-sidebar/storage-detail/spare-drive-attachment/spare-drive-attchment-dialog/spare-drive-attachment-dialog.component';
+import { SpareDriveAttachmentDialogComponent } from './vm-sidebar/storage-detail/volume-attachment/volume-attchment-dialog/volume-attachment-dialog.component';
 import { StorageDetailComponent } from './vm-sidebar/storage-detail/storage-detail.component';
 // tslint:disable-next-line
 import { SnapshotCreationComponent } from './vm-sidebar/storage-detail/volume/snapshot-creation/snapshot-creation.component';

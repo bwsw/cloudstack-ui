@@ -1,17 +1,17 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MdMenuTrigger } from '@angular/material';
-import { SpareDriveActionsService } from '../../shared/actions/spare-drive-actions/spare-drive-actions.service';
+import { SpareDriveActionsService } from '../../shared/actions/volume-actions/volume-actions.service';
 import { DiskOffering, Volume } from '../../shared/models';
 import { VolumeType } from '../../shared/models/volume.model';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { SpareDriveItem } from '../spare-drive-item';
+import { SpareDriveItem } from '../volume-item';
 
 
 @Component({
-  selector: 'cs-spare-drive-item',
-  templateUrl: 'spare-drive-item.component.html',
-  styleUrls: ['spare-drive-item.component.scss']
+  selector: 'cs-volume-item',
+  templateUrl: 'volume-item.component.html',
+  styleUrls: ['volume-item.component.scss']
 })
 export class SpareDriveItemComponent extends SpareDriveItem implements OnInit, OnChanges {
   @Input() public isSelected: (volume) => boolean;

@@ -6,8 +6,8 @@ import { VolumeService } from '../../../shared/services/volume.service';
 
 
 @Component({
-  selector: 'cs-spare-drive-snapshot-details',
-  templateUrl: 'spare-drive-snapshot-details.component.html'
+  selector: 'cs-volume-snapshot-details',
+  templateUrl: 'volume-snapshot-details.component.html'
 })
 export class SpareDriveSnapshotDetailsComponent implements OnInit {
   public volume: Volume;

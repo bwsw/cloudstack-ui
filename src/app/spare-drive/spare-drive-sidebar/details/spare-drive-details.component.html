@@ -1,10 +1,10 @@
 <ng-container *ngIf="volume">
-  <cs-spare-drive-sidebar-volume [volume]="volume"></cs-spare-drive-sidebar-volume>
+  <cs-volume-sidebar-volume [volume]="volume"></cs-volume-sidebar-volume>
 
   <cs-description
     [description]="volume.description"
     (descriptionChange)="changeDescription($event)"
   ></cs-description>
 
-  <cs-spare-drive-sidebar-disk-offering [volume]="volume"></cs-spare-drive-sidebar-disk-offering>
+  <cs-volume-sidebar-disk-offering [volume]="volume"></cs-volume-sidebar-disk-offering>
 </ng-container>

@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { SpareDriveSnapshotAction } from '../../../../shared/actions/spare-drive-actions/spare-drive-snapshot';
+import { SpareDriveSnapshotAction } from '../../../../shared/actions/volume-actions/volume-snapshot';
 import { Volume } from '../../../../shared/models/volume.model';
 
 
 @Component({
-  selector: 'cs-spare-drive-snapshot-creation',
-  templateUrl: 'spare-drive-snapshot-creation.component.html',
-  styleUrls: ['spare-drive-snapshot-creation.component.scss']
+  selector: 'cs-volume-snapshot-creation',
+  templateUrl: 'volume-snapshot-creation.component.html',
+  styleUrls: ['volume-snapshot-creation.component.scss']
 })
 export class SpareDriveSnapshotCreationComponent {
   @Input() public volume: Volume;

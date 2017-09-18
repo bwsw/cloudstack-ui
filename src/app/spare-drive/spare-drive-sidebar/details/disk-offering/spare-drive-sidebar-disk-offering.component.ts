@@ -4,8 +4,8 @@ import { Volume } from '../../../../shared/models/volume.model';
 
 
 @Component({
-  selector: 'cs-spare-drive-sidebar-disk-offering',
-  templateUrl: 'spare-drive-sidebar-disk-offering.component.html'
+  selector: 'cs-volume-sidebar-disk-offering',
+  templateUrl: 'volume-sidebar-disk-offering.component.html'
 })
 export class SpareDriveSidebarDiskOfferingComponent {
   @Input() public volume: Volume;

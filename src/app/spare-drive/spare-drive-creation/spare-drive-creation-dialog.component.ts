@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SpareDriveCreationComponent } from './spare-drive-creation.component';
+import { SpareDriveCreationComponent } from './volume-creation.component';
 import { Volume } from '../../shared/models/volume.model';
 import { ListService } from '../../shared/components/list/list.service';
 
 @Component({
-  selector: 'cs-spare-drive-create-dialog',
+  selector: 'cs-volume-create-dialog',
   template: ``
 })
 export class SpareDriveCreationDialogComponent {

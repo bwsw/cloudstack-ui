@@ -3,8 +3,8 @@ import { Snapshot } from '../../../../shared/models/snapshot.model';
 
 
 @Component({
-  selector: 'cs-spare-drive-snapshot',
-  templateUrl: 'spare-drive-snapshot.component.html'
+  selector: 'cs-volume-snapshot',
+  templateUrl: 'volume-snapshot.component.html'
 })
 export class SpareDriveSnapshotComponent {
   @Input() public snapshot: Snapshot;

@@ -1,1 +1,1 @@
-export * from './spare-drive.module';
+export * from './volume.module';

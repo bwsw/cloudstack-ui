@@ -11,7 +11,7 @@ import { VolumeService } from '../../shared/services/volume.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { filterWithPredicates } from '../../shared/utils/filter';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { SpareDriveFilter } from '../spare-drive-filter/spare-drive-filter.component';
+import { SpareDriveFilter } from '../volume-filter/volume-filter.component';
 import { volumeTypeNames } from '../../shared/models/volume.model';
 
 
@@ -23,8 +23,8 @@ export interface VolumeCreationData {
 }
 
 @Component({
-  selector: 'cs-spare-drive-page',
-  templateUrl: 'spare-drive-page.component.html',
+  selector: 'cs-volume-page',
+  templateUrl: 'volume-page.component.html',
   providers: [ListService]
 })
 export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit, OnDestroy {

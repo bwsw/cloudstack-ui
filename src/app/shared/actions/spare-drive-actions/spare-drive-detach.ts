@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../models/volume.model';
-import { SpareDriveAction } from './spare-drive-action';
+import { SpareDriveAction } from './volume-action';
 
 
 @Injectable()

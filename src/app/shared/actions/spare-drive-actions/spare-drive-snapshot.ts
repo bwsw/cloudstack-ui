@@ -4,7 +4,7 @@ import {
   SnapshotCreationComponent
 } from '../../../vm/vm-sidebar/storage-detail/volume/snapshot-creation/snapshot-creation.component';
 import { Volume } from '../../models/volume.model';
-import { SpareDriveAction } from './spare-drive-action';
+import { SpareDriveAction } from './volume-action';
 
 
 @Injectable()
