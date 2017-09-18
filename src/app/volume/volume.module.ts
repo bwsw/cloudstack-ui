@@ -16,7 +16,6 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 // tslint:disable-next-line
-import { SpareDriveAttachmentComponent } from '../shared/actions/volume-actions/volume-attachment/volume-attachment.component';
 import { SharedModule } from '../shared/shared.module';
 import { SpareDriveCreationDialogComponent } from './volume-creation/volume-creation-dialog.component';
 import { SpareDriveCreationComponent } from './volume-creation/volume-creation.component';
@@ -40,6 +39,10 @@ import { SpareDriveSnapshotComponent } from './volume-sidebar/snapshot-details/s
 import { SpareDriveSnapshotDetailsComponent } from './volume-sidebar/snapshot-details/volume-snapshot-details.component';
 import { SpareDriveSidebarComponent } from './volume-sidebar/volume-sidebar.component';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
+// tslint:disable-next-line
+// tslint:disable-next-line
+import { SpareDriveAttachmentDialogComponent } from '../vm/vm-sidebar/storage-detail/volume-attachment/volume-attchment-dialog/volume-attachment-dialog.component';
+import { SpareDriveAttachmentComponent } from '../shared/actions/volume-actions/volume-attachment/volume-attachment.component';
 
 
 @NgModule({
@@ -78,7 +81,8 @@ import { DraggableSelectModule } from '../shared/components/draggable-select/dra
     SpareDriveFilterComponent,
     SpareDriveCreationDialogComponent,
     SpareDriveItemComponent,
-    SpareDriveListComponent
+    SpareDriveListComponent,
+    SpareDriveAttachmentDialogComponent
   ],
   exports: [
     SpareDrivePageComponent

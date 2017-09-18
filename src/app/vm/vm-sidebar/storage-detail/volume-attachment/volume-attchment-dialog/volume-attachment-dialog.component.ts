@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { Volume } from '../../../../../shared/models';
 
+
 @Component({
   selector: 'cs-volume-attachment-dialog',
   templateUrl: 'volume-attachment-dialog.component.html',
