@@ -7,3 +7,13 @@ h4 {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+:host /deep/ .mat-tab-links {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+:host /deep/ .mat-tab-link {
+  min-width: 177px !important;
+}

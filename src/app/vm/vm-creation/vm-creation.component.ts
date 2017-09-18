@@ -23,6 +23,7 @@ import { VmCreationFormNormalizationService } from './form-normalization/form-no
 import { KeyboardLayout } from './keyboards/keyboards.component';
 import { VmCreationService } from './services/vm-creation.service';
 import { VmDeploymentMessage, VmDeploymentService, VmDeploymentStage } from './services/vm-deployment.service';
+import { VmCreationSecurityGroupData } from './security-group/vm-creation-security-group-data';
 
 export interface VmCreationFormState {
   data: VmCreationData;
@@ -171,8 +172,8 @@ export class VmCreationComponent implements OnInit {
     this.updateFormState();
   }
 
-  public securityRulesChange(value: Rules) {
-    this.formState.state.securityRules = value;
+  public securityRulesChange(value: VmCreationSecurityGroupData) {
+    this.formState.state.securityGroupData = value;
     this.updateFormState();
   }
 

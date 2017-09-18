@@ -19,13 +19,16 @@ import {
   MdSliderModule,
   MdSnackBarModule,
   MdTableModule,
-  MdTabsModule
+  MdTabsModule, MdTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
 // tslint:disable-next-line
+import { SecurityGroupSelectorComponent } from '../vm/vm-creation/components/security-group-selector/security-group-selector.component';
+// tslint:disable-next-line
+import { VmCreationSecurityGroupService } from '../vm/vm-creation/services/vm-creation-security-group.service';
 import { SpareDriveActionsComponent } from './actions/spare-drive-actions/spare-drive-actions-component/spare-drive-actions.component';
 import { SpareDriveActionsService } from './actions/spare-drive-actions/spare-drive-actions.service';
 import { SpareDriveAttachAction } from './actions/spare-drive-actions/spare-drive-attach';
@@ -36,6 +39,7 @@ import { SpareDriveRecurringSnapshotsAction } from './actions/spare-drive-action
 import { SpareDriveRemoveAction } from './actions/spare-drive-actions/spare-drive-remove';
 import { SpareDriveResizeAction } from './actions/spare-drive-actions/spare-drive-resize';
 import { SpareDriveSnapshotAction } from './actions/spare-drive-actions/spare-drive-snapshot';
+// tslint:disable-next-line
 import { TemplateActionsComponent } from './actions/template-actions/template-actions-component/template-actions.component';
 import { TemplateActionsService } from './actions/template-actions/template-actions.service';
 import { BadgeModule } from './badge/';
@@ -53,7 +57,6 @@ import {
   NoResultsComponent,
   NotificationBoxComponent,
   NotificationBoxItemComponent,
-  SgRulesManagerComponent,
   SidebarContainerComponent,
   SliderComponent,
   TopBarComponent,
@@ -68,11 +71,16 @@ import { FancySelectComponent } from './components/fancy-select/fancy-select.com
 import { GroupedCardListComponent } from './components/grouped-card-list/grouped-card-list.component';
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
 import { InputGroupComponent } from './components/input-group/input-group.component';
-import { LoaderComponent } from './components/loader.component';
+import { LoaderComponent } from './components/loader/loader.component';
 import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
 import { PopoverModule } from './components/popover/index';
 import { ReloadComponent } from './components/reload/reload.component';
 import { SearchComponent } from './components/search/search.component';
+// tslint:disable-next-line
+import { SecurityGroupBuilderRuleComponent } from './components/security-group-builder/rule/security-group-builder-rule.component';
+import { SecurityGroupBuilderComponent } from './components/security-group-builder/security-group-builder.component';
+// tslint:disable-next-line
+import { SecurityGroupManagerBaseTemplatesComponent } from './components/security-group-manager-base-templates/security-group-manager-base-templates.component';
 import { TableComponent } from './components/table/table.component';
 import { ForbiddenValuesDirective } from './directives/forbidden-values.directive';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
@@ -103,7 +111,6 @@ import { OsTypeService } from './services/os-type.service';
 import { ResourceLimitService } from './services/resource-limit.service';
 import { ResourceUsageService } from './services/resource-usage.service';
 import { RouterUtilsService } from './services/router-utils.service';
-import { SecurityGroupService } from './services/security-group.service';
 import { ServiceOfferingService } from './services/service-offering.service';
 import { SessionStorageService } from './services/session-storage.service';
 import { SnapshotService } from './services/snapshot.service';
@@ -127,6 +134,7 @@ import { ProgressLoggerComponent } from './components/progress-logger/progress-l
 // tslint:disable-next-line
 import { ProgressLoggerMessageComponent } from './components/progress-logger/progress-logger-message/progress-logger-message.component';
 import { AnimatedSlashComponent } from './components/progress-logger/animated-slash/animated-slash.component';
+import { SecurityGroupService } from '../security-group/services/security-group.service';
 
 
 @NgModule({
@@ -153,6 +161,10 @@ import { AnimatedSlashComponent } from './components/progress-logger/animated-sl
     MdSliderModule,
     MdSnackBarModule,
     MdTableModule,
+    CdkTableModule,
+    MdAutocompleteModule,
+    MdInputModule,
+    MdTooltipModule,
     MdTabsModule,
     PopoverModule,
     TranslateModule
@@ -190,7 +202,6 @@ import { AnimatedSlashComponent } from './components/progress-logger/animated-sl
     NotificationBoxItemComponent,
     OverlayLoadingComponent,
     SearchComponent,
-    SgRulesManagerComponent,
     SidebarContainerComponent,
     SliderComponent,
     SpareDriveActionsComponent,
@@ -203,6 +214,12 @@ import { AnimatedSlashComponent } from './components/progress-logger/animated-sl
     ProgressLoggerComponent,
     ProgressLoggerMessageComponent,
     AnimatedSlashComponent,
+    SecurityGroupBuilderComponent,
+    SecurityGroupSelectorComponent,
+    SecurityGroupManagerBaseTemplatesComponent,
+    TemplateActionsComponent,
+    MdAutocompleteModule,
+    MdInputModule,
     TopBarComponent,
     ViewValuePipe,
     VmStatisticsComponent
@@ -210,6 +227,7 @@ import { AnimatedSlashComponent } from './components/progress-logger/animated-sl
   entryComponents: [
     DatePickerDialogComponent,
     LoaderComponent,
+    SecurityGroupBuilderComponent,
     SpareDriveAttachmentComponent
   ],
   declarations: [
@@ -245,7 +263,7 @@ import { AnimatedSlashComponent } from './components/progress-logger/animated-sl
     OverlayLoadingComponent,
     ReloadComponent,
     SearchComponent,
-    SgRulesManagerComponent,
+    SecurityGroupBuilderRuleComponent,
     SidebarContainerComponent,
     SliderComponent,
     SpareDriveActionsComponent,
@@ -263,6 +281,14 @@ import { AnimatedSlashComponent } from './components/progress-logger/animated-sl
     ProgressLoggerComponent,
     ProgressLoggerMessageComponent,
     AnimatedSlashComponent,
+    LoadingDirective,
+    LoaderComponent,
+    GroupedCardListComponent,
+    SpareDriveActionsComponent,
+    TemplateActionsComponent,
+    SecurityGroupBuilderComponent,
+    SecurityGroupSelectorComponent,
+    SecurityGroupManagerBaseTemplatesComponent,
     VmStatisticsComponent
   ],
   providers: [
@@ -313,6 +339,8 @@ import { AnimatedSlashComponent } from './components/progress-logger/animated-sl
     UserTagService,
     VmTagService,
     VolumeOfferingService,
+    ZoneService,
+    VmCreationSecurityGroupService,
     VolumeService,
     VolumeTagService,
     ZoneService

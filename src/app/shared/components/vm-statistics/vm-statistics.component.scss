@@ -118,10 +118,6 @@ md-card md-card-content {
   min-width: 70px !important;
 }
 
-:host /deep/ .mat-tab-header-pagination {
-  display: none !important;
-}
-
 cs-divider-vertical {
   height: 40px;
   display: inline-block;

@@ -1,15 +1,8 @@
-import { Rules } from '../../../security-group/sg-creation/sg-creation.component';
-import { NetworkRule } from '../../../security-group/sg.model';
-import {
-  AffinityGroup,
-  DiskOffering,
-  InstanceGroup,
-  ServiceOffering,
-  SSHKeyPair,
-  Zone
-} from '../../../shared/models';
+import { NetworkRule } from '../../../security-group/network-rule.model';
+import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../../shared/models';
 import { BaseTemplateModel } from '../../../template/shared';
 import { KeyboardLayout } from '../keyboards/keyboards.component';
+import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 import { NotSelected } from '../services/vm-creation.service';
 import { VmCreationData } from './vm-creation-data';
 import { VmDeploymentStage } from '../services/vm-deployment.service';
@@ -26,6 +19,7 @@ interface VmCreationParams {
   keyboard?: string;
   keyPair?: string;
   name?: string;
+  securityGroupIds?: string;
   serviceOfferingId?: string;
   rootDiskSize?: number;
   size?: number;
@@ -41,7 +35,7 @@ export class VmCreationState {
   public instanceGroup: InstanceGroup;
   public keyboard: KeyboardLayout;
   public rootDiskSize: number;
-  public securityRules: Rules;
+  public securityGroupData: VmCreationSecurityGroupData;
   public serviceOffering: ServiceOffering;
   public sshKeyPair: SSHKeyPair | NotSelected;
   public template: BaseTemplateModel;
@@ -104,7 +98,7 @@ export class VmCreationState {
   }
 
   public getStateFromData(data: VmCreationData): void {
-    this.securityRules = data.preselectedRules;
+    this.securityGroupData = VmCreationSecurityGroupData.fromRules(data.preselectedRules);
     this.affinityGroup = new AffinityGroup({ name: '' });
     this.affinityGroupNames = data.affinityGroupNames;
     this.defaultName = data.defaultName;
@@ -143,6 +137,14 @@ export class VmCreationState {
     if (this.diskOffering && !this.template.isTemplate) {
       params.diskofferingid = this.diskOffering.id;
       params.hypervisor = 'KVM';
+    }
+
+    if (
+      this.securityGroupData &&
+      this.securityGroupData.securityGroup &&
+      this.securityGroupData.securityGroup.id
+    ) {
+      params.securityGroupIds = this.securityGroupData.securityGroup.id;
     }
 
     if (this.serviceOffering.areCustomParamsSet) {

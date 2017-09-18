@@ -1,0 +1,20 @@
+<h3 class="mat-dialog-title">
+  {{ 'SECURITY_GROUP_SELECTOR.BUILD_NEW_GROUP' | translate }}
+</h3>
+
+<div class="mat-dialog-content">
+  <cs-security-group-builder
+    [inputRules]="savedData"
+    (onChange)="onBuilderGroupChange($event)"
+  ></cs-security-group-builder>
+</div>
+
+<div class="mat-dialog-actions">
+  <button md-button (click)="onCancel()">
+    {{ 'COMMON.CANCEL' | translate }}
+  </button>
+
+  <button md-button (click)="onSave()">
+    {{ 'COMMON.SAVE' | translate }}
+  </button>
+</div>

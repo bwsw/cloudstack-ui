@@ -17,4 +17,12 @@ export abstract class BaseTemplateAction implements Action<BaseTemplateModel> {
   ) {}
 
   public abstract activate(template: BaseTemplateModel, params?: {}): Observable<any>;
+
+  public canActivate(template: BaseTemplateModel): boolean {
+    return true;
+  }
+
+  public hidden(template: BaseTemplateModel): boolean {
+    return false;
+  }
 }
