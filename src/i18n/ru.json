@@ -496,7 +496,8 @@
     },
     "SNAPSHOTS": {
       "DESCRIPTION": "Описание",
-      "DATE": "Дата"
+      "DATE": "Дата",
+      "VOLUME_NOT_READY": "Невозможно сделать снимок. Диск не готов"
     },
     "ATTACHMENT": {
       "CHOOSE_VIRTUAL_MACHINE": "Выберите машину",
