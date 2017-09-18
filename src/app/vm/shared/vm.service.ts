@@ -10,15 +10,15 @@ import { VolumeType } from '../../shared/models/volume.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { ApiFormat, BaseBackendService } from '../../shared/services/base-backend.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
-import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { SecurityGroupService } from '../../security-group/services/security-group.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { UserTagService } from '../../shared/services/tags/user/user-tag.service';
 import { VolumeService } from '../../shared/services/volume.service';
-import { Iso } from '../../template/shared';
 import { VmActions } from '../vm-actions/vm-action';
 import { IVirtualMachineCommand } from '../vm-actions/vm-command';
 import { VirtualMachine, VmState } from './vm.model';
 import { VmTagService } from '../../shared/services/tags/vm/vm-tag.service';
+import { Iso } from '../../template/shared/iso/iso.model';
 
 
 export const VirtualMachineEntityName = 'VirtualMachine';

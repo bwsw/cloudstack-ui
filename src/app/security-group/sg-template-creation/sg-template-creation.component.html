@@ -1,6 +1,12 @@
 <cs-overlay-loading [active]="creationInProgress"></cs-overlay-loading>
 <div [hidden]="creationInProgress">
-  <h3 class="mat-dialog-title">{{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.CREATE_NEW_TEMPLATE' | translate }}</h3>
+  <h3 *ngIf="isModeTemplates" class="mat-dialog-title">
+    {{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.CREATE_NEW_TEMPLATE' | translate }}
+  </h3>
+
+  <h3 *ngIf="isModeShared" class="mat-dialog-title">
+    {{ 'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.CREATE_NEW_SHARED_GROUP' | translate }}
+  </h3>
   <form (ngSubmit)="onSubmit($event)" #templateCreationForm="ngForm" novalidate>
     <div class="mat-dialog-content">
       <md-form-field class="full-width-input">
@@ -34,12 +40,12 @@
         </md-hint>
       </md-form-field>
       <br />
-      <cs-security-group-rules-manager
+
+      <cs-security-group-creation-rules-manager
         class="basic-rules"
-        [header]="'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.BASIC_RULES'"
         name="sgm"
         [(ngModel)]="securityRules"
-      ></cs-security-group-rules-manager>
+      ></cs-security-group-creation-rules-manager>
     </div>
     <div class="mat-dialog-actions">
       <button

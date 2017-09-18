@@ -13,7 +13,7 @@ import { InstanceGroupOrNoGroup, noGroup } from '../../../shared/components/inst
 @Component({
   selector: 'cs-template-filter-list-selector',
   templateUrl: 'template-filter-list-selector.component.html',
-  styleUrls: ['../template-filter-list.scss']
+  styleUrls: ['template-filter-list-selector.component.scss']
 })
 export class TemplateFilterListSelectorComponent implements OnChanges {
   @Input() public templates: Array<Template>;

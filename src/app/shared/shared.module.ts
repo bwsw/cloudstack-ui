@@ -27,6 +27,9 @@ import { MemoryStorageService } from 'app/shared/services/memory-storage.service
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
 // tslint:disable-next-line
+import { SecurityGroupSelectorComponent } from '../vm/vm-creation/components/security-group-selector/security-group-selector.component';
+// tslint:disable-next-line
+import { VmCreationSecurityGroupService } from '../vm/vm-creation/services/vm-creation-security-group.service';
 import { SpareDriveActionsComponent } from './actions/spare-drive-actions/spare-drive-actions-component/spare-drive-actions.component';
 import { SpareDriveActionsService } from './actions/spare-drive-actions/spare-drive-actions.service';
 import { SpareDriveAttachAction } from './actions/spare-drive-actions/spare-drive-attach';
@@ -55,7 +58,6 @@ import {
   NoResultsComponent,
   NotificationBoxComponent,
   NotificationBoxItemComponent,
-  SgRulesManagerComponent,
   SidebarContainerComponent,
   SliderComponent,
   TopBarComponent,
@@ -70,11 +72,16 @@ import { FancySelectComponent } from './components/fancy-select/fancy-select.com
 import { GroupedCardListComponent } from './components/grouped-card-list/grouped-card-list.component';
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
 import { InputGroupComponent } from './components/input-group/input-group.component';
-import { LoaderComponent } from './components/loader.component';
+import { LoaderComponent } from './components/loader/loader.component';
 import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
 import { PopoverModule } from './components/popover/index';
 import { ReloadComponent } from './components/reload/reload.component';
 import { SearchComponent } from './components/search/search.component';
+// tslint:disable-next-line
+import { SecurityGroupBuilderRuleComponent } from './components/security-group-builder/rule/security-group-builder-rule.component';
+import { SecurityGroupBuilderComponent } from './components/security-group-builder/security-group-builder.component';
+// tslint:disable-next-line
+import { SecurityGroupManagerBaseTemplatesComponent } from './components/security-group-manager-base-templates/security-group-manager-base-templates.component';
 import { TableComponent } from './components/table/table.component';
 import { ForbiddenValuesDirective } from './directives/forbidden-values.directive';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
@@ -104,7 +111,6 @@ import { OsTypeService } from './services/os-type.service';
 import { ResourceLimitService } from './services/resource-limit.service';
 import { ResourceUsageService } from './services/resource-usage.service';
 import { RouterUtilsService } from './services/router-utils.service';
-import { SecurityGroupService } from './services/security-group.service';
 import { ServiceOfferingService } from './services/service-offering.service';
 import { SessionStorageService } from './services/session-storage.service';
 import { SnapshotService } from './services/snapshot.service';
@@ -132,6 +138,7 @@ import { IsoTagService } from './services/tags/template/iso/iso-tag.service';
 // tslint:disable-next-line
 import { ReadOnlyInstanceGroupComponent } from './components/instance-group/read-only-instance-group/read-only-instance-group.component';
 import { InstanceGroupTranslationService } from './services/instance-group-translation.service';
+import { SecurityGroupService } from '../security-group/services/security-group.service';
 
 
 @NgModule({
@@ -199,7 +206,6 @@ import { InstanceGroupTranslationService } from './services/instance-group-trans
     NotificationBoxItemComponent,
     OverlayLoadingComponent,
     SearchComponent,
-    SgRulesManagerComponent,
     SidebarContainerComponent,
     SliderComponent,
     SpareDriveActionsComponent,
@@ -212,6 +218,12 @@ import { InstanceGroupTranslationService } from './services/instance-group-trans
     InstanceGroupComponent,
     InstanceGroupSelectorComponent,
     ReadOnlyInstanceGroupComponent,
+    SecurityGroupBuilderComponent,
+    SecurityGroupSelectorComponent,
+    SecurityGroupManagerBaseTemplatesComponent,
+    TemplateActionsComponent,
+    MdAutocompleteModule,
+    MdInputModule,
     TopBarComponent,
     ViewValuePipe,
     VmStatisticsComponent
@@ -219,6 +231,7 @@ import { InstanceGroupTranslationService } from './services/instance-group-trans
   entryComponents: [
     DatePickerDialogComponent,
     LoaderComponent,
+    SecurityGroupBuilderComponent,
     SpareDriveAttachmentComponent,
     InstanceGroupSelectorComponent
   ],
@@ -255,7 +268,7 @@ import { InstanceGroupTranslationService } from './services/instance-group-trans
     OverlayLoadingComponent,
     ReloadComponent,
     SearchComponent,
-    SgRulesManagerComponent,
+    SecurityGroupBuilderRuleComponent,
     SidebarContainerComponent,
     SliderComponent,
     SpareDriveActionsComponent,
@@ -273,6 +286,14 @@ import { InstanceGroupTranslationService } from './services/instance-group-trans
     InstanceGroupComponent,
     InstanceGroupSelectorComponent,
     ReadOnlyInstanceGroupComponent,
+    LoadingDirective,
+    LoaderComponent,
+    GroupedCardListComponent,
+    SpareDriveActionsComponent,
+    TemplateActionsComponent,
+    SecurityGroupBuilderComponent,
+    SecurityGroupSelectorComponent,
+    SecurityGroupManagerBaseTemplatesComponent,
     VmStatisticsComponent
   ],
   providers: [
@@ -327,6 +348,8 @@ import { InstanceGroupTranslationService } from './services/instance-group-trans
     TemplateTagService,
     IsoTagService,
     InstanceGroupTranslationService,
+    ZoneService,
+    VmCreationSecurityGroupService,
     VolumeService,
     VolumeTagService,
     ZoneService

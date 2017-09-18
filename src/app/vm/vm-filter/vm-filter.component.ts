@@ -7,6 +7,7 @@ import { LocalStorageService } from '../../shared/services/local-storage.service
 import { VmState } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { InstanceGroupOrNoGroup, NoGroup, noGroup } from '../../shared/components/instance-group/no-group';
+import { FilterComponent } from '../../shared/interfaces/filter-component';
 
 
 export interface VmFilter {
@@ -20,7 +21,7 @@ export interface VmFilter {
   selector: 'cs-vm-filter',
   templateUrl: 'vm-filter.component.html'
 })
-export class VmFilterComponent implements OnInit, OnChanges {
+export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit, OnChanges {
   @Input() public availableGroupings: Array<any>;
   @Input() public groups: Array<InstanceGroup>;
   @Input() public zones: Array<Zone>;

@@ -6,7 +6,7 @@ import { BaseTemplateModel } from '../../shared/base/base-template.model';
 import { TemplateFilters } from '../../shared/base/template-filters';
 import { Iso } from '../../shared/iso/iso.model';
 import { Template } from '../../shared/template/template.model';
-import { InstanceGroupOrNoGroup, NoGroup, noGroup } from '../../../shared/components/instance-group/no-group';
+import { InstanceGroupOrNoGroup, noGroup } from '../../../shared/components/instance-group/no-group';
 import { InstanceGroup } from '../../../shared/models/instance-group.model';
 import { IsoService } from '../../shared/iso/iso.service';
 import { TemplateService } from '../../shared/template/template.service';
@@ -15,7 +15,7 @@ import { TemplateService } from '../../shared/template/template.service';
 @Component({
   selector: 'cs-template-filter-list',
   templateUrl: 'template-filter-list.component.html',
-  styleUrls: ['../template-filter-list.scss']
+  styleUrls: ['template-filter-list.component.scss']
 })
 export class TemplateFilterListComponent implements OnChanges, OnInit {
   @Input() public templates: Array<Template>;

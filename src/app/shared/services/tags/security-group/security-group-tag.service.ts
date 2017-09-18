@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { EntityTagService } from '../common/entity-tag-service.interface';
 import { SecurityGroupTagKeys } from './security-group-tag-keys';
+import { EntityTagService } from '../common/entity-tag-service.interface';
 import { MarkForRemovalService } from '../common/mark-for-removal.service';
 import { TagService } from '../common/tag.service';
-import { SecurityGroup } from '../../../../security-group/sg.model';
-import { Utils } from '../../utils/utils.service';
+import { SecurityGroup, SecurityGroupType } from '../../../../security-group/sg.model';
 
 
 @Injectable()
@@ -25,8 +24,17 @@ export class SecurityGroupTagService implements EntityTagService {
     return this.tagService.update(
       securityGroup,
       securityGroup.resourceType,
-      this.keys.template,
-      Utils.convertBooleanToBooleanString(true)
+      this.keys.type,
+      SecurityGroupType.CustomTemplate
+    );
+  }
+
+  public markAsPrivate(securityGroup: SecurityGroup): Observable<SecurityGroup> {
+    return this.tagService.update(
+      securityGroup,
+      securityGroup.resourceType,
+      this.keys.type,
+      SecurityGroupType.Private
     );
   }
 }

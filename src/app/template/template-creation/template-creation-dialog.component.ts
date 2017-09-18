@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TemplateCreationComponent } from './template-creation.component';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { ListService } from '../../shared/components/list/list.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
+import { TemplateCreationComponent } from './template-creation.component';
+
 
 
 @Component({
@@ -31,5 +32,9 @@ export class TemplateCreationDialogComponent {
           relativeTo: this.activatedRoute
         });
       });
+  }
+
+  private get viewMode(): string {
+    return this.storageService.read('templateDisplayMode') || 'Template';
   }
 }

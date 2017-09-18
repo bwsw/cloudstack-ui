@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { MdDialog, MdDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListService } from '../../shared/components/list/list.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { NotificationService } from '../../shared/services/notification.service';
-import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { SgRulesComponent } from '../sg-rules/sg-rules.component';
-import { SecurityGroup } from '../sg.model';
+import { SecurityGroupEditAction } from '../sg-actions/sg-edit';
+import { SecurityGroupViewMode } from '../sg-filter/sg-filter.component';
+import { SecurityGroup, SecurityGroupType } from '../sg.model';
 import { SgTemplateCreationComponent } from './sg-template-creation.component';
 
 
@@ -20,43 +21,67 @@ export class SgTemplateCreationDialogComponent {
     private activatedRoute: ActivatedRoute,
     private notificationService: NotificationService,
     private listService: ListService,
-    private securityGroupService: SecurityGroupService
+    private securityGroupEditAction: SecurityGroupEditAction,
+    private storageService: LocalStorageService
   ) {
     this.dialog.open(SgTemplateCreationComponent, <MdDialogConfig>{
+      data: { mode: this.viewMode },
       disableClose: true,
       width: '450px'
     })
       .afterClosed()
-      .subscribe((template: SecurityGroup) => {
-        if (!template) {
-          this.router.navigate(['../'], {
-            queryParamsHandling: 'preserve',
-            relativeTo: this.activatedRoute
-          });
-
-          return;
-        }
-        this.listService.onUpdate.emit(template);
-        this.notificationService.message({
-          translationToken: 'NOTIFICATIONS.TEMPLATE.CREATED',
-          interpolateParams: { name: template.name }
-        });
-        this.showRulesDialog(template);
+      .subscribe(securityGroup => {
+        return this.onCreationDialogClosed(securityGroup);
       });
   }
 
   public showRulesDialog(group: SecurityGroup): void {
-    this.dialog.open(SgRulesComponent, <MdDialogConfig>{
-      width: '880px',
-      data: {securityGroup: group}
-    })
-      .afterClosed()
-      .subscribe(securityGroup => {
-        this.securityGroupService.onSecurityGroupUpdate.next(securityGroup);
+    this.securityGroupEditAction.activate(group)
+      .subscribe(() => {
         this.router.navigate(['../'], {
           queryParamsHandling: 'preserve',
           relativeTo: this.activatedRoute
         });
       });
+  }
+
+  private getSuccessCreationToken(securityGroup: SecurityGroup): string {
+    if (securityGroup.type === SecurityGroupType.CustomTemplate) {
+      return 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_CREATED';
+    }
+
+    if (securityGroup.type === SecurityGroupType.Shared) {
+      return 'NOTIFICATIONS.TEMPLATE.SHARED_GROUP_CREATED';
+    }
+  }
+
+  private get viewMode(): string {
+    return this.storageService.read('securityGroupDisplayMode') || SecurityGroupViewMode.Templates;
+  }
+
+  private onCreationDialogClosed(securityGroup: SecurityGroup): void {
+    if (securityGroup) {
+      this.onSecurityGroupCreated(securityGroup);
+    } else {
+      this.onCancel();
+    }
+  }
+
+  private onSecurityGroupCreated(securityGroup: SecurityGroup): void {
+    this.listService.onUpdate.emit(securityGroup);
+    this.notificationService.message({
+      translationToken: this.getSuccessCreationToken(securityGroup),
+      interpolateParams: { name: securityGroup.name }
+    });
+    this.showRulesDialog(securityGroup);
+  }
+
+  private onCancel(): void {
+
+    this.router.navigate(['../'], {
+      queryParamsHandling: 'preserve',
+      relativeTo: this.activatedRoute
+    });
+
   }
 }
