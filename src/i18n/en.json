@@ -579,8 +579,7 @@
       "DESCRIPTION": "Description"
     },
     "RULES": {
-      "FIREWALL_RULES_FOR_VM": "Firewall rules for VM",
-      "TEMPLATE_RULES": "Template rules",
+      "TITLE": "Edit rules for {{ value }}",
       "TYPE": "Type",
       "PROTOCOL": "Protocol",
       "CIDR": "CIDR",

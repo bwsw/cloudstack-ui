@@ -66,14 +66,6 @@ export class SgRulesComponent {
     this.adding = false;
   }
 
-  public get title(): string {
-    if (this.securityGroup.type === SecurityGroupType.PredefinedTemplate) {
-      return 'SECURITY_GROUP_PAGE.RULES.TEMPLATE_RULES';
-    }
-
-    return 'SECURITY_GROUP_PAGE.RULES.FIREWALL_RULES_FOR_VM';
-  }
-
   public get isPredefinedTemplate(): boolean {
     return this.securityGroup.type === SecurityGroupType.PredefinedTemplate;
   }

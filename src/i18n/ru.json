@@ -579,8 +579,7 @@
       "DESCRIPTION": "Описание"
     },
     "RULES": {
-      "FIREWALL_RULES_FOR_VM": "Правила брандмауэра для ВМ",
-      "TEMPLATE_RULES": "Правила шаблона",
+      "TITLE": "Редактирование правил группы {{ value }}",
       "TYPE": "Тип",
       "PROTOCOL": "Протокол",
       "CIDR": "CIDR",
