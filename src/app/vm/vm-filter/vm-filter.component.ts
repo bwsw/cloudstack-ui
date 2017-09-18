@@ -8,6 +8,7 @@ import {LocalStorageService} from '../../shared/services/local-storage.service';
 import {VmState} from '../shared/vm.model';
 import {VmService} from '../shared/vm.service';
 import {User} from '../../shared/models/user.model';
+import {AuthService} from '../../shared/services/auth.service';
 
 
 export interface VmFilter {
@@ -59,7 +60,8 @@ export class VmFilterComponent implements OnInit, OnChanges {
     private activatedRoute: ActivatedRoute,
     private instanceGroupService: InstanceGroupService,
     private vmService: VmService,
-    private storage: LocalStorageService
+    private storage: LocalStorageService,
+    private authService: AuthService
   ) {}
 
   public ngOnInit(): void {
@@ -72,6 +74,10 @@ export class VmFilterComponent implements OnInit, OnChanges {
     if (groups.currentValue && zones.currentValue) {
       this.initFilters();
     }
+  }
+
+  public showAccountFilter(): boolean {
+    return this.authService.isAdmin();
   }
 
   public initFilters(): void {

@@ -1,18 +1,18 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {UserService} from '../../services/user.service';
-import {User} from '../../models/user.model';
+import {Account} from '../../models/account.model';
+import {AccountService} from '../../services/account.service';
 
 @Component({
   selector: 'cs-account-filter',
   templateUrl: 'account-filter.component.html'
 })
 export class AccountFilterComponent {
-  @Output() public onChangeAccount = new EventEmitter<Array<User>>();
+  @Output() public onChangeAccount = new EventEmitter<Array<Account>>();
   public selected;
-  public users: Array<User>;
+  public users: Array<Account>;
 
-  constructor (private userService: UserService) {
-    this.userService.getList().subscribe((users) => {
+  constructor (private accountService: AccountService) {
+    this.accountService.getList().subscribe((users) => {
       this.users = users;
     });
   }

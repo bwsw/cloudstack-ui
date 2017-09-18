@@ -1,27 +1,24 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import * as clone from 'lodash/clone';
-import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { AsyncJob, InstanceGroup, VmStatisticsComponent, Zone } from '../../shared';
-import { ListService } from '../../shared/components/list/list.service';
-import { AsyncJobService } from '../../shared/services/async-job.service';
-import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
-import { StatsUpdateService } from '../../shared/services/stats-update.service';
-import { UserTagService } from '../../shared/services/tags/user-tag.service';
-import { VmTagService } from '../../shared/services/tags/vm-tag.service';
-import { ZoneService } from '../../shared/services/zone.service';
-import { VmActionsService } from '../shared/vm-actions.service';
-import { VirtualMachine, VmState } from '../shared/vm.model';
-import { VmService } from '../shared/vm.service';
-import {
-  InstanceGroupOrNoGroup,
-  noGroup,
-  VmFilter
-} from '../vm-filter/vm-filter.component';
-import { VmListItemComponent } from './vm-list-item.component';
-import { UserService } from '../../shared/services/user.service';
-import { User } from '../../shared/models/user.model';
+import {Observable} from 'rxjs/Observable';
+import {DialogService} from '../../dialog/dialog-service/dialog.service';
+import {AsyncJob, InstanceGroup, VmStatisticsComponent, Zone} from '../../shared';
+import {ListService} from '../../shared/components/list/list.service';
+import {AsyncJobService} from '../../shared/services/async-job.service';
+import {JobsNotificationService} from '../../shared/services/jobs-notification.service';
+import {StatsUpdateService} from '../../shared/services/stats-update.service';
+import {UserTagService} from '../../shared/services/tags/user-tag.service';
+import {VmTagService} from '../../shared/services/tags/vm-tag.service';
+import {ZoneService} from '../../shared/services/zone.service';
+import {VmActionsService} from '../shared/vm-actions.service';
+import {VirtualMachine, VmState} from '../shared/vm.model';
+import {VmService} from '../shared/vm.service';
+import {InstanceGroupOrNoGroup, noGroup, VmFilter} from '../vm-filter/vm-filter.component';
+import {VmListItemComponent} from './vm-list-item.component';
+import {UserService} from '../../shared/services/user.service';
+import {User} from '../../shared/models/user.model';
+import {AuthService} from '../../shared/services/auth.service';
 
 @Component({
   selector: 'cs-vm-list',
@@ -52,12 +49,6 @@ export class VmListComponent implements OnInit {
       label: 'VM_PAGE.FILTERS.GROUP_BY_COLORS',
       selector: (item: VirtualMachine) => this.vmTagService.getColorSync(item).value,
       name: (item: VirtualMachine) => ' ',
-    },
-    {
-      key: 'accounts',
-      label: 'VM_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
-      selector: (item: VirtualMachine) => item.account,
-      name: (item: VirtualMachine) => this.getUserName(item.account),
     }
   ];
 
@@ -88,6 +79,7 @@ export class VmListComponent implements OnInit {
     private vmTagService: VmTagService,
     private zoneService: ZoneService,
     private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
     private router: Router
   ) {
     this.showDetail = this.showDetail.bind(this);
@@ -99,6 +91,15 @@ export class VmListComponent implements OnInit {
     this.outputs = {
       onClick: this.showDetail
     };
+
+    if (this.authService.isAdmin()) {
+      this.groupings = this.groupings.concat({
+        key: 'accounts',
+        label: 'VM_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
+        selector: (item: VirtualMachine) => item.account,
+        name: (item: VirtualMachine) => this.getUserName(item.account),
+      });
+    }
   }
 
   public ngOnInit(): void {
@@ -356,7 +357,7 @@ export class VmListComponent implements OnInit {
     let result: Array<VirtualMachine> = [];
     if (accounts && accounts.length != 0) {
       accounts.forEach(account => {
-        result = result.concat(this.visibleVmList.filter(vm => vm.account === account.account))
+        result = result.concat(this.visibleVmList.filter(vm => vm.account === account.name))
       });
       return result;
     } else {

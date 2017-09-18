@@ -1,20 +1,21 @@
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { DiskOffering, Volume, VolumeType, Zone } from '../../shared';
-import { ListService } from '../../shared/components/list/list.service';
-import { DiskOfferingService } from '../../shared/services/disk-offering.service';
-import { UserTagService } from '../../shared/services/tags/user-tag.service';
-import { VolumeService } from '../../shared/services/volume.service';
-import { ZoneService } from '../../shared/services/zone.service';
-import { filterWithPredicates } from '../../shared/utils/filter';
-import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { SpareDriveFilter } from '../spare-drive-filter/spare-drive-filter.component';
-import { volumeTypeNames } from '../../shared/models/volume.model';
-import { UserService } from '../../shared/services/user.service';
-import { User } from '../../shared/models/user.model';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Subject';
+import {DialogService} from '../../dialog/dialog-service/dialog.service';
+import {DiskOffering, Volume, VolumeType, Zone} from '../../shared';
+import {ListService} from '../../shared/components/list/list.service';
+import {DiskOfferingService} from '../../shared/services/disk-offering.service';
+import {UserTagService} from '../../shared/services/tags/user-tag.service';
+import {VolumeService} from '../../shared/services/volume.service';
+import {ZoneService} from '../../shared/services/zone.service';
+import {filterWithPredicates} from '../../shared/utils/filter';
+import {WithUnsubscribe} from '../../utils/mixins/with-unsubscribe';
+import {SpareDriveFilter} from '../spare-drive-filter/spare-drive-filter.component';
+import {volumeTypeNames} from '../../shared/models/volume.model';
+import {UserService} from '../../shared/services/user.service';
+import {User} from '../../shared/models/user.model';
+import {AuthService} from '../../shared/services/auth.service';
 
 export interface VolumeCreationData {
   name: string;
@@ -46,12 +47,6 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
       label: 'SPARE_DRIVE_PAGE.FILTERS.GROUP_BY_TYPES',
       selector: (item: Volume) => item.type,
       name: (item: Volume) => volumeTypeNames[item.type]
-    },
-    {
-      key: 'accounts',
-      label: 'SPARE_DRIVE_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
-      selector: (item: Volume) => item.account,
-      name: (item: Volume) => this.getUserName(item.account),
     }
   ];
   public query: string;
@@ -70,9 +65,18 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
     private userTagService: UserTagService,
     private userService: UserService,
     private volumeService: VolumeService,
-    private zoneService: ZoneService
+    private zoneService: ZoneService,
+    private authService: AuthService
   ) {
     super();
+    if (this.authService.isAdmin()) {
+      this.groupings = this.groupings.concat({
+        key: 'accounts',
+        label: 'SPARE_DRIVE_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
+        selector: (item: Volume) => item.account,
+        name: (item: Volume) => this.getUserName(item.account),
+      });
+    }
   }
 
   public ngOnInit(): void {
@@ -200,7 +204,7 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
     let result: Array<Volume> = [];
     if (accounts && accounts.length != 0) {
       accounts.forEach(account => {
-        result = result.concat(this.visibleVolumes.filter(vm => vm.account === account.account))
+        result = result.concat(this.visibleVolumes.filter(vm => vm.account === account.name))
       });
       return result;
     } else {

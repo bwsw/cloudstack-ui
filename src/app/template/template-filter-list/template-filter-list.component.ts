@@ -42,17 +42,19 @@ export class TemplateFilterListComponent implements OnChanges {
       label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ZONES',
       selector: (item: BaseTemplateModel) => item.zoneId || '',
       name: (item: BaseTemplateModel) => item.zoneName || 'TEMPLATE_PAGE.FILTERS.NO_ZONE'
-    },
-    {
-      key: 'accounts',
-      label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
-      selector: (item: BaseTemplateModel) => item.account,
-      name: (item: BaseTemplateModel) => this.getUserName(item.account),
     }
   ];
 
   constructor(protected authService: AuthService, private userService: UserService,) {
     this.getUserList();
+    if (this.authService.isAdmin()) {
+      this.groupings = this.groupings.concat({
+        key: 'accounts',
+        label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
+        selector: (item: BaseTemplateModel) => item.account,
+        name: (item: BaseTemplateModel) => this.getUserName(item.account),
+      });
+    }
   }
 
   public ngOnChanges(changes: SimpleChanges) {
@@ -154,7 +156,7 @@ export class TemplateFilterListComponent implements OnChanges {
     let result: Array<BaseTemplateModel> = [];
     if (accounts && accounts.length != 0) {
       accounts.forEach(account => {
-        result = result.concat(this.visibleTemplateList.filter(vm => vm.account === account.account))
+        result = result.concat(this.visibleTemplateList.filter(vm => vm.account === account.name))
       });
       return result;
     } else {

@@ -10,6 +10,7 @@ import {LocalStorageService} from '../../shared/services/local-storage.service';
 import {ZoneService} from '../../shared/services/zone.service';
 import {TemplateFilters} from '../shared/base-template.service';
 import {User} from '../../shared/models/user.model';
+import {AuthService} from '../../shared/services/auth.service';
 
 
 @Component({
@@ -82,7 +83,8 @@ export class TemplateFiltersComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private storageService: LocalStorageService,
     private translateService: TranslateService,
-    private zoneService: ZoneService
+    private zoneService: ZoneService,
+    private authService: AuthService
   ) {
   }
 
@@ -121,6 +123,10 @@ export class TemplateFiltersComponent implements OnInit {
   public setMode(index: number): void {
     this.showIso = index === this.isoTabIndex;
     this.updateDisplayMode();
+  }
+
+  public showAccountFilter(): boolean {
+    return this.authService.isAdmin();
   }
 
   public updateFilters(): void {

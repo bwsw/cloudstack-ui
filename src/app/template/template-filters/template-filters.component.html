@@ -10,7 +10,7 @@
       <md-tab label="{{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}"></md-tab>
     </md-tab-group>
 
-    <cs-account-filter (onChangeAccount)="updateAccount($event)"></cs-account-filter>
+    <cs-account-filter *ngIf="showAccountFilter()" (onChangeAccount)="updateAccount($event)"></cs-account-filter>
 
     <md-select
       class="filter-select"

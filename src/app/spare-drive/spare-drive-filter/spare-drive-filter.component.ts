@@ -1,18 +1,12 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges
-} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import * as sortBy from 'lodash/sortBy';
-import { VolumeType, volumeTypeNames } from '../../shared/models/volume.model';
-import { Zone } from '../../shared/models/zone.model';
-import { FilterService } from '../../shared/services/filter.service';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { User } from '../../shared/models/user.model';
+import {VolumeType, volumeTypeNames} from '../../shared/models/volume.model';
+import {Zone} from '../../shared/models/zone.model';
+import {FilterService} from '../../shared/services/filter.service';
+import {LocalStorageService} from '../../shared/services/local-storage.service';
+import {User} from '../../shared/models/user.model';
+import {AuthService} from '../../shared/services/auth.service';
 
 export interface SpareDriveFilter {
   spareOnly: boolean;
@@ -58,7 +52,8 @@ export class SpareDriveFilterComponent implements OnChanges {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private authService: AuthService
   ) {
     this.updateFilters = new EventEmitter();
   }
@@ -71,6 +66,10 @@ export class SpareDriveFilterComponent implements OnChanges {
 
   public getVolumeTypeName(type: VolumeType): string {
     return volumeTypeNames[type];
+  }
+
+  public showAccountFilter(): boolean {
+    return this.authService.isAdmin();
   }
 
   public initFilters(): void {
