@@ -147,8 +147,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       .map(vmList => vmList.filter(vm => vm.isoId === iso.id));
   }
 
-  public addIpToNic(nicId: string, ipAddress?: string): Observable<any> {
-    return this.sendCommand('addIpTo', { nicId, ipAddress }, 'Nic')
+  public addIpToNic(nicId: string): Observable<any> {
+    return this.sendCommand('addIpTo', { nicId }, 'Nic')
       .switchMap(job => this.asyncJobService.queryJob(job.jobid));
   }
 
