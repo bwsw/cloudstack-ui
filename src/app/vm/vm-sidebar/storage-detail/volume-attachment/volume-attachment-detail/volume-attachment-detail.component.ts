@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../../../../shared/models';
 import { VolumeService } from '../../../../../shared/services/volume.service';
 import { VirtualMachine } from '../../../../shared/vm.model';
-import { SpareDriveAttachmentDialogComponent } from '../volume-attchment-dialog/volume-attachment-dialog.component';
+import { VolumeAttachmentDialogComponent } from '../volume-attchment-dialog/volume-attachment-dialog.component';
 
 
 @Component({
@@ -12,7 +12,7 @@ import { SpareDriveAttachmentDialogComponent } from '../volume-attchment-dialog/
   templateUrl: 'volume-attachment-detail.component.html',
   styleUrls: ['volume-attachment-detail.component.scss']
 })
-export class SpareDriveAttachmentDetailComponent implements OnInit {
+export class VolumeAttachmentDetailComponent implements OnInit {
   @Input() public virtualMachine: VirtualMachine;
   @Output() public onAttach = new EventEmitter();
 
@@ -37,7 +37,7 @@ export class SpareDriveAttachmentDetailComponent implements OnInit {
   public showDialog(): void {
     this.loadVolumes()
       .switchMap(() => {
-        return this.dialog.open(SpareDriveAttachmentDialogComponent, {
+        return this.dialog.open(VolumeAttachmentDialogComponent, {
           width: '375px',
           data: this.volumes
         }).afterClosed();

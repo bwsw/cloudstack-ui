@@ -3,11 +3,11 @@ import { Observable } from 'rxjs/Observable';
 import { DiskOffering } from '../../models/disk-offering.model';
 import { Volume } from '../../models/volume.model';
 import { VolumeResizeComponent } from '../../../vm/vm-sidebar/volume-resize/volume-resize.component';
-import { SpareDriveAction } from './volume-action';
+import { VolumeAction } from './volume-action';
 
 
 @Injectable()
-export class SpareDriveResizeAction extends SpareDriveAction {
+export class VolumeResizeAction extends VolumeAction {
   public name = 'VOLUME_ACTIONS.RESIZE';
   public icon = 'photo_size_select_small';
 

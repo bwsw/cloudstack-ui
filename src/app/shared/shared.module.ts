@@ -25,15 +25,15 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
-import { SpareDriveActionsComponent } from './actions/volume-actions/volume-actions-component/volume-actions.component';
-import { SpareDriveActionsService } from './actions/volume-actions/volume-actions.service';
-import { SpareDriveAttachAction } from './actions/volume-actions/volume-attach';
-import { SpareDriveAttachmentComponent } from './actions/volume-actions/volume-attachment/volume-attachment.component';
-import { SpareDriveDetachAction } from './actions/volume-actions/volume-detach';
-import { SpareDriveRecurringSnapshotsAction } from './actions/volume-actions/volume-recurring-snapshots';
-import { SpareDriveRemoveAction } from './actions/volume-actions/volume-remove';
-import { SpareDriveResizeAction } from './actions/volume-actions/volume-resize';
-import { SpareDriveSnapshotAction } from './actions/volume-actions/volume-snapshot';
+import { VolumeActionsComponent } from './actions/volume-actions/volume-actions-component/volume-actions.component';
+import { VolumeActionsService } from './actions/volume-actions/volume-actions.service';
+import { VolumeAttachAction } from './actions/volume-actions/volume-attach';
+import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attachment/volume-attachment.component';
+import { VolumeDetachAction } from './actions/volume-actions/volume-detach';
+import { VolumeRecurringSnapshotsAction } from './actions/volume-actions/volume-recurring-snapshots';
+import { VolumeRemoveAction } from './actions/volume-actions/volume-remove';
+import { VolumeResizeAction } from './actions/volume-actions/volume-resize';
+import { VolumeSnapshotAction } from './actions/volume-actions/volume-snapshot';
 import { TemplateActionsComponent } from './actions/template-actions/template-actions-component/template-actions.component';
 import { TemplateActionsService } from './actions/template-actions/template-actions.service';
 import { BadgeModule } from './badge/';
@@ -186,7 +186,7 @@ import { ZoneService } from './services/zone.service';
     SgRulesManagerComponent,
     SidebarContainerComponent,
     SliderComponent,
-    SpareDriveActionsComponent,
+    VolumeActionsComponent,
     StringifyTimePipe,
     StringifyDatePipe,
     TableComponent,
@@ -198,7 +198,7 @@ import { ZoneService } from './services/zone.service';
   entryComponents: [
     DatePickerDialogComponent,
     LoaderComponent,
-    SpareDriveAttachmentComponent
+    VolumeAttachmentComponent
   ],
   declarations: [
     CalendarComponent,
@@ -236,7 +236,7 @@ import { ZoneService } from './services/zone.service';
     SgRulesManagerComponent,
     SidebarContainerComponent,
     SliderComponent,
-    SpareDriveActionsComponent,
+    VolumeActionsComponent,
     StringifyDatePipe,
     StringifyTimePipe,
     TableComponent,
@@ -277,13 +277,13 @@ import { ZoneService } from './services/zone.service';
     SessionStorageService,
     SnapshotService,
     SnapshotTagService,
-    SpareDriveActionsService,
-    SpareDriveAttachAction,
-    SpareDriveDetachAction,
-    SpareDriveRecurringSnapshotsAction,
-    SpareDriveRemoveAction,
-    SpareDriveResizeAction,
-    SpareDriveSnapshotAction,
+    VolumeActionsService,
+    VolumeAttachAction,
+    VolumeDetachAction,
+    VolumeRecurringSnapshotsAction,
+    VolumeRemoveAction,
+    VolumeResizeAction,
+    VolumeSnapshotAction,
     StatsUpdateService,
     StyleService,
     TagService,

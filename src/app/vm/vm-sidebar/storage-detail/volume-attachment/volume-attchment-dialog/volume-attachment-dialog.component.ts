@@ -8,7 +8,7 @@ import { Volume } from '../../../../../shared/models';
   templateUrl: 'volume-attachment-dialog.component.html',
   styleUrls: ['volume-attachment-dialog.component.scss']
 })
-export class SpareDriveAttachmentDialogComponent implements OnInit {
+export class VolumeAttachmentDialogComponent implements OnInit {
   public selectedVolume: Volume;
 
   constructor(@Inject(MD_DIALOG_DATA) public volumes: Array<Volume>) {}

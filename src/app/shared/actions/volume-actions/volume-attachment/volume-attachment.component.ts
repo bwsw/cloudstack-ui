@@ -14,7 +14,7 @@ import { VmService } from '../../../../vm/shared/vm.service';
   templateUrl: 'volume-attachment.component.html',
   styleUrls: ['volume-attachment.component.scss']
 })
-export class SpareDriveAttachmentComponent implements OnInit {
+export class VolumeAttachmentComponent implements OnInit {
   public virtualMachineId: string;
   public virtualMachines: Array<VirtualMachine>;
   public loading: boolean;
@@ -23,7 +23,7 @@ export class SpareDriveAttachmentComponent implements OnInit {
   public zoneId: string;
 
   constructor(
-    private dialogRef: MdDialogRef<SpareDriveAttachmentComponent>,
+    private dialogRef: MdDialogRef<VolumeAttachmentComponent>,
     private dialogService: DialogService,
     private jobsNotificationService: JobsNotificationService,
     private vmService: VmService,

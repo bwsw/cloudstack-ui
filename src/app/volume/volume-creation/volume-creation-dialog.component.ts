@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SpareDriveCreationComponent } from './volume-creation.component';
+import { VolumeCreationComponent } from './volume-creation.component';
 import { Volume } from '../../shared/models/volume.model';
 import { ListService } from '../../shared/components/list/list.service';
 
@@ -9,14 +9,14 @@ import { ListService } from '../../shared/components/list/list.service';
   selector: 'cs-volume-create-dialog',
   template: ``
 })
-export class SpareDriveCreationDialogComponent {
+export class VolumeCreationDialogComponent {
   constructor(
     private dialog: MdDialog,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private listService: ListService
   ) {
-    this.dialog.open(SpareDriveCreationComponent, {
+    this.dialog.open(VolumeCreationComponent, {
       width: '450px',
       disableClose: true
     }).afterClosed()

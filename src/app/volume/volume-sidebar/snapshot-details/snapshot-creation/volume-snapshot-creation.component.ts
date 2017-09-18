@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { SpareDriveSnapshotAction } from '../../../../shared/actions/volume-actions/volume-snapshot';
+import { VolumeSnapshotAction } from '../../../../shared/actions/volume-actions/volume-snapshot';
 import { Volume } from '../../../../shared/models/volume.model';
 
 
@@ -8,12 +8,12 @@ import { Volume } from '../../../../shared/models/volume.model';
   templateUrl: 'volume-snapshot-creation.component.html',
   styleUrls: ['volume-snapshot-creation.component.scss']
 })
-export class SpareDriveSnapshotCreationComponent {
+export class VolumeSnapshotCreationComponent {
   @Input() public volume: Volume;
 
-  constructor(private spareDriveSnapshotAction: SpareDriveSnapshotAction) {}
+  constructor(private volumeSnapshotAction: VolumeSnapshotAction) {}
 
   public addSnapshot(): void {
-    this.spareDriveSnapshotAction.activate(this.volume).subscribe();
+    this.volumeSnapshotAction.activate(this.volume).subscribe();
   }
 }

@@ -1,18 +1,18 @@
 <cs-top-bar>
   <div class="options-panel">
     <md-checkbox
-      name="spareDriveOnly"
+      name="volumeOnly"
       [(ngModel)]="spareOnly"
       (change)="update()"
     >
-      {{ 'SPARE_DRIVE_PAGE.FILTERS.SPARE_DRIVES_ONLY' | translate }}
+      {{ 'VOLUME_PAGE.FILTERS.SPARE_DRIVES_ONLY' | translate }}
     </md-checkbox>
 
     <md-select
       *ngIf="zones"
       class="filter-select"
       multiple="true"
-      [placeholder]="'SPARE_DRIVE_PAGE.FILTERS.SELECT_ZONES' | translate"
+      [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_ZONES' | translate"
       [(ngModel)]="selectedZones"
       (change)="update()"
     >
@@ -22,7 +22,7 @@
     <md-select
       class="filter-select"
       multiple="true"
-      [placeholder]="'SPARE_DRIVE_PAGE.FILTERS.SELECT_TYPES' | translate"
+      [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_TYPES' | translate"
       [(ngModel)]="selectedTypes"
       (change)="update()"
     >
@@ -37,7 +37,7 @@
       *ngIf="zones"
       class="filter-select"
       multiple="true"
-      [placeholder]="'SPARE_DRIVE_PAGE.FILTERS.GROUP_BY' | translate"
+      [placeholder]="'VOLUME_PAGE.FILTERS.GROUP_BY' | translate"
       [(ngModel)]="selectedGroupingNames"
       [dragItems]="groupings"
       (change)="update()"

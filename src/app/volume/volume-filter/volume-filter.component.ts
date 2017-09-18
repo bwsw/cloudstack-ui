@@ -14,7 +14,7 @@ import { FilterService } from '../../shared/services/filter.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 
 
-export interface SpareDriveFilter {
+export interface VolumeFilter {
   spareOnly: boolean;
   selectedZones: Array<Zone>;
   selectedTypes: Array<VolumeType>;
@@ -22,18 +22,18 @@ export interface SpareDriveFilter {
   query: string;
 }
 
-export const spareDriveListFilters = 'spareDriveListFilters';
+export const volumeListFilters = 'volumeListFilters';
 
 @Component({
   selector: 'cs-volume-filter',
   templateUrl: 'volume-filter.component.html',
   styleUrls: ['volume-filter.component.scss']
 })
-export class SpareDriveFilterComponent implements OnChanges {
+export class VolumeFilterComponent implements OnChanges {
   @Input() public zones: Array<Zone>;
   @Input() public groupings: Array<any>;
   @Input() public searchPanelWhite: boolean;
-  @Output() public updateFilters: EventEmitter<SpareDriveFilter>;
+  @Output() public updateFilters: EventEmitter<VolumeFilter>;
 
   public types = [VolumeType.ROOT, VolumeType.DATADISK];
   public selectedTypes: Array<VolumeType> = [];
@@ -44,7 +44,7 @@ export class SpareDriveFilterComponent implements OnChanges {
   public selectedGroupingNames = [];
   public query: string;
 
-  private filtersKey = spareDriveListFilters;
+  private filtersKey = volumeListFilters;
   private filterService = new FilterService({
     spareOnly: { type: 'boolean', defaultOption: false },
     zones: { type: 'array', defaultOption: [] },

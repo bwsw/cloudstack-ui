@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../models/volume.model';
-import { SpareDriveAction } from './volume-action';
+import { VolumeAction } from './volume-action';
 
 
 @Injectable()
-export class SpareDriveRemoveAction extends SpareDriveAction {
+export class VolumeRemoveAction extends VolumeAction {
   public name = 'COMMON.DELETE';
   public icon = 'delete';
 

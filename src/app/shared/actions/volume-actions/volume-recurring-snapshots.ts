@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../models/volume.model';
-import { SpareDriveAction } from './volume-action';
+import { VolumeAction } from './volume-action';
 import { RecurringSnapshotsComponent } from '../../../snapshot/recurring-snapshots/recurring-snapshots.component';
 
 
 @Injectable()
-export class SpareDriveRecurringSnapshotsAction extends SpareDriveAction {
+export class VolumeRecurringSnapshotsAction extends VolumeAction {
   public name = 'VOLUME_ACTIONS.SNAPSHOT_SCHEDULE';
   public icon = 'schedule';
 

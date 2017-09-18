@@ -11,7 +11,7 @@ import { VolumeService } from '../../shared/services/volume.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { filterWithPredicates } from '../../shared/utils/filter';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { SpareDriveFilter } from '../volume-filter/volume-filter.component';
+import { VolumeFilter } from '../volume-filter/volume-filter.component';
 import { volumeTypeNames } from '../../shared/models/volume.model';
 
 
@@ -27,7 +27,7 @@ export interface VolumeCreationData {
   templateUrl: 'volume-page.component.html',
   providers: [ListService]
 })
-export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit, OnDestroy {
+export class VolumePageComponent extends WithUnsubscribe() implements OnInit, OnDestroy {
   public volumes: Array<Volume>;
   public zones: Array<Zone>;
   public visibleVolumes: Array<Volume>;
@@ -36,13 +36,13 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
   public groupings = [
     {
       key: 'zones',
-      label: 'SPARE_DRIVE_PAGE.FILTERS.GROUP_BY_ZONES',
+      label: 'VOLUME_PAGE.FILTERS.GROUP_BY_ZONES',
       selector: (item: Volume) => item.zoneId,
       name: (item: Volume) => item.zoneName
     },
     {
       key: 'types',
-      label: 'SPARE_DRIVE_PAGE.FILTERS.GROUP_BY_TYPES',
+      label: 'VOLUME_PAGE.FILTERS.GROUP_BY_TYPES',
       selector: (item: Volume) => item.type,
       name: (item: Volume) => volumeTypeNames[item.type]
     }
@@ -88,7 +88,7 @@ export class SpareDrivePageComponent extends WithUnsubscribe() implements OnInit
       .subscribe(() => this.filter());
   }
 
-  public updateFiltersAndFilter(filterData: SpareDriveFilter): void {
+  public updateFiltersAndFilter(filterData: VolumeFilter): void {
     this.filterData = filterData;
     this.filter();
   }

@@ -21,7 +21,7 @@ import { VolumeCreationData } from '../volume-page/volume-page.component';
   templateUrl: 'volume-creation.component.html',
   styleUrls: ['volume-creation.component.scss']
 })
-export class SpareDriveCreationComponent implements OnInit {
+export class VolumeCreationComponent implements OnInit {
   public name: string;
   public zones: Array<Zone>;
   public diskOffering: DiskOffering;
@@ -38,7 +38,7 @@ export class SpareDriveCreationComponent implements OnInit {
   private insufficientResourcesDialog: Observable<any>;
 
   constructor(
-    private dialogRef: MdDialogRef<SpareDriveCreationComponent>,
+    private dialogRef: MdDialogRef<VolumeCreationComponent>,
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private jobsNotificationService: JobsNotificationService,

@@ -7,7 +7,7 @@ import { Volume } from '../../../../shared/models/volume.model';
   selector: 'cs-volume-sidebar-disk-offering',
   templateUrl: 'volume-sidebar-disk-offering.component.html'
 })
-export class SpareDriveSidebarDiskOfferingComponent {
+export class VolumeSidebarDiskOfferingComponent {
   @Input() public volume: Volume;
 
   public get name(): string {

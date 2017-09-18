@@ -1,21 +1,21 @@
 import { Component, Input } from '@angular/core';
 import { ListService } from '../../shared/components/list/list.service';
 import { Volume } from '../../shared/models';
-import { SpareDriveItemComponent } from '../volume-item/volume-item.component';
+import { VolumeItemComponent } from '../volume-item/volume-item.component';
 
 
 @Component({
   selector: 'cs-volume-list',
   templateUrl: 'volume-list.component.html'
 })
-export class SpareDriveListComponent {
+export class VolumeListComponent {
   @Input() public volumes: Array<Volume>;
   @Input() public groupings: Array<any>;
   @Input() public query: string;
   public inputs;
   public outputs;
 
-  public SpareDriveItemComponent = SpareDriveItemComponent;
+  public VolumeItemComponent = VolumeItemComponent;
 
   constructor(public listService: ListService) {
     this.inputs = {

@@ -9,7 +9,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { ReloadComponent } from './shared/components/reload/reload.component';
 import { AuthGuard } from './shared/services/auth-guard.service';
 import { LoginGuard } from './shared/services/login-guard.service';
-import { spareDriveRoutes } from './volume/volume.routing';
+import { volumeRoutes } from './volume/volume.routing';
 import { sshRoutes } from './ssh-keys/ssh-keys.routing';
 import { templateRouting } from './template/template.routing';
 import { vmRoutes } from './vm/vm.routing';
@@ -34,7 +34,7 @@ export const routes: Routes = [
     component: HomeComponent,
     children: [
       ...vmRoutes,
-      ...spareDriveRoutes,
+      ...volumeRoutes,
       ...templateRouting,
       ...sgRoutes,
       {

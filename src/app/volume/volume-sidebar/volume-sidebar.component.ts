@@ -17,7 +17,7 @@ import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-
   templateUrl: 'volume-sidebar.component.html',
   styleUrls: ['volume-sidebar.component.scss']
 })
-export class SpareDriveSidebarComponent extends SidebarComponent<Volume> {
+export class VolumeSidebarComponent extends SidebarComponent<Volume> {
   @HostBinding('class.grid') public grid = true;
 
   constructor(

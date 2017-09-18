@@ -1,6 +1,6 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
 <div [hidden]="loading">
-  <h3 class="mat-dialog-title">{{ 'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.TITLE' | translate }}</h3>
+  <h3 class="mat-dialog-title">{{ 'VOLUME_PAGE.SPARE_DRIVE_CREATION.TITLE' | translate }}</h3>
   <form (ngSubmit)="onCreate()" #volumeCreationForm="ngForm" novalidate>
     <div class="mat-dialog-content">
       <md-form-field class="full-width-input">
@@ -8,7 +8,7 @@
           mdInput
           name="name"
           [(ngModel)]="name"
-          [placeholder]="'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.NAME' | translate"
+          [placeholder]="'VOLUME_PAGE.SPARE_DRIVE_CREATION.NAME' | translate"
           maxlength="255"
           autofocus
           required
@@ -18,7 +18,7 @@
         </md-hint>
       </md-form-field>
       <div>
-        <h5>{{ 'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.ZONE' | translate }}</h5>
+        <h5>{{ 'VOLUME_PAGE.SPARE_DRIVE_CREATION.ZONE' | translate }}</h5>
         <md-select
           [(ngModel)]="zoneId"
           id="zone"
@@ -33,7 +33,7 @@
         </md-select>
       </div>
       <div>
-        <h5>{{ 'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.DISK_OFFERING' | translate }}</h5>
+        <h5>{{ 'VOLUME_PAGE.SPARE_DRIVE_CREATION.DISK_OFFERING' | translate }}</h5>
         <cs-disk-offering
           name="diskOffering"
           [ngModel]="diskOffering"
@@ -45,7 +45,7 @@
         <cs-slider
           [min]="minSize"
           [max]="maxSize"
-          [label]="'SPARE_DRIVE_PAGE.SPARE_DRIVE_CREATION.SIZE' | translate"
+          [label]="'VOLUME_PAGE.SPARE_DRIVE_CREATION.SIZE' | translate"
           [units]="'UNITS.GB' | translate"
           name="diskSize"
           [(ngModel)]="size"

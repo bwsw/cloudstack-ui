@@ -2,31 +2,31 @@ import { Injectable } from '@angular/core';
 import { ActionsService } from '../../interfaces/action-service.interface';
 import { Action } from '../../interfaces/action.interface';
 import { Volume } from '../../models';
-import { SpareDriveAttachAction } from './volume-attach';
-import { SpareDriveRemoveAction } from './volume-remove';
-import { SpareDriveResizeAction } from './volume-resize';
-import { SpareDriveDetachAction } from './volume-detach';
-import { SpareDriveSnapshotAction } from './volume-snapshot';
-import { SpareDriveRecurringSnapshotsAction } from './volume-recurring-snapshots';
+import { VolumeAttachAction } from './volume-attach';
+import { VolumeRemoveAction } from './volume-remove';
+import { VolumeResizeAction } from './volume-resize';
+import { VolumeDetachAction } from './volume-detach';
+import { VolumeSnapshotAction } from './volume-snapshot';
+import { VolumeRecurringSnapshotsAction } from './volume-recurring-snapshots';
 
 
 @Injectable()
-export class SpareDriveActionsService implements ActionsService<Volume, Action<Volume>> {
+export class VolumeActionsService implements ActionsService<Volume, Action<Volume>> {
   public actions = [
-    this.spareDriveSnapshotAction,
-    this.spareDriveRecurringSnapshotsAction,
-    this.spareDriveAttachAction,
-    this.spareDriveDetachAction,
-    this.spareDriveResizeAction,
-    this.spareDriveRemoveAction
+    this.volumeSnapshotAction,
+    this.volumeRecurringSnapshotsAction,
+    this.volumeAttachAction,
+    this.volumeDetachAction,
+    this.volumeResizeAction,
+    this.volumeRemoveAction
   ];
 
   constructor(
-    public spareDriveSnapshotAction: SpareDriveSnapshotAction,
-    public spareDriveRecurringSnapshotsAction: SpareDriveRecurringSnapshotsAction,
-    public spareDriveAttachAction: SpareDriveAttachAction,
-    public spareDriveDetachAction: SpareDriveDetachAction,
-    public spareDriveResizeAction: SpareDriveResizeAction,
-    public spareDriveRemoveAction: SpareDriveRemoveAction
+    public volumeSnapshotAction: VolumeSnapshotAction,
+    public volumeRecurringSnapshotsAction: VolumeRecurringSnapshotsAction,
+    public volumeAttachAction: VolumeAttachAction,
+    public volumeDetachAction: VolumeDetachAction,
+    public volumeResizeAction: VolumeResizeAction,
+    public volumeRemoveAction: VolumeRemoveAction
   ) {}
 }

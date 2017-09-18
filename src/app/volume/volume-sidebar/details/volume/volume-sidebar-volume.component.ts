@@ -7,7 +7,7 @@ import { VolumeService } from '../../../../shared/services/volume.service';
   selector: 'cs-volume-sidebar-volume',
   templateUrl: 'volume-sidebar-volume.component.html'
 })
-export class SpareDriveSidebarVolumeComponent implements OnInit {
+export class VolumeSidebarVolumeComponent implements OnInit {
   @Input() public volume: Volume;
 
   constructor(private volumeService: VolumeService) {}

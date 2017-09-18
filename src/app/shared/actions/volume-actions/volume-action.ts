@@ -9,7 +9,7 @@ import { VolumeService } from '../../services/volume.service';
 
 
 @Injectable()
-export abstract class SpareDriveAction implements Action<Volume> {
+export abstract class VolumeAction implements Action<Volume> {
   public name: string;
   public icon?: string;
 

@@ -5,7 +5,7 @@ import { ZoneService } from '../shared/services/zone.service';
 import { Zone } from '../shared/models/zone.model';
 
 
-export abstract class SpareDriveItem {
+export abstract class VolumeItem {
   public item: Volume;
   public diskOfferings: Array<DiskOffering>;
 

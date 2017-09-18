@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MdMenuTrigger } from '@angular/material';
-import { SpareDriveActionsService } from '../../shared/actions/volume-actions/volume-actions.service';
+import { VolumeActionsService } from '../../shared/actions/volume-actions/volume-actions.service';
 import { DiskOffering, Volume } from '../../shared/models';
 import { VolumeType } from '../../shared/models/volume.model';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { ZoneService } from '../../shared/services/zone.service';
-import { SpareDriveItem } from '../volume-item';
+import { VolumeItem } from '../volume-item';
 
 
 @Component({
@@ -13,7 +13,7 @@ import { SpareDriveItem } from '../volume-item';
   templateUrl: 'volume-item.component.html',
   styleUrls: ['volume-item.component.scss']
 })
-export class SpareDriveItemComponent extends SpareDriveItem implements OnInit, OnChanges {
+export class VolumeItemComponent extends VolumeItem implements OnInit, OnChanges {
   @Input() public isSelected: (volume) => boolean;
   @Input() public searchQuery: () => string;
   @Input() public item: Volume;
@@ -24,7 +24,7 @@ export class SpareDriveItemComponent extends SpareDriveItem implements OnInit, O
   public query: string;
 
   constructor(
-    public spareDriveActionsService: SpareDriveActionsService,
+    public volumeActionsService: VolumeActionsService,
     protected diskOfferingService: DiskOfferingService,
     protected zoneService: ZoneService
   ) {
@@ -52,8 +52,8 @@ export class SpareDriveItemComponent extends SpareDriveItem implements OnInit, O
 
   public get stateTranslationToken(): string {
     const stateTranslations = {
-      'ALLOCATED': 'SPARE_DRIVE_STATE.ALLOCATED',
-      'READY': 'SPARE_DRIVE_STATE.READY'
+      'ALLOCATED': 'VOLUME_STATE.ALLOCATED',
+      'READY': 'VOLUME_STATE.READY'
     };
 
     return stateTranslations[this.item.state.toUpperCase()];

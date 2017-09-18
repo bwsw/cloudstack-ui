@@ -17,39 +17,38 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 // tslint:disable-next-line
 import { SharedModule } from '../shared/shared.module';
-import { SpareDriveCreationDialogComponent } from './volume-creation/volume-creation-dialog.component';
-import { SpareDriveCreationComponent } from './volume-creation/volume-creation.component';
-import { SpareDriveFilterComponent } from './volume-filter/volume-filter.component';
-import { SpareDriveItemComponent } from './volume-item/volume-item.component';
-import { SpareDriveListComponent } from './volume-list/volume-list.component';
-import { SpareDrivePageComponent } from './volume-page/volume-page.component';
+import { VolumeCreationDialogComponent } from './volume-creation/volume-creation-dialog.component';
+import { VolumeCreationComponent } from './volume-creation/volume-creation.component';
+import { VolumeFilterComponent } from './volume-filter/volume-filter.component';
+import { VolumeItemComponent } from './volume-item/volume-item.component';
+import { VolumeListComponent } from './volume-list/volume-list.component';
+import { VolumePageComponent } from './volume-page/volume-page.component';
 // tslint:disable-next-line
-import { SpareDriveActionsSidebarComponent } from './volume-sidebar/actions-sidebar/volume-actions-sidebar.component';
+import { VolumeActionsSidebarComponent } from './volume-sidebar/actions-sidebar/volume-actions-sidebar.component';
 // tslint:disable-next-line
-import { SpareDriveSidebarDiskOfferingComponent } from './volume-sidebar/details/disk-offering/volume-sidebar-disk-offering.component';
-import { SpareDriveDetailsComponent } from './volume-sidebar/details/volume-details.component';
+import { VolumeSidebarDiskOfferingComponent } from './volume-sidebar/details/disk-offering/volume-sidebar-disk-offering.component';
+import { VolumeDetailsComponent } from './volume-sidebar/details/volume-details.component';
 // tslint:disable-next-line
-import { SpareDriveSidebarVolumeComponent } from './volume-sidebar/details/volume/volume-sidebar-volume.component';
+import { VolumeSidebarVolumeComponent } from './volume-sidebar/details/volume/volume-sidebar-volume.component';
 // tslint:disable-next-line
-import { SpareDriveSnapshotCreationComponent } from './volume-sidebar/snapshot-details/snapshot-creation/volume-snapshot-creation.component';
+import { VolumeSnapshotCreationComponent } from './volume-sidebar/snapshot-details/snapshot-creation/volume-snapshot-creation.component';
 import { SnapshotActionsComponent } from './volume-sidebar/snapshot-details/snapshot/snapshot-actions/snapshot-actions.component';
 // tslint:disable-next-line
-import { SpareDriveSnapshotComponent } from './volume-sidebar/snapshot-details/snapshot/volume-snapshot.component';
+import { VolumeSnapshotComponent } from './volume-sidebar/snapshot-details/snapshot/volume-snapshot.component';
 // tslint:disable-next-line
-import { SpareDriveSnapshotDetailsComponent } from './volume-sidebar/snapshot-details/volume-snapshot-details.component';
-import { SpareDriveSidebarComponent } from './volume-sidebar/volume-sidebar.component';
+import { VolumeSnapshotDetailsComponent } from './volume-sidebar/snapshot-details/volume-snapshot-details.component';
+import { VolumeSidebarComponent } from './volume-sidebar/volume-sidebar.component';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 // tslint:disable-next-line
 // tslint:disable-next-line
-import { SpareDriveAttachmentDialogComponent } from '../vm/vm-sidebar/storage-detail/volume-attachment/volume-attchment-dialog/volume-attachment-dialog.component';
-import { SpareDriveAttachmentComponent } from '../shared/actions/volume-actions/volume-attachment/volume-attachment.component';
+import { VolumeAttachmentComponent } from '../shared/actions/volume-actions/volume-attachment/volume-attachment.component';
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    DynamicModule.withComponents([SpareDriveItemComponent]),
+    DynamicModule.withComponents([VolumeItemComponent]),
     MdButtonModule,
     MdCheckboxModule,
     MdDialogModule,
@@ -67,28 +66,27 @@ import { SpareDriveAttachmentComponent } from '../shared/actions/volume-actions/
   ],
   declarations: [
     SnapshotActionsComponent,
-    SpareDriveDetailsComponent,
-    SpareDriveSnapshotComponent,
-    SpareDriveSnapshotCreationComponent,
-    SpareDriveSnapshotDetailsComponent,
-    SpareDriveActionsSidebarComponent,
-    SpareDrivePageComponent,
-    SpareDriveSidebarComponent,
-    SpareDriveSidebarDiskOfferingComponent,
-    SpareDriveSidebarVolumeComponent,
-    SpareDriveAttachmentComponent,
-    SpareDriveCreationComponent,
-    SpareDriveFilterComponent,
-    SpareDriveCreationDialogComponent,
-    SpareDriveItemComponent,
-    SpareDriveListComponent,
-    SpareDriveAttachmentDialogComponent
+    VolumeDetailsComponent,
+    VolumeSnapshotComponent,
+    VolumeSnapshotCreationComponent,
+    VolumeSnapshotDetailsComponent,
+    VolumeActionsSidebarComponent,
+    VolumePageComponent,
+    VolumeSidebarComponent,
+    VolumeSidebarDiskOfferingComponent,
+    VolumeSidebarVolumeComponent,
+    VolumeAttachmentComponent,
+    VolumeCreationComponent,
+    VolumeFilterComponent,
+    VolumeCreationDialogComponent,
+    VolumeItemComponent,
+    VolumeListComponent
   ],
   exports: [
-    SpareDrivePageComponent
+    VolumePageComponent
   ],
   entryComponents: [
-    SpareDriveCreationComponent
+    VolumeCreationComponent
   ]
 })
-export class SpareDriveModule { }
+export class VolumeModule { }

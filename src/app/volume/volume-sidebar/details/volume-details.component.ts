@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'cs-volume-details',
   templateUrl: 'volume-details.component.html'
 })
-export class SpareDriveDetailsComponent {
+export class VolumeDetailsComponent {
   public volume: Volume;
 
   constructor(

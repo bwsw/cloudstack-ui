@@ -183,7 +183,7 @@
   "NAVIGATION_SIDEBAR": {
     "WELCOME": "Welcome, {{ name }}",
     "VMS": "Virtual machines",
-    "SPARE_DRIVES": "Storage",
+    "STORAGE": "Storage",
     "IMAGES": "Images",
     "FIREWALL_TEMPLATES": "Firewall Templates",
     "ACTIVITY_LOG": "Activity log",
@@ -451,7 +451,7 @@
       "NO_TEMPLATES": "No templates available"
     }
   },
-  "SPARE_DRIVE_PAGE": {
+  "VOLUME_PAGE": {
     "FILTERS": {
       "SPARE_DRIVES_ONLY": "Spare drives only",
       "SELECT_ZONES": "Select zones",
@@ -472,7 +472,7 @@
       "DISK_OFFERING": "Disk offering",
       "SIZE": "Size"
     },
-"SIDEBAR": {
+    "SIDEBAR": {
       "VOLUME": "Volume",
       "SNAPSHOTS": "Snapshots"
     },
@@ -491,7 +491,7 @@
       "READ_RATE_IOPS": "Read rate",
       "WRITE_RATE_IOPS": "Write rate"
     },
-"SNAPSHOTS": {
+    "SNAPSHOTS": {
       "DESCRIPTION": "Description",
       "DATE": "Date"
     },
@@ -827,21 +827,6 @@
           "5": "Need Authorization"
         }
       }
-    },
-    "RULES_MANAGER": {
-      "BASED_ON": "based on"
-    },
-    "TEMPLATE_CREATION": {
-      "CREATE_NEW_TEMPLATE": "Create new template",
-      "NAME": "Name",
-      "DESCRIPTION": "Description",
-      "BASIC_RULES": "Basic rules"
-    },
-    "BUILDER": {
-      "SECURITY_GROUP_TEMPLATES": "Security Group Templates",
-      "ALL_GROUPS": "All templates",
-      "SELECTED_GROUPS": "Selected templates",
-      "NETWORK_RULES": "Network rules"
     }
   },
   "EVENT_PAGE": {
@@ -906,7 +891,7 @@
     "ENTER_TEXT": "Enter text",
     "SELECT_AN_OPTION": "Select an option"
   },
-"VM_NOT_FOUND": "Virtual machine not found",
+  "VM_NOT_FOUND": "Virtual machine not found",
   "VOLUME_NOT_FOUND": "Volume not found",
   "TEMPLATE_NOT_FOUND": "Template not found",
   "PULSE": {
@@ -989,7 +974,7 @@
     "SHARED": "Shared",
     "LOCAL": "Local"
   },
-  "SPARE_DRIVE_STATE": {
+  "VOLUME_STATE": {
     "ALLOCATED": "Allocated",
     "READY": "Ready"
   },

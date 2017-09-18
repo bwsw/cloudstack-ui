@@ -6,6 +6,6 @@ import { Snapshot } from '../../../../shared/models/snapshot.model';
   selector: 'cs-volume-snapshot',
   templateUrl: 'volume-snapshot.component.html'
 })
-export class SpareDriveSnapshotComponent {
+export class VolumeSnapshotComponent {
   @Input() public snapshot: Snapshot;
 }

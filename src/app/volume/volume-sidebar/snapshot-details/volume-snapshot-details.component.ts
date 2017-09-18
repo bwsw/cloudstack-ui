@@ -9,7 +9,7 @@ import { VolumeService } from '../../../shared/services/volume.service';
   selector: 'cs-volume-snapshot-details',
   templateUrl: 'volume-snapshot-details.component.html'
 })
-export class SpareDriveSnapshotDetailsComponent implements OnInit {
+export class VolumeSnapshotDetailsComponent implements OnInit {
   public volume: Volume;
 
   constructor(

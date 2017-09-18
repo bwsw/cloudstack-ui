@@ -4,11 +4,11 @@ import {
   SnapshotCreationComponent
 } from '../../../vm/vm-sidebar/storage-detail/volume/snapshot-creation/snapshot-creation.component';
 import { Volume } from '../../models/volume.model';
-import { SpareDriveAction } from './volume-action';
+import { VolumeAction } from './volume-action';
 
 
 @Injectable()
-export class SpareDriveSnapshotAction extends SpareDriveAction {
+export class VolumeSnapshotAction extends VolumeAction {
   public name = 'VOLUME_ACTIONS.TAKE_SNAPSHOT';
   public icon = 'camera_alt';
 

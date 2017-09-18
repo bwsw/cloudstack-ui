@@ -1,23 +1,23 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../shared/services/auth-guard.service';
-import { SpareDriveCreationDialogComponent } from './volume-creation/volume-creation-dialog.component';
-import { SpareDrivePageComponent } from './volume-page/volume-page.component';
-import { SpareDriveDetailsComponent } from './volume-sidebar/details/volume-details.component';
-import { SpareDriveSnapshotDetailsComponent } from './volume-sidebar/snapshot-details/volume-snapshot-details.component';
-import { SpareDriveSidebarComponent } from './volume-sidebar/volume-sidebar.component';
+import { VolumeCreationDialogComponent } from './volume-creation/volume-creation-dialog.component';
+import { VolumePageComponent } from './volume-page/volume-page.component';
+import { VolumeDetailsComponent } from './volume-sidebar/details/volume-details.component';
+import { VolumeSnapshotDetailsComponent } from './volume-sidebar/snapshot-details/volume-snapshot-details.component';
+import { VolumeSidebarComponent } from './volume-sidebar/volume-sidebar.component';
 
-export const spareDriveRoutes: Routes = [
+export const volumeRoutes: Routes = [
   {
     path: 'storage',
-    component: SpareDrivePageComponent,
+    component: VolumePageComponent,
     canActivate: [AuthGuard],
     children: [
       {
         path: 'create',
-        component: SpareDriveCreationDialogComponent
+        component: VolumeCreationDialogComponent
       }, {
         path: ':id',
-        component: SpareDriveSidebarComponent,
+        component: VolumeSidebarComponent,
         canActivate: [AuthGuard],
         children: [
           {
@@ -27,11 +27,11 @@ export const spareDriveRoutes: Routes = [
           },
           {
             path: 'volume',
-            component: SpareDriveDetailsComponent
+            component: VolumeDetailsComponent
           },
           {
             path: 'snapshots',
-            component: SpareDriveSnapshotDetailsComponent
+            component: VolumeSnapshotDetailsComponent
           }
         ]
       }
