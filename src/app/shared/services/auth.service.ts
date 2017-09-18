@@ -103,7 +103,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   }
 
   public isSecurityGroupEnabled(): boolean {
-    return this.capabilities ? this.capabilities.securitygroupsenabled : true;
+    return !!this.capabilities && this.capabilities.securitygroupsenabled;
   }
 
   public getCustomDiskOfferingMinSize(): number | null {
@@ -127,8 +127,8 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   }
 
   private getCapabilities(): Observable<void> {
-    return this.sendCommand('listCapabilities', {}, '').map(
-      ({ capability }) => (this.capabilities = capability)
-    );
+    return this.sendCommand('listCapabilities', {}, '')
+      .map(({ capability }) => (this.capabilities = capability))
+      .catch(() => this.logout());
   }
 }
