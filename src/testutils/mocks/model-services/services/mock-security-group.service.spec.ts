@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { SecurityGroup } from '../../../../app/security-group/sg.model';
+import { SecurityGroup, SecurityGroupType } from '../../../../app/security-group/sg.model';
 
 
 const securityGroupTemplates: Array<Object> = require('../fixtures/securityGroupTemplates.json');

@@ -3,7 +3,7 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { SgRulesManagerComponent } from '../../shared';
+import { VmCreationSecurityGroupRulesManagerComponent } from '../../shared';
 import { Volume } from '../../shared/models';
 import { LanguageService, TimeFormat } from '../../shared/services/language.service';
 import { Policy, TimePolicy } from './policy-editor/policy-editor.component';
@@ -24,7 +24,7 @@ export enum PolicyType {
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SgRulesManagerComponent),
+      useExisting: forwardRef(() => VmCreationSecurityGroupRulesManagerComponent),
       multi: true
     }
   ]
