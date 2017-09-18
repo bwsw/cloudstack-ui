@@ -6,7 +6,7 @@ import { FilterService } from '../../shared/services/filter.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { VmState } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
-import { InstanceGroupOrNoGroup, NoGroup } from '../../shared/components/instance-group/no-group';
+import { InstanceGroupOrNoGroup, NoGroup, noGroup } from '../../shared/components/instance-group/no-group';
 
 
 export interface VmFilter {
@@ -26,7 +26,7 @@ export class VmFilterComponent implements OnInit, OnChanges {
   @Input() public zones: Array<Zone>;
   @Output() public updateFilters = new EventEmitter<VmFilter>();
 
-  public noGroup = NoGroup;
+  public noGroup = noGroup;
 
   public selectedGroups: Array<InstanceGroupOrNoGroup> = [];
   public selectedStates: Array<VmState> = [];
@@ -90,7 +90,7 @@ export class VmFilterComponent implements OnInit, OnChanges {
 
     const containsNoGroup = params['groups'].includes('');
     if (containsNoGroup) {
-      this.selectedGroups.push(NoGroup);
+      this.selectedGroups.push(noGroup);
     }
 
     this.update();
@@ -126,10 +126,10 @@ export class VmFilterComponent implements OnInit, OnChanges {
     a: InstanceGroupOrNoGroup,
     b: InstanceGroupOrNoGroup
   ): number {
-    if (a === NoGroup || a.name < (b as InstanceGroup).name) {
+    if (a === noGroup || a.name < (b as InstanceGroup).name) {
       return -1;
     }
-    if (b === NoGroup || a.name > b.name) {
+    if (b === noGroup || a.name > b.name) {
       return 1;
     }
     return 0;
