@@ -2,8 +2,12 @@
   display: inline-flex;
 }
 
-:host /deep/ mdl-textfield {
+md-form-field {
   width: 100px;
+
+  input {
+    font-size: 16px;
+  }
 }
 
 .align-middle {

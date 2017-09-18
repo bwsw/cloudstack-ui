@@ -1,4 +1,3 @@
-import { MdlModule } from '@angular-mdl/core';
 import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MdDialog } from '@angular/material';
 import { By } from '@angular/platform-browser';
@@ -110,8 +109,7 @@ describe('Sg Rules manager component', () => {
       ],
       providers: [
         { provide: MdDialog, useClass: MockMdDialog }
-      ],
-      imports: [MdlModule]
+      ]
     });
 
     TestBed.compileComponents().then(() => {
@@ -139,7 +137,7 @@ describe('Sg Rules manager component', () => {
     const dialog = TestBed.get(MdDialog);
     spyOn(dialog, 'open').and.callThrough();
     f.detectChanges();
-    f.debugElement.query(By.css('mdl-button')).triggerEventHandler('click');
+    f.debugElement.query(By.css('.fancy-select-button')).triggerEventHandler('click');
 
     expect(dialog.open).toHaveBeenCalled();
   });
@@ -152,7 +150,7 @@ describe('Sg Rules manager component', () => {
     const dialog = TestBed.get(MdDialog);
     spyOn(dialog, 'open').and.callThrough();
     f.detectChanges();
-    f.debugElement.query(By.css('mdl-button')).triggerEventHandler('click');
+    f.debugElement.query(By.css('.fancy-select-button')).triggerEventHandler('click');
 
     const expectedSavedRules = new Rules([mockSg], mockIngressRules, mockEgressRules);
     expect(comp.savedRules).toEqual(expectedSavedRules);

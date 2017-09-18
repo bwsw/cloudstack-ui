@@ -6,6 +6,8 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { TemplateTagKeys } from '../../../shared/services/tags/template-tag-keys';
+import { EntityDoesNotExistError } from '../../../shared/components/sidebar/entity-does-not-exist-error';
+
 
 export abstract class BaseTemplateDetailsComponent implements OnInit {
   public entity: BaseTemplateModel;
@@ -50,7 +52,7 @@ export abstract class BaseTemplateDetailsComponent implements OnInit {
         if (template) {
           return Observable.of(template);
         } else {
-          return Observable.throw('ENTITY_DOES_NOT_EXIST');
+          return Observable.throw(new EntityDoesNotExistError());
         }
       })
       .do(template => {

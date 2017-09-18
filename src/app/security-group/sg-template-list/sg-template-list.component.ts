@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialog, MdDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { NotificationService } from '../../shared/services/notification.service';
@@ -8,7 +10,6 @@ import { SecurityGroupService } from '../../shared/services/security-group.servi
 import { SecurityGroupTagKeys } from '../../shared/services/tags/security-group-tag-keys';
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
 import { SecurityGroup } from '../sg.model';
-import { Observable } from 'rxjs/Observable';
 
 
 @Component({

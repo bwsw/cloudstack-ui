@@ -5,48 +5,59 @@
     <div class="mat-dialog-content">
       <div [class.flex-dialog-content]="!snapshot">
         <div [class.column]="!snapshot">
-          <mdl-textfield
-            type="text"
-            label="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.NAME' | translate }}"
-            name="name"
-            floating-label
-            autofocus
-            maxlength="255"
-            required
-            [(ngModel)]="name"
-            #nameField="ngModel"
-            [class.is-invalid]="nameField.invalid && !nameField.pristine"
-          >
-          </mdl-textfield>
+          <md-form-field class="full-width-input">
+            <input
+              mdInput
+              name="name"
+              [(ngModel)]="name"
+              [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.NAME' | translate"
+              autofocus
+              maxlength="255"
+              required
+            >
+            <md-hint align="end">
+              <cs-character-count [value]="name" [maxLength]="255"></cs-character-count>
+            </md-hint>
+          </md-form-field>
           <br>
-          <mdl-textfield
-            type="text"
-            label="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.DESCRIPTION' | translate }}"
-            name="description"
-            floating-label
-            maxlength="255"
-            required
-            [(ngModel)]="displayText"
-            #descriptionField="ngModel"
-            [class.is-invalid]="descriptionField.invalid && !descriptionField.pristine"
-          >
-          </mdl-textfield>
+          <md-form-field class="full-width-input">
+            <input
+              mdInput
+              name="description"
+              [(ngModel)]="displayText"
+              [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.DESCRIPTION' | translate"
+              maxlength="255"
+              required
+            >
+            <md-hint align="end">
+              <cs-character-count
+                [value]="displayText"
+                [maxLength]="255"
+              ></cs-character-count>
+            </md-hint>
+          </md-form-field>
           <br>
-          <mdl-textfield
-            *ngIf="!snapshot"
-            type="url"
-            label="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.URL' | translate }}"
-            name="url"
-            floating-label
-            maxlength="255"
-            required
-            pattern="^(http|https):\/\/.*$"
-            error-msg="{{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.INVALID_URL' | translate }}"
-            [(ngModel)]="url"
-            #urlField="ngModel"
-            [class.is-invalid]="urlField.invalid && !urlField.pristine"
-          >
-          </mdl-textfield>
+          <md-form-field *ngIf="!snapshot" class="full-width-input">
+            <input
+              mdInput
+              type="url"
+              name="url"
+              [(ngModel)]="url"
+              [placeholder]=" 'TEMPLATE_PAGE.TEMPLATE_CREATION.URL' | translate "
+              pattern="^(http|https):\/\/.*$"
+              maxlength="255"
+              required
+              #urlField="ngModel"
+            >
+            <md-error
+              *ngIf="urlField.hasError('pattern')"
+            >
+              {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.INVALID_URL' | translate }}
+            </md-error>
+            <md-hint align="end">
+              <cs-character-count [value]="url" [maxLength]="255"></cs-character-count>
+            </md-hint>
+          </md-form-field>
         </div>
         <div [class.column]="!snapshot">
           <div>
@@ -68,7 +79,7 @@
           <div *ngIf="!snapshot">
             <md-select
               class="form-select-control"
-              [placeholder]="'ZONE' | translate"
+              [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.ZONE' | translate"
               [(ngModel)]="zoneId"
               id="serviceOffering"
               name="serviceOffering"
@@ -82,43 +93,41 @@
             </md-select>
           </div>
           <div>
-            <mdl-checkbox
+            <md-checkbox
+              *ngIf="mode === 'Template'"
               name="pass"
               [(ngModel)]="passwordEnabled"
-              *ngIf="mode === 'Template'"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.PASSWORD_ENABLED' | translate }}
-            </mdl-checkbox>
-            <mdl-checkbox
+            </md-checkbox>
+            <md-checkbox
               class="dynscal-checkbox"
               name="dynscal"
               [(ngModel)]="dynamicallyScalable"
               *ngIf="mode === 'Template'"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.DYNAMICALLY_SCALABLE' | translate }}
-            </mdl-checkbox>
+            </md-checkbox>
           </div>
         </div>
       </div>
     </div>
     <div class="mat-dialog-actions">
       <button
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
+        md-button
+        color="primary"
+        mdDialogClose
+        type="button"
+      >
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <button
+        md-button
+        color="primary"
         type="submit"
         [disabled]="!templateCreationForm.valid"
       >
         {{ 'COMMON.CREATE' | translate }}
-      </button>
-      <button
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
-        type="button"
-        (click)="onCancel()"
-      >
-        {{ 'COMMON.CANCEL' | translate }}
       </button>
     </div>
   </form>

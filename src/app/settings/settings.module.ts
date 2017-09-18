@@ -1,8 +1,13 @@
-import { MdlModule } from '@angular-mdl/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MdIconModule, MdSelectModule, MdTooltipModule } from '@angular/material';
+import {
+  MdButtonModule,
+  MdIconModule,
+  MdInputModule,
+  MdSelectModule,
+  MdTooltipModule
+} from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard/dist';
 import { SharedModule } from '../shared/shared.module';
@@ -17,8 +22,9 @@ import { SettingsComponent } from './settings.component';
     FormsModule,
     TranslateModule,
     MdTooltipModule,
+    MdButtonModule,
     MdIconModule,
-    MdlModule,
+    MdInputModule,
     MdSelectModule,
     SharedModule,
     ReactiveFormsModule,

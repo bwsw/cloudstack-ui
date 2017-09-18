@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   Component,
   EventEmitter,
@@ -9,9 +10,8 @@ import {
   ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MdlPopoverComponent } from '@angular-mdl/popover';
 import { Color } from '../../models';
-import { toBoolean } from '@angular-mdl/core/components/common/boolean-property';
+import { PopoverTriggerDirective } from '../popover/popover-trigger.directive';
 
 
 @Component({
@@ -32,7 +32,7 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
   @Input() public colorsPerLine: number;
   @Input() public containerWidth = 256;
   @Output() public change = new EventEmitter();
-  @ViewChild(MdlPopoverComponent) public popover;
+  @ViewChild(PopoverTriggerDirective) public popoverTrigger: PopoverTriggerDirective;
   public colorWidth: number;
 
   private _selectedColor: Color;
@@ -40,10 +40,10 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
 
   @Input() public get disabled(): boolean {
     return this._disabled;
-  };
+  }
 
   public set disabled(value) {
-    this._disabled = toBoolean(value);
+    this._disabled = coerceBooleanProperty(value);
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -62,16 +62,15 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
     this.propagateChange(this._selectedColor);
   }
 
-  public toggle(event: Event): void {
-    if (!this._disabled) {
-      this.popover.toggle(event);
-    }
-  }
-
   public selectColor(color: Color): void {
     this.selectedColor = color;
-    this.popover.hide();
+    this.popoverTrigger.closePopover();
     this.change.emit(this._selectedColor);
+  }
+
+  public handlePreviewClick(e: Event): void {
+    e.stopPropagation();
+    this.popoverTrigger.openPopover();
   }
 
   public writeValue(value): void {

@@ -1,35 +1,28 @@
 <div>
   <div class="mat-dialog-content" [style.padding-bottom.px]="0">
     <p>{{ 'SSH_KEYS.SAVE_THIS_KEY' | translate }}</p>
-    <mdl-textfield
-      type="text"
-      [(ngModel)]="privateKey"
-      autofocus
-      rows="12"
-      maxrows="12"
-      readonly
-      [style.width.%]="100"
-    ></mdl-textfield>
+    <md-form-field class="full-width-input">
+      <textarea
+        mdInput
+        [(ngModel)]="privateKey"
+        rows="12"
+        readonly
+      ></textarea>
+    </md-form-field>
   </div>
   <div class="mat-dialog-actions">
     <button
-      mdl-button
-      mdl-colored="primary"
-      mdl-ripple
-      (click)="dialogRef.close()"
-    >
-      {{ 'COMMON.OK' | translate }}
-    </button>
-    <button
-      mdl-button
-      mdl-colored="primary"
-      mdl-ripple
+      md-button
+      color="primary"
       ngxClipboard
       [cbContent]="privateKey"
       (cbOnSuccess)="onCopySuccess()"
       (cbOnError)="onCopyFail()"
     >
       {{ 'CLIPBOARD.COPY' | translate }}
+    </button>
+    <button md-button color="primary" mdDialogClose>
+      {{ 'COMMON.OK' | translate }}
     </button>
   </div>
 </div>

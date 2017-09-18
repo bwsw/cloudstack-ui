@@ -1,7 +1,10 @@
-import { Directionality } from '@angular/cdk';
+import { Directionality } from '@angular/cdk/bidi';
+import { Overlay } from '@angular/cdk/overlay';
+import { Platform } from '@angular/cdk/platform';
 import {
   AfterContentInit,
   Attribute,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -13,10 +16,11 @@ import {
   Self,
   ViewEncapsulation
 } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import {
   fadeInContent,
   MD_PLACEHOLDER_GLOBAL_OPTIONS,
+  MD_SELECT_SCROLL_STRATEGY,
   MdSelect,
   PlaceholderOptions,
   transformPanel,
@@ -33,6 +37,7 @@ import * as uuid from 'uuid';
   styleUrls: ['draggable-select.component.scss'],
   inputs: ['color', 'disabled'], // tslint:disable-line
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { // tslint:disable-line
     'role': 'listbox',
     '[attr.tabindex]': 'tabIndex',
@@ -40,11 +45,13 @@ import * as uuid from 'uuid';
     '[attr.aria-labelledby]': 'ariaLabelledby',
     '[attr.aria-required]': 'required.toString()',
     '[attr.aria-disabled]': 'disabled.toString()',
-    '[attr.aria-invalid]': '_control?.invalid || "false"',
+    '[attr.aria-invalid]': '_isErrorState()',
     '[attr.aria-owns]': '_optionIds',
+    '[attr.aria-multiselectable]': 'multiple',
     '[class.mat-select-disabled]': 'disabled',
+    '[class.mat-select-invalid]': '_isErrorState()',
+    '[class.mat-select-required]': 'required',
     'class': 'mat-select',
-    '[class.draggable-select]': 'true',
     '(keydown)': '_handleClosedKeydown($event)',
     '(blur)': '_onBlur()',
   },
@@ -64,22 +71,32 @@ export class DraggableSelectComponent extends MdSelect implements AfterContentIn
     private dragula: DragulaService,
     _viewportRuler: ViewportRuler,
     _changeDetectorRef: ChangeDetectorRef,
+    _overlay: Overlay,
+    _platform: Platform,
     renderer: Renderer2,
     elementRef: ElementRef,
     @Optional() _dir: Directionality,
+    @Optional() _parentForm: NgForm,
+    @Optional() _parentFormGroup: FormGroupDirective,
     @Self() @Optional() _control: NgControl,
     @Attribute('tabindex') tabIndex: string,
-    @Optional() @Inject(MD_PLACEHOLDER_GLOBAL_OPTIONS) placeholderOptions: PlaceholderOptions
+    @Optional() @Inject(MD_PLACEHOLDER_GLOBAL_OPTIONS) placeholderOptions: PlaceholderOptions,
+    @Inject(MD_SELECT_SCROLL_STRATEGY) _scrollStrategyFactory
   ) {
     super(
       _viewportRuler,
       _changeDetectorRef,
+      _overlay,
+      _platform,
       renderer,
       elementRef,
       _dir,
+      _parentForm,
+      _parentFormGroup,
       _control,
       tabIndex,
-      placeholderOptions
+      placeholderOptions,
+      _scrollStrategyFactory
     );
   }
 

@@ -23,7 +23,7 @@
     {{ aggregation }}
   </md-option>
 </md-select>
-<md-input-container class="shift-input">
+<md-form-field class="shift-input">
   <input
     [(ngModel)]="shiftAmount"
     mdInput
@@ -33,7 +33,7 @@
     [max]="100"
     (input)="handleShiftAmountChange($event)"
   >
-</md-input-container>
+</md-form-field>
 <md-select
   class="aggregation-select shift-select"
   [(ngModel)]="selectedShift"

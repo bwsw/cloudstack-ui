@@ -6,26 +6,27 @@
 
   <nav md-tab-nav-bar>
     <a
-      md-tab-link
+      mdTabLink
       [routerLink]="['./volume']"
       queryParamsHandling="preserve"
       [active]="tabIsActive('volume')"
     >
-      <div [mdTooltip]="'SPARE_DRIVE_PAGE.SIDEBAR.VOLUME' | translate"
-           class="md-tab-tooltip"
+      <div
+        class="md-tab-tooltip"
+        [mdTooltip]="'SPARE_DRIVE_PAGE.SIDEBAR.VOLUME' | translate"
       >
         <md-icon>storage</md-icon>
       </div>
     </a>
     <a
-      md-tab-link
+      mdTabLink
       [routerLink]="['./snapshots']"
       queryParamsHandling="preserve"
       [active]="tabIsActive('snapshots')"
     >
       <div
-        [mdTooltip]="'SPARE_DRIVE_PAGE.SIDEBAR.SNAPSHOTS' | translate"
         class="md-tab-tooltip"
+        [mdTooltip]="'SPARE_DRIVE_PAGE.SIDEBAR.SNAPSHOTS' | translate"
       >
         <md-icon>photo_camera</md-icon>
       </div>

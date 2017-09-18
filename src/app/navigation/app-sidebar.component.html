@@ -1,8 +1,7 @@
 <div class="top-buttons">
   <button
     class="hide-button"
-    mdl-button
-    mdl-button-type="icon"
+    md-icon-button
     (click)="toggleDrawer()"
   >
     <md-icon>keyboard_arrow_left</md-icon>
@@ -10,33 +9,34 @@
   <button
     *ngIf="canEdit"
     class="lock-button"
-    mdl-button
-    mdl-button-type="icon"
+    md-icon-button
     [disabled]="updatingOrder"
     (click)="toggleEditing()"
   >
-    <mdl-spinner *ngIf="updatingOrder; else icon" active></mdl-spinner>
+    <md-progress-spinner
+      *ngIf="updatingOrder; else icon"
+      color="accent"
+      mode="indeterminate"
+      [style.width.px]="32"
+      [style.height.px]="32"
+    ></md-progress-spinner>
     <ng-template #icon>
       <md-icon *ngIf="editing">lock_open</md-icon>
       <md-icon *ngIf="!editing">lock_outline</md-icon>
     </ng-template>
   </button>
 </div>
-<mdl-layout-title>
-  <img class="logo" [src]="logoSource">
+<div>
+  <div class="logo" [style.background-image]="imgUrl"></div>
   <div class="title-header">
     <md-icon class="link-element">person</md-icon>
     <div class="link-element">
       {{ 'NAVIGATION_SIDEBAR.WELCOME' | translate:{ name: title } }}
     </div>
   </div>
-</mdl-layout-title>
+</div>
 
-<nav
-  *ngIf="navigationLoaded"
-  #navigationBar
-  class="mdl-navigation"
->
+<nav *ngIf="navigationLoaded" class="navigation" #navigationBar>
   <div
     [dragula]="dragulaContainerName"
     [dragulaModel]="routes"
@@ -44,11 +44,9 @@
     <ng-container *ngFor="let route of routes">
       <a
         *ngIf="!editing && route.enabled"
-        class="mdl-navigation__link link-container"
+        class="navigation-link link-container"
         [routerLink]="route.path"
-        [class.link-hover-light]="isLightTheme"
-        [class.link-hover-dark]="!isLightTheme"
-        [routerLinkActive]="linkActiveStyle"
+        routerLinkActive="link-active"
         (click)="linkClick(route.path)"
       >
         <md-icon [@linkSlide]="'in'" class="link-element" [ngClass]="route.className">
@@ -58,7 +56,7 @@
       </a>
       <div
         *ngIf="editing"
-        class="drag mdl-navigation__link link-container"
+        class="drag navigation-link link-container"
       >
         <span
           class="handle"
@@ -78,11 +76,9 @@
   <ng-container *ngFor="let route of nonDraggableRoutes">
     <a
       *ngIf="!editing && route.enabled"
-      class="mdl-navigation__link link-container"
+      class="navigation-link link-container"
       [routerLink]="route.path"
-      [class.link-hover-light]="isLightTheme"
-      [class.link-hover-dark]="!isLightTheme"
-      [routerLinkActive]="linkActiveStyle"
+      routerLinkActive="link-active"
       (click)="linkClick(route.path)"
     >
       <md-icon class="link-element" [ngClass]="route.className">

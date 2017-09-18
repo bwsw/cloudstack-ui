@@ -10,29 +10,30 @@
         [formGroup]="passwordUpdateForm"
         (ngSubmit)="updatePassword()"
         novalidate
+        #passwordForm="ngForm"
       >
-        <mdl-textfield
-          type="password"
-          label="{{ 'SETTINGS.SECURITY.NEW_PASSWORD' | translate }}"
-          formControlName="password"
-          floating-label
-          required
-        ></mdl-textfield>
+        <md-form-field class="full-width-input">
+          <input
+            mdInput
+            type="password"
+            formControlName="password"
+            [placeholder]="'SETTINGS.SECURITY.NEW_PASSWORD' | translate"
+            required
+          >
+        </md-form-field>
         <br>
-        <mdl-textfield
-          type="password"
-          label="{{ 'SETTINGS.SECURITY.REPEAT_PASSWORD' | translate }}"
-          formControlName="passwordRepeat"
-          floating-label
-          required
-        ></mdl-textfield>
+        <md-form-field class="full-width-input">
+          <input
+            mdInput
+            type="password"
+            formControlName="passwordRepeat"
+            [placeholder]="'SETTINGS.SECURITY.REPEAT_PASSWORD' | translate"
+            required
+          >
+        </md-form-field>
         <br>
         <div class="pull-right-button">
-          <button
-            type="submit"
-            mdl-button
-            [disabled]="!passwordUpdateForm.valid"
-          >
+          <button md-button type="submit" [disabled]="!passwordUpdateForm.valid">
             {{ 'COMMON.UPDATE' | translate }}
           </button>
         </div>
@@ -96,7 +97,7 @@
         </md-select>
       </div>
       <div class="settings-control">
-        <h5>{{ 'SETTINGS.LOOK_AND_FEEL.PALETTE' | translate }}</h5>
+        <h5>{{ 'SETTINGS.LOOK_AND_FEEL.THEME' | translate }}</h5>
         <div>
           <cs-color-picker
             *ngIf="primaryColor"
@@ -104,15 +105,6 @@
             [selectedColor]="primaryColor"
             [formControl]="primaryColorControl"
             (change)="updatePrimaryColor($event)"
-          ></cs-color-picker>
-        </div>
-        <div>
-          <cs-color-picker
-            *ngIf="accentColor"
-            [colors]="accentColors"
-            [selectedColor]="accentColor"
-            [formControl]="accentColorControl"
-            (change)="updateAccentColor($event)"
           ></cs-color-picker>
         </div>
       </div>

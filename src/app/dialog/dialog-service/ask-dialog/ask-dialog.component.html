@@ -1,19 +1,18 @@
-<h3
-    class="mat-dialog-title"
-    *ngIf="config?.title"
->
-    {{dialogConfiguration?.title  | translate}}
+<h3 *ngIf="config?.title" class="mat-dialog-title">
+  {{ dialogConfiguration?.title | translate }}
 </h3>
 <div
-    class="mat-dialog-content notification"
-    [innerHTML]="translatedMessage | async"
+  class="mat-dialog-content notification"
+  [innerHTML]="translatedMessage | async"
 ></div>
-<div
-    class="mat-dialog-actions">
-    <button
-        md-button
-        *ngFor="let action of config?.actions"
-        (click)="actionClicked(action)"
-        [ngClass]="{'close': action.isClosingAction}">{{action.text | translate}}
-    </button>
+<div class="mat-dialog-actions">
+  <button
+    *ngFor="let action of config?.actions"
+    md-button
+    color="primary"
+    (click)="actionClicked(action)"
+    [ngClass]="{'close': action.isClosingAction}"
+  >
+    {{action.text | translate}}
+  </button>
 </div>

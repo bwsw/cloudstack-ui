@@ -124,9 +124,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return result[responseKeys[0]];
   }
 
-
   protected postRequest(command: string, params?: {}): Observable<any> {
-    const headers = new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded');
+    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
     return this.http.post(BACKEND_API_URL, this.buildParams(command, params), { headers })
      .catch(error => this.handleError(error));
   }
@@ -196,9 +195,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return apiCommand;
   }
 
-  private handleError(response): Observable<any> {
-    const error = response.json();
-    this.error.next(response);
+  private handleError(error: any): Observable<any> {
+    this.error.next(error);
     return Observable.throw(error);
   }
 
