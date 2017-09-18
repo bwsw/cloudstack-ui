@@ -139,6 +139,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
     return this.commandInternal(vm, command, params)
       .switchMap(job => this.registerVmJob(job))
+      .do(() => this.vmUpdateObservable.next())
       .catch(error => {
         this.setStateForVm(vm, initialState);
         return Observable.throw(error);
@@ -153,6 +154,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     const initialState = vm.state;
 
     return this.commandInternal(vm, command, params)
+      .do(() => this.vmUpdateObservable.next())
       .catch(error => {
         this.setStateForVm(vm, initialState);
         return Observable.throw(error);

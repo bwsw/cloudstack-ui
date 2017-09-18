@@ -1,12 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as clone from 'lodash/clone';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { AsyncJob, InstanceGroup, VmStatisticsComponent, Zone } from '../../shared';
+import { InstanceGroup, VmStatisticsComponent, Zone } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
-import { AsyncJobService } from '../../shared/services/async-job.service';
-import { AuthService } from '../../shared/services/auth.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { StatsUpdateService } from '../../shared/services/stats-update.service';
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
@@ -66,14 +63,13 @@ export class VmListComponent implements OnInit {
   public outputs;
 
   public filterData: any;
+  public fetching = false;
 
   constructor(
     public listService: ListService,
-    private auth: AuthService,
     private vmService: VmService,
     private dialogService: DialogService,
     private jobsNotificationService: JobsNotificationService,
-    private asyncJobService: AsyncJobService,
     private statsUpdateService: StatsUpdateService,
     private userTagService: UserTagService,
     private vmActionsService: VmActionsService,
@@ -98,8 +94,6 @@ export class VmListComponent implements OnInit {
     this.resubscribeToJobs();
     this.subscribeToStatsUpdates();
     this.subscribeToVmUpdates();
-    this.subscribeToVmDestroyed();
-    this.subscribeToAsyncJobUpdates();
   }
 
   public get noFilteringResults(): boolean {
@@ -151,15 +145,25 @@ export class VmListComponent implements OnInit {
   }
 
   private getVmList(): void {
+    this.fetching = true;
     Observable.forkJoin(
       this.vmService.getListWithDetails(),
       this.vmService.getInstanceGroupList(),
       this.zoneService.getList()
-    ).subscribe(([vmList, groups, zones]) => {
+    )
+      .finally(() => this.fetching = false)
+      .subscribe(([vmList, groups, zones]) => {
       this.vmList = this.sortByDate(vmList);
       this.visibleVmList = vmList;
       this.groups = groups;
       this.zones = zones;
+
+      const selectedVmIsGone = this.visibleVmList.every(
+        vm => !this.listService.isSelected(vm.id)
+      );
+      if (selectedVmIsGone) {
+        this.listService.deselectItem();
+      }
 
       if (this.shouldShowSuggestionDialog) {
         this.showSuggestionDialog();
@@ -174,13 +178,17 @@ export class VmListComponent implements OnInit {
   }
 
   private subscribeToVmUpdates(): void {
-    this.vmService.vmUpdateObservable
-      .switchMap(updatedVM => this.vmService.getWithDetails(updatedVM.id))
-      .subscribe(vm => {
-        this.replaceVmInList(vm);
-        this.filter();
-        this.updateStats();
-      });
+    this.vmService.vmUpdateObservable.subscribe(updatedVM => {
+      if (!!updatedVM) {
+        this.vmService.getWithDetails(updatedVM.id).subscribe(vm => {
+          this.replaceVmInList(vm);
+          this.filter();
+        });
+      } else {
+        this.getVmList();
+      }
+      this.updateStats();
+    });
   }
 
   private replaceVmInList(vm: VirtualMachine): void {
@@ -212,66 +220,6 @@ export class VmListComponent implements OnInit {
         });
       });
     });
-  }
-
-  private subscribeToVmDestroyed(): void {
-    const isExpungeJob = (job: AsyncJob<any>) => job.cmd.includes('expunge');
-
-    this.asyncJobService.event
-      .filter(job => this.vmService.isAsyncJobAVirtualMachineJobWithResult(job))
-      .filter(
-        job =>
-          isExpungeJob(job) ||
-          job.result.state === VmState.Destroyed ||
-          job.result.state === VmState.Expunging
-      )
-      .subscribe((job: AsyncJob<any>) => {
-        if (isExpungeJob(job) || !this.auth.allowedToViewDestroyedVms()) {
-          this.vmList = this.vmList.filter(vm => vm.id !== job.instanceId);
-          if (this.listService.isSelected(job.instanceId)) {
-            this.listService.deselectItem();
-          }
-          this.filter();
-        }
-
-        this.updateStats();
-      });
-  }
-
-  private subscribeToAsyncJobUpdates(): void {
-    this.asyncJobService.event
-      .filter(job => this.vmService.isAsyncJobAVirtualMachineJobWithResult(job))
-      .subscribe(job => this.updateVmInListWithAsyncJobResult.bind(this)(job));
-  }
-
-  private updateVmInListWithAsyncJobResult(job: AsyncJob<any>): void {
-    const vm = this.vmList.find(listVm => {
-      return job.result.id === listVm.id;
-    });
-
-    if (vm) {
-      // todo: may be we need to update more params
-      // todo: need to discuss
-
-      const newVm = clone(vm);
-
-      debugger;
-      newVm.state = job.result.state;
-      if (job.result.nic && job.result.nic.length) {
-        newVm.nic[0] = job.result.nic[0];
-      }
-
-      this.vmList = this.vmList.map(listVm => {
-        if (listVm.id === newVm.id) {
-          return newVm;
-        } else {
-          return listVm;
-        }
-      });
-
-      this.filter();
-      this.updateStats();
-    }
   }
 
   private get shouldShowSuggestionDialog(): boolean {
