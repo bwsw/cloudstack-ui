@@ -1,0 +1,13 @@
+:host .tab-switch {
+  display: inline-flex;
+  width: auto;
+  position: relative;
+  margin: 0 19px;
+}
+
+:host /deep/ .mat-tab-label {
+  line-height: 30px !important;
+  height: 30px !important;
+  min-width: 60px !important;
+  text-transform: uppercase;
+}

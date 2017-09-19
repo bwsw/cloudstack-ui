@@ -50,7 +50,8 @@ describe('Subnet mask to CIDR suffix converter', () => {
     expect(suffixesAreValid).toBeTruthy();
   });
 
-  it('returns empty string if cidr is undefined', () => {
-    expect(transformSubnetMaskToCidrSuffix('')).toBeUndefined();
+  it('returns empty string if cidr is empty string or empty string', () => {
+    expect(transformSubnetMaskToCidrSuffix('')).toBe('');
+    expect(transformSubnetMaskToCidrSuffix(undefined)).toBe('');
   });
 });

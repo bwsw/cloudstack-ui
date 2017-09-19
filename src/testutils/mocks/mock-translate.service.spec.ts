@@ -15,7 +15,15 @@ export class MockTranslateService {
   }
 
   public get(key: string | Array<string>): Observable<string | any> {
-    return Observable.of(key);
+    if (typeof key === 'string') {
+      return Observable.of({ key });
+    } else {
+      const result = key.reduce((acc, element) => {
+        return Object.assign(acc, { [element]: element });
+      }, {});
+
+      return Observable.of(result);
+    }
   }
 
   public instant(key: string | Array<string>): string {
