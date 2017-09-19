@@ -4,9 +4,9 @@
       <md-icon>vpn_key</md-icon>
       <h2
         class="md-card-title-text"
-        [mdTooltip]="key.name"
+        [mdTooltip]="item.name"
       >
-        {{ key.name }}
+        {{ item.name }}
       </h2>
     </md-card-title>
     <div class="md-card-header-menu">
@@ -16,7 +16,7 @@
     </div>
   </md-card-header>
   <md-card-content>
-    {{ key.fingerPrint }}
+    {{ item.fingerPrint }}
   </md-card-content>
   <md-menu #actionsMenu="mdMenu">
     <button md-menu-item (click)="onRemoveClicked()">

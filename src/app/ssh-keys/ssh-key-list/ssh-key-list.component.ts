@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import { ListService } from '../../shared/components/list/list.service';
+import { SshKeyListItemComponent } from "../ssh-key-list-item/ssh-key-list-item.component";
 
 
 @Component({
@@ -9,11 +10,25 @@ import { ListService } from '../../shared/components/list/list.service';
 })
 export class SshKeyListComponent {
   @Input() public keys: Array<SSHKeyPair>;
+  @Input() public groupings: Array<any>;
   @Output() public onRemove = new EventEmitter<string>();
+  public inputs;
+  public outputs;
 
-  constructor(private listService: ListService) {}
+  public SshKeyListItemComponent = SshKeyListItemComponent;
+
+  constructor(private listService: ListService) {
+    this.outputs = {
+      onClick: this.selectSshKeyPair.bind(this),
+      onRemove: this.removeKeyPair.bind(this)
+    }
+  }
 
   public selectSshKeyPair(sshKeyPair: SSHKeyPair): void {
     this.listService.showDetails(sshKeyPair.name);
+  }
+
+  public removeKeyPair(id: string): void {
+    this.onRemove.emit(id);
   }
 }
