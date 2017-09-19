@@ -6,10 +6,10 @@
     (onDetach)="showVolumeDetachDialog($event)"
   ></cs-volume>
 
-  <cs-spare-drive-attachment-detail
+  <cs-volume-attachment-detail
     (onAttach)="onVolumeChange($event)"
     [virtualMachine]="vm"
-  ></cs-spare-drive-attachment-detail>
+  ></cs-volume-attachment-detail>
 
   <cs-iso
     [iso]="iso"

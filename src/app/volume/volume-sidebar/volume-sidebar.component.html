@@ -1,0 +1,42 @@
+<div *ngIf="entity">
+  <div class="title-container">
+    <h4 class="details-header">{{ entity.name }}</h4>
+    <cs-volume-actions-sidebar [volume]="entity"></cs-volume-actions-sidebar>
+  </div>
+
+  <nav md-tab-nav-bar>
+    <a
+      mdTabLink
+      [routerLink]="['./volume']"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('volume')"
+    >
+      <div
+        class="md-tab-tooltip"
+        [mdTooltip]="'VOLUME_PAGE.SIDEBAR.VOLUME' | translate"
+      >
+        <md-icon>storage</md-icon>
+      </div>
+    </a>
+    <a
+      mdTabLink
+      [routerLink]="['./snapshots']"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('snapshots')"
+    >
+      <div
+        class="md-tab-tooltip"
+        [mdTooltip]="'VOLUME_PAGE.SIDEBAR.SNAPSHOTS' | translate"
+      >
+        <md-icon>photo_camera</md-icon>
+      </div>
+    </a>
+  </nav>
+</div>
+
+<router-outlet></router-outlet>
+
+<cs-no-results *ngIf="notFound" [text]="'VOLUME_NOT_FOUND'"></cs-no-results>
+
+<cs-overlay-loading [active]="!entity && !notFound"></cs-overlay-loading>
+

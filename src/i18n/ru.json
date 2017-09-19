@@ -185,7 +185,7 @@
   "NAVIGATION_SIDEBAR": {
     "WELCOME": "Здравствуйте, {{ name }}",
     "VMS": "Виртуальные<br>машины",
-    "SPARE_DRIVES": "Хранилище",
+    "STORAGE": "Хранилище",
     "IMAGES": "Образы",
     "FIREWALL_TEMPLATES": "Брандмауэр",
     "ACTIVITY_LOG": "Журнал событий",
@@ -454,7 +454,7 @@
       "NO_TEMPLATES": "Нет доступных шаблонов"
     }
   },
-  "SPARE_DRIVE_PAGE": {
+  "VOLUME_PAGE": {
     "FILTERS": {
       "SPARE_DRIVES_ONLY": "Только свободные диски",
       "SELECT_ZONES": "Выберите зоны",
@@ -475,7 +475,7 @@
       "DISK_OFFERING": "Дисковое предложение",
       "SIZE": "Размер"
     },
-"SIDEBAR": {
+    "SIDEBAR": {
       "VOLUME": "Диск",
       "SNAPSHOTS": "Снимки"
     },
@@ -821,16 +821,6 @@
           "5": "Требуется авторизация"
         }
       }
-    },
-    "RULES_MANAGER": {
-      "BASED_ON": "основан на"
-    },
-    "TEMPLATE_CREATION": {
-      "CREATE_NEW_TEMPLATE": "Создать новый шаблон",
-      "CREATE_NEW_SHARED_GROUP": "Создать новую разделяемую группу",
-      "NAME": "Название",
-      "DESCRIPTION": "Описание",
-      "BASIC_RULES": "Базовые правила"
     }
   },
   "EVENT_PAGE": {
@@ -895,7 +885,7 @@
     "ENTER_TEXT": "Введите текст",
     "SELECT_AN_OPTION": "Выберите опцию"
   },
-"VM_NOT_FOUND": "Виртуальная машина не найдена",
+  "VM_NOT_FOUND": "Виртуальная машина не найдена",
   "VOLUME_NOT_FOUND": "Диск не найден",
   "TEMPLATE_NOT_FOUND": "Шаблон не найден",
   "PULSE": {
@@ -988,7 +978,7 @@
     "SHARED": "Общее",
     "LOCAL": "Локальное"
   },
-  "SPARE_DRIVE_STATE": {
+  "VOLUME_STATE": {
     "ALLOCATED": "Аллоцирован",
     "READY": "Готов"
   },
