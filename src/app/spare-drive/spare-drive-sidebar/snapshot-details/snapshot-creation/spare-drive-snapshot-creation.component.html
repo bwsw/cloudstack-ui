@@ -1,3 +1,12 @@
-<button md-mini-fab (click)="addSnapshot()">
+<button
+  *ngIf="isVolumeReady"
+  md-mini-fab
+  (click)="addSnapshot()"
+>
   <md-icon>add</md-icon>
 </button>
+
+<cs-no-results
+  *ngIf="!isVolumeReady"
+  [text]="'SPARE_DRIVE_PAGE.SNAPSHOTS.VOLUME_NOT_READY'"
+></cs-no-results>
