@@ -496,7 +496,8 @@
     },
     "SNAPSHOTS": {
       "DESCRIPTION": "Description",
-      "DATE": "Date"
+      "DATE": "Date",
+      "VOLUME_NOT_READY": "Can't take snapshot. Volume is not ready"
     },
     "ATTACHMENT": {
       "CHOOSE_VIRTUAL_MACHINE": "Choose a virtual machine",
