@@ -24,10 +24,15 @@
   padding-bottom: 4px;
   display: inline-block;
   max-width: 100%;
+  width: 100%;
   margin-bottom: 20px;
 
   &.bar:last-child {
     margin-bottom: 0;
+  }
+
+  md-progress-bar {
+    margin-top: 4px;
   }
 }
 
@@ -111,10 +116,6 @@ md-card md-card-content {
 
 :host /deep/ .mat-tab-label {
   min-width: 70px !important;
-}
-
-:host /deep/ .mat-tab-header-pagination {
-  display: none !important;
 }
 
 cs-divider-vertical {

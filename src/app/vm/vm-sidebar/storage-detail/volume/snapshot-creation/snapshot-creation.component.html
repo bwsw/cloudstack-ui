@@ -7,49 +7,40 @@
     novalidate
   >
     <div class="mat-dialog-content">
-      <mdl-textfield
-        *ngIf="enoughResources"
-        type="text"
-        [label]="'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.NAME' | translate"
-        name="name"
-        floating-label
-        autofocus
-        required
-        [(ngModel)]="name"
-        [style.width]="'100%'"
-      >
-      </mdl-textfield>
-      <mdl-textfield
-        *ngIf="enoughResources"
-        type="text"
-        [label]="'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.DESCRIPTION' | translate"
-        name="description"
-        floating-label
-        [(ngModel)]="description"
-        [style.width]="'100%'"
-      >
-      </mdl-textfield>
+      <ng-container *ngIf="enoughResources">
+        <md-form-field class="full-width-input">
+          <input
+            mdInput
+            name="name"
+            [(ngModel)]="name"
+            [placeholder]="'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.NAME' | translate"
+            autofocus
+            required
+          >
+        </md-form-field>
+        <md-form-field class="full-width-input">
+          <input
+            mdInput
+            name="description"
+            [(ngModel)]="description"
+            [placeholder]="'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.DESCRIPTION' | translate"
+          >
+        </md-form-field>
+      </ng-container>
       <div *ngIf="!enoughResources">{{ "ERRORS.SNAPSHOT.LIMIT_EXCEEDED" | translate }}</div>
     </div>
     <div class="mat-dialog-actions">
+      <button md-button color="primary" mdDialogClose type="button">
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
       <button
         *ngIf="enoughResources"
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
+        md-button
+        color="primary"
         type="button"
         (click)="onSubmit()"
       >
         {{ 'COMMON.CREATE' | translate }}
-      </button>
-      <button
-        mdl-colored="primary"
-        mdl-button
-        mdl-ripple
-        type="button"
-        (click)="onHide()"
-      >
-        {{ 'COMMON.CANCEL' | translate }}
       </button>
     </div>
   </form>

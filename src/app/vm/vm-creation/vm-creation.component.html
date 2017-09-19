@@ -3,7 +3,7 @@
     <p *ngIf="showSecurityGroupOverlay">{{ 'VM_PAGE.VM_CREATION.CREATING_SG' | translate }}</p>
     <p *ngIf="showAffinityGroupOverlay">{{ 'VM_PAGE.VM_CREATION.CREATING_AG' | translate }}</p>
     <p *ngIf="showDeploymentOverlay">{{ 'VM_PAGE.VM_CREATION.DEPLOYING_VM' | translate }}</p>
-    <mdl-progress [indeterminate]="true"></mdl-progress>
+    <md-progress-bar mode="indeterminate"></md-progress-bar>
   </div>
 </div>
 <div *ngIf="!showOverlay">
@@ -19,19 +19,21 @@
       <div *ngIf="enoughResources && formState?.state" class="left-column">
         <div>
           <h5>{{ 'VM_PAGE.VM_CREATION.NAME' | translate }}</h5>
-          <mdl-textfield
-            type="text"
-            [label]="'VM_PAGE.VM_CREATION.NAME' | translate"
-            name="name"
-            required
-            pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
-            [error-msg]="(takenName ? 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' : '') | translate"
-            #vmName="ngModel"
-            [ngModel]="formState.state.displayName"
-            (ngModelChange)="displayNameChange($event)"
-            [class.is-invalid]="!vmName.valid || formState.state.displayName === takenName"
-          >
-          </mdl-textfield>
+          <md-form-field floatPlaceholder="never" class="full-width-input">
+            <input
+              mdInput
+              name="name"
+              [ngModel]="formState.state.displayName"
+              (ngModelChange)="displayNameChange($event)"
+              [placeholder]="'VM_PAGE.VM_CREATION.NAME' | translate"
+              pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
+              required
+              [errorStateMatcher]="vmNameErrorMatcher"
+            >
+            <md-error *ngIf="takenName">
+              {{ 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' | translate }}
+            </md-error>
+          </md-form-field>
         </div>
 
         <div>
@@ -101,34 +103,56 @@
       <div *ngIf="enoughResources && formState?.state" class="right-column">
         <div>
           <h5>{{ 'VM_PAGE.VM_CREATION.GROUP' | translate }}</h5>
-          <mdl-autocomplete
-            name="group"
-            [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
-            [options]="formState.data.instanceGroupNames"
-            [ngModel]="formState.state.instanceGroup.name"
-            (ngModelChange)="instanceGroupChange($event)"
-          ></mdl-autocomplete>
+          <md-form-field floatPlaceholder="never">
+            <input
+              name="group"
+              mdInput
+              [mdAutocomplete]="instanceGroups"
+              [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
+              [ngModel]="formState.state.instanceGroup.name"
+              (ngModelChange)="instanceGroupChange($event)"
+            >
+          </md-form-field>
+          <md-autocomplete #instanceGroups>
+            <md-option
+              *ngFor="let group of visibleInstanceGroups"
+              [value]="group.name"
+            >
+              {{ group.name }}
+            </md-option>
+          </md-autocomplete>
         </div>
 
         <div>
           <h5>{{ 'VM_PAGE.VM_CREATION.AFFINITY_GROUPS' | translate }}</h5>
-          <mdl-autocomplete
-            name="affinityGroup"
-            [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
-            [options]="formState.data.affinityGroupNames"
-            [ngModel]="formState.state.affinityGroup.name"
-            (ngModelChange)="affinityGroupChange($event)"
-          ></mdl-autocomplete>
+          <md-form-field floatPlaceholder="never">
+            <input
+              name="group"
+              mdInput
+              [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
+              [mdAutocomplete]="affinityGroups"
+              [(ngModel)]="formState.state.affinityGroup.name"
+              (ngModelChange)="affinityGroupChange($event)"
+            >
+          </md-form-field>
+          <md-autocomplete #affinityGroups>
+            <md-option
+              *ngFor="let group of visibleAffinityGroups"
+              [value]="group.name"
+            >
+              {{ group.name }}
+            </md-option>
+          </md-autocomplete>
         </div>
 
         <div>
-          <cs-security-group-rules-manager
+          <cs-vm-creation-security-group-rules-manager
             name="sgm"
             class="sg-rules-manager"
             *ngIf="formState.state.showSecurityGroups"
-            [ngModel]="formState.state.securityRules"
+            [ngModel]="formState.state.securityGroupData"
             (ngModelChange)="securityRulesChange($event)"
-          ></cs-security-group-rules-manager>
+          ></cs-vm-creation-security-group-rules-manager>
         </div>
 
         <div>
@@ -158,13 +182,13 @@
         </div>
 
         <div class="start-vm-checkbox">
-          <mdl-checkbox
+          <md-checkbox
             name="startVm"
             [ngModel]="formState.state.doStartVm"
             (ngModelChange)="doStartVmChange($event)"
           >
             {{ 'VM_PAGE.VM_CREATION.START_VM' | translate }}
-          </mdl-checkbox>
+          </md-checkbox>
         </div>
 
       </div>
@@ -182,22 +206,20 @@
     </div>
     <div class="mat-dialog-actions">
       <button
-        mdl-colored="primary"
-        [disabled]="!vmCreateForm.valid || formState?.state.displayName === takenName"
-        type="submit"
-        mdl-button
-        mdl-ripple
-      >
-        {{ 'COMMON.CREATE' | translate }}
-      </button>
-      <button
-        mdl-colored="primary"
+        md-button
+        color="primary"
+        mdDialogClose
         type="button"
-        mdl-button
-        (click)="onCancel()"
-        mdl-ripple
       >
         {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <button
+        md-button
+        color="primary"
+        type="submit"
+        [disabled]="!vmCreateForm.valid || nameIsTaken || !formState?.state.template"
+      >
+        {{ 'COMMON.CREATE' | translate }}
       </button>
     </div>
   </form>

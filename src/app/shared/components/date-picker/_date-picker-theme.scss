@@ -1,0 +1,12 @@
+@mixin date-picker-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  .date-display,
+  .button-state {
+    background: mat-color($primary);
+  }
+
+  .label.selected {
+    color: mat-color($primary);
+  }
+}

@@ -69,8 +69,4 @@ export class CustomServiceOfferingComponent implements OnInit {
   public onSubmit(): void {
     this.dialogRef.close(this.offering);
   }
-
-  public onCancel(): void {
-    this.dialogRef.close();
-  }
 }

@@ -9,6 +9,7 @@ import { DiskOfferingService } from '../../shared/services/disk-offering.service
 import { NotificationService } from '../../shared/services/notification.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { VolumeService } from '../../shared/services/volume.service';
+import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-does-not-exist-error';
 
 
 @Component({
@@ -37,7 +38,7 @@ export class SpareDriveSidebarComponent extends SidebarComponent<Volume> {
         if (volume) {
           return Observable.of(volume);
         } else {
-          return Observable.throw('ENTITY_DOES_NOT_EXIST');
+          return Observable.throw(new EntityDoesNotExistError());
         }
       })
       .switchMap(volume => {

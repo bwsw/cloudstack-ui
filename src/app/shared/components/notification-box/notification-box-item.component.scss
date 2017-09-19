@@ -3,16 +3,11 @@
   line-height: 26px;
 }
 
-:host mdl-spinner {
+:host md-spinner {
   background: transparent !important;
   margin-right: 16px;
   width: 40px;
   height: 40px;
-}
-
-:host md-icon.mdl-list__item-avatar {
-  background: transparent !important;
-  color: black;
 }
 
 :host md-icon.close {

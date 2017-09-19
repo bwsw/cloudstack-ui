@@ -1,10 +1,10 @@
 :host {
   position: relative;
   display: block;
-}
 
-:host .mdl-dialog__content {
-  padding-bottom: 5px;
+  .mat-dialog-content {
+    overflow: hidden;
+  }
 }
 
 .column {

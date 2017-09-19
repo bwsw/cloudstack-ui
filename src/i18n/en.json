@@ -166,8 +166,10 @@
   },
   "NOTIFICATIONS": {
     "TEMPLATE": {
-      "CREATED": "Template {{ name }} created successfully",
-      "DELETED": "Template {{ name }} deleted successfully"
+      "CUSTOM_TEMPLATE_CREATED": "Template {{ name }} created successfully",
+      "CUSTOM_TEMPLATE_DELETED": "Template {{ name }} deleted successfully",
+      "SHARED_GROUP_CREATED": "Shared group {{ name }} created successfully",
+      "SHARED_GROUP_DELETED": "Shared group {{ name }} deleted successfully"
     }
   },
   "AUTH": {
@@ -186,7 +188,7 @@
     "VMS": "Virtual machines",
     "SPARE_DRIVES": "Storage",
     "IMAGES": "Images",
-    "FIREWALL_TEMPLATES": "Firewall Templates",
+    "FIREWALL_TEMPLATES": "Firewall",
     "ACTIVITY_LOG": "Activity log",
     "SSH_KEYS": "SSH keys",
     "SETTINGS": "Settings",
@@ -344,6 +346,7 @@
         "READ_RATE_IOPS": "Read rate",
         "WRITE_RATE_IOPS": "Write rate"
       },
+
       "VOLUME_RESIZE": {
         "TITLE": "Resize volume",
         "DISK_OFFERING": "Disk offering",
@@ -392,17 +395,17 @@
       }
     },
     "NETWORK_DETAILS": {
-      "NETWORK_CONFIGURATION": "Network configuration",
-      "NIC": "NIC",
-      "IP": "IP",
+      "NIC_NAME": "NIC#{{ value }} Configuration",
+      "IP": "IPv4",
+      "IP_NA": "IP N/A",
       "ARE_YOU_SURE_ADD_SECONDARY_IP": "Are you sure you want to add a secondary IP?",
       "ARE_YOU_SURE_REMOVE_SECONDARY_IP": "Are you sure you want to remove this secondary IP?",
       "broadcastUri": "Broadcast URI",
-      "gateway": "Gateway",
+      "gateway": "Gateway v4",
       "ip6Address": "IPv6 address",
       "ip6Cidr": "IPv6 CIDR",
       "ip6Gateway": "IPv6 gateway",
-      "ipAddress": "IP",
+      "ipAddress": "IPv4",
       "isDefault": "Default",
       "isolationUri": "Isolation URI",
       "macAddress": "MAC address",
@@ -448,7 +451,8 @@
       "CREATING_AG": "Creating an affinity group",
       "CREATING_SG": "Creating a security group",
       "DEPLOYING_VM": "Deploying the virtual machine",
-      "OS_TEMPLATE": "OS template"
+      "OS_TEMPLATE": "OS template",
+      "NO_TEMPLATES": "No templates available"
     }
   },
 
@@ -465,8 +469,10 @@
     "FILTERS": {
       "SPARE_DRIVES_ONLY": "Spare drives only",
       "SELECT_ZONES": "Select zones",
+      "SELECT_TYPES": "Select types",
       "GROUP_BY": "Group by",
-      "GROUP_BY_ZONES": "Zones"
+      "GROUP_BY_ZONES": "Zones",
+      "GROUP_BY_TYPES": "Types"
     },
     "CARD": {
       "DESCRIPTION": "Description",
@@ -480,7 +486,7 @@
       "DISK_OFFERING": "Disk offering",
       "SIZE": "Size"
     },
-    "SIDEBAR": {
+"SIDEBAR": {
       "VOLUME": "Volume",
       "SNAPSHOTS": "Snapshots"
     },
@@ -499,7 +505,7 @@
       "READ_RATE_IOPS": "Read rate",
       "WRITE_RATE_IOPS": "Write rate"
     },
-    "SNAPSHOTS": {
+"SNAPSHOTS": {
       "DESCRIPTION": "Description",
       "DATE": "Date"
     },
@@ -571,16 +577,21 @@
     }
   },
   "SECURITY_GROUP_PAGE": {
+    "FILTERS": {
+      "TEMPLATES": "Templates",
+      "SHARED": "Shared"
+    },
+
     "LIST": {
       "SYSTEM_SECURITY_GROUPS": "System",
-      "CUSTOM_SECURITY_GROUPS": "Custom"
+      "CUSTOM_SECURITY_GROUPS": "Custom",
+      "SHARED_SECURITY_GROUPS": "Shared"
     },
     "CARD": {
       "DESCRIPTION": "Description"
     },
     "RULES": {
-      "FIREWALL_RULES_FOR_VM": "Firewall rules for VM",
-      "TEMPLATE_RULES": "Template rules",
+      "TITLE": "Edit rules for {{ value }}",
       "TYPE": "Type",
       "PROTOCOL": "Protocol",
       "CIDR": "CIDR",
@@ -612,21 +623,6 @@
       "DEFAULT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} of ICMP type {{ icmpTypeText }} [{{ icmpType }}] and ICMP code {{ icmpCodeText }} [{{ icmpCode }}] ",
       "NO_TEXT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} of ICMP type {{ icmpType }} and ICMP code {{ icmpCode }} ",
       "NO_CODE_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} of ICMP type {{ icmpTypeText }} [{{ icmpType }}] and ICMP code {{ icmpCode }} "
-    },
-    "RULES_MANAGER": {
-      "BASED_ON": "based on"
-    },
-    "TEMPLATE_CREATION": {
-      "CREATE_NEW_TEMPLATE": "Create new template",
-      "NAME": "Name",
-      "DESCRIPTION": "Description",
-      "BASIC_RULES": "Basic rules"
-    },
-    "BUILDER": {
-      "SECURITY_GROUP_TEMPLATES": "Security Group Templates",
-      "ALL_GROUPS": "All templates",
-      "SELECTED_GROUPS": "Selected templates",
-      "NETWORK_RULES": "Network rules"
     },
     "ICMP_TYPES": {
       "-1": {
@@ -841,18 +837,14 @@
     },
     "TEMPLATE_CREATION": {
       "CREATE_NEW_TEMPLATE": "Create new template",
+      "CREATE_NEW_SHARED_GROUP": "Create new shared group",
       "NAME": "Name",
       "DESCRIPTION": "Description",
       "BASIC_RULES": "Basic rules"
-    },
-    "BUILDER": {
-      "SECURITY_GROUP_TEMPLATES": "Security Group Templates",
-      "ALL_GROUPS": "All templates",
-      "SELECTED_GROUPS": "Selected templates",
-      "NETWORK_RULES": "Network rules"
     }
   },
   "EVENT_PAGE": {
+    "SELECT_DATE": "Select a date",
     "SELECT_LEVELS": "Select levels",
     "SELECT_TYPES": "Select types",
     "NO_EVENTS": "No events for the selected date",
@@ -868,7 +860,9 @@
     "AUTO_GENERATED": "auto generated",
     "SAVE_THIS_KEY": "Please, save this private key as it will not be kept",
     "REMOVE_THIS_KEY": "Are you sure you want to remove this key?",
-    "KEY_REMOVAL_FAILED": "Key removal failed"
+    "KEY_REMOVAL_FAILED": "Key removal failed",
+    "SSH_KEY_PAIR_NOT_FOUND": "SSH key pair not found",
+    "FINGERPRINT": "Fingerprint"
   },
   "SETTINGS": {
     "SECURITY": {
@@ -898,7 +892,7 @@
       "hour12": "12-Hours Time",
       "hour24": "24-Hours Time",
       "AUTO": "Auto",
-      "PALETTE": "Interface Theme Colors"
+      "THEME": "Theme Color"
     }
   },
   "CLIPBOARD": {
@@ -911,7 +905,7 @@
     "ENTER_TEXT": "Enter text",
     "SELECT_AN_OPTION": "Select an option"
   },
-  "VM_NOT_FOUND": "Virtual machine not found",
+"VM_NOT_FOUND": "Virtual machine not found",
   "VOLUME_NOT_FOUND": "Volume not found",
   "TEMPLATE_NOT_FOUND": "Template not found",
   "PULSE": {
@@ -942,6 +936,16 @@
       "DISK_WRITE_IOPS": "Disk write (IOPS)",
       "DISK_IO_ERRORS": "Disk IO errors"
     }
+  },
+  "SECURITY_GROUP_SELECTOR": {
+    "BUILD_NEW_GROUP": "Build a new security group",
+    "SELECT_EXISTING_GROUP": "Select an existing group",
+    "BUILD": "Build",
+    "SELECT": "Select",
+    "ALL_GROUPS": "All templates",
+    "SELECTED_GROUPS": "Selected templates",
+    "NETWORK_RULES": "Network rules",
+    "SELECT_SECURITY_GROUP": "Select a group"
   },
   "SERVICE_OFFERING": {
     "CHANGE_SERVICE_OFFERING": "Change service offering",
@@ -984,6 +988,7 @@
   },
   "TAGS": {
     "CREATE_NEW_TAG": "Create a new tag",
+    "SHOW_SYSTEM_TAGS": "Show system tags",
     "TAG_KEY": "Key",
     "TAG_VALUE": "Value",
     "TAG_ALREADY_EXISTS": "Tag already exists",
@@ -1022,6 +1027,10 @@
     "DEPLOY_IN_PROGRESS": "Deploying",
     "RESET_PASSWORD_IN_PROGRESS": "Resetting password"
   },
+  "VOLUME_TYPE": {
+    "ROOT": "ROOT",
+    "DATADISK": "DATADISK"
+  },
   "DATE_TIME": {
     "AM": "AM",
     "PM": "PM",
@@ -1054,6 +1063,7 @@
     "MBPS": "{{value}} MB/s",
     "MHZ": "MHz"
   },
+
   "VOLUME_ACTIONS": {
     "TAKE_SNAPSHOT": "Take a snapshot",
     "SNAPSHOT_SCHEDULE": "Set up snapshot schedule",

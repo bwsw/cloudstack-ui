@@ -1,0 +1,11 @@
+<div class="mat-input-wrapper template-list">
+  <span class="ellipsis-overflow" [mdTooltip]="securityGroupsLine">
+    <ng-container *ngIf="securityGroups?.length">
+      {{ 'SECURITY_GROUP_PAGE.RULES_MANAGER.BASED_ON' | translate }}
+      {{ securityGroupsLine }}
+    </ng-container>
+    <ng-container *ngIf="!securityGroups?.length">
+      {{ 'COMMON.NONE' | translate }}
+    </ng-container>
+  </span>
+</div>

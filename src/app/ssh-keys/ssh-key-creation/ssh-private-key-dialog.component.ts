@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MD_DIALOG_DATA } from '@angular/material';
 
 import { NotificationService } from '../../shared/services/notification.service';
 
@@ -10,7 +10,6 @@ import { NotificationService } from '../../shared/services/notification.service'
 })
 export class SshPrivateKeyDialogComponent {
   constructor(
-    public dialogRef: MdDialogRef<SshPrivateKeyDialogComponent>,
     @Inject(MD_DIALOG_DATA) public privateKey: string,
     private notificationService: NotificationService
   ) { }

@@ -9,16 +9,17 @@
   }
 }
 
-.custom-card md-card-header {
-  padding-bottom: 5px;
-}
-
-.custom-card.has-text-color {
-  md-card-content,
-  md-card-title {
-    color: inherit;
+.custom-card {
+  md-card-header {
+    padding-bottom: 5px;
   }
 
+  &.has-text-color {
+    md-card-content,
+    md-card-title {
+      color: inherit;
+    }
+  }
   .state-icon {
     box-shadow: 0 0 1px 1px white;
   }

@@ -1,14 +1,15 @@
 <section>
   <div class="header-wrap">
     <h4>{{ 'SETTINGS.API_CONFIGURATION.TITLE' | translate }}</h4>
-    <mdl-button
-      mdl-button-type="icon"
+    <button
+      md-icon-button
+      type="button"
       mdTooltipPosition="above"
       [mdTooltip]="'SETTINGS.API_CONFIGURATION.REGENERATE_KEYS' | translate"
       (click)="askToRegenerateKeys()"
     >
       <md-icon>sync</md-icon>
-    </mdl-button>
+    </button>
   </div>
   <div class="section-container">
     <div class="settings-control">
@@ -16,16 +17,15 @@
         <div *ngIf="inputFields.apiKey.value">
           <h5 [translate]="inputFields.apiKey.title"></h5>
           <cs-input-group>
-            <mdl-textfield
-              cs-input-group-textbox
-              readonly
-              [(ngModel)]="inputFields.apiKey.value"
-            >
-              {{ inputFields.apiKey.value }}
-            </mdl-textfield>
+            <md-form-field cs-input-group-textbox class="full-width-input">
+              <input
+                mdInput
+                [value]="inputFields.apiKey.value"
+                readonly
+              >
+            </md-form-field>
             <button
-              mdl-button
-              mdl-button-type="icon"
+              md-icon-button
               cs-input-group-button
               ngxClipboard
               [cbContent]="inputFields.apiKey.value"
@@ -45,16 +45,15 @@
         <div *ngIf="inputFields.apiSecretKey.value">
           <h5 [translate]="inputFields.apiSecretKey.title"></h5>
           <cs-input-group>
-            <mdl-textfield
-              cs-input-group-textbox
-              readonly
-              [(ngModel)]="inputFields.apiSecretKey.value"
-            >
-              {{ inputFields.apiSecretKey.value }}
-            </mdl-textfield>
+            <md-form-field cs-input-group-textbox class="full-width-input">
+              <input
+                mdInput
+                [value]="inputFields.apiSecretKey.value"
+                readonly
+              >
+            </md-form-field>
             <button
-              mdl-button
-              mdl-button-type="icon"
+              md-icon-button
               cs-input-group-button
               ngxClipboard
               [cbContent]="inputFields.apiSecretKey.value"
@@ -72,14 +71,14 @@
         </div>
         <div>
           <h5 [translate]="linkFields.apiUrl.title"></h5>
-          <a class="mdl-color-text--primary-dark" target="_blank" [href]="linkFields.apiUrl.href">
+          <a target="_blank" [href]="linkFields.apiUrl.href">
             {{ linkFields.apiUrl.href }}
           </a>
         </div>
 
         <div *ngIf="linkFields.apiDocLink.href">
           <h5 [translate]="linkFields.apiDocLink.title"></h5>
-          <a class="mdl-color-text--primary-dark" target="_blank" [href]="linkFields.apiDocLink.href">
+          <a target="_blank" [href]="linkFields.apiDocLink.href">
             {{ linkFields.apiDocLink.href }}
           </a>
         </div>

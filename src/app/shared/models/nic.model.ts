@@ -1,5 +1,7 @@
-import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators/field-mapper.decorator';
+import { BaseModel } from './base.model';
+import { IpAddress } from './ip-address.model';
+
 
 @FieldMapper({
   broadcasturi: 'broadcastUri',
@@ -36,7 +38,7 @@ export class NIC extends BaseModel {
   public networkName: string;
   public nsxLogicalSwitch: string;
   public nsxLogicalSwitchPort: string;
-  public secondaryIp: any;
+  public secondaryIp: Array<IpAddress>;
   public trafficType: string;
   public type: string;
   public virtualMachineId: string;

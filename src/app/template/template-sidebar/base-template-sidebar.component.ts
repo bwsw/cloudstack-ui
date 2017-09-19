@@ -7,6 +7,7 @@ import { DateTimeFormatterService } from '../../shared/services/date-time-format
 import { NotificationService } from '../../shared/services/notification.service';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { BaseTemplateService } from '../shared/base-template.service';
+import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-does-not-exist-error';
 
 export abstract class BaseTemplateSidebarComponent extends SidebarComponent<BaseTemplateModel> {
   private service: BaseTemplateService;
@@ -35,7 +36,7 @@ export abstract class BaseTemplateSidebarComponent extends SidebarComponent<Base
       if (template) {
         return Observable.of(template);
       } else {
-        return Observable.throw('ENTITY_DOES_NOT_EXIST');
+        return Observable.throw(new EntityDoesNotExistError());
       }
     });
   }

@@ -1,23 +1,25 @@
 <div
   class="color-preview-container"
   [class.disabled]="disabled"
-  (click)="toggle($event)"
+  (click)="handlePreviewClick($event)"
 >
-  <div
-    class="color-preview"
-    [style.background-color]="selectedColor?.value"
-  ></div>
+  <div class="color-preview" [style.background-color]="selectedColor?.value"></div>
 </div>
-<mdl-textfield
-  [value]="selectedColor?.value"
-  [disabled]="disabled"
-  (click)="toggle($event)"
-  readonly
-></mdl-textfield>
+<md-form-field [csPopoverTrigger]="popover" class="full-width-input">
+  <input
+    mdInput
+    [value]="selectedColor?.value.toLowerCase()"
+    [disabled]="disabled"
+    readonly
+  >
+</md-form-field>
 
 <div class="popover-container">
-  <mdl-popover #popover mdl-shadow="6">
-    <div class="color-picker-container" [style.width.px]="containerWidth">
+  <cs-popover #popover>
+    <div
+      class="color-picker-container mat-elevation-z2"
+      [style.width.px]="containerWidth"
+    >
       <div
         *ngFor="let color of colors"
         class="color"
@@ -28,5 +30,5 @@
         (click)="selectColor(color)"
       ></div>
     </div>
-  </mdl-popover>
+  </cs-popover>
 </div>

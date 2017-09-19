@@ -1,17 +1,17 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-
-import { SecurityGroupService } from '../../shared/services/security-group.service';
-import { SecurityGroup, NetworkRuleType, NetworkProtocol } from '../sg.model';
-import { NotificationService } from '../../shared/services/notification.service';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
 import {
-  ICMPType,
-  ICMPtypes,
   GetICMPCodeTranslationToken,
-  GetICMPTypeTranslationToken
-} from '../icmp-types';
+  GetICMPTypeTranslationToken,
+  ICMPType,
+  ICMPtypes
+} from '../../shared/icmp/icmp-types';
+import { NotificationService } from '../../shared/services/notification.service';
+import { NetworkRuleService } from '../services/network-rule.service';
+import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
+import { NetworkProtocol } from '../network-rule.model';
 
 
 @Component({
@@ -54,7 +54,7 @@ export class SgRulesComponent {
   constructor(
     public dialogRef: MdDialogRef<SgRulesComponent>,
     @Inject(MD_DIALOG_DATA) data,
-    private securityGroupService: SecurityGroupService,
+    private networkRuleService: NetworkRuleService,
     private notificationService: NotificationService,
     private translateService: TranslateService
   ) {
@@ -66,12 +66,8 @@ export class SgRulesComponent {
     this.adding = false;
   }
 
-  public get title(): string {
-    if (this.securityGroup.isPredefinedTemplate) {
-      return 'SECURITY_GROUP_PAGE.RULES.TEMPLATE_RULES';
-    }
-
-    return 'SECURITY_GROUP_PAGE.RULES.FIREWALL_RULES_FOR_VM';
+  public get isPredefinedTemplate(): boolean {
+    return this.securityGroup.type === SecurityGroupType.PredefinedTemplate;
   }
 
   public addRule(e: Event): void {
@@ -94,7 +90,7 @@ export class SgRulesComponent {
 
     this.adding = true;
 
-    this.securityGroupService.addRule(type, params)
+    this.networkRuleService.addRule(type, params)
       .subscribe(
         rule => {
           this.securityGroup[`${type.toLowerCase()}Rules`].push(rule);
@@ -123,7 +119,7 @@ export class SgRulesComponent {
   }
 
   public removeRule({ type, id }): void {
-    this.securityGroupService.removeRule(type, { id })
+    this.networkRuleService.removeRule(type, { id })
       .subscribe(() => {
         const rules = this.securityGroup[`${type.toLowerCase()}Rules`];
         const ind = rules.findIndex(rule => rule.ruleId === id);
@@ -175,10 +171,6 @@ export class SgRulesComponent {
       this.translateService.instant(this.getIcmpCodeTranslationToken(this.icmpType, _))
         .toLowerCase()
         .indexOf(filterValue) !== -1) : ICMPtypes.find(x => x.type === this.icmpType).codes;
-  }
-
-  public onClose(): void {
-    this.dialogRef.close(this.securityGroup);
   }
 
   private resetForm(): void {

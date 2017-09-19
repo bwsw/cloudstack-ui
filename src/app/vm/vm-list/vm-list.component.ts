@@ -1,4 +1,6 @@
-import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as clone from 'lodash/clone';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { AsyncJob, InstanceGroup, VmStatisticsComponent, Zone } from '../../shared';
@@ -11,11 +13,13 @@ import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VmActionsService } from '../shared/vm-actions.service';
 import { VirtualMachine, VmState } from '../shared/vm.model';
-import { ActivatedRoute, Router } from '@angular/router';
-import { VirtualMachineEntityName, VmService } from '../shared/vm.service';
-import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filter.component';
+import { VmService } from '../shared/vm.service';
+import {
+  InstanceGroupOrNoGroup,
+  noGroup,
+  VmFilter
+} from '../vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list-item.component';
-import * as clone from 'lodash/clone';
 
 
 @Component({
@@ -25,8 +29,6 @@ import * as clone from 'lodash/clone';
 })
 export class VmListComponent implements OnInit {
   @ViewChild(VmStatisticsComponent) public vmStats: VmStatisticsComponent;
-  @HostBinding('class.mdl-color--grey-100') public backgroundColorClass = true;
-  @HostBinding('class.detail-list-container') public detailListContainer = true;
 
   public selectedGroupings = [];
   public groupings = [

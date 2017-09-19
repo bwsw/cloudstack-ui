@@ -2,15 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
-
 import { ConfigService } from '../shared/services/config.service';
 import { NotificationService } from '../shared/services/notification.service';
-
 
 @Component({
   selector: 'cs-login',
   templateUrl: './login.component.html',
-  styleUrls: ['login.component.scss'],
+  styleUrls: ['login.component.scss']
 })
 export class LoginComponent implements OnInit {
   @ViewChild('user') public usernameField;
@@ -29,8 +27,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private configService: ConfigService
-  ) {
-  }
+  ) {}
 
   public ngOnInit(): void {
     const domainFromConfig = this.configService.get('defaultDomain');
@@ -68,10 +65,13 @@ export class LoginComponent implements OnInit {
   }
 
   private handleLogin(): void {
-    const next = this.route.snapshot.queryParams['next'] &&
-        this.route.snapshot.queryParams['next'] !== '/login' &&
-        this.route.snapshot.queryParams['next'] !== 'login' ? this.route.snapshot.queryParams['next'] : '';
-    this.router.navigateByUrl(next);
+    const nextUrl = this.route.snapshot.queryParams['next'];
+
+    const url =
+      nextUrl && nextUrl !== '/login' && nextUrl !== 'login'
+        ? nextUrl
+        : '/instances';
+    this.router.navigateByUrl(url);
   }
 
   private handleError(error: any): void {

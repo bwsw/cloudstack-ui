@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MdSelectChange, MdDialogRef } from '@angular/material';
+import { FormControl } from '@angular/forms';
+import { MdDialogRef, MdSelectChange } from '@angular/material';
+import * as clone from 'lodash/clone';
 import * as throttle from 'lodash/throttle';
 
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { Rules } from '../../security-group/sg-creation/sg-creation.component';
 import { AffinityGroup, InstanceGroup, ServiceOffering } from '../../shared/models';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
@@ -14,11 +15,9 @@ import { VmCreationState } from './data/vm-creation-state';
 import { VmCreationFormNormalizationService } from './form-normalization/form-normalization.service';
 import { KeyboardLayout } from './keyboards/keyboards.component';
 import { VmCreationService } from './services/vm-creation.service';
-import {
-  VmDeploymentMessage,
-  VmDeploymentService,
-  VmDeploymentStage
-} from './services/vm-deployment.service';
+import { VmDeploymentMessage, VmDeploymentService, VmDeploymentStage } from './services/vm-deployment.service';
+import { VmCreationSecurityGroupData } from './security-group/vm-creation-security-group-data';
+import { VirtualMachine } from "../shared/vm.model";
 
 export interface VmCreationFormState {
   data: VmCreationData;
@@ -56,6 +55,9 @@ export class VmCreationComponent implements OnInit {
   public takenName: string;
   public creationStage = VmCreationStage.editing;
 
+  public visibleAffinityGroups: Array<AffinityGroup>;
+  public visibleInstanceGroups: Array<InstanceGroup>;
+
   constructor(
     private dialogRef: MdDialogRef<VmCreationComponent>,
     private dialogService: DialogService,
@@ -73,34 +75,38 @@ export class VmCreationComponent implements OnInit {
 
   public ngOnInit(): void {
     this.fetching = true;
-    this.resourceUsageService.getResourceUsage().subscribe(resourceUsage => {
-      // TODO check ips
-      Object.keys(resourceUsage.available)
-        .filter(
-          key => key !== 'snapshots' && key !== 'secondaryStorage' && key !== 'ips'
-        )
-        .forEach(key => {
-          const available = resourceUsage.available[key];
-          if (available === 0) {
-            this.insufficientResources.push(key);
-          }
-        });
+    this.resourceUsageService.getResourceUsage()
+      .subscribe(resourceUsage => {
+        // TODO check ips
+        Object.keys(resourceUsage.available)
+          .filter(key => key !== 'snapshots' && key !== 'secondaryStorage' && key !== 'ips')
+          .forEach(key => {
+            const available = resourceUsage.available[key];
+            if (available === 0) {
+              this.insufficientResources.push(key);
+            }
+          });
 
       this.enoughResources = !this.insufficientResources.length;
 
-      if (this.enoughResources) {
-        // TODO fix me (requests cancellation because of share())
+        if (this.enoughResources) {
+          // TODO fix me (requests cancellation because of share())
         setTimeout(() => this.loadData());
-      } else {
-        this.fetching = false;
-      }
-    });
+        } else {
+          this.fetching = false;
+        }
+      });
+  }
+
+  public get nameIsTaken(): boolean {
+    return !!this.formState && this.formState.state.displayName === this.takenName;
   }
 
   public get showResizeSlider(): boolean {
     return (
-      this.formState.state.template.isTemplate ||
-      this.formState.state.showRootDiskResize
+      !!this.formState.state.template &&
+      (this.formState.state.template.isTemplate ||
+        this.formState.state.showRootDiskResize)
     );
   }
 
@@ -157,32 +163,31 @@ export class VmCreationComponent implements OnInit {
     }
   }
 
-  public instanceGroupChange(value: string): void {
-    const existingGroup = this.formState.data.getInstanceGroup(value);
+  public instanceGroupChange(groupName: string): void {
+    const val = groupName.toLowerCase();
+    this.visibleInstanceGroups = this.formState.data.instanceGroups.filter(
+      g => g.name.toLowerCase().indexOf(val) === 0
+    );
 
-    if (existingGroup) {
-      this.formState.state.instanceGroup = existingGroup;
-    } else {
-      this.formState.state.instanceGroup = new InstanceGroup(value);
-    }
-
+    const existingGroup = this.formState.data.getInstanceGroup(groupName);
+    this.formState.state.instanceGroup = clone(existingGroup) || new InstanceGroup(groupName);
     this.updateFormState();
   }
 
-  public affinityGroupChange(value: string): void {
-    const existingGroup = this.formState.data.getAffinityGroup(value);
+  public affinityGroupChange(groupName: string): void {
+    const val = groupName.toLowerCase();
+    this.visibleAffinityGroups = this.formState.data.affinityGroupList.filter(
+      g => g.name.toLowerCase().indexOf(val) === 0
+    );
+    const existingGroup = this.formState.data.getAffinityGroup(groupName);
 
-    if (existingGroup) {
-      this.formState.state.affinityGroup = existingGroup;
-    } else {
-      this.formState.state.affinityGroup = new AffinityGroup({ name: value });
-    }
-
+    this.formState.state.affinityGroup =
+      clone(existingGroup) || new AffinityGroup({ name: groupName });
     this.updateFormState();
   }
 
-  public securityRulesChange(value: Rules) {
-    this.formState.state.securityRules = value;
+  public securityRulesChange(value: VmCreationSecurityGroupData) {
+    this.formState.state.securityGroupData = value;
     this.updateFormState();
   }
 
@@ -214,10 +219,6 @@ export class VmCreationComponent implements OnInit {
     this.deploy();
   }
 
-  public onCancel(): void {
-    this.dialogRef.close();
-  }
-
   public deploy(): void {
     const notificationId = this.jobsNotificationService.add(
       'JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS'
@@ -225,7 +226,8 @@ export class VmCreationComponent implements OnInit {
     const {
       deployStatusObservable,
       deployObservable
-    } = this.vmDeploymentService.deploy(this.formState.state);
+    } = this.vmDeploymentService.deploy(
+      this.formState.state);
 
     deployStatusObservable.subscribe(deploymentMessage => {
       this.handleDeploymentMessages(deploymentMessage, notificationId);
@@ -251,6 +253,28 @@ export class VmCreationComponent implements OnInit {
       id: notificationId,
       message: 'JOB_NOTIFICATIONS.VM.DEPLOY_FAILED'
     });
+  }
+
+  public showPassword(vm: VirtualMachine): void {
+    if (!vm.passwordEnabled) {
+      return;
+    }
+
+    this.dialogService.alert({
+      message: {
+        translationToken: 'DIALOG_MESSAGES.VM.PASSWORD_DIALOG_MESSAGE',
+        interpolateParams: {
+          vmName: vm.name,
+          vmPassword: vm.password
+        }
+      },
+      width: '400px',
+      disableClose: true
+    });
+  }
+
+  public vmNameErrorMatcher(control: FormControl): boolean {
+    return control.invalid || this.nameIsTaken;
   }
 
   private handleDeploymentMessages(
@@ -291,6 +315,8 @@ export class VmCreationComponent implements OnInit {
     this.fetching = true;
     this.vmCreationService.getData().subscribe(vmCreationData => {
       this.data = vmCreationData;
+      this.visibleInstanceGroups = vmCreationData.instanceGroups;
+      this.visibleAffinityGroups = vmCreationData.affinityGroupList;
       this.updateFormState();
       this.fetching = false;
     });

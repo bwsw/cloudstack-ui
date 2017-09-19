@@ -25,12 +25,16 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
     {
       name: 'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_ACTIONS.CREATE_TEMPLATE',
       icon: 'add',
-      activate: (snapshot, volume) => this.showCreationDialog(snapshot)
+      activate: (snapshot, volume) => this.showCreationDialog(snapshot),
+      canActivate: (snapshot) => true,
+      hidden: (snapshot) => false
     },
     {
       name: 'COMMON.DELETE',
       icon: 'delete',
-      activate: (snapshot, volume) => this.handleSnapshotDelete(snapshot, volume)
+      activate: (snapshot, volume) => this.handleSnapshotDelete(snapshot, volume),
+      canActivate: (snapshot) => true,
+      hidden: (snapshot) => false
     },
   ];
 
@@ -45,14 +49,14 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
 
   public showCreationDialog(snapshot: Snapshot): Observable<void> {
     return this.dialog.open(TemplateCreationComponent, {
-      panelClass: 'template-creation-dialog-snapshot dialog-overflow-visible',
+      width: '330px',
+      panelClass: 'template-creation-dialog-snapshot',
       data: {
         mode: 'Template',
         snapshot
       }
     })
       .afterClosed();
-    // todo check
   }
 
   public handleSnapshotDelete(snapshot: Snapshot, volume): Observable<void> {
