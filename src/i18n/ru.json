@@ -855,7 +855,11 @@
     "REMOVE_THIS_KEY": "Вы уверены, что хотите удалить этот ключ?",
     "KEY_REMOVAL_FAILED": "Не удалось удалить ключ",
     "SSH_KEY_PAIR_NOT_FOUND": "SSH ключ не найден",
-    "FINGERPRINT": "Fingerprint"
+    "FINGERPRINT": "Fingerprint",
+    "FILTERS": {
+      "GROUP_BY": "Group by",
+      "GROUP_BY_ACCOUNTS": "Accounts"
+    }
   },
   "SETTINGS": {
     "SECURITY": {

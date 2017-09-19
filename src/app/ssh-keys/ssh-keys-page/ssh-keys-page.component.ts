@@ -41,7 +41,7 @@ export class SshKeysPageComponent implements OnInit {
     if (this.authService.isAdmin()) {
       this.groupings = this.groupings.concat({
         key: 'accounts',
-        label: 'SSH_KEY_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
+        label: 'SSH_KEYS.FILTERS.GROUP_BY_ACCOUNTS',
         selector: (item: SSHKeyPair) => item.account,
         name: (item: SSHKeyPair) => this.getUserName(item.account),
       });
