@@ -130,6 +130,10 @@ import { UserService } from './services/user.service';
 import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
+import { ProgressLoggerComponent } from './components/progress-logger/progress-logger/progress-logger.component';
+// tslint:disable-next-line
+import { ProgressLoggerMessageComponent } from './components/progress-logger/progress-logger-message/progress-logger-message.component';
+import { AnimatedSlashComponent } from './components/progress-logger/animated-slash/animated-slash.component';
 import { SecurityGroupService } from '../security-group/services/security-group.service';
 
 
@@ -205,6 +209,11 @@ import { SecurityGroupService } from '../security-group/services/security-group.
     StringifyDatePipe,
     TableComponent,
     TemplateActionsComponent,
+    MdAutocompleteModule,
+    MdInputModule,
+    ProgressLoggerComponent,
+    ProgressLoggerMessageComponent,
+    AnimatedSlashComponent,
     SecurityGroupBuilderComponent,
     SecurityGroupSelectorComponent,
     SecurityGroupManagerBaseTemplatesComponent,
@@ -264,6 +273,14 @@ import { SecurityGroupService } from '../security-group/services/security-group.
     TemplateActionsComponent,
     TopBarComponent,
     ViewValuePipe,
+    LoadingDirective,
+    LoaderComponent,
+    GroupedCardListComponent,
+    SpareDriveActionsComponent,
+    TemplateActionsComponent,
+    ProgressLoggerComponent,
+    ProgressLoggerMessageComponent,
+    AnimatedSlashComponent,
     LoadingDirective,
     LoaderComponent,
     GroupedCardListComponent,

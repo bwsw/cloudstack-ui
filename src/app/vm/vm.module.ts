@@ -8,7 +8,7 @@ import {
   MdDialogModule,
   MdIconModule,
   MdInputModule,
-  MdMenuModule,
+  MdMenuModule, MdProgressBarModule,
   MdSelectModule,
   MdTabsModule,
   MdTooltipModule
@@ -112,7 +112,8 @@ import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fie
     SnapshotModule,
     TagsModule,
     TemplateModule,
-    TranslateModule
+    TranslateModule,
+    MdProgressBarModule
   ],
   declarations: [
     AffinityGroupSelectorComponent,

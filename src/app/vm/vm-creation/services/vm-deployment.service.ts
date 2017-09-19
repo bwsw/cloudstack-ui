@@ -5,19 +5,17 @@ import { SecurityGroup } from '../../../security-group/sg.model';
 import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { InstanceGroupService } from '../../../shared/services/instance-group.service';
-import { GROUP_POSTFIX, SecurityGroupService } from '../../../security-group/services/security-group.service';
+import { GROUP_POSTFIX } from '../../../security-group/services/security-group.service';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { Utils } from '../../../shared/services/utils/utils.service';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 import { VmCreationState } from '../data/vm-creation-state';
 import { VmCreationSecurityGroupService } from './vm-creation-security-group.service';
-import { PostdeploymentComponent } from '../postdeployment/postdeployment.component';
-import { MdDialog } from '@angular/material';
 
 export enum VmDeploymentStage {
   STARTED = 'STARTED',
-  IN_PROGRESS = 'IN_PROGRESS',
+  VM_CREATION_IN_PROGRESS = 'VM_CREATION_IN_PROGRESS',
   AG_GROUP_CREATION = 'AG_GROUP_CREATION',
   AG_GROUP_CREATION_FINISHED = 'AG_GROUP_CREATION_FINISHED',
   SG_GROUP_CREATION = 'SG_GROUP_CREATION',
@@ -25,7 +23,11 @@ export enum VmDeploymentStage {
   VM_DEPLOYED = 'VM_DEPLOYED',
   FINISHED = 'FINISHED',
   ERROR = 'ERROR',
-  TEMP_VM = 'TEMP_VM'
+  TEMP_VM = 'TEMP_VM',
+  INSTANCE_GROUP_CREATION = 'INSTANCE_GROUP_CREATION',
+  INSTANCE_GROUP_CREATION_FINISHED = 'INSTANCE_GROUP_CREATION_FINISHED',
+  TAG_COPYING = 'TAG_COPYING',
+  TAG_COPYING_FINISHED = 'TAG_COPYING_FINISHED'
 }
 
 export interface VmDeploymentMessage {
@@ -45,8 +47,7 @@ export class VmDeploymentService {
     private instanceGroupService: InstanceGroupService,
     private tagService: TagService,
     private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
-    private vmService: VmService,
-    private dialog: MdDialog
+    private vmService: VmService
   ) {}
 
   public deploy(state: VmCreationState): VmDeployObservables {
@@ -78,7 +79,7 @@ export class VmDeploymentService {
         deployObservable.next({
           stage: VmDeploymentStage.VM_DEPLOYED
         });
-        return this.getPostDeployActions(vm, state);
+        return this.getPostDeployActions(deployObservable, state, vm);
       })
       .map(() => this.handleSuccessfulDeployment(deployedVm, deployObservable))
       .catch(error => {
@@ -96,7 +97,6 @@ export class VmDeploymentService {
         return this.getAffinityGroupCreationObservable(deployObservable, state)
       })
       .switchMap(() => {
-        if (state.zone.networkTypeIsBasic) { return Observable.of(null); }
         return this.getSecurityGroupCreationObservable(deployObservable, state)
       })
       .map(securityGroup => {
@@ -105,18 +105,66 @@ export class VmDeploymentService {
       });
   }
 
-  private getPostDeployActions(vm: VirtualMachine, state: VmCreationState): Observable<any> {
-    return Observable.forkJoin(
-      this.instanceGroupService.add(vm, state.instanceGroup),
-      this.tagService.copyTagsToEntity(state.template.tags, vm)
-    );
+  private getPostDeployActions(
+    deployObservable: Subject<VmDeploymentMessage>,
+    state: VmCreationState,
+    vm: VirtualMachine
+  ): Observable<any> {
+    return this.getInstanceGroupCreationObservable(deployObservable, state, vm)
+      .switchMap(() => this.getTagCopyingObservable(deployObservable, state, vm));
+  }
+
+  private getInstanceGroupCreationObservable(
+    deployObservable: Subject<VmDeploymentMessage>,
+    state: VmCreationState,
+    vm: VirtualMachine
+  ): Observable<any> {
+    if (!state.doCreateInstanceGroup) {
+      return Observable.of(null);
+    }
+
+    return Observable.of(null)
+      .do(() => {
+        deployObservable.next({
+          stage: VmDeploymentStage.INSTANCE_GROUP_CREATION
+        });
+      })
+      .switchMap(() => {
+        return this.instanceGroupService.add(vm, state.instanceGroup);
+      })
+      .do(() => {
+        deployObservable.next({
+          stage: VmDeploymentStage.INSTANCE_GROUP_CREATION_FINISHED
+        });
+      });
+  }
+
+  private getTagCopyingObservable(
+    deployObservable: Subject<VmDeploymentMessage>,
+    state: VmCreationState,
+    vm: VirtualMachine
+  ): Observable<any> {
+    return Observable.of(null)
+      .do(() => {
+        deployObservable.next({
+          stage: VmDeploymentStage.TAG_COPYING
+        })
+      })
+      .switchMap(() => {
+        return this.tagService.copyTagsToEntity(state.template.tags, vm);
+      })
+      .do(() => {
+        deployObservable.next({
+          stage: VmDeploymentStage.TAG_COPYING_FINISHED
+        })
+      });
   }
 
   private getAffinityGroupCreationObservable(
     deployObservable: Subject<VmDeploymentMessage>,
     state: VmCreationState
   ): Observable<AffinityGroup> {
-    if (!state.affinityGroup.name || state.affinityGroupExists) {
+    if (!state.doCreateAffinityGroup) {
       return Observable.of(null);
     }
 
@@ -143,6 +191,11 @@ export class VmDeploymentService {
     deployObservable: Subject<VmDeploymentMessage>,
     state: VmCreationState
   ): Observable<SecurityGroup> {
+    if (!state.doCreateSecurityGroup) {
+      return Observable.of(null);
+    }
+
+    const name = Utils.getUniqueId() + GROUP_POSTFIX;
     return Observable.of(null)
       .do(() => {
         deployObservable.next({
@@ -168,12 +221,14 @@ export class VmDeploymentService {
     const params = state.getVmCreationParams();
     let deployResponse;
     let temporaryVm;
-    return this.vmService.deploy(params)
+
+    return Observable.of(null)
       .do(() => {
-        return deployObservable.next({
-          stage: VmDeploymentStage.IN_PROGRESS
-        })
+        deployObservable.next({
+          stage: VmDeploymentStage.VM_CREATION_IN_PROGRESS
+        });
       })
+      .switchMap(() => this.vmService.deploy(params))
       .switchMap(response => {
         deployResponse = response;
         return this.vmService.get(deployResponse.id);
@@ -207,12 +262,6 @@ export class VmDeploymentService {
       stage: VmDeploymentStage.FINISHED,
       vm
     });
-    this.dialog.open(PostdeploymentComponent, {
-      width: '500px',
-      data: {
-        vm: vm
-      }
-    }).afterClosed();
   }
 
   private handleFailedDeployment(

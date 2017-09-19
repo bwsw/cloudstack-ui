@@ -1,27 +1,26 @@
-import { Component, Inject } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { Component, Input } from '@angular/core';
+import { MdDialogRef } from '@angular/material';
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmConsoleAction } from '../../vm-actions/vm-console';
 import { Action } from '../../../shared/interfaces/action.interface';
+import { VmCreationComponent } from "../vm-creation.component";
 
 @Component({
   selector: 'cs-postdeployment-dialog',
   templateUrl: 'postdeployment.component.html',
 })
 export class PostdeploymentComponent {
-  public vm: VirtualMachine;
 
   public actions: Array<Action<VirtualMachine>> = [
     this.vmConsole,
   ];
 
+  @Input() public vm: VirtualMachine;
+  @Input() public dialogRef: MdDialogRef<VmCreationComponent>;
+
   constructor(
-    public dialogRef: MdDialogRef<PostdeploymentComponent>,
     private vmConsole: VmConsoleAction,
-    @Inject(MD_DIALOG_DATA) data
-  ) {
-    this.vm = data.vm;
-  }
+  ) { }
 
   public openConsole() {
     this.dialogRef.close();
@@ -31,5 +30,4 @@ export class PostdeploymentComponent {
       action.activate(this.vm);
     }
   }
-
 }

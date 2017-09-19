@@ -1,11 +1,36 @@
-<div class="overlay" *ngIf="showOverlay">
-  <div class="message">
-    <p *ngIf="showSecurityGroupOverlay">{{ 'VM_PAGE.VM_CREATION.CREATING_SG' | translate }}</p>
-    <p *ngIf="showAffinityGroupOverlay">{{ 'VM_PAGE.VM_CREATION.CREATING_AG' | translate }}</p>
-    <p *ngIf="showDeploymentOverlay">{{ 'VM_PAGE.VM_CREATION.DEPLOYING_VM' | translate }}</p>
-    <md-progress-bar mode="indeterminate"></md-progress-bar>
+<ng-container *ngIf="showOverlay">
+  <div class="overlay mat-dialog-content">
+    <div class="message">
+      <cs-progress-logger
+        [controller]="progressLoggerController"
+      ></cs-progress-logger>
+
+      <md-progress-bar
+        mode="indeterminate"
+        [class.progress-hidden]="!deploymentStopped"
+      ></md-progress-bar>
+
+      <cs-postdeployment-dialog
+        *ngIf="!deploymentStopped"
+        [vm]="deployedVm"
+        [dialogRef]="dialogRef">
+      </cs-postdeployment-dialog>
+    </div>
   </div>
-</div>
+
+  <div class="mat-dialog-actions">
+    <button
+      md-button
+      type="button"
+      color="primary"
+      *ngIf="!deploymentStopped"
+      mdDialogClose
+    >
+      {{ 'COMMON.CLOSE' | translate }}
+    </button>
+  </div>
+</ng-container>
+
 <div *ngIf="!showOverlay">
   <h3 class="mat-dialog-title">{{ 'VM_PAGE.VM_CREATION.NEW_VM' | translate }}</h3>
   <form
