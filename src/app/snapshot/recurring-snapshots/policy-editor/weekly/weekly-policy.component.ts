@@ -26,7 +26,7 @@ export class WeeklyPolicyComponent implements ControlValueAccessor {
   @Input() public timeFormat: TimeFormat;
 
   public time: Time;
-  public dayOfWeek: DayOfWeek;
+  public dayOfWeek: DayOfWeek = DayOfWeek.Monday;
 
   public updateTime(value: Time): void {
     if (!isEqual(value, this.time)) {
@@ -40,7 +40,8 @@ export class WeeklyPolicyComponent implements ControlValueAccessor {
     this.writeValue(this.policy);
   }
 
-  public propagateChange: any = () => {};
+  public propagateChange: any = () => {
+  };
 
   @Input()
   public get policy(): WeeklyPolicy {
@@ -61,7 +62,8 @@ export class WeeklyPolicyComponent implements ControlValueAccessor {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void { }
+  public registerOnTouched(): void {
+  }
 
   public writeValue(value: any): void {
     if (value) {

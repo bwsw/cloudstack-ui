@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { Component, forwardRef, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
@@ -22,30 +22,26 @@ export interface DayOfWeekName {
     }
   ]
 })
-export class DayOfWeekComponent implements OnInit {
+export class DayOfWeekComponent {
   public _dayOfWeek: DayOfWeek;
-  public daysOfWeek$: Observable<Array<DayOfWeekName>> = this.getDaysOfWeek();
+  readonly daysOfWeek$: Observable<Array<DayOfWeekName>> = this.getDaysOfWeek();
 
   constructor(
     private languageService: LanguageService,
     private translateService: TranslateService
-  ) {}
-
-  public ngOnInit(): void {
-    this.daysOfWeek$.subscribe(daysOfWeek => {
-      this.dayOfWeek = daysOfWeek[0].value;
-    });
+  ) {
   }
+
 
   private get daysOfWeekList(): Array<DayOfWeekName> {
     return [
-      { value: DayOfWeek.Sunday, name: 'DATE_TIME.DAYS_OF_WEEK.SUNDAY'},
-      { value: DayOfWeek.Monday, name: 'DATE_TIME.DAYS_OF_WEEK.MONDAY'},
-      { value: DayOfWeek.Tuesday, name: 'DATE_TIME.DAYS_OF_WEEK.TUESDAY'},
-      { value: DayOfWeek.Wednesday, name: 'DATE_TIME.DAYS_OF_WEEK.WEDNESDAY'},
-      { value: DayOfWeek.Thursday, name: 'DATE_TIME.DAYS_OF_WEEK.THURSDAY'},
-      { value: DayOfWeek.Friday, name: 'DATE_TIME.DAYS_OF_WEEK.FRIDAY'},
-      { value: DayOfWeek.Saturday, name: 'DATE_TIME.DAYS_OF_WEEK.SATURDAY'},
+      { value: DayOfWeek.Sunday, name: 'DATE_TIME.DAYS_OF_WEEK.SUNDAY' },
+      { value: DayOfWeek.Monday, name: 'DATE_TIME.DAYS_OF_WEEK.MONDAY' },
+      { value: DayOfWeek.Tuesday, name: 'DATE_TIME.DAYS_OF_WEEK.TUESDAY' },
+      { value: DayOfWeek.Wednesday, name: 'DATE_TIME.DAYS_OF_WEEK.WEDNESDAY' },
+      { value: DayOfWeek.Thursday, name: 'DATE_TIME.DAYS_OF_WEEK.THURSDAY' },
+      { value: DayOfWeek.Friday, name: 'DATE_TIME.DAYS_OF_WEEK.FRIDAY' },
+      { value: DayOfWeek.Saturday, name: 'DATE_TIME.DAYS_OF_WEEK.SATURDAY' },
     ];
   }
 
