@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { VolumeSnapshotAction } from '../../../../shared/actions/volume-actions/volume-snapshot';
-import { Volume } from '../../../../shared/models/volume.model';
+import { Volume, VolumeState } from '../../../../shared/models/volume.model';
 
 
 @Component({
@@ -12,6 +12,10 @@ export class VolumeSnapshotCreationComponent {
   @Input() public volume: Volume;
 
   constructor(private volumeSnapshotAction: VolumeSnapshotAction) {}
+
+  public get isVolumeReady(): boolean {
+    return this.volume && this.volume.state === VolumeState.Ready;
+  }
 
   public addSnapshot(): void {
     this.volumeSnapshotAction.activate(this.volume).subscribe();
