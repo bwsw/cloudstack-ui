@@ -918,6 +918,7 @@
     }
   },
   "SECURITY_GROUP_SELECTOR": {
+    "BASED_ON_VALUE": "Основан на {{value}}",
     "BUILD_NEW_GROUP": "Создание новой группы",
     "SELECT_EXISTING_GROUP": "Выбор сущуствующей группы",
     "BUILD": "Создать",

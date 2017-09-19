@@ -918,6 +918,7 @@
     }
   },
   "SECURITY_GROUP_SELECTOR": {
+    "BASED_ON_VALUE": "Based on {{value}}",
     "BUILD_NEW_GROUP": "Build a new security group",
     "SELECT_EXISTING_GROUP": "Select an existing group",
     "BUILD": "Build",
