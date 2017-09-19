@@ -1,13 +1,12 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 
-import {AuthService} from '../../../shared/services/auth.service';
-import {Template} from '../../../template/shared';
-import {BaseTemplateModel} from '../../../template/shared/base-template.model';
-import {Iso} from '../../../template/shared/iso.model';
-import {TemplateFilterListComponent} from '../../../template/template-filter-list/template-filter-list.component';
-import {UserService} from '../../../shared/services/user.service';
-
+import { AuthService } from '../../../shared/services/auth.service';
+import { Template } from '../../../template/shared';
+import { BaseTemplateModel } from '../../../template/shared/base-template.model';
+import { Iso } from '../../../template/shared/iso.model';
+import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
+import { UserService } from '../../../shared/services/user.service';
 
 @Component({
   selector: 'cs-vm-creation-template-dialog',

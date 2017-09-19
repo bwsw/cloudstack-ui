@@ -1,14 +1,14 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
-import {OsFamily} from '../../shared/models/os-type.model';
-import {Zone} from '../../shared/models/zone.model';
-import {AuthService} from '../../shared/services/auth.service';
-import {BaseTemplateModel} from '../shared/base-template.model';
-import {TemplateFilters} from '../shared/base-template.service';
-import {Iso} from '../shared/iso.model';
-import {Template} from '../shared/template.model';
-import {User} from '../../shared/models/user.model';
-import {UserService} from '../../shared/services/user.service';
+import { OsFamily } from '../../shared/models/os-type.model';
+import { Zone } from '../../shared/models/zone.model';
+import { AuthService } from '../../shared/services/auth.service';
+import { BaseTemplateModel } from '../shared/base-template.model';
+import { TemplateFilters } from '../shared/base-template.service';
+import { Iso } from '../shared/iso.model';
+import { Template } from '../shared/template.model';
+import { User } from '../../shared/models/user.model';
+import { UserService } from '../../shared/services/user.service';
 
 
 @Component({

@@ -1,16 +1,16 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {TranslateService} from '@ngx-translate/core';
-import {Subject} from 'rxjs/Subject';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { Subject } from 'rxjs/Subject';
 
-import {OsFamily} from '../../shared/models/os-type.model';
-import {Zone} from '../../shared/models/zone.model';
-import {FilterService} from '../../shared/services/filter.service';
-import {LocalStorageService} from '../../shared/services/local-storage.service';
-import {ZoneService} from '../../shared/services/zone.service';
-import {TemplateFilters} from '../shared/base-template.service';
-import {User} from '../../shared/models/user.model';
-import {AuthService} from '../../shared/services/auth.service';
+import { OsFamily } from '../../shared/models/os-type.model';
+import { Zone } from '../../shared/models/zone.model';
+import { FilterService } from '../../shared/services/filter.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
+import { ZoneService } from '../../shared/services/zone.service';
+import { TemplateFilters } from '../shared/base-template.service';
+import { User } from '../../shared/models/user.model';
+import { AuthService } from '../../shared/services/auth.service';
 
 
 @Component({

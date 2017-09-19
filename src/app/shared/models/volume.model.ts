@@ -1,12 +1,12 @@
 import * as moment from 'moment';
-import {FieldMapper} from '../decorators/field-mapper.decorator';
-import {ZoneName} from '../decorators/zone-name.decorator';
-import {VolumeTagKeys} from '../services/tags/volume-tag-keys';
-import {BaseModel} from './base.model';
-import {DiskOffering} from './disk-offering.model';
-import {Snapshot} from './snapshot.model';
-import {DeletionMark, Tag} from './tag.model';
-import {ServiceOffering} from './service-offering.model';
+import { FieldMapper } from '../decorators/field-mapper.decorator';
+import { ZoneName } from '../decorators/zone-name.decorator';
+import { VolumeTagKeys } from '../services/tags/volume-tag-keys';
+import { BaseModel } from './base.model';
+import { DiskOffering } from './disk-offering.model';
+import { Snapshot } from './snapshot.model';
+import { DeletionMark, Tag } from './tag.model';
+import { ServiceOffering } from './service-offering.model';
 
 
 export enum VolumeType {

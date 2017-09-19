@@ -1,11 +1,11 @@
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
-import {BaseModel} from '../models';
-import {Cache} from './cache';
-import {CacheService} from './cache.service';
-import {ErrorService} from './error.service';
-import {ServiceLocator} from './service-locator';
+import { BaseModel } from '../models';
+import { Cache } from './cache';
+import { CacheService } from './cache.service';
+import { ErrorService } from './error.service';
+import { ServiceLocator } from './service-locator';
 
 
 export const BACKEND_API_URL = 'client/api';
