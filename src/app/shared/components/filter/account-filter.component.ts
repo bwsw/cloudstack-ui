@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import {Account} from '../../models/account.model';
-import {AccountService} from '../../services/account.service';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { Account } from '../../models/account.model';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'cs-account-filter',
