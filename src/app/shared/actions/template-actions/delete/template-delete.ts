@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BaseTemplateDeleteAction } from './base-template-delete';
 import { Observable } from 'rxjs/Observable';
-import { Template } from '../../../../template/shared/template.model';
+import { Template } from '../../../../template/shared/template/template.model';
 import { JobsNotificationService } from '../../../services/jobs-notification.service';
-import { TemplateService } from '../../../../template/shared/template.service';
+import { TemplateService } from '../../../../template/shared/template/template.service';
 import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
 
 

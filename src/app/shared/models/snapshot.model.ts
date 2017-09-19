@@ -3,7 +3,7 @@ import { FieldMapper } from '../decorators';
 import { Taggable } from '../interfaces/taggable.interface';
 import { BaseModel } from './base.model';
 import { Tag } from './tag.model';
-import { SnapshotTagKeys } from '../services/tags/snapshot-tag-keys';
+import { SnapshotTagKeys } from '../services/tags/snapshot/snapshot-tag-keys';
 
 
 @FieldMapper({

@@ -3,7 +3,7 @@ import { FieldMapper } from '../shared/decorators/field-mapper.decorator';
 import { Taggable } from '../shared/interfaces/taggable.interface';
 import { Tag } from '../shared/models/tag.model';
 import { NetworkRule } from './network-rule.model';
-import { SecurityGroupTagKeys } from '../shared/services/tags/security-group-tag-keys';
+import { SecurityGroupTagKeys } from '../shared/services/tags/security-group/security-group-tag-keys';
 
 
 export enum SecurityGroupType {

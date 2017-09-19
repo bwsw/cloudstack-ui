@@ -1,11 +1,10 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
-import { MdDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { ListService } from '../../shared/components/list/list.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { BaseTemplateModel, Iso, IsoService, Template, TemplateService } from '../shared';
-import { TemplateFilters } from '../shared/base-template.service';
+import { TemplateFilters } from '../shared/base/template-filters';
 
 
 @Component({
@@ -30,7 +29,7 @@ export class TemplatePageComponent implements OnInit {
 
   public ngOnInit(): void {
     this.viewMode = this.storageService.read('templateDisplayMode') || 'Template';
-    this.listService.onUpdate.subscribe((template) => this.updateList(template));
+    this.subscribeToTemplateCreations();
     this.subscribeToTemplateDeletions();
     this.getTemplates();
   }
@@ -56,14 +55,22 @@ export class TemplatePageComponent implements OnInit {
     ];
 
     Observable.forkJoin(
-      this.templateService.getGroupedTemplates<Template>({}, filters, true)
+      this.templateService.getGroupedTemplates({}, filters, true)
         .map(_ => _.toArray()),
-      this.isoService.getGroupedTemplates<Iso>({}, filters, true).map(_ => _.toArray())
+      this.isoService.getGroupedTemplates({}, filters, true).map(_ => _.toArray())
     )
       .subscribe(([templates, isos]) => {
         this.templates = templates;
         this.isos = isos;
       });
+  }
+
+  private subscribeToTemplateCreations(): void {
+    Observable.merge(
+      this.templateService.onTemplateCreated,
+      this.isoService.onTemplateCreated
+    )
+      .subscribe(template => this.updateList(template));
   }
 
   private subscribeToTemplateDeletions(): void {

@@ -515,9 +515,12 @@
       "SELECT_OS_FAMILIES": "Выберите ОС",
       "SELECT_TYPES": "Выберите типы",
       "SELECT_ZONES": "Выберите зоны",
+      "SELECT_GROUPS": "Выберите группы",
       "GROUP_BY": "Группировать по",
       "GROUP_BY_ZONES": "Зонам",
+      "GROUP_BY_GROUPS": "Группам",
       "NO_ZONE": "Вне зоны",
+      "NO_GROUP": "Без группы",
       "FEATURED": "Рекомендованные",
       "SELF": "Мои",
       "SELFEXECUTABLE": "Мои",
@@ -557,6 +560,7 @@
       "NEW_ISO": "Регистрация нового ISO",
       "NAME": "Название",
       "DESCRIPTION": "Описание",
+      "GROUP": "Группа",
       "URL": "URL",
       "INVALID_URL": "Неподдерживаемый URL (только http or https)",
       "OS_TYPE": "Тип ОС",
@@ -564,6 +568,15 @@
       "EXTRACTABLE": "Извлекаемый",
       "PASSWORD_ENABLED": "Пароль включен",
       "DYNAMICALLY_SCALABLE": "Динамическое масштабирование"
+    },
+    "INSTANCE_GROUP_EDITOR": {
+      "EDIT_TRANSLATIONS": "Редактировать переводы"
+    },
+    "INSTANCE_GROUP_TRANSLATION_EDITOR": {
+      "TITLE": "Переводы названия группы",
+      "EN": "Английский",
+      "RU": "Русский",
+      "CN": "Китайский"
     }
   },
   "SECURITY_GROUP_PAGE": {

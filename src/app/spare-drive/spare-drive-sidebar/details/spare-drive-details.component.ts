@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Volume } from '../../../shared/models/volume.model';
 import { VolumeService } from '../../../shared/services/volume.service';
-import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
+import { VolumeTagService } from '../../../shared/services/tags/volume/volume-tag.service';
 import { ActivatedRoute } from '@angular/router';
 
 

@@ -8,18 +8,15 @@ import { ListService } from '../../shared/components/list/list.service';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { StatsUpdateService } from '../../shared/services/stats-update.service';
-import { UserTagService } from '../../shared/services/tags/user-tag.service';
-import { VmTagService } from '../../shared/services/tags/vm-tag.service';
+import { UserTagService } from '../../shared/services/tags/user/user-tag.service';
+import { VmTagService } from '../../shared/services/tags/vm/vm-tag.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VmActionsService } from '../shared/vm-actions.service';
 import { VirtualMachine, VmState } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
-import {
-  InstanceGroupOrNoGroup,
-  noGroup,
-  VmFilter
-} from '../vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list-item.component';
+import { VmFilter } from '../vm-filter/vm-filter.component';
+import { InstanceGroupOrNoGroup, noGroup } from '../../shared/components/instance-group/no-group';
 
 
 @Component({
@@ -99,6 +96,18 @@ export class VmListComponent implements OnInit {
     this.subscribeToVmUpdates();
     this.subscribeToVmDestroyed();
     this.subscribeToAsyncJobUpdates();
+
+    this.vmService.instanceGroupUpdateObservable.subscribe(updatedVm => {
+      this.vmList = this.vmList.map(vm => {
+        if (updatedVm.id === vm.id) {
+          return updatedVm;
+        } else {
+          return vm;
+        }
+      });
+
+      this.filter();
+    });
   }
 
   public get noFilteringResults(): boolean {

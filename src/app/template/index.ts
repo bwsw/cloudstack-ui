@@ -1,6 +1,6 @@
 export * from './template.module';
 
-export * from './shared/iso.model';
-export * from './shared/iso.service';
-export * from './shared/template.model';
-export * from './shared/template.service';
+export * from './shared/iso/iso.model';
+export * from './shared/iso/iso.service';
+export * from './shared/template/template.model';
+export * from './shared/template/template.service';

@@ -1,0 +1,25 @@
+<md-input-container *ngIf="visibleInstanceGroupNames" floatPlaceholder="never">
+  <input
+    mdInput
+    #templateGroupField="ngModel"
+    name="icmpType"
+    [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.GROUP' | translate"
+    [mdAutocomplete]="templateGroupAutocomplete"
+    [(ngModel)]="instanceGroupName"
+    (ngModelChange)="onNameChange()"
+  >
+  <md-autocomplete #templateGroupAutocomplete="mdAutocomplete">
+    <md-option *ngFor="let g of visibleInstanceGroupNames" [value]="g">
+      {{ g }}
+    </md-option>
+  </md-autocomplete>
+</md-input-container>
+
+<button
+  *ngIf="showAddButton"
+  md-button
+  type="button"
+  (click)="onOpenTranslationEditor()"
+>
+  {{ 'TEMPLATE_PAGE.INSTANCE_GROUP_EDITOR.EDIT_TRANSLATIONS' | translate }}
+</button>

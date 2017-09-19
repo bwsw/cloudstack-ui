@@ -1,4 +1,4 @@
-@import '../../../style/__variables.scss';
+@import '../../../style/_variables';
 
 :host .tab-switch {
   display: inline-flex;
@@ -16,4 +16,8 @@
   line-height: 30px !important;
   height: 30px !important;
   min-width: 60px !important;
+}
+
+.dialog-search {
+  display: inline-block;
 }

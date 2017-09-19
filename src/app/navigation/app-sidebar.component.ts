@@ -8,7 +8,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserTagService } from 'app/shared/services/tags/user-tag.service';
+import { UserTagService } from 'app/shared/services/tags/user/user-tag.service';
 import { DragulaService } from 'ng2-dragula';
 import { ConfigService } from '../shared/services/config.service';
 import { LayoutService } from '../shared/services/layout.service';

@@ -17,7 +17,7 @@ import {
 } from '../shared/services/language.service';
 import { NotificationService } from '../shared/services/notification.service';
 import { StyleService, themes } from '../shared/services/style.service';
-import { UserTagService } from '../shared/services/tags/user-tag.service';
+import { UserTagService } from '../shared/services/tags/user/user-tag.service';
 import { UserService } from '../shared/services/user.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 

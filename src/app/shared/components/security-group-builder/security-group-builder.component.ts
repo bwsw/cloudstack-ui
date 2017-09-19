@@ -1,12 +1,9 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NetworkRule } from '../../../security-group/network-rule.model';
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
-import { SecurityGroupTagKeys } from '../../services/tags/security-group-tag-keys';
+import { SecurityGroupTagKeys } from '../../services/tags/security-group/security-group-tag-keys';
 import { Rules } from './rules';
-import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
-import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
 
 
 export interface RuleListItem {

@@ -515,9 +515,12 @@
       "SELECT_OS_FAMILIES": "Select OS families",
       "SELECT_TYPES": "Select types",
       "SELECT_ZONES": "Select zones",
+      "SELECT_GROUPS": "Select groups",
       "GROUP_BY": "Group by",
       "GROUP_BY_ZONES": "Zones",
+      "GROUP_BY_GROUPS": "Groups",
       "NO_ZONE": "No zone",
+      "NO_GROUP": "No group",
       "FEATURED": "Featured",
       "SELF": "My",
       "SELFEXECUTABLE": "My",
@@ -557,6 +560,7 @@
       "NEW_ISO": "Register a new ISO",
       "NAME": "Name",
       "DESCRIPTION": "Description",
+      "GROUP": "Group",
       "URL": "URL",
       "INVALID_URL": "Invalid URL (only http or https)",
       "OS_TYPE": "OS type",
@@ -564,6 +568,15 @@
       "EXTRACTABLE": "Extractable",
       "PASSWORD_ENABLED": "Password enabled",
       "DYNAMICALLY_SCALABLE": "Dynamically scalable"
+    },
+    "INSTANCE_GROUP_EDITOR": {
+      "EDIT_TRANSLATIONS": "Edit translations"
+    },
+    "INSTANCE_GROUP_TRANSLATION_EDITOR": {
+      "TITLE": "Group name translations",
+      "EN": "English",
+      "RU": "Russian",
+      "CN": "Chinese"
     }
   },
   "SECURITY_GROUP_PAGE": {

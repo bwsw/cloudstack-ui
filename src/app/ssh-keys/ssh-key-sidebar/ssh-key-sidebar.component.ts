@@ -5,8 +5,8 @@ import { SidebarComponent } from '../../shared/components/sidebar/sidebar.compon
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import { NotificationService } from '../../shared/services/notification.service';
 import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
-import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-does-not-exist-error';
+import { UserTagService } from '../../shared/services/tags/user/user-tag.service';
 
 
 @Component({

@@ -4,12 +4,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DayOfWeek } from '../types/day-of-week';
-import { UserTagService } from './tags/user-tag.service';
+import { UserTagService } from './tags/user/user-tag.service';
 
 
 export enum Language {
   en = 'en',
-  ru = 'ru'
+  ru = 'ru',
+  cn = 'cn'
 }
 
 const DEFAULT_LANGUAGE = Language.en;

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Color } from '../models';
 import { ConfigService } from './config.service';
-import { UserTagService } from './tags/user-tag.service';
+import { UserTagService } from './tags/user/user-tag.service';
 
 interface Theme {
   name: string;

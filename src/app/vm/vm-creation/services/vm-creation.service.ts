@@ -19,13 +19,13 @@ import { SecurityGroupService } from '../../../security-group/services/security-
 import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
 import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
 import { ZoneService } from '../../../shared/services/zone.service';
-import { TemplateFilters } from '../../../template/shared/base-template.service';
-import { Iso } from '../../../template/shared/iso.model';
-import { IsoService } from '../../../template/shared/iso.service';
-import { Template } from '../../../template/shared/template.model';
-import { TemplateService } from '../../../template/shared/template.service';
+import { Iso } from '../../../template/shared/iso/iso.model';
+import { IsoService } from '../../../template/shared/iso/iso.service';
+import { Template } from '../../../template/shared/template/template.model';
+import { TemplateService } from '../../../template/shared/template/template.service';
 import { VmService } from '../../shared/vm.service';
 import { VmCreationData } from '../data/vm-creation-data';
+import { TemplateFilters } from '../../../template/shared/base/template-filters';
 
 
 const vmCreationConfigurationKeys = [

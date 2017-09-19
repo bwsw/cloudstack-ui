@@ -4,7 +4,8 @@ import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { BaseModel, InstanceGroup, NIC, OsType, ServiceOffering, Tag, Volume } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { BaseTemplateModel } from '../../template/shared';
-import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
+import { VirtualMachineTagKeys } from '../../shared/services/tags/vm/vm-tag-keys';
+import { InstanceGroupEnabled } from '../../shared/interfaces/instance-group-enabled';
 
 
 export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
@@ -47,7 +48,7 @@ export enum VmState {
   isoid: 'isoId',
   passwordenabled: 'passwordEnabled'
 })
-export class VirtualMachine extends BaseModel implements Taggable {
+export class VirtualMachine extends BaseModel implements Taggable, InstanceGroupEnabled {
   public static ColorDelimiter = ';';
   public resourceType = 'UserVm';
 
@@ -118,6 +119,14 @@ export class VirtualMachine extends BaseModel implements Taggable {
     return sizeInBytes / Math.pow(2, 30);
   }
 
+  private initializeInstanceGroup(): void {
+    const group = this.tags.find(tag => tag.key === VirtualMachineTagKeys.group);
+
+    if (group) {
+      this.instanceGroup = new InstanceGroup(group.value);
+    }
+  }
+
   private initializeNic(): void {
     if (!this.nic) {
       this.nic = [];
@@ -142,13 +151,5 @@ export class VirtualMachine extends BaseModel implements Taggable {
     }
 
     this.tags = this.tags.map(tag => new Tag(tag));
-  }
-
-  private initializeInstanceGroup(): void {
-    const group = this.tags.find(tag => tag.key === VirtualMachineTagKeys.group);
-
-    if (group) {
-      this.instanceGroup = new InstanceGroup(group.value);
-    }
   }
 }

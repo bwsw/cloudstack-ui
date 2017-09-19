@@ -19,7 +19,8 @@ import {
   MdSliderModule,
   MdSnackBarModule,
   MdTableModule,
-  MdTabsModule, MdTooltipModule
+  MdTabsModule,
+  MdTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
@@ -100,7 +101,6 @@ import { ConfigService } from './services/config.service';
 import { DateTimeFormatterService } from './services/date-time-formatter.service';
 import { DiskOfferingService } from './services/disk-offering.service';
 import { ErrorService } from './services/error.service';
-import { InstanceGroupService } from './services/instance-group.service';
 import { JobsNotificationService } from './services/jobs-notification.service';
 import { LanguageService } from './services/language.service';
 import { LayoutService } from './services/layout.service';
@@ -117,19 +117,27 @@ import { SnapshotService } from './services/snapshot.service';
 import { SSHKeyPairService } from './services/ssh-keypair.service';
 import { StatsUpdateService } from './services/stats-update.service';
 import { StyleService } from './services/style.service';
-import { DescriptionTagService } from './services/tags/description-tag.service';
-import { MarkForRemovalService } from './services/tags/mark-for-removal.service';
-import { SecurityGroupTagService } from './services/tags/security-group-tag.service';
-import { SnapshotTagService } from './services/tags/snapshot-tag.service';
-import { TagService } from './services/tags/tag.service';
-import { TemplateTagService } from './services/tags/template-tag.service';
-import { UserTagService } from './services/tags/user-tag.service';
-import { VmTagService } from './services/tags/vm-tag.service';
-import { VolumeTagService } from './services/tags/volume-tag.service';
+import { DescriptionTagService } from './services/tags/common/description-tag.service';
+import { MarkForRemovalService } from './services/tags/common/mark-for-removal.service';
+import { SecurityGroupTagService } from './services/tags/security-group/security-group-tag.service';
+import { SnapshotTagService } from './services/tags/snapshot/snapshot-tag.service';
+import { TagService } from './services/tags/common/tag.service';
+import { TemplateTagService } from './services/tags/template/template/template-tag.service';
+import { UserTagService } from './services/tags/user/user-tag.service';
+import { VmTagService } from './services/tags/vm/vm-tag.service';
+import { VolumeTagService } from './services/tags/volume/volume-tag.service';
 import { UserService } from './services/user.service';
 import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
+import { InstanceGroupTagService } from './services/tags/common/instance-group-tag.service';
+import { InstanceGroupComponent } from './components/instance-group/instance-group/instance-group.component';
+// tslint:disable-next-line
+import { InstanceGroupSelectorComponent } from './components/instance-group/instance-group-selector/instance-group-selector.component';
+import { IsoTagService } from './services/tags/template/iso/iso-tag.service';
+// tslint:disable-next-line
+import { ReadOnlyInstanceGroupComponent } from './components/instance-group/read-only-instance-group/read-only-instance-group.component';
+import { InstanceGroupTranslationService } from './services/instance-group-translation.service';
 import { SecurityGroupService } from '../security-group/services/security-group.service';
 
 
@@ -205,6 +213,11 @@ import { SecurityGroupService } from '../security-group/services/security-group.
     StringifyDatePipe,
     TableComponent,
     TemplateActionsComponent,
+    MdAutocompleteModule,
+    MdInputModule,
+    InstanceGroupComponent,
+    InstanceGroupSelectorComponent,
+    ReadOnlyInstanceGroupComponent,
     SecurityGroupBuilderComponent,
     SecurityGroupSelectorComponent,
     SecurityGroupManagerBaseTemplatesComponent,
@@ -219,7 +232,8 @@ import { SecurityGroupService } from '../security-group/services/security-group.
     DatePickerDialogComponent,
     LoaderComponent,
     SecurityGroupBuilderComponent,
-    SpareDriveAttachmentComponent
+    SpareDriveAttachmentComponent,
+    InstanceGroupSelectorComponent
   ],
   declarations: [
     CalendarComponent,
@@ -269,6 +283,14 @@ import { SecurityGroupService } from '../security-group/services/security-group.
     GroupedCardListComponent,
     SpareDriveActionsComponent,
     TemplateActionsComponent,
+    InstanceGroupComponent,
+    InstanceGroupSelectorComponent,
+    ReadOnlyInstanceGroupComponent,
+    LoadingDirective,
+    LoaderComponent,
+    GroupedCardListComponent,
+    SpareDriveActionsComponent,
+    TemplateActionsComponent,
     SecurityGroupBuilderComponent,
     SecurityGroupSelectorComponent,
     SecurityGroupManagerBaseTemplatesComponent,
@@ -286,7 +308,6 @@ import { SecurityGroupService } from '../security-group/services/security-group.
     DescriptionTagService,
     DiskOfferingService,
     ErrorService,
-    InstanceGroupService,
     JobsNotificationService,
     LanguageService,
     LayoutService,
@@ -322,6 +343,11 @@ import { SecurityGroupService } from '../security-group/services/security-group.
     UserTagService,
     VmTagService,
     VolumeOfferingService,
+    ZoneService,
+    InstanceGroupTagService,
+    TemplateTagService,
+    IsoTagService,
+    InstanceGroupTranslationService,
     ZoneService,
     VmCreationSecurityGroupService,
     VolumeService,

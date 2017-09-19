@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { SecurityGroup } from '../../security-group/sg.model';
 import { BackendResource } from '../../shared/decorators';
+import { InstanceGroupEnabledService } from '../../shared/interfaces/instance-group-enabled-service';
 import { AsyncJob, OsType, ServiceOffering, Volume } from '../../shared/models';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { VolumeType } from '../../shared/models/volume.model';
@@ -11,12 +12,13 @@ import { ApiFormat, BaseBackendService } from '../../shared/services/base-backen
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { SecurityGroupService } from '../../security-group/services/security-group.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
-import { UserTagService } from '../../shared/services/tags/user-tag.service';
+import { UserTagService } from '../../shared/services/tags/user/user-tag.service';
 import { VolumeService } from '../../shared/services/volume.service';
-import { Iso } from '../../template/shared';
 import { VmActions } from '../vm-actions/vm-action';
 import { IVirtualMachineCommand } from '../vm-actions/vm-command';
 import { VirtualMachine, VmState } from './vm.model';
+import { VmTagService } from '../../shared/services/tags/vm/vm-tag.service';
+import { Iso } from '../../template/shared/iso/iso.model';
 
 
 export const VirtualMachineEntityName = 'VirtualMachine';
@@ -26,7 +28,8 @@ export const VirtualMachineEntityName = 'VirtualMachine';
   entity: VirtualMachineEntityName,
   entityModel: VirtualMachine
 })
-export class VmService extends BaseBackendService<VirtualMachine> {
+export class VmService extends BaseBackendService<VirtualMachine> implements InstanceGroupEnabledService {
+  public instanceGroupUpdateObservable = new Subject<VirtualMachine>();
   public vmUpdateObservable = new Subject<VirtualMachine>();
 
   constructor(
@@ -35,6 +38,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     private serviceOfferingService: ServiceOfferingService,
     private securityGroupService: SecurityGroupService,
     private userTagService: UserTagService,
+    private vmTagService: VmTagService,
     private volumeService: VolumeService
   ) {
     super();
@@ -91,6 +95,14 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         });
         return vmList;
       });
+  }
+
+  public addInstanceGroup(vm: VirtualMachine, group: InstanceGroup): Observable<VirtualMachine> {
+    return this.vmTagService.setGroup(vm, group)
+      .do(updatedVm => {
+        this.instanceGroupUpdateObservable.next(updatedVm);
+      })
+      .catch(() => Observable.of(vm));
   }
 
   public getInstanceGroupList(): Observable<Array<InstanceGroup>> {

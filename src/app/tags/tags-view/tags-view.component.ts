@@ -16,7 +16,7 @@ import { Utils } from '../../shared/services/utils/utils.service';
 import { TagCategory } from '../tag-category/tag-category.component';
 import { TagEditComponent } from '../tag-edit/tag-edit.component';
 import { filterWithPredicates } from '../../shared/utils/filter';
-import { UserTagService } from '../../shared/services/tags/user-tag.service';
+import { UserTagService } from '../../shared/services/tags/user/user-tag.service';
 
 
 export interface TagEditAction {

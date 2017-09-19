@@ -37,6 +37,11 @@
             </md-hint>
           </md-form-field>
           <br>
+          <cs-template-instance-group-editor
+            [groups]="groups"
+            (onGroupChange)="onGroupChange($event)"
+          ></cs-template-instance-group-editor>
+          <br>
           <md-form-field *ngIf="!snapshot" class="full-width-input">
             <input
               mdInput

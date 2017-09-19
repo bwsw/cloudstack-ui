@@ -6,7 +6,7 @@ import { Snapshot, Volume } from '../models';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
 import { SnapshotService } from './snapshot.service';
-import { VolumeTagService } from './tags/volume-tag.service';
+import { VolumeTagService } from './tags/volume/volume-tag.service';
 
 
 interface VolumeCreationData {

@@ -3,23 +3,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as sortBy from 'lodash/sortBy';
 import { InstanceGroup, Zone } from '../../shared/models';
 import { FilterService } from '../../shared/services/filter.service';
-import { InstanceGroupService } from '../../shared/services/instance-group.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { VmState } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
+import { InstanceGroupOrNoGroup, NoGroup, noGroup } from '../../shared/components/instance-group/no-group';
 import { FilterComponent } from '../../shared/interfaces/filter-component';
 
 
 export interface VmFilter {
-  selectedGroups: Array<InstanceGroup | noGroup>;
+  selectedGroups: Array<InstanceGroup | NoGroup>;
   selectedStates: Array<VmState>;
   selectedZones: Array<Zone>;
   groupings: Array<any>;
 }
-
-export type noGroup = '-1';
-export const noGroup: noGroup = '-1';
-export type InstanceGroupOrNoGroup = InstanceGroup | noGroup;
 
 @Component({
   selector: 'cs-vm-filter',
@@ -55,13 +51,12 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit, OnC
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private instanceGroupService: InstanceGroupService,
     private vmService: VmService,
     private storage: LocalStorageService
   ) {}
 
   public ngOnInit(): void {
-    this.instanceGroupService.groupsUpdates.subscribe(() => this.loadGroups());
+    this.vmService.instanceGroupUpdateObservable.subscribe(() => this.loadGroups());
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

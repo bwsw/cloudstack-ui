@@ -1,15 +1,16 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../shared/services/auth-guard.service';
-import { TemplateCreationDialogComponent } from './template-creation/template-creation-dialog.component';
-import { TemplatePageComponent } from './template-page/template-page.component';
-import { IsoDetailsComponent } from './template-sidebar/details/iso-details.component';
-import { TemplateDetailsComponent } from './template-sidebar/details/template-details.component';
-import { IsoSidebarComponent } from './template-sidebar/iso-sidebar.component';
-import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
-import { IsoZonesComponent } from './template-sidebar/zones/iso-zones.component';
-import { TemplateZonesComponent } from './template-sidebar/zones/template-zones.component';
 import { IsoTagsComponent } from './template-tags/iso-tags.component';
 import { TemplateTagsComponent } from './template-tags/template-tags.component';
+import { TemplatePageComponent } from './template-page/template-page.component';
+import { TemplateCreationDialogComponent } from './template-creation/template-creation-dialog.component';
+import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
+import { TemplateDetailsComponent } from './template-sidebar/details/template/template-details.component';
+import { TemplateZonesComponent } from './template-sidebar/zones/template-zones.component';
+import { IsoSidebarComponent } from './template-sidebar/iso-sidebar.component';
+import { IsoDetailsComponent } from './template-sidebar/details/iso/iso-details.component';
+import { IsoZonesComponent } from './template-sidebar/zones/iso-zones.component';
+
 
 export const templateRouting: Routes = [
   {

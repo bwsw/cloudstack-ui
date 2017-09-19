@@ -3,9 +3,11 @@ import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 
 import { AuthService } from '../../../shared/services/auth.service';
 import { Template } from '../../../template/shared';
-import { BaseTemplateModel } from '../../../template/shared/base-template.model';
-import { Iso } from '../../../template/shared/iso.model';
-import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
+import { BaseTemplateModel } from '../../../template/shared/base/base-template.model';
+import { Iso } from '../../../template/shared/iso/iso.model';
+import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list/template-filter-list.component';
+import { TemplateService } from '../../../template/shared/template/template.service';
+import { IsoService } from '../../../template/shared/iso/iso.service';
 
 
 @Component({
@@ -22,9 +24,11 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
   constructor(
     @Inject(MD_DIALOG_DATA) data,
     private dialogRef: MdDialogRef<VmTemplateDialogComponent>,
-    authService: AuthService
+    authService: AuthService,
+    templateService: TemplateService,
+    isoService: IsoService
   ) {
-    super(authService);
+    super(authService, templateService, isoService);
 
     this.preselectedTemplate = data.template;
     this.templates = data.templates;

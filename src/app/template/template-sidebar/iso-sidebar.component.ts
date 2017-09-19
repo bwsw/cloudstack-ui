@@ -6,6 +6,7 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { IsoService } from '../shared';
 import { BaseTemplateSidebarComponent } from './base-template-sidebar.component';
 import { AuthService } from '../../shared/services/auth.service';
+import { Iso } from '../shared/iso/iso.model';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { AuthService } from '../../shared/services/auth.service';
   templateUrl: './base-template-sidebar.component.html',
   styleUrls: ['./base-template-sidebar.component.scss']
 })
-export class IsoSidebarComponent extends BaseTemplateSidebarComponent {
+export class IsoSidebarComponent extends BaseTemplateSidebarComponent<Iso> {
   constructor(
     service: IsoService,
     authService: AuthService,

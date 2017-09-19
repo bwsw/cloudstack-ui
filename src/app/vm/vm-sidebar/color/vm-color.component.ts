@@ -4,7 +4,7 @@ import { Color } from '../../../shared/models';
 import { ConfigService } from '../../../shared/services/config.service';
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
-import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
+import { VmTagService } from '../../../shared/services/tags/vm/vm-tag.service';
 
 
 @Component({

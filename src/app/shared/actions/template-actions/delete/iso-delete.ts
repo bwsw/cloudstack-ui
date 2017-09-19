@@ -3,8 +3,8 @@ import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
 import { JobsNotificationService } from '../../../services/jobs-notification.service';
 import { VmService } from '../../../../vm/shared/vm.service';
-import { Iso } from '../../../../template/shared/iso.model';
-import { IsoService } from '../../../../template/shared/iso.service';
+import { Iso } from '../../../../template/shared/iso/iso.model';
+import { IsoService } from '../../../../template/shared/iso/iso.service';
 import { BaseTemplateDeleteAction } from './base-template-delete';
 
 

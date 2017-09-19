@@ -3,10 +3,10 @@ import { Observable } from 'rxjs/Observable';
 import { NetworkProtocol, NetworkRule } from '../../network-rule.model';
 import { NetworkRuleType, SecurityGroup } from '../../sg.model';
 import { BaseBackendService } from '../../../shared/services/base-backend.service';
-import { SecurityGroupTagService } from '../../../shared/services/tags/security-group-tag.service';
 import { NetworkRuleService } from '../network-rule.service';
 import { BackendResource } from '../../../shared/decorators/backend-resource.decorator';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
+import { SecurityGroupTagService } from '../../../shared/services/tags/security-group/security-group-tag.service';
 
 
 interface TcpUdpNetworkRuleCreationParams {

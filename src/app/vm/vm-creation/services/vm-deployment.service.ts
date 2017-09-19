@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
-import { InstanceGroupService } from '../../../shared/services/instance-group.service';
-import { GROUP_POSTFIX, SecurityGroupService } from '../../../security-group/services/security-group.service';
-import { TagService } from '../../../shared/services/tags/tag.service';
-import { Utils } from '../../../shared/services/utils/utils.service';
+import { TagService } from '../../../shared/services/tags/common/tag.service';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 import { VmCreationState } from '../data/vm-creation-state';
@@ -41,7 +39,6 @@ export interface VmDeployObservables {
 export class VmDeploymentService {
   constructor(
     private affinityGroupService: AffinityGroupService,
-    private instanceGroupService: InstanceGroupService,
     private tagService: TagService,
     private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
     private vmService: VmService
@@ -105,7 +102,7 @@ export class VmDeploymentService {
 
   private getPostDeployActions(vm: VirtualMachine, state: VmCreationState): Observable<any> {
     return Observable.forkJoin(
-      this.instanceGroupService.add(vm, state.instanceGroup),
+      this.vmService.addInstanceGroup(vm, state.instanceGroup),
       this.tagService.copyTagsToEntity(state.template.tags, vm)
     );
   }

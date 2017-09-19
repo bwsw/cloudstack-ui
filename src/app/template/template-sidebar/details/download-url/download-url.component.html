@@ -1,0 +1,27 @@
+<md-card *ngIf="template?.downloadUrl">
+  <md-card-header>
+    <md-card-title><h2>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.DOWNLOAD_URL' | translate }}</h2></md-card-title>
+  </md-card-header>
+  <md-card-content>
+    <cs-input-group class="full-width-input">
+      <md-form-field class="full-width-input" cs-input-group-textbox>
+        <input mdInput [value]="template?.downloadUrl" readonly>
+      </md-form-field>
+      <button
+        md-icon-button
+        cs-input-group-button
+        ngxClipboard
+        [cbContent]="template?.downloadUrl"
+        (cbOnSuccess)="onCopySuccess()"
+        (cbOnError)="onCopyFail()"
+      >
+        <md-icon
+          mdTooltipPosition="below"
+          [mdTooltip]="'CLIPBOARD.COPY' | translate"
+        >
+          content_copy
+        </md-icon>
+      </button>
+    </cs-input-group>
+  </md-card-content>
+</md-card>

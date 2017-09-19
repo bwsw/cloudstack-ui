@@ -25,7 +25,7 @@ import { HighLightPipe } from '../shared/pipes/highlight.pipe';
 import { DateTimeFormatterService } from '../shared/services/date-time-formatter.service';
 import { Language, LanguageService } from '../shared/services/language.service';
 import { SessionStorageService } from '../shared/services/session-storage.service';
-import { TagService } from '../shared/services/tags/tag.service';
+import { TagService } from '../shared/services/tags/common/tag.service';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
 import { EventService } from './event.service';

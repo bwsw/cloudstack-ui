@@ -1,0 +1,49 @@
+<h3 class="mat-dialog-title">{{ 'TEMPLATE_PAGE.INSTANCE_GROUP_TRANSLATION_EDITOR.TITLE' | translate }}</h3>
+
+<div class="mat-dialog-content" *ngIf="newGroup">
+  <md-input-container floatPlaceholder="never">
+    <input
+      mdInput
+      #templateGroupField="ngModel"
+      name="icmpType"
+      [placeholder]="'TEMPLATE_PAGE.INSTANCE_GROUP_TRANSLATION_EDITOR.EN' | translate"
+      [(ngModel)]="newGroup.translations.en"
+    >
+  </md-input-container>
+
+  <md-input-container floatPlaceholder="never">
+    <input
+      mdInput
+      #templateGroupField="ngModel"
+      name="icmpType"
+      [placeholder]="'TEMPLATE_PAGE.INSTANCE_GROUP_TRANSLATION_EDITOR.RU' | translate"
+      [(ngModel)]="newGroup.translations.ru"
+    >
+  </md-input-container>
+
+  <md-input-container floatPlaceholder="never">
+    <input
+      mdInput
+      #templateGroupField="ngModel"
+      name="icmpType"
+      [placeholder]="'TEMPLATE_PAGE.INSTANCE_GROUP_TRANSLATION_EDITOR.CN' | translate"
+      [(ngModel)]="newGroup.translations.cn"
+    >
+  </md-input-container>
+</div>
+
+<div class="mat-dialog-actions">
+  <button
+    md-button
+    (click)="onClose()"
+  >
+    {{ 'COMMON.CANCEL' | translate }}
+  </button>
+
+  <button
+    md-button
+    (click)="onSave()"
+  >
+    {{ 'COMMON.SAVE' | translate }}
+  </button>
+</div>
