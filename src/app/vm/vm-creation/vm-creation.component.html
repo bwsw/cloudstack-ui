@@ -11,7 +11,7 @@
       ></md-progress-bar>
 
       <cs-postdeployment-dialog
-        *ngIf="!deploymentStopped"
+        *ngIf="!deploymentStopped && deployedVm"
         [vm]="deployedVm"
         [dialogRef]="dialogRef">
       </cs-postdeployment-dialog>
@@ -23,7 +23,7 @@
       md-button
       type="button"
       color="primary"
-      *ngIf="!deploymentStopped"
+      *ngIf="!deploymentStopped && !deployedVm"
       mdDialogClose
     >
       {{ 'COMMON.CLOSE' | translate }}

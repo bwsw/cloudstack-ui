@@ -11,5 +11,7 @@
                 *ngIf="act.action.canActivate(vm)"
                 (click)="dialogRef.close();act.action.activate(vm)">{{ act.key | translate }}</button>
         </span>
+      <button md-button
+              (click)="dialogRef.close()">{{ 'COMMON.CLOSE' | translate }}</button>
     </div>
 </div>
