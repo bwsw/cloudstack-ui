@@ -11,7 +11,7 @@ import { SshKeyListItemComponent } from "../ssh-key-list-item/ssh-key-list-item.
 export class SshKeyListComponent {
   @Input() public keys: Array<SSHKeyPair>;
   @Input() public groupings: Array<any>;
-  @Output() public onRemove = new EventEmitter<string>();
+  @Output() public onRemove = new EventEmitter<SSHKeyPair>();
   public inputs;
   public outputs;
 
@@ -28,7 +28,7 @@ export class SshKeyListComponent {
     this.listService.showDetails(sshKeyPair.name);
   }
 
-  public removeKeyPair(id: string): void {
-    this.onRemove.emit(id);
+  public removeKeyPair(sshKeyPair: SSHKeyPair): void {
+    this.onRemove.emit(sshKeyPair);
   }
 }

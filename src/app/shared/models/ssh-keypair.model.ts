@@ -11,4 +11,5 @@ export class SSHKeyPair extends BaseModel {
   public fingerPrint: string;
   public privateKey: string;
   public account: string;
+  public domainid: string;
 }

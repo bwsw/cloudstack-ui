@@ -61,8 +61,8 @@ export class SshKeysPageComponent implements OnInit {
     });
   }
 
-  public removeKey(name: string): void {
-    this.showRemovalDialog(name);
+  public removeKey(sshKeyPair: SSHKeyPair): void {
+    this.showRemovalDialog(sshKeyPair);
   }
 
   public updateFilters(filterData: SshKeyFilter): void {
@@ -92,13 +92,15 @@ export class SshKeysPageComponent implements OnInit {
     }, []);
   }
 
-  private showRemovalDialog(name: string): void {
+  private showRemovalDialog(sshKeyPair: SSHKeyPair): void {
     this.dialogService.confirm({ message: 'SSH_KEYS.REMOVE_THIS_KEY'})
       .onErrorResumeNext()
       .switchMap((res) => {
         if (res) {
-          this.setLoading(name);
-          return this.sshKeyService.remove({ name });
+          this.setLoading(sshKeyPair.name);
+          return this.sshKeyService.remove(this.authService.isAdmin() ?
+            { name: sshKeyPair.name, account: sshKeyPair.account, domainid: sshKeyPair.domainid }
+          : { name });
         } else {
           return Observable.throw(null);
         }
