@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ProgressLoggerMessage, ProgressLoggerMessageStatus } from './progress-logger-message';
+import { Observable } from "rxjs/Observable";
+import { TranslateService } from "@ngx-translate/core";
 
 
 @Component({
@@ -9,6 +11,19 @@ import { ProgressLoggerMessage, ProgressLoggerMessageStatus } from './progress-l
 })
 export class ProgressLoggerMessageComponent {
   @Input() public message: ProgressLoggerMessage;
+
+  constructor (private translateService: TranslateService) { }
+
+  public get translatedMessage(): Observable<string> {
+    if (typeof this.message.text === 'string') {
+      return this.translateService.get(this.message.text);
+    } else {
+      return this.translateService.get(
+        this.message.text.translationToken,
+        this.message.text.interpolateParams
+      );
+    }
+  }
 
   public get isHighlighted(): boolean {
     return this.status.includes(ProgressLoggerMessageStatus.Highlighted);

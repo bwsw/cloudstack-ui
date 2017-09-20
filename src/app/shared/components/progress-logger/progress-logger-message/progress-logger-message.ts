@@ -1,3 +1,5 @@
+import { ParametrizedTranslation } from "../../../../dialog/dialog-service/dialog.service";
+
 export enum ProgressLoggerMessageStatus {
   Highlighted,
   InProgress,
@@ -13,6 +15,6 @@ export interface ProgressLoggerMessageData {
 
 export interface ProgressLoggerMessage {
   id: string;
-  text: string;
+  text: string | ParametrizedTranslation;
   status?: Array<ProgressLoggerMessageStatus>;
 }

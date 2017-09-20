@@ -187,7 +187,7 @@
   "NAVIGATION_SIDEBAR": {
     "WELCOME": "Welcome, {{ name }}",
     "VMS": "Virtual machines",
-    "SPARE_DRIVES": "Storage",
+    "STORAGE": "Storage",
     "IMAGES": "Images",
     "FIREWALL_TEMPLATES": "Firewall",
     "ACTIVITY_LOG": "Activity log",
@@ -471,7 +471,7 @@
     "VM_IP": "IP"
   },
 
-  "SPARE_DRIVE_PAGE": {
+  "VOLUME_PAGE": {
     "FILTERS": {
       "SPARE_DRIVES_ONLY": "Spare drives only",
       "SELECT_ZONES": "Select zones",
@@ -492,7 +492,7 @@
       "DISK_OFFERING": "Disk offering",
       "SIZE": "Size"
     },
-"SIDEBAR": {
+    "SIDEBAR": {
       "VOLUME": "Volume",
       "SNAPSHOTS": "Snapshots"
     },
@@ -511,9 +511,10 @@
       "READ_RATE_IOPS": "Read rate",
       "WRITE_RATE_IOPS": "Write rate"
     },
-"SNAPSHOTS": {
+    "SNAPSHOTS": {
       "DESCRIPTION": "Description",
-      "DATE": "Date"
+      "DATE": "Date",
+      "VOLUME_NOT_READY": "Can't take snapshot. Volume is not ready"
     },
     "ATTACHMENT": {
       "CHOOSE_VIRTUAL_MACHINE": "Choose a virtual machine",
@@ -837,16 +838,6 @@
           "5": "Need Authorization"
         }
       }
-    },
-    "RULES_MANAGER": {
-      "BASED_ON": "based on"
-    },
-    "TEMPLATE_CREATION": {
-      "CREATE_NEW_TEMPLATE": "Create new template",
-      "CREATE_NEW_SHARED_GROUP": "Create new shared group",
-      "NAME": "Name",
-      "DESCRIPTION": "Description",
-      "BASIC_RULES": "Basic rules"
     }
   },
   "EVENT_PAGE": {
@@ -911,7 +902,7 @@
     "ENTER_TEXT": "Enter text",
     "SELECT_AN_OPTION": "Select an option"
   },
-"VM_NOT_FOUND": "Virtual machine not found",
+  "VM_NOT_FOUND": "Virtual machine not found",
   "VOLUME_NOT_FOUND": "Volume not found",
   "TEMPLATE_NOT_FOUND": "Template not found",
   "PULSE": {
@@ -944,6 +935,7 @@
     }
   },
   "SECURITY_GROUP_SELECTOR": {
+    "BASED_ON_VALUE": "Based on {{value}}",
     "BUILD_NEW_GROUP": "Build a new security group",
     "SELECT_EXISTING_GROUP": "Select an existing group",
     "BUILD": "Build",
@@ -1004,7 +996,7 @@
     "SHARED": "Shared",
     "LOCAL": "Local"
   },
-  "SPARE_DRIVE_STATE": {
+  "VOLUME_STATE": {
     "ALLOCATED": "Allocated",
     "READY": "Ready"
   },

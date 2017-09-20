@@ -1,0 +1,13 @@
+<div class="volume-actions-container">
+  <button
+    class="volume-actions-button"
+    md-icon-button
+    [mdMenuTriggerFor]="actionsMenu"
+  >
+    <md-icon>more_vert</md-icon>
+  </button>
+</div>
+
+<md-menu #actionsMenu="mdMenu">
+  <cs-volume-actions [volume]="volume"></cs-volume-actions>
+</md-menu>

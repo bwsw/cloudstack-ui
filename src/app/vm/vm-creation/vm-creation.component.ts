@@ -22,6 +22,7 @@ import { KeyboardLayout } from './keyboards/keyboards.component';
 import { VmCreationService } from './services/vm-creation.service';
 import { VmDeploymentMessage, VmDeploymentService, VmDeploymentStage } from './services/vm-deployment.service';
 import { VmCreationSecurityGroupData } from './security-group/vm-creation-security-group-data';
+import { ParametrizedTranslation } from "../../dialog/dialog-service/dialog.service";
 
 export interface VmCreationFormState {
   data: VmCreationData;
@@ -233,7 +234,8 @@ export class VmCreationComponent implements OnInit {
     this.deploymentStopped = false;
 
     this.progressLoggerController.addMessage({
-      text: error.message,
+      text: error.params ? {translationToken: error.message, interpolateParams: error.params}
+        :error.message ,
       status: [ProgressLoggerMessageStatus.ErrorMessage]
     });
 
@@ -437,7 +439,7 @@ export class VmCreationComponent implements OnInit {
   }
 
   private updateLoggerMessage(
-    messageText: string,
+    messageText: string | ParametrizedTranslation,
     status?: Array<ProgressLoggerMessageStatus>
   ): void {
 

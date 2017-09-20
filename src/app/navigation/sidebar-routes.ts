@@ -42,7 +42,7 @@ export const sideBarRoutes: Array<SidebarRoute> = [
   },
   {
     path: '/storage',
-    text: 'NAVIGATION_SIDEBAR.SPARE_DRIVES',
+    text: 'NAVIGATION_SIDEBAR.STORAGE',
     icon: 'dns',
     id: 'VOLUMES',
     enabled: true
