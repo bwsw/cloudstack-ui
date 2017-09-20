@@ -3,8 +3,13 @@
         <div><b>{{ 'VM_POST_ACTION.VM' | translate }}:</b> {{vm.name}}</div>
         <div *ngIf="vm.passwordEnabled"><b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b> {{vm.password}}</div>
         <div *ngIf="vm.ipIsAvailable"><b>{{ 'VM_POST_ACTION.VM_IP' | translate }}:</b> {{vm.nic[0].ipAddress}}</div>
+        <div *ngIf="isHttpAuthMode(vm) && getLogin(vm)"><b>{{ 'VM_POST_ACTION.LOGIN' | translate }}</b> {{getLogin(vm)}}</div>
+        <div *ngIf="isHttpAuthMode(vm) && getPassword(vm)"><b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}</b> {{getPassword(vm)}}</div>
     <div class="mat-dialog-actions">
+        <span *ngFor="let act of actions">
         <button md-button
-                (click)="openConsole()">{{ 'VM_POST_ACTION.OPEN_VNC_CONSOLE' | translate }}</button>
+                *ngIf="act.action.canActivate(vm)"
+                (click)="dialogRef.close();act.action.activate(vm)">{{ act.key | translate }}</button>
+        </span>
     </div>
 </div>

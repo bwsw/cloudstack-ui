@@ -463,7 +463,9 @@
     "TITLE": "Виртуальная машина успешно создана",
     "OPEN_VNC_CONSOLE": "Открыть VNC консоль",
     "OPEN_SHELL_CONSOLE": "Окрыть WebShell",
+    "OPEN_URL": "Открыть URL",
     "VM_PASSWORD": "Пароль",
+    "LOGIN": "Логин",
     "VM": "Имя машины",
     "VM_IP": "IP адрес"
   },

@@ -464,7 +464,9 @@
     "TITLE": "Virtual Machine Successfully Created",
     "OPEN_VNC_CONSOLE": "Open VNC Console",
     "OPEN_SHELL_CONSOLE": "Open WebShell",
+    "OPEN_URL": "Open URL",
     "VM_PASSWORD": "Password",
+    "LOGIN": "Login",
     "VM": "Virtual machine name",
     "VM_IP": "IP"
   },
