@@ -38,7 +38,6 @@ import { TemplatePageComponent } from './template-page/template-page.component';
 import { IsoDetailsComponent } from './template-sidebar/details/iso-details.component';
 import { TemplateDetailsComponent } from './template-sidebar/details/template-details.component';
 import { IsoSidebarComponent } from './template-sidebar/iso-sidebar.component';
-import { TemplateActionsSidebarComponent } from './template-sidebar/template-actions-sidebar/template-actions-sidebar.component';
 import { TemplateDescriptionComponent } from './template-sidebar/template-description/template-description.component';
 import { TemplateOsIconComponent } from './template-sidebar/template-os-icon/template-os-icon.component';
 import { TemplateOsComponent } from './template-sidebar/template-os/template-os.component';
@@ -48,6 +47,8 @@ import { TemplateZonesComponent } from './template-sidebar/zones/template-zones.
 import { IsoTagsComponent } from './template-tags/iso-tags.component';
 import { TemplateTagsComponent } from './template-tags/template-tags.component';
 import { TemplateComponent } from './template/template.component';
+// tslint:disable-next-line
+import { TemplateActionsSidebarComponent } from './template-sidebar/template-actions-sidebar/template-actions-sidebar.component';
 
 
 @NgModule({

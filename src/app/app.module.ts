@@ -33,7 +33,7 @@ import { SettingsModule } from './settings/settings.module';
 import { ServiceLocator } from './shared/services/service-locator';
 import { SharedModule } from './shared/shared.module';
 import { SnapshotModule } from './snapshot/snapshot.module';
-import { SpareDriveModule } from './spare-drive';
+import { VolumeModule } from './volume';
 import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
@@ -68,7 +68,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     SettingsModule,
     SharedModule,
     SnapshotModule,
-    SpareDriveModule,
+    VolumeModule,
     SshKeysModule,
     TemplateModule,
     VmModule,
