@@ -1,0 +1,26 @@
+<cs-list
+  (onAction)="showCreationDialog()"
+  [isOpen]="listService?.hasSelected()"
+>
+  <cs-volume-filter
+    [zones]="zones"
+    [groupings]="groupings"
+    [searchPanelWhite]="selectedGroupings?.length && visibleVolumes?.length"
+    (updateFilters)="updateFiltersAndFilter($event)"
+    cs-list
+  ></cs-volume-filter>
+
+  <cs-volume-list
+    *loading="!volumes"
+    [volumes]="visibleVolumes"
+    [groupings]="selectedGroupings"
+    [query]="query"
+    cs-list
+  ></cs-volume-list>
+
+  <ng-container cs-sidebar>
+    <cs-sidebar [isOpen]="listService?.hasSelected()">
+      <router-outlet></router-outlet>
+    </cs-sidebar>
+  </ng-container>
+</cs-list>

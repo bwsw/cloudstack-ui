@@ -128,32 +128,33 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
     this.writeValue(this.time);
   }
 
-  public propagateChange: any = () => {};
+  public propagateChange: any = () => {
+  };
 
-  @Input()
+
   public get time(): Time {
     return {
       hour: +this.hour,
       minute: +this.minute,
       period: this.period
-    }
+    };
   }
 
+  @Input()
   public set time(value: Time) {
-    if (value && !!value.hour && !!value.minute && !!value.period) {
-      this.hour = (value.hour || this.minHourValue).toString();
-      this.minute = (value.minute || this.minMinuteValue).toString();
-      this.period = value.period;
+    this.hour = (value.hour || this.minHourValue).toString();
+    this.minute = (value.minute || this.minMinuteValue).toString();
+    this.period = value.period;
 
-      this.propagateChange(this.time);
-    }
+    this.propagateChange(this.time);
   }
 
   public registerOnChange(fn): void {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void { }
+  public registerOnTouched(): void {
+  }
 
   public writeValue(value: any): void {
     if (value) {

@@ -108,7 +108,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   protected getRequest(command: string, params?: {}, entity?: string): Observable<any> {
-    return this.http.get(BACKEND_API_URL,
+    return this.http.get(
+      BACKEND_API_URL,
       {
         params: this.buildParams(command, params, entity)
       }
@@ -126,15 +127,18 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   protected postRequest(command: string, params?: {}): Observable<any> {
-    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+    const headers = new HttpHeaders().set(
+      'Content-Type',
+      'application/x-www-form-urlencoded'
+    );
     return this.http.post(BACKEND_API_URL, this.buildParams(command, params), { headers })
-     .catch(error => this.handleError(error));
+      .catch(error => this.handleError(error));
   }
 
   protected sendCommand(command: string, params?: {}, entity?: string): Observable<any> {
     return this.getRequest(command, params, entity)
       .map(res => this.getResponse(res))
-      .catch(error => this.handleCommandError(error));
+      .catch(e => this.handleCommandError(e.error));
   }
 
   protected handleCommandError(error): Observable<any> {
@@ -154,7 +158,10 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return result.map(m => this.prepareModel(m)) as Array<M>;
   }
 
-  private makeGetListObservable(params?: {}, customApiFormat?: ApiFormat): Observable<Array<M>> {
+  private makeGetListObservable(
+    params?: {},
+    customApiFormat?: ApiFormat
+  ): Observable<Array<M>> {
     const command = customApiFormat && customApiFormat.command || 'list;s';
     const entity = customApiFormat && customApiFormat.entity;
     return this.sendCommand(command, params, entity)
