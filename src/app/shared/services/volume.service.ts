@@ -72,7 +72,7 @@ export class VolumeService extends BaseBackendService<Volume> {
           (snapshot: Snapshot) => snapshot.volumeId === volume.id
         );
       });
-      volumes = volumes.filter(volume => !volume.isDeleted);return volumes;
+      return volumes.filter(volume => !volume.isDeleted);
     });
   }
 
@@ -95,7 +95,7 @@ export class VolumeService extends BaseBackendService<Volume> {
   public remove(volume: Volume): Observable<any> {
     return super.remove({ id: volume.id }).map(response => {
       if (response['success'] === 'true') {
-          this.onVolumeRemoved.next(volume);
+        this.onVolumeRemoved.next(volume);
         return Observable.of(null);
       }
       return Observable.throw(response);
@@ -131,7 +131,8 @@ export class VolumeService extends BaseBackendService<Volume> {
       }));
   }
 
-  public markForRemoval(volume: Volume): Observable< Volume> {
-    return this.volumeTagService.markForRemoval(volume);
+  public markForRemoval(volume: Volume): Observable<any> {
+    const observers = volume.snapshots.map((snapshot) => this.snapshotService.markForRemoval(snapshot));
+    return Observable.forkJoin(...observers, this.volumeTagService.markForRemoval(volume));
   }
 }

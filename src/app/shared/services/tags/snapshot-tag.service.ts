@@ -24,4 +24,14 @@ export class SnapshotTagService implements EntityTagService {
   public setDescription(snapshot: Snapshot, description: string): Observable<Taggable> {
     return this.descriptionTagService.setDescription(snapshot, description, this);
   }
+
+  public markForRemoval(snapshot: Snapshot): Observable<any> {
+    return this.tagService.create(
+      {
+        resourceIds: snapshot.id,
+        resourceType: snapshot.resourceType,
+        'tags[0].key': 'status',
+        'tags[0].value': 'removed',
+      });
+  }
 }
