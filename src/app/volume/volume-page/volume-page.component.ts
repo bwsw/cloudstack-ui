@@ -73,7 +73,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
     if (this.authService.isAdmin()) {
       this.groupings = this.groupings.concat({
         key: 'accounts',
-        label: 'SPARE_DRIVE_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
+        label: 'VOLUME_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
         selector: (item: Volume) => item.account,
         name: (item: Volume) => this.getUserName(item.account),
       });

@@ -15,7 +15,8 @@ export const TemplateFilters = {
   featured: 'featured',
   self: 'self',
   selfExecutable: 'selfexecutable',
-  sharedExecutable: 'sharedexecutable'
+  sharedExecutable: 'sharedexecutable',
+  all: 'all'
 };
 
 export interface RequestParams {
@@ -39,8 +40,10 @@ export class GroupedTemplates<T extends BaseTemplateModel> {
   public self: Array<T>;
   public selfExecutable: Array<T>;
   public sharedExecutable: Array<T>;
+  public all: Array<T>;
 
   constructor(templates: {}) {
+    this.all = templates[TemplateFilters.all] || [];
     this.community = templates[TemplateFilters.community] || [];
     this.executable = templates[TemplateFilters.executable] || [];
     this.featured = templates[TemplateFilters.featured] || [];
@@ -56,7 +59,8 @@ export class GroupedTemplates<T extends BaseTemplateModel> {
       .concat(this.community)
       .concat(this.sharedExecutable)
       .concat(this.executable)
-      .concat(this.self);
+      .concat(this.self)
+      .concat(this.all);
   }
 }
 
@@ -78,7 +82,8 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       TemplateFilters.community,
       TemplateFilters.sharedExecutable,
       TemplateFilters.executable,
-      TemplateFilters.self
+      TemplateFilters.self,
+      TemplateFilters.all
     ];
   }
 

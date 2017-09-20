@@ -33,7 +33,7 @@ export class TemplateFilterListComponent implements OnChanges {
   public selectedZones: Array<Zone> = [];
   public visibleTemplateList: Array<BaseTemplateModel> = [];
   public accounts: Array<User>;
-  public userList: Array<User>;
+  public userList: Array<User> = [];
 
   public selectedGroupings = [];
   public groupings = [
