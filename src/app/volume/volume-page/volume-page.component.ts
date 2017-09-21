@@ -48,6 +48,12 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
       label: 'VOLUME_PAGE.FILTERS.GROUP_BY_TYPES',
       selector: (item: Volume) => item.type,
       name: (item: Volume) => volumeTypeNames[item.type]
+    },
+    {
+      key: 'accounts',
+      label: 'VOLUME_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
+      selector: (item: Volume) => item.account,
+      name: (item: Volume) => this.getUserName(item.account),
     }
   ];
   public query: string;
@@ -70,13 +76,8 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
     private authService: AuthService
   ) {
     super();
-    if (this.authService.isAdmin()) {
-      this.groupings = this.groupings.concat({
-        key: 'accounts',
-        label: 'VOLUME_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
-        selector: (item: Volume) => item.account,
-        name: (item: Volume) => this.getUserName(item.account),
-      });
+  if (!this.authService.isAdmin()) {
+      this.groupings = this.groupings.filter(g => g.key != 'accounts');
     }
   }
 
@@ -131,7 +132,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
         this.filterVolumesBySpare(spareOnly),
         this.filterVolumesBySearch()
       ]);
-    this.visibleVolumes = this.sortByAccount(accounts);
+    this.visibleVolumes = this.sortByAccount(this.visibleVolumes, accounts);
   }
 
   public updateGroupings(): void {
@@ -201,15 +202,11 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
     return user ? user.name: account;
   }
 
-  private sortByAccount(accounts) {
-    let result: Array<Volume> = [];
-    if (accounts && accounts.length != 0) {
-      accounts.forEach(account => {
-        result = result.concat(this.visibleVolumes.filter(vm => vm.account === account.name))
-      });
-      return result;
+  private sortByAccount(visibleVolumes: Array<Volume>, accounts = []) {
+    if (accounts.length != 0) {
+      return visibleVolumes.filter(key => accounts.find(account => account.name === key.account));
     } else {
-      return this.visibleVolumes;
+      return visibleVolumes;
     }
   }
 

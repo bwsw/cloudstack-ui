@@ -1,4 +1,4 @@
-import {Component, forwardRef, Input, ChangeDetectorRef} from '@angular/core';
+import { ChangeDetectorRef, Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TimeFormat } from '../../../../shared/services/language.service';
 import { DayPeriodName } from '../../day-period/day-period.component';

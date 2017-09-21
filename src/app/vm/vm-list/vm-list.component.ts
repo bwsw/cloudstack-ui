@@ -50,6 +50,12 @@ export class VmListComponent implements OnInit {
       label: 'VM_PAGE.FILTERS.GROUP_BY_COLORS',
       selector: (item: VirtualMachine) => this.vmTagService.getColorSync(item).value,
       name: (item: VirtualMachine) => ' ',
+    },
+    {
+      key: 'accounts',
+      label: 'VM_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
+      selector: (item: VirtualMachine) => item.account,
+      name: (item: VirtualMachine) => this.getUserName(item.account),
     }
   ];
 
@@ -93,13 +99,8 @@ export class VmListComponent implements OnInit {
       onClick: this.showDetail
     };
 
-    if (this.authService.isAdmin()) {
-      this.groupings = this.groupings.concat({
-        key: 'accounts',
-        label: 'VM_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
-        selector: (item: VirtualMachine) => item.account,
-        name: (item: VirtualMachine) => this.getUserName(item.account),
-      });
+    if (!this.authService.isAdmin()) {
+      this.groupings = this.groupings.filter(g => g.key != 'accounts');
     }
   }
 
@@ -142,7 +143,7 @@ export class VmListComponent implements OnInit {
     this.visibleVmList = this.filterVmsByGroup(this.visibleVmList, selectedGroups);
     this.visibleVmList = this.filterVMsByState(this.visibleVmList, selectedStates);
     this.visibleVmList = this.sortByDate(this.visibleVmList);
-    this.visibleVmList = this.sortByAccount(accounts);
+    this.visibleVmList = this.sortByAccount(this.visibleVmList, accounts);
   }
 
   public updateStats(): void {
@@ -354,15 +355,11 @@ export class VmListComponent implements OnInit {
       : vmList.filter(vm => states.includes(vm.state));
   }
 
-  private sortByAccount(accounts) {
-    let result: Array<VirtualMachine> = [];
-    if (accounts && accounts.length != 0) {
-      accounts.forEach(account => {
-        result = result.concat(this.visibleVmList.filter(vm => vm.account === account.name))
-      });
-      return result;
+  private sortByAccount(visibleVmList: Array<VirtualMachine>, accounts = []) {
+    if (accounts.length != 0) {
+      return visibleVmList.filter(key => accounts.find(account => account.name === key.account));
     } else {
-      return this.visibleVmList;
+      return visibleVmList;
     }
   }
 

@@ -42,18 +42,19 @@ export class TemplateFilterListComponent implements OnChanges {
       label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ZONES',
       selector: (item: BaseTemplateModel) => item.zoneId || '',
       name: (item: BaseTemplateModel) => item.zoneName || 'TEMPLATE_PAGE.FILTERS.NO_ZONE'
+    },
+    {
+      key: 'accounts',
+      label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
+      selector: (item: BaseTemplateModel) => item.account,
+      name: (item: BaseTemplateModel) => this.getUserName(item.account),
     }
   ];
 
   constructor(protected authService: AuthService, private userService: UserService,) {
     this.getUserList();
-    if (this.authService.isAdmin()) {
-      this.groupings = this.groupings.concat({
-        key: 'accounts',
-        label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
-        selector: (item: BaseTemplateModel) => item.account,
-        name: (item: BaseTemplateModel) => this.getUserName(item.account),
-      });
+    if (!this.authService.isAdmin()) {
+      this.groupings = this.groupings.filter(g => g.key != 'accounts');
     }
   }
 
@@ -103,7 +104,7 @@ export class TemplateFilterListComponent implements OnChanges {
       this.visibleTemplateList = this.visibleTemplateList
         .filter(template => template.zoneId === this.zoneId || template.crossZones);
     }
-    this.visibleTemplateList = this.sortByAccount(this.accounts);
+    this.visibleTemplateList = this.sortByAccount(this.visibleTemplateList, this.accounts);
   }
 
   private getUserList() {
@@ -152,15 +153,11 @@ export class TemplateFilterListComponent implements OnChanges {
       );
   }
 
-  private sortByAccount(accounts) {
-    let result: Array<BaseTemplateModel> = [];
-    if (accounts && accounts.length != 0) {
-      accounts.forEach(account => {
-        result = result.concat(this.visibleTemplateList.filter(vm => vm.account === account.name))
-      });
-      return result;
+  private sortByAccount(visibleTemplateList: Array<BaseTemplateModel>, accounts = []) {
+    if (accounts.length != 0) {
+      return visibleTemplateList.filter(key => accounts.find(account => account.name === key.account));
     } else {
-      return this.visibleTemplateList;
+      return visibleTemplateList;
     }
   }
 }

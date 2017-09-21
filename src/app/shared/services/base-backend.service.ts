@@ -39,8 +39,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
       .map(res => res.find(entity => entity.id === id));
   }
 
-  public getList(params?: {}, customApiFormat?: ApiFormat): Observable<Array<M>> {
-    params = Object.assign(params || {}, { 'listAll': 'true' });
+  public getList(params = {}, customApiFormat?: ApiFormat): Observable<Array<M>> {
+    params = Object.assign(params, { 'listAll': 'true' });
     const cachedRequest = this.requestCache.get(params);
     if (cachedRequest) {
       return cachedRequest;

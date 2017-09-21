@@ -24,7 +24,14 @@ export class SshKeysPageComponent implements OnInit {
   public visibleSshKeyList: Array<SSHKeyPair>;
 
   public selectedGroupings = [];
-  public groupings = [];
+  public groupings = [
+    {
+      key: 'accounts',
+      label: 'SSH_KEYS.FILTERS.GROUP_BY_ACCOUNTS',
+      selector: (item: SSHKeyPair) => item.account,
+      name: (item: SSHKeyPair) => this.getUserName(item.account),
+    }
+  ];
 
   public filterData: any;
   public userList: Array<User>;
@@ -38,13 +45,8 @@ export class SshKeysPageComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private authService: AuthService
   ) {
-    if (this.authService.isAdmin()) {
-      this.groupings = this.groupings.concat({
-        key: 'accounts',
-        label: 'SSH_KEYS.FILTERS.GROUP_BY_ACCOUNTS',
-        selector: (item: SSHKeyPair) => item.account,
-        name: (item: SSHKeyPair) => this.getUserName(item.account),
-      });
+    if (!this.authService.isAdmin()) {
+      this.groupings = this.groupings.filter(g => g.key != 'accounts');
     }
   }
 
@@ -82,7 +84,7 @@ export class SshKeysPageComponent implements OnInit {
 
     this.updateGroupings();
     const { accounts } = this.filterData;
-    this.visibleSshKeyList = this.sortByAccount(accounts);
+    this.visibleSshKeyList = this.sortByAccount(this.visibleSshKeyList, accounts);
   }
 
   public updateGroupings(): void {
@@ -128,15 +130,11 @@ export class SshKeysPageComponent implements OnInit {
     return user ? user.name: account;
   }
 
-  private sortByAccount(accounts) {
-    let result: Array<SSHKeyPair> = [];
-    if (accounts && accounts.length != 0) {
-      accounts.forEach(account => {
-        result = result.concat(this.visibleSshKeyList.filter(key => key.account === account.name))
-      });
-      return result;
+  private sortByAccount(visibleSshKeyList: Array<SSHKeyPair>, accounts = []) {
+    if (accounts.length != 0) {
+      return visibleSshKeyList.filter(key => accounts.find(account => account.name === key.account));
     } else {
-      return this.visibleSshKeyList;
+      return visibleSshKeyList;
     }
   }
 
