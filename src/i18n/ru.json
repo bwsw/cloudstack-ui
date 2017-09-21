@@ -561,9 +561,15 @@
       "INVALID_URL": "Неподдерживаемый URL (только http or https)",
       "OS_TYPE": "Тип ОС",
       "ZONE": "Зона",
-      "EXTRACTABLE": "Извлекаемый",
       "PASSWORD_ENABLED": "Пароль включен",
-      "DYNAMICALLY_SCALABLE": "Динамическое масштабирование"
+      "DYNAMICALLY_SCALABLE": "Динамическое масштабирование",
+      "HYPERVISOR": "Гипервизор",
+      "FORMAT": "Формат",
+      "IS_EXTRACTABLE": "Извлекаемый",
+      "IS_PUBLIC": "Публичный",
+      "IS_FEATURED": "Рекомендуемый",
+      "REQUIRES_HVM": "HVM",
+      "BOOTABLE": "Загружаемый"
     }
   },
   "SECURITY_GROUP_PAGE": {

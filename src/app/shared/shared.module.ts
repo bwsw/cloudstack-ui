@@ -19,7 +19,8 @@ import {
   MdSliderModule,
   MdSnackBarModule,
   MdTableModule,
-  MdTabsModule, MdTooltipModule
+  MdTabsModule,
+  MdTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
@@ -131,6 +132,7 @@ import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 import { SecurityGroupService } from '../security-group/services/security-group.service';
+import { HypervisorService } from './services/hypervisor.service';
 
 
 @NgModule({
@@ -325,7 +327,8 @@ import { SecurityGroupService } from '../security-group/services/security-group.
     VmCreationSecurityGroupService,
     VolumeService,
     VolumeTagService,
-    ZoneService
+    ZoneService,
+    HypervisorService
   ]
 })
 export class SharedModule {

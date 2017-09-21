@@ -111,6 +111,64 @@
           </div>
         </div>
       </div>
+
+      <div>
+        <button md-button type="button" (click)="showAdditional=!showAdditional">
+          {{ (showAdditional ? 'TEMPLATE_PAGE.TEMPLATE_CREATION.HIDE_ADDITIONAL'
+          : 'TEMPLATE_PAGE.TEMPLATE_CREATION.SHOW_ADDITIONAL') | translate }}</button>
+      </div>
+
+      <div *ngIf="showAdditional" class="additional">
+        <md-select *ngIf="mode === 'Template'"
+                class="form-select-control"
+                [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.HYPERVISOR' | translate"
+                [(ngModel)]="hypervisor" (valueChange)="changeHypervisor(hypervisor)"
+                name="format"
+        >
+          <md-option *ngFor="let hypervisor of hypervisors"
+                     [value]="hypervisor.name">{{hypervisor.name}}</md-option>
+        </md-select>
+        <md-select *ngIf="mode === 'Template'"
+                   class="form-select-control"
+                   [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.FORMAT' | translate"
+                   [(ngModel)]="format"
+                   name="format"
+        >
+          <md-option *ngFor="let format of visibleFormats" [value]="format.name">{{format.name}}</md-option>
+        </md-select>
+        <md-checkbox
+                name="extract"
+                [(ngModel)]="isExtractable"
+        >
+          {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_EXTRACTABLE' | translate }}
+        </md-checkbox>
+        <md-checkbox
+                name="public"
+                [(ngModel)]="isPublic"
+        >
+          {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_PUBLIC' | translate }}
+        </md-checkbox>
+        <md-checkbox
+                name="feature"
+                [(ngModel)]="isFeatured"
+        >
+          {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_FEATURED' | translate }}
+        </md-checkbox>
+        <md-checkbox
+                name="hvm"
+                [(ngModel)]="requiresHvm"
+                *ngIf="mode === 'Template'"
+        >
+          {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.REQUIRES_HVM' | translate }}
+        </md-checkbox>
+        <md-checkbox *ngIf="mode === 'Iso'"
+                     name="bootable"
+                     [(ngModel)]="bootable"
+        >
+          {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.BOOTABLE' | translate }}
+        </md-checkbox>
+      </div>
+
     </div>
     <div class="mat-dialog-actions">
       <button
