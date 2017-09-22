@@ -1,7 +1,7 @@
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import {
   MdButtonModule,
   MdCheckboxModule,
@@ -38,6 +38,7 @@ import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
 import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
+import { UsersModule } from './accounts/accounts.module';
 
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -72,6 +73,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     SshKeysModule,
     TemplateModule,
     VmModule,
+    UsersModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -1,0 +1,21 @@
+<cs-list
+  (onAction)="showCreationDialog()"
+  [isOpen]="listService?.hasSelected()"
+>
+  <cs-account-filter
+    [availableGroupings]="groupings"
+    (updateFilters)="updateFilters($event)"
+    cs-list
+  ></cs-account-filter>
+  <cs-account-list
+    *loading="!accounts"
+    [accounts]="accounts"
+    cs-list
+  ></cs-account-list>
+  <ng-container cs-sidebar>
+    <cs-sidebar [isOpen]="listService?.hasSelected()">
+      <router-outlet></router-outlet>
+    </cs-sidebar>
+  </ng-container>
+</cs-list>
+

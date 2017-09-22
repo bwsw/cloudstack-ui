@@ -1,0 +1,57 @@
+<md-card
+  class="custom-card"
+  (click)="handleClick($event)"
+  [class.card-selected]="isSelected(item)"
+>
+  <md-card-header>
+    <md-card-title>
+      <h2
+        class="md-card-title-text"
+        [mdTooltip]="item.name"
+      >
+        {{ item.name }}
+      </h2>
+    </md-card-title>
+    <div class="md-card-header-menu">
+      <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
+        <md-icon>more_vert</md-icon>
+      </button>
+    </div>
+  </md-card-header>
+  <md-card-content>
+    <div class="card-wrapper">
+      <div class="flex-1">
+        <div class="row">
+          {{ 'ACCOUNT_PAGE.CARD.ROLE' | translate }}: {{item.role}}
+        </div>
+      </div>
+      <div class="flex-1">
+        <div class="row">
+          {{ 'ACCOUNT_PAGE.CARD.ROLE_TYPE' | translate }}: {{item.roletype}}
+        </div>
+      </div>
+      <div class="flex-1">
+        <div class="row">
+          {{ 'ACCOUNT_PAGE.CARD.DOMAIN' | translate }}: {{item.domain}}
+        </div>
+      </div>
+
+    </div>
+  </md-card-content>
+  <md-menu
+    #actionsMenu="mdMenu"
+  >
+    <button md-menu-item (click)="deactivateAccount()">
+      <md-icon>deactivate</md-icon>
+      <span>{{ 'ACCOUNT_PAGE.DEACTIVATE' | translate }}</span>
+    </button>
+    <button md-menu-item (click)="blockAccount()">
+      <md-icon>block</md-icon>
+      <span>{{ 'ACCOUNT_PAGE.BLOCK' | translate }}</span>
+    </button>
+    <button md-menu-item (click)="deleteAccount()">
+      <md-icon>delete</md-icon>
+      <span>{{ 'ACCOUNT_PAGE.DELETE' | translate }}</span>
+    </button>
+  </md-menu>
+</md-card>

@@ -13,7 +13,7 @@ import { volumeRoutes } from './volume/volume.routing';
 import { sshRoutes } from './ssh-keys/ssh-keys.routing';
 import { templateRouting } from './template/template.routing';
 import { vmRoutes } from './vm/vm.routing';
-
+import { accountsRoutes } from './accounts/accounts.routing';
 
 export const routes: Routes = [
   {
@@ -48,6 +48,7 @@ export const routes: Routes = [
         component: SettingsComponent,
         canActivate: [AuthGuard]
       },
+      ...accountsRoutes,
       {
         path: '**',
         redirectTo: 'instances'

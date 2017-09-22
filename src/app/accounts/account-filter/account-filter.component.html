@@ -1,0 +1,42 @@
+<cs-top-bar>
+  <div class="options-panel">
+
+    <md-select
+      *ngIf="domains"
+      class="filter-select"
+      multiple="true"
+      [placeholder]="'ACCOUNT_PAGE.FILTERS.SELECT_DOMAINS' | translate"
+      [(ngModel)]="selectedDomains"
+      (change)="update()"
+    >
+      <md-option *ngFor="let d of domains" [value]="d">{{ d.name }}</md-option>
+    </md-select>
+
+    <md-select
+      *ngIf="roles"
+      class="filter-select"
+      multiple="true"
+      [placeholder]="'ACCOUNT_PAGE.FILTERS.SELECT_ROLES' | translate"
+      [(ngModel)]="selectedRoles"
+      (change)="update()"
+    >
+      <md-option *ngFor="let r of roles" [value]="r">{{ r.name }}</md-option>
+    </md-select>
+
+    
+
+
+    <cs-draggable-select
+      class="filter-select"
+      multiple="true"
+      [placeholder]="'ACCOUNT_PAGE.FILTERS.GROUP_BY' | translate"
+      [dragItems]="availableGroupings"
+      (change)="update()"
+    >
+      <md-option *ngFor="let g of availableGroupings" [value]="g">
+        {{ g.label | translate }}
+      </md-option>
+    </cs-draggable-select>
+  </div>
+</cs-top-bar>
+
