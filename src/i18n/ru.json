@@ -823,11 +823,11 @@
       }
     },
     "TEMPLATE_CREATION": {
-      "CREATE_NEW_TEMPLATE": "Create new template",
-      "CREATE_NEW_SHARED_GROUP": "Create new shared group",
-      "NAME": "Name",
-      "DESCRIPTION": "Description",
-      "BASIC_RULES": "Basic rules"
+      "CREATE_NEW_TEMPLATE": "Создать новый шаблон",
+      "CREATE_NEW_SHARED_GROUP": "Создать новую разделяемую группу",
+      "NAME": "Название",
+      "DESCRIPTION": "Описание",
+      "BASIC_RULES": "Базовые правила"
     }
   },
   "EVENT_PAGE": {
