@@ -9,6 +9,7 @@ import { Snapshot } from '../../shared/models/snapshot.model';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { HypervisorService } from '../../shared/services/hypervisor.service';
+import { AuthService } from "../../shared/services/auth.service";
 
 interface TemplateFormat {
   name: string;
@@ -31,6 +32,7 @@ export class TemplateCreationComponent implements OnInit {
   public isExtractable: boolean;
   public hypervisor: string;
   public isPublic: boolean;
+  public isRouting: boolean;
   public requiresHvm: boolean;
   public isFeatured: boolean;
   public format: string;
@@ -65,6 +67,7 @@ export class TemplateCreationComponent implements OnInit {
     private templateCreationAction: TemplateCreateAction,
     private zoneService: ZoneService,
     private hypervisorService: HypervisorService,
+    private authService: AuthService,
     @Inject(MD_DIALOG_DATA) data: any
   ) {
     this.mode = data.mode;
@@ -144,10 +147,13 @@ export class TemplateCreationComponent implements OnInit {
       params['isextractable'] = this.isExtractable;
       params['bootable'] = this.bootable;
       params['format'] = this.format;
-      params['isfeatured'] = this.isFeatured;
       params['requireshvm'] = this.requiresHvm;
       params['ispublic'] = this.isPublic;
       params['hypervisor'] = this.hypervisor;
+      if (this.isAdmin()) {
+        params['isrouting'] = this.isRouting;
+        params['isfeatured'] = this.isFeatured;
+      }
     }
 
     this.loading = true;
@@ -158,6 +164,10 @@ export class TemplateCreationComponent implements OnInit {
         template => this.dialogRef.close(template),
         () => {}
       );
+  }
+
+  public isAdmin() {
+    return this.authService.isAdmin;
   }
 
   private getCreationAction(params: any): Observable<void> {

@@ -568,6 +568,7 @@
       "IS_EXTRACTABLE": "Extractable",
       "IS_PUBLIC": "Public",
       "IS_FEATURED": "Featured",
+      "IS_ROUTING": "Routing",
       "REQUIRES_HVM": "Requires HVM",
       "BOOTABLE": "Bootable",
       "SHOW_ADDITIONAL": "Show additional field",

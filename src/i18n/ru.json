@@ -568,8 +568,11 @@
       "IS_EXTRACTABLE": "Извлекаемый",
       "IS_PUBLIC": "Публичный",
       "IS_FEATURED": "Рекомендуемый",
+      "IS_ROUTING": "Маршрутизация",
       "REQUIRES_HVM": "HVM",
-      "BOOTABLE": "Загружаемый"
+      "BOOTABLE": "Загружаемый",
+      "SHOW_ADDITIONAL": "Показать дополнительные параметры",
+      "HIDE_ADDITIONAL": "Скрыть дополнительные параметры"
     }
   },
   "SECURITY_GROUP_PAGE": {

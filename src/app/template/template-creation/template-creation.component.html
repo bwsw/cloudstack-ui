@@ -60,22 +60,20 @@
           </md-form-field>
         </div>
         <div [class.column]="!snapshot">
-          <div>
-            <md-select
-              class="form-select-control"
-              [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.OS_TYPE' | translate"
-              [(ngModel)]="osTypeId"
-              id="osType"
-              name="osType"
+          <md-select
+            class="form-select-control"
+            [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.OS_TYPE' | translate"
+            [(ngModel)]="osTypeId"
+            id="osType"
+            name="osType"
+          >
+            <md-option
+              *ngFor="let osType of osTypes"
+              [value]="osType.id"
             >
-              <md-option
-                *ngFor="let osType of osTypes"
-                [value]="osType.id"
-              >
-                {{ osType.description }}
-              </md-option>
-            </md-select>
-          </div>
+              {{ osType.description }}
+            </md-option>
+          </md-select>
           <div *ngIf="!snapshot">
             <md-select
               class="form-select-control"
@@ -92,7 +90,7 @@
               </md-option>
             </md-select>
           </div>
-          <div>
+          <div class="additional">
             <md-checkbox
               *ngIf="mode === 'Template'"
               name="pass"
@@ -101,8 +99,7 @@
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.PASSWORD_ENABLED' | translate }}
             </md-checkbox>
             <md-checkbox
-              class="dynscal-checkbox"
-              name="dynscal"
+              name="scalable"
               [(ngModel)]="dynamicallyScalable"
               *ngIf="mode === 'Template'"
             >
@@ -151,8 +148,16 @@
         <md-checkbox
                 name="feature"
                 [(ngModel)]="isFeatured"
+                *ngIf="isAdmin()"
         >
           {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_FEATURED' | translate }}
+        </md-checkbox>
+        <md-checkbox
+          name="routing"
+          [(ngModel)]="isRouting"
+          *ngIf="isAdmin()"
+        >
+          {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_ROUTING' | translate }}
         </md-checkbox>
         <md-checkbox
                 name="hvm"
