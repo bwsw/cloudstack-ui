@@ -12,6 +12,7 @@ export class Account extends BaseModel {
   public cpulimit: number;
   public cputotal: number;
   public domain: string;
+  public fullDomain: string;
   public domainid: string;
   public id: string;
   public ipavailable: number;

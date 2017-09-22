@@ -12,4 +12,5 @@ export class SSHKeyPair extends BaseModel {
   public privateKey: string;
   public account: string;
   public domainid: string;
+  public domain: string;
 }

@@ -53,7 +53,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
       key: 'accounts',
       label: 'VOLUME_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: Volume) => item.account,
-      name: (item: Volume) => this.getUserName(item.account),
+      name: (item: Volume) => `${item.domain}/${item.account}`,
     }
   ];
   public query: string;
@@ -197,14 +197,10 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
     });
   }
 
-  private getUserName(account: string) {
-    let user = this.userList.find(user => user.account === account);
-    return user ? user.name: account;
-  }
-
   private sortByAccount(visibleVolumes: Array<Volume>, accounts = []) {
     if (accounts.length != 0) {
-      return visibleVolumes.filter(key => accounts.find(account => account.name === key.account));
+      return visibleVolumes.filter(key =>
+        accounts.find(account => account.name === key.account && account.domain === key.domain));
     } else {
       return visibleVolumes;
     }

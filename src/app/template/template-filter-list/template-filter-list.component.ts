@@ -47,7 +47,7 @@ export class TemplateFilterListComponent implements OnChanges {
       key: 'accounts',
       label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: BaseTemplateModel) => item.account,
-      name: (item: BaseTemplateModel) => this.getUserName(item.account),
+      name: (item: BaseTemplateModel) => `${item.domain}/${item.account}`,
     }
   ];
 
@@ -113,11 +113,6 @@ export class TemplateFilterListComponent implements OnChanges {
     });
   }
 
-  private getUserName(account: string) {
-    let user = this.userList.find(user => user.account === account);
-    return user ? user.name: account;
-  }
-
   private filterByCategories(templateList: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
     const username = this.authService.user && this.authService.user.username || '';
 
@@ -155,7 +150,8 @@ export class TemplateFilterListComponent implements OnChanges {
 
   private sortByAccount(visibleTemplateList: Array<BaseTemplateModel>, accounts = []) {
     if (accounts.length != 0) {
-      return visibleTemplateList.filter(key => accounts.find(account => account.name === key.account));
+      return visibleTemplateList.filter(key =>
+        accounts.find(account => account.name === key.account  && account.domain === key.domain));
     } else {
       return visibleTemplateList;
     }

@@ -55,7 +55,7 @@ export class VmListComponent implements OnInit {
       key: 'accounts',
       label: 'VM_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: VirtualMachine) => item.account,
-      name: (item: VirtualMachine) => this.getUserName(item.account),
+      name: (item: VirtualMachine) => `${item.domain}/${item.account}`,
     }
   ];
 
@@ -185,11 +185,6 @@ export class VmListComponent implements OnInit {
     this.userService.getList().subscribe(users => {
       this.userList = users;
     });
-  }
-
-  private getUserName(account: string) {
-    let user = this.userList.find(user => user.account === account);
-    return user ? user.name: account;
   }
 
   private subscribeToStatsUpdates(): void {
@@ -357,7 +352,8 @@ export class VmListComponent implements OnInit {
 
   private sortByAccount(visibleVmList: Array<VirtualMachine>, accounts = []) {
     if (accounts.length != 0) {
-      return visibleVmList.filter(key => accounts.find(account => account.name === key.account));
+      return visibleVmList.filter(key =>
+        accounts.find(account => account.name === key.account && account.domain === key.domain));
     } else {
       return visibleVmList;
     }
