@@ -16,9 +16,9 @@ import { VirtualMachine, VmState } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list-item.component';
-import { UserService } from '../../shared/services/user.service';
-import { User } from '../../shared/models/user.model';
 import { AuthService } from '../../shared/services/auth.service';
+import { DomainService } from "../../shared/services/domain.service";
+import { Domain } from "../../shared/models/domain.model";
 
 
 @Component({
@@ -55,7 +55,7 @@ export class VmListComponent implements OnInit {
       key: 'accounts',
       label: 'VM_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: VirtualMachine) => item.account,
-      name: (item: VirtualMachine) => `${item.domain}/${item.account}`,
+      name: (item: VirtualMachine) => this.getDomain(item.domainid) || `${item.domain}/${item.account}`,
     }
   ];
 
@@ -65,7 +65,7 @@ export class VmListComponent implements OnInit {
   public zones: Array<Zone>;
 
   public vmList: Array<VirtualMachine>;
-  public userList: Array<User>;
+  public domainList: Array<Domain>;
   public visibleVmList: Array<VirtualMachine>;
 
   public inputs;
@@ -81,7 +81,7 @@ export class VmListComponent implements OnInit {
     private asyncJobService: AsyncJobService,
     private statsUpdateService: StatsUpdateService,
     private userTagService: UserTagService,
-    private userService: UserService,
+    private domainService: DomainService,
     private vmActionsService: VmActionsService,
     private vmTagService: VmTagService,
     private zoneService: ZoneService,
@@ -106,7 +106,7 @@ export class VmListComponent implements OnInit {
 
   public ngOnInit(): void {
     this.getVmList();
-    this.getUserList();
+    this.getDomainList();
     this.resubscribeToJobs();
     this.subscribeToStatsUpdates();
     this.subscribeToVmUpdates();
@@ -181,10 +181,15 @@ export class VmListComponent implements OnInit {
       });
   }
 
-  private getUserList() {
-    this.userService.getList().subscribe(users => {
-      this.userList = users;
+  private getDomainList() {
+    this.domainService.getList().subscribe(domains => {
+      this.domainList = domains;
     });
+  }
+
+  private getDomain(domainId: string) {
+    let domain = this.domainList.find(d => d.id === domainId);
+    return domain && domain.path;
   }
 
   private subscribeToStatsUpdates(): void {
@@ -353,7 +358,7 @@ export class VmListComponent implements OnInit {
   private sortByAccount(visibleVmList: Array<VirtualMachine>, accounts = []) {
     if (accounts.length != 0) {
       return visibleVmList.filter(key =>
-        accounts.find(account => account.name === key.account && account.domain === key.domain));
+        accounts.find(account => account.name === key.account && account.domainid === key.domainid));
     } else {
       return visibleVmList;
     }

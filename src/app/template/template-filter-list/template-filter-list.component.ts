@@ -8,7 +8,8 @@ import { TemplateFilters } from '../shared/base-template.service';
 import { Iso } from '../shared/iso.model';
 import { Template } from '../shared/template.model';
 import { User } from '../../shared/models/user.model';
-import { UserService } from '../../shared/services/user.service';
+import { Domain } from "../../shared/models/domain.model";
+import { DomainService } from "../../shared/services/domain.service";
 
 
 @Component({
@@ -33,7 +34,7 @@ export class TemplateFilterListComponent implements OnChanges {
   public selectedZones: Array<Zone> = [];
   public visibleTemplateList: Array<BaseTemplateModel> = [];
   public accounts: Array<User>;
-  public userList: Array<User> = [];
+  public domainList: Array<Domain> = [];
 
   public selectedGroupings = [];
   public groupings = [
@@ -47,12 +48,12 @@ export class TemplateFilterListComponent implements OnChanges {
       key: 'accounts',
       label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: BaseTemplateModel) => item.account,
-      name: (item: BaseTemplateModel) => `${item.domain}/${item.account}`,
+      name: (item: BaseTemplateModel) => this.getDomain(item.domainid) || `${item.domain}/${item.account}`,
     }
   ];
 
-  constructor(protected authService: AuthService, private userService: UserService,) {
-    this.getUserList();
+  constructor(protected authService: AuthService, private domainService: DomainService) {
+    this.getDomainList();
     if (!this.authService.isAdmin()) {
       this.groupings = this.groupings.filter(g => g.key != 'accounts');
     }
@@ -107,10 +108,15 @@ export class TemplateFilterListComponent implements OnChanges {
     this.visibleTemplateList = this.sortByAccount(this.visibleTemplateList, this.accounts);
   }
 
-  private getUserList() {
-    this.userService.getList().subscribe(users => {
-      this.userList = users;
+  private getDomainList() {
+    this.domainService.getList().subscribe(domains => {
+      this.domainList = domains;
     });
+  }
+
+  private getDomain(domainId: string) {
+    let domain = this.domainList.find(d => d.id === domainId);
+    return domain && domain.path;
   }
 
   private filterByCategories(templateList: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
@@ -151,7 +157,7 @@ export class TemplateFilterListComponent implements OnChanges {
   private sortByAccount(visibleTemplateList: Array<BaseTemplateModel>, accounts = []) {
     if (accounts.length != 0) {
       return visibleTemplateList.filter(key =>
-        accounts.find(account => account.name === key.account  && account.domain === key.domain));
+        accounts.find(account => account.name === key.account  && account.domainid === key.domainid));
     } else {
       return visibleTemplateList;
     }

@@ -6,7 +6,7 @@ import { Template } from '../../../template/shared';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { Iso } from '../../../template/shared/iso.model';
 import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
-import { UserService } from '../../../shared/services/user.service';
+import { DomainService } from "../../../shared/services/domain.service";
 
 @Component({
   selector: 'cs-vm-creation-template-dialog',
@@ -23,9 +23,9 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
     @Inject(MD_DIALOG_DATA) data,
     private dialogRef: MdDialogRef<VmTemplateDialogComponent>,
     authService: AuthService,
-    userService: UserService
+    domainService: DomainService
   ) {
-    super(authService, userService);
+    super(authService, domainService);
 
     this.preselectedTemplate = data.template;
     this.templates = data.templates;

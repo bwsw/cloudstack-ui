@@ -13,9 +13,9 @@ import { filterWithPredicates } from '../../shared/utils/filter';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { VolumeFilter } from '../volume-filter/volume-filter.component';
 import { volumeTypeNames } from '../../shared/models/volume.model';
-import { UserService } from '../../shared/services/user.service';
-import { User } from '../../shared/models/user.model';
 import { AuthService } from '../../shared/services/auth.service';
+import { DomainService } from "../../shared/services/domain.service";
+import { Domain } from "../../shared/models/domain.model";
 
 
 export interface VolumeCreationData {
@@ -53,13 +53,13 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
       key: 'accounts',
       label: 'VOLUME_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: Volume) => item.account,
-      name: (item: Volume) => `${item.domain}/${item.account}`,
+      name: (item: Volume) => this.getDomain(item.domainid) || `${item.domain}/${item.account}`,
     }
   ];
   public query: string;
 
   public filterData: any;
-  public userList: Array<User>;
+  public domainList: Array<Domain>;
 
   private onDestroy = new Subject();
 
@@ -70,7 +70,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private userTagService: UserTagService,
-    private userService: UserService,
+    private domainService: DomainService,
     private volumeService: VolumeService,
     private zoneService: ZoneService,
     private authService: AuthService
@@ -101,7 +101,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
       this.updateZones()
     )
       .subscribe(() => this.filter());
-    this.getUserList();
+    this.getDomainList();
   }
 
   public updateFiltersAndFilter(filterData: VolumeFilter): void {
@@ -191,16 +191,21 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
     });
   }
 
-  private getUserList() {
-    this.userService.getList().subscribe(users => {
-      this.userList = users;
+  private getDomainList() {
+    this.domainService.getList().subscribe(domains => {
+      this.domainList = domains;
     });
+  }
+
+  private getDomain(domainId: string) {
+    let domain = this.domainList.find(d => d.id === domainId);
+    return domain && domain.path;
   }
 
   private sortByAccount(visibleVolumes: Array<Volume>, accounts = []) {
     if (accounts.length != 0) {
       return visibleVolumes.filter(key =>
-        accounts.find(account => account.name === key.account && account.domain === key.domain));
+        accounts.find(account => account.name === key.account && account.domainid === key.domainid));
     } else {
       return visibleVolumes;
     }

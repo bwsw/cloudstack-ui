@@ -42,6 +42,7 @@ export class Volume extends BaseModel {
   public account: string;
   public created: Date;
   public domain: string;
+  public domainid: string;
   public diskOffering: DiskOffering;
   public diskOfferingId: string;
   public loading: boolean;

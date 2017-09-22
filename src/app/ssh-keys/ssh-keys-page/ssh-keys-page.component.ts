@@ -7,9 +7,9 @@ import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
 import { SshKeyFilter } from "../ssh-key-filter/ssh-key-filter.component";
-import { UserService } from "../../shared/services/user.service";
-import { User } from "../../shared/models/user.model";
 import { AuthService } from "../../shared/services/auth.service";
+import { Domain } from "../../shared/models/domain.model";
+import { DomainService } from "../../shared/services/domain.service";
 
 
 @Component({
@@ -29,18 +29,18 @@ export class SshKeysPageComponent implements OnInit {
       key: 'accounts',
       label: 'SSH_KEYS.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: SSHKeyPair) => item.account,
-      name: (item: SSHKeyPair) => `${item.domain}/${item.account}`,
+      name: (item: SSHKeyPair) => this.getDomain(item.domainid) || `${item.domain}/${item.account}`,
     }
   ];
 
   public filterData: any;
-  public userList: Array<User>;
+  public domainList: Array<Domain>;
 
   constructor(
     public listService: ListService,
     private dialogService: DialogService,
     private sshKeyService: SSHKeyPairService,
-    private userService: UserService,
+    private domainService: DomainService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService
@@ -52,7 +52,7 @@ export class SshKeysPageComponent implements OnInit {
 
   public ngOnInit(): void {
     this.update();
-    this.getUserList();
+    this.getDomainList();
     this.listService.onUpdate.subscribe(() => this.update());
   }
 
@@ -119,16 +119,21 @@ export class SshKeysPageComponent implements OnInit {
       );
   }
 
-  private getUserList() {
-    this.userService.getList().subscribe(users => {
-      this.userList = users;
+  private getDomainList() {
+    this.domainService.getList().subscribe(domains => {
+      this.domainList = domains;
     });
+  }
+
+  private getDomain(domainId: string) {
+    let domain = this.domainList.find(d => d.id === domainId);
+    return domain && domain.path;
   }
 
   private sortByAccount(visibleSshKeyList: Array<SSHKeyPair>, accounts = []) {
     if (accounts.length != 0) {
       return visibleSshKeyList.filter(key =>
-        accounts.find(account => account.name === key.account && account.domain === key.domain));
+        accounts.find(account => account.name === key.account && account.domainid === key.domainid));
     } else {
       return visibleSshKeyList;
     }
