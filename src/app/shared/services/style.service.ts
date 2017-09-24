@@ -65,7 +65,7 @@ export class StyleService {
     document.head.appendChild(this.styleElement);
   }
 
-  private updateTheme(theme: Theme) {
+  public updateTheme(theme: Theme) {
     const { styleElement, _activeTheme } = this;
 
     // to prevent setting the theme when it's already active
