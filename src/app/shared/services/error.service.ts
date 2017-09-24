@@ -6,8 +6,7 @@ interface ErrorTranslation {
   translation: string;
 }
 
-@Injectable()
-export class ErrorService extends Subject<any> {
+export class ErrorService {
   private static ErrorMap: Array<ErrorTranslation> = [
     {
       regex: /Going from existing size of.*/,
@@ -70,7 +69,7 @@ export class ErrorService extends Subject<any> {
   }
 
   // Get Cloudstack error code from response
-  public parseCsError(response: any): number {
+  public static parseCsError(response: any): number {
     // get response object keys. we need this because response types may differ (e.g. startvirtualmachineresponse)
     const r = Object.keys(JSON.parse(response._body));
     // return Cloudstack error code
@@ -78,9 +77,5 @@ export class ErrorService extends Subject<any> {
       return response[r[0]].cserrorcode;
     }
     return 0;
-  }
-
-  public send(error: any): void {
-    this.next(error);
   }
 }

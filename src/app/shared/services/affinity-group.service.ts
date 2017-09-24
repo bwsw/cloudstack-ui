@@ -27,10 +27,9 @@ export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup
   constructor(
     private asyncJob: AsyncJobService,
     http: HttpClient,
-    error: ErrorService,
     cacheService: CacheService
   ) {
-    super(http, error, cacheService);
+    super(http, cacheService);
   }
 
   public getTypes(params?: {}): Observable<Array<AffinityGroupType>> {

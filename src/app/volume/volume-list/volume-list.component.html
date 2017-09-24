@@ -1,0 +1,9 @@
+<cs-grouped-card-list
+  *ngIf="volumes?.length"
+  [list]="volumes"
+  [groupings]="groupings"
+  [component]="VolumeItemComponent"
+  [dynamicInputs]="inputs"
+  [dynamicOutputs]="outputs"
+></cs-grouped-card-list>
+<cs-no-results *ngIf="!volumes?.length"></cs-no-results>

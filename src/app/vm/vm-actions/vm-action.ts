@@ -43,6 +43,10 @@ export abstract class VirtualMachineAction implements Action<VirtualMachine> {
       .switchMap((res) => res ? this.onActionConfirmed(vm) : this.onActionDeclined());
   }
 
+  public canActivate(vm: VirtualMachine): boolean {
+    return true;
+  }
+
   public hidden(vm: VirtualMachine): boolean {
     return false;
   }

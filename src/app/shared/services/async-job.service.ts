@@ -8,7 +8,6 @@ import { BackendResource } from '../decorators';
 import { AsyncJob } from '../models';
 import { BaseBackendService } from './base-backend.service';
 import { CacheService } from './cache.service';
-import { ErrorService } from './error.service';
 
 
 const enum JobStatus {
@@ -31,7 +30,6 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
 
   constructor(
     http: HttpClient,
-    error: ErrorService,
     cacheService: CacheService
   ) {
     super(http, error, cacheService);

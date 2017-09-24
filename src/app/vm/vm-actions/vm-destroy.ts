@@ -83,13 +83,15 @@ export class VmDestroyAction extends VirtualMachineCommand {
   }
 
   private deleteVmWithVolumes(vm: VirtualMachine, params?: {}): Observable<any> {
-    this.vmEntityDeletionService.markVolumesForDeletion(vm);
-    return this.deleteVm(vm, params);
+    return Observable.forkJoin(
+      this.vmEntityDeletionService.markVolumesForDeletion(vm),
+      this.deleteVm(vm, params)
+    );
   }
 
   private deleteVm(vm: VirtualMachine, params?: {}): Observable<any> {
     return this.vmService.command(vm, this, params)
-      .map(() => this.vmEntityDeletionService.markSecurityGroupsForDeletion(vm));
+      .switchMap(() => this.vmEntityDeletionService.markSecurityGroupsForDeletion(vm));
   }
 
   private volumeDeleteConfirmDialog(volumes: Array<Volume>): Observable<any> {
@@ -97,6 +99,6 @@ export class VmDestroyAction extends VirtualMachineCommand {
       return Observable.of(false);
     }
 
-    return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_DRIVES_DELETION'});
+    return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_DRIVES_DELETION' });
   }
 }

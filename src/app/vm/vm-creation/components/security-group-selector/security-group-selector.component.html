@@ -1,0 +1,28 @@
+<div
+  *ngIf="securityGroups?.length"
+  class="security-group-radio-list"
+>
+  <md-list>
+    <md-list-item
+      *ngFor="let sg of securityGroups"
+      lines="2"
+      (click)="$event.stopPropagation(); selectSecurityGroup(sg)"
+      [class.selected-security-group]="securityGroup?.id === sg?.id"
+    >
+      <h4 md-line>
+        <span>{{ sg.name }}</span>
+      </h4>
+      <p
+        md-line
+        class="md-line-secondary"
+      >
+        {{ sg.description }}
+      </p>
+      <span>
+        <md-radio-button [checked]="sg?.id === securityGroup?.id"></md-radio-button>
+      </span>
+    </md-list-item>
+  </md-list>
+</div>
+
+<cs-no-results *ngIf="!securityGroups?.length"></cs-no-results>

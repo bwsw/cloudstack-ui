@@ -1,5 +1,8 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams
+} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { BaseModel } from '../models';
@@ -14,7 +17,6 @@ export interface ApiFormat {
   entity?: string;
 }
 
-@Injectable()
 export abstract class BaseBackendService<M extends BaseModel> {
   protected entity: string;
   protected entityModel: { new (params?): M };
@@ -23,7 +25,6 @@ export abstract class BaseBackendService<M extends BaseModel> {
 
   constructor(
     protected http: HttpClient,
-    protected error: ErrorService,
     protected cacheService: CacheService
   ) {
     this.initRequestCache();
@@ -109,7 +110,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
     entity?: string
   ): Observable<any> {
     return this.http
-      .get(BACKEND_API_URL, {
+      .get(
+      BACKEND_API_URL, {
         params: this.buildParams(command, params, entity)
       })
       .catch(error => this.handleError(error));
@@ -125,13 +127,9 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   protected postRequest(command: string, params?: {}): Observable<any> {
-    const headers = new HttpHeaders().set(
-      'Content-Type',
-      'application/x-www-form-urlencoded'
-    );
-    return this.http
-      .post(BACKEND_API_URL, this.buildParams(command, params), { headers })
-      .catch(error => this.handleError(error));
+    const headers = new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded'
+    );return this.http.post(BACKEND_API_URL, this.buildParams(command, params), { headers })
+     .catch(error => this.handleError(error));
   }
 
   protected sendCommand(
@@ -141,7 +139,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
   ): Observable<any> {
     return this.getRequest(command, params, entity)
       .map(res => this.getResponse(res))
-      .catch(error => this.handleCommandError(error));
+      .catch(e => this.handleCommandError(e.error));
   }
 
   protected handleCommandError(error): Observable<any> {
@@ -207,9 +205,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return apiCommand;
   }
 
-  private handleError(response): Observable<any> {
-    const error = response.json();
-    this.error.next(response);
+  private handleError(error: any): Observable<any> {
+    this.error.next(error);
     return Observable.throw(error);
   }
 

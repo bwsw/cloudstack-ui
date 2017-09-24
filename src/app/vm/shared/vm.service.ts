@@ -8,14 +8,10 @@ import { AsyncJob, OsType, ServiceOffering, Volume } from '../../shared/models';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { VolumeType } from '../../shared/models/volume.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
-import {
-  ApiFormat,
-  BaseBackendService
-} from '../../shared/services/base-backend.service';
-import { CacheService } from '../../shared/services/cache.service';
+import {  BaseBackendService } from '../../shared/services/base-backend.service';import { CacheService } from '../../shared/services/cache.service';
 import { ErrorService } from '../../shared/services/error.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
-import { SecurityGroupService } from '../../shared/services/security-group.service';
+import { SecurityGroupService } from '../../security-group/services/security-group.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VolumeService } from '../../shared/services/volume.service';
@@ -23,6 +19,7 @@ import { Iso } from '../../template/shared';
 import { VmActions } from '../vm-actions/vm-action';
 import { IVirtualMachineCommand } from '../vm-actions/vm-command';
 import { VirtualMachine, VmState } from './vm.model';
+import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 
 
 export const VirtualMachineEntityName = 'VirtualMachine';
@@ -56,10 +53,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
           return Observable.of(+numberOfVms);
         }
 
-        return this.getListWithDetails({}, null, true)
-          .switchMap(vmList => {
-            return this.userTagService.setLastVmId(vmList.length);
-          });
+        return this.getListWithDetails({}, true)
+          .switchMap(vmList => this.userTagService.setLastVmId(vmList.length));
       });
   }
 
@@ -78,7 +73,10 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     );
   }
 
-  public getListWithDetails(params?: {}, customApiFormat?: ApiFormat, lite = false): Observable<Array<VirtualMachine>> {
+  public getListWithDetails(
+    params?: {},
+    lite = false
+  ): Observable<Array<VirtualMachine>> {
     if (lite) {
       return this.getList(params);
     }
@@ -103,16 +101,15 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public getInstanceGroupList(): Observable<Array<InstanceGroup>> {
-    return this.getListWithDetails()
-      .map(vmList => vmList.reduce((groups, vm) => {
-        const group = vm.tags.find(tag => tag.key === 'csui.vm.group');
+    return this.getListWithDetails({}, true)
+      .map(vmList => Object.values(vmList.reduce((groupsMap, vm) => {
+        const group = vm.tags.find(tag => tag.key === VirtualMachineTagKeys.group);
 
-        if (!group || !group.value || groups.find(g => g.name === group.value)) {
-          return groups;
-        } else {
-          return groups.concat(new InstanceGroup(group.value));
+        if (group && group.value && !groupsMap[group.value]) {
+          groupsMap[group.value] = new InstanceGroup(group.value);
         }
-      }, []));
+        return groupsMap;
+      }, {})));
   }
 
   public deploy(params: {}): Observable<any> {
@@ -121,12 +118,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public resubscribe(): Observable<Array<Observable<AsyncJob<VirtualMachine>>>> {
     return this.asyncJobService.getList().map(jobs => {
-      const filteredJobs = jobs.filter(job => !job.status && job.cmd);
-      const observables = [];
-      filteredJobs.forEach(job => {
-        observables.push(this.registerVmJob(job));
-      });
-      return observables;
+      return jobs.filter(job => !job.status && job.cmd)
+        .map(job => this.registerVmJob(job));
     });
   }
 
@@ -146,21 +139,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
   }
 
-  public commandSync(
-    vm: VirtualMachine,
-    command: IVirtualMachineCommand,
-    params?: {}
-  ): Observable<any> {
-    const initialState = vm.state;
-
-    return this.commandInternal(vm, command, params)
-      .do(() => this.vmUpdateObservable.next())
-      .catch(error => {
-        this.setStateForVm(vm, initialState);
-        return Observable.throw(error);
-      });
-  }
-
   public registerVmJob(job: any): Observable<any> {
     return this.asyncJobService.queryJob(job, this.entity, this.entityModel);
   }
@@ -170,8 +148,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       .map(vmList => vmList.filter(vm => vm.isoId === iso.id));
   }
 
-  public addIpToNic(nicId: string, ipAddress?: string): Observable<any> {
-    return this.sendCommand('addIpTo', { nicId, ipAddress }, 'Nic')
+  public addIpToNic(nicId: string): Observable<any> {
+    return this.sendCommand('addIpTo', { nicId }, 'Nic')
       .switchMap(job => this.asyncJobService.queryJob(job.jobid));
   }
 
@@ -190,11 +168,13 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     params['serviceOfferingId'] = serviceOffering.id;
 
     if (serviceOffering.isCustomized) {
-      params['details'] = [{
-        cpuNumber: serviceOffering.cpuNumber,
-        cpuSpeed: serviceOffering.cpuSpeed,
-        memory: serviceOffering.memory
-      }];
+      params['details'] = [
+        {
+          cpuNumber: serviceOffering.cpuNumber,
+          cpuSpeed: serviceOffering.cpuSpeed,
+          memory: serviceOffering.memory
+        }
+      ];
     }
 
     return this.sendCommand('changeServiceFor', params)
@@ -268,14 +248,20 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return vm;
   }
 
-  private addServiceOffering(vm: VirtualMachine, offerings: Array<ServiceOffering>): VirtualMachine {
+  private addServiceOffering(
+    vm: VirtualMachine,
+    offerings: Array<ServiceOffering>
+  ): VirtualMachine {
     vm.serviceOffering = offerings.find((serviceOffering: ServiceOffering) => {
       return serviceOffering.id === vm.serviceOfferingId;
     });
     return vm;
   }
 
-  private addSecurityGroups(vm: VirtualMachine, groups: Array<SecurityGroup>): VirtualMachine {
+  private addSecurityGroups(
+    vm: VirtualMachine,
+    groups: Array<SecurityGroup>
+  ): VirtualMachine {
     vm.securityGroup.forEach((group, index) => {
       vm.securityGroup[index] = groups.find(sg => sg.id === group.id);
     });

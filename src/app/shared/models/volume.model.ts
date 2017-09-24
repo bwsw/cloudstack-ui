@@ -14,6 +14,16 @@ export enum VolumeType {
   DATADISK = 'DATADISK'
 }
 
+export enum VolumeState {
+  Allocated = 'Allocated',
+  Ready = 'Ready'
+}
+
+export const volumeTypeNames = {
+  [VolumeType.ROOT]: 'VOLUME_TYPE.ROOT',
+  [VolumeType.DATADISK]: 'VOLUME_TYPE.DATADISK'
+};
+
 @ZoneName()
 @FieldMapper({
   diskofferingid: 'diskOfferingId',
@@ -35,7 +45,7 @@ export class Volume extends BaseModel {
   public diskOfferingId: string;
   public loading: boolean;
   public name: string;
-  public state: string;
+  public state: VolumeState;
   public size: number;
   public virtualMachineId: string;
   public provisioningType: string;

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { BaseModel } from '../../models/base.model';
 import { BaseBackendService } from '../../services/base-backend.service';
 import { NotificationService } from '../../services/notification.service';
+import { EntityDoesNotExistError } from './entity-does-not-exist-error';
 
 
 export abstract class SidebarComponent<M extends BaseModel> implements OnInit {
@@ -23,7 +24,7 @@ export abstract class SidebarComponent<M extends BaseModel> implements OnInit {
       .subscribe(
         entity => this.entity = entity,
         error => {
-          if (error === 'ENTITY_DOES_NOT_EXIST') {
+          if (error instanceof EntityDoesNotExistError) {
             this.onEntityDoesNotExist();
           } else {
             this.onError(error);

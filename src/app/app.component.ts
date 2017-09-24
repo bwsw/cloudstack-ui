@@ -1,4 +1,4 @@
-import { HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import '../style/app.scss';
@@ -23,7 +23,6 @@ export class AppComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private router: Router,
-    private error: ErrorService,
     private languageService: LanguageService,
     private asyncJobService: AsyncJobService,
     private cacheService: CacheService,
@@ -39,7 +38,6 @@ export class AppComponent implements OnInit {
   public ngOnInit(): void {
     this.languageService.applyLanguage();
 
-    this.error.subscribe(e => this.handleError(e));
     this.auth.loggedIn.subscribe(isLoggedIn => {
       if (isLoggedIn) {
         this.userService.startIdleMonitor();
@@ -51,23 +49,6 @@ export class AppComponent implements OnInit {
       this.cacheService.invalidateAll();
       this.storageReset();
     });
-  }
-
-  private handleError(e: any): void {
-    if (e instanceof HttpResponse) {
-      switch (e.status) {
-        case 401:
-          this.notification.message('AUTH.NOT_LOGGED_IN');
-          const route = this.routerUtilsService.getRouteWithoutQueryParams();
-          if (route !== '/login' && route !== '/logout') {
-            this.router.navigate(
-              ['/logout'],
-              this.routerUtilsService.getRedirectionQueryParams()
-            );
-          }
-          break;
-      }
-    }
   }
 
   private loadSettings(): void {

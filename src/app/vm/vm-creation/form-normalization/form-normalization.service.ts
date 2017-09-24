@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CustomServiceOfferingService } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
-import { Utils } from '../../../shared/services/utils.service';
+import { Utils } from '../../../shared/services/utils/utils.service';
 import { VmCreationData } from '../data/vm-creation-data';
 import { VmCreationState } from '../data/vm-creation-state';
 import { VmCreationFormState } from '../vm-creation.component';
@@ -156,7 +156,7 @@ export class VmCreationFormNormalizationService {
     }
 
     const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
-    const minSize = Math.ceil(Utils.convertToGB(state.template.size)) || defaultDiskSize;
+    const minSize = Math.ceil(Utils.convertToGb(state.template.size)) || defaultDiskSize;
     // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
     formState.state.rootDiskSizeMin = minSize;
     if (

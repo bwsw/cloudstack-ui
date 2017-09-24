@@ -1,13 +1,8 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  Input,
-  EventEmitter,
-  Output
-} from '@angular/core';
-import { NetworkRule, NetworkRuleType, NetworkProtocol } from '../sg.model';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { NetworkProtocol, NetworkRule } from '../network-rule.model';
+import { NetworkRuleType } from '../sg.model';
 import { TranslateService } from '@ngx-translate/core';
-import { GetICMPCodeTranslationToken, GetICMPTypeTranslationToken } from '../icmp-types';
+import { GetICMPCodeTranslationToken, GetICMPTypeTranslationToken } from '../../shared/icmp/icmp-types';
 
 @Component({
   selector: 'cs-security-group-rule',

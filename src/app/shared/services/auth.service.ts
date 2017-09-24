@@ -10,9 +10,8 @@ import { User } from '../models/user.model';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
 import { CacheService } from './cache.service';
-import { ErrorService } from './error.service';
 import { LocalStorageService } from './local-storage.service';
-import { Utils } from './utils.service';
+import { Utils } from './utils/utils.service';
 
 export interface Capabilities {
   securitygroupsenabled: boolean;
@@ -44,7 +43,6 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     protected asyncJobService: AsyncJobService,
     protected storage: LocalStorageService,
     http: HttpClient,
-    error: ErrorService,
     cacheService: CacheService
   ) {
     super(http, error, cacheService);
@@ -85,7 +83,6 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     return this.postRequest('logout')
       .do(() => this.setLoggedOut())
       .catch(error => {
-        this.error.send(error);
         return Observable.throw('Unable to log out.');
       });
   }

@@ -5,6 +5,7 @@ import { SidebarComponent } from '../../shared/components/sidebar/sidebar.compon
 import { NotificationService } from '../../shared/services/notification.service';
 import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
+import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-does-not-exist-error';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class VmSidebarComponent extends SidebarComponent<VirtualMachine> {
         if (vm) {
           return Observable.of(vm);
         } else {
-          return Observable.throw('ENTITY_DOES_NOT_EXIST');
+          return Observable.throw(new EntityDoesNotExistError());
         }
       });
   }

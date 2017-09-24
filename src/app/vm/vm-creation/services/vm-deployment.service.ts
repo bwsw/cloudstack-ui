@@ -5,12 +5,13 @@ import { SecurityGroup } from '../../../security-group/sg.model';
 import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { InstanceGroupService } from '../../../shared/services/instance-group.service';
-import { GROUP_POSTFIX, SecurityGroupService } from '../../../shared/services/security-group.service';
+import { GROUP_POSTFIX, SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { TagService } from '../../../shared/services/tags/tag.service';
-import { Utils } from '../../../shared/services/utils.service';
+import { Utils } from '../../../shared/services/utils/utils.service';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 import { VmCreationState } from '../data/vm-creation-state';
+import { VmCreationSecurityGroupService } from './vm-creation-security-group.service';
 
 
 export enum VmDeploymentStage {
@@ -41,8 +42,8 @@ export class VmDeploymentService {
   constructor(
     private affinityGroupService: AffinityGroupService,
     private instanceGroupService: InstanceGroupService,
-    private securityGroupObservable: SecurityGroupService,
     private tagService: TagService,
+    private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
     private vmService: VmService
   ) {}
 
@@ -65,7 +66,7 @@ export class VmDeploymentService {
         });
       })
       .switchMap(() => this.getPreDeployActions(deployObservable, state))
-      .switchMap(() => this.sendDeployRequest(deployObservable, state))
+      .switchMap(modifiedState => this.sendDeployRequest(deployObservable, modifiedState))
       .switchMap(({ deployResponse, temporaryVm }) => {
         tempVm = temporaryVm;
         return this.vmService.registerVmJob(deployResponse);
@@ -87,7 +88,7 @@ export class VmDeploymentService {
   private getPreDeployActions(
     deployObservable: Subject<VmDeploymentMessage>,
     state: VmCreationState
-  ): Observable<any> {
+  ): Observable<VmCreationState> {
     return Observable.of(null)
       .switchMap(() => {
         return this.getAffinityGroupCreationObservable(deployObservable, state)
@@ -95,6 +96,10 @@ export class VmDeploymentService {
       .switchMap(() => {
         if (state.zone.networkTypeIsBasic) { return Observable.of(null); }
         return this.getSecurityGroupCreationObservable(deployObservable, state)
+      })
+      .map(securityGroup => {
+        state.securityGroupData.securityGroup = securityGroup;
+        return state;
       });
   }
 
@@ -136,7 +141,6 @@ export class VmDeploymentService {
     deployObservable: Subject<VmDeploymentMessage>,
     state: VmCreationState
   ): Observable<SecurityGroup> {
-    const name = Utils.getUniqueId() + GROUP_POSTFIX;
     return Observable.of(null)
       .do(() => {
         deployObservable.next({
@@ -144,11 +148,9 @@ export class VmDeploymentService {
         });
       })
       .switchMap(() => {
-        return this.securityGroupObservable.createWithRules(
-          { name },
-          state.securityRules.ingress,
-          state.securityRules.egress
-        );
+        return this
+          .vmCreationSecurityGroupService
+          .getSecurityGroupCreationRequest(state.securityGroupData);
       })
       .do(() => {
         deployObservable.next({

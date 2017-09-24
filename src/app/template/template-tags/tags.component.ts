@@ -7,6 +7,8 @@ import { BaseTemplateService } from '../shared/base-template.service';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { OnInit } from '@angular/core';
+import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-does-not-exist-error';
+
 
 export abstract class BaseTemplateTagsComponent extends TagsComponent<BaseTemplateModel> implements OnInit {
   public entity: BaseTemplateModel;
@@ -32,7 +34,7 @@ export abstract class BaseTemplateTagsComponent extends TagsComponent<BaseTempla
         if (template) {
           return Observable.of(template);
         } else {
-          return Observable.throw('ENTITY_DOES_NOT_EXIST');
+          return Observable.throw(new EntityDoesNotExistError());
         }
       })
       .do(template => {

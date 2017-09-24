@@ -4,10 +4,11 @@ import { ResourceTypes } from '../../models/tag.model';
 import { DayOfWeek } from '../../types/day-of-week';
 import { AuthService } from '../auth.service';
 import { Language, TimeFormat } from '../language.service';
-import { Utils } from '../utils.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { TagService } from './tag.service';
 import { UserTagKeys } from './user-tag-keys';
+import { SSHKeyPair } from '../../models/ssh-keypair.model';
+import { Utils } from '../utils/utils.service';
 
 
 interface UserIdObject {
@@ -100,6 +101,28 @@ export class UserTagService implements EntityTagService {
       .map(() => +timeout);
   }
 
+  public getSshKeyDescription(sshKey: SSHKeyPair): Observable<string> {
+    return this.readTag(this.getSshKeyDescriptionKey(sshKey));
+  }
+
+  public setSshKeyDescription(sshKey: SSHKeyPair, description: string): Observable<string> {
+    return this.writeTag(this.getSshKeyDescriptionKey(sshKey), description)
+      .map(() => description);
+  }
+
+  public getShowSystemTags(): Observable<boolean> {
+    return this.readTag(this.keys.showSystemTags)
+      .map(value => Utils.convertBooleanStringToBoolean(value));
+  }
+
+  public setShowSystemTags(show: boolean): Observable<boolean> {
+    return this.writeTag(
+      this.keys.showSystemTags,
+      Utils.convertBooleanToBooleanString(show)
+    )
+      .map(() => show);
+  }
+
   public getTimeFormat(): Observable<TimeFormat> {
     return this.readTag(this.keys.timeFormat) as Observable<TimeFormat>;
   }
@@ -154,5 +177,9 @@ export class UserTagService implements EntityTagService {
     }
 
     return Observable.of(null);
+  }
+
+  private getSshKeyDescriptionKey(sshKey: SSHKeyPair): string {
+    return `${this.keys.sshDescription}.${sshKey.fingerPrint}`;
   }
 }

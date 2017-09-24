@@ -34,7 +34,7 @@ import { AuthService } from './shared/services/auth.service';
 import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
 import { SharedModule } from './shared/shared.module';
 import { SnapshotModule } from './snapshot/snapshot.module';
-import { SpareDriveModule } from './spare-drive';
+import { VolumeModule } from './volume';
 import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
@@ -71,7 +71,7 @@ export function initUserFactory(auth: AuthService) {
     SettingsModule,
     SharedModule,
     SnapshotModule,
-    SpareDriveModule,
+    VolumeModule,
     SshKeysModule,
     TemplateModule,
     VmModule,
@@ -88,9 +88,9 @@ export function initUserFactory(auth: AuthService) {
     AppComponent,
     AppSidebarComponent,
     LoginComponent,
-    LogoutComponent
-  ,
-    HomeComponent],
+    LogoutComponent,
+    HomeComponent
+  ],
   providers: [
     {
       provide: APP_INITIALIZER,

@@ -1,0 +1,19 @@
+<div class="row">
+  <div>{{ 'VM_PAGE.NETWORK_DETAILS.ipAddress' | translate }}</div>
+  <div>{{ ipWithSuffix | translate }}</div>
+</div>
+
+<div class="row">
+  <div>{{ 'VM_PAGE.NETWORK_DETAILS.macAddress' | translate }}</div>
+  <div>{{ nic?.macAddress }}</div>
+</div>
+
+<div class="row">
+  <div>{{ 'VM_PAGE.NETWORK_DETAILS.gateway' | translate }}</div>
+  <div>{{ nic?.gateway }}</div>
+</div>
+
+<div class="row">
+  <div>{{ 'VM_PAGE.NETWORK_DETAILS.type' | translate }}</div>
+  <div>{{ nic?.type }}</div>
+</div>

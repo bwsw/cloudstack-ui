@@ -173,8 +173,10 @@
   },
   "NOTIFICATIONS": {
     "TEMPLATE": {
-      "CREATED": "Шаблон {{ name }} успешно создан",
-      "DELETED": "Шаблон {{ name }} успешно удален"
+      "CUSTOM_TEMPLATE_CREATED": "Шаблон {{ name }} успешно создан",
+      "CUSTOM_TEMPLATE_DELETED": "Шаблон {{ name }} успешно удален",
+      "SHARED_GROUP_CREATED": "Разделяемая группа {{ name }} успешно создана",
+      "SHARED_GROUP_DELETED": "Разделяемая группа {{ name }} успешно удалена"
     }
   },
   "AUTH": {
@@ -191,9 +193,9 @@
   "NAVIGATION_SIDEBAR": {
     "WELCOME": "Здравствуйте, {{ name }}",
     "VMS": "Виртуальные<br>машины",
-    "SPARE_DRIVES": "Хранилище",
+    "STORAGE": "Хранилище",
     "IMAGES": "Образы",
-    "FIREWALL_TEMPLATES": "Шаблоны<br>брандмауэра",
+    "FIREWALL_TEMPLATES": "Брандмауэр",
     "ACTIVITY_LOG": "Журнал событий",
     "SSH_KEYS": "SSH ключи",
     "SETTINGS": "Настройки",
@@ -402,17 +404,17 @@
       }
     },
     "NETWORK_DETAILS": {
-      "NETWORK_CONFIGURATION": "Конфигурация сети",
-      "NIC": "NIC",
-      "IP": "IP",
+      "NIC_NAME": "Конфигурация NIC#{{ value }}",
+      "IP": "IPv4",
+      "IP_NA": "IP недоступен",
       "ARE_YOU_SURE_ADD_SECONDARY_IP": "Вы уверены, что хотите добавить дополнительный IP?",
       "ARE_YOU_SURE_REMOVE_SECONDARY_IP": "Вы уверены, что хотите удалить дополнительный IP?",
       "broadcastUri": "Broadcast URI",
-      "gateway": "Шлюз",
+      "gateway": "Шлюз v4",
       "ip6Address": "IPv6 адрес",
       "ip6Cidr": "IPv6 CIDR",
       "ip6Gateway": "IPv6 шлюз",
-      "ipAddress": "IP",
+      "ipAddress": "IPv4",
       "isDefault": "По умолчанию",
       "isolationUri": "Isolation URI",
       "macAddress": "MAC адрес",
@@ -462,12 +464,14 @@
       "NO_TEMPLATES": "Нет доступных шаблонов"
     }
   },
-  "SPARE_DRIVE_PAGE": {
+  "VOLUME_PAGE": {
     "FILTERS": {
       "SPARE_DRIVES_ONLY": "Только свободные диски",
       "SELECT_ZONES": "Выберите зоны",
+      "SELECT_TYPES": "Выберите типы",
       "GROUP_BY": "Группировать по",
-      "GROUP_BY_ZONES": "Зонам"
+      "GROUP_BY_ZONES": "Зонам",
+      "GROUP_BY_TYPES": "Типам"
     },
     "CARD": {
       "DESCRIPTION": "Описание",
@@ -481,7 +485,7 @@
       "DISK_OFFERING": "Дисковое предложение",
       "SIZE": "Размер"
     },
-"SIDEBAR": {
+    "SIDEBAR": {
       "VOLUME": "Диск",
       "SNAPSHOTS": "Снимки"
     },
@@ -499,6 +503,11 @@
       "WRITE_RATE_MB": "Скорость записи",
       "READ_RATE_IOPS": "Скорость чтения (IO/сек)",
       "WRITE_RATE_IOPS": "Скорость записи (IO/сек)"
+    },
+    "SNAPSHOTS": {
+      "DESCRIPTION": "Описание",
+      "DATE": "Дата",
+      "VOLUME_NOT_READY": "Невозможно сделать снимок. Диск не готов"
     },
     "ATTACHMENT": {
       "CHOOSE_VIRTUAL_MACHINE": "Выберите машину",
@@ -568,16 +577,21 @@
     }
   },
   "SECURITY_GROUP_PAGE": {
+    "FILTERS": {
+      "TEMPLATES": "Шаблоны",
+      "SHARED": "Разделяемые группы"
+    },
+
     "LIST": {
       "SYSTEM_SECURITY_GROUPS": "Системные",
-      "CUSTOM_SECURITY_GROUPS": "Пользовательские"
+      "CUSTOM_SECURITY_GROUPS": "Пользовательские",
+      "SHARED_SECURITY_GROUPS": "Разделяемые"
     },
     "CARD": {
       "DESCRIPTION": "Описание"
     },
     "RULES": {
-      "FIREWALL_RULES_FOR_VM": "Правила брандмауэра для ВМ",
-      "TEMPLATE_RULES": "Правила шаблона",
+      "TITLE": "Редактирование правил группы {{ value }}",
       "TYPE": "Тип",
       "PROTOCOL": "Протокол",
       "CIDR": "CIDR",
@@ -609,21 +623,6 @@
       "DEFAULT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }},  ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCodeText }} [{{ icmpCode }}]",
       "NO_TEXT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }},  ICMP тип: {{ icmpType }}, ICMP код: {{ icmpCode }}",
       "NO_CODE_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }},  ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCode }}"
-    },
-    "RULES_MANAGER": {
-      "BASED_ON": "основан на"
-    },
-    "TEMPLATE_CREATION": {
-      "CREATE_NEW_TEMPLATE": "Создать новый шаблон",
-      "NAME": "Название",
-      "DESCRIPTION": "Описание",
-      "BASIC_RULES": "Базовые правила"
-    },
-    "BUILDER": {
-      "SECURITY_GROUP_TEMPLATES": "Шаблоны групп безопасности",
-      "ALL_GROUPS": "Все шаблоны",
-      "SELECTED_GROUPS": "Выбранные шаблоны",
-      "NETWORK_RULES": "Сетевые правила"
     },
     "ICMP_TYPES": {
       "-1": {
@@ -832,6 +831,13 @@
           "5": "Требуется авторизация"
         }
       }
+    },
+    "TEMPLATE_CREATION": {
+      "CREATE_NEW_TEMPLATE": "Создать новый шаблон",
+      "CREATE_NEW_SHARED_GROUP": "Создать новую разделяемую группу",
+      "NAME": "Название",
+      "DESCRIPTION": "Описание",
+      "BASIC_RULES": "Базовые правила"
     }
   },
   "EVENT_PAGE": {
@@ -851,7 +857,9 @@
     "AUTO_GENERATED": "автогенерируемый",
     "SAVE_THIS_KEY": "Пожалуйста, скопируйте этот ключ, так как он не будет сохранен",
     "REMOVE_THIS_KEY": "Вы уверены, что хотите удалить этот ключ?",
-    "KEY_REMOVAL_FAILED": "Не удалось удалить ключ"
+    "KEY_REMOVAL_FAILED": "Не удалось удалить ключ",
+    "SSH_KEY_PAIR_NOT_FOUND": "SSH ключ не найден",
+    "FINGERPRINT": "Fingerprint"
   },
   "SETTINGS": {
     "SECURITY": {
@@ -894,7 +902,7 @@
     "ENTER_TEXT": "Введите текст",
     "SELECT_AN_OPTION": "Выберите опцию"
   },
-"VM_NOT_FOUND": "Виртуальная машина не найдена",
+  "VM_NOT_FOUND": "Виртуальная машина не найдена",
   "VOLUME_NOT_FOUND": "Диск не найден",
   "TEMPLATE_NOT_FOUND": "Шаблон не найден",
   "PULSE": {
@@ -925,6 +933,17 @@
       "DISK_WRITE_IOPS": "Запись на диск (IOPS)",
       "DISK_IO_ERRORS": "Ошибки IO"
     }
+  },
+  "SECURITY_GROUP_SELECTOR": {
+    "BASED_ON_VALUE": "Основан на {{value}}",
+    "BUILD_NEW_GROUP": "Создание новой группы",
+    "SELECT_EXISTING_GROUP": "Выбор сущуствующей группы",
+    "BUILD": "Создать",
+    "SELECT": "Выбрать",
+    "ALL_GROUPS": "Все",
+    "SELECTED_GROUPS": "Выбранные шаблоны",
+    "NETWORK_RULES": "Сетевые правила",
+    "SELECT_SECURITY_GROUP": "Выбор группы"
   },
   "SERVICE_OFFERING": {
     "CHANGE_SERVICE_OFFERING": "Изменить предложение",
@@ -967,6 +986,7 @@
   },
   "TAGS": {
     "CREATE_NEW_TAG": "Создать тег",
+    "SHOW_SYSTEM_TAGS": "Показывать системные теги",
     "TAG_KEY": "Ключ",
     "TAG_VALUE": "Значение",
     "TAG_ALREADY_EXISTS": "Тег уже существует",
@@ -976,7 +996,7 @@
     "SHARED": "Общее",
     "LOCAL": "Локальное"
   },
-  "SPARE_DRIVE_STATE": {
+  "VOLUME_STATE": {
     "ALLOCATED": "Аллоцирован",
     "READY": "Готов"
   },
@@ -1008,6 +1028,10 @@
     "RESET_PASSWORD_IN_PROGRESS": "Сброс пароля",
     "EXPUNGE_IN_PROGRESS": "Уничтожение",
     "RECOVER_IN_PROGRESS": "Идет восстановление"
+  },
+  "VOLUME_TYPE": {
+    "ROOT": "ROOT",
+    "DATADISK": "DATADISK"
   },
   "DATE_TIME": {
     "AM": "AM",
