@@ -14,7 +14,7 @@ import {
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DragulaModule } from 'ng2-dragula';
@@ -38,16 +38,20 @@ import { VolumeModule } from './volume';
 import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
-import { LocalStorageService } from './shared/services/local-storage.service';
-import { RouterUtilsService } from './shared/services/router-utils.service';
-import { NotificationService } from './shared/services/notification.service';
+import { ConfigService } from './shared/services/config.service';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './i18n/', '.json');
 }
 
-export function initUserFactory(auth: AuthService) {
-  return () => auth.initUser();
+export function InitAppFactory(
+  auth: AuthService,
+  http: HttpClient,
+  configService: ConfigService
+) {
+  return () => http.get('config/config.json').toPromise()
+    .then(data => configService.parse(data))
+    .then(() => auth.initUser());
 }
 
 @NgModule({
@@ -97,8 +101,8 @@ export function initUserFactory(auth: AuthService) {
   providers: [
     {
       provide: APP_INITIALIZER,
-      useFactory: initUserFactory,
-      deps: [AuthService],
+      useFactory: InitAppFactory,
+      deps: [AuthService, HttpClient, ConfigService],
       multi: true
     },
     MdDialog,
