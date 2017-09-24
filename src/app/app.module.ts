@@ -109,7 +109,6 @@ export function InitAppFactory(
     {
       provide: HTTP_INTERCEPTORS,
       useClass: BaseHttpInterceptor,
-      // deps: [LocalStorageService, NotificationService, RouterUtilsService, Router],
       multi: true
     }
   ],
