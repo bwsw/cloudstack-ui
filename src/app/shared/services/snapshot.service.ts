@@ -6,8 +6,6 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
 import { Snapshot } from '../models/snapshot.model';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
-import { CacheService } from './cache.service';
-import { ErrorService } from './error.service';
 import { SnapshotTagService } from './tags/snapshot-tag.service';
 
 
@@ -22,11 +20,9 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
   constructor(
     private asyncJobService: AsyncJobService,
     private snapshotTagService: SnapshotTagService,
-    http: HttpClient,
-    error: ErrorService,
-    cacheService: CacheService
+    protected http: HttpClient
   ) {
-    super(http, error, cacheService);
+    super(http);
   }
 
   public create(volumeId: string, name?: string, description?: string): Observable<Snapshot> {

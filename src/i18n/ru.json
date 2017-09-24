@@ -243,6 +243,7 @@
       "NO_GROUP": "Без группы",
       "STATE_RUNNING": "Запущенные",
       "STATE_STOPPED": "Остановленные",
+      "STATE_DESTROYED": "Удаленные",
       "STATE_ERROR": "Ошибка",
       "GROUP_BY": "Группировать по",
       "GROUP_BY_ZONES": "Зонам",

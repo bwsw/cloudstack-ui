@@ -8,8 +8,7 @@ import { AsyncJob, OsType, ServiceOffering, Volume } from '../../shared/models';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { VolumeType } from '../../shared/models/volume.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
-import {  BaseBackendService } from '../../shared/services/base-backend.service';import { CacheService } from '../../shared/services/cache.service';
-import { ErrorService } from '../../shared/services/error.service';
+import { BaseBackendService } from '../../shared/services/base-backend.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { SecurityGroupService } from '../../security-group/services/security-group.service';
 import { ServiceOfferingService } from '../../shared/services/service-offering.service';
@@ -39,11 +38,9 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     private securityGroupService: SecurityGroupService,
     private userTagService: UserTagService,
     private volumeService: VolumeService,
-    http: HttpClient,
-    error: ErrorService,
-    cacheService: CacheService
+    http: HttpClient
   ) {
-    super(http, error, cacheService);
+    super(http);
   }
 
   public getNumberOfVms(): Observable<number> {
@@ -132,6 +129,21 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
     return this.commandInternal(vm, command, params)
       .switchMap(job => this.registerVmJob(job))
+      .do(() => this.vmUpdateObservable.next())
+      .catch(error => {
+        this.setStateForVm(vm, initialState);
+        return Observable.throw(error);
+      });
+  }
+
+  public commandSync(
+    vm: VirtualMachine,
+    command: IVirtualMachineCommand,
+    params?: {}
+  ): Observable<any> {
+    const initialState = vm.state;
+
+    return this.commandInternal(vm, command, params)
       .do(() => this.vmUpdateObservable.next())
       .catch(error => {
         this.setStateForVm(vm, initialState);

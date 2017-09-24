@@ -6,8 +6,6 @@ import { Taggable } from '../../interfaces/taggable.interface';
 import { Tag } from '../../models/tag.model';
 import { AsyncJobService } from '../async-job.service';
 import { BaseBackendCachedService } from '../base-backend-cached.service';
-import { CacheService } from '../cache.service';
-import { ErrorService } from '../error.service';
 
 
 @Injectable()
@@ -18,11 +16,9 @@ import { ErrorService } from '../error.service';
 export class TagService extends BaseBackendCachedService<Tag> {
   constructor(
     private asyncJob: AsyncJobService,
-    http: HttpClient,
-    error: ErrorService,
-    cacheService: CacheService
+    protected http: HttpClient
   ) {
-    super(http, error, cacheService);
+    super(http);
   }
 
   public create(params?: {}): Observable<any> {

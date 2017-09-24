@@ -13,6 +13,7 @@ import { RouterUtilsService } from './shared/services/router-utils.service';
 import { SessionStorageService } from './shared/services/session-storage.service';
 import { StyleService } from './shared/services/style.service';
 import { UserService } from './shared/services/user.service';
+import { lang } from 'moment';
 
 @Component({
   selector: 'cs-app',
@@ -25,7 +26,6 @@ export class AppComponent implements OnInit {
     private router: Router,
     private languageService: LanguageService,
     private asyncJobService: AsyncJobService,
-    private cacheService: CacheService,
     private sessionStorage: SessionStorageService,
     private memoryStorage: MemoryStorageService,
     private notification: NotificationService,
@@ -36,7 +36,9 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.languageService.applyLanguage();
+    this.languageService
+      .applyLanguage(this.languageService.defaultLanguage)
+      .subscribe();
 
     this.auth.loggedIn.subscribe(isLoggedIn => {
       if (isLoggedIn) {
@@ -46,14 +48,18 @@ export class AppComponent implements OnInit {
         this.userService.stopIdleMonitor();
       }
       this.asyncJobService.completeAllJobs();
-      this.cacheService.invalidateAll();
+      CacheService.invalidateAll();
       this.storageReset();
     });
   }
 
   private loadSettings(): void {
-    this.languageService.applyLanguage();
-    this.styleService.loadPalette();
+    this.languageService.getLanguage()
+      .switchMap(language => this.languageService.setLanguage(language))
+      .subscribe();
+    this.styleService.getTheme()
+      .switchMap(theme => this.styleService.setTheme(theme))
+      .subscribe();
   }
 
   private storageReset() {

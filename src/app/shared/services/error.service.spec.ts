@@ -11,7 +11,7 @@ describe('Error service', () => {
     });
   }));
 
-  it('should get error translation', () => {
+  it('should create error translation', () => {
     const error = {
       errorcode: 430,
       errortext: 'Going from existing size of 434 to size of 23 would shrink the volume.'
@@ -22,7 +22,7 @@ describe('Error service', () => {
     expect(parsedError.message).toBe('ERRORS.VOLUME.NEW_SIZE_IS_LOWER');
   });
 
-  it('should get error params', () => {
+  it('should create error params', () => {
     const error = {
       errorcode: 430,
       errortext: 'The vm with hostName test already exists in the network domain'

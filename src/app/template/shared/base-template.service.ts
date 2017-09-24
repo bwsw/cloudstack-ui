@@ -5,11 +5,9 @@ import { Subject } from 'rxjs/Subject';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
 import { CacheService } from '../../shared/services/cache.service';
-import { ErrorService } from '../../shared/services/error.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
 import { BaseTemplateModel } from './base-template.model';
-import { Subject } from 'rxjs/Subject';
 import { Utils } from '../../shared/services/utils/utils.service';
 
 
@@ -74,11 +72,9 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     protected asyncJobService: AsyncJobService,
     protected osTypeService: OsTypeService,
     protected templateTagService: TemplateTagService,
-    http: HttpClient,
-    error: ErrorService,
-    cacheService: CacheService
+    protected http: HttpClient
   ) {
-    super(http, error, cacheService);
+    super(http);
     this._templateFilters = [
       TemplateFilters.featured,
       TemplateFilters.selfExecutable,

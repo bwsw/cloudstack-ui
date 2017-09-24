@@ -7,7 +7,7 @@ import { BackendResource } from '../decorators';
 
 import { AsyncJob } from '../models';
 import { BaseBackendService } from './base-backend.service';
-import { CacheService } from './cache.service';
+import { ErrorService } from './error.service';
 
 
 const enum JobStatus {
@@ -28,17 +28,18 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
   private timerIds: Array<any> = [];
   private jobs: Array<Subject<AsyncJob<any>>> = [];
 
-  constructor(
-    http: HttpClient,
-    cacheService: CacheService
-  ) {
-    super(http, error, cacheService);
+  constructor(protected http: HttpClient) {
+    super(http);
     this.pollingInterval = 2000;
     this.immediatePollingInterval = 100;
     this.event = new Subject<AsyncJob<any>>();
   }
 
-  public queryJob(job: any, entity = '', entityModel: any = null): Observable<typeof entityModel> {
+  public queryJob(
+    job: any,
+    entity = '',
+    entityModel: any = null
+  ): Observable<typeof entityModel> {
     const jobId = this.getJobId(job);
     const jobObservable = Observable.create(observer => {
       let interval;

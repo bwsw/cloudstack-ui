@@ -8,8 +8,6 @@ import { AffinityGroup } from '../models';
 import { AffinityGroupType } from '../models/affinity-group.model';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
-import { CacheService } from './cache.service';
-import { ErrorService } from './error.service';
 
 
 export interface AffinityGroupCreationData {
@@ -26,10 +24,9 @@ export interface AffinityGroupCreationData {
 export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup> {
   constructor(
     private asyncJob: AsyncJobService,
-    http: HttpClient,
-    cacheService: CacheService
+    protected http: HttpClient
   ) {
-    super(http, cacheService);
+    super(http);
   }
 
   public getTypes(params?: {}): Observable<Array<AffinityGroupType>> {
@@ -42,12 +39,16 @@ export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup
       .switchMap(job => this.asyncJob.queryJob(job.jobid, this.entity, this.entityModel));
   }
 
-  public updateForVm(vm: VirtualMachine, affinityGroup?: AffinityGroup): Observable<VirtualMachine> {
+  public updateForVm(
+    vm: VirtualMachine,
+    affinityGroup?: AffinityGroup
+  ): Observable<VirtualMachine> {
     return this.sendCommand('updateVM', {
       id: vm.id,
       affinityGroupIds: affinityGroup && affinityGroup.id || ''
     })
-      .switchMap(job => this.asyncJob.queryJob(job.jobid, 'virtualmachine', VirtualMachine));
+      .switchMap(
+        job => this.asyncJob.queryJob(job.jobid, 'virtualmachine', VirtualMachine));
   }
 
   public removeForVm(vm: VirtualMachine): Observable<VirtualMachine> {

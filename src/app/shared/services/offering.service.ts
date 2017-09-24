@@ -4,9 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Offering } from '../models/offering.model';
 import { Zone } from '../models/zone.model';
 import { BaseBackendService } from './base-backend.service';
-import { CacheService } from './cache.service';
 import { ConfigService } from './config.service';
-import { ErrorService } from './error.service';
 
 
 export interface OfferingAvailability {
@@ -20,12 +18,10 @@ export interface OfferingAvailability {
 @Injectable()
 export abstract class OfferingService<T extends Offering> extends BaseBackendService<T> {
   constructor(
-    http: HttpClient,
-    error: ErrorService,
-    cacheService: CacheService,
+    protected http: HttpClient,
     private configService: ConfigService
   ) {
-    super(http, error, cacheService);
+    super(http);
   }
 
   public get(id: string): Observable<T> {
@@ -63,7 +59,11 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
 
     return offeringList
       .filter(offering => {
-        const offeringAvailableInZone = this.isOfferingAvailableInZone(offering, offeringAvailability, zone);
+        const offeringAvailableInZone = this.isOfferingAvailableInZone(
+          offering,
+          offeringAvailability,
+          zone
+        );
         const localStorageCompatibility = zone.localStorageEnabled || !offering.isLocal;
         return offeringAvailableInZone && localStorageCompatibility;
       });

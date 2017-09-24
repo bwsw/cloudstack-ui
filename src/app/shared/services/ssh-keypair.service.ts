@@ -7,8 +7,6 @@ import { BackendResource } from '../decorators';
 import { SSHKeyPair } from '../models';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
-import { CacheService } from './cache.service';
-import { ErrorService } from './error.service';
 
 
 export interface SshKeyCreationData {
@@ -24,11 +22,9 @@ export interface SshKeyCreationData {
 export class SSHKeyPairService extends BaseBackendCachedService<SSHKeyPair> {
   constructor(
     private asyncJobService: AsyncJobService,
-    http: HttpClient,
-    error: ErrorService,
-    cacheService: CacheService
+    protected http: HttpClient
   ) {
-    super(http, error, cacheService);
+    super(http);
   }
 
   public getByName(name: string): Observable<SSHKeyPair> {

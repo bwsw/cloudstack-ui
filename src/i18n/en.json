@@ -243,6 +243,7 @@
       "NO_GROUP": "No group",
       "STATE_RUNNING": "Running",
       "STATE_STOPPED": "Stopped",
+      "STATE_DESTROYED": "Destroyed",
       "STATE_ERROR": "Error",
       "GROUP_BY": "Group by",
       "GROUP_BY_ZONES": "Zones",

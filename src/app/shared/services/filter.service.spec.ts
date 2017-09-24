@@ -257,7 +257,7 @@ describe('Filter service', () => {
   );
 
   it(
-    'should get missing filters from localStorage',
+    'should create missing filters from localStorage',
     inject(
       [ActivatedRoute, Router, LocalStorageService],
       (activatedRoute, router, storage) => {

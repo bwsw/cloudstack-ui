@@ -6,9 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { BackendResource } from '../decorators';
 import { User } from '../models/user.model';
 import { BaseBackendService } from './base-backend.service';
-import { CacheService } from './cache.service';
 import { ConfigService } from './config.service';
-import { ErrorService } from './error.service';
 import { RouterUtilsService } from './router-utils.service';
 import { UserTagService } from './tags/user-tag.service';
 
@@ -32,11 +30,9 @@ export class UserService extends BaseBackendService<User> {
     protected router: Router,
     protected routerUtilsService: RouterUtilsService,
     protected zone: NgZone,
-    http: HttpClient,
-    error: ErrorService,
-    cacheService: CacheService
+    protected http: HttpClient
   ) {
-    super(http, error, cacheService);
+    super(http);
   }
 
   public updatePassword(id: string, password: string): Observable<any> {

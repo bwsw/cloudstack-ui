@@ -24,8 +24,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
   protected requestCache: Cache<Observable<Array<M>>>;
 
   constructor(
-    protected http: HttpClient,
-    protected cacheService: CacheService
+    protected http: HttpClient
   ) {
     this.initRequestCache();
   }
@@ -111,10 +110,10 @@ export abstract class BaseBackendService<M extends BaseModel> {
   ): Observable<any> {
     return this.http
       .get(
-      BACKEND_API_URL, {
-        params: this.buildParams(command, params, entity)
-      })
-      .catch(error => this.handleError(error));
+        BACKEND_API_URL, {
+          params: this.buildParams(command, params, entity)
+        })
+      .catch(error => Observable.throw(error));
   }
 
   protected getResponse(result: any): any {
@@ -127,9 +126,12 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   protected postRequest(command: string, params?: {}): Observable<any> {
-    const headers = new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded'
-    );return this.http.post(BACKEND_API_URL, this.buildParams(command, params), { headers })
-     .catch(error => this.handleError(error));
+    const headers = new HttpHeaders().set(
+      'Content-Type',
+      'application/x-www-form-urlencoded'
+    );
+    return this.http.post(BACKEND_API_URL, this.buildParams(command, params), { headers })
+      .catch(error => Observable.throw(error));
   }
 
   protected sendCommand(
@@ -205,13 +207,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return apiCommand;
   }
 
-  private handleError(error: any): Observable<any> {
-    this.error.next(error);
-    return Observable.throw(error);
-  }
-
   private initRequestCache(): void {
     const cacheTag = `${this.entity}RequestCache`;
-    this.requestCache = this.cacheService.get<Observable<Array<M>>>(cacheTag);
+    this.requestCache = CacheService.create<Observable<Array<M>>>(cacheTag);
   }
 }

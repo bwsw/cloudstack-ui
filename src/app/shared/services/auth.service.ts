@@ -9,7 +9,6 @@ import { AccountType } from '../models/account.model';
 import { User } from '../models/user.model';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
-import { CacheService } from './cache.service';
 import { LocalStorageService } from './local-storage.service';
 import { Utils } from './utils/utils.service';
 
@@ -42,10 +41,9 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   constructor(
     protected asyncJobService: AsyncJobService,
     protected storage: LocalStorageService,
-    http: HttpClient,
-    cacheService: CacheService
+    protected http: HttpClient
   ) {
-    super(http, error, cacheService);
+    super(http);
   }
 
   public initUser(): Promise<any> {
