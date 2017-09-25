@@ -1,4 +1,3 @@
-import { Injector } from '@angular/core';
 import { async, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FilterConfig, FilterService } from './filter.service';
@@ -45,8 +44,7 @@ describe('Filter service', () => {
           }
         },
         MemoryStorageService,
-        LocalStorageService,
-        Injector
+        LocalStorageService
       ],
     });
   }));
@@ -259,7 +257,7 @@ describe('Filter service', () => {
   );
 
   it(
-    'should get missing filters from localStorage',
+    'should create missing filters from localStorage',
     inject(
       [ActivatedRoute, Router, LocalStorageService],
       (activatedRoute, router, storage) => {

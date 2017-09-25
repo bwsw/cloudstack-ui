@@ -27,7 +27,10 @@ export class VmActionsService implements ActionsService<VirtualMachine, VirtualM
     this.vmRestoreAction,
     this.vmDestroyAction,
     this.vmResetPasswordAction,
-    this.vmConsoleAction,
+    this.vmConsoleAction
+  ];
+
+  public pluginActions = [
     this.vmPulseAction,
     this.vmWebShellAction
   ];

@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BackendResource } from '../../decorators/backend-resource.decorator';
@@ -13,8 +14,11 @@ import { BaseBackendCachedService } from '../base-backend-cached.service';
   entityModel: Tag
 })
 export class TagService extends BaseBackendCachedService<Tag> {
-  constructor(private asyncJob: AsyncJobService) {
-    super();
+  constructor(
+    private asyncJob: AsyncJobService,
+    protected http: HttpClient
+  ) {
+    super(http);
   }
 
   public create(params?: {}): Observable<any> {

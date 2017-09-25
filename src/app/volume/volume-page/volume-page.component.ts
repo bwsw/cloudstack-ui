@@ -1,7 +1,6 @@
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { DiskOffering, Volume, VolumeType, Zone } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
@@ -27,7 +26,7 @@ export interface VolumeCreationData {
   templateUrl: 'volume-page.component.html',
   providers: [ListService]
 })
-export class VolumePageComponent extends WithUnsubscribe() implements OnInit, OnDestroy {
+export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   public volumes: Array<Volume>;
   public zones: Array<Zone>;
   public visibleVolumes: Array<Volume>;
@@ -51,8 +50,6 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
 
   public filterData: any;
 
-  private onDestroy = new Subject();
-
   constructor(
     public listService: ListService,
     private router: Router,
@@ -68,16 +65,16 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
 
   public ngOnInit(): void {
     Observable.merge(
-      this.volumeService.onVolumeAttachment.takeUntil(this.onDestroy)
+      this.volumeService.onVolumeAttachment.takeUntil(this.unsubscribe$)
         .do(e => {
           if (this.listService.isSelected(e.volumeId)) {
             this.listService.deselectItem();
           }
         }),
-      this.volumeService.onVolumeCreated.takeUntil(this.onDestroy),
-      this.volumeService.onVolumeResized.takeUntil(this.onDestroy),
-      this.volumeService.onVolumeRemoved.takeUntil(this.onDestroy),
-      this.volumeService.onVolumeTagsChanged.takeUntil(this.onDestroy)
+      this.volumeService.onVolumeCreated.takeUntil(this.unsubscribe$),
+      this.volumeService.onVolumeResized.takeUntil(this.unsubscribe$),
+      this.volumeService.onVolumeRemoved.takeUntil(this.unsubscribe$),
+      this.volumeService.onVolumeTagsChanged.takeUntil(this.unsubscribe$)
     )
       .subscribe(() => this.onVolumeUpdated());
 
@@ -115,7 +112,8 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
         this.filterVolumesByTypes(selectedTypes),
         this.filterVolumesBySpare(spareOnly),
         this.filterVolumesBySearch()
-      ]);
+      ]
+    );
   }
 
   public updateGroupings(): void {

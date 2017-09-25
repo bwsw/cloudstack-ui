@@ -98,7 +98,7 @@ describe('Utils service', () => {
     });
   });
 
-  it('should get route without query params', () => {
+  it('should create route without query params', () => {
     expect(Utils.getRouteWithoutQueryParams(undefined)).toBe('/');
 
     getRouteWithoutQueryParamsFixture.forEach(example => {

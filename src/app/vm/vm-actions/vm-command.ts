@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { VirtualMachineAction } from './vm-action';
-import { VirtualMachine } from '../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
-
+import { VirtualMachine } from '../shared/vm.model';
+import { VirtualMachineAction } from './vm-action';
 
 export interface IVirtualMachineCommand {
   commandName: string;
@@ -10,7 +9,9 @@ export interface IVirtualMachineCommand {
 }
 
 @Injectable()
-export abstract class VirtualMachineCommand extends VirtualMachineAction implements IVirtualMachineCommand {
+export abstract class VirtualMachineCommand extends VirtualMachineAction
+  implements IVirtualMachineCommand {
+
   public abstract commandName: string;
   public abstract vmStateOnAction: string;
 
