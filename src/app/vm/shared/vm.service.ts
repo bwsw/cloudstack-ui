@@ -50,7 +50,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
           return Observable.of(+numberOfVms);
         }
 
-        return this.getListWithDetails({}, true)
+        return this.getListWithDetails(undefined, true)
           .switchMap(vmList => this.userTagService.setLastVmId(vmList.length));
       });
   }
@@ -98,7 +98,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public getInstanceGroupList(): Observable<Array<InstanceGroup>> {
-    return this.getListWithDetails({}, true)
+    return this.getListWithDetails(undefined, true)
       .map(vmList => Object.values(vmList.reduce((groupsMap, vm) => {
         const group = vm.tags.find(tag => tag.key === VirtualMachineTagKeys.group);
 
