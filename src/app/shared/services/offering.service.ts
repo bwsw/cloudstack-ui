@@ -1,10 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Offering } from '../models/offering.model';
 import { Zone } from '../models/zone.model';
 import { BaseBackendService } from './base-backend.service';
 import { ConfigService } from './config.service';
-import { ServiceLocator } from './service-locator';
-import { Offering } from '../models/offering.model';
 
 
 export interface OfferingAvailability {
@@ -17,11 +17,11 @@ export interface OfferingAvailability {
 
 @Injectable()
 export abstract class OfferingService<T extends Offering> extends BaseBackendService<T> {
-  protected configService: ConfigService;
-
-  constructor() {
-    super();
-    this.configService = ServiceLocator.injector.get(ConfigService);
+  constructor(
+    protected http: HttpClient,
+    private configService: ConfigService
+  ) {
+    super(http);
   }
 
   public get(id: string): Observable<T> {
@@ -59,7 +59,11 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
 
     return offeringList
       .filter(offering => {
-        const offeringAvailableInZone = this.isOfferingAvailableInZone(offering, offeringAvailability, zone);
+        const offeringAvailableInZone = this.isOfferingAvailableInZone(
+          offering,
+          offeringAvailability,
+          zone
+        );
         const localStorageCompatibility = zone.localStorageEnabled || !offering.isLocal;
         return offeringAvailableInZone && localStorageCompatibility;
       });

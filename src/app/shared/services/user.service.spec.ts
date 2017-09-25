@@ -1,29 +1,27 @@
-import { Component, Injectable, Injector } from '@angular/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Component, Injectable } from '@angular/core';
 import {
   async,
   discardPeriodicTasks,
   fakeAsync,
-  getTestBed,
   TestBed,
   tick
 } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { BaseRequestOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 import { NavigationExtras, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
 import { MockUserTagService } from '../../../testutils/mocks/tag-services/mock-user-tag.service';
 import { AsyncJobService } from './async-job.service';
+import { AuthService } from './auth.service';
 import { CacheService } from './cache.service';
 import { ConfigService } from './config.service';
 import { ErrorService } from './error.service';
 import { LocalStorageService } from './local-storage.service';
 import { RouterUtilsService } from './router-utils.service';
-import { ServiceLocator } from './service-locator';
 import { UserTagService } from './tags/user-tag.service';
 import { UserService } from './user.service';
-import { AuthService } from './auth.service';
-import { BaseRequestOptions } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 
 
 @Component({
@@ -115,9 +113,7 @@ const testBedConfig = {
     { provide: UserTagService, useClass: MockUserTagService },
     { provide: Router, useClass: MockRouter },
     { provide: RouterUtilsService, useClass: MockRouterUtilsService },
-    { provide: LocalStorageService, useClass: MockStorageService },
-
-    Injector
+    { provide: LocalStorageService, useClass: MockStorageService }
   ],
   imports: [
     HttpClientTestingModule
@@ -131,7 +127,6 @@ describe('User service session', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule(testBedConfig);
 
-    ServiceLocator.injector = getTestBed().get(Injector);
     userService = TestBed.get(UserService);
     configService = TestBed.get(ConfigService);
   }));
@@ -191,7 +186,6 @@ describe('User service session', () => {
     setRefreshInterval(refreshInterval);
     TestBed.configureTestingModule(testBedConfig);
 
-    ServiceLocator.injector = getTestBed().get(Injector);
     userService = TestBed.get(UserService);
     configService = TestBed.get(ConfigService);
     router = TestBed.get(Router);

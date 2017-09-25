@@ -25,6 +25,7 @@ import { VmCreationState } from '../data/vm-creation-state';
 import { VmCreationConfigurationData } from '../services/vm-creation.service';
 import { VmCreationFormState } from '../vm-creation.component';
 import { VmCreationFormNormalizationService } from './form-normalization.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 
 interface VmCreationFixture {
@@ -81,6 +82,14 @@ describe('Virtual machine creation form normalization service', () => {
   }): void {
     TestBed.configureTestingModule({
       providers: [
+        {
+          provide: AuthService,
+          useValue: {
+            getCustomDiskOfferingMinSize() {
+              return 1;
+            }
+          }
+        },
         {
           provide: ConfigService,
           useClass: MockConfigService

@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as sortBy from 'lodash/sortBy';
 import { InstanceGroup, Zone } from '../../shared/models';
@@ -8,6 +16,7 @@ import { LocalStorageService } from '../../shared/services/local-storage.service
 import { VmState } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { FilterComponent } from '../../shared/interfaces/filter-component';
+import { AuthService } from '../../shared/services/auth.service';
 
 
 export interface VmFilter {
@@ -38,10 +47,24 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit, OnC
   public selectedZones: Array<Zone> = [];
   public selectedGroupings: Array<any> = [];
   public states = [
-    { state: VmState.Running, name: 'VM_PAGE.FILTERS.STATE_RUNNING' },
-    { state: VmState.Stopped, name: 'VM_PAGE.FILTERS.STATE_STOPPED' },
-    { state: VmState.Error, name: 'VM_PAGE.FILTERS.STATE_ERROR' }
-  ];
+    {
+      state: VmState.Running,
+      name: 'VM_PAGE.FILTERS.STATE_RUNNING'
+    },
+    {
+      state: VmState.Stopped,
+      name: 'VM_PAGE.FILTERS.STATE_STOPPED'
+    },
+    {
+      state: VmState.Destroyed,
+      name: 'VM_PAGE.FILTERS.STATE_DESTROYED',
+      access: this.authService.allowedToViewDestroyedVms()
+    },
+    {
+      state: VmState.Error,
+      name: 'VM_PAGE.FILTERS.STATE_ERROR'
+    }
+  ].filter(state => !state.hasOwnProperty('access') || state['access']);
   public showNoGroupFilter = true;
 
   private filtersKey = 'vmListFilters';
@@ -57,18 +80,22 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit, OnC
     private activatedRoute: ActivatedRoute,
     private instanceGroupService: InstanceGroupService,
     private vmService: VmService,
+    private authService: AuthService,
     private storage: LocalStorageService
-  ) {}
+  ) {
+  }
 
   public ngOnInit(): void {
     this.instanceGroupService.groupsUpdates.subscribe(() => this.loadGroups());
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    const groups = changes['groups'];
-    const zones = changes['zones'];
-    if (groups.currentValue && zones.currentValue) {
-      this.initFilters();
+    const groupsChange = changes['groups'];
+    const zonesChange = changes['zones'];
+    if (groupsChange && zonesChange) {
+      if (groupsChange.currentValue && zonesChange.currentValue) {
+        this.initFilters();
+      }
     }
   }
 

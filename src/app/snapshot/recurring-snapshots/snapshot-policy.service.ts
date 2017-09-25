@@ -8,6 +8,7 @@ import { Policy, TimePolicy } from './policy-editor/policy-editor.component';
 import { PolicyType } from './recurring-snapshots.component';
 import { SnapshotPolicy } from './snapshot-policy.model';
 import { Time } from './time-picker/time-picker.component';
+import { HttpClient } from '@angular/common/http';
 
 
 export interface SnapshotPolicyCreationParams {
@@ -22,6 +23,9 @@ export interface SnapshotPolicyCreationParams {
   entityModel: SnapshotPolicy
 })
 export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
+  constructor(protected http: HttpClient) {
+    super(http);
+  }
   public getPolicyList(volumeId: string): Observable<Array<Policy<TimePolicy>>> {
     return super.getList(
       { volumeId },

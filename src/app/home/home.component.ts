@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { AuthService } from '../shared/services/auth.service';
 import { LayoutService } from '../shared/services/layout.service';
-import { ZoneService } from '../shared/services/zone.service';
 
 @Component({
   selector: 'cs-home',
@@ -13,19 +12,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   public disableSecurityGroups = false;
   private loginSubscription: Subscription;
 
-  constructor(
-    private auth: AuthService,
-    private layoutService: LayoutService,
-    private zoneService: ZoneService
-  ) {}
+  constructor(private auth: AuthService, private layoutService: LayoutService) {}
 
   public ngOnInit(): void {
     this.loginSubscription = this.auth.loggedIn
       .filter(isLoggedIn => !!isLoggedIn)
       .subscribe(() => {
-        this.zoneService
-          .areAllZonesBasic()
-          .subscribe(basic => (this.disableSecurityGroups = basic));
+        this.disableSecurityGroups = this.auth.isSecurityGroupEnabled();
       });
   }
 

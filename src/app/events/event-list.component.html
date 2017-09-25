@@ -4,7 +4,7 @@
       <cs-date-picker
         [okLabel]="'COMMON.OK' | translate"
         [locale]="locale"
-        [firstDayOfWeek]="languageService.firstDayOfWeek.getValue()"
+        [firstDayOfWeek]="firstDayOfWeek$ | async"
         [DateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
         [cancelLabel]="'COMMON.CANCEL' | translate"
         [(ngModel)]="date"

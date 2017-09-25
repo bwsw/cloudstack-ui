@@ -145,7 +145,10 @@ export class AppSidebarComponent extends WithUnsubscribe()
         if (validateNavigationOrder(order)) {
           const predicate = navigationPredicate(order);
           this.routes.sort(predicate);
-          this.routes.forEach((route, i) => route.enabled = order[i].enabled);
+          this.routes.forEach((
+            route,
+            i
+          ) => route.enabled = (!this.canEdit || (this.canEdit && order[i].enabled)));
         }
       }
     });

@@ -1,12 +1,14 @@
-import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams
+} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { BaseModel } from '../models';
 import { Cache } from './cache';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
-import { ServiceLocator } from './service-locator';
-
 
 export const BACKEND_API_URL = 'client/api';
 
@@ -17,16 +19,13 @@ export interface ApiFormat {
 
 export abstract class BaseBackendService<M extends BaseModel> {
   protected entity: string;
-  protected entityModel: { new (params?): M; };
-
-  protected error: ErrorService;
-  protected http: HttpClient;
+  protected entityModel: { new (params?): M };
 
   protected requestCache: Cache<Observable<Array<M>>>;
 
-  constructor() {
-    this.error = ServiceLocator.injector.get(ErrorService);
-    this.http = ServiceLocator.injector.get(HttpClient);
+  constructor(
+    protected http: HttpClient
+  ) {
     this.initRequestCache();
   }
 
@@ -35,8 +34,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
       throw Error('BaseBackendService.get id not specified!');
     }
 
-    return this.getList()
-      .map(res => res.find(entity => entity.id === id));
+    return this.getList().map(res => res.find(entity => entity.id === id));
   }
 
   public getList(params?: {}, customApiFormat?: ApiFormat): Observable<Array<M>> {
@@ -51,22 +49,21 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   public create(params?: {}, customApiFormat?: ApiFormat): Observable<any> {
-    const command = customApiFormat && customApiFormat.command || 'create';
+    const command = (customApiFormat && customApiFormat.command) || 'create';
     const _entity = customApiFormat && customApiFormat.entity;
 
-    return this.sendCommand(command, params, _entity)
-      .map(response => {
-        const entity = this.entity.toLowerCase();
-        if (entity === 'tag' || entity === 'affinitygroup') {
-          return response;
-        }
+    return this.sendCommand(command, params, _entity).map(response => {
+      const entity = this.entity.toLowerCase();
+      if (entity === 'tag' || entity === 'affinitygroup') {
+        return response;
+      }
 
-        return this.prepareModel(response[entity] as M);
-      });
+      return this.prepareModel(response[entity] as M);
+    });
   }
 
   public remove(params?: {}, customApiFormat?: ApiFormat): Observable<any> {
-    const command = customApiFormat && customApiFormat.command || 'delete';
+    const command = (customApiFormat && customApiFormat.command) || 'delete';
     const entity = customApiFormat && customApiFormat.entity;
 
     return this.sendCommand(command, params, entity);
@@ -106,14 +103,17 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return urlParams;
   }
 
-  protected getRequest(command: string, params?: {}, entity?: string): Observable<any> {
-    return this.http.get(
-      BACKEND_API_URL,
-      {
-        params: this.buildParams(command, params, entity)
-      }
-    )
-      .catch(error => this.handleError(error));
+  protected getRequest(
+    command: string,
+    params?: {},
+    entity?: string
+  ): Observable<any> {
+    return this.http
+      .get(
+        BACKEND_API_URL, {
+          params: this.buildParams(command, params, entity)
+        })
+      .catch(error => Observable.throw(error));
   }
 
   protected getResponse(result: any): any {
@@ -131,10 +131,14 @@ export abstract class BaseBackendService<M extends BaseModel> {
       'application/x-www-form-urlencoded'
     );
     return this.http.post(BACKEND_API_URL, this.buildParams(command, params), { headers })
-      .catch(error => this.handleError(error));
+      .catch(error => Observable.throw(error));
   }
 
-  protected sendCommand(command: string, params?: {}, entity?: string): Observable<any> {
+  protected sendCommand(
+    command: string,
+    params?: {},
+    entity?: string
+  ): Observable<any> {
     return this.getRequest(command, params, entity)
       .map(res => this.getResponse(res))
       .catch(e => this.handleCommandError(e.error));
@@ -146,7 +150,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
 
   protected formatGetListResponse(response: any): Array<M> {
     let entity = this.entity.toLowerCase();
-    if (entity === 'asyncjob') { // only if list?
+    if (entity === 'asyncjob') {
+      // only if list?
       entity += 's';
     }
 
@@ -161,7 +166,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
     params?: {},
     customApiFormat?: ApiFormat
   ): Observable<Array<M>> {
-    const command = customApiFormat && customApiFormat.command || 'list;s';
+    const command = (customApiFormat && customApiFormat.command) || 'list;s';
     const entity = customApiFormat && customApiFormat.entity;
     return this.sendCommand(command, params, entity)
       .map(response => this.formatGetListResponse(response))
@@ -202,15 +207,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return apiCommand;
   }
 
-  private handleError(error: any): Observable<any> {
-    this.error.next(error);
-    return Observable.throw(error);
-  }
-
   private initRequestCache(): void {
     const cacheTag = `${this.entity}RequestCache`;
-    this.requestCache = ServiceLocator.injector
-      .get(CacheService)
-      .get<Observable<Array<M>>>(cacheTag);
+    this.requestCache = CacheService.create<Observable<Array<M>>>(cacheTag);
   }
 }

@@ -5,6 +5,7 @@ import { NetworkRuleType, SecurityGroup } from '../sg.model';
 import { BackendResource } from '../../shared/decorators/backend-resource.decorator';
 import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
 import { AsyncJobService } from '../../shared/services/async-job.service';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable()
@@ -13,8 +14,11 @@ import { AsyncJobService } from '../../shared/services/async-job.service';
   entityModel: SecurityGroup
 })
 export class NetworkRuleService extends BaseBackendCachedService<SecurityGroup> {
-  constructor(private asyncJobService: AsyncJobService) {
-    super();
+  constructor(
+    private asyncJobService: AsyncJobService,
+    protected http: HttpClient
+  ) {
+    super(http);
   }
 
   public addRule(type: NetworkRuleType, data): Observable<NetworkRule> {

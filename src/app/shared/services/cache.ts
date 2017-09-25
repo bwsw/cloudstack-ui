@@ -12,23 +12,19 @@ export interface CacheEntry<T> {
 }
 
 export class Cache<T> implements ICache<T> {
-  private cache: Array<CacheEntry<T>> = [];
+  private cache: { [key: string]: T; } = {};
 
   public get(params: {}): T {
-    const hit = this.cache.find(c => {
-      const paramsEqual = isEqual(params, c.params);
-      const paramsUndefined = params === undefined && c.params === undefined;
-      return paramsEqual || paramsUndefined;
-    });
-
-    return hit && hit.result;
+    const key = JSON.stringify(params);
+    return this.cache[key];
   }
 
   public set(cacheEntry: CacheEntry<T>): void {
-    this.cache.push(cacheEntry);
+    const key = JSON.stringify(cacheEntry.params);
+    this.cache[key] = cacheEntry.result;
   }
 
   public invalidate(): void {
-    this.cache = [];
+    this.cache = {};
   }
 }

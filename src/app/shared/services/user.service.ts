@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
@@ -28,9 +29,10 @@ export class UserService extends BaseBackendService<User> {
     protected configService: ConfigService,
     protected router: Router,
     protected routerUtilsService: RouterUtilsService,
-    protected zone: NgZone
+    protected zone: NgZone,
+    protected http: HttpClient
   ) {
-    super();
+    super(http);
   }
 
   public updatePassword(id: string, password: string): Observable<any> {

@@ -8,6 +8,7 @@ import { FieldMapper } from '../decorators/field-mapper.decorator';
   jobresultcode: 'resultCode',
   jobresult: 'result',
   jobinstancetype: 'instanceType',
+  jobinstanceid: 'instanceId',
   jobresulttype: 'resultType'
 })
 export class AsyncJob<T> extends BaseModel {
@@ -16,6 +17,7 @@ export class AsyncJob<T> extends BaseModel {
   public resultCode: number;
   public result: T;
   public instanceType: string;
+  public instanceId?: string;
   public resultType: string;
   public cmd: string;
 
@@ -28,7 +30,7 @@ export class AsyncJob<T> extends BaseModel {
     // when a command is executed, two jobs are initiated
     // one has type of "Cmd", another one is "Work"
     // we need only one so we take "Cmd" and filter any others out
-    const regex = /^org\.apache\.cloudstack\.api\.command\.user\.vm\.(\w*)Cmd$/;
+    const regex = /^org\.apache\.cloudstack\.api\.command\..*\.vm\.(\w*)Cmd$/;
     if (!this.cmd) {
       this.cmd = '';
     }
