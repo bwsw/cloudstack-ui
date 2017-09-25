@@ -18,6 +18,9 @@ import { EventService } from './event.service';
   styleUrls: ['event-list.component.scss']
 })
 export class EventListComponent implements OnInit {
+
+  readonly firstDayOfWeek$ = this.languageService.getFirstDayOfWeek();
+
   public loading = false;
   public tableColumns: Array<string>;
   public tableModel: Array<Event>;
@@ -45,7 +48,7 @@ export class EventListComponent implements OnInit {
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
-    public languageService: LanguageService,
+    private languageService: LanguageService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private eventService: EventService,
@@ -53,7 +56,7 @@ export class EventListComponent implements OnInit {
     private translate: TranslateService
   ) {
     this.updateEvents = this.updateEvents.bind(this);
-    this.languageService.initializeFirstDayOfWeek();
+    // this.languageService.initializeFirstDayOfWeek();
   }
 
   public ngOnInit(): void {

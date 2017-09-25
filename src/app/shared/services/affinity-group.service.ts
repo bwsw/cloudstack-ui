@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { VirtualMachine } from '../../vm/shared/vm.model';
@@ -21,8 +22,11 @@ export interface AffinityGroupCreationData {
   entityModel: AffinityGroup
 })
 export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup> {
-  constructor(private asyncJob: AsyncJobService) {
-    super();
+  constructor(
+    private asyncJob: AsyncJobService,
+    protected http: HttpClient
+  ) {
+    super(http);
   }
 
   public getTypes(params?: {}): Observable<Array<AffinityGroupType>> {
@@ -35,12 +39,16 @@ export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup
       .switchMap(job => this.asyncJob.queryJob(job.jobid, this.entity, this.entityModel));
   }
 
-  public updateForVm(vm: VirtualMachine, affinityGroup?: AffinityGroup): Observable<VirtualMachine> {
+  public updateForVm(
+    vm: VirtualMachine,
+    affinityGroup?: AffinityGroup
+  ): Observable<VirtualMachine> {
     return this.sendCommand('updateVM', {
       id: vm.id,
       affinityGroupIds: affinityGroup && affinityGroup.id || ''
     })
-      .switchMap(job => this.asyncJob.queryJob(job.jobid, 'virtualmachine', VirtualMachine));
+      .switchMap(
+        job => this.asyncJob.queryJob(job.jobid, 'virtualmachine', VirtualMachine));
   }
 
   public removeForVm(vm: VirtualMachine): Observable<VirtualMachine> {

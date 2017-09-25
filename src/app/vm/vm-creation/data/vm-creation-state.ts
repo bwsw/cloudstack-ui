@@ -6,7 +6,6 @@ import { VmCreationSecurityGroupData } from '../security-group/vm-creation-secur
 import { NotSelected } from '../services/vm-creation.service';
 import { VmCreationData } from './vm-creation-data';
 
-
 interface VmCreationParams {
   affinityGroupNames?: string;
   details?: Array<any>;
@@ -43,7 +42,7 @@ export class VmCreationState {
   private _rootDiskSizeMin: number;
 
   private affinityGroupNames: Array<string>; // we need to know whether the group already exists
-  private defaultName: string;               // to get default name if the name is empty
+  private defaultName: string; // to get default name if the name is empty
 
   constructor(data: VmCreationData) {
     this.getStateFromData(data);
@@ -70,7 +69,7 @@ export class VmCreationState {
 
   public get showSecurityGroups(): boolean {
     return !this.zone.networkTypeIsBasic;
-  };
+  }
 
   public get diskOfferingsAreAllowed(): boolean {
     return !!this.template && !this.template.isTemplate;
@@ -86,9 +85,15 @@ export class VmCreationState {
     this.instanceGroup = new InstanceGroup('');
     this.keyboard = KeyboardLayout.us;
 
-    if (data.defaultTemplate) { this.template = data.defaultTemplate; }
-    if (data.diskOfferings.length) { this.diskOffering = data.diskOfferings[0]; }
-    if (data.sshKeyPairs.length) { this.sshKeyPair = data.sshKeyPairs[0]; }
+    if (data.defaultTemplate) {
+      this.template = data.defaultTemplate;
+    }
+    if (data.diskOfferings.length) {
+      this.diskOffering = data.diskOfferings[0];
+    }
+    if (data.sshKeyPairs.length) {
+      this.sshKeyPair = data.sshKeyPairs[0];
+    }
 
     if (data.zones.length) {
       this.zone = data.zones[0];
@@ -102,7 +107,9 @@ export class VmCreationState {
     const params: VmCreationParams = {};
 
     params.affinityGroupNames = this.affinityGroup && this.affinityGroup.name;
-    params.startVm = this.doStartVm ? undefined : 'false';
+    if (!this.doStartVm) {
+      params.startVm = 'false';
+    }
     params.keyboard = this.keyboard;
     params.name = this.displayName || this.defaultName;
     params.serviceOfferingId = this.serviceOffering.id;
@@ -127,14 +134,19 @@ export class VmCreationState {
     }
 
     if (this.serviceOffering.areCustomParamsSet) {
-      params.details = [{
-        cpuNumber: this.serviceOffering.cpuNumber,
-        cpuSpeed: this.serviceOffering.cpuSpeed,
-        memory: this.serviceOffering.memory
-      }];
+      params.details = [
+        {
+          cpuNumber: this.serviceOffering.cpuNumber,
+          cpuSpeed: this.serviceOffering.cpuSpeed,
+          memory: this.serviceOffering.memory
+        }
+      ];
     }
 
-    if (this.template.isTemplate || this.showRootDiskResize) {
+    if (
+      (this.rootDiskSize != null && this.template.isTemplate) ||
+      this.showRootDiskResize
+    ) {
       if (this.template.isTemplate) {
         params.rootDiskSize = this.rootDiskSize;
       } else {

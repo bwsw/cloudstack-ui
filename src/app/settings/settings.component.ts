@@ -114,7 +114,8 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   }
 
   public updatePalette(): void {
-    this.styleService.setTheme(this.primaryColor);
+    const theme = themes.find(t => t.primaryColor === this.primaryColor.value);
+    this.styleService.setTheme(theme).subscribe();
   }
 
   public updatePassword(): void {

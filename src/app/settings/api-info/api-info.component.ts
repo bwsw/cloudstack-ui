@@ -121,7 +121,7 @@ export class ApiInfoComponent implements OnInit {
     return this.userService.getList()
       .map(users => {
         if (!users || !users.length) {
-          throw new Error('Unable to get user\'s API key');
+          throw new Error('Unable to create user\'s API key');
         } else {
           return {
             apiKey: users[0].apiKey,

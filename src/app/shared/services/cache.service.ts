@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { Cache } from './cache';
 
 
@@ -6,18 +5,18 @@ export interface CacheStorage {
   [token: string]: Cache<any>;
 }
 
-@Injectable()
-export class CacheService {
-  private caches: CacheStorage = {};
+const caches: CacheStorage = {};
 
-  public get<T>(token: string): Cache<T> {
-    if (!this.caches[token]) {
-      this.caches[token] = new Cache<T>();
+export class CacheService {
+
+  public static create<T>(token: string): Cache<T> {
+    if (!caches[token]) {
+      caches[token] = new Cache<T>();
     }
-    return this.caches[token];
+    return caches[token];
   }
 
-  public invalidateAll(): void {
-    Object.keys(this.caches).forEach(c => this.caches[c].invalidate());
+  public static invalidateAll(): void {
+    Object.keys(caches).forEach(c => caches[c].invalidate());
   }
 }

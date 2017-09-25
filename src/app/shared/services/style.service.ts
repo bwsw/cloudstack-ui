@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Color } from '../models';
 import { ConfigService } from './config.service';
 import { UserTagService } from './tags/user-tag.service';
 
@@ -33,14 +32,8 @@ export class StyleService {
   constructor(
     private configService: ConfigService,
     private userTagService: UserTagService
-  ) {}
-
-  public loadPalette(): void {
+  ) {
     this.initStyleSheet();
-
-    this.getTheme()
-      .subscribe(theme =>
-        this.updateTheme(theme));
   }
 
   public getTheme(): Observable<Theme> {
@@ -49,7 +42,7 @@ export class StyleService {
     return this.userTagService.getTheme()
       .map(themeName => {
         let theme = themes.find(t => t.name === themeName);
-        if (!theme){
+        if (!theme) {
           // if the tag has incorrect theme name, we fallback to default theme
           // from the config
           theme = themes.find(t => t.name === defaultThemeName);
@@ -61,12 +54,9 @@ export class StyleService {
       });
   }
 
-  public setTheme(primaryColor: Color): void {
-    const theme = themes.find(t => t.primaryColor === primaryColor.value);
-    if (theme) {
-      this.updateTheme(theme);
-      this.userTagService.setTheme(theme.name).subscribe();
-    }
+  public setTheme(theme: Theme): Observable<string> {
+    this.updateTheme(theme);
+    return this.userTagService.setTheme(theme.name);
   }
 
   private initStyleSheet(): void {
@@ -75,7 +65,7 @@ export class StyleService {
     document.head.appendChild(this.styleElement);
   }
 
-  private updateTheme(theme: Theme) {
+  public updateTheme(theme: Theme) {
     const { styleElement, _activeTheme } = this;
 
     // to prevent setting the theme when it's already active
