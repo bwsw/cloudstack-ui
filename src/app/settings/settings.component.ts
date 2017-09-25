@@ -96,7 +96,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
 
   public changeLanguage(change: MdSelectChange): void {
     this.loading = true;
-    this.languageService.setLanguage(change.value);
+    this.languageService.setLanguage(change.value).subscribe();
     this.loadDayTranslations();
   }
 
