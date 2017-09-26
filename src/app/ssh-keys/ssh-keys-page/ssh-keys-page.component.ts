@@ -29,7 +29,7 @@ export class SshKeysPageComponent implements OnInit {
       key: 'accounts',
       label: 'SSH_KEYS.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: SSHKeyPair) => item.account,
-      name: (item: SSHKeyPair) => this.getDomain(item.domainid) || `${item.domain}/${item.account}`,
+      name: (item: SSHKeyPair) => `${this.getDomain(item.domainid)}${item.account}` || `${item.domain}/${item.account}`,
     }
   ];
 
@@ -128,7 +128,7 @@ export class SshKeysPageComponent implements OnInit {
 
   private getDomain(domainId: string) {
     let domain = this.domainList && this.domainList.find(d => d.id === domainId);
-    return domain && domain.path;
+    return domain ? domain.getPath() : '';
   }
 
   private sortByAccount(visibleSshKeyList: Array<SSHKeyPair>, accounts = []) {

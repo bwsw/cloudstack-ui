@@ -32,7 +32,7 @@ export abstract class BaseTemplateModel extends BaseModel implements Taggable {
   public crossZones: boolean;
   public displayText: string;
   public domain: string;
-  public domainid: string;
+  public domainId: string;
   public isDynamicallyScalable: boolean;
   public isExtractable: boolean;
   public isFeatured: boolean;

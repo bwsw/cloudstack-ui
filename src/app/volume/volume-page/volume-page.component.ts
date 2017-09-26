@@ -52,7 +52,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
       key: 'accounts',
       label: 'VOLUME_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: Volume) => item.account,
-      name: (item: Volume) => this.getDomain(item.domainid) || `${item.domain}/${item.account}`,
+      name: (item: Volume) => `${this.getDomain(item.domainid)}${item.account}` || `${item.domain}/${item.account}`,
     }
   ];
   public query: string;
@@ -198,7 +198,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
 
   private getDomain(domainId: string) {
     let domain = this.domainList && this.domainList.find(d => d.id === domainId);
-    return domain && domain.path;
+    return domain ? domain.getPath() : '';
   }
 
   private sortByAccount(visibleVolumes: Array<Volume>, accounts = []) {

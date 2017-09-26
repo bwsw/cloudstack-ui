@@ -47,4 +47,8 @@ export class Domain extends BaseModel {
   public vpcavailable: string;
   public vpclimit: string;
   public vpctotal: number;
+
+  public getPath(): string {
+    return this.path === 'ROOT' ? '' : this.path.replace('ROOT/','') + '/';
+  }
 }

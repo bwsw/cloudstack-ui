@@ -52,7 +52,7 @@ export class VmListComponent implements OnInit {
       key: 'accounts',
       label: 'VM_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: VirtualMachine) => item.account,
-      name: (item: VirtualMachine) => this.getDomain(item.domainid) || `${item.domain}/${item.account}`,
+      name: (item: VirtualMachine) => `${this.getDomain(item.domainid)}${item.account}` || `${item.domain}/${item.account}`,
     }
   ];
 
@@ -194,7 +194,7 @@ export class VmListComponent implements OnInit {
 
   private getDomain(domainId: string) {
     let domain = this.domainList && this.domainList.find(d => d.id === domainId);
-    return domain && domain.path;
+    return domain ? domain.getPath() : '';
   }
 
   private subscribeToStatsUpdates(): void {

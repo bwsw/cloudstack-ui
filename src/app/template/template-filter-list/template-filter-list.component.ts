@@ -48,7 +48,7 @@ export class TemplateFilterListComponent implements OnChanges {
       key: 'accounts',
       label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: BaseTemplateModel) => item.account,
-      name: (item: BaseTemplateModel) => this.getDomain(item.domainid) || `${item.domain}/${item.account}`,
+      name: (item: BaseTemplateModel) => `${this.getDomain(item.domainId)}${item.account}` || `${item.domain}/${item.account}`,
     }
   ];
 
@@ -117,7 +117,7 @@ export class TemplateFilterListComponent implements OnChanges {
 
   private getDomain(domainId: string) {
     let domain = this.domainList && this.domainList.find(d => d.id === domainId);
-    return domain && domain.path;
+    return domain ? domain.getPath() : '';
   }
 
   private filterByCategories(templateList: Array<BaseTemplateModel>): Array<BaseTemplateModel> {
@@ -158,7 +158,7 @@ export class TemplateFilterListComponent implements OnChanges {
   private sortByAccount(visibleTemplateList: Array<BaseTemplateModel>, accounts = []) {
     if (accounts.length != 0) {
       return visibleTemplateList.filter(key =>
-        accounts.find(account => account.name === key.account  && account.domainid === key.domainid));
+        accounts.find(account => account.name === key.account  && account.domainid === key.domainId));
     } else {
       return visibleTemplateList;
     }
