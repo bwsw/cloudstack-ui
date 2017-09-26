@@ -964,6 +964,7 @@
   "SNAPSHOT_POLICIES": {
     "TITLE": "Повторяемые снимки",
     "SCHEDULED_SNAPSHOTS": "Расписание снимков",
+    "NO_RESULTS": "Расписание снимков не найдено",
     "KEEP": "Сохранять",
     "STORE_SNAPSHOTS": "Количество хранимых снимков",
     "MINUTE": "Минута",

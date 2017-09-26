@@ -33,10 +33,11 @@
   </div>
 
   <div class="flex-container">
-    <cs-time-zone
+    <cs-time-zone class="column"
       name="timeZone"
       [(ngModel)]="timeZone"
     ></cs-time-zone>
+    <div class="column">
 
     <cs-stored-number
       name="storedNumber"
@@ -46,11 +47,14 @@
       [minValue]="minStoredSnapshots"
       [maxValue]="maxStoredSnapshots"
     ></cs-stored-number>
+
+    <button md-button color="primary" [disabled]="!policyEditorForm.valid">
+      {{ 'COMMON.ADD' | translate }}
+    </button>
+    </div>
   </div>
 
   <div class="button-wrapper">
-    <button md-button color="primary" [disabled]="!policyEditorForm.valid">
-      {{ 'COMMON.SAVE' | translate }}
-    </button>
+
   </div>
 </form>

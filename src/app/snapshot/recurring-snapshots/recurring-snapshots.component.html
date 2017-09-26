@@ -2,6 +2,15 @@
   {{ 'SNAPSHOT_POLICIES.TITLE' | translate }}
 </h3>
 <div class="mat-dialog-content">
+  <div *ngIf="policies?.length" class="list">
+    <cs-policy-list
+      [timeFormat]="timeFormat$ | async"
+      [policies]="policies"
+      (onPolicyDelete)="deletePolicy($event)"
+      (onPolicyRowClick)="changeTab($event)"
+    ></cs-policy-list>
+  </div>
+  <div *ngIf="!policies?.length" class="list">{{ 'SNAPSHOT_POLICIES.NO_RESULTS' | translate }}</div>
 
   <md-tab-group
     [selectedIndex]="policyMode"
@@ -21,22 +30,12 @@
     ></cs-policy-editor>
   </div>
 
-  <div *ngIf="policies?.length" class="list">
-    <cs-policy-list
-      [timeFormat]="timeFormat$ | async"
-      [policies]="policies"
-      (onPolicyDelete)="deletePolicy($event)"
-      (onPolicyRowClick)="changeTab($event)"
-    ></cs-policy-list>
-  </div>
-
-
-<div class="mat-dialog-actions">
-  <button
-    md-button
-    color="primary"
-    mdDialogClose
-  >
-    {{ 'COMMON.CLOSE' | translate }}
-  </button></div>
+  <div class="mat-dialog-actions">
+    <button
+      md-button
+      color="primary"
+      mdDialogClose
+    >
+      {{ 'COMMON.CLOSE' | translate }}
+    </button></div>
 </div>

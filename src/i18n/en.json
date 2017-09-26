@@ -964,6 +964,7 @@
   "SNAPSHOT_POLICIES": {
     "TITLE": "Recurring snapshots",
     "SCHEDULED_SNAPSHOTS": "Scheduled snapshots",
+    "NO_RESULTS": "No recurring snapshot schedule",
     "KEEP": "Keep",
     "STORE_SNAPSHOTS": "Number of stored snapshots",
     "MINUTE": "Minute",
