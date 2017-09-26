@@ -1,15 +1,20 @@
-import { async, discardPeriodicTasks, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { Injector } from '@angular/core';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
+import {
+  async,
+  discardPeriodicTasks,
+  fakeAsync,
+  TestBed,
+  tick
+} from '@angular/core/testing';
 
-import { ServiceLocator } from './service-locator';
+import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
 
 import { AsyncJobService } from './async-job.service';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
-
-import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
-import { LocalStorageService } from './local-storage.service';
 
 
 describe('Async job service', () => {
@@ -67,8 +72,6 @@ describe('Async job service', () => {
     TestBed.configureTestingModule({
       providers: [
         ErrorService,
-        ServiceLocator,
-        LocalStorageService,
         { provide: CacheService, useClass: MockCacheService },
         AsyncJobService
       ],
@@ -76,9 +79,6 @@ describe('Async job service', () => {
         HttpClientTestingModule
       ]
     });
-
-    ServiceLocator.injector = TestBed.get(Injector);
-
   }));
 
   it('job service polls server until a job is resolved', fakeAsync(() => {

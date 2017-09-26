@@ -4,6 +4,7 @@ import { VolumeType } from '../../shared/models/volume.model';
 import { SecurityGroupService } from '../../security-group/services/security-group.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { VmService } from './vm.service';
+import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()
@@ -14,20 +15,19 @@ export class VmEntityDeletionService {
     public volumeService: VolumeService
   ) {}
 
-  public markVolumesForDeletion(vm: VirtualMachine): void {
-    this.volumeService.getList({ virtualMachineId: vm.id })
-      .subscribe(volumes => {
-        volumes
+  public markVolumesForDeletion(vm: VirtualMachine): Observable<any[]> {
+    return this.volumeService.getList({ virtualMachineId: vm.id })
+      .switchMap(volumes => {
+        const observers = volumes
           .filter(volume => volume.type === VolumeType.DATADISK)
-          .forEach(volume =>
-            this.volumeService.markForRemoval(volume).subscribe()
-          );
-      })
+          .map(volume => this.volumeService.markForRemoval(volume));
+        return Observable.forkJoin(...observers);
+      });
   }
 
-  public markSecurityGroupsForDeletion(vm: VirtualMachine): void {
-    vm.securityGroup.forEach(sg =>
-      this.securityGroupService.markForRemoval(sg).subscribe()
-    );
+  public markSecurityGroupsForDeletion(vm: VirtualMachine): Observable<any[]> {
+    const osb = vm.securityGroup.map(
+      sg => this.securityGroupService.markForRemoval(sg));
+    return Observable.forkJoin(...osb);
   }
 }

@@ -9,7 +9,7 @@ import { FilterService } from '../../shared/services/filter.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { TemplateFilters } from '../shared/base-template.service';
-import { User } from '../../shared/models/user.model';
+import { Account } from '../../shared/models/account.model';
 import { AuthService } from '../../shared/services/auth.service';
 
 
@@ -34,7 +34,7 @@ export class TemplateFiltersComponent implements OnInit {
   public selectedOsFamilies: Array<OsFamily>;
   public selectedFilters: Array<string>;
   public selectedGroupingNames = [];
-  public selectedAccounts: Array<User>;
+  public selectedAccounts: Array<Account>;
 
   public zones: Array<Zone>;
   public selectedZones: Array<Zone>;
@@ -156,8 +156,8 @@ export class TemplateFiltersComponent implements OnInit {
     this.storageService.write('templateDisplayMode', mode);
   }
 
-  public updateAccount(users: Array<User>) {
-    this.selectedAccounts = users;
+  public updateAccount(accounts: Array<Account>) {
+    this.selectedAccounts = accounts;
     this.updateFilters();
   }
 

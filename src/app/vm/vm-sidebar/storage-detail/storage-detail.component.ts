@@ -12,6 +12,7 @@ import { VirtualMachine } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 import { IsoEvent } from './iso.component';
 import { ActivatedRoute } from '@angular/router';
+import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 
 
 @Component({
@@ -19,7 +20,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: 'storage-detail.component.html',
   styleUrls: ['storage-detail.component.scss']
 })
-export class StorageDetailComponent implements OnChanges {
+export class StorageDetailComponent extends WithUnsubscribe() implements OnChanges {
   @Input() public vm: VirtualMachine;
   public iso: Iso;
   public isoOperationInProgress = false;
@@ -34,12 +35,15 @@ export class StorageDetailComponent implements OnChanges {
     private volumeService: VolumeService,
     private activatedRoute: ActivatedRoute
   ) {
+    super();
     const params = this.activatedRoute.snapshot.parent.params;
 
     this.vmService.getWithDetails(params.id).subscribe(
       vm => {
         this.vm = vm;
       });
+
+    this.subscribeToVolumeAttachments();
   }
 
   public ngOnChanges(): void {
@@ -49,7 +53,6 @@ export class StorageDetailComponent implements OnChanges {
     } else {
       this.iso = null;
     }
-    this.subscribeToVolumeAttachments();
   }
 
   public get volumes(): Array<Volume> {
@@ -73,6 +76,7 @@ export class StorageDetailComponent implements OnChanges {
 
   public subscribeToVolumeAttachments(): void {
     this.volumeService.onVolumeAttachment
+      .takeUntil(this.unsubscribe$)
       .subscribe(() => {
         this.volumeService.getList({ virtualMachineId: this.vm.id })
           .subscribe(volumes => this.vm.volumes = volumes);

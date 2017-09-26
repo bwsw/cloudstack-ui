@@ -6,10 +6,10 @@ import { ListService } from '../../shared/components/list/list.service';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
-import { SshKeyFilter } from "../ssh-key-filter/ssh-key-filter.component";
-import { AuthService } from "../../shared/services/auth.service";
-import { Domain } from "../../shared/models/domain.model";
-import { DomainService } from "../../shared/services/domain.service";
+import { SshKeyFilter } from '../ssh-key-filter/ssh-key-filter.component';
+import { AuthService } from '../../shared/services/auth.service';
+import { Domain } from '../../shared/models/domain.model';
+import { DomainService } from '../../shared/services/domain.service';
 
 
 @Component({
@@ -47,12 +47,13 @@ export class SshKeysPageComponent implements OnInit {
   ) {
     if (!this.authService.isAdmin()) {
       this.groupings = this.groupings.filter(g => g.key != 'accounts');
+    } else {
+      this.getDomainList();
     }
   }
 
   public ngOnInit(): void {
     this.update();
-    this.getDomainList();
     this.listService.onUpdate.subscribe(() => this.update());
   }
 
@@ -126,7 +127,7 @@ export class SshKeysPageComponent implements OnInit {
   }
 
   private getDomain(domainId: string) {
-    let domain = this.domainList.find(d => d.id === domainId);
+    let domain = this.domainList && this.domainList.find(d => d.id === domainId);
     return domain && domain.path;
   }
 

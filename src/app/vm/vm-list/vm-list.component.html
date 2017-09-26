@@ -14,7 +14,7 @@
     ></cs-vm-filter>
   </ng-container>
 
-  <ng-container *loading="!vmList" cs-list>
+  <ng-container *loading="fetching" cs-list>
     <cs-grouped-card-list
       [list]="visibleVmList"
       [groupings]="selectedGroupings"

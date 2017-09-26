@@ -26,6 +26,7 @@ import { SnapshotModule } from '../snapshot/snapshot.module';
 import { TagsModule } from '../tags/tags.module';
 import { TemplateModule } from '../template';
 import { VmActionsService } from './shared/vm-actions.service';
+import { VmDestroyDialogComponent } from './shared/vm-destroy-dialog/vm-destroy-dialog.component';
 import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
 import { VmService } from './shared/vm.service';
 import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions.component';
@@ -144,6 +145,7 @@ import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fie
     InstanceGroupSelectorComponent,
     IsoComponent,
     VmTagsComponent,
+    VmDestroyDialogComponent,
     VolumeComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,
@@ -171,6 +173,7 @@ import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fie
     AffinityGroupSelectorComponent,
     InstanceGroupSelectorComponent,
     VmCreationComponent,
+    VmDestroyDialogComponent,
     VmTemplateDialogComponent,
     VolumeResizeComponent,
     SnapshotCreationComponent,

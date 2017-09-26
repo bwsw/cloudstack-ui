@@ -8,15 +8,15 @@ import { LocalStorageService } from '../../shared/services/local-storage.service
 import { VmState } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import { FilterComponent } from '../../shared/interfaces/filter-component';
-import { User } from '../../shared/models/user.model';
 import { AuthService } from '../../shared/services/auth.service';
+import { Account } from '../../shared/models/account.model';
 
 export interface VmFilter {
   selectedGroups: Array<InstanceGroup | noGroup>;
   selectedStates: Array<VmState>;
   selectedZones: Array<Zone>;
   groupings: Array<any>;
-  accounts: Array<User>;
+  accounts: Array<Account>;
 }
 
 export type noGroup = '-1';
@@ -39,12 +39,26 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit, OnC
   public selectedStates: Array<VmState> = [];
   public selectedZones: Array<Zone> = [];
   public selectedGroupings: Array<any> = [];
-  public selectedAccounts: Array<User>;
+  public selectedAccounts: Array<Account>;
   public states = [
-    { state: VmState.Running, name: 'VM_PAGE.FILTERS.STATE_RUNNING' },
-    { state: VmState.Stopped, name: 'VM_PAGE.FILTERS.STATE_STOPPED' },
-    { state: VmState.Error, name: 'VM_PAGE.FILTERS.STATE_ERROR' }
-  ];
+    {
+      state: VmState.Running,
+      name: 'VM_PAGE.FILTERS.STATE_RUNNING'
+    },
+    {
+      state: VmState.Stopped,
+      name: 'VM_PAGE.FILTERS.STATE_STOPPED'
+    },
+    {
+      state: VmState.Destroyed,
+      name: 'VM_PAGE.FILTERS.STATE_DESTROYED',
+      access: this.authService.allowedToViewDestroyedVms()
+    },
+    {
+      state: VmState.Error,
+      name: 'VM_PAGE.FILTERS.STATE_ERROR'
+    }
+  ].filter(state => !state.hasOwnProperty('access') || state['access']);
   public showNoGroupFilter = true;
 
   private filtersKey = 'vmListFilters';
@@ -60,19 +74,22 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit, OnC
     private activatedRoute: ActivatedRoute,
     private instanceGroupService: InstanceGroupService,
     private vmService: VmService,
-    private storage: LocalStorageService,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private storage: LocalStorageService
+  ) {
+  }
 
   public ngOnInit(): void {
     this.instanceGroupService.groupsUpdates.subscribe(() => this.loadGroups());
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    const groups = changes['groups'];
-    const zones = changes['zones'];
-    if (groups.currentValue && zones.currentValue) {
-      this.initFilters();
+    const groupsChange = changes['groups'];
+    const zonesChange = changes['zones'];
+    if (groupsChange && zonesChange) {
+      if (groupsChange.currentValue && zonesChange.currentValue) {
+        this.initFilters();
+      }
     }
   }
 
@@ -120,7 +137,7 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit, OnC
     });
   }
 
-  public updateAccount(users: Array<User>) {
+  public updateAccount(users: Array<Account>) {
     this.selectedAccounts = users;
     this.update();
   }

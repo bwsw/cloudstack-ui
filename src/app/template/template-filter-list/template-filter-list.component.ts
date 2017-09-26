@@ -8,8 +8,8 @@ import { TemplateFilters } from '../shared/base-template.service';
 import { Iso } from '../shared/iso.model';
 import { Template } from '../shared/template.model';
 import { User } from '../../shared/models/user.model';
-import { Domain } from "../../shared/models/domain.model";
-import { DomainService } from "../../shared/services/domain.service";
+import { Domain } from '../../shared/models/domain.model';
+import { DomainService } from '../../shared/services/domain.service';
 
 
 @Component({
@@ -53,9 +53,10 @@ export class TemplateFilterListComponent implements OnChanges {
   ];
 
   constructor(protected authService: AuthService, private domainService: DomainService) {
-    this.getDomainList();
     if (!this.authService.isAdmin()) {
       this.groupings = this.groupings.filter(g => g.key != 'accounts');
+    } else {
+      this.getDomainList();
     }
   }
 
@@ -115,7 +116,7 @@ export class TemplateFilterListComponent implements OnChanges {
   }
 
   private getDomain(domainId: string) {
-    let domain = this.domainList.find(d => d.id === domainId);
+    let domain = this.domainList && this.domainList.find(d => d.id === domainId);
     return domain && domain.path;
   }
 

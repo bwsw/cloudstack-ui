@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { BackendResource } from '../decorators';
 import { OsFamily, OsType } from '../models/os-type.model';
 import { BaseBackendService } from './base-backend.service';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable()
@@ -14,6 +15,10 @@ import { BaseBackendService } from './base-backend.service';
 export class OsTypeService extends BaseBackendService<OsType> {
   private osTypes: Array<OsType>;
   private requestObservable: Observable<Array<OsType>>;
+
+  constructor(protected http: HttpClient) {
+    super(http);
+  }
 
   public get(id: string): Observable<OsType> {
     if (this.osTypes) {

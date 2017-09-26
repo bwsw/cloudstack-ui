@@ -3,12 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FilterComponent } from '../../shared/interfaces/filter-component';
 import { FilterService } from '../../shared/services/filter.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { User } from '../../shared/models/user.model';
+import { Account } from '../../shared/models/account.model';
 import { AuthService } from '../../shared/services/auth.service';
 
 export interface SshKeyFilter {
   groupings: Array<any>;
-  accounts: Array<User>;
+  accounts: Array<Account>;
 }
 
 export const sshKeyListFilters = 'sshKeyListFilters';
@@ -24,7 +24,7 @@ export class ShhKeyFilterComponent implements FilterComponent<SshKeyFilter> {
 
 
   public selectedGroupingNames = [];
-  public selectedAccounts: Array<User>;
+  public selectedAccounts: Array<Account>;
 
   private filtersKey = sshKeyListFilters;
   private filterService = new FilterService({
@@ -59,8 +59,8 @@ export class ShhKeyFilterComponent implements FilterComponent<SshKeyFilter> {
     this.update();
   }
 
-  public updateAccount(users: Array<User>) {
-    this.selectedAccounts = users;
+  public updateAccount(accounts: Array<Account>) {
+    this.selectedAccounts = accounts;
     this.update();
   }
 

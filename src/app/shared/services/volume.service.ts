@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -54,9 +55,10 @@ export class VolumeService extends BaseBackendService<Volume> {
   constructor(
     private asyncJobService: AsyncJobService,
     private snapshotService: SnapshotService,
-    private volumeTagService: VolumeTagService
+    private volumeTagService: VolumeTagService,
+    protected http: HttpClient
   ) {
-    super();
+    super(http);
   }
 
   public getList(params?: {}): Observable<Array<Volume>> {
@@ -72,7 +74,7 @@ export class VolumeService extends BaseBackendService<Volume> {
           (snapshot: Snapshot) => snapshot.volumeId === volume.id
         );
       });
-      volumes = volumes.filter(volume => !volume.isDeleted);return volumes;
+      return volumes.filter(volume => !volume.isDeleted);
     });
   }
 
@@ -95,7 +97,7 @@ export class VolumeService extends BaseBackendService<Volume> {
   public remove(volume: Volume): Observable<any> {
     return super.remove({ id: volume.id }).map(response => {
       if (response['success'] === 'true') {
-          this.onVolumeRemoved.next(volume);
+        this.onVolumeRemoved.next(volume);
         return Observable.of(null);
       }
       return Observable.throw(response);
@@ -131,7 +133,8 @@ export class VolumeService extends BaseBackendService<Volume> {
       }));
   }
 
-  public markForRemoval(volume: Volume): Observable< Volume> {
-    return this.volumeTagService.markForRemoval(volume);
+  public markForRemoval(volume: Volume): Observable<any> {
+    const observers = volume.snapshots.map((snapshot) => this.snapshotService.markForRemoval(snapshot));
+    return Observable.forkJoin(...observers, this.volumeTagService.markForRemoval(volume));
   }
 }

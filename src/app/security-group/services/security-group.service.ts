@@ -11,6 +11,7 @@ import { SecurityGroup, SecurityGroupType } from '../sg.model';
 import { PrivateSecurityGroupCreationService } from './creation-services/private-security-group-creation.service';
 import { SharedSecurityGroupCreationService } from './creation-services/shared-security-group-creation.service';
 import { TemplateSecurityGroupCreationService } from './creation-services/template-security-group-creation.service';
+import { HttpClient } from '@angular/common/http';
 
 
 export const GROUP_POSTFIX = '-cs-sg';
@@ -26,13 +27,14 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
   public onSecurityGroupUpdate = new Subject<SecurityGroup>();
 
   constructor(
+    protected http: HttpClient,
     private configService: ConfigService,
     private privateSecurityGroupCreation: PrivateSecurityGroupCreationService,
     private securityGroupTagService: SecurityGroupTagService,
     private sharedSecurityGroupCreation: SharedSecurityGroupCreationService,
     private templateSecurityGroupCreation: TemplateSecurityGroupCreationService
   ) {
-    super();
+    super(http);
   }
 
   public getPredefinedTemplates(): Array<SecurityGroup> {

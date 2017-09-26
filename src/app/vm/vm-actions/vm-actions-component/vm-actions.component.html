@@ -1,21 +1,25 @@
-<ng-container *ngFor="let action of firstRowActions">
-  <button md-menu-item
-          *ngIf="!action.hidden(vm)"
-          (click)="onAction(action, vm)"
-          [disabled]="!action.canActivate(vm)"
-  >
-    <md-icon>{{ action.icon }}</md-icon>
-    <span>{{ action.name | translate }}</span>
-  </button>
+<ng-template #menuItems let-actions>
+  <ng-container *ngFor="let action of actions">
+    <button
+      *ngIf="!action.hidden(vm)"
+      md-menu-item
+      [disabled]="!action.canActivate(vm)"
+      (click)="onAction(action, vm)"
+    >
+      <md-icon>{{ action.icon }}</md-icon>
+      <span>{{ action.name | translate }}</span>
+    </button>
+  </ng-container>
+</ng-template>
+
+<ng-container *ngIf="!vmIsDestroyed; else ExpungeRecoverActions">
+  <ng-container *ngTemplateOutlet="menuItems; context: vmActionsContext">
+  </ng-container>
 </ng-container>
-<md-divider></md-divider>
-<ng-container *ngFor="let action of secondRowActions">
-  <button md-menu-item
-          *ngIf="!action.hidden(vm)"
-          (click)="onAction(action, vm)"
-          [disabled]="!action.canActivate(vm)"
-  >
-    <md-icon>{{ action.icon }}</md-icon>
-    <span>{{ action.name | translate }}</span>
-  </button>
+<ng-template #ExpungeRecoverActions>
+  <ng-container *ngTemplateOutlet="menuItems; context: destroyedVmActionsContext">
+  </ng-container>
+</ng-template>
+<md-divider *ngIf="hasPrimaryActions"></md-divider>
+<ng-container *ngTemplateOutlet="menuItems; context: pluginActionsContext ">
 </ng-container>

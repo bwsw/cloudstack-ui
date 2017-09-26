@@ -1,7 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { DiskOffering, Volume, VolumeType, Zone } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
@@ -14,8 +13,8 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { VolumeFilter } from '../volume-filter/volume-filter.component';
 import { volumeTypeNames } from '../../shared/models/volume.model';
 import { AuthService } from '../../shared/services/auth.service';
-import { DomainService } from "../../shared/services/domain.service";
-import { Domain } from "../../shared/models/domain.model";
+import { DomainService } from '../../shared/services/domain.service';
+import { Domain } from '../../shared/models/domain.model';
 
 
 export interface VolumeCreationData {
@@ -30,7 +29,7 @@ export interface VolumeCreationData {
   templateUrl: 'volume-page.component.html',
   providers: [ListService]
 })
-export class VolumePageComponent extends WithUnsubscribe() implements OnInit, OnDestroy {
+export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   public volumes: Array<Volume>;
   public zones: Array<Zone>;
   public visibleVolumes: Array<Volume>;
@@ -61,8 +60,6 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
   public filterData: any;
   public domainList: Array<Domain>;
 
-  private onDestroy = new Subject();
-
   constructor(
     public listService: ListService,
     private router: Router,
@@ -78,21 +75,23 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
     super();
   if (!this.authService.isAdmin()) {
       this.groupings = this.groupings.filter(g => g.key != 'accounts');
+    } else {
+      this.getDomainList();
     }
   }
 
   public ngOnInit(): void {
     Observable.merge(
-      this.volumeService.onVolumeAttachment.takeUntil(this.onDestroy)
+      this.volumeService.onVolumeAttachment.takeUntil(this.unsubscribe$)
         .do(e => {
           if (this.listService.isSelected(e.volumeId)) {
             this.listService.deselectItem();
           }
         }),
-      this.volumeService.onVolumeCreated.takeUntil(this.onDestroy),
-      this.volumeService.onVolumeResized.takeUntil(this.onDestroy),
-      this.volumeService.onVolumeRemoved.takeUntil(this.onDestroy),
-      this.volumeService.onVolumeTagsChanged.takeUntil(this.onDestroy)
+      this.volumeService.onVolumeCreated.takeUntil(this.unsubscribe$),
+      this.volumeService.onVolumeResized.takeUntil(this.unsubscribe$),
+      this.volumeService.onVolumeRemoved.takeUntil(this.unsubscribe$),
+      this.volumeService.onVolumeTagsChanged.takeUntil(this.unsubscribe$)
     )
       .subscribe(() => this.onVolumeUpdated());
 
@@ -101,7 +100,6 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
       this.updateZones()
     )
       .subscribe(() => this.filter());
-    this.getDomainList();
   }
 
   public updateFiltersAndFilter(filterData: VolumeFilter): void {
@@ -131,7 +129,8 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
         this.filterVolumesByTypes(selectedTypes),
         this.filterVolumesBySpare(spareOnly),
         this.filterVolumesBySearch()
-      ]);
+      ]
+    );
     this.visibleVolumes = this.sortByAccount(this.visibleVolumes, accounts);
   }
 
@@ -198,7 +197,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
   }
 
   private getDomain(domainId: string) {
-    let domain = this.domainList.find(d => d.id === domainId);
+    let domain = this.domainList && this.domainList.find(d => d.id === domainId);
     return domain && domain.path;
   }
 
