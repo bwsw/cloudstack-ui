@@ -1,11 +1,13 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
+import { CacheService } from '../../shared/services/cache.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
 import { BaseTemplateModel } from './base-template.model';
-import { Subject } from 'rxjs/Subject';
 import { Utils } from '../../shared/services/utils/utils.service';
 
 
@@ -69,9 +71,10 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
   constructor(
     protected asyncJobService: AsyncJobService,
     protected osTypeService: OsTypeService,
-    protected templateTagService: TemplateTagService
+    protected templateTagService: TemplateTagService,
+    protected http: HttpClient
   ) {
-    super();
+    super(http);
     this._templateFilters = [
       TemplateFilters.featured,
       TemplateFilters.selfExecutable,

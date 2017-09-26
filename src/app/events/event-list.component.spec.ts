@@ -29,6 +29,7 @@ import { TagService } from '../shared/services/tags/tag.service';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
 import { EventService } from './event.service';
+import { DayOfWeek } from '../shared/types/day-of-week';
 
 const eventServiceFixture = require('./event.service.fixture.json');
 
@@ -93,10 +94,8 @@ class ActivatedRouteStub {
 }
 
 class MockLanguageService {
-  public firstDayOfWeek = new BehaviorSubject<number>(0);
-
-  public initializeFirstDayOfWeek(): void {
-    this.firstDayOfWeek.next(0);
+  public getFirstDayOfWeek(): Observable<DayOfWeek> {
+    return Observable.of(DayOfWeek.Monday);
   }
 }
 

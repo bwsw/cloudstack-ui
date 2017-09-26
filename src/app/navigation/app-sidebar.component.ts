@@ -60,7 +60,7 @@ export class AppSidebarComponent extends WithUnsubscribe()
 
   public ngOnInit() {
     this.setUpDragula();
-    this.fetchNavigationOrder();
+    this.initNavigationOrder();
   }
 
   public ngAfterViewInit(): void {
@@ -132,23 +132,30 @@ export class AppSidebarComponent extends WithUnsubscribe()
       .subscribe(() => (this.hasChanges = true));
   }
 
-  private fetchNavigationOrder() {
-    this.userTagService.getNavigationOrder().subscribe(tag => {
+  private initNavigationOrder() {
+    if (this.canEdit) {
+      this.userTagService.getNavigationOrder().subscribe(tag => {
+        this.navigationLoaded = true;
+        if (tag) {
+          let order;
+          try {
+            order = JSON.parse(tag);
+          } catch (e) {
+            return;
+          }
+          if (validateNavigationOrder(order)) {
+            const predicate = navigationPredicate(order);
+            this.routes.sort(predicate);
+            this.routes.forEach((
+              route,
+              i
+            ) => route.enabled = (!this.canEdit || (this.canEdit && order[i].enabled)));
+          }
+        }
+      });
+    } else {
       this.navigationLoaded = true;
-      if (tag) {
-        let order;
-        try {
-          order = JSON.parse(tag);
-        } catch (e) {
-          return;
-        }
-        if (validateNavigationOrder(order)) {
-          const predicate = navigationPredicate(order);
-          this.routes.sort(predicate);
-          this.routes.forEach((route, i) => route.enabled = order[i].enabled);
-        }
-      }
-    });
+    }
   }
 
   private toggleState(): void {

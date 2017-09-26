@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { Hypervisor } from '../models/hypervisor.model';
 import { BaseBackendCachedService } from './base-backend-cached.service';
@@ -10,8 +11,9 @@ import { BaseBackendCachedService } from './base-backend-cached.service';
   entityModel: Hypervisor
 })
 export class HypervisorService extends BaseBackendCachedService<Hypervisor> {
-
-  public getHypervisorList() {
-    return this.getList();
+  constructor(
+    protected http: HttpClient
+  ) {
+    super(http);
   }
 }

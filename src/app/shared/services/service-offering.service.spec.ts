@@ -1,16 +1,15 @@
-import { Injectable, Injector } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ServiceOfferingService } from './service-offering.service';
-import { OfferingAvailability } from './offering.service';
-import { Zone } from '../models/zone.model';
-import { ServiceOffering } from '../models/service-offering.model';
-import { ConfigService } from './config.service';
-import { ServiceLocator } from './service-locator';
-import { ErrorService } from './error.service';
+import { Injectable } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
+import { ServiceOffering } from '../models/service-offering.model';
+import { Zone } from '../models/zone.model';
 import { CacheService } from './cache.service';
+import { ConfigService } from './config.service';
+import { ErrorService } from './error.service';
+import { OfferingAvailability } from './offering.service';
 import { ResourcesData } from './resource-usage.service';
+import { ServiceOfferingService } from './service-offering.service';
 
 @Injectable()
 class MockErrorService {
@@ -34,7 +33,6 @@ describe('Service-offering service', () => {
         HttpClientTestingModule
       ]
     });
-    ServiceLocator.injector = TestBed.get(Injector);
     serviceOfferingService = TestBed.get(ServiceOfferingService);
   });
 
@@ -65,12 +63,12 @@ describe('Service-offering service', () => {
   });
 
   it('should get available by resources', () => {
-    let availableOfferings = [
+    const availableOfferings = [
       new ServiceOffering({isCustomized: false, cpuNumber: 1, memory: 1}),
       new ServiceOffering({isCustomized: true})
     ];
     spyOn(serviceOfferingService, 'getOfferingsAvailableInZone').and.returnValue(availableOfferings);
-    let resourceUsage = {
+    const resourceUsage = {
       available: new ResourcesData(),
       consumed: new ResourcesData(),
       max: new ResourcesData()

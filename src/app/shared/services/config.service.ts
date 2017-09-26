@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
-import { CONFIG } from '../../config/config';
 
 
 @Injectable()
 export class ConfigService {
-  private config = CONFIG.config;
+  private config: {};
+
+  public parse(json?: any) {
+    this.config = json;
+  }
 
   public get<T = any>(key: string | Array<string>): T {
     const isArray = Array.isArray(key);
-    return this.getResult(isArray, key)
+    return this.getResult(isArray, key);
   }
 
   private getResult(isArray: boolean, key: string | Array<string>): any {

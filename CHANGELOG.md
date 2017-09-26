@@ -1,3 +1,36 @@
+<a name="1.49.10"></a>
+## [1.49.10](https://github.com/bwsw/cloudstack-ui/compare/1.49.9...1.49.10) (2017-09-21)
+
+
+### Bug Fixes
+
+* **logout:** Fix Fix broken logout redirection ([ccb3401](https://github.com/bwsw/cloudstack-ui/commit/ccb3401)), closes [#525](https://github.com/bwsw/cloudstack-ui/issues/525)
+* **nic:** fix extra param being passed to addIpToNic ([b07b9c3](https://github.com/bwsw/cloudstack-ui/commit/b07b9c3))
+* **pulse:** increase pulse dialog width ([#518](https://github.com/bwsw/cloudstack-ui/issues/518)) ([772845f](https://github.com/bwsw/cloudstack-ui/commit/772845f)), closes [#487](https://github.com/bwsw/cloudstack-ui/issues/487)
+* **sidebar:** Sidebar scrolling fixed. (closes [#532](https://github.com/bwsw/cloudstack-ui/issues/532)) ([b92225d](https://github.com/bwsw/cloudstack-ui/commit/b92225d))
+* **snapshot:** Recurring snapshots modal dialog fix. (Closes [#550](https://github.com/bwsw/cloudstack-ui/issues/550)) ([#551](https://github.com/bwsw/cloudstack-ui/issues/551)) ([db1edf8](https://github.com/bwsw/cloudstack-ui/commit/db1edf8))
+* **styles:** fix template creation dialog styles ([19a4195](https://github.com/bwsw/cloudstack-ui/commit/19a4195))
+* **styles:** Fix template OS icon ([bd22ed8](https://github.com/bwsw/cloudstack-ui/commit/bd22ed8)), closes [#529](https://github.com/bwsw/cloudstack-ui/issues/529)
+* **styles:** Fix volume sidebar tabs being not evenly spaced ([4abab60](https://github.com/bwsw/cloudstack-ui/commit/4abab60)), closes [#536](https://github.com/bwsw/cloudstack-ui/issues/536)
+* **vm:** Missing WebShell action added back ([5bb4252](https://github.com/bwsw/cloudstack-ui/commit/5bb4252))
+* **vm-creation:** remove default instance group in VM creation ([9f7a716](https://github.com/bwsw/cloudstack-ui/commit/9f7a716))
+
+
+### Features
+
+* **config:** add sessionTimeout option to config ([#519](https://github.com/bwsw/cloudstack-ui/issues/519)) ([357b4ff](https://github.com/bwsw/cloudstack-ui/commit/357b4ff)), closes [#500](https://github.com/bwsw/cloudstack-ui/issues/500)
+* **firewall:** Firewall Ingress/Egress rules display changed ([e32dc4a](https://github.com/bwsw/cloudstack-ui/commit/e32dc4a))
+* **nic-details:** Split NICs into separate cards ([c37202f](https://github.com/bwsw/cloudstack-ui/commit/c37202f)), closes [#455](https://github.com/bwsw/cloudstack-ui/issues/455)
+* **shared-security-groups:** Add support for shared security groups  ([8b4869d](https://github.com/bwsw/cloudstack-ui/commit/8b4869d)), closes [#326](https://github.com/bwsw/cloudstack-ui/issues/326)
+* **snapshots:** delete snapshots if volume is deleted ([#515](https://github.com/bwsw/cloudstack-ui/issues/515)) ([759ea35](https://github.com/bwsw/cloudstack-ui/commit/759ea35))
+* **ssh-keys:** Add description for SSH keys ([4c2b1ac](https://github.com/bwsw/cloudstack-ui/commit/4c2b1ac)), closes [#235](https://github.com/bwsw/cloudstack-ui/issues/235)
+* **tags:** Add filtering to system tags ([bd23e1e](https://github.com/bwsw/cloudstack-ui/commit/bd23e1e)), closes [#261](https://github.com/bwsw/cloudstack-ui/issues/261)
+* **vm-creation:** show 'no templates available' when there is no templates or iso in the vm creation ([#524](https://github.com/bwsw/cloudstack-ui/issues/524)) ([4a54277](https://github.com/bwsw/cloudstack-ui/commit/4a54277)), closes [#522](https://github.com/bwsw/cloudstack-ui/issues/522)
+* **volume:** Check if volume is ready before taking snapshot ([#546](https://github.com/bwsw/cloudstack-ui/issues/546)) ([9d245fe](https://github.com/bwsw/cloudstack-ui/commit/9d245fe))
+* **volumes:** Add filtering, grouping by volume type. Highlight ROOT volumes  ([d6672ae](https://github.com/bwsw/cloudstack-ui/commit/d6672ae)), closes [#485](https://github.com/bwsw/cloudstack-ui/issues/485)
+
+
+
 <a name="1.49.9"></a>
 ## [1.49.9](https://github.com/bwsw/cloudstack-ui/compare/1.49.8...1.49.9) (2017-09-05)
 

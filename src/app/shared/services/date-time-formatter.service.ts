@@ -16,7 +16,7 @@ export class DateTimeFormatterService {
   ) {
     this.initializeFormatter();
     this.subscribeToLanguageUpdates();
-    this.subscribeToTimeFormatUpdates();
+    // this.subscribeToTimeFormatUpdates();
   }
 
   public get dateTimeFormat(): any {
@@ -107,17 +107,16 @@ export class DateTimeFormatterService {
 
   private subscribeToLanguageUpdates(): void {
     this.translateService.onLangChange
-      .subscribe(() => {
-        this.updateFormatters(this.languageService.timeFormat.getValue());
-      });
+      .switchMap(() => this.languageService.getTimeFormat())
+      .subscribe((format) => this.updateFormatters(format));
   }
 
-  private subscribeToTimeFormatUpdates(): void {
-    this.languageService.timeFormat
-      .subscribe(timeFormat => {
-        this.updateFormatters(timeFormat);
-      });
-  }
+  // private subscribeToTimeFormatUpdates(): void {
+  //   this.languageService.timeFormat
+  //     .subscribe(timeFormat => {
+  //       this.updateFormatters(timeFormat);
+  //     });
+  // }
 
   private removeAmPmLocalization(date: string): string {
     return date
