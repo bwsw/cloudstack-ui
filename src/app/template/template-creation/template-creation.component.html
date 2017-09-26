@@ -116,62 +116,72 @@
       </div>
 
       <div *ngIf="showAdditional" class="additional">
-        <md-select *ngIf="mode === 'Template'"
-                class="form-select-control"
-                [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.HYPERVISOR' | translate"
-                [(ngModel)]="hypervisor" (valueChange)="changeHypervisor(hypervisor)"
-                name="format"
-        >
-          <md-option *ngFor="let hypervisor of hypervisors"
-                     [value]="hypervisor.name">{{hypervisor.name}}</md-option>
-        </md-select>
-        <md-select *ngIf="mode === 'Template'"
-                   class="form-select-control"
-                   [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.FORMAT' | translate"
-                   [(ngModel)]="format"
-                   name="format"
-        >
-          <md-option *ngFor="let format of visibleFormats" [value]="format.name">{{format.name}}</md-option>
-        </md-select>
-        <md-checkbox
-                name="extract"
-                [(ngModel)]="isExtractable"
-        >
-          {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_EXTRACTABLE' | translate }}
-        </md-checkbox>
-        <md-checkbox
-                name="public"
-                [(ngModel)]="isPublic"
-        >
-          {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_PUBLIC' | translate }}
-        </md-checkbox>
-        <md-checkbox
-                name="feature"
-                [(ngModel)]="isFeatured"
-                *ngIf="isAdmin()"
-        >
-          {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_FEATURED' | translate }}
-        </md-checkbox>
-        <md-checkbox
-          name="routing"
-          [(ngModel)]="isRouting"
-          *ngIf="isAdmin()"
-        >
-          {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_ROUTING' | translate }}
-        </md-checkbox>
-        <md-checkbox
-                name="hvm"
-                [(ngModel)]="requiresHvm"
-                *ngIf="mode === 'Template'"
-        >
-          {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.REQUIRES_HVM' | translate }}
-        </md-checkbox>
-        <md-checkbox *ngIf="mode === 'Iso'"
-                     name="bootable"
-                     [(ngModel)]="bootable"
-        >
-          {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.BOOTABLE' | translate }}
-        </md-checkbox>
+        <div class="flex-dialog-content">
+          <div class="column" *ngIf="mode === 'Template'">
+            <md-select
+                    class="form-select-control"
+                    [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.HYPERVISOR' | translate"
+                    [(ngModel)]="hypervisor" (valueChange)="changeHypervisor(hypervisor)"
+                    name="hypervisor"
+            >
+              <md-option *ngFor="let h of hypervisors"
+                         [value]="h.name">{{h.name}}</md-option>
+            </md-select>
+            <md-select
+                       class="form-select-control"
+                       [disabled]="!hypervisor"
+                       [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.FORMAT' | translate"
+                       [(ngModel)]="format"
+                       name="format"
+            >
+              <md-option *ngFor="let f of visibleFormats" [value]="f.name">{{f.name}}</md-option>
+            </md-select>
+
+          </div>
+          <div [class.column]="mode === 'Template'" class="additional">
+            <md-checkbox
+              name="extract"
+              [(ngModel)]="isExtractable"
+            >
+              {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_EXTRACTABLE' | translate }}
+            </md-checkbox>
+            <md-checkbox
+              name="public"
+              [(ngModel)]="isPublic"
+            >
+              {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_PUBLIC' | translate }}
+            </md-checkbox>
+            <md-checkbox
+              name="feature"
+              [(ngModel)]="isFeatured"
+              *ngIf="isAdmin()"
+            >
+              {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_FEATURED' | translate }}
+            </md-checkbox>
+
+            <md-checkbox
+              name="routing"
+              [(ngModel)]="isRouting"
+              *ngIf="isAdmin()"
+            >
+              {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_ROUTING' | translate }}
+            </md-checkbox>
+            <md-checkbox
+              name="hvm"
+              [(ngModel)]="requiresHvm"
+              *ngIf="mode === 'Template'"
+            >
+              {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.REQUIRES_HVM' | translate }}
+            </md-checkbox>
+            <md-checkbox *ngIf="mode === 'Iso'"
+                         name="bootable"
+                         [(ngModel)]="bootable"
+            >
+              {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.BOOTABLE' | translate }}
+            </md-checkbox>
+          </div>
+        </div>
+
       </div>
 
     </div>
