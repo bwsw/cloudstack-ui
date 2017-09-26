@@ -579,8 +579,8 @@
   },
   "SECURITY_GROUP_PAGE": {
     "FILTERS": {
-      "TEMPLATES": "Шаблоны",
-      "SHARED": "Разделяемые группы"
+      "TEMPLATES": "Шаблоны брандмауэра",
+      "SHARED": "Общие группы безопасности"
     },
 
     "LIST": {
