@@ -133,8 +133,8 @@ import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 import { SecurityGroupService } from '../security-group/services/security-group.service';
-import { DomainService } from "./services/domain.service";
-
+import { HypervisorService } from './services/hypervisor.service';
+import { DomainService } from './services/domain.service';
 
 @NgModule({
   imports: [
@@ -331,7 +331,8 @@ import { DomainService } from "./services/domain.service";
     VmCreationSecurityGroupService,
     VolumeService,
     VolumeTagService,
-    ZoneService
+    ZoneService,
+    HypervisorService
   ]
 })
 export class SharedModule {

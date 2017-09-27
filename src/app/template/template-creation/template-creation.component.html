@@ -60,22 +60,20 @@
           </md-form-field>
         </div>
         <div [class.column]="!snapshot">
-          <div>
-            <md-select
-              class="form-select-control"
-              [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.OS_TYPE' | translate"
-              [(ngModel)]="osTypeId"
-              id="osType"
-              name="osType"
+          <md-select
+            class="form-select-control"
+            [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.OS_TYPE' | translate"
+            [(ngModel)]="osTypeId"
+            id="osType"
+            name="osType"
+          >
+            <md-option
+              *ngFor="let osType of osTypes"
+              [value]="osType.id"
             >
-              <md-option
-                *ngFor="let osType of osTypes"
-                [value]="osType.id"
-              >
-                {{ osType.description }}
-              </md-option>
-            </md-select>
-          </div>
+              {{ osType.description }}
+            </md-option>
+          </md-select>
           <div *ngIf="!snapshot">
             <md-select
               class="form-select-control"
@@ -92,7 +90,7 @@
               </md-option>
             </md-select>
           </div>
-          <div>
+          <div class="additional">
             <md-checkbox
               *ngIf="mode === 'Template'"
               name="pass"
@@ -101,8 +99,7 @@
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.PASSWORD_ENABLED' | translate }}
             </md-checkbox>
             <md-checkbox
-              class="dynscal-checkbox"
-              name="dynscal"
+              name="scalable"
               [(ngModel)]="dynamicallyScalable"
               *ngIf="mode === 'Template'"
             >
@@ -111,6 +108,82 @@
           </div>
         </div>
       </div>
+
+      <div>
+        <button md-button type="button" (click)="showAdditional=!showAdditional">
+          {{ (showAdditional ? 'TEMPLATE_PAGE.TEMPLATE_CREATION.HIDE_ADDITIONAL'
+          : 'TEMPLATE_PAGE.TEMPLATE_CREATION.SHOW_ADDITIONAL') | translate }}</button>
+      </div>
+
+      <div *ngIf="showAdditional" class="additional">
+        <div class="flex-dialog-content">
+          <div class="column" *ngIf="mode === 'Template'">
+            <md-select
+                    class="form-select-control"
+                    [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.HYPERVISOR' | translate"
+                    [(ngModel)]="hypervisor" (valueChange)="changeHypervisor(hypervisor)"
+                    name="hypervisor"
+            >
+              <md-option *ngFor="let h of hypervisors"
+                         [value]="h.name">{{h.name}}</md-option>
+            </md-select>
+            <md-select
+                       class="form-select-control"
+                       [disabled]="!hypervisor"
+                       [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.FORMAT' | translate"
+                       [(ngModel)]="format"
+                       name="format"
+            >
+              <md-option *ngFor="let f of visibleFormats" [value]="f.name">{{f.name}}</md-option>
+            </md-select>
+
+          </div>
+          <div [class.column]="mode === 'Template'" class="additional">
+            <md-checkbox
+              name="extract"
+              [(ngModel)]="isExtractable"
+            >
+              {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_EXTRACTABLE' | translate }}
+            </md-checkbox>
+            <md-checkbox
+              name="public"
+              [(ngModel)]="isPublic"
+            >
+              {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_PUBLIC' | translate }}
+            </md-checkbox>
+            <md-checkbox
+              name="feature"
+              [(ngModel)]="isFeatured"
+              *ngIf="isAdmin()"
+            >
+              {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_FEATURED' | translate }}
+            </md-checkbox>
+
+            <md-checkbox
+              name="routing"
+              [(ngModel)]="isRouting"
+              *ngIf="isAdmin()"
+            >
+              {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_ROUTING' | translate }}
+            </md-checkbox>
+            <md-checkbox
+              name="hvm"
+              [(ngModel)]="requiresHvm"
+              *ngIf="mode === 'Template'"
+            >
+              {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.REQUIRES_HVM' | translate }}
+            </md-checkbox>
+            <md-checkbox *ngIf="mode === 'Iso'"
+                         name="bootable"
+                         [(ngModel)]="bootable"
+            >
+              {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.BOOTABLE' | translate }}
+            </md-checkbox>
+          </div>
+        </div>
+
+      </div>
+
     </div>
     <div class="mat-dialog-actions">
       <button
