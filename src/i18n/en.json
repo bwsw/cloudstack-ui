@@ -572,9 +572,18 @@
       "INVALID_URL": "Invalid URL (only http or https)",
       "OS_TYPE": "OS type",
       "ZONE": "Zone",
-      "EXTRACTABLE": "Extractable",
       "PASSWORD_ENABLED": "Password enabled",
-      "DYNAMICALLY_SCALABLE": "Dynamically scalable"
+      "DYNAMICALLY_SCALABLE": "Dynamically scalable",
+      "HYPERVISOR": "Hypervisor",
+      "FORMAT": "Format",
+      "IS_EXTRACTABLE": "Extractable",
+      "IS_PUBLIC": "Public",
+      "IS_FEATURED": "Featured",
+      "IS_ROUTING": "Routing",
+      "REQUIRES_HVM": "Requires HVM",
+      "BOOTABLE": "Bootable",
+      "SHOW_ADDITIONAL": "Show additional fields",
+      "HIDE_ADDITIONAL": "Hide additional fields"
     }
   },
   "SECURITY_GROUP_PAGE": {
