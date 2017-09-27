@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Account } from '../../models/account.model';
 import { AccountService } from '../../services/account.service';
-import { DomainService } from "../../services/domain.service";
-import { Observable } from "rxjs/Observable";
+import { DomainService } from '../../services/domain.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'cs-account-filter',
@@ -22,7 +22,7 @@ export class AccountFilterComponent {
       this.domainService.getList()
     ).subscribe(([accounts, domains]) => {
       this.accounts = accounts.map(account => {
-        account.fullDomain = domains.find(domain => domain.id === account.domainid).path;
+        account.fullDomain = domains.find(domain => domain.id === account.domainid).getPath();
         return account;
       })
     });

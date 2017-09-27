@@ -5,5 +5,5 @@
         [(ngModel)]="selected"
         (change)="changeAccount()"
 >
-    <md-option *ngFor="let account of accounts" [value]="account">{{ account.fullDomain }}/{{ account.name }}</md-option>
+    <md-option *ngFor="let account of accounts" [value]="account">{{ account.fullDomain }}{{ account.name }}</md-option>
 </md-select>
