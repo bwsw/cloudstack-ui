@@ -34,10 +34,11 @@ export class TemplateFiltersComponent implements OnInit {
   public selectedOsFamilies: Array<OsFamily>;
   public selectedFilters: Array<string>;
   public selectedGroupingNames = [];
-  public selectedAccounts: Array<Account>;
+  public selectedAccounts: Array<Account> = [];
+  public selectedAccountIds: Array<string> = [];
 
   public zones: Array<Zone>;
-  public selectedZones: Array<Zone>;
+  public selectedZones: Array<Zone> = [];
 
   public filterTranslations: {};
 
@@ -70,7 +71,8 @@ export class TemplateFiltersComponent implements OnInit {
       defaultOption: []
     },
     query: { type: 'string' },
-    groupings: { type: 'array', defaultOption: [] }
+    groupings: { type: 'array', defaultOption: [] },
+    accounts: {type: 'array', defaultOption: [] }
   }, this.router, this.storageService, this.filtersKey, this.activatedRoute);
 
   private templateTabIndex = 0;
@@ -93,7 +95,7 @@ export class TemplateFiltersComponent implements OnInit {
       this.zoneService.getList()
         .subscribe(zones => {
           this.zones = zones;
-          setTimeout(() => this.initFilters(), 0);
+          this.initFilters();
         });
     } else {
       this.selectedOsFamilies = this.osFamilies.concat();
@@ -145,7 +147,8 @@ export class TemplateFiltersComponent implements OnInit {
         osFamilies: this.selectedOsFamilies,
         categoryFilters: this.selectedFilters,
         zones: this.selectedZones.map(_ => _.id),
-        groupings: this.selectedGroupingNames.map(_ => _.key)
+        groupings: this.selectedGroupingNames.map(_ => _.key),
+        accounts: this.selectedAccounts.map(_ => _.id)
       });
     }
   }
@@ -172,6 +175,7 @@ export class TemplateFiltersComponent implements OnInit {
       .filter(g => g);
     this.query = params['query'];
     this.queryStream.next(this.query);
+    this.selectedAccountIds = params['accounts'];
 
     this.updateFilters();
   }

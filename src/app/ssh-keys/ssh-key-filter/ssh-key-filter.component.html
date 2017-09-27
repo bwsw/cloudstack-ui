@@ -1,6 +1,6 @@
 <cs-top-bar>
   <div class="options-panel" *ngIf="showAccountFilter()">
-    <cs-account-filter (onChangeAccount)="updateAccount($event)">
+    <cs-account-filter [selectedAccountIds]="selectedAccountIds" (onChangeAccount)="updateAccount($event)">
     </cs-account-filter>
 
     <cs-draggable-select

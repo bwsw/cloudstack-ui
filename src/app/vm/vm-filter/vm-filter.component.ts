@@ -39,7 +39,8 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit, OnC
   public selectedStates: Array<VmState> = [];
   public selectedZones: Array<Zone> = [];
   public selectedGroupings: Array<any> = [];
-  public selectedAccounts: Array<Account>;
+  public selectedAccounts: Array<Account> = [];
+  public selectedAccountIds: Array<string> = [];
   public states = [
     {
       state: VmState.Running,
@@ -66,7 +67,8 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit, OnC
     zones: { type: 'array', defaultOption: [] },
     groups: { type: 'array', defaultOption: [] },
     groupings: { type: 'array', defaultOption: [] },
-    states: { type: 'array', options: this.states.map(_ => _.state), defaultOption: [] }
+    states: { type: 'array', options: this.states.map(_ => _.state), defaultOption: [] },
+    accounts: {type: 'array', defaultOption: [] }
   }, this.router, this.storage, this.filtersKey, this.activatedRoute);
 
   constructor(
@@ -123,7 +125,7 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit, OnC
     if (containsNoGroup) {
       this.selectedGroups.push(noGroup);
     }
-
+    this.selectedAccountIds = params['accounts'];
     this.update();
   }
 
@@ -155,7 +157,8 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit, OnC
       zones: this.selectedZones.map(_ => _.id),
       groups: this.selectedGroups.map(_ => (_ as InstanceGroup).name || ''),
       states: this.selectedStates,
-      groupings: this.selectedGroupings.map(_ => _.key)
+      groupings: this.selectedGroupings.map(_ => _.key),
+      accounts: this.selectedAccounts.map(_ => _.id)
     });
   }
 

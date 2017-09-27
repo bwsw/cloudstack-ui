@@ -40,7 +40,8 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
   public selectedZones: Array<Zone> = [];
   public selectedGroupingNames = [];
   public query: string;
-  public selectedAccounts: Array<Account>;
+  public selectedAccounts: Array<Account> = [];
+  public selectedAccountIds: Array<string> = [];
 
   private filtersKey = volumeListFilters;
   private filterService = new FilterService({
@@ -48,7 +49,8 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
     zones: { type: 'array', defaultOption: [] },
     types: { type: 'array', defaultOption: [] },
     groupings: { type: 'array', defaultOption: [] },
-    query: { type: 'string' }
+    query: { type: 'string' },
+    accounts: {type: 'array', defaultOption: [] }
   }, this.router, this.localStorage, this.filtersKey, this.activatedRoute);
 
   constructor(
@@ -87,6 +89,7 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
     this.selectedTypes = this.types.filter(type =>
       params['types'].find(_ => _ === type)
     );
+    this.selectedAccountIds = params['accounts'];
 
     this.selectedGroupingNames = params.groupings.reduce((acc, _) => {
       const grouping = this.groupings.find(g => g.key === _);
@@ -119,7 +122,8 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
       zones: this.selectedZones.map(_ => _.id),
       types: this.selectedTypes,
       groupings: this.selectedGroupingNames.map(_ => _.key),
-      query: this.query
+      query: this.query,
+      accounts: this.selectedAccounts.map(_ => _.id)
     });
   }
 }
