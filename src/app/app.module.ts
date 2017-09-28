@@ -39,6 +39,7 @@ import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
 import { ConfigService } from './shared/services/config.service';
+import { LanguageService } from './shared/services/language.service';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './i18n/', '.json');
@@ -47,10 +48,12 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 export function InitAppFactory(
   auth: AuthService,
   http: HttpClient,
+  languageService: LanguageService,
   configService: ConfigService
 ) {
   return () => http.get('config/config.json').toPromise()
     .then(data => configService.parse(data))
+    .then(() => languageService.applyLanguage(languageService.defaultLanguage))
     .then(() => auth.initUser());
 }
 
@@ -102,7 +105,7 @@ export function InitAppFactory(
     {
       provide: APP_INITIALIZER,
       useFactory: InitAppFactory,
-      deps: [AuthService, HttpClient, ConfigService],
+      deps: [AuthService, HttpClient, LanguageService, ConfigService],
       multi: true
     },
     MdDialog,
