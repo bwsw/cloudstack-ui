@@ -14,7 +14,7 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 @Component({
   selector: 'cs-event-list-container',
   template: `
-    <cs-new-event-list
+    <cs-event-list
       [events]="events$ | async"
       [isLoading]="loading$ | async"
       [firstDayOfWeek]="firstDayOfWeek$ | async"
@@ -27,7 +27,7 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
       (onQueryChange)="onQueryChange($event)"
       (onEventTypesChange)="onEventTypesChange($event)"
       (onSelectedLevelsChange)="onSelectedLevelsChange($event)"
-    ></cs-new-event-list>`
+    ></cs-event-list>`
 })
 export class EventListContainerComponent extends WithUnsubscribe() implements OnInit {
 
