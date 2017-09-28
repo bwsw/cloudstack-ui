@@ -1,29 +1,30 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../shared/services/auth.service';
 import { LayoutService } from '../shared/services/layout.service';
+import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 
 @Component({
   selector: 'cs-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public disableSecurityGroups = false;
-  private loginSubscription: Subscription;
 
-  constructor(private auth: AuthService, private layoutService: LayoutService) {}
+  constructor(
+    private auth: AuthService,
+    private layoutService: LayoutService
+  ) {
+    super();
+  }
 
   public ngOnInit(): void {
-    this.loginSubscription = this.auth.loggedIn
+    this.auth.loggedIn
+      .takeUntil(this.unsubscribe$)
       .filter(isLoggedIn => !!isLoggedIn)
       .subscribe(() => {
         this.disableSecurityGroups = this.auth.isSecurityGroupEnabled();
       });
-  }
-
-  public ngOnDestroy(): void {
-    this.loginSubscription.unsubscribe();
   }
 
   public get title(): string {

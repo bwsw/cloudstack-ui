@@ -59,10 +59,11 @@ export class FilterService {
     private router: Router,
     private storage: StorageService,
     private key: string,
-    private activatedRoute: ActivatedRoute) {
+    private activatedRoute: ActivatedRoute
+  ) {
   }
 
-  public update(key, params): void {
+  public update(params): void {
     if (Utils.getRouteWithoutQueryParams(this.router.routerState) === '/login') {
       return;
     }
@@ -77,7 +78,7 @@ export class FilterService {
       }
     }, {});
     this.router.navigate([], { queryParams })
-      .then(() => this.storage.write(key, JSON.stringify(queryParams)));
+      .then(() => this.storage.write(this.key, JSON.stringify(queryParams)));
   }
 
   public getParams(): any {

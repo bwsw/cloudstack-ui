@@ -147,7 +147,7 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit, OnC
       groupings: this.selectedGroupings
     });
 
-    this.filterService.update(this.filtersKey, {
+    this.filterService.update({
       zones: this.selectedZones.map(_ => _.id),
       groups: this.selectedGroups.map(_ => (_ as InstanceGroup).name || ''),
       states: this.selectedStates,

@@ -63,7 +63,7 @@ describe('Filter service', () => {
           activatedRoute
         );
         const params = { asd: 4, dsa: 5 };
-        filterService.update(testKey, params);
+        filterService.update(params);
         tick(5);
         expect(storage.read(testKey)).toBe(JSON.stringify(params));
       }
@@ -83,7 +83,7 @@ describe('Filter service', () => {
           activatedRoute
         );
         const params = { asd: [], dsa: [5] };
-        filterService.update(testKey, params);
+        filterService.update(params);
         tick(5);
         expect(storage.read(testKey)).toBe(JSON.stringify({ dsa: [5] }));
       }

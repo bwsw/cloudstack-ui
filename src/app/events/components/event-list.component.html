@@ -4,17 +4,16 @@
       <cs-date-picker
         [okLabel]="'COMMON.OK' | translate"
         [locale]="locale"
-        [firstDayOfWeek]="firstDayOfWeek$ | async"
+        [firstDayOfWeek]="firstDayOfWeek"
         [DateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
         [cancelLabel]="'COMMON.CANCEL' | translate"
-        [(ngModel)]="date"
-        (change)="getEvents({ reload: true })"
+        [ngModel]="date"
+        (change)="onDateChange.emit($event)"
       ></cs-date-picker>
-
       <md-select
         class="level-selector"
-        [(ngModel)]="selectedLevels"
-        (change)="getEvents()"
+        [ngModel]="selectedLevels"
+        (change)="onSelectedLevelsChange.emit($event.value)"
         multiple="true"
         [placeholder]="'EVENT_PAGE.SELECT_LEVELS' | translate"
       >
@@ -27,9 +26,8 @@
       </md-select>
 
       <md-select
-        *ngIf="eventTypes"
-        [(ngModel)]="selectedTypes"
-        (change)="getEvents()"
+        [ngModel]="selectedTypes"
+        (change)="onEventTypesChange.emit($event.value)"
         multiple="true"
         [placeholder]="'EVENT_PAGE.SELECT_TYPES' | translate"
       >
@@ -40,22 +38,23 @@
           {{ et }}
         </md-option>
       </md-select>
+
       <cs-search
-        [(ngModel)]="query"
-        (ngModelChange)="getEvents()"
+        [ngModel]="query"
+        (ngModelChange)="onQueryChange.emit($event)"
       ></cs-search>
     </div>
   </cs-top-bar>
   <div class="event-list">
-    <ng-container *loading="loading">
+    <ng-container *loading="isLoading">
       <cs-table
-        *ngIf="visibleEvents?.length"
+        *ngIf="events?.length"
         [tableId]="'EVENT_PAGE'"
         [columns]="tableColumns"
-        [table-model]="tableModel"
+        [table-model]="events"
         [searchQuery]="query"
       ></cs-table>
-      <span *ngIf="!visibleEvents?.length">{{ 'EVENT_PAGE.NO_EVENTS' | translate }}</span>
+      <span *ngIf="!events?.length">{{ 'EVENT_PAGE.NO_EVENTS' | translate }}</span>
     </ng-container>
   </div>
 </div>

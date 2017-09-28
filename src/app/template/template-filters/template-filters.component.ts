@@ -131,7 +131,7 @@ export class TemplateFiltersComponent implements OnInit {
     });
 
     if (!this.dialogMode) {
-      this.filterService.update(this.filtersKey, {
+      this.filterService.update({
         query: this.query || null,
         osFamilies: this.selectedOsFamilies,
         categoryFilters: this.selectedFilters,

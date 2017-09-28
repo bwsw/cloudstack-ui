@@ -100,7 +100,7 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
       query: this.query
     });
 
-    this.filterService.update(this.filtersKey, {
+    this.filterService.update({
       spareOnly: this.spareOnly,
       zones: this.selectedZones.map(_ => _.id),
       types: this.selectedTypes,
