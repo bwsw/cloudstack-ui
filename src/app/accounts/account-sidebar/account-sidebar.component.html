@@ -1,12 +1,50 @@
-<div>
-  <button
-    md-icon-button
-    [mdMenuTriggerFor]="actionsMenu"
-  >
-    <md-icon>more_vert</md-icon>
-  </button>
+<div *ngIf="entity">
+  <div class="title-container">
+    <h4 class="details-header">{{ entity.name }}</h4>
+    <button
+      md-icon-button
+      [mdMenuTriggerFor]="actionsMenu"
+    >
+      <md-icon>more_vert</md-icon>
+    </button>
+  </div>
+
+  <nav md-tab-nav-bar>
+    <a
+      mdTabLink
+      [routerLink]="['./account']"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('account')"
+    >
+      <div
+        class="md-tab-tooltip"
+        [mdTooltip]="'ACCOUNT_PAGE.SIDEBAR.ACCOUNT' | translate"
+      >
+        <md-icon>local_offer</md-icon>
+      </div>
+    </a>
+    <a
+      mdTabLink
+      [routerLink]="['./users']"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('users')"
+    >
+      <div
+        class="md-tab-tooltip"
+        [mdTooltip]="'ACCOUNT_PAGE.SIDEBAR.USERS' | translate"
+      >
+        <md-icon>person</md-icon>
+      </div>
+    </a>
+  </nav>
 </div>
 
 <md-menu #actionsMenu="mdMenu">
   <!--cs-account-actions [account]="account"></cs-account-actions-->
 </md-menu>
+
+<router-outlet></router-outlet>
+
+<cs-no-results *ngIf="notFound" [text]="'VM_NOT_FOUND'"></cs-no-results>
+
+<cs-overlay-loading [active]="!entity && !notFound"></cs-overlay-loading>

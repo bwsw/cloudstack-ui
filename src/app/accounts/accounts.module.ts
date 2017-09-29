@@ -7,7 +7,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AccountListComponent } from './account-list/account-list.component';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 import { AccountListFilterComponent } from './account-list-filter/account-list-filter.component';
-import { MdMenuModule, MdSelectModule, MdTooltipModule } from '@angular/material';
+import {
+  MdButtonModule,
+  MdIconModule,
+  MdMenuModule,
+  MdSelectModule,
+  MdTabsModule,
+  MdTooltipModule
+} from '@angular/material';
 import { AccountItemComponent } from './account/account-item.component';
 import { DynamicModule } from 'ng-dynamic-component';
 import { AccountStatisticsComponent } from './account-sidebar/account-statistic/account-statistics.component';
@@ -15,6 +22,7 @@ import { AccountLimitsComponent } from './account-sidebar/account-limits/account
 import { AccountSettingsComponent } from './account-sidebar/account-settings/account-settings.component';
 import { AccountSidebarComponent } from './account-sidebar/account-sidebar.component';
 import { FormsModule } from '@angular/forms';
+import { AccountDetailsComponent } from './account-sidebar/account-details/account-details.component';
 
 
 @NgModule({
@@ -24,7 +32,10 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     MdMenuModule,
     MdTooltipModule,
+    MdTabsModule,
+    MdButtonModule,
     MdSelectModule,
+    MdIconModule,
     RouterModule,
     SharedModule,
     TranslateModule,
@@ -38,7 +49,8 @@ import { FormsModule } from '@angular/forms';
     AccountSettingsComponent,
     AccountLimitsComponent,
     AccountStatisticsComponent,
-    AccountSidebarComponent
+    AccountSidebarComponent,
+    AccountDetailsComponent
   ],
   exports: [
     AccountPageComponent

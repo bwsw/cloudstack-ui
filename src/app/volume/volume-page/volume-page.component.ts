@@ -73,7 +73,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
     private authService: AuthService
   ) {
     super();
-  if (!this.authService.isAdmin()) {
+    if (!this.authService.isAdmin()) {
       this.groupings = this.groupings.filter(g => g.key != 'accounts');
     } else {
       this.getDomainList();
@@ -131,7 +131,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
         this.filterVolumesBySearch()
       ]
     );
-    this.visibleVolumes = this.sortByAccount(this.visibleVolumes, accounts);
+    this.visibleVolumes = this.filterByAccount(this.visibleVolumes, accounts);
   }
 
   public updateGroupings(): void {
@@ -197,17 +197,16 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   }
 
   private getDomain(domainId: string) {
-    let domain = this.domainList && this.domainList.find(d => d.id === domainId);
+    const domain = this.domainList && this.domainList.find(d => d.id === domainId);
     return domain ? domain.getPath() : '';
   }
 
-  private sortByAccount(visibleVolumes: Array<Volume>, accounts = []) {
-    if (accounts.length != 0) {
-      return visibleVolumes.filter(key =>
-        accounts.find(account => account.name === key.account && account.domainid === key.domainid));
-    } else {
-      return visibleVolumes;
-    }
+  private filterByAccount(volumes: Array<Volume>, accounts = []) {
+    return !accounts.length
+      ? volumes
+      : volumes.filter(volume =>
+        accounts.find(
+          account => account.name === volume.account && account.domainid === volume.domainid));
   }
 
   private onVolumeUpdated(): void {

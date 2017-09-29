@@ -37,6 +37,7 @@ export const routes: Routes = [
       ...volumeRoutes,
       ...templateRouting,
       ...sgRoutes,
+      ...accountsRoutes,
       {
         path: 'events',
         component: EventListComponent,
@@ -48,7 +49,6 @@ export const routes: Routes = [
         component: SettingsComponent,
         canActivate: [AuthGuard]
       },
-      ...accountsRoutes,
       {
         path: '**',
         redirectTo: 'instances'

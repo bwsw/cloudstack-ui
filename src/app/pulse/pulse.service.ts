@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ConfigService } from '../shared/services/config.service';
 import { CpuStats, DiskStats, NetworkStats, RamStats } from './stats';
@@ -72,13 +72,13 @@ export class PulseService {
   ) {
     const t = `${timeParams.range}/${timeParams.aggregation}/${timeParams.shift}`;
 
-    let search;
+    let requestParams = new HttpParams();
     if (forceUpdate) {
-      search = { _: `${new Date().getTime()}` };
+      requestParams = requestParams.set('_', `${new Date().getTime()}`);
     }
 
     return this.http
-      .get(`cs-extensions/pulse/${endpoint}/${params}/${t}`, { params: search })
+      .get(`cs-extensions/pulse/${endpoint}/${params}/${t}`, { params: requestParams })
       .map(res => res['result']);
   }
 }
