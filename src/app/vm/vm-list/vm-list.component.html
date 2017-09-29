@@ -6,7 +6,7 @@
     <cs-top-bar>
       <cs-vm-statistics></cs-vm-statistics>
     </cs-top-bar>
-    <cs-vm-filter
+    <cs-vm-filter *ngIf="zones && groups"
       [zones]="zones"
       [groups]="groups"
       [availableGroupings]="groupings"

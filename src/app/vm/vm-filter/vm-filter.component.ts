@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as sortBy from 'lodash/sortBy';
 import { InstanceGroup, Zone } from '../../shared/models';
@@ -27,7 +27,7 @@ export type InstanceGroupOrNoGroup = InstanceGroup | noGroup;
   selector: 'cs-vm-filter',
   templateUrl: 'vm-filter.component.html'
 })
-export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit, OnChanges {
+export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit {
   @Input() public availableGroupings: Array<any>;
   @Input() public groups: Array<InstanceGroup>;
   @Input() public zones: Array<Zone>;
@@ -83,16 +83,7 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit, OnC
 
   public ngOnInit(): void {
     this.instanceGroupService.groupsUpdates.subscribe(() => this.loadGroups());
-  }
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    const groupsChange = changes['groups'];
-    const zonesChange = changes['zones'];
-    if (groupsChange && zonesChange) {
-      if (groupsChange.currentValue && zonesChange.currentValue) {
-        this.initFilters();
-      }
-    }
+    this.initFilters();
   }
 
   public showAccountFilter(): boolean {
