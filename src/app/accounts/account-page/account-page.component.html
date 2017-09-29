@@ -2,13 +2,15 @@
   (onAction)="showCreationDialog()"
   [isOpen]="listService?.hasSelected()"
 >
-  <cs-account-filter
-    [availableGroupings]="groupings"
+  <cs-account-list-filter
+    [domains]="domains"
+    [roles]="roles"
     (updateFilters)="updateFilters($event)"
     cs-list
-  ></cs-account-filter>
+  ></cs-account-list-filter>
   <cs-account-list
     *loading="!accounts"
+    [groupings]="groupings"
     [accounts]="accounts"
     cs-list
   ></cs-account-list>

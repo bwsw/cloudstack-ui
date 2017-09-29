@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AuthService } from '../../shared/services/auth.service';
 import { AccountItemComponent } from '../account/account-item.component';
+import { Account } from '../../shared/models/account.model';
+import { ListService } from '../../shared/components/list/list.service';
 
 @Component({
   selector: 'cs-account-list',
@@ -8,7 +9,6 @@ import { AccountItemComponent } from '../account/account-item.component';
 })
 export class AccountListComponent {
   @Input() public accounts: Array<Account>;
-  @Input() public viewMode: string;
   @Input() public groupings: Array<any>;
   @Output() public viewModeChange = new EventEmitter();
 
@@ -17,7 +17,17 @@ export class AccountListComponent {
 
   public AccountItemComponent = AccountItemComponent;
 
-  constructor(protected authService: AuthService) {
+  constructor(public listService: ListService) {
+    this.inputs = {
+      isSelected: (item: Account) => this.listService.isSelected(item.id)
+    };
 
+    this.outputs = {
+      onClick: this.selectAccount.bind(this),
+    };
+  }
+
+  public selectAccount(account: Account): void {
+    this.listService.showDetails(account.id);
   }
 }

@@ -9,7 +9,15 @@
         class="md-card-title-text"
         [mdTooltip]="item.name"
       >
-        {{ item.name }}
+        <span
+          class="state-icon"
+          [class.enabled]="item.state === 'enabled'"
+          [class.disabled]="item.state === 'disabled'"
+          [class.locked]="item.state === 'locked'"
+        ></span>
+        <span
+          [mdTooltip]="item.name"
+        > {{ item.name }} </span>
       </h2>
     </md-card-title>
     <div class="md-card-header-menu">
@@ -19,23 +27,16 @@
     </div>
   </md-card-header>
   <md-card-content>
-    <div class="card-wrapper">
-      <div class="flex-1">
-        <div class="row">
-          {{ 'ACCOUNT_PAGE.CARD.ROLE' | translate }}: {{item.role}}
-        </div>
-      </div>
-      <div class="flex-1">
-        <div class="row">
-          {{ 'ACCOUNT_PAGE.CARD.ROLE_TYPE' | translate }}: {{item.roletype}}
-        </div>
-      </div>
-      <div class="flex-1">
-        <div class="row">
-          {{ 'ACCOUNT_PAGE.CARD.DOMAIN' | translate }}: {{item.domain}}
-        </div>
-      </div>
+    <div class="row">
+      {{ 'ACCOUNT_PAGE.CARD.ROLE' | translate }}: {{item.role}}
+    </div>
 
+    <div class="row">
+      {{ 'ACCOUNT_PAGE.CARD.ROLE_TYPE' | translate }}: {{item.roletype}}
+    </div>
+
+    <div class="row">
+      {{ 'ACCOUNT_PAGE.CARD.DOMAIN' | translate }}: {{item.domain}}
     </div>
   </md-card-content>
   <md-menu

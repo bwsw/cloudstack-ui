@@ -6,22 +6,25 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AccountListComponent } from './account-list/account-list.component';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
-import { AccountFilterComponent } from './account-filter/account-filter.component';
-import { MdMenuModule, MdTooltipModule } from '@angular/material';
+import { AccountListFilterComponent } from './account-list-filter/account-list-filter.component';
+import { MdMenuModule, MdSelectModule, MdTooltipModule } from '@angular/material';
 import { AccountItemComponent } from './account/account-item.component';
 import { DynamicModule } from 'ng-dynamic-component';
 import { AccountStatisticsComponent } from './account-sidebar/account-statistic/account-statistics.component';
 import { AccountLimitsComponent } from './account-sidebar/account-limits/account-limits.component';
 import { AccountSettingsComponent } from './account-sidebar/account-settings/account-settings.component';
 import { AccountSidebarComponent } from './account-sidebar/account-sidebar.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
   imports: [
     CommonModule,
     DynamicModule.withComponents([AccountItemComponent]),
+    FormsModule,
     MdMenuModule,
     MdTooltipModule,
+    MdSelectModule,
     RouterModule,
     SharedModule,
     TranslateModule,
@@ -30,7 +33,7 @@ import { AccountSidebarComponent } from './account-sidebar/account-sidebar.compo
   declarations: [
     AccountPageComponent,
     AccountListComponent,
-    AccountFilterComponent,
+    AccountListFilterComponent,
     AccountItemComponent,
     AccountSettingsComponent,
     AccountLimitsComponent,

@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div *ngIf="account">
+  <md-card>
+    <md-card-header>
+      <md-card-title>
+        <h2 class="md-card-title-text">{{ 'ACCOUNT_PAGE.DETAILS'  }}</h2>
+      </md-card-title>
+    </md-card-header>
+    <md-card-content class="md-card-content-with-actions">
+      <div class="md-card-content-container">
+        <div>ID</div>
+        <div>Role</div>
+        <div>RoleType</div>
+        <div>Domain</div>
 
-</body>
-</html>
+      </div>
+    </md-card-content>
+  </md-card>
+</div>

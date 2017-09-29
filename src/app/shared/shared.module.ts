@@ -135,6 +135,7 @@ import { ZoneService } from './services/zone.service';
 import { SecurityGroupService } from '../security-group/services/security-group.service';
 import { HypervisorService } from './services/hypervisor.service';
 import { DomainService } from './services/domain.service';
+import { RoleService } from './services/role.service';
 
 @NgModule({
   imports: [
@@ -303,6 +304,7 @@ import { DomainService } from './services/domain.service';
     OsTypeService,
     ResourceLimitService,
     ResourceUsageService,
+    RoleService,
     RouterUtilsService,
     SSHKeyPairService,
     SecurityGroupService,
