@@ -13,3 +13,4 @@ export * from '../../vm/vm-creation/components/security-group-rules-manager/vm-c
 export * from './top-bar/top-bar.component';
 export * from './vm-statistics/vm-statistics.component';
 export * from './slider/slider.component';
+export * from './filter/account-filter.component';
