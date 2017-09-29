@@ -12,7 +12,11 @@ import { ZoneService } from '../../shared/services/zone.service';
 import { VmActionsService } from '../shared/vm-actions.service';
 import { VirtualMachine, VmState } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
-import { InstanceGroupOrNoGroup, noGroup, VmFilter } from '../vm-filter/vm-filter.component';
+import {
+  InstanceGroupOrNoGroup,
+  noGroup,
+  VmFilter
+} from '../vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list-item.component';
 import { AuthService } from '../../shared/services/auth.service';
 import { DomainService } from '../../shared/services/domain.service';
@@ -97,7 +101,7 @@ export class VmListComponent implements OnInit {
     };
 
     if (!this.authService.isAdmin()) {
-      this.groupings = this.groupings.filter(g => g.key != 'accounts');
+      this.groupings = this.groupings.filter(g => g.key !== 'accounts');
     } else {
       this.getDomainList();
     }
@@ -138,8 +142,8 @@ export class VmListComponent implements OnInit {
     this.visibleVmList = this.filterVmsByZones(this.vmList, selectedZones);
     this.visibleVmList = this.filterVmsByGroup(this.visibleVmList, selectedGroups);
     this.visibleVmList = this.filterVMsByState(this.visibleVmList, selectedStates);
+    this.visibleVmList = this.filterByAccount(this.visibleVmList, accounts);
     this.visibleVmList = this.sortByDate(this.visibleVmList);
-    this.visibleVmList = this.sortByAccount(this.visibleVmList, accounts);
   }
 
   public updateStats(): void {
@@ -168,22 +172,22 @@ export class VmListComponent implements OnInit {
     )
       .finally(() => this.fetching = false)
       .subscribe(([vmList, groups, zones]) => {
-      this.vmList = this.sortByDate(vmList);
-      this.visibleVmList = vmList;
-      this.groups = groups;
-      this.zones = zones;
+        this.vmList = this.sortByDate(vmList);
+        this.visibleVmList = vmList;
+        this.groups = groups;
+        this.zones = zones;
 
-      const selectedVmIsGone = this.visibleVmList.every(
-        vm => !this.listService.isSelected(vm.id)
-      );
-      if (selectedVmIsGone) {
-        this.listService.deselectItem();
-      }
+        const selectedVmIsGone = this.visibleVmList.every(
+          vm => !this.listService.isSelected(vm.id)
+        );
+        if (selectedVmIsGone) {
+          this.listService.deselectItem();
+        }
 
-      if (this.shouldShowSuggestionDialog) {
-        this.showSuggestionDialog();
-      }
-    });
+        if (this.shouldShowSuggestionDialog) {
+          this.showSuggestionDialog();
+        }
+      });
   }
 
   private getDomainList() {
@@ -193,7 +197,7 @@ export class VmListComponent implements OnInit {
   }
 
   private getDomain(domainId: string) {
-    let domain = this.domainList && this.domainList.find(d => d.id === domainId);
+    const domain = this.domainList && this.domainList.find(d => d.id === domainId);
     return domain ? domain.getPath() : '';
   }
 
@@ -317,13 +321,11 @@ export class VmListComponent implements OnInit {
     return !states.length ? vmList : vmList.filter(vm => states.includes(vm.state));
   }
 
-  private sortByAccount(visibleVmList: Array<VirtualMachine>, accounts = []) {
-    if (accounts.length != 0) {
-      return visibleVmList.filter(key =>
-        accounts.find(account => account.name === key.account && account.domainid === key.domainid));
-    } else {
-      return visibleVmList;
-    }
+  private filterByAccount(vmList: Array<VirtualMachine>, accounts = []) {
+    return !accounts.length
+      ? vmList
+      : vmList.filter(vm => accounts.find(
+        account => account.name === vm.account && account.domainid === vm.domainid));
   }
 
   private sortByDate(vmList: Array<VirtualMachine>): Array<VirtualMachine> {

@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 
 import { OsFamily } from '../../shared/models/os-type.model';
 import { Zone } from '../../shared/models/zone.model';
@@ -54,7 +61,7 @@ export class TemplateFilterListComponent implements OnChanges {
 
   constructor(protected authService: AuthService, private domainService: DomainService) {
     if (!this.authService.isAdmin()) {
-      this.groupings = this.groupings.filter(g => g.key != 'accounts');
+      this.groupings = this.groupings.filter(g => g.key !== 'accounts');
     } else {
       this.getDomainList();
     }
@@ -106,7 +113,10 @@ export class TemplateFilterListComponent implements OnChanges {
       this.visibleTemplateList = this.visibleTemplateList
         .filter(template => template.zoneId === this.zoneId || template.crossZones);
     }
-    this.visibleTemplateList = this.sortByAccount(this.visibleTemplateList, this.accounts);
+    this.visibleTemplateList = this.filterByAccount(
+      this.visibleTemplateList,
+      this.accounts
+    );
   }
 
   private getDomainList() {
@@ -116,7 +126,7 @@ export class TemplateFilterListComponent implements OnChanges {
   }
 
   private getDomain(domainId: string) {
-    let domain = this.domainList && this.domainList.find(d => d.id === domainId);
+    const domain = this.domainList && this.domainList.find(d => d.id === domainId);
     return domain ? domain.getPath() : '';
   }
 
@@ -155,12 +165,11 @@ export class TemplateFilterListComponent implements OnChanges {
       );
   }
 
-  private sortByAccount(visibleTemplateList: Array<BaseTemplateModel>, accounts = []) {
-    if (accounts.length != 0) {
-      return visibleTemplateList.filter(key =>
-        accounts.find(account => account.name === key.account  && account.domainid === key.domainId));
-    } else {
-      return visibleTemplateList;
-    }
+  private filterByAccount(visibleTemplateList: Array<BaseTemplateModel>, accounts = []) {
+    return !accounts.length
+      ? this.visibleTemplateList
+      : visibleTemplateList.filter(template =>
+        accounts.find(
+          account => account.name === template.account && account.domainid === template.domainId));
   }
 }

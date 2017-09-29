@@ -46,7 +46,7 @@ export class SshKeysPageComponent implements OnInit {
     private authService: AuthService
   ) {
     if (!this.authService.isAdmin()) {
-      this.groupings = this.groupings.filter(g => g.key != 'accounts');
+      this.groupings = this.groupings.filter(g => g.key !== 'accounts');
     } else {
       this.getDomainList();
     }
@@ -85,7 +85,7 @@ export class SshKeysPageComponent implements OnInit {
 
     this.updateGroupings();
     const { accounts } = this.filterData;
-    this.visibleSshKeyList = this.sortByAccount(this.visibleSshKeyList, accounts);
+    this.visibleSshKeyList = this.filterByAccount(this.visibleSshKeyList, accounts);
   }
 
   public updateGroupings(): void {
@@ -96,14 +96,18 @@ export class SshKeysPageComponent implements OnInit {
   }
 
   private showRemovalDialog(sshKeyPair: SSHKeyPair): void {
-    this.dialogService.confirm({ message: 'SSH_KEYS.REMOVE_THIS_KEY'})
+    this.dialogService.confirm({ message: 'SSH_KEYS.REMOVE_THIS_KEY' })
       .onErrorResumeNext()
       .switchMap((res) => {
         if (res) {
           this.setLoading(sshKeyPair.name);
-          return this.sshKeyService.remove(this.authService.isAdmin() ?
-            { name: sshKeyPair.name, account: sshKeyPair.account, domainid: sshKeyPair.domainid }
-          : { name });
+          return this.sshKeyService.remove(this.authService.isAdmin()
+            ? {
+              name: sshKeyPair.name,
+              account: sshKeyPair.account,
+              domainid: sshKeyPair.domainid
+            }
+            : { name });
         } else {
           return Observable.throw(null);
         }
@@ -127,20 +131,17 @@ export class SshKeysPageComponent implements OnInit {
   }
 
   private getDomain(domainId: string) {
-    let domain = this.domainList && this.domainList.find(d => d.id === domainId);
+    const domain = this.domainList && this.domainList.find(d => d.id === domainId);
     return domain ? domain.getPath() : '';
   }
 
-  private sortByAccount(visibleSshKeyList: Array<SSHKeyPair>, accounts = []) {
-    if (accounts.length != 0) {
-      return visibleSshKeyList.filter(key =>
-        accounts.find(account => account.name === key.account && account.domainid === key.domainid));
-    } else {
-      return visibleSshKeyList;
-    }
+  private filterByAccount(visibleSshKeyList: Array<SSHKeyPair>, accounts = []) {
+    return !accounts.length
+      ? visibleSshKeyList
+      : visibleSshKeyList.filter(key =>
+        accounts.find(
+          account => account.name === key.account && account.domainid === key.domainid));
   }
-
-
 
   private update() {
     this.sshKeyService.getList()
