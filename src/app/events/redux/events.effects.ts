@@ -26,7 +26,7 @@ export class EventsEffects {
     .ofType(event.LOAD_EVENTS_REQUEST)
     .switchMap((action: event.LoadEventsRequest) => {
       return this.eventService
-        .getList(action.payload)
+        .getListAll(action.payload)
         .map((events: Event[]) => {
           return new event.LoadEventsResponse(events.map(e => {
             return Object.assign({}, e, {
