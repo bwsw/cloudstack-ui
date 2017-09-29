@@ -12,6 +12,9 @@ import { filterWithPredicates } from '../../shared/utils/filter';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { VolumeFilter } from '../volume-filter/volume-filter.component';
 import { volumeTypeNames } from '../../shared/models/volume.model';
+import { AuthService } from '../../shared/services/auth.service';
+import { DomainService } from '../../shared/services/domain.service';
+import { Domain } from '../../shared/models/domain.model';
 
 
 export interface VolumeCreationData {
@@ -44,11 +47,18 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
       label: 'VOLUME_PAGE.FILTERS.GROUP_BY_TYPES',
       selector: (item: Volume) => item.type,
       name: (item: Volume) => volumeTypeNames[item.type]
+    },
+    {
+      key: 'accounts',
+      label: 'VOLUME_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
+      selector: (item: Volume) => item.account,
+      name: (item: Volume) => `${this.getDomain(item.domainid)}${item.account}` || `${item.domain}/${item.account}`,
     }
   ];
   public query: string;
 
   public filterData: any;
+  public domainList: Array<Domain>;
 
   constructor(
     public listService: ListService,
@@ -57,10 +67,17 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private userTagService: UserTagService,
+    private domainService: DomainService,
     private volumeService: VolumeService,
-    private zoneService: ZoneService
+    private zoneService: ZoneService,
+    private authService: AuthService
   ) {
     super();
+    if (!this.authService.isAdmin()) {
+      this.groupings = this.groupings.filter(g => g.key != 'accounts');
+    } else {
+      this.getDomainList();
+    }
   }
 
   public ngOnInit(): void {
@@ -102,7 +119,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
 
     this.updateGroupings();
 
-    const { selectedZones, selectedTypes, spareOnly, query } = this.filterData;
+    const { selectedZones, selectedTypes, spareOnly, query, accounts } = this.filterData;
     this.query = query;
 
     this.visibleVolumes = filterWithPredicates(
@@ -114,6 +131,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
         this.filterVolumesBySearch()
       ]
     );
+    this.visibleVolumes = this.filterByAccount(this.visibleVolumes, accounts);
   }
 
   public updateGroupings(): void {
@@ -170,6 +188,25 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
       queryParamsHandling: 'preserve',
       relativeTo: this.activatedRoute
     });
+  }
+
+  private getDomainList() {
+    this.domainService.getList().subscribe(domains => {
+      this.domainList = domains;
+    });
+  }
+
+  private getDomain(domainId: string) {
+    const domain = this.domainList && this.domainList.find(d => d.id === domainId);
+    return domain ? domain.getPath() : '';
+  }
+
+  private filterByAccount(volumes: Array<Volume>, accounts = []) {
+    return !accounts.length
+      ? volumes
+      : volumes.filter(volume =>
+        accounts.find(
+          account => account.name === volume.account && account.domainid === volume.domainid));
   }
 
   private onVolumeUpdated(): void {

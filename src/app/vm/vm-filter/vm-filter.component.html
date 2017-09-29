@@ -1,4 +1,5 @@
 <div class="options-panel delimiter">
+  <cs-account-filter *ngIf="showAccountFilter()" [selectedAccountIds]="selectedAccountIds" (onChangeAccount)="updateAccount($event)"></cs-account-filter>
   <md-select
     class="filter-select"
     multiple="true"

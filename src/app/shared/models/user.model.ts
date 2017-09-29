@@ -10,6 +10,7 @@ import { AccountType } from './account.model';
 })
 export class User extends BaseModel {
   public account: string;
+  public domain: string;
   public domainid: string;
   public firstname: string;
   public lastname: string;

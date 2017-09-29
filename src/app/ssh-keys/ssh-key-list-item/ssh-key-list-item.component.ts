@@ -9,20 +9,20 @@ import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
   styleUrls: ['ssh-key-list-item.component.scss']
 })
 export class SshKeyListItemComponent {
-  @Input() public key: SSHKeyPair;
+  @Input() public item: SSHKeyPair;
   @Output() public onClick = new EventEmitter<SSHKeyPair>();
-  @Output() public onRemove = new EventEmitter<string>();
+  @Output() public onRemove = new EventEmitter<SSHKeyPair>();
   @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
 
   public onClicked(e: MouseEvent): void {
     e.stopPropagation();
 
-    if (!this.mdMenuTrigger.menuOpen) {
-      this.onClick.emit(this.key);
+    if (!this.mdMenuTrigger || !this.mdMenuTrigger.menuOpen) {
+      this.onClick.emit(this.item);
     }
   }
 
   public onRemoveClicked(): void {
-    this.onRemove.emit(this.key.name);
+    this.onRemove.emit(this.item);
   }
 }

@@ -47,7 +47,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return this.getList().map(res => res.find(entity => entity.id === id));
   }
 
-  public getListAll(params?: {}, customApiFormat?: ApiFormat): Observable<Array<M>> {
+  public getListAll(params = {}, customApiFormat?: ApiFormat): Observable<Array<M>> {
+    params = Object.assign(params, { 'listAll': 'true' });
     const requestParams = Object.assign({}, params, { all: true });
     return this.makeGetListObservable(requestParams, customApiFormat)
       .switchMap(result => {

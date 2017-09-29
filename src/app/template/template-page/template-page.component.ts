@@ -1,11 +1,11 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { ListService } from '../../shared/components/list/list.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { BaseTemplateModel, Iso, IsoService, Template, TemplateService } from '../shared';
 import { TemplateFilters } from '../shared/base-template.service';
+import { AuthService } from "../../shared/services/auth.service";
 
 
 @Component({
@@ -24,7 +24,8 @@ export class TemplatePageComponent implements OnInit {
     private templateService: TemplateService,
     private isoService: IsoService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService
   ) {
   }
 
@@ -50,10 +51,14 @@ export class TemplatePageComponent implements OnInit {
   }
 
   private getTemplates(): void {
-    const filters = [
+    let filters = [
       TemplateFilters.featured,
       TemplateFilters.self
     ];
+
+    if (this.authService.isAdmin()) {
+      filters = [ TemplateFilters.all ];
+    }
 
     Observable.forkJoin(
       this.templateService.getGroupedTemplates<Template>({}, filters, true)

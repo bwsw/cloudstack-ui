@@ -2,11 +2,16 @@
   (onAction)="showCreationDialog()"
   [isOpen]="listService?.hasSelected()"
 >
-  <cs-top-bar cs-panels></cs-top-bar>
+  <cs-ssh-key-filter
+    [groupings]="groupings"
+    (updateFilters)="updateFilters($event)"
+    cs-list
+  ></cs-ssh-key-filter>
 
   <cs-ssh-key-list
     *loading="!sshKeyList"
-    [keys]="sshKeyList"
+    [keys]="visibleSshKeyList"
+    [groupings]="selectedGroupings"
     (onRemove)="removeKey($event)"
     cs-list
   ></cs-ssh-key-list>

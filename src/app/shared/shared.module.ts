@@ -45,6 +45,7 @@ import { TemplateActionsComponent } from './actions/template-actions/template-ac
 import { TemplateActionsService } from './actions/template-actions/template-actions.service';
 import { BadgeModule } from './badge/';
 import {
+  AccountFilterComponent,
   CalendarComponent,
   CalendarMonthComponent,
   CalendarYearComponent,
@@ -133,7 +134,7 @@ import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 import { SecurityGroupService } from '../security-group/services/security-group.service';
 import { HypervisorService } from './services/hypervisor.service';
-
+import { DomainService } from './services/domain.service';
 
 @NgModule({
   imports: [
@@ -215,7 +216,8 @@ import { HypervisorService } from './services/hypervisor.service';
     MdInputModule,
     TopBarComponent,
     ViewValuePipe,
-    VmStatisticsComponent
+    VmStatisticsComponent,
+    AccountFilterComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -273,7 +275,8 @@ import { HypervisorService } from './services/hypervisor.service';
     SecurityGroupBuilderComponent,
     SecurityGroupSelectorComponent,
     SecurityGroupManagerBaseTemplatesComponent,
-    VmStatisticsComponent
+    VmStatisticsComponent,
+    AccountFilterComponent,
   ],
   providers: [
     AccountService,
@@ -286,6 +289,7 @@ import { HypervisorService } from './services/hypervisor.service';
     DateTimeFormatterService,
     DescriptionTagService,
     DiskOfferingService,
+    DomainService,
     ErrorService,
     InstanceGroupService,
     JobsNotificationService,

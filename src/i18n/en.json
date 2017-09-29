@@ -237,6 +237,7 @@
       "SECONDARY": "Secondary"
     },
     "FILTERS": {
+      "SELECT_ACCOUNTS": "Select accounts",
       "SELECT_ZONES": "Select zones",
       "SELECT_GROUPS": "Select groups",
       "SELECT_STATES": "Select states",
@@ -248,7 +249,8 @@
       "GROUP_BY": "Group by",
       "GROUP_BY_ZONES": "Zones",
       "GROUP_BY_COLORS": "Colors",
-      "GROUP_BY_GROUPS": "Groups"
+      "GROUP_BY_GROUPS": "Groups",
+      "GROUP_BY_ACCOUNTS": "Accounts"
     },
     "CARD": {
       "IP_NA": "IP N/A",
@@ -467,12 +469,14 @@
   },
   "VOLUME_PAGE": {
     "FILTERS": {
+      "SELECT_ACCOUNTS": "Select accounts",
       "SPARE_DRIVES_ONLY": "Spare drives only",
       "SELECT_ZONES": "Select zones",
       "SELECT_TYPES": "Select types",
       "GROUP_BY": "Group by",
       "GROUP_BY_ZONES": "Zones",
-      "GROUP_BY_TYPES": "Types"
+      "GROUP_BY_TYPES": "Types",
+      "GROUP_BY_ACCOUNTS": "Accounts"
     },
     "CARD": {
       "DESCRIPTION": "Description",
@@ -523,11 +527,13 @@
       "ISO": "ISO"
     },
     "FILTERS": {
+      "SELECT_ACCOUNTS": "Select accounts",
       "SELECT_OS_FAMILIES": "Select OS families",
       "SELECT_TYPES": "Select types",
       "SELECT_ZONES": "Select zones",
       "GROUP_BY": "Group by",
       "GROUP_BY_ZONES": "Zones",
+      "GROUP_BY_ACCOUNTS": "Accounts",
       "NO_ZONE": "No zone",
       "FEATURED": "Featured",
       "SELF": "My",
@@ -869,7 +875,11 @@
     "REMOVE_THIS_KEY": "Are you sure you want to remove this key?",
     "KEY_REMOVAL_FAILED": "Key removal failed",
     "SSH_KEY_PAIR_NOT_FOUND": "SSH key pair not found",
-    "FINGERPRINT": "Fingerprint"
+    "FINGERPRINT": "Fingerprint",
+    "FILTERS": {
+      "GROUP_BY": "Group by",
+      "GROUP_BY_ACCOUNTS": "Accounts"
+    }
   },
   "SETTINGS": {
     "SECURITY": {

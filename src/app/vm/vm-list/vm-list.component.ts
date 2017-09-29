@@ -18,6 +18,9 @@ import {
   VmFilter
 } from '../vm-filter/vm-filter.component';
 import { VmListItemComponent } from './vm-list-item.component';
+import { AuthService } from '../../shared/services/auth.service';
+import { DomainService } from '../../shared/services/domain.service';
+import { Domain } from '../../shared/models/domain.model';
 
 @Component({
   selector: 'cs-vm-list',
@@ -47,7 +50,13 @@ export class VmListComponent implements OnInit {
       key: 'colors',
       label: 'VM_PAGE.FILTERS.GROUP_BY_COLORS',
       selector: (item: VirtualMachine) => this.vmTagService.getColorSync(item).value,
-      name: (item: VirtualMachine) => ' '
+      name: (item: VirtualMachine) => ' ',
+    },
+    {
+      key: 'accounts',
+      label: 'VM_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
+      selector: (item: VirtualMachine) => item.account,
+      name: (item: VirtualMachine) => `${this.getDomain(item.domainid)}${item.account}` || `${item.domain}/${item.account}`,
     }
   ];
 
@@ -57,6 +66,7 @@ export class VmListComponent implements OnInit {
   public zones: Array<Zone>;
 
   public vmList: Array<VirtualMachine>;
+  public domainList: Array<Domain>;
   public visibleVmList: Array<VirtualMachine>;
 
   public inputs;
@@ -72,10 +82,12 @@ export class VmListComponent implements OnInit {
     private jobsNotificationService: JobsNotificationService,
     private statsUpdateService: StatsUpdateService,
     private userTagService: UserTagService,
+    private domainService: DomainService,
     private vmActionsService: VmActionsService,
     private vmTagService: VmTagService,
     private zoneService: ZoneService,
     private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
     private router: Router
   ) {
     this.showDetail = this.showDetail.bind(this);
@@ -87,6 +99,12 @@ export class VmListComponent implements OnInit {
     this.outputs = {
       onClick: this.showDetail
     };
+
+    if (!this.authService.isAdmin()) {
+      this.groupings = this.groupings.filter(g => g.key !== 'accounts');
+    } else {
+      this.getDomainList();
+    }
   }
 
   public ngOnInit(): void {
@@ -120,10 +138,11 @@ export class VmListComponent implements OnInit {
       return acc;
     }, []);
 
-    const { selectedZones, selectedGroups, selectedStates } = this.filterData;
+    const { selectedZones, selectedGroups, selectedStates, accounts } = this.filterData;
     this.visibleVmList = this.filterVmsByZones(this.vmList, selectedZones);
     this.visibleVmList = this.filterVmsByGroup(this.visibleVmList, selectedGroups);
     this.visibleVmList = this.filterVMsByState(this.visibleVmList, selectedStates);
+    this.visibleVmList = this.filterByAccount(this.visibleVmList, accounts);
     this.visibleVmList = this.sortByDate(this.visibleVmList);
   }
 
@@ -153,22 +172,33 @@ export class VmListComponent implements OnInit {
     )
       .finally(() => this.fetching = false)
       .subscribe(([vmList, groups, zones]) => {
-      this.vmList = this.sortByDate(vmList);
-      this.visibleVmList = vmList;
-      this.groups = groups;
-      this.zones = zones;
+        this.vmList = this.sortByDate(vmList);
+        this.visibleVmList = vmList;
+        this.groups = groups;
+        this.zones = zones;
 
-      const selectedVmIsGone = this.visibleVmList.every(
-        vm => !this.listService.isSelected(vm.id)
-      );
-      if (selectedVmIsGone) {
-        this.listService.deselectItem();
-      }
+        const selectedVmIsGone = this.visibleVmList.every(
+          vm => !this.listService.isSelected(vm.id)
+        );
+        if (selectedVmIsGone) {
+          this.listService.deselectItem();
+        }
 
-      if (this.shouldShowSuggestionDialog) {
-        this.showSuggestionDialog();
-      }
+        if (this.shouldShowSuggestionDialog) {
+          this.showSuggestionDialog();
+        }
+      });
+  }
+
+  private getDomainList() {
+    this.domainService.getList().subscribe(domains => {
+      this.domainList = domains;
     });
+  }
+
+  private getDomain(domainId: string) {
+    const domain = this.domainList && this.domainList.find(d => d.id === domainId);
+    return domain ? domain.getPath() : '';
   }
 
   private subscribeToStatsUpdates(): void {
@@ -289,6 +319,13 @@ export class VmListComponent implements OnInit {
     states
   ): Array<VirtualMachine> {
     return !states.length ? vmList : vmList.filter(vm => states.includes(vm.state));
+  }
+
+  private filterByAccount(vmList: Array<VirtualMachine>, accounts = []) {
+    return !accounts.length
+      ? vmList
+      : vmList.filter(vm => accounts.find(
+        account => account.name === vm.account && account.domainid === vm.domainid));
   }
 
   private sortByDate(vmList: Array<VirtualMachine>): Array<VirtualMachine> {

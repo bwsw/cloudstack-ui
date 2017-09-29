@@ -1,0 +1,19 @@
+<cs-top-bar>
+  <div class="options-panel" *ngIf="showAccountFilter()">
+    <cs-account-filter [selectedAccountIds]="selectedAccountIds" (onChangeAccount)="updateAccount($event)">
+    </cs-account-filter>
+
+    <cs-draggable-select
+      class="filter-select"
+      multiple="true"
+      [placeholder]="'SSH_KEYS.FILTERS.GROUP_BY' | translate"
+      [(ngModel)]="selectedGroupingNames"
+      [dragItems]="groupings"
+      (change)="update()"
+    >
+      <md-option *ngFor="let g of groupings" [value]="g">
+        {{ g.label | translate }}
+      </md-option>
+    </cs-draggable-select>
+  </div>
+</cs-top-bar>
