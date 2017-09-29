@@ -48,6 +48,8 @@
       "CONFIRM_REBOOT": "Are you sure you want to reboot this virtual machine?",
       "CONFIRM_RESTORE": "Are you sure you want to reinstall this virtual machine?",
       "CONFIRM_DESTROY": "Are you sure you want to destroy this virtual machine?",
+      "CONFIRM_EXPUNGE": "Are you sure you want to expunge this virtual machine?<br><b>This cannot be undone.</b>",
+      "CONFIRM_RECOVER": "Are you sure you want to recover this virtual machine?<br><b>This cannot be undone.</b>",
       "CONFIRM_RESET_PASSWORD": "Are you sure you want to reset password?<br>If your Virtual Machine is running it will be rebooted.",
       "PASSWORD_DIALOG_MESSAGE": "Password for {{ vmName }} has been reset to <b>{{ vmPassword }}</b>",
       "CONFIRM_DRIVES_DELETION": "Delete this VM's data drives?"
@@ -138,6 +140,12 @@
       "DESTROY_IN_PROGRESS": "Destroying a VM",
       "DESTROY_DONE": "VM has been destroyed",
       "DESTROY_FAILED": "Failed to destroy VM",
+      "EXPUNGE_IN_PROGRESS": "Expunging a VM",
+      "EXPUNGE_DONE": "VM has been expunged",
+      "EXPUNGE_FAILED": "Failed to expunge VM",
+      "RECOVER_IN_PROGRESS": "Recovering a VM",
+      "RECOVER_DONE": "VM has been recovered",
+      "RECOVER_FAILED": "Failed to recover VM",
       "DEPLOY_IN_PROGRESS": "Deploying a VM",
       "DEPLOY_DONE": "VM has been deployed",
       "DEPLOY_FAILED": "Failed to deploy a VM",
@@ -205,6 +213,8 @@
       "REBOOT": "Reboot",
       "RESTORE": "Reinstall",
       "DESTROY": "Destroy",
+      "EXPUNGE": "Expunge",
+      "RECOVER": "Recover",
       "RESET_PASSWORD": "Reset password",
       "CONSOLE": "Console",
       "WEB_SHELL": "WebShell"
@@ -227,17 +237,20 @@
       "SECONDARY": "Secondary"
     },
     "FILTERS": {
+      "SELECT_ACCOUNTS": "Select accounts",
       "SELECT_ZONES": "Select zones",
       "SELECT_GROUPS": "Select groups",
       "SELECT_STATES": "Select states",
       "NO_GROUP": "No group",
       "STATE_RUNNING": "Running",
       "STATE_STOPPED": "Stopped",
+      "STATE_DESTROYED": "Destroyed",
       "STATE_ERROR": "Error",
       "GROUP_BY": "Group by",
       "GROUP_BY_ZONES": "Zones",
       "GROUP_BY_COLORS": "Colors",
-      "GROUP_BY_GROUPS": "Groups"
+      "GROUP_BY_GROUPS": "Groups",
+      "GROUP_BY_ACCOUNTS": "Accounts"
     },
     "CARD": {
       "IP_NA": "IP N/A",
@@ -456,12 +469,14 @@
   },
   "VOLUME_PAGE": {
     "FILTERS": {
+      "SELECT_ACCOUNTS": "Select accounts",
       "SPARE_DRIVES_ONLY": "Spare drives only",
       "SELECT_ZONES": "Select zones",
       "SELECT_TYPES": "Select types",
       "GROUP_BY": "Group by",
       "GROUP_BY_ZONES": "Zones",
-      "GROUP_BY_TYPES": "Types"
+      "GROUP_BY_TYPES": "Types",
+      "GROUP_BY_ACCOUNTS": "Accounts"
     },
     "CARD": {
       "DESCRIPTION": "Description",
@@ -512,11 +527,13 @@
       "ISO": "ISO"
     },
     "FILTERS": {
+      "SELECT_ACCOUNTS": "Select accounts",
       "SELECT_OS_FAMILIES": "Select OS families",
       "SELECT_TYPES": "Select types",
       "SELECT_ZONES": "Select zones",
       "GROUP_BY": "Group by",
       "GROUP_BY_ZONES": "Zones",
+      "GROUP_BY_ACCOUNTS": "Accounts",
       "NO_ZONE": "No zone",
       "FEATURED": "Featured",
       "SELF": "My",
@@ -561,15 +578,24 @@
       "INVALID_URL": "Invalid URL (only http or https)",
       "OS_TYPE": "OS type",
       "ZONE": "Zone",
-      "EXTRACTABLE": "Extractable",
       "PASSWORD_ENABLED": "Password enabled",
-      "DYNAMICALLY_SCALABLE": "Dynamically scalable"
+      "DYNAMICALLY_SCALABLE": "Dynamically scalable",
+      "HYPERVISOR": "Hypervisor",
+      "FORMAT": "Format",
+      "IS_EXTRACTABLE": "Extractable",
+      "IS_PUBLIC": "Public",
+      "IS_FEATURED": "Featured",
+      "IS_ROUTING": "Routing",
+      "REQUIRES_HVM": "Requires HVM",
+      "BOOTABLE": "Bootable",
+      "SHOW_ADDITIONAL": "Show additional fields",
+      "HIDE_ADDITIONAL": "Hide additional fields"
     }
   },
   "SECURITY_GROUP_PAGE": {
     "FILTERS": {
-      "TEMPLATES": "Templates",
-      "SHARED": "Shared"
+      "TEMPLATES": "Firewall Templates",
+      "SHARED": "Shared Security Groups"
     },
 
     "LIST": {
@@ -849,7 +875,11 @@
     "REMOVE_THIS_KEY": "Are you sure you want to remove this key?",
     "KEY_REMOVAL_FAILED": "Key removal failed",
     "SSH_KEY_PAIR_NOT_FOUND": "SSH key pair not found",
-    "FINGERPRINT": "Fingerprint"
+    "FINGERPRINT": "Fingerprint",
+    "FILTERS": {
+      "GROUP_BY": "Group by",
+      "GROUP_BY_ACCOUNTS": "Accounts"
+    }
   },
   "SETTINGS": {
     "SECURITY": {
@@ -1005,6 +1035,8 @@
     "REBOOTING": "Rebooting",
     "RESTORING": "Restoring",
     "DESTROYING": "Destroying",
+    "DESTROYED": "Destroyed",
+    "EXPUNGING": "Expunging",
     "DEPLOYING": "Deploying",
     "ERROR": "Error",
     "START_IN_PROGRESS": "Starting",
@@ -1013,7 +1045,9 @@
     "RESTORE_IN_PROGRESS": "Reinstalling",
     "DESTROY_IN_PROGRESS": "Destroying",
     "DEPLOY_IN_PROGRESS": "Deploying",
-    "RESET_PASSWORD_IN_PROGRESS": "Resetting password"
+    "RESET_PASSWORD_IN_PROGRESS": "Resetting password",
+    "EXPUNGE_IN_PROGRESS": "Expunging",
+    "RECOVER_IN_PROGRESS": "Recovering"
   },
   "VOLUME_TYPE": {
     "ROOT": "ROOT",

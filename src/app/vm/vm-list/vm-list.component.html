@@ -6,7 +6,7 @@
     <cs-top-bar>
       <cs-vm-statistics></cs-vm-statistics>
     </cs-top-bar>
-    <cs-vm-filter
+    <cs-vm-filter *ngIf="zones && groups"
       [zones]="zones"
       [groups]="groups"
       [availableGroupings]="groupings"
@@ -14,7 +14,7 @@
     ></cs-vm-filter>
   </ng-container>
 
-  <ng-container *loading="!vmList" cs-list>
+  <ng-container *loading="fetching" cs-list>
     <cs-grouped-card-list
       [list]="visibleVmList"
       [groupings]="selectedGroupings"

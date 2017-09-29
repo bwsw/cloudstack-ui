@@ -1,12 +1,8 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-  SimpleChanges
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
 import { OsFamily } from '../../shared/models/os-type.model';
 import { Zone } from '../../shared/models/zone.model';
 import { AuthService } from '../../shared/services/auth.service';
-import { ServiceLocator } from '../../shared/services/service-locator';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { TemplateFilters } from '../shared/base-template.service';
 import { Iso } from '../shared/iso.model';

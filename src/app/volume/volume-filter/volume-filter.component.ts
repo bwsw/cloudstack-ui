@@ -6,7 +6,8 @@ import { VolumeType, volumeTypeNames } from '../../shared/models/volume.model';
 import { Zone } from '../../shared/models/zone.model';
 import { FilterService } from '../../shared/services/filter.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
-
+import { Account } from '../../shared/models/account.model';
+import { AuthService } from '../../shared/services/auth.service';
 
 export interface VolumeFilter {
   spareOnly: boolean;
@@ -14,6 +15,7 @@ export interface VolumeFilter {
   selectedTypes: Array<VolumeType>;
   groupings: Array<any>;
   query: string;
+  accounts: Array<Account>;
 }
 
 export const volumeListFilters = 'volumeListFilters';
@@ -38,6 +40,8 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
   public selectedZones: Array<Zone> = [];
   public selectedGroupingNames = [];
   public query: string;
+  public selectedAccounts: Array<Account> = [];
+  public selectedAccountIds: Array<string> = [];
 
   private filtersKey = volumeListFilters;
   private filterService = new FilterService({
@@ -45,13 +49,15 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
     zones: { type: 'array', defaultOption: [] },
     types: { type: 'array', defaultOption: [] },
     groupings: { type: 'array', defaultOption: [] },
-    query: { type: 'string' }
+    query: { type: 'string' },
+    accounts: {type: 'array', defaultOption: [] }
   }, this.router, this.localStorage, this.filtersKey, this.activatedRoute);
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private authService: AuthService
   ) {
     this.updateFilters = new EventEmitter();
   }
@@ -64,6 +70,10 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
 
   public getVolumeTypeName(type: VolumeType): string {
     return volumeTypeNames[type];
+  }
+
+  public showAccountFilter(): boolean {
+    return this.authService.isAdmin();
   }
 
   public initFilters(): void {
@@ -79,6 +89,7 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
     this.selectedTypes = this.types.filter(type =>
       params['types'].find(_ => _ === type)
     );
+    this.selectedAccountIds = params['accounts'];
 
     this.selectedGroupingNames = params.groupings.reduce((acc, _) => {
       const grouping = this.groupings.find(g => g.key === _);
@@ -91,13 +102,19 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
     this.update();
   }
 
+  public updateAccount(accounts: Array<Account>) {
+    this.selectedAccounts = accounts;
+    this.update();
+  }
+
   public update(): void {
     this.updateFilters.emit({
       spareOnly: this.spareOnly,
       selectedZones: sortBy(this.selectedZones, 'name'),
       selectedTypes: this.selectedTypes,
       groupings: this.selectedGroupingNames,
-      query: this.query
+      query: this.query,
+      accounts: this.selectedAccounts
     });
 
     this.filterService.update(this.filtersKey, {
@@ -105,7 +122,8 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
       zones: this.selectedZones.map(_ => _.id),
       types: this.selectedTypes,
       groupings: this.selectedGroupingNames.map(_ => _.key),
-      query: this.query
+      query: this.query,
+      accounts: this.selectedAccounts.map(_ => _.id)
     });
   }
 }

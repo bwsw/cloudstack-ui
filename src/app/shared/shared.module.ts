@@ -19,7 +19,8 @@ import {
   MdSliderModule,
   MdSnackBarModule,
   MdTableModule,
-  MdTabsModule, MdTooltipModule
+  MdTabsModule,
+  MdTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
@@ -44,6 +45,7 @@ import { TemplateActionsComponent } from './actions/template-actions/template-ac
 import { TemplateActionsService } from './actions/template-actions/template-actions.service';
 import { BadgeModule } from './badge/';
 import {
+  AccountFilterComponent,
   CalendarComponent,
   CalendarMonthComponent,
   CalendarYearComponent,
@@ -131,7 +133,8 @@ import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 import { SecurityGroupService } from '../security-group/services/security-group.service';
-
+import { HypervisorService } from './services/hypervisor.service';
+import { DomainService } from './services/domain.service';
 
 @NgModule({
   imports: [
@@ -213,7 +216,8 @@ import { SecurityGroupService } from '../security-group/services/security-group.
     MdInputModule,
     TopBarComponent,
     ViewValuePipe,
-    VmStatisticsComponent
+    VmStatisticsComponent,
+    AccountFilterComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -271,7 +275,8 @@ import { SecurityGroupService } from '../security-group/services/security-group.
     SecurityGroupBuilderComponent,
     SecurityGroupSelectorComponent,
     SecurityGroupManagerBaseTemplatesComponent,
-    VmStatisticsComponent
+    VmStatisticsComponent,
+    AccountFilterComponent,
   ],
   providers: [
     AccountService,
@@ -284,6 +289,7 @@ import { SecurityGroupService } from '../security-group/services/security-group.
     DateTimeFormatterService,
     DescriptionTagService,
     DiskOfferingService,
+    DomainService,
     ErrorService,
     InstanceGroupService,
     JobsNotificationService,
@@ -325,7 +331,8 @@ import { SecurityGroupService } from '../security-group/services/security-group.
     VmCreationSecurityGroupService,
     VolumeService,
     VolumeTagService,
-    ZoneService
+    ZoneService,
+    HypervisorService
   ]
 })
 export class SharedModule {

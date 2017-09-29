@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -36,9 +37,10 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     private serviceOfferingService: ServiceOfferingService,
     private securityGroupService: SecurityGroupService,
     private userTagService: UserTagService,
-    private volumeService: VolumeService
+    private volumeService: VolumeService,
+    http: HttpClient
   ) {
-    super();
+    super(http);
   }
 
   public getNumberOfVms(): Observable<number> {
@@ -48,7 +50,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
           return Observable.of(+numberOfVms);
         }
 
-        return this.getListWithDetails({}, true)
+        return this.getListWithDetails(undefined, true)
           .switchMap(vmList => this.userTagService.setLastVmId(vmList.length));
       });
   }
@@ -96,7 +98,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public getInstanceGroupList(): Observable<Array<InstanceGroup>> {
-    return this.getListWithDetails({}, true)
+    return this.getListWithDetails(undefined, true)
       .map(vmList => Object.values(vmList.reduce((groupsMap, vm) => {
         const group = vm.tags.find(tag => tag.key === VirtualMachineTagKeys.group);
 
@@ -118,17 +120,31 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
-  public command(vm: VirtualMachine, command: IVirtualMachineCommand): Observable<any> {
-    const commandName = command.commandName as VmActions;
+  public command(
+    vm: VirtualMachine,
+    command: IVirtualMachineCommand,
+    params?: {}
+  ): Observable<any> {
     const initialState = vm.state;
 
-    this.setStateForVm(vm, command.vmStateOnAction as VmState);
-
-    return this.sendCommand(
-      commandName,
-      this.buildCommandParams(vm.id, commandName)
-    )
+    return this.commandInternal(vm, command, params)
       .switchMap(job => this.registerVmJob(job))
+      .do(() => this.vmUpdateObservable.next())
+      .catch(error => {
+        this.setStateForVm(vm, initialState);
+        return Observable.throw(error);
+      });
+  }
+
+  public commandSync(
+    vm: VirtualMachine,
+    command: IVirtualMachineCommand,
+    params?: {}
+  ): Observable<any> {
+    const initialState = vm.state;
+
+    return this.commandInternal(vm, command, params)
+      .do(() => this.vmUpdateObservable.next())
       .catch(error => {
         this.setStateForVm(vm, initialState);
         return Observable.throw(error);
@@ -193,16 +209,30 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     );
   }
 
-  private buildCommandParams(id: string, commandName: string): any {
-    const params = {};
+  private commandInternal(
+    vm: VirtualMachine,
+    command: IVirtualMachineCommand,
+    params?: {}
+  ): Observable<any> {
+    const commandName = command.commandName as VmActions;
+    this.setStateForVm(vm, command.vmStateOnAction as VmState);
+
+    return this.sendCommand(
+      commandName,
+      this.buildCommandParams(vm.id, commandName, params)
+    );
+  }
+
+  private buildCommandParams(id: string, commandName: string, params?: {}): any {
+    const requestParams = params ? Object.assign({}, params) : {};
 
     if (commandName === 'restore') {
-      params['virtualMachineId'] = id;
+      requestParams['virtualMachineId'] = id;
     } else if (commandName !== 'deploy') {
-      params['id'] = id;
+      requestParams['id'] = id;
     }
 
-    return params;
+    return requestParams;
   }
 
   private addVolumes(vm: VirtualMachine, volumes: Array<Volume>): VirtualMachine {

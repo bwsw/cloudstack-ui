@@ -1,18 +1,11 @@
 import { CdkTableModule } from '@angular/cdk/table';
-import {
-  Component,
-  Injectable,
-  NO_ERRORS_SCHEMA,
-  Pipe,
-  PipeTransform
-} from '@angular/core';
+import { Component, Injectable, NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MdDialogModule, MdSelectModule, MdTableModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { MockTagService } from '../../testutils/mocks/tag-services/mock-tag.service';
@@ -29,6 +22,7 @@ import { TagService } from '../shared/services/tags/tag.service';
 import { EventListComponent } from './event-list.component';
 import { Event } from './event.model';
 import { EventService } from './event.service';
+import { DayOfWeek } from '../shared/types/day-of-week';
 
 const eventServiceFixture = require('./event.service.fixture.json');
 
@@ -93,10 +87,8 @@ class ActivatedRouteStub {
 }
 
 class MockLanguageService {
-  public firstDayOfWeek = new BehaviorSubject<number>(0);
-
-  public initializeFirstDayOfWeek(): void {
-    this.firstDayOfWeek.next(0);
+  public getFirstDayOfWeek(): Observable<DayOfWeek> {
+    return Observable.of(DayOfWeek.Monday);
   }
 }
 

@@ -3,11 +3,9 @@ import { FieldMapper, ZoneName } from '../../shared/decorators';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { BaseModel, InstanceGroup, NIC, OsType, ServiceOffering, Tag, Volume } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
-import { BaseTemplateModel } from '../../template/shared';
 import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
+import { BaseTemplateModel } from '../../template/shared';
 
-
-export const MAX_ROOT_DISK_SIZE_ADMIN = 200;
 
 export enum VmState {
   Running = 'Running',
@@ -54,6 +52,9 @@ export class VirtualMachine extends BaseModel implements Taggable {
   public id: string;
   public displayName: string;
   public name: string;
+  public account: string;
+  public domain: string;
+  public domainid: string;
   // Status
   public state: VmState;
   // Service Offering

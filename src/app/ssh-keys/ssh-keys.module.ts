@@ -21,6 +21,9 @@ import { SshKeyListItemComponent } from './ssh-key-list-item/ssh-key-list-item.c
 import { SshKeySidebarComponent } from './ssh-key-sidebar/ssh-key-sidebar.component';
 import { SshKeysPageComponent } from './ssh-keys-page/ssh-keys-page.component';
 import { SshKeyListComponent } from './ssh-key-list/ssh-key-list.component';
+import { ShhKeyFilterComponent } from './ssh-key-filter/ssh-key-filter.component';
+import { DynamicModule } from 'ng-dynamic-component';
+import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 
 
 @NgModule({
@@ -37,6 +40,8 @@ import { SshKeyListComponent } from './ssh-key-list/ssh-key-list.component';
     MdButtonModule,
     MdIconModule,
     MdInputModule,
+    DynamicModule.withComponents([SshKeyListItemComponent]),
+    DraggableSelectModule
   ],
   exports: [
     SshKeysPageComponent
@@ -49,7 +54,8 @@ import { SshKeyListComponent } from './ssh-key-list/ssh-key-list.component';
     SshKeyCreationComponent,
     SshPrivateKeyDialogComponent,
     SshKeySidebarComponent,
-    SshKeyFingerprintComponent
+    SshKeyFingerprintComponent,
+    ShhKeyFilterComponent
   ],
   entryComponents: [
     SShKeyCreationDialogComponent,

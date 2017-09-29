@@ -41,4 +41,4 @@ import { AccountSidebarComponent } from './account-sidebar/account-sidebar.compo
     AccountPageComponent
   ]
 })
-export class UsersModule {}
+export class AccountModule {}

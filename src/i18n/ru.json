@@ -47,9 +47,11 @@
       "CONFIRM_STOP": "Вы уверены, что хотите остановить виртуальную машину?",
       "CONFIRM_REBOOT": "Вы уверены, что хотите перезапустить виртуальную машину?",
       "CONFIRM_RESTORE": "Вы уверены, что хотите переустановить виртуальную машину?",
-      "CONFIRM_DESTROY": "Вы уверены, что хотите уничтожить виртуальную машину?",
-      "CONFIRM_RESET_PASSWORD": "Вы уверены, что хотите сбросить пароль?<br>Если ваша виртуальная машина запущена, то она будет перезагружена.",
-      "PASSWORD_DIALOG_MESSAGE": "Пароль для машины {{ vmName }} был сброшен в <b>{{ vmPassword }}</b>",
+      "CONFIRM_DESTROY": "Вы уверены, что хотите удалить виртуальную машину?",
+      "CONFIRM_EXPUNGE": "Вы уверены, что хотите уничтожить виртуальную машину?<br><b>Эта операция необратима.</b>",
+      "CONFIRM_RECOVER": "Вы уверены, что хотите восстановить виртуальную машину?",
+      "CONFIRM_RESET_PASSWORD": "Вы увереныRECOVER, что хотите сбросить пароль?<br>Если ваша виртуальная машина запущена, то она будет перезагружена.",
+      "PASSWORD_DIALOG_MESSAGE": "Пароль длRECOVERя машины {{ vmName }} был сброшен в <b>{{ vmPassword }}</b>",
       "CONFIRM_DRIVES_DELETION": "Удалить диски с данными этой ВМ?"
     },
     "VOLUME": {
@@ -135,9 +137,15 @@
       "RESET_PASSWORD_IN_PROGRESS": "Сброс пароля",
       "RESET_PASSWORD_DONE": "Пароль сброшен",
       "RESET_PASSWORD_FAILED": "Не удалось сбросить пароль",
-      "DESTROY_IN_PROGRESS": "Уничтожение ВМ",
-      "DESTROY_DONE": "ВМ была уничтожена",
-      "DESTROY_FAILED": "Не удалось уничтожить ВМ",
+      "DESTROY_IN_PROGRESS": "Удаление ВМ",
+      "DESTROY_DONE": "ВМ была удалена",
+      "DESTROY_FAILED": "Не удалось удалить ВМ",
+      "EXPUNGE_IN_PROGRESS": "Уничтожение ВМ",
+      "EXPUNGE_DONE": "ВМ была уничтожена",
+      "EXPUNGE_FAILED": "Не удалось уничтожить ВМ",
+      "RECOVER_IN_PROGRESS": "Идет восстановление ВМ",
+      "RECOVER_DONE": "ВМ была восстановлена",
+      "RECOVER_FAILED": "Не удалось восстановить ВМ",
       "DEPLOY_IN_PROGRESS": "Развертывание ВМ",
       "DEPLOY_DONE": "ВМ была развернута",
       "DEPLOY_FAILED": "Не удалось развернуть ВМ",
@@ -204,7 +212,9 @@
       "STOP": "Остановить",
       "REBOOT": "Перезапустить",
       "RESTORE": "Переустановить",
-      "DESTROY": "Уничтожить",
+      "DESTROY": "Удалить",
+      "EXPUNGE": "Уничтожить",
+      "RECOVER": "Восстановить",
       "RESET_PASSWORD": "Сбросить пароль",
       "CONSOLE": "Консоль",
       "WEB_SHELL": "WebShell"
@@ -227,17 +237,20 @@
       "SECONDARY": "Дополнительное"
     },
     "FILTERS": {
+      "SELECT_ACCOUNTS": "Выберите аккаунты",
       "SELECT_ZONES": "Выберите зоны",
       "SELECT_GROUPS": "Выберите группы",
       "SELECT_STATES": "Выберите статусы",
       "NO_GROUP": "Без группы",
       "STATE_RUNNING": "Запущенные",
       "STATE_STOPPED": "Остановленные",
+      "STATE_DESTROYED": "Удаленные",
       "STATE_ERROR": "Ошибка",
       "GROUP_BY": "Группировать по",
       "GROUP_BY_ZONES": "Зонам",
       "GROUP_BY_COLORS": "Цветам",
-      "GROUP_BY_GROUPS": "Группам"
+      "GROUP_BY_GROUPS": "Группам",
+      "GROUP_BY_ACCOUNTS": "Аккаунтам"
     },
     "CARD": {
       "IP_NA": "IP недоступен",
@@ -461,7 +474,8 @@
       "SELECT_TYPES": "Выберите типы",
       "GROUP_BY": "Группировать по",
       "GROUP_BY_ZONES": "Зонам",
-      "GROUP_BY_TYPES": "Типам"
+      "GROUP_BY_TYPES": "Типам",
+      "GROUP_BY_ACCOUNTS": "Аккаунтам"
     },
     "CARD": {
       "DESCRIPTION": "Описание",
@@ -517,6 +531,7 @@
       "SELECT_ZONES": "Выберите зоны",
       "GROUP_BY": "Группировать по",
       "GROUP_BY_ZONES": "Зонам",
+      "GROUP_BY_ACCOUNTS": "Аккаунтам",
       "NO_ZONE": "Вне зоны",
       "FEATURED": "Рекомендованные",
       "SELF": "Мои",
@@ -561,15 +576,24 @@
       "INVALID_URL": "Неподдерживаемый URL (только http or https)",
       "OS_TYPE": "Тип ОС",
       "ZONE": "Зона",
-      "EXTRACTABLE": "Извлекаемый",
       "PASSWORD_ENABLED": "Пароль включен",
-      "DYNAMICALLY_SCALABLE": "Динамическое масштабирование"
+      "DYNAMICALLY_SCALABLE": "Динамическое масштабирование",
+      "HYPERVISOR": "Гипервизор",
+      "FORMAT": "Формат",
+      "IS_EXTRACTABLE": "Извлекаемый",
+      "IS_PUBLIC": "Публичный",
+      "IS_FEATURED": "Рекомендуемый",
+      "IS_ROUTING": "Маршрутизация",
+      "REQUIRES_HVM": "HVM",
+      "BOOTABLE": "Загружаемый",
+      "SHOW_ADDITIONAL": "Показать дополнительные параметры",
+      "HIDE_ADDITIONAL": "Скрыть дополнительные параметры"
     }
   },
   "SECURITY_GROUP_PAGE": {
     "FILTERS": {
-      "TEMPLATES": "Шаблоны",
-      "SHARED": "Разделяемые группы"
+      "TEMPLATES": "Шаблоны брандмауэра",
+      "SHARED": "Общие группы безопасности"
     },
 
     "LIST": {
@@ -849,7 +873,11 @@
     "REMOVE_THIS_KEY": "Вы уверены, что хотите удалить этот ключ?",
     "KEY_REMOVAL_FAILED": "Не удалось удалить ключ",
     "SSH_KEY_PAIR_NOT_FOUND": "SSH ключ не найден",
-    "FINGERPRINT": "Fingerprint"
+    "FINGERPRINT": "Fingerprint",
+    "FILTERS": {
+      "GROUP_BY": "Group by",
+      "GROUP_BY_ACCOUNTS": "Accounts"
+    }
   },
   "SETTINGS": {
     "SECURITY": {
@@ -1004,16 +1032,20 @@
     "STOPPING": "Остановка",
     "REBOOTING": "Перезапуск",
     "RESTORING": "Переустановка",
-    "DESTROYING": "Уничтожение",
+    "DESTROYING": "Удаление",
+    "DESTROYED": "Удалена",
+    "EXPUNGING": "Уничтожение",
     "DEPLOYING": "Развертывание",
     "ERROR": "Ошибка",
     "START_IN_PROGRESS": "Запуск",
     "STOP_IN_PROGRESS": "Остановка",
     "REBOOT_IN_PROGRESS": "Перезапуск",
     "RESTORE_IN_PROGRESS": "Переустановка",
-    "DESTROY_IN_PROGRESS": "Уничтожение",
+    "DESTROY_IN_PROGRESS": "Удаление",
     "DEPLOY_IN_PROGRESS": "Развертывание",
-    "RESET_PASSWORD_IN_PROGRESS": "Сброс пароля"
+    "RESET_PASSWORD_IN_PROGRESS": "Сброс пароля",
+    "EXPUNGE_IN_PROGRESS": "Уничтожение",
+    "RECOVER_IN_PROGRESS": "Идет восстановление"
   },
   "VOLUME_TYPE": {
     "ROOT": "ROOT",

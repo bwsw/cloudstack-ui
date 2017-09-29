@@ -1,7 +1,6 @@
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { DiskOffering, Volume, VolumeType, Zone } from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
@@ -13,6 +12,9 @@ import { filterWithPredicates } from '../../shared/utils/filter';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { VolumeFilter } from '../volume-filter/volume-filter.component';
 import { volumeTypeNames } from '../../shared/models/volume.model';
+import { AuthService } from '../../shared/services/auth.service';
+import { DomainService } from '../../shared/services/domain.service';
+import { Domain } from '../../shared/models/domain.model';
 
 
 export interface VolumeCreationData {
@@ -27,7 +29,7 @@ export interface VolumeCreationData {
   templateUrl: 'volume-page.component.html',
   providers: [ListService]
 })
-export class VolumePageComponent extends WithUnsubscribe() implements OnInit, OnDestroy {
+export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   public volumes: Array<Volume>;
   public zones: Array<Zone>;
   public visibleVolumes: Array<Volume>;
@@ -45,13 +47,18 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
       label: 'VOLUME_PAGE.FILTERS.GROUP_BY_TYPES',
       selector: (item: Volume) => item.type,
       name: (item: Volume) => volumeTypeNames[item.type]
+    },
+    {
+      key: 'accounts',
+      label: 'VOLUME_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
+      selector: (item: Volume) => item.account,
+      name: (item: Volume) => `${this.getDomain(item.domainid)}${item.account}` || `${item.domain}/${item.account}`,
     }
   ];
   public query: string;
 
   public filterData: any;
-
-  private onDestroy = new Subject();
+  public domainList: Array<Domain>;
 
   constructor(
     public listService: ListService,
@@ -60,24 +67,31 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private userTagService: UserTagService,
+    private domainService: DomainService,
     private volumeService: VolumeService,
-    private zoneService: ZoneService
+    private zoneService: ZoneService,
+    private authService: AuthService
   ) {
     super();
+  if (!this.authService.isAdmin()) {
+      this.groupings = this.groupings.filter(g => g.key != 'accounts');
+    } else {
+      this.getDomainList();
+    }
   }
 
   public ngOnInit(): void {
     Observable.merge(
-      this.volumeService.onVolumeAttachment.takeUntil(this.onDestroy)
+      this.volumeService.onVolumeAttachment.takeUntil(this.unsubscribe$)
         .do(e => {
           if (this.listService.isSelected(e.volumeId)) {
             this.listService.deselectItem();
           }
         }),
-      this.volumeService.onVolumeCreated.takeUntil(this.onDestroy),
-      this.volumeService.onVolumeResized.takeUntil(this.onDestroy),
-      this.volumeService.onVolumeRemoved.takeUntil(this.onDestroy),
-      this.volumeService.onVolumeTagsChanged.takeUntil(this.onDestroy)
+      this.volumeService.onVolumeCreated.takeUntil(this.unsubscribe$),
+      this.volumeService.onVolumeResized.takeUntil(this.unsubscribe$),
+      this.volumeService.onVolumeRemoved.takeUntil(this.unsubscribe$),
+      this.volumeService.onVolumeTagsChanged.takeUntil(this.unsubscribe$)
     )
       .subscribe(() => this.onVolumeUpdated());
 
@@ -105,7 +119,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
 
     this.updateGroupings();
 
-    const { selectedZones, selectedTypes, spareOnly, query } = this.filterData;
+    const { selectedZones, selectedTypes, spareOnly, query, accounts } = this.filterData;
     this.query = query;
 
     this.visibleVolumes = filterWithPredicates(
@@ -115,7 +129,9 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
         this.filterVolumesByTypes(selectedTypes),
         this.filterVolumesBySpare(spareOnly),
         this.filterVolumesBySearch()
-      ]);
+      ]
+    );
+    this.visibleVolumes = this.sortByAccount(this.visibleVolumes, accounts);
   }
 
   public updateGroupings(): void {
@@ -172,6 +188,26 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit, On
       queryParamsHandling: 'preserve',
       relativeTo: this.activatedRoute
     });
+  }
+
+  private getDomainList() {
+    this.domainService.getList().subscribe(domains => {
+      this.domainList = domains;
+    });
+  }
+
+  private getDomain(domainId: string) {
+    let domain = this.domainList && this.domainList.find(d => d.id === domainId);
+    return domain ? domain.getPath() : '';
+  }
+
+  private sortByAccount(visibleVolumes: Array<Volume>, accounts = []) {
+    if (accounts.length != 0) {
+      return visibleVolumes.filter(key =>
+        accounts.find(account => account.name === key.account && account.domainid === key.domainid));
+    } else {
+      return visibleVolumes;
+    }
   }
 
   private onVolumeUpdated(): void {

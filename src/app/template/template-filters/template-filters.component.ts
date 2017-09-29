@@ -9,6 +9,8 @@ import { FilterService } from '../../shared/services/filter.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { TemplateFilters } from '../shared/base-template.service';
+import { Account } from '../../shared/models/account.model';
+import { AuthService } from '../../shared/services/auth.service';
 
 
 @Component({
@@ -32,9 +34,11 @@ export class TemplateFiltersComponent implements OnInit {
   public selectedOsFamilies: Array<OsFamily>;
   public selectedFilters: Array<string>;
   public selectedGroupingNames = [];
+  public selectedAccounts: Array<Account> = [];
+  public selectedAccountIds: Array<string> = [];
 
   public zones: Array<Zone>;
-  public selectedZones: Array<Zone>;
+  public selectedZones: Array<Zone> = [];
 
   public filterTranslations: {};
 
@@ -67,7 +71,8 @@ export class TemplateFiltersComponent implements OnInit {
       defaultOption: []
     },
     query: { type: 'string' },
-    groupings: { type: 'array', defaultOption: [] }
+    groupings: { type: 'array', defaultOption: [] },
+    accounts: {type: 'array', defaultOption: [] }
   }, this.router, this.storageService, this.filtersKey, this.activatedRoute);
 
   private templateTabIndex = 0;
@@ -80,7 +85,8 @@ export class TemplateFiltersComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private storageService: LocalStorageService,
     private translateService: TranslateService,
-    private zoneService: ZoneService
+    private zoneService: ZoneService,
+    private authService: AuthService
   ) {
   }
 
@@ -89,7 +95,7 @@ export class TemplateFiltersComponent implements OnInit {
       this.zoneService.getList()
         .subscribe(zones => {
           this.zones = zones;
-          setTimeout(() => this.initFilters(), 0);
+          this.initFilters();
         });
     } else {
       this.selectedOsFamilies = this.osFamilies.concat();
@@ -121,13 +127,18 @@ export class TemplateFiltersComponent implements OnInit {
     this.updateDisplayMode();
   }
 
+  public showAccountFilter(): boolean {
+    return this.authService.isAdmin();
+  }
+
   public updateFilters(): void {
     this.filters.emit({
       selectedOsFamilies: this.selectedOsFamilies,
       selectedFilters: this.selectedFilters,
       selectedZones: this.selectedZones,
       query: this.query,
-      groupings: this.selectedGroupingNames
+      groupings: this.selectedGroupingNames,
+      accounts: this.selectedAccounts
     });
 
     if (!this.dialogMode) {
@@ -136,7 +147,8 @@ export class TemplateFiltersComponent implements OnInit {
         osFamilies: this.selectedOsFamilies,
         categoryFilters: this.selectedFilters,
         zones: this.selectedZones.map(_ => _.id),
-        groupings: this.selectedGroupingNames.map(_ => _.key)
+        groupings: this.selectedGroupingNames.map(_ => _.key),
+        accounts: this.selectedAccounts.map(_ => _.id)
       });
     }
   }
@@ -145,6 +157,11 @@ export class TemplateFiltersComponent implements OnInit {
     const mode = this.showIso ? 'Iso' : 'Template';
     this.displayMode.emit(mode);
     this.storageService.write('templateDisplayMode', mode);
+  }
+
+  public updateAccount(accounts: Array<Account>) {
+    this.selectedAccounts = accounts;
+    this.updateFilters();
   }
 
   private initFilters(): void {
@@ -158,6 +175,7 @@ export class TemplateFiltersComponent implements OnInit {
       .filter(g => g);
     this.query = params['query'];
     this.queryStream.next(this.query);
+    this.selectedAccountIds = params['accounts'];
 
     this.updateFilters();
   }

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { LocalStorageService } from './local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DayOfWeek } from '../types/day-of-week';
 import { UserTagService } from './tags/user-tag.service';
 
@@ -22,16 +21,12 @@ export enum TimeFormat {
 
 @Injectable()
 export class LanguageService {
-  public firstDayOfWeek = new BehaviorSubject<number>(undefined);
-  public timeFormat = new BehaviorSubject<string>(undefined);
 
   constructor(
     private storage: LocalStorageService,
     private translate: TranslateService,
     private userTagService: UserTagService
   ) {
-    this.initializeFirstDayOfWeek();
-    this.initializeTimeFormat();
   }
 
   public getLanguage(): Observable<Language> {
@@ -39,23 +34,23 @@ export class LanguageService {
       .map(lang => lang || this.defaultLanguage);
   }
 
-  public setLanguage(lang: Language): void {
+  public setLanguage(lang: Language): Observable<any> {
     this.storage.write('lang', lang);
-    this.userTagService.setLang(lang)
-      .subscribe(() => this.applyLanguage());
+    return this.userTagService.setLang(lang)
+      .switchMap(() => this.applyLanguage(lang));
   }
 
-  public applyLanguage(): void {
-    this.getLanguage().subscribe(
-      lang => this.translate.use(lang),
-      () => this.translate.use(this.defaultLanguage)
-    );
+  public applyLanguage(language): Observable<any> {
+    return this.translate.use(language)
+      .catch(() => this.translate.use(this.defaultLanguage));
   }
 
   public getFirstDayOfWeek(): Observable<DayOfWeek> {
     return this.userTagService.getFirstDayOfWeek()
       .map(dayRaw => {
-        const fallbackDay = this.storage.read('lang') === Language.en ? DayOfWeek.Sunday : DayOfWeek.Monday;
+        const fallbackDay = this.storage.read('lang') === Language.en
+          ? DayOfWeek.Sunday
+          : DayOfWeek.Monday;
         if (dayRaw === undefined) {
           return fallbackDay;
         }
@@ -65,11 +60,6 @@ export class LanguageService {
         }
         return day;
       });
-  }
-
-  public setFirstDayOfWeek(day: DayOfWeek): Observable<DayOfWeek> {
-    return this.userTagService.setFirstDayOfWeek(day)
-      .do(_ => this.firstDayOfWeek.next(day));
   }
 
   public getTimeFormat(): Observable<TimeFormat> {
@@ -93,23 +83,12 @@ export class LanguageService {
     return this.userTagService.setTimeFormat(timeFormat);
   }
 
-  public initializeFirstDayOfWeek(): void {
-    this.getFirstDayOfWeek().subscribe(firstDayOfWeek => {
-      this.firstDayOfWeek.next(firstDayOfWeek);
-    });
-  }
-
-  private get defaultLanguage(): Language {
-    const language = navigator.language && navigator.language.substr(0, 2);
+  public get defaultLanguage(): Language {
+    const storedLang = this.storage.read('lang');
+    const language = storedLang || navigator.language && navigator.language.substr(0, 2);
     if (language === Language.ru || language === Language.en) {
       return language;
     }
     return DEFAULT_LANGUAGE;
-  }
-
-  private initializeTimeFormat(): void {
-    this.getTimeFormat().subscribe(timeFormat => {
-      this.timeFormat.next(timeFormat);
-    });
   }
 }

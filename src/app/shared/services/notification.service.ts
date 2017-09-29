@@ -5,7 +5,7 @@ import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
 import { ParametrizedTranslation } from '../../dialog/dialog-service/dialog.service';
 
 @Injectable()
-export class NotificationService implements NotificationService {
+export class NotificationService {
   public snackBarConfig: MdSnackBarConfig;
 
   constructor(

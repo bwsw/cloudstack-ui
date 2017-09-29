@@ -14,3 +14,4 @@ export * from './ssh-keypair.model';
 export * from './tag.model';
 export * from './volume.model';
 export * from './zone.model';
+export * from './hypervisor.model';

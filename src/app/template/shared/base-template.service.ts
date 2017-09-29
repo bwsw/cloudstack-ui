@@ -1,11 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
 import { BaseTemplateModel } from './base-template.model';
-import { Subject } from 'rxjs/Subject';
 import { Utils } from '../../shared/services/utils/utils.service';
 
 
@@ -15,7 +16,8 @@ export const TemplateFilters = {
   featured: 'featured',
   self: 'self',
   selfExecutable: 'selfexecutable',
-  sharedExecutable: 'sharedexecutable'
+  sharedExecutable: 'sharedexecutable',
+  all: 'all'
 };
 
 export interface RequestParams {
@@ -39,8 +41,10 @@ export class GroupedTemplates<T extends BaseTemplateModel> {
   public self: Array<T>;
   public selfExecutable: Array<T>;
   public sharedExecutable: Array<T>;
+  public all: Array<T>;
 
   constructor(templates: {}) {
+    this.all = templates[TemplateFilters.all] || [];
     this.community = templates[TemplateFilters.community] || [];
     this.executable = templates[TemplateFilters.executable] || [];
     this.featured = templates[TemplateFilters.featured] || [];
@@ -56,7 +60,8 @@ export class GroupedTemplates<T extends BaseTemplateModel> {
       .concat(this.community)
       .concat(this.sharedExecutable)
       .concat(this.executable)
-      .concat(this.self);
+      .concat(this.self)
+      .concat(this.all);
   }
 }
 
@@ -69,16 +74,18 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
   constructor(
     protected asyncJobService: AsyncJobService,
     protected osTypeService: OsTypeService,
-    protected templateTagService: TemplateTagService
+    protected templateTagService: TemplateTagService,
+    protected http: HttpClient
   ) {
-    super();
+    super(http);
     this._templateFilters = [
       TemplateFilters.featured,
       TemplateFilters.selfExecutable,
       TemplateFilters.community,
       TemplateFilters.sharedExecutable,
       TemplateFilters.executable,
-      TemplateFilters.self
+      TemplateFilters.self,
+      TemplateFilters.all
     ];
   }
 

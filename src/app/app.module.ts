@@ -1,7 +1,7 @@
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
-import { Injector, NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import {
   MdButtonModule,
   MdCheckboxModule,
@@ -30,19 +30,29 @@ import { AppSidebarComponent } from './navigation/app-sidebar.component';
 import { SecurityGroupModule } from './security-group/sg.module';
 import { ServiceOfferingModule } from './service-offering/service-offering.module';
 import { SettingsModule } from './settings/settings.module';
-import { ServiceLocator } from './shared/services/service-locator';
+import { AuthService } from './shared/services/auth.service';
+import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
 import { SharedModule } from './shared/shared.module';
 import { SnapshotModule } from './snapshot/snapshot.module';
 import { VolumeModule } from './volume';
 import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
-import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
-import { UsersModule } from './accounts/accounts.module';
-
+import { ConfigService } from './shared/services/config.service';
+import { AccountModule } from './accounts/accounts.module';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './i18n/', '.json');
+}
+
+export function InitAppFactory(
+  auth: AuthService,
+  http: HttpClient,
+  configService: ConfigService
+) {
+  return () => http.get('config/config.json').toPromise()
+    .then(data => configService.parse(data))
+    .then(() => auth.initUser());
 }
 
 @NgModule({
@@ -73,7 +83,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     SshKeysModule,
     TemplateModule,
     VmModule,
-    UsersModule,
+    AccountModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -91,13 +101,20 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     HomeComponent
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: InitAppFactory,
+      deps: [AuthService, HttpClient, ConfigService],
+      multi: true
+    },
     MdDialog,
-    { provide: HTTP_INTERCEPTORS, useClass: BaseHttpInterceptor, multi: true }
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: BaseHttpInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(private injector: Injector) {
-    ServiceLocator.injector = this.injector;
-  }
 }

@@ -1,13 +1,11 @@
-import { Injector } from '@angular/core';
-import { async, inject, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { async, inject, TestBed } from '@angular/core/testing';
 import { BackendResource } from '../decorators';
 
 import { BaseModel } from '../models';
 import { BaseBackendService } from './base-backend.service';
 import { CacheService } from './cache.service';
-import { ErrorService } from './error.service';
-import { ServiceLocator } from './service-locator';
+import { HttpClient } from '@angular/common/http';
 
 
 describe('Base backend service', () => {
@@ -32,24 +30,26 @@ describe('Base backend service', () => {
     entity: 'Test',
     entityModel: TestModel
   })
-  class TestBackendService extends BaseBackendService<TestModel> { }
+  class TestBackendService extends BaseBackendService<TestModel> {
+    constructor(http: HttpClient) {
+      super(http);
+    }
+  }
 
   beforeEach(async(() => {
+    CacheService.invalidateAll();
     TestBed.configureTestingModule({
       providers: [
-        TestBackendService,
-        ErrorService,
-        CacheService,
+        TestBackendService
       ],
       imports: [
         HttpClientTestingModule
       ]
     });
-    ServiceLocator.injector = TestBed.get(Injector);
 
   }));
 
-  it('should get model list', async(inject([TestBackendService], (testService) => {
+  it('should create model list', async(inject([TestBackendService], (testService) => {
     testService.getList()
       .subscribe((res: Array<TestModel>) => {
         expect(res.length).toBe(test.length);
@@ -62,7 +62,7 @@ describe('Base backend service', () => {
       });
   })));
 
-  it('should get model by id', async(inject([TestBackendService], (testService) => {
+  it('should create model by id', async(inject([TestBackendService], (testService) => {
     testService.get(test[1].id)
       .subscribe((res: TestModel) => {
         expect(res instanceof TestModel).toBeTruthy();
@@ -71,17 +71,22 @@ describe('Base backend service', () => {
       });
   })));
 
-  it('should throw if model was not found by id', async(inject([TestBackendService], (testService) => {
-    testService.get('unknown-id').subscribe(
-      () => {},
-      error => expect(error).toBeDefined()
-    );
-  })));
+  it(
+    'should throw if model was not found by id',
+    async(inject([TestBackendService], (testService) => {
+      testService.get('unknown-id').subscribe(
+        () => {
+        },
+        error => expect(error).toBeDefined()
+      );
+    }))
+  );
 
   it('should parse an error', async(inject([TestBackendService], (testService) => {
     testService.sendCommand('test', { error: true })
       .subscribe(
-        () => {},
+        () => {
+        },
         error => {
           expect(error).toBeDefined();
           expect(error.errorcode).toBeDefined();
@@ -92,7 +97,7 @@ describe('Base backend service', () => {
   })));
 
   it('should merge concurrent requests with identical parameters', async(() => {
-    let testService = TestBed.get(TestBackendService);
+    const testService = TestBed.get(TestBackendService);
 
     testService.getList({ id: 'id1' }).subscribe(
       res => expect(res).toEqual([new TestModel(test[0])])
@@ -130,7 +135,7 @@ describe('Base backend service', () => {
   }));
 
   it('should merge concurrent requests without parameters', async(() => {
-    let testService = TestBed.get(TestBackendService);
+    const testService = TestBed.get(TestBackendService);
     testService.getList().subscribe(
       res => expect(res).toEqual([new TestModel(test[0]), new TestModel(test[1])])
     );
@@ -166,39 +171,39 @@ describe('Base backend service', () => {
   }));
 
   it('should not merge concurrent requests with different parameters', async(() => {
-    let testService = TestBed.get(TestBackendService);
-      testService.getList({ id: 'id1' }).subscribe(
-        res => expect(res).toEqual([new TestModel(test[0])])
-      );
-      testService.getList({ id: 'id2' }).subscribe(
-        res => expect(res).toEqual([new TestModel(test[1])])
-      );
-      mockBackend = TestBed.get(HttpTestingController);
-      mockBackend.match((req) => {
-        const params = req.params;
-        const mockResponse = {
-          status: 200,
-          body: {
-            'listtestsresponse': {}
-          }
-        };
-        if (!params.has('id')) {
-          (mockResponse.body.listtestsresponse as any).count = test.length;
-          (mockResponse.body.listtestsresponse as any).test = test;
-        } else {
-          const id = params.get('id');
-
-          const item = test.find(m => m.id === id);
-
-          if (item === undefined) {
-            return new Error('Wrong arguments');
-          }
-
-          (mockResponse.body.listtestsresponse as any).count = 1;
-          (mockResponse.body.listtestsresponse as any).test = [item];
+    const testService = TestBed.get(TestBackendService);
+    testService.getList({ id: 'id1' }).subscribe(
+      res => expect(res).toEqual([new TestModel(test[0])])
+    );
+    testService.getList({ id: 'id2' }).subscribe(
+      res => expect(res).toEqual([new TestModel(test[1])])
+    );
+    mockBackend = TestBed.get(HttpTestingController);
+    mockBackend.match((req) => {
+      const params = req.params;
+      const mockResponse = {
+        status: 200,
+        body: {
+          'listtestsresponse': {}
         }
-        return mockResponse;
-      });
-    }));
+      };
+      if (!params.has('id')) {
+        (mockResponse.body.listtestsresponse as any).count = test.length;
+        (mockResponse.body.listtestsresponse as any).test = test;
+      } else {
+        const id = params.get('id');
+
+        const item = test.find(m => m.id === id);
+
+        if (item === undefined) {
+          return new Error('Wrong arguments');
+        }
+
+        (mockResponse.body.listtestsresponse as any).count = 1;
+        (mockResponse.body.listtestsresponse as any).test = [item];
+      }
+      return mockResponse;
+    });
+  }));
 });
 

@@ -1,30 +1,20 @@
 import { async, TestBed } from '@angular/core/testing';
 import { MockEntityData } from '../../../../testutils/mocks/model-services/entity-data.spec';
 import { MockConfigService } from '../../../../testutils/mocks/model-services/services/mock-config.service.spec';
-import {
-  MockCustomServiceOfferingService
-} from '../../../../testutils/mocks/model-services/services/mock-custom-service-offering.service.spec';
-import {
-  MockResourceUsageService
-} from '../../../../testutils/mocks/model-services/services/mock-resource-usage.service.spec';
-import {
-  MockServiceOfferingService
-} from '../../../../testutils/mocks/model-services/services/mock-service-offering.service.spec';
-import {
-  CustomServiceOfferingService
-} from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
+import { MockCustomServiceOfferingService } from '../../../../testutils/mocks/model-services/services/mock-custom-service-offering.service.spec';
+import { MockResourceUsageService } from '../../../../testutils/mocks/model-services/services/mock-resource-usage.service.spec';
+import { MockServiceOfferingService } from '../../../../testutils/mocks/model-services/services/mock-service-offering.service.spec';
+import { CustomServiceOfferingService } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { ServiceOffering } from '../../../shared/models';
 import { ConfigService } from '../../../shared/services/config.service';
-import {
-  ResourceStats,
-  ResourceUsageService
-} from '../../../shared/services/resource-usage.service';
+import { ResourceStats, ResourceUsageService } from '../../../shared/services/resource-usage.service';
 import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
 import { VmCreationData } from '../data/vm-creation-data';
 import { VmCreationState } from '../data/vm-creation-state';
 import { VmCreationConfigurationData } from '../services/vm-creation.service';
 import { VmCreationFormState } from '../vm-creation.component';
 import { VmCreationFormNormalizationService } from './form-normalization.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 
 interface VmCreationFixture {
@@ -81,6 +71,14 @@ describe('Virtual machine creation form normalization service', () => {
   }): void {
     TestBed.configureTestingModule({
       providers: [
+        {
+          provide: AuthService,
+          useValue: {
+            getCustomDiskOfferingMinSize() {
+              return 1;
+            }
+          }
+        },
         {
           provide: ConfigService,
           useClass: MockConfigService
