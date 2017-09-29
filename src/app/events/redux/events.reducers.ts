@@ -165,8 +165,8 @@ export const selectFilteredEvents = createSelector(
   filterSelectedLevels,
   (events, query, selectedTypes, selectedLevels) => {
     const queryLower = query && query.toLowerCase();
-    const typeMap = selectedTypes.reduce((memo, item) => ({ ...memo, [item]: item }), {});
-    const levelsMap = selectedLevels.reduce((memo, item) => ({ ...memo, [item]: item }), {});
+    const typeMap = selectedTypes.reduce((m, i) => ({ ...m, [i]: i }), {});
+    const levelsMap = selectedLevels.reduce((m, i) => ({ ...m, [i]: i }), {});
 
     const queryFilter = event => !query || event.description.toLowerCase()
         .includes(queryLower) ||
@@ -182,7 +182,9 @@ export const selectFilteredEvents = createSelector(
     };
 
     return events.filter(event => {
-      return queryFilter(event) && selectedTypesFilter(event) && selectedLevelsFilter(event);
+      return queryFilter(event)
+        && selectedTypesFilter(event)
+        && selectedLevelsFilter(event);
     });
   }
 );

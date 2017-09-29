@@ -47,9 +47,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return this.getList().map(res => res.find(entity => entity.id === id));
   }
 
-  public getListAll(params = {}, customApiFormat?: ApiFormat): Observable<Array<M>> {
-    params = Object.assign(params, { 'listAll': 'true' });
-    const requestParams = Object.assign({}, params, { all: true });
+  public getListAll(params, customApiFormat?: ApiFormat): Observable<Array<M>> {
+    const requestParams = Object.assign({}, this.extendParams(params), { all: true });
     return this.makeGetListObservable(requestParams, customApiFormat)
       .switchMap(result => {
         if (result.meta.count > result.list.length) {
@@ -81,7 +80,12 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   public getList(params?: {}, customApiFormat?: ApiFormat): Observable<Array<M>> {
-    return this.makeGetListObservable(params, customApiFormat).map(r => r.list);
+    return this.makeGetListObservable(this.extendParams(params), customApiFormat)
+      .map(r => r.list);
+  }
+
+  public extendParams(params = {}) {
+    return Object.assign({}, params, { listAll: 'true' });
   }
 
   public create(params?: {}, customApiFormat?: ApiFormat): Observable<any> {

@@ -14,7 +14,7 @@ export class AccountFilterComponent {
   public selected;
   public accounts: Account[];
 
-  constructor (
+  constructor(
     private accountService: AccountService,
     private domainService: DomainService
   ) {
@@ -23,7 +23,8 @@ export class AccountFilterComponent {
       this.domainService.getList()
     ).subscribe(([accounts, domains]) => {
       this.accounts = accounts.map(account => {
-        account.fullDomain = domains.find(domain => domain.id === account.domainid).getPath();
+        account.fullDomain = domains.find(domain => domain.id === account.domainid)
+          .getPath();
         return account;
       });
       this.selected = this.accounts.filter(account =>
