@@ -114,7 +114,6 @@ export class VmListItemComponent implements OnInit, OnChanges {
   }
 
   private updateColor(): void {
-    const savedColor = this.vmTagService.getColorSync(this.item);
-    this.color = new Color(savedColor.name, savedColor.value);
+    this.color = this.vmTagService.getColorSync(this.item);
   }
 }
