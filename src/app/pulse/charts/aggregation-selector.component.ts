@@ -36,6 +36,7 @@ export class AggregationSelectorComponent {
   @Input() permittedIntervals: any;
   @Output() scaleChange = new EventEmitter();
   @Output() aggregationsChange = new EventEmitter<MdOptionSelectionChange>();
+  @Output() refreshHandle = new EventEmitter<any>();
   @Output() shiftChange = new EventEmitter<string>();
   @Output() shiftAmountChange = new EventEmitter<number>();
 
@@ -97,6 +98,10 @@ export class AggregationSelectorComponent {
     const amount = parseInt(change.target.value, 10);
     this.shiftAmount = amount;
     this.emitShiftChange(amount);
+  }
+
+  public handleRefresh() {
+    this.refreshHandle.emit();
   }
 
   private emitShiftChange(amount: number) {

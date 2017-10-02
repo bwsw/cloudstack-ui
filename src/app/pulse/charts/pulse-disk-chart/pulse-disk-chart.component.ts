@@ -18,6 +18,7 @@ import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-cha
 @Component({
   selector: 'cs-pulse-disk-chart',
   templateUrl: './pulse-disk-chart.component.html',
+  styleUrls: ['./pulse-disk-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PulseDiskChartComponent extends PulseChartComponent implements OnInit {

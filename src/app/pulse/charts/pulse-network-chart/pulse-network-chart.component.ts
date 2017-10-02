@@ -18,6 +18,7 @@ import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-cha
 @Component({
   selector: 'cs-pulse-network-chart',
   templateUrl: './pulse-network-chart.component.html',
+  styleUrls: ['./pulse-network-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PulseNetworkChartComponent extends PulseChartComponent implements OnInit {
