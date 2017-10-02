@@ -111,6 +111,22 @@ export class VmListItemComponent implements OnInit, OnChanges {
   }
 
   private updateColor(): void {
-    this.color = this.vmTagService.getColorSync(this.item);
+    const savedColor = this.vmTagService.getColorSync(this.item);
+    this.color = new Color(savedColor.name, savedColor.value);
+
+    this.color.textColor = this.isBackgroundDark(savedColor.value)
+      ? 'rgba(255, 255, 255, 0.87)'
+      : 'rgba(0, 0, 0, 0.87)';
+  }
+
+  private isBackgroundDark(color: string) {
+    const hex = color.replace('#', '');
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+
+    const darkness = 1 - ( 0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+    return darkness > 0.5 ? true : false;
   }
 }
