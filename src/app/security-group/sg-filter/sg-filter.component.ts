@@ -86,7 +86,7 @@ export class SgFilterComponent implements FilterComponent<SecurityGroupFilter>, 
       query: this.query
     });
 
-    this.filterService.update(this.filtersKey, {
+    this.filterService.update({
       viewMode: this.viewMode,
       query: this.query
     });

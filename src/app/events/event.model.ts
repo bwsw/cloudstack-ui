@@ -9,6 +9,7 @@ import * as moment from 'moment';
 export class Event extends BaseModel {
   public id: string;
   public type: string;
+  public time: string;
   public level: string;
   public description: string;
   public account: string;

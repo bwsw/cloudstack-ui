@@ -9,12 +9,12 @@ export class TableDatabase {
     return this.dataChange.value;
   }
 
-  constructor(private list: Array<any>) {
-    this.init();
+  constructor(private list: Array<any> = []) {
+    this.update(list);
   }
 
-  private init() {
-    this.dataChange.next(this.list);
+  public update(list) {
+    this.dataChange.next(list);
   }
 }
 

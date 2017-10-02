@@ -4,6 +4,7 @@ import {
   HttpParams
 } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import * as range from 'lodash/range';
 
 import { BaseModel } from '../models';
 import { Cache } from './cache';
@@ -17,11 +18,20 @@ export interface ApiFormat {
   entity?: string;
 }
 
+export const MAX_PAGE_SIZE = 500;
+
+export interface FormattedResponse<M> {
+  list: Array<M>,
+  meta: {
+    count: number
+  }
+}
+
 export abstract class BaseBackendService<M extends BaseModel> {
   protected entity: string;
   protected entityModel: { new (params?): M };
 
-  protected requestCache: Cache<Observable<Array<M>>>;
+  protected requestCache: Cache<Observable<FormattedResponse<M>>>;
 
   constructor(
     protected http: HttpClient
@@ -37,16 +47,45 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return this.getList().map(res => res.find(entity => entity.id === id));
   }
 
-  public getList(params = {}, customApiFormat?: ApiFormat): Observable<Array<M>> {
-    params = Object.assign(params, { 'listAll': 'true' });
-    const cachedRequest = this.requestCache.get(params);
-    if (cachedRequest) {
-      return cachedRequest;
-    }
+  public getListAll(params, customApiFormat?: ApiFormat): Observable<Array<M>> {
+    const requestParams = Object.assign({}, this.extendParams(params), { all: true });
+    return this.makeGetListObservable(requestParams, customApiFormat)
+      .switchMap(result => {
+        if (result.meta.count > result.list.length) {
+          const numberOfCalls = Math.ceil(result.meta.count / MAX_PAGE_SIZE);
+          return Observable.forkJoin(...range(2, numberOfCalls + 1).map(page => {
+            return this.makeGetListObservable(
+              Object.assign(
+                {},
+                requestParams,
+                {
+                  pageSize: MAX_PAGE_SIZE,
+                  page
+                }
+              ),
+              customApiFormat
+            );
+          })).map((results: Array<FormattedResponse<M>>) => {
+            return results.reduce((memo, res) => {
+              return Object.assign(memo, {
+                list: memo.list.concat(res.list)
+              });
+            }, result);
+          });
+        } else {
+          return Observable.of(result);
+        }
+      })
+      .map(r => r.list);
+  }
 
-    const result = this.makeGetListObservable(params, customApiFormat);
-    this.requestCache.set({ params, result });
-    return result;
+  public getList(params?: {}, customApiFormat?: ApiFormat): Observable<Array<M>> {
+    return this.makeGetListObservable(this.extendParams(params), customApiFormat)
+      .map(r => r.list);
+  }
+
+  public extendParams(params = {}) {
+    return Object.assign({}, params, { listAll: 'true' });
   }
 
   public create(params?: {}, customApiFormat?: ApiFormat): Observable<any> {
@@ -149,29 +188,38 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return Observable.throw(ErrorService.parseError(this.getResponse(error)));
   }
 
-  protected formatGetListResponse(response: any): Array<M> {
+  protected formatGetListResponse(response: any): FormattedResponse<M> {
     let entity = this.entity.toLowerCase();
     if (entity === 'asyncjob') {
       // only if list?
       entity += 's';
     }
 
-    const result = response[entity];
-    if (!result) {
-      return [];
-    }
-    return result.map(m => this.prepareModel(m)) as Array<M>;
+    const result = response[entity] || [];
+    return {
+      list: result.map(m => this.prepareModel(m)) as Array<M>,
+      meta: {
+        count: response.count || 0
+      }
+    };
   }
 
   private makeGetListObservable(
     params?: {},
     customApiFormat?: ApiFormat
-  ): Observable<Array<M>> {
+  ): Observable<FormattedResponse<M>> {
+
+    const cachedRequest = this.requestCache.get(params);
+    if (cachedRequest) {
+      return cachedRequest;
+    }
     const command = (customApiFormat && customApiFormat.command) || 'list;s';
     const entity = customApiFormat && customApiFormat.entity;
-    return this.sendCommand(command, params, entity)
+    const request = this.sendCommand(command, params, entity)
       .map(response => this.formatGetListResponse(response))
       .share();
+    this.requestCache.set({ params, result: request });
+    return request;
   }
 
   private breakParamsArray(params: {}, arrayName: string): any {
@@ -210,6 +258,6 @@ export abstract class BaseBackendService<M extends BaseModel> {
 
   private initRequestCache(): void {
     const cacheTag = `${this.entity}RequestCache`;
-    this.requestCache = CacheService.create<Observable<Array<M>>>(cacheTag);
+    this.requestCache = CacheService.create<Observable<FormattedResponse<M>>>(cacheTag);
   }
 }

@@ -86,6 +86,7 @@ import 'rxjs/add/operator/pluck';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/switchMapTo';
+import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/toPromise';
 
 // static operator imports ( e.g. Observable.merge )
