@@ -34,7 +34,7 @@
     class="delete-rule-button"
     md-icon-button
     disabled="{{ !canRemove || deleting }}"
-    [hidden]="!canRemove"
+    *ngIf="canRemove"
     (click)="handleRemoveClicked($event)"
   >
     <md-icon *ngIf="!deleting">delete</md-icon>

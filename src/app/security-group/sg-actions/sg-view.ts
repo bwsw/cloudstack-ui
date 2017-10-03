@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SecurityGroupAction } from './sg-action';
-import { SecurityGroup, SecurityGroupType } from '../sg.model';
+import { SecurityGroup } from '../sg.model';
 import { Observable } from 'rxjs/Observable';
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
 import { MdDialogConfig } from '@angular/material';
@@ -20,9 +20,5 @@ export class SecurityGroupViewAction extends SecurityGroupAction {
       .map(updatedGroup => {
         return this.securityGroupService.onSecurityGroupUpdate.next(updatedGroup);
       });
-  }
-
-  public hidden(securityGroup: SecurityGroup): boolean {
-    return securityGroup.type !== SecurityGroupType.PredefinedTemplate;
   }
 }

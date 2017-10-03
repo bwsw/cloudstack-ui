@@ -64,6 +64,9 @@
       "CONFIRM_DRIVES_DELETION": "Удалить диски с данными этой ВМ?",
       "CONFIRM_SAVE_PASSWORD": "Вы уверены, что хотите сохранять пароли для всех вирутальных машин?"
     },
+    "SECURITY_GROUPS": {
+      "CONFIRM_EDIT": "Эта группа - общая. Другие виртуальные машины, которые её используют, так же будут затронуты. Вы уверены, что хотите изменить её в управлении группами безопасности?"
+    },
     "VOLUME": {
       "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот диск?",
       "CONFIRM_DETACHMENT": "Вы уверены, что хотите открепить этот диск?",
@@ -672,6 +675,8 @@
       "ENTER_VALID_CIDR": "Некорректный CIDR",
       "FAILED_TO_ADD_RULE": "Не удалось добавить правило",
       "FAILED_TO_REMOVE_RULE": "Не удалось удалить правило",
+      "SELECT_TYPE": "Выберите типы",
+      "SELECT_PROTOCOL": "Выберите протоколы",
       "INGRESS_DISPLAY": "Входящий",
       "EGRESS_DISPLAY": "Исходящий",
       "DEFAULT_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>, порт: <b>{{ startPort }}</b>",
@@ -683,7 +688,8 @@
       "DEFAULT_RULE_PORT_RANGE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }}, интервал портов: {{ startPort }}-{{ endPort }}",
       "DEFAULT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }},  ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCodeText }} [{{ icmpCode }}]",
       "NO_TEXT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }},  ICMP тип: {{ icmpType }}, ICMP код: {{ icmpCode }}",
-      "NO_CODE_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }},  ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCode }}"
+      "NO_CODE_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }},  ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCode }}",
+      "NO_FIREWALL_RULES": "Нет правил брандмауэра"
     },
     "ICMP_TYPES": {
       "-1": {

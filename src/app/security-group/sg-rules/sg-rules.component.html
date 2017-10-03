@@ -1,15 +1,13 @@
-<h3
-  class="mat-dialog-title"
-  [innerHTML]="isPredefinedTemplate ?
-    ('SECURITY_GROUP_PAGE.RULES.VIEW_TITLE' | translate: { value: securityGroup?.name }) :
-    ('SECURITY_GROUP_PAGE.RULES.EDIT_TITLE' | translate: { value: securityGroup?.name }) "
->
+<h3 class="mat-dialog-title"
+    [innerHTML]="!editMode ?
+  ('SECURITY_GROUP_PAGE.RULES.VIEW_TITLE' | translate:{ value: securityGroup?.name }) :
+  ('SECURITY_GROUP_PAGE.RULES.EDIT_TITLE' | translate:{ value: securityGroup?.name })"
 </h3>
 <div class="mat-dialog-content">
   <form #rulesForm="ngForm" novalidate>
     <table class="mat-table">
       <tbody>
-      <tr class="mat-row table-form" *ngIf="!isPredefinedTemplate">
+      <tr class="mat-row rule-row table-form" *ngIf="!isPredefinedTemplate && editMode">
         <td class="mat-cell">
           <md-select class="type" [(ngModel)]="type" name="type">
             <md-option
@@ -151,29 +149,75 @@
           </button>
         </td>
       </tr>
-      <cs-security-group-rule
-        class="mat-row rule-row"
-        *ngFor="let rule of securityGroup?.ingressRules"
-        [type]="NetworkRuleTypes.Ingress"
-        [rule]="rule"
-        [canRemove]="!isPredefinedTemplate"
-        (onRemove)="removeRule($event)"
+
+      <tr class="mat-row rule-row" *ngIf="!editMode">
+        <md-select
+          class="filter-select"
+          multiple="true"
+          [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_TYPE' | translate"
+          name="selectedTypes"
+          [(ngModel)]="selectedTypes"
+          (change)="filter()"
+        >
+          <md-option *ngFor="let z of types" [value]="z.value">{{ z.text | translate }}
+          </md-option>
+        </md-select>
+        <md-select
+          class="filter-select"
+          multiple="true"
+          [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_PROTOCOL' | translate"
+          name="selectedProtocols"
+          [(ngModel)]="selectedProtocols"
+          (change)="filter()"
+        >
+          <md-option *ngFor="let z of protocols" [value]="z.value">
+            {{ z.text | translate }}
+          </md-option>
+        </md-select>
+      </tr>
+
+      <ng-container *ngIf="isSelectedType(NetworkRuleTypes.Ingress)">
+        <cs-security-group-rule
+          class="mat-row rule-row"
+          *ngFor="let rule of visibleIngressRules"
+          [type]="NetworkRuleTypes.Ingress"
+          [rule]="rule"
+          [canRemove]="!isPredefinedTemplate && editMode"
+          (onRemove)="removeRule($event)"
+        >
+        </cs-security-group-rule>
+      </ng-container>
+      <ng-container *ngIf="isSelectedType(NetworkRuleTypes.Egress)">
+        <cs-security-group-rule
+          class="mat-row rule-row"
+          *ngFor="let rule of visibleEgressRules"
+          [type]="NetworkRuleTypes.Egress"
+          [rule]="rule"
+          [canRemove]="!isPredefinedTemplate && editMode"
+          (onRemove)="removeRule($event)"
+        >
+        </cs-security-group-rule>
+      </ng-container>
+      <td
+        colspan="6"
+        *ngIf="!securityGroup?.ingressRules.length && !securityGroup?.egressRules.length"
       >
-      </cs-security-group-rule>
-      <cs-security-group-rule
-        class="mat-row rule-row"
-        *ngFor="let rule of securityGroup?.egressRules"
-        [type]="NetworkRuleTypes.Egress"
-        [rule]="rule"
-        [canRemove]="!isPredefinedTemplate"
-        (onRemove)="removeRule($event)"
-      >
-      </cs-security-group-rule>
+        {{ 'SECURITY_GROUP_PAGE.RULES.' +
+        'NO_FIREWALL_RULES' | translate }}
+      </td>
       </tbody>
     </table>
   </form>
 </div>
 <div class="mat-dialog-actions">
+  <button
+    *ngIf="!isPredefinedTemplate"
+    md-button
+    color="primary"
+    (click)="confirmChangeMode()"
+  >
+    {{ !editMode ? ('COMMON.EDIT' | translate) : ('COMMON.VIEW' | translate) }}
+  </button>
   <button md-button color="primary" mdDialogClose>
     {{ 'COMMON.CLOSE' | translate }}
   </button>
