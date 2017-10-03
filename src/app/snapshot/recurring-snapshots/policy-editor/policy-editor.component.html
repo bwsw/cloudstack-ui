@@ -48,13 +48,11 @@
       [maxValue]="maxStoredSnapshots"
     ></cs-stored-number>
 
-    <button md-button color="primary" [disabled]="!policyEditorForm.valid">
-      {{ 'COMMON.ADD' | translate }}
-    </button>
+      <div class="button-wrapper">
+        <button md-button color="primary" [disabled]="!policyEditorForm.valid">
+          {{ 'COMMON.ADD' | translate }}
+        </button>
+      </div>
     </div>
-  </div>
-
-  <div class="button-wrapper">
-
   </div>
 </form>

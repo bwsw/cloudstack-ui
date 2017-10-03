@@ -979,7 +979,8 @@
     "HOURLY": "Ежечасно",
     "DAILY": "Ежедневно",
     "WEEKLY": "Еженедельно",
-    "MONTHLY": "Ежемесячно"
+    "MONTHLY": "Ежемесячно",
+    "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}"
   },
   "SUGGESTION_DIALOG": {
     "WOULD_YOU_LIKE_TO_CREATE_VM": "Хотите создать виртуальную машину?",
