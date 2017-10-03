@@ -12,6 +12,7 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { NetworkRuleService } from '../services/network-rule.service';
 import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { NetworkProtocol } from '../network-rule.model';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 
 
 @Component({
@@ -23,6 +24,8 @@ export class SgRulesComponent {
   @ViewChild('rulesForm') public rulesForm: NgForm;
   public selectedType = '';
   public selectedCode = '';
+  public selectedTypes: string[] = [];
+  public selectedProtocols: string[] = [];
 
   public type: NetworkRuleType;
   public protocol: NetworkProtocol;
@@ -34,8 +37,11 @@ export class SgRulesComponent {
   public endPort: number;
   public cidr: string;
   public securityGroup: SecurityGroup;
+  public visibleIngressRules: any[];
+  public visibleEgressRules: any[];
 
   public adding: boolean;
+  public editMode = false;
 
   public NetworkProtocols = NetworkProtocol;
   public NetworkRuleTypes = NetworkRuleType;
@@ -56,7 +62,8 @@ export class SgRulesComponent {
     @Inject(MD_DIALOG_DATA) data,
     private networkRuleService: NetworkRuleService,
     private notificationService: NotificationService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private dialogService: DialogService
   ) {
     this.securityGroup = data.securityGroup;
     this.cidr = '0.0.0.0/0';
@@ -64,6 +71,10 @@ export class SgRulesComponent {
     this.type = NetworkRuleType.Ingress;
 
     this.adding = false;
+
+    if (this.securityGroup) {
+      this.filter();
+    }
   }
 
   public get isPredefinedTemplate(): boolean {
@@ -156,6 +167,28 @@ export class SgRulesComponent {
     }
   }
 
+  public filter(): void {
+    if (!this.securityGroup.ingressRules.length || !this.securityGroup.egressRules.length) {
+      return;
+    }
+
+    if (!this.selectedProtocols.length) {
+      this.visibleEgressRules = this.securityGroup.egressRules;
+      this.visibleIngressRules = this.securityGroup.ingressRules;
+      return;
+    }
+
+    this.visibleEgressRules = this.securityGroup.egressRules.filter(_ =>
+      this.selectedProtocols.find(protocol => protocol === _.protocol));
+
+    this.visibleIngressRules = this.securityGroup.ingressRules.filter(_ =>
+      this.selectedProtocols.find(protocol => protocol === _.protocol));
+  }
+
+  public isSelectedType(type: string) {
+    return !this.selectedTypes.length || this.selectedTypes.includes(type);
+  }
+
   public filterTypes(val: number | string) {
     const filterValue = val.toString().toLowerCase();
     return !!val ? ICMPtypes.filter(_ => _.type.toString() === filterValue ||
@@ -173,6 +206,24 @@ export class SgRulesComponent {
         .indexOf(filterValue) !== -1) : ICMPtypes.find(x => x.type === this.icmpType).codes;
   }
 
+  public confirmChangeMode() {
+    if (!this.editMode && this.securityGroup.type === SecurityGroupType.Shared) {
+      this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_EDIT' })
+        .subscribe((res) => {
+          if (res) {
+            this.changeMode();
+          }
+        });
+    } else {
+      this.changeMode();
+    }
+  }
+
+  private changeMode() {
+    this.resetFilters();
+    this.editMode = !this.editMode;
+  }
+
   private resetForm(): void {
     // reset controls' state. instead of just setting ngModel bound variables to empty string
     // we reset controls to reset the validity state of inputs
@@ -183,5 +234,11 @@ export class SgRulesComponent {
         control.reset();
       }
     });
+  }
+
+  private resetFilters() {
+    this.selectedTypes = [];
+    this.selectedProtocols = [];
+    this.filter();
   }
 }
