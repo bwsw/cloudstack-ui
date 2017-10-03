@@ -608,7 +608,7 @@
       "DESCRIPTION": "Description"
     },
     "RULES": {
-      "TITLE": "Edit rules for {{ value }}",
+      "TITLE": "Edit rules for <b>{{ value }}</b>",
       "TYPE": "Type",
       "PROTOCOL": "Protocol",
       "CIDR": "CIDR",
