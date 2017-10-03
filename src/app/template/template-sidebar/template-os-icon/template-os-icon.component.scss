@@ -5,4 +5,9 @@
   text-align: center;
   font-size: 40px;
   vertical-align: bottom;
+
+  &.mat-card-avatar {
+    width: 40px !important;
+    height: 40px !important;
+  }
 }
