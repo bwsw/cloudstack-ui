@@ -1,4 +1,4 @@
-<md-icon
+<div
   class="os-icon"
   [ngSwitch]="template.osType.osFamily"
   md-card-avatar
@@ -24,5 +24,7 @@
       height="40"
     >
   </ng-template>
-  <ng-template ngSwitchDefault>help</ng-template>
-</md-icon>
+  <ng-template ngSwitchDefault>
+    <md-icon class="os-icon">help</md-icon>
+  </ng-template>
+</div>
