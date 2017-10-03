@@ -15,6 +15,8 @@ import { volumeTypeNames } from '../../shared/models/volume.model';
 import { AuthService } from '../../shared/services/auth.service';
 import { DomainService } from '../../shared/services/domain.service';
 import { Domain } from '../../shared/models/domain.model';
+import { VirtualMachine } from '../../vm/shared/vm.model';
+import { VmService } from '../../vm/shared/vm.service';
 
 
 export interface VolumeCreationData {
@@ -59,6 +61,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
 
   public filterData: any;
   public domainList: Array<Domain>;
+  public hasVm: boolean;
 
   constructor(
     public listService: ListService,
@@ -70,17 +73,18 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
     private domainService: DomainService,
     private volumeService: VolumeService,
     private zoneService: ZoneService,
-    private authService: AuthService
-  ) {
+    private authService: AuthService,
+    private vmService: VmService) {
     super();
     if (!this.authService.isAdmin()) {
-      this.groupings = this.groupings.filter(g => g.key != 'accounts');
+      this.groupings = this.groupings.filter(g => g.key !== 'accounts');
     } else {
       this.getDomainList();
     }
   }
 
   public ngOnInit(): void {
+    this.getVmInfo();
     Observable.merge(
       this.volumeService.onVolumeAttachment.takeUntil(this.unsubscribe$)
         .do(e => {
@@ -183,6 +187,23 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
     };
   }
 
+  public activate() {
+    if (this.hasVm) {
+      this.showCreationDialog();
+    } else {
+      return this.dialogService.confirm({
+        message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_CREATION',
+        confirmText: 'COMMON.CONTINUE',
+        declineText: 'COMMON.CANCEL'
+      })
+        .subscribe((res) => {
+          if (res) {
+            this.showCreationDialog();
+          }
+        });
+    }
+  }
+
   public showCreationDialog(): void {
     this.router.navigate(['./create'], {
       queryParamsHandling: 'preserve',
@@ -237,7 +258,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
           message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VOLUME',
           actions: [
             {
-              handler: () => this.showCreationDialog(),
+              handler: () => this.activate(),
               text: 'COMMON.YES'
             },
             { text: 'COMMON.NO' },
@@ -285,5 +306,11 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
           this.showSuggestionDialog();
         }
       });
+  }
+
+  private getVmInfo() {
+    this.vmService.getListWithDetails().subscribe((res: VirtualMachine[]) => {
+      return res.length === 0 ? this.hasVm = false : this.hasVm = true;
+    });
   }
 }
