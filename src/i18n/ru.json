@@ -12,10 +12,11 @@
     "DELETE": "Удалить",
     "DESCRIPTION": "Описание",
     "EDIT": "Редактировать",
+    "ERROR": "Ошибка",
     "NO": "Нет",
     "NO_RESULTS": "Поиск не дал результатов",
     "NONE": "Не выбрано",
-    "OK": "Ок",
+    "OK": "ОК",
     "REFRESH": "Обновить",
     "REMOVE": "Удалить",
     "RESET": "Сбросить",
@@ -461,13 +462,28 @@
       "IPS": "IP",
       "VOLUMES": "Дисков",
       "PRIMARY_STORAGE": "Основного хранилища",
-      "CREATING_SG": "Создание группы безопасности",
-      "CREATING_AG": "Создание аффинитетной группы",
-      "DEPLOYING_VM": "Создание виртуальной машины",
+      "CREATING_SG": "Создание группы безопасности...",
+      "CREATING_AG": "Создание аффинитетной группы...",
+      "DEPLOYING_VM": "Создание виртуальной машины...",
+      "CREATING_INSTANCE_GROUP": "Создание группы...",
+      "TAG_COPYING": "Копирование тегов из шаблона...",
+      "DEPLOYMENT_FINISHED": "Развертывание завершено",
       "OS_TEMPLATE": "ОС шаблон",
       "NO_TEMPLATES": "Нет доступных шаблонов"
     }
   },
+
+  "VM_POST_ACTION": {
+    "TITLE": "Виртуальная машина успешно создана",
+    "OPEN_VNC_CONSOLE": "Открыть VNC консоль",
+    "OPEN_SHELL_CONSOLE": "Окрыть WebShell",
+    "OPEN_URL": "Открыть URL",
+    "VM_PASSWORD": "Пароль",
+    "LOGIN": "Логин",
+    "VM": "Имя машины",
+    "VM_IP": "IP адрес"
+  },
+
   "VOLUME_PAGE": {
     "FILTERS": {
       "SPARE_DRIVES_ONLY": "Только свободные диски",

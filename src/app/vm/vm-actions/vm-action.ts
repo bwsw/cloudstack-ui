@@ -1,10 +1,10 @@
-import { VirtualMachine } from '../shared/vm.model';
-import { Action } from '../../shared/interfaces/action.interface';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { VmService } from '../shared/vm.service';
-import { Observable } from 'rxjs/Observable';
-import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { Action } from '../../shared/interfaces/action.interface';
+import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
+import { VirtualMachine } from '../shared/vm.model';
+import { VmService } from '../shared/vm.service';
 
 
 export enum VmActions {
@@ -17,7 +17,7 @@ export enum VmActions {
   RECOVER = 'recover',
   RESET_PASSWORD = 'resetPasswordFor',
   CONSOLE = 'console',
-  CHANGE_SERVICE_OFFERING = 'changeServiceOfering',
+  CHANGE_SERVICE_OFFERING = 'changeServiceOffering',
   WEB_SHELL = 'webShell',
   PULSE = 'pulse'
 }
