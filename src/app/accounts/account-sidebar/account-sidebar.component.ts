@@ -9,7 +9,8 @@ import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-
 
 @Component({
   selector: 'cs-account-sidebar',
-  templateUrl: 'account-sidebar.component.html'
+  templateUrl: 'account-sidebar.component.html',
+  styleUrls: ['account-sidebar.component.scss']
 })
 export class AccountSidebarComponent extends SidebarComponent<Account>{
   constructor(

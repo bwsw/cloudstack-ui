@@ -23,6 +23,8 @@ import { AccountSettingsComponent } from './account-sidebar/account-settings/acc
 import { AccountSidebarComponent } from './account-sidebar/account-sidebar.component';
 import { FormsModule } from '@angular/forms';
 import { AccountDetailsComponent } from './account-sidebar/account-details/account-details.component';
+import { AccountConfigurationComponent } from './account-sidebar/account-settings/account-configuration/account-configuration.component';
+import { EditAccountConfigurationComponent } from './account-sidebar/account-settings/account-configuration/edit-account-configuration.component';
 
 
 @NgModule({
@@ -50,7 +52,12 @@ import { AccountDetailsComponent } from './account-sidebar/account-details/accou
     AccountLimitsComponent,
     AccountStatisticsComponent,
     AccountSidebarComponent,
-    AccountDetailsComponent
+    AccountDetailsComponent,
+    AccountConfigurationComponent,
+    EditAccountConfigurationComponent
+  ],
+  entryComponents: [
+    EditAccountConfigurationComponent
   ],
   exports: [
     AccountPageComponent

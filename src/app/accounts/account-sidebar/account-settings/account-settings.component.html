@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<md-card class="custom-card">
+  <md-card-header>
+    <md-card-title>
+      <h2 class="md-card-title-text">
+        {{ 'ACCOUNT_PAGE.SIDEBAR.SETTINGS' | translate}}
+      </h2>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content class="md-card-content-with-actions">
+    <div class="md-card-content-container">
+      <cs-account-configuration
+        *ngFor="let configuration of configurations"
+        [configuration]="configuration"
+        (onConfigurationEdit)="editConfiguration($event)"
+      ></cs-account-configuration>
+    </div>
+  </md-card-content>
+</md-card>

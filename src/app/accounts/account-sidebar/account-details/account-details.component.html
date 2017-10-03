@@ -7,12 +7,79 @@
     </md-card-header>
     <md-card-content class="md-card-content-with-actions">
       <div class="md-card-content-container">
-        <div>ID</div>
-        <div>Role</div>
-        <div>RoleType</div>
-        <div>Domain</div>
-
+        <div class="height-container">
+          <div class="flex-container container">
+            <div class="flex-container left">
+              <span
+                class="name"
+                [mdTooltip]="'ACCOUNT_PAGE.DETAILS.ID' | translate"
+                [innerHTML]="'ACCOUNT_PAGE.DETAILS.ID' | translate"
+              ></span>
+            </div>
+            <div
+              ngxClipboard
+              class="value"
+              [innerHTML]="account.id"
+              [mdTooltip]="account.id"
+            ></div>
+          </div>
+        </div>
+        <div class="height-container">
+          <div class="flex-container container">
+            <div class="flex-container left">
+              <span
+                class="name"
+                [mdTooltip]="'ACCOUNT_PAGE.DETAILS.ROLE' | translate"
+                [innerHTML]="'ACCOUNT_PAGE.DETAILS.ROLE' | translate"
+              ></span>
+            </div>
+            <div
+              ngxClipboard
+              class="value"
+              [innerHTML]="account.rolename"
+              [mdTooltip]="account.rolename"
+            ></div>
+          </div>
+        </div>
+        <div class="height-container">
+          <div class="flex-container container">
+            <div class="flex-container left">
+              <span
+                class="name"
+                [mdTooltip]="'ACCOUNT_PAGE.DETAILS.ROLE_TYPE' | translate"
+                [innerHTML]="'ACCOUNT_PAGE.DETAILS.ROLE_TYPE' | translate"
+              ></span>
+            </div>
+            <div
+              ngxClipboard
+              class="value"
+              [innerHTML]="account.roletype"
+              [mdTooltip]="account.roletype"
+            ></div>
+          </div>
+        </div>
+        <div class="height-container">
+          <div class="flex-container container">
+            <div class="flex-container left">
+              <span
+                class="name"
+                [mdTooltip]="'ACCOUNT_PAGE.DETAILS.DOMAIN' | translate"
+                [innerHTML]="'ACCOUNT_PAGE.DETAILS.DOMAIN' | translate"
+              ></span>
+            </div>
+            <div
+              ngxClipboard
+              class="value"
+              [innerHTML]="account.domain"
+              [mdTooltip]="account.domain"
+            ></div>
+          </div>
+        </div>
       </div>
     </md-card-content>
   </md-card>
 </ng-container>
+
+<cs-account-settings *ngIf="account" [account]="account"></cs-account-settings>
+<cs-account-limits *ngIf="limits" [limits]="limits" (onLimitsEdit)="updateLimits($event)"></cs-account-limits>
+<cs-account-statistics *ngIf="account"  [account]="account"></cs-account-statistics>

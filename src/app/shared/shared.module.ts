@@ -136,6 +136,8 @@ import { SecurityGroupService } from '../security-group/services/security-group.
 import { HypervisorService } from './services/hypervisor.service';
 import { DomainService } from './services/domain.service';
 import { RoleService } from './services/role.service';
+import { ConfigurationService } from './services/configuration.service';
+import { ResourceCountService } from './services/resource-count.service';
 
 @NgModule({
   imports: [
@@ -287,6 +289,7 @@ import { RoleService } from './services/role.service';
     AuthService,
     CacheService,
     ConfigService,
+    ConfigurationService,
     DateTimeFormatterService,
     DescriptionTagService,
     DiskOfferingService,
@@ -302,6 +305,7 @@ import { RoleService } from './services/role.service';
     MemoryStorageService,
     NotificationService,
     OsTypeService,
+    ResourceCountService,
     ResourceLimitService,
     ResourceUsageService,
     RoleService,

@@ -1,0 +1,47 @@
+<cs-overlay-loading [active]="loading"></cs-overlay-loading>
+<h3 *ngIf="!loading" class="mat-dialog-title">
+  {{ (title || 'CONFIGURATION.EDIT') | translate }}
+</h3>
+<form (ngSubmit)="onConfigurationUpdate()" #configurationForm="ngForm">
+  <div class="mat-dialog-content">
+    <md-form-field class="full-width-input">
+      <input
+        mdInput
+        name="name"
+        [(ngModel)]="name"
+        [placeholder]="'CONFIGURATION.NAME' | translate"
+        disabled
+      >
+    </md-form-field>
+
+    <md-form-field class="full-width-input">
+      <input
+        mdInput
+        name="value"
+        [(ngModel)]="value"
+        [placeholder]="'CONFIGURATION.VALUE' | translate"
+        required
+      >
+    </md-form-field>
+  </div>
+
+  <div class="mat-dialog-actions">
+    <button
+      md-button
+      color="primary"
+      (click)="dialogRef.close()"
+      type="button"
+    >
+      {{ 'COMMON.CANCEL' | translate }}
+    </button>
+    <button
+      md-button
+      color="primary"
+      type="submit"
+      [disabled]="!configurationForm.valid"
+    >
+      {{ 'COMMON.EDIT' | translate }}
+    </button>
+  </div>
+</form>
+
