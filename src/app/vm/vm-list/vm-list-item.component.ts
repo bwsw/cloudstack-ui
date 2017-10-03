@@ -12,6 +12,7 @@ import { MdMenuTrigger } from '@angular/material';
 import { Color } from '../../shared/models';
 import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 import { VirtualMachine, VmState } from '../shared/vm.model';
+import { Utils } from '../../shared/services/utils/utils.service';
 
 const stateTranslations = {
   RUNNING: 'VM_STATE.RUNNING',
@@ -90,6 +91,8 @@ export class VmListItemComponent implements OnInit, OnChanges {
     return {
       'card-selected': this.isSelected(this.item),
       'has-text-color': !!this.color && !!this.color.textColor,
+      'dark-background':  !!this.color && Utils.isColorDark(this.color.value),
+      'light-background': !this.color || !Utils.isColorDark(this.color.value),
       error,
       destroyed
     };

@@ -20,6 +20,19 @@
       color: inherit;
     }
   }
+  &.dark-background {
+    md-card-content,
+    md-card-title {
+      color: rgba(255, 255, 255, 0.87) !important;
+    }
+  }
+  &.light-background {
+    md-card-content,
+    md-card-title {
+      color: rgba(0, 0, 0, 0.87) !important;
+    }
+  }
+
   .state-icon {
     box-shadow: 0 0 1px 1px white;
   }

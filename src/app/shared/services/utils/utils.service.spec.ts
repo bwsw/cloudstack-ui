@@ -123,4 +123,12 @@ describe('Utils service', () => {
     expect(() => Utils.convertBooleanToBooleanString(undefined))
       .toThrowError('Invalid argument');
   });
+
+  it('should check if color is dark', () => {
+    let color = '#AEAEAE';
+    expect(Utils.isColorDark(color)).toBeFalsy();
+
+    color = '#000000';
+    expect(Utils.isColorDark(color)).toBeTruthy();
+  });
 });
