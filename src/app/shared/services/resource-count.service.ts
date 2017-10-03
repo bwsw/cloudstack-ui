@@ -23,6 +23,6 @@ export class ResourceCountService extends BaseBackendCachedService<ResourceCount
     return this.sendCommand('update', {
       domainid: account.domainid,
       account: account.name
-    }).map(response => this.formatGetListResponse(response));
+    }).map(response => this.formatGetListResponse(response).list);
   }
 }

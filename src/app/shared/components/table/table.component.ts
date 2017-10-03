@@ -15,19 +15,13 @@ export class TableComponent implements OnChanges {
   @Input() public searchQuery: string;
   @Output() public selectionChange = new EventEmitter();
   public displayedColumns = [];
-  public dataSource: TableDataSource | null;
-  public database: TableDatabase;
-
+  public database = new TableDatabase(this.model);
+  public dataSource = new TableDataSource(this.database);
 
   public ngOnChanges() {
-    this.database = new TableDatabase(this.model);
-    this.dataSource = new TableDataSource(this.database);
+    this.database.update(this.model);
 
-    const cols = [];
-    for (let i = 0; i < this.columns.length; i++) {
-      cols.push(this.columns[i]);
-    }
-    this.displayedColumns = cols;
+    this.displayedColumns = [...this.columns];
 
     if (this.selectable) {
       this.displayedColumns.push('select');

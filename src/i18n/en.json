@@ -391,8 +391,9 @@
       "SPARE_DRIVE_ATTACHMENT": {
         "ATTACH_VOLUME": "Attach a volume",
         "SELECT_VOLUME": "Select a volume",
-        "NO_AVAILABLE_VOLUMES_1": "No available volumes. Detach a volume or",
+        "NO_AVAILABLE_VOLUMES_1": "No spare volumes available. Click if you would like to ",
         "NO_AVAILABLE_VOLUMES_2": "create a new one",
+        "NO_AVAILABLE_VOLUMES_3": " rather than resize one of attached",
         "ATTACH": "Attach"
       },
       "ISO": {

@@ -1,49 +1,24 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FilterComponent } from '../../shared/interfaces/filter-component';
-import { FilterService } from '../../shared/services/filter.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
+import { Role } from '../../shared/models/role.model';
+import { Domain } from '../../shared/models/domain.model';
 
-export interface AccountFilter {
-}
-
-export const accountListFilters = 'accountListFilters';
 
 @Component({
   selector: 'cs-account-list-filter',
   templateUrl: 'account-list-filter.component.html'
 })
-export class AccountListFilterComponent implements FilterComponent<AccountFilter> {
-  @Input() public domains: Array<any>;
-  @Input() public roles: Array<any>;
-  @Output() public updateFilters: EventEmitter<AccountFilter>;
+export class AccountListFilterComponent {
+  @Input() public domains: Array<Domain>;
+  @Input() public roleTypes: Array<string>;
+  @Input() public roles: Array<Role>;
+  @Input() public states: Array<string>;
+  @Input() public selectedRoleTypes: string[] = [];
+  @Input() public selectedDomainIds: string[] = [];
+  @Input() public selectedRoleNames: string[] = [];
+  @Input() public selectedStates: string[] = [];
+  @Output() public onDomainsChange = new EventEmitter();
+  @Output() public onRolesChange = new EventEmitter();
+  @Output() public onRoleTypesChange = new EventEmitter();
+  @Output() public onStatesChange = new EventEmitter();
 
-  private filtersKey = accountListFilters;
-  public selectedGroupings: Array<any> = [];
-  public selectedDomains: Array<any> = [];
-  public selectedRoles: Array<any> = [];
-  private filterService = new FilterService({
-  }, this.router, this.localStorage, this.filtersKey, this.activatedRoute);
-
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private localStorage: LocalStorageService
-  ) {
-    this.updateFilters = new EventEmitter();
-  }
-
-  public initFilters(): void {
-    const params = this.filterService.getParams();
-
-    this.update();
-  }
-
-  public update(): void {
-    this.updateFilters.emit({
-    });
-
-    this.filterService.update(this.filtersKey, {
-    });
-  }
 }

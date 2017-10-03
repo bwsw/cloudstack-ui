@@ -40,6 +40,13 @@ import { TemplateModule } from './template';
 import { VmModule } from './vm';
 import { ConfigService } from './shared/services/config.service';
 import { LanguageService } from './shared/services/language.service';
+import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { environment } from '../environments/environment';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { metaReducers, reducers } from './reducers/index';
+import { CustomRouterStateSerializer } from './shared/services/utils/utils.service';
 import { AccountModule } from './accounts/accounts.module';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -94,7 +101,18 @@ export function InitAppFactory(
         deps: [HttpClient]
       }
     }),
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    StoreModule.forRoot(reducers, { metaReducers }),
+
+    /**
+     * @ngrx/router-store keeps router state up-to-date in the store.
+     */
+    StoreRouterConnectingModule,
+
+
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+
+    EffectsModule.forRoot([]),
   ],
   declarations: [
     AppComponent,
@@ -104,6 +122,7 @@ export function InitAppFactory(
     HomeComponent
   ],
   providers: [
+    { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
     {
       provide: APP_INITIALIZER,
       useFactory: InitAppFactory,

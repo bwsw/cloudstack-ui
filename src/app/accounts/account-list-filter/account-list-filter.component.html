@@ -2,26 +2,45 @@
   <div class="options-panel">
 
     <md-select
-      *ngIf="domains"
       class="filter-select"
       multiple="true"
       [placeholder]="'ACCOUNT_PAGE.FILTERS.SELECT_DOMAINS' | translate"
-      [(ngModel)]="selectedDomains"
-      (change)="update()"
+      [ngModel]="selectedDomainIds"
+      (change)="onDomainsChange.emit($event.value)"
     >
-      <md-option *ngFor="let d of domains" [value]="d">{{ d.name }}</md-option>
+      <md-option *ngFor="let domain of domains" [value]="domain.id">{{ domain.name }}</md-option>
     </md-select>
 
     <md-select
-      *ngIf="roles"
       class="filter-select"
       multiple="true"
       [placeholder]="'ACCOUNT_PAGE.FILTERS.SELECT_ROLES' | translate"
-      [(ngModel)]="selectedRoles"
-      (change)="update()"
+      [ngModel]="selectedRoleNames"
+      (change)="onRolesChange.emit($event.value)"
     >
-      <md-option *ngFor="let r of roles" [value]="r">{{ r.name }}</md-option>
+      <md-option *ngFor="let role of roles" [value]="role.name">{{ role.name }}</md-option>
     </md-select>
+
+    <md-select
+      class="filter-select"
+      multiple="true"
+      [placeholder]="'ACCOUNT_PAGE.FILTERS.SELECT_ROLE_TYPES' | translate"
+      [ngModel]="selectedRoleTypes"
+      (change)="onRoleTypesChange.emit($event.value)"
+    >
+      <md-option *ngFor="let roleType of roleTypes" [value]="roleType">{{ roleType }}</md-option>
+    </md-select>
+
+    <md-select
+      class="filter-select"
+      multiple="true"
+      [placeholder]="'ACCOUNT_PAGE.FILTERS.SELECT_STATES' | translate"
+      [ngModel]="selectedStates"
+      (change)="onStatesChange.emit($event.value)"
+    >
+      <md-option *ngFor="let state of states" [value]="state">{{ state }}</md-option>
+    </md-select>
+
   </div>
 </cs-top-bar>
 

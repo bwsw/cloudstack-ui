@@ -1,23 +1,27 @@
-<cs-list
-  (onAction)="showCreationDialog()"
-  [isOpen]="listService?.hasSelected()"
->
-  <cs-account-list-filter
-    [domains]="domains"
-    [roles]="roles"
-    (updateFilters)="updateFilters($event)"
-    cs-list
-  ></cs-account-list-filter>
-  <cs-account-list
-    *loading="!accounts"
-    [groupings]="groupings"
-    [accounts]="accounts"
-    cs-list
-  ></cs-account-list>
-  <ng-container cs-sidebar>
-    <cs-sidebar [isOpen]="listService?.hasSelected()">
-      <router-outlet></router-outlet>
-    </cs-sidebar>
-  </ng-container>
-</cs-list>
+<cs-account-list-filter
+  [domains]="domains"
+  [roles]="roles"
+  [roleTypes]="roleTypes"
+  [states]="states"
+  [selectedDomainIds]="selectedDomainIds"
+  [selectedRoleNames]="selectedRoleNames"
+  [selectedRoleTypes]="selectedRoleTypes"
+  [selectedStates]="selectedStates"
+  (onDomainsChange)="onDomainsChange.emit($event)"
+  (onRolesChange)="onRolesChange.emit($event)"
+  (onRoleTypesChange)="onRoleTypesChange.emit($event)"
+  (onStatesChange)="onStatesChange.emit($event)"
+  cs-list
+></cs-account-list-filter>
+<cs-account-list
+  *loading="isLoading"
+  [groupings]="groupings"
+  [accounts]="accounts"
+  cs-list
+></cs-account-list>
+<ng-container cs-sidebar>
+  <cs-sidebar [isOpen]="listService?.hasSelected()">
+    <router-outlet></router-outlet>
+  </cs-sidebar>
+</ng-container>
 

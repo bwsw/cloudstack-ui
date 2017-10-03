@@ -30,7 +30,7 @@ export class ShhKeyFilterComponent implements FilterComponent<SshKeyFilter>, OnI
   private filtersKey = sshKeyListFilters;
   private filterService = new FilterService({
     groupings: { type: 'array', defaultOption: [] },
-    accounts: {type: 'array', defaultOption: [] }
+    accounts: { type: 'array', defaultOption: [] }
   }, this.router, this.localStorage, this.filtersKey, this.activatedRoute);
 
   constructor(
@@ -77,7 +77,7 @@ export class ShhKeyFilterComponent implements FilterComponent<SshKeyFilter>, OnI
       accounts: this.selectedAccounts
     });
 
-    this.filterService.update(this.filtersKey, {
+    this.filterService.update({
       groupings: this.selectedGroupingNames.map(_ => _.key),
       accounts: this.selectedAccounts.map(_ => _.id)
     });

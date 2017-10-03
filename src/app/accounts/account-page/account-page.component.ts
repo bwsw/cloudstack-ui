@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AccountService } from '../../shared/services/account.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { Account, Domain, Role } from '../../shared';
@@ -11,10 +11,23 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: 'account-page.component.html',
   providers: [ListService]
 })
-export class AccountPageComponent implements OnInit {
-  public accounts: Array<Account> = [];
-  public domains: Array<Domain>;
-  public roles: Array<Role>;
+export class AccountPageComponent {
+  @Input() public accounts: Array<Account> = [];
+  @Input() public domains: Array<Domain>;
+  @Input() public roles: Array<Role>;
+  @Input() public roleTypes: Array<string>;
+  @Input() public states: Array<string>;
+  @Input() public isLoading: boolean;
+  @Input() public selectedRoleTypes: string[] = [];
+  @Input() public selectedDomainIds: string[] = [];
+  @Input() public selectedRoleNames: string[] = [];
+  @Input() public selectedStates: string[] = [];
+
+  @Output() public onDomainsChange = new EventEmitter();
+  @Output() public onRolesChange = new EventEmitter();
+  @Output() public onRoleTypesChange = new EventEmitter();
+  @Output() public onStatesChange = new EventEmitter();
+
   public groupings = [];
 
   constructor(
@@ -24,9 +37,6 @@ export class AccountPageComponent implements OnInit {
     public listService: ListService,
   ) {}
 
-  public ngOnInit() {
-    this.getAccounts();
-  }
 
   public getAccounts() {
     Observable.forkJoin(
@@ -40,6 +50,8 @@ export class AccountPageComponent implements OnInit {
       });
       this.domains = domains;
       this.roles = roles;
+      const allTypes = roles.map(role => role.type);
+      this.roleTypes = allTypes.filter((value, index) => allTypes.indexOf(value) == index );
     });
   }
 

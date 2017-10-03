@@ -112,7 +112,7 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
         this.isDialogOpen = false;
         if (date) {
           this.date = date;
-          this.change.emit();
+          this.change.emit(date);
         }
       });
   }

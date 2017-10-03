@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 
 import { LoginComponent } from './auth/login.component';
 import { LogoutComponent } from './auth/logout.component';
-import { EventListComponent } from './events/event-list.component';
 import { HomeComponent } from './home/home.component';
 import { sgRoutes } from './security-group/sg.routing';
 import { SettingsComponent } from './settings/settings.component';
@@ -14,6 +13,8 @@ import { sshRoutes } from './ssh-keys/ssh-keys.routing';
 import { templateRouting } from './template/template.routing';
 import { vmRoutes } from './vm/vm.routing';
 import { accountsRoutes } from './accounts/accounts.routing';
+import { EventListContainerComponent } from './events/containers/event-list.container';
+
 
 export const routes: Routes = [
   {
@@ -40,7 +41,7 @@ export const routes: Routes = [
       ...accountsRoutes,
       {
         path: 'events',
-        component: EventListComponent,
+        component: EventListContainerComponent,
         canActivate: [AuthGuard]
       },
       ...sshRoutes,
