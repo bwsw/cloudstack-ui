@@ -1,11 +1,18 @@
 <div
   class="color-preview-container"
+  [ngClass]="{'color-preview-no-field': !hasColorField}"
   [class.disabled]="disabled"
   (click)="handlePreviewClick($event)"
 >
-  <div class="color-preview" [style.background-color]="selectedColor?.value"></div>
+  <div *ngIf="hasColorField"
+       class="color-preview"
+       [style.background-color]="selectedColor?.value"></div>
+  <div *ngIf="!hasColorField"
+       class="color-preview mb-1"
+       [csPopoverTrigger]="popover"
+       [style.background-color]="selectedColor?.value"></div>
 </div>
-<md-form-field [csPopoverTrigger]="popover" class="full-width-input">
+<md-form-field *ngIf="hasColorField" [csPopoverTrigger]="popover" class="full-width-input">
   <input
     mdInput
     [value]="selectedColor?.value.toLowerCase()"
@@ -18,6 +25,7 @@
   <cs-popover #popover>
     <div
       class="color-picker-container mat-elevation-z2"
+      [ngClass]="{'color-picker-no-field': !hasColorField}"
       [style.width.px]="containerWidth"
     >
       <div

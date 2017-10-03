@@ -14,6 +14,8 @@ import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-
   styleUrls: ['vm-sidebar.component.scss']
 })
 export class VmSidebarComponent extends SidebarComponent<VirtualMachine> {
+  public vm: VirtualMachine;
+
   constructor(
     protected vmService: VmService,
     protected notificationService: NotificationService,
@@ -27,6 +29,7 @@ export class VmSidebarComponent extends SidebarComponent<VirtualMachine> {
     return this.vmService.getWithDetails(id)
       .switchMap(vm => {
         if (vm) {
+          this.vm = vm;
           return Observable.of(vm);
         } else {
           return Observable.throw(new EntityDoesNotExistError());

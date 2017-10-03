@@ -1,6 +1,10 @@
 <ng-container *ngIf="entity">
   <div class="title-container">
-    <h4 class="details-header">{{ entity.displayName }}</h4>
+    <div class="title-color-container">
+      <cs-vm-color [vm]="vm"></cs-vm-color>
+    </div>
+    <h4 class="details-header ml-1">
+      {{ entity.displayName }}</h4>
     <cs-vm-actions-sidebar [vm]="entity"></cs-vm-actions-sidebar>
   </div>
   <nav md-tab-nav-bar>
