@@ -13,6 +13,7 @@ import { NetworkRuleType, SecurityGroup } from '../sg.model';
 import { SgRulesComponent } from './sg-rules.component';
 import { NetworkRule } from '../network-rule.model';
 import { NetworkRuleService } from '../services/network-rule.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 
 
 describe('Security group firewall rules component', () => {
@@ -57,6 +58,7 @@ describe('Security group firewall rules component', () => {
 
   beforeEach(async(() => {
     const dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
+    const dialogService = jasmine.createSpyObj('DialogService', ['confirm', 'alert']);
 
     TestBed.configureTestingModule({
       imports: [FormsModule, MdAutocompleteModule],
@@ -67,7 +69,8 @@ describe('Security group firewall rules component', () => {
         { provide: MD_DIALOG_DATA, useValue: { securityGroup: mockSecurityGroup } },
         { provide: SecurityGroupService, useClass: SecurityGroupServiceMock },
         { provide: NotificationService, useClass: MockNotificationService },
-        { provide: NetworkRuleService, useClass: NetworkRuleServiceMock }
+        { provide: NetworkRuleService, useClass: NetworkRuleServiceMock },
+        { provide: DialogService, useValue: dialogService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
