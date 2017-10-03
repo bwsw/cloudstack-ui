@@ -56,7 +56,7 @@ export const sideBarRoutes: Array<SidebarRoute> = [
     enabled: true
   },
   {
-    path: '/sg-templates',
+    path: '/security-group',
     text: 'NAVIGATION_SIDEBAR.FIREWALL_TEMPLATES',
     icon: 'security',
     id: 'SGS',
