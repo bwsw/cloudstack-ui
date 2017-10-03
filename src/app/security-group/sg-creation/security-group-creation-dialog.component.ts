@@ -7,14 +7,14 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { SecurityGroupEditAction } from '../sg-actions/sg-edit';
 import { SecurityGroupViewMode } from '../sg-filter/sg-filter.component';
 import { SecurityGroup, SecurityGroupType } from '../sg.model';
-import { SgTemplateCreationComponent } from './sg-template-creation.component';
+import { SecurityGroupCreationComponent } from './security-group-creation.component';
 
 
 @Component({
-  selector: 'cs-sg-template-create-dialog',
+  selector: 'cs-security-group-create-dialog',
   template: ``
 })
-export class SgTemplateCreationDialogComponent {
+export class SecurityGroupCreationDialogComponent {
   constructor(
     private dialog: MdDialog,
     private router: Router,
@@ -24,7 +24,7 @@ export class SgTemplateCreationDialogComponent {
     private securityGroupEditAction: SecurityGroupEditAction,
     private storageService: LocalStorageService
   ) {
-    this.dialog.open(SgTemplateCreationComponent, <MdDialogConfig>{
+    this.dialog.open(SecurityGroupCreationComponent, <MdDialogConfig>{
       data: { mode: this.viewMode },
       disableClose: true,
       width: '450px'
