@@ -35,17 +35,14 @@ export class WebShellService {
 
     const authModeTag = vm.tags.find(tag => tag.key === AuthModeToken);
     const authMode = authModeTag && authModeTag.value;
-    const sshEnabledOnVm = authMode && authMode.split(',').find(mode => mode === AuthModeType.SSH);
+    const sshEnabledOnVm = authMode && authMode.split(',')
+      .find(mode => mode.toLowerCase() === AuthModeType.SSH);
     const vmIsRunning = vm.state === VmState.Running;
 
     return !!this.webShellAddress && sshEnabledOnVm && vmIsRunning;
   }
 
   public getWebShellAddress(vm: VirtualMachine): string {
-    if (!this.webShellAddress) {
-      return undefined;
-    }
-
     const ip = vm.nic[0].ipAddress;
     const port = this.getPort(vm);
     const user = this.getUser(vm);
