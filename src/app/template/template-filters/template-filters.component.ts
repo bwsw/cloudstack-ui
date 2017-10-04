@@ -123,7 +123,7 @@ export class TemplateFiltersComponent implements OnInit {
   }
 
   public setMode(index: number): void {
-    this.showIso = index === this.isoTabIndex;
+    this.showIso = Number(index) === this.isoTabIndex;
     this.updateDisplayMode();
   }
 

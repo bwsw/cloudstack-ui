@@ -12,8 +12,9 @@
   display: inline-flex;
 }
 
-:host /deep/ .mat-tab-label {
+:host /deep/ .mat-button-toggle-group {
+  margin-left: 20px;
+}
+:host /deep/ .mat-button-toggle-label-content {
   line-height: 30px !important;
-  height: 30px !important;
-  min-width: 60px !important;
 }
