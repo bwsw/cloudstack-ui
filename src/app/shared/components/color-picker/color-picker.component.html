@@ -1,6 +1,5 @@
 <div
   class="color-preview-container"
-  [ngClass]="{'color-preview-no-field': !hasColorField}"
   [class.disabled]="disabled"
   (click)="handlePreviewClick($event)"
 >
@@ -8,7 +7,7 @@
        class="color-preview"
        [style.background-color]="selectedColor?.value"></div>
   <div *ngIf="!hasColorField"
-       class="color-preview mb-1"
+       class="color-preview"
        [csPopoverTrigger]="popover"
        [style.background-color]="selectedColor?.value"></div>
 </div>

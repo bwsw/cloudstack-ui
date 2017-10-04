@@ -31,10 +31,6 @@ $input-margin: 10px;
   }
 }
 
-.color-preview-no-field {
-  top: 4px;
-}
-
 :host md-form-field {
   width: 300px - $input-margin - $preview-width !important;
   margin-left: $input-margin;
@@ -75,5 +71,5 @@ $input-margin: 10px;
 
 .color-picker-no-field {
   margin-left: 47%;
-  margin-top: 2%;
+  margin-top: 10px;
 }
