@@ -8,6 +8,7 @@ import { FilterComponent } from '../../shared/interfaces/filter-component';
 export interface SecurityGroupFilter {
   viewMode: SecurityGroupViewMode;
   query: string;
+  vm: string;
 }
 
 export enum SecurityGroupViewMode {
@@ -25,6 +26,7 @@ export class SgFilterComponent implements FilterComponent<SecurityGroupFilter>, 
   @Output() public updateFilters = new EventEmitter<SecurityGroupFilter>();
 
   public query: string;
+  public vm: string;
 
   private filtersKey = 'securityGroupFilters';
   private filterService = new FilterService(
@@ -34,6 +36,9 @@ export class SgFilterComponent implements FilterComponent<SecurityGroupFilter>, 
         options: [SecurityGroupViewMode.Templates, SecurityGroupViewMode.Shared]
       },
       query: {
+        type: 'string'
+      },
+      vm: {
         type: 'string'
       }
     },
@@ -66,6 +71,7 @@ export class SgFilterComponent implements FilterComponent<SecurityGroupFilter>, 
     const params = this.filterService.getParams();
     this.viewMode = params.viewMode;
     this.query = params.query;
+    this.vm = params.vm;
     this.update();
   }
 
@@ -83,7 +89,8 @@ export class SgFilterComponent implements FilterComponent<SecurityGroupFilter>, 
   public update(): void {
     this.updateFilters.emit({
       viewMode: this.viewMode,
-      query: this.query
+      query: this.query,
+      vm: this.vm
     });
 
     this.filterService.update({

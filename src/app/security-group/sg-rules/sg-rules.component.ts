@@ -13,6 +13,7 @@ import { NetworkRuleService } from '../services/network-rule.service';
 import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { NetworkProtocol } from '../network-rule.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -42,7 +43,7 @@ export class SgRulesComponent {
 
   public adding: boolean;
   public editMode = false;
-  public fromVm = false;
+  public vmId: string;
 
   public NetworkProtocols = NetworkProtocol;
   public NetworkRuleTypes = NetworkRuleType;
@@ -64,12 +65,17 @@ export class SgRulesComponent {
     private networkRuleService: NetworkRuleService,
     private notificationService: NotificationService,
     private translateService: TranslateService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private router: Router
   ) {
     this.securityGroup = data.entity;
 
-    if (data.fromVm) {
-      this.fromVm = data.fromVm;
+    if (data.vmId) {
+      this.vmId = data.vmId;
+    }
+
+    if (data.editMode) {
+      this.editMode = data.editMode;
     }
 
     this.cidr = '0.0.0.0/0';
@@ -216,12 +222,19 @@ export class SgRulesComponent {
   public confirmChangeMode() {
     if (!this.editMode && this.securityGroup.type === SecurityGroupType.Shared) {
       this.dialogService.confirm({
-        message: !this.fromVm
+        message: !this.vmId
           ? 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_EDIT'
           : 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_EDIT_FROM_VM'
       })
         .subscribe((res) => {
           if (res) {
+            if (this.vmId) {
+              this.router.navigate([
+                `security-group`
+              ], {
+                queryParams: { vm: this.vmId }
+              });
+            }
             this.changeMode();
           }
         });

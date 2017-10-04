@@ -28,9 +28,11 @@ export class SecurityGroupRulesDialogComponent {
   }
 
   private showDialog(entity: SecurityGroup) {
+    const editMode = !!this.route.snapshot.queryParams.hasOwnProperty('vm');
+
     this.dialog.open(SgRulesComponent, <MdDialogConfig>{
       width: '880px',
-      data: { entity }
+      data: { entity, editMode }
     })
       .afterClosed()
       .map(updatedGroup => {
@@ -45,7 +47,6 @@ export class SecurityGroupRulesDialogComponent {
       );
     });
   }
-
 
   private pluckId(): Observable<string> {
     return this.route.params.pluck('id').filter(id => !!id) as Observable<string>;

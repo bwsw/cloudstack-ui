@@ -20,11 +20,11 @@ export class FirewallRulesDetailComponent {
   }
 
   public showRulesDialog(entity: SecurityGroup) {
-    const fromVm = true;
+    const vmId = this.vm.id;
 
     this.dialog.open(SgRulesComponent, <MdDialogConfig>{
       width: '880px',
-      data: { entity, fromVm }
+      data: { entity, vmId }
     })
       .afterClosed()
       .map(updatedGroup => {

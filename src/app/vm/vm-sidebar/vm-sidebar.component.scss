@@ -24,8 +24,8 @@ h4 {
 
 :host /deep/ .security-group {
     .sg-name {
-      white-space:nowrap;
-      max-width: 85%;
+      white-space: nowrap;
+      width: 90%;
       overflow: hidden;
       text-overflow: ellipsis;
       display:inline-block;
