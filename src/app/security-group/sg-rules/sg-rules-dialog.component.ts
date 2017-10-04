@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SecurityGroupService } from '../services/security-group.service';
 import { SecurityGroup } from '../sg.model';
 import { NotificationService } from '../../shared/services/notification.service';
@@ -16,7 +16,8 @@ export class SecurityGroupRulesDialogComponent implements OnInit {
     private entityService: SecurityGroupService,
     private notificationService: NotificationService,
     private route: ActivatedRoute,
-    protected dialog: MdDialog,
+    private dialog: MdDialog,
+    private router: Router
   ) {
   }
 
@@ -39,6 +40,13 @@ export class SecurityGroupRulesDialogComponent implements OnInit {
         return (<SecurityGroupService>this.entityService).onSecurityGroupUpdate.next(
           updatedGroup);
       });
+
+    this.dialog.afterAllClosed.subscribe(() => {
+      this.router.navigate(
+        ['../'],
+        { queryParamsHandling: 'preserve', relativeTo: this.route }
+      );
+    });
   }
 
 
