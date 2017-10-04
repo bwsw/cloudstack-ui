@@ -65,7 +65,8 @@ export class SgRulesComponent {
     private translateService: TranslateService,
     private dialogService: DialogService
   ) {
-    this.securityGroup = data.securityGroup;
+    this.securityGroup = data.entity;
+
     this.cidr = '0.0.0.0/0';
     this.protocol = NetworkProtocol.TCP;
     this.type = NetworkRuleType.Ingress;
@@ -78,7 +79,7 @@ export class SgRulesComponent {
   }
 
   public get isPredefinedTemplate(): boolean {
-    return this.securityGroup.type === SecurityGroupType.PredefinedTemplate;
+    return this.securityGroup && this.securityGroup.type === SecurityGroupType.PredefinedTemplate;
   }
 
   public addRule(e: Event): void {
