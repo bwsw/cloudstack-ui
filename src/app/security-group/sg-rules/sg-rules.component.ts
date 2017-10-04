@@ -230,12 +230,14 @@ export class SgRulesComponent {
           if (res) {
             if (this.vmId) {
               this.router.navigate([
-                `security-group`
+                `security-group/${this.securityGroup.id}`
               ], {
                 queryParams: { vm: this.vmId }
               });
+              this.dialogRef.close();
+            } else {
+              this.changeMode();
             }
-            this.changeMode();
           }
         });
     } else {
