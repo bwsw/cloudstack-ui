@@ -1,29 +1,25 @@
 <md-card class="vm-card">
   <md-card-header>
     <md-card-title>
-      <h2 class="md-card-title-text">{{ 'VM_PAGE.NETWORK_DETAILS.FIREWALL_RULES' | translate }}</h2>
+      <h2 class="md-card-title-text">
+        {{ 'VM_PAGE.NETWORK_DETAILS.FIREWALL_RULES' | translate }}</h2>
     </md-card-title>
   </md-card-header>
-  <md-card-content class="md-card-content-with-actions">
+  <md-card-content>
     <div class="grid security-group md-card-content-container">
-      <div class="row">
-        <div>{{ 'VM_PAGE.NETWORK_DETAILS.INGRESS' | translate }}</div>
-        <div>{{ vm.securityGroup[0]?.ingressRules.length }}</div>
-      </div>
-      <div class="row">
-        <div>{{ 'VM_PAGE.NETWORK_DETAILS.EGRESS' | translate}}</div>
-        <div>{{ vm.securityGroup[0]?.egressRules.length }}</div>
+      <div
+        class="row"
+        *ngFor="let group of vm.securityGroup"
+      >
+        <span class="sg-name">{{ group.name }}</span>
+        <button class="mat-icon-button md-icon-button--small">
+          <md-icon
+            class="md-icon--small"
+            (click)="showRulesDialog(group)"
+          >visibility
+          </md-icon>
+        </button>
       </div>
     </div>
-    <md-card-actions>
-      <button
-        md-icon-button
-        [mdTooltip]="'COMMON.EDIT' | translate"
-        mdTooltipPosition="above"
-        (click)="onEdit(vm.securityGroup[0])"
-      >
-        <md-icon>edit</md-icon>
-      </button>
-    </md-card-actions>
   </md-card-content>
 </md-card>

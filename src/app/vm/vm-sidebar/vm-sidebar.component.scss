@@ -21,3 +21,28 @@ h4 {
 .title-color-container {
   width: 35px;
 }
+
+:host /deep/ .security-group {
+    .sg-name {
+      white-space:nowrap;
+      max-width: 85%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display:inline-block;
+    }
+
+  .md-icon-button--small {
+    min-width: 20px;
+    width: 20px !important;
+    height: 20px !important;
+    line-height: 20px !important;
+    margin-left: 5px;
+  }
+
+  .md-icon--small {
+    width: 18px !important;
+    height: 18px !important;
+    font-size: 18px !important;
+    line-height: 18px !important;
+  }
+}

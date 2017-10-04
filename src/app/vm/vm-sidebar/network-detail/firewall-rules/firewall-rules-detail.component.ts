@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { MdDialog } from '@angular/material';
-import { Router } from '@angular/router';
+import { MdDialog, MdDialogConfig } from '@angular/material';
 import { SgRulesComponent } from '../../../../security-group/sg-rules/sg-rules.component';
-import { SecurityGroup, SecurityGroupType } from '../../../../security-group/sg.model';
+import { SecurityGroup } from '../../../../security-group/sg.model';
 import { VirtualMachine } from '../../../shared/vm.model';
+import { SecurityGroupService } from '../../../../security-group/services/security-group.service';
 
 
 @Component({
@@ -15,38 +15,20 @@ export class FirewallRulesDetailComponent {
 
   constructor(
     private dialog: MdDialog,
-    private router: Router
-  ) {}
-
-  public onEdit(securityGroup: SecurityGroup): void {
-    if (securityGroup.type === SecurityGroupType.Shared) {
-      this.onSharedGroupEdit(securityGroup);
-    }
-
-    if (securityGroup.type === SecurityGroupType.Private) {
-      this.onPrivateGroupEdit(securityGroup);
-    }
+    private securityGroupService: SecurityGroupService
+  ) {
   }
 
-  private onSharedGroupEdit(securityGroup: SecurityGroup): void {
-    this.router.navigate(
-      ['/security-group'],
-      {
-        queryParams: {
-          viewMode: 'shared'
-        }
-      })
-      .then(() => this.showRulesDialog(securityGroup));
-  }
+  public showRulesDialog(entity: SecurityGroup) {
+    const fromVm = true;
 
-  private onPrivateGroupEdit(securityGroup: SecurityGroup): void {
-    this.showRulesDialog(securityGroup);
-  }
-
-  private showRulesDialog(securityGroup: SecurityGroup): void {
-    this.dialog.open(SgRulesComponent, {
-      data: { securityGroup },
-      width: '880px'
-    });
+    this.dialog.open(SgRulesComponent, <MdDialogConfig>{
+      width: '880px',
+      data: { entity, fromVm }
+    })
+      .afterClosed()
+      .map(updatedGroup => {
+        return this.securityGroupService.onSecurityGroupUpdate.next(updatedGroup);
+      });
   }
 }

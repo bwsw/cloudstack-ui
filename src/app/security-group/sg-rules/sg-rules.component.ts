@@ -42,6 +42,7 @@ export class SgRulesComponent {
 
   public adding: boolean;
   public editMode = false;
+  public fromVm = false;
 
   public NetworkProtocols = NetworkProtocol;
   public NetworkRuleTypes = NetworkRuleType;
@@ -66,6 +67,10 @@ export class SgRulesComponent {
     private dialogService: DialogService
   ) {
     this.securityGroup = data.entity;
+
+    if (data.fromVm) {
+      this.fromVm = data.fromVm;
+    }
 
     this.cidr = '0.0.0.0/0';
     this.protocol = NetworkProtocol.TCP;
@@ -204,12 +209,17 @@ export class SgRulesComponent {
       _.toString().indexOf(filterValue) !== -1 ||
       this.translateService.instant(this.getIcmpCodeTranslationToken(this.icmpType, _))
         .toLowerCase()
-        .indexOf(filterValue) !== -1) : ICMPtypes.find(x => x.type === this.icmpType).codes;
+        .indexOf(filterValue) !== -1) : ICMPtypes.find(
+      x => x.type === this.icmpType).codes;
   }
 
   public confirmChangeMode() {
     if (!this.editMode && this.securityGroup.type === SecurityGroupType.Shared) {
-      this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_EDIT' })
+      this.dialogService.confirm({
+        message: !this.fromVm
+          ? 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_EDIT'
+          : 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_EDIT_FROM_VM'
+      })
         .subscribe((res) => {
           if (res) {
             this.changeMode();
