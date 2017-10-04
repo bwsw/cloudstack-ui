@@ -203,8 +203,8 @@
       <td
         colspan="6"
         *ngIf="(!visibleIngressRules && !visibleEgressRules) ||
-        (isSelectedType(NetworkRuleTypes.Ingress) && !visibleIngressRules.length)
-        || (isSelectedType(NetworkRuleTypes.Egress) && !visibleEgressRules.length)"
+        (isSelectedType(NetworkRuleTypes.Ingress) && !visibleIngressRules.length && !isSelectedType(NetworkRuleTypes.Egress))
+        || (isSelectedType(NetworkRuleTypes.Egress) && !visibleEgressRules.length && !isSelectedType(NetworkRuleTypes.Ingress))"
       >
         {{ 'SECURITY_GROUP_PAGE.RULES.' +
         'NO_FIREWALL_RULES' | translate }}
