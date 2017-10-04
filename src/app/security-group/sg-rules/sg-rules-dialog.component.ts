@@ -1,0 +1,56 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { SecurityGroupService } from '../services/security-group.service';
+import { SecurityGroup } from '../sg.model';
+import { NotificationService } from '../../shared/services/notification.service';
+import { MdDialog, MdDialogConfig } from '@angular/material';
+import { SgRulesComponent } from './sg-rules.component';
+import { Observable } from 'rxjs/Observable';
+
+@Component({
+  selector: 'cs-sg-rules-dialog',
+  template: ``
+})
+export class SecurityGroupRulesDialogComponent implements OnInit {
+  constructor(
+    private entityService: SecurityGroupService,
+    private notificationService: NotificationService,
+    private route: ActivatedRoute,
+    protected dialog: MdDialog,
+  ) {
+  }
+
+  public ngOnInit(): void {
+    this.pluckId()
+      .switchMap(id => this.loadEntity(id))
+      .subscribe(
+        entity => this.showDialog(entity),
+        error => this.onError(error)
+      );
+  }
+
+  private showDialog(entity: SecurityGroup) {
+    this.dialog.open(SgRulesComponent, <MdDialogConfig>{
+      width: '880px',
+      data: { entity }
+    })
+      .afterClosed()
+      .map(updatedGroup => {
+        return (<SecurityGroupService>this.entityService).onSecurityGroupUpdate.next(
+          updatedGroup);
+      });
+  }
+
+
+  private pluckId(): Observable<string> {
+    return this.route.params.pluck('id').filter(id => !!id) as Observable<string>;
+  }
+
+  private loadEntity(id: string): Observable<SecurityGroup> {
+    return this.entityService.get(id);
+  }
+
+  private onError(error: any): void {
+    this.notificationService.error(error.message);
+  }
+}
