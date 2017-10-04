@@ -1,7 +1,7 @@
 <h3 class="mat-dialog-title"
     [innerHTML]="!editMode ?
   ('SECURITY_GROUP_PAGE.RULES.VIEW_TITLE' | translate:{ value: securityGroup?.name }) :
-  ('SECURITY_GROUP_PAGE.RULES.EDIT_TITLE' | translate:{ value: securityGroup?.name })"
+  ('SECURITY_GROUP_PAGE.RULES.EDIT_TITLE' | translate:{ value: securityGroup?.name })">
 </h3>
 <div class="mat-dialog-content">
   <form #rulesForm="ngForm" novalidate>
