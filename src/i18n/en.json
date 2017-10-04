@@ -625,7 +625,8 @@
       "DESCRIPTION": "Description"
     },
     "RULES": {
-      "TITLE": "Edit rules for <b>{{ value }}</b>",
+      "VIEW_TITLE": "Rules for <b>{{ value }}</b>",
+      "EDIT_TITLE": "Edit rules for <b>{{ value }}</b>",
       "TYPE": "Type",
       "PROTOCOL": "Protocol",
       "CIDR": "CIDR",

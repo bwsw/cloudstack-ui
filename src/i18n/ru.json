@@ -622,7 +622,8 @@
       "DESCRIPTION": "Описание"
     },
     "RULES": {
-      "TITLE": "Редактирование правил группы <b>{{ value }}</b>",
+      "VIEW_TITLE": "Правила группы <b>{{ value }}</b>",
+      "EDIT_TITLE": "Редактирование правил группы <b>{{ value }}</b>",
       "TYPE": "Тип",
       "PROTOCOL": "Протокол",
       "CIDR": "CIDR",
