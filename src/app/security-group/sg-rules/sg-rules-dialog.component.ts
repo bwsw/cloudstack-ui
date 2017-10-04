@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SecurityGroupService } from '../services/security-group.service';
 import { SecurityGroup } from '../sg.model';
@@ -11,7 +11,7 @@ import { Observable } from 'rxjs/Observable';
   selector: 'cs-sg-rules-dialog',
   template: ``
 })
-export class SecurityGroupRulesDialogComponent implements OnInit {
+export class SecurityGroupRulesDialogComponent {
   constructor(
     private entityService: SecurityGroupService,
     private notificationService: NotificationService,
@@ -19,9 +19,6 @@ export class SecurityGroupRulesDialogComponent implements OnInit {
     private dialog: MdDialog,
     private router: Router
   ) {
-  }
-
-  public ngOnInit(): void {
     this.pluckId()
       .switchMap(id => this.loadEntity(id))
       .subscribe(
