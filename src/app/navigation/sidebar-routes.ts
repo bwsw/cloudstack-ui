@@ -78,9 +78,9 @@ export const sideBarRoutes: Array<SidebarRoute> = [
   },
   {
     path: '/accounts',
-    text: 'NAVIGATION_SIDEBAR.USERS',
+    text: 'NAVIGATION_SIDEBAR.ACCOUNTS',
     icon: 'person',
-    id: 'USERS',
+    id: 'ACCOUNTS',
     enabled: true
   },
   {

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ListService } from '../../shared/components/list/list.service';
 import { Account, Domain, Role } from '../../shared';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'cs-account-page',
@@ -29,6 +30,7 @@ export class AccountPageComponent {
 
   constructor(
     public listService: ListService,
+    public authService: AuthService
   ) {}
 
   private updateList(account?: Account): void {
@@ -36,6 +38,10 @@ export class AccountPageComponent {
     if (account && this.listService.isSelected(account.id)) {
       this.listService.deselectItem();
     }
+  }
+
+  public isAdmin() {
+    return this.authService.isAdmin();
   }
 
 }

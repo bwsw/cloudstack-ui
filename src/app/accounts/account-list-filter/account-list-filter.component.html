@@ -38,7 +38,7 @@
       [ngModel]="selectedStates"
       (change)="onStatesChange.emit($event.value)"
     >
-      <md-option *ngFor="let state of states" [value]="state">{{ state }}</md-option>
+      <md-option *ngFor="let state of states" [value]="state">{{ stateTranslationToken(state) | translate }}</md-option>
     </md-select>
 
   </div>

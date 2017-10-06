@@ -1,7 +1,7 @@
 <div *ngIf="entity">
   <div class="title-container">
     <h4 class="details-header">{{ entity.name }}</h4>
-    <button
+    <button *ngIf="isAdmin()"
       md-icon-button
       [mdMenuTriggerFor]="actionsMenu"
     >
@@ -18,7 +18,7 @@
     >
       <div
         class="md-tab-tooltip"
-        [mdTooltip]="'ACCOUNT_PAGE.SIDEBAR.ACCOUNT' | translate"
+        [mdTooltip]="'ACCOUNT_PAGE.SIDEBAR.GENERAL' | translate"
       >
         <md-icon>local_offer</md-icon>
       </div>

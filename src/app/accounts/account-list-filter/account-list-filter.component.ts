@@ -2,6 +2,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Role } from '../../shared/models/role.model';
 import { Domain } from '../../shared/models/domain.model';
 
+const stateTranslations = {
+  DISABLED: 'ACCOUNT_STATE.DISABLED',
+  ENABLED: 'ACCOUNT_STATE.ENABLED',
+  LOCKED: 'ACCOUNT_STATE.LOCKED',
+}
+
 
 @Component({
   selector: 'cs-account-list-filter',
@@ -20,5 +26,9 @@ export class AccountListFilterComponent {
   @Output() public onRolesChange = new EventEmitter();
   @Output() public onRoleTypesChange = new EventEmitter();
   @Output() public onStatesChange = new EventEmitter();
+
+  public stateTranslationToken(state): string {
+    return stateTranslations[state.toUpperCase()];
+  }
 
 }

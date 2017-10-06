@@ -31,8 +31,7 @@ export class AccountSettingsComponent implements OnInit {
     this.dialog.open(EditAccountConfigurationComponent, {
       width: '375px',
       data: {
-        title: 'CONFIGURATION.EDIT',
-        confirmButtonText: 'COMMON.EDIT',
+        title: 'ACCOUNT_PAGE.CONFIGURATION.EDIT',
         configuration
       }
     })

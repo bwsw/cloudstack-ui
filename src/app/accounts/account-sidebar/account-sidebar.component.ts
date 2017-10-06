@@ -6,6 +6,7 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-does-not-exist-error';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'cs-account-sidebar',
@@ -17,7 +18,8 @@ export class AccountSidebarComponent extends SidebarComponent<Account>{
     protected accountService: AccountService,
     protected notificationService: NotificationService,
     protected route: ActivatedRoute,
-    protected router: Router
+    protected router: Router,
+    protected authService: AuthService
   ) {
     super(accountService, notificationService, route, router);
   }
@@ -31,6 +33,10 @@ export class AccountSidebarComponent extends SidebarComponent<Account>{
           return Observable.throw(new EntityDoesNotExistError());
         }
       });
+  }
+
+  public isAdmin() {
+    return this.authService.isAdmin();
   }
 
 }

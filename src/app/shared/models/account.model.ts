@@ -74,4 +74,9 @@ export class Account extends BaseModel {
       });
     super(fixedJson);
   }
+
+  public get isAdmin() {
+    return this.accounttype !== AccountType.User;
+
+  }
 }

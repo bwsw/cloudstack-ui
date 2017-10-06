@@ -8,6 +8,7 @@ import { ResourceLimit } from '../../../shared/models/resource-limit.model';
 })
 export class AccountLimitsComponent {
   @Input() public limits: Array<ResourceLimit>;
+  @Input() public isAdmin: boolean;
   @Output() public onLimitsEdit: EventEmitter<Array<ResourceLimit>>;
   public isEdit: boolean = false;
 

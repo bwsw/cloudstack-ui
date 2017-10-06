@@ -1,6 +1,6 @@
 <cs-overlay-loading [active]="loading"></cs-overlay-loading>
 <h3 *ngIf="!loading" class="mat-dialog-title">
-  {{ (title || 'CONFIGURATION.EDIT') | translate }}
+  {{ (title || 'ACCOUNT_PAGE.CONFIGURATION.EDIT') | translate }}
 </h3>
 <form (ngSubmit)="onConfigurationUpdate()" #configurationForm="ngForm">
   <div class="mat-dialog-content">
@@ -9,18 +9,17 @@
         mdInput
         name="name"
         [(ngModel)]="name"
-        [placeholder]="'CONFIGURATION.NAME' | translate"
+        [placeholder]="'ACCOUNT_PAGE.CONFIGURATION.NAME' | translate"
         disabled
       >
     </md-form-field>
-
     <md-form-field class="full-width-input">
       <input
         mdInput
         name="value"
         [(ngModel)]="value"
-        [placeholder]="'CONFIGURATION.VALUE' | translate"
-        required
+        [placeholder]="'ACCOUNT_PAGE.CONFIGURATION.VALUE' | translate"
+        disabled
       >
     </md-form-field>
   </div>

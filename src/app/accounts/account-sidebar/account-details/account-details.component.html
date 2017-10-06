@@ -2,7 +2,7 @@
   <md-card>
     <md-card-header>
       <md-card-title>
-        <h2 class="md-card-title-text">{{ 'ACCOUNT_PAGE.DETAILS'  }}</h2>
+        <h2 class="md-card-title-text">{{ 'ACCOUNT_PAGE.DETAILS.TITLE' | translate }}</h2>
       </md-card-title>
     </md-card-header>
     <md-card-content class="md-card-content-with-actions">
@@ -80,6 +80,6 @@
   </md-card>
 </ng-container>
 
-<cs-account-settings *ngIf="account" [account]="account"></cs-account-settings>
-<cs-account-limits *ngIf="limits" [limits]="limits" (onLimitsEdit)="updateLimits($event)"></cs-account-limits>
-<cs-account-statistics *ngIf="account"  [account]="account"></cs-account-statistics>
+<cs-account-settings *ngIf="account && isAdmin()" [account]="account"></cs-account-settings>
+<cs-account-limits *ngIf="limits" [limits]="limits" [isAdmin]="isAdmin()" (onLimitsEdit)="updateLimits($event)"></cs-account-limits>
+<cs-account-statistics *ngIf="account  && isAdmin()"  [account]="account"></cs-account-statistics>

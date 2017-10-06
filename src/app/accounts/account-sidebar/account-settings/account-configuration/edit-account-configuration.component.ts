@@ -9,6 +9,7 @@ export class EditAccountConfigurationComponent {
 
   public name: string;
   public value: string;
+  public title: string;
 
   constructor(
     public dialogRef: MdDialogRef<EditAccountConfigurationComponent>,
@@ -16,6 +17,7 @@ export class EditAccountConfigurationComponent {
   ) {
     this.name = data.configuration.name;
     this.value = data.configuration.value;
+    this.title = data.title
   }
 
   public onConfigurationUpdate(): void {

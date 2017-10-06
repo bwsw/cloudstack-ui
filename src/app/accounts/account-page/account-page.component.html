@@ -1,4 +1,4 @@
-<cs-account-list-filter
+<cs-account-list-filter *ngIf="isAdmin()"
   [domains]="domains"
   [roles]="roles"
   [roleTypes]="roleTypes"

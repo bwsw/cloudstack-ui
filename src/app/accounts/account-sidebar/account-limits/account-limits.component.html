@@ -34,7 +34,7 @@
         </div>
       </div>
     </div>
-    <md-card-actions>
+    <md-card-actions *ngIf="isAdmin">
       <button *ngIf="!isEdit"
         md-icon-button
         [mdTooltip]="'COMMON.EDIT' | translate"
