@@ -17,6 +17,7 @@
   *loading="isLoading"
   [groupings]="groupings"
   [accounts]="accounts"
+  (onAccountChanged)="updateList($event)"
   cs-list
 ></cs-account-list>
 <ng-container cs-sidebar>

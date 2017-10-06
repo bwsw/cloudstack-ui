@@ -4,7 +4,7 @@ import { Account } from '../models/account.model';
 import { BaseBackendService } from './base-backend.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { AsyncJobService } from './async-job.service';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 @BackendResource({
@@ -12,7 +12,9 @@ import { AsyncJobService } from './async-job.service';
   entityModel: Account
 })
 export class AccountService extends BaseBackendService<Account> {
-  constructor(protected http: HttpClient, private asyncJob: AsyncJobService) {
+  public onAccountUpdated = new Subject<Account>();
+
+  constructor(protected http: HttpClient) {
     super(http);
   }
 
@@ -22,5 +24,34 @@ export class AccountService extends BaseBackendService<Account> {
     return this.sendCommand('update', {
       accountid: account.id
     });
+  }
+
+  public removeAccount(account: Account): Observable<any> {
+    return this.sendCommand('delete', {
+      id: account.id,
+    }).map(() => this.onAccountUpdated.next(account));
+  }
+
+  public disableAccount(account: Account): Observable<any> {
+    return this.sendCommand('disable', {
+      account: account.name,
+      lock: false,
+      domainid: account.domainid
+    }).map(() => this.onAccountUpdated.next(account));
+  }
+
+  public lockAccount(account: Account): Observable<any> {
+    return this.sendCommand('disable', {
+      account: account.name,
+      lock: true,
+      domainid: account.domainid
+    }).map(() => this.onAccountUpdated.next(account));
+  }
+
+  public enableAccount(account: Account): Observable<any> {
+    return this.sendCommand('enable', {
+      account: account.name,
+      domainid: account.domainid
+    }).map(() => this.onAccountUpdated.next(account));
   }
 }

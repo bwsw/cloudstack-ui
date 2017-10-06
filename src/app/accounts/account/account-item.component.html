@@ -42,17 +42,6 @@
   <md-menu
     #actionsMenu="mdMenu"
   >
-    <button md-menu-item (click)="deactivateAccount()">
-      <md-icon>deactivate</md-icon>
-      <span>{{ 'ACCOUNT_PAGE.DEACTIVATE' | translate }}</span>
-    </button>
-    <button md-menu-item (click)="blockAccount()">
-      <md-icon>block</md-icon>
-      <span>{{ 'ACCOUNT_PAGE.BLOCK' | translate }}</span>
-    </button>
-    <button md-menu-item (click)="deleteAccount()">
-      <md-icon>delete</md-icon>
-      <span>{{ 'ACCOUNT_PAGE.DELETE' | translate }}</span>
-    </button>
+    <cs-account-actions [account]="item" (onAccountChanged)="onAccountChanged.emit($event)"></cs-account-actions>
   </md-menu>
 </md-card>

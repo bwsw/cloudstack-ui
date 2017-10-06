@@ -10,6 +10,7 @@ export class AccountItemComponent {
   @Input() public item: Account;
   @Input() public isSelected: (account) => boolean;
   @Output() public onClick = new EventEmitter<Account>();
+  @Output() public onAccountChanged = new EventEmitter<Account>();
   @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
 
   public handleClick(e: MouseEvent): void {

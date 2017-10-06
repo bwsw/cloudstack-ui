@@ -30,6 +30,7 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
       (onRolesChange)="onRolesChange($event)"
       (onRoleTypesChange)="onRoleTypesChange($event)"
       (onStatesChange)="onStatesChange($event)"
+      (onAccountChanged)="onAccountChange($event)"
     ></cs-account-page>`
 })
 export class AccountPageContainerComponent extends WithUnsubscribe() implements OnInit {
@@ -83,6 +84,10 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
   }
   public onStatesChange(selectedStates) {
     this.store.dispatch(new accountEvent.AccountFilterUpdate({ selectedStates }));
+  }
+
+  public onAccountChange(event) {
+    this.store.dispatch(new accountEvent.AccountFilterUpdate({ }));
   }
 
   public ngOnInit() {

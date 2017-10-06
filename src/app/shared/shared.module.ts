@@ -138,6 +138,12 @@ import { DomainService } from './services/domain.service';
 import { RoleService } from './services/role.service';
 import { ConfigurationService } from './services/configuration.service';
 import { ResourceCountService } from './services/resource-count.service';
+import { AccountActionsComponent } from './actions/account-actions/account-actions.component';
+import { AccountActionsService } from './actions/account-actions/account-actions.service';
+import { AccountDisableAction } from './actions/account-actions/actions/account-disable-action';
+import { AccountDeleteAction } from './actions/account-actions/actions/account-delete-action';
+import { AccountEnableAction } from './actions/account-actions/actions/account-enable-action';
+import { AccountLockAction } from './actions/account-actions/actions/account-lock-action';
 
 @NgModule({
   imports: [
@@ -173,6 +179,8 @@ import { ResourceCountService } from './services/resource-count.service';
   ],
   exports: [
     CdkTableModule,
+    AccountActionsComponent,
+    AccountFilterComponent,
     CharacterCountComponent,
     ColorPickerComponent,
     CreateUpdateDeleteDialogComponent,
@@ -219,8 +227,7 @@ import { ResourceCountService } from './services/resource-count.service';
     MdInputModule,
     TopBarComponent,
     ViewValuePipe,
-    VmStatisticsComponent,
-    AccountFilterComponent
+    VmStatisticsComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -229,6 +236,8 @@ import { ResourceCountService } from './services/resource-count.service';
     SecurityGroupBuilderComponent
   ],
   declarations: [
+    AccountActionsComponent,
+    AccountFilterComponent,
     CalendarComponent,
     CalendarMonthComponent,
     CalendarYearComponent,
@@ -278,11 +287,15 @@ import { ResourceCountService } from './services/resource-count.service';
     SecurityGroupBuilderComponent,
     SecurityGroupSelectorComponent,
     SecurityGroupManagerBaseTemplatesComponent,
-    VmStatisticsComponent,
-    AccountFilterComponent,
+    VmStatisticsComponent
   ],
   providers: [
     AccountService,
+    AccountActionsService,
+    AccountDisableAction,
+    AccountDeleteAction,
+    AccountEnableAction,
+    AccountLockAction,
     AffinityGroupService,
     AsyncJobService,
     AuthGuard,
