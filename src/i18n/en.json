@@ -925,7 +925,7 @@
     },
     "DETAILS": {
       "TITLE": "Details",
-      "ID": "Id",
+      "ID": "ID",
       "ROLE": "Role",
       "ROLE_TYPE": "Role type",
       "DOMAIN": "Domain"
@@ -1004,6 +1004,7 @@
   "VM_NOT_FOUND": "Virtual machine not found",
   "VOLUME_NOT_FOUND": "Volume not found",
   "TEMPLATE_NOT_FOUND": "Template not found",
+  "ACCOUNT_NOT_FOUND": "Account not found",
   "PULSE": {
     "PULSE": "Pulse",
     "CPU_RAM": "CPU / RAM",

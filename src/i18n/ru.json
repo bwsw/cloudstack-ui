@@ -911,7 +911,7 @@
     "CARD": {
       "ROLE": "Роль",
       "ROLE_TYPE": "Тип роли",
-      "DOMAIN": "ДОмен"
+      "DOMAIN": "Домен"
     },
     "SIDEBAR": {
       "GENERAL": "Общее",
@@ -923,7 +923,7 @@
     },
     "DETAILS": {
       "TITLE": "Детали",
-      "ID": "Id",
+      "ID": "ID",
       "ROLE": "Роль",
       "ROLE_TYPE": "Тип роли",
       "DOMAIN": "Домен"
@@ -1002,6 +1002,7 @@
   "VM_NOT_FOUND": "Виртуальная машина не найдена",
   "VOLUME_NOT_FOUND": "Диск не найден",
   "TEMPLATE_NOT_FOUND": "Шаблон не найден",
+  "ACCOUNT_NOT_FOUND": "Аккаунт не найден",
   "PULSE": {
     "PULSE": "Pulse",
     "CPU_RAM": "ЦП / ОЗУ",
