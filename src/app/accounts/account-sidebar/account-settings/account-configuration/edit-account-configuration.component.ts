@@ -29,14 +29,4 @@ export class EditAccountConfigurationComponent {
     this.dialogRef.close(newConfiguration);
   }
 
-  /*
-  command=updateConfiguration&accountid=44efce88-8677-46c4-9931-20eafbdebd00
-  &response=json
-  &name=use.system.public.ips
-  &value=true
-  &_=1506911974417
-
-  * */
-
-
 }

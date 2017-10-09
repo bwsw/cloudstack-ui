@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MdMenuTrigger } from '@angular/material';
 import { AuthService } from '../../shared/services/auth.service';
+import { Account } from '../../shared/models/account.model';
 
 @Component({
   selector: 'cs-account-item',

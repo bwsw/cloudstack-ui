@@ -1,5 +1,4 @@
-<cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<h3 *ngIf="!loading" class="mat-dialog-title">
+<h3 class="mat-dialog-title">
   {{ (title || 'ACCOUNT_PAGE.CONFIGURATION.EDIT') | translate }}
 </h3>
 <form (ngSubmit)="onConfigurationUpdate()" #configurationForm="ngForm">
