@@ -33,6 +33,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { accountReducers } from './redux/accounts.reducers';
 import { domainReducers } from '../domains/redux/domains.reducers'
 import { roleReducers } from '../roles/redux/roles.reducers';
+import { AccountSidebarContainer } from './account-container/account-sidebar.container';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import { roleReducers } from '../roles/redux/roles.reducers';
     AccountDetailsComponent,
     AccountConfigurationComponent,
     AccountPageContainerComponent,
+    AccountSidebarContainer,
     EditAccountConfigurationComponent,
   ],
   entryComponents: [

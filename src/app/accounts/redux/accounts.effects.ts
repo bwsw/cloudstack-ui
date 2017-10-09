@@ -21,8 +21,18 @@ export class AccountsEffects {
         .map((accounts: Account[]) => {
           return new accountEvent.LoadAccountsResponse(accounts);
         })
-        .catch(() => Observable.of(new accountEvent.LoadAccountsResponse(
-          { accounts: [], roles: [] })));
+        .catch(() => Observable.of(new accountEvent.LoadAccountsResponse({ })));
+    });
+
+  @Effect()
+  loadSelectedAccount: Observable<Action> = this.actions$
+    .ofType(accountEvent.LOAD_SELECTED_ACCOUNT_REQUEST)
+    .switchMap((action: accountEvent.LoadSelectedAccountRequest) => {
+      return this.accountService.get(action.payload)
+        .map(account => {
+          return new accountEvent.LoadSelectedAccountResponse(account);
+        })
+        .catch(() => Observable.of(new accountEvent.LoadSelectedAccountResponse({ })));
     });
 
   constructor(

@@ -12,6 +12,7 @@ import { Account } from '../../shared/models/account.model';
  */
 export interface State extends EntityState<Account> {
   loading: boolean,
+  selectedAccount: Account,
   filters: {
     selectedDomainIds: string[],
     selectedRoleNames: string[],
@@ -47,6 +48,7 @@ export const adapter: EntityAdapter<Account> = createEntityAdapter<Account>({
  */
 export const initialState: State = adapter.getInitialState({
   loading: false,
+  selectedAccount: null,
   filters: {
     selectedDomainIds:[],
     selectedRoleTypes: [],
@@ -92,6 +94,20 @@ export function reducer(
       };
     }
 
+    case event.LOAD_SELECTED_ACCOUNT_REQUEST: {
+      return {
+        ...state
+      };
+    }
+    case event.LOAD_SELECTED_ACCOUNT_RESPONSE: {
+      const account = action.payload;
+      return {
+        //...adapter.addOne(account, state),
+        ...state,
+        selectedAccount: account
+      };
+    }
+
 
     default: {
       return state;
@@ -119,7 +135,10 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
-
+export const selectedAccount = createSelector(
+  getAccountsEntitiesState,
+  state => state.selectedAccount
+);
 
 export const filters = createSelector(
   getAccountsEntitiesState,

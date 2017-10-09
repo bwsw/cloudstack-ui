@@ -40,7 +40,7 @@
 </div>
 
 <md-menu #actionsMenu="mdMenu">
-  <cs-account-actions  *ngIf="entity" [account]="entity" (onAccountChanged)="loadEntity($event.id)"></cs-account-actions>
+  <cs-account-actions  *ngIf="entity" [account]="entity" (onAccountChanged)="onAccountChanged.emit($event)"></cs-account-actions>
 </md-menu>
 
 <router-outlet></router-outlet>
