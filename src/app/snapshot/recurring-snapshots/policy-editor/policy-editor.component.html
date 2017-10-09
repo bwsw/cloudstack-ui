@@ -49,8 +49,11 @@
     ></cs-stored-number>
 
       <div class="button-wrapper">
-        <button md-button color="primary" [disabled]="!policyEditorForm.valid">
-          {{ 'COMMON.ADD' | translate }}
+        <button
+          md-icon-button
+          [disabled]="!policyEditorForm.valid"
+        >
+          <md-icon>add</md-icon>
         </button>
       </div>
     </div>
