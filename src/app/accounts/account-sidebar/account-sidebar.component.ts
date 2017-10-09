@@ -26,9 +26,9 @@ export class AccountSidebarComponent extends SidebarComponent<Account>{
 
   protected loadEntity(id: string): Observable<Account> {
     return this.accountService.get(id)
-      .switchMap(vm => {
-        if (vm) {
-          return Observable.of(vm);
+      .switchMap(account => {
+        if (account) {
+          return Observable.of(account);
         } else {
           return Observable.throw(new EntityDoesNotExistError());
         }

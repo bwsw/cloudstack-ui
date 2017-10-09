@@ -11,10 +11,10 @@
       <div *ngFor="let limit of limits" class="height-container">
         <div class="flex-container container">
           <div class="flex-container left">
-            <span
+            <div
               class="name"
               [innerHTML]="limitLabels[limit.resourceType] | translate"
-            ></span>
+            ></div>
           </div>
           <div *ngIf="!isEdit"
             ngxClipboard
@@ -44,20 +44,18 @@
         <md-icon>edit</md-icon>
       </button>
       <button *ngIf="isEdit"
-        md-icon-button
-        [mdTooltip]="'COMMON.SAVE' | translate"
-        mdTooltipPosition="above"
+        md-button
+        color="primary"
         (click)="onSave()"
       >
-        <md-icon>save</md-icon>
+        {{ 'COMMON.SAVE' | translate }}
       </button>
       <button *ngIf="isEdit"
-        md-icon-button
-        [mdTooltip]="'COMMON.CANCEL' | translate"
-        mdTooltipPosition="above"
+        md-button
+        color="primary"
         (click)="isEdit=!isEdit"
       >
-        <md-icon>cancel</md-icon>
+        {{ 'COMMON.CANCEL' | translate }}
       </button>
     </md-card-actions>
   </md-card-content>

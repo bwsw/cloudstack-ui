@@ -1,14 +1,15 @@
-:host ::ng-deep name {
+:host ::ng-deep .name {
   font-weight: bold;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  cursor: default;
 }
 
 :host ::ng-deep .value {
   overflow: hidden;
   text-overflow: ellipsis;
-  cursor: pointer;
+  cursor: default;
   max-width: 34% !important;
   text-align: right;
   white-space: nowrap;
