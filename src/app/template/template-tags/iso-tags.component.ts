@@ -4,6 +4,7 @@ import { BaseTemplateTagsComponent } from './tags.component';
 import { ActivatedRoute } from '@angular/router';
 import { IsoService } from '../shared/iso.service';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { AuthService } from '../../shared/services/auth.service';
 
 
 @Component({
@@ -15,8 +16,9 @@ export class IsoTagsComponent extends BaseTemplateTagsComponent {
     service: IsoService,
     route: ActivatedRoute,
     dialogService: DialogService,
-    tagService: TagService
+    tagService: TagService,
+    authService: AuthService
   ) {
-    super(service, route, dialogService, tagService);
+    super(service, route, dialogService, tagService, authService);
   }
 }
