@@ -40,193 +40,193 @@
     novalidate
   >
     <div class="mat-dialog-content">
-    <div class="container">
-      <div *ngIf="enoughResources && formState?.state" class="left-column">
-        <div>
-          <h5>{{ 'VM_PAGE.VM_CREATION.NAME' | translate }}</h5>
-          <md-form-field floatPlaceholder="never" class="full-width-input">
-            <input
-              mdInput
-              name="name"
-              [ngModel]="formState.state.displayName"
-              (ngModelChange)="displayNameChange($event)"
-              [placeholder]="'VM_PAGE.VM_CREATION.NAME' | translate"
-              pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
-              required
-              [errorStateMatcher]="vmNameErrorMatcher"
+      <div class="container">
+        <div *ngIf="enoughResources && formState?.state" class="left-column">
+          <div>
+            <h5>{{ 'VM_PAGE.VM_CREATION.NAME' | translate }}</h5>
+            <md-form-field floatPlaceholder="never" class="full-width-input">
+              <input
+                mdInput
+                name="name"
+                [ngModel]="formState.state.displayName"
+                (ngModelChange)="displayNameChange($event)"
+                [placeholder]="'VM_PAGE.VM_CREATION.NAME' | translate"
+                pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
+                required
+                [errorStateMatcher]="vmNameErrorMatcher"
+              >
+              <md-error *ngIf="takenName">
+                {{ 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' | translate }}
+              </md-error>
+            </md-form-field>
+          </div>
+
+          <div>
+            <h5>{{ 'VM_PAGE.VM_CREATION.ZONE' | translate }}</h5>
+            <md-select
+              class="form-select-control"
+              name="zone"
+              [ngModel]="formState.state.zone"
+              (change)="zoneChange($event)"
             >
-            <md-error *ngIf="takenName">
-              {{ 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' | translate }}
-            </md-error>
-          </md-form-field>
+              <md-option *ngFor="let z of formState.data.zones" [value]="z">
+                {{ z.name }}
+              </md-option>
+            </md-select>
+          </div>
+
+          <div>
+            <h5>{{ 'VM_PAGE.VM_CREATION.SERVICE_OFFERING' | translate }}</h5>
+            <cs-service-offering-selector
+              name="serviceOffering"
+              [serviceOfferings]="formState.data.serviceOfferings"
+              [customOfferingRestrictions]="formState.data.getCustomOfferingRestrictions(formState.state.zone)"
+              [zoneId]="formState.state.zone.id"
+              [ngModel]="formState.state.serviceOffering"
+              (change)="serviceOfferingChange($event)"
+            ></cs-service-offering-selector>
+          </div>
+
+          <div class="dialog-select-wrapper">
+            <cs-vm-creation-template
+              name="template"
+              class="template-select"
+              [templates]="formState.data.templates"
+              [isos]="formState.data.isos"
+              [zoneId]="formState.state.zone.id"
+              [ngModel]="formState.state.template"
+              (change)="templateChange($event)"
+            ></cs-vm-creation-template>
+          </div>
+
+          <div *ngIf="formState.state.diskOfferingsAreAllowed">
+            <h5>{{ 'VM_PAGE.VM_CREATION.DISK_OFFERING' | translate }}</h5>
+            <cs-disk-offering
+              name="diskOfferingSelector"
+              [diskOfferingList]="formState.data.diskOfferings"
+              [ngModel]="formState.state.diskOffering"
+              (change)="diskOfferingChange($event)"
+            ></cs-disk-offering>
+          </div>
+
+          <div *ngIf="formState.state.rootDiskSizeMin">
+            <cs-slider
+              name="rds"
+              *ngIf="showResizeSlider"
+              [min]="formState.state.rootDiskSizeMin"
+              [max]="formState.data.rootDiskSizeLimit"
+              [label]="'VM_PAGE.VM_CREATION.DISK_SIZE' | translate"
+              [ngModel]="formState.state.rootDiskSize"
+              (change)="rootDiskSizeChange($event)"
+              [units]="'UNITS.GB' | translate"
+            ></cs-slider>
+          </div>
+
         </div>
 
-        <div>
-          <h5>{{ 'VM_PAGE.VM_CREATION.ZONE' | translate }}</h5>
-          <md-select
-            class="form-select-control"
-            name="zone"
-            [ngModel]="formState.state.zone"
-            (change)="zoneChange($event)"
-          >
-            <md-option *ngFor="let z of formState.data.zones" [value]="z">
-              {{ z.name }}
-            </md-option>
-          </md-select>
-        </div>
+        <div *ngIf="enoughResources && formState?.state" class="right-column">
+          <div>
+            <h5>{{ 'VM_PAGE.VM_CREATION.GROUP' | translate }}</h5>
+            <md-form-field floatPlaceholder="never">
+              <input
+                name="group"
+                mdInput
+                [mdAutocomplete]="instanceGroups"
+                [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
+                [ngModel]="formState.state.instanceGroup.name"
+                (ngModelChange)="instanceGroupChange($event)"
+              >
+            </md-form-field>
+            <md-autocomplete #instanceGroups>
+              <md-option
+                *ngFor="let group of visibleInstanceGroups"
+                [value]="group.name"
+              >
+                {{ group.name }}
+              </md-option>
+            </md-autocomplete>
+          </div>
 
-        <div>
-          <h5>{{ 'VM_PAGE.VM_CREATION.SERVICE_OFFERING' | translate }}</h5>
-          <cs-service-offering-selector
-            name="serviceOffering"
-            [serviceOfferings]="formState.data.serviceOfferings"
-            [customOfferingRestrictions]="formState.data.getCustomOfferingRestrictions(formState.state.zone)"
-            [zoneId]="formState.state.zone.id"
-            [ngModel]="formState.state.serviceOffering"
-            (change)="serviceOfferingChange($event)"
-          ></cs-service-offering-selector>
-        </div>
+          <div>
+            <h5>{{ 'VM_PAGE.VM_CREATION.AFFINITY_GROUPS' | translate }}</h5>
+            <md-form-field floatPlaceholder="never">
+              <input
+                name="group"
+                mdInput
+                [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
+                [mdAutocomplete]="affinityGroups"
+                [(ngModel)]="formState.state.affinityGroup.name"
+                (ngModelChange)="affinityGroupChange($event)"
+              >
+            </md-form-field>
+            <md-autocomplete #affinityGroups>
+              <md-option
+                *ngFor="let group of visibleAffinityGroups"
+                [value]="group.name"
+              >
+                {{ group.name }}
+              </md-option>
+            </md-autocomplete>
+          </div>
 
-        <div class="dialog-select-wrapper">
-          <h5 class="dialog-select-header">{{ 'VM_PAGE.VM_CREATION.INSTALLATION_SOURCE' | translate }}</h5>
-          <cs-vm-creation-template
-            name="template"
-            class="dialog-select-select template-select"
-            [templates]="formState.data.templates"
-            [isos]="formState.data.isos"
-            [zoneId]="formState.state.zone.id"
-            [ngModel]="formState.state.template"
-            (change)="templateChange($event)"
-          ></cs-vm-creation-template>
-        </div>
+          <div>
+            <cs-vm-creation-security-group-rules-manager
+              name="sgm"
+              class="sg-rules-manager"
+              *ngIf="formState.state.showSecurityGroups"
+              [ngModel]="formState.state.securityGroupData"
+              (ngModelChange)="securityRulesChange($event)"
+            ></cs-vm-creation-security-group-rules-manager>
+          </div>
 
-        <div *ngIf="formState.state.diskOfferingsAreAllowed">
-          <h5>{{ 'VM_PAGE.VM_CREATION.DISK_OFFERING' | translate }}</h5>
-          <cs-disk-offering
-            name="diskOfferingSelector"
-            [diskOfferingList]="formState.data.diskOfferings"
-            [ngModel]="formState.state.diskOffering"
-            (change)="diskOfferingChange($event)"
-          ></cs-disk-offering>
-        </div>
+          <div>
+            <h5>{{ 'VM_PAGE.VM_CREATION.KEYBOARD_LAYOUT' | translate }}</h5>
+            <cs-keyboards
+              name="keyboard"
+              [ngModel]="formState.state.keyboard"
+              (ngModelChange)="keyboardChange($event)"
+            ></cs-keyboards>
+          </div>
 
-        <div *ngIf="formState.state.rootDiskSizeMin">
-          <cs-slider
-            name="rds"
-            *ngIf="showResizeSlider"
-            [min]="formState.state.rootDiskSizeMin"
-            [max]="formState.data.rootDiskSizeLimit"
-            [label]="'VM_PAGE.VM_CREATION.DISK_SIZE' | translate"
-            [ngModel]="formState.state.rootDiskSize"
-            (change)="rootDiskSizeChange($event)"
-            [units]="'UNITS.GB' | translate"
-          ></cs-slider>
-        </div>
+          <div>
+            <h5>{{ 'VM_PAGE.VM_CREATION.SSH_KEY_PAIR' | translate }}</h5>
+            <md-select
+              class="form-select-control"
+              name="ssh"
+              [ngModel]="formState.state.sshKeyPair"
+              (change)="sshKeyPairChange($event)"
+            >
+              <md-option
+                *ngFor="let keyPair of formState.data.sshKeyPairs"
+                [value]="keyPair"
+              >
+                {{ keyPair.name }}
+              </md-option>
+            </md-select>
+          </div>
 
+          <div class="start-vm-checkbox">
+            <md-checkbox
+              name="startVm"
+              [ngModel]="formState.state.doStartVm"
+              (ngModelChange)="doStartVmChange($event)"
+            >
+              {{ 'VM_PAGE.VM_CREATION.START_VM' | translate }}
+            </md-checkbox>
+          </div>
+
+        </div>
+        <div *ngIf="!enoughResources">
+          {{ 'ERRORS.VM.INSUFFICIENT_RESOURCES' | translate }}
+          <div *ngIf="insufficientResources.length">
+            {{ 'VM_PAGE.VM_CREATION.YOU_RAN_OUT_OF' | translate }}
+            <ng-container *ngFor="let resource of insufficientResources; let l = last">
+              {{ insufficientResourcesErrorMap[resource] | translate }}
+              <ng-container *ngIf="!l">,</ng-container>
+            </ng-container>
+          </div>
+        </div>
       </div>
-
-      <div *ngIf="enoughResources && formState?.state" class="right-column">
-        <div>
-          <h5>{{ 'VM_PAGE.VM_CREATION.GROUP' | translate }}</h5>
-          <md-form-field floatPlaceholder="never">
-            <input
-              name="group"
-              mdInput
-              [mdAutocomplete]="instanceGroups"
-              [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
-              [ngModel]="formState.state.instanceGroup.name"
-              (ngModelChange)="instanceGroupChange($event)"
-            >
-          </md-form-field>
-          <md-autocomplete #instanceGroups>
-            <md-option
-              *ngFor="let group of visibleInstanceGroups"
-              [value]="group.name"
-            >
-              {{ group.name }}
-            </md-option>
-          </md-autocomplete>
-        </div>
-
-        <div>
-          <h5>{{ 'VM_PAGE.VM_CREATION.AFFINITY_GROUPS' | translate }}</h5>
-          <md-form-field floatPlaceholder="never">
-            <input
-              name="group"
-              mdInput
-              [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
-              [mdAutocomplete]="affinityGroups"
-              [(ngModel)]="formState.state.affinityGroup.name"
-              (ngModelChange)="affinityGroupChange($event)"
-            >
-          </md-form-field>
-          <md-autocomplete #affinityGroups>
-            <md-option
-              *ngFor="let group of visibleAffinityGroups"
-              [value]="group.name"
-            >
-              {{ group.name }}
-            </md-option>
-          </md-autocomplete>
-        </div>
-
-        <div>
-          <cs-vm-creation-security-group-rules-manager
-            name="sgm"
-            class="sg-rules-manager"
-            *ngIf="formState.state.showSecurityGroups"
-            [ngModel]="formState.state.securityGroupData"
-            (ngModelChange)="securityRulesChange($event)"
-          ></cs-vm-creation-security-group-rules-manager>
-        </div>
-
-        <div>
-          <h5>{{ 'VM_PAGE.VM_CREATION.KEYBOARD_LAYOUT' | translate }}</h5>
-          <cs-keyboards
-            name="keyboard"
-            [ngModel]="formState.state.keyboard"
-            (ngModelChange)="keyboardChange($event)"
-          ></cs-keyboards>
-        </div>
-
-        <div>
-          <h5>{{ 'VM_PAGE.VM_CREATION.SSH_KEY_PAIR' | translate }}</h5>
-          <md-select
-            class="form-select-control"
-            name="ssh"
-            [ngModel]="formState.state.sshKeyPair"
-            (change)="sshKeyPairChange($event)"
-          >
-            <md-option
-              *ngFor="let keyPair of formState.data.sshKeyPairs"
-              [value]="keyPair"
-            >
-              {{ keyPair.name }}
-            </md-option>
-          </md-select>
-        </div>
-
-        <div class="start-vm-checkbox">
-          <md-checkbox
-            name="startVm"
-            [ngModel]="formState.state.doStartVm"
-            (ngModelChange)="doStartVmChange($event)"
-          >
-            {{ 'VM_PAGE.VM_CREATION.START_VM' | translate }}
-          </md-checkbox>
-        </div>
-
-      </div>
-      <div *ngIf="!enoughResources">
-        {{ 'ERRORS.VM.INSUFFICIENT_RESOURCES' | translate }}
-        <div *ngIf="insufficientResources.length">
-          {{ 'VM_PAGE.VM_CREATION.YOU_RAN_OUT_OF' | translate }}
-          <ng-container *ngFor="let resource of insufficientResources; let l = last">
-            {{ insufficientResourcesErrorMap[resource] | translate }}<ng-container *ngIf="!l">,</ng-container>
-          </ng-container>
-        </div>
-      </div>
-    </div>
 
     </div>
     <div class="mat-dialog-actions">
