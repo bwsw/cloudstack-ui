@@ -7,7 +7,7 @@ export const ACCOUNT_FILTER_UPDATE = '[ACCOUNTS] ACCOUNT_FILTER_UPDATE';
 export class LoadAccountsRequest implements Action {
   type = LOAD_ACCOUNTS_REQUEST;
 
-  constructor(public payload: any) {
+  constructor(public payload?: any) {
   }
 
 }

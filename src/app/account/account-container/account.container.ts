@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
-import * as accountEvent from '../redux/accounts.actions';
-import * as domainEvent from '../../domains/redux/domains.actions';
-import * as roleEvent from '../../roles/redux/roles.actions';
+import * as accountActions from '../redux/accounts.actions';
+import * as domainActions from '../../domains/redux/domains.actions';
+import * as roleActions from '../../roles/redux/roles.actions';
 import { FilterService } from '../../shared/services/filter.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
@@ -47,7 +47,7 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
   readonly selectedStates$ = this.store.select(fromAccounts.filterSelectedStates);
   readonly selectedRoleTypes$ = this.store.select(fromAccounts.filterSelectedRoleTypes);
 
-  readonly states: Array<string> = ['enabled', 'disabled', 'locked'];
+  public states: Array<string> = ['enabled', 'disabled', 'locked'];
 
   private filterService = new FilterService(
     {
@@ -74,25 +74,25 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
 
 
   public onDomainsChange(selectedDomainIds) {
-    this.store.dispatch(new accountEvent.AccountFilterUpdate({ selectedDomainIds }));
+    this.store.dispatch(new accountActions.AccountFilterUpdate({ selectedDomainIds }));
   }
   public onRolesChange(selectedRoleNames) {
-    this.store.dispatch(new accountEvent.AccountFilterUpdate({ selectedRoleNames }));
+    this.store.dispatch(new accountActions.AccountFilterUpdate({ selectedRoleNames }));
   }
   public onRoleTypesChange(selectedRoleTypes) {
-    this.store.dispatch(new accountEvent.AccountFilterUpdate({ selectedRoleTypes }));
+    this.store.dispatch(new accountActions.AccountFilterUpdate({ selectedRoleTypes }));
   }
   public onStatesChange(selectedStates) {
-    this.store.dispatch(new accountEvent.AccountFilterUpdate({ selectedStates }));
+    this.store.dispatch(new accountActions.AccountFilterUpdate({ selectedStates }));
   }
 
   public onAccountChange(event) {
-    this.store.dispatch(new accountEvent.AccountFilterUpdate({ }));
+    this.store.dispatch(new accountActions.AccountFilterUpdate({ }));
   }
 
   public ngOnInit() {
-    this.store.dispatch(new domainEvent.LoadDomainsRequest({}));
-    this.store.dispatch(new roleEvent.LoadRolesRequest({}));
+    this.store.dispatch(new domainActions.LoadDomainsRequest());
+    this.store.dispatch(new roleActions.LoadRolesRequest());
     this.initFilters();
     this.filters$
       .takeUntil(this.unsubscribe$)
@@ -115,7 +115,7 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
 
     const selectedStates = params['states'];
     const selectedRoleTypes = params['roleTypes'];
-    this.store.dispatch(new accountEvent.AccountFilterUpdate({
+    this.store.dispatch(new accountActions.AccountFilterUpdate({
       selectedRoleTypes,
       selectedRoleNames,
       selectedDomainIds,

@@ -12,7 +12,7 @@ export class EditAccountConfigurationComponent {
   public title: string;
 
   constructor(
-    public dialogRef: MdDialogRef<EditAccountConfigurationComponent>,
+    private dialogRef: MdDialogRef<EditAccountConfigurationComponent>,
     @Inject(MD_DIALOG_DATA) data,
   ) {
     this.name = data.configuration.name;
@@ -27,6 +27,10 @@ export class EditAccountConfigurationComponent {
     };
 
     this.dialogRef.close(newConfiguration);
+  }
+
+  public close() {
+    this.dialogRef.close();
   }
 
 }

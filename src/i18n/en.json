@@ -928,7 +928,11 @@
       "ID": "ID",
       "ROLE": "Role",
       "ROLE_TYPE": "Role type",
-      "DOMAIN": "Domain"
+      "DOMAIN": "Domain",
+      "VMS": "VMs",
+      "IPS": "IPs",
+      "R_BYTES": "Bytes received",
+      "S_BYTES": "Bytes sent"
     },
     "CONFIGURATION": {
       "VM_LIMIT": "VM limit",

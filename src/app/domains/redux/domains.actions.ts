@@ -6,7 +6,7 @@ export const LOAD_DOMAINS_RESPONSE = '[DOMAINS] LOAD_DOMAINS_RESPONSE';
 export class LoadDomainsRequest implements Action {
   type = LOAD_DOMAINS_REQUEST;
 
-  constructor(public payload: any) {
+  constructor(public payload?: any) {
   }
 
 }

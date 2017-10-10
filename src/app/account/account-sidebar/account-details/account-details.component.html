@@ -75,6 +75,74 @@
             ></div>
           </div>
         </div>
+        <div class="height-container">
+          <div class="flex-container container">
+            <div class="flex-container left">
+              <div
+                class="name"
+                [mdTooltip]="'ACCOUNT_PAGE.DETAILS.VMS' | translate"
+                [innerHTML]="'ACCOUNT_PAGE.DETAILS.VMS' | translate"
+              ></div>
+            </div>
+            <div
+              ngxClipboard
+              class="value"
+              [innerHTML]="account.vmtotal"
+              [mdTooltip]="account.vmtotal"
+            ></div>
+          </div>
+        </div>
+        <div class="height-container">
+          <div class="flex-container container">
+            <div class="flex-container left">
+              <div
+                class="name"
+                [mdTooltip]="'ACCOUNT_PAGE.DETAILS.IPS' | translate"
+                [innerHTML]="'ACCOUNT_PAGE.DETAILS.IPS' | translate"
+              ></div>
+            </div>
+            <div
+              ngxClipboard
+              class="value"
+              [innerHTML]="account.iptotal"
+              [mdTooltip]="account.iptotal"
+            ></div>
+          </div>
+        </div>
+        <div class="height-container">
+          <div class="flex-container container">
+            <div class="flex-container left">
+              <div
+                class="name"
+                [mdTooltip]="'ACCOUNT_PAGE.DETAILS.R_BYTES' | translate"
+                [innerHTML]="'ACCOUNT_PAGE.DETAILS.R_BYTES' | translate"
+              ></div>
+            </div>
+            <div
+              ngxClipboard
+              class="value"
+              [innerHTML]="account.receivedbytes"
+              [mdTooltip]="account.receivedbytes"
+            ></div>
+          </div>
+        </div>
+        <div class="height-container">
+          <div class="flex-container container">
+            <div class="flex-container left">
+              <div
+                class="name"
+                [mdTooltip]="'ACCOUNT_PAGE.DETAILS.S_BYTES' | translate"
+                [innerHTML]="'ACCOUNT_PAGE.DETAILS.S_BYTES' | translate"
+              ></div>
+            </div>
+            <div
+              ngxClipboard
+              class="value"
+              [innerHTML]="account.sentbytes"
+              [mdTooltip]="account.sentbytes"
+            ></div>
+          </div>
+        </div>
       </div>
     </md-card-content>
   </md-card>

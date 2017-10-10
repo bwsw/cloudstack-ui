@@ -4,7 +4,8 @@ import { ResourceLimit } from '../../../shared/models/resource-limit.model';
 
 @Component({
   selector: 'cs-account-limits',
-  templateUrl: 'account-limits.component.html'
+  templateUrl: 'account-limits.component.html',
+  styleUrls: ['account-limits.component.scss']
 })
 export class AccountLimitsComponent {
   @Input() public limits: Array<ResourceLimit>;

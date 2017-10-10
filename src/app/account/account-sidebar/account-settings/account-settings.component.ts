@@ -36,12 +36,8 @@ export class AccountSettingsComponent implements OnInit {
       }
     })
       .afterClosed()
-      .subscribe(configurationPair => {
-        if (configurationPair) {
-          this.configurationService.updateConfiguration(configurationPair, this.account)
-            .subscribe(() => this.getConfiguration());
-        }
-      });
+      .switchMap(configurationPair =>  this.configurationService.updateConfiguration(configurationPair, this.account))
+      .subscribe(() => this.getConfiguration());
   }
 
 
