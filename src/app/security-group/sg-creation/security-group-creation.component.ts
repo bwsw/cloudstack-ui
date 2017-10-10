@@ -9,12 +9,12 @@ import { SecurityGroup } from '../sg.model';
 
 
 @Component({
-  selector: 'cs-security-group-template-creation',
-  templateUrl: 'sg-template-creation.component.html',
-  styleUrls: ['sg-template-creation.component.scss'],
+  selector: 'cs-security-group-creation',
+  templateUrl: 'security-group-creation.component.html',
+  styleUrls: ['security-group-creation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SgTemplateCreationComponent {
+export class SecurityGroupCreationComponent {
   public name = '';
   public description = '';
   public securityRules: Rules;
@@ -23,7 +23,7 @@ export class SgTemplateCreationComponent {
 
   constructor(
     @Inject(MD_DIALOG_DATA) public data: any,
-    public dialogRef: MdDialogRef<SgTemplateCreationComponent>,
+    public dialogRef: MdDialogRef<SecurityGroupCreationComponent>,
     public dialogService: DialogService,
     private sgService: SecurityGroupService,
   ) { }

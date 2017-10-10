@@ -9,12 +9,12 @@ import { SecurityGroup, SecurityGroupType } from '../sg.model';
 
 
 @Component({
-  selector: 'cs-security-group-template-list',
-  templateUrl: 'sg-template-list.component.html',
-  styleUrls: ['sg-template-list.component.scss'],
+  selector: 'cs-security-group-list',
+  templateUrl: 'security-group-list.component.html',
+  styleUrls: ['security-group-list.component.scss'],
   providers: [ListService]
 })
-export class SgTemplateListComponent implements OnInit {
+export class SecurityGroupListComponent implements OnInit {
   public predefinedSecurityGroupList: Array<SecurityGroup>;
   public customSecurityGroupList: Array<SecurityGroup>;
   public sharedSecurityGroupList: Array<SecurityGroup>;

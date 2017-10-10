@@ -44,3 +44,6 @@
     {{ shift }}
   </md-option>
 </md-select>
+<button class="refresh-button" md-icon-button (click)="handleRefresh()">
+  <md-icon [mdTooltip]="'COMMON.REFRESH' | translate">sync</md-icon>
+</button>

@@ -31,6 +31,7 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
   @Input() public colors: Array<Color>;
   @Input() public colorsPerLine: number;
   @Input() public containerWidth = 256;
+  @Input() public hasColorField = true;
   @Output() public change = new EventEmitter();
   @ViewChild(PopoverTriggerDirective) public popoverTrigger: PopoverTriggerDirective;
   public colorWidth: number;

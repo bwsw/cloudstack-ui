@@ -3,15 +3,15 @@ import { VirtualMachine, VmState } from '../shared/vm.model';
 import { ConfigService } from '../../shared/services/config.service';
 
 
-export const AuthModeToken = 'csext.webshell.auth-mode';
-const portToken = 'csext.webshell.port';
-const userToken = 'csext.webshell.user';
+export const AuthModeToken = 'csui.vm.auth-mode';
+const portToken = 'csui.vm.ssh.port';
+const userToken = 'csui.vm.ssh.user';
 
 const defaultPort = '22';
 const defaultUser = 'root';
 
 enum AuthModeType {
-  SSH = 'SSH'
+  SSH = 'ssh'
 }
 
 @Injectable()
@@ -35,17 +35,14 @@ export class WebShellService {
 
     const authModeTag = vm.tags.find(tag => tag.key === AuthModeToken);
     const authMode = authModeTag && authModeTag.value;
-    const sshEnabledOnVm = authMode === AuthModeType.SSH;
+    const sshEnabledOnVm = authMode && authMode.split(',')
+      .find(mode => mode.toLowerCase() === AuthModeType.SSH);
     const vmIsRunning = vm.state === VmState.Running;
 
     return !!this.webShellAddress && sshEnabledOnVm && vmIsRunning;
   }
 
   public getWebShellAddress(vm: VirtualMachine): string {
-    if (!this.webShellAddress) {
-      return undefined;
-    }
-
     const ip = vm.nic[0].ipAddress;
     const port = this.getPort(vm);
     const user = this.getUser(vm);

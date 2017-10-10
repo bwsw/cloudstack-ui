@@ -5,10 +5,8 @@
     [(shift)]="selectedShift"
     [(aggregations)]="selectedAggregations"
     [(shiftAmount)]="shiftAmount"
+    (refreshHandle)="refresh()"
   ></cs-aggregation-selector>
-  <button md-icon-button (click)="refresh()">
-    <md-icon [mdTooltip]="'COMMON.REFRESH' | translate">sync</md-icon>
-  </button>
 </ng-template>
 <md-tab-group
   *ngIf="translations"

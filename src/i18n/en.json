@@ -12,10 +12,11 @@
     "DELETE": "Delete",
     "DESCRIPTION": "Description",
     "EDIT": "Edit",
+    "ERROR": "Error",
     "NO": "No",
     "NO_RESULTS": "No results",
     "NONE": "None",
-    "OK": "Ok",
+    "OK": "OK",
     "REFRESH": "Refresh",
     "REMOVE": "Remove",
     "RESET": "Reset",
@@ -137,6 +138,7 @@
       "REGISTER_IN_PROGRESS": "Registering a template",
       "REGISTER_DONE": "Template registered",
       "REGISTER_FAILED": "Template register failed",
+
       "DELETION_IN_PROGRESS": "Deleting a template",
       "DELETION_DONE": "Template deleted",
       "DELETION_FAILED": "Failed to delete an template"
@@ -482,13 +484,28 @@
       "IPS": "IPs",
       "VOLUMES": "Volumes",
       "PRIMARY_STORAGE": "Primary storage",
-      "CREATING_AG": "Creating an affinity group",
-      "CREATING_SG": "Creating a security group",
-      "DEPLOYING_VM": "Deploying the virtual machine",
+      "CREATING_AG": "Creating an affinity group...",
+      "CREATING_SG": "Creating a security group...",
+      "DEPLOYING_VM": "Deploying the virtual machine...",
+      "CREATING_INSTANCE_GROUP": "Creating an instance group...",
+      "TAG_COPYING": "Copying template tags...",
+      "DEPLOYMENT_FINISHED": "Deployment finished",
       "OS_TEMPLATE": "OS template",
       "NO_TEMPLATES": "No templates available"
     }
   },
+
+  "VM_POST_ACTION": {
+    "TITLE": "Virtual Machine Successfully Created",
+    "OPEN_VNC_CONSOLE": "Open VNC Console",
+    "OPEN_SHELL_CONSOLE": "Open WebShell",
+    "OPEN_URL": "Open URL",
+    "VM_PASSWORD": "Password",
+    "LOGIN": "Login",
+    "VM": "Virtual machine name",
+    "VM_IP": "IP"
+  },
+
   "VOLUME_PAGE": {
     "FILTERS": {
       "SELECT_ACCOUNTS": "Select accounts",
@@ -629,7 +646,8 @@
       "DESCRIPTION": "Description"
     },
     "RULES": {
-      "TITLE": "Edit rules for {{ value }}",
+      "VIEW_TITLE": "Rules for <b>{{ value }}</b>",
+      "EDIT_TITLE": "Edit rules for <b>{{ value }}</b>",
       "TYPE": "Type",
       "PROTOCOL": "Protocol",
       "CIDR": "CIDR",

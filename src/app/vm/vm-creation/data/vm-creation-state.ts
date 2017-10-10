@@ -5,6 +5,7 @@ import { KeyboardLayout } from '../keyboards/keyboards.component';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 import { NotSelected } from '../services/vm-creation.service';
 import { VmCreationData } from './vm-creation-data';
+import { VmDeploymentStage } from '../services/vm-deployment.service';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -73,6 +74,26 @@ export class VmCreationState {
 
   public get diskOfferingsAreAllowed(): boolean {
     return !!this.template && !this.template.isTemplate;
+  }
+
+  public get doCreateAffinityGroup(): boolean {
+    return (
+      this.affinityGroup &&
+      this.affinityGroup.name &&
+      !this.affinityGroupExists
+    );
+  }
+
+  public get doCreateSecurityGroup(): boolean {
+    return !this.zone.networkTypeIsBasic;
+  }
+
+  public get doCreateInstanceGroup(): boolean {
+    return this.instanceGroup && !!this.instanceGroup.name;
+  }
+
+  public get doCopyTags(): boolean {
+    return true;
   }
 
   public getStateFromData(data: VmCreationData): void {
@@ -155,5 +176,16 @@ export class VmCreationState {
     }
 
     return params;
+  }
+
+  public get deploymentActionList(): Array<VmDeploymentStage> {
+    return [
+      this.doCreateAffinityGroup ? VmDeploymentStage.AG_GROUP_CREATION : null,
+      this.doCreateSecurityGroup ? VmDeploymentStage.SG_GROUP_CREATION : null,
+      VmDeploymentStage.VM_CREATION_IN_PROGRESS,
+      this.doCreateInstanceGroup ? VmDeploymentStage.INSTANCE_GROUP_CREATION : null,
+      this.doCopyTags ? VmDeploymentStage.TAG_COPYING : null
+    ]
+      .filter(_ => _);
   }
 }

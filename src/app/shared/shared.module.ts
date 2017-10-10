@@ -132,6 +132,10 @@ import { UserService } from './services/user.service';
 import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
+import { ProgressLoggerComponent } from './components/progress-logger/progress-logger/progress-logger.component';
+// tslint:disable-next-line
+import { ProgressLoggerMessageComponent } from './components/progress-logger/progress-logger-message/progress-logger-message.component';
+import { AnimatedSlashComponent } from './components/progress-logger/animated-slash/animated-slash.component';
 import { SecurityGroupService } from '../security-group/services/security-group.service';
 import { HypervisorService } from './services/hypervisor.service';
 import { DomainService } from './services/domain.service';
@@ -219,6 +223,11 @@ import { AccountLockAction } from './actions/account-actions/actions/account-loc
     StringifyDatePipe,
     TableComponent,
     TemplateActionsComponent,
+    MdAutocompleteModule,
+    MdInputModule,
+    ProgressLoggerComponent,
+    ProgressLoggerMessageComponent,
+    AnimatedSlashComponent,
     SecurityGroupBuilderComponent,
     SecurityGroupSelectorComponent,
     SecurityGroupManagerBaseTemplatesComponent,
@@ -283,6 +292,14 @@ import { AccountLockAction } from './actions/account-actions/actions/account-loc
     LoadingDirective,
     LoaderComponent,
     GroupedCardListComponent,
+    TemplateActionsComponent,
+    ProgressLoggerComponent,
+    ProgressLoggerMessageComponent,
+    AnimatedSlashComponent,
+    LoadingDirective,
+    LoaderComponent,
+    GroupedCardListComponent,
+    VolumeActionsComponent,
     TemplateActionsComponent,
     SecurityGroupBuilderComponent,
     SecurityGroupSelectorComponent,
