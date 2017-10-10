@@ -1,12 +1,29 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import {
+  Component,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  NgForm,
+  Validators
+} from '@angular/forms';
 import { MdSelectChange } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Color } from '../shared/models/color.model';
 import { AuthService } from '../shared/services/auth.service';
-import { Language, LanguageService, TimeFormat } from '../shared/services/language.service';
+import {
+  Language,
+  LanguageService,
+  TimeFormat
+} from '../shared/services/language.service';
 import { NotificationService } from '../shared/services/notification.service';
-import { StyleService, themes } from '../shared/services/style.service';
+import {
+  StyleService,
+  themes
+} from '../shared/services/style.service';
 import { UserTagService } from '../shared/services/tags/user-tag.service';
 import { UserService } from '../shared/services/user.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';

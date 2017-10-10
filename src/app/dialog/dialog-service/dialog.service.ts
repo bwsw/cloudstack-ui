@@ -1,10 +1,23 @@
 import { Injectable } from '@angular/core';
-import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
+import {
+  MdDialog,
+  MdDialogConfig,
+  MdDialogRef
+} from '@angular/material';
 import { Observable } from 'rxjs/Rx';
 
-import { AlertDialogComponent, AlertDialogConfiguration } from './alert-dialog/alert-dialog.component';
-import { AskDialogComponent, AskDialogConfiguration } from './ask-dialog/ask-dialog.component';
-import { ConfirmDialogComponent, ConfirmDialogConfiguration } from './confirm-dialog/confirm-dialog.component';
+import {
+  AlertDialogComponent,
+  AlertDialogConfiguration
+} from './alert-dialog/alert-dialog.component';
+import {
+  AskDialogComponent,
+  AskDialogConfiguration
+} from './ask-dialog/ask-dialog.component';
+import {
+  ConfirmDialogComponent,
+  ConfirmDialogConfiguration
+} from './confirm-dialog/confirm-dialog.component';
 
 const defaultConfirmDialogConfirmText = 'COMMON.YES';
 const defaultConfirmDialogDeclineText = 'COMMON.NO';

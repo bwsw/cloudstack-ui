@@ -1,11 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MdDialogRef, MdSelectChange } from '@angular/material';
+import {
+  MdDialogRef,
+  MdSelectChange
+} from '@angular/material';
 import * as clone from 'lodash/clone';
 import * as throttle from 'lodash/throttle';
 
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { AffinityGroup, InstanceGroup, ServiceOffering } from '../../shared/models';
+import {
+  AffinityGroup,
+  InstanceGroup,
+  ServiceOffering
+} from '../../shared/models';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
@@ -22,6 +31,7 @@ import {
   VmDeploymentStage
 } from './services/vm-deployment.service';
 import { VmCreationSecurityGroupData } from './security-group/vm-creation-security-group-data';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 
 export interface VmCreationFormState {
   data: VmCreationData;

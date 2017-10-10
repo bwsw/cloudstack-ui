@@ -1,5 +1,14 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { async, discardPeriodicTasks, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
+import {
+  async,
+  discardPeriodicTasks,
+  fakeAsync,
+  TestBed,
+  tick
+} from '@angular/core/testing';
 
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
 
