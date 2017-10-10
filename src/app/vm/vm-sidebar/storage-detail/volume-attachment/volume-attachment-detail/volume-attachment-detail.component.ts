@@ -3,6 +3,7 @@ import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../../../../shared/models';
 import { VolumeService } from '../../../../../shared/services/volume.service';
+import { AuthService } from '../../../../../shared/services/auth.service';
 import { VirtualMachine } from '../../../../shared/vm.model';
 import { VolumeAttachmentDialogComponent } from '../volume-attchment-dialog/volume-attachment-dialog.component';
 
@@ -21,8 +22,9 @@ export class VolumeAttachmentDetailComponent implements OnInit {
   public volumes: Array<Volume>;
 
   constructor(
-    private dialog: MdDialog,
-    private volumeService: VolumeService
+     private dialog: MdDialog,
+     private volumeService: VolumeService,
+     private authService: AuthService
   ) {}
 
   public ngOnInit(): void {
@@ -62,7 +64,9 @@ export class VolumeAttachmentDetailComponent implements OnInit {
     return this.volumeService
       .getSpareList({ zoneId: this.virtualMachine.zoneId })
       .map(volumes => {
-        this.volumes = volumes;
+        this.volumes = this.authService.isAdmin()
+          ? volumes
+          : volumes.filter(item => item.account === this.virtualMachine.account);
       });
   }
 }
