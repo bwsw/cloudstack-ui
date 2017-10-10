@@ -37,6 +37,7 @@ export interface KeyValuePair {
 export class TagsViewComponent implements OnInit, OnChanges {
   @Input() public tags: Array<Tag>;
   @Input() public canAddTag = true;
+  @Input() public hasPermissions = false;
   @Output() public onTagAdd: EventEmitter<Partial<Tag>>;
   @Output() public onTagEdit: EventEmitter<TagEditAction>;
   @Output() public onTagDelete: EventEmitter<Tag>;
