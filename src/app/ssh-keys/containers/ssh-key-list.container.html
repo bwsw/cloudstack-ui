@@ -1,0 +1,9 @@
+<cs-ssh-keys-page
+  [sshKeyList]="sshKeyList$ | async"
+  [selectedGroupings]="selectedGroupings$ | async"
+  (onKeyRemove)="removeSshKeyPair($event)"
+></cs-ssh-keys-page>
+
+
+<!--<pre [innerHTML]="(sshKeyList$ | async) | json "></pre>-->
+<!--<pre [innerHTML]="(selectedGroupings$ | async) | json "></pre>-->

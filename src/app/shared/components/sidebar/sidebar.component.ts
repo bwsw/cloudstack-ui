@@ -35,7 +35,7 @@ export abstract class SidebarComponent<M extends BaseModel> implements OnInit {
 
   public tabIsActive(tabId: string) {
     const path = this.route.snapshot;
-    const pathLastChild = path.firstChild.routeConfig.path;
+    const pathLastChild = path.firstChild ? path.firstChild.routeConfig.path : null;
     return (tabId === pathLastChild)
   }
 
