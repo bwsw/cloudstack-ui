@@ -1,4 +1,4 @@
-<md-select
+<md-select [style.width.%]="100"
   *ngIf="daysOfWeek$ | async as daysOfWeek"
   name="dayOfWeek"
   [(ngModel)]="dayOfWeek"

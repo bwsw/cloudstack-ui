@@ -999,6 +999,7 @@
   "SNAPSHOT_POLICIES": {
     "TITLE": "Повторяемые снимки",
     "SCHEDULED_SNAPSHOTS": "Расписание снимков",
+    "NO_RESULTS": "Расписание снимков не найдено",
     "KEEP": "Сохранять",
     "STORE_SNAPSHOTS": "Количество хранимых снимков",
     "MINUTE": "Минута",
@@ -1013,7 +1014,8 @@
     "HOURLY": "Ежечасно",
     "DAILY": "Ежедневно",
     "WEEKLY": "Еженедельно",
-    "MONTHLY": "Ежемесячно"
+    "MONTHLY": "Ежемесячно",
+    "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}"
   },
   "SUGGESTION_DIALOG": {
     "WOULD_YOU_LIKE_TO_CREATE_VM": "Хотите создать виртуальную машину?",

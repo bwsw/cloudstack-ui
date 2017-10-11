@@ -1,12 +1,12 @@
 <div class="flex-container">
-  <cs-time-picker
+  <cs-time-picker class="column"
     name="time"
     [timeFormat]="timeFormat"
     [ngModel]="time"
     (ngModelChange)="updateTime($event)"
   ></cs-time-picker>
 
-  <md-select
+  <md-select class="column"
     name="dayOfMonth"
     [ngModel]="dayOfMonth"
     (ngModelChange)="updateDayOfMonth($event)"

@@ -1002,6 +1002,7 @@
   "SNAPSHOT_POLICIES": {
     "TITLE": "Recurring snapshots",
     "SCHEDULED_SNAPSHOTS": "Scheduled snapshots",
+    "NO_RESULTS": "No recurring snapshot schedule",
     "KEEP": "Keep",
     "STORE_SNAPSHOTS": "Number of stored snapshots",
     "MINUTE": "Minute",
@@ -1016,7 +1017,8 @@
     "HOURLY": "Hourly",
     "DAILY": "Daily",
     "WEEKLY": "Weekly",
-    "MONTHLY": "Monthly"
+    "MONTHLY": "Monthly",
+    "BETWEEN": "From {{ lowerLimit }} to {{ upperLimit }}"
   },
   "SUGGESTION_DIALOG": {
     "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",

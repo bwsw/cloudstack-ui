@@ -3,8 +3,19 @@
   align-content: space-between;
 }
 
-.flex-container *:first-child {
+/*.flex-container *:first-child {
   flex: 1;
+}*/
+
+.column {
+  min-width: 300px;
+  max-width: 300px;
+  &:first-child {
+    margin-right: 10px;
+  }
+  &:last-child {
+    margin-left: 10px;
+  }
 }
 
 :host /deep/ md-select {
