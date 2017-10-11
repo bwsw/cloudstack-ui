@@ -3,7 +3,10 @@ import { Observable } from 'rxjs/Observable';
 import { ResourceTypes } from '../../models/tag.model';
 import { DayOfWeek } from '../../types/day-of-week';
 import { AuthService } from '../auth.service';
-import { Language, TimeFormat } from '../language.service';
+import {
+  Language,
+  TimeFormat
+} from '../language.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { TagService } from './tag.service';
 import { UserTagKeys } from './user-tag-keys';
@@ -59,6 +62,19 @@ export class UserTagService implements EntityTagService {
   public setAskToCreateVolume(ask: boolean): Observable<boolean> {
     return this.writeTag(
       this.keys.askToCreateVolume,
+      Utils.convertBooleanToBooleanString(ask)
+    )
+      .map(() => ask);
+  }
+
+  public getSavePasswordForAllVms(): Observable<boolean> {
+    return this.readTag(this.keys.savePasswordForAllVms)
+      .map(value => Utils.convertBooleanStringToBoolean(value));
+  }
+
+  public setSavePasswordForAllVms(ask: boolean): Observable<boolean> {
+    return this.writeTag(
+      this.keys.savePasswordForAllVms,
       Utils.convertBooleanToBooleanString(ask)
     )
       .map(() => ask);

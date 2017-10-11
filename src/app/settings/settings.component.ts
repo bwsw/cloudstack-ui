@@ -1,4 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -16,7 +20,10 @@ import {
   TimeFormat
 } from '../shared/services/language.service';
 import { NotificationService } from '../shared/services/notification.service';
-import { StyleService, themes } from '../shared/services/style.service';
+import {
+  StyleService,
+  themes
+} from '../shared/services/style.service';
 import { UserTagService } from '../shared/services/tags/user-tag.service';
 import { UserService } from '../shared/services/user.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
@@ -35,6 +42,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public primaryColor: Color;
   public primaryColors: Array<Color>;
   public timeFormat: string = TimeFormat.AUTO;
+  public savePassword: boolean;
 
   public passwordUpdateForm: FormGroup;
 
@@ -73,6 +81,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.loadSaveVmPassword();
     this.getLanguage();
     this.loadColors();
     this.loadFirstDayOfWeek();
@@ -92,6 +101,10 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
     };
 
     return timeFormatTranslations[format];
+  }
+
+  public doSavePasswordForAllVms(value: boolean): void {
+    this.userTagService.setSavePasswordForAllVms(value).subscribe();
   }
 
   public changeLanguage(change: MdSelectChange): void {
@@ -155,6 +168,13 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
           this.dayTranslations = translations;
           setTimeout(() => (this.loading = false), 500);
         }, 0);
+      });
+  }
+
+  private loadSaveVmPassword(): void {
+    this.userTagService.getSavePasswordForAllVms()
+      .subscribe(savePassword => {
+        this.savePassword = savePassword;
       });
   }
 
