@@ -4,15 +4,29 @@
       (change)="setMode($event.value)"
       *ngIf="showIsoSwitch"
     >
-      <md-button-toggle value="0" checked="0">
-        {{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}
-      </md-button-toggle>
-      <md-button-toggle value="1">
-        {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
-      </md-button-toggle>
+      <ng-container [ngSwitch]="templateSwitchPosition">
+        <ng-container *ngSwitchCase="0">
+          <md-button-toggle value="0" checked="true">
+            {{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}
+          </md-button-toggle>
+          <md-button-toggle value="1">
+            {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
+          </md-button-toggle>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="1">
+          <md-button-toggle value="0">
+            {{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}
+          </md-button-toggle>
+          <md-button-toggle value="1" checked="true">
+            {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
+          </md-button-toggle>
+        </ng-container>
+      </ng-container>
     </md-button-toggle-group>
 
-    <cs-account-filter *ngIf="showAccountFilter()" [selectedAccountIds]="selectedAccountIds" (onChangeAccount)="updateAccount($event)"></cs-account-filter>
+    <cs-account-filter *ngIf="showAccountFilter()" [selectedAccountIds]="selectedAccountIds"
+                       (onChangeAccount)="updateAccount($event)"></cs-account-filter>
 
     <md-select
       class="filter-select"
@@ -76,15 +90,29 @@
   [class.delimiter]="showDelimiter"
   *ngIf="dialogMode"
 >
-  <md-tab-group
-    class="tab-switch"
-    [selectedIndex]="templateSwitchPosition"
-    (selectChange)="setMode($event.index)"
+  <md-button-toggle-group
+    (change)="setMode($event.value)"
     *ngIf="showIsoSwitch"
   >
-    <md-tab label="{{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}"></md-tab>
-    <md-tab label="{{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}"></md-tab>
-  </md-tab-group>
+    <ng-container [ngSwitch]="templateSwitchPosition">
+      <ng-container *ngSwitchCase="0">
+        <md-button-toggle value="0" checked="true">
+          {{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}
+        </md-button-toggle>
+        <md-button-toggle value="1">
+          {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
+        </md-button-toggle>
+      </ng-container>
+      <ng-container *ngSwitchCase="1">
+        <md-button-toggle value="0">
+          {{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}
+        </md-button-toggle>
+        <md-button-toggle value="1" checked="true">
+          {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
+        </md-button-toggle>
+      </ng-container>
+    </ng-container>
+  </md-button-toggle-group>
 
   <md-select
     class="filter-select"
