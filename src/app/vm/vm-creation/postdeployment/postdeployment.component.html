@@ -1,7 +1,7 @@
 <div>
-    <h5 >{{ 'VM_POST_ACTION.TITLE' | translate}}</h5>
+    <h5 >{{ title | translate }}</h5>
         <div><b>{{ 'VM_POST_ACTION.VM' | translate }}:</b> {{vm.name}}</div>
-        <div *ngIf="vm.passwordEnabled"><b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b> {{vm.password}}</div>
+        <div *ngIf="vm.passwordEnabled"><b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b> {{vm.password || 'Unknown'}}</div>
         <div *ngIf="vm.ipIsAvailable"><b>{{ 'VM_POST_ACTION.VM_IP' | translate }}:</b> {{vm.nic[0].ipAddress}}</div>
         <div *ngIf="isHttpAuthMode(vm) && getLogin(vm)"><b>{{ 'VM_POST_ACTION.LOGIN' | translate }}</b> {{getLogin(vm)}}</div>
         <div *ngIf="isHttpAuthMode(vm) && getPassword(vm)"><b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}</b> {{getPassword(vm)}}</div>

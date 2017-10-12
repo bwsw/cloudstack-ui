@@ -218,7 +218,9 @@
       "RECOVER": "Восстановить",
       "RESET_PASSWORD": "Сбросить пароль",
       "CONSOLE": "Консоль",
-      "WEB_SHELL": "WebShell"
+      "WEB_SHELL": "WebShell",
+      "VM_ACCESS": "Доступ к ВМ",
+      "VM_ACCESS_TITLE": "Виртуальная машина"
     },
     "RESOURCE_USAGE": {
       "TITLE": "Использование ресурсов",

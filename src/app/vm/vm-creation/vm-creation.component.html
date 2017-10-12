@@ -13,7 +13,8 @@
       <cs-postdeployment-dialog
         *ngIf="!deploymentStopped && deployedVm"
         [vm]="deployedVm"
-        [dialogRef]="dialogRef">
+        [dialogRef]="dialogRef"
+        [title]="'VM_POST_ACTION.TITLE'">
       </cs-postdeployment-dialog>
     </div>
   </div>

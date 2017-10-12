@@ -1,7 +1,10 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input
+} from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 import { VirtualMachine } from '../../shared/vm.model';
-import { VmCreationComponent } from "../vm-creation.component";
+import { VmCreationComponent } from '../vm-creation.component';
 import { Action } from '../../../shared/interfaces/action.interface';
 import { VmConsoleAction } from '../../vm-actions/vm-console';
 import { VmWebShellAction } from '../../vm-actions/vm-webshell';
@@ -27,6 +30,7 @@ export class PostdeploymentComponent {
 
   @Input() public vm: VirtualMachine;
   @Input() public dialogRef: MdDialogRef<VmCreationComponent>;
+  @Input() public title: string;
 
   constructor(
     private vmConsole: VmConsoleAction,
