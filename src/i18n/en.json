@@ -926,7 +926,12 @@
       "SELECT_DOMAINS": "Select domains",
       "SELECT_ROLES": "Select roles",
       "SELECT_ROLE_TYPES": "Select role types",
-      "SELECT_STATES": "Select states"
+      "SELECT_STATES": "Select states",
+      "GROUP_BY": "Group by",
+      "GROUP_BY_DOMAINS": "Domains",
+      "GROUP_BY_ROLES": "Roles",
+      "GROUP_BY_ROLETYPES": "Role Types",
+      "GROUP_BY_STATES": "States"
     },
     "CARD": {
       "ROLE": "Role",

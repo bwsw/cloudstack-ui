@@ -1,6 +1,15 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { ListService } from '../../shared/components/list/list.service';
-import { Account, Domain, Role } from '../../shared';
+import {
+  Account,
+  Domain,
+  Role
+} from '../../shared';
 import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
@@ -14,19 +23,20 @@ export class AccountPageComponent {
   @Input() public roles: Array<Role>;
   @Input() public roleTypes: Array<string>;
   @Input() public states: Array<string>;
+  @Input() public groupings: Array<any>;
   @Input() public isLoading: boolean;
   @Input() public selectedRoleTypes: string[] = [];
   @Input() public selectedDomainIds: string[] = [];
   @Input() public selectedRoleNames: string[] = [];
   @Input() public selectedStates: string[] = [];
+  @Input() public selectedGroupings: Array<any> = [];
 
   @Output() public onDomainsChange = new EventEmitter();
   @Output() public onRolesChange = new EventEmitter();
   @Output() public onRoleTypesChange = new EventEmitter();
   @Output() public onStatesChange = new EventEmitter();
   @Output() public onAccountChanged = new EventEmitter<Account>();
-
-  public groupings = [];
+  @Output() public onGroupingsChange = new EventEmitter();
 
   constructor(
     public listService: ListService,

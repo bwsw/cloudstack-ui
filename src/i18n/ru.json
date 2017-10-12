@@ -923,7 +923,12 @@
       "SELECT_DOMAINS": "Выберите домены",
       "SELECT_ROLES": "Выберите роли",
       "SELECT_ROLE_TYPES": "Выберите типы ролей",
-      "SELECT_STATES": "Выберите состояния"
+      "SELECT_STATES": "Выберите состояния",
+      "GROUP_BY": "Группировать по",
+      "GROUP_BY_DOMAINS": "Доменам",
+      "GROUP_BY_ROLES": "Ролям",
+      "GROUP_BY_ROLETYPES": "Типам ролей",
+      "GROUP_BY_STATES": "Состояниям"
     },
     "CARD": {
       "ROLE": "Роль",

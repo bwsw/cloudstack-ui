@@ -1,16 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
 import * as accountActions from '../redux/accounts.actions';
 import * as domainActions from '../../domains/redux/domains.actions';
 import * as roleActions from '../../roles/redux/roles.actions';
 import { FilterService } from '../../shared/services/filter.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import * as fromAccounts from '../redux/accounts.reducers';
 import * as fromDomains from '../../domains/redux/domains.reducers'
 import * as fromRoles from '../../roles/redux/roles.reducers'
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import { Account } from '../../shared/models/account.model';
+
+export const stateTranslations = {
+  DISABLED: 'ACCOUNT_STATE.DISABLED',
+  ENABLED: 'ACCOUNT_STATE.ENABLED',
+  LOCKED: 'ACCOUNT_STATE.LOCKED',
+};
 
 @Component({
   selector: 'cs-account-page-container',
@@ -22,15 +35,18 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
       [roles]="roles$ | async"
       [roleTypes]="roleTypes$ | async"
       [states]="states"
+      [groupings]="groupings"
       [selectedDomainIds]="selectedDomainIds$ | async"
       [selectedRoleNames]="selectedRoleNames$ | async"
       [selectedRoleTypes]="selectedRoleTypes$ | async"
       [selectedStates]="selectedStates$ | async"
+      [selectedGroupings]="selectedGroupings"
       (onDomainsChange)="onDomainsChange($event)"
       (onRolesChange)="onRolesChange($event)"
       (onRoleTypesChange)="onRoleTypesChange($event)"
       (onStatesChange)="onStatesChange($event)"
       (onAccountChanged)="onAccountChange($event)"
+      (onGroupingsChange)="update($event)"
     ></cs-account-page>`
 })
 export class AccountPageContainerComponent extends WithUnsubscribe() implements OnInit {
@@ -47,6 +63,34 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
   readonly selectedStates$ = this.store.select(fromAccounts.filterSelectedStates);
   readonly selectedRoleTypes$ = this.store.select(fromAccounts.filterSelectedRoleTypes);
 
+  public groupings = [
+    {
+      key: 'domains',
+      label: 'ACCOUNT_PAGE.FILTERS.GROUP_BY_DOMAINS',
+      selector: (item: Account) => item.domainid,
+      name: (item: Account) => item.domain,
+    },
+    {
+      key: 'roles',
+      label: 'ACCOUNT_PAGE.FILTERS.GROUP_BY_ROLES',
+      selector: (item: Account) => item.roleid,
+      name: (item: Account) => item.rolename,
+    },
+    {
+      key: 'roletypes',
+      label: 'ACCOUNT_PAGE.FILTERS.GROUP_BY_ROLETYPES',
+      selector: (item: Account) => item.roletype,
+      name: (item: Account) => item.roletype,
+    },
+    {
+      key: 'states',
+      label: 'ACCOUNT_PAGE.FILTERS.GROUP_BY_STATES',
+      selector: (item: Account) => item.state,
+      name: (item: Account) => this.stateTranslation(item.state),
+    }
+  ];
+  public selectedGroupings = [];
+
   public states: Array<string> = ['enabled', 'disabled', 'locked'];
 
   private filterService = new FilterService(
@@ -54,7 +98,8 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
       'domains': { type: 'array', defaultOption: [] },
       'roles': { type: 'array', defaultOption: [] },
       'roleTypes': { type: 'array', defaultOption: [] },
-      'states': { type: 'array', defaultOption: [] }
+      'states': { type: 'array', defaultOption: [] },
+      'groupings': {type: 'array', defaultOption: [] }
     },
     this.router,
     this.sessionStorage,
@@ -71,7 +116,9 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
     super();
   }
 
-
+  public stateTranslation(state): string {
+    return stateTranslations[state.toUpperCase()];
+  }
 
   public onDomainsChange(selectedDomainIds) {
     this.store.dispatch(new accountActions.AccountFilterUpdate({ selectedDomainIds }));
@@ -101,9 +148,16 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
           'domains': filters.selectedDomainIds,
           'roles': filters.selectedRoleNames,
           'roleTypes': filters.selectedRoleTypes,
-          'states': filters.selectedStates
+          'states': filters.selectedStates,
+          'groupings': filters.selectedGroupingNames
         });
       });
+  }
+
+  public update(selectedGroupings) {
+    this.selectedGroupings = selectedGroupings;
+    const selectedGroupingNames = this.selectedGroupings.map(g => g.key);
+    this.store.dispatch(new accountActions.AccountFilterUpdate({ selectedGroupingNames }));
   }
 
   private initFilters(): void {
@@ -115,11 +169,23 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
 
     const selectedStates = params['states'];
     const selectedRoleTypes = params['roleTypes'];
+
+    this.selectedGroupings = params['groupings'].reduce((acc, _) => {
+      const grouping = this.groupings.find(g => g.key === _);
+      if (grouping) {
+        acc.push(grouping);
+      }
+      return acc;
+    }, []);
+
+    const selectedGroupingNames = this.selectedGroupings.map(g => g.key);
+
     this.store.dispatch(new accountActions.AccountFilterUpdate({
       selectedRoleTypes,
       selectedRoleNames,
       selectedDomainIds,
-      selectedStates
+      selectedStates,
+      selectedGroupingNames
     }));
 
   }

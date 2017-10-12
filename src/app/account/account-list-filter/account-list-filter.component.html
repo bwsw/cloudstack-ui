@@ -41,6 +41,19 @@
       <md-option *ngFor="let state of states" [value]="state">{{ stateTranslationToken(state) | translate }}</md-option>
     </md-select>
 
+    <cs-draggable-select
+      class="filter-select"
+      multiple="true"
+      [placeholder]="'ACCOUNT_PAGE.FILTERS.GROUP_BY' | translate"
+      [(ngModel)]="selectedGroupings"
+      [dragItems]="groupings"
+      (change)="onGroupingsChange.emit($event.value)"
+    >
+      <md-option *ngFor="let g of groupings" [value]="g">
+        {{ g.label | translate }}
+      </md-option>
+    </cs-draggable-select>
+
   </div>
 </cs-top-bar>
 

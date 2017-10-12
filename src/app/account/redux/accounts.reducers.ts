@@ -1,5 +1,12 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import {
+  createFeatureSelector,
+  createSelector
+} from '@ngrx/store';
+import {
+  createEntityAdapter,
+  EntityAdapter,
+  EntityState
+} from '@ngrx/entity';
 import * as event from './accounts.actions';
 import { Account } from '../../shared/models/account.model';
 
@@ -16,7 +23,8 @@ export interface State extends EntityState<Account> {
     selectedDomainIds: string[],
     selectedRoleNames: string[],
     selectedRoleTypes: string[],
-    selectedStates: string[]
+    selectedStates: string[],
+    selectedGroupingNames: string[]
   }
 }
 
@@ -51,7 +59,8 @@ export const initialState: State = adapter.getInitialState({
     selectedDomainIds:[],
     selectedRoleTypes: [],
     selectedRoleNames: [],
-    selectedStates: []
+    selectedStates: [],
+    selectedGroupingNames: []
   }
 });
 

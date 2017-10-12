@@ -33,6 +33,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { accountReducers } from './redux/accounts.reducers';
 import { domainReducers } from '../domains/redux/domains.reducers'
 import { roleReducers } from '../roles/redux/roles.reducers';
+import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import { roleReducers } from '../roles/redux/roles.reducers';
     RouterModule,
     SharedModule,
     TranslateModule,
+    DraggableSelectModule,
     StoreModule.forFeature('accounts', accountReducers),
     StoreModule.forFeature('domains', domainReducers),
     StoreModule.forFeature('roles', roleReducers),
