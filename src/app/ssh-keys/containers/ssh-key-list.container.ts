@@ -9,7 +9,10 @@ import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 
 import * as fromSshKeys from '../redux/ssh-key.reducers';
 import * as sshKeyActions from '../redux/ssh-key.actions';
+import * as fromDomains from '../../domains/redux/domains.reducers';
+import * as domainActions from '../../domains/redux/domains.actions';
 
+export const sshKeyListFilters = 'sshKeyListFilters';
 
 @Component({
   selector: 'cs-ssh-key-page-container',
@@ -17,16 +20,34 @@ import * as sshKeyActions from '../redux/ssh-key.actions';
 })
 export class SshKeyListContainerComponent extends WithUnsubscribe() implements OnInit {
   readonly sshKeyList$ = this.store.select(fromSshKeys.selectFilteredSshKeys);
+  readonly domainList$ = this.store.select(fromDomains.list);
   readonly filters$ = this.store.select(fromSshKeys.filters);
   readonly selectedGroupings$ = this.store.select(fromSshKeys.filterSelectedGroupings);
 
+  public groupings = [
+    {
+      key: 'accounts',
+      label: 'SSH_KEYS.FILTERS.GROUP_BY_ACCOUNTS',
+      selector: (item: SSHKeyPair) => item.account,
+      name: (item: SSHKeyPair) => {
+        return `${this.getDomain(item.domainid)}${item.account}`
+          || `${item.domain}/${item.account}`;
+      },
+    }
+  ];
+
+  public selectedGroupings = [];
+  public selectedAccounts = [];
+
+  private filtersKey = sshKeyListFilters;
   private filterService = new FilterService(
     {
+      'accounts': { type: 'array', defaultOption: [] },
       'groupings': { type: 'array', defaultOption: [] }
     },
     this.router,
     this.sessionStorage,
-    'sshKeyListFilters',
+    this.filtersKey,
     this.activatedRoute
   );
 
@@ -40,13 +61,13 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
   }
 
   public ngOnInit(): void {
-    console.log(this.store.select(fromSshKeys.getSshKeysEntitiesState));
     this.initFilters();
     this.filters$
       .takeUntil(this.unsubscribe$)
       .subscribe(filters =>
         this.filterService.update({
-          'groupings': filters.selectedGroupings
+          'groupings': filters.selectedGroupings.map(g => g.key),
+          'accounts': filters.selectedAccounts.map(a => a.id)
         }));
   }
 
@@ -62,9 +83,42 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
     this.store.dispatch(new sshKeyActions.RemoveSshKeyPair(sshKeyPair));
   }
 
+  public update(selectedGroupings) {
+    this.selectedGroupings = selectedGroupings;
+    this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedGroupings }));
+  }
+
+  public onAccountsChange(selectedAccounts) {
+    this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedAccounts }));
+  }
+
   private initFilters(): void {
     const params = this.filterService.getParams();
+
     const selectedGroupings = params['groupings'];
     this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedGroupings }));
+
+    this.selectedGroupings = params['groupings'].reduce((acc, _) => {
+      const grouping = this.groupings.find(g => g.key === _);
+      if (grouping) {
+        acc.push(grouping);
+      }
+      return acc;
+    }, []);
+
+    this.selectedAccounts = params['accounts'];
+
+    this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({
+      selectedAccounts: this.selectedAccounts,
+      selectedGroupings: this.selectedGroupings
+    }));
+  }
+
+  private getDomain(domainId: string) {
+    this.store.dispatch(new domainActions.GetDomain(domainId));
+    const domain$ = this.store.select(fromDomains.getDomain);
+
+    return domain$.takeUntil(this.unsubscribe$)
+      .subscribe(domain => domain ? domain.getPath() : '');
   }
 }

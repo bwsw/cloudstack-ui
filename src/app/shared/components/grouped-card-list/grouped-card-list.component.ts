@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, Type } from '@angular/core';
+import { Component, Input, OnChanges, Type } from '@angular/core';
 import * as groupBy from 'lodash/groupBy';
 
 @Component({
@@ -30,7 +30,7 @@ export class GroupedCardListComponent implements OnChanges {
       const groups = groupBy(this.list, groupings[this.level].selector);
       this.tree = Object.keys(groups).map(gn => {
         return {
-          name: groupings[this.level].name(groups[gn][0]),
+          name: groups[gn][0].account,
           items: groups[gn]
         };
       });

@@ -1,14 +1,14 @@
-<!--<pre [innerHTML]="sshKeyList | json"></pre>-->
-
 <cs-list
   (onAction)="showCreationDialog()"
   [isOpen]="listService?.hasSelected()"
 >
-  <!--<cs-ssh-key-filter-->
-    <!--[groupings]="groupings"-->
-    <!--(updateFilters)="updateFilters($event)"-->
-    <!--cs-list-->
-  <!--&gt;</cs-ssh-key-filter>-->
+  <cs-ssh-key-filter
+    [groupings]="groupings"
+    [selectedAccounts]="selectedAccounts"
+    [selectedGroupings]="selectedGroupings"
+    (updateFilter)="onFilterChange($event)"
+    cs-list
+  ></cs-ssh-key-filter>
 
   <cs-ssh-key-list
     *loading="!sshKeyList"

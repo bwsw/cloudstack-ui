@@ -1,11 +1,16 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
-import * as sshKey from './ssh-key.actions';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { logging } from 'selenium-webdriver';
+import { Account } from '../../shared/models/account.model';
+import * as sshKey from './ssh-key.actions';
+
 
 export interface State extends EntityState<SSHKeyPair> {
-  filters: { selectedGroupings: string[] }
+  filters: {
+    selectedGroupings: any[],
+    selectedAccounts: Account[]
+  },
+  selectedSshKeyName: string | null
 }
 
 export interface SshKeysState {
@@ -17,13 +22,15 @@ export const reducers = {
 };
 
 export const adapter: EntityAdapter<SSHKeyPair> = createEntityAdapter<SSHKeyPair>({
-  selectId: (item: SSHKeyPair) => item.id,
+  selectId: (item: SSHKeyPair) => item.name,
   sortComparer: false
 });
 
 export const initialState: State = adapter.getInitialState({
+  selectedSshKeyName: null,
   filters: {
-    selectedGroupings: []
+    selectedGroupings: [],
+    selectedAccounts: []
   }
 });
 
@@ -60,14 +67,31 @@ export function reducer(
         ...adapter.addAll(sshKeys, state),
       };
     }
-    case sshKey.REMOVE_SSH_KEY_PAIR: {
-      const sshKey = action.payload;
-      console.log('removing', sshKey);
-      return adapter.removeOne(sshKey, state);
+    case sshKey.SSH_KEY_PAIR_REMOVE: {
+      return state;
     }
-    case sshKey.CREATE_SSH_KEY_PAIR: {
-      const sshKeyCreationData = action.payload;
-      return adapter.addOne(sshKeyCreationData, state);
+    case sshKey.SSH_KEY_PAIR_CREATE: {
+      return {
+        ...Object.assign({}, state, {
+          selectedSshKeyName: action.payload.name
+        }),
+        filters: {
+          ...state.filters,
+        }
+      };
+    }
+    case sshKey.SSH_KEY_PAIR_CREATE_SUCCESS: {
+      return adapter.addOne(action.payload, state);
+    }
+    case sshKey.SSH_KEY_PAIR_REMOVE_SUCCESS: {
+      if (action.payload.success) {
+        return adapter.removeOne(action.payload.name, state);
+      } else {
+        break;
+      }
+    }
+    case sshKey.GET_SSH_KEY_PAIR: {
+      return action.payload;
     }
     default: {
       return state;
@@ -99,14 +123,27 @@ export const filterSelectedGroupings = createSelector(
   state => state.selectedGroupings
 );
 
-export const selectAllSshKeys = createSelector(selectAll, (sshKeys) => {
-  console.log('sshKeys where they lose', sshKeys);
-
-  return sshKeys;
-});
+export const filterSelectedAccounts = createSelector(
+  filters,
+  state => state.selectedAccounts
+);
 
 export const selectFilteredSshKeys = createSelector(
-  selectAll, filterSelectedGroupings, (array, selectedGroupings) => {
-    return array;
+  selectAll,
+  filterSelectedAccounts,
+  (sshKeys, selectedAccounts) => {
+    const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
+    const selectedAccountsFilter = (sshKey: SSHKeyPair) =>
+      !selectedAccounts.length || !!accountsMap[sshKey.account]
+      && accountsMap[sshKey.account].domainid === sshKey.domainid;
+    return sshKeys.filter(sshKey => selectedAccountsFilter(sshKey));
+  }
+);
+
+export const selectSshKey = createSelector(
+  selectAll,
+  getSshKeysEntitiesState,
+  (sshKeys, state) => {
+    return sshKeys.find(entity => entity.name === state.selectedSshKeyName);
   }
 );

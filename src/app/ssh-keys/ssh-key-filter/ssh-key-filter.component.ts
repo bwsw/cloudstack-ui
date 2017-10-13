@@ -1,9 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FilterComponent } from '../../shared/interfaces/filter-component';
-import { FilterService } from '../../shared/services/filter.service';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { Account } from '../../shared/models/account.model';
 import { AuthService } from '../../shared/services/auth.service';
 
 export interface SshKeyFilter {
@@ -11,51 +6,32 @@ export interface SshKeyFilter {
   accounts: Array<Account>;
 }
 
-export const sshKeyListFilters = 'sshKeyListFilters';
-
-
 @Component({
   selector: 'cs-ssh-key-filter',
   templateUrl: 'ssh-key-filter.component.html'
 })
-export class ShhKeyFilterComponent implements FilterComponent<SshKeyFilter>, OnInit {
+export class ShhKeyFilterComponent implements OnInit {
+  @Input() public accounts: Array<string>;
   @Input() public groupings: Array<any>;
-  @Output() public updateFilters: EventEmitter<SshKeyFilter>;
+  @Input() public selectedAccounts: Account[] = [];
+  @Input() public selectedGroupings: Array<any> = [];
+  @Output() public updateFilter = new EventEmitter<SshKeyFilter>();
 
+  public selectedGroupingNames;
 
-  public selectedGroupingNames = [];
-  public selectedAccounts: Array<Account> = [];
-  public selectedAccountIds: Array<string> = [];
+  public get selectedAccountIds() {
+    return this.selectedAccounts.map(_ => _.id ? _.id : _);
+  }
 
-  private filtersKey = sshKeyListFilters;
-  private filterService = new FilterService({
-    groupings: { type: 'array', defaultOption: [] },
-    accounts: { type: 'array', defaultOption: [] }
-  }, this.router, this.localStorage, this.filtersKey, this.activatedRoute);
-
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private localStorage: LocalStorageService,
-    private authService: AuthService
-  ) {
-    this.updateFilters = new EventEmitter();
+  constructor(private authService: AuthService) {
   }
 
   public ngOnInit() {
     this.initFilters();
   }
 
-
-  public showAccountFilter(): boolean {
-    return this.authService.isAdmin();
-  }
-
   public initFilters(): void {
-    const params = this.filterService.getParams();
-    this.selectedAccountIds = params['accounts'];
-
-    this.selectedGroupingNames = params.groupings.reduce((acc, _) => {
+    this.selectedGroupingNames = this.selectedGroupings.reduce((acc, _) => {
       const grouping = this.groupings.find(g => g.key === _);
       if (grouping) {
         acc.push(grouping);
@@ -66,20 +42,20 @@ export class ShhKeyFilterComponent implements FilterComponent<SshKeyFilter>, OnI
     this.update();
   }
 
-  public updateAccount(accounts: Array<Account>) {
+  public updateAccount(accounts) {
     this.selectedAccounts = accounts;
     this.update();
   }
 
-  public update(): void {
-    this.updateFilters.emit({
-      groupings: this.selectedGroupingNames,
+  public showAccountFilter(): boolean {
+    return this.authService.isAdmin();
+  }
+
+  public update() {
+    this.updateFilter.emit({
+      groupings: this.selectedGroupings,
       accounts: this.selectedAccounts
     });
-
-    this.filterService.update({
-      groupings: this.selectedGroupingNames.map(_ => _.key),
-      accounts: this.selectedAccounts.map(_ => _.id)
-    });
   }
+
 }

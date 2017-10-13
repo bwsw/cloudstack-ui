@@ -1,14 +1,8 @@
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
-import * as event from './domains.actions';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Domain } from '../../shared/models/domain.model';
+
+import * as event from './domains.actions';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -18,7 +12,8 @@ import { Domain } from '../../shared/models/domain.model';
  * any additional interface properties.
  */
 export interface State extends EntityState<Domain> {
-  loading: boolean
+  loading: boolean,
+  selectedDomainId: string | null
 }
 
 export interface DomainsState {
@@ -47,7 +42,8 @@ export const adapter: EntityAdapter<Domain> = createEntityAdapter<Domain>({
  * additional properties can also be defined.
  */
 export const initialState: State = adapter.getInitialState({
-  loading: false
+  loading: false,
+  selectedDomainId: null
 });
 
 export function reducer(
@@ -77,8 +73,10 @@ export function reducer(
         loading: false
       };
     }
-
-
+    case event.GET_DOMAIN: {
+      const domainId = action.payload;
+      return { ...state, selectedDomainId: domainId };
+    }
     default: {
       return state;
     }
@@ -105,9 +103,12 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
-export const domians = createSelector(
-  selectAll,
-  (domains) => domains
+export const list = createSelector(
+  getDomainsEntitiesState,
+  state => state.list
 );
 
-
+export const getDomain = createSelector(
+  getDomainsEntitiesState,
+  state => state.entities[state.selectedDomainId]
+);

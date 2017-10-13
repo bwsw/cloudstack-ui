@@ -13,10 +13,7 @@ export class SshKeyEffects {
   @Effect()
   loadFilterSshKeysByGroupings$: Observable<Action> = this.actions$
     .ofType(sshKey.SSH_KEY_FILTER_UPDATE)
-    .map((action: sshKey.SshKeyFilterUpdate) => {
-      console.log('ACTION', action);
-      return new sshKey.LoadSshKeyRequest(action.payload);
-    });
+    .map((action: sshKey.SshKeyFilterUpdate) => new sshKey.LoadSshKeyRequest(action.payload));
 
   @Effect()
   loadSshKeys$: Observable<Action> = this.actions$
@@ -29,8 +26,8 @@ export class SshKeyEffects {
     });
 
   @Effect()
-  deleteSshKeyPair$: Observable<Action> = this.actions$
-    .ofType(sshKey.REMOVE_SSH_KEY_PAIR)
+  removeSshKeyPair$: Observable<Action> = this.actions$
+    .ofType(sshKey.SSH_KEY_PAIR_REMOVE)
     .switchMap((action: sshKey.RemoveSshKeyPair) => {
       return this.sshKeyService.remove(
         this.authService.isAdmin()
@@ -38,16 +35,30 @@ export class SshKeyEffects {
             name: action.payload.name,
             account: action.payload.account,
             domainid: action.payload.domainid
-          } : { name: action.payload.name });
+          } : { name: action.payload.name })
+        .map((success: boolean) => {
+          if (success) {
+            return new sshKey.RemoveSshKeyPairSuccessAction(Object.assign(
+              {},
+              success,
+              { name: action.payload.name }
+            ));
+          } else {
+            // @todo: catch errors
+          }
+        })
+        .catch(() => Observable.of(null));
     });
 
   @Effect()
   createSshKeyPair$: Observable<Action> = this.actions$
-    .ofType(sshKey.CREATE_SSH_KEY_PAIR)
+    .ofType(sshKey.SSH_KEY_PAIR_CREATE)
     .switchMap((action: sshKey.CreateSshKeyPair) => {
-      return action.payload.publicKey
+      return (action.payload.publicKey
         ? this.sshKeyService.register(action.payload)
-        : this.sshKeyService.create(action.payload);
+        : this.sshKeyService.create(action.payload))
+        .map(createdKey => new sshKey.CreateSshKeyPairSuccessAction(createdKey))
+        .catch(() => Observable.of(null));
     });
 
   constructor(

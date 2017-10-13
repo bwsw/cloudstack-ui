@@ -1,41 +1,66 @@
 import { Action } from '@ngrx/store';
+import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 
 export const LOAD_SSH_KEYS_REQUEST = '[SshKeys] LOAD_SSH_KEYS_REQUEST';
 export const LOAD_SSH_KEYS_RESPONSE = '[SshKeys] LOAD_SSH_KEYS_RESPONSE';
 export const SSH_KEY_FILTER_UPDATE = '[SshKeys] SSH_KEY_FILTER_UPDATE';
-export const REMOVE_SSH_KEY_PAIR = '[SshKeys] REMOVE_SSH_KEY_PAIR';
-export const CREATE_SSH_KEY_PAIR = '[SshKeys] CREATE_SSH_KEY_PAIR';
+export const SSH_KEY_PAIR_REMOVE = '[SshKeys] SSH_KEY_PAIR_REMOVE';
+export const SSH_KEY_PAIR_REMOVE_SUCCESS = '[SshKeys] SSH_KEY_PAIR_REMOVE_SUCCESS';
+export const SSH_KEY_PAIR_CREATE = '[SshKeys] SSH_KEY_PAIR_CREATE';
+export const SSH_KEY_PAIR_CREATE_SUCCESS = '[SshKeys] SSH_KEY_PAIR_CREATE_SUCCESS';
+export const GET_SSH_KEY_PAIR = '[SshKeys] GET_SSH_KEY_PAIR';
 
 export class LoadSshKeyRequest implements Action {
-  type = LOAD_SSH_KEYS_REQUEST;
+  readonly type = LOAD_SSH_KEYS_REQUEST;
 
   constructor(public payload?: any) {
   }
 }
 
 export class LoadSshKeyResponse implements Action {
-  type = LOAD_SSH_KEYS_RESPONSE;
+  readonly type = LOAD_SSH_KEYS_RESPONSE;
 
   constructor(public payload: any) {
   }
 }
 
 export class SshKeyFilterUpdate implements Action {
-  type = SSH_KEY_FILTER_UPDATE;
+  readonly type = SSH_KEY_FILTER_UPDATE;
 
   constructor(public payload: any) {
   }
 }
 
 export class RemoveSshKeyPair implements Action {
-  type = REMOVE_SSH_KEY_PAIR;
+  readonly type = SSH_KEY_PAIR_REMOVE;
 
   constructor(public payload: any) {
   }
 }
 
+export class RemoveSshKeyPairSuccessAction implements Action {
+  readonly type = SSH_KEY_PAIR_REMOVE_SUCCESS;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export class CreateSshKeyPair implements Action {
-  type = CREATE_SSH_KEY_PAIR;
+  readonly type = SSH_KEY_PAIR_CREATE;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class CreateSshKeyPairSuccessAction implements Action {
+  readonly type = SSH_KEY_PAIR_CREATE_SUCCESS;
+
+  constructor(public payload: SSHKeyPair) {
+  }
+}
+
+export class GetSshKeyPair implements Action {
+  readonly type = GET_SSH_KEY_PAIR;
 
   constructor(public payload: any) {
   }
@@ -44,6 +69,9 @@ export class CreateSshKeyPair implements Action {
 export type Actions =
   LoadSshKeyRequest
   | LoadSshKeyResponse
+  | GetSshKeyPair
   | SshKeyFilterUpdate
   | RemoveSshKeyPair
-  | CreateSshKeyPair;
+  | RemoveSshKeyPairSuccessAction
+  | CreateSshKeyPair
+  | CreateSshKeyPairSuccessAction;

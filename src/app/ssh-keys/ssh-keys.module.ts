@@ -29,6 +29,8 @@ import { StoreModule } from '@ngrx/store';
 import { sshKeyReducers } from './redux/ssh-key.reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { SshKeyEffects } from './redux/ssh-key.effects';
+import { domainReducers } from '../domains/redux/domains.reducers';
+import { DomainsEffects } from '../domains/redux/domains.effects';
 
 @NgModule({
   imports: [
@@ -47,7 +49,8 @@ import { SshKeyEffects } from './redux/ssh-key.effects';
     DynamicModule.withComponents([SshKeyListItemComponent]),
     DraggableSelectModule,
     StoreModule.forFeature('sshKeys', sshKeyReducers),
-    EffectsModule.forFeature([SshKeyEffects]),
+    StoreModule.forFeature('domains', domainReducers),
+    EffectsModule.forFeature([SshKeyEffects, DomainsEffects]),
   ],
   declarations: [
     SshKeyListContainerComponent,

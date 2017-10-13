@@ -1,16 +1,12 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { SSHKeyPair } from '../../shared/models';
-import {
-  SshKeyCreationData,
-  SSHKeyPairService
-} from '../../shared/services/ssh-keypair.service';
+import { SshKeyCreationData } from '../../shared/services/ssh-keypair.service';
 import { Store } from '@ngrx/store';
 
 import * as sshKeyActions from '../redux/ssh-key.actions';
-import { Action } from '../../shared/interfaces/action.interface';
+import * as fromSshKeys from '../redux/ssh-key.reducers';
 
 @Component({
   selector: 'cs-ssh-key-creation-dialog',
@@ -38,15 +34,26 @@ export class SShKeyCreationDialogComponent {
 
     this.loading = true;
     this.createSshKey(sshKeyCreationParams);
-    //   .finally(() => this.loading = false)
-    //   .subscribe(
-    //     sshKeyPair => this.dialogRef.close(sshKeyPair),
-    //     error => this.handleError(error)
-    //   );
   }
 
   private createSshKey(data: SshKeyCreationData) {
     this.store.dispatch(new sshKeyActions.CreateSshKeyPair(data));
+    this.store.select(fromSshKeys.selectSshKey).subscribe(
+      key => {
+        if (key) {
+          this.loading = false;
+          this.dialogRef.close(key);
+        }
+
+        // else {
+        //   // @todo: error handler ???
+        //   this.handleError({
+        //     translationToken: 'Message',
+        //     interpolateParams: 'params'
+        //   });
+        // }
+      }
+    );
   }
 
   private handleError(error): void {
